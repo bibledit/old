@@ -1,6 +1,6 @@
 \c 2
 \p
-\v 1 xVerse one\f + \fk iJafo: \ft eyiJopha. f-note\f*\fb + \fk iJafo: \ft eyiJopha. fb-note\fb*.
+\v 1 Verse one\f + \fk iJafo: \ft eyiJopha. f-note\f*\fb + \fk iJafo: \ft eyiJopha. fb-note\fb*.
 \v 2 Verse two\f + \fk iJafo: \ft eyiJopha. f-note\f*\fb + \fk iJafo: \ft eyiJopha. fb-note\fb*.
 \v 3 Verse three\fe + \fr 2.3: fe-note\fe*\fb + \fk iJafo: \ft eyiJopha. fb-note\fb*.
 \v 4 Verse four\fe + \fr 2.4: fe-note\fe*\fb + \fk iJafo: \ft eyiJopha. fb-note\fb*.
