@@ -1,9 +1,9 @@
 \c 1
 \p
-\v 1
-\v 2
+\v 1 xx
+\v 2 xx
 \v 3 xx
-\v 4
+\v 4 x
 \v 5 x
 \v 6
 \v 7
