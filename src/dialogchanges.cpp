@@ -270,6 +270,9 @@ void ChangesDialog::view_local_changes (bool changes_since_last_review)
   vector <unsigned int> seconds;
   git_log_read (project_data_directory, commits, seconds, "");
   ustring commit = git_log_pick_commit_at_date_time (commits, seconds, second, false);
+  // If no commit was found, try harder.
+  if (commit.empty ())
+    commit = git_log_pick_commit_at_date_time (commits, seconds, second, true);
   
   // If there are no changes recorded since that date and time, give a message and bail out.
   if (commit.empty ()) {

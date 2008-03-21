@@ -7208,4 +7208,4 @@ void MainWindow::on_mergegui_save_editors_button ()
 
 // install on macintosh.
 
-// Switch to using git locally for the source, and upload to the svn repository.
+// Try hosting on savannah.nongnu.org
