@@ -1,3 +1,0 @@
-bookdata.o bookdata.o: bookdata.cpp bookdata.h
-
-bookdata.h:
