@@ -432,7 +432,7 @@ generalconfig.o generalconfig.o: generalconfig.cpp settings.h libraries.h \
   /usr/include/gtk-2.0/gtk/gtkvseparator.h types.h session_highlights.h \
   generalconfig.h constants.h projectconfig.h directories.h gwrappers.h \
   /usr/include/sqlite3.h sqlite_reader.h utilities.h date_time_utils.h \
-  shell.h oldgenconfig.h /usr/include/libxml2/libxml/xmlreader.h \
+  shell.h /usr/include/libxml2/libxml/xmlreader.h \
   /usr/include/libxml2/libxml/xmlversion.h \
   /usr/include/libxml2/libxml/xmlexports.h \
   /usr/include/libxml2/libxml/tree.h \
@@ -1472,8 +1472,6 @@ utilities.h:
 date_time_utils.h:
 
 shell.h:
-
-oldgenconfig.h:
 
 /usr/include/libxml2/libxml/xmlreader.h:
 

@@ -26,7 +26,6 @@
 #include "settings.h"
 #include "stylesheetutils.h"
 #include "settings.h"
-#include "oldprojectconfig.h"
 #include <libxml/xmlreader.h>
 #include <libxml/xmlwriter.h>
 #include "config.xml.h"
@@ -40,7 +39,6 @@ ustring project_configuration_filename (const ustring& project)
 
 void upgrade_project_configuration (const ustring& project)
 {
-  upgrade_old_project_configuration (project);
 }
 
 

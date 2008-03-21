@@ -11,8 +11,8 @@ filter.file.ignore.hidden=0
 filter.dir.ignore.hidden=0
 
 [filenumbers]
-0=452
-1=36
+0=7213
+1=5
 2=7211
 3=5
 4=150
@@ -45,10 +45,8 @@ filter.dir.ignore.hidden=0
 14=
 
 [filelist]
-0=/home/teus/documents/dev/bibledit/src/projectutils.cpp
-1=/home/teus/documents/dev/bibledit/src/git-exec.cpp
-2=/home/teus/documents/dev/bibledit/src/mainwindow.cpp
-3=/home/teus/documents/dev/bibledit/configure.ac
+0=/home/teus/documents/dev/bibledit/src/mainwindow.cpp
+1=/home/teus/documents/dev/bibledit/configure.ac
 
 [Project Tree]
 0=0

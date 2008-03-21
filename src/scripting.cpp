@@ -1418,3 +1418,15 @@ int create_keyterms (const int argc, const char *argv[])
   
   return 0;  
 }
+
+
+/*
+Todo scripting to be dumped and libpopt to be thrown out. 
+Then also remove no-libpopt-h script.
+
+Check genconfig for store - flag = true.
+
+Throw out old configuration conversion.
+
+
+*/

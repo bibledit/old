@@ -26,7 +26,6 @@
 #include "utilities.h"
 #include "date_time_utils.h"
 #include "shell.h"
-#include "oldgenconfig.h"
 #include <libxml/xmlreader.h>
 #include <libxml/xmlwriter.h>
 #include "config.xml.h"
@@ -40,7 +39,6 @@ ustring configuration_filename ()
 
 void upgrade_configuration ()
 {
-  upgrade_old_general_configuration ();
 }
 
 

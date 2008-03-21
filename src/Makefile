@@ -132,12 +132,10 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogfontcolor.$(OBJEXT) dialognewstylesheet.$(OBJEXT) \
 	outline.$(OBJEXT) gui_styles.$(OBJEXT) settings.$(OBJEXT) \
 	session.$(OBJEXT) session_highlights.$(OBJEXT) \
-	bookdata.$(OBJEXT) ipc.$(OBJEXT) oldgenconfig.$(OBJEXT) \
-	config.xml.$(OBJEXT) localizedbooks.$(OBJEXT) \
-	versifications.$(OBJEXT) mappings.$(OBJEXT) \
-	oldprojectconfig.$(OBJEXT) dialogfeatures.$(OBJEXT) \
-	password.$(OBJEXT) gui_features.$(OBJEXT) \
-	dialogprintreferences.$(OBJEXT) \
+	bookdata.$(OBJEXT) ipc.$(OBJEXT) config.xml.$(OBJEXT) \
+	localizedbooks.$(OBJEXT) versifications.$(OBJEXT) \
+	mappings.$(OBJEXT) dialogfeatures.$(OBJEXT) password.$(OBJEXT) \
+	gui_features.$(OBJEXT) dialogprintreferences.$(OBJEXT) \
 	print_parallel_references.$(OBJEXT) dialogfixmarkers.$(OBJEXT) \
 	fixmarkers.$(OBJEXT) check_ref_inventory.$(OBJEXT) \
 	check_validate_refs.$(OBJEXT) dialogtextreplacement.$(OBJEXT) \
@@ -524,12 +522,10 @@ bibledit_bin_SOURCES = \
         session_highlights.cpp \
         bookdata.cpp \
         ipc.cpp \
-        oldgenconfig.cpp \
         config.xml.cpp \
         localizedbooks.cpp \
         versifications.cpp \
         mappings.cpp \
-        oldprojectconfig.cpp \
         dialogfeatures.cpp \
         password.cpp \
         gui_features.cpp \
@@ -839,8 +835,6 @@ include ./$(DEPDIR)/notes_utils.Po
 include ./$(DEPDIR)/notetemplate.Po
 include ./$(DEPDIR)/odtnotes.Po
 include ./$(DEPDIR)/odtutils.Po
-include ./$(DEPDIR)/oldgenconfig.Po
-include ./$(DEPDIR)/oldprojectconfig.Po
 include ./$(DEPDIR)/opendocument.Po
 include ./$(DEPDIR)/originreferences.Po
 include ./$(DEPDIR)/osis.Po

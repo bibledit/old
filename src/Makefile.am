@@ -191,12 +191,10 @@ bibledit_bin_SOURCES = \
         session_highlights.cpp \
         bookdata.cpp \
         ipc.cpp \
-        oldgenconfig.cpp \
         config.xml.cpp \
         localizedbooks.cpp \
         versifications.cpp \
         mappings.cpp \
-        oldprojectconfig.cpp \
         dialogfeatures.cpp \
         password.cpp \
         gui_features.cpp \
