@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<title>Bibledit</title>
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h2><a name="internals"></a>Internals</h2>
+<!-- Table of Contents Start -->
+<div id="toc">
+<ul>
+<li>
+<a href="#introduction" class="level1">Introduction</a></li>
+<li>
+<a href="#temporarydirectory" class="level1">Temporary directory</a></li>
+<li>
+<a href="#stylesheetsstorage" class="level1">Stylesheets storage</a></li>
+<li>
+<a href="#datastorage" class="level1">Data storage</a></li>
+<li>
+<a href="#subversiontasks" class="level1">Subversion tasks</a></li>
+<li>
+<a href="#bibleditwindowsoutpost" class="level1">Bibledit Windows Outpost</a></li>
+</ul>
+</div>
+<!-- Table of Contents End -->
+<h3><a name="introduction"></a>Introduction</h3>
+<p>This page describes the internals of Bibledit. That is, it gives technical
+specifications and information about how Bibledit works internally.</p>
+<h3><a name="temporarydirectory"></a>Temporary directory</h3>
+<p>The directory where Bibledit stores all temporary working data is in
+directory</p>
+<pre>.bibledit_temp</pre>
+<p>in your home directory, e.g. in</p>
+<pre>/home/joe/.bibledit_temp</pre>
+<h3><a name="stylesheetsstorage"></a>Stylesheets storage</h3>
+<p>The stylesheets, as templates, are xml files. Same for imported and
+exported stylesheets, except that they are zipped.</p>
+<p>Internally stylesheets are stored in a database. This makes reading them
+faster. The databases are stored in <a href="data_directory.html">&lt;data
+directory&gt;</a>/stylesheets.</p>
+<h3><a name="datastorage"></a>Data storage</h3>
+<p>Data, that means, the USFM files, are internally stored as flat files, one
+file per chapter. This gives faster access to the data. The files are stored
+in <a href="data_directory.html">&lt;data
+directory&gt;</a>/projects/&lt;project name&gt;, along with other files
+related to this project.</p>
+<h3><a name="subversiontasks"></a>Subversion tasks</h3>
+<p>When Bibledit shuts down, it stores any subversion tasks, still undone, in
+the temporal directory, in file subversionjobs.xml. Next time Bibledit
+starts, it will load these tasks, and execute them.</p>
+<h3><a name="bibleditwindowsoutpost"></a>Bibledit Windows Outpost</h3>
+<p>The Outpost allows Bibledit to interact with Windows related stuff.</p>
+<p>The Outpost does not have any visible functionality of its own.</p>
+<p>For communication to take place, Windows Outpost needs to use the same
+emulator as the other Windows programs you use on Linux. This means that if
+you install BibleWorks using Wine, then Windows Outpost must also be
+installed on Wine. And if you use CrossOver Office, then you need to use
+CrossOver Office for both, and both need to be installed in the same
+bottle.</p>
+<p>Bibledit connects to the interface on the Outpost, and communicates
+through that channel. This TCP/IP interface listens on port 51515.</p>
+<p>For diagnostics or control you can connect to it. In a terminal type</p>
+<pre>telnet localhost 51515</pre>
+<p>The following commands are recognized.</p>
+<pre>BibleWorksReferenceGet. This returns the reference that BibleWorks now displays.
+BibleWorksReferenceSet Mat 1:1. This causes BibleWorks to scroll to Matthew 1:1.
+SantaFeFocusReferenceGet. This returns the reference that is displayed by programs that work with the SantaFeFocus system, such as Paratext.
+SantaFeFocusReferenceSet MAT 1:1. This lets programs, that work with the SantaFeFocus system, display Matthew 1:1.
+SantaFeFocusWordSet Saviour. This lets programs like Toolbox, that work with the SantaFeFocus system, jump to the word "Saviour".
+Version. This gives the version number.
+Hide. This hides Bibledit Windows Outpost.
+Show. This shows Bibledit Windows Outpost.
+Quit. This disconnects from Bibledit Windows Outpost.
+Exit. This exist Bibledit Windows Outpost.
+Open http://bibledit.sourceforge.net. This opens a html or pdf file. Works on Windows only.</pre>
+<p>But all this information is not really needed in normal cases, because
+Bibledit takes care of all that.</p>
+</body>
+</html>

@@ -1,0 +1,3 @@
+--line-length120
+--gnu-style
+--no-tabs

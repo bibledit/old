@@ -1,0 +1,57 @@
+
+[executer]
+RunInTerminal=true
+
+[Project State]
+clean before build=false
+
+[File View]
+filter.file.unmatch=*.so *.o *.a *.la
+filter.file.ignore.hidden=0
+filter.dir.ignore.hidden=0
+
+[filenumbers]
+0=452
+1=36
+2=7211
+3=5
+4=150
+5=920
+6=5
+7=5
+8=5
+9=870
+10=7210
+11=5
+12=5
+13=8
+14=5
+
+[filemarkers]
+0=
+1=
+2=
+3=
+4=
+5=
+6=
+7=
+8=
+9=
+10=
+11=
+12=
+13=
+14=
+
+[filelist]
+0=/home/teus/documents/dev/bibledit/src/projectutils.cpp
+1=/home/teus/documents/dev/bibledit/src/git-exec.cpp
+2=/home/teus/documents/dev/bibledit/src/mainwindow.cpp
+3=/home/teus/documents/dev/bibledit/configure.ac
+
+[Project Tree]
+0=0
+
+[File Tree]
+0=0

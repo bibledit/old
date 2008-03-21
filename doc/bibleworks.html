@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>   <meta content="text/html; charset=UTF-8" http-equiv="content-type" />   <title>Bibledit</title>   <link href="bibledit.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h2><a name="bibleworks"></a>BibleWorks</h2>
+<h3><a name="introduction"></a>Introduction</h3>
+<p>BibleWorks is a program full of quality Bible-related resources.</p>
+<p>Bibledit can send references to BibleWorks. This means that when the
+translator is working in Bibledit on e.g. Mark 1:10, then BibleWorks will
+show Mark 1:10 too. When the translator then goes to the next verse,
+BibleWorks will do the same.</p>
+<p>In menu Preferences - Reference exchange, there is an option for this.
+Bibledit sends these references through Bibledit Windows Outpost. Therefore
+this program needs to be installed too.</p>
+<p>You can use the search functionality in BibleWorks, save the list of
+references to file, and then open that file in Bibledit. In this way Bibledit
+takes advantage of the searching capabilities of BibleWorks. </p>
+<h3><a name="installation"></a>Installation</h3>
+<p>Ensure that <a href="install_wine.html">Wine has been installed</a>
+properly.</p>
+<p>Ensure that <a href="install_outpost.html">Bibledit Windows Outpost has
+been installed.</a></p>
+<p>Insert the first CD-ROM in the drive and ensure the drive has been
+mounted.</p>
+<p>In the terminal type</p>
+<pre>wine /media/cdrom/autorun.exe</pre>
+<p>supposing that /media/cdrom is your cdrom drive.</p>
+<p>Follow the installation instructions on the screen and complete the
+installation. When it asks you to insert another disk, unmount the cdrom
+drive, swap disks, and mount the drive again.</p>
+<p>To configure BibleWorks in wine, type</p>
+<pre>winecfg</pre>
+<p>Wine Configuration starts at the Applications tab. Click button Add
+application, and navigate to drive_c, Program Files, BibleWorks 6 (or
+BibleWorks 7), and select bw600.exe (or bw700.exe), and choose Open. Set the
+Windows version to either Windows 2000 or Windows XP. This is needed to
+prevent a crash when BibleWorks shuts down.</p>
+<p>To run BibleWorks, in the terminal type</p>
+<pre>wine "c:/Program Files/BibleWorks 6/bw600.exe"</pre>
+<p>(or c:/Program Files/BibleWorks 7/bw700.exe).</p>
+<p>BibleWorks 6 runs fine.</p>
+<p>BibleWorks 7 runs rather well, and most of the things work. Only the main
+toolbar does not draw, and using Unicode in the editor seems difficult.</p>
+</body>
+</html>

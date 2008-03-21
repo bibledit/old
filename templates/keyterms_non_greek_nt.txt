@@ -1,0 +1,426 @@
+Non-Greek words of the New Testament
+
+[keyterm]
+Abba
+[comments]
+Transliteration: Abba
+[references]
+MRK 14:36
+ROM 8:15
+GAL 4:6
+
+[keyterm]
+amen
+[comments]
+Transliteration: amen
+[references]
+MAT 5:18
+MAT 5:26
+MAT 6:2
+MAT 6:5
+MAT 6:13
+MAT 6:16
+MAT 8:10
+MAT 10:15
+MAT 10:23
+MAT 10:42
+MAT 11:11
+MAT 13:17
+MAT 16:28
+MAT 17:20
+MAT 18:3
+MAT 18:13
+MAT 18:18
+MAT 19:23
+MAT 19:28
+MAT 21:21
+MAT 21:31
+MAT 23:36
+MAT 24:2
+MAT 24:34
+MAT 24:47
+MAT 25:12
+MAT 25:40
+MAT 25:45
+MAT 26:13
+MAT 26:21
+MAT 26:34
+MAT 28:20
+MRK 3:28
+MRK 6:11
+MRK 8:12
+MRK 9:1
+MRK 9:41
+MRK 10:15
+MRK 10:29
+MRK 11:23
+MRK 12:43
+MRK 13:30
+MRK 14:9
+MRK 14:18
+MRK 14:25
+MRK 14:30
+MRK 16:20
+LUK 4:24
+LUK 12:37
+LUK 13:35
+LUK 18:17
+LUK 18:29
+LUK 21:32
+LUK 23:43
+LUK 24:53
+JHN 1:51
+JHN 3:3
+JHN 3:5
+JHN 3:11
+JHN 5:19
+JHN 5:24
+JHN 5:25
+JHN 6:26
+JHN 6:32
+JHN 6:47
+JHN 6:53
+JHN 8:34
+JHN 8:51
+JHN 8:58
+JHN 10:1
+JHN 10:7
+JHN 12:24
+JHN 13:16
+JHN 13:20
+JHN 13:21
+JHN 13:38
+JHN 14:12
+JHN 16:20
+JHN 16:23
+JHN 21:18
+JHN 21:25
+ROM 1:25
+ROM 9:5
+ROM 11:36
+ROM 15:33
+ROM 16:20
+ROM 16:24
+ROM 16:27
+1CO 14:16
+1CO 16:24
+2CO 1:20
+2CO 13:14
+GAL 1:5
+GAL 6:18
+EPH 3:21
+PHP 4:20
+PHP 4:23
+COL 4:18
+1TH 5:28
+2TH 3:18
+1TI 1:17
+1TI 6:16
+1TI 6:21
+2TI 4:18
+2TI 4:22
+TIT 3:15
+PHM 1:25
+HEB 13:21
+HEB 13:25
+1PE 4:11
+1PE 5:11
+1PE 5:14
+2PE 3:18
+1JN 5:21
+2JN 1:13
+JUD 1:25
+REV 1:6
+REV 1:7
+REV 1:18
+REV 3:14
+REV 5:14
+REV 7:12
+REV 19:4
+REV 22:20
+REV 22:21
+
+[keyterm]
+be opened
+[comments]
+Transliteration: effatha
+[references]
+MRK 7:34
+
+[keyterm]
+blockhead
+[comments]
+Transliteration: raka
+[references]
+MAT 5:22
+
+[keyterm]
+colony
+[comments]
+Transliteration: kolonia
+[references]
+ACT 16:12
+
+[keyterm]
+denarius
+[comments]
+Transliteration: denarion
+[references]
+MAT 18:28
+MAT 20:2
+MAT 20:9
+MAT 20:10
+MAT 20:13
+MAT 22:19
+MRK 6:37
+MRK 12:15
+MRK 14:5
+LUK 7:41
+LUK 10:35
+LUK 20:24
+JHN 6:7
+JHN 12:5
+REV 6:6
+
+[keyterm]
+gift offered
+[comments]
+Transliteration: korban
+[references]
+MRK 7:11
+
+[keyterm]
+girl
+[comments]
+Transliteration: talitha
+[references]
+MRK 5:41
+
+[keyterm]
+halleluja
+[comments]
+Transliteration: halleluja
+[references]
+REV 19:1
+REV 19:3
+REV 19:4
+REV 19:6
+
+[keyterm]
+hell / grave
+[comments]
+Transliteration: genna
+[references]
+MAT 5:22
+MAT 5:29
+MAT 5:30
+MAT 10:28
+MAT 18:9
+MAT 23:15
+MAT 23:33
+MRK 9:43
+MRK 9:45
+MRK 9:47
+LUK 12:5
+JAS 3:6
+
+[keyterm]
+hosannah
+[comments]
+Transliteration: hosannah
+[references]
+MAT 21:9
+MAT 21:15
+MRK 11:9
+MRK 11:10
+JHN 12:13
+
+[keyterm]
+hyssop
+[comments]
+Transliteration: hyssop
+[references]
+JHN 19:29
+HEB 9:19
+
+[keyterm]
+legion
+[comments]
+Transliteration: legion
+[references]
+MAT 26:53
+MRK 5:9
+MRK 5:15
+LUK 8:30
+
+[keyterm]
+Lord come
+[comments]
+Transliteration: maranatha
+[references]
+1CO 16:22
+
+[keyterm]
+manna
+[comments]
+Transliteration: manna
+[references]
+JHN 6:31
+JHN 6:49
+JHN 6:58
+HEB 9:4
+REV 2:17
+
+[keyterm]
+my God
+
+[keyterm]
+my God (1)
+[level]
+2
+[comments]
+Transliteration: Eloi
+[references]
+MRK 15:34
+MRK 15:34
+
+[keyterm]
+my God (2)
+[level]
+2
+[comments]
+Transliteration: Eli
+[references]
+MAT 27:46
+MAT 27:46
+
+[keyterm]
+my rabbi
+[comments]
+Transliteration: rabouni
+[references]
+MRK 10:51
+JHN 20:16
+
+[keyterm]
+quadrans
+[comments]
+Transliteration: kodrantes
+[references]
+MAT 5:26
+MRK 12:42
+
+[keyterm]
+rabbi
+[comments]
+Transliteration: rabbi
+[references]
+MAT 23:7
+MAT 23:8
+MAT 26:25
+MAT 26:49
+MRK 9:5
+MRK 11:21
+MRK 14:45
+JHN 1:38
+JHN 1:49
+JHN 3:2
+JHN 3:26
+JHN 4:31
+JHN 6:25
+JHN 9:2
+JHN 11:8
+
+[keyterm]
+sabbath
+[comments]
+Transliteration: sabbath
+[references]
+MAT 12:1
+MAT 12:2
+MAT 12:5
+MAT 12:8
+MAT 12:10
+MAT 12:11
+MAT 12:12
+MAT 24:20
+MAT 28:1
+MRK 1:21
+MRK 2:23
+MRK 2:24
+MRK 2:27
+MRK 2:28
+MRK 3:2
+MRK 3:4
+MRK 6:2
+MRK 16:1
+MRK 16:2
+MRK 16:9
+LUK 4:16
+LUK 4:31
+LUK 6:1
+LUK 6:2
+LUK 6:5
+LUK 6:6
+LUK 6:7
+LUK 6:9
+LUK 13:10
+LUK 13:14
+LUK 13:15
+LUK 13:16
+LUK 14:1
+LUK 14:3
+LUK 14:5
+LUK 18:12
+LUK 23:54
+LUK 23:56
+LUK 24:1
+JHN 5:9
+JHN 5:10
+JHN 5:16
+JHN 5:18
+JHN 7:22
+JHN 7:23
+JHN 9:14
+JHN 9:16
+JHN 19:31
+JHN 20:1
+JHN 20:19
+ACT 1:12
+ACT 13:14
+ACT 13:27
+ACT 13:42
+ACT 13:44
+ACT 15:21
+ACT 16:13
+ACT 17:2
+ACT 18:4
+ACT 20:7
+1CO 16:2
+COL 2:16
+
+[keyterm]
+stand up
+[comments]
+Transliteration: kumi
+[references]
+MRK 5:41
+
+[keyterm]
+wealth
+[comments]
+Transliteration: mammon
+[references]
+MAT 6:24
+LUK 16:9
+LUK 16:11
+LUK 16:13
+
+[keyterm]
+why
+[comments]
+Transliteration: lama
+[references]
+MAT 27:46
+MRK 15:34
+

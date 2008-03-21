@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<title>Bibledit</title>
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h2><a name="installinggtk2onmacosx"></a>Installing gtk2 on Mac OS X</h2>
+<p>Normally gtk2 will be installed on OS X by typing:</p>
+<pre>sudo port install gtk2</pre>
+<p>But at times errors can occur. These errors are supposed to be fixed by
+the gtk2 maintainer or the maintainer of the ports that gtk2 depends on.</p>
+<p>Some errors and solutions are found below.</p>
+<h3><a name="gtkprintbackendcupsccompileerror"></a>gtkprintbackendcups.c compile error</h3>
+<p>---&gt; Building gtk2 with target all</p>
+<p>Error: Target com.apple.build returned: shell command "cd
+"/opt/local/var/db/dports/build/_opt_local_var_db_dports_sources_rsync.rsync.darwinports.org_dpupdate_dports_x11_gtk2/work/gtk+-2.10.9"
+&amp;&amp; make all CFLAGS+="-I/usr/X11R6/include"" returned error 2</p>
+<p>Command output: gtkprintbackendcups.c:2322: error: request for member
+`num_groups' in something not a structure or union</p>
+<p>gtkprintbackendcups.c:2323: error: request for member `groups' in
+something not a structure or union</p>
+<p>gtkprintbackendcups.c: At top level:</p>
+<p>gtkprintbackendcups.c:2333: error: parse error before "ppd_file_t"</p>
+<p>gtkprintbackendcups.c:2333: warning: no semicolon at end of struct or
+union</p>
+<p>gtkprintbackendcups.c: In function `foreach_option_get_settings':</p>
+<p>gtkprintbackendcups.c:2576: error: dereferencing pointer to incomplete
+type</p>
+<p>gtkprintbackendcups.c: In function
+`cups_printer_get_settings_from_options':</p>
+<p>gtkprintbackendcups.c:2628: error: storage size of `data' isn't known</p>
+<p>gtkprintbackendcups.c: In function `cups_printer_list_papers':</p>
+<p>gtkprintbackendcups.c:2724: error: `ppd_file_t' undeclared (first use in
+this function)</p>
+<p>gtkprintbackendcups.c:2725: error: `ppd_size_t' undeclared (first use in
+this function)</p>
+<p>gtkprintbackendcups.c:2725: error: `size' undeclared (first use in this
+function)</p>
+<p>gtkprintbackendcups.c:2729: error: `ppd_option_t' undeclared (first use in
+this function)</p>
+<p>gtkprintbackendcups.c:2729: error: `option' undeclared (first use in this
+function)</p>
+<p>gtkprintbackendcups.c:2730: error: `ppd_choice_t' undeclared (first use in
+this function)</p>
+<p>gtkprintbackendcups.c:2730: error: `choice' undeclared (first use in this
+function)</p>
+<p>gtkprintbackendcups.c:2740: error: request for member `num_sizes' in
+something not a structure or union</p>
+<p>gtkprintbackendcups.c:2742: error: request for member `sizes' in something
+not a structure or union</p>
+<p>gtkprintbackendcups.c: In function `cups_printer_get_hard_margins':</p>
+<p>gtkprintbackendcups.c:2783: error: `ppd_file_t' undeclared (first use in
+this function)</p>
+<p>gtkprintbackendcups.c:2789: error: request for member `custom_margins' in
+something not a structure or union</p>
+<p>gtkprintbackendcups.c:2790: error: request for member `custom_margins' in
+something not a structure or union</p>
+<p>gtkprintbackendcups.c:2791: error: request for member `custom_margins' in
+something not a structure or union</p>
+<p>gtkprintbackendcups.c:2792: error: request for member `custom_margins' in
+something not a structure or union</p>
+<p>make[4]: *** [gtkprintbackendcups.lo] Error 1</p>
+<p>make[3]: *** [all-recursive] Error 1</p>
+<p>make[2]: *** [all-recursive] Error 1</p>
+<p>make[1]: *** [all-recursive] Error 1</p>
+<p>make: *** [all] Error 2</p>
+<p>Error: Status 1 encountered during processing.</p>
+<p>The workaround is this: Install cups-headers, using sudo port install
+cups-headers. Then edit out the "exit 0" statement from the gtk2 Portfile so
+it will install with cups-headers. The Portfile is normally located in
+directory
+/opt/local/var/db/dports/sources/rsync.rsync.darwinports.org_dpupdate_dports/x11/gtk2.
+There is a bit in the Portfile that looks so:</p>
+<p>if {[file exists ${prefix}/bin/cups-config]} {</p>
+<p>ui_msg "\nThe cups-headers port may prevent building this port. Please
+uninstall\n(or deactivate) cups-headers and restart the build.\n"</p>
+<p>exit 1</p>
+<p>}</p>
+<p>That whole bit should be taken out. Then run sudo port install gtk2 again,
+and it should work.</p>
+<h3><a name="generalbuilderrors"></a>General build errors</h3>
+<p>Sometimes the build fails because the portfiles were not updated. Always
+run:</p>
+<pre>sudo port selfupdate</pre>
+<p>If that has been done, then the build that failed should be cleaned out,
+and installed fresly, e.g. for libiconv:</p>
+<pre>sudo port clean libiconv</pre>
+<pre>sudo port install libiconv</pre>
+<p>That should fix it.</p>
+</body>
+</html>

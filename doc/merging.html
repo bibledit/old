@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<title>Bibledit</title>
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h2><a name="merging"></a>Merging</h2>
+<!-- Table of Contents Start -->
+<div id="toc">
+<ul>
+<li>
+<a href="#introduction" class="level1">Introduction</a></li>
+<li>
+<a href="#setup" class="level1">Setup</a></li>
+<li>
+<a href="#operation" class="level1">Operation</a></li>
+</ul>
+</div>
+<!-- Table of Contents End -->
+<h3><a name="introduction"></a>Introduction</h3>
+<p>At times there may be a need to branch off a translation project, so that
+two translation projects exists, the main one and the branch. Various people
+then can work on the branch. When this is done, there may be a need to merge
+the branched project back into the main project.</p>
+<p>Some teams have a main project and an edited project. The main project is
+maintained by one person. All the members of the team work on the edited
+project. At times the person that maintains the main project would wish to
+merge the data of the edited project into the main one.</p>
+<p>Bibledit provides the "Merge" tool for the above scenarios.</p>
+<h3><a name="setup"></a>Setup</h3>
+<p>In order for data of two projects to be merged succesfully, both of the
+projects need to have what is called a common ancestor. That means that going
+back through the history of the projects, there must be a moment in time that
+the data of the projects was the same. Usually this is accomplished by making
+a copy of the main project. The main project remains as it is, and the copy
+of that project becomes the "edited" project.</p>
+<p>So, the setup is simple. Just take one project, and copy it to another
+one. The data of these two projects is now capable to be merged later on,
+after some changes have been made in the text.</p>
+<h3><a name="operation"></a>Operation</h3>
+<p>So, how does the merge work?</p>
+<p>The first step is to open two projects in the same window, so that both of
+these projects are visible at the same time.</p>
+<p>Then, in the Tools area, click on the Merge tab.</p>
+<p>In the merge window, it asks for the master project, and the edited
+project. If both of these are selected, then the text of the projects will
+show up in the window.</p>
+<p>Any changes become visible in that window. Additions are marked with
+"insertion", and deletions are marked "deletion". It is important to know at
+this stage that any footnotes, endnotes and crossreferences are not marked
+this way.</p>
+<p>If the editor goes to another chapter, the changes will be reloaded.</p>
+<p>There are also two buttons in the merge window, one labelled "Previous",
+and one "Next". These buttons, if clicked, will look for the next or previous
+chapter that has changes.</p>
+<p>If there are any changes between the chapter in the master project and the
+edited project, the "Merge" button becomes sensitive. Clicking this button
+starts the merge procedure.</p>
+<p>It shows three possible actions to take: To merge a chapter, or to copy a
+chapter, or to copy everything.</p>
+<p>Copying one chapter or everything is straightforward and will not be
+elaborated upon.</p>
+<p>The first option, to merge a chapter, is worth some explanation.</p>
+<p>Once the merge operation starts it looks through the history of both
+projects to find the common ancestor for this chapter. It then tries the
+merge operation. If all went fine, then that's it: The job has been done.</p>
+<p>If all did not go well, then that means that there were changes in both of
+the projects that would affect one and the same place. Bibledit does not know
+in such a case which of the two changes is the correct one, and needs the
+user to select the correct text. A window will then open showing one or more
+pairs of buttons. Each button has a label showing the possible text. Clicking
+on the one button inserts the one text, and clicking the other button inserts
+the other text. If you click a button, it means that you approve of the text
+that is in its label.</p>
+<p>When all places have been corrected, then the OK button at the bottom of
+the window becomes active. Clicking that saves the text, and ends the merge
+operation.</p>
+</body>
+</html>

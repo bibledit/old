@@ -1,0 +1,158 @@
+/*
+** Copyright (©) 2003-2008 Teus Benschop.
+**  
+** This program is free software; you can redistribute it and/or modify
+** it under the terms of the GNU General Public License as published by
+** the Free Software Foundation; either version 3 of the License, or
+** (at your option) any later version.
+**  
+** This program is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+** GNU General Public License for more details.
+**  
+** You should have received a copy of the GNU General Public License
+** along with this program; if not, write to the Free Software
+** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+**  
+*/
+
+
+#include "git-exec.h"
+#include "tiny_utilities.h"
+#include <glib.h>
+
+
+void git_exec_initialize_project (const ustring& project)
+{
+  // Get the data directory for this project
+  ustring datadirectory = tiny_project_data_directory_project (project);
+  git_exec_message (datadirectory, true);
+  
+  // If the .svn subdirectory exists under the data directory remove them all
+  ustring svndirectory = tiny_gw_build_filename (datadirectory, ".svn");
+  if (g_file_test (svndirectory.c_str(), G_FILE_TEST_IS_DIR)) {
+    ustring command = "cd '" + datadirectory + "'; ";
+    command.append ("find . -name .svn -print0 | xargs -0 rm -rf");
+    git_exec_message ("All .svn traces were removed", true);
+    system (command.c_str ());
+  }
+
+  // On most machines git can determine the user's name from the system 
+  // services. But on the XO machine, it can't.
+  // Therefore to be sure, it is set here manually.
+  ustring command0 ("cd '" + datadirectory + "'; ");
+  command0.append ("git-config user.email \"");
+  command0.append (g_get_user_name ());
+  command0.append ("@");
+  command0.append (g_get_host_name ());
+  command0.append ("\"");
+  system (command0.c_str ());
+  command0 = ("cd '" + datadirectory + "'; ");
+  command0.append ("git-config user.name \"");
+  command0.append (g_get_real_name ());
+  command0.append ("\"");
+  system (command0.c_str ());
+
+  // (Re)initialize the repository. This can be done repeatedly without harm,
+  // and it ensures that anything that was put in by hand will be seen by git,
+  // thus making the system more robust.
+  ustring command1 ("cd '" + datadirectory + "'; ");
+  command1.append ("git-init-db");
+  system (command1.c_str ());
+  ustring command2 ("cd '" + datadirectory + "'; ");
+  command2.append ("git-add .");
+  system (command2.c_str ());
+  git_exec_commit_directory (datadirectory);
+}
+
+
+void git_exec_store_chapter (const ustring& project, unsigned int book, unsigned int chapter)
+// Stores a chapter. Returns whether things worked out.
+{
+  // Log message
+  git_exec_message ("Storing book " + convert_to_string (book) + " chapter " + convert_to_string (chapter), true);
+
+  // Get the data directory for this project
+  ustring datadirectory = tiny_project_data_directory_project (project);
+  
+  // The chapter may have been added when it wasn't there before.
+  // Just to be sure, add anything under the data directory.  
+  ustring command ("cd '" + datadirectory + "'; ");
+  command.append ("git-add .");
+  system (command.c_str ());
+  
+  // Show status, and commit changes.
+  git_exec_commit_directory (datadirectory);
+}
+
+
+void git_exec_commit_project (const ustring& project)
+// Commits a project.
+{
+  ustring datadirectory = tiny_project_data_directory_project (project);
+  git_exec_commit_directory (datadirectory);
+}
+
+
+void git_exec_commit_directory (const ustring& directory)
+{
+  // Show status, and commit changes.
+  ustring command1 ("cd '" + directory + "'; ");
+  command1.append ("git-status -a");
+  system (command1.c_str ());
+  ustring command2 ("cd '" + directory + "'; ");
+  command2.append ("git-commit -m Commit -a");
+  system (command2.c_str ());
+}
+
+
+vector <ustring> git_exec_update_project (const ustring& project, const ustring& data)
+/*
+Pulls all changes from the remote repository.
+Pushes all changes to the remote repository.
+If there was an error, it returns false.
+*/
+{
+  // Log.
+  git_exec_message ("Updating project " + project, true);
+
+  // The data directory for this project
+  ustring datadirectory = tiny_project_data_directory_project (project);
+
+  // Output lines.
+  vector <ustring> lines;
+  
+  // Pull changes from the remote repository.
+  ustring command1 ("cd '" + datadirectory + "'; ");
+  command1.append ("git-pull '" + data + "' 2>&1");
+  FILE * stream = popen (command1.c_str (), "r");
+  char buf[1024];
+  while (fgets (buf, sizeof (buf), stream)) {
+    lines.push_back (buf);
+  }
+  bool ran_okay = (pclose (stream) == 0);
+  
+  // Write output.
+  for (unsigned int i = 0; i < lines.size (); i++) {
+    git_exec_message (lines[i], false);
+  }    
+
+  // Push changes to the remote repository.
+  if (ran_okay) {
+    ustring command2 ("cd '" + datadirectory + "'; ");
+    command2.append ("git-push '" + data + "'");
+    system (command2.c_str ());
+  }
+  
+  // Return output of the pull process in case of error.
+  if (ran_okay) lines.clear ();
+  return lines;
+}
+
+
+void git_exec_message (const ustring& message, bool eol)
+{
+  write (1, message.c_str(), strlen (message.c_str()));
+  if (eol) write (1, "\n", 1);
+}

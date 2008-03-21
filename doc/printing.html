@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<title>Bibledit</title>
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h2><a name="printing"></a>Printing</h2>
+<!-- Table of Contents Start -->
+<div id="toc">
+<ul>
+<li>
+<a href="#introduction" class="level1">Introduction</a></li>
+<li>
+<a href="#font" class="level1">Font</a></li>
+<li>
+<a href="#usingseveralfonts" class="level1">Using several fonts</a></li>
+<li>
+<a href="#problematicfonts" class="level1">Problematic fonts</a></li>
+<li>
+<a href="#lineheight" class="level1">Line height</a></li>
+<li>
+<a href="#formatter" class="level1">Formatter</a></li>
+<li>
+<a href="#biblenotes" class="level1">Bible notes</a></li>
+<li>
+<a href="#locationofpdffiles" class="level1">Location of .pdf files</a></li>
+<li>
+<a href="#columns" class="level1">Columns</a></li>
+<li>
+<a href="#newpages" class="level1">New pages</a></li>
+<li>
+<a href="#notprintingstyles" class="level1">Not printing styles</a></li>
+<li>
+<a href="#hyphenation" class="level1">Hyphenation</a></li>
+<li>
+<a href="#links" class="level1">Links</a></li>
+</ul>
+</div>
+<!-- Table of Contents End -->
+<h3><a name="introduction"></a>Introduction</h3>
+<p>Bibledit can print things like a list of references along with the text,
+or the project.</p>
+<p>Printing is done this way: Bibledit generates a .pdf file, and then opens
+this file in a pdf viewer. From there it can be printed.</p>
+<h3><a name="font"></a>Font</h3>
+<p>The font to be used can be set under menu View / Printer font. To use a
+font, put a tick in the "Use" column.</p>
+<p>The size of the fonts can be set too.</p>
+<p><a href="glossary.html#xep">XEP</a> cannot handle all fonts. At present it
+handles True Type fonts (that end with a .ttf extension), and Adobe Type 1
+fonts (ending with a .pfa or .pfb extension) and that have an accompanying
+metrics file that ends with a .afm extension.</p>
+<p>If the font you need is not available on your operating system, you may
+want to check out <a href="http://scripts.sil.org">http://scripts.sil.org</a>
+for additional fonts or search the internet for "Free Unicode fonts".</p>
+<p>If XEP does not render a certain character, it means the font you have
+chosen does not contain a glyph for this particular character. Try another
+font, or use more than one font at once.</p>
+<h3><a name="usingseveralfonts"></a>Using several fonts</h3>
+<p>To use several fonts, tick all the fonts you wish to use.</p>
+<p>This means that Bibledit will not use only one font for printing, but
+other fonts as well.</p>
+<p>If the text you wish to print has many different characters, it may be
+that there is not one single font that contains glyphs for them all. While
+XEP formats the text, it looks through all the fonts you have specified,
+starting at the top, to find the glyph to print. This character will be
+printed in the first font that contains that glyphs.</p>
+<p>It will be clear that because of this the printing will take much
+longer.</p>
+<p>You can reorder the fonts in the list. Drag the most important font to the
+top, and the less important ones under it.</p>
+<p>If XEP does not render a certain character, that means that there is no
+font installed on your system that is supported by XEP and contains this
+character, or there is a font but it is disabled. This can be the case even
+though the character displays properly in the editor with that font. This is
+because when a character is not found in a font, Bibledit searches through
+the other fonts until the character has been found, and the other fonts may
+include fonts that are not supported by XEP.</p>
+<h3><a name="problematicfonts"></a>Problematic fonts</h3>
+<p>Some operating systems install fonts that are not Unicode compliant, or
+that have license restrictions, or that have other problems. If Bibledit
+gives a message during printing that there was a problem, you can have a look
+in the System log if the problem was caused by some offending fonts. These
+fonts should be disabled in the font selection dialog for printing. Fonts can
+be disabled by dragging them below the "Disabled Fonts Below" line.</p>
+<h3><a name="lineheight"></a>Line height</h3>
+<p>In the dialog where the font can be selected, there is also a setting for
+the line height, in percentages. Normally it is on 100%. Setting it to e.g.
+200% gives the line a double height. This would for example allow for text
+and notes to be written between the lines on worksheets.</p>
+<h3><a name="formatter"></a>Formatter</h3>
+<p>Bibledit needs an xslfo formatter to lay the text out on the page. It uses
+<a href="glossary.html#xep">XEP.</a></p>
+<h3><a name="biblenotes"></a>Bible notes</h3>
+<p>These are <a href="biblenotes.html">footnotes, endnotes, and
+crossreferences.</a></p>
+<h3><a name="locationofpdffiles"></a>Location of .pdf files</h3>
+<p>The .pdf file for printing a project is usually found in the <a
+href="internals.html#temporaldirectory">temporary
+directory</a>/project/document.pdf, and the one for printing references in
+the <a href="internals.html#temporaldirectory">temporary
+directory</a>/references/document.pdf.</p>
+<h3><a name="columns"></a>Columns</h3>
+<p>Normally text is laid out in two columns. The stylesheet editor allows the
+"span columns" property to be set. This means that a certain piece of content
+spans the two columns. Biblical content honours this setting, but content
+from the Front Matter and the Back Matter is laid out in one column.</p>
+<h3><a name="newpages"></a>New pages</h3>
+<p>Normally Bibledit prints all the books one after the other, without
+starting them on a new page. This behaviour is implemented so that normally
+not too much paper is used. Bibledit can be set to print each new book on a
+new page, or, going one step further, to have each book start on an odd page.
+Settings for this are in the stylesheet, under the \id marker.</p>
+<h3><a name="notprintingstyles"></a>Not printing styles</h3>
+<p>Some styles have the "print" property in the stylesheet editor. If "print"
+is unticked, then this style won't be printed. This comes in useful when
+there is some data in the text that you don't want to print this time.
+Footnotes, for example. The quickest way of doing this is to make two
+stylesheets. One full stylesheet that prints everything. And one adapted
+stylesheet that doesn't print footnotes. Just opening another stylesheet in
+the editor, and printing, makes it work.</p>
+<h3><a name="hyphenation"></a>Hyphenation</h3>
+<p>Normally words are not hyphenated. But if a word does not look well on the
+printout, and hyphenation is needed, the user can insert a soft hyphen in
+that word. The "Insert" menu caters for that.</p>
+<h3><a name="links"></a>Links</h3>
+<p>See also:</p>
+<p><a href="questions.html">Questions</a></p>
+<p><a href="olh_print_book_portion.html">Print portion</a></p>
+<p><a href="howto.html">How to</a></p>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>   <meta content="text/html; charset=UTF-8" http-equiv="content-type" />   <title>Bibledit</title>
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h2><a name="crossreferences"></a>Cross References</h2>
+<!-- Table of Contents Start -->
+<div id="toc">
+<ul>
+<li>
+<a href="#crossreferencesyntax" class="level1">Cross Reference Syntax</a></li>
+<li>
+<a href="#xcrossreference" class="level2">\x * Cross Reference</a></li>
+<li>
+<a href="#crossreferencecontentelements" class="level1">Cross Reference Content Elements</a></li>
+<li>
+<a href="#xooriginreference" class="level2">\xo (*) Origin Reference</a></li>
+<li>
+<a href="#xkkeyword" class="level2">\xk (*) Keyword</a></li>
+<li>
+<a href="#xqquotation" class="level2">\xq (*) Quotation</a></li>
+<li>
+<a href="#xttargets" class="level2">\xt (*) Targets</a></li>
+<li>
+<a href="#xdcapocrypha" class="level2">\xdc * Apocrypha</a></li>
+<li>
+<a href="#nesting" class="level1">Nesting</a></li>
+<li>
+<a href="#examplesofuse" class="level1">Examples of use</a></li>
+</ul>
+</div>
+<!-- Table of Contents End -->
+<p><a href="usfm_syntax.html">Syntax notes.</a></p>
+<h3><a name="crossreferencesyntax"></a>Cross Reference Syntax</h3>
+<p>Cross references are laid out in the following format:</p>
+<p>\x_cross reference caller_cross reference content\x*</p>
+<p>They consist of these four parts:</p>
+<p>1. \x: (initial marker) starts the footnote.</p>
+<p>2. cross reference caller: may be one of these three:</p>
+<p>* + means that the caller is generated automatically, eg. progressive
+letters or numbers.</p>
+<p>* - means no caller is generated.</p>
+<p>* * means any character, where * represents the character to be used as
+the caller – defined by the user.</p>
+<p>3. cross reference content:</p>
+<p>* Everything that is part of the cross reference.</p>
+<p>* This will contain the reference, the text, reference, and any additional
+elements.</p>
+<p>* Each element should be prefixed by the relevant back-slash code listed,
+see below. listed below.</p>
+<p>4. \x*: (final marker) ends the cross reference</p>
+<h4><a name="xcrossreference"></a>\x * Cross Reference</h4>
+<p>\x_</p>
+<p>* Beginning of cross reference</p>
+<p>\x*</p>
+<p>* Cross reference ending.</p>
+<h3><a name="crossreferencecontentelements"></a>Cross Reference Content Elements</h3>
+<p>The following codes can be included as part of the cross reference
+content:</p>
+<h4><a name="xooriginreference"></a>\xo (*) Origin Reference</h4>
+<p>\xo_...</p>
+<p>* Cross reference origin reference.</p>
+<p>* The chapter and verse location in the text which the target references
+refer to.</p>
+<p>* Usually in the format &lt;chapter&gt;.&lt;verse&gt; or
+&lt;chapter&gt;,&lt;verse&gt;.</p>
+<h4><a name="xkkeyword"></a>\xk (*) Keyword</h4>
+<p>\xk_...</p>
+<p>* Cross reference keyword.</p>
+<h4><a name="xqquotation"></a>\xq (*) Quotation</h4>
+<p>\xq_...</p>
+<p>* Quotation from the scripture text.</p>
+<p>* A current and/or alternative translation of a portion of the scripture
+text.</p>
+<h4><a name="xttargets"></a>\xt (*) Targets</h4>
+<p>\xt_...</p>
+<p>* Target references.</p>
+<p>* A list of the target cross references for the origin reference.</p>
+<p>* This is a list of book name abbreviations and
+&lt;chapter&gt;.&lt;verse&gt; references, separated by semicolons (though
+there may be alternate formats for this list in different regions and
+countries).</p>
+<h4><a name="xdcapocrypha"></a>\xdc * Apocrypha</h4>
+<p>\xdc_...\xdc*_</p>
+<p>* References (or other text) between these markers is material to be
+included only in editions that contain the Apocrypha.</p>
+<h3><a name="nesting"></a>Nesting</h3>
+<p>By default cross reference codes are not nested (i.e. they are not
+embedded within each other). The use of each new code cancels out the
+'environment' of the previous. However, an alternative markup may be used
+requiring each internal marker to be explicitly closed (e.g. \x -
+\xo...\xo*...\x*.). The examples below include variants which use the
+"nested", and "non-nested" approach. If the nested approach is used, each
+code must be explicitly closed, and the unmarked text within \x ..\x* is
+assumed to be target reference text.</p>
+<h3><a name="examplesofuse"></a>Examples of use</h3>
+<p>TEV Mat 1.11:</p>
+<pre>\p
+\v 2-6a From Abraham to King David, the following ancestors
+are listed: Abraham, Isaac, Jacob, Judah and his brothers;
+then Perez and Zerah (their mother was Tamar), Hezron, Ram,
+Amminadab, Nahshon, Salmon, Boaz (his mother was Rahab), Obed
+(his mother was Ruth), Jesse, and King David.
+\p
+\v 6b-11 From \x - \xo 1.11: \xt 2Ki 24.14,15; 2Ch 36.10;
+Jer 27.20.\x* David to the time when the people of Israel were
+taken into exile in Babylon, the following ancestors are listed:</pre>
+<p>Cross reference with multiple "parts" (TEV Gen 49.31):</p>
+<pre>\v 31
+\x - \xo 49.31: a \xt Gen 25.9,10; \xo b \xt Gen 35.29.\x*
+That is where they buried Abraham and his wife Sarah; that is where they buried
+Isaac and his wife Rebecca; and that is where I buried Leah.</pre>
+<p>Cross reference with references to the Apocrypha marked (TEV Gen 1.26):</p>
+<pre>\p
+\v 26 \x - \xo 1.26: \xt \xdc Wis 2.23; Sir 17.3,4;\xdc* 1Co 11.7.\x* Then God said,
+?And now we will make human beings; they will be like us and resemble us.</pre>
+</body>
+</html>

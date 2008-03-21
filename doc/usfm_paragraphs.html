@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>   <meta content="text/html; charset=UTF-8" http-equiv="content-type" />   <title>Bibledit</title>
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h2><a name="paragraphelements"></a>Paragraph Elements</h2>
+<!-- Table of Contents Start -->
+<div id="toc">
+<ul>
+<li>
+<a href="#p" class="level1">p</a></li>
+<li>
+<a href="#m" class="level1">m</a></li>
+<li>
+<a href="#pmo" class="level1">pmo</a></li>
+<li>
+<a href="#pm" class="level1">pm</a></li>
+<li>
+<a href="#pmc" class="level1">pmc</a></li>
+<li>
+<a href="#pmr" class="level1">pmr</a></li>
+<li>
+<a href="#pi" class="level1">pi</a></li>
+<li>
+<a href="#pi1" class="level1">pi#</a></li>
+<li>
+<a href="#mi" class="level1">mi</a></li>
+<li>
+<a href="#nb" class="level1">nb</a></li>
+<li>
+<a href="#cls" class="level1">cls</a></li>
+<li>
+<a href="#li" class="level1">li</a></li>
+<li>
+<a href="#li1" class="level1">li#</a></li>
+<li>
+<a href="#pc" class="level1">pc</a></li>
+<li>
+<a href="#pr" class="level1">pr</a></li>
+<li>
+<a href="#ph" class="level1">ph</a></li>
+<li>
+<a href="#ph1" class="level1">ph#</a></li>
+<li>
+<a href="#b" class="level1">b</a></li>
+</ul>
+</div>
+<!-- Table of Contents End -->
+<p><a href="usfm_syntax.html">Syntax notes.</a></p>
+<h3><a name="p"></a>p</h3>
+<p>\p(_Sample text...)</p>
+<p>* Normal paragraph.</p>
+<p>* Followed immediately by a space and paragraph text, or by a new line and
+a verse marker.</p>
+<p>Example of use (TEV Mrk 1):</p>
+<pre>\c 1
+\s The Preaching of John the Baptist
+\r (Matthew 3.1-12; Luke 3.1-18; John 1.19-28)
+\p
+\v 1 This is the Good News about Jesus Christ, the Son of God.
+\v 2 It began as the prophet Isaiah had written:
+\q1 ?God said, ?I will send my messenger ahead of you
+\q2 to open the way for you.?
+\q1
+\v 3 Someone is shouting in the desert,
+\q2 ?Get the road ready for the Lord;
+\q2 make a straight path for him to travel!??
+\p
+\v 4 So John appeared in the desert, baptizing and preaching.
+?Turn away from your sins and be baptized,?</pre>
+<h3><a name="m"></a>m</h3>
+<p>\m(_Sample text...)</p>
+<p>* Flush left (margin) paragraph.</p>
+<p>* No first line indent.</p>
+<p>* Followed immediately by a space and paragraph text, or by a new line and
+a verse marker.</p>
+<p>* Usually used to resume prose at the margin (without indent) after poetry
+or OT quotation etc. (continuation of previous paragraph).</p>
+<p>Example of use (TEV 1Co 1.20):</p>
+<pre>\v 18 For the message about Christ's death on the cross is
+nonsense to those who are being lost; but for us who are being
+saved it is God's power.
+\v 19 \x - \xo 1.19: \xt Isa 29.14 (LXX).\x* The scripture says,
+\q1 ?I will destroy the wisdom of the wise
+\q2 and set aside the understanding of the scholars.?
+\b
+\m
+\v 20 So then, where does that leave the wise? or the scholars?
+or the skillful debaters of this world? God has shown that this
+world's wisdom is foolishness!
+\p
+\v 21 \x - \xo 1.21: \xdc Ws 13.1-9.\x* For God in his wisdom made
+it impossible for people to know him by means of their own wisdom.</pre>
+<h3><a name="pmo"></a>pmo</h3>
+<p>\pmo_</p>
+<p>* Embedded text opening.</p>
+<p>Example of use (NIV Act 15.23):</p>
+<pre>\p
+\v 22 Then the apostles and elders, with the whole church,
+decided to choose some of their own men and send them to
+Antioch with Paul and Barnabas. They chose Judas (called
+Barsabbas) and Silas, two men who were leaders among the brothers.
+\v 23 With them they sent the following letter:
+\pmo The apostles and elders, your brothers,
+\pmo To the Gentile believers in Antioch, Syria and Cilicia:
+\pmo Greetings.
+\b
+\pm
+\v 24 We have heard that some went out from us without our
+authorization and disturbed you, troubling your minds by what
+they said.</pre>
+<h3><a name="pm"></a>pm</h3>
+<p>\pm_</p>
+<p>* Embedded text paragraph.</p>
+<p>Example of use (NIV Act 15.24-29):</p>
+<pre>\pmo Greetings.
+\b
+\pm
+\v 24 We have heard that some went out from us without our
+authorization and disturbed you, troubling your minds by what
+they said.
+\v 25 So we all agreed to choose some men and send them to you
+with our dear friends Barnabas and Paul--
+\v 26 men who have risked their lives for the name of our Lord
+Jesus Christ.
+\v 27 Therefore we are sending Judas and Silas to confirm by
+word of mouth what we are writing.</pre>
+<h3><a name="pmc"></a>pmc</h3>
+<p>\pmc_</p>
+<p>* Embedded text closing.</p>
+<p>Example of use (NIV Act 15.29):</p>
+<pre>\v 29 You are to abstain from food sacrificed to idols, from
+blood, from the meat of strangled animals and from sexual
+immorality. You will do well to avoid these things.
+\pmc Farewell.
+\p
+\v 30 The men were sent off and went down to Antioch, where
+they gathered the church together and delivered the letter.</pre>
+<h3><a name="pmr"></a>pmr</h3>
+<p>\pmr_</p>
+<p>* Embedded text refrain.</p>
+<p>Example of use (NIV84 Deuteronomy 27):</p>
+<pre>\pm
+\v 16 "Cursed is the man who dishonors his father or his mother."
+\pmr Then all the people shall say, "Amen!"
+\pm
+\v 17 "Cursed is the man who moves his neighbor's boundary stone."
+\pmr Then all the people shall say, "Amen!"
+\pm
+\v 18 "Cursed is the man who leads the blind astray on the road."
+\pmr Then all the people shall say, "Amen!"
+\pm
+\v 19 "Cursed is the man who withholds justice from the alien,
+the fatherless or the widow."
+\pmr Then all the people shall say, "Amen!"</pre>
+<h3><a name="pi"></a>pi</h3>
+<p>\pi(_Sample text...)</p>
+<p>* Indented paragraph.</p>
+<p>* \pi = \pi1 - This version may be used when only one level of \pi is in
+use within the project. See \pi# below</p>
+<p>* See also \pm.</p>
+<h3><a name="pi1"></a>pi#</h3>
+<p>\pi#(_Sample text...)</p>
+<p>* See \p above.</p>
+<p>* The variable # represents the level of indent.</p>
+<p>* Numbers should only be included when more than one level this marker is
+used within the project text.</p>
+<h3><a name="mi"></a>mi</h3>
+<p>\mi_</p>
+<p>* An indented flush left paragraph.</p>
+<p>* No first line indent</p>
+<p>* See also \pmo and \pmc.</p>
+<h3><a name="nb"></a>nb</h3>
+<p>\nb</p>
+<p>* Paragraph - no break with previous paragraph.</p>
+<p>* Usually used in a case where the previous paragraph span the chapter
+boundary.</p>
+<p>Example of use (TEV NUM 22.41?23.1; NRSV John 7.53?8.2):</p>
+<pre>\p
+\v 41 Next morning Balak took Balaam up to Bamoth Baal, from
+where Balaam could see a part of the people of Israel.</pre>
+<p>and from the next file</p>
+<pre>\id NUM TEVNUM.23
+\c 23
+\nb
+\v 1 He said to Balak, ?Build seven altars here for me, and
+bring me seven bulls and seven rams.?</pre>
+<pre>\s1 The Woman Caught in Adultery
+\p [
+\v 53 Then each of them went home,
+\c 8
+\nb
+\v 1 while Jesus went to the Mount of Olives.
+\v 2 Early in the morning he came again</pre>
+<h3><a name="cls"></a>cls</h3>
+<p>\cls_text</p>
+<p>* Closure of an epistle.</p>
+<p>* Similar to "With love," or "Sincerely yours,".</p>
+<h3><a name="li"></a>li</h3>
+<p>\li(_Sample text...)</p>
+<p>* List tem.</p>
+<p>* An outdented paragraph meant to highlight the enumerated items of a
+list.</p>
+<p>* Lists may also be used to markup the elements of a recurrent structure,
+such as the days within the creation account, or the Decalogue (10
+commandments).</p>
+<p>* \li = \li1 - This version may be used when only one level of \li is in
+use within the project. See \li# below</p>
+<h3><a name="li1"></a>li#</h3>
+<p>\li#(_Sample text...)</p>
+<p>* See \li above.</p>
+<p>* The variable # represents the level of indent.</p>
+<p>* Numbers should only be included when more than one level this marker is
+used within the project text.</p>
+<p>Example of use (TEV Num 7.84; NIV Gen 1.3?2.3):</p>
+<pre>\p
+\v 84-88 The totals of the offerings brought by the twelve
+leaders for the dedication of the altar were as follows:
+\li ?twelve silver bowls and twelve silver basins weighing
+a total of 60 pounds
+\li ?twelve gold dishes weighing a total of 48 ounces, filled
+with incense
+\li ?twelve bulls, twelve rams, and twelve one-year-old lambs,
+plus the grain offerings that go with them, for the burnt
+offerings
+\li ?twelve goats for the sin offerings
+\li ?twenty-four bulls, sixty rams, sixty goats, sixty
+one-year-old lambs, for the fellowship offerings</pre>
+<pre>\c 1
+\s1 The Beginning
+\pi
+\v 1 In the beginning God created the heavens and the earth.
+\v 2 Now the earth was formless and empty, darkness was over
+the surface of the deep, and the Spirit of God was hovering over
+the waters.
+\b
+\li1
+\v 3 And God said, ?Let there be light,? and there was light.
+\v 4 God saw that the light was good, and he separated the light
+from the darkness.
+\v 5 God called the light ?day,? and the darkness he called ?night.?
+And there was evening, and there was morning--the first day.
+\li1
+\v 6 And God said, ?Let there be an expanse between the waters
+to separate water from water.?
+\v 7 So God made the expanse and separated the water under the
+expanse from the water above it. And it was so.
+\v 8 God called the expanse ?sky.? And there was evening,
+and there was morning--the second day.</pre>
+<h3><a name="pc"></a>pc</h3>
+<p>\pc(_Sample text...)</p>
+<p>* Centered paragraph.</p>
+<p>* Recommended use: For (scriptural) inscriptions.</p>
+<p>Example of use (CEV Rev 7.5 &amp; NRSV Zec 12.1):</p>
+<pre>\v 4 The woman was dressed in purple and scarlet robes, and she
+wore jewelry made of gold, precious stones, and pearls. In her
+hand she held a gold cup filled with the filthy and nasty things
+she had done.
+\v 5 On her forehead a mysterious name was written:
+\pc I AM THE GREAT CITY OF BABYLON, THE MOTHER OF EVERY IMMORAL
+AND FILTHY THING ON EARTH.
+\m
+\v 6 I could tell that the woman was drunk on the blood of God's
+people who had given their lives for Jesus. This surprising sight
+amazed me,</pre>
+<h3><a name="pr"></a>pr</h3>
+<p>\pr(_Sample text...)</p>
+<p>* Right-aligned paragraph.</p>
+<p>* DEPRECATED: Use is strongly discouraged.</p>
+<p>* Recommended alternative: See \pmr - Embedded text refrain.</p>
+<h3><a name="ph"></a>ph</h3>
+<p>\ph(_Sample text...)</p>
+<p>* Indented paragraph with hanging indent.</p>
+<p>* DEPRECATED: Use is strongly discouraged.</p>
+<p>* Recommended alternative: See \li - List item.</p>
+<p>* \ph = \ph1 - This version may be used when only one level of \ph is in
+use within the project. See \ph# below</p>
+<h3><a name="ph1"></a>ph#</h3>
+<p>\ph#(_Sample text...)</p>
+<p>* See \ph above.</p>
+<p>* The variable # represents the level of overall paragraph indent.</p>
+<p>* Numbers should only be included when more than one level this marker is
+used within the project text.</p>
+<h3><a name="b"></a>b</h3>
+<p>\b</p>
+<p>* Blank line</p>
+<p>* May be used to explicitely indicate additional white space between
+paragraphs</p>
+<p>* See also Poetry Elements \b (used for stanza breaks in poetry, or
+between poetry and prose).</p>
+<p>* No text should follow this marker, and it should not be used before or
+after titles.</p>
+</body>
+</html>

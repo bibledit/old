@@ -1,0 +1,116 @@
+This is a description how Bibledit was ported to the Windows platform.
+The solution was chosen to compile on a Windows host with MinGW.
+
+
+The libgen.h header.
+This is not in MinGW.
+The solution was to remove the need for libgen.h.
+
+
+Package sqlite3.
+Solution: from www.sqlite.org the source tarball was downloaded and installed
+on Windows, using ./configure --prefix=/usr; make; make install.
+
+
+TCP/IP communications in windowsoutpost.h/cpp.
+Some header files were not found, e.g. inet.h, netdb.h, netinet/in.h, socket.h.
+The best thing to do seems to port these portion to using winsock.h instead.
+Sources:
+http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnucmg/html/UCMGch10.asp
+section Sockets and Networking, and the links on that page to the Winsock
+documentation.
+http://www.google.com/search?hl=en&q=ioctl.h+site%3Amsdn.microsoft.com&btnG=Google+Search
+The temporal solution is to remove support for the Outpost for the time being.
+todo Port TCP/IP communications to winsock.h
+
+
+TCP/IP communications in httpd.h.
+Some header files were not found, e.g. inet.h, netdb.h, netinet/in.h, socket.h.
+The best thing to do seems to port these portion to using winsock.h instead.
+Sources:
+http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnucmg/html/UCMGch10.asp
+section Sockets and Networking, and the links on that page to the Winsock
+documentation.
+http://www.google.com/search?hl=en&q=ioctl.h+site%3Amsdn.microsoft.com&btnG=Google+Search
+The temporal solution is to remove support for the httpd for the time being.
+todo Port TCP/IP communications to winsock.h
+
+
+Filename matching.
+Header file fnmatch.h not found.
+Used in referenceutils.cpp, bible.cpp, tidy.cpp.
+Glib has Glob-style pattern matching that could be used for a replacement, but
+it does not support the '[...]' character ranges that bibledit needs.
+Solution: Use a unix wrapper for it, so that the original fnmatch is used on
+Unix, and a wrapper for on Windows.
+Take some version of fnmatch.h and fnmatch.c, and insert it in our code.
+
+
+Linux Sigals.
+Information: search in google for: SIGPIPE site:msdn.microsoft.com
+SIGPIPE undeclared, and SIGUSR1 too. Happens in mainwindow.cpp.
+Solution: Don't use them in Windows.
+
+
+File #include <sys/utsname.h> not found.
+Solution: If WIN32 is defined, skip the function using this header file, and
+just return the Windows variable.
+
+
+Date and time functions, localtime_r was undeclared.
+Solution: Use Glib's portable date and time functions.
+
+
+Function getuid () not declared on Windows.
+Solution: Don't use it on Windows.
+
+
+During linking, it does not find fnmatch.
+Solution: Don't use that library on Windows. Compile fnmatch.h/c and include
+the files.
+
+
+Using amperand (&) to start programs in the background through system() 
+doesn't work. It waits till the child is ready.
+Solution: Use Glib's functions for spawning processes.
+
+
+A DOS box becomes visible in Windows.
+Solution: In the link step add a -mwindows switch to the command line.
+Add this switch in the autotools using a WIN32 definition.
+
+
+Creating directories that already exist.
+In Unix, the --parent switch ensures no complains are made about that.
+In Windows, the native mkdir complains.
+Solution: Let it write the output to /dev/null, or "nul" on Windows.
+
+
+PACKAGE_DATA_DIR is not found on Windows.
+Solution: Use a wrapper that works both in Linux and Windows.
+
+
+Subprocessed called create a DOS window.
+Solution: http://www.codeproject.com/win32/runsilent.asp.
+Let the popen calls go through the new spawning object too.
+todo: See http://delphi.about.com/od/windowsshellapi/l/aa080304a.htm, or search
+google for "listing windows".
+
+
+Processes are not seen with "ps ax".
+Solution:
+todo: Solve
+
+
+When asking Yes/No, the wrong button has focus, see when deleting note.
+todo: Solve.
+
+
+Zip and unzip are not found on Windows.
+Solution: Download the zip and unzip packages from http://www.info-zip.org
+and include the two executables with the installation package.
+todo: Include in installation package.
+
+
+Terminating process.
+todo: See http://win32.mvps.org/processes/fkill.cpp

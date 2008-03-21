@@ -1,0 +1,119 @@
+/*
+** Copyright (©) 2003-2008 Teus Benschop.
+**  
+** This program is free software; you can redistribute it and/or modify
+** it under the terms of the GNU General Public License as published by
+** the Free Software Foundation; either version 3 of the License, or
+** (at your option) any later version.
+**  
+** This program is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+** GNU General Public License for more details.
+**  
+** You should have received a copy of the GNU General Public License
+** along with this program; if not, write to the Free Software
+** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+**  
+*/
+
+
+#include "libraries.h"
+#include "shell.h"
+#include "gwrappers.h"
+#include "directories.h"
+#include "utilities.h"
+#include "gtkwrappers.h"
+#include "progresswindow.h"
+#include "unixwrappers.h"
+#include "tiny_utilities.h"
+
+
+bool program_is_running (const ustring & commandline)
+// Returns true if the program given on "commandline" is running.
+{
+  return (programs_running_count (commandline) > 0);
+}
+
+
+int programs_running_count (const ustring & commandline)
+// Returns how many times the program given on "commandline" is running.
+{
+  // Run the process status program.
+  GwSpawn spawn ("ps");
+  spawn.arg ("ax");
+  spawn.read ();
+  spawn.run ();
+  // Usage count.
+  int count = 0;
+  for (unsigned int i = 0; i < spawn.standardout.size(); i++)
+    if (spawn.standardout[i].find (commandline) != string::npos)
+      count++;
+  // Return the count.
+  return count;
+}
+
+
+bool program_is_running_basic (const ustring & program)
+// Returns true if the program given running.
+{
+  return (programs_running_count_basic (program) > 0);
+}
+
+
+int programs_running_count_basic (const ustring & program)
+// Returns how many times the program given is running.
+{
+  // Run the process status program.
+  GwSpawn spawn ("ps");
+  spawn.arg ("-e");
+  spawn.read ();
+  spawn.run ();
+  // Usage count.
+  int count = 0;
+  for (unsigned int i = 0; i < spawn.standardout.size(); i++) {
+    ustring line = spawn.standardout[i];
+    size_t position = line.rfind (" ");
+    line.erase (0, position);
+    line = trim (line);
+    if (line == program) {
+      count++;
+    }
+  }
+  // Return the count.
+  return count;
+}
+
+
+ustring shell_quote_space (const ustring& filename)
+// Puts quotes and spaces around a filename, making it fit for the shell.
+// Example: /home/user/John Johnson/.bibledit/projects/test/Genesis
+// becomes: '/home/user/John Johnson/.bibledit/projects/test/Genesis'
+// with an extra space prefixed and suffixed.
+// Unix does not allow spaces in the user names, at the time of writing,
+// but Windows does.
+// This function was introduced to address this situation, but has a wider
+// use too.
+// In Windows, do not quote the name if it contains no space.
+// Quoting the /s of the rmdir command, for example, confused the command.
+{
+  ustring quotedname;
+  #ifdef WIN32
+  if (filename.find (" ") != string::npos) quotedname = " \"" + filename + "\" ";
+  else quotedname = " " + filename + " ";
+  #endif
+  #ifndef WIN32
+  quotedname = " '" + filename + "' ";
+  #endif
+  return quotedname;
+}
+
+
+ustring shell_clean_filename (const ustring& filename)
+// Replace characters like ' and / occur in the filename with _.
+{
+  ustring cleanfile (filename);
+  replace_text (cleanfile, "'", "_");
+  replace_text (cleanfile, "/", "_");
+  return cleanfile;
+}

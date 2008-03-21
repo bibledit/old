@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux/x86 (vers 1st September 2004), see www.w3.org" />
+<meta content="text/html; charset=utf-8" http-equiv=
+"content-type" />
+<title>Bibledit</title>
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h2><a name="installsword"></a>Install SWORD</h2>
+<p>The SWORD converters are used by Bibledit when converting a
+project into a SWORD module. These converters are part of the SWORD
+API. To get the converters to work the whole API needs to be
+installed.</p>
+<p>Install it all this way:</p>
+<p>Download the SWORD API for Linux from <a href=
+"http://www.crosswire.org/sword/software">http://www.crosswire.org/sword/software</a>
+and put it in the home directory.</p>
+<p>Open a terminal.</p>
+<p>To verify the package is there, type</p>
+<pre>
+ls
+</pre>
+<p>A file like sword-x.x.x.tar.gz should be visible there. The
+x.x.x. represents the version number.</p>
+<p>To unpack the compressed tarball, type</p>
+<pre>
+tar zxf sword-x.x.x.tar.gz
+</pre>
+<p>To go into the subdirectory created, type</p>
+<pre>
+cd sword-x.x.x
+</pre>
+<p>To configure the package, type</p>
+<pre>
+configure --prefix=/usr
+</pre>
+<p>To compile the package, type</p>
+<pre>
+make
+</pre>
+<p>To install the package, type</p>
+<pre>
+sudo make install
+</pre>
+</body>
+</html>

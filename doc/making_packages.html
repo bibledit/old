@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>   <meta content="text/html; charset=UTF-8" http-equiv="content-type" />   <title>Bibledit</title>
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h2><a name="makingpackages"></a>Making Packages</h2>
+<!-- Table of Contents Start -->
+<div id="toc">
+<ul>
+<li>
+<a href="#introduction" class="level1">Introduction</a></li>
+<li>
+<a href="#bibledit" class="level1">Bibledit</a></li>
+<li>
+<a href="#notes" class="level1">Notes</a></li>
+</ul>
+</div>
+<!-- Table of Contents End -->
+<h3><a name="introduction"></a>Introduction</h3>
+<p>Normally software is installed by compiling and installing it. This
+requires all kinds of development tools to be present on the computer, and a
+good number of steps to be taken.</p>
+<p>Packages with pre-compiled software make installing the programs much
+quicker and easier.</p>
+<p>Below you'll find steps to follow to create packages for Bibledit and its
+dependencies.</p>
+<p>Ensure you have package "checkinstall" installed.</p>
+<p>Making a package for Bibledit usually means making packages for its
+dependencies as well, in most cases aqlite3.</p>
+<p>First thing to do it to install bibledit and make sure it works well. See
+installation for helpful notes. Do not remove the package directory, because
+it is needed.</p>
+<h3><a name="bibledit"></a>Bibledit</h3>
+<p>To make a package for Bibledit, follow these steps.</p>
+<p>Enter the directory of the bibledit package, by typing</p>
+<pre>cd
+cd bibledit-x.x</pre>
+<p>To start making a package, type</p>
+<pre>sudo /usr/local/sbin/checkinstall</pre>
+<p>Answer all the questions that checkinstall asks you. Of importance is that
+it requires. Then finish the process.</p>
+<p>At the end it will say that a package has been created and where it has
+been stored.</p>
+<p>Copy that package to the home directory.</p>
+<p>To install that package, type</p>
+<pre>cd
+sudo rpm -Uhv bibledit-x.x.x-1.i386.rpm</pre>
+<p>If all went fine, that means the package is ready.</p>
+<h3><a name="notes"></a>Notes</h3>
+<p>The instructions speak about RPM packages. But checkinstall can also make
+Slackware and Debian packages. And Debian packages are supposed to work on
+Ubuntu too. </p>
+</body>
+</html>

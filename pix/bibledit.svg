@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.0"
+   width="50"
+   height="50"
+   id="svg2">
+  <defs
+     id="defs11" />
+  <rect
+     width="41.573277"
+     height="19.25934"
+     x="4.6107869"
+     y="26.234648"
+     style="fill:white;fill-opacity:1;stroke:black;stroke-width:2.62175131;stroke-opacity:1"
+     id="rect4" />
+  <path
+     d="M 16.461917 9.5823097 A 3.6240785 4.1769042 0 1 1  9.2137597,9.5823097 A 3.6240785 4.1769042 0 1 1  16.461917 9.5823097 z"
+     transform="matrix(1.37687,0,0,1.37687,14.21804,-5.968337)"
+     style="fill:black;fill-opacity:1;stroke-width:8.48999977;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none"
+     id="path4720" />
+  <rect
+     width="1.8427519"
+     height="17.690418"
+     x="24.815725"
+     y="26.904177"
+     style="fill:black;fill-opacity:1;stroke-width:8.48999977;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none"
+     id="rect4722" />
+  <rect
+     width="7.4938574"
+     height="0"
+     x="38.697788"
+     y="17.690418"
+     style="fill:black;fill-opacity:1;stroke-width:8.48999977;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none"
+     id="rect4726" />
+  <text
+     x="2.3341522"
+     y="22.727274"
+     style="font-size:12px;font-style:normal;font-weight:normal;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+     id="text4730"
+     xml:space="preserve"><tspan
+       x="2.3341522"
+       y="22.727274"
+       id="tspan4732">Bibledit</tspan></text>
+</svg>

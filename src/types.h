@@ -1,0 +1,69 @@
+/*
+** Copyright (©) 2003-2008 Teus Benschop.
+**  
+** This program is free software; you can redistribute it and/or modify
+** it under the terms of the GNU General Public License as published by
+** the Free Software Foundation; either version 3 of the License, or
+** (at your option) any later version.
+**  
+** This program is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+** GNU General Public License for more details.
+**  
+** You should have received a copy of the GNU General Public License
+** along with this program; if not, write to the Free Software
+** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+**  
+*/
+
+
+#ifndef INCLUDED_TYPES_H
+#define INCLUDED_TYPES_H
+
+
+typedef vector <ustring> VectorUstring;
+
+enum NoteType {indtFootnote, indtEndnote, indtCrossreference};
+enum NumberingType {ntAutomatic, ntNone, ntCharacter};
+
+enum SearchResultsType {sstLoad, sstAdd, sstSubtract, sstShare};
+
+enum SearchBibleTimeType {sbttDefaultBible, sbttOpenModules, sbttBible, sbttCommentary};
+
+enum CheckSortType {cstSort0, cstSort1, cstSort2, cstSort3};
+
+enum AreaType {atRaw, atAll, atSelection};
+
+enum ImportType {itUsfm, itBibleWorks, itMechonMamre};
+
+enum WineType {wtWine, wtCxoffice, wtUnknown};
+
+enum OriginReferencesActionType {oratNothing, oratRemoveReferences, oratAddReference, oratTextLabels };
+
+enum GitTaskType {gttInitializeProject, gttCommitProject, gttStoreChapter, gttUpdateProject};
+
+enum StylesheetType {stBasic, stBasicParagraph, stBasicParagraphWordNote, 
+                     stSilBestPractice, stFull};
+
+enum ToolsAreaPageNumberType {tapntReferences, tapntStyles, tapntProjectNote,
+                              tapntKeyterms, tapntOutline, tapntResources,
+                              tapntMerge, tapntEnd};
+
+enum NotesSelectionReferenceType {nsrtCurrentVerse, nsrtCurrentChapter, nsrtCurrentBook, nsrtAny};
+enum NotesSelectionEditedType {nsetToday, nsetDateRange, nsetAny};
+                              
+enum ResourceType {
+  rtForeignDataURLForEachVerse,
+  rtIndexFileOnFlyForEachVerseWithDifferentAnchors,
+  rtURLForEachVerse,
+  rtEnd
+};
+
+enum ResourceConversionType {
+  rctChapterStartsAtPatternVerseOneStartsAtChapterVerseStartsAtPattern,
+  rctEnd
+};
+
+
+#endif

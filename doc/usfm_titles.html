@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>   <meta content="text/html; charset=UTF-8" http-equiv="content-type" />   <title>Bibledit</title>
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h2><a name="titles"></a>Titles</h2>
+<!-- Table of Contents Start -->
+<div id="toc">
+<ul>
+<li>
+<a href="#mt" class="level1">mt</a></li>
+<li>
+<a href="#mt1" class="level1">mt#</a></li>
+<li>
+<a href="#mte" class="level1">mte</a></li>
+<li>
+<a href="#mte1" class="level1">mte#</a></li>
+<li>
+<a href="#d" class="level1">d</a></li>
+</ul>
+</div>
+<!-- Table of Contents End -->
+<p><a href="usfm_syntax.html">Syntax notes.</a></p>
+<h3><a name="mt"></a>mt</h3>
+<p>\mt_Sample text...</p>
+<p>* Major title.</p>
+<p>* The key components in the title of a biblical book.</p>
+<p>* \mt = \mt1 - This version may be used when only one level or portion of
+\mt is in use within the project. See \mt# below.</p>
+<h3><a name="mt1"></a>mt#</h3>
+<p>\mt#_Sample text...</p>
+<p>* See \mt above.</p>
+<p>* The variable # represents a portion of a major title, with the lesser
+emphasis (relative weighting) being on the higher numbers.</p>
+<p>* Numbers should only be included when more than one level this marker is
+used within the project text.</p>
+<p>Example of use (TEV Intro to Act - \mt1, \mt2):</p>
+<pre>\h Acts
+\mt1 THE ACTS
+\mt2 of the Apostles
+\imt Introduction
+\ip \bk The Acts of the Apostles\bk* is a continuation
+of \bk The Gospel according to Luke\bk*</pre>
+<p>Example of use (TEV Intro to Jhn - \mt3):</p>
+<pre>\h John
+\mt2 The Gospel
+\mt3 according to
+\mt1 John</pre>
+<h3><a name="mte"></a>mte</h3>
+<p>\mte_Sample text...</p>
+<p>* Major title at ending.</p>
+<p>* Components in the title of a biblical book repeated at the end of the
+book.</p>
+<p>* The content is not usually identical to \mt#.</p>
+<p>* \mte = \mte1 - This version may be used when only one level or portion
+of \mte is in use within the project. See \mte# below.</p>
+<h3><a name="mte1"></a>mte#</h3>
+<p>\mte#_Sample text...</p>
+<p>* See \mte above.</p>
+<p>* The variable # represents a portion of a major title at ending, with the
+lesser emphasis (relative weighting) being on the higher numbers.</p>
+<p>Example of use (JHN):</p>
+<pre>\mte The End of the Gospel of John</pre>
+<h3><a name="d"></a>d</h3>
+<p>\d_Sample text...</p>
+<p>* Descriptive title (or Hebrew subtitle)</p>
+<p>* Sometimes used in Psalms under the section title (e.g. Psalms Choir
+master).</p>
+<p>Example of use (NIV Psa 42.1):</p>
+<pre>\c 42
+\ms1 BOOK II
+\mr Psalms 42-72
+\d For the director of music. A \em maskil\em* of the
+Sons of Korah.
+\b
+\q1
+\v 1 As the deer pants for streams of water,
+\q2 so my soul pants for you, O God.
+\q1
+\v 2 My soul thirsts for God, for the living God.
+\q2 When can I go and meet with God?</pre>
+</body>
+</html>

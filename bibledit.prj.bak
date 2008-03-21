@@ -1,0 +1,855 @@
+# Anjuta Version 1.2.4a 
+Compatibility Level: 1 
+
+<PROJECT_DESCRIPTION_START>
+<PROJECT_DESCRIPTION_END>
+<CONFIG_PROGS_START>
+<CONFIG_PROGS_END>
+<CONFIG_LIBS_START>
+<CONFIG_LIBS_END>
+<CONFIG_HEADERS_START>
+<CONFIG_HEADERS_END>
+<CONFIG_CHARACTERISTICS_START>
+<CONFIG_CHARACTERISTICS_END>
+<CONFIG_LIB_FUNCS_START>
+<CONFIG_LIB_FUNCS_END>
+<CONFIG_ADDITIONAL_START>
+<CONFIG_ADDITIONAL_END>
+<CONFIG_FILES_START>
+<CONFIG_FILES_END>
+<MAKEFILE_AM_START>
+<MAKEFILE_AM_END>
+
+props.file.type=project
+
+anjuta.version=1.2.4a
+anjuta.compatibility.level=1
+
+project.name=bibledit
+project.type=GTK
+project.target.type=EXECUTABLE
+project.version=x.x
+project.author=Teus Benschop
+project.source.target=bibledit
+project.has.gettext=0
+project.gui.command=
+project.programming.language=C_C++
+project.excluded.modules=intl
+
+project.config.extra.modules.before=
+project.config.extra.modules.after=
+project.config.blocked=1
+project.config.disable.overwriting=1 1 1 1 1 1 1 1 1 
+
+project.menu.entry=bibledit Version 0.6
+project.menu.group=Application
+project.menu.comment=bibledit Version 0.6
+project.menu.icon=
+project.menu.need.terminal=0
+
+project.configure.options=
+anjuta.program.arguments=
+preferences.build.option.jobs=0
+preferences.build.option.silent=0
+preferences.build.option.autosave=1
+preferences.make=make
+preferences.build.option.keep.going=1
+preferences.build.option.warn.undef=0
+preferences.autoformat.custom.style= -i2 -sc -bli0 -bl0 -cbi0 -ss --honour-newlines --line-length100
+preferences.indent.opening=0
+preferences.autoformat.disable=0
+preferences.indent.automatic=1
+preferences.use.tabs=0
+preferences.indent.size=2
+preferences.tabsize=8
+preferences.indent.closing=0
+
+module.include.name=.
+module.include.type=
+module.include.files=\
+	config.h\
+	src/dialoggotoreference.h\
+	src/dialogprogress.h\
+	src/dialogreplace.h\
+	src/stylesheetutils.h\
+	src/utilities.h\
+	src/sqlite3_plus.h\
+	src/constants.h\
+	src/stylesheet.h\
+	src/ustring-glib.h\
+	src/ustring-utility.h\
+	src/dialogwait.h\
+	src/ustring.h\
+	src/usfm.h\
+	src/dialogshowscript.h\
+	src/dialogfind.h\
+	src/backup.h\
+	src/language.h\
+	src/referenceutils.h\
+	src/dialogsearchspecial.h\
+	src/dialogselectbooks.h\
+	src/html.h\
+	src/track.h\
+	src/worddatabase.h\
+	src/mainwindow.h\
+	src/undo.h\
+	src/sqlite3_internal.h\
+	src/languages.h\
+	src/projectutils.h\
+	src/dialogcompanion.h\
+	src/windowscompanionremote.h\
+	src/dialogopen.h\
+	src/book.h\
+	src/stylesheets.h\
+	src/chapter.h\
+	src/configuration.h\
+	src/windowscompanionlocal.h\
+	src/dialogprojects.h\
+	src/log.h\
+	src/project.h\
+	src/htmlbrowser.h\
+	src/exception.h\
+	src/dialogstylesheets.h\
+	src/languageutils.h\
+	src/dialogunicode.h\
+	src/dialoglanguage.h\
+	src/dialogproject.h\
+	src/dialogreplacing.h\
+	src/usfmtools.h\
+	src/scripture.h\
+	src/projects.h\
+	src/directories.h\
+	src/dialogstylesheet.h\
+	src/dialogimportsfm.h\
+	src/libraries.h\
+	src/dialoglanguages.h\
+	src/bible.h\
+	src/dialogconvert2web.h\
+	src/dialogprintreferences.h\
+	src/docbook.h\
+	src/docbook_utils.h\
+	src/pdfviewer.h\
+	src/references.h\
+	src/windowscompanion.h\
+	src/docbook_book.h\
+	src/docbook_list.h\
+	src/html_list.h\
+	src/html_utils.h\
+	src/html_book.h\
+	src/notes_utils.h\
+	src/date_time_utils.h\
+	src/dialogfindnote.h\
+	src/dialogimportnotes.h\
+	src/dialogentry.h\
+	src/dialogcompare.h\
+	src/compareutils.h\
+	src/export_utils.h\
+	src/bibletime.h\
+	src/dialogbibletime.h\
+	src/printreferences.h\
+	src/dialogprintprefs.h\
+	src/paper.h\
+	src/xslfo_utils.h\
+	src/xmlutils.h\
+	src/dialogeditextramatter.h\
+	src/xmlfo-utils.h\
+	src/fop.h\
+	src/dialogfop.h\
+	src/java.h\
+	src/style.h\
+	src/search_utils.h\
+	src/xslformatter.h\
+	src/progress.h\
+	src/dialogexportnotes.h\
+	src/formatter.h\
+	src/xep.h\
+	src/dialognotes.h\
+	src/dialogshownotes.h\
+	src/splashscreen.h\
+	src/dialogselectstyle.h\
+	src/gwrappers.h\
+	src/gtkwrappers.h\
+	src/indexstorage.h\
+	src/usfmcategories.h\
+	src/usfm-inline-markers.h\
+	src/session.h\
+	src/extra_matter_utils.h\
+	src/completion.h\
+	src/combobox.h\
+	src/keyboard.h\
+	src/listview.h\
+	src/scripturechecks.h\
+	src/versification.h\
+	src/shell.h\
+	src/dialogsynchronize.h\
+	src/scripturechecksloadresults.h\
+	src/scripturechecksdisplayresultsbrowser.h\
+	src/dialogcheck.h\
+	src/dialogignorerefs.h\
+	src/dialogeditlist.h\
+	src/test.h\
+	src/export_translation_notes.h\
+	src/sqlite_reader.h\
+	src/dialogviewresources.h\
+	src/dialogviewsubversion.h
+
+module.source.name=.
+module.source.type=
+module.source.files=\
+	src/chapter.cpp\
+	src/html.cpp\
+	src/sqlite3_command.cpp\
+	src/sqlite3_connection.cpp\
+	src/dialogselectbooks.cpp\
+	src/dialogproject.cpp\
+	src/dialoglanguage.cpp\
+	src/directories.cpp\
+	src/dialogstylesheets.cpp\
+	src/bibledit.wdb.cpp\
+	src/dialogcompanion.cpp\
+	src/stylesheetutils.cpp\
+	src/dialogconvert2web.cpp\
+	src/dialoggotoreference.cpp\
+	src/referenceutils.cpp\
+	src/language.cpp\
+	src/dialogunicode.cpp\
+	src/project.cpp\
+	src/dialogprogress.cpp\
+	src/dialogshowscript.cpp\
+	src/dialogimportsfm.cpp\
+	src/projectutils.cpp\
+	src/usfmtools.cpp\
+	src/dialogreplace.cpp\
+	src/stylesheets.cpp\
+	src/languages.cpp\
+	src/book.cpp\
+	src/windowscompanionlocal.cpp\
+	src/exception.cpp\
+	src/backup.cpp\
+	src/dialogreplacing.cpp\
+	src/utilities.cpp\
+	src/dialogsearchspecial.cpp\
+	src/bible.cpp\
+	src/bibledit.cpp\
+	src/undo.cpp\
+	src/mainwindow.cpp\
+	src/dialogopen.cpp\
+	src/windowscompanionremote.cpp\
+	src/scripture.cpp\
+	src/log.cpp\
+	src/dialogprojects.cpp\
+	src/worddatabase.cpp\
+	src/sqlite3_internal.cpp\
+	src/dialogstylesheet.cpp\
+	src/usfm.cpp\
+	src/stylesheet.cpp\
+	src/configuration.cpp\
+	src/htmlbrowser.cpp\
+	src/sqlite3_reader.cpp\
+	src/dialogwait.cpp\
+	src/languageutils.cpp\
+	src/dialoglanguages.cpp\
+	src/dialogfind.cpp\
+	src/track.cpp\
+	src/projects.cpp\
+	src/bibledit.instance.cpp\
+	src/ustring.cpp\
+	src/references.cpp\
+	src/docbook.cpp\
+	src/dialogprintreferences.cpp\
+	src/docbook_utils.cpp\
+	src/pdfviewer.cpp\
+	src/windowscompanion.cpp\
+	src/docbook_book.cpp\
+	src/docbook_list.cpp\
+	src/dialogprintproject.cpp\
+	src/html_list.cpp\
+	src/html_utils.cpp\
+	src/html_book.cpp\
+	src/dialogeditnote.cpp\
+	src/notes_utils.cpp\
+	src/date_time_utils.cpp\
+	src/dialogfindnote.cpp\
+	src/dialogimportnotes.cpp\
+	src/dialogeditnote.h\
+	src/dialogentry.cpp\
+	src/dialogcompare.cpp\
+	src/compareutils.cpp\
+	src/export_utils.cpp\
+	src/bibletime.cpp\
+	src/dialogbibletime.cpp\
+	src/printreferences.cpp\
+	src/dialogprintprefs.cpp\
+	src/paper.cpp\
+	src/xslfo_utils.cpp\
+	src/xmlutils.cpp\
+	src/dialogprintproject2.cpp\
+	src/dialogeditextramatter.cpp\
+	src/extra_matter_utils.cpp\
+	src/dialogentry3.cpp\
+	src/style.cpp\
+	src/printproject.cpp\
+	src/printproject.h\
+	src/xmlfo-utils.cpp\
+	src/fop.cpp\
+	src/dialogfop.cpp\
+	src/java.cpp\
+	src/search_utils.cpp\
+	src/xslformatter.cpp\
+	src/progress.cpp\
+	src/dialogexportnotes.cpp\
+	src/formatter.cpp\
+	src/xep.cpp\
+	src/dialognotes.cpp\
+	src/dialogshownotes.cpp\
+	src/splashscreen.cpp\
+	src/dialogselectstyle.cpp\
+	src/gwrappers.cpp\
+	src/gtkwrappers.cpp\
+	src/indexstorage.cpp\
+	src/usfm-inline-markers.cpp\
+	splash/bibleditsplash.cpp\
+	src/session.cpp\
+	src/combobox.cpp\
+	src/completion.cpp\
+	src/keyboard.cpp\
+	src/listview.cpp\
+	src/scripturechecks.cpp\
+	src/versification.cpp\
+	shell/bibledit-shell.cpp\
+	src/shell.cpp\
+	src/dialogsynchronize.cpp\
+	src/scripturechecksloadresults.cpp\
+	src/scripturechecksdisplayresultsbrowser.cpp\
+	src/dialogcheck.cpp\
+	src/dialogignorerefs.cpp\
+	src/dialogeditlist.cpp\
+	src/test.cpp\
+	src/export_translation_notes.cpp\
+	src/sqlite_reader.cpp\
+	src/indexer.cpp\
+	src/indexer.h\
+	src/indexchapter.cpp\
+	src/indexchapter.h\
+	src/dialogarea.cpp\
+	src/dialogarea.h\
+	src/types.h\
+	src/bookmetrics.cpp\
+	src/bookmetrics.h\
+	src/navigation.cpp\
+	src/navigation.h\
+	src/highlight.cpp\
+	src/highlight.h\
+	src/chapter2.cpp\
+	src/chapter2.h\
+	src/fontutils.cpp\
+	src/fontutils.h\
+	src/dialogfont.cpp\
+	src/dialogfont.h\
+	src/styletree.cpp\
+	src/styletree.h\
+	src/dialogopenstyle.cpp\
+	src/dialogopenstylesheet.cpp\
+	src/dialogopenstylesheet.h\
+	src/treeview.cpp\
+	src/treeview.h\
+	src/note_editor.cpp\
+	src/note_editor.h\
+	src/xslfofootnote.cpp\
+	src/xslfofootnote.h\
+	vacuum/bibledit-vacuum.cpp\
+	src/xslfofootnotecaller.cpp\
+	src/xslfofootnotecaller.h\
+	src/xslfofootnoteparagraph.cpp\
+	src/xslfofootnoteparagraph.h\
+	src/xslfoendnote.cpp\
+	src/xslfoendnote.h\
+	src/xslfoxref.cpp\
+	src/xslfoxref.h\
+	src/xslfonotecaller.cpp\
+	src/xslfonotecaller.h\
+	src/dialoginsertnote.cpp\
+	src/dialoginsertnote.h\
+	src/notetemplate.cpp\
+	src/notetemplate.h\
+	src/clean_usfm.cpp\
+	src/clean_usfm.h\
+	src/categorize_chapter.cpp\
+	src/categorize_chapter.h\
+	src/dialogsword.cpp\
+	src/dialogsword.h\
+	configure.ac\
+	src/dialogparallelbible.cpp\
+	src/dialogparallelbible.h\
+	src/print_parallel_bible.cpp\
+	src/print_parallel_bible.h\
+	src/book2.cpp\
+	src/book2.h\
+	src/mapping.cpp\
+	src/mapping.h\
+	src/dialoglistview.cpp\
+	src/dialoglistview.h\
+	src/swordnote.cpp\
+	src/swordnote.h\
+	src/languages.h\
+	src/osis.cpp\
+	src/osis.h\
+	src/dialogselectchapters.cpp\
+	src/dialogselectchapters.h\
+	src/portion_utils.cpp\
+	src/portion_utils.h\
+	src/dialogprintorderportion.cpp\
+	src/dialogprintorderportion.h\
+	src/scripture_reordered.cpp\
+	src/scripture_reordered.h\
+	src/editor.cpp\
+	src/editor.h\
+	src/editornote.cpp\
+	src/editornote.h\
+	src/notecaller.cpp\
+	src/notecaller.h\
+	src/editorobject.cpp\
+	src/editorobject.h\
+	src/scripting.cpp\
+	src/scripting.h\
+	src/windowsoutpost.cpp\
+	src/windowsoutpost.h\
+	src/unixwrappers.cpp\
+	src/unixwrappers.h\
+	src/htmlbrowser.h\
+	src/uname.cpp\
+	src/uname.h\
+	src/dialogformatter.cpp\
+	src/dialogformatter.h\
+	src/dialogscreenlayout.cpp\
+	src/dialogscreenlayout.h\
+	src/layout.cpp\
+	src/layout.h\
+	src/user.cpp\
+	src/user.h\
+	src/backend.cpp\
+	src/bibledit-stylesheets-upgrade.cpp\
+	src/bibledit-stylesheet-export.cpp\
+	src/import.cpp\
+	src/import.h\
+	src/clean.cpp\
+	src/clean.h\
+	src/categorize.cpp\
+	src/categorize.h\
+	src/progresswindow.cpp\
+	src/progresswindow.h\
+	src/index.cpp\
+	src/index.h\
+	src/books.cpp\
+	src/books.h\
+	src/vacuum.cpp\
+	src/vacuum.h\
+	src/dialogprintproject.h\
+	src/dialogbook.cpp\
+	src/dialogbook.h\
+	src/synchronize.cpp\
+	src/synchronize.h\
+	src/configuration2.cpp\
+	src/configuration2.h\
+	src/dialogsynchronization.cpp\
+	src/dialogsynchronization.h\
+	src/generalconfig.cpp\
+	src/generalconfig.h\
+	src/screen.cpp\
+	src/screen.h\
+	src/oldconfiguration.cpp\
+	src/oldconfiguration.h\
+	src/dialogdate.cpp\
+	src/dialogdate.h\
+	src/oldproject.cpp\
+	src/oldproject.h\
+	src/projectconfig.cpp\
+	src/projectconfig.h\
+	src/dialogrefexchange.cpp\
+	src/dialogrefexchange.h\
+	src/dialogsynchronize.h\
+	src/gui.cpp\
+	src/gui.h\
+	src/check_validate_usfm.cpp\
+	src/check_validate_usfm.h\
+	src/checks.cpp\
+	src/checks.h\
+	src/projectutilsold1.cpp\
+	src/projectutilsold1.h\
+	src/xep.h\
+	src/dialogimporttext.cpp\
+	src/dialogimporttext.h\
+	src/dialoglinecutter.cpp\
+	src/dialoglinecutter.h\
+	src/fonts.cpp\
+	src/fonts.h\
+	src/check_count_words.cpp\
+	src/check_count_words.h\
+	src/dialogoutpost.cpp\
+	src/dialogoutpost.h\
+	src/dialognotestransfer.cpp\
+	src/dialognotestransfer.h\
+	src/dialogassignbooks.cpp\
+	src/dialogassignbooks.h\
+	src/dialogtextview.cpp\
+	src/dialogtextview.h\
+	src/dialogchapternumber.cpp\
+	src/dialogchapternumber.h\
+	src/httpd.cpp\
+	src/httpd.h\
+	src/opendocument.cpp\
+	src/opendocument.h\
+	src/odtutils.cpp\
+	src/odtutils.h\
+	src/odtnotes.cpp\
+	src/odtnotes.h\
+	src/help.cpp\
+	src/help.h\
+	src/color.cpp\
+	src/color.h\
+	src/dialogmychecks.cpp\
+	src/dialogmychecks.h\
+	src/check_count_usfms.cpp\
+	src/check_count_usfms.h\
+	src/check_count_characters.cpp\
+	src/check_count_characters.h\
+	src/check_chapters_verses.cpp\
+	src/check_chapters_verses.h\
+	src/check_compare_usfm.cpp\
+	src/check_compare_usfm.h\
+	src/check_unwanted_patterns.cpp\
+	src/check_unwanted_patterns.h\
+	src/check_unwanted_words.cpp\
+	src/check_unwanted_words.h\
+	src/check_repetition.cpp\
+	src/check_repetition.h\
+	src/check_capitalization.cpp\
+	src/check_capitalization.h\
+	src/check_matching_pairs.cpp\
+	src/check_matching_pairs.h\
+	src/rc4.c\
+	src/rc4.h\
+	src/templates.cpp\
+	src/templates.h\
+	src/dialogoriginreferences.cpp\
+	src/dialogoriginreferences.h\
+	src/originreferences.cpp\
+	src/originreferences.h\
+	src/dialogtidy.cpp\
+	src/dialogtidy.h\
+	src/shortcuts.cpp\
+	src/shortcuts.h\
+	src/tidy.cpp\
+	src/tidy.h\
+	src/upgrade.cpp\
+	src/upgrade.h\
+	src/projectutilsold2.cpp\
+	src/projectutilsold2.h\
+	src/dialogprintportion.cpp\
+	src/dialogprintportion.h\
+	src/keyterms.cpp\
+	src/keyterms.h\
+	src/dialognotesupdate.cpp\
+	src/dialognotesupdate.h\
+	src/keytermsgui.cpp\
+	src/keytermsgui.h\
+	src/g_object.cpp\
+	src/g_object.h\
+	src/guiselectproject.cpp\
+	src/guiselectproject.h\
+	src/check_markers_spacing.cpp\
+	src/check_markers_spacing.h\
+	src/gui_navigation.cpp\
+	src/gui_navigation.h\
+	windows/PORTING\
+	src/bfnmatch.c\
+	src/bfnmatch.h\
+	src/fnmatch.c\
+	src/fnmatch.h\
+	src/fnmatch_loop.c\
+	src/bfnmatch_loop.c\
+	src/statistics.cpp\
+	src/statistics.h\
+	src/backup.h\
+	src/dialogbackup.cpp\
+	src/dialogbackup.h\
+	src/subversion.cpp\
+	src/subversion.h\
+	src/dialogviewsubversion.cpp\
+	src/dialogviewsubversion.h\
+	src/dialogsubversionadd.cpp\
+	src/dialogsubversionadd.h\
+	src/dialogsubversionsetup.cpp\
+	src/dialogsubversionsetup.h\
+	src/projectutilsold.cpp\
+	src/projectutilsold.h\
+	src/dialogchanges.cpp\
+	src/dialogchanges.h\
+	src/dialogrevert.cpp\
+	src/dialogrevert.h\
+	src/dialogselectbooks2.cpp\
+	src/dialogselectbooks2.h\
+	src/bibledit-bibletime.cpp\
+	scripts/bibledit\
+	src/bibledit-subversion.cpp\
+	src/subversion2.cpp\
+	src/subversion2.h\
+	src/resource_viewer.cpp\
+	src/resource_viewer.h\
+	src/dialogviewresources.cpp\
+	src/dialogresourceconverter.cpp\
+	src/dialogresourceconverter.h\
+	src/html.h\
+	src/dialogreviewanchors.cpp\
+	src/dialogreviewanchors.h\
+	src/dialogselectbooks.h\
+	src/biblenotes.cpp\
+	src/biblenotes.h\
+	src/dialogwordlist.cpp\
+	src/dialogwordlist.h\
+	src/wordlist.cpp\
+	src/wordlist.h\
+	src/dialogfontcolor.cpp\
+	src/dialogfontcolor.h\
+	src/dialognewstylesheet.cpp\
+	src/dialognewstylesheet.h\
+	src/scriptureportions.cpp\
+	src/scriptureportions.h\
+	src/outline.cpp\
+	src/outline.h\
+	src/filename_match.cpp\
+	src/filename_match.h\
+	src/gui_context_styles.cpp\
+	src/gui_context_styles.h\
+	src/gui_styles.cpp\
+	src/gui_styles.h\
+	src/usfm-abiword.cpp\
+	src/usfm-abiword.h\
+	src/usfm2abiword.cpp\
+	src/usfm2abiword.h\
+	src/abiword2usfm.cpp\
+	src/abiword2usfm.h\
+	src/abiwordfootnote.cpp\
+	src/abiwordfootnote.h\
+	src/abiwordutils.cpp\
+	src/abiwordutils.h\
+	src/bibledit-dbus-glue.h\
+	src/bibledit-dbus.c\
+	src/bibledit-dbus.h\
+	src/fruitd-dbus-glue.h\
+	src/fruitd.c\
+	src/fruitd.h\
+	src/settings.cpp\
+	src/settings.h\
+	src/session2.cpp\
+	src/session2.h\
+	src/session_highlights.cpp\
+	src/session_highlights.h\
+	src/session.h\
+	src/d_bus.cpp\
+	src/d_bus.h\
+	src/bookdata.cpp\
+	src/bookdata.h\
+	src/bibledit-bibletime.h\
+	src/bibledit-subversion.h\
+	src/ipc.cpp\
+	src/ipc.h\
+	src/config.xml.cpp\
+	src/config.xml.h\
+	src/localizedbooks.cpp\
+	src/localizedbooks.h\
+	src/versifications.cpp\
+	src/versifications.h\
+	src/mappings.cpp\
+	src/mappings.h\
+	src/oldprojectconfig.cpp\
+	src/oldprojectconfig.h\
+	src/oldgenconfig.cpp\
+	src/oldgenconfig.h\
+	src/dialoguserlevel.cpp\
+	src/dialoguserlevel.h\
+	src/dialogfeatures.cpp\
+	src/dialogfeatures.h\
+	src/password.cpp\
+	src/password.h\
+	src/features.cpp\
+	src/features.h\
+	src/gui_features.cpp\
+	src/gui_features.h\
+	src/dialogprintreferences.h\
+	src/print_parallel_references.cpp\
+	src/print_parallel_references.h\
+	src/dialogfixmarkers.cpp\
+	src/dialogfixmarkers.h\
+	src/fixmarkers.cpp\
+	src/fixmarkers.h\
+	src/check_ref_inventory.cpp\
+	src/check_ref_inventory.h\
+	src/check_validate_refs.cpp\
+	src/check_validate_refs.h\
+	src/table.cpp\
+	src/table.h\
+	src/dialogtextreplacement.cpp\
+	src/dialogtextreplacement.h\
+	src/textreplacement.cpp\
+	src/textreplacement.h\
+	src/temporal.cpp\
+	src/temporal.h\
+	src/ot-quotations.cpp\
+	src/ot-quotations.h\
+	src/parallel_passages.cpp\
+	src/parallel_passages.h\
+	src/ot-nt-parallels.cpp\
+	src/ot-nt-parallels.h\
+	src/check_parallel_passages.cpp\
+	src/check_parallel_passages.h\
+	src/dialogpdfviewer.cpp\
+	src/dialogpdfviewer.h\
+	src/projectnotes.cpp\
+	src/projectnotes.h\
+	src/displayprojectnotes.cpp\
+	src/displayprojectnotes.h\
+	src/formatted_view.cpp\
+	src/formatted_view.h\
+	src/styles.cpp\
+	src/styles.h\
+	src/editornote2.cpp\
+	src/editornote2.h\
+	src/editorformat.cpp\
+	src/editorformat.h\
+	src/editor_aids.cpp\
+	src/editor_aids.h\
+	src/dialogviewusfm.cpp\
+	src/dialogviewusfm.h\
+	src/dialoginserttable.cpp\
+	src/dialoginserttable.h\
+	src/git.cpp\
+	src/git.h\
+	src/bibledit-git.cpp\
+	src/bibledit-git.h\
+	src/git-exec.cpp\
+	src/git-exec.h\
+	src/tiny_utilities.cpp\
+	src/tiny_utilities.h\
+	src/usfm2xslfo.cpp\
+	src/usfm2xslfo.h\
+	src/usfm2xslfo_utils.cpp\
+	src/usfm2xslfo_utils.h\
+	src/hyphenate.cpp\
+	src/hyphenate.h\
+	src/reporting.cpp\
+	src/reporting.h\
+	src/planning.cpp\
+	src/planning.h\
+	src/dialogreportingsetup.cpp\
+	src/dialogreportingsetup.h\
+	src/dialogeditstatus.cpp\
+	src/dialogeditstatus.h\
+	src/dialogsetstatus.cpp\
+	src/dialogsetstatus.h\
+	src/dialogtaskduration.cpp\
+	src/dialogtaskduration.h\
+	src/htmlwriter.cpp\
+	src/htmlwriter.h\
+	src/dialogviewstatus.cpp\
+	src/dialogviewstatus.h\
+	src/dialogplanningsetup.cpp\
+	src/dialogplanningsetup.h\
+	src/dialoginterfaceprefs.cpp\
+	src/dialoginterfaceprefs.h\
+	src/reference.cpp\
+	src/reference.h\
+	src/resourceviewergui.cpp\
+	src/resourceviewergui.h\
+	src/moziller.cpp\
+	src/moziller.h\
+	src/resource_utils.cpp\
+	src/resource_utils.h\
+	src/resource.cpp\
+	src/resource.h\
+	src/dialognewresource.cpp\
+	src/dialognewresource.h\
+	src/dialogresourcebooks.cpp\
+	src/dialogresourcebooks.h\
+	src/dialogtestresources.cpp\
+	src/dialogtestresources.h\
+	src/dialogradiobutton.cpp\
+	src/dialogradiobutton.h\
+	src/bibledit-help.cpp\
+	src/dialogresourceconverter2.cpp\
+	src/dialogresourceconverter2.h\
+	src/resource_conversion_utils.cpp\
+	src/resource_conversion_utils.h\
+	src/convert.cpp\
+	src/convert.h\
+	src/textviewer.cpp\
+	src/textviewer.h\
+	src/roman.cpp\
+	src/roman.h\
+	src/project_memory.cpp\
+	src/project_memory.h\
+	src/editorsgui.cpp\
+	src/editorsgui.h\
+	src/bibledit-restart.cpp\
+	src/bibledit-restart.h\
+	src/mergegui.cpp\
+	src/mergegui.h\
+	src/dialogmerge.cpp\
+	src/dialogmerge.h
+
+module.pixmap.name=.
+module.pixmap.type=
+module.pixmap.files=\
+	pix/icon.xpm
+
+module.data.name=.
+module.data.type=
+module.data.files=\
+	src/Makefile.am
+
+module.help.name=.
+module.help.type=
+module.help.files=
+
+module.doc.name=.
+module.doc.type=
+module.doc.files=\
+	INSTALL\
+	THANKS\
+	COPYING\
+	README\
+	NEWS\
+	doc/ar01s04.html\
+	doc/html\
+	doc/ar01s07.html\
+	doc/ar01s06.html\
+	doc/ar01s03.html\
+	doc/index.html\
+	doc/ar01s05.html\
+	doc/ar01s08.html\
+	doc/ar01s02.html\
+	doc/ar01s09.html\
+	ChangeLog\
+	AUTHORS\
+	windows/README
+
+module.po.files=
+
+compiler.options.supports=
+compiler.options.include.paths=\
+	.\
+	..
+compiler.options.library.paths=
+compiler.options.libraries=
+compiler.options.libraries.selected=
+compiler.options.defines=\
+	HAVE_CONFIG_H
+compiler.options.defines.selected=
+compiler.options.warning.buttons=0 0 1 1 0 1 0 0 0 0 0 0 0 1 0 0 
+compiler.options.optimize.buttons=0 0 1 0 
+compiler.options.other.buttons=1 0 
+compiler.options.other.c.flags=
+compiler.options.other.l.flags=
+compiler.options.other.l.libs=
+
+project.src.paths=

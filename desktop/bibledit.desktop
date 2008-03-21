@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Bibledit
+Comment=Bible Editor
+Icon=bibledit.xpm
+Exec=bibledit
+Type=Application
+Categories=Application;Office;
+

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>   <meta content="text/html; charset=UTF-8" http-equiv="content-type" />   <title>Bibledit</title>
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h2><a name="chaptersandverses"></a>Chapters and Verses</h2>
+<!-- Table of Contents Start -->
+<div id="toc">
+<ul>
+<li>
+<a href="#c" class="level1">c</a></li>
+<li>
+<a href="#ca" class="level1">ca</a></li>
+<li>
+<a href="#cl" class="level1">cl</a></li>
+<li>
+<a href="#cp" class="level1">cp</a></li>
+<li>
+<a href="#cd" class="level1">cd</a></li>
+<li>
+<a href="#v" class="level1">v</a></li>
+<li>
+<a href="#va" class="level1">va *</a></li>
+<li>
+<a href="#vp" class="level1">vp *</a></li>
+</ul>
+</div>
+<!-- Table of Contents End -->
+<p><a href="usfm_syntax.html">Syntax notes.</a></p>
+<h3><a name="c"></a>c</h3>
+<p>\c_#</p>
+<p>* Chapter number</p>
+<p>* The marker is followed by the chapter number #.</p>
+<p>* No text should follow this marker.</p>
+<p>Example of use (TEV Mat 1.1):</p>
+<pre>\io1 From Galilee to Jerusalem (19.1?20.34)
+\io1 The last week in and near Jerusalem (21.1?27.66)
+\io1 The resurrection and appearances of the Lord (28.1-20)
+\c 1
+\s The Ancestors of Jesus Christ
+\r (Luke 3.23-38)
+\p
+\v 1 This is the list of the ancestors of Jesus Christ, a
+descendant of David, who was a descendant of Abraham.</pre>
+<h3><a name="ca"></a>ca</h3>
+<p>\ca_#</p>
+<p>* Second (alternate) chapter number.</p>
+<p>* Used for marking dual versification scenarios, where different
+traditions of chapter breaks need to be supported in the same translation.</p>
+<p>Example of use ():</p>
+<pre>\c 54
+\ca 53
+\s A Prayer for Protection from Enemies
+\d \va 1\va* A poem by David, after the men from Ziph went to Saul and told
+him that David was hiding in their territory.
+\q1
+\v 1 \va 3\va* Save me by your power, O God;
+\q2 set me free by your might!
+\q1
+\v 2 \va 4\va* Hear my prayer, O God;
+\q2 listen to my words!</pre>
+<h3><a name="cl"></a>cl</h3>
+<p>\cl_</p>
+<p>* The chapter "label" to be used when the chosen publishing presentation
+will render chapter divisions as headings, and not drop cap numerals.</p>
+<p>Usage note:</p>
+<p>If \cl is entered once before chapter 1 (\c 1) it represents the text for
+"chapter" to be used throughout the current book. If \cl is used after each
+individual chapter marker, it represents the particular text to be used for
+the display of the current chapter heading (usually done if numbers are being
+presented as words, not numerals).</p>
+<p>Examples of use ():</p>
+<pre>\cl Psalm
+\c 1
+\q1
+\v 1 Happy are those
+\q2 who reject the advice of evil people,
+\c 1
+\cl Psalm One
+\q1
+\v 1 Happy are those
+\q2 who reject the advice of evil people,</pre>
+<h3><a name="cp"></a>cp</h3>
+<p>\cp_#</p>
+<p>* Published chapter marker.</p>
+<p>* This is a chapter marking (number, letter) that would be used in the
+published text (where the published marker is different than the \c # used
+within the translation editor).</p>
+<p>Example of use (Esg A):</p>
+<pre>\c 1
+\cp A
+\s1 Mordecai's Strange Dream
+\p
+\v 1-3 Mordecai, a Jew who belonged to the tribe of Benjamin...</pre>
+<h3><a name="cd"></a>cd</h3>
+<p>\cd_Text</p>
+<p>* Chapter description</p>
+<p>* A brief description of chapter content (similar to \d - descriptive
+heading).</p>
+<p>Example of use (Russian Synodal Protestant Version Gen 2):</p>
+<pre>\c 2
+\cd 1 ??? ????????????? ??????? ????; 8 ??????? ? ??? ????????;
+?????? ????; ?????? ???????? ????? ? ???. 18 ??????? ???? ????????
+????????. 21 ???????? ???????.
+\p
+\v 1 ??? ????????? ???? ? ????? ? ??? ???????? ??.</pre>
+<h3><a name="v"></a>v</h3>
+<p>\v_#</p>
+<p>* Verse number</p>
+<p>* Code is followed by the verse number #, and the text of the verse.</p>
+<p>Example of use (TEV Mat 1.18):</p>
+<pre>\s The Birth of Jesus Christ
+\r (Luke 2.1-7)
+\p
+\v 18 This was how the birth of Jesus Christ took place.
+His mother Mary was engaged to Joseph, but before they were
+married, she found out that she was going to have a baby by
+the Holy Spirit.</pre>
+<h3><a name="va"></a>va *</h3>
+<p>\va_#\va*</p>
+<p>* Second (alternate) verse Number</p>
+<p>* For coding dual verse numeration (esp. Psalms; see also NRSV Exo
+22.1-4).</p>
+<p>Example of use (Haitian Psalms; TEV Esg 1.1):</p>
+<pre>\q1
+\v 1 \va 2\va* Mwen te mete tout espwa m nan Senyè a.
+\q2 Li te panche zòrèy li bòkote m,
+\q2 li te tande m lè m t'ap rele.
+\q1
+\v 2 \va 3\va* Li rale m sòti nan twou kote m t'ap peri a,
+\q2 nan gwo m'a labou a.
+\c 1
+\cp A
+\ca 11
+\ms1 Addition A
+\s1 Mordecai's Dream
+\p \vp 1a-3a\vp* \va 2-4\va* Mordecai son of Jair was a Jew from the Benjamin tribe,
+and he lived in the city of Susa in Persia.</pre>
+<h3><a name="vp"></a>vp *</h3>
+<p>\vp_#\vp*</p>
+<p>* Published verse marker.</p>
+<p>* This is a verse marking (number, letter) that would be used in the
+published text (where the published marker is different than the \c # used
+within the translation editor).</p>
+<p>Example of use (TEV Esg 1.1):</p>
+<pre>\c 1
+\cp A
+\ca 11
+\ms1 Addition A
+\s1 Mordecai's Dream
+\p \vp 1a-3a\vp* \va 2-4\va* Mordecai son of Jair was a Jew from the Benjamin tribe,
+and he lived in the city of Susa in Persia.</pre>
+</body>
+</html>

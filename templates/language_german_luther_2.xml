@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bibledit-localized-books>
+<book>
+<id>1</id>
+<english>Genesis</english>
+<localization>Genesis</localization>
+<abbreviation>1. Mose</abbreviation>
+</book>
+<book>
+<id>2</id>
+<english>Exodus</english>
+<localization>Exodus</localization>
+<abbreviation>2. Mose</abbreviation>
+</book>
+<book>
+<id>3</id>
+<english>Leviticus</english>
+<localization>Levitikus</localization>
+<abbreviation>3. Mose</abbreviation>
+</book>
+<book>
+<id>4</id>
+<english>Numbers</english>
+<localization>Numeri</localization>
+<abbreviation>4. Mose</abbreviation>
+</book>
+<book>
+<id>5</id>
+<english>Deuteronomy</english>
+<localization>Deuteronomium</localization>
+<abbreviation>5. Mose</abbreviation>
+</book>
+<book>
+<id>6</id>
+<english>Joshua</english>
+<localization>Josua</localization>
+<abbreviation>Jos</abbreviation>
+</book>
+<book>
+<id>7</id>
+<english>Judges</english>
+<localization>Richter</localization>
+<abbreviation>Ri</abbreviation>
+</book>
+<book>
+<id>8</id>
+<english>Ruth</english>
+<localization>Rut</localization>
+<abbreviation>Rut</abbreviation>
+</book>
+<book>
+<id>9</id>
+<english>1 Samuel</english>
+<localization>1 Samuel</localization>
+<abbreviation>1. Sam</abbreviation>
+</book>
+<book>
+<id>10</id>
+<english>2 Samuel</english>
+<localization>2 Samuel</localization>
+<abbreviation>2. Sam</abbreviation>
+</book>
+<book>
+<id>11</id>
+<english>1 Kings</english>
+<localization>1 Könige</localization>
+<abbreviation>1. Kön</abbreviation>
+</book>
+<book>
+<id>12</id>
+<english>2 Kings</english>
+<localization>2 Könige</localization>
+<abbreviation>2. Kön</abbreviation>
+</book>
+<book>
+<id>13</id>
+<english>1 Chronicles</english>
+<localization>1 Chronik</localization>
+<abbreviation>1. Chr</abbreviation>
+</book>
+<book>
+<id>14</id>
+<english>2 Chronicles</english>
+<localization>2 Chronik</localization>
+<abbreviation>2. Chr</abbreviation>
+</book>
+<book>
+<id>15</id>
+<english>Ezra</english>
+<localization>Esra</localization>
+<abbreviation>Esra</abbreviation>
+</book>
+<book>
+<id>16</id>
+<english>Nehemiah</english>
+<localization>Nehemia</localization>
+<abbreviation>Neh</abbreviation>
+</book>
+<book>
+<id>17</id>
+<english>Esther</english>
+<localization>Ester</localization>
+<abbreviation>Est</abbreviation>
+</book>
+<book>
+<id>18</id>
+<english>Job</english>
+<localization>Ijob</localization>
+<abbreviation>Hiob</abbreviation>
+</book>
+<book>
+<id>19</id>
+<english>Psalms</english>
+<localization>Psalmen</localization>
+<abbreviation>Ps</abbreviation>
+</book>
+<book>
+<id>20</id>
+<english>Proverbs</english>
+<localization>Sprüche</localization>
+<abbreviation>Spr</abbreviation>
+</book>
+<book>
+<id>21</id>
+<english>Ecclesiastes</english>
+<localization>Kohelet</localization>
+<abbreviation>Pred</abbreviation>
+</book>
+<book>
+<id>22</id>
+<english>Song of Solomon</english>
+<localization>Hoheslied</localization>
+<abbreviation>Hld</abbreviation>
+</book>
+<book>
+<id>23</id>
+<english>Isaiah</english>
+<localization>Jesaja</localization>
+<abbreviation>Jes</abbreviation>
+</book>
+<book>
+<id>24</id>
+<english>Jeremiah</english>
+<localization>Jeremia</localization>
+<abbreviation>Jer</abbreviation>
+</book>
+<book>
+<id>25</id>
+<english>Lamentations</english>
+<localization>Klagelieder</localization>
+<abbreviation>Klgl</abbreviation>
+</book>
+<book>
+<id>26</id>
+<english>Ezekiel</english>
+<localization>Ezechiël</localization>
+<abbreviation>Hes</abbreviation>
+</book>
+<book>
+<id>27</id>
+<english>Daniel</english>
+<localization>Daniel</localization>
+<abbreviation>Dan</abbreviation>
+</book>
+<book>
+<id>28</id>
+<english>Hosea</english>
+<localization>Hosea</localization>
+<abbreviation>Hos</abbreviation>
+</book>
+<book>
+<id>29</id>
+<english>Joel</english>
+<localization>Joel</localization>
+<abbreviation>Joel</abbreviation>
+</book>
+<book>
+<id>30</id>
+<english>Amos</english>
+<localization>Amos</localization>
+<abbreviation>Am</abbreviation>
+</book>
+<book>
+<id>31</id>
+<english>Obadiah</english>
+<localization>Obadja</localization>
+<abbreviation>Obd</abbreviation>
+</book>
+<book>
+<id>32</id>
+<english>Jonah</english>
+<localization>Jona</localization>
+<abbreviation>Jona</abbreviation>
+</book>
+<book>
+<id>33</id>
+<english>Micah</english>
+<localization>Micha</localization>
+<abbreviation>Mi</abbreviation>
+</book>
+<book>
+<id>34</id>
+<english>Nahum</english>
+<localization>Nahum</localization>
+<abbreviation>Nah</abbreviation>
+</book>
+<book>
+<id>35</id>
+<english>Habakkuk</english>
+<localization>Habakuk</localization>
+<abbreviation>Hab</abbreviation>
+</book>
+<book>
+<id>36</id>
+<english>Zephaniah</english>
+<localization>Zefanja</localization>
+<abbreviation>Zef</abbreviation>
+</book>
+<book>
+<id>37</id>
+<english>Haggai</english>
+<localization>Haggai</localization>
+<abbreviation>Hag</abbreviation>
+</book>
+<book>
+<id>38</id>
+<english>Zechariah</english>
+<localization>Sacharja</localization>
+<abbreviation>Sach</abbreviation>
+</book>
+<book>
+<id>39</id>
+<english>Malachi</english>
+<localization>Maleachi</localization>
+<abbreviation>Mal</abbreviation>
+</book>
+<book>
+<id>40</id>
+<english>Matthew</english>
+<localization>Matthäus</localization>
+<abbreviation>Mt</abbreviation>
+</book>
+<book>
+<id>41</id>
+<english>Mark</english>
+<localization>Markus</localization>
+<abbreviation>Mk</abbreviation>
+</book>
+<book>
+<id>42</id>
+<english>Luke</english>
+<localization>Lukas</localization>
+<abbreviation>Lk</abbreviation>
+</book>
+<book>
+<id>43</id>
+<english>John</english>
+<localization>Johannes</localization>
+<abbreviation>Joh</abbreviation>
+</book>
+<book>
+<id>44</id>
+<english>Acts</english>
+<localization>Apostelgeschichte</localization>
+<abbreviation>Apg</abbreviation>
+</book>
+<book>
+<id>45</id>
+<english>Romans</english>
+<localization>Römer</localization>
+<abbreviation>Röm</abbreviation>
+</book>
+<book>
+<id>46</id>
+<english>1 Corinthians</english>
+<localization>1 Korinther</localization>
+<abbreviation>1. Kor</abbreviation>
+</book>
+<book>
+<id>47</id>
+<english>2 Corinthians</english>
+<localization>2 Korinther</localization>
+<abbreviation>2. Kor</abbreviation>
+</book>
+<book>
+<id>48</id>
+<english>Galatians</english>
+<localization>Galater</localization>
+<abbreviation>Gal</abbreviation>
+</book>
+<book>
+<id>49</id>
+<english>Ephesians</english>
+<localization>Epheser</localization>
+<abbreviation>Eph</abbreviation>
+</book>
+<book>
+<id>50</id>
+<english>Philippians</english>
+<localization>Philipper</localization>
+<abbreviation>Phil</abbreviation>
+</book>
+<book>
+<id>51</id>
+<english>Colossians</english>
+<localization>Kolosser</localization>
+<abbreviation>Kol</abbreviation>
+</book>
+<book>
+<id>52</id>
+<english>1 Thessalonians</english>
+<localization>1 Thessalonicher</localization>
+<abbreviation>1. Thess</abbreviation>
+</book>
+<book>
+<id>53</id>
+<english>2 Thessalonians</english>
+<localization>2 Thessalonicher</localization>
+<abbreviation>2. Thess</abbreviation>
+</book>
+<book>
+<id>54</id>
+<english>1 Timothy</english>
+<localization>1 Timotheus</localization>
+<abbreviation>1. Tim</abbreviation>
+</book>
+<book>
+<id>55</id>
+<english>2 Timothy</english>
+<localization>2 Timotheus</localization>
+<abbreviation>2. Tim</abbreviation>
+</book>
+<book>
+<id>56</id>
+<english>Titus</english>
+<localization>Titus</localization>
+<abbreviation>Tit</abbreviation>
+</book>
+<book>
+<id>57</id>
+<english>Philemon</english>
+<localization>Philemon</localization>
+<abbreviation>Phlm</abbreviation>
+</book>
+<book>
+<id>58</id>
+<english>Hebrews</english>
+<localization>Hebräer</localization>
+<abbreviation>Hebr</abbreviation>
+</book>
+<book>
+<id>59</id>
+<english>James</english>
+<localization>Jakobus</localization>
+<abbreviation>Jak</abbreviation>
+</book>
+<book>
+<id>60</id>
+<english>1 Peter</english>
+<localization>1 Petrus</localization>
+<abbreviation>1. Petr</abbreviation>
+</book>
+<book>
+<id>61</id>
+<english>2 Peter</english>
+<localization>2 Petrus</localization>
+<abbreviation>2. Petr</abbreviation>
+</book>
+<book>
+<id>62</id>
+<english>1 John</english>
+<localization>1 Johannes</localization>
+<abbreviation>1. Joh</abbreviation>
+</book>
+<book>
+<id>63</id>
+<english>2 John</english>
+<localization>2 Johannes</localization>
+<abbreviation>2. Joh</abbreviation>
+</book>
+<book>
+<id>64</id>
+<english>3 John</english>
+<localization>3 Johannes</localization>
+<abbreviation>3. Joh</abbreviation>
+</book>
+<book>
+<id>65</id>
+<english>Jude</english>
+<localization>Judas</localization>
+<abbreviation>Jud</abbreviation>
+</book>
+<book>
+<id>66</id>
+<english>Revelation</english>
+<localization>Offenbarung</localization>
+<abbreviation>Offb</abbreviation>
+</book>
+<book>
+<id>67</id>
+<english>Front Matter</english>
+<localization>Einleitung</localization>
+<abbreviation>Einl.</abbreviation>
+</book>
+<book>
+<id>68</id>
+<english>Back Matter</english>
+<localization>Anhang</localization>
+<abbreviation>Anh.</abbreviation>
+</book>
+<book>
+<id>69</id>
+<english>Other Material</english>
+<localization>Weiteres Material</localization>
+<abbreviation>Weit.</abbreviation>
+</book>
+</bibledit-localized-books>

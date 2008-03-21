@@ -1,0 +1,24 @@
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="content-type" />
+<title>Bibledit</title>
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
+<script>
+<!--
+function sf(){document.f.q.focus();}
+function rwt(el,ct,cd,sg){el.href="/url?sa=t&ct="+escape(ct)+"&cd="+escape(cd)+"&url="+escape(el.href).replace(/\+/g,"%2B")+"&ei=r3Y_RLrjKJyAQu_8gekO"+sg;el.onmousedown="";return true;}
+// -->
+</script>
+</head>
+<body onLoad=sf()>
+<h2><a name="search"></a>Search</h2>
+<form action=search.html name=f>
+<script>
+<!--
+function qs(el) {if (window.RegExp && window.encodeURIComponent) {var ue=el.href;var qe=encodeURIComponent(document.f.q.value);if(ue.indexOf("q=")!=-1){el.href=ue.replace(new RegExp("q=[^&$]*"),"q="+qe);}else{el.href=ue+"&q="+qe;}}return 1;}
+// -->
+</script>
+<input type=hidden><input maxlength=2048 size=55 name=q value="">
+<input type=submit value="Search">
+</body>
+</html>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<title>Bibledit</title>
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h2><a name="import"></a>Import</h2>
+<!-- Table of Contents Start -->
+<div id="toc">
+<ul>
+<li>
+<a href="#introduction" class="level1">Introduction</a></li>
+<li>
+<a href="#usfm" class="level1">USFM</a></li>
+<li>
+<a href="#bibleworks" class="level1">BibleWorks</a></li>
+<li>
+<a href="#mechonmamrehebrew" class="level1">Mechon Mamre Hebrew</a></li>
+</ul>
+</div>
+<!-- Table of Contents End -->
+<h3><a name="introduction"></a>Introduction</h3>
+<p>Bibledit can import existing Biblical text. It imports various formats of
+the texts. Text is normally imported into a project using the menu, File,
+Project, Import. <a href="olh_import_text.html">Set all the options
+there</a>. Ensure that everything says "Done". Then clicking OK will import
+the text.</p>
+<h3><a name="usfm"></a>USFM</h3>
+<p>Bibledit can import <a href="glossary.html#usfm">USFM</a> text. In the
+Import text dialog, set the type to USFM.</p>
+<p>See also <a href="collaboration.html">collaboration</a>.</p>
+<h3><a name="bibleworks"></a>BibleWorks</h3>
+<p>Bibledit can import text that has been exported from BibleWorks. This is
+how to do it: In BibleWorks choose Tools - Export Database. Export the Bible
+of your choice to a file and save it in Text format. Then do the Import in
+Bibledit. In the "Import text" dialog, set the type of the file to import to
+"BibleWorks".</p>
+<p>Notes on importing Hebrew text from BibleWorks. This works fine, but when
+converting the text to Unicode during import, the encoding "Windows-1252"
+gives best results. The screen fonts needs to be set to "Bwhebb". This font
+should be copied from the BibleWorks installation and installed in Linux. If
+the llines of this visually ordered Hebrew text are too long, then use "Tools
+- Line cutter for Hebrew text" to shorten the lines.</p>
+<h3><a name="mechonmamrehebrew"></a>Mechon Mamre Hebrew</h3>
+<p>Mechon Mamre has a good quality Hebrew text, with vowels and cantillation
+marks.</p>
+<p>To import this Hebrew text into Bibledit, do this: Go to <a
+href="http://www.mechon-mamre.org/">http://www.mechon-mamre.org</a>, and
+download the Hebrew Bible with cantillation marks, see the offline resources
+section, the individual HTML Bibles in ZIP files. This gives a file
+ct005.zip. Unzip this file. The individual files can then be found in
+subdirectory c/ct in the directory where you unzipped the file. Point the
+Import text dialog to this directory, and set the import type to Mechon
+Mamre. Then finish the import. The screen font can be set to "Ezra SIL" or
+similar.</p>
+</body>
+</html>

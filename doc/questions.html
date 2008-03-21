@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<title>Bibledit</title>
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h2><a name="questions"></a>Questions</h2>
+<!-- Table of Contents Start -->
+<div id="toc">
+<ul>
+<li>
+<a href="#installation" class="level1">Installation</a></li>
+<li>
+<a href="#commandlineinstructionsgiveerrors" class="level2">Commandline instructions give errors</a></li>
+<li>
+<a href="#thereisnoacceptableccompilerinpath" class="level2">There is no acceptable C compiler in $path</a></li>
+<li>
+<a href="#doeswinerunaprogramthatisalreadyonmywindowspartition" class="level2">Does Wine run a program that is already on my Windows partition?</a></li>
+<li>
+<a href="#problemwhenoutpostrunsonanotherhost" class="level2">Problem when Outpost runs on another host</a></li>
+<li>
+<a href="#general" class="level1">General</a></li>
+<li>
+<a href="#thelogsayscriticaldatabasediskimageismalformed" class="level2">The log says: CRITICAL **: database disk image is malformed</a></li>
+<li>
+<a href="#thelogsayscriticalunsupportedfileformat" class="level2">The log says: CRITICAL**: unsupported file format</a></li>
+<li>
+<a href="#bibleditwontstartanymore" class="level2">Bibledit won't start anymore</a></li>
+<li>
+<a href="#bibleditisfrozenhowtosolvethat" class="level2">Bibledit is frozen. How to solve that?</a></li>
+<li>
+<a href="#theonlinehelpdoesnotdisplay" class="level2">The online help does not display</a></li>
+<li>
+<a href="#fieldworkslanguageexplorerinterfereswithcygwinx" class="level2">FieldWorks Language Explorer interferes with Cygwin/X</a></li>
+<li>
+<a href="#project" class="level1">Project</a></li>
+<li>
+<a href="#whenimportingdatainlegacyencodingcanbibledituseateckitmap" class="level2">When importing data in legacy encoding, can Bibledit use a TECkit map?</a></li>
+<li>
+<a href="#printing" class="level1">Printing</a></li>
+<li>
+<a href="#bibleditproducespdfoutputbuthowdoigethtmlfiles" class="level2">Bibledit produces .pdf output, but how do I get .html files?</a></li>
+<li>
+<a href="#wherearethefontsonmysystem" class="level2">Where are the fonts on my system?</a></li>
+<li>
+<a href="#bolddoesnotshowupinaprintout" class="level2">Bold does not show up in a printout</a></li>
+<li>
+<a href="#thefootnotecallerisdetachedfromtheworditbelongsto" class="level2">The footnote caller is detached from the word it belongs to</a></li>
+<li>
+<a href="#thefootnotecallertouchesthenextword" class="level2">The footnote caller touches the next word</a></li>
+<li>
+<a href="#thefootnoteisnotplacedatthebottomofthepagebutsomewhereelse" class="level2">The footnote is not placed at the bottom of the page, but somewhere else</a></li>
+<li>
+<a href="#adobereaderdoesnotloadaprinteddocument" class="level2">Adobe Reader does not load a printed document</a></li>
+<li>
+<a href="#navigation" class="level1">Navigation</a></li>
+<li>
+<a href="#bartdoesnotscrollwithbibledit" class="level2">BART does not scroll with Bibledit</a></li>
+<li>
+<a href="#bibletimedoesnotscrollwithbibledit" class="level2">BibleTime does not scroll with Bibledit</a></li>
+<li>
+<a href="#scrollingdoesnotworkwhentheoutpostrunsonanotherhost" class="level2">Scrolling does not work when the Outpost runs on another host</a></li>
+<li>
+<a href="#exportimport" class="level1">Export / Import</a></li>
+<li>
+<a href="#itsaysthattheswordcompilerwasnotfound" class="level2">It says that the SWORD compiler was not found</a></li>
+<li>
+<a href="#whileexportingtoswordalltextwithinmyspeechmarkersdisappears" class="level2">While exporting to SWORD, all text within my speech markers disappears</a></li>
+<li>
+<a href="#segmentedverseslike1adonotshowinswordexport" class="level2">Segmented verses like 1a do not show in SWORD export</a></li>
+<li>
+<a href="#markerltsomemarkergtdoesnotshowproperlyinbibletime" class="level2">Marker &lt;some marker&gt; does not show properly in BibleTime</a></li>
+<li>
+<a href="#logfile" class="level1">Logfile</a></li>
+<li>
+<a href="#pangowarning" class="level2">Pango-WARNING</a></li>
+<li>
+<a href="#webserveraddressalreadyinuse" class="level2">Webserver: Address already in use</a></li>
+</ul>
+</div>
+<!-- Table of Contents End -->
+<h3><a name="installation"></a>Installation</h3>
+<h4><a name="commandlineinstructionsgiveerrors"></a>Commandline instructions give errors</h4>
+<p>I ran the command line instructions, but got errors - can you help me
+understand what I did wrong?</p>
+<pre>Microsoft Windows XP [Version 5.1.2600] (C) Copyright 1985-2001 Microsoft Corp.
+C:\Documents and Settings\User&gt; cd "C:\Documents and Settings\User\My Documents\My Downloads\scricheck-0.2.9"
+C:\Documents and Settings\User\My Documents\My Downloads\bibledit-1.6&gt;
+./configure '.' is not recognized as an internal or external command, operable program or batch file.</pre>
+<p>Reply: When installing it on Windows, install Cygwin first. See <a
+href="install_bibledit_windows.html">Bibledit's Windows installation
+instructions</a>. Then execute all commands from within the Cygwin
+terminal.</p>
+<h4><a name="thereisnoacceptableccompilerinpath"></a>There is no acceptable C compiler in $path</h4>
+<p>This happens when you did not install a C compiler.Installing Bibledit
+from source requires a C compiler. This compiler is part of development
+tools. The installation instructions for Linux, or for Macintosh, or Windows,
+give instructions on how to install such development tools. If you follow
+these instructions, the problem will be gone. For example, on Windows, you
+need to install package "gcc" in Cygwin.</p>
+<h4><a name="doeswinerunaprogramthatisalreadyonmywindowspartition"></a>Does Wine run a program that is already on my Windows partition?</h4>
+<p>Yes, it does.</p>
+<p>Let's say to run the Outpost, normally you would type</p>
+<pre>wine "c:\Program Files\Bibledit Windows Outpost\bwoutpost.exe"</pre>
+<p>If the Outpost is already installed on your Windows partition in a
+dual-boot system, you could type, for example</p>
+<pre>wine "/windows/c/Program Files/Bibledit Windows Outpost/bwoutpost.exe"</pre>
+<p>The "windows/c" part depends on your configuration.</p>
+<h4><a name="problemwhenoutpostrunsonanotherhost"></a>Problem when Outpost runs on another host</h4>
+<p>Q. When setting up the Outpost to run on another host, in the settings
+dialog, when I type in the name of the host, I get this error message: Host
+&lt;name&gt; cannot be contacted through the network.</p>
+<p>A. Points to check:</p>
+<p>1. Is the hostname you are entering the one set in Windows on the other
+host?</p>
+<p>2. Try finding out Windows' IP address, and then pinging it from Linux. If
+that works, enter that IP number in the Outpost Setup dialog.</p>
+<p>3. If the IP number changes continually, enter a static IP number in
+Windows.</p>
+<p>4. Is the Outpost installed and running in Windows? It has to be started
+manually, because Bibledit can't start it over the network.</p>
+<p>5. Be sure that the Windows firewall does not block port 51515 for
+incoming connections.</p>
+<p>6. Be sure that you have typed the right IP number. It can be checked by
+opening a Command Prompt in Windows, and typing "ipconfig". The IP number
+assigned to the network should correspond with the one you entered.</p>
+<h3><a name="general"></a>General</h3>
+<h4><a name="thelogsayscriticaldatabasediskimageismalformed"></a>The log says: CRITICAL **: database disk image is malformed</h4>
+<p>This message can be either from the text or the notes database. It has
+been seen in cases of malfunctioning hardware, such as unreliable memory. The
+solution is to solve the hardware problem first, and restore the text or the
+notes from a backup.</p>
+<h4><a name="thelogsayscriticalunsupportedfileformat"></a>The log says: CRITICAL**: unsupported file format</h4>
+<p>This is caused by downgrading from a newer version of sqlite3 to an older
+version. This may occur when the data is moved from a newer version of Linux
+to an older version. A possible solution is to install the newest version of
+sqlite3 in your current system. It will then be able to read your data
+again.</p>
+<h4><a name="bibleditwontstartanymore"></a>Bibledit won't start anymore</h4>
+<p>Try starting it from a terminal, and see what happens. In the terminal
+type:</p>
+<pre>bibledit</pre>
+<p>If it gives a segmentation fault, then there is a problem in your
+configuration. A simple way to get Bibledit running again is to delete the
+file ./bibledit/settings and ./bibledit/configuration/configuration.xml. You
+will loose all your settings, but not your data, and Bibledit should start
+again after that.</p>
+<p>If you wish to have this problem solved, before deleting your
+configuration files, make a bug report, pack all your data in a gzipped
+tarball, and attach this file to the <a href="development.html">bug
+report</a>.</p>
+<p>To go to the home directory, type</p>
+<pre>cd</pre>
+<p>To pack everything in a tarball, type</p>
+<pre>tar -cvf bibledit.tar .bibledit</pre>
+<p>Then compress the tarball:</p>
+<pre>gzip bibledit.tar</pre>
+<p>The resulting file is named bibledit.tar.gz and can be attached to the bug
+report.</p>
+<p>If the problem is not a segmentation fault, but it shows nothing at all,
+then the bibledit.log file might give a clue. It is in the <a
+href="internals.html#temporaldirectory">temporary directory</a>. View the
+logfile to see what went wrong.</p>
+<h4><a name="bibleditisfrozenhowtosolvethat"></a>Bibledit is frozen. How to solve that?</h4>
+<p>Question: I am completely stopped in my work. I opened a project, but the
+book of Philemon freezes Bibledit completely. When restarting it, the screen
+comes up, but none of the menus or buttons work. I cannot scroll. The only
+button that works is the one to exit the program (which brings up a box
+giving me the option to force-quit).</p>
+<p>Answer: You can change the project from the commandline. In a terminal,
+type this:</p>
+<pre>bibledit --general-configuration --write --key project --value testproject</pre>
+<p>Next time you start Bibledit, it will open project "testproject" - any
+name will do here.</p>
+<p>To change the whole configuration to default values type:</p>
+<pre>bibledit --general-configuration --reset</pre>
+<h4><a name="theonlinehelpdoesnotdisplay"></a>The online help does not display</h4>
+<p>Bibledit's online help depends on Bibledit's internal webserver. The
+helpfiles only work while Bibledit is running. If you quit Bibledit, online
+help is not available.</p>
+<h4><a name="fieldworkslanguageexplorerinterfereswithcygwinx"></a>FieldWorks Language Explorer interferes with Cygwin/X</h4>
+<p>When Bibledit is running on Windows, FLEx won't start. While FLEx runs,
+Bibledit will only start after a long delay due to a timeout. It won't have
+clipboard functionality. The problem is being looked into. The current
+workaround is to start FLEx first, and after that Bibledit. Alternatively you
+can start Cygwin's terminal through the Cygwin icon in the Bibledit menu, and
+in that terminal type "startx", and then "bibledit".</p>
+<h3><a name="project"></a>Project</h3>
+<h4><a name="whenimportingdatainlegacyencodingcanbibledituseateckitmap"></a>When importing data in legacy encoding, can Bibledit use a TECkit map?</h4>
+<p>Bibledit uses iconv, the standard utility on Linux to convert between
+various encodings.</p>
+<p>Iconv supports a huge amount of standard encodings. Iconv does the same
+functions as TECkit does.</p>
+<p>Bibledit does not at present support a TECkit map, but that is going to
+change in the future.</p>
+<p>At conversion time the user sees how the text is going to look, and can
+change encodings until the result looks right. If there are a couple of
+characters not right, the search/replace functionality quickly fixes that.</p>
+<h3><a name="printing"></a>Printing</h3>
+<h4><a name="bibleditproducespdfoutputbuthowdoigethtmlfiles"></a>Bibledit produces .pdf output, but how do I get .html files?</h4>
+<p>There are a couple of converters on the market, that convert .pdf files to
+.html. Use a search engine and look for "PDF to HTML", including the
+quotation marks. This will give you a number of programs to try out.</p>
+<h4><a name="wherearethefontsonmysystem"></a>Where are the fonts on my system?</h4>
+<p>Bibledit accesses the fonts on your system, and knows where they are. It
+writes the fonts it uses to the file xep.xml in your XEP directory, where you
+installed it. If you open that file in a <a href="texteditor.html">text
+editor</a> you'll find your font locations.</p>
+<h4><a name="bolddoesnotshowupinaprintout"></a>Bold does not show up in a printout</h4>
+<p>Question</p>
+<p>Printing a Bibledit project to pdf format, using ArialUnicode and SIL
+Doulos for it, I had the following problem:</p>
+<p>* Feature Bold does not show up,</p>
+<p>* Feature Italics shows up.</p>
+<p>Trying the same with Open Office Writer and those two fonts, I found out,
+that both do not show up neither in bold nor in italics.</p>
+<p>Answer</p>
+<p>SIL Doulos does not have bold, and XEP is so clever that though SIL Doulos
+does not have italics either, it makes it from it.</p>
+<p>Try Charis SIL, that does have bold, and works fine with me.</p>
+<h4><a name="thefootnotecallerisdetachedfromtheworditbelongsto"></a>The footnote caller is detached from the word it belongs to</h4>
+<p>If the USFM code is properly written, the footnote or crossreference
+caller is always connected to the word it belongs to.</p>
+<p>This is an example of proper code:</p>
+<pre>Joseph was a good man\f + \ft Or “kind man”.\f*</pre>
+<p>The following two examples of code will cause the footnote caller to
+detach from the word it belongs to:</p>
+<p>Example one:</p>
+<pre>Joseph was a good man \f + \ft Or “kind man”.\f*</pre>
+<p>Note the space between "man" and the "\f".</p>
+<p>Example two:</p>
+<pre>Joseph was a good man
+\f + \ft Or “kind man”.\f*</pre>
+<p>In USFM a new line is equal to a space, hence there is a space between
+"man" and the "\f" here also.</p>
+<p>Many older projects started a new line for each marker, also for the
+footnotes. This needs correction in the current system. All note markers
+(footnotes and cross-references) should not start on a new line, but follow
+immediately the word it belongs to (without even a space).</p>
+<p>Note that in newer versions of Bibledit the \f ... code for footnotes is
+no longer visible - only the note itself is visible.</p>
+<h4><a name="thefootnotecallertouchesthenextword"></a>The footnote caller touches the next word</h4>
+<p>This problem occurs when there are many footnotes per page, and the
+footnote numbering restarts every page.</p>
+<p>Bibledit does not know how many footnotes go in one page. Yet it has to
+assign space for the footnote caller, and normally gives it the space of one
+character. This is because normally there are not too many footnotes on a
+page, so the numbering stays within 1 to 9. However, if there are more
+footnotes per page, and the numbers go as high as 10 and up, it needs the
+space of two characters. As said Bibledit does not know this, because the
+formatter, XEP, lays the text out on the pages. This is where the problem
+starts.</p>
+<p>To solve this, give the footnote caller more space. This can be done in
+the stylesheet editor. Tick the option "Allow double space for the note
+caller". This setting is found while editing the Footnote, marker \f.</p>
+<p>The same story applies to the Crossreference. The setting can be made
+while editing the \x marker.</p>
+<p>If the caller at the bottom of the page touches the footnote text, then
+you can increase the left margin of the footnote text. In the stylesheet
+editor, edit the left margin of the Text, marker \ft, and if necessary also
+for the Paragraph Mark, marker \fp.</p>
+<p>Same applies to the Crossreferences. Make the setting under marker \xt.</p>
+<h4><a name="thefootnoteisnotplacedatthebottomofthepagebutsomewhereelse"></a>The footnote is not placed at the bottom of the page, but somewhere else</h4>
+<p>This can happen because of how XEP behaves. A <a
+href="xep_bugs.html">work-around</a> is available.</p>
+<h4><a name="adobereaderdoesnotloadaprinteddocument"></a>Adobe Reader does not load a printed document</h4>
+<p>This may occur in case Adobe Reader has a document loaded already. A
+subsequent document, printed by Bibledit, may not load in the Reader. Newer
+versions of the Reader do not have this problem.</p>
+<h3><a name="navigation"></a>Navigation</h3>
+<h4><a name="bartdoesnotscrollwithbibledit"></a>BART does not scroll with Bibledit</h4>
+<p>There can be various causes for this.</p>
+<p>Cause 1. Has Bibledit Windows Outpost been installed?</p>
+<p>Cause 2: Does it say "Windows Outpost: Connected" in the logfile?</p>
+<p>Cause 3. When BART runs under Wine, did you install Bibledit Windows
+Outpost in Wine too? Or when you installed BART in CrossOver Office, e.g.
+bottle "win98", did you install the Outpost in the same bottle too? The wine
+installation constitutes a separate Windows machine, and each bottle in
+CrossOver Office also constitute each their own Windows machines. The system
+BART uses for scrolling requires that it be accessed from the same Windows
+machine. This means that if you installed BART in a certain bottle in
+CrossOver Office, e.g. bottle "win98", then for scrolling to work, the
+Outpost needs to be installed in that same bottle too.</p>
+<p>Cause 4: Did you set BART to receive references?</p>
+<p>Cause 5: If you used CrossOver Office instead of Wine, then you need to
+start the Outpost manually through the CrossOver menu. It needs to be started
+each time before you start Bibledit.</p>
+<h4><a name="bibletimedoesnotscrollwithbibledit"></a>BibleTime does not scroll with Bibledit</h4>
+<p>Read some more info on <a href="bibletime.html">BibleTime</a>.</p>
+<p>View the Logfile in the Help menu to ensure that there is a line that says
+"BibleTime: Connected", and that there are no "BibleTime: " lines saying
+anything wrong. If everything is right, then scrolling should occur.</p>
+<p>Bibledit uses "dcop" to send scrolling commands to BibleTime. This can be
+seen working by ticking menu Preferences / Debug. Then go to another verse,
+view the logfile, and see a "BibleTime: dcop ..." command there. If this
+command is there, then Bibledit's job has been done, and if there is still no
+scrolling, the problem lies with either dcop or BibleTime. You can verify
+this by executing the dcop command from a terminal and see whether BibleTime
+scrolls, e.g. by typing</p>
+<pre>dcop bibletime BibleTimeInterface syncAllVerseBasedModules 3John.1.8</pre>
+<h4><a name="scrollingdoesnotworkwhentheoutpostrunsonanotherhost"></a>Scrolling does not work when the Outpost runs on another host</h4>
+<p>Some points to check:</p>
+<p>1. Ensure in the Windows Outpost preferences that Bibledit can contact the
+other host.</p>
+<p>2. Did you start the Outpost manually on the other host? Bibledit won't be
+able to start it over the network, hence Outpost needs to be started
+manually.</p>
+<p>3. Bibledit uses port 51515 to contact the Outpost. Ensure that this port
+is opened in your firewall on Windows. If this port is closed, Bibledit can't
+communicate with the Outpost.</p>
+<h3><a name="exportimport"></a>Export / Import</h3>
+<h4><a name="itsaysthattheswordcompilerwasnotfound"></a>It says that the SWORD compiler was not found</h4>
+<p>The SWORD compiler is part of the SWORD API. Bibledit uses this compiler
+to export a project to SWORD format.</p>
+<p>The most likely problem is that you did not install SWORD from source, but
+from a binary package. Binary packages do not always install the compiler. If
+you <a href="install_sword.html">install SWORD from source</a>, the compiler
+will be installed too.</p>
+<p>The compiler used is a program called osis2mod. If the compiler has been
+installed, but Bibledit still cannot find it, the problem might be that the
+compiler has not been installed in the program search path. Type</p>
+<pre>echo $PATH</pre>
+<p>in a terminal to see the program search path.</p>
+<h4><a name="whileexportingtoswordalltextwithinmyspeechmarkersdisappears"></a>While exporting to SWORD, all text within my speech markers disappears</h4>
+<p>All text between the speech markers disappears when exporting to SWORD.
+E.g.</p>
+<pre>And Jesus said: &lt;&lt;I am he&gt;&gt;.</pre>
+<p>Everything between &lt;&lt; and &gt;&gt; disappears.</p>
+<p>This is a bug in the current SWORD compiler. The bug has been reported.</p>
+<p>A workaround is to use the Unicode speech markers, e.g.</p>
+<pre>And Jesus said: «I am he».</pre>
+<h4><a name="segmentedverseslike1adonotshowinswordexport"></a>Segmented verses like 1a do not show in SWORD export</h4>
+<p>SWORD currently does not support segmented verses, like verse 1a. To
+prevent problems Bibledit just takes any "a" or "b" out from the verse. SWORD
+needs to be updated to support this.</p>
+<h4><a name="markerltsomemarkergtdoesnotshowproperlyinbibletime"></a>Marker &lt;some marker&gt; does not show properly in BibleTime</h4>
+<p>Question: I have used the \mi formatting in the list of names in Acts
+13:1. The output to BibleTime lists the \mi paragraphs on separate lines, but
+the font is changed from my default font for that language, and there is no
+indenting. Under the form for editing the style for \mi, I don't see a place
+to select the font. And the default indenting of each line at 6 mm from the
+left seems right. So is this a problem of what Bibletime can display? (That
+might explain the lack of indenting, but it seems that the font should not
+change.)</p>
+<p>Answer: For any marker, not only the \mi one, the output Bibledit
+generates for the Sword compiler can be seen in the <a
+href="internals.html#temporaldirectory">temporary
+directory</a>/sword_osis_input.txt. In this case, that of the \mi marker, it
+can be seen that no indenting information is passed to BibleTime, nor any
+font information.</p>
+<p>This implies that the font problem is a problem of BibleTime, and that the
+indenting is not done because it does not get the information needed. If
+somebody knows how to pass indenting information to BibleTime, pls. let the
+programmer of Bibledit know and he can put that information in.</p>
+<h3><a name="logfile"></a>Logfile</h3>
+<h4><a name="pangowarning"></a>Pango-WARNING</h4>
+<p>Question: When opening Bibledit and project NIV, the logfile says
+"(bibledit:7567): Pango-WARNING **: Error loading GSUB table 4097". I'm not
+sure what the warning means. The project goes ahead and opens.</p>
+<p>Reply: This is not an issue with Bibledit, but with the Pango library
+Bibledit is using. Most likely you are using a font that Pango has a problem
+with. Problems with Pango can be reported at <a
+href="http://www.pango.org">www.pango.org</a>.</p>
+<h4><a name="webserveraddressalreadyinuse"></a>Webserver: Address already in use</h4>
+<p>Remark: On starting Bibledit sometimes the logfile says "Webserver:
+Address already in use".</p>
+<p>Reply: This happens after Bibledit crashed and is restarted after that.
+The internal webserver cannot function properly because the previous one is
+still running. To solve the problem, quit and start Bibledit once more.</p>
+</body>
+</html>

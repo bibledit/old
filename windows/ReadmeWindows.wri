@@ -1,0 +1,12 @@
+To start Bibledit, click the Bibledit icon.
+
+A terminal window will open, with some information depending on your configuration.
+This information can be disregarded, even if it speaks about passwords.
+
+In that terminal window, type
+
+bibledit
+
+and then press Enter.
+
+Bibledit will start.

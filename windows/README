@@ -1,0 +1,29 @@
+How to make a Windows distribution for Bibledit.
+
+Install Cygwin, include all the libraries needed, as described, and install 
+Bibledit on it.
+
+Within Cygwin, run file cygwin.clean. This file is in the bibledit tarball.
+(This is to make the cygwin installation a bit smaller.)
+
+Close X and reboot Windows.
+(This is so that the installer does not exit on locked files.)
+
+Remove all the users from the home directory, e.g. Administrator, Joe, etc., 
+so that we remain with a clean home directory, without any users.
+
+Move the newest XEP installation file to /usr/share/bibledit: the
+zipped installation package (the license is there already).
+(This is so that Bibledit automatically recognizes and installs XEP on startup.)
+
+Install the Bibledit Windows Outpost on Windows.
+(This is so that it gets included in the bibledit distribution, and Bibledit can
+automatically start it when needed.)
+
+Download and install Inno Setup on Windows, from http://www.jrsoftware.org.
+
+Modify the version number in the bibledit.iss file. 
+Copy it to the Windows installation
+Run Inno Setup, and compile the bibledit distribution.
+
+Rename the distribution so that it is named like bibledit-setup-x.x.exe.

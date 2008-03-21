@@ -1,0 +1,49 @@
+/*
+** Copyright (©) 2003-2008 Teus Benschop.
+**  
+** This program is free software; you can redistribute it and/or modify
+** it under the terms of the GNU General Public License as published by
+** the Free Software Foundation; either version 3 of the License, or
+** (at your option) any later version.
+**  
+** This program is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+** GNU General Public License for more details.
+**  
+** You should have received a copy of the GNU General Public License
+** along with this program; if not, write to the Free Software
+** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+**  
+*/
+
+
+#ifndef INCLUDED_NOTE_CALLER_H
+#define INCLUDED_NOTE_CALLER_H
+
+
+#include "libraries.h"
+#include "style.h"
+
+
+class NoteCaller
+{
+public:
+  NoteCaller (NoteNumberingType numbering_in, ustring user_sequence, bool spacious_in);
+  ~NoteCaller ();
+  void reset ();
+  ustring get_caller ();
+  NoteNumberingType numbering;
+  ustring sequence;
+  bool spacious;
+  ustring renumber_per_page_temporal_caller_text;
+  ustring renumber_per_page_temporal_caller_note;
+private:
+  unsigned int caller_pointer;
+};
+
+
+ustring note_caller_numbering_per_page_pool ();
+
+
+#endif

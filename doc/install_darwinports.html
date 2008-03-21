@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux/x86 (vers 1st September 2004), see www.w3.org" />
+<meta content="text/html; charset=utf-8" http-equiv=
+"content-type" />
+<title>Bibledit</title>
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h2><a name="installdarwinportsfromsource"></a>Install Darwinports from source</h2>
+<p>DarwinPorts can be installed from source too instead of from the
+dmg images. Download package DarwinPorts-x.x.tar.gz, and put it in
+your home directory. To see it is there, in the terminal type</p>
+<pre>
+ls
+</pre>
+<p>and press Enter. Unpack the tarball, by typing</p>
+<pre>
+tar zxf DarwinPorts-x.x.tar.gz
+</pre>
+<p>(where x.x is the version number, e.g. DarwinPorts-1.1.tar.gz).
+Change to the package directory, by typing</p>
+<pre>
+cd DarwinPorts-x.x
+</pre>
+<p>(x.x is version number). To configure the package, type</p>
+<pre>
+./configure
+</pre>
+<p>To compile the package, type</p>
+<pre>
+make
+</pre>
+<p>Finally, to install the package, type</p>
+<pre>
+sudo make install
+</pre>
+<p>and provide the password it asks for.</p>
+</body>
+</html>

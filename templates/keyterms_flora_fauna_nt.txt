@@ -1,0 +1,1082 @@
+Flora and Fauna of the New Testament
+
+[keyterm]
+aloe
+[comments]
+Transliterated Hebrew: aloe
+[references]
+JHN 19:39
+
+[keyterm]
+anemone or lily
+[comments]
+Transliterated Hebrew: krinon
+[references]
+MAT 6:28
+LUK 12:27
+
+[keyterm]
+barley
+[comments]
+Transliterated Hebrew: krithe
+[references]
+JHN 6:9
+JHN 6:13
+REV 6:6
+
+[keyterm]
+bearded darnel
+[comments]
+Transliterated Greek: zizanion
+[references]
+MAT 13:25
+MAT 13:26
+MAT 13:27
+MAT 13:29
+MAT 13:30
+MAT 13:36
+MAT 13:38
+MAT 13:40
+
+[keyterm]
+bird
+
+[keyterm]
+bird (1)
+[level]
+2
+[comments]
+Transliterated Hebrew: orneon
+[references]
+REV 18:2
+REV 19:17
+REV 19:21
+
+[keyterm]
+bird (2)
+[level]
+2
+[comments]
+Transliterated Hebrew: peteinos
+[references]
+MAT 6:26
+MAT 8:20
+MAT 13:4
+MAT 13:32
+MRK 4:4
+MRK 4:32
+LUK 8:5
+LUK 9:58
+LUK 12:24
+LUK 13:19
+ACT 10:12
+ACT 11:6
+ROM 1:23
+JAS 3:7
+
+[keyterm]
+black mustard
+[comments]
+Transliterated Greek: sinapi
+[references]
+MAT 13:31
+MAT 17:20
+MRK 4:31
+LUK 13:19
+LUK 17:6
+
+[keyterm]
+bull, cow, cattle
+[comments]
+Transliterated Hebrew: bous
+[references]
+LUK 13:15
+LUK 14:5
+LUK 14:19
+JHN 2:14
+JHN 2:15
+1CO 9:9
+1CO 9:9
+1TI 5:18
+
+[keyterm]
+bull, ox
+[comments]
+Transliterated Greek: tauros
+[references]
+MAT 22:4
+ACT 14:13
+HEB 9:13
+HEB 10:4
+
+[keyterm]
+bunch of graphes
+[comments]
+Transliterated Greek: staphulen
+[references]
+MAT 7:16
+LUK 6:44
+REV 14:18
+
+[keyterm]
+calf
+[comments]
+Transliterated Hebrew: moschos
+[references]
+LUK 15:23
+LUK 15:27
+LUK 15:30
+HEB 9:12
+HEB 9:19
+REV 4:7
+
+[keyterm]
+camel
+[comments]
+Transliterated Hebrew: kamelos
+[references]
+MAT 3:4
+MAT 19:24
+MAT 23:24
+MRK 1:6
+MRK 10:25
+LUK 18:25
+
+[keyterm]
+chaff
+[comments]
+Transliterated Hebrew: achuron
+[references]
+MAT 3:12
+LUK 3:17
+
+[keyterm]
+cheylon cinnamon
+[comments]
+Transliterated Hebrew: kinnamomon
+[references]
+REV 18:13
+
+[keyterm]
+clothes moth
+[comments]
+Transliterated Greek: ses
+[references]
+MAT 6:19
+MAT 6:20
+LUK 12:33
+
+[keyterm]
+cock
+[comments]
+Transliterated Hebrew: alektor
+[references]
+MAT 26:34
+MAT 26:74
+MAT 26:75
+MRK 13:35
+MRK 14:30
+MRK 14:68
+MRK 14:72
+LUK 22:34
+LUK 22:60
+LUK 22:61
+JHN 13:38
+JHN 18:27
+
+[keyterm]
+cultivated olive
+[comments]
+Transliterated Hebrew: kallielaios
+[references]
+ROM 11:24
+
+[keyterm]
+cummin
+[comments]
+Transliterated Hebrew: kuminon
+[references]
+MAT 23:23
+
+[keyterm]
+dill
+[comments]
+Transliterated Hebrew: anethon
+[references]
+MAT 23:23
+
+[keyterm]
+dog
+[comments]
+Transliterated Hebrew: kuoon
+[references]
+MAT 7:6
+LUK 16:21
+PHP 3:2
+2PE 2:22
+REV 22:15
+
+[keyterm]
+donkey
+[comments]
+Transliterated Hebrew: onos
+[references]
+MAT 21:2
+MAT 21:5
+MAT 21:7
+LUK 13:15
+LUK 14:5
+JHN 12:15
+
+[keyterm]
+donkey's colt
+[comments]
+Transliterated Greek: polos
+[references]
+MAT 21:2
+MAT 21:5
+MAT 21:7
+MRK 11:2
+MRK 11:4
+MRK 11:5
+MRK 11:7
+LUK 19:30
+LUK 19:33
+LUK 19:33
+LUK 19:35
+JHN 12:15
+
+[keyterm]
+dove, pigeon
+[comments]
+Transliterated Hebrew: peristera
+[references]
+MAT 3:16
+MAT 10:16
+MAT 21:12
+MRK 1:10
+MRK 11:15
+LUK 2:24
+LUK 3:22
+JHN 1:32
+JHN 2:14
+JHN 2:16
+
+[keyterm]
+dragon
+[comments]
+Transliterated Hebrew: drakon
+[references]
+REV 12:3
+REV 12:4
+REV 12:7
+REV 12:7
+REV 12:9
+REV 12:13
+REV 12:16
+REV 12:17
+REV 13:2
+REV 13:4
+REV 13:11
+REV 16:13
+REV 20:2
+
+[keyterm]
+egyptian cobra
+[comments]
+Transliterated Hebrew: aspis
+[references]
+ROM 3:13
+
+[keyterm]
+fig
+[comments]
+Transliterated Greek: sukon
+[references]
+MAT 7:16
+MRK 11:13
+LUK 6:44
+JAS 3:12
+
+[keyterm]
+fig tree
+[comments]
+Transliterated Greek: suke
+[references]
+MAT 21:19
+MAT 21:19
+MAT 21:20
+MAT 21:21
+MAT 24:32
+MRK 11:13
+MRK 11:20
+MRK 11:21
+MRK 13:28
+LUK 13:6
+LUK 13:7
+LUK 21:29
+JHN 1:48
+JHN 1:50
+JAS 3:12
+REV 6:13
+
+[keyterm]
+fish
+[comments]
+Transliterated Hebrew: ichthus
+[references]
+MAT 7:10
+MAT 14:17
+MAT 14:19
+MAT 15:36
+MAT 17:27
+MRK 6:38
+MRK 6:41
+MRK 6:43
+LUK 5:6
+LUK 5:9
+LUK 9:13
+LUK 9:16
+LUK 11:11
+LUK 11:11
+LUK 24:42
+JHN 21:6
+JHN 21:8
+JHN 21:11
+1CO 15:39
+
+[keyterm]
+flax, linen
+[comments]
+Transliterated Hebrew: linon
+[references]
+MAT 12:20
+REV 15:6
+
+[keyterm]
+flock
+[comments]
+Transliterated Greek: poimne
+[references]
+MAT 26:31
+LUK 2:8
+JHN 10:16
+1CO 9:7
+1CO 9:7
+
+[keyterm]
+fox
+[comments]
+Transliterated Hebrew: alopex
+[references]
+MAT 8:20
+LUK 9:58
+LUK 13:32
+
+[keyterm]
+frog
+[comments]
+Transliterated Hebrew: batrachos
+[references]
+REV 16:13
+
+[keyterm]
+fruit
+[comments]
+Transliterated Hebrew: karpos
+[references]
+MAT 3:8
+MAT 3:10
+MAT 7:16
+MAT 7:17
+MAT 7:17
+MAT 7:18
+MAT 7:18
+MAT 7:19
+MAT 7:20
+MAT 12:33
+MAT 12:33
+MAT 12:33
+MAT 13:8
+MAT 13:26
+MAT 21:19
+MAT 21:34
+MAT 21:34
+MAT 21:41
+MAT 21:43
+MRK 4:7
+MRK 4:8
+MRK 4:29
+MRK 11:14
+MRK 12:2
+LUK 1:42
+LUK 3:8
+LUK 3:9
+LUK 6:43
+LUK 6:43
+LUK 6:44
+LUK 8:8
+LUK 12:17
+LUK 13:6
+LUK 13:7
+LUK 13:9
+LUK 20:10
+JHN 4:36
+JHN 12:24
+JHN 15:2
+JHN 15:2
+JHN 15:2
+JHN 15:4
+JHN 15:5
+JHN 15:8
+JHN 15:16
+JHN 15:16
+ACT 2:30
+ROM 1:13
+ROM 6:21
+ROM 6:22
+ROM 15:28
+1CO 9:7
+GAL 5:22
+EPH 5:9
+PHP 1:11
+PHP 1:22
+PHP 4:17
+2TI 2:6
+HEB 12:11
+HEB 13:15
+JAS 3:17
+JAS 3:18
+JAS 5:7
+JAS 5:18
+REV 22:2
+REV 22:2
+
+[keyterm]
+garden herb, vegetable
+[comments]
+Transliterated Hebrew: lachanon
+[references]
+MAT 13:32
+MRK 4:32
+LUK 11:42
+ROM 14:2
+
+[keyterm]
+gnat, mosquito
+[comments]
+Transliterated Hebrew: konops
+[references]
+MAT 23:24
+
+[keyterm]
+goat
+[comments]
+Transliterated Hebrew: eriphion
+[references]
+MAT 25:33
+
+[keyterm]
+horse
+[comments]
+Transliterated Hebrew: hippos
+[references]
+JAS 3:3
+REV 6:2
+REV 6:4
+REV 6:5
+REV 6:8
+REV 9:7
+REV 9:9
+REV 9:17
+REV 9:17
+REV 14:20
+REV 18:13
+REV 19:11
+REV 19:14
+REV 19:18
+REV 19:19
+REV 19:21
+
+[keyterm]
+lamb
+
+[keyterm]
+lamb (1)
+[level]
+2
+[comments]
+Transliterated Hebrew: amnos
+[references]
+JHN 1:29
+JHN 1:36
+ACT 8:32
+1PE 1:19
+
+[keyterm]
+lamb (2)
+[level]
+2
+[comments]
+Transliterated Hebrew: arne
+[references]
+LUK 10:3
+
+[keyterm]
+lion
+[comments]
+Transliterated Hebrew: leon
+[references]
+2TI 4:17
+HEB 11:33
+1PE 5:8
+REV 4:7
+REV 5:5
+REV 9:8
+REV 9:17
+REV 10:3
+REV 13:2
+
+[keyterm]
+little dog
+[comments]
+Transliterated Hebrew: kunarion
+[references]
+MAT 15:26
+MAT 15:27
+MRK 7:27
+MRK 7:28
+
+[keyterm]
+locust
+[comments]
+Transliterated Hebrew: akris
+[references]
+MAT 3:4
+MRK 1:6
+REV 9:3
+REV 9:7
+
+[keyterm]
+male goat
+[comments]
+Transliterated Greek: tragos
+[references]
+HEB 9:12
+HEB 9:13
+HEB 9:19
+HEB 10:4
+
+[keyterm]
+mint
+[comments]
+Transliterated Hebrew: heduosmon
+[references]
+MAT 23:23
+LUK 11:42
+
+[keyterm]
+olive
+[comments]
+Transliterated Hebrew: elaia
+[references]
+MAT 21:1
+MAT 24:3
+MAT 26:30
+MRK 11:1
+MRK 13:3
+MRK 14:26
+LUK 19:29
+LUK 19:37
+LUK 21:37
+LUK 22:39
+JHN 8:1
+ROM 11:17
+ROM 11:24
+JAS 3:12
+REV 11:4
+
+[keyterm]
+palestinian viper
+[comments]
+Transliterated Hebrew: echidna
+[references]
+MAT 3:7
+MAT 12:34
+MAT 23:33
+LUK 3:7
+ACT 28:3
+
+[keyterm]
+palm
+[comments]
+Transliterated Greek: phoinix
+[references]
+JHN 12:13
+REV 7:9
+
+[keyterm]
+panther
+[comments]
+Transliterated Hebrew: pardalis
+[references]
+REV 13:2
+
+[keyterm]
+pearl
+[comments]
+Transliterated Hebrew: margarites
+[references]
+MAT 7:6
+MAT 13:45
+MAT 13:46
+1TI 2:9
+REV 17:4
+REV 18:12
+REV 18:16
+REV 21:21
+REV 21:21
+
+[keyterm]
+possession, beast, animal
+[comments]
+Transliterated Hebrew: ktenos
+[references]
+LUK 10:34
+ACT 23:24
+1CO 15:39
+REV 18:13
+
+[keyterm]
+raven
+[comments]
+Transliterated Hebrew: korax
+[references]
+LUK 12:24
+
+[keyterm]
+reed
+[comments]
+Transliterated Hebrew: kalamos
+[references]
+MAT 11:7
+MAT 12:20
+MAT 27:29
+MAT 27:30
+MAT 27:48
+MRK 15:19
+MRK 15:36
+LUK 7:24
+REV 11:1
+REV 21:15
+REV 21:16
+
+[keyterm]
+rue
+[comments]
+Transliterated Hebrew: peganon
+[references]
+LUK 11:42
+
+[keyterm]
+scarlet, crimson, red
+[comments]
+Transliterated Hebrew: kokkinos
+[references]
+MAT 27:28
+HEB 9:19
+REV 17:3
+REV 17:4
+REV 18:12
+REV 18:16
+
+[keyterm]
+scorpion
+[comments]
+Transliterated Greek: skorpios
+[references]
+LUK 10:19
+LUK 11:12
+REV 9:3
+REV 9:5
+REV 9:10
+
+[keyterm]
+sheep
+[comments]
+Transliterated Greek: probaton
+[references]
+MAT 7:15
+MAT 9:36
+MAT 10:6
+MAT 10:16
+MAT 12:11
+MAT 12:12
+MAT 15:24
+MAT 18:12
+MAT 25:32
+MAT 25:33
+MAT 26:31
+MRK 6:34
+MRK 14:27
+LUK 15:4
+LUK 15:6
+JHN 2:14
+JHN 2:15
+JHN 10:1
+JHN 10:2
+JHN 10:3
+JHN 10:3
+JHN 10:4
+JHN 10:4
+JHN 10:7
+JHN 10:8
+JHN 10:11
+JHN 10:12
+JHN 10:12
+JHN 10:12
+JHN 10:13
+JHN 10:15
+JHN 10:16
+JHN 10:26
+JHN 10:27
+JHN 21:16
+JHN 21:17
+ACT 8:32
+ROM 8:36
+HEB 13:20
+1PE 2:25
+REV 18:13
+
+[keyterm]
+small fish
+[comments]
+Transliterated Hebrew: opsarion
+[references]
+JHN 6:9
+JHN 6:11
+JHN 21:9
+JHN 21:10
+JHN 21:13
+
+[keyterm]
+snake
+[comments]
+Transliterated Hebrew: ophis
+[references]
+MAT 7:10
+MAT 10:16
+MAT 23:33
+MRK 16:18
+LUK 10:19
+LUK 11:11
+JHN 3:14
+1CO 10:9
+2CO 11:3
+REV 9:19
+REV 12:9
+REV 12:14
+REV 12:15
+REV 20:2
+
+[keyterm]
+sow = pig
+[comments]
+Transliterated Hebrew: hus
+[references]
+2PE 2:22
+
+[keyterm]
+sparrow
+[comments]
+Transliterated Greek: strouthion
+[references]
+MAT 10:29
+MAT 10:31
+LUK 12:6
+LUK 12:7
+
+[keyterm]
+spikenard
+[comments]
+Transliterated Hebrew: nardos
+[references]
+MRK 14:3
+JHN 12:3
+
+[keyterm]
+sponge
+[comments]
+Transliterated Greek: spoggos
+[references]
+MAT 27:48
+MRK 15:36
+JHN 19:29
+
+[keyterm]
+swine
+[comments]
+Transliterated Hebrew: choros
+[references]
+MAT 7:6
+MAT 8:30
+MAT 8:31
+MAT 8:32
+MAT 8:32
+MRK 5:11
+MRK 5:12
+MRK 5:13
+MRK 5:14
+MRK 5:16
+LUK 8:32
+LUK 8:33
+LUK 15:15
+LUK 15:16
+
+[keyterm]
+sycamina or mulberry
+[comments]
+Transliterated Greek: sukaminos
+[references]
+LUK 17:6
+
+[keyterm]
+sycamore fig
+[comments]
+Transliterated Greek: sukomorea
+[references]
+LUK 19:4
+
+[keyterm]
+syrian brown bear
+[comments]
+Transliterated Hebrew: arktos
+[references]
+REV 13:2
+
+[keyterm]
+syrian hyssop
+[comments]
+Transliterated Hebrew: hussopos
+[references]
+JHN 19:29
+HEB 9:19
+
+[keyterm]
+thistle, briar, thorn
+[comments]
+Transliterated Greek: tribolous
+[references]
+MAT 7:16
+HEB 6:8
+
+[keyterm]
+thorn, globe thistle
+[comments]
+Transliterated Hebrew: akantha
+[references]
+MAT 7:16
+MAT 13:7
+MAT 13:7
+MAT 13:22
+MAT 27:29
+MRK 4:7
+MRK 4:7
+MRK 4:18
+LUK 6:44
+LUK 8:7
+LUK 8:7
+LUK 8:14
+JHN 19:2
+HEB 6:8
+
+[keyterm]
+tree
+[comments]
+Transliterated Hebrew: dendron
+[references]
+MAT 3:10
+MAT 3:10
+MAT 7:17
+MAT 7:17
+MAT 7:18
+MAT 7:18
+MAT 7:19
+MAT 12:33
+MAT 12:33
+MAT 12:33
+MAT 13:32
+MAT 21:8
+MRK 8:24
+MRK 11:8
+LUK 3:9
+LUK 3:9
+LUK 6:43
+LUK 6:43
+LUK 6:44
+LUK 13:19
+LUK 21:29
+JUD 1:12
+REV 7:1
+REV 7:3
+REV 8:7
+REV 9:4
+
+[keyterm]
+turtle dove
+[comments]
+Transliterated Greek: trugon
+[references]
+LUK 2:24
+
+[keyterm]
+vine
+[comments]
+Transliterated Hebrew: ampelos
+[references]
+MAT 26:29
+MRK 14:25
+LUK 22:18
+JHN 15:1
+JHN 15:4
+JHN 15:5
+JAS 3:12
+REV 14:18
+REV 14:19
+
+[keyterm]
+vineyard dressser
+[comments]
+Transliterated Hebrew: ampelourgos
+[references]
+LUK 13:7
+
+[keyterm]
+vineyard
+[comments]
+Transliterated Hebrew: ampelon
+[references]
+MAT 20:1
+MAT 20:2
+MAT 20:4
+MAT 20:7
+MAT 20:8
+MAT 21:28
+MAT 21:33
+MAT 21:39
+MAT 21:40
+MAT 21:41
+MRK 12:1
+MRK 12:2
+MRK 12:8
+MRK 12:9
+MRK 12:9
+LUK 13:6
+LUK 20:9
+LUK 20:10
+LUK 20:13
+LUK 20:15
+LUK 20:15
+LUK 20:16
+1CO 9:7
+
+[keyterm]
+wheat
+[comments]
+Transliterated Greek: sitos
+[references]
+MAT 3:12
+MAT 13:25
+MAT 13:29
+MAT 13:30
+MRK 4:28
+LUK 3:17
+LUK 16:7
+LUK 22:31
+JHN 12:24
+ACT 7:12
+ACT 27:38
+1CO 15:37
+REV 6:6
+REV 18:13
+
+[keyterm]
+wild beast, animal
+[comments]
+Transliterated Greek: therion
+[references]
+MRK 1:13
+ACT 10:12
+ACT 11:6
+ACT 28:4
+ACT 28:5
+TIT 1:12
+HEB 12:20
+JAS 3:7
+REV 6:8
+REV 11:7
+REV 13:1
+REV 13:2
+REV 13:3
+REV 13:4
+REV 13:4
+REV 13:4
+REV 13:11
+REV 13:12
+REV 13:12
+REV 13:14
+REV 13:14
+REV 13:15
+REV 13:15
+REV 13:15
+REV 13:17
+REV 13:18
+REV 14:9
+REV 14:11
+REV 15:2
+REV 16:2
+REV 16:10
+REV 16:13
+REV 17:3
+REV 17:7
+REV 17:8
+REV 17:8
+REV 17:11
+REV 17:12
+REV 17:13
+REV 17:16
+REV 17:17
+REV 19:19
+REV 19:20
+REV 19:20
+REV 20:4
+REV 20:10
+
+[keyterm]
+wild olive
+[comments]
+Transliterated Hebrew: agrielaios
+[references]
+ROM 11:17
+ROM 11:24
+
+[keyterm]
+wolf
+[comments]
+Transliterated Hebrew: lukos
+[references]
+MAT 7:15
+MAT 10:16
+LUK 10:3
+JHN 10:12
+JHN 10:12
+ACT 20:29
+
+[keyterm]
+wormwood
+[comments]
+Transliterated Hebrew: apsinthos
+[references]
+REV 8:11
+REV 8:11
+

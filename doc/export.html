@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<title>Bibledit</title>
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h2><a name="export"></a>Export</h2>
+<!-- Table of Contents Start -->
+<div id="toc">
+<ul>
+<li>
+<a href="#exportingaproject" class="level1">Exporting a project</a></li>
+<li>
+<a href="#usfm" class="level2">USFM</a></li>
+<li>
+<a href="#bibleworks" class="level2">BibleWorks</a></li>
+<li>
+<a href="#sword" class="level2">SWORD</a></li>
+<li>
+<a href="#opendocument" class="level2">OpenDocument</a></li>
+<li>
+<a href="#links" class="level1">Links</a></li>
+</ul>
+</div>
+<!-- Table of Contents End -->
+<h3><a name="exportingaproject"></a>Exporting a project</h3>
+<p>A project can be exported to other formats. See menu File - Project -
+Export, and choose a format there.</p>
+<h4><a name="usfm"></a>USFM</h4>
+<p>This will ask you to select a directory to put all the USFM files in.
+Bibledit will put one USFM file per book into that directory.</p>
+<h4><a name="bibleworks"></a>BibleWorks</h4>
+<p>When exporting the project to BibleWorks Version Database Compiler, a text
+file is produced that can be imported in the BibleWorks Version Database
+Compiler for display in BibleWorks. See the BibleWorks online help for
+detailed information.</p>
+<h4><a name="sword"></a>SWORD</h4>
+<p>When exporting to a SWORD module, the module is created and installed
+straightaway, and can be immediately seen in for example BibleTime. Normally
+Bibledit will install the SWORD module to subdirectory .sword in the home
+directory, but this can be changed. Provide a name for the module and export
+it. After restarting BibleTime the module is visible in BibleTime.</p>
+<p>Normally you can leave the settings in the dialog as they are. Changes can
+be made, however.</p>
+<p>Name is the name for the module. The actual name given to the module
+consists of the project name plus the name given here.</p>
+<p>Description is a short (1 line) description of the module, such as its
+title. The actual description gets the project name prefixed.</p>
+<p>About is a lengthier description and may include copyright, source, etc.
+information. The actual description gets the project name prefixed.</p>
+<p>LCSH is the Library of Congress Subject Heading. You may search the
+Library of Congress catalog at <a
+href="http://catalog.loc.gov/">http://catalog.loc.gov/</a> or use it as a
+guide for determining an appropriate LCSH for books that are not in the
+Library of Congress.</p>
+<p>License describes the license under which the module is being
+distributed.</p>
+<p>Version is the module's revision number of the module. Incrementing it
+when changes are made alerts users of the SWORD Installers to the presence of
+updated modules. Please start with version 1.0 and increment by 0.1 for minor
+updates and by larger values for more major updates such as a new text
+source.</p>
+<p>Language is the primary language code of the module. You can select one
+from the list, in which case BibleTime correctly displays the language. Or
+you can enter a language by hand, in which case BibleTime puts it under
+"Unknown language". See the Ethnologue, <a
+href="http://www.ethnologue.com/">http://www.ethnologue.com</a>, to find your
+language, and enter the code or the name.</p>
+<p>Install path is where Bibledit will install the module. This is the place
+where BibleTime expects the module to be installed.</p>
+<p>Module path is the directory where a zipped module will be stored. This
+module is fit for immediate distribution.</p>
+<p>Exporting to SWORD produces a file sword_osis_input.txt in the <a
+href="internals.html#temporaldirectory">temporary directory</a>. This file
+will be compiled by osis2mod, the SWORD compiler.</p>
+<h4><a name="opendocument"></a>OpenDocument</h4>
+<p>This will ask you where to save the file, and then does the export. The
+file can be opened in the various wordprocessors that support OpenDocument,
+such as AbiWord, KWord, OpenOffice, etc. The main purpose of this export is
+to be able to transfer the formatted text into other applications. For that
+reason several style settings, like two columns, are unsupported.</p>
+<h3><a name="links"></a>Links</h3>
+<p><a href="questions.html">Questions.</a></p>
+</body>
+</html>

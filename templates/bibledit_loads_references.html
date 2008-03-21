@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+  <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+  <title>Bibledit</title>
+  <link href="bibledit.css" rel="stylesheet" type="text/css" />
+
+<SCRIPT TYPE="text/javascript">
+<!--
+p = null;
+function closeWindow(){
+  p = setTimeout("self.close()", 5000);
+}
+//-->
+</SCRIPT>
+
+
+</head>
+
+<body onload="closeWindow();self.focus()">
+<p id="bibledit">Bibledit is loading the references...</p>
+<p id="bibledit">Switch to Bibledit to see them.</p>
+</body>
+<!--
+MS IE (almost all versions) do not process the instruction properly due to the cache mechanism.
+The workaround is to include a second <HEAD> section at the bottom of the page (no joke!).
+//-->
+<HEAD><META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE"></HEAD>
+</html>

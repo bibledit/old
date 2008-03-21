@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<title>Bibledit</title>
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h2><a name="scripting"></a>Scripting</h2>
+<!-- Table of Contents Start -->
+<div id="toc">
+<ul>
+<li>
+<a href="#introduction" class="level1">Introduction</a></li>
+<li>
+<a href="#examples" class="level1">Examples</a></li>
+<li>
+<a href="#exportbook" class="level2">Export book</a></li>
+<li>
+<a href="#processmapping" class="level2">Process mapping</a></li>
+<li>
+<a href="#configuration" class="level1">Configuration</a></li>
+<li>
+<a href="#generalconfiguration" class="level2">General Configuration</a></li>
+<li>
+<a href="#introduction1" class="level3">Introduction</a></li>
+<li>
+<a href="#keys" class="level3">Keys</a></li>
+<li>
+<a href="#projectconfiguration" class="level2">Project Configuration</a></li>
+<li>
+<a href="#introduction11" class="level3">Introduction</a></li>
+<li>
+<a href="#keys1" class="level3">Keys</a></li>
+</ul>
+</div>
+<!-- Table of Contents End -->
+<h3><a name="introduction"></a>Introduction</h3>
+<p>Normally Bibledit is a graphical program, and the user interacts with it
+through the keyboard and the mouse. But when arguments are passed to it on
+the commandline, it changes into a program suitable for scripting.</p>
+<p>To get an impression of what scripting possibilities Bibledit offers,
+run</p>
+<pre>bibledit-bin --help</pre>
+<p>This will give a list of options.</p>
+<p>There are options for project management, import and export, and so on.</p>
+<p>To get more information on a particular option, run that optiion with the
+--help switch. For example, if you would like to know more about importing a
+book, run</p>
+<pre>bibledit-bin --import-book --help</pre>
+<p>The scripting part and the graphical part of Bibledit all work on the same
+data. This means, for example, if a book is imported through a script, it
+will also be available in the graphical version of Bibledit.</p>
+<h3><a name="examples"></a>Examples</h3>
+<p>Here are just some examples of how to use Bibledit's scripting
+capabilities.</p>
+<h4><a name="exportbook"></a>Export book</h4>
+<p>To export a book to file in USFM format, type</p>
+<pre>bibledit-bin --export-book --project Ndebele --book Genesis --file /home/joe/Genesis.usfm</pre>
+<p>This will export Genesis from project Ndebele and write it to file
+Genesis.usfm in Joe's home directory.</p>
+<h4><a name="processmapping"></a>Process mapping</h4>
+<p>Normally Bibledit's mapping databases are stored in directory
+/usr/share/bibledit. To export, for example, the English mapping database to
+a textfile, type</p>
+<pre>bibledit-bin --process-mapping --export --database /usr/share/bibledit/map_english.sql --textfile map_english.txt</pre>
+<p>This saves all the mapping data to a textfile named map_english.txt.</p>
+<p>To convert a textfile back to a mapping database, use the --read switch
+instead of the --export switch.</p>
+<h3><a name="configuration"></a>Configuration</h3>
+<p>Scipting can access Bibledit's configuration settings. Normally the
+settings of Bibledit are made in the graphical user interface. But through
+scripting you can read and write these values too.</p>
+<h4><a name="generalconfiguration"></a>General Configuration</h4>
+<h5><a name="introduction1"></a>Introduction</h5>
+<p>The general configuration of Bibledit can be accessed by running
+command</p>
+<pre>bibledit-bin --general-configuration</pre>
+<p>For example, to see whether Bibledit will synchronize all projects on
+shutdown, type</p>
+<pre>bibledit-bin --general-configuration --read --key sync_shutdown</pre>
+<p>This is a boolean value. If it replies "1", that means, true, e.g.
+Bibledit will sync all projects on shutdown. If it gives "0", that means,
+false.</p>
+<p>To modify the configuration, and have Bibledit synchronize no projects on
+shutdown, type</p>
+<pre>bibledit-bin --general-configuration --write --key sync_shutdown --value 0</pre>
+<p>In the graphical version of Bibledit you can now check this setting and
+see that it has changed.</p>
+<h5><a name="keys"></a>Keys</h5>
+<p>Here follows a table of keys, and some information about each key. The
+first column lists the name of the key. The second one describes what the key
+is used for. The last column gives what kind of value the key gives, e.g.
+boolean.</p>
+<!-- General Configuration Start -->
+<table border="0">
+<caption></caption>
+<tbody>
+</tbody>
+</table>
+<!-- General Configuration End -->
+<h4><a name="projectconfiguration"></a>Project Configuration</h4>
+<h5><a name="introduction11"></a>Introduction</h5>
+<p>The project configuration of Bibledit can be accessed by running
+command</p>
+<pre>bibledit --project-configuration</pre>
+<p>For example, to see which font Bibledit will use to display project
+Ndebele, type</p>
+<pre>bibledit --project-configuration --project Ndebele --read --key editor_font</pre>
+<p>This is a string value. It will show the name of the font.</p>
+<p>To modify the configuration, and have Bibledit use another font, type</p>
+<pre>bibledit --project-configuration --project Ndebele --write --key editor_font --value 'Bitstream Charter 14'</pre>
+<p>In the graphical version of Bibledit you can now check this setting and
+see that it has changed.</p>
+<h5><a name="keys1"></a>Keys</h5>
+<p>Here follows a table of keys, and some information about each key. The
+first column lists the name of the key. The second one describes what the key
+is used for. The last column gives what kind of value the key gives, e.g.
+string.</p>
+<!-- Project Configuration Start -->
+<table border="0">
+<caption></caption>
+<tbody>
+</tbody>
+</table>
+<!-- Project Configuration End -->
+</body>
+</html>

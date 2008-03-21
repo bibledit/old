@@ -1,0 +1,90 @@
+/*
+** Copyright (©) 2003-2008 Teus Benschop.
+**  
+** This program is free software; you can redistribute it and/or modify
+** it under the terms of the GNU General Public License as published by
+** the Free Software Foundation; either version 3 of the License, or
+** (at your option) any later version.
+**  
+** This program is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+** GNU General Public License for more details.
+**  
+** You should have received a copy of the GNU General Public License
+** along with this program; if not, write to the Free Software
+** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+**  
+*/
+
+
+#ifndef INCLUDED_SESSION2_H
+#define INCLUDED_SESSION2_H
+
+
+#include "libraries.h"
+#include <gtk/gtk.h>
+#include "types.h"
+#include "session_highlights.h"
+
+
+class Session
+// Stores settings valid only during one session. If the program stops, this
+// information is lost - and that is what is wanted.
+{
+public:
+  Session (int dummy);
+  ~Session ();
+  // Search / Replace
+  ustring searchword;
+  ustring replaceword;
+  bool search_case_sensitive;
+  bool search_current_book;
+  bool search_current_chapter;
+  bool search_globbing;
+  bool search_start_word_match;
+  bool search_end_word_match;
+  SearchResultsType searchresultstype;
+  int search_page;
+  SearchBibleTimeType searchbibletimetype;
+  ustring search_bibletime_bible;
+  ustring search_bibletime_commentary;
+  // Book selection.
+  set<unsigned int> selected_books;
+  // References highlighting.
+  vector<SessionHighlights> highlights;
+  // Import / export.
+  vector <ustring> import_references_searchwords;
+  ustring export_usfm_location;
+  // Entry completion.
+  vector<ustring> completion_search;
+  vector<ustring> completion_replace;
+  vector<ustring> completion_goto;
+  // Checks.
+  CheckSortType checksorttype;
+  bool check_include_verse_text;
+  // Area selection.
+  AreaType area_type;
+  bool area_id;
+  bool area_intro;
+  bool area_heading;
+  bool area_chapter;
+  bool area_study;
+  bool area_notes;
+  bool area_xref;
+  bool area_verse;
+  // Printing
+  vector<ustring> additional_printing_projects;
+  // Tools
+  int line_cutter_for_hebrew_text_characters;
+  // State
+  bool window_initialized;
+  // Git 
+  bool git_pause;
+  // Restart
+  bool restart;
+private:
+};
+
+
+#endif

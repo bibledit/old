@@ -1,0 +1,67 @@
+/*
+** Copyright (©) 2003-2008 Teus Benschop.
+**  
+** This program is free software; you can redistribute it and/or modify
+** it under the terms of the GNU General Public License as published by
+** the Free Software Foundation; either version 3 of the License, or
+** (at your option) any later version.
+**  
+** This program is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+** GNU General Public License for more details.
+**  
+** You should have received a copy of the GNU General Public License
+** along with this program; if not, write to the Free Software
+** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+**  
+*/
+
+
+#ifndef INCLUDED_HTTPD_H
+#define INCLUDED_HTTPD_H
+
+
+#include "libraries.h"
+// #define WIN32
+#ifndef WIN32
+#include <arpa/inet.h>
+#include <netdb.h>
+#include <netinet/in.h>
+#include <sys/socket.h>
+#endif
+#include <stdio.h>
+
+
+#define HTTPD_PORT 51516
+
+
+class Httpd
+{
+public:
+  Httpd (bool dummy);
+  ~Httpd ();
+  ustring search_whole_word;
+private:
+#ifndef WIN32
+  static void thread_start (gpointer data);
+  void thread_main ();
+  bool thread_stop;
+  void handle_request (int fd);
+  void log (const ustring & message);
+  void sendline (int fd, const ustring & line);
+  char * getmimetype (char *name);
+  void send_content_type (int fd, const ustring& filename);
+  void send_file (int fd, const ustring& filename);
+  void send_404 (int fd);
+  void send_search (int fd, const ustring& filename, const ustring& command);
+  void send_search_results (int fd, const ustring& searchword);
+  int hexit(char c);
+  void url_decode (char *buf);
+  int sock;
+  int conn;
+#endif
+};
+
+
+#endif

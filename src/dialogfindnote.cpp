@@ -1,0 +1,203 @@
+/*
+** Copyright (©) 2003-2008 Teus Benschop.
+**  
+** This program is free software; you can redistribute it and/or modify
+** it under the terms of the GNU General Public License as published by
+** the Free Software Foundation; either version 3 of the License, or
+** (at your option) any later version.
+**  
+** This program is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+** GNU General Public License for more details.
+**  
+** You should have received a copy of the GNU General Public License
+** along with this program; if not, write to the Free Software
+** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+**  
+*/
+
+
+#include "libraries.h"
+#include <glib.h>
+#include "dialogfindnote.h"
+#include "utilities.h"
+#include <sqlite3.h>
+#include "sqlite_reader.h"
+#include "notes_utils.h"
+#include "completion.h"
+#include "gwrappers.h"
+#include "help.h"
+#include "settings.h"
+#include "tiny_utilities.h"
+
+
+FindNoteDialog::FindNoteDialog (int dummy)
+{
+  extern Settings * settings;
+  
+  findnotedialog = gtk_dialog_new ();
+  gtk_window_set_title (GTK_WINDOW (findnotedialog), "Find in project notes");
+  gtk_window_set_position (GTK_WINDOW (findnotedialog), GTK_WIN_POS_CENTER_ON_PARENT);
+  gtk_window_set_modal (GTK_WINDOW (findnotedialog), TRUE);
+  // Next one added to Glade's code.
+  gtk_window_set_destroy_with_parent (GTK_WINDOW (findnotedialog), TRUE);
+
+  dialog_vbox1 = GTK_DIALOG (findnotedialog)->vbox;
+  gtk_widget_show (dialog_vbox1);
+
+  hbox2 = gtk_hbox_new (FALSE, 0);
+  gtk_widget_show (hbox2);
+  gtk_box_pack_start (GTK_BOX (dialog_vbox1), hbox2, TRUE, TRUE, 0);
+
+  label5 = gtk_label_new ("Search for");
+  gtk_widget_show (label5);
+  gtk_box_pack_start (GTK_BOX (hbox2), label5, FALSE, FALSE, 4);
+
+  entry1 = gtk_entry_new ();
+  // Next one has been added to Glade's code.
+  gtk_entry_set_text (GTK_ENTRY (entry1), settings->session.searchword.c_str ());
+  gtk_widget_show (entry1);
+  gtk_box_pack_start (GTK_BOX (hbox2), entry1, TRUE, TRUE, 0);
+  gtk_entry_set_activates_default (GTK_ENTRY (entry1), TRUE);
+
+  checkbutton_case = gtk_check_button_new_with_mnemonic ("Case _sensitive");
+  gtk_widget_show (checkbutton_case);
+  gtk_box_pack_start (GTK_BOX (dialog_vbox1), checkbutton_case, FALSE, FALSE, 0);
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_case), settings->session.search_case_sensitive);
+
+  dialog_action_area1 = GTK_DIALOG (findnotedialog)->action_area;
+  gtk_widget_show (dialog_action_area1);
+  gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area1), GTK_BUTTONBOX_END);
+
+  new InDialogHelp (findnotedialog, NULL, NULL);
+
+  buttonfind = gtk_button_new_from_stock ("gtk-find");
+  gtk_widget_show (buttonfind);
+  gtk_dialog_add_action_widget (GTK_DIALOG (findnotedialog), buttonfind, GTK_RESPONSE_OK);
+  GTK_WIDGET_SET_FLAGS (buttonfind, GTK_CAN_DEFAULT);
+
+  buttoncancel = gtk_button_new_from_stock ("gtk-cancel");
+  gtk_widget_show (buttoncancel);
+  gtk_dialog_add_action_widget (GTK_DIALOG (findnotedialog), buttoncancel, GTK_RESPONSE_CANCEL);
+  GTK_WIDGET_SET_FLAGS (buttoncancel, GTK_CAN_DEFAULT);
+
+  // The next one modified from Glade's code.
+  g_signal_connect ((gpointer) buttonfind, "clicked", G_CALLBACK (findnotedialog_on_buttonfind_clicked), gpointer (this));
+  g_signal_connect ((gpointer) entry1, "changed", G_CALLBACK (on_word_entry_changed), gpointer(this));
+
+  gtk_widget_grab_focus (entry1);
+  gtk_widget_grab_default (buttonfind);
+
+  // Entry completion
+  completion_setup (entry1, cpSearch);
+
+  set_gui();
+}
+
+
+FindNoteDialog::~FindNoteDialog ()
+{
+  gtk_widget_destroy (findnotedialog);
+}
+
+
+int FindNoteDialog::run ()
+{
+  return gtk_dialog_run (GTK_DIALOG (findnotedialog));
+}
+
+
+void FindNoteDialog::findnotedialog_on_buttonfind_clicked (GtkButton * button, gpointer user_data)
+{
+  ((FindNoteDialog *) user_data)->on_buttonfind_clicked ();
+}
+
+
+void FindNoteDialog::on_buttonfind_clicked ()
+{
+  extern Settings * settings;
+  sqlite3 *db;
+  int rc;
+  char *error = NULL;
+  try
+  {
+    ustring searchword = gtk_entry_get_text (GTK_ENTRY (entry1));
+    settings->session.searchword = searchword;
+    settings->session.search_case_sensitive = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_case));
+    // Connect to database.
+    rc = sqlite3_open(notes_database_filename ().c_str (), &db);
+    if (rc) throw runtime_error (sqlite3_errmsg(db));
+    sqlite3_busy_timeout (db, 1000);
+    // Get the string to search for. Note any apostrophies need to be doubled for SQLite.
+    // We need to normalize the search expression, as prescribed, when comparing strings.
+    ustring localsearchword;
+    localsearchword = searchword;
+    localsearchword = localsearchword.normalize ();
+    if (!settings->session.search_case_sensitive)
+      localsearchword = localsearchword.casefold ();
+    localsearchword = double_apostrophy (localsearchword);
+    // Execute the SQL statement, and read the results.
+    SqliteReader reader (0);
+    char * sql;
+    if (settings->session.search_case_sensitive) {
+      sql = g_strdup_printf ("select id, reference, modified, note from '%s';", TABLE_NOTES);
+    } else {
+      sql = g_strdup_printf ("select id, reference, modified, casefolded from '%s';", TABLE_NOTES);
+    }
+    rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
+    g_free (sql);
+    if (rc != SQLITE_OK) {
+      throw runtime_error (error);
+    }
+    for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
+      // See whether the word to search for is in this note.
+      ustring note;
+      note = reader.ustring3[i];
+      if (note.find (localsearchword) != string::npos) {
+        // Get id.
+        gint32 id = convert_to_int (reader.ustring0[i]);
+        // Get the numerical equivalent of the reference.
+        ustring reference = reader.ustring1[i];
+        {
+          // Parse the string into its possible several references.
+          Parse parse (reference);
+          // Take the first refence available.
+          if (parse.words.size() > 0)
+            reference = parse.words[0];
+        }
+        // Get date modified.
+        int date;
+        date = convert_to_int (reader.ustring2[i]);
+        // Store data.
+        ids.push_back(id);
+        references.push_back(reference);
+        allreferences.push_back (reader.ustring1[i]);
+        dates.push_back(date);
+      }
+    }
+    // Sort the notes.
+    notes_sort (ids, references, allreferences, dates);
+  }
+  catch (exception & ex)
+  {
+    gw_critical (ex.what ());
+  }
+  // Close connection.  
+  sqlite3_close (db);
+  // Entry completion
+  completion_finish (entry1, cpSearch);
+}
+
+
+void FindNoteDialog::on_word_entry_changed (GtkEditable * editable, gpointer user_data)
+{
+  ((FindNoteDialog *) user_data)->set_gui ();
+}
+
+
+void FindNoteDialog::set_gui ()
+{
+  string searchword = gtk_entry_get_text (GTK_ENTRY (entry1));
+  gtk_widget_set_sensitive (buttonfind, searchword.size () > 0);
+}

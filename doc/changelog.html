@@ -1,0 +1,781 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<title>ChangeLog</title>
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h2><a name="changelog"></a>Change Log</h2>
+<!-- Table of Contents Start -->
+<div id="toc">
+<ul>
+<li>
+<a href="#nightlybuild" class="level1">Nightly build</a></li>
+<li>
+<a href="#version30" class="level1">Version 3.0</a></li>
+<li>
+<a href="#version29" class="level1">Version 2.9</a></li>
+<li>
+<a href="#version28" class="level1">Version 2.8</a></li>
+<li>
+<a href="#version27" class="level1">Version 2.7</a></li>
+<li>
+<a href="#version26" class="level1">Version 2.6</a></li>
+<li>
+<a href="#version25" class="level1">Version 2.5</a></li>
+<li>
+<a href="#version24" class="level1">Version 2.4</a></li>
+<li>
+<a href="#version23" class="level1">Version 2.3</a></li>
+<li>
+<a href="#version22" class="level1">Version 2.2</a></li>
+<li>
+<a href="#version21" class="level1">Version 2.1</a></li>
+<li>
+<a href="#version20" class="level1">Version 2.0</a></li>
+<li>
+<a href="#version19" class="level1">Version 1.9</a></li>
+<li>
+<a href="#version18" class="level1">Version 1.8</a></li>
+<li>
+<a href="#version17" class="level1">Version 1.7</a></li>
+<li>
+<a href="#version16" class="level1">Version 1.6</a></li>
+<li>
+<a href="#version15" class="level1">Version 1.5</a></li>
+<li>
+<a href="#version14" class="level1">Version 1.4</a></li>
+<li>
+<a href="#version13" class="level1">Version 1.3</a></li>
+<li>
+<a href="#version12" class="level1">Version 1.2</a></li>
+<li>
+<a href="#version11" class="level1">Version 1.1</a></li>
+<li>
+<a href="#version10" class="level1">Version 1.0</a></li>
+<li>
+<a href="#version09" class="level1">Version 0.9</a></li>
+<li>
+<a href="#version08" class="level1">Version 0.8</a></li>
+<li>
+<a href="#version07" class="level1">Version 0.7</a></li>
+<li>
+<a href="#version06" class="level1">Version 0.6</a></li>
+<li>
+<a href="#version05" class="level1">Version 0.5</a></li>
+<li>
+<a href="#version04" class="level1">Version 0.4</a></li>
+<li>
+<a href="#version03" class="level1">Version 0.3</a></li>
+<li>
+<a href="#version02" class="level1">Version 0.2</a></li>
+<li>
+<a href="#version01" class="level1">Version 0.1</a></li>
+</ul>
+</div>
+<!-- Table of Contents End -->
+<h3><a name="nightlybuild"></a>Nightly build</h3>
+<p>Git sets user.email and user.name for on the XO machine.</p>
+<p>Some regressions were fixed here and there.</p>
+<p>The Cancel button works again in the various progress windows.</p>
+<p>Git was chosen as the sole means of collaboration. Other means have been
+removed because of the effort needed to maintain them.</p>
+<p>Git remote updates are always done.</p>
+<p>Alt-R is the new shortcut key for menu Preferences, as Alt-P is in use on
+the XO machine to go to the previous activity.</p>
+<p>If a project is renamed, the project notes for this project also get the
+new name, and the old project no longer remains there with one book, but
+instead disappears completely from the radar.</p>
+<p>A bug was fixed where at times it asked to delete an "empty chapter", a
+chapter that was not in the book.</p>
+<p>Bug "footnote pasting causes long delay" was fixed.</p>
+<p>More than one text editor can be displayed simultaneously.</p>
+<p>A wiki was added to the bibledit site.</p>
+<p>Offers to restart after a change in the layout of the screen.</p>
+<p>Compiles on Ubuntu Dapper.</p>
+<p>Merges chapters from an "edited" project into a "main" project.</p>
+<p>Some regressions were fixed.</p>
+<p>If a project is copied to another one, that other one switches its remote
+repository off. </p>
+<h3><a name="version30"></a>Version 3.0</h3>
+<p>12 February 2008.</p>
+<p>A bug was fixed where cross references ceased to be visibly numbered after
+it had reached the z for the caller.</p>
+<p>If a footnote, endnote or crossreference is entered, the editor scrolls to
+the note text.</p>
+<p>The graphical interface can be set so as to focus the references in the
+tools area when a cross reference is inserted.</p>
+<p>A basic project planner was added.</p>
+<p>The tool for mass updating notes now allows for inserting the book in the
+origin references of the notes.</p>
+<p>The Resource Viewer has been integrated and it uses the Gecko engine for
+rendering.</p>
+<p>Resources can be viewed in a split screen and in a tabbed view.</p>
+<p>By default it does not use Windows Outpost.</p>
+<p>The dependency on the dillo browser has been dropped, it now uses
+bibledit-help for in-dialog help.</p>
+<p>Supports --xembed for on the XO machine.</p>
+<p>A resource converter was build for the new resource system, and the
+previous converter was removed.</p>
+<h3><a name="version29"></a>Version 2.9</h3>
+<p>31 December 2007.</p>
+<p>Subversion was dropped.</p>
+<p>The new content manager is git.</p>
+<p>Some bugs were fixed.</p>
+<p>An option was added to not automatically synchronize the local data with
+the git repository, but only after manual review.</p>
+<p>Improvements in exporting to sword.</p>
+<p>Some fatal bugs in the usfm to xsl-fo converter prompted a rewrite for
+greater robustness.</p>
+<p>Pasting text into footnotes was improved.</p>
+<p>If a project is closed while other ones are still opening, bibledit no
+longer crashes.</p>
+<p>Some bugs in the formatted editor were resolved, and some improvements
+were made.</p>
+<p>Highlighting of words searched for take a long time in long verses.
+Measures have been taken so that Bibledit remains responsive during that
+time.</p>
+<p>A regression in copy, paste and undo was fixed.</p>
+<p>The user can insert a soft-hyphen character to manually control where
+words break in the printout.</p>
+<p>The status of the project can be set at the verse level.</p>
+<p>Produces a project status report.</p>
+<h3><a name="version28"></a>Version 2.8</h3>
+<p>26 October 2007.</p>
+<p>Displays synoptic parallels in the NT, and parallel passages in the OT.</p>
+<p>A few bugs were solved.</p>
+<p>The repeating words check will not trigger a hit if these words are joined
+by a certain text.</p>
+<p>Cancelling "My checks" was fixed.</p>
+<p>Comparing projects and printing them now can select the portion to
+print.</p>
+<p>The user can set the .pdf viewer that will be used.</p>
+<p>A setting for displaying the chapter number in the running header of the
+left and/or right page of a printed Bible.</p>
+<p>Markers h, h1, h2 and h3 are correctly interpreted during printing.</p>
+<p>Book name and chapter number are at the outside margin, and the page
+number is at the inside margin.</p>
+<p>A bug was fixed that added chapter 0 before the \id line.</p>
+<p>The chapter number in the running heading was fixed in case no \c 1 marker
+was given.</p>
+<p>When several projects are opened, the current verse no longer gets
+lost.</p>
+<p>A bug in export to Sword was fixed.</p>
+<p>Displaying the project notes was made faster.</p>
+<p>Export to AbiWord was removed because AbiWord is not capable of displaying
+large files.</p>
+<p>The editor now is a native USFM editor with formatted view.</p>
+<p>Inserting a new chapter no longer goes through the menu, but by applying
+the \c style.</p>
+<p>Editing the chapter number no longer is possible from the menu, but the
+user changes the number in the editor.</p>
+<p>Deleting the chapter no longer is in the menu, but the user just deletes
+all text from the editor.</p>
+<p>Inserting footnotes, endnotes, and crossreferences, no longer is in the
+menu, but the just just applies the appropriate style.</p>
+<p>There is no unformatted view anymore. Instead the USFM code can be viewed
+through the menu.</p>
+<p>Running of Bibledit on the XO machine was reviewed and updated.</p>
+<p>Clicking on a notecaller focuses the appropriate note or text.</p>
+<p>Properly handles non-standard note styles.</p>
+<h3><a name="version27"></a>Version 2.7</h3>
+<p>23 July 2007.</p>
+<p>The number of features in the user interface can be set.</p>
+<p>The layout of the project notes selection and display dialog was
+optimized.</p>
+<p>Several bugs and feature requests were attended to.</p>
+<p>Two checks for references were added.</p>
+<p>Depends on libgtkhtml-3.8.</p>
+<p>Supports tables in the printout.</p>
+<p>License was changed to GPL version 3.</p>
+<p>Improved support for right-to-left scripts.</p>
+<p>Exports to Abiword.</p>
+<p>The various styles show in OpenOffice's interface.</p>
+<p>Remembers the position of the notes entry window.</p>
+<p>Replaces text upon printing and export.</p>
+<p>Can display OT places quoted in the NT.</p>
+<h3><a name="version26"></a>Version 2.6</h3>
+<p>7 June 2007.</p>
+<p>A linking problem on Mac OS 10.4 was resolved.</p>
+<p>Internal code for styles and stylesheets was reorganized and made
+faster.</p>
+<p>The chapter no longer shows in the editable text.</p>
+<p>The \v style is set to superscript by default.</p>
+<p>Parsing of commandline arguments was moved to the popt library for
+improved stability.</p>
+<p>Reading and writing xml was partly moved to libxml2 for better conformance
+and stability.</p>
+<p>Also recognizes the colon while parsing references, e.g., it would parse
+"Mat. 1:1" in addition to "Mat. 1.1".</p>
+<p>Fix to the tool for automatic insertion of origin references.</p>
+<p>Internal code for the settings was reorganized and made much faster and is
+now stored in xml for better readibility.</p>
+<p>Uses Unix domain sockets for communication between the various bibledit
+binaries, for higher speed.</p>
+<p>Removed the startup and shutdown splashscreen.</p>
+<h3><a name="version25"></a>Version 2.5</h3>
+<p>27 March 2007.</p>
+<p>There is an easy way to change the type and numbering of a Bible note.</p>
+<p>The Bible notes display the type of numbering: automatic, none, or
+character.</p>
+<p>Documentation and stylesheets were updated to USFM 2.05.</p>
+<p>Automatic generation of word lists using the markers \w, \wh and \wg, and
+some markers in user space.</p>
+<p>The colour of the text in the editors can be set, and of the
+background.</p>
+<p>Improved printing of illustrations.</p>
+<p>A crowd of minor improvements were made to the user interface, and a
+couple of bugs were removed.</p>
+<p>Several levels of stylesheets can be created, like basic, advanced, full,
+SIL best practice, etc.</p>
+<p>The general keywords of the Old Testament from scripturechecks were added
+to Bibledit.</p>
+<p>The helpfile was reorganized.</p>
+<p>Can display the text of the verses of the project notes.</p>
+<p>Displays the outline of the book.</p>
+<p>Can display only the summary of the Bible notes.</p>
+<h3><a name="version24"></a>Version 2.4</h3>
+<p>24 February 2007.</p>
+<p>The height of the window for Bible notes can be set as a percentage of the
+editor's height.</p>
+<p>If there are no Bible notes, there will be no window for it, so giving
+more space to the Text area.</p>
+<p>Support for editing or viewing multiple projects at the same time.</p>
+<p>A verse-synchronized Bibledit Resource Viewer was added, for viewing
+resources like commentaries and so on.</p>
+<p>The Resource Viewer views files imported from the Online Bible.</p>
+<p>The Resource Viewer views imported USFM files.</p>
+<p>The Resource Viewer views certain files imported from Translator's
+Workplace.</p>
+<p>If the user changes the size of the Bible notes area, then this change
+will stay, and is stored per project.</p>
+<p>Both columns of the dialog for printing a portion scroll together, making
+selecting a portion easier.</p>
+<p>Some errors while running bibledit on Mac OS X were fixed.</p>
+<p>Fonts can be set independently for each project and for the project
+notes.</p>
+<h3><a name="version23"></a>Version 2.3</h3>
+<p>18 January 2007.</p>
+<p>Bug fixes and improvements.</p>
+<p>The automatic renumbering of the endnotes was improved.</p>
+<p>Makes incremental backups and other backups.</p>
+<p>Logs changes in the references of a Bible note.</p>
+<p>Uses a local or remote Subversion repository for backing up data and
+tracking changes in history.</p>
+<p>The Windows port of Bibledit is assigned low priority, so that more time
+can be spent on developing Bibledit for Linux.</p>
+<p>Supports collaboration through a remote Subversion repository.</p>
+<p>Shows changes made in a project since a certain date and time or since the
+most recent review.</p>
+<p>The text of a chapter can be reverted to any date in history on which this
+chapter was changed.</p>
+<p>A bug was fixed that prevented Bibldit from causing BibleWorks to scroll
+if BibleWorks runs on another host.</p>
+<p>Improvements were made to the book selection dialog and the print portion
+selection dialog.</p>
+<h3><a name="version22"></a>Version 2.2</h3>
+<p>28 November 2006.</p>
+<p>Minor bugs got fixed and improvements were made to the gui.</p>
+<p>Easier system for creating your own languages, versifications, and
+mappings.</p>
+<p>A bug that became visible on Ubuntu 6.10 was fixed.</p>
+<p>A mass update tool for project notes was introduced.</p>
+<p>Depencencies on resources that are not on the OLPC was dropped.</p>
+<p>Lots of keyterms are now in Bibledit.</p>
+<p>A bug was fixed in the recognition of references in footnotes and
+crossreferences.</p>
+<p>More robust concurrent database reading.</p>
+<p>Supports the database from the "<a href="http://www.ktbh-team.org">Key
+Terms in Biblical Hebrew</a>" project.</p>
+<p>Some styles got a "print" property, allowing them not to be printed, e.g.
+for not printing footnotes though they are in the text.</p>
+<p>A project can be set to be editable or not.</p>
+<p>The layout of the parallel Bible was a bit improved for readibility, by
+using bold and negative text indents for each version.</p>
+<p>The chapter and verse selection dialog was improved.</p>
+<p>Added: A check on spacing after the text belonging to selected markers.</p>
+<p>Importing usfm text can overwrite existing text.</p>
+<p>When printing a project notes in superscript no longer disturb the height
+of the line containing them.</p>
+<p>Prints endnotes.</p>
+<p>Internal rewrite to clear things up and allow for future expansion.</p>
+<h3><a name="version21"></a>Version 2.1</h3>
+<p>26 October 2006.</p>
+<p>The usual thing™: Fixing of minor bugs and improvements to the user
+interface.</p>
+<p>Support for colours in the stylesheet.</p>
+<p>Stylesheet system, including import and export, was changed considerably
+and simplified.</p>
+<p>The bug of a blocking webserver, not accepting connections, was solved.</p>
+<p>Keeps the window position, size and state better.</p>
+<p>Has "My checks" to run several checks at once.</p>
+<p>A highlighting bug was fixed.</p>
+<p>No longer depends on library scripturechecks.</p>
+<p>Some problems were fixed that occurred if no project was loaded.</p>
+<p>Changes ' or / in a projectname to an underscore.</p>
+<p>Custom verse systems can be easily added, either through the internet at
+<a href="http://scripturechecks.sourceforge.net">Scripture Checks</a> or
+manually in Bibledit.</p>
+<p>A tool has been added to insert or remove all origin references of
+footnotes, endnotes and crossreferences.</p>
+<p>Names and abbreviations of the Bible books can be localized. Enter your
+own language at <a href="http://scripturechecks.sourceforge.net">Scripture
+Checks</a>.</p>
+<p>Can cause BART, TW, etc., to scroll with Bibledit even if they run in a
+virtual machine or another computer.</p>
+<p>When the cursor is in a Bible note, and that note has references, the text
+of the references shows in the quick reference area.</p>
+<p>While inserting a Bible note, such as a cross reference, it can tidy the
+references and translate the booknames to localized abbreviations.</p>
+<p>Installs an icon in the menu to start Bibledit.</p>
+<p>Improvements in detecting Outpost behind a firewalled Windows
+installation.</p>
+<p>Automatically installs XEP if it finds the XEP installer files and
+Java.</p>
+<p>Reordering books is no longer possible at printing time only, but now
+throughout Bibledit.</p>
+<p>A Windows Installer is available.</p>
+<p>Localized names of the books are now used.</p>
+<p>A major++ internal rewrite was done to clear up dust, make things faster,
+and allow for future expansion. Any bugs as a result of this, not yet hunted
+down and killed, are licensed to you under the GPL.</p>
+<h3><a name="version20"></a>Version 2.0</h3>
+<p>4 September 2006.</p>
+<p>When entering Bible notes, the user can set the size of the content
+entry.</p>
+<p>When pressing "New" while entering Bible notes, the current layout of the
+dialog is preserved instead of zeroed.</p>
+<p>When a Bible note is erased, it will be taken out completely.</p>
+<p>When scrolling through the Text Area, the cursor tries to stay at 30% of
+the screen height, near the top.</p>
+<p>Some improvements were made in the user interface, and several minor bugs
+were fixed.</p>
+<p>The user can transfer all text of a project into the project notes.</p>
+<p>A bug was fixed in cases that a footnote contained a new line.</p>
+<p>Supports 3 extra books: Front Matter, Back Matter, Other Material.</p>
+<p>Import dialog tells the user when a book could not be imported because it
+is already in the project.</p>
+<p>When unknown books are imported, like ones with \id XXA, XXB, etc., then
+the dialog asks to assign a name to these books.</p>
+<p>Basic support for printing pictures.</p>
+<p>Support for the \pb (page break) marker.</p>
+<p>Stylesheets were updated.</p>
+<p>Gives progress information during replace operations.</p>
+<p>Bibledit's new icon shows a Bible, and a sun rising over a dark world.</p>
+<p>Bibledit can sort the project notes so that the ones with the most
+relevant references are nearest the cursor in the notes area.</p>
+<p>The \c line cannot be edited, so nobody can fiddle with it.</p>
+<p>Tools are available to edit the chapter number or insert a new one.</p>
+<p>Does not print the chapter number in books that have only one chapter.</p>
+<p>It can print the chapter number at the first verse and then does not print
+verse number one.</p>
+<p>Supports elastics for vertical outlining of text.</p>
+<p>Bibledit got its own freshly rewritten tiny web server.</p>
+<p>Tracks the usage count of the markers and sorts them on this count in the
+recently used category, the one used mostly first.</p>
+<p>Description of the styles in the Styles Area was updated, to reflect
+whether the closing marker is absent, optional or obligatory.</p>
+<p>When comparing projects, and printing the changes only, the references
+with changes are loaded in the References Area.</p>
+<p>Exports a project to OpenDocument.</p>
+<h3><a name="version19"></a>Version 1.9</h3>
+<p>8 August 2006.</p>
+<p>Improvements in the user interface.</p>
+<p>Improvements in the USFM import routines.</p>
+<p>A bug was fixed in the marker validation check.</p>
+<p>The text storage and retrieval engine was upgraded for higher speed.</p>
+<p>A bug was fixed in the Bible notes processing when a note contained
+unmarked text.</p>
+<p>When exporting to BibleWorks, which does not handle combined verses,
+Bibledit converts combined verses to simple ones.</p>
+<p>Bibledit Windows Outpost version 1.6 prevents BibleWorks from copying its
+verses to the clipboard when scrolling with Bibledit.</p>
+<p>The project notes database was upgraded.</p>
+<p>Internal changes were made to reduce the memory usage.</p>
+<p>Every Bible in the Parallel Bible will be printed using its own preferred
+font.</p>
+<p>Imports Hebrew text with vowels and cantillation marks from
+http://www.mechon-mamre.org.</p>
+<p>Can cut visually ordered Hebrew text into shorter lines for better
+printouts.</p>
+<p>The font size can be set in several printouts, like the parallel Bible,
+references, changes.</p>
+<p>Text that would go in a new paragraph, according to the stylesheet, now is
+written in that new paragraph, in the parallel Bible.</p>
+<p>A Word Inventory was added.</p>
+<p>A bug was solved that cut off the last digit of a verse number, in case
+the verse did not have text. This occurred in printing a project and export
+to Sword.</p>
+<p>Bug fix: Keeping an arrow key pressed down in the text area for a longer
+time caused the navigation system to be mixed up.</p>
+<p>The line height can be set for the printouts.</p>
+<p>A bug in the synchronization of BART with Bibledit was solved, if the
+navigation keys were kept pressed down and repeated.</p>
+<p>Bug fix: New text added to the very end of a Bible note was not saved.</p>
+<p>When Bibledit starts, and another instance of Bibledit is already running,
+it will give a message, and refuse to run.</p>
+<p>The available styles are now divided into 20 categories.</p>
+<p>Improved inserting of the styles w, wg and wh.</p>
+<p>Shows a maximum of 30 styles in the Recently Used category.</p>
+<p>Project notes are now sorted not only on the first reference, but on any
+additional ones as well.</p>
+<p>Project notes allow for references that span the chapter boundary.</p>
+<p>When Bibledit stores a line of text, any line that does not start with a
+backslash is joined to the previous one, in agreement with the USFM
+standard.</p>
+<p>Runs on x86_64 operating systems.</p>
+<p>The index was removed, because the new text retrieval engine is so fast
+that the index is not needed anymore, and the indexer was slow anyway.</p>
+<p>Can limit searches to the the currently opened chapter.</p>
+<p>The speed of advanced searching was drastically improved.</p>
+<p>Faster highlighting of searchwords in case of a basic search. Noticeable
+in very long verses.</p>
+<p>Searching in areas only highlights results in those areas, no longer
+results outside them.</p>
+<h3><a name="version18"></a>Version 1.8</h3>
+<p>7 July 2006</p>
+<p>Improved scripting.</p>
+<p>Packages for Bibledit are available for Debian. Thanks, Daniel.</p>
+<p>Bibledit Windows Outpost 1.5 starts hidden for a neater user
+experience.</p>
+<p>USFM files are stored in databases internally for a faster user
+experience.</p>
+<p>Bibledit underwent a major internal restructuring to allow for future
+growth.</p>
+<p>Improvements in collaboration: synchronizes data in two directions,
+handles offline files.</p>
+<p>Requires Gtk+ 2.6 or higher.</p>
+<p>Removes Windows Notepad's signatures when importing text files.</p>
+<p>Bibledit's general configuration is accessible through the commandline.</p>
+<p>Bibledit's project configuration is accessible through the commandline
+too.</p>
+<h3><a name="version17"></a>Version 1.7</h3>
+<p>19 May 2006</p>
+<p>Automatic XEP installation on Windows got fixed.</p>
+<p>New online help and site.</p>
+<p>Menu does not scroll away in long help pages.</p>
+<p>The online help has search functionality.</p>
+<p>The site has Google search functionality.</p>
+<p>Unicode conversion uses Glib wrapper for iconv. Raw iconv caused problems
+on some platforms.</p>
+<p>Import USFM uses simplified dialog.</p>
+<p>Import USFM allows basic collaboration, and sharing Paratext's books,
+using symbolic links.</p>
+<p>The system log shows which file was opened, and optionally where it links
+to.</p>
+<p>Note can be assigned to "All" projects instead of to "None".</p>
+<p>Ctrl-Clicking the references of a note loads them into the Reference
+Area.</p>
+<p>In the Notes Area it can show the project a project note belongs to.</p>
+<p>The References Area now has a Quick Reference Area too, to quickly show a
+reference.</p>
+<p>Tools Area can be moved to the right or the left side of the window.</p>
+<p>Handles cases where user's home directory has spaces in the name.</p>
+<p>Cannot be run as user root.</p>
+<p>After exporting a project to a Sword module, it signals BibleTime to
+reload the modules.</p>
+<p>Solved a problem with IE on Windows.</p>
+<p>Solved: opening an empty project crashed Bibledit.</p>
+<p>Very basic scripting was introduced.</p>
+<p>Needs Bibledit Windows Outpost 1.4.</p>
+<p>Opens default pdf viewer and html browser on Windows.</p>
+<p>Packages for Bibledit are available for Macintosh. Thanks, Steven.</p>
+<p>Stylesheets are stored in databases internally for higher speed.</p>
+<h3><a name="version16"></a>Version 1.6</h3>
+<p>1 April 2006</p>
+<p>Uses Bibledit Windows Outpost 1.3 instead of Bibledit Windows
+Companion.</p>
+<p>Similar consecutive messages for Bibledit Windows Outpost are only logged
+once. Same thing for BibleTime messages.</p>
+<p>Sends references to BART.</p>
+<p>Automatically starts Bibledit Windows Outpost.</p>
+<p>Scripture Checks package is now integrated into the Bibledit package.</p>
+<p>Improvements have been made in the GUI.</p>
+<p>Copyright has been assigned to Teus Benschop instead of Free Software
+Foundation.</p>
+<p>Sends words to Toolbox.</p>
+<p>Handles the Bibledit Windows Outpost more robustly.</p>
+<p>Startup splash screen stays on top of the Bibledit Windows Outpost
+also.</p>
+<p>Online help in Bibledit for Windows works.</p>
+<p>Checks in Bibledit for Windows, that need the internet browser, now
+work.</p>
+<p>Better splash screen for Bibledit for Windows.</p>
+<p>Export to Sword: The name of the module can be edited. The language
+too.</p>
+<p>Temporary directory is now /home/joe/.bibledit_temp.</p>
+<p>Printing on Bibledit on Windows now works.</p>
+<p>Title got changed from "Bible Editor" to "Bibledit".</p>
+<p>Indexes have been moved to the temporary directory.</p>
+<p>Automatically installs XEP thus simplifying installation instructions.</p>
+<h3><a name="version15"></a>Version 1.5</h3>
+<p>22 March 2006</p>
+<p>Fixed: In certain cases Bibledit did not generate a correct configuration
+file for the XEP formatter.</p>
+<p>Deleting a stylesheet no longer deletes the current one, but asks for
+which stylesheet to delete.</p>
+<p>Tests for write access to the XEP installation folder, as Bibledit needs
+that.</p>
+<p>Fixed: While deleting a project it did not give the name of it. So user
+was not sure which project was going to be deleted.</p>
+<p>Properly deals with language categories while exporting to SWORD.</p>
+<p>Selecting an encoding during conversion goes faster.</p>
+<p>Dialog for inserting footnotes, endnotes and xrefs, focuses the first
+content entry.</p>
+<p>Export to SWORD now uses the osis2mod compiler.</p>
+<p>Displays footnotes, endnotes and crossreferences as notes in BibleTime
+when exported to SWORD format.</p>
+<p>Displays paragraphs, headings and titles in BibleTime when exporting to
+Sword format.</p>
+<p>Runs on OLPC - One Laptop Per Child.</p>
+<p>Automatically updates older stylesheets to stylesheets version 2.</p>
+<p>Printing a project can put books in a custom order, can include or exclude
+books, and can print certain portions of any book.</p>
+<p>A good number of bugs were fixed.</p>
+<p>Formatted view of footnotes, endnotes and crossreferences.</p>
+<p>Fixed: When deleting books, the index remained, which gave search results
+in books no longer there.</p>
+<p>Displays bold, italics, etc., in SWORD export.</p>
+<h3><a name="version14"></a>Version 1.4</h3>
+<p>21 February 2006</p>
+<p>Minor bugfixes and improvements.</p>
+<p>Properly deals with wrong verse sequences like 4-3.</p>
+<p>Allows projectnames using special characters, like e.g. tamÃ©.</p>
+<p>Properly reads the chapter number after to \c marker.</p>
+<p>Fixed: The first couple of help pages weren't accessible.</p>
+<p>Project Notes Editor got more spacious and displays more and better
+information.</p>
+<p>Prints footnotes.</p>
+<p>Faster shutdown as database optimizations are now done in the
+background.</p>
+<p>Prints crossreferences.</p>
+<p>Efficient dialogs for inserting footnotes, endnotes and
+crossreferences.</p>
+<p>Fixed: Bibledit blocked while printing with obsolete stylesheets.</p>
+<p>Better handling of situations with many important USFMs on one line.</p>
+<p>Exports a project to a SWORD module and immediately installs it.</p>
+<p>Runs on Windows.</p>
+<p>Fixed: Ctrl+Z shortcut, for Undo, stopped working after some time.</p>
+<p>Prints a parallel Bible.</p>
+<p>Export to BibleWorks removes all the inline tags, headings, footnotes, and
+what not, and exports the verse text only.</p>
+<p>Book templates have the \p marker after each chapter.</p>
+<h3><a name="version13"></a>Version 1.3</h3>
+<p>16 January 2006</p>
+<p>Minor bugs were fixed.</p>
+<p>Improvements to the user interface were made.</p>
+<p>Imports and exports Bibledit stylesheets.</p>
+<p>Internal optimizations in the code.</p>
+<p>Requesting next or previous verse crosses the chapter boundary, and next
+or previous chapter crosses the book boundary.</p>
+<p>Handles combined verses such as 1-4 or 2b-5 or 1,3 for navigation,
+searching and notes.</p>
+<p>The character inventory also gives the hexadecimal notation of a
+character.</p>
+<p>Bibledit needs package fontconfig to print Unicode characters without
+manual labour.</p>
+<p>Bibledit no longer supports FOP because this renderer is incapable of
+meeting all of Bibledit's requirements.</p>
+<p>Bibledit no longer supports XSLFormatter because it is not likely anybody
+will ever pay so much for it.</p>
+<p>Properly renders Unicode characters when printing.</p>
+<p>Combined verses, such as 10-12a, render properly when printing the
+project.</p>
+<p>The style(sheet) system has been overhauled.</p>
+<p>Some fixes and changes in the character count check.</p>
+<p>Improved font selection for printing with the option of using all
+fonts.</p>
+<p>Acrobat Reader for Linux is supported.</p>
+<p>During a long printing session the progress bar no longer hangs at 100
+percent, but keeps moving.</p>
+<p>A great number of refinements were introduced in the stylesheet system
+making it more user-friendly.</p>
+<p>The automatic update routine for older stylesheets was removed because it
+caused trouble.</p>
+<p>Progressbar takes the whole width of Bibledit.</p>
+<p>Inserting standard text in a note erases anything that was selected at
+that time.</p>
+<p>Double-clicking a style in the Styles Area, while the edit mode is on,
+edits the style.</p>
+<h3><a name="version12"></a>Version 1.2</h3>
+<p>8 December 2005</p>
+<p>Bugs have been fixed.</p>
+<p>Check "compare usfms" has been added.</p>
+<p>Opening a project was made more user-friendly.</p>
+<p>Check-Markers-Validate also detects any markers not in the stylesheet of
+the project.</p>
+<p>Directory /tmp/bibledit has been made world writable so that running
+bibledit as root for the first time does not create subsequent access
+problems if bibledit is ran after that as a normal user.</p>
+<p>Minor improvements in the user interface.</p>
+<p>Check-Characters-Inventory was added: counting characters used in a
+project.</p>
+<p>A problem with autocompletion in the find functions was solved.</p>
+<p>The system log from the previous session of Bibledit can be shown too.</p>
+<p>Time consuming shell processes, such as in the character inventory, show a
+moving progress bar for better feedback.</p>
+<p>Bibledit now runs on Mac OS X as well.</p>
+<p>Check-Words-Capitalization was added.</p>
+<p>A crash, when indexing text and searching text at the same time, was
+solved.</p>
+<p>The basic search had gotten slow, but was brought up to speed again.</p>
+<p>Searches can be done in the raw USFM text, or all the text, or in any of
+the following categories: identifiers, introductions, headings, chapter text,
+study notes, foot- and endnotes, crossreferences and verse text.</p>
+<p>The helpfile was updated with information about searching, and how to
+report bugs are request new features.</p>
+<p>"For scholar" was added to the notes categories.</p>
+<p>Bibledit was updated to allow for printing on Mac OS X, using Java and
+FOP.</p>
+<p>A check for repeating words was added.</p>
+<p>A check for matching pairs of punctuation was added.</p>
+<p>A check for unwanted patterns of characters was added.</p>
+<p>A check for unwanted whole words was added.</p>
+<p>Both the online help and http://bibledit.sourceforge.net got a
+facelift.</p>
+<h3><a name="version11"></a>Version 1.1</h3>
+<p>2 November 2005</p>
+<p>Bugs have been fixed.</p>
+<p>Documentation has been released under the GPL instead of GFDL.</p>
+<p>USFM 2.03 information has been included with the package.</p>
+<p>Startup and shutdown splashscreens give percentage ready.</p>
+<p>Progress shows better during formatting documents.</p>
+<p>Various improvements in the graphical user interface.</p>
+<p>Searching can now also add any results to the existing references.</p>
+<p>Some values and settings are stored permanently, and others only during
+one session of bibledit.</p>
+<p>The search functions will not work unless something to look for has been
+entered.</p>
+<p>The Change Log is now on the site and in the online help.</p>
+<p>The Search Special functions have been expanded with many more options to
+find text.</p>
+<p>Words entered in search dialogs, and other dialogs, automatically complete
+based on previously entered values.</p>
+<p>All comboboxes have been updated to the newest version.</p>
+<p>Ctrl+G, to go to another reference, has been expanded with aided entry of
+the reference to go to.</p>
+<p>Bibledit can follow the same reference as BibleTime shows. Needs BibleTime
+version 1.5.2 or higher.</p>
+<p>Bibledit now utilizes project scripturechecks, see the Check menu.</p>
+<p>A versification system can be set in Properties, and is used in the
+Scripture checks.</p>
+<p>Keyboard shortcuts have been added for going to previous/next reference in
+history.</p>
+<p>"Find" and "Find special" are no longer separate, but in one and the same
+dialog.</p>
+<p>Solved a race condition in bi-directional exchange of references between
+Bibledit and BibleTime.</p>
+<p>Bibledit can search in BibleTime modules. Needs BibleTime version 1.5.2 or
+higher.</p>
+<p>Some checks were implemented: Chapters and Verses, Count Markers, Validate
+Markers.</p>
+<p>The checks got a book-selection and options dialog.</p>
+<p>Shutting down Bibledit immediately after opening a freshly created project
+could take more than five minutes because Bibledit was indexing that project.
+Shutdown is now faster because indexing will be postponed to the next time
+Bibledit starts.</p>
+<p>Creating a new note while a note is being edited no longer discards the
+current note that is being edited.</p>
+<p>Any reference in the reference area can be hidden for the future, so that
+it won't show up again.</p>
+<p>Keyboard shortcuts were added to the book selection dialog, to make
+selection easier for people who prefer the keyboard rather than the mouse.</p>
+<p>It is now able to print books which have the first chapter marker
+missing.</p>
+<p>Bibledit now deals a bit more careful with BibleTime so that BibleTime
+does no longer crash when it is restarted</p>
+<p>Creating templates for books is done much faster.</p>
+<h3><a name="version10"></a>Version 1.0</h3>
+<p>Stylesheet is only used where it ought to be used: in printing
+functions.</p>
+<p>Added navigation to chapter 0, and to verse 0 in each chapter.</p>
+<p>Added menu option to add the current reference to the references in the
+note.</p>
+<p>When importing more than one book that need to be converted to Unicode, it
+once asks how to convert it, not for each book.</p>
+<p>Inline text (with endmarker) was already in the stylesheet editor, but now
+it renders properly in the pdf output.</p>
+<p>Added an Import button of USFM texts to the project properties dialog.</p>
+<p>Removed globbing side effects of the four characters * ? [ and ] in
+searching.</p>
+<p>Improvements in blank pages in the pdf output.</p>
+<p>Now requires Gtk version 2.4 or higher.</p>
+<p>Improvements in file and directory selection dialogs.</p>
+<p>Improved Export to BibleWorks functionality.</p>
+<p>Allow for mixed case IDs in files, for extra robustness.</p>
+<p>Added support for interrupting time-consuming processes such as comparing,
+printing, exporting.</p>
+<p>When printing references, gives message when there are none to print.</p>
+<p>Location where bibledit stores its data can now be changed, see
+helpfile.</p>
+<p>Only prints a project when the three basic styles, id, c and v, are
+there.</p>
+<p>During printing a project, gives message when lines were found without a
+formatting marker, or with an unknown formatting marker.</p>
+<p>During importing books the user can select which books to import.</p>
+<p>Support has been added for XSLFormatter.</p>
+<p>An Export Notes function has been added.</p>
+<p>Bibledit is now able to show notes for the current project only, or for
+all projects.</p>
+<p>Exports translation notes to Translation Notes Editor 6.</p>
+<p>BibleTime version 1.5.1 or higher scrolls together with Bibledit.</p>
+<p>Support for RenderX XEP has been added.</p>
+<p>Deletes all selected notes, instead of one note only.</p>
+<p>Improvements in keyboard shortcuts while editing a note.</p>
+<p>Note categories are now editable.</p>
+<p>Splash screen has been added at startup.</p>
+<p>Several structural improvements in source code.</p>
+<p>Several optimizations in user interface.</p>
+<p>In addition to exporting all notes, a selection can now be exported
+too.</p>
+<p>Stylesheet changed to xml for greater clarity and flexibility.</p>
+<p>Selection of styles has been made clearer.</p>
+<p>A number of bugs have been fixed.</p>
+<p>All USFM 2.0 markers have been added to the templates, but Bibledit does
+not yet support all of them.</p>
+<p>An extra package with USFM documentation can be installed and will
+integrate in the online help of Bibledit.</p>
+<p>When opening a list of reference, bibledit can now highlight up to three
+words.</p>
+<p>Printed text can be underlined.</p>
+<p>Printed text can be put in small caps.</p>
+<p>In the stylesheet, the properties italic, bold, underline and small caps
+can inherit their on/off status from the surrounding paragraph, or toggle
+it.</p>
+<p>Other programs, like BibleWorks and BibleTime can be synchronized manually
+as well.</p>
+<p>A splash screen shows up when shutting down bibledit.</p>
+<h3><a name="version09"></a>Version 0.9</h3>
+<p>Added printing to pdf.</p>
+<p>Unified Format Markers are now truly dependent on the stylesheet, and
+bibledit has no knowledge of its own of any markers.</p>
+<p>Removed printing to html.</p>
+<p>Added option to print changes only, not the whole project.</p>
+<p>Package installer tests for valid sqlite3 libraries.</p>
+<h3><a name="version08"></a>Version 0.8</h3>
+<p>1 June 2005.</p>
+<p>Bug fix release.</p>
+<h3><a name="version07"></a>Version 0.7</h3>
+<p>31 May 2005.</p>
+<p>Translation Notes Editor added.</p>
+<h3><a name="version06"></a>Version 0.6</h3>
+<p>24 March 2005.</p>
+<p>Improved functionality.</p>
+<h3><a name="version05"></a>Version 0.5</h3>
+<p>18 February 2005.</p>
+<p>Improved functionality.</p>
+<h3><a name="version04"></a>Version 0.4</h3>
+<p>15 December 2004.</p>
+<p>Improved searching.</p>
+<h3><a name="version03"></a>Version 0.3</h3>
+<p>5 October 2004.</p>
+<p>Added UTF-8 capabilities.</p>
+<h3><a name="version02"></a>Version 0.2</h3>
+<p>Added editing capabilities and synchronization.</p>
+<h3><a name="version01"></a>Version 0.1</h3>
+<p>Initial release.</p>
+</body>
+</html>

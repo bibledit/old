@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Updates and tidies the html files of the documentation.
+
+rm --force *~
+
+./allpages
+
+./generalconfig
+
+./projectconfig
+
+./contents
+

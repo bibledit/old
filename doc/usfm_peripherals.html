@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>   <meta content="text/html; charset=UTF-8" http-equiv="content-type" />   <title>Bibledit</title>   <link href="bibledit.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h2><a name="peripheralmaterials"></a>Peripheral Materials</h2>
+<!-- Table of Contents Start -->
+<div id="toc">
+<ul>
+<li>
+<a href="#introduction" class="level1">Introduction</a></li>
+<li>
+<a href="#frontmatter" class="level1">Front Matter</a></li>
+<li>
+<a href="#publicationdataverso" class="level2">Publication Data (verso)</a></li>
+<li>
+<a href="#tableofcontents" class="level2">Table of Contents</a></li>
+<li>
+<a href="#preface" class="level2">Preface</a></li>
+<li>
+<a href="#introduction1" class="level2">Introduction</a></li>
+<li>
+<a href="#backmatter" class="level1">Back Matter</a></li>
+<li>
+<a href="#concordance" class="level2">Concordance</a></li>
+<li>
+<a href="#glossary" class="level2">Glossary</a></li>
+<li>
+<a href="#index" class="level2">Index</a></li>
+<li>
+<a href="#mapsindex" class="level2">Maps Index</a></li>
+<li>
+<a href="#other" class="level1">Other</a></li>
+<li>
+<a href="#cover" class="level2">Cover</a></li>
+<li>
+<a href="#spine" class="level2">Spine</a></li>
+<li>
+<a href="#illustrations" class="level2">Illustrations</a></li>
+</ul>
+</div>
+<!-- Table of Contents End -->
+<h3><a name="introduction"></a>Introduction</h3>
+<p><a href="usfm_syntax.html">Syntax notes.</a></p>
+<p>The following represents a USFM markup proposal for the various peripheral
+elements which may be prepared for publication in addition to the scripture
+body text.</p>
+<p>In general, all of the existing USFM standard markers may be used when
+authoring peripheral content. The \id marker should be used for identifying
+the content of the following text, and content should be created in separate
+files according to the following general groupings (Front Matter, Back
+Matter, Other Material). A marker is used to indicate the start of a
+sub-grouping of content within each file (e.g. \toc, \pref etc.). In each
+section below there is a recommendation and a brief description of the USFM
+markers which will likely be most appropriate.</p>
+<p>Note: Any USFM markers used need to be added to the stylesheet associated
+with the project. All of the peripheral materials discussed on this page are
+included in the latest stylesheet sheet.</p>
+<h3><a name="frontmatter"></a>Front Matter</h3>
+<p>Suggested \id:</p>
+<p>\id FRT</p>
+<p>...</p>
+<p>\s#</p>
+<p>* Front Matter headings.</p>
+<p>* Used in study bible front matter documents.</p>
+<p>* An example would be pg 20 in 'La Biblia Devocional de Estudio' (Panorama
+pages).</p>
+<p>\li#</p>
+<p>* Front Matter list paragraph.</p>
+<p>* Used in study bible front matter documents.</p>
+<p>* An example would be pgs 10-16 in 'La Biblia Devocional de Estudio'.</p>
+<p>\p#</p>
+<p>* Front Matter text paragraph.</p>
+<p>* Two levels are shown in the Panorama, pg 20 of 'La Biblia Devocional de
+Estudio'.</p>
+<p>\q#</p>
+<p>* Front Matter poetry paragraph.</p>
+<p>* Used in study bible front matter documents where scripture poetry is
+quoted.</p>
+<p>* An example would be pg 8 in 'La Biblia Devocional de Estudio'.</p>
+<h4><a name="publicationdataverso"></a>Publication Data (verso)</h4>
+<p>Sub-group marker:</p>
+<p>\pub</p>
+<p>\mt#</p>
+<p>* Main title of publication on verso page.</p>
+<p>\pubinfo_Lang,Credit,Version,Copies,Publisher,Id,Logo</p>
+<p>* Lang = Language name which is printed on the title and copyright
+pages.</p>
+<p>* Credit = Picture credits given on copyright page.</p>
+<p>* Version = Version number/printing info on copyright page.</p>
+<p>* Copies = Number of copies, printed on copyright page.</p>
+<p>* Publisher = Publisher information on copyright page.</p>
+<p>* Id = Book identification information which is printed on the copyright
+page.</p>
+<p>* Logo = Publisher name(s) under logo(s) on half title page.</p>
+<h4><a name="tableofcontents"></a>Table of Contents</h4>
+<p>Sub-group marker:</p>
+<p>\toc</p>
+<p>\mt#</p>
+<p>* Main title for Table of Contents.</p>
+<p>\s#</p>
+<p>* (Section) Heading</p>
+<p>\tr | \th | \thr | \tc | \tcr</p>
+<p>* For any tabular data.</p>
+<p>* The table of contents is marked up using rows and cells.</p>
+<p>\toc1</p>
+<p>* Long Table of Contents text for book.</p>
+<p>\toc2</p>
+<p>* Short Table of Contents text for book.</p>
+<p>Implementing toc1 and toc2</p>
+<p>\toc1 and \toc2 are to be included in the main body text for each book,
+after \h, not in the FRT peripheral file. They are intended to assist
+publishing tools in automating Table of Contents generation.</p>
+<h4><a name="preface"></a>Preface</h4>
+<p>Sub-group marker:</p>
+<p>\pref</p>
+<p>\mt#</p>
+<p>* Main title for Preface.</p>
+<p>\s#</p>
+<p>* Preface (Section) Heading.</p>
+<p>\p#</p>
+<p>* Preface Paragraph.</p>
+<p>\m</p>
+<p>* Preface flush left (margin) paragraph.</p>
+<p>\li#</p>
+<p>* Preface list paragraph</p>
+<p>* # denotes the title level or relative weighting.</p>
+<p>\q#</p>
+<p>* Preface poetry line.</p>
+<p>\tr | \th | \thr | \tc | \tcr</p>
+<p>* For any tabular data.</p>
+<h4><a name="introduction1"></a>Introduction</h4>
+<p>Sub-group marker:</p>
+<p>\intro</p>
+<p>\mt#</p>
+<p>* Main title for Introduction.</p>
+<p>\s#</p>
+<p>* Introduction (Section) Heading.</p>
+<p>\p#</p>
+<p>* Introduction Paragraph.</p>
+<p>\m</p>
+<p>* Introduction flush left (margin) paragraph.</p>
+<p>\li#</p>
+<p>* Introduction list paragraph</p>
+<p>* # denotes the title level or relative weighting.</p>
+<p>\q#</p>
+<p>* Introduction poetry line.</p>
+<p>\tr | \th | \thr | \tc | \tcr</p>
+<p>* For any tabular data.</p>
+<h3><a name="backmatter"></a>Back Matter</h3>
+<p>Suggested \id:</p>
+<p>\id BAK</p>
+<p>...</p>
+<p>\mt#</p>
+<p>* Main title (if required) for Back Matter.</p>
+<p>\s#</p>
+<p>* Back Matter headings.</p>
+<p>* Used in study bible back matter documents.</p>
+<p>* An example of three levels would be the first page of the Bosquejo de
+temas in 'La Biblia Devocional de Estudio'.</p>
+<p>\r</p>
+<p>* Back Matter reference, usually right aligned.</p>
+<p>* Used in study bible back matter documents.</p>
+<p>* An example would be the first page of the Bosquejo de temas in 'La
+Biblia Devocional de Estudio'.</p>
+<p>\li#</p>
+<p>* Back Matter list paragraph.</p>
+<p>* Used in study bible back matter documents.</p>
+<p>* An example of three levels would be pg 1132 in 'La Biblia Devocional de
+Estudio'.</p>
+<p>\p#</p>
+<p>* Back Matter text paragraph.</p>
+<p>\q#</p>
+<p>* Back Matter poetry paragraph.</p>
+<p>* Used in study bible front matter documents where scripture poetry is
+quoted.</p>
+<p>* An example would be pg 8 in 'La Biblia Devocional de Estudio'.</p>
+<h4><a name="concordance"></a>Concordance</h4>
+<p>Sub-group marker:</p>
+<p>\conc</p>
+<p>\mt#</p>
+<p>* Main title for Concordance.</p>
+<p>\k#</p>
+<p>* Concordance main entry text / keyword (required).</p>
+<p>* # denotes the entry level or weighting (main entry, sub entry, etc).</p>
+<p>\add</p>
+<p>* Concordance grammar abbreviation (optional).</p>
+<p>\p#</p>
+<p>* Concordance Main Entry Information - definitions or references
+(optional).</p>
+<p>\r</p>
+<p>* Concordance example reference (required).</p>
+<p>\tr | \th | \thr | \tc | \tcr</p>
+<p>* For any tabular data.</p>
+<h4><a name="glossary"></a>Glossary</h4>
+<p>Sub-group marker:</p>
+<p>\glo</p>
+<p>\mt#</p>
+<p>* Main title for Glossary.</p>
+<p>\s#</p>
+<p>* Glossary section heading.</p>
+<p>\k#</p>
+<p>* Glossay main entry / keyword (required).</p>
+<p>* # can be used to denote an (optional) sub-entry level.</p>
+<p>\p#</p>
+<p>* Glossary definition entry (required).</p>
+<p>* Also used for any additional paragraphs in the defintion entry
+(optional).</p>
+<p>\li#</p>
+<p>* Glossary list paragraph (optional).</p>
+<p>\tl...\tl*</p>
+<p>* Glossary national idiom word(s).</p>
+<h4><a name="index"></a>Index</h4>
+<p>Sub-group marker:</p>
+<p>\idx</p>
+<p>\mt#</p>
+<p>* Main title for Index.</p>
+<p>\ms</p>
+<p>* Topical index major section heading.</p>
+<p>* Often used for alphabetical character dividers (optional).</p>
+<p>\s</p>
+<p>* Topical index section heading.</p>
+<p>\k#</p>
+<p>* Topical index main entry text / keyword (required).</p>
+<p>* # denotes the entry level or weighting (main entry, sub entry, etc).</p>
+<p>\li#</p>
+<p>* Use for simple lists, where more complex tabular layout is not
+required.</p>
+<p>\tr | \th | \thr | \tc | \tcr</p>
+<p>* For any tabular data.</p>
+<p>\r</p>
+<p>* Topical index reference (required).</p>
+<h4><a name="mapsindex"></a>Maps Index</h4>
+<p>Sub-group marker:</p>
+<p>\maps</p>
+<p>\mt#</p>
+<p>* Main title for Map Index.</p>
+<p>\s</p>
+<p>* (Section) Heading</p>
+<p>\tr | \th | \thr | \tc | \tcr</p>
+<p>* For any tabular data.</p>
+<p>\r</p>
+<p>* Map index reference.</p>
+<h3><a name="other"></a>Other</h3>
+<p>Suggested \id:</p>
+<p>\id OTH ...</p>
+<h4><a name="cover"></a>Cover</h4>
+<p>Sub-group marker:</p>
+<p>\cov</p>
+<p>\mt#</p>
+<p>* Cover main title (required).</p>
+<p>* # denotes the entry level or weighting (main entry, sub entry, etc).</p>
+<h4><a name="spine"></a>Spine</h4>
+<p>Sub-group marker:</p>
+<p>\spine</p>
+<p>\mt#</p>
+<p>* Spine book title (required) and language name title.</p>
+<p>* # denotes the entry level or weighting (main entry, sub entry, etc).</p>
+<p>* More than one level is needed on diglots.</p>
+<h4><a name="illustrations"></a>Illustrations</h4>
+<p>See \fig...\fig*</p>
+</body>
+</html>

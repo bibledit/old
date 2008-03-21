@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<title>Bibledit</title>
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h2><a name="installxulrunnerfromsource"></a>Install xulrunner from source</h2>
+<p>Download package <a
+href="http://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases">xulrunner-x.x-source.tar.bz2</a>
+(x.x is to be replaced with the actual version number). It is available from
+<a
+href="http://developer.mozilla.org/en/docs/XULRunner">http://developer.mozilla.org/en/docs/XULRunner</a>
+too.</p>
+<p>Move it to the home directory</p>
+<p>In the terminal, to verify the package is there, type</p>
+<pre>ls</pre>
+<p>To unpack xulrunner type</p>
+<pre>tar jxf xulrunner-x.x.tar.bz2</pre>
+<p>To enter the newly created directory, type</p>
+<pre>cd mozilla</pre>
+<p>To download a configuration file, type</p>
+<pre>wget http://bibledit.sourceforge.net/dot.mozconfig</pre>
+<p>To give this file a proper name, type</p>
+<pre>mv dot.mozconfig .mozconfig</pre>
+<p>To configure xulrunner, type</p>
+<pre>./configure</pre>
+<p>Watch many messages, but no errors.</p>
+<p>To compile xulrunner, type</p>
+<pre>make</pre>
+<p>Watch many messages, but no errors.</p>
+<p>To install it, type</p>
+<pre>sudo make install</pre>
+<p>Watch many messages, but no errors.</p>
+<p>As root, copy all the files and directories from
+/usr/lib/xulrunner-x.x.x.x to /usr/lib. To do this, type</p>
+<pre>cp -r /usr/lib/xulrunner-x.x.x.x/* /usr/lib</pre>
+<p>In the above command the "x.x.x.x" should be replaced with the actual
+version number, for example "1.8.0.4". If it asks to overwrite any file,
+answer yes.</p>
+<p>To go back to the home directory, type</p>
+<pre>cd</pre>
+</body>
+</html>

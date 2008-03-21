@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<title>Bibledit</title>
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h2><a name="elastics"></a>Elastics</h2>
+<p>Bibledit supports the use of elastics, or rubber bands, to vertically
+align some text on a page.</p>
+<p>In the example below we wish to print a cover with the word "Bible" in the
+middle.</p>
+<p>To do that, the following code is put in the book "Other Material":</p>
+<pre>\zelastic
+\mt Bible
+\zelastic</pre>
+<p>The picture below shows how the page looks like and how the elastics have
+been used to achieve the vertical outline of the word "Bible".</p>
+<p><img alt="elastic" src="elastic.gif" /></p>
+<p>The first "\zelastic" line connects the first elastic to the top of the
+page. The other side of this elastic is connected to the sign "Bible". Then
+from this sign, another elastic goes to the bottom of the page. These two
+elastics will then be stretched, and thus pull the word "Bible" to the middle
+of the page.</p>
+<p>This it how it basically works. More elastics can be added, e.g. if
+another elastic would be added below the last, the result would be that the
+word "Bible" would move up.</p>
+<p>Consider the following code:</p>
+<pre>\zelastic
+\mt Bible
+\zelastic
+\mt3 Bible Society</pre>
+<p>This puts "Bible Society" at the bottom of the page, and "Bible" in the
+middle, using two elastics. This shows another property of elastics: whenever
+elastics are used on a page, the whole page is filled, either with text, as
+in this example, or with white space.</p>
+<p>Note. Elastics works in layouts with one column. A feature request for
+support in two-column layouts can be submitted, if this is needed.</p>
+</body>
+</html>

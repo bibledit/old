@@ -1,0 +1,6 @@
+#!/bin/bash
+
+sudo chmod 666 /dev/net/tun
+sudo echo 1024 > /proc/sys/dev/rtc/max-user-freq
+
+qemu -m 256 -kernel-kqemu -soundhw es1370 -net user -net nic,model=rtl8139 -hda xo-1-olpc-stream-joyride-build-1508-20080105_0053-devel_ext3.img

@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="content-type" />
+<title>Bibledit Resource Viewer</title>
+<script language="JavaScript">
+function reload()
+{
+  // Reload the page. 
+  // Get the anchor that Bibledit wrote in this page.
+  location.reload();
+  var goto_anchor = document.anchors[0].name;
+
+  // Bail out if the anchor is still the same as the previous one.
+  if (goto_anchor == window.parent.frames[1].previous_anchor) {
+    return;
+  }
+
+  // Store the anchor for next time, to see if it had changed.
+  window.parent.frames[1].previous_anchor = goto_anchor;
+
+  // Okay, anchor differs: Process the new anchor.
+
+  // Get the current url, and retrieve the part before any possible #.
+  // E.g. "file:///text.html#Genesis_2_2" becomes "file:///text.html"
+  var url = window.parent.frames[1].location.href;
+  var pos = url.indexOf ('#');
+  if (pos >= 0) {
+    url = url.substring (0, pos);
+  }
+
+  // Add the new anchor to it, in this example the next verse,
+  // so the new url becomes "file:///text.html#Genesis_2_3"
+  url += "#" + goto_anchor;
+
+  // Set the window to the new url, including the anchor.
+  window.parent.frames[1].location.href=url;
+
+  // Focus the window so the keyboard works in it.
+  window.parent.frames[1].focus ();
+
+  // Automatically closing a window does not work, because only 
+  // a window opened by JavaScript can be closed by JavaScript.
+}
+</script>
+</head>
+<body onLoad="setTimeout('reload()',1000)">
+<p><a name="Matthew_1_1"></a></p>
+</body>
+</html>

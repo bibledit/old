@@ -1,0 +1,6 @@
+for file in configure* src/Makefile*
+do
+  sed 's/xulrunner/firefox/g' $file > use-firefox.tmp
+  mv use-firefox.tmp $file
+  chmod +x $file
+done

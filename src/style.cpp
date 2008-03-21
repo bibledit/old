@@ -1,0 +1,83 @@
+/*
+** Copyright (©) 2003-2008 Teus Benschop.
+**  
+** This program is free software; you can redistribute it and/or modify
+** it under the terms of the GNU General Public License as published by
+** the Free Software Foundation; either version 3 of the License, or
+** (at your option) any later version.
+**  
+** This program is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+** GNU General Public License for more details.
+**  
+** You should have received a copy of the GNU General Public License
+** along with this program; if not, write to the Free Software
+** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+**  
+*/
+
+
+#include "libraries.h"
+#include "utilities.h"
+#include <glib.h>
+#include "style.h"
+#include "xmlutils.h"
+#include "gwrappers.h"
+#include "directories.h"
+#include "stylesheetutils.h"
+#include "constants.h"
+
+
+Style::Style (const ustring& stylesheet, const ustring& style, bool write)
+// Reads a style from the database.
+{
+  // Save variables.
+  mystylesheet = stylesheet;
+  marker = style;
+  mywrite = write;
+  // Set default values.
+  name = "Marker";
+  info = "Unified Standard Format Marker";
+  fontsize = 12;
+  fontpercentage = 100;
+  italic = OFF;
+  bold = OFF;
+  underline = OFF;
+  underline = OFF;
+  superscript = false;
+  justification = LEFT;
+  spacebefore = 0;
+  spaceafter = 0;
+  leftmargin = 0;
+  rightmargin = 0;
+  firstlineindent = 0;
+  spancolumns = false;
+  type = stInlineText;
+  subtype = 0;
+  color = 0;
+  print = true;
+  userbool1 = false;
+  userbool2 = false;
+  userbool3 = false;
+  userint1 = 0;
+  userint2 = 0;
+  userint3 = 0;
+  // Read values from the database.
+  stylesheet_load_style (mystylesheet, * this);  
+}
+
+
+Style::~Style ()
+{
+  // Save style in database.
+  if (mywrite) {
+    stylesheet_save_style (mystylesheet, * this);
+  }
+}
+
+
+void Style::read_template ()
+{
+  stylesheet_load_style ("", * this);
+}

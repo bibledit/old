@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" lang="en">
+<head>   <meta content="text/html; charset=UTF-8" http-equiv="content-type" />   <title>Bibledit</title>
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h2><a name="installbibleditonlinux"></a>Install Bibledit on Linux</h2>
+<!-- Table of Contents Start -->
+<div id="toc">
+<ul>
+<li>
+<a href="#preparelinux" class="level1">Prepare Linux</a></li>
+<li>
+<a href="#installsqlite3" class="level1">Install sqlite3</a></li>
+<li>
+<a href="#installbibledit" class="level1">Install Bibledit</a></li>
+<li>
+<a href="#runbibledit" class="level1">Run Bibledit</a></li>
+<li>
+<a href="#installjava" class="level1">Install Java</a></li>
+<li>
+<a href="#installxep" class="level1">Install XEP</a></li>
+</ul>
+</div>
+<!-- Table of Contents End -->
+<h3><a name="preparelinux"></a>Prepare Linux</h3>
+<p>Bibledit needs some libraries and tools which are not installed on most
+standard installations of Linux. Therefore you need to install these before
+installing Bibledit. In most cases it is sufficient to install the
+development packages of <a href="glossary.html#gtk">Gtk2</a> and <a
+href="glossary.html#sqlite">sqlite3</a> and all their dependencies.</p>
+<p>To help you with it, some example prepared installations are given
+below.</p>
+<p><a href="prepare_debian_etho.html">Prepare Debian Etho</a></p>
+<p><a href="prepare_suse_10_0.html">Prepare Suse 10.0</a></p>
+<p><a href="install_bibledit16_debian_31.html">Prepare Debian 3.1</a></p>
+<p><a href="install_bibledit16_fedora_core_5.html">Prepare Fedora Core
+5</a></p>
+<p><a href="install_bibledit16_fedora_core_4.html">Prepare Fedora Core
+4</a></p>
+<p><a href="install_bibledit16_ubuntu_510.html">Prepare Ubuntu 5.10</a></p>
+<p><a href="install_bibledit16_knoppix_402.html">Prepare Knoppix 4.02</a></p>
+<p>When through, open a terminal. This is going to be used in the next few
+steps.</p>
+<h3><a name="installsqlite3"></a>Install sqlite3</h3>
+<p>If you know that your Linux distribution comes with sqlite3, you can skip
+this step. For example, Fedora Core 5 comes with it, and Ubuntu 5.10, and
+Debian Etho.</p>
+<p>Download a version of sqlite3, e.g. sqlite-3.3.4.tar.gz, from <a
+href="http://www.sqlite.org/">http://www.sqlite.org.</a></p>
+<p>Move it to the home directory.</p>
+<p>To verify the package is there, type</p>
+<pre>ls</pre>
+<p>To unpack sqlite3 type</p>
+<pre>tar zxf sqlite-3.3.4.tar.gz</pre>
+<p>To enter the newly created directory, type</p>
+<pre>cd sqlite-3.3.4</pre>
+<p>To configure sqlite, type</p>
+<pre>./configure --prefix=/usr</pre>
+<p>Watch many messages, but no errors.</p>
+<p>To compile sqlite, type</p>
+<pre>make</pre>
+<p>Watch many messages, but no errors.</p>
+<p>To install sqlite, type</p>
+<pre>sudo make install</pre>
+<p>and provide the password.</p>
+<p>Watch many messages, but no errors.</p>
+<p>To go back to the home directory, type</p>
+<pre>cd</pre>
+<p>Optionally the tarball and the directory it made can be cleaned away. To
+do that, type</p>
+<pre>rm -rf sqlite-3*</pre>
+<h3><a name="installbibledit"></a>Install Bibledit</h3>
+<p>If you know that your Linux distribution comes with bibledit, you can skip
+this step. For example, Debian Etho comes with it.</p>
+<p>Note. In case of upgrading, Bibledit ought to be installed while it is not
+running.</p>
+<p>Download package <a
+href="http://sourceforge.net/project/showfiles.php?group_id=111189&amp;package_id=121462">bibledit-x.x.tar.gz</a>
+(x.x is to be replaced with the actual version number).</p>
+<p>Move it to the home directory.</p>
+<p>In the terminal, to verify the package is there, type</p>
+<pre>ls</pre>
+<p>To unpack bibledit type</p>
+<pre>tar zxf bibledit-x.x.tar.gz</pre>
+<p>To enter the newly created directory, type</p>
+<pre>cd bibledit-x.x</pre>
+<p>To configure bibledit, type</p>
+<pre>./configure</pre>
+<p>Watch many messages, but no errors.</p>
+<p>To compile bibledit, type</p>
+<pre>make</pre>
+<p>Watch many messages, but no errors.</p>
+<p>To install it, type</p>
+<pre>sudo make install</pre>
+<p>and give the password. Or if this does not work, type su, and provide the
+password, then type make install, then type exit to become a normal user
+again.</p>
+<p>Watch many messages, but no errors.</p>
+<p>To go back to the home directory, type</p>
+<pre>cd</pre>
+<p>Optionally the tarball and the directory it made can be cleaned away. To
+do that, type</p>
+<pre>rm -rf bibledit-*</pre>
+<p>Optionally you can add a <a href="launcher.html">launcher</a> to the
+panel.</p>
+<h3><a name="runbibledit"></a>Run Bibledit</h3>
+<p>To start bibledit, type</p>
+<pre>bibledit &amp;</pre>
+<h3><a name="installjava"></a>Install Java</h3>
+<p>Download a Sun Java virtual machine from <a
+href="http://www.java.com/en/download/linux_manual.jsp">http://www.java.com/en/download/linux_manual.jsp.</a></p>
+<p>Choose the "Linux (self extracting file)", which gives a file called
+jre-1_5_0_06-linux-i586.bin in the home directory, or a higher version.</p>
+<p>In the terminal, to verify the package is there, type</p>
+<pre>ls</pre>
+<p>To install the package, type</p>
+<pre>sh jre-1_5_0_06-linux-i586.bin</pre>
+<p>Agree to the license and complete installing Java.</p>
+<p>Make a note of the directory where Java got installed. In this case this
+is ~/jre1.5.0_06</p>
+<p>Note. If you install it in the directory given above, then Bibledit will
+find Java automatically. If you install it elsewhere, you need to enter the
+path to Java by hand.</p>
+<p>Note. Some Linux distributions come with their own version of Java
+installed. It may be quite a hassle to find out where this version of Java
+has been installed, and so it may be difficult to locate it in Bibledit. In
+case you encounter trouble to find that directory, it will be easier to just
+download the Java version as described above, and install it following the
+instructions. And moreover, the GNU version of Java, gij, is not enough for
+XEP. Hence, if this version comes with your Linux distribution, you still
+need to install the one from Sun.</p>
+<h3><a name="installxep"></a>Install XEP</h3>
+<p><a href="xep_install.html">Install XEP</a>.</p>
+</body>
+</html>
