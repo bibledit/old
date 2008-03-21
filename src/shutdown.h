@@ -23,8 +23,6 @@
 
 
 #include "libraries.h"
-#include <glib.h>
-#include <gtk/gtk.h>
 
 
 void shutdown_actions ();

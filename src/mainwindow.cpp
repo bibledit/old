@@ -7206,6 +7206,8 @@ void MainWindow::on_mergegui_save_editors_button ()
 
 // Make icons for Eee PC
 
+// New installation instructions for version 3.1: remove libpopt-dev in all cases.
+
 // install on macintosh.
 
 // Try hosting on savannah.nongnu.org
