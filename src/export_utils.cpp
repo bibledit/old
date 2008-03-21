@@ -63,17 +63,44 @@ void export_to_usfm (GtkWidget * parent, bool zipped)
   else location = gtkw_file_chooser_select_folder (parent, "", location);
   if (!location.empty()) {
     settings->session.export_usfm_location = location;
-    GwSpawn spawn ("bibledit-bin");
-    spawn.arg ("--export-project-usfm");
-    spawn.arg ("--gui");
-    spawn.arg ("--project");
-    spawn.arg (settings->genconfig.project_get());
-    spawn.arg ("--location");
-    spawn.arg (location);
-    if (zipped) spawn.arg ("--zip");
-    spawn.async ();
-    spawn.run ();
+    export_to_usfm (settings->genconfig.project_get(), location, zipped);
   }    
+}
+
+
+void export_to_usfm (const ustring& project, ustring location, bool zip)
+{
+  // (Temporal) output directory.
+  ustring tempdir = gw_build_filename (directories_get_temp(), "usfm-export");
+  unix_rmdir (tempdir);
+  gw_mkdir_with_parents (tempdir);
+  if (!zip) gw_mkdir_with_parents (location);
+    
+  // Get books.
+  vector <unsigned int> books = project_get_books (project);
+
+  // Progress information.
+  ProgressWindow progresswindow ("Exporting project", false);
+  progresswindow.set_iterate (0, 1, books.size());
+
+  // Export all books to usfm.
+  for (unsigned int i = 0; i < books.size(); i++) {
+    // Progress info.
+    progresswindow.iterate ();
+    vector <ustring> lines = project_retrieve_book (project, books[i]);
+    ustring filename = books_id_to_english (books[i]) + ".usfm";
+    if (zip) filename = gw_build_filename (tempdir, filename);
+    else filename = gw_build_filename (location, filename);
+    write_lines (filename, lines);
+  }
+
+  // Zip them?
+  if (zip) {
+    if (!g_str_has_suffix (location.c_str(), ".zip")) location.append (".zip");
+    unlink (location.c_str());
+    ustring command = "cd" + shell_quote_space (tempdir) + "; zip -r zip.zip *.usfm; mv zip.zip" + shell_quote_space (location); // todo fix on Windows.
+    system (command.c_str());
+  }
 }
 
 

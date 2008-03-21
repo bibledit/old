@@ -6,9 +6,5 @@ rm --force *~
 
 ./allpages
 
-./generalconfig
-
-./projectconfig
-
 ./contents
 

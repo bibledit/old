@@ -98,10 +98,10 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogselectchapters.$(OBJEXT) portion_utils.$(OBJEXT) \
 	scriptureportions.$(OBJEXT) editor.$(OBJEXT) uname.$(OBJEXT) \
 	dialogscreenlayout.$(OBJEXT) layout.$(OBJEXT) user.$(OBJEXT) \
-	scripting.$(OBJEXT) import.$(OBJEXT) clean.$(OBJEXT) \
-	categorize.$(OBJEXT) progresswindow.$(OBJEXT) books.$(OBJEXT) \
-	vacuum.$(OBJEXT) dialogbook.$(OBJEXT) generalconfig.$(OBJEXT) \
-	screen.$(OBJEXT) projectconfig.$(OBJEXT) gui.$(OBJEXT) \
+	import.$(OBJEXT) clean.$(OBJEXT) categorize.$(OBJEXT) \
+	progresswindow.$(OBJEXT) books.$(OBJEXT) vacuum.$(OBJEXT) \
+	dialogbook.$(OBJEXT) generalconfig.$(OBJEXT) screen.$(OBJEXT) \
+	projectconfig.$(OBJEXT) gui.$(OBJEXT) \
 	check_validate_usfm.$(OBJEXT) checks.$(OBJEXT) \
 	dialoglinecutter.$(OBJEXT) check_count_words.$(OBJEXT) \
 	dialogoutpost.$(OBJEXT) dialognotestransfer.$(OBJEXT) \
@@ -159,7 +159,7 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	resource_conversion_utils.$(OBJEXT) convert.$(OBJEXT) \
 	textviewer.$(OBJEXT) roman.$(OBJEXT) project_memory.$(OBJEXT) \
 	editorsgui.$(OBJEXT) restart.$(OBJEXT) mergegui.$(OBJEXT) \
-	dialogmerge.$(OBJEXT) merge_utils.$(OBJEXT)
+	dialogmerge.$(OBJEXT) merge_utils.$(OBJEXT) shutdown.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -242,8 +242,8 @@ LIBOBJS =
 LIBS = -Wall `pkg-config gthread-2.0 --libs` `pkg-config sqlite3 \
 	--libs` `pkg-config gobject-2.0 --libs` `pkg-config glib-2.0 \
 	--libs` `pkg-config gtk+-2.0 --libs` `pkg-config fontconfig \
-	--libs` -lpopt `xml2-config --libs` `pkg-config \
-	xulrunner-gtkmozembed --libs` $(am__append_1)
+	--libs` `xml2-config --libs` `pkg-config xulrunner-gtkmozembed \
+	--libs` $(am__append_1)
 LTLIBOBJS = 
 MAKEINFO = ${SHELL} /home/teus/documents/dev/bibledit/missing --run makeinfo
 MAKE_PATH = /usr/bin/make
@@ -444,7 +444,6 @@ bibledit_bin_SOURCES = \
         dialogscreenlayout.cpp \
         layout.cpp \
         user.cpp \
-        scripting.cpp \
         import.cpp \
         clean.cpp \
         categorize.cpp \
@@ -580,7 +579,8 @@ bibledit_bin_SOURCES = \
         restart.cpp \
         mergegui.cpp \
         dialogmerge.cpp \
-        merge_utils.cpp
+        merge_utils.cpp \
+        shutdown.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall \
@@ -867,7 +867,6 @@ include ./$(DEPDIR)/resourceviewergui.Po
 include ./$(DEPDIR)/restart.Po
 include ./$(DEPDIR)/roman.Po
 include ./$(DEPDIR)/screen.Po
-include ./$(DEPDIR)/scripting.Po
 include ./$(DEPDIR)/scripturechecks.Po
 include ./$(DEPDIR)/scriptureportions.Po
 include ./$(DEPDIR)/search_utils.Po
@@ -876,6 +875,7 @@ include ./$(DEPDIR)/session_highlights.Po
 include ./$(DEPDIR)/settings.Po
 include ./$(DEPDIR)/shell.Po
 include ./$(DEPDIR)/shortcuts.Po
+include ./$(DEPDIR)/shutdown.Po
 include ./$(DEPDIR)/sqlite_reader.Po
 include ./$(DEPDIR)/statistics.Po
 include ./$(DEPDIR)/style.Po

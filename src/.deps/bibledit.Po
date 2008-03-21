@@ -445,8 +445,8 @@ bibledit.o bibledit.o: bibledit.cpp libraries.h \
   outline.h gui_styles.h displayprojectnotes.h git.h resourceviewergui.h \
   /usr/include/xulrunner/gtkembedmoz/gtkmozembed.h resource.h \
   editorsgui.h mergegui.h directories.h utilities.h dialogshowscript.h \
-  shell.h user.h scripting.h vacuum.h gtkwrappers.h upgrade.h \
-  notecaller.h progresswindow.h unixwrappers.h settings.h session.h \
+  shell.h user.h shutdown.h vacuum.h gtkwrappers.h upgrade.h notecaller.h \
+  progresswindow.h unixwrappers.h settings.h session.h \
   session_highlights.h generalconfig.h constants.h projectconfig.h ipc.h \
   /usr/include/sys/un.h localizedbooks.h versifications.h mappings.h \
   ot-quotations.h mapping.h styles.h
@@ -1539,7 +1539,7 @@ shell.h:
 
 user.h:
 
-scripting.h:
+shutdown.h:
 
 vacuum.h:
 

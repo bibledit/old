@@ -34,6 +34,7 @@
 #include "htmlbrowser.h"
 #include "tiny_utilities.h"
 #include "git.h"
+#include "export_utils.h"
 
 
 void backup_make_incremental ()
@@ -100,15 +101,7 @@ void backup_make (const ustring& project, bool full, int timefrom)
   
   if (full) {
     // Handle full backup first.
-    GwSpawn spawn ("bibledit-bin");
-    spawn.arg ("--export-project-usfm");
-    spawn.arg ("--gui");
-    spawn.arg ("--project");
-    spawn.arg (project);
-    spawn.arg ("--location");
-    spawn.arg (filename);
-    spawn.arg ("--zip");
-    spawn.run ();
+    export_to_usfm (project, filename, true);
   } else {
     // Handle incremental backups.
     // Get the books/chapters changed since a given time.

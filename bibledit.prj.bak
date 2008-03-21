@@ -795,7 +795,9 @@ module.source.files=\
 	src/mergegui.cpp\
 	src/mergegui.h\
 	src/dialogmerge.cpp\
-	src/dialogmerge.h
+	src/dialogmerge.h\
+	src/merge_utils.cpp\
+	src/merge_utils.h
 
 module.pixmap.name=.
 module.pixmap.type=

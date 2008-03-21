@@ -1,11 +1,9 @@
 dist_pkgdata_DATA = *.html *.css *.jpeg *.gif
 EXTRA_DIST = update dot.mozconfig
 CLEANFILES = *~
-noinst_PROGRAMS = allpages contents generalconfig projectconfig
+noinst_PROGRAMS = allpages contents
 allpages_SOURCES = allpages.cpp
 contents_SOURCES = contents.cpp
-generalconfig_SOURCES = generalconfig.cpp
-projectconfig_SOURCES = projectconfig.cpp
 AM_CXXFLAGS = -Wall \
               `pkg-config gobject-2.0 --cflags` \
               `pkg-config glib-2.0 --cflags` \

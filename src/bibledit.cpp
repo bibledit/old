@@ -28,7 +28,7 @@
 #include "dialogshowscript.h"
 #include "shell.h"
 #include "user.h"
-#include "scripting.h"
+#include "shutdown.h"
 #include "vacuum.h"
 #include "gtkwrappers.h"
 #include "upgrade.h"
@@ -99,12 +99,6 @@ int main (int argc, char *argv[])
       fprintf(stderr, "Bad xembed value: %s\n", argv[2]);
       return 1;
     }
-    std::copy(argv + 3, argv + argc, argv + 1);
-    argc -= 2;
-  }
-  // Run the backend and terminate if there are commandline arguments
-  if (argc > 1) {
-    return scripting ((const int) argc, (const char **) argv);
   }
   // We need thread support.
   g_thread_init (NULL);

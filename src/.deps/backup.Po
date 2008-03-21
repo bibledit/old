@@ -435,7 +435,7 @@ backup.o backup.o: backup.cpp backup.h libraries.h \
   gwrappers.h date_time_utils.h statistics.h categorize.h utilities.h \
   projectutils.h sqlite_reader.h books.h bookdata.h unixwrappers.h \
   directories.h shell.h gtkwrappers.h htmlbrowser.h tiny_utilities.h \
-  git.h reference.h
+  git.h reference.h export_utils.h
 
 backup.h:
 
@@ -1476,3 +1476,5 @@ tiny_utilities.h:
 git.h:
 
 reference.h:
+
+export_utils.h:

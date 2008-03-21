@@ -38,8 +38,7 @@ POST_UNINSTALL = :
 build_triplet = i686-pc-linux-gnu
 host_triplet = i686-pc-linux-gnu
 target_triplet = i686-pc-linux-gnu
-noinst_PROGRAMS = allpages$(EXEEXT) contents$(EXEEXT) \
-	generalconfig$(EXEEXT) projectconfig$(EXEEXT)
+noinst_PROGRAMS = allpages$(EXEEXT) contents$(EXEEXT)
 subdir = doc
 DIST_COMMON = $(dist_pkgdata_DATA) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in
@@ -57,12 +56,6 @@ allpages_LDADD = $(LDADD)
 am_contents_OBJECTS = contents.$(OBJEXT)
 contents_OBJECTS = $(am_contents_OBJECTS)
 contents_LDADD = $(LDADD)
-am_generalconfig_OBJECTS = generalconfig.$(OBJEXT)
-generalconfig_OBJECTS = $(am_generalconfig_OBJECTS)
-generalconfig_LDADD = $(LDADD)
-am_projectconfig_OBJECTS = projectconfig.$(OBJEXT)
-projectconfig_OBJECTS = $(am_projectconfig_OBJECTS)
-projectconfig_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -71,10 +64,8 @@ CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 CXXLD = $(CXX)
 CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
-SOURCES = $(allpages_SOURCES) $(contents_SOURCES) \
-	$(generalconfig_SOURCES) $(projectconfig_SOURCES)
-DIST_SOURCES = $(allpages_SOURCES) $(contents_SOURCES) \
-	$(generalconfig_SOURCES) $(projectconfig_SOURCES)
+SOURCES = $(allpages_SOURCES) $(contents_SOURCES)
+DIST_SOURCES = $(allpages_SOURCES) $(contents_SOURCES)
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -223,8 +214,6 @@ EXTRA_DIST = update dot.mozconfig
 CLEANFILES = *~
 allpages_SOURCES = allpages.cpp
 contents_SOURCES = contents.cpp
-generalconfig_SOURCES = generalconfig.cpp
-projectconfig_SOURCES = projectconfig.cpp
 AM_CXXFLAGS = -Wall \
               `pkg-config gobject-2.0 --cflags` \
               `pkg-config glib-2.0 --cflags` \
@@ -272,12 +261,6 @@ allpages$(EXEEXT): $(allpages_OBJECTS) $(allpages_DEPENDENCIES)
 contents$(EXEEXT): $(contents_OBJECTS) $(contents_DEPENDENCIES) 
 	@rm -f contents$(EXEEXT)
 	$(CXXLINK) $(contents_LDFLAGS) $(contents_OBJECTS) $(contents_LDADD) $(LIBS)
-generalconfig$(EXEEXT): $(generalconfig_OBJECTS) $(generalconfig_DEPENDENCIES) 
-	@rm -f generalconfig$(EXEEXT)
-	$(CXXLINK) $(generalconfig_LDFLAGS) $(generalconfig_OBJECTS) $(generalconfig_LDADD) $(LIBS)
-projectconfig$(EXEEXT): $(projectconfig_OBJECTS) $(projectconfig_DEPENDENCIES) 
-	@rm -f projectconfig$(EXEEXT)
-	$(CXXLINK) $(projectconfig_LDFLAGS) $(projectconfig_OBJECTS) $(projectconfig_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -287,8 +270,6 @@ distclean-compile:
 
 include ./$(DEPDIR)/allpages.Po
 include ./$(DEPDIR)/contents.Po
-include ./$(DEPDIR)/generalconfig.Po
-include ./$(DEPDIR)/projectconfig.Po
 
 .cpp.o:
 	if $(CXXCOMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ $<; \

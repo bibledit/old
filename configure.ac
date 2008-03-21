@@ -163,7 +163,6 @@ AC_HEADER_DIRENT
 AC_HEADER_SYS_WAIT
 AC_CHECK_HEADERS([arpa/inet.h limits.h locale.h netdb.h netinet/in.h stddef.h stdlib.h string.h sys/file.h sys/socket.h sys/time.h unistd.h])
 AC_CHECK_HEADERS([sys/ioctl.h])
-AC_CHECK_HEADER(popt.h, , AC_MSG_ERROR([Header file popt.h was not found. Usually this is in libpopt-dev.]))
 AC_CHECK_HEADER(sqlite3.h, , AC_MSG_ERROR([Header file sqlite3.h was not found. Usually this is in libsqlite3-dev.]))
 
 # Checks for typedefs, structures, and compiler characteristics.
@@ -196,7 +195,6 @@ AC_FUNC_LSTAT
 AC_TYPE_UID_T
 AC_FUNC_ERROR_AT_LINE
 AC_PROG_GCC_TRADITIONAL
-AC_CHECK_LIB(popt,poptGetContext,echo -n,echo ***ERROR: libpopt is missing; exit 1)
 
 # Checks for Additional stuffs.
 # Set PACKAGE PREFIX

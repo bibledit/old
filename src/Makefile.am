@@ -113,7 +113,6 @@ bibledit_bin_SOURCES = \
         dialogscreenlayout.cpp \
         layout.cpp \
         user.cpp \
-        scripting.cpp \
         import.cpp \
         clean.cpp \
         categorize.cpp \
@@ -249,7 +248,8 @@ bibledit_bin_SOURCES = \
         restart.cpp \
         mergegui.cpp \
         dialogmerge.cpp \
-        merge_utils.cpp
+        merge_utils.cpp \
+        shutdown.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 
@@ -269,7 +269,6 @@ LIBS = -Wall `pkg-config gthread-2.0 --libs` \
              `pkg-config glib-2.0 --libs` \
              `pkg-config gtk+-2.0 --libs` \
              `pkg-config fontconfig --libs` \
-             -lpopt \
              `xml2-config --libs` \
              `pkg-config xulrunner-gtkmozembed --libs`
 

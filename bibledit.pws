@@ -11,7 +11,7 @@ filter.file.ignore.hidden=0
 filter.dir.ignore.hidden=0
 
 [filenumbers]
-0=7213
+0=1
 1=5
 2=7211
 3=5
@@ -45,7 +45,7 @@ filter.dir.ignore.hidden=0
 14=
 
 [filelist]
-0=/home/teus/documents/dev/bibledit/src/mainwindow.cpp
+0=/home/teus/documents/dev/bibledit/src/scripting.cpp
 1=/home/teus/documents/dev/bibledit/configure.ac
 
 [Project Tree]
