@@ -1,0 +1,19 @@
+#!/bin/sh
+
+
+# This script patches some files on Mac OSX.
+
+
+# Check whether we're on Darwin.
+if [ "`uname`" != "Darwin" ]
+  then
+    echo Not running on Mac OSX. Quitting.
+fi
+
+
+# Copy the firefox libraries, otherwise bibledit won't find them.
+pushd /opt/local/lib
+cd firefox-2*
+cp -r * ..
+cp -r * /usr/lib
+pushd
