@@ -1,0 +1,12 @@
+noinst_PROGRAMS = eeepc-install-menu
+eeepc_install_menu_SOURCES = eeepc-install-menu.cpp
+
+AM_CXXFLAGS = -Wall `pkg-config glib-2.0 --cflags`
+
+LIBS = -Wall `pkg-config glib-2.0 --libs`
+
+EXTRA_DIST = *
+CLEANFILES = *~
+
+install-exec-hook:
+	./eeepc-install-menu

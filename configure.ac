@@ -252,6 +252,7 @@ AC_OUTPUT( Makefile
                    desktop/Makefile
                    windows/Makefile
                    tests/Makefile
+                   eeepc/Makefile
 		   )
 
 echo "

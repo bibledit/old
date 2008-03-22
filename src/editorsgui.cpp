@@ -821,3 +821,10 @@ void EditorsGUI::reload_chapter (unsigned int book, unsigned int chapter)
     editors[i]->chapter_load (chapter);
   }
 }
+
+
+/*
+Todo tab crash.
+E.g. project test and test2 are opened in one tab, and project Ndebele is opened in a second tab. 
+Closing e.g. Ndebele crashes Bibledit.
+*/

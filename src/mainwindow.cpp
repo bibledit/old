@@ -7202,6 +7202,4 @@ void MainWindow::on_mergegui_save_editors_button ()
 
 // Todo some points:
 
-// Make icons for Eee PC
-
 // Hosting on savannah.nongnu.org

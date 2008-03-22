@@ -1,0 +1,931 @@
+<simpleui>
+
+<backgroundimage
+	barBackground="barbg.png"
+	selTabLeft="selleftbarbg.png"
+	selTabBackground="seltabrbg.png"
+	selTabRight="selrightbarbg.png"
+	tabDivider="tabdividerbg.png"
+	iconBackground="icon_background.png"
+	folderBarBackground="folderbarbg.png"
+	upFolderNorm="go_up_button_norm.png"
+	upFolderHigh="go_up_button_hi.png"
+/>
+
+<simplecat id="Internet" icon="Internet.png" background="internet_wallpaper.jpg">
+	<name lang="en">Internet</name>
+	<name lang="zh_TW">網際網路</name>
+	<name lang="zh_CN">互联网</name>
+</simplecat>
+
+<simplecat id="Work" icon="work_sel.png" background="work_wallpaper.jpg">
+	<name lang="en">Work</name>
+	<name lang="zh_TW">工作</name>
+	<name lang="zh_CN">工作</name>
+</simplecat>
+
+<simplecat id="Learn" icon="learn_sel.png" background="learn_wallpaper.jpg">
+	<name lang="en">Learn</name>
+	<name lang="zh_TW">學習</name>
+	<name lang="zh_CN">学习</name>
+</simplecat>
+
+<simplecat id="Play" icon="play_sel.png" background="play_wallpaper.jpg">
+	<name lang="en">Play</name>
+	<name lang="zh_TW">娛樂</name>
+	<name lang="zh_CN">娱乐</name>
+</simplecat>
+
+<simplecat id="Settings" icon="system_sel.png" background="settings_wallpaper.jpg">
+	<name lang="en">Settings</name>
+	<name lang="zh_TW">設定</name>
+	<name lang="zh_CN">设置</name>
+</simplecat>
+
+<simplecat id="Favorites" icon="fav_sel.png" background="internet_wallpaper.jpg">
+	<name lang="en">Favorites</name>
+	<name lang="zh_TW">我的最愛</name>
+	<name lang="zh_CN">收藏夹</name>
+</simplecat>
+
+
+
+<folder simplecat="Learn" id="Science"
+	icon="dir_science_norm.png" 
+	selected_icon="dir_science_hi.png">
+	<name lang="en">Science</name>
+	<name lang="zh_TW">科學</name>
+	<name lang="zh_CN">科学</name>
+</folder>
+
+
+
+<folder simplecat="Work" id="Accessories"
+	icon="dir_accessories_norm.png" 
+	selected_icon="dir_accessories_hi.png">
+	<name lang="en">Accessories</name>
+	<name lang="zh_TW">工具程式</name>
+	<name lang="zh_CN">附件</name>
+</folder>
+
+
+
+<folder simplecat="Learn" id="Language"
+	icon="dir_language_norm.png" 
+	selected_icon="dir_language_hi.png">
+	<name lang="en">Language</name>
+	<name lang="zh_TW">語言學習</name>
+	<name lang="zh_CN">语言</name>
+</folder>
+
+
+
+<folder simplecat="Learn" id="Math"
+	icon="dir_math_norm.png" 
+	selected_icon="dir_math_hi.png">
+	<name lang="en">Math</name>
+	<name lang="zh_TW">數學</name>
+	<name lang="zh_CN">数学</name>
+</folder>
+
+
+
+<folder simplecat="Learn" id="Paint"
+	icon="dir_paint_norm.png" 
+	selected_icon="dir_paint_hi.png">
+	<name lang="en">Paint</name>
+	<name lang="zh_TW">繪圖</name>
+	<name lang="zh_CN">绘图</name>
+</folder>
+
+
+
+<folder simplecat="Play" id="Games"
+	icon="dir_game_norm.png" 
+	selected_icon="dir_game_hi.png">
+	<name lang="en">Games</name>
+	<name lang="zh_TW">遊戲</name>
+	<name lang="zh_CN">游戏</name>
+</folder>
+
+
+
+<parcel simplecat="Internet" shortcut="/opt/firefox/firefox.desktop"
+	icon="web_norm.png" 
+	selected_icon="web_hi.png">
+	<name lang="en">Web</name>	
+	<name lang="zh_TW">網路瀏覽器</name>
+	<name lang="zh_CN">网页浏览器</name>
+</parcel>
+
+
+
+<folder simplecat="Internet" id="WebMail"
+	icon="webmail_norm.png"
+	selected_icon="webmail_hi.png">
+	<name lang="en">Web Mail</name>
+	<name lang="zh_TW">網路郵件</name>
+	<name lang="zh_CN">网络邮件</name>
+</folder>
+
+
+
+<parcel simplecat="Internet/WebMail" extraargs="/opt/firefox/firefox http://gmail.google.com"
+	icon="gmail_norm.png"
+	selected_icon="gmail_hi.png" >
+	<name lang="en">Gmail</name>
+	<name lang="zh_TW">Gmail</name>
+	<name lang="zh_CN">Gmail</name>
+	<include>en zh_TW</include>
+</parcel>
+
+
+
+<parcel simplecat="Internet/WebMail" extraargs="/opt/firefox/firefox http://www.hotmail.com"
+	icon="webmail_norm.png"
+	selected_icon="webmail_hi.png" >
+	<name lang="en">Hotmail</name>
+	<name lang="zh_TW">Hotmail</name>
+	<name lang="zh_CN">Hotmail</name>
+
+</parcel>
+
+
+
+<parcel simplecat="Internet/WebMail" extraargs="/opt/xandros/bin/p701-yahoo.sh"
+	icon="webmail_norm.png"
+	selected_icon="webmail_hi.png" >
+	<name lang="en">Yahoo</name>
+	<name lang="zh_TW">Yahoo</name>
+	<name lang="zh_CN">Yahoo</name>
+</parcel>
+
+
+
+<parcel simplecat="Internet/WebMail" extraargs="/opt/xandros/bin/p701-aol.sh"
+	icon="webmail_norm.png"
+	selected_icon="webmail_hi.png" >
+	<name lang="en">AOL</name>
+	<name lang="zh_TW">AOL</name>
+	<name lang="zh_CN">AOL</name>
+
+</parcel>
+
+
+
+<parcel simplecat="Internet" extraargs="/opt/firefox/firefox http://www.igoogle.com"
+	icon="igoogle_norm.png"
+	selected_icon="igoogle_hi.png" >
+	<name lang="en">iGoogle</name>
+	<name lang="zh_TW">iGoogle</name>
+	<name lang="zh_CN">iGoogle</name>
+	<include>en zh_CN zh_TW</include>
+</parcel>
+
+
+
+<parcel simplecat="Internet" shortcut="pidgin.desktop"
+	icon="messenger_norm.png"
+	selected_icon="messenger_hi.png">
+	<name lang="en">Messenger</name>
+	<name lang="zh_TW">Messenger</name>
+	<name lang="zh_CN">Messenger</name>
+	<desc lang="en">multi-protocol instant messaging client.</desc>
+</parcel>
+
+
+
+<parcel simplecat="Internet" shortcut="skype.desktop"
+	icon="skype_norm.png" 
+	selected_icon="skype_hi.png">
+	<name lang="en">Skype</name>
+	<name lang="zh_TW">網路電話</name>
+	<name lang="zh_CN">Skype</name>
+	<desc lang="en">Skype is free Internet telephony that just works.</desc>
+</parcel>
+
+
+<parcel simplecat="Internet" extraargs="/usr/bin/sudo -H /usr/bin/xandrosncs-proxy --launch-manage-tool"
+	icon="network_norm.png" 
+	selected_icon="network_hi.png" >
+	<name lang="en">Network</name>
+	<name lang="zh_TW">網路設定</name>
+	<name lang="zh_CN">网络设置</name>
+</parcel>
+
+
+
+<parcel simplecat="Internet" extraargs="/usr/bin/XandrosFileManager ~/My\ Documents/My\ Ebooks -caption File\ Manager -maximized"
+	icon="ebook_norm.png"
+	selected_icon="ebook_hi.png">
+	<name lang="en">eBook</name>
+	<name lang="zh_TW">電子書管理員</name>
+	<name lang="zh_CN">电子书管理员</name>
+	<desc lang="en">FBReader is an e-book reader for various platforms.</desc>
+	<include>en zh_CN zh_TW</include>
+</parcel>
+
+
+
+<parcel simplecat="Work" shortcut="ooo-writer.desktop" 
+	icon="documents_norm.png"
+	selected_icon="documents_hi.png">
+	<name lang="en">Documents</name>
+	<name lang="zh_TW">文書處理</name>
+	<name lang="zh_CN">文档处理</name>
+	<desc lang="en">OpenOffice.org office suite - word processor</desc>
+</parcel>
+
+
+
+<parcel simplecat="Work" shortcut="ooo-calc.desktop"
+	icon="spreadsheet_norm.png"
+	selected_icon="spreadsheet_hi.png">
+	<name lang="en">Spreadsheets</name>
+	<name lang="zh_TW">試算表</name>
+	<name lang="zh_CN">工作表</name>
+	<desc lang="en">OpenOffice.org office suite - spreadsheet</desc>
+</parcel>
+
+
+
+<parcel simplecat="Work" shortcut="ooo-impress.desktop"
+	icon="presentation_norm.png"
+	selected_icon="presentation_hi.png" >
+	<name lang="en">Presentations</name>
+	<name lang="zh_TW">簡報</name>
+	<name lang="zh_CN">演示文稿</name>
+</parcel> 
+
+
+
+<parcel simplecat="Internet" extraargs="/opt/firefox/firefox http://docs.google.com"
+	icon="google_docs_norm.png"
+	selected_icon="google_docs_hi.png" >
+	<name lang="en">Google Docs</name>	
+	<name lang="zh_TW">Google文書處理</name>
+	<name lang="zh_CN">Google文档处理</name>
+	<include>en zh_TW</include>
+</parcel>
+
+
+
+<parcel simplecat="Work" shortcut="AdobeReader.desktop"
+	icon="kpdf_norm.png" 
+	selected_icon="kpdf_hi.png" >
+	<name lang="en">PDF Reader</name>
+	<name lang="zh_TW">PDF閱讀程式</name>
+	<name lang="zh_CN">PDF浏览器</name>
+</parcel>
+
+
+
+<parcel simplecat="Work" shortcut="/opt/thunderbird/thunderbird.desktop"
+	icon="mail_norm.png" 
+	selected_icon="mail_hi.png" >
+	<name lang="en">Mail</name>
+	<name lang="zh_TW">電子郵件</name>
+	<name lang="zh_CN">电子邮件</name>
+</parcel>
+
+
+
+<parcel simplecat="Work/Accessories" shortcut="kde/kcalc.desktop"
+	icon="calculator_norm.png"
+	selected_icon="calculator_hi.png">
+	<name lang="en">Calculator</name>
+	<name lang="zh_TW">計算機</name>
+	<name lang="zh_CN">计算器</name>
+	<desc lang="en">KCalc is KDE's scientific calculator.</desc>
+</parcel>
+
+
+
+<parcel simplecat="Work" extraargs="/usr/bin/XandrosFileManager -caption File\ Manager -maximized"
+	icon="file_manager_norm.png"
+	selected_icon="file_manager_hi.png" >
+	<name lang="en">File Manager</name>
+	<name lang="zh_TW">檔案管理員</name>
+	<name lang="zh_CN">资源管理器</name>
+</parcel>
+
+
+
+<parcel simplecat="Work/Accessories" shortcut="kde/Kontact.desktop"
+	icon="kontact_norm.png"
+	selected_icon="kontact_hi.png">
+	<name lang="en">PIM</name>
+	<name lang="zh_TW">個人資訊管理員</name>
+	<name lang="zh_CN">个人信息管理器</name>
+	<desc lang="en">Kontact is the integrated solution to your personal information management needs. It combines KDE applications like KMail, KOrganizer, and KAddressBook into a single interface to provide easy access to mail, scheduling, address book and other PIM functionality.</desc>
+</parcel>
+
+
+
+<parcel simplecat="Internet" shortcut="kde/kworldclock.desktop"
+	icon="kworldclock_norm.png"
+	selected_icon="kworldclock_hi.png">
+	<name lang="en">World Clock</name>
+	<name lang="zh_TW">世界時鐘</name>
+	<name lang="zh_CN">世界时钟</name>
+	<desc lang="en">Displays where in the world it is light and dark depending on time, as well as offering the time in all of the major cities of the world. This can be run standalone, as an applet in the KDE panel or as a desktop background.</desc>
+</parcel>
+
+
+
+<parcel simplecat="Settings" shortcut="kde/XandrosAntivirus.desktop"
+	icon="antivirus_norm.png"
+	selected_icon="antivirus_hi.png">
+	<name lang="en">Anti-Virus</name>
+	<name lang="zh_TW">防毒軟體</name>
+	<name lang="zh_CN">防毒软件</name>
+</parcel>
+
+
+
+<parcel simplecat="Work/Accessories" shortcut="kde/ksnapshot.desktop" 
+	icon="ksnapshot_norm.png" 
+	selected_icon="ksnapshot_hi.png">
+	<name lang="en">Screen Capture</name>
+	<name lang="zh_TW">螢幕擷取工具</name>
+	<name lang="zh_CN">屏幕截图工具</name>
+	<desc lang="en">KSnapshot is a simple applet for taking screenshots. It is capable of capturing images of either the whole desktop or just a single window. The images can then be saved in a variety of formats.</desc>
+</parcel>
+
+
+
+<parcel simplecat="Work" shortcut="/usr/share/applications/planner.desktop" 
+	icon="planner_norm.png" 
+	selected_icon="planner_hi.png" >
+	<name lang="en">Project</name>
+	<name lang="zh_TW">專案管理</name>
+	<name lang="zh_CN">项目管理</name>
+</parcel>
+
+
+
+<parcel simplecat="Work" extraargs="/usr/bin/xlex"
+	icon="dictionary_norm.png" 
+	selected_icon="dictionary_hi.png">
+	<name lang="en">Dictionary</name>
+	<name lang="zh_TW">字典</name>
+	<name lang="zh_CN">词典</name>
+</parcel>
+
+
+
+<parcel simplecat="Work" shortcut="kde/knotes.desktop" 
+	icon="notes_norm.png" 
+	selected_icon="notes_hi.png" >
+	<name lang="en">Notes</name>
+	<name lang="zh_TW">便條</name>
+	<name lang="zh_CN">便笺</name>
+</parcel>
+
+
+
+<parcel simplecat="Work" shortcut="abiword.desktop" 
+	icon="documents_norm.png"
+	selected_icon="documents_hi.png">
+	<name lang="en">AbiWord</name>
+	<name lang="zh_TW">文書處理</name>
+	<name lang="zh_CN">文档处理</name>
+	<desc lang="en">AbiWord is the first application of a complete, open source office suite. The upstream source includes cross-platform support for Win32, BeOS, and QNX as well as GTK+ on Unix.</desc>
+</parcel>
+
+
+<parcel simplecat="Work" shortcut="gnumeric.desktop"
+	icon="spreadsheet_norm.png"
+	selected_icon="spreadsheet_hi.png">
+	<name lang="en">Gnumeric</name>
+	<name lang="zh_TW">試算表</name>
+	<name lang="zh_CN">工作表</name>
+	<desc lang="en">Gnumeric is a powerful spreadsheet application that interoperates well with other spreadsheets. It comes with plugins that enable it to deal with commonly used spreadsheet file formats.</desc>
+</parcel>
+
+
+<parcel simplecat="Work" shortcut="kde/kivio.desktop"
+	icon="kvisio_norm.png"
+	selected_icon="kvisio_hi.png">
+	<name lang="en">Flow Chart</name>
+	<name lang="zh_TW">流程繪圖工具</name>
+	<name lang="zh_CN">流程图</name>
+	<desc lang="en">Kivio is a flowcharting program that offers basic flowcharting abilities, but with a twist. Objects are scriptable, and a backend plugin system offers the ability to make objects do just about anything.</desc>
+</parcel>
+
+
+
+<parcel simplecat="Internet" extraargs="/opt/firefox/firefox http://www.wikipedia.org"
+	icon="wikipedia_norm.png"
+	selected_icon="wikipedia_hi.png" >
+	<name lang="en">Wikipedia</name>
+	<name lang="zh_TW">維基百科</name>
+	<name lang="zh_CN">维基百科</name>
+	<exclude>zh_CN</exclude>
+</parcel>
+
+
+
+<parcel simplecat="Learn/Language" extraargs="/usr/games/tuxtype"
+	icon="tuxtyping_norm.png" 
+	selected_icon="tuxtyping_hi.png">
+	<name lang="en">Typing</name>
+	<name lang="zh_TW">打字訓練</name>
+	<name lang="zh_CN">打字练习</name>
+	<desc lang="en">TuxTyping is an educational typing tutorial game starring Tux, the Linux Penguin. The player guides Tux to eat fish which are falling from the top of the screen. Each fish has a letter written on it. When the player presses the corresponding key, Tux will position himself to eat the fish.  The game is intended for children learning to type, though it does have higher difficulty levels which even experienced typists may find challenging.</desc>
+</parcel>
+
+
+
+<parcel simplecat="Learn/Paint" shortcut="mtpaint.desktop"
+	icon="mtpaint_norm.png" 
+	selected_icon="mtpaint_hi.png">
+	<name lang="en">Paint</name>
+	<name lang="zh_TW">塗鴉</name>
+	<name lang="zh_CN">涂鸦</name>
+	<desc lang="en">mtPaint is a free, open source graphic editing program which uses the GTK+ toolkit.  It is geared towards creating indexed palette images and pixel art.</desc>
+</parcel>
+
+
+
+<parcel simplecat="Learn/Paint" extraargs="/usr/bin/tuxpaint --fullscreen --800x480"
+	icon="tuxpaint_norm.png" 
+	selected_icon="tuxpaint_hi.png">
+	<name lang="en">Tux Paint</name>
+	<name lang="zh_TW">企鵝小畫家</name>
+	<name lang="zh_CN">企鹅小画家</name>
+	<desc lang="en">A paint program for young children.</desc>
+</parcel>
+
+
+
+<parcel simplecat="Learn/Science" shortcut="kde/kalzium.desktop"
+	icon="kalzium_norm.png" 
+	selected_icon="kalzium_hi.png">
+	<name lang="en">Periodic Table</name>
+	<name lang="zh_TW">化學元素週期表</name>
+	<name lang="zh_CN">化学元素周期表</name>
+	<desc lang="en">Kalzium is a program which shows you the Periodic System of Elements (PSE). You can use Kalzium to search for information about the elements or to learn facts about the PSE.</desc>
+</parcel>
+
+
+
+<parcel simplecat="Learn/Language" shortcut="kde/kmessedwords.desktop"
+	icon="kmessedwords_norm.png" 
+	selected_icon="kmessedwords_hi.png">
+	<name lang="en">Letter Game</name>
+	<name lang="zh_TW">字母排序遊戲</name>
+	<name lang="zh_CN">字母排序游戏</name>
+	<desc lang="en">Letter order game for KDE.</desc>
+</parcel>
+
+
+
+<parcel simplecat="Learn/Math" shortcut="kde/kbruch.desktop"
+	icon="kbruch_norm.png" 
+	selected_icon="kbruch_hi.png">
+	<name lang="en">Fraction Tutorial</name>
+	<name lang="zh_TW">分數教學</name>
+	<name lang="zh_CN">分数教学</name>
+	<desc lang="en">KBruch is a small program to practice calculating with fractions. Different exercises are provided for this purpose. The program checks the user's input and gives feedback.</desc>
+</parcel>
+
+
+
+<parcel simplecat="Learn/Math" shortcut="tuxmath.desktop"
+	icon="tux_math_norm.png" 
+	selected_icon="tux_math_hi.png">
+	<name lang="en">TuxMath</name>	
+	<name lang="zh_TW">算術遊戲</name>
+	<name lang="zh_CN">算术游戏</name>
+	<desc lang="en">"Tux, of Math Command" ("TuxMath," for short) is an educational arcade game starring Tux, the Linux mascot! Based on the classic arcade game "Missile Command," Tux must defend his cities. In this case, though, he must do it by solving math problems.</desc>
+</parcel>
+
+
+
+<parcel simplecat="Learn/Language" shortcut="kde/khangman.desktop"
+	icon="khangman_norm.png" 
+	selected_icon="khangman_hi.png">
+	<name lang="en">Hangman Game</name>
+	<name lang="zh_TW">猜字遊戲</name>
+	<name lang="zh_CN">猜字游戏</name>
+	<desc lang="en">The classical hangman game for KDE.</desc>
+</parcel>
+
+
+
+<parcel simplecat="Learn/Math" shortcut="kde/kig.desktop"
+	icon="kig_norm.png" 
+	selected_icon="kig_hi.png">
+	<name lang="en">Geometry</name>
+	<name lang="zh_TW">幾何教學</name>
+	<name lang="zh_CN">几何教学</name>
+	<desc lang="en">Kig is an application for interactive geometry.</desc>
+</parcel>
+
+
+
+<parcel simplecat="Learn/Science" shortcut="kde/kstars.desktop"
+	icon="kstars_norm.png" 
+	selected_icon="kstars_hi.png">
+	<name lang="en">Planetarium</name>
+	<name lang="zh_TW">天文館</name>
+	<name lang="zh_CN">天文馆</name>
+	<desc lang="en">KStars is a graphical desktop planetarium for KDE.  It depicts an accurate simulation of the night sky, including stars, constellations, star clusters, nebulae, galaxies, all planets, the Sun, the Moon, comets and asteroids.  You can see the sky as it appears from any location on Earth, on any date.</desc>
+</parcel>
+
+
+
+<parcel simplecat="Learn/Math" shortcut="kde/kmplot.desktop"
+	icon="kmplot_norm.png" 
+	selected_icon="kmplot_hi.png">
+	<name lang="en">Function Plotter</name>
+	<name lang="zh_TW">函數繪圖</name>
+	<name lang="zh_CN">函数图</name>
+	<desc lang="en">KmPlot is a mathematical function plotter for KDE.  It has a powerful built-in parser.  You can plot different functions simultaneously and combine them to build new functions.</desc>
+</parcel>
+
+
+
+<parcel simplecat="Learn" extraargs="/opt/firefox/firefox http://www.skoool.ie/"
+	icon="skool_norm.png"
+	selected_icon="skool_hi.png">
+	<name lang="en">Web Learn</name>
+	<name lang="zh_TW">線上教室</name>
+	<name lang="zh_CN">在线教室</name>
+
+</parcel>
+
+
+
+<parcel simplecat="Play/Games" shortcut="kde/kpat.desktop"
+	icon="solitaire_norm.png" 
+	selected_icon="solitaire_hi.png">
+	<name lang="en">Solitaire</name>
+	<name lang="zh_TW">接龍</name>
+	<name lang="zh_CN">接龙</name>
+	<desc lang="en">KDE solitaire patience game.</desc>
+</parcel>
+
+
+﻿
+<parcel simplecat="Play/Games" shortcut="frozen-bubble.desktop" extraargs="--fullscreen"
+	icon="frozen_bubble_norm.png" 
+	selected_icon="frozen_bubble_hi.png">
+	<name lang="en">Frozen Bubble</name>
+	<name lang="zh_TW">企鵝泡泡</name>
+	<name lang="zh_CN">企鹅泡泡</name>
+	<desc lang="en">Frozen-Bubble is a clone of the popular "Puzzle Bobble" game.</desc>
+</parcel>
+
+
+
+<parcel simplecat="Play/Games" shortcut="crack-attack.desktop" extraargs="--solo --res 422" 
+	icon="crack_attack_norm.png" 
+	selected_icon="crack_attack_hi.png">
+	<name lang="en">Crack Attack</name>
+	<name lang="zh_TW">Crack Attack</name>
+	<name lang="zh_CN">Crack Attack</name>
+	<desc lang="en">Multiplayer OpenGL puzzle game like "Tetris Attack".</desc>
+</parcel>
+
+
+
+<parcel simplecat="Play/Games" extraargs="/opt/openarena/ioquake3.i386"
+	icon="openarena_norm.png" 
+	selected_icon="openarena_hi.png">
+	<name lang="en">OpenArena</name>
+	<name lang="zh_TW">OpenArena</name>
+	<name lang="zh_CN">OpenArena</name>
+	<desc lang="en">OpenArena is a 3D first person shooter games based on the Quake 3 engine.</desc>
+</parcel>
+
+
+
+<parcel simplecat="Play/Games" shortcut="ppracer.desktop"
+	icon="ppracer_norm.png"
+	selected_icon="ppracer_hi.png">
+	<name lang="en">Penguin Racer</name>
+	<name lang="zh_TW">Penguin Racer</name>
+	<name lang="zh_CN">Penguin Racer</name>
+	<desc lang="en">PlanetPenguin Racer, or ppracer as it is called for short, is a simple OpenGL racing game featuring Tux, the Linux mascot. The goal of the game is to slide down a snow- and ice-covered mountain as quickly as possible, avoiding the trees and rocks that will slow you down.</desc>
+</parcel>
+
+
+
+<parcel simplecat="Play/Games" shortcut="gnome-sudoku.desktop"
+	icon="sudoku_norm.png"
+	selected_icon="sudoku_hi.png">
+	<name lang="en">Sudoku</name>
+	<name lang="zh_TW">數獨</name>
+	<name lang="zh_CN">数独</name>
+	<desc lang="en">Sudoku is a logic-based number placement puzzle.</desc>
+</parcel>
+
+
+
+<parcel simplecat="Play/Games" shortcut="kde/ktuberling.desktop"
+	icon="potato_guy_norm.png"
+	selected_icon="potato_guy_hi.png">
+	<name lang="en">Potato Guy</name>
+	<name lang="zh_TW">Potato Guy</name>
+	<name lang="zh_CN">Potato Guy</name>
+
+	<desc lang="en">It is a potato editor. That means that you can drag and drop eyes, mouths, moustache, and other parts of face and goodies onto a potato-like guy. Similarly, you have a penguin on which you can drop other stuff.</desc>
+</parcel>
+
+
+
+<parcel simplecat="Play/Games" extraargs="/usr/games/ltris"
+	icon="ltris_norm.png"
+	selected_icon="ltris_hi.png">
+	<name lang="en">LTris</name>
+	<name lang="zh_TW">LTris方塊遊戲</name>
+	<name lang="zh_CN"> LTris方块游戏</name>
+	<desc lang="en">LTris is a very polished tetris clone, which offers three types of games. The classic mode, a figures mode, where different figures appear every level, and a multiplayer mode. LTris is highly configurable through its menu system.</desc>
+</parcel>
+
+
+
+<parcel simplecat="Play" extraargs="/usr/bin/smplayer"
+	icon="media_player_norm.png" 
+	selected_icon="media_player_hi.png">
+	<name lang="en">Media Player</name>
+	<name lang="zh_TW">影音播放器</name>
+	<name lang="zh_CN">媒体播放器</name>
+	<desc lang="en">MPlayer is a movie player for GNU/Linux.</desc>
+</parcel>
+
+
+
+<parcel simplecat="Play" shortcut="kde/amarok.desktop"
+	icon="music_library_norm.png" 
+	selected_icon="music_library_hi.png">
+	<name lang="en">Music Manager</name>
+	<name lang="zh_TW">音樂管理員</name>
+	<name lang="zh_CN">音乐管理器</name>
+</parcel>
+
+
+
+<parcel simplecat="Play" extraargs="/usr/bin/gwenview /home/user/My\ Documents/My\ Pictures"	
+	icon="photo_manager_norm.png" 
+	selected_icon="photo_manager_hi.png">
+	<name lang="en">Photo Manager</name>
+	<name lang="zh_TW">相片管理員</name>
+	<name lang="zh_CN">相片管理器</name>
+</parcel>
+
+
+
+<parcel simplecat="Play" extraargs="/usr/bin/XandrosVideoManager -maximized"
+	icon="video_manager_norm.png"
+	icon="video_manager_norm.png" 
+	selected_icon="video_manager_hi.png">
+	<name lang="en">Video Manager</name>
+	<name lang="zh_TW">影片管理員</name>
+	<name lang="zh_CN">视频管理器</name>
+	<include>en zh_CN zh_TW</include>
+  </parcel>
+
+
+
+<parcel simplecat="Internet" extraargs="/usr/bin/miro"
+	icon="iptv_norm.png"
+	selected_icon="iptv_hi.png">
+	<name lang="en">IPTV</name>
+	<name lang="zh_TW">IPTV</name>
+	<name lang="zh_CN">IPTV</name>
+	<desc lang="en">Miro is a platform for Internet television and video.  It allows you to download and watch videos from RSS feeds (including podcasts, video blogs, and BitTorrent feeds).</desc>
+</parcel>
+
+
+
+<parcel simplecat="Internet" extraargs="/opt/xandros/bin/p701-internet-radio.sh"
+	icon="internet_radio_norm.png"
+	selected_icon="internet_radio_hi.png" >
+	<name lang="en">Internet Radio</name>
+	<name lang="zh_TW">網路收音機</name>
+	<name lang="zh_CN">网络收音机</name>
+</parcel>
+
+
+
+<parcel simplecat="Internet" shortcut="splashtop.desktop"
+	icon="splashtop_asus_norm.png"
+	selected_icon="splashtop_asus_hi.png">
+	<name lang="en">Widgets</name>
+	<name lang="zh_TW">Widgets</name>
+	<name lang="zh_CN">Widgets</name>
+	<desc lang="en">Splashtop + lighttpd + php5 + Zend debian package.</desc>
+</parcel>
+
+
+
+<parcel simplecat="Internet" extraargs="/usr/bin/sudo /usr/bin/xncswizard"
+	icon="3g_norm.png"
+	selected_icon="3g_hi.png">
+	<name lang="en">3G</name>
+	<name lang="zh_TW">3G網路設定</name>
+	<name lang="zh_CN">3G网络设置</name>
+	<desc lang="en">3G Application.</desc>
+	<exclude>en zh_CN</exclude>
+</parcel>
+
+
+
+<parcel simplecat="Play" shortcut="ucview.desktop"
+	icon="camera_norm.png"
+	selected_icon="camera_hi.png" >
+	<name lang="en">Webcam</name>
+	<name lang="zh_TW">攝影機</name>
+	<name lang="zh_CN">网络摄像头</name>
+</parcel>
+
+
+
+<parcel simplecat="Play" extraargs="/usr/bin/krecord-hijack"
+	icon="krecord_norm.png"
+	selected_icon="krecord_hi.png">
+	<name lang="en">Sound Recorder</name>
+	<name lang="zh_TW">錄音工具</name>
+	<name lang="zh_CN">录音工具</name>
+	<desc lang="en">This is a sound recorder for KDE. It can just record and playback wav-files, that's all.</desc>
+</parcel>
+
+
+
+<parcel simplecat="Settings" extraargs="/usr/bin/minimixer"
+	icon="volume_control_norm.png" 
+	selected_icon="volume_control_hi.png" >
+	<name lang="en">Volume</name>
+	<name lang="zh_TW">聲音</name>
+	<name lang="zh_CN">音量</name>
+</parcel>
+
+
+
+<parcel simplecat="Settings" extraargs="/opt/xandros/bin/shutdown_dialog shutdown"
+	icon="instant_shutdown_norm.png" 
+	selected_icon="instant_shutdown_hi.png" >
+	<name lang="en">Instant Shutdown</name>
+	<name lang="zh_TW">快速關機</name>
+	<name lang="zh_CN">快速关机</name>
+</parcel>
+
+
+
+<parcel simplecat="Settings" shortcut="kde/xprinters.desktop"
+	icon="xprinters_norm.png" 
+	selected_icon="xprinters_hi.png" >
+	<name lang="en">Printers</name>
+	<name lang="zh_TW">印表機</name>
+	<name lang="zh_CN">打印机</name>
+</parcel>
+
+
+
+<parcel simplecat="Settings" extraargs="/opt/xandros/bin/system_info"
+	icon="sysinfo_norm.png"
+	selected_icon="sysinfo_hi.png" >
+	<name lang="en">System Info</name>
+	<name lang="zh_TW">系統資訊</name>
+	<name lang="zh_CN">系统信息</name>
+</parcel>
+
+
+
+<parcel simplecat="Settings" extraargs="/usr/bin/kcmshell --lang=`basename $LANG .UTF-8` --caption 'Date &amp; Time' clock"
+	icon="date_time_norm.png"
+	selected_icon="date_time_hi.png" >
+	<name lang="en">Date &amp; Time</name>
+	<name lang="zh_TW">日期與時間</name>
+	<name lang="zh_CN">日期与时间</name>
+</parcel>
+
+
+
+<parcel simplecat="Settings" extraargs="/opt/xandros/bin/password_dialog"
+	icon="personalization_norm.png"
+	selected_icon="personalization_hi.png" >
+	<name lang="en">Personalization</name>
+	<name lang="zh_TW">使用者與密碼</name>
+	<name lang="zh_CN">个性化设置</name>
+</parcel>
+
+
+
+<parcel simplecat="Settings" extraargs="/usr/bin/sudo /opt/xandros/bin/XNLite"
+	icon="add_remove_soft_norm.png"
+	selected_icon="add_remove_soft_hi.png" >
+	<name lang="en">Add/Remove Software</name>
+	<name lang="zh_TW">新增/移除程式</name>
+	<name lang="zh_CN">添加/删除软件</name>
+</parcel>
+
+
+
+<parcel simplecat="Settings" shortcut="gsynaptics.desktop"
+	icon="touchpad_norm.png"
+	selected_icon="touchpad_hi.png">
+	<name lang="en">Touchpad</name>
+	<name lang="zh_TW">觸控板設定</name>
+	<name lang="zh_CN">触摸板设置</name>
+	<desc lang="en">GSynaptics is a GUI configuration tool for the Synaptics touchpad driver of the X server. This allows for modifications of the driver parameters on the fly.</desc>
+</parcel>
+
+
+
+<parcel simplecat="Settings" extraargs="/usr/bin/sudo /usr/bin/diskutil"
+	icon="disk_utility_norm.png"
+	selected_icon="disk_utility_hi.png">
+	<name lang="en">Disk Utility</name>
+	<name lang="zh_TW">磁碟工具程式</name>
+	<name lang="zh_CN">磁盘工具</name>
+</parcel>
+
+
+
+<parcel simplecat="Settings" shortcut="asus-userdiag.desktop"
+	icon="diagnostics_norm.png"
+	selected_icon="diagnostics_hi.png">
+	<name lang="en">Diagnostic Tools</name>
+	<name lang="zh_TW">系統診斷工具</name>
+	<name lang="zh_CN">系统诊断工具</name>
+  <desc lang="en">Diagnostic tools.</desc>
+</parcel>
+
+
+
+<parcel simplecat="Favorites" extraargs="/opt/xandros/bin/p701-asus.sh"
+	icon="asus_norm.png" 
+	selected_icon="asus_hi.png" >
+	<name lang="en">Asus.com</name>
+	<name lang="zh_TW">Asus.com</name>
+	<name lang="zh_CN">Asus.com</name>
+</parcel>
+
+
+
+<parcel simplecat="Favorites" extraargs="/opt/xandros/bin/AsusCustomizer"
+	icon="add_remove_favorites_norm.png"
+	selected_icon="add_remove_favorites_hi.png">
+	<name lang="en">Customize</name>
+	<name lang="zh_TW">自訂我的最愛</name>
+	<name lang="zh_CN">自定义收藏夹</name>
+	</parcel>
+
+
+
+<parcel simplecat="Settings" extraargs="/usr/bin/display-settings"
+	icon="desktop_mode_norm.png"
+	selected_icon="desktop_mode_hi.png">
+	<name lang="en">Desktop Mode</name>
+	<name lang="zh_TW">顯示器</name>
+	<name lang="zh_CN">桌面分辨率设置</name>
+	<desc lang="en">Desktop Mode Application.</desc>
+</parcel>
+
+
+<parcel simplecat="Settings" extraargs="/usr/bin/voiceExecute"
+	icon="voice_recognition_norm.png"
+	selected_icon="voice_recognition_hi.png">
+	<name lang="en">VoiceCommand</name>
+	<name lang="zh_TW">語音辨識</name>
+	<name lang="zh_CN">智能声控</name>
+	<desc lang="en">VoiceCommand Application.</desc>
+</parcel>
+
+
+<parcel simplecat="Internet" extraargs="/usr/bin/sudo /usr/bin/xandrosncs-proxy --launch-wireless-tool"
+	icon="wireless_networks_norm.png"
+	selected_icon="wireless_networks_hi.png">
+	<name lang="en">Wireless Networks</name>
+	<name lang="zh_TW">無線網路</name>
+	<name lang="zh_CN">无线网络</name>
+	<desc lang="en">Wireless Networks</desc>
+</parcel>
+
+
+
+<parcel simplecat="Internet" extraargs="/opt/ezpeer/ezpeerlinux"
+	icon="music_store_norm.png"
+	selected_icon="music_store_hi.png">
+	<name lang="en">ezPeer</name>
+	<name lang="zh_TW">ezPeer</name>
+	<name lang="zh_CN">ezPeer</name>
+	<desc lang="en">ezPeer+ Online Music Player.</desc>
+	<include>zh_TW</include>
+</parcel>
+
+
+<parcel simplecat="Work" extraargs="/usr/bin/bibledit" 
+	icon="bibledit_norm.png" 
+	selected_icon="bibledit_hi.png" >
+	<name lang="en">Bibledit</name>
+	<name lang="zh_TW">Bibledit</name>
+	<name lang="zh_CN">Bibledit</name>
+</parcel>
+
+
+</simpleui>
