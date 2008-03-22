@@ -23,7 +23,6 @@
 #include "stylesheetutils.h"
 #include "projectutils.h"
 #include "categorize.h"
-#include "progresswindow.h"
 #include "settings.h"
 #include "notes_utils.h"
 #include "git.h"
@@ -32,8 +31,6 @@
 void shutdown_actions ()
 // Takes certain actions when Bibledit shuts down.
 {
-  ProgressWindow progresswindow ("Shutting down...", false);
-  
   // Open a configuration to read parameters from.
   extern Settings * settings;
     
@@ -41,22 +38,18 @@ void shutdown_actions ()
   // Set about to vacuum the sqlite databases.
   // Vacuuming a database is done only when it got changed. Saves time.
   // Project related databases.
-  progresswindow.set_fraction (0.2);
   vector <ustring> projects = projects_get_all ();
   for (unsigned int i = 0; i < projects.size(); i++) {
     project_vacuum (projects[i], startuptime);
   }
   // Stylesheets.
-  progresswindow.set_fraction (0.4);
   vector <ustring> stylesheets;
   stylesheet_get_ones_available (stylesheets);
   for (unsigned int i = 0; i < stylesheets.size(); i++) {
     stylesheet_vacuum (stylesheets[i], startuptime);
   }
   // Notes.
-  progresswindow.set_fraction (0.6);
   notes_vacuum (startuptime);
   // Git system.
-  progresswindow.set_fraction (0.8);
   git_cleanup ();
 }
