@@ -7198,8 +7198,3 @@ void MainWindow::on_mergegui_save_editors_button ()
 {
   editorsgui->save ();
 }
-
-
-// Todo some points:
-
-// Hosting on savannah.nongnu.org

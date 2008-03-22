@@ -656,25 +656,29 @@ void EditorsGUI::editors_pages_get (vector <Editor *>& editorpointers, vector <i
 // editorpointers : To store the list of Editors.
 // pages: If non-NULL: To store the list of page numbers.
 {
+  // If no editor is focused, bail out.
+  Editor * editor = focused_editor ();
+  if (!editor) return;
   for (int i = 0; i < gtk_notebook_get_n_pages (GTK_NOTEBOOK (notebook)); i++) {
     // Get the notebook page, which is a box for the split view.
     GtkWidget * split_box = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), i);
     // The box for the split view contains one or more vertical boxes for the editors.
     GList * children = gtk_container_get_children (GTK_CONTAINER (split_box));
     GList * list = children;
-    do {
-      GtkWidget * vbox = GTK_WIDGET (list->data);
-      for (unsigned int i2 = 0; i2 < editors.size (); i2++) {
-        if (vbox == editors[i2]->parent_vbox) {
-          editorpointers.push_back (editors[i2]);
-          if (pages) pages->push_back (i);
+    if (children) {
+      do {
+        GtkWidget * vbox = GTK_WIDGET (list->data);
+        for (unsigned int i2 = 0; i2 < editors.size (); i2++) {
+          if (vbox == editors[i2]->parent_vbox) {
+            editorpointers.push_back (editors[i2]);
+            if (pages) pages->push_back (i);
+          }
         }
-      }
-      list = g_list_next (list);
-    } while (list);
-    g_list_free (children);
+        list = g_list_next (list);
+      } while (list);
+      g_list_free (children);
+    }
   }
-
 }
 
 
@@ -821,10 +825,3 @@ void EditorsGUI::reload_chapter (unsigned int book, unsigned int chapter)
     editors[i]->chapter_load (chapter);
   }
 }
-
-
-/*
-Todo tab crash.
-E.g. project test and test2 are opened in one tab, and project Ndebele is opened in a second tab. 
-Closing e.g. Ndebele crashes Bibledit.
-*/

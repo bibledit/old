@@ -139,19 +139,3 @@ int main(int argc, char *argv[])
   // Done.
   return 0;
 }
-
-
-/*
-Todo icons for Eee PC
-
-http://forum.eeeuser.com/viewtopic.php?id=2773
-
-
-/home/user/.AsusLauncher/simpleui.rc
-
-
-/opt/xandros/share/AsusLauncher/simpleui.rc
-/home/user/.AsusLauncher/simpleui.rc
-
-
-*/
