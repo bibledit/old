@@ -31,6 +31,7 @@
 #include "settings.h"
 #include <errno.h>
 #include "directories.h"
+#include "tiny_utilities.h"
 
 
 Httpd::Httpd (bool dummy)
@@ -423,7 +424,7 @@ void Httpd::send_search_results (int fd, const ustring& searchword)
   // Assemble grep command.
   ustring command = "grep -i -l";
   command.append (shell_quote_space (searchword));
-  command.append (gw_build_filename (directories_get_package_data (), "*.html")); // todo use a ReadFiles function, and add all arguments to spawn.arg(). Everywhere.
+  command.append (gw_build_filename (directories_get_package_data (), "*.html"));
   // Run grep and output results.
   FILE *stream;
   stream = popen (command.c_str (), "r");
@@ -431,20 +432,26 @@ void Httpd::send_search_results (int fd, const ustring& searchword)
   bool succesfull = false;
   while (fgets (buf, sizeof (buf), stream)) {
     // Read a filename from grep.
-    ustring filename = buf;
-    filename.erase (filename.length() - 1, 1);
+    ustring filename = trim (buf);
     // Extract the heading from the file
-    string title = "Untitled";
-    ifstream in (filename.c_str());
-    string s;
-    while (getline (in, s)) {
-      if (s.find ("<h2") != string::npos) {
-        size_t pos2 = s.find (">");
-        pos2++;
-        title = s.substr (pos2, s.length() - pos2 - 5);
-        break;
+    string title;
+    ReadText rt (filename, true, true);
+    for (unsigned int i = 0; i < rt.lines.size (); i++) {
+      if (title.empty ()) {
+        if (rt.lines[i].find ("<h2") != string::npos) {
+          title = rt.lines[i];
+          size_t pos = title.find_last_of ("<");
+          if (pos != string::npos) {
+            title.erase (pos, 1000);
+          }
+          pos = title.find_last_of (">");
+          if (pos != string::npos) {
+            title.erase (0, ++pos);
+          }
+        }        
       }
     }
+    if (title.empty ()) title = "Untitled";
     // Get basename for html linking.
     filename = gw_path_get_basename (filename);
     // Output html code.

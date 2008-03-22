@@ -7202,12 +7202,6 @@ void MainWindow::on_mergegui_save_editors_button ()
 
 // Todo some points:
 
-// modify bibledit script for no scripting use.
-
 // Make icons for Eee PC
 
-// New installation instructions for version 3.1: remove libpopt-dev in all cases.
-
-// install on macintosh. It can't find the firefox gtkmozembed.dylib - let the executable path point to it.
-
-// Try hosting on savannah.nongnu.org
+// Hosting on savannah.nongnu.org
