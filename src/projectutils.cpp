@@ -40,6 +40,7 @@
 #include "git.h"
 #include "tiny_utilities.h"
 #include "notes_utils.h"
+#include "sed.h"
 
 
 void project_store_sanitize_line (ustring& line)
@@ -387,9 +388,33 @@ ustring project_retrieve_verse (const ustring& project, unsigned int book, unsig
 vector<ustring> project_retrieve_chapter (const ustring& project, unsigned int book, unsigned int chapter)
 // Get the chapter from disk.
 {
-  // Get the data.
+  // Get the filename of the chapter to retrieve.
   ustring filename = project_data_filename_chapter (project, book, chapter, false);
+
+  // If the project depends upon another project we need to make sure that we 
+  // retrieve the information from that project in case that project was updated.
+  // If the file stamp of the source project is newer, then that means it was updated.
+  extern Settings * settings;
+  ProjectConfiguration * projectconfig = settings->projectconfig (project, false);
+  if (projectconfig->depending_on_switch_get ()) {
+    ustring source_project = projectconfig->depending_on_project_get ();
+    if (!source_project.empty ()) {
+      ustring script = projectconfig->depending_on_script_get ();
+      unsigned int myfiledate = file_get_modification_time (filename);
+      ustring sourcefilename = project_data_filename_chapter (source_project, book, chapter, false);
+      unsigned int sourcefiledate = file_get_modification_time (sourcefilename);
+      if (sourcefiledate >= myfiledate) {
+        sed_filter (sed_script_path (script), script == sed_straight_through (), sourcefilename, sed_temporal_output_file ());
+        ReadText rt (sed_temporal_output_file (), true);
+        CategorizeChapterVerse ccv (rt.lines);    
+        project_store_chapter (project, book, ccv);
+      }
+    }
+  }
+
+  // Get the data.
   ReadText rt (filename, true);
+  
   // If the data shows that there is a conflict, solve it, then reload.
   bool solve_conflict = false;
   for (unsigned int i = 0; i < rt.lines.size(); i++) {
@@ -402,6 +427,7 @@ vector<ustring> project_retrieve_chapter (const ustring& project, unsigned int b
     ReadText rt2 (filename, true);
     return rt2.lines;
   }
+  
   // Return the data.
   return rt.lines;
 }

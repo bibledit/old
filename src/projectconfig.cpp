@@ -94,6 +94,9 @@ ProjectConfiguration::ProjectConfiguration (ustring project_in, bool save_on_des
   INITIALIZE (right_to_left);
   INITIALIZE (planning_project_start);
   INITIALIZE (planning_tasks);
+  INITIALIZE (depending_on_switch);
+  INITIALIZE (depending_on_project);
+  INITIALIZE (depending_on_script);
 }
 
 
@@ -147,6 +150,9 @@ void ProjectConfiguration::save ()
   SAVE_VALUE (right_to_left);
   SAVE_VALUE (planning_project_start);
   SAVE_VALUE (planning_tasks);
+  SAVE_VALUE (depending_on_switch);
+  SAVE_VALUE (depending_on_project);
+  SAVE_VALUE (depending_on_script);
 
   config_xml_values_set_execute (project_configuration_filename (project), values);
 }
@@ -302,3 +308,6 @@ IMPLEMENT (int, int_get, editor_selection_color, 4294343)
 IMPLEMENT (bool, bool_get, right_to_left, false)
 IMPLEMENT (int, int_get, planning_project_start, date_time_julian_day_get_current ())
 IMPLEMENT (vector<ustring>, vector_string_get, planning_tasks, NULL)
+IMPLEMENT (bool, bool_get, depending_on_switch, false)
+IMPLEMENT (ustring, string_get, depending_on_project, "")
+IMPLEMENT (ustring, string_get, depending_on_script, "")

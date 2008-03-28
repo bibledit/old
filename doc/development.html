@@ -1,52 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-<title>Bibledit</title>
-<link href="bibledit.css" rel="stylesheet" type="text/css" />
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+  <title>Bibledit</title>
+  <link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
+
 <body>
 <h2><a name="development"></a>Development</h2>
 <!-- Table of Contents Start -->
+
 <div id="toc">
 <ul>
-<li>
-<a href="#nightlybuilds" class="level1">Nightly builds</a></li>
-<li>
-<a href="#helpneeded" class="level1">Help needed</a></li>
-<li>
-<a href="#bugsandfeaturerequests" class="level1">Bugs and feature requests</a></li>
-<li>
-<a href="#coderepository" class="level1">Code repository</a></li>
-<li>
-<a href="#howitstarted" class="level1">How it started</a></li>
-<li>
-<a href="#usingthedebugger" class="level1">Using the debugger</a></li>
+  <li><a href="#nightlybuilds" class="level1">Nightly builds</a></li>
+  <li><a href="#helpneeded" class="level1">Help needed</a></li>
+  <li><a href="#bugsandfeaturerequests" class="level1">Bugs and feature
+    requests</a></li>
+  <li><a href="#coderepository" class="level1">Code repository</a></li>
+  <li><a href="#howitstarted" class="level1">How it started</a></li>
+  <li><a href="#usingthedebugger" class="level1">Using the debugger</a></li>
 </ul>
 </div>
 <!-- Table of Contents End -->
+
 <h3><a name="nightlybuilds"></a>Nightly builds</h3>
+
 <p>Nightly builds are at <a
 href="http://bibledit.sourceforge.net/hot-off-press">http://bibledit.sourceforge.net/hot-off-press</a>.
 These are the latest versions of Bibledit, which are released frequently,
 usually every night. These builds have not been thoroughly tested, but are
 supported, and give you a great way to follow the newest and latest
 developments in Bibledit.</p>
+
 <h3><a name="helpneeded"></a>Help needed</h3>
+
 <p>Help in developing Bibledit is welcome.</p>
+
 <p>* Do you like writing good documentation? Your help is welcome to maintain
 the helpfiles of Bibledit.</p>
-<p>* You know how useful .rpm and .deb packages are? <a
-href="making_packages.html">Making packages</a> could be the thing you would
-like to help with.</p>
+
+<p>* You know how useful packages are? Making packages could be the thing you
+would like to help with.</p>
+
 <p>* Are you good at testing? Your feedback is welcome and suggestions for
 new features too.</p>
+
 <h3><a name="bugsandfeaturerequests"></a>Bugs and feature requests</h3>
+
 <p>Sourceforge provides resources for developing Bibledit, and the <a
 href="http://sourceforge.net/projects/bibledit">Project Page</a> is the
 central point from where all these resources can be accessed.</p>
+
 <p>To report a problem go to the Project Page, and click on "Bugs". A list of
 open bugs will show, and you can see whether your bug has been reported
 already. If not, click "Submit New", fill in the screen with detailed
@@ -54,18 +60,24 @@ information on when the bug occurs, and the steps to be taken to reproduce
 it, and any other information that may be useful, and click the "Submit"
 button. You need to open an account with sourceforge to be able to do this,
 and then you'll be emailed whenever this bug is attended to.</p>
+
 <p>Asking for a new feature works the same, but this is done by clicking on
 "Feature Requests".</p>
+
 <p>More information can be found in the <a
 href="sourceforge_trackers.html">Features and Use of the SourceForge Software
 Development Tracking System.</a></p>
+
 <p>When submitting bug reports it is sometimes useful to include your
 configuration and data. This allows the programmer or tester to reproduce
 your bug, and so fix it. In a terminal type</p>
 <pre>tar -czf bibledit.tar.gz .bibledit</pre>
+
 <p>to create a file called bibledit.tar.gz. This file can be attached to the
 bug report.</p>
+
 <h3><a name="coderepository"></a>Code repository</h3>
+
 <p>The code is stored in the <a
 href="http://sourceforge.net/svn/?group_id=111189">online subversion
 repository of bibledit</a>. This allows developers to see the current state
@@ -73,48 +85,63 @@ of bibledit more easily, and submit patches against the current tree. All
 commits will be mailed out on the <a
 href="http://lists.sourceforge.net/mailman/admin/bibledit-commits">bibledit-commits@lists.sourceforge.net</a>
 mailing list.</p>
+
 <h3><a name="howitstarted"></a>How it started</h3>
+
 <p>It started with an entry in the programmer's diary:</p>
+
 <p>* Friday 30 May 2003. I made the decision to move from Windows to Linux.
 God will help here, and the future will show why this decision had to be
 taken. A lot of programming needs to be done to move the Bible translation
 programs to Linux.</p>
+
 <p>I remember that at that time I had lost peace with God for a good while,
 was in great unrest of mind, and examined myself thoroughly what it was, and
 then came to the above decision. It seemed to me a bit an unusual cause for
 this unrest, but nevertheless I could not find another one. After the
 decision was made and the actual move, I regained my peace.</p>
+
 <p>In 2004 some programming efforts were made to synchronize data between
 Paratext on Windows and Linux storage, and as I forsaw a greater future for
 this program, I called it Bibledit.</p>
+
 <p>After that I had a health breakdown and lost my energy, and was not able
 to contribute to Bibledit and had to lay down to rest during the breaks of
 our regular translation work. Then we as a family changed our lifestyle, and
 God restored my energy to the level I had in the days of my youth.</p>
+
 <p>From then on programming in Bibledit went in high gear, others started to
 contribute, and the project moved forward to where it is now.</p>
+
 <h3><a name="usingthedebugger"></a>Using the debugger</h3>
+
 <p>When working with support to troubleshoot a program, a core file may be
 requested.</p>
+
 <p>A core file is a file created by the operating system when a program
 terminates unexpectedly, encounters a bug, or violates the operating system's
 protection mechanisms.</p>
+
 <p>By default core files are not created on some Linux systems. Whether or
 not the operating system creates core files is controlled by the ulimit
 command. To see the current ulimit setting for core files, do the
 following:</p>
 <pre>ulimit -c
 0</pre>
+
 <p>The ulimit command sets limits on the resource available to the bash
 shell. The -c parameter controls the size of core files. The value 0
 indicates that core files are not created. To enable core file creation,
 increase the size limit of core files to a number greater than zero. For
 example:</p>
 <pre>ulimit -c 50000</pre>
+
 <p>allows core files and limits the file size to 50000 bytes.</p>
+
 <p>If you need to enable core file creation temporarily to create a core file
 for a problem application, increase the ulimit at the command line and then
 run the application.</p>
+
 <p>When bibledit segfaults and leaves a core dump file, you can use gdb to
 look at the program state when it crashed. Use the core command to load a
 core file.The argument to the core command is the filename of the core dump
@@ -126,19 +153,26 @@ prompt &gt; gdb bibledit
 ...
 (gdb) core core.&lt;pid&gt;
 ...</pre>
+
 <p>If bibledit crashes repeatedly, an easier way is to start bibledit through
 the debugger, and then use the backtrace command to see what happened and
 when.</p>
+
 <p>Open bibledit in the debugger:</p>
 <pre>gdb bibledit</pre>
+
 <p>Run it:</p>
 <pre>(gdb) run</pre>
+
 <p>If there is a problem, bibledit will freeze. Switch to the debugger, which
 has stopped. View the stack:</p>
 <pre>(gdb) backtrace</pre>
+
 <p>Pls. mail the developer and inform him about what you see and when it
 happened.</p>
+
 <p>Notes</p>
+
 <p>On Cygwin, gdb might get stopped and return you to the terminal. Enter
 "fg" to get the program back.</p>
 </body>

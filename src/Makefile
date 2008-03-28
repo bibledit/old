@@ -159,7 +159,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	resource_conversion_utils.$(OBJEXT) convert.$(OBJEXT) \
 	textviewer.$(OBJEXT) roman.$(OBJEXT) project_memory.$(OBJEXT) \
 	editorsgui.$(OBJEXT) restart.$(OBJEXT) mergegui.$(OBJEXT) \
-	dialogmerge.$(OBJEXT) merge_utils.$(OBJEXT) shutdown.$(OBJEXT)
+	dialogmerge.$(OBJEXT) merge_utils.$(OBJEXT) shutdown.$(OBJEXT) \
+	sed.$(OBJEXT) dialogfilters.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -253,9 +254,9 @@ PACKAGE_BUGREPORT = http://bibledit.sourceforge.net
 PACKAGE_CFLAGS =  
 PACKAGE_LIBS = -lfontconfig  
 PACKAGE_NAME = bibledit
-PACKAGE_STRING = bibledit 3.1
+PACKAGE_STRING = bibledit 3.1.07
 PACKAGE_TARNAME = bibledit
-PACKAGE_VERSION = 3.1
+PACKAGE_VERSION = 3.1.07
 PATH_SEPARATOR = :
 PKG_CONFIG = /usr/bin/pkg-config
 PKG_CONFIG_PATH = /usr/bin/pkg-config
@@ -268,7 +269,7 @@ STRINGS_PATH = /usr/bin/strings
 STRIP = 
 TAIL_PATH = /usr/bin/tail
 TEE_TOUCH = /usr/bin/touch
-VERSION = 3.1
+VERSION = 3.1.07
 WIN32_FALSE = 
 WIN32_TRUE = #
 XML2_CONFIG = /usr/bin/xml2-config
@@ -580,7 +581,9 @@ bibledit_bin_SOURCES = \
         mergegui.cpp \
         dialogmerge.cpp \
         merge_utils.cpp \
-        shutdown.cpp
+        shutdown.cpp \
+        sed.cpp \
+        dialogfilters.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall \
@@ -724,6 +727,7 @@ include ./$(DEPDIR)/dialogentry.Po
 include ./$(DEPDIR)/dialogentry3.Po
 include ./$(DEPDIR)/dialogexportnotes.Po
 include ./$(DEPDIR)/dialogfeatures.Po
+include ./$(DEPDIR)/dialogfilters.Po
 include ./$(DEPDIR)/dialogfindnote.Po
 include ./$(DEPDIR)/dialogfixmarkers.Po
 include ./$(DEPDIR)/dialogfont.Po
@@ -870,6 +874,7 @@ include ./$(DEPDIR)/screen.Po
 include ./$(DEPDIR)/scripturechecks.Po
 include ./$(DEPDIR)/scriptureportions.Po
 include ./$(DEPDIR)/search_utils.Po
+include ./$(DEPDIR)/sed.Po
 include ./$(DEPDIR)/session.Po
 include ./$(DEPDIR)/session_highlights.Po
 include ./$(DEPDIR)/settings.Po

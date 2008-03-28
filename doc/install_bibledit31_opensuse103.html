@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+  <title>Bibledit</title>
+  <link href="bibledit.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<h2><a name="opensuse103"></a>OpenSuse 10.3</h2>
+
+<p>These instructions assume Bibledit will be installed on a standard
+installation of the operating system, with KDE desktop.</p>
+
+<p>Insert the installation media.</p>
+
+<p>Click the Suse icon, at the bottom left.</p>
+
+<p>Click Computer, then Administrator Settings.</p>
+
+<p>Provide the password.</p>
+
+<p>In Software, choose "Software Management".</p>
+
+<p>Search for "gtk2-devel", and tick it.</p>
+
+<p>Click button Accept.</p>
+
+<p>In window "Changed Packages", click "Continue".</p>
+
+<p>The installer will take a while to update the system. Close the window
+when through.</p>
+
+<p>In the same way search for and install "sqlite-devel", "gcc-c++",
+"libxml2-devel", "git-core", and "mozilla-xulrunner181-devel".</p>
+
+<p>Open a terminal by clicking the Suse icon, then Terminal Program.</p>
+
+<p>Copy all the files and directories from /usr/lib/xulrunner-x.x.x to
+/usr/lib. To do this, in the terminal type</p>
+<pre>cd /usr/lib
+cd xulrunner*
+sudo cp -r * ..
+cd</pre>
+
+<p>If it asks to overwrite any file, answer yes.</p>
+
+<p><a href="install_bibledit.html">Install Bibledit</a>.</p>
+
+<p><a href="run.html">Run Bibledit</a>.</p>
+
+<p><a href="optional_components.html">Install the optional components</a>.</p>
+</body>
+</html>

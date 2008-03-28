@@ -131,6 +131,7 @@
 #include "dialoginterfaceprefs.h"
 #include "dialognewresource.h"
 #include "shutdown.h"
+#include "dialogfilters.h"
 
 
 /*
@@ -1805,6 +1806,14 @@ httpd (0)
     gtk_widget_show (image27031);
     gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (preferences_graphical_interface), image27031);
 
+    preferences_filters = gtk_image_menu_item_new_with_mnemonic ("Filter_s");
+    gtk_widget_show (preferences_filters);
+    gtk_container_add (GTK_CONTAINER (menuitem_preferences_menu), preferences_filters);
+
+    image28360 = gtk_image_new_from_stock ("gtk-convert", GTK_ICON_SIZE_MENU);
+    gtk_widget_show (image28360);
+    gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (preferences_filters), image28360);
+
   }
 
   menuitem_help = gtk_menu_item_new_with_mnemonic ("_Help");
@@ -2398,6 +2407,7 @@ httpd (0)
     g_signal_connect ((gpointer) preferences_reporting, "activate", G_CALLBACK (on_preferences_reporting_activate), gpointer(this));
     g_signal_connect ((gpointer) preferences_planning, "activate", G_CALLBACK (on_preferences_planning_activate), gpointer(this));
     g_signal_connect ((gpointer) preferences_graphical_interface, "activate", G_CALLBACK (on_preferences_graphical_interface_activate), gpointer(this));
+    g_signal_connect ((gpointer) preferences_filters, "activate", G_CALLBACK (on_preferences_filters_activate), gpointer(this));
   }
   g_signal_connect ((gpointer) help_context, "activate", G_CALLBACK (on_help_context_activate), gpointer(this));
   g_signal_connect ((gpointer) help_main, "activate", G_CALLBACK (on_help_main_activate), gpointer(this));
@@ -7198,3 +7208,36 @@ void MainWindow::on_mergegui_save_editors_button ()
 {
   editorsgui->save ();
 }
+
+
+/*
+|
+|
+|
+|
+|
+Diglot
+|
+|
+|
+|
+|
+*/
+
+
+void MainWindow::on_preferences_filters_activate (GtkMenuItem *menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_preferences_filters ();
+}
+
+
+void MainWindow::on_preferences_filters ()
+{
+  FiltersDialog dialog (0);
+  dialog.run ();
+}
+
+
+// Todo make installation software for on the XO: It installs the activity code, as on Asus PC.
+// Todo Give smaller icons to Asus Eee PC.
+// Todo make git work with external repository.

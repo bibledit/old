@@ -362,6 +362,8 @@ protected:
   GtkWidget *image26888;
   GtkWidget *preferences_graphical_interface;
   GtkWidget *image27031;
+  GtkWidget *preferences_filters;
+  GtkWidget *image28360;
   GtkWidget *menuitem_help;
   GtkWidget *menuitem_help_menu;
   GtkWidget *help_main;
@@ -869,6 +871,10 @@ protected:
   void on_mergegui_new_reference_button ();
   static void on_mergegui_save_editors_button_clicked (GtkButton *button, gpointer user_data);
   void on_mergegui_save_editors_button ();
+  
+  /* Diglot */
+  static void on_preferences_filters_activate (GtkMenuItem *menuitem, gpointer user_data);
+  void on_preferences_filters ();
 };
 
 

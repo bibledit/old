@@ -67,6 +67,11 @@ protected:
   GtkWidget *label12;
   GtkWidget *combobox_language;
   GtkWidget *checkbutton_right_to_left;
+  GtkWidget *hbox_depend;
+  GtkWidget *checkbutton_dependent;
+  GtkWidget *button_depend;
+  GtkWidget *label_depend;
+  GtkWidget *combobox_depend;
   GtkWidget *dialog_action_area1;
   GtkWidget *cancelbutton1;
   GtkWidget *okbutton1;
@@ -85,6 +90,13 @@ private:
   static void projectdialog_on_cancelbutton1_clicked (GtkButton * button, gpointer user_data);
   static void on_importbutton_clicked (GtkButton *button, gpointer user_data);
   static void on_checkbutton_editable_toggled (GtkToggleButton *togglebutton, gpointer user_data);
+  static void on_checkbutton_dependent_toggled (GtkToggleButton *togglebutton, gpointer user_data);
+  void on_checkbutton_dependent ();
+  static void on_button_depend_clicked (GtkButton *button, gpointer user_data);
+  void on_button_depend ();
+  ustring dependent_project (const ustring& project);
+  ustring none_project ();
+  ustring dependent_project ();
 };
 
 

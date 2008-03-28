@@ -26,6 +26,8 @@
 
 EntryDialog::EntryDialog (const ustring& title, const ustring& info, const ustring& value)
 {
+  always_ok = false;
+  
   entrydialog = gtk_dialog_new ();
   gtk_window_set_title (GTK_WINDOW (entrydialog), title.c_str());
   gtk_window_set_position (GTK_WINDOW (entrydialog), GTK_WIN_POS_CENTER_ON_PARENT);

@@ -797,7 +797,11 @@ module.source.files=\
 	src/dialogmerge.cpp\
 	src/dialogmerge.h\
 	src/merge_utils.cpp\
-	src/merge_utils.h
+	src/merge_utils.h\
+	src/shutdown.cpp\
+	src/shutdown.h\
+	src/sed.cpp\
+	src/sed.h
 
 module.pixmap.name=.
 module.pixmap.type=

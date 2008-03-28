@@ -45,6 +45,7 @@
 #include "versifications.h"
 #include "shortcuts.h"
 #include "tiny_utilities.h"
+#include "sed.h"
 
 
 #define NEW_PROJECT "New Project"
@@ -270,6 +271,39 @@ ProjectDialog::ProjectDialog (bool newproject)
   // Set RTL.
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_right_to_left), projectconfig->right_to_left_get ());
   
+  hbox_depend = gtk_hbox_new (FALSE, 5);
+  gtk_widget_show (hbox_depend);
+  gtk_box_pack_start (GTK_BOX (vbox1), hbox_depend, TRUE, TRUE, 0);
+
+  checkbutton_dependent = gtk_check_button_new_with_mnemonic ("Depend upon project");
+  gtk_widget_show (checkbutton_dependent);
+  gtk_box_pack_start (GTK_BOX (hbox_depend), checkbutton_dependent, FALSE, FALSE, 0);
+
+  shortcuts.button (checkbutton_dependent);
+  
+  // Set depend-button state.
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_dependent), projectconfig->depending_on_switch_get ());
+  
+  button_depend = gtk_button_new_with_mnemonic (dependent_project (projectconfig->depending_on_project_get ()).c_str());
+  gtk_widget_show (button_depend);
+  gtk_box_pack_start (GTK_BOX (hbox_depend), button_depend, FALSE, FALSE, 0);
+
+  label_depend = gtk_label_new ("through filter");
+  gtk_widget_show (label_depend);
+  gtk_box_pack_start (GTK_BOX (hbox_depend), label_depend, FALSE, FALSE, 0);
+
+  combobox_depend = gtk_combo_box_new_text ();
+  gtk_widget_show (combobox_depend);
+  gtk_box_pack_start (GTK_BOX (hbox_depend), combobox_depend, TRUE, TRUE, 0);
+
+  // Set values.
+  combobox_set_strings (combobox_depend, sed_available_scripts ());
+  ustring script = projectconfig->depending_on_script_get ();
+  if (sed_script_available (script))
+    combobox_set_string (combobox_depend, script);
+  else
+    combobox_set_index (combobox_depend, 0);
+  
   dialog_action_area1 = GTK_DIALOG (projectdialog)->action_area;
   gtk_widget_show (dialog_action_area1);
   gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area1), GTK_BUTTONBOX_END);
@@ -305,6 +339,10 @@ ProjectDialog::ProjectDialog (bool newproject)
                     G_CALLBACK (projectdialog_on_cancelbutton1_clicked), gpointer (this));
   g_signal_connect ((gpointer) okbutton1, "clicked",
                     G_CALLBACK (projectdialog_on_okbutton1_clicked), gpointer (this));
+  g_signal_connect ((gpointer) checkbutton_dependent, "toggled",
+                    G_CALLBACK (on_checkbutton_dependent_toggled), gpointer (this));
+  g_signal_connect ((gpointer) button_depend, "clicked",
+                    G_CALLBACK (on_button_depend_clicked), gpointer (this));
 
   gtk_label_set_mnemonic_widget (GTK_LABEL (label1), nameentry);
 
@@ -315,6 +353,7 @@ ProjectDialog::ProjectDialog (bool newproject)
   gtk_widget_grab_default (okbutton1);
 
   // Handle gui.
+  on_checkbutton_dependent ();
   set_gui ();
 }
 
@@ -365,20 +404,23 @@ void ProjectDialog::set_gui ()
     gtk_label_set_text (GTK_LABEL (messagelabel), "");
 
   // If non-editable, set widgets insensitive.
-  sensitive = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_editable));
-  gtk_widget_set_sensitive (nameentry, sensitive);
-  gtk_widget_set_sensitive (messagelabel, sensitive);
-  gtk_widget_set_sensitive (addbutton, sensitive);
-  gtk_widget_set_sensitive (deletebutton, sensitive && project_get_books (currentprojectname).size() > 0); 
-  gtk_widget_set_sensitive (importbutton, sensitive);
-  gtk_widget_set_sensitive (combobox_versification, sensitive);
-  gtk_widget_set_sensitive (combobox_language, sensitive);
-  gtk_widget_set_sensitive (label1, sensitive);
-  gtk_widget_set_sensitive (label8, sensitive);
-  gtk_widget_set_sensitive (label9, sensitive);
-  gtk_widget_set_sensitive (label11, sensitive);
-  gtk_widget_set_sensitive (label12, sensitive);
-  gtk_widget_set_sensitive (checkbutton_right_to_left, sensitive);
+  bool editable = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_editable));
+  gtk_widget_set_sensitive (nameentry, editable);
+  gtk_widget_set_sensitive (messagelabel, editable);
+  gtk_widget_set_sensitive (addbutton, editable);
+  gtk_widget_set_sensitive (deletebutton, editable && project_get_books (currentprojectname).size() > 0); 
+  gtk_widget_set_sensitive (importbutton, editable);
+  gtk_widget_set_sensitive (combobox_versification, editable);
+  gtk_widget_set_sensitive (combobox_language, editable);
+  gtk_widget_set_sensitive (label1, editable);
+  gtk_widget_set_sensitive (label8, editable);
+  gtk_widget_set_sensitive (label9, editable);
+  gtk_widget_set_sensitive (label11, editable);
+  gtk_widget_set_sensitive (label12, editable);
+  gtk_widget_set_sensitive (checkbutton_right_to_left, editable);
+  if (editable) {
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_dependent), false);
+  }
 }
 
 
@@ -389,7 +431,8 @@ void ProjectDialog::on_ok ()
     // Move project.
     project_move (currentprojectname, newprojectname);
   }
-  // Save all settings.
+
+  // Save settings.
   extern Settings * settings;
   settings->genconfig.project_set (newprojectname);
   ProjectConfiguration * projectconfig = settings->projectconfig (settings->genconfig.project_get());
@@ -397,6 +440,76 @@ void ProjectDialog::on_ok ()
   projectconfig->language_set (combobox_get_active_string (combobox_language));
   projectconfig->editable_set (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_editable)));
   projectconfig->right_to_left_set (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_right_to_left)));
+  
+  // Save diglot-related settings.
+  bool depend_switch = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_dependent));
+  projectconfig->depending_on_switch_set (depend_switch);
+  ustring depend_project = dependent_project ();
+  projectconfig->depending_on_project_set (depend_project);
+  ustring depend_script = combobox_get_active_string (combobox_depend);
+  if (depend_script == sed_straight_through ()) depend_script.clear ();
+  if (!sed_script_available (depend_script)) depend_script.clear ();
+  projectconfig->depending_on_script_set (depend_script);
+
+  // If the project depends on another, do the copy through the script.
+  if (depend_switch && (!depend_project.empty ())) {
+    
+    // Progress information.
+    ProgressWindow progresswindow ("Updating project", false);
+
+    progresswindow.set_fraction (0.1);
+
+    // Get the list of book/chapters that is in the source project.
+    vector <unsigned int> source_books;
+    vector <unsigned int> source_chapters;
+    {
+      vector <unsigned int> books = project_get_books (depend_project);
+      for (unsigned int b = 0; b < books.size(); b++) {
+        vector <unsigned int> chapters = project_get_chapters (depend_project, books[b]);
+        for (unsigned c = 0; c < chapters.size (); c++) {
+          source_books.push_back (books[b]);
+          source_chapters.push_back (chapters[c]);
+        }
+      }
+    }
+
+    progresswindow.set_fraction (0.2);
+
+    // Delete the books and chapters from this project that are not in the source project.
+    {
+      vector <unsigned int> books = project_get_books (newprojectname);
+      for (unsigned int b = 0; b < books.size(); b++) {
+        if (project_book_exists (depend_project, books[b])) {
+          vector <unsigned int> chapters = project_get_chapters (newprojectname, books[b]);
+          for (unsigned c = 0; c < chapters.size (); c++) {
+            bool exists = false;
+            for (unsigned int i = 0; i < source_books.size (); i++) {
+              if (source_books[i] == books[b]) {
+                if (source_chapters[i] == chapters[c]) {
+                  exists = true;
+                }
+              }
+            }
+            if (!exists) {
+              project_remove_chapter (newprojectname, books[b], chapters[c]);
+            }
+          }
+        } else {
+          project_remove_book (newprojectname, books[b]);
+        }
+      }
+    }
+
+    progresswindow.set_iterate (0.2, 1, source_books.size());
+
+    // Copy everything from the source project to this project.
+    for (unsigned int i = 0; i < source_books.size (); i++) {
+      progresswindow.iterate ();
+      vector <ustring> lines = project_retrieve_chapter (newprojectname, source_books[i], source_chapters[i]);
+    }
+
+  }
+  
 }
 
 
@@ -571,5 +684,58 @@ void ProjectDialog::on_checkbutton_editable_toggled (GtkToggleButton *togglebutt
 }
 
 
-// Let the text direction be applied to various parts of the work.
-// : Editor window, export to Sword, export to OpenOffice.
+void ProjectDialog::on_checkbutton_dependent_toggled (GtkToggleButton *togglebutton, gpointer user_data)
+{
+  ((ProjectDialog *) user_data)->on_checkbutton_dependent ();
+}
+
+
+void ProjectDialog::on_checkbutton_dependent ()
+{
+  bool on = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_dependent));
+  if (on) {
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_editable), false);
+  }
+  gtk_widget_set_sensitive (button_depend, on);
+  gtk_widget_set_sensitive (label_depend, on);
+  gtk_widget_set_sensitive (combobox_depend, on);
+}
+
+
+void ProjectDialog::on_button_depend_clicked (GtkButton *button, gpointer user_data)
+{
+  ((ProjectDialog *) user_data)->on_button_depend ();
+}
+
+
+void ProjectDialog::on_button_depend ()
+{
+  ustring project (dependent_project ());
+  if (project_select (project)) {
+    gtk_button_set_label (GTK_BUTTON (button_depend), project.c_str());
+  }
+}
+
+
+ustring ProjectDialog::dependent_project (const ustring& project)
+{
+  ustring label (project);
+  if (label.empty () || !project_exists (project)) label = none_project ();
+  return label;
+}
+
+
+ustring ProjectDialog::none_project ()
+{
+  return "<none>";
+}
+
+
+ustring ProjectDialog::dependent_project ()
+// Gets the project name from the button.
+{
+  ustring project = gtk_button_get_label (GTK_BUTTON (button_depend));
+  if (project == none_project ())
+    project.clear ();
+  return project;
+}

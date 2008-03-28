@@ -799,7 +799,11 @@ module.source.files=\
 	src/merge_utils.cpp\
 	src/merge_utils.h\
 	src/shutdown.cpp\
-	src/shutdown.h
+	src/shutdown.h\
+	src/sed.cpp\
+	src/sed.h\
+	src/dialogfilters.cpp\
+	src/dialogfilters.h
 
 module.pixmap.name=.
 module.pixmap.type=

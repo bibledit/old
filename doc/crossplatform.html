@@ -1,126 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-<title>Bibledit</title>
-<link href="bibledit.css" rel="stylesheet" type="text/css" />
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+  <title>Bibledit</title>
+  <link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
+
 <body>
 <h2><a name="crossplatform"></a>Cross platform</h2>
 <!-- Table of Contents Start -->
+
 <div id="toc">
 <ul>
-<li>
-<a href="#introduction" class="level1">Introduction</a></li>
-<li>
-<a href="#olpc" class="level1">OLPC</a></li>
-<li>
-<a href="#windows" class="level1">Windows</a></li>
+  <li><a href="#introduction" class="level1">Introduction</a></li>
+  <li><a href="#olpc" class="level1">OLPC</a></li>
+  <li><a href="#windows" class="level1">Windows</a></li>
 </ul>
 </div>
 <!-- Table of Contents End -->
+
 <h3><a name="introduction"></a>Introduction</h3>
+
 <p>Bibledit has been designed from the ground up to be cross platform.</p>
+
 <p>To make something cross platform it is easiest to develop it on Linux.
 This is because porting something from Linux to Windows is much easier than
 the other way round. Bibledit is developed on Linux, not so much for this
 reason as well to have translation software in Linux, yet the fact that it is
 programmed on Linux makes it easier to port to other platforms such as
 Macintosh, OLPC and Windows.</p>
+
 <p>To make porting easy Bibledit uses libraries that can be ported too. It
 uses, for example, the Gtk libraries, and the sqlite library, both of which
 can easily be ported to other architectures.</p>
+
 <p>The developer has to resist using libraries that make programming so much
 easier and make the gui look better, yet cannot be ported to other platforms.
 Therefore Bibledit uses a limited number of libraries, and rather does
 without eye candy than having a lot of bells and whistles and be tied to one
 platform only.</p>
-<p>Below are a few lines that describe how Bibledit was ported to other
-platforms.</p>
-<h3><a name="olpc"></a>OLPC</h3>
-<p>The architecture of the OLPC is simulator to that of a normal x86
-computer. The processor of the OLPC is x86 compatible. The operating system
-that is going to be put on the OLPC is Linux. So this all looks very familiar
-for anybody programming for Linux.</p>
-<p>As hardware for the OLPC is not yet available, people have created a
-simulator. It simulates a normal OLPC. Writing software for the OLPC at this
-stage requires writing it for the OLPC simulator. At present there is a thin
-version of Fedora Core 5 available for simulation, hereafter called Fedora
-OLPC. See Basic Installation for links.</p>
-<p>So writing software for Fedora OLPC is simple? Fedora OLPC is just Linux,
-so we develop the program on Fedora OLPC like we develop on Linux? No, it
-does not work like that. Fedora OLPC lacks development tools and development
-libraries. So even installing a source package through ./configure ; make ;
-sudo jake install does not work, because there is no compiler or anything of
-that sort on Fedora OLPC.</p>
-<p>Fine, then we write software on another platform, create a package and
-install it with rpm? No, also this does not work because the rpm tools are
-lacking on Fedora OLPC.</p>
-<p>Fedora OLPC use a new installation model. It is image based. Sounds
-difficult, but is simple. If you wish something to run on the OLPC, you
-physically copy that file to the OLPC and allow it to run there. Bibledit
-makes use of this technique.</p>
-<p>At present Fedora OLPC is compatible with Fedora Core 5 test 2. So then,
-we install Bibledit on FC5t2 from source. This will give the bibledit
-executable, put in /usr/bin/bibledit. Therefore, this file /usr/bin/bibledit
-needs to be copied from FC5t2 to Fedora OLPC. However, copying this file only
-is not enough. Bibledit depends on sqlite, and on some libraries of the X
-window system, and many others.</p>
-<p>The technique then to install Bibledit on the OLPC is this:</p>
-<p>* Install Bibledit on a regular Fedora distributrion, compatible with the
-OLPC.</p>
-<p>* Make a list of all files that Bibledit needs to run properly. This
-includes executables, libraries and data.</p>
-<p>* Make a list of all files that are already on the OLPC.</p>
-<p>* Taking these two lists, make a third one that shows the difference, and
-so shows which files are needed by Bibledit, but are missing on the OLPC.</p>
-<p>* See which of the missing files is a symbolic link, and check whether the
-file it links to is needed too.</p>
-<p>* Put all the missing files in a tarball.</p>
-<p>* Unpack the tarball on the OLPC.</p>
-<p>After this has been done, Bibledit runs properly on the OLPC.</p>
-<p>The installation instruction for the OLPC follow this strategy and show
-you how to install Bibledit on the OLPC succesfully.</p>
-<p>The steps taken are now described in greater detail.</p>
-<p>Installing Bibledit on a regular Linux distribution is a simple thing to
-do. From source you can use the ./configure ; make ; sudo make install
-sequence, as described on the Basic Installation instructions.</p>
-<p>Making a list of all files that Bibledit needs is a but more tough. From
-the source of Bibledit, or better still, from a "sudo make install" log, you
-can see which files Bibledit installs and all these files can go into the
-list. Bibledit also depends on Scripture Checks, so a list of files Scripture
-Checks installs is needed too. Then there is the bibledit executable itself,
-which internally uses a good number of libraries that are on Linux. You can
-use the ldd command to list all libraries is uses. A tool has been written,
-called "bibledit-olpc-librarian" that does all this work for you, and more.
-It can be found in the olpc subdirectory of the source package.</p>
-<p>Making a list of the files on the OLPC is straightforward. You can mount
-the simulator image on the local filesystem, as done in the installation
-instructions. Then using the "ls -R" command to list all files on the
-OLPC.</p>
-<p>Comparing these two lists and making a third one with the difference is
-easy too, although a bit of a job. Tool bibledit-olpc-librarian does it for
-you.</p>
-<p>Checking which of the missing links is a symbolic link is simple too. The
-"ls -l" command shows you which are symbolic links, and where they link to.
-If they link to some file or library that is not yet on the OLPC, this file
-should be added to the list too. A bit of a hassle, but no despair,
-bibledit-olpc-librarian does it all for you.</p>
-<p>Once you've the list of files you wish to transfer to the OLPC, you can
-make a tarball of it using the tar command. Again, bibledit-olpc-librarian
-does the job for you.</p>
-<p>Unpacking the tarball in the OLPC requires you to mount the OLPC image in
-the local filesystem, and than issue the tar command to unpack all files.
-This will automatically install all the files you need in the OLPC.</p>
-<p>Remains to start the simulator, and start bibledit...</p>
-<h3><a name="windows"></a>Windows</h3>
-<p>Bibledit is a Linux program and won't run on Windows unless special
-meausres are taken.</p>
-<p>As can be seen in the installation instructions, Cygwin comes to the
-rescue here.</p>
-<p>Cygwin simulates a complete Linux environment in Windows. Hence Bibledit
-thinks it runs in Linux and does happily so.</p>
 </body>
 </html>

@@ -381,13 +381,13 @@ GitSetupDialog::GitSetupDialog (int dummy)
       unsigned int version = 100 * convert_to_int (parse2.words[0]) 
                            +  10 * convert_to_int (parse2.words[1])
                            +       convert_to_int (parse2.words[2]);
-      if (version >= 153) 
+      if (version >= 150) 
         version_okay = true;
     }
   }
   gui_okay (image_version, label_version_done, version_okay);
   if (!version_okay) {
-    versiontext.append (", but should be 1.5.3 or higher");
+    versiontext.append (", but should be 1.5.0 or higher");
   }
   gtk_label_set_text (GTK_LABEL (label_version_info), versiontext.c_str ());
 
