@@ -1,65 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<meta name="generator" content=
-"HTML Tidy for Linux/x86 (vers 1st September 2004), see www.w3.org" />
-<meta content="text/html; charset=utf-8" http-equiv=
-"content-type" />
-<title>Bibledit</title>
-<link href="bibledit.css" rel="stylesheet" type="text/css" />
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+  <title>Bibledit</title>
+  <link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
+
 <body>
 <h2><a name="teckit"></a>TECkit</h2>
-<p>TECkit is a toolkit to help in converting legacy data to
-Unicode. At present Bibledit does not yet support TECkit, but
-provides its own tools for converting data to Unicode. Bibledit
-will work properly without TECkit.</p>
+
+<p>TECkit is a toolkit to help in converting legacy data to Unicode. Bibledit
+does not support TECkit, and probably will never do. Instead it provides its
+own tools for converting data to Unicode.</p>
+
 <p>To install TECkit, follow the below steps.</p>
+
 <p>Open a terminal.</p>
+
 <p>Download TECkit for Linux. In the terminal, type</p>
-<pre>
-svn checkout svn://scripts.sil.org/teckit
-</pre>
+<pre>svn checkout svn://scripts.sil.org/teckit</pre>
+
 <p>To verify the package is there, type</p>
-<pre>
-ls
-</pre>
+<pre>ls</pre>
+
 <p>You should see a subdirectory teckit.</p>
+
 <p>Change into this subdirectory. Type</p>
-<pre>
-cd teckit
-</pre>
+<pre>cd teckit</pre>
+
 <p>To generate some configuration files, type</p>
-<pre>
-./autogen.sh
-</pre>
+<pre>./autogen.sh</pre>
+
 <p>Watch many messages, but no errors.</p>
+
 <p>To configure the package, type</p>
-<pre>
-./configure --prefix=/usr
-</pre>
+<pre>./configure --prefix=/usr</pre>
+
 <p>Watch many messages, but no errors.</p>
+
 <p>To compile the package, type</p>
-<pre>
-make
-</pre>
+<pre>make</pre>
+
 <p>Watch many messages, but no errors.</p>
+
 <p>To install the package type</p>
-<pre>
-sudo make install
-</pre>
-<p>and provide the password. Watch many messages, but no
-errors.</p>
+<pre>sudo make install</pre>
+
+<p>and provide the password. Watch many messages, but no errors.</p>
+
 <p>TECkit should be installed now and is ready for use.</p>
+
 <p>To go back to the home directory, type</p>
-<pre>
-cd
-</pre>
-<p>Optionally the teckit source can be cleaned away. To do that,
-type</p>
-<pre>
-rm -rf teckit
-</pre>
+<pre>cd</pre>
+
+<p>Optionally the teckit source can be cleaned away. To do that, type</p>
+<pre>rm -rf teckit</pre>
 </body>
 </html>

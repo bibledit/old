@@ -1,35 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-<title>Bibledit</title>
-<link href="bibledit.css" rel="stylesheet" type="text/css" />
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+  <title>Bibledit</title>
+  <link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
+
 <body>
 <h2><a name="filters"></a>Filters</h2>
+
 <p>The dialog is accessible through menu Preferences / Filters.</p>
+
 <h3><a name="general"></a>General</h3>
+
 <p>It creates, edits and deletes filters.</p>
+
 <p>Creating a new filter is simple. Just press button "New", type a name for
 the filter, and press OK.</p>
+
 <p>Deleting an existing filter is simple too. Select the filter, then press
 "Delete".</p>
+
 <p>Editing a filter is another simple matter. Select the filter, and type the
 rules in the Rules window. More about the rules later on.</p>
+
 <p>A filter can be tried out. Press the "Try" button to do that. The text at
 the left of the button is passed through the filter, and then becomes visible
 at the right side. Any errors show up there too. The text at the left of the
 button can be changed to anything.</p>
+
 <h3><a name="rules"></a>Rules</h3>
+
 <p>The program "sed" is used for operating the filter. Sed is a Stream
 EDitor. It takes the input text, passes it through one or more rules, and
 then outputs it, modifying it on the fly. The modifications are done
 according to the rules that have been given for a filter.</p>
+
 <p>More help about creating rules is in the <a
 href="sed_rules_reference.html">sed rules</a> reference, and in the <a
-href="regular_expressions_reference.html">regular expressions</a>
-reference.</p>
+href="regular_expressions_reference.html">regular expressions</a> reference.
+A wealth of information about sed, and the rules to write, is available at <a
+href="http://sed.sourceforge.net/">sed.sourceforge.net</a>.</p>
 </body>
 </html>

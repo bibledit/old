@@ -1,162 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-  <title>Bibledit</title>
-  <link href="bibledit.css" rel="stylesheet" type="text/css" />
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<title>Bibledit</title>
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
-
 <body>
 <h2><a name="git"></a>Git</h2>
 <!-- Table of Contents Start -->
-
 <div id="toc">
 <ul>
-  <li><a href="#introduction" class="level1">Introduction</a></li>
-  <li><a href="#server" class="level1">Server</a></li>
-  <li><a href="#firstuser" class="level1">First user</a></li>
-  <li><a href="#seconduser" class="level1">Second user</a></li>
-  <li><a href="#collaborating" class="level1">Collaborating</a></li>
-  <li><a href="#notes" class="level1">Notes</a></li>
+<li>
+<a href="#introduction" class="level1">Introduction</a></li>
+<li>
+<a href="#server" class="level1">Server</a></li>
+<li>
+<a href="#firstuser" class="level1">First user</a></li>
+<li>
+<a href="#seconduser" class="level1">Second user</a></li>
+<li>
+<a href="#collaborating" class="level1">Collaborating</a></li>
+<li>
+<a href="#notes" class="level1">Notes</a></li>
 </ul>
 </div>
 <!-- Table of Contents End -->
-
 <h3><a name="introduction"></a>Introduction</h3>
-
 <p>Git is a tool that enables collaboration. Several users of Bibledit will
 all connect to the same Git repository, and so share the data. If somebody
 makes a change, within a short time that change will propagate to the other
 users.</p>
-
 <p>Git can be used if two or more different users, using different computers,
 simultaneously work with Bibledit on the same data.</p>
-
 <p>Git version 1.5.0 or higher is needed.</p>
-
 <p>In the example below we will setup a basic system using one server and two
 users.</p>
-
 <h3><a name="server"></a>Server</h3>
-
 <p>Collaboration using Git needs one computer that will be the server. This
 can be a separate computer, or the computer of one of the users. In this
 example we will use the computer of one of the users. By doing so we only
 need two computers to demonstrate everything. We will use Jim's computer to
 serve the repository. </p>
-
 <p>On this computer, do the following to setup the server.</p>
-
 <p>Login as user jim.</p>
-
 <p>Open a terminal</p>
-
 <p>We will create an shared repository in /home/jim/git/repository, and fetch
 the data of Jim's project "Ndebele" into it. To do that, type</p>
 <pre>mkdir -p /home/jim/git/repository
 cd /home/jim/git/repository
 git --bare init-db --shared
 git --bare fetch /home/jim/.bibledit/projects/Ndebele/data master:master</pre>
-
 <p>To make the repository available to the network, type</p>
 <pre>git-daemon --export-all --base-path=/home/jim/git --detach --enable=receive-pack</pre>
-
 <p>It is recommended to put the command that starts the daemon in the boot
 script.</p>
-
 <p>To test access to the new repository, type</p>
 <pre>git-ls-remote git://localhost/repository</pre>
-
 <p>If everthing is fine, no errors will occur and a few commits will be
 listed.</p>
-
 <h3><a name="firstuser"></a>First user</h3>
-
 <p>We are now going to setup the first user. This will be Jim in our example.
 His computer already is used as a server, but Jim also works on it using
 Bibledit.</p>
-
 <p>Jim starts Bibledit, and opens the project he wishes to share with
 others.</p>
-
 <p>He goes to menu <a href="olh_git_setup.html">Preferences / Git
 repository</a>.</p>
-
 <p>In that dialog, he ticks "Use remote repository".</p>
-
 <p>Under "Repository", he enters git://localhost/repository</p>
-
 <p>In the dialog he verifies that write access has been granted.</p>
-
 <p>He then ticks "Synchronize local data with repository".</p>
-
 <p>He then clicks OK.</p>
-
 <p>This finishes the setup of the first user. Jim can now work on Bibledit as
 before, and his data will be automatically updated in the repository.</p>
-
 <h3><a name="seconduser"></a>Second user</h3>
-
 <p>We are now going to setup the second user. This will be John in our
 example. He uses another workstation, is connected to the network, and can
 access Jim's computer through that network.</p>
-
 <p>John starts Bibledit, and creates a new empty project, named after the
 project that Jim put in the repository.</p>
-
 <p>He goes to menu <a href="olh_git_setup.html">Preferences / Git
 repository</a>.</p>
-
 <p>In that dialog, he ticks "Ue remote repository".</p>
-
 <p>Under "Repository", he needs to enter the name of Jim's server.</p>
-
 <p>He asks Jim for the IP address of his computer. Jim logs in as root, and
 types ifconfig, notices under "eth0" that his computer has IP address
 192.168.0.6. He passes this number on to John.</p>
-
 <p>Under "Repository", John enters git://192.168.0.6/repository</p>
-
 <p>In the dialog he verifies that write access has been granted.</p>
-
 <p>He then ticks "Copy repository to local data". This is to import all data
 from the repository into his own project.</p>
-
 <p>He then clicks OK.</p>
-
 <p>This finishes the setup of the second user. John can now work on Bibledit
 as before, and his data will be automatically updated in the repository.</p>
-
 <p>Setting up a third user, a fourth, and so on, goes exactly the same.</p>
-
 <h3><a name="collaborating"></a>Collaborating</h3>
-
 <p>Now we come to the purpose of everything, which is working together on one
 project.</p>
-
 <p>This collaboration is very simple: Just work on your data as you did
 before.</p>
-
 <p>Bibledit cares for everything, and everything will be updated and shared
 automatically.</p>
-
 <p>On rare occasions you might notice a dialog when Bibledit says that it has
 reloaded the project because of the changes made by other users. This might
 happen if the change is in the chapter you are now editing. But this is
 really all that is visible, the rest is done automatically. And of course,
 you notice changes in your data that you didn't put in yourself. Others did
 that.</p>
-
 <h3><a name="notes"></a>Notes</h3>
-
 <p>Use dialog View / Git tasks to see what it actually does. Most of the
 times there should be no pending tasks anyway, because tasks will get done
 immediately. On a slow network you might see some tasks pending. Or if you
 happen to be offline, tasks will accumulate till such time that you get
 online again.</p>
-
 <p>For worldwide collaboration, a server can be set up on the internet, and
 used by all parties. Instead of entering git://192.168.0.6/repository or
 git://localhost/repository as the repository, for example, it will be

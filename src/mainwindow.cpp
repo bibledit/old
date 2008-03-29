@@ -7238,15 +7238,14 @@ void MainWindow::on_preferences_filters ()
 }
 
 
+
 // Todo make installation software for on the XO: It installs the activity code, as on Asus PC.
 // Todo Give smaller icons to Asus Eee PC.
 // Todo Installing on Asus Eee PC like copying tarball from Debian 4.0? Could save a lot of space on 2G models.
 
 // Todo make git work with external repository. Ok asked about public ssh key.
 
-// Todo reorganize intallation helps, make headings per distro or technology.
+
 // Todo Insert generalized tests for any programs that are called, e.g. zip, unzip, etc.
 // Todo investigate Puppy Linux.
-// Todo git documentaton, not only the ip number, but the full domain goes as well.
-// Todo git documentation, not "svn" but "git" protocol.
 // Todo to look at other programs whether they use XUL.m4, whether that works better on e.g. Suse and Fedora, and thus XO.

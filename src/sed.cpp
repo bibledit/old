@@ -127,24 +127,3 @@ ustring sed_temporal_error_file ()
 {
   return gw_build_filename (directories_get_temp (), "sed_filter_error");
 }
-
-
-/*
-
-Todo diglot implementation
-
-
-Make helpfile for diglot, but probably use another name.
-Working were Todo occurs.
-
-
-
-In the window, there is online help that only focuses on the sed-rules,
-and another online help that focuses on regular expressions, and a link
-to the homepage of sed for more information.
-
-
-
-
-
-*/
