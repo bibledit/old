@@ -22,7 +22,13 @@
 <pre>nano /etc/apt/sources.list</pre>
 
 <p>Add this line to the list:</p>
-<pre>deb ftp://ftp.us.debian.org/debian etch main contrib non-free</pre>
+<pre>deb ftp://ftp.us.debian.org/debian etch main contrib</pre>
+
+<p>Temporally disable the original repositories by placing a hash before it.
+So, after doing this, the file will look like:</p>
+<pre># deb http://update.eeepc.asus.com/p701 p701 main</pre>
+<pre># deb http://update.eeepc.asus.com/p701/en p701 main</pre>
+<pre>deb ftp://ftp.us.debian.org/debian etch main contrib</pre>
 
 <p>Save the file and quit the editor.</p>
 
