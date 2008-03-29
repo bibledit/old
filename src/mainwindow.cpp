@@ -132,6 +132,7 @@
 #include "dialognewresource.h"
 #include "shutdown.h"
 #include "dialogfilters.h"
+#include "dialogradiobutton.h"
 
 
 /*
@@ -1124,13 +1125,13 @@ httpd (0)
 
   }
   
-  insert_soft_hyphen = gtk_image_menu_item_new_with_mnemonic ("_Soft hyphen");
-  gtk_widget_show (insert_soft_hyphen);
-  gtk_container_add (GTK_CONTAINER (insert1_menu), insert_soft_hyphen);
+  insert_special_character = gtk_image_menu_item_new_with_mnemonic ("_Special character");
+  gtk_widget_show (insert_special_character);
+  gtk_container_add (GTK_CONTAINER (insert1_menu), insert_special_character);
 
   image25281 = gtk_image_new_from_stock ("gtk-edit", GTK_ICON_SIZE_MENU);
   gtk_widget_show (image25281);
-  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (insert_soft_hyphen), image25281);
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (insert_special_character), image25281);
 
   menuitem_goto = gtk_menu_item_new_with_mnemonic ("_Goto");
   gtk_widget_show (menuitem_goto);
@@ -2332,7 +2333,7 @@ httpd (0)
     g_signal_connect ((gpointer) standard_text_4, "activate", G_CALLBACK (on_standard_text_4_activate), gpointer (this));
     g_signal_connect ((gpointer) current_reference1, "activate", G_CALLBACK (on_current_reference1_activate), gpointer (this));
   }
-  g_signal_connect ((gpointer) insert_soft_hyphen, "activate", G_CALLBACK (on_insert_soft_hyphen_activate), gpointer (this));
+  g_signal_connect ((gpointer) insert_special_character, "activate", G_CALLBACK (on_insert_special_character_activate), gpointer (this));
   if (guifeatures.styles ()) {
     g_signal_connect ((gpointer) insert_style, "activate", G_CALLBACK (on_goto_styles_area_activate), gpointer (this));
   }
@@ -3038,8 +3039,8 @@ void MainWindow::on_menu_insert ()
   }
   if (current_reference1) gtk_label_set_text_with_mnemonic (GTK_LABEL (gtk_bin_get_child (GTK_BIN (current_reference1))), label.c_str());
   if (current_reference1) gtk_widget_set_sensitive (current_reference1, enable);
-  // Inserting soft hyphen.
-  gtk_widget_set_sensitive (insert_soft_hyphen, (editor && editor->has_focus ()));
+  // Inserting special character.
+  gtk_widget_set_sensitive (insert_special_character, (editor && editor->has_focus ()));
 }
 
 
@@ -6247,19 +6248,27 @@ void MainWindow::on_view_usfm_code ()
 }
 
 
-void MainWindow::on_insert_soft_hyphen_activate (GtkMenuItem *menuitem, gpointer user_data)
+void MainWindow::on_insert_special_character_activate (GtkMenuItem *menuitem, gpointer user_data)
 {
-  ((MainWindow *) user_data)->on_insert_soft_hyphen ();
+  ((MainWindow *) user_data)->on_insert_special_character ();
 }
 
 
-void MainWindow::on_insert_soft_hyphen ()
+void MainWindow::on_insert_special_character ()
 {
   Editor * editor = editorsgui->focused_editor ();
-  if (editor) {
-    // Insert the invisible Unicode character "U+00AD SOFT HYPHEN".
-    editor->text_insert ("­");
-  }
+  if (!editor) return;
+  extern Settings * settings;
+  vector <ustring> characters;
+  vector <ustring> descriptions;
+  characters.push_back ("­");
+  descriptions.push_back ("Soft hyphen");
+  characters.push_back (" ");
+  descriptions.push_back ("No-break space");
+  RadiobuttonDialog dialog ("Insert character", "Insert special character", descriptions, settings->session.special_character_selection);
+  if (dialog.run () != GTK_RESPONSE_OK) return;
+  settings->session.special_character_selection = dialog.selection;
+  editor->text_insert (characters[dialog.selection]);
 }
 
 
@@ -7243,8 +7252,38 @@ void MainWindow::on_preferences_filters ()
 
 // Todo make git work with external repository. Ok asked about public ssh key.
 
-// Todo Insert generalized tests for any programs that are called, e.g. zip, unzip, etc.
-
-// Todo investigate Puppy Linux.
-
 // Todo to look at other programs whether they use XUL.m4, whether that works better on e.g. Suse and Fedora, and thus XO.
+
+/* 
+
+Todo support for a lot of markers.
+
+support marker //
+
+Iron out the use of c, ca, cl, cp.
+
+Iron out the printing of v, va and vpIron out the printing of v, va and vp
+
+Check printing of li, li[1..4]
+
+The special features: fig, pro, w, wh, wg, ndx, see how things can be made automatic for them.
+
+conc, automatic generation of them
+
+glo, automatic generation of them
+
+idx, automatic generated
+
+style: maps
+
+style covstyle cov
+
+k1, k2, automatic generation in conc
+
+spine
+
+pubinfo
+
+support "span" in the \fig marker
+
+*/

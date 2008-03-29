@@ -211,7 +211,7 @@ protected:
   GtkWidget *current_reference1;
   GtkWidget *image3797;
   GtkWidget *separator20;
-  GtkWidget *insert_soft_hyphen;
+  GtkWidget *insert_special_character;
   GtkWidget *image25281;
   GtkWidget *menuitem_goto;
   GtkWidget *menuitem_goto_menu;
@@ -522,8 +522,8 @@ protected:
   void on_pdf_viewer ();
   static void on_view_usfm_code_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_view_usfm_code ();
-  static void on_insert_soft_hyphen_activate (GtkMenuItem *menuitem, gpointer user_data);
-  void on_insert_soft_hyphen ();
+  static void on_insert_special_character_activate (GtkMenuItem *menuitem, gpointer user_data);
+  void on_insert_special_character ();
   static void on_preferences_graphical_interface_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_preferences_graphical_interface ();
 

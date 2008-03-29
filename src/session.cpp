@@ -56,6 +56,7 @@ Session::Session (int dummy)
   window_initialized = false;
   git_pause = false;
   restart = false;
+  special_character_selection = 0;
 }
 
 

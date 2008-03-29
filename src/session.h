@@ -18,8 +18,8 @@
 */
 
 
-#ifndef INCLUDED_SESSION2_H
-#define INCLUDED_SESSION2_H
+#ifndef INCLUDED_SESSION_H
+#define INCLUDED_SESSION_H
 
 
 #include "libraries.h"
@@ -83,6 +83,8 @@ public:
   bool git_pause;
   // Restart
   bool restart;
+  // Insert special character.
+  int special_character_selection;
 private:
 };
 
