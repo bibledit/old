@@ -195,7 +195,7 @@ target_vendor = @target_vendor@
 eeepc_install_menu_SOURCES = eeepc-install-menu.cpp
 AM_CXXFLAGS = -Wall `pkg-config glib-2.0 --cflags`
 EXTRA_DIST = *
-CLEANFILES = *~
+CLEANFILES = *~ *.tar.gz
 all: all-am
 
 .SUFFIXES:

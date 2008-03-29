@@ -15,11 +15,8 @@
 
 <p>Open a terminal by pressing Ctrl-Alt-t.</p>
 
-<p>Become root, to do that, type</p>
-<pre>sudo su -l</pre>
-
 <p>Add repositories to the list. To do that open an editor:</p>
-<pre>nano /etc/apt/sources.list</pre>
+<pre>sudo nano /etc/apt/sources.list</pre>
 
 <p>Add this line to the list:</p>
 <pre>deb ftp://ftp.us.debian.org/debian etch main contrib</pre>
@@ -27,14 +24,32 @@
 <p>Save the file and quit the editor.</p>
 
 <p>Update aptitude, to do that, type</p>
-<pre>apt-get update</pre>
+<pre>sudo apt-get update</pre>
 
 <p>Install software, to do that, type</p>
-<pre>apt-get install build-essential libgtk2.0-dev libsqlite3-dev libxml2-dev git-core libxul-dev</pre>
+<pre>sudo apt-get install git-core</pre>
 
-<p><a href="install_bibledit_space_restricted.html">Install bibledit</a>.</p>
+<p>Download binary package <a
+href="https://sourceforge.net/project/showfiles.php?group_id=111189&amp;package_id=249689">bibledit-x.x-asus-eeepc-bin.tar.gz</a>
+(x.x is to be replaced with the actual version number).</p>
 
-<p>Reboot the computer for the menu entries to become visible.</p>
+<p>Store the package in the home directory, that is directory /home/user.</p>
+
+<p>In the terminal, to verify the bibledit package is there, type</p>
+<pre>ls</pre>
+
+<p>Move the package to the root directory. To do that, type </p>
+<pre>sudo mv bibledit*bin.tar.gz /</pre>
+
+<p>Go to the root directory. Type</p>
+<pre>cd /</pre>
+
+<p>Install the binary package. To do that, type</p>
+<pre>sudo tar zxf bibledit*bin.tar.gz</pre>
+<pre>cd /eeepc</pre>
+<pre>sudo ./eeepc-install-menu</pre>
+
+<p>After rebooting the machine, the Bibledit icon is in the Work tab.</p>
 
 <p><a href="run.html">Run bibledit</a>.</p>
 

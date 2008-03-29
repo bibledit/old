@@ -1,0 +1,28 @@
+#!/bin/bash
+
+
+# Get the version number of bibledit.
+VERSION=`grep " VERSION " ../config.h | awk '{print $3}' | sed 's/"//g'`
+
+
+# Give information.
+echo Making a binary installer of Bibledit $VERSION for the Asus Eee PC.
+
+
+# The name of the tarball.
+TARBALL=bibledit-$VERSION-asus-eeepc-bin.tar
+
+
+# Add files to the tarball.
+tar --create -v -f $TARBALL /usr/share/bibledit/*
+tar --append -v -f $TARBALL /usr/bin/bibledit*
+tar --append -v -f $TARBALL ../eeepc/*.png
+tar --append -v -f $TARBALL ../eeepc/*menu
+
+# Compress the tarball.
+rm -f $TARBALL.gz
+gzip $TARBALL
+
+
+# Final information.
+echo The gzipped tarball $TARBALL was created.

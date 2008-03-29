@@ -6,7 +6,7 @@ AM_CXXFLAGS = -Wall `pkg-config glib-2.0 --cflags`
 LIBS = -Wall `pkg-config glib-2.0 --libs`
 
 EXTRA_DIST = *
-CLEANFILES = *~
+CLEANFILES = *~ *.tar.gz
 
 install-exec-hook:
 	./eeepc-install-menu
