@@ -27,6 +27,7 @@
 #include "help.h"
 #include "settings.h"
 #include "shortcuts.h"
+#include "textreplacement.h"
 
 
 enum { COLUMN_ORIGINALS, COLUMN_EDITABLE1, COLUMN_REPLACEMENTS, COLUMN_EDITABLE2, NUM_COLUMNS };
@@ -123,9 +124,11 @@ TextReplacementDialog::TextReplacementDialog (int dummy)
 
   gtk_tree_selection_set_mode (gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview1)), GTK_SELECTION_SINGLE);
 
-  // Load texts and replacements.
-  vector <ustring> originals = settings->genconfig.text_replacement_originals_get ();
-  vector <ustring> replacements = settings->genconfig.text_replacement_replacements_get ();
+  // Load texts and replacements - these get initialized to defaults if there were none.
+  vector <ustring> originals;
+  vector <ustring> replacements;
+  text_replacement_get_words (originals, replacements);
+
   GtkTreeIter iter;
   for (unsigned int i = 0; i < originals.size(); i++) {
     gtk_list_store_append (model, &iter);

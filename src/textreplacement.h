@@ -27,6 +27,7 @@
 
 void text_replacement (vector <ustring>& lines);
 void text_replacement (ustring& line);
+void text_replacement_get_words (vector <ustring>& originals, vector <ustring>& replacements);
 
 
 #endif

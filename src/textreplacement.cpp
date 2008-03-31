@@ -38,6 +38,32 @@ void text_replacement_get_words (vector <ustring>& originals, vector <ustring>& 
   replacements = settings->genconfig.text_replacement_replacements_get ();
   size_t count = MIN (originals.size(), replacements.size());
   
+  // If there are none, initialize the words to standard values.
+  if (count == 0) {
+
+    originals.push_back ("<<");
+    replacements.push_back ("“");
+    
+    originals.push_back (">>");
+    replacements.push_back ("”");
+    
+    originals.push_back ("<");
+    replacements.push_back ("‘");
+    
+    originals.push_back (">");
+    replacements.push_back ("’");
+    
+    // Support for USFM !$: fixed space.
+    originals.push_back ("!$");
+    replacements.push_back (" ");
+    
+    // Support for USFM //: line break.
+    originals.push_back ("//");
+    replacements.push_back ("\\b ");
+    
+    count = originals.size ();
+  }
+  
   // Do the longer ones first, the shorter ones later.
   {
     vector <ustring> sorted_orig;
@@ -75,7 +101,6 @@ void text_replacement_get_words (vector <ustring>& originals, vector <ustring>& 
     originals = sorted_orig;
     replacements = sorted_repl;
   }
-  
 }
 
 

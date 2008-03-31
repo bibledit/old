@@ -11,7 +11,7 @@ filter.file.ignore.hidden=0
 filter.dir.ignore.hidden=0
 
 [filenumbers]
-0=7251
+0=7279
 1=1
 2=155
 3=37
@@ -28,7 +28,7 @@ filter.dir.ignore.hidden=0
 14=5
 
 [filemarkers]
-0=7241,7242,7243,7244,7245,7246,7248,
+0=7267,
 1=
 2=
 3=

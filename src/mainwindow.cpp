@@ -6265,6 +6265,18 @@ void MainWindow::on_insert_special_character ()
   descriptions.push_back ("Soft hyphen");
   characters.push_back (" ");
   descriptions.push_back ("No-break space");
+  characters.push_back ("“");
+  descriptions.push_back ("Left double quotation mark");
+  characters.push_back ("”");
+  descriptions.push_back ("Right double quotation mark");
+  characters.push_back ("‘");
+  descriptions.push_back ("Left single quotation mark");
+  characters.push_back ("’");
+  descriptions.push_back ("Right single quotation mark");
+  characters.push_back ("«");
+  descriptions.push_back ("Left-pointing double angle quotation mark");
+  characters.push_back ("»");
+  descriptions.push_back ("Right-pointing double angle quotation mark");
   RadiobuttonDialog dialog ("Insert character", "Insert special character", descriptions, settings->session.special_character_selection);
   if (dialog.run () != GTK_RESPONSE_OK) return;
   settings->session.special_character_selection = dialog.selection;
@@ -7247,22 +7259,69 @@ void MainWindow::on_preferences_filters ()
 }
 
 
+/*
+Todo installation and git todos.
 
-// Todo make installation software for on the XO: It installs the activity code, as on Asus PC.
+make installation software for on the XO: It installs the activity code, as on Asus PC.
 
-// Todo make git work with external repository. Ok asked about public ssh key.
+make git work with external repository. Ok asked about public ssh key.
 
-// Todo to look at other programs whether they use XUL.m4, whether that works better on e.g. Suse and Fedora, and thus XO.
+to look at other programs whether they use XUL.m4, whether that works better on e.g. Suse and Fedora, and thus XO.
+
+If test is dependent upon testsource, then when the OK button is pressed it must copy all of testsource.
+But when filter "straight-through" is chosen, it does not update project test, whereas it should.
+Try all filters whether they work on OK in the project properties. I think what 
+needs to be done is to save the editors before properties is chosen, so that it won't save it again, so
+overwriting the changes made in the project dialog.
+
+To make an option when generating the toc in the html documents, to not generate the toc if some text is found.
+To use a comment to generate that text.
+
+
+*/
+
 
 /* 
 
 Todo support for a lot of markers.
 
-support marker //
+
+About the // and the $!, we realy need to set these
+as defaults, so that the replacement is done out of the box.
+
 
 Iron out the use of c, ca, cl, cp.
 
-Iron out the printing of v, va and vpIron out the printing of v, va and vp
+The c is already ok.
+The ca, create the marker, and let it be a comment, so far.
+cl can be before c 1, and can be after c2..x. Let it be processed upon printing.
+* The chapter "label" to be used when the chosen publishing presentation will 
+render chapter divisions as headings, and not drop cap numerals.
+If \cl is entered once before chapter 1 (\c 1) it represents the text 
+for "chapter" to be used throughout the current book. If \cl is used after 
+each individual chapter marker, it represents the particular text to be used for 
+the display of the current chapter heading (usually done if numbers are being 
+presented as words, not numerals).
+
+cp
+\cp_#
+* Published chapter marker.
+* This is a chapter marking (number, letter) that would be used in the published text 
+(where the published marker is different than the \c # used within the translation editor).
+
+
+cd
+\cd_Text
+* Chapter description
+* A brief description of chapter content (similar to \d - descriptive 
+To enter this as a paragraph., See Paratext's stylesheet for parameters.
+Is \cd already in?
+
+
+
+
+
+Iron out the printing of v, va and vp
 
 Check printing of li, li[1..4]
 
@@ -7285,5 +7344,18 @@ spine
 pubinfo
 
 support "span" in the \fig marker
+
+\nb to follow \c
+At the very least in the main editing window (formatted view),
+\c seems to be interpreted as a paragraph style, which makes it
+a lot "stickier" than it should be, as it then gets
+applied to all following verses until a \p.
+Solution 1 is presumably to follow any chapter numbers with a \p, but
+I'm farily sure that's going to have undesirable consequences along the
+line somewhere. Or is it standard practice that you always should
+do a new paragraph after a chapter? Aren't there places where that's
+questionable?
+Paratext does it that if no paragraph style follows the \c style, it
+inserts the \nb style.
 
 */
