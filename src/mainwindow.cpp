@@ -7274,6 +7274,9 @@ But when filter "straight-through" is chosen, it does not update project test, w
 Try all filters whether they work on OK in the project properties. I think what 
 needs to be done is to save the editors before properties is chosen, so that it won't save it again, so
 overwriting the changes made in the project dialog.
+It seems that there is a problem here in the sense that the project gets modified even
+if not actively modified by the user. This should be resolved because it affects
+a lot.
 
 
 */
@@ -7284,27 +7287,12 @@ overwriting the changes made in the project dialog.
 Todo support for a lot of markers.
 
 
-Todo we may have to store \\b permanently, that is, it belongs to the automatic support that is always given.
-Or else to double the apostrophy if found in the text, and stored.
-
-
-cp
-\cp_#
-* Published chapter marker.
-* This is a chapter marking (number, letter) that would be used in the published text 
-(where the published marker is different than the \c # used within the translation editor).
-
-
 cd
 \cd_Text
 * Chapter description
 * A brief description of chapter content (similar to \d - descriptive 
 To enter this as a paragraph., See Paratext's stylesheet for parameters.
 Is \cd already in?
-
-
-
-
 
 
 

@@ -255,6 +255,16 @@ void Usfm2XslFo::preprocess ()
                   processed = true;
                   break;
                 }
+                case u2xtPublishedChapterMarker:
+                {
+                  // Get / store the chapter label.
+                  ustring label = get_erase_code_till_next_marker (usfm_line, 0, marker_length, true);
+                  ChapterLabel publishedchaptermarker (book, chapter, label);
+                  published_chapter_markers.push_back (publishedchaptermarker);
+                  // Data was processed.
+                  processed = true;
+                  break;
+                }
               }
             }
           }
@@ -553,6 +563,11 @@ void Usfm2XslFo::convert_from_usfm_to_xslfo ()
                 break;
               }
               case u2xtChapterLabel:
+              {
+                get_erase_code_till_next_marker (usfm_line, marker_position, marker_length, true);
+                break;
+              }
+              case u2xtPublishedChapterMarker:
               {
                 get_erase_code_till_next_marker (usfm_line, marker_position, marker_length, true);
                 break;
@@ -1298,6 +1313,8 @@ void Usfm2XslFo::output_chapter_number_try_normal (ustring& line, Usfm2XslFoStyl
   if (at_first_verse) return;
 
   // Write the chapter number in a fo:block, and close that block again.
+  // Normally this is the number as it is, 
+  // but it can be modified if a published chapter marker is given.
   // Insert a possible chapter label too.
   fo_block_style = stylepointer;
   open_fo_block (fo_block_style, true);
@@ -1313,7 +1330,15 @@ void Usfm2XslFo::output_chapter_number_try_normal (ustring& line, Usfm2XslFoStyl
     xmlTextWriterWriteFormatString (writer, "%s", chapterlabel.c_str());
     xmlTextWriterWriteFormatString (writer, " ");
   }
-  xmlTextWriterWriteFormatString (writer, "%i", chapter);
+  ustring chapternumber = convert_to_string (chapter);
+  for (unsigned int i = 0; i < published_chapter_markers.size (); i++) {
+    if (book == published_chapter_markers[i].book) {
+       if (chapter == published_chapter_markers[i].chapter) {
+        chapternumber = published_chapter_markers[i].label;
+      }
+    }
+  }
+  xmlTextWriterWriteFormatString (writer, "%s", chapternumber.c_str());
   close_possible_fo_block (fo_block_style);
 }
 
@@ -1351,10 +1376,22 @@ void Usfm2XslFo::output_chapter_number_try_at_first_verse (ustring line, Usfm2Xs
             chapter_style = &styles[i];
         }
         
+        // Assemble chapter number.
+        // Normally this is the number as it is, 
+        // but it can be modified if a published chapter marker is given.
+        ustring chapternumber = convert_to_string (chapter_number_to_output_at_first_verse);
+        for (unsigned int i = 0; i < published_chapter_markers.size (); i++) {
+          if (book == published_chapter_markers[i].book) {
+            if (chapter_number_to_output_at_first_verse == published_chapter_markers[i].chapter) {
+              chapternumber = published_chapter_markers[i].label;
+            }
+          }
+        }
+        
         // Write the chapter block.
         if (chapter_style) {
           open_fo_block (chapter_style, true);
-          xmlTextWriterWriteFormatString (writer, "%i", chapter_number_to_output_at_first_verse);
+          xmlTextWriterWriteFormatString (writer, "%s", chapternumber.c_str());
           close_possible_fo_block (chapter_style);
         }
         

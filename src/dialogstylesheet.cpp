@@ -512,6 +512,12 @@ StylesheetDialog::StylesheetDialog (const ustring& stylesheet, const ustring& st
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_is_chapter_label), radiobutton_id_book_group);
   radiobutton_id_book_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_is_chapter_label));
 
+  radiobutton_is_published_chapter_marker = gtk_radio_button_new_with_mnemonic (NULL, "is the published chapter marker");
+  gtk_widget_show (radiobutton_is_published_chapter_marker);
+  gtk_box_pack_start (GTK_BOX (vbox15), radiobutton_is_published_chapter_marker, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_is_published_chapter_marker), radiobutton_id_book_group);
+  radiobutton_id_book_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_is_published_chapter_marker));
+
   label57 = gtk_label_new ("");
   gtk_widget_show (label57);
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_subtype), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_subtype), 5), label57);
@@ -1219,6 +1225,9 @@ void StylesheetDialog::set_subtype (StyleType maintype, int subtype)
         case itChapterLabel:
           gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton_is_chapter_label), true);
           break;
+        case itPublishedChapterMarker:
+          gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton_is_published_chapter_marker), true);
+          break;
       }
       break;
     }
@@ -1438,6 +1447,8 @@ int StylesheetDialog::get_subtype ()
         subtype = itBookAbbrev;
       if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_is_chapter_label)))
         subtype = itChapterLabel;
+      if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_is_published_chapter_marker)))
+        subtype = itPublishedChapterMarker;
       break;
     case 6 :
       // Get subtype for table elements.
@@ -2526,6 +2537,7 @@ void StylesheetDialog::on_radiobutton_identifier ()
     case itShortTOC:
     case itBookAbbrev:
     case itChapterLabel:
+    case itPublishedChapterMarker:
       break;
   }
 }

@@ -116,6 +116,7 @@ private:
   GtkWidget *radiobutton_is_short_toc_text;
   GtkWidget *radiobutton_is_book_abbrev;
   GtkWidget *radiobutton_is_chapter_label;
+  GtkWidget *radiobutton_is_published_chapter_marker;
   GtkWidget *label57;
 
   // Table subtype

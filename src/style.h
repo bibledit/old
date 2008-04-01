@@ -33,7 +33,8 @@ enum StyleType {
 };
 enum IdentifierType {
   itBook, itEncoding, itComment, itRunningHeader, 
-  itLongTOC, itShortTOC, itBookAbbrev, itChapterLabel
+  itLongTOC, itShortTOC, itBookAbbrev, 
+  itChapterLabel, itPublishedChapterMarker
 };
 enum FootEndNoteType {
   fentFootnote, fentEndnote, fentStandardContent, fentContent, fentContentWithEndmarker, fentParagraph

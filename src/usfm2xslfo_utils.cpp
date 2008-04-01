@@ -133,6 +133,11 @@ and puts all these styles in the right format.
             style.type = u2xtChapterLabel;
             break;
           }
+          case itPublishedChapterMarker:
+          {
+            style.type = u2xtPublishedChapterMarker;
+            break;
+          }
         }
         break;
       }

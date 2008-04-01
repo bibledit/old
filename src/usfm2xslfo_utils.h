@@ -73,7 +73,8 @@ enum Usfm2XslFoStyleType {
   u2xtLineSpacing,
   u2xtKeepOnPage,
   u2xtFontFamilySizeLineHeight,
-  u2xtChapterLabel
+  u2xtChapterLabel,
+  u2xtPublishedChapterMarker
 };
 
 
