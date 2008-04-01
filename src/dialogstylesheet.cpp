@@ -65,6 +65,7 @@ userbool3
 
 userstring1
 - Footnotes / xrefs / endnotes: numbering sequence.
+- Chapter label: the label.
 
 userstring2
 - Endnotes: dump notes upon encountering this marker.
@@ -505,6 +506,12 @@ StylesheetDialog::StylesheetDialog (const ustring& stylesheet, const ustring& st
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_is_book_abbrev), radiobutton_id_book_group);
   radiobutton_id_book_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_is_book_abbrev));
 
+  radiobutton_is_chapter_label = gtk_radio_button_new_with_mnemonic (NULL, "is the chapter label");
+  gtk_widget_show (radiobutton_is_chapter_label);
+  gtk_box_pack_start (GTK_BOX (vbox15), radiobutton_is_chapter_label, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_is_chapter_label), radiobutton_id_book_group);
+  radiobutton_id_book_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_is_chapter_label));
+
   label57 = gtk_label_new ("");
   gtk_widget_show (label57);
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_subtype), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_subtype), 5), label57);
@@ -575,7 +582,7 @@ StylesheetDialog::StylesheetDialog (const ustring& stylesheet, const ustring& st
   hbox13 = NULL;
   hbox15 = NULL;
   checkbutton_print_in_running_header_left = NULL;
-  
+
   dialog_action_area1 = GTK_DIALOG (stylesheetdialog)->action_area;
   gtk_widget_show (dialog_action_area1);
   gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area1), GTK_BUTTONBOX_END);
@@ -1209,6 +1216,9 @@ void StylesheetDialog::set_subtype (StyleType maintype, int subtype)
         case itBookAbbrev:
           gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton_is_book_abbrev), true);
           break;
+        case itChapterLabel:
+          gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton_is_chapter_label), true);
+          break;
       }
       break;
     }
@@ -1338,7 +1348,7 @@ void StylesheetDialog::set_subtype (StyleType maintype, int subtype)
       }
       break;
     }
-      break;
+    break;
   }
 }
 
@@ -1426,6 +1436,8 @@ int StylesheetDialog::get_subtype ()
         subtype = itShortTOC;
       if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_is_book_abbrev)))
         subtype = itBookAbbrev;
+      if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_is_chapter_label)))
+        subtype = itChapterLabel;
       break;
     case 6 :
       // Get subtype for table elements.
@@ -2513,6 +2525,7 @@ void StylesheetDialog::on_radiobutton_identifier ()
     case itLongTOC:
     case itShortTOC:
     case itBookAbbrev:
+    case itChapterLabel:
       break;
   }
 }

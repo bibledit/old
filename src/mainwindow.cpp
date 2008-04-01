@@ -7260,13 +7260,14 @@ void MainWindow::on_preferences_filters ()
 
 
 /*
-Todo installation and git todos.
+Todo various
 
 make installation software for on the XO: It installs the activity code, as on Asus PC.
 
 make git work with external repository. Ok asked about public ssh key.
 
 to look at other programs whether they use XUL.m4, whether that works better on e.g. Suse and Fedora, and thus XO.
+Then try these distros again, and also try Knoppix again.
 
 If test is dependent upon testsource, then when the OK button is pressed it must copy all of testsource.
 But when filter "straight-through" is chosen, it does not update project test, whereas it should.
@@ -7274,34 +7275,18 @@ Try all filters whether they work on OK in the project properties. I think what
 needs to be done is to save the editors before properties is chosen, so that it won't save it again, so
 overwriting the changes made in the project dialog.
 
-To make an option when generating the toc in the html documents, to not generate the toc if some text is found.
-To use a comment to generate that text.
-
 
 */
 
-
 /* 
+
 
 Todo support for a lot of markers.
 
 
-About the // and the $!, we realy need to set these
-as defaults, so that the replacement is done out of the box.
+Todo we may have to store \\b permanently, that is, it belongs to the automatic support that is always given.
+Or else to double the apostrophy if found in the text, and stored.
 
-
-Iron out the use of c, ca, cl, cp.
-
-The c is already ok.
-The ca, create the marker, and let it be a comment, so far.
-cl can be before c 1, and can be after c2..x. Let it be processed upon printing.
-* The chapter "label" to be used when the chosen publishing presentation will 
-render chapter divisions as headings, and not drop cap numerals.
-If \cl is entered once before chapter 1 (\c 1) it represents the text 
-for "chapter" to be used throughout the current book. If \cl is used after 
-each individual chapter marker, it represents the particular text to be used for 
-the display of the current chapter heading (usually done if numbers are being 
-presented as words, not numerals).
 
 cp
 \cp_#
@@ -7316,6 +7301,8 @@ cd
 * A brief description of chapter content (similar to \d - descriptive 
 To enter this as a paragraph., See Paratext's stylesheet for parameters.
 Is \cd already in?
+
+
 
 
 

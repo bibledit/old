@@ -72,7 +72,8 @@ enum Usfm2XslFoStyleType {
   u2xtDeletion,
   u2xtLineSpacing,
   u2xtKeepOnPage,
-  u2xtFontFamilySizeLineHeight
+  u2xtFontFamilySizeLineHeight,
+  u2xtChapterLabel
 };
 
 
@@ -146,6 +147,16 @@ public:
   ustring verse_from;
   unsigned int chapter_to;
   ustring verse_to;
+};
+
+
+class ChapterLabel
+{
+public:
+  ChapterLabel (unsigned int book_in, unsigned int chapter_in, ustring label_in);
+  unsigned int book;
+  unsigned int chapter;
+  ustring label;
 };
 
 

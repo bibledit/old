@@ -119,6 +119,7 @@ void Usfm2XslFo::preprocess ()
   bool is_opener;
   bool marker_found;
   unsigned int book = 0;
+  unsigned int chapter = 0;
   
   // Go through all usfm input.
   while (unprocessed_usfm_code_available ()) {
@@ -145,6 +146,8 @@ void Usfm2XslFo::preprocess ()
                     highest_chapter_number [book] = 0;
                     // Store the book in a list for later use.
                     if (book) books.push_back (book);
+                    // Reset chapter.  
+                    chapter = 0;
                   }
                   // Data was processed.
                   processed = true;
@@ -185,8 +188,8 @@ void Usfm2XslFo::preprocess ()
                 {
                   // Get the highest chapter number in the current book.
                   ustring chaptertext = get_erase_code_till_next_marker (usfm_line, 0, marker_length, true);
-                  unsigned int chapternumber = convert_to_int (chaptertext);
-                  highest_chapter_number [book] = chapternumber;
+                  chapter = convert_to_int (chaptertext);
+                  highest_chapter_number [book] = chapter;
                   // Whether to print the chapter number in the left/right headers.
                   chapter_number_in_running_header_at_left_pages = stylepointer->print_in_left_running_header;
                   chapter_number_in_running_header_at_right_pages = stylepointer->print_in_right_running_header;
@@ -240,6 +243,16 @@ void Usfm2XslFo::preprocess ()
                 case u2xtKeepOnPage:
                 case u2xtFontFamilySizeLineHeight:
                 {
+                  break;
+                }
+                case u2xtChapterLabel:
+                {
+                  // Get / store the chapter label.
+                  ustring label = get_erase_code_till_next_marker (usfm_line, 0, marker_length, true);
+                  ChapterLabel chapterlabel (book, chapter, label);
+                  chapter_labels.push_back (chapterlabel);
+                  // Data was processed.
+                  processed = true;
                   break;
                 }
               }
@@ -537,6 +550,11 @@ void Usfm2XslFo::convert_from_usfm_to_xslfo ()
               case u2xtFontFamilySizeLineHeight:
               {
                 output_font_family_size_line_height (usfm_line, fo_block_style, fo_inline_style, marker_length, is_opener);
+                break;
+              }
+              case u2xtChapterLabel:
+              {
+                get_erase_code_till_next_marker (usfm_line, marker_position, marker_length, true);
                 break;
               }
               default:
@@ -1280,8 +1298,21 @@ void Usfm2XslFo::output_chapter_number_try_normal (ustring& line, Usfm2XslFoStyl
   if (at_first_verse) return;
 
   // Write the chapter number in a fo:block, and close that block again.
+  // Insert a possible chapter label too.
   fo_block_style = stylepointer;
   open_fo_block (fo_block_style, true);
+  ustring chapterlabel;
+  for (unsigned int i = 0; i < chapter_labels.size (); i++) {
+    if (chapter_labels[i].book == book) {
+      if ((chapter_labels[i].chapter == 0) || (chapter_labels[i].chapter == chapter)) {
+        chapterlabel = chapter_labels[i].label;
+      }
+    }
+  }
+  if (!chapterlabel.empty ()) {
+    xmlTextWriterWriteFormatString (writer, "%s", chapterlabel.c_str());
+    xmlTextWriterWriteFormatString (writer, " ");
+  }
   xmlTextWriterWriteFormatString (writer, "%i", chapter);
   close_possible_fo_block (fo_block_style);
 }

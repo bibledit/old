@@ -123,9 +123,14 @@ and puts all these styles in the right format.
             style.type = u2xtIdentifierShortTOC;
             break;
           }
-          case itBookAbbrev:          
+          case itBookAbbrev:
           {
             style.type = u2xtIdentifierBookAbbreviation;
+            break;
+          }
+          case itChapterLabel:
+          {
+            style.type = u2xtChapterLabel;
             break;
           }
         }
@@ -377,4 +382,12 @@ XslFoPortion::XslFoPortion (unsigned int book_in, unsigned int chapter_from_in, 
   verse_from = verse_from_in;
   chapter_to = chapter_to_in;
   verse_to = verse_to_in;
+}
+
+
+ChapterLabel::ChapterLabel (unsigned int book_in, unsigned int chapter_in, ustring label_in)
+{
+  book = book_in;
+  chapter = chapter_in;
+  label = label_in;
 }

@@ -11,10 +11,10 @@ filter.file.ignore.hidden=0
 filter.dir.ignore.hidden=0
 
 [filenumbers]
-0=7279
-1=1
-2=155
-3=37
+0=7300
+1=135
+2=1268
+3=5
 4=139
 5=5
 6=49
@@ -28,7 +28,7 @@ filter.dir.ignore.hidden=0
 14=5
 
 [filemarkers]
-0=7267,
+0=
 1=
 2=
 3=
@@ -46,7 +46,9 @@ filter.dir.ignore.hidden=0
 
 [filelist]
 0=/home/teus/documents/dev/bibledit/src/mainwindow.cpp
-1=/home/teus/documents/dev/bibledit/configure.ac
+1=/home/teus/documents/dev/bibledit/src/usfm2xslfo.h
+2=/home/teus/documents/dev/bibledit/src/usfm2xslfo.cpp
+3=/home/teus/documents/dev/bibledit/configure.ac
 
 [Project Tree]
 0=0

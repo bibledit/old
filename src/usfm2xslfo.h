@@ -132,6 +132,7 @@ private:
   map <unsigned int, ustring> book_header_left;
   map <unsigned int, ustring> book_header_right;
   void collect_running_headers (ustring& line, Usfm2XslFoStyle * stylepointer, size_t marker_length, unsigned int book);
+  vector <ChapterLabel> chapter_labels;
   
   // Progress windows.
   ProgressWindow * progresswindow;

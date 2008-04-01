@@ -95,6 +95,9 @@ int main (int argc, char *argv[])
   // Go through each file and process it.
   for (unsigned int i = 0; i < files.size(); i++) {
 
+    // If the text <!-- No TOC --> is found, no table of contents should be generated.
+    bool generate_toc = true;
+    
     // Load the text, but remove any previous table of contents.
     vector<string> lines;
     {
@@ -110,9 +113,14 @@ int main (int argc, char *argv[])
         }
         if (line == TOC_E)
           keepline = true;
+        if (line.find ("- No TOC -") != string::npos) {
+          generate_toc = false;
+        }
       }
     }
 
+    if (!generate_toc) continue;
+    
     // Clean the lines.
     {
       vector<string> cleanlines;
