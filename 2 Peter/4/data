@@ -1,5 +1,6 @@
 \c 4
 \p
 \v 1 Verse \pro pro\pro* \w one\w*.
-\p \zopenwordlist
-\p \zclosewordlist
+\zopenwordlist
+\p
+\zclosewordlist
