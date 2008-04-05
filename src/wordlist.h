@@ -28,7 +28,7 @@
 #include "progresswindow.h"
 
 
-enum WordlistType {wltGeneral, wltHebrew, wltGreek};
+enum WordlistType {wltGeneral, wltHebrew, wltGreek, wltIndex};
 
 
 class Wordlist
@@ -51,6 +51,9 @@ private:
   void message (const ustring& message);
   vector <ustring> messages;
 };
+
+
+ustring wordlist_get_entry_style (const ustring& project, WordlistType type);
 
 
 #endif

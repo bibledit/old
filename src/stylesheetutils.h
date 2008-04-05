@@ -56,7 +56,6 @@ int stylesheet_style_get_pointer (const vector<Style>& styles, const ustring& ma
 void stylesheets_upgrade ();
 void stylesheet_get_recently_used (const ustring& stylesheet, vector<ustring>& markers, vector<unsigned int>& count);
 void stylesheet_set_recently_used (const ustring& stylesheet, vector<ustring>& styles, vector<unsigned int>& counts);
-bool stylesheet_style_has_endmarker (const Style& style);
 void stylesheet_save_style (const ustring& stylesheet, const Style& style);
 void stylesheet_load_style (const ustring& stylesheet, Style& style);
 void stylesheet_vacuum (const ustring& stylesheet, unsigned int starttime);

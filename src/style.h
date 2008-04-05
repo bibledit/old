@@ -29,12 +29,12 @@
 enum StyleType {
   stIdentifier, stNotUsedComment, stNotUsedRunningHeader, stStartsParagraph, stInlineText, 
   stChapterNumber, stVerseNumber, stFootEndNote, stCrossreference, stPeripheral,
-  stPicture, stPageBreak, stTableElement
+  stPicture, stPageBreak, stTableElement, stWordlistElement
 };
 enum IdentifierType {
   itBook, itEncoding, itComment, itRunningHeader, 
   itLongTOC, itShortTOC, itBookAbbrev, 
-  itChapterLabel, itPublishedChapterMarker
+  itChapterLabel, itPublishedChapterMarker, itCommentWithEndmarker
 };
 enum FootEndNoteType {
   fentFootnote, fentEndnote, fentStandardContent, fentContent, fentContentWithEndmarker, fentParagraph
@@ -60,6 +60,10 @@ enum PeripheralType {
 };
 enum TableElementType {
   tetRow, tetHeading, tetCell
+};
+enum WordListElementType {
+  wltWordlistGlossaryDictionary, wltHebrewWordlistEntry, wltGreekWordlistEntry, 
+  wltSubjectIndexEntry
 };
 
 

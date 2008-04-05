@@ -170,6 +170,47 @@ WordlistDialog::WordlistDialog (int dummy)
 
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_greek_first_time), settings->genconfig.wordlist_greek_asterisk_first_get ());
 
+  hseparator6 = gtk_hseparator_new ();
+  gtk_widget_show (hseparator6);
+  gtk_box_pack_start (GTK_BOX (dialog_vbox1), hseparator6, TRUE, TRUE, 0);
+
+  vbox6 = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (vbox6);
+  gtk_box_pack_start (GTK_BOX (dialog_vbox1), vbox6, FALSE, FALSE, 0);
+
+  checkbutton_index = gtk_check_button_new_with_mnemonic ("Process index");
+  gtk_widget_show (checkbutton_index);
+  gtk_box_pack_start (GTK_BOX (vbox6), checkbutton_index, FALSE, FALSE, 0);
+
+  shortcuts.button (checkbutton_index);
+
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_index), settings->genconfig.wordlist_process_index_get ());
+
+  label6 = gtk_label_new ("Insert the list between markers \\zopenindex and \\zcloseindex");
+  gtk_widget_show (label6);
+  gtk_box_pack_start (GTK_BOX (vbox6), label6, FALSE, FALSE, 0);
+  gtk_misc_set_alignment (GTK_MISC (label6), 0, 0.5);
+
+  hbox6 = gtk_hbox_new (FALSE, 0);
+  gtk_widget_show (hbox6);
+  gtk_box_pack_start (GTK_BOX (vbox6), hbox6, TRUE, TRUE, 0);
+
+  checkbutton_asterisk_index = gtk_check_button_new_with_mnemonic ("Add an asterisk to each word entry");
+  gtk_widget_show (checkbutton_asterisk_index);
+  gtk_box_pack_start (GTK_BOX (hbox6), checkbutton_asterisk_index, FALSE, FALSE, 0);
+
+  shortcuts.button (checkbutton_asterisk_index);
+
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_asterisk_index), settings->genconfig.wordlist_index_asterisk_get ());
+
+  checkbutton_index_first_time = gtk_check_button_new_with_mnemonic ("the first time it occurs in a chapter");
+  gtk_widget_show (checkbutton_index_first_time);
+  gtk_box_pack_start (GTK_BOX (hbox6), checkbutton_index_first_time, FALSE, FALSE, 0);
+
+  shortcuts.button (checkbutton_index_first_time);
+
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_index_first_time), settings->genconfig.wordlist_index_asterisk_first_get ());
+
   dialog_action_area1 = GTK_DIALOG (wordlistdialog)->action_area;
   gtk_widget_show (dialog_action_area1);
   gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area1), GTK_BUTTONBOX_END);
@@ -191,22 +232,28 @@ WordlistDialog::WordlistDialog (int dummy)
   shortcuts.process ();
 
   g_signal_connect ((gpointer) checkbutton_wordlist, "toggled",
-                    G_CALLBACK (on_checkbutton_wordlist_toggled),
+                    G_CALLBACK (on_checkbutton_toggled),
                     gpointer(this));
   g_signal_connect ((gpointer) checkbutton_asterisk_general, "toggled",
-                    G_CALLBACK (on_checkbutton_asterisk_general_toggled),
+                    G_CALLBACK (on_checkbutton_toggled),
                     gpointer(this));
   g_signal_connect ((gpointer) checkbutton_hebrew_wordlist, "toggled",
-                    G_CALLBACK (on_checkbutton_hebrew_wordlist_toggled),
+                    G_CALLBACK (on_checkbutton_toggled),
                     gpointer(this));
   g_signal_connect ((gpointer) checkbutton_asterisk_hebrew, "toggled",
-                    G_CALLBACK (on_checkbutton_asterisk_hebrew_toggled),
+                    G_CALLBACK (on_checkbutton_toggled),
                     gpointer(this));
   g_signal_connect ((gpointer) checkbutton_greek_wordlist, "toggled",
-                    G_CALLBACK (on_checkbutton_greek_wordlist_toggled),
+                    G_CALLBACK (on_checkbutton_toggled),
                     gpointer(this));
   g_signal_connect ((gpointer) checkbutton_asterisk_greek, "toggled",
-                    G_CALLBACK (on_checkbutton_asterisk_greek_toggled),
+                    G_CALLBACK (on_checkbutton_toggled),
+                    gpointer(this));
+  g_signal_connect ((gpointer) checkbutton_index, "toggled",
+                    G_CALLBACK (on_checkbutton_toggled),
+                    gpointer(this));
+  g_signal_connect ((gpointer) checkbutton_asterisk_index, "toggled",
+                    G_CALLBACK (on_checkbutton_toggled),
                     gpointer(this));
   g_signal_connect ((gpointer) okbutton, "clicked",
                     G_CALLBACK (on_okbutton_clicked),
@@ -231,37 +278,7 @@ int WordlistDialog::run ()
 }
 
 
-void WordlistDialog::on_checkbutton_wordlist_toggled (GtkToggleButton *togglebutton, gpointer user_data)
-{
-  ((WordlistDialog *) user_data)->gui ();
-}
-
-
-void WordlistDialog::on_checkbutton_asterisk_general_toggled (GtkToggleButton *togglebutton, gpointer user_data)
-{
-  ((WordlistDialog *) user_data)->gui ();
-}
-
-
-void WordlistDialog::on_checkbutton_hebrew_wordlist_toggled (GtkToggleButton *togglebutton, gpointer user_data)
-{
-  ((WordlistDialog *) user_data)->gui ();
-}
-
-
-void WordlistDialog::on_checkbutton_asterisk_hebrew_toggled (GtkToggleButton *togglebutton, gpointer user_data)
-{
-  ((WordlistDialog *) user_data)->gui ();
-}
-
-
-void WordlistDialog::on_checkbutton_greek_wordlist_toggled (GtkToggleButton *togglebutton, gpointer user_data)
-{
-  ((WordlistDialog *) user_data)->gui ();
-}
-
-
-void WordlistDialog::on_checkbutton_asterisk_greek_toggled (GtkToggleButton *togglebutton, gpointer user_data)
+void WordlistDialog::on_checkbutton_toggled (GtkToggleButton *togglebutton, gpointer user_data)
 {
   ((WordlistDialog *) user_data)->gui ();
 }
@@ -286,6 +303,9 @@ void WordlistDialog::on_okbutton ()
   settings->genconfig.wordlist_process_greek_set (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_greek_wordlist)));
   settings->genconfig.wordlist_greek_asterisk_set (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_asterisk_greek)));
   settings->genconfig.wordlist_greek_asterisk_first_set (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_greek_first_time)));
+  settings->genconfig.wordlist_process_index_set (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_index)));
+  settings->genconfig.wordlist_index_asterisk_set (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_asterisk_index)));
+  settings->genconfig.wordlist_index_asterisk_first_set (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_index_first_time)));
   // Run the three word lists, and collect their messages.
   vector <ustring> messages;
   if (settings->genconfig.wordlist_process_general_get ()) {
@@ -298,6 +318,10 @@ void WordlistDialog::on_okbutton ()
   }
   if (settings->genconfig.wordlist_process_greek_get ()) {
     Wordlist wordlist (wltGreek);
+    wordlist.run (messages);
+  }
+  if (settings->genconfig.wordlist_process_index_get ()) {
+    Wordlist wordlist (wltIndex);
     wordlist.run (messages);
   }
   // Display messages.
@@ -316,20 +340,25 @@ void WordlistDialog::gui ()
   bool general = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_wordlist));
   bool hebrew = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_hebrew_wordlist));
   bool greek = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_greek_wordlist));
+  bool index = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_index));
 
   gtk_widget_set_sensitive (label3, general);
   gtk_widget_set_sensitive (label4, hebrew);
   gtk_widget_set_sensitive (label5, greek);
+  gtk_widget_set_sensitive (label6, index);
 
   gtk_widget_set_sensitive (checkbutton_asterisk_general, general);
   gtk_widget_set_sensitive (checkbutton_asterisk_hebrew, hebrew);
   gtk_widget_set_sensitive (checkbutton_asterisk_greek, greek);
+  gtk_widget_set_sensitive (checkbutton_asterisk_index, index);
 
-  bool general_asterisk = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_asterisk_general));
-  bool hebrew_asterisk = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_asterisk_hebrew));
-  bool greek_asterisk = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_asterisk_greek));
+  bool general_asterisk = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_asterisk_general)) && general;
+  bool hebrew_asterisk = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_asterisk_hebrew)) && hebrew;
+  bool greek_asterisk = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_asterisk_greek)) && greek;
+  bool index_asterisk = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_asterisk_index)) && index;
 
   gtk_widget_set_sensitive (checkbutton_general_first_time, general_asterisk);
   gtk_widget_set_sensitive (checkbutton_hebrew_firsttime, hebrew_asterisk);
   gtk_widget_set_sensitive (checkbutton_greek_first_time, greek_asterisk);
+  gtk_widget_set_sensitive (checkbutton_index_first_time, index_asterisk);
 }

@@ -57,16 +57,18 @@ protected:
   GtkWidget *hbox3;
   GtkWidget *checkbutton_asterisk_greek;
   GtkWidget *checkbutton_greek_first_time;
+  GtkWidget *hseparator6;
+  GtkWidget *vbox6;
+  GtkWidget *checkbutton_index;
+  GtkWidget *label6;
+  GtkWidget *hbox6;
+  GtkWidget *checkbutton_asterisk_index;
+  GtkWidget *checkbutton_index_first_time;
   GtkWidget *dialog_action_area1;
   GtkWidget *cancelbutton;
   GtkWidget *okbutton;
 private:
-  static void on_checkbutton_wordlist_toggled (GtkToggleButton *togglebutton, gpointer user_data);
-  static void on_checkbutton_asterisk_general_toggled (GtkToggleButton *togglebutton, gpointer user_data);
-  static void on_checkbutton_hebrew_wordlist_toggled (GtkToggleButton *togglebutton, gpointer user_data);
-  static void on_checkbutton_asterisk_hebrew_toggled (GtkToggleButton *togglebutton, gpointer user_data);
-  static void on_checkbutton_greek_wordlist_toggled (GtkToggleButton *togglebutton, gpointer user_data);
-  static void on_checkbutton_asterisk_greek_toggled (GtkToggleButton *togglebutton, gpointer user_data);
+  static void on_checkbutton_toggled (GtkToggleButton *togglebutton, gpointer user_data);
   static void on_okbutton_clicked (GtkButton *button, gpointer user_data);
   void on_okbutton ();
   void gui();

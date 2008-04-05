@@ -159,6 +159,9 @@ public:
   DEFINE_GENCONFIG_H (bool, wordlist_process_greek);
   DEFINE_GENCONFIG_H (bool, wordlist_greek_asterisk);
   DEFINE_GENCONFIG_H (bool, wordlist_greek_asterisk_first);
+  DEFINE_GENCONFIG_H (bool, wordlist_process_index);
+  DEFINE_GENCONFIG_H (bool, wordlist_index_asterisk);
+  DEFINE_GENCONFIG_H (bool, wordlist_index_asterisk_first);
   DEFINE_GENCONFIG_H (bool, notes_editor_font_default);
   DEFINE_GENCONFIG_H (ustring, notes_editor_font_name);
   DEFINE_GENCONFIG_H (bool, notes_editor_default_color);

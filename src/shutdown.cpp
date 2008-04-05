@@ -26,30 +26,37 @@
 #include "settings.h"
 #include "notes_utils.h"
 #include "git.h"
+#include "gwrappers.h"
 
 
 void shutdown_actions ()
 // Takes certain actions when Bibledit shuts down.
 {
-  // Open a configuration to read parameters from.
-  extern Settings * settings;
-    
-  unsigned int startuptime = settings->genconfig.startup_time_get ();
-  // Set about to vacuum the sqlite databases.
-  // Vacuuming a database is done only when it got changed. Saves time.
   // Project related databases.
+  // Delete these, as they are old. This is temporal, 
+  // after some versions it can go away. Introduced in version 3.2. todo
   vector <ustring> projects = projects_get_all ();
   for (unsigned int i = 0; i < projects.size(); i++) {
-    project_vacuum (projects[i], startuptime);
+    unlink (gw_build_filename (directories_get_projects (), projects[i], "data.sql2").c_str());
   }
+
+  // Open a configuration to read parameters from.
+  extern Settings * settings;
+  unsigned int startuptime = settings->genconfig.startup_time_get ();
+
+  // Set about to vacuum the sqlite databases.
+  // Vacuuming a database is done only when it got changed. Saves time.
+
   // Stylesheets.
   vector <ustring> stylesheets;
   stylesheet_get_ones_available (stylesheets);
   for (unsigned int i = 0; i < stylesheets.size(); i++) {
     stylesheet_vacuum (stylesheets[i], startuptime);
   }
+
   // Notes.
   notes_vacuum (startuptime);
+
   // Git system.
   git_cleanup ();
 }

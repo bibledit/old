@@ -118,14 +118,6 @@ vector<ustring> projects_get_all ()
 }
 
 
-ustring project_filename (const ustring& project)
-// Returns the filename of the database that keeps synchronization data about 
-// the project.
-{
-  return gw_build_filename (directories_get_projects (), project, "data.sql2");
-}
-
-
 ustring project_data_directory_project (const ustring& project)
 // Returns the data directory for the project, e.g.:
 // ~/.bibledit/projects/testproject/data
@@ -503,12 +495,6 @@ bool project_book_exists (const ustring& project, unsigned int book)
 {
   ustring directory = project_data_directory_book (project, book);
   return g_file_test (directory.c_str(), G_FILE_TEST_IS_DIR);  
-}
-
-
-void project_vacuum (const ustring& project, unsigned int starttime)
-{
-  vacuum_database (project_filename (project), starttime);
 }
 
 

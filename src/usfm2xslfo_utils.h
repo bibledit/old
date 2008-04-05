@@ -74,7 +74,12 @@ enum Usfm2XslFoStyleType {
   u2xtKeepOnPage,
   u2xtFontFamilySizeLineHeight,
   u2xtChapterLabel,
-  u2xtPublishedChapterMarker
+  u2xtPublishedChapterMarker,
+  u2xtIdentifierCommentWithEndmarker,
+  u2xtGeneralWordlistEntry,
+  u2xtHebrewWordlistEntry,
+  u2xtGreekWordlistEntry,
+  u2xtSubjectIndexEntry
 };
 
 
@@ -115,6 +120,7 @@ public:
   ustring dump_endnotes_upon_encountering_this_marker;
   int line_height_percentage;
   int table_column_number;
+  ustring wordlist_entry_addition;
 private:
 };
 

@@ -25,51 +25,59 @@
 #include "books.h"
 #include "usfmtools.h"
 #include "tiny_utilities.h"
+#include "styles.h"
 
 
 Wordlist::Wordlist (WordlistType wordlist)
 {
   extern Settings * settings;
+
+  project = settings->genconfig.project_get();
+  
+  ustring marker   = wordlist_get_entry_style (project, wordlist);
+  entry_opener     = usfm_get_full_opening_marker (marker);
+  entry_closer     = usfm_get_full_closing_marker (marker);
+
   switch (wordlist) {
     case wltGeneral: 
     {
-      entry_opener = "\\w ";
-      entry_closer = "\\w*";
-      list_opener  = "\\zopenwordlist";
-      list_closer  = "\\zclosewordlist";
+      list_opener      = "\\zopenwordlist";
+      list_closer      = "\\zclosewordlist";
       use_asterisk     = settings->genconfig.wordlist_general_asterisk_get ();
       first_in_chapter = settings->genconfig.wordlist_general_asterisk_first_get ();
-      wordlistname = "General";
+      wordlistname     = "General word list";
       break;
     }
     case wltHebrew:
     {
-      entry_opener = "\\wh ";
-      entry_closer = "\\wh*";
-      list_opener  = "\\zopenhebrewwordlist";
-      list_closer  = "\\zclosehebrewwordlist";
+      list_opener      = "\\zopenhebrewwordlist";
+      list_closer      = "\\zclosehebrewwordlist";
       use_asterisk     = settings->genconfig.wordlist_hebrew_asterisk_get ();
       first_in_chapter = settings->genconfig.wordlist_hebrew_asterisk_first_get ();
-      wordlistname = "Hebrew";
+      wordlistname     = "Hebrew word list";
       break;
     }
     case wltGreek:
     {
-      entry_opener = "\\wg ";
-      entry_closer = "\\wg*";
-      list_opener  = "\\zopengreekwordlist";
-      list_closer  = "\\zclosegreekwordlist";
+      list_opener      = "\\zopengreekwordlist";
+      list_closer      = "\\zclosegreekwordlist";
       use_asterisk     = settings->genconfig.wordlist_greek_asterisk_get ();
       first_in_chapter = settings->genconfig.wordlist_greek_asterisk_first_get ();
-      wordlistname = "Greek";
+      wordlistname     = "Greek word list";
+      break;
+    }
+    case wltIndex:
+    {
+      list_opener      = "\\zopenindex";
+      list_closer      = "\\zcloseindex";
+      use_asterisk     = settings->genconfig.wordlist_index_asterisk_get ();
+      first_in_chapter = settings->genconfig.wordlist_index_asterisk_first_get ();
+      wordlistname     = "Index";
       break;
     }
   }
-  wordlistname.append (" word list");
 
   progresswindow = new ProgressWindow (wordlistname, false);
-  
-  project = settings->genconfig.project_get();
   
   wordcount = 0;
 }
@@ -291,4 +299,51 @@ void Wordlist::message (const ustring& message)
   if (messages.empty())
     messages.push_back (wordlistname + ":");
   messages.push_back ("- " + message);
+}
+
+
+ustring wordlist_get_entry_style (const ustring& project, WordlistType type)
+{
+  extern Settings * settings;
+  ustring stylesheet = settings->projectconfig (project)->stylesheet_get ();
+  extern Styles * styles;
+  Usfm * usfm = styles->usfm (stylesheet);
+  ustring style;
+  switch (type) {
+    case wltGeneral:
+      style = "w";
+      break;
+    case wltHebrew:
+      style = "wh";
+      break;
+    case wltGreek:
+      style = "wg";
+      break;
+    case wltIndex:
+      style = "ndx";
+      break;
+  }
+  for (unsigned int i = 0; i < usfm->styles.size (); i++) {
+    if (usfm->styles[i].type == stWordlistElement) {
+      switch (type) {
+        case wltGeneral:
+          if (usfm->styles[i].subtype == wltWordlistGlossaryDictionary)
+            style = usfm->styles[i].marker;
+          break;
+        case wltHebrew:
+          if (usfm->styles[i].subtype == wltHebrewWordlistEntry)
+            style = usfm->styles[i].marker;
+          break;
+        case wltGreek:
+          if (usfm->styles[i].subtype == wltGreekWordlistEntry)
+            style = usfm->styles[i].marker;
+          break;
+        case wltIndex:
+          if (usfm->styles[i].subtype == wltSubjectIndexEntry)
+            style = usfm->styles[i].marker;
+          break;
+      }
+    }
+  }
+  return style;
 }

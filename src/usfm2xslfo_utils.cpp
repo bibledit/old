@@ -138,6 +138,11 @@ and puts all these styles in the right format.
             style.type = u2xtPublishedChapterMarker;
             break;
           }
+          case itCommentWithEndmarker:
+          {
+            style.type = u2xtIdentifierCommentWithEndmarker;
+            break;
+          }
         }
         break;
       }
@@ -356,6 +361,36 @@ and puts all these styles in the right format.
           {
             style.type = u2xtTableElementCell;
             style.table_column_number = usfm.styles[i].userint1;
+            break;
+          }
+        }
+        break;
+      }
+      case stWordlistElement:
+      {
+        switch (usfm.styles[i].subtype) {
+          case wltWordlistGlossaryDictionary:
+          {
+            style.type = u2xtGeneralWordlistEntry;
+            style.wordlist_entry_addition = usfm.styles[i].userstring1;
+            break;
+          }
+          case wltHebrewWordlistEntry:
+          {
+            style.type = u2xtHebrewWordlistEntry;
+            style.wordlist_entry_addition = usfm.styles[i].userstring1;
+            break;
+          }
+          case wltGreekWordlistEntry:
+          {
+            style.type = u2xtGreekWordlistEntry;
+            style.wordlist_entry_addition = usfm.styles[i].userstring1;
+            break;
+          }
+          case wltSubjectIndexEntry:
+          {
+            style.type = u2xtSubjectIndexEntry;
+            style.wordlist_entry_addition = usfm.styles[i].userstring1;
             break;
           }
         }

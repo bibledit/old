@@ -231,7 +231,7 @@ void Usfm2XslFo::preprocess ()
                 case u2xtSpine:
                 case u2xtPicture:
                 case u2xtPageBreak:
-                case u2xtTableElementRow:
+                case u2xtTableElementRow: 
                 case u2xtTableElementHeading:
                 case u2xtTableElementCell:
                 case u2xtColumnBalancer:
@@ -263,6 +263,14 @@ void Usfm2XslFo::preprocess ()
                   published_chapter_markers.push_back (publishedchaptermarker);
                   // Data was processed.
                   processed = true;
+                  break;
+                }
+                case u2xtIdentifierCommentWithEndmarker:
+                case u2xtGeneralWordlistEntry:
+                case u2xtHebrewWordlistEntry:
+                case u2xtGreekWordlistEntry:
+                case u2xtSubjectIndexEntry:
+                {
                   break;
                 }
               }
@@ -570,6 +578,26 @@ void Usfm2XslFo::convert_from_usfm_to_xslfo ()
               case u2xtPublishedChapterMarker:
               {
                 get_erase_code_till_next_marker (usfm_line, marker_position, marker_length, true);
+                break;
+              }
+              case u2xtIdentifierCommentWithEndmarker:
+              {
+                if (is_opener) {
+                  get_erase_code_till_next_marker (usfm_line, marker_position, marker_length, true);
+                } else {
+                  usfm_line.erase (marker_position, marker_length);
+                }
+                break;
+              }
+              case u2xtGeneralWordlistEntry:
+              case u2xtHebrewWordlistEntry:
+              case u2xtGreekWordlistEntry:
+              case u2xtSubjectIndexEntry:
+              {
+                usfm_line.erase (marker_position, marker_length);
+                if (!is_opener) {
+                  usfm_line.insert (0, stylepointer->wordlist_entry_addition);
+                }
                 break;
               }
               default:
@@ -2268,6 +2296,7 @@ void Usfm2XslFo::output_picture (ustring& line, Usfm2XslFoStyle * stylepointer, 
   ustring size; // Picture size. Does not get printed. Valid options:
                 // col:  insert picture inline within current text column.
                 // span: insert picture spanning text columns, at top or bottom of page.
+                // Note: Bibledit puts it at the top due to constraints in xslfo.
   ustring loc;  // Picture location/range. Does not get printed.
   ustring copy; // Picture copyright info. Will be used to give the appropriate picture credits.
   ustring cap;  // Picture caption. This will be printed with the illustration.
@@ -2275,7 +2304,7 @@ void Usfm2XslFo::output_picture (ustring& line, Usfm2XslFoStyle * stylepointer, 
   for (unsigned int i = 0; i < parse.words.size(); i++) {
     if (i == 0) desc = parse.words[i];
     if (i == 1) file = parse.words[i];
-    if (i == 2) size = parse.words[i]; // "span" not yet supported.
+    if (i == 2) size = parse.words[i];
     if (i == 3) loc =  parse.words[i];
     if (i == 4) copy = parse.words[i]; // Copyright is not yet handled.
     if (i == 5) cap =  parse.words[i];
@@ -2317,7 +2346,13 @@ void Usfm2XslFo::output_picture (ustring& line, Usfm2XslFoStyle * stylepointer, 
   style->justification = default_style_justification;
   style->spaceafter = default_style_space_after;
 
-  // Insert graphic.  
+  // Insert graphic, either in the column or spanning the columns at the top
+  // of the page.  
+  // Write caption and reference.
+  if (size == "span") {
+    xmlTextWriterStartElement (writer, BAD_CAST "fo:float");
+    xmlTextWriterWriteFormatAttribute (writer, BAD_CAST "float", "before");
+  }
   xmlTextWriterStartElement (writer, BAD_CAST "fo:external-graphic");
   xmlTextWriterWriteFormatAttribute (writer, BAD_CAST "src", "url('%s')", file.c_str());
   xmlTextWriterWriteAttribute (writer, BAD_CAST "content-width", BAD_CAST "scale-to-fit");
@@ -2325,11 +2360,17 @@ void Usfm2XslFo::output_picture (ustring& line, Usfm2XslFoStyle * stylepointer, 
   xmlTextWriterWriteAttribute (writer, BAD_CAST "width", BAD_CAST "100%");
   xmlTextWriterWriteAttribute (writer, BAD_CAST "scaling", BAD_CAST "uniform");
   xmlTextWriterEndElement (writer);
-
-  // Write caption and reference.
-  xmlTextWriterWriteFormatString (writer, cap.c_str ());
-  xmlTextWriterWriteFormatString (writer, " ");
-  xmlTextWriterWriteFormatString (writer, ref.c_str ());
+  if ((!cap.empty ()) || (!ref.empty ())) {
+    xmlTextWriterStartElement (writer, BAD_CAST "fo:block");
+    xmlTextWriterWriteFormatString (writer, cap.c_str ());
+    xmlTextWriterWriteFormatString (writer, " ");
+    xmlTextWriterWriteFormatString (writer, ref.c_str ());
+    xmlTextWriterEndElement (writer);
+  }
+  if (size == "span") {
+    xmlTextWriterEndElement (writer);
+    xmlTextWriterEndElement (writer);
+  }
 
   // Close the block.
   close_possible_fo_block (fo_block_style);

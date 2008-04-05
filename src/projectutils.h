@@ -29,7 +29,6 @@
 
 void projects_initial_check (bool gui);
 vector<ustring> projects_get_all ();
-ustring project_filename (const ustring& project);
 ustring project_data_directory_project (const ustring& project);
 ustring project_data_directory_book (const ustring& project, unsigned int book);
 ustring project_data_directory_chapter (const ustring& project, unsigned int book, unsigned int chapter);
@@ -51,7 +50,6 @@ vector<unsigned int> project_get_books (const ustring& project);
 vector<unsigned int> project_get_chapters (const ustring& project, unsigned int book);
 vector<ustring> project_get_verses (const ustring& project, unsigned int book, unsigned int chapter);
 bool project_book_exists (const ustring& project, unsigned int book);
-void project_vacuum (const ustring& project, unsigned int starttime);
 
 bool project_select (ustring& newproject);
 

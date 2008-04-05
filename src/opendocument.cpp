@@ -324,6 +324,8 @@ void OpenDocument::generate_styles (xmlTextWriterPtr writer)
           break;
         case itPublishedChapterMarker:
           break;
+        case itCommentWithEndmarker:
+          break;
       }
     }
     if (usfm->is_starting_paragraph (marker)) {

@@ -1824,7 +1824,7 @@ httpd (0)
   menuitem_help_menu = gtk_menu_new ();
   gtk_menu_item_set_submenu (GTK_MENU_ITEM (menuitem_help), menuitem_help_menu);
 
-  help_main = gtk_image_menu_item_new_with_mnemonic ("_Contente");
+  help_main = gtk_image_menu_item_new_with_mnemonic ("_Contents");
   gtk_widget_show (help_main);
   gtk_container_add (GTK_CONTAINER (menuitem_help_menu), help_main);
   gtk_widget_add_accelerator (help_main, "activate", accel_group,
@@ -7264,10 +7264,13 @@ Todo various
 
 make installation software for on the XO: It installs the activity code, as on Asus PC.
 
+
 make git work with external repository. Ok asked about public ssh key.
+
 
 to look at other programs whether they use XUL.m4, whether that works better on e.g. Suse and Fedora, and thus XO.
 Then try these distros again, and also try Knoppix again.
+
 
 If test is dependent upon testsource, then when the OK button is pressed it must copy all of testsource.
 But when filter "straight-through" is chosen, it does not update project test, whereas it should.
@@ -7279,46 +7282,85 @@ if not actively modified by the user. This should be resolved because it affects
 a lot.
 
 
+Support for TECkit and any arbirary named script.
+For TECkit, it probably is easiest to use the commandline tools, so we have
+no linking problems, and if TECkit were installed after bibledit it 
+still would see that and start to support it.
+In the rules dialog, we now have to add which processor runs this rule.
+
+
+For linking to Paratext repository, consider a daemon that does the transfers per
+chapter / book, a deamon of bibledit that bridges git and hg.
+It probably is a separate module that runs once somewhere and does the bridging.
+It does not run with every instance of bibledit, but only once.
+
+
+
+
+> > As you have pointed out support for these two (in addition to support 
+> > for sed that's already there) probably helps the translators a lot.
+>> > > BTW does Bibledit extract the vernacular text for passing through the conversion process or does it just throw the whole usfm file at the converter? If you pass it string by string, do you load sed each time? How do you know you have got to the end of the string that is passed through if you stream the whole thing? In some cases (e.g. verse numbers) conversion is context dependent, how do you handle that? What if someone wants to change the footnote caller using such an approach? Is that appropriate?
+>> > >   
+> > The whole chapter is streamed through sed. It's up to the rules writer 
+> > to make the conversion process dependent on the context. (And that's not 
+> > easy.)
+
+Well as it happens I do have a nifty little perl program that will pass just the vernacular text through a teckit conversion. But since we are talking user level requirements here, I'm wondering if there needs to be two approaches to transscription supported:
+
+1. Pass the entire chapter file through a script
+The reason you don't want to pass the entire chapter including all markup through sed or teckit is that such engines are designed to not handle the markup but just the vernacular text. Well that's true for TECkit. For sed, you probably could add some context to the transcription but it would end up being a pretty scary sed script.
+
+2. Pass just the vernacular text through sed/teckit
+This I think is what most people will want from a transcription converter. They write something that does the actual transcription of text that can be used in all kinds of contexts (like SILConverters) and bibledit works out what it should run on.
+
+I'd be happy to send you my convusfm script or you can get it from http://scripts.sil.org/svn-public/utilities/usfm/trunk so you can see what's involved.
+
+
+
+On shutdown it is very slow because it does a lot of cleaning up.
+Change it so it quickly shuts down, and let it do the cleaning up at scheduled 
+times, e.g. the notes db if a new note is created, and even then only once in a while.
+
+
+There is an idea to update the help menu.
+There is only one topbar, and that has java script that opens the menus downwards, like in a normal program.
+From there the user can go anywhere.
+Once it comes to what is now "Tools", this opens another frame set, which has 
+the exact copy of the menu of Bibledit. Then one can open menus downwards again,
+and when clicking on it, gets the help associated with that topic.
+
+
 */
 
 /* 
 
 
-Todo support for a lot of markers.
+Todo support markers.
 
-
-cd
-\cd_Text
-* Chapter description
-* A brief description of chapter content (similar to \d - descriptive 
-To enter this as a paragraph., See Paratext's stylesheet for parameters.
-Is \cd already in?
-
-
-
-Iron out the printing of v, va and vp
-
-Check printing of li, li[1..4]
-
-The special features: fig, pro, w, wh, wg, ndx, see how things can be made automatic for them.
 
 conc, automatic generation of them
 
+
 glo, automatic generation of them
+
 
 idx, automatic generated
 
+
 style: maps
+
 
 style covstyle cov
 
+
 k1, k2, automatic generation in conc
+
 
 spine
 
+
 pubinfo
 
-support "span" in the \fig marker
 
 \nb to follow \c
 At the very least in the main editing window (formatted view),

@@ -66,6 +66,7 @@ userbool3
 userstring1
 - Footnotes / xrefs / endnotes: numbering sequence.
 - Chapter label: the label.
+- Word list entries: text to add after entry.
 
 userstring2
 - Endnotes: dump notes upon encountering this marker.
@@ -226,6 +227,12 @@ StylesheetDialog::StylesheetDialog (const ustring& stylesheet, const ustring& st
   gtk_box_pack_start (GTK_BOX (vbox3), radiobutton_table_element, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_table_element), radiobutton_id_group);
   radiobutton_id_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_table_element));
+
+  radiobutton_wordlist_element = gtk_radio_button_new_with_mnemonic (NULL, "is a word list element");
+  gtk_widget_show (radiobutton_wordlist_element);
+  gtk_box_pack_start (GTK_BOX (vbox3), radiobutton_wordlist_element, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_wordlist_element), radiobutton_id_group);
+  radiobutton_id_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_wordlist_element));
 
   vseparator1 = gtk_vseparator_new ();
   gtk_widget_show (vseparator1);
@@ -482,6 +489,12 @@ StylesheetDialog::StylesheetDialog (const ustring& stylesheet, const ustring& st
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_id_comment), radiobutton_id_book_group);
   radiobutton_id_book_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_id_comment));
 
+  radiobutton_id_comment_with_endmarker = gtk_radio_button_new_with_mnemonic (NULL, "is a comment with an endmarker");
+  gtk_widget_show (radiobutton_id_comment_with_endmarker);
+  gtk_box_pack_start (GTK_BOX (vbox15), radiobutton_id_comment_with_endmarker, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_id_comment_with_endmarker), radiobutton_id_book_group);
+  radiobutton_id_book_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_id_comment_with_endmarker));
+
   radiobutton_id_running_header = gtk_radio_button_new_with_mnemonic (NULL, "is a running header");
   gtk_widget_show (radiobutton_id_running_header);
   gtk_box_pack_start (GTK_BOX (vbox15), radiobutton_id_running_header, FALSE, FALSE, 0);
@@ -557,6 +570,49 @@ StylesheetDialog::StylesheetDialog (const ustring& stylesheet, const ustring& st
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_subtype), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_subtype), 6), label61);
   // Here ends the table subtype.
 
+  // Word list subtype.
+  
+  vbox_subtype_wordlist = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (vbox_subtype_wordlist);
+  gtk_container_add (GTK_CONTAINER (notebook_subtype), vbox_subtype_wordlist);
+
+  label_subtype_wordlist = gtk_label_new ("This one:");
+  gtk_widget_show (label_subtype_wordlist);
+  gtk_box_pack_start (GTK_BOX (vbox_subtype_wordlist), label_subtype_wordlist, FALSE, FALSE, 0);
+  gtk_misc_set_alignment (GTK_MISC (label_subtype_wordlist), 0, 0.5);
+
+  GSList *radiobutton_subtype_wordlist_group = NULL;
+
+  radiobutton_subtype_wordlist_glossary_dictionary_entry = gtk_radio_button_new_with_mnemonic (NULL, "Wordlist / glossary / dictionary entry");
+  gtk_widget_show (radiobutton_subtype_wordlist_glossary_dictionary_entry);
+  gtk_box_pack_start (GTK_BOX (vbox_subtype_wordlist), radiobutton_subtype_wordlist_glossary_dictionary_entry, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_subtype_wordlist_glossary_dictionary_entry), radiobutton_subtype_wordlist_group);
+  radiobutton_subtype_wordlist_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_subtype_wordlist_glossary_dictionary_entry));
+
+  radiobutton_subtype_hebrew_wordlist_entry = gtk_radio_button_new_with_mnemonic (NULL, "Hebrew wordlist entry");
+  gtk_widget_show (radiobutton_subtype_hebrew_wordlist_entry);
+  gtk_box_pack_start (GTK_BOX (vbox_subtype_wordlist), radiobutton_subtype_hebrew_wordlist_entry, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_subtype_hebrew_wordlist_entry), radiobutton_subtype_wordlist_group);
+  radiobutton_subtype_wordlist_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_subtype_hebrew_wordlist_entry));
+
+  radiobutton_subtype_greek_wordlist_entry = gtk_radio_button_new_with_mnemonic (NULL, "Greek wordlist entry");
+  gtk_widget_show (radiobutton_subtype_greek_wordlist_entry);
+  gtk_box_pack_start (GTK_BOX (vbox_subtype_wordlist), radiobutton_subtype_greek_wordlist_entry, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_subtype_greek_wordlist_entry), radiobutton_subtype_wordlist_group);
+  radiobutton_subtype_wordlist_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_subtype_greek_wordlist_entry));
+
+  radiobutton_subtype_subject_index_entry = gtk_radio_button_new_with_mnemonic (NULL, "Subject index entry");
+  gtk_widget_show (radiobutton_subtype_subject_index_entry);
+  gtk_box_pack_start (GTK_BOX (vbox_subtype_wordlist), radiobutton_subtype_subject_index_entry, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_subtype_subject_index_entry), radiobutton_subtype_wordlist_group);
+  radiobutton_subtype_wordlist_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_subtype_subject_index_entry));
+
+  label63 = gtk_label_new ("");
+  gtk_widget_show (label63);
+  gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_subtype), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_subtype), 7), label63);
+
+  // Here ends the word list subtype.
+
   vseparator2 = gtk_vseparator_new ();
   gtk_widget_show (vseparator2);
   gtk_box_pack_start (GTK_BOX (hbox8), vseparator2, TRUE, TRUE, 0);
@@ -588,6 +644,7 @@ StylesheetDialog::StylesheetDialog (const ustring& stylesheet, const ustring& st
   hbox13 = NULL;
   hbox15 = NULL;
   checkbutton_print_in_running_header_left = NULL;
+  hbox16 = NULL;
 
   dialog_action_area1 = GTK_DIALOG (stylesheetdialog)->action_area;
   gtk_widget_show (dialog_action_area1);
@@ -617,6 +674,7 @@ StylesheetDialog::StylesheetDialog (const ustring& stylesheet, const ustring& st
   g_signal_connect ((gpointer) radiobutton_picture, "toggled", G_CALLBACK (on_style_type_toggled), gpointer(this));
   g_signal_connect ((gpointer) radiobutton_pagebreak, "toggled", G_CALLBACK (on_style_type_toggled), gpointer(this));
   g_signal_connect ((gpointer) radiobutton_table_element, "toggled", G_CALLBACK (on_style_type_toggled), gpointer(this));
+  g_signal_connect ((gpointer) radiobutton_wordlist_element, "toggled", G_CALLBACK (on_style_type_toggled), gpointer(this));
   g_signal_connect ((gpointer) radiobutton_footnote, "toggled", G_CALLBACK (on_radiobutton_note_toggled), gpointer(this));
   g_signal_connect ((gpointer) radiobutton_endnote, "toggled", G_CALLBACK (on_radiobutton_note_toggled), gpointer(this));
   g_signal_connect ((gpointer) radiobutton_note_content_standard, "toggled", G_CALLBACK (on_radiobutton_note_toggled), gpointer(this));
@@ -639,6 +697,11 @@ StylesheetDialog::StylesheetDialog (const ustring& stylesheet, const ustring& st
   g_signal_connect ((gpointer) radiobutton_table_sub_new_row, "toggled", G_CALLBACK (on_checkbutton_table_element_toggled), gpointer(this));
   g_signal_connect ((gpointer) radiobutton_table_sub_heading, "toggled", G_CALLBACK (on_checkbutton_table_element_toggled), gpointer(this));
   g_signal_connect ((gpointer) radiobutton_table_sub_cell, "toggled", G_CALLBACK (on_checkbutton_table_element_toggled), gpointer(this));
+
+  g_signal_connect ((gpointer) radiobutton_subtype_wordlist_glossary_dictionary_entry, "toggled", G_CALLBACK (on_radiobutton_subtype_wordlist_toggled), gpointer(this));
+  g_signal_connect ((gpointer) radiobutton_subtype_hebrew_wordlist_entry, "toggled", G_CALLBACK (on_radiobutton_subtype_wordlist_toggled), gpointer(this));
+  g_signal_connect ((gpointer) radiobutton_subtype_greek_wordlist_entry, "toggled", G_CALLBACK (on_radiobutton_subtype_wordlist_toggled), gpointer(this));
+  g_signal_connect ((gpointer) radiobutton_subtype_subject_index_entry, "toggled", G_CALLBACK (on_radiobutton_subtype_wordlist_toggled), gpointer(this));
 
   gtk_label_set_mnemonic_widget (GTK_LABEL (label37), entryname);
   gtk_label_set_mnemonic_widget (GTK_LABEL (label36), textview1);
@@ -780,6 +843,12 @@ void StylesheetDialog::on_style_type (GtkToggleButton *togglebutton)
       gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook_subtype), 6);
       break;
     }
+    case stWordlistElement:
+    {
+      gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook_subtype), 7);
+      wordlist_add_text_create ();
+      break;
+    }
   }
 }
 
@@ -896,6 +965,11 @@ void StylesheetDialog::set_gui ()
         togglebutton = radiobutton_table_element;
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton_table_element), true);
         gtk_label_set_mnemonic_widget (GTK_LABEL (label21), radiobutton_table_element);
+        break;
+      case stWordlistElement:
+        togglebutton = radiobutton_wordlist_element;
+        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton_wordlist_element), true);
+        gtk_label_set_mnemonic_widget (GTK_LABEL (label21), radiobutton_wordlist_element);
         break;
     }
     if (togglebutton) {
@@ -1140,6 +1214,9 @@ StyleType StylesheetDialog::get_styletype ()
   else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_table_element))) {
     type = stTableElement;
   }
+  else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_wordlist_element))) {
+    type = stWordlistElement;
+  }
   return type;
 }
 
@@ -1227,6 +1304,9 @@ void StylesheetDialog::set_subtype (StyleType maintype, int subtype)
           break;
         case itPublishedChapterMarker:
           gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton_is_published_chapter_marker), true);
+          break;
+        case itCommentWithEndmarker:
+          gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton_id_comment_with_endmarker), true);
           break;
       }
       break;
@@ -1357,6 +1437,25 @@ void StylesheetDialog::set_subtype (StyleType maintype, int subtype)
       }
       break;
     }
+    case stWordlistElement:
+    {
+      WordListElementType wordlist_element_type = (WordListElementType) subtype;
+      switch (wordlist_element_type) {
+        case wltWordlistGlossaryDictionary:
+          gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton_subtype_wordlist_glossary_dictionary_entry), true);
+          break;
+        case wltHebrewWordlistEntry:
+          gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton_subtype_hebrew_wordlist_entry), true);
+          break;
+        case wltGreekWordlistEntry:
+          gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton_subtype_greek_wordlist_entry), true);
+          break;
+        case wltSubjectIndexEntry:
+          gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton_subtype_subject_index_entry), true);
+          break;
+      }
+      break;
+    }
     break;
   }
 }
@@ -1449,6 +1548,8 @@ int StylesheetDialog::get_subtype ()
         subtype = itChapterLabel;
       if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_is_published_chapter_marker)))
         subtype = itPublishedChapterMarker;
+      if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_id_comment_with_endmarker)))
+        subtype = itCommentWithEndmarker;
       break;
     case 6 :
       // Get subtype for table elements.
@@ -1458,6 +1559,17 @@ int StylesheetDialog::get_subtype ()
         subtype = tetHeading;
       if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_table_sub_cell)))
         subtype = tetCell;
+      break;
+    case 7 :
+      // Get subtype for wordlist elements.
+      if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_subtype_wordlist_glossary_dictionary_entry)))
+        subtype = wltWordlistGlossaryDictionary;
+      if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_subtype_hebrew_wordlist_entry)))
+        subtype = wltHebrewWordlistEntry;
+      if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_subtype_greek_wordlist_entry)))
+        subtype = wltGreekWordlistEntry;
+      if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_subtype_subject_index_entry)))
+        subtype = wltSubjectIndexEntry;
       break;
   }    
   return subtype;
@@ -1778,6 +1890,12 @@ General strategy.
     checkbutton_print_in_running_header_left = NULL;
     userbool3 = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_print_in_running_header_right));
     gtk_widget_destroy (checkbutton_print_in_running_header_right);
+  }
+  // Text added after wordlist entry.
+  if (hbox16) {
+    userstring1 = gtk_entry_get_text (GTK_ENTRY (entry_wordlist_addition));
+    gtk_widget_destroy (hbox16);
+    hbox16 = NULL;
   }
 }
 
@@ -2538,6 +2656,7 @@ void StylesheetDialog::on_radiobutton_identifier ()
     case itBookAbbrev:
     case itChapterLabel:
     case itPublishedChapterMarker:
+    case itCommentWithEndmarker:
       break;
   }
 }
@@ -2707,6 +2826,39 @@ void StylesheetDialog::on_checkbutton_table_element ()
 }
 
 
+void StylesheetDialog::on_radiobutton_subtype_wordlist_toggled (GtkToggleButton *togglebutton, gpointer user_data)
+{
+  ((StylesheetDialog *) user_data)->on_radiobutton_subtype_wordlist ();
+}
+
+
+void StylesheetDialog::on_radiobutton_subtype_wordlist ()
+{
+  // Destroy any optional widgets.
+  destroy_optional_widgets ();
+  // Show/hide notebooks with visual settings.
+  WordListElementType subtype = (WordListElementType) get_subtype ();
+  switch (subtype) {
+    case wltWordlistGlossaryDictionary:
+      gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook_subtype), 7);
+      wordlist_add_text_create ();
+      break;
+    case wltHebrewWordlistEntry:
+      gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook_subtype), 7);
+      wordlist_add_text_create ();
+      break;
+    case wltGreekWordlistEntry:
+      gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook_subtype), 7);
+      wordlist_add_text_create ();
+      break;
+    case wltSubjectIndexEntry:
+      gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook_subtype), 7);
+      wordlist_add_text_create ();
+      break;
+  }
+}
+
+
 void StylesheetDialog::column_number_create ()
 {
   // Build the interface.
@@ -2742,4 +2894,27 @@ void StylesheetDialog::print_in_running_header_create ()
   gtk_box_pack_start (GTK_BOX (vbox6), checkbutton_print_in_running_header_right, FALSE, FALSE, 0);
 
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_print_in_running_header_right), userbool3);
+}
+
+
+void StylesheetDialog::wordlist_add_text_create ()
+{
+  hbox16 = gtk_hbox_new (FALSE, 5);
+  gtk_widget_show (hbox16);
+  gtk_box_pack_start (GTK_BOX (vbox6), hbox16, TRUE, TRUE, 0);
+
+  label64 = gtk_label_new ("Add");
+  gtk_widget_show (label64);
+  gtk_box_pack_start (GTK_BOX (hbox16), label64, FALSE, FALSE, 0);
+
+  entry_wordlist_addition = gtk_entry_new ();
+  gtk_widget_show (entry_wordlist_addition);
+  gtk_box_pack_start (GTK_BOX (hbox16), entry_wordlist_addition, FALSE, TRUE, 0);
+  gtk_entry_set_width_chars (GTK_ENTRY (entry_wordlist_addition), 5);
+
+  label65 = gtk_label_new ("after entry");
+  gtk_widget_show (label65);
+  gtk_box_pack_start (GTK_BOX (hbox16), label65, FALSE, FALSE, 0);
+  
+  gtk_entry_set_text (GTK_ENTRY (entry_wordlist_addition), userstring1.c_str ());
 }

@@ -65,6 +65,7 @@ private:
   GtkWidget *radiobutton_picture;
   GtkWidget *radiobutton_pagebreak;
   GtkWidget *radiobutton_table_element;
+  GtkWidget *radiobutton_wordlist_element;
   GtkWidget *vseparator1;
   GtkWidget *notebook_subtype;
   GtkWidget *empty_notebook_page;
@@ -111,6 +112,7 @@ private:
   GtkWidget *radiobutton_id_book;
   GtkWidget *radiobutton_id_encoding;
   GtkWidget *radiobutton_id_comment;
+  GtkWidget *radiobutton_id_comment_with_endmarker;
   GtkWidget *radiobutton_id_running_header;
   GtkWidget *radiobutton_is_long_toc_text;
   GtkWidget *radiobutton_is_short_toc_text;
@@ -126,6 +128,15 @@ private:
   GtkWidget *radiobutton_table_sub_heading;
   GtkWidget *radiobutton_table_sub_cell;
   GtkWidget *label61;
+
+  // Word list subtype.
+  GtkWidget *vbox_subtype_wordlist;
+  GtkWidget *label_subtype_wordlist;
+  GtkWidget *radiobutton_subtype_wordlist_glossary_dictionary_entry;
+  GtkWidget *radiobutton_subtype_hebrew_wordlist_entry;
+  GtkWidget *radiobutton_subtype_greek_wordlist_entry;
+  GtkWidget *radiobutton_subtype_subject_index_entry;
+  GtkWidget *label63;
 
   GtkWidget *vseparator2;
   GtkWidget *vbox6;
@@ -321,6 +332,13 @@ private:
   GtkWidget *checkbutton_print_in_running_header_left;
   GtkWidget *checkbutton_print_in_running_header_right;
   void print_in_running_header_create ();
+  
+  // Text to add after wordlist entries.
+  GtkWidget *hbox16;
+  GtkWidget *label64;
+  GtkWidget *entry_wordlist_addition;
+  GtkWidget *label65;
+  void wordlist_add_text_create ();
 
   // Action area.
   GtkWidget *dialog_action_area1;
@@ -374,6 +392,8 @@ private:
   void on_checkbutton_id_newpage ();
   static void on_checkbutton_table_element_toggled (GtkToggleButton *togglebutton, gpointer user_data);
   void on_checkbutton_table_element ();
+  static void on_radiobutton_subtype_wordlist_toggled (GtkToggleButton *togglebutton, gpointer user_data);
+  void on_radiobutton_subtype_wordlist ();
 };
 
 

@@ -144,6 +144,11 @@ subtype: the subtype of this style.
   // Only set value if it differs from the default.
   switch (type) {
     case stIdentifier:
+    {
+      if (subtype == itCommentWithEndmarker)
+        plaintext = false;
+      break;
+    }
     case stNotUsedComment:
     case stNotUsedRunningHeader:
     {
@@ -176,6 +181,11 @@ subtype: the subtype of this style.
       plaintext = false;
       break;
     }
+    case stWordlistElement:
+    {
+      plaintext = false;
+      break;
+    }
   }
   // Return the value.
   return plaintext;
@@ -199,6 +209,11 @@ function says whether a style ought to start a new line in the formatted view.
   // Only set value if it differs from the default.
   switch (type) {
     case stIdentifier:
+    {
+      if (subtype == itCommentWithEndmarker)
+        paragraph_style = false;
+      break;
+    }
     case stNotUsedComment:
     case stNotUsedRunningHeader:
     {
@@ -250,6 +265,11 @@ function says whether a style ought to start a new line in the formatted view.
     {
       break;
     }
+    case stWordlistElement:
+    {
+      paragraph_style = false;
+      break;
+    }
   }
   return paragraph_style;
 }
@@ -265,6 +285,11 @@ bool style_get_starts_new_line_in_editor (StyleType type, int subtype)
   // Only set value if it differs from the default.
   switch (type) {
     case stIdentifier:
+    {
+      if (subtype == itCommentWithEndmarker)
+        starts_new_line = false;
+      break;
+    }
     case stNotUsedComment:
     case stNotUsedRunningHeader:
     {
@@ -315,6 +340,11 @@ bool style_get_starts_new_line_in_editor (StyleType type, int subtype)
     {
       break;
     }
+    case stWordlistElement:
+    {
+      starts_new_line = false;
+      break;
+    }
   }
   // Return the outcome.
   return starts_new_line;
@@ -331,6 +361,11 @@ bool style_get_starts_new_line_in_usfm (StyleType type, int subtype)
   // Only set value if it differs from the default.
   switch (type) {
     case stIdentifier:
+    {
+      if (subtype == itCommentWithEndmarker)
+        starts_new_line = false;
+      break;
+    }
     case stNotUsedComment:
     case stNotUsedRunningHeader:
     {
@@ -377,6 +412,11 @@ bool style_get_starts_new_line_in_usfm (StyleType type, int subtype)
     }
     case stTableElement:
     {
+      break;
+    }
+    case stWordlistElement:
+    {
+      starts_new_line = false;
       break;
     }
   }
@@ -395,6 +435,11 @@ bool style_get_displays_marker (StyleType type, int subtype)
   // Only set value if it differs from the default.
   switch (type) {
     case stIdentifier:
+    {
+      if (subtype == itCommentWithEndmarker)
+        display_marker = false;
+      break;
+    }
     case stNotUsedComment:
     case stNotUsedRunningHeader:
     {
@@ -443,6 +488,11 @@ bool style_get_displays_marker (StyleType type, int subtype)
       break;
     }
     case stTableElement:
+    {
+      display_marker = false;
+      break;
+    }
+    case stWordlistElement:
     {
       display_marker = false;
       break;
@@ -464,6 +514,11 @@ bool style_get_starts_character_style (StyleType type, int subtype)
   // Only set value if it differs from the default.
   switch (type) {
     case stIdentifier:
+    {
+      if (subtype == itCommentWithEndmarker)
+        starts_character_style = true;
+      break;
+    }
     case stNotUsedComment:
     case stNotUsedRunningHeader:
     {
@@ -514,6 +569,11 @@ bool style_get_starts_character_style (StyleType type, int subtype)
     {
       break;
     }
+    case stWordlistElement:
+    {
+      starts_character_style = true;
+      break;
+    }
   }
   // Return the outcome.
   return starts_character_style;
@@ -532,17 +592,8 @@ bool style_get_starts_verse_number (StyleType type, int subtype)
     case stIdentifier:
     case stNotUsedComment:
     case stNotUsedRunningHeader:
-    {
-      break;
-    }
     case stStartsParagraph:
-    {
-      break;
-    }
     case stInlineText:
-    {
-      break;
-    }
     case stChapterNumber:
     {
       break;
@@ -553,26 +604,12 @@ bool style_get_starts_verse_number (StyleType type, int subtype)
       break;
     }
     case stFootEndNote:
-    {
-      break;
-    }
     case stCrossreference:
-    {
-      break;
-    }
     case stPeripheral:
-    {
-      break;
-    }
     case stPicture:
-    {
-      break;
-    }
     case stPageBreak:
-    {
-      break;
-    }
     case stTableElement:
+    case stWordlistElement:
     {
       break;
     }
@@ -625,6 +662,7 @@ bool style_get_starts_footnote (StyleType type, int subtype)
     case stPicture:
     case stPageBreak:
     case stTableElement:
+    case stWordlistElement:
     {
       break;
     }
@@ -658,6 +696,7 @@ bool style_get_starts_endnote (StyleType type, int subtype)
     case stPicture:
     case stPageBreak:
     case stTableElement:
+    case stWordlistElement:
     {
       break;
     }
@@ -691,6 +730,7 @@ bool style_get_starts_crossreference (StyleType type, int subtype)
     case stPicture:
     case stPageBreak:
     case stTableElement:
+    case stWordlistElement:
     {
       break;
     }
@@ -731,6 +771,7 @@ bool style_get_starts_note_content (StyleType type, int subtype)
     case stPicture:
     case stPageBreak:
     case stTableElement:
+    case stWordlistElement:
     {
       break;
     }
@@ -824,6 +865,10 @@ bool style_get_starts_table_row (StyleType type, int subtype)
         starts_row = true;
       break;
     }
+    case stWordlistElement:
+    {
+      break;
+    }
   }
   return starts_row;
 }
@@ -870,6 +915,10 @@ bool style_get_starts_table_cell (StyleType type, int subtype)
     {
       if (subtype != tetRow)
         starts_cell = true;
+      break;
+    }
+    case stWordlistElement:
+    {
       break;
     }
   }
@@ -1299,7 +1348,7 @@ bool add_first_paragraph_style: Whether to include the starting "\p " for exampl
         
       // Handle possible character style closing.
       if (character_style_closing) {
-        usfm_internal_get_text_close_paragraph_style (text, project, previous_character_style);
+        usfm_internal_get_text_close_character_style (text, project, previous_character_style);
       }
 
       // USFM doesn't need anything if a paragraph style is closing.
@@ -1376,7 +1425,7 @@ bool add_first_paragraph_style: Whether to include the starting "\p " for exampl
   // The \add* marker is missing. This violates the USFM standard.
   // The code below fixes that.
   if (!previous_character_style.empty ()) {
-    usfm_internal_get_text_close_paragraph_style (text, project, previous_character_style);
+    usfm_internal_get_text_close_character_style (text, project, previous_character_style);
   }
   
 }
@@ -1398,8 +1447,8 @@ void usfm_internal_add_text (ustring& text, const ustring& addition)
 }
 
 
-void usfm_internal_get_text_close_paragraph_style (ustring& text, const ustring& project, const ustring& style)
-// Adds the USFM code for a paragraph style that closes.
+void usfm_internal_get_text_close_character_style (ustring& text, const ustring& project, const ustring& style)
+// Adds the USFM code for a character style that closes.
 {
   // Get the type and the subtype.
   StyleType type;

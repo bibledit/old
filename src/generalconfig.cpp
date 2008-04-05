@@ -184,6 +184,9 @@ On object destruction, it saves the values if they were modified.
   INITIALIZE (wordlist_process_greek);
   INITIALIZE (wordlist_greek_asterisk);
   INITIALIZE (wordlist_greek_asterisk_first);
+  INITIALIZE (wordlist_process_index);
+  INITIALIZE (wordlist_index_asterisk);
+  INITIALIZE (wordlist_index_asterisk_first);
   INITIALIZE (notes_editor_font_default);
   INITIALIZE (notes_editor_font_name);
   INITIALIZE (notes_editor_default_color);
@@ -346,6 +349,9 @@ void GeneralConfiguration::save ()
   SAVE_VALUE (wordlist_process_greek);
   SAVE_VALUE (wordlist_greek_asterisk);
   SAVE_VALUE (wordlist_greek_asterisk_first);
+  SAVE_VALUE (wordlist_process_index);
+  SAVE_VALUE (wordlist_index_asterisk);
+  SAVE_VALUE (wordlist_index_asterisk_first);
   SAVE_VALUE (notes_editor_font_default);
   SAVE_VALUE (notes_editor_font_name);
   SAVE_VALUE (notes_editor_default_color);
@@ -593,6 +599,9 @@ IMPLEMENT (bool, bool_get, wordlist_hebrew_asterisk_first, false)
 IMPLEMENT (bool, bool_get, wordlist_process_greek, false)
 IMPLEMENT (bool, bool_get, wordlist_greek_asterisk, false)
 IMPLEMENT (bool, bool_get, wordlist_greek_asterisk_first, false)
+IMPLEMENT (bool, bool_get, wordlist_process_index, false)
+IMPLEMENT (bool, bool_get, wordlist_index_asterisk, false)
+IMPLEMENT (bool, bool_get, wordlist_index_asterisk_first, false)
 IMPLEMENT (bool, bool_get, notes_editor_font_default, true)
 IMPLEMENT (ustring, string_get, notes_editor_font_name, "Sans 14")
 IMPLEMENT (bool, bool_get, notes_editor_default_color, true)

@@ -137,7 +137,7 @@ void table_create_cell (GtkTable * table, GtkTextTagTable * texttagtable, GtkWid
 
 void usfm_get_text (GtkTextBuffer * textbuffer, GtkTextIter startiter, GtkTextIter enditer, vector <EditorNote> * editornotes, vector <EditorTable> * editortables, const ustring& project, ustring& text);
 void usfm_internal_add_text (ustring& text, const ustring& addition);
-void usfm_internal_get_text_close_paragraph_style (ustring& text, const ustring& project, const ustring& style);
+void usfm_internal_get_text_close_character_style (ustring& text, const ustring& project, const ustring& style);
 void usfm_get_note_text (const EditorNote& editornote, GtkTextIter startiter, GtkTextIter enditer, const ustring& project, ustring& text);
 void usfm_get_table_text (const EditorTable& editortable, const ustring& project, ustring& text);
 GtkTextIter editor_get_iter_for_note (GtkTextBuffer * textbuffer, const vector <EditorNote>& editornotes, unsigned int offset, unsigned int function);

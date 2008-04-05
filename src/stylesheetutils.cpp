@@ -418,31 +418,6 @@ void stylesheet_set_recently_used (const ustring& stylesheet, vector<ustring>& s
 }
 
 
-bool stylesheet_style_has_endmarker (const Style& style)
-{
-  bool endmarker = false;
-  if (style.type == stInlineText)
-    endmarker = true;
-  if (style.type == stFootEndNote) {
-    if (style.subtype == fentFootnote)
-      endmarker = true;
-    if (style.subtype == fentEndnote)
-      endmarker = true;
-    if (style.subtype == fentContentWithEndmarker)
-      endmarker = true;
-  }
-  if (style.type == stCrossreference) {
-    if (style.subtype == ctCrossreference)
-      endmarker = true;
-    if (style.subtype == ctContentWithEndmarker)
-      endmarker = true;
-  }
-  if (style.type == stPicture)
-    endmarker = true;
-  return endmarker;
-}
-
-
 void stylesheet_save_style (const ustring& stylesheet, const Style& style)
 {
   // Some variables.  
