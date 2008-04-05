@@ -182,6 +182,7 @@ public:
   bool load_text_table_starting_row (ustring& line, EditorTable& editortable, GtkTextBuffer *& textbuffer, bool& row_zero_initialized, gint& row, gint& column, ustring& paragraph_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
   bool load_text_table_starting_cell (ustring& line, EditorTable& editortable, GtkTextBuffer *& textbuffer, bool& row_zero_initialized, gint& row, gint& column, ustring& paragraph_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
   void load_text_with_unknown_markup (GtkTextBuffer * textbuffer, ustring& line, ustring& paragraph_mark, ustring& character_mark);
+  void load_text_ensure_normal_paragraph (ustring& line, ustring& paragraph_mark, ustring& character_mark);
 
   void erase_related_note_bits ();
   void display_notes_remainder (bool focus_rendered_textview);

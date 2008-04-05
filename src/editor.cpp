@@ -1782,6 +1782,8 @@ number, and not to the verse text that follows.
         int subtype;
         marker_get_type_and_subtype (project, marker, type, subtype);
         if (style_get_starts_verse_number (type, subtype)) {
+          // If a verse number starts, ensure that it happens in a normal paragraph.
+          load_text_ensure_normal_paragraph (line, paragraph_mark, character_mark);
           // Clear the character markup (the paragraph markup remains as it is).
           character_mark.clear ();
           // Some styles insert their marker: Do that here if appropriate.
@@ -2044,6 +2046,34 @@ the lines gives enough markup information again to be handled properly.
   ustring one_character (line.substr (0, 1));  
   line.erase (0, 1);
   text_append (textbuffer, one_character, paragraph_mark, character_mark);
+}
+
+
+void Editor::load_text_ensure_normal_paragraph (ustring& line, ustring& paragraph_mark, ustring& character_mark)
+/*
+This function ensures that a normal paragraph starts.
+line: The raw USFM.
+paragraph_mark: The paragarph style to investigate whether it is a normal paragraph.
+character_mark: The character style.
+*/
+{
+  // Bail out if the paragraph starts a normal one, i.e. not a title or heading.
+  StyleType type;
+  int subtype;
+  marker_get_type_and_subtype (project, paragraph_mark, type, subtype);
+  if (type == stStartsParagraph)
+    if (subtype == ptNormalParagraph)
+      return;
+
+  // Review marker \nb, bail out if it does not exist.
+  ustring marker = "nb";
+  marker_get_type_and_subtype (project, marker, type, subtype);
+  if (type != stStartsParagraph) return;
+  if (subtype != ptNormalParagraph) return;
+  
+  // Insert the marker in the line, and apply it.
+  line.insert (0, usfm_get_full_opening_marker (marker));
+  load_text_starting_new_paragraph (textbuffer, line, paragraph_mark, character_mark, marker, 0, usfm_get_full_opening_marker (marker).length (), true, true);
 }
 
 

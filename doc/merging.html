@@ -67,7 +67,19 @@ elaborated upon.</p>
 <p>The first option, to merge a chapter, is worth some explanation.</p>
 <p>Once the merge operation starts it looks through the history of both
 projects to find the common ancestor for this chapter. It then tries the
-merge operation. If all went fine, then that's it: The job has been done.</p>
+merge operation. If all went fine, then that's it: The job has been done.
+Here follows a bit of a description of the merge process. It is not so that
+the last change that was made in any of the projects will be taken. It works
+slightly different. There is the master project, and the edited project. If
+the user merges these both, then the tool is going to look back in the
+history of all changes ever made in that chapter, till it finds the point
+that this particular chapter is the same in both master and edited project.
+It then looks at the changes made in the master project, and tries to keep
+these. It also looks at the changes made in the edited project, and tries to
+keep these. It then puts both of these changes in a new chapter, and finally
+saves that chapter in both master and edited project, so that we can truly
+say that a merge has occurred. The goal is that this chapter is going to be
+merged, and will after merge be the same in both projects.</p>
 <p>If all did not go well, then that means that there were changes in both of
 the projects that would affect one and the same place. Bibledit does not know
 in such a case which of the two changes is the correct one, and needs the
