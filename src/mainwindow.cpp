@@ -7279,14 +7279,11 @@ void MainWindow::on_preferences_filters ()
 /*
 Todo various
 
-make installation software for on the XO: It installs the activity code, as on Asus PC.
 
+On shutdown it is very slow because it does a lot of cleaning up.
+Change it so it quickly shuts down, and let it do the cleaning up at scheduled 
+times, e.g. the notes db if a new note is created, and even then only once in a while.
 
-make git work with external repository. Ok asked about public ssh key.
-
-
-to look at other programs whether they use XUL.m4, whether that works better on e.g. Suse and Fedora, and thus XO.
-Then try these distros again, and also try Knoppix again.
 
 
 If test is dependent upon testsource, then when the OK button is pressed it must copy all of testsource.
@@ -7304,14 +7301,6 @@ For TECkit, it probably is easiest to use the commandline tools, so we have
 no linking problems, and if TECkit were installed after bibledit it 
 still would see that and start to support it.
 In the rules dialog, we now have to add which processor runs this rule.
-
-
-For linking to Paratext repository, consider a daemon that does the transfers per
-chapter / book, a deamon of bibledit that bridges git and hg.
-It probably is a separate module that runs once somewhere and does the bridging.
-It does not run with every instance of bibledit, but only once.
-
-
 
 
 > > As you have pointed out support for these two (in addition to support 
@@ -7334,17 +7323,12 @@ I'd be happy to send you my convusfm script or you can get it from http://script
 
 
 
-On shutdown it is very slow because it does a lot of cleaning up.
-Change it so it quickly shuts down, and let it do the cleaning up at scheduled 
-times, e.g. the notes db if a new note is created, and even then only once in a while.
+make git work with external repository. Ok asked about public ssh key.
+Wait till we have received access to savannah.nongnu.org, and use that repository.
 
 
-There is an idea to update the help menu.
-There is only one topbar, and that has java script that opens the menus downwards, like in a normal program.
-From there the user can go anywhere.
-Once it comes to what is now "Tools", this opens another frame set, which has 
-the exact copy of the menu of Bibledit. Then one can open menus downwards again,
-and when clicking on it, gets the help associated with that topic.
+
+
 
 
 */
