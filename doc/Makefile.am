@@ -1,5 +1,5 @@
 dist_pkgdata_DATA = *.html *.css *.jpeg *.gif
-EXTRA_DIST = update dot.mozconfig
+EXTRA_DIST = update dot.mozconfig FDL
 CLEANFILES = *~
 noinst_PROGRAMS = allpages contents
 allpages_SOURCES = allpages.cpp
