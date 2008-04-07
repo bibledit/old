@@ -1,11 +1,12 @@
-for file in *.cpp
-do
-  sed 's/(C)/(©)/g' $file > update-copyright.tmp
-  mv update-copyright.tmp $file
-done
-exit
+# for file in *.h
+# do
+#   sed 's/2003-2007/2003-2008/g' $file > update-copyright.tmp
+#   mv update-copyright.tmp $file
+# done
+
+
 for file in *.h
 do
-  sed 's/2003-2007/2003-2008/g' $file > update-copyright.tmp
+  sed 's/59 Temple Place - Suite 330, Boston, MA 02111-1307, USA/ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA/g' $file > update-copyright.tmp
   mv update-copyright.tmp $file
 done
