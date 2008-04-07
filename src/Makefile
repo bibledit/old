@@ -99,8 +99,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	scriptureportions.$(OBJEXT) editor.$(OBJEXT) uname.$(OBJEXT) \
 	dialogscreenlayout.$(OBJEXT) layout.$(OBJEXT) user.$(OBJEXT) \
 	import.$(OBJEXT) clean.$(OBJEXT) categorize.$(OBJEXT) \
-	progresswindow.$(OBJEXT) books.$(OBJEXT) vacuum.$(OBJEXT) \
-	dialogbook.$(OBJEXT) generalconfig.$(OBJEXT) screen.$(OBJEXT) \
+	progresswindow.$(OBJEXT) books.$(OBJEXT) dialogbook.$(OBJEXT) \
+	generalconfig.$(OBJEXT) screen.$(OBJEXT) \
 	projectconfig.$(OBJEXT) gui.$(OBJEXT) \
 	check_validate_usfm.$(OBJEXT) checks.$(OBJEXT) \
 	dialoglinecutter.$(OBJEXT) check_count_words.$(OBJEXT) \
@@ -450,7 +450,6 @@ bibledit_bin_SOURCES = \
         categorize.cpp \
         progresswindow.cpp \
         books.cpp \
-        vacuum.cpp \
         dialogbook.cpp \
         generalconfig.cpp \
         screen.cpp \
@@ -904,7 +903,6 @@ include ./$(DEPDIR)/usfm2xslfo_utils.Po
 include ./$(DEPDIR)/usfmtools.Po
 include ./$(DEPDIR)/ustring.Po
 include ./$(DEPDIR)/utilities.Po
-include ./$(DEPDIR)/vacuum.Po
 include ./$(DEPDIR)/versification.Po
 include ./$(DEPDIR)/versifications.Po
 include ./$(DEPDIR)/windowsoutpost.Po

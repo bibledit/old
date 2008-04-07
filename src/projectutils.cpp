@@ -28,7 +28,6 @@
 #include "shell.h"
 #include "sqlite3.h"
 #include "books.h"
-#include "vacuum.h"
 #include "bible.h"
 #include "progresswindow.h"
 #include "import.h"

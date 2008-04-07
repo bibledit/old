@@ -21,7 +21,6 @@
 #include "directories.h"
 #include "gwrappers.h"
 #include "utilities.h"
-#include "vacuum.h"
 #include "date_time_utils.h"
 #include "settings.h"
 #include "stylesheetutils.h"

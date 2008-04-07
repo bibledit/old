@@ -27,11 +27,22 @@
 #include "notes_utils.h"
 #include "git.h"
 #include "gwrappers.h"
+#include <sqlite3.h>
+#include "date_time_utils.h"
 
 
 void shutdown_actions ()
 // Takes certain actions when Bibledit shuts down.
 {
+  // Open a configuration.
+  extern Settings * settings;
+
+  // The actions are not always taken, but only once in so many days.
+  int clear_up_day = settings->genconfig.clear_up_day_get ();
+  int current_day = date_time_julian_day_get_current ();
+  if (current_day < (clear_up_day + 30)) return;
+  settings->genconfig.clear_up_day_set (current_day);
+    
   // Project related databases.
   // Delete these, as they are old. This is temporal, 
   // after some versions it can go away. Introduced in version 3.2. todo
@@ -40,23 +51,40 @@ void shutdown_actions ()
     unlink (gw_build_filename (directories_get_projects (), projects[i], "data.sql2").c_str());
   }
 
-  // Open a configuration to read parameters from.
-  extern Settings * settings;
-  unsigned int startuptime = settings->genconfig.startup_time_get ();
-
-  // Set about to vacuum the sqlite databases.
-  // Vacuuming a database is done only when it got changed. Saves time.
-
-  // Stylesheets.
+  // Stylesheets: vacuum the sqlite databases.
   vector <ustring> stylesheets;
   stylesheet_get_ones_available (stylesheets);
   for (unsigned int i = 0; i < stylesheets.size(); i++) {
-    stylesheet_vacuum (stylesheets[i], startuptime);
+    stylesheet_vacuum (stylesheets[i]);
   }
 
-  // Notes.
-  notes_vacuum (startuptime);
+  // Notes: vacuum the sqlite databases.
+  notes_vacuum ();
+}
 
-  // Git system.
-  git_cleanup ();
+
+void vacuum_database (const ustring& filename)
+// Vacuums the database given by "filename". 
+{
+  if (filename.empty())
+    return;
+  sqlite3 *db;
+  int rc;
+  char *error = NULL;
+  try
+  {
+    rc = sqlite3_open(filename.c_str (), &db);
+    if (rc) throw runtime_error (sqlite3_errmsg(db));
+    sqlite3_busy_timeout (db, 2000);
+    rc = sqlite3_exec (db, "vacuum;", NULL, NULL, &error);
+    if (rc != SQLITE_OK) {
+      throw runtime_error (error);
+    }
+  }
+  catch (exception & ex)
+  {
+    ustring message (ex.what ());
+    g_critical ("%s", message.c_str());
+  }
+  sqlite3_close (db);
 }

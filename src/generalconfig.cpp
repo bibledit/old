@@ -73,7 +73,7 @@ On object destruction, it saves the values if they were modified.
   #define INITIALIZE(parameter) parameter##_loaded = false
   
   // Initialize variables.
-  INITIALIZE (startup_time);
+  INITIALIZE (clear_up_day);
   INITIALIZE (screen_width);
   INITIALIZE (screen_height);
   INITIALIZE (window_maximized);
@@ -238,7 +238,7 @@ void GeneralConfiguration::save ()
   
   #define SAVE_VALUE(item) if (item##_loaded) config_xml_values_set_assemble (values, item##_key(), item)
 
-  SAVE_VALUE (startup_time);
+  SAVE_VALUE (clear_up_day);
   SAVE_VALUE (screen_width);
   SAVE_VALUE (screen_height);
   SAVE_VALUE (window_maximized);
@@ -488,7 +488,7 @@ void GeneralConfiguration::store##_set (type value) \
 
 
 // Code to make everything work.
-IMPLEMENT (int, int_get, startup_time, 0)
+IMPLEMENT (int, int_get, clear_up_day, 0)
 IMPLEMENT (int, int_get, screen_width, 0)
 IMPLEMENT (int, int_get, screen_height, 0)
 IMPLEMENT (bool, bool_get, window_maximized, true)

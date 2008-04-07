@@ -77,7 +77,6 @@ void git_move_project (const ustring& project, const ustring& newproject);
 void git_remove_book (const ustring& project, unsigned int book);
 void git_remove_chapter (const ustring& project, unsigned int book, unsigned int chapter);
 void git_remove_project (const ustring& project);
-void git_cleanup ();
 int git_count_tasks_project (const ustring& project);
 void git_revert_to_internal_repository (const ustring& project);
 void git_resolve_conflict_chapter (const ustring& project, unsigned int book, unsigned int chapter);

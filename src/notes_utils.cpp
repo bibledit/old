@@ -29,7 +29,6 @@
 #include "date_time_utils.h"
 #include "gwrappers.h"
 #include "shell.h"
-#include "vacuum.h"
 #include "progresswindow.h"
 #include "settings.h"
 #include "projectutils.h"
@@ -38,6 +37,7 @@
 #include "versification.h"
 #include "unixwrappers.h"
 #include "tiny_utilities.h"
+#include "shutdown.h"
 
 
 void notes_database_verify (bool gui)
@@ -837,10 +837,10 @@ void notes_projects_add_from_database (vector<ustring>& projects)
 }
 
 
-void notes_vacuum (unsigned int starttime)
-// Run external program to vacuum the database.
+void notes_vacuum ()
+// Vacuum the database.
 {
-  vacuum_database (notes_database_filename (), starttime);
+  vacuum_database (notes_database_filename ());
 }
 
 

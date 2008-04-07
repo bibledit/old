@@ -48,7 +48,7 @@ public:
   ~GeneralConfiguration ();
   void save ();
   // Private and public definitions follow.
-  DEFINE_GENCONFIG_H (int, startup_time);
+  DEFINE_GENCONFIG_H (int, clear_up_day);
   DEFINE_GENCONFIG_H (int, screen_width);
   DEFINE_GENCONFIG_H (int, screen_height);
   DEFINE_GENCONFIG_H (bool, window_maximized);

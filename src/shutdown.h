@@ -26,6 +26,7 @@
 
 
 void shutdown_actions ();
+void vacuum_database (const ustring& filename);
 
 
 #endif

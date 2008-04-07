@@ -29,7 +29,6 @@
 #include "shell.h"
 #include "user.h"
 #include "shutdown.h"
-#include "vacuum.h"
 #include "gtkwrappers.h"
 #include "upgrade.h"
 #include "unixwrappers.h"
@@ -107,8 +106,6 @@ int main (int argc, char *argv[])
   ipc = &myipc;
   // Initialize GTK
   gtk_init (&argc, &argv);
-  // Wait till vacuum operations from possible previous session are ready.
-  vacuum_wait ();
   // If Bibledit is already running, ask what to do.
   if (programs_running_count_basic ("bibledit-bin") > 1) {
     if (gtkw_dialog_question (NULL, "Bibledit is already running.\nWould you like to run another copy?") == GTK_RESPONSE_NO) {

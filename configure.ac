@@ -247,7 +247,6 @@ AC_OUTPUT( Makefile
 		   src/Makefile 
 		   scripts/Makefile
 		   templates/Makefile
-		   vacuum/Makefile
 		   olpc/Makefile
                    desktop/Makefile
                    windows/Makefile

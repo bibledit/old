@@ -189,9 +189,6 @@ httpd (0)
   // Pointer to the settings.
   extern Settings * settings;
   
-  // Time Bibledit started.
-  settings->genconfig.startup_time_set (time(0));
-
   // Start Outpost.
   windowsoutpost = new WindowsOutpost (true);
   if (settings->genconfig.use_outpost_get ()) windowsoutpost->Start ();
@@ -7280,12 +7277,6 @@ void MainWindow::on_preferences_filters ()
 Todo various
 
 
-On shutdown it is very slow because it does a lot of cleaning up.
-Change it so it quickly shuts down, and let it do the cleaning up at scheduled 
-times, e.g. the notes db if a new note is created, and even then only once in a while.
-
-
-
 If test is dependent upon testsource, then when the OK button is pressed it must copy all of testsource.
 But when filter "straight-through" is chosen, it does not update project test, whereas it should.
 Try all filters whether they work on OK in the project properties. I think what 
@@ -7325,10 +7316,6 @@ I'd be happy to send you my convusfm script or you can get it from http://script
 
 make git work with external repository. Ok asked about public ssh key.
 Wait till we have received access to savannah.nongnu.org, and use that repository.
-
-
-
-
 
 
 */

@@ -29,9 +29,9 @@
 #include "shell.h"
 #include "sqlite3.h"
 #include "sqlite_reader.h"
-#include "vacuum.h"
 #include "unixwrappers.h"
 #include "tiny_utilities.h"
+#include "shutdown.h"
 
 
 #define STYLESHEET_SUFFIX ".sql11"
@@ -537,9 +537,9 @@ void stylesheet_load_style (const ustring& stylesheet, Style& style)
 }
 
 
-void stylesheet_vacuum (const ustring& stylesheet, unsigned int starttime)
+void stylesheet_vacuum (const ustring& stylesheet)
 {
-  vacuum_database (stylesheet_filename (stylesheet), starttime);
+  vacuum_database (stylesheet_filename (stylesheet));
 }
 
 

@@ -301,7 +301,7 @@ on `(hostname || uname -n) 2>/dev/null | sed 1q`
 "
 
 # Files that config.status was made for.
-config_files=" Makefile man/Makefile pix/Makefile doc/Makefile src/Makefile scripts/Makefile templates/Makefile vacuum/Makefile olpc/Makefile desktop/Makefile windows/Makefile tests/Makefile eeepc/Makefile"
+config_files=" Makefile man/Makefile pix/Makefile doc/Makefile src/Makefile scripts/Makefile templates/Makefile olpc/Makefile desktop/Makefile windows/Makefile tests/Makefile eeepc/Makefile"
 config_headers=" config.h"
 config_commands=" depfiles"
 
@@ -443,7 +443,6 @@ do
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
     "scripts/Makefile") CONFIG_FILES="$CONFIG_FILES scripts/Makefile" ;;
     "templates/Makefile") CONFIG_FILES="$CONFIG_FILES templates/Makefile" ;;
-    "vacuum/Makefile") CONFIG_FILES="$CONFIG_FILES vacuum/Makefile" ;;
     "olpc/Makefile") CONFIG_FILES="$CONFIG_FILES olpc/Makefile" ;;
     "desktop/Makefile") CONFIG_FILES="$CONFIG_FILES desktop/Makefile" ;;
     "windows/Makefile") CONFIG_FILES="$CONFIG_FILES windows/Makefile" ;;

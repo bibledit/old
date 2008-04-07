@@ -118,7 +118,6 @@ bibledit_bin_SOURCES = \
         categorize.cpp \
         progresswindow.cpp \
         books.cpp \
-        vacuum.cpp \
         dialogbook.cpp \
         generalconfig.cpp \
         screen.cpp \

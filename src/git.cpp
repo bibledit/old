@@ -36,15 +36,6 @@
 #include "gtkwrappers.h"
 
 
-
-/*
-#include "progresswindow.h"
-#include "books.h"
-#include "vacuum.h"
-
-*/
-
-
 vector <GitTask> gittasks;
 
 
@@ -455,14 +446,6 @@ void git_remove_project (const ustring& project)
       newtasks.push_back (gittasks[i]);  
   }
   gittasks = newtasks;
-}
-
-
-void git_cleanup ()
-/*
-Cleans up the git repository.
-*/
-{
 }
 
 

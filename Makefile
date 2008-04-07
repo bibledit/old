@@ -201,7 +201,7 @@ target_alias =
 target_cpu = i686
 target_os = linux-gnu
 target_vendor = pc
-SUBDIRS = man pix doc src scripts templates vacuum olpc desktop windows tests eeepc
+SUBDIRS = man pix doc src scripts templates olpc desktop windows tests eeepc
 CLEANFILES = bibledit*.gz *~
 EXTRA_DIST = use-firefox
 all: config.h
