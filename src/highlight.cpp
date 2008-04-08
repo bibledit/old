@@ -398,12 +398,16 @@ one of the given areas. If not, it removes the iterator from the containers.
 
 
 void Highlight::remove_previous_highlights (GtkTextBuffer * textbuffer)
+// Removes previous highlights.
+// Ensure that removing the tags does not influence the modified status of the textbuffer.
 {
   GtkTextIter startiter;
   GtkTextIter enditer;
   gtk_text_buffer_get_start_iter (textbuffer, &startiter);
   gtk_text_buffer_get_end_iter (textbuffer, &enditer);
+  bool modified_status = gtk_text_buffer_get_modified (textbuffer);
   gtk_text_buffer_remove_tag (textbuffer, mytag, &startiter, &enditer);
+  if (!modified_status) gtk_text_buffer_set_modified (textbuffer, false);
 }
 
 
@@ -429,13 +433,16 @@ void Highlight::determine_locations ()
 
 void Highlight::highlight ()
 // This does the actual highlighting.
+// Ensure that applying a tag does not change the modified status of the textbuffer.
 {
   bool cursor_set = false;
   for (unsigned int i = 0; i < highlightwordstarts.size(); i++) {
     GtkTextIter start, end;
     gtk_text_buffer_get_iter_at_offset (highlightbuffers[i], &start, highlightwordstarts [i]);
     gtk_text_buffer_get_iter_at_offset (highlightbuffers[i], &end, highlightwordends [i]);
+    bool modified_status = gtk_text_buffer_get_modified (highlightbuffers[i]);
     gtk_text_buffer_apply_tag (highlightbuffers[i], mytag, &start, &end);
+    if (!modified_status) gtk_text_buffer_set_modified (highlightbuffers[i], false);
     if (!cursor_set) {
       gtk_text_buffer_place_cursor (highlightbuffers[i], &start);
       screen_scroll_to_iterator (highlightviews[i], &start);

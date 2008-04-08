@@ -57,9 +57,9 @@ current_reference (0, 1000, "")
   record_undo_level = 0;
   previous_hand_cursor = false;
   highlight = NULL;
-  testbool = false;
   editable = false;
   event_id_show_quick_references = 0;
+  chapter = 0;
 
   // Create data that is needed for any of the possible formatted views.
   create_or_update_formatting_data ();
@@ -307,11 +307,11 @@ void Editor::chapter_load (unsigned int chapter_in, vector <ustring> * lines_in)
   // Clear undo buffer.
   editorundoes.clear ();
   
-  // Set the buffer(s) non-modified.
-  textbuffers_set_unmodified (textbuffer, editornotes, editortables);
- 
   // Update gui for styles.
   signal_if_styles_changed ();
+  
+  // Set the buffer(s) non-modified.
+  textbuffers_set_unmodified (textbuffer, editornotes, editortables);
 }
 
 
@@ -322,6 +322,9 @@ void Editor::chapter_save ()
     
   // If the text was not changed, bail out.
   if (!textbuffers_get_modified (textbuffer, editornotes, editortables)) return;
+    
+  // If the project is empty, bail out.
+  if (project.empty ()) return;
     
   // Get the USFM text.
   ustring chaptertext = get_chapter ();
@@ -430,13 +433,6 @@ void Editor::chapter_save ()
   if (reload) {
     gtk_button_clicked (GTK_BUTTON (reload_signal));
   }
-}
-
-
-ustring Editor::text_get (GtkTextIter * startiter, GtkTextIter * enditer)
-// Iterate through the buffer and collect and assemble usfm text.
-{
-  return "";
 }
 
 
@@ -3508,14 +3504,11 @@ void Editor::on_textbuffer_modified_changed (GtkTextBuffer * textbuffer, gpointe
 
 void Editor::test ()
 {
-  gw_message ("start test");  
-  GtkTextIter startiter, enditer;
-  gtk_text_buffer_get_start_iter (textbuffer, &startiter);
-  gtk_text_buffer_get_end_iter (textbuffer, &enditer);
-  ustring chaptertext;
-  usfm_get_text (textbuffer, startiter, enditer, &editornotes, &editortables, project, chaptertext);
-  gw_message (chaptertext);  
-  gw_message ("end test");  
+}
+
+
+void Editor::test (ustring message)
+{
 }
 
 
@@ -3636,3 +3629,7 @@ ustring Editor::get_chapter ()
   replace_text (chaptertext, "  ", " ");
   return chaptertext;
 }
+
+
+// Also when highlighting and putting marks, ensure that it does not modify the buffer, as it would otherwise do
+// We could look at the edited status, store it, and when clear, clear any flag afterwards again.

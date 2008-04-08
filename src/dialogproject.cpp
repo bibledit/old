@@ -503,8 +503,13 @@ void ProjectDialog::on_ok ()
     progresswindow.set_iterate (0.2, 1, source_books.size());
 
     // Copy everything from the source project to this project.
+    // We need to "touch" the files of the project it depends on to make them 
+    // look newer, so as to ensure that they get loaded.
     for (unsigned int i = 0; i < source_books.size (); i++) {
       progresswindow.iterate ();
+      GwSpawn spawn ("touch");
+      spawn.arg (project_data_filename_chapter (depend_project, source_books[i], source_chapters[i], false));
+      spawn.run ();
       vector <ustring> lines = project_retrieve_chapter (newprojectname, source_books[i], source_chapters[i]);
     }
 

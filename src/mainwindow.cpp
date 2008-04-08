@@ -7277,16 +7277,6 @@ void MainWindow::on_preferences_filters ()
 Todo various
 
 
-If test is dependent upon testsource, then when the OK button is pressed it must copy all of testsource.
-But when filter "straight-through" is chosen, it does not update project test, whereas it should.
-Try all filters whether they work on OK in the project properties. I think what 
-needs to be done is to save the editors before properties is chosen, so that it won't save it again, so
-overwriting the changes made in the project dialog.
-It seems that there is a problem here in the sense that the project gets modified even
-if not actively modified by the user. This should be resolved because it affects
-a lot.
-
-
 Support for TECkit and any arbirary named script.
 For TECkit, it probably is easiest to use the commandline tools, so we have
 no linking problems, and if TECkit were installed after bibledit it 

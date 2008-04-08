@@ -129,7 +129,6 @@ public:
  
   set <ustring> get_styles_at_cursor ();
  
-  ustring text_get (GtkTextIter * startiter, GtkTextIter * enditer);
   ustring previous_versenumber;
   void signal_if_verse_changed ();
 
@@ -250,8 +249,7 @@ public:
   static void on_textbuffer_modified_changed (GtkTextBuffer * textbuffer, gpointer user_data);
 
   void test ();
-  bool testbool;
-
+  void test (ustring message);
 
   // Highlighting.
   void highlight_searchwords ();
