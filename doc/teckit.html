@@ -5,48 +5,47 @@
 <head>
   <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
   <title>Bibledit</title>
-<!-- 
-Copyright (©) 2003-2008 Teus Benschop.
+  <!-- 
+      Copyright (©) 2003-2008 Teus Benschop.
 
-Permission is granted to copy, distribute and/or modify this document
-under the terms of the GNU Free Documentation License, Version 1.2
-or any later version published by the Free Software Foundation;
-with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-Texts.  A copy of the license is included in the section entitled "GNU
-Free Documentation License" in the file FDL.
--->
+      Permission is granted to copy, distribute and/or modify this document
+      under the terms of the GNU Free Documentation License, Version 1.2
+      or any later version published by the Free Software Foundation;
+      with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+      Texts.  A copy of the license is included in the section entitled "GNU
+      Free Documentation License" in the file FDL.
+      -->
   <link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
 <h2><a name="teckit"></a>TECkit</h2>
 
-<p>TECkit is a toolkit to help in converting legacy data to Unicode. Bibledit
-does not support TECkit, and probably will never do. Instead it provides its
-own tools for converting data to Unicode.</p>
-
 <p>To install TECkit, follow the below steps.</p>
+
+<p>Download the newest source package from the <a
+href="http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&amp;item_id=TECkitDownloads">TECkit
+downloads page</a>. At the time of writing the package was available at <a
+href="http://scripts.sil.org/svn-view/teckit/TAGS/TECkit_2_5_1.tar.gz">http://scripts.sil.org/svn-view/teckit/TAGS/TECkit_2_5_1.tar.gz</a>,
+but as updates become available this may change.</p>
+
+<p>Move the package to the home directory</p>
 
 <p>Open a terminal.</p>
 
-<p>Download TECkit for Linux. In the terminal, type</p>
-<pre>svn checkout svn://scripts.sil.org/teckit</pre>
-
-<p>To verify the package is there, type</p>
+<p>In the terminal, to verify the package is there, type</p>
 <pre>ls</pre>
 
-<p>You should see a subdirectory teckit.</p>
+<p>To unpack TECkit type</p>
+<pre>tar zxf TECkit_x_x_x.tar.gz</pre>
 
-<p>Change into this subdirectory. Type</p>
-<pre>cd teckit</pre>
+<p>The x_x_x above represents a version number.</p>
 
-<p>To generate some configuration files, type</p>
-<pre>./autogen.sh</pre>
-
-<p>Watch many messages, but no errors.</p>
+<p>To enter the newly created directory, type</p>
+<pre>cd TECkit_*</pre>
 
 <p>To configure the package, type</p>
-<pre>./configure --prefix=/usr</pre>
+<pre>sh configure --prefix=/usr</pre>
 
 <p>Watch many messages, but no errors.</p>
 
@@ -61,11 +60,5 @@ own tools for converting data to Unicode.</p>
 <p>and provide the password. Watch many messages, but no errors.</p>
 
 <p>TECkit should be installed now and is ready for use.</p>
-
-<p>To go back to the home directory, type</p>
-<pre>cd</pre>
-
-<p>Optionally the teckit source can be cleaned away. To do that, type</p>
-<pre>rm -rf teckit</pre>
 </body>
 </html>

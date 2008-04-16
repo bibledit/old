@@ -7277,35 +7277,33 @@ void MainWindow::on_preferences_filters ()
 Todo various
 
 
-Support for TECkit and any arbirary named script.
-For TECkit, it probably is easiest to use the commandline tools, so we have
-no linking problems, and if TECkit were installed after bibledit it 
-still would see that and start to support it.
-In the rules dialog, we now have to add which processor runs this rule.
+Move all releases to the new repository at nongnu.org. Put them all there, even the ancient ones.
+Update all download locations in the online help.
+Then delete the featured download from code.google....bibledit
 
 
-> > As you have pointed out support for these two (in addition to support 
-> > for sed that's already there) probably helps the translators a lot.
->> > > BTW does Bibledit extract the vernacular text for passing through the conversion process or does it just throw the whole usfm file at the converter? If you pass it string by string, do you load sed each time? How do you know you have got to the end of the string that is passed through if you stream the whole thing? In some cases (e.g. verse numbers) conversion is context dependent, how do you handle that? What if someone wants to change the footnote caller using such an approach? Is that appropriate?
->> > >   
-> > The whole chapter is streamed through sed. It's up to the rules writer 
-> > to make the conversion process dependent on the context. (And that's not 
-> > easy.)
+Trying to rsync to savannah, wait one hour (till 18:45) for trying again.
 
-Well as it happens I do have a nifty little perl program that will pass just the vernacular text through a teckit conversion. But since we are talking user level requirements here, I'm wondering if there needs to be two approaches to transscription supported:
 
-1. Pass the entire chapter file through a script
-The reason you don't want to pass the entire chapter including all markup through sed or teckit is that such engines are designed to not handle the markup but just the vernacular text. Well that's true for TECkit. For sed, you probably could add some context to the transcription but it would end up being a pretty scary sed script.
-
-2. Pass just the vernacular text through sed/teckit
-This I think is what most people will want from a transcription converter. They write something that does the actual transcription of text that can be used in all kinds of contexts (like SILConverters) and bibledit works out what it should run on.
-
-I'd be happy to send you my convusfm script or you can get it from http://scripts.sil.org/svn-public/utilities/usfm/trunk so you can see what's involved.
+make git work with external repository,
+http://savannah.nongnu.org/git/?group=bibledit
 
 
 
-make git work with external repository. Ok asked about public ssh key.
-Wait till we have received access to savannah.nongnu.org, and use that repository.
+Move all development from sourceforge to savannah.nongnu.org
+
+
+In order to provide Mpofu with work on the xrefs, we need to make a setting that
+prints all references in full in the xrefs and footnotes, the ones that are referenced in that.
+
+
+If printing parallel bibel, Ndebele, Hebrew, YLT, and not keeping everything on one page
+the fonts seem to get confused.
+
+If merging chapters in sequence, and the merge is through, it goes to the previous chapter after that.
+
+
+If writing anchors, if e.g. num.htm has been written, then if "Write anchors" is pressed again, it crashes.
 
 
 */

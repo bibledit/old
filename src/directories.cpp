@@ -41,6 +41,7 @@ void directories_check_structure ()
   gw_mkdir_with_parents (directories_get_configuration ());
   gw_mkdir_with_parents (directories_get_pictures ());
   gw_mkdir_with_parents (directories_get_resources ());
+  gw_mkdir_with_parents (directories_get_scripts ());
   // Create temporal directory and so on.
   gw_mkdir_with_parents (directories_get_temp ());
   gw_mkdir_with_parents (directories_get_templates ());
@@ -105,6 +106,13 @@ ustring directories_get_resources ()
 {
   // This returns the directory with the resources.
   return gw_build_filename (directories_get_root (), "resources");
+}
+
+
+ustring directories_get_scripts ()
+{
+  // This returns the directory with the scripts.
+  return gw_build_filename (directories_get_root (), "scripts");
 }
 
 

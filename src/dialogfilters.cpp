@@ -22,11 +22,13 @@
 #include "dialogfilters.h"
 #include "help.h"
 #include "shortcuts.h"
-#include "sed.h"
+#include "scripts.h"
 #include "combobox.h"
 #include "dialogentry.h"
 #include "gtkwrappers.h"
 #include "gwrappers.h"
+#include "dialogradiobutton.h"
+#include "directories.h"
 
 
 FiltersDialog::FiltersDialog (int dummy)
@@ -88,7 +90,7 @@ FiltersDialog::FiltersDialog (int dummy)
 
   gtk_label_set_mnemonic_widget (GTK_LABEL (label2), textview_input);
 
-  gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview_input)), "This is text to try the filter on", -1);
+  gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview_input)), "\\p This is text to try the filter on.", -1);
 
   vbox1 = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vbox1);
@@ -141,6 +143,10 @@ FiltersDialog::FiltersDialog (int dummy)
   combobox_filters = gtk_combo_box_new_text ();
   gtk_widget_show (combobox_filters);
   gtk_box_pack_start (GTK_BOX (hbox1), combobox_filters, TRUE, TRUE, 0);
+
+  label_type = gtk_label_new ("");
+  gtk_widget_show (label_type);
+  gtk_box_pack_start (GTK_BOX (hbox1), label_type, FALSE, FALSE, 0);
 
   button_delete = gtk_button_new_from_stock ("gtk-delete");
   gtk_widget_show (button_delete);
@@ -207,7 +213,7 @@ int FiltersDialog::run ()
 
 void FiltersDialog::load_filters (const ustring& selection)
 {
-  vector <ustring> filters = sed_available_scripts ();
+  vector <ustring> filters = scripts_get_all ();
   combobox_set_strings (combobox_filters, filters);
   if (!selection.empty ())
     combobox_set_string (combobox_filters, selection);
@@ -234,25 +240,19 @@ void FiltersDialog::on_button_try ()
   GtkTextBuffer * inputbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview_input));
   gtk_text_buffer_get_start_iter (inputbuffer, &startiter);
   gtk_text_buffer_get_end_iter (inputbuffer, &enditer);
-  ustring inputfile = sed_temporal_input_file ();
+  ustring inputfile = script_temporal_input_file ();
   g_file_set_contents (inputfile.c_str(), gtk_text_buffer_get_text (inputbuffer, &startiter, &enditer, false), -1, NULL);
 
   // Filter.
-  ustring scriptfile = sed_script_path ("_$bibledit$temporal$script$_");
-  GtkTextBuffer * rulesbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview_rules));
-  gtk_text_buffer_get_start_iter (rulesbuffer, &startiter);
-  gtk_text_buffer_get_end_iter (rulesbuffer, &enditer);
-  g_file_set_contents (scriptfile.c_str(), gtk_text_buffer_get_text (rulesbuffer, &startiter, &enditer, false), -1, NULL);
-
+  ustring scriptname = combobox_get_active_string (combobox_filters);
+  bool straightthrough = scriptname == scripts_straight_through ();
+  
   // Output file.
-  ustring outputfile = sed_temporal_output_file ();
+  ustring outputfile = script_temporal_output_file ();
   
-  // Run sed filter.
-  ustring error = sed_filter (scriptfile, combobox_get_active_string (combobox_filters) == sed_straight_through (), inputfile, outputfile);
+  // Run filter.
+  ustring error = script_filter (scriptname, straightthrough, inputfile, outputfile);
 
-  // Remove temporal script file.
-  unlink (scriptfile.c_str());
-  
   // Show output in textview.  
   gchar * outputtext;
   g_file_get_contents (outputfile.c_str(), &outputtext, NULL, NULL);
@@ -264,9 +264,18 @@ void FiltersDialog::on_button_try ()
     gtk_text_buffer_set_text (outputbuffer, "", -1);
   }
   
-  // If sed fails, give the error for debugging purposes.
+  // If script failed, give the error for debugging purposes.
   if (!error.empty ()) {
     gtk_text_buffer_set_text (outputbuffer, error.c_str(), -1);
+  }
+  
+  // If there were compile errors before, show these.
+  if (!compile_errors.empty ()) {
+    gtk_text_buffer_set_text (outputbuffer, "", -1);
+    for (unsigned int i = 0; i < compile_errors.size (); i++) {
+      gtk_text_buffer_insert_at_cursor (outputbuffer, compile_errors[i].c_str(), -1);
+      gtk_text_buffer_insert_at_cursor (outputbuffer, "\n", -1);
+    }
   }
 }
 
@@ -279,15 +288,25 @@ void FiltersDialog::on_button_new_clicked (GtkButton *button, gpointer user_data
 
 void FiltersDialog::on_button_new ()
 {
-  EntryDialog dialog ("New script", "Enter the name of the new script", "");
-  if (dialog.run () == GTK_RESPONSE_OK) {
-    if (sed_script_available (dialog.entered_value)) {
-      gtkw_dialog_error (filterdialog, "This one already exists");
-      return;
-    }
-    g_file_set_contents (sed_script_path (dialog.entered_value).c_str(), "", -1, NULL);
-    load_filters (dialog.entered_value);
+  // Enter the name of the new script.
+  EntryDialog namedialog ("New script", "Enter the name of the new script", "");
+  if (namedialog.run () != GTK_RESPONSE_OK) return;
+    
+  if (script_available (namedialog.entered_value)) {
+    gtkw_dialog_error (filterdialog, "This one already exists");
+    return;
   }
+  
+  // Enter the type of the new script.
+  vector <ustring> types;
+  for (unsigned int i = 0; i < stEnd; i++)
+    types.push_back (script_get_named_type ((ScriptType)i));
+  RadiobuttonDialog typedialog ("Script type", "Select the type of the script", types, 0);
+  if (typedialog.run () != GTK_RESPONSE_OK) return;
+    
+  // Handle the rest.
+  g_file_set_contents (script_get_path (namedialog.entered_value, (ScriptType) typedialog.selection).c_str(), "", -1, NULL);
+  load_filters (namedialog.entered_value);
 }
 
 
@@ -302,10 +321,17 @@ void FiltersDialog::on_combobox_filters ()
   // Clear rules buffer.
   gtk_text_buffer_set_text (rulesbuffer, "", -1);
 
+  // Get the name of the script.
+  ustring filter = combobox_get_active_string (combobox_filters);
+  
+  // Set the type of the script.
+  ScriptType scripttype;
+  script_get_path (filter, &scripttype);
+  gtk_label_set_text (GTK_LABEL (label_type), script_get_named_type (scripttype).c_str());
+
   // Set sensitivity of widgets.
   bool editable = true;
-  ustring filter = combobox_get_active_string (combobox_filters);
-  if (filter == sed_straight_through ())
+  if (filter == scripts_straight_through ())
     editable = false;
   gtk_widget_set_sensitive (textview_rules, editable);
   gtk_widget_set_sensitive (button_delete, editable);
@@ -313,8 +339,8 @@ void FiltersDialog::on_combobox_filters ()
   // If not sensitive, bail out.
   if (!editable) return;
     
-  // Load the rules.
-  ustring filename = sed_script_path (filter);
+  // Load the script rules or code.
+  ustring filename = script_get_path (filter, NULL);
   gchar * contents;
   g_file_get_contents (filename.c_str(), &contents, NULL, NULL);
   if (contents) {
@@ -334,7 +360,7 @@ void FiltersDialog::on_button_delete_clicked (GtkButton *button, gpointer user_d
 void FiltersDialog::on_button_delete ()
 {
   ustring filter = combobox_get_active_string (combobox_filters);
-  ustring filename = sed_script_path (filter);
+  ustring filename = script_get_path (filter, NULL);
   unlink (filename.c_str());
   load_filters ("");
 }
@@ -373,12 +399,38 @@ bool FiltersDialog::on_rulesbuffer_changed_timeout (gpointer user_data)
 
 void FiltersDialog::on_rulesbuffer_changed_execute ()
 {
+  // Bail out if there's no change in the rules buffer.
   if (!gtk_text_buffer_get_modified (rulesbuffer)) return;
-  ustring script = combobox_get_active_string (combobox_filters);
-  if (script == sed_straight_through ()) return;
-  ustring filename = sed_script_path (script);
+
+  // Get the name of the script. Bail out if straight throug.
+  ustring scriptname = combobox_get_active_string (combobox_filters);
+  if (scriptname == scripts_straight_through ()) return;
+
+  // Get the filename and type of the script.
+  ScriptType scripttype;
+  ustring scriptfile = script_get_path (scriptname, &scripttype);
+  
+  // Save the rules to the script file.
   GtkTextIter startiter, enditer;
   gtk_text_buffer_get_start_iter (rulesbuffer, &startiter);
   gtk_text_buffer_get_end_iter (rulesbuffer, &enditer);
-  g_file_set_contents (filename.c_str(), gtk_text_buffer_get_text (rulesbuffer, &startiter, &enditer, false), -1, NULL);
+  g_file_set_contents (scriptfile.c_str(), gtk_text_buffer_get_text (rulesbuffer, &startiter, &enditer, false), -1, NULL);
+  
+  // If it is a TECkit mapping, compile it.
+  if (scripttype == stTECkit) {
+    compile_errors.clear ();
+    GwSpawn spawn ("teckit_compile");
+    spawn.workingdirectory (directories_get_scripts ());
+    spawn.arg (scriptfile);
+    // To compile UTF-8 source that lacks an encoding signature, the –u flag must be specified on the compiler command line.
+    spawn.arg ("-u");
+    spawn.run ();
+    if (spawn.exitstatus != 0) {
+      ustring tecfile = script_get_path (scriptname, scripttype, true);
+      unlink (tecfile.c_str());
+      spawn.read ();
+      spawn.run ();
+      compile_errors = spawn.standarderr;
+    }
+  }
 }

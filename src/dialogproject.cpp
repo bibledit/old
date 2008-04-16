@@ -45,7 +45,7 @@
 #include "versifications.h"
 #include "shortcuts.h"
 #include "tiny_utilities.h"
-#include "sed.h"
+#include "scripts.h"
 
 
 #define NEW_PROJECT "New Project"
@@ -297,9 +297,9 @@ ProjectDialog::ProjectDialog (bool newproject)
   gtk_box_pack_start (GTK_BOX (hbox_depend), combobox_depend, TRUE, TRUE, 0);
 
   // Set values.
-  combobox_set_strings (combobox_depend, sed_available_scripts ());
+  combobox_set_strings (combobox_depend, scripts_get_all ());
   ustring script = projectconfig->depending_on_script_get ();
-  if (sed_script_available (script))
+  if (script_available (script))
     combobox_set_string (combobox_depend, script);
   else
     combobox_set_index (combobox_depend, 0);
@@ -447,8 +447,8 @@ void ProjectDialog::on_ok ()
   ustring depend_project = dependent_project ();
   projectconfig->depending_on_project_set (depend_project);
   ustring depend_script = combobox_get_active_string (combobox_depend);
-  if (depend_script == sed_straight_through ()) depend_script.clear ();
-  if (!sed_script_available (depend_script)) depend_script.clear ();
+  if (depend_script == scripts_straight_through ()) depend_script.clear ();
+  if (!script_available (depend_script)) depend_script.clear ();
   projectconfig->depending_on_script_set (depend_script);
 
   // If the project depends on another, do the copy through the script.

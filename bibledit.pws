@@ -11,14 +11,14 @@ filter.file.ignore.hidden=0
 filter.dir.ignore.hidden=0
 
 [filenumbers]
-0=7280
-1=35
-2=777
-3=379
-4=514
-5=254
-6=329
-7=5
+0=7281
+1=5
+2=433
+3=5
+4=426
+5=5
+6=5
+7=7332
 8=5
 9=870
 10=7210
@@ -30,7 +30,7 @@ filter.dir.ignore.hidden=0
 [filemarkers]
 0=
 1=
-2=
+2=173,185,432,
 3=
 4=
 5=
@@ -46,13 +46,7 @@ filter.dir.ignore.hidden=0
 
 [filelist]
 0=/home/teus/documents/dev/bibledit/src/mainwindow.cpp
-1=/home/teus/documents/dev/bibledit/src/projectutils.h
-2=/home/teus/documents/dev/bibledit/src/dialoginsertnote.cpp
-3=/home/teus/documents/dev/bibledit/src/projectutils.cpp
-4=/home/teus/documents/dev/bibledit/src/dialogproject.cpp
-5=/home/teus/documents/dev/bibledit/src/editor.h
-6=/home/teus/documents/dev/bibledit/src/editor.cpp
-7=/home/teus/documents/dev/bibledit/configure.ac
+1=/home/teus/documents/dev/bibledit/configure.ac
 
 [Project Tree]
 0=0

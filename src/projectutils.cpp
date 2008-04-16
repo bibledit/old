@@ -39,7 +39,7 @@
 #include "git.h"
 #include "tiny_utilities.h"
 #include "notes_utils.h"
-#include "sed.h"
+#include "scripts.h"
 
 
 void project_store_sanitize_line (ustring& line)
@@ -395,8 +395,8 @@ vector<ustring> project_retrieve_chapter (const ustring& project, unsigned int b
       ustring sourcefilename = project_data_filename_chapter (source_project, book, chapter, false);
       unsigned int sourcefiledate = file_get_modification_time (sourcefilename);
       if (sourcefiledate >= myfiledate) {
-        sed_filter (sed_script_path (script), script == sed_straight_through (), sourcefilename, sed_temporal_output_file ());
-        ReadText rt (sed_temporal_output_file (), true);
+        script_filter (script, script == scripts_straight_through (), sourcefilename, script_temporal_output_file ());
+        ReadText rt (script_temporal_output_file (), true);
         CategorizeChapterVerse ccv (rt.lines);    
         project_store_chapter (project, book, ccv);
       }

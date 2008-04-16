@@ -54,6 +54,7 @@ protected:
   GtkWidget *hbox1;
   GtkWidget *button_new;
   GtkWidget *combobox_filters;
+  GtkWidget *label_type;
   GtkWidget *button_delete;
   GtkWidget *dialog_action_area1;
   GtkWidget *cancelbutton;
@@ -62,6 +63,7 @@ private:
   void load_filters (const ustring& selection);
   static void on_button_try_clicked (GtkButton *button, gpointer user_data);
   void on_button_try ();
+  vector <ustring> compile_errors;
   static void on_button_new_clicked (GtkButton *button, gpointer user_data);
   void on_button_new ();
   static void on_combobox_filters_changed (GtkComboBox *combobox, gpointer user_data);

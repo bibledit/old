@@ -803,7 +803,9 @@ module.source.files=\
 	src/sed.cpp\
 	src/sed.h\
 	src/dialogfilters.cpp\
-	src/dialogfilters.h
+	src/dialogfilters.h\
+	src/scripts.cpp\
+	src/scripts.h
 
 module.pixmap.name=.
 module.pixmap.type=

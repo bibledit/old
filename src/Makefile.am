@@ -249,7 +249,7 @@ bibledit_bin_SOURCES = \
         dialogmerge.cpp \
         merge_utils.cpp \
         shutdown.cpp \
-        sed.cpp \
+        scripts.cpp \
         dialogfilters.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright

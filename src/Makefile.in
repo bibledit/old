@@ -160,7 +160,7 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	textviewer.$(OBJEXT) roman.$(OBJEXT) project_memory.$(OBJEXT) \
 	editorsgui.$(OBJEXT) restart.$(OBJEXT) mergegui.$(OBJEXT) \
 	dialogmerge.$(OBJEXT) merge_utils.$(OBJEXT) shutdown.$(OBJEXT) \
-	sed.$(OBJEXT) dialogfilters.$(OBJEXT)
+	scripts.$(OBJEXT) dialogfilters.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -581,7 +581,7 @@ bibledit_bin_SOURCES = \
         dialogmerge.cpp \
         merge_utils.cpp \
         shutdown.cpp \
-        sed.cpp \
+        scripts.cpp \
         dialogfilters.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
@@ -870,10 +870,10 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/restart.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/roman.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/screen.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/scripts.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/scripturechecks.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/scriptureportions.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/search_utils.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sed.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/session.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/session_highlights.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/settings.Po@am__quote@
