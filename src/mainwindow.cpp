@@ -7277,12 +7277,37 @@ void MainWindow::on_preferences_filters ()
 Todo various
 
 
+The home page:
+Uploading through cvs commit -m sync on Savannah.
+Stop doing so on bibledit.org.
+Instead put a redirect on bibledit.org.
+
+
+(Nightly) builds
+Make a new system, so that people check out their nightly build through git.
+Make a system for automatically bumping version numbers.
+Each time a commit is made, the version number is bumped.
+Each minor version is tagged in git.
+A major version is tagged too.
+A text file of available is automatically produced and added to the documentation
+so people know what's available.
+Instructions for a shallow checkout through git.
+Once this is in place for a while, and people have commented on it, stop the normal nightly builds.
+
+
+
+The search functionalilty, we could make two boxes:
+One line help
+Google.
+
+
+
 Move all releases to the new repository at nongnu.org. Put them all there, even the ancient ones.
 Update all download locations in the online help.
 Then delete the featured download from code.google....bibledit
 
 
-Trying to rsync to savannah, wait one hour (till 18:45) for trying again.
+Set notification of Tasks to bibledit-development@nongnu.org
 
 
 make git work with external repository,
@@ -7293,12 +7318,14 @@ http://savannah.nongnu.org/git/?group=bibledit
 Move all development from sourceforge to savannah.nongnu.org
 
 
+
 In order to provide Mpofu with work on the xrefs, we need to make a setting that
 prints all references in full in the xrefs and footnotes, the ones that are referenced in that.
 
 
 If printing parallel bibel, Ndebele, Hebrew, YLT, and not keeping everything on one page
 the fonts seem to get confused.
+
 
 If merging chapters in sequence, and the merge is through, it goes to the previous chapter after that.
 
