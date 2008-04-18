@@ -32,6 +32,9 @@
 #include "xep.h"
 #include "gtkwrappers.h"
 #include "pdfviewer.h"
+#include "settings.h"
+#include "referenceutils.h"
+#include "projectutils.h"
 
 
 Usfm2XslFo::Usfm2XslFo (const ustring& pdfoutputfile)
@@ -68,6 +71,7 @@ Usfm2XslFo::Usfm2XslFo (const ustring& pdfoutputfile)
   book_spans_columns = false;
   endnote_position = eptAfterEverything;
   do_not_allow_new_page = false;
+  include_full_references_with_notes = false;
   
   // Add a couple of extra styles.
   add_style (default_style (), u2xtParagraphNormalParagraph);
@@ -1939,6 +1943,9 @@ void Usfm2XslFo::output_text_note (ustring& line, Usfm2XslFoStyle * stylepointer
   Usfm2XslFoStyle * blockstyle = default_paragraph_style;
   open_fo_block (blockstyle, false);
 
+  // Optionally add the full text of any references in this note.
+  optionally_add_full_references (rawnote, stylepointer);
+  
   // Write the footnote.
   Usfm2XslFoStyle * inlinestyle = NULL;
   unsigned int iteration = 0;
@@ -2557,6 +2564,9 @@ void Usfm2XslFo::dump_endnotes (Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoSt
     Usfm2XslFoStyle * blockstyle = default_paragraph_style;
     open_fo_block (blockstyle, false);
 
+    // Optionally add the full text of any references in this note.
+    optionally_add_full_references (rawnote, endnote_style);
+  
     // Write the endnote.
     Usfm2XslFoStyle * inlinestyle = NULL;
     unsigned int iteration = 0;
@@ -2814,4 +2824,46 @@ void Usfm2XslFo::output_font_family_size_line_height  (ustring& line, Usfm2XslFo
 void Usfm2XslFo::no_new_page ()
 {
   do_not_allow_new_page = true;
+}
+
+
+void Usfm2XslFo::set_include_full_references_with_notes ()
+{
+  include_full_references_with_notes = true;
+}
+
+
+void Usfm2XslFo::optionally_add_full_references (ustring& line, Usfm2XslFoStyle * stylepointer)
+{
+  // Bail out if the full references are not to be added.
+  if (!include_full_references_with_notes) return;
+    
+  // Get the project and its language.
+  extern Settings * settings;
+  ustring project = settings->genconfig.project_get ();
+  ustring language = settings->projectconfig (project)->language_get();
+
+  // Extract references.
+  ReferencesScanner refscanner (language, book, line);
+  
+  // Default style for this note.
+  Usfm2XslFoStyle * default_note_style = get_default_paragraph_style_for_note (stylepointer);
+  ustring default_note_markup = usfm_get_full_opening_marker (default_note_style->marker);
+  
+  // Add the full text of the references if there is any.
+  for (unsigned int i = 0; i < refscanner.references.size(); i++) {
+    line.append (default_note_markup);
+    line.append (" ");
+    line.append (refscanner.references[i].human_readable (language));
+    line.append (" ");
+    ustring text = project_retrieve_verse (project, refscanner.references[i].book, refscanner.references[i].chapter, refscanner.references[i].verse);
+    if (text.empty()) {
+      line.append ("<empty>");
+    } else {
+      CategorizeLine cl (text);
+      line.append (cl.verse);
+    }
+    line.append ("\n");
+  }
+  gw_message (line);
 }

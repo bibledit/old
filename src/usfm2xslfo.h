@@ -56,6 +56,7 @@ public:
   void set_two_columns ();
   void set_even_page_count ();
   void set_print_date ();
+  void set_include_full_references_with_notes ();
 
   void add_print_portion (const XslFoPortion& portion);
 
@@ -160,6 +161,8 @@ private:
   vector <Usfm2XslFoStyle *> buffered_endnote_styles;
   EndnotePositionType endnote_position;
   void dump_endnotes (Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style);
+  bool include_full_references_with_notes;  
+  void optionally_add_full_references (ustring& line, Usfm2XslFoStyle * stylepointer);  
   
   // Portion selection.
   vector <XslFoPortion> portions;

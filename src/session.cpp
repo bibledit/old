@@ -57,6 +57,7 @@ Session::Session (int dummy)
   git_pause = false;
   restart = false;
   special_character_selection = 0;
+  print_references_in_notes_in_full = false;
 }
 
 

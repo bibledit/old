@@ -31,10 +31,15 @@
 #include "scriptureportions.h"
 #include "help.h"
 #include "dialogselectbooks.h"
+#include "shortcuts.h"
 
 
 PrintProjectDialog::PrintProjectDialog (int dummy)
 {
+  extern Settings * settings;
+  
+  Shortcuts shortcuts (0);
+  
   printprojectdialog = gtk_dialog_new ();
   gtk_window_set_title (GTK_WINDOW (printprojectdialog), "Print project");
   gtk_window_set_position (GTK_WINDOW (printprojectdialog), GTK_WIN_POS_CENTER_ON_PARENT);
@@ -77,15 +82,43 @@ PrintProjectDialog::PrintProjectDialog (int dummy)
   gtk_widget_show (image1);
   gtk_box_pack_start (GTK_BOX (hbox2), image1, FALSE, FALSE, 0);
 
-  label5 = gtk_label_new_with_mnemonic ("Ch_ange");
+  label5 = gtk_label_new_with_mnemonic ("Change");
   gtk_widget_show (label5);
   gtk_box_pack_start (GTK_BOX (hbox2), label5, FALSE, FALSE, 0);
+
+  shortcuts.label (label5);
+  
+  bool expand = false;
+  if (settings->session.print_references_in_notes_in_full) expand = true;
+
+  expander1 = gtk_expander_new (NULL);
+  gtk_widget_show (expander1);
+  gtk_box_pack_start (GTK_BOX (vbox1), expander1, TRUE, TRUE, 0);
+  gtk_expander_set_expanded (GTK_EXPANDER (expander1), expand);
+
+  vbox_expander = gtk_vbox_new (FALSE, 5);
+  gtk_widget_show (vbox_expander);
+  gtk_container_add (GTK_CONTAINER (expander1), vbox_expander);
+
+  checkbutton_full_references = gtk_check_button_new_with_mnemonic ("Write the references in the notes in full");
+  gtk_widget_show (checkbutton_full_references);
+  gtk_box_pack_start (GTK_BOX (vbox_expander), checkbutton_full_references, FALSE, FALSE, 0);
+ 
+  shortcuts.button (checkbutton_full_references);
+
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_full_references), settings->session.print_references_in_notes_in_full);
+
+  label_expander = gtk_label_new ("Options");
+  gtk_widget_show (label_expander);
+  gtk_expander_set_label_widget (GTK_EXPANDER (expander1), label_expander);
+
+  shortcuts.label (label_expander);
 
   dialog_action_area1 = GTK_DIALOG (printprojectdialog)->action_area;
   gtk_widget_show (dialog_action_area1);
   gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area1), GTK_BUTTONBOX_END);
 
-  new InDialogHelp (printprojectdialog, NULL, NULL);
+  new InDialogHelp (printprojectdialog, &shortcuts, "print_project");
 
   cancelbutton1 = gtk_button_new_from_stock ("gtk-cancel");
   gtk_widget_show (cancelbutton1);
@@ -96,6 +129,10 @@ PrintProjectDialog::PrintProjectDialog (int dummy)
   gtk_widget_show (okbutton1);
   gtk_dialog_add_action_widget (GTK_DIALOG (printprojectdialog), okbutton1, GTK_RESPONSE_OK);
   GTK_WIDGET_SET_FLAGS (okbutton1, GTK_CAN_DEFAULT);
+
+  shortcuts.stockbutton (cancelbutton1);
+  shortcuts.stockbutton (okbutton1);
+  shortcuts.process ();
 
   g_signal_connect ((gpointer) button_portion, "clicked",
                     G_CALLBACK (on_button_portion_clicked),
@@ -132,6 +169,8 @@ void PrintProjectDialog::on_okbutton1_clicked (GtkButton *button, gpointer user_
 
 void PrintProjectDialog::on_okbutton ()
 {
+  extern Settings * settings;
+  settings->session.print_references_in_notes_in_full = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_full_references));
 }
 
 

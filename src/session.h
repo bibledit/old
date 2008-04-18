@@ -75,6 +75,7 @@ public:
   bool area_verse;
   // Printing
   vector<ustring> additional_printing_projects;
+  bool print_references_in_notes_in_full;
   // Tools
   int line_cutter_for_hebrew_text_characters;
   // State

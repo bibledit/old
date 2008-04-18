@@ -44,6 +44,10 @@ protected:
   GtkWidget *hbox2;
   GtkWidget *image1;
   GtkWidget *label5;
+  GtkWidget *expander1;
+  GtkWidget *vbox_expander;
+  GtkWidget *checkbutton_full_references;
+  GtkWidget *label_expander;
   GtkWidget *dialog_action_area1;
   GtkWidget *cancelbutton1;
   GtkWidget *okbutton1;
