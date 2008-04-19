@@ -206,18 +206,6 @@ void PrintProjectDialog::gui_reorder_include ()
 Todo Attend to XEP problems.
 
 
-The XEP bug when printing parallel bible, it overflows into the next page.
-The cause is that the keep together block does not close...
-The tool: 'File/Project/Parallel Bible/Keep all parallel verses together on
-the page'
-does not work properly.
-Unchecked: it works as expected (splits verses when needed at
-page-bounderies.
-Checked:It splits also verses as needed, but after some verses (after the
-last parallel version to compare with) it starts a new page.
-I could not discover a system, when this happens. 
-
-
 
 Wolfgang's remarks.
 One of the things here is probably that the Install button is green already.

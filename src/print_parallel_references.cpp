@@ -147,7 +147,7 @@ There is a pointer to a list of "remarks". Any remarks will be printed first.
     if (keep_verses_together_within_page)
       usfm2xslfo.add_usfm_code (usfm_get_full_opening_marker (usfm2xslfo.keep_together_on_page_style ()));
 
-    // Open a spacing paragraph.
+    // Open two spacing paragraphs.
     usfm2xslfo.add_usfm_code (usfm_get_full_opening_marker (usfm2xslfo.line_spacing_style ()));
     usfm2xslfo.add_usfm_code (".");
     usfm2xslfo.add_usfm_code (usfm_get_full_opening_marker (usfm2xslfo.line_spacing_style ()));
@@ -289,7 +289,8 @@ There is a pointer to a list of "remarks". Any remarks will be printed first.
       }
     }
     
-    // Close the spacing paragraph.
+    // Close the two spacing paragraphs.
+    usfm2xslfo.add_usfm_code (usfm_get_full_closing_marker (usfm2xslfo.line_spacing_style ()));
     usfm2xslfo.add_usfm_code (usfm_get_full_closing_marker (usfm2xslfo.line_spacing_style ()));
     
     // Whether to close code keeping things on one page.    
