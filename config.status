@@ -511,7 +511,7 @@ s,@PACKAGE_NAME@,|#_!!_#|bibledit,g
 s,@PACKAGE_TARNAME@,|#_!!_#|bibledit,g
 s,@PACKAGE_VERSION@,|#_!!_#|3.1.24,g
 s,@PACKAGE_STRING@,|#_!!_#|bibledit 3.1.24,g
-s,@PACKAGE_BUGREPORT@,|#_!!_#|http://bibledit.org,g
+s,@PACKAGE_BUGREPORT@,|#_!!_#|http://www.nongnu.org/bibledit,g
 s,@exec_prefix@,|#_!!_#|${prefix},g
 s,@prefix@,|#_!!_#|/usr,g
 s,@program_transform_name@,|#_!!_#|s\,x\,x\,,g
@@ -897,7 +897,7 @@ s,^\([	 #]*\)[^	 ]*\([	 ]*PACKAGE_NAME\)[	 (].*,\1define\2 "bibledit" ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*PACKAGE_TARNAME\)[	 (].*,\1define\2 "bibledit" ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*PACKAGE_VERSION\)[	 (].*,\1define\2 "3.1.24" ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*PACKAGE_STRING\)[	 (].*,\1define\2 "bibledit 3.1.24" ,
-s,^\([	 #]*\)[^	 ]*\([	 ]*PACKAGE_BUGREPORT\)[	 (].*,\1define\2 "http://bibledit.org" ,
+s,^\([	 #]*\)[^	 ]*\([	 ]*PACKAGE_BUGREPORT\)[	 (].*,\1define\2 "http://www.nongnu.org/bibledit" ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*PACKAGE\)[	 (].*,\1define\2 "bibledit" ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*VERSION\)[	 (].*,\1define\2 "3.1.24" ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*STDC_HEADERS\)[	 (].*,\1define\2 1 ,

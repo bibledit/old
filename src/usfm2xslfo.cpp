@@ -2751,14 +2751,16 @@ void Usfm2XslFo::output_spacing_paragraph  (ustring& line, Usfm2XslFoStyle * & f
 }
 
 
-gchar * Usfm2XslFo::keep_together_on_page_style ()
+gchar * Usfm2XslFo::keep_together_on_page_style () // Todo
 {
   return "_keep_on_page_";
 }
 
 
-void Usfm2XslFo::output_keep_on_page  (ustring& line, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length, bool is_opener)
+void Usfm2XslFo::output_keep_on_page  (ustring& line, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length, bool is_opener) // Todo
 {
+  cout << "output_keep_on_page" << endl; // Todo
+  cout << line << endl; // Todo
   // Erase the marker from the line.
   line.erase (0, marker_length);
 

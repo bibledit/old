@@ -157,7 +157,7 @@ configure: failed program was:
 | #define PACKAGE_TARNAME "bibledit"
 | #define PACKAGE_VERSION "3.1.24"
 | #define PACKAGE_STRING "bibledit 3.1.24"
-| #define PACKAGE_BUGREPORT "http://bibledit.org"
+| #define PACKAGE_BUGREPORT "http://www.nongnu.org/bibledit"
 | #define PACKAGE "bibledit"
 | #define VERSION "3.1.24"
 | /* end confdefs.h.  */
@@ -174,7 +174,7 @@ configure: failed program was:
 | #define PACKAGE_TARNAME "bibledit"
 | #define PACKAGE_VERSION "3.1.24"
 | #define PACKAGE_STRING "bibledit 3.1.24"
-| #define PACKAGE_BUGREPORT "http://bibledit.org"
+| #define PACKAGE_BUGREPORT "http://www.nongnu.org/bibledit"
 | #define PACKAGE "bibledit"
 | #define VERSION "3.1.24"
 | /* end confdefs.h.  */
@@ -592,7 +592,7 @@ configure: failed program was:
 | #define PACKAGE_TARNAME "bibledit"
 | #define PACKAGE_VERSION "3.1.24"
 | #define PACKAGE_STRING "bibledit 3.1.24"
-| #define PACKAGE_BUGREPORT "http://bibledit.org"
+| #define PACKAGE_BUGREPORT "http://www.nongnu.org/bibledit"
 | #define PACKAGE "bibledit"
 | #define VERSION "3.1.24"
 | #define STDC_HEADERS 1
@@ -675,7 +675,7 @@ configure: failed program was:
 | #define PACKAGE_TARNAME "bibledit"
 | #define PACKAGE_VERSION "3.1.24"
 | #define PACKAGE_STRING "bibledit 3.1.24"
-| #define PACKAGE_BUGREPORT "http://bibledit.org"
+| #define PACKAGE_BUGREPORT "http://www.nongnu.org/bibledit"
 | #define PACKAGE "bibledit"
 | #define VERSION "3.1.24"
 | #define STDC_HEADERS 1
@@ -769,7 +769,7 @@ configure: failed program was:
 | #define PACKAGE_TARNAME "bibledit"
 | #define PACKAGE_VERSION "3.1.24"
 | #define PACKAGE_STRING "bibledit 3.1.24"
-| #define PACKAGE_BUGREPORT "http://bibledit.org"
+| #define PACKAGE_BUGREPORT "http://www.nongnu.org/bibledit"
 | #define PACKAGE "bibledit"
 | #define VERSION "3.1.24"
 | #define STDC_HEADERS 1
@@ -884,7 +884,7 @@ configure:11828: result: yes
 configure:11748: checking for rint
 configure:11804: gcc -o conftest -g -O2   conftest.c  >&5
 conftest.c:88: warning: conflicting types for built-in function 'rint'
-/tmp/ccY6CEKf.o: In function `main':
+/tmp/ccoRKLpI.o: In function `main':
 /home/teus/documents/dev/bibledit/conftest.c:99: undefined reference to `rint'
 collect2: ld returned 1 exit status
 configure:11810: $? = 1
@@ -894,7 +894,7 @@ configure: failed program was:
 | #define PACKAGE_TARNAME "bibledit"
 | #define PACKAGE_VERSION "3.1.24"
 | #define PACKAGE_STRING "bibledit 3.1.24"
-| #define PACKAGE_BUGREPORT "http://bibledit.org"
+| #define PACKAGE_BUGREPORT "http://www.nongnu.org/bibledit"
 | #define PACKAGE "bibledit"
 | #define VERSION "3.1.24"
 | #define STDC_HEADERS 1
@@ -1338,7 +1338,7 @@ MAKEINFO='${SHELL} /home/teus/documents/dev/bibledit/missing --run makeinfo'
 MAKE_PATH='/usr/bin/make'
 OBJEXT='o'
 PACKAGE='bibledit'
-PACKAGE_BUGREPORT='http://bibledit.org'
+PACKAGE_BUGREPORT='http://www.nongnu.org/bibledit'
 PACKAGE_CFLAGS=' '
 PACKAGE_LIBS='-lfontconfig  '
 PACKAGE_NAME='bibledit'
@@ -1429,7 +1429,7 @@ util=''
 #define PACKAGE_TARNAME "bibledit"
 #define PACKAGE_VERSION "3.1.24"
 #define PACKAGE_STRING "bibledit 3.1.24"
-#define PACKAGE_BUGREPORT "http://bibledit.org"
+#define PACKAGE_BUGREPORT "http://www.nongnu.org/bibledit"
 #define PACKAGE "bibledit"
 #define VERSION "3.1.24"
 #define STDC_HEADERS 1

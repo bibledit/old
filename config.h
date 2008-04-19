@@ -222,7 +222,7 @@
 #define PACKAGE "bibledit"
 
 /* Define to the address where bug reports for this package should be sent. */
-#define PACKAGE_BUGREPORT "http://bibledit.org"
+#define PACKAGE_BUGREPORT "http://www.nongnu.org/bibledit"
 
 /* PACKAGE_DATA_DIR */
 #define PACKAGE_DATA_DIR "/usr/share/bibledit"

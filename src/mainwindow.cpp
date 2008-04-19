@@ -7276,16 +7276,21 @@ Todo various
 
 
 
-The home page:
-Uploading through cvs commit -m sync on Savannah.
-Stop doing so on bibledit.org.
-Instead put a redirect on bibledit.org.
+Nightly builds are no longer uploaded to bibledit.org, see to that.
+We need to make documentation available how to produce a recent tarball from the repository.
+Using tags in git, people will need to be able to download the exact version they want,
+and also to be able to see in the documentation which versions (tags) are available.
+As git cannot have two tags of the same name, we need to have a file with a tag number
+in it. If that tag is applied to git, then the file disappears, so that this tag
+will not be given again to git.
+We need to check whether we can remove tags too.
+
 
 
 (Nightly) builds
 Make a new system, so that people check out their nightly build through git.
 Make a system for automatically bumping version numbers.
-Each time a commit is made, the version number is bumped.
+Each night the version number is bumped.
 Each minor version is tagged in git.
 A major version is tagged too.
 A text file of available is automatically produced and added to the documentation
@@ -7294,19 +7299,19 @@ Instructions for a shallow checkout through git.
 Once this is in place for a while, and people have commented on it, stop the normal nightly builds.
 
 
+We need to make a system that every night it makes a distribution, just to find out whether that is fine.
+And each night, it checks out the latest distro from the local repository, and sees
+whether we can make a distro from that and whether that distro compiles well.
+Any of the above, if it fails, give emails to user teus.
 
-The search functionalilty, we could make two boxes:
-Online help
-Google.
 
+Change documentation to saying that the new code repository is on git at savannah.
+Links to downloading it and gitweb.
 
 
 Move all releases to the new repository at nongnu.org. Put them all there, even the ancient ones.
 Update all download locations in the online help.
 Then delete the featured download from code.google....bibledit
-
-
-Set notification of Tasks to bibledit-development@nongnu.org
 
 
 make git work with external repository,
@@ -7323,10 +7328,6 @@ to see whether that works well. Don't install it, just compile.
 
 Move all development from sourceforge to savannah.nongnu.org
 
-
-
-If printing parallel bibel, Ndebele, Hebrew, YLT, and not keeping everything on one page
-the fonts seem to get confused.
 
 
 If merging chapters in sequence, and the merge is through, it goes to the previous chapter after that.
