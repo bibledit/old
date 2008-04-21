@@ -204,13 +204,6 @@ private:
   void on_button_write_anchors ();
   bool write_anchors_gui ();
   bool write_anchors_ok;
-  ResourceConversionType resource_conversion_type;
-  ustring chapter_pattern_prefix;
-  unsigned int chapter_pattern_index;
-  ustring chapter_pattern_suffix;
-  ustring verse_pattern_prefix;
-  unsigned int verse_pattern_index;
-  ustring verse_pattern_suffix;
 
   // General gui.
   void gui ();

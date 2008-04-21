@@ -7285,9 +7285,6 @@ Move all released from sourceforge to savannah, also the windows outpost, and wh
 If merging chapters in sequence, and the merge is through, it goes to the previous chapter after that.
 
 
-If writing anchors, if e.g. num.htm has been written, then if "Write anchors" is pressed again, it crashes.
-
-
 
 
 

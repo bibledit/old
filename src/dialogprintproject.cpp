@@ -207,14 +207,6 @@ Todo Attend to XEP problems.
 
 
 
-Wolfgang's remarks.
-One of the things here is probably that the Install button is green already.
-It probably should not if the selected installer and the currently installed version differ.
-But if they agree, yes, then it can be green.
-
-
-
-
 If printing parallel bible, Ndebele, Hebrew, YLT, and not keeping everything on one page
 the fonts seem to get confused.
 

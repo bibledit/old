@@ -43,19 +43,13 @@
 #include "combobox.h"
 
 
-ResourceConverter2Dialog::ResourceConverter2Dialog (const ustring& working_directory, ResourceConversionType resourceconversiontype, 
-                                                    const ustring& chapterpatternprefix, unsigned int chapterpatternindex, const ustring& chapterpatternsuffix,
-                                                    const ustring& versepatternprefix, unsigned int versepatternindex, const ustring& versepatternsuffix)
+ResourceConverter2Dialog::ResourceConverter2Dialog (const ustring& working_directory)
 {
   // Initialize variables.
   workingdirectory = working_directory;
-  resource_conversion_type = resourceconversiontype;
-  chapter_pattern_prefix = chapterpatternprefix;
-  chapter_pattern_index = chapterpatternindex;
-  chapter_pattern_suffix = chapterpatternsuffix;
-  verse_pattern_prefix = versepatternprefix;
-  verse_pattern_index = versepatternindex;
-  verse_pattern_suffix = versepatternsuffix;
+  resource_conversion_type = rctEnd;
+  chapter_pattern_index = 0;
+  verse_pattern_index = 0;
   anchors_written = false;
   table_attachment_offset = 0;
   table1 = NULL;

@@ -31,9 +31,7 @@
 class ResourceConverter2Dialog
 {
 public:
-  ResourceConverter2Dialog (const ustring& working_directory, ResourceConversionType resourceconversiontype, 
-                            const ustring& chapterpatternprefix, unsigned int chapterpatternindex, const ustring& chapterpatternsuffix,
-                            const ustring& versepatternprefix, unsigned int versepatternindex, const ustring& versepatternsuffix);
+  ResourceConverter2Dialog (const ustring& working_directory);
   ~ResourceConverter2Dialog ();
   int run ();
   ResourceConversionType resource_conversion_type;

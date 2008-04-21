@@ -46,9 +46,6 @@ NewResourceDialog::NewResourceDialog (const ustring& templatefile)
   resource_type = rtEnd;
   table1 = NULL;
   create_working_directory (templatefile);
-  resource_conversion_type = rctEnd;
-  chapter_pattern_index = 0;
-  verse_pattern_index = 0;
   
   // Shortcuts.
   Shortcuts shortcuts (0);
@@ -967,17 +964,8 @@ void NewResourceDialog::on_button_write_anchors_clicked (GtkButton *button, gpoi
 
 void NewResourceDialog::on_button_write_anchors ()
 {
-  ResourceConverter2Dialog dialog (workingdirectory, resource_conversion_type, 
-                                   chapter_pattern_prefix, chapter_pattern_index, chapter_pattern_suffix,
-                                   verse_pattern_prefix, verse_pattern_index, verse_pattern_suffix);
+  ResourceConverter2Dialog dialog (workingdirectory);
   if (dialog.run () == GTK_RESPONSE_OK) {
-    resource_conversion_type = dialog.resource_conversion_type;
-    chapter_pattern_prefix = dialog.chapter_pattern_prefix;
-    chapter_pattern_index = dialog.chapter_pattern_index;
-    chapter_pattern_suffix = dialog.chapter_pattern_suffix;
-    verse_pattern_prefix = dialog.verse_pattern_prefix;
-    verse_pattern_index = dialog.verse_pattern_index;
-    verse_pattern_suffix = dialog.verse_pattern_suffix;
     write_anchors_gui ();
   }
 }
