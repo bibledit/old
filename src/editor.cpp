@@ -317,6 +317,9 @@ void Editor::chapter_load (unsigned int chapter_in, vector <ustring> * lines_in)
 
 void Editor::chapter_save ()
 {
+  // Set variables.
+  reload_chapter_number = chapter;
+  
   // If the text is not editable, bail out.
   if (!gtk_text_view_get_editable (GTK_TEXT_VIEW (textview))) return;
     
@@ -334,7 +337,6 @@ void Editor::chapter_save ()
   // This is interpreted as to mean that the user wishes to delete this chapter.
   // After asking for confirmation, delete the chapter.
   bool reload = false;
-  reload_chapter_number = chapter;
   bool save_action_is_over = false;
   if (chaptertext.empty ()) {
     if (gtkw_dialog_question (NULL, "The chapter is empty.\n"
