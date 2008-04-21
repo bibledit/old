@@ -199,18 +199,3 @@ void PrintProjectDialog::gui_reorder_include ()
   else
     gtk_label_set_text (GTK_LABEL (label_portion), "part");
 }
-
-
-/*
-
-Todo Attend to XEP problems.
-
-
-
-If printing parallel bible, Ndebele, Hebrew, YLT, and not keeping everything on one page
-the fonts seem to get confused.
-
-
-
-
-*/

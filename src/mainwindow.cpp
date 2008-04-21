@@ -2072,28 +2072,28 @@ httpd (0)
     gtk_widget_hide (gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_tools), 1));
   }
 
-  vbox3 = gtk_vbox_new (FALSE, 1);
-  gtk_widget_show (vbox3);
-  gtk_container_add (GTK_CONTAINER (notebook_tools), vbox3);
-  gtk_container_set_border_width (GTK_CONTAINER (vbox3), 2);
+  vbox_project_note = gtk_vbox_new (FALSE, 1);
+  gtk_widget_show (vbox_project_note);
+  gtk_container_add (GTK_CONTAINER (notebook_tools), vbox_project_note);
+  gtk_container_set_border_width (GTK_CONTAINER (vbox_project_note), 2);
 
   label_note_category = gtk_label_new_with_mnemonic ("C_ategory");
   gtk_widget_show (label_note_category);
-  gtk_box_pack_start (GTK_BOX (vbox3), label_note_category, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox_project_note), label_note_category, FALSE, FALSE, 0);
   gtk_misc_set_alignment (GTK_MISC (label_note_category), 0, 0.5);
 
   combobox_note_category = gtk_combo_box_new_text ();
   gtk_widget_show (combobox_note_category);
-  gtk_box_pack_start (GTK_BOX (vbox3), combobox_note_category, FALSE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox_project_note), combobox_note_category, FALSE, TRUE, 0);
   
   label_note_references = gtk_label_new_with_mnemonic ("_References");
   gtk_widget_show (label_note_references);
-  gtk_box_pack_start (GTK_BOX (vbox3), label_note_references, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox_project_note), label_note_references, FALSE, FALSE, 0);
   gtk_misc_set_alignment (GTK_MISC (label_note_references), 0, 0.5);
 
   scrolledwindow8 = gtk_scrolled_window_new (NULL, NULL);
   gtk_widget_show (scrolledwindow8);
-  gtk_box_pack_start (GTK_BOX (vbox3), scrolledwindow8, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox_project_note), scrolledwindow8, TRUE, TRUE, 0);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow8), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
   textview_note_references = gtk_text_view_new ();
@@ -2103,36 +2103,36 @@ httpd (0)
 
   label_note_project = gtk_label_new_with_mnemonic ("Pro_ject");
   gtk_widget_show (label_note_project);
-  gtk_box_pack_start (GTK_BOX (vbox3), label_note_project, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox_project_note), label_note_project, FALSE, FALSE, 0);
   gtk_misc_set_alignment (GTK_MISC (label_note_project), 0, 0.5);
 
   combobox_note_project = gtk_combo_box_new_text ();
   gtk_widget_show (combobox_note_project);
-  gtk_box_pack_start (GTK_BOX (vbox3), combobox_note_project, FALSE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox_project_note), combobox_note_project, FALSE, TRUE, 0);
 
   label_note_created_on = gtk_label_new ("");
   gtk_widget_show (label_note_created_on);
-  gtk_box_pack_start (GTK_BOX (vbox3), label_note_created_on, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox_project_note), label_note_created_on, FALSE, FALSE, 0);
   gtk_misc_set_alignment (GTK_MISC (label_note_created_on), 0, 0.5);
 
   label_note_created_by = gtk_label_new ("");
   gtk_widget_show (label_note_created_by);
-  gtk_box_pack_start (GTK_BOX (vbox3), label_note_created_by, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox_project_note), label_note_created_by, FALSE, FALSE, 0);
   gtk_misc_set_alignment (GTK_MISC (label_note_created_by), 0, 0.5);
 
   label_note_edited_on = gtk_label_new ("");
   gtk_widget_show (label_note_edited_on);
-  gtk_box_pack_start (GTK_BOX (vbox3), label_note_edited_on, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox_project_note), label_note_edited_on, FALSE, FALSE, 0);
   gtk_misc_set_alignment (GTK_MISC (label_note_edited_on), 0, 0.5);
 
   label_note_logbook = gtk_label_new ("Logbook");
   gtk_widget_show (label_note_logbook);
-  gtk_box_pack_start (GTK_BOX (vbox3), label_note_logbook, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox_project_note), label_note_logbook, FALSE, FALSE, 0);
   gtk_misc_set_alignment (GTK_MISC (label_note_logbook), 0, 0.5);
 
   scrolledwindow9 = gtk_scrolled_window_new (NULL, NULL);
   gtk_widget_show (scrolledwindow9);
-  gtk_box_pack_start (GTK_BOX (vbox3), scrolledwindow9, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox_project_note), scrolledwindow9, TRUE, TRUE, 0);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow9), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
   textview_note_logbook = gtk_text_view_new ();
@@ -2147,9 +2147,15 @@ httpd (0)
   gtk_widget_show (label_notetools);
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_tools), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_tools), 2), label_notetools);
 
-  vbox5 = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox5);
-  gtk_container_add (GTK_CONTAINER (notebook_tools), vbox5);
+  scrolledwindow_keyterms = gtk_scrolled_window_new (NULL, NULL);
+  gtk_widget_show (scrolledwindow_keyterms);
+  gtk_container_add (GTK_CONTAINER (notebook_tools), scrolledwindow_keyterms);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow_keyterms), GTK_POLICY_AUTOMATIC, GTK_POLICY_NEVER);
+  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow_keyterms), GTK_SHADOW_IN);
+
+  vbox_keyterms = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (vbox_keyterms);
+  gtk_container_add (GTK_CONTAINER (scrolledwindow_keyterms), vbox_keyterms);
 
   // Code that creates widgets for the KeytermsGUI has been moved there.
 
@@ -2170,18 +2176,30 @@ httpd (0)
   label36 = gtk_label_new ("Outline");
   gtk_widget_show (label36);
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_tools), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_tools), 4), label36);
+  
+  scrolledwindow_resources = gtk_scrolled_window_new (NULL, NULL);
+  gtk_widget_show (scrolledwindow_resources);
+  gtk_container_add (GTK_CONTAINER (notebook_tools), scrolledwindow_resources);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow_resources), GTK_POLICY_AUTOMATIC, GTK_POLICY_NEVER);
+  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow_resources), GTK_SHADOW_IN);
 
   vbox_resources = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vbox_resources);
-  gtk_container_add (GTK_CONTAINER (notebook_tools), vbox_resources);
-
+  gtk_container_add (GTK_CONTAINER (scrolledwindow_resources), vbox_resources);
+  
   label_tool_resources = gtk_label_new ("Resources");
   gtk_widget_show (label_tool_resources);
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_tools), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_tools), 5), label_tool_resources);
 
+  scrolledwindow_merge = gtk_scrolled_window_new (NULL, NULL);
+  gtk_widget_show (scrolledwindow_merge);
+  gtk_container_add (GTK_CONTAINER (notebook_tools), scrolledwindow_merge);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow_merge), GTK_POLICY_AUTOMATIC, GTK_POLICY_NEVER);
+  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow_merge), GTK_SHADOW_IN);
+
   vboxmerge = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vboxmerge);
-  gtk_container_add (GTK_CONTAINER (notebook_tools), vboxmerge);
+  gtk_container_add (GTK_CONTAINER (scrolledwindow_merge), vboxmerge);
 
   labelmerge = gtk_label_new ("Merge");
   gtk_widget_show (labelmerge);
@@ -6327,7 +6345,7 @@ Keyterms
 void MainWindow::activate_keyterms_object ()
 {
   if (!keytermsgui) {
-    keytermsgui = new KeytermsGUI (vbox5, textview_keyterm_text);
+    keytermsgui = new KeytermsGUI (vbox_keyterms, textview_keyterm_text);
     g_signal_connect ((gpointer) keytermsgui->signal, "clicked", G_CALLBACK (on_keyterms_new_reference), gpointer(this));
   }
 }
@@ -7282,10 +7300,9 @@ Then delete the featured download from code.google....bibledit
 Move all released from sourceforge to savannah, also the windows outpost, and whatever else is there.
 
 
-If merging chapters in sequence, and the merge is through, it goes to the previous chapter after that.
+*/
 
 
-
-
+/*
 
 */

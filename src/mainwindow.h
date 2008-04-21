@@ -405,7 +405,7 @@ protected:
   GtkWidget *label13;
   GtkWidget *vbox_styles;
   GtkWidget *label14;
-  GtkWidget *vbox3;
+  GtkWidget *vbox_project_note;
   GtkWidget *label_note_category;
   GtkWidget *combobox_note_category;
   GtkWidget *label_note_references;
@@ -420,13 +420,16 @@ protected:
   GtkWidget *scrolledwindow9;
   GtkWidget *textview_note_logbook;
   GtkWidget *label_notetools;
-  GtkWidget *vbox5; 
+  GtkWidget *scrolledwindow_keyterms;
+  GtkWidget *vbox_keyterms; 
   // Widgets that belong here are moved to the KeytermsGUI object.  
   GtkWidget *label22;
   GtkWidget *vbox_outline;
   // Widgets that belong here have been moved to the Outline object.
   GtkWidget *label36;
+  GtkWidget *scrolledwindow_resources;
   GtkWidget *vbox_resources;
+  GtkWidget *scrolledwindow_merge;
   GtkWidget *vboxmerge;
   GtkWidget *labelmerge;
   GtkWidget *label_tool_resources;
