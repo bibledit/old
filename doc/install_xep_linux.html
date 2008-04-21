@@ -1,43 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>   <meta content="text/html; charset=UTF-8" http-equiv="content-type" />   <title>Bibledit</title>
-<!-- 
-Copyright (©) 2003-2008 Teus Benschop.
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+  <title>Bibledit</title>
+  <!-- 
+  Copyright (©) 2003-2008 Teus Benschop.
 
-Permission is granted to copy, distribute and/or modify this document
-under the terms of the GNU Free Documentation License, Version 1.2
-or any later version published by the Free Software Foundation;
-with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-Texts.  A copy of the license is included in the section entitled "GNU
-Free Documentation License" in the file FDL.
--->
-<link href="bibledit.css" rel="stylesheet" type="text/css" />
+  Permission is granted to copy, distribute and/or modify this document
+  under the terms of the GNU Free Documentation License, Version 1.2
+  or any later version published by the Free Software Foundation;
+  with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+  Texts.  A copy of the license is included in the section entitled "GNU
+  Free Documentation License" in the file FDL.
+  -->
+  <link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
+
 <body>
 <h2><a name="installxeponlinux"></a>Install XEP on Linux</h2>
+
 <h3><a name="java"></a>Java</h3>
+
 <p>A Sun Java virtual machine is needed. You can see in Bibledit whether a
 correct version of Java is already present. In Bibledit, go to menu
 Preferences - Formatter. If the first line, about Java, says "Done", then
 Java is fine. You can proceed with XEP. If it says "To do", you will need to
 install Java as described below.</p>
+
 <p>Download a Sun Java virtual machine from <a
 href="http://www.java.com/en/download/linux_manual.jsp">http://www.java.com/en/download/linux_manual.jsp.</a></p>
+
 <p>Choose the "Linux (self extracting file)", which gives a file called
 jre-1_5_0_06-linux-i586.bin or a higher version</p>
+
 <p>Put it in the home directory.</p>
+
 <p>In the terminal, to verify the package is there, type</p>
 <pre>ls</pre>
+
 <p>To install the package, type</p>
 <pre>sh jre-1_5_0_06-linux-i586.bin</pre>
+
 <p>Agree to the license and complete installing Java.</p>
+
 <p>Make a note of the directory where Java got installed. In this case this
 is ~/jre1.5.0_06</p>
+
 <p>Note. If you install it in the directory given above, then Bibledit will
 find Java automatically. If you install it elsewhere, you need to enter the
 path to Java by hand.</p>
+
+<p>Note: If you click the "Java" button to choose the Java binary, and a
+wrong binary is selected, it won't find Java anymore, as it was given the
+incorrect binary. To resolve that close the dialog, and open it again.</p>
+
 <p>Note. Some Linux distributions come with their own version of Java
 installed. It may be quite a hassle to find out where this version of Java
 has been installed, and so it may be difficult to locate it in Bibledit. In
@@ -46,7 +64,9 @@ download the Java version as described above, and install it following the
 instructions. And moreover, the GNU version of Java, gij, is not enough for
 XEP. Hence, if this version comes with your Linux distribution, you still
 need to install the one from Sun.</p>
+
 <h3><a name="xep"></a>XEP</h3>
+
 <p><a href="xep_install.html">Install XEP</a>.</p>
 </body>
 </html>
