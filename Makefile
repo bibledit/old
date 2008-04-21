@@ -13,6 +13,7 @@
 # PARTICULAR PURPOSE.
 
 
+
 srcdir = .
 top_srcdir = .
 
@@ -36,6 +37,7 @@ POST_UNINSTALL = :
 build_triplet = i686-pc-linux-gnu
 host_triplet = i686-pc-linux-gnu
 target_triplet = i686-pc-linux-gnu
+noinst_PROGRAMS = bumpversion$(EXEEXT)
 DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/config.h.in \
 	$(top_srcdir)/configure AUTHORS COPYING ChangeLog INSTALL NEWS \
@@ -51,8 +53,20 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES =
-SOURCES =
-DIST_SOURCES =
+PROGRAMS = $(noinst_PROGRAMS)
+am_bumpversion_OBJECTS = bumpversion.$(OBJEXT)
+bumpversion_OBJECTS = $(am_bumpversion_OBJECTS)
+bumpversion_LDADD = $(LDADD)
+DEFAULT_INCLUDES = -I. -I$(srcdir) -I.
+depcomp = $(SHELL) $(top_srcdir)/depcomp
+am__depfiles_maybe = depfiles
+CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+CXXLD = $(CXX)
+CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
+	-o $@
+SOURCES = $(bumpversion_SOURCES)
+DIST_SOURCES = $(bumpversion_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	html-recursive info-recursive install-data-recursive \
 	install-exec-recursive install-info-recursive \
@@ -118,7 +132,7 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = ${SHELL} $(install_sh) -c -s
 LDFLAGS = 
 LIBOBJS = 
-LIBS = 
+LIBS = -Wall `pkg-config glib-2.0 --libs`
 LTLIBOBJS = 
 MAKEINFO = ${SHELL} /home/teus/documents/dev/bibledit/missing --run makeinfo
 MAKE_PATH = /usr/bin/make
@@ -128,9 +142,9 @@ PACKAGE_BUGREPORT = http://www.nongnu.org/bibledit
 PACKAGE_CFLAGS =  
 PACKAGE_LIBS = -lfontconfig  
 PACKAGE_NAME = bibledit
-PACKAGE_STRING = bibledit 3.1.24
+PACKAGE_STRING = bibledit 3.1.37
 PACKAGE_TARNAME = bibledit
-PACKAGE_VERSION = 3.1.24
+PACKAGE_VERSION = 3.1.37
 PATH_SEPARATOR = :
 PKG_CONFIG = /usr/bin/pkg-config
 PKG_CONFIG_PATH = /usr/bin/pkg-config
@@ -143,7 +157,7 @@ STRINGS_PATH = /usr/bin/strings
 STRIP = 
 TAIL_PATH = /usr/bin/tail
 TEE_TOUCH = /usr/bin/touch
-VERSION = 3.1.24
+VERSION = 3.1.37
 WIN32_FALSE = 
 WIN32_TRUE = #
 XML2_CONFIG = /usr/bin/xml2-config
@@ -204,10 +218,13 @@ target_vendor = pc
 SUBDIRS = man pix doc src scripts templates olpc desktop windows tests eeepc
 CLEANFILES = bibledit*.gz *~
 EXTRA_DIST = use-firefox
+bumpversion_SOURCES = bumpversion.cpp
+AM_CXXFLAGS = -Wall `pkg-config glib-2.0 --cflags`
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
 .SUFFIXES:
+.SUFFIXES: .cpp .o .obj
 am--refresh:
 	@:
 $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
@@ -258,6 +275,34 @@ $(srcdir)/config.h.in:  $(am__configure_deps)
 
 distclean-hdr:
 	-rm -f config.h stamp-h1
+
+clean-noinstPROGRAMS:
+	-test -z "$(noinst_PROGRAMS)" || rm -f $(noinst_PROGRAMS)
+bumpversion$(EXEEXT): $(bumpversion_OBJECTS) $(bumpversion_DEPENDENCIES) 
+	@rm -f bumpversion$(EXEEXT)
+	$(CXXLINK) $(bumpversion_LDFLAGS) $(bumpversion_OBJECTS) $(bumpversion_LDADD) $(LIBS)
+
+mostlyclean-compile:
+	-rm -f *.$(OBJEXT)
+
+distclean-compile:
+	-rm -f *.tab.c
+
+include ./$(DEPDIR)/bumpversion.Po
+
+.cpp.o:
+	if $(CXXCOMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ $<; \
+	then mv -f "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Po"; else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; fi
+#	source='$<' object='$@' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXXCOMPILE) -c -o $@ $<
+
+.cpp.obj:
+	if $(CXXCOMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ `$(CYGPATH_W) '$<'`; \
+	then mv -f "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Po"; else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; fi
+#	source='$<' object='$@' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 uninstall-info-am:
 
 # This directory's subdirectories are mostly independent; you can cd
@@ -535,7 +580,7 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-recursive
-all-am: Makefile config.h
+all-am: Makefile $(PROGRAMS) config.h
 installdirs: installdirs-recursive
 installdirs-am:
 install: install-recursive
@@ -565,12 +610,14 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-recursive
 
-clean-am: clean-generic mostlyclean-am
+clean-am: clean-generic clean-noinstPROGRAMS mostlyclean-am
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
+	-rm -rf ./$(DEPDIR)
 	-rm -f Makefile
-distclean-am: clean-am distclean-generic distclean-hdr distclean-tags
+distclean-am: clean-am distclean-compile distclean-generic \
+	distclean-hdr distclean-tags
 
 dvi: dvi-recursive
 
@@ -595,12 +642,13 @@ installcheck-am:
 maintainer-clean: maintainer-clean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
+	-rm -rf ./$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
 mostlyclean: mostlyclean-recursive
 
-mostlyclean-am: mostlyclean-generic
+mostlyclean-am: mostlyclean-compile mostlyclean-generic
 
 pdf: pdf-recursive
 
@@ -615,19 +663,19 @@ uninstall-am: uninstall-info-am
 uninstall-info: uninstall-info-recursive
 
 .PHONY: $(RECURSIVE_TARGETS) CTAGS GTAGS all all-am am--refresh check \
-	check-am clean clean-generic clean-recursive ctags \
-	ctags-recursive dist dist-all dist-bzip2 dist-gzip dist-shar \
-	dist-tarZ dist-zip distcheck distclean distclean-generic \
-	distclean-hdr distclean-recursive distclean-tags \
-	distcleancheck distdir distuninstallcheck dvi dvi-am html \
-	html-am info info-am install install-am install-data \
-	install-data-am install-exec install-exec-am install-info \
-	install-info-am install-man install-strip installcheck \
-	installcheck-am installdirs installdirs-am maintainer-clean \
-	maintainer-clean-generic maintainer-clean-recursive \
-	mostlyclean mostlyclean-generic mostlyclean-recursive pdf \
-	pdf-am ps ps-am tags tags-recursive uninstall uninstall-am \
-	uninstall-info-am
+	check-am clean clean-generic clean-noinstPROGRAMS \
+	clean-recursive ctags ctags-recursive dist dist-all dist-bzip2 \
+	dist-gzip dist-shar dist-tarZ dist-zip distcheck distclean \
+	distclean-compile distclean-generic distclean-hdr \
+	distclean-recursive distclean-tags distcleancheck distdir \
+	distuninstallcheck dvi dvi-am html html-am info info-am \
+	install install-am install-data install-data-am install-exec \
+	install-exec-am install-info install-info-am install-man \
+	install-strip installcheck installcheck-am installdirs \
+	installdirs-am maintainer-clean maintainer-clean-generic \
+	maintainer-clean-recursive mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-recursive pdf pdf-am ps ps-am \
+	tags tags-recursive uninstall uninstall-am uninstall-info-am
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

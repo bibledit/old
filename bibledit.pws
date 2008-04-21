@@ -11,12 +11,12 @@ filter.file.ignore.hidden=0
 filter.dir.ignore.hidden=0
 
 [filenumbers]
-0=209
-1=20
-2=148
-3=2872
-4=7305
-5=5
+0=7283
+1=7284
+2=20
+3=43
+4=2754
+5=7279
 6=5
 7=7332
 8=5
@@ -45,12 +45,7 @@ filter.dir.ignore.hidden=0
 14=
 
 [filelist]
-0=/home/teus/documents/dev/bibledit/src/dialogprintproject.cpp
-1=/home/teus/documents/dev/bibledit/src/usfm2xslfo_utils.h
-2=/home/teus/documents/dev/bibledit/src/usfm2xslfo.h
-3=/home/teus/documents/dev/bibledit/src/usfm2xslfo.cpp
-4=/home/teus/documents/dev/bibledit/src/mainwindow.cpp
-5=/home/teus/documents/dev/bibledit/configure.ac
+0=/home/teus/documents/dev/bibledit/src/mainwindow.cpp
 
 [Project Tree]
 0=0

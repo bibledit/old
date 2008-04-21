@@ -22,13 +22,11 @@ Free Documentation License" in the file FDL.
 <div id="toc">
 <ul>
 <li>
-<a href="#nightlybuilds" class="level1">Nightly builds</a></li>
+<a href="#coderepository" class="level1">Code repository</a></li>
 <li>
 <a href="#helpneeded" class="level1">Help needed</a></li>
 <li>
 <a href="#bugsandfeaturerequests" class="level1">Bugs and feature requests</a></li>
-<li>
-<a href="#coderepository" class="level1">Code repository</a></li>
 <li>
 <a href="#howitstarted" class="level1">How it started</a></li>
 <li>
@@ -36,13 +34,46 @@ Free Documentation License" in the file FDL.
 </ul>
 </div>
 <!-- Table of Contents End -->
-<h3><a name="nightlybuilds"></a>Nightly builds</h3>
-<p>Nightly builds are at <a
-href="http://bibledit.org/hot-off-press">http://bibledit.org/hot-off-press</a>.
-These are the latest versions of Bibledit, which are released frequently,
-usually every night. These builds have not been thoroughly tested, but are
+<h3><a name="coderepository"></a>Code repository</h3>
+<p>The code is stored in a git repository. The repository is accessible from
+the <a href="http://savannah.nongnu.org/projects/bibledit">Savannah Project
+Page</a>. To view the code on the web, click on "Source Code" - and then
+"Browse Sources Repository" just below "Use Git". To use the repository in
+another way, click on "Source Code" - "Use Git". It will give some
+information there.</p>
+<p>Recent code can be checked out from the repository. This code gives the
+latest versions of Bibledit. This code has not been thoroughly tested, but is
 supported, and give you a great way to follow the newest and latest
 developments in Bibledit.</p>
+<p>In order to get the most recent code, do the following in a terminal.</p>
+<pre>git clone git://git.savannah.nongnu.org/bibledit</pre>
+<p>The above command clones the code repository to your local disk. It will
+create a directory called "bibledit". Go into that directory, and do the
+normal "./configure", "make", "sudo make install" sequence, as is described
+for <a href="install_bibledit.html">installing bibledit</a>.</p>
+<p>Notes.</p>
+<p>1. To save bandwidth, it is recommended to leave the directory "bibledit",
+created above, as it is. If that directory is left there, then next time
+there is no need to clone the whole repository. Just pulling the changes is
+enough:</p>
+<pre>cd bibledit
+git pull
+./configure &amp;&amp; make &amp;&amp; sudo make install</pre>
+<p>Formerly if anybody wished to run what was then called nightly builds
+needed to download the full build each time. The current method saves a lot
+of bandwidth, because it downloads the changes only, and these changes are
+usually small.</p>
+<p>2. To give the user more control of what version number he wishes to
+install, the various versions have been tagged. To see a list of versions,
+type</p>
+<pre>git tag -l</pre>
+<p>This gives a list of version numbers like x.x.x.</p>
+<p>If you would like to have a specific version, then type</p>
+<pre>git checkout x.x.x</pre>
+<p>After that you can do the ./configure, make, sudo make install sequence.
+Then, to go back to the master branch, type</p>
+<pre>git checkout master</pre>
+<p>This brings you back to the most recent code.</p>
 <h3><a name="helpneeded"></a>Help needed</h3>
 <p>Help in developing Bibledit is welcome.</p>
 <p>* Do you like writing good documentation? Your help is welcome to maintain
@@ -52,12 +83,9 @@ would like to help with.</p>
 <p>* Are you good at testing? Your feedback is welcome and suggestions for
 new features too.</p>
 <h3><a name="bugsandfeaturerequests"></a>Bugs and feature requests</h3>
-<p>Sourceforge and Savannah.nongnu.org provide resources for developing
-Bibledit, and the <a
-href="http://sourceforge.net/projects/bibledit">Sourceforge Project Page</a>
-and the <a href="http://savannah.nongnu.org/projects/bibledit">Savannah
-Project Page</a> are the central points from where all these resources can be
-accessed.</p>
+<p>Savannah.nongnu.org provides resources for developing Bibledit. The <a
+href="http://savannah.nongnu.org/projects/bibledit">Savannah Project Page</a>
+is the central point from where all these resources can be accessed.</p>
 <p>To report a problem go to the <a
 href="http://savannah.nongnu.org/projects/bibledit">Savannah Project
 Page</a>, and click on "Bugs". A list of open bugs will show, and you can see
@@ -67,20 +95,15 @@ steps to be taken to reproduce it, and any other information that may be
 useful, and click the "Submit" button at the bottom of the screen. You need
 to open an account to do this, and then you'll be emailed whenever this bug
 is attended to.</p>
-<p>Asking for a new feature works on the <a
-href="http://sourceforge.net/projects/bibledit">Sourceforge Project Page</a>,
-by clicking on "Feature Requests" and following the screens.</p>
+<p>Asking for a new feature works similar. Click on "Tasks". A list of tasks,
+that is, feature requests, will appear. If the feature you wish to have it
+not yet in, click "Tasks" - "Submit", and submit a new task.</p>
 <p>When submitting bug reports it is sometimes useful to include your
 configuration and data. This allows the programmer or tester to reproduce
 your bug, and so fix it. In a terminal type</p>
 <pre>tar -czf bibledit.tar.gz .bibledit</pre>
 <p>to create a file called bibledit.tar.gz. This file can be attached to the
 bug report.</p>
-<h3><a name="coderepository"></a>Code repository</h3>
-<p>The code is stored in the <a
-href="http://sourceforge.net/svn/?group_id=111189">online subversion
-repository of bibledit</a>. This allows developers to see the current state
-of bibledit more easily, and submit patches against the current tree.</p>
 <h3><a name="howitstarted"></a>How it started</h3>
 <p>It started with an entry in the programmer's diary:</p>
 <p>* Friday 30 May 2003. I made the decision to move from Windows to Linux.
