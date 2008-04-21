@@ -7288,4 +7288,7 @@ If merging chapters in sequence, and the merge is through, it goes to the previo
 If writing anchors, if e.g. num.htm has been written, then if "Write anchors" is pressed again, it crashes.
 
 
+
+
+
 */
