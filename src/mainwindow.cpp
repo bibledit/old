@@ -2709,12 +2709,12 @@ void MainWindow::on_properties1_activate (GtkMenuItem * menuitem, gpointer user_
 void MainWindow::editproject ()
 {
   git_command_pause (true);
+  editorsgui->save ();
   // Show project dialog.
   ProjectDialog projectdialog (false);
   if (projectdialog.run () == GTK_RESPONSE_OK) {
     // As anything could have been changed to the project, reopen it.
-    close ();
-    editorsgui->open (projectdialog.newprojectname, 1);
+    reload_project ();
   }
   git_command_pause (false);
 }
@@ -7293,16 +7293,19 @@ void MainWindow::on_preferences_filters ()
 Todo various
 
 
-Move all releases to the new repository at nongnu.org. Put them all there, even the ancient ones.
-Test it out after a night.
-Update all download locations in the online help.
-Then delete the featured download from code.google....bibledit
+After a day delete the featured download from code.google....bibledit
+
+
 Move all released from sourceforge to savannah, also the windows outpost, and whatever else is there.
+install_outpost.html:href="http://sourceforge.net/project/showfiles.php?group_id=111189&amp;package_id=128950">bwoutpostxx.exe</a>
+install_bibledit31_asus_eee_pc.html:href="https://sourceforge.net/project/showfiles.php?group_id=111189&amp;package_id=249689">bibledit-x.x-asus-eeepc-bin.tar.gz</a>
 
 
 */
 
 
 /*
+
+
 
 */

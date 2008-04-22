@@ -217,7 +217,8 @@ void GuiNavigation::set_project (const ustring& value, bool force)
 // Sets the project of the object, and loads the books.
 {
   // If the project is the same as the one already loaded, bail out.
-  if (value == project) return;
+  // Except when force is used.
+  if (!force) if (value == project) return;
     
   // Save project, language.
   project = value;
