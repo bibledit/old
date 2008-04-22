@@ -2155,7 +2155,7 @@ httpd (0)
 
   vbox_keyterms = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vbox_keyterms);
-  gtk_container_add (GTK_CONTAINER (scrolledwindow_keyterms), vbox_keyterms);
+  gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolledwindow_keyterms), vbox_keyterms);
 
   // Code that creates widgets for the KeytermsGUI has been moved there.
 
@@ -2185,7 +2185,7 @@ httpd (0)
 
   vbox_resources = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vbox_resources);
-  gtk_container_add (GTK_CONTAINER (scrolledwindow_resources), vbox_resources);
+  gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolledwindow_resources), vbox_resources);
   
   label_tool_resources = gtk_label_new ("Resources");
   gtk_widget_show (label_tool_resources);
@@ -2199,7 +2199,7 @@ httpd (0)
 
   vboxmerge = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vboxmerge);
-  gtk_container_add (GTK_CONTAINER (scrolledwindow_merge), vboxmerge);
+  gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolledwindow_merge), vboxmerge);
 
   labelmerge = gtk_label_new ("Merge");
   gtk_widget_show (labelmerge);
@@ -7293,10 +7293,7 @@ void MainWindow::on_preferences_filters ()
 Todo various
 
 
-After a day delete the featured download from code.google....bibledit
-
-
-Move all released from sourceforge to savannah, also the windows outpost, and whatever else is there.
+Move all releases from sourceforge to savannah, also the windows outpost, and whatever else is there.
 install_outpost.html:href="http://sourceforge.net/project/showfiles.php?group_id=111189&amp;package_id=128950">bwoutpostxx.exe</a>
 install_bibledit31_asus_eee_pc.html:href="https://sourceforge.net/project/showfiles.php?group_id=111189&amp;package_id=249689">bibledit-x.x-asus-eeepc-bin.tar.gz</a>
 
@@ -7306,6 +7303,23 @@ install_bibledit31_asus_eee_pc.html:href="https://sourceforge.net/project/showfi
 
 /*
 
+Todo View Changes: Evince Window empt
+
+BE 3.1.11: I used the tool File/Project/Changes/View Changes since last
+review ... once and got an empty Evince window. As there was no review done
+before: OK
+
+2 Minutes later
+- closed Evince,
+- added a work in a project
+- and in the same project did the same thing: File/Project/Changes/View
+Changes since last review ... and the Evince window is still empty.
+
+Then tried the other option:
+View Changes since ... and chose the time 10 minutes ago:
+Again - no result.
+
+I do not know, how to get any result with this tool.
 
 
 */
