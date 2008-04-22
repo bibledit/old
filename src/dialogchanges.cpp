@@ -269,10 +269,22 @@ void ChangesDialog::view_local_changes (bool changes_since_last_review)
   vector <ustring> commits;
   vector <unsigned int> seconds;
   git_log_read (project_data_directory, commits, seconds, "");
-  ustring commit = git_log_pick_commit_at_date_time (commits, seconds, second, false);
-  // If no commit was found, try harder.
-  if (commit.empty ())
-    commit = git_log_pick_commit_at_date_time (commits, seconds, second, true);
+  // Note if the date and time are older than the project's oldest commit.
+  bool date_time_older_than_project = false;
+  ustring commit;
+  if (!commits.empty ()) {
+    unsigned int most_recent_second = seconds[0];
+    // If the date and time are more recent than the most recent commit,
+    // it doesn't pick a commit, as there are no changes recorded.
+    if (second <= most_recent_second) {
+      commit = git_log_pick_commit_at_date_time (commits, seconds, second);
+    }
+    unsigned int oldest_second = seconds[seconds.size () - 1];
+    if (second < oldest_second) {
+      date_time_older_than_project = true;
+      commit = commits[0];
+    }
+  }
   
   // If there are no changes recorded since that date and time, give a message and bail out.
   if (commit.empty ()) {
@@ -292,6 +304,14 @@ void ChangesDialog::view_local_changes (bool changes_since_last_review)
     gtkw_dialog_error (changesdialog, "Failed to retrieve history");
   }
 
+  // If the commit is older than the project, clear the temporal project.
+  if (date_time_older_than_project) {
+    vector <unsigned int> books = project_get_books (temporal_project);
+    for (unsigned int i = 0; i < books.size (); i++) {
+      project_remove_book (temporal_project, books[i]);
+    }
+  }
+  
   // Run comparison.
   compare_with (myreferences, settings->genconfig.project_get(), temporal_project, true);
   

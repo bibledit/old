@@ -7299,27 +7299,3 @@ install_bibledit31_asus_eee_pc.html:href="https://sourceforge.net/project/showfi
 
 
 */
-
-
-/*
-
-Todo View Changes: Evince Window empt
-
-BE 3.1.11: I used the tool File/Project/Changes/View Changes since last
-review ... once and got an empty Evince window. As there was no review done
-before: OK
-
-2 Minutes later
-- closed Evince,
-- added a work in a project
-- and in the same project did the same thing: File/Project/Changes/View
-Changes since last review ... and the Evince window is still empty.
-
-Then tried the other option:
-View Changes since ... and chose the time 10 minutes ago:
-Again - no result.
-
-I do not know, how to get any result with this tool.
-
-
-*/

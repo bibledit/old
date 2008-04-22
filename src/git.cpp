@@ -623,40 +623,33 @@ committer joe <joe@nw9440.(none)> 1193934787 +0200
 }
 
 
-ustring git_log_pick_commit_at_date_time (const vector <ustring>& commits, vector <unsigned int>& seconds, unsigned int second, bool after)
+ustring git_log_pick_commit_at_date_time (const vector <ustring>& commits, vector <unsigned int>& seconds, unsigned int second)
 /*
-Picks the commit that was made at a certain date and time.
-Inputs:
+Picks the commit that was made at or before a certain date and time.
+
+Input:
 commits: The list of commits.
 seconds: The list of seconds. 
          It is assumed that the most recent time is a the top of the list.
 The above two are lists of the same size.
 second: The date/time at which to pick the commit.
-after:  If there is no commit at the exact second, 
-        if "after" is true, it picks the first one after,
-        else it picks the one just before.
-It can happen that under the constraints passed no commit is returned,
-simply because there is no commit that passes the constraints.
+It can happen that under the constraints passed no commit is found.
+
+It is assumed that the list of commits is sorted on time, that the most recent
+commit is given first, and the older ones following, for example:
+  Tuesday, 22 April 2008, 17:30:22 dbb65805e613a5ba7034f2ad08d26a8439f54f4a
+  Tuesday, 22 April 2008, 17:26:22 21ffbc7a17aa3bd193f35c70ce772ea9fce47c7a
+  Tuesday, 22 April 2008, 17:25:28 f4a3893c5184566c7a8dd3546cef4b6f1455e570
+  Tuesday, 22 April 2008, 17:23:57 f203cf815885c748a53461d4fd6446a9263c81cc
 */
 {
-  if (after) {
-    // Look for the first commit after or at the date/time given.
-    for (int i = commits.size () - 1; i >= 0; i--) {
-      if (seconds[i] >= second) {
-        return commits[i];
-      }
-    }
-  } else {
-    // Look for the commit just before or at the date/time given.
-    for (unsigned int i = 0; i < commits.size (); i++) {
-      if (seconds[i] <= second) {
-        return commits[i];
-      }
+  ustring commit;
+  for (int i = commits.size () - 1; i >= 0; i--) {
+    if (second >= seconds[i]) {
+      commit = commits[i];
     }
   }
-  
-  // No commit found.
-  return "";
+  return commit;
 }
 
 
@@ -746,7 +739,7 @@ void git_get_chapters_changed_since (const ustring& project, int second, vector 
   vector <ustring> commits;
   vector <unsigned int> seconds;
   git_log_read (history_project_data_directory, commits, seconds, "");
-  ustring commit = git_log_pick_commit_at_date_time (commits, seconds, second, false);
+  ustring commit = git_log_pick_commit_at_date_time (commits, seconds, second);
   
   // If there are no changes recorded since that date and time, bail out.
   if (commit.empty ()) {
