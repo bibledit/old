@@ -7287,3 +7287,153 @@ void MainWindow::on_preferences_filters ()
   FiltersDialog dialog (0);
   dialog.run ();
 }
+
+
+/*
+
+Todo Scrolling ob BE by BT to non-existing book
+
+When BE does not have a bible book in a project and BibleTimes scrolls to
+this project, BE does the following:
+- if this a book 'behind' (e.g. following) book of the actual one: it gives
+the message, that it does not have the verse 0:0 of this project
+
+- if this a book 'before' (e.g. previous) book of the actual one:
+- crashes (reminds me to Bug '1574975 crash on project switch').
+
+-> Check this out.
+
+This problem has as consequence: If BE was closed with a project, which
+does not have a certain book (e.g. MAT) and both kinds of parallelscrolling
+with BT are switched on (sending and receiving) and BT has the actual
+project open at MAT, BE cannot even start: It tries it, but closes down
+immediately.
+
+The other way around there is not problem: If BE scrolls to a non-existing
+book in BT, BT shows the reference of the book on the reference bar, but no
+text in the works-window. 
+
+
+
+Scrolling of BE/BT for splitted/combined verses
+
+When BE has verseclusters, like in CEV/Mat 1:
+'\v 2-6a From Abraham to unKing David, the following ancestors are listed:
+Abraham, Isaac, Jacob, JUdah and his brothers; then Perez and Zerah (their
+mother was Tamar), Hezron, Ram, Amminadab, Nahshon, Salmon, Boaz (his
+mother was Rahab), Obed (his mother was Ruth), Jesse, and King David.
+\p
+\v 6b-11 From \x - \xo 1.11: \xt 2Ki 24.14,15; 2Ch 36.10; Jer 27.20.\x*
+David to the time when the people of Isrбel were taken into exile in
+Babylon, the following ancestors are listed: David, Solomon (his mother was
+the woman who had been Urнah's wife), Rehoboam, Abijah, Asa, Jehoshaphat,
+Jehoram, Uzzнah, Jotham, Ahaz, Hezekнah, Manasseh, Amon, Josнah, and
+Jehoнachin and his brothers.' problems with scrolling occur:
+\p
+\v 12-16 from the time after the exile in Babylon to the birth of Jesus,
+the following ancestors are listed: Jehoнachin, Shealtiel, Zerubbabel,
+Abiud, Elнakim, Azor, Zadok, Achim, Eliud, Eleazar, Matthan, Jacob, and
+Joseph, who married Mary, the mother of Jesus, who was called the
+Messнah.
+\v 17 So then, there were fourteen generations from Abraham to David, and
+fourteen from David to the exile in Babylon, and fourteen from then to the
+birth of the Messнah.'
+and BibleTime (=BT) has singel verses 2 ... 17,
+and BE/Menu/Preferences/BibleTime, From BibleTime is switched on, the
+following happens:
+
+1. Changing BT/CEV/MAT 1 to verse 2,3,4 ... 16 does not change any verses
+in BE.
+
+2. Changing BE/CEV/MAT 1:
+- 2-6a changes BT to 2
+- 6b-11 (using next verse by the menu or hotkey) changes BE and BE to MAT
+1:1, GoTo does not work eiterh
+- 12-16 only GoTo-free works:
+-- BT goes to MAT 1:12 and
+-- BE goes to MAT 1:1.
+
+-> Let splitted and combined verses work in parallel scrolling between BE
+and BT. 
+
+
+
+
+
+
+references exchange problem
+
+If references are sent to BibleTime, and received also
+from BibleTime, going to chapter 0 verse 0 causes
+Bibledit to go to chapter 1 verse 1.
+
+This is correct behaviour of bibledit. Because when e.g Mat.0.0 is sent to
+BibleTime, it goes to Mat.1.1 instead. Next bibledit queries BibleTime,
+finds it has gone to Mat.1.1, so follows. Moving to 3rd party software,
+because, if this is desired, then BibleTime should support 0.0 too.
+
+
+
+
+
+
+Text of chapter zero not shown
+
+All what BE puts in chapter 0 is not exported by the
+Sword export
+
+-> Let the content fo chapter zero be exported too
+
+Comments
+
+Date: 2006-02-23 05:43
+Sender: teusProject Admin
+Logged In: YES
+user_id=890881
+
+Thanks, Joachim, for the information provided.
+
+As OSIS has more capabilities, I use the osis2mod converter.
+Here's part of the input that has chapter 0:
+
+<chapter osisID="Gen.0">
+<verse osisID="Gen.0.0">Chapter 0 Verse 0.</verse>
+<verse osisID="Gen.0.1">Chapter 0 Verse 1.</verse>
+<verse osisID="Gen.0.2">Chapter 0 Verse 2.</verse>
+</chapter>
+
+Conversion command:
+
+osis2mod ~/.sword/modules/texts/bibledit/mymodule/ mymodule.xml
+
+The osis converter gives two messages:
+
+Overwriting entry: Genesis 0:0
+Overwriting entry: Genesis 0:0
+
+This shows that the osis2mod converter does not regard the
+verse number, which is 0, 1 and 2 in the input.
+
+Converting it back:
+
+mod2osis MyModule | less
+
+It shows that chapter 0 has been left out altogether, and
+starts only with Genesis 1:1.
+
+So I think that that the osis2mod converter needs update as
+well.
+
+Date: 2006-02-18 13:21
+Sender: joachim
+Logged In: YES
+user_id=1486
+
+You can use chapter 0 as a valid chapter in Sword.
+BibleTime currently contains no support for chapter zero. so
+it is a BibleTime problem if chapter 0 is correctly exported.
+
+To make sure it is use the program mod2imp to turn a Sword
+module back into a text file. 
+
+*/
