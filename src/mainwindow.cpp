@@ -7287,11 +7287,3 @@ void MainWindow::on_preferences_filters ()
   FiltersDialog dialog (0);
   dialog.run ();
 }
-
-
-/*
-Todo various
-
-
-
-*/

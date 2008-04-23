@@ -129,6 +129,7 @@ void PrintProject::print ()
         book_lines = myproject->data[i2].get_data ();
       }
     }
+    
     // Do text replacements on the lines.
     text_replacement (book_lines);
     // Add the lines to the converter.

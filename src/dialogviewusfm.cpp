@@ -71,6 +71,11 @@ ViewUSFMDialog::ViewUSFMDialog (const ustring& filename)
   gtk_text_buffer_set_modified (textbuffer, false);
   if (contents) g_free (contents);  
 
+  // Place cursor at the start.
+  GtkTextIter iter;
+  gtk_text_buffer_get_start_iter (textbuffer, &iter);
+  gtk_text_buffer_place_cursor (textbuffer, &iter);
+  
   gtk_widget_grab_focus (textview1);
   gtk_widget_grab_default (okbutton1);
   
