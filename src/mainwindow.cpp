@@ -4289,7 +4289,12 @@ bool MainWindow::on_external_programs_timeout ()
       ustring new_reference = btreference.human_readable ("");
       if (new_reference != bibletime_previous_reference) {
         bibletime_previous_reference = new_reference;
-        navigation.display (btreference);
+        // As BibleTime does not support chapter 0 or verse 0, let Bibledit not 
+        // receive any reference from it if it is on such a chapter or verse.
+        bool receive = true;
+        if (navigation.reference.chapter == 0) receive = false;
+        if (navigation.reference.verse == "0") receive = false;
+        if (receive) navigation.display (btreference);
         got_new_bt_reference = 5;
       }
     }
@@ -7298,21 +7303,6 @@ void MainWindow::on_preferences_filters ()
 /*
 
 Todo  be - bt
-
-
-
-references exchange problem
-
-If references are sent to BibleTime, and received also
-from BibleTime, going to chapter 0 verse 0 causes
-Bibledit to go to chapter 1 verse 1.
-
-This is correct behaviour of bibledit. Because when e.g Mat.0.0 is sent to
-BibleTime, it goes to Mat.1.1 instead. Next bibledit queries BibleTime,
-finds it has gone to Mat.1.1, so follows. Moving to 3rd party software,
-because, if this is desired, then BibleTime should support 0.0 too.
-
-
 
 
 

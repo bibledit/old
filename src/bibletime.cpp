@@ -98,9 +98,20 @@ void BibleTime::sendreference (const Reference& reference)
   }    
   if (verse.empty ()) verse = number_in_string (reference.verse);
     
-  // Send the stuff.
+  // BibleTime does not accept chapter 0 or verse 0.
+  // If this is sent to it, it goes to another reference instead.
+  // Solution is, if chapter is 0 make it 1, and the same for the verse.
+  unsigned int chapter = reference.chapter;
+  if (chapter == 0) {
+    chapter = 1;
+  }
+  if (verse == "0") {
+    verse = "1";  
+  }
+  
+  // Send the reference.
   vector<ustring> payload;
-  payload.push_back (books_id_to_osis (reference.book) + "." + convert_to_string (reference.chapter) + "." + verse);
+  payload.push_back (books_id_to_osis (reference.book) + "." + convert_to_string (chapter) + "." + verse);
   extern InterprocessCommunication * ipc;
   ipc->send (ipcstBibleditBibletime, ipcctBibleTimeReference, payload);
 }
