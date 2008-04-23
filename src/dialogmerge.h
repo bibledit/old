@@ -56,7 +56,8 @@ private:
   void on_text_buffer_execute ();
   static void on_mergebutton_clicked (GtkButton *button, gpointer user_data);
   void on_mergebutton (GtkButton *button);
-
+  ustring empty_text ();
+  void preprocess_empty_replacements (ustring& text);
 };
 
 

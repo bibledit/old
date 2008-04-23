@@ -231,13 +231,13 @@
 #define PACKAGE_NAME "bibledit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit 3.1.42"
+#define PACKAGE_STRING "bibledit 3.1.43"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "3.1.42"
+#define PACKAGE_VERSION "3.1.43"
 
 /* Define as the return type of signal handlers (`int' or `void'). */
 #define RETSIGTYPE void
@@ -258,7 +258,7 @@
 #define TIME_WITH_SYS_TIME 1
 
 /* Version number of package */
-#define VERSION "3.1.42"
+#define VERSION "3.1.43"
 
 /* Define to empty if `const' does not conform to ANSI C. */
 /* #undef const */

@@ -25,6 +25,7 @@
 #include "settings.h"
 #include "gwrappers.h"
 #include "screen.h"
+#include "utilities.h"
 
 
 MergeDialog::MergeDialog (const ustring& text)
@@ -108,6 +109,9 @@ void MergeDialog::load_text (ustring text)
   size_t pos;
   GtkTextIter iter;
 
+  // Preprocess empty replacements.
+  preprocess_empty_replacements (text);
+
   // Goo through the text looking for markers and processing them.
   pos = text.find (merge_conflict_markup (1));
   while (pos != string::npos) {
@@ -123,6 +127,8 @@ void MergeDialog::load_text (ustring text)
     if (pos != string::npos) {
       alternative1 = text.substr (1, pos - 2);
       text.erase (0, pos + merge_conflict_markup (2).length ());
+      if (alternative1.empty ()) 
+        alternative1 = empty_text ();
     }
 
     // Insert a button with the first alternative as a label.
@@ -145,6 +151,8 @@ void MergeDialog::load_text (ustring text)
     if (pos != string::npos) {
       alternative2 = text.substr (1, pos - 2);
       text.erase (0, pos + merge_conflict_markup (3).length ());
+      if (alternative2.empty ()) 
+        alternative2 = empty_text ();
     }
     
     // Insert a button with the second alternative as a label.
@@ -194,6 +202,8 @@ void MergeDialog::on_okbutton ()
   gtk_text_buffer_get_start_iter (textbuffer, &startiter);      
   gtk_text_buffer_get_end_iter (textbuffer, &enditer);      
   reconciled_text = gtk_text_buffer_get_text (textbuffer, &startiter, &enditer, false);
+  replace_text (reconciled_text, "  ", " ");
+  replace_text (reconciled_text, "  ", " ");
 }
 
 
@@ -251,18 +261,54 @@ void MergeDialog::on_mergebutton (GtkButton *button)
     if (mybutton == buttonpairs[i].button2.button) {
       text = buttonpairs[i].button2.text;
     }
-    if (!text.empty ()) {
-      GtkTextIter iter, iter2;
-      gtk_text_buffer_get_iter_at_child_anchor (textbuffer, &iter, buttonpairs[i].button1.childanchor);
-      gtk_text_buffer_place_cursor (textbuffer, &iter);
-      iter2 = iter;
-      gtk_text_iter_forward_char (&iter2);
-      gtk_text_buffer_delete (textbuffer, &iter, &iter2);
-      gtk_text_buffer_get_iter_at_child_anchor (textbuffer, &iter, buttonpairs[i].button2.childanchor);
-      iter2 = iter;
-      gtk_text_iter_forward_char (&iter2);
-      gtk_text_buffer_delete (textbuffer, &iter, &iter2);
+    if (text == empty_text ())
+      text.clear ();
+    GtkTextIter iter, iter2;
+    gtk_text_buffer_get_iter_at_child_anchor (textbuffer, &iter, buttonpairs[i].button1.childanchor);
+    gtk_text_buffer_place_cursor (textbuffer, &iter);
+    iter2 = iter;
+    gtk_text_iter_forward_char (&iter2);
+    gtk_text_buffer_delete (textbuffer, &iter, &iter2);
+    gtk_text_buffer_get_iter_at_child_anchor (textbuffer, &iter, buttonpairs[i].button2.childanchor);
+    iter2 = iter;
+    gtk_text_iter_forward_char (&iter2);
+    gtk_text_buffer_delete (textbuffer, &iter, &iter2);
+    if (!text.empty ())
       gtk_text_buffer_insert_at_cursor (textbuffer, text.c_str(), -1);
-    }
   }
+}
+
+
+ustring MergeDialog::empty_text ()
+// The empty text is for cases that there was no text.
+{
+  return "<empty>";
+}
+
+
+void MergeDialog::preprocess_empty_replacements (ustring& text)
+/*
+There are cases that one text is completely removed in a conflict situation.
+The replacement for this text is empty. 
+  
+In the merge routine this shows as:
+
+  <<<<<<< /home/joe/.bibledit_temp/merge/file1
+  servant
+  of
+  Jesus
+  Christ
+  and
+  =======
+  >>>>>>> /home/joe/.bibledit_temp/merge/file3
+
+And in the internal texts this shows as:
+
+__conflict__marker__before__ servant of Jesus Christ and __conflict__marker__middle__ __conflict__marker__after__ 
+
+This function handles this case so that it does not lead to confusion.
+*/
+{
+  replace_text (text, merge_conflict_markup (1) + " " + merge_conflict_markup (2), merge_conflict_markup (1) + "  " + merge_conflict_markup (2));
+  replace_text (text, merge_conflict_markup (2) + " " + merge_conflict_markup (3), merge_conflict_markup (2) + "  " + merge_conflict_markup (3));
 }
