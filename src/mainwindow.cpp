@@ -3431,14 +3431,20 @@ void MainWindow::on_synchronize_other_programs ()
   if (!editor) return;
   // Send the reference.
   extern Settings * settings;
-  if (settings->genconfig.reference_exchange_send_to_bibleworks_get ())
+  if (settings->genconfig.reference_exchange_send_to_bibleworks_get ()) {
     windowsoutpost->BibleWorksReferenceSet (editor->current_reference);
-  if (settings->genconfig.reference_exchange_send_to_santafefocus_get ())
+  }
+  if (settings->genconfig.reference_exchange_send_to_santafefocus_get ()) {
     windowsoutpost->SantaFeFocusReferenceSet (editor->current_reference);
-  if (settings->genconfig.reference_exchange_send_to_bibletime_get ())
+  }
+  if (settings->genconfig.reference_exchange_send_to_bibletime_get ()) {
     bibletime.sendreference (editor->current_reference);
-  if (settings->genconfig.reference_exchange_send_to_bibledit_resource_viewer_get ())
-    if (resourcesgui) resourcesgui->go_to (editor->current_reference);
+  }
+  if (settings->genconfig.reference_exchange_send_to_bibledit_resource_viewer_get ()) {
+    if (resourcesgui) {
+      resourcesgui->go_to (editor->current_reference);
+    }
+  }
 }
 
 
@@ -7291,73 +7297,7 @@ void MainWindow::on_preferences_filters ()
 
 /*
 
-Todo Scrolling ob BE by BT to non-existing book
-
-When BE does not have a bible book in a project and BibleTimes scrolls to
-this project, BE does the following:
-- if this a book 'behind' (e.g. following) book of the actual one: it gives
-the message, that it does not have the verse 0:0 of this project
-
-- if this a book 'before' (e.g. previous) book of the actual one:
-- crashes (reminds me to Bug '1574975 crash on project switch').
-
--> Check this out.
-
-This problem has as consequence: If BE was closed with a project, which
-does not have a certain book (e.g. MAT) and both kinds of parallelscrolling
-with BT are switched on (sending and receiving) and BT has the actual
-project open at MAT, BE cannot even start: It tries it, but closes down
-immediately.
-
-The other way around there is not problem: If BE scrolls to a non-existing
-book in BT, BT shows the reference of the book on the reference bar, but no
-text in the works-window. 
-
-
-
-Scrolling of BE/BT for splitted/combined verses
-
-When BE has verseclusters, like in CEV/Mat 1:
-'\v 2-6a From Abraham to unKing David, the following ancestors are listed:
-Abraham, Isaac, Jacob, JUdah and his brothers; then Perez and Zerah (their
-mother was Tamar), Hezron, Ram, Amminadab, Nahshon, Salmon, Boaz (his
-mother was Rahab), Obed (his mother was Ruth), Jesse, and King David.
-\p
-\v 6b-11 From \x - \xo 1.11: \xt 2Ki 24.14,15; 2Ch 36.10; Jer 27.20.\x*
-David to the time when the people of Isrбel were taken into exile in
-Babylon, the following ancestors are listed: David, Solomon (his mother was
-the woman who had been Urнah's wife), Rehoboam, Abijah, Asa, Jehoshaphat,
-Jehoram, Uzzнah, Jotham, Ahaz, Hezekнah, Manasseh, Amon, Josнah, and
-Jehoнachin and his brothers.' problems with scrolling occur:
-\p
-\v 12-16 from the time after the exile in Babylon to the birth of Jesus,
-the following ancestors are listed: Jehoнachin, Shealtiel, Zerubbabel,
-Abiud, Elнakim, Azor, Zadok, Achim, Eliud, Eleazar, Matthan, Jacob, and
-Joseph, who married Mary, the mother of Jesus, who was called the
-Messнah.
-\v 17 So then, there were fourteen generations from Abraham to David, and
-fourteen from David to the exile in Babylon, and fourteen from then to the
-birth of the Messнah.'
-and BibleTime (=BT) has singel verses 2 ... 17,
-and BE/Menu/Preferences/BibleTime, From BibleTime is switched on, the
-following happens:
-
-1. Changing BT/CEV/MAT 1 to verse 2,3,4 ... 16 does not change any verses
-in BE.
-
-2. Changing BE/CEV/MAT 1:
-- 2-6a changes BT to 2
-- 6b-11 (using next verse by the menu or hotkey) changes BE and BE to MAT
-1:1, GoTo does not work eiterh
-- 12-16 only GoTo-free works:
--- BT goes to MAT 1:12 and
--- BE goes to MAT 1:1.
-
--> Let splitted and combined verses work in parallel scrolling between BE
-and BT. 
-
-
-
+Todo  be - bt
 
 
 

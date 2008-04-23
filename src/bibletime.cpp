@@ -83,8 +83,24 @@ void BibleTime::sendreference (const Reference& reference)
 // Sends the reference for BibleTime.
 // Bibledit-bibletime will pass it on shortly after.
 {
+  // BibleTime does not accept verses like "2-6a", etc.
+  // So we take the whole verse that can be extracted from the verse.
+  // That would be "2" in this example. 
+  // If the verse is "6b-11", then it would be "7".
+  vector <int> encodedverses = verses_encode (reference.verse);
+  ustring verse;
+  for (unsigned int i = 0; i < encodedverses.size (); i++) {
+    if (verse.empty ()) {
+      if ((encodedverses[i] % 2) == 0) {
+        verse = convert_to_string (encodedverses[i] / 2);
+      }
+    }
+  }    
+  if (verse.empty ()) verse = number_in_string (reference.verse);
+    
+  // Send the stuff.
   vector<ustring> payload;
-  payload.push_back (books_id_to_osis (reference.book) + "." + convert_to_string (reference.chapter) + "." + reference.verse);
+  payload.push_back (books_id_to_osis (reference.book) + "." + convert_to_string (reference.chapter) + "." + verse);
   extern InterprocessCommunication * ipc;
   ipc->send (ipcstBibleditBibletime, ipcctBibleTimeReference, payload);
 }
