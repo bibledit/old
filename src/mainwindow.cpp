@@ -7293,9 +7293,40 @@ void MainWindow::on_preferences_filters ()
 Todo various
 
 
-Move all releases from sourceforge to savannah, also the windows outpost, and whatever else is there.
-install_outpost.html:href="http://sourceforge.net/project/showfiles.php?group_id=111189&amp;package_id=128950">bwoutpostxx.exe</a>
-install_bibledit31_asus_eee_pc.html:href="https://sourceforge.net/project/showfiles.php?group_id=111189&amp;package_id=249689">bibledit-x.x-asus-eeepc-bin.tar.gz</a>
+Remove files from sf.net after a day, all of them.
+
+
+
+Todo Merge: Common ancestor?
+
+
+There is a detailed description of the merge tool in the helpf-file under
+Help/Tools/File/Merge (Merge):
+in order that 2 projects can be merged, 'both of the projects need to have
+what is called a common ancestor... That means, there must be a moment in
+time in the history of the projects that the data of the projects was the
+same. Usually this is accomplished by making a copy of the main project.'
+(according to help).
+
+Testing out when is the requirement 'Common ancestor' is fulfilled?
+- copy a whole project: OK
+- importing the same book into both projects: not recognized as 'common
+ancestor'.
+- Exporting a book from one project and importing it into the other: not
+recognized as 'common ancestor'.
+(it does not matter, if File/Project/Import is used, or the one in
+File/Project/Property).
+
+So: adding a new book in a project (this is, what happens in the
+translation process all the time) this book can only be worked on using the
+merge tool if:
+- one of the projects is deleted and
+- a copy of the other project is made with the name of the other (deleted)
+project.
+Or did I missunderstand the situation?
+
+-> Allow the merging of books, when an identic import takes place.
+
 
 
 */
