@@ -1,41 +1,27 @@
 \c 1
 \p
-\v 1\
-\misspelling misspelling
-\misspelling Hi\
-\misspelling misspelling*,\
-\misspelling misspelling
-\misspelling how\
-\misspelling misspelling*'\
-\misspelling misspelling
-\misspelling s\
-\misspelling misspelling*\
-\misspelling misspelling
-\misspelling things\
-\misspelling misspelling*?
+\v 1\\misspelling misspelling\misspelling Hi
+\\misspelling misspelling*,
+\\misspelling misspelling\misspelling how
+\\misspelling misspelling*'
+\\misspelling misspelling\misspelling s
+\\misspelling misspelling*
+\\misspelling misspelling\misspelling things
+\\misspelling misspelling*?
 \nb
-\v 2\
-\misspelling misspelling
-\misspelling Verse\
-\misspelling misspelling*\
-\misspelling misspelling
-\misspelling two\
-\misspelling misspelling*\
-\misspelling misspelling
-\misspelling here\
-\misspelling misspelling*:\
-\misspelling misspelling
-\misspelling And\
-\misspelling misspelling*\
-\misspelling misspelling
-\misspelling the\
-\misspelling misspelling*\
-\misspelling misspelling
-\misspelling end\
-\misspelling misspelling*\
-\misspelling misspelling
-\misspelling of\
-\misspelling misspelling*\
-\misspelling misspelling
-\misspelling it\
-\misspelling misspelling*.
+\v 2\\misspelling misspelling\misspelling Verse
+\\misspelling misspelling*
+\\misspelling misspelling\misspelling two
+\\misspelling misspelling*
+\\misspelling misspelling\misspelling here
+\\misspelling misspelling*:
+\\misspelling misspelling\misspelling And
+\\misspelling misspelling*
+\\misspelling misspelling\misspelling the
+\\misspelling misspelling*
+\\misspelling misspelling\misspelling end
+\\misspelling misspelling*
+\\misspelling misspelling\misspelling of
+\\misspelling misspelling*
+\\misspelling misspelling\misspelling it
+\\misspelling misspelling*.
