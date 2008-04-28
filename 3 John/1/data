@@ -1,16 +1,4 @@
 \c 1
 \p
-\v 1
-\misspelling Hi\misspelling*,
-\misspelling how\misspelling*'
-\misspelling s\misspelling*
-\misspelling things\misspelling*?
-\v 2
-\misspelling Verse\misspelling*
-\misspelling two\misspelling*
-\misspelling here\misspelling*:
-\misspelling And\misspelling*
-\misspelling the\misspelling*
-\misspelling end\misspelling*
-\misspelling of\misspelling*
-\misspelling it\misspelling*.
+\v 1 Hi, how's things?
+\v 2 Verse two here: And the end of it.
