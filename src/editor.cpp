@@ -63,6 +63,16 @@ current_reference (0, 1000, "")
 
   // Create data that is needed for any of the possible formatted views.
   create_or_update_formatting_data ();
+  
+  // Settings.
+  extern Settings * settings;
+  ProjectConfiguration * projectconfig = settings->projectconfig (project);
+  
+  // Spelling checker.
+  spellingchecker = new SpellingChecker (texttagtable);
+  if (projectconfig->spelling_check_get ()) {
+    spellingchecker->set_dictionaries (projectconfig->spelling_dictionaries_get ());
+  }
 
   // The title button with progressbar for focus and close button.
   hbox_title = gtk_hbox_new (FALSE, 0);
@@ -165,7 +175,8 @@ current_reference (0, 1000, "")
   undo_redo_event_id = 0;
   save_timeout_event_id = 0;
   highlight_timeout_event_id = 0;
-
+  spelling_timeout_event_id = 0;
+  
   // Tag for highlighting search words.
   // Note that for convenience the GtkTextBuffer function is called. 
   // But this adds the reference to the GtkTextTagTable, so making it available
@@ -196,6 +207,9 @@ Editor::~Editor ()
   // Save the chapter.
   chapter_save ();
   
+  // Delete speller.
+  delete spellingchecker;
+  
   // Destroy the signalling buttons.
   gtk_widget_destroy (new_verse_signal);
   gtk_widget_destroy (new_styles_signal);
@@ -214,6 +228,7 @@ Editor::~Editor ()
   gw_destroy_source (undo_redo_event_id);
   gw_destroy_source (save_timeout_event_id);
   gw_destroy_source (highlight_timeout_event_id);
+  gw_destroy_source (spelling_timeout_event_id);
   
   // Destroy possible highlight object.
   if (highlight) delete highlight;
@@ -312,6 +327,9 @@ void Editor::chapter_load (unsigned int chapter_in, vector <ustring> * lines_in)
   
   // Set the buffer(s) non-modified.
   textbuffers_set_unmodified (textbuffer, editornotes, editortables);
+  
+  // Trigger a spelling check.
+  spelling_trigger ();
 }
 
 
@@ -3496,6 +3514,13 @@ bool Editor::record_undo_actions ()
 
 void Editor::on_textbuffer_changed (GtkTextBuffer * textbuffer, gpointer user_data)
 {
+  ((Editor *) user_data)->textbuffer_changed (textbuffer);
+}
+
+
+void Editor::textbuffer_changed (GtkTextBuffer * textbuffer)
+{
+  spelling_trigger ();
 }
 
 
@@ -3633,5 +3658,31 @@ ustring Editor::get_chapter ()
 }
 
 
-// Also when highlighting and putting marks, ensure that it does not modify the buffer, as it would otherwise do
-// We could look at the edited status, store it, and when clear, clear any flag afterwards again.
+void Editor::spelling_trigger ()
+{
+  if (project.empty ()) return;
+  extern Settings * settings;
+  ProjectConfiguration * projectconfig = settings->projectconfig (project);
+  if (!projectconfig) return;
+  if (!projectconfig->spelling_check_get ()) return;
+  gw_destroy_source (spelling_timeout_event_id);
+  spelling_timeout_event_id = g_timeout_add_full (G_PRIORITY_DEFAULT, 2000, GSourceFunc (on_spelling_timeout), gpointer(this), NULL);
+}
+
+
+bool Editor::on_spelling_timeout (gpointer data)
+{
+  return ((Editor *) data)->spelling_timeout ();
+}
+
+
+bool Editor::spelling_timeout ()
+{
+  // No recording of undoable actions while this object is alive.
+  // It also means that the textbuffer won't be modified if markers for spelling
+  // mistakes are added or removed.
+  PreventEditorUndo preventundo (&record_undo_level);
+  // Check spelling.
+  spellingchecker->check (textbuffer); 
+  return false;
+}

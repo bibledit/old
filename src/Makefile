@@ -160,7 +160,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	textviewer.$(OBJEXT) roman.$(OBJEXT) project_memory.$(OBJEXT) \
 	editorsgui.$(OBJEXT) restart.$(OBJEXT) mergegui.$(OBJEXT) \
 	dialogmerge.$(OBJEXT) merge_utils.$(OBJEXT) shutdown.$(OBJEXT) \
-	scripts.$(OBJEXT) dialogfilters.$(OBJEXT)
+	scripts.$(OBJEXT) dialogfilters.$(OBJEXT) \
+	dialogdictionary.$(OBJEXT) spelling.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -220,6 +221,8 @@ ECHO_C =
 ECHO_N = -n
 ECHO_T = 
 EGREP = /bin/grep -E
+ENCHANT_CFLAGS = -I/usr/include/enchant -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
+ENCHANT_LIBS = -Wl,--export-dynamic -lenchant -lgmodule-2.0 -ldl -lglib-2.0  
 EXEEXT = 
 FIND_GIT = /usr/bin/git
 FIND_GPP = /usr/bin/g++
@@ -228,6 +231,9 @@ FIND_PING = /bin/ping
 FIND_XARGS = /usr/bin/xargs
 GREP = /bin/grep
 GREP_PATH = /bin/grep
+GTKSPELL_CFLAGS = -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/freetype2 -I/usr/include/libpng12  
+GTKSPELL_LIBS = -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lfontconfig -lXext -lXrender -lXinerama -lXi -lXrandr -lXcursor -lXfixes -lpango-1.0 -lcairo -lX11 -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0  
+GTKSPELL_PACKAGES = gtk+-2.0
 GTK_CFLAGS = -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/freetype2 -I/usr/include/libpng12  
 GTK_LIBS = -lgtk-x11-2.0 -latk-1.0 -lgdk-x11-2.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lfontconfig -lXext -lXrender -lXinerama -lXi -lXrandr -lXcursor -lXfixes -lpango-1.0 -lcairo -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0 -lX11  
 GUNZIP_PATH = /bin/gunzip
@@ -244,7 +250,7 @@ LIBS = -Wall `pkg-config gthread-2.0 --libs` `pkg-config sqlite3 \
 	--libs` `pkg-config gobject-2.0 --libs` `pkg-config glib-2.0 \
 	--libs` `pkg-config gtk+-2.0 --libs` `pkg-config fontconfig \
 	--libs` `xml2-config --libs` `pkg-config xulrunner-gtkmozembed \
-	--libs` $(am__append_1)
+	--libs` $(ENCHANT_LIBS) $(am__append_1)
 LTLIBOBJS = 
 MAKEINFO = ${SHELL} /home/teus/documents/dev/bibledit/missing --run makeinfo
 MAKE_PATH = /usr/bin/make
@@ -254,9 +260,11 @@ PACKAGE_BUGREPORT = http://www.nongnu.org/bibledit
 PACKAGE_CFLAGS =  
 PACKAGE_LIBS = -lfontconfig  
 PACKAGE_NAME = bibledit
-PACKAGE_STRING = bibledit 3.1.44
+PACKAGE_STRING = bibledit 3.1.50
 PACKAGE_TARNAME = bibledit
-PACKAGE_VERSION = 3.1.44
+PACKAGE_VERSION = 3.1.50
+PANGO_CFLAGS = -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
+PANGO_LIBS = -lpango-1.0 -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0  
 PATH_SEPARATOR = :
 PKG_CONFIG = /usr/bin/pkg-config
 PKG_CONFIG_PATH = /usr/bin/pkg-config
@@ -265,11 +273,12 @@ RANLIB = ranlib
 SET_MAKE = 
 SHELL = /bin/sh
 SORT_PATH = /usr/bin/sort
+SPELLER_LIB = 
 STRINGS_PATH = /usr/bin/strings
 STRIP = 
 TAIL_PATH = /usr/bin/tail
 TEE_TOUCH = /usr/bin/touch
-VERSION = 3.1.44
+VERSION = 3.1.50
 WIN32_FALSE = 
 WIN32_TRUE = #
 XML2_CONFIG = /usr/bin/xml2-config
@@ -582,19 +591,16 @@ bibledit_bin_SOURCES = \
         merge_utils.cpp \
         shutdown.cpp \
         scripts.cpp \
-        dialogfilters.cpp
+        dialogfilters.cpp \
+        dialogdictionary.cpp \
+        spelling.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
-AM_CXXFLAGS = -Wall \
-              `pkg-config gthread-2.0 --cflags` \
-              `pkg-config sqlite3 --cflags` \
-              `pkg-config gobject-2.0 --cflags` \
-              `pkg-config glib-2.0 --cflags` \
-              `pkg-config gtk+-2.0 --cflags` \
-              `pkg-config fontconfig --cflags` \
-              `xml2-config --cflags` \
-              `pkg-config xulrunner-gtkmozembed --cflags`
-
+AM_CXXFLAGS = -Wall `pkg-config gthread-2.0 --cflags` `pkg-config \
+	sqlite3 --cflags` `pkg-config gobject-2.0 --cflags` \
+	`pkg-config glib-2.0 --cflags` `pkg-config gtk+-2.0 --cflags` \
+	`pkg-config fontconfig --cflags` `xml2-config --cflags` \
+	`pkg-config xulrunner-gtkmozembed --cflags` $(ENCHANT_CFLAGS)
 CLEANFILES = *~
 all: all-am
 
@@ -719,6 +725,7 @@ include ./$(DEPDIR)/dialogchapternumber.Po
 include ./$(DEPDIR)/dialogcheck.Po
 include ./$(DEPDIR)/dialogcompare.Po
 include ./$(DEPDIR)/dialogdate.Po
+include ./$(DEPDIR)/dialogdictionary.Po
 include ./$(DEPDIR)/dialogeditlist.Po
 include ./$(DEPDIR)/dialogeditnote.Po
 include ./$(DEPDIR)/dialogeditstatus.Po
@@ -880,6 +887,7 @@ include ./$(DEPDIR)/settings.Po
 include ./$(DEPDIR)/shell.Po
 include ./$(DEPDIR)/shortcuts.Po
 include ./$(DEPDIR)/shutdown.Po
+include ./$(DEPDIR)/spelling.Po
 include ./$(DEPDIR)/sqlite_reader.Po
 include ./$(DEPDIR)/statistics.Po
 include ./$(DEPDIR)/style.Po

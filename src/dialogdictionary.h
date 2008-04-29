@@ -1,5 +1,5 @@
 /*
-** Copyright (©) 2003-2008 Teus Benschop.
+** Copyright (©) 2003 The Free Software Foundation.
 **  
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -18,34 +18,45 @@
 */
 
 
-#ifndef INCLUDED_DIALOGTEXTVIEW_H
-#define INCLUDED_DIALOGTEXTVIEW_H
+#ifndef INCLUDED_DIALOGDICTIONARY_H
+#define INCLUDED_DIALOGDICTIONARY_H
 
 
 #include <gtk/gtk.h>
 #include "ustring.h"
 
 
-class TextViewDialog
+class DictionaryDialog
 {
 public:
-  TextViewDialog (const ustring& title, const ustring& info, bool editable, gchar * contents);
-  ~TextViewDialog ();
+  DictionaryDialog (const ustring& project);
+  ~DictionaryDialog ();
   int run ();
-  ustring newcontents;
 protected:
-  GtkWidget *textviewdialog;
+  GtkWidget *dictionarydialog;
   GtkWidget *dialog_vbox1;
-  GtkWidget *label1;
-  GtkWidget *scrolledwindow1;
-  GtkWidget *textview1;
+  GtkWidget *label_info;
+  GtkWidget *treeview_dictionaries;
+  GtkWidget *hbox_buttons;
+  GtkWidget *button_add;
+  GtkWidget *button_delete;
+  GtkWidget *button_edit;
   GtkWidget *dialog_action_area1;
   GtkWidget *cancelbutton1;
   GtkWidget *okbutton1;
-private:
+  static void on_treeview_dictionaries_cursor_changed (GtkTreeView *treeview, gpointer user_data);
+  void on_treeview_dictionaries_cursor ();
+  static void on_button_add_clicked (GtkButton *button, gpointer user_data);
+  void on_button_add ();
+  static void on_button_delete_clicked (GtkButton *button, gpointer user_data);
+  void on_button_delete ();
+  static void on_button_edit_clicked (GtkButton *button, gpointer user_data);
+  void on_button_edit ();
   static void on_okbutton1_clicked (GtkButton *button, gpointer user_data);
   void on_okbutton ();
-  GtkTextBuffer * buffer;
+private:
+  ustring myproject;
+  GtkListStore *model;
 };
 
 

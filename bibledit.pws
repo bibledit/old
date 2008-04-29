@@ -11,15 +11,15 @@ filter.file.ignore.hidden=0
 filter.dir.ignore.hidden=0
 
 [filenumbers]
-0=19
-1=557
-2=40
-3=114
-4=23
-5=7432
-6=5
-7=7332
-8=5
+0=62
+1=230
+2=127
+3=74
+4=52
+5=303
+6=94
+7=105
+8=783
 9=870
 10=7210
 11=5
@@ -33,7 +33,7 @@ filter.dir.ignore.hidden=0
 2=
 3=
 4=
-5=
+5=163,209,237,250,
 6=
 7=
 8=
@@ -45,12 +45,13 @@ filter.dir.ignore.hidden=0
 14=
 
 [filelist]
-0=/home/teus/documents/dev/bibledit/src/gui_navigation.h
-1=/home/teus/documents/dev/bibledit/src/bible.cpp
-2=/home/teus/documents/dev/bibledit/src/bible.h
-3=/home/teus/documents/dev/bibledit/src/bibletime.cpp
-4=/home/teus/documents/dev/bibledit/src/bibletime.h
-5=/home/teus/documents/dev/bibledit/src/mainwindow.cpp
+0=/usr/include/enchant/enchant.h
+1=/home/teus/work/spelling/gtkspell-2.0.11/gtkspell/source.c
+2=/home/teus/documents/dev/bibledit/src/editor.h
+3=/home/teus/documents/dev/bibledit/src/editor.cpp
+4=/home/teus/documents/dev/bibledit/src/spelling.h
+5=/home/teus/documents/dev/bibledit/src/spelling.cpp
+6=/home/teus/documents/dev/bibledit/src/projectconfig.h
 
 [Project Tree]
 0=0

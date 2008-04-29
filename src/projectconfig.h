@@ -90,6 +90,8 @@ public:
   DEFINE_PROJECTCONFIG_H (bool, depending_on_switch);
   DEFINE_PROJECTCONFIG_H (ustring, depending_on_project);
   DEFINE_PROJECTCONFIG_H (ustring, depending_on_script);
+  DEFINE_PROJECTCONFIG_H (bool, spelling_check);
+  DEFINE_PROJECTCONFIG_H (vector<ustring>, spelling_dictionaries);
 private:
   bool my_save_on_destroy;
   bool bool_get (gchar * key, bool& store, bool& loaded, bool standard);

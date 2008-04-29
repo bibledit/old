@@ -46,6 +46,7 @@
 #include "shortcuts.h"
 #include "tiny_utilities.h"
 #include "scripts.h"
+#include "dialogdictionary.h"
 
 
 #define NEW_PROJECT "New Project"
@@ -304,6 +305,24 @@ ProjectDialog::ProjectDialog (bool newproject)
   else
     combobox_set_index (combobox_depend, 0);
   
+  hbox_spelling = gtk_hbox_new (FALSE, 10);
+  gtk_widget_show (hbox_spelling);
+  gtk_box_pack_start (GTK_BOX (vbox1), hbox_spelling, TRUE, TRUE, 0);
+
+  checkbutton_spelling = gtk_check_button_new_with_mnemonic ("Check spelling");
+  gtk_widget_show (checkbutton_spelling);
+  gtk_box_pack_start (GTK_BOX (hbox_spelling), checkbutton_spelling, FALSE, FALSE, 0);
+
+  shortcuts.button (checkbutton_spelling);
+  
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_spelling), projectconfig->spelling_check_get ());
+  
+  button_dictionaries = gtk_button_new_with_mnemonic ("Dictionaries");
+  gtk_widget_show (button_dictionaries);
+  gtk_box_pack_start (GTK_BOX (hbox_spelling), button_dictionaries, FALSE, FALSE, 0);
+
+  shortcuts.button (button_dictionaries);
+
   dialog_action_area1 = GTK_DIALOG (projectdialog)->action_area;
   gtk_widget_show (dialog_action_area1);
   gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area1), GTK_BUTTONBOX_END);
@@ -343,6 +362,10 @@ ProjectDialog::ProjectDialog (bool newproject)
                     G_CALLBACK (on_checkbutton_dependent_toggled), gpointer (this));
   g_signal_connect ((gpointer) button_depend, "clicked",
                     G_CALLBACK (on_button_depend_clicked), gpointer (this));
+  g_signal_connect ((gpointer) checkbutton_spelling, "toggled",
+                    G_CALLBACK (on_checkbutton_spelling_toggled), gpointer (this));
+  g_signal_connect ((gpointer) button_dictionaries, "clicked",
+                    G_CALLBACK (on_button_dictionaries_clicked), gpointer (this));
 
   gtk_label_set_mnemonic_widget (GTK_LABEL (label1), nameentry);
 
@@ -421,6 +444,10 @@ void ProjectDialog::set_gui ()
   if (editable) {
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_dependent), false);
   }
+  
+  // Spelling widgets.
+  sensitive = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_spelling));
+  gtk_widget_set_sensitive (button_dictionaries, sensitive);
 }
 
 
@@ -440,6 +467,7 @@ void ProjectDialog::on_ok ()
   projectconfig->language_set (combobox_get_active_string (combobox_language));
   projectconfig->editable_set (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_editable)));
   projectconfig->right_to_left_set (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_right_to_left)));
+  projectconfig->spelling_check_set (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_spelling)));
   
   // Save diglot-related settings.
   bool depend_switch = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_dependent));
@@ -743,4 +771,23 @@ ustring ProjectDialog::dependent_project ()
   if (project == none_project ())
     project.clear ();
   return project;
+}
+
+
+void ProjectDialog::on_button_dictionaries_clicked (GtkButton *button, gpointer user_data)
+{
+  ((ProjectDialog *) user_data)->on_button_dictionaries ();
+}
+
+
+void ProjectDialog::on_button_dictionaries ()
+{
+  DictionaryDialog dialog (currentprojectname);
+  dialog.run ();
+}
+
+
+void ProjectDialog::on_checkbutton_spelling_toggled (GtkToggleButton *togglebutton, gpointer user_data)
+{
+  ((ProjectDialog *) user_data)->set_gui ();
 }

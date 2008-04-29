@@ -182,3 +182,15 @@ int listview_get_selection_offset (GtkWidget * listview)
   // Return offset.  
   return result;
 }
+
+
+void list_view_erase_selection (GtkWidget * listview)
+// Erase the current selected string.
+{
+  GtkTreeModel * model = gtk_tree_view_get_model (GTK_TREE_VIEW (listview));
+  GtkTreeSelection * selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (listview));
+  GtkTreeIter iter;
+  if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
+    gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
+  }
+}

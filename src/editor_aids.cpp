@@ -24,6 +24,7 @@
 #include "utilities.h"
 #include "usfmtools.h"
 #include "tiny_utilities.h"
+#include "spelling.h"
 
 
 EditorNote::EditorNote (int dummy)
@@ -1653,8 +1654,16 @@ void get_styles_at_iterator (GtkTextIter iter, ustring& paragraph_style, ustring
     g_object_get (G_OBJECT (tag), "name", &strval, NULL);
     if (strval) {
       if (strlen (strval)) {
-        if (paragraph_style.empty ()) paragraph_style = strval;
-        else character_style = strval;
+        // Skip the tag for a misspelled word.
+        if (strcmp (strval, spelling_tag_name ()) != 0) {
+          // Store the paragraph style, or, if the paragraph has been found 
+          // already, the character style.
+          // This works because the editing code takes care when applying the
+          // tags, to first apply the paragraph style, and then the character
+          // style.
+          if (paragraph_style.empty ()) paragraph_style = strval;
+          else character_style = strval;
+        }
       }
       g_free (strval);
     }

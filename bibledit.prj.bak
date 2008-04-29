@@ -49,10 +49,10 @@ project.menu.need.terminal=0
 
 project.configure.options=
 anjuta.program.arguments=
-preferences.build.option.jobs=0
+preferences.build.option.jobs=4
 preferences.build.option.silent=0
 preferences.build.option.autosave=1
-preferences.make=make
+preferences.make=make --jobs=4
 preferences.build.option.keep.going=1
 preferences.build.option.warn.undef=0
 preferences.autoformat.custom.style= -i2 -sc -bli0 -bl0 -cbi0 -ss --honour-newlines --line-length100
@@ -803,7 +803,11 @@ module.source.files=\
 	src/sed.cpp\
 	src/sed.h\
 	src/dialogfilters.cpp\
-	src/dialogfilters.h
+	src/dialogfilters.h\
+	src/scripts.cpp\
+	src/scripts.h\
+	src/dialogdictionary.cpp\
+	src/dialogdictionary.h
 
 module.pixmap.name=.
 module.pixmap.type=

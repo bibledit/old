@@ -160,7 +160,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	textviewer.$(OBJEXT) roman.$(OBJEXT) project_memory.$(OBJEXT) \
 	editorsgui.$(OBJEXT) restart.$(OBJEXT) mergegui.$(OBJEXT) \
 	dialogmerge.$(OBJEXT) merge_utils.$(OBJEXT) shutdown.$(OBJEXT) \
-	scripts.$(OBJEXT) dialogfilters.$(OBJEXT)
+	scripts.$(OBJEXT) dialogfilters.$(OBJEXT) \
+	dialogdictionary.$(OBJEXT) spelling.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -220,6 +221,8 @@ ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 EGREP = @EGREP@
+ENCHANT_CFLAGS = @ENCHANT_CFLAGS@
+ENCHANT_LIBS = @ENCHANT_LIBS@
 EXEEXT = @EXEEXT@
 FIND_GIT = @FIND_GIT@
 FIND_GPP = @FIND_GPP@
@@ -228,6 +231,9 @@ FIND_PING = @FIND_PING@
 FIND_XARGS = @FIND_XARGS@
 GREP = @GREP@
 GREP_PATH = @GREP_PATH@
+GTKSPELL_CFLAGS = @GTKSPELL_CFLAGS@
+GTKSPELL_LIBS = @GTKSPELL_LIBS@
+GTKSPELL_PACKAGES = @GTKSPELL_PACKAGES@
 GTK_CFLAGS = @GTK_CFLAGS@
 GTK_LIBS = @GTK_LIBS@
 GUNZIP_PATH = @GUNZIP_PATH@
@@ -244,7 +250,7 @@ LIBS = -Wall `pkg-config gthread-2.0 --libs` `pkg-config sqlite3 \
 	--libs` `pkg-config gobject-2.0 --libs` `pkg-config glib-2.0 \
 	--libs` `pkg-config gtk+-2.0 --libs` `pkg-config fontconfig \
 	--libs` `xml2-config --libs` `pkg-config xulrunner-gtkmozembed \
-	--libs` $(am__append_1)
+	--libs` $(ENCHANT_LIBS) $(am__append_1)
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MAKE_PATH = @MAKE_PATH@
@@ -257,6 +263,8 @@ PACKAGE_NAME = @PACKAGE_NAME@
 PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_VERSION = @PACKAGE_VERSION@
+PANGO_CFLAGS = @PANGO_CFLAGS@
+PANGO_LIBS = @PANGO_LIBS@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 PKG_CONFIG = @PKG_CONFIG@
 PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
@@ -265,6 +273,7 @@ RANLIB = @RANLIB@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 SORT_PATH = @SORT_PATH@
+SPELLER_LIB = @SPELLER_LIB@
 STRINGS_PATH = @STRINGS_PATH@
 STRIP = @STRIP@
 TAIL_PATH = @TAIL_PATH@
@@ -582,19 +591,16 @@ bibledit_bin_SOURCES = \
         merge_utils.cpp \
         shutdown.cpp \
         scripts.cpp \
-        dialogfilters.cpp
+        dialogfilters.cpp \
+        dialogdictionary.cpp \
+        spelling.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
-AM_CXXFLAGS = -Wall \
-              `pkg-config gthread-2.0 --cflags` \
-              `pkg-config sqlite3 --cflags` \
-              `pkg-config gobject-2.0 --cflags` \
-              `pkg-config glib-2.0 --cflags` \
-              `pkg-config gtk+-2.0 --cflags` \
-              `pkg-config fontconfig --cflags` \
-              `xml2-config --cflags` \
-              `pkg-config xulrunner-gtkmozembed --cflags`
-
+AM_CXXFLAGS = -Wall `pkg-config gthread-2.0 --cflags` `pkg-config \
+	sqlite3 --cflags` `pkg-config gobject-2.0 --cflags` \
+	`pkg-config glib-2.0 --cflags` `pkg-config gtk+-2.0 --cflags` \
+	`pkg-config fontconfig --cflags` `xml2-config --cflags` \
+	`pkg-config xulrunner-gtkmozembed --cflags` $(ENCHANT_CFLAGS)
 CLEANFILES = *~
 all: all-am
 
@@ -719,6 +725,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogcheck.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogcompare.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogdate.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogdictionary.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogeditlist.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogeditnote.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogeditstatus.Po@am__quote@
@@ -880,6 +887,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shell.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shortcuts.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shutdown.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/spelling.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sqlite_reader.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/statistics.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/style.Po@am__quote@

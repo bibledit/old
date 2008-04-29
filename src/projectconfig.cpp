@@ -96,6 +96,8 @@ ProjectConfiguration::ProjectConfiguration (ustring project_in, bool save_on_des
   INITIALIZE (depending_on_switch);
   INITIALIZE (depending_on_project);
   INITIALIZE (depending_on_script);
+  INITIALIZE (spelling_check);
+  INITIALIZE (spelling_dictionaries);
 }
 
 
@@ -152,6 +154,8 @@ void ProjectConfiguration::save ()
   SAVE_VALUE (depending_on_switch);
   SAVE_VALUE (depending_on_project);
   SAVE_VALUE (depending_on_script);
+  SAVE_VALUE (spelling_check);
+  SAVE_VALUE (spelling_dictionaries);
 
   config_xml_values_set_execute (project_configuration_filename (project), values);
 }
@@ -310,3 +314,5 @@ IMPLEMENT (vector<ustring>, vector_string_get, planning_tasks, NULL)
 IMPLEMENT (bool, bool_get, depending_on_switch, false)
 IMPLEMENT (ustring, string_get, depending_on_project, "")
 IMPLEMENT (ustring, string_get, depending_on_script, "")
+IMPLEMENT (bool, bool_get, spelling_check, false)
+IMPLEMENT (vector<ustring>, vector_string_get, spelling_dictionaries, NULL)

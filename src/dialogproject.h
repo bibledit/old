@@ -72,6 +72,9 @@ protected:
   GtkWidget *button_depend;
   GtkWidget *label_depend;
   GtkWidget *combobox_depend;
+  GtkWidget *hbox_spelling;
+  GtkWidget *checkbutton_spelling;
+  GtkWidget *button_dictionaries;
   GtkWidget *dialog_action_area1;
   GtkWidget *cancelbutton1;
   GtkWidget *okbutton1;
@@ -97,6 +100,9 @@ private:
   ustring dependent_project (const ustring& project);
   ustring none_project ();
   ustring dependent_project ();
+  static void on_button_dictionaries_clicked (GtkButton *button, gpointer user_data);
+  void on_button_dictionaries ();
+  static void on_checkbutton_spelling_toggled (GtkToggleButton *togglebutton, gpointer user_data);
 };
 
 

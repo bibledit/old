@@ -27,9 +27,9 @@
 #include "style.h"
 
 
-enum EditorNoteType { entFootnote, entEndnote, entCrossreference };
+enum EditorNoteType     { entFootnote, entEndnote, entCrossreference };
 enum EditorTextViewType { etvtBody, etvtNote, etvtTable };
-enum EditorUndoType { eudInsertText, eudDeleteText, eudApplyTag, eudRemoveTag };
+enum EditorUndoType     { eudInsertText, eudDeleteText, eudApplyTag, eudRemoveTag };
 
 
 class EditorNote

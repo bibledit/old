@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(bibledit, 3.1.44, http://www.nongnu.org/bibledit)
+AC_INIT(bibledit, 3.1.50, http://www.nongnu.org/bibledit)
 AC_CANONICAL_SYSTEM
 ac_default_prefix=/usr
 AC_CONFIG_SRCDIR([src])
@@ -155,6 +155,20 @@ if test $? -ne 0
     exit 1
 fi
 
+PKG_CHECK_MODULES(ENCHANT, enchant >= 1.3.0)
+AC_SUBST(ENCHANT_CFLAGS)
+AC_SUBST(ENCHANT_LIBS)
+
+# check Pango version so we can use PANGO_UNDERLINE_ERROR when available:
+PKG_CHECK_MODULES(PANGO, [pango >= 1.3.5],
+   [AC_DEFINE(HAVE_PANGO_UNDERLINE_ERROR, 1, [Define to 1 if PANGO_UNDERLINE_ERROR is available.])],
+   [AC_MSG_WARN([Disabling new error underlining since pango < 1.3.5])])
+
+# check Pango version to see if word breaking bug is fixed:
+PKG_CHECK_MODULES(PANGO, [pango >= 1.8.0],
+   [AC_DEFINE(FIXED_PANGO, 1, [Define to 1 if pango >= 1.8.0.])],
+   [AC_MSG_WARN([Enabling word-breaking workarounds since pango < 1.8.0])])
+
 
 # Checks for header files.
 AC_HEADER_STDC
@@ -164,6 +178,19 @@ AC_HEADER_SYS_WAIT
 AC_CHECK_HEADERS([arpa/inet.h limits.h locale.h netdb.h netinet/in.h stddef.h stdlib.h string.h sys/file.h sys/socket.h sys/time.h unistd.h])
 AC_CHECK_HEADERS([sys/ioctl.h])
 AC_CHECK_HEADER(sqlite3.h, , AC_MSG_ERROR([Header file sqlite3.h was not found. Usually this is in libsqlite3-dev.]))
+
+# This code is kept to learn from.
+AC_CHECK_HEADER(aspell.h, [AC_DEFINE(HAVE_ASPELL_H,1, 
+   [Define to 1 if you have the <aspell.h> header file.] )] )
+AC_CHECK_HEADER(pspell/pspell.h, [AC_DEFINE(HAVE_PSPELL_H,1, 
+   [Define to 1 if you have the <pspell/pspell.h> header file.] )] )
+AC_SUBST(SPELLER_LIB)
+GTKSPELL_PACKAGES=gtk+-2.0
+AC_SUBST(GTKSPELL_PACKAGES)
+PKG_CHECK_MODULES(GTKSPELL, $GTKSPELL_PACKAGES)
+AC_SUBST(GTKSPELL_CFLAGS)
+AC_SUBST(GTKSPELL_LIBS)
+
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL

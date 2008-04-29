@@ -55,7 +55,7 @@ TextViewDialog::TextViewDialog (const ustring& title, const ustring& info, bool 
 
   gtk_text_view_set_editable (GTK_TEXT_VIEW (textview1), editable);
   buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview1));
-  gtk_text_buffer_set_text (buffer, contents, -1);
+  if (contents) gtk_text_buffer_set_text (buffer, contents, -1);
 
   dialog_action_area1 = GTK_DIALOG (textviewdialog)->action_area;
   gtk_widget_show (dialog_action_area1);
@@ -77,7 +77,7 @@ TextViewDialog::TextViewDialog (const ustring& title, const ustring& info, bool 
                     G_CALLBACK (on_okbutton1_clicked),
                     gpointer(this));
 
-  gtk_widget_grab_focus (okbutton1);
+  gtk_widget_grab_focus (textview1);
   gtk_widget_grab_default (okbutton1);
 }
 
@@ -102,5 +102,8 @@ void TextViewDialog::on_okbutton1_clicked (GtkButton *button, gpointer user_data
 
 void TextViewDialog::on_okbutton ()
 {
-  // Editable has not yet been implemented.
+  GtkTextIter startiter, enditer;
+  gtk_text_buffer_get_start_iter (buffer, &startiter);      
+  gtk_text_buffer_get_end_iter (buffer, &enditer);      
+  newcontents = gtk_text_buffer_get_text (buffer, &startiter, &enditer, true);
 }

@@ -4,8 +4,14 @@
 /* Define to 1 if the `closedir' function returns void instead of `int'. */
 /* #undef CLOSEDIR_VOID */
 
+/* Define to 1 if pango >= 1.8.0. */
+#define FIXED_PANGO 1
+
 /* Define to 1 if you have the <arpa/inet.h> header file. */
 #define HAVE_ARPA_INET_H 1
+
+/* Define to 1 if you have the <aspell.h> header file. */
+#define HAVE_ASPELL_H 1
 
 /* Define to 1 if you have the `atexit' function. */
 #define HAVE_ATEXIT 1
@@ -89,6 +95,12 @@
 
 /* Define to 1 if you have the <netinet/in.h> header file. */
 #define HAVE_NETINET_IN_H 1
+
+/* Define to 1 if PANGO_UNDERLINE_ERROR is available. */
+#define HAVE_PANGO_UNDERLINE_ERROR 1
+
+/* Define to 1 if you have the <pspell/pspell.h> header file. */
+/* #undef HAVE_PSPELL_H */
 
 /* Define to 1 if your system has a GNU libc compatible `realloc' function,
    and to 0 otherwise. */
@@ -231,13 +243,13 @@
 #define PACKAGE_NAME "bibledit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit 3.1.44"
+#define PACKAGE_STRING "bibledit 3.1.50"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "3.1.44"
+#define PACKAGE_VERSION "3.1.50"
 
 /* Define as the return type of signal handlers (`int' or `void'). */
 #define RETSIGTYPE void
@@ -258,7 +270,7 @@
 #define TIME_WITH_SYS_TIME 1
 
 /* Version number of package */
-#define VERSION "3.1.44"
+#define VERSION "3.1.50"
 
 /* Define to empty if `const' does not conform to ANSI C. */
 /* #undef const */

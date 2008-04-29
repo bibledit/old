@@ -30,6 +30,7 @@
 #include "types.h"
 #include "editor_aids.h"
 #include "highlight.h"
+#include "spelling.h"
 
 
 class Editor
@@ -246,6 +247,7 @@ public:
   void list_undo_buffer ();
   void store_undo_action (const EditorUndo& editorundo);
   static void on_textbuffer_changed (GtkTextBuffer * textbuffer, gpointer user_data);
+  void textbuffer_changed (GtkTextBuffer * textbuffer);
   static void on_textbuffer_modified_changed (GtkTextBuffer * textbuffer, gpointer user_data);
 
   void test ();
@@ -265,6 +267,23 @@ public:
   ustring get_chapter ();
   
 private:
+
+  // Spelling check.
+public:
+private:
+  void spelling_trigger ();
+  guint spelling_timeout_event_id;
+  static bool on_spelling_timeout (gpointer data);
+  bool spelling_timeout ();
+  SpellingChecker * spellingchecker;
+  void spelling_collect_words (GtkTextBuffer * textbuffer);
+  void spelling_check_word (GtkTextBuffer * textbuffer, GtkTextIter *start, GtkTextIter *end);
+/*
+  static void highlight_thread_start (gpointer data);
+  void highlight_thread_main ();
+*/
+
+
 
 };
 

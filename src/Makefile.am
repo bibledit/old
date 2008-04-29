@@ -250,7 +250,9 @@ bibledit_bin_SOURCES = \
         merge_utils.cpp \
         shutdown.cpp \
         scripts.cpp \
-        dialogfilters.cpp
+        dialogfilters.cpp \
+        dialogdictionary.cpp \
+        spelling.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 
@@ -264,6 +266,8 @@ AM_CXXFLAGS = -Wall \
               `xml2-config --cflags` \
               `pkg-config xulrunner-gtkmozembed --cflags`
 
+AM_CXXFLAGS += $(ENCHANT_CFLAGS)
+
 LIBS = -Wall `pkg-config gthread-2.0 --libs` \
              `pkg-config sqlite3 --libs` \
              `pkg-config gobject-2.0 --libs` \
@@ -272,6 +276,8 @@ LIBS = -Wall `pkg-config gthread-2.0 --libs` \
              `pkg-config fontconfig --libs` \
              `xml2-config --libs` \
              `pkg-config xulrunner-gtkmozembed --libs`
+
+LIBS += $(ENCHANT_LIBS)
 
 if WIN32
 LIBS += -mwindows
