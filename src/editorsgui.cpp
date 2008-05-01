@@ -825,3 +825,13 @@ void EditorsGUI::reload_chapter (unsigned int book, unsigned int chapter)
     editors[i]->chapter_load (chapter);
   }
 }
+
+
+void EditorsGUI::reload_dictionaries ()
+// Reloads the dictionaries of the focused project.
+{
+  Editor * editor = focused_editor ();
+  if (editor) {
+    editor->load_dictionaries ();
+  }
+}

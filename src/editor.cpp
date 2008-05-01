@@ -64,15 +64,10 @@ current_reference (0, 1000, "")
   // Create data that is needed for any of the possible formatted views.
   create_or_update_formatting_data ();
   
-  // Settings.
-  extern Settings * settings;
-  ProjectConfiguration * projectconfig = settings->projectconfig (project);
-  
   // Spelling checker.
   spellingchecker = new SpellingChecker (texttagtable);
-  if (projectconfig->spelling_check_get ()) {
-    spellingchecker->set_dictionaries (projectconfig->spelling_dictionaries_get ());
-  }
+  g_signal_connect ((gpointer) spellingchecker->check_signal, "clicked", G_CALLBACK (on_button_spelling_recheck_clicked), gpointer (this));
+  load_dictionaries ();
 
   // The title button with progressbar for focus and close button.
   hbox_title = gtk_hbox_new (FALSE, 0);
@@ -147,6 +142,7 @@ current_reference (0, 1000, "")
   gtk_text_view_set_left_margin (GTK_TEXT_VIEW (textview), 5);
 
   // The view's signal handlers.
+  spellingchecker->attach (textview);
   g_signal_connect_after ((gpointer) textview, "move_cursor", G_CALLBACK (on_textview_move_cursor), gpointer(this));
   g_signal_connect_after ((gpointer) textview, "grab_focus", G_CALLBACK (on_textview_grab_focus), gpointer(this));
   g_signal_connect ((gpointer) textview, "motion-notify-event", G_CALLBACK (on_text_motion_notify_event), gpointer(this));
@@ -2250,6 +2246,7 @@ leaving the other ones untouched.
     gtk_text_view_set_editable (GTK_TEXT_VIEW (editornotes[i].textview), editable);
 
     // Signal handlers for this textview.
+    spellingchecker->attach (editornotes[i].textview);
     g_signal_connect_after ((gpointer) editornotes[i].textview, "move_cursor", G_CALLBACK (on_textview_move_cursor), gpointer(this));
     g_signal_connect_after ((gpointer) editornotes[i].textview, "grab_focus", G_CALLBACK (on_textview_grab_focus), gpointer(this));
     g_signal_connect ((gpointer) editornotes[i].textview, "key-press-event", G_CALLBACK (text_key_press_event_before), gpointer(this));
@@ -2450,6 +2447,7 @@ void Editor::display_table (ustring line, GtkTextIter iter)
   for (unsigned int row = 0; row < editortable.textviews.size (); row++) {
     for (unsigned int column = 0; column < editortable.textviews[row].size(); column++) {
       GtkWidget * textview = table_cell_get_view (editortable, row, column);
+      spellingchecker->attach (textview);
       g_signal_connect_after ((gpointer) textview, "move_cursor", G_CALLBACK (on_textview_move_cursor), gpointer(this));
       g_signal_connect_after ((gpointer) textview, "grab_focus", G_CALLBACK (on_textview_grab_focus), gpointer(this));
       g_signal_connect ((gpointer) textview, "key-press-event", G_CALLBACK (text_key_press_event_before), gpointer(this));
@@ -3672,17 +3670,45 @@ void Editor::spelling_trigger ()
 
 bool Editor::on_spelling_timeout (gpointer data)
 {
-  return ((Editor *) data)->spelling_timeout ();
+  ((Editor *) data)->spelling_timeout ();
+  return false;
 }
 
 
-bool Editor::spelling_timeout ()
+void Editor::spelling_timeout ()
 {
   // No recording of undoable actions while this object is alive.
-  // It also means that the textbuffer won't be modified if markers for spelling
+  // It means that the textbuffer won't be modified if markers for spelling
   // mistakes are added or removed.
   PreventEditorUndo preventundo (&record_undo_level);
-  // Check spelling.
-  spellingchecker->check (textbuffer); 
-  return false;
+  // Check spelling of main textbuffer, ...
+  spellingchecker->check (textbuffer);
+  // ... embedded tables, ...
+  for (unsigned int i = 0; i < editortables.size (); i++) {
+    for (unsigned int row = 0; row < editortables[i].textbuffers.size (); row++) {
+      for (unsigned int column = 0; column < editortables[i].textviews[row].size(); column++) {
+        spellingchecker->check (table_cell_get_buffer (editortables[i], row, column));
+      }
+    }
+  }
+  // ... and notes.
+  for (unsigned int i = 0; i < editornotes.size (); i++) {
+    spellingchecker->check (editornotes[i].textbuffer);
+  }
+}
+
+
+void Editor::on_button_spelling_recheck_clicked (GtkButton *button, gpointer user_data)
+{
+  ((Editor *) user_data)->spelling_timeout ();
+}
+
+
+void Editor::load_dictionaries ()
+{
+  extern Settings * settings;
+  ProjectConfiguration * projectconfig = settings->projectconfig (project);
+  if (projectconfig->spelling_check_get ()) {
+    spellingchecker->set_dictionaries (projectconfig->spelling_dictionaries_get ());
+  }
 }

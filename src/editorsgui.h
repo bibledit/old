@@ -155,6 +155,11 @@ public:
   ustring get_text (const ustring& project);
 private:
   
+  // Reload dictionaries.
+public:
+  void reload_dictionaries ();
+private:
+  
 };
 
 

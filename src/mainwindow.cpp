@@ -2713,6 +2713,8 @@ void MainWindow::editproject ()
   // Show project dialog.
   ProjectDialog projectdialog (false);
   if (projectdialog.run () == GTK_RESPONSE_OK) {
+    // Reload dictionaries.
+    editorsgui->reload_dictionaries ();
     // As anything could have been changed to the project, reopen it.
     reload_project ();
   }
@@ -7298,3 +7300,10 @@ void MainWindow::on_preferences_filters ()
   FiltersDialog dialog (0);
   dialog.run ();
 }
+
+
+// Todo make system that a mail goes out when a commit has been made to git.
+// Perhaps on Savannah? Tried, we may have hooks locally that store information in increments.
+// And once we push it, we may send that information to a mailing list, and delete that information.
+
+// Todo editing a note with Songs in the Ndebele project goes wrong.

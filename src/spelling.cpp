@@ -125,6 +125,9 @@ gchar * spelling_tag_name ()
 }
 
 
+// The spelling checker code was written while closely looking at GtkSpell.
+
+
 SpellingChecker::SpellingChecker (GtkTextTagTable *texttagtable)
 {
   misspelling_tag = gtk_text_tag_new (spelling_tag_name ()); 
@@ -136,11 +139,13 @@ SpellingChecker::SpellingChecker (GtkTextTagTable *texttagtable)
   g_object_set_property (G_OBJECT (misspelling_tag), "underline", &gvalue);
   g_value_unset (&gvalue);    
   broker = NULL;
+  check_signal = gtk_button_new ();
 }
 
 
 SpellingChecker::~SpellingChecker ()
 {
+  gtk_widget_destroy (check_signal);
   free_enchant ();
 }
 
@@ -155,9 +160,14 @@ void SpellingChecker::free_enchant ()
     enchant_broker_free_dict (broker, dicts[i]);
   }
   dicts.clear ();
+  pwls.clear ();
   
   // Free the broker.
   enchant_broker_free (broker);
+  
+  // Clear internal buffers.
+  correct_words.clear ();
+  incorrect_words.clear ();
 }
 
 
@@ -169,13 +179,17 @@ void SpellingChecker::set_dictionaries (const vector <ustring>& dictionaries)
   for (unsigned int i = 0; i < dictionaries.size (); i++) {
     ustring filename = spelling_dictionary_filename (dictionaries[i]);
     EnchantDict * dict = NULL;
+    bool pwl = false;
     if (filename.empty ()) {
       dict = enchant_broker_request_dict (broker, dictionaries[i].c_str());
+      pwl = false;
     } else {
       dict = enchant_broker_request_pwl_dict (broker, filename.c_str ());
+      pwl = true;
     }
     if (dict) {
       dicts.push_back (dict);
+      pwls.push_back (pwl);
     } else {
       gw_warning ("Enchant error for dictionary " + dictionaries[i]);
     }
@@ -252,8 +266,281 @@ void SpellingChecker::check_word (GtkTextBuffer* textbuffer, GtkTextIter *start,
 }
 
 
-void SpellingChecker::attach (GtkTextBuffer * textbuffer)
+void SpellingChecker::attach (GtkWidget * textview)
+// This routine attaches the spelling checker to a textview.
 {
+  g_signal_connect (G_OBJECT (textview), "button-press-event", G_CALLBACK (on_button_press_event), gpointer (this));
+  g_signal_connect (G_OBJECT (textview), "populate-popup", G_CALLBACK (on_populate_popup), gpointer (this));
+  g_signal_connect (G_OBJECT (textview), "popup-menu", G_CALLBACK (on_popup_menu_event), gpointer (this));
+}
+
+
+gboolean SpellingChecker::on_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
+// When the user right-clicks on a word, they want to check that word.
+// Here, we do NOT  move the cursor to the location of the clicked-upon word
+// since that prevents the use of edit functions on the context menu.
+{
+  ((SpellingChecker *) user_data)->button_press_event (widget, event);
+  return false;
+}
+
+
+void SpellingChecker::button_press_event (GtkWidget *widget, GdkEventButton *event)
+{
+  if (event->button == 3) {
+    gint x, y;
+    gtk_text_view_window_to_buffer_coords (GTK_TEXT_VIEW (widget), GTK_TEXT_WINDOW_TEXT, int (event->x), int (event->y), &x, &y);
+    gtk_text_view_get_iter_at_location (GTK_TEXT_VIEW (widget), &right_clicked_iter, x, y);
+  } 
+}
+
+
+void SpellingChecker::on_populate_popup (GtkTextView *textview, GtkMenu *menu, gpointer user_data)
+{
+  ((SpellingChecker *) user_data)->populate_popup (textview, menu);
+}
+
+
+void SpellingChecker::populate_popup (GtkTextView *textview, GtkMenu *menu)
+{
+  // Find out whether a misspelled word was picked.
+  GtkTextIter start, end;
+  right_clicked_word_get_extends (&start, &end);
+
+  // Bail out if there was no misspelled word.
+  if (!gtk_text_iter_has_tag (&start, misspelling_tag))
+    return;
+
+  // Menu separator comes first.
+  GtkWidget *mi;
+  mi = gtk_menu_item_new ();
+  gtk_widget_show (mi);
+  gtk_menu_shell_prepend (GTK_MENU_SHELL(menu), mi);
+
+  // On top of it, the suggestions menu.
+  GtkWidget *img;
+  img = gtk_image_new_from_stock (GTK_STOCK_SPELL_CHECK, GTK_ICON_SIZE_MENU);
+  mi = gtk_image_menu_item_new_with_label ("Spelling suggestions");
+  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (mi), img);
+
+  GtkTextBuffer *buffer = gtk_text_view_get_buffer(textview);
+  char *word;
+
+  word = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
+  gtk_menu_item_set_submenu (GTK_MENU_ITEM (mi), build_suggestion_menu (buffer, word));
+  g_free(word);
+
+  gtk_widget_show_all (mi);
+  gtk_menu_shell_prepend (GTK_MENU_SHELL(menu), mi);
+}
+
+
+gboolean SpellingChecker::on_popup_menu_event (GtkTextView *view, gpointer user_data)
+// This event occurs when the popup menu is requested through a key-binding,
+// the Menu Key or <shift>+F10 by default.  
+{
+  ((SpellingChecker *) user_data)->popup_menu_event (view);
+  return FALSE;
+}
+
+
+void SpellingChecker::popup_menu_event (GtkTextView *view)
+{
+  GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (view);
+  GtkTextMark * textmark = gtk_text_buffer_get_insert (textbuffer);
+  gtk_text_buffer_get_iter_at_mark (textbuffer, &right_clicked_iter, textmark);
+}
+
+
+GtkWidget* SpellingChecker::build_suggestion_menu (GtkTextBuffer *buffer, const char *word)
+{
+  // Top menu.
+  GtkWidget *topmenu, *menu;
+  topmenu = menu = gtk_menu_new();
+  
+  // Bail out if there are no dictionaries.
+  if (dicts.empty ()) {
+    return topmenu;
+  }
+        
+  // There can be more than one dictionary. Go through them all to find suggestions.
+  // The use of more than one dictionary will inevitably give double suggestions.
+  // These are weeded out.
+  vector <ustring> replacements;
+  set <ustring> replacement_set;
+  for (unsigned int d = 0; d < dicts.size (); d++) {
+    size_t n_suggs;
+    char **suggestions = enchant_dict_suggest (dicts[d], word, strlen(word), &n_suggs);
+    if (suggestions) {
+      for (size_t i = 0; i < n_suggs; i++ ) {
+        if (replacement_set.find (suggestions[i]) == replacement_set.end ()) {
+          replacements.push_back (suggestions[i]);
+          replacement_set.insert (suggestions[i]);
+        }
+      }
+      enchant_dict_free_suggestions (dicts[d], suggestions);
+    }
+  }
+
+  GtkWidget *mi;
+  if (replacements.empty ()) {
+    // No suggestions. Put something in the menu anyway.
+    GtkWidget *label;
+    label = gtk_label_new ("");
+    gtk_label_set_markup (GTK_LABEL (label), "<i>(No suggestions)</i>");
+
+    mi = gtk_menu_item_new ();
+    gtk_container_add (GTK_CONTAINER (mi), label);
+    gtk_widget_show_all (mi);
+    gtk_menu_shell_prepend (GTK_MENU_SHELL (menu), mi);
+  } else {
+    // Build a set of menus with suggestions.
+    for (unsigned int i = 0; i < replacements.size (); i++) {
+      if (i > 0 && i % 10 == 0) {
+        
+        mi = gtk_menu_item_new ();
+        gtk_widget_show (mi);
+        gtk_menu_shell_append (GTK_MENU_SHELL (menu), mi);
+
+        mi = gtk_menu_item_new_with_label ("More...");
+        gtk_widget_show (mi);
+        gtk_menu_shell_append (GTK_MENU_SHELL (menu), mi);
+
+        menu = gtk_menu_new();
+        gtk_menu_item_set_submenu (GTK_MENU_ITEM (mi), menu);
+      }
+      
+      mi = gtk_menu_item_new_with_label (replacements[i].c_str());
+      g_signal_connect (G_OBJECT (mi), "activate", G_CALLBACK (on_replace_word), gpointer(this));
+      gtk_widget_show (mi);
+      gtk_menu_shell_append (GTK_MENU_SHELL (menu), mi);
+    }
+  }
+  
+  // Separator
+  mi = gtk_menu_item_new ();
+  gtk_widget_show (mi);
+  gtk_menu_shell_append (GTK_MENU_SHELL (topmenu), mi);
+
+  // + Add to Dictionary
+  char *label;
+  label = g_strdup_printf ("Add \"%s\" to Dictionary", word);
+  mi = gtk_image_menu_item_new_with_label (label);
+  g_free (label);
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (mi), gtk_image_new_from_stock (GTK_STOCK_ADD, GTK_ICON_SIZE_MENU));
+  g_signal_connect (G_OBJECT (mi), "activate", G_CALLBACK (on_add_to_dictionary), gpointer (this));
+  gtk_widget_show_all (mi);
+  gtk_menu_shell_append (GTK_MENU_SHELL (topmenu), mi);
+
+  // - Ignore All
+  mi = gtk_image_menu_item_new_with_label ("Ignore All");
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (mi), gtk_image_new_from_stock (GTK_STOCK_REMOVE, GTK_ICON_SIZE_MENU));
+  g_signal_connect (G_OBJECT (mi), "activate", G_CALLBACK (on_ignore_all), gpointer (this));
+  gtk_widget_show_all (mi);
+  gtk_menu_shell_append (GTK_MENU_SHELL (topmenu), mi);
+  
+  // Return the top menu.
+  return topmenu;
+}
+
+
+void SpellingChecker::right_clicked_word_get_extends (GtkTextIter * start, GtkTextIter *end)
+// Get the word boundaries for the word the user right-clicked.
+{
+  * start = right_clicked_iter;
+  if (!gtk_text_iter_starts_word (start))
+    gtk_text_iter_backward_word_start (start);
+  * end = * start;
+  if (gtk_text_iter_inside_word (end))
+    gtk_text_iter_forward_word_end (end);
+}
+
+
+void SpellingChecker::on_add_to_dictionary (GtkWidget *menuitem, gpointer user_data)
+{
+  ((SpellingChecker *) user_data)->add_to_dictionary (menuitem);
+}
+
+
+void SpellingChecker::add_to_dictionary (GtkWidget *menuitem)
+{
+  // Get a personal wordlist.
+  EnchantDict * personal_wordlist = NULL;
+  for (unsigned int i = 0; i < dicts.size (); i++) {
+    if (!personal_wordlist) {
+      if (pwls[i]) personal_wordlist = dicts[i];
+    }
+  }
+  
+  // Bail out if there was none.
+  if (!personal_wordlist) {
+    gw_warning ("No personal wordlist to add the word to");
+    return;
+  }
+
+  GtkTextBuffer * buffer = gtk_text_iter_get_buffer (&right_clicked_iter);
+
+  GtkTextIter start, end;
+  right_clicked_word_get_extends (&start, &end);
+
+  char *word = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
+  
+  enchant_dict_add_to_pwl (personal_wordlist, word, strlen (word));
+  correct_words.insert (word);
+  
+  g_free (word);
+  
+  gtk_button_clicked (GTK_BUTTON (check_signal));
+}
+
+
+void SpellingChecker::on_ignore_all (GtkWidget *menuitem, gpointer user_data)
+{
+  ((SpellingChecker *) user_data)->ignore_all (menuitem);
+}
+
+
+void SpellingChecker::ignore_all (GtkWidget *menuitem)
+{
+  GtkTextBuffer * buffer = gtk_text_iter_get_buffer (&right_clicked_iter);
+
+  GtkTextIter start, end;
+  right_clicked_word_get_extends (&start, &end);
+
+  char *word = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
+  
+  correct_words.insert (word);
+  
+  g_free (word);
+  
+  gtk_button_clicked (GTK_BUTTON (check_signal));
+}
+
+
+void SpellingChecker::on_replace_word (GtkWidget *menuitem, gpointer user_data)
+{
+  ((SpellingChecker *) user_data)->replace_word (menuitem);
+}
+
+
+void SpellingChecker::replace_word (GtkWidget *menuitem)
+{
+  if (dicts.empty ()) return;
+    
+  GtkTextBuffer * buffer = gtk_text_iter_get_buffer (&right_clicked_iter);
+  
+  GtkTextIter start, end;
+  right_clicked_word_get_extends (&start, &end);
+
+  char *oldword = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
+  const char *newword = gtk_label_get_text (GTK_LABEL (GTK_BIN (menuitem)->child));
+
+  gtk_text_buffer_delete (buffer, &start, &end);
+  gtk_text_buffer_insert (buffer, &start, newword, -1);
+
+  enchant_dict_store_replacement (dicts[0],  oldword, strlen (oldword), newword, strlen (newword));
+
+  g_free (oldword);
 }
 
 
@@ -262,30 +549,8 @@ void SpellingChecker::attach (GtkTextBuffer * textbuffer)
 Todo spell check
 
 
-Add a right-clicked menu. If chosen, it looks at the context to see if a word is misspelled.
-
-
-Also check the embedded buffers.
-
-
-The right-click menu, if we are not sure to which user dictionary the word to add,
-that is, if there is more than one available, then we need to make a menu like
-Add
-Add to -> list of user dictionaries.
-
-
-When the spelling checker underlines a misspelled word, it will insert a tag,
-and that in turn will set the buffer to modified. Make a mechanism, 
-similar to highlighting words, that does not modify the buffer.
-
-
-Have our own code and dialogs for spelling checking.
-
-
-Add libenchant-dev to the installation documentation. All distros.
-
-
-See ~/work/spelling for a lot of example code.
+Add libenchant-dev to the installation documentation. All distros. We need 
+to write new instructions for the major distros.
 
 
 We need to intelligently see from the tags in the buffer whether the word to check is
@@ -294,23 +559,16 @@ There are some usfm categories that can be checked, these should be checked only
 skipped.
 
 
-Use GtkSpell's right click menu for handling misspelled words.
-The menu of Screem comes in when doing a check of the whole project.
-This check is there too, as a Tool, and allows both editing and checking. Buttons
-forward, add, etc, see Screems dialog.
+When a word is replaced, it should contain the formatting it had before.
+This is the algorithm:
+Before replacing make  note of the paragraph and character style per character,
+so a whole list of these is formed.
+After replacing, start to apply these, starting from the beginning.
+If the replacement word is shorter, well, fine.
+If it is longer, the last styles continue to the end of the word.
 
 
-While collecting words we need to handle special cases such as apostrophies, etc.
-
-
-Apostrophe stuff: http://bugzilla.gnome.org/show_bug.cgi?id=97545 Probably in helpfile, if needed.
-
-
-If there's a change in the dictionaries, or generally when clicking OK in the 
-project dialog, the project should reload the dictionaries, as these may have 
-been changed.
-
-
+Make a Ispell / Aspell dictionary, or whatever, of the Ndebele words.
 
 
 */

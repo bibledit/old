@@ -44,9 +44,10 @@ public:
   SpellingChecker (GtkTextTagTable *texttagtable);
   ~SpellingChecker ();
   GtkTextTag *misspelling_tag;
-  void attach (GtkTextBuffer * textbuffer);
+  void attach (GtkWidget * textview);
   void set_dictionaries (const vector <ustring>& dictionaries);
   void check (GtkTextBuffer* textbuffer);
+  GtkWidget * check_signal;
 private:
   void collect_words (GtkTextBuffer* textbuffer);
   void check_word (GtkTextBuffer* textbuffer, GtkTextIter *start, GtkTextIter *end);
@@ -54,7 +55,23 @@ private:
   set <ustring> incorrect_words;
   EnchantBroker * broker;
   vector <EnchantDict *> dicts;
+  vector <bool> pwls;
   void free_enchant ();
+  static gboolean on_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data);
+  void button_press_event (GtkWidget *widget, GdkEventButton *event);
+  static void on_populate_popup (GtkTextView *textview, GtkMenu *menu, gpointer user_data);
+  void populate_popup (GtkTextView *textview, GtkMenu *menu);
+  static gboolean on_popup_menu_event (GtkTextView *view, gpointer user_data);
+  void popup_menu_event (GtkTextView *view);
+  GtkTextIter right_clicked_iter;
+  GtkWidget* build_suggestion_menu (GtkTextBuffer *buffer, const char *word);
+  void right_clicked_word_get_extends (GtkTextIter * start, GtkTextIter *end);
+  static void on_add_to_dictionary (GtkWidget *menuitem, gpointer user_data);
+  void add_to_dictionary (GtkWidget *menuitem);
+  static void on_ignore_all (GtkWidget *menuitem, gpointer user_data);
+  void ignore_all (GtkWidget *menuitem);
+  static void on_replace_word (GtkWidget *menuitem, gpointer user_data);
+  void replace_word (GtkWidget *menuitem);
 };
 
 

@@ -270,21 +270,16 @@ private:
 
   // Spelling check.
 public:
+  void load_dictionaries ();
 private:
   void spelling_trigger ();
   guint spelling_timeout_event_id;
   static bool on_spelling_timeout (gpointer data);
-  bool spelling_timeout ();
+  void spelling_timeout ();
   SpellingChecker * spellingchecker;
   void spelling_collect_words (GtkTextBuffer * textbuffer);
   void spelling_check_word (GtkTextBuffer * textbuffer, GtkTextIter *start, GtkTextIter *end);
-/*
-  static void highlight_thread_start (gpointer data);
-  void highlight_thread_main ();
-*/
-
-
-
+  static void on_button_spelling_recheck_clicked (GtkButton *button, gpointer user_data);
 };
 
 
