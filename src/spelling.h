@@ -48,6 +48,7 @@ public:
   void set_dictionaries (const vector <ustring>& dictionaries);
   void check (GtkTextBuffer* textbuffer);
   GtkWidget * check_signal;
+  void set_checkable_tags (const vector <ustring>& tags);
 private:
   void collect_words (GtkTextBuffer* textbuffer);
   void check_word (GtkTextBuffer* textbuffer, GtkTextIter *start, GtkTextIter *end);
@@ -72,6 +73,7 @@ private:
   void ignore_all (GtkWidget *menuitem);
   static void on_replace_word (GtkWidget *menuitem, gpointer user_data);
   void replace_word (GtkWidget *menuitem);
+  set <ustring> checkable_tags;
 };
 
 

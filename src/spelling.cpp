@@ -26,6 +26,7 @@
 #include "utilities.h"
 #include "tiny_utilities.h"
 #include "projectutils.h"
+#include "editor_aids.h"
 
 
 ustring spelling_global_dictionary ()
@@ -524,51 +525,76 @@ void SpellingChecker::on_replace_word (GtkWidget *menuitem, gpointer user_data)
 
 
 void SpellingChecker::replace_word (GtkWidget *menuitem)
+/*
+Replaces the misspelled word in the text with the word that is chosen in the menu.
+An algorithm is used that gives the replacement the same styles as the original.
+*/
 {
+  // Bail out if there is no dictionary.
   if (dicts.empty ()) return;
     
+  // Get the text buffer.
   GtkTextBuffer * buffer = gtk_text_iter_get_buffer (&right_clicked_iter);
   
+  // Get the extends of the misspelled words.
   GtkTextIter start, end;
   right_clicked_word_get_extends (&start, &end);
 
+  // Get the old and the new word.
   char *oldword = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
   const char *newword = gtk_label_get_text (GTK_LABEL (GTK_BIN (menuitem)->child));
 
+  // Get a list of the styles applied to the old word.
+  vector <ustring> paragraph_styles;
+  vector <ustring> character_styles;
+  GtkTextIter iter = start;
+  do {
+    ustring paragraphstyle, characterstyle;
+    get_styles_at_iterator (iter, paragraphstyle, characterstyle);
+    paragraph_styles.push_back (paragraphstyle);
+    character_styles.push_back (characterstyle);
+    gtk_text_iter_forward_char (&iter);
+  } while (!gtk_text_iter_equal (&iter, &end));
+
+  // Get the offset of the start of the word.
+  unsigned int offset = gtk_text_iter_get_offset (&start);
+  
+  // Delete the old word, and insert the new one.
   gtk_text_buffer_delete (buffer, &start, &end);
   gtk_text_buffer_insert (buffer, &start, newword, -1);
 
+  // Store this replacement in enchant.
   enchant_dict_store_replacement (dicts[0],  oldword, strlen (oldword), newword, strlen (newword));
 
+  // Free the memory used.
   g_free (oldword);
+
+  // Apply the tags of the old word to the new. 
+  // If there are not enough tags, keep repeating the last one.
+  ustring unewword (newword);
+  for (unsigned int i = 0; i < unewword.length (); i++) {
+    ustring paragraphstyle;
+    if (i < paragraph_styles.size ()) paragraphstyle = paragraph_styles[i];
+    else paragraphstyle = paragraph_styles[paragraph_styles.size()-1];
+    ustring characterstyle;
+    if (i < character_styles.size ()) characterstyle = character_styles[i];
+    else characterstyle = character_styles[character_styles.size()-1];
+    gtk_text_buffer_get_iter_at_offset (buffer, &start, offset + i);
+    gtk_text_buffer_get_iter_at_offset (buffer, &end, offset + i + 1);
+    gtk_text_buffer_remove_all_tags (buffer, &start, &end);
+    if (!paragraphstyle.empty ()) {
+      gtk_text_buffer_apply_tag_by_name (buffer, paragraphstyle.c_str(), &start, &end);
+    }
+    if (!characterstyle.empty ())
+      gtk_text_buffer_apply_tag_by_name (buffer, characterstyle.c_str(), &start, &end);
+  }    
 }
 
 
-/*
-
-Todo spell check
-
-
-Add libenchant-dev to the installation documentation. All distros. We need 
-to write new instructions for the major distros.
-
-
-We need to intelligently see from the tags in the buffer whether the word to check is
-in the vernacular language. For example things like \id JHN, or \fig ...\fig* should be skipped.
-There are some usfm categories that can be checked, these should be checked only, and the rest
-skipped.
-
-
-When a word is replaced, it should contain the formatting it had before.
-This is the algorithm:
-Before replacing make  note of the paragraph and character style per character,
-so a whole list of these is formed.
-After replacing, start to apply these, starting from the beginning.
-If the replacement word is shorter, well, fine.
-If it is longer, the last styles continue to the end of the word.
-
-
-Make a Ispell / Aspell dictionary, or whatever, of the Ndebele words.
-
-
-*/
+void SpellingChecker::set_checkable_tags (const vector <ustring>& tags)
+// Sets the tags that can be checked. This implies that text that has any tags, 
+// that is, any styles, that are not listed here, is not checked.
+// The purpose of this is to prevent the checking of things like \id JHN, etc.
+// Not yet implemented.
+{
+}
