@@ -162,36 +162,35 @@ book, chapter 21 verse 10. And so forth.
   // Trim again.
   response = trim (response);
   // Divide the response in parts.
-  istringstream r (response);
-  ustring s;
+  // A special algorithm ensures that the book is properly formed.
+  // Think of "1 Corinthians 10:1" and "Song of Songs".
   vector <ustring> input;
-  for (unsigned int i = 0; i < 5; i++) {
-    s.clear ();
-    r >> s;
-    if (!s.empty ())
-      input.push_back (s);
-  }
-  // Deal with cases when the user enters e.g. "1 Corinthians 10:1".
-  if (input.size () >= 2) {
-    // This is the case when the first one is a number ...
-    if (number_in_string (input[0]) == input[0]) {
-      // ... and the second one contains no numbers at all.
-      if (number_in_string (input[1]).empty ()) {
-        input[1] = input[0] + " " + input[1];
-        input.erase (input.begin ());
+  {
+    Parse parse (response);
+    int highest_text_offset = -1;
+    for (unsigned int i = 0; i < parse.words.size (); i++) {
+      if (number_in_string (parse.words[i]) != parse.words[i]) {
+        highest_text_offset = i;
       }
     }
-  }
-  // Deal with Song of Solomon
-  if (input.size() >= 3) {
-    if (input[0] == "SONG") {
-      if (input [1] == "OF") {
-        input [2] = input[0] + " " + input[1] + " " + input[2];
-        input.erase (input.begin ());
-        input.erase (input.begin ());
+    ustring bookpart;
+    vector <ustring> numbers;
+    for (unsigned int i = 0; i < parse.words.size (); i++) {
+      if ((int)i > highest_text_offset) {
+        numbers.push_back (parse.words[i]);
+      } else {
+        if (!bookpart.empty ()) bookpart.append (" ");
+        bookpart.append (parse.words[i]);
       }
     }
+    if (!bookpart.empty ()) {
+      input.push_back (bookpart);
+    }
+    for (unsigned int i = 0; i < numbers.size (); i++) {
+      input.push_back (numbers[i]);
+    }
   }
+
   // See whether the first one is a name or a number.
   // If it's a name, then this will be the bookname.
   // If it's a number, there will be no bookname, but we have chapter and/or verse only.
@@ -402,7 +401,7 @@ unsigned int book_find_valid_internal (const ustring & rawbook)
       return index;
     }
   }
-  // If the book has not yet been found, then it's getting tough.
+  // The book has not yet been found.
   // Not found yet, check on names like "1Corinthians".
   if (rawbook.length () >= 1) {
     ustring s = rawbook.substr (0, 1);
@@ -427,7 +426,7 @@ unsigned int book_find_valid_internal (const ustring & rawbook)
     index = books_abbreviation_to_id_loose (projectconfig->language_get(), rawbook);
     if (index) return index;
   }
-  // Still not found. Friends, what are they up to?
+  // Still not found.
   // Go through all available languages, and see if the book is among the
   // names or abbreviations of the book.
   {
@@ -449,11 +448,11 @@ unsigned int book_find_valid_internal (const ustring & rawbook)
 unsigned int book_find_valid (const ustring & rawbook)
 // Returns the id of the raw book. Returns 0 if no book was found.
 {
-  // System to speed up discovery. 
+  // It uses a mechanism to speed up discovery of the book.
   // We keep a list of raw books in memory, 
-  // and a list of the ids they have been assigned to those raw books.
+  // and a list of the ids that have been assigned to those raw books.
   // If the same raw book is passed again, we just return the previously 
-  // discovered id. That speeds things up considerably.
+  // discovered id.
   static vector<unsigned int> assigned_ids;
   static vector<ustring> raw_books;
   for (unsigned int i = 0; i < raw_books.size(); i++) {

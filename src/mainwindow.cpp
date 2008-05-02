@@ -7300,13 +7300,3 @@ void MainWindow::on_preferences_filters ()
   FiltersDialog dialog (0);
   dialog.run ();
 }
-
-
-// Todo make system that a mail goes out when a commit has been made to git.
-// Perhaps on Savannah? Tried, we may have hooks locally that store information in increments.
-// And once we push it, we may send that information to a mailing list, and delete that information.
-
-// Todo editing a note with Songs in the Ndebele project goes wrong.
-
-
-// The menu for spelling corrections is too far away, move it up one level.
