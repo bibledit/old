@@ -263,10 +263,10 @@ AM_CXXFLAGS = -Wall \
               `pkg-config glib-2.0 --cflags` \
               `pkg-config gtk+-2.0 --cflags` \
               `pkg-config fontconfig --cflags` \
-              `xml2-config --cflags` \
-              `pkg-config xulrunner-gtkmozembed --cflags`
+              `xml2-config --cflags`
 
 AM_CXXFLAGS += $(ENCHANT_CFLAGS)
+AM_CXXFLAGS += $(MOZILLA_COMPONENT_CFLAGS)
 
 LIBS = -Wall `pkg-config gthread-2.0 --libs` \
              `pkg-config sqlite3 --libs` \
@@ -274,10 +274,10 @@ LIBS = -Wall `pkg-config gthread-2.0 --libs` \
              `pkg-config glib-2.0 --libs` \
              `pkg-config gtk+-2.0 --libs` \
              `pkg-config fontconfig --libs` \
-             `xml2-config --libs` \
-             `pkg-config xulrunner-gtkmozembed --libs`
+             `xml2-config --libs`
 
 LIBS += $(ENCHANT_LIBS)
+LIBS += $(MOZILLA_COMPONENT_LIBS)
 
 if WIN32
 LIBS += -mwindows

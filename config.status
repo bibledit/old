@@ -636,6 +636,28 @@ s,@ENCHANT_CFLAGS@,|#_!!_#|-I/usr/include/enchant -I/usr/include/glib-2.0 -I/usr
 s,@ENCHANT_LIBS@,|#_!!_#|-Wl\,--export-dynamic -lenchant -lgmodule-2.0 -ldl -lglib-2.0  ,g
 s,@PANGO_CFLAGS@,|#_!!_#|-I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  ,g
 s,@PANGO_LIBS@,|#_!!_#|-lpango-1.0 -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0  ,g
+s,@HAVE_MOZILLA_TOOLKIT_TRUE@,|#_!!_#|,g
+s,@HAVE_MOZILLA_TOOLKIT_FALSE@,|#_!!_#|#,g
+s,@HAVE_GECKO_DEBUG_TRUE@,|#_!!_#|#,g
+s,@HAVE_GECKO_DEBUG_FALSE@,|#_!!_#|,g
+s,@HAVE_GECKO_1_7_TRUE@,|#_!!_#|,g
+s,@HAVE_GECKO_1_7_FALSE@,|#_!!_#|#,g
+s,@HAVE_GECKO_1_8_TRUE@,|#_!!_#|,g
+s,@HAVE_GECKO_1_8_FALSE@,|#_!!_#|#,g
+s,@HAVE_GECKO_1_8_1_TRUE@,|#_!!_#|#,g
+s,@HAVE_GECKO_1_8_1_FALSE@,|#_!!_#|,g
+s,@HAVE_GECKO_1_9_TRUE@,|#_!!_#|#,g
+s,@HAVE_GECKO_1_9_FALSE@,|#_!!_#|,g
+s,@MOZILLA@,|#_!!_#|xulrunner,g
+s,@MOZILLA_FLAVOUR@,|#_!!_#|toolkit,g
+s,@MOZILLA_INCLUDE_ROOT@,|#_!!_#|/usr/include/xulrunner,g
+s,@MOZILLA_HOME@,|#_!!_#|/usr/lib/xulrunner,g
+s,@MOZILLA_PREFIX@,|#_!!_#|/usr,g
+s,@MOZILLA_EXTRA_LIBS@,|#_!!_#|,g
+s,@MOZILLA_COMPONENT_CFLAGS@,|#_!!_#|-I/usr/include/xulrunner -I/usr/include/xulrunner/xpcom -I/usr/include/xulrunner/string -I/usr/include/nspr -I/usr/include/xulrunner/gtkembedmoz  ,g
+s,@MOZILLA_COMPONENT_LIBS@,|#_!!_#|-L/usr/lib/xulrunner -lgtkembedmoz -lxpcom -lplds4 -lplc4 -lnspr4 -lpthread -ldl  ,g
+s,@USE_GTKMOZEMBED_TRUE@,|#_!!_#|,g
+s,@USE_GTKMOZEMBED_FALSE@,|#_!!_#|#,g
 s,@SPELLER_LIB@,|#_!!_#|,g
 s,@GTKSPELL_PACKAGES@,|#_!!_#|gtk+-2.0,g
 s,@GTKSPELL_CFLAGS@,|#_!!_#|-I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/freetype2 -I/usr/include/libpng12  ,g
@@ -911,6 +933,10 @@ s,^\([	 #]*\)[^	 ]*\([	 ]*VERSION\)[	 (].*,\1define\2 "3.1.53" ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*STDC_HEADERS\)[	 (].*,\1define\2 1 ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE_PANGO_UNDERLINE_ERROR\)[	 (].*,\1define\2 1 ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*FIXED_PANGO\)[	 (].*,\1define\2 1 ,
+s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE_MOZILLA_TOOLKIT\)[	 (].*,\1define\2 1 ,
+s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE_GECKO_1_7\)[	 (].*,\1define\2 1 ,
+s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE_GECKO_1_8\)[	 (].*,\1define\2 1 ,
+s,^\([	 #]*\)[^	 ]*\([	 ]*USE_GTKMOZEMBED\)[	 (].*,\1define\2 1 ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*STDC_HEADERS\)[	 (].*,\1define\2 1 ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE_SYS_TYPES_H\)[	 (].*,\1define\2 1 ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE_SYS_STAT_H\)[	 (].*,\1define\2 1 ,
@@ -946,10 +972,6 @@ s,^\([	 #]*\)[^	 ]*\([	 ]*TIME_WITH_SYS_TIME\)[	 (].*,\1define\2 1 ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE_STRDUP\)[	 (].*,\1define\2 1 ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE_STRSTR\)[	 (].*,\1define\2 1 ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE_FORK\)[	 (].*,\1define\2 1 ,
-s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE_VFORK\)[	 (].*,\1define\2 1 ,
-s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE_WORKING_VFORK\)[	 (].*,\1define\2 1 ,
-s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE_WORKING_FORK\)[	 (].*,\1define\2 1 ,
-s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE_STDLIB_H\)[	 (].*,\1define\2 1 ,
 CEOF
     sed -f "$tmp/defines.sed" $ac_file_inputs >"$tmp/out1"
     # First, check the format of the line:
@@ -958,6 +980,10 @@ CEOF
 /^[	 ]*#[	 ]*define[	 ][	 ]*[_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ][_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789]*[(	 ]/b def
 b
 :def
+s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE_VFORK\)[	 (].*,\1define\2 1 ,
+s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE_WORKING_VFORK\)[	 (].*,\1define\2 1 ,
+s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE_WORKING_FORK\)[	 (].*,\1define\2 1 ,
+s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE_STDLIB_H\)[	 (].*,\1define\2 1 ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE_REALLOC\)[	 (].*,\1define\2 1 ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE_SYS_SELECT_H\)[	 (].*,\1define\2 1 ,
 s,^\([	 #]*\)[^	 ]*\([	 ]*HAVE_SYS_SOCKET_H\)[	 (].*,\1define\2 1 ,

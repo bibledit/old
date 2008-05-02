@@ -743,6 +743,28 @@ ENCHANT_CFLAGS
 ENCHANT_LIBS
 PANGO_CFLAGS
 PANGO_LIBS
+HAVE_MOZILLA_TOOLKIT_TRUE
+HAVE_MOZILLA_TOOLKIT_FALSE
+HAVE_GECKO_DEBUG_TRUE
+HAVE_GECKO_DEBUG_FALSE
+HAVE_GECKO_1_7_TRUE
+HAVE_GECKO_1_7_FALSE
+HAVE_GECKO_1_8_TRUE
+HAVE_GECKO_1_8_FALSE
+HAVE_GECKO_1_8_1_TRUE
+HAVE_GECKO_1_8_1_FALSE
+HAVE_GECKO_1_9_TRUE
+HAVE_GECKO_1_9_FALSE
+MOZILLA
+MOZILLA_FLAVOUR
+MOZILLA_INCLUDE_ROOT
+MOZILLA_HOME
+MOZILLA_PREFIX
+MOZILLA_EXTRA_LIBS
+MOZILLA_COMPONENT_CFLAGS
+MOZILLA_COMPONENT_LIBS
+USE_GTKMOZEMBED_TRUE
+USE_GTKMOZEMBED_FALSE
 SPELLER_LIB
 GTKSPELL_PACKAGES
 GTKSPELL_CFLAGS
@@ -777,6 +799,8 @@ ENCHANT_CFLAGS
 ENCHANT_LIBS
 PANGO_CFLAGS
 PANGO_LIBS
+MOZILLA_COMPONENT_CFLAGS
+MOZILLA_COMPONENT_LIBS
 GTKSPELL_CFLAGS
 GTKSPELL_LIBS'
 
@@ -1362,12 +1386,16 @@ Optional Features:
   --disable-dependency-tracking  speeds up one-time build
   --enable-dependency-tracking   do not reject slow dependency extractors
   --disable-xmltest       Do not try to compile and run a test LIBXML program
+  --enable-cpp-rtti       Enable C++ RTTI
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
   --with-xml-prefix=PFX   Prefix where libxml is installed (optional)
   --with-xml-exec-prefix=PFX Exec prefix where libxml is installed (optional)
+  --with-gecko[=mozilla|firefox|seamonkey|xulrunner]
+                          Which gecko engine to use (autodetected by default)
+
 
 Some influential environment variables:
   CC          C compiler command
@@ -1398,6 +1426,10 @@ Some influential environment variables:
   PANGO_CFLAGS
               C compiler flags for PANGO, overriding pkg-config
   PANGO_LIBS  linker flags for PANGO, overriding pkg-config
+  MOZILLA_COMPONENT_CFLAGS
+              C compiler flags for MOZILLA_COMPONENT, overriding pkg-config
+  MOZILLA_COMPONENT_LIBS
+              linker flags for MOZILLA_COMPONENT, overriding pkg-config
   GTKSPELL_CFLAGS
               C compiler flags for GTKSPELL, overriding pkg-config
   GTKSPELL_LIBS
@@ -8614,6 +8646,789 @@ _ACEOF
 fi
 
 
+
+
+for ac_prog in gawk mawk nawk awk
+do
+  # Extract the first word of "$ac_prog", so it can be a program name with args.
+set dummy $ac_prog; ac_word=$2
+{ echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6; }
+if test "${ac_cv_prog_AWK+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  if test -n "$AWK"; then
+  ac_cv_prog_AWK="$AWK" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
+    ac_cv_prog_AWK="$ac_prog"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+IFS=$as_save_IFS
+
+fi
+fi
+AWK=$ac_cv_prog_AWK
+if test -n "$AWK"; then
+  { echo "$as_me:$LINENO: result: $AWK" >&5
+echo "${ECHO_T}$AWK" >&6; }
+else
+  { echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6; }
+fi
+
+
+  test -n "$AWK" && break
+done
+
+
+# ************************
+# Check which gecko to use
+# ************************
+
+{ echo "$as_me:$LINENO: checking which gecko to use" >&5
+echo $ECHO_N "checking which gecko to use... $ECHO_C" >&6; }
+
+
+# Check whether --with-gecko was given.
+if test "${with_gecko+set}" = set; then
+  withval=$with_gecko;
+fi
+
+
+# Backward compat
+
+# Check whether --with-mozilla was given.
+if test "${with_mozilla+set}" = set; then
+  withval=$with_mozilla; with_gecko=$withval
+fi
+
+
+gecko_cv_gecko=$with_gecko
+
+# Autodetect gecko
+_geckos="xulrunner firefox mozilla-firefox seamonkey mozilla"
+if test -z "$gecko_cv_gecko"; then
+	for lizard in $_geckos; do
+		if $PKG_CONFIG --exists $lizard-xpcom; then
+			gecko_cv_gecko=$lizard
+			break;
+		fi
+	done
+fi
+
+{ echo "$as_me:$LINENO: result: $gecko_cv_gecko" >&5
+echo "${ECHO_T}$gecko_cv_gecko" >&6; }
+
+if test "x$gecko_cv_gecko" = "x"; then
+	{ { echo "$as_me:$LINENO: error: No gecko found; you may need to adjust PKG_CONFIG_PATH or install a mozilla/firefox/xulrunner -devel package" >&5
+echo "$as_me: error: No gecko found; you may need to adjust PKG_CONFIG_PATH or install a mozilla/firefox/xulrunner -devel package" >&2;}
+   { (exit 1); exit 1; }; }
+	gecko_cv_have_gecko=no
+elif ! ( echo "$_geckos" | egrep "(^| )$gecko_cv_gecko(\$| )" > /dev/null); then
+	{ { echo "$as_me:$LINENO: error: Unknown gecko \"$gecko_cv_gecko\" specified" >&5
+echo "$as_me: error: Unknown gecko \"$gecko_cv_gecko\" specified" >&2;}
+   { (exit 1); exit 1; }; }
+else
+
+	gecko_cv_have_gecko=yes
+fi
+
+# ****************
+# Define variables
+# ****************
+
+if test "$gecko_cv_have_gecko" = "yes"; then
+
+case "$gecko_cv_gecko" in
+mozilla) gecko_cv_gecko_flavour=mozilla ;;
+seamonkey) gecko_cv_gecko_flavour=mozilla ;;
+*firefox) gecko_cv_gecko_flavour=toolkit ;;
+xulrunner) gecko_cv_gecko_flavour=toolkit ;;
+esac
+
+_GECKO_INCLUDE_ROOT="`$PKG_CONFIG --variable=includedir ${gecko_cv_gecko}-xpcom`"
+_GECKO_HOME="`$PKG_CONFIG --variable=libdir ${gecko_cv_gecko}-xpcom`"
+_GECKO_PREFIX="`$PKG_CONFIG --variable=prefix ${gecko_cv_gecko}-xpcom`"
+
+fi # if gecko_cv_have_gecko
+
+if test "$gecko_cv_gecko_flavour" = "toolkit"; then
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_MOZILLA_TOOLKIT 1
+_ACEOF
+
+fi
+
+
+if test "$gecko_cv_gecko_flavour" = "toolkit"; then
+  HAVE_MOZILLA_TOOLKIT_TRUE=
+  HAVE_MOZILLA_TOOLKIT_FALSE='#'
+else
+  HAVE_MOZILLA_TOOLKIT_TRUE='#'
+  HAVE_MOZILLA_TOOLKIT_FALSE=
+fi
+
+
+MOZILLA=$gecko_cv_gecko
+MOZILLA_FLAVOUR=$gecko_cv_gecko_flavour
+MOZILLA_INCLUDE_ROOT=$_GECKO_INCLUDE_ROOT
+MOZILLA_HOME=$_GECKO_HOME
+MOZILLA_PREFIX=$_GECKO_PREFIX
+
+# **************************************************************
+# This is really gcc-only
+# Do this test using CXX only since some versions of gcc
+# 2.95-2.97 have a signed wchar_t in c++ only and some versions
+# only have short-wchar support for c++.
+# **************************************************************
+
+_GECKO_EXTRA_CPPFLAGS=
+_GECKO_EXTRA_CFLAGS=
+_GECKO_EXTRA_CXXFLAGS=
+_GECKO_EXTRA_LDFLAGS=
+
+if test "$gecko_cv_have_gecko" = "yes"; then
+
+ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+
+_SAVE_CXXFLAGS=$CXXFLAGS
+CXXFLAGS="$CXXFLAGS $_GECKO_EXTRA_CXXFLAGS -fshort-wchar"
+
+{ echo "$as_me:$LINENO: checking for compiler -fshort-wchar option" >&5
+echo $ECHO_N "checking for compiler -fshort-wchar option... $ECHO_C" >&6; }
+if test "${gecko_cv_have_usable_wchar_option+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  if test "$cross_compiling" = yes; then
+  gecko_cv_have_usable_wchar_option="maybe (cross-compiling)"
+else
+  cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <stddef.h>
+		  int main () {
+		    return (sizeof(wchar_t) != 2) || (wchar_t)-1 < (wchar_t) 0 ;
+		  }
+_ACEOF
+rm -f conftest$ac_exeext
+if { (ac_try="$ac_link"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval "echo \"\$as_me:$LINENO: $ac_try_echo\"") >&5
+  (eval "$ac_link") 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && { ac_try='./conftest$ac_exeext'
+  { (case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval "echo \"\$as_me:$LINENO: $ac_try_echo\"") >&5
+  (eval "$ac_try") 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  gecko_cv_have_usable_wchar_option="yes"
+else
+  echo "$as_me: program exited with status $ac_status" >&5
+echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+( exit $ac_status )
+gecko_cv_have_usable_wchar_option="no"
+fi
+rm -f core *.core core.conftest.* gmon.out bb.out conftest$ac_exeext conftest.$ac_objext conftest.$ac_ext
+fi
+
+
+fi
+{ echo "$as_me:$LINENO: result: $gecko_cv_have_usable_wchar_option" >&5
+echo "${ECHO_T}$gecko_cv_have_usable_wchar_option" >&6; }
+
+CXXFLAGS="$_SAVE_CXXFLAGS"
+
+ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+
+if test "$gecko_cv_have_usable_wchar_option" = "yes"; then
+	_GECKO_EXTRA_CXXFLAGS="-fshort-wchar"
+	AM_CXXFLAGS="$AM_CXXFLAGS -fshort-wchar"
+fi
+
+fi # if gecko_cv_have_gecko
+
+# **************
+# Check for RTTI
+# **************
+
+if test "$gecko_cv_have_gecko" = "yes"; then
+
+{ echo "$as_me:$LINENO: checking whether to enable C++ RTTI" >&5
+echo $ECHO_N "checking whether to enable C++ RTTI... $ECHO_C" >&6; }
+# Check whether --enable-cpp-rtti was given.
+if test "${enable_cpp_rtti+set}" = set; then
+  enableval=$enable_cpp_rtti;
+else
+  enable_cpp_rtti=no
+fi
+
+{ echo "$as_me:$LINENO: result: $enable_cpp_rtti" >&5
+echo "${ECHO_T}$enable_cpp_rtti" >&6; }
+
+if test "$enable_cpp_rtti" = "no"; then
+	_GECKO_EXTRA_CXXFLAGS="-fno-rtti $_GECKO_EXTRA_CXXFLAGS"
+	AM_CXXFLAGS="-fno-rtti $AM_CXXFLAGS"
+fi
+
+fi # if gecko_cv_have_gecko
+
+# *************
+# Various tests
+# *************
+
+if test "$gecko_cv_have_gecko" = "yes"; then
+
+ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+
+_SAVE_CPPFLAGS="$CPPFLAGS"
+CPPFLAGS="$CPPFLAGS $_GECKO_EXTRA_CPPFLAGS -I$_GECKO_INCLUDE_ROOT"
+
+{ echo "$as_me:$LINENO: checking whether we have a gtk 2 gecko build" >&5
+echo $ECHO_N "checking whether we have a gtk 2 gecko build... $ECHO_C" >&6; }
+if test "$cross_compiling" = yes; then
+  result=maybe
+else
+  cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <mozilla-config.h>
+		  #include <string.h>
+		  #include <stdlib.h>
+                  int main(void) {
+		    if (strcmp (MOZ_DEFAULT_TOOLKIT, "gtk2") == 0 ||
+		        strcmp (MOZ_DEFAULT_TOOLKIT, "cairo-gtk2") == 0)
+			    return EXIT_SUCCESS;
+
+		    return EXIT_FAILURE;
+		  }
+
+_ACEOF
+rm -f conftest$ac_exeext
+if { (ac_try="$ac_link"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval "echo \"\$as_me:$LINENO: $ac_try_echo\"") >&5
+  (eval "$ac_link") 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && { ac_try='./conftest$ac_exeext'
+  { (case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval "echo \"\$as_me:$LINENO: $ac_try_echo\"") >&5
+  (eval "$ac_try") 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  result=yes
+else
+  echo "$as_me: program exited with status $ac_status" >&5
+echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+( exit $ac_status )
+{ { echo "$as_me:$LINENO: error: This program needs a gtk 2 gecko build" >&5
+echo "$as_me: error: This program needs a gtk 2 gecko build" >&2;}
+   { (exit 1); exit 1; }; }
+fi
+rm -f core *.core core.conftest.* gmon.out bb.out conftest$ac_exeext conftest.$ac_objext conftest.$ac_ext
+fi
+
+
+{ echo "$as_me:$LINENO: result: $result" >&5
+echo "${ECHO_T}$result" >&6; }
+
+{ echo "$as_me:$LINENO: checking whether we have a gecko debug build" >&5
+echo $ECHO_N "checking whether we have a gecko debug build... $ECHO_C" >&6; }
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <mozilla-config.h>
+		  #if !defined(MOZ_REFLOW_PERF) || !defined(MOZ_REFLOW_PERF_DSP)
+		  #error No
+		  #endif
+
+_ACEOF
+rm -f conftest.$ac_objext
+if { (ac_try="$ac_compile"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval "echo \"\$as_me:$LINENO: $ac_try_echo\"") >&5
+  (eval "$ac_compile") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_cxx_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest.$ac_objext; then
+  gecko_cv_have_debug=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+	gecko_cv_have_debug=no
+fi
+
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+{ echo "$as_me:$LINENO: result: $gecko_cv_have_debug" >&5
+echo "${ECHO_T}$gecko_cv_have_debug" >&6; }
+
+CPPFLAGS="$_SAVE_CPPFLAGS"
+
+ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+
+if test "$gecko_cv_have_debug" = "yes"; then
+	_GECKO_EXTRA_CXXFLAGS="$_GECKO_EXTRA_CXXFLAGS -DDEBUG -D_DEBUG"
+	AM_CXXFLAGS="-DDEBUG -D_DEBUG $AM_CXXFLAGS"
+
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_GECKO_DEBUG 1
+_ACEOF
+
+fi
+
+fi # if gecko_cv_have_gecko
+
+
+
+if test "$gecko_cv_have_debug" = "yes"; then
+  HAVE_GECKO_DEBUG_TRUE=
+  HAVE_GECKO_DEBUG_FALSE='#'
+else
+  HAVE_GECKO_DEBUG_TRUE='#'
+  HAVE_GECKO_DEBUG_FALSE=
+fi
+
+
+# ***********************
+# Check for gecko version
+# ***********************
+
+if test "$gecko_cv_have_gecko" = "yes"; then
+
+ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+
+_SAVE_CPPFLAGS="$CPPFLAGS"
+CPPFLAGS="$CPPFLAGS -I$_GECKO_INCLUDE_ROOT"
+
+{ echo "$as_me:$LINENO: checking for gecko version" >&5
+echo $ECHO_N "checking for gecko version... $ECHO_C" >&6; }
+if test "${gecko_cv_gecko_version+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  if test "$cross_compiling" = yes; then
+  gecko_cv_gecko_version="1.7"
+else
+  cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+#include <mozilla-config.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <locale.h>
+
+int
+main ()
+{
+
+FILE *stream;
+const char *version = "";
+
+if (!setlocale (LC_ALL, "C")) return 127;
+
+stream = fopen ("conftest.data", "w");
+if (!stream) return 126;
+
+#ifdef MOZILLA_1_8_BRANCH
+version = "1.8.1";
+#else
+if (strncmp (MOZILLA_VERSION, "1.9", strlen ("1.9")) == 0) {
+	version = "1.9";
+} else if (strncmp (MOZILLA_VERSION, "1.8", strlen ("1.8")) == 0) {
+	version = "1.8";
+} else {
+	version = "1.7";
+}
+#endif
+fprintf (stream, "%s\n", version);
+if (fclose (stream) != 0) return 125;
+
+return EXIT_SUCCESS;
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest$ac_exeext
+if { (ac_try="$ac_link"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval "echo \"\$as_me:$LINENO: $ac_try_echo\"") >&5
+  (eval "$ac_link") 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && { ac_try='./conftest$ac_exeext'
+  { (case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval "echo \"\$as_me:$LINENO: $ac_try_echo\"") >&5
+  (eval "$ac_try") 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  gecko_cv_gecko_version="$(cat conftest.data)"
+else
+  echo "$as_me: program exited with status $ac_status" >&5
+echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+( exit $ac_status )
+{ { echo "$as_me:$LINENO: error: could not determine gecko version
+See \`config.log' for more details." >&5
+echo "$as_me: error: could not determine gecko version
+See \`config.log' for more details." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+rm -f core *.core core.conftest.* gmon.out bb.out conftest$ac_exeext conftest.$ac_objext conftest.$ac_ext
+fi
+
+
+
+fi
+{ echo "$as_me:$LINENO: result: $gecko_cv_gecko_version" >&5
+echo "${ECHO_T}$gecko_cv_gecko_version" >&6; }
+
+CPPFLAGS="$_SAVE_CPPFLAGS"
+
+ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+
+gecko_cv_gecko_version_int="$(echo "$gecko_cv_gecko_version" | $AWK -F . '{print $1 * 1000000 + $2 * 1000 + $3}')"
+
+if test "$gecko_cv_gecko_version" -lt "1007000" -o "$gecko_cv_gecko_version_int" -gt 	"1009000"; then
+	{ { echo "$as_me:$LINENO: error: Gecko version $gecko_cv_gecko_version_int is not supported!" >&5
+echo "$as_me: error: Gecko version $gecko_cv_gecko_version_int is not supported!" >&2;}
+   { (exit 1); exit 1; }; }
+fi
+
+if test "$gecko_cv_gecko_version_int" -ge "1007000"; then
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_GECKO_1_7 1
+_ACEOF
+
+	gecko_cv_have_gecko_1_7=yes
+fi
+if test "$gecko_cv_gecko_version_int" -ge "1008000"; then
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_GECKO_1_8 1
+_ACEOF
+
+	gecko_cv_have_gecko_1_8=yes
+fi
+if test "$gecko_cv_gecko_version_int" -ge "1008001"; then
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_GECKO_1_8_1 1
+_ACEOF
+
+	gecko_cv_have_gecko_1_8_1=yes
+fi
+if test "$gecko_cv_gecko_version_int" -ge "1009000"; then
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_GECKO_1_9 1
+_ACEOF
+
+	gecko_cv_have_gecko_1_9=yes
+fi
+
+fi # if gecko_cv_have_gecko
+
+
+
+if test "$gecko_cv_gecko_version_int" -ge "1007000"; then
+  HAVE_GECKO_1_7_TRUE=
+  HAVE_GECKO_1_7_FALSE='#'
+else
+  HAVE_GECKO_1_7_TRUE='#'
+  HAVE_GECKO_1_7_FALSE=
+fi
+
+
+
+if test "$gecko_cv_gecko_version_int" -ge "1008000"; then
+  HAVE_GECKO_1_8_TRUE=
+  HAVE_GECKO_1_8_FALSE='#'
+else
+  HAVE_GECKO_1_8_TRUE='#'
+  HAVE_GECKO_1_8_FALSE=
+fi
+
+
+
+if test "$gecko_cv_gecko_version_int" -ge "1008001"; then
+  HAVE_GECKO_1_8_1_TRUE=
+  HAVE_GECKO_1_8_1_FALSE='#'
+else
+  HAVE_GECKO_1_8_1_TRUE='#'
+  HAVE_GECKO_1_8_1_FALSE=
+fi
+
+
+
+if test "$gecko_cv_gecko_version_int" -ge "1009000"; then
+  HAVE_GECKO_1_9_TRUE=
+  HAVE_GECKO_1_9_FALSE='#'
+else
+  HAVE_GECKO_1_9_TRUE='#'
+  HAVE_GECKO_1_9_FALSE=
+fi
+
+
+MOZILLA_VERSION=$gecko_cv_gecko_version
+MOZILLA_VERSION_INT=$gecko_cv_gecko_version_int
+
+# **************************************************
+# Packages that we need to check for with pkg-config
+# **************************************************
+
+gecko_cv_extra_libs=
+gecko_cv_extra_pkg_dependencies=
+
+if test "$gecko_cv_gecko_version_int" -ge "1009000"; then
+	gecko_cv_extra_libs="-lxul"
+else
+	gecko_cv_extra_pkg_dependencies="${gecko_cv_gecko}-gtkmozembed"
+fi
+
+MOZILLA_EXTRA_PKG_DEPENDENCIES="$gecko_cv_extra_pkg_dependencies"
+MOZILLA_EXTRA_LIBS="$gecko_cv_extra_libs"
+
+
+
+
+
+
+
+
+
+case "$MOZILLA" in
+xulrunner) gecko_min_version=1.8 ;;
+*firefox) gecko_min_version=1.5 ;;
+*) { { echo "$as_me:$LINENO: error: $gecko_cv_gecko is not supported" >&5
+echo "$as_me: error: $gecko_cv_gecko is not supported" >&2;}
+   { (exit 1); exit 1; }; }
+esac
+
+
+pkg_failed=no
+{ echo "$as_me:$LINENO: checking for MOZILLA_COMPONENT" >&5
+echo $ECHO_N "checking for MOZILLA_COMPONENT... $ECHO_C" >&6; }
+
+if test -n "$PKG_CONFIG"; then
+    if test -n "$MOZILLA_COMPONENT_CFLAGS"; then
+        pkg_cv_MOZILLA_COMPONENT_CFLAGS="$MOZILLA_COMPONENT_CFLAGS"
+    else
+        if test -n "$PKG_CONFIG" && \
+    { (echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"\${gecko_cv_gecko}-xpcom >= \$gecko_min_version \$gecko_cv_extra_pkg_dependencies\"") >&5
+  ($PKG_CONFIG --exists --print-errors "${gecko_cv_gecko}-xpcom >= $gecko_min_version $gecko_cv_extra_pkg_dependencies") 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; then
+  pkg_cv_MOZILLA_COMPONENT_CFLAGS=`$PKG_CONFIG --cflags "${gecko_cv_gecko}-xpcom >= $gecko_min_version $gecko_cv_extra_pkg_dependencies" 2>/dev/null`
+else
+  pkg_failed=yes
+fi
+    fi
+else
+	pkg_failed=untried
+fi
+if test -n "$PKG_CONFIG"; then
+    if test -n "$MOZILLA_COMPONENT_LIBS"; then
+        pkg_cv_MOZILLA_COMPONENT_LIBS="$MOZILLA_COMPONENT_LIBS"
+    else
+        if test -n "$PKG_CONFIG" && \
+    { (echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"\${gecko_cv_gecko}-xpcom >= \$gecko_min_version \$gecko_cv_extra_pkg_dependencies\"") >&5
+  ($PKG_CONFIG --exists --print-errors "${gecko_cv_gecko}-xpcom >= $gecko_min_version $gecko_cv_extra_pkg_dependencies") 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; then
+  pkg_cv_MOZILLA_COMPONENT_LIBS=`$PKG_CONFIG --libs "${gecko_cv_gecko}-xpcom >= $gecko_min_version $gecko_cv_extra_pkg_dependencies" 2>/dev/null`
+else
+  pkg_failed=yes
+fi
+    fi
+else
+	pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        MOZILLA_COMPONENT_PKG_ERRORS=`$PKG_CONFIG --short-errors --errors-to-stdout --print-errors "${gecko_cv_gecko}-xpcom >= $gecko_min_version $gecko_cv_extra_pkg_dependencies"`
+        else
+	        MOZILLA_COMPONENT_PKG_ERRORS=`$PKG_CONFIG --errors-to-stdout --print-errors "${gecko_cv_gecko}-xpcom >= $gecko_min_version $gecko_cv_extra_pkg_dependencies"`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$MOZILLA_COMPONENT_PKG_ERRORS" >&5
+
+	{ { echo "$as_me:$LINENO: error: Package requirements (${gecko_cv_gecko}-xpcom >= $gecko_min_version $gecko_cv_extra_pkg_dependencies) were not met:
+
+$MOZILLA_COMPONENT_PKG_ERRORS
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+
+Alternatively, you may set the environment variables MOZILLA_COMPONENT_CFLAGS
+and MOZILLA_COMPONENT_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+" >&5
+echo "$as_me: error: Package requirements (${gecko_cv_gecko}-xpcom >= $gecko_min_version $gecko_cv_extra_pkg_dependencies) were not met:
+
+$MOZILLA_COMPONENT_PKG_ERRORS
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+
+Alternatively, you may set the environment variables MOZILLA_COMPONENT_CFLAGS
+and MOZILLA_COMPONENT_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+" >&2;}
+   { (exit 1); exit 1; }; }
+elif test $pkg_failed = untried; then
+	{ { echo "$as_me:$LINENO: error: The pkg-config script could not be found or is too old.  Make sure it
+is in your PATH or set the PKG_CONFIG environment variable to the full
+path to pkg-config.
+
+Alternatively, you may set the environment variables MOZILLA_COMPONENT_CFLAGS
+and MOZILLA_COMPONENT_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+
+To get pkg-config, see <http://www.freedesktop.org/software/pkgconfig>.
+See \`config.log' for more details." >&5
+echo "$as_me: error: The pkg-config script could not be found or is too old.  Make sure it
+is in your PATH or set the PKG_CONFIG environment variable to the full
+path to pkg-config.
+
+Alternatively, you may set the environment variables MOZILLA_COMPONENT_CFLAGS
+and MOZILLA_COMPONENT_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+
+To get pkg-config, see <http://www.freedesktop.org/software/pkgconfig>.
+See \`config.log' for more details." >&2;}
+   { (exit 1); exit 1; }; }
+else
+	MOZILLA_COMPONENT_CFLAGS=$pkg_cv_MOZILLA_COMPONENT_CFLAGS
+	MOZILLA_COMPONENT_LIBS=$pkg_cv_MOZILLA_COMPONENT_LIBS
+        { echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6; }
+	:
+fi
+
+cat >>confdefs.h <<\_ACEOF
+#define USE_GTKMOZEMBED 1
+_ACEOF
+
+
+
+if true; then
+  USE_GTKMOZEMBED_TRUE=
+  USE_GTKMOZEMBED_FALSE='#'
+else
+  USE_GTKMOZEMBED_TRUE='#'
+  USE_GTKMOZEMBED_FALSE=
+fi
+
+gecko=yes
+MOZILLA_HOME="`$PKG_CONFIG --variable=libdir $MOZILLA-gtkmozembed`"
+
+
 # Checks for header files.
 { echo "$as_me:$LINENO: checking for ANSI C header files" >&5
 echo $ECHO_N "checking for ANSI C header files... $ECHO_C" >&6; }
@@ -13560,6 +14375,55 @@ echo "$as_me: error: conditional \"am__fastdepCC\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
+if test -z "${HAVE_MOZILLA_TOOLKIT_TRUE}" && test -z "${HAVE_MOZILLA_TOOLKIT_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"HAVE_MOZILLA_TOOLKIT\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"HAVE_MOZILLA_TOOLKIT\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${HAVE_GECKO_DEBUG_TRUE}" && test -z "${HAVE_GECKO_DEBUG_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"HAVE_GECKO_DEBUG\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"HAVE_GECKO_DEBUG\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${HAVE_GECKO_1_7_TRUE}" && test -z "${HAVE_GECKO_1_7_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"HAVE_GECKO_1_7\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"HAVE_GECKO_1_7\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${HAVE_GECKO_1_8_TRUE}" && test -z "${HAVE_GECKO_1_8_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"HAVE_GECKO_1_8\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"HAVE_GECKO_1_8\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${HAVE_GECKO_1_8_1_TRUE}" && test -z "${HAVE_GECKO_1_8_1_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"HAVE_GECKO_1_8_1\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"HAVE_GECKO_1_8_1\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${HAVE_GECKO_1_9_TRUE}" && test -z "${HAVE_GECKO_1_9_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"HAVE_GECKO_1_9\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"HAVE_GECKO_1_9\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${USE_GTKMOZEMBED_TRUE}" && test -z "${USE_GTKMOZEMBED_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"USE_GTKMOZEMBED\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"USE_GTKMOZEMBED\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
 if test -z "${WIN32_TRUE}" && test -z "${WIN32_FALSE}"; then
   { { echo "$as_me:$LINENO: error: conditional \"WIN32\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
@@ -14278,6 +15142,28 @@ ENCHANT_CFLAGS!$ENCHANT_CFLAGS$ac_delim
 ENCHANT_LIBS!$ENCHANT_LIBS$ac_delim
 PANGO_CFLAGS!$PANGO_CFLAGS$ac_delim
 PANGO_LIBS!$PANGO_LIBS$ac_delim
+HAVE_MOZILLA_TOOLKIT_TRUE!$HAVE_MOZILLA_TOOLKIT_TRUE$ac_delim
+HAVE_MOZILLA_TOOLKIT_FALSE!$HAVE_MOZILLA_TOOLKIT_FALSE$ac_delim
+HAVE_GECKO_DEBUG_TRUE!$HAVE_GECKO_DEBUG_TRUE$ac_delim
+HAVE_GECKO_DEBUG_FALSE!$HAVE_GECKO_DEBUG_FALSE$ac_delim
+HAVE_GECKO_1_7_TRUE!$HAVE_GECKO_1_7_TRUE$ac_delim
+HAVE_GECKO_1_7_FALSE!$HAVE_GECKO_1_7_FALSE$ac_delim
+HAVE_GECKO_1_8_TRUE!$HAVE_GECKO_1_8_TRUE$ac_delim
+HAVE_GECKO_1_8_FALSE!$HAVE_GECKO_1_8_FALSE$ac_delim
+HAVE_GECKO_1_8_1_TRUE!$HAVE_GECKO_1_8_1_TRUE$ac_delim
+HAVE_GECKO_1_8_1_FALSE!$HAVE_GECKO_1_8_1_FALSE$ac_delim
+HAVE_GECKO_1_9_TRUE!$HAVE_GECKO_1_9_TRUE$ac_delim
+HAVE_GECKO_1_9_FALSE!$HAVE_GECKO_1_9_FALSE$ac_delim
+MOZILLA!$MOZILLA$ac_delim
+MOZILLA_FLAVOUR!$MOZILLA_FLAVOUR$ac_delim
+MOZILLA_INCLUDE_ROOT!$MOZILLA_INCLUDE_ROOT$ac_delim
+MOZILLA_HOME!$MOZILLA_HOME$ac_delim
+MOZILLA_PREFIX!$MOZILLA_PREFIX$ac_delim
+MOZILLA_EXTRA_LIBS!$MOZILLA_EXTRA_LIBS$ac_delim
+MOZILLA_COMPONENT_CFLAGS!$MOZILLA_COMPONENT_CFLAGS$ac_delim
+MOZILLA_COMPONENT_LIBS!$MOZILLA_COMPONENT_LIBS$ac_delim
+USE_GTKMOZEMBED_TRUE!$USE_GTKMOZEMBED_TRUE$ac_delim
+USE_GTKMOZEMBED_FALSE!$USE_GTKMOZEMBED_FALSE$ac_delim
 SPELLER_LIB!$SPELLER_LIB$ac_delim
 GTKSPELL_PACKAGES!$GTKSPELL_PACKAGES$ac_delim
 GTKSPELL_CFLAGS!$GTKSPELL_CFLAGS$ac_delim
@@ -14294,7 +15180,7 @@ WIN32_FALSE!$WIN32_FALSE$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 45; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 67; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5

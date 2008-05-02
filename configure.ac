@@ -170,6 +170,30 @@ PKG_CHECK_MODULES(PANGO, [pango >= 1.8.0],
    [AC_MSG_WARN([Enabling word-breaking workarounds since pango < 1.8.0])])
 
 
+dnl  *****
+dnl  Gecko
+dnl  *****
+GECKO_INIT([MOZILLA])
+AC_SUBST([MOZILLA])
+AC_SUBST([MOZILLA_FLAVOUR])
+AC_SUBST([MOZILLA_INCLUDE_ROOT])
+AC_SUBST([MOZILLA_HOME])
+AC_SUBST([MOZILLA_PREFIX])
+AC_SUBST([MOZILLA_EXTRA_LIBS])
+
+case "$MOZILLA" in
+xulrunner) gecko_min_version=1.8 ;;
+*firefox) gecko_min_version=1.5 ;;
+*) AC_MSG_ERROR([$gecko_cv_gecko is not supported])
+esac
+
+PKG_CHECK_MODULES([MOZILLA_COMPONENT],[${gecko_cv_gecko}-xpcom >= $gecko_min_version $gecko_cv_extra_pkg_dependencies])
+AC_DEFINE(USE_GTKMOZEMBED, 1, [Define if you want to use gtkmozembed])
+AM_CONDITIONAL(USE_GTKMOZEMBED, true)
+gecko=yes  
+MOZILLA_HOME="`$PKG_CONFIG --variable=libdir $MOZILLA-gtkmozembed`"
+
+
 # Checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS(fcntl.h unistd.h sys/uio.h)

@@ -44,7 +44,8 @@ bin_PROGRAMS = bibledit-bin$(EXEEXT) bibledit-bibletime$(EXEEXT) \
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/configure.ac
+am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -238,6 +239,18 @@ GTK_CFLAGS = -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/at
 GTK_LIBS = -lgtk-x11-2.0 -latk-1.0 -lgdk-x11-2.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lfontconfig -lXext -lXrender -lXinerama -lXi -lXrandr -lXcursor -lXfixes -lpango-1.0 -lcairo -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0 -lX11  
 GUNZIP_PATH = /bin/gunzip
 GZIP_PATH = /bin/gzip
+HAVE_GECKO_1_7_FALSE = #
+HAVE_GECKO_1_7_TRUE = 
+HAVE_GECKO_1_8_1_FALSE = 
+HAVE_GECKO_1_8_1_TRUE = #
+HAVE_GECKO_1_8_FALSE = #
+HAVE_GECKO_1_8_TRUE = 
+HAVE_GECKO_1_9_FALSE = 
+HAVE_GECKO_1_9_TRUE = #
+HAVE_GECKO_DEBUG_FALSE = 
+HAVE_GECKO_DEBUG_TRUE = #
+HAVE_MOZILLA_TOOLKIT_FALSE = #
+HAVE_MOZILLA_TOOLKIT_TRUE = 
 HEAD_PATH = /usr/bin/head
 ICONV_PATH = /usr/bin/iconv
 INSTALL_DATA = ${INSTALL} -m 644
@@ -249,11 +262,19 @@ LIBOBJS =
 LIBS = -Wall `pkg-config gthread-2.0 --libs` `pkg-config sqlite3 \
 	--libs` `pkg-config gobject-2.0 --libs` `pkg-config glib-2.0 \
 	--libs` `pkg-config gtk+-2.0 --libs` `pkg-config fontconfig \
-	--libs` `xml2-config --libs` `pkg-config xulrunner-gtkmozembed \
-	--libs` $(ENCHANT_LIBS) $(am__append_1)
+	--libs` `xml2-config --libs` $(ENCHANT_LIBS) \
+	$(MOZILLA_COMPONENT_LIBS) $(am__append_1)
 LTLIBOBJS = 
 MAKEINFO = ${SHELL} /home/teus/documents/dev/bibledit/missing --run makeinfo
 MAKE_PATH = /usr/bin/make
+MOZILLA = xulrunner
+MOZILLA_COMPONENT_CFLAGS = -I/usr/include/xulrunner -I/usr/include/xulrunner/xpcom -I/usr/include/xulrunner/string -I/usr/include/nspr -I/usr/include/xulrunner/gtkembedmoz  
+MOZILLA_COMPONENT_LIBS = -L/usr/lib/xulrunner -lgtkembedmoz -lxpcom -lplds4 -lplc4 -lnspr4 -lpthread -ldl  
+MOZILLA_EXTRA_LIBS = 
+MOZILLA_FLAVOUR = toolkit
+MOZILLA_HOME = /usr/lib/xulrunner
+MOZILLA_INCLUDE_ROOT = /usr/include/xulrunner
+MOZILLA_PREFIX = /usr
 OBJEXT = o
 PACKAGE = bibledit
 PACKAGE_BUGREPORT = http://www.nongnu.org/bibledit
@@ -278,6 +299,8 @@ STRINGS_PATH = /usr/bin/strings
 STRIP = 
 TAIL_PATH = /usr/bin/tail
 TEE_TOUCH = /usr/bin/touch
+USE_GTKMOZEMBED_FALSE = #
+USE_GTKMOZEMBED_TRUE = 
 VERSION = 3.1.53
 WIN32_FALSE = 
 WIN32_TRUE = #
@@ -600,7 +623,7 @@ AM_CXXFLAGS = -Wall `pkg-config gthread-2.0 --cflags` `pkg-config \
 	sqlite3 --cflags` `pkg-config gobject-2.0 --cflags` \
 	`pkg-config glib-2.0 --cflags` `pkg-config gtk+-2.0 --cflags` \
 	`pkg-config fontconfig --cflags` `xml2-config --cflags` \
-	`pkg-config xulrunner-gtkmozembed --cflags` $(ENCHANT_CFLAGS)
+	$(ENCHANT_CFLAGS) $(MOZILLA_COMPONENT_CFLAGS)
 CLEANFILES = *~
 all: all-am
 

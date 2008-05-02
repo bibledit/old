@@ -11,12 +11,12 @@ filter.file.ignore.hidden=0
 filter.dir.ignore.hidden=0
 
 [filenumbers]
-0=146
-1=274
-2=3707
-3=52
-4=588
-5=51
+0=7314
+1=146
+2=274
+3=3707
+4=52
+5=603
 6=282
 7=3713
 8=50
@@ -32,8 +32,8 @@ filter.dir.ignore.hidden=0
 1=
 2=
 3=
-4=174,230,258,616,
-5=
+4=
+5=174,230,258,
 6=
 7=
 8=
@@ -45,11 +45,12 @@ filter.dir.ignore.hidden=0
 14=
 
 [filelist]
-0=/home/teus/documents/dev/bibledit/src/editor_aids.h
-1=/home/teus/documents/dev/bibledit/src/editor.h
-2=/home/teus/documents/dev/bibledit/src/editor.cpp
-3=/home/teus/documents/dev/bibledit/src/spelling.h
-4=/home/teus/documents/dev/bibledit/src/spelling.cpp
+0=/home/teus/documents/dev/bibledit/src/mainwindow.cpp
+1=/home/teus/documents/dev/bibledit/src/editor_aids.h
+2=/home/teus/documents/dev/bibledit/src/editor.h
+3=/home/teus/documents/dev/bibledit/src/editor.cpp
+4=/home/teus/documents/dev/bibledit/src/spelling.h
+5=/home/teus/documents/dev/bibledit/src/spelling.cpp
 
 [Project Tree]
 0=0
