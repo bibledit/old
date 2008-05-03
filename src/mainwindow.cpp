@@ -168,6 +168,7 @@ httpd (0)
   notes_redisplay_source_id = 0;
   displayprojectnotes = NULL;
   git_reopen_project = false;
+  mainwindow_width = 0;
   
   // Gui Features object.
   GuiFeatures guifeatures (0);
@@ -2256,6 +2257,7 @@ httpd (0)
   g_signal_connect ((gpointer) mainwindow, "delete_event", G_CALLBACK (on_mainwindow_delete_event), gpointer(this));
   g_signal_connect ((gpointer) mainwindow, "focus_in_event", G_CALLBACK (on_mainwindow_focus_in_event), gpointer(this));
   g_signal_connect ((gpointer) mainwindow, "window_state_event", G_CALLBACK (on_mainwindow_window_state_event), gpointer(this));
+  g_signal_connect ((gpointer) mainwindow, "size-allocate", G_CALLBACK (on_window_size_allocated), gpointer (this));
   if (guifeatures.project_management ()) {
     g_signal_connect ((gpointer) new1, "activate", G_CALLBACK (on_new1_activate), gpointer(this));
     g_signal_connect ((gpointer) open1, "activate", G_CALLBACK (on_open1_activate), gpointer(this));
@@ -4419,11 +4421,16 @@ void MainWindow::on_gui ()
   gtk_widget_add_accelerator (undo1, "activate", accel_group, GDK_Z, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
   gtk_widget_remove_accelerator (redo1, accel_group, GDK_Z, GdkModifierType (GDK_CONTROL_MASK | GDK_SHIFT_MASK));
   gtk_widget_add_accelerator (redo1, "activate", accel_group, GDK_Z, GdkModifierType (GDK_CONTROL_MASK | GDK_SHIFT_MASK), GTK_ACCEL_VISIBLE);
-  // Update the amount of Git tasks still to be done.
-  ustring git;
-  if (git_tasks_count () >= 0) 
-    git = "Git tasks pending: " + convert_to_string (git_tasks_count ());
-  gtk_label_set_text (GTK_LABEL (label_git), git.c_str());
+  // Display information about the number of Git tasks to be done if there are too many of them.
+  {
+    ustring git;
+    if (git_tasks_count () >= 100) 
+      git = "Git tasks pending: " + convert_to_string (git_tasks_count ());
+    ustring currenttext = gtk_label_get_text (GTK_LABEL (label_git));
+    if (git != currenttext) {
+      gtk_label_set_text (GTK_LABEL (label_git), git.c_str());
+    }
+  }
   // Check whether to reopen the project.
   on_git_reopen_project ();
   // Handle the gui part of displaying project notes.
@@ -4469,6 +4476,30 @@ void MainWindow::on_mainwindow_window_state (GdkEvent *event)
     if (settings->genconfig.window_maximized_get ()) gtk_window_maximize (GTK_WINDOW (mainwindow));
     settings->session.window_initialized = true;    
   }
+}
+
+
+void MainWindow::on_window_size_allocated (GtkWidget *widget, GtkAllocation *allocation, gpointer user_data)
+{
+  ((MainWindow *) user_data)->window_size_allocated (widget, allocation);
+}
+
+
+void MainWindow::window_size_allocated (GtkWidget *widget, GtkAllocation *allocation)
+{
+  if (mainwindow_width != 0 && mainwindow_width != allocation->width) {
+    bool increased = allocation->width > mainwindow_width;
+    gint difference = ABS (allocation->width - mainwindow_width);
+    gint position = gtk_paned_get_position (GTK_PANED (hpaned1));
+    gint percentage = position * 100 / mainwindow_width;
+    difference = difference * percentage / 100;
+    if (difference != 0) {
+      if (increased) position += difference;
+      else position -= difference;
+      gtk_paned_set_position (GTK_PANED (hpaned1), position);
+    }
+  }
+  mainwindow_width = allocation->width;
 }
 
 
@@ -7304,6 +7335,7 @@ void MainWindow::on_preferences_filters ()
 
 /* 
 Todo bugs
+
 
 
 */

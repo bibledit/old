@@ -633,6 +633,9 @@ protected:
   void on_gui ();
   static gboolean on_mainwindow_window_state_event (GtkWidget *widget, GdkEvent *event, gpointer user_data);
   void on_mainwindow_window_state (GdkEvent *event);
+  static void on_window_size_allocated (GtkWidget *widget, GtkAllocation *allocation, gpointer user_data);
+  void window_size_allocated (GtkWidget *widget, GtkAllocation *allocation);
+  gint mainwindow_width;
 
   /* Notes editor */
   static gboolean notes_motion_notify_event (GtkWidget *text_view, GdkEventMotion *event, gpointer user_data);
