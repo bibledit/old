@@ -46,6 +46,7 @@ private:
   GtkWidget * my_hpane;
   GtkWidget * my_editor;
   GtkWidget * my_references;
+  int counter;
 };
 
 

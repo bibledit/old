@@ -2,9 +2,10 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(bibledit, 3.1.53, http://www.nongnu.org/bibledit)
+AC_INIT(bibledit, 3.1.54, http://www.nongnu.org/bibledit)
 AC_CANONICAL_SYSTEM
 ac_default_prefix=/usr
+AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([src])
 AM_INIT_AUTOMAKE
 AM_CONFIG_HEADER([config.h])
@@ -20,6 +21,8 @@ AC_HEADER_STDC
 PKG_CHECK_MODULES(GTK, gtk+-2.0 gdk-2.0,,AC_MSG_ERROR(Gtk2 development version is needed.))
 AC_SUBST(GTK_LIBS)
 AC_SUBST(GTK_CFLAGS)
+
+PKG_PROG_PKG_CONFIG
 
 AC_PATH_PROG(PKG_CONFIG_PATH, pkg-config, no)
 if test x$PKG_CONFIG_PATH = xno; then
@@ -146,15 +149,6 @@ AM_PATH_XML2(2.5.0, , AC_MSG_ERROR(Library libxml2-dev is needed. Install this f
 
 # PKG_CHECK_MODULES(dbus-dev, [dbus-1 >= 0.70])
 
-# Check for xulrunner development version.
-pkg-config xulrunner-gtkmozembed --exists
-if test $? -ne 0
-  then
-    echo xulrunner-gtkmozembed development version is needed
-    echo this usually is in libxul development version
-    exit 1
-fi
-
 PKG_CHECK_MODULES(ENCHANT, enchant >= 1.3.0)
 AC_SUBST(ENCHANT_CFLAGS)
 AC_SUBST(ENCHANT_LIBS)
@@ -173,25 +167,25 @@ PKG_CHECK_MODULES(PANGO, [pango >= 1.8.0],
 dnl  *****
 dnl  Gecko
 dnl  *****
-GECKO_INIT([MOZILLA])
-AC_SUBST([MOZILLA])
-AC_SUBST([MOZILLA_FLAVOUR])
-AC_SUBST([MOZILLA_INCLUDE_ROOT])
-AC_SUBST([MOZILLA_HOME])
-AC_SUBST([MOZILLA_PREFIX])
-AC_SUBST([MOZILLA_EXTRA_LIBS])
+GECKO_INIT([GECKO], [gecko_found=yes],[gecko_found=no])
+AC_SUBST([GECKO])
+AC_SUBST([GECKO_FLAVOUR])
+AC_SUBST([GECKO_INCLUDE_ROOT])
+AC_SUBST([GECKO_HOME])
+AC_SUBST([GECKO_PREFIX])
+AC_SUBST([GECKO_EXTRA_LIBS])
+AC_SUBST([GECKO_GLUE_LIBS])
 
-case "$MOZILLA" in
-xulrunner) gecko_min_version=1.8 ;;
-*firefox) gecko_min_version=1.5 ;;
-*) AC_MSG_ERROR([$gecko_cv_gecko is not supported])
+case "$gecko_cv_gecko" in
+xulrunner) min_version=1.8 ;;
+*firefox) min_version=1.5 ;;
+*) AC_MSG_ERROR([Unsupported gecko "$gecko_cv_gecko"]) ;;
 esac
 
-PKG_CHECK_MODULES([MOZILLA_COMPONENT],[${gecko_cv_gecko}-xpcom >= $gecko_min_version $gecko_cv_extra_pkg_dependencies])
-AC_DEFINE(USE_GTKMOZEMBED, 1, [Define if you want to use gtkmozembed])
-AM_CONDITIONAL(USE_GTKMOZEMBED, true)
-gecko=yes  
-MOZILLA_HOME="`$PKG_CONFIG --variable=libdir $MOZILLA-gtkmozembed`"
+# Added $gecko_cv_gecko-js for debian xulrunner brokenness
+PKG_CHECK_MODULES([GECKO],[${gecko_cv_gecko}-xpcom >= $min_version ${gecko_cv_gecko}-js $gecko_cv_extra_pkg_dependencies])
+AC_SUBST([GECKO_CFLAGS])
+AC_SUBST([GECKO_LIBS])
 
 
 # Checks for header files.
@@ -204,16 +198,16 @@ AC_CHECK_HEADERS([sys/ioctl.h])
 AC_CHECK_HEADER(sqlite3.h, , AC_MSG_ERROR([Header file sqlite3.h was not found. Usually this is in libsqlite3-dev.]))
 
 # This code is kept to learn from.
-AC_CHECK_HEADER(aspell.h, [AC_DEFINE(HAVE_ASPELL_H,1, 
-   [Define to 1 if you have the <aspell.h> header file.] )] )
-AC_CHECK_HEADER(pspell/pspell.h, [AC_DEFINE(HAVE_PSPELL_H,1, 
-   [Define to 1 if you have the <pspell/pspell.h> header file.] )] )
-AC_SUBST(SPELLER_LIB)
-GTKSPELL_PACKAGES=gtk+-2.0
-AC_SUBST(GTKSPELL_PACKAGES)
-PKG_CHECK_MODULES(GTKSPELL, $GTKSPELL_PACKAGES)
-AC_SUBST(GTKSPELL_CFLAGS)
-AC_SUBST(GTKSPELL_LIBS)
+# AC_CHECK_HEADER(aspell.h, [AC_DEFINE(HAVE_ASPELL_H,1, 
+#    [Define to 1 if you have the <aspell.h> header file.] )] )
+# AC_CHECK_HEADER(pspell/pspell.h, [AC_DEFINE(HAVE_PSPELL_H,1, 
+#    [Define to 1 if you have the <pspell/pspell.h> header file.] )] )
+# AC_SUBST(SPELLER_LIB)
+# GTKSPELL_PACKAGES=gtk+-2.0
+# AC_SUBST(GTKSPELL_PACKAGES)
+# PKG_CHECK_MODULES(GTKSPELL, $GTKSPELL_PACKAGES)
+# AC_SUBST(GTKSPELL_CFLAGS)
+# AC_SUBST(GTKSPELL_LIBS)
 
 
 # Checks for typedefs, structures, and compiler characteristics.

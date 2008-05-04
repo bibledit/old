@@ -9,9 +9,6 @@
 /* Define to 1 if you have the <arpa/inet.h> header file. */
 #undef HAVE_ARPA_INET_H
 
-/* Define to 1 if you have the <aspell.h> header file. */
-#undef HAVE_ASPELL_H
-
 /* Define to 1 if you have the `atexit' function. */
 #undef HAVE_ATEXIT
 
@@ -115,9 +112,6 @@
 
 /* Define to 1 if PANGO_UNDERLINE_ERROR is available. */
 #undef HAVE_PANGO_UNDERLINE_ERROR
-
-/* Define to 1 if you have the <pspell/pspell.h> header file. */
-#undef HAVE_PSPELL_H
 
 /* Define to 1 if your system has a GNU libc compatible `realloc' function,
    and to 0 otherwise. */
@@ -285,9 +279,6 @@
 
 /* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
 #undef TIME_WITH_SYS_TIME
-
-/* Define if you want to use gtkmozembed */
-#undef USE_GTKMOZEMBED
 
 /* Version number of package */
 #undef VERSION

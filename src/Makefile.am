@@ -266,7 +266,8 @@ AM_CXXFLAGS = -Wall \
               `xml2-config --cflags`
 
 AM_CXXFLAGS += $(ENCHANT_CFLAGS)
-AM_CXXFLAGS += $(MOZILLA_COMPONENT_CFLAGS)
+AM_CXXFLAGS += $(GECKO_CFLAGS)
+# AM_CXXFLAGS += $(addprefix -I$(GECKO_INCLUDE_ROOT)/,$(mozilla_include_subdirs)) -DMOZILLA_HOME=\"$(GECKO_HOME)\" -DMOZILLA_PREFIX=\"$(GECKO_PREFIX)\"
 
 LIBS = -Wall `pkg-config gthread-2.0 --libs` \
              `pkg-config sqlite3 --libs` \
@@ -277,7 +278,9 @@ LIBS = -Wall `pkg-config gthread-2.0 --libs` \
              `xml2-config --libs`
 
 LIBS += $(ENCHANT_LIBS)
-LIBS += $(MOZILLA_COMPONENT_LIBS)
+LIBS += $(GECKO_LIBS)
+# LIBS += $(GECKO_LIBS) -Wl$(GECKO_HOME) $(GECKO_EXTRA_LIBS) $(GECKO_GLUE_LIBS)
+# LIBS += $(addprefix -I$(GECKO_INCLUDE_ROOT)/,$(mozilla_include_subdirs)) -DMOZILLA_HOME=\"$(GECKO_HOME)\" -DMOZILLA_PREFIX=\"$(GECKO_PREFIX)\"
 
 if WIN32
 LIBS += -mwindows

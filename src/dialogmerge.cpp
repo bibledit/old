@@ -254,27 +254,32 @@ void MergeDialog::on_mergebutton (GtkButton *button)
 {
   GtkWidget * mybutton = GTK_WIDGET (button);
   for (unsigned int i = 0; i < buttonpairs.size (); i++) {
-    ustring text;
-    if (mybutton == buttonpairs[i].button1.button) {
-      text = buttonpairs[i].button1.text;
+    bool match = false;
+    if (mybutton == buttonpairs[i].button1.button) match = true;
+    if (mybutton == buttonpairs[i].button2.button) match = true;
+    if (match) {
+      ustring text;
+      if (mybutton == buttonpairs[i].button1.button) {
+        text = buttonpairs[i].button1.text;
+      }
+      if (mybutton == buttonpairs[i].button2.button) {
+        text = buttonpairs[i].button2.text;
+      }
+      if (text == empty_text ())
+        text.clear ();
+      GtkTextIter iter, iter2;
+      gtk_text_buffer_get_iter_at_child_anchor (textbuffer, &iter, buttonpairs[i].button1.childanchor);
+      gtk_text_buffer_place_cursor (textbuffer, &iter);
+      iter2 = iter;
+      gtk_text_iter_forward_char (&iter2);
+      gtk_text_buffer_delete (textbuffer, &iter, &iter2);
+      gtk_text_buffer_get_iter_at_child_anchor (textbuffer, &iter, buttonpairs[i].button2.childanchor);
+      iter2 = iter;
+      gtk_text_iter_forward_char (&iter2);
+      gtk_text_buffer_delete (textbuffer, &iter, &iter2);
+      if (!text.empty ())
+        gtk_text_buffer_insert_at_cursor (textbuffer, text.c_str(), -1);
     }
-    if (mybutton == buttonpairs[i].button2.button) {
-      text = buttonpairs[i].button2.text;
-    }
-    if (text == empty_text ())
-      text.clear ();
-    GtkTextIter iter, iter2;
-    gtk_text_buffer_get_iter_at_child_anchor (textbuffer, &iter, buttonpairs[i].button1.childanchor);
-    gtk_text_buffer_place_cursor (textbuffer, &iter);
-    iter2 = iter;
-    gtk_text_iter_forward_char (&iter2);
-    gtk_text_buffer_delete (textbuffer, &iter, &iter2);
-    gtk_text_buffer_get_iter_at_child_anchor (textbuffer, &iter, buttonpairs[i].button2.childanchor);
-    iter2 = iter;
-    gtk_text_iter_forward_char (&iter2);
-    gtk_text_buffer_delete (textbuffer, &iter, &iter2);
-    if (!text.empty ())
-      gtk_text_buffer_insert_at_cursor (textbuffer, text.c_str(), -1);
   }
 }
 

@@ -7300,3 +7300,22 @@ void MainWindow::on_preferences_filters ()
   FiltersDialog dialog (0);
   dialog.run ();
 }
+
+
+/* 
+Todo bugs
+
+
+*/
+
+
+/*
+Todo gecko on fedora.
+
+Now reading through epiphany's configure.ac and src/Makefile.am, and copying information.
+Asked on epiphany-list for help.
+Do they perhaps set the to look for libraries?
+There seems to be something related to glue, to link against.
+
+
+*/

@@ -11,16 +11,16 @@ filter.file.ignore.hidden=0
 filter.dir.ignore.hidden=0
 
 [filenumbers]
-0=7314
-1=146
-2=274
-3=3707
-4=52
-5=603
-6=282
-7=3713
-8=50
-9=550
+0=47
+1=178
+2=279
+3=67
+4=429
+5=3720
+6=7306
+7=35
+8=28
+9=7325
 10=7210
 11=5
 12=5
@@ -33,11 +33,11 @@ filter.dir.ignore.hidden=0
 2=
 3=
 4=
-5=174,230,258,
+5=
 6=
 7=
 8=
-9=169,225,253,544,
+9=
 10=
 11=
 12=
@@ -45,12 +45,13 @@ filter.dir.ignore.hidden=0
 14=
 
 [filelist]
-0=/home/teus/documents/dev/bibledit/src/mainwindow.cpp
-1=/home/teus/documents/dev/bibledit/src/editor_aids.h
+0=/home/teus/documents/dev/bibledit/src/spelling.h
+1=/home/teus/documents/dev/bibledit/src/spelling.cpp
 2=/home/teus/documents/dev/bibledit/src/editor.h
-3=/home/teus/documents/dev/bibledit/src/editor.cpp
-4=/home/teus/documents/dev/bibledit/src/spelling.h
-5=/home/teus/documents/dev/bibledit/src/spelling.cpp
+3=/home/teus/documents/dev/bibledit/src/mergegui.h
+4=/home/teus/documents/dev/bibledit/src/mergegui.cpp
+5=/home/teus/documents/dev/bibledit/src/editor.cpp
+6=/home/teus/documents/dev/bibledit/src/mainwindow.cpp
 
 [Project Tree]
 0=0

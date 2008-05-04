@@ -127,6 +127,8 @@ ResourcesGUI::ResourcesGUI (GtkWidget * notebook_vbox)
 
   ustring profile = gw_build_filename (directories_get_temp (), "mozilla");
   gtk_moz_embed_set_profile_path (profile.c_str(), "bibledit");
+  // todo gtk_moz_embed_set_comp_path (MOZILLA_HOME);
+  // todo gtk_moz_embed_set_path (MOZILLA_HOME);
   gtk_moz_embed_push_startup ();
   moziller_set_preferences ();
   

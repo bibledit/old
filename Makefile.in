@@ -45,8 +45,8 @@ DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	mkinstalldirs
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
-	$(top_srcdir)/configure.ac
+am__aclocal_m4_deps = $(top_srcdir)/m4/gecko.m4 \
+	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
@@ -121,11 +121,17 @@ FIND_GPP = @FIND_GPP@
 FIND_PATH = @FIND_PATH@
 FIND_PING = @FIND_PING@
 FIND_XARGS = @FIND_XARGS@
+GECKO = @GECKO@
+GECKO_CFLAGS = @GECKO_CFLAGS@
+GECKO_EXTRA_LIBS = @GECKO_EXTRA_LIBS@
+GECKO_FLAVOUR = @GECKO_FLAVOUR@
+GECKO_GLUE_LIBS = @GECKO_GLUE_LIBS@
+GECKO_HOME = @GECKO_HOME@
+GECKO_INCLUDE_ROOT = @GECKO_INCLUDE_ROOT@
+GECKO_LIBS = @GECKO_LIBS@
+GECKO_PREFIX = @GECKO_PREFIX@
 GREP = @GREP@
 GREP_PATH = @GREP_PATH@
-GTKSPELL_CFLAGS = @GTKSPELL_CFLAGS@
-GTKSPELL_LIBS = @GTKSPELL_LIBS@
-GTKSPELL_PACKAGES = @GTKSPELL_PACKAGES@
 GTK_CFLAGS = @GTK_CFLAGS@
 GTK_LIBS = @GTK_LIBS@
 GUNZIP_PATH = @GUNZIP_PATH@
@@ -154,14 +160,6 @@ LIBS = -Wall `pkg-config glib-2.0 --libs`
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MAKE_PATH = @MAKE_PATH@
-MOZILLA = @MOZILLA@
-MOZILLA_COMPONENT_CFLAGS = @MOZILLA_COMPONENT_CFLAGS@
-MOZILLA_COMPONENT_LIBS = @MOZILLA_COMPONENT_LIBS@
-MOZILLA_EXTRA_LIBS = @MOZILLA_EXTRA_LIBS@
-MOZILLA_FLAVOUR = @MOZILLA_FLAVOUR@
-MOZILLA_HOME = @MOZILLA_HOME@
-MOZILLA_INCLUDE_ROOT = @MOZILLA_INCLUDE_ROOT@
-MOZILLA_PREFIX = @MOZILLA_PREFIX@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
@@ -181,13 +179,10 @@ RANLIB = @RANLIB@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 SORT_PATH = @SORT_PATH@
-SPELLER_LIB = @SPELLER_LIB@
 STRINGS_PATH = @STRINGS_PATH@
 STRIP = @STRIP@
 TAIL_PATH = @TAIL_PATH@
 TEE_TOUCH = @TEE_TOUCH@
-USE_GTKMOZEMBED_FALSE = @USE_GTKMOZEMBED_FALSE@
-USE_GTKMOZEMBED_TRUE = @USE_GTKMOZEMBED_TRUE@
 VERSION = @VERSION@
 WIN32_FALSE = @WIN32_FALSE@
 WIN32_TRUE = @WIN32_TRUE@
@@ -247,8 +242,9 @@ target_cpu = @target_cpu@
 target_os = @target_os@
 target_vendor = @target_vendor@
 SUBDIRS = man pix doc src scripts templates olpc desktop windows tests eeepc
+ACLOCAL_AMFLAGS = -I m4
 CLEANFILES = bibledit*.gz *~
-EXTRA_DIST = use-firefox acinclude.m4
+EXTRA_DIST = use-firefox m4/*
 bumpversion_SOURCES = bumpversion.cpp
 AM_CXXFLAGS = -Wall `pkg-config glib-2.0 --cflags`
 all: config.h
@@ -471,6 +467,7 @@ distclean-tags:
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
+	$(mkdir_p) $(distdir)/m4
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \

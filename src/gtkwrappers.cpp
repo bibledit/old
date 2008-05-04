@@ -27,7 +27,7 @@
 void gtkw_dialog_info (GtkWidget * parent, const ustring& info)
 {
   // Create the basic dialog.
-  GtkWidget * dialog = gtk_message_dialog_new (GTK_WINDOW (parent), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_INFO, GTK_BUTTONS_OK, info.c_str());
+  GtkWidget * dialog = gtk_message_dialog_new (GTK_WINDOW (parent), GtkDialogFlags (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_MESSAGE_INFO, GTK_BUTTONS_OK, info.c_str());
   // Add cancel button so that pressing the Escape button will also close the window,
   // but hide this button so it's not visible, but Escape remains working.
   GtkWidget * cancel = gtk_dialog_add_button (GTK_DIALOG (dialog), "", GTK_RESPONSE_CANCEL);

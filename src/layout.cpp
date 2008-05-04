@@ -67,6 +67,7 @@ ScreenLayoutDimensions::ScreenLayoutDimensions (GtkWidget *window, GtkWidget * h
   my_hpane = hpane;
   my_editor = editor;
   my_references = references;
+  counter = 0;
 }
 
 
@@ -133,6 +134,9 @@ Suddenly window of bibledit becomes very wide, up to 4 times the size of the scr
 This function clips the sizes.
 */
 {
+  counter++;
+  if (counter < 10) return;
+  counter = 0;
   gint windowwidth, windowheight;
   gtk_window_get_size (mywindow, &windowwidth, &windowheight);
   extern Settings * settings;

@@ -45,8 +45,8 @@ DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	mkinstalldirs
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
-	$(top_srcdir)/configure.ac
+am__aclocal_m4_deps = $(top_srcdir)/m4/gecko.m4 \
+	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
@@ -121,11 +121,17 @@ FIND_GPP = /usr/bin/g++
 FIND_PATH = /usr/bin/find
 FIND_PING = /bin/ping
 FIND_XARGS = /usr/bin/xargs
+GECKO = xulrunner
+GECKO_CFLAGS = -DXP_UNIX -I/usr/include/xulrunner -I/usr/include/xulrunner/xpcom -I/usr/include/xulrunner/string -I/usr/include/nspr -I/usr/include/mozjs -I/usr/include/xulrunner/gtkembedmoz  
+GECKO_EXTRA_LIBS = 
+GECKO_FLAVOUR = toolkit
+GECKO_GLUE_LIBS = 
+GECKO_HOME = /usr/lib/xulrunner
+GECKO_INCLUDE_ROOT = /usr/include/xulrunner
+GECKO_LIBS = -L/usr/lib/xulrunner -lmozjs -lgtkembedmoz -lxpcom -lplds4 -lplc4 -lnspr4 -lpthread -ldl  
+GECKO_PREFIX = /usr
 GREP = /bin/grep
 GREP_PATH = /bin/grep
-GTKSPELL_CFLAGS = -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/freetype2 -I/usr/include/libpng12  
-GTKSPELL_LIBS = -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lfontconfig -lXext -lXrender -lXinerama -lXi -lXrandr -lXcursor -lXfixes -lpango-1.0 -lcairo -lX11 -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0  
-GTKSPELL_PACKAGES = gtk+-2.0
 GTK_CFLAGS = -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/freetype2 -I/usr/include/libpng12  
 GTK_LIBS = -lgtk-x11-2.0 -latk-1.0 -lgdk-x11-2.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lfontconfig -lXext -lXrender -lXinerama -lXi -lXrandr -lXcursor -lXfixes -lpango-1.0 -lcairo -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0 -lX11  
 GUNZIP_PATH = /bin/gunzip
@@ -154,23 +160,15 @@ LIBS = -Wall `pkg-config glib-2.0 --libs`
 LTLIBOBJS = 
 MAKEINFO = ${SHELL} /home/teus/documents/dev/bibledit/missing --run makeinfo
 MAKE_PATH = /usr/bin/make
-MOZILLA = xulrunner
-MOZILLA_COMPONENT_CFLAGS = -I/usr/include/xulrunner -I/usr/include/xulrunner/xpcom -I/usr/include/xulrunner/string -I/usr/include/nspr -I/usr/include/xulrunner/gtkembedmoz  
-MOZILLA_COMPONENT_LIBS = -L/usr/lib/xulrunner -lgtkembedmoz -lxpcom -lplds4 -lplc4 -lnspr4 -lpthread -ldl  
-MOZILLA_EXTRA_LIBS = 
-MOZILLA_FLAVOUR = toolkit
-MOZILLA_HOME = /usr/lib/xulrunner
-MOZILLA_INCLUDE_ROOT = /usr/include/xulrunner
-MOZILLA_PREFIX = /usr
 OBJEXT = o
 PACKAGE = bibledit
 PACKAGE_BUGREPORT = http://www.nongnu.org/bibledit
 PACKAGE_CFLAGS =  
 PACKAGE_LIBS = -lfontconfig  
 PACKAGE_NAME = bibledit
-PACKAGE_STRING = bibledit 3.1.53
+PACKAGE_STRING = bibledit 3.1.54
 PACKAGE_TARNAME = bibledit
-PACKAGE_VERSION = 3.1.53
+PACKAGE_VERSION = 3.1.54
 PANGO_CFLAGS = -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
 PANGO_LIBS = -lpango-1.0 -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0  
 PATH_SEPARATOR = :
@@ -181,14 +179,11 @@ RANLIB = ranlib
 SET_MAKE = 
 SHELL = /bin/sh
 SORT_PATH = /usr/bin/sort
-SPELLER_LIB = 
 STRINGS_PATH = /usr/bin/strings
 STRIP = 
 TAIL_PATH = /usr/bin/tail
 TEE_TOUCH = /usr/bin/touch
-USE_GTKMOZEMBED_FALSE = #
-USE_GTKMOZEMBED_TRUE = 
-VERSION = 3.1.53
+VERSION = 3.1.54
 WIN32_FALSE = 
 WIN32_TRUE = #
 XML2_CONFIG = /usr/bin/xml2-config
@@ -247,8 +242,9 @@ target_cpu = i686
 target_os = linux-gnu
 target_vendor = pc
 SUBDIRS = man pix doc src scripts templates olpc desktop windows tests eeepc
+ACLOCAL_AMFLAGS = -I m4
 CLEANFILES = bibledit*.gz *~
-EXTRA_DIST = use-firefox acinclude.m4
+EXTRA_DIST = use-firefox m4/*
 bumpversion_SOURCES = bumpversion.cpp
 AM_CXXFLAGS = -Wall `pkg-config glib-2.0 --cflags`
 all: config.h
@@ -471,6 +467,7 @@ distclean-tags:
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
+	$(mkdir_p) $(distdir)/m4
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
