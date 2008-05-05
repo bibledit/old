@@ -7338,51 +7338,12 @@ Todo bugs
 
 
 
-
-
-
-
-
-View Changes: Evince Window empt
-
-BE 3.1.11: I used the tool File/Project/Changes/View Changes since last
-review ... once and got an empty Evince window. As there was no review done
-before: OK
-
-2 Minutes later
-- closed Evince,
-- added a work in a project
-- and in the same project did the same thing: File/Project/Changes/View
-Changes since last review ... and the Evince window is still empty.
-
-Then tried the other option:
-View Changes since ... and chose the time 10 minutes ago:
-Again - no result.
-
-I do not know, how to get any result with this tool.
-
-
-Correction: Works on BE 3.1.42. (not 3.1.43).
-
-The problem is, that it works only on my (Toshiba M30) but not on a Thinkpad T40 one. Both have BE 3.1.42 installed.
-The difference is, that T40 has Kubuntu installed, the M30 Gubuntu (with Gnome)
-
-On the T40: Evince works for compare versions, no problem.
-But making any change and using Changes regardless the date/time I am choosing, always gives the message:
-'No changes have been recorded since that time'.
-
-Another difference with Gubuntu/Kubuntu: At the moment, I have the Changes dialog open, but cannot reach it with the task list (Alt-Tab): It does not have a name and cannot be navigated to. So BE is blocked, as I cannot close the Changes dialog.
-
-
 The item:
 'Another difference with Gubuntu/Kubuntu: At the moment, I have the Changes dialog open, but cannot reach it with the task list (Alt-Tab): 
 It does not have a name and cannot be navigated to. So BE is blocked, as I cannot close the Changes dialog.'
 
 has been dealt with in a separate report: (#23035)
 
-
-
-Todo: Download and install Kubuntu to see.
 
 
 

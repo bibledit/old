@@ -289,32 +289,35 @@ void ChangesDialog::view_local_changes (bool changes_since_last_review)
   // If there are no changes recorded since that date and time, give a message and bail out.
   if (commit.empty ()) {
     gtkw_dialog_info (changesdialog, "No changes have been recorded since that time");
-    return;
-  }
-
-  // Check the revision out.
-  GwSpawn spawn ("git-checkout");
-  spawn.workingdirectory (history_project_data_directory);
-  spawn.arg ("-b");
-  spawn.arg ("bibleditcomparison");
-  spawn.arg (commit);
-  spawn.progress ("Retrieving data from history", false);
-  spawn.run ();
-  if (spawn.exitstatus != 0) {
-    gtkw_dialog_error (changesdialog, "Failed to retrieve history");
-  }
-
-  // If the commit is older than the project, clear the temporal project.
-  if (date_time_older_than_project) {
-    vector <unsigned int> books = project_get_books (temporal_project);
-    for (unsigned int i = 0; i < books.size (); i++) {
-      project_remove_book (temporal_project, books[i]);
+  } else {
+    
+    // Changes were recorded.
+    // Check the revision out.
+    
+    GwSpawn spawn ("git-checkout");
+    spawn.workingdirectory (history_project_data_directory);
+    spawn.arg ("-b");
+    spawn.arg ("bibleditcomparison");
+    spawn.arg (commit);
+    spawn.progress ("Retrieving data from history", false);
+    spawn.run ();
+    if (spawn.exitstatus != 0) {
+      gtkw_dialog_error (changesdialog, "Failed to retrieve history");
     }
+
+    // If the commit is older than the project, clear the temporal project.
+    if (date_time_older_than_project) {
+      vector <unsigned int> books = project_get_books (temporal_project);
+      for (unsigned int i = 0; i < books.size (); i++) {
+        project_remove_book (temporal_project, books[i]);
+      }
+    }
+  
+    // Run comparison.
+    compare_with (myreferences, settings->genconfig.project_get(), temporal_project, true);
+  
   }
-  
-  // Run comparison.
-  compare_with (myreferences, settings->genconfig.project_get(), temporal_project, true);
-  
+
   // If reviewing changes since last review, set the date for the next review.  
   if (changes_since_last_review) {
     projectconfig->changes_last_review_set (date_time_seconds_get_current ());    
