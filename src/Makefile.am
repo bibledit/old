@@ -279,7 +279,14 @@ LIBS = -Wall `pkg-config gthread-2.0 --libs` \
 
 LIBS += $(ENCHANT_LIBS)
 LIBS += $(GECKO_LIBS)
-# LIBS += $(GECKO_LIBS) -Wl$(GECKO_HOME) $(GECKO_EXTRA_LIBS) $(GECKO_GLUE_LIBS)
+# Set the run-time location of the Gecko libraries allowing the dynamic linker to find them.
+# Options:
+# * Setting the enviroment variable LD_LIBRARY_PATH before running the binary. But this is harmful.
+# * Setting the environment variable LD_RUN_PATH before compiling the code.
+# * Using the -Wl,-R, options, which is the solution chosen.
+# * Using the -rpath options.
+LIBS += -Wl,-R,$(GECKO_HOME)
+# LIBS += $(GECKO_EXTRA_LIBS) $(GECKO_GLUE_LIBS)
 # LIBS += $(addprefix -I$(GECKO_INCLUDE_ROOT)/,$(mozilla_include_subdirs)) -DMOZILLA_HOME=\"$(GECKO_HOME)\" -DMOZILLA_PREFIX=\"$(GECKO_PREFIX)\"
 
 if WIN32

@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(bibledit, 3.1.54, http://www.nongnu.org/bibledit)
+AC_INIT(bibledit, 3.1.55, http://www.nongnu.org/bibledit)
 AC_CANONICAL_SYSTEM
 ac_default_prefix=/usr
 AC_CONFIG_MACRO_DIR([m4])
@@ -304,4 +304,5 @@ Bibledit $VERSION configuration summary:
 
         prefix                   : ${prefix}
         source code location     : ${srcdir}
+        Gecko home               : ${GECKO_HOME}
 "

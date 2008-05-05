@@ -7338,16 +7338,98 @@ Todo bugs
 
 
 
+
+
+
+
+
+View Changes: Evince Window empt
+
+BE 3.1.11: I used the tool File/Project/Changes/View Changes since last
+review ... once and got an empty Evince window. As there was no review done
+before: OK
+
+2 Minutes later
+- closed Evince,
+- added a work in a project
+- and in the same project did the same thing: File/Project/Changes/View
+Changes since last review ... and the Evince window is still empty.
+
+Then tried the other option:
+View Changes since ... and chose the time 10 minutes ago:
+Again - no result.
+
+I do not know, how to get any result with this tool.
+
+
+Correction: Works on BE 3.1.42. (not 3.1.43).
+
+The problem is, that it works only on my (Toshiba M30) but not on a Thinkpad T40 one. Both have BE 3.1.42 installed.
+The difference is, that T40 has Kubuntu installed, the M30 Gubuntu (with Gnome)
+
+On the T40: Evince works for compare versions, no problem.
+But making any change and using Changes regardless the date/time I am choosing, always gives the message:
+'No changes have been recorded since that time'.
+
+Another difference with Gubuntu/Kubuntu: At the moment, I have the Changes dialog open, but cannot reach it with the task list (Alt-Tab): It does not have a name and cannot be navigated to. So BE is blocked, as I cannot close the Changes dialog.
+
+
+The item:
+'Another difference with Gubuntu/Kubuntu: At the moment, I have the Changes dialog open, but cannot reach it with the task list (Alt-Tab): 
+It does not have a name and cannot be navigated to. So BE is blocked, as I cannot close the Changes dialog.'
+
+has been dealt with in a separate report: (#23035)
+
+
+
+Todo: Download and install Kubuntu to see.
+
+
+
+
+
+
+
+Compare: problems with section headings changes
+OK, I understand that the Evince Document Viewer cannot distinguish between text and markers, and if a marker is changed, both 
+(the old and the new one) are not considered any more as markers.
+This has the consequence, as the text is displayed in formatted view, that the paragraph, where the markers is changed is 
+displayed in the format of the preceding one (e.g. as section heading in the example below).
+
+What I do not understand (and think that those are bugs) are the follow 2 behaviors of BE/Evince:
+
+1. In the example below the following is displayed:
+Falsche Lehrer \p Lehrer \m (the last 2 both crossed out) 3 (as the verse number).
+
+??? Why does the word 'Lehrer' show up a second time crossed out?
+
+2. If I compare:
+P1:
+\s Falsche Lehrrrrrer
+\m
+\v 3
+P2:
+\s Falsche Lehrer
+\m
+\v 3
+then the result is:
+Falsche Lehrrrrer \m Lehrer \m (the last 2 both crossed out) 3
+(and the whole following paragraph is not in the style \m, but in the style \s from the previous paragraph
+
+??? Why does the marker \m show up twice (once even crossed out) when it has not been changed?
+
+
+
 */
 
 
 /*
-Todo gecko on fedora.
 
-Now reading through epiphany's configure.ac and src/Makefile.am, and copying information.
-Asked on epiphany-list for help.
-Do they perhaps set the to look for libraries?
-There seems to be something related to glue, to link against.
+
+Running on Fedora and XO:
+
+For the OLPC we might have the --with-runtime-library-path=/path/to/home and add
+that as an extra runtime library path 
 
 
 */
