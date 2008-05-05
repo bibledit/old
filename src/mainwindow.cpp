@@ -7433,3 +7433,10 @@ that as an extra runtime library path
 
 
 */
+
+
+/*
+We need a utility to combine dictionaries in one, e.g. by importing another 
+editable one into the current one, and exporting it to another one again.
+This also includes removing doubles.
+*/
