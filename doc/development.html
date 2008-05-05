@@ -1,61 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-  <title>Bibledit</title>
-  <!--
-  Copyright (©) 2003-2008 Teus Benschop.
-  Permission is granted to copy, distribute and/or modify this document
-  under the terms of the GNU Free Documentation License, Version 1.2
-  or any later version published by the Free Software Foundation;
-  with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-  Texts.  A copy of the license is included in the section entitled "GNU
-  Free Documentation License" in the file FDL.
-  -->
-  <link href="bibledit.css" rel="stylesheet" type="text/css" />
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<title>Bibledit</title>
+<!--
+Copyright (©) 2003-2008 Teus Benschop.
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+Texts.  A copy of the license is included in the section entitled "GNU
+Free Documentation License" in the file FDL.
+-->
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
-
 <body>
 <h2><a name="development"></a>Development</h2>
 <!-- Table of Contents Start -->
-
 <div id="toc">
 <ul>
-  <li><a href="#recentcode" class="level1">Recent code</a></li>
-  <li><a href="#helpneeded" class="level1">Help needed</a></li>
-  <li><a href="#bugsandfeaturerequests" class="level1">Bugs and feature
-    requests</a></li>
-  <li><a href="#howitstarted" class="level1">How it started</a></li>
-  <li><a href="#usingthedebugger" class="level1">Using the debugger</a></li>
+<li>
+<a href="#recentcode" class="level1">Recent code</a></li>
+<li>
+<a href="#helpneeded" class="level1">Help needed</a></li>
+<li>
+<a href="#bugsandfeaturerequests" class="level1">Bugs and feature requests</a></li>
+<li>
+<a href="#howitstarted" class="level1">How it started</a></li>
+<li>
+<a href="#usingthedebugger" class="level1">Using the debugger</a></li>
 </ul>
 </div>
 <!-- Table of Contents End -->
-
 <h3><a name="recentcode"></a>Recent code</h3>
-
 <p>The code is stored in a git repository. The repository is accessible from
 the <a href="http://savannah.nongnu.org/projects/bibledit">Savannah Project
 Page</a>. To view the code on the web, click on "Source Code" - and then
 "Browse Sources Repository" just below "Use Git". To use the repository in
 another way, click on "Source Code" - "Use Git". It will give some
 information there.</p>
-
 <p>Recent code can be checked out from the repository. This code gives the
 latest versions of Bibledit. Every night this code is updated, hence it
 contains the nightly builds. This code has not been thoroughly tested, but is
 supported, and give you a great way to follow the newest and latest
 developments in Bibledit.</p>
-
 <p>In order to get the most recent code, do the following in a terminal.</p>
 <pre>git clone git://git.savannah.nongnu.org/bibledit</pre>
-
 <p>The above command clones the code repository to your local disk. It will
 create a directory called "bibledit". Go into that directory, and do the
 normal "./configure", "make", "sudo make install" sequence, as is described
 for <a href="install_bibledit.html">installing bibledit</a>.</p>
-
 <p>Note 1. To save bandwidth, it is recommended to leave the directory
 "bibledit", created above, as it is. If that directory is left there, then
 next time there is no need to clone the whole repository. Just pulling the
@@ -66,34 +62,24 @@ git pull
 ./configure
 make
 sudo make install</pre>
-
 <p>Formerly if anybody wished to run what was then called nightly builds
 needed to download the full build each time. The current method saves a lot
 of bandwidth, because it downloads the changes only, and these changes are
 usually small.</p>
-
 <p>Note 2. For best results close Bibledit while installing the new
 version.</p>
-
 <h3><a name="helpneeded"></a>Help needed</h3>
-
 <p>Help in developing Bibledit is welcome.</p>
-
 <p>* Do you like writing good documentation? Your help is welcome to maintain
 the helpfiles of Bibledit.</p>
-
 <p>* You know how useful packages are? Making packages could be the thing you
 would like to help with.</p>
-
 <p>* Are you good at testing? Your feedback is welcome and suggestions for
 new features too.</p>
-
 <h3><a name="bugsandfeaturerequests"></a>Bugs and feature requests</h3>
-
 <p>Savannah.nongnu.org provides resources for developing Bibledit. The <a
 href="http://savannah.nongnu.org/projects/bibledit">Savannah Project Page</a>
 is the central point from where all these resources can be accessed.</p>
-
 <p>To report a problem go to the <a
 href="http://savannah.nongnu.org/projects/bibledit">Savannah Project
 Page</a>, and click on "Bugs". A list of open bugs will show, and you can see
@@ -103,75 +89,57 @@ steps to be taken to reproduce it, and any other information that may be
 useful, and click the "Submit" button at the bottom of the screen. You need
 to open an account to do this, and then you'll be emailed whenever this bug
 is attended to.</p>
-
 <p>Asking for a new feature works similar. Click on "Tasks". A list of tasks,
 that is, feature requests, will appear. If the feature you wish to have it
 not yet in, click "Tasks" - "Submit", and submit a new task.</p>
-
 <p>When submitting bug reports it is sometimes useful to include your
 configuration and data. This allows the programmer or tester to reproduce
 your bug, and so fix it. In a terminal type</p>
 <pre>tar -czf bibledit.tar.gz .bibledit</pre>
-
 <p>to create a file called bibledit.tar.gz. This file can be attached to the
 bug report.</p>
-
 <h3><a name="howitstarted"></a>How it started</h3>
-
 <p>It started with an entry in the programmer's diary:</p>
-
 <p>* Friday 30 May 2003. I made the decision to move from Windows to Linux.
 God will help here, and the future will show why this decision had to be
 taken. A lot of programming needs to be done to move the Bible translation
 programs to Linux.</p>
-
 <p>I remember that at that time I had lost peace with God for a good while,
 was in great unrest of mind, and examined myself thoroughly what it was, and
 then came to the above decision. It seemed to me a bit an unusual cause for
 this unrest, but nevertheless I could not find another one. After the
 decision was made and the actual move, I regained my peace.</p>
-
 <p>In 2004 some programming efforts were made to synchronize data between
 Paratext on Windows and Linux storage, and as I forsaw a greater future for
 this program, I called it Bibledit.</p>
-
 <p>After that I had a health breakdown and lost my energy, and was not able
 to contribute to Bibledit and had to lay down to rest during the breaks of
 our regular translation work. Then we as a family changed our lifestyle, and
 God restored my energy to the level I had in the days of my youth.</p>
-
 <p>From then on programming in Bibledit went in high gear, others started to
 contribute, and the project moved forward to where it is now.</p>
-
 <h3><a name="usingthedebugger"></a>Using the debugger</h3>
-
 <p>When working with support to troubleshoot a program, a core file may be
 requested.</p>
-
 <p>A core file is a file created by the operating system when a program
 terminates unexpectedly, encounters a bug, or violates the operating system's
 protection mechanisms.</p>
-
 <p>By default core files are not created on some Linux systems. Whether or
 not the operating system creates core files is controlled by the ulimit
 command. To see the current ulimit setting for core files, do the
 following:</p>
 <pre>ulimit -c
 0</pre>
-
 <p>The ulimit command sets limits on the resource available to the bash
 shell. The -c parameter controls the size of core files. The value 0
 indicates that core files are not created. To enable core file creation,
 increase the size limit of core files to a number greater than zero. For
 example:</p>
 <pre>ulimit -c 50000</pre>
-
 <p>allows core files and limits the file size to 50000 bytes.</p>
-
 <p>If you need to enable core file creation temporarily to create a core file
 for a problem application, increase the ulimit at the command line and then
 run the application.</p>
-
 <p>When bibledit segfaults and leaves a core dump file, you can use gdb to
 look at the program state when it crashed. Use the core command to load a
 core file.The argument to the core command is the filename of the core dump
@@ -183,26 +151,19 @@ prompt &gt; gdb bibledit
 ...
 (gdb) core core.&lt;pid&gt;
 ...</pre>
-
 <p>If bibledit crashes repeatedly, an easier way is to start bibledit through
 the debugger, and then use the backtrace command to see what happened and
 when.</p>
-
 <p>Open bibledit in the debugger:</p>
 <pre>gdb bibledit</pre>
-
 <p>Run it:</p>
 <pre>(gdb) run</pre>
-
 <p>If there is a problem, bibledit will freeze. Switch to the debugger, which
 has stopped. View the stack:</p>
 <pre>(gdb) backtrace</pre>
-
 <p>Pls. mail the developer and inform him about what you see and when it
 happened.</p>
-
 <p>Notes</p>
-
 <p>On Cygwin, gdb might get stopped and return you to the terminal. Enter
 "fg" to get the program back.</p>
 </body>
