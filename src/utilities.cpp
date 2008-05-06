@@ -401,6 +401,28 @@ void quick_sort (vector<ustring>& one, vector<bool>& two, unsigned int beg, unsi
 }
 
 
+void quick_sort (vector<ustring>& one, unsigned int beg, unsigned int end)
+{
+  if (end > beg + 1) {
+    ustring piv = one[beg];
+    unsigned int l = beg + 1;
+    unsigned int r = end;
+    while (l < r) {
+      if (one[l] <= piv) {
+        l++;
+      } else {
+        --r;
+        quick_swap(one[l], one[r]);
+      }
+    }
+    --l;
+    quick_swap(one[l], one[beg]);
+    quick_sort(one, beg, l);
+    quick_sort(one, r, end);
+  }
+}
+
+
 gchar * de_windows_notepad (gchar * contents)
 // Some Windows textfiles, probably the ones created with Notepad, have 
 // the "feature" to put \xEF\xBB\xBF at the start of the file.

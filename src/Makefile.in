@@ -164,7 +164,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	editorsgui.$(OBJEXT) restart.$(OBJEXT) mergegui.$(OBJEXT) \
 	dialogmerge.$(OBJEXT) merge_utils.$(OBJEXT) shutdown.$(OBJEXT) \
 	scripts.$(OBJEXT) dialogfilters.$(OBJEXT) \
-	dialogdictionary.$(OBJEXT) spelling.$(OBJEXT)
+	dialogdictionary.$(OBJEXT) spelling.$(OBJEXT) \
+	dialogeditdictionary.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -620,7 +621,8 @@ bibledit_bin_SOURCES = \
         scripts.cpp \
         dialogfilters.cpp \
         dialogdictionary.cpp \
-        spelling.cpp
+        spelling.cpp \
+        dialogeditdictionary.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `pkg-config gthread-2.0 --cflags` `pkg-config \
@@ -753,6 +755,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogcompare.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogdate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogdictionary.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogeditdictionary.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogeditlist.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogeditnote.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogeditstatus.Po@am__quote@

@@ -164,7 +164,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	editorsgui.$(OBJEXT) restart.$(OBJEXT) mergegui.$(OBJEXT) \
 	dialogmerge.$(OBJEXT) merge_utils.$(OBJEXT) shutdown.$(OBJEXT) \
 	scripts.$(OBJEXT) dialogfilters.$(OBJEXT) \
-	dialogdictionary.$(OBJEXT) spelling.$(OBJEXT)
+	dialogdictionary.$(OBJEXT) spelling.$(OBJEXT) \
+	dialogeditdictionary.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -288,9 +289,9 @@ PACKAGE_BUGREPORT = http://www.nongnu.org/bibledit
 PACKAGE_CFLAGS =  
 PACKAGE_LIBS = -lfontconfig  
 PACKAGE_NAME = bibledit
-PACKAGE_STRING = bibledit 3.2
+PACKAGE_STRING = bibledit 3.2.3
 PACKAGE_TARNAME = bibledit
-PACKAGE_VERSION = 3.2
+PACKAGE_VERSION = 3.2.3
 PANGO_CFLAGS = -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
 PANGO_LIBS = -lpango-1.0 -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0  
 PATH_SEPARATOR = :
@@ -305,7 +306,7 @@ STRINGS_PATH = /usr/bin/strings
 STRIP = 
 TAIL_PATH = /usr/bin/tail
 TEE_TOUCH = /usr/bin/touch
-VERSION = 3.2
+VERSION = 3.2.3
 WIN32_FALSE = 
 WIN32_TRUE = #
 XML2_CONFIG = /usr/bin/xml2-config
@@ -620,7 +621,8 @@ bibledit_bin_SOURCES = \
         scripts.cpp \
         dialogfilters.cpp \
         dialogdictionary.cpp \
-        spelling.cpp
+        spelling.cpp \
+        dialogeditdictionary.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `pkg-config gthread-2.0 --cflags` `pkg-config \
@@ -753,6 +755,7 @@ include ./$(DEPDIR)/dialogcheck.Po
 include ./$(DEPDIR)/dialogcompare.Po
 include ./$(DEPDIR)/dialogdate.Po
 include ./$(DEPDIR)/dialogdictionary.Po
+include ./$(DEPDIR)/dialogeditdictionary.Po
 include ./$(DEPDIR)/dialogeditlist.Po
 include ./$(DEPDIR)/dialogeditnote.Po
 include ./$(DEPDIR)/dialogeditstatus.Po

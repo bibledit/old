@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(bibledit, 3.2, http://www.nongnu.org/bibledit)
+AC_INIT(bibledit, 3.2.3, http://www.nongnu.org/bibledit)
 AC_CANONICAL_SYSTEM
 ac_default_prefix=/usr
 AC_CONFIG_MACRO_DIR([m4])
@@ -149,7 +149,7 @@ AM_PATH_XML2(2.5.0, , AC_MSG_ERROR(Library libxml2-dev is needed. Install this f
 
 # PKG_CHECK_MODULES(dbus-dev, [dbus-1 >= 0.70])
 
-PKG_CHECK_MODULES(ENCHANT, enchant >= 1.3.0)
+PKG_CHECK_MODULES(ENCHANT, enchant >= 1.2.0)
 AC_SUBST(ENCHANT_CFLAGS)
 AC_SUBST(ENCHANT_LIBS)
 

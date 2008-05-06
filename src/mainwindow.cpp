@@ -7340,11 +7340,10 @@ For the OLPC we might have the --with-runtime-library-path=/path/to/home and add
 that as an extra runtime library path 
 
 
-*/
+
+Add libenchant-dev to the installation documentation. All distros. We need 
+to write new instructions for the major distros. Knoppix, Macintosh. 
+If they all work without ./use-firefox, then throw that one out.
 
 
-/*
-Todo We need a utility to combine dictionaries in one, e.g. by importing another 
-editable one into the current one, and exporting it to another one again.
-This also includes removing doubles.
 */

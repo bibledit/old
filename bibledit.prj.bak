@@ -807,7 +807,9 @@ module.source.files=\
 	src/scripts.cpp\
 	src/scripts.h\
 	src/dialogdictionary.cpp\
-	src/dialogdictionary.h
+	src/dialogdictionary.h\
+	src/spelling.cpp\
+	src/spelling.h
 
 module.pixmap.name=.
 module.pixmap.type=

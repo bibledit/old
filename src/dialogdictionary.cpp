@@ -31,7 +31,7 @@
 #include "listview.h"
 #include "spelling.h"
 #include "dialoglistview.h"
-#include "dialogtextview.h"
+#include "dialogeditdictionary.h"
 
 
 enum { COLUMN_BOOK, NUM_COLUMNS };
@@ -249,14 +249,6 @@ void DictionaryDialog::on_button_edit_clicked (GtkButton *button, gpointer user_
 
 void DictionaryDialog::on_button_edit ()
 {
-  ustring dictionary = listview_get_active_string (treeview_dictionaries);
-  ustring filename = spelling_dictionary_filename (dictionary);
-  if (filename.empty ()) return;
-  gchar *contents;
-  g_file_get_contents (filename.c_str(), &contents, NULL, NULL);
-  TextViewDialog dialog (dictionary, "Edit the dictionary", true, contents);
-  if (dialog.run () == GTK_RESPONSE_OK) {
-    g_file_set_contents (filename.c_str(), dialog.newcontents.c_str(), -1, NULL);
-  }
-  if (contents) g_free (contents);
+  EditDictionaryDialog dialog (listview_get_active_string (treeview_dictionaries));
+  dialog.run ();
 }
