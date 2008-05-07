@@ -519,7 +519,8 @@ void OpenDocument::paragraph_style (xmlTextWriterPtr writer,
   xmlTextWriterStartElement (writer, BAD_CAST "style:style");
   {
     xmlTextWriterWriteAttribute (writer, BAD_CAST "style:name", BAD_CAST marker.c_str());
-    xmlTextWriterWriteAttribute (writer, BAD_CAST "style:display-name", BAD_CAST name.c_str());
+    ustring marker_name = marker + " " + name;
+    xmlTextWriterWriteAttribute (writer, BAD_CAST "style:display-name", BAD_CAST marker_name.c_str());
     xmlTextWriterWriteAttribute (writer, BAD_CAST "style:family", BAD_CAST "paragraph");
     xmlTextWriterWriteAttribute (writer, BAD_CAST "style:parent-style-name", BAD_CAST "Standard");
 
@@ -611,7 +612,8 @@ void OpenDocument::span_style (xmlTextWriterPtr writer,
     
     // Style properties.
     xmlTextWriterWriteAttribute (writer, BAD_CAST "style:name", BAD_CAST marker.c_str());
-    xmlTextWriterWriteAttribute (writer, BAD_CAST "style:display-name", BAD_CAST name.c_str());
+    ustring marker_name = marker + " " + name;
+    xmlTextWriterWriteAttribute (writer, BAD_CAST "style:display-name", BAD_CAST marker_name.c_str());
     xmlTextWriterWriteAttribute (writer, BAD_CAST "style:family", BAD_CAST "text");
 
     // Text properties.
