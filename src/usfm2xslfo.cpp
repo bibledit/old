@@ -72,6 +72,7 @@ Usfm2XslFo::Usfm2XslFo (const ustring& pdfoutputfile)
   endnote_position = eptAfterEverything;
   do_not_allow_new_page = false;
   include_full_references_with_notes = false;
+  verses_in_paragraph_count = 0;
   
   // Add a couple of extra styles.
   add_style (default_style (), u2xtParagraphNormalParagraph);
@@ -411,6 +412,7 @@ void Usfm2XslFo::convert_from_usfm_to_xslfo ()
               {
                 output_text_starting_new_paragraph (usfm_line, stylepointer, fo_block_style, fo_inline_style, marker_length, false);
                 output_chapter_number_try_at_first_verse (usfm_line, fo_block_style);
+                verses_in_paragraph_count = 0;
                 break;
               }
               case u2xtInlineText:
@@ -427,12 +429,13 @@ void Usfm2XslFo::convert_from_usfm_to_xslfo ()
               }
               case u2xtVerseNumber:
               {
+                verses_in_paragraph_count++;
                 usfm_line.erase (0, marker_length);
                 size_t position = usfm_line.find (" ");
                 position = CLAMP (position, 0, usfm_line.length());
                 portion_new_verse (usfm_line.substr (0, position));
                 usfm_line.erase (0, position);
-                output_verse_number (usfm_line, stylepointer, fo_block_style, fo_inline_style, marker_length);
+                output_verse_number (stylepointer, fo_block_style, fo_inline_style, marker_length);
                 break;
               }
               case u2xtFootNoteStart:
@@ -1527,15 +1530,25 @@ void Usfm2XslFo::signal_progress ()
 }
 
 
-void Usfm2XslFo::output_verse_number (ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length)
+void Usfm2XslFo::output_verse_number (Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length)
 // Writes the verse number.
 {
-  // Bail out of this portion is not printed.
+  // Bail out if this portion is not printed.
   if (!print_this_portion) return;
     
   // Close possible inline style and ensure that a block is open.
   close_possible_fo_inline (fo_inline_style);
   ensure_fo_block_open (fo_block_style);
+  
+  // If the verse is to restart the paragraph, handle that here.
+  if (verses_in_paragraph_count > 1) {
+    if (stylepointer->restart_paragraph) {
+      Usfm2XslFoStyle * style = fo_block_style;
+      close_possible_fo_block (style);
+      style = fo_block_style;
+      open_fo_block (style, false);
+    }
+  }
   
   // Write any number different from 1.
   if (verse != "1") printversenumber = true;

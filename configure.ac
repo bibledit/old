@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(bibledit, 3.2.3, http://www.nongnu.org/bibledit)
+AC_INIT(bibledit, 3.2.4, http://www.nongnu.org/bibledit)
 AC_CANONICAL_SYSTEM
 ac_default_prefix=/usr
 AC_CONFIG_MACRO_DIR([m4])
@@ -147,8 +147,6 @@ PKG_CHECK_MODULES(PACKAGE, [$pkg_modules])
 # Check for availability of libxml2
 AM_PATH_XML2(2.5.0, , AC_MSG_ERROR(Library libxml2-dev is needed. Install this first.))
 
-# PKG_CHECK_MODULES(dbus-dev, [dbus-1 >= 0.70])
-
 PKG_CHECK_MODULES(ENCHANT, enchant >= 1.2.0)
 AC_SUBST(ENCHANT_CFLAGS)
 AC_SUBST(ENCHANT_LIBS)
@@ -187,6 +185,12 @@ PKG_CHECK_MODULES([GECKO],[${gecko_cv_gecko}-xpcom >= $min_version ${gecko_cv_ge
 AC_SUBST([GECKO_CFLAGS])
 AC_SUBST([GECKO_LIBS])
 
+AC_MSG_CHECKING([for extra library runtime path])
+AC_ARG_ENABLE([library-runtime-path],
+	AS_HELP_STRING([--enable-library-runtime-path=/path/to/runtime/library],[To give an extra path to runtime libraries]),
+	[LIBRARY_RUNTIME_PATH=$enableval],[LIBRARY_RUNTIME_PATH=])
+AC_MSG_RESULT([$enable_library_runtime_path])
+AC_SUBST([LIBRARY_RUNTIME_PATH])
 
 # Checks for header files.
 AC_HEADER_STDC
@@ -302,7 +306,8 @@ AC_OUTPUT( Makefile
 echo "
 Bibledit $VERSION configuration summary:
 
-        prefix                   : ${prefix}
-        source code location     : ${srcdir}
-        Gecko home               : ${GECKO_HOME}
+        prefix                     : ${prefix}
+        source code location       : ${srcdir}
+        Gecko home                 : ${GECKO_HOME}
+        extra library runtime path : ${LIBRARY_RUNTIME_PATH}
 "

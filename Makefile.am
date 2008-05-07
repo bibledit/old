@@ -1,7 +1,7 @@
 SUBDIRS = man pix doc src scripts templates olpc desktop windows tests eeepc
 ACLOCAL_AMFLAGS = -I m4
 CLEANFILES = bibledit*.gz *~
-EXTRA_DIST = use-firefox m4/*
+EXTRA_DIST = m4/*
 
 noinst_PROGRAMS = bumpversion
 bumpversion_SOURCES = bumpversion.cpp

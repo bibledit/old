@@ -40,6 +40,7 @@ target_triplet = i686-pc-linux-gnu
 bin_PROGRAMS = bibledit-bin$(EXEEXT) bibledit-bibletime$(EXEEXT) \
 	bibledit-git$(EXEEXT) bibledit-help$(EXEEXT) \
 	bibledit-restart$(EXEEXT)
+
 # LIBS += $(GECKO_EXTRA_LIBS) $(GECKO_GLUE_LIBS)
 # LIBS += $(addprefix -I$(GECKO_INCLUDE_ROOT)/,$(mozilla_include_subdirs)) -DMOZILLA_HOME=\"$(GECKO_HOME)\" -DMOZILLA_PREFIX=\"$(GECKO_PREFIX)\"
 #am__append_1 = -mwindows
@@ -268,6 +269,7 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = ${SHELL} $(install_sh) -c -s
 LDFLAGS = 
 LIBOBJS = 
+LIBRARY_RUNTIME_PATH = 
 # AM_CXXFLAGS += $(addprefix -I$(GECKO_INCLUDE_ROOT)/,$(mozilla_include_subdirs)) -DMOZILLA_HOME=\"$(GECKO_HOME)\" -DMOZILLA_PREFIX=\"$(GECKO_PREFIX)\"
 # Set the run-time location of the Gecko libraries allowing the dynamic linker to find them.
 # Options:
@@ -275,11 +277,14 @@ LIBOBJS =
 # * Setting the environment variable LD_RUN_PATH before compiling the code.
 # * Using the -Wl,-R, options, which is the solution chosen.
 # * Using the -rpath options.
+# The library runtime path is an extra path. It is used in a situation where a binary
+# is made on one machine to be run on another one with a different mozilla home.
 LIBS = -Wall `pkg-config gthread-2.0 --libs` `pkg-config sqlite3 \
 	--libs` `pkg-config gobject-2.0 --libs` `pkg-config glib-2.0 \
 	--libs` `pkg-config gtk+-2.0 --libs` `pkg-config fontconfig \
 	--libs` `xml2-config --libs` $(ENCHANT_LIBS) $(GECKO_LIBS) \
-	-Wl,-R,$(GECKO_HOME) $(am__append_1)
+	-Wl,-R,$(GECKO_HOME) -Wl,-R,$(LIBRARY_RUNTIME_PATH) \
+	$(am__append_1)
 LTLIBOBJS = 
 MAKEINFO = ${SHELL} /home/teus/documents/dev/bibledit/missing --run makeinfo
 MAKE_PATH = /usr/bin/make
@@ -289,9 +294,9 @@ PACKAGE_BUGREPORT = http://www.nongnu.org/bibledit
 PACKAGE_CFLAGS =  
 PACKAGE_LIBS = -lfontconfig  
 PACKAGE_NAME = bibledit
-PACKAGE_STRING = bibledit 3.2.3
+PACKAGE_STRING = bibledit 3.2.4
 PACKAGE_TARNAME = bibledit
-PACKAGE_VERSION = 3.2.3
+PACKAGE_VERSION = 3.2.4
 PANGO_CFLAGS = -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
 PANGO_LIBS = -lpango-1.0 -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0  
 PATH_SEPARATOR = :
@@ -306,7 +311,7 @@ STRINGS_PATH = /usr/bin/strings
 STRIP = 
 TAIL_PATH = /usr/bin/tail
 TEE_TOUCH = /usr/bin/touch
-VERSION = 3.2.3
+VERSION = 3.2.4
 WIN32_FALSE = 
 WIN32_TRUE = #
 XML2_CONFIG = /usr/bin/xml2-config

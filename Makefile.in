@@ -156,6 +156,7 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
+LIBRARY_RUNTIME_PATH = @LIBRARY_RUNTIME_PATH@
 LIBS = -Wall `pkg-config glib-2.0 --libs`
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
@@ -244,7 +245,7 @@ target_vendor = @target_vendor@
 SUBDIRS = man pix doc src scripts templates olpc desktop windows tests eeepc
 ACLOCAL_AMFLAGS = -I m4
 CLEANFILES = bibledit*.gz *~
-EXTRA_DIST = use-firefox m4/*
+EXTRA_DIST = m4/*
 bumpversion_SOURCES = bumpversion.cpp
 AM_CXXFLAGS = -Wall `pkg-config glib-2.0 --cflags`
 all: config.h

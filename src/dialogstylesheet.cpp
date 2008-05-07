@@ -51,6 +51,7 @@ userbool1
 - Chapter number: Whether to print at first verse.
 - \id: whether to start a new page.
 - Footnote/endnote/xref: whether it applies to the apocrypha.
+- Verse number: Whether to restart the paragraph.
 
 userbool2
 - Footnotes: whether to allow extra space for the caller.
@@ -645,6 +646,7 @@ StylesheetDialog::StylesheetDialog (const ustring& stylesheet, const ustring& st
   hbox15 = NULL;
   checkbutton_print_in_running_header_left = NULL;
   hbox16 = NULL;
+  checkbutton_restarts_paragraph = NULL;
 
   dialog_action_area1 = GTK_DIALOG (stylesheetdialog)->action_area;
   gtk_widget_show (dialog_action_area1);
@@ -811,6 +813,7 @@ void StylesheetDialog::on_style_type (GtkToggleButton *togglebutton)
       italic_bold_underline_smallcaps_extended_create ();
       colour_create ();
       superscript_create ();
+      restarts_paragraph_create ();
       break;
     }
     case stFootEndNote:
@@ -1897,6 +1900,12 @@ General strategy.
     gtk_widget_destroy (hbox16);
     hbox16 = NULL;
   }
+  // Save the restart-paragraph property.
+  if (checkbutton_restarts_paragraph) {
+    userbool1 = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_restarts_paragraph));
+    gtk_widget_destroy (checkbutton_restarts_paragraph);
+    checkbutton_restarts_paragraph = NULL;
+  }
 }
 
 
@@ -2917,4 +2926,14 @@ void StylesheetDialog::wordlist_add_text_create ()
   gtk_box_pack_start (GTK_BOX (hbox16), label65, FALSE, FALSE, 0);
   
   gtk_entry_set_text (GTK_ENTRY (entry_wordlist_addition), userstring1.c_str ());
+}
+
+
+void StylesheetDialog::restarts_paragraph_create ()
+{
+  checkbutton_restarts_paragraph = gtk_check_button_new_with_mnemonic ("Restart paragraph");
+  gtk_widget_show (checkbutton_restarts_paragraph);
+  gtk_box_pack_start (GTK_BOX (vbox6), checkbutton_restarts_paragraph, FALSE, FALSE, 0);
+  
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_restarts_paragraph), userbool1);
 }

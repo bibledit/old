@@ -7338,12 +7338,11 @@ Todo Running on Fedora and XO:
 
 For the OLPC we might have the --with-runtime-library-path=/path/to/home and add
 that as an extra runtime library path 
+--enable-library-runtime-path=/usr/lib/xulrunner-1.9a9pre
 
 
+We may have to use the "make binary" for the olpc.
 
-Add libenchant-dev to the installation documentation. All distros. We need 
-to write new instructions for the major distros. Knoppix, Macintosh. 
-If they all work without ./use-firefox, then throw that one out.
 
 
 */

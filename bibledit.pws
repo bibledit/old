@@ -11,10 +11,10 @@ filter.file.ignore.hidden=0
 filter.dir.ignore.hidden=0
 
 [filenumbers]
-0=35
-1=421
-2=41
-3=71
+0=30
+1=2
+2=312
+3=7345
 4=273
 5=7345
 6=7306
@@ -45,12 +45,10 @@ filter.dir.ignore.hidden=0
 14=
 
 [filelist]
-0=/home/teus/documents/dev/bibledit/src/dialogtextview.h
-1=/home/teus/documents/dev/bibledit/src/utilities.cpp
-2=/home/teus/documents/dev/bibledit/src/utilities.h
-3=/home/teus/documents/dev/bibledit/src/dialogeditdictionary.h
-4=/home/teus/documents/dev/bibledit/src/dialogeditdictionary.cpp
-5=/home/teus/documents/dev/bibledit/src/mainwindow.cpp
+0=/home/teus/documents/dev/bibledit/olpc/makebinary
+1=/home/teus/documents/dev/bibledit/olpc/Makefile.am
+2=/home/teus/documents/dev/bibledit/configure.ac
+3=/home/teus/documents/dev/bibledit/src/mainwindow.cpp
 
 [Project Tree]
 0=0

@@ -121,6 +121,7 @@ public:
   int line_height_percentage;
   int table_column_number;
   ustring wordlist_entry_addition;
+  bool restart_paragraph;
 private:
 };
 

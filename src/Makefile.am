@@ -287,6 +287,10 @@ LIBS += $(GECKO_LIBS)
 # * Using the -Wl,-R, options, which is the solution chosen.
 # * Using the -rpath options.
 LIBS += -Wl,-R,$(GECKO_HOME)
+# The library runtime path is an extra path. It is used in a situation where a binary
+# is made on one machine to be run on another one with a different mozilla home.
+LIBS += -Wl,-R,$(LIBRARY_RUNTIME_PATH)
+
 # LIBS += $(GECKO_EXTRA_LIBS) $(GECKO_GLUE_LIBS)
 # LIBS += $(addprefix -I$(GECKO_INCLUDE_ROOT)/,$(mozilla_include_subdirs)) -DMOZILLA_HOME=\"$(GECKO_HOME)\" -DMOZILLA_PREFIX=\"$(GECKO_PREFIX)\"
 

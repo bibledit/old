@@ -55,6 +55,7 @@ Usfm2XslFoStyle::Usfm2XslFoStyle (const ustring& marker_in)
   endnote_position_type = eptAfterEverything;
   line_height_percentage = 100;
   table_column_number = 1;
+  restart_paragraph = false;
 }
 
 
@@ -194,6 +195,7 @@ and puts all these styles in the right format.
       case stVerseNumber:
       {
         style.type = u2xtVerseNumber;
+        style.restart_paragraph = usfm.styles[i].userbool1;
         break;
       }
       case stFootEndNote:

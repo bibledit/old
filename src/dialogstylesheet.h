@@ -340,6 +340,10 @@ private:
   GtkWidget *label65;
   void wordlist_add_text_create ();
 
+  // Restart paragraph.
+  GtkWidget *checkbutton_restarts_paragraph;
+  void restarts_paragraph_create ();
+
   // Action area.
   GtkWidget *dialog_action_area1;
   GtkWidget *cancelbutton1;

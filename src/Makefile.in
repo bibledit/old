@@ -40,6 +40,7 @@ target_triplet = @target@
 bin_PROGRAMS = bibledit-bin$(EXEEXT) bibledit-bibletime$(EXEEXT) \
 	bibledit-git$(EXEEXT) bibledit-help$(EXEEXT) \
 	bibledit-restart$(EXEEXT)
+
 # LIBS += $(GECKO_EXTRA_LIBS) $(GECKO_GLUE_LIBS)
 # LIBS += $(addprefix -I$(GECKO_INCLUDE_ROOT)/,$(mozilla_include_subdirs)) -DMOZILLA_HOME=\"$(GECKO_HOME)\" -DMOZILLA_PREFIX=\"$(GECKO_PREFIX)\"
 @WIN32_TRUE@am__append_1 = -mwindows
@@ -268,6 +269,7 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
+LIBRARY_RUNTIME_PATH = @LIBRARY_RUNTIME_PATH@
 # AM_CXXFLAGS += $(addprefix -I$(GECKO_INCLUDE_ROOT)/,$(mozilla_include_subdirs)) -DMOZILLA_HOME=\"$(GECKO_HOME)\" -DMOZILLA_PREFIX=\"$(GECKO_PREFIX)\"
 # Set the run-time location of the Gecko libraries allowing the dynamic linker to find them.
 # Options:
@@ -275,11 +277,14 @@ LIBOBJS = @LIBOBJS@
 # * Setting the environment variable LD_RUN_PATH before compiling the code.
 # * Using the -Wl,-R, options, which is the solution chosen.
 # * Using the -rpath options.
+# The library runtime path is an extra path. It is used in a situation where a binary
+# is made on one machine to be run on another one with a different mozilla home.
 LIBS = -Wall `pkg-config gthread-2.0 --libs` `pkg-config sqlite3 \
 	--libs` `pkg-config gobject-2.0 --libs` `pkg-config glib-2.0 \
 	--libs` `pkg-config gtk+-2.0 --libs` `pkg-config fontconfig \
 	--libs` `xml2-config --libs` $(ENCHANT_LIBS) $(GECKO_LIBS) \
-	-Wl,-R,$(GECKO_HOME) $(am__append_1)
+	-Wl,-R,$(GECKO_HOME) -Wl,-R,$(LIBRARY_RUNTIME_PATH) \
+	$(am__append_1)
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MAKE_PATH = @MAKE_PATH@
