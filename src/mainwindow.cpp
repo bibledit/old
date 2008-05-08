@@ -7344,18 +7344,12 @@ that as an extra runtime library path
 We may have to use the "make binary" for the olpc.
 
 
-Todo Fix the -R switch on Darwin.
+Running on Darwin, update XCode Tools.
 
 
 */
 
 /*
 
-Todo BE to remember verse reference defaults It crashes.
-
-In the footnote entry box, BE remembers the setting of whether the user
-wants the chapter and verse formatted with a colon or period, and whether
-the user wants a trailing colon. It would be nice if the Tools > Origin
-References in Bible notes routine would also remember the same default. 
 
 */

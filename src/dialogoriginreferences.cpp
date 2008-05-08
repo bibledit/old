@@ -119,7 +119,7 @@ OriginReferencesDialog::OriginReferencesDialog (int dummy)
   gtk_box_pack_start (GTK_BOX (hbox1), checkbutton_book, FALSE, FALSE, 0);
 
   shortcuts.button (checkbutton_book);
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_chapter), settings->session.bnmu_add_book); // Todo
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_book), settings->session.bnmu_add_book);
   
   checkbutton_chapter = gtk_check_button_new_with_mnemonic ("Chapter");
   gtk_widget_show (checkbutton_chapter);
@@ -142,7 +142,7 @@ OriginReferencesDialog::OriginReferencesDialog (int dummy)
   gtk_box_pack_start (GTK_BOX (hbox1), checkbutton_verse, FALSE, FALSE, 0);
   
   shortcuts.button (checkbutton_verse);
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_chapter), settings->session.bnmu_add_verse);
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_verse), settings->session.bnmu_add_verse);
   
   entry2 = gtk_entry_new ();
   gtk_widget_show (entry2);
