@@ -4237,19 +4237,21 @@ void MainWindow::treeview_references_display_quick_reference ()
   selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview_references));
   vector <GtkTreeIter> iters;
   gtk_tree_selection_selected_foreach (selection, MainWindow::on_references_collect_iters, gpointer (&iters));
-  // Get the first selected reference, if there is any.
+  // Bail out if none was selected.
   if (iters.size() == 0)
     return;
-  gint book, chapter;
-  gchar *verse;
-  gtk_tree_model_get (model, &iters[0], 2, &book, 3, &chapter, 4, &verse, -1);
-  // Get / display the verse.
-  ustring text;
-  text = project_retrieve_verse (settings->genconfig.project_get(), book, chapter, verse);
-  gtk_text_buffer_insert_at_cursor (buffer, text.c_str (), -1);
-  gtk_text_buffer_insert_at_cursor (buffer, "\n", -1);
-  // Free memory.
-  g_free (verse);
+  // Go through all the selected iterators.
+  for (unsigned int i = 0; i < iters.size (); i++) {
+    gint book, chapter;
+    gchar *verse;
+    gtk_tree_model_get (model, &iters[i], 2, &book, 3, &chapter, 4, &verse, -1);
+    // Get and display the verse.
+    ustring text = project_retrieve_verse (settings->genconfig.project_get(), book, chapter, verse);
+    gtk_text_buffer_insert_at_cursor (buffer, text.c_str (), -1);
+    gtk_text_buffer_insert_at_cursor (buffer, "\n", -1);
+    // Free memory.
+    g_free (verse);
+  }
 }
 
 
@@ -7334,7 +7336,7 @@ void MainWindow::on_preferences_filters ()
 
 
 /*
-Todo Running on Fedora and XO:
+Todo Running on XO:
 
 For the OLPC we might have the --with-runtime-library-path=/path/to/home and add
 that as an extra runtime library path 
@@ -7347,9 +7349,12 @@ We may have to use the "make binary" for the olpc.
 Running on Darwin, update XCode Tools.
 
 
+Todo Try out on FC8 whether the new linker settings work fine.
+
 */
 
 /*
+
 
 
 */
