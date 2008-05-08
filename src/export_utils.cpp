@@ -49,6 +49,7 @@
 #include "textreplacement.h"
 #include "tiny_utilities.h"
 #include "clean.h"
+#include "dialogradiobutton.h"
 
 
 void export_to_usfm (GtkWidget * parent, bool zipped)
@@ -507,6 +508,27 @@ void export_to_opendocument (GtkWidget * parent)
   filename = gtkw_file_chooser_save (parent, "", filename);
   if (filename.empty()) return;
     
+  // If more books are selected, whether to save to multiple files.
+  bool singlefile = true;
+  if (selectedbooks.size () > 1) {
+    vector <ustring> labels;
+    labels.push_back ("Single file");
+    labels.push_back ("Multiple files");
+    RadiobuttonDialog dialog ("Save method", "Multiple books have been selected.\nShould these be saved to a single file or to multiple files?", labels, 0);
+    if (dialog.run () != GTK_RESPONSE_OK) return;
+    singlefile = dialog.selection == 0;
+  }
+  
   // Export.
-  OpenDocument odt (settings->genconfig.project_get(), filename, true, &selectedbooks);
+  if (singlefile) {
+    OpenDocument odt (settings->genconfig.project_get(), filename, true, &selectedbooks);
+  } else {
+    vector <unsigned int> books (selectedbooks.begin (), selectedbooks.end ());
+    for (unsigned int i = 0; i < books.size (); i++) {
+      set <unsigned int> selectedbook;
+      selectedbook.insert (books[i]);
+      ustring combinedfilename = filename + "-" + books_id_to_english (books[i]);
+      OpenDocument odt (settings->genconfig.project_get(), combinedfilename, true, &selectedbook);
+    }
+  }
 }
