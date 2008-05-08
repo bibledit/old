@@ -58,6 +58,11 @@ Session::Session (int dummy)
   restart = false;
   special_character_selection = 0;
   print_references_in_notes_in_full = false;
+  bnmu_add_book = false;
+  bnmu_add_chapter = false;
+  bnmu_add_verse = true;
+  bnmu_verse_prefix = ".";
+  bnmu_verse_suffix = ".";
 }
 
 

@@ -30,6 +30,8 @@
 
 OriginReferencesDialog::OriginReferencesDialog (int dummy)
 {
+  extern Settings * settings;
+  
   Shortcuts shortcuts (0);
   
   originreferencesdialog = gtk_dialog_new ();
@@ -117,12 +119,14 @@ OriginReferencesDialog::OriginReferencesDialog (int dummy)
   gtk_box_pack_start (GTK_BOX (hbox1), checkbutton_book, FALSE, FALSE, 0);
 
   shortcuts.button (checkbutton_book);
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_chapter), settings->session.bnmu_add_book); // Todo
   
   checkbutton_chapter = gtk_check_button_new_with_mnemonic ("Chapter");
   gtk_widget_show (checkbutton_chapter);
   gtk_box_pack_start (GTK_BOX (hbox1), checkbutton_chapter, FALSE, FALSE, 0);
 
   shortcuts.button (checkbutton_chapter);
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_chapter), settings->session.bnmu_add_chapter);   
   
   entry_dot = gtk_entry_new ();
   gtk_widget_show (entry_dot);
@@ -131,16 +135,15 @@ OriginReferencesDialog::OriginReferencesDialog (int dummy)
   gtk_entry_set_invisible_char (GTK_ENTRY (entry_dot), 8226);
   gtk_entry_set_width_chars (GTK_ENTRY (entry_dot), 2);
 
-  gtk_entry_set_text (GTK_ENTRY (entry_dot), ".");
+  gtk_entry_set_text (GTK_ENTRY (entry_dot), settings->session.bnmu_verse_prefix.c_str());
 
   checkbutton_verse = gtk_check_button_new_with_mnemonic ("Verse");
   gtk_widget_show (checkbutton_verse);
   gtk_box_pack_start (GTK_BOX (hbox1), checkbutton_verse, FALSE, FALSE, 0);
   
   shortcuts.button (checkbutton_verse);
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_chapter), settings->session.bnmu_add_verse);
   
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_verse), true);
-
   entry2 = gtk_entry_new ();
   gtk_widget_show (entry2);
   gtk_box_pack_start (GTK_BOX (hbox1), entry2, FALSE, FALSE, 0);
@@ -148,7 +151,7 @@ OriginReferencesDialog::OriginReferencesDialog (int dummy)
   gtk_entry_set_invisible_char (GTK_ENTRY (entry2), 8226);
   gtk_entry_set_width_chars (GTK_ENTRY (entry2), 2);
 
-  gtk_entry_set_text (GTK_ENTRY (entry2), ".");
+  gtk_entry_set_text (GTK_ENTRY (entry2), settings->session.bnmu_verse_suffix.c_str());
 
   vseparator1 = gtk_vseparator_new ();
   gtk_widget_show (vseparator1);
@@ -304,7 +307,16 @@ void OriginReferencesDialog::on_okbutton ()
     if (gtkw_dialog_question (originreferencesdialog, "This will permanently modify your project.\nThe changes cannot be undone.\nAre you sure?") == GTK_RESPONSE_NO)
       return;
   }
+  
+  // Store a few important settings in the session.
   extern Settings * settings;
+  settings->session.bnmu_add_book = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_book));
+  settings->session.bnmu_add_chapter = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_chapter));
+  settings->session.bnmu_add_verse = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_verse));
+  settings->session.bnmu_verse_prefix = gtk_entry_get_text (GTK_ENTRY (entry_dot));
+  settings->session.bnmu_verse_suffix = gtk_entry_get_text (GTK_ENTRY (entry2));
+
+  // Do the thing.
   OriginReferences originreferences (settings->genconfig.project_get(), 
                                      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_footnotes)),
                                      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_endnotes)),

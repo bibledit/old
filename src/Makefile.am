@@ -284,12 +284,12 @@ LIBS += $(GECKO_LIBS)
 # Options:
 # * Setting the enviroment variable LD_LIBRARY_PATH before running the binary. But this is harmful.
 # * Setting the environment variable LD_RUN_PATH before compiling the code.
-# * Using the -Wl,-R, options, which is the solution chosen.
-# * Using the -rpath options.
-LIBS += -Wl,-R,$(GECKO_HOME)
+# * Using the -Wl,-R, options.
+# * Using the -rpath options. This is needed on Mac OSX.
+LIBS += -Wl,-R,-rpath,--rpath,$(GECKO_HOME)
 # The library runtime path is an extra path. It is used in a situation where a binary
 # is made on one machine to be run on another one with a different mozilla home.
-LIBS += -Wl,-R,$(LIBRARY_RUNTIME_PATH)
+LIBS += -Wl,-R,-rpath,--rpath,$(LIBRARY_RUNTIME_PATH)
 
 # LIBS += $(GECKO_EXTRA_LIBS) $(GECKO_GLUE_LIBS)
 # LIBS += $(addprefix -I$(GECKO_INCLUDE_ROOT)/,$(mozilla_include_subdirs)) -DMOZILLA_HOME=\"$(GECKO_HOME)\" -DMOZILLA_PREFIX=\"$(GECKO_PREFIX)\"

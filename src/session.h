@@ -86,6 +86,12 @@ public:
   bool restart;
   // Insert special character.
   int special_character_selection;
+  // Bible notes mass update.
+  bool bnmu_add_book;
+  bool bnmu_add_chapter;
+  bool bnmu_add_verse;
+  ustring bnmu_verse_prefix;
+  ustring bnmu_verse_suffix;
 private:
 };
 
