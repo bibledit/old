@@ -116,31 +116,33 @@ fi
 
 # Checks for libraries.
 
-PKG_CHECK_MODULES(FONTCONFIG, fontconfig >= 1.0.1,,AC_MSG_ERROR(fontconfig development version is needed.))
+PKG_CHECK_MODULES(FONTCONFIG, fontconfig >= 1.0.1,,AC_MSG_ERROR(fontconfig development version >= 1.0.1 is needed.))
 AC_SUBST(FONTCONFIG_CFLAGS)
 AC_SUBST(FONTCONFIG_LIBS)
 
-pkg_modules="glib-2.0 >= 2.8.0"
-PKG_CHECK_MODULES(PACKAGE, [$pkg_modules])
-AC_SUBST(PACKAGE_CFLAGS)
-AC_SUBST(PACKAGE_LIBS)
+PKG_CHECK_MODULES(GLIB, glib-2.0 >= 2.8.0,,AC_MSG_ERROR(glib development version >= 2.8.0 is needed.))
+AC_SUBST(GLIB_CFLAGS)
+AC_SUBST(GLIB_LIBS)
 
-pkg_modules="gtk+-2.0 >= 2.6.0"
-PKG_CHECK_MODULES(PACKAGE, [$pkg_modules])
-AC_SUBST(PACKAGE_CFLAGS)
-AC_SUBST(PACKAGE_LIBS)
+PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.6.0,,AC_MSG_ERROR(gtk+ development version >= 2.6.0 is needed.))
+AC_SUBST(GTK_CFLAGS)
+AC_SUBST(GTK_LIBS)
 
-pkg_modules="gthread-2.0 >= 2.4.0"
-PKG_CHECK_MODULES(PACKAGE, [$pkg_modules])
-AC_SUBST(PACKAGE_CFLAGS)
-AC_SUBST(PACKAGE_LIBS)
+PKG_CHECK_MODULES(GTHREAD, gthread-2.0 >= 2.4.0,,AC_MSG_ERROR(gthread development version >= 2.4.0 is needed.))
+AC_SUBST(GTHREAD_CFLAGS)
+AC_SUBST(GTHREAD_LIBS)
+
+PKG_CHECK_MODULES(GOBJECT, gobject-2.0 >= 2.4.0,,AC_MSG_ERROR(gobject development version >= 2.4.0 is needed.))
+AC_SUBST(GOBJECT_CFLAGS)
+AC_SUBST(GOBJECT_LIBS)
 
 # Library sqlite3.
 # Note that we use only the library part of package sqlite3.
 # The commandline tool "sqlite3" is not used because some distributions
 # do not include it.
-pkg_modules="sqlite3 >= 3.0.0"
-PKG_CHECK_MODULES(PACKAGE, [$pkg_modules])
+PKG_CHECK_MODULES(SQLITE, sqlite3 >= 3.0.0,,AC_MSG_ERROR(sqlite development version >= 3.0.0 is needed.))
+AC_SUBST(SQLITE_CFLAGS)
+AC_SUBST(SQLITE_LIBS)
 
 # Check for availability of libxml2
 AM_PATH_XML2(2.5.0, , AC_MSG_ERROR(Library libxml2-dev is needed. Install this first.))

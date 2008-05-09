@@ -627,8 +627,14 @@ s,@FIND_GIT@,|#_!!_#|/usr/bin/git,g
 s,@FIND_GPP@,|#_!!_#|/usr/bin/g++,g
 s,@FONTCONFIG_CFLAGS@,|#_!!_#| ,g
 s,@FONTCONFIG_LIBS@,|#_!!_#|-lfontconfig  ,g
-s,@PACKAGE_CFLAGS@,|#_!!_#|-I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  ,g
-s,@PACKAGE_LIBS@,|#_!!_#|-lglib-2.0  ,g
+s,@GLIB_CFLAGS@,|#_!!_#|-I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  ,g
+s,@GLIB_LIBS@,|#_!!_#|-lglib-2.0  ,g
+s,@GTHREAD_CFLAGS@,|#_!!_#|-pthread -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  ,g
+s,@GTHREAD_LIBS@,|#_!!_#|-pthread -lgthread-2.0 -lglib-2.0  ,g
+s,@GOBJECT_CFLAGS@,|#_!!_#|-I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  ,g
+s,@GOBJECT_LIBS@,|#_!!_#|-lgobject-2.0 -lglib-2.0  ,g
+s,@SQLITE_CFLAGS@,|#_!!_#| ,g
+s,@SQLITE_LIBS@,|#_!!_#|-lsqlite3  ,g
 s,@XML2_CONFIG@,|#_!!_#|/usr/bin/xml2-config,g
 s,@XML_CPPFLAGS@,|#_!!_#|-I/usr/include/libxml2,g
 s,@XML_LIBS@,|#_!!_#|-L/usr/lib -lxml2,g

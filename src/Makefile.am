@@ -258,27 +258,24 @@ bibledit_bin_SOURCES = \
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 
-AM_CXXFLAGS = -Wall \
-              `pkg-config gthread-2.0 --cflags` \
-              `pkg-config sqlite3 --cflags` \
-              `pkg-config gobject-2.0 --cflags` \
-              `pkg-config glib-2.0 --cflags` \
-              `pkg-config gtk+-2.0 --cflags` \
-              `pkg-config fontconfig --cflags` \
-              `xml2-config --cflags`
-
+AM_CXXFLAGS = -Wall `xml2-config --cflags`
+AM_CXXFLAGS += $(GOBJECT_CFLAGS)
+AM_CXXFLAGS += $(GTHREAD_CFLAGS)
+AM_CXXFLAGS += $(GLIB_CFLAGS)
+AM_CXXFLAGS += $(GTK_CFLAGS)
+AM_CXXFLAGS += $(FONTCONFIG_CFLAGS)
+AM_CXXFLAGS += $(SQLITE_CFLAGS)
 AM_CXXFLAGS += $(ENCHANT_CFLAGS)
 AM_CXXFLAGS += $(GECKO_CFLAGS)
-# AM_CXXFLAGS += $(addprefix -I$(GECKO_INCLUDE_ROOT)/,$(mozilla_include_subdirs)) -DMOZILLA_HOME=\"$(GECKO_HOME)\" -DMOZILLA_PREFIX=\"$(GECKO_PREFIX)\"
+AM_CXXFLAGS += $(addprefix -I$(GECKO_INCLUDE_ROOT)/,$(mozilla_include_subdirs)) -DMOZILLA_HOME=\"$(GECKO_HOME)\" -DMOZILLA_PREFIX=\"$(GECKO_PREFIX)\"
 
-LIBS = -Wall `pkg-config gthread-2.0 --libs` \
-             `pkg-config sqlite3 --libs` \
-             `pkg-config gobject-2.0 --libs` \
-             `pkg-config glib-2.0 --libs` \
-             `pkg-config gtk+-2.0 --libs` \
-             `pkg-config fontconfig --libs` \
-             `xml2-config --libs`
-
+LIBS = -Wall `xml2-config --libs`
+LIBS += $(GOBJECT_LIBS)
+LIBS += $(GTHREAD_LIBS)
+LIBS += $(GLIB_LIBS)
+LIBS += $(GTK_LIBS)
+LIBS += $(FONTCONFIG_LIBS)
+LIBS += $(SQLITE_LIBS)
 LIBS += $(ENCHANT_LIBS)
 LIBS += $(GECKO_LIBS)
 # Set the run-time location of the Gecko libraries allowing the dynamic linker to find them.

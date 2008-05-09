@@ -243,8 +243,14 @@ GECKO_HOME = /usr/lib/xulrunner
 GECKO_INCLUDE_ROOT = /usr/include/xulrunner
 GECKO_LIBS = -L/usr/lib/xulrunner -lmozjs -lgtkembedmoz -lxpcom -lplds4 -lplc4 -lnspr4 -lpthread -ldl  
 GECKO_PREFIX = /usr
+GLIB_CFLAGS = -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
+GLIB_LIBS = -lglib-2.0  
+GOBJECT_CFLAGS = -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
+GOBJECT_LIBS = -lgobject-2.0 -lglib-2.0  
 GREP = /bin/grep
 GREP_PATH = /bin/grep
+GTHREAD_CFLAGS = -pthread -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
+GTHREAD_LIBS = -pthread -lgthread-2.0 -lglib-2.0  
 GTK_CFLAGS = -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/freetype2 -I/usr/include/libpng12  
 GTK_LIBS = -lgtk-x11-2.0 -latk-1.0 -lgdk-x11-2.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lfontconfig -lXext -lXrender -lXinerama -lXi -lXrandr -lXcursor -lXfixes -lpango-1.0 -lcairo -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0 -lX11  
 GUNZIP_PATH = /bin/gunzip
@@ -270,7 +276,6 @@ INSTALL_STRIP_PROGRAM = ${SHELL} $(install_sh) -c -s
 LDFLAGS = 
 LIBOBJS = 
 LIBRARY_RUNTIME_PATH = 
-# AM_CXXFLAGS += $(addprefix -I$(GECKO_INCLUDE_ROOT)/,$(mozilla_include_subdirs)) -DMOZILLA_HOME=\"$(GECKO_HOME)\" -DMOZILLA_PREFIX=\"$(GECKO_PREFIX)\"
 # Set the run-time location of the Gecko libraries allowing the dynamic linker to find them.
 # Options:
 # * Setting the enviroment variable LD_LIBRARY_PATH before running the binary. But this is harmful.
@@ -279,10 +284,9 @@ LIBRARY_RUNTIME_PATH =
 # * Using the -rpath options. This is needed on Mac OSX.
 # The library runtime path is an extra path. It is used in a situation where a binary
 # is made on one machine to be run on another one with a different mozilla home.
-LIBS = -Wall `pkg-config gthread-2.0 --libs` `pkg-config sqlite3 \
-	--libs` `pkg-config gobject-2.0 --libs` `pkg-config glib-2.0 \
-	--libs` `pkg-config gtk+-2.0 --libs` `pkg-config fontconfig \
-	--libs` `xml2-config --libs` $(ENCHANT_LIBS) $(GECKO_LIBS) \
+LIBS = -Wall `xml2-config --libs` $(GOBJECT_LIBS) $(GTHREAD_LIBS) \
+	$(GLIB_LIBS) $(GTK_LIBS) $(FONTCONFIG_LIBS) $(SQLITE_LIBS) \
+	$(ENCHANT_LIBS) $(GECKO_LIBS) \
 	-Wl,-R,-rpath,--rpath,$(GECKO_HOME) \
 	-Wl,-R,-rpath,--rpath,$(LIBRARY_RUNTIME_PATH) \
 	$(GECKO_EXTRA_LIBS) $(GECKO_GLUE_LIBS) $(addprefix \
@@ -295,8 +299,6 @@ MAKE_PATH = /usr/bin/make
 OBJEXT = o
 PACKAGE = bibledit
 PACKAGE_BUGREPORT = http://www.nongnu.org/bibledit
-PACKAGE_CFLAGS = -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
-PACKAGE_LIBS = -lglib-2.0  
 PACKAGE_NAME = bibledit
 PACKAGE_STRING = bibledit 3.2.6
 PACKAGE_TARNAME = bibledit
@@ -311,6 +313,8 @@ RANLIB = ranlib
 SET_MAKE = 
 SHELL = /bin/sh
 SORT_PATH = /usr/bin/sort
+SQLITE_CFLAGS =  
+SQLITE_LIBS = -lsqlite3  
 STRINGS_PATH = /usr/bin/strings
 STRIP = 
 TAIL_PATH = /usr/bin/tail
@@ -633,11 +637,13 @@ bibledit_bin_SOURCES = \
         check_sentence_structure.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
-AM_CXXFLAGS = -Wall `pkg-config gthread-2.0 --cflags` `pkg-config \
-	sqlite3 --cflags` `pkg-config gobject-2.0 --cflags` \
-	`pkg-config glib-2.0 --cflags` `pkg-config gtk+-2.0 --cflags` \
-	`pkg-config fontconfig --cflags` `xml2-config --cflags` \
-	$(ENCHANT_CFLAGS) $(GECKO_CFLAGS)
+AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
+	$(GTHREAD_CFLAGS) $(GLIB_CFLAGS) $(GTK_CFLAGS) \
+	$(FONTCONFIG_CFLAGS) $(SQLITE_CFLAGS) $(ENCHANT_CFLAGS) \
+	$(GECKO_CFLAGS) $(addprefix \
+	-I$(GECKO_INCLUDE_ROOT)/,$(mozilla_include_subdirs)) \
+	-DMOZILLA_HOME=\"$(GECKO_HOME)\" \
+	-DMOZILLA_PREFIX=\"$(GECKO_PREFIX)\"
 CLEANFILES = *~
 all: all-am
 

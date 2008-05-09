@@ -7371,11 +7371,6 @@ We may have to use the "make binary" for the olpc.
 Running on Darwin, update XCode Tools.
 
 
-Crash on Fedora when setting preferences.
-
-
-Fix the PACKAGE flags, there are several of them, instead use proper autotools mechanisms.
-
 */
 
 /*

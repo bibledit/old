@@ -243,8 +243,14 @@ GECKO_HOME = @GECKO_HOME@
 GECKO_INCLUDE_ROOT = @GECKO_INCLUDE_ROOT@
 GECKO_LIBS = @GECKO_LIBS@
 GECKO_PREFIX = @GECKO_PREFIX@
+GLIB_CFLAGS = @GLIB_CFLAGS@
+GLIB_LIBS = @GLIB_LIBS@
+GOBJECT_CFLAGS = @GOBJECT_CFLAGS@
+GOBJECT_LIBS = @GOBJECT_LIBS@
 GREP = @GREP@
 GREP_PATH = @GREP_PATH@
+GTHREAD_CFLAGS = @GTHREAD_CFLAGS@
+GTHREAD_LIBS = @GTHREAD_LIBS@
 GTK_CFLAGS = @GTK_CFLAGS@
 GTK_LIBS = @GTK_LIBS@
 GUNZIP_PATH = @GUNZIP_PATH@
@@ -270,7 +276,6 @@ INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBRARY_RUNTIME_PATH = @LIBRARY_RUNTIME_PATH@
-# AM_CXXFLAGS += $(addprefix -I$(GECKO_INCLUDE_ROOT)/,$(mozilla_include_subdirs)) -DMOZILLA_HOME=\"$(GECKO_HOME)\" -DMOZILLA_PREFIX=\"$(GECKO_PREFIX)\"
 # Set the run-time location of the Gecko libraries allowing the dynamic linker to find them.
 # Options:
 # * Setting the enviroment variable LD_LIBRARY_PATH before running the binary. But this is harmful.
@@ -279,10 +284,9 @@ LIBRARY_RUNTIME_PATH = @LIBRARY_RUNTIME_PATH@
 # * Using the -rpath options. This is needed on Mac OSX.
 # The library runtime path is an extra path. It is used in a situation where a binary
 # is made on one machine to be run on another one with a different mozilla home.
-LIBS = -Wall `pkg-config gthread-2.0 --libs` `pkg-config sqlite3 \
-	--libs` `pkg-config gobject-2.0 --libs` `pkg-config glib-2.0 \
-	--libs` `pkg-config gtk+-2.0 --libs` `pkg-config fontconfig \
-	--libs` `xml2-config --libs` $(ENCHANT_LIBS) $(GECKO_LIBS) \
+LIBS = -Wall `xml2-config --libs` $(GOBJECT_LIBS) $(GTHREAD_LIBS) \
+	$(GLIB_LIBS) $(GTK_LIBS) $(FONTCONFIG_LIBS) $(SQLITE_LIBS) \
+	$(ENCHANT_LIBS) $(GECKO_LIBS) \
 	-Wl,-R,-rpath,--rpath,$(GECKO_HOME) \
 	-Wl,-R,-rpath,--rpath,$(LIBRARY_RUNTIME_PATH) \
 	$(GECKO_EXTRA_LIBS) $(GECKO_GLUE_LIBS) $(addprefix \
@@ -295,8 +299,6 @@ MAKE_PATH = @MAKE_PATH@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
-PACKAGE_CFLAGS = @PACKAGE_CFLAGS@
-PACKAGE_LIBS = @PACKAGE_LIBS@
 PACKAGE_NAME = @PACKAGE_NAME@
 PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
@@ -311,6 +313,8 @@ RANLIB = @RANLIB@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 SORT_PATH = @SORT_PATH@
+SQLITE_CFLAGS = @SQLITE_CFLAGS@
+SQLITE_LIBS = @SQLITE_LIBS@
 STRINGS_PATH = @STRINGS_PATH@
 STRIP = @STRIP@
 TAIL_PATH = @TAIL_PATH@
@@ -633,11 +637,13 @@ bibledit_bin_SOURCES = \
         check_sentence_structure.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
-AM_CXXFLAGS = -Wall `pkg-config gthread-2.0 --cflags` `pkg-config \
-	sqlite3 --cflags` `pkg-config gobject-2.0 --cflags` \
-	`pkg-config glib-2.0 --cflags` `pkg-config gtk+-2.0 --cflags` \
-	`pkg-config fontconfig --cflags` `xml2-config --cflags` \
-	$(ENCHANT_CFLAGS) $(GECKO_CFLAGS)
+AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
+	$(GTHREAD_CFLAGS) $(GLIB_CFLAGS) $(GTK_CFLAGS) \
+	$(FONTCONFIG_CFLAGS) $(SQLITE_CFLAGS) $(ENCHANT_CFLAGS) \
+	$(GECKO_CFLAGS) $(addprefix \
+	-I$(GECKO_INCLUDE_ROOT)/,$(mozilla_include_subdirs)) \
+	-DMOZILLA_HOME=\"$(GECKO_HOME)\" \
+	-DMOZILLA_PREFIX=\"$(GECKO_PREFIX)\"
 CLEANFILES = *~
 all: all-am
 
