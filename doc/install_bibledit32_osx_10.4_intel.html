@@ -1,54 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xml:lang="en" lang="en">
 <head>
-<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-<title>Bibledit</title>
-<!--
-Copyright (©) 2003-2008 Teus Benschop.
-Permission is granted to copy, distribute and/or modify this document
-under the terms of the GNU Free Documentation License, Version 1.2
-or any later version published by the Free Software Foundation;
-with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-Texts.  A copy of the license is included in the section entitled "GNU
-Free Documentation License" in the file FDL.
--->
-<link href="bibledit.css" rel="stylesheet" type="text/css" />
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+  <title>Bibledit</title>
+  <!--
+        Copyright (©) 2003-2008 Teus Benschop.
+        Permission is granted to copy, distribute and/or modify this document
+        under the terms of the GNU Free Documentation License, Version 1.2
+        or any later version published by the Free Software Foundation;
+        with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+        Texts.  A copy of the license is included in the section entitled "GNU
+        Free Documentation License" in the file FDL.
+        -->
+  <link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
+
 <body>
-<h2><a name="installbibleditonmacosx104intel"></a>Install Bibledit on Mac OSX 10.4 Intel</h2>
+<h2><a name="installbibleditonmacosx104intel"></a>Install Bibledit on Mac OSX
+10.4 Intel</h2>
 <!-- Table of Contents Start -->
+
 <div id="toc">
 <ul>
-<li>
-<a href="#x11" class="level1">X11</a></li>
-<li>
-<a href="#xcodetools" class="level1">Xcode Tools</a></li>
-<li>
-<a href="#x11terminal" class="level1">X11 terminal</a></li>
-<li>
-<a href="#macports" class="level1">MacPorts</a></li>
-<li>
-<a href="#dependencies" class="level1">Dependencies</a></li>
-<li>
-<a href="#bibledit" class="level1">Bibledit</a></li>
-<li>
-<a href="#run" class="level1">Run</a></li>
-<li>
-<a href="#xep" class="level1">XEP</a></li>
-<li>
-<a href="#tip" class="level1">Tip</a></li>
+  <li><a href="#x11" class="level1">X11</a></li>
+  <li><a href="#xcodetools" class="level1">Xcode Tools</a></li>
+  <li><a href="#x11terminal" class="level1">X11 terminal</a></li>
+  <li><a href="#macports" class="level1">MacPorts</a></li>
+  <li><a href="#dependencies" class="level1">Dependencies</a></li>
+  <li><a href="#bibledit" class="level1">Bibledit</a></li>
+  <li><a href="#run" class="level1">Run</a></li>
+  <li><a href="#xep" class="level1">XEP</a></li>
+  <li><a href="#tip" class="level1">Tip</a></li>
 </ul>
 </div>
 <!-- Table of Contents End -->
+
 <p>These instructions assume Bibledit is being installed on a standard
 installation of OSX. Because Bibledit needs more than that, these
 instructions also explain how to install the additional libraries and tools
 that Bibledit depends on.</p>
+
 <p>If you know that your system already has some of these components
 installed, you may skip those parts.</p>
+
 <h3><a name="x11"></a>X11</h3>
+
 <p><a href="glossary.html#x11">X11</a> is on the installation DVD that came
 with your OSX software. This DVD is marked "Mac OS X Install Disc 1". Insert
 this DVD into the drive. A window will open. In this window, double-click
@@ -57,35 +55,56 @@ window opens again, and here double-click "X11SDK.pkg". The installer will
 open, and follow the instructions on the screen to install it. In the same
 way, install Mac OS X Install Disc 1 / System / Installation / Packages /
 X11User.pkg.</p>
+
 <h3><a name="xcodetools"></a>Xcode Tools</h3>
+
 <p>Using the same DVD that was inserted above, double-click "Xcode Tools". A
 new window opens. Here double-click "XcodeTools.mpkg". Go through the whole
-installation procedure and let it finish.</p>
+installation procedure and let it finish. Xcode Tools needs to be upgraded to
+a newer version. The upgrade is available from <a
+href="http://connect.apple.com">http://connect.apple.com</a>, file
+xcode25_8m2558_developerdvd.dmg available from the Downloads / Developer
+Tools section after free registration. It is called Xcode 2.5 Developer Tools
+(Disk Image). Download and install it.</p>
+
 <h3><a name="x11terminal"></a>X11 terminal</h3>
+
 <p>Click the left icon at the bottom, called Finder. Click Applications. At
 the right side, scroll down and double-click Utilities. Scroll down again,
 and double-click X11. The terminal, called xterm, will open.</p>
+
 <p>Update the search path, so that programs, still to be installed, can be
 found. In the terminal, type</p>
 <pre>cd</pre>
+
 <p>and then type</p>
 <pre>echo export PATH=$PATH:/opt/local/bin &gt;&gt; .bashrc</pre>
+
 <p>Now close the X11 terminal through menu X11 - Quit X11.</p>
+
 <p>Then start a new X11 terminal.</p>
+
 <h3><a name="macports"></a>MacPorts</h3>
+
 <p><a href="glossary.html#darwinports">MacPorts</a> is available from <a
 href="http://www.macports.org">http://www.macports.org. </a>Follow the
 instructions on the site to install MacPorts. If through, continue with the
 next steps.</p>
+
 <p>If the port has been installed a while ago, and you wish to update it, in
 xterm, type</p>
 <pre>sudo port -v selfupdate</pre>
+
 <p>and provide the password when asked. Let the update finish. It takes a
 while.</p>
+
 <h3><a name="dependencies"></a>Dependencies</h3>
+
 <p>To install gtk2, in the terminal type</p>
 <pre>sudo port install gtk2</pre>
+
 <p>and provide the password when asked.</p>
+
 <p>Do the same for other libraries and software that is needed:</p>
 <pre>sudo port install sqlite3
 sudo port install libxml2</pre>
@@ -93,60 +112,74 @@ sudo port install libxml2</pre>
 sudo port install nspr
 sudo port install firefox-x11
 sudo port install enchant</pre>
+
 <p>If any problems arise in this section, help can be found at <a
 href="http://www.macports.org/">www.macports.org</a>. While installing
 enchant it was noticed that it failed with an error. However, when running
 "sudo port install enchant" again, it succeeded.</p>
-<p>A file needs to be fixed for proper operation.</p>
-<pre>cd /opt/local/lib/pkgconfig</pre>
-<pre>sudo nano firefox-xpcom.pc</pre>
-<p>There is a line that says "Requires: nspr &gt;= ...". Change the "nspr" in
-that line to "firefox-nspr", and write the file by pressing Ctrl-O, then
-quite by presssing Ctrl-X. If the change has been done already, then that's
-fine.</p>
+
 <h3><a name="bibledit"></a>Bibledit</h3>
+
 <p>Download package <a
 href="http://download.savannah.nongnu.org/releases/bibledit/source/">bibledit-x.x.tar.gz</a>
 (x.x is to be replaced with a version number).</p>
+
 <p>Move it to the home directory.</p>
+
 <p>In the terminal, to verify the package is there, type</p>
 <pre>ls</pre>
+
 <p>To unpack bibledit type</p>
 <pre>tar zxf bibledit-x.x.tar.gz</pre>
+
 <p>To enter the newly created directory, type</p>
 <pre>cd bibledit-x.x</pre>
-<p>To configure bibledit for firefox, type</p>
-<pre>./use-firefox</pre>
-<p>To patch some files on the Macintosh, type</p>
-<pre>sudo scripts/patch-macintosh</pre>
+
 <p>Provide the password if asked for.</p>
+
 <p>To configure bibledit, type</p>
 <pre>./configure</pre>
+
 <p>Watch many messages, but no errors.</p>
+
 <p>To compile bibledit, type</p>
 <pre>make</pre>
+
 <p>Watch many messages, but no errors.</p>
+
 <p>To install it, type</p>
 <pre>sudo make install</pre>
+
 <p>Watch many messages, but no errors.</p>
+
 <p>To go back to the home directory, type</p>
 <pre>cd</pre>
+
 <h3><a name="run"></a>Run</h3>
+
 <p>To run Bibledit, do the following every time you use it:</p>
+
 <p>Open an X11 terminal. Be sure this is not a normal Terminal, but the X11
 terminal.</p>
+
 <p>Start bibledit: Type</p>
 <pre>bibledit</pre>
+
 <p>If you do not start Bibledit this way, it will run with errors, and it
 will not be fully functional.</p>
-<h3><a name="xep"></a>XEP</h3>
-<p><a href="xep_install.html">Install XEP</a>.</p>
-<h3><a name="tip"></a>Tip</h3>
+
+<h3><a name="xep"></a>Optional components</h3>
+
+<p><a href="optional_components.html">Install optional components</a>.</p>
+
+<h3><a name="tip"></a>Notes</h3>
+
 <p>You can create an Applescript that will open X11 and BIbledit in one
 operation from within Finder. This will give you an easy way to start
 Bibledit in one click. In Finder, click Applications, then double-click
 AppleScript and then double-click Script Editor. In Script Editor type:</p>
 <pre>do shell script "/usr/bin/open-x11 /opt/local/bin/bibledit"</pre>
+
 <p>Then click the Compile button, and in the menu click File, then Save. Call
 it Bibledit, and save it in Applications, and set the file format to
 "Application". Then save it.</p>
