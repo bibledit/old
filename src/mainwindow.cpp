@@ -7358,22 +7358,6 @@ void MainWindow::on_preferences_filters ()
 
 
 /*
-Todo Running on XO:
-
-
-For the OLPC we might have the --with-runtime-library-path=/path/to/home and add
-that as an extra runtime library path 
---enable-library-runtime-path=/usr/lib/xulrunner-1.9a9pre
-
-
-We may have to use the "make binary" for the olpc.
-
-
-
-
-*/
-
-/*
 
 Todo  integrate checks from Umhloli
 
