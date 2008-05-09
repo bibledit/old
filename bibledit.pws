@@ -12,7 +12,7 @@ filter.dir.ignore.hidden=0
 
 [filenumbers]
 0=209
-1=262
+1=7378
 2=202
 3=7378
 4=42
@@ -46,9 +46,7 @@ filter.dir.ignore.hidden=0
 
 [filelist]
 0=/home/teus/documents/dev/bibledit/src/ot-quotations.cpp
-1=/home/teus/documents/dev/bibledit/src/Makefile.am
-2=/home/teus/documents/dev/bibledit/configure.ac
-3=/home/teus/documents/dev/bibledit/src/mainwindow.cpp
+1=/home/teus/documents/dev/bibledit/src/mainwindow.cpp
 
 [Project Tree]
 0=0

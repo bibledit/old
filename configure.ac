@@ -253,6 +253,35 @@ else
   packageprefix=${prefix}
 fi
 
+
+# LINUX build checks
+AC_MSG_CHECKING([whether to enable LINUX specific flags])
+case "$host_os" in
+*linux*)
+	linux=true
+	AC_MSG_RESULT([yes])
+	;;
+*)
+	linux=false
+	AC_MSG_RESULT([no])
+	;;
+esac
+AM_CONDITIONAL(LINUX, test x$linux = xtrue)
+
+# DARWIN build checks
+AC_MSG_CHECKING([whether to enable DARWIN specific flags])
+case "$host_os" in
+*darwin*)
+	darwin=true
+	AC_MSG_RESULT([yes])
+	;;
+*)
+	darwin=false
+	AC_MSG_RESULT([no])
+	;;
+esac
+AM_CONDITIONAL(DARWIN, test x$darwin = xtrue)
+
 # WIN32 build checks
 AC_MSG_CHECKING([whether to enable WIN32 specific flags])
 case "$host_os" in
@@ -266,6 +295,7 @@ case "$host_os" in
 	;;
 esac
 AM_CONDITIONAL(WIN32, test x$win32 = xtrue)
+
 
 # Set PACKAGE DATA & DOC DIR
 packagedatadir=share/${PACKAGE}

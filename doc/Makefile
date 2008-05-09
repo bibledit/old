@@ -97,6 +97,8 @@ CXX = g++
 CXXDEPMODE = depmode=gcc3
 CXXFLAGS = -g -O2
 CYGPATH_W = echo
+DARWIN_FALSE = 
+DARWIN_TRUE = #
 DATE_PATH = /bin/date
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
@@ -160,6 +162,8 @@ LIBS = -Wall `pkg-config gobject-2.0 --libs` \
              `pkg-config glib-2.0 --libs` \
              `pkg-config gtk+-2.0 --libs`
 
+LINUX_FALSE = #
+LINUX_TRUE = 
 LTLIBOBJS = 
 MAKEINFO = ${SHELL} /home/teus/documents/dev/bibledit/missing --run makeinfo
 MAKE_PATH = /usr/bin/make

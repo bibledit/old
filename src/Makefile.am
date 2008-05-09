@@ -278,19 +278,27 @@ LIBS += $(FONTCONFIG_LIBS)
 LIBS += $(SQLITE_LIBS)
 LIBS += $(ENCHANT_LIBS)
 LIBS += $(GECKO_LIBS)
+
 # Set the run-time location of the Gecko libraries allowing the dynamic linker to find them.
 # Options:
 # * Setting the enviroment variable LD_LIBRARY_PATH before running the binary. But this is harmful.
 # * Setting the environment variable LD_RUN_PATH before compiling the code.
 # * Using the -Wl,-R, options.
 # * Using the -rpath options.
-# On the Mac OSX the -R,-rpath gives problems.
-# LIBS += -Wl,-R,-rpath,--rpath,$(GECKO_HOME)
-LIBS += -Wl$(GECKO_HOME)
 # The library runtime path is an extra path. It is used in a situation where a binary
 # is made on one machine to be run on another one with a different mozilla home.
-# LIBS += -Wl,-R,-rpath,--rpath,$(LIBRARY_RUNTIME_PATH)
+if LINUX
+LIBS += -Wl,-R,$(GECKO_HOME)
+LIBS += -Wl,-R,$(LIBRARY_RUNTIME_PATH)
+endif
+if DARWIN
+LIBS += -Wl$(GECKO_HOME)
 LIBS += -Wl$(LIBRARY_RUNTIME_PATH)
+endif
+if WIN32
+LIBS += -Wl,-R,$(GECKO_HOME)
+LIBS += -Wl,-R,$(LIBRARY_RUNTIME_PATH)
+endif
 
 LIBS += $(GECKO_EXTRA_LIBS) $(GECKO_GLUE_LIBS)
 LIBS += $(addprefix -I$(GECKO_INCLUDE_ROOT)/,$(mozilla_include_subdirs)) -DMOZILLA_HOME=\"$(GECKO_HOME)\" -DMOZILLA_PREFIX=\"$(GECKO_PREFIX)\"

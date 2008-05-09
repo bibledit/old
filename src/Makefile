@@ -40,7 +40,22 @@ target_triplet = i686-pc-linux-gnu
 bin_PROGRAMS = bibledit-bin$(EXEEXT) bibledit-bibletime$(EXEEXT) \
 	bibledit-git$(EXEEXT) bibledit-help$(EXEEXT) \
 	bibledit-restart$(EXEEXT)
-#am__append_1 = -mwindows
+
+# Set the run-time location of the Gecko libraries allowing the dynamic linker to find them.
+# Options:
+# * Setting the enviroment variable LD_LIBRARY_PATH before running the binary. But this is harmful.
+# * Setting the environment variable LD_RUN_PATH before compiling the code.
+# * Using the -Wl,-R, options.
+# * Using the -rpath options.
+# The library runtime path is an extra path. It is used in a situation where a binary
+# is made on one machine to be run on another one with a different mozilla home.
+am__append_1 = -Wl,-R,$(GECKO_HOME) \
+	-Wl,-R,$(LIBRARY_RUNTIME_PATH)
+#am__append_2 = -Wl$(GECKO_HOME) \
+#	-Wl$(LIBRARY_RUNTIME_PATH)
+#am__append_3 = -Wl,-R,$(GECKO_HOME) \
+#	-Wl,-R,$(LIBRARY_RUNTIME_PATH)
+#am__append_4 = -mwindows
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -217,6 +232,8 @@ CXX = g++
 CXXDEPMODE = depmode=gcc3
 CXXFLAGS = -g -O2
 CYGPATH_W = echo
+DARWIN_FALSE = 
+DARWIN_TRUE = #
 DATE_PATH = /bin/date
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
@@ -276,25 +293,16 @@ INSTALL_STRIP_PROGRAM = ${SHELL} $(install_sh) -c -s
 LDFLAGS = 
 LIBOBJS = 
 LIBRARY_RUNTIME_PATH = 
-# Set the run-time location of the Gecko libraries allowing the dynamic linker to find them.
-# Options:
-# * Setting the enviroment variable LD_LIBRARY_PATH before running the binary. But this is harmful.
-# * Setting the environment variable LD_RUN_PATH before compiling the code.
-# * Using the -Wl,-R, options.
-# * Using the -rpath options.
-# On the Mac OSX the -R,-rpath gives problems.
-# LIBS += -Wl,-R,-rpath,--rpath,$(GECKO_HOME)
-# The library runtime path is an extra path. It is used in a situation where a binary
-# is made on one machine to be run on another one with a different mozilla home.
-# LIBS += -Wl,-R,-rpath,--rpath,$(LIBRARY_RUNTIME_PATH)
 LIBS = -Wall `xml2-config --libs` $(GOBJECT_LIBS) $(GTHREAD_LIBS) \
 	$(GLIB_LIBS) $(GTK_LIBS) $(FONTCONFIG_LIBS) $(SQLITE_LIBS) \
-	$(ENCHANT_LIBS) $(GECKO_LIBS) -Wl$(GECKO_HOME) \
-	-Wl$(LIBRARY_RUNTIME_PATH) $(GECKO_EXTRA_LIBS) \
-	$(GECKO_GLUE_LIBS) $(addprefix \
+	$(ENCHANT_LIBS) $(GECKO_LIBS) $(am__append_1) $(am__append_2) \
+	$(am__append_3) $(GECKO_EXTRA_LIBS) $(GECKO_GLUE_LIBS) \
+	$(addprefix \
 	-I$(GECKO_INCLUDE_ROOT)/,$(mozilla_include_subdirs)) \
 	-DMOZILLA_HOME=\"$(GECKO_HOME)\" \
-	-DMOZILLA_PREFIX=\"$(GECKO_PREFIX)\" $(am__append_1)
+	-DMOZILLA_PREFIX=\"$(GECKO_PREFIX)\" $(am__append_4)
+LINUX_FALSE = #
+LINUX_TRUE = 
 LTLIBOBJS = 
 MAKEINFO = ${SHELL} /home/teus/documents/dev/bibledit/missing --run makeinfo
 MAKE_PATH = /usr/bin/make

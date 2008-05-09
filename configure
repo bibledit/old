@@ -774,6 +774,10 @@ LIBRARY_RUNTIME_PATH
 src doc bin util lib
 LIBOBJS
 POW_LIB
+LINUX_TRUE
+LINUX_FALSE
+DARWIN_TRUE
+DARWIN_FALSE
 WIN32_TRUE
 WIN32_FALSE
 LTLIBOBJS'
@@ -13744,6 +13748,59 @@ else
   packageprefix=${prefix}
 fi
 
+
+# LINUX build checks
+{ echo "$as_me:$LINENO: checking whether to enable LINUX specific flags" >&5
+echo $ECHO_N "checking whether to enable LINUX specific flags... $ECHO_C" >&6; }
+case "$host_os" in
+*linux*)
+	linux=true
+	{ echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6; }
+	;;
+*)
+	linux=false
+	{ echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6; }
+	;;
+esac
+
+
+if test x$linux = xtrue; then
+  LINUX_TRUE=
+  LINUX_FALSE='#'
+else
+  LINUX_TRUE='#'
+  LINUX_FALSE=
+fi
+
+
+# DARWIN build checks
+{ echo "$as_me:$LINENO: checking whether to enable DARWIN specific flags" >&5
+echo $ECHO_N "checking whether to enable DARWIN specific flags... $ECHO_C" >&6; }
+case "$host_os" in
+*darwin*)
+	darwin=true
+	{ echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6; }
+	;;
+*)
+	darwin=false
+	{ echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6; }
+	;;
+esac
+
+
+if test x$darwin = xtrue; then
+  DARWIN_TRUE=
+  DARWIN_FALSE='#'
+else
+  DARWIN_TRUE='#'
+  DARWIN_FALSE=
+fi
+
+
 # WIN32 build checks
 { echo "$as_me:$LINENO: checking whether to enable WIN32 specific flags" >&5
 echo $ECHO_N "checking whether to enable WIN32 specific flags... $ECHO_C" >&6; }
@@ -13768,6 +13825,7 @@ else
   WIN32_TRUE='#'
   WIN32_FALSE=
 fi
+
 
 
 # Set PACKAGE DATA & DOC DIR
@@ -13976,6 +14034,20 @@ if test -z "${HAVE_GECKO_1_9_TRUE}" && test -z "${HAVE_GECKO_1_9_FALSE}"; then
   { { echo "$as_me:$LINENO: error: conditional \"HAVE_GECKO_1_9\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"HAVE_GECKO_1_9\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${LINUX_TRUE}" && test -z "${LINUX_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"LINUX\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"LINUX\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${DARWIN_TRUE}" && test -z "${DARWIN_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"DARWIN\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"DARWIN\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -14732,12 +14804,16 @@ util!$util$ac_delim
 lib!$lib$ac_delim
 LIBOBJS!$LIBOBJS$ac_delim
 POW_LIB!$POW_LIB$ac_delim
+LINUX_TRUE!$LINUX_TRUE$ac_delim
+LINUX_FALSE!$LINUX_FALSE$ac_delim
+DARWIN_TRUE!$DARWIN_TRUE$ac_delim
+DARWIN_FALSE!$DARWIN_FALSE$ac_delim
 WIN32_TRUE!$WIN32_TRUE$ac_delim
 WIN32_FALSE!$WIN32_FALSE$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 69; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 73; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5

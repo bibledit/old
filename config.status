@@ -671,6 +671,10 @@ s,@util@,|#_!!_#|,g
 s,@lib@,|#_!!_#|,g
 s,@LIBOBJS@,|#_!!_#|,g
 s,@POW_LIB@,|#_!!_#|,g
+s,@LINUX_TRUE@,|#_!!_#|,g
+s,@LINUX_FALSE@,|#_!!_#|#,g
+s,@DARWIN_TRUE@,|#_!!_#|#,g
+s,@DARWIN_FALSE@,|#_!!_#|,g
 s,@WIN32_TRUE@,|#_!!_#|#,g
 s,@WIN32_FALSE@,|#_!!_#|,g
 s,@LTLIBOBJS@,|#_!!_#|,g
