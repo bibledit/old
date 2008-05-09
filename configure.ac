@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(bibledit, 3.2.5, http://www.nongnu.org/bibledit)
+AC_INIT(bibledit, 3.2.6, http://www.nongnu.org/bibledit)
 AC_CANONICAL_SYSTEM
 ac_default_prefix=/usr
 AC_CONFIG_MACRO_DIR([m4])
@@ -116,11 +116,9 @@ fi
 
 # Checks for libraries.
 
-PKG_CHECK_MODULES(fontconfig, fontconfig,,AC_MSG_ERROR(fontconfig development version is needed.))
-pkg_modules="fontconfig >= 1.0.1"
-PKG_CHECK_MODULES(PACKAGE, [$pkg_modules])
-AC_SUBST(PACKAGE_CFLAGS)
-AC_SUBST(PACKAGE_LIBS)
+PKG_CHECK_MODULES(FONTCONFIG, fontconfig >= 1.0.1,,AC_MSG_ERROR(fontconfig development version is needed.))
+AC_SUBST(FONTCONFIG_CFLAGS)
+AC_SUBST(FONTCONFIG_LIBS)
 
 pkg_modules="glib-2.0 >= 2.8.0"
 PKG_CHECK_MODULES(PACKAGE, [$pkg_modules])

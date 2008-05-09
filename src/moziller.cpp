@@ -36,11 +36,6 @@
 
 
 
-void moziller_preference_set (const char *preference_name, const char *new_value);
-void moziller_preference_set_boolean (const char *preference_name, gboolean  new_boolean_value);
-void moziller_preference_set_int (const char *preference_name, int new_int_value);
-void moziller_save_preferences();
-
 bool moziller_copy_selection_to_clipboard (GtkWidget * widget)
 {
   nsresult rv = NS_ERROR_FAILURE;
@@ -49,64 +44,4 @@ bool moziller_copy_selection_to_clipboard (GtkWidget * widget)
   NS_ENSURE_TRUE (webbrowser, rv);
   nsCOMPtr<nsIClipboardCommands> clipboard (do_GetInterface(webbrowser));
   clipboard->CopySelection();  
-}
-
-  
-void moziller_set_preferences ()
-// Set Bibledit's preferred settings.
-// Also visble through about:config.
-{
-  moziller_preference_set_boolean ("javascript.enabled", TRUE);
-  moziller_preference_set_boolean ("plugin.default_plugin_disabled", FALSE);
-  moziller_preference_set_boolean ("xpinstall.enabled", FALSE);
-  moziller_preference_set_boolean ("mozilla.widget.raise-on-setfocus", FALSE);
-  // this prevents popup dialogs and gives HTML error pages instead
-  moziller_preference_set_boolean("browser.xul.error_pages.enabled", TRUE);
-  // Save preferences.
-  moziller_save_preferences();
-}
-
-
-void moziller_preference_set (const char *preference_name, const char *new_value)
-{
-  if (!preference_name) return;
-  if (!new_value) return;
-  nsCOMPtr<nsIPrefService> prefService = do_GetService (NS_PREFSERVICE_CONTRACTID);
-  nsCOMPtr<nsIPrefBranch> pref;
-  prefService->GetBranch ("", getter_AddRefs(pref));
-  if (pref) {
-    pref->SetCharPref (preference_name, new_value);            
-  }
-}
-
-
-void moziller_preference_set_boolean (const char *preference_name, gboolean  new_boolean_value)
-{
-  if (!preference_name) return;
-  nsCOMPtr<nsIPrefService> prefService = do_GetService (NS_PREFSERVICE_CONTRACTID);
-  nsCOMPtr<nsIPrefBranch> pref;
-  prefService->GetBranch ("", getter_AddRefs(pref));
-  if (pref) {
-    pref->SetBoolPref (preference_name, new_boolean_value ? PR_TRUE : PR_FALSE);
-  }
-}
-
-
-void moziller_preference_set_int (const char *preference_name, int new_int_value)
-{
-  if (!preference_name) return;
-  nsCOMPtr<nsIPrefService> prefService = do_GetService (NS_PREFSERVICE_CONTRACTID);
-  nsCOMPtr<nsIPrefBranch> pref;
-  prefService->GetBranch ("", getter_AddRefs(pref));
-  if (pref) {
-    pref->SetIntPref (preference_name, new_int_value);
-  }
-}
-
-
-void moziller_save_preferences()
-{
-  nsCOMPtr<nsIPrefService> prefService = do_GetService (NS_PREFSERVICE_CONTRACTID);
-  if (prefService) return;
-  prefService->SavePrefFile (nsnull);
 }

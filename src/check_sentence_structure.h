@@ -18,15 +18,31 @@
 */
 
 
-#ifndef INCLUDED_MOZILLER_H
-#define INCLUDED_MOZILLER_H
+#ifndef INCLUDED_CHECK_SENTENCE_STRUCTURE_H
+#define INCLUDED_CHECK_SENTENCE_STRUCTURE_H
 
 
 #include "libraries.h"
-#include <gtk/gtk.h>
 
 
-bool moziller_copy_selection_to_clipboard (GtkWidget * widget);
+class CheckSentenceStructure
+{
+public:
+  CheckSentenceStructure (const ustring& project, 
+                       const vector<unsigned int>& books, 
+                       bool gui);
+  ~CheckSentenceStructure ();
+  vector<ustring> references;
+  vector<ustring> comments;
+  bool cancelled;
+private:
+  unsigned int book;
+  unsigned int chapter;
+  ustring verse;
+  set <ustring> markers;
+  void check (ustring text);
+  void message (const ustring& message);
+};
 
 
 #endif

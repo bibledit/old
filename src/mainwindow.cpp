@@ -1516,7 +1516,15 @@ httpd (0)
     image7367 = gtk_image_new_from_stock ("gtk-refresh", GTK_ICON_SIZE_MENU);
     gtk_widget_show (image7367);
     gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (check_matching_pairs), image7367);
+  
+    check_sentence_structure = gtk_image_menu_item_new_with_mnemonic ("_Sentence structure");
+    gtk_widget_show (check_sentence_structure);
+    gtk_container_add (GTK_CONTAINER (check_punctuation_menu), check_sentence_structure);
 
+    image28475 = gtk_image_new_from_stock ("gtk-justify-fill", GTK_ICON_SIZE_MENU);
+    gtk_widget_show (image28475);
+    gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (check_sentence_structure), image28475);
+    
     check_references = gtk_image_menu_item_new_with_mnemonic ("_References");
     gtk_widget_show (check_references);
     gtk_container_add (GTK_CONTAINER (check1_menu), check_references);
@@ -2388,6 +2396,7 @@ httpd (0)
     g_signal_connect ((gpointer) check_repetition, "activate", G_CALLBACK (on_check_repetition_activate), gpointer(this));
     g_signal_connect ((gpointer) unwanted_words, "activate", G_CALLBACK (on_unwanted_words_activate), gpointer(this));
     g_signal_connect ((gpointer) check_matching_pairs, "activate", G_CALLBACK (on_check_matching_pairs_activate), gpointer(this));
+    g_signal_connect ((gpointer) check_sentence_structure, "activate", G_CALLBACK (on_check_sentence_structure_activate), gpointer(this));
     g_signal_connect ((gpointer) word_count_inventory, "activate", G_CALLBACK (on_word_count_inventory_activate), gpointer(this));
     g_signal_connect ((gpointer) check_references_inventory, "activate", G_CALLBACK (on_check_references_inventory_activate), gpointer(this));
     g_signal_connect ((gpointer) check_references_validate, "activate", G_CALLBACK (on_check_references_validate_activate), gpointer(this));
@@ -5856,6 +5865,19 @@ void MainWindow::on_parallels_from_the_ot ()
 }
 
 
+void MainWindow::on_check_sentence_structure_activate (GtkMenuItem *menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_check_sentence_structure ();
+}
+
+
+void MainWindow::on_check_sentence_structure ()
+{
+  editorsgui->save ();
+  scripture_checks_sentence_structure (liststore_references, treeview_references, treecolumn_references, NULL);
+}
+
+
 /*
 |
 |
@@ -7349,12 +7371,631 @@ We may have to use the "make binary" for the olpc.
 Running on Darwin, update XCode Tools.
 
 
-Todo Try out on FC8 whether the new linker settings work fine.
+Crash on Fedora when setting preferences.
+
+
+Fix the PACKAGE flags, there are several of them, instead use proper autotools mechanisms.
 
 */
 
 /*
 
+Todo  integrate checks from Umhloli
+
+Some checks from Umhloli.
+
+procedure CheckBracketStructure (USFM : TUSFM; Curr : char; TidyUp :
+boolean = false);
+procedure CheckAdjacentCharacters (USFM : TUSFM; Curr : char);
+procedure InitializeQuotationMarks;
+procedure CheckQuotationMarks (USFM : TUSFM; Curr : char; TidyUp : boolean
+= false);
+procedure CheckForAndRemoveTabsAndDoubleSpaces (Name : string);
+procedure InitializeCharacterSets;
+procedure CheckCommaSemicolonColon (USFM : TUSFM; Curr : char);
+procedure InitializeCommaSemicolonColon;
+procedure InitializeSentenceStructure (InitIt : boolean);
+procedure InitializeUnwantedWords;
+procedure CheckUnwantedWords (USFM : TUSFM; Curr : char; TidyUp : boolean =
+false);
+procedure CheckLeadingSpaces (USFM : TUSFM; Curr : char);
+
+const
+NumberChars : set of char = ['0' .. '9'];
+
+var
+SentenceEnders : set of char;
+SentenceIndifference : set of char;
+SmallLetters : set of char;
+Capitals : set of char;
+NonAdjacentChars : set of char;
+RightOfQuoteChars : set of char;
+AllowedCharacters : set of char;
+SentenceCutterFound : boolean;
+FilterOutChars : set of char;
+PreviousSFMHeading : boolean;
+PreviousSFMHeadingNumber : integer;
+HeadingText : string;
+SpaceFound : boolean;
+
+implementation
+
+uses
+MyFeedback, Utilities, MyRegistry, UnitMain, SysUtils,
+Classes, NamesList, UnwantedWordsUnit, TypesConstants, ScripturesUnit;
+
+type
+BF = record
+Opener : char;
+Closer : char;
+Place : string;
+end;
+BC = record
+Beginning : char;
+Ending : char;
+end;
+
+const
+SentenceStarters = ['A'..'Z'];
+MaxBracketLevel = 5;
+
+var
+SentenceHasStarted : boolean;
+BracketFound : array [1..MaxBracketLevel] of BF;
+BracketLevel : integer;
+BracketChars : array [1..10] of BC;
+NumberOfBracketsToCheck : integer;
+OpeningBracketWasThere : boolean;
+QuotationMarksFound : integer;
+CommaSemicolonColonFound : boolean;
+NamesStringList : TStringList;
+CapitalsBuildingUp : boolean;
+CapitalizedWord : string;
+SentenceEndedAtPreviousCharacter : boolean;
+UnwantedWordsList, UnwantedTicksList, UnwantedCommentsList :
+TStringList;
+UnwantedSearchPhrase, UnwantedSearchWord : string;
+
+procedure InitializeSentenceStructure (InitIt : boolean);
+var
+Scripture : TScripture;
+begin
+if InitIt then
+begin
+SentenceHasStarted := false;
+CapitalsBuildingUp := false;
+CapitalizedWord := '';
+NamesStringList := TStringList.Create;
+NamesStringList.Sorted := true;
+NamesStringList.CaseSensitive := true;
+Scripture := TScripture.Create(nil, -1);
+if FileExists (Scripture.UmhloliDataPath + ApprovedNamesTxt) then
+NamesStringList.LoadFromFile(Scripture.UmhloliDataPath +
+ApprovedNamesTxt);
+Scripture.Free;
+PreviousSFMHeading := false;
+PreviousSFMHeadingNumber := 0;
+SentenceEndedAtPreviousCharacter := false;
+end
+else
+begin
+NamesStringList.Free;
+end;
+end;
+
+
+
+end;
+
+// Capitals are only allowed in ALL CAPS words and in names.
+if (Curr in Capitals) and SentenceHasStarted then CapitalsBuildingUp :=
+true;
+if CapitalsBuildingUp then
+begin
+if ((Curr in Capitals) or (Curr in SmallLetters) or (Curr in
+FilterOutChars))
+and (Curr <> '-') then
+CapitalizedWord := CapitalizedWord + Curr
+else
+begin
+// Word with capital(s) found.
+CapitalsBuildingUp := false;
+// Skip ALL CAPS words.
+if UpperCase (CapitalizedWord) <> CapitalizedWord then
+begin
+if CapitalizedWord [Length (CapitalizedWord)] in FilterOutChars
+then
+Delete (CapitalizedWord, Length (CapitalizedWord), 1);
+if not NamesStringList.Find (CapitalizedWord, i) then
+begin
+AddResultMessage (USFM, USFM.PreviousChars + ' - A capitalized
+word (' + CapitalizedWord + ') was found within a sentence.');
+AddResultMessage (USFM, 'Hint: If this capitalized word is a
+name, add it to the names list.');
+end;
+end;
+CapitalizedWord := '';
+end;
+end;
+
+if not (Curr in SentenceIndifference) then
+begin
+if Curr in SentenceEnders then
+begin
+SentenceHasStarted := false;
+SentenceEndedAtPreviousCharacter := true;
+end;
+if (Curr in SentenceStarters) and (not USFM.TitleNow) then
+SentenceHasStarted := true;
+end;
+
+// End-of-book check.
+if TidyUp and SentenceHasStarted then
+AddResultMessage (USFM, USFM.PreviousChars + ' - The sentence has not
+been ended properly at the end of the book.');
+
+end;
+
+procedure CheckBracketStructure (USFM : TUSFM; Curr : char; TidyUp :
+boolean = false);
+var
+C : integer;
+
+begin
+
+If OpeningBracketWasThere then
+begin
+OpeningBracketWasThere := false;
+if Curr = ' ' then
+begin
+AddResultMessage (USFM, USFM.PreviousChars + ' - A space has been
+found right after an opening bracket.');
+end;
+end;
+
+For C := 1 to NumberOfBracketsToCheck do
+begin
+if Curr = BracketChars [C].Beginning then
+begin
+OpeningBracketWasThere := true;
+// Next line comes in useful when lots of wild brackets are in texts
+// being checked which are not yet proofread.
+if BracketLevel < 0 then BracketLevel := 0;
+Inc (BracketLevel);
+if (BracketLevel <= MaxBracketLevel) and (BracketLevel > 0) then
+begin
+BracketFound [BracketLevel].Opener := Curr;
+BracketFound [BracketLevel].Closer := BracketChars [C].Ending;
+BracketFound [BracketLevel].Place := USFM.CurrentPlace +
+USFM.PreviousChars;
+end
+else
+begin
+AddResultMessage (USFM, USFM.PreviousChars + ' - Too many opening
+brackets nested: ' + Curr);
+end;
+end;
+end;
+
+For C := 1 to NumberOfBracketsToCheck do
+begin
+if Curr = BracketChars [C].Ending then
+begin
+if USFM.PreviousCharacter (1) = ' ' then
+begin
+AddResultMessage (USFM, USFM.PreviousChars + ' - A space has been
+found right before a closing bracket.');
+end;
+if (BracketLevel <= MaxBracketLevel) and (BracketLevel > 0) then
+begin
+if Curr = BracketFound [BracketLevel].Closer then
+begin
+end
+else
+begin
+AddResultMessage (USFM, USFM.PreviousChars + ' - Found a closing
+bracket ' + Curr + ' which does not match its opener...');
+AddResultMessage (USFM, BracketFound [BracketLevel].Place + ' -
+... and here is the mismatched opener talked about in the previous
+message.', false);
+end;
+end
+else
+begin
+AddResultMessage (USFM, USFM.PreviousChars + ' - A closing bracket
+found without matching opener: ' + Curr);
+end;
+Dec (BracketLevel);
+// Next line makes sure that wild numbers of brackets don't disturb
+the
+// checking too much.
+if BracketLevel < 0 then BracketLevel := 0;
+end;
+end;
+
+if TidyUp then
+begin
+if BracketLevel > MaxBracketLevel then BracketLevel :=
+MaxBracketLevel;
+For C := 1 to BracketLevel do
+begin
+AddResultMessage (USFM, BracketFound [C].Place + ' - An opening
+bracket without matching closer has been found: ' + BracketFound
+[C].Opener, false);
+end;
+BracketLevel := 0;
+end;
+
+end;
+
+procedure CheckAdjacentCharacters (USFM : TUSFM; Curr : char);
+begin
+if Curr in NonAdjacentChars then
+if USFM.PreviousCharacter (1) in NonAdjacentChars then
+AddResultMessage (USFM, USFM.PreviousChars + ' - Two characters found
+which are not supposed to be adjacent to each other: ' +
+USFM.PreviousCharacter (1) + ' and ' + Curr);
+end;
+
+procedure InitializeQuotationMarks;
+begin
+QuotationMarksFound := 0;
+end;
+
+procedure CheckQuotationMarks (USFM : TUSFM; Curr : char; TidyUp : boolean
+= false);
+begin
+if Curr = '"' then
+begin
+Inc (QuotationMarksFound);
+if (QuotationMarksFound mod 2) = 1 then
+begin
+if USFM.PreviousCharacter (1) <> ' ' then
+begin
+AddResultMessage (USFM, USFM.PreviousChars + ' - A space is
+supposed to be found left to an opening quotation mark, but another
+character was found: ' + USFM.PreviousCharacter (1));
+end;
+end;
+end;
+if (not (Curr in RightOfQuoteChars))
+and (Curr <> ' ')
+and ((QuotationMarksFound mod 2) = 0)
+and (USFM.PreviousCharacter (1) = '"') then
+AddResultMessage (USFM, USFM.PreviousChars + ' - An invalid character
+is found next to a closing quotation mark: ' + Curr);
+if TidyUp then
+begin
+if (QuotationMarksFound mod 2) <> 0 then
+begin
+AddResultMessage (USFM, 'Having reached the end of the book, it
+appears that one or more quotation marks have not been closed.');
+end;
+end;
+end;
+
+procedure CheckCommaSemicolonColon (USFM : TUSFM; Curr : char);
+{ After a comma, semicolon or colon, these rules apply:
+- there should be one of the following characters:
+1. a closing bracket
+2. a space
+3. a quotation mark
+- if not, a message is written.
+}
+var
+TheRightCharFound : boolean;
+i : integer;
+begin
+if SentenceCutterFound then
+begin
+TheRightCharFound := false;
+for i := 1 to NumberOfBracketsToCheck do
+if Curr = BracketChars [i].Ending then TheRightCharFound := true;
+if Curr = ' ' then TheRightCharFound := true;
+if Curr = '"' then TheRightCharFound := true;
+if not TheRightCharFound then
+AddResultMessage (USFM, USFM.PreviousChars + ' - A sentence divider
+is followed by an invalid character: ' + Curr);
+SentenceCutterFound := false;
+end;
+
+if Curr in [',', ';', ':'] then
+begin
+SentenceCutterFound := true;
+end;
+
+end;
+
+procedure CheckUnwantedWords (USFM : TUSFM; Curr : char; TidyUp : boolean =
+false);
+// There are two types of checks. 1. For words. 2. For phrases.
+var
+i, i2 : integer;
+S : string;
+begin
+
+// Check for complete words.
+if (Curr in Capitals) or (Curr in SmallLetters) or (Curr in
+FilterOutChars) then
+UnwantedSearchWord := UnwantedSearchWord + Curr
+else
+begin
+if UnwantedSearchWord <> '' then
+begin
+i := UnwantedWordsList.IndexOf (LowerCase (UnwantedSearchWord));
+if i >= 0 then
+begin
+if UnwantedTicksList.Strings [i] = UnwantedWordSearch then
+AddResultMessage (USFM, USFM.PreviousChars + ' - An unwanted word
+(' + UnwantedSearchWord + ') has been found. Comment: ' +
+UnwantedCommentsList.Strings [i] + '.');
+end;
+UnwantedSearchWord := '';
+end;
+end;
+
+// Fill the search string and the reference array.
+UnwantedSearchPhrase := UnwantedSearchPhrase + LowerCase (Curr);
+Delete (UnwantedSearchPhrase, 1, 1);
+UnwantedRefs [UnwantedRefsPointer] := USFM.CurrentPlace;
+UnwantedPrevs [UnwantedRefsPointer] := USFM.PreviousChars;
+Inc (UnwantedRefsPointer);
+
+// If the limit has been reached, check for search phrases, if they
+exist.
+if (UnwantedRefsPointer > UnwantedRefsSize) or TidyUp then
+begin
+for i := 0 to UnwantedWordsList.Count - 1 do
+begin
+if UnwantedTicksList.Strings [i] = UnwantedPhraseSearch then
+begin
+if Pos (LowerCase (UnwantedWordsList [i]), UnwantedSearchPhrase) >
+
+   1. then
+
+begin
+for i2 := 1 to UnwantedRefsPointer - 1 do
+begin
+S := Copy (UnwantedSearchPhrase, UnwantedPhraseMaxLength -
+UnwantedRefsPointer + 1 + i2 - Length (UnwantedWordsList [i]) + 1, Length
+(UnwantedWordsList [i]));
+if S = UnwantedWordsList [i] then
+begin
+AddResultMessage (USFM, UnwantedRefs [i2] + ' ' +
+UnwantedPrevs [i2] + ' - An unwanted phrase (' + S + ') has been found.
+Comment: ' + UnwantedCommentsList.Strings [i] + '.', false);
+end;
+end;
+end;
+end;
+end;
+UnwantedRefsPointer := 1;
+end;
+
+// Initialize system for next search.
+if TidyUp then InitializeUnwantedWords;
+end;
+
+procedure InitializeCommaSemicolonColon;
+begin
+CommaSemicolonColonFound := false;
+end;
+
+procedure CheckForAndRemoveTabsAndDoubleSpaces (Name : string);
+var
+F1, F2 : Textfile;
+S : String;
+i : integer;
+Trimmed, DoubleSpaceFound, TabCharFound : boolean;
+
+begin
+Trimmed := false;
+DoubleSpaceFound := false;
+TabCharFound := false;
+AssignFile(F1, Name);
+Reset(F1);
+while not Eof(F1) do
+begin
+Readln (F1, S);
+if Trim (S) <> S then Trimmed := true;
+if Pos (' ', S) > 0 then DoubleSpaceFound := true;
+if Pos (TabChar, S) > 0 then TabCharFound := true;
+end;
+CloseFile(F1);
+if Trimmed then
+AddFeedbackMessage ('Unnecessary characters at the beginning or the end
+of the line have been removed from ' + Name);
+if DoublespaceFound then
+AddFeedbackMessage ('Double spaces have been removed from ' + Name);
+if TabCharFound then
+AddFeedbackMessage ('Tabs have been removed from ' + Name);
+
+if Trimmed or DoublespaceFound or TabCharFound then
+begin
+AssignFile(F1, Name);
+Reset(F1);
+AssignFile (F2, ProgramPath + 'tabspace.tmp');
+Rewrite (F2);
+while not Eof(F1) do
+begin
+Readln (F1, S);
+S := Trim (S);
+repeat
+i := Pos (TabChar, S);
+if i > 0 then
+begin
+Delete (S, i, 1);
+Insert (' ', S, i);
+end;
+until i = 0;
+repeat
+i := Pos (' ', S);
+if i > 0 then Delete (S, i, 1);
+until i = 0;
+WriteLn (F2, S);
+end;
+CloseFile(F1);
+CloseFile (F2);
+DeleteFile (Name);
+RenameFile (ProgramPath + 'tabspace.tmp', Name);
+end;
+end;
+
+procedure InitializeCharacterSets;
+
+var
+F1 : Textfile;
+S : String;
+i : integer;
+begin
+SentenceEnders := StringToSet (RegistryReadKey (SentenceEndersKey));
+SentenceIndifference := StringToSet (RegistryReadKey
+(SentenceIndifferenceKey));
+SmallLetters := StringToSet (RegistryReadKey (SmallLettersKey));
+Capitals := StringToSet (RegistryReadKey (CapitalsKey));
+NonAdjacentChars := StringToSet (RegistryReadKey (NotAdjacentKey));
+RightOfQuoteChars := StringtoSet (RegistryReadKey (RightQuotesKey));
+FilterOutChars := StringToSet (RegistryReadKey (CharsFilteredOutKey));
+
+AllowedCharacters := [];
+for i := 1 to NumberOfBracketsToCheck do
+begin
+AllowedCharacters := AllowedCharacters
++ [BracketChars [i].Beginning] + [BracketChars [i].Ending];
+end;
+AllowedCharacters := AllowedCharacters + ['"'];
+AllowedCharacters := AllowedCharacters + SentenceEnders
++ SentenceIndifference + SmallLetters + Capitals
++ NonAdjacentChars + RightOfQuoteChars + ['\'] + [' ']
++ StringToSet (RegistryReadKey (ExtraCharsInTextKey));
+
+SentenceCutterFound := false;
+
+// Initialize brackets.
+BracketLevel := 0;
+NumberOfBracketsToCheck := 0;
+OpeningBracketWasThere := false;
+AssignFile(F1, ProgramPath + 'brackets.txt');
+Reset(F1);
+while not Eof(F1) do
+begin
+Readln (F1, S);
+if Length (S) = 2 then
+begin
+Inc (NumberOfBracketsToCheck);
+BracketChars [NumberOfBracketsToCheck].Beginning := S[1];
+BracketChars [NumberOfBracketsToCheck].Ending := S[2];
+end
+else AddFeedbackMessage ('While reading the brackets to check for, an
+invalid set of brackets has been found: ' + S);
+end;
+CloseFile(F1);
+
+SpaceFound := false;
+end;
+
+procedure InitializeUnwantedWords;
+var
+TList : TStringList;
+i, i2 : integer;
+S, S2 : string;
+Scripture : TScripture;
+begin
+UnwantedSearchWord := '';
+UnwantedSearchPhrase := StringOfChar(' ', UnwantedPhraseMaxLength);
+TList := TStringList.Create;
+Scripture := TScripture.Create(Nil, -1);
+if FileExists (Scripture.UmhloliDataPath + UnwantedWordsTxt) then
+TList.LoadFromFile (Scripture.UmhloliDataPath + UnwantedWordsTxt);
+Scripture.Free;
+UnwantedWordsList.Clear;
+UnwantedTicksList.Clear;
+UnwantedCommentsList.Clear;
+for i := 0 to TList.Count - 1 do
+begin
+S := TList.Strings [i];
+i2 := Pos (' (', S);
+S2 := Copy (S, 1, i2 - 1);
+UnwantedWordsList.Add (S2);
+S := Copy (S, i2, 1000);
+i2 := Pos (') (', S);
+S2 := Copy (S, 3, i2 - 3);
+UnwantedTicksList.Add (S2);
+S2 := Copy (S, i2 + 3, 1000);
+Delete (S2, Length (S2), 1);
+UnwantedCommentsList.Add (S2);
+end;
+TList.Free;
+for i := 1 to UnwantedRefsSize do
+begin
+UnwantedRefs [i] := '';
+UnwantedPrevs [i] := '';
+end;
+UnwantedRefsPointer := 1;
+end;
+
+procedure CheckLeadingSpaces (USFM : TUSFM; Curr : char);
+{ Certain punctuation cannot have a leading space. E.g. the following
+sentence
+has a problem:
+
+And he said to her : How do you do?
+
+There is a space before a colon.
+This procedure checks this type of mistakes.
+}
+begin
+if SpaceFound then
+begin
+if Curr in [':', ',', ';', '?', '!'] then
+AddResultMessage (USFM, USFM.PreviousChars + ' - A space precedes
+this punctuation character: ' + Curr);
+SpaceFound := false;
+end;
+
+if Curr = ' ' then
+begin
+SpaceFound := true;
+end;
+
+end;
+
+initialization
+UnwantedWordsList := TStringList.Create;
+UnwantedTicksList := TStringList.Create;
+UnwantedCommentsList := TStringList.Create;
+
+finalization
+UnwantedWordsList.Free;
+UnwantedTicksList.Free;
+UnwantedCommentsList.Free;
+
+end.
+
+*/
+
+
+/*
+Todo Umhloli features to Bibledit:
+Borrowed words check.
+Import Online Bible.
+Import BibleWorks.
+Import general document.
+Names list / compare.
+Version approval / bacups comparison.
+See scripturechecks.cpp for source of several checks.
+Messages Umhloli gives:
+AddResultMessage (USFM, USFM.PreviousChars + ' - A character ' + Curr + ' ends the sentence which hasn''t been started yet.');
+AddResultMessage (USFM, USFM.PreviousChars + ' - A sentence should not start with ' + Curr + ' but with a capital.');
+AddResultMessage (USFM, USFM.PreviousChars + ' - Invalid character (' + Curr + ') found straight after a sentence closer.');
+AddResultMessage (USFM, USFM.PreviousChars + ' - No space allowed before a character ending a sentence.');
+AddResultMessage (USFM, USFM.PreviousChars + ' - A heading started whereas the running sentence has not yet been finished.');
+AddResultMessage (USFM, USFM.PreviousChars + ' - Heading should start with a capital, and not end with a full stop.');
+AddResultMessage (USFM, USFM.PreviousChars + ' - A new paragraph started whereas the running sentence has not yet been finished.');
+AddResultMessage (USFM, USFM.PreviousChars + ' - A capitalized word (' + CapitalizedWord + ') was found within a sentence.');
+AddResultMessage (USFM, USFM.PreviousChars + ' - The sentence has not been ended properly at the end of the book.');
+AddResultMessage (USFM, USFM.PreviousChars + ' - Two characters found which are not supposed to be adjacent to each other: ' + USFM.PreviousCharacter (1) + ' and ' + Curr);
+File scripturechecks.cpp also contains a lot of code. Implement this.
 
 
 */

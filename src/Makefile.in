@@ -40,9 +40,6 @@ target_triplet = @target@
 bin_PROGRAMS = bibledit-bin$(EXEEXT) bibledit-bibletime$(EXEEXT) \
 	bibledit-git$(EXEEXT) bibledit-help$(EXEEXT) \
 	bibledit-restart$(EXEEXT)
-
-# LIBS += $(GECKO_EXTRA_LIBS) $(GECKO_GLUE_LIBS)
-# LIBS += $(addprefix -I$(GECKO_INCLUDE_ROOT)/,$(mozilla_include_subdirs)) -DMOZILLA_HOME=\"$(GECKO_HOME)\" -DMOZILLA_PREFIX=\"$(GECKO_PREFIX)\"
 @WIN32_TRUE@am__append_1 = -mwindows
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -166,7 +163,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogmerge.$(OBJEXT) merge_utils.$(OBJEXT) shutdown.$(OBJEXT) \
 	scripts.$(OBJEXT) dialogfilters.$(OBJEXT) \
 	dialogdictionary.$(OBJEXT) spelling.$(OBJEXT) \
-	dialogeditdictionary.$(OBJEXT)
+	dialogeditdictionary.$(OBJEXT) \
+	check_sentence_structure.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -234,6 +232,8 @@ FIND_GPP = @FIND_GPP@
 FIND_PATH = @FIND_PATH@
 FIND_PING = @FIND_PING@
 FIND_XARGS = @FIND_XARGS@
+FONTCONFIG_CFLAGS = @FONTCONFIG_CFLAGS@
+FONTCONFIG_LIBS = @FONTCONFIG_LIBS@
 GECKO = @GECKO@
 GECKO_CFLAGS = @GECKO_CFLAGS@
 GECKO_EXTRA_LIBS = @GECKO_EXTRA_LIBS@
@@ -284,7 +284,11 @@ LIBS = -Wall `pkg-config gthread-2.0 --libs` `pkg-config sqlite3 \
 	--libs` `pkg-config gtk+-2.0 --libs` `pkg-config fontconfig \
 	--libs` `xml2-config --libs` $(ENCHANT_LIBS) $(GECKO_LIBS) \
 	-Wl,-R,-rpath,--rpath,$(GECKO_HOME) \
-	-Wl,-R,-rpath,--rpath,$(LIBRARY_RUNTIME_PATH) $(am__append_1)
+	-Wl,-R,-rpath,--rpath,$(LIBRARY_RUNTIME_PATH) \
+	$(GECKO_EXTRA_LIBS) $(GECKO_GLUE_LIBS) $(addprefix \
+	-I$(GECKO_INCLUDE_ROOT)/,$(mozilla_include_subdirs)) \
+	-DMOZILLA_HOME=\"$(GECKO_HOME)\" \
+	-DMOZILLA_PREFIX=\"$(GECKO_PREFIX)\" $(am__append_1)
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MAKE_PATH = @MAKE_PATH@
@@ -339,8 +343,6 @@ datarootdir = @datarootdir@
 docdir = @docdir@
 dvidir = @dvidir@
 exec_prefix = @exec_prefix@
-fontconfig_CFLAGS = @fontconfig_CFLAGS@
-fontconfig_LIBS = @fontconfig_LIBS@
 host = @host@
 host_alias = @host_alias@
 host_cpu = @host_cpu@
@@ -627,7 +629,8 @@ bibledit_bin_SOURCES = \
         dialogfilters.cpp \
         dialogdictionary.cpp \
         spelling.cpp \
-        dialogeditdictionary.cpp
+        dialogeditdictionary.cpp \
+        check_sentence_structure.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `pkg-config gthread-2.0 --cflags` `pkg-config \
@@ -737,6 +740,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_parallel_passages.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_ref_inventory.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_repetition.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_sentence_structure.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_unwanted_patterns.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_unwanted_words.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_validate_refs.Po@am__quote@

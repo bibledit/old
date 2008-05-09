@@ -57,6 +57,7 @@ protected:
   GtkWidget *hseparator4;
   GtkWidget *label5;
   GtkWidget *checkbutton_punctuation_matching_pairs;
+  GtkWidget *checkbutton_punctuation_sentence_structure;
   GtkWidget *hseparator5;
   GtkWidget *label6;
   GtkWidget *checkbutton_references_inventory;

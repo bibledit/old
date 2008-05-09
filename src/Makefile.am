@@ -253,7 +253,8 @@ bibledit_bin_SOURCES = \
         dialogfilters.cpp \
         dialogdictionary.cpp \
         spelling.cpp \
-        dialogeditdictionary.cpp
+        dialogeditdictionary.cpp \
+        check_sentence_structure.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 
@@ -291,8 +292,8 @@ LIBS += -Wl,-R,-rpath,--rpath,$(GECKO_HOME)
 # is made on one machine to be run on another one with a different mozilla home.
 LIBS += -Wl,-R,-rpath,--rpath,$(LIBRARY_RUNTIME_PATH)
 
-# LIBS += $(GECKO_EXTRA_LIBS) $(GECKO_GLUE_LIBS)
-# LIBS += $(addprefix -I$(GECKO_INCLUDE_ROOT)/,$(mozilla_include_subdirs)) -DMOZILLA_HOME=\"$(GECKO_HOME)\" -DMOZILLA_PREFIX=\"$(GECKO_PREFIX)\"
+LIBS += $(GECKO_EXTRA_LIBS) $(GECKO_GLUE_LIBS)
+LIBS += $(addprefix -I$(GECKO_INCLUDE_ROOT)/,$(mozilla_include_subdirs)) -DMOZILLA_HOME=\"$(GECKO_HOME)\" -DMOZILLA_PREFIX=\"$(GECKO_PREFIX)\"
 
 if WIN32
 LIBS += -mwindows

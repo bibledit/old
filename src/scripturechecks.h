@@ -52,6 +52,7 @@ bool scripture_checks_validate_references (GtkListStore * liststore, GtkWidget *
 void scripture_checks_nt_quotations_from_ot (bool gui);
 void scripture_checks_synoptic_parallels_from_nt (bool gui);
 void scripture_checks_parallels_from_ot (bool gui);
+bool scripture_checks_sentence_structure (GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn, CollectCheckingResults * results);
 
 
 #endif

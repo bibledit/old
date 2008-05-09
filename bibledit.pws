@@ -11,14 +11,14 @@ filter.file.ignore.hidden=0
 filter.dir.ignore.hidden=0
 
 [filenumbers]
-0=95
-1=65
-2=122
-3=289
+0=437
+1=22
+2=182
+3=257
 4=42
 5=3
 6=312
-7=7354
+7=8000
 8=28
 9=7325
 10=7210
@@ -45,9 +45,9 @@ filter.dir.ignore.hidden=0
 14=
 
 [filelist]
-0=/home/teus/documents/dev/bibledit/src/session.h
-1=/home/teus/documents/dev/bibledit/src/session.cpp
-2=/home/teus/documents/dev/bibledit/src/dialogoriginreferences.cpp
+0=/home/teus/documents/dev/bibledit/src/scripturechecks.cpp
+1=/home/teus/documents/dev/bibledit/src/check_sentence_structure.h
+2=/home/teus/documents/dev/bibledit/src/check_sentence_structure.cpp
 3=/home/teus/documents/dev/bibledit/src/Makefile.am
 4=/home/teus/documents/dev/bibledit/olpc/makebinary
 5=/home/teus/documents/dev/bibledit/olpc/Makefile.am

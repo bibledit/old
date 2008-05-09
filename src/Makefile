@@ -40,9 +40,6 @@ target_triplet = i686-pc-linux-gnu
 bin_PROGRAMS = bibledit-bin$(EXEEXT) bibledit-bibletime$(EXEEXT) \
 	bibledit-git$(EXEEXT) bibledit-help$(EXEEXT) \
 	bibledit-restart$(EXEEXT)
-
-# LIBS += $(GECKO_EXTRA_LIBS) $(GECKO_GLUE_LIBS)
-# LIBS += $(addprefix -I$(GECKO_INCLUDE_ROOT)/,$(mozilla_include_subdirs)) -DMOZILLA_HOME=\"$(GECKO_HOME)\" -DMOZILLA_PREFIX=\"$(GECKO_PREFIX)\"
 #am__append_1 = -mwindows
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -166,7 +163,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogmerge.$(OBJEXT) merge_utils.$(OBJEXT) shutdown.$(OBJEXT) \
 	scripts.$(OBJEXT) dialogfilters.$(OBJEXT) \
 	dialogdictionary.$(OBJEXT) spelling.$(OBJEXT) \
-	dialogeditdictionary.$(OBJEXT)
+	dialogeditdictionary.$(OBJEXT) \
+	check_sentence_structure.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -234,6 +232,8 @@ FIND_GPP = /usr/bin/g++
 FIND_PATH = /usr/bin/find
 FIND_PING = /bin/ping
 FIND_XARGS = /usr/bin/xargs
+FONTCONFIG_CFLAGS =  
+FONTCONFIG_LIBS = -lfontconfig  
 GECKO = xulrunner
 GECKO_CFLAGS = -DXP_UNIX -I/usr/include/xulrunner -I/usr/include/xulrunner/xpcom -I/usr/include/xulrunner/string -I/usr/include/nspr -I/usr/include/mozjs -I/usr/include/xulrunner/gtkembedmoz  
 GECKO_EXTRA_LIBS = 
@@ -284,19 +284,23 @@ LIBS = -Wall `pkg-config gthread-2.0 --libs` `pkg-config sqlite3 \
 	--libs` `pkg-config gtk+-2.0 --libs` `pkg-config fontconfig \
 	--libs` `xml2-config --libs` $(ENCHANT_LIBS) $(GECKO_LIBS) \
 	-Wl,-R,-rpath,--rpath,$(GECKO_HOME) \
-	-Wl,-R,-rpath,--rpath,$(LIBRARY_RUNTIME_PATH) $(am__append_1)
+	-Wl,-R,-rpath,--rpath,$(LIBRARY_RUNTIME_PATH) \
+	$(GECKO_EXTRA_LIBS) $(GECKO_GLUE_LIBS) $(addprefix \
+	-I$(GECKO_INCLUDE_ROOT)/,$(mozilla_include_subdirs)) \
+	-DMOZILLA_HOME=\"$(GECKO_HOME)\" \
+	-DMOZILLA_PREFIX=\"$(GECKO_PREFIX)\" $(am__append_1)
 LTLIBOBJS = 
 MAKEINFO = ${SHELL} /home/teus/documents/dev/bibledit/missing --run makeinfo
 MAKE_PATH = /usr/bin/make
 OBJEXT = o
 PACKAGE = bibledit
 PACKAGE_BUGREPORT = http://www.nongnu.org/bibledit
-PACKAGE_CFLAGS =  
-PACKAGE_LIBS = -lfontconfig  
+PACKAGE_CFLAGS = -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
+PACKAGE_LIBS = -lglib-2.0  
 PACKAGE_NAME = bibledit
-PACKAGE_STRING = bibledit 3.2.5
+PACKAGE_STRING = bibledit 3.2.6
 PACKAGE_TARNAME = bibledit
-PACKAGE_VERSION = 3.2.5
+PACKAGE_VERSION = 3.2.6
 PANGO_CFLAGS = -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
 PANGO_LIBS = -lpango-1.0 -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0  
 PATH_SEPARATOR = :
@@ -311,7 +315,7 @@ STRINGS_PATH = /usr/bin/strings
 STRIP = 
 TAIL_PATH = /usr/bin/tail
 TEE_TOUCH = /usr/bin/touch
-VERSION = 3.2.5
+VERSION = 3.2.6
 WIN32_FALSE = 
 WIN32_TRUE = #
 XML2_CONFIG = /usr/bin/xml2-config
@@ -339,8 +343,6 @@ datarootdir = ${prefix}/share
 docdir = ${datarootdir}/doc/${PACKAGE_TARNAME}
 dvidir = ${docdir}
 exec_prefix = ${prefix}
-fontconfig_CFLAGS =  
-fontconfig_LIBS = -lfontconfig  
 host = i686-pc-linux-gnu
 host_alias = 
 host_cpu = i686
@@ -627,7 +629,8 @@ bibledit_bin_SOURCES = \
         dialogfilters.cpp \
         dialogdictionary.cpp \
         spelling.cpp \
-        dialogeditdictionary.cpp
+        dialogeditdictionary.cpp \
+        check_sentence_structure.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `pkg-config gthread-2.0 --cflags` `pkg-config \
@@ -737,6 +740,7 @@ include ./$(DEPDIR)/check_matching_pairs.Po
 include ./$(DEPDIR)/check_parallel_passages.Po
 include ./$(DEPDIR)/check_ref_inventory.Po
 include ./$(DEPDIR)/check_repetition.Po
+include ./$(DEPDIR)/check_sentence_structure.Po
 include ./$(DEPDIR)/check_unwanted_patterns.Po
 include ./$(DEPDIR)/check_unwanted_words.Po
 include ./$(DEPDIR)/check_validate_refs.Po

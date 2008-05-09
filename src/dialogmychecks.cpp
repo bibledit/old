@@ -164,6 +164,12 @@ MyChecksDialog::MyChecksDialog (GtkListStore * liststore, GtkWidget * treeview, 
 
   shortcuts.button (checkbutton_punctuation_matching_pairs);
 
+  checkbutton_punctuation_sentence_structure = gtk_check_button_new_with_mnemonic ("Sentence structure");
+  gtk_widget_show (checkbutton_punctuation_sentence_structure);
+  gtk_box_pack_start (GTK_BOX (vbox1), checkbutton_punctuation_sentence_structure, FALSE, FALSE, 0);
+
+  shortcuts.button (checkbutton_punctuation_sentence_structure);
+
   hseparator5 = gtk_hseparator_new ();
   gtk_widget_show (hseparator5);
   gtk_box_pack_start (GTK_BOX (vbox1), hseparator5, TRUE, TRUE, 0);
@@ -231,6 +237,7 @@ MyChecksDialog::MyChecksDialog (GtkListStore * liststore, GtkWidget * treeview, 
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_markers_spacing), bitpattern_take (pattern));
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_references_inventory), bitpattern_take (pattern));
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_references_validate), bitpattern_take (pattern));
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_punctuation_sentence_structure), bitpattern_take (pattern));
 }
 
 
@@ -272,6 +279,7 @@ void MyChecksDialog::on_okbutton ()
   bitpattern_add (pattern, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_markers_spacing)));
   bitpattern_add (pattern, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_references_inventory)));
   bitpattern_add (pattern, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_references_validate)));
+  bitpattern_add (pattern, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_punctuation_sentence_structure)));
   extern Settings * settings;
   settings->genconfig.mychecks_set (pattern);
   // Collect all checking results.
@@ -292,6 +300,7 @@ void MyChecksDialog::on_okbutton ()
   if (bitpattern_take (pattern)) if (keep_going) keep_going = scripture_checks_usfm_spacing (NULL, NULL, NULL, &results); 
   if (bitpattern_take (pattern)) if (keep_going) keep_going = scripture_checks_references_inventory (false); 
   if (bitpattern_take (pattern)) if (keep_going) keep_going = scripture_checks_validate_references (NULL, NULL, NULL, &results); 
+  if (bitpattern_take (pattern)) if (keep_going) keep_going = scripture_checks_sentence_structure (NULL, NULL, NULL, &results); 
   // Display checking results.
   if (keep_going) checks_display_references_comments (results.references, results.comments, myliststore, mytreeview, mytreecolumn);
 }

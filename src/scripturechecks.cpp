@@ -50,6 +50,7 @@
 #include "check_ref_inventory.h"
 #include "check_validate_refs.h"
 #include "check_parallel_passages.h"
+#include "check_sentence_structure.h"
 
 
 vector<unsigned int> checks_generate_booknames ()
@@ -423,4 +424,21 @@ void scripture_checks_parallels_from_ot (bool gui)
   gchar * main_heading = "Parallel passages of the Old Testament";
   DisplayCheckingResults display (main_heading);
   display.parallel_passages (check.data, main_heading); 
+}
+
+
+bool scripture_checks_sentence_structure (GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn, CollectCheckingResults * results) // Todo
+{
+  if (!results) {
+    CheckDialog dialog (cdtMarkersSpacing);
+    if (dialog.run()!= GTK_RESPONSE_OK) return false;
+  }
+  extern Settings * settings;
+  CheckSentenceStructure check (settings->genconfig.project_get(), checks_generate_booknames (), true);
+  if (check.cancelled) return false;
+  if (results) 
+    results->add (check.references, check.comments);
+  else 
+    checks_display_references_comments (check.references, check.comments, liststore, treeview, treecolumn);
+  return true;
 }
