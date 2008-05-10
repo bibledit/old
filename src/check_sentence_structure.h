@@ -23,6 +23,7 @@
 
 
 #include "libraries.h"
+#include <gtk/gtk.h>
 
 
 class CheckSentenceStructure
@@ -38,10 +39,21 @@ public:
 private:
   unsigned int book;
   unsigned int chapter;
-  ustring verse;
-  set <ustring> markers;
+  void classify_styles (const ustring& project);
   void check (ustring text);
-  void message (const ustring& message);
+  void message (const ustring& verse, const ustring& message);
+};
+
+
+class SentenceStructureBlock
+{
+public:
+  SentenceStructureBlock (int dummy);
+  ~SentenceStructureBlock ();
+  GtkTextBuffer * textbuffer;
+  vector <unsigned int> offsets;
+  vector <ustring> verses;
+private:
 };
 
 

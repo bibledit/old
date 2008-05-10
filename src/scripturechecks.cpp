@@ -427,10 +427,10 @@ void scripture_checks_parallels_from_ot (bool gui)
 }
 
 
-bool scripture_checks_sentence_structure (GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn, CollectCheckingResults * results) // Todo
+bool scripture_checks_sentence_structure (GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn, CollectCheckingResults * results)
 {
   if (!results) {
-    CheckDialog dialog (cdtMarkersSpacing);
+    CheckDialog dialog (cdtSentenceStructure);
     if (dialog.run()!= GTK_RESPONSE_OK) return false;
   }
   extern Settings * settings;

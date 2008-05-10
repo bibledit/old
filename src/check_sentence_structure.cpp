@@ -41,20 +41,16 @@ gui: whether to show graphical progressbar.
 {
   // Init variables.
   cancelled = false;
+  // Classify the styles.
+  classify_styles (project);
   // Get a list of the books to check. If no books were given, take them all.
   vector<unsigned int> mybooks (books.begin(), books.end());
   if (mybooks.empty())
     mybooks = project_get_books (project);
-  // Get the markers to check the spacing for.
-  extern Settings * settings;
-  Parse parse (settings->genconfig.check_markers_spacing_include_get ());
-  for (unsigned int i = 0; i < parse.words.size(); i++) {
-    markers.insert (parse.words[i]);
-  }
   // GUI.
   ProgressWindow * progresswindow = NULL;
   if (gui) {
-    progresswindow = new ProgressWindow ("Checking spacing", true);
+    progresswindow = new ProgressWindow ("Checking sentence structure", true);
     progresswindow->set_iterate (0, 1, mybooks.size());
   }
   // Check each book.
@@ -67,17 +63,16 @@ gui: whether to show graphical progressbar.
       }
     }
     book = mybooks[bk];
-    cout << books_id_to_english (book) << endl;
     // Check each chapter.
     vector <unsigned int> chapters = project_get_chapters (project, book);
     for (unsigned int ch = 0; ch < chapters.size(); ch++) {
       chapter = chapters[ch];
-      vector <ustring> verses = project_get_verses (project, book, chapter);
-      // Check each verse.
-      for (unsigned int vs = 0; vs < verses.size(); vs++) {
-        verse = verses[vs];
-        ustring line = project_retrieve_verse (project, book, chapter, verse);
-        check (line); 
+      vector <ustring> lines = project_retrieve_chapter (project, book, chapter);
+      // Assemble the line with all data in it.
+      ustring line;
+      for (unsigned int i = 0; i < lines.size (); i++) {
+        line.append (lines[i]);
+        line.append (" ");
       }
     }
   }
@@ -94,6 +89,7 @@ CheckSentenceStructure::~CheckSentenceStructure ()
 void CheckSentenceStructure::check (ustring text)
 // Do the actual check of one verse.
 {
+  /*
   // Extract the marker, and deal with it.
   text = trim (text);
   if (text.empty()) return;
@@ -116,19 +112,128 @@ void CheckSentenceStructure::check (ustring text)
     // Extract any next marker in this text.
     marker = usfm_extract_marker_within_line (text);
   }
+  */
 }
 
 
-void CheckSentenceStructure::message (const ustring& message)
+
+void CheckSentenceStructure::classify_styles (const ustring& project) // Todo
+// Classifies the styles of the stylesheet of the project.
+{
+  extern Settings * settings;
+  ProjectConfiguration * projectconfig = settings->projectconfig (project, false);
+  ustring stylesheet = projectconfig->stylesheet_get ();
+  Usfm usfm (stylesheet);
+  for (unsigned int i = 0; i < usfm.styles.size (); i++) {
+    switch (usfm.styles[i].type) {
+      case stIdentifier:
+      {
+        break;
+      }
+      case stNotUsedComment:
+      {
+        break;
+      }
+      case stNotUsedRunningHeader:
+      {
+        break;
+      }
+      case stStartsParagraph:
+      {
+        break;
+      }
+      case stInlineText:
+      {
+        break;
+      }
+      case stChapterNumber:
+      {
+        break;
+      }
+      case stVerseNumber:
+      {
+        break;
+      }
+      case stFootEndNote:
+      {
+        break;
+      }
+      case stCrossreference:
+      {
+        break;
+      }
+      case stPeripheral:
+      {
+        break;
+      }
+      case stPicture:
+      {
+        break;
+      }
+      case stPageBreak:
+      {
+        break;
+      }
+      case stTableElement:
+      {
+        break;
+      }
+      case stWordlistElement:
+      {
+        break;
+      }
+    }
+  }
+}
+
+
+void CheckSentenceStructure::message (const ustring& verse, const ustring& message)
 {
   references.push_back (books_id_to_english (book) + " " + convert_to_string (chapter) + ":" + verse);
   comments.push_back (message);
 }
 
 
+SentenceStructureBlock::SentenceStructureBlock (int dummy)
+{
+  textbuffer = gtk_text_buffer_new (NULL);
+}
+
+
+SentenceStructureBlock::~SentenceStructureBlock ()
+{
+  g_object_unref (textbuffer);
+}
+
 /*
 
 Todo Checking the sentence structure.
+
+
+Input parameters:
+- A list of punctuation characters that ends a sentence. Pango makes this up.
+- A list of punctuation characters that are irrelevant to the sentence structure.
+  We can have glib make this list up itself: If the characters is punctuation,
+  and it is not in the list of characters that ends the sentence, then this
+  character is irrelevant to the sentence structure.
+- A list of capitals. Glib's Unicode processing can make these up.
+- A list of usfm codes that starts a heading.
+- A list of usfm codes that start a normal paragraph.
+
+Steps:
+
+- To load the text in a textbuffer, and have an iterator move back and forth in it. Checks around the iterator.
+- While loading the text in the buffer, cut out the markers.
+- Put the notes in separate buffers.
+- Put the table cells in separate buffers.
+- Each buffer has an associated paragraph style and character style and verse number for each offset.
+  Or faster, it stores the offsets where verses start.
+- It works per chapter.
+
+
+
+
+
 
 
 

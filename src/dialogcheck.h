@@ -32,7 +32,7 @@ enum CheckDialogType {cdtChaptersVerses,
                       cdtMarkersCount, cdtMarkersValidate, cdtMarkersCompare, cdtMarkersSpacing,
                       cdtCharactersCount, cdtUnwantedPatterns,
                       cdtWordsCapitalization, cdtWordsRepetition, cdtWordsUnwanted, cdtWordsCount,
-                      cdtMatchingPairs,
+                      cdtMatchingPairs, cdtSentenceStructure,
                       cdtReferencesInventory, cdtReferencesValidate,
                       cdtNTQuotationsFromOT, cdtSynopticParallelsNT, cdtParallelsOT };
 

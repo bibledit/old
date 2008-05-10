@@ -112,6 +112,10 @@ CheckDialog::CheckDialog (CheckDialogType checkdialogtype)
       punctuation_matching_pairs_setup ();
       book_selection_setup ();
       break;
+    case cdtSentenceStructure:
+      information_setup ("Check punctuation of sentences and headings.");
+      book_selection_setup ();
+      break;
     case cdtUnwantedPatterns:
       information_setup ("Check for unwanted patterns of characters.");
       characters_unwanted_patterns_setup ();
