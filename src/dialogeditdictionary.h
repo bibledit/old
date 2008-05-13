@@ -65,6 +65,11 @@ protected:
   GtkWidget *hbox6;
   GtkWidget *image5;
   GtkWidget *label7;
+  GtkWidget *button_count;
+  GtkWidget *alignment6;
+  GtkWidget *hbox7;
+  GtkWidget *image6;
+  GtkWidget *label8;
   GtkWidget *dialog_action_area1;
   GtkWidget *cancelbutton1;
   GtkWidget *okbutton1;
@@ -79,6 +84,8 @@ private:
   void on_button_export_dict ();
   static void on_button_export_file_clicked (GtkButton *button, gpointer user_data);
   void on_button_export_file ();
+  static void on_button_count_clicked (GtkButton *button, gpointer user_data);
+  void on_button_count ();
   static void on_okbutton1_clicked (GtkButton *button, gpointer user_data);
   void on_okbutton ();
   ustring mydictionary;

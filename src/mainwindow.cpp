@@ -7358,8 +7358,14 @@ void MainWindow::on_preferences_filters ()
 
 
 /*
-Todo minor points:
-Hangs on 2 Chron 15:9 in Ndebele.
-Make a counter for the xrefs in the book / project.
-Make a counter for the words in the book / project.
+Todo permissions.
+
+Problems have been reported where Bibledit refuses to startup or to save
+the configuration, and these problems started to surface after the user had
+manually copied the .bibledit directory to his newly installed linux
+system. It would be helpful if bibledit could check on startup whether it
+has enough permissions to do all of it's duties. If not, it should try to
+fix that. If that fails, it should give a message about the problem, and
+bail out.
+
 */

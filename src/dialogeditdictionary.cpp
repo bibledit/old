@@ -55,7 +55,7 @@ EditDictionaryDialog::EditDictionaryDialog (const ustring& dictionary)
   gtk_widget_show (textview1);
   gtk_container_add (GTK_CONTAINER (scrolledwindow1), textview1);
 
-  table1 = gtk_table_new (3, 3, FALSE);
+  table1 = gtk_table_new (3, 4, FALSE);
   gtk_widget_show (table1);
   gtk_box_pack_start (GTK_BOX (dialog_vbox1), table1, FALSE, FALSE, 0);
   gtk_table_set_row_spacings (GTK_TABLE (table1), 5);
@@ -193,6 +193,30 @@ EditDictionaryDialog::EditDictionaryDialog (const ustring& dictionary)
 
   shortcuts.label (label7);
 
+  button_count = gtk_button_new ();
+  gtk_widget_show (button_count);
+  gtk_table_attach (GTK_TABLE (table1), button_count, 3, 4, 1, 2,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+
+  alignment6 = gtk_alignment_new (0.5, 0.5, 0, 0);
+  gtk_widget_show (alignment6);
+  gtk_container_add (GTK_CONTAINER (button_count), alignment6);
+
+  hbox7 = gtk_hbox_new (FALSE, 2);
+  gtk_widget_show (hbox7);
+  gtk_container_add (GTK_CONTAINER (alignment6), hbox7);
+
+  image6 = gtk_image_new_from_stock ("gtk-info", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_show (image6);
+  gtk_box_pack_start (GTK_BOX (hbox7), image6, FALSE, FALSE, 0);
+
+  label8 = gtk_label_new_with_mnemonic ("Word count");
+  gtk_widget_show (label8);
+  gtk_box_pack_start (GTK_BOX (hbox7), label8, FALSE, FALSE, 0);
+
+  shortcuts.label (label8);
+  
   dialog_action_area1 = GTK_DIALOG (textviewdialog)->action_area;
   gtk_widget_show (dialog_action_area1);
   gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area1), GTK_BUTTONBOX_END);
@@ -230,6 +254,9 @@ EditDictionaryDialog::EditDictionaryDialog (const ustring& dictionary)
                     gpointer(this));
   g_signal_connect ((gpointer) okbutton1, "clicked",
                     G_CALLBACK (on_okbutton1_clicked),
+                    gpointer(this));
+  g_signal_connect ((gpointer) button_count, "clicked",
+                    G_CALLBACK (on_button_count_clicked),
                     gpointer(this));
 
   gtk_widget_grab_focus (textview1);
@@ -368,6 +395,26 @@ void EditDictionaryDialog::on_button_export_file ()
   if (filename.empty ()) return;
   vector <ustring> lines;
   textbuffer_get_lines (textbuffer, lines, true);
+  write_lines (filename, lines);
+}
+
+
+void EditDictionaryDialog::on_button_count_clicked (GtkButton *button, gpointer user_data)
+{
+  ((EditDictionaryDialog *) user_data)->on_button_count ();
+}
+
+
+void EditDictionaryDialog::on_button_count ()
+{
+  vector <ustring> lines;
+  textbuffer_get_lines (textbuffer, lines, true);
+  int wordcount = lines.size ();
+  for (unsigned int i = 0; i < lines.size (); i++) {
+    if (lines[i].empty ()) 
+      wordcount--;
+  }
+  gtkw_dialog_info (textviewdialog, "Word count is " + convert_to_string (wordcount));
   write_lines (filename, lines);
 }
 
