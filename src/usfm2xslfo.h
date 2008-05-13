@@ -69,7 +69,6 @@ private:
   vector <ustring> usfm_code;
   ustring usfm_line;
   unsigned int usfm_buffer_pointer;
-  ustring get_erase_code_till_next_marker (ustring& line, size_t marker_position, size_t marker_length, bool trimcode);
   bool unprocessed_usfm_code_available ();
   ustring get_next_chapter ();
 

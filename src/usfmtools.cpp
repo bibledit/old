@@ -849,3 +849,30 @@ The strategy to handle this is:
   // Return the result.
   return result;
 }
+
+
+ustring get_erase_code_till_next_marker (ustring& line, size_t marker_position, size_t marker_length, bool trimcode)
+// Get and erase the usfm code between this marker and the next one.
+{
+  line.erase (0, marker_position + marker_length);
+
+  ustring code;
+  
+  ustring marker;
+  size_t marker2_position;
+  size_t marker2_length;
+  bool is_opener;
+  bool marker_found = usfm_search_marker (line, marker, marker2_position, marker2_length, is_opener);
+  if (marker_found) {
+    code = line.substr (0, marker2_position);
+  } else {
+    code = line;    
+  }
+
+  line.erase (0, code.length ());
+  
+  if (trimcode)
+    code = trim (code);
+  
+  return code;
+}

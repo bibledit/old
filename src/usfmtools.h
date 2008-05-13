@@ -69,6 +69,7 @@ ustring usfm_get_full_opening_marker (const ustring& marker);
 ustring usfm_get_full_closing_marker (const ustring& marker);
 bool usfm_basic_markers_present (Usfm& usfm, bool gui);
 ustring usfm_notes_handle_nesting (const ustring& line, const ustring& standardparagraph_opener, const ustring& standardparagraph_closer, const set<ustring>& notemarkers);
+ustring get_erase_code_till_next_marker (ustring& line, size_t marker_position, size_t marker_length, bool trimcode);
 
 
 #endif

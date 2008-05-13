@@ -29,9 +29,7 @@
 #include "tiny_utilities.h"
 
 
-CheckSentenceStructure::CheckSentenceStructure (const ustring& project,
-                                                const vector<unsigned int>& books, 
-                                                bool gui)
+CheckSentenceStructure::CheckSentenceStructure (const ustring& project, const vector<unsigned int>& books, bool gui)
 /*
 It performs checks of the sentence structure.
 project: project to check.
@@ -53,17 +51,18 @@ gui: whether to show graphical progressbar.
     progresswindow = new ProgressWindow ("Checking sentence structure", true);
     progresswindow->set_iterate (0, 1, mybooks.size());
   }
-  // Check each book.
+  // Go through each book.
   for (unsigned int bk = 0; bk < mybooks.size(); bk++) {
     if (gui) {
       progresswindow->iterate ();
+      progresswindow->set_text (books_id_to_english (mybooks[bk]));
       if (progresswindow->cancel) {
         cancelled = true;
         break;
       }
     }
     book = mybooks[bk];
-    // Check each chapter.
+    // Go through each chapter.
     vector <unsigned int> chapters = project_get_chapters (project, book);
     for (unsigned int ch = 0; ch < chapters.size(); ch++) {
       chapter = chapters[ch];
@@ -74,6 +73,7 @@ gui: whether to show graphical progressbar.
         line.append (lines[i]);
         line.append (" ");
       }
+      create_blocks (line);
     }
   }
   // Clean up.
@@ -86,39 +86,8 @@ CheckSentenceStructure::~CheckSentenceStructure ()
 }
 
 
-void CheckSentenceStructure::check (ustring text)
-// Do the actual check of one verse.
-{
-  /*
-  // Extract the marker, and deal with it.
-  text = trim (text);
-  if (text.empty()) return;
-  ustring marker = usfm_extract_marker_within_line (text);
-  while (!marker.empty()) {
-    if (markers.find (marker) != markers.end()) {
-      size_t pos = text.find ("\\");
-      if (pos != string::npos) {
-        if (text.substr (--pos, 1) == " ") {
-          if (pos > 1) {
-            if (text.substr (--pos, 1) == " ") {
-             message ("Text of marker " + marker + " ends with more than one space");              
-            }
-          }
-        } else {
-          message ("Text of marker " + marker + " doesn't end with a space");              
-        }
-      }
-    }
-    // Extract any next marker in this text.
-    marker = usfm_extract_marker_within_line (text);
-  }
-  */
-}
-
-
-
-void CheckSentenceStructure::classify_styles (const ustring& project) // Todo
-// Classifies the styles of the stylesheet of the project.
+void CheckSentenceStructure::classify_styles (const ustring& project)
+// Classifies the markers in the project.
 {
   extern Settings * settings;
   ProjectConfiguration * projectconfig = settings->projectconfig (project, false);
@@ -127,59 +96,136 @@ void CheckSentenceStructure::classify_styles (const ustring& project) // Todo
   for (unsigned int i = 0; i < usfm.styles.size (); i++) {
     switch (usfm.styles[i].type) {
       case stIdentifier:
-      {
-        break;
-      }
       case stNotUsedComment:
-      {
-        break;
-      }
       case stNotUsedRunningHeader:
       {
+        textdeleters.insert (usfm.styles[i].marker);
         break;
       }
       case stStartsParagraph:
       {
+        switch (usfm.styles[i].subtype) {
+          case ptMainTitle:
+          case ptSubTitle:
+          case ptSectionHeading:
+          {
+            headingstarters.insert (usfm.styles[i].marker);
+            break;
+          }
+          case ptNormalParagraph:
+          {
+            ustring marker = usfm.styles[i].marker;
+            bool poetry = false;
+            // Markers starting with a "q" are poetry.
+            if (g_str_has_prefix (marker.c_str(), "q")) poetry = true;
+            if (g_str_has_prefix (marker.c_str(), "iq")) poetry = true;
+            if (poetry) {
+              markerdeleters.insert (marker);
+            } else {
+              paragraphstarters.insert (marker);
+            }
+            break;
+          }
+        }
         break;
       }
       case stInlineText:
       {
+        markerdeleters.insert (usfm.styles[i].marker);
         break;
       }
       case stChapterNumber:
       {
+        textdeleters.insert (usfm.styles[i].marker);
         break;
       }
       case stVerseNumber:
       {
+        markerdeleters.insert (usfm.styles[i].marker);
+        versemarkers.insert (usfm.styles[i].marker);
         break;
       }
       case stFootEndNote:
       {
+        switch (usfm.styles[i].subtype) {
+          case fentFootnote:
+          case fentEndnote:
+          {
+            notestarters.insert (usfm.styles[i].marker);
+            break;
+          }
+          case fentStandardContent:
+          case fentContent:
+          case fentContentWithEndmarker:
+          {
+            markerdeleters.insert (usfm.styles[i].marker);
+            break;
+          }
+          case fentParagraph:
+          {
+            paragraphstarters.insert (usfm.styles[i].marker);
+            break;
+          }
+        }
         break;
       }
       case stCrossreference:
       {
+        switch (usfm.styles[i].subtype) {
+          case ctCrossreference:
+          {
+            notestarters.insert (usfm.styles[i].marker);
+            break;
+          }
+          case ctStandardContent:
+          case ctContent:
+          case ctContentWithEndmarker:
+          {
+            markerdeleters.insert (usfm.styles[i].marker);
+            break;
+          }
+        }
         break;
       }
       case stPeripheral:
       {
+        textdeleters.insert (usfm.styles[i].marker);
         break;
       }
       case stPicture:
       {
+        textdeleters.insert (usfm.styles[i].marker);
         break;
       }
       case stPageBreak:
       {
+        textdeleters.insert (usfm.styles[i].marker);
         break;
       }
       case stTableElement:
       {
+        switch (usfm.styles[i].subtype) {
+          case tetRow:
+          {
+            markerdeleters.insert (usfm.styles[i].marker);
+            break;
+          }
+          case tetHeading:
+          {
+            headingstarters.insert (usfm.styles[i].marker);
+            break;
+          }
+          case tetCell:
+          {
+            paragraphstarters.insert (usfm.styles[i].marker);
+            break;
+          }
+        }
         break;
       }
       case stWordlistElement:
       {
+        markerdeleters.insert (usfm.styles[i].marker);
         break;
       }
     }
@@ -187,125 +233,221 @@ void CheckSentenceStructure::classify_styles (const ustring& project) // Todo
 }
 
 
-void CheckSentenceStructure::message (const ustring& verse, const ustring& message)
+void CheckSentenceStructure::create_blocks (ustring& text)
+// This creates complete units ready for checking.
 {
-  references.push_back (books_id_to_english (book) + " " + convert_to_string (chapter) + ":" + verse);
-  comments.push_back (message);
+  // Variables for defining the independent blocks of text, and for the verse numbers.
+  ustring block;
+  SentenceStructureType structuretype = sstParagraph;
+  vector <ustring> versenumbers;
+  versenumbers.push_back ("0");
+  vector <size_t> verseoffsets;
+  verseoffsets.push_back (0);  
+  // Go through the available text till ready.
+  while (!text.empty ()) {
+    // Variables for USFM markers.
+    ustring marker;
+    size_t marker_position;
+    size_t marker_length;
+    bool is_opener;
+    bool marker_found = usfm_search_marker (text, marker, marker_position, marker_length, is_opener);
+    bool processed = false;
+    if (marker_found) {
+      if (marker_position == 0) {
+        if (versemarkers.find (marker) != versemarkers.end ()) {
+          // Extract the verse number and offset within the block.
+          ustring verse (text.substr (0, 10));
+          verse.erase (0, marker_length);
+          size_t pos = verse.find (" ");
+          if (pos != string::npos) {
+            verse = verse.substr (0, pos);
+            versenumbers.push_back (verse);
+            verseoffsets.push_back (block.length ());
+          }
+        }
+        if (textdeleters.find (marker) != textdeleters.end ()) {
+          // Handle markers whose text should be deleted from the input text.
+          get_erase_code_till_next_marker (text, marker_position, marker_length, false);
+          processed = true;
+        } else if (headingstarters.find (marker) != headingstarters.end ()) {
+          // Handle markers that start a heading.
+          check (structuretype, block, versenumbers, verseoffsets);
+          block.append (get_erase_code_till_next_marker (text, marker_position, marker_length, false));
+          structuretype = sstHeading;
+          processed = true;
+        } else if (paragraphstarters.find (marker) != paragraphstarters.end ()) {
+          // Handle markers that start a normal paragraph.
+          check (structuretype, block, versenumbers, verseoffsets);
+          block.append (get_erase_code_till_next_marker (text, marker_position, marker_length, false));
+          structuretype = sstParagraph;
+          processed = true;
+        } else if (markerdeleters.find (marker) != markerdeleters.end ()) {
+          // Handle markers to be deleted from the text.
+          text.erase (0, marker_length);
+          processed = true;
+        } else if (notestarters.find (marker) != notestarters.end ()) {
+          // Handle markers that start a note.
+          text.erase (0, marker_length);
+          if (is_opener) {
+            // Look for marker that closes the note as well.
+            size_t pos = text.find (usfm_get_full_closing_marker (marker));
+            if (pos != string::npos) {
+              // Extract the note.
+              ustring notetext = text.substr (0, pos);
+              text.erase (0, pos + usfm_get_full_closing_marker (marker).length ());
+              // Update the verse numbering system for this note, taking the current verse.
+              vector <ustring> versenumbers2;
+              if (versenumbers.empty ()) {
+                versenumbers2.push_back ("0");
+              } else {
+                ustring verse = versenumbers[versenumbers.size () - 1];
+                versenumbers2.push_back (verse);
+              }
+              vector <size_t> verseoffsets2;
+              verseoffsets2.push_back (0);  
+              // Clean up the note text: Remove the caller marker, trim it, remove all markers from it.
+              notetext.erase (0, 1);
+              notetext = trim (notetext);
+              vector <ustring> allmarkers = usfm_get_all_markers (notetext);
+              for (unsigned int i = 0; i < allmarkers.size (); i++) {
+                ustring opener = usfm_get_full_opening_marker (allmarkers[i]);
+                replace_text (notetext, opener, "");
+                ustring closer = usfm_get_full_closing_marker (allmarkers[i]);
+                replace_text (notetext, closer, "");
+              }
+              // Check this note.
+              check (sstNote, notetext, versenumbers2, verseoffsets2);
+            }
+          }
+          processed = true;
+        }
+      }
+    }
+    if (!processed) {
+      // Fall-back processing.
+      block.append (text.substr (0, 1));
+      text.erase (0, 1);
+    }
+  }
+  if (!block.empty ()) {
+    check (structuretype, block, versenumbers, verseoffsets);
+  }
 }
 
 
-SentenceStructureBlock::SentenceStructureBlock (int dummy)
+void CheckSentenceStructure::check (SentenceStructureType type, ustring text, vector <ustring>& versenumbers, vector <size_t>& verseoffsets)
 {
-  textbuffer = gtk_text_buffer_new (NULL);
+  // Bail out if there's no text.
+  if (text.empty ()) return;
+    
+  // Load text.
+  GtkTextBuffer * buffer = gtk_text_buffer_new (NULL);
+  text.append (" ");
+  gtk_text_buffer_set_text (buffer, text.c_str(), -1);
+  
+  // Iterators.
+  GtkTextIter iter;
+  gtk_text_buffer_get_start_iter (buffer, &iter);
+  
+  // Variables for check: The start of the buffer is supposed to have a capital.
+  // Skip this step if we're checking a note, as notes often start without capitals.
+  bool initial_capital_done = (type == sstNote);
+  // Variables for check: Sentence start and end.
+  bool sentence_started = false;
+  
+  // Go through the whole buffer.
+  do {
+    
+    // Get the character at the iterator.
+    gunichar character = gtk_text_iter_get_char (&iter);
+    
+    // Check: The start of the buffer is supposed to have a capital.
+    if (!initial_capital_done) {
+      if (g_unichar_isalpha (character) || g_unichar_iscntrl (character)) {
+        if (!g_unichar_isupper (character)) {
+          message (versenumbers, verseoffsets, &iter, "The text does not start with a capital");
+        }
+        initial_capital_done = true;
+      }
+    }
+    
+    // Check: Sentence starts with capital.
+    if (!sentence_started) {
+      if (g_unichar_islower (character)) {
+        message (versenumbers, verseoffsets, &iter, "The text does not start with a capital");
+      }
+    }
+    
+    // Check: Start / end sentence.
+    if (gtk_text_iter_starts_sentence (&iter)) 
+    {
+      if (sentence_started) {
+        message (versenumbers, verseoffsets, &iter, "A new sentence starts within a sentence");
+      }
+      sentence_started = true;
+    }
+    if (gtk_text_iter_ends_sentence (&iter)) {
+      if (!sentence_started) {
+        message (versenumbers, verseoffsets, &iter, "A sentence ends where none was started");
+      }
+      sentence_started = false;
+    }
+    
+  } while (gtk_text_iter_forward_char (&iter));
+  
+  // Check: That a heading does not end the sentence.
+  if (type == sstHeading) {
+    if (!sentence_started) {
+      message (versenumbers, verseoffsets, &iter, "A heading usually starts a sentence but does not finish it");
+    }
+  }
+  
+  // Free buffer.
+  g_object_unref (G_OBJECT (buffer));
+  
+  // Prepare input for next check.
+  text.clear ();
+  ustring lastverse = versenumbers[versenumbers.size () - 1];
+  versenumbers.clear ();
+  versenumbers.push_back (lastverse);
+  verseoffsets.clear ();
+  verseoffsets.push_back (0);
 }
 
 
-SentenceStructureBlock::~SentenceStructureBlock ()
+
+void CheckSentenceStructure::message (vector <ustring>& versenumbers, vector <size_t>& verseoffsets, GtkTextIter * iter, const ustring& message)
 {
-  g_object_unref (textbuffer);
+  // Get the verse.
+  ustring verse = "0";
+  size_t offset = gtk_text_iter_get_offset (iter);
+  for (unsigned int i = 0; i < versenumbers.size (); i++) {
+    if (offset >= verseoffsets[i]) {
+      verse = versenumbers[i];
+    }
+  }
+
+  // Assemble the reference.
+  ustring reference = books_id_to_english (book) + " " + convert_to_string (chapter) + ":" + verse;
+  
+  // Get the fragment of the text.
+  GtkTextIter iter1 = * iter;
+  GtkTextIter iter2 = * iter;
+  gtk_text_iter_backward_word_starts (&iter1, 2);
+  gtk_text_iter_forward_word_ends (&iter2, 2);
+  ustring text = gtk_text_iter_get_text (&iter1, &iter2); 
+
+  // Assemble the comment.
+  ustring comment (text + " - " + message);
+  
+  // Bail out of the message is already there.
+  for (unsigned int i = 0; i < references.size (); i++)
+    if (reference == references[i]) 
+      if (message == messages[i])
+        return;
+   
+  // Store the message.
+  references.push_back (reference);
+  comments.push_back (comment);
+  messages.push_back (message);
 }
-
-/*
-
-Todo Checking the sentence structure.
-
-
-Input parameters:
-- A list of punctuation characters that ends a sentence. Pango makes this up.
-- A list of punctuation characters that are irrelevant to the sentence structure.
-  We can have glib make this list up itself: If the characters is punctuation,
-  and it is not in the list of characters that ends the sentence, then this
-  character is irrelevant to the sentence structure.
-- A list of capitals. Glib's Unicode processing can make these up.
-- A list of usfm codes that starts a heading.
-- A list of usfm codes that start a normal paragraph.
-
-Steps:
-
-- To load the text in a textbuffer, and have an iterator move back and forth in it. Checks around the iterator.
-- While loading the text in the buffer, cut out the markers.
-- Put the notes in separate buffers.
-- Put the table cells in separate buffers.
-- Each buffer has an associated paragraph style and character style and verse number for each offset.
-  Or faster, it stores the offsets where verses start.
-- It works per chapter.
-
-
-
-
-
-
-
-
-// No checking of sentence structure when an indifferent character is
-found.
-if not (Curr in SentenceIndifference) then
-begin
-if (Curr in SentenceEnders) and (not SentenceHasStarted) then
-begin
-AddResultMessage (USFM, USFM.PreviousChars + ' - A character ' + Curr
-+ ' ends the sentence which hasn''t been started yet.');
-end;
-if (not (Curr in Capitals)) and (Curr <> ' ') and (not
-SentenceHasStarted) then
-begin
-AddResultMessage (USFM, USFM.PreviousChars + ' - A sentence should
-not start with ' + Curr + ' but with a capital.');
-SentenceHasStarted := true;
-end;
-
-// Solve problems like characters following immediately after a
-// sentence ender.
-if SentenceEndedAtPreviousCharacter then
-begin
-if Curr <> ' ' then
-AddResultMessage (USFM, USFM.PreviousChars + ' - Invalid character
-(' + Curr + ') found straight after a sentence closer.');
-SentenceEndedAtPreviousCharacter := false;
-end;
-
-// No spaces allowed before a sentence ender.
-if Curr in SentenceEnders then
-begin
-if USFM.PreviousCharacter (1) = ' ' then
-AddResultMessage (USFM, USFM.PreviousChars + ' - No space allowed
-before a character ending a sentence.');
-end;
-
-if USFM.HeadingNow then
-if Curr <> ' ' then HeadingText := HeadingText + Curr;
-if (USFM.HeadingNow <> PreviousSFMHeading)
-or (USFM.HeadingNumber <> PreviousSFMHeadingNumber) then
-begin
-if USFM.HeadingNow then
-// Heading starts here.
-begin
-if SentenceHasStarted then
-AddResultMessage (USFM, USFM.PreviousChars + ' - A heading
-started whereas the running sentence has not yet been finished.');
-end
-else
-// Heading ends here.
-begin
-if HeadingText <> '' then
-if not SentenceHasStarted then
-AddResultMessage (USFM, USFM.PreviousChars + ' - Heading should
-start with a capital, and not end with a full stop.');
-SentenceHasStarted := false;
-end;
-PreviousSFMHeading := USFM.HeadingNow;
-PreviousSFMHeadingNumber := USFM.HeadingNumber;
-end;
-if not USFM.HeadingNow then HeadingText := '';
-
-if USFM.NewParagraphStarted then
-begin
-if SentenceHasStarted then
-AddResultMessage (USFM, USFM.PreviousChars + ' - A new paragraph
-started whereas the running sentence has not yet been finished.');
-USFM.NewParagraphStarted := false;
-end;
-
-
-
-*/

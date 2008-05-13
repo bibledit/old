@@ -26,34 +26,31 @@
 #include <gtk/gtk.h>
 
 
+enum SentenceStructureType { sstHeading, sstParagraph, sstNote };
+
+
 class CheckSentenceStructure
 {
 public:
-  CheckSentenceStructure (const ustring& project, 
-                       const vector<unsigned int>& books, 
-                       bool gui);
+  CheckSentenceStructure (const ustring& project, const vector<unsigned int>& books, bool gui);
   ~CheckSentenceStructure ();
-  vector<ustring> references;
-  vector<ustring> comments;
+  vector <ustring> references;
+  vector <ustring> comments;
   bool cancelled;
 private:
   unsigned int book;
   unsigned int chapter;
   void classify_styles (const ustring& project);
-  void check (ustring text);
-  void message (const ustring& verse, const ustring& message);
-};
-
-
-class SentenceStructureBlock
-{
-public:
-  SentenceStructureBlock (int dummy);
-  ~SentenceStructureBlock ();
-  GtkTextBuffer * textbuffer;
-  vector <unsigned int> offsets;
-  vector <ustring> verses;
-private:
+  void create_blocks (ustring& text);
+  void check (SentenceStructureType type, ustring text, vector <ustring>& versenumbers, vector <size_t>& verseoffsets);
+  void message (vector <ustring>& versenumbers, vector <size_t>& verseoffsets, GtkTextIter * iter, const ustring& message);
+  vector <ustring> messages;
+  set <ustring> textdeleters;
+  set <ustring> headingstarters;
+  set <ustring> paragraphstarters;
+  set <ustring> versemarkers;
+  set <ustring> markerdeleters;
+  set <ustring> notestarters;
 };
 
 

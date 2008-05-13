@@ -1288,33 +1288,6 @@ void Usfm2XslFo::open_fo_inline (Usfm2XslFoStyle * style, Usfm2XslFoStyle * bloc
 }
 
 
-ustring Usfm2XslFo::get_erase_code_till_next_marker (ustring& line, size_t marker_position, size_t marker_length, bool trimcode)
-// Get and erase the usfm code between this marker and the next one.
-{
-  line.erase (0, marker_position + marker_length);
-
-  ustring code;
-  
-  ustring marker;
-  size_t marker2_position;
-  size_t marker2_length;
-  bool is_opener;
-  bool marker_found = usfm_search_marker (line, marker, marker2_position, marker2_length, is_opener);
-  if (marker_found) {
-    code = line.substr (0, marker2_position);
-  } else {
-    code = line;    
-  }
-
-  line.erase (0, code.length ());
-  
-  if (trimcode)
-    code = trim (code);
-  
-  return code;
-}
-
-
 void Usfm2XslFo::output_chapter_number_try_normal (ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length, unsigned int book)
 // This function tries to output the chapter number at the normal position.
 // Else it stores the data needed for outputting it later on at the first verse.
