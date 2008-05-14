@@ -60,6 +60,9 @@ current_reference (0, 1000, "")
   editable = false;
   event_id_show_quick_references = 0;
   chapter = 0;
+  texview_to_textview_old = NULL;
+  texview_to_textview_new = NULL;
+  textview_to_textview_offset = 0;
 
   // Create data that is needed for any of the possible formatted views.
   create_or_update_formatting_data ();
@@ -686,14 +689,13 @@ void Editor::show_quick_references_execute ()
 
 
 
-void Editor::on_textview_move_cursor (GtkTextView * textview, GtkMovementStep step, gint count,
-                                           gboolean extend_selection, gpointer user_data)
+void Editor::on_textview_move_cursor (GtkTextView * textview, GtkMovementStep step, gint count, gboolean extend_selection, gpointer user_data)
 {
-  ((Editor *) user_data)->on_textview_cursor_moved_delayer ();
+  ((Editor *) user_data)->on_textview_cursor_moved_delayer (textview);
 }
 
 
-void Editor::on_textview_cursor_moved_delayer ()
+void Editor::on_textview_cursor_moved_delayer (GtkTextView * textview) // Todo
 {
   // Clear the character style that was going to be applied when the user starts typing.
   character_style_on_start_typing.clear ();
@@ -701,6 +703,8 @@ void Editor::on_textview_cursor_moved_delayer ()
   // before the previous one was processed: destroy the GSource.
   gw_destroy_source (textview_cursor_moved_delayer_event_id);
   textview_cursor_moved_delayer_event_id = g_timeout_add_full (G_PRIORITY_DEFAULT, 100, GSourceFunc (on_textview_cursor_moved_delayer_handler), gpointer(this), NULL);
+  // Store textview for finding out whether to move to another one.
+  texview_to_textview_new = textview;
 }
 
 
@@ -711,11 +715,12 @@ bool Editor::on_textview_cursor_moved_delayer_handler (gpointer user_data)
 }
 
 
-void Editor::on_textview_cursor_moved ()
+void Editor::on_textview_cursor_moved () // Todo
 // Handle the administration if the cursor moved.
 {
   signal_if_verse_changed ();
   signal_if_styles_changed ();
+  check_move_textview_to_textview ();
 }
 
 
@@ -2146,7 +2151,7 @@ void Editor::erase_related_note_bits ()
 }
 
 
-void Editor::display_notes_remainder (bool focus_rendered_textview)
+void Editor::display_notes_remainder (bool focus_rendered_textview) // Todo
 /*
 Once the text has been loaded in the editor, any notes have been partially 
 loaded. The note caller in the text has been placed already, but the note caller
@@ -3712,3 +3717,20 @@ void Editor::load_dictionaries ()
     spellingchecker->set_dictionaries (projectconfig->spelling_dictionaries_get ());
   }
 }
+
+
+void Editor::check_move_textview_to_textview () // Todo
+{
+  cout << "check_move_textview_to_textview" << endl; // Todo
+}
+
+
+/*
+Todo note navigation upgrade
+
+When the cursor is in a footnote, let UpArrow / DownArrow go the the
+previous or next note.
+
+We might as well implement this in the table cells at the same time.
+
+*/

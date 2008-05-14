@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# This calls program ./eeepc-install-menu
+# Program ./eeepc-install-menu could have been called straight from the Makefile,
+# but on the Macintosh there is a problem that occurs with newer versions of 
+# the XCode Tools that cause ./eeepc-install-menu to fail when it is executed.
+# The work-around for this is:
+# make clean
+# make
+# sudo make install
+
+# A work-around that is easier for the user is to just call ./eeepc-install-menu
+# from this script, and let it always exit 0.
+
+./eeepc-install-menu
+exit 0

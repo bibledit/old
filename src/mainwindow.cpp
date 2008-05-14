@@ -7397,16 +7397,3 @@ void MainWindow::on_preferences_filters ()
   FiltersDialog dialog (0);
   dialog.run ();
 }
-
-
-/*
-Todo note navigation upgrade
-
-. When the cursor is in a footnote, let UpArrow / DownArrow go the the
-previous or next note.
-
-2. When clicking on the note caller in the text, let the cursor go to the
-note itself, to be edited.
-
-
-*/

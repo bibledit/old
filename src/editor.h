@@ -79,7 +79,7 @@ public:
 
   // Cursor movement handling.
   static void on_textview_move_cursor (GtkTextView * textview, GtkMovementStep step, gint count, gboolean extend_selection, gpointer user_data);
-  void on_textview_cursor_moved_delayer ();
+  void on_textview_cursor_moved_delayer (GtkTextView * textview);
   guint textview_cursor_moved_delayer_event_id;
   static bool on_textview_cursor_moved_delayer_handler (gpointer user_data);
   void on_textview_cursor_moved ();
@@ -280,6 +280,15 @@ private:
   void spelling_collect_words (GtkTextBuffer * textbuffer);
   void spelling_check_word (GtkTextBuffer * textbuffer, GtkTextIter *start, GtkTextIter *end);
   static void on_button_spelling_recheck_clicked (GtkButton *button, gpointer user_data);
+
+  // Moving from one textview to the other.
+public:
+private:
+  GtkTextView * texview_to_textview_old;
+  GtkTextView * texview_to_textview_new;
+  gint textview_to_textview_offset;
+  void check_move_textview_to_textview ();
+
 };
 
 
