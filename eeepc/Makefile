@@ -14,6 +14,7 @@
 
 
 
+
 srcdir = .
 top_srcdir = ..
 
@@ -52,6 +53,7 @@ PROGRAMS = $(noinst_PROGRAMS)
 am_eeepc_install_menu_OBJECTS = eeepc-install-menu.$(OBJEXT)
 eeepc_install_menu_OBJECTS = $(am_eeepc_install_menu_OBJECTS)
 eeepc_install_menu_LDADD = $(LDADD)
+SCRIPTS = $(noinst_SCRIPTS)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -154,9 +156,9 @@ OBJEXT = o
 PACKAGE = bibledit
 PACKAGE_BUGREPORT = http://www.nongnu.org/bibledit
 PACKAGE_NAME = bibledit
-PACKAGE_STRING = bibledit 3.2.12
+PACKAGE_STRING = bibledit 3.2.13
 PACKAGE_TARNAME = bibledit
-PACKAGE_VERSION = 3.2.12
+PACKAGE_VERSION = 3.2.13
 PANGO_CFLAGS = -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
 PANGO_LIBS = -lpango-1.0 -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0  
 PATH_SEPARATOR = :
@@ -173,7 +175,7 @@ STRINGS_PATH = /usr/bin/strings
 STRIP = 
 TAIL_PATH = /usr/bin/tail
 TEE_TOUCH = /usr/bin/touch
-VERSION = 3.2.12
+VERSION = 3.2.13
 WIN32_FALSE = 
 WIN32_TRUE = #
 XML2_CONFIG = /usr/bin/xml2-config
@@ -230,6 +232,7 @@ target_cpu = i686
 target_os = linux-gnu
 target_vendor = pc
 eeepc_install_menu_SOURCES = eeepc-install-menu.cpp
+noinst_SCRIPTS = run-installer
 AM_CXXFLAGS = -Wall `pkg-config glib-2.0 --cflags`
 EXTRA_DIST = *
 CLEANFILES = *~ *.tar.gz
@@ -373,7 +376,7 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(PROGRAMS)
+all-am: Makefile $(PROGRAMS) $(SCRIPTS)
 installdirs:
 install: install-am
 install-exec: install-exec-am
@@ -464,7 +467,7 @@ uninstall-am: uninstall-info-am
 
 
 install-exec-hook:
-	./eeepc-install-menu
+	./run-installer
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
