@@ -7399,9 +7399,6 @@ void MainWindow::on_preferences_filters ()
 }
 
 
-// Todo bypass problem with eeepc on Macintosh: let is always exit 0.
-
-
 /*
 Todo note navigation upgrade
 
