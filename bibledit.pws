@@ -11,7 +11,7 @@ filter.file.ignore.hidden=0
 filter.dir.ignore.hidden=0
 
 [filenumbers]
-0=7988
+0=7364
 1=29
 2=383
 3=50
@@ -46,8 +46,6 @@ filter.dir.ignore.hidden=0
 
 [filelist]
 0=/home/teus/documents/dev/bibledit/src/mainwindow.cpp
-1=/home/teus/documents/dev/bibledit/src/check_sentence_structure.h
-2=/home/teus/documents/dev/bibledit/src/check_sentence_structure.cpp
 
 [Project Tree]
 0=0

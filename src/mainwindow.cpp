@@ -2452,6 +2452,7 @@ httpd (0)
   g_signal_connect ((gpointer) textview_notes, "visibility-notify-event", G_CALLBACK (screen_visibility_notify_event), gpointer(this));
   g_signal_connect ((gpointer) textview_notes, "key-press-event", G_CALLBACK (notes_key_press_event), gpointer(this));
   g_signal_connect ((gpointer) textview_notes, "event-after", G_CALLBACK (notes_event_after), gpointer(this));
+  g_signal_connect ((gpointer) textview_notes, "populate-popup", G_CALLBACK (on_projectnotes_populate_popup), gpointer(this));
   g_signal_connect ((gpointer) styles->apply_signal, "clicked", G_CALLBACK (on_style_button_apply_clicked), gpointer (this));
   g_signal_connect ((gpointer) styles->open_signal, "clicked", G_CALLBACK (on_style_button_open_clicked), gpointer (this));
   g_signal_connect ((gpointer) styles->edited_signal, "clicked", G_CALLBACK (on_style_edited), gpointer (this));
@@ -4712,15 +4713,15 @@ void MainWindow::notes_delete_if_link (GtkWidget *text_view, GtkTextIter *start,
 
 void MainWindow::on_delete_note_activate (GtkMenuItem *menuitem, gpointer user_data)
 {
-  ((MainWindow *) user_data)->on_delete_note();
+  ((MainWindow *) user_data)->on_delete_note (menuitem);
 }
 
 
-void MainWindow::on_delete_note ()
+void MainWindow::on_delete_note (GtkMenuItem *menuitem)
 {
   // There was a bug of an infinite loop when a note was deleted through the menu,
   // while the notes view was not focused. Solved here.
-  if (GTK_WIDGET_HAS_FOCUS (textview_notes)) {
+  if (GTK_WIDGET_HAS_FOCUS (textview_notes) || (GTK_WIDGET (menuitem) != delete_note)) {
     GtkTextIter start;
     GtkTextIter end;
     gtk_text_buffer_get_selection_bounds (textbuffer_notes, &start, &end);
@@ -5469,6 +5470,47 @@ void MainWindow::notes_get_references_from_link (GtkWidget *text_view, GtkTextIt
   references2.fill_store (projectconfig->language_get());
   // Display the References Area
   gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook_tools), tapntReferences);
+}
+
+
+void MainWindow::on_projectnotes_populate_popup (GtkTextView *textview, GtkMenu *menu, gpointer user_data)
+{
+  ((MainWindow *) user_data)->projectnotes_populate_popup (textview, menu);
+}
+
+
+void MainWindow::projectnotes_populate_popup (GtkTextView *textview, GtkMenu *menu)
+{
+  // Bail out if the features don't allow deleting project notes.
+  GuiFeatures guifeatures (0);
+  if (!guifeatures.project_notes_management ()) return;
+
+  GtkWidget *mi;
+  mi = gtk_menu_item_new ();
+  gtk_widget_show (mi);
+  gtk_menu_shell_prepend (GTK_MENU_SHELL(menu), mi);
+
+  GtkWidget *img;
+  img = gtk_image_new_from_stock (GTK_STOCK_SPELL_CHECK, GTK_ICON_SIZE_MENU);
+  mi = gtk_image_menu_item_new_with_label ("Delete selected notes");
+  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (mi), img);
+
+  gtk_widget_show_all (mi);
+  gtk_menu_shell_prepend (GTK_MENU_SHELL(menu), mi);
+
+  g_signal_connect ((gpointer) mi, "activate", G_CALLBACK (on_delete_note_activate), gpointer(this));
+
+  /*
+
+  
+  
+  
+        buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (widget));
+        gtk_text_buffer_get_selection_bounds (buffer, &start, &end);
+        notes_delete_if_link (widget, &start, &end);
+  
+  */
+  
 }
 
 
@@ -7355,17 +7397,3 @@ void MainWindow::on_preferences_filters ()
   FiltersDialog dialog (0);
   dialog.run ();
 }
-
-
-/*
-Todo permissions.
-
-Problems have been reported where Bibledit refuses to startup or to save
-the configuration, and these problems started to surface after the user had
-manually copied the .bibledit directory to his newly installed linux
-system. It would be helpful if bibledit could check on startup whether it
-has enough permissions to do all of it's duties. If not, it should try to
-fix that. If that fails, it should give a message about the problem, and
-bail out.
-
-*/

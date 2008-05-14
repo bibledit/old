@@ -651,7 +651,7 @@ protected:
   void on_new_note ();
   void notes_delete_if_link (GtkWidget *text_view, GtkTextIter *start, GtkTextIter *end);
   static void on_delete_note_activate (GtkMenuItem *menuitem, gpointer user_data);
-  void on_delete_note ();
+  void on_delete_note (GtkMenuItem *menuitem);
   static void on_viewnotes_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_view_notes ();
   void notes_redisplay ();
@@ -685,6 +685,8 @@ protected:
   static void on_get_references_from_note_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_get_references_from_note ();
   void notes_get_references_from_link (GtkWidget *text_view, GtkTextIter *iter);
+  static void on_projectnotes_populate_popup (GtkTextView *textview, GtkMenu *menu, gpointer user_data);
+  void projectnotes_populate_popup (GtkTextView *textview, GtkMenu *menu);
 
   /* Export */
   static void on_export_usfm_files_activate (GtkMenuItem *menuitem, gpointer user_data);
