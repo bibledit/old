@@ -30,6 +30,7 @@
 enum EditorNoteType     { entFootnote, entEndnote, entCrossreference };
 enum EditorTextViewType { etvtBody, etvtNote, etvtTable };
 enum EditorUndoType     { eudInsertText, eudDeleteText, eudApplyTag, eudRemoveTag };
+enum EditorMovementType { emtForward, emtBack, emtUp, emtDown } ;
 
 
 class EditorNote
@@ -150,6 +151,9 @@ ustring get_verse_number_at_iterator (GtkTextIter iter, const ustring& verse_mar
 gchar * unknown_style ();
 void textbuffer_apply_named_tag (GtkTextBuffer *buffer, const ustring& name, const GtkTextIter *start, const GtkTextIter *end);
 void textbuffer_insert_with_named_tags (GtkTextBuffer *buffer, GtkTextIter *iter, const ustring& text, ustring first_tag_name, ustring second_tag_name);
+
+
+GtkWidget * textview_note_get_another (GtkTextBuffer * mainbuffer, GtkWidget * currentview, vector <EditorNote>& editornotes, EditorMovementType movement);
 
 
 #endif

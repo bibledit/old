@@ -1794,3 +1794,70 @@ void textbuffer_insert_with_named_tags (GtkTextBuffer *buffer, GtkTextIter *iter
     gtk_text_buffer_insert_with_tags_by_name (buffer, iter, text.c_str(), -1, first_tag_name.c_str (), second_tag_name.c_str (), NULL);
   }
 }
+
+
+GtkWidget * textview_note_get_another (GtkTextBuffer * mainbuffer, GtkWidget * currentview, vector <EditorNote>& editornotes, EditorMovementType movement)
+{
+  // Variable for the next textview to go to.
+  GtkWidget * anotherview = NULL;
+  
+  // See whether to get the next or previous textview.
+  bool nextview = false;
+  switch (movement) {
+    case emtForward:
+    case emtDown:
+      nextview = true;
+      break;
+    case emtBack:
+    case emtUp:
+      nextview = false;
+      break;
+  }
+
+  // Get offset of current textview.
+  gint currentoffset = 0;
+  for (unsigned int i = 0; i < editornotes.size (); i++) {
+    if (currentview == editornotes[i].textview) {
+      GtkTextIter iter;
+      gtk_text_buffer_get_iter_at_child_anchor (mainbuffer, &iter, editornotes[i].childanchor_textview);
+      currentoffset = gtk_text_iter_get_offset (&iter);
+    }
+  }
+
+  // Only proceed if we found a current offset.
+  if (currentoffset > 0) {
+
+    // Variables.
+    gint minimum_difference = G_MAXINT;
+    
+    // Go through all notes.
+    for (unsigned int i = 0; i < editornotes.size (); i++) {
+      
+      // Get the offset of the note, and ...
+      GtkTextIter iter;
+      gtk_text_buffer_get_iter_at_child_anchor (mainbuffer, &iter, editornotes[i].childanchor_textview);
+      gint textviewoffset = gtk_text_iter_get_offset (&iter);
+      bool proceed = false;
+      if (nextview) {
+        proceed = textviewoffset > currentoffset;
+      } else {
+        proceed = textviewoffset < currentoffset;
+      }
+      
+      // ... proceed if the it is bigger than the current offset.
+      if (proceed) {
+        
+        // Look for the textview nearest the current one.
+        gint difference = ABS (textviewoffset - currentoffset);
+        if (difference < minimum_difference) {
+          anotherview = editornotes[i].textview;
+          minimum_difference = difference;
+        }       
+        
+      }      
+    }
+  }
+
+  // Return the next view, if any.
+  return anotherview;
+}

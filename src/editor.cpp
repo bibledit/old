@@ -691,11 +691,11 @@ void Editor::show_quick_references_execute ()
 
 void Editor::on_textview_move_cursor (GtkTextView * textview, GtkMovementStep step, gint count, gboolean extend_selection, gpointer user_data)
 {
-  ((Editor *) user_data)->on_textview_cursor_moved_delayer (textview);
+  ((Editor *) user_data)->on_textview_cursor_moved_delayer (textview, step, count);
 }
 
 
-void Editor::on_textview_cursor_moved_delayer (GtkTextView * textview) // Todo
+void Editor::on_textview_cursor_moved_delayer (GtkTextView * textview, GtkMovementStep step, gint count)
 {
   // Clear the character style that was going to be applied when the user starts typing.
   character_style_on_start_typing.clear ();
@@ -703,8 +703,10 @@ void Editor::on_textview_cursor_moved_delayer (GtkTextView * textview) // Todo
   // before the previous one was processed: destroy the GSource.
   gw_destroy_source (textview_cursor_moved_delayer_event_id);
   textview_cursor_moved_delayer_event_id = g_timeout_add_full (G_PRIORITY_DEFAULT, 100, GSourceFunc (on_textview_cursor_moved_delayer_handler), gpointer(this), NULL);
-  // Store textview for finding out whether to move to another one.
+  // Store data about the move for finding out whether to move to another textview.
   texview_to_textview_new = textview;
+  textview_to_textview_steptype = step;
+  textview_to_textview_stepcount = count;
 }
 
 
@@ -715,7 +717,7 @@ bool Editor::on_textview_cursor_moved_delayer_handler (gpointer user_data)
 }
 
 
-void Editor::on_textview_cursor_moved () // Todo
+void Editor::on_textview_cursor_moved ()
 // Handle the administration if the cursor moved.
 {
   signal_if_verse_changed ();
@@ -2151,7 +2153,7 @@ void Editor::erase_related_note_bits ()
 }
 
 
-void Editor::display_notes_remainder (bool focus_rendered_textview) // Todo
+void Editor::display_notes_remainder (bool focus_rendered_textview)
 /*
 Once the text has been loaded in the editor, any notes have been partially 
 loaded. The note caller in the text has been placed already, but the note caller
@@ -3719,18 +3721,65 @@ void Editor::load_dictionaries ()
 }
 
 
-void Editor::check_move_textview_to_textview () // Todo
+void Editor::check_move_textview_to_textview ()
 {
-  cout << "check_move_textview_to_textview" << endl; // Todo
+  // Bail out if there was no change of textview in which the cursor was moved.
+  bool changed = texview_to_textview_new != texview_to_textview_old;
+  texview_to_textview_old = texview_to_textview_new;
+  if (changed) {
+    textview_to_textview_offset = -1;
+    return;
+  }
+  
+  // Find out whether the cursor moved in the textview. If so, bail out.
+  GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (texview_to_textview_new);
+  GtkTextIter iter;
+  gtk_text_buffer_get_iter_at_mark (textbuffer, &iter, gtk_text_buffer_get_insert (textbuffer));
+  gint newoffset = gtk_text_iter_get_offset (&iter);
+  changed = newoffset != textview_to_textview_offset;
+  textview_to_textview_offset = newoffset;
+  if (changed) return;
+
+  // At this stage the cursor didn't move.
+  // This means that the cursor is at some border of a textview.
+  
+  // Bail out if the textview is the main one. No need to move to another one.
+  GtkWidget * currenttextview = GTK_WIDGET (texview_to_textview_new);
+  if (currenttextview == textview) return;
+  
+  // Find out what movement to make for going to another textview.
+
+  EditorMovementType movementtype = emtForward;
+  switch (textview_to_textview_steptype) {
+    case GTK_MOVEMENT_LOGICAL_POSITIONS: // move by forw/back graphemes
+    case GTK_MOVEMENT_VISUAL_POSITIONS:  // move by left/right graphemes
+    case GTK_MOVEMENT_WORDS:             // move by forward/back words
+    case GTK_MOVEMENT_HORIZONTAL_PAGES:  // move horizontally by pages
+    {
+      if (textview_to_textview_stepcount > 0) movementtype = emtForward;
+      else movementtype = emtBack;
+      break;
+    }
+    case GTK_MOVEMENT_DISPLAY_LINES:     // move up/down lines (wrapped lines)
+    case GTK_MOVEMENT_DISPLAY_LINE_ENDS: // move up/down lines (wrapped lines)
+    case GTK_MOVEMENT_PARAGRAPHS:        // move up/down paragraphs (newline-ended lines)
+    case GTK_MOVEMENT_PARAGRAPH_ENDS:    // move to either end of a paragraph
+    case GTK_MOVEMENT_PAGES:	         // move by pages
+    case GTK_MOVEMENT_BUFFER_ENDS:       // move to ends of the buffer
+    {
+      if (textview_to_textview_stepcount > 0) movementtype = emtDown;
+      else movementtype = emtUp;
+      break;
+    }
+  }
+  
+  // Try whether the next textview is a note.
+  GtkWidget * nextview = textview_note_get_another (textbuffer, currenttextview, editornotes, movementtype);
+  if (nextview) {
+    gtk_widget_grab_focus (nextview);
+    return;
+  }
+  
+  
+
 }
-
-
-/*
-Todo note navigation upgrade
-
-When the cursor is in a footnote, let UpArrow / DownArrow go the the
-previous or next note.
-
-We might as well implement this in the table cells at the same time.
-
-*/

@@ -79,7 +79,7 @@ public:
 
   // Cursor movement handling.
   static void on_textview_move_cursor (GtkTextView * textview, GtkMovementStep step, gint count, gboolean extend_selection, gpointer user_data);
-  void on_textview_cursor_moved_delayer (GtkTextView * textview);
+  void on_textview_cursor_moved_delayer (GtkTextView * textview, GtkMovementStep step, gint count);
   guint textview_cursor_moved_delayer_event_id;
   static bool on_textview_cursor_moved_delayer_handler (gpointer user_data);
   void on_textview_cursor_moved ();
@@ -287,6 +287,8 @@ private:
   GtkTextView * texview_to_textview_old;
   GtkTextView * texview_to_textview_new;
   gint textview_to_textview_offset;
+  GtkMovementStep textview_to_textview_steptype;
+  gint textview_to_textview_stepcount;
   void check_move_textview_to_textview ();
 
 };
