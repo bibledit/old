@@ -221,6 +221,7 @@ On object destruction, it saves the values if they were modified.
   INITIALIZE (resource_pages);
   INITIALIZE (split_view_open_method);
   INITIALIZE (split_view_editor_top_down_layout);
+  INITIALIZE (print_job);
 }
 
 
@@ -386,6 +387,7 @@ void GeneralConfiguration::save ()
   SAVE_VALUE (resource_pages);
   SAVE_VALUE (split_view_open_method);
   SAVE_VALUE (split_view_editor_top_down_layout);
+  SAVE_VALUE (print_job);
 
   config_xml_values_set_execute (configuration_filename (), values);
 }
@@ -636,3 +638,4 @@ IMPLEMENT (vector<ustring>, vector_string_get, resources, NULL)
 IMPLEMENT (vector<int>, vector_int_get, resource_pages, NULL)
 IMPLEMENT (int, int_get, split_view_open_method, 0)
 IMPLEMENT (bool, bool_get, split_view_editor_top_down_layout, true)
+IMPLEMENT (int, int_get, print_job, 0)

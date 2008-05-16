@@ -209,7 +209,7 @@ httpd (0)
   menuitem_file_menu = gtk_menu_new ();
   gtk_menu_item_set_submenu (GTK_MENU_ITEM (menuitem_file), menuitem_file_menu);
 
-  file_project = gtk_image_menu_item_new_with_mnemonic ("_Project");
+  file_project = gtk_image_menu_item_new_with_mnemonic ("Pr_oject");
   gtk_widget_show (file_project);
   gtk_container_add (GTK_CONTAINER (menuitem_file_menu), file_project);
 
@@ -248,19 +248,6 @@ httpd (0)
     
   }
 
-  print_project = NULL;
-  if (guifeatures.printing ()) {
-    
-    print_project = gtk_image_menu_item_new_with_mnemonic ("_Print");
-    gtk_widget_show (print_project);
-    gtk_container_add (GTK_CONTAINER (file_project_menu), print_project);
-
-    image805 = gtk_image_new_from_stock ("gtk-print", GTK_ICON_SIZE_MENU);
-    gtk_widget_show (image805);
-    gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (print_project), image805);
-    
-  }
-
   properties1 = NULL;
   import1 = NULL;
   export_project = NULL;
@@ -272,7 +259,6 @@ httpd (0)
   export_opendocument = NULL;
   copy_project_to = NULL;
   compare_with1 = NULL;
-  parallel_bible = NULL;
   if (guifeatures.project_management ()) {
     
     properties1 = gtk_image_menu_item_new_with_mnemonic ("P_roperties");
@@ -358,14 +344,6 @@ httpd (0)
     gtk_widget_show (image2764);
     gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (compare_with1), image2764);
 
-    parallel_bible = gtk_image_menu_item_new_with_mnemonic ("P_arallel Bible");
-    gtk_widget_show (parallel_bible);
-    gtk_container_add (GTK_CONTAINER (file_project_menu), parallel_bible);
-
-    image11566 = gtk_image_new_from_stock ("gtk-copy", GTK_ICON_SIZE_MENU);
-    gtk_widget_show (image11566);
-    gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (parallel_bible), image11566);
-
   }
 
   project_backup = gtk_image_menu_item_new_with_mnemonic ("_Backup");
@@ -445,22 +423,6 @@ httpd (0)
     references_save_as = gtk_image_menu_item_new_from_stock ("gtk-save-as", accel_group);
     gtk_widget_show (references_save_as);
     gtk_container_add (GTK_CONTAINER (file_references_menu), references_save_as);
-    
-  }
-
-  print_references = NULL;
-  if (guifeatures.printing ()) {
-    
-    print_references = gtk_image_menu_item_new_with_mnemonic ("_Print");
-    gtk_widget_show (print_references);
-    gtk_container_add (GTK_CONTAINER (file_references_menu), print_references);
-    gtk_widget_add_accelerator (print_references, "activate", accel_group,
-                                GDK_P, GDK_CONTROL_MASK,
-                                GTK_ACCEL_VISIBLE);
-
-    image759 = gtk_image_new_from_stock ("gtk-print", GTK_ICON_SIZE_MENU);
-    gtk_widget_show (image759);
-    gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (print_references), image759);
     
   }
 
@@ -797,6 +759,19 @@ httpd (0)
   gtk_widget_show (image27664);
   gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (file_resources_delete), image27664);
 
+  print = NULL;
+
+  if (guifeatures.printing ()) { 
+    
+    print = gtk_image_menu_item_new_from_stock ("gtk-print", accel_group);
+    gtk_widget_show (print);
+    gtk_container_add (GTK_CONTAINER (menuitem_file_menu), print);
+    gtk_widget_add_accelerator (print, "activate", accel_group,
+                                GDK_P, GDK_CONTROL_MASK,
+                                GTK_ACCEL_VISIBLE);
+
+  }
+  
   quit1 = gtk_image_menu_item_new_from_stock ("gtk-quit", accel_group);
   gtk_widget_show (quit1);
   gtk_container_add (GTK_CONTAINER (menuitem_file_menu), quit1);
@@ -2272,9 +2247,6 @@ httpd (0)
     g_signal_connect ((gpointer) close1, "activate", G_CALLBACK (on_close1_activate), gpointer(this));
     g_signal_connect ((gpointer) delete1, "activate", G_CALLBACK (on_delete1_activate), gpointer(this));
   }
-  if (guifeatures.printing ()) {
-    g_signal_connect ((gpointer) print_project, "activate", G_CALLBACK (on_print_project_activate), gpointer(this));
-  }
   if (guifeatures.project_management ()) {
     g_signal_connect ((gpointer) properties1, "activate", G_CALLBACK (on_properties1_activate), gpointer(this));
     g_signal_connect ((gpointer) import1, "activate", G_CALLBACK (on_import1_activate), gpointer(this));
@@ -2285,7 +2257,6 @@ httpd (0)
     g_signal_connect ((gpointer) export_opendocument, "activate", G_CALLBACK (on_export_opendocument_activate), gpointer(this));  
     g_signal_connect ((gpointer) copy_project_to, "activate", G_CALLBACK (on_copy_project_to_activate), gpointer(this));
     g_signal_connect ((gpointer) compare_with1, "activate", G_CALLBACK (on_compare_with1_activate), gpointer(this));
-    g_signal_connect ((gpointer) parallel_bible, "activate", G_CALLBACK (on_parallel_bible_activate), gpointer(this));
   }
   g_signal_connect ((gpointer) project_backup_incremental, "activate", G_CALLBACK (on_project_backup_incremental_activate), gpointer(this));
   g_signal_connect ((gpointer) project_backup_flexible, "activate", G_CALLBACK (on_project_backup_flexible_activate), gpointer(this));
@@ -2297,9 +2268,6 @@ httpd (0)
     g_signal_connect ((gpointer) file_references, "activate", G_CALLBACK (on_file_references_activate), gpointer(this));
     g_signal_connect ((gpointer) open_references1, "activate", G_CALLBACK (on_open_references1_activate), gpointer(this));
     g_signal_connect ((gpointer) references_save_as, "activate", G_CALLBACK (on_references_save_as_activate), gpointer(this));
-  }
-  if (guifeatures.printing ()) {
-    g_signal_connect ((gpointer) print_references, "activate", G_CALLBACK (on_print_references_activate), gpointer(this));
   }
   if (guifeatures.references_management ()) {
     g_signal_connect ((gpointer) close_references, "activate", G_CALLBACK (on_close_references_activate), gpointer (this));
@@ -2319,6 +2287,7 @@ httpd (0)
   g_signal_connect ((gpointer) file_resources_new, "activate", G_CALLBACK (on_file_resources_new_activate), gpointer(this));
   g_signal_connect ((gpointer) file_resources_edit, "activate", G_CALLBACK (on_file_resources_edit_activate), gpointer(this));
   g_signal_connect ((gpointer) file_resources_delete, "activate", G_CALLBACK (on_file_resources_delete_activate), gpointer(this));
+  if (print) g_signal_connect ((gpointer) print, "activate", G_CALLBACK (on_print_activate), gpointer(this));
   g_signal_connect ((gpointer) quit1, "activate", G_CALLBACK (on_quit1_activate), gpointer(this));
   g_signal_connect ((gpointer) menuitem_edit, "activate", G_CALLBACK (on_edit1_activate), gpointer(this));
   g_signal_connect ((gpointer) cut1, "activate", G_CALLBACK (on_cut1_activate), gpointer(this));
@@ -2598,7 +2567,7 @@ Initialization
  */
 
 
-void MainWindow::enable_or_disable_widgets (bool enable)
+void MainWindow::enable_or_disable_widgets (bool enable) 
 {
   // Set some widgets (in)sensitive depending on whether a project is open.
   if (close1) gtk_widget_set_sensitive (close1, enable);
@@ -2608,14 +2577,12 @@ void MainWindow::enable_or_disable_widgets (bool enable)
   if (menuitem_edit) gtk_widget_set_sensitive (menuitem_edit, enable);
   if (file_references) gtk_widget_set_sensitive (file_references, enable);
   if (export_project) gtk_widget_set_sensitive (export_project, enable);
-  if (parallel_bible) gtk_widget_set_sensitive (parallel_bible, enable);
+  if (print) gtk_widget_set_sensitive (print, enable);
   if (project_changes) gtk_widget_set_sensitive (project_changes, enable);
   if (menuitem_view) gtk_widget_set_sensitive (menuitem_view, enable);
   if (menuitem_goto) gtk_widget_set_sensitive (menuitem_goto, enable);
   if (compare_with1) gtk_widget_set_sensitive (compare_with1, enable);
   if (copy_project_to) gtk_widget_set_sensitive (copy_project_to, enable);
-  if (print_references) gtk_widget_set_sensitive (print_references, enable);
-  if (print_project) gtk_widget_set_sensitive (print_project, enable);
   if (insert1) gtk_widget_set_sensitive (insert1, enable);
   if (check1) gtk_widget_set_sensitive (check1, enable);
   if (menutools) gtk_widget_set_sensitive (menutools, enable);
@@ -2686,29 +2653,6 @@ void MainWindow::newproject ()
     editorsgui->open (projectdialog.newprojectname, -1);
   }
   git_command_pause (false);
-}
-
-
-void MainWindow::on_print_project_activate (GtkMenuItem *menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_print_project ();
-}
-
-
-void MainWindow::on_print_project ()
-{
-  // Save any changes.
-  editorsgui->save ();
-  // Run the dialog for printing the project to pdf.
-  {
-    PrintProjectDialog dialog (0);
-    if (dialog.run () != GTK_RESPONSE_OK)
-      return;
-  }
-  extern Settings * settings;
-  ProjectMemory projectmemory (settings->genconfig.project_get(), true);
-  PrintProject printproject (&projectmemory);
-  printproject.print();
 }
 
 
@@ -3191,24 +3135,6 @@ void MainWindow::on_formatter ()
 {
   FormatterDialog dialog (0);
   dialog.run();
-}
-
-
-void MainWindow::on_parallel_bible_activate (GtkMenuItem *menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_parallel_bible ();
-}
-
-
-void MainWindow::on_parallel_bible ()
-{
-  {
-    ParallelBibleDialog dialog (0);
-    if (dialog.run () != GTK_RESPONSE_OK)
-      return;
-  }
-  editorsgui->save ();
-  view_parallel_bible_pdf ();
 }
 
 
@@ -4009,39 +3935,6 @@ void MainWindow::on_save_references ()
   catch (exception & ex)
   {
     cerr << "Saving references: " << ex.what () << endl;
-  }
-}
-
-
-void MainWindow::on_print_references_activate (GtkMenuItem *menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_print_references ();
-}
-
-
-void MainWindow::on_print_references ()
-{
-  // Activate references area.
-  on_file_references ();
-  // Save any changes.
-  editorsgui->save ();
-  {    
-    PrintReferencesDialog dialog (0);
-    if (dialog.run () != GTK_RESPONSE_OK) return;
-  }
-  // Load refs from the editor.
-  References references (liststore_references, treeview_references, treecolumn_references);
-  references.get_loaded();
-  vector<Reference> refs;
-  references.get_references (refs);
-  if (refs.empty()) {
-    gtkw_dialog_info (mainwindow, "There are no references to print");
-  } else {
-    // Run the function for printing the references.
-    extern Settings * settings;
-    vector <ustring> extra_projects = settings->genconfig.print_references_projects_get ();
-    ProjectMemory projectmemory (settings->genconfig.project_get(), true);
-    view_parallel_references_pdf (projectmemory, &extra_projects, refs, true, NULL, true);
   }
 }
 
@@ -7396,4 +7289,96 @@ void MainWindow::on_preferences_filters ()
 {
   FiltersDialog dialog (0);
   dialog.run ();
+}
+
+
+/*
+|
+|
+|
+|
+|
+Print
+|
+|
+|
+|
+|
+*/
+
+
+void MainWindow::on_print_activate (GtkMenuItem *menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_print ();
+}
+
+
+void MainWindow::on_print ()
+{
+  // Create the selection dialog using the saved selection.
+  unsigned int selection;
+  {
+    vector <ustring> labels;
+    labels.push_back ("Project");
+    labels.push_back ("Parallel Bible");
+    labels.push_back ("References");
+    extern Settings * settings;
+    RadiobuttonDialog dialog ("Print", "Select what to print", labels, settings->genconfig.print_job_get ());
+    if (dialog.run () != GTK_RESPONSE_OK) return;
+    selection = dialog.selection;
+    settings->genconfig.print_job_set (selection);
+  }
+  // Save the editors.
+  editorsgui->save ();
+  
+  switch (selection) {
+    case 0: // Project.
+    {
+      {
+        PrintProjectDialog dialog (0);
+        if (dialog.run () != GTK_RESPONSE_OK)
+          return;
+      }
+      extern Settings * settings;
+      ProjectMemory projectmemory (settings->genconfig.project_get(), true);
+      PrintProject printproject (&projectmemory);
+      printproject.print();
+      break;
+    }
+    case 1: // Parallel Bible.
+    {
+      {
+        ParallelBibleDialog dialog (0);
+        if (dialog.run () != GTK_RESPONSE_OK)
+          return;
+      }
+      view_parallel_bible_pdf ();
+      break;
+    }
+    case 2: // References.
+    {
+      // Activate references area.
+      on_file_references ();
+      // Show dialog.
+      {    
+        PrintReferencesDialog dialog (0);
+        if (dialog.run () != GTK_RESPONSE_OK) return;
+      }
+      // Load refs from the editor.
+      References references (liststore_references, treeview_references, treecolumn_references);
+      references.get_loaded();
+      vector<Reference> refs;
+      references.get_references (refs);
+      if (refs.empty()) {
+        gtkw_dialog_info (mainwindow, "There are no references to print");
+      } else {
+        // Run the function for printing the references.
+        extern Settings * settings;
+        vector <ustring> extra_projects = settings->genconfig.print_references_projects_get ();
+        ProjectMemory projectmemory (settings->genconfig.project_get(), true);
+        view_parallel_references_pdf (projectmemory, &extra_projects, refs, true, NULL, true);
+      }
+      break;
+    }
+  }
 }

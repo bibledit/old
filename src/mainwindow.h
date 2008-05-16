@@ -64,8 +64,6 @@ protected:
   GtkWidget *open1;
   GtkWidget *close1;
   GtkWidget *delete1;
-  GtkWidget *print_project;
-  GtkWidget *image805;
   GtkWidget *properties1;
   GtkWidget *image4995;
   GtkWidget *import1;
@@ -87,8 +85,6 @@ protected:
   GtkWidget *image2688;
   GtkWidget *compare_with1;
   GtkWidget *image2764;
-  GtkWidget *parallel_bible;
-  GtkWidget *image11566;
   GtkWidget *project_backup;
   GtkWidget *image18535;
   GtkWidget *project_backup_menu;
@@ -106,8 +102,6 @@ protected:
   GtkWidget *open_references1;
   GtkWidget *image466;
   GtkWidget *references_save_as;
-  GtkWidget *print_references;
-  GtkWidget *image759;
   GtkWidget *close_references;
   GtkWidget *image468;
   GtkWidget *delete_references;
@@ -141,6 +135,7 @@ protected:
   GtkWidget *image27515;
   GtkWidget *file_resources_delete;
   GtkWidget *image27664;
+  GtkWidget *print;
   GtkWidget *quit1;
   GtkWidget *menuitem_edit;
   GtkWidget *menuitem_edit_menu;
@@ -489,8 +484,6 @@ protected:
   static gboolean on_mainwindow_delete_event (GtkWidget *widget, GdkEvent *event, gpointer user_data);
   static gboolean on_mainwindow_focus_in_event (GtkWidget *widget, GdkEventFocus *event, gpointer user_data);
   void on_mainwindow_focus_in (GdkEventFocus *event);
-  static void on_print_project_activate (GtkMenuItem *menuitem, gpointer user_data);
-  void on_print_project ();
   static void on_insert1_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_menu_insert ();
   static void on_notes_preferences_activate (GtkMenuItem *menuitem, gpointer user_data);
@@ -503,8 +496,6 @@ protected:
   void on_printing_preferences ();
   static void on_formatting_objects_processor_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_formatter ();
-  static void on_parallel_bible_activate (GtkMenuItem *menuitem, gpointer user_data);
-  void on_parallel_bible ();
   static void on_screen_layout_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_screen_layout ();
   static void on_prefs_books_activate (GtkMenuItem *menuitem, gpointer user_data);
@@ -591,8 +582,6 @@ protected:
   Reference selected_reference;
   static void on_references_save_as_activate (GtkMenuItem * menuitem, gpointer user_data);
   void on_save_references ();
-  static void on_print_references_activate (GtkMenuItem *menuitem, gpointer user_data);
-  void on_print_references ();
   static void on_close_references_activate (GtkMenuItem * menuitem, gpointer user_data);
   void on_clear_references ();
   static void on_delete_references_activate (GtkMenuItem * menuitem, gpointer user_data);
@@ -887,6 +876,10 @@ protected:
   /* Diglot */
   static void on_preferences_filters_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_preferences_filters ();
+  
+  /* Print */
+  static void on_print_activate (GtkMenuItem *menuitem, gpointer user_data);
+  void on_print ();
 };
 
 
