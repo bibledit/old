@@ -811,7 +811,9 @@ module.source.files=\
 	src/spelling.cpp\
 	src/spelling.h\
 	src/dialogeditdictionary.cpp\
-	src/dialogeditdictionary.h
+	src/dialogeditdictionary.h\
+	src/check_sentence_structure.cpp\
+	src/check_sentence_structure.h
 
 module.pixmap.name=.
 module.pixmap.type=

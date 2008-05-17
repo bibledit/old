@@ -26,6 +26,11 @@
 #include "gwrappers.h"
 #include "help.h"
 #include "shortcuts.h"
+#include "dialogcheckbutton.h"
+#include "shell.h"
+#include "projectutils.h"
+#include "generalconfig.h"
+#include "settings.h"
 
 
 ShowScriptDialog::ShowScriptDialog (int dummy)
@@ -92,6 +97,28 @@ ShowScriptDialog::ShowScriptDialog (int dummy)
 
   shortcuts.button (radiobutton_git);
 
+  button_diagnostics = gtk_button_new ();
+  gtk_widget_show (button_diagnostics);
+  gtk_box_pack_start (GTK_BOX (hbox1), button_diagnostics, FALSE, FALSE, 0);
+
+  alignment1 = gtk_alignment_new (0.5, 0.5, 0, 0);
+  gtk_widget_show (alignment1);
+  gtk_container_add (GTK_CONTAINER (button_diagnostics), alignment1);
+
+  hbox2 = gtk_hbox_new (FALSE, 2);
+  gtk_widget_show (hbox2);
+  gtk_container_add (GTK_CONTAINER (alignment1), hbox2);
+
+  image1 = gtk_image_new_from_stock ("gtk-preferences", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_show (image1);
+  gtk_box_pack_start (GTK_BOX (hbox2), image1, FALSE, FALSE, 0);
+
+  label1 = gtk_label_new_with_mnemonic ("Diagnostics");
+  gtk_widget_show (label1);
+  gtk_box_pack_start (GTK_BOX (hbox2), label1, FALSE, FALSE, 0);
+  
+  shortcuts.label (label1);
+
   dialog_action_area1 = GTK_DIALOG (showscriptdialog)->action_area;
   gtk_widget_show (dialog_action_area1);
   gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area1), GTK_BUTTONBOX_END);
@@ -108,6 +135,7 @@ ShowScriptDialog::ShowScriptDialog (int dummy)
   shortcuts.process ();
 
   g_signal_connect ((gpointer) checkbutton1, "toggled", G_CALLBACK (on_checkbutton1_toggled), gpointer(this));
+  g_signal_connect ((gpointer) button_diagnostics, "clicked", G_CALLBACK (on_button_diagnostics_clicked), gpointer(this));
 
   gtk_widget_grab_focus (textview1);
   gtk_widget_grab_default (cancelbutton);
@@ -203,4 +231,51 @@ ustring ShowScriptDialog::logfilename ()
     filename.append (".old");
   }
   return gw_build_filename (directories_get_temp(), filename);
+}
+
+
+void ShowScriptDialog::on_button_diagnostics_clicked (GtkButton *button, gpointer user_data)
+{
+  ((ShowScriptDialog *) user_data)->on_button_diagnostics ();
+}
+
+
+void ShowScriptDialog::on_button_diagnostics ()
+{
+  // Show selection dialog.
+  vector <ustring> labels;
+  labels.push_back ("General settings");
+  labels.push_back ("Project settings");
+  CheckbuttonDialog dialog ("Diagnostics", "Tick the items to include in the diagnostics report", labels, "11");
+  if (dialog.run () != GTK_RESPONSE_OK) return;
+    
+  // Container to hold output text.
+  vector <ustring> lines;
+  
+  // General settings.
+  if (bitpattern_take (dialog.bitpattern)) {
+    lines.push_back ("\nGeneral settings\n");
+    ReadText rt (general_configuration_filename (), true, false);
+    for (unsigned int i = 0; i < rt.lines.size (); i++) {
+      lines.push_back (rt.lines[i]);
+    }
+  }
+  
+  // Project settings.
+  if (bitpattern_take (dialog.bitpattern)) {
+    vector <ustring> projects = projects_get_all ();
+    for (unsigned int i = 0; i < projects.size (); i++) {
+      lines.push_back ("\nProject " + projects[i] + " settings\n");
+      ReadText rt (project_configuration_filename (projects[i]), true, false);
+      for (unsigned int i = 0; i < rt.lines.size (); i++) {
+        lines.push_back (rt.lines[i]);
+      }
+    }   
+  }
+  
+  // Add the diagnostics info to the logfile.
+  ustring diagnosticsfile = gw_build_filename (directories_get_temp (), "diagnostics");
+  write_lines (diagnosticsfile, lines);
+  shell_pipe_file_append (diagnosticsfile, logfilename ());
+  unlink (diagnosticsfile.c_str());
 }

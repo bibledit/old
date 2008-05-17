@@ -43,6 +43,11 @@ protected:
   GtkWidget *radiobutton_bibledit;
   GtkWidget *radiobutton_bibletime;
   GtkWidget *radiobutton_git;
+  GtkWidget *button_diagnostics;
+  GtkWidget *alignment1;
+  GtkWidget *hbox2;
+  GtkWidget *image1;
+  GtkWidget *label1;
   GtkWidget *dialog_action_area1;
   GtkWidget *cancelbutton;
 private:
@@ -54,6 +59,8 @@ private:
   static void on_radiobutton_bibledit_toggled (GtkToggleButton *togglebutton, gpointer user_data);
   static void on_radiobutton_bibletime_toggled (GtkToggleButton *togglebutton, gpointer user_data);
   static void on_radiobutton_git_toggled (GtkToggleButton *togglebutton, gpointer user_data);
+  static void on_button_diagnostics_clicked (GtkButton *button, gpointer user_data);
+  void on_button_diagnostics ();
 };
 
 

@@ -117,3 +117,15 @@ ustring shell_clean_filename (const ustring& filename)
   replace_text (cleanfile, "/", "_");
   return cleanfile;
 }
+
+
+void shell_pipe_file_append (const ustring& inputfile, const ustring& outputfile)
+// cat inputfile >> outputfile.
+{
+  ustring command;
+  command.append ("cat");
+  command.append (shell_quote_space (inputfile));
+  command.append (">>");
+  command.append (shell_quote_space (outputfile));
+  system (command.c_str ());
+}

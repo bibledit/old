@@ -18,30 +18,30 @@
 */
 
 
-#ifndef INCLUDED_DIALOG_RADIOBUTTON_H
-#define INCLUDED_DIALOG_RADIOBUTTON_H
+#ifndef INCLUDED_DIALOG_CHECKBUTTON_H
+#define INCLUDED_DIALOG_CHECKBUTTON_H
 
 
 #include <gtk/gtk.h>
 #include "ustring.h"
 
 
-class RadiobuttonDialog
+class CheckbuttonDialog
 {
 public:
-  RadiobuttonDialog (const ustring& title, const ustring& info, const vector <ustring>& labels, unsigned int selection);
-  ~RadiobuttonDialog ();
+  CheckbuttonDialog (const ustring& title, const ustring& info, const vector <ustring>& labels, ustring bitpattern);
+  ~CheckbuttonDialog ();
   int run ();
-  unsigned int selection;
+  ustring bitpattern;
 protected:
-  GtkWidget *radiobuttondialog;
+  GtkWidget *checkbuttondialog;
   GtkWidget *dialog_vbox1;
   GtkWidget *label;
   GtkWidget *dialog_action_area1;
   GtkWidget *cancelbutton;
   GtkWidget *okbutton;
 private:
-  vector <GtkWidget *> radiobuttons;
+  vector <GtkWidget *> checkbuttons;
   static void on_okbutton_clicked (GtkButton *button, gpointer user_data);
   void on_okbutton ();
 };

@@ -33,6 +33,7 @@ bool program_is_running_basic (const ustring & program);
 int programs_running_count_basic (const ustring & program);
 ustring shell_quote_space (const ustring& filename);
 ustring shell_clean_filename (const ustring& filename);
+void shell_pipe_file_append (const ustring& inputfile, const ustring& outputfile);
 
 
 #endif

@@ -309,7 +309,7 @@ void config_xml_values_set_execute (const ustring& file, const vector <ConfigXml
   xmlTextWriterPtr writer = xmlNewTextWriterMemory(buffer, 0);
   xmlTextWriterStartDocument(writer, NULL, "UTF-8", NULL);
   xmlTextWriterSetIndent(writer, 1);
-  xmlTextWriterStartElement (writer, BAD_CAST "bibledit-general-configuration");
+  xmlTextWriterStartElement (writer, BAD_CAST "bibledit-configuration");
     
   // Get the combined information, and write it to the document.
   for (unsigned int i = 0; i < existingpairs.size(); i++) {

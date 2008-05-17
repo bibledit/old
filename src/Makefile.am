@@ -254,7 +254,8 @@ bibledit_bin_SOURCES = \
         dialogdictionary.cpp \
         spelling.cpp \
         dialogeditdictionary.cpp \
-        check_sentence_structure.cpp
+        check_sentence_structure.cpp \
+        dialogcheckbutton.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 

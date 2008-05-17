@@ -7382,3 +7382,11 @@ void MainWindow::on_print ()
     }
   }
 }
+
+
+/*
+Todo Fedora Core 9 has no gtkmozembed anymore.
+See from Yelp, and from Epiphany, how they do it on fc9.
+Whether to implement our own gtkmozembed code.
+See the preferred linking strategy from xulrunner, how to link.
+*/

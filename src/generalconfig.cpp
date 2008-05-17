@@ -31,7 +31,7 @@
 #include "config.xml.h"
 
 
-ustring configuration_filename ()
+ustring general_configuration_filename ()
 {
   return gw_build_filename (directories_get_configuration (), "configuration.1.xml");
 }
@@ -389,14 +389,14 @@ void GeneralConfiguration::save ()
   SAVE_VALUE (split_view_editor_top_down_layout);
   SAVE_VALUE (print_job);
 
-  config_xml_values_set_execute (configuration_filename (), values);
+  config_xml_values_set_execute (general_configuration_filename (), values);
 }
 
 
 bool GeneralConfiguration::bool_get (gchar * key, bool& store, bool& loaded, bool standard)
 {
   if (!loaded) {
-    store = config_xml_bool_get (configuration_filename (), key, standard);
+    store = config_xml_bool_get (general_configuration_filename (), key, standard);
     loaded = true;
   }
   return store;
@@ -406,7 +406,7 @@ bool GeneralConfiguration::bool_get (gchar * key, bool& store, bool& loaded, boo
 int GeneralConfiguration::int_get (gchar * key, int& store, bool& loaded, int standard)
 {
   if (!loaded) {
-    store = config_xml_int_get (configuration_filename (), key, standard);
+    store = config_xml_int_get (general_configuration_filename (), key, standard);
     loaded = true;
   }
   return store;
@@ -416,7 +416,7 @@ int GeneralConfiguration::int_get (gchar * key, int& store, bool& loaded, int st
 ustring GeneralConfiguration::string_get (gchar * key, ustring& store, bool& loaded, const ustring& standard)
 {
   if (!loaded) {
-    store = config_xml_string_get (configuration_filename (), key, standard);
+    store = config_xml_string_get (general_configuration_filename (), key, standard);
     loaded = true;
   }
   return store;
@@ -426,7 +426,7 @@ ustring GeneralConfiguration::string_get (gchar * key, ustring& store, bool& loa
 double GeneralConfiguration::double_get (gchar * key, double& store, bool& loaded, double standard)
 {
   if (!loaded) {
-    store = config_xml_double_get (configuration_filename (), key, standard);
+    store = config_xml_double_get (general_configuration_filename (), key, standard);
     loaded = true;
   }
   return store;
@@ -436,7 +436,7 @@ double GeneralConfiguration::double_get (gchar * key, double& store, bool& loade
 vector<bool> GeneralConfiguration::vector_bool_get (gchar * key, vector<bool>& store, bool& loaded, void * dummy)
 {
   if (!loaded) {
-    store = config_xml_vector_bool_get (configuration_filename (), key);
+    store = config_xml_vector_bool_get (general_configuration_filename (), key);
     loaded = true;
   }
   return store;
@@ -446,7 +446,7 @@ vector<bool> GeneralConfiguration::vector_bool_get (gchar * key, vector<bool>& s
 vector<ustring> GeneralConfiguration::vector_string_get (gchar * key, vector<ustring>& store, bool& loaded, void * dummy)
 {
   if (!loaded) {
-    store = config_xml_vector_string_get (configuration_filename (), key);
+    store = config_xml_vector_string_get (general_configuration_filename (), key);
     loaded = true;
   }
   return store;
@@ -456,7 +456,7 @@ vector<ustring> GeneralConfiguration::vector_string_get (gchar * key, vector<ust
 vector<int> GeneralConfiguration::vector_int_get (gchar * key, vector<int>& store, bool& loaded, void * dummy)
 {
   if (!loaded) {
-    store = config_xml_vector_int_get (configuration_filename (), key);
+    store = config_xml_vector_int_get (general_configuration_filename (), key);
     loaded = true;
   }
   return store;
@@ -466,7 +466,7 @@ vector<int> GeneralConfiguration::vector_int_get (gchar * key, vector<int>& stor
 vector<double> GeneralConfiguration::vector_double_get (gchar * key, vector<double>& store, bool& loaded, void * dummy)
 {
   if (!loaded) {
-    store = config_xml_vector_double_get (configuration_filename (), key);
+    store = config_xml_vector_double_get (general_configuration_filename (), key);
     loaded = true;
   }
   return store;

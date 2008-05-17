@@ -26,6 +26,7 @@
 #include "constants.h"
 
 
+ustring general_configuration_filename ();
 void upgrade_configuration ();
 
 

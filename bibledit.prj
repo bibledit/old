@@ -813,7 +813,9 @@ module.source.files=\
 	src/dialogeditdictionary.cpp\
 	src/dialogeditdictionary.h\
 	src/check_sentence_structure.cpp\
-	src/check_sentence_structure.h
+	src/check_sentence_structure.h\
+	src/dialogcheckbutton.cpp\
+	src/dialogcheckbutton.h
 
 module.pixmap.name=.
 module.pixmap.type=
