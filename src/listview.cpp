@@ -194,3 +194,29 @@ void list_view_erase_selection (GtkWidget * listview)
     gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
   }
 }
+
+
+void listview_set_row (GtkWidget * listview, GtkListStore * store, unsigned int offset, const ustring row)
+{
+  // Get the model
+  GtkTreeModel * model = gtk_tree_view_get_model (GTK_TREE_VIEW (listview));
+
+  // Some variables needed.
+  GtkTreeIter iter;
+  gboolean valid;
+  unsigned int index = 0;
+
+  // Get the first iter in the store and walk through the list.
+  valid = gtk_tree_model_get_iter_first (model, &iter);
+  while (valid) {
+
+    // If this is the right row, set it.
+    if (index == offset) {
+      gtk_list_store_set (store, &iter, 0, row.c_str (), -1);
+    }
+    
+    // Next iteration.
+    valid = gtk_tree_model_iter_next (model, &iter);
+    index++;
+  }
+}

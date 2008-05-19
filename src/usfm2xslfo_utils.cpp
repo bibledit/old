@@ -417,13 +417,22 @@ XslFoTableRow::XslFoTableRow (int dummy)
 }
 
 
-XslFoPortion::XslFoPortion (unsigned int book_in, unsigned int chapter_from_in, const ustring& verse_from_in, unsigned int chapter_to_in, const ustring& verse_to_in)
+XslFoPortion::XslFoPortion ()
+{
+}
+
+
+XslFoPortion::XslFoPortion (unsigned int book_in, vector<unsigned int> chapters_from_in, const vector<ustring>& verses_from_in, vector<unsigned int> chapters_to_in, const vector <ustring>& verses_to_in)
 {
   book = book_in;
-  chapter_from = chapter_from_in;
-  verse_from = verse_from_in;
-  chapter_to = chapter_to_in;
-  verse_to = verse_to_in;
+  chapters_from = chapters_from_in;
+  verses_from = verses_from_in;
+  chapters_to = chapters_to_in;
+  verses_to = verses_to_in;
+  within_portion_flags.clear ();
+  for (unsigned int i = 0; i < chapters_from.size (); i++) {
+    within_portion_flags.push_back (true);
+  }
 }
 
 

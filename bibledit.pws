@@ -11,12 +11,12 @@ filter.file.ignore.hidden=0
 filter.dir.ignore.hidden=0
 
 [filenumbers]
-0=53
-1=32
-2=113
-3=51
-4=245
-5=3
+0=201
+1=39
+2=125
+3=35
+4=119
+5=670
 6=312
 7=8000
 8=28
@@ -45,11 +45,12 @@ filter.dir.ignore.hidden=0
 14=
 
 [filelist]
-0=/home/teus/documents/dev/bibledit/src/utilities.h
-1=/home/teus/documents/dev/bibledit/src/dialogcheckbutton.h
-2=/home/teus/documents/dev/bibledit/src/dialogcheckbutton.cpp
-3=/home/teus/documents/dev/bibledit/src/dialogshowscript.h
-4=/home/teus/documents/dev/bibledit/src/dialogshowscript.cpp
+0=/home/teus/documents/dev/bibledit/src/listview.cpp
+1=/home/teus/documents/dev/bibledit/src/listview.h
+2=/home/teus/documents/dev/bibledit/src/portion_utils.cpp
+3=/home/teus/documents/dev/bibledit/src/portion_utils.h
+4=/home/teus/documents/dev/bibledit/src/dialogselectchapters.h
+5=/home/teus/documents/dev/bibledit/src/dialogselectchapters.cpp
 
 [Project Tree]
 0=0

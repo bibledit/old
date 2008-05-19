@@ -215,14 +215,18 @@ ParallelBibleDialog::ParallelBibleDialog (int dummy)
     on_button_add (versions[i]);
   }
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_keep_together), settings->genconfig.parallel_bible_keep_verses_together_get ());
-  unsigned int chapter_from, chapter_to;
-  ustring verse_from, verse_to;
+  vector <unsigned int> chapters_from, chapters_to;
+  vector <ustring> verses_from, verses_to;
   select_portion_get_values (settings->genconfig.project_get(), settings->genconfig.book_get (),
                              settings->genconfig.parallel_bible_chapters_verses_get (), 
-                             chapter_from, verse_from, chapter_to, verse_to);
-  gtk_label_set_text (GTK_LABEL (label_chapters), 
-    select_portion_get_label (settings->genconfig.project_get(), settings->genconfig.book_get (), 
-                              chapter_from, verse_from, chapter_to, verse_to).c_str());
+                             chapters_from, verses_from, chapters_to, verses_to);
+  ustring label;
+  for (unsigned int i = 0; i < chapters_from.size (); i++) {
+    if (i) label.append (" | ");
+    label.append (select_portion_get_label (settings->genconfig.project_get(), settings->genconfig.book_get (), 
+                                            chapters_from[i], verses_from[i], chapters_to[i], verses_to[i]));
+  }
+  gtk_label_set_text (GTK_LABEL (label_chapters), label.c_str());
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_include_verse0), settings->genconfig.parallel_bible_include_verse_zero_get ());
 }
 

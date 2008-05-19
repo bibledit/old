@@ -104,13 +104,13 @@ void PrintProject::print ()
   for (unsigned int i = 0; i < scriptureportions->books.size(); i++) {
     if (scriptureportions->portions[i] == CHAPTER_VERSE_SELECTION_ALL)
       continue;
-    unsigned int chapter_from, chapter_to;
-    ustring verse_from, verse_to;
-    select_portion_get_values (portionproject, books_english_to_id (scriptureportions->books[i]), 
+    vector <unsigned int> chapters_from, chapters_to;
+    vector <ustring> verses_from, verses_to;
+    select_portion_get_values (portionproject, books_english_to_id (scriptureportions->books[i]),
                                scriptureportions->portions[i],
-                               chapter_from, verse_from, chapter_to, verse_to);
-    XslFoPortion portion (books_english_to_id (scriptureportions->books[i]), chapter_from, verse_from, chapter_to, verse_to);
-    usfm2xslfo.add_print_portion (portion);
+                               chapters_from, verses_from, chapters_to, verses_to);
+    XslFoPortion portion (books_english_to_id (scriptureportions->books[i]), chapters_from, verses_from, chapters_to, verses_to);
+    usfm2xslfo.set_print_portion (portion);
   }
   
   // Start off with inserting any remarks.

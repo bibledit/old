@@ -27,53 +27,67 @@
 
 
 void select_portion_get_values (const ustring& project, unsigned int book, const ustring& portion,
-                                unsigned int& chapter_from, ustring& verse_from,
-                                unsigned int& chapter_to, ustring& verse_to)
+                                vector <unsigned int>& chapters_from, vector <ustring>& verses_from,
+                                vector <unsigned int>& chapters_to, vector <ustring>& verses_to)
 // Takes "portion", and extracts the chapters and verses from it.
 // Checks whether everything is in the limits as given by "bookmetrics".
 {
+  chapters_from.clear ();
+  verses_from.clear ();
+  chapters_to.clear ();
+  verses_to.clear ();
   vector<unsigned int> chapters = project_get_chapters(project, book);
   unsigned int lowest_chapter = chapters[0];
   unsigned int highest_chapter = chapters[chapters.size() - 1];
-  if (portion == CHAPTER_VERSE_SELECTION_ALL) {
-    chapter_from = lowest_chapter;
-    vector<ustring> from_verses = project_get_verses (project, book, chapter_from);
-    verse_from = from_verses[0];
-    chapter_to = highest_chapter;
-    vector<ustring> to_verses = project_get_verses (project, book, chapter_to);
-    verse_to = to_verses[to_verses.size() - 1];   
-  } else {
-    // Format of portion, e.g.: "10.6-7 to 11.1,2a"
-    // Work on a copy.
-    ustring myportion (portion);
-    // Get starting chapter number.
-    ustring s = number_in_string (myportion);
-    chapter_from = convert_to_int (number_in_string (s));
-    chapter_from = CLAMP (chapter_from, lowest_chapter, highest_chapter);
-    // Remove the part from the portion, including the dot.
-    myportion.erase (0, s.length () + 1);
-    // Get starting verse number.
-    size_t position = myportion.find (" ");
-    verse_from = myportion.substr (0, position);
-    // Remove it from the portion.
-    myportion.erase (0, verse_from.length() + strlen (CHAPTER_VERSE_SELECTION_TO));
-    // Limit starting verse.
-    vector<ustring> from_verses = project_get_verses (project, book, chapter_from);
-    set<ustring> from_set (from_verses.begin(), from_verses.end());
-    if (from_set.find (verse_from) == from_set.end())
+  vector <ustring> portions = select_portion_get_portions (portion);
+  for (unsigned int i = 0; i < portions.size (); i++) {
+    unsigned int chapter_from, chapter_to;
+    ustring verse_from, verse_to;
+    if (portions[i] == CHAPTER_VERSE_SELECTION_ALL) {
+      chapter_from = lowest_chapter;
+      vector<ustring> from_verses = project_get_verses (project, book, chapter_from);
       verse_from = from_verses[0];
-    // Get ending chapter number.
-    s = number_in_string (myportion);
-    chapter_to = convert_to_int (number_in_string (s));
-    chapter_to = CLAMP (chapter_to, lowest_chapter, highest_chapter);
-    // Remove the part from the portion, including the dot.
-    myportion.erase (0, s.length () + 1);
-    // Get verse_to and limit it.
-    verse_to = myportion;
-    vector<ustring> to_verses = project_get_verses (project, book, chapter_to);
-    set<ustring> to_set (to_verses.begin(), to_verses.end());
-    if (to_set.find (verse_to) == to_set.end())
-      verse_to = to_verses[to_verses.size() - 1];
+      chapter_to = highest_chapter;
+      vector<ustring> to_verses = project_get_verses (project, book, chapter_to);
+      verse_to = to_verses[to_verses.size() - 1];     
+    } else {
+      // Format of portion, e.g.: "10.6-7 to 11.1,2a"
+      // Work on a copy.
+      ustring myportion (portions[i]);
+      // Get starting chapter number.
+      ustring s = number_in_string (myportion);
+      chapter_from = convert_to_int (number_in_string (s));
+      chapter_from = CLAMP (chapter_from, lowest_chapter, highest_chapter);
+      // Remove the part from the portion, including the dot.
+      myportion.erase (0, s.length () + 1);
+      // Get starting verse number.
+      size_t position = myportion.find (" ");
+      verse_from = myportion.substr (0, position);
+      // Remove it from the portion.
+      myportion.erase (0, verse_from.length() + strlen (CHAPTER_VERSE_SELECTION_TO));
+      // Limit starting verse.
+      vector<ustring> from_verses = project_get_verses (project, book, chapter_from);
+      set<ustring> from_set (from_verses.begin(), from_verses.end());
+      if (from_set.find (verse_from) == from_set.end())
+        verse_from = from_verses[0];
+      // Get ending chapter number.
+      s = number_in_string (myportion);
+      chapter_to = convert_to_int (number_in_string (s));
+      chapter_to = CLAMP (chapter_to, lowest_chapter, highest_chapter);
+      // Remove the part from the portion, including the dot.
+      myportion.erase (0, s.length () + 1);
+      // Get verse_to and limit it.
+      verse_to = myportion;
+      vector<ustring> to_verses = project_get_verses (project, book, chapter_to);
+      set<ustring> to_set (to_verses.begin(), to_verses.end());
+      if (to_set.find (verse_to) == to_set.end())
+        verse_to = to_verses[to_verses.size() - 1];
+    }
+    // Store what we got.
+    chapters_from.push_back (chapter_from);
+    chapters_to.push_back (chapter_to);
+    verses_from.push_back (verse_from);
+    verses_to.push_back (verse_to);
   }
 }
 
@@ -108,4 +122,29 @@ ustring select_portion_get_label (const ustring& project, unsigned int book,
   }
   // Return value.
   return label;
+}
+
+
+vector <ustring> select_portion_get_portions (const ustring& portion)
+// Extract the various possible portions from the one master-portion.
+{
+  Parse parse (portion, false, "|");
+  for (unsigned int i = 0; i < parse.words.size (); i++) {
+    parse.words[i] = trim (parse.words[i]);
+  }
+  return parse.words;
+}
+
+
+ustring select_portion_get_portion (const vector <ustring>& portions)
+// Assemble a master-portion from the various possible portions.
+{
+  ustring portion;
+  for (unsigned int i = 0; i < portions.size (); i++) {
+    if (i) {
+      portion.append (" | ");
+    }
+    portion.append (portions[i]);
+  }
+  return portion;
 }

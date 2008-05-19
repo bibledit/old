@@ -36,6 +36,7 @@ void listview_focus_string (GtkWidget * listview, unsigned int string, bool grab
 vector <ustring> listview_get_strings (GtkWidget * listview);
 int listview_get_selection_offset (GtkWidget * listview);
 void list_view_erase_selection (GtkWidget * listview);
+void listview_set_row (GtkWidget * listview, GtkListStore * store, unsigned int offset, const ustring row);
 
 
 #endif

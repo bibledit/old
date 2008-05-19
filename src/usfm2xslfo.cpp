@@ -35,6 +35,7 @@
 #include "settings.h"
 #include "referenceutils.h"
 #include "projectutils.h"
+#include "portion_utils.h"
 
 
 Usfm2XslFo::Usfm2XslFo (const ustring& pdfoutputfile)
@@ -2167,11 +2168,11 @@ void Usfm2XslFo::note_callers_new_chapter ()
 }
 
 
-void Usfm2XslFo::add_print_portion (const XslFoPortion& portion)
-// Adds a portion to the list of portions to be printed.
-// If no portions have been added to this list, everything will be printed.
+void Usfm2XslFo::set_print_portion (const XslFoPortion& portion)
+// Sets the portion to be printed.
+// If no portions was set, everything will be printed.
 {
-  portions.push_back (portion);
+  portions = portion;
 }
 
 
@@ -2199,27 +2200,35 @@ void Usfm2XslFo::portion_new_verse (const ustring& verse_in)
 void Usfm2XslFo::portion_check ()
 {
   // Go through the available portions.
-  for (unsigned int i = 0; i < portions.size (); i++) {
+  for (unsigned int i = 0; i < portions.chapters_from.size (); i++) {
+
     // Proceed if the book matches.
-    if (portions[i].book == book) {
+    if (portions.book == book) {
       // Compare on chapter.
-      if (chapter < portions[i].chapter_from) {
-        print_this_portion = false;
-      } else if (chapter > portions[i].chapter_to) {
-        print_this_portion = false;
+      if (chapter < portions.chapters_from[i]) {
+        portions.within_portion_flags[i] = false;
+      } else if (chapter > portions.chapters_to[i]) {
+        portions.within_portion_flags[i] = false;
       } else {
         // At this stage the chapter is within the range of chapters to be printed.
         unsigned int vs = convert_to_int (verse);
-        if (chapter == portions[i].chapter_from) {
-          unsigned int vs_from = convert_to_int (portions[i].verse_from);
-          print_this_portion = (vs >= vs_from);
+        if (chapter == portions.chapters_from[i]) {
+          unsigned int vs_from = convert_to_int (portions.verses_from[i]);
+          portions.within_portion_flags[i] = (vs >= vs_from);
         }
-        if (chapter == portions[i].chapter_to) {
-          unsigned int vs_to = convert_to_int (portions[i].verse_to);
-          if (vs > vs_to) print_this_portion = false;
+        if (chapter == portions.chapters_to[i]) {
+          unsigned int vs_to = convert_to_int (portions.verses_to[i]);
+          if (vs > vs_to) portions.within_portion_flags[i] = false;
         }
       }
     }
+  }
+
+  // Find out whether the chapter:verse is within any portion.
+  print_this_portion = false;
+  for (unsigned int i = 0; i < portions.chapters_from.size (); i++) {
+    if (portions.within_portion_flags[i])
+      print_this_portion = true;
   }
 }
 

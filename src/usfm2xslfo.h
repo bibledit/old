@@ -58,7 +58,7 @@ public:
   void set_print_date ();
   void set_include_full_references_with_notes ();
 
-  void add_print_portion (const XslFoPortion& portion);
+  void set_print_portion (const XslFoPortion& portion);
 
   void process ();
 
@@ -163,7 +163,7 @@ private:
   void optionally_add_full_references (ustring& line, Usfm2XslFoStyle * stylepointer);  
   
   // Portion selection.
-  vector <XslFoPortion> portions;
+  XslFoPortion portions;
   bool print_this_portion;
   unsigned int book;
   unsigned int chapter;

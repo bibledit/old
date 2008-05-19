@@ -26,12 +26,13 @@
 
 
 void select_portion_get_values (const ustring& project, unsigned int book, const ustring& portion,
-                                unsigned int& chapter_from, ustring& verse_from,
-                                unsigned int& chapter_to, ustring& verse_to);
+                                vector <unsigned int>& chapters_from, vector <ustring>& verses_from,
+                                vector <unsigned int>& chapters_to, vector <ustring>& verses_to);
 ustring select_portion_get_label (const ustring& project, unsigned int book,
                                   unsigned int chapter_from, const ustring& verse_from,
                                   unsigned int chapter_to, const ustring& verse_to);
-
+vector <ustring> select_portion_get_portions (const ustring& portion);
+ustring select_portion_get_portion (const vector <ustring>& portions);
 
 
 #endif

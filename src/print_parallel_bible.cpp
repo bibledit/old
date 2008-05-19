@@ -68,13 +68,21 @@ void view_parallel_bible_pdf ()
   // References to print.
   vector <Reference> references;
 
-  // Variables for portion selection.
+  // Variables for portion selection. todo multiple portions don't work yet.
   bool portion_print = false;
   bool portion_print_next_verse_off = false;
   unsigned int portion_chapter_from, portion_chapter_to;
   ustring portion_verse_from, portion_verse_to;
-  select_portion_get_values (settings->genconfig.project_get(), settings->genconfig.book_get (), settings->genconfig.parallel_bible_chapters_verses_get (),
-                             portion_chapter_from, portion_verse_from, portion_chapter_to, portion_verse_to);
+  {
+    vector <unsigned int> portions_chapter_from, portions_chapter_to;
+    vector <ustring> portions_verse_from, portions_verse_to;
+    select_portion_get_values (settings->genconfig.project_get(), settings->genconfig.book_get (), settings->genconfig.parallel_bible_chapters_verses_get (),
+                               portions_chapter_from, portions_verse_from, portions_chapter_to, portions_verse_to);
+    portion_chapter_from = portions_chapter_from[0];
+    portion_chapter_to = portions_chapter_to[0];
+    portion_verse_from = portions_verse_from[0];
+    portion_verse_to = portion_verse_to[0];
+  }
   // Go through the chapters.
   for (unsigned int ch = 0; ch < chapters.size(); ch++) {
     // Update progress bar.

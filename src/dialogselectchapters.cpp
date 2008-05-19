@@ -29,6 +29,7 @@
 #include "help.h"
 #include "books.h"
 #include "tiny_utilities.h"
+#include "shortcuts.h"
 
 
 SelectChaptersDialog::SelectChaptersDialog (const ustring& project, unsigned int book, const ustring& currentselection)
@@ -36,9 +37,10 @@ SelectChaptersDialog::SelectChaptersDialog (const ustring& project, unsigned int
   // Save / check variables.
   myproject = project;
   mybook = book;
-  myportion = currentselection;
   
   // Build dialog.
+  Shortcuts shortcuts (0);
+  
   selectchaptersdialog = gtk_dialog_new ();
   gtk_window_set_title (GTK_WINDOW (selectchaptersdialog), "Select portion");
   gtk_window_set_position (GTK_WINDOW (selectchaptersdialog), GTK_WIN_POS_CENTER_ON_PARENT);
@@ -47,7 +49,7 @@ SelectChaptersDialog::SelectChaptersDialog (const ustring& project, unsigned int
   dialog_vbox1 = GTK_DIALOG (selectchaptersdialog)->vbox;
   gtk_widget_show (dialog_vbox1);
 
-  table1 = gtk_table_new (4, 3, false);
+  table1 = gtk_table_new (4, 5, false);
   gtk_widget_show (table1);
   gtk_box_pack_start (GTK_BOX (dialog_vbox1), table1, TRUE, TRUE, 0);
   gtk_table_set_row_spacings (GTK_TABLE (table1), 2);
@@ -55,7 +57,7 @@ SelectChaptersDialog::SelectChaptersDialog (const ustring& project, unsigned int
 
   buttonall = gtk_button_new ();
   gtk_widget_show (buttonall);
-  gtk_table_attach (GTK_TABLE (table1), buttonall, 0, 1, 3, 4,
+  gtk_table_attach (GTK_TABLE (table1), buttonall, 2, 3, 3, 4,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
 
@@ -71,39 +73,45 @@ SelectChaptersDialog::SelectChaptersDialog (const ustring& project, unsigned int
   gtk_widget_show (image5);
   gtk_box_pack_start (GTK_BOX (hbox8), image5, FALSE, FALSE, 0);
 
-  label18 = gtk_label_new_with_mnemonic ("_All");
+  label18 = gtk_label_new_with_mnemonic ("All");
   gtk_widget_show (label18);
   gtk_box_pack_start (GTK_BOX (hbox8), label18, FALSE, FALSE, 0);
 
-  label17 = gtk_label_new_with_mnemonic ("_To:");
+  shortcuts.label (label18);
+
+  label17 = gtk_label_new_with_mnemonic ("To:");
   gtk_widget_show (label17);
-  gtk_table_attach (GTK_TABLE (table1), label17, 0, 1, 2, 3,
+  gtk_table_attach (GTK_TABLE (table1), label17, 2, 3, 2, 3,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment (GTK_MISC (label17), 1, 0.5);
 
-  label16 = gtk_label_new_with_mnemonic ("_From:");
+  shortcuts.label (label17);
+  
+  label16 = gtk_label_new_with_mnemonic ("From:");
   gtk_widget_show (label16);
-  gtk_table_attach (GTK_TABLE (table1), label16, 0, 1, 1, 2,
+  gtk_table_attach (GTK_TABLE (table1), label16, 2, 3, 1, 2,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment (GTK_MISC (label16), 1, 0.5);
 
+  shortcuts.label (label16);
+  
   label19 = gtk_label_new ("chapter");
   gtk_widget_show (label19);
-  gtk_table_attach (GTK_TABLE (table1), label19, 1, 2, 0, 1,
+  gtk_table_attach (GTK_TABLE (table1), label19, 3, 4, 0, 1,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
 
   label20 = gtk_label_new ("verse");
   gtk_widget_show (label20);
-  gtk_table_attach (GTK_TABLE (table1), label20, 2, 3, 0, 1,
+  gtk_table_attach (GTK_TABLE (table1), label20, 4, 5, 0, 1,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
 
   scrolledwindow1 = gtk_scrolled_window_new (NULL, NULL);
   gtk_widget_show (scrolledwindow1);
-  gtk_table_attach (GTK_TABLE (table1), scrolledwindow1, 1, 2, 1, 2,
+  gtk_table_attach (GTK_TABLE (table1), scrolledwindow1, 3, 4, 1, 2,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (GTK_FILL), 0, 0);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow1), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
@@ -116,7 +124,7 @@ SelectChaptersDialog::SelectChaptersDialog (const ustring& project, unsigned int
 
   scrolledwindow2 = gtk_scrolled_window_new (NULL, NULL);
   gtk_widget_show (scrolledwindow2);
-  gtk_table_attach (GTK_TABLE (table1), scrolledwindow2, 2, 3, 1, 2,
+  gtk_table_attach (GTK_TABLE (table1), scrolledwindow2, 4, 5, 1, 2,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (GTK_FILL), 0, 0);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow2), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
@@ -129,7 +137,7 @@ SelectChaptersDialog::SelectChaptersDialog (const ustring& project, unsigned int
 
   scrolledwindow3 = gtk_scrolled_window_new (NULL, NULL);
   gtk_widget_show (scrolledwindow3);
-  gtk_table_attach (GTK_TABLE (table1), scrolledwindow3, 1, 2, 2, 3,
+  gtk_table_attach (GTK_TABLE (table1), scrolledwindow3, 3, 4, 2, 3,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (GTK_FILL), 0, 0);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow3), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
@@ -142,7 +150,7 @@ SelectChaptersDialog::SelectChaptersDialog (const ustring& project, unsigned int
 
   scrolledwindow4 = gtk_scrolled_window_new (NULL, NULL);
   gtk_widget_show (scrolledwindow4);
-  gtk_table_attach (GTK_TABLE (table1), scrolledwindow4, 2, 3, 2, 3,
+  gtk_table_attach (GTK_TABLE (table1), scrolledwindow4, 4, 5, 2, 3,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (GTK_FILL), 0, 0);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow4), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
@@ -153,11 +161,40 @@ SelectChaptersDialog::SelectChaptersDialog (const ustring& project, unsigned int
   gtk_container_add (GTK_CONTAINER (scrolledwindow4), treeviewverseto);
   gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (treeviewverseto), FALSE);
 
+  scrolledwindow5 = gtk_scrolled_window_new (NULL, NULL);
+  gtk_widget_show (scrolledwindow5);
+  gtk_table_attach (GTK_TABLE (table1), scrolledwindow5, 0, 2, 1, 3,
+                    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+                    (GtkAttachOptions) (GTK_FILL), 0, 0);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_SHADOW_IN);
+
+  treeviewportions = gtk_tree_view_new ();
+  gtk_widget_show (treeviewportions);
+  gtk_container_add (GTK_CONTAINER (scrolledwindow5), treeviewportions);
+  gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (treeviewportions), FALSE);
+
+  button_add = gtk_button_new_from_stock ("gtk-add");
+  gtk_widget_show (button_add);
+  gtk_table_attach (GTK_TABLE (table1), button_add, 0, 1, 3, 4,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+                    
+  shortcuts.stockbutton (button_add);
+
+  button_delete = gtk_button_new_from_stock ("gtk-delete");
+  gtk_widget_show (button_delete);
+  gtk_table_attach (GTK_TABLE (table1), button_delete, 1, 2, 3, 4,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+
+  shortcuts.stockbutton (button_delete);
+
   dialog_action_area1 = GTK_DIALOG (selectchaptersdialog)->action_area;
   gtk_widget_show (dialog_action_area1);
   gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area1), GTK_BUTTONBOX_END);
 
-  new InDialogHelp (selectchaptersdialog, NULL, NULL);
+  new InDialogHelp (selectchaptersdialog, &shortcuts, NULL);
 
   cancelbutton = gtk_button_new_from_stock ("gtk-cancel");
   gtk_widget_show (cancelbutton);
@@ -168,6 +205,10 @@ SelectChaptersDialog::SelectChaptersDialog (const ustring& project, unsigned int
   gtk_widget_show (okbutton);
   gtk_dialog_add_action_widget (GTK_DIALOG (selectchaptersdialog), okbutton, GTK_RESPONSE_OK);
   GTK_WIDGET_SET_FLAGS (okbutton, GTK_CAN_DEFAULT);
+
+  shortcuts.stockbutton (cancelbutton);
+  shortcuts.stockbutton (okbutton);
+  shortcuts.process ();
 
   // Store, column, selection.
   liststorechapterfrom = gtk_list_store_new (1, G_TYPE_STRING);
@@ -205,6 +246,15 @@ SelectChaptersDialog::SelectChaptersDialog (const ustring& project, unsigned int
   gtk_tree_view_append_column (GTK_TREE_VIEW (treeviewverseto), columnverseto);
   selectverseto = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeviewverseto));
   gtk_tree_selection_set_mode (selectverseto, GTK_SELECTION_SINGLE);
+
+  liststoreportions = gtk_list_store_new (1, G_TYPE_STRING);
+  gtk_tree_view_set_model (GTK_TREE_VIEW (treeviewportions), GTK_TREE_MODEL (liststoreportions));
+  g_object_unref (liststoreportions);
+  GtkCellRenderer *rendererportions = gtk_cell_renderer_text_new ();
+  columnportions = gtk_tree_view_column_new_with_attributes ("", rendererportions, "text", 0, NULL);
+  gtk_tree_view_append_column (GTK_TREE_VIEW (treeviewportions), columnportions);
+  selectportions = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeviewportions));
+  gtk_tree_selection_set_mode (selectportions, GTK_SELECTION_SINGLE);
 
   g_signal_connect ((gpointer) treeviewchapterfrom, "row_activated",
                     G_CALLBACK (on_treeviewchapterfrom_row_activated),
@@ -245,6 +295,18 @@ SelectChaptersDialog::SelectChaptersDialog (const ustring& project, unsigned int
   g_signal_connect ((gpointer) buttonall, "clicked",
                     G_CALLBACK (on_buttonall_clicked),
                     gpointer(this));
+  g_signal_connect ((gpointer) treeviewportions, "cursor_changed",
+                    G_CALLBACK (on_treeview1_cursor_changed),
+                    gpointer(this));
+  g_signal_connect ((gpointer) treeviewportions, "move_cursor",
+                    G_CALLBACK (on_treeview1_move_cursor),
+                    gpointer(this));
+  g_signal_connect ((gpointer) button_add, "clicked",
+                    G_CALLBACK (on_button_add_clicked),
+                    gpointer(this));
+  g_signal_connect ((gpointer) button_delete, "clicked",
+                    G_CALLBACK (on_button_delete_clicked),
+                    gpointer(this));
   g_signal_connect ((gpointer) okbutton, "clicked",
                     G_CALLBACK (on_okbutton_clicked),
                     gpointer(this));
@@ -255,8 +317,10 @@ SelectChaptersDialog::SelectChaptersDialog (const ustring& project, unsigned int
   gtk_widget_grab_focus (treeviewchapterfrom);
   gtk_widget_grab_default (okbutton);
   
-  // Set comboboxes.
-  portion_set (myportion);
+  // Set listview.
+  vector <ustring> portions = select_portion_get_portions (currentselection);
+  listview_set_strings (treeviewportions, liststoreportions, portions);
+  listview_focus_string (treeviewportions, portions[portions.size() - 1], false);
 }
 
 
@@ -278,21 +342,19 @@ void SelectChaptersDialog::on_okbutton_clicked (GtkButton *button, gpointer user
 }
 
 
-void SelectChaptersDialog::on_okbutton ()
+void SelectChaptersDialog::on_okbutton () 
 {
-  new_selection = select_portion_get_label (myproject, mybook,
-    convert_to_int (listview_get_active_string (treeviewchapterfrom)),
-    listview_get_active_string (treeviewversefrom),
-    convert_to_int (listview_get_active_string (treeviewchapterto)),
-    listview_get_active_string (treeviewverseto));
+  new_selection = select_portion_get_portion (listview_get_strings (treeviewportions));
+  if (new_selection.empty ())
+    new_selection = CHAPTER_VERSE_SELECTION_ALL;
 }
 
 
 void SelectChaptersDialog::on_fromchapter ()
 {
-  if (driving_combos)
+  if (driving_listviews)
     return;
-  // Fill verses combo.
+  // Fill verses listview.
   unsigned int from = convert_to_int (listview_get_active_string (treeviewchapterfrom));
   vector<ustring> verses = project_get_verses (myproject, mybook, from);
   listview_set_strings (treeviewversefrom, liststoreversefrom, verses);
@@ -302,6 +364,8 @@ void SelectChaptersDialog::on_fromchapter ()
   if (from > to) {
     listview_focus_string (treeviewchapterto, from, false);
   }
+  // Store new portion in the listview.
+  update_active_portion ();
 }
 
 
@@ -313,9 +377,9 @@ void SelectChaptersDialog::on_fromverse ()
 
 void SelectChaptersDialog::on_tochapter ()
 {
-  if (driving_combos)
+  if (driving_listviews)
     return;
-  // Fill verses combo.
+  // Fill verses listview.
   unsigned int to = convert_to_int (listview_get_active_string (treeviewchapterto));
   vector<ustring> verses = project_get_verses (myproject, mybook, to);
   listview_set_strings (treeviewverseto, liststoreverseto, verses);
@@ -325,6 +389,8 @@ void SelectChaptersDialog::on_tochapter ()
   if (to < from) {
     listview_focus_string (treeviewchapterfrom, to, false);
   }
+  // Store new portion in the listview.
+  update_active_portion ();
 }
 
 
@@ -352,10 +418,18 @@ void SelectChaptersDialog::portion_set (const ustring& selection)
   // Get values for the portion.
   unsigned int chapter_from, chapter_to;
   ustring verse_from, verse_to;
-  select_portion_get_values (myproject, mybook, selection, chapter_from, verse_from, chapter_to, verse_to);
+  {
+    vector <unsigned int> chapters_from, chapters_to;
+    vector <ustring> verses_from, verses_to;
+    select_portion_get_values (myproject, mybook, selection, chapters_from, verses_from, chapters_to, verses_to);
+    chapter_from = chapters_from[0];
+    chapter_to = chapters_to[0];
+    verse_from = verses_from[0];
+    verse_to = verses_to[0];
+  }
 
-  // Signal we're filling comboboxes.
-  driving_combos = true;
+  // Signal we're filling listviews.
+  driving_listviews = true;
   
   // Set the chapter combos.
   vector<unsigned int> chapters = project_get_chapters (myproject, mybook);
@@ -370,38 +444,45 @@ void SelectChaptersDialog::portion_set (const ustring& selection)
   listview_focus_string (treeviewversefrom, verse_from, false);
   listview_focus_string (treeviewverseto, verse_to, false);
   
-  // Ready filling combos.
-  driving_combos = false;
+  // Ready filling listviews.
+  driving_listviews = false;
 }
 
 
 void SelectChaptersDialog::verses_from_to (bool called_by_from)
 {
-  if (driving_combos)
+  // Bail out if progamatically setting the values.
+  if (driving_listviews)
     return;
-  // If from/to chapters are different, don't bother further.
+
+  // Only bother about verse clashes the from/to chapters are the same.
   unsigned int chapter = convert_to_int (listview_get_active_string (treeviewchapterfrom));
-  if (convert_to_int (listview_get_active_string (treeviewchapterto)) != chapter)
-    return;
-  // Ensure there's no clash between the verses "from" and "to".
-  vector<ustring> verses = project_get_verses (myproject, mybook, chapter);
-  ustring from = listview_get_active_string (treeviewversefrom);
-  ustring to = listview_get_active_string (treeviewverseto);
-  unsigned int from_offset = 0;
-  unsigned int to_offset = 0;
-  for (unsigned int i = 0; i < verses.size(); i++) {
-    if (verses[i] == from)
-      from_offset = i;
-    if (verses[i] == to)
-      to_offset = i;
+  if (convert_to_int (listview_get_active_string (treeviewchapterto)) == chapter) {
+
+    // Ensure there's no clash between the verses "from" and "to".
+    vector<ustring> verses = project_get_verses (myproject, mybook, chapter);
+    ustring from = listview_get_active_string (treeviewversefrom);
+    ustring to = listview_get_active_string (treeviewverseto);
+    unsigned int from_offset = 0;
+    unsigned int to_offset = 0;
+    for (unsigned int i = 0; i < verses.size(); i++) {
+      if (verses[i] == from)
+        from_offset = i;
+      if (verses[i] == to)
+        to_offset = i;
+    }
+    if (called_by_from) {
+      if (from_offset > to_offset)
+        listview_focus_string (treeviewverseto, verses[from_offset], false);
+    } else {
+      if (to_offset < from_offset)
+        listview_focus_string (treeviewversefrom, verses[to_offset], false);
+    }
+     
   }
-  if (called_by_from) {
-    if (from_offset > to_offset)
-      listview_focus_string (treeviewverseto, verses[from_offset], false);
-  } else {
-    if (to_offset < from_offset)
-      listview_focus_string (treeviewversefrom, verses[to_offset], false);
-  }
+
+  // Store new portion in the listview.
+  update_active_portion ();
 }
 
 
@@ -510,4 +591,82 @@ gboolean SelectChaptersDialog::on_treeviewverseto_key_release_event (GtkWidget *
 {
   ((SelectChaptersDialog *) user_data)->on_toverse ();
   return false;
+}
+
+
+
+void SelectChaptersDialog::on_treeview1_cursor_changed (GtkTreeView *treeview, gpointer user_data)
+{
+  ((SelectChaptersDialog *) user_data)->treeview1_cursor_changed ();
+}
+
+
+void SelectChaptersDialog::treeview1_cursor_changed ()
+{
+  // Set chapters and verses.
+  ustring portion = listview_get_active_string (treeviewportions);
+  portion_set (portion);
+}
+
+
+gboolean SelectChaptersDialog::on_treeview1_move_cursor (GtkTreeView *treeview, GtkMovementStep step, gint count, gpointer user_data)
+{
+  ((SelectChaptersDialog *) user_data)->treeview1_move_cursor ();
+  return false;
+}
+
+
+void SelectChaptersDialog::treeview1_move_cursor ()
+{
+}
+
+
+void SelectChaptersDialog::on_button_add_clicked (GtkButton *button, gpointer user_data)
+{
+  ((SelectChaptersDialog *) user_data)->button_add_clicked ();
+}
+
+
+void SelectChaptersDialog::button_add_clicked ()
+// This adds portion "All" to the ones now in the listview.
+{
+  vector <ustring> portions = listview_get_strings (treeviewportions);
+  portions.push_back (CHAPTER_VERSE_SELECTION_ALL);
+  listview_set_strings (treeviewportions, liststoreportions, portions);
+  listview_focus_string (treeviewportions, CHAPTER_VERSE_SELECTION_ALL);
+}
+
+
+void SelectChaptersDialog::on_button_delete_clicked (GtkButton *button, gpointer user_data)
+{
+  ((SelectChaptersDialog *) user_data)->button_delete_clicked ();
+}
+
+
+void SelectChaptersDialog::button_delete_clicked ()
+// This deletes the selected portion in the listview.
+{
+  list_view_erase_selection (treeviewportions);
+  vector <ustring> portions = listview_get_strings (treeviewportions);
+  if (portions.empty ()) return;
+  listview_focus_string (treeviewportions, portions[0], false);
+}
+
+
+ustring SelectChaptersDialog::portion_get ()
+// This returns the portion as set in the chapter and verse selectors.
+{
+  return select_portion_get_label (myproject, mybook,
+                                   convert_to_int (listview_get_active_string (treeviewchapterfrom)),
+                                   listview_get_active_string (treeviewversefrom),
+                                   convert_to_int (listview_get_active_string (treeviewchapterto)),
+                                   listview_get_active_string (treeviewverseto));
+}
+
+
+void SelectChaptersDialog::update_active_portion ()
+{
+  unsigned int index = listview_get_selection_offset (treeviewportions);
+  if (index < 0) return;
+  listview_set_row (treeviewportions, liststoreportions, index, portion_get ());
 }

@@ -54,14 +54,17 @@ protected:
   GtkWidget *treeviewchapterto;
   GtkWidget *scrolledwindow4;
   GtkWidget *treeviewverseto;
+  GtkWidget *scrolledwindow5;
+  GtkWidget *treeviewportions;
+  GtkWidget *button_add;
+  GtkWidget *button_delete;
   GtkWidget *dialog_action_area1;
   GtkWidget *cancelbutton;
   GtkWidget *okbutton;
 private:
   ustring myproject;
   unsigned int mybook;
-  ustring myportion;
-  bool driving_combos;
+  bool driving_listviews;
   static void on_okbutton_clicked (GtkButton *button, gpointer user_data);
   void on_okbutton ();
   void on_fromchapter ();
@@ -87,6 +90,7 @@ private:
   static gboolean on_treeviewverseto_button_release_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data);
   static gboolean on_treeviewverseto_key_release_event (GtkWidget *widget, GdkEventKey *event, gpointer user_data);
   void portion_set (const ustring& selection);
+  ustring portion_get ();
   void verses_from_to (bool called_by_from);
   GtkTreeViewColumn *columnchapterfrom;
   GtkTreeSelection *selectchapterfrom;
@@ -100,6 +104,18 @@ private:
   GtkTreeViewColumn *columnverseto;
   GtkTreeSelection *selectverseto;
   GtkListStore * liststoreverseto;
+  static void on_treeview1_cursor_changed (GtkTreeView *treeview, gpointer user_data);
+  void treeview1_cursor_changed ();
+  static gboolean on_treeview1_move_cursor (GtkTreeView *treeview, GtkMovementStep step, gint count, gpointer user_data);
+  void treeview1_move_cursor ();
+  static void on_button_add_clicked (GtkButton *button, gpointer user_data);
+  void button_add_clicked ();
+  static void on_button_delete_clicked (GtkButton *button, gpointer user_data);
+  void button_delete_clicked ();
+  GtkTreeViewColumn *columnportions;
+  GtkTreeSelection *selectportions;
+  GtkListStore * liststoreportions;
+  void update_active_portion ();
 };
 
 
