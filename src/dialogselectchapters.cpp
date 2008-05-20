@@ -408,7 +408,8 @@ void SelectChaptersDialog::on_buttonall_clicked (GtkButton *button, gpointer use
 
 void SelectChaptersDialog::on_all ()
 {
-  portion_set (CHAPTER_VERSE_SELECTION_ALL); 
+  portion_set (CHAPTER_VERSE_SELECTION_ALL);
+  update_active_portion ();
 }
 
 

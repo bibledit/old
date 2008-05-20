@@ -27,6 +27,7 @@
 #include "usfm2xslfo_utils.h"
 #include "progresswindow.h"
 #include "notecaller.h"
+#include "portion_utils.h"
 
 
 class Usfm2XslFo
@@ -58,7 +59,7 @@ public:
   void set_print_date ();
   void set_include_full_references_with_notes ();
 
-  void set_print_portion (const XslFoPortion& portion);
+  void add_print_portion (unsigned int book_in, vector<unsigned int> chapters_from_in, const vector<ustring>& verses_from_in, vector<unsigned int> chapters_to_in, const vector <ustring>& verses_to_in);
 
   void process ();
 
@@ -162,16 +163,14 @@ private:
   bool include_full_references_with_notes;  
   void optionally_add_full_references (ustring& line, Usfm2XslFoStyle * stylepointer);  
   
-  // Portion selection.
-  XslFoPortion portions;
-  bool print_this_portion;
+  // Reference tracking and portion selection.
   unsigned int book;
   unsigned int chapter;
   ustring verse;
-  void portion_new_book (unsigned int book_in);
-  void portion_new_chapter (unsigned int chapter_in);
-  void portion_new_verse (const ustring& verse_in);
-  void portion_check ();
+  void set_new_book (unsigned int book_in);
+  void set_new_chapter (unsigned int chapter_in);
+  void set_new_verse (const ustring& verse_in);
+  WithinReferencesRange inrange;
   
   // Page breaks.
   unsigned int id_page_break_count;

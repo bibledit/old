@@ -102,15 +102,12 @@ void PrintProject::print ()
   }
   if (settings->genconfig.printdate_get ()) usfm2xslfo.set_print_date ();
   for (unsigned int i = 0; i < scriptureportions->books.size(); i++) {
-    if (scriptureportions->portions[i] == CHAPTER_VERSE_SELECTION_ALL)
-      continue;
     vector <unsigned int> chapters_from, chapters_to;
     vector <ustring> verses_from, verses_to;
     select_portion_get_values (portionproject, books_english_to_id (scriptureportions->books[i]),
                                scriptureportions->portions[i],
                                chapters_from, verses_from, chapters_to, verses_to);
-    XslFoPortion portion (books_english_to_id (scriptureportions->books[i]), chapters_from, verses_from, chapters_to, verses_to);
-    usfm2xslfo.set_print_portion (portion);
+    usfm2xslfo.add_print_portion (books_english_to_id (scriptureportions->books[i]), chapters_from, verses_from, chapters_to, verses_to);
   }
   
   // Start off with inserting any remarks.

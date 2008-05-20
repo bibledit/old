@@ -146,20 +146,6 @@ public:
 };
 
 
-class XslFoPortion
-{
-public:
-  XslFoPortion ();
-  XslFoPortion (unsigned int book_in, vector<unsigned int> chapters_from_in, const vector<ustring>& verses_from_in, vector<unsigned int> chapters_to_in, const vector <ustring>& verses_to_in);
-  unsigned int book;
-  vector <unsigned int> chapters_from;
-  vector <ustring> verses_from;
-  vector <unsigned int> chapters_to;
-  vector <ustring> verses_to;
-  vector <bool> within_portion_flags;
-};
-
-
 class ChapterLabel
 {
 public:

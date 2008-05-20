@@ -35,4 +35,28 @@ vector <ustring> select_portion_get_portions (const ustring& portion);
 ustring select_portion_get_portion (const vector <ustring>& portions);
 
 
+class WithinReferencesRange
+{
+public:
+  WithinReferencesRange ();
+  WithinReferencesRange (int dummy);
+  void add_portion (unsigned int book_in, vector<unsigned int> chapters_from_in, const vector<ustring>& verses_from_in, vector<unsigned int> chapters_to_in, const vector <ustring>& verses_to_in);
+  void set_book (unsigned int book);
+  void set_chapter (unsigned int chapter);
+  void set_verse (const ustring& verse);
+  bool in_range ();
+  void verify_range ();
+private:
+  vector <unsigned int> books;
+  vector <unsigned int> chapters_from;
+  vector <ustring>      verses_from;
+  vector <unsigned int> chapters_to;
+  vector <ustring>      verses_to;
+  unsigned int mybook;
+  unsigned int mychapter;
+  ustring myverse;
+  vector <bool> in_range_flags;
+};
+
+
 #endif

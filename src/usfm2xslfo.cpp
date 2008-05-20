@@ -35,7 +35,6 @@
 #include "settings.h"
 #include "referenceutils.h"
 #include "projectutils.h"
-#include "portion_utils.h"
 
 
 Usfm2XslFo::Usfm2XslFo (const ustring& pdfoutputfile)
@@ -64,7 +63,6 @@ Usfm2XslFo::Usfm2XslFo (const ustring& pdfoutputfile)
   progress_event_id = g_timeout_add_full (G_PRIORITY_DEFAULT, 500, GSourceFunc (signal_progress_timeout), gpointer(this), NULL);
   cancel = false;
   printversenumber = true;
-  print_this_portion = true;
   book = 0;
   chapter = 0;
   verse = "0";
@@ -357,7 +355,7 @@ void Usfm2XslFo::convert_from_usfm_to_xslfo ()
                 ustring id_line = get_erase_code_till_next_marker (usfm_line, 0, marker_length, true);
                 if (id_line.length () >= 3) {
                   id_line = id_line.substr (0, 3);
-                  portion_new_book (books_paratext_to_id (id_line));
+                  set_new_book (books_paratext_to_id (id_line));
                 }
                 note_callers_new_book ();
                 // Before writing data of the new book, see whether to dump 
@@ -423,7 +421,7 @@ void Usfm2XslFo::convert_from_usfm_to_xslfo ()
               }
               case u2xtChapterNumber:
               {
-                portion_new_chapter (convert_to_int (get_erase_code_till_next_marker (usfm_line, 0, marker_length, true)));
+                set_new_chapter (convert_to_int (get_erase_code_till_next_marker (usfm_line, 0, marker_length, true)));
                 note_callers_new_chapter ();
                 output_chapter_number_try_normal (usfm_line, stylepointer, fo_block_style, fo_inline_style, marker_length, book);
                 break;
@@ -434,7 +432,7 @@ void Usfm2XslFo::convert_from_usfm_to_xslfo ()
                 usfm_line.erase (0, marker_length);
                 size_t position = usfm_line.find (" ");
                 position = CLAMP (position, 0, usfm_line.length());
-                portion_new_verse (usfm_line.substr (0, position));
+                set_new_verse (usfm_line.substr (0, position));
                 usfm_line.erase (0, position);
                 output_verse_number (stylepointer, fo_block_style, fo_inline_style, marker_length);
                 break;
@@ -1070,7 +1068,7 @@ It does the administration that starting the paragraph requires.
   line.erase (0, marker_length);
   
   // If no printing, bail out.
-  if (!print_this_portion) return;
+  if (!inrange.in_range()) return;
     
   // Close possible inline and block styles.
   close_possible_fo_inline (fo_inline_style);
@@ -1102,7 +1100,7 @@ the lines gives enough markup information again to be handled properly.
 */
 {
   // Ensure that a fo:block is open, if we print this portion.
-  if (print_this_portion) {
+  if (inrange.in_range()) {
     ensure_fo_block_open (fo_block_style);
     xmlTextWriterWriteFormatString (writer, line.substr (0, 1).c_str());
   }    
@@ -1294,7 +1292,7 @@ void Usfm2XslFo::output_chapter_number_try_normal (ustring& line, Usfm2XslFoStyl
 // Else it stores the data needed for outputting it later on at the first verse.
 {
   // Bail out of this portion should not be printed.
-  if (!print_this_portion) return;
+  if (!inrange.in_range()) return;
     
   // Close possible inline and block styles.  
   close_possible_fo_inline (fo_inline_style);
@@ -1508,7 +1506,7 @@ void Usfm2XslFo::output_verse_number (Usfm2XslFoStyle * stylepointer, Usfm2XslFo
 // Writes the verse number.
 {
   // Bail out if this portion is not printed.
-  if (!print_this_portion) return;
+  if (!inrange.in_range()) return;
     
   // Close possible inline style and ensure that a block is open.
   close_possible_fo_inline (fo_inline_style);
@@ -1550,7 +1548,7 @@ It does the administration that it requires.
   line.erase (0, marker_length);
   
   // Bail out if the portion should not be printed.
-  if (!print_this_portion) return;
+  if (!inrange.in_range()) return;
     
   // Ensure that a fo:block is open.
   ensure_fo_block_open (fo_block_style);
@@ -1613,7 +1611,7 @@ void Usfm2XslFo::output_text_table (ustring& line, Usfm2XslFoStyle * & fo_block_
   if (table_styles.empty ()) return;
   
   // Bail out if we're not to print this portion.
-  if (!print_this_portion) return;
+  if (!inrange.in_range()) return;
 
   
   
@@ -1830,7 +1828,7 @@ void Usfm2XslFo::output_text_note (ustring& line, Usfm2XslFoStyle * stylepointer
   line.erase (0, endmarkerpos + endmarker.length ());
   
   // Bail out if we're not to print this portion.
-  if (!print_this_portion) return;
+  if (!inrange.in_range()) return;
     
   // Bail out if this notes is not to be printed.
   if (!stylepointer->print) return;
@@ -2168,68 +2166,34 @@ void Usfm2XslFo::note_callers_new_chapter ()
 }
 
 
-void Usfm2XslFo::set_print_portion (const XslFoPortion& portion)
-// Sets the portion to be printed.
+void Usfm2XslFo::add_print_portion (unsigned int book_in, vector<unsigned int> chapters_from_in, const vector<ustring>& verses_from_in, vector<unsigned int> chapters_to_in, const vector <ustring>& verses_to_in)
+// Adds a portion to be printed.
 // If no portions was set, everything will be printed.
 {
-  portions = portion;
+  inrange.add_portion (book_in, chapters_from_in, verses_from_in, chapters_to_in, verses_to_in);
 }
 
 
-void Usfm2XslFo::portion_new_book (unsigned int book_in)
+void Usfm2XslFo::set_new_book (unsigned int book_in)
 {
   book = book_in;
-  portion_new_chapter (0);
+  set_new_chapter (0);
+  inrange.set_book (book);
 }
 
 
-void Usfm2XslFo::portion_new_chapter (unsigned int chapter_in)
+void Usfm2XslFo::set_new_chapter (unsigned int chapter_in)
 {
   chapter = chapter_in;
-  portion_new_verse ("0");
+  set_new_verse ("0");
+  inrange.set_chapter (chapter);
 }
 
 
-void Usfm2XslFo::portion_new_verse (const ustring& verse_in)
+void Usfm2XslFo::set_new_verse (const ustring& verse_in)
 {
   verse = verse_in;
-  portion_check ();
-}
-
-
-void Usfm2XslFo::portion_check ()
-{
-  // Go through the available portions.
-  for (unsigned int i = 0; i < portions.chapters_from.size (); i++) {
-
-    // Proceed if the book matches.
-    if (portions.book == book) {
-      // Compare on chapter.
-      if (chapter < portions.chapters_from[i]) {
-        portions.within_portion_flags[i] = false;
-      } else if (chapter > portions.chapters_to[i]) {
-        portions.within_portion_flags[i] = false;
-      } else {
-        // At this stage the chapter is within the range of chapters to be printed.
-        unsigned int vs = convert_to_int (verse);
-        if (chapter == portions.chapters_from[i]) {
-          unsigned int vs_from = convert_to_int (portions.verses_from[i]);
-          portions.within_portion_flags[i] = (vs >= vs_from);
-        }
-        if (chapter == portions.chapters_to[i]) {
-          unsigned int vs_to = convert_to_int (portions.verses_to[i]);
-          if (vs > vs_to) portions.within_portion_flags[i] = false;
-        }
-      }
-    }
-  }
-
-  // Find out whether the chapter:verse is within any portion.
-  print_this_portion = false;
-  for (unsigned int i = 0; i < portions.chapters_from.size (); i++) {
-    if (portions.within_portion_flags[i])
-      print_this_portion = true;
-  }
+  inrange.set_verse (verse);
 }
 
 
@@ -2642,7 +2606,7 @@ void Usfm2XslFo::buffer_endnote (ustring& line, Usfm2XslFoStyle * stylepointer, 
   line.erase (0, endmarkerpos + endmarker.length ());
   
   // Bail out if we're not to print this portion.
-  if (!print_this_portion) return;
+  if (!inrange.in_range()) return;
     
   // Bail out if this note is not to be printed.
   if (!stylepointer->print) return;
@@ -2672,7 +2636,7 @@ void Usfm2XslFo::output_text_insertion_deletion (ustring& line, Usfm2XslFoStyle 
   line.erase (0, endmarkerpos + endmarker.length ());
   
   // Bail out if we're not to print this portion.
-  if (!print_this_portion) return;
+  if (!inrange.in_range()) return;
     
   // Bail out if there is no raw text.
   if (rawtext.empty ()) return;

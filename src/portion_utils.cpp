@@ -148,3 +148,106 @@ ustring select_portion_get_portion (const vector <ustring>& portions)
   }
   return portion;
 }
+
+
+WithinReferencesRange::WithinReferencesRange ()
+{
+}
+
+
+WithinReferencesRange::WithinReferencesRange (int dummy)
+{
+}
+
+
+void WithinReferencesRange::add_portion (unsigned int book_in, vector<unsigned int> chapters_from_in, const vector<ustring>& verses_from_in, vector<unsigned int> chapters_to_in, const vector <ustring>& verses_to_in)
+{
+  // Verify the consistency of the portion.
+  if (chapters_from_in.size () != verses_from_in.size ()) return;
+  if (chapters_from_in.size () != chapters_to_in.size ()) return;
+  if (chapters_from_in.size () != verses_to_in.size ()) return;
+
+  // Add this portion to any existing ones.
+  for (unsigned int i = 0; i < chapters_from_in.size (); i++) {
+    books.push_back (book_in);
+    chapters_from.push_back (chapters_from_in[i]);
+    verses_from.push_back (verses_from_in[i]);
+    chapters_to.push_back (chapters_to_in[i]);
+    verses_to.push_back (verses_to_in[i]);
+    in_range_flags.push_back (false);
+  }
+  
+  // Initialize variables.
+  mybook = 0;
+  mychapter = 0;
+}
+
+
+void WithinReferencesRange::set_book (unsigned int book)
+{
+  mybook = book;
+  set_chapter (0);
+}
+
+
+void WithinReferencesRange::set_chapter (unsigned int chapter)
+{
+  mychapter = chapter;
+  set_verse ("0");
+}
+
+
+void WithinReferencesRange::set_verse (const ustring& verse)
+{
+  myverse = verse;
+  verify_range ();
+}
+
+
+void WithinReferencesRange::verify_range ()
+// Verify whether the current reference is within the various ranges.
+// Set internal flags accordingly.
+{
+  // Go through the available portions.
+  for (unsigned int i = 0; i < chapters_from.size (); i++) {
+    // Proceed if the book matches.
+    if (books[i] == mybook) {
+      // Compare on chapter.
+      if (mychapter < chapters_from[i]) {
+        in_range_flags[i] = false;
+      } else if (mychapter > chapters_to[i]) {
+        in_range_flags[i] = false;
+      } else {
+        // At this stage the chapter is within the range of chapters to be printed.
+        unsigned int vs = convert_to_int (myverse);
+        if (mychapter == chapters_from[i]) {
+          unsigned int vs_from = convert_to_int (verses_from[i]);
+          in_range_flags[i] = (vs >= vs_from);
+        }
+        if (mychapter == chapters_to[i]) {
+          unsigned int vs_to = convert_to_int (verses_to[i]);
+          if (vs > vs_to) in_range_flags[i] = false;
+        }
+      }
+    }
+  }
+}
+
+
+bool WithinReferencesRange::in_range ()
+// Return true if the current reference is within the various ranges.
+{
+  for (unsigned int i = 0; i < chapters_from.size (); i++) {
+    if (in_range_flags[i]) {
+      return true;
+    }
+  }
+  return false;
+}
+
+
+/*
+Todo we need an object that looks whether we're in the portion.
+For general use.
+Apply to the parallel Bible. Try out.
+*/

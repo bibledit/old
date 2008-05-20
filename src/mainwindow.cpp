@@ -7390,3 +7390,9 @@ See from Yelp, and from Epiphany, how they do it on fc9.
 Whether to implement our own gtkmozembed code.
 See the preferred linking strategy from xulrunner, how to link.
 */
+
+
+/*
+Todo to find a way of importing typed documents in the usfm format.
+For Shona Bible.
+*/

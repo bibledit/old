@@ -68,7 +68,7 @@ void view_parallel_bible_pdf ()
   // References to print.
   vector <Reference> references;
 
-  // Variables for portion selection. todo multiple portions don't work yet.
+  // Variables for portion selection. Todo multiple portions don't work yet.
   bool portion_print = false;
   bool portion_print_next_verse_off = false;
   unsigned int portion_chapter_from, portion_chapter_to;
