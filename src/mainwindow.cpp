@@ -7391,10 +7391,28 @@ Whether to implement our own gtkmozembed code.
 See the preferred linking strategy from xulrunner, how to link.
 Installing epiphany on fc9.
 The ./configure --help | less gives a few clues.
+When doing ./configure --with-gecko=libxul-embedding, epiphany gets a bit further.
+
 */
 
 
 /*
 Todo to find a way of importing typed documents in the usfm format.
 For Shona Bible.
+
+Thoughts:
+A textview where the text is going to be pasted into, raw, as it is. Shows raw usfm text.
+Then there are a number of controls for the various tasks.
+A control to set the book.
+A control to set the chapter.
+A control to mark certain text as being verse x.
+Control to discover verses.
+Control to discover headings.
+
+This system also allows import from wikis, etc.
+
+If it is going to overwrite an existing chapter, another window ought to come up
+that has controls to handle the merge. Changes can be approved one by one, or wholesale.
+
+
 */

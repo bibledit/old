@@ -83,7 +83,6 @@ void git_resolve_conflict_chapter (const ustring& project, unsigned int book, un
 ustring git_mine_conflict_marker ();
 void git_log_read (const ustring& directory, vector <ustring>& commits, vector <unsigned int>& seconds, const ustring& path);
 ustring git_log_pick_commit_at_date_time (const vector <ustring>& commits, vector <unsigned int>& seconds, unsigned int second);
-unsigned int git_log_date_time_at_revision (const ustring& project, unsigned int revision);
 bool git_log_extract_date_time (const ustring& line, int& year, int& month, int& day, int& hour, int& minute, int& second);
 void git_get_chapters_changed_since (const ustring& project, int second, vector <unsigned int>& books, vector <unsigned int>& chapters);
 Reference git_execute_retrieve_reference ();

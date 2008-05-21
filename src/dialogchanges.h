@@ -61,6 +61,7 @@ private:
   References * myreferences;
   ustring temporal_project;
   void view_local_changes (bool changes_since_last_review);
+  unsigned int oldest_commit ();
 };
 
 

@@ -216,11 +216,11 @@ void ChangesDialog::gui ()
   unsigned int seconds;
   // Fetch seconds since last review. 
   // If that is zero, that means, uninitialized, take the date/time from
-  // the first revision in the git repository.
+  // the oldest revision in the git repository.
   seconds = projectconfig->changes_last_review_get ();
   if (seconds == 0) {
-    seconds = git_log_date_time_at_revision (settings->genconfig.project_get(), 1);
-    seconds--;
+    seconds = oldest_commit ();
+    if (seconds == 0) seconds--;
     projectconfig->changes_last_review_set (seconds);
   }
   // Set label to the human readable date and time.
@@ -230,8 +230,8 @@ void ChangesDialog::gui ()
   // Same story for the seconds to view the differences since.
   seconds = projectconfig->changes_since_get ();
   if (seconds == 0) {
-    seconds = git_log_date_time_at_revision (settings->genconfig.project_get(), 1);
-    seconds--;
+    seconds = oldest_commit ();
+    if (seconds == 0) seconds--;
     projectconfig->changes_since_set (seconds);
   }
   s = date_time_seconds_human_readable (seconds, true);
@@ -322,4 +322,19 @@ void ChangesDialog::view_local_changes (bool changes_since_last_review)
   if (changes_since_last_review) {
     projectconfig->changes_last_review_set (date_time_seconds_get_current ());    
   }  
+}
+
+
+unsigned int ChangesDialog::oldest_commit ()
+// Reads the oldest commit in the git repository.
+{
+  unsigned int second = 0;
+  extern Settings * settings;
+  vector <ustring> commits;
+  vector <unsigned int> seconds;
+  git_log_read (project_data_directory_project (settings->genconfig.project_get()), commits, seconds, "");
+  if (!seconds.empty ()) {
+    second = seconds[seconds.size()-1];
+  }
+  return second;
 }

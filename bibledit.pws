@@ -11,7 +11,7 @@ filter.file.ignore.hidden=0
 filter.dir.ignore.hidden=0
 
 [filenumbers]
-0=79
+0=7395
 1=7399
 2=105
 3=62
@@ -45,13 +45,7 @@ filter.dir.ignore.hidden=0
 14=
 
 [filelist]
-0=/home/teus/documents/dev/bibledit/src/print_parallel_bible.cpp
-1=/home/teus/documents/dev/bibledit/src/mainwindow.cpp
-2=/home/teus/documents/dev/bibledit/src/printproject.cpp
-3=/home/teus/documents/dev/bibledit/src/usfm2xslfo.h
-4=/home/teus/documents/dev/bibledit/src/usfm2xslfo.cpp
-5=/home/teus/documents/dev/bibledit/src/portion_utils.cpp
-6=/home/teus/documents/dev/bibledit/src/portion_utils.h
+0=/home/teus/documents/dev/bibledit/src/mainwindow.cpp
 
 [Project Tree]
 0=0

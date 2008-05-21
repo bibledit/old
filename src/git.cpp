@@ -653,36 +653,6 @@ commit is given first, and the older ones following, for example:
 }
 
 
-unsigned int git_log_date_time_at_revision (const ustring& project, unsigned int revision)
-// Get the date/time at the revision for the project.
-{
-  ustring workingdirectory = project_data_directory_project (project);
-  GwSpawn spawn ("svn");
-  spawn.workingdirectory (workingdirectory);
-  spawn.arg ("log");
-  spawn.arg ("-r");
-  spawn.arg (convert_to_string (revision));
-  spawn.arg ("--non-interactive");
-  spawn.progress ("Accessing log", false);
-  spawn.read ();
-  spawn.run ();
-  unsigned int seconds = 0;
-  if (spawn.standardout.size() > 1) {
-    for (unsigned int i = 0; i < spawn.standardout.size(); i++) {
-      int year, month, day, hour, minute, second;
-      if (git_log_extract_date_time (spawn.standardout[i], year, month, day, hour, minute, second)) {
-        int julian_day = date_time_julian_day_get_parse (year, month, day);
-        seconds = date_time_julian_to_seconds (julian_day);
-        seconds += 3600 * hour;
-        seconds += 60 * minute;
-        seconds += second;        
-      }
-    }  
-  }
-  return seconds;
-}
-
-
 bool git_log_extract_date_time (const ustring& line, int& year, int& month, int& day, int& hour, int& minute, int& second)
 /* 
 Reads a line of "svn log" and extract the date and time from it.
