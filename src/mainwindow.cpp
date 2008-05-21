@@ -5047,15 +5047,6 @@ sets up the edit screen.
       gtk_text_buffer_set_text (note_editor->textbuffer_note, note.c_str(), -1);
       gtk_text_buffer_set_modified (note_editor->textbuffer_note, false);
       gtk_text_buffer_set_modified (note_editor->textbuffer_references, false);
-      if (newnote) {
-        // Select the informative text so that is disappears as soon as the user
-        // starts to type.
-        GtkTextIter start;
-        GtkTextIter end;
-        gtk_text_buffer_get_bounds (note_editor->textbuffer_note, &start, &end);
-        gtk_text_buffer_move_mark_by_name (note_editor->textbuffer_note, "insert", &start);
-        gtk_text_buffer_move_mark_by_name (note_editor->textbuffer_note, "selection_bound", &end);
-      }
       /*
       Fill the category combo.
       */

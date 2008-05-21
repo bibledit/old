@@ -131,7 +131,7 @@ void decode_reference (const ustring & reference, ustring & book, ustring & chap
 }
 
 
-bool reference_discover_internal (unsigned int oldbook, unsigned int oldchapter, 
+bool reference_discover_internal (unsigned int oldbook, unsigned int oldchapter,
                                   const ustring& oldverse,  const ustring& reference,
                                   unsigned int& newbook, unsigned int& newchapter, ustring& newverse)
 /*
@@ -164,12 +164,18 @@ book, chapter 21 verse 10. And so forth.
   // Divide the response in parts.
   // A special algorithm ensures that the book is properly formed.
   // Think of "1 Corinthians 10:1" and "Song of Songs".
+  // Deal with verses like 1-10, and 1,2, and 1a-3b, and so on.
   vector <ustring> input;
   {
     Parse parse (response);
     int highest_text_offset = -1;
     for (unsigned int i = 0; i < parse.words.size (); i++) {
-      if (number_in_string (parse.words[i]) != parse.words[i]) {
+      ustring vs (parse.words[i]);
+      replace_text (vs, "a", "");
+      replace_text (vs, "b", "");
+      replace_text (vs, "-", "");
+      replace_text (vs, ",", "");
+      if (number_in_string (vs) != vs) {
         highest_text_offset = i;
       }
     }
