@@ -237,17 +237,15 @@ void WithinReferencesRange::verify_range ()
 bool WithinReferencesRange::in_range ()
 // Return true if the current reference is within the various ranges.
 {
-  for (unsigned int i = 0; i < chapters_from.size (); i++) {
+  // If no ranges are given, it is considered "in range".
+  if (in_range_flags.empty ()) 
+    return true;
+  // Check from the flags whether we are in range.
+  for (unsigned int i = 0; i < in_range_flags.size (); i++) {
     if (in_range_flags[i]) {
       return true;
     }
   }
+  // Out of range.
   return false;
 }
-
-
-/*
-Todo we need an object that looks whether we're in the portion.
-For general use.
-Apply to the parallel Bible. Try out.
-*/

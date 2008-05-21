@@ -7385,10 +7385,12 @@ void MainWindow::on_print ()
 
 
 /*
-Todo Fedora Core 9 has no gtkmozembed anymore.
+Todo Fedora Core 9 
 See from Yelp, and from Epiphany, how they do it on fc9.
 Whether to implement our own gtkmozembed code.
 See the preferred linking strategy from xulrunner, how to link.
+Installing epiphany on fc9.
+The ./configure --help | less gives a few clues.
 */
 
 

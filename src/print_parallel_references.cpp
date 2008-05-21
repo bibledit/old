@@ -49,7 +49,7 @@
 
 
 void view_parallel_references_pdf (ProjectMemory& main_project,
-                                  vector <ustring> * extra_projects,
+                                   vector <ustring> * extra_projects,
                                    vector <Reference> references,
                                    bool keep_verses_together_within_page,
                                    vector<ustring> * remarks,

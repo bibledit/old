@@ -68,41 +68,37 @@ void view_parallel_bible_pdf ()
   // References to print.
   vector <Reference> references;
 
-  // Variables for portion selection. Todo multiple portions don't work yet.
-  bool portion_print = false;
-  bool portion_print_next_verse_off = false;
-  unsigned int portion_chapter_from, portion_chapter_to;
-  ustring portion_verse_from, portion_verse_to;
+  // Portion selection.
+  WithinReferencesRange inrange;
   {
     vector <unsigned int> portions_chapter_from, portions_chapter_to;
     vector <ustring> portions_verse_from, portions_verse_to;
     select_portion_get_values (settings->genconfig.project_get(), settings->genconfig.book_get (), settings->genconfig.parallel_bible_chapters_verses_get (),
                                portions_chapter_from, portions_verse_from, portions_chapter_to, portions_verse_to);
-    portion_chapter_from = portions_chapter_from[0];
-    portion_chapter_to = portions_chapter_to[0];
-    portion_verse_from = portions_verse_from[0];
-    portion_verse_to = portion_verse_to[0];
+    inrange.add_portion (settings->genconfig.book_get (), portions_chapter_from, portions_verse_from, portions_chapter_to, portions_verse_to);
+    inrange.set_book (settings->genconfig.book_get ());
   }
+  
   // Go through the chapters.
   for (unsigned int ch = 0; ch < chapters.size(); ch++) {
-    // Update progress bar.
+
     progresswindow.iterate();
+    
+    inrange.set_chapter (chapters[ch]);
+    
     // Go through the verse numbers in this chapter.
     vector<ustring> verses = project_get_verses (settings->genconfig.project_get(), settings->genconfig.book_get (), chapters[ch]);
     for (unsigned int vs = 0; vs < verses.size(); vs++) {
-      // See whether this chapter.verse is within our portion to print.
-      if ((chapters[ch] == portion_chapter_from) && (verses[vs] == portion_verse_from))
-        portion_print = true;
-      if (portion_print_next_verse_off)
-        portion_print = false;
-      if ((chapters[ch] == portion_chapter_to) && (verses[vs] == portion_verse_to))
-        portion_print_next_verse_off = true;
-      if (!portion_print)
+      
+      inrange.set_verse (verses[vs]);
+      if (!inrange.in_range ())
         continue;
+      
       // See whether to print verses zero.
       if (!settings->genconfig.parallel_bible_include_verse_zero_get ())
         if (verses[vs] == "0")
           continue;
+        
       // Store the reference.
       Reference reference (settings->genconfig.book_get (), chapters[ch], verses[vs]);
       references.push_back (reference);
@@ -114,7 +110,7 @@ void view_parallel_bible_pdf ()
 
   // Do the printing.
   ProjectMemory projectmemory (settings->genconfig.project_get(), true);
-  view_parallel_references_pdf (projectmemory, 
+  view_parallel_references_pdf (projectmemory,
                                 &project_names, references, 
                                 settings->genconfig.parallel_bible_keep_verses_together_get (), 
                                 &messages, false);
