@@ -428,11 +428,12 @@ void ImportRawTextDialog::on_okbutton ()
   CategorizeChapterVerse ccv (lines);
   project_store_chapter (project, book, ccv);
   
-  // Save book and increased chapter.
+  // Save book and increased chapter index.
   extern Settings * settings;
-  settings->session.import_unstructured_text_book = book;
-  chapter++;
-  settings->session.import_unstructured_text_chapter = chapter;
+  settings->session.import_unstructured_text_book = combobox_get_active_index (combobox_book);
+  int ch = combobox_get_active_index (combobox_chapter);
+  ch++;
+  settings->session.import_unstructured_text_chapter = ch;
 }
 
 
