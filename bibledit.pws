@@ -11,11 +11,11 @@ filter.file.ignore.hidden=0
 filter.dir.ignore.hidden=0
 
 [filenumbers]
-0=7395
-1=7399
-2=105
-3=62
-4=2169
+0=4472
+1=31
+2=83
+3=302
+4=456
 5=203
 6=48
 7=8000
@@ -46,6 +46,9 @@ filter.dir.ignore.hidden=0
 
 [filelist]
 0=/home/teus/documents/dev/bibledit/src/mainwindow.cpp
+1=/home/teus/documents/dev/bibledit/src/versification.h
+2=/home/teus/documents/dev/bibledit/src/dialogimportrawtext.h
+3=/home/teus/documents/dev/bibledit/src/dialogimportrawtext.cpp
 
 [Project Tree]
 0=0

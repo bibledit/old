@@ -92,6 +92,9 @@ public:
   bool bnmu_add_verse;
   ustring bnmu_verse_prefix;
   ustring bnmu_verse_suffix;
+  // Import unstructured text.
+  int import_unstructured_text_book;
+  int import_unstructured_text_chapter;
 private:
 };
 

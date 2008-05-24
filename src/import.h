@@ -49,6 +49,7 @@ vector<ustring> bibleworks_file_divide (const ustring& inputfile);
 bool mechon_mamre_copyright (const ustring& inputfile);
 vector<ustring> mechon_mamre_produce_master_files (const vector<ustring>& inputfiles);
 ustring import_type_human_readable (ImportType importtype);
+void import_dialog_selector (bool& structured, bool& raw);
 
 
 #endif

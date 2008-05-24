@@ -133,6 +133,8 @@
 #include "shutdown.h"
 #include "dialogfilters.h"
 #include "dialogradiobutton.h"
+#include "import.h"
+#include "dialogimportrawtext.h"
 
 
 /*
@@ -2919,20 +2921,24 @@ void MainWindow::on_import1_activate (GtkMenuItem * menuitem, gpointer user_data
 
 void MainWindow::menu_import ()
 {
-  ImportTextDialog dialog (0);
-  int result = dialog.run ();
-  if (result == GTK_RESPONSE_OK) {
-    extern Settings * settings;
-    ustring prj = settings->genconfig.project_get();
-    close ();
-    editorsgui->open (prj, 1);
+  bool structured, raw;
+  import_dialog_selector (structured, raw);
+  if (structured) {
+    ImportTextDialog dialog (0);
+    if (dialog.run () != GTK_RESPONSE_OK) return;
   }
+  if (raw) {
+    ImportRawTextDialog dialog (0);
+    if (dialog.run () != GTK_RESPONSE_OK) return;    
+  }
+  extern Settings * settings;
+  ustring prj = settings->genconfig.project_get();
+  close ();
+  editorsgui->open (prj, 1);
 }
 
 
-gboolean MainWindow::on_mainwindow_delete_event (GtkWidget       *widget,
-                                        GdkEvent        *event,
-                                        gpointer         user_data)
+gboolean MainWindow::on_mainwindow_delete_event (GtkWidget *widget, GdkEvent *event, gpointer user_data)
 {
 /*
   This solves a bug:
@@ -7383,27 +7389,5 @@ See the preferred linking strategy from xulrunner, how to link.
 Installing epiphany on fc9.
 The ./configure --help | less gives a few clues.
 When doing ./configure --with-gecko=libxul-embedding, epiphany gets a bit further.
-
-*/
-
-
-/*
-Todo to find a way of importing typed documents in the usfm format.
-For Shona Bible.
-
-Thoughts:
-A textview where the text is going to be pasted into, raw, as it is. Shows raw usfm text.
-Then there are a number of controls for the various tasks.
-A control to set the book.
-A control to set the chapter.
-A control to mark certain text as being verse x.
-Control to discover verses.
-Control to discover headings.
-
-This system also allows import from wikis, etc.
-
-If it is going to overwrite an existing chapter, another window ought to come up
-that has controls to handle the merge. Changes can be approved one by one, or wholesale.
-
 
 */

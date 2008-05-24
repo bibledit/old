@@ -29,6 +29,7 @@
 #include "directories.h"
 #include "unixwrappers.h"
 #include "tiny_utilities.h"
+#include "dialogradiobutton.h"
 
 
 ImportBookRead::ImportBookRead (const ustring& filename, const ustring& encoding)
@@ -502,4 +503,20 @@ ustring import_type_human_readable (ImportType importtype)
     case itMechonMamre: return "Mechon Mamre";
   }
   return "";
+}
+
+
+void import_dialog_selector (bool& structured, bool& raw)
+// Shows a dialog asking what type of import to do.
+{
+  structured = false;
+  raw = false;
+  vector <ustring> labels;
+  labels.push_back ("Structured text");
+  labels.push_back ("Unstructured text");
+  RadiobuttonDialog dialog ("Import", "Select what type of text to import", labels, 0);
+  if (dialog.run () == GTK_RESPONSE_OK) {
+    if (dialog.selection == 0) structured = true;
+    if (dialog.selection == 1) raw = true;
+  }
 }

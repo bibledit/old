@@ -179,7 +179,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	scripts.$(OBJEXT) dialogfilters.$(OBJEXT) \
 	dialogdictionary.$(OBJEXT) spelling.$(OBJEXT) \
 	dialogeditdictionary.$(OBJEXT) \
-	check_sentence_structure.$(OBJEXT) dialogcheckbutton.$(OBJEXT)
+	check_sentence_structure.$(OBJEXT) dialogcheckbutton.$(OBJEXT) \
+	dialogimportrawtext.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -645,7 +646,8 @@ bibledit_bin_SOURCES = \
         spelling.cpp \
         dialogeditdictionary.cpp \
         check_sentence_structure.cpp \
-        dialogcheckbutton.cpp
+        dialogcheckbutton.cpp \
+        dialogimportrawtext.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -798,6 +800,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogformatter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoggotoreference.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogimportnotes.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogimportrawtext.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogimporttext.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoginsertnote.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoginserttable.Po@am__quote@
