@@ -305,6 +305,7 @@ endif
 LIBS += $(GECKO_EXTRA_LIBS) $(GECKO_GLUE_LIBS)
 LIBS += $(addprefix -I$(GECKO_INCLUDE_ROOT)/,$(mozilla_include_subdirs)) -DMOZILLA_HOME=\"$(GECKO_HOME)\" -DMOZILLA_PREFIX=\"$(GECKO_PREFIX)\"
 
+
 if WIN32
 LIBS += -mwindows
 endif

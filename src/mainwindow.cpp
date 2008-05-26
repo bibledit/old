@@ -7382,12 +7382,31 @@ void MainWindow::on_print ()
 
 
 /*
-Todo Fedora Core 9 
-See from Yelp, and from Epiphany, how they do it on fc9.
-Whether to implement our own gtkmozembed code.
-See the preferred linking strategy from xulrunner, how to link.
-Installing epiphany on fc9.
-The ./configure --help | less gives a few clues.
-When doing ./configure --with-gecko=libxul-embedding, epiphany gets a bit further.
+Fedora Core 9 
 
+See http://developer.mozilla.org/en/docs/XPCOM_Glue
+It does not find the gtkmozembed symbols.
+
+*/
+
+
+/*
+Todo there is an idea to extend the merging function with a function to manually choose all changes.
+Buttons to use whether to add or remove it from the text. This can be used
+*/
+
+
+/*
+Todo the xulrunner crash. We may have to first stop loading a document, then wait a short while, 
+and only then load the new references. Perhaps that solves the crashes?
+Otherwise we need to look carefully at the epiphany source how they embed gecko.
+*/
+
+/*
+Todo the reporting needs to use letters, and a legend, because the tasks become too many to fit on the paper.
+*/
+
+
+/*
+Todo there is a several procent CPU usage by bibledit-bin. Fix that. Is that the newest added timer?
 */

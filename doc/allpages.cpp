@@ -22,7 +22,7 @@
 #include <stdexcept>            // logic_error and runtime_error
 #include <iostream>
 #include <cstdlib>
-#include <string>
+#include <string.h>
 #include <fstream>
 #include <vector>
 #include <set>

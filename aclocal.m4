@@ -1231,4 +1231,5 @@ AC_SUBST([am__untar])
 ]) # _AM_PROG_TAR
 
 m4_include([m4/gecko.m4])
+m4_include([m4/libxul.m4])
 m4_include([acinclude.m4])

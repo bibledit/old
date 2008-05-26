@@ -52,6 +52,9 @@
 /* Define if gecko is a debug build */
 #undef HAVE_GECKO_DEBUG
 
+/* Define if xpcom glue is used */
+#undef HAVE_GECKO_XPCOM_GLUE
+
 /* Define to 1 if you have the `getcwd' function. */
 #undef HAVE_GETCWD
 
@@ -69,6 +72,12 @@
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
+
+/* Define for libxul */
+#undef HAVE_LIBXUL
+
+/* Define if libxul is a debug build */
+#undef HAVE_LIBXUL_DEBUG
 
 /* Define to 1 if you have the <limits.h> header file. */
 #undef HAVE_LIMITS_H
@@ -228,6 +237,12 @@
 /* Define to 1 if you have the <vfork.h> header file. */
 #undef HAVE_VFORK_H
 
+/* Define if the compiler supports the "default" visibility attribute */
+#undef HAVE_VISIBILITY_ATTRIBUTE
+
+/* Define if the compiler supports the "hidden" visibility attribute */
+#undef HAVE_VISIBILITY_HIDDEN_ATTRIBUTE
+
 /* Define to 1 if `fork' works. */
 #undef HAVE_WORKING_FORK
 
@@ -282,6 +297,12 @@
 
 /* Version number of package */
 #undef VERSION
+
+/* Define if you wish to enable webkit engine */
+#undef WITH_WEBKIT_ENGINE
+
+/* Define if building the Xulrunner backend */
+#undef WITH_XULRUNNER_ENGINE
 
 /* Define to empty if `const' does not conform to ANSI C. */
 #undef const
