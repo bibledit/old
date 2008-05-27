@@ -39,6 +39,7 @@ Resource::Resource (GtkWidget * vbox, GtkWidget * notebook_page, GtkWidget * tab
   focus_set = false;
   loading = false;
   resource_type = rtEnd;
+  event_id = 0;
   
   // Build gui.
   hbox = gtk_hbox_new (FALSE, 0);
@@ -96,6 +97,7 @@ Resource::Resource (GtkWidget * vbox, GtkWidget * notebook_page, GtkWidget * tab
 
 Resource::~Resource ()
 {
+  gw_destroy_source (event_id);
   gtk_widget_destroy (focus_signal);
   gtk_widget_destroy (my_vbox);
 }
@@ -179,9 +181,8 @@ void Resource::home ()
 }
 
 
-void Resource::go_to (const Reference& reference)
+void Resource::go_to (const Reference& reference) // Todo Try the stop instruction again, and use longer timeouts.
 {
-  ustring url;
   switch (resource_type) {
     case rtForeignDataURLForEachVerse:
     case rtURLForEachVerse:
@@ -199,7 +200,29 @@ void Resource::go_to (const Reference& reference)
       break;
     }
   }
-  gtk_moz_embed_load_url (GTK_MOZ_EMBED (mozembed), url.c_str ());
+  // Initially the new url was loaded, but this caused crashes if fat documents were loaded,
+  // and the url was changed before load had completed.
+  // The timeout below is supposed to resolve that.
+  // Actually the crash was in Gtk, not in Gecko, anyway, leaving the code below is not bad.
+  gw_destroy_source (event_id);
+  event_id = g_timeout_add_full (G_PRIORITY_DEFAULT, 100, GSourceFunc (on_timeout), gpointer(this), NULL);
+}
+
+
+bool Resource::on_timeout (gpointer user_data)
+{
+  return ((Resource *) user_data)->timeout ();
+}
+
+
+bool Resource::timeout ()
+{
+  if (loading) return true;
+  if (!url.empty ()) {
+    gtk_moz_embed_load_url (GTK_MOZ_EMBED (mozembed), url.c_str ());
+    url.clear ();
+  }
+  return false;
 }
 
 

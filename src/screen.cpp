@@ -27,6 +27,7 @@
 void screen_scroll_to_iterator (GtkTextView *text_view, GtkTextIter *iter)
 // Used for the editor, to get a position near the top of the screen.
 {
+  // return; // todo This solves a crash that occurs when navigating quickly with a huge resoure open.
   gtk_text_view_scroll_to_iter (text_view, iter, 0.1, true, 0, 0.3); 
 }
 

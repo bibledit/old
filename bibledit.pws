@@ -11,11 +11,11 @@ filter.file.ignore.hidden=0
 filter.dir.ignore.hidden=0
 
 [filenumbers]
-0=1
-1=418
-2=7414
-3=431
-4=456
+0=184
+1=31
+2=7415
+3=1408
+4=49
 5=203
 6=48
 7=8000
@@ -45,9 +45,11 @@ filter.dir.ignore.hidden=0
 14=
 
 [filelist]
-0=/home/teus/documents/dev/bibledit/Makefile.am
-1=/home/teus/documents/dev/bibledit/configure.ac
+0=/home/teus/documents/dev/bibledit/src/resource.cpp
+1=/home/teus/documents/dev/bibledit/src/screen.cpp
 2=/home/teus/documents/dev/bibledit/src/mainwindow.cpp
+3=/home/teus/documents/dev/bibledit/src/editor.cpp
+4=/home/teus/documents/dev/bibledit/src/resource.h
 
 [Project Tree]
 0=0

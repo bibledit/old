@@ -79,6 +79,10 @@ private:
   ustring index_file_structure;
   map <unsigned int, ustring> book_renderer;
   map <unsigned int, ustring> anchor_renderer;
+  guint event_id;
+  ustring url;
+  static bool on_timeout (gpointer user_data);
+  bool timeout ();
 
   // Embedded mozilla callbacks.
   static void on_location_changed_cb (GtkMozEmbed *embed, gpointer data);
