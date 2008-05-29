@@ -38,24 +38,8 @@ build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
 bin_PROGRAMS = bibledit-bin$(EXEEXT) bibledit-bibletime$(EXEEXT) \
-	bibledit-git$(EXEEXT) bibledit-help$(EXEEXT) \
-	bibledit-restart$(EXEEXT)
-
-# Set the run-time location of the Gecko libraries allowing the dynamic linker to find them.
-# Options:
-# * Setting the enviroment variable LD_LIBRARY_PATH before running the binary. But this is harmful.
-# * Setting the environment variable LD_RUN_PATH before compiling the code.
-# * Using the -Wl,-R, options.
-# * Using the -rpath options.
-# The library runtime path is an extra path. It is used in a situation where a binary
-# is made on one machine to be run on another one with a different mozilla home.
-@LINUX_TRUE@am__append_1 = -Wl,-R,$(GECKO_HOME) \
-@LINUX_TRUE@	-Wl,-R,$(LIBRARY_RUNTIME_PATH)
-@DARWIN_TRUE@am__append_2 = -Wl$(GECKO_HOME) \
-@DARWIN_TRUE@	-Wl$(LIBRARY_RUNTIME_PATH)
-@WIN32_TRUE@am__append_3 = -Wl,-R,$(GECKO_HOME) \
-@WIN32_TRUE@	-Wl,-R,$(LIBRARY_RUNTIME_PATH)
-@WIN32_TRUE@am__append_4 = -mwindows
+	bibledit-git$(EXEEXT) bibledit-restart$(EXEEXT)
+@WIN32_TRUE@am__append_1 = -mwindows
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -188,10 +172,6 @@ am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
 	ipc.$(OBJEXT) git-exec.$(OBJEXT) tiny_utilities.$(OBJEXT)
 bibledit_git_OBJECTS = $(am_bibledit_git_OBJECTS)
 bibledit_git_LDADD = $(LDADD)
-am_bibledit_help_OBJECTS = bibledit-help.$(OBJEXT) ustring.$(OBJEXT) \
-	convert.$(OBJEXT) tiny_utilities.$(OBJEXT)
-bibledit_help_OBJECTS = $(am_bibledit_help_OBJECTS)
-bibledit_help_LDADD = $(LDADD)
 am_bibledit_restart_OBJECTS = bibledit-restart.$(OBJEXT)
 bibledit_restart_OBJECTS = $(am_bibledit_restart_OBJECTS)
 bibledit_restart_LDADD = $(LDADD)
@@ -208,11 +188,9 @@ CXXLD = $(CXX)
 CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
 SOURCES = $(bibledit_bibletime_SOURCES) $(bibledit_bin_SOURCES) \
-	$(bibledit_git_SOURCES) $(bibledit_help_SOURCES) \
-	$(bibledit_restart_SOURCES)
+	$(bibledit_git_SOURCES) $(bibledit_restart_SOURCES)
 DIST_SOURCES = $(bibledit_bibletime_SOURCES) $(bibledit_bin_SOURCES) \
-	$(bibledit_git_SOURCES) $(bibledit_help_SOURCES) \
-	$(bibledit_restart_SOURCES)
+	$(bibledit_git_SOURCES) $(bibledit_restart_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -272,6 +250,8 @@ GREP = @GREP@
 GREP_PATH = @GREP_PATH@
 GTHREAD_CFLAGS = @GTHREAD_CFLAGS@
 GTHREAD_LIBS = @GTHREAD_LIBS@
+GTKHTML3_CFLAGS = @GTKHTML3_CFLAGS@
+GTKHTML3_LIBS = @GTKHTML3_LIBS@
 GTK_CFLAGS = @GTK_CFLAGS@
 GTK_LIBS = @GTK_LIBS@
 GUNZIP_PATH = @GUNZIP_PATH@
@@ -307,16 +287,13 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LDFLAGS = @LDFLAGS@
+LIBCURL = @LIBCURL@
+LIBCURL_CPPFLAGS = @LIBCURL_CPPFLAGS@
 LIBOBJS = @LIBOBJS@
-LIBRARY_RUNTIME_PATH = @LIBRARY_RUNTIME_PATH@
 LIBS = -Wall `xml2-config --libs` $(GOBJECT_LIBS) $(GTHREAD_LIBS) \
 	$(GLIB_LIBS) $(GTK_LIBS) $(FONTCONFIG_LIBS) $(SQLITE_LIBS) \
-	$(ENCHANT_LIBS) $(GECKO_LIBS) $(am__append_1) $(am__append_2) \
-	$(am__append_3) $(GECKO_EXTRA_LIBS) $(GECKO_GLUE_LIBS) \
-	$(addprefix \
-	-I$(GECKO_INCLUDE_ROOT)/,$(mozilla_include_subdirs)) \
-	-DMOZILLA_HOME=\"$(GECKO_HOME)\" \
-	-DMOZILLA_PREFIX=\"$(GECKO_PREFIX)\" $(am__append_4)
+	$(ENCHANT_LIBS) $(GECKO_LIBS) $(GTKHTML3_LIBS) $(LIBCURL) \
+	$(am__append_1)
 LIBXUL_CXXCPPFLAGS = @LIBXUL_CXXCPPFLAGS@
 LIBXUL_CXXFLAGS = @LIBXUL_CXXFLAGS@
 LIBXUL_INCLUDES = @LIBXUL_INCLUDES@
@@ -356,19 +333,16 @@ TAIL_PATH = @TAIL_PATH@
 TEE_TOUCH = @TEE_TOUCH@
 VERSION = @VERSION@
 WEASEL_UA_VERSION = @WEASEL_UA_VERSION@
-WEBKIT_CFLAGS = @WEBKIT_CFLAGS@
-WEBKIT_LIBS = @WEBKIT_LIBS@
 WIN32_FALSE = @WIN32_FALSE@
 WIN32_TRUE = @WIN32_TRUE@
 WITH_GECKO_ENGINE_FALSE = @WITH_GECKO_ENGINE_FALSE@
 WITH_GECKO_ENGINE_TRUE = @WITH_GECKO_ENGINE_TRUE@
-WITH_WEBKIT_ENGINE_FALSE = @WITH_WEBKIT_ENGINE_FALSE@
-WITH_WEBKIT_ENGINE_TRUE = @WITH_WEBKIT_ENGINE_TRUE@
 WITH_XULRUNNER_ENGINE_FALSE = @WITH_XULRUNNER_ENGINE_FALSE@
 WITH_XULRUNNER_ENGINE_TRUE = @WITH_XULRUNNER_ENGINE_TRUE@
 XML2_CONFIG = @XML2_CONFIG@
 XML_CPPFLAGS = @XML_CPPFLAGS@
 XML_LIBS = @XML_LIBS@
+_libcurl_config = @_libcurl_config@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
 am__fastdepCC_FALSE = @am__fastdepCC_FALSE@
@@ -430,12 +404,6 @@ bibledit_git_SOURCES = \
         ustring.cpp \
         ipc.cpp \
         git-exec.cpp \
-        tiny_utilities.cpp
-
-bibledit_help_SOURCES = \
-        bibledit-help.cpp \
-        ustring.cpp \
-        convert.cpp \
         tiny_utilities.cpp
 
 bibledit_restart_SOURCES = \
@@ -686,10 +654,7 @@ EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
 	$(GTHREAD_CFLAGS) $(GLIB_CFLAGS) $(GTK_CFLAGS) \
 	$(FONTCONFIG_CFLAGS) $(SQLITE_CFLAGS) $(ENCHANT_CFLAGS) \
-	$(GECKO_CFLAGS) $(addprefix \
-	-I$(GECKO_INCLUDE_ROOT)/,$(mozilla_include_subdirs)) \
-	-DMOZILLA_HOME=\"$(GECKO_HOME)\" \
-	-DMOZILLA_PREFIX=\"$(GECKO_PREFIX)\"
+	$(GECKO_CFLAGS) $(GTKHTML3_CFLAGS) $(LIBCURL_CPPFLAGS)
 CLEANFILES = *~
 all: all-am
 
@@ -756,9 +721,6 @@ bibledit-bin$(EXEEXT): $(bibledit_bin_OBJECTS) $(bibledit_bin_DEPENDENCIES)
 bibledit-git$(EXEEXT): $(bibledit_git_OBJECTS) $(bibledit_git_DEPENDENCIES) 
 	@rm -f bibledit-git$(EXEEXT)
 	$(CXXLINK) $(bibledit_git_LDFLAGS) $(bibledit_git_OBJECTS) $(bibledit_git_LDADD) $(LIBS)
-bibledit-help$(EXEEXT): $(bibledit_help_OBJECTS) $(bibledit_help_DEPENDENCIES) 
-	@rm -f bibledit-help$(EXEEXT)
-	$(CXXLINK) $(bibledit_help_LDFLAGS) $(bibledit_help_OBJECTS) $(bibledit_help_LDADD) $(LIBS)
 bibledit-restart$(EXEEXT): $(bibledit_restart_OBJECTS) $(bibledit_restart_DEPENDENCIES) 
 	@rm -f bibledit-restart$(EXEEXT)
 	$(CXXLINK) $(bibledit_restart_LDFLAGS) $(bibledit_restart_OBJECTS) $(bibledit_restart_LDADD) $(LIBS)
@@ -773,7 +735,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bible.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bibledit-bibletime.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bibledit-git.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bibledit-help.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bibledit-restart.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bibledit.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/biblenotes.Po@am__quote@

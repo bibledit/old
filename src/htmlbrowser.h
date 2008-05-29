@@ -25,7 +25,7 @@
 #include "libraries.h"
 
 
-void htmlbrowser (const ustring& filename, bool network = false);
+void htmlbrowser (const ustring& filename, bool network = false, bool no_tamper = false);
 
 
 #endif

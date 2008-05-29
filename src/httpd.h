@@ -42,6 +42,7 @@ public:
   Httpd (bool dummy);
   ~Httpd ();
   ustring search_whole_word;
+  ustring difficult_url;
 private:
 #ifndef WIN32
   static void thread_start (gpointer data);

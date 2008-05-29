@@ -584,6 +584,7 @@ void MergeGUI::on_button_merge ()
   ustring book_chapter = books_id_to_english (book) + " " + convert_to_string (chapter);
   vector <ustring> labels;
   labels.push_back ("Merge " + book_chapter + " of project " + current_edited_project + " and " + current_master_project);
+  labels.push_back ("Merge " + book_chapter + " of project " + current_edited_project + " and " + current_master_project + ", and review each change as compared to project " + current_master_project);
   labels.push_back ("Copy " + book_chapter + " of project " + current_master_project + " to project " + current_edited_project);
   labels.push_back ("Copy everything of project " + current_master_project + " to project " + current_edited_project);
   RadiobuttonDialog dialog ("Select action", "Select the type of merge or copy to be done", labels, 0);
@@ -597,10 +598,15 @@ void MergeGUI::on_button_merge ()
     }
     case 1:
     {
-      copy_master_to_edited_chapter (book, chapter, true);
+      //merge_edited_into_master (); // Todo
       break;
     }
     case 2:
+    {
+      copy_master_to_edited_chapter (book, chapter, true);
+      break;
+    }
+    case 3:
     {
       copy_master_to_edited_all ();
       break;

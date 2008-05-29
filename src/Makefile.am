@@ -1,22 +1,21 @@
-bin_PROGRAMS = bibledit-bin bibledit-bibletime bibledit-git bibledit-help bibledit-restart
+bin_PROGRAMS = bibledit-bin bibledit-bibletime bibledit-git bibledit-restart
+
 bibledit_bibletime_SOURCES = \
         bibledit-bibletime.cpp \
         ustring.cpp \
         bookdata.cpp \
         ipc.cpp
+
 bibledit_git_SOURCES = \
         bibledit-git.cpp \
         ustring.cpp \
         ipc.cpp \
         git-exec.cpp \
         tiny_utilities.cpp
-bibledit_help_SOURCES = \
-        bibledit-help.cpp \
-        ustring.cpp \
-        convert.cpp \
-        tiny_utilities.cpp
+
 bibledit_restart_SOURCES = \
         bibledit-restart.cpp
+
 bibledit_bin_SOURCES = \
 	bibledit.cpp \
 	utilities.cpp \
@@ -260,7 +259,8 @@ bibledit_bin_SOURCES = \
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 
-AM_CXXFLAGS = -Wall `xml2-config --cflags`
+AM_CXXFLAGS = -Wall 
+AM_CXXFLAGS += `xml2-config --cflags`
 AM_CXXFLAGS += $(GOBJECT_CFLAGS)
 AM_CXXFLAGS += $(GTHREAD_CFLAGS)
 AM_CXXFLAGS += $(GLIB_CFLAGS)
@@ -269,9 +269,11 @@ AM_CXXFLAGS += $(FONTCONFIG_CFLAGS)
 AM_CXXFLAGS += $(SQLITE_CFLAGS)
 AM_CXXFLAGS += $(ENCHANT_CFLAGS)
 AM_CXXFLAGS += $(GECKO_CFLAGS)
-AM_CXXFLAGS += $(addprefix -I$(GECKO_INCLUDE_ROOT)/,$(mozilla_include_subdirs)) -DMOZILLA_HOME=\"$(GECKO_HOME)\" -DMOZILLA_PREFIX=\"$(GECKO_PREFIX)\"
+AM_CXXFLAGS += $(GTKHTML3_CFLAGS)
+AM_CXXFLAGS += $(LIBCURL_CPPFLAGS)
 
-LIBS = -Wall `xml2-config --libs`
+LIBS = -Wall 
+LIBS += `xml2-config --libs`
 LIBS += $(GOBJECT_LIBS)
 LIBS += $(GTHREAD_LIBS)
 LIBS += $(GLIB_LIBS)
@@ -280,32 +282,13 @@ LIBS += $(FONTCONFIG_LIBS)
 LIBS += $(SQLITE_LIBS)
 LIBS += $(ENCHANT_LIBS)
 LIBS += $(GECKO_LIBS)
+LIBS += $(GTKHTML3_LIBS)
+LIBS += $(LIBCURL)
 
-# Set the run-time location of the Gecko libraries allowing the dynamic linker to find them.
-# Options:
-# * Setting the enviroment variable LD_LIBRARY_PATH before running the binary. But this is harmful.
-# * Setting the environment variable LD_RUN_PATH before compiling the code.
-# * Using the -Wl,-R, options.
-# * Using the -rpath options.
-# The library runtime path is an extra path. It is used in a situation where a binary
-# is made on one machine to be run on another one with a different mozilla home.
 if LINUX
-LIBS += -Wl,-R,$(GECKO_HOME)
-LIBS += -Wl,-R,$(LIBRARY_RUNTIME_PATH)
 endif
 if DARWIN
-LIBS += -Wl$(GECKO_HOME)
-LIBS += -Wl$(LIBRARY_RUNTIME_PATH)
 endif
-if WIN32
-LIBS += -Wl,-R,$(GECKO_HOME)
-LIBS += -Wl,-R,$(LIBRARY_RUNTIME_PATH)
-endif
-
-LIBS += $(GECKO_EXTRA_LIBS) $(GECKO_GLUE_LIBS)
-LIBS += $(addprefix -I$(GECKO_INCLUDE_ROOT)/,$(mozilla_include_subdirs)) -DMOZILLA_HOME=\"$(GECKO_HOME)\" -DMOZILLA_PREFIX=\"$(GECKO_PREFIX)\"
-
-
 if WIN32
 LIBS += -mwindows
 endif

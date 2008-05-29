@@ -74,6 +74,9 @@
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
 
+/* Define to 1 if you have a functional curl library. */
+#define HAVE_LIBCURL 1
+
 /* Define for libxul */
 /* #undef HAVE_LIBXUL */
 
@@ -253,6 +256,57 @@
 /* Define to 1 if the system has the type `_Bool'. */
 #define HAVE__BOOL 1
 
+/* Defined if libcurl supports AsynchDNS */
+/* #undef LIBCURL_FEATURE_ASYNCHDNS */
+
+/* Defined if libcurl supports IDN */
+#define LIBCURL_FEATURE_IDN 1
+
+/* Defined if libcurl supports IPv6 */
+#define LIBCURL_FEATURE_IPV6 1
+
+/* Defined if libcurl supports KRB4 */
+/* #undef LIBCURL_FEATURE_KRB4 */
+
+/* Defined if libcurl supports libz */
+#define LIBCURL_FEATURE_LIBZ 1
+
+/* Defined if libcurl supports NTLM */
+/* #undef LIBCURL_FEATURE_NTLM */
+
+/* Defined if libcurl supports SSL */
+#define LIBCURL_FEATURE_SSL 1
+
+/* Defined if libcurl supports SSPI */
+/* #undef LIBCURL_FEATURE_SSPI */
+
+/* Defined if libcurl supports DICT */
+#define LIBCURL_PROTOCOL_DICT 1
+
+/* Defined if libcurl supports FILE */
+#define LIBCURL_PROTOCOL_FILE 1
+
+/* Defined if libcurl supports FTP */
+#define LIBCURL_PROTOCOL_FTP 1
+
+/* Defined if libcurl supports FTPS */
+/* #undef LIBCURL_PROTOCOL_FTPS */
+
+/* Defined if libcurl supports HTTP */
+#define LIBCURL_PROTOCOL_HTTP 1
+
+/* Defined if libcurl supports HTTPS */
+/* #undef LIBCURL_PROTOCOL_HTTPS */
+
+/* Defined if libcurl supports LDAP */
+#define LIBCURL_PROTOCOL_LDAP 1
+
+/* Defined if libcurl supports TELNET */
+#define LIBCURL_PROTOCOL_TELNET 1
+
+/* Defined if libcurl supports TFTP */
+#define LIBCURL_PROTOCOL_TFTP 1
+
 /* Define to 1 if `lstat' dereferences a symlink specified with a trailing
    slash. */
 #define LSTAT_FOLLOWS_SLASHED_SYMLINK 1
@@ -270,13 +324,13 @@
 #define PACKAGE_NAME "bibledit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit 3.2.25"
+#define PACKAGE_STRING "bibledit 3.2.27"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "3.2.25"
+#define PACKAGE_VERSION "3.2.27"
 
 /* Define as the return type of signal handlers (`int' or `void'). */
 #define RETSIGTYPE void
@@ -297,16 +351,16 @@
 #define TIME_WITH_SYS_TIME 1
 
 /* Version number of package */
-#define VERSION "3.2.25"
-
-/* Define if you wish to enable webkit engine */
-/* #undef WITH_WEBKIT_ENGINE */
+#define VERSION "3.2.27"
 
 /* Define if building the Xulrunner backend */
 /* #undef WITH_XULRUNNER_ENGINE */
 
 /* Define to empty if `const' does not conform to ANSI C. */
 /* #undef const */
+
+/* Define curl_free() as free() if our version of curl lacks curl_free. */
+/* #undef curl_free */
 
 /* Define to `int' if <sys/types.h> doesn't define. */
 /* #undef gid_t */

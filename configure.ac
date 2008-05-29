@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(bibledit, 3.2.25, http://www.nongnu.org/bibledit)
+AC_INIT(bibledit, 3.2.27, http://www.nongnu.org/bibledit)
 AC_CANONICAL_SYSTEM
 ac_default_prefix=/usr
 AC_CONFIG_MACRO_DIR([m4])
@@ -252,26 +252,13 @@ LIBXUL_DEFINES
 
 AM_CONDITIONAL([WITH_XULRUNNER_ENGINE],[test "$with_engine" = "xulrunner"])
 
-# ******
-# WebKit
-# ******
+PKG_CHECK_MODULES(GTKHTML3, libgtkhtml-3.8 >= 3.8.0,,AC_MSG_ERROR(libgtkhtml3 development version >= 3.8.0 is needed.))
+AC_SUBST(GTKHTML3_CFLAGS)
+AC_SUBST(GTKHTML3_LIBS)
 
-if test "$with_engine" = "webkit" ; then
-   AC_DEFINE([WITH_WEBKIT_ENGINE],[1],[Define if you wish to enable webkit engine])
-   PKG_CHECK_MODULES([WEBKIT], [webkit-1.0])
-   AC_SUBST([WEBKIT_CFLAGS])
-   AC_SUBST([WEBKIT_LIBS])
-fi # with_engine = webkit
-
-AM_CONDITIONAL([WITH_WEBKIT_ENGINE], test "$with_engine" = "webkit")
-
-AC_MSG_CHECKING([for extra library runtime path])
-AC_ARG_ENABLE([library-runtime-path],
-	AS_HELP_STRING([--enable-library-runtime-path=/path/to/runtime/library],[To give an extra path to runtime libraries]),
-	[LIBRARY_RUNTIME_PATH=$enableval],[LIBRARY_RUNTIME_PATH=])
-AC_MSG_RESULT([$enable_library_runtime_path])
-AC_SUBST([LIBRARY_RUNTIME_PATH])
-
+LIBCURL_CHECK_CONFIG([yes], 7.0.0,,AC_MSG_ERROR(libcurl3 >= 7.0.0 is needed.))
+AC_SUBST(LIBCURL_CPPFLAGS)
+AC_SUBST(LIBCURL)
 
 
 # Checks for header files.
@@ -408,6 +395,7 @@ AC_OUTPUT( Makefile
                    windows/Makefile
                    tests/Makefile
                    eeepc/Makefile
+                   browser/Makefile
 		   )
 
 echo "
@@ -415,6 +403,4 @@ Bibledit $VERSION configuration summary:
 
         Prefix                     : ${prefix}
         Source code location       : ${srcdir}
-        Gecko home                 : ${GECKO_HOME}
-        extra library runtime path : ${LIBRARY_RUNTIME_PATH}
 "

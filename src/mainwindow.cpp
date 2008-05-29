@@ -5689,6 +5689,11 @@ void MainWindow::on_check_httpd ()
     settings->session.highlights.push_back (sessionhighlights);
     search_string (liststore_references, treeview_references, treecolumn_references, &bibletime);    
   }
+  // Did the browser request a url too difficult for it to handle?
+  if (!httpd.difficult_url.empty()) {
+    htmlbrowser (httpd.difficult_url, true, true);
+    httpd.difficult_url.clear ();
+  }
 }
 
 
@@ -7403,18 +7408,30 @@ Todo there is a several procent CPU usage by bibledit-bin. Fix that. Is that the
 
 
 /*
-Todo replace gecko with WebKitGtk, gecko is still too messy.
+Todo look into DiType whether it supports our need of footnotes in a special flow.
+*/
+
+
+/*
+Todo replace gecko
+
+If we click the lowest link then bibledit needs to open a full browser window.
 
 Make general source that handles the "browser" bits.
 
-Better to use http://live.gnome.org/WebKitGtk
-
 Will solve problem of Fedora Core 9 
 
-The xulrunner crash may be resolved by moving to WebKitGtk.
+The xulrunner crash may be resolved by moving to gtkhtml3
 
-*/
+Better revert to GtkHtml, with some tricks to show the footnotes in a lower window.
+See older code how to handle that.
+Buttons to open in viewer may help.
 
-/*
-Todo look into DiType whether it supports our need of footnotes in a special flow.
+To add to Debian 4.0 installation: libgtkhtml3.8-dev, and to remove all reference to gecko libxul, firefox, etc in all instructions
+Try installation on all platforms again, including XO machine, and Mac.
+
+In the resource browser we need to remember the last url fetched,
+then see if the new url is the same for the base part, then see if there is
+an anchor part also. Extract these all.
+
 */

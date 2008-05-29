@@ -154,7 +154,13 @@ void Httpd::handle_request (int fd)
     Parse parse (buf, false);
     if (parse.words.size() >= 2) {
       // Get the filename requested, and the command: the part after the ?.
+      // Also whether this url should open a capable browser.
       ustring filename (parse.words[1]);
+      if (filename.find ("_difficult_url_") != string::npos) {
+        difficult_url = filename;
+        difficult_url.erase (0, difficult_url.find ("_difficult_url_") + 15);
+        filename = "/";
+      }
       if (filename == "/") filename = "index.html";
       ustring command;
       size_t question_pos;

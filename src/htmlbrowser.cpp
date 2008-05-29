@@ -88,15 +88,18 @@ gchar * helpcommand (int index)
 }
 
 
-void htmlbrowser (const ustring& filename, bool network)
+void htmlbrowser (const ustring& filename, bool network, bool no_tamper)
 // Get the name of an existing browser, and view the file through it.
+// If "no_tamper", there is no tampering with the "filename".
 {
   // Get the prefix.
   ustring prefix;
-  if (network)
-    prefix = "http://";
-  else
-    prefix = "file://";
+  if (!no_tamper) {
+    if (network)
+      prefix = "http://";
+    else
+      prefix = "file://";
+  }
  
   // Handle if Windows.
   #ifdef WIN32

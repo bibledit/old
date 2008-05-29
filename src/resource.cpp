@@ -181,7 +181,7 @@ void Resource::home ()
 }
 
 
-void Resource::go_to (const Reference& reference) // Todo Try the stop instruction again, and use longer timeouts.
+void Resource::go_to (const Reference& reference)
 {
   switch (resource_type) {
     case rtForeignDataURLForEachVerse:
