@@ -38,24 +38,6 @@
 /* Define to 1 if you have the `ftruncate' function. */
 #define HAVE_FTRUNCATE 1
 
-/* Define if we have gecko 1.7 */
-#define HAVE_GECKO_1_7 1
-
-/* Define if we have gecko 1.8 */
-#define HAVE_GECKO_1_8 1
-
-/* Define if we have gecko 1.8.1 */
-/* #undef HAVE_GECKO_1_8_1 */
-
-/* Define if we have gecko 1.9 */
-/* #undef HAVE_GECKO_1_9 */
-
-/* Define if gecko is a debug build */
-/* #undef HAVE_GECKO_DEBUG */
-
-/* Define if xpcom glue is used */
-/* #undef HAVE_GECKO_XPCOM_GLUE */
-
 /* Define to 1 if you have the `getcwd' function. */
 #define HAVE_GETCWD 1
 
@@ -76,12 +58,6 @@
 
 /* Define to 1 if you have a functional curl library. */
 #define HAVE_LIBCURL 1
-
-/* Define for libxul */
-/* #undef HAVE_LIBXUL */
-
-/* Define if libxul is a debug build */
-/* #undef HAVE_LIBXUL_DEBUG */
 
 /* Define to 1 if you have the <limits.h> header file. */
 #define HAVE_LIMITS_H 1
@@ -110,9 +86,6 @@
 
 /* Define to 1 if you have the `mkfifo' function. */
 #define HAVE_MKFIFO 1
-
-/* Define if mozilla is of the toolkit flavour */
-#define HAVE_MOZILLA_TOOLKIT 1
 
 /* Define to 1 if you have the <ndir.h> header file, and it defines `DIR'. */
 /* #undef HAVE_NDIR_H */
@@ -241,12 +214,6 @@
 /* Define to 1 if you have the <vfork.h> header file. */
 /* #undef HAVE_VFORK_H */
 
-/* Define if the compiler supports the "default" visibility attribute */
-/* #undef HAVE_VISIBILITY_ATTRIBUTE */
-
-/* Define if the compiler supports the "hidden" visibility attribute */
-/* #undef HAVE_VISIBILITY_HIDDEN_ATTRIBUTE */
-
 /* Define to 1 if `fork' works. */
 #define HAVE_WORKING_FORK 1
 
@@ -324,13 +291,13 @@
 #define PACKAGE_NAME "bibledit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit 3.2.27"
+#define PACKAGE_STRING "bibledit 3.2.31"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "3.2.27"
+#define PACKAGE_VERSION "3.2.31"
 
 /* Define as the return type of signal handlers (`int' or `void'). */
 #define RETSIGTYPE void
@@ -351,10 +318,7 @@
 #define TIME_WITH_SYS_TIME 1
 
 /* Version number of package */
-#define VERSION "3.2.27"
-
-/* Define if building the Xulrunner backend */
-/* #undef WITH_XULRUNNER_ENGINE */
+#define VERSION "3.2.31"
 
 /* Define to empty if `const' does not conform to ANSI C. */
 /* #undef const */

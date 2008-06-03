@@ -40,6 +40,7 @@
 #include "mappings.h"
 #include "ot-quotations.h"
 #include "styles.h"
+#include <curl/curl.h>
 
 
 Settings * settings;
@@ -48,6 +49,7 @@ BookLocalizations * booklocalizations;
 Versifications * versifications;
 Mappings * mappings;
 Styles * styles;
+CURL * curl;
 
 
 int main (int argc, char *argv[])
@@ -77,6 +79,9 @@ int main (int argc, char *argv[])
   // Styles object.
   Styles mystyles (0);
   styles = &mystyles;
+  // Curl initialization.
+  curl_global_init (CURL_GLOBAL_ALL);
+  curl = curl_easy_init ();
   /*
   We used a trick to get Bibledit to operate as a true activity on OLPC. 
   The problem is that any regular X11 program that is started, 
@@ -117,6 +122,8 @@ int main (int argc, char *argv[])
   // Start the gui.
   MainWindow mainwindow (xembed);
   gtk_main ();
+  // Cleanup.
+  if (curl) curl_easy_cleanup (curl);
   // Quit.
   return 0;
 }

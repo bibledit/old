@@ -28,7 +28,6 @@
 #include "gtkwrappers.h"
 #include "utilities.h"
 #include "tiny_utilities.h"
-#include <gtkmozembed.h>
 #include "screen.h"
 
 

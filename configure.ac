@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(bibledit, 3.2.27, http://www.nongnu.org/bibledit)
+AC_INIT(bibledit, 3.2.31, http://www.nongnu.org/bibledit)
 AC_CANONICAL_SYSTEM
 ac_default_prefix=/usr
 AC_CONFIG_MACRO_DIR([m4])
@@ -160,97 +160,6 @@ PKG_CHECK_MODULES(PANGO, [pango >= 1.3.5],
 PKG_CHECK_MODULES(PANGO, [pango >= 1.8.0],
    [AC_DEFINE(FIXED_PANGO, 1, [Define to 1 if pango >= 1.8.0.])],
    [AC_MSG_WARN([Enabling word-breaking workarounds since pango < 1.8.0])])
-
-
-
-dnl  *****
-dnl  Gecko
-dnl  *****
-GECKO_INIT([GECKO], [gecko_found=yes],[gecko_found=no])
-AC_SUBST([GECKO])
-AC_SUBST([GECKO_FLAVOUR])
-AC_SUBST([GECKO_INCLUDE_ROOT])
-AC_SUBST([GECKO_HOME])
-AC_SUBST([GECKO_PREFIX])
-AC_SUBST([GECKO_EXTRA_LIBS])
-AC_SUBST([GECKO_GLUE_LIBS])
-
-case "$gecko_cv_gecko" in
-xulrunner) min_version=1.8 ;;
-libxul*) min_version=1.8 ;;
-*firefox) min_version=1.5 ;;
-*) AC_MSG_ERROR([Unsupported gecko "$gecko_cv_gecko"]) ;;
-esac
-
-# Added $gecko_cv_gecko-js for debian xulrunner brokenness
-if test $gecko_cv_gecko != "libxul-embedding" -a $gecko_cv_gecko != "libxul"; then
-	# debian xulrunner lacks -xpcom -> -js depends
-	if pkg-config --exists ${gecko_cv_gecko}-js; then
-		gecko_cv_extra_pkg_dependencies="$gecko_cv_extra_pkg_dependencies ${gecko_cv_gecko}-js"
-	fi
-	GECKO_CFLAGS=`pkg-config --cflags ${gecko_cv_gecko}-xpcom '>=' $min_version ${gecko_cv_gecko}-js $gecko_cv_extra_pkg_dependencies`
-	GECKO_LIBS=`pkg-config --libs ${gecko_cv_gecko}-xpcom '>=' $min_version ${gecko_cv_gecko}-js $gecko_cv_extra_pkg_dependencies`
-
-#	PKG_CHECK_MODULES([GECKO],[ ${gecko_cv_gecko}-xpcom >= $min_version ${gecko_cv_gecko}-js $gecko_cv_extra_pkg_dependencies])
-else
-	GECKO_CFLAGS="$GECKO_CFLAGS"
-	GECKO_LIBS="$GECKO_LIBS `pkg-config --libs ${gecko_cv_gecko}`"
-fi
-
-AC_MSG_CHECKING(nspr in gecko)
-if test "$GECKO_NSPR" != yes; then
-	AC_MSG_RESULT(no)
-	AC_MSG_CHECKING(nspr in system)
-	gecko_nspr=
-	if $PKG_CONFIG --exists mozilla-nspr; then
-		gecko_nspr=mozilla-nspr
-	elif $PKG_CONFIG --exists ${gecko_cv_gecko}-nspr; then
-		gecko_nspr=${gecko_cv_gecko}-nspr
-	fi
-	if $PKG_CONFIG --exists nspr; then
-		gecko_nspr=nspr
-	fi
-	if test -z "$gecko_nspr"; then
-		AC_MSG_ERROR([no nspr available])
-	fi
-
-	GECKO_CFLAGS="$GECKO_CFLAGS `$PKG_CONFIG --cflags ${gecko_nspr}`"
-	GECKO_LIBS="$GECKO_LIBS `$PKG_CONFIG --libs ${gecko_nspr}`"
-	_GECKO_CFLAGS="$GECKO_CFLAGS"
-	AC_MSG_RESULT(yes)
-else
-	AC_MSG_RESULT(yes)
-fi
-
-AC_SUBST([GECKO_CFLAGS])
-AC_SUBST([GECKO_LIBS])
-
-GECKO_DEFINES
-AM_CONDITIONAL([WITH_GECKO_ENGINE], [test "$with_engine" = "mozilla"])
-AM_CONDITIONAL([HAVE_XULRUNNER],[test "$gecko_cv_gecko" = "xulrunner"])
-AM_CONDITIONAL([HAVE_MOZILLA_PSM],[test "$enable_psm" = "yes" -a "$have_psm" = "yes"])
-AM_CONDITIONAL([ENABLE_FILEPICKER],[test "$enable_filepicker" = "yes"])
-
-# *********
-# Xulrunner
-# *********
-
-# This is the mozilla backend for xulrunner 1.9
-
-if test "$with_engine" = "xulrunner"; then
-
-LIBXUL_INIT
-
-AC_DEFINE([WITH_XULRUNNER_ENGINE],[1],[Define if building the Xulrunner backend])
-
-WEASEL_UA_VERSION=3.0
-AC_SUBST([WEASEL_UA_VERSION])
-
-fi
-
-LIBXUL_DEFINES
-
-AM_CONDITIONAL([WITH_XULRUNNER_ENGINE],[test "$with_engine" = "xulrunner"])
 
 PKG_CHECK_MODULES(GTKHTML3, libgtkhtml-3.8 >= 3.8.0,,AC_MSG_ERROR(libgtkhtml3 development version >= 3.8.0 is needed.))
 AC_SUBST(GTKHTML3_CFLAGS)

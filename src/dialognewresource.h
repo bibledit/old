@@ -135,19 +135,6 @@ private:
   bool books_gui ();
   map <unsigned int, ustring> books;
 
-  // Book test.
-  GtkWidget *image_book_test_ok;
-  GtkWidget *label_book_test_ok;
-  GtkWidget *checkbutton_book_test;
-  GtkWidget *button_book_test;
-  GtkWidget *label_book_test;
-  static void on_checkbutton_book_test_toggled (GtkToggleButton *togglebutton, gpointer user_data);
-  void on_checkbutton_book_test ();
-  static void on_button_book_test_clicked (GtkButton *button, gpointer user_data);
-  void on_button_book_test ();
-  bool book_test_gui ();
-  bool book_test_ok;
-
   // Add files.
   GtkWidget *image_add_files_ok;
   GtkWidget *label_add_files_ok;
@@ -178,19 +165,6 @@ private:
   void on_anchors_button ();
   bool anchors_gui ();
   map <unsigned int, ustring> anchors;
-
-  // Anchor test.
-  GtkWidget *image_anchor_test_ok;
-  GtkWidget *label_anchor_test_ok;
-  GtkWidget *checkbutton_anchor_test;
-  GtkWidget *button_anchor_test;
-  GtkWidget *label_anchor_test;
-  static void on_checkbutton_anchor_test_toggled (GtkToggleButton *togglebutton, gpointer user_data);
-  void on_checkbutton_anchor_test ();
-  static void on_button_anchor_test_clicked (GtkButton *button, gpointer user_data);
-  void on_button_anchor_test ();
-  bool anchor_test_gui ();
-  bool anchor_test_ok;
 
   // Write anchors.
   GtkWidget *image_write_anchors_ok;

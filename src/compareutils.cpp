@@ -37,7 +37,7 @@ enum Markup { StrikeThrough, Bold };
 
 
 void compare_chapter_internal (
-      const vector<ustring>& originalusfms, const vector<ustring>& originaltext, 
+      const vector<ustring>& originalusfms, const vector<ustring>& originaltext,
       const vector<ustring>& secondusfms, const vector<ustring>& secondtext, 
       vector<ustring>& outputchapter,
       bool optimize, 

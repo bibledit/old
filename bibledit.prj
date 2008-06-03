@@ -817,7 +817,9 @@ module.source.files=\
 	src/dialogcheckbutton.cpp\
 	src/dialogcheckbutton.h\
 	src/dialogimportrawtext.cpp\
-	src/dialogimportrawtext.h
+	src/dialogimportrawtext.h\
+	src/gtkhtml3browser.cpp\
+	src/gtkhtml3browser.h
 
 module.pixmap.name=.
 module.pixmap.type=

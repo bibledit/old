@@ -7387,37 +7387,23 @@ void MainWindow::on_print ()
 
 
 /*
-Todo there is an idea to extend the merging function with a function to manually choose all changes.
-Buttons to use whether to add or remove it from the text. This can be used for integration of changes from outside such as raw code.
+Todo some points:
 
+There is an idea to extend the merging function with a function to manually choose all changes.
+Buttons to use whether to add or remove it from the text. This can be used for integration of changes from outside such as raw code.
 We need to merge the data, then run a diff between the main project and the merged data,
 and accept the differences one by one.
 
+The reporting needs to use letters, and a legend, because the tasks become too many to fit on the paper.
 
-*/
+There is a several procent CPU usage by bibledit-bin. Fix that. Is that the newest added timer?
 
-
-/*
-Todo the reporting needs to use letters, and a legend, because the tasks become too many to fit on the paper.
-*/
-
-
-/*
-Todo there is a several procent CPU usage by bibledit-bin. Fix that. Is that the newest added timer?
-*/
-
-
-/*
-Todo look into DiType whether it supports our need of footnotes in a special flow.
+Look into DiType whether it supports our need of footnotes in a special flow.
 */
 
 
 /*
 Todo replace gecko
-
-If we click the lowest link then bibledit needs to open a full browser window.
-
-Make general source that handles the "browser" bits.
 
 Will solve problem of Fedora Core 9 
 

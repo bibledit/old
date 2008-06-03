@@ -26,7 +26,6 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 #include "reference.h"
-#include <gtkmozembed.h>
 #include "resource.h"
 
 
@@ -44,50 +43,14 @@ private:
   // Main window.
   GtkWidget *my_notebook_vbox;
 
-  // Tool bar.
-  GtkWidget *toolbar;
-  GtkWidget *toolitem4;
-  GtkWidget *button_back;
-  GtkWidget *image4;
-  GtkWidget *toolitem5;
-  GtkWidget *button_forward;
-  GtkWidget *image5;
-  GtkWidget *toolitem1;
-  GtkWidget *button_refresh;
-  GtkWidget *image1;
-  GtkWidget *toolitem2;
-  GtkWidget *button_stop;
-  GtkWidget *image2;
-  GtkWidget *toolitem3;
-  GtkWidget *button_home;
-  GtkWidget *image3;
-
   // Browser.
   GtkWidget *notebook;
   vector <Resource *> resource_objects;
 
-  // Tool callbacks.
-  static void on_button_back_clicked (GtkButton *button, gpointer user_data);
-  void on_button_back ();
-  static void on_button_forward_clicked (GtkButton *button, gpointer user_data);
-  void on_button_forward ();
-  static void on_button_refresh_clicked (GtkButton *button, gpointer user_data);
-  void on_button_refresh ();
-  static void on_button_stop_clicked (GtkButton *button, gpointer user_data);
-  void on_button_stop ();
-  static void on_button_home_clicked (GtkButton *button, gpointer user_data);
-  void on_button_home ();
-  
   // Reference logic.
   map <unsigned int, ustring> book_renderer;
 
-  // Gui updater.
-  static bool on_update_gui_timeout (gpointer user_data);
-  bool on_update_gui ();
-  
   // Focus handling.
-  static void on_focus_signal_clicked (GtkButton *button, gpointer user_data);
-  void on_focus_signal (GtkButton *button);
   static void on_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num, gpointer user_data);
   void notebook_switch_page (guint page_num);
   

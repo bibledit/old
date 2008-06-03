@@ -26,7 +26,6 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 #include "reference.h"
-#include <gtkmozembed.h>
 #include "editor.h"
 
 

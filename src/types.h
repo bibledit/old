@@ -55,7 +55,7 @@ enum NotesSelectionEditedType {nsetToday, nsetDateRange, nsetAny};
                               
 enum ResourceType {
   rtForeignDataURLForEachVerse,
-  rtIndexFileOnFlyForEachVerseWithDifferentAnchors,
+  rtURLForEachVerseAboveURLFilterBelowWithDifferentAnchors,
   rtURLForEachVerse,
   rtEnd
 };

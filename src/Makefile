@@ -43,8 +43,7 @@ bin_PROGRAMS = bibledit-bin$(EXEEXT) bibledit-bibletime$(EXEEXT) \
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/gecko.m4 \
-	$(top_srcdir)/m4/libxul.m4 $(top_srcdir)/acinclude.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
@@ -153,9 +152,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogsetstatus.$(OBJEXT) dialogtaskduration.$(OBJEXT) \
 	htmlwriter.$(OBJEXT) dialogviewstatus.$(OBJEXT) \
 	dialogplanningsetup.$(OBJEXT) dialoginterfaceprefs.$(OBJEXT) \
-	resourceviewergui.$(OBJEXT) moziller.$(OBJEXT) \
-	resource.$(OBJEXT) dialognewresource.$(OBJEXT) \
-	dialogresourcebooks.$(OBJEXT) dialogtestresources.$(OBJEXT) \
+	resourceviewergui.$(OBJEXT) resource.$(OBJEXT) \
+	dialognewresource.$(OBJEXT) dialogresourcebooks.$(OBJEXT) \
 	dialogradiobutton.$(OBJEXT) dialogresourceconverter2.$(OBJEXT) \
 	resource_conversion_utils.$(OBJEXT) convert.$(OBJEXT) \
 	textviewer.$(OBJEXT) roman.$(OBJEXT) project_memory.$(OBJEXT) \
@@ -165,7 +163,7 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogdictionary.$(OBJEXT) spelling.$(OBJEXT) \
 	dialogeditdictionary.$(OBJEXT) \
 	check_sentence_structure.$(OBJEXT) dialogcheckbutton.$(OBJEXT) \
-	dialogimportrawtext.$(OBJEXT)
+	dialogimportrawtext.$(OBJEXT) gtkhtml3browser.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -221,8 +219,6 @@ ECHO_C =
 ECHO_N = -n
 ECHO_T = 
 EGREP = /bin/grep -E
-ENABLE_FILEPICKER_FALSE = 
-ENABLE_FILEPICKER_TRUE = #
 ENCHANT_CFLAGS = -I/usr/include/enchant -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
 ENCHANT_LIBS = -Wl,--export-dynamic -lenchant -lgmodule-2.0 -ldl -lglib-2.0  
 EXEEXT = 
@@ -233,15 +229,6 @@ FIND_PING = /bin/ping
 FIND_XARGS = /usr/bin/xargs
 FONTCONFIG_CFLAGS =  
 FONTCONFIG_LIBS = -lfontconfig  
-GECKO = xulrunner
-GECKO_CFLAGS = -DXP_UNIX -I/usr/include/xulrunner -I/usr/include/xulrunner/xpcom -I/usr/include/xulrunner/string -I/usr/include/nspr -I/usr/include/mozjs -I/usr/include/xulrunner/gtkembedmoz   -I/usr/include/nspr  
-GECKO_EXTRA_LIBS = 
-GECKO_FLAVOUR = toolkit
-GECKO_GLUE_LIBS = 
-GECKO_HOME = /usr/lib/xulrunner
-GECKO_INCLUDE_ROOT = /usr/include/xulrunner
-GECKO_LIBS = -L/usr/lib/xulrunner -lgtkembedmoz -lxpcom -lmozjs -lplds4 -lplc4 -lnspr4 -lpthread -ldl   -lplds4 -lplc4 -lnspr4 -lpthread -ldl  
-GECKO_PREFIX = /usr
 GLIB_CFLAGS = -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
 GLIB_LIBS = -lglib-2.0  
 GOBJECT_CFLAGS = -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
@@ -256,30 +243,6 @@ GTK_CFLAGS = -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/at
 GTK_LIBS = -lgtk-x11-2.0 -latk-1.0 -lgdk-x11-2.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lfontconfig -lXext -lXrender -lXinerama -lXi -lXrandr -lXcursor -lXfixes -lpango-1.0 -lcairo -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0 -lX11  
 GUNZIP_PATH = /bin/gunzip
 GZIP_PATH = /bin/gzip
-HAVE_GECKO_1_7_FALSE = #
-HAVE_GECKO_1_7_TRUE = 
-HAVE_GECKO_1_8_1_FALSE = 
-HAVE_GECKO_1_8_1_TRUE = #
-HAVE_GECKO_1_8_FALSE = #
-HAVE_GECKO_1_8_TRUE = 
-HAVE_GECKO_1_9_FALSE = 
-HAVE_GECKO_1_9_TRUE = #
-HAVE_GECKO_DEBUG_FALSE = 
-HAVE_GECKO_DEBUG_TRUE = #
-HAVE_GECKO_HOME_FALSE = #
-HAVE_GECKO_HOME_TRUE = 
-HAVE_GECKO_XPCOM_GLUE_FALSE = 
-HAVE_GECKO_XPCOM_GLUE_TRUE = #
-HAVE_LIBXUL_DEBUG_FALSE = 
-HAVE_LIBXUL_DEBUG_TRUE = #
-HAVE_LIBXUL_FALSE = 
-HAVE_LIBXUL_TRUE = #
-HAVE_MOZILLA_PSM_FALSE = 
-HAVE_MOZILLA_PSM_TRUE = #
-HAVE_MOZILLA_TOOLKIT_FALSE = #
-HAVE_MOZILLA_TOOLKIT_TRUE = 
-HAVE_XULRUNNER_FALSE = #
-HAVE_XULRUNNER_TRUE = 
 HEAD_PATH = /usr/bin/head
 ICONV_PATH = /usr/bin/iconv
 INSTALL_DATA = ${INSTALL} -m 644
@@ -292,17 +255,7 @@ LIBCURL_CPPFLAGS =
 LIBOBJS = 
 LIBS = -Wall `xml2-config --libs` $(GOBJECT_LIBS) $(GTHREAD_LIBS) \
 	$(GLIB_LIBS) $(GTK_LIBS) $(FONTCONFIG_LIBS) $(SQLITE_LIBS) \
-	$(ENCHANT_LIBS) $(GECKO_LIBS) $(GTKHTML3_LIBS) $(LIBCURL) \
-	$(am__append_1)
-LIBXUL_CXXCPPFLAGS = 
-LIBXUL_CXXFLAGS = 
-LIBXUL_INCLUDES = 
-LIBXUL_INCLUDE_ROOT = 
-LIBXUL_LDFLAGS = 
-LIBXUL_LIBDIR = 
-LIBXUL_LIBS = 
-LIBXUL_PREFIX = 
-LIBXUL_VERSION = 
+	$(ENCHANT_LIBS) $(GTKHTML3_LIBS) $(LIBCURL) $(am__append_1)
 LINUX_FALSE = #
 LINUX_TRUE = 
 LTLIBOBJS = 
@@ -312,9 +265,9 @@ OBJEXT = o
 PACKAGE = bibledit
 PACKAGE_BUGREPORT = http://www.nongnu.org/bibledit
 PACKAGE_NAME = bibledit
-PACKAGE_STRING = bibledit 3.2.27
+PACKAGE_STRING = bibledit 3.2.31
 PACKAGE_TARNAME = bibledit
-PACKAGE_VERSION = 3.2.27
+PACKAGE_VERSION = 3.2.31
 PANGO_CFLAGS = -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
 PANGO_LIBS = -lpango-1.0 -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0  
 PATH_SEPARATOR = :
@@ -331,14 +284,9 @@ STRINGS_PATH = /usr/bin/strings
 STRIP = 
 TAIL_PATH = /usr/bin/tail
 TEE_TOUCH = /usr/bin/touch
-VERSION = 3.2.27
-WEASEL_UA_VERSION = 
+VERSION = 3.2.31
 WIN32_FALSE = 
 WIN32_TRUE = #
-WITH_GECKO_ENGINE_FALSE = 
-WITH_GECKO_ENGINE_TRUE = #
-WITH_XULRUNNER_ENGINE_FALSE = 
-WITH_XULRUNNER_ENGINE_TRUE = #
 XML2_CONFIG = /usr/bin/xml2-config
 XML_CPPFLAGS = -I/usr/include/libxml2
 XML_LIBS = -L/usr/lib -lxml2
@@ -410,33 +358,33 @@ bibledit_restart_SOURCES = \
         bibledit-restart.cpp
 
 bibledit_bin_SOURCES = \
-	bibledit.cpp \
-	utilities.cpp \
-        tiny_utilities.cpp \
-	bible.cpp \
-	usfmtools.cpp \
-	exception.cpp \
-	mainwindow.cpp \
-	dialoglistview.cpp \
-	dialogshowscript.cpp \
-	htmlbrowser.cpp \
-	track.cpp \
-	dialogreplace.cpp \
-	dialogreplacing.cpp \
-	windowsoutpost.cpp \
-	dialoggotoreference.cpp \
-	dialogunicode.cpp \
-	projectutils.cpp \
-	dialogproject.cpp \
-	usfm.cpp \
-	dialogimporttext.cpp \
-	dialogwait.cpp \
-	directories.cpp \
-	ustring.cpp \
-	dialogsearchspecial.cpp \
-	referenceutils.cpp \
-	references.cpp \
-	pdfviewer.cpp \
+		bibledit.cpp \
+		utilities.cpp \
+    	tiny_utilities.cpp \
+		bible.cpp \
+		usfmtools.cpp \
+		exception.cpp \
+		mainwindow.cpp \
+		dialoglistview.cpp \
+		dialogshowscript.cpp \
+		htmlbrowser.cpp \
+		track.cpp \
+		dialogreplace.cpp \
+		dialogreplacing.cpp \
+		windowsoutpost.cpp \
+		dialoggotoreference.cpp \
+		dialogunicode.cpp \
+	    projectutils.cpp \
+	    dialogproject.cpp \
+	    usfm.cpp \
+	    dialogimporttext.cpp \
+	    dialogwait.cpp \
+	    directories.cpp \
+	    ustring.cpp \
+	    dialogsearchspecial.cpp \
+	    referenceutils.cpp \
+	    references.cpp \
+	    pdfviewer.cpp \
         notes_utils.cpp \
         date_time_utils.cpp \
         dialogfindnote.cpp \
@@ -623,11 +571,9 @@ bibledit_bin_SOURCES = \
         dialogplanningsetup.cpp \
         dialoginterfaceprefs.cpp \
         resourceviewergui.cpp \
-        moziller.cpp \
         resource.cpp \
         dialognewresource.cpp \
         dialogresourcebooks.cpp \
-        dialogtestresources.cpp \
         dialogradiobutton.cpp \
         dialogresourceconverter2.cpp \
         resource_conversion_utils.cpp \
@@ -648,13 +594,14 @@ bibledit_bin_SOURCES = \
         dialogeditdictionary.cpp \
         check_sentence_structure.cpp \
         dialogcheckbutton.cpp \
-        dialogimportrawtext.cpp
+        dialogimportrawtext.cpp \
+        gtkhtml3browser.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
 	$(GTHREAD_CFLAGS) $(GLIB_CFLAGS) $(GTK_CFLAGS) \
 	$(FONTCONFIG_CFLAGS) $(SQLITE_CFLAGS) $(ENCHANT_CFLAGS) \
-	$(GECKO_CFLAGS) $(GTKHTML3_CFLAGS) $(LIBCURL_CPPFLAGS)
+	$(GTKHTML3_CFLAGS) $(LIBCURL_CPPFLAGS)
 CLEANFILES = *~
 all: all-am
 
@@ -839,7 +786,6 @@ include ./$(DEPDIR)/dialogsubversionadd.Po
 include ./$(DEPDIR)/dialogsubversionsetup.Po
 include ./$(DEPDIR)/dialogsword.Po
 include ./$(DEPDIR)/dialogtaskduration.Po
-include ./$(DEPDIR)/dialogtestresources.Po
 include ./$(DEPDIR)/dialogtextreplacement.Po
 include ./$(DEPDIR)/dialogtextview.Po
 include ./$(DEPDIR)/dialogtidy.Po
@@ -862,6 +808,7 @@ include ./$(DEPDIR)/fonts.Po
 include ./$(DEPDIR)/generalconfig.Po
 include ./$(DEPDIR)/git-exec.Po
 include ./$(DEPDIR)/git.Po
+include ./$(DEPDIR)/gtkhtml3browser.Po
 include ./$(DEPDIR)/gtkwrappers.Po
 include ./$(DEPDIR)/gui.Po
 include ./$(DEPDIR)/gui_features.Po
@@ -891,7 +838,6 @@ include ./$(DEPDIR)/mapping.Po
 include ./$(DEPDIR)/mappings.Po
 include ./$(DEPDIR)/merge_utils.Po
 include ./$(DEPDIR)/mergegui.Po
-include ./$(DEPDIR)/moziller.Po
 include ./$(DEPDIR)/myfnmatch.Po
 include ./$(DEPDIR)/note_editor.Po
 include ./$(DEPDIR)/notecaller.Po

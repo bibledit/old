@@ -26,7 +26,6 @@
 #include "gwrappers.h"
 #include "directories.h"
 #include "books.h"
-#include "moziller.h"
 #include "resource_utils.h"
 #include "dialogradiobutton.h"
 

@@ -17,33 +17,33 @@ bibledit_restart_SOURCES = \
         bibledit-restart.cpp
 
 bibledit_bin_SOURCES = \
-	bibledit.cpp \
-	utilities.cpp \
-        tiny_utilities.cpp \
-	bible.cpp \
-	usfmtools.cpp \
-	exception.cpp \
-	mainwindow.cpp \
-	dialoglistview.cpp \
-	dialogshowscript.cpp \
-	htmlbrowser.cpp \
-	track.cpp \
-	dialogreplace.cpp \
-	dialogreplacing.cpp \
-	windowsoutpost.cpp \
-	dialoggotoreference.cpp \
-	dialogunicode.cpp \
-	projectutils.cpp \
-	dialogproject.cpp \
-	usfm.cpp \
-	dialogimporttext.cpp \
-	dialogwait.cpp \
-	directories.cpp \
-	ustring.cpp \
-	dialogsearchspecial.cpp \
-	referenceutils.cpp \
-	references.cpp \
-	pdfviewer.cpp \
+		bibledit.cpp \
+		utilities.cpp \
+    	tiny_utilities.cpp \
+		bible.cpp \
+		usfmtools.cpp \
+		exception.cpp \
+		mainwindow.cpp \
+		dialoglistview.cpp \
+		dialogshowscript.cpp \
+		htmlbrowser.cpp \
+		track.cpp \
+		dialogreplace.cpp \
+		dialogreplacing.cpp \
+		windowsoutpost.cpp \
+		dialoggotoreference.cpp \
+		dialogunicode.cpp \
+	    projectutils.cpp \
+	    dialogproject.cpp \
+	    usfm.cpp \
+	    dialogimporttext.cpp \
+	    dialogwait.cpp \
+	    directories.cpp \
+	    ustring.cpp \
+	    dialogsearchspecial.cpp \
+	    referenceutils.cpp \
+	    references.cpp \
+	    pdfviewer.cpp \
         notes_utils.cpp \
         date_time_utils.cpp \
         dialogfindnote.cpp \
@@ -230,11 +230,9 @@ bibledit_bin_SOURCES = \
         dialogplanningsetup.cpp \
         dialoginterfaceprefs.cpp \
         resourceviewergui.cpp \
-        moziller.cpp \
         resource.cpp \
         dialognewresource.cpp \
         dialogresourcebooks.cpp \
-        dialogtestresources.cpp \
         dialogradiobutton.cpp \
         dialogresourceconverter2.cpp \
         resource_conversion_utils.cpp \
@@ -255,7 +253,8 @@ bibledit_bin_SOURCES = \
         dialogeditdictionary.cpp \
         check_sentence_structure.cpp \
         dialogcheckbutton.cpp \
-        dialogimportrawtext.cpp
+        dialogimportrawtext.cpp \
+        gtkhtml3browser.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 
@@ -268,7 +267,6 @@ AM_CXXFLAGS += $(GTK_CFLAGS)
 AM_CXXFLAGS += $(FONTCONFIG_CFLAGS)
 AM_CXXFLAGS += $(SQLITE_CFLAGS)
 AM_CXXFLAGS += $(ENCHANT_CFLAGS)
-AM_CXXFLAGS += $(GECKO_CFLAGS)
 AM_CXXFLAGS += $(GTKHTML3_CFLAGS)
 AM_CXXFLAGS += $(LIBCURL_CPPFLAGS)
 
@@ -281,7 +279,6 @@ LIBS += $(GTK_LIBS)
 LIBS += $(FONTCONFIG_LIBS)
 LIBS += $(SQLITE_LIBS)
 LIBS += $(ENCHANT_LIBS)
-LIBS += $(GECKO_LIBS)
 LIBS += $(GTKHTML3_LIBS)
 LIBS += $(LIBCURL)
 
