@@ -181,8 +181,8 @@ void ResourcesGUI::close() {
 }
 
 Resource * ResourcesGUI::focused_resource() {
-// This function returns the resource that received focus most recently.
-// That means that the resources does not necessarily need to be focused now.
+  // This function returns the resource that received focus most recently.
+  // That means that the resources does not necessarily need to be focused now.
   Resource * resource= NULL;
   time_t most_recent_focus = 0;
   for (unsigned int i = 0; i < resource_objects.size(); i++) {

@@ -48,7 +48,8 @@ Resource::Resource(GtkWidget * vbox, GtkWidget * notebook_page, GtkWidget * tab_
   gtk_widget_show(progressbar);
   gtk_box_pack_start(GTK_BOX (hbox), progressbar, true, true, 0);
   gtk_progress_bar_set_ellipsize(GTK_PROGRESS_BAR (progressbar), PANGO_ELLIPSIZE_MIDDLE);
-
+  gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR (progressbar), 1);
+  
   homebutton = gtk_button_new();
   gtk_widget_show(homebutton);
   gtk_box_pack_start(GTK_BOX (hbox), homebutton, false, false, 0);
@@ -84,7 +85,7 @@ void Resource::parent_notebook_switches_to_page(GtkWidget * page) {
 }
 
 void Resource::copy() {
-  browser->copy(); // Todo try out. also copy of other widgets in bibledit.
+  browser->copy();
 }
 
 void Resource::go_to(const Reference& reference) {
@@ -122,6 +123,7 @@ void Resource::open(const ustring& filename) {
   gtk_progress_bar_set_text(GTK_PROGRESS_BAR (progressbar), resource_get_title(filename).c_str());
   homepage = resource_url_modifier(resource_get_home_page(filename), resource_type, filename);
   homebutton_clicked();
+  focus ();
 }
 
 ustring Resource::template_get() {
@@ -143,10 +145,6 @@ void Resource::homebutton_clicked() {
 time_t Resource::last_focused_time() {
   return browser->last_focused_time;
 }
-
-/* Todo old code
- * gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR (progressbar), 0);
- */
 
 /*
  * Frames will not be allowed, instead the Resource object uses two different browsers, the top one and the bottom one.
@@ -196,5 +194,3 @@ time_t Resource::last_focused_time() {
 
  */
 
-
-// Todo we need to have a system which progressbar of which resource to make blue, the one that has focus.

@@ -995,4 +995,4 @@ void NewResourceDialog::create_working_directory(const ustring& templatefile)
   }
 }
 
-// Todo once the NET Bible template works, copy it to the templates in the tarball.
+// Todo Improve NET Bible with footnotes, once once the template works, copy it to the templates in the tarball.

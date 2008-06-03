@@ -26,13 +26,14 @@
 #include "directories.h"
 #include "books.h"
 #include "resource_utils.h"
+#include "resourceviewergui.h"
 
 GtkHtml3Browser::GtkHtml3Browser(GtkWidget * vbox) {
   // Save and initialize variables.
   my_vbox = vbox;
   event_id = 0;
   last_focused_time = 0;
-  
+
   // The html widget.
   scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow);
@@ -66,7 +67,8 @@ bool GtkHtml3Browser::focused() {
 }
 
 void GtkHtml3Browser::copy() {
-  gtk_html_copy(GTK_HTML (htmlview));
+  if (focused())
+    gtk_html_copy(GTK_HTML (htmlview));
 }
 
 void GtkHtml3Browser::go_to(const ustring& url) {
@@ -121,7 +123,7 @@ gboolean GtkHtml3Browser::on_html_link_clicked(GtkHTML *html, const gchar * url,
 
 void GtkHtml3Browser::html_link_clicked(GtkHTML *html, const gchar * url) {
 
-  cout << "html_link_clicked: " << url << endl; // Todo
+  // Todo cout << "html_link_clicked: " << url << endl; // Todo
 
   // Bail out if the url is empty.
   ustring myurl(url);
@@ -143,8 +145,8 @@ void GtkHtml3Browser::html_link_clicked(GtkHTML *html, const gchar * url) {
   if (parse.words.size() > 1)
     myanchor = parse.words[1];
 
-  cout << "My url: " << myurl << endl; // Todo
-  cout << "Loaded url: " << loaded_url << endl; // Todo
+  // Todo cout << "My url: " << myurl << endl; // Todo
+  // Todo cout << "Loaded url: " << loaded_url << endl; // Todo
 
   // Only load a new url if it differs from the one currently loaded.
   if ((myurl != loaded_url) && !myurl.empty()) {
@@ -221,16 +223,14 @@ size_t GtkHtml3Browser::WriteMemoryCallback(void *ptr, size_t size, size_t nmemb
   return realsize;
 }
 
-
-void GtkHtml3Browser::on_htmlview_grab_focus(GtkWidget *widget, gpointer user_data)
-{
+void GtkHtml3Browser::on_htmlview_grab_focus(GtkWidget *widget, gpointer user_data) {
   ((GtkHtml3Browser *) user_data)->htmlview_grab_focus();
 }
 
 void GtkHtml3Browser::htmlview_grab_focus()
 // This function records the most recent time that the browser received focus.
 {
-  last_focused_time = time (0);
+  last_focused_time = time(0);
 }
 
 /*
