@@ -93,7 +93,7 @@ gboolean GtkHtml3Browser::on_html_url_requested(GtkHTML *html, const gchar *url,
 }
 
 void GtkHtml3Browser::html_url_requested(GtkHTML *html, const gchar *url, GtkHTMLStream *handle) {
-  cout << "html_url_requested: " << url << endl; // Todo
+  //cout << "html_url_requested: " << url << endl; // Todo
 
   struct CurlMemoryStruct chunk;
   chunk.memory= NULL;
@@ -123,12 +123,20 @@ gboolean GtkHtml3Browser::on_html_link_clicked(GtkHTML *html, const gchar * url,
 
 void GtkHtml3Browser::html_link_clicked(GtkHTML *html, const gchar * url) {
 
-  // Todo cout << "html_link_clicked: " << url << endl; // Todo
+  //cout << "html_link_clicked: " << url << endl; // Todo
 
   // Bail out if the url is empty.
   ustring myurl(url);
   if (myurl.empty())
     return;
+
+  // Optionally let the second browser intercept URLs.
+  if (browser2 && !url_filter.empty()) {
+    if (myurl.find(url_filter) != string::npos) {
+      browser2->go_to(myurl);
+      return;
+    }
+  }
 
   // Handle a single anchor.
   if (myurl.substr(0, 1) == "#") {
@@ -145,8 +153,12 @@ void GtkHtml3Browser::html_link_clicked(GtkHTML *html, const gchar * url) {
   if (parse.words.size() > 1)
     myanchor = parse.words[1];
 
-  // Todo cout << "My url: " << myurl << endl; // Todo
-  // Todo cout << "Loaded url: " << loaded_url << endl; // Todo
+  // When a relative link is given, assemble the full url.
+  if (gw_path_get_dirname (myurl).empty() || gw_path_get_dirname(myurl) == ".") {
+    myurl = gw_build_filename(gw_path_get_dirname(loaded_url), myurl);
+  }
+
+  //cout << "My url becomes " << myurl << endl; // Todo
 
   // Only load a new url if it differs from the one currently loaded.
   if ((myurl != loaded_url) && !myurl.empty()) {
@@ -233,6 +245,13 @@ void GtkHtml3Browser::htmlview_grab_focus()
   last_focused_time = time(0);
 }
 
+void GtkHtml3Browser::set_second_browser(const ustring& filter, GtkHtml3Browser * browser)
+// Instead of doing frames properly, a second browser is used. This browser should intercept URLs clicked.
+{
+  url_filter = filter;
+  browser2 = browser;
+}
+
 /*
  Todo building GtkHtml Browser.
 
@@ -240,6 +259,4 @@ void GtkHtml3Browser::htmlview_grab_focus()
  bits, threads, waiting, destruction, and so on. It has a method called "stop", and "load",
  and so on.
 
- We need to allow frames, try that out.
-
- */
+  */

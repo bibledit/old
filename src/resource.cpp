@@ -36,7 +36,7 @@ Resource::Resource(GtkWidget * vbox, GtkWidget * notebook_page, GtkWidget * tab_
   my_notebook_page = notebook_page;
   my_tab_label = tab_label;
   resource_type = rtEnd;
-  last_focused = false;
+  browser2 = NULL;
 
   // Build GUI.
   GtkWidget *hbox;
@@ -49,7 +49,7 @@ Resource::Resource(GtkWidget * vbox, GtkWidget * notebook_page, GtkWidget * tab_
   gtk_box_pack_start(GTK_BOX (hbox), progressbar, true, true, 0);
   gtk_progress_bar_set_ellipsize(GTK_PROGRESS_BAR (progressbar), PANGO_ELLIPSIZE_MIDDLE);
   gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR (progressbar), 1);
-  
+
   homebutton = gtk_button_new();
   gtk_widget_show(homebutton);
   gtk_box_pack_start(GTK_BOX (hbox), homebutton, false, false, 0);
@@ -67,6 +67,8 @@ Resource::Resource(GtkWidget * vbox, GtkWidget * notebook_page, GtkWidget * tab_
 
 Resource::~Resource() {
   delete browser;
+  if (browser2)
+    delete browser2;
   gtk_widget_destroy(my_vbox);
 }
 
@@ -75,7 +77,13 @@ void Resource::focus() {
 }
 
 bool Resource::focused() {
-  return browser->focused();
+  bool focus = false;
+  if (browser->focused())
+    focus = true;
+  if (browser2)
+    if (browser2->focused())
+      focus = true;
+  return focus;
 }
 
 void Resource::parent_notebook_switches_to_page(GtkWidget * page) {
@@ -86,6 +94,8 @@ void Resource::parent_notebook_switches_to_page(GtkWidget * page) {
 
 void Resource::copy() {
   browser->copy();
+  if (browser2)
+    browser2->copy();
 }
 
 void Resource::go_to(const Reference& reference) {
@@ -122,8 +132,16 @@ void Resource::open(const ustring& filename) {
   anchor_renderer = resource_get_anchors(filename);
   gtk_progress_bar_set_text(GTK_PROGRESS_BAR (progressbar), resource_get_title(filename).c_str());
   homepage = resource_url_modifier(resource_get_home_page(filename), resource_type, filename);
+  homepage2 = resource_url_modifier(resource_get_lower_home_page(filename), resource_type, filename);
+  url_filter = resource_get_lower_url_filter(filename);
+  if (resource_type == rtURLForEachVerseAboveURLFilterBelowWithDifferentAnchors) {
+    if (browser2 == NULL) {
+      browser2 = new GtkHtml3Browser (my_vbox);
+      browser->set_second_browser(url_filter, browser2);
+    }
+  }
   homebutton_clicked();
-  focus ();
+  focus();
 }
 
 ustring Resource::template_get() {
@@ -140,6 +158,8 @@ void Resource::on_homebutton_clicked(GtkButton *button, gpointer user_data) {
 
 void Resource::homebutton_clicked() {
   browser->go_to(homepage);
+  if (browser2)
+    browser2->go_to(homepage2);
 }
 
 time_t Resource::last_focused_time() {
@@ -147,50 +167,6 @@ time_t Resource::last_focused_time() {
 }
 
 /*
- * Frames will not be allowed, instead the Resource object uses two different browsers, the top one and the bottom one.
- * Each browser gets a filter assigned that, when a link of a kind is clicked, then it passes it back to the Resource
- * object, who wil deal with it.
+ * Todo when there is no gtkhtml availble, to be determined in configure, then use a workaround using gtktextviews.
+ * But configure gives an error if gtkhtml3 is not there, unless explicitly switched off by --with-gtkhtml3=no.
  */
-
-/*
- GtkWidget *vpaned;
- GtkWidget *vbox_top;
- GtkWidget *scrolledwindow_top;
- GtkWidget *textview_top;
- GtkWidget *vbox_bottom;
- GtkWidget *scrolledwindow_bottom;
- GtkWidget *textview_bottom;
-
- vpaned = gtk_vpaned_new ();
- gtk_widget_show (vpaned);
- gtk_box_pack_start (GTK_BOX (vbox1), vpaned, TRUE, TRUE, 0);
- gtk_paned_set_position (GTK_PANED (vpaned), 143);
-
- vbox_top = gtk_vbox_new (FALSE, 0);
- gtk_widget_show (vbox_top);
- gtk_paned_pack1 (GTK_PANED (vpaned), vbox_top, FALSE, TRUE);
-
- scrolledwindow_top = gtk_scrolled_window_new (NULL, NULL);
- gtk_widget_show (scrolledwindow_top);
- gtk_box_pack_start (GTK_BOX (vbox_top), scrolledwindow_top, TRUE, TRUE, 0);
- gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow_top), GTK_SHADOW_IN);
-
- textview_top = gtk_text_view_new ();
- gtk_widget_show (textview_top);
- gtk_container_add (GTK_CONTAINER (scrolledwindow_top), textview_top);
-
- vbox_bottom = gtk_vbox_new (FALSE, 0);
- gtk_widget_show (vbox_bottom);
- gtk_paned_pack2 (GTK_PANED (vpaned), vbox_bottom, TRUE, TRUE);
-
- scrolledwindow_bottom = gtk_scrolled_window_new (NULL, NULL);
- gtk_widget_show (scrolledwindow_bottom);
- gtk_box_pack_start (GTK_BOX (vbox_bottom), scrolledwindow_bottom, TRUE, TRUE, 0);
- gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow_bottom), GTK_SHADOW_IN);
-
- textview_bottom = gtk_text_view_new ();
- gtk_widget_show (textview_bottom);
- gtk_container_add (GTK_CONTAINER (scrolledwindow_bottom), textview_bottom);
-
- */
-

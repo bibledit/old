@@ -46,6 +46,7 @@ public:
   void copy();
   void go_to(const ustring& url);
   time_t last_focused_time;
+  void set_second_browser(const ustring& filter, GtkHtml3Browser * browser);
 private:
   // Widgets.
   GtkWidget *my_vbox;
@@ -71,6 +72,10 @@ private:
   // Focus.
   static void on_htmlview_grab_focus(GtkWidget *widget, gpointer user_data);
   void htmlview_grab_focus();
+
+  // Second browser.
+  ustring url_filter;
+  GtkHtml3Browser * browser2;
 };
 
 #endif

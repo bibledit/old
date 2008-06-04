@@ -780,8 +780,51 @@ bool NewResourceDialog::write_anchors_gui() {
   return ok;
 }
 
-// General gui.
+// Lower home page.
 
+void NewResourceDialog::on_entry_lower_home_page_changed(GtkEditable *editable, gpointer user_data) {
+  ((NewResourceDialog *) user_data)->on_entry_lower_home_page();
+}
+
+void NewResourceDialog::on_entry_lower_home_page() {
+  lower_home_page = gtk_entry_get_text(GTK_ENTRY (entry_lower_home_page));
+  lower_home_page = trim(lower_home_page);
+  gui();
+}
+
+bool NewResourceDialog::lower_home_page_gui() {
+  bool ok = true;
+  ustring text = "Enter the home page for the lower browser";
+  if (lower_home_page.empty())
+    ok = false;
+  gui_okay(image_lower_home_page_ok, label_lower_home_page_ok, ok);
+  gtk_label_set_text(GTK_LABEL (label_lower_home_page), text.c_str());
+  return ok;
+}
+
+// Lower home page.
+
+void NewResourceDialog::on_entry_lower_url_filter_changed(GtkEditable *editable, gpointer user_data) {
+  ((NewResourceDialog *) user_data)->on_entry_lower_url_filter();
+}
+
+void NewResourceDialog::on_entry_lower_url_filter() {
+  lower_url_filter = gtk_entry_get_text(GTK_ENTRY (entry_lower_url_filter));
+  lower_url_filter = trim(lower_url_filter);
+  gui();
+}
+
+bool NewResourceDialog::lower_url_filter_gui() {
+  bool ok = true;
+  ustring text = "Enter the URL filter for the lower browser";
+  if (lower_url_filter.empty())
+    ok = false;
+  gui_okay(image_lower_url_filter_ok, label_lower_url_filter_ok, ok);
+  gtk_label_set_text(GTK_LABEL (label_lower_url_filter), text.c_str());
+  return ok;
+}
+
+// General gui.
 
 void NewResourceDialog::gui() {
   bool ok = true;
@@ -818,6 +861,10 @@ void NewResourceDialog::gui() {
       if (!anchors_gui())
         ok = false;
       if (!write_anchors_gui())
+        ok = false;
+      if (!lower_home_page_gui())
+        ok = false;
+      if (!lower_url_filter_gui())
         ok = false;
       break;
     }
@@ -872,11 +919,15 @@ void NewResourceDialog::build_gui_from_resource_type(Shortcuts& shortcuts, const
       build_button(image_books_ok, label_books_ok, label_books_short, button_books, "Books", shortcuts, G_CALLBACK (on_books_button_clicked), label_books_long);
       build_button(image_anchors_ok, label_anchors_ok, label_anchors_short, button_anchors, "Anchors", shortcuts, G_CALLBACK (on_anchors_button_clicked), label_anchors_long);
       build_checkbutton_button(image_write_anchors_ok, label_write_anchors_ok, checkbutton_write_anchors, "Anchors are there", G_CALLBACK (on_checkbutton_write_anchors_toggled), button_write_anchors, "Write anchors", G_CALLBACK (on_button_write_anchors_clicked), shortcuts, label_write_anchors);
+      build_entry(image_lower_home_page_ok, label_lower_home_page_ok, label_lower_home_page, "", entry_lower_home_page, resource_get_lower_home_page(filename_based_upon), G_CALLBACK (on_entry_lower_home_page_changed));
+      build_entry(image_lower_url_filter_ok, label_lower_url_filter_ok, label_lower_url_filter, "", entry_lower_url_filter, resource_get_lower_url_filter(filename_based_upon), G_CALLBACK (on_entry_lower_url_filter_changed));
       books = resource_get_books(filename_based_upon);
       anchors = resource_get_anchors(filename_based_upon);
       on_entry_title();
       on_entry_home_page();
       on_entry_url_constructor();
+      on_entry_lower_home_page();
+      on_entry_lower_url_filter();
       break;
     }
     case rtURLForEachVerse:
@@ -961,6 +1012,8 @@ void NewResourceDialog::on_okbutton() {
           g_key_file_set_string(keyfile, resource_template_anchors_group(), books_id_to_english (ids[i]).c_str(), anchor.c_str());
         }
       }
+      g_key_file_set_string(keyfile, resource_template_general_group(), resource_template_lower_home_page_key(), lower_home_page.c_str());
+      g_key_file_set_string(keyfile, resource_template_general_group(), resource_template_lower_url_filter_key(), lower_url_filter.c_str());
       break;
     }
     case rtEnd:
@@ -995,4 +1048,4 @@ void NewResourceDialog::create_working_directory(const ustring& templatefile)
   }
 }
 
-// Todo Improve NET Bible with footnotes, once once the template works, copy it to the templates in the tarball.
+

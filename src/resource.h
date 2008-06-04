@@ -47,7 +47,8 @@ private:
   GtkWidget *progressbar;
   GtkWidget *homebutton;
   GtkHtml3Browser * browser;
-
+  GtkHtml3Browser * browser2;
+  
   // Resource loader.
   ustring mytemplatefile;
   ResourceType resource_type;
@@ -57,6 +58,7 @@ private:
   ustring index_file_structure;
   map <unsigned int, ustring> book_renderer;
   map <unsigned int, ustring> anchor_renderer;
+  ustring url_filter;
 
   // Focus handling.
   GtkWidget * my_notebook_page;
@@ -66,7 +68,7 @@ private:
   static void on_homebutton_clicked(GtkButton *button, gpointer user_data);
   void homebutton_clicked();
   ustring homepage;
-  bool last_focused;
+  ustring homepage2;
 };
 
 #endif

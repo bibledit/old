@@ -248,6 +248,36 @@ ustring resource_get_url_constructor(const ustring& templatefile) {
   return url_constructor;
 }
 
+ustring resource_get_lower_home_page(const ustring& templatefile) {
+  ustring lower_home_page;
+  GKeyFile * keyfile = g_key_file_new();
+  if (g_key_file_load_from_file(keyfile, templatefile.c_str(), G_KEY_FILE_NONE, NULL)) {
+    gchar * value;
+    value = g_key_file_get_string(keyfile, resource_template_general_group(), resource_template_lower_home_page_key(), NULL);
+    if (value) {
+      lower_home_page = value;
+      g_free(value);
+    }
+    g_key_file_free(keyfile);
+  }
+  return lower_home_page;
+}
+
+ustring resource_get_lower_url_filter(const ustring& templatefile) {
+  ustring lower_url_filter;
+  GKeyFile * keyfile = g_key_file_new();
+  if (g_key_file_load_from_file(keyfile, templatefile.c_str(), G_KEY_FILE_NONE, NULL)) {
+    gchar * value;
+    value = g_key_file_get_string(keyfile, resource_template_general_group(), resource_template_lower_url_filter_key(), NULL);
+    if (value) {
+      lower_url_filter = value;
+      g_free(value);
+    }
+    g_key_file_free(keyfile);
+  }
+  return lower_url_filter;
+}
+
 gchar * resource_type_to_text(ResourceType type) {
   switch (type)
   {
@@ -309,6 +339,14 @@ gchar * resource_template_home_page_key() {
 
 gchar * resource_template_url_constructor_key() {
   return "url constructor";
+}
+
+gchar * resource_template_lower_home_page_key() {
+  return "lower home page";
+}
+
+gchar * resource_template_lower_url_filter_key() {
+  return "lower url filter";
 }
 
 map <unsigned int, ustring> resource_get_books(const ustring& templatefile) {

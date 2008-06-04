@@ -7394,6 +7394,9 @@ Buttons to use whether to add or remove it from the text. This can be used for i
 We need to merge the data, then run a diff between the main project and the merged data,
 and accept the differences one by one.
 
+What about showing a window with the merging function that shows all the options that can be accepted or refused,
+so the user can accept / refuse them one by one.
+
 The reporting needs to use letters, and a legend, because the tasks become too many to fit on the paper.
 
 There is a several procent CPU usage by bibledit-bin. Fix that. Is that the newest added timer?
@@ -7421,3 +7424,5 @@ then see if the new url is the same for the base part, then see if there is
 an anchor part also. Extract these all.
 
 */
+
+
