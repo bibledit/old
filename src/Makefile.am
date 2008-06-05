@@ -254,7 +254,8 @@ bibledit_bin_SOURCES = \
         check_sentence_structure.cpp \
         dialogcheckbutton.cpp \
         dialogimportrawtext.cpp \
-        gtkhtml3browser.cpp
+        gtkhtml3browser.cpp \
+        htmlcache.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 
@@ -267,7 +268,8 @@ AM_CXXFLAGS += $(GTK_CFLAGS)
 AM_CXXFLAGS += $(FONTCONFIG_CFLAGS)
 AM_CXXFLAGS += $(SQLITE_CFLAGS)
 AM_CXXFLAGS += $(ENCHANT_CFLAGS)
-AM_CXXFLAGS += $(GTKHTML3_CFLAGS)
+AM_CXXFLAGS += $(GTKHTML38_CFLAGS)
+AM_CXXFLAGS += $(GTKHTML314_CFLAGS)
 AM_CXXFLAGS += $(LIBCURL_CPPFLAGS)
 
 LIBS = -Wall 
@@ -279,7 +281,8 @@ LIBS += $(GTK_LIBS)
 LIBS += $(FONTCONFIG_LIBS)
 LIBS += $(SQLITE_LIBS)
 LIBS += $(ENCHANT_LIBS)
-LIBS += $(GTKHTML3_LIBS)
+LIBS += $(GTKHTML38_LIBS)
+LIBS += $(GTKHTML314_LIBS)
 LIBS += $(LIBCURL)
 
 if LINUX

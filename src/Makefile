@@ -163,7 +163,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogdictionary.$(OBJEXT) spelling.$(OBJEXT) \
 	dialogeditdictionary.$(OBJEXT) \
 	check_sentence_structure.$(OBJEXT) dialogcheckbutton.$(OBJEXT) \
-	dialogimportrawtext.$(OBJEXT) gtkhtml3browser.$(OBJEXT)
+	dialogimportrawtext.$(OBJEXT) gtkhtml3browser.$(OBJEXT) \
+	htmlcache.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -237,8 +238,10 @@ GREP = /bin/grep
 GREP_PATH = /bin/grep
 GTHREAD_CFLAGS = -pthread -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
 GTHREAD_LIBS = -pthread -lgthread-2.0 -lglib-2.0  
-GTKHTML3_CFLAGS = -DORBIT2=1 -pthread -I/usr/include/libgtkhtml-3.8 -I/usr/include/libgnomeui-2.0 -I/usr/include/libgnomeprintui-2.2 -I/usr/include/libglade-2.0 -I/usr/include/libgnome-2.0 -I/usr/include/libgnomecanvas-2.0 -I/usr/include/gtk-2.0 -I/usr/include/libart-2.0 -I/usr/include/gconf/2 -I/usr/include/libbonoboui-2.0 -I/usr/include/gnome-vfs-2.0 -I/usr/lib/gnome-vfs-2.0/include -I/usr/include/gnome-keyring-1 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/orbit-2.0 -I/usr/include/libbonobo-2.0 -I/usr/include/bonobo-activation-2.0 -I/usr/include/pango-1.0 -I/usr/include/freetype2 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/libpng12 -I/usr/include/libxml2 -I/usr/include/libgnomeprint-2.2  
-GTKHTML3_LIBS = -pthread -Wl,--export-dynamic -lgtkhtml-3.8 -lgnomeui-2 -lSM -lICE -lgnomeprintui-2-2 -lglade-2.0 -lbonoboui-2 -lgnome-keyring -lgnome-2 -lpopt -lgnomevfs-2 -lbonobo-2 -lgconf-2 -lbonobo-activation -lORBit-2 -lgthread-2.0 -lgnomeprint-2-2 -lz -lgnomecanvas-2 -lart_lgpl_2 -lpangoft2-1.0 -lgtk-x11-2.0 -lxml2 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lfontconfig -lXext -lXrender -lXinerama -lXi -lXrandr -lXcursor -lXfixes -lpango-1.0 -lcairo -lX11 -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0  
+GTKHTML314_CFLAGS = 
+GTKHTML314_LIBS = 
+GTKHTML38_CFLAGS = -DORBIT2=1 -pthread -I/usr/include/libgtkhtml-3.8 -I/usr/include/libgnomeui-2.0 -I/usr/include/libgnomeprintui-2.2 -I/usr/include/libglade-2.0 -I/usr/include/libgnome-2.0 -I/usr/include/libgnomecanvas-2.0 -I/usr/include/gtk-2.0 -I/usr/include/libart-2.0 -I/usr/include/gconf/2 -I/usr/include/libbonoboui-2.0 -I/usr/include/gnome-vfs-2.0 -I/usr/lib/gnome-vfs-2.0/include -I/usr/include/gnome-keyring-1 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/orbit-2.0 -I/usr/include/libbonobo-2.0 -I/usr/include/bonobo-activation-2.0 -I/usr/include/pango-1.0 -I/usr/include/freetype2 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/libpng12 -I/usr/include/libxml2 -I/usr/include/libgnomeprint-2.2  
+GTKHTML38_LIBS = -pthread -Wl,--export-dynamic -lgtkhtml-3.8 -lgnomeui-2 -lSM -lICE -lgnomeprintui-2-2 -lglade-2.0 -lbonoboui-2 -lgnome-keyring -lgnome-2 -lpopt -lgnomevfs-2 -lbonobo-2 -lgconf-2 -lbonobo-activation -lORBit-2 -lgthread-2.0 -lgnomeprint-2-2 -lz -lgnomecanvas-2 -lart_lgpl_2 -lpangoft2-1.0 -lgtk-x11-2.0 -lxml2 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lfontconfig -lXext -lXrender -lXinerama -lXi -lXrandr -lXcursor -lXfixes -lpango-1.0 -lcairo -lX11 -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0  
 GTK_CFLAGS = -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/freetype2 -I/usr/include/libpng12  
 GTK_LIBS = -lgtk-x11-2.0 -latk-1.0 -lgdk-x11-2.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lfontconfig -lXext -lXrender -lXinerama -lXi -lXrandr -lXcursor -lXfixes -lpango-1.0 -lcairo -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0 -lX11  
 GUNZIP_PATH = /bin/gunzip
@@ -255,7 +258,8 @@ LIBCURL_CPPFLAGS =
 LIBOBJS = 
 LIBS = -Wall `xml2-config --libs` $(GOBJECT_LIBS) $(GTHREAD_LIBS) \
 	$(GLIB_LIBS) $(GTK_LIBS) $(FONTCONFIG_LIBS) $(SQLITE_LIBS) \
-	$(ENCHANT_LIBS) $(GTKHTML3_LIBS) $(LIBCURL) $(am__append_1)
+	$(ENCHANT_LIBS) $(GTKHTML38_LIBS) $(GTKHTML314_LIBS) \
+	$(LIBCURL) $(am__append_1)
 LINUX_FALSE = #
 LINUX_TRUE = 
 LTLIBOBJS = 
@@ -265,9 +269,9 @@ OBJEXT = o
 PACKAGE = bibledit
 PACKAGE_BUGREPORT = http://www.nongnu.org/bibledit
 PACKAGE_NAME = bibledit
-PACKAGE_STRING = bibledit 3.2.32
+PACKAGE_STRING = bibledit 3.2.33
 PACKAGE_TARNAME = bibledit
-PACKAGE_VERSION = 3.2.32
+PACKAGE_VERSION = 3.2.33
 PANGO_CFLAGS = -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
 PANGO_LIBS = -lpango-1.0 -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0  
 PATH_SEPARATOR = :
@@ -284,7 +288,7 @@ STRINGS_PATH = /usr/bin/strings
 STRIP = 
 TAIL_PATH = /usr/bin/tail
 TEE_TOUCH = /usr/bin/touch
-VERSION = 3.2.32
+VERSION = 3.2.33
 WIN32_FALSE = 
 WIN32_TRUE = #
 XML2_CONFIG = /usr/bin/xml2-config
@@ -595,13 +599,14 @@ bibledit_bin_SOURCES = \
         check_sentence_structure.cpp \
         dialogcheckbutton.cpp \
         dialogimportrawtext.cpp \
-        gtkhtml3browser.cpp
+        gtkhtml3browser.cpp \
+        htmlcache.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
 	$(GTHREAD_CFLAGS) $(GLIB_CFLAGS) $(GTK_CFLAGS) \
 	$(FONTCONFIG_CFLAGS) $(SQLITE_CFLAGS) $(ENCHANT_CFLAGS) \
-	$(GTKHTML3_CFLAGS) $(LIBCURL_CPPFLAGS)
+	$(GTKHTML38_CFLAGS) $(GTKHTML314_CFLAGS) $(LIBCURL_CPPFLAGS)
 CLEANFILES = *~
 all: all-am
 
@@ -820,6 +825,7 @@ include ./$(DEPDIR)/help.Po
 include ./$(DEPDIR)/highlight.Po
 include ./$(DEPDIR)/html.Po
 include ./$(DEPDIR)/htmlbrowser.Po
+include ./$(DEPDIR)/htmlcache.Po
 include ./$(DEPDIR)/htmlwriter.Po
 include ./$(DEPDIR)/httpd.Po
 include ./$(DEPDIR)/hyphenate.Po

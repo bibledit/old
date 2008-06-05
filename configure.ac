@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(bibledit, 3.2.32, http://www.nongnu.org/bibledit)
+AC_INIT(bibledit, 3.2.33, http://www.nongnu.org/bibledit)
 AC_CANONICAL_SYSTEM
 ac_default_prefix=/usr
 AC_CONFIG_MACRO_DIR([m4])
@@ -161,9 +161,23 @@ PKG_CHECK_MODULES(PANGO, [pango >= 1.8.0],
    [AC_DEFINE(FIXED_PANGO, 1, [Define to 1 if pango >= 1.8.0.])],
    [AC_MSG_WARN([Enabling word-breaking workarounds since pango < 1.8.0])])
 
-PKG_CHECK_MODULES(GTKHTML3, libgtkhtml-3.8 >= 3.8.0,,AC_MSG_ERROR(libgtkhtml3 development version >= 3.8.0 is needed.))
-AC_SUBST(GTKHTML3_CFLAGS)
-AC_SUBST(GTKHTML3_LIBS)
+PKG_CHECK_MODULES(GTKHTML38, libgtkhtml-3.8 >= 3.8.0,
+	[
+	],
+	[
+		PKG_CHECK_MODULES(GTKHTML314, libgtkhtml-3.14 >= 3.8.0,
+			[
+			],
+			[
+				AC_MSG_ERROR(libgtkhtml3 development version >= 3.8.0 is needed.)
+			]
+		)
+	]
+)
+AC_SUBST(GTKHTML38_CFLAGS)
+AC_SUBST(GTKHTML38_LIBS)
+AC_SUBST(GTKHTML314_CFLAGS)
+AC_SUBST(GTKHTML314_LIBS)
 
 LIBCURL_CHECK_CONFIG([yes], 7.0.0,,AC_MSG_ERROR(libcurl3 >= 7.0.0 is needed.))
 AC_SUBST(LIBCURL_CPPFLAGS)

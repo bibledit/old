@@ -163,7 +163,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogdictionary.$(OBJEXT) spelling.$(OBJEXT) \
 	dialogeditdictionary.$(OBJEXT) \
 	check_sentence_structure.$(OBJEXT) dialogcheckbutton.$(OBJEXT) \
-	dialogimportrawtext.$(OBJEXT) gtkhtml3browser.$(OBJEXT)
+	dialogimportrawtext.$(OBJEXT) gtkhtml3browser.$(OBJEXT) \
+	htmlcache.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -237,8 +238,10 @@ GREP = @GREP@
 GREP_PATH = @GREP_PATH@
 GTHREAD_CFLAGS = @GTHREAD_CFLAGS@
 GTHREAD_LIBS = @GTHREAD_LIBS@
-GTKHTML3_CFLAGS = @GTKHTML3_CFLAGS@
-GTKHTML3_LIBS = @GTKHTML3_LIBS@
+GTKHTML314_CFLAGS = @GTKHTML314_CFLAGS@
+GTKHTML314_LIBS = @GTKHTML314_LIBS@
+GTKHTML38_CFLAGS = @GTKHTML38_CFLAGS@
+GTKHTML38_LIBS = @GTKHTML38_LIBS@
 GTK_CFLAGS = @GTK_CFLAGS@
 GTK_LIBS = @GTK_LIBS@
 GUNZIP_PATH = @GUNZIP_PATH@
@@ -255,7 +258,8 @@ LIBCURL_CPPFLAGS = @LIBCURL_CPPFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = -Wall `xml2-config --libs` $(GOBJECT_LIBS) $(GTHREAD_LIBS) \
 	$(GLIB_LIBS) $(GTK_LIBS) $(FONTCONFIG_LIBS) $(SQLITE_LIBS) \
-	$(ENCHANT_LIBS) $(GTKHTML3_LIBS) $(LIBCURL) $(am__append_1)
+	$(ENCHANT_LIBS) $(GTKHTML38_LIBS) $(GTKHTML314_LIBS) \
+	$(LIBCURL) $(am__append_1)
 LINUX_FALSE = @LINUX_FALSE@
 LINUX_TRUE = @LINUX_TRUE@
 LTLIBOBJS = @LTLIBOBJS@
@@ -595,13 +599,14 @@ bibledit_bin_SOURCES = \
         check_sentence_structure.cpp \
         dialogcheckbutton.cpp \
         dialogimportrawtext.cpp \
-        gtkhtml3browser.cpp
+        gtkhtml3browser.cpp \
+        htmlcache.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
 	$(GTHREAD_CFLAGS) $(GLIB_CFLAGS) $(GTK_CFLAGS) \
 	$(FONTCONFIG_CFLAGS) $(SQLITE_CFLAGS) $(ENCHANT_CFLAGS) \
-	$(GTKHTML3_CFLAGS) $(LIBCURL_CPPFLAGS)
+	$(GTKHTML38_CFLAGS) $(GTKHTML314_CFLAGS) $(LIBCURL_CPPFLAGS)
 CLEANFILES = *~
 all: all-am
 
@@ -820,6 +825,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/highlight.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/html.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/htmlbrowser.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/htmlcache.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/htmlwriter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/httpd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hyphenate.Po@am__quote@

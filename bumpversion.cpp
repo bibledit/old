@@ -26,6 +26,7 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include <string.h>
 
 
 using namespace std;
