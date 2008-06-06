@@ -30,7 +30,7 @@ extern "C" {
 }
 #include <curl/curl.h>
 
-struct CurlMemoryStruct2
+struct CurlMemoryStruct
 {
   char *memory;
   size_t size;
@@ -41,16 +41,20 @@ class HtmlCache
 public:
   HtmlCache(int dummy);
   ~HtmlCache();
-  ustring request_content (ustring url, bool& hit);
+  string request_url (ustring url, bool& trylater);
 private:
-  // Timer.
-  guint event_id;
-  static bool on_timeout(gpointer user_data);
-  bool timeout();
+  ustring clean_url (ustring url);
+  ustring cache_name (ustring url);
 
-  // Fetcher.
+  vector <ustring> url_queue;
+  static void thread_start (gpointer data);
+  void thread_main ();
+  bool abort_thread;
+  unsigned int thread_runs;
+  
   static void *myrealloc(void *ptr, size_t size);
   static size_t WriteMemoryCallback(void *ptr, size_t size, size_t nmemb, void *data);
+  
 };
 
 #endif

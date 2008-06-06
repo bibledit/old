@@ -169,4 +169,5 @@ time_t Resource::last_focused_time() {
 /*
  * Todo when there is no gtkhtml availble, to be determined in configure, then use a workaround using gtktextviews.
  * But configure gives an error if gtkhtml3 is not there, unless explicitly switched off by --with-gtkhtml3=no.
+ * This might come in on the olpc, else forget about it, just always enforce gtkhtml3.
  */

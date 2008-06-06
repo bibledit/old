@@ -28,13 +28,6 @@
 extern "C" {
 #include <gtkhtml/gtkhtml.h>
 }
-#include <curl/curl.h>
-
-struct CurlMemoryStruct
-{
-  char *memory;
-  size_t size;
-};
 
 class GtkHtml3Browser
 {
@@ -56,7 +49,10 @@ private:
   // Timer.
   guint event_id;
   static bool on_timeout(gpointer user_data);
-  bool timeout();
+  void timeout();
+  bool try_again;
+  ustring attempt_url;
+  
 
   // Loader.
   static gboolean on_html_url_requested(GtkHTML *html, const gchar *url, GtkHTMLStream *handle, gpointer user_data);
@@ -64,10 +60,6 @@ private:
   static gboolean on_html_link_clicked(GtkHTML *html, const gchar * url, gpointer user_data);
   void html_link_clicked(GtkHTML *html, const gchar * url);
   ustring loaded_url;
-
-  // Fetcher.
-  static void *myrealloc(void *ptr, size_t size);
-  static size_t WriteMemoryCallback(void *ptr, size_t size, size_t nmemb, void *data);
 
   // Focus.
   static void on_htmlview_grab_focus(GtkWidget *widget, gpointer user_data);
