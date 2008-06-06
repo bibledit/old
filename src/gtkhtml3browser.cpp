@@ -202,39 +202,18 @@ void GtkHtml3Browser::set_second_browser(const ustring& filter, GtkHtml3Browser 
 /*
  Todo building GtkHtml Browser.
 
- Make general source that handles the "browser" bits. One object called HtmlBrowser does all the 
- bits, threads, waiting, destruction, and so on. It has a method called "stop", and "load",
- and so on.
-
  You make the write callback (or progress callback) return an error and
  libcurl will then abort the transfer.
  return -1 to signal error to the library (it will cause it to abort the transfer
 
- The system needs a thread to retrieve URLs, because some URLs can take their time to come through, or
- block altogether.
- The system that is followed will run in a thread, create a gtkhtml widget, does not show it, but just in the air,
- and does all the jobs that it has to do. In the mean time it stores all data so received.
  Abort can be done by the callback, if bibledit shuts down.
- Once all data has been collected, it is once again loaded, but now in the real view.
- All the views callbacks retrieve that data from the store
- Data is kept in the store for about 10 minutes or so, then discarded.
- While a URL has been clicked, a timer is kept running that regularly looks whether the
- thread has finished. Once finished, it calls again the routine and now loads from the cache.
 
- Transfer fetcher to the cache as step one.
- Then do the storing through the cache as well.
- And finally the intelligence to ask the cache twice for data.
+ Start to implement remote URLs.
 
-Start to implement remote URLs.
-
-Start to implement error information to be displayed in the browser, taken from libcurl's error.
+ Start to implement error information to be displayed in the browser, taken from libcurl's error.
 
 
  */
-
-// Todo check why the tarball does not compile and no error is given in the nightly builds.
-// Probably because the nightbly builds does not compile from the tarball, only from the repository.
-
 
 // Make a feature request that allows for off-line browsing. A program goes through each verse, and clicks  
 // filtered links on the page, so that all urls are cached so making the program work offline too.
