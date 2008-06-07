@@ -7402,26 +7402,11 @@ The reporting needs to use letters, and a legend, because the tasks become too m
 There is a several procent CPU usage by bibledit-bin. Fix that. Is that the newest added timer?
 
 Look into DiType whether it supports our need of footnotes in a special flow.
-*/
 
-
-/*
-Todo replace gecko
-
-Will solve problem of Fedora Core 9 
-
-The xulrunner crash may be resolved by moving to gtkhtml3
-
-Better revert to GtkHtml, with some tricks to show the footnotes in a lower window.
-See older code how to handle that.
-Buttons to open in viewer may help.
-
-To add to Debian 4.0 installation: libgtkhtml3.8-dev, and to remove all reference to gecko libxul, firefox, etc in all instructions
-Try installation on all platforms again, including XO machine, and Mac.
-
-In the resource browser we need to remember the last url fetched,
-then see if the new url is the same for the base part, then see if there is
-an anchor part also. Extract these all.
+To speed up entry of status information, we should change the interface so that there are checkboxes also,
+and if these are checked, then a full range can be edited like that. Better still is to use a listview, 
+where e.g. a range of books can be selected upon which the editing function is going to apply.
+This allows to set a task for a whole range of books / chapters / verses.
 
 */
 

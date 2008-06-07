@@ -41,20 +41,23 @@ class HtmlCache
 public:
   HtmlCache(int dummy);
   ~HtmlCache();
-  string request_url (ustring url, bool& trylater);
+  char * request_url(ustring url, size_t& size, bool& trylater);
 private:
-  ustring clean_url (ustring url);
-  ustring cache_name (ustring url);
+  ustring clean_url(ustring url);
+  ustring cache_name(ustring url);
+  ustring cache_error(ustring url);
 
   vector <ustring> url_queue;
-  static void thread_start (gpointer data);
-  void thread_main ();
+  static void thread_start(gpointer data);
+  void thread_main();
   bool abort_thread;
   unsigned int thread_runs;
-  
+
   static void *myrealloc(void *ptr, size_t size);
   static size_t WriteMemoryCallback(void *ptr, size_t size, size_t nmemb, void *data);
-  
+
+  static int on_progress_function(gpointer user_data, double t, double d, double ultotal, double ulnow);
+  int progress_function ();
 };
 
 #endif

@@ -83,6 +83,7 @@ bool GtkHtml3Browser::on_timeout(gpointer user_data) {
 
 void GtkHtml3Browser::timeout() {
   go_to(attempt_url);
+  event_id = 0;
 }
 
 gboolean GtkHtml3Browser::on_html_url_requested(GtkHTML *html, const gchar *url, GtkHTMLStream *handle, gpointer user_data) {
@@ -90,11 +91,30 @@ gboolean GtkHtml3Browser::on_html_url_requested(GtkHTML *html, const gchar *url,
   return true;
 }
 
-void GtkHtml3Browser::html_url_requested(GtkHTML *html, const gchar *url, GtkHTMLStream *handle) {
-  cout << "implement html_url_requested: " << url << endl; // Todo implement, also the "try again".
+void GtkHtml3Browser::html_url_requested(GtkHTML *html, const gchar *url, GtkHTMLStream *handle)
+// Callback for fetching url within the page.
+{
 
-  gtk_html_write(html, handle, "", 0);
+  // Form the full url.
+  ustring myurl(url);
+  myurl = gw_build_filename(loading_dir, myurl);
 
+  // Fetch the url through the cache.
+  extern HtmlCache * htmlcache;
+  bool trylater;
+  size_t size;
+  gchar * contents = htmlcache->request_url(myurl, size, trylater);
+  if (contents) {
+    gtk_html_write(html, handle, contents, size);
+    g_free(contents);
+  }
+
+  // Optionally register a retry.
+  if (trylater) {
+    try_again = true;
+  }
+
+  // Finish.
   gtk_html_end(html, handle, GTK_HTML_STREAM_OK);
 }
 
@@ -103,12 +123,12 @@ gboolean GtkHtml3Browser::on_html_link_clicked(GtkHTML *html, const gchar * url,
   return true;
 }
 
-void GtkHtml3Browser::html_link_clicked(GtkHTML *html, const gchar * url) {
+void GtkHtml3Browser::html_link_clicked(GtkHTML *html, const gchar * url)
+// Callback for loading a new page in the browser.
+{
 
   // Retry flags.
   try_again = false;
-
-  //cout << "html_link_clicked: " << url << endl; // Todo
 
   // Bail out if the url is empty.
   ustring myurl(url);
@@ -143,8 +163,6 @@ void GtkHtml3Browser::html_link_clicked(GtkHTML *html, const gchar * url) {
     myurl = gw_build_filename(gw_path_get_dirname(loaded_url), myurl);
   }
 
-  //cout << "My url becomes " << myurl << endl; // Todo
-
   // Only load a new url if it differs from the one currently loaded.
   if ((myurl != loaded_url) && !myurl.empty()) {
 
@@ -152,11 +170,18 @@ void GtkHtml3Browser::html_link_clicked(GtkHTML *html, const gchar * url) {
     GtkHTMLStream *stream;
     stream = gtk_html_begin(html);
 
+    // Set the loading directory for possible callbacks for fetching parts of this page.
+    loading_dir = gw_path_get_dirname(myurl);
+
     // Retrieve the contents via the cache, write it to the widget.
     extern HtmlCache * htmlcache;
     bool trylater;
-    ustring contents = htmlcache->request_url(myurl, trylater);
-    gtk_html_write(html, stream, contents.c_str(), contents.length());
+    size_t size;
+    gchar * contents = htmlcache->request_url(myurl, size, trylater);
+    if (contents) {
+      gtk_html_write(html, stream, contents, size);
+      g_free(contents);
+    }
 
     // Finish the stream okay.
     gtk_html_end(html, stream, GTK_HTML_STREAM_OK);
@@ -168,7 +193,7 @@ void GtkHtml3Browser::html_link_clicked(GtkHTML *html, const gchar * url) {
     }
     if (try_again) {
       gw_destroy_source(event_id);
-      event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 300, GSourceFunc (on_timeout), gpointer(this), NULL);
+      event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 1000, GSourceFunc (on_timeout), gpointer(this), NULL);
     }
 
     // If everything's ok, save url loaded.
@@ -199,21 +224,3 @@ void GtkHtml3Browser::set_second_browser(const ustring& filter, GtkHtml3Browser 
   browser2 = browser;
 }
 
-/*
- Todo building GtkHtml Browser.
-
- You make the write callback (or progress callback) return an error and
- libcurl will then abort the transfer.
- return -1 to signal error to the library (it will cause it to abort the transfer
-
- Abort can be done by the callback, if bibledit shuts down.
-
- Start to implement remote URLs.
-
- Start to implement error information to be displayed in the browser, taken from libcurl's error.
-
-
- */
-
-// Make a feature request that allows for off-line browsing. A program goes through each verse, and clicks  
-// filtered links on the page, so that all urls are cached so making the program work offline too.

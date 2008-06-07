@@ -52,7 +52,6 @@ private:
   void timeout();
   bool try_again;
   ustring attempt_url;
-  
 
   // Loader.
   static gboolean on_html_url_requested(GtkHTML *html, const gchar *url, GtkHTMLStream *handle, gpointer user_data);
@@ -60,6 +59,7 @@ private:
   static gboolean on_html_link_clicked(GtkHTML *html, const gchar * url, gpointer user_data);
   void html_link_clicked(GtkHTML *html, const gchar * url);
   ustring loaded_url;
+  ustring loading_dir;
 
   // Focus.
   static void on_htmlview_grab_focus(GtkWidget *widget, gpointer user_data);

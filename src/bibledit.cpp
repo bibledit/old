@@ -81,8 +81,7 @@ int main(int argc, char *argv[]) {
   curl_global_init(CURL_GLOBAL_ALL);
   curl = curl_easy_init();
   // Html cache.
-  HtmlCache myhtmlcache (0);
-  htmlcache = &myhtmlcache;
+  htmlcache = new HtmlCache (0); 
   /*
    We used a trick to get Bibledit to operate as a true activity on OLPC. 
    The problem is that any regular X11 program that is started, 
@@ -123,9 +122,10 @@ int main(int argc, char *argv[]) {
   // Start the gui.
   MainWindow mainwindow(xembed);
   gtk_main();
-  // Cleanup.
-  if (curl)
-    curl_easy_cleanup(curl);
+  // Cleanup http fetching. Note: the html cache must be deleted before curl is cleaned up. 
+  // If this is done in the wrong order, and a fetch is going on at this moment, then bibledit crashes on shutdown.
+  delete htmlcache;
+  curl_easy_cleanup(curl);
   // Quit.
   return 0;
 }

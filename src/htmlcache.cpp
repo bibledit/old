@@ -27,11 +27,15 @@
 
 HtmlCache::HtmlCache(int dummy) {
   thread_runs = 0;
+  abort_thread = false;
 }
 
 HtmlCache::~HtmlCache() {
   abort_thread = true;
-  g_usleep(20000);
+  while (thread_runs) {
+    gw_message("Waiting for html cache to shut down");
+    g_usleep(500000);
+  }
 }
 
 ustring HtmlCache::clean_url(ustring url) {
@@ -49,15 +53,24 @@ ustring HtmlCache::cache_name(ustring url) {
   return url;
 }
 
+ustring HtmlCache::cache_error(ustring url) {
+  url = cache_name(url);
+  url.append("_error_");
+  return url;
+}
+
 void HtmlCache::thread_start(gpointer data) {
   ((HtmlCache*) data)->thread_main();
 }
 
 void HtmlCache::thread_main() {
 
-  // Thread state flags.
+  // Bail out if thread should abort.
+  if (abort_thread)
+    return;
+
+  // Thread state flag.
   thread_runs++;
-  abort_thread = false; // Todo implement, also on shutdown.
 
   // Get the url to fetch.
   ustring url;
@@ -66,8 +79,6 @@ void HtmlCache::thread_main() {
     url_queue.erase(url_queue.begin());
   }
 
-  cout << "HtmlCache::thread_main to fetch " << url << endl; // Todo
-  
   // Initialize memory for storing the page contents.
   struct CurlMemoryStruct chunk;
   chunk.memory = NULL;
@@ -91,55 +102,76 @@ void HtmlCache::thread_main() {
   // Some servers don't like requests that are made without a user-agent field, so we provide one.
   curl_easy_setopt(curl, CURLOPT_USERAGENT, "bibledit/1.0");
 
-  // Get it!
-  curl_easy_perform(curl);
+  // Follow any Location: header that the server sends as part of an HTTP header.
+  curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, true);
 
-  // Get and cache the contents.
-  if (chunk.memory) {
-    g_file_set_contents(cache_name(url).c_str(), chunk.memory, -1, NULL);
-    g_free(chunk.memory);
+  // Automatically set the Referer: field in requests where it follows a Location: redirect. 
+  curl_easy_setopt(curl, CURLOPT_AUTOREFERER, true);
+
+  // Set callback function for progress information. Also used for aborting the transfer.
+  curl_easy_setopt(curl, CURLOPT_NOPROGRESS, false);
+  curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, on_progress_function);
+  curl_easy_setopt(curl, CURLOPT_PROGRESSDATA, this);
+
+  // Error buffer.
+  char curl_errbuf[CURL_ERROR_SIZE];
+  curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, curl_errbuf);
+
+  // Get it!
+  CURLcode code = curl_easy_perform(curl);
+
+  // Handle ok or error.
+  if (code == 0) {
+
+    // Get and cache the contents.
+    if (chunk.memory) {
+      g_file_set_contents(cache_name(url).c_str(), chunk.memory, chunk.size, NULL);
+      g_free(chunk.memory);
+    } else {
+      g_file_set_contents(cache_name(url).c_str(), "", 0, NULL);
+    }
+
+  } else {
+
+    // Store error.
+    if (!abort_thread)
+      g_file_set_contents(cache_error(url).c_str(), curl_errbuf, -1, NULL);
+
   }
 
-  // Optionally create thread for another url in the queue.
-  if (!url_queue.empty()) {
+  // Create thread if there's another url in the queue.
+  if (!url_queue.empty() && !abort_thread) {
     g_thread_create (GThreadFunc (thread_start), gpointer (this), false, NULL);
   }
-  
-  // Thread state flags.
+
+  // Thread state flag.
   thread_runs--;
 }
 
-string HtmlCache::request_url(ustring url, bool& trylater) {
-
-  // Content.
-  string content;
-
+char * HtmlCache::request_url(ustring url, size_t& size, bool& trylater)
+// Requests a URL from the cache. Return value must be freed by the caller. Value may be NULL.
+{
   // Clean url.
   url = clean_url(url);
 
   // Empty url: bail out.
   if (url.empty()) {
     trylater = false;
-    return "";
+    size = 0;
+    return g_strdup ("");
   }
-
-  cout << "HtmlCache::request_url " << url << endl; // Todo
 
   // If the url is in the cache, get it from there and bail out.
   ustring cachename = cache_name(url);
   if (g_file_test(cachename.c_str(), G_FILE_TEST_IS_REGULAR)) {
-    gchar * gcontent;
-    g_file_get_contents(cachename.c_str(), &gcontent, NULL, NULL);
-    if (gcontent) {
-      content = gcontent;
-      g_free(gcontent);
-    }
+    gchar * content;
+    g_file_get_contents(cachename.c_str(), &content, &size, NULL);
     trylater = false;
-    cout << "Cache hit" << endl; // Todo
     return content;
   }
 
-  // Ensure that the url is in the queue.
+  // If the code reaches this stage, it means that the url was not in the cache.
+  // Therefore ensure that the url is in the fetcher queue.
   bool queue = true;
   for (unsigned int i = 0; i < url_queue.size(); i++) {
     if (url == url_queue[i])
@@ -153,9 +185,20 @@ string HtmlCache::request_url(ustring url, bool& trylater) {
     g_thread_create (GThreadFunc (thread_start), gpointer (this), false, NULL);
   }
 
-  // Client is to retry.
+  // If an error message is in the cache, get it from there and bail out.
+  ustring cacheerror = cache_error(url);
+  if (g_file_test(cacheerror.c_str(), G_FILE_TEST_IS_REGULAR)) {
+    gchar * content;
+    g_file_get_contents(cacheerror.c_str(), &content, &size, NULL);
+    trylater = false;
+    return content;
+  }
+
+  // If the code gets here it means that nothing related to the url was in the cache.
+  // Therefore tell the client to retry and give info about loading.
   trylater = true;
-  content = "Loading...";
+  gchar * content = g_strdup ("Loading...");
+  size = strlen (content);
   return content;
 }
 
@@ -178,24 +221,33 @@ size_t HtmlCache::WriteMemoryCallback(void *ptr, size_t size, size_t nmemb, void
     mem->size += realsize;
     mem->memory[mem->size] = 0;
   }
+
   return realsize;
 }
 
+int HtmlCache::on_progress_function(gpointer user_data, double t, double d, double ultotal, double ulnow)
+// t: download total, d: download now, ultotal/ulnow: uploads.
 /*
- * Todo the html cache.
- * 
- Preferences: Expires after so many days, clear cache on shutdown, and so on.
- 
- 
- The cache's clients work like this:
- They request the url from the cache. If it is a hit, fine, load whatever you have. If a miss, try again shortly.
- So that if urls are requested through the page, e.g. an image, and it is a miss, then it loads the page as it is.
- It repeats loading the main page till it is a hit, and then the timer stops.
- 
- Error messages may be converted through the cache in visible messages, e.g. "File not found", etc.,
- using libcurl's error messages.
- One message could be "Loading...".
- 
- Implement the abort function when bibledit shuts down, so that the transfer is really aborted and bibledit does not hang.
- 
+ Function pointer that should match the curl_progress_callback prototype found in <curl/curl.h>. 
+ This function gets called by libcurl instead of its internal equivalent with a frequent interval during operation 
+ (roughly once per second) no matter if data is being transfered or not. 
+ Unknown/unused argument values passed to the callback will be set to zero (like if you only download data, 
+ the upload size will remain 0). 
+ Returning a non-zero value from this callback will cause libcurl to abort the transfer and return CURLE_ABORTED_BY_CALLBACK.
+ If you transfer data with the multi interface, this function will not be called during periods of idleness unless you call the 
+ appropriate libcurl function that performs transfers. 
+ Usage of the CURLOPT_PROGRESSFUNCTION callback is not recommended when using the multi interface.
+ CURLOPT_NOPROGRESS must be set to FALSE to make this function actually get called.   
  */
+{
+  return ((HtmlCache*) user_data)->progress_function();
+}
+
+int HtmlCache::progress_function()
+// Shows progress. Used for aborting a transfer.
+{
+  if (abort_thread)
+    return 1;
+  return 0;
+}
+
