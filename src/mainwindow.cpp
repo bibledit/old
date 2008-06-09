@@ -7389,14 +7389,6 @@ void MainWindow::on_print ()
 /*
 Todo some points:
 
-There is an idea to extend the merging function with a function to manually choose all changes.
-Buttons to use whether to add or remove it from the text. This can be used for integration of changes from outside such as raw code.
-We need to merge the data, then run a diff between the main project and the merged data,
-and accept the differences one by one.
-
-What about showing a window with the merging function that shows all the options that can be accepted or refused,
-so the user can accept / refuse them one by one.
-
 The reporting needs to use letters, and a legend, because the tasks become too many to fit on the paper.
 
 There is a several procent CPU usage by bibledit-bin. Fix that. Is that the newest added timer?
@@ -7407,6 +7399,9 @@ To speed up entry of status information, we should change the interface so that 
 and if these are checked, then a full range can be edited like that. Better still is to use a listview, 
 where e.g. a range of books can be selected upon which the editing function is going to apply.
 This allows to set a task for a whole range of books / chapters / verses.
+
+For the wide problem, we could consider only once in a very while to modify the sizes, not straight when 
+the paned is shifted, but with a good delay.
 
 */
 

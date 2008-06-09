@@ -32,7 +32,7 @@
 GtkHtml3Browser::GtkHtml3Browser(GtkWidget * vbox) {
   // Save and initialize variables.
   my_vbox = vbox;
-  event_id = 0;
+  event_id = 0; // Todo set to 0 on object destroy, to prevent crashes.
   last_focused_time = 0;
 
   // The html widget.
@@ -223,4 +223,6 @@ void GtkHtml3Browser::set_second_browser(const ustring& filter, GtkHtml3Browser 
   url_filter = filter;
   browser2 = browser;
 }
+
+
 
