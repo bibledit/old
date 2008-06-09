@@ -963,4 +963,14 @@ void MergeGUI::show_comparison() // Todo working here.
 
  Update the whole merge documentation, as several details changed, and extra options were introduced.
 
+
+Feature request:
+1. Test the import unstructured text functionality if it works well with your google document. For Phil.
+2. If the above test fails, then to expand the functionality of that import routine.
+3. Expand the merger with the option to merge change by change, and stop and start at any time at any location.
+4. Determine whether there is a need for handling footnotes and xrefs.
+5. If the above is true, then to devise means to do that. Current proposal is to remove the notes on export to google docs, 
+   replace them with placeholders, then then later to allow to insert them again, all automatically.
+
+
  */

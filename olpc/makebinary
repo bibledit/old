@@ -10,15 +10,6 @@
 
 
 
-# Check that $1 is given. It contains Mozilla's home directory.
-if [ "$1" = "" ]
-then
-  echo This script needs to be called through "make binary".
-  exit
-fi
-
-
-
 # Get the version number of Bibledit and give information to the user.
 VERSION=`grep PACKAGE_VERSION ../config.h | sed 's/#define PACKAGE_VERSION //' | sed 's/"//g'`
 echo Creating binary installer of Bibledit $VERSION for the OLPC machine.
@@ -41,8 +32,6 @@ TARBALL=bibledit-$VERSION-xo-bin.tar
 tar --create -v -P -f $TARBALL /usr/share/bibledit/* > /dev/null
 # - Bibledit's binaries.
 tar --append -v -P -f $TARBALL /usr/bin/bibledit* > /dev/null
-# - Mozilla home's files.
-tar --append -v -P -f $TARBALL $1/* > /dev/null
 
 
 # Compress the tarball and move it a directory level up.

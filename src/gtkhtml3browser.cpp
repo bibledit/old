@@ -32,7 +32,7 @@
 GtkHtml3Browser::GtkHtml3Browser(GtkWidget * vbox) {
   // Save and initialize variables.
   my_vbox = vbox;
-  event_id = 0; // Todo set to 0 on object destroy, to prevent crashes.
+  event_id = 0;
   last_focused_time = 0;
 
   // The html widget.
