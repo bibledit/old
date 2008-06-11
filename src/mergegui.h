@@ -25,6 +25,7 @@
 #include <gtk/gtk.h>
 #include "reference.h"
 #include "editor.h"
+#include "merge_utils.h"
 
 class MergeGUI
 {
@@ -36,6 +37,8 @@ public:
 public:
 private:
   GtkWidget *my_notebook_vbox;
+  GtkWidget *notebook1;
+  // Merge widgets.
   GtkWidget *vbox1;
   GtkWidget *label6;
   GtkWidget *combobox_master;
@@ -60,7 +63,17 @@ private:
   GtkWidget *hbox3;
   GtkWidget *label10;
   GtkWidget *image8;
-
+  // Approve widgets.
+  GtkWidget *vbox2;
+  GtkWidget *label_approve;
+  GtkWidget *scrolledwindow2;
+  GtkWidget *textview_approval;
+  GtkWidget *button_ready;
+  GtkWidget *alignment6;
+  GtkWidget *hbox7;
+  GtkWidget *image11;
+  GtkWidget *label19;
+  
   // Focus and activation.
 public:
   bool has_focus();
@@ -128,13 +141,14 @@ public:
 private:
   static void on_button_merge_clicked(GtkButton *button, gpointer user_data);
   void on_button_merge();
-  void merge_edited_into_master();
+  void merge_edited_into_master(bool approve);
   void copy_master_to_edited_chapter(unsigned int bk, unsigned int ch, bool gui);
   void copy_master_to_edited_all();
 
   // Split and join.
 public:
 private:
+  ustring workingdirectory;
   ustring split_data(const ustring& data);
   ustring join_data(const ustring& data);
   gchar * new_line_indicator();
@@ -145,14 +159,32 @@ public:
 private:
   ustring merge_conflicts_2_human_readable_text(const ustring& data);
 
-  // Internal editor.
+  // Differences view.
 public:
 private:
-  GtkTextBuffer * textbuffer;
+  GtkTextBuffer * differencesbuffer;
   GtkTextTag *heavy_weight_tag;
   GtkTextTag *strike_through_tag;
   void show_comparison();
 
+  // Changes approval.
+public:
+private:
+  void approval_setup(const ustring& maindata, const ustring& mergedata);
+  ustring approve_master_project;
+  ustring approve_edited_project;
+  unsigned int approve_book;
+  unsigned int approve_chapter;
+  ustring approve_master_file;
+  ustring approve_merge_file;
+  ustring approve_patch_file;
+  GtkTextBuffer * approve_buffer;
+  void approval_show_diff();
+  static void on_button_approve_clicked(GtkButton *button, gpointer user_data);
+  void approval_approve(GtkButton *button);
+  vector <ApproveButton> approve_buttons;
+  static void on_button_ready_clicked(GtkButton *button, gpointer user_data);
+  void button_ready_clicked ();
 };
 
 #endif

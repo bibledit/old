@@ -37,18 +37,25 @@
 #include "usfmtools.h"
 #include "dialogmerge.h"
 #include "merge_utils.h"
+#include "shell.h"
 
 MergeGUI::MergeGUI(GtkWidget * notebook_vbox) {
-  // Save and initialize varables.
+  // Save and initialize variables.
   my_notebook_vbox = notebook_vbox;
   active = false;
   load_gui_event_id = 0;
   editors_changed_event_id = 0;
 
   // Build GUI.
+  notebook1 = gtk_notebook_new();
+  gtk_widget_show(notebook1);
+  gtk_box_pack_start(GTK_BOX (notebook_vbox), notebook1, TRUE, TRUE, 0);
+  gtk_notebook_set_show_tabs(GTK_NOTEBOOK (notebook1), FALSE);
+
+  // Build merge GUI.
   vbox1 = gtk_vbox_new(FALSE, 0);
   gtk_widget_show(vbox1);
-  gtk_box_pack_start(GTK_BOX (notebook_vbox), vbox1, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER (notebook1), vbox1);
 
   label6 = gtk_label_new_with_mnemonic("M_aster project");
   gtk_widget_show(label6);
@@ -86,7 +93,7 @@ MergeGUI::MergeGUI(GtkWidget * notebook_vbox) {
   gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW (textview1), GTK_WRAP_WORD);
   gtk_text_view_set_editable(GTK_TEXT_VIEW (textview1), FALSE);
 
-  textbuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW (textview1));
+  differencesbuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW (textview1));
 
   hbox1 = gtk_hbox_new(FALSE, 0);
   gtk_widget_show(hbox1);
@@ -152,6 +159,51 @@ MergeGUI::MergeGUI(GtkWidget * notebook_vbox) {
   gtk_widget_show(image8);
   gtk_box_pack_start(GTK_BOX (hbox3), image8, FALSE, FALSE, 0);
 
+  // Build approve GUI.
+  vbox2 = gtk_vbox_new(FALSE, 0);
+  gtk_widget_show(vbox2);
+  gtk_container_add(GTK_CONTAINER (notebook1), vbox2);
+
+  label_approve = gtk_label_new("");
+  gtk_widget_show(label_approve);
+  gtk_box_pack_start(GTK_BOX (vbox2), label_approve, FALSE, FALSE, 0);
+  gtk_misc_set_alignment(GTK_MISC (label_approve), 0, 0.5);
+
+  scrolledwindow2 = gtk_scrolled_window_new(NULL, NULL);
+  gtk_widget_show(scrolledwindow2);
+  gtk_box_pack_start(GTK_BOX (vbox2), scrolledwindow2, TRUE, TRUE, 0);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow2), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW (scrolledwindow2), GTK_SHADOW_IN);
+
+  textview_approval = gtk_text_view_new();
+  gtk_widget_show(textview_approval);
+  gtk_container_add(GTK_CONTAINER (scrolledwindow2), textview_approval);
+  gtk_text_view_set_editable(GTK_TEXT_VIEW (textview_approval), FALSE);
+  gtk_text_view_set_accepts_tab(GTK_TEXT_VIEW (textview_approval), FALSE);
+  gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW (textview_approval), FALSE);
+
+  approve_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW (textview_approval));
+
+  button_ready = gtk_button_new();
+  gtk_widget_show(button_ready);
+  gtk_box_pack_start(GTK_BOX (vbox2), button_ready, FALSE, FALSE, 0);
+
+  alignment6 = gtk_alignment_new(0.5, 0.5, 0, 0);
+  gtk_widget_show(alignment6);
+  gtk_container_add(GTK_CONTAINER (button_ready), alignment6);
+
+  hbox7 = gtk_hbox_new(FALSE, 2);
+  gtk_widget_show(hbox7);
+  gtk_container_add(GTK_CONTAINER (alignment6), hbox7);
+
+  image11 = gtk_image_new_from_stock("gtk-ok", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_show(image11);
+  gtk_box_pack_start(GTK_BOX (hbox7), image11, FALSE, FALSE, 0);
+
+  label19 = gtk_label_new_with_mnemonic("_Save");
+  gtk_widget_show(label19);
+  gtk_box_pack_start(GTK_BOX (hbox7), label19, FALSE, FALSE, 0);
+
   gtk_label_set_mnemonic_widget(GTK_LABEL (label6), combobox_master);
   gtk_label_set_mnemonic_widget(GTK_LABEL (label7), combobox_edited);
 
@@ -170,6 +222,9 @@ MergeGUI::MergeGUI(GtkWidget * notebook_vbox) {
   g_signal_connect ((gpointer) button_next, "clicked",
       G_CALLBACK (on_button_next_clicked),
       gpointer(this));
+  g_signal_connect ((gpointer) button_ready, "clicked",
+      G_CALLBACK (on_button_ready_clicked),
+      gpointer(this));
 
   // Create signalling buttons.
   editors_get_text_button = gtk_button_new();
@@ -183,8 +238,8 @@ MergeGUI::MergeGUI(GtkWidget * notebook_vbox) {
   gtk_widget_set_sensitive(button_next, false);
 
   // Create tags.
-  heavy_weight_tag = gtk_text_buffer_create_tag(textbuffer, NULL, "weight", PANGO_WEIGHT_HEAVY, "background", "khaki", NULL);
-  strike_through_tag = gtk_text_buffer_create_tag(textbuffer, NULL, "strikethrough", TRUE, "background", "khaki", NULL);
+  heavy_weight_tag = gtk_text_buffer_create_tag(differencesbuffer, NULL, "weight", PANGO_WEIGHT_HEAVY, "background", "khaki", NULL);
+  strike_through_tag = gtk_text_buffer_create_tag(differencesbuffer, NULL, "strikethrough", TRUE, "background", "khaki", NULL);
 }
 
 MergeGUI::~MergeGUI() {
@@ -269,9 +324,6 @@ void MergeGUI::on_combobox_master() {
       combobox_set_index(combobox_edited, -1);
     }
   }
-
-  // Load master project and related data in the Editor object.
-  // Todo editor->project = current_master_project;
 
   // Simulate editors changed, so it would load the differences.
   editors_changed();
@@ -394,7 +446,7 @@ void MergeGUI::on_editors_changed()
 
   // If no loading, clear text and bail out.
   if (!loadtext) {
-    gtk_text_buffer_set_text(textbuffer, "", -1);
+    gtk_text_buffer_set_text(differencesbuffer, "", -1);
     return;
   }
 
@@ -551,7 +603,7 @@ void MergeGUI::on_button_merge() {
   vector <ustring> labels;
   labels.push_back("Merge " + book_chapter + " of project " + current_edited_project + " and " + current_master_project);
   labels.push_back("Merge " + book_chapter + " of project " + current_edited_project + " and " + current_master_project + ",\n"
-    "and review each change as compared to project " + current_master_project);
+    "and approve of each change as compared to project " + current_master_project);
   labels.push_back("Copy " + book_chapter + " of project " + current_master_project + " to project " + current_edited_project);
   labels.push_back("Copy everything of project " + current_master_project + " to project " + current_edited_project);
   RadiobuttonDialog dialog("Select action", "Select the type of merge or copy to be done", labels, 0);
@@ -562,12 +614,12 @@ void MergeGUI::on_button_merge() {
   {
     case 0:
     {
-      merge_edited_into_master();
+      merge_edited_into_master(false);
       break;
     }
     case 1:
     {
-      //merge_edited_into_master (); // Todo
+      merge_edited_into_master(true);
       break;
     }
     case 2:
@@ -589,7 +641,7 @@ void MergeGUI::on_button_merge() {
   git_command_pause(false);
 }
 
-void MergeGUI::merge_edited_into_master()
+void MergeGUI::merge_edited_into_master(bool approve)
 // This merges the edited data into the master data, and does error checking.
 {
   // Bail out if there's nothing to merge.
@@ -671,7 +723,7 @@ void MergeGUI::merge_edited_into_master()
   }
 
   // Do the merge in a temporal directory.
-  ustring workingdirectory = gw_build_filename(directories_get_temp(), "merge");
+  workingdirectory = gw_build_filename(directories_get_temp(), "merge");
   unix_rmdir(workingdirectory);
   gw_mkdir_with_parents(workingdirectory);
 
@@ -749,14 +801,24 @@ void MergeGUI::merge_edited_into_master()
     return;
   }
 
-  // Store the merge result in both chapters.  
-  ParseLine parseline(merge_result);
-  CategorizeChapterVerse ccv(parseline.lines);
-  project_store_chapter(current_master_project, book, ccv);
-  project_store_chapter(current_edited_project, book, ccv);
+  if (approve) {
 
-  // Message ok.
-  gtkw_dialog_info(NULL, "The chapters were successfully merged");
+    // Setup the approval system.
+    approval_setup(main_project_data, merge_result);
+
+  } else {
+
+    // Store the merge result in both chapters.  
+    ParseLine parseline(merge_result);
+    CategorizeChapterVerse ccv(parseline.lines);
+    project_store_chapter(current_master_project, book, ccv);
+    project_store_chapter(current_edited_project, book, ccv);
+
+    // Message ok.
+    gtkw_dialog_info(NULL, "The chapters were successfully merged");
+
+  }
+
 }
 
 void MergeGUI::copy_master_to_edited_chapter(unsigned int bk, unsigned int ch, bool gui) {
@@ -881,7 +943,7 @@ ustring MergeGUI::merge_conflicts_2_human_readable_text(const ustring& data)
   return text;
 }
 
-void MergeGUI::show_comparison() // Todo working here.
+void MergeGUI::show_comparison()
 // Shows the comparison.
 {
   // Make comparison.
@@ -891,7 +953,7 @@ void MergeGUI::show_comparison() // Todo working here.
   compare_chapter(parseline_edited.lines, parseline_main.lines, comparison);
 
   // Clear buffer.
-  gtk_text_buffer_set_text(textbuffer, "", 0);
+  gtk_text_buffer_set_text(differencesbuffer, "", 0);
 
   // The markers for the changes.
   ustring insertion_opener = usfm_get_full_opening_marker(INSERTION_MARKER);
@@ -922,37 +984,203 @@ void MergeGUI::show_comparison() // Todo working here.
         comparison[i].erase(0, deletion_closer.length());
       } else {
         // Print a character with current markup.
-        gtk_text_buffer_get_end_iter(textbuffer, &iter);
-        gtk_text_buffer_insert_with_tags(textbuffer, &iter, comparison[i].substr(0, 1).c_str(), -1, tag, NULL);
+        gtk_text_buffer_get_end_iter(differencesbuffer, &iter);
+        gtk_text_buffer_insert_with_tags(differencesbuffer, &iter, comparison[i].substr(0, 1).c_str(), -1, tag, NULL);
         comparison[i].erase(0, 1);
       }
     }
 
-    // End of line: clear markup.
+    // End of line.
     tag = NULL;
-
-    // End of line: add newline.
-    gtk_text_buffer_get_end_iter(textbuffer, &iter);
-    gtk_text_buffer_insert(textbuffer, &iter, "\n", 1);
+    gtk_text_buffer_get_end_iter(differencesbuffer, &iter);
+    gtk_text_buffer_insert(differencesbuffer, &iter, "\n", 1);
   }
+}
+
+void MergeGUI::approval_setup(const ustring& maindata, const ustring& mergedata) // Todo
+{
+  // Initialize the approval system's variables and gui.
+  approve_master_project = current_master_project;
+  approve_edited_project = current_edited_project;
+  approve_book = book;
+  approve_chapter = chapter;
+  ustring label = "Changes approval, " + books_id_to_english(approve_book) + " " + convert_to_string(approve_chapter);
+  gtk_label_set_text(GTK_LABEL (label_approve), label.c_str());
+  gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook1), 1);
+  approve_master_file = gw_build_filename(workingdirectory, "master");
+  approve_merge_file = gw_build_filename(workingdirectory, "merged");
+
+  // Save both sets of data to file.
+  g_file_set_contents(approve_master_file.c_str(), split_data(trim(maindata)).c_str(), -1, NULL);
+  g_file_set_contents(approve_merge_file.c_str(), split_data(trim(mergedata)).c_str(), -1, NULL);
+
+  // Show differences in the GUI.
+  approval_show_diff();
+
+  // Info for user.
+  gtkw_dialog_info(NULL, "The chapters are ready for approving the individual changes");
+}
+
+void MergeGUI::approval_show_diff() // Todo
+// Looks for the differences and shows them in the GUI.
+{
+  // Create a patch file by running a diff.
+  approve_patch_file = gw_build_filename(workingdirectory, "patch");
+  ustring command = "diff" + shell_quote_space(approve_master_file) + shell_quote_space(approve_merge_file) + ">" + shell_quote_space(approve_patch_file);
+  system(command.c_str());
+
+  // Clear items.
+  gtk_text_buffer_set_text(approve_buffer, "", 0);
+  approve_buttons.clear();
+
+  // Read the patch.
+  vector <Patch> patches = merge_read_patch(approve_patch_file);
+
+  // Show the master file in the textview, with buttons for approval of patches.
+  ReadText rt(approve_master_file, true, false);
+  for (unsigned int i = 0; i < rt.lines.size(); i++) {
+
+    // Text iterator.
+    GtkTextIter iter;
+
+    // Handle new line.
+    if (rt.lines[i].find(trim(new_line_indicator())) != string::npos) {
+      gtk_text_buffer_get_end_iter(approve_buffer, &iter);
+      gtk_text_buffer_insert(approve_buffer, &iter, "\n", -1);
+      continue;
+    }
+
+    // Skip verse indicators.
+    if (rt.lines[i].find(verse_indicator()) != string::npos) {
+      continue;
+    }
+
+    // Insert normal text.
+    gtk_text_buffer_get_end_iter(approve_buffer, &iter);
+    gtk_text_buffer_insert(approve_buffer, &iter, rt.lines[i].c_str(), -1);
+
+    // If there's a patch here, show it.
+    for (unsigned int i2 = 0; i2 < patches.size(); i2++) {
+      if (i + 1 == patches[i2].linenumber) { // (diff starts at line 1, but we start at line 0).
+
+        // Add a space before the button.
+        gtk_text_buffer_get_end_iter(approve_buffer, &iter);
+        gtk_text_buffer_insert(approve_buffer, &iter, " ", 1);
+
+        // Insert a button with the patch.
+        gtk_text_buffer_get_end_iter(approve_buffer, &iter);
+        GtkTextChildAnchor * childanchor = gtk_text_buffer_create_child_anchor(approve_buffer, &iter);
+        GtkWidget * button = gtk_button_new();
+
+        GtkWidget *alignment;
+        alignment = gtk_alignment_new(0.5, 0.5, 0, 0);
+        gtk_widget_show(alignment);
+        gtk_container_add(GTK_CONTAINER (button), alignment);
+
+        GtkWidget *hbox;
+        hbox = gtk_hbox_new(FALSE, 2);
+        gtk_widget_show(hbox);
+        gtk_container_add(GTK_CONTAINER (alignment), hbox);
+
+        GtkWidget *image;
+        if (patches[i2].addition)
+          image = gtk_image_new_from_stock("gtk-add", GTK_ICON_SIZE_BUTTON);
+        else
+          image = gtk_image_new_from_stock("gtk-remove", GTK_ICON_SIZE_BUTTON);
+        gtk_widget_show(image);
+        gtk_box_pack_start(GTK_BOX (hbox), image, FALSE, FALSE, 0);
+
+        GtkWidget *label;
+        label = gtk_label_new_with_mnemonic(patches[i2].change.c_str());
+        gtk_widget_show(label);
+        gtk_box_pack_start(GTK_BOX (hbox), label, FALSE, FALSE, 0);
+
+        gtk_text_view_add_child_at_anchor(GTK_TEXT_VIEW (textview_approval), button, childanchor);
+        gtk_widget_show_all(button);
+        g_signal_connect ((gpointer) button, "clicked", G_CALLBACK (on_button_approve_clicked), gpointer (this));
+
+        // Store button and patch.
+        ApproveButton approvebutton(0);
+        approvebutton.button = GTK_BUTTON (button);
+        approvebutton.patch = patches[i2];
+        approve_buttons.push_back(approvebutton);
+
+      }
+    }
+
+    // Add space after the text.
+    gtk_text_buffer_get_end_iter(approve_buffer, &iter);
+    gtk_text_buffer_insert(approve_buffer, &iter, " ", 1);
+
+  }
+}
+
+void MergeGUI::on_button_approve_clicked(GtkButton *button, gpointer user_data)
+// Called when the user clicks one of the approval button.
+{
+  ((MergeGUI *) user_data)->approval_approve(button);
+}
+
+void MergeGUI::approval_approve(GtkButton *button) // Todo
+// Handles the user's approval of a change.
+{
+  // Go through the approval buttons to find the one clicked.
+  for (unsigned int i = 0; i < approve_buttons.size(); i++) {
+    if (button == approve_buttons[i].button) {
+
+      // Write a new patch file to disk.
+      vector <ustring> lines;
+      ustring s;
+      s = convert_to_string(approve_buttons[i].patch.linenumber);
+      if (approve_buttons[i].patch.addition) s.append ("a");
+      else s.append ("d");
+      s.append ("0");
+      lines.push_back (s);
+      if (approve_buttons[i].patch.addition) s = ">"; 
+      else s = "<";
+      lines.push_back (s + " "+ approve_buttons[i].patch.change);
+      write_lines(approve_patch_file, lines);
+
+      // Apply the patch to master.
+      ustring command = "patch" + shell_quote_space(approve_master_file) + shell_quote_space(approve_patch_file);
+      system(command.c_str());
+
+      // Show the new differences after the change has been accepted.
+      approval_show_diff();
+
+    }
+  }
+}
+
+void MergeGUI::on_button_ready_clicked(GtkButton *button, gpointer user_data)
+// Called when ready approving.
+{
+  ((MergeGUI *) user_data)->button_ready_clicked();
+}
+
+void MergeGUI::button_ready_clicked()
+// Called when ready approving.
+{
+  // Store the merge result in main project's chapter.
+  gchar * contents;
+  g_file_get_contents (approve_master_file.c_str(), &contents, NULL, NULL);
+  ustring text (contents);
+  g_free (contents);
+  text = join_data (text);
+  ParseLine parseline(text);
+  CategorizeChapterVerse ccv(parseline.lines);
+  project_store_chapter(approve_master_project, approve_book, ccv);
+
+  // GUI.
+  gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook1), 0);
+  
+  // Reload the editors.
+  gtk_button_clicked(GTK_BUTTON (reload_editors_button));
 }
 
 /*
 
  Todo expanded merge / accept changes.
-
- Let the differences be shown nicely.
- 
- Implement the hiding of the notes.
- We need an option to not display the added footnotes, to be set somewhere. It still merges them, but does not show them as differences.
-
- There is an idea to extend the merging function with a function to manually approve of all changes.
- Buttons to use whether to add or remove it from the text. This can be used for integration of changes from outside such as raw code.
- We need to merge the data, then run a diff between the main project and the merged data,
- and accept the differences one by one.
-
- What about showing a window with the merging function that shows all the options that can be accepted or refused,
- so the user can accept / refuse them one by one.
 
  As merging the changse from google docs is tricky in case of formatting such as footnotes, make an option
  to erase all footnotes from the text, replacing them with placeholders with an ID. The footnotes are stored on disk,
@@ -961,16 +1189,31 @@ void MergeGUI::show_comparison() // Todo working here.
  can insert the footnote at the cursor position. A tool is available in the tools area that holds all the notes that were
  erased. Double clicking on them inserts it again at either the placeholder or the cursor position, but always at the right verse.
 
- Update the whole merge documentation, as several details changed, and extra options were introduced.
+ Feature request:
+ 1. Test the import unstructured text functionality if it works well with your google document. For Phil.
+ 2. If the above test fails, then to expand the functionality of that import routine.
+ 3. Expand the merger with the option to merge change by change, and stop and start at any time at any location.
+ 4. Determine whether there is a need for handling footnotes and xrefs.
+ 5. If the above is true, then to devise means to do that. Current proposal is to remove the notes on export to google docs, 
+ replace them with placeholders, then then later to allow to insert them again, all automatically.
 
+ Point 1: Step #1, unstructured text import is a success!
+ I was able to import all four chapters of Colossians! 
+ There was only one thing that took extra time: Each verse number is also
+ given a p.
+ In our GoogleDocs, I have paragraphs marked as a blank cell. When the plain
+ text from this is imported into the import box, two blank lines are inserted.
+ So if the import routine would assume that one or more blank lines = p, it
+ would save me a lot of time.
+ And I want to clarify about getting material from Bibledit into our web
+ pages: I just trained a couple of my team members to do this manually. I would
+ like to someday have a way to automate the exporting more. But let's
+ concentrate on change integration first.
+ The solution here is to allow filters to be applied before or after conversion.
+ Filters are already defined, we only need to be able to apply them here.
+ We have to decide whether to run the filter on each line separately, or whether to run
+ the whole block of text through the filter, with newlines removed.
 
-Feature request:
-1. Test the import unstructured text functionality if it works well with your google document. For Phil.
-2. If the above test fails, then to expand the functionality of that import routine.
-3. Expand the merger with the option to merge change by change, and stop and start at any time at any location.
-4. Determine whether there is a need for handling footnotes and xrefs.
-5. If the above is true, then to devise means to do that. Current proposal is to remove the notes on export to google docs, 
-   replace them with placeholders, then then later to allow to insert them again, all automatically.
-
+We need to work on the character level, not on the word level.
 
  */
