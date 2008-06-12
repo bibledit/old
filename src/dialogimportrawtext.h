@@ -58,6 +58,7 @@ protected:
   GtkWidget *image2;
   GtkWidget *label7;
   GtkWidget *hseparator4;
+  GtkWidget *checkbutton_okay;
   GtkWidget *scrolledwindow1;
   GtkWidget *textview1;
   GtkWidget *hbox3;
@@ -78,6 +79,7 @@ private:
   void on_button_discover_markup();
   static void on_button_filter_clicked(GtkButton *button, gpointer user_data);
   void on_button_filter();
+  static void on_checkbutton_okay_toggled (GtkToggleButton *togglebutton, gpointer user_data);
   static void on_okbutton1_clicked(GtkButton *button, gpointer user_data);
   void on_okbutton();
   void gui();
@@ -92,6 +94,7 @@ private:
   unsigned int book;
   int chapter;
   vector <ustring> get_verses(vector <ustring> * non_line_starters);
+  bool text_was_discovered;
 };
 
 #endif

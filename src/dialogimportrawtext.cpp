@@ -158,6 +158,12 @@ ImportRawTextDialog::ImportRawTextDialog(int dummy) {
   gtk_widget_show(hseparator4);
   gtk_box_pack_start(GTK_BOX (vbox_controls), hseparator4, FALSE, FALSE, 0);
 
+  checkbutton_okay = gtk_check_button_new_with_mnemonic("Text is okay");
+  gtk_widget_show(checkbutton_okay);
+  gtk_box_pack_start(GTK_BOX (vbox_controls), checkbutton_okay, FALSE, FALSE, 0);
+
+  shortcuts.button(checkbutton_okay);
+
   scrolledwindow1 = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow1);
   gtk_box_pack_start(GTK_BOX (hbox1), scrolledwindow1, TRUE, TRUE, 0);
@@ -227,6 +233,9 @@ ImportRawTextDialog::ImportRawTextDialog(int dummy) {
   g_signal_connect ((gpointer) button_filter, "clicked",
       G_CALLBACK (on_button_filter_clicked),
       gpointer (this));
+  g_signal_connect ((gpointer) checkbutton_okay, "toggled",
+      G_CALLBACK (on_checkbutton_okay_toggled),
+      gpointer (this));
   g_signal_connect ((gpointer) okbutton1, "clicked",
       G_CALLBACK (on_okbutton1_clicked),
       gpointer (this));
@@ -245,6 +254,7 @@ ImportRawTextDialog::ImportRawTextDialog(int dummy) {
   combobox_set_strings(combobox_book, books);
   on_combobox_book();
   gui_event_id = 0;
+  text_was_discovered = false;
   gui();
   programmatically_setting_text = false;
 
@@ -414,6 +424,9 @@ void ImportRawTextDialog::on_button_discover_markup()
   gtk_text_buffer_place_cursor(textbuffer, &iter);
   gtk_widget_grab_focus(textview1);
 
+  // Update flag.
+  text_was_discovered = true;
+  
   // Update gui if all discoveries passed.
   if (discoveries_passed)
     gui();
@@ -451,6 +464,10 @@ void ImportRawTextDialog::on_button_filter()
   } else {
     gtk_text_buffer_set_text(textbuffer, "", -1);
   }
+}
+
+void ImportRawTextDialog::on_checkbutton_okay_toggled(GtkToggleButton *togglebutton, gpointer user_data) {
+  ((ImportRawTextDialog *) user_data)->gui();
 }
 
 void ImportRawTextDialog::on_okbutton1_clicked(GtkButton *button, gpointer user_data) {
@@ -491,6 +508,9 @@ void ImportRawTextDialog::gui_execute()
   // Clear event id.
   gui_event_id = 0;
 
+  // Whether text can be okayed.
+  bool okayable = false;
+  
   // Consecutive checks.
   bool checks_passed = true;
 
@@ -622,6 +642,9 @@ void ImportRawTextDialog::gui_execute()
         checks_passed = false;
       }
     }
+    
+    // Text can be approved even if not okay.
+    okayable = true;
 
   }
 
@@ -634,6 +657,13 @@ void ImportRawTextDialog::gui_execute()
     gtk_label_set_text(GTK_LABEL (label_info), "Everything's fine. Press OK to import the text");
   }
 
+  // Set sensitivity of "Text okay" button.
+  if (!text_was_discovered || checks_passed) 
+    okayable = false;
+  if (!okayable)
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_okay), false);
+  gtk_widget_set_sensitive(checkbutton_okay, okayable);
+  
   // Set sensitivity of Okay button.
   gtk_widget_set_sensitive(okbutton1, checks_passed);
 }
@@ -685,9 +715,3 @@ vector <ustring> ImportRawTextDialog::get_verses(vector <ustring> * non_line_sta
   return verses;
 }
 
-/*
-
- Todo Also add a checkbox for "text is okay".
- This one becomes sensitive once a discovery has been done, and the text is not okay yet
-
- */
