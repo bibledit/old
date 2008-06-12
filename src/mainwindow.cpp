@@ -7415,6 +7415,9 @@ the paned is shifted, but with a good delay.
  Feature request:
  Export routine to GoogleDocs.
 
+http://docs.google.com/Doc?docid=dd8j5c9_45f949fx3g&hl=in
+http://docs.google.com/Doc?docid=dd8j5c9_16cv8z35&hl=in
+
  Determine whether there is a need for handling footnotes and xrefs.
  If the above is true, then to devise means to do that. Current proposal is to remove the notes on export to google docs, 
  replace them with placeholders, then then later to allow to insert them again, all automatically.

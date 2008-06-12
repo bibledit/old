@@ -128,6 +128,23 @@ ustring script_filter(const ustring& scriptname, bool straightthrough, const ust
   // Remove any previous output.
   unlink(outputfile.c_str());
   unlink(script_temporal_error_file ().c_str());
+  
+  // Handle straight through.
+  if (straightthrough) {
+    unix_cp(inputfile, outputfile);
+    return "";
+  }
+
+  // Get the filename and the type of the script.
+  ScriptType scripttype;
+  ustring scriptfile = script_get_path(scriptname, &scripttype, true);
+
+  // If the rules file does not exist, or the script is of an unknown type, pass it straight through.
+  if (!g_file_test(scriptfile.c_str(), G_FILE_TEST_IS_REGULAR) || (scripttype == stEnd)) {
+    unix_cp(inputfile, outputfile);
+    gw_warning("Error in script " + scriptname);
+    return "";
+  }
 
   // Encode the input usfm file.
   ustring encodedinputfile = script_temporal_input_file();
@@ -135,20 +152,6 @@ ustring script_filter(const ustring& scriptname, bool straightthrough, const ust
     unix_cp(inputfile, encodedinputfile);
   }
   script_encode_usfm_file(encodedinputfile);
-
-  // Get the filename and the type of the script.
-  ScriptType scripttype;
-  ustring scriptfile = script_get_path(scriptname, &scripttype, true);
-
-  // If the rules file does not exist, or the script is of an unknown type, 
-  // or the "straightthrough" flag is set, pass it straight through.
-  if (!g_file_test(scriptfile.c_str(), G_FILE_TEST_IS_REGULAR) || (scripttype == stEnd) || straightthrough) {
-    unix_cp(inputfile, outputfile);
-    if (straightthrough) {
-      gw_warning("Error in script " + scriptname);
-    }
-    return "";
-  }
 
   // Run filter.
   ustring command;

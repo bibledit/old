@@ -419,12 +419,38 @@ void ImportRawTextDialog::on_button_discover_markup()
     gui();
 }
 
-void ImportRawTextDialog::on_button_filter_clicked(GtkButton *button, gpointer user_data) {
+void ImportRawTextDialog::on_button_filter_clicked(GtkButton *button, gpointer user_data)
+// Called by button filter.
+{
   ((ImportRawTextDialog *) user_data)->on_button_filter();
 }
 
-void ImportRawTextDialog::on_button_filter() {
+void ImportRawTextDialog::on_button_filter()
+// Filter the text.
+{
+  // Save the text from the buffer to disk.
+  vector <ustring> lines;
+  textbuffer_get_lines(textbuffer, lines, false);
+  write_lines(script_temporal_input_file(), lines);
 
+  // The filter to apply.
+  ustring scriptname = combobox_get_active_string(combobox_filter);
+  bool straightthrough = scriptname == scripts_straight_through();
+
+  // Run filter.
+  ustring error = script_filter(scriptname, straightthrough, script_temporal_input_file(), script_temporal_output_file());
+  if (!error.empty())
+    gw_message(error);
+
+  // Show output in textview.  
+  gchar * outputtext;
+  g_file_get_contents(script_temporal_output_file().c_str(), &outputtext, NULL, NULL);
+  if (outputtext) {
+    gtk_text_buffer_set_text(textbuffer, outputtext, -1);
+    g_free(outputtext);
+  } else {
+    gtk_text_buffer_set_text(textbuffer, "", -1);
+  }
 }
 
 void ImportRawTextDialog::on_okbutton1_clicked(GtkButton *button, gpointer user_data) {
@@ -659,25 +685,9 @@ vector <ustring> ImportRawTextDialog::get_verses(vector <ustring> * non_line_sta
   return verses;
 }
 
-
 /*
 
-Todo Expand the raw import routine with a filter to modify text.
+ Todo Also add a checkbox for "text is okay".
+ This one becomes sensitive once a discovery has been done, and the text is not okay yet
 
- I was able to import all four chapters of Colossians! 
- There was only one thing that took extra time: Each verse number is also
- given a p.
- In our GoogleDocs, I have paragraphs marked as a blank cell. When the plain
- text from this is imported into the import box, two blank lines are inserted.
- So if the import routine would assume that one or more blank lines = p, it
- would save me a lot of time.
- The solution here is to allow filters to be applied before or after conversion.
- Filters are already defined, we only need to be able to apply them here.
- We have to decide whether to run the filter on each line separately, or whether to run
- the whole block of text through the filter, with newlines removed.
-
-The filters are line-based. This will be left so. This implies that a context-based filter must be
-written to handle the double paragraphs.
-This may be a bit tricky.
-
-*/
+ */
