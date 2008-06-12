@@ -63,8 +63,8 @@ Session::Session (int dummy)
   bnmu_add_verse = true;
   bnmu_verse_prefix = ".";
   bnmu_verse_suffix = ".";
-  import_unstructured_text_book = -1;
-  import_unstructured_text_chapter = -1;
+  import_raw_text_book = -1;
+  import_raw_text_chapter = -1;
 }
 
 

@@ -512,8 +512,8 @@ void import_dialog_selector (bool& structured, bool& raw)
   structured = false;
   raw = false;
   vector <ustring> labels;
-  labels.push_back ("Structured text");
-  labels.push_back ("Unstructured text");
+  labels.push_back ("USFM and other formatted text");
+  labels.push_back ("Raw text");
   RadiobuttonDialog dialog ("Import", "Select what type of text to import", labels, 0);
   if (dialog.run () == GTK_RESPONSE_OK) {
     if (dialog.selection == 0) structured = true;

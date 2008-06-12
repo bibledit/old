@@ -190,7 +190,7 @@ ImportRawTextDialog::ImportRawTextDialog(int dummy) {
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX (dialog_action_area1), GTK_BUTTONBOX_END);
 
-  new InDialogHelp (importrawtextdialog, &shortcuts, "import_unstructured_text");
+  new InDialogHelp (importrawtextdialog, &shortcuts, "import_raw_text");
 
   cancelbutton1 = gtk_button_new_from_stock("gtk-cancel");
   gtk_widget_show(cancelbutton1);
@@ -248,8 +248,8 @@ ImportRawTextDialog::ImportRawTextDialog(int dummy) {
   gui();
   programmatically_setting_text = false;
 
-  combobox_set_index(combobox_book, settings->session.import_unstructured_text_book);
-  combobox_set_index(combobox_chapter, settings->session.import_unstructured_text_chapter);
+  combobox_set_index(combobox_book, settings->session.import_raw_text_book);
+  combobox_set_index(combobox_chapter, settings->session.import_raw_text_chapter);
 
   vector <ustring> filters = scripts_get_all();
   combobox_set_strings(combobox_filter, filters);
@@ -440,10 +440,10 @@ void ImportRawTextDialog::on_okbutton() {
 
   // Save book and increased chapter index.
   extern Settings * settings;
-  settings->session.import_unstructured_text_book = combobox_get_active_index(combobox_book);
+  settings->session.import_raw_text_book = combobox_get_active_index(combobox_book);
   int ch = combobox_get_active_index(combobox_chapter);
   ch++;
-  settings->session.import_unstructured_text_chapter = ch;
+  settings->session.import_raw_text_chapter = ch;
 }
 
 void ImportRawTextDialog::gui()
@@ -662,7 +662,7 @@ vector <ustring> ImportRawTextDialog::get_verses(vector <ustring> * non_line_sta
 
 /*
 
-Todo Expand the unstructured import routine with a filter to modify text.
+Todo Expand the raw import routine with a filter to modify text.
 
  I was able to import all four chapters of Colossians! 
  There was only one thing that took extra time: Each verse number is also
