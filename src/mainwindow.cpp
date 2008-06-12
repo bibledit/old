@@ -7413,27 +7413,11 @@ the paned is shifted, but with a good delay.
  erased. Double clicking on them inserts it again at either the placeholder or the cursor position, but always at the right verse.
 
  Feature request:
- 1. Expand the unstructured import routine with a filter to modify text.
- 2. Export routine to GoogleDocs.
+ Export routine to GoogleDocs.
 
  Determine whether there is a need for handling footnotes and xrefs.
  If the above is true, then to devise means to do that. Current proposal is to remove the notes on export to google docs, 
  replace them with placeholders, then then later to allow to insert them again, all automatically.
-
- I was able to import all four chapters of Colossians! 
- There was only one thing that took extra time: Each verse number is also
- given a p.
- In our GoogleDocs, I have paragraphs marked as a blank cell. When the plain
- text from this is imported into the import box, two blank lines are inserted.
- So if the import routine would assume that one or more blank lines = p, it
- would save me a lot of time.
- The solution here is to allow filters to be applied before or after conversion.
- Filters are already defined, we only need to be able to apply them here.
- We have to decide whether to run the filter on each line separately, or whether to run
- the whole block of text through the filter, with newlines removed.
-
-
-
 
 */
 
