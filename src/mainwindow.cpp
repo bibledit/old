@@ -6698,8 +6698,6 @@ void MainWindow::on_print() {
 /*
  Todo some points:
 
- The reporting needs to use letters, and a legend, because the tasks become too many to fit on the paper.
-
  To speed up entry of status information, we should change the interface so that there are checkboxes also,
  and if these are checked, then a full range can be edited like that. Better still is to use a listview, 
  where e.g. a range of books can be selected upon which the editing function is going to apply.
