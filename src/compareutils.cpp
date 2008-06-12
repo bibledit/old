@@ -31,6 +31,7 @@
 #include "books.h"
 #include "print_parallel_references.h"
 #include "tiny_utilities.h"
+#include "merge_utils.h"
 
 
 enum Markup { StrikeThrough, Bold };
@@ -165,7 +166,7 @@ It is assumed that the chapters differ.
   // E.g. "\v 1 In the beginning ..." is split into:
   // - \v 1 
   // - In the beginning ...
-  // At the same time remove the text of the foot- and endnotes and the xref.
+  // At the same time remove the text of the foot- and endnotes and the xrefs.
   vector<ustring> originalusfms;
   vector<ustring> originaltext;
   for (unsigned int i = 0; i < originalchapter.size(); i++) {
@@ -217,7 +218,7 @@ This one is used by "compare_chapter", but it is used in the optimization
 process also, to find out which algorithm detects the lowest number of changes.
 */
 {
-  // Variabeles and initialization of them.
+  // Variables and initialization of them.
   number_of_changes = 0;
   // Save the second chapter to a temporal variable.
   vector<ustring> usfm2 (secondusfms.begin(), secondusfms.end());
@@ -599,3 +600,5 @@ deleted. If anything was found, it puts human readable text in "results".
   set <ustring> results_set (results.begin(), results.end());
   results.assign (results_set.begin(), results_set.end());
 }
+
+

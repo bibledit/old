@@ -752,13 +752,13 @@ void MergeGUI::merge_edited_into_master(bool approve)
    */
 
   // Write the data for the common ancestor.
-  g_file_set_contents(file2.c_str(), split_data (common_ancestor).c_str(), -1, NULL);
+  g_file_set_contents(file2.c_str(), merge_split_data (common_ancestor).c_str(), -1, NULL);
 
   // Write the data for the main project.
-  g_file_set_contents(file1.c_str(), split_data (main_project_data).c_str(), -1, NULL);
+  g_file_set_contents(file1.c_str(), merge_split_data (main_project_data).c_str(), -1, NULL);
 
   // Write the data for the edited project.
-  g_file_set_contents(file3.c_str(), split_data (edited_project_data).c_str(), -1, NULL);
+  g_file_set_contents(file3.c_str(), merge_split_data (edited_project_data).c_str(), -1, NULL);
 
   // Do the three-way merge.
   {
@@ -785,7 +785,7 @@ void MergeGUI::merge_edited_into_master(bool approve)
   merge_result = merge_conflicts_2_human_readable_text(merge_result);
 
   // Join the bits again.
-  merge_result = join_data(merge_result);
+  merge_result = merge_join_data(merge_result);
 
   // If there are conflicts, resolve them.
   if (merge_result.find(merge_conflict_markup(1)) != string::npos) {
@@ -846,62 +846,6 @@ void MergeGUI::copy_master_to_edited_all() {
   }
   ustring message = "All chapters of project " + current_master_project + " were copied to project " + current_edited_project;
   gtkw_dialog_info(NULL, message.c_str());
-}
-
-ustring MergeGUI::split_data(const ustring& data) {
-  ustring splitdata;
-  ParseLine parseline(data);
-  for (unsigned int l = 0; l < parseline.lines.size(); l++) {
-    ustring s(parseline.lines[l]);
-    ustring v = usfm_extract_marker(s);
-    if (v == "v") {
-      size_t position = s.find(" ");
-      position = CLAMP (position, 0, s.length());
-      s = s.substr(0, position);
-      s.insert(0, " ");
-      v = verse_indicator();
-      for (unsigned int i = 0; i < 10; i++) {
-        v.append(s);
-      }
-      v.append("\n");
-      for (unsigned int i = 0; i < 5; i++) {
-        splitdata.append(v);
-      }
-    }
-    Parse parse(parseline.lines[l], false);
-    for (unsigned int w = 0; w < parse.words.size(); w++) {
-      splitdata.append(parse.words[w]);
-      splitdata.append("\n");
-    }
-    if (l != (parseline.lines.size() - 1))
-      splitdata.append(new_line_indicator());
-  }
-  return splitdata;
-}
-
-ustring MergeGUI::join_data(const ustring& data) {
-  ustring joineddata;
-  Parse parse(data, false, new_line_indicator());
-  for (unsigned int p = 0; p < parse.words.size(); p++) {
-    ParseLine parseline(parse.words[p]);
-    for (unsigned int pl = 0; pl < parseline.lines.size(); pl++) {
-      if (parseline.lines[pl].find(verse_indicator()) == 0)
-        continue;
-      joineddata.append(parseline.lines[pl]);
-      if (pl != (parseline.lines.size() - 1))
-        joineddata.append(" ");
-    }
-    joineddata.append("\n");
-  }
-  return joineddata;
-}
-
-gchar * MergeGUI::new_line_indicator() {
-  return "__new__line__indicator__\n";
-}
-
-gchar * MergeGUI::verse_indicator() {
-  return "___verse___indicator___";
 }
 
 ustring MergeGUI::merge_conflicts_2_human_readable_text(const ustring& data)
@@ -997,7 +941,7 @@ void MergeGUI::show_comparison()
   }
 }
 
-void MergeGUI::approval_setup(const ustring& maindata, const ustring& mergedata) // Todo
+void MergeGUI::approval_setup(const ustring& maindata, const ustring& mergedata)
 {
   // Initialize the approval system's variables and gui.
   approve_master_project = current_master_project;
@@ -1011,8 +955,8 @@ void MergeGUI::approval_setup(const ustring& maindata, const ustring& mergedata)
   approve_merge_file = gw_build_filename(workingdirectory, "merged");
 
   // Save both sets of data to file.
-  g_file_set_contents(approve_master_file.c_str(), split_data(trim(maindata)).c_str(), -1, NULL);
-  g_file_set_contents(approve_merge_file.c_str(), split_data(trim(mergedata)).c_str(), -1, NULL);
+  g_file_set_contents(approve_master_file.c_str(), merge_split_data(trim(maindata)).c_str(), -1, NULL);
+  g_file_set_contents(approve_merge_file.c_str(), merge_split_data(trim(mergedata)).c_str(), -1, NULL);
 
   // Show differences in the GUI.
   approval_show_diff();
@@ -1021,7 +965,7 @@ void MergeGUI::approval_setup(const ustring& maindata, const ustring& mergedata)
   gtkw_dialog_info(NULL, "The chapters are ready for approving the individual changes");
 }
 
-void MergeGUI::approval_show_diff() // Todo
+void MergeGUI::approval_show_diff()
 // Looks for the differences and shows them in the GUI.
 {
   // Create a patch file by running a diff.
@@ -1044,14 +988,14 @@ void MergeGUI::approval_show_diff() // Todo
     GtkTextIter iter;
 
     // Handle new line.
-    if (rt.lines[i].find(trim(new_line_indicator())) != string::npos) {
+    if (rt.lines[i].find(trim(merge_new_line_indicator())) != string::npos) {
       gtk_text_buffer_get_end_iter(approve_buffer, &iter);
       gtk_text_buffer_insert(approve_buffer, &iter, "\n", -1);
       continue;
     }
 
     // Skip verse indicators.
-    if (rt.lines[i].find(verse_indicator()) != string::npos) {
+    if (rt.lines[i].find(merge_verse_indicator()) != string::npos) {
       continue;
     }
 
@@ -1121,7 +1065,7 @@ void MergeGUI::on_button_approve_clicked(GtkButton *button, gpointer user_data)
   ((MergeGUI *) user_data)->approval_approve(button);
 }
 
-void MergeGUI::approval_approve(GtkButton *button) // Todo
+void MergeGUI::approval_approve(GtkButton *button)
 // Handles the user's approval of a change.
 {
   // Go through the approval buttons to find the one clicked.
@@ -1132,13 +1076,17 @@ void MergeGUI::approval_approve(GtkButton *button) // Todo
       vector <ustring> lines;
       ustring s;
       s = convert_to_string(approve_buttons[i].patch.linenumber);
-      if (approve_buttons[i].patch.addition) s.append ("a");
-      else s.append ("d");
-      s.append ("0");
-      lines.push_back (s);
-      if (approve_buttons[i].patch.addition) s = ">"; 
-      else s = "<";
-      lines.push_back (s + " "+ approve_buttons[i].patch.change);
+      if (approve_buttons[i].patch.addition)
+        s.append("a");
+      else
+        s.append("d");
+      s.append("0");
+      lines.push_back(s);
+      if (approve_buttons[i].patch.addition)
+        s = ">";
+      else
+        s = "<";
+      lines.push_back(s + " "+ approve_buttons[i].patch.change);
       write_lines(approve_patch_file, lines);
 
       // Apply the patch to master.
@@ -1163,57 +1111,18 @@ void MergeGUI::button_ready_clicked()
 {
   // Store the merge result in main project's chapter.
   gchar * contents;
-  g_file_get_contents (approve_master_file.c_str(), &contents, NULL, NULL);
-  ustring text (contents);
-  g_free (contents);
-  text = join_data (text);
+  g_file_get_contents(approve_master_file.c_str(), &contents, NULL, NULL);
+  ustring text(contents);
+  g_free(contents);
+  text = merge_join_data(text);
   ParseLine parseline(text);
   CategorizeChapterVerse ccv(parseline.lines);
   project_store_chapter(approve_master_project, approve_book, ccv);
 
   // GUI.
   gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook1), 0);
-  
+
   // Reload the editors.
   gtk_button_clicked(GTK_BUTTON (reload_editors_button));
 }
 
-/*
-
- Todo expanded merge / accept changes.
-
- As merging the changse from google docs is tricky in case of formatting such as footnotes, make an option
- to erase all footnotes from the text, replacing them with placeholders with an ID. The footnotes are stored on disk,
- and kept together with the project. Then they can be inserted again later at the place where they were removed.
- notes are marked with their reference. If on insertion the placeholder cannot be found, then it asks whether it 
- can insert the footnote at the cursor position. A tool is available in the tools area that holds all the notes that were
- erased. Double clicking on them inserts it again at either the placeholder or the cursor position, but always at the right verse.
-
- Feature request:
- 1. Test the import unstructured text functionality if it works well with your google document. For Phil.
- 2. If the above test fails, then to expand the functionality of that import routine.
- 3. Expand the merger with the option to merge change by change, and stop and start at any time at any location.
- 4. Determine whether there is a need for handling footnotes and xrefs.
- 5. If the above is true, then to devise means to do that. Current proposal is to remove the notes on export to google docs, 
- replace them with placeholders, then then later to allow to insert them again, all automatically.
-
- Point 1: Step #1, unstructured text import is a success!
- I was able to import all four chapters of Colossians! 
- There was only one thing that took extra time: Each verse number is also
- given a p.
- In our GoogleDocs, I have paragraphs marked as a blank cell. When the plain
- text from this is imported into the import box, two blank lines are inserted.
- So if the import routine would assume that one or more blank lines = p, it
- would save me a lot of time.
- And I want to clarify about getting material from Bibledit into our web
- pages: I just trained a couple of my team members to do this manually. I would
- like to someday have a way to automate the exporting more. But let's
- concentrate on change integration first.
- The solution here is to allow filters to be applied before or after conversion.
- Filters are already defined, we only need to be able to apply them here.
- We have to decide whether to run the filter on each line separately, or whether to run
- the whole block of text through the filter, with newlines removed.
-
-We need to work on the character level, not on the word level.
-
- */

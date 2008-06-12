@@ -7403,6 +7403,38 @@ This allows to set a task for a whole range of books / chapters / verses.
 For the wide problem, we could consider only once in a very while to modify the sizes, not straight when 
 the paned is shifted, but with a good delay.
 
+
+
+ As merging the changse from google docs is tricky in case of formatting such as footnotes, make an option
+ to erase all footnotes from the text, replacing them with placeholders with an ID. The footnotes are stored on disk,
+ and kept together with the project. Then they can be inserted again later at the place where they were removed.
+ notes are marked with their reference. If on insertion the placeholder cannot be found, then it asks whether it 
+ can insert the footnote at the cursor position. A tool is available in the tools area that holds all the notes that were
+ erased. Double clicking on them inserts it again at either the placeholder or the cursor position, but always at the right verse.
+
+ Feature request:
+ 1. Expand the unstructured import routine with a filter to modify text.
+ 2. Export routine to GoogleDocs.
+
+ Determine whether there is a need for handling footnotes and xrefs.
+ If the above is true, then to devise means to do that. Current proposal is to remove the notes on export to google docs, 
+ replace them with placeholders, then then later to allow to insert them again, all automatically.
+
+ I was able to import all four chapters of Colossians! 
+ There was only one thing that took extra time: Each verse number is also
+ given a p.
+ In our GoogleDocs, I have paragraphs marked as a blank cell. When the plain
+ text from this is imported into the import box, two blank lines are inserted.
+ So if the import routine would assume that one or more blank lines = p, it
+ would save me a lot of time.
+ The solution here is to allow filters to be applied before or after conversion.
+ Filters are already defined, we only need to be able to apply them here.
+ We have to decide whether to run the filter on each line separately, or whether to run
+ the whole block of text through the filter, with newlines removed.
+
+
+
+
 */
 
 

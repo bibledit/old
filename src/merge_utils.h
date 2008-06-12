@@ -51,13 +51,13 @@ class Patch
 public:
   Patch(int dummy);
   Patch();
-  unsigned int linenumber; 
-  bool addition;  // Whether addition or deletion.
+  unsigned int linenumber;
+  bool addition; // Whether addition or deletion.
   ustring change; // Change to apply.
 private:
 };
 
-vector <Patch> merge_read_patch (const ustring& filename);
+vector <Patch> merge_read_patch(const ustring& filename);
 
 class ApproveButton
 {
@@ -68,5 +68,12 @@ public:
   Patch patch;
 private:
 };
+
+gchar * merge_new_line_indicator();
+gchar * merge_verse_indicator();
+ustring merge_split_data(const ustring& data);
+ustring merge_join_data(const ustring& data);
+ustring merge_split_data_character(const ustring& data);
+ustring merge_join_data_character(const ustring& data);
 
 #endif

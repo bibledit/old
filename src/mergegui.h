@@ -145,14 +145,10 @@ private:
   void copy_master_to_edited_chapter(unsigned int bk, unsigned int ch, bool gui);
   void copy_master_to_edited_all();
 
-  // Split and join.
+  // Temporal directory.
 public:
 private:
   ustring workingdirectory;
-  ustring split_data(const ustring& data);
-  ustring join_data(const ustring& data);
-  gchar * new_line_indicator();
-  gchar * verse_indicator();
 
   // Conflict resolution.
 public:

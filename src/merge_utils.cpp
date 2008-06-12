@@ -20,6 +20,7 @@
 #include "merge_utils.h"
 #include "utilities.h"
 #include "tiny_utilities.h"
+#include "usfmtools.h"
 
 ustring merge_conflict_markup(unsigned int number)
 // Gives the text of the conflict markup.
@@ -101,3 +102,110 @@ vector <Patch> merge_read_patch(const ustring& filename)
   }
   return patches;
 }
+
+gchar * merge_new_line_indicator() {
+  return "__new__line__indicator__\n";
+}
+
+gchar * merge_verse_indicator() {
+  return "___verse___indicator___";
+}
+
+
+ustring merge_split_data(const ustring& data) {
+  ustring splitdata;
+  ParseLine parseline(data);
+  for (unsigned int l = 0; l < parseline.lines.size(); l++) {
+    ustring s(parseline.lines[l]);
+    ustring v = usfm_extract_marker(s);
+    if (v == "v") {
+      size_t position = s.find(" ");
+      position = CLAMP (position, 0, s.length());
+      s = s.substr(0, position);
+      s.insert(0, " ");
+      v = merge_verse_indicator();
+      for (unsigned int i = 0; i < 10; i++) {
+        v.append(s);
+      }
+      v.append("\n");
+      for (unsigned int i = 0; i < 5; i++) {
+        splitdata.append(v);
+      }
+    }
+    Parse parse(parseline.lines[l], false);
+    for (unsigned int w = 0; w < parse.words.size(); w++) {
+      splitdata.append(parse.words[w]);
+      splitdata.append("\n");
+    }
+    if (l != (parseline.lines.size() - 1))
+      splitdata.append(merge_new_line_indicator());
+  }
+  return splitdata;
+}
+
+ustring merge_join_data(const ustring& data) {
+  ustring joineddata;
+  Parse parse(data, false, merge_new_line_indicator());
+  for (unsigned int p = 0; p < parse.words.size(); p++) {
+    ParseLine parseline(parse.words[p]);
+    for (unsigned int pl = 0; pl < parseline.lines.size(); pl++) {
+      if (parseline.lines[pl].find(merge_verse_indicator()) == 0)
+        continue;
+      joineddata.append(parseline.lines[pl]);
+      if (pl != (parseline.lines.size() - 1))
+        joineddata.append(" ");
+    }
+    joineddata.append("\n");
+  }
+  return joineddata;
+}
+
+ustring merge_split_data_character(const ustring& data)
+// Splits the data on the character level, so preparing it for running a diff.
+{
+  ustring splitdata;
+  ParseLine parseline(data);
+  for (unsigned int l = 0; l < parseline.lines.size(); l++) {
+    ustring s(parseline.lines[l]);
+    ustring v = usfm_extract_marker(s);
+    if (v == "v") {
+      size_t position = s.find(" ");
+      position = CLAMP (position, 0, s.length());
+      s = s.substr(0, position);
+      s.insert(0, " ");
+      v = merge_verse_indicator();
+      for (unsigned int i = 0; i < 10; i++) {
+        v.append(s);
+      }
+      v.append("\n");
+      for (unsigned int i = 0; i < 5; i++) {
+        splitdata.append(v);
+      }
+    }
+    for (unsigned int c = 0; c < parseline.lines[l].size(); c++) {
+      splitdata.append(parseline.lines[l].substr(c, 1));
+      splitdata.append("\n");
+    }
+    if (l != (parseline.lines.size() - 1))
+      splitdata.append(merge_new_line_indicator());
+  }
+  return splitdata;
+}
+
+ustring merge_join_data_character(const ustring& data)
+// Joins data previously split.
+{
+  ustring joineddata;
+  Parse parse(data, false, merge_new_line_indicator());
+  for (unsigned int p = 0; p < parse.words.size(); p++) {
+    ParseLine parseline(parse.words[p]);
+    for (unsigned int pl = 0; pl < parseline.lines.size(); pl++) {
+      if (parseline.lines[pl].find(merge_verse_indicator()) == 0)
+        continue;
+      joineddata.append(parseline.lines[pl]);
+    }
+    joineddata.append("\n");
+  }
+  return joineddata;
+}
+
