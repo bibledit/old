@@ -6698,20 +6698,10 @@ void MainWindow::on_print() {
 /*
  Todo some points:
 
- To speed up entry of status information, we should change the interface so that there are checkboxes also,
- and if these are checked, then a full range can be edited like that. Better still is to use a listview, 
- where e.g. a range of books can be selected upon which the editing function is going to apply.
- This allows to set a task for a whole range of books / chapters / verses.
-
  For the wide problem, we could consider only once in a very while to modify the sizes, not straight when 
  the paned is shifted, but with a good delay.
-
- As merging the changse from google docs is tricky in case of formatting such as footnotes, make an option
- to erase all footnotes from the text, replacing them with placeholders with an ID. The footnotes are stored on disk,
- and kept together with the project. Then they can be inserted again later at the place where they were removed.
- notes are marked with their reference. If on insertion the placeholder cannot be found, then it asks whether it 
- can insert the footnote at the cursor position. A tool is available in the tools area that holds all the notes that were
- erased. Double clicking on them inserts it again at either the placeholder or the cursor position, but always at the right verse.
-
+ 
+ Option to drop the gtkhtml3 library for on OLPC. Functionnality should then be replaced by a GtkTextView.
+ This would result in lesser quality display, but anyway, what can one do. 
  */
 

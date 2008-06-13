@@ -665,7 +665,7 @@ void ImportRawTextDialog::gui_execute()
   gtk_widget_set_sensitive(checkbutton_okay, okayable);
   
   // Set sensitivity of Okay button.
-  gtk_widget_set_sensitive(okbutton1, checks_passed);
+  gtk_widget_set_sensitive(okbutton1, checks_passed || gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_okay)));
 }
 
 vector <ustring> ImportRawTextDialog::get_verses(vector <ustring> * non_line_starters)
