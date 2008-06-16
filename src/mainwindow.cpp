@@ -6702,8 +6702,7 @@ void MainWindow::on_print() {
  the paned is shifted, but with a good delay.
  
  Option to drop the gtkhtml3 library for on OLPC. Functionality should then be replaced by a GtkTextView.
- This would result in lesser quality display, but anyway, what can one do.
- 
-  
+ This would result in low quality display.
+   
  */
 
