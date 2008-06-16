@@ -177,19 +177,34 @@ void reporting_derive_parent_status_from_children(unsigned int taskcount, Projec
   }
 }
 
+void reporting_merge_child_status_into_parent(unsigned int taskcount, unsigned int childnumber, ProjectStatusRecord& parent, const ProjectStatusRecord& child)
+// Merges a child's status record into a parent.
+{
+  for (unsigned int i = 0; i < taskcount; i++) {
+    if (childnumber == 0) {
+      parent.tasks_done[i] = child.tasks_done[i];
+    } else {
+      if (child.tasks_done[i] < 0)
+        parent.tasks_done[i] = -1;
+      if (child.tasks_done[i] != parent.tasks_done[i])
+        parent.tasks_done[i] = -1;
+    }
+  }
+}
+
 void reporting_derive_children_status_from_parent(unsigned int taskcount, vector <ProjectStatusRecord *> children, ProjectStatusRecord * parent)
-// Takes pointers to existing status record, and derives the children's status
+// Takes pointers to an existing status record, and derives the children's status
 // from their parent.
 {
-  // Go through each parent's task and propage it to all the children.
+  // Go through each task of the parent and propagate it to all the children.
   for (unsigned int i = 0; i < taskcount; i++) {
 
     // Get status of this particular task.
     int status = parent->tasks_done[i];
-    // If it is inconsistent, do not propage it.
+    // If it is inconsistent, do not propagate it.
     if (status < 0)
       continue;
-    // Propage it to all children.
+    // Propagate it to all children.
     for (unsigned int i2 = 0; i2 < children.size(); i2++) {
       children[i2]->tasks_done[i] = status;
     }
@@ -209,6 +224,12 @@ ProjectStatusRecord::ProjectStatusRecord(unsigned int tasks_size)
 
 unsigned int ProjectStatusRecord::calculate_percentage(const vector <unsigned int>& percentages) {
   return reporting_calculate_percentage_ready(tasks_done, percentages);
+}
+
+void ProjectStatusRecord::print() {
+  for (unsigned int i = 0; i < tasks_done.size(); i++)
+    cout << tasks_done[i];
+  cout << endl;
 }
 
 ProjectStatusChapter::ProjectStatusChapter(unsigned int chapter_in, unsigned int highestverse, GKeyFile * keyfile, vector <ustring> * alltasks_in)
@@ -329,14 +350,7 @@ void ProjectStatusChapter::save(GKeyFile * keyfile)
   ustring group = convert_to_string(chapter);
 
   // Get the whole chapter's status.
-  ProjectStatusRecord chapterrecord(alltasks->size());
-  {
-    vector <ProjectStatusRecord *> children_records;
-    for (unsigned int i = 0; i < status.size(); i++) {
-      children_records.push_back(&status[i]);
-    }
-    reporting_derive_parent_status_from_children(alltasks->size(), &chapterrecord, children_records);
-  }
+  ProjectStatusRecord chapterrecord = get();
 
   // See if the parent status is consistent.
   bool chapter_consistent = true;
@@ -414,6 +428,13 @@ gchar * ProjectStatusChapter::chapter_key()
  */
 {
   return "chapter";
+}
+
+void ProjectStatusChapter::print() {
+  cout << "Status for chapter " << chapter << endl;
+  for (unsigned int i = 0; i < status.size(); i++) {
+    status[i].print();
+  }
 }
 
 ProjectStatusBook::ProjectStatusBook(const ustring& project_in, unsigned int book_in, vector <ustring> * alltasks_in) {
@@ -503,7 +524,14 @@ void ProjectStatusBook::save()
   g_key_file_free(keyfile);
 }
 
-ProjectStatus::ProjectStatus(const ustring& project_in, vector <ustring> * alltasks_in, bool gui) {
+void ProjectStatusBook::print() {
+  cout << "Printing status for book " << book << endl;
+  for (unsigned int i = 0; i < chapters.size(); i++) {
+    chapters[i]->print();
+  }
+}
+
+ProjectStatus::ProjectStatus(const ustring& project_in, const vector <ustring>& alltasks_in, bool gui) {
   // Save project.
   project = project_in;
   alltasks = alltasks_in;
@@ -521,7 +549,7 @@ ProjectStatus::ProjectStatus(const ustring& project_in, vector <ustring> * allta
   for (unsigned int i = 0; i < bks.size(); i++) {
     if (gui)
       progresswindow->iterate();
-    ProjectStatusBook * book = new ProjectStatusBook (project, bks[i], alltasks);
+    ProjectStatusBook * book = new ProjectStatusBook (project, bks[i], &alltasks);
     books.push_back(book);
   }
 
@@ -541,7 +569,7 @@ ProjectStatusRecord ProjectStatus::get()
 // This status is derived from all individual books.
 {
   // Empty status for the project.
-  ProjectStatusRecord statusrecord(alltasks->size());
+  ProjectStatusRecord statusrecord(alltasks.size());
 
   // Collect pointers to the status record for the children.
   vector <ProjectStatusRecord> children_records_objects;
@@ -555,7 +583,7 @@ ProjectStatusRecord ProjectStatus::get()
   }
 
   // Get the project's status.
-  reporting_derive_parent_status_from_children(alltasks->size(), &statusrecord, children_records_pointers);
+  reporting_derive_parent_status_from_children(alltasks.size(), &statusrecord, children_records_pointers);
 
   // Return the project's status.
   return statusrecord;
@@ -573,6 +601,13 @@ void ProjectStatus::set(ProjectStatusRecord& state)
 void ProjectStatus::save() {
   for (unsigned int i = 0; i < books.size(); i++) {
     books[i]->save();
+  }
+}
+
+void ProjectStatus::print() {
+  cout << "Printing project status " << this << endl;
+  for (unsigned int i = 0; i < books.size(); i++) {
+    books[i]->print();
   }
 }
 
@@ -708,7 +743,7 @@ void reporting_produce_status_report(const ustring& project, bool perc_done_proj
   extern Settings * settings;
   vector <ustring> tasks = settings->genconfig.project_tasks_names_get();
   reporting_check_tasks_and_durations(tasks, NULL);
-  ProjectStatus projectstatus(project, &tasks, false);
+  ProjectStatus projectstatus(project, tasks, false);
 
   // Percentage complete for whole project.
   progresswindow.set_fraction(0.2);
@@ -782,13 +817,13 @@ void reporting_produce_status_report(const ustring& project, bool perc_done_proj
     vector <VectorUstring> legend;
     for (unsigned int i = 0; i < column_headers.size(); i++) {
       vector <ustring> s;
-      s.push_back (column_headers[i]);
-      s.push_back (shortened_column_headers[i]);
-      legend.push_back (s);     
+      s.push_back(column_headers[i]);
+      s.push_back(shortened_column_headers[i]);
+      legend.push_back(s);
     }
     column_headers.clear();
-    htmlwriter.table ("Tasks per book - Legend", column_headers, legend, "", NULL, -1);
-    htmlwriter.paragraph ("");
+    htmlwriter.table("Tasks per book - Legend", column_headers, legend, "", NULL, -1);
+    htmlwriter.paragraph("");
     htmlwriter.table("Tasks per book - Data", shortened_column_headers, cell_texts, "", &centers, -1);
     htmlwriter.paragraph("");
   }

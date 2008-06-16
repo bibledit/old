@@ -441,7 +441,7 @@ void SelectBooksDialog::on_treeviewportions_row ()
 {
   // Get the selected portion and the offset of it, and the corresponding book.
   ustring portion = listview_get_active_string (treeviewportions);
-  int offset = listview_get_selection_offset (treeviewportions);
+  int offset = listview_get_active_offset (treeviewportions);
   unsigned int book;
   {
     vector <ustring> books = listview_get_strings (treeviewbooks);

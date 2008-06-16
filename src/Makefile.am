@@ -223,7 +223,6 @@ bibledit_bin_SOURCES = \
         planning.cpp \
         dialogreportingsetup.cpp \
         dialogeditstatus.cpp \
-        dialogsetstatus.cpp \
         dialogtaskduration.cpp \
         htmlwriter.cpp \
         dialogviewstatus.cpp \

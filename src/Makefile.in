@@ -149,12 +149,12 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	usfm2xslfo_utils.$(OBJEXT) hyphenate.$(OBJEXT) \
 	reporting.$(OBJEXT) planning.$(OBJEXT) \
 	dialogreportingsetup.$(OBJEXT) dialogeditstatus.$(OBJEXT) \
-	dialogsetstatus.$(OBJEXT) dialogtaskduration.$(OBJEXT) \
-	htmlwriter.$(OBJEXT) dialogviewstatus.$(OBJEXT) \
-	dialogplanningsetup.$(OBJEXT) dialoginterfaceprefs.$(OBJEXT) \
-	resourceviewergui.$(OBJEXT) resource.$(OBJEXT) \
-	dialognewresource.$(OBJEXT) dialogresourcebooks.$(OBJEXT) \
-	dialogradiobutton.$(OBJEXT) dialogresourceconverter2.$(OBJEXT) \
+	dialogtaskduration.$(OBJEXT) htmlwriter.$(OBJEXT) \
+	dialogviewstatus.$(OBJEXT) dialogplanningsetup.$(OBJEXT) \
+	dialoginterfaceprefs.$(OBJEXT) resourceviewergui.$(OBJEXT) \
+	resource.$(OBJEXT) dialognewresource.$(OBJEXT) \
+	dialogresourcebooks.$(OBJEXT) dialogradiobutton.$(OBJEXT) \
+	dialogresourceconverter2.$(OBJEXT) \
 	resource_conversion_utils.$(OBJEXT) convert.$(OBJEXT) \
 	textviewer.$(OBJEXT) roman.$(OBJEXT) project_memory.$(OBJEXT) \
 	editorsgui.$(OBJEXT) restart.$(OBJEXT) mergegui.$(OBJEXT) \
@@ -570,7 +570,6 @@ bibledit_bin_SOURCES = \
         planning.cpp \
         dialogreportingsetup.cpp \
         dialogeditstatus.cpp \
-        dialogsetstatus.cpp \
         dialogtaskduration.cpp \
         htmlwriter.cpp \
         dialogviewstatus.cpp \
@@ -785,7 +784,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogsearchspecial.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogselectbooks.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogselectchapters.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogsetstatus.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogshownotes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogshowscript.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogstylesheet.Po@am__quote@

@@ -25,6 +25,8 @@
 #include "libraries.h"
 #include "reporting.h"
 
+enum EditStatusType {estNone, estBook, estBooks, estChapter, estChapters, estVerse, estVerses};
+
 class EditStatusDialog
 {
 public:
@@ -34,73 +36,53 @@ public:
 protected:
   GtkWidget *editstatusdialog;
   GtkWidget *dialog_vbox1;
-  GtkWidget *scrolledwindow1;
-  GtkWidget *viewport1;
   GtkWidget *hbox;
+  GtkWidget *scrolledwindow_books;
   GtkWidget *treeview_books;
+  GtkWidget *scrolledwindow_chapters;
   GtkWidget *treeview_chapters;
+  GtkWidget *scrolledwindow_verses;
   GtkWidget *treeview_verses;
   GtkWidget *vbox_status;
-  GtkWidget *checkbutton_status;
   GtkWidget *dialog_action_area1;
   GtkWidget *cancelbutton;
   GtkWidget *okbutton;
 private:
-  static void on_button_project_clicked(GtkButton *button, gpointer user_data);
-  void on_button_project();
-  static void on_togglebutton_book_toggled(GtkToggleButton *togglebutton, gpointer user_data);
-  void on_togglebutton_book_toggle(GtkToggleButton *togglebutton);
-  static void on_togglebutton_book_clicked(GtkButton *button, gpointer user_data);
-  void on_togglebutton_book_click(GtkButton *button);
-  static void on_togglebutton_chapter_toggled(GtkToggleButton *togglebutton, gpointer user_data);
-  void on_togglebutton_chapter_toggle(GtkToggleButton *togglebutton);
-  static void on_togglebutton_chapter_clicked(GtkButton *button, gpointer user_data);
-  void on_togglebutton_chapter_click(GtkButton *button);
-  static void on_button_verse_clicked(GtkButton *button, gpointer user_data);
-  void on_button_verse(GtkButton *button);
-  static void on_okbutton_clicked(GtkButton *button, gpointer user_data);
-  void on_okbutton(GtkButton *button);
-  static bool on_depress_button_timeout(gpointer data);
   ustring project;
-  vector <ustring> alltasks;
-  vector <unsigned int> allpercentages;
   ProjectStatus * projectstatus;
-  void build_books();
-  vector <GtkWidget *> bookbuttons;
-  vector <bool> bookhistories;
-  vector <GtkWidget *> bookprogressbars;
-  unsigned int currentbook;
-  bool settingbooks;
-  void build_chapters();
-  vector <GtkWidget *> allchapterbuttons;
-  vector <GtkWidget *> allchapterprogressbars;
-  vector <GtkWidget *> chapterbuttons;
-  vector <bool> chapterhistories;
-  vector <GtkWidget *> chapterprogressbars;
-  unsigned int currentchapter;
-  bool settingchapters;
-  void build_verses();
-  vector <GtkWidget *> allversebuttons;
-  vector <GtkWidget *> allverseprogressbars;
-  vector <GtkWidget *> versebuttons;
-  vector <GtkWidget *> verseprogressbars;
-  void setpercentages();
-
+  unsigned int alltasks_size;
+  
   GtkListStore *liststore_books;
-  static void on_treeview_books_cursor_changed(GtkTreeView *treeview, gpointer user_data);
+  static gboolean on_treeview_books_button_event(GtkWidget *widget, GdkEventButton *event, gpointer user_data);
+  static gboolean on_treeview_books_key_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
   void on_treeview_books_cursor();
-  
+  vector <int> currentbooks;
+
   GtkListStore *liststore_chapters;
-  static void on_treeview_chapters_cursor_changed(GtkTreeView *treeview, gpointer user_data);
+  void load_chapters();
+  static gboolean on_treeview_chapters_button_event(GtkWidget *widget, GdkEventButton *event, gpointer user_data);
+  static gboolean on_treeview_chapters_key_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
   void on_treeview_chapters_cursor();
-  
+  vector <int> currentchapters;
+
   GtkListStore *liststore_verses;
-  static void on_treeview_verses_cursor_changed(GtkTreeView *treeview, gpointer user_data);
+  void load_verses();
+  static gboolean on_treeview_verses_button_event(GtkWidget *widget, GdkEventButton *event, gpointer user_data);
+  static gboolean on_treeview_verses_key_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
   void on_treeview_verses_cursor();
-  
+  vector <int> currentverses;
+
+  EditStatusType editstatustype();
+  vector <GtkWidget *> statusbuttons;
+  void show_status();
+  bool setting_status;
+  void set_status (ProjectStatusRecord * statusrecord);
   static void on_checkbutton_status_toggled(GtkToggleButton *togglebutton, gpointer user_data);
   void on_checkbutton_status(GtkToggleButton *togglebutton);
 
+  static void on_okbutton_clicked(GtkButton *button, gpointer user_data);
+  void on_okbutton();
 };
 
 #endif
+

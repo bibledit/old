@@ -667,7 +667,7 @@ ustring SelectChaptersDialog::portion_get ()
 
 void SelectChaptersDialog::update_active_portion ()
 {
-  unsigned int index = listview_get_selection_offset (treeviewportions);
+  unsigned int index = listview_get_active_offset (treeviewportions);
   if (index < 0) return;
   listview_set_row (treeviewportions, liststoreportions, index, portion_get ());
 }

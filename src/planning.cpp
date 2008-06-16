@@ -41,7 +41,7 @@ void planning_edit (const ustring& project)
   {
     vector <ustring> alltasks = settings->genconfig.project_tasks_names_get ();
     reporting_check_tasks_and_durations (alltasks, NULL);
-    ProjectStatus projectstatus (project, &alltasks, true);
+    ProjectStatus projectstatus (project, alltasks, true);
     vector <unsigned int> addable_books;
     vector <ustring> addable_tasks;
     reporting_get_tasks_undone (&projectstatus, addable_books, addable_tasks);
@@ -97,7 +97,7 @@ void planning_produce_report (const ustring& project)
   vector <ustring> alltasks = settings->genconfig.project_tasks_names_get ();
   vector <double> durations;
   reporting_check_tasks_and_durations (alltasks, &durations);
-  ProjectStatus projectstatus (project, &alltasks, true);
+  ProjectStatus projectstatus (project, alltasks, true);
 
   // Progress.
   progresswindow.set_fraction (0.4);

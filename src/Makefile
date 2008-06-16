@@ -149,12 +149,12 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	usfm2xslfo_utils.$(OBJEXT) hyphenate.$(OBJEXT) \
 	reporting.$(OBJEXT) planning.$(OBJEXT) \
 	dialogreportingsetup.$(OBJEXT) dialogeditstatus.$(OBJEXT) \
-	dialogsetstatus.$(OBJEXT) dialogtaskduration.$(OBJEXT) \
-	htmlwriter.$(OBJEXT) dialogviewstatus.$(OBJEXT) \
-	dialogplanningsetup.$(OBJEXT) dialoginterfaceprefs.$(OBJEXT) \
-	resourceviewergui.$(OBJEXT) resource.$(OBJEXT) \
-	dialognewresource.$(OBJEXT) dialogresourcebooks.$(OBJEXT) \
-	dialogradiobutton.$(OBJEXT) dialogresourceconverter2.$(OBJEXT) \
+	dialogtaskduration.$(OBJEXT) htmlwriter.$(OBJEXT) \
+	dialogviewstatus.$(OBJEXT) dialogplanningsetup.$(OBJEXT) \
+	dialoginterfaceprefs.$(OBJEXT) resourceviewergui.$(OBJEXT) \
+	resource.$(OBJEXT) dialognewresource.$(OBJEXT) \
+	dialogresourcebooks.$(OBJEXT) dialogradiobutton.$(OBJEXT) \
+	dialogresourceconverter2.$(OBJEXT) \
 	resource_conversion_utils.$(OBJEXT) convert.$(OBJEXT) \
 	textviewer.$(OBJEXT) roman.$(OBJEXT) project_memory.$(OBJEXT) \
 	editorsgui.$(OBJEXT) restart.$(OBJEXT) mergegui.$(OBJEXT) \
@@ -271,9 +271,9 @@ OBJEXT = o
 PACKAGE = bibledit
 PACKAGE_BUGREPORT = http://www.nongnu.org/bibledit
 PACKAGE_NAME = bibledit
-PACKAGE_STRING = bibledit 3.2.40
+PACKAGE_STRING = bibledit 3.2.42
 PACKAGE_TARNAME = bibledit
-PACKAGE_VERSION = 3.2.40
+PACKAGE_VERSION = 3.2.42
 PANGO_CFLAGS = -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
 PANGO_LIBS = -lpango-1.0 -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0  
 PATH_SEPARATOR = :
@@ -290,7 +290,7 @@ STRINGS_PATH = /usr/bin/strings
 STRIP = 
 TAIL_PATH = /usr/bin/tail
 TEE_TOUCH = /usr/bin/touch
-VERSION = 3.2.40
+VERSION = 3.2.42
 WIN32_FALSE = 
 WIN32_TRUE = #
 XML2_CONFIG = /usr/bin/xml2-config
@@ -570,7 +570,6 @@ bibledit_bin_SOURCES = \
         planning.cpp \
         dialogreportingsetup.cpp \
         dialogeditstatus.cpp \
-        dialogsetstatus.cpp \
         dialogtaskduration.cpp \
         htmlwriter.cpp \
         dialogviewstatus.cpp \
@@ -785,7 +784,6 @@ include ./$(DEPDIR)/dialogscreenlayout.Po
 include ./$(DEPDIR)/dialogsearchspecial.Po
 include ./$(DEPDIR)/dialogselectbooks.Po
 include ./$(DEPDIR)/dialogselectchapters.Po
-include ./$(DEPDIR)/dialogsetstatus.Po
 include ./$(DEPDIR)/dialogshownotes.Po
 include ./$(DEPDIR)/dialogshowscript.Po
 include ./$(DEPDIR)/dialogstylesheet.Po

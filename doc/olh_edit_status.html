@@ -1,48 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-<title>Bibledit</title>
-<!-- 
-Copyright (©) 2003-2008 Teus Benschop.
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+  <title>Bibledit</title>
+  <!-- 
+        Copyright (©) 2003-2008 Teus Benschop.
 
-Permission is granted to copy, distribute and/or modify this document
-under the terms of the GNU Free Documentation License, Version 1.2
-or any later version published by the Free Software Foundation;
-with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-Texts.  A copy of the license is included in the section entitled "GNU
-Free Documentation License" in the file FDL.
--->
-<link href="bibledit.css" rel="stylesheet" type="text/css" />
+        Permission is granted to copy, distribute and/or modify this document
+        under the terms of the GNU Free Documentation License, Version 1.2
+        or any later version published by the Free Software Foundation;
+        with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+        Texts.  A copy of the license is included in the section entitled "GNU
+        Free Documentation License" in the file FDL.
+        -->
+  <link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
+
 <body>
 <h2><a name="editstatus"></a>Edit Status</h2>
+
 <p>This dialog is accessible through the menu / Edit / Status.</p>
+
 <p>Bibledit supports simple project status reporting. In this dialog the
 status of a project or part of the project can be set.</p>
-<p>The dialog consists of four columns.</p>
-<p>The first column is "Status of project". That column shows one row
-consisting of a button and a progress bar. The progress bar gives a rough
-idea of how far the project has progressed to completion. If the user clicks
-the progressbar / button, then dialog "<a href="olh_set_status.html">Set
-Status</a>" displays. The user can set the status of the whole project here.
-If for example task "Village Check" is ticked as completed, then all books in
-the project, and all chapters in each book, and all verses in each chapter
-will have their task "Village Check" done.</p>
-<p>The second column is "Status of books". All the books in the project show
-there. If a book is clicked for the first time, then all chapters in that
-book show up, and how far they have been completed. If then a book is clicked
-for the second time, the dialog "<a href="olh_set_status.html">Set
-Status</a>" displays, and the user can set the status for that whole book.
-Any changes in the status setting propagate to all the children, that is, to
-all chapters in that book and all verses.</p>
-<p>The third column is "Status of chapters". All the chapters in the selected
-book show up. If clicking it for the first time, the verses in that chapter
-show, and if clicked for the second time, the status can be set.</p>
-<p>The last column is "Status of verses". All the verses in the selected
-chapter show up. Clicking on a button / progressbar allows the user to set
-the status for that individual verse.</p>
+
+<p>The dialog consists of four columns. The first one shows all the books,
+the second one shows all the chapters in a particular book, and the third one
+displays all the verse in a particular chapter. Finally the last column shows
+all the tasks that <a href="olh_preferences_reporting.html">have been defined
+for the project</a>.</p>
+
+<p>To mark a particular task as being done for a whole book, just select that
+book in the list, and put a tick in the task.</p>
+
+<p>To mark a task as being done for just one chapter, select the book and the
+chapter in the list, and put a tick in that task.</p>
+
+<p>And to mark a task as being done for one verse only, select book, chapter,
+and verse in the lists, and tick that task.</p>
+
+<p>Notes.</p>
+
+<p>1. If a task is checked, it means that it has been done.</p>
+
+<p>2. If a task is unchecked, it means that this one has yet to be done.</p>
+
+<p>3. At times there is another symbol that indicates that the task has not
+been consistently completed. Such a state occurs when for example the status
+of a chapter is displayed, and not all the verses of that chapter have a
+particular task completed. Some have, and others don't.</p>
+
+<p>4. To set the task that have been done for a range of books at once,
+select the boosk you want, and put tick the task that has been done for that
+book. Tasks can also be set for a range of chapters, or a range of verses.</p>
 </body>
 </html>
