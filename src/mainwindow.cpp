@@ -424,7 +424,7 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   if (guifeatures.references_management()) {
 
-    close_references = gtk_image_menu_item_new_with_mnemonic("D_elete all");
+    close_references = gtk_image_menu_item_new_with_mnemonic("D_ismiss all");
     gtk_widget_show(close_references);
     gtk_container_add(GTK_CONTAINER (file_references_menu), close_references);
 
@@ -432,7 +432,7 @@ MainWindow::MainWindow(unsigned long xembed) :
     gtk_widget_show(image468);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (close_references), image468);
 
-    delete_references = gtk_image_menu_item_new_with_mnemonic("_Delete");
+    delete_references = gtk_image_menu_item_new_with_mnemonic("_Dismiss");
     gtk_widget_show(delete_references);
     gtk_container_add(GTK_CONTAINER (file_references_menu), delete_references);
 
