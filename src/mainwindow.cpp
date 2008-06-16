@@ -6694,7 +6694,7 @@ void MainWindow::on_print() {
     }
   }
 }
- 
+
 /*
  Todo some points:
 
@@ -6703,6 +6703,6 @@ void MainWindow::on_print() {
  
  Option to drop the gtkhtml3 library for on OLPC. Functionality should then be replaced by a GtkTextView.
  This would result in low quality display.
-   
+ 
  */
 
