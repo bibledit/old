@@ -83,7 +83,7 @@ MergeGUI::MergeGUI(GtkWidget * notebook_vbox) {
   scrolledwindow1 = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow1);
   gtk_box_pack_start(GTK_BOX (vbox1), scrolledwindow1, TRUE, TRUE, 0);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow1), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow1), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW (scrolledwindow1), GTK_SHADOW_IN);
 
   textview1 = gtk_text_view_new();
@@ -172,13 +172,14 @@ MergeGUI::MergeGUI(GtkWidget * notebook_vbox) {
   scrolledwindow2 = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow2);
   gtk_box_pack_start(GTK_BOX (vbox2), scrolledwindow2, TRUE, TRUE, 0);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow2), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow2), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW (scrolledwindow2), GTK_SHADOW_IN);
 
   textview_approval = gtk_text_view_new();
   gtk_widget_show(textview_approval);
   gtk_container_add(GTK_CONTAINER (scrolledwindow2), textview_approval);
   gtk_text_view_set_editable(GTK_TEXT_VIEW (textview_approval), FALSE);
+  gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW (textview_approval), GTK_WRAP_WORD);
   gtk_text_view_set_accepts_tab(GTK_TEXT_VIEW (textview_approval), FALSE);
   gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW (textview_approval), FALSE);
 

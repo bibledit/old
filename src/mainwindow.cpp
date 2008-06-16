@@ -6694,14 +6694,16 @@ void MainWindow::on_print() {
     }
   }
 }
-
+ 
 /*
  Todo some points:
 
  For the wide problem, we could consider only once in a very while to modify the sizes, not straight when 
  the paned is shifted, but with a good delay.
  
- Option to drop the gtkhtml3 library for on OLPC. Functionnality should then be replaced by a GtkTextView.
- This would result in lesser quality display, but anyway, what can one do. 
+ Option to drop the gtkhtml3 library for on OLPC. Functionality should then be replaced by a GtkTextView.
+ This would result in lesser quality display, but anyway, what can one do.
+ 
+  
  */
 
