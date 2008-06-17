@@ -100,7 +100,33 @@ typeof (book_record) books_table [] = {
  { "Jude",            "Jude",   "JUD", "Jud", 65, btNewTestament,    true  },
  { "Revelation",      "Rev",    "REV", "Rev", 66, btNewTestament,    false },
  { "Back Matter",     "",       "BAK", "",    68, btFrontBackMatter, false },
- { "Other Material",  "",       "OTH", "",    69, btOtherMaterial,   false }
+ { "Other Material",  "",       "OTH", "",    69, btOtherMaterial,   false },
+ { "Tobit",           "Tobit",  "TOB", "Tob", 70, btApocrypha,       false },
+ { "Judith",          "Jdt",    "JDT", "Jdt", 71, btApocrypha,       false },
+ { "Esther (Greek)",  "AddEsth","ESG", "EsG", 72, btApocrypha,       false },
+ { "Wisdom of Solomon","Wis",   "WIS", "Wis", 73, btApocrypha,       false },
+ { "Sirach",          "Sir",    "SIR", "Sir", 74, btApocrypha,       false },
+ { "Baruch",          "Bar",    "BAR", "Bar", 75, btApocrypha,       false },
+ { "Letter of Jeremiah","EpJer","LJE", "LJe", 76, btApocrypha,       true  },
+ { "Song of the Three Children","PrAzar","S3Y","S3Y",77,btApocrypha, true  },
+ { "Susanna",         "Sus",    "SUS", "Sus", 78, btApocrypha,       true  },
+ { "Bel and the Dragon","Bel",  "BEL", "Bel", 79, btApocrypha,       true  },
+ { "1 Maccabees",     "1Macc",  "1MA", "1Ma", 80, btApocrypha,       false },
+ { "2 Maccabees",     "2Macc",  "2MA", "2Ma", 81, btApocrypha,       false },
+ { "1 Esdras",        "1Esd",   "1ES", "1Es", 82, btApocrypha,       false },
+ { "Prayer of Manasses","PrMan","MAN", "Man", 83, btApocrypha,       true  },
+ { "Psalm 151",       "Ps151",  "PS2", "Ps2", 84, btApocrypha,       true  },
+ { "3 Maccabees",     "3Macc",  "3MA", "3Ma", 85, btApocrypha,       false },
+ { "2 Esdras",        "2Esd",   "2ES", "2Es", 86, btApocrypha,       false },
+ { "4 Maccabees",     "4Macc",  "4MA", "4Ma", 87, btApocrypha,       false },
+ { "Daniel (Greek)",  "AddDan", "DNT", "Dnt", 88, btApocrypha,       false },
+ { "XXA",             "XXA",    "XXA", "XXA", 89, btOtherMaterial,   false },
+ { "XXB",             "XXB",    "XXB", "XXB", 90, btOtherMaterial,   false },
+ { "XXC",             "XXC",    "XXC", "XXC", 91, btOtherMaterial,   false },
+ { "XXD",             "XXD",    "XXD", "XXD", 92, btOtherMaterial,   false },
+ { "XXE",             "XXE",    "XXE", "XXE", 93, btOtherMaterial,   false },
+ { "XXF",             "XXF",    "XXF", "XXF", 94, btOtherMaterial,   false },
+ { "XXG",             "XXG",    "XXG", "XXG", 95, btOtherMaterial,   false }
 };
 
 
@@ -109,3 +135,12 @@ unsigned int bookdata_books_count ()
   unsigned int count = sizeof (books_table) / sizeof (*books_table);
   return count;
 }
+
+
+/*
+
+Todo support for extra books.
+
+
+ * 
+ */
