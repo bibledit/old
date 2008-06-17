@@ -63,7 +63,7 @@ ustring git_job_filename ();
 void git_initialize_subsystem ();
 void git_finalize_subsystem ();
 void git_initial_check_all (bool gui);
-void git_initial_check_project (const ustring& project);
+void git_initial_check_project (const ustring& project, bool health);
 void git_task_human_readable (unsigned int task, const ustring& project, unsigned int book, unsigned int chapter, unsigned int fail, gchar * & human_readable_task, ustring& human_readable_description, ustring& human_readable_status);
 void git_schedule (GitTaskType task, const ustring& project, unsigned int book, unsigned int chapter, const ustring& data);
 unsigned int git_tasks_count ();

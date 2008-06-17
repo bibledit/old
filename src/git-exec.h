@@ -25,7 +25,7 @@
 #include "libraries.h"
 
 
-void git_exec_initialize_project (const ustring& project);
+void git_exec_initialize_project (const ustring& project, bool health);
 void git_exec_store_chapter (const ustring& project, unsigned int book, unsigned int chapter);
 void git_exec_commit_project (const ustring& project);
 void git_exec_commit_directory (const ustring& directory);

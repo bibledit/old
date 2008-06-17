@@ -198,6 +198,7 @@ public:
   DEFINE_GENCONFIG_H (int, split_view_open_method);
   DEFINE_GENCONFIG_H (bool, split_view_editor_top_down_layout);
   DEFINE_GENCONFIG_H (int, print_job);
+  DEFINE_GENCONFIG_H (int, git_health);
 private:
   bool my_save_on_destroy;
   bool bool_get (gchar * key, bool& store, bool& loaded, bool standard);

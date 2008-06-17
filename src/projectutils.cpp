@@ -169,7 +169,7 @@ void project_create (const ustring& project)
   // Create statistics system.
   statistics_initial_check_project (project, false);
   // Create git repository.
-  git_initial_check_project (project);
+  git_initial_check_project (project, false);
 }
 
 

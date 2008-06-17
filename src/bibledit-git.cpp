@@ -76,7 +76,7 @@ int main (int argc, char *argv[])
       switch (task) {
         case gttInitializeProject:
         { 
-          git_exec_initialize_project (project);
+          git_exec_initialize_project (project, book);
           break;
         }
         case gttCommitProject:

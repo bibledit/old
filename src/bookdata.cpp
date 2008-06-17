@@ -137,10 +137,3 @@ unsigned int bookdata_books_count ()
 }
 
 
-/*
-
-Todo support for extra books.
-
-
- * 
- */

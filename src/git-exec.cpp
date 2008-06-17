@@ -23,7 +23,7 @@
 #include <glib.h>
 
 
-void git_exec_initialize_project (const ustring& project)
+void git_exec_initialize_project (const ustring& project, bool health)
 {
   // Get the data directory for this project
   ustring datadirectory = tiny_project_data_directory_project (project);
@@ -57,9 +57,15 @@ void git_exec_initialize_project (const ustring& project)
   // (Re)initialize the repository. This can be done repeatedly without harm,
   // and it ensures that anything that was put in by hand will be seen by git,
   // thus making the system more robust.
+  // At times health-related commands are ran too.
   ustring command1 ("cd '" + datadirectory + "'; ");
   command1.append ("git-init-db");
   system (command1.c_str ());
+  if (health) {
+    ustring command ("cd '" + datadirectory + "'; ");
+    command.append ("git-gc --prune");
+    system (command.c_str ());
+  }
   ustring command2 ("cd '" + datadirectory + "'; ");
   command2.append ("git-add .");
   system (command2.c_str ());

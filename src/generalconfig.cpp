@@ -1,22 +1,21 @@
 /*
-** Copyright (©) 2003-2008 Teus Benschop.
-**  
-** This program is free software; you can redistribute it and/or modify
-** it under the terms of the GNU General Public License as published by
-** the Free Software Foundation; either version 3 of the License, or
-** (at your option) any later version.
-**  
-** This program is distributed in the hope that it will be useful,
-** but WITHOUT ANY WARRANTY; without even the implied warranty of
-** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-** GNU General Public License for more details.
-**  
-** You should have received a copy of the GNU General Public License
-** along with this program; if not, write to the Free Software
-** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-**  
-*/
-
+ ** Copyright (©) 2003-2008 Teus Benschop.
+ **  
+ ** This program is free software; you can redistribute it and/or modify
+ ** it under the terms of the GNU General Public License as published by
+ ** the Free Software Foundation; either version 3 of the License, or
+ ** (at your option) any later version.
+ **  
+ ** This program is distributed in the hope that it will be useful,
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ ** GNU General Public License for more details.
+ **  
+ ** You should have received a copy of the GNU General Public License
+ ** along with this program; if not, write to the Free Software
+ ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ **  
+ */
 
 #include "settings.h"
 #include "directories.h"
@@ -30,48 +29,42 @@
 #include <libxml/xmlwriter.h>
 #include "config.xml.h"
 
-
-ustring general_configuration_filename ()
-{
-  return gw_build_filename (directories_get_configuration (), "configuration.1.xml");
+ustring general_configuration_filename() {
+  return gw_build_filename(directories_get_configuration(), "configuration.1.xml");
 }
 
-
-void upgrade_configuration ()
-{
+void upgrade_configuration() {
 }
 
-
 /*
-A test was done on to see if the cause of irregular crashes of Bibledit, 
-when used a lot, is, that GeneralConfiguration was always left open in mainwindow.
-It is now always closed.
-Several versions later it appeared that the random crashes had stopped.
-The conclusion is that the database should always be closed after use, 
-and not left open.
-Note: The above is still true in general, but the configuration no longer 
-uses the database, hence it is not relevant in this particular case.
-*/
+ A test was done on to see if the cause of irregular crashes of Bibledit, 
+ when used a lot, is, that GeneralConfiguration was always left open in mainwindow.
+ It is now always closed.
+ Several versions later it appeared that the random crashes had stopped.
+ The conclusion is that the database should always be closed after use, 
+ and not left open.
+ Note: The above is still true in general, but the configuration no longer 
+ uses the database, hence it is not relevant in this particular case.
+ */
 
-
-GeneralConfiguration::GeneralConfiguration (bool save_on_destroy)
+GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
 /*
-This version of the general configuration uses a fast, in-memory system 
-for storing and retrieving the data.
-It loads the values from file only when needed. 
-Once the values have been loaded in memory, they remain there,
-and the next times the values are queried, they are taken from memory,
-instead of loading them from disk again. This speeds the system up greatly.
-It has "getters" and "setters" to facilitate this system.
-On object destruction, it saves the values if they were modified.
-*/
+ This version of the general configuration uses a fast, in-memory system 
+ for storing and retrieving the data.
+ It loads the values from file only when needed. 
+ Once the values have been loaded in memory, they remain there,
+ and the next times the values are queried, they are taken from memory,
+ instead of loading them from disk again. This speeds the system up greatly.
+ It has "getters" and "setters" to facilitate this system.
+ On object destruction, it saves the values if they were modified.
+ */
 {
   // Save parameters.
   my_save_on_destroy = save_on_destroy;
 
   // Function definition for initializing variables.
-  #define INITIALIZE(parameter) parameter##_loaded = false
-  
+#define INITIALIZE(parameter) parameter##_loaded = false
+
   // Initialize variables.
   INITIALIZE (clear_up_day);
   INITIALIZE (screen_width);
@@ -222,22 +215,20 @@ On object destruction, it saves the values if they were modified.
   INITIALIZE (split_view_open_method);
   INITIALIZE (split_view_editor_top_down_layout);
   INITIALIZE (print_job);
+  INITIALIZE (git_health);
 }
 
-
-GeneralConfiguration::~GeneralConfiguration ()
-{
-  if (my_save_on_destroy) 
-    save ();
+GeneralConfiguration::~GeneralConfiguration() {
+  if (my_save_on_destroy)
+    save();
 }
 
-
-void GeneralConfiguration::save ()
+void GeneralConfiguration::save()
 // Saves all settings to disk.
 {
   vector <ConfigXmlPair> values;
-  
-  #define SAVE_VALUE(item) if (item##_loaded) config_xml_values_set_assemble (values, item##_key(), item)
+
+#define SAVE_VALUE(item) if (item##_loaded) config_xml_values_set_assemble (values, item##_key(), item)
 
   SAVE_VALUE (clear_up_day);
   SAVE_VALUE (screen_width);
@@ -388,90 +379,74 @@ void GeneralConfiguration::save ()
   SAVE_VALUE (split_view_open_method);
   SAVE_VALUE (split_view_editor_top_down_layout);
   SAVE_VALUE (print_job);
+  SAVE_VALUE (git_health);
 
-  config_xml_values_set_execute (general_configuration_filename (), values);
+  config_xml_values_set_execute(general_configuration_filename(), values);
 }
 
-
-bool GeneralConfiguration::bool_get (gchar * key, bool& store, bool& loaded, bool standard)
-{
+bool GeneralConfiguration::bool_get(gchar * key, bool& store, bool& loaded, bool standard) {
   if (!loaded) {
-    store = config_xml_bool_get (general_configuration_filename (), key, standard);
+    store = config_xml_bool_get(general_configuration_filename(), key, standard);
     loaded = true;
   }
   return store;
 }
 
-
-int GeneralConfiguration::int_get (gchar * key, int& store, bool& loaded, int standard)
-{
+int GeneralConfiguration::int_get(gchar * key, int& store, bool& loaded, int standard) {
   if (!loaded) {
-    store = config_xml_int_get (general_configuration_filename (), key, standard);
+    store = config_xml_int_get(general_configuration_filename(), key, standard);
     loaded = true;
   }
   return store;
 }
 
-
-ustring GeneralConfiguration::string_get (gchar * key, ustring& store, bool& loaded, const ustring& standard)
-{
+ustring GeneralConfiguration::string_get(gchar * key, ustring& store, bool& loaded, const ustring& standard) {
   if (!loaded) {
-    store = config_xml_string_get (general_configuration_filename (), key, standard);
+    store = config_xml_string_get(general_configuration_filename(), key, standard);
     loaded = true;
   }
   return store;
 }
 
-
-double GeneralConfiguration::double_get (gchar * key, double& store, bool& loaded, double standard)
-{
+double GeneralConfiguration::double_get(gchar * key, double& store, bool& loaded, double standard) {
   if (!loaded) {
-    store = config_xml_double_get (general_configuration_filename (), key, standard);
+    store = config_xml_double_get(general_configuration_filename(), key, standard);
     loaded = true;
   }
   return store;
 }
 
-
-vector<bool> GeneralConfiguration::vector_bool_get (gchar * key, vector<bool>& store, bool& loaded, void * dummy)
-{
+vector<bool> GeneralConfiguration::vector_bool_get(gchar * key, vector<bool>& store, bool& loaded, void * dummy) {
   if (!loaded) {
-    store = config_xml_vector_bool_get (general_configuration_filename (), key);
+    store = config_xml_vector_bool_get(general_configuration_filename(), key);
     loaded = true;
   }
   return store;
 }
 
-
-vector<ustring> GeneralConfiguration::vector_string_get (gchar * key, vector<ustring>& store, bool& loaded, void * dummy)
-{
+vector<ustring> GeneralConfiguration::vector_string_get(gchar * key, vector<ustring>& store, bool& loaded, void * dummy) {
   if (!loaded) {
-    store = config_xml_vector_string_get (general_configuration_filename (), key);
+    store = config_xml_vector_string_get(general_configuration_filename(), key);
     loaded = true;
   }
   return store;
 }
 
-
-vector<int> GeneralConfiguration::vector_int_get (gchar * key, vector<int>& store, bool& loaded, void * dummy)
-{
+vector<int> GeneralConfiguration::vector_int_get(gchar * key, vector<int>& store, bool& loaded, void * dummy) {
   if (!loaded) {
-    store = config_xml_vector_int_get (general_configuration_filename (), key);
+    store = config_xml_vector_int_get(general_configuration_filename(), key);
     loaded = true;
   }
   return store;
 }
 
-
-vector<double> GeneralConfiguration::vector_double_get (gchar * key, vector<double>& store, bool& loaded, void * dummy)
-{
+vector<double> GeneralConfiguration::vector_double_get(gchar * key, vector<double>& store, bool& loaded, void * dummy) {
   if (!loaded) {
-    store = config_xml_vector_double_get (general_configuration_filename (), key);
+    store = config_xml_vector_double_get(general_configuration_filename(), key);
     loaded = true;
   }
   return store;
 }
-
 
 // Definitions of the implementation of the code in the general configuration.
 #define IMPLEMENT(type, getter, store, defaultvalue) \
@@ -487,7 +462,6 @@ void GeneralConfiguration::store##_set (type value) \
 { \
   store = value; \
 }
-
 
 // Code to make everything work.
 IMPLEMENT (int, int_get, clear_up_day, 0)
@@ -530,19 +504,19 @@ IMPLEMENT (ustring, string_get, xep_home, "")
 IMPLEMENT (bool, bool_get, printdate, true)
 IMPLEMENT (bool, bool_get, print_changes_only, false)
 IMPLEMENT (ustring, string_get, project_to_compare_with, "")
-IMPLEMENT (int, int_get, notes_selection_reference, nsrtCurrentVerse);
-IMPLEMENT (int, int_get, notes_selection_edited, nsetAny);
-IMPLEMENT (int, int_get, notes_selection_date_from, date_time_julian_day_get_current());
-IMPLEMENT (int, int_get, notes_selection_date_to, date_time_julian_day_get_current());
-IMPLEMENT (ustring, string_get, notes_selection_category, "");
-IMPLEMENT (bool, bool_get, notes_selection_current_project, false);
-IMPLEMENT (bool, bool_get, notes_display_center_around_reference, false);
-IMPLEMENT (bool, bool_get, notes_display_project, false);
-IMPLEMENT (bool, bool_get, notes_display_category, false);
-IMPLEMENT (bool, bool_get, notes_display_date_created, false);
-IMPLEMENT (bool, bool_get, notes_display_created_by, false);
-IMPLEMENT (bool, bool_get, notes_display_summary, false);
-IMPLEMENT (bool, bool_get, notes_display_reference_text, false);
+IMPLEMENT (int, int_get, notes_selection_reference, nsrtCurrentVerse)
+IMPLEMENT (int, int_get, notes_selection_edited, nsetAny)
+IMPLEMENT (int, int_get, notes_selection_date_from, date_time_julian_day_get_current())
+IMPLEMENT (int, int_get, notes_selection_date_to, date_time_julian_day_get_current())
+IMPLEMENT (ustring, string_get, notes_selection_category, "")
+IMPLEMENT (bool, bool_get, notes_selection_current_project, false)
+IMPLEMENT (bool, bool_get, notes_display_center_around_reference, false)
+IMPLEMENT (bool, bool_get, notes_display_project, false)
+IMPLEMENT (bool, bool_get, notes_display_category, false)
+IMPLEMENT (bool, bool_get, notes_display_date_created, false)
+IMPLEMENT (bool, bool_get, notes_display_created_by, false)
+IMPLEMENT (bool, bool_get, notes_display_summary, false)
+IMPLEMENT (bool, bool_get, notes_display_reference_text, false)
 IMPLEMENT (ustring, string_get, bibleworks_executable, "bw700.exe")
 IMPLEMENT (bool, bool_get, reference_exchange_send_to_bibleworks, false)
 IMPLEMENT (bool, bool_get, reference_exchange_receive_from_bibleworks, false)
@@ -639,3 +613,4 @@ IMPLEMENT (vector<int>, vector_int_get, resource_pages, NULL)
 IMPLEMENT (int, int_get, split_view_open_method, 0)
 IMPLEMENT (bool, bool_get, split_view_editor_top_down_layout, true)
 IMPLEMENT (int, int_get, print_job, 0)
+IMPLEMENT (int, int_get, git_health, date_time_julian_day_get_current())
