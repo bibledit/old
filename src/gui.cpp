@@ -47,10 +47,10 @@ bool gui_double_question (GtkWidget * parent, ustring question1, ustring questio
   if (question1.empty()) question1 = "Are you sure you wish to make the changes?";
   if (gtkw_dialog_question (parent, question1.c_str()) == GTK_RESPONSE_NO)
     return false;
-  if (question2.empty()) question1 = "This will permanently modify your data.\n"
+  if (question2.empty()) question2 = "This will permanently modify your data.\n"
                                      "The changes cannot be undone easily.\n"
                                      "Are you sure?";
-  if (gtkw_dialog_question (parent, question1.c_str()) == GTK_RESPONSE_NO)
+  if (gtkw_dialog_question (parent, question2.c_str()) == GTK_RESPONSE_NO)
     return false;
   return true;
 }

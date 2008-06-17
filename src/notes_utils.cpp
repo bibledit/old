@@ -1,22 +1,21 @@
 /*
-** Copyright (©) 2003-2008 Teus Benschop.
-**  
-** This program is free software; you can redistribute it and/or modify
-** it under the terms of the GNU General Public License as published by
-** the Free Software Foundation; either version 3 of the License, or
-** (at your option) any later version.
-**  
-** This program is distributed in the hope that it will be useful,
-** but WITHOUT ANY WARRANTY; without even the implied warranty of
-** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-** GNU General Public License for more details.
-**  
-** You should have received a copy of the GNU General Public License
-** along with this program; if not, write to the Free Software
-** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-**  
-*/
-
+ ** Copyright (©) 2003-2008 Teus Benschop.
+ **  
+ ** This program is free software; you can redistribute it and/or modify
+ ** it under the terms of the GNU General Public License as published by
+ ** the Free Software Foundation; either version 3 of the License, or
+ ** (at your option) any later version.
+ **  
+ ** This program is distributed in the hope that it will be useful,
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ ** GNU General Public License for more details.
+ **  
+ ** You should have received a copy of the GNU General Public License
+ ** along with this program; if not, write to the Free Software
+ ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ **  
+ */
 
 #include "libraries.h"
 #include "utilities.h"
@@ -39,31 +38,32 @@
 #include "tiny_utilities.h"
 #include "shutdown.h"
 
-
-void notes_database_verify (bool gui)
+void notes_database_verify(bool gui)
 /*
-This verifies the notes database is fine.
-If it's not there, it creates one.
-It upgrades older databases.
-*/
+ This verifies the notes database is fine.
+ If it's not there, it creates one.
+ It upgrades older databases.
+ */
 {
   // Filename of database.
   ustring oldfilename;
-  ustring filename = notes_database_filename ();
+  ustring filename = notes_database_filename();
 
   // If the newest database is already there, bail out.
-  if (g_file_test (filename.c_str(), G_FILE_TEST_IS_REGULAR)) return;
-  
+  if (g_file_test(filename.c_str(), G_FILE_TEST_IS_REGULAR))
+    return;
+
   // Update: the field "reference" will be upgraded.
-  oldfilename = gw_build_filename (directories_get_notes (), "database");
-  filename = gw_build_filename (directories_get_notes (), "notes.sql1");
-  if (g_file_test (oldfilename.c_str(), G_FILE_TEST_IS_REGULAR)) {
-    unix_cp (oldfilename, filename);
+  oldfilename = gw_build_filename(directories_get_notes(), "database");
+  filename = gw_build_filename(directories_get_notes(), "notes.sql1");
+  if (g_file_test(oldfilename.c_str(), G_FILE_TEST_IS_REGULAR)) {
+    unix_cp(oldfilename, filename);
     sqlite3 *db;
     int rc;
-    char *error = NULL;
-    ProgressWindow * progresswindow = NULL;
-    if (gui) progresswindow = new ProgressWindow ("Upgrading projectnotes", false);
+    char *error= NULL;
+    ProgressWindow * progresswindow= NULL;
+    if (gui)
+      progresswindow = new ProgressWindow ("Upgrading projectnotes", false);
     try
     {
       // Connect to the database.
@@ -105,20 +105,21 @@ It upgrades older databases.
     {
       gw_critical (ex.what ());
     }
-    sqlite3_close (db);
-    if (progresswindow) delete progresswindow;
+    sqlite3_close(db);
+    if (progresswindow)
+      delete progresswindow;
   }
 
   // Update: Any project "None" will be renamed to "All",
   // and the version table will be dropped.
-  oldfilename = gw_build_filename (directories_get_notes (), "notes.sql1");
-  filename = gw_build_filename (directories_get_notes (), "notes.sql2");
-  if (g_file_test (oldfilename.c_str(), G_FILE_TEST_IS_REGULAR)) {
+  oldfilename = gw_build_filename(directories_get_notes(), "notes.sql1");
+  filename = gw_build_filename(directories_get_notes(), "notes.sql2");
+  if (g_file_test(oldfilename.c_str(), G_FILE_TEST_IS_REGULAR)) {
     g_message ("Upgrading notes");
-    unix_mv (oldfilename, filename);
+    unix_mv(oldfilename, filename);
     sqlite3 *db;
     int rc;
-    char *error = NULL;
+    char *error= NULL;
     try
     {
       // Connect to the database.
@@ -135,15 +136,15 @@ It upgrades older databases.
     {
       gw_critical (ex.what ());
     }
-    sqlite3_close (db);
+    sqlite3_close(db);
   }
 
   // Last thing: make new database if there is no db.
-  filename = notes_database_filename ();
-  if (!g_file_test (filename.c_str(), G_FILE_TEST_IS_REGULAR)) {
+  filename = notes_database_filename();
+  if (!g_file_test(filename.c_str(), G_FILE_TEST_IS_REGULAR)) {
     sqlite3 *db;
     int rc;
-    char *error = NULL;
+    char *error= NULL;
     try
     {
       // Connect to the database.
@@ -161,19 +162,17 @@ It upgrades older databases.
       gw_critical (ex.what ());
     }
     // Close connection.  
-    sqlite3_close (db);
+    sqlite3_close(db);
   }
 }
 
-
-ustring notes_database_filename ()
+ustring notes_database_filename()
 // Returns the filename of the notes database.
 {
-  return gw_build_filename (directories_get_notes (), "notes.sql2");
+  return gw_build_filename(directories_get_notes(), "notes.sql2");
 }
 
-
-void insert_link (GtkTextBuffer *buffer, ustring text, gint id)
+void insert_link(GtkTextBuffer *buffer, ustring text, gint id)
 /* Inserts a piece of text into the buffer, giving it the usual
  * appearance of a hyperlink in a web browser: blue and underlined.
  * Additionally, attaches some data on the tag, to make it recognizable
@@ -181,24 +180,21 @@ void insert_link (GtkTextBuffer *buffer, ustring text, gint id)
  */
 {
   GtkTextTag *tag;
-  tag = gtk_text_buffer_create_tag (buffer, NULL, 
-				    "foreground", "blue", 
-				    "underline", PANGO_UNDERLINE_SINGLE, 
-				    NULL);
-  g_object_set_data (G_OBJECT (tag), "id", GINT_TO_POINTER (id));
+  tag = gtk_text_buffer_create_tag(buffer, NULL, "foreground", "blue", "underline", PANGO_UNDERLINE_SINGLE, 
+  NULL);
+  g_object_set_data(G_OBJECT (tag), "id", GINT_TO_POINTER (id));
   GtkTextIter iter;
-  gtk_text_buffer_get_end_iter (buffer, &iter);
-  gtk_text_buffer_insert_with_tags (buffer, &iter, text.c_str(), -1, tag, NULL);
+  gtk_text_buffer_get_end_iter(buffer, &iter);
+  gtk_text_buffer_insert_with_tags(buffer, &iter, text.c_str(), -1, tag, NULL);
 }
-  
 
-gint notes_database_get_unique_id ()
+gint notes_database_get_unique_id()
 // This generates a unique id, one that is not yet used in the notes database.
 {
   gint32 result = 0;
   sqlite3 *db;
   int rc;
-  char *error = NULL;
+  char *error= NULL;
   try
   {
     rc = sqlite3_open(notes_database_filename().c_str (), &db);
@@ -225,17 +221,16 @@ gint notes_database_get_unique_id ()
   {
     gw_critical (ex.what ());
   }
-  sqlite3_close (db);
+  sqlite3_close(db);
   return result;
 }
 
-
-void notes_delete_one (int id)
+void notes_delete_one(int id)
 // Deletes the note with id.
 {
   sqlite3 *db;
   int rc;
-  char *error = NULL;
+  char *error= NULL;
   try
   {
     // Connect to database and start transaction
@@ -255,20 +250,19 @@ void notes_delete_one (int id)
   {
     gw_critical (ex.what ());
   }
-  sqlite3_close (db);
+  sqlite3_close(db);
 }
 
-
-void notes_sort (vector<unsigned int>& ids, const vector<ustring>& refs, const vector<ustring>& allrefs, const vector<int>& dates)
+void notes_sort(vector<unsigned int>& ids, const vector<ustring>& refs, const vector<ustring>& allrefs, const vector<int>& dates)
 /*
-This sorts notes.
-ids         - ID's of the notes.
-              The ids will be modified and sorted, so that these can be used 
-              to fetch data from the database in the right order.
-refs        - References to sort on first.
-allrefs     - All the references to sort on next.
-dates       - Modification dates to sort on third.
-*/
+ This sorts notes.
+ ids         - ID's of the notes.
+ The ids will be modified and sorted, so that these can be used 
+ to fetch data from the database in the right order.
+ refs        - References to sort on first.
+ allrefs     - All the references to sort on next.
+ dates       - Modification dates to sort on third.
+ */
 {
   // No sorting when less than two entries.
   if (ids.size() < 2)
@@ -279,47 +273,46 @@ dates       - Modification dates to sort on third.
 
   // Storage for strings to sort
   vector<ustring> strings_to_sort;
-  
+
   // Go through all data to sort.
   for (unsigned int i = 0; i < ids.size(); i++) {
-  
+
     // Storage for string to build.
     ustring string_to_build;
-    
+
     // First part of the string is the reference.
     // It does not always has the same length, so make it 9.
     string_to_build = "0000" + refs[i];
-    string_to_build = string_to_build.substr (string_to_build.length() - 9, 9);
+    string_to_build = string_to_build.substr(string_to_build.length() - 9, 9);
 
     // Next sort on all references.
-    string_to_build.append (allrefs[i]);
-    
+    string_to_build.append(allrefs[i]);
+
     // Third part to sort on is the date. This Julian day has a length of 6
     // characters at the time of programming, and will continue so until
     // Deo Volente the year 2739 A.D. Therefore there is no need to modify the
     // length of it.
     {
       ustring date;
-      date = convert_to_string (dates[i]);
+      date = convert_to_string(dates[i]);
       string_to_build.append(date);
     }
-    
+
     // Store built string
-    strings_to_sort.push_back(string_to_build);    
+    strings_to_sort.push_back(string_to_build);
   }
 
   // Sort the data.
-  quick_sort (strings_to_sort, ids, 0, strings_to_sort.size());  
+  quick_sort(strings_to_sort, ids, 0, strings_to_sort.size());
 }
 
-
-void notes_select (vector<unsigned int>& ids, unsigned int& id_cursor, const ustring& currentreference)
+void notes_select(vector<unsigned int>& ids, unsigned int& id_cursor, const ustring& currentreference)
 /*
-This selects notes for display.
-It does this based on the current reference.
-The resulting selection will be stored in ids.
-It gives "id_cursor" which contains the id the cursor has to be put at.
-*/
+ This selects notes for display.
+ It does this based on the current reference.
+ The resulting selection will be stored in ids.
+ It gives "id_cursor" which contains the id the cursor has to be put at.
+ */
 {
   // Configuration.
   extern Settings * settings;
@@ -329,21 +322,22 @@ It gives "id_cursor" which contains the id the cursor has to be put at.
   int numerical_currentreference;
   {
     ustring book, chapter, verse;
-    decode_reference (currentreference, book, chapter, verse);
-    numerical_currentreference = reference_to_numerical_equivalent (book, chapter, "0");
-    vector<int> verses = verses_encode (verse);
-    if (!verses.empty()) numerical_currentreference += verses[0];
+    decode_reference(currentreference, book, chapter, verse);
+    numerical_currentreference = reference_to_numerical_equivalent(book, chapter, "0");
+    vector<int> verses = verses_encode(verse);
+    if (!verses.empty())
+      numerical_currentreference += verses[0];
   }
   // Date selection.
-  int currentdate = date_time_julian_day_get_current ();  
+  int currentdate = date_time_julian_day_get_current();
   // Category selection.
-  ustring category = settings->genconfig.notes_selection_category_get ();
+  ustring category = settings->genconfig.notes_selection_category_get();
   // Cursor focus calculation.
-  int minimum_cursor_distance = G_MAXINT;
+  int minimum_cursor_distance= G_MAXINT;
   // Database variables.
   sqlite3 *db;
   int rc;
-  char *error = NULL;
+  char *error= NULL;
   try
   {
     // Connect to database.
@@ -441,7 +435,7 @@ It gives "id_cursor" which contains the id the cursor has to be put at.
         case nsetDateRange:
         {
           if (modified_date < settings->genconfig.notes_selection_date_from_get ()) continue;
-          if (modified_date > settings->genconfig.notes_selection_date_to_get ()) continue;
+          if (modified_date> settings->genconfig.notes_selection_date_to_get ()) continue;
           break;
         }
         case nsetAny:
@@ -458,13 +452,13 @@ It gives "id_cursor" which contains the id the cursor has to be put at.
         bool project_ok = false;
         ustring project_in_db = sqlitereader.ustring3[rc];
         if (project_in_db == settings->genconfig.project_get())
-          project_ok = true;
+        project_ok = true;
         // Current notes can use "All".
         if (project_in_db == "All")
-          project_ok = true;
+        project_ok = true;
         // Only show notes when the project is fine.
         if (!project_ok)
-          continue;
+        continue;
       }
       // Get id.
       gint32 id = convert_to_int (sqlitereader.ustring0[rc]);
@@ -472,7 +466,7 @@ It gives "id_cursor" which contains the id the cursor has to be put at.
       Parse parse (sqlitereader.ustring1[rc]);
       // Get the first numerical equivalent of the reference.
       ustring reference;
-      if (parse.words.size() > 0) reference = parse.words[0];
+      if (parse.words.size()> 0) reference = parse.words[0];
       // Calculate the smallest distance between note and reference.
       // Also see if the cursor must be positioned here.
       int smallest_distance = G_MAXINT;
@@ -488,7 +482,7 @@ It gives "id_cursor" which contains the id the cursor has to be put at.
           minimum_cursor_distance = absolute_distance;
           id_cursor = id;
         }
-      }        
+      }
       // Get date modified.
       int date = convert_to_int (sqlitereader.ustring2[rc]);
       // Store data. 
@@ -516,23 +510,22 @@ It gives "id_cursor" which contains the id the cursor has to be put at.
     gw_critical (ex.what ());
   }
   // Close database
-  sqlite3_close (db);
+  sqlite3_close(db);
 }
 
-
-void notes_display (GtkTextView *textview, GtkTextBuffer *textbuffer, double& fraction, vector <unsigned int> ids, unsigned int cursor_id, unsigned int& cursor_offset, bool& stop)
+void notes_display(GtkTextView *textview, GtkTextBuffer *textbuffer, double& fraction, vector <unsigned int> ids, unsigned int cursor_id, unsigned int& cursor_offset, bool& stop)
 /*
-This cares for the actual displaying of the notes.
-It displays all the note with the IDs as given in ids.
-It moves the cursor to the note whose ID is "cursor_id".
-*/
+ This cares for the actual displaying of the notes.
+ It displays all the note with the IDs as given in ids.
+ It moves the cursor to the note whose ID is "cursor_id".
+ */
 {
   extern Settings * settings;
-  ProjectConfiguration * projectconfig = settings->projectconfig (settings->genconfig.project_get());
+  ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
   ustring language = projectconfig->language_get();
   sqlite3 *db;
   int rc;
-  char *error = NULL;
+  char *error= NULL;
   try
   {
     // Connect to database.
@@ -545,16 +538,16 @@ It moves the cursor to the note whose ID is "cursor_id".
 
     // Whether to show the summary only.
     bool show_summary = settings->genconfig.notes_display_summary_get ();
-    
+
     // Go through all the notes.
     for (unsigned int c = 0; c < ids.size(); c++) {
 
       // Handle possible stop command.
       if (stop) continue;
-      
+
       // Fraction ready.
       fraction = (double) c / ids.size ();
-      
+
       // Current offset at end of buffer.
       unsigned int end_offset;
       {
@@ -562,7 +555,7 @@ It moves the cursor to the note whose ID is "cursor_id".
         gtk_text_buffer_get_end_iter (textbuffer, &enditer);
         end_offset = gtk_text_iter_get_offset (&enditer);
       }
-      
+
       // Get from the database.
       SqliteReader reader (0);
       char * sql;
@@ -585,32 +578,32 @@ It moves the cursor to the note whose ID is "cursor_id".
 
         // Keep list of references.
         vector<Reference> references;
-      
+
         // Go through each reference.
         for (unsigned int i2 = 0; i2 < parse.words.size(); i2++) {
           // Make it human readable.
           Reference ref (0);
           reference_discover (0, 0, "", parse.words[i2], ref.book, ref.chapter, ref.verse);
           if (!reference.empty())
-            reference.append (", ");
+          reference.append (", ");
           reference.append (ref.human_readable (language));
           references.push_back (ref);
         }
 
         // Get project.
         ustring project = reader.ustring3[r];
-      
+
         // Insert a link with this heading.
         ustring linkheading (reference);
         if (settings->genconfig.notes_display_project_get ())
-          linkheading.append (" " + project);
+        linkheading.append (" " + project);
         if (settings->genconfig.notes_display_category_get ())
-          linkheading.append (" " + reader.ustring4[r]);
+        linkheading.append (" " + reader.ustring4[r]);
         if (settings->genconfig.notes_display_date_created_get ())
-          linkheading.append (" " + date_time_julian_human_readable (convert_to_int (reader.ustring5[r]), true));
+        linkheading.append (" " + date_time_julian_human_readable (convert_to_int (reader.ustring5[r]), true));
         if (settings->genconfig.notes_display_created_by_get ())
-          linkheading.append (" " + reader.ustring6[r]);
-        insert_link (textbuffer, linkheading, ids[c]); 
+        linkheading.append (" " + reader.ustring6[r]);
+        insert_link (textbuffer, linkheading, ids[c]);
         // Handle summary. Show only the first few words.
         if (show_summary) {
           ustring summary = reader.ustring2[r];
@@ -627,7 +620,7 @@ It moves the cursor to the note whose ID is "cursor_id".
           gtk_text_buffer_insert_at_cursor (textbuffer, summary.c_str(), -1);
         }
         gtk_text_buffer_insert_at_cursor (textbuffer, "\n", -1);
-      
+
         // Insert text of the references, if requested.
         if (show_reference_text) {
           for (unsigned int r = 0; r < references.size(); r++) {
@@ -647,14 +640,14 @@ It moves the cursor to the note whose ID is "cursor_id".
             }
           }
         }
-        
+
         // Get the text of the note.
         if (!show_summary) {
           ustring note = reader.ustring2[r];
           gtk_text_buffer_insert_at_cursor (textbuffer, note.c_str(), -1);
           gtk_text_buffer_insert_at_cursor (textbuffer, "\n", -1);
         }
-      
+
         // Get the offset of the note that is to be focused.
         if (ids[c] == cursor_id) {
           cursor_offset = end_offset;
@@ -667,99 +660,95 @@ It moves the cursor to the note whose ID is "cursor_id".
     gw_critical (ex.what ());
   }
   // Close connection.  
-  sqlite3_close (db);
+  sqlite3_close(db);
 }
 
-
-void notes_get_references_from_editor (GtkTextBuffer *textbuffer, vector<Reference>& references, vector<ustring>& messages)
+void notes_get_references_from_editor(GtkTextBuffer *textbuffer, vector<Reference>& references, vector<ustring>& messages)
 /*
-Gets all references from the notes editor.
-Normalizes them.
-Produces messages on trouble.
-Handles notes that span more than one chapter.
-*/
+ Gets all references from the notes editor.
+ Normalizes them.
+ Produces messages on trouble.
+ Handles notes that span more than one chapter.
+ */
 {
   // Get all lines from the textbuffer.
   vector<ustring> lines;
-  textbuffer_get_lines (textbuffer, lines);
+  textbuffer_get_lines(textbuffer, lines);
   // When discovering a reference from a user's entry, use previous values,
   // so that it becomes quicker for a user to enter new references.
   // If Leviticus 10:11 is already there, and the user wishes to add verse
   // 12 also, he just enters 12 on a line, and that' it.
-  Reference previousreference (0);
+  Reference previousreference(0);
   for (unsigned int i = 0; i < lines.size(); i++) {
-    if (!lines[i].empty ()) {
+    if (!lines[i].empty()) {
       // Normalize reference.
-      Reference reference (0);
-      if (reference_discover (previousreference.book, previousreference.chapter, previousreference.verse, lines[i], reference.book, reference.chapter, reference.verse)) {
+      Reference reference(0);
+      if (reference_discover(previousreference.book, previousreference.chapter, previousreference.verse, lines[i], reference.book, reference.chapter, reference.verse)) {
         ustring ch1, vs1, ch2, vs2;
-        if (chapter_span_discover (lines[i], ch1, vs1, ch2, vs2)) {
+        if (chapter_span_discover(lines[i], ch1, vs1, ch2, vs2)) {
           // We cross the chapter boundaries. Store as two references, the first
           // one going up to the end of the chapter, and the second one starting
           // at the next chapter verse 1.
           extern Settings * settings;
-          ProjectConfiguration * projectconfig = settings->projectconfig (settings->genconfig.project_get());
-          Reference ref (reference.book, convert_to_int (ch1), vs1);
-          ustring lastverse = versification_get_last_verse (projectconfig->versification_get(), reference.book, convert_to_int (ch1));
-          ref.verse.append ("-" + lastverse);
-          references.push_back (ref);
-          ref.chapter = convert_to_int (ch2);
+          ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
+          Reference ref(reference.book, convert_to_int(ch1), vs1);
+          ustring lastverse = versification_get_last_verse(projectconfig->versification_get(), reference.book, convert_to_int(ch1));
+          ref.verse.append("-" + lastverse);
+          references.push_back(ref);
+          ref.chapter = convert_to_int(ch2);
           ref.verse = "1-" + vs2;
-          references.push_back (ref);
+          references.push_back(ref);
           // Store values to discover next reference.
           previousreference.book = reference.book;
-          previousreference.chapter = convert_to_int (ch2);
+          previousreference.chapter = convert_to_int(ch2);
           previousreference.verse = vs2;
         } else {
           // We've a normal reference.
           // Store reference.
-          references.push_back (reference);
+          references.push_back(reference);
           // Store values to discover next reference.
           previousreference.book = reference.book;
           previousreference.chapter = reference.chapter;
           previousreference.verse = reference.verse;
-        } 
+        }
       } else {
-        messages.push_back ("Reference " + lines[i] + " is not valid and has been removed.");
+        messages.push_back("Reference " + lines[i] + " is not valid and has been removed.");
       }
     }
   }
 }
 
-
-ustring notes_categories_filename ()
+ustring notes_categories_filename()
 // Returns the filename of the notes database.
 {
-  return gw_build_filename (directories_get_notes (), "categories");
+  return gw_build_filename(directories_get_notes(), "categories");
 }
 
-
-void notes_categories_check ()
+void notes_categories_check()
 // Check categories are there - if not, create default set.
 {
-  if (!g_file_test (notes_categories_filename ().c_str(), G_FILE_TEST_IS_REGULAR)) {
+  if (!g_file_test(notes_categories_filename ().c_str(), G_FILE_TEST_IS_REGULAR)) {
     vector<ustring> categories;
-    categories.push_back ("No issue");
-    categories.push_back ("For myself");
-    categories.push_back ("For subteam");
-    categories.push_back ("For team");
-    categories.push_back ("For scholar");
-    categories.push_back ("For panel");
-    categories.push_back ("For church");
-    categories.push_back ("For consultant");
-    categories.push_back ("For Bible society");
-    write_lines (notes_categories_filename (), categories);
+    categories.push_back("No issue");
+    categories.push_back("For myself");
+    categories.push_back("For subteam");
+    categories.push_back("For team");
+    categories.push_back("For scholar");
+    categories.push_back("For panel");
+    categories.push_back("For church");
+    categories.push_back("For consultant");
+    categories.push_back("For Bible society");
+    write_lines(notes_categories_filename(), categories);
   }
 }
 
-
-void notes_categories_add_from_database (vector<ustring>& categories)
+void notes_categories_add_from_database(vector<ustring>& categories)
 // Takes the existing notes categories, if there are any, and adds any
 // extra categories found in the database.
 {
   sqlite3 *db;
   int rc;
-  char *error = NULL;
+  char *error= NULL;
   try
   {
     // Get the unique categories.
@@ -791,17 +780,16 @@ void notes_categories_add_from_database (vector<ustring>& categories)
   {
     gw_critical (ex.what ());
   }
-  sqlite3_close (db);
+  sqlite3_close(db);
 }
 
-
-void notes_projects_add_from_database (vector<ustring>& projects)
+void notes_projects_add_from_database(vector<ustring>& projects)
 // Takes the existing projects, if there are any, and adds any
 // extra projects found in the database.
 {
   sqlite3 *db;
   int rc;
-  char *error = NULL;
+  char *error= NULL;
   try
   {
     // Get the unique categories.
@@ -833,31 +821,26 @@ void notes_projects_add_from_database (vector<ustring>& projects)
   {
     gw_critical (ex.what ());
   }
-  sqlite3_close (db);
+  sqlite3_close(db);
 }
 
-
-void notes_vacuum ()
+void notes_vacuum()
 // Vacuum the database.
 {
-  vacuum_database (notes_database_filename ());
+  vacuum_database(notes_database_filename());
 }
 
-
-void notes_store_one (int id, ustring& note, const ustring& project,
-                      vector<Reference>& references, const ustring& category,
-                      int date_created, const ustring& user_created, ustring& logbook)
-{
+void notes_store_one(int id, ustring& note, const ustring& project, vector<Reference>& references, const ustring& category, int date_created, const ustring& user_created, ustring& logbook) {
   sqlite3 *db;
   int rc;
-  char *error = NULL;
+  char *error= NULL;
   try
   {
     /*
-    Validate and normalize the references.
-    Bad ones are removed and a message will be given.
-    If no valid references remain, stop the whole transaction and give a message.
-    */
+     Validate and normalize the references.
+     Bad ones are removed and a message will be given.
+     If no valid references remain, stop the whole transaction and give a message.
+     */
     ustring encoded_references;
     ustring osis_references;
     // Get and validate all references from the textview.
@@ -879,7 +862,7 @@ void notes_store_one (int id, ustring& note, const ustring& project,
         ustring osis_book = books_id_to_osis (references[i].book);
         ustring osis_reference = osis_book + "." + chapter + "." + references[i].verse;
         if (!osis_references.empty())
-          osis_references.append (" ");
+        osis_references.append (" ");
         osis_references.append (osis_reference);
       }
       encoded_references.append (" ");
@@ -939,16 +922,15 @@ void notes_store_one (int id, ustring& note, const ustring& project,
     gw_critical (ex.what ());
   }
   // Close connection.  
-  sqlite3_close (db);
+  sqlite3_close(db);
 }
 
-
-void notes_change_category (const ustring& from, const ustring& to)
+void notes_change_category(const ustring& from, const ustring& to)
 // Changes all notes in category "from" to category "to".
 {
   sqlite3 *db;
   int rc;
-  char *error = NULL;
+  char *error= NULL;
   try
   {
     rc = sqlite3_open(notes_database_filename ().c_str (), &db);
@@ -964,16 +946,15 @@ void notes_change_category (const ustring& from, const ustring& to)
   {
     gw_critical (ex.what ());
   }
-  sqlite3_close (db);
+  sqlite3_close(db);
 }
 
-
-void notes_change_project (const ustring& from, const ustring& to)
+void notes_change_project(const ustring& from, const ustring& to)
 // Changes all notes in project "from" to project "to".
 {
   sqlite3 *db;
   int rc;
-  char *error = NULL;
+  char *error= NULL;
   try
   {
     rc = sqlite3_open(notes_database_filename ().c_str (), &db);
@@ -989,5 +970,36 @@ void notes_change_project (const ustring& from, const ustring& to)
   {
     gw_critical (ex.what ());
   }
-  sqlite3_close (db);
+  sqlite3_close(db);
+}
+
+void notes_read(vector <unsigned int> ids, vector <ustring>& data)
+// Reads notes.
+{
+  sqlite3 *db;
+  int rc;
+  char *error= NULL;
+  try
+  {
+    data.clear();
+    rc = sqlite3_open(notes_database_filename().c_str (), &db);
+    if (rc) throw runtime_error (sqlite3_errmsg(db));
+    sqlite3_busy_timeout (db, 1000);
+    for (unsigned int c = 0; c < ids.size(); c++) {
+      SqliteReader reader (0);
+      char * sql;
+      sql = g_strdup_printf ("select note from '%s' where id = %d;", TABLE_NOTES, ids[c]);
+      rc = sqlite3_exec (db, sql, reader.callback, &reader, &error);
+      g_free (sql);
+      if (rc != SQLITE_OK) {
+        throw runtime_error (error);
+      }
+      data.push_back (reader.ustring0[0]);
+    }
+  }
+  catch (exception & ex)
+  {
+    gw_critical (ex.what ());
+  }
+  sqlite3_close(db);
 }

@@ -134,6 +134,7 @@
 #include "dialogradiobutton.h"
 #include "import.h"
 #include "dialogimportrawtext.h"
+#include "dialogxfernotes2text.h"
 
 /*
  |
@@ -1607,6 +1608,14 @@ MainWindow::MainWindow(unsigned long xembed) :
     gtk_widget_show(image21054);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (tool_simple_text_corrections), image21054);
 
+    tool_transfer_project_notes_to_text = gtk_image_menu_item_new_with_mnemonic("Tr_ansfer project notes to text");
+    gtk_widget_show(tool_transfer_project_notes_to_text);
+    gtk_container_add(GTK_CONTAINER (menutools_menu), tool_transfer_project_notes_to_text);
+
+    image29089 = gtk_image_new_from_stock("gtk-refresh", GTK_ICON_SIZE_MENU);
+    gtk_widget_show(image29089);
+    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (tool_transfer_project_notes_to_text), image29089);
+
   }
 
   menuitem_preferences = gtk_menu_item_new_with_mnemonic("P_references");
@@ -2355,6 +2364,7 @@ MainWindow::MainWindow(unsigned long xembed) :
     g_signal_connect ((gpointer) tool_project_notes_mass_update1, "activate", G_CALLBACK (on_tool_project_notes_mass_update1_activate), gpointer(this));
     g_signal_connect ((gpointer) tool_generate_word_lists, "activate", G_CALLBACK (on_tool_generate_word_lists_activate), gpointer(this));
     g_signal_connect ((gpointer) tool_simple_text_corrections, "activate", G_CALLBACK (on_tool_simple_text_corrections_activate), gpointer(this));
+    g_signal_connect ((gpointer) tool_transfer_project_notes_to_text, "activate", G_CALLBACK (on_tool_transfer_project_notes_to_text_activate), gpointer(this));
   }
   if (guifeatures.preferences()) {
     g_signal_connect ((gpointer) notes_preferences, "activate", G_CALLBACK (on_notes_preferences_activate), gpointer(this));
@@ -5686,6 +5696,22 @@ void MainWindow::on_tool_generate_word_lists() {
     reload_project();
 }
 
+void MainWindow::on_tool_transfer_project_notes_to_text_activate(GtkMenuItem *menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_tool_transfer_project_notes_to_text();
+}
+
+void MainWindow::on_tool_transfer_project_notes_to_text()
+// This transfers the currently visible project notes to the currently active project, 
+// and does that for each verse.
+{
+  editorsgui->save();
+  XferNotes2TextDialog dialog(0);
+  if (dialog.run() == GTK_RESPONSE_OK) {
+    reload_project();
+  }
+}
+
 void MainWindow::on_preferences_features_activate(GtkMenuItem *menuitem, gpointer user_data) {
   ((MainWindow *) user_data)->on_preferences_features();
 }
@@ -6703,6 +6729,7 @@ void MainWindow::on_print() {
  
  Option to drop the gtkhtml3 library for on OLPC. Functionality should then be replaced by a GtkTextView.
  This would result in low quality display.
- 
+
+
  */
 

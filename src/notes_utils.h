@@ -47,6 +47,7 @@ void notes_store_one (int id, ustring& note, const ustring& project,
                       int date_created, const ustring& user_created, ustring& logbook);
 void notes_change_category (const ustring& from, const ustring& to);
 void notes_change_project (const ustring& from, const ustring& to);
+void notes_read (vector <unsigned int> ids, vector <ustring>& data);
 
 
 #endif
