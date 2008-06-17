@@ -167,10 +167,3 @@ void XferNotes2TextDialog::transfer_note(const ustring& project, unsigned int bo
   project_store_verse(project, book, chapter, verse, text);
 }
 
-/*
-
- Todo Working here.
-
-Document in helpfile.
-
- */
