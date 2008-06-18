@@ -3212,7 +3212,7 @@ void MainWindow::on_new_verse_signalled(GtkButton *button, gpointer user_data) {
   ((MainWindow *) user_data)->on_new_verse();
 }
 
-void MainWindow::on_new_verse() // Todo
+void MainWindow::on_new_verse()
 /*
  When the cursor has moved, the navigation system needs to be updated
  so that it shows the right reference. If the user was, for example

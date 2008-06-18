@@ -727,7 +727,7 @@ bool Editor::on_textview_cursor_moved_delayer_handler(gpointer user_data) {
   return false;
 }
 
-void Editor::on_textview_cursor_moved() // Todo
+void Editor::on_textview_cursor_moved()
 // Handle the administration if the cursor moved.
 {
   signal_if_styles_changed();
@@ -791,7 +791,7 @@ bool Editor::on_grab_focus_delayer_timeout(gpointer data) {
   return false;
 }
 
-void Editor::on_grab_focus_delayed_handler() // Todo
+void Editor::on_grab_focus_delayed_handler()
 /*
  If the user clicks in the editor window, 
  and straight after that the position of the cursor is requested, 
@@ -836,7 +836,7 @@ void Editor::programmatically_grab_focus(GtkWidget * widget) {
   focus_programmatically_being_grabbed = false;
 }
 
-void Editor::signal_if_verse_changed() // Todo
+void Editor::signal_if_verse_changed()
 // If the verse number of the cursor changed it emits a signal.
 {
   ustring versenumber = verse_number_get();
