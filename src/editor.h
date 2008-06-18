@@ -292,6 +292,19 @@ private:
   gint textview_to_textview_stepcount;
   void check_move_textview_to_textview();
 
+  // Verse tracking.  
+public:
+private:
+  /*
+  static bool show_quick_references_timeout(gpointer user_data);
+  void show_quick_references_execute();
+  */
+  guint event_id_track_cursor_position;
+  static bool track_cursor_position_timeout(gpointer user_data);
+  void track_cursor_position_execute();
+  
+  
+  
 };
 
 #endif

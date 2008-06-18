@@ -60,6 +60,7 @@ Editor::Editor(GtkWidget * vbox, GtkWidget * notebook_page, GtkWidget * tab_labe
   texview_to_textview_old = NULL;
   texview_to_textview_new = NULL;
   textview_to_textview_offset = 0;
+  event_id_track_cursor_position = 0;
 
   // Create data that is needed for any of the possible formatted views.
   create_or_update_formatting_data();
@@ -195,6 +196,9 @@ Editor::Editor(GtkWidget * vbox, GtkWidget * notebook_page, GtkWidget * tab_labe
   // Grab focus.
   focus_programmatically_being_grabbed = false;
   gtk_widget_grab_focus(textview);
+  
+  // Tracking of cursor position.
+  event_id_track_cursor_position = g_timeout_add_full(G_PRIORITY_DEFAULT, 300, GSourceFunc (track_cursor_position_timeout), gpointer(this), NULL);
 }
 
 Editor::~Editor() {
@@ -223,6 +227,7 @@ Editor::~Editor() {
   gw_destroy_source(save_timeout_event_id);
   gw_destroy_source(highlight_timeout_event_id);
   gw_destroy_source(spelling_timeout_event_id);
+  gw_destroy_source(event_id_show_quick_references);
 
   // Destroy possible highlight object.
   if (highlight)
@@ -644,7 +649,7 @@ void Editor::text_insert(ustring text)
 void Editor::show_quick_references()
 // Starts the process to show the quick references.
 // A delaying routine is used to make the program more responsive.
-// That is, the quick references are now shown at each change,
+// That is, the quick references are not shown at each change,
 // but only shortly after. 
 // Without this pasting a long text in the footnote takes a lot of time.
 {
@@ -722,10 +727,9 @@ bool Editor::on_textview_cursor_moved_delayer_handler(gpointer user_data) {
   return false;
 }
 
-void Editor::on_textview_cursor_moved()
+void Editor::on_textview_cursor_moved() // Todo
 // Handle the administration if the cursor moved.
 {
-  signal_if_verse_changed();
   signal_if_styles_changed();
   check_move_textview_to_textview();
 }
@@ -787,7 +791,7 @@ bool Editor::on_grab_focus_delayer_timeout(gpointer data) {
   return false;
 }
 
-void Editor::on_grab_focus_delayed_handler()
+void Editor::on_grab_focus_delayed_handler() // Todo
 /*
  If the user clicks in the editor window, 
  and straight after that the position of the cursor is requested, 
@@ -795,7 +799,6 @@ void Editor::on_grab_focus_delayed_handler()
  This delayed handler solves that.
  */
 {
-  signal_if_verse_changed();
   signal_if_styles_changed();
   if (record_undo_actions()) {
     show_quick_references();
@@ -833,7 +836,7 @@ void Editor::programmatically_grab_focus(GtkWidget * widget) {
   focus_programmatically_being_grabbed = false;
 }
 
-void Editor::signal_if_verse_changed()
+void Editor::signal_if_verse_changed() // Todo
 // If the verse number of the cursor changed it emits a signal.
 {
   ustring versenumber = verse_number_get();
@@ -3659,5 +3662,16 @@ void Editor::check_move_textview_to_textview() {
     return;
   }
 
+}
+
+bool Editor::track_cursor_position_timeout(gpointer user_data) {
+  ((Editor *) user_data)->track_cursor_position_execute();
+  return true;
+}
+
+void Editor::track_cursor_position_execute()
+// Track the cursor position.
+{
+  signal_if_verse_changed();
 }
 
