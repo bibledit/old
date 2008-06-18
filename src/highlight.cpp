@@ -76,7 +76,7 @@ Highlight::Highlight (GtkTextBuffer * buffer,
       ustring paragraph_style, character_style;
       get_styles_at_iterator (iter, paragraph_style, character_style);
       if (start || (character_style == verse_style)) {
-        ustring verse_at_iter = get_verse_number_at_iterator (iter, verse_style);
+        ustring verse_at_iter = get_verse_number_at_iterator (iter, verse_style, "");
         if (verse == verse_at_iter) {
           if (!started) {
             started = true;

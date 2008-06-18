@@ -5696,8 +5696,7 @@ void MainWindow::on_tool_generate_word_lists() {
     reload_project();
 }
 
-void MainWindow::on_tool_transfer_project_notes_to_text_activate(GtkMenuItem *menuitem, gpointer user_data)
-{
+void MainWindow::on_tool_transfer_project_notes_to_text_activate(GtkMenuItem *menuitem, gpointer user_data) {
   ((MainWindow *) user_data)->on_tool_transfer_project_notes_to_text();
 }
 
@@ -6729,7 +6728,6 @@ void MainWindow::on_print() {
  
  Option to drop the gtkhtml3 library for on OLPC. Functionality should then be replaced by a GtkTextView.
  This would result in low quality display.
-
 
  */
 

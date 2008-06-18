@@ -734,15 +734,14 @@ ustring Editor::verse_number_get()
 // Returns the verse number the cursor is in.
 {
   // Get an iterator at the cursor location of the main textview.
-  // But if the cursor is in a footnote, or in a table, then the iterator
-  // should be retrieved from another location in the main textview.
-  // This location should correspond to the verse that the footnote refers to
-  // or that the table is in.
   GtkTextIter iter;
   gtk_text_buffer_get_iter_at_mark(textbuffer, &iter, gtk_text_buffer_get_insert(textbuffer));
   if (GTK_WIDGET_HAS_FOCUS (textview)) {
     gtk_text_buffer_get_iter_at_mark(textbuffer, &iter, gtk_text_buffer_get_insert(textbuffer));
   } else {
+    // If the cursor is in a footnote, or in a table, 
+    // then the iterator is retrieved from another location in the main textview.
+    // This location corresponds to the verse that the footnote refers to or that the table is in.
     for (unsigned int i = 0; i < editornotes.size(); i++) {
       if (GTK_WIDGET_HAS_FOCUS (editornotes[i].textview)) {
         gtk_text_buffer_get_iter_at_child_anchor(textbuffer, &iter, editornotes[i].childanchor_caller_text);
@@ -761,7 +760,7 @@ ustring Editor::verse_number_get()
 
   // Get and return the verse.
   ustring verse_marker = style_get_verse_marker(project);
-  return get_verse_number_at_iterator(iter, verse_marker);
+  return get_verse_number_at_iterator(iter, verse_marker, project);
 }
 
 void Editor::on_textview_grab_focus(GtkWidget * widget, gpointer user_data) {
