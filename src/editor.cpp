@@ -196,9 +196,9 @@ Editor::Editor(GtkWidget * vbox, GtkWidget * notebook_page, GtkWidget * tab_labe
   // Grab focus.
   focus_programmatically_being_grabbed = false;
   gtk_widget_grab_focus(textview);
-  
+
   // Tracking of cursor position.
-  event_id_track_cursor_position = g_timeout_add_full(G_PRIORITY_DEFAULT, 300, GSourceFunc (track_cursor_position_timeout), gpointer(this), NULL);
+  // Todo event_id_track_cursor_position = g_timeout_add_full(G_PRIORITY_DEFAULT, 300, GSourceFunc (track_cursor_position_timeout), gpointer(this), NULL);
 }
 
 Editor::~Editor() {
@@ -207,17 +207,6 @@ Editor::~Editor() {
 
   // Delete speller.
   delete spellingchecker;
-
-  // Destroy the signalling buttons.
-  gtk_widget_destroy(new_verse_signal);
-  gtk_widget_destroy(new_styles_signal);
-  gtk_widget_destroy(word_double_clicked_signal);
-  gtk_widget_destroy(reload_signal);
-  gtk_widget_destroy(focus_signal);
-  gtk_widget_destroy(changed_signal);
-
-  // Destroy the texttag tables.
-  g_object_unref(texttagtable);
 
   // Destroy a couple of timeout sources.
   gw_destroy_source(textview_cursor_moved_delayer_event_id);
@@ -228,6 +217,20 @@ Editor::~Editor() {
   gw_destroy_source(highlight_timeout_event_id);
   gw_destroy_source(spelling_timeout_event_id);
   gw_destroy_source(event_id_show_quick_references);
+  gw_destroy_source(event_id_track_cursor_position);
+
+  // Destroy the signalling buttons.
+  gtk_widget_destroy(new_verse_signal);
+  new_verse_signal = NULL;
+  gtk_widget_destroy(new_styles_signal);
+  new_styles_signal = NULL;
+  gtk_widget_destroy(word_double_clicked_signal);
+  gtk_widget_destroy(reload_signal);
+  gtk_widget_destroy(focus_signal);
+  gtk_widget_destroy(changed_signal);
+
+  // Destroy the texttag tables.
+  g_object_unref(texttagtable);
 
   // Destroy possible highlight object.
   if (highlight)
@@ -843,7 +846,8 @@ void Editor::signal_if_verse_changed()
 {
   ustring versenumber = verse_number_get();
   if (versenumber != previous_versenumber) {
-    gtk_button_clicked(GTK_BUTTON (new_verse_signal));
+    if (new_verse_signal)
+      gtk_button_clicked(GTK_BUTTON (new_verse_signal));
     previous_versenumber = versenumber;
   }
 }
@@ -2931,7 +2935,8 @@ void Editor::signal_if_styles_changed() {
   set <ustring> styles = get_styles_at_cursor();
   if (styles != styles_at_cursor) {
     styles_at_cursor = styles;
-    gtk_button_clicked(GTK_BUTTON (new_styles_signal));
+    if (new_verse_signal)
+      gtk_button_clicked(GTK_BUTTON (new_styles_signal));
   }
 }
 
