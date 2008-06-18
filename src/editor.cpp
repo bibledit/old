@@ -730,6 +730,7 @@ bool Editor::on_textview_cursor_moved_delayer_handler(gpointer user_data) {
 void Editor::on_textview_cursor_moved()
 // Handle the administration if the cursor moved.
 {
+  signal_if_verse_changed();
   signal_if_styles_changed();
   check_move_textview_to_textview();
 }
@@ -799,6 +800,7 @@ void Editor::on_grab_focus_delayed_handler()
  This delayed handler solves that.
  */
 {
+  signal_if_verse_changed();
   signal_if_styles_changed();
   if (record_undo_actions()) {
     show_quick_references();
@@ -3672,6 +3674,6 @@ bool Editor::track_cursor_position_timeout(gpointer user_data) {
 void Editor::track_cursor_position_execute()
 // Track the cursor position.
 {
-  signal_if_verse_changed();
+  //signal_if_verse_changed();
 }
 
