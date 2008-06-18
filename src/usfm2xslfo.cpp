@@ -1524,9 +1524,9 @@ void Usfm2XslFo::output_verse_number (Usfm2XslFoStyle * stylepointer, Usfm2XslFo
   
   // Write any number different from 1.
   if (verse != "1") printversenumber = true;
-    
+  
   // Write the verse number.
-  if (printversenumber) {
+  if (printversenumber && stylepointer->print) {
     fo_inline_style = stylepointer;
     open_fo_inline (fo_inline_style, fo_block_style);
     xmlTextWriterWriteFormatString (writer, verse.c_str ());
