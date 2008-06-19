@@ -3108,7 +3108,7 @@ void MainWindow::on_navigation_new_reference_clicked(GtkButton *button, gpointer
   ((MainWindow *) user_data)->on_navigation_new_reference();
 }
 
-void MainWindow::on_navigation_new_reference() { // Todo
+void MainWindow::on_navigation_new_reference() {
   extern Settings * settings;
   settings->genconfig.book_set(navigation.reference.book);
   settings->genconfig.chapter_set(convert_to_string(navigation.reference.chapter));
@@ -3212,7 +3212,7 @@ void MainWindow::on_new_verse_signalled(GtkButton *button, gpointer user_data) {
   ((MainWindow *) user_data)->on_new_verse();
 }
 
-void MainWindow::on_new_verse() // Todo
+void MainWindow::on_new_verse()
 /*
  When the cursor has moved, the navigation system needs to be updated
  so that it shows the right reference. If the user was, for example

@@ -125,9 +125,6 @@ public:
 
   set <ustring> get_styles_at_cursor();
 
-  ustring previous_versenumber;
-  void signal_if_verse_changed();
-
   // Automatic save.
   static bool on_save_timeout(gpointer data);
   bool save_timeout();
@@ -301,6 +298,7 @@ private:
   static bool track_cursor_position_timeout(gpointer user_data);
   void track_cursor_position_execute();
   ustring requested_global_verse_change;
+  ustring previous_versenumber;
   
   
 };

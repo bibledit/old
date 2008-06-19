@@ -245,7 +245,7 @@ void Editor::book_set(unsigned int book_in) {
   book = book_in;
 }
 
-void Editor::chapter_load(unsigned int chapter_in, vector <ustring> * lines_in) // Todo this destroys the navigation timer, moves cursor to start, and starts a new once-off timer.
+void Editor::chapter_load(unsigned int chapter_in, vector <ustring> * lines_in) // Todo 
 // Loads a chapter with the number "chapter_in".
 // If "lines_in" exists, it load these instead of getting the chapter.
 {
@@ -351,7 +351,7 @@ void Editor::chapter_load(unsigned int chapter_in, vector <ustring> * lines_in) 
   screen_scroll_to_iterator(GTK_TEXT_VIEW (textview), &iter);
 
   // After-event.
-  g_timeout_add(1000, GSourceFunc(on_after_chapter_loaded_timeout), gpointer(this)); // Todo
+  g_timeout_add(1000, GSourceFunc(on_after_chapter_loaded_timeout), gpointer(this));
 }
 
 void Editor::chapter_save() {
@@ -738,15 +738,14 @@ bool Editor::on_textview_cursor_moved_delayer_handler(gpointer user_data) {
   return false;
 }
 
-void Editor::on_textview_cursor_moved() // Todo
+void Editor::on_textview_cursor_moved()
 // Handle the administration if the cursor moved.
 {
-  signal_if_verse_changed();
   signal_if_styles_changed();
   check_move_textview_to_textview();
 }
 
-ustring Editor::verse_number_get() // Todo
+ustring Editor::verse_number_get()
 // Returns the verse number the cursor is in.
 {
   // Get an iterator at the cursor location of the main textview.
@@ -783,7 +782,7 @@ void Editor::on_textview_grab_focus(GtkWidget * widget, gpointer user_data) {
   ((Editor *) user_data)->textview_grab_focus(widget);
 }
 
-void Editor::textview_grab_focus(GtkWidget * widget) { // Todo
+void Editor::textview_grab_focus(GtkWidget * widget) {
   // Focus handling.
   last_focused_widget = widget;
   // Bail out if the focus is grabbed by the program itself.
@@ -803,7 +802,7 @@ bool Editor::on_grab_focus_delayer_timeout(gpointer data) {
   return false;
 }
 
-void Editor::on_grab_focus_delayed_handler() // Todo
+void Editor::on_grab_focus_delayed_handler()
 /*
  If the user clicks in the editor window, 
  and straight after that the position of the cursor is requested, 
@@ -811,7 +810,6 @@ void Editor::on_grab_focus_delayed_handler() // Todo
  This delayed handler solves that.
  */
 {
-  signal_if_verse_changed();
   signal_if_styles_changed();
   if (record_undo_actions()) {
     show_quick_references();
@@ -847,19 +845,6 @@ void Editor::programmatically_grab_focus(GtkWidget * widget) {
   focus_programmatically_being_grabbed = true;
   gtk_widget_grab_focus(widget);
   focus_programmatically_being_grabbed = false;
-}
-
-void Editor::signal_if_verse_changed() // Todo
-// If the verse number of the cursor changed it emits a signal.
-{
-  ustring versenumber = verse_number_get();
-  if (versenumber != previous_versenumber) {
-    if (new_verse_signal) {
-      requested_global_verse_change = versenumber;
-      gtk_button_clicked(GTK_BUTTON (new_verse_signal));
-    }
-    previous_versenumber = versenumber;
-  }
 }
 
 void Editor::undo() {
@@ -1060,7 +1045,7 @@ void Editor::set_font() {
   }
 }
 
-void Editor::position_cursor_at_verse(const ustring& cursorposition, bool focus) // Todo working here.
+void Editor::position_cursor_at_verse(const ustring& cursorposition, bool focus)
 // This function starts the procedure to move the cursor of the editor to the 
 // verse given.
 {
@@ -1077,7 +1062,7 @@ bool Editor::position_cursor_at_verse_postponer_handler(gpointer user_data) {
   return false;
 }
 
-void Editor::position_cursor_at_verse_executer() { // Todo working here.
+void Editor::position_cursor_at_verse_executer() {
   // Find out whether we need to reposition the cursor. We will not move the 
   // cursor or scroll to it when the cursor is already on the right verse.
   bool reposition = position_cursor_at_verse_cursorposition != verse_number_get();
@@ -1087,10 +1072,9 @@ void Editor::position_cursor_at_verse_executer() { // Todo working here.
   // This avoids a race-condition.
   if (position_cursor_at_verse_cursorposition == requested_global_verse_change)
     reposition = false;
-  
+
   // Do the repositioning if needed.
   if (reposition) {
-    cout << "reposition to verse " << position_cursor_at_verse_cursorposition << endl; // Todo 
     // Grab focus here to get the scrolling done properly, and the user can type 
     // in the editor. But this is only done if requested.
     if (position_cursor_at_verse_focus) {
@@ -1367,17 +1351,16 @@ void Editor::on_texteditor_click(GtkWidget * widget, GdkEventButton *event) {
   }
 }
 
-bool Editor::on_widget_creation_timeout(gpointer data) { // Todo
+bool Editor::on_widget_creation_timeout(gpointer data) {
   ((Editor *) data)->on_widget_creation();
   return false;
 }
 
-void Editor::on_widget_creation() { // Todo
+void Editor::on_widget_creation() {
   // Scroll to the locaton of the cursor.
   GtkTextIter iter;
   gtk_text_buffer_get_iter_at_mark(textbuffer, &iter, gtk_text_buffer_get_insert(textbuffer));
   screen_scroll_to_iterator(GTK_TEXT_VIEW (textview), &iter);
-  cout << "void Editor::on_widget_creation()" << endl; // Todo 
 }
 
 void Editor::create_or_update_formatting_data()
@@ -3687,7 +3670,7 @@ bool Editor::on_after_chapter_loaded_timeout(gpointer data) {
 void Editor::on_after_chapter_loaded()
 // Called once after a chapter was loaded.
 {
-  cout << "void Editor::on_after_chapter_loaded()" << endl; // Todo 
+  // Start the regular cursor tracker.
   gw_destroy_source(event_id_track_cursor_position);
   event_id_track_cursor_position = g_timeout_add_full(G_PRIORITY_DEFAULT, 300, GSourceFunc (track_cursor_position_timeout), gpointer(this), NULL);
 }
@@ -3697,19 +3680,18 @@ bool Editor::track_cursor_position_timeout(gpointer user_data) {
   return true;
 }
 
-void Editor::track_cursor_position_execute() // Todo
+void Editor::track_cursor_position_execute()
 // Track the cursor position.
 {
-  //cout << "void Editor::track_cursor_position_execute()" << endl; // Todo
-  //signal_if_verse_changed();
+  // If the verse number of the cursor changed emit a signal.
+  ustring versenumber = verse_number_get();
+  if (versenumber != previous_versenumber) {
+    if (new_verse_signal) {
+      gtk_button_clicked(GTK_BUTTON (new_verse_signal));
+    }
+    requested_global_verse_change = versenumber;
+    previous_versenumber = versenumber;
+  }
 }
 
-/*
- 
- Todo To once and for good fix the problem of the editor scrolling.
 
-Ensure it crashes under no condition: forward/back button, going to another book/chapter.
-
- 
- 
- */
