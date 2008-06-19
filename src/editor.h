@@ -292,17 +292,15 @@ private:
   gint textview_to_textview_stepcount;
   void check_move_textview_to_textview();
 
-  // Verse tracking.  
+  // Verse tracking and positioning.  
 public:
 private:
-  /*
-  static bool show_quick_references_timeout(gpointer user_data);
-  void show_quick_references_execute();
-  */
+  static bool on_after_chapter_loaded_timeout(gpointer data);
+  void on_after_chapter_loaded();
   guint event_id_track_cursor_position;
   static bool track_cursor_position_timeout(gpointer user_data);
   void track_cursor_position_execute();
-  
+  ustring requested_global_verse_change;
   
   
 };

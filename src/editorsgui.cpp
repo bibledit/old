@@ -330,7 +330,7 @@ Editor * EditorsGUI::focused_editor ()
 }
 
 
-void EditorsGUI::go_to (const Reference& reference)
+void EditorsGUI::go_to (const Reference& reference) // Todo
 {
   // Get the Editor. If none, bail out.
   Editor * editor = focused_editor ();

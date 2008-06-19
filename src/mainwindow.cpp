@@ -3108,7 +3108,7 @@ void MainWindow::on_navigation_new_reference_clicked(GtkButton *button, gpointer
   ((MainWindow *) user_data)->on_navigation_new_reference();
 }
 
-void MainWindow::on_navigation_new_reference() {
+void MainWindow::on_navigation_new_reference() { // Todo
   extern Settings * settings;
   settings->genconfig.book_set(navigation.reference.book);
   settings->genconfig.chapter_set(convert_to_string(navigation.reference.chapter));
@@ -3212,7 +3212,7 @@ void MainWindow::on_new_verse_signalled(GtkButton *button, gpointer user_data) {
   ((MainWindow *) user_data)->on_new_verse();
 }
 
-void MainWindow::on_new_verse()
+void MainWindow::on_new_verse() // Todo
 /*
  When the cursor has moved, the navigation system needs to be updated
  so that it shows the right reference. If the user was, for example
@@ -6728,6 +6728,13 @@ void MainWindow::on_print() {
  
  Option to drop the gtkhtml3 library for on OLPC. Functionality should then be replaced by a GtkTextView.
  This would result in low quality display.
+
+ To let bibledit use tags in the repository.
+
+If using a usb stick forcollaboration, whether to use the "sync" command each time, or
+whether git does that on its own already. Also there are many errors now in the log, if we use file://, then
+to first check this file whether it exists, and if not, then to skip the step. Right now it keeps trying,
+and gives retries n times.
 
  */
 

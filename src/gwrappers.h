@@ -37,7 +37,7 @@ void gw_error (const ustring& error);
 ustring gw_path_get_basename (const ustring& filename);
 ustring gw_path_get_dirname (const ustring& filename);
 bool gw_find_program_in_path (const ustring& program);
-void gw_destroy_source (guint event_id);
+void gw_destroy_source (guint& event_id);
 void gw_mkdir_with_parents (const ustring& directory);
 
 

@@ -134,7 +134,7 @@ It returns true if "program" is an executable program.
 }
 
 
-void gw_destroy_source (guint event_id)
+void gw_destroy_source (guint& event_id)
 // This is a combined wrapper for convenience.
 {
   if (event_id) {
@@ -142,6 +142,7 @@ void gw_destroy_source (guint event_id)
     if (source) 
       g_source_destroy (source);    
   }
+  event_id = 0;
 }
 
 

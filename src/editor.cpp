@@ -1,5 +1,4 @@
-/*
- ** Copyright (©) 2003-2008 Teus Benschop.
+/* Copyright (©) 2003-2008 Teus Benschop.
  **  
  ** This program is free software; you can redistribute it and/or modify
  ** it under the terms of the GNU General Public License as published by
@@ -196,9 +195,6 @@ Editor::Editor(GtkWidget * vbox, GtkWidget * notebook_page, GtkWidget * tab_labe
   // Grab focus.
   focus_programmatically_being_grabbed = false;
   gtk_widget_grab_focus(textview);
-
-  // Tracking of cursor position.
-  // Todo event_id_track_cursor_position = g_timeout_add_full(G_PRIORITY_DEFAULT, 300, GSourceFunc (track_cursor_position_timeout), gpointer(this), NULL);
 }
 
 Editor::~Editor() {
@@ -249,12 +245,16 @@ void Editor::book_set(unsigned int book_in) {
   book = book_in;
 }
 
-void Editor::chapter_load(unsigned int chapter_in, vector <ustring> * lines_in)
+void Editor::chapter_load(unsigned int chapter_in, vector <ustring> * lines_in) // Todo this destroys the navigation timer, moves cursor to start, and starts a new once-off timer.
 // Loads a chapter with the number "chapter_in".
 // If "lines_in" exists, it load these instead of getting the chapter.
 {
   // No recording of undoable actions while this object is alive.
   PreventEditorUndo preventundo(&record_undo_level);
+
+  // Destroy the cursor tracking system.
+  requested_global_verse_change.clear();
+  gw_destroy_source(event_id_track_cursor_position);
 
   // Get rid of possible previous text.
   gtk_text_buffer_set_text(textbuffer, "", -1);
@@ -344,6 +344,14 @@ void Editor::chapter_load(unsigned int chapter_in, vector <ustring> * lines_in)
 
   // Trigger a spelling check.
   spelling_trigger();
+
+  // Scroll to the start of the buffer.
+  GtkTextIter iter;
+  gtk_text_buffer_get_start_iter(textbuffer, &iter);
+  screen_scroll_to_iterator(GTK_TEXT_VIEW (textview), &iter);
+
+  // After-event.
+  g_timeout_add(1000, GSourceFunc(on_after_chapter_loaded_timeout), gpointer(this)); // Todo
 }
 
 void Editor::chapter_save() {
@@ -730,7 +738,7 @@ bool Editor::on_textview_cursor_moved_delayer_handler(gpointer user_data) {
   return false;
 }
 
-void Editor::on_textview_cursor_moved()
+void Editor::on_textview_cursor_moved() // Todo
 // Handle the administration if the cursor moved.
 {
   signal_if_verse_changed();
@@ -738,7 +746,7 @@ void Editor::on_textview_cursor_moved()
   check_move_textview_to_textview();
 }
 
-ustring Editor::verse_number_get()
+ustring Editor::verse_number_get() // Todo
 // Returns the verse number the cursor is in.
 {
   // Get an iterator at the cursor location of the main textview.
@@ -775,7 +783,7 @@ void Editor::on_textview_grab_focus(GtkWidget * widget, gpointer user_data) {
   ((Editor *) user_data)->textview_grab_focus(widget);
 }
 
-void Editor::textview_grab_focus(GtkWidget * widget) {
+void Editor::textview_grab_focus(GtkWidget * widget) { // Todo
   // Focus handling.
   last_focused_widget = widget;
   // Bail out if the focus is grabbed by the program itself.
@@ -795,7 +803,7 @@ bool Editor::on_grab_focus_delayer_timeout(gpointer data) {
   return false;
 }
 
-void Editor::on_grab_focus_delayed_handler()
+void Editor::on_grab_focus_delayed_handler() // Todo
 /*
  If the user clicks in the editor window, 
  and straight after that the position of the cursor is requested, 
@@ -841,13 +849,15 @@ void Editor::programmatically_grab_focus(GtkWidget * widget) {
   focus_programmatically_being_grabbed = false;
 }
 
-void Editor::signal_if_verse_changed()
+void Editor::signal_if_verse_changed() // Todo
 // If the verse number of the cursor changed it emits a signal.
 {
   ustring versenumber = verse_number_get();
   if (versenumber != previous_versenumber) {
-    if (new_verse_signal)
+    if (new_verse_signal) {
+      requested_global_verse_change = versenumber;
       gtk_button_clicked(GTK_BUTTON (new_verse_signal));
+    }
     previous_versenumber = versenumber;
   }
 }
@@ -1050,7 +1060,7 @@ void Editor::set_font() {
   }
 }
 
-void Editor::position_cursor_at_verse(const ustring& cursorposition, bool focus)
+void Editor::position_cursor_at_verse(const ustring& cursorposition, bool focus) // Todo working here.
 // This function starts the procedure to move the cursor of the editor to the 
 // verse given.
 {
@@ -1067,23 +1077,20 @@ bool Editor::position_cursor_at_verse_postponer_handler(gpointer user_data) {
   return false;
 }
 
-void Editor::position_cursor_at_verse_executer() {
+void Editor::position_cursor_at_verse_executer() { // Todo working here.
   // Find out whether we need to reposition the cursor. We will not move the 
   // cursor or scroll to it when the cursor is already on the right verse.
   bool reposition = position_cursor_at_verse_cursorposition != verse_number_get();
 
-  // When the cursor is at the end of the buffer, it usually means that the buffer has just been filled.
-  // So the cursor does need to be repositioned in this case.
-  GtkTextIter cursor_iterator;
-  gtk_text_buffer_get_iter_at_mark(textbuffer, &cursor_iterator, gtk_text_buffer_get_insert(textbuffer));
-  GtkTextIter enditer;
-  gtk_text_buffer_get_end_iter(textbuffer, &enditer);
-  if (gtk_text_iter_compare(&cursor_iterator, &enditer) == 0) {
-    reposition = true;
-  }
-
+  // If it was this editor that requested the cursor to go to the new verse, 
+  // then we won't reposition the cursor as it has already been done by the user.
+  // This avoids a race-condition.
+  if (position_cursor_at_verse_cursorposition == requested_global_verse_change)
+    reposition = false;
+  
   // Do the repositioning if needed.
   if (reposition) {
+    cout << "reposition to verse " << position_cursor_at_verse_cursorposition << endl; // Todo 
     // Grab focus here to get the scrolling done properly, and the user can type 
     // in the editor. But this is only done if requested.
     if (position_cursor_at_verse_focus) {
@@ -1360,16 +1367,17 @@ void Editor::on_texteditor_click(GtkWidget * widget, GdkEventButton *event) {
   }
 }
 
-bool Editor::on_widget_creation_timeout(gpointer data) {
+bool Editor::on_widget_creation_timeout(gpointer data) { // Todo
   ((Editor *) data)->on_widget_creation();
   return false;
 }
 
-void Editor::on_widget_creation() {
+void Editor::on_widget_creation() { // Todo
   // Scroll to the locaton of the cursor.
   GtkTextIter iter;
   gtk_text_buffer_get_iter_at_mark(textbuffer, &iter, gtk_text_buffer_get_insert(textbuffer));
   screen_scroll_to_iterator(GTK_TEXT_VIEW (textview), &iter);
+  cout << "void Editor::on_widget_creation()" << endl; // Todo 
 }
 
 void Editor::create_or_update_formatting_data()
@@ -2490,11 +2498,11 @@ void Editor::erase_tables()
   }
 }
 
-void Editor::on_related_widget_size_allocated(GtkWidget *widget, GtkAllocation *allocation, gpointer user_data) {
+void Editor::on_related_widget_size_allocated(GtkWidget *widget, GtkAllocation *allocation, gpointer user_data) { // Todo
   ((Editor *) user_data)->related_widget_size_allocated(widget, allocation);
 }
 
-void Editor::related_widget_size_allocated(GtkWidget *widget, GtkAllocation *allocation)
+void Editor::related_widget_size_allocated(GtkWidget *widget, GtkAllocation *allocation) // Todo
 /*
  There are a couple of widget whose size depends upon other widgets, and which
  do not naturally take their right size, so need some human intervention to get
@@ -2536,7 +2544,7 @@ void Editor::related_widget_size_allocated(GtkWidget *widget, GtkAllocation *all
   }
 }
 
-void Editor::set_embedded_note_textview_width(unsigned int notenumber)
+void Editor::set_embedded_note_textview_width(unsigned int notenumber) // Todo
 // This sets the width of the textview that contains the text of a note.
 {
   gint width = textview_allocated_width - editornotes[notenumber].label_caller_note_allocated_width - 100;
@@ -2549,7 +2557,7 @@ void Editor::set_embedded_note_textview_width(unsigned int notenumber)
   gtk_widget_set_size_request(editornotes[notenumber].textview, width, -1);
 }
 
-void Editor::set_embedded_note_caller_height(unsigned int notenumber)
+void Editor::set_embedded_note_caller_height(unsigned int notenumber) // Todo
 // Sets the height of the note caller.
 {
   gint height = editornotes[notenumber].textview_allocated_height;
@@ -2558,7 +2566,7 @@ void Editor::set_embedded_note_caller_height(unsigned int notenumber)
   gtk_widget_set_size_request(editornotes[notenumber].label_caller_note, -1, height);
 }
 
-void Editor::set_embedded_table_textviews_width(unsigned int tablenumber)
+void Editor::set_embedded_table_textviews_width(unsigned int tablenumber) // Todo
 // This sets the width of the textview that contains the text of a note.
 {
   // Bail out if the width is too small to be properly handled.  
@@ -3671,14 +3679,37 @@ void Editor::check_move_textview_to_textview() {
 
 }
 
+bool Editor::on_after_chapter_loaded_timeout(gpointer data) {
+  ((Editor *) data)->on_after_chapter_loaded();
+  return false;
+}
+
+void Editor::on_after_chapter_loaded()
+// Called once after a chapter was loaded.
+{
+  cout << "void Editor::on_after_chapter_loaded()" << endl; // Todo 
+  gw_destroy_source(event_id_track_cursor_position);
+  event_id_track_cursor_position = g_timeout_add_full(G_PRIORITY_DEFAULT, 300, GSourceFunc (track_cursor_position_timeout), gpointer(this), NULL);
+}
+
 bool Editor::track_cursor_position_timeout(gpointer user_data) {
   ((Editor *) user_data)->track_cursor_position_execute();
   return true;
 }
 
-void Editor::track_cursor_position_execute()
+void Editor::track_cursor_position_execute() // Todo
 // Track the cursor position.
 {
+  //cout << "void Editor::track_cursor_position_execute()" << endl; // Todo
   //signal_if_verse_changed();
 }
 
+/*
+ 
+ Todo To once and for good fix the problem of the editor scrolling.
+
+Ensure it crashes under no condition: forward/back button, going to another book/chapter.
+
+ 
+ 
+ */
