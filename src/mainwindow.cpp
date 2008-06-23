@@ -6745,10 +6745,7 @@ but it does not get moved to verse 8 till the tracker starts. If the verse numbe
 before that time, it takes it from memory, so gives verse 8, while really the cursor is undefined yet.
 
 If using a usb stick for collaboration, whether to use the "sync" command each time, or
-whether git does that on its own already. Also there are many errors now in the log, if we use file://, then
-to first check this file whether it exists, and if not, then to skip the step. Right now it keeps trying,
-and gives retries n times.
-
+whether git does that on its own already. 
 
  */
 
