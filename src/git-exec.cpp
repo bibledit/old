@@ -151,8 +151,11 @@ If there was an error, it returns false.
     system (command2.c_str ());
   }
   
-  // Return output of the pull process in case of error.
-  if (ran_okay) lines.clear ();
+  // An update can fail in cases that the remote repository is not available 
+  // at this time. In case of failure it would keep trying toooften.
+  // Therefore it is better to simulate that it worked out, rather than
+  // returning the error.
+  lines.clear ();
   return lines;
 }
 

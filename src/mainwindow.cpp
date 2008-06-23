@@ -6731,10 +6731,24 @@ void MainWindow::on_print() {
 
  To let bibledit use tags in the repository.
 
-If using a usb stick forcollaboration, whether to use the "sync" command each time, or
+The status information, saving it, should cause a commit so as to save it, else it is not stored like
+in the Shona project.
+
+It seems that the status information and the shared dictionary are not updated through git.
+Fix this.
+
+Fixes for verse tracking. If the chapter loads, there is a timer that starts the verse tracker.
+If a new chapter is loaded, then the previous timer is killed.
+Till the time that the cursor has been positioned properly, and the trackers has been started,
+the verse positioning and requesting happens in memory only. That means the gui can move it to verse 8,
+but it does not get moved to verse 8 till the tracker starts. If the verse number is requested
+before that time, it takes it from memory, so gives verse 8, while really the cursor is undefined yet.
+
+If using a usb stick for collaboration, whether to use the "sync" command each time, or
 whether git does that on its own already. Also there are many errors now in the log, if we use file://, then
 to first check this file whether it exists, and if not, then to skip the step. Right now it keeps trying,
 and gives retries n times.
+
 
  */
 
