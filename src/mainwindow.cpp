@@ -165,6 +165,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   displayprojectnotes = NULL;
   git_reopen_project = false;
   mainwindow_width = 0;
+  mainwindow_width_safe = false;
 
   // Gui Features object.
   GuiFeatures guifeatures(0);
@@ -4087,7 +4088,7 @@ void MainWindow::on_gui() {
   // The accelerators for undo and redo (Control(+Shift)-Z) stop working after
   // the widget has been set to insensitive and back to sensitive again.
   // As this may happen often, here we keep setting the accelerators.
-  gtk_widget_remove_accelerator(undo1, accel_group, GDK_Z, GDK_CONTROL_MASK);
+  gtk_widget_remove_accelerator(undo1, accel_group, GDK_Z, GDK_CONTROL_MASK); // Todo fix this neater.
   gtk_widget_add_accelerator(undo1, "activate", accel_group, GDK_Z, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
   gtk_widget_remove_accelerator(redo1, accel_group, GDK_Z, GdkModifierType(GDK_CONTROL_MASK | GDK_SHIFT_MASK));
   gtk_widget_add_accelerator(redo1, "activate", accel_group, GDK_Z, GdkModifierType(GDK_CONTROL_MASK | GDK_SHIFT_MASK), GTK_ACCEL_VISIBLE);
@@ -4123,8 +4124,9 @@ void MainWindow::on_gui() {
   }
   // Check window size.
   {
-    ScreenLayoutDimensions dimensions(mainwindow, hpaned1, vpaned1, vpaned_references);
-    dimensions.clip();
+    mainwindow_width_safe = true;
+    //ScreenLayoutDimensions dimensions(mainwindow, hpaned1, vpaned1, vpaned_references);
+    //dimensions.clip();
   }
 }
 
@@ -4149,7 +4151,12 @@ void MainWindow::on_window_size_allocated(GtkWidget *widget, GtkAllocation *allo
   ((MainWindow *) user_data)->window_size_allocated(widget, allocation);
 }
 
-void MainWindow::window_size_allocated(GtkWidget *widget, GtkAllocation *allocation) {
+void MainWindow::window_size_allocated(GtkWidget *widget, GtkAllocation *allocation)
+// Handles situation where the main window gets a size allocated.
+{
+  // The following variable was introduced to avoid a situation where Bibledit gets wider and wider on its own.
+  if (!mainwindow_width_safe)
+    return;
   if (mainwindow_width != 0 && mainwindow_width != allocation->width) {
     bool increased = allocation->width > mainwindow_width;
     gint difference= ABS (allocation->width - mainwindow_width);
@@ -6743,6 +6750,8 @@ Till the time that the cursor has been positioned properly, and the trackers has
 the verse positioning and requesting happens in memory only. That means the gui can move it to verse 8,
 but it does not get moved to verse 8 till the tracker starts. If the verse number is requested
 before that time, it takes it from memory, so gives verse 8, while really the cursor is undefined yet.
+If the tracker has not yet been started, and a new request for a chapter_load comes in, the previous 
+tracker is destroyed.
 
 If using a usb stick for collaboration, whether to use the "sync" command each time, or
 whether git does that on its own already. 

@@ -626,6 +626,7 @@ protected:
   static void on_window_size_allocated(GtkWidget *widget, GtkAllocation *allocation, gpointer user_data);
   void window_size_allocated(GtkWidget *widget, GtkAllocation *allocation);
   gint mainwindow_width;
+  bool mainwindow_width_safe;
 
   /* Notes editor */
   static gboolean notes_motion_notify_event(GtkWidget *text_view, GdkEventMotion *event, gpointer user_data);

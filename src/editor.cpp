@@ -245,7 +245,7 @@ void Editor::book_set(unsigned int book_in) {
   book = book_in;
 }
 
-void Editor::chapter_load(unsigned int chapter_in, vector <ustring> * lines_in) // Todo 
+void Editor::chapter_load(unsigned int chapter_in, vector <ustring> * lines_in)
 // Loads a chapter with the number "chapter_in".
 // If "lines_in" exists, it load these instead of getting the chapter.
 {
@@ -2481,11 +2481,11 @@ void Editor::erase_tables()
   }
 }
 
-void Editor::on_related_widget_size_allocated(GtkWidget *widget, GtkAllocation *allocation, gpointer user_data) { // Todo
+void Editor::on_related_widget_size_allocated(GtkWidget *widget, GtkAllocation *allocation, gpointer user_data) {
   ((Editor *) user_data)->related_widget_size_allocated(widget, allocation);
 }
 
-void Editor::related_widget_size_allocated(GtkWidget *widget, GtkAllocation *allocation) // Todo
+void Editor::related_widget_size_allocated(GtkWidget *widget, GtkAllocation *allocation)
 /*
  There are a couple of widget whose size depends upon other widgets, and which
  do not naturally take their right size, so need some human intervention to get
@@ -2527,7 +2527,7 @@ void Editor::related_widget_size_allocated(GtkWidget *widget, GtkAllocation *all
   }
 }
 
-void Editor::set_embedded_note_textview_width(unsigned int notenumber) // Todo
+void Editor::set_embedded_note_textview_width(unsigned int notenumber)
 // This sets the width of the textview that contains the text of a note.
 {
   gint width = textview_allocated_width - editornotes[notenumber].label_caller_note_allocated_width - 100;
@@ -2540,7 +2540,7 @@ void Editor::set_embedded_note_textview_width(unsigned int notenumber) // Todo
   gtk_widget_set_size_request(editornotes[notenumber].textview, width, -1);
 }
 
-void Editor::set_embedded_note_caller_height(unsigned int notenumber) // Todo
+void Editor::set_embedded_note_caller_height(unsigned int notenumber)
 // Sets the height of the note caller.
 {
   gint height = editornotes[notenumber].textview_allocated_height;
@@ -2549,7 +2549,7 @@ void Editor::set_embedded_note_caller_height(unsigned int notenumber) // Todo
   gtk_widget_set_size_request(editornotes[notenumber].label_caller_note, -1, height);
 }
 
-void Editor::set_embedded_table_textviews_width(unsigned int tablenumber) // Todo
+void Editor::set_embedded_table_textviews_width(unsigned int tablenumber)
 // This sets the width of the textview that contains the text of a note.
 {
   // Bail out if the width is too small to be properly handled.  
