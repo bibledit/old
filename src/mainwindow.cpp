@@ -4092,7 +4092,7 @@ void MainWindow::on_gui() {
   gtk_widget_add_accelerator(undo1, "activate", accel_group, GDK_Z, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
   gtk_widget_remove_accelerator(redo1, accel_group, GDK_Z, GdkModifierType(GDK_CONTROL_MASK | GDK_SHIFT_MASK));
   gtk_widget_add_accelerator(redo1, "activate", accel_group, GDK_Z, GdkModifierType(GDK_CONTROL_MASK | GDK_SHIFT_MASK), GTK_ACCEL_VISIBLE);
-  // Display information about the number of Git tasks to be done if there are too many of them.
+  // Display information about the number of Git tasks to be done if there are many of them.
   {
     ustring git;
     if (git_tasks_count() >= 100)
@@ -6730,11 +6730,8 @@ void MainWindow::on_print() {
 /*
  Todo some points:
 
- For the wide problem, we could consider only once in a very while to modify the sizes, not straight when 
- the paned is shifted, but with a good delay.
- 
  Option to drop the gtkhtml3 library for on OLPC. Functionality should then be replaced by a GtkTextView.
- This would result in low quality display.
+ This would result in low quality display. But first to find out what the real problems are regarding space.
 
  To let bibledit use tags in the repository.
 
