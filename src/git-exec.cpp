@@ -107,9 +107,14 @@ void git_exec_commit_directory (const ustring& directory)
   ustring command1 ("cd '" + directory + "'; ");
   command1.append ("git-status -a");
   system (command1.c_str ());
+  
   ustring command2 ("cd '" + directory + "'; ");
-  command2.append ("git-commit -m Commit -a");
+  command2.append ("git-add .");
   system (command2.c_str ());
+
+  ustring command3 ("cd '" + directory + "'; ");
+  command3.append ("git-commit -m Commit -a");
+  system (command3.c_str ());
 }
 
 
@@ -117,7 +122,7 @@ vector <ustring> git_exec_update_project (const ustring& project, const ustring&
 /*
 Pulls all changes from the remote repository.
 Pushes all changes to the remote repository.
-If there was an error, it returns false.
+It disregards errors, because at times a remote repository can be offline.
 */
 {
   // Log.
@@ -126,23 +131,10 @@ If there was an error, it returns false.
   // The data directory for this project
   ustring datadirectory = tiny_project_data_directory_project (project);
 
-  // Output lines.
-  vector <ustring> lines;
-  
   // Pull changes from the remote repository.
   ustring command1 ("cd '" + datadirectory + "'; ");
-  command1.append ("git-pull '" + data + "' 2>&1");
-  FILE * stream = popen (command1.c_str (), "r");
-  char buf[1024];
-  while (fgets (buf, sizeof (buf), stream)) {
-    lines.push_back (buf);
-  }
-  bool ran_okay = (pclose (stream) == 0);
-  
-  // Write output.
-  for (unsigned int i = 0; i < lines.size (); i++) {
-    git_exec_message (lines[i], false);
-  }    
+  command1.append ("git-pull '" + data + "'");
+  bool ran_okay = (system (command1.c_str()) == 0);
 
   // Push changes to the remote repository.
   if (ran_okay) {
@@ -152,10 +144,10 @@ If there was an error, it returns false.
   }
   
   // An update can fail in cases that the remote repository is not available 
-  // at this time. In case of failure it would keep trying toooften.
+  // at this time. In case of failure it would keep trying too often.
   // Therefore it is better to simulate that it worked out, rather than
   // returning the error.
-  lines.clear ();
+  vector <ustring> lines;
   return lines;
 }
 

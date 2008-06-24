@@ -24,6 +24,7 @@
 #include "tiny_utilities.h"
 #include "progresswindow.h"
 #include "listview.h"
+#include "git.h"
 
 EditStatusDialog::EditStatusDialog(const ustring& project_in, unsigned int book, unsigned int chapter) {
   // Initialize variables.
@@ -537,7 +538,12 @@ void EditStatusDialog::on_okbutton_clicked(GtkButton *button, gpointer user_data
   ((EditStatusDialog *) user_data)->on_okbutton();
 }
 
-void EditStatusDialog::on_okbutton() {
+void EditStatusDialog::on_okbutton()
+// Called on OK.
+{
+  // Save status.
   projectstatus->save();
+  // Commit any changes.
+  git_schedule (gttCommitProject, project, 0, 0, "");
 }
 

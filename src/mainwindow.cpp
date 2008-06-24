@@ -6295,7 +6295,9 @@ void MainWindow::on_editstatus_activate(GtkMenuItem *menuitem, gpointer user_dat
   ((MainWindow *) user_data)->on_editstatus();
 }
 
-void MainWindow::on_editstatus() {
+void MainWindow::on_editstatus()
+// Edits the project's status.
+{
   extern Settings * settings;
   EditStatusDialog dialog(settings->genconfig.project_get(), navigation.reference.book, navigation.reference.chapter);
   dialog.run();
@@ -6733,25 +6735,20 @@ void MainWindow::on_print() {
  Option to drop the gtkhtml3 library for on OLPC. Functionality should then be replaced by a GtkTextView.
  This would result in low quality display. But first to find out what the real problems are regarding space.
 
- To let bibledit use tags in the repository.
+ It seems that the status information and the shared dictionary are not updated through git.
+ Fix this.
 
-The status information, saving it, should cause a commit so as to save it, else it is not stored like
-in the Shona project.
+ Fixes for verse tracking. If the chapter loads, there is a timer that starts the verse tracker.
+ If a new chapter is loaded, then the previous timer is killed.
+ Till the time that the cursor has been positioned properly, and the trackers has been started,
+ the verse positioning and requesting happens in memory only. That means the gui can move it to verse 8,
+ but it does not get moved to verse 8 till the tracker starts. If the verse number is requested
+ before that time, it takes it from memory, so gives verse 8, while really the cursor is undefined yet.
+ If the tracker has not yet been started, and a new request for a chapter_load comes in, the previous 
+ tracker is destroyed.
 
-It seems that the status information and the shared dictionary are not updated through git.
-Fix this.
-
-Fixes for verse tracking. If the chapter loads, there is a timer that starts the verse tracker.
-If a new chapter is loaded, then the previous timer is killed.
-Till the time that the cursor has been positioned properly, and the trackers has been started,
-the verse positioning and requesting happens in memory only. That means the gui can move it to verse 8,
-but it does not get moved to verse 8 till the tracker starts. If the verse number is requested
-before that time, it takes it from memory, so gives verse 8, while really the cursor is undefined yet.
-If the tracker has not yet been started, and a new request for a chapter_load comes in, the previous 
-tracker is destroyed.
-
-If using a usb stick for collaboration, whether to use the "sync" command each time, or
-whether git does that on its own already. 
+ If using a usb stick for collaboration, whether to use the "sync" command each time, or
+ whether git does that on its own already. 
 
  */
 
