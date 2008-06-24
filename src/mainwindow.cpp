@@ -6733,7 +6733,7 @@ void MainWindow::on_print() {
  Option to drop the gtkhtml3 library for on OLPC. Functionality should then be replaced by a GtkTextView.
  This would result in low quality display. But first to find out what the real problems are regarding space.
 
- To let bibledit use tags in the repository. 
+ To let bibledit use tags in the repository.
 
 The status information, saving it, should cause a commit so as to save it, else it is not stored like
 in the Shona project.
