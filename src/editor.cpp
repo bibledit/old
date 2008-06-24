@@ -38,6 +38,7 @@
 #include "gtkwrappers.h"
 #include "keyboard.h"
 #include "tiny_utilities.h"
+#include "git.h"
 
 Editor::Editor(GtkWidget * vbox, GtkWidget * notebook_page, GtkWidget * tab_label, const ustring& project_in) :
   current_reference(0, 1000, "") {
@@ -354,7 +355,15 @@ void Editor::chapter_load(unsigned int chapter_in, vector <ustring> * lines_in)
   g_timeout_add(1000, GSourceFunc(on_after_chapter_loaded_timeout), gpointer(this));
 }
 
-void Editor::chapter_save() {
+void Editor::chapter_save()
+// Handles saving the chapters.
+{
+  // Handle situation where a word was added to the dictionary. It needs to be put in the git repository.
+  if (spellingchecker->something_was_added_to_dictionary) {
+    git_schedule (gttCommitProject, project, 0, 0, "");
+    spellingchecker->something_was_added_to_dictionary = false;
+  }
+    
   // Set variables.
   reload_chapter_number = chapter;
 

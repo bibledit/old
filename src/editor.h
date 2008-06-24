@@ -275,8 +275,6 @@ private:
   static bool on_spelling_timeout(gpointer data);
   void spelling_timeout();
   SpellingChecker * spellingchecker;
-  void spelling_collect_words(GtkTextBuffer * textbuffer);
-  void spelling_check_word(GtkTextBuffer * textbuffer, GtkTextIter *start, GtkTextIter *end);
   static void on_button_spelling_recheck_clicked(GtkButton *button, gpointer user_data);
 
   // Moving from one textview to the other.

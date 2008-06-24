@@ -4164,11 +4164,13 @@ void MainWindow::window_size_allocated(GtkWidget *widget, GtkAllocation *allocat
     gint percentage = position * 100 / mainwindow_width;
     difference = difference * percentage / 100;
     if (difference != 0) {
-      if (increased)
-        position += difference;
-      else
+      if (increased) {
+        // Increating the position is now allowed because it would make the main window too big.
+        // position += difference;
+      } else {
         position -= difference;
-      gtk_paned_set_position(GTK_PANED (hpaned1), position);
+        gtk_paned_set_position(GTK_PANED (hpaned1), position);
+      }
     }
   }
   mainwindow_width = allocation->width;
@@ -5952,12 +5954,12 @@ void MainWindow::on_preferences_remote_git_repository() {
 
 void MainWindow::on_git_reopen_project() {
   if (git_reopen_project) {
+    git_reopen_project = false; // Close flag before dialog shows, else the dialogs keep coming.
     reload_project();
     gtkw_dialog_info(mainwindow, "The project data has been changed by somebody else.\n"
       "The changes are of such a nature, that it was needed\n"
       "to reload the project, so as to update everything.\n"
       "That has now been done.\n");
-    git_reopen_project = false;
   }
 }
 
@@ -6734,9 +6736,8 @@ void MainWindow::on_print() {
 
  Option to drop the gtkhtml3 library for on OLPC. Functionality should then be replaced by a GtkTextView.
  This would result in low quality display. But first to find out what the real problems are regarding space.
-
- It seems that the status information and the shared dictionary are not updated through git.
- Fix this.
+ That is, to measure what exactly gets wasted by it, and also to measure about git how much space it takes,
+ and finally the remaining space.
 
  Fixes for verse tracking. If the chapter loads, there is a timer that starts the verse tracker.
  If a new chapter is loaded, then the previous timer is killed.
@@ -6747,8 +6748,6 @@ void MainWindow::on_print() {
  If the tracker has not yet been started, and a new request for a chapter_load comes in, the previous 
  tracker is destroyed.
 
- If using a usb stick for collaboration, whether to use the "sync" command each time, or
- whether git does that on its own already. 
 
  */
 
