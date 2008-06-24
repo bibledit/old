@@ -621,6 +621,7 @@ protected:
   void set_titlebar(const ustring& project);
   static bool on_gui_timeout(gpointer data);
   void on_gui();
+  gint editor_undo_redo_accelerator_state;
   static gboolean on_mainwindow_window_state_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);
   void on_mainwindow_window_state(GdkEvent *event);
   static void on_window_size_allocated(GtkWidget *widget, GtkAllocation *allocation, gpointer user_data);

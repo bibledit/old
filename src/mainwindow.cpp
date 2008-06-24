@@ -4084,14 +4084,29 @@ bool MainWindow::on_gui_timeout(gpointer data) {
   return true;
 }
 
-void MainWindow::on_gui() {
+void MainWindow::on_gui()
+// Tasks related to the GUI.
+{
   // The accelerators for undo and redo (Control(+Shift)-Z) stop working after
   // the widget has been set to insensitive and back to sensitive again.
   // As this may happen often, here we keep setting the accelerators.
-  gtk_widget_remove_accelerator(undo1, accel_group, GDK_Z, GDK_CONTROL_MASK); // Todo fix this neater.
-  gtk_widget_add_accelerator(undo1, "activate", accel_group, GDK_Z, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
-  gtk_widget_remove_accelerator(redo1, accel_group, GDK_Z, GdkModifierType(GDK_CONTROL_MASK | GDK_SHIFT_MASK));
-  gtk_widget_add_accelerator(redo1, "activate", accel_group, GDK_Z, GdkModifierType(GDK_CONTROL_MASK | GDK_SHIFT_MASK), GTK_ACCEL_VISIBLE);
+  // But keeping setting these too often seems to disturb the mechanism, therefore 
+  // they are set only when there was a change that makes it needed.
+  {
+    gint undo_redo_state = 0;
+    if (GTK_WIDGET_SENSITIVE(undo1))
+      undo_redo_state++;
+    if (GTK_WIDGET_SENSITIVE(redo1))
+      undo_redo_state++;
+    if (undo_redo_state != editor_undo_redo_accelerator_state) {
+      gtk_widget_remove_accelerator(undo1, accel_group, GDK_Z, GDK_CONTROL_MASK);
+      gtk_widget_add_accelerator(undo1, "activate", accel_group, GDK_Z, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
+      gtk_widget_remove_accelerator(redo1, accel_group, GDK_Z, GdkModifierType(GDK_CONTROL_MASK | GDK_SHIFT_MASK));
+      gtk_widget_add_accelerator(redo1, "activate", accel_group, GDK_Z, GdkModifierType(GDK_CONTROL_MASK | GDK_SHIFT_MASK), GTK_ACCEL_VISIBLE);
+      editor_undo_redo_accelerator_state = undo_redo_state;
+    }
+  }
+
   // Display information about the number of Git tasks to be done if there are many of them.
   {
     ustring git;
@@ -4102,8 +4117,10 @@ void MainWindow::on_gui() {
       gtk_label_set_text(GTK_LABEL (label_git), git.c_str());
     }
   }
+  
   // Check whether to reopen the project.
   on_git_reopen_project();
+  
   // Handle the gui part of displaying project notes.
   // These notes are displayed in a thread, and it is quite a hassle to make Gtk
   // thread-safe, therefore rather than going through this hassle, we just 
@@ -4117,11 +4134,13 @@ void MainWindow::on_gui() {
       displayprojectnotes = NULL;
     }
   }
+  
   // Care for possible restart.
   extern Settings * settings;
   if (settings->session.restart) {
     gtk_main_quit();
   }
+  
   // Check window size.
   {
     mainwindow_width_safe = true;
@@ -6747,7 +6766,6 @@ void MainWindow::on_print() {
  before that time, it takes it from memory, so gives verse 8, while really the cursor is undefined yet.
  If the tracker has not yet been started, and a new request for a chapter_load comes in, the previous 
  tracker is destroyed.
-
 
  */
 
