@@ -60,7 +60,9 @@ Editor::Editor(GtkWidget * vbox, GtkWidget * notebook_page, GtkWidget * tab_labe
   texview_to_textview_old = NULL;
   texview_to_textview_new = NULL;
   textview_to_textview_offset = 0;
-  event_id_track_cursor_position = 0;
+  start_verse_tracker_event_id = 0;
+  verse_tracker_event_id = 0;
+  verse_tracker_on = false;
 
   // Create data that is needed for any of the possible formatted views.
   create_or_update_formatting_data();
@@ -168,7 +170,6 @@ Editor::Editor(GtkWidget * vbox, GtkWidget * notebook_page, GtkWidget * tab_labe
   // Initialize a couple of event ids.
   textview_cursor_moved_delayer_event_id = 0;
   grab_focus_event_id = 0;
-  position_cursor_at_verse_event_id = 0;
   undo_redo_event_id = 0;
   save_timeout_event_id = 0;
   highlight_timeout_event_id = 0;
@@ -208,13 +209,11 @@ Editor::~Editor() {
   // Destroy a couple of timeout sources.
   gw_destroy_source(textview_cursor_moved_delayer_event_id);
   gw_destroy_source(grab_focus_event_id);
-  gw_destroy_source(position_cursor_at_verse_event_id);
   gw_destroy_source(undo_redo_event_id);
   gw_destroy_source(save_timeout_event_id);
   gw_destroy_source(highlight_timeout_event_id);
   gw_destroy_source(spelling_timeout_event_id);
   gw_destroy_source(event_id_show_quick_references);
-  gw_destroy_source(event_id_track_cursor_position);
 
   // Destroy the signalling buttons.
   gtk_widget_destroy(new_verse_signal);
@@ -253,9 +252,8 @@ void Editor::chapter_load(unsigned int chapter_in, vector <ustring> * lines_in)
   // No recording of undoable actions while this object is alive.
   PreventEditorUndo preventundo(&record_undo_level);
 
-  // Destroy the cursor tracking system.
-  requested_global_verse_change.clear();
-  gw_destroy_source(event_id_track_cursor_position);
+  // Restart the verse tracker.
+  restart_verse_tracker();
 
   // Get rid of possible previous text.
   gtk_text_buffer_set_text(textbuffer, "", -1);
@@ -346,13 +344,11 @@ void Editor::chapter_load(unsigned int chapter_in, vector <ustring> * lines_in)
   // Trigger a spelling check.
   spelling_trigger();
 
-  // Scroll to the start of the buffer.
+  // Place cursor at start of buffer and scroll to it.
   GtkTextIter iter;
   gtk_text_buffer_get_start_iter(textbuffer, &iter);
+  gtk_text_buffer_place_cursor(textbuffer, &iter);
   screen_scroll_to_iterator(GTK_TEXT_VIEW (textview), &iter);
-
-  // After-event.
-  g_timeout_add(1000, GSourceFunc(on_after_chapter_loaded_timeout), gpointer(this));
 }
 
 void Editor::chapter_save()
@@ -360,10 +356,10 @@ void Editor::chapter_save()
 {
   // Handle situation where a word was added to the dictionary. It needs to be put in the git repository.
   if (spellingchecker->something_was_added_to_dictionary) {
-    git_schedule (gttCommitProject, project, 0, 0, "");
+    git_schedule(gttCommitProject, project, 0, 0, "");
     spellingchecker->something_was_added_to_dictionary = false;
   }
-    
+
   // Set variables.
   reload_chapter_number = chapter;
 
@@ -1051,99 +1047,6 @@ void Editor::set_font() {
     } else {
       gtk_widget_set_direction(textviews[i], GTK_TEXT_DIR_LTR);
     }
-  }
-}
-
-void Editor::position_cursor_at_verse(const ustring& cursorposition, bool focus)
-// This function starts the procedure to move the cursor of the editor to the 
-// verse given.
-{
-  position_cursor_at_verse_cursorposition = cursorposition;
-  position_cursor_at_verse_focus = focus;
-  // Keep postponing the actual handler if a new positioning request was 
-  // received before the previous one was processed: destroy the GSource.
-  gw_destroy_source(position_cursor_at_verse_event_id);
-  position_cursor_at_verse_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc (position_cursor_at_verse_postponer_handler), gpointer(this), NULL);
-}
-
-bool Editor::position_cursor_at_verse_postponer_handler(gpointer user_data) {
-  ((Editor *) user_data)->position_cursor_at_verse_executer();
-  return false;
-}
-
-void Editor::position_cursor_at_verse_executer() {
-  // Find out whether we need to reposition the cursor. We will not move the 
-  // cursor or scroll to it when the cursor is already on the right verse.
-  bool reposition = position_cursor_at_verse_cursorposition != verse_number_get();
-
-  // If it was this editor that requested the cursor to go to the new verse, 
-  // then we won't reposition the cursor as it has already been done by the user.
-  // This avoids a race-condition.
-  if (position_cursor_at_verse_cursorposition == requested_global_verse_change)
-    reposition = false;
-
-  // Do the repositioning if needed.
-  if (reposition) {
-    // Grab focus here to get the scrolling done properly, and the user can type 
-    // in the editor. But this is only done if requested.
-    if (position_cursor_at_verse_focus) {
-      programmatically_grab_focus(textview);
-    }
-    if ((position_cursor_at_verse_cursorposition == "0") || (position_cursor_at_verse_cursorposition.empty())) {
-      // Verse 0 or empty: beginning of file.
-      GtkTextIter iter;
-      gtk_text_buffer_get_start_iter(textbuffer, &iter);
-      gtk_text_buffer_place_cursor(textbuffer, &iter);
-      screen_scroll_to_iterator(GTK_TEXT_VIEW (textview), &iter);
-      while (gtk_events_pending())
-        gtk_main_iteration();
-    } else {
-      // The verse marker.
-      ustring verse_marker = style_get_verse_marker(project);
-      // Go through the buffer and find out about the verse.
-      GtkTextIter iter;
-      gtk_text_buffer_get_start_iter(textbuffer, &iter);
-      do {
-        set <ustring> styles = styles_at_iterator(iter);
-        if (styles.find(verse_marker) != styles.end()) {
-          GtkTextIter enditer = iter;
-          gtk_text_iter_forward_chars(&enditer, 10);
-          ustring verse = gtk_text_iter_get_slice(&iter, &enditer);
-          size_t position = verse.find(" ");
-          position = CLAMP (position, 0, verse.length());
-          verse = verse.substr(0, position);
-          // Position the cursor at the requested verse, if the verse is there.
-          // Also look whether the verse is in a sequence or range of verses.
-          bool position_here = (verse == position_cursor_at_verse_cursorposition);
-          unsigned int verse_int = convert_to_int(position_cursor_at_verse_cursorposition);
-          vector <unsigned int> combined_verses = verse_range_sequence(verse);
-          for (unsigned int i2 = 0; i2 < combined_verses.size(); i2++) {
-            if (verse_int == combined_verses[i2]) {
-              position_here = true;
-              position_cursor_at_verse_cursorposition = verse;
-            }
-          }
-          if (position_here) {
-            // Move the cursor to it.
-            // Move it to the beginning of the text, if there is any.
-            gtk_text_iter_forward_chars(&iter, verse.length() + 1);
-            gtk_text_buffer_place_cursor(textbuffer, &iter);
-            while (gtk_events_pending())
-              gtk_main_iteration();
-            // Scroll also to it. It will scroll to the beginning of the text after the verse marker.
-            // Alignment is needed to put the line being edited near the top of the window.
-            screen_scroll_to_iterator(GTK_TEXT_VIEW (textview), &iter);
-            while (gtk_events_pending())
-              gtk_main_iteration();
-            // Bail out.
-            break;
-          }
-        }
-      } while (gtk_text_iter_forward_char(&iter));
-    }
-
-    // Highlight search words.
-    highlight_searchwords();
   }
 }
 
@@ -3461,7 +3364,7 @@ void Editor::highlight_searchwords()
   if (highlight)
     delete highlight;
   // Create a new object.
-  highlight = new Highlight (textbuffer, textview, project, editornotes, editortables, reference_tag, position_cursor_at_verse_cursorposition);
+  highlight = new Highlight (textbuffer, textview, project, editornotes, editortables, reference_tag, current_verse_number);
   g_thread_create (GThreadFunc (highlight_thread_start), gpointer (this), false, NULL);
 }
 
@@ -3671,36 +3574,144 @@ void Editor::check_move_textview_to_textview() {
 
 }
 
-bool Editor::on_after_chapter_loaded_timeout(gpointer data) {
-  ((Editor *) data)->on_after_chapter_loaded();
-  return false;
-}
-
-void Editor::on_after_chapter_loaded()
-// Called once after a chapter was loaded.
+void Editor::position_cursor_at_verse(const ustring& cursorposition, bool focus)
+// This function starts the procedure to move the cursor of the editor to the 
+// verse given.
 {
-  // Start the regular cursor tracker.
-  gw_destroy_source(event_id_track_cursor_position);
-  event_id_track_cursor_position = g_timeout_add_full(G_PRIORITY_DEFAULT, 300, GSourceFunc (track_cursor_position_timeout), gpointer(this), NULL);
-}
+  // Save the current verse.
+  current_verse_number = cursorposition;
 
-bool Editor::track_cursor_position_timeout(gpointer user_data) {
-  ((Editor *) user_data)->track_cursor_position_execute();
-  return true;
-}
+  // Find out whether we need to reposition the cursor. We will not move the 
+  // cursor or scroll to it when the cursor is already on the right verse.
+  bool reposition = current_verse_number != verse_number_get();
 
-void Editor::track_cursor_position_execute()
-// Track the cursor position.
-{
-  // If the verse number of the cursor changed emit a signal.
-  ustring versenumber = verse_number_get();
-  if (versenumber != previous_versenumber) {
-    if (new_verse_signal) {
-      gtk_button_clicked(GTK_BUTTON (new_verse_signal));
+  // If the verse tracker is still off, postpone the repositioning.
+  if (!verse_tracker_on)
+    reposition = false;
+
+  // Do the repositioning if needed.
+  if (reposition) {
+
+    // Grab focus here to get the scrolling done properly, and the user can type 
+    // in the editor. But this is only done if requested.
+    if (focus) {
+      programmatically_grab_focus(textview);
     }
-    requested_global_verse_change = versenumber;
-    previous_versenumber = versenumber;
+    if ((current_verse_number == "0") || (current_verse_number.empty())) {
+      // Verse 0 or empty: beginning of file.
+      GtkTextIter iter;
+      gtk_text_buffer_get_start_iter(textbuffer, &iter);
+      gtk_text_buffer_place_cursor(textbuffer, &iter);
+      screen_scroll_to_iterator(GTK_TEXT_VIEW (textview), &iter);
+      while (gtk_events_pending())
+        gtk_main_iteration();
+    } else {
+      // The verse marker.
+      ustring verse_marker = style_get_verse_marker(project);
+      // Go through the buffer and find out about the verse.
+      GtkTextIter iter;
+      gtk_text_buffer_get_start_iter(textbuffer, &iter);
+      do {
+        set <ustring> styles = styles_at_iterator(iter);
+        if (styles.find(verse_marker) != styles.end()) {
+          GtkTextIter enditer = iter;
+          gtk_text_iter_forward_chars(&enditer, 10);
+          ustring verse = gtk_text_iter_get_slice(&iter, &enditer);
+          size_t position = verse.find(" ");
+          position = CLAMP (position, 0, verse.length());
+          verse = verse.substr(0, position);
+          // Position the cursor at the requested verse, if the verse is there.
+          // Also look whether the verse is in a sequence or range of verses.
+          bool position_here = (verse == current_verse_number);
+          unsigned int verse_int = convert_to_int(current_verse_number);
+          vector <unsigned int> combined_verses = verse_range_sequence(verse);
+          for (unsigned int i2 = 0; i2 < combined_verses.size(); i2++) {
+            if (verse_int == combined_verses[i2]) {
+              position_here = true;
+              current_verse_number = verse;
+            }
+          }
+          if (position_here) {
+            // Move the cursor to it.
+            // Move it to the beginning of the text, if there is any.
+            gtk_text_iter_forward_chars(&iter, verse.length() + 1);
+            gtk_text_buffer_place_cursor(textbuffer, &iter);
+            while (gtk_events_pending())
+              gtk_main_iteration();
+            // Scroll also to it. It will scroll to the beginning of the text after the verse marker.
+            // Alignment is needed to put the line being edited near the top of the window.
+            screen_scroll_to_iterator(GTK_TEXT_VIEW (textview), &iter);
+            while (gtk_events_pending())
+              gtk_main_iteration();
+            // Bail out.
+            break;
+          }
+        }
+      } while (gtk_text_iter_forward_char(&iter));
+    }
+
+    // Highlight search words.
+    highlight_searchwords();
   }
 }
 
+void Editor::restart_verse_tracker()
+// Restarts the verse tracker with a delay.
+{
+  verse_tracker_on = false;
+  gw_destroy_source(verse_tracker_event_id);
+  gw_destroy_source(start_verse_tracker_event_id);
+  start_verse_tracker_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc (on_restart_verse_tracker_timeout), gpointer(this), NULL);
+}
+
+bool Editor::on_restart_verse_tracker_timeout(gpointer data)
+// Timeout callback.
+{
+  return ((Editor *) data)->on_restart_verse_tracker();
+}
+
+bool Editor::on_restart_verse_tracker()
+// Usually called once after a chapter was loaded.
+{
+  // If gtk events are pending, don't start the verse tracker right now, but try again later.
+  if (gtk_events_pending()) {
+    return true;
+  }
+  // Start the regular cursor tracker.
+  gw_destroy_source(start_verse_tracker_event_id);
+  start_verse_tracker_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 300, GSourceFunc (on_verse_tracker_timeout), gpointer(this), NULL);
+  return false;
+}
+
+bool Editor::on_verse_tracker_timeout(gpointer data)
+// Timeout callback.
+{
+  return ((Editor *) data)->verse_tracker_timeout();
+}
+
+bool Editor::verse_tracker_timeout()
+// Regular verse tracker.
+{
+  // Only track the verse if no gtk events are pending.
+  if (!gtk_events_pending()) {
+
+    if (!verse_tracker_on) {
+      verse_tracker_on = true;
+      position_cursor_at_verse(current_verse_number, true);
+    }
+
+    // If the verse number of the cursor changed emit a signal.
+    ustring versenumber = verse_number_get();
+    if (versenumber != current_verse_number) {
+      current_verse_number = versenumber;
+      if (new_verse_signal) {
+        gtk_button_clicked(GTK_BUTTON (new_verse_signal));
+      }
+    }
+    
+  }
+
+  // Next iteration.
+  return true;
+}
 

@@ -85,7 +85,6 @@ public:
   void book_set(unsigned int book_in);
   void chapter_load(unsigned int chapter_in, vector <ustring> * lines_in = NULL);
   void chapter_save();
-  ustring verse_number_get();
   ustring text_get_selection();
   void text_erase_selection();
   void text_insert(ustring text);
@@ -108,13 +107,6 @@ public:
   GtkWidget * word_double_clicked_signal;
 
   void set_font();
-
-  void position_cursor_at_verse(const ustring& cursorposition, bool focus);
-  ustring position_cursor_at_verse_cursorposition;
-  bool position_cursor_at_verse_focus;
-  static bool position_cursor_at_verse_postponer_handler(gpointer user_data);
-  void position_cursor_at_verse_executer();
-  GtkTextTag * reference_tag;
 
   void quick_references_textview_set(GtkWidget * widget);
   GtkWidget * quick_references_textview;
@@ -145,7 +137,6 @@ public:
   void on_texteditor_click(GtkWidget * widget, GdkEventButton *event);
 
   // Some event ids.
-  guint position_cursor_at_verse_event_id;
   guint undo_redo_event_id;
   guint save_timeout_event_id;
 
@@ -259,6 +250,7 @@ public:
   static void highlight_thread_start(gpointer data);
   void highlight_thread_main();
   Highlight * highlight;
+  GtkTextTag * reference_tag;
 
   GtkWidget * changed_signal;
   void signal_editor_changed();
@@ -287,18 +279,22 @@ private:
   gint textview_to_textview_stepcount;
   void check_move_textview_to_textview();
 
-  // Verse tracking and positioning.  
+  // Verse tracking and positioning. 
+  // The mechanism only starts shortly after loading a chapter.
+  // Before it starts, all tracking and positioning is simulated in memory.
 public:
+  void position_cursor_at_verse(const ustring& cursorposition, bool focus);
+  ustring current_verse_number;
 private:
-  static bool on_after_chapter_loaded_timeout(gpointer data);
-  void on_after_chapter_loaded();
-  guint event_id_track_cursor_position;
-  static bool track_cursor_position_timeout(gpointer user_data);
-  void track_cursor_position_execute();
-  ustring requested_global_verse_change;
-  ustring previous_versenumber;
-  
-  
+  void restart_verse_tracker();
+  guint start_verse_tracker_event_id;
+  static bool on_restart_verse_tracker_timeout(gpointer data);
+  bool on_restart_verse_tracker();
+  guint verse_tracker_event_id;
+  static bool on_verse_tracker_timeout(gpointer user_data);
+  bool verse_tracker_timeout();
+  bool verse_tracker_on;
+  ustring verse_number_get();
 };
 
 #endif

@@ -3226,7 +3226,7 @@ void MainWindow::on_new_verse()
 {
   Editor * editor = editorsgui->focused_editor();
   if (editor) {
-    Reference reference(navigation.reference.book, navigation.reference.chapter, editor->verse_number_get());
+    Reference reference(navigation.reference.book, navigation.reference.chapter, editor->current_verse_number);
     navigation.display(reference);
     if (outline)
       outline->goto_reference(editor->project, navigation.reference);
@@ -4117,10 +4117,10 @@ void MainWindow::on_gui()
       gtk_label_set_text(GTK_LABEL (label_git), git.c_str());
     }
   }
-  
+
   // Check whether to reopen the project.
   on_git_reopen_project();
-  
+
   // Handle the gui part of displaying project notes.
   // These notes are displayed in a thread, and it is quite a hassle to make Gtk
   // thread-safe, therefore rather than going through this hassle, we just 
@@ -4134,13 +4134,13 @@ void MainWindow::on_gui()
       displayprojectnotes = NULL;
     }
   }
-  
+
   // Care for possible restart.
   extern Settings * settings;
   if (settings->session.restart) {
     gtk_main_quit();
   }
-  
+
   // Check window size.
   {
     mainwindow_width_safe = true;
@@ -6753,19 +6753,6 @@ void MainWindow::on_print() {
 /*
  Todo some points:
 
- Option to drop the gtkhtml3 library for on OLPC. Functionality should then be replaced by a GtkTextView.
- This would result in low quality display. But first to find out what the real problems are regarding space.
- That is, to measure what exactly gets wasted by it, and also to measure about git how much space it takes,
- and finally the remaining space.
-
- Fixes for verse tracking. If the chapter loads, there is a timer that starts the verse tracker.
- If a new chapter is loaded, then the previous timer is killed.
- Till the time that the cursor has been positioned properly, and the trackers has been started,
- the verse positioning and requesting happens in memory only. That means the gui can move it to verse 8,
- but it does not get moved to verse 8 till the tracker starts. If the verse number is requested
- before that time, it takes it from memory, so gives verse 8, while really the cursor is undefined yet.
- If the tracker has not yet been started, and a new request for a chapter_load comes in, the previous 
- tracker is destroyed.
-
+ In the raw text import dialog, the label showing the errors should use ellipses, or wrap text
  */
 
