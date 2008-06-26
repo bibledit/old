@@ -187,10 +187,6 @@ Editor::Editor(GtkWidget * vbox, GtkWidget * notebook_page, GtkWidget * tab_labe
   // Automatic saving of the file, periodically.
   save_timeout_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 60000, GSourceFunc (on_save_timeout), gpointer(this), NULL);
 
-  // The display will not properly show the cursor always, because it has not
-  // yet been created fully on widget creation.
-  g_timeout_add(1000, GSourceFunc(on_widget_creation_timeout), gpointer(this));
-
   // Fonts.
   set_font();
 
@@ -203,9 +199,6 @@ Editor::~Editor() {
   // Save the chapter.
   chapter_save();
 
-  // Delete speller.
-  delete spellingchecker;
-
   // Destroy a couple of timeout sources.
   gw_destroy_source(textview_cursor_moved_delayer_event_id);
   gw_destroy_source(grab_focus_event_id);
@@ -214,6 +207,14 @@ Editor::~Editor() {
   gw_destroy_source(highlight_timeout_event_id);
   gw_destroy_source(spelling_timeout_event_id);
   gw_destroy_source(event_id_show_quick_references);
+  gw_destroy_source(start_verse_tracker_event_id);
+  gw_destroy_source(verse_tracker_event_id);
+
+  // Clear a few flags.
+  verse_tracker_on = false;
+  
+  // Delete speller.
+  delete spellingchecker;
 
   // Destroy the signalling buttons.
   gtk_widget_destroy(new_verse_signal);
@@ -1261,18 +1262,6 @@ void Editor::on_texteditor_click(GtkWidget * widget, GdkEventButton *event) {
       // Further processing of this child anchor is done in the focus grabbed handler.
     }
   }
-}
-
-bool Editor::on_widget_creation_timeout(gpointer data) {
-  ((Editor *) data)->on_widget_creation();
-  return false;
-}
-
-void Editor::on_widget_creation() {
-  // Scroll to the locaton of the cursor.
-  GtkTextIter iter;
-  gtk_text_buffer_get_iter_at_mark(textbuffer, &iter, gtk_text_buffer_get_insert(textbuffer));
-  screen_scroll_to_iterator(GTK_TEXT_VIEW (textview), &iter);
 }
 
 void Editor::create_or_update_formatting_data()

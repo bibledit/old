@@ -140,9 +140,6 @@ public:
   guint undo_redo_event_id;
   guint save_timeout_event_id;
 
-  static bool on_widget_creation_timeout(gpointer data);
-  void on_widget_creation();
-
   // The formatted view.
   GtkTextTagTable * texttagtable;
   void create_or_update_formatting_data();
