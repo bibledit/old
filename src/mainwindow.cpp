@@ -6754,5 +6754,7 @@ void MainWindow::on_print() {
  Todo some points:
 
  In the raw text import dialog, the label showing the errors should use ellipses, or wrap text
+ 
+ 
  */
 
