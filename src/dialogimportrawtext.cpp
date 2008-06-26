@@ -191,7 +191,9 @@ ImportRawTextDialog::ImportRawTextDialog(int dummy) {
   gtk_widget_show(label_info);
   gtk_box_pack_start(GTK_BOX (hbox3), label_info, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC (label_info), 0, 0.5);
-
+  // Some messages get too long, so must be wrapped.
+  gtk_label_set_line_wrap(GTK_LABEL (label_info), true);
+  
   dialog_action_area1 = GTK_DIALOG (importrawtextdialog)->action_area;
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX (dialog_action_area1), GTK_BUTTONBOX_END);
