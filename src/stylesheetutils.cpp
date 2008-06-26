@@ -35,7 +35,7 @@
 
 
 #define STYLESHEET_SUFFIX ".sql11"
-char *RECOGNIZED_SUFFIXES [] = { ".sql6", ".sql7", ".sql8", ".sql9", ".sql10", ".sql11" };
+char *RECOGNIZED_SUFFIXES [] = { ".sql10", ".sql11" };
 
 
 ustring stylesheet_filename (const ustring& name)
