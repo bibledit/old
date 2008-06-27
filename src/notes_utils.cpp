@@ -172,7 +172,7 @@ ustring notes_database_filename()
   return gw_build_filename(directories_get_notes(), "notes.sql2");
 }
 
-void insert_link(GtkTextBuffer *buffer, ustring text, gint id)
+void insert_link(GtkTextBuffer *buffer, ustring text, gint id) // Todo goes out.
 /* Inserts a piece of text into the buffer, giving it the usual
  * appearance of a hyperlink in a web browser: blue and underlined.
  * Additionally, attaches some data on the tag, to make it recognizable
@@ -180,8 +180,7 @@ void insert_link(GtkTextBuffer *buffer, ustring text, gint id)
  */
 {
   GtkTextTag *tag;
-  tag = gtk_text_buffer_create_tag(buffer, NULL, "foreground", "blue", "underline", PANGO_UNDERLINE_SINGLE, 
-  NULL);
+  tag = gtk_text_buffer_create_tag(buffer, NULL, "foreground", "blue", "underline", PANGO_UNDERLINE_SINGLE, NULL);
   g_object_set_data(G_OBJECT (tag), "id", GINT_TO_POINTER (id));
   GtkTextIter iter;
   gtk_text_buffer_get_end_iter(buffer, &iter);
@@ -513,7 +512,7 @@ void notes_select(vector<unsigned int>& ids, unsigned int& id_cursor, const ustr
   sqlite3_close(db);
 }
 
-void notes_display(GtkTextView *textview, GtkTextBuffer *textbuffer, double& fraction, vector <unsigned int> ids, unsigned int cursor_id, unsigned int& cursor_offset, bool& stop)
+void notes_display(ustring& note_buffer, vector <unsigned int> ids, unsigned int cursor_id, unsigned int& cursor_offset, bool& stop) // Todo
 /*
  This cares for the actual displaying of the notes.
  It displays all the note with the IDs as given in ids.
@@ -544,17 +543,6 @@ void notes_display(GtkTextView *textview, GtkTextBuffer *textbuffer, double& fra
 
       // Handle possible stop command.
       if (stop) continue;
-
-      // Fraction ready.
-      fraction = (double) c / ids.size ();
-
-      // Current offset at end of buffer.
-      unsigned int end_offset;
-      {
-        GtkTextIter enditer;
-        gtk_text_buffer_get_end_iter (textbuffer, &enditer);
-        end_offset = gtk_text_iter_get_offset (&enditer);
-      }
 
       // Get from the database.
       SqliteReader reader (0);
@@ -593,7 +581,7 @@ void notes_display(GtkTextView *textview, GtkTextBuffer *textbuffer, double& fra
         // Get project.
         ustring project = reader.ustring3[r];
 
-        // Insert a link with this heading.
+        // Insert a link with this heading, e.g.: <a href="10">Genesis 1.1</a>
         ustring linkheading (reference);
         if (settings->genconfig.notes_display_project_get ())
         linkheading.append (" " + project);
@@ -603,7 +591,11 @@ void notes_display(GtkTextView *textview, GtkTextBuffer *textbuffer, double& fra
         linkheading.append (" " + date_time_julian_human_readable (convert_to_int (reader.ustring5[r]), true));
         if (settings->genconfig.notes_display_created_by_get ())
         linkheading.append (" " + reader.ustring6[r]);
-        insert_link (textbuffer, linkheading, ids[c]);
+        // Todo remove the call and the function itself. insert_link (textbuffer, linkheading, ids[c]);
+        linkheading.insert (0, "<a href=\"" + convert_to_string (ids[c]) + "\">");
+        linkheading.append ("</a>");
+        note_buffer.append (linkheading);
+
         // Handle summary. Show only the first few words.
         if (show_summary) {
           ustring summary = reader.ustring2[r];
@@ -617,9 +609,9 @@ void notes_display(GtkTextView *textview, GtkTextBuffer *textbuffer, double& fra
             summary.append (parse.words[w]);
           }
           if (!summary.empty()) summary.append (" ...");
-          gtk_text_buffer_insert_at_cursor (textbuffer, summary.c_str(), -1);
+          note_buffer.append (summary);
         }
-        gtk_text_buffer_insert_at_cursor (textbuffer, "\n", -1);
+        note_buffer.append ("<BR>\n");
 
         // Insert text of the references, if requested.
         if (show_reference_text) {
@@ -628,15 +620,15 @@ void notes_display(GtkTextView *textview, GtkTextBuffer *textbuffer, double& fra
             for (unsigned int sv = 0; sv < simple_verses.size(); sv++) {
               Reference ref (references[r]);
               ref.verse = convert_to_string (simple_verses[sv]);
-              gtk_text_buffer_insert_at_cursor (textbuffer, ref.human_readable (language).c_str(), -1);
-              gtk_text_buffer_insert_at_cursor (textbuffer, " ", -1);
+              note_buffer.append (ref.human_readable (language));
+              note_buffer.append (" ");
               ustring text = project_retrieve_verse (project, ref.book, ref.chapter, ref.verse);
               if (!text.empty()) {
                 CategorizeLine cl (text);
                 text = cl.verse;
               }
-              gtk_text_buffer_insert_at_cursor (textbuffer, text.c_str(), -1);
-              gtk_text_buffer_insert_at_cursor (textbuffer, "\n", -1);
+              note_buffer.append (text);
+              note_buffer.append ("<BR>\n");
             }
           }
         }
@@ -644,13 +636,14 @@ void notes_display(GtkTextView *textview, GtkTextBuffer *textbuffer, double& fra
         // Get the text of the note.
         if (!show_summary) {
           ustring note = reader.ustring2[r];
-          gtk_text_buffer_insert_at_cursor (textbuffer, note.c_str(), -1);
-          gtk_text_buffer_insert_at_cursor (textbuffer, "\n", -1);
+          notes_update_old_one(note);
+          note_buffer.append (note);
+          note_buffer.append ("<BR>\n");
         }
 
         // Get the offset of the note that is to be focused.
         if (ids[c] == cursor_id) {
-          cursor_offset = end_offset;
+          // Todo do differently cursor_offset = end_offset;
         }
       }
     }
@@ -1003,3 +996,20 @@ void notes_read(vector <unsigned int> ids, vector <ustring>& data)
   }
   sqlite3_close(db);
 }
+
+void notes_update_old_one(ustring& note) // Todo for displaying and editing also.
+/*
+ If there are newlines, and no <BR>, then this is an old note, 
+ and the <BR>'s need to be added for proper display of the newlines
+ in the GtkHtml viewer.
+ */
+{
+  size_t pos = note.find("\n");
+  if (pos == string::npos)
+    return;
+  pos = note.find("<BR>");
+  if (pos != string::npos)
+    return;
+  replace_text(note, "\n", "<BR>\n");
+}
+

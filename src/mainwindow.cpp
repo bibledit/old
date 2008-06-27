@@ -1870,19 +1870,15 @@ MainWindow::MainWindow(unsigned long xembed) :
   gtk_container_add(GTK_CONTAINER (notebook_notes_area), notebook1);
   gtk_notebook_set_show_tabs(GTK_NOTEBOOK (notebook1), FALSE);
 
-  scrolledwindow3 = gtk_scrolled_window_new(NULL, NULL);
-  gtk_widget_show(scrolledwindow3);
-  gtk_container_add(GTK_CONTAINER (notebook1), scrolledwindow3);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow3), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  scrolledwindow_notes = gtk_scrolled_window_new(NULL, NULL);
+  gtk_widget_show(scrolledwindow_notes);
+  gtk_container_add(GTK_CONTAINER (notebook1), scrolledwindow_notes);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow_notes), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-  textview_notes = gtk_text_view_new();
-  gtk_widget_show(textview_notes);
-  gtk_container_add(GTK_CONTAINER (scrolledwindow3), textview_notes);
-  // The editor does not accept tabs, so that <Tab> goes to the next widget.
-  // USFM has no tabs defined anyway. This applies to all textviews.
-  gtk_text_view_set_accepts_tab(GTK_TEXT_VIEW (textview_notes), FALSE);
-  gtk_text_view_set_editable(GTK_TEXT_VIEW (textview_notes), FALSE);
-  gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW (textview_notes), GTK_WRAP_WORD);
+  htmlview_notes = gtk_html_new();
+  gtk_widget_show(htmlview_notes);
+  gtk_container_add(GTK_CONTAINER (scrolledwindow_notes), htmlview_notes);
+  gtk_html_allow_selection(GTK_HTML (htmlview_notes), true);
 
   label1 = gtk_label_new("");
   gtk_widget_show(label1);
@@ -1903,7 +1899,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   htmlview_note_editor = gtk_html_new();
   gtk_widget_show(htmlview_note_editor);
   gtk_container_add(GTK_CONTAINER (scrolledwindow_note_editor), htmlview_note_editor);
-  gtk_html_set_editable(GTK_HTML (htmlview_note_editor), false);
   gtk_html_allow_selection(GTK_HTML (htmlview_note_editor), true);
 
   vbox4 = gtk_vbox_new(FALSE, 0);
@@ -2404,11 +2399,13 @@ MainWindow::MainWindow(unsigned long xembed) :
   g_signal_connect ((gpointer) treeview_references, "popup_menu", G_CALLBACK (on_treeview_references_popup_menu), gpointer(this));
   g_signal_connect ((gpointer) treeview_references, "move_cursor", G_CALLBACK (on_treeview_references_move_cursor), gpointer(this));
   g_signal_connect ((gpointer) treeview_references, "cursor_changed", G_CALLBACK (on_treeview_references_cursor_changed), gpointer(this));
-  g_signal_connect ((gpointer) textview_notes, "motion-notify-event", G_CALLBACK (notes_motion_notify_event), gpointer(this));
-  g_signal_connect ((gpointer) textview_notes, "visibility-notify-event", G_CALLBACK (screen_visibility_notify_event), gpointer(this));
-  g_signal_connect ((gpointer) textview_notes, "key-press-event", G_CALLBACK (notes_key_press_event), gpointer(this));
-  g_signal_connect ((gpointer) textview_notes, "event-after", G_CALLBACK (notes_event_after), gpointer(this));
-  g_signal_connect ((gpointer) textview_notes, "populate-popup", G_CALLBACK (on_projectnotes_populate_popup), gpointer(this));
+  // Todo g_signal_connect ((gpointer) textview_notes, "motion-notify-event", G_CALLBACK (notes_motion_notify_event), gpointer(this));
+  // Todo g_signal_connect ((gpointer) textview_notes, "visibility-notify-event", G_CALLBACK (screen_visibility_notify_event), gpointer(this));
+  // Todo g_signal_connect ((gpointer) textview_notes, "key-press-event", G_CALLBACK (notes_key_press_event), gpointer(this));
+  // Todo g_signal_connect ((gpointer) textview_notes, "event-after", G_CALLBACK (notes_event_after), gpointer(this));
+  // Todo g_signal_connect ((gpointer) textview_notes, "populate-popup", G_CALLBACK (on_projectnotes_populate_popup), gpointer(this));
+  g_signal_connect ((gpointer) htmlview_notes, "link-clicked", G_CALLBACK (on_notes_html_link_clicked), gpointer(this));
+  // Todo
   g_signal_connect ((gpointer) styles->apply_signal, "clicked", G_CALLBACK (on_style_button_apply_clicked), gpointer (this));
   g_signal_connect ((gpointer) styles->open_signal, "clicked", G_CALLBACK (on_style_button_open_clicked), gpointer (this));
   g_signal_connect ((gpointer) styles->edited_signal, "clicked", G_CALLBACK (on_style_edited), gpointer (this));
@@ -2429,12 +2426,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   // because the page already would be at the last page. Simulate this signal.
   if (tools_area_page == tapntEnd - 1)
     notebook_tools_switch_page(tools_area_page);
-
-  // Store pointer to the relevant text buffers to simplify later use.
-  // The reference count on the buffer is not incremented; 
-  // the caller of this function won't own a new reference.
-  // Therefore the buffers do not need to be freed.
-  textbuffer_notes = gtk_text_view_get_buffer(GTK_TEXT_VIEW (textview_notes));
 
   // Jumpstart editor.
   jump_start_editors(project_last_session);
@@ -3426,7 +3417,7 @@ void MainWindow::on_notes_area1_activate(GtkMenuItem *menuitem, gpointer user_da
 
 void MainWindow::on_notes_area_activate() {
   if (gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook1)) == 0)
-    gtk_widget_grab_focus(textview_notes);
+    gtk_widget_grab_focus(htmlview_notes);
   else
     gtk_widget_grab_focus(htmlview_note_editor);
 }
@@ -3467,8 +3458,10 @@ void MainWindow::on_cut() {
       editor->text_erase_selection();
     }
   }
-  if (GTK_WIDGET_HAS_FOCUS (textview_notes))
+  /* Todo
+  if (GTK_WIDGET_HAS_FOCUS (textview_notes)) // Todo
     gtk_text_buffer_cut_clipboard(textbuffer_notes, clipboard, true);
+    */
   if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) {
     gtk_html_cut(GTK_HTML (htmlview_note_editor));
   }
@@ -3490,8 +3483,10 @@ void MainWindow::on_copy() {
       gtk_clipboard_set_text(clipboard, editor->text_get_selection ().c_str(), -1);
     }
   }
-  if (GTK_WIDGET_HAS_FOCUS (textview_notes))
+  /* Todo
+  if (GTK_WIDGET_HAS_FOCUS (textview_notes)) // Todo
     gtk_text_buffer_copy_clipboard(textbuffer_notes, clipboard);
+    */
   if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) {
     gtk_html_copy(GTK_HTML(htmlview_note_editor));
   }
@@ -3551,8 +3546,10 @@ void MainWindow::on_paste() {
       }
     }
   }
-  if (GTK_WIDGET_HAS_FOCUS (textview_notes))
+  /* Todo
+  if (GTK_WIDGET_HAS_FOCUS (textview_notes)) // Todo
     gtk_text_buffer_paste_clipboard(textbuffer_notes, clipboard, NULL, true);
+    */
   if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) {
     gtk_html_paste(GTK_HTML(htmlview_note_editor), false);
   }
@@ -4132,10 +4129,10 @@ void MainWindow::on_gui()
   // These notes are displayed in a thread, and it is quite a hassle to make Gtk
   // thread-safe, therefore rather than going through this hassle, we just 
   // let the widgets be updated in the main thread.
-  if (displayprojectnotes) {
-    displayprojectnotes->update_progressbar();
+  if (displayprojectnotes) { // Todo
     if (displayprojectnotes->ready) {
-      textbuffer_notes = displayprojectnotes->switch_buffer();
+      displayprojectnotes->ready = false;
+      displayprojectnotes->show_buffer(); // Todo
       displayprojectnotes->position_cursor();
       delete displayprojectnotes;
       displayprojectnotes = NULL;
@@ -4306,7 +4303,7 @@ void MainWindow::on_notes_event_after(GtkWidget *text_view, GdkEvent *ev)
   }
 }
 
-void MainWindow::notes_edit_if_link(GtkWidget *text_view, GtkTextIter *iter)
+void MainWindow::notes_edit_if_link(GtkWidget *text_view, GtkTextIter *iter) // Todo goes out.
 /* Looks at all tags covering the position of iter in the text view, 
  * and if one of them is a link, follow it by showing the page identified
  * by the data attached to it.
@@ -4389,12 +4386,14 @@ void MainWindow::on_delete_note_activate(GtkMenuItem *menuitem, gpointer user_da
 void MainWindow::on_delete_note(GtkMenuItem *menuitem) {
   // There was a bug of an infinite loop when a note was deleted through the menu,
   // while the notes view was not focused. Solved here.
-  if (GTK_WIDGET_HAS_FOCUS (textview_notes) || (GTK_WIDGET (menuitem) != delete_note)) {
+  /* Todo
+  if (GTK_WIDGET_HAS_FOCUS (textview_notes) || (GTK_WIDGET (menuitem) != delete_note)) { // Todo
     GtkTextIter start;
     GtkTextIter end;
     gtk_text_buffer_get_selection_bounds(textbuffer_notes, &start, &end);
     notes_delete_if_link(textview_notes, &start, &end);
   }
+  */
 }
 
 void MainWindow::on_viewnotes_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -4431,7 +4430,7 @@ void MainWindow::notes_redisplay_timeout() {
   // Get actual verse from the editor.
   ustring reference = books_id_to_english(editor->current_reference.book) + " " + convert_to_string(editor->current_reference.chapter) + ":" + editor->current_reference.verse;
   // Create displaying object.
-  displayprojectnotes = new DisplayProjectNotes (reference, textbuffer_notes, textview_notes, NULL);
+  displayprojectnotes = new DisplayProjectNotes (reference, htmlview_notes, NULL);
 }
 
 void MainWindow::on_find_in_notes1_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -4443,7 +4442,9 @@ void MainWindow::find_in_notes() {
     FindNoteDialog findnotedialog(0);
     if (findnotedialog.run() == GTK_RESPONSE_OK) {
       stop_displaying_more_notes();
-      displayprojectnotes = new DisplayProjectNotes ("", textbuffer_notes, textview_notes, &findnotedialog.ids);
+      /* Todo
+      displayprojectnotes = new DisplayProjectNotes ("", htmlview_notes, &findnotedialog.ids); // Todo
+      */
     }
   }
 }
@@ -4781,6 +4782,7 @@ void MainWindow::notes_fill_edit_screen(int id, bool newnote)
       ustring note;
       if (!newnote) {
         note = sqlitereader.ustring3[0];
+        notes_update_old_one(note); // Todo
       }
       GtkHTMLStream *stream = gtk_html_begin(GTK_HTML(htmlview_note_editor));
       gtk_html_write(GTK_HTML(htmlview_note_editor), stream, note.c_str(), -1);
@@ -5093,6 +5095,18 @@ gboolean MainWindow::note_save_receiver(const HTMLEngine * engine, const char *d
 {
   ((NoteEditor *) user_data)->receive_data_from_html_editor(data, len);
   return true;
+}
+
+gboolean MainWindow::on_notes_html_link_clicked(GtkHTML *html, const gchar * url, gpointer user_data) {
+  ((MainWindow *) user_data)->notes_html_link_clicked(html, url);
+  return true;
+}
+
+void MainWindow::notes_html_link_clicked(GtkHTML *html, const gchar * url) // Todo
+// Callback for clicking a link in the notes editor.
+{
+  unsigned int id = convert_to_int (url);
+  notes_fill_edit_screen(id, false);
 }
 
 /*

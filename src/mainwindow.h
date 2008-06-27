@@ -379,12 +379,12 @@ protected:
   GtkWidget *vboxeditors;
   GtkWidget *notebook_notes_area;
   GtkWidget *notebook1;
-  GtkWidget *scrolledwindow3;
-  GtkWidget *textview_notes;
+  GtkWidget *scrolledwindow_notes;
+  GtkWidget *htmlview_notes; // Todo
   GtkWidget *label1;
   GtkWidget *hbox3;
   GtkWidget *scrolledwindow_note_editor;
-  GtkWidget *htmlview_note_editor; // Todo
+  GtkWidget *htmlview_note_editor;
   GtkWidget *vbox4;
   GtkWidget *button_note_ok;
   GtkWidget *button_note_cancel;
@@ -439,7 +439,6 @@ protected:
   GtkWidget *statusbar1;
   GtkAccelGroup *accel_group;
   // Gtk variables manually added.
-  GtkTextBuffer *textbuffer_notes;
   GtkListStore *liststore_references;
   GtkTreeViewColumn *treecolumn_references;
   GtkTreeSelection *treeselect_references;
@@ -680,6 +679,8 @@ protected:
   void projectnotes_populate_popup(GtkTextView *textview, GtkMenu *menu);
   static gboolean note_save_receiver(const HTMLEngine * engine, const char *data, unsigned int len, void *user_data);
   bool project_notes_editable;
+  static gboolean on_notes_html_link_clicked(GtkHTML *html, const gchar * url, gpointer user_data); // Todo
+  void notes_html_link_clicked(GtkHTML *html, const gchar * url);
 
   /* Export */
   static void on_export_usfm_files_activate(GtkMenuItem *menuitem, gpointer user_data);
