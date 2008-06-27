@@ -940,13 +940,15 @@ MainWindow::MainWindow(unsigned long xembed) :
   gtk_widget_show(image20235);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (view_text_font), image20235);
 
-  view_notes_font = gtk_image_menu_item_new_with_mnemonic("_Notes");
-  gtk_widget_show(view_notes_font);
-  gtk_container_add(GTK_CONTAINER (view_font_menu), view_notes_font);
+  /* Because of switching to GtkHtml for displaying and editing project notes, the fonts no longer can be set in the menu.
+   view_notes_font = gtk_image_menu_item_new_with_mnemonic("_Notes");
+   gtk_widget_show(view_notes_font);
+   gtk_container_add(GTK_CONTAINER (view_font_menu), view_notes_font);
 
-  image20236 = gtk_image_new_from_stock("gtk-select-font", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image20236);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (view_notes_font), image20236);
+   image20236 = gtk_image_new_from_stock("gtk-select-font", GTK_ICON_SIZE_MENU);
+   gtk_widget_show(image20236);
+   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (view_notes_font), image20236);
+   */
 
   printer_font = gtk_image_menu_item_new_with_mnemonic("_Printer");
   gtk_widget_show(printer_font);
@@ -1891,18 +1893,18 @@ MainWindow::MainWindow(unsigned long xembed) :
   gtk_container_add(GTK_CONTAINER (notebook1), hbox3);
   gtk_container_set_border_width(GTK_CONTAINER (hbox3), 1);
 
-  scrolledwindow4 = gtk_scrolled_window_new(NULL, NULL);
-  gtk_widget_show(scrolledwindow4);
-  gtk_box_pack_start(GTK_BOX (hbox3), scrolledwindow4, TRUE, TRUE, 0);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow4), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  project_notes_editable = guifeatures.project_notes_management();
 
-  textview_note = gtk_text_view_new();
-  gtk_widget_show(textview_note);
-  gtk_container_add(GTK_CONTAINER (scrolledwindow4), textview_note);
-  gtk_text_view_set_accepts_tab(GTK_TEXT_VIEW (textview_note), FALSE);
-  gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW (textview_note), GTK_WRAP_WORD);
-  if (!guifeatures.project_notes_management())
-    gtk_text_view_set_editable(GTK_TEXT_VIEW (textview_note), FALSE);
+  scrolledwindow_note_editor = gtk_scrolled_window_new(NULL, NULL);
+  gtk_widget_show(scrolledwindow_note_editor);
+  gtk_box_pack_start(GTK_BOX (hbox3), scrolledwindow_note_editor, TRUE, TRUE, 0);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow_note_editor), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+
+  htmlview_note_editor = gtk_html_new();
+  gtk_widget_show(htmlview_note_editor);
+  gtk_container_add(GTK_CONTAINER (scrolledwindow_note_editor), htmlview_note_editor);
+  gtk_html_set_editable(GTK_HTML (htmlview_note_editor), false);
+  gtk_html_allow_selection(GTK_HTML (htmlview_note_editor), true);
 
   vbox4 = gtk_vbox_new(FALSE, 0);
   gtk_widget_show(vbox4);
@@ -2291,7 +2293,9 @@ MainWindow::MainWindow(unsigned long xembed) :
   g_signal_connect ((gpointer) edit_planning, "activate", G_CALLBACK (on_edit_planning_activate), gpointer(this));
   g_signal_connect ((gpointer) menuitem_view, "activate", G_CALLBACK (on_menuitem_view_activate), gpointer(this));
   g_signal_connect ((gpointer) view_text_font, "activate", G_CALLBACK (on_view_text_font_activate), gpointer(this));
-  g_signal_connect ((gpointer) view_notes_font, "activate", G_CALLBACK (on_view_notes_font_activate), gpointer(this));
+  /* Because of switching to GtkHtml for displaying and editing project notes, the fonts no longer can be set in the menu.
+   g_signal_connect ((gpointer) view_notes_font, "activate", G_CALLBACK (on_view_notes_font_activate), gpointer(this));
+   */
   g_signal_connect ((gpointer) printer_font, "activate", G_CALLBACK (on_printer_font_activate), gpointer(this));
   if (guifeatures.project_notes())
     g_signal_connect ((gpointer) viewnotes, "activate", G_CALLBACK (on_viewnotes_activate), gpointer(this));
@@ -3424,7 +3428,7 @@ void MainWindow::on_notes_area_activate() {
   if (gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook1)) == 0)
     gtk_widget_grab_focus(textview_notes);
   else
-    gtk_widget_grab_focus(textview_note);
+    gtk_widget_grab_focus(htmlview_note_editor);
 }
 
 void MainWindow::on_goto_next_project_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3465,8 +3469,9 @@ void MainWindow::on_cut() {
   }
   if (GTK_WIDGET_HAS_FOCUS (textview_notes))
     gtk_text_buffer_cut_clipboard(textbuffer_notes, clipboard, true);
-  if (GTK_WIDGET_HAS_FOCUS (textview_note))
-    gtk_text_buffer_cut_clipboard(note_editor->textbuffer_note, clipboard, true);
+  if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) {
+    gtk_html_cut(GTK_HTML (htmlview_note_editor));
+  }
   if (GTK_WIDGET_HAS_FOCUS (textview_note_references))
     gtk_text_buffer_cut_clipboard(note_editor->textbuffer_references, clipboard, true);
 }
@@ -3487,8 +3492,9 @@ void MainWindow::on_copy() {
   }
   if (GTK_WIDGET_HAS_FOCUS (textview_notes))
     gtk_text_buffer_copy_clipboard(textbuffer_notes, clipboard);
-  if (GTK_WIDGET_HAS_FOCUS (textview_note))
-    gtk_text_buffer_copy_clipboard(note_editor->textbuffer_note, clipboard);
+  if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) {
+    gtk_html_copy(GTK_HTML(htmlview_note_editor));
+  }
   if (GTK_WIDGET_HAS_FOCUS (textview_note_references))
     gtk_text_buffer_copy_clipboard(note_editor->textbuffer_references, clipboard);
   if (keytermsgui) {
@@ -3547,8 +3553,9 @@ void MainWindow::on_paste() {
   }
   if (GTK_WIDGET_HAS_FOCUS (textview_notes))
     gtk_text_buffer_paste_clipboard(textbuffer_notes, clipboard, NULL, true);
-  if (GTK_WIDGET_HAS_FOCUS (textview_note))
-    gtk_text_buffer_paste_clipboard(note_editor->textbuffer_note, clipboard, NULL, true);
+  if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) {
+    gtk_html_paste(GTK_HTML(htmlview_note_editor), false);
+  }
   if (GTK_WIDGET_HAS_FOCUS (textview_note_references))
     gtk_text_buffer_paste_clipboard(note_editor->textbuffer_references, clipboard, NULL, true);
 }
@@ -4567,19 +4574,8 @@ void MainWindow::on_notes_button_ok() {
     // Category (text)
     ustring category = combobox_get_active_string (combobox_note_category);
     // Note (text)
-    ustring note;
-    {
-      vector<ustring> lines;
-      textbuffer_get_lines (note_editor->textbuffer_note, lines, false);
-      for (unsigned int i = 0; i < lines.size(); i++) {
-        if (!note.empty())
-        note.append("\n");
-        note.append(lines[i]);
-      }
-    }
-    // Trim off extra newlines at the end, and ensure it always has one.
-    note = trim(note);
-    note.append ("\n");
+    gtk_html_save (GTK_HTML(htmlview_note_editor), (GtkHTMLSaveReceiverFn) note_save_receiver, gpointer(note_editor));
+    ustring note = note_editor->clean_edited_data();
     // Apostrophies need to be doubled before storing them.
     note = double_apostrophy (note);
     // Casefolded (text)
@@ -4621,7 +4617,7 @@ void MainWindow::on_notes_button_ok() {
         if (gtk_text_buffer_get_modified (note_editor->textbuffer_references)) {
           actions.push_back ("modified the references");
         }
-        if (gtk_text_buffer_get_modified (note_editor->textbuffer_note)) {
+        if (note_editor->data_was_edited()) {
           actions.push_back ("modified the note");
         }
         if (category != note_editor->previous_category) {
@@ -4691,6 +4687,11 @@ void MainWindow::on_notes_button_ok_cancel()
   gtk_label_set_text(GTK_LABEL (label_note_created_by), "");
   gtk_label_set_text(GTK_LABEL (label_note_edited_on), "");
   gtk_text_buffer_set_text(note_editor->textbuffer_logbook, "", -1);
+
+  // Clear the html editor.
+  gtk_html_set_editable(GTK_HTML(htmlview_note_editor), false);
+  gtk_html_load_empty(GTK_HTML(htmlview_note_editor));
+
   // Hide the notebook page.
   gtk_widget_hide(gtk_notebook_get_nth_page(GTK_NOTEBOOK (notebook_tools), tapntProjectNote));
 
@@ -4718,7 +4719,6 @@ void MainWindow::notes_fill_edit_screen(int id, bool newnote)
   gtk_widget_show(gtk_notebook_get_nth_page(GTK_NOTEBOOK (notebook_tools), tapntProjectNote));
 
   // Initialize pointers to the text buffers.
-  note_editor->textbuffer_note = gtk_text_view_get_buffer(GTK_TEXT_VIEW (textview_note));
   note_editor->textbuffer_references = gtk_text_view_get_buffer(GTK_TEXT_VIEW (textview_note_references));
   note_editor->textbuffer_logbook = gtk_text_view_get_buffer(GTK_TEXT_VIEW (textview_note_logbook));
 
@@ -4782,9 +4782,13 @@ void MainWindow::notes_fill_edit_screen(int id, bool newnote)
       if (!newnote) {
         note = sqlitereader.ustring3[0];
       }
-      gtk_text_buffer_set_text (note_editor->textbuffer_note, note.c_str(), -1);
-      gtk_text_buffer_set_modified (note_editor->textbuffer_note, false);
+      GtkHTMLStream *stream = gtk_html_begin(GTK_HTML(htmlview_note_editor));
+      gtk_html_write(GTK_HTML(htmlview_note_editor), stream, note.c_str(), -1);
+      gtk_html_end(GTK_HTML(htmlview_note_editor), stream, GTK_HTML_STREAM_OK);
+      gtk_html_set_editable(GTK_HTML(htmlview_note_editor), project_notes_editable);
+      note_editor->store_original_data(note);
       gtk_text_buffer_set_modified (note_editor->textbuffer_references, false);
+
       /*
        Fill the category combo.
        */
@@ -4878,24 +4882,7 @@ void MainWindow::notes_fill_edit_screen(int id, bool newnote)
   // Store current page, so we can switch back to it later.
   note_editor->previous_tools_page = tools_page_displayed_previously;
   // Focus the widget the user is most likely going to type in.
-  gtk_widget_grab_focus(textview_note);
-}
-
-void MainWindow::note_insert_date_and_text(const ustring& text) {
-  // If buffer does not end with a new line, insert one.
-  GtkTextIter enditer;
-  gtk_text_buffer_get_end_iter(gtk_text_view_get_buffer(GTK_TEXT_VIEW (textview_note)), &enditer);
-  if (!gtk_text_iter_starts_line(&enditer)) {
-    gtk_text_buffer_insert(gtk_text_view_get_buffer(GTK_TEXT_VIEW (textview_note)), &enditer, "\n", -1);
-  }
-  // Insert message at the end of the note.
-  ustring message;
-  message.append(g_get_real_name());
-  message.append(": ");
-  message.append(text);
-  message.append(".");
-  gtk_text_buffer_get_end_iter(gtk_text_view_get_buffer(GTK_TEXT_VIEW (textview_note)), &enditer);
-  gtk_text_buffer_insert(gtk_text_view_get_buffer(GTK_TEXT_VIEW (textview_note)), &enditer, message.c_str(), -1);
+  gtk_widget_grab_focus(htmlview_note_editor);
 }
 
 void MainWindow::on_standard_text_1_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -4923,23 +4910,23 @@ void MainWindow::on_insert_standard_text(GtkMenuItem *menuitem) {
   extern Settings * settings;
   ustring standardtext;
   bool addspace = false;
-  GtkWidget * textview = textview_note;
+  GtkWidget * textview = htmlview_note_editor;
   if (menuitem == GTK_MENU_ITEM (standard_text_1)) {
     standardtext = settings->genconfig.edit_note_standard_text_one_get();
     addspace = true;
-    textview = textview_note;
+    textview = htmlview_note_editor;
   } else if (menuitem == GTK_MENU_ITEM (standard_text_2)) {
     standardtext = settings->genconfig.edit_note_standard_text_two_get();
     addspace = true;
-    textview = textview_note;
+    textview = htmlview_note_editor;
   } else if (menuitem == GTK_MENU_ITEM (standard_text_3)) {
     standardtext = settings->genconfig.edit_note_standard_text_three_get();
     addspace = true;
-    textview = textview_note;
+    textview = htmlview_note_editor;
   } else if (menuitem == GTK_MENU_ITEM (standard_text_4)) {
     standardtext = settings->genconfig.edit_note_standard_text_four_get();
     addspace = true;
-    textview = textview_note;
+    textview = htmlview_note_editor;
   } else if (menuitem == GTK_MENU_ITEM (current_reference1)) {
     Editor * editor = editorsgui->focused_editor();
     if (editor)
@@ -5099,18 +5086,13 @@ void MainWindow::projectnotes_populate_popup(GtkTextView *textview, GtkMenu *men
   gtk_menu_shell_prepend(GTK_MENU_SHELL(menu), mi);
 
   g_signal_connect ((gpointer) mi, "activate", G_CALLBACK (on_delete_note_activate), gpointer(this));
+}
 
-  /*
-
-   
-   
-   
-   buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (widget));
-   gtk_text_buffer_get_selection_bounds (buffer, &start, &end);
-   notes_delete_if_link (widget, &start, &end);
-   
-   */
-
+gboolean MainWindow::note_save_receiver(const HTMLEngine * engine, const char *data, unsigned int len, void *user_data)
+// Called by the gtkhtml project note editor when saving its data
+{
+  ((NoteEditor *) user_data)->receive_data_from_html_editor(data, len);
+  return true;
 }
 
 /*
@@ -6146,25 +6128,27 @@ void MainWindow::set_fonts() {
   // Set font in the text editors. Set text direction too.
   editorsgui->set_fonts();
 
-  // Set font for the translation notes editor.
-  PangoFontDescription *font_desc= NULL;
-  extern Settings * settings;
-  if (!settings->genconfig.notes_editor_font_default_get()) {
-    font_desc = pango_font_description_from_string(settings->genconfig.notes_editor_font_name_get ().c_str());
-  }
-  gtk_widget_modify_font(textview_notes, font_desc);
-  gtk_widget_modify_font(textview_note, font_desc);
-  if (font_desc)
-    pango_font_description_free(font_desc);
+  /* Because of switching to GtkHtml for displaying and editing project notes, the fonts no longer can be set through the menu.
+   // Set font for the translation notes editor.
+   PangoFontDescription *font_desc= NULL;
+   extern Settings * settings;
+   if (!settings->genconfig.notes_editor_font_default_get()) {
+   font_desc = pango_font_description_from_string(settings->genconfig.notes_editor_font_name_get ().c_str());
+   }
+   gtk_widget_modify_font(textview_notes, font_desc);
+   gtk_widget_modify_font(textview_note, font_desc);
+   if (font_desc)
+   pango_font_description_free(font_desc);
 
-  // Set the colors for the translation notes editor.
-  if (settings->genconfig.notes_editor_default_color_get()) {
-    color_widget_default(textview_notes);
-    color_widget_default(textview_note);
-  } else {
-    color_widget_set(textview_notes, settings->genconfig.notes_editor_normal_text_color_get(), settings->genconfig.notes_editor_background_color_get(), settings->genconfig.notes_editor_selected_text_color_get(), settings->genconfig.notes_editor_selection_color_get());
-    color_widget_set(textview_note, settings->genconfig.notes_editor_normal_text_color_get(), settings->genconfig.notes_editor_background_color_get(), settings->genconfig.notes_editor_selected_text_color_get(), settings->genconfig.notes_editor_selection_color_get());
-  }
+   // Set the colors for the translation notes editor.
+   if (settings->genconfig.notes_editor_default_color_get()) {
+   color_widget_default(textview_notes);
+   color_widget_default(textview_note);
+   } else {
+   color_widget_set(textview_notes, settings->genconfig.notes_editor_normal_text_color_get(), settings->genconfig.notes_editor_background_color_get(), settings->genconfig.notes_editor_selected_text_color_get(), settings->genconfig.notes_editor_selection_color_get());
+   color_widget_set(textview_note, settings->genconfig.notes_editor_normal_text_color_get(), settings->genconfig.notes_editor_background_color_get(), settings->genconfig.notes_editor_selected_text_color_get(), settings->genconfig.notes_editor_selection_color_get());
+   }
+   */
 }
 
 void MainWindow::on_printer_font_activate(GtkMenuItem * menuitem, gpointer user_data) {
@@ -6749,4 +6733,30 @@ void MainWindow::on_print() {
     }
   }
 }
+
+/*
+
+ Todo items.
+
+ The main notes view must be a GtkHtml too, because of the way it stores its own notes,
+ using entities rather than the plain text.
+ 
+ For searching the notes it seems better if all entities be changed to normal text again, 
+ just for storing them.
+
+ Formatting in notes, indented paragraphs, or bulleted paragraphs. 
+ Icons for editing options. 
+ Normal keyboard commands for bold, underline, and italic.
+ At the same time add undo and redo to the note editor. It goes in for free, so why not.
+
+ We set the font size different, not the name of the font, but the size. The name cannot be set.
+ We right now opt for setting nothing, but have controls that change the size if needed.
+
+
+
+
+ To create a routine usfm2pdf, using pango and cairo.
+
+
+ */
 
