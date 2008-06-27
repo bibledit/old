@@ -631,18 +631,9 @@ protected:
   bool mainwindow_width_safe;
 
   /* Notes editor */
-  static gboolean notes_motion_notify_event(GtkWidget *text_view, GdkEventMotion *event, gpointer user_data);
-  gboolean on_notes_pointer_moved(GtkWidget *text_view, GdkEventMotion *event);
-  static gboolean notes_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
-  gboolean on_notes_key_press_event(GtkWidget *widget, GdkEventKey *event);
-  static void notes_event_after(GtkWidget *widget, GdkEvent *event, gpointer user_data);
-  void on_notes_event_after(GtkWidget *text_view, GdkEvent *ev);
-  void notes_edit_if_link(GtkWidget *text_view, GtkTextIter *iter);
   static void on_new_note_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_new_note();
-  void notes_delete_if_link(GtkWidget *text_view, GtkTextIter *start, GtkTextIter *end);
   static void on_delete_note_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_delete_note(GtkMenuItem *menuitem);
   static void on_viewnotes_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_notes();
   void notes_redisplay();
@@ -674,13 +665,12 @@ protected:
   void stop_displaying_more_notes();
   static void on_get_references_from_note_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_get_references_from_note();
-  void notes_get_references_from_link(GtkWidget *text_view, GtkTextIter *iter);
-  static void on_projectnotes_populate_popup(GtkTextView *textview, GtkMenu *menu, gpointer user_data);
-  void projectnotes_populate_popup(GtkTextView *textview, GtkMenu *menu);
+  void notes_get_references_from_id(gint id);
   static gboolean note_save_receiver(const HTMLEngine * engine, const char *data, unsigned int len, void *user_data);
   bool project_notes_editable;
-  static gboolean on_notes_html_link_clicked(GtkHTML *html, const gchar * url, gpointer user_data); // Todo
+  static gboolean on_notes_html_link_clicked(GtkHTML *html, const gchar * url, gpointer user_data);
   void notes_html_link_clicked(GtkHTML *html, const gchar * url);
+  void notes_delete_ids (const vector<gint>& ids);
 
   /* Export */
   static void on_export_usfm_files_activate(GtkMenuItem *menuitem, gpointer user_data);

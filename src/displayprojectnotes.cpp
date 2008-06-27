@@ -55,17 +55,8 @@ void DisplayProjectNotes::show_buffer() {
 }
 
 void DisplayProjectNotes::position_cursor() {
-  // Position the cursor at the right offset.
-  if (!cursor_offset)
-    return;
-  /* Todo
-  GtkTextIter iter;
-  gtk_text_buffer_get_iter_at_offset(textbuffer, &iter, cursor_offset);
-  gtk_text_buffer_place_cursor(textbuffer, &iter);
-  while (gtk_events_pending())
-    gtk_main_iteration();
-  gtk_text_view_scroll_to_iter(textview, &iter, 0, true, 0.3, 0.3);
-  */
+  // Position the cursor at the right anchor.
+  gtk_html_jump_to_anchor (GTK_HTML (htmlview), notes_cursor_anchor());
 }
 
 void DisplayProjectNotes::thread_start(gpointer data) {
@@ -84,18 +75,4 @@ void DisplayProjectNotes::thread_main(gpointer data) {
   // Finish off.
   ready = true;
 }
-
-/*
- Todo gradually move over to the html view.
-
- Remove old stuff.
-
-Functionality to transfer:
-- Ctrl-click does not open the note for editing, but retrieves its references.
-- Enter edits the note.
-- Right-click can delete the note.
-- Delete deletes the note.
-
- 
- */
 

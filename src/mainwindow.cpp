@@ -2399,13 +2399,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   g_signal_connect ((gpointer) treeview_references, "popup_menu", G_CALLBACK (on_treeview_references_popup_menu), gpointer(this));
   g_signal_connect ((gpointer) treeview_references, "move_cursor", G_CALLBACK (on_treeview_references_move_cursor), gpointer(this));
   g_signal_connect ((gpointer) treeview_references, "cursor_changed", G_CALLBACK (on_treeview_references_cursor_changed), gpointer(this));
-  // Todo g_signal_connect ((gpointer) textview_notes, "motion-notify-event", G_CALLBACK (notes_motion_notify_event), gpointer(this));
-  // Todo g_signal_connect ((gpointer) textview_notes, "visibility-notify-event", G_CALLBACK (screen_visibility_notify_event), gpointer(this));
-  // Todo g_signal_connect ((gpointer) textview_notes, "key-press-event", G_CALLBACK (notes_key_press_event), gpointer(this));
-  // Todo g_signal_connect ((gpointer) textview_notes, "event-after", G_CALLBACK (notes_event_after), gpointer(this));
-  // Todo g_signal_connect ((gpointer) textview_notes, "populate-popup", G_CALLBACK (on_projectnotes_populate_popup), gpointer(this));
   g_signal_connect ((gpointer) htmlview_notes, "link-clicked", G_CALLBACK (on_notes_html_link_clicked), gpointer(this));
-  // Todo
   g_signal_connect ((gpointer) styles->apply_signal, "clicked", G_CALLBACK (on_style_button_apply_clicked), gpointer (this));
   g_signal_connect ((gpointer) styles->open_signal, "clicked", G_CALLBACK (on_style_button_open_clicked), gpointer (this));
   g_signal_connect ((gpointer) styles->edited_signal, "clicked", G_CALLBACK (on_style_edited), gpointer (this));
@@ -3458,10 +3452,8 @@ void MainWindow::on_cut() {
       editor->text_erase_selection();
     }
   }
-  /* Todo
-  if (GTK_WIDGET_HAS_FOCUS (textview_notes)) // Todo
-    gtk_text_buffer_cut_clipboard(textbuffer_notes, clipboard, true);
-    */
+  if (GTK_WIDGET_HAS_FOCUS (htmlview_notes))
+    gtk_html_cut(GTK_HTML(htmlview_notes));
   if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) {
     gtk_html_cut(GTK_HTML (htmlview_note_editor));
   }
@@ -3483,10 +3475,8 @@ void MainWindow::on_copy() {
       gtk_clipboard_set_text(clipboard, editor->text_get_selection ().c_str(), -1);
     }
   }
-  /* Todo
-  if (GTK_WIDGET_HAS_FOCUS (textview_notes)) // Todo
-    gtk_text_buffer_copy_clipboard(textbuffer_notes, clipboard);
-    */
+  if (GTK_WIDGET_HAS_FOCUS (htmlview_notes))
+    gtk_html_copy(GTK_HTML (htmlview_notes));
   if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) {
     gtk_html_copy(GTK_HTML(htmlview_note_editor));
   }
@@ -3546,10 +3536,8 @@ void MainWindow::on_paste() {
       }
     }
   }
-  /* Todo
-  if (GTK_WIDGET_HAS_FOCUS (textview_notes)) // Todo
-    gtk_text_buffer_paste_clipboard(textbuffer_notes, clipboard, NULL, true);
-    */
+  if (GTK_WIDGET_HAS_FOCUS (htmlview_notes))
+    gtk_html_paste(GTK_HTML(htmlview_notes), false);
   if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) {
     gtk_html_paste(GTK_HTML(htmlview_note_editor), false);
   }
@@ -4129,10 +4117,10 @@ void MainWindow::on_gui()
   // These notes are displayed in a thread, and it is quite a hassle to make Gtk
   // thread-safe, therefore rather than going through this hassle, we just 
   // let the widgets be updated in the main thread.
-  if (displayprojectnotes) { // Todo
+  if (displayprojectnotes) {
     if (displayprojectnotes->ready) {
       displayprojectnotes->ready = false;
-      displayprojectnotes->show_buffer(); // Todo
+      displayprojectnotes->show_buffer();
       displayprojectnotes->position_cursor();
       delete displayprojectnotes;
       displayprojectnotes = NULL;
@@ -4213,116 +4201,6 @@ void MainWindow::window_size_allocated(GtkWidget *widget, GtkAllocation *allocat
  |
  */
 
-gboolean MainWindow::notes_motion_notify_event(GtkWidget *text_view, GdkEventMotion *event, gpointer user_data) {
-  return ((MainWindow *) user_data)->on_notes_pointer_moved(text_view, event);
-}
-
-gboolean MainWindow::on_notes_pointer_moved(GtkWidget *text_view, GdkEventMotion *event)
-// Update the cursor image if the pointer moved. 
-{
-  gint x, y;
-  gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW (text_view), GTK_TEXT_WINDOW_WIDGET,
-  gint(event->x), gint(event->y), &x, &y);
-  screen_set_cursor_hand_or_regular(GTK_TEXT_VIEW (text_view), x, y);
-  gdk_window_get_pointer(text_view->window, NULL, NULL, NULL);
-  return false;
-}
-
-gboolean MainWindow::notes_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data) {
-  return ((MainWindow *) user_data)->on_notes_key_press_event(widget, event);
-}
-
-gboolean MainWindow::on_notes_key_press_event(GtkWidget *widget, GdkEventKey *event)
-/*
- Links can be activated by pressing Enter.
- Notes can be deleted by pressing Delete.
- */
-{
-  GtkTextIter iter;
-  GtkTextIter start;
-  GtkTextIter end;
-  GtkTextBuffer *buffer;
-  switch (event->keyval)
-  {
-    case GDK_Return:
-    case GDK_KP_Enter:
-      buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW (widget));
-      gtk_text_buffer_get_iter_at_mark(buffer, &iter, gtk_text_buffer_get_insert(buffer));
-      notes_edit_if_link(widget, &iter);
-      break;
-    case GDK_Delete:
-    case GDK_KP_Delete:
-    {
-      GuiFeatures guifeatures(0);
-      if (guifeatures.project_notes_management()) {
-        buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW (widget));
-        gtk_text_buffer_get_selection_bounds(buffer, &start, &end);
-        notes_delete_if_link(widget, &start, &end);
-      }
-      break;
-    }
-    default:
-      break;
-  }
-  return false;
-}
-
-void MainWindow::notes_event_after(GtkWidget *widget, GdkEvent *event, gpointer user_data) {
-  ((MainWindow *) user_data)->on_notes_event_after(widget, event);
-}
-
-void MainWindow::on_notes_event_after(GtkWidget *text_view, GdkEvent *ev)
-// Notes links can also be activated by clicking.
-// References are obtained by control-click.
-{
-  GtkTextIter start, end, iter;
-  GtkTextBuffer *buffer;
-  GdkEventButton *event;
-  gint x, y;
-  if (ev->type != GDK_BUTTON_RELEASE)
-    return;
-  event = (GdkEventButton *)ev;
-  if (event->button != 1)
-    return;
-  buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW (text_view));
-  // We shouldn't follow a link if the user has selected something.
-  gtk_text_buffer_get_selection_bounds(buffer, &start, &end);
-  if (gtk_text_iter_get_offset(&start) != gtk_text_iter_get_offset(&end))
-    return;
-  // Get iterator at clicking location.
-  gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW (text_view), GTK_TEXT_WINDOW_WIDGET,
-  gint(event->x), gint(event->y), &x, &y);
-  gtk_text_view_get_iter_at_location(GTK_TEXT_VIEW (text_view), &iter, x, y);
-  // Depending on whether the control key was down, take appropriate action.
-  if (keyboard_control_state(event)) {
-    // Ctrl down: get references.
-    notes_get_references_from_link(text_view, &iter);
-  } else {
-    // Control not active: edit note.
-    notes_edit_if_link(text_view, &iter);
-  }
-}
-
-void MainWindow::notes_edit_if_link(GtkWidget *text_view, GtkTextIter *iter) // Todo goes out.
-/* Looks at all tags covering the position of iter in the text view, 
- * and if one of them is a link, follow it by showing the page identified
- * by the data attached to it.
- */
-{
-  GSList *tags= NULL, *tagp= NULL;
-  tags = gtk_text_iter_get_tags(iter);
-  for (tagp = tags; tagp != NULL; tagp = tagp->next) {
-    GtkTextTag *tag = (GtkTextTag *) tagp->data;
-    gint id= GPOINTER_TO_INT (g_object_get_data (G_OBJECT (tag), "id"));
-    if (id != 0) {
-      notes_fill_edit_screen(id, false);
-      break;
-    }
-  }
-  if (tags)
-    g_slist_free(tags);
-}
-
 void MainWindow::on_new_note_activate(GtkMenuItem *menuitem, gpointer user_data) {
   ((MainWindow *) user_data)->on_new_note();
 }
@@ -4338,62 +4216,8 @@ void MainWindow::on_new_note() {
   notes_fill_edit_screen(id, true);
 }
 
-void MainWindow::notes_delete_if_link(GtkWidget *text_view, GtkTextIter *start, GtkTextIter *end)
-/* Looks at all tags covering the positions of the iterator, from start to end,
- in the text view, and if there are links among them, delete it using the 
- data attached to it.
- */
-{
-  // Storage for the list of ids to delete.
-  set <gint> ids;
-  // Ensure text iterators go from low to high.
-  gtk_text_iter_order(start, end);
-  // Go through the range from start to end.
-  // Collect the ids of the notes to be deleted.
-  GtkTextIter iter;
-  iter = *start;
-  while (gtk_text_iter_in_range(&iter, start, end) || gtk_text_iter_equal(&iter, start)) {
-    GSList *tags= NULL, *tagp= NULL;
-    tags = gtk_text_iter_get_tags(&iter);
-    for (tagp = tags; tagp != NULL; tagp = tagp->next) {
-      GtkTextTag *tag = (GtkTextTag *) tagp->data;
-      gint id= GPOINTER_TO_INT (g_object_get_data (G_OBJECT (tag), "id"));
-      if (id != 0) {
-        ids.insert(id);
-      }
-    }
-    if (tags)
-      g_slist_free(tags);
-    gtk_text_iter_forward_char(&iter);
-  }
-  // Get vector with ids to delete, and delete all notes that are in it.
-  vector<gint> ids_to_delete(ids.begin(), ids.end());
-  if (ids_to_delete.size() > 0) {
-    if (gtkw_dialog_question(mainwindow, "Are you sure you want to delete these project notes?") != GTK_RESPONSE_YES)
-      return;
-    for (unsigned int i = 0; i < ids_to_delete.size(); i++)
-      notes_delete_one(ids_to_delete[i]);
-    // Redisplay.
-    if (ids_to_delete.size() > 0)
-      notes_redisplay();
-  }
-}
-
 void MainWindow::on_delete_note_activate(GtkMenuItem *menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->on_delete_note(menuitem);
-}
-
-void MainWindow::on_delete_note(GtkMenuItem *menuitem) {
-  // There was a bug of an infinite loop when a note was deleted through the menu,
-  // while the notes view was not focused. Solved here.
-  /* Todo
-  if (GTK_WIDGET_HAS_FOCUS (textview_notes) || (GTK_WIDGET (menuitem) != delete_note)) { // Todo
-    GtkTextIter start;
-    GtkTextIter end;
-    gtk_text_buffer_get_selection_bounds(textbuffer_notes, &start, &end);
-    notes_delete_if_link(textview_notes, &start, &end);
-  }
-  */
+  gtkw_dialog_info(((MainWindow *) user_data)->mainwindow, "A note can be deleted by clicking on the [delete] link in the notes view");
 }
 
 void MainWindow::on_viewnotes_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -4442,9 +4266,7 @@ void MainWindow::find_in_notes() {
     FindNoteDialog findnotedialog(0);
     if (findnotedialog.run() == GTK_RESPONSE_OK) {
       stop_displaying_more_notes();
-      /* Todo
-      displayprojectnotes = new DisplayProjectNotes ("", htmlview_notes, &findnotedialog.ids); // Todo
-      */
+       displayprojectnotes = new DisplayProjectNotes ("", htmlview_notes, &findnotedialog.ids);
     }
   }
 }
@@ -4782,7 +4604,7 @@ void MainWindow::notes_fill_edit_screen(int id, bool newnote)
       ustring note;
       if (!newnote) {
         note = sqlitereader.ustring3[0];
-        notes_update_old_one(note); // Todo
+        notes_update_old_one(note);
       }
       GtkHTMLStream *stream = gtk_html_begin(GTK_HTML(htmlview_note_editor));
       gtk_html_write(GTK_HTML(htmlview_note_editor), stream, note.c_str(), -1);
@@ -5003,57 +4825,47 @@ void MainWindow::on_get_references_from_note() {
   gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_tools), tapntReferences);
 }
 
-void MainWindow::notes_get_references_from_link(GtkWidget *text_view, GtkTextIter *iter)
-// If there is a link at iter, get the references from it.
+void MainWindow::notes_get_references_from_id(gint id)
+// Get the references from the note id
 {
   // Store references we get.
   vector<Reference> references;
-  // Gets all tags at the iterator.
-  GSList *tags= NULL, *tagp= NULL;
-  tags = gtk_text_iter_get_tags(iter);
-  for (tagp = tags; tagp != NULL; tagp = tagp->next) {
-    GtkTextTag *tag = (GtkTextTag *) tagp->data;
-    gint id= GPOINTER_TO_INT (g_object_get_data (G_OBJECT (tag), "id"));
-    if (id != 0) {
-      // Fetch the references for the note from the database.
-      sqlite3 *db;
-      int rc;
-      char *error= NULL;
-      try
-      {
-        rc = sqlite3_open(notes_database_filename ().c_str (), &db);
-        if (rc) throw runtime_error (sqlite3_errmsg(db));
-        sqlite3_busy_timeout (db, 1000);
-        SqliteReader sqlitereader (0);
-        char * sql;
-        sql = g_strdup_printf ("select ref_osis from %s where id = %d;", TABLE_NOTES, id);
-        rc = sqlite3_exec(db, sql, sqlitereader.callback, &sqlitereader, &error);
-        g_free (sql);
-        if (rc != SQLITE_OK)
-        throw runtime_error (error);
-        if ((sqlitereader.ustring0.size()> 0)) {
-          ustring reference;
-          reference = sqlitereader.ustring0[0];
-          // Read the reference(s).
-          Parse parse (reference, false);
-          for (unsigned int i = 0; i < parse.words.size(); i++) {
-            Reference ref (0);
-            reference_discover (0, 0, "", parse.words[i], ref.book, ref.chapter, ref.verse);
-            references.push_back (ref);
-          }
-        }
+
+  // Fetch the references for the note from the database.
+  sqlite3 *db;
+  int rc;
+  char *error= NULL;
+  try
+  {
+    rc = sqlite3_open(notes_database_filename ().c_str (), &db);
+    if (rc) throw runtime_error (sqlite3_errmsg(db));
+    sqlite3_busy_timeout (db, 1000);
+    SqliteReader sqlitereader (0);
+    char * sql;
+    sql = g_strdup_printf ("select ref_osis from %s where id = %d;", TABLE_NOTES, id);
+    rc = sqlite3_exec(db, sql, sqlitereader.callback, &sqlitereader, &error);
+    g_free (sql);
+    if (rc != SQLITE_OK)
+    throw runtime_error (error);
+    if ((sqlitereader.ustring0.size()> 0)) {
+      ustring reference;
+      reference = sqlitereader.ustring0[0];
+      // Read the reference(s).
+      Parse parse (reference, false);
+      for (unsigned int i = 0; i < parse.words.size(); i++) {
+        Reference ref (0);
+        reference_discover (0, 0, "", parse.words[i], ref.book, ref.chapter, ref.verse);
+        references.push_back (ref);
       }
-      catch (exception & ex)
-      {
-        gw_critical (ex.what ());
-      }
-      // Close connection.  
-      sqlite3_close(db);
-      break;
     }
   }
-  if (tags)
-    g_slist_free(tags);
+  catch (exception & ex)
+  {
+    gw_critical (ex.what ());
+  }
+  // Close connection.  
+  sqlite3_close(db);
+
   // Set references.
   References references2(liststore_references, treeview_references, treecolumn_references);
   references2.set_references(references);
@@ -5062,32 +4874,6 @@ void MainWindow::notes_get_references_from_link(GtkWidget *text_view, GtkTextIte
   references2.fill_store(projectconfig->language_get());
   // Display the References Area
   gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_tools), tapntReferences);
-}
-
-void MainWindow::on_projectnotes_populate_popup(GtkTextView *textview, GtkMenu *menu, gpointer user_data) {
-  ((MainWindow *) user_data)->projectnotes_populate_popup(textview, menu);
-}
-
-void MainWindow::projectnotes_populate_popup(GtkTextView *textview, GtkMenu *menu) {
-  // Bail out if the features don't allow deleting project notes.
-  GuiFeatures guifeatures(0);
-  if (!guifeatures.project_notes_management())
-    return;
-
-  GtkWidget *mi;
-  mi = gtk_menu_item_new();
-  gtk_widget_show(mi);
-  gtk_menu_shell_prepend(GTK_MENU_SHELL(menu), mi);
-
-  GtkWidget *img;
-  img = gtk_image_new_from_stock(GTK_STOCK_SPELL_CHECK, GTK_ICON_SIZE_MENU);
-  mi = gtk_image_menu_item_new_with_label("Delete selected notes");
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (mi), img);
-
-  gtk_widget_show_all(mi);
-  gtk_menu_shell_prepend(GTK_MENU_SHELL(menu), mi);
-
-  g_signal_connect ((gpointer) mi, "activate", G_CALLBACK (on_delete_note_activate), gpointer(this));
 }
 
 gboolean MainWindow::note_save_receiver(const HTMLEngine * engine, const char *data, unsigned int len, void *user_data)
@@ -5102,11 +4888,48 @@ gboolean MainWindow::on_notes_html_link_clicked(GtkHTML *html, const gchar * url
   return true;
 }
 
-void MainWindow::notes_html_link_clicked(GtkHTML *html, const gchar * url) // Todo
-// Callback for clicking a link in the notes editor.
+void MainWindow::notes_html_link_clicked(GtkHTML *html, const gchar * url)
+// Callback for clicking a link in the project notes.
 {
-  unsigned int id = convert_to_int (url);
-  notes_fill_edit_screen(id, false);
+  ustring myurl(url);
+  bool del = myurl.substr(0, 1) == "d";
+  bool refs = myurl.substr(0, 1) == "r";
+  myurl = number_in_string(myurl);
+  unsigned int id = convert_to_int(myurl);
+  if (del) {
+    // Delete the note.
+    vector<gint> ids;
+    ids.push_back(id);
+    notes_delete_ids(ids);
+  } else if (refs) {
+    // Get the reference(s) from the note.
+    notes_get_references_from_id(id);
+  } else {
+    // Edit note.
+    notes_fill_edit_screen(id, false);
+  }
+}
+
+void MainWindow::notes_delete_ids(const vector<gint>& ids)
+// Deletes notes whose id is given in "ids".
+{
+  if (ids.empty())
+    return;
+
+  ustring message = "Are you sure you want to delete ";
+  if (ids.size() == 1)
+    message.append("this note");
+  else
+    message.append("these notes");
+  message.append("?");
+
+  if (gtkw_dialog_question(mainwindow, message) != GTK_RESPONSE_YES)
+    return;
+  for (unsigned int i = 0; i < ids.size(); i++) {
+    notes_delete_one(ids[i]);
+  }
+
+  notes_redisplay();
 }
 
 /*
@@ -6752,9 +6575,6 @@ void MainWindow::on_print() {
 
  Todo items.
 
- The main notes view must be a GtkHtml too, because of the way it stores its own notes,
- using entities rather than the plain text.
- 
  For searching the notes it seems better if all entities be changed to normal text again, 
  just for storing them.
 
@@ -6766,11 +6586,14 @@ void MainWindow::on_print() {
  We set the font size different, not the name of the font, but the size. The name cannot be set.
  We right now opt for setting nothing, but have controls that change the size if needed.
 
+ Update the documentation on how to delete project notes.
+ And how to get the references from the note.
 
+ 
 
+ 
 
  To create a routine usfm2pdf, using pango and cairo.
-
 
  */
 

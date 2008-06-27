@@ -172,21 +172,6 @@ ustring notes_database_filename()
   return gw_build_filename(directories_get_notes(), "notes.sql2");
 }
 
-void insert_link(GtkTextBuffer *buffer, ustring text, gint id) // Todo goes out.
-/* Inserts a piece of text into the buffer, giving it the usual
- * appearance of a hyperlink in a web browser: blue and underlined.
- * Additionally, attaches some data on the tag, to make it recognizable
- * as a link. 
- */
-{
-  GtkTextTag *tag;
-  tag = gtk_text_buffer_create_tag(buffer, NULL, "foreground", "blue", "underline", PANGO_UNDERLINE_SINGLE, NULL);
-  g_object_set_data(G_OBJECT (tag), "id", GINT_TO_POINTER (id));
-  GtkTextIter iter;
-  gtk_text_buffer_get_end_iter(buffer, &iter);
-  gtk_text_buffer_insert_with_tags(buffer, &iter, text.c_str(), -1, tag, NULL);
-}
-
 gint notes_database_get_unique_id()
 // This generates a unique id, one that is not yet used in the notes database.
 {
@@ -512,11 +497,11 @@ void notes_select(vector<unsigned int>& ids, unsigned int& id_cursor, const ustr
   sqlite3_close(db);
 }
 
-void notes_display(ustring& note_buffer, vector <unsigned int> ids, unsigned int cursor_id, unsigned int& cursor_offset, bool& stop) // Todo
+void notes_display(ustring& note_buffer, vector <unsigned int> ids, unsigned int cursor_id, unsigned int& cursor_offset, bool& stop)
 /*
- This cares for the actual displaying of the notes.
- It displays all the note with the IDs as given in ids.
- It moves the cursor to the note whose ID is "cursor_id".
+ This collect html data for displaying the notes.
+ It collects data for all the notes that have an id given in ids.
+ It inserts a html anchor at the start of the note whose id is "cursor_id".
  */
 {
   extern Settings * settings;
@@ -581,8 +566,17 @@ void notes_display(ustring& note_buffer, vector <unsigned int> ids, unsigned int
         // Get project.
         ustring project = reader.ustring3[r];
 
+        // Start creating the heading with links.
+        ustring linkheading;
+        // If this note is to be focused, then insert a special anchor for that: <a name="cursoranchor"></a>
+        if (ids[c] == cursor_id) {
+          linkheading.append ("<a name=\"");
+          linkheading.append (notes_cursor_anchor());
+          linkheading.append ("\"></a>");
+        }
         // Insert a link with this heading, e.g.: <a href="10">Genesis 1.1</a>
-        ustring linkheading (reference);
+        linkheading.append ("<a href=\"" + convert_to_string (ids[c]) + "\">");
+        linkheading.append (reference);
         if (settings->genconfig.notes_display_project_get ())
         linkheading.append (" " + project);
         if (settings->genconfig.notes_display_category_get ())
@@ -591,9 +585,16 @@ void notes_display(ustring& note_buffer, vector <unsigned int> ids, unsigned int
         linkheading.append (" " + date_time_julian_human_readable (convert_to_int (reader.ustring5[r]), true));
         if (settings->genconfig.notes_display_created_by_get ())
         linkheading.append (" " + reader.ustring6[r]);
-        // Todo remove the call and the function itself. insert_link (textbuffer, linkheading, ids[c]);
-        linkheading.insert (0, "<a href=\"" + convert_to_string (ids[c]) + "\">");
         linkheading.append ("</a>");
+        // Append a [delete] link too, e.g.: <a href="d10">[delete]</a>
+        linkheading.append (" <a href=\"d" + convert_to_string (ids[c]) + "\">");
+        linkheading.append ("[delete]");
+        linkheading.append ("</a>");
+        // Append a [references] link too, e.g.: <a href="r10">[references]</a>
+        linkheading.append (" <a href=\"r" + convert_to_string (ids[c]) + "\">");
+        linkheading.append ("[references]");
+        linkheading.append ("</a>");
+        // Add the link to the note data.
         note_buffer.append (linkheading);
 
         // Handle summary. Show only the first few words.
@@ -611,6 +612,7 @@ void notes_display(ustring& note_buffer, vector <unsigned int> ids, unsigned int
           if (!summary.empty()) summary.append (" ...");
           note_buffer.append (summary);
         }
+        // Append a new line.
         note_buffer.append ("<BR>\n");
 
         // Insert text of the references, if requested.
@@ -641,10 +643,6 @@ void notes_display(ustring& note_buffer, vector <unsigned int> ids, unsigned int
           note_buffer.append ("<BR>\n");
         }
 
-        // Get the offset of the note that is to be focused.
-        if (ids[c] == cursor_id) {
-          // Todo do differently cursor_offset = end_offset;
-        }
       }
     }
   }
@@ -997,7 +995,7 @@ void notes_read(vector <unsigned int> ids, vector <ustring>& data)
   sqlite3_close(db);
 }
 
-void notes_update_old_one(ustring& note) // Todo for displaying and editing also.
+void notes_update_old_one(ustring& note)
 /*
  If there are newlines, and no <BR>, then this is an old note, 
  and the <BR>'s need to be added for proper display of the newlines
@@ -1011,5 +1009,11 @@ void notes_update_old_one(ustring& note) // Todo for displaying and editing also
   if (pos != string::npos)
     return;
   replace_text(note, "\n", "<BR>\n");
+}
+
+gchar * notes_cursor_anchor()
+// Gives the name of the anchor where the cursor has to jump to.
+{
+  return "cursoranchor";
 }
 

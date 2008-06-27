@@ -44,5 +44,6 @@ void notes_change_category(const ustring& from, const ustring& to);
 void notes_change_project(const ustring& from, const ustring& to);
 void notes_read(vector <unsigned int> ids, vector <ustring>& data);
 void notes_update_old_one(ustring& note);
+gchar * notes_cursor_anchor ();
 
 #endif
