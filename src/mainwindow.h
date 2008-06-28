@@ -173,9 +173,9 @@ protected:
   GtkWidget *view_text_font;
   GtkWidget *image20235;
   /* Because of switching to GtkHtml for displaying and editing fonts, the fonts no longer can be set in the menu.
-  GtkWidget *view_notes_font;
-  GtkWidget *image20236;
-  */
+   GtkWidget *view_notes_font;
+   GtkWidget *image20236;
+   */
   GtkWidget *printer_font;
   GtkWidget *image20237;
   GtkWidget *viewnotes;
@@ -380,11 +380,49 @@ protected:
   GtkWidget *notebook_notes_area;
   GtkWidget *notebook1;
   GtkWidget *scrolledwindow_notes;
-  GtkWidget *htmlview_notes; // Todo
+  GtkWidget *htmlview_notes;
   GtkWidget *label1;
-  GtkWidget *hbox3;
+  GtkWidget *vbox_note_editor;
+  GtkWidget *toolbar_note_editor;
+  GtkWidget *toolitem_note_edit_font_size;
+  GtkWidget *combobox_note_edit_font_size;
+  GtkWidget *toolitem_note_edit_paragraph_size;
+  GtkWidget *combobox_note_edit_paragraph_size; // Todo
+  GtkWidget *toolitem_note_edit_bold;
+  GtkWidget *togglebutton_note_edit_bold;
+  GtkWidget *image29121;
+  GtkWidget *toolitem_note_edit_italics;
+  GtkWidget *togglebutton_note_edit_italics;
+  GtkWidget *image29122;
+  GtkWidget *toolitem_note_edit_underline;
+  GtkWidget *togglebutton_note_edit_underline;
+  GtkWidget *image29114;
+  GtkWidget *toolitem_note_edit_strike_through;
+  GtkWidget *togglebutton_note_edit_strike_through;
+  GtkWidget *image29123;
+  GtkWidget *toolitem_note_edit_left_justify;
+  GtkWidget *togglebutton_note_edit_left_justify;
+  GtkWidget *image29124;
+  GtkWidget *toolitem_note_edit_center_justify;
+  GtkWidget *togglebutton_note_edit_center_justify;
+  GtkWidget *image29125;
+  GtkWidget *toolitem_note_edit_right_justify;
+  GtkWidget *togglebutton_note_edit_right_justify;
+  GtkWidget *image29126;
+  GtkWidget *toolitem_note_edit_decrease_indent;
+  GtkWidget *button_note_edit_decrease_indent;
+  GtkWidget *image29127;
+  GtkWidget *toolitem_note_edit_increase_indent;
+  GtkWidget *button_note_edit_increase_indent;
+  GtkWidget *image29128;
+  GtkWidget *toolitem_note_edit_color;
+  GtkWidget *colorbutton_note_edit;
+  GtkWidget *hbox_note_editor;
+  
+  
+  
   GtkWidget *scrolledwindow_note_editor;
-  GtkWidget *htmlview_note_editor;
+  GtkWidget *htmlview_note_editor; // Todo
   GtkWidget *vbox4;
   GtkWidget *button_note_ok;
   GtkWidget *button_note_cancel;
@@ -670,7 +708,37 @@ protected:
   bool project_notes_editable;
   static gboolean on_notes_html_link_clicked(GtkHTML *html, const gchar * url, gpointer user_data);
   void notes_html_link_clicked(GtkHTML *html, const gchar * url);
-  void notes_delete_ids (const vector<gint>& ids);
+  void notes_delete_ids(const vector<gint>& ids);
+
+  /* Notes formatting */// Todo
+  static void on_combobox_note_edit_font_size_changed(GtkComboBox *combobox, gpointer user_data);
+  void combobox_note_edit_font_size_changed();
+  static void on_note_editor_insertion_font_style_changed(GtkHTML * html, GtkHTMLFontStyle style, gpointer user_data);
+  void note_editor_insertion_font_style_changed(GtkHTMLFontStyle style);
+  static void on_combobox_note_edit_paragraph_size_changed(GtkComboBox *combobox, gpointer user_data);
+  void combobox_note_edit_paragraph_size_changed();
+  static void on_note_editor_current_paragraph_style_changed(GtkHTML * html, GtkHTMLParagraphStyle style, gpointer user_data);
+  void note_editor_current_paragraph_style_changed(GtkHTMLParagraphStyle style);
+  static void on_togglebutton_note_edit_bold_toggled(GtkToggleButton *togglebutton, gpointer user_data);
+  void togglebutton_note_edit_bold_toggled();
+  static void on_togglebutton_note_edit_italics_toggled(GtkToggleButton *togglebutton, gpointer user_data);
+  void togglebutton_note_edit_italics_toggled();
+  static void on_togglebutton_note_edit_underline_toggled(GtkToggleButton *togglebutton, gpointer user_data);
+  void togglebutton_note_edit_underline_toggled();
+  static void on_togglebutton_note_edit_strike_through_toggled(GtkToggleButton *togglebutton, gpointer user_data);
+  void togglebutton_note_edit_strike_through_toggled();
+  static void on_togglebutton_note_edit_left_justify_toggled(GtkToggleButton *togglebutton, gpointer user_data);
+  void togglebutton_note_edit_left_justify_toggled();
+  static void on_togglebutton_note_edit_center_justify_toggled(GtkToggleButton *togglebutton, gpointer user_data);
+  void togglebutton_note_edit_center_justify_toggled();
+  static void on_togglebutton_note_edit_right_justify_toggled(GtkToggleButton *togglebutton, gpointer user_data);
+  void togglebutton_note_edit_right_justify_toggled();
+  static void on_button_note_edit_decrease_indent_clicked(GtkButton *button, gpointer user_data);
+  void button_note_edit_decrease_indent_clicked();
+  static void on_button_note_edit_increase_indent_clicked(GtkButton *button, gpointer user_data);
+  void button_note_edit_increase_indent_clicked();
+  static void on_colorbutton_note_edit_color_set(GtkColorButton *colorbutton, gpointer user_data);
+  void colorbutton_note_edit_color_set();
 
   /* Export */
   static void on_export_usfm_files_activate(GtkMenuItem *menuitem, gpointer user_data);
