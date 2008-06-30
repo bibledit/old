@@ -6965,13 +6965,11 @@ void MainWindow::on_print() {
 
  Todo items.
 
- Update the documentation on how to delete project notes.
- And how to get the references from the note.
- Normal keyboard commands for bold, underline, and italic. These are already there, find all of them, add to documentation.
+  Add undo and redo to the note editor. It goes in for free, so why not.
+  If the editor is focused, let undo work there.
+  and if a note is being edited, let undo and redo work there.
 
- Add undo and redo to the note editor. It goes in for free, so why not.
-
- To create a routine usfm2pdf, using pango and cairo.
+  To create a routine usfm2pdf, using pango and cairo.
 
  */
 
