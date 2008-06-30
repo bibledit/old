@@ -2915,20 +2915,38 @@ void MainWindow::on_undo1_activate(GtkMenuItem * menuitem, gpointer user_data) {
   ((MainWindow *) user_data)->menu_undo();
 }
 
-void MainWindow::menu_undo() {
+void MainWindow::menu_undo()
+// Called for undo.
+{
   Editor * editor = editorsgui->focused_editor();
-  if (editor)
+  bool editor_has_focus = false;
+  if (editor) {
+    editor_has_focus = editor->has_focus();
+  }
+  if (editor_has_focus) {
     editor->undo();
+  } else if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) {
+    gtk_html_undo(GTK_HTML (htmlview_note_editor));
+  }
 }
 
 void MainWindow::on_redo1_activate(GtkMenuItem * menuitem, gpointer user_data) {
   ((MainWindow *) user_data)->menu_redo();
 }
 
-void MainWindow::menu_redo() {
+void MainWindow::menu_redo()
+// Called for redo.
+{
   Editor * editor = editorsgui->focused_editor();
-  if (editor)
+  bool editor_has_focus = false;
+  if (editor) {
+    editor_has_focus = editor->has_focus();
+  }
+  if (editor_has_focus) {
     editor->redo();
+  } else if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) {
+    gtk_html_redo(GTK_HTML (htmlview_note_editor));
+  }
 }
 
 void MainWindow::on_edit1_activate(GtkMenuItem * menuitem, gpointer user_data) {
@@ -6964,10 +6982,6 @@ void MainWindow::on_print() {
 /*
 
  Todo items.
-
-  Add undo and redo to the note editor. It goes in for free, so why not.
-  If the editor is focused, let undo work there.
-  and if a note is being edited, let undo and redo work there.
 
   To create a routine usfm2pdf, using pango and cairo.
 
