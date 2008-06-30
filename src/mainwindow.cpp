@@ -6965,24 +6965,11 @@ void MainWindow::on_print() {
 
  Todo items.
 
- For searching the notes it seems better if all entities be changed to normal text again, 
- just for storing them.
-
- Normal keyboard commands for bold, underline, and italic. These are already there, find all of them.
- 
- Add undo and redo to the note editor. It goes in for free, so why not.
-
- We set the font size different, not the name of the font, but the size. The name cannot be set.
- We right now opt for setting nothing, but have controls that change the size if needed.
-
  Update the documentation on how to delete project notes.
  And how to get the references from the note.
+ Normal keyboard commands for bold, underline, and italic. These are already there, find all of them, add to documentation.
 
- Implement menu in View menu to hide/show the toolbar for formatted note editing. This is so as to save 
- space. The setting is on by default, and will be remembered throughout.
-
- 
- 
+ Add undo and redo to the note editor. It goes in for free, so why not.
 
  To create a routine usfm2pdf, using pango and cairo.
 

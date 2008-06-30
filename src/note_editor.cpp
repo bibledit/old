@@ -20,6 +20,7 @@
 #include "note_editor.h"
 #include "gwrappers.h"
 #include "tiny_utilities.h"
+#include "html.h"
 
 NoteEditor::NoteEditor(int dummy) {
 }
@@ -77,6 +78,11 @@ ustring NoteEditor::clean_edited_data()
   // Trim off extra newlines at the end, and ensure it always has one.
   edited_data = trim(edited_data);
   edited_data.append("\n");
+  // Libgtkhtml3 stores data in html entities. 
+  // Transform these back to UTF8. It would have been fine to leave these as entities,
+  // but because of the note search functionality,
+  // we need normal characters, not entities.
+  html_entities_to_utf8 (edited_data);
   // Give result.  
   return edited_data;
 }
