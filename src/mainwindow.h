@@ -386,8 +386,8 @@ protected:
   GtkWidget *toolbar_note_editor;
   GtkWidget *toolitem_note_edit_font_size;
   GtkWidget *combobox_note_edit_font_size;
-  GtkWidget *toolitem_note_edit_paragraph_size;
-  GtkWidget *combobox_note_edit_paragraph_size; // Todo
+  GtkWidget *toolitem_note_edit_paragraph_style;
+  GtkWidget *combobox_note_edit_paragraph_style;
   GtkWidget *toolitem_note_edit_bold;
   GtkWidget *togglebutton_note_edit_bold;
   GtkWidget *image29121;
@@ -401,7 +401,7 @@ protected:
   GtkWidget *togglebutton_note_edit_strike_through;
   GtkWidget *image29123;
   GtkWidget *toolitem_note_edit_left_justify;
-  GtkWidget *togglebutton_note_edit_left_justify;
+  GtkWidget *togglebutton_note_edit_left_justify; 
   GtkWidget *image29124;
   GtkWidget *toolitem_note_edit_center_justify;
   GtkWidget *togglebutton_note_edit_center_justify;
@@ -418,11 +418,8 @@ protected:
   GtkWidget *toolitem_note_edit_color;
   GtkWidget *colorbutton_note_edit;
   GtkWidget *hbox_note_editor;
-  
-  
-  
   GtkWidget *scrolledwindow_note_editor;
-  GtkWidget *htmlview_note_editor; // Todo
+  GtkWidget *htmlview_note_editor;
   GtkWidget *vbox4;
   GtkWidget *button_note_ok;
   GtkWidget *button_note_cancel;
@@ -710,13 +707,13 @@ protected:
   void notes_html_link_clicked(GtkHTML *html, const gchar * url);
   void notes_delete_ids(const vector<gint>& ids);
 
-  /* Notes formatting */// Todo
+  /* Notes formatting */
   static void on_combobox_note_edit_font_size_changed(GtkComboBox *combobox, gpointer user_data);
   void combobox_note_edit_font_size_changed();
   static void on_note_editor_insertion_font_style_changed(GtkHTML * html, GtkHTMLFontStyle style, gpointer user_data);
   void note_editor_insertion_font_style_changed(GtkHTMLFontStyle style);
-  static void on_combobox_note_edit_paragraph_size_changed(GtkComboBox *combobox, gpointer user_data);
-  void combobox_note_edit_paragraph_size_changed();
+  static void on_combobox_note_edit_paragraph_style_changed(GtkComboBox *combobox, gpointer user_data);
+  void combobox_note_edit_paragraph_style_changed();
   static void on_note_editor_current_paragraph_style_changed(GtkHTML * html, GtkHTMLParagraphStyle style, gpointer user_data);
   void note_editor_current_paragraph_style_changed(GtkHTMLParagraphStyle style);
   static void on_togglebutton_note_edit_bold_toggled(GtkToggleButton *togglebutton, gpointer user_data);
@@ -733,12 +730,18 @@ protected:
   void togglebutton_note_edit_center_justify_toggled();
   static void on_togglebutton_note_edit_right_justify_toggled(GtkToggleButton *togglebutton, gpointer user_data);
   void togglebutton_note_edit_right_justify_toggled();
+  static void on_current_paragraph_alignment_changed(GtkHTML *html, GtkHTMLParagraphAlignment new_alignment, gpointer user_data);
+  void current_paragraph_alignment_changed(GtkHTMLParagraphAlignment new_alignment);
   static void on_button_note_edit_decrease_indent_clicked(GtkButton *button, gpointer user_data);
   void button_note_edit_decrease_indent_clicked();
   static void on_button_note_edit_increase_indent_clicked(GtkButton *button, gpointer user_data);
   void button_note_edit_increase_indent_clicked();
+  static void on_current_paragraph_indentation_changed(GtkHTML *html, guint new_indentation, gpointer user_data);
+  void current_paragraph_indentation_changed(guint new_indentation);
   static void on_colorbutton_note_edit_color_set(GtkColorButton *colorbutton, gpointer user_data);
-  void colorbutton_note_edit_color_set();
+  void colorbutton_note_edit_color_set(GtkColorButton *colorbutton);
+  static void on_insertion_color_changed(GtkHTML *html, GdkColor *color, gpointer user_data);
+  void insertion_color_changed(GdkColor *color);
 
   /* Export */
   static void on_export_usfm_files_activate(GtkMenuItem *menuitem, gpointer user_data);

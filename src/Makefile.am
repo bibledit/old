@@ -255,7 +255,8 @@ bibledit_bin_SOURCES = \
         dialogimportrawtext.cpp \
         gtkhtml3browser.cpp \
         htmlcache.cpp \
-        dialogxfernotes2text.cpp
+        dialogxfernotes2text.cpp \
+        htmlcolor.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 

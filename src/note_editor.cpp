@@ -58,6 +58,10 @@ ustring NoteEditor::clean_edited_data()
 
  We have to strip of the head and the tail and remain with the text within the body only.
 
+ Note about a bug: If a new note is made e.g. with paragraph style Header 1, and saved, 
+ then after save it has a few extra paragraphs. It has not been looked into deeply 
+ how to resolve this. 
+ 
  */
 {
   // Remove html stuff before the relevant data.

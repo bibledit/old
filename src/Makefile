@@ -164,7 +164,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogeditdictionary.$(OBJEXT) \
 	check_sentence_structure.$(OBJEXT) dialogcheckbutton.$(OBJEXT) \
 	dialogimportrawtext.$(OBJEXT) gtkhtml3browser.$(OBJEXT) \
-	htmlcache.$(OBJEXT) dialogxfernotes2text.$(OBJEXT)
+	htmlcache.$(OBJEXT) dialogxfernotes2text.$(OBJEXT) \
+	htmlcolor.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -271,9 +272,9 @@ OBJEXT = o
 PACKAGE = bibledit
 PACKAGE_BUGREPORT = http://www.nongnu.org/bibledit
 PACKAGE_NAME = bibledit
-PACKAGE_STRING = bibledit 3.3.16
+PACKAGE_STRING = bibledit 3.3.17
 PACKAGE_TARNAME = bibledit
-PACKAGE_VERSION = 3.3.16
+PACKAGE_VERSION = 3.3.17
 PANGO_CFLAGS = -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
 PANGO_LIBS = -lpango-1.0 -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0  
 PATH_SEPARATOR = :
@@ -290,7 +291,7 @@ STRINGS_PATH = /usr/bin/strings
 STRIP = 
 TAIL_PATH = /usr/bin/tail
 TEE_TOUCH = /usr/bin/touch
-VERSION = 3.3.16
+VERSION = 3.3.17
 WIN32_FALSE = 
 WIN32_TRUE = #
 XML2_CONFIG = /usr/bin/xml2-config
@@ -602,7 +603,8 @@ bibledit_bin_SOURCES = \
         dialogimportrawtext.cpp \
         gtkhtml3browser.cpp \
         htmlcache.cpp \
-        dialogxfernotes2text.cpp
+        dialogxfernotes2text.cpp \
+        htmlcolor.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -828,6 +830,7 @@ include ./$(DEPDIR)/highlight.Po
 include ./$(DEPDIR)/html.Po
 include ./$(DEPDIR)/htmlbrowser.Po
 include ./$(DEPDIR)/htmlcache.Po
+include ./$(DEPDIR)/htmlcolor.Po
 include ./$(DEPDIR)/htmlwriter.Po
 include ./$(DEPDIR)/httpd.Po
 include ./$(DEPDIR)/hyphenate.Po
