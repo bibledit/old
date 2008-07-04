@@ -256,7 +256,11 @@ bibledit_bin_SOURCES = \
         gtkhtml3browser.cpp \
         htmlcache.cpp \
         dialogxfernotes2text.cpp \
-        htmlcolor.cpp
+        htmlcolor.cpp \
+        text2pdf.cpp \
+        text2pdf_utils.cpp \
+        text2pdf_area.cpp \
+        text2pdf_text.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 

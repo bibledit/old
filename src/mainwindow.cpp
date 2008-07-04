@@ -136,6 +136,7 @@
 #include "dialogimportrawtext.h"
 #include "dialogxfernotes2text.h"
 #include "htmlcolor.h"
+#include "text2pdf.h"
 
 /*
  |
@@ -6915,6 +6916,7 @@ void MainWindow::on_print() {
     labels.push_back("Project");
     labels.push_back("Parallel Bible");
     labels.push_back("References");
+    labels.push_back("Test usfm2pdf - not for normal usage");
     extern Settings * settings;
     RadiobuttonDialog dialog("Print", "Select what to print", labels, settings->genconfig.print_job_get());
     if (dialog.run() != GTK_RESPONSE_OK)
@@ -6976,14 +6978,13 @@ void MainWindow::on_print() {
       }
       break;
     }
+    case 3: // Test text2pdf Todo
+    {
+      Text2Pdf text2pdf(gw_build_filename(directories_get_temp(), "pdf.pdf")); 
+      text2pdf.run();
+      pdfviewer_view(gw_build_filename(directories_get_temp(), "pdf.pdf"));
+      break;
+    }
   }
 }
-
-/*
-
- Todo items.
-
-  To create a routine usfm2pdf, using pango and cairo.
-
- */
 
