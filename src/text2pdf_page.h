@@ -17,16 +17,24 @@
  **  
  */
 
-#ifndef INCLUDED_TEXT2PDF_UTILS_H
-#define INCLUDED_TEXT2PDF_UTILS_H
+#ifndef INCLUDED_TEXT2PDF_PAGE_H
+#define INCLUDED_TEXT2PDF_PAGE_H
 
 #include "libraries.h"
 #include <pango/pangocairo.h>
+#include "text2pdf_ref_area.h"
 
-int centimeters_to_pango_units(double centimeters);
-int millimeters_to_pango_units(double millimeters);
-double pango_units_to_millimeters (int pango_units);
-double pango_units_to_points(int pango_units);
-PangoLayout * pango_layout_break_lines (cairo_t *cairo, int width_pango_units, const ustring& font, const ustring& text);
+class T2PPage
+{
+public:
+  T2PPage(int page_number, int page_width, int page_height, int inside_margin, int outside_margin, int top_margin, int bottom_margin, int header_height, int footer_height);
+  virtual ~T2PPage();
+  void print();
+  T2PReferenceArea * header_reference_area;
+  T2PReferenceArea * text_reference_area;
+  T2PReferenceArea * footer_reference_area;
+private:
+  int number;
+};
 
 #endif

@@ -17,16 +17,21 @@
  **  
  */
 
-#ifndef INCLUDED_TEXT2PDF_UTILS_H
-#define INCLUDED_TEXT2PDF_UTILS_H
+#ifndef INCLUDED_TEXT2PDF_LAYOUT_H
+#define INCLUDED_TEXT2PDF_LAYOUT_H
 
 #include "libraries.h"
+#include "text2pdf_area.h"
 #include <pango/pangocairo.h>
 
-int centimeters_to_pango_units(double centimeters);
-int millimeters_to_pango_units(double millimeters);
-double pango_units_to_millimeters (int pango_units);
-double pango_units_to_points(int pango_units);
-PangoLayout * pango_layout_break_lines (cairo_t *cairo, int width_pango_units, const ustring& font, const ustring& text);
+class T2PLayoutContainer : public T2PArea
+{
+public:
+  T2PLayoutContainer(PangoRectangle initial_rectangle, PangoLayout * layout_in);
+  virtual ~T2PLayoutContainer();
+  void print (cairo_t *cairo, int x_pango_units, int y_pango_units);
+private:
+  PangoLayout * layout;
+};
 
 #endif

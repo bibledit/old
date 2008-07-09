@@ -17,35 +17,32 @@
  **  
  */
 
-#include "text2pdf_text.h"
+#include "text2pdf_utils.h"
+#include "text2pdf_ref_area.h"
 
-T2PInput::T2PInput(T2PInputType type_in)
-// This is the base class for any input that drives the formatter.
+T2PReferenceArea::T2PReferenceArea(PangoRectangle initial_rectangle) :
+  T2PArea(initial_rectangle)
+// This is a reference area, e.g. a header, footer, or text area.
 {
-  type = type_in;
 }
 
-T2PInput::~T2PInput()
+T2PReferenceArea::~T2PReferenceArea()
 // Destructor.
 {
-  for (unsigned int i = 0; i < children.size(); i++) {
-    delete children[i];
+  for (unsigned int i = 0; i < columns.size(); i++) {
+    delete columns[i];
   }
 }
 
-
-T2PInputText::T2PInputText(T2PInputType type_in, const ustring& text_in) :
-  T2PInput(type_in)
-// This is a class that contains input text.
+T2PColumn * T2PReferenceArea::next_column ()
+// Creates and stores the next available column.
 {
-  type = type_in;
-  text = text_in;
+  PangoRectangle column_rectangle;
+  column_rectangle.x = rectangle.x;
+  column_rectangle.y = rectangle.y;
+  column_rectangle.width = rectangle.width;
+  column_rectangle.height = rectangle.height;
+  T2PColumn * column = new T2PColumn (column_rectangle);
+  columns.push_back (column);
+  return column;
 }
-
-T2PInputText::~T2PInputText() 
-// Destructor.
-{
-}
-
-
-

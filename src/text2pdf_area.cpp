@@ -18,126 +18,28 @@
  */
 
 #include "text2pdf_area.h"
+#include "text2pdf_utils.h"
+#include "tiny_utilities.h"
 
-T2PArea::T2PArea(PangoRectangle initial_rectangle, T2PArea * parent_in)
+T2PArea::T2PArea(PangoRectangle initial_rectangle)
 // This is the base class for any area in which to lay out text.
 {
   rectangle = initial_rectangle;
-  parent = parent_in;
-  type = tp2atArea;
 }
 
-T2PArea::~T2PArea() {
-}
-
-T2PReferenceArea::T2PReferenceArea(PangoRectangle initial_rectangle, T2PArea * parent_in) :
-  T2PArea(initial_rectangle, parent_in)
-// This is a reference area, e.g. a header, footer, or text area.
+T2PArea::~T2PArea()
+// Destructor.
 {
-  type = tp2atReference;
 }
 
-T2PReferenceArea::~T2PReferenceArea() {
-}
-
-T2PPage::T2PPage(int page_number, int page_width, int page_height, int inside_margin, int outside_margin, int top_margin, int bottom_margin, int header_height, int footer_height)
-/* This encapsulates one page.
-
- ------------------------------------------
- |  |           top margin             |  |
- |  ------------------------------------  |
- |  |           header                 |  |
- |  ------------------------------------  |
- |  |                                  |  |
- |  |                                  |  |
- |  |                                  |  |
- |  |                                  |  |
- |  |                                  |  |
- |  |           text                   |  |
- |  |                                  |  |
- |  |                                  |  |
- |  |                                  |  |
- |  |                                  |  |
- |  |                                  |  |
- |  ------------------------------------  |
- |  |           footer                 |  |
- |  ------------------------------------  |
- |  |           bottom margin          |  |
- ------------------------------------------
-
- */
+ustring T2PArea::rectangle2text ()
+// Gives the rectangle as text. For debugging purposes.
 {
-  // Initialize variables.
-  number = page_number;
-  // Create the reference area for the header.
-  {
-    PangoRectangle rectangle;
-    if ((page_number % 2) != 0)
-      rectangle.x = inside_margin;
-    else
-      rectangle.x = outside_margin;
-    rectangle.y = top_margin;
-    rectangle.width = page_width - inside_margin - outside_margin;
-    rectangle.height = header_height;
-    header_reference_area = new T2PReferenceArea (rectangle, NULL);
-  }
-
-  // Create the reference area for the text.
-  {
-    PangoRectangle rectangle;
-    if ((page_number % 2) != 0)
-      rectangle.x = inside_margin;
-    else
-      rectangle.x = outside_margin;
-    rectangle.y = top_margin + header_height;
-    rectangle.width = page_width - inside_margin - outside_margin;
-    rectangle.height = page_height - top_margin - header_height - footer_height - bottom_margin;
-    text_reference_area = new T2PReferenceArea (rectangle, NULL);
-  }
-
-  // Create the reference area for the footer.
-  {
-    PangoRectangle rectangle;
-    if ((page_number % 2) != 0)
-      rectangle.x = inside_margin;
-    else
-      rectangle.x = outside_margin;
-    rectangle.y = page_height - bottom_margin;
-    rectangle.width = page_width - inside_margin - outside_margin;
-    rectangle.height = footer_height;
-    footer_reference_area = new T2PReferenceArea (rectangle, NULL);
-  }
-}
-
-T2PPage::~T2PPage() {
-  delete header_reference_area;
-  delete text_reference_area;
-  delete footer_reference_area;
-}
-
-T2PSingleColumn::T2PSingleColumn(PangoRectangle initial_rectangle, T2PArea * parent_in) :
-  T2PArea(initial_rectangle, parent_in)
-// This is used as a single column in which to lay out text.
-{
-  type = tp2atSingleColumn;
-}
-
-T2PSingleColumn::~T2PSingleColumn() {
-}
-
-T2PBalancedColumn::T2PBalancedColumn(PangoRectangle initial_rectangle, T2PArea * parent_in) :
-  T2PArea(initial_rectangle, parent_in)
-// This encapsulates two balanced columns.
-{
-  start_column = NULL;
-  end_column = NULL;
-  type = tp2atBalancedColumn;
-}
-
-T2PBalancedColumn::~T2PBalancedColumn() {
-  if (start_column)
-    delete start_column;
-  if (end_column)
-    delete end_column;
+  ustring text;
+  text.append ("x=" + convert_to_string (pango_units_to_millimeters(rectangle.x)));
+  text.append (" y="+ convert_to_string (pango_units_to_millimeters(rectangle.y)));
+  text.append (" width="+ convert_to_string (pango_units_to_millimeters(rectangle.width)));
+  text.append (" height="+ convert_to_string (pango_units_to_millimeters(rectangle.height)));
+  return text;
 }
 

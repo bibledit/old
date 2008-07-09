@@ -6980,9 +6980,13 @@ void MainWindow::on_print() {
     }
     case 3: // Test text2pdf Todo
     {
-      Text2Pdf text2pdf(gw_build_filename(directories_get_temp(), "pdf.pdf")); 
+      Text2Pdf text2pdf(gw_build_filename(directories_get_temp(), "pdf.pdf"));
+      text2pdf.open_paragraph();
+      text2pdf.add_text("I love you because we follow the truth, dear friend.  I pray that everything goes well for you. I do hope that you are as strong in your body, as I know you are in your spirit. It makes me very happy when the Lord's followers come by and speak openly of how you obey the truth. Nothing brings me greater happiness than that I hear that my spiritual children are walking in the truth.");
+      text2pdf.open_paragraph();
+      text2pdf.add_text("I love you because we follow the truth, dear friend, and I pray that all goes well for you. I hope that you are as strong in body, as I know you are in spirit. It makes me very happy when the Lord's followers come by and speak openly of how you obey the truth. Nothing brings me greater happiness than to hear that my children are obeying the truth.");
       text2pdf.run();
-      pdfviewer_view(gw_build_filename(directories_get_temp(), "pdf.pdf"));
+      text2pdf.view();
       break;
     }
   }

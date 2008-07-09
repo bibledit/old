@@ -17,32 +17,30 @@
  **  
  */
 
-#ifndef INCLUDED_USFM2PDF_TEXT_H
-#define INCLUDED_USFM2PDF_TEXT_H
+#ifndef INCLUDED_TEXT2PDF_TEXT_H
+#define INCLUDED_TEXT2PDF_TEXT_H
 
 #include "libraries.h"
 
-enum T2PTextType { tp2ttParagraph };
+enum T2PInputType { tp2itParagraph, tp2itText };
 
-class T2PText
+class T2PInput
 {
 public:
-  T2PText(T2PText * parent_in);
-  virtual ~T2PText();
-  T2PTextType type;
+  T2PInput(T2PInputType type_in);
+  virtual ~T2PInput();
+  T2PInputType type;
+  vector <T2PInput *> children;
+private:
+};
+
+class T2PInputText : public T2PInput
+{
+public:
+  T2PInputText(T2PInputType type_in, const ustring& text_in);
+  virtual ~T2PInputText();
   ustring text;
 private:
-  T2PText * parent;
 };
-
-/*
-class T2PReferenceArea : public T2PArea
-{
-public:
-  T2PReferenceArea(PangoRectangle initial_rectangle, T2PArea * parent_in);
-  virtual ~T2PReferenceArea();
-private:
-};
-*/
 
 #endif

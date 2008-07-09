@@ -17,35 +17,36 @@
  **  
  */
 
-#include "text2pdf_text.h"
+#include "text2pdf_area.h"
+#include "text2pdf_utils.h"
+#include "text2pdf_ref_area.h"
+#include "text2pdf_layout.h"
 
-T2PInput::T2PInput(T2PInputType type_in)
-// This is the base class for any input that drives the formatter.
+T2PLayoutContainer::T2PLayoutContainer(PangoRectangle initial_rectangle, PangoLayout * layout_in) :
+  T2PArea(initial_rectangle)
+// This is a container for one PangoLayout.
 {
-  type = type_in;
+  layout = layout_in;
 }
 
-T2PInput::~T2PInput()
+T2PLayoutContainer::~T2PLayoutContainer()
 // Destructor.
 {
-  for (unsigned int i = 0; i < children.size(); i++) {
-    delete children[i];
+  // Free the layout object.
+  if (layout) {
+    g_object_unref(layout);
   }
 }
 
-
-T2PInputText::T2PInputText(T2PInputType type_in, const ustring& text_in) :
-  T2PInput(type_in)
-// This is a class that contains input text.
+void T2PLayoutContainer::print(cairo_t *cairo, int x_pango_units, int y_pango_units)
+// Print the content.
 {
-  type = type_in;
-  text = text_in;
+  // Write text in black.
+  cairo_set_source_rgb(cairo, 0.0, 0.0, 0.0);
+  // Move into position.
+  cairo_move_to(cairo, pango_units_to_points(x_pango_units), pango_units_to_points(y_pango_units));
+  // Show text.
+  if (layout) {
+    pango_cairo_show_layout(cairo, layout);
+  }
 }
-
-T2PInputText::~T2PInputText() 
-// Destructor.
-{
-}
-
-
-

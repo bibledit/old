@@ -17,61 +17,20 @@
  **  
  */
 
-#ifndef INCLUDED_USFM2PDF_AREA_H
-#define INCLUDED_USFM2PDF_AREA_H
+#ifndef INCLUDED_TEXT2PDF_AREA_H
+#define INCLUDED_TEXT2PDF_AREA_H
 
 #include "libraries.h"
 #include <pango/pangocairo.h>
 
-enum T2PAreaType { tp2atArea, tp2atReference, tp2atSingleColumn, tp2atBalancedColumn };
-
 class T2PArea
 {
 public:
-  T2PArea(PangoRectangle initial_rectangle, T2PArea * parent_in);
+  T2PArea(PangoRectangle initial_rectangle);
   virtual ~T2PArea();
   PangoRectangle rectangle;
-  T2PAreaType type;
+  ustring rectangle2text ();
 private:
-  T2PArea * parent;
-};
-
-class T2PReferenceArea : public T2PArea
-{
-public:
-  T2PReferenceArea(PangoRectangle initial_rectangle, T2PArea * parent_in);
-  virtual ~T2PReferenceArea();
-private:
-};
-
-class T2PPage
-{
-public:
-  T2PPage(int page_number, int page_width, int page_height, int inside_margin, int outside_margin, int top_margin, int bottom_margin, int header_height, int footer_height);
-  virtual ~T2PPage();
-  T2PReferenceArea * header_reference_area;
-  T2PReferenceArea * text_reference_area;
-  T2PReferenceArea * footer_reference_area;
-private:
-  int number;
-};
-
-class T2PSingleColumn : public T2PArea
-{
-public:
-  T2PSingleColumn(PangoRectangle initial_rectangle, T2PArea * parent_in);
-  virtual ~T2PSingleColumn();
-private:
-};
-
-class T2PBalancedColumn : public T2PArea
-{
-public:
-  T2PBalancedColumn(PangoRectangle initial_rectangle, T2PArea * parent_in);
-  virtual ~T2PBalancedColumn();
-private:
-  T2PSingleColumn * start_column;
-  T2PSingleColumn * end_column;
 };
 
 #endif

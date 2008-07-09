@@ -13,20 +13,27 @@
  **  
  ** You should have received a copy of the GNU General Public License
  ** along with this program; if not, write to the Free Software
- ** Foundation, Inc.,  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  **  
  */
 
-#ifndef INCLUDED_TEXT2PDF_UTILS_H
-#define INCLUDED_TEXT2PDF_UTILS_H
+#include "text2pdf_area.h"
+#include "text2pdf_utils.h"
+#include "text2pdf_ref_area.h"
+#include "text2pdf_block.h"
 
-#include "libraries.h"
-#include <pango/pangocairo.h>
+T2PBlock::T2PBlock(PangoRectangle initial_rectangle) :
+  T2PArea(initial_rectangle)
+// This is used as one block of text that must be kept together.
+{
+}
 
-int centimeters_to_pango_units(double centimeters);
-int millimeters_to_pango_units(double millimeters);
-double pango_units_to_millimeters (int pango_units);
-double pango_units_to_points(int pango_units);
-PangoLayout * pango_layout_break_lines (cairo_t *cairo, int width_pango_units, const ustring& font, const ustring& text);
+T2PBlock::~T2PBlock()
+// Destructor.
+{
+  // Free the layout objects.
+  for (unsigned int i = 0; i < layouts.size(); i++) {
+    delete layouts[i];
+  }
+}
 
-#endif
