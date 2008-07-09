@@ -517,16 +517,18 @@ void ImportRawTextDialog::gui_execute()
   bool checks_passed = true;
 
   // See whether text is available.
-  vector <ustring> lines;
-  textbuffer_get_lines(textbuffer, lines, false);
   if (checks_passed) {
-    if (lines.size() < 2) {
+    GtkTextIter enditer;
+    gtk_text_buffer_get_end_iter (textbuffer, &enditer);
+    if (gtk_text_iter_get_offset (&enditer) < 5) {
       gtk_label_set_text(GTK_LABEL (label_info), "There is no text. Paste text into the editor");
       checks_passed = false;
     }
   }
   if (checks_passed) {
-    if (lines.size() < 5) {
+    GtkTextIter enditer;
+    gtk_text_buffer_get_end_iter (textbuffer, &enditer);
+    if (gtk_text_iter_get_offset (&enditer) < 100) {
       gtk_label_set_text(GTK_LABEL (label_info), "There isn't enough text. Paste more text into the editor");
       checks_passed = false;
     }
@@ -549,6 +551,8 @@ void ImportRawTextDialog::gui_execute()
   }
 
   // Check whether the verse numbers are right.
+  vector <ustring> lines;
+  textbuffer_get_lines(textbuffer, lines, false);
   if (checks_passed) {
 
     // Get the actual verses, and the verses that don't start a line.
