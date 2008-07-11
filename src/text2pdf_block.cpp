@@ -22,8 +22,8 @@
 #include "text2pdf_ref_area.h"
 #include "text2pdf_block.h"
 
-T2PBlock::T2PBlock(PangoRectangle initial_rectangle) :
-  T2PArea(initial_rectangle)
+T2PBlock::T2PBlock(PangoRectangle rectangle_in) :
+  T2PArea(rectangle_in)
 // This is used as one block of text that must be kept together.
 {
 }
@@ -32,8 +32,32 @@ T2PBlock::~T2PBlock()
 // Destructor.
 {
   // Free the layout objects.
-  for (unsigned int i = 0; i < layouts.size(); i++) {
-    delete layouts[i];
+  for (unsigned int i = 0; i < layoutcontainers.size(); i++) {
+    delete layoutcontainers[i];
   }
 }
 
+T2PLayoutContainer * T2PBlock::next_layout_container (cairo_t *cairo)
+// Gets the next layout container object.
+{
+  T2PLayoutContainer * layoutcontainer = new T2PLayoutContainer (rectangle, this, cairo);
+  layoutcontainers.push_back(layoutcontainer);
+  return layoutcontainer;
+}
+
+void T2PBlock::refit_layout_container (T2PLayoutContainer * layoutcontainer)
+// Refits the layout container in the block.
+{
+  rectangle.height = layoutcontainer->rectangle.height;
+}
+
+void T2PBlock::print(cairo_t *cairo)
+// Print the block.
+{
+  for (unsigned int l = 0; l < layoutcontainers.size(); l++) {
+    T2PLayoutContainer * layoutcontainer = layoutcontainers[l];
+    layoutcontainer->rectangle.x += rectangle.x;
+    layoutcontainer->rectangle.y += rectangle.y;
+    layoutcontainer->print (cairo);
+  }
+}

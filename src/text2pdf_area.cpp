@@ -21,10 +21,10 @@
 #include "text2pdf_utils.h"
 #include "tiny_utilities.h"
 
-T2PArea::T2PArea(PangoRectangle initial_rectangle)
+T2PArea::T2PArea(PangoRectangle rectangle_in)
 // This is the base class for any area in which to lay out text.
 {
-  rectangle = initial_rectangle;
+  rectangle = rectangle_in;
 }
 
 T2PArea::~T2PArea()

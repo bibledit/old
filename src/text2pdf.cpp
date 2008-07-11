@@ -86,6 +86,9 @@ void Text2Pdf::initialize_variables()
   // Layout engine.
   page = NULL;
   column = NULL;
+  block = NULL;
+  layoutcontainer = NULL;
+
   // Fonts.
   font = "Sans 12";
 }
@@ -126,7 +129,7 @@ void Text2Pdf::column_spacing_set(double spacing_centimeters)
   column_spacing_pango_units = centimeters_to_pango_units(spacing_centimeters);
 }
 
-void Text2Pdf::run() // Todo working here on implementing each object's own print function.
+void Text2Pdf::run()
 // Runs the converter.
 {
   // Close any open input containers.
@@ -135,30 +138,11 @@ void Text2Pdf::run() // Todo working here on implementing each object's own prin
   // Go through the input data.
   run_input(input_data);
 
-  // Make the background white.
-  cairo_set_source_rgb(cairo, 1.0, 1.0, 1.0);
-  cairo_paint(cairo);
-
+  // Print the pages.
   for (unsigned int pg = 0; pg < pages.size(); pg++) {
-    T2PReferenceArea * text_reference_area = pages[pg]->text_reference_area;
-    cout << "Text reference area rectangle " << text_reference_area->rectangle2text() << endl; // Todo
-    for (unsigned int col = 0; col < text_reference_area->columns.size(); col++) {
-      T2PColumn * column = (T2PColumn *)text_reference_area->columns[col];
-      cout << "Column rectangle " << column->rectangle2text() << endl; // Todo
-      for (unsigned int blk = 0; blk < column->blocks.size(); blk++) {
-        T2PBlock * block = column->blocks[blk];
-        cout << "Block rectangle " << block->rectangle2text() << endl; // Todo
-        for (unsigned int l = 0; l < block->layouts.size(); l++) {
-          T2PLayoutContainer * layoutcontainer = block->layouts[l];
-          cout << "LayoutContainer rectangle " << layoutcontainer->rectangle2text() << endl; // Todo
-          layoutcontainer->print (cairo, block->rectangle.x, block->rectangle.y);
-        }
-      }
-    }
+    T2PPage * page = pages[pg];
+    page->print(cairo);
   }
-
-  // Output the page.
-  cairo_show_page(cairo);
 
   // Status information.
   status = cairo_surface_status(surface);
@@ -171,90 +155,112 @@ void Text2Pdf::run_input(vector <T2PInput *>& input)
 // Goes through all of the input data.
 {
   for (unsigned int i = 0; i < input.size(); i++) {
-    if (input[i]->type == tp2itText) {
-      T2PInputText * textinput = (T2PInputText *) input[i];
-      lay_out_text(textinput->text);
-      fit_blocks_in_column();
+    switch (input[i]->type)
+    {
+      case tp2itParagraph:
+      {
+        input_paragraph = (T2PInputParagraph *) input[i];
+        break;
+      }
+      case tp2itText:
+      {
+        T2PInputText * textinput = (T2PInputText *) input[i];
+        lay_out_paragraph(textinput->text);
+        break;
+      }
     }
     run_input(input[i]->children);
   }
 }
 
-void Text2Pdf::lay_out_text(const ustring& text)
-// Lays out text.
+void Text2Pdf::lay_out_paragraph(const ustring& paragraph)
+// Lays out one paragraph.
 {
-  // Break the lines so that they stay within the width.
-  vector <ustring> texts;
-  int wrap_width = page_width_pango_units - inside_margin_pango_units - outside_margin_pango_units;
-  PangoLayout * wrap_layout = pango_layout_break_lines(cairo, wrap_width, font, text);
-  for (int i = 0; i < pango_layout_get_line_count(wrap_layout); i++) {
-    PangoLayoutLine * layoutline = pango_layout_get_line(wrap_layout, i);
-    if (layoutline) {
-      texts.push_back(text.substr(layoutline->start_index, layoutline->length));
-    }
+  ustring text(paragraph);
+  unsigned int line_number = 0;
+  while (!text.empty() && line_number < 1000) {
+    get_next_layout_container();
+    layoutcontainer->layout_text(font, input_paragraph, line_number, text);
+    line_number++;
   }
-  g_object_unref(wrap_layout);
-
-  // Go through the lines found.
-  for (unsigned int t = 0; t < texts.size(); t++) {
-
-    // Create a Block with appropriate width.
-    PangoRectangle rectangle;
-    rectangle.x = 0;
-    rectangle.y = 0;
-    rectangle.width = page_width_pango_units - inside_margin_pango_units - outside_margin_pango_units;
-    rectangle.height = 0;
-    T2PBlock * block;
-    block = new T2PBlock (rectangle);
-    blocks.push_back(block);
-
-    // Create a layout and add it to the block.
-    PangoLayout *layout;
-    layout = pango_cairo_create_layout(cairo);
-    T2PLayoutContainer * layoutcontainer = new T2PLayoutContainer (rectangle, layout);
-    block->layouts.push_back(layoutcontainer);
-
-    PangoContext * context = pango_layout_get_context(layout);
-    pango_context_set_base_dir(context, PANGO_DIRECTION_LTR);
-
-    PangoFontDescription *desc;
-    desc = pango_font_description_from_string(font.c_str());
-    pango_layout_set_font_description(layout, desc);
-    pango_font_description_free(desc);
-
-    pango_layout_set_width(layout, block->rectangle.width);
-    //pango_layout_set_indent (layout, millimeters_to_pango_units(5));
-    pango_layout_set_wrap(layout, PANGO_WRAP_WORD_CHAR);
-    pango_layout_set_alignment(layout, PANGO_ALIGN_LEFT);
-    pango_layout_set_auto_dir(layout, false);
-    pango_layout_set_text(layout, texts[t].c_str(), -1);
-
-    pango_layout_get_size(layout, NULL, &(block->rectangle.height)); // Todo set the height of the layout container, and block depends on that.
-
+  if (!text.empty()) {
+    gw_warning("Can't fit in \"" + text + "\"");
   }
+  fit_blocks_on_page();
 }
 
-void Text2Pdf::fit_blocks_in_column()
-// Fits blocks in a column;
+void Text2Pdf::get_next_layout_container()
+// Gets the next layout container to be used.
 {
   // Create a page if there's none.
   if (page == NULL) {
-    page
-        = new T2PPage (pages.size() + 1, page_width_pango_units, page_height_pango_units, inside_margin_pango_units, outside_margin_pango_units, top_margin_pango_units, bottom_margin_pango_units, header_height_pango_units, footer_height_pango_units);
-    pages.push_back(page);
+    next_page ();
+  }
+  // Create a new column if there's none.
+  if (column == NULL) {
     column = page->text_reference_area->next_column();
   }
-  for (unsigned int i = 0; i < blocks.size(); i++) {
-    column->add_block(blocks[i]);
+  // Create a new block if needed.
+  if (block == NULL || !block->layoutcontainers.empty()) {
+    block = column->next_block();
   }
-  blocks.clear();
+  // Create a new layout container.
+  layoutcontainer = block->next_layout_container(cairo);
+}
+
+void Text2Pdf::fit_blocks_on_page ()
+// Fits the block onto the current page, and creates new pages if need be.
+{
+  // Fit the blocks in the column, and gather any blocks that didn't fit.
+  vector <T2PBlock *> non_fitting_blocks;
+  column->fit_blocks(non_fitting_blocks);
+
+  // Put any extra block on a new page.
+  if (!non_fitting_blocks.empty ()) {
+    next_page ();
+    for (unsigned int i = 0; i < non_fitting_blocks.size(); i++) {
+      column->add_block (non_fitting_blocks[i]);
+    }
+    fit_blocks_on_page();
+  }
+}
+
+void Text2Pdf::next_page()
+// Produces the next page and related objects.
+{
+  int page_number = pages.size() + 1;
+  int width = page_width_pango_units;
+  int height = page_height_pango_units;
+  int inside_margin = inside_margin_pango_units;
+  int outside_margin = outside_margin_pango_units;
+  int top_margin = top_margin_pango_units;
+  int bottom_margin = bottom_margin_pango_units;
+  int header_height = header_height_pango_units;
+  int footer_height = footer_height_pango_units;
+  page = new T2PPage (page_number, width, height, inside_margin, outside_margin, top_margin, bottom_margin, header_height, footer_height);
+  pages.push_back(page);
+  column = page->text_reference_area->next_column();
+}
+
+
+void Text2Pdf::open_paragraph(int first_line_indent_mm)
+/* 
+ Open a new paragraph and add this to the input data.
+ 
+ First line indent.
+ 
+ */
+{
+  close_paragraph();
+  input_paragraph = new T2PInputParagraph (first_line_indent_mm);
+  input_data.push_back(input_paragraph);
 }
 
 void Text2Pdf::open_paragraph()
 // Open a new paragraph and add this to the input data.
 {
   close_paragraph();
-  input_paragraph = new T2PInput (tp2itParagraph);
+  input_paragraph = new T2PInputParagraph ();
   input_data.push_back(input_paragraph);
 }
 
@@ -302,37 +308,28 @@ void Text2Pdf::set_font(const ustring& font_in)
 /*
 
  Todo text2pdf
-
- The x/y positions of rectangles must be redone,so that they point to their offset in their parents,
- not relative to the page.
- Each layout must have positions too, so that means that each layout object, and only one, will go 
- into an encapsulating object. Also when images are rendered, these go into the same encapsulated object.
- Each object does it own rendering, having a .print() member.
- Each object does its own laying out, e.g. the LayoutContainer contains all code needed to create its own layout.
- Each object stores its parent, and has a parent() function to store that parent in case of reparenting when pouring 
- the content in the page. Using this parent it can find its own offsets when printing.
- Todo working on implementing the above.
-
- The object receives other objects, such as paragraphs, etc, inline objects, and so on.
  
+ The PangoLayout is justified this way:
+ Repeat measuring and adding tiny spaces in all white space, till it fills.
+ We use the markup system, so that the space before/after white space characters is modified.
+ If there are no white spaces, then we need to apply the markup to all characters of that one word.
+  
  To implement:
- Paragraph indentation.
+ Left, right, full justified.
+ Multiple paragraphs, causing a new page.  
  Multiple columns.
  Multiple pages.
  Column balancing.
  Remaining paragraph markup.
  Inline objects, fully.
+ USFM to TextInput converter, for testing real-world examples.
+ Headers
+ Notes
+ Drop-caps chapter numbers.
+ Flowing notes.
+ Mixture of normal and flowing notes, with the flowing ones at the bottom.
  
- 
- 
- The PangoLayout is justified this way:
- Load whole paragraph, set wrapping on, set size.
- Retrieve first line, if there's any.
- Set size off, set wrapping off, load that first line
- Repeat measuring and adding tiny spaces in all white space, till it fills.
- Fine tune with kerning, that is, the space between characters.
- 
- A column has blocks, and these blocks can be shifted when balancing the column.
+  The object receives other objects, such as paragraphs, etc, inline objects, and so on.
  
  A block can have one or more PangoLayouts. In the case that
  a PangoLayout intrudes in a block, then PangoLayouts are filled up till the height of the block has been reached,
@@ -344,6 +341,7 @@ void Text2Pdf::set_font(const ustring& font_in)
  Space before and after paragraphs are added manually using empty blocks with that space.
  At the start and end of the reference area, these empty blocks are disregarded.
  
+ When images are rendered, these go into the LayoutContainer object, though the name may have to be changed at that stage.
  
  */
 

@@ -28,7 +28,7 @@
 class T2PReferenceArea : public T2PArea
 {
 public:
-  T2PReferenceArea(PangoRectangle initial_rectangle);
+  T2PReferenceArea(PangoRectangle rectangle_in);
   virtual ~T2PReferenceArea();
   T2PColumn * next_column ();
   vector <T2PArea *> columns;

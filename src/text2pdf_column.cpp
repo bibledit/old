@@ -22,8 +22,8 @@
 #include "text2pdf_ref_area.h"
 #include "text2pdf_column.h"
 
-T2PColumn::T2PColumn(PangoRectangle initial_rectangle) :
-  T2PArea(initial_rectangle)
+T2PColumn::T2PColumn(PangoRectangle rectangle_in) :
+  T2PArea(rectangle_in)
 // This is used as a column in which to lay out text.
 {
 }
@@ -36,20 +36,68 @@ T2PColumn::~T2PColumn()
   }
 }
 
-void T2PColumn::add_block(T2PBlock * block)
-// Adds a block to the column.
+T2PBlock * T2PColumn::next_block()
+// Obtains the next block in the column.
 {
-  // The x value of the block will be the x value of the column.  
-  block->rectangle.x = rectangle.x;
-  // The y value of the block will be calculated based upon any previously stacked blocks.
-  int stacked_y = rectangle.y;
-  T2PBlock * last_stacked_block= NULL;
-  if (!blocks.empty()) {
-    last_stacked_block = blocks[blocks.size() - 1];
-    stacked_y = last_stacked_block->rectangle.y + last_stacked_block->rectangle.height;
-  }
-  block->rectangle.y = stacked_y;
+  // Only the width of the block is set here, because the other measures depend on factors not yet known at this stage.
+  PangoRectangle block_rectangle;
+  block_rectangle.x = 0;
+  block_rectangle.y = 0;
+  block_rectangle.width = rectangle.width;
+  block_rectangle.height = 0;
+  // Create a new block.
+  T2PBlock * block;
+  block = new T2PBlock (block_rectangle);
   // Store the block.
+  blocks.push_back(block);
+  // Return the block.
+  return block;
+}
+
+
+void T2PColumn::add_block(T2PBlock * block)
+{
   blocks.push_back(block);
 }
 
+void T2PColumn::fit_blocks(vector <T2PBlock *>& non_fitting_blocks)
+// Fits the blocks into the column.
+{
+  // (Non-)fitting blocks.
+  vector <T2PBlock *> fitting_blocks;
+  non_fitting_blocks.clear();
+  // Go through the available blocks to fit them in and sort them out.
+  for (unsigned int blk = 0; blk < blocks.size(); blk++) {
+    // The x value of the block will be the x value of the column.  
+    blocks[blk]->rectangle.x = rectangle.x;
+    // The y value of the block will be calculated based on stacked blocks before.
+    blocks[blk]->rectangle.y = 0;
+    if (blk > 0) {
+      T2PBlock * previous_block= blocks[blk-1];
+      blocks[blk]->rectangle.y = previous_block->rectangle.y + previous_block->rectangle.height;
+    }
+    // If the block doesn't fit, move it to the non-fitting ones.
+    if (blocks[blk]->rectangle.y + blocks[blk]->rectangle.height > rectangle.height) {
+      non_fitting_blocks.push_back(blocks[blk]);
+    } else {
+      fitting_blocks.push_back(blocks[blk]);
+    }
+  }
+  // Store the fitting blocks, leaving out any that don't fit.
+  blocks = fitting_blocks;
+}
+
+void T2PColumn::print(cairo_t *cairo)
+// Print the column.
+{
+  // Go through each block in the column.
+  for (unsigned int blk = 0; blk < blocks.size(); blk++) {
+    T2PBlock * block = blocks[blk];
+    // Normally the block's x and y values are relative to the parent's values.
+    // This is faster for laying out the text. But for printing this needs to be adjusted.
+    block->rectangle.x += rectangle.x;
+    block->rectangle.y += rectangle.y;
+    // Print this block.
+    block->print(cairo);
+  }
+}

@@ -26,7 +26,7 @@
 class T2PArea
 {
 public:
-  T2PArea(PangoRectangle initial_rectangle);
+  T2PArea(PangoRectangle rectangle_in);
   virtual ~T2PArea();
   PangoRectangle rectangle;
   ustring rectangle2text ();

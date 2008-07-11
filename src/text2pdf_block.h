@@ -28,9 +28,12 @@
 class T2PBlock : public T2PArea
 {
 public:
-  T2PBlock(PangoRectangle initial_rectangle);
+  T2PBlock(PangoRectangle rectangle_in);
   virtual ~T2PBlock();
-  vector <T2PLayoutContainer *> layouts;
+  vector <T2PLayoutContainer *> layoutcontainers;
+  T2PLayoutContainer * next_layout_container (cairo_t *cairo);
+  void refit_layout_container (T2PLayoutContainer * layoutcontainer); 
+  void print(cairo_t *cairo);
 private:
 };
 

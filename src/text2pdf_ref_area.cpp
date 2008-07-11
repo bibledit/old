@@ -20,8 +20,8 @@
 #include "text2pdf_utils.h"
 #include "text2pdf_ref_area.h"
 
-T2PReferenceArea::T2PReferenceArea(PangoRectangle initial_rectangle) :
-  T2PArea(initial_rectangle)
+T2PReferenceArea::T2PReferenceArea(PangoRectangle rectangle_in) :
+  T2PArea(rectangle_in)
 // This is a reference area, e.g. a header, footer, or text area.
 {
 }
@@ -35,14 +35,14 @@ T2PReferenceArea::~T2PReferenceArea()
 }
 
 T2PColumn * T2PReferenceArea::next_column ()
-// Creates and stores the next available column.
+// Get the next available column.
 {
-  PangoRectangle column_rectangle;
-  column_rectangle.x = rectangle.x;
-  column_rectangle.y = rectangle.y;
-  column_rectangle.width = rectangle.width;
-  column_rectangle.height = rectangle.height;
-  T2PColumn * column = new T2PColumn (column_rectangle);
+  // Create / store the column.
+  T2PColumn * column = new T2PColumn (rectangle);
   columns.push_back (column);
+  // The x/y of the column should be 0/0 if it is the first, else it is stacked on the previous column.
+  column->rectangle.x = 0;
+  column->rectangle.y = 0;
+  // Return the column.
   return column;
 }

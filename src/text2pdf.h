@@ -51,8 +51,9 @@ private:
 
   // Input texts.
 public:
+  void open_paragraph (int first_line_indent_mm);
   void open_paragraph ();
-  T2PInput * input_paragraph;
+  T2PInputParagraph * input_paragraph;
   void close_paragraph ();
   void open_inline ();
   void close_inline ();
@@ -88,9 +89,12 @@ private:
   T2PPage * page;
   vector <T2PPage *> pages;
   T2PColumn * column;
-  void lay_out_text (const ustring& text);
-  void fit_blocks_in_column ();
-  vector <T2PBlock *> blocks;  
+  T2PBlock * block;
+  T2PLayoutContainer * layoutcontainer;
+  void lay_out_paragraph (const ustring& paragraph);
+  void get_next_layout_container ();
+  void fit_blocks_on_page ();
+  void next_page();
 
   // Output.
 public:

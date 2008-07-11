@@ -99,8 +99,23 @@ T2PPage::~T2PPage()
   delete footer_reference_area;
 }
 
-void T2PPage::print()
+void T2PPage::print(cairo_t *cairo)
 // Prints the page.
 {
+  // White background.
+  cairo_set_source_rgb(cairo, 1.0, 1.0, 1.0);
+  cairo_paint(cairo);
   
+  // Print the columns.
+  for (unsigned int col = 0; col < text_reference_area->columns.size(); col++) {
+    T2PColumn * column = (T2PColumn *)text_reference_area->columns[col];
+    // For laying out the x and y value of the column are relative to their parent's area.
+    // For printing however, this needs to be adjusted to be relative to the whole page.
+    column->rectangle.x += text_reference_area->rectangle.x;
+    column->rectangle.y += text_reference_area->rectangle.y;
+    column->print (cairo);
+  }
+  
+  // Output this page.
+  cairo_show_page(cairo);
 }

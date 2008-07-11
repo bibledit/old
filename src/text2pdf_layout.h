@@ -23,15 +23,19 @@
 #include "libraries.h"
 #include "text2pdf_area.h"
 #include <pango/pangocairo.h>
+#include "text2pdf_text.h"
+#include "text2pdf_block.h"
 
 class T2PLayoutContainer : public T2PArea
 {
 public:
-  T2PLayoutContainer(PangoRectangle initial_rectangle, PangoLayout * layout_in);
+  T2PLayoutContainer(PangoRectangle rectangle_in, T2PArea * parent_in, cairo_t *cairo);
   virtual ~T2PLayoutContainer();
-  void print (cairo_t *cairo, int x_pango_units, int y_pango_units);
-private:
+  void print (cairo_t *cairo);
   PangoLayout * layout;
+  T2PArea * parent;
+  void layout_text (const ustring& font, T2PInputParagraph * paragraph, unsigned int line_number, ustring& text);
+private:
 };
 
 #endif

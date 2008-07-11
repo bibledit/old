@@ -34,6 +34,16 @@ public:
 private:
 };
 
+class T2PInputParagraph : public T2PInput
+{
+public:
+  T2PInputParagraph(int first_line_indent_mm_in);
+  T2PInputParagraph();
+  virtual ~T2PInputParagraph();
+  int first_line_indent_mm;
+private:
+};
+
 class T2PInputText : public T2PInput
 {
 public:

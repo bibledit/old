@@ -33,7 +33,6 @@ T2PInput::~T2PInput()
   }
 }
 
-
 T2PInputText::T2PInputText(T2PInputType type_in, const ustring& text_in) :
   T2PInput(type_in)
 // This is a class that contains input text.
@@ -42,10 +41,40 @@ T2PInputText::T2PInputText(T2PInputType type_in, const ustring& text_in) :
   text = text_in;
 }
 
-T2PInputText::~T2PInputText() 
+T2PInputText::~T2PInputText()
 // Destructor.
 {
 }
 
+T2PInputParagraph::T2PInputParagraph(int first_line_indent_mm_in) :
+  T2PInput(tp2itParagraph)
+// This is a class that contains a new paragraph.
+{
+  type = tp2itParagraph;
+  first_line_indent_mm = first_line_indent_mm_in;
+}
+
+T2PInputParagraph::T2PInputParagraph() :
+  T2PInput(tp2itParagraph)
+// This is a class that contains a new paragraph.
+{
+  type = tp2itParagraph;
+  first_line_indent_mm = 5;
+}
+
+T2PInputParagraph::~T2PInputParagraph()
+// Destructor.
+{
+}
+
+/*
+
+Tests.
+
+A default paragraph.
+
+A paragraph with positive indentation, and one with negative indentation.
 
 
+
+*/

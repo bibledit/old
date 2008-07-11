@@ -27,11 +27,14 @@
 class T2PColumn : public T2PArea
 {
 public:
-  T2PColumn(PangoRectangle initial_rectangle);
+  T2PColumn(PangoRectangle rectangle_in);
   virtual ~T2PColumn();
-  void add_block (T2PBlock * block);
-  vector <T2PBlock *> blocks;
+  T2PBlock * next_block ();
+  void add_block(T2PBlock * block);
+  void fit_blocks (vector <T2PBlock *>& non_fitting_blocks);
+  void print(cairo_t *cairo);
 private:
+  vector <T2PBlock *> blocks;
 };
 
 #endif
