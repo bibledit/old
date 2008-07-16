@@ -23,16 +23,23 @@
 #include "libraries.h"
 #include <pango/pangocairo.h>
 #include "text2pdf_area.h"
-#include "text2pdf_column.h"
+#include "text2pdf_block.h"
 
 class T2PReferenceArea : public T2PArea
 {
 public:
   T2PReferenceArea(PangoRectangle rectangle_in);
   virtual ~T2PReferenceArea();
-  T2PColumn * next_column ();
-  vector <T2PArea *> columns;
+  T2PBlock * next_block ();
+  void add_block(T2PBlock * block);
+  void fit_blocks (deque <T2PBlock *>& input_blocks);
+  void fit_column (deque <T2PBlock *>& input_blocks);
+  void fit_columns (deque <T2PBlock *>& input_blocks, int column_count);
+  int fitted_blocks_height_pango_units ();
+  void balance_two_columns (int start_block, int start_height);
+  void print(cairo_t *cairo);
 private:
+  vector <T2PBlock *> blocks;
 };
 
 #endif

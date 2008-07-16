@@ -23,7 +23,7 @@
 #include "libraries.h"
 #include "text2pdf_area.h"
 #include <pango/pangocairo.h>
-#include "text2pdf_text.h"
+#include "text2pdf_input.h"
 #include "text2pdf_block.h"
 
 class T2PLayoutContainer : public T2PArea
@@ -32,10 +32,14 @@ public:
   T2PLayoutContainer(PangoRectangle rectangle_in, T2PArea * parent_in, cairo_t *cairo);
   virtual ~T2PLayoutContainer();
   void print (cairo_t *cairo);
-  PangoLayout * layout;
-  T2PArea * parent;
   void layout_text (const ustring& font, T2PInputParagraph * paragraph, unsigned int line_number, ustring& text);
+  T2PArea * parent;
+  void debug ();
 private:
+  PangoLayout * layout;
+  void indentation_width_alignment (T2PInputParagraph * paragraph, bool first_line);
+  void justify (T2PInputParagraph * paragraph, const ustring& line, bool last_line);
+  void index_white_space (const ustring& text, vector<guint>& offsets);
 };
 
 #endif

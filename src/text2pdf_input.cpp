@@ -17,7 +17,7 @@
  **  
  */
 
-#include "text2pdf_text.h"
+#include "text2pdf_input.h"
 
 T2PInput::T2PInput(T2PInputType type_in)
 // This is the base class for any input that drives the formatter.
@@ -46,20 +46,22 @@ T2PInputText::~T2PInputText()
 {
 }
 
-T2PInputParagraph::T2PInputParagraph(int first_line_indent_mm_in) :
-  T2PInput(tp2itParagraph)
+T2PInputParagraph::T2PInputParagraph(int first_line_indent_mm_in, T2PAlignmentType alignment_in, unsigned int column_count_in) :
+  T2PInput(t2pitParagraph)
 // This is a class that contains a new paragraph.
 {
-  type = tp2itParagraph;
   first_line_indent_mm = first_line_indent_mm_in;
+  alignment = alignment_in;
+  column_count = CLAMP (column_count_in, 1, 2);
 }
 
 T2PInputParagraph::T2PInputParagraph() :
-  T2PInput(tp2itParagraph)
-// This is a class that contains a new paragraph.
+  T2PInput(t2pitParagraph)
+// This is a class that contains a new default paragraph.
 {
-  type = tp2itParagraph;
   first_line_indent_mm = 5;
+  alignment = t2patJustified;
+  column_count = 2;
 }
 
 T2PInputParagraph::~T2PInputParagraph()
@@ -71,10 +73,9 @@ T2PInputParagraph::~T2PInputParagraph()
 
 Tests.
 
-A default paragraph.
+Default paragraph.
 
-A paragraph with positive indentation, and one with negative indentation.
-
+Paragraph with positive indentation, and one with negative indentation.
 
 
 */

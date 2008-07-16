@@ -22,10 +22,17 @@
 #include "text2pdf_ref_area.h"
 #include "text2pdf_block.h"
 
-T2PBlock::T2PBlock(PangoRectangle rectangle_in) :
+T2PBlock::T2PBlock(PangoRectangle rectangle_in, int column_count_in, int column_spacing_pango_units) :
   T2PArea(rectangle_in)
 // This is used as one block of text that must be kept together.
 {
+  // Column handling.
+  // If there's more than one colum, the width of the block gets smaller.
+  column_count = CLAMP (column_count_in, 1, 2);
+  if (column_count > 1) {
+    rectangle.width /= column_count;
+    rectangle.width -= (column_count - 1) * column_spacing_pango_units;
+  }
 }
 
 T2PBlock::~T2PBlock()
@@ -59,5 +66,13 @@ void T2PBlock::print(cairo_t *cairo)
     layoutcontainer->rectangle.x += rectangle.x;
     layoutcontainer->rectangle.y += rectangle.y;
     layoutcontainer->print (cairo);
+  }
+}
+
+void T2PBlock::debug()
+// Show debug information.
+{
+  for (unsigned int l = 0; l < layoutcontainers.size(); l++) {
+    layoutcontainers[l]->debug();
   }
 }

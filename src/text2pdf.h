@@ -26,8 +26,7 @@
 #include "text2pdf_area.h"
 #include "text2pdf_block.h"
 #include "text2pdf_ref_area.h"
-#include "text2pdf_text.h"
-#include "text2pdf_column.h"
+#include "text2pdf_input.h"
 #include "text2pdf_page.h"
 
 class Text2Pdf
@@ -49,17 +48,18 @@ private:
   cairo_status_t status;
   cairo_surface_t *surface;
 
-  // Input texts.
+  // Input data.
 public:
-  void open_paragraph (int first_line_indent_mm);
-  void open_paragraph ();
+  void open_paragraph(int first_line_indent_mm, T2PAlignmentType alignment, unsigned int column_count);
+  void open_paragraph();
   T2PInputParagraph * input_paragraph;
-  void close_paragraph ();
-  void open_inline ();
-  void close_inline ();
-  void add_text (const ustring& text);
+  void close_paragraph();
+  void open_inline();
+  void close_inline();
+  void add_text(const ustring& text);
 private:
   vector <T2PInput *> input_data;
+  deque <T2PBlock *> input_blocks;
 
   // Areas and their sizes.
 public:
@@ -74,7 +74,7 @@ private:
   int header_height_pango_units;
   int footer_height_pango_units;
   int column_spacing_pango_units;
-  
+
   // Fonts.
 public:
   void set_font(const ustring& font_in);
@@ -85,15 +85,14 @@ private:
 public:
   void run();
 private:
-  void run_input (vector <T2PInput *>& input);
+  void run_input(vector <T2PInput *>& input);
   T2PPage * page;
   vector <T2PPage *> pages;
-  T2PColumn * column;
   T2PBlock * block;
   T2PLayoutContainer * layoutcontainer;
-  void lay_out_paragraph (const ustring& paragraph);
-  void get_next_layout_container ();
-  void fit_blocks_on_page ();
+  void lay_out_paragraph(const ustring& paragraph);
+  void get_next_layout_container();
+  void fit_blocks_on_pages();
   void next_page();
 
   // Output.

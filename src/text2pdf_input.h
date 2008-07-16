@@ -17,24 +17,43 @@
  **  
  */
 
-#ifndef INCLUDED_TEXT2PDF_COLUMN_H
-#define INCLUDED_TEXT2PDF_COLUMN_H
+#ifndef INCLUDED_TEXT2PDF_TEXT_H
+#define INCLUDED_TEXT2PDF_TEXT_H
 
 #include "libraries.h"
-#include <pango/pangocairo.h>
-#include "text2pdf_block.h"
 
-class T2PColumn : public T2PArea
+enum T2PInputType { t2pitParagraph, t2pitText };
+enum T2PAlignmentType { t2patLeft, t2patCenter, t2patRight, t2patJustified };
+
+class T2PInput
 {
 public:
-  T2PColumn(PangoRectangle rectangle_in);
-  virtual ~T2PColumn();
-  T2PBlock * next_block ();
-  void add_block(T2PBlock * block);
-  void fit_blocks (vector <T2PBlock *>& non_fitting_blocks);
-  void print(cairo_t *cairo);
+  T2PInput(T2PInputType type_in);
+  virtual ~T2PInput();
+  T2PInputType type;
+  vector <T2PInput *> children;
 private:
-  vector <T2PBlock *> blocks;
+};
+
+class T2PInputParagraph : public T2PInput
+{
+public:
+  T2PInputParagraph(int first_line_indent_mm_in, T2PAlignmentType alignment_in, unsigned int column_count_in);
+  T2PInputParagraph();
+  virtual ~T2PInputParagraph();
+  int first_line_indent_mm;
+  T2PAlignmentType alignment;
+  unsigned int column_count;
+private:
+};
+
+class T2PInputText : public T2PInput
+{
+public:
+  T2PInputText(T2PInputType type_in, const ustring& text_in);
+  virtual ~T2PInputText();
+  ustring text;
+private:
 };
 
 #endif

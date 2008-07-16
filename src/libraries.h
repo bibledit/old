@@ -27,6 +27,7 @@
 #include <string.h>
 #include <fstream>
 #include <vector>
+#include <deque>
 #include <set>
 #include <sstream>
 #include <unistd.h>

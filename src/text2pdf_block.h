@@ -28,12 +28,14 @@
 class T2PBlock : public T2PArea
 {
 public:
-  T2PBlock(PangoRectangle rectangle_in);
+  T2PBlock(PangoRectangle rectangle_in, int column_count_in, int column_spacing_pango_units);
   virtual ~T2PBlock();
   vector <T2PLayoutContainer *> layoutcontainers;
   T2PLayoutContainer * next_layout_container (cairo_t *cairo);
   void refit_layout_container (T2PLayoutContainer * layoutcontainer); 
   void print(cairo_t *cairo);
+  void debug();
+  int column_count;
 private:
 };
 

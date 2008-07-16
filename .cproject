@@ -29,14 +29,14 @@
 <inputType id="org.eclipse.cdt.build.core.settings.holder.inType.1940003204" languageId="org.eclipse.cdt.core.assembly" languageName="Assembly" sourceContentType="org.eclipse.cdt.core.asmSource" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
 </tool>
 <tool id="org.eclipse.cdt.build.core.settings.holder.1203317428" name="GNU C++" superClass="org.eclipse.cdt.build.core.settings.holder">
-<option id="org.eclipse.cdt.build.core.settings.holder.undef.incpaths.41728462" superClass="org.eclipse.cdt.build.core.settings.holder.undef.incpaths" valueType="undefIncludePath">
+<option id="org.eclipse.cdt.build.core.settings.holder.undef.incpaths.41728462" name="Undefined Include Paths" superClass="org.eclipse.cdt.build.core.settings.holder.undef.incpaths" valueType="undefIncludePath">
 <listOptionValue builtIn="false" value="/home/teus/documents/dev/bibledit_new"/>
 <listOptionValue builtIn="false" value="/home/teus/documents/dev/bibledit_new/src"/>
 </option>
 <inputType id="org.eclipse.cdt.build.core.settings.holder.inType.1364687893" languageId="org.eclipse.cdt.core.g++" languageName="GNU C++" sourceContentType="org.eclipse.cdt.core.cxxSource,org.eclipse.cdt.core.cxxHeader" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
 </tool>
 <tool id="org.eclipse.cdt.build.core.settings.holder.1454283347" name="GNU C" superClass="org.eclipse.cdt.build.core.settings.holder">
-<option id="org.eclipse.cdt.build.core.settings.holder.undef.incpaths.1911134" superClass="org.eclipse.cdt.build.core.settings.holder.undef.incpaths" valueType="undefIncludePath">
+<option id="org.eclipse.cdt.build.core.settings.holder.undef.incpaths.1911134" name="Undefined Include Paths" superClass="org.eclipse.cdt.build.core.settings.holder.undef.incpaths" valueType="undefIncludePath">
 <listOptionValue builtIn="false" value="/home/teus/documents/dev/bibledit_new"/>
 <listOptionValue builtIn="false" value="/home/teus/documents/dev/bibledit_new/src"/>
 </option>
