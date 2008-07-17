@@ -456,7 +456,5 @@ void Text2Pdf::set_font(const ustring& font_in)
  pdf out of that. By doing so the user has maximum flexibility to print his own bible and make corrections 
  that bibledit can't do yet.
  
- Todo faster spelling recheck, now user waits too long to see them.
- 
  */
 

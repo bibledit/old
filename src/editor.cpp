@@ -3455,7 +3455,7 @@ void Editor::spelling_trigger() {
   if (!projectconfig->spelling_check_get())
     return;
   gw_destroy_source(spelling_timeout_event_id);
-  spelling_timeout_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 2000, GSourceFunc (on_spelling_timeout), gpointer(this), NULL);
+  spelling_timeout_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 1000, GSourceFunc (on_spelling_timeout), gpointer(this), NULL);
 }
 
 bool Editor::on_spelling_timeout(gpointer data) {
