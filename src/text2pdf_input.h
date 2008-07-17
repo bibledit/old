@@ -38,12 +38,21 @@ private:
 class T2PInputParagraph : public T2PInput
 {
 public:
-  T2PInputParagraph(int first_line_indent_mm_in, T2PAlignmentType alignment_in, unsigned int column_count_in);
-  T2PInputParagraph();
+  T2PInputParagraph(int dummy);
   virtual ~T2PInputParagraph();
-  int first_line_indent_mm;
+  unsigned int font_size_points;
+  bool italic;
+  bool bold;
+  bool underline;
+  bool small_caps;
   T2PAlignmentType alignment;
+  int space_before_mm;
+  int space_after_mm;
+  int left_margin_mm;
+  int right_margin_mm;
+  int first_line_indent_mm;
   unsigned int column_count;
+  bool keep_with_next;
 private:
 };
 

@@ -88,9 +88,6 @@ void Text2Pdf::initialize_variables()
   page = NULL;
   block = NULL;
   layoutcontainer = NULL;
-
-  // Fonts.
-  font = "Sans 12";
 }
 
 void Text2Pdf::page_size_set(double width_centimeters, double height_centimeters)
@@ -179,6 +176,18 @@ void Text2Pdf::run_input(vector <T2PInput *>& input)
 void Text2Pdf::lay_out_paragraph(const ustring& paragraph)
 // Lays out one paragraph.
 {
+  // Space before paragraph.
+  if (input_paragraph->space_before_mm != 0) {
+    PangoRectangle rectangle;
+    rectangle.x = 0;
+    rectangle.y = 0;
+    rectangle.width = page_width_pango_units - inside_margin_pango_units - outside_margin_pango_units;
+    rectangle.height = millimeters_to_pango_units (input_paragraph->space_before_mm);
+    T2PBlock * block = new T2PBlock (rectangle, input_paragraph->column_count, column_spacing_pango_units);
+    input_blocks.push_back(block);
+  }
+
+  // Paragraph itself.
   ustring text(paragraph);
   unsigned int line_number = 0;
   while (!text.empty() && line_number < 1000) {
@@ -188,6 +197,17 @@ void Text2Pdf::lay_out_paragraph(const ustring& paragraph)
   }
   if (!text.empty()) {
     gw_warning("Can't fit in \"" + text + "\"");
+  }
+  
+  // Space after paragraph.
+  if (input_paragraph->space_after_mm != 0) {
+    PangoRectangle rectangle;
+    rectangle.x = 0;
+    rectangle.y = 0;
+    rectangle.width = page_width_pango_units - inside_margin_pango_units - outside_margin_pango_units;
+    rectangle.height = millimeters_to_pango_units (input_paragraph->space_after_mm);
+    T2PBlock * block = new T2PBlock (rectangle, input_paragraph->column_count, column_spacing_pango_units);
+    input_blocks.push_back(block);
   }
 }
 
@@ -232,27 +252,116 @@ void Text2Pdf::next_page()
   pages.push_back(page);
 }
 
-void Text2Pdf::open_paragraph(int first_line_indent_mm, T2PAlignmentType alignment, unsigned int column_count)
-/* 
- Open a new paragraph and add this to the input data.
- 
- first line indent_mm: indentation of first line.
- alignment: left, right, justified.
- column_count: the number of columns
-
- */
-{
-  close_paragraph();
-  input_paragraph = new T2PInputParagraph (first_line_indent_mm, alignment, column_count);
-  input_data.push_back(input_paragraph);
-}
-
 void Text2Pdf::open_paragraph()
 // Open a new paragraph and add this to the input data.
 {
   close_paragraph();
-  input_paragraph = new T2PInputParagraph ();
+  input_paragraph = new T2PInputParagraph (0);
   input_data.push_back(input_paragraph);
+}
+
+void Text2Pdf::paragraph_set_font_size(unsigned int points)
+// Sets the font size to be used in the paragraph, in points.
+{
+  if (input_paragraph == NULL)
+    open_paragraph();
+  input_paragraph->font_size_points = points;
+}
+
+void Text2Pdf::paragraph_set_italic(bool italic)
+// Set whether font should be italic.
+{
+  if (input_paragraph == NULL)
+    open_paragraph();
+  input_paragraph->italic = italic;
+}
+
+void Text2Pdf::paragraph_set_bold(bool bold)
+// Set whether font should be in bold.
+{
+  if (input_paragraph == NULL)
+    open_paragraph();
+  input_paragraph->bold = bold;
+}
+
+void Text2Pdf::paragraph_set_underline(bool underline)
+// Set whether text should be underlined.
+{
+  if (input_paragraph == NULL)
+    open_paragraph();
+  input_paragraph->underline = underline;
+}
+
+void Text2Pdf::paragraph_set_small_caps(bool small_caps)
+// Set whether text should be in small caps.
+{
+  if (input_paragraph == NULL)
+    open_paragraph();
+  input_paragraph->small_caps = small_caps;
+}
+
+void Text2Pdf::paragraph_set_alignment(T2PAlignmentType alignment)
+// Sets the paragraph alignment, e.g. left, or justified.
+{
+  if (input_paragraph == NULL)
+    open_paragraph();
+  input_paragraph->alignment = alignment;
+}
+
+void Text2Pdf::paragraph_set_space_before(int millimeters)
+// Sets the space before the paragraph, in millimeters.
+{
+  if (input_paragraph == NULL)
+    open_paragraph();
+  input_paragraph->space_before_mm = millimeters;
+}
+
+void Text2Pdf::paragraph_set_space_after(int millimeters)
+// Sets the desired space after the paragraph, in millimeters.
+{
+  if (input_paragraph == NULL)
+    open_paragraph();
+  input_paragraph->space_after_mm = millimeters;
+}
+
+void Text2Pdf::paragraph_set_left_margin(int millimeters)
+// Sets the paragraph's left margin, in millimeters.
+{
+  if (input_paragraph == NULL)
+    open_paragraph();
+  input_paragraph->left_margin_mm = millimeters;
+}
+
+void Text2Pdf::paragraph_set_right_margin(int millimeters)
+// // Sets the paragraph's right margin, in millimeters.
+{
+  if (input_paragraph == NULL)
+    open_paragraph();
+  input_paragraph->right_margin_mm = millimeters;
+}
+
+void Text2Pdf::paragraph_set_first_line_indent(int millimeters)
+// Sets the indent of the first line of the paragraph.
+{
+  if (input_paragraph == NULL)
+    open_paragraph();
+  input_paragraph->first_line_indent_mm = millimeters;
+}
+
+void Text2Pdf::paragraph_set_column_count(unsigned int count)
+// Sets the number of columns, only 1 or 2 are supported.
+{
+  if (input_paragraph == NULL)
+    open_paragraph();
+  input_paragraph->column_count = count;
+}
+
+void Text2Pdf::paragraph_set_keep_with_next(bool keep) // Todo implement.
+// Sets whether this paragraph should be kept with the next one.
+{
+  if (input_paragraph == NULL)
+    open_paragraph();
+  input_paragraph->keep_with_next = keep;
 }
 
 void Text2Pdf::close_paragraph()
@@ -302,9 +411,11 @@ void Text2Pdf::set_font(const ustring& font_in)
  
  To implement: 
 
- Space before / after, including letting space disappear at the extremity of a reference area.
- Hold with next paragraph, even if that has a different number of columns.
- Remaining paragraph markup.
+ Remaining paragraph markup:
+ - windows and orphans.
+ - space before / after lets space disappear at the extremity of reference area.
+ - hold with next paragraph, even if that has a different number of columns.
+ If .add_text is called several times, it should take all of that text at once.
  Inline objects, fully.
  Headers
  Notes
@@ -312,6 +423,7 @@ void Text2Pdf::set_font(const ustring& font_in)
  Flowing notes.
  Mixture of normal and flowing notes, with the flowing ones at the bottom.
  USFM to TextInput converter, for testing real-world examples.
+ Images rendering, probably png only as cairo reads them natively.
  
  The object receives other objects, such as paragraphs, etc, inline objects, and so on.
  
@@ -328,6 +440,21 @@ void Text2Pdf::set_font(const ustring& font_in)
  When images are rendered, these go into the LayoutContainer object, though the name may have to be changed at that stage.
  
  Try right-to-left text such as Hebrew, and Farsi.
+
+ Once we've all dependencies on the fontconfig library out, then we can remove this library, simplifying the installation procedures.
+ 
+ The small caps attribute is not yet implemented in Pango. The typesetter should make its own implementation.
+ There's some information about this in the object where the layouting is done.
+ 
+ There's going to be an option to let the text2pdf input write its input to file, optionally,
+ so that people can see what codes are used.
+ Some code like:
+ open_paragraph
+ paragraph_set_font_size 10
+ Very, very simple markup, line based.
+ Then there's another option in the menu that lets the text2pdf object read its input from a file, and makes 
+ pdf out of that. By doing so the user has maximum flexibility to print his own bible and make corrections 
+ that bibledit can't do yet.
  
  Todo faster spelling recheck, now user waits too long to see them.
  

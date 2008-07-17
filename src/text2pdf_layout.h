@@ -37,9 +37,14 @@ public:
   void debug ();
 private:
   PangoLayout * layout;
-  void indentation_width_alignment (T2PInputParagraph * paragraph, bool first_line);
-  void justify (T2PInputParagraph * paragraph, const ustring& line, bool last_line);
+  void indentation_width_margins_alignment (T2PInputParagraph * paragraph, bool first_line);
+  void justify (T2PInputParagraph * paragraph, const ustring& line, bool last_line, PangoAttrList *attrs);
   void index_white_space (const ustring& text, vector<guint>& offsets);
+  void set_font (const ustring& font, T2PInputParagraph * paragraph);
+  void set_italic (T2PInputParagraph * paragraph, PangoAttrList *attrs);
+  void set_bold (T2PInputParagraph * paragraph, PangoAttrList *attrs);
+  void set_underline (T2PInputParagraph * paragraph, PangoAttrList *attrs);
+  void set_small_caps (T2PInputParagraph * paragraph, PangoAttrList *attrs);
 };
 
 #endif

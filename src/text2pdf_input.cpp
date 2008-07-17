@@ -46,22 +46,23 @@ T2PInputText::~T2PInputText()
 {
 }
 
-T2PInputParagraph::T2PInputParagraph(int first_line_indent_mm_in, T2PAlignmentType alignment_in, unsigned int column_count_in) :
-  T2PInput(t2pitParagraph)
-// This is a class that contains a new paragraph.
-{
-  first_line_indent_mm = first_line_indent_mm_in;
-  alignment = alignment_in;
-  column_count = CLAMP (column_count_in, 1, 2);
-}
-
-T2PInputParagraph::T2PInputParagraph() :
+T2PInputParagraph::T2PInputParagraph(int dummy) :
   T2PInput(t2pitParagraph)
 // This is a class that contains a new default paragraph.
 {
+  font_size_points = 12;
+  italic = false;
+  bold = false;
+  underline = false;
+  small_caps = false;
+  space_before_mm = 0;
+  space_after_mm = 0;
+  left_margin_mm = 0;
+  right_margin_mm = 0;
   first_line_indent_mm = 5;
   alignment = t2patJustified;
   column_count = 2;
+  keep_with_next = false;
 }
 
 T2PInputParagraph::~T2PInputParagraph()

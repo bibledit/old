@@ -50,8 +50,20 @@ private:
 
   // Input data.
 public:
-  void open_paragraph(int first_line_indent_mm, T2PAlignmentType alignment, unsigned int column_count);
   void open_paragraph();
+  void paragraph_set_font_size (unsigned int points);
+  void paragraph_set_italic (bool italic);
+  void paragraph_set_bold (bool bold);
+  void paragraph_set_underline (bool underline);
+  void paragraph_set_small_caps (bool small_caps);
+  void paragraph_set_alignment (T2PAlignmentType alignment);
+  void paragraph_set_space_before (int millimeters);
+  void paragraph_set_space_after (int millimeters);
+  void paragraph_set_left_margin (int millimeters);
+  void paragraph_set_right_margin (int millimeters);
+  void paragraph_set_first_line_indent (int millimeters);
+  void paragraph_set_column_count (unsigned int count);
+  void paragraph_set_keep_with_next (bool keep);
   T2PInputParagraph * input_paragraph;
   void close_paragraph();
   void open_inline();
