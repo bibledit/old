@@ -169,7 +169,7 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	text2pdf_utils.$(OBJEXT) text2pdf_area.$(OBJEXT) \
 	text2pdf_ref_area.$(OBJEXT) text2pdf_block.$(OBJEXT) \
 	text2pdf_page.$(OBJEXT) text2pdf_input.$(OBJEXT) \
-	text2pdf_layout.$(OBJEXT)
+	text2pdf_layout.$(OBJEXT) text2pdf_big_block.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -616,7 +616,8 @@ bibledit_bin_SOURCES = \
         text2pdf_block.cpp \
         text2pdf_page.cpp \
         text2pdf_input.cpp \
-        text2pdf_layout.cpp
+        text2pdf_layout.cpp \
+        text2pdf_big_block.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -920,6 +921,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/temporal.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/text2pdf.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/text2pdf_area.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/text2pdf_big_block.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/text2pdf_block.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/text2pdf_input.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/text2pdf_layout.Po@am__quote@

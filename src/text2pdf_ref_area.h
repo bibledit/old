@@ -24,22 +24,23 @@
 #include <pango/pangocairo.h>
 #include "text2pdf_area.h"
 #include "text2pdf_block.h"
+#include "text2pdf_big_block.h"
 
 class T2PReferenceArea : public T2PArea
 {
 public:
   T2PReferenceArea(PangoRectangle rectangle_in);
   virtual ~T2PReferenceArea();
-  T2PBlock * next_block ();
-  void add_block(T2PBlock * block);
-  void fit_blocks (deque <T2PBlock *>& input_blocks);
+  void fit_blocks (deque <T2PBlock *>& input_blocks, int column_spacing_pango_units_in);
   void fit_column (deque <T2PBlock *>& input_blocks);
   void fit_columns (deque <T2PBlock *>& input_blocks, int column_count);
-  int fitted_blocks_height_pango_units ();
-  void balance_two_columns (int start_block, int start_height);
+  T2PBigBlock get_next_big_block_to_be_kept_together(deque <T2PBlock *>& input_blocks, int column_count);
+  int get_column_height (deque <T2PBigBlock>& column, int reference_y);
   void print(cairo_t *cairo);
 private:
-  vector <T2PBlock *> blocks;
+  deque <T2PBlock *> body_blocks;
+  int start_stacking_y;
+  int column_spacing_pango_units;
 };
 
 #endif

@@ -19,31 +19,31 @@
 
 #include "text2pdf_utils.h"
 #include "text2pdf_ref_area.h"
+#include "gwrappers.h"
 
 T2PReferenceArea::T2PReferenceArea(PangoRectangle rectangle_in) :
   T2PArea(rectangle_in)
 // This is a reference area, e.g. a header, footer, or text area.
 {
+  // Initialize the y value to start stacking blocks at.
+  start_stacking_y = 0;
+  column_spacing_pango_units = 0;
 }
 
 T2PReferenceArea::~T2PReferenceArea()
 // Destructor.
 {
-  for (unsigned int i = 0; i < blocks.size(); i++) {
-    delete blocks[i];
+  for (unsigned int i = 0; i < body_blocks.size(); i++) {
+    delete body_blocks[i];
   }
-}
-
-void T2PReferenceArea::add_block(T2PBlock * block) {
-  blocks.push_back(block);
 }
 
 void T2PReferenceArea::print(cairo_t *cairo)
 // Print the blocks.
 {
   // Go through each block.
-  for (unsigned int blk = 0; blk < blocks.size(); blk++) {
-    T2PBlock * block = blocks[blk];
+  for (unsigned int blk = 0; blk < body_blocks.size(); blk++) {
+    T2PBlock * block = body_blocks[blk];
     // While laying out text, the block's x and y values are relative to the parent's values.
     // For printing this needs to be adjusted.
     block->rectangle.x += rectangle.x;
@@ -53,9 +53,11 @@ void T2PReferenceArea::print(cairo_t *cairo)
   }
 }
 
-void T2PReferenceArea::fit_blocks(deque <T2PBlock *>& input_blocks)
+void T2PReferenceArea::fit_blocks(deque <T2PBlock *>& input_blocks, int column_spacing_pango_units_in)
 // Fits the blocks into the reference area.
 {
+  // Store column spacing.
+  column_spacing_pango_units = column_spacing_pango_units_in;
   // Deal with the blocks after grouping them by equal column count.
   deque <T2PBlock *> blocks_with_equal_column_count;
   int n_columns = 0;
@@ -71,9 +73,17 @@ void T2PReferenceArea::fit_blocks(deque <T2PBlock *>& input_blocks)
   }
   fit_column(blocks_with_equal_column_count);
 
-  // Any remaining blocks with equal column count left, re-insert these into the input blocks.
+  // Re-insert any unfitted remaining blocks with equal column count into the input blocks.
   for (int i = blocks_with_equal_column_count.size() - 1; i >= 0; i--) {
     input_blocks.push_front(blocks_with_equal_column_count[i]);
+  }
+  
+  // Look for any last blocks on the page that have their "keep_with_next" property set.
+  // If these are there, that means these should be removed from here, and be put back into 
+  // the input stream, so that they can be kept with paragraphs on the next page.
+  while (!body_blocks.empty() && body_blocks[body_blocks.size()-1]->keep_with_next) {
+    input_blocks.push_front(body_blocks[body_blocks.size()-1]);
+    body_blocks.pop_back();
   }
 }
 
@@ -84,8 +94,8 @@ void T2PReferenceArea::fit_column(deque <T2PBlock *>& input_blocks)
   if (input_blocks.empty())
     return;
 
-  // If the stacked y is already crossing the height of the reference area, bail out.
-  if (fitted_blocks_height_pango_units() > rectangle.height)
+  // Bail out if the reference area is already fully stacked.
+  if (start_stacking_y >= rectangle.height)
     return;
 
   // Fit the column(s) in.
@@ -93,126 +103,133 @@ void T2PReferenceArea::fit_column(deque <T2PBlock *>& input_blocks)
 }
 
 void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_count)
-// Fits the input blocks into one or two columns.
+/*
+ Fits the input blocks into one or two columns.
+
+ Fitting one column is easy: Just stack the blocks till the area is full.
+ 
+ Fitting two columns requires a little more effort.
+ The system described here tries to be fast and simple.
+ If there area any input blocks available for fitting in, then instead of considering the 
+ blocks one by one, it may happen that several blocks are considered at once.
+ This happens if the T2PBlock->keep_with_next property is set.
+ It tries to fit the next group of blocks into the second column.
+ Then it keeps shifting blocks from the second column to the first one till the 
+ height of the first colum is bigger than the height of the second one. 
+ 
+ Space after a paragraph at the end of the reference area should be dismissed, 
+ but it is not implemented because that situation rarely happens.
+ Space before a paragraph is dismissed at the start of the reference area,
+ and at the end of each column.
+ 
+ Points to test: Whether one and two columns are fitted properly.
+ Whether white space before the paragraph disappears at the top of the reference area.
+ Whether the balancing works fine.
+ 
+ */
 {
-  // Bail out if there's no input.
-  if (input_blocks.empty())
-    return;
+  // Container for the columns.
+  deque <T2PBigBlock> first_column;
+  deque <T2PBigBlock> last_column;
 
-  // Initialize variables.
-  int start_stacked_y = fitted_blocks_height_pango_units();
-  int current_column_number = -1;
-  int column_stacked_y = rectangle.height + 1;
-  int second_column_number_x = rectangle.width - input_blocks[0]->rectangle.width;
-  unsigned int blocks_size_before_fitting_columns = blocks.size();
-
-  // If the height of the already fitted blocks plus the first one clips against the height of the reference area, bail out.
-  if ((start_stacked_y + input_blocks[0]->rectangle.height) > rectangle.height)
-    return;
-
-  // Go through the available blocks to fit them in and sort them out.
+  // Go through the input blocks.
   while (!input_blocks.empty()) {
 
-    // Point to the block we deal with.
-    T2PBlock * block = input_blocks[0];
+    // Get the next lot of blocks that stay together.
+    T2PBigBlock big_block = get_next_big_block_to_be_kept_together(input_blocks, column_count);
 
-    // If the stacked y value would cross the maximum height, switch to the next column.
-    if ((column_stacked_y + block->rectangle.height) > rectangle.height) {
-      // If there's no next column, it means that the desired number of columns have been filled: bail out.
-      // It also means that the column balancing won't be done, which is good, because
-      // it makes it faster.
-      current_column_number++;
-      if (current_column_number >= column_count) {
-        return;
-      }
-      column_stacked_y = start_stacked_y;
+    // If the big block won't fit in the last column, then the area is full: bail out.
+    int last_column_height = get_column_height (last_column, start_stacking_y);
+    if ((start_stacking_y + last_column_height + big_block.height(start_stacking_y + last_column.size())) > rectangle.height) {
+      break;
     }
 
-    // The y value of the block will be calculated based on stacked blocks before.
-    block->rectangle.y = column_stacked_y;
+    // The big block fits: store it in the last column.
+    last_column.push_back(big_block);
 
-    // Set the x value of the block.
-    if (current_column_number == 0) {
-      block->rectangle.x = 0;
+    // Remove the fitted blocks from the input.
+    for (unsigned int i = 0; i < big_block.blocks.size(); i++) {
+      input_blocks.pop_front();
+    }
+
+    // Balance columns if there's more than one column.
+    if (column_count > 1) {
+      // The first column should be higher than the last, normally, except when there's no space.
+      // Keep moving big blocks till that situation has been reached.
+      bool last_column_is_higher_than_first = true;
+      bool first_column_has_still_space = true;
+      while (last_column_is_higher_than_first && first_column_has_still_space && !last_column.empty()) {
+        int first_column_height = get_column_height (first_column, start_stacking_y);
+        int last_column_height = get_column_height (last_column, start_stacking_y);
+        last_column_is_higher_than_first = (last_column_height > first_column_height);
+        if (last_column_is_higher_than_first) {
+          T2PBigBlock first_big_block_of_second_column = last_column[0];
+          int first_big_block_of_second_column_height = first_big_block_of_second_column.height (1);
+          first_column_has_still_space = (rectangle.height - first_big_block_of_second_column_height - first_column_height) >= 0;
+          if (first_column_has_still_space) {
+            first_column.push_back (first_big_block_of_second_column);
+            last_column.pop_front();
+          }
+        }
+      }
+    }
+    
+  }
+  
+  // Set the position of each individual block.
+  // Copy the blocks from the columns into the object.
+  int first_column_y = start_stacking_y;
+  for (unsigned int i = 0; i < first_column.size(); i++) {
+    first_column[i].set_blocks_x(0);
+    int column_height = first_column[i].height(first_column_y); 
+    first_column[i].set_blocks_y(first_column_y);
+    first_column_y += column_height;
+    for (unsigned int i2 = 0; i2 < first_column[i].blocks.size(); i2++) {
+      body_blocks.push_back(first_column[i].blocks[i2]);
+    }
+  }
+  int last_column_y = start_stacking_y;
+  for (unsigned int i = 0; i < last_column.size(); i++) {
+    if (last_column[i].column_count == 1) {
+      last_column[i].set_blocks_x(0);
     } else {
-      block->rectangle.x = second_column_number_x;
+      last_column[i].set_blocks_x(rectangle.width - ((rectangle.width - column_spacing_pango_units) / 2));
     }
-
-    // New stacked y for next iteration.
-    column_stacked_y += block->rectangle.height;
-
-    // Block fits: move it in the object.
-    blocks.push_back(block);
-    input_blocks.erase(input_blocks.begin());
+    int column_height = last_column[i].height(last_column_y); 
+    last_column[i].set_blocks_y(last_column_y);
+    last_column_y += column_height;
+    for (unsigned int i2 = 0; i2 < last_column[i].blocks.size(); i2++) {
+      body_blocks.push_back(last_column[i].blocks[i2]);
+    }
   }
-
-  // Balance the columns if there are two columns.
-  if (column_count > 1) {
-    balance_two_columns(blocks_size_before_fitting_columns, start_stacked_y);
-  }
+  
+  // Store maximum height of any column as the starting point for the next column.
+  start_stacking_y = MAX (first_column_y, last_column_y);
 }
 
-int T2PReferenceArea::fitted_blocks_height_pango_units()
-// This returns the maximum height of the blocks that have already been fitted in the reference area.
-// There are blocks that form a column, so we can't just take the height of the last fitted block,
-// but have to go through all the blocks to see whatever biggest height we can get.
+T2PBigBlock T2PReferenceArea::get_next_big_block_to_be_kept_together(deque <T2PBlock *>& input_blocks, int column_count)
+// Looks at "input_blocks", and gets the next blocks to be kept together.
+// It does that by considering the "keep_with_next" property of T2PBlock.
+// The big blocks returned could contain one block in the normal case, and more if these are kept
+// together.
+// It allocates the object, and the caller should free it.
 {
-  int maximum_height = 0;
-  for (unsigned int blk = 0; blk < blocks.size(); blk++) {
-    int y_plus_height = blocks[blk]->rectangle.y + blocks[blk]->rectangle.height;
-    if (y_plus_height > maximum_height)
-      maximum_height = y_plus_height;
+  T2PBigBlock big_block(column_count);
+  for (unsigned int i = 0; i < input_blocks.size(); i++) {
+    big_block.blocks.push_back(input_blocks[i]);
+    if (!input_blocks[i]->keep_with_next)
+      break;
   }
-  return maximum_height;
+  big_block.calculate_height();
+  return big_block;
 }
 
-void T2PReferenceArea::balance_two_columns(int start_block, int start_height)
-// Balance two columns starting from "start_block" going to the end.
+int T2PReferenceArea::get_column_height (deque <T2PBigBlock>& column, int reference_y)
+// Gets the height of the column.
 {
-  // If there aren't enough blocks for balancing, bail out.
-  if (blocks.size() - start_block < 2)
-    return;
-
-  // Initialize variables.
-  int second_column_number_x = rectangle.width - blocks[0]->rectangle.width;
-
-  // Store balancing points and balanced heights. 
-  vector <unsigned int> balancing_points;
-  vector <unsigned int> balanced_heights;
-
-  // Try all balancing points and store these and their associated heights.
-  for (unsigned int balancing_point = start_block; balancing_point < blocks.size(); balancing_point++) {
-    int column_one_y = start_height;
-    int column_two_y = start_height;
-    for (unsigned int blk = start_block; blk < blocks.size(); blk++) {
-      if (blk > balancing_point) {
-        column_two_y += blocks[blk]->rectangle.height;
-      } else {
-        column_one_y += blocks[blk]->rectangle.height;
-      }
-    }
-    balancing_points.push_back(balancing_point);
-    balanced_heights.push_back(MAX (column_one_y, column_two_y));
+  int height = 0;
+  for (unsigned int i = 0; i < column.size(); i++) {
+    height += column[i].height(reference_y + i);
   }
-
-  // Look for the balancing point that has the smallest height.
-  unsigned int balancing_point_with_smallest_height = 0;
-  unsigned int smallest_height= INT_MAX;
-  for (unsigned int i = 0; i < balancing_points.size(); i++) {
-    if (balanced_heights[i] <= smallest_height) {
-      balancing_point_with_smallest_height = balancing_points[i];
-      smallest_height = balanced_heights[i];
-    }
-  }
-
-  // Balance the column at the optimal balancing point.
-  int column_two_y = start_height;
-  for (unsigned int i = 0; i < balancing_points.size(); i++) {
-    if (i + start_block > balancing_point_with_smallest_height) {
-      blocks[i + start_block]->rectangle.x = second_column_number_x;
-      blocks[i + start_block]->rectangle.y = column_two_y;
-      column_two_y += blocks[i + start_block]->rectangle.height;
-    }
-  }
+  return height;
 }
-

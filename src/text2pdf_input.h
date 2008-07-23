@@ -22,8 +22,9 @@
 
 #include "libraries.h"
 
-enum T2PInputType { t2pitParagraph, t2pitText };
+enum T2PInputType { t2pitParagraph };
 enum T2PAlignmentType { t2patLeft, t2patCenter, t2patRight, t2patJustified };
+enum T2PMarkupType { t2pmtOn, t2pmtOff, t2pmtInherit, t2pmtToggle };
 
 class T2PInput
 {
@@ -31,7 +32,6 @@ public:
   T2PInput(T2PInputType type_in);
   virtual ~T2PInput();
   T2PInputType type;
-  vector <T2PInput *> children;
 private:
 };
 
@@ -53,16 +53,33 @@ public:
   int first_line_indent_mm;
   unsigned int column_count;
   bool keep_with_next;
-private:
-};
-
-class T2PInputText : public T2PInput
-{
-public:
-  T2PInputText(T2PInputType type_in, const ustring& text_in);
-  virtual ~T2PInputText();
+  void add_text (const ustring& text_in);
   ustring text;
+  void inline_set_font_size_percentage(int percentage);
+  bool inline_get_font_size(unsigned int index, bool& in_range, int& size, int& start_index, int& end_index);
 private:
+  size_t maximum_text_length;
+  vector <int> font_size_percentage_values;
+  vector <int> font_size_percentage_start_indices;
+  vector <int> font_size_percentage_end_indices;
+  vector <int> italic_values;
+  vector <int> italic_offsets;
+  vector <int> italic_lengths;
+  vector <int> bold_values;
+  vector <int> bold_offsets;
+  vector <int> bold_lengths;
+  vector <int> underline_values;
+  vector <int> underline_offsets;
+  vector <int> underline_lengths;
+  vector <int> small_caps_values;
+  vector <int> small_caps_offsets;
+  vector <int> small_caps_lengths;
+  vector <bool> superscript_values;
+  vector <int> superscript_offsets;
+  vector <int> superscript_lengths;
+  vector <int> colour_values;
+  vector <int> colour_offsets;
+  vector <int> colour_lengths;
 };
 
 #endif

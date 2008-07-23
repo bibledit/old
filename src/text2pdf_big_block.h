@@ -17,15 +17,26 @@
  **  
  */
 
-#ifndef INCLUDED_TEXT2PDF_UTILS_H
-#define INCLUDED_TEXT2PDF_UTILS_H
+#ifndef INCLUDED_TEXT2PDF_BIG_BLOCK_H
+#define INCLUDED_TEXT2PDF_BIG_BLOCK_H
 
 #include "libraries.h"
-#include <pango/pangocairo.h>
+#include "text2pdf_block.h"
 
-int centimeters_to_pango_units(double centimeters);
-int millimeters_to_pango_units(double millimeters);
-double pango_units_to_millimeters (int pango_units);
-double pango_units_to_points(int pango_units);
+class T2PBigBlock
+{
+public:
+  T2PBigBlock(int column_count_in);
+  virtual ~T2PBigBlock();
+  vector <T2PBlock *> blocks;
+  void calculate_height();
+  int height (int reference_y);
+  void set_blocks_x (int x);
+  void set_blocks_y (int reference_y);
+  int column_count;
+private:
+  int total_height;
+  int height_first_block;
+};
 
 #endif

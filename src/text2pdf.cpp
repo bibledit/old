@@ -135,6 +135,9 @@ void Text2Pdf::run()
   // Go through the input data.
   run_input(input_data);
 
+  // Find potential widows and orphans.
+  find_potential_widows_and_orphans();
+
   // Fit the blocks on the pages.
   fit_blocks_on_pages();
 
@@ -159,54 +162,58 @@ void Text2Pdf::run_input(vector <T2PInput *>& input)
     {
       case t2pitParagraph:
       {
+        // Point to the new paragraph.
         input_paragraph = (T2PInputParagraph *) input[i];
-        break;
-      }
-      case t2pitText:
-      {
-        T2PInputText * textinput = (T2PInputText *) input[i];
-        lay_out_paragraph(textinput->text);
+        // Lay the paragraph out.
+        lay_out_paragraph();
         break;
       }
     }
-    run_input(input[i]->children);
   }
 }
 
-void Text2Pdf::lay_out_paragraph(const ustring& paragraph)
+void Text2Pdf::lay_out_paragraph()
 // Lays out one paragraph.
 {
+  // Bail out if there's no text.
+  if (input_paragraph->text.empty()) {
+    return;
+  }
+
   // Space before paragraph.
   if (input_paragraph->space_before_mm != 0) {
     PangoRectangle rectangle;
     rectangle.x = 0;
     rectangle.y = 0;
     rectangle.width = page_width_pango_units - inside_margin_pango_units - outside_margin_pango_units;
-    rectangle.height = millimeters_to_pango_units (input_paragraph->space_before_mm);
+    rectangle.height = millimeters_to_pango_units(input_paragraph->space_before_mm);
     T2PBlock * block = new T2PBlock (rectangle, input_paragraph->column_count, column_spacing_pango_units);
+    block->type = t2pbtSpaceBeforeParagraph;
+    block->keep_with_next = true;
     input_blocks.push_back(block);
   }
 
   // Paragraph itself.
-  ustring text(paragraph);
   unsigned int line_number = 0;
-  while (!text.empty() && line_number < 1000) {
+  while (!input_paragraph->text.empty() && line_number < 1000) {
     get_next_layout_container();
-    layoutcontainer->layout_text(font, input_paragraph, line_number, text);
+    layoutcontainer->layout_text(font, input_paragraph, line_number, input_paragraph->text);
     line_number++;
   }
-  if (!text.empty()) {
-    gw_warning("Can't fit in \"" + text + "\"");
+  if (!input_paragraph->text.empty()) {
+    gw_warning("Can't fit in \"" + input_paragraph->text + "\"");
   }
-  
+
   // Space after paragraph.
   if (input_paragraph->space_after_mm != 0) {
     PangoRectangle rectangle;
     rectangle.x = 0;
     rectangle.y = 0;
     rectangle.width = page_width_pango_units - inside_margin_pango_units - outside_margin_pango_units;
-    rectangle.height = millimeters_to_pango_units (input_paragraph->space_after_mm);
+    rectangle.height = millimeters_to_pango_units(input_paragraph->space_after_mm);
     T2PBlock * block = new T2PBlock (rectangle, input_paragraph->column_count, column_spacing_pango_units);
+    block->type = t2pbtSpaceAfterParagraph;
+    block->keep_with_next = input_paragraph->keep_with_next;
     input_blocks.push_back(block);
   }
 }
@@ -222,6 +229,7 @@ void Text2Pdf::get_next_layout_container()
   rectangle.width = page_width_pango_units - inside_margin_pango_units - outside_margin_pango_units;
   rectangle.height = 0;
   T2PBlock * block = new T2PBlock (rectangle, input_paragraph->column_count, column_spacing_pango_units);
+  block->keep_with_next = input_paragraph->keep_with_next;
   // Store the block.
   input_blocks.push_back(block);
   // Create a new layout container.
@@ -237,7 +245,33 @@ void Text2Pdf::fit_blocks_on_pages()
     // Create another page.
     next_page();
     // Lay out the input on the page.
-    page->text_reference_area->fit_blocks(input_blocks);
+    page->text_reference_area->fit_blocks(input_blocks, column_spacing_pango_units);
+  }
+}
+
+void Text2Pdf::find_potential_widows_and_orphans()
+/*
+ Widows are the first lines of a paragraph, while the rest is in another column or on another page.
+ Orphans are the last lines of a pragraph in such a situation.
+ We set two widows and two orphans.
+ The first two lines of a paragraph could be widows.
+ The last two lines of a paragraph could be orphans.
+ It is implemented throught the "keep_with_next" property of the T2PBlock object.
+ The "keep with next" mechanism will then take over when the blocks are fitted in.
+ */
+{
+  for (unsigned int blk = 0; blk < input_blocks.size(); blk++) {
+    T2PBlock * block = input_blocks[blk];
+    // The first line of the paragraph is to be kept with the next.
+    if (block->type == t2pbtTextParagraphFirstLine) {
+      block->keep_with_next = true;
+    }
+    // The last-but-one line of the paragraph is to be kept with the next.
+    if (block->type == t2pbtTextParagraphLastLine) {
+      if (blk) {
+        input_blocks[blk-1]->keep_with_next = true;
+      }
+    }
   }
 }
 
@@ -260,137 +294,172 @@ void Text2Pdf::open_paragraph()
   input_data.push_back(input_paragraph);
 }
 
-void Text2Pdf::paragraph_set_font_size(unsigned int points)
-// Sets the font size to be used in the paragraph, in points.
+void Text2Pdf::ensure_open_paragraph()
+// Ensures that a paragraph is open.
 {
   if (input_paragraph == NULL)
     open_paragraph();
+}
+
+void Text2Pdf::paragraph_set_font_size(unsigned int points)
+// Sets the font size to be used in the paragraph, in points.
+{
+  ensure_open_paragraph();
   input_paragraph->font_size_points = points;
 }
 
 void Text2Pdf::paragraph_set_italic(bool italic)
 // Set whether font should be italic.
 {
-  if (input_paragraph == NULL)
-    open_paragraph();
+  ensure_open_paragraph();
   input_paragraph->italic = italic;
 }
 
 void Text2Pdf::paragraph_set_bold(bool bold)
 // Set whether font should be in bold.
 {
-  if (input_paragraph == NULL)
-    open_paragraph();
+  ensure_open_paragraph();
   input_paragraph->bold = bold;
 }
 
 void Text2Pdf::paragraph_set_underline(bool underline)
 // Set whether text should be underlined.
 {
-  if (input_paragraph == NULL)
-    open_paragraph();
+  ensure_open_paragraph();
   input_paragraph->underline = underline;
 }
 
 void Text2Pdf::paragraph_set_small_caps(bool small_caps)
 // Set whether text should be in small caps.
 {
-  if (input_paragraph == NULL)
-    open_paragraph();
+  ensure_open_paragraph();
   input_paragraph->small_caps = small_caps;
 }
 
 void Text2Pdf::paragraph_set_alignment(T2PAlignmentType alignment)
 // Sets the paragraph alignment, e.g. left, or justified.
 {
-  if (input_paragraph == NULL)
-    open_paragraph();
+  ensure_open_paragraph();
   input_paragraph->alignment = alignment;
 }
 
 void Text2Pdf::paragraph_set_space_before(int millimeters)
 // Sets the space before the paragraph, in millimeters.
 {
-  if (input_paragraph == NULL)
-    open_paragraph();
+  ensure_open_paragraph();
   input_paragraph->space_before_mm = millimeters;
 }
 
 void Text2Pdf::paragraph_set_space_after(int millimeters)
 // Sets the desired space after the paragraph, in millimeters.
 {
-  if (input_paragraph == NULL)
-    open_paragraph();
+  ensure_open_paragraph();
   input_paragraph->space_after_mm = millimeters;
 }
 
 void Text2Pdf::paragraph_set_left_margin(int millimeters)
 // Sets the paragraph's left margin, in millimeters.
 {
-  if (input_paragraph == NULL)
-    open_paragraph();
+  ensure_open_paragraph();
   input_paragraph->left_margin_mm = millimeters;
 }
 
 void Text2Pdf::paragraph_set_right_margin(int millimeters)
 // // Sets the paragraph's right margin, in millimeters.
 {
-  if (input_paragraph == NULL)
-    open_paragraph();
+  ensure_open_paragraph();
   input_paragraph->right_margin_mm = millimeters;
 }
 
 void Text2Pdf::paragraph_set_first_line_indent(int millimeters)
 // Sets the indent of the first line of the paragraph.
 {
-  if (input_paragraph == NULL)
-    open_paragraph();
+  ensure_open_paragraph();
   input_paragraph->first_line_indent_mm = millimeters;
 }
 
 void Text2Pdf::paragraph_set_column_count(unsigned int count)
 // Sets the number of columns, only 1 or 2 are supported.
 {
-  if (input_paragraph == NULL)
-    open_paragraph();
+  ensure_open_paragraph();
   input_paragraph->column_count = count;
 }
 
-void Text2Pdf::paragraph_set_keep_with_next(bool keep) // Todo implement.
-// Sets whether this paragraph should be kept with the next one.
+void Text2Pdf::paragraph_set_keep_with_next()
+// Sets that this paragraph should be kept with the next one.
 {
-  if (input_paragraph == NULL)
-    open_paragraph();
-  input_paragraph->keep_with_next = keep;
+  ensure_open_paragraph();
+  input_paragraph->keep_with_next = true;
 }
 
 void Text2Pdf::close_paragraph()
 // Close the open paragraph.
 {
-  close_inline();
   input_paragraph = NULL;
 }
 
-void Text2Pdf::open_inline()
-// Open a new inline container and add it to the input data.
+void Text2Pdf::inline_set_font_size_percentage(int percentage)
+// Sets the font size percentage for inline text. 
 {
-  // If no paragraph is open, open it first, a default one.  
+  // Ensure that a paragraph is open.
+  ensure_open_paragraph();
+  // Store the inline value.
+  input_paragraph->inline_set_font_size_percentage(percentage);
 }
 
-void Text2Pdf::close_inline()
-// Close the open inline container.
+void Text2Pdf::inline_set_italic(int italic) // Todo implement.
+// Sets the italic markup for inline text. 
 {
+  // Ensure that a paragraph is open.
+  ensure_open_paragraph();
+  // Store the inline value.
+}
 
+void Text2Pdf::inline_set_bold(int bold) // Todo implement.
+// Sets the bold markup for inline text. 
+{
+  // Ensure that a paragraph is open.
+  ensure_open_paragraph();
+  // Store the inline value.
+}
+
+void Text2Pdf::inline_set_underline(int underline) // Todo implement.
+// Sets the underline markup for inline text. 
+{
+  // Ensure that a paragraph is open.
+  ensure_open_paragraph();
+  // Store the inline value.
+}
+
+void Text2Pdf::inline_set_small_caps(int small_caps) // Todo implement.
+// Sets the small capitals markup for inline text. 
+{
+  // Ensure that a paragraph is open.
+  ensure_open_paragraph();
+  // Store the inline value.
+}
+
+void Text2Pdf::inline_set_superscript(bool superscript) // Todo implement.
+// Sets the superscript markup for inline text. 
+{
+  // Ensure that a paragraph is open.
+  ensure_open_paragraph();
+  // Store the inline value.
+}
+
+void Text2Pdf::inline_set_colour(int colour) // Todo implement.
+// Sets the colour for inline text. 
+{
+  // Ensure that a paragraph is open.
+  ensure_open_paragraph();
+  // Store the inline value.
 }
 
 void Text2Pdf::add_text(const ustring& text)
 // Add text to whatever container is on top of the stack.
 {
-  T2PInputText * input_text = new T2PInputText (t2pitText, text);
-  if (input_paragraph == NULL) {
-    open_paragraph();
-  }
-  input_paragraph->children.push_back(input_text);
+  ensure_open_paragraph();
+  input_paragraph->add_text(text);
 }
 
 void Text2Pdf::view()
@@ -408,35 +477,36 @@ void Text2Pdf::set_font(const ustring& font_in)
 /*
 
  Todo text2pdf
- 
- To implement: 
 
- Remaining paragraph markup:
- - windows and orphans.
- - space before / after lets space disappear at the extremity of reference area.
- - hold with next paragraph, even if that has a different number of columns.
- If .add_text is called several times, it should take all of that text at once.
- Inline objects, fully.
- Headers
- Notes
- Drop-caps chapter numbers. In the stylesheet the size of these is just given as the number of lines it should span, and bold, etc.
- Flowing notes.
- Mixture of normal and flowing notes, with the flowing ones at the bottom.
- USFM to TextInput converter, for testing real-world examples.
- Images rendering, probably png only as cairo reads them natively.
+ How to implement inline formatting.
+ Store inline input (and other markers as well) as related to the offset of the current available text.
+ Best thing is to make an object that contains all of the inline formatting available.
+ There are methods that deal with the various layout related things.
+ Method that handles adding certain markup at a certain length of the input text.
+ There's a method that shifts offsets when some text has been laid out.
+ There's a method that produces the pango attribute list for certain text.
+ One of these methods takes the input paragraph's markup, and deducts the inline markup from that.
  
- The object receives other objects, such as paragraphs, etc, inline objects, and so on.
+ To implement headers.
  
+ To implement notes. 
+ Notes should be put in the reference area, but not in the "blocks" container, 
+ but instead in their own one.
+ 
+ To implement drop-caps chapter numbers. 
+ In the stylesheet the size of these is just given as the number of lines it should span, and bold, etc.
  A block can have one or more PangoLayouts. In the case that
  a PangoLayout intrudes in a block, then PangoLayouts are filled up till the height of the block has been reached,
  e.g. if chapter "10" is in a float, then this needs to ensure that the lines are at least two
  in that block.
  
- Paragraphs that keep with the next paragraph, as many as there can be, they all go in one block.
+ To implement flowing notes.
  
- Space before and after paragraphs are added manually using empty blocks with that space.
- At the start and end of the reference area, these empty blocks are disregarded.
+ To implement mixture of normal and flowing notes, with the flowing ones at the bottom.
  
+ To implement USFM to TextInput converter, for testing real-world examples.
+ 
+ To implement images rendering, probably png only as cairo reads them natively.
  When images are rendered, these go into the LayoutContainer object, though the name may have to be changed at that stage.
  
  Try right-to-left text such as Hebrew, and Farsi.

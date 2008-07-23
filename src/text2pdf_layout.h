@@ -24,7 +24,6 @@
 #include "text2pdf_area.h"
 #include <pango/pangocairo.h>
 #include "text2pdf_input.h"
-#include "text2pdf_block.h"
 
 class T2PLayoutContainer : public T2PArea
 {
@@ -33,14 +32,14 @@ public:
   virtual ~T2PLayoutContainer();
   void print (cairo_t *cairo);
   void layout_text (const ustring& font, T2PInputParagraph * paragraph, unsigned int line_number, ustring& text);
-  T2PArea * parent;
-  void debug ();
+  ustring text();
 private:
+  T2PArea * parent;
   PangoLayout * layout;
   void indentation_width_margins_alignment (T2PInputParagraph * paragraph, bool first_line);
   void justify (T2PInputParagraph * paragraph, const ustring& line, bool last_line, PangoAttrList *attrs);
   void index_white_space (const ustring& text, vector<guint>& offsets);
-  void set_font (const ustring& font, T2PInputParagraph * paragraph);
+  void set_font (T2PInputParagraph * paragraph, PangoAttrList *attrs, const ustring& font);
   void set_italic (T2PInputParagraph * paragraph, PangoAttrList *attrs);
   void set_bold (T2PInputParagraph * paragraph, PangoAttrList *attrs);
   void set_underline (T2PInputParagraph * paragraph, PangoAttrList *attrs);

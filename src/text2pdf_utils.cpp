@@ -44,28 +44,3 @@ double pango_units_to_points (int pango_units)
   return points;
 }
 
-PangoLayout * pango_layout_break_lines (cairo_t *cairo, int width_pango_units, const ustring& font, const ustring& text)
-// Allocates a new PangoLayout that contains the "text" broken up in wrapped lines  
-// that stay within the "width_pango_units".
-// The object needs to be freed by the caller.
-{
-  PangoLayout * layout;
-  layout = pango_cairo_create_layout(cairo);
-
-  PangoContext * context = pango_layout_get_context(layout);
-  pango_context_set_base_dir(context, PANGO_DIRECTION_LTR);
-
-  PangoFontDescription *desc;
-  desc = pango_font_description_from_string(font.c_str());
-  pango_layout_set_font_description(layout, desc);
-  pango_font_description_free(desc);
-
-  pango_layout_set_width(layout, width_pango_units);
-  pango_layout_set_indent(layout, millimeters_to_pango_units(0));
-  pango_layout_set_wrap(layout, PANGO_WRAP_WORD_CHAR);
-  pango_layout_set_alignment(layout, PANGO_ALIGN_LEFT);
-  pango_layout_set_auto_dir(layout, false);
-  pango_layout_set_text(layout, text.c_str(), -1);
-
-  return layout;
-}

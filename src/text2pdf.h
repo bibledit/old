@@ -51,6 +51,7 @@ private:
   // Input data.
 public:
   void open_paragraph();
+  void ensure_open_paragraph();
   void paragraph_set_font_size (unsigned int points);
   void paragraph_set_italic (bool italic);
   void paragraph_set_bold (bool bold);
@@ -63,13 +64,18 @@ public:
   void paragraph_set_right_margin (int millimeters);
   void paragraph_set_first_line_indent (int millimeters);
   void paragraph_set_column_count (unsigned int count);
-  void paragraph_set_keep_with_next (bool keep);
-  T2PInputParagraph * input_paragraph;
+  void paragraph_set_keep_with_next ();
   void close_paragraph();
-  void open_inline();
-  void close_inline();
+  void inline_set_font_size_percentage(int percentage);
+  void inline_set_italic(int italic);
+  void inline_set_bold(int bold);
+  void inline_set_underline(int underline);
+  void inline_set_small_caps(int small_caps);
+  void inline_set_superscript(bool superscript);
+  void inline_set_colour(int colour);
   void add_text(const ustring& text);
 private:
+  T2PInputParagraph * input_paragraph;
   vector <T2PInput *> input_data;
   deque <T2PBlock *> input_blocks;
 
@@ -102,11 +108,12 @@ private:
   vector <T2PPage *> pages;
   T2PBlock * block;
   T2PLayoutContainer * layoutcontainer;
-  void lay_out_paragraph(const ustring& paragraph);
+  void lay_out_paragraph();
   void get_next_layout_container();
   void fit_blocks_on_pages();
   void next_page();
-
+  void find_potential_widows_and_orphans();
+  
   // Output.
 public:
   void view();

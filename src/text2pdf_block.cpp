@@ -26,6 +26,12 @@ T2PBlock::T2PBlock(PangoRectangle rectangle_in, int column_count_in, int column_
   T2PArea(rectangle_in)
 // This is used as one block of text that must be kept together.
 {
+  // Default type is text.
+  type = t2pbtTextGeneral;
+  
+  // By default the block is not kept together with the next one.
+  keep_with_next = false;
+  
   // Column handling.
   // If there's more than one colum, the width of the block gets smaller.
   column_count = CLAMP (column_count_in, 1, 2);
@@ -69,10 +75,28 @@ void T2PBlock::print(cairo_t *cairo)
   }
 }
 
-void T2PBlock::debug()
-// Show debug information.
+ustring T2PBlock::text()
+// Shows block's text.
 {
+  ustring s;
   for (unsigned int l = 0; l < layoutcontainers.size(); l++) {
-    layoutcontainers[l]->debug();
+    if (l) s.append (" ");
+    s.append (layoutcontainers[l]->text());
+  }
+  return s;
+}
+
+void T2PBlock::set_widow_orphan_data (int paragraph_line_number, bool last_line_of_paragraph)
+// Sets data to be used later for widow and orphan control.
+{
+  if (paragraph_line_number == 0) {
+    type = t2pbtTextParagraphFirstLine;
+  }
+  if (last_line_of_paragraph) {
+    type = t2pbtTextParagraphLastLine;
+  }
+  if ((paragraph_line_number == 0) && last_line_of_paragraph) {
+    type = t2pbtTextParagraphOnlyLine;
   }
 }
+
