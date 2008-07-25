@@ -67,12 +67,19 @@ public:
   void paragraph_set_keep_with_next ();
   void close_paragraph();
   void inline_set_font_size_percentage(int percentage);
+  void inline_clear_font_size_percentage();
   void inline_set_italic(int italic);
+  void inline_clear_italic();
   void inline_set_bold(int bold);
+  void inline_clear_bold();
   void inline_set_underline(int underline);
+  void inline_clear_underline();
   void inline_set_small_caps(int small_caps);
+  void inline_clear_small_caps();
   void inline_set_superscript(bool superscript);
+  void inline_clear_superscript();
   void inline_set_colour(int colour);
+  void inline_clear_colour();
   void add_text(const ustring& text);
 private:
   T2PInputParagraph * input_paragraph;

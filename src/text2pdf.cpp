@@ -407,52 +407,100 @@ void Text2Pdf::inline_set_font_size_percentage(int percentage)
   input_paragraph->inline_set_font_size_percentage(percentage);
 }
 
-void Text2Pdf::inline_set_italic(int italic) // Todo implement.
+void Text2Pdf::inline_clear_font_size_percentage()
+// Clears the font size percentage for inline text. 
+{
+  inline_set_font_size_percentage(100);
+}
+
+void Text2Pdf::inline_set_italic(int italic)
 // Sets the italic markup for inline text. 
 {
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
   // Store the inline value.
+  input_paragraph->inline_set_italic((T2PMarkupType)italic);
 }
 
-void Text2Pdf::inline_set_bold(int bold) // Todo implement.
+void Text2Pdf::inline_clear_italic()
+// Clears the italic markup for inline text. 
+{
+  inline_set_italic(t2pmtInherit);
+}
+
+void Text2Pdf::inline_set_bold(int bold)
 // Sets the bold markup for inline text. 
 {
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
   // Store the inline value.
+  input_paragraph->inline_set_bold((T2PMarkupType)bold);
 }
 
-void Text2Pdf::inline_set_underline(int underline) // Todo implement.
+void Text2Pdf::inline_clear_bold()
+// Clears the bold markup for inline text. 
+{
+  inline_set_bold(t2pmtInherit);
+}
+
+void Text2Pdf::inline_set_underline(int underline)
 // Sets the underline markup for inline text. 
 {
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
   // Store the inline value.
+  input_paragraph->inline_set_underline((T2PMarkupType)underline);
 }
 
-void Text2Pdf::inline_set_small_caps(int small_caps) // Todo implement.
+void Text2Pdf::inline_clear_underline()
+// Sets the underline markup for inline text. 
+{
+  inline_set_underline(t2pmtInherit);
+}
+
+void Text2Pdf::inline_set_small_caps(int small_caps)
 // Sets the small capitals markup for inline text. 
 {
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
   // Store the inline value.
+  input_paragraph->inline_set_small_caps((T2PMarkupType)small_caps);
 }
 
-void Text2Pdf::inline_set_superscript(bool superscript) // Todo implement.
+void Text2Pdf::inline_clear_small_caps()
+// Clears the small capitals markup for inline text. 
+{
+  inline_set_small_caps(t2pmtInherit);
+}
+
+void Text2Pdf::inline_set_superscript(bool superscript)
 // Sets the superscript markup for inline text. 
 {
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
   // Store the inline value.
+  input_paragraph->inline_set_superscript(superscript);
 }
 
-void Text2Pdf::inline_set_colour(int colour) // Todo implement.
+void Text2Pdf::inline_clear_superscript()
+// Clears the superscript markup for inline text. 
+{
+  inline_set_superscript(false);
+}
+
+void Text2Pdf::inline_set_colour(int colour)
 // Sets the colour for inline text. 
 {
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
   // Store the inline value.
+  input_paragraph->inline_set_colour(colour);
+}
+
+void Text2Pdf::inline_clear_colour()
+// Clears the colour for inline text. 
+{
+  inline_set_colour(0);
 }
 
 void Text2Pdf::add_text(const ustring& text)
@@ -478,15 +526,7 @@ void Text2Pdf::set_font(const ustring& font_in)
 
  Todo text2pdf
 
- How to implement inline formatting.
- Store inline input (and other markers as well) as related to the offset of the current available text.
- Best thing is to make an object that contains all of the inline formatting available.
- There are methods that deal with the various layout related things.
- Method that handles adding certain markup at a certain length of the input text.
- There's a method that shifts offsets when some text has been laid out.
- There's a method that produces the pango attribute list for certain text.
- One of these methods takes the input paragraph's markup, and deducts the inline markup from that.
- 
+
  To implement headers.
  
  To implement notes. 
@@ -525,6 +565,13 @@ void Text2Pdf::set_font(const ustring& font_in)
  Then there's another option in the menu that lets the text2pdf object read its input from a file, and makes 
  pdf out of that. By doing so the user has maximum flexibility to print his own bible and make corrections 
  that bibledit can't do yet.
+ 
+ In the new stylesheet, the "superscript" property in the stylesheet is enough to both raise the letter
+ and to set the new font size, and make it slightly heavier.
+ To remove the font size property altogether, so as to make things easier.
+ If users wish more control, they can do the manual conversion routine.
+ Footnotes don't need superscript, except for the caller in the text.
+ The footnotes themselves just use the same characters for both caller in note and note text itself.
  
  */
 

@@ -30,20 +30,23 @@ class T2PLayoutContainer : public T2PArea
 public:
   T2PLayoutContainer(PangoRectangle rectangle_in, T2PArea * parent_in, cairo_t *cairo);
   virtual ~T2PLayoutContainer();
-  void print (cairo_t *cairo);
-  void layout_text (const ustring& font, T2PInputParagraph * paragraph, unsigned int line_number, ustring& text);
+  void print(cairo_t *cairo);
+  void layout_text(const ustring& font, T2PInputParagraph * paragraph, unsigned int line_number, ustring& text);
   ustring text();
 private:
   T2PArea * parent;
   PangoLayout * layout;
-  void indentation_width_margins_alignment (T2PInputParagraph * paragraph, bool first_line);
-  void justify (T2PInputParagraph * paragraph, const ustring& line, bool last_line, PangoAttrList *attrs);
-  void index_white_space (const ustring& text, vector<guint>& offsets);
-  void set_font (T2PInputParagraph * paragraph, PangoAttrList *attrs, const ustring& font);
-  void set_italic (T2PInputParagraph * paragraph, PangoAttrList *attrs);
-  void set_bold (T2PInputParagraph * paragraph, PangoAttrList *attrs);
-  void set_underline (T2PInputParagraph * paragraph, PangoAttrList *attrs);
-  void set_small_caps (T2PInputParagraph * paragraph, PangoAttrList *attrs);
+  void indentation_width_margins_alignment(T2PInputParagraph * paragraph, bool first_line);
+  void justify(T2PInputParagraph * paragraph, const ustring& line, bool last_line, PangoAttrList *attrs);
+  void index_white_space(const ustring& text, vector<guint>& offsets);
+  void set_font(T2PInputParagraph * paragraph, PangoAttrList *attrs, const ustring& font);
+  void set_italic(T2PInputParagraph * paragraph, PangoAttrList *attrs);
+  void set_bold(T2PInputParagraph * paragraph, PangoAttrList *attrs);
+  void set_underline(T2PInputParagraph * paragraph, PangoAttrList *attrs);
+  void set_small_caps(T2PInputParagraph * paragraph, PangoAttrList *attrs);
+  void set_superscript_font_scale_weight(T2PInputParagraph * paragraph, PangoAttrList *attrs);
+  bool set_superscript_ascent(T2PInputParagraph * paragraph, PangoAttrList *attrs, size_t text_length);
+  void set_colour(T2PInputParagraph * paragraph, PangoAttrList *attrs);
 };
 
 #endif

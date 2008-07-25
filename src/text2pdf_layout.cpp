@@ -25,6 +25,7 @@
 #include "tiny_utilities.h"
 #include "gwrappers.h"
 #include "text2pdf_block.h"
+#include "color.h"
 
 T2PLayoutContainer::T2PLayoutContainer(PangoRectangle rectangle_in, T2PArea * parent_in, cairo_t *cairo) :
   T2PArea(rectangle_in)
@@ -63,12 +64,19 @@ void T2PLayoutContainer::layout_text(const ustring& font, T2PInputParagraph * pa
   set_underline(paragraph, attrs);
   set_small_caps(paragraph, attrs);
 
+  set_superscript_font_scale_weight(paragraph, attrs);
+  
+  set_colour(paragraph, attrs);
+
   pango_layout_set_wrap(layout, PANGO_WRAP_WORD_CHAR);
   pango_layout_set_text(layout, text.c_str(), -1);
   pango_layout_set_attributes(layout, attrs);
 
   // Get whether this is the last line.
   bool last_line_of_paragraph_loaded = pango_layout_get_line_count(layout) == 1;
+
+  // Get the original length of the text.
+  size_t original_length_of_text = text.length();
 
   // Get the first line in the layout, and ensure that there's only one in the layout.
   // Store any remnant of the input text.
@@ -91,11 +99,32 @@ void T2PLayoutContainer::layout_text(const ustring& font, T2PInputParagraph * pa
   if (paragraph->alignment == t2patJustified)
     justify(paragraph, line, last_line_of_paragraph_loaded, attrs);
 
+  // Store the height of the layout before superscript is applied.
+  pango_layout_get_size(layout, NULL, &(rectangle.height));
+
+  /*
+   Set superscript.
+   If superscript is there, then the height of the PangoLayout increases.
+   This increased height gives the visual effect of a bigger line distance.
+   However, this is undesireable.
+   Therefore there is a mechanism that corrects for the increased height.
+   The height of the PangoLayout is measured without superscript applied.
+   Then the superscript, if any, is applied.
+   The new height is measured, which will be bigger if there was any superscript.
+   To correct for that, an offset for the base line is set.
+   At printing time this will move up the base line of the text.
+   */
+  if (set_superscript_ascent(paragraph, attrs, original_length_of_text)) {
+    pango_layout_set_attributes(layout, attrs);
+    int height_with_superscript;
+    pango_layout_get_size(layout, NULL, &height_with_superscript);
+    if (height_with_superscript != rectangle.height) {
+      baseline_offset_pango_units = rectangle.height - height_with_superscript;
+    }
+  }
+
   // Free attributes.
   pango_attr_list_unref(attrs);
-
-  // Store the height of the layout.
-  pango_layout_get_size(layout, NULL, &(rectangle.height));
 
   // Have the parent fit the container in.
   ((T2PBlock *)parent)->refit_layout_container(this);
@@ -110,7 +139,7 @@ void T2PLayoutContainer::print(cairo_t *cairo)
   // Write text in black.
   cairo_set_source_rgb(cairo, 0.0, 0.0, 0.0);
   // Move into position.
-  cairo_move_to(cairo, pango_units_to_points(rectangle.x), pango_units_to_points(rectangle.y));
+  cairo_move_to(cairo, pango_units_to_points(rectangle.x), pango_units_to_points(rectangle.y + baseline_offset_pango_units));
   // Show text.
   if (layout) {
     pango_cairo_show_layout(cairo, layout);
@@ -274,37 +303,64 @@ void T2PLayoutContainer::set_font(T2PInputParagraph * paragraph, PangoAttrList *
 void T2PLayoutContainer::set_italic(T2PInputParagraph * paragraph, PangoAttrList *attrs)
 // Sets the italics, if any.
 {
-  if (paragraph->italic) {
-    PangoAttribute *attr;
-    attr = pango_attr_style_new(PANGO_STYLE_ITALIC);
-    attr->start_index = 0;
-    attr->end_index = -1;
-    pango_attr_list_insert(attrs, attr);
-  }
+  bool in_range;
+  int index = 0;
+  int start_index, end_index;
+  bool italic;
+  do {
+    if (paragraph->inline_get_italic(index, in_range, italic, start_index, end_index)) {
+      if (italic) {
+        PangoAttribute *attr;
+        attr = pango_attr_style_new(PANGO_STYLE_ITALIC);
+        attr->start_index = start_index;
+        attr->end_index = end_index;
+        pango_attr_list_insert(attrs, attr);
+      }
+    }
+    index++;
+  } while (in_range);
 }
 
 void T2PLayoutContainer::set_bold(T2PInputParagraph * paragraph, PangoAttrList *attrs)
 // Sets bold text.
 {
-  if (paragraph->bold) {
-    PangoAttribute *attr;
-    attr = pango_attr_weight_new(PANGO_WEIGHT_BOLD);
-    attr->start_index = 0;
-    attr->end_index = -1;
-    pango_attr_list_insert(attrs, attr);
-  }
+  bool in_range;
+  int index = 0;
+  int start_index, end_index;
+  bool bold;
+  do {
+    if (paragraph->inline_get_bold(index, in_range, bold, start_index, end_index)) {
+      if (bold) {
+        PangoAttribute *attr;
+        attr = pango_attr_weight_new(PANGO_WEIGHT_BOLD);
+        attr->start_index = start_index;
+        attr->end_index = end_index;
+        pango_attr_list_insert(attrs, attr);
+      }
+    }
+    index++;
+  } while (in_range);
 }
 
 void T2PLayoutContainer::set_underline(T2PInputParagraph * paragraph, PangoAttrList *attrs)
 // Sets the underline attribute.
 {
-  if (paragraph->underline) {
-    PangoAttribute *attr;
-    attr = pango_attr_underline_new(PANGO_UNDERLINE_SINGLE);
-    attr->start_index = 0;
-    attr->end_index = -1;
-    pango_attr_list_insert(attrs, attr);
-  }
+  bool in_range;
+  int index = 0;
+  int start_index, end_index;
+  bool underline;
+  do {
+    if (paragraph->inline_get_underline(index, in_range, underline, start_index, end_index)) {
+      if (underline) {
+        PangoAttribute *attr;
+        attr = pango_attr_underline_new(PANGO_UNDERLINE_SINGLE);
+        attr->start_index = start_index;
+        attr->end_index = end_index;
+        pango_attr_list_insert(attrs, attr);
+      }
+    }
+    index++;
+  } while (in_range);
 }
 
 void T2PLayoutContainer::set_small_caps(T2PInputParagraph * paragraph, PangoAttrList *attrs)
@@ -336,12 +392,101 @@ void T2PLayoutContainer::set_small_caps(T2PInputParagraph * paragraph, PangoAttr
  this may not always be the case.
  */
 {
-  if (paragraph->small_caps) {
-    PangoAttribute *attr;
-    attr = pango_attr_variant_new(PANGO_VARIANT_SMALL_CAPS);
-    attr->start_index = 0;
-    attr->end_index = -1;
-    pango_attr_list_insert(attrs, attr);
-  }
+  bool in_range;
+  int index = 0;
+  int start_index, end_index;
+  bool small_caps;
+  do {
+    if (paragraph->inline_get_small_caps(index, in_range, small_caps, start_index, end_index)) {
+      if (small_caps) {
+        PangoAttribute *attr;
+        attr = pango_attr_variant_new(PANGO_VARIANT_SMALL_CAPS);
+        attr->start_index = start_index;
+        attr->end_index = end_index;
+        pango_attr_list_insert(attrs, attr);
+      }
+    }
+    index++;
+  } while (in_range);
+}
+
+void T2PLayoutContainer::set_superscript_font_scale_weight(T2PInputParagraph * paragraph, PangoAttrList *attrs)
+// Sets the superscript font scale and weight.
+{
+  bool in_range;
+  int index = 0;
+  int start_index, end_index;
+  bool superscript;
+  do {
+    if (paragraph->inline_get_superscript(index, in_range, superscript, start_index, end_index, paragraph->text.length())) {
+      {
+        PangoAttribute *attr;
+        // In professional typesetting software, the size of the superscript character is 58%
+        attr = pango_attr_scale_new(0.58);
+        attr->start_index = start_index;
+        attr->end_index = end_index;
+        pango_attr_list_insert(attrs, attr);
+      }
+      {
+        // To keep the superscript character visually similar to the rest of the font, 
+        // the weight should be slightly heavier than the reduced-size character would be.
+        PangoAttribute *attr;
+        attr = pango_attr_weight_new((PangoWeight)((PANGO_WEIGHT_NORMAL + PANGO_WEIGHT_SEMIBOLD)/2));
+        attr->start_index = start_index;
+        attr->end_index = end_index;
+        pango_attr_list_insert(attrs, attr);
+      }
+    }
+    index++;
+  } while (in_range);
+
+}
+
+bool T2PLayoutContainer::set_superscript_ascent(T2PInputParagraph * paragraph, PangoAttrList *attrs, size_t text_length)
+// Sets the superscript markup.
+// Returns whether any superscript is present in the paragraph.
+{
+  bool superscript_present = false;
+  bool in_range;
+  int index = 0;
+  int start_index, end_index;
+  bool superscript;
+  do {
+    if (paragraph->inline_get_superscript(index, in_range, superscript, start_index, end_index, text_length)) {
+      {
+        // In professional typesetting software, the superscript character is raised by 33%.
+        PangoAttribute *attr;
+        attr = pango_attr_rise_new(int(paragraph->font_size_points * PANGO_SCALE * 0.33));
+        attr->start_index = start_index;
+        attr->end_index = end_index;
+        pango_attr_list_insert(attrs, attr);
+      }
+      superscript_present = true;
+    }
+    index++;
+  } while (in_range);
+  return superscript_present;
+}
+
+void T2PLayoutContainer::set_colour(T2PInputParagraph * paragraph, PangoAttrList *attrs)
+// Sets the colour.
+{
+  // Set attributes for the inline font size.
+  bool in_range;
+  int index = 0;
+  int start_index, end_index;
+  int colour;
+  do {
+    if (paragraph->inline_get_colour(index, in_range, colour, start_index, end_index)) {
+      PangoColor pangocolor;
+      pango_color_parse (&pangocolor, color_decimal_to_hex (colour).c_str());
+      PangoAttribute *attr;
+      attr = pango_attr_foreground_new(pangocolor.red, pangocolor.green, pangocolor.blue);
+      attr->start_index = start_index;
+      attr->end_index = end_index;
+      pango_attr_list_insert(attrs, attr);
+    }
+    index++;
+  } while (in_range);
 }
 

@@ -24,7 +24,7 @@
 
 enum T2PInputType { t2pitParagraph };
 enum T2PAlignmentType { t2patLeft, t2patCenter, t2patRight, t2patJustified };
-enum T2PMarkupType { t2pmtOn, t2pmtOff, t2pmtInherit, t2pmtToggle };
+enum T2PMarkupType { t2pmtOff, t2pmtOn, t2pmtInherit, t2pmtToggle };
 
 class T2PInput
 {
@@ -57,29 +57,47 @@ public:
   ustring text;
   void inline_set_font_size_percentage(int percentage);
   bool inline_get_font_size(unsigned int index, bool& in_range, int& size, int& start_index, int& end_index);
+  void inline_set_italic(T2PMarkupType italic, bool cleanup_only = false);
+  bool inline_get_italic(unsigned int index, bool& in_range, bool& value, int& start_index, int& end_index);
+  void inline_set_bold(T2PMarkupType bold, bool cleanup_only = false);
+  bool inline_get_bold(unsigned int index, bool& in_range, bool& value, int& start_index, int& end_index);
+  void inline_set_underline(T2PMarkupType underline, bool cleanup_only = false);
+  bool inline_get_underline(unsigned int index, bool& in_range, bool& value, int& start_index, int& end_index);
+  void inline_set_small_caps(T2PMarkupType small_caps, bool cleanup_only = false);
+  bool inline_get_small_caps(unsigned int index, bool& in_range, bool& value, int& start_index, int& end_index);
+  void inline_set_superscript(bool superscript);
+  bool inline_get_superscript(unsigned int index, bool& in_range, bool& superscript, int& start_index, int& end_index, size_t text_length);
+  void inline_set_colour(int colour);
+  bool inline_get_colour(unsigned int index, bool& in_range, int& value, int& start_index, int& end_index);
 private:
   size_t maximum_text_length;
   vector <int> font_size_percentage_values;
   vector <int> font_size_percentage_start_indices;
   vector <int> font_size_percentage_end_indices;
+  void inline_set_value (vector <int>& values, vector <int>& start_indices, vector <int>& end_indices, T2PMarkupType value, bool cleanup_only);
+  bool inline_get_value (vector <int>& values, vector <int>& start_indices, vector <int>& end_indices, bool& values_completed, bool paragraph_value, unsigned int index, bool& in_range, bool& value, int& start_index, int& end_index);
   vector <int> italic_values;
-  vector <int> italic_offsets;
-  vector <int> italic_lengths;
+  vector <int> italic_start_indices;
+  vector <int> italic_end_indices;
+  bool italic_values_completed;
   vector <int> bold_values;
-  vector <int> bold_offsets;
-  vector <int> bold_lengths;
+  vector <int> bold_start_indices;
+  vector <int> bold_end_indices;
+  bool bold_values_completed;
   vector <int> underline_values;
-  vector <int> underline_offsets;
-  vector <int> underline_lengths;
+  vector <int> underline_start_indices;
+  vector <int> underline_end_indices;
+  bool underline_values_completed;
   vector <int> small_caps_values;
-  vector <int> small_caps_offsets;
-  vector <int> small_caps_lengths;
+  vector <int> small_caps_start_indices;
+  vector <int> small_caps_end_indices;
+  bool small_caps_values_completed;
   vector <bool> superscript_values;
-  vector <int> superscript_offsets;
-  vector <int> superscript_lengths;
+  vector <int> superscript_start_indices;
+  vector <int> superscript_end_indices;
   vector <int> colour_values;
-  vector <int> colour_offsets;
-  vector <int> colour_lengths;
+  vector <int> colour_start_indices;
+  vector <int> colour_end_indices;
 };
 
 #endif
