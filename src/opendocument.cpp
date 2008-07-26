@@ -467,8 +467,8 @@ void OpenDocument::generate_styles_xml(bool right_to_left)
   xmlTextWriterWriteAttribute(writer, BAD_CAST "style:num-format", BAD_CAST "1");
   xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "fo:margin-top", "%.2fcm", settings->genconfig.paper_top_margin_get());
   xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "fo:margin-bottom", "%.2fcm", settings->genconfig.paper_bottom_margin_get());
-  xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "fo:margin-left", "%.2fcm", settings->genconfig.paper_left_margin_get());
-  xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "fo:margin-right", "%.2fcm", settings->genconfig.paper_right_margin_get());
+  xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "fo:margin-left", "%.2fcm", settings->genconfig.paper_inside_margin_get());
+  xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "fo:margin-right", "%.2fcm", settings->genconfig.paper_outside_margin_get());
   if (right_to_left) {
     xmlTextWriterWriteAttribute(writer, BAD_CAST "style:writing-mode", BAD_CAST "rl-tb");
     xmlTextWriterWriteAttribute(writer, BAD_CAST "writing-mode", BAD_CAST "rl-tb");

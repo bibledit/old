@@ -111,8 +111,8 @@ XmlFoLayoutMasterSet::XmlFoLayoutMasterSet (vector<ustring> * lines, bool twocol
   line = "      <fo:region-body margin-top=\""
        + convert_to_string (settings->genconfig.paper_top_margin_get ()) + "cm\" margin-bottom=\""
        + convert_to_string (settings->genconfig.paper_bottom_margin_get ()) + "cm\" margin-left=\""
-       + convert_to_string (settings->genconfig.paper_left_margin_get ()) + "cm\" margin-right=\"" 
-       + convert_to_string (settings->genconfig.paper_right_margin_get ()) + "cm\"";
+       + convert_to_string (settings->genconfig.paper_inside_margin_get ()) + "cm\" margin-right=\"" 
+       + convert_to_string (settings->genconfig.paper_outside_margin_get ()) + "cm\"";
   if (twocolumns)
     line.append (" column-count=\"2\"");
   line.append("></fo:region-body>");
@@ -129,8 +129,8 @@ XmlFoLayoutMasterSet::XmlFoLayoutMasterSet (vector<ustring> * lines, bool twocol
   line = "      <fo:region-body margin-top=\""
        + convert_to_string (settings->genconfig.paper_top_margin_get ()) + "cm\" margin-bottom=\""
        + convert_to_string (settings->genconfig.paper_bottom_margin_get ()) + "cm\" margin-left=\""
-       + convert_to_string (settings->genconfig.paper_right_margin_get ()) + "cm\" margin-right=\""
-       + convert_to_string (settings->genconfig.paper_left_margin_get ()) + "cm\"";
+       + convert_to_string (settings->genconfig.paper_outside_margin_get ()) + "cm\" margin-right=\""
+       + convert_to_string (settings->genconfig.paper_inside_margin_get ()) + "cm\"";
   if (twocolumns)
     line.append (" column-count=\"2\"");
   line.append("></fo:region-body>");
@@ -191,12 +191,12 @@ XmlFoStaticContent::XmlFoStaticContent (vector<ustring> * lines, bool chapter_le
   lines->push_back ("    <fo:static-content flow-name=\"header-odd\">");
   lines->push_back ("      <fo:table table-layout=\"fixed\" width=\"100%\">");
   line =            "        <fo:table-column column-width=\"2cm\"/>";
-  replace_text (line, "2", convert_to_string (settings->genconfig.paper_left_margin_get ()));
+  replace_text (line, "2", convert_to_string (settings->genconfig.paper_inside_margin_get ()));
   lines->push_back (line);
   lines->push_back ("        <fo:table-column column-width=\"proportional-column-width(1)\"/>");
   lines->push_back ("        <fo:table-column column-width=\"proportional-column-width(1)\"/>");
   line =            "        <fo:table-column column-width=\"1cm\"/>";
-  replace_text (line, "1", convert_to_string (settings->genconfig.paper_right_margin_get ()));
+  replace_text (line, "1", convert_to_string (settings->genconfig.paper_outside_margin_get ()));
   lines->push_back (line);
   lines->push_back ("        <fo:table-body>");
   line =            "          <fo:table-row height=\"1.8cm\">";
@@ -229,12 +229,12 @@ XmlFoStaticContent::XmlFoStaticContent (vector<ustring> * lines, bool chapter_le
   lines->push_back ("    <fo:static-content flow-name=\"header-even\">");
   lines->push_back ("      <fo:table table-layout=\"fixed\" width=\"100%\">");
   line =            "        <fo:table-column column-width=\"1cm\"/>";
-  replace_text (line, "1", convert_to_string (settings->genconfig.paper_right_margin_get ()));
+  replace_text (line, "1", convert_to_string (settings->genconfig.paper_outside_margin_get ()));
   lines->push_back (line);
   lines->push_back ("        <fo:table-column column-width=\"proportional-column-width(1)\"/>");
   lines->push_back ("        <fo:table-column column-width=\"proportional-column-width(1)\"/>");
   line =            "        <fo:table-column column-width=\"2cm\"/>";
-  replace_text (line, "2", convert_to_string (settings->genconfig.paper_left_margin_get ()));
+  replace_text (line, "2", convert_to_string (settings->genconfig.paper_inside_margin_get ()));
   lines->push_back (line);
   lines->push_back ("        <fo:table-body>");
   line =            "          <fo:table-row height=\"1.8cm\">";

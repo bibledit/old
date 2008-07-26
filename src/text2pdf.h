@@ -50,6 +50,8 @@ private:
 
   // Input data.
 public:
+  void open_keep_together();
+  void close_keep_together();
   void open_paragraph();
   void ensure_open_paragraph();
   void paragraph_set_font_size (unsigned int points);
@@ -84,6 +86,7 @@ public:
 private:
   T2PInputParagraph * input_paragraph;
   vector <T2PInput *> input_data;
+  bool keep_data_together;
   deque <T2PBlock *> input_blocks;
 
   // Areas and their sizes.
@@ -93,12 +96,14 @@ public:
   void header_height_set(double size_centimeters);
   void footer_height_set(double size_centimeters);
   void column_spacing_set(double spacing_centimeters);
+  void page_one_column_only();
 private:
   int page_width_pango_units, page_height_pango_units;
   int inside_margin_pango_units, outside_margin_pango_units, top_margin_pango_units, bottom_margin_pango_units;
   int header_height_pango_units;
   int footer_height_pango_units;
   int column_spacing_pango_units;
+  bool one_column_only;
 
   // Fonts.
 public:

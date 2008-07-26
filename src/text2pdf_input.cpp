@@ -243,7 +243,7 @@ bool T2PInputParagraph::inline_get_superscript(unsigned int index, bool& in_rang
 void T2PInputParagraph::inline_set_colour(int colour)
 // Store a value for the inline colour.
 {
-  if (colour == 100) {
+  if (colour == 0) {
     for (int i = colour_end_indices.size()-1; i >= 0; i--) {
       if (colour_end_indices[i] == -1) {
         colour_end_indices[i] = maximum_text_length;

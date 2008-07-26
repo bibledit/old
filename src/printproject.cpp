@@ -95,7 +95,7 @@ void PrintProject::print ()
   usfm2xslfo.set_line_height (projectconfig->printing_line_height_get());
   if (projectconfig->right_to_left_get ()) usfm2xslfo.set_right_to_left ();
   usfm2xslfo.set_page_size (settings->genconfig.paper_width_get (), settings->genconfig.paper_height_get ());
-  usfm2xslfo.set_margins (settings->genconfig.paper_top_margin_get (), settings->genconfig.paper_bottom_margin_get (), settings->genconfig.paper_left_margin_get (), settings->genconfig.paper_right_margin_get ());
+  usfm2xslfo.set_margins (settings->genconfig.paper_top_margin_get (), settings->genconfig.paper_bottom_margin_get (), settings->genconfig.paper_inside_margin_get (), settings->genconfig.paper_outside_margin_get ());
   usfm2xslfo.set_two_columns ();
   if (settings->session.print_references_in_notes_in_full) {
     usfm2xslfo.set_include_full_references_with_notes ();

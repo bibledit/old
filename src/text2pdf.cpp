@@ -81,9 +81,12 @@ void Text2Pdf::initialize_variables()
   footer_height_pango_units = centimeters_to_pango_units(0);
   // The default spacing between the two columsn in centimeters.
   column_spacing_pango_units = centimeters_to_pango_units(0.5);
+  // Whether one column only.
+  one_column_only = false;
   // The input variables.
   input_paragraph = NULL;
-
+  keep_data_together = false;
+  
   // Layout engine.
   page = NULL;
   block = NULL;
@@ -124,6 +127,12 @@ void Text2Pdf::column_spacing_set(double spacing_centimeters)
 // Text is normally laid out in two columns, but there are elements that span the columns.
 {
   column_spacing_pango_units = centimeters_to_pango_units(spacing_centimeters);
+}
+
+void Text2Pdf::page_one_column_only()
+// Sets that there's only one column on the pages.
+{
+  one_column_only = true;
 }
 
 void Text2Pdf::run()
@@ -168,6 +177,29 @@ void Text2Pdf::run_input(vector <T2PInput *>& input)
         lay_out_paragraph();
         break;
       }
+      case t2pitOpenKeepTogether: // Todo working here.
+      {
+        // Paragraphs from here till the next t2pitCloseKeepTogether should be kept together
+        // in one column or page.
+        // Set the flag.
+        keep_data_together = true;
+        break;
+      }
+      case t2pitCloseKeepTogether: // Todo working here.
+      {
+        // Clear the flag.
+        keep_data_together = false;
+        // To work with the layout engine's model, add an empty block.
+        PangoRectangle rectangle;
+        rectangle.x = 0;
+        rectangle.y = 0;
+        rectangle.width = 0;
+        rectangle.height = 0;
+        T2PBlock * block = new T2PBlock (rectangle, 1, column_spacing_pango_units);
+        block->type = t2pbtSpaceAfterParagraph;
+        input_blocks.push_back(block);
+        break;
+      }
     }
   }
 }
@@ -187,7 +219,7 @@ void Text2Pdf::lay_out_paragraph()
     rectangle.y = 0;
     rectangle.width = page_width_pango_units - inside_margin_pango_units - outside_margin_pango_units;
     rectangle.height = millimeters_to_pango_units(input_paragraph->space_before_mm);
-    T2PBlock * block = new T2PBlock (rectangle, input_paragraph->column_count, column_spacing_pango_units);
+    T2PBlock * block = new T2PBlock (rectangle, one_column_only ? 1 : input_paragraph->column_count, column_spacing_pango_units);
     block->type = t2pbtSpaceBeforeParagraph;
     block->keep_with_next = true;
     input_blocks.push_back(block);
@@ -211,7 +243,7 @@ void Text2Pdf::lay_out_paragraph()
     rectangle.y = 0;
     rectangle.width = page_width_pango_units - inside_margin_pango_units - outside_margin_pango_units;
     rectangle.height = millimeters_to_pango_units(input_paragraph->space_after_mm);
-    T2PBlock * block = new T2PBlock (rectangle, input_paragraph->column_count, column_spacing_pango_units);
+    T2PBlock * block = new T2PBlock (rectangle, one_column_only ? 1 : input_paragraph->column_count, column_spacing_pango_units);
     block->type = t2pbtSpaceAfterParagraph;
     block->keep_with_next = input_paragraph->keep_with_next;
     input_blocks.push_back(block);
@@ -228,8 +260,8 @@ void Text2Pdf::get_next_layout_container()
   rectangle.y = 0;
   rectangle.width = page_width_pango_units - inside_margin_pango_units - outside_margin_pango_units;
   rectangle.height = 0;
-  T2PBlock * block = new T2PBlock (rectangle, input_paragraph->column_count, column_spacing_pango_units);
-  block->keep_with_next = input_paragraph->keep_with_next;
+  T2PBlock * block = new T2PBlock (rectangle, one_column_only ? 1 : input_paragraph->column_count, column_spacing_pango_units);
+  block->keep_with_next = input_paragraph->keep_with_next || keep_data_together;
   // Store the block.
   input_blocks.push_back(block);
   // Create a new layout container.
@@ -284,6 +316,20 @@ void Text2Pdf::next_page()
       inside_margin_pango_units, outside_margin_pango_units, top_margin_pango_units, bottom_margin_pango_units,
       header_height_pango_units, footer_height_pango_units);
   pages.push_back(page);
+}
+
+void Text2Pdf::open_keep_together() // Todo working here.
+// Anything between this and the closer is kept together in one page or column.
+{
+  close_paragraph();
+  input_data.push_back (new T2PInput (t2pitOpenKeepTogether)); 
+}
+
+void Text2Pdf::close_keep_together() // Todo working here.
+// Close keeping together in one page or column.
+{
+  close_paragraph();
+  input_data.push_back (new T2PInput (t2pitCloseKeepTogether)); 
 }
 
 void Text2Pdf::open_paragraph()
@@ -526,6 +572,11 @@ void Text2Pdf::set_font(const ustring& font_in)
 
  Todo text2pdf
 
+ To implement usfm2text for simple references printing, as an extra option.
+ We drive the usfm2text object, and let it process bit by bit, each time a small bit.
+ Then we drive also the text2pdf object within the usfm2text object, so as to allow it to insert
+ extra markup that is not in the usfm standard. This can be space before, or hold together, or anything.
+ 
 
  To implement headers.
  
@@ -572,6 +623,11 @@ void Text2Pdf::set_font(const ustring& font_in)
  If users wish more control, they can do the manual conversion routine.
  Footnotes don't need superscript, except for the caller in the text.
  The footnotes themselves just use the same characters for both caller in note and note text itself.
+ 
+ When laying out long paragraphs, this takes a huge amount of time.
+ Therefore we don't load the full paragraph in the PangoLayout each time, but
+ a maximum of so many characters only, or load the first one fully, then measure length of characters, then
+ subsequent timse only load double the measured characters.
  
  */
 

@@ -79,8 +79,8 @@ public:
   DEFINE_GENCONFIG_H (ustring, paper_format);
   DEFINE_GENCONFIG_H (double, paper_width);
   DEFINE_GENCONFIG_H (double, paper_height);
-  DEFINE_GENCONFIG_H (double, paper_left_margin);
-  DEFINE_GENCONFIG_H (double, paper_right_margin);
+  DEFINE_GENCONFIG_H (double, paper_inside_margin);
+  DEFINE_GENCONFIG_H (double, paper_outside_margin);
   DEFINE_GENCONFIG_H (double, paper_top_margin);
   DEFINE_GENCONFIG_H (double, paper_bottom_margin);
   DEFINE_GENCONFIG_H (bool, notes_print_full_page_width);

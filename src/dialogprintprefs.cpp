@@ -174,7 +174,7 @@ PrintPreferencesDialog::PrintPreferencesDialog (int dummy)
                     (GtkAttachOptions) (0), 0, 0);
   gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (spinbutton_left), TRUE);
 
-  gtk_spin_button_set_value (GTK_SPIN_BUTTON (spinbutton_left), settings->genconfig.paper_left_margin_get ());
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (spinbutton_left), settings->genconfig.paper_inside_margin_get ());
 
   spinbutton_right_adj = gtk_adjustment_new (1, 0, 100, 0.01, 0.1, 0.1);
   spinbutton_right = gtk_spin_button_new (GTK_ADJUSTMENT (spinbutton_right_adj), 1, 2);
@@ -184,7 +184,7 @@ PrintPreferencesDialog::PrintPreferencesDialog (int dummy)
                     (GtkAttachOptions) (0), 0, 0);
   gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (spinbutton_right), TRUE);
 
-  gtk_spin_button_set_value (GTK_SPIN_BUTTON (spinbutton_right), settings->genconfig.paper_right_margin_get ());
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (spinbutton_right), settings->genconfig.paper_outside_margin_get ());
 
   spinbutton_top_adj = gtk_adjustment_new (1, 0, 100, 0.01, 0.1, 0.1);
   spinbutton_top = gtk_spin_button_new (GTK_ADJUSTMENT (spinbutton_top_adj), 1, 2);
@@ -340,8 +340,8 @@ void PrintPreferencesDialog::on_okbutton1 ()
   settings->genconfig.paper_format_set (combobox_get_active_string (combo_format));
   settings->genconfig.paper_width_set (gtk_spin_button_get_value (GTK_SPIN_BUTTON (spinbutton_width)));
   settings->genconfig.paper_height_set (gtk_spin_button_get_value (GTK_SPIN_BUTTON (spinbutton_height)));
-  settings->genconfig.paper_left_margin_set (gtk_spin_button_get_value (GTK_SPIN_BUTTON (spinbutton_left)));
-  settings->genconfig.paper_right_margin_set (gtk_spin_button_get_value (GTK_SPIN_BUTTON (spinbutton_right)));
+  settings->genconfig.paper_inside_margin_set (gtk_spin_button_get_value (GTK_SPIN_BUTTON (spinbutton_left)));
+  settings->genconfig.paper_outside_margin_set (gtk_spin_button_get_value (GTK_SPIN_BUTTON (spinbutton_right)));
   settings->genconfig.paper_top_margin_set (gtk_spin_button_get_value (GTK_SPIN_BUTTON (spinbutton_top)));
   settings->genconfig.paper_bottom_margin_set (gtk_spin_button_get_value (GTK_SPIN_BUTTON (spinbutton_bottom)));
   settings->genconfig.printdate_set (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbuttondate)));

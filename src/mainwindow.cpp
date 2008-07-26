@@ -6916,6 +6916,7 @@ void MainWindow::on_print() {
     labels.push_back("Project");
     labels.push_back("Parallel Bible");
     labels.push_back("References");
+    labels.push_back("References (test through the new usfm-pdf converter");
     labels.push_back("Test usfm2pdf - not for normal usage");
     extern Settings * settings;
     RadiobuttonDialog dialog("Print", "Select what to print", labels, settings->genconfig.print_job_get());
@@ -6978,7 +6979,33 @@ void MainWindow::on_print() {
       }
       break;
     }
-    case 3: // Test text2pdf Todo
+    case 3: // References.
+    {
+      // Activate references area.
+      on_file_references();
+      // Show dialog.
+      {
+        PrintReferencesDialog dialog(0);
+        if (dialog.run() != GTK_RESPONSE_OK)
+          return;
+      }
+      // Load refs from the editor.
+      References references(liststore_references, treeview_references, treecolumn_references);
+      references.get_loaded();
+      vector<Reference> refs;
+      references.get_references(refs);
+      if (refs.empty()) {
+        gtkw_dialog_info(mainwindow, "There are no references to print");
+      } else {
+        // Run the function for printing the references.
+        extern Settings * settings;
+        vector <ustring> extra_projects = settings->genconfig.print_references_projects_get();
+        ProjectMemory projectmemory(settings->genconfig.project_get(), true);
+        view_parallel_references_pdf2(projectmemory, &extra_projects, refs, true, NULL, true);
+      }
+      break;
+    }
+    case 4: // Test text2pdf Todo
     {
       Text2Pdf text2pdf(gw_build_filename(directories_get_temp(), "pdf.pdf"));
       text2pdf.open_paragraph();
@@ -7004,7 +7031,8 @@ void MainWindow::on_print() {
       text2pdf.inline_clear_italic();
       text2pdf.add_text(" Italics off again");
       text2pdf.add_text(" ");
-      text2pdf.inline_set_colour(221111);
+      text2pdf.inline_set_colour(13244697); // Red.
+      //text2pdf.inline_set_colour(5561125); // Green. 
       text2pdf.add_text("coloured.");
       text2pdf.inline_clear_colour();
       /*
@@ -7034,7 +7062,7 @@ void MainWindow::on_print() {
       text2pdf.paragraph_set_right_margin(10);
       text2pdf.paragraph_set_first_line_indent (5);
       text2pdf.paragraph_set_column_count (1);
-      text2pdf.paragraph_set_space_before (50);
+      text2pdf.paragraph_set_space_before (20);
       text2pdf.add_text("I love you because we follow the truth, dear friend. I pray that everything goes well for you. I hope that you are as strong in your body, as I know you are in your spirit. It makes me very happy when the Lord's followers come by and speak openly of how you obey the truth. Nothing brings me greater happiness than that I hear that my children are walking in the truth.");
       text2pdf.open_paragraph();
       text2pdf.paragraph_set_space_before (10);
@@ -7051,12 +7079,14 @@ void MainWindow::on_print() {
       text2pdf.paragraph_set_column_count (2);
       text2pdf.paragraph_set_space_before (20);
       text2pdf.add_text("5 Jesus told us that God is light and doesn't have any darkness in him. Now we are telling you. 5 Jesus told us that God is light and doesn't have any darkness in him. Now we are telling you.");
+      text2pdf.open_keep_together();
       text2pdf.open_paragraph();
       text2pdf.paragraph_set_alignment (t2patLeft);
       text2pdf.paragraph_set_underline (true);
       text2pdf.paragraph_set_first_line_indent (5);
       text2pdf.paragraph_set_column_count (1);
       text2pdf.add_text("6 If we say that we share in life with God and keep on living in the dark, we are lying and are not living by the truth. 7 But if we live in the light, as God does, we share in life with each other. And the blood of his Son Jesus washes all our sins away. 8 If we say that we have not sinned, we are fooling ourselves, and the truth isn't in our hearts. 9 But if we confess our sins to God, he can always be trusted to forgive us and take our sins away.");
+      text2pdf.close_keep_together();
       text2pdf.open_paragraph();
       text2pdf.paragraph_set_small_caps (true);
       text2pdf.paragraph_set_alignment (t2patRight);
@@ -7080,7 +7110,6 @@ void MainWindow::on_print() {
       text2pdf.paragraph_set_first_line_indent (10);
       text2pdf.paragraph_set_column_count (1);
       text2pdf.paragraph_set_space_before (10);
-      text2pdf.paragraph_set_space_after (10);
       text2pdf.add_text("1 Think how much the Father loves us. He loves us so much that he lets us be called his children, as we truly are. But since the people of this world did not know who Christ is, they don't know who we are. 2 My dear friends, we are already God's children, though what we will be hasn't yet been seen. But we do know that when Christ returns, we will be like him, because we will see him as he truly is. 3 This hope makes us keep ourselves holy, just as Christ is holy.");
       text2pdf.open_paragraph();
       text2pdf.paragraph_set_alignment (t2patJustified);

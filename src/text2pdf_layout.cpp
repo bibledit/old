@@ -478,8 +478,9 @@ void T2PLayoutContainer::set_colour(T2PInputParagraph * paragraph, PangoAttrList
   int colour;
   do {
     if (paragraph->inline_get_colour(index, in_range, colour, start_index, end_index)) {
+      ustring colour_string = "#" + color_decimal_to_hex (colour);
       PangoColor pangocolor;
-      pango_color_parse (&pangocolor, color_decimal_to_hex (colour).c_str());
+      pango_color_parse (&pangocolor, colour_string.c_str());
       PangoAttribute *attr;
       attr = pango_attr_foreground_new(pangocolor.red, pangocolor.green, pangocolor.blue);
       attr->start_index = start_index;

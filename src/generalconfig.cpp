@@ -96,8 +96,8 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE (paper_format);
   INITIALIZE (paper_width);
   INITIALIZE (paper_height);
-  INITIALIZE (paper_left_margin);
-  INITIALIZE (paper_right_margin);
+  INITIALIZE (paper_inside_margin);
+  INITIALIZE (paper_outside_margin);
   INITIALIZE (paper_top_margin);
   INITIALIZE (paper_bottom_margin);
   INITIALIZE (notes_print_full_page_width);
@@ -260,8 +260,8 @@ void GeneralConfiguration::save()
   SAVE_VALUE (paper_format);
   SAVE_VALUE (paper_width);
   SAVE_VALUE (paper_height);
-  SAVE_VALUE (paper_left_margin);
-  SAVE_VALUE (paper_right_margin);
+  SAVE_VALUE (paper_inside_margin);
+  SAVE_VALUE (paper_outside_margin);
   SAVE_VALUE (paper_top_margin);
   SAVE_VALUE (paper_bottom_margin);
   SAVE_VALUE (notes_print_full_page_width);
@@ -494,8 +494,8 @@ IMPLEMENT (ustring, string_get, export_to_sword_install_path, gw_build_filename 
 IMPLEMENT (ustring, string_get, paper_format, "A4")
 IMPLEMENT (double, double_get, paper_width, 21.0)
 IMPLEMENT (double, double_get, paper_height, 29.7)
-IMPLEMENT (double, double_get, paper_left_margin, 2)
-IMPLEMENT (double, double_get, paper_right_margin, 2)
+IMPLEMENT (double, double_get, paper_inside_margin, 2)
+IMPLEMENT (double, double_get, paper_outside_margin, 1)
 IMPLEMENT (double, double_get, paper_top_margin, 2)
 IMPLEMENT (double, double_get, paper_bottom_margin, 2)
 IMPLEMENT (bool, bool_get, notes_print_full_page_width, false)
