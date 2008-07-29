@@ -35,7 +35,7 @@
 #include "referenceutils.h"
 #include "projectutils.h"
 
-Usfm2Text::Usfm2Text(Text2Pdf * text2pdf_in) {
+Usfm2Text::Usfm2Text(Text2Pdf * text2pdf_in, bool show_progress) {
   // Initialize variables.
   text2pdf = text2pdf_in;
   font_size = 12;
@@ -56,8 +56,10 @@ Usfm2Text::Usfm2Text(Text2Pdf * text2pdf_in) {
   chapter_number_to_output_at_first_verse = 0;
   progresswindow = NULL;
   progress_event_id = 0;
-  progresswindow = new ProgressWindow ("Processing", true);
-  progress_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 500, GSourceFunc (signal_progress_timeout), gpointer(this), NULL);
+  if (show_progress) {
+    progresswindow = new ProgressWindow ("Processing", true);
+    progress_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 500, GSourceFunc (signal_progress_timeout), gpointer(this), NULL);
+  }
   cancel = false;
   printversenumber = true;
   book = 0;
@@ -344,7 +346,6 @@ void Usfm2Text::convert_from_usfm_to_xslfo() {
         if (marker_position == 0) {
           Usfm2XslFoStyle * stylepointer = marker_get_pointer_to_style(marker);
           if (stylepointer) {
-            cout << "Style pointer type " << stylepointer->type << " with line " << usfm_line << endl; // Todo 
             switch (stylepointer->type)
             {
               case u2xtIdentifierBook:
@@ -1052,7 +1053,6 @@ void Usfm2Text::output_text_fallback(ustring& line, Usfm2XslFoStyle * & fo_block
  there will be enough markup information to be handled properly.
  */
 {
-  // Ensure that a fo:block is open, if we print this portion.
   if (inrange.in_range()) {
     text2pdf->add_text(line.substr(0, 1));
   }
@@ -1190,7 +1190,7 @@ void Usfm2Text::open_inline(Usfm2XslFoStyle * style, Usfm2XslFoStyle * block) {
 
   // Superscript.
   if (style->superscript) {
-    text2pdf->inline_set_superscript(true);
+    text2pdf->inline_set_superscript();
   }
 
   // Color
@@ -1208,7 +1208,7 @@ void Usfm2Text::output_chapter_number_try_normal(ustring& line, Usfm2XslFoStyle 
     return;
 
   // Close possible inline and block styles.  
-  close_possible_fo_inline(fo_inline_style);
+  close_possible_inline(fo_inline_style);
   text2pdf->close_paragraph();
 
   // Insert marker for chapter number in the running headers.
@@ -1283,9 +1283,6 @@ void Usfm2Text::output_chapter_number_try_at_first_verse(ustring line, Usfm2XslF
       if (stylepointer->type == u2xtVerseNumber) {
         // We're now at the point that the chapter number can be written.
 
-        // Ensure that a block is open.
-        ensure_fo_block_open(fo_block_style);
-
         // Open the float.
         xmlTextWriterStartElement(writer, BAD_CAST "fo:float");
         xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "float", "start");
@@ -1329,17 +1326,7 @@ void Usfm2Text::output_chapter_number_try_at_first_verse(ustring line, Usfm2XslF
   }
 }
 
-void Usfm2Text::ensure_fo_block_open(Usfm2XslFoStyle *& style) {
-  // If a block is open, bail out.
-  if (style)
-    return;
-
-  // Open a block with the default style.
-  style = marker_get_pointer_to_style(default_style());
-  open_paragraph(style, false);
-}
-
-void Usfm2Text::close_possible_fo_inline(Usfm2XslFoStyle * & style) 
+void Usfm2Text::close_possible_inline(Usfm2XslFoStyle * & style)
 // Close possible inline style.
 {
   if (style) {
@@ -1356,7 +1343,7 @@ void Usfm2Text::close_possible_fo_inline(Usfm2XslFoStyle * & style)
 
 void Usfm2Text::output_text_running_header(ustring& line, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length, unsigned int book) {
   // Close possible inline and block styles.
-  close_possible_fo_inline(fo_inline_style);
+  close_possible_inline(fo_inline_style);
   text2pdf->close_paragraph();
 
   // Erase the code: we don't use it here.
@@ -1422,9 +1409,8 @@ void Usfm2Text::output_verse_number(Usfm2XslFoStyle * stylepointer, Usfm2XslFoSt
   if (!inrange.in_range())
     return;
 
-  // Close possible inline style and ensure that a block is open.
-  close_possible_fo_inline(fo_inline_style);
-  ensure_fo_block_open(fo_block_style);
+  // Close possible inline style
+  close_possible_inline(fo_inline_style);
 
   // If the verse is to restart the paragraph, handle that here.
   if (verses_in_paragraph_count > 1) {
@@ -1444,8 +1430,8 @@ void Usfm2Text::output_verse_number(Usfm2XslFoStyle * stylepointer, Usfm2XslFoSt
   if (printversenumber && stylepointer->print) {
     fo_inline_style = stylepointer;
     open_inline(fo_inline_style, fo_block_style);
-    xmlTextWriterWriteFormatString(writer, verse.c_str());
-    close_possible_fo_inline(fo_inline_style);
+    text2pdf->add_text(verse);
+    close_possible_inline(fo_inline_style);
   }
 
   // Write next verse number again.
@@ -1464,9 +1450,9 @@ void Usfm2Text::output_text_character_style(ustring& line, Usfm2XslFoStyle * sty
   // Bail out if the portion should not be printed.
   if (!inrange.in_range())
     return;
-  
+
   // Close possible inline style(s).
-  close_possible_fo_inline(fo_inline_style);
+  close_possible_inline(fo_inline_style);
 
   // Set the new fo:inline style.
   if (is_opener) {
@@ -1596,7 +1582,7 @@ void Usfm2Text::output_text_table(ustring& line, Usfm2XslFoStyle * & fo_block_st
 
 
   // Ensure that any open styles are closed.
-  close_possible_fo_inline(fo_inline_style);
+  close_possible_inline(fo_inline_style);
   text2pdf->close_paragraph();
 
   // Open the xml table.
@@ -1685,7 +1671,7 @@ void Usfm2Text::destroy_note_callers()
   }
 }
 
-void Usfm2Text::output_text_note(ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, size_t marker_length, bool is_opener)
+void Usfm2Text::output_text_note(ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, size_t marker_length, bool is_opener) // Todo working here.
 // Outputs a footnote or crossreference.
 {
   // Erase the marker from the text.
@@ -1715,12 +1701,6 @@ void Usfm2Text::output_text_note(ustring& line, Usfm2XslFoStyle * stylepointer, 
   if (rawnote.empty())
     return;
 
-  // Make sure that a fo:block is open at this point.
-  ensure_fo_block_open(fo_block_style);
-
-  // Open the footnote.
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:footnote");
-
   // Extract the note caller in the text body and erase it from the raw note.
   ustring caller_in_text = trim(rawnote.substr(0, 1));
   if (caller_in_text == "+") {
@@ -1742,23 +1722,11 @@ void Usfm2Text::output_text_note(ustring& line, Usfm2XslFoStyle * stylepointer, 
   // Write the footnote caller in the text.
   Usfm2XslFoStyle * style = stylepointer;
   open_inline(style, NULL);
-  xmlTextWriterWriteFormatString(writer, caller_in_text.c_str());
-  close_possible_fo_inline(style);
+  text2pdf->add_text(caller_in_text);
+  close_possible_inline(style);
 
-  // Open the footnote body.
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:footnote-body");
-
-  // Open the list block for outlining the caller nicely with the footnote body.
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:list-block");
-  xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "provisional-label-separation", "0pt");
-  xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "provisional-distance-between-starts", "18pt");
-
-  // Open the list item.
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:list-item");
-
-  // Open the list item label: for the note caller.
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:list-item-label");
-  xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "end-indent", "label-end()");
+  // Open the footnote.
+  text2pdf->open_note();
 
   // Get the default paragraph style.
   Usfm2XslFoStyle * default_paragraph_style = get_default_paragraph_style_for_note(stylepointer);
@@ -1776,31 +1744,18 @@ void Usfm2Text::output_text_note(ustring& line, Usfm2XslFoStyle * stylepointer, 
 
   // Insert the caller in the footnote body.
   if (!caller_in_note.empty()) {
-    Usfm2XslFoStyle * blockstyle = default_paragraph_style;
-    // Temporally set margins to zero; set them back to normal later.
-    double leftmargin = blockstyle->leftmargin;
-    double rightmargin = blockstyle->rightmargin;
-    double firstlineindent = blockstyle->firstlineindent;
-    blockstyle->leftmargin = 0;
-    blockstyle->rightmargin = 0;
-    blockstyle->firstlineindent = 0;
-    open_paragraph(blockstyle, false);
-    blockstyle->leftmargin = leftmargin;
-    blockstyle->rightmargin = rightmargin;
-    blockstyle->firstlineindent = firstlineindent;
     Usfm2XslFoStyle * inlinestyle = stylepointer;
-    open_inline(inlinestyle, blockstyle);
-    xmlTextWriterWriteFormatString(writer, caller_in_note.c_str());
-    close_possible_fo_inline(inlinestyle);
-    text2pdf->close_paragraph();
+    open_inline(inlinestyle, default_paragraph_style);
+    text2pdf->add_text(caller_in_note);
+    text2pdf->add_text(" ");
+    close_possible_inline(inlinestyle);
   }
 
-  // Close the list item label.
-  xmlTextWriterEndElement(writer);
+  
+  /*
+  
 
-  // Open the list item body: for the note body.
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:list-item-body");
-  xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "start-indent", "body-start()");
+
 
   // Open the default paragraph style for this note.
   default_paragraph_style = get_default_paragraph_style_for_note(stylepointer);
@@ -1810,7 +1765,7 @@ void Usfm2Text::output_text_note(ustring& line, Usfm2XslFoStyle * stylepointer, 
   // Optionally add the full text of any references in this note.
   optionally_add_full_references(rawnote, stylepointer);
 
-  // Write the footnote.
+  // Write the footnote. Todo it might be better to move this to the main loop as being more suitable.
   Usfm2XslFoStyle * inlinestyle= NULL;
   unsigned int iteration = 0;
   while (!rawnote.empty()) {
@@ -1825,16 +1780,16 @@ void Usfm2Text::output_text_note(ustring& line, Usfm2XslFoStyle * stylepointer, 
         Usfm2XslFoStyle * stylepointer = marker_get_pointer_to_style(marker);
         if (stylepointer) {
           if ((stylepointer->type == u2xtFootEndNoteStandardContent) || (stylepointer->type == u2xtCrossreferenceStandardContent)) {
-            close_possible_fo_inline(inlinestyle);
+            close_possible_inline(inlinestyle);
           } else if ((stylepointer->type == u2xtFootEndNoteContent) || (stylepointer->type == u2xtFootEndNoteContentWithEndmarker) || (stylepointer->type == u2xtCrossreferenceContent) || (stylepointer->type
               == u2xtCrossreferenceContentWithEndmarker)) {
-            close_possible_fo_inline(inlinestyle);
+            close_possible_inline(inlinestyle);
             if (is_opener) {
               inlinestyle = stylepointer;
               open_inline(inlinestyle, blockstyle);
             }
           } else if (stylepointer->type == u2xtFootEndNoteParagraph) {
-            close_possible_fo_inline(inlinestyle);
+            close_possible_inline(inlinestyle);
             text2pdf->close_paragraph();
             blockstyle = stylepointer;
             open_paragraph(blockstyle, false);
@@ -1851,15 +1806,11 @@ void Usfm2Text::output_text_note(ustring& line, Usfm2XslFoStyle * stylepointer, 
   }
 
   // Close possible inline style and block style.
-  close_possible_fo_inline(inlinestyle);
-  text2pdf->close_paragraph();
+  //close_possible_inline(inlinestyle);
+  //text2pdf->close_paragraph();
+*/
 
-  // Close the list item body, the list item, the list block, the footnote body, and the footnote.
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterEndElement(writer);
+  text2pdf->close_note();
 }
 
 Usfm2XslFoStyle * Usfm2Text::get_default_paragraph_style_for_note(Usfm2XslFoStyle * notestyle)
@@ -1896,8 +1847,10 @@ void Usfm2Text::rewrite_note_callers()
     return;
 
   // Progress information.
-  progresswindow->set_text("Renumbering notes");
-  progresswindow->set_fraction(0);
+  if (progresswindow) {
+    progresswindow->set_text("Renumbering notes");
+    progresswindow->set_fraction(0);
+  }
 
   // Read all text.
   ReadText rt("" /*xepfile()*/, true, false);
@@ -1918,13 +1871,17 @@ void Usfm2Text::rewrite_note_callers()
   }
 
   // Progress.
-  progresswindow->set_iterate(0, 1, page_beginning.size());
+  if (progresswindow) {
+    progresswindow->set_iterate(0, 1, page_beginning.size());
+  }
 
   // Go through each page.
   for (unsigned int pg = 0; pg < page_beginning.size(); pg++) {
 
     // Progress.
-    progresswindow->iterate();
+    if (progresswindow) {
+      progresswindow->iterate();
+    }
 
     // Go through all available note callers.
     for (unsigned int nc = 0; nc < notecallers_per_page.size(); nc++) {
@@ -2050,7 +2007,7 @@ void Usfm2Text::output_page_break(Usfm2XslFoStyle * & fo_block_style, Usfm2XslFo
     return;
 
   // Close any open styles.
-  close_possible_fo_inline(fo_inline_style);
+  close_possible_inline(fo_inline_style);
   text2pdf->close_paragraph();
 
   // Write the page break.
@@ -2128,7 +2085,7 @@ void Usfm2Text::output_picture(ustring& line, Usfm2XslFoStyle * stylepointer, Us
   }
 
   // Close any currently opened styles.
-  close_possible_fo_inline(fo_inline_style);
+  close_possible_inline(fo_inline_style);
   text2pdf->close_paragraph();
 
   // Open new default block with modified values.
@@ -2176,11 +2133,11 @@ void Usfm2Text::output_elastic(ustring& line, Usfm2XslFoStyle * & fo_block_style
   line.erase(0, marker_length);
 
   // Close any currently opened styles.
-  close_possible_fo_inline(fo_inline_style);
+  close_possible_inline(fo_inline_style);
   text2pdf->close_paragraph();
 
   // Write new default block with the elastic.
-  ensure_fo_block_open(fo_block_style);
+  text2pdf->open_paragraph();
   xmlTextWriterWriteFormatString(writer, ELASTIC_XEP);
   text2pdf->close_paragraph();
 }
@@ -2213,7 +2170,7 @@ void Usfm2Text::toc_insert_anchor(ustring& line, Usfm2XslFoStyle * & fo_block_st
   get_erase_code_till_next_marker(line, 0, marker_length, false);
 
   // Close any open styles.
-  close_possible_fo_inline(fo_inline_style);
+  close_possible_inline(fo_inline_style);
   text2pdf->close_paragraph();
 
   // Write the id in a new block.
@@ -2230,7 +2187,7 @@ void Usfm2Text::toc_insert_body(ustring& line, Usfm2XslFoStyle * & fo_block_styl
   get_erase_code_till_next_marker(line, 0, marker_length, false);
 
   // Close any open styles.
-  close_possible_fo_inline(fo_inline_style);
+  close_possible_inline(fo_inline_style);
   text2pdf->close_paragraph();
 
   // Go through all books.
@@ -2285,9 +2242,9 @@ void Usfm2Text::dump_endnotes(Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyl
     Usfm2XslFoStyle * endnote_style = buffered_endnote_styles[nt];
 
     // Ensure the block is closed, and open a new one.
-    close_possible_fo_inline(fo_inline_style);
+    close_possible_inline(fo_inline_style);
     text2pdf->close_paragraph();
-    ensure_fo_block_open(fo_block_style);
+    text2pdf->open_paragraph();
 
     // Open the list block for outlining the caller nicely with the footnote body.
     xmlTextWriterStartElement(writer, BAD_CAST "fo:list-block");
@@ -2331,7 +2288,7 @@ void Usfm2Text::dump_endnotes(Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyl
       Usfm2XslFoStyle * inlinestyle = endnote_style;
       open_inline(inlinestyle, blockstyle);
       xmlTextWriterWriteFormatString(writer, caller.c_str());
-      close_possible_fo_inline(inlinestyle);
+      close_possible_inline(inlinestyle);
       text2pdf->close_paragraph();
     }
 
@@ -2365,15 +2322,15 @@ void Usfm2Text::dump_endnotes(Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyl
           Usfm2XslFoStyle * stylepointer = marker_get_pointer_to_style(marker);
           if (stylepointer) {
             if (stylepointer->type == u2xtFootEndNoteStandardContent) {
-              close_possible_fo_inline(inlinestyle);
+              close_possible_inline(inlinestyle);
             } else if ((stylepointer->type == u2xtFootEndNoteContent) || (stylepointer->type == u2xtFootEndNoteContentWithEndmarker)) {
-              close_possible_fo_inline(inlinestyle);
+              close_possible_inline(inlinestyle);
               if (is_opener) {
                 inlinestyle = stylepointer;
                 open_inline(inlinestyle, blockstyle);
               }
             } else if (stylepointer->type == u2xtFootEndNoteParagraph) {
-              close_possible_fo_inline(inlinestyle);
+              close_possible_inline(inlinestyle);
               text2pdf->close_paragraph();
               blockstyle = stylepointer;
               open_paragraph(blockstyle, false);
@@ -2390,7 +2347,7 @@ void Usfm2Text::dump_endnotes(Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyl
     }
 
     // Close possible inline style and block style.
-    close_possible_fo_inline(inlinestyle);
+    close_possible_inline(inlinestyle);
     text2pdf->close_paragraph();
 
     // Close the list item body, the list item, the list block.
@@ -2399,7 +2356,7 @@ void Usfm2Text::dump_endnotes(Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyl
     xmlTextWriterEndElement(writer);
 
     // Close the block after the note has been written.
-    close_possible_fo_inline(fo_inline_style);
+    close_possible_inline(fo_inline_style);
     text2pdf->close_paragraph();
   }
 
@@ -2443,7 +2400,9 @@ void Usfm2Text::buffer_endnote(ustring& line, Usfm2XslFoStyle * stylepointer, si
   buffered_endnote_styles.push_back(stylepointer);
 }
 
-void Usfm2Text::output_text_insertion_deletion(ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length, bool is_opener) {
+void Usfm2Text::output_text_insertion_deletion(ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length, bool is_opener)
+// Handle insertion or deletion.
+{
   // Erase the marker from the text.
   line.erase(0, marker_length);
 
@@ -2455,7 +2414,7 @@ void Usfm2Text::output_text_insertion_deletion(ustring& line, Usfm2XslFoStyle * 
   if (endmarkerpos == string::npos)
     return;
 
-  // Get raw bit inserted or deletedd and erase it from the input buffer.
+  // Get raw bit inserted or deleted and erase it from the input buffer.
   ustring rawtext(line.substr(0, endmarkerpos));
   line.erase(0, endmarkerpos + endmarker.length());
 
@@ -2469,21 +2428,18 @@ void Usfm2Text::output_text_insertion_deletion(ustring& line, Usfm2XslFoStyle * 
 
   // Close any inline text, keeping it for later.
   Usfm2XslFoStyle * previous_inline_style = fo_inline_style;
-  close_possible_fo_inline(fo_inline_style);
-
-  // Make sure that a fo:block is open at this point.
-  ensure_fo_block_open(fo_block_style);
+  close_possible_inline(fo_inline_style);
 
   // Write the text with markup.
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:inline");
   if (stylepointer->type == u2xtInsertion) {
-    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "font-weight", "bold");
+    text2pdf->inline_set_bold(t2pmtOn);
   } else {
-    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "text-decoration", "line-through");
+    text2pdf->inline_set_strike_through();
   }
-  xmlTextWriterWriteFormatString(writer, rawtext.c_str());
-  xmlTextWriterEndElement(writer);
-
+  text2pdf->add_text(rawtext);
+  text2pdf->inline_clear_bold();
+  text2pdf->inline_clear_strike_through();
+  
   // If an inline style was open before, reopen it again.
   if (previous_inline_style) {
     fo_inline_style = previous_inline_style;
@@ -2513,9 +2469,8 @@ void Usfm2Text::output_spacing_paragraph(ustring& line, Usfm2XslFoStyle * & fo_b
   line.erase(0, marker_length);
 
   // Close any open style.
-  close_possible_fo_inline(fo_inline_style);
+  close_possible_inline(fo_inline_style);
   text2pdf->close_paragraph();
-
 
   if (is_opener) {
     // Insert the spacing paragraph.
@@ -2537,9 +2492,8 @@ void Usfm2Text::output_keep_on_page(ustring& line, Usfm2XslFoStyle * & fo_block_
   line.erase(0, marker_length);
 
   // Close any open style.
-  close_possible_fo_inline(fo_inline_style);
+  close_possible_inline(fo_inline_style);
   text2pdf->close_paragraph();
-
 
   if (is_opener) {
     // Insert the block keepings things on one page.
@@ -2566,7 +2520,7 @@ void Usfm2Text::output_font_family_size_line_height(ustring& line, Usfm2XslFoSty
   ustring code = get_erase_code_till_next_marker(line, 0, marker_length, true);
 
   // Close any open style.
-  close_possible_fo_inline(fo_inline_style);
+  close_possible_inline(fo_inline_style);
   text2pdf->close_paragraph();
 
   if (is_opener) {
@@ -2635,3 +2589,5 @@ void Usfm2Text::optionally_add_full_references(ustring& line, Usfm2XslFoStyle * 
   }
   gw_message(line);
 }
+
+

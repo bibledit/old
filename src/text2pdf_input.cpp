@@ -53,11 +53,15 @@ T2PInputParagraph::T2PInputParagraph(int dummy) :
   bold_values_completed = false;
   underline_values_completed = false;
   small_caps_values_completed = false;
+  strike_through_values_completed = false;
 }
 
 T2PInputParagraph::~T2PInputParagraph()
 // Destructor.
 {
+  for (unsigned int i = 0; i < note_pointers.size(); i++) {
+    delete note_pointers[i];
+  }
 }
 
 void T2PInputParagraph::add_text(const ustring& text_in)
@@ -276,3 +280,37 @@ bool T2PInputParagraph::inline_get_colour(unsigned int index, bool& in_range, in
   return end_index > 0;
 }
 
+void T2PInputParagraph::inline_set_strike_through(T2PMarkupType strike_through, bool cleanup_only)
+// Store a value for the inline strike-through markup.
+{
+  inline_set_value(strike_through_values, strike_through_start_indices, strike_through_end_indices, strike_through, cleanup_only);
+}
+
+bool T2PInputParagraph::inline_get_strike_through(unsigned int index, bool& in_range, bool& value, int& start_index, int& end_index)
+// Gets the inline strike-through markup at "index".
+{
+  return inline_get_value(strike_through_values, strike_through_start_indices, strike_through_end_indices, strike_through_values_completed, t2pmtOff, index, in_range, value, start_index, end_index);
+}
+
+void T2PInputParagraph::add_note(T2PInputParagraph * note)
+// Adds a note to this paragraph of text.
+{
+  note_pointers.push_back(note);
+  note_offsets.push_back(maximum_text_length);
+}
+
+vector <T2PInputParagraph *> T2PInputParagraph::get_notes(size_t text_length_before_fitting, size_t text_length_after_fitting)
+// Gets the notes between the start and end index.
+{
+  vector <T2PInputParagraph *> notes;
+  size_t start_offset = maximum_text_length - text_length_before_fitting;
+  size_t end_offset = start_offset + text_length_after_fitting;
+  for (size_t i = 0; i < note_offsets.size(); i++) {
+    if (note_offsets[i] >= start_offset) {
+      if (note_offsets[i] <= end_offset) {
+        notes.push_back(note_pointers[i]);
+      }
+    }
+  }
+  return notes;
+}

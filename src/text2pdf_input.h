@@ -69,6 +69,10 @@ public:
   bool inline_get_superscript(unsigned int index, bool& in_range, bool& superscript, int& start_index, int& end_index, size_t text_length);
   void inline_set_colour(int colour);
   bool inline_get_colour(unsigned int index, bool& in_range, int& value, int& start_index, int& end_index);
+  void inline_set_strike_through(T2PMarkupType strike_through, bool cleanup_only = false);
+  bool inline_get_strike_through(unsigned int index, bool& in_range, bool& value, int& start_index, int& end_index);
+  void add_note (T2PInputParagraph * note);
+  vector <T2PInputParagraph *> get_notes (size_t text_length_before_fitting, size_t text_length_after_fitting);
 private:
   size_t maximum_text_length;
   vector <int> font_size_percentage_values;
@@ -98,6 +102,12 @@ private:
   vector <int> colour_values;
   vector <int> colour_start_indices;
   vector <int> colour_end_indices;
+  vector <int> strike_through_values;
+  vector <int> strike_through_start_indices;
+  vector <int> strike_through_end_indices;
+  bool strike_through_values_completed;
+  vector <T2PInputParagraph *> note_pointers;
+  vector <size_t> note_offsets;
 };
 
 #endif

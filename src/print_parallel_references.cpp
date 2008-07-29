@@ -59,7 +59,6 @@ void view_parallel_references_pdf(ProjectMemory& main_project, vector <ustring> 
 
   // Progress system.
   ProgressWindow progresswindow("Printing Parallel References", false);
-  progresswindow.set_text("Collecting verses");
   progresswindow.set_iterate(0, 1, references.size());
 
   // Configuration
@@ -320,7 +319,6 @@ void view_parallel_references_pdf2(ProjectMemory& main_project, vector <ustring>
 
   // Progress system.
   ProgressWindow progresswindow("Printing Parallel References", false);
-  progresswindow.set_text("Collecting verses");
   progresswindow.set_iterate(0, 1, references.size());
 
   // Configuration
@@ -339,22 +337,11 @@ void view_parallel_references_pdf2(ProjectMemory& main_project, vector <ustring>
 
   // The converter.
   Text2Pdf text2pdf(gw_build_filename(directories_get_temp(), "document.pdf"));
-
-  Usfm2Text usfm2text(&text2pdf);
-  usfm2text.add_styles(usfm2xslfo_read_stylesheet(stylesheet));
-  PrintingFonts printingfonts(main_project.name);
-  usfm2text.set_fonts(printingfonts.printing_families, projectconfig->printing_font_size_get());
-  usfm2text.set_line_height(projectconfig->printing_line_height_get());
-  if (projectconfig->right_to_left_get())
-    usfm2text.set_right_to_left();
+  
+  // Page.
   text2pdf.page_size_set(settings->genconfig.paper_width_get(), settings->genconfig.paper_height_get());
   text2pdf.page_margins_set (settings->genconfig.paper_inside_margin_get(), settings->genconfig.paper_outside_margin_get(), settings->genconfig.paper_top_margin_get(), settings->genconfig.paper_bottom_margin_get());
   text2pdf.page_one_column_only();
-  if (settings->genconfig.printdate_get())
-    usfm2text.set_print_date();
-  usfm2text.no_bold();
-  usfm2text.no_space_before_or_after();
-  usfm2text.no_new_page();
 
   // Start off with inserting any remarks.
   if (remarks) {
@@ -408,17 +395,11 @@ void view_parallel_references_pdf2(ProjectMemory& main_project, vector <ustring>
 
     // Whether to keep things on one page.    
     if (keep_verses_together_within_page) {
-      // Todo implement differently usfm2text.add_usfm_code(usfm_get_full_opening_marker(usfm2text.keep_together_on_page_style()));
+      text2pdf.open_keep_together();
     }
 
-    // Open two spacing paragraphs.
-    // To implement differently.
-    //usfm2text.add_usfm_code(usfm_get_full_opening_marker(usfm2text.line_spacing_style()));
-    //usfm2text.add_usfm_code(".");
-    //usfm2text.add_usfm_code(usfm_get_full_opening_marker(usfm2text.line_spacing_style()));
-
     // Add the reference to the text.
-    usfm2text.add_usfm_code(references[rf].human_readable(""));
+    text2pdf.add_text(references[rf].human_readable(""));
 
     // Map this verse to the original, that is, to Hebrew or Greek.
     vector<int> hebrew_greek_chapters;
@@ -451,8 +432,6 @@ void view_parallel_references_pdf2(ProjectMemory& main_project, vector <ustring>
         mapping_s[vsn - 1].original_to_me(hebrew_greek_chapters, hebrew_greek_verses, mychapters, myverses);
         // Get text of any of the mapped verses.
         for (unsigned int mp = 0; mp < mychapters.size(); mp++) {
-          // Add new paragraph to the usfm code.
-          usfm2text.add_usfm_code(usfm_get_full_opening_marker(usfm2text.default_style()));
           // Get the verse and add it to the usfm code.
           ProjectBook * projectbook = project_memories [vsn - 1].get_book_pointer(references[rf].book);
           if (projectbook) {
@@ -474,7 +453,13 @@ void view_parallel_references_pdf2(ProjectMemory& main_project, vector <ustring>
           project = main_project.name;
         else
           project = project_names[vsn - 1];
-        usfm2text.add_usfm_code(project + " ");
+        text2pdf.open_paragraph();
+        text2pdf.inline_set_font_size_percentage(65);
+        text2pdf.add_text(project);
+        text2pdf.inline_clear_font_size_percentage();
+        text2pdf.add_text(" ");
+      } else {
+        text2pdf.open_paragraph();
       }
 
       // Do text replacement.
@@ -532,8 +517,9 @@ void view_parallel_references_pdf2(ProjectMemory& main_project, vector <ustring>
         }
       }
 
-      // Add the font family and size for each additional project. 
+      // Add the font family and size for each additional project. Todo do in a different way. 
       if (vsn > 0) {
+        /*
         ustring s;
         s = usfm_get_full_opening_marker(usfm2text.font_family_size_line_height_style());
         s.append(" ");
@@ -543,24 +529,36 @@ void view_parallel_references_pdf2(ProjectMemory& main_project, vector <ustring>
         s.append(" ");
         s.append(convert_to_string(lineheights[vsn-1]));
         usfm2text.add_usfm_code(s);
+        */
       }
 
-      // Add usfm code of the verse text to the converter.
+      // Add usfm code of the verse text to the converter. Todo implement this.
+      Usfm2Text usfm2text(&text2pdf, false);
+      usfm2text.add_styles(usfm2xslfo_read_stylesheet(stylesheet));
+      /* Todo
+      PrintingFonts printingfonts(main_project.name);
+      usfm2text.set_fonts(printingfonts.printing_families, projectconfig->printing_font_size_get());
+      usfm2text.set_line_height(projectconfig->printing_line_height_get());
+      if (projectconfig->right_to_left_get())
+        usfm2text.set_right_to_left();
+      if (settings->genconfig.printdate_get())
+        usfm2text.set_print_date();
+      */
+      usfm2text.no_bold();
+      usfm2text.no_space_before_or_after();
+      usfm2text.no_new_page();
       usfm2text.add_usfm_code(line);
-
-      // If font information was added, close that marker here.
-      if (vsn > 0) {
-        usfm2text.add_usfm_code(usfm_get_full_closing_marker(usfm2text.font_family_size_line_height_style()));
-      }
+      usfm2text.process();  
     }
 
-    // Close the two spacing paragraphs. Todo do differently.
-    //usfm2text.add_usfm_code(usfm_get_full_closing_marker(usfm2text.line_spacing_style()));
-    //usfm2text.add_usfm_code(usfm_get_full_closing_marker(usfm2text.line_spacing_style()));
+    // Add a bit of space.
+    text2pdf.close_paragraph();
+    text2pdf.add_text (" ");
+    text2pdf.close_paragraph();
 
     // Whether to close code keeping things on one page.    
     if (keep_verses_together_within_page) {
-      // Todo do differently. usfm2text.add_usfm_code(usfm_get_full_closing_marker(usfm2text.keep_together_on_page_style()));
+      text2pdf.close_keep_together();
     }
   }
 
@@ -568,7 +566,6 @@ void view_parallel_references_pdf2(ProjectMemory& main_project, vector <ustring>
   progresswindow.hide();
 
   // Process the data.
-  usfm2text.process();  
   text2pdf.run();
 
   // Display the pdf file.

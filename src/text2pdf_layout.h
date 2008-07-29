@@ -33,6 +33,7 @@ public:
   void print(cairo_t *cairo);
   void layout_text(const ustring& font, T2PInputParagraph * paragraph, unsigned int line_number, ustring& text);
   ustring text();
+  vector <T2PInputParagraph *> note_paragraphs;
 private:
   T2PArea * parent;
   PangoLayout * layout;
@@ -47,6 +48,7 @@ private:
   void set_superscript_font_scale_weight(T2PInputParagraph * paragraph, PangoAttrList *attrs);
   bool set_superscript_ascent(T2PInputParagraph * paragraph, PangoAttrList *attrs, size_t text_length);
   void set_colour(T2PInputParagraph * paragraph, PangoAttrList *attrs);
+  void set_strike_through(T2PInputParagraph * paragraph, PangoAttrList *attrs);
 };
 
 #endif

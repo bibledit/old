@@ -54,14 +54,15 @@ Text2Pdf::Text2Pdf(const ustring& pdf_file)
 Text2Pdf::~Text2Pdf()
 // Object destructor.
 {
-  for (unsigned int i = 0; i < input_data.size(); i++) {
-    delete input_data[i];
+  for (unsigned int i = 0; i < text_input_data.size(); i++) {
+    delete text_input_data[i];
   }
   for (unsigned int i = 0; i < pages.size(); i++) {
     delete pages[i];
   }
   cairo_surface_destroy(surface);
   cairo_destroy(cairo);
+  if (progresswindow) delete progresswindow;
 }
 
 void Text2Pdf::initialize_variables()
@@ -85,12 +86,16 @@ void Text2Pdf::initialize_variables()
   one_column_only = false;
   // The input variables.
   input_paragraph = NULL;
+  stacked_input_paragraph = NULL;
   keep_data_together = false;
   
   // Layout engine.
   page = NULL;
   block = NULL;
   layoutcontainer = NULL;
+  
+  // Progress.
+  progresswindow = NULL;
 }
 
 void Text2Pdf::page_size_set(double width_centimeters, double height_centimeters)
@@ -138,11 +143,14 @@ void Text2Pdf::page_one_column_only()
 void Text2Pdf::run()
 // Runs the converter.
 {
+  // Create progress window.
+  if (progresswindow == NULL) progresswindow = new ProgressWindow ("Formatting text", false);
+  
   // Close any open input containers.
   close_paragraph();
 
   // Go through the input data.
-  run_input(input_data);
+  run_input(text_input_data);
 
   // Find potential widows and orphans.
   find_potential_widows_and_orphans();
@@ -151,7 +159,9 @@ void Text2Pdf::run()
   fit_blocks_on_pages();
 
   // Print the pages.
+  progresswindow->set_iterate (0.5, 1, pages.size());
   for (unsigned int pg = 0; pg < pages.size(); pg++) {
+    progresswindow->iterate();
     T2PPage * page = pages[pg];
     page->print(cairo);
   }
@@ -166,7 +176,9 @@ void Text2Pdf::run()
 void Text2Pdf::run_input(vector <T2PInput *>& input)
 // Goes through all of the input data.
 {
+  progresswindow->set_iterate (0, 0.5, input.size());
   for (unsigned int i = 0; i < input.size(); i++) {
+    progresswindow->iterate();
     switch (input[i]->type)
     {
       case t2pitParagraph:
@@ -177,7 +189,7 @@ void Text2Pdf::run_input(vector <T2PInput *>& input)
         lay_out_paragraph();
         break;
       }
-      case t2pitOpenKeepTogether: // Todo working here.
+      case t2pitOpenKeepTogether:
       {
         // Paragraphs from here till the next t2pitCloseKeepTogether should be kept together
         // in one column or page.
@@ -185,11 +197,11 @@ void Text2Pdf::run_input(vector <T2PInput *>& input)
         keep_data_together = true;
         break;
       }
-      case t2pitCloseKeepTogether: // Todo working here.
+      case t2pitCloseKeepTogether:
       {
         // Clear the flag.
         keep_data_together = false;
-        // To work with the layout engine's model, add an empty block.
+        // To properly work with the layout engine's model, add an empty block.
         PangoRectangle rectangle;
         rectangle.x = 0;
         rectangle.y = 0;
@@ -197,7 +209,7 @@ void Text2Pdf::run_input(vector <T2PInput *>& input)
         rectangle.height = 0;
         T2PBlock * block = new T2PBlock (rectangle, 1, column_spacing_pango_units);
         block->type = t2pbtSpaceAfterParagraph;
-        input_blocks.push_back(block);
+        text_input_blocks.push_back(block);
         break;
       }
     }
@@ -222,7 +234,7 @@ void Text2Pdf::lay_out_paragraph()
     T2PBlock * block = new T2PBlock (rectangle, one_column_only ? 1 : input_paragraph->column_count, column_spacing_pango_units);
     block->type = t2pbtSpaceBeforeParagraph;
     block->keep_with_next = true;
-    input_blocks.push_back(block);
+    text_input_blocks.push_back(block);
   }
 
   // Paragraph itself.
@@ -246,7 +258,7 @@ void Text2Pdf::lay_out_paragraph()
     T2PBlock * block = new T2PBlock (rectangle, one_column_only ? 1 : input_paragraph->column_count, column_spacing_pango_units);
     block->type = t2pbtSpaceAfterParagraph;
     block->keep_with_next = input_paragraph->keep_with_next;
-    input_blocks.push_back(block);
+    text_input_blocks.push_back(block);
   }
 }
 
@@ -263,7 +275,7 @@ void Text2Pdf::get_next_layout_container()
   T2PBlock * block = new T2PBlock (rectangle, one_column_only ? 1 : input_paragraph->column_count, column_spacing_pango_units);
   block->keep_with_next = input_paragraph->keep_with_next || keep_data_together;
   // Store the block.
-  input_blocks.push_back(block);
+  text_input_blocks.push_back(block);
   // Create a new layout container.
   layoutcontainer = block->next_layout_container(cairo);
 }
@@ -273,11 +285,14 @@ void Text2Pdf::fit_blocks_on_pages()
 {
   // Loop through the input blocks.
   unsigned int infinite_loop_counter = 0;
-  while (!input_blocks.empty() && infinite_loop_counter < 5000) {
+  while (!text_input_blocks.empty() && infinite_loop_counter < 5000) {
     // Create another page.
     next_page();
+    // Progress.
+    progresswindow->pulse();
+    progresswindow->set_text ("Page " + convert_to_string (pages.size()));
     // Lay out the input on the page.
-    page->text_reference_area->fit_blocks(input_blocks, column_spacing_pango_units);
+    page->text_reference_area->fit_blocks(text_input_blocks, column_spacing_pango_units);
   }
 }
 
@@ -292,8 +307,8 @@ void Text2Pdf::find_potential_widows_and_orphans()
  The "keep with next" mechanism will then take over when the blocks are fitted in.
  */
 {
-  for (unsigned int blk = 0; blk < input_blocks.size(); blk++) {
-    T2PBlock * block = input_blocks[blk];
+  for (unsigned int blk = 0; blk < text_input_blocks.size(); blk++) {
+    T2PBlock * block = text_input_blocks[blk];
     // The first line of the paragraph is to be kept with the next.
     if (block->type == t2pbtTextParagraphFirstLine) {
       block->keep_with_next = true;
@@ -301,7 +316,7 @@ void Text2Pdf::find_potential_widows_and_orphans()
     // The last-but-one line of the paragraph is to be kept with the next.
     if (block->type == t2pbtTextParagraphLastLine) {
       if (blk) {
-        input_blocks[blk-1]->keep_with_next = true;
+        text_input_blocks[blk-1]->keep_with_next = true;
       }
     }
   }
@@ -314,22 +329,22 @@ void Text2Pdf::next_page()
   page = new T2PPage (page_number,
       page_width_pango_units, page_height_pango_units,
       inside_margin_pango_units, outside_margin_pango_units, top_margin_pango_units, bottom_margin_pango_units,
-      header_height_pango_units, footer_height_pango_units);
+      header_height_pango_units, footer_height_pango_units, cairo);
   pages.push_back(page);
 }
 
-void Text2Pdf::open_keep_together() // Todo working here.
+void Text2Pdf::open_keep_together()
 // Anything between this and the closer is kept together in one page or column.
 {
   close_paragraph();
-  input_data.push_back (new T2PInput (t2pitOpenKeepTogether)); 
+  text_input_data.push_back (new T2PInput (t2pitOpenKeepTogether)); 
 }
 
-void Text2Pdf::close_keep_together() // Todo working here.
+void Text2Pdf::close_keep_together()
 // Close keeping together in one page or column.
 {
   close_paragraph();
-  input_data.push_back (new T2PInput (t2pitCloseKeepTogether)); 
+  text_input_data.push_back (new T2PInput (t2pitCloseKeepTogether)); 
 }
 
 void Text2Pdf::open_paragraph()
@@ -337,7 +352,7 @@ void Text2Pdf::open_paragraph()
 {
   close_paragraph();
   input_paragraph = new T2PInputParagraph (0);
-  input_data.push_back(input_paragraph);
+  text_input_data.push_back(input_paragraph);
 }
 
 void Text2Pdf::ensure_open_paragraph()
@@ -549,11 +564,58 @@ void Text2Pdf::inline_clear_colour()
   inline_set_colour(0);
 }
 
+void Text2Pdf::inline_set_strike_through()
+// Sets the strike-through markup for inline text. 
+{
+  // Ensure that a paragraph is open.
+  ensure_open_paragraph();
+  // Store the inline value.
+  input_paragraph->inline_set_strike_through(t2pmtOn);
+}
+
+void Text2Pdf::inline_clear_strike_through()
+// Clears the strike-through markup for inline text. 
+{
+  // Ensure that a paragraph is open.
+  ensure_open_paragraph();
+  // Switch the inline value off.
+  input_paragraph->inline_set_strike_through(t2pmtOff);
+}
+
 void Text2Pdf::add_text(const ustring& text)
 // Add text to whatever container is on top of the stack.
 {
   ensure_open_paragraph();
   input_paragraph->add_text(text);
+}
+
+void Text2Pdf::open_note()
+// Open a new note.
+{
+  // Ensure that a paragraph is open.
+  ensure_open_paragraph();
+  // Only open a new note if there's no note open already.
+  if (stacked_input_paragraph == NULL) {
+    stacked_input_paragraph = input_paragraph;
+    input_paragraph = new T2PInputParagraph (0);
+    // The note is stored into the main paragraph.
+    stacked_input_paragraph->add_note(input_paragraph);
+  }
+  // By default there's no first-line indent.
+  paragraph_set_first_line_indent(0);
+  // By default a smaller font is used for the note.
+  paragraph_set_font_size((int)(0.8 * stacked_input_paragraph->font_size_points));
+  // By default the note is left aligned.
+  paragraph_set_alignment(t2patLeft);
+}
+
+void Text2Pdf::close_note()
+// Close a note.
+{
+  if (stacked_input_paragraph) {
+    input_paragraph = stacked_input_paragraph;
+    stacked_input_paragraph = NULL;
+  }
 }
 
 void Text2Pdf::view()
@@ -572,13 +634,9 @@ void Text2Pdf::set_font(const ustring& font_in)
 
  Todo text2pdf
 
- To implement usfm2text for simple references printing, as an extra option.
- We drive the usfm2text object, and let it process bit by bit, each time a small bit.
- Then we drive also the text2pdf object within the usfm2text object, so as to allow it to insert
- extra markup that is not in the usfm standard. This can be space before, or hold together, or anything.
- 
+ To implement usfm2text for references printing.
 
- To implement headers.
+ To implement running headers, date, page numbers.
  
  To implement notes. 
  Notes should be put in the reference area, but not in the "blocks" container, 
@@ -628,6 +686,10 @@ void Text2Pdf::set_font(const ustring& font_in)
  Therefore we don't load the full paragraph in the PangoLayout each time, but
  a maximum of so many characters only, or load the first one fully, then measure length of characters, then
  subsequent timse only load double the measured characters.
+ 
+ Deal with renumber_per_page_temporal_caller_text.
+ 
+ The "end-indent" may no longer be needed anywhere.
  
  */
 

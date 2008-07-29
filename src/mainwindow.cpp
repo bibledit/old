@@ -7020,7 +7020,7 @@ void MainWindow::on_print() {
       text2pdf.inline_set_font_size_percentage(75);
       text2pdf.add_text("I say to you: ");
       text2pdf.inline_set_font_size_percentage(100);
-      text2pdf.inline_set_superscript(true);
+      text2pdf.inline_set_superscript();
       text2pdf.add_text(" 10 ");
       text2pdf.inline_clear_superscript();
       text2pdf.inline_clear_font_size_percentage();
@@ -7031,12 +7031,39 @@ void MainWindow::on_print() {
       text2pdf.inline_clear_italic();
       text2pdf.add_text(" Italics off again");
       text2pdf.add_text(" ");
-      text2pdf.inline_set_colour(13244697); // Red.
-      //text2pdf.inline_set_colour(5561125); // Green. 
+      text2pdf.inline_set_colour(13244697);
       text2pdf.add_text("coloured.");
       text2pdf.inline_clear_colour();
+      text2pdf.add_text(" ");
+      text2pdf.inline_set_strike_through();
+      text2pdf.add_text(" struck-through");
+      text2pdf.inline_clear_strike_through();
+      text2pdf.add_text(" and normal again. ");
+      text2pdf.add_text("A note opens here");
+      text2pdf.inline_set_superscript();
+      text2pdf.add_text("1");
+      text2pdf.inline_clear_superscript();
       /*
       */
+      text2pdf.open_note();
+      text2pdf.add_text("Note text one.");
+      text2pdf.close_note();
+      text2pdf.open_note();
+      text2pdf.add_text("Note text two.");
+      text2pdf.close_note();
+      text2pdf.open_note();
+      text2pdf.add_text("Note text three.");
+      text2pdf.close_note();
+      text2pdf.open_note();
+      text2pdf.add_text("Note text four.");
+      text2pdf.close_note();
+      text2pdf.open_note();
+      text2pdf.add_text("Gen. 10.1; 11.2. Exod. 10.5; 11.5; 12.1; Ps. 110.1; 119.5.");
+      text2pdf.close_note();
+      text2pdf.open_note();
+      text2pdf.add_text("Note text six.");
+      text2pdf.close_note();
+      text2pdf.add_text(".");
       text2pdf.open_paragraph();
       text2pdf.paragraph_set_font_size(13);
       text2pdf.paragraph_set_italic (true);
@@ -7067,7 +7094,7 @@ void MainWindow::on_print() {
       text2pdf.open_paragraph();
       text2pdf.paragraph_set_space_before (10);
       text2pdf.add_text("1 The one who gives life appeared! We saw it happen, and we are witnesses to what we have seen. Now we are telling you about this eternal life that was with the ");
-      text2pdf.inline_set_superscript(true);
+      text2pdf.inline_set_superscript();
       text2pdf.add_text("Father");
       text2pdf.inline_clear_superscript();
       text2pdf.inline_clear_font_size_percentage();
@@ -7078,14 +7105,26 @@ void MainWindow::on_print() {
       text2pdf.paragraph_set_first_line_indent (5);
       text2pdf.paragraph_set_column_count (2);
       text2pdf.paragraph_set_space_before (20);
-      text2pdf.add_text("5 Jesus told us that God is light and doesn't have any darkness in him. Now we are telling you. 5 Jesus told us that God is light and doesn't have any darkness in him. Now we are telling you.");
+      text2pdf.add_text("5 Jesus told us that God is light and doesn't have any darkness in him. ");
       text2pdf.open_keep_together();
       text2pdf.open_paragraph();
       text2pdf.paragraph_set_alignment (t2patLeft);
       text2pdf.paragraph_set_underline (true);
       text2pdf.paragraph_set_first_line_indent (5);
       text2pdf.paragraph_set_column_count (1);
-      text2pdf.add_text("6 If we say that we share in life with God and keep on living in the dark, we are lying and are not living by the truth. 7 But if we live in the light, as God does, we share in life with each other. And the blood of his Son Jesus washes all our sins away. 8 If we say that we have not sinned, we are fooling ourselves, and the truth isn't in our hearts. 9 But if we confess our sins to God, he can always be trusted to forgive us and take our sins away.");
+      text2pdf.add_text("6 If we say that we share in life with God and keep on living in the dark, we are lying and are not living by the truth. ");
+      text2pdf.open_note();
+      text2pdf.add_text("x Gen. 10.1; 11.2. Exod. 10.5; 11.5; 12.1; Ps. 110.1; 119.5.");
+      text2pdf.close_note();
+      text2pdf.open_note();
+      text2pdf.add_text("xx Gen. 10.1; 11.2. Exod. 10.5; 11.5; 12.1; Ps. 110.1; 119.5.");
+      text2pdf.close_note();
+      text2pdf.add_text("7 But if we live in the light, as God does, we share in life with each other. And the blood of his Son Jesus washes all our sins away. ");
+      text2pdf.open_note();
+      text2pdf.add_text("xxx Gen. 10.1; 11.2. Exod. 10.5; 11.5; 12.1; Ps. 110.1; 119.5.");
+      text2pdf.close_note();
+      text2pdf.add_text("8 If we say that we have not sinned, we are fooling ourselves, and the truth isn't in our hearts. ");
+      text2pdf.add_text("9 But if we confess our sins to God, he can always be trusted to forgive us and take our sins away.");
       text2pdf.close_keep_together();
       text2pdf.open_paragraph();
       text2pdf.paragraph_set_small_caps (true);

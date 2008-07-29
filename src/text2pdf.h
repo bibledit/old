@@ -28,6 +28,7 @@
 #include "text2pdf_ref_area.h"
 #include "text2pdf_input.h"
 #include "text2pdf_page.h"
+#include "progresswindow.h"
 
 class Text2Pdf
 {
@@ -54,19 +55,19 @@ public:
   void close_keep_together();
   void open_paragraph();
   void ensure_open_paragraph();
-  void paragraph_set_font_size (unsigned int points);
-  void paragraph_set_italic (bool italic);
-  void paragraph_set_bold (bool bold);
-  void paragraph_set_underline (bool underline);
-  void paragraph_set_small_caps (bool small_caps);
-  void paragraph_set_alignment (T2PAlignmentType alignment);
-  void paragraph_set_space_before (int millimeters);
-  void paragraph_set_space_after (int millimeters);
-  void paragraph_set_left_margin (int millimeters);
-  void paragraph_set_right_margin (int millimeters);
-  void paragraph_set_first_line_indent (int millimeters);
-  void paragraph_set_column_count (unsigned int count);
-  void paragraph_set_keep_with_next ();
+  void paragraph_set_font_size(unsigned int points);
+  void paragraph_set_italic(bool italic);
+  void paragraph_set_bold(bool bold);
+  void paragraph_set_underline(bool underline);
+  void paragraph_set_small_caps(bool small_caps);
+  void paragraph_set_alignment(T2PAlignmentType alignment);
+  void paragraph_set_space_before(int millimeters);
+  void paragraph_set_space_after(int millimeters);
+  void paragraph_set_left_margin(int millimeters);
+  void paragraph_set_right_margin(int millimeters);
+  void paragraph_set_first_line_indent(int millimeters);
+  void paragraph_set_column_count(unsigned int count);
+  void paragraph_set_keep_with_next();
   void close_paragraph();
   void inline_set_font_size_percentage(int percentage);
   void inline_clear_font_size_percentage();
@@ -78,16 +79,21 @@ public:
   void inline_clear_underline();
   void inline_set_small_caps(int small_caps);
   void inline_clear_small_caps();
-  void inline_set_superscript(bool superscript);
+  void inline_set_superscript(bool superscript = true);
   void inline_clear_superscript();
   void inline_set_colour(int colour);
   void inline_clear_colour();
+  void inline_set_strike_through();
+  void inline_clear_strike_through();
   void add_text(const ustring& text);
+  void open_note();
+  void close_note();
 private:
   T2PInputParagraph * input_paragraph;
-  vector <T2PInput *> input_data;
+  T2PInputParagraph * stacked_input_paragraph;
+  vector <T2PInput *> text_input_data;
   bool keep_data_together;
-  deque <T2PBlock *> input_blocks;
+  deque <T2PBlock *> text_input_blocks;
 
   // Areas and their sizes.
 public:
@@ -125,7 +131,8 @@ private:
   void fit_blocks_on_pages();
   void next_page();
   void find_potential_widows_and_orphans();
-  
+  ProgressWindow * progresswindow;
+
   // Output.
 public:
   void view();

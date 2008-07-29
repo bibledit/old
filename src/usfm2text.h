@@ -31,7 +31,7 @@
 class Usfm2Text
 {
 public:
-  Usfm2Text(Text2Pdf * text2pdf_in);
+  Usfm2Text(Text2Pdf * text2pdf_in, bool show_progress);
   ~Usfm2Text();
 
   void add_styles(const vector <Usfm2XslFoStyle>& styles_in);
@@ -94,9 +94,8 @@ private:
   void write_static_content();
   void write_flow_open();
   void open_paragraph(Usfm2XslFoStyle * style, bool keep_with_next_paragraph);
-  void ensure_fo_block_open(Usfm2XslFoStyle * & style);
   void open_inline(Usfm2XslFoStyle * style, Usfm2XslFoStyle * block);
-  void close_possible_fo_inline(Usfm2XslFoStyle * & style);
+  void close_possible_inline(Usfm2XslFoStyle * & style);
 
   // Preprocessing.
   void preprocess();

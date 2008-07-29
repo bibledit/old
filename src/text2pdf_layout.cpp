@@ -65,8 +65,10 @@ void T2PLayoutContainer::layout_text(const ustring& font, T2PInputParagraph * pa
   set_small_caps(paragraph, attrs);
 
   set_superscript_font_scale_weight(paragraph, attrs);
-  
+
   set_colour(paragraph, attrs);
+
+  set_strike_through(paragraph, attrs);
 
   pango_layout_set_wrap(layout, PANGO_WRAP_WORD_CHAR);
   pango_layout_set_text(layout, text.c_str(), -1);
@@ -127,10 +129,18 @@ void T2PLayoutContainer::layout_text(const ustring& font, T2PInputParagraph * pa
   pango_attr_list_unref(attrs);
 
   // Have the parent fit the container in.
-  ((T2PBlock *)parent)->refit_layout_container(this);
+  if (parent)
+    ((T2PBlock *)parent)->refit_layout_container(this);
 
   // Have the parent store properties about the paragraph.
-  ((T2PBlock *)parent)->set_widow_orphan_data(line_number, last_line_of_paragraph_loaded);
+  if (parent)
+    ((T2PBlock *)parent)->set_widow_orphan_data(line_number, last_line_of_paragraph_loaded);
+  
+  // Store any notes that belong to the bit of text that was laid out.
+  note_paragraphs = paragraph->get_notes (original_length_of_text, line.length());
+  
+  // Set the width of the container.
+  pango_layout_get_size(layout, &rectangle.width, NULL);
 }
 
 void T2PLayoutContainer::print(cairo_t *cairo)
@@ -478,14 +488,35 @@ void T2PLayoutContainer::set_colour(T2PInputParagraph * paragraph, PangoAttrList
   int colour;
   do {
     if (paragraph->inline_get_colour(index, in_range, colour, start_index, end_index)) {
-      ustring colour_string = "#" + color_decimal_to_hex (colour);
+      ustring colour_string = "#" + color_decimal_to_hex(colour);
       PangoColor pangocolor;
-      pango_color_parse (&pangocolor, colour_string.c_str());
+      pango_color_parse(&pangocolor, colour_string.c_str());
       PangoAttribute *attr;
       attr = pango_attr_foreground_new(pangocolor.red, pangocolor.green, pangocolor.blue);
       attr->start_index = start_index;
       attr->end_index = end_index;
       pango_attr_list_insert(attrs, attr);
+    }
+    index++;
+  } while (in_range);
+}
+
+void T2PLayoutContainer::set_strike_through(T2PInputParagraph * paragraph, PangoAttrList *attrs)
+// Sets the strike-through markup, if any.
+{
+  bool in_range;
+  int index = 0;
+  int start_index, end_index;
+  bool strike_through;
+  do {
+    if (paragraph->inline_get_strike_through(index, in_range, strike_through, start_index, end_index)) {
+      if (strike_through) {
+        PangoAttribute *attr;
+        attr = pango_attr_strikethrough_new(true);
+        attr->start_index = start_index;
+        attr->end_index = end_index;
+        pango_attr_list_insert(attrs, attr);
+      }
     }
     index++;
   } while (in_range);

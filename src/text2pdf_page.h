@@ -27,7 +27,7 @@
 class T2PPage
 {
 public:
-  T2PPage(int page_number, int page_width, int page_height, int inside_margin, int outside_margin, int top_margin, int bottom_margin, int header_height, int footer_height);
+  T2PPage(int page_number, int page_width, int page_height, int inside_margin, int outside_margin, int top_margin, int bottom_margin, int header_height, int footer_height, cairo_t *cairo_in);
   virtual ~T2PPage();
   void print(cairo_t *cairo);
   T2PReferenceArea * header_reference_area;
@@ -35,6 +35,7 @@ public:
   T2PReferenceArea * footer_reference_area;
 private:
   int number;
+  cairo_t *cairo;
 };
 
 #endif

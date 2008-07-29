@@ -21,13 +21,15 @@
 #include "text2pdf_ref_area.h"
 #include "gwrappers.h"
 
-T2PReferenceArea::T2PReferenceArea(PangoRectangle rectangle_in) :
+T2PReferenceArea::T2PReferenceArea(PangoRectangle rectangle_in, cairo_t *cairo_in) :
   T2PArea(rectangle_in)
 // This is a reference area, e.g. a header, footer, or text area.
 {
   // Initialize the y value to start stacking blocks at.
   start_stacking_y = 0;
   column_spacing_pango_units = 0;
+  // Cairo.
+  cairo = cairo_in;
 }
 
 T2PReferenceArea::~T2PReferenceArea()
@@ -36,9 +38,12 @@ T2PReferenceArea::~T2PReferenceArea()
   for (unsigned int i = 0; i < body_blocks.size(); i++) {
     delete body_blocks[i];
   }
+  for (unsigned int i = 0; i < note_layout_containers.size(); i++) {
+    delete note_layout_containers[i];
+  }
 }
 
-void T2PReferenceArea::print(cairo_t *cairo)
+void T2PReferenceArea::print()
 // Print the blocks.
 {
   // Go through each block.
@@ -50,6 +55,14 @@ void T2PReferenceArea::print(cairo_t *cairo)
     block->rectangle.y += rectangle.y;
     // Print this block.
     block->print(cairo);
+  }
+  // Print the notes. While doing that reposition them to the bottom of the page.
+  int notes_height = get_note_height();
+  for (unsigned int i = 0; i < note_layout_containers.size(); i++) {
+    T2PLayoutContainer * layout_container = note_layout_containers[i];
+    layout_container->rectangle.x += rectangle.x;
+    layout_container->rectangle.y += rectangle.y + rectangle.height - notes_height;
+    layout_container->print(cairo);
   }
 }
 
@@ -77,7 +90,7 @@ void T2PReferenceArea::fit_blocks(deque <T2PBlock *>& input_blocks, int column_s
   for (int i = blocks_with_equal_column_count.size() - 1; i >= 0; i--) {
     input_blocks.push_front(blocks_with_equal_column_count[i]);
   }
-  
+
   // Look for any last blocks on the page that have their "keep_with_next" property set.
   // If these are there, that means these should be removed from here, and be put back into 
   // the input stream, so that they can be kept with paragraphs on the next page.
@@ -135,53 +148,77 @@ void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_
   // Go through the input blocks.
   while (!input_blocks.empty()) {
 
-    // Get the next lot of blocks that stay together.
+    // Get the next lot of blocks that stay together, fit it, and remove it from the input stream.
     T2PBigBlock big_block = get_next_big_block_to_be_kept_together(input_blocks, column_count);
-
-    // If the big block won't fit in the last column, then the area is full: bail out.
-    int last_column_height = get_column_height (last_column, start_stacking_y);
-    if ((start_stacking_y + last_column_height + big_block.height(start_stacking_y + last_column.size())) > rectangle.height) {
-      break;
-    }
-
-    // The big block fits: store it in the last column.
     last_column.push_back(big_block);
-
-    // Remove the fitted blocks from the input.
     for (unsigned int i = 0; i < big_block.blocks.size(); i++) {
       input_blocks.pop_front();
     }
 
-    // Balance columns if there's more than one column.
-    if (column_count > 1) {
-      // The first column should be higher than the last, normally, except when there's no space.
-      // Keep moving big blocks till that situation has been reached.
-      bool last_column_is_higher_than_first = true;
-      bool first_column_has_still_space = true;
-      while (last_column_is_higher_than_first && first_column_has_still_space && !last_column.empty()) {
-        int first_column_height = get_column_height (first_column, start_stacking_y);
-        int last_column_height = get_column_height (last_column, start_stacking_y);
-        last_column_is_higher_than_first = (last_column_height > first_column_height);
-        if (last_column_is_higher_than_first) {
-          T2PBigBlock first_big_block_of_second_column = last_column[0];
-          int first_big_block_of_second_column_height = first_big_block_of_second_column.height (1);
-          first_column_has_still_space = (rectangle.height - first_big_block_of_second_column_height - first_column_height) >= 0;
-          if (first_column_has_still_space) {
-            first_column.push_back (first_big_block_of_second_column);
-            last_column.pop_front();
+    // Create any notes caused by the big block.
+    unsigned int added_notes_count = 0;
+    for (unsigned int i = 0; i < big_block.blocks.size(); i++) {
+      T2PBlock * block = big_block.blocks[i];
+      for (unsigned int i2 = 0; i2 < block->layoutcontainers.size(); i2++) {
+        T2PLayoutContainer * layout_container = block->layoutcontainers[i2];
+        for (unsigned int i3 = 0; i3 < layout_container->note_paragraphs.size(); i3++) {
+          T2PInputParagraph * note_paragraph = layout_container->note_paragraphs[i3];
+          ustring text(note_paragraph->text);
+          while (!text.empty()) {
+            PangoRectangle note_rectangle = get_next_free_note_rectangle();
+            T2PLayoutContainer * note_layout_container = new T2PLayoutContainer (note_rectangle, NULL, cairo);
+            note_layout_container->layout_text("", note_paragraph, 0, text);
+            note_layout_containers.push_back(note_layout_container);
+            added_notes_count++;
           }
         }
       }
     }
-    
+
+    // Balance columns if there's more than one column.
+    if (column_count > 1) {
+      balance_columns(first_column, last_column);
+    }
+
+    // See if the column(s) didn't get too high after adding this last big block.
+    int first_column_height = get_column_height(first_column, start_stacking_y);
+    int last_column_height = get_column_height(last_column, start_stacking_y);
+    if ((start_stacking_y + MAX (first_column_height, last_column_height)) > (rectangle.height - get_note_height())) {
+
+      // Remove the last big block and balance the columns again.
+      if (!last_column.empty()) {
+        last_column.pop_back();
+      } else {
+        first_column.pop_back();
+      }
+      if (column_count > 1) {
+        balance_columns(first_column, last_column);
+      }
+
+      // Put the blocks back to the input stream.
+      for (int i = big_block.blocks.size() - 1; i >= 0; i--) {
+        input_blocks.push_front(big_block.blocks[i]);
+      }
+
+      // If the last big block caused any notes to be added, remove these again and destroy them.
+      for (unsigned int i = 0; i < added_notes_count; i++) {
+        T2PLayoutContainer * note_layout_container = note_layout_containers[note_layout_containers.size()-1];
+        delete note_layout_container;
+        note_layout_containers.pop_back();
+      }
+
+      // Bail out.
+      break;
+    }
+
   }
-  
+
   // Set the position of each individual block.
   // Copy the blocks from the columns into the object.
   int first_column_y = start_stacking_y;
   for (unsigned int i = 0; i < first_column.size(); i++) {
     first_column[i].set_blocks_x(0);
-    int column_height = first_column[i].height(first_column_y); 
+    int column_height = first_column[i].height(first_column_y);
     first_column[i].set_blocks_y(first_column_y);
     first_column_y += column_height;
     for (unsigned int i2 = 0; i2 < first_column[i].blocks.size(); i2++) {
@@ -195,14 +232,14 @@ void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_
     } else {
       last_column[i].set_blocks_x(rectangle.width - ((rectangle.width - column_spacing_pango_units) / 2));
     }
-    int column_height = last_column[i].height(last_column_y); 
+    int column_height = last_column[i].height(last_column_y);
     last_column[i].set_blocks_y(last_column_y);
     last_column_y += column_height;
     for (unsigned int i2 = 0; i2 < last_column[i].blocks.size(); i2++) {
       body_blocks.push_back(last_column[i].blocks[i2]);
     }
   }
-  
+
   // Store maximum height of any column as the starting point for the next column.
   start_stacking_y = MAX (first_column_y, last_column_y);
 }
@@ -224,7 +261,7 @@ T2PBigBlock T2PReferenceArea::get_next_big_block_to_be_kept_together(deque <T2PB
   return big_block;
 }
 
-int T2PReferenceArea::get_column_height (deque <T2PBigBlock>& column, int reference_y)
+int T2PReferenceArea::get_column_height(deque <T2PBigBlock>& column, int reference_y)
 // Gets the height of the column.
 {
   int height = 0;
@@ -233,3 +270,91 @@ int T2PReferenceArea::get_column_height (deque <T2PBigBlock>& column, int refere
   }
   return height;
 }
+
+PangoRectangle T2PReferenceArea::get_next_free_note_rectangle()
+// Gets the next free rectangle where a note could be laid out.
+{
+  // Calculate the next x and y.
+  int next_x = 0;
+  int next_y = 0;
+  int last_height = 0;
+  if (!note_layout_containers.empty()) {
+    T2PLayoutContainer * last_container = note_layout_containers[note_layout_containers.size()-1];
+    next_x = last_container->rectangle.x + last_container->rectangle.width;
+    next_x += millimeters_to_pango_units(3);
+    next_y = last_container->rectangle.y;
+    last_height = last_container->rectangle.height;
+  }
+
+  // If there's not enough space for the note on the x-axis, move it to the next line.
+  double remaining_millimeters = pango_units_to_millimeters(rectangle.width - next_x);
+  if (remaining_millimeters < 20) {
+    next_x = 0;
+    next_y += last_height;
+  }
+
+  // Create next rectangle. 
+  PangoRectangle next_rectangle;
+  next_rectangle.x = next_x;
+  next_rectangle.y = next_y;
+  next_rectangle.width = rectangle.width - next_x;
+  next_rectangle.height = 0;
+  return next_rectangle;
+}
+
+int T2PReferenceArea::get_note_height()
+// Gets the height of the currently fitted notes.
+{
+  int height = 0;
+  if (!note_layout_containers.empty()) {
+    T2PLayoutContainer * last_container = note_layout_containers[note_layout_containers.size()-1];
+    height += last_container->rectangle.y;
+    height += last_container->rectangle.height;
+  }
+  return height;
+}
+
+void T2PReferenceArea::balance_columns(deque <T2PBigBlock>& first_column, deque <T2PBigBlock>& last_column)
+// Two-way balancing of the first and the second column.
+// Two-way balancing means that content can be moved from the first column to the last one, 
+// or from the last one to the first, depending on the needs.
+{
+  int last_higher_total_height = balance_last_column_higher_than_or_equal_to_first_column(first_column, last_column);
+  int first_higher_total_height = balance_first_column_higher_than_or_equal_to_last_column(first_column, last_column);
+  if (first_higher_total_height > last_higher_total_height) {
+    balance_last_column_higher_than_or_equal_to_first_column(first_column, last_column);
+  }
+}
+
+int T2PReferenceArea::balance_last_column_higher_than_or_equal_to_first_column(deque <T2PBigBlock>& first_column, deque <T2PBigBlock>& last_column)
+// Move block from the first column to the last till the last column is higher than or equal to the first one.
+// Returns the maximum height of both columns.
+{
+  int first_column_height = get_column_height(first_column, start_stacking_y);
+  int last_column_height = get_column_height(last_column, start_stacking_y);
+  while (last_column_height <= first_column_height && !first_column.empty()) {
+    T2PBigBlock last_big_block_of_first_column = first_column[first_column.size()-1];
+    last_column.push_front(last_big_block_of_first_column);
+    first_column.pop_back();
+    first_column_height = get_column_height(first_column, start_stacking_y);
+    last_column_height = get_column_height(last_column, start_stacking_y);
+  }
+  return MAX (first_column_height, last_column_height);
+}
+
+int T2PReferenceArea::balance_first_column_higher_than_or_equal_to_last_column(deque <T2PBigBlock>& first_column, deque <T2PBigBlock>& last_column)
+// Move blocks from the last column to the first till the first column is higher than or equal to the last one.
+// Returns the maximum height of both columns.
+{
+  int first_column_height = get_column_height(first_column, start_stacking_y);
+  int last_column_height = get_column_height(last_column, start_stacking_y);
+  while (last_column_height >= first_column_height && !last_column.empty()) {
+    T2PBigBlock first_big_block_of_second_column = last_column[0];
+    first_column.push_back(first_big_block_of_second_column);
+    last_column.pop_front();
+    first_column_height = get_column_height(first_column, start_stacking_y);
+    last_column_height = get_column_height(last_column, start_stacking_y);
+  }
+  return MAX (first_column_height, last_column_height);
+}
+
