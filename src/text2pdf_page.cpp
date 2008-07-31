@@ -108,6 +108,9 @@ void T2PPage::print(cairo_t *cairo)
   cairo_paint(cairo);
   
   // Print the reference areas.
+  if (text_reference_area->has_content()) {
+    header_reference_area->output_page_number(number);
+  }
   header_reference_area->print();
   text_reference_area->print();
   footer_reference_area->print();

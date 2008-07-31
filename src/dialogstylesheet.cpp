@@ -52,8 +52,6 @@
  - Verse number: Whether to restart the paragraph.
 
  userbool2
- - Footnotes: whether to allow extra space for the caller.
- - Crossreferences: whether to allow extra space for the caller.
  - \id: whether to start an odd page number.
  - Chapter number (\c): Whether to include it in the left running header.
  - Running header (\h(#): Whether to include it in the left running header.
@@ -632,7 +630,6 @@ StylesheetDialog::StylesheetDialog(const ustring& stylesheet, const ustring& sty
   checkbutton_span = NULL;
   vbox10 = NULL;
   hbox10 = NULL;
-  checkbutton_notecaller_spacious = NULL;
   print_chapter_at_first_verse = NULL;
   hbox_lineheight = NULL;
   hbox_id = NULL;
@@ -1526,7 +1523,6 @@ void StylesheetDialog::on_radiobutton_note() {
       superscript_create();
       note_numbering_type_create();
       note_numering_restart_create();
-      note_caller_spacious_create();
       print_create();
       break;
     case fentEndnote:
@@ -1597,7 +1593,6 @@ void StylesheetDialog::on_radiobutton_xref() {
       superscript_create();
       note_numbering_type_create();
       note_numering_restart_create();
-      note_caller_spacious_create();
       print_create();
       break;
     case ctStandardContent:
@@ -1743,12 +1738,6 @@ void StylesheetDialog::destroy_optional_widgets()
       userint2 = nnrtPage;
     gtk_widget_destroy(hbox10);
     hbox10 = NULL;
-  }
-  // Spacious note caller.
-  if (checkbutton_notecaller_spacious) {
-    userbool2 = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON (checkbutton_notecaller_spacious));
-    gtk_widget_destroy(checkbutton_notecaller_spacious);
-    checkbutton_notecaller_spacious = NULL;
   }
   // Printing of chapter number at first verse.
   if (print_chapter_at_first_verse) {
@@ -2454,14 +2443,6 @@ void StylesheetDialog::on_radiobutton_note_numbering() {
   } else {
     gtk_widget_set_sensitive(entry_note_numbering, false);
   }
-}
-
-void StylesheetDialog::note_caller_spacious_create() {
-  checkbutton_notecaller_spacious = gtk_check_button_new_with_mnemonic("Allow double space for note caller");
-  gtk_widget_show(checkbutton_notecaller_spacious);
-  gtk_box_pack_start(GTK_BOX (vbox6), checkbutton_notecaller_spacious, FALSE, FALSE, 0);
-
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (checkbutton_notecaller_spacious), userbool2);
 }
 
 void StylesheetDialog::print_chapter_at_first_verse_create() {

@@ -1780,7 +1780,7 @@ void Usfm2XslFo::create_note_callers ()
   for (unsigned int i = 0; i < styles.size (); i++) {
     if ((styles[i].type == u2xtFootNoteStart) || (styles[i].type == u2xtEndNoteStart) || (styles[i].type == u2xtCrossreferenceStart)) {
       // Create the note caller.
-      NoteCaller * notecaller = new NoteCaller (styles[i].note_numbering_type, styles[i].note_numbering_user_sequence, styles[i].spacious_notecaller);
+      NoteCaller * notecaller = new NoteCaller (styles[i].note_numbering_type, styles[i].note_numbering_user_sequence);
       if (styles[i].note_numbering_restart_type == nnrtPage) {
         notecaller->renumber_per_page_temporal_caller_text = note_caller_numbering_per_page_pool ().substr (poolpointer, 1);
         poolpointer++;
@@ -1849,9 +1849,6 @@ void Usfm2XslFo::output_text_note (ustring& line, Usfm2XslFoStyle * stylepointer
     if ((stylepointer->type == u2xtFootNoteStart) || (stylepointer->type == u2xtCrossreferenceStart)) {
       if (stylepointer->note_numbering_restart_type == nnrtPage) {
         caller_in_text = notecallers[stylepointer]->renumber_per_page_temporal_caller_text;
-        if (notecallers[stylepointer]->spacious) {
-          caller_in_text.append (caller_in_text);
-        }
       }
     }
   } else if (caller_in_text == "-") {
@@ -1889,9 +1886,6 @@ void Usfm2XslFo::output_text_note (ustring& line, Usfm2XslFoStyle * stylepointer
   if ((stylepointer->type == u2xtFootNoteStart) || (stylepointer->type == u2xtCrossreferenceStart)) {
     if (stylepointer->note_numbering_restart_type == nnrtPage) {
       caller_in_note = notecallers[stylepointer]->renumber_per_page_temporal_caller_note;
-      if (notecallers[stylepointer]->spacious) {
-        caller_in_note.append (caller_in_note);
-      }
     }
   }
 
@@ -2117,8 +2111,6 @@ retrieved from "note_caller_numbering_per_page_pool ()".
       
       // Handle all positions with the note markers.
       size_t note_caller_length = 1;
-      if (notecallers_per_page[nc]->spacious)
-        note_caller_length = 2;
       if (lines_with_note_markers_text.size() > 0) {
         notecallers_per_page[nc]->reset ();
         for (unsigned int i2 = 0; i2 < lines_with_note_markers_text.size(); i2++) {

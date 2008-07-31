@@ -4903,8 +4903,8 @@ void MainWindow::notes_fill_edit_screen(int id, bool newnote)
   note_editor->previous_project = combobox_get_active_string(combobox_note_project);
 
   // Set GUI elements.
-  current_paragraph_indentation_changed(gtk_html_get_paragraph_indentation (GTK_HTML (htmlview_note_editor)));
-  
+  current_paragraph_indentation_changed(gtk_html_get_paragraph_indentation(GTK_HTML (htmlview_note_editor)));
+
   // Switch screen to displaying the tabs for editing.
   gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook1), 1);
   gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_tools), tapntProjectNote);
@@ -5285,9 +5285,9 @@ void MainWindow::on_current_paragraph_alignment_changed(GtkHTML *html, GtkHTMLPa
 }
 
 void MainWindow::current_paragraph_alignment_changed(GtkHTMLParagraphAlignment new_alignment) {
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (togglebutton_note_edit_left_justify), new_alignment == GTK_HTML_PARAGRAPH_ALIGNMENT_LEFT);
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (togglebutton_note_edit_center_justify), new_alignment == GTK_HTML_PARAGRAPH_ALIGNMENT_CENTER);
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (togglebutton_note_edit_right_justify), new_alignment == GTK_HTML_PARAGRAPH_ALIGNMENT_RIGHT);
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (togglebutton_note_edit_left_justify), new_alignment == GTK_HTML_PARAGRAPH_ALIGNMENT_LEFT);
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (togglebutton_note_edit_center_justify), new_alignment == GTK_HTML_PARAGRAPH_ALIGNMENT_CENTER);
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (togglebutton_note_edit_right_justify), new_alignment == GTK_HTML_PARAGRAPH_ALIGNMENT_RIGHT);
 }
 
 void MainWindow::on_button_note_edit_decrease_indent_clicked(GtkButton *button, gpointer user_data) {
@@ -5297,7 +5297,7 @@ void MainWindow::on_button_note_edit_decrease_indent_clicked(GtkButton *button, 
 void MainWindow::button_note_edit_decrease_indent_clicked() {
   //guint indentation = gtk_html_get_paragraph_indentation (GTK_HTML (htmlview_note_editor));
   //if (indentation > 0)
-    gtk_html_indent_pop_level (GTK_HTML (htmlview_note_editor));
+  gtk_html_indent_pop_level(GTK_HTML (htmlview_note_editor));
 }
 
 void MainWindow::on_button_note_edit_increase_indent_clicked(GtkButton *button, gpointer user_data) {
@@ -5305,17 +5305,15 @@ void MainWindow::on_button_note_edit_increase_indent_clicked(GtkButton *button, 
 }
 
 void MainWindow::button_note_edit_increase_indent_clicked() {
-  gtk_html_indent_push_level (GTK_HTML (htmlview_note_editor), HTML_LIST_TYPE_BLOCKQUOTE);
+  gtk_html_indent_push_level(GTK_HTML (htmlview_note_editor), HTML_LIST_TYPE_BLOCKQUOTE);
 }
 
-void MainWindow::on_current_paragraph_indentation_changed(GtkHTML *html, guint new_indentation, gpointer user_data)
-{
+void MainWindow::on_current_paragraph_indentation_changed(GtkHTML *html, guint new_indentation, gpointer user_data) {
   ((MainWindow *) user_data)->current_paragraph_indentation_changed(new_indentation);
 }
 
-void MainWindow::current_paragraph_indentation_changed(guint new_indentation)
-{
-  gtk_widget_set_sensitive (toolitem_note_edit_decrease_indent, new_indentation > 0);  
+void MainWindow::current_paragraph_indentation_changed(guint new_indentation) {
+  gtk_widget_set_sensitive(toolitem_note_edit_decrease_indent, new_indentation > 0);
 }
 
 void MainWindow::on_colorbutton_note_edit_color_set(GtkColorButton *colorbutton, gpointer user_data) {
@@ -5324,22 +5322,19 @@ void MainWindow::on_colorbutton_note_edit_color_set(GtkColorButton *colorbutton,
 
 void MainWindow::colorbutton_note_edit_color_set(GtkColorButton *colorbutton) {
   GdkColor gdk_color;
-  gtk_color_button_get_color (colorbutton, &gdk_color);
-  HTMLColor * html_color = html_color_new_from_gdk_color (&gdk_color);
+  gtk_color_button_get_color(colorbutton, &gdk_color);
+  HTMLColor * html_color = html_color_new_from_gdk_color(&gdk_color);
   gtk_html_set_color(GTK_HTML (htmlview_note_editor), html_color);
-  html_color_unref (html_color);  
+  html_color_unref(html_color);
 }
 
-void MainWindow::on_insertion_color_changed(GtkHTML *html, GdkColor *color, gpointer user_data)
-{
+void MainWindow::on_insertion_color_changed(GtkHTML *html, GdkColor *color, gpointer user_data) {
   ((MainWindow *) user_data)->insertion_color_changed(color);
 }
 
-void MainWindow::insertion_color_changed(GdkColor *color)
-{
-  gtk_color_button_set_color (GTK_COLOR_BUTTON(colorbutton_note_edit), color);
+void MainWindow::insertion_color_changed(GdkColor *color) {
+  gtk_color_button_set_color(GTK_COLOR_BUTTON(colorbutton_note_edit), color);
 }
-
 
 /*
  |
@@ -6307,6 +6302,8 @@ void MainWindow::on_text_font() {
   extern Settings * settings;
   bool defaultfont = settings->genconfig.text_editor_font_default_get();
   ustring fontname = settings->genconfig.text_editor_font_name_get();
+  unsigned int linespacing = 100;
+  bool no_justification = false;
   bool defaultcolour = settings->genconfig.text_editor_default_color_get();
   unsigned int normaltextcolour = settings->genconfig.text_editor_normal_text_color_get();
   unsigned int backgroundcolour = settings->genconfig.text_editor_background_color_get();
@@ -6317,6 +6314,8 @@ void MainWindow::on_text_font() {
     ProjectConfiguration * projectconfig = settings->projectconfig(editor->project);
     defaultfont = projectconfig->editor_font_default_get();
     fontname = projectconfig->editor_font_name_get();
+    linespacing = projectconfig->text_line_height_get();
+    no_justification = projectconfig->text_no_justify_get();
     defaultcolour = settings->genconfig.text_editor_default_color_get();
     normaltextcolour = projectconfig->editor_normal_text_color_get();
     backgroundcolour = projectconfig->editor_background_color_get();
@@ -6325,7 +6324,7 @@ void MainWindow::on_text_font() {
   }
 
   // Display font selection dialog. 
-  FontColorDialog dialog(defaultfont, fontname, defaultcolour, normaltextcolour, backgroundcolour, selectedtextcolour, selectioncolour);
+  FontColorDialog dialog(defaultfont, fontname, linespacing, no_justification, defaultcolour, normaltextcolour, backgroundcolour, selectedtextcolour, selectioncolour);
   if (dialog.run() != GTK_RESPONSE_OK)
     return;
 
@@ -6341,6 +6340,8 @@ void MainWindow::on_text_font() {
     ProjectConfiguration * projectconfig = settings->projectconfig(editor->project);
     projectconfig->editor_font_default_set(dialog.new_use_default_font);
     projectconfig->editor_font_name_set(dialog.new_font);
+    projectconfig->text_line_height_set(dialog.new_line_spacing);
+    projectconfig->text_no_justify_set(dialog.new_no_justification);
     projectconfig->editor_default_color_set(dialog.new_use_default_color);
     projectconfig->editor_normal_text_color_set(dialog.new_normal_text_color);
     projectconfig->editor_background_color_set(dialog.new_background_color);
@@ -6357,7 +6358,7 @@ void MainWindow::on_view_notes_font_activate(GtkMenuItem * menuitem, gpointer us
 void MainWindow::on_notes_font() {
   extern Settings * settings;
   FontColorDialog
-      dialog(settings->genconfig.notes_editor_font_default_get(), settings->genconfig.notes_editor_font_name_get(), settings->genconfig.notes_editor_default_color_get(), settings->genconfig.notes_editor_normal_text_color_get(), settings->genconfig.notes_editor_background_color_get(), settings->genconfig.notes_editor_selected_text_color_get(), settings->genconfig.notes_editor_selection_color_get());
+      dialog(settings->genconfig.notes_editor_font_default_get(), settings->genconfig.notes_editor_font_name_get(), 100, false, settings->genconfig.notes_editor_default_color_get(), settings->genconfig.notes_editor_normal_text_color_get(), settings->genconfig.notes_editor_background_color_get(), settings->genconfig.notes_editor_selected_text_color_get(), settings->genconfig.notes_editor_selection_color_get());
   if (dialog.run() == GTK_RESPONSE_OK) {
     settings->genconfig.notes_editor_font_default_set(dialog.new_use_default_font);
     settings->genconfig.notes_editor_font_name_set(dialog.new_font);
@@ -6916,8 +6917,8 @@ void MainWindow::on_print() {
     labels.push_back("Project");
     labels.push_back("Parallel Bible");
     labels.push_back("References");
-    labels.push_back("References (test through the new usfm-pdf converter");
     labels.push_back("Test usfm2pdf - not for normal usage");
+    labels.push_back("Test Cairo / Pango - not for normal usage");
     extern Settings * settings;
     RadiobuttonDialog dialog("Print", "Select what to print", labels, settings->genconfig.print_job_get());
     if (dialog.run() != GTK_RESPONSE_OK)
@@ -6975,37 +6976,11 @@ void MainWindow::on_print() {
         extern Settings * settings;
         vector <ustring> extra_projects = settings->genconfig.print_references_projects_get();
         ProjectMemory projectmemory(settings->genconfig.project_get(), true);
-        view_parallel_references_pdf(projectmemory, &extra_projects, refs, true, NULL, true);
-      }
-      break;
-    }
-    case 3: // References.
-    {
-      // Activate references area.
-      on_file_references();
-      // Show dialog.
-      {
-        PrintReferencesDialog dialog(0);
-        if (dialog.run() != GTK_RESPONSE_OK)
-          return;
-      }
-      // Load refs from the editor.
-      References references(liststore_references, treeview_references, treecolumn_references);
-      references.get_loaded();
-      vector<Reference> refs;
-      references.get_references(refs);
-      if (refs.empty()) {
-        gtkw_dialog_info(mainwindow, "There are no references to print");
-      } else {
-        // Run the function for printing the references.
-        extern Settings * settings;
-        vector <ustring> extra_projects = settings->genconfig.print_references_projects_get();
-        ProjectMemory projectmemory(settings->genconfig.project_get(), true);
         view_parallel_references_pdf2(projectmemory, &extra_projects, refs, true, NULL, true);
       }
       break;
     }
-    case 4: // Test text2pdf Todo
+    case 3: // Test text2pdf Todo
     {
       Text2Pdf text2pdf(gw_build_filename(directories_get_temp(), "pdf.pdf"));
       text2pdf.open_paragraph();
@@ -7044,7 +7019,7 @@ void MainWindow::on_print() {
       text2pdf.add_text("1");
       text2pdf.inline_clear_superscript();
       /*
-      */
+       */
       text2pdf.open_note();
       text2pdf.add_text("Note text one.");
       text2pdf.close_note();
@@ -7066,7 +7041,7 @@ void MainWindow::on_print() {
       text2pdf.add_text(".");
       text2pdf.open_paragraph();
       text2pdf.paragraph_set_font_size(13);
-      text2pdf.paragraph_set_italic (true);
+      text2pdf.paragraph_set_italic(true);
       text2pdf.inline_set_italic(t2pmtOn);
       text2pdf.add_text("on ");
       text2pdf.inline_set_italic(t2pmtOff);
@@ -7084,15 +7059,15 @@ void MainWindow::on_print() {
       text2pdf.add_text("underlined");
       text2pdf.inline_clear_underline();
       text2pdf.add_text(" ");
-      text2pdf.paragraph_set_alignment (t2patJustified);
+      text2pdf.paragraph_set_alignment(t2patJustified);
       text2pdf.paragraph_set_left_margin(10);
       text2pdf.paragraph_set_right_margin(10);
-      text2pdf.paragraph_set_first_line_indent (5);
-      text2pdf.paragraph_set_column_count (1);
-      text2pdf.paragraph_set_space_before (20);
+      text2pdf.paragraph_set_first_line_indent(5);
+      text2pdf.paragraph_set_column_count(1);
+      text2pdf.paragraph_set_space_before(20);
       text2pdf.add_text("I love you because we follow the truth, dear friend. I pray that everything goes well for you. I hope that you are as strong in your body, as I know you are in your spirit. It makes me very happy when the Lord's followers come by and speak openly of how you obey the truth. Nothing brings me greater happiness than that I hear that my children are walking in the truth.");
       text2pdf.open_paragraph();
-      text2pdf.paragraph_set_space_before (10);
+      text2pdf.paragraph_set_space_before(10);
       text2pdf.add_text("1 The one who gives life appeared! We saw it happen, and we are witnesses to what we have seen. Now we are telling you about this eternal life that was with the ");
       text2pdf.inline_set_superscript();
       text2pdf.add_text("Father");
@@ -7100,18 +7075,18 @@ void MainWindow::on_print() {
       text2pdf.inline_clear_font_size_percentage();
       text2pdf.add_text(" and appeared to us. 3 We are telling you what we have seen and heard, so that you may share in this life with us. And we share in it with the Father and with his Son Jesus Christ. 4 We are writing to tell you these things, because this makes us truly happy.");
       text2pdf.open_paragraph();
-      text2pdf.paragraph_set_bold (true);
-      text2pdf.paragraph_set_alignment (t2patJustified);
-      text2pdf.paragraph_set_first_line_indent (5);
-      text2pdf.paragraph_set_column_count (2);
-      text2pdf.paragraph_set_space_before (20);
+      text2pdf.paragraph_set_bold(true);
+      text2pdf.paragraph_set_alignment(t2patJustified);
+      text2pdf.paragraph_set_first_line_indent(5);
+      text2pdf.paragraph_set_column_count(2);
+      text2pdf.paragraph_set_space_before(20);
       text2pdf.add_text("5 Jesus told us that God is light and doesn't have any darkness in him. ");
       text2pdf.open_keep_together();
       text2pdf.open_paragraph();
-      text2pdf.paragraph_set_alignment (t2patLeft);
-      text2pdf.paragraph_set_underline (true);
-      text2pdf.paragraph_set_first_line_indent (5);
-      text2pdf.paragraph_set_column_count (1);
+      text2pdf.paragraph_set_alignment(t2patLeft);
+      text2pdf.paragraph_set_underline(true);
+      text2pdf.paragraph_set_first_line_indent(5);
+      text2pdf.paragraph_set_column_count(1);
       text2pdf.add_text("6 If we say that we share in life with God and keep on living in the dark, we are lying and are not living by the truth. ");
       text2pdf.open_note();
       text2pdf.add_text("x Gen. 10.1; 11.2. Exod. 10.5; 11.5; 12.1; Ps. 110.1; 119.5.");
@@ -7127,52 +7102,59 @@ void MainWindow::on_print() {
       text2pdf.add_text("9 But if we confess our sins to God, he can always be trusted to forgive us and take our sins away.");
       text2pdf.close_keep_together();
       text2pdf.open_paragraph();
-      text2pdf.paragraph_set_small_caps (true);
-      text2pdf.paragraph_set_alignment (t2patRight);
-      text2pdf.paragraph_set_first_line_indent (5);
-      text2pdf.paragraph_set_column_count (2);
+      text2pdf.paragraph_set_small_caps(true);
+      text2pdf.paragraph_set_alignment(t2patRight);
+      text2pdf.paragraph_set_first_line_indent(5);
+      text2pdf.paragraph_set_column_count(2);
       text2pdf.add_text("1 My children, I am writing this so that you won't sin. But if you do sin, Jesus Christ always does the right thing, and he will speak to the Father for us. 2 Christ is the sacrifice that takes away our sins and the sins of all the world's people.");
       text2pdf.open_paragraph();
-      text2pdf.paragraph_set_italic (true);
-      text2pdf.paragraph_set_bold (true);
-      text2pdf.paragraph_set_alignment (t2patJustified);
-      text2pdf.paragraph_set_first_line_indent (5);
-      text2pdf.paragraph_set_column_count (2);
+      text2pdf.paragraph_set_italic(true);
+      text2pdf.paragraph_set_bold(true);
+      text2pdf.paragraph_set_alignment(t2patJustified);
+      text2pdf.paragraph_set_first_line_indent(5);
+      text2pdf.paragraph_set_column_count(2);
       text2pdf.add_text("3 When we obey God, we are sure that we know him. 4 But if we claim to know him and don't obey him, we are lying and the truth isn't in our hearts. 5 We truly love God only when we obey him as we should, and then we know that we belong to him. 6 If we say we are his, we must follow the example of Christ.");
       text2pdf.open_paragraph();
-      text2pdf.paragraph_set_alignment (t2patLeft);
-      text2pdf.paragraph_set_first_line_indent (5);
-      text2pdf.paragraph_set_column_count (2);
+      text2pdf.paragraph_set_alignment(t2patLeft);
+      text2pdf.paragraph_set_first_line_indent(5);
+      text2pdf.paragraph_set_column_count(2);
       text2pdf.add_text("9 If we claim to be in the light and hate someone, we are still in the dark. 10 But if we love others, we are in the light, and we don't cause problems for them. 11 If we hate others, we are living and walking in the dark. We don't know where we are going, because we can't see in the dark.");
       text2pdf.open_paragraph();
-      text2pdf.paragraph_set_alignment (t2patRight);
-      text2pdf.paragraph_set_first_line_indent (10);
-      text2pdf.paragraph_set_column_count (1);
-      text2pdf.paragraph_set_space_before (10);
+      text2pdf.paragraph_set_alignment(t2patRight);
+      text2pdf.paragraph_set_first_line_indent(10);
+      text2pdf.paragraph_set_column_count(1);
+      text2pdf.paragraph_set_space_before(10);
       text2pdf.add_text("1 Think how much the Father loves us. He loves us so much that he lets us be called his children, as we truly are. But since the people of this world did not know who Christ is, they don't know who we are. 2 My dear friends, we are already God's children, though what we will be hasn't yet been seen. But we do know that when Christ returns, we will be like him, because we will see him as he truly is. 3 This hope makes us keep ourselves holy, just as Christ is holy.");
       text2pdf.open_paragraph();
-      text2pdf.paragraph_set_alignment (t2patJustified);
-      text2pdf.paragraph_set_first_line_indent (15);
-      text2pdf.paragraph_set_column_count (1);
+      text2pdf.paragraph_set_alignment(t2patJustified);
+      text2pdf.paragraph_set_first_line_indent(15);
+      text2pdf.paragraph_set_column_count(1);
       text2pdf.add_text("4 Everyone who sins breaks God's law, because sin is the same as breaking God's law. 5 You know that Christ came to take away sins. He isn't sinful, 6 and people who stay united in their hearts with him won't keep on sinning. If they do keep on sinning, they don't know Christ, and they have never seen him.");
       text2pdf.open_paragraph();
-      text2pdf.paragraph_set_alignment (t2patJustified);
-      text2pdf.paragraph_set_first_line_indent (5);
-      text2pdf.paragraph_set_column_count (2);
+      text2pdf.paragraph_set_alignment(t2patJustified);
+      text2pdf.paragraph_set_first_line_indent(5);
+      text2pdf.paragraph_set_column_count(2);
       text2pdf.add_text("7 Children, don't be fooled. Anyone who does right is good, just like Christ himself. 8 Anyone who keeps on sinning belongs to the devil. He has sinned from the beginning, but the Son of God came to destroy all that he has done. 9 God's children cannot keep on being sinful. His life-giving power lives in them and makes them his children, so that they cannot keep on sinning. 10 You can tell God's children from the devil's children, because those who belong to the devil refuse to do right or to love each other.");
       text2pdf.open_paragraph();
-      text2pdf.paragraph_set_alignment (t2patJustified);
-      text2pdf.paragraph_set_first_line_indent (5);
-      text2pdf.paragraph_set_column_count (2);
+      text2pdf.paragraph_set_alignment(t2patJustified);
+      text2pdf.paragraph_set_first_line_indent(5);
+      text2pdf.paragraph_set_column_count(2);
       text2pdf.add_text("11 From the beginning you were told that we must love each other. 12 Don't be like Cain, who belonged to the devil and murdered his own brother. Why did he murder him? He did it because his brother was good, and he was evil. 13 My friends, don't be surprised if the people of this world hate you. 14 Our love for each other proves that we have gone from death to life. But if you don't love each other, you are still under the power of death.");
       text2pdf.open_paragraph();
-      text2pdf.paragraph_set_alignment (t2patJustified);
-      text2pdf.paragraph_set_first_line_indent (5);
-      text2pdf.paragraph_set_column_count (2);
+      text2pdf.paragraph_set_alignment(t2patJustified);
+      text2pdf.paragraph_set_first_line_indent(5);
+      text2pdf.paragraph_set_column_count(2);
       text2pdf.add_text("15 If you hate each other, you are murderers, and we know that murderers do not have eternal life. 16 We know what love is because Jesus gave his life for us. That's why we must give our lives for each other. 17 If we have all we need and see one of our own people in need, we must have pity on that person, or else we cannot say we love God. 18 Children, you show love for others by truly helping them, and not merely by talking about it.");
       /*
-      */
+       */
       text2pdf.run();
+      text2pdf.view();
+      break;
+    }
+    case 4:
+    {
+      Text2Pdf text2pdf(gw_build_filename(directories_get_temp(), "pdf.pdf"));
+      text2pdf.test();
       text2pdf.view();
       break;
     }

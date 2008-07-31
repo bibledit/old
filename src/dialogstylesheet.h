@@ -275,10 +275,6 @@ private:
   GtkWidget *radiobutton_note_numbering_restart_page;
   void note_numering_restart_create ();
   
-  // Double space for note caller.
-  GtkWidget *checkbutton_notecaller_spacious;
-  void note_caller_spacious_create ();
-
   // Print chapternumber at first verse.
   GtkWidget *print_chapter_at_first_verse;
   void print_chapter_at_first_verse_create ();

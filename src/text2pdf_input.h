@@ -38,14 +38,18 @@ private:
 class T2PInputParagraph : public T2PInput
 {
 public:
-  T2PInputParagraph(int dummy);
+  T2PInputParagraph(const ustring& font, bool no_justify, unsigned int line_spacing_in, bool right_to_left_in);
   virtual ~T2PInputParagraph();
+  ustring font_name;
   unsigned int font_size_points;
+  unsigned int line_spacing;
+  bool right_to_left;
   bool italic;
   bool bold;
   bool underline;
   bool small_caps;
   T2PAlignmentType alignment;
+  bool no_justification;
   int space_before_mm;
   int space_after_mm;
   int left_margin_mm;

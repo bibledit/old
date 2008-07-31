@@ -103,7 +103,7 @@ FontDialog::FontDialog (int dummy)
   gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (spinbutton1), TRUE);
 
   // Set value.
-  gtk_spin_button_set_value (GTK_SPIN_BUTTON (spinbutton1), projectconfig->printing_line_height_get ());
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (spinbutton1), projectconfig->text_line_height_get ());
 
   label28 = gtk_label_new ("%");
   gtk_widget_show (label28);
@@ -151,7 +151,7 @@ FontDialog::FontDialog (int dummy)
   
   // Set the fontsize(s).
   combobox_set_strings (combobox1, font_get_sizes());
-  combobox_set_string (combobox1, convert_to_string (projectconfig->printing_font_size_get()));
+  combobox_set_string (combobox1, convert_to_string (12));
 
   // Storage, renderer, column and selection.
   store = gtk_list_store_new (NUM_COLUMNS, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_STRING);
@@ -247,9 +247,8 @@ void FontDialog::on_okbutton ()
   // Save font size.
   extern Settings * settings;
   ProjectConfiguration * projectconfig = settings->projectconfig (settings->genconfig.project_get());
-  projectconfig->printing_font_size_set (convert_to_int (combobox_get_active_string (combobox1)));
   gtk_spin_button_update (GTK_SPIN_BUTTON (spinbutton1));
-  projectconfig->printing_line_height_set (gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spinbutton1)));
+  projectconfig->text_line_height_set (gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spinbutton1)));
 }
 
 

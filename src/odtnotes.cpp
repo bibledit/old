@@ -110,7 +110,7 @@ OdtFootnote::OdtFootnote (const Usfm& usfm)
   if (!extraparagraph)
     extraparagraph =    new XslFoFootnoteParagraph ("fp", 11, OFF, OFF, OFF, OFF, JUSTIFIED, 0, 0, 3, 0, 3, false);
   // Create footnote caller object.
-  notecaller = new NoteCaller (note_numbering_type, note_numbering_user_sequence, false);
+  notecaller = new NoteCaller (note_numbering_type, note_numbering_user_sequence);
 }
 
 
@@ -325,7 +325,7 @@ OdtEndnote::OdtEndnote (const Usfm& usfm)
   if (!extraparagraph)
     extraparagraph =    new XslFoFootnoteParagraph ("fp", 11, OFF, OFF, OFF, OFF, JUSTIFIED, 0, 0, 3, 0, 3, false);
   // Create footnote caller object.
-  notecaller = new NoteCaller (note_numbering_type, note_numbering_user_sequence, false);
+  notecaller = new NoteCaller (note_numbering_type, note_numbering_user_sequence);
 }
 
 
@@ -517,7 +517,7 @@ OdtXref::OdtXref (const Usfm& usfm)
   if (!standardparagraph)
     standardparagraph = new XslFoFootnoteParagraph ("xt", 11, OFF, OFF, OFF, OFF, JUSTIFIED, 0, 0, 3, 0, 0, false);
   // Create caller object.
-  notecaller = new NoteCaller (note_numbering_type, note_numbering_user_sequence, false);
+  notecaller = new NoteCaller (note_numbering_type, note_numbering_user_sequence);
 }
 
 

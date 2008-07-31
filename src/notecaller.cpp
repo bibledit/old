@@ -25,14 +25,13 @@
 #include "tiny_utilities.h"
 
 
-NoteCaller::NoteCaller (NoteNumberingType numbering_in, ustring user_sequence, bool spacious_in)
+NoteCaller::NoteCaller (NoteNumberingType numbering_in, ustring user_sequence)
 // Deal with the note callers.
 {
   numbering = numbering_in;
   sequence = user_sequence;
   if (numbering == nntAlphabetical)
     sequence = ALPHABET;
-  spacious = spacious_in;
   reset ();
 }
 

@@ -31,11 +31,14 @@ T2PInput::~T2PInput()
 {
 }
 
-T2PInputParagraph::T2PInputParagraph(int dummy) :
+T2PInputParagraph::T2PInputParagraph(const ustring& font, bool no_justify, unsigned int line_spacing_in, bool right_to_left_in) :
   T2PInput(t2pitParagraph)
 // This is a class that contains a new default paragraph.
 {
+  font_name = font;
   font_size_points = 12;
+  line_spacing = line_spacing_in;
+  right_to_left = right_to_left_in;
   italic = false;
   bold = false;
   underline = false;
@@ -46,6 +49,7 @@ T2PInputParagraph::T2PInputParagraph(int dummy) :
   right_margin_mm = 0;
   first_line_indent_mm = 5;
   alignment = t2patJustified;
+  no_justification = no_justify;
   column_count = 2;
   keep_with_next = false;
   maximum_text_length = 0;

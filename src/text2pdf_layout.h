@@ -31,16 +31,17 @@ public:
   T2PLayoutContainer(PangoRectangle rectangle_in, T2PArea * parent_in, cairo_t *cairo);
   virtual ~T2PLayoutContainer();
   void print(cairo_t *cairo);
-  void layout_text(const ustring& font, T2PInputParagraph * paragraph, unsigned int line_number, ustring& text);
+  void layout_text(T2PInputParagraph * paragraph, unsigned int line_number, ustring& text);
   ustring text();
   vector <T2PInputParagraph *> note_paragraphs;
 private:
   T2PArea * parent;
   PangoLayout * layout;
+  PangoLayout * first_pass_layout;
   void indentation_width_margins_alignment(T2PInputParagraph * paragraph, bool first_line);
   void justify(T2PInputParagraph * paragraph, const ustring& line, bool last_line, PangoAttrList *attrs);
   void index_white_space(const ustring& text, vector<guint>& offsets);
-  void set_font(T2PInputParagraph * paragraph, PangoAttrList *attrs, const ustring& font);
+  void set_font(T2PInputParagraph * paragraph, PangoAttrList *attrs);
   void set_italic(T2PInputParagraph * paragraph, PangoAttrList *attrs);
   void set_bold(T2PInputParagraph * paragraph, PangoAttrList *attrs);
   void set_underline(T2PInputParagraph * paragraph, PangoAttrList *attrs);

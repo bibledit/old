@@ -2176,7 +2176,7 @@ void Editor::renumber_and_clean_notes_callers()
   // Create the caller objects, one for each note opening marker.
   map <ustring, NoteCaller *> notecallers;
   for (unsigned int i = 0; i < note_openers.size(); i++) {
-    NoteCaller * caller = new NoteCaller (note_numbering_type_get (project, note_openers[i]), note_numbering_user_sequence_get (project, note_openers[i]), false);
+    NoteCaller * caller = new NoteCaller (note_numbering_type_get (project, note_openers[i]), note_numbering_user_sequence_get (project, note_openers[i]));
     notecallers[note_openers[i]] = caller;
   }
 

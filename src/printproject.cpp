@@ -91,8 +91,8 @@ void PrintProject::print ()
   Usfm2XslFo usfm2xslfo (gw_build_filename (directories_get_temp (), "usfm2pdf.pdf"));
   usfm2xslfo.add_styles (usfm2xslfo_read_stylesheet (projectconfig->stylesheet_get ()));
   PrintingFonts printingfonts (settings->genconfig.project_get());
-  usfm2xslfo.set_fonts (printingfonts.printing_families, projectconfig->printing_font_size_get());
-  usfm2xslfo.set_line_height (projectconfig->printing_line_height_get());
+  usfm2xslfo.set_fonts (printingfonts.printing_families, 12);
+  usfm2xslfo.set_line_height (projectconfig->text_line_height_get());
   if (projectconfig->right_to_left_get ()) usfm2xslfo.set_right_to_left ();
   usfm2xslfo.set_page_size (settings->genconfig.paper_width_get (), settings->genconfig.paper_height_get ());
   usfm2xslfo.set_margins (settings->genconfig.paper_top_margin_get (), settings->genconfig.paper_bottom_margin_get (), settings->genconfig.paper_inside_margin_get (), settings->genconfig.paper_outside_margin_get ());

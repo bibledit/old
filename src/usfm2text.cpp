@@ -1062,12 +1062,16 @@ void Usfm2Text::output_text_fallback(ustring& line, Usfm2XslFoStyle * & fo_block
 void Usfm2Text::open_paragraph(Usfm2XslFoStyle * style, bool keep_with_next_paragraph) {
   // Open the paragraph.
   text2pdf->open_paragraph();
+  // Set the properties.
+  set_paragraph(style, keep_with_next_paragraph);
+}
 
+void Usfm2Text::set_paragraph(Usfm2XslFoStyle * style, bool keep_with_next_paragraph) {
   // Fontsize
   text2pdf->paragraph_set_font_size((int)style->fontsize);
 
   // Lineheight
-  if (style->line_height_percentage != 100) { // Todo implement in text2pdf object.
+  if (style->line_height_percentage != 100) {
   }
 
   // Italic
@@ -1091,9 +1095,7 @@ void Usfm2Text::open_paragraph(Usfm2XslFoStyle * style, bool keep_with_next_para
   }
 
   // Justification
-  if (style->justification == "last-justify") { // Todo this case.
-    xmlTextWriterWriteAttribute(writer, BAD_CAST "text-align-last", BAD_CAST "justify");
-  } else if (style->justification == LEFT) {
+  if (style->justification == LEFT) {
     text2pdf->paragraph_set_alignment(t2patLeft);
   } else if (style->justification == CENTER) {
     text2pdf->paragraph_set_alignment(t2patCenter);
@@ -1125,9 +1127,6 @@ void Usfm2Text::open_paragraph(Usfm2XslFoStyle * style, bool keep_with_next_para
   // Keeping with next paragraph.
   if (keep_with_next_paragraph)
     text2pdf->paragraph_set_keep_with_next();
-
-  // Prepare for possible float. Todo to be implemented.
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "intrusion-displace", BAD_CAST "line");
 }
 
 gchar * Usfm2Text::default_style()
@@ -1642,7 +1641,7 @@ void Usfm2Text::create_note_callers()
   for (unsigned int i = 0; i < styles.size(); i++) {
     if ((styles[i].type == u2xtFootNoteStart) || (styles[i].type == u2xtEndNoteStart) || (styles[i].type == u2xtCrossreferenceStart)) {
       // Create the note caller.
-      NoteCaller * notecaller = new NoteCaller (styles[i].note_numbering_type, styles[i].note_numbering_user_sequence, styles[i].spacious_notecaller);
+      NoteCaller * notecaller = new NoteCaller (styles[i].note_numbering_type, styles[i].note_numbering_user_sequence);
       if (styles[i].note_numbering_restart_type == nnrtPage) {
         notecaller->renumber_per_page_temporal_caller_text = note_caller_numbering_per_page_pool ().substr(poolpointer, 1);
         poolpointer++;
@@ -1671,7 +1670,7 @@ void Usfm2Text::destroy_note_callers()
   }
 }
 
-void Usfm2Text::output_text_note(ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, size_t marker_length, bool is_opener) // Todo working here.
+void Usfm2Text::output_text_note(ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, size_t marker_length, bool is_opener)
 // Outputs a footnote or crossreference.
 {
   // Erase the marker from the text.
@@ -1708,9 +1707,6 @@ void Usfm2Text::output_text_note(ustring& line, Usfm2XslFoStyle * stylepointer, 
     if ((stylepointer->type == u2xtFootNoteStart) || (stylepointer->type == u2xtCrossreferenceStart)) {
       if (stylepointer->note_numbering_restart_type == nnrtPage) {
         caller_in_text = notecallers[stylepointer]->renumber_per_page_temporal_caller_text;
-        if (notecallers[stylepointer]->spacious) {
-          caller_in_text.append(caller_in_text);
-        }
       }
     }
   } else if (caller_in_text == "-") {
@@ -1719,53 +1715,41 @@ void Usfm2Text::output_text_note(ustring& line, Usfm2XslFoStyle * stylepointer, 
   rawnote.erase(0, 1);
   rawnote = trim(rawnote);
 
-  // Write the footnote caller in the text.
-  Usfm2XslFoStyle * style = stylepointer;
-  open_inline(style, NULL);
+  // Write the footnote caller in the text. 
+  // The stylesheet is not consulted, but it is put in superscript, as is common for notes.
+  text2pdf->inline_set_superscript();
   text2pdf->add_text(caller_in_text);
-  close_possible_inline(style);
+  text2pdf->inline_clear_superscript();
 
   // Open the footnote.
   text2pdf->open_note();
 
-  // Get the default paragraph style.
+  // Set the paragraph to the default paragraph style for this note.
   Usfm2XslFoStyle * default_paragraph_style = get_default_paragraph_style_for_note(stylepointer);
+  set_paragraph(default_paragraph_style, false);
+  Usfm2XslFoStyle * blockstyle = default_paragraph_style;
 
   // Get the caller in the note.
   ustring caller_in_note = caller_in_text;
   if ((stylepointer->type == u2xtFootNoteStart) || (stylepointer->type == u2xtCrossreferenceStart)) {
     if (stylepointer->note_numbering_restart_type == nnrtPage) {
       caller_in_note = notecallers[stylepointer]->renumber_per_page_temporal_caller_note;
-      if (notecallers[stylepointer]->spacious) {
-        caller_in_note.append(caller_in_note);
-      }
     }
   }
 
-  // Insert the caller in the footnote body.
+  // Insert the caller in the footnote body, in the note's style.
   if (!caller_in_note.empty()) {
     Usfm2XslFoStyle * inlinestyle = stylepointer;
     open_inline(inlinestyle, default_paragraph_style);
     text2pdf->add_text(caller_in_note);
-    text2pdf->add_text(" ");
     close_possible_inline(inlinestyle);
+    text2pdf->add_text(" ");
   }
-
-  
-  /*
-  
-
-
-
-  // Open the default paragraph style for this note.
-  default_paragraph_style = get_default_paragraph_style_for_note(stylepointer);
-  Usfm2XslFoStyle * blockstyle = default_paragraph_style;
-  open_paragraph(blockstyle, false);
 
   // Optionally add the full text of any references in this note.
   optionally_add_full_references(rawnote, stylepointer);
 
-  // Write the footnote. Todo it might be better to move this to the main loop as being more suitable.
+  // Write the footnote.
   Usfm2XslFoStyle * inlinestyle= NULL;
   unsigned int iteration = 0;
   while (!rawnote.empty()) {
@@ -1805,11 +1789,7 @@ void Usfm2Text::output_text_note(ustring& line, Usfm2XslFoStyle * stylepointer, 
     }
   }
 
-  // Close possible inline style and block style.
-  //close_possible_inline(inlinestyle);
-  //text2pdf->close_paragraph();
-*/
-
+  // Close note.
   text2pdf->close_note();
 }
 
@@ -1907,8 +1887,6 @@ void Usfm2Text::rewrite_note_callers()
 
       // Handle all positions with the note markers.
       size_t note_caller_length = 1;
-      if (notecallers_per_page[nc]->spacious)
-        note_caller_length = 2;
       if (lines_with_note_markers_text.size() > 0) {
         notecallers_per_page[nc]->reset();
         for (unsigned int i2 = 0; i2 < lines_with_note_markers_text.size(); i2++) {

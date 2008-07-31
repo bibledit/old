@@ -47,7 +47,6 @@ Usfm2XslFoStyle::Usfm2XslFoStyle (const ustring& marker_in)
   book_starts_new_page = false;
   book_starts_odd_page = false;
   bible_note_apocrypha_only = false;
-  spacious_notecaller = false;
   print_in_left_running_header = false;
   print_in_right_running_header = false;
   note_numbering_type = nntNumerical;
@@ -204,7 +203,6 @@ and puts all these styles in the right format.
           case fentFootnote:
           {
             style.type = u2xtFootNoteStart;
-            style.spacious_notecaller = usfm.styles[i].userbool2;
             style.note_numbering_type = (NoteNumberingType) usfm.styles[i].userint1;
             style.note_numbering_restart_type = (NoteNumberingRestartType) usfm.styles[i].userint2;
             style.note_numbering_user_sequence = usfm.styles[i].userstring1;
@@ -252,7 +250,6 @@ and puts all these styles in the right format.
           case ctCrossreference:
           {
             style.type = u2xtCrossreferenceStart;
-            style.spacious_notecaller = usfm.styles[i].userbool2;
             style.note_numbering_type = (NoteNumberingType) usfm.styles[i].userint1;
             style.note_numbering_restart_type = (NoteNumberingRestartType) usfm.styles[i].userint2;
             style.note_numbering_user_sequence = usfm.styles[i].userstring1;

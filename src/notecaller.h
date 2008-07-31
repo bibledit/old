@@ -29,13 +29,12 @@
 class NoteCaller
 {
 public:
-  NoteCaller (NoteNumberingType numbering_in, ustring user_sequence, bool spacious_in);
+  NoteCaller (NoteNumberingType numbering_in, ustring user_sequence);
   ~NoteCaller ();
   void reset ();
   ustring get_caller ();
   NoteNumberingType numbering;
   ustring sequence;
-  bool spacious;
   ustring renumber_per_page_temporal_caller_text;
   ustring renumber_per_page_temporal_caller_note;
 private:

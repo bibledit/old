@@ -32,6 +32,8 @@ public:
   T2PReferenceArea(PangoRectangle rectangle_in, cairo_t *cairo_in);
   virtual ~T2PReferenceArea();
   void fit_blocks (deque <T2PBlock *>& input_blocks, int column_spacing_pango_units_in);
+  void output_page_number (unsigned int number);
+  bool has_content();
   void print();
 private:
   cairo_t *cairo;
@@ -48,6 +50,8 @@ private:
   deque <T2PLayoutContainer *> note_layout_containers;
   PangoRectangle get_next_free_note_rectangle();
   int get_note_height();
+  bool print_page_number;
+  unsigned int page_number;
 };
 
 #endif

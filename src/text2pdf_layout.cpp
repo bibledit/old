@@ -31,18 +31,21 @@ T2PLayoutContainer::T2PLayoutContainer(PangoRectangle rectangle_in, T2PArea * pa
   T2PArea(rectangle_in)
 // This is a container for one PangoLayout.
 {
-  layout = pango_cairo_create_layout(cairo);
   parent = parent_in;
+  layout = pango_cairo_create_layout(cairo);
   pango_layout_set_width(layout, rectangle.width);
+  first_pass_layout = pango_cairo_create_layout(cairo);
+  pango_layout_set_width(first_pass_layout, rectangle.width);
 }
 
 T2PLayoutContainer::~T2PLayoutContainer()
 // Destructor.
 {
   g_object_unref(layout);
+  g_object_unref(first_pass_layout);
 }
 
-void T2PLayoutContainer::layout_text(const ustring& font, T2PInputParagraph * paragraph, unsigned int line_number, ustring& text)
+void T2PLayoutContainer::layout_text(T2PInputParagraph * paragraph, unsigned int line_number, ustring& text)
 // This lays text out in the object, one line.
 // The text to be laid out comes in "text".
 // The part of the text that didn't fit is returned through "text". 
@@ -50,25 +53,34 @@ void T2PLayoutContainer::layout_text(const ustring& font, T2PInputParagraph * pa
   // Text direction.
   pango_layout_set_auto_dir(layout, false);
   PangoContext * context = pango_layout_get_context(layout);
-  pango_context_set_base_dir(context, PANGO_DIRECTION_LTR);
+  if (paragraph) {
+    if (paragraph->right_to_left) {
+      pango_context_set_base_dir(context, PANGO_DIRECTION_RTL);
+    } else {
+      pango_context_set_base_dir(context, PANGO_DIRECTION_LTR);
+    }
+  }
 
   // Attributes.
   PangoAttrList *attrs = pango_attr_list_new();
 
-  // Font.
-  set_font(paragraph, attrs, font);
+  if (paragraph) {
 
-  indentation_width_margins_alignment(paragraph, line_number == 0);
-  set_italic(paragraph, attrs);
-  set_bold(paragraph, attrs);
-  set_underline(paragraph, attrs);
-  set_small_caps(paragraph, attrs);
+    // Font.
+    set_font(paragraph, attrs);
 
-  set_superscript_font_scale_weight(paragraph, attrs);
+    indentation_width_margins_alignment(paragraph, line_number == 0);
+    set_italic(paragraph, attrs);
+    set_bold(paragraph, attrs);
+    set_underline(paragraph, attrs);
+    set_small_caps(paragraph, attrs);
 
-  set_colour(paragraph, attrs);
+    set_superscript_font_scale_weight(paragraph, attrs);
 
-  set_strike_through(paragraph, attrs);
+    set_colour(paragraph, attrs);
+
+    set_strike_through(paragraph, attrs);
+  }
 
   pango_layout_set_wrap(layout, PANGO_WRAP_WORD_CHAR);
   pango_layout_set_text(layout, text.c_str(), -1);
@@ -98,8 +110,9 @@ void T2PLayoutContainer::layout_text(const ustring& font, T2PInputParagraph * pa
   }
 
   // Justification.
-  if (paragraph->alignment == t2patJustified)
+  if (paragraph && paragraph->alignment == t2patJustified && !paragraph->no_justification) {
     justify(paragraph, line, last_line_of_paragraph_loaded, attrs);
+  }
 
   // Store the height of the layout before superscript is applied.
   pango_layout_get_size(layout, NULL, &(rectangle.height));
@@ -116,7 +129,7 @@ void T2PLayoutContainer::layout_text(const ustring& font, T2PInputParagraph * pa
    To correct for that, an offset for the base line is set.
    At printing time this will move up the base line of the text.
    */
-  if (set_superscript_ascent(paragraph, attrs, original_length_of_text)) {
+  if (paragraph && set_superscript_ascent(paragraph, attrs, original_length_of_text)) {
     pango_layout_set_attributes(layout, attrs);
     int height_with_superscript;
     pango_layout_get_size(layout, NULL, &height_with_superscript);
@@ -128,6 +141,11 @@ void T2PLayoutContainer::layout_text(const ustring& font, T2PInputParagraph * pa
   // Free attributes.
   pango_attr_list_unref(attrs);
 
+  // Line spacing.
+  if (paragraph && (paragraph->line_spacing != 100)) {
+    rectangle.height *= int ((double)(paragraph->line_spacing) / 100);
+  }
+
   // Have the parent fit the container in.
   if (parent)
     ((T2PBlock *)parent)->refit_layout_container(this);
@@ -135,10 +153,11 @@ void T2PLayoutContainer::layout_text(const ustring& font, T2PInputParagraph * pa
   // Have the parent store properties about the paragraph.
   if (parent)
     ((T2PBlock *)parent)->set_widow_orphan_data(line_number, last_line_of_paragraph_loaded);
-  
+
   // Store any notes that belong to the bit of text that was laid out.
-  note_paragraphs = paragraph->get_notes (original_length_of_text, line.length());
-  
+  if (paragraph)
+    note_paragraphs = paragraph->get_notes(original_length_of_text, line.length());
+
   // Set the width of the container.
   pango_layout_get_size(layout, &rectangle.width, NULL);
 }
@@ -250,7 +269,6 @@ void T2PLayoutContainer::justify(T2PInputParagraph * paragraph, const ustring& l
   pango_layout_get_size(layout, &actual_width, NULL);
   vector <guint> start_indexes;
   index_white_space(line, start_indexes);
-
   if (start_indexes.empty()) {
     // No white space found: Set the letter spacing of everything.
     int letter_spacing = (desired_width - actual_width) / line.length();
@@ -283,12 +301,12 @@ ustring T2PLayoutContainer::text()
   return s;
 }
 
-void T2PLayoutContainer::set_font(T2PInputParagraph * paragraph, PangoAttrList *attrs, const ustring& font)
+void T2PLayoutContainer::set_font(T2PInputParagraph * paragraph, PangoAttrList *attrs)
 // Sets the font name and size.
 {
   // Set the name and the size of the font for the paragraph.
   PangoFontDescription *desc;
-  desc = pango_font_description_from_string(font.c_str());
+  desc = pango_font_description_from_string(paragraph->font_name.c_str());
   pango_font_description_set_size(desc, paragraph->font_size_points * PANGO_SCALE);
   pango_layout_set_font_description(layout, desc);
   pango_font_description_free(desc);

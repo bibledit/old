@@ -61,12 +61,12 @@ fonts in the list.
   } else {
     font = printingfonts.printing_families[0]; 
   }
-  int lineheight = projectconfig->printing_line_height_get();
+  int lineheight = projectconfig->text_line_height_get();
   // Assemble the lines to put in the xslfo file.
   mylines = lines;
   mylines->push_back ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
   ustring line;
-  line = "<fo:root xmlns:fo=\"http://www.w3.org/1999/XSL/Format\" font-family=\"" + font + "\"" + font_selection_strategy + " font-size=\"" + convert_to_string (projectconfig->printing_font_size_get()) + "pt\" text-align=\"justify\"";
+  line = "<fo:root xmlns:fo=\"http://www.w3.org/1999/XSL/Format\" font-family=\"" + font + "\"" + font_selection_strategy + " font-size=\"" + convert_to_string (12) + "pt\" text-align=\"justify\"";
   // (If the line height is 100%, do not insert anything, because appears to 
   // disturb proper calculation of the line heights with different font sizes.)
   if (lineheight != 100) line.append (" line-height=\"" + convert_to_string (lineheight) + "%\"");

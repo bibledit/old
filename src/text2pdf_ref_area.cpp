@@ -20,6 +20,7 @@
 #include "text2pdf_utils.h"
 #include "text2pdf_ref_area.h"
 #include "gwrappers.h"
+#include "tiny_utilities.h"
 
 T2PReferenceArea::T2PReferenceArea(PangoRectangle rectangle_in, cairo_t *cairo_in) :
   T2PArea(rectangle_in)
@@ -30,6 +31,9 @@ T2PReferenceArea::T2PReferenceArea(PangoRectangle rectangle_in, cairo_t *cairo_i
   column_spacing_pango_units = 0;
   // Cairo.
   cairo = cairo_in;
+  // Other.
+  print_page_number = false;
+  page_number = 0;
 }
 
 T2PReferenceArea::~T2PReferenceArea()
@@ -63,6 +67,17 @@ void T2PReferenceArea::print()
     layout_container->rectangle.x += rectangle.x;
     layout_container->rectangle.y += rectangle.y + rectangle.height - notes_height;
     layout_container->print(cairo);
+  }
+  // Optionally the headers. Todo
+  if (print_page_number) {
+    T2PLayoutContainer layoutcontainer(rectangle, NULL, cairo);
+    ustring pn = convert_to_string(page_number);
+    layoutcontainer.layout_text(NULL, 0, pn);
+    // Shift the page number to the right on even pages.
+    if (!(page_number % 2)) {
+      layoutcontainer.rectangle.x = rectangle.x + rectangle.width - layoutcontainer.rectangle.width;
+    }
+    layoutcontainer.print(cairo);
   }
 }
 
@@ -167,7 +182,7 @@ void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_
           while (!text.empty()) {
             PangoRectangle note_rectangle = get_next_free_note_rectangle();
             T2PLayoutContainer * note_layout_container = new T2PLayoutContainer (note_rectangle, NULL, cairo);
-            note_layout_container->layout_text("", note_paragraph, 0, text);
+            note_layout_container->layout_text(note_paragraph, 0, text);
             note_layout_containers.push_back(note_layout_container);
             added_notes_count++;
           }
@@ -358,3 +373,15 @@ int T2PReferenceArea::balance_first_column_higher_than_or_equal_to_last_column(d
   return MAX (first_column_height, last_column_height);
 }
 
+void T2PReferenceArea::output_page_number(unsigned int number)
+// Set the object to print the page number.
+{
+  print_page_number = true;
+  page_number = number;
+}
+
+bool T2PReferenceArea::has_content()
+// Returns whether there's any text content on this page.
+{
+  return !body_blocks.empty();
+}

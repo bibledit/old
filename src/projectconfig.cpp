@@ -60,8 +60,8 @@ ProjectConfiguration::ProjectConfiguration (ustring project_in, bool save_on_des
   INITIALIZE (stylesheet);
   INITIALIZE (versification);
   INITIALIZE (printing_fonts);
-  INITIALIZE (printing_font_size);
-  INITIALIZE (printing_line_height);
+  INITIALIZE (text_line_height);
+  INITIALIZE (text_no_justify);
   INITIALIZE (sword_name);
   INITIALIZE (sword_description);
   INITIALIZE (sword_about);
@@ -118,8 +118,8 @@ void ProjectConfiguration::save ()
   SAVE_VALUE (stylesheet);
   SAVE_VALUE (versification);
   SAVE_VALUE (printing_fonts);
-  SAVE_VALUE (printing_font_size);
-  SAVE_VALUE (printing_line_height);
+  SAVE_VALUE (text_line_height);
+  SAVE_VALUE (text_no_justify);
   SAVE_VALUE (sword_name);
   SAVE_VALUE (sword_description);
   SAVE_VALUE (sword_about);
@@ -278,8 +278,8 @@ void ProjectConfiguration::stylesheet_set (ustring value)
 
 IMPLEMENT (ustring, string_get, versification, "English")
 IMPLEMENT (vector<ustring>, vector_string_get, printing_fonts, NULL)
-IMPLEMENT (int, int_get, printing_font_size, 12)
-IMPLEMENT (int, int_get, printing_line_height, 100)
+IMPLEMENT (int, int_get, text_line_height, 100)
+IMPLEMENT (bool, bool_get, text_no_justify, false)
 IMPLEMENT (ustring, string_get, sword_name, "")
 IMPLEMENT (ustring, string_get, sword_description, " Bibledit project")
 IMPLEMENT (ustring, string_get, sword_about, " Bibledit project")

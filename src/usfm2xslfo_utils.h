@@ -110,7 +110,6 @@ public:
   bool book_starts_new_page;
   bool book_starts_odd_page;
   bool bible_note_apocrypha_only;
-  bool spacious_notecaller;
   bool print_in_left_running_header;
   bool print_in_right_running_header;
   NoteNumberingType note_numbering_type;

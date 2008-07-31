@@ -62,7 +62,8 @@ Text2Pdf::~Text2Pdf()
   }
   cairo_surface_destroy(surface);
   cairo_destroy(cairo);
-  if (progresswindow) delete progresswindow;
+  if (progresswindow)
+    delete progresswindow;
 }
 
 void Text2Pdf::initialize_variables()
@@ -88,12 +89,16 @@ void Text2Pdf::initialize_variables()
   input_paragraph = NULL;
   stacked_input_paragraph = NULL;
   keep_data_together = false;
-  
+  no_justification = false;
+  line_spacing = 100;
+  right_to_left = false;
+  print_date = false;
+
   // Layout engine.
   page = NULL;
   block = NULL;
   layoutcontainer = NULL;
-  
+
   // Progress.
   progresswindow = NULL;
 }
@@ -144,8 +149,9 @@ void Text2Pdf::run()
 // Runs the converter.
 {
   // Create progress window.
-  if (progresswindow == NULL) progresswindow = new ProgressWindow ("Formatting text", false);
-  
+  if (progresswindow == NULL)
+    progresswindow = new ProgressWindow ("Formatting text", false);
+
   // Close any open input containers.
   close_paragraph();
 
@@ -159,7 +165,7 @@ void Text2Pdf::run()
   fit_blocks_on_pages();
 
   // Print the pages.
-  progresswindow->set_iterate (0.5, 1, pages.size());
+  progresswindow->set_iterate(0.5, 1, pages.size());
   for (unsigned int pg = 0; pg < pages.size(); pg++) {
     progresswindow->iterate();
     T2PPage * page = pages[pg];
@@ -176,7 +182,7 @@ void Text2Pdf::run()
 void Text2Pdf::run_input(vector <T2PInput *>& input)
 // Goes through all of the input data.
 {
-  progresswindow->set_iterate (0, 0.5, input.size());
+  progresswindow->set_iterate(0, 0.5, input.size());
   for (unsigned int i = 0; i < input.size(); i++) {
     progresswindow->iterate();
     switch (input[i]->type)
@@ -241,7 +247,7 @@ void Text2Pdf::lay_out_paragraph()
   unsigned int line_number = 0;
   while (!input_paragraph->text.empty() && line_number < 1000) {
     get_next_layout_container();
-    layoutcontainer->layout_text(font, input_paragraph, line_number, input_paragraph->text);
+    layoutcontainer->layout_text(input_paragraph, line_number, input_paragraph->text);
     line_number++;
   }
   if (!input_paragraph->text.empty()) {
@@ -290,7 +296,7 @@ void Text2Pdf::fit_blocks_on_pages()
     next_page();
     // Progress.
     progresswindow->pulse();
-    progresswindow->set_text ("Page " + convert_to_string (pages.size()));
+    progresswindow->set_text("Page " + convert_to_string(pages.size()));
     // Lay out the input on the page.
     page->text_reference_area->fit_blocks(text_input_blocks, column_spacing_pango_units);
   }
@@ -337,21 +343,21 @@ void Text2Pdf::open_keep_together()
 // Anything between this and the closer is kept together in one page or column.
 {
   close_paragraph();
-  text_input_data.push_back (new T2PInput (t2pitOpenKeepTogether)); 
+  text_input_data.push_back(new T2PInput (t2pitOpenKeepTogether));
 }
 
 void Text2Pdf::close_keep_together()
 // Close keeping together in one page or column.
 {
   close_paragraph();
-  text_input_data.push_back (new T2PInput (t2pitCloseKeepTogether)); 
+  text_input_data.push_back(new T2PInput (t2pitCloseKeepTogether));
 }
 
 void Text2Pdf::open_paragraph()
 // Open a new paragraph and add this to the input data.
 {
   close_paragraph();
-  input_paragraph = new T2PInputParagraph (0);
+  input_paragraph = new T2PInputParagraph (font, no_justification, line_spacing, right_to_left);
   text_input_data.push_back(input_paragraph);
 }
 
@@ -597,7 +603,7 @@ void Text2Pdf::open_note()
   // Only open a new note if there's no note open already.
   if (stacked_input_paragraph == NULL) {
     stacked_input_paragraph = input_paragraph;
-    input_paragraph = new T2PInputParagraph (0);
+    input_paragraph = new T2PInputParagraph (font, no_justification, line_spacing, right_to_left);
     // The note is stored into the main paragraph.
     stacked_input_paragraph->add_note(input_paragraph);
   }
@@ -625,22 +631,90 @@ void Text2Pdf::view()
 }
 
 void Text2Pdf::set_font(const ustring& font_in)
-// Sets the font to use.
+/* 
+ Sets the font to use. The font can be set multiple times. 
+ Each paragraph will use the font that was current at the time that the input paragraph object was created.
+ */
 {
   font = font_in;
+}
+
+void Text2Pdf::set_no_justification(bool no_justification_in)
+/* 
+ Sets whether subsequent paragraphs should not be justified.
+ The reason for this setting is that it has been observed that some fonts don't allow text
+ to be justified. If justification is attempted, then Pango gives a lot of errors and the text looks bad.
+ Each paragraph will use the setting that was current at the time that the input paragraph object was created.
+ */
+{
+  no_justification = no_justification_in;
+}
+
+void Text2Pdf::set_line_spacing(unsigned int line_spacing_in)
+// Sets the line spacing for subsequent paragraphs.
+{
+  line_spacing = line_spacing_in;
+}
+
+void Text2Pdf::set_right_to_left(bool right_to_left_in)
+// Sets the right-to-left property for subsequent paragraphs.
+{
+  right_to_left = right_to_left_in;
+}
+
+void Text2Pdf::print_date_in_header()
+// Print the date in the header.
+{
+  print_date = true;
+}
+
+void Text2Pdf::test() {
+  // White background.
+  cairo_set_source_rgb(cairo, 1.0, 1.0, 1.0);
+  cairo_paint(cairo);
+
+  // Size of the layout.
+  PangoRectangle rectangle;
+  rectangle.x = inside_margin_pango_units;
+  rectangle.y = top_margin_pango_units;
+  rectangle.width = page_width_pango_units - inside_margin_pango_units - outside_margin_pango_units;
+  rectangle.height = 0;
+
+  // New Pango layout.
+  PangoLayout * layout = pango_cairo_create_layout(cairo);
+
+  // Font.
+  PangoFontDescription *desc;
+  desc = pango_font_description_from_string("Cardo 12");
+  pango_font_description_set_size(desc, 12 * PANGO_SCALE);
+  pango_layout_set_font_description(layout, desc);
+  pango_font_description_free(desc);
+
+  // Set Layout's parameters.
+  PangoAttrList *attrs = pango_attr_list_new();
+  pango_layout_set_width(layout, rectangle.width);
+  pango_layout_set_text(layout, "1 אֵ֣לֶּה הַדְּבָרִ֗ים אֲשֶׁ֨ר דִּבֶּ֤ר מֹשֶׁה֙ אֶל־כָּל־יִשְׂרָאֵ֔ל בְּעֵ֖בֶר הַיַּרְדֵּ֑ן בַּמִּדְבָּ֡ר בָּֽעֲרָבָה֩ מ֨וֹל ס֜וּף בֵּֽין־פָּארָ֧ן וּבֵֽין־תֹּ֛פֶל וְלָבָ֥ן וַֽחֲצֵרֹ֖ת וְדִ֥י זָהָֽב׃ 2 אַחַ֨ד עָשָׂ֥ר יוֹם֙ מֵֽחֹרֵ֔ב דֶּ֖רֶךְ הַר־שֵׂעִ֑יר עַ֖ד קָדֵ֥שׁ בַּרְנֵֽעַ׃ 3 וַֽיְהִי֙ בְּאַרְבָּעִ֣ים שָׁנָ֔ה בְּעַשְׁתֵּֽי־עָשָׂ֥ר חֹ֖דֶשׁ בְּאֶחָ֣ד לַחֹ֑דֶשׁ דִּבֶּ֤ר מֹשֶׁה֙ אֶל־בְּנֵ֣י יִשְׂרָאֵ֔ל כְּ֠כֹל אֲשֶׁ֨ר צִוָּ֧ה יְהוָ֛ה אֹת֖וֹ אֲלֵהֶֽם׃ 4 אַֽחֲרֵ֣י הַכֹּת֗וֹ אֵ֚ת סִיחֹן֙ מֶ֣לֶךְ הָֽאֱמֹרִ֔י אֲשֶׁ֥ר יוֹשֵׁ֖ב בְּחֶשְׁבּ֑וֹן וְאֵ֗ת ע֚וֹג מֶ֣לֶךְ הַבָּשָׁ֔ן אֲשֶׁר־יוֹשֵׁ֥ב בְּעַשְׁתָּרֹ֖ת בְּאֶדְרֶֽעִי׃ 5 בְּעֵ֥בֶר הַיַּרְדֵּ֖ן בְּאֶ֣רֶץ מוֹאָ֑ב הוֹאִ֣יל מֹשֶׁ֔ה בֵּאֵ֛ר אֶת־הַתּוֹרָ֥ה הַזֹּ֖את לֵאמֹֽר׃ 6 יְהוָ֧ה אֱלֹהֵ֛ינוּ דִּבֶּ֥ר אֵלֵ֖ינוּ בְּחֹרֵ֣ב לֵאמֹ֑ר רַב־לָכֶ֥ם שֶׁ֖בֶת בָּהָ֥ר הַזֶּֽה׃", -1);
+  pango_layout_set_attributes(layout, attrs);
+  pango_attr_list_unref(attrs);
+
+  // Paint the layout.  
+  cairo_set_source_rgb(cairo, 0.0, 0.0, 0.0);
+  cairo_move_to(cairo, pango_units_to_points(rectangle.x), pango_units_to_points(rectangle.y));
+  pango_cairo_show_layout(cairo, layout);
+
+  // Write page.
+  cairo_show_page(cairo);
 }
 
 /*
 
  Todo text2pdf
 
- To implement usfm2text for references printing.
+ To implement date printing in header, and the page number too.
+ 
+ To implement usfm2text for references printing. And highlighting with \_insertion, etc., does not yet work.
 
  To implement running headers, date, page numbers.
- 
- To implement notes. 
- Notes should be put in the reference area, but not in the "blocks" container, 
- but instead in their own one.
  
  To implement drop-caps chapter numbers. 
  In the stylesheet the size of these is just given as the number of lines it should span, and bold, etc.
@@ -649,11 +723,14 @@ void Text2Pdf::set_font(const ustring& font_in)
  e.g. if chapter "10" is in a float, then this needs to ensure that the lines are at least two
  in that block.
  
- To implement flowing notes.
- 
- To implement mixture of normal and flowing notes, with the flowing ones at the bottom.
- 
  To implement USFM to TextInput converter, for testing real-world examples.
+ 
+ To implement renumbering note callers per page as in code similar to:
+ caller_in_text = notecallers[stylepointer]->renumber_per_page_temporal_caller_text;
+ We need to have a .note_caller() function, which can just pass the caller to be formatted literally,
+ or in cases that the numbering restarts per page, we can pass a pointer to a NoteCaller object.
+ There can be various NoteCaller objects, one for f, fe, x, and one for the caller in the text, and one for the 
+ caller in the note, as these differ.
  
  To implement images rendering, probably png only as cairo reads them natively.
  When images are rendered, these go into the LayoutContainer object, though the name may have to be changed at that stage.
@@ -687,9 +764,27 @@ void Text2Pdf::set_font(const ustring& font_in)
  a maximum of so many characters only, or load the first one fully, then measure length of characters, then
  subsequent timse only load double the measured characters.
  
- Deal with renumber_per_page_temporal_caller_text.
- 
  The "end-indent" may no longer be needed anywhere.
+ 
+ Implement the style->line_height_percentage handling.
+ 
+ Setting the Printing fonts can go out.
+ 
+ The line height should affect the text in the Editor also.
+ 
+ The fonts.c / cpp files go out.
+ 
+ The xep related code goes out.
+ 
+ Line spacing should affect printed text, also plain usfm printing.
+ 
+ pango version 1.18 and up has the justify property implemented.
+ To try out in a virtual machine whether Debian 4.0 can be upgraded to the version of Pango that has justify working.
+ But then, justify may not work right because it won't justify the last line, and in our way of doing things,
+ every line is the last line. So it will never justify.
+  
+ The right-to-left property should be properly made working, even to such a degree that the columns start
+ at the right instead of at the left, and that the drop-caps chapter number is at the right too.
  
  */
 

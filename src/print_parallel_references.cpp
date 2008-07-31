@@ -79,8 +79,8 @@ void view_parallel_references_pdf(ProjectMemory& main_project, vector <ustring> 
   Usfm2XslFo usfm2xslfo(gw_build_filename(directories_get_temp(), "usfm2pdf.pdf"));
   usfm2xslfo.add_styles(usfm2xslfo_read_stylesheet(stylesheet));
   PrintingFonts printingfonts(main_project.name);
-  usfm2xslfo.set_fonts(printingfonts.printing_families, projectconfig->printing_font_size_get());
-  usfm2xslfo.set_line_height(projectconfig->printing_line_height_get());
+  usfm2xslfo.set_fonts(printingfonts.printing_families, 12);
+  usfm2xslfo.set_line_height(projectconfig->text_line_height_get());
   if (projectconfig->right_to_left_get())
     usfm2xslfo.set_right_to_left();
   usfm2xslfo.set_page_size(settings->genconfig.paper_width_get(), settings->genconfig.paper_height_get());
@@ -115,7 +115,6 @@ void view_parallel_references_pdf(ProjectMemory& main_project, vector <ustring> 
   vector <ProjectMemory> project_memories;
   vector <Mapping> mapping_s;
   vector <ustring> fonts;
-  vector <unsigned int> fontsizes;
   vector <unsigned int> lineheights;
   if (extra_projects) {
     vector<ustring> project_s_raw = *extra_projects;
@@ -128,8 +127,7 @@ void view_parallel_references_pdf(ProjectMemory& main_project, vector <ustring> 
       mapping_s.push_back(mapping);
       PrintingFonts printingfonts(project_s_raw[i]);
       fonts.push_back(printingfonts.printing_families_comma_separated());
-      fontsizes.push_back(projectconfig->printing_font_size_get());
-      lineheights.push_back(projectconfig->printing_line_height_get());
+      lineheights.push_back(projectconfig->text_line_height_get());
     }
   }
 
@@ -270,7 +268,7 @@ void view_parallel_references_pdf(ProjectMemory& main_project, vector <ustring> 
         s.append(" ");
         s.append(fonts[vsn-1]);
         s.append(" ");
-        s.append(convert_to_string(fontsizes[vsn-1]));
+        s.append(convert_to_string(12));
         s.append(" ");
         s.append(convert_to_string(lineheights[vsn-1]));
         usfm2xslfo.add_usfm_code(s);
@@ -337,11 +335,26 @@ void view_parallel_references_pdf2(ProjectMemory& main_project, vector <ustring>
 
   // The converter.
   Text2Pdf text2pdf(gw_build_filename(directories_get_temp(), "document.pdf"));
-  
+
   // Page.
   text2pdf.page_size_set(settings->genconfig.paper_width_get(), settings->genconfig.paper_height_get());
-  text2pdf.page_margins_set (settings->genconfig.paper_inside_margin_get(), settings->genconfig.paper_outside_margin_get(), settings->genconfig.paper_top_margin_get(), settings->genconfig.paper_bottom_margin_get());
+  text2pdf.page_margins_set(settings->genconfig.paper_inside_margin_get(), settings->genconfig.paper_outside_margin_get(), settings->genconfig.paper_top_margin_get(), settings->genconfig.paper_bottom_margin_get());
   text2pdf.page_one_column_only();
+
+  // Font, etc., of main project.
+  ustring main_font = projectconfig->editor_font_name_get();
+  bool main_no_justification = projectconfig->text_no_justify_get();
+  unsigned int main_line_spacing = projectconfig->text_line_height_get();
+  if (projectconfig->editor_font_default_get()) {
+    main_font.clear();
+    main_no_justification = false;
+    main_line_spacing = 100;
+  }
+  text2pdf.set_font(main_font);
+  text2pdf.set_no_justification (main_no_justification);
+  text2pdf.set_line_spacing (main_line_spacing);
+  bool main_right_to_left = projectconfig->right_to_left_get();
+  text2pdf.set_right_to_left(main_right_to_left);
 
   // Start off with inserting any remarks.
   if (remarks) {
@@ -369,8 +382,9 @@ void view_parallel_references_pdf2(ProjectMemory& main_project, vector <ustring>
   vector <ProjectMemory> project_memories;
   vector <Mapping> mapping_s;
   vector <ustring> fonts;
-  vector <unsigned int> fontsizes;
-  vector <unsigned int> lineheights;
+  vector <bool> no_justifications;
+  vector <unsigned int> line_spacings;
+  vector <bool> right_to_lefts;
   if (extra_projects) {
     vector<ustring> project_s_raw = *extra_projects;
     for (unsigned int i = 0; i < project_s_raw.size(); i++) {
@@ -380,14 +394,22 @@ void view_parallel_references_pdf2(ProjectMemory& main_project, vector <ustring>
       project_names.push_back(project_s_raw[i]);
       Mapping mapping(projectconfig->versification_get(), 0);
       mapping_s.push_back(mapping);
-      PrintingFonts printingfonts(project_s_raw[i]);
-      fonts.push_back(printingfonts.printing_families_comma_separated());
-      fontsizes.push_back(projectconfig->printing_font_size_get());
-      lineheights.push_back(projectconfig->printing_line_height_get());
+      ustring font = projectconfig->editor_font_name_get();
+      bool no_justification = projectconfig->text_no_justify_get();
+      unsigned int line_spacing = projectconfig->text_line_height_get();
+      if (projectconfig->editor_font_default_get()) {
+        font.clear();
+        no_justification = false;
+        line_spacing = 100;
+      }
+      fonts.push_back(font);
+      no_justifications.push_back(no_justification);
+      line_spacings.push_back(line_spacing);
+      right_to_lefts.push_back(projectconfig->right_to_left_get());
     }
   }
 
-  // Produce chunks for the xsl-fo file for all references.
+  // Produce chunks for all references.
   for (unsigned int rf = 0; rf < references.size(); rf++) {
 
     // Update progress bar.
@@ -397,6 +419,12 @@ void view_parallel_references_pdf2(ProjectMemory& main_project, vector <ustring>
     if (keep_verses_together_within_page) {
       text2pdf.open_keep_together();
     }
+
+    // Set main font, etc.
+    text2pdf.set_font(main_font);
+    text2pdf.set_no_justification (main_no_justification);
+    text2pdf.set_line_spacing (main_line_spacing);
+    text2pdf.set_right_to_left(main_right_to_left);
 
     // Add the reference to the text.
     text2pdf.add_text(references[rf].human_readable(""));
@@ -408,6 +436,22 @@ void view_parallel_references_pdf2(ProjectMemory& main_project, vector <ustring>
     mapping.me_to_original(references[rf].chapter, references[rf].verse, hebrew_greek_chapters, hebrew_greek_verses);
     // Get verse text for each version.
     for (unsigned int vsn = 0; vsn <= project_names.size(); vsn++) {
+
+      // Add the font, etc., for each project.
+      ustring font(main_font);
+      bool no_justification = main_no_justification;
+      unsigned int line_spacing = main_line_spacing;
+      bool right_to_left = main_right_to_left;
+      if (vsn > 0) {
+        font = fonts[vsn-1];
+        no_justification = no_justifications[vsn-1];
+        line_spacing = line_spacings[vsn-1];
+        right_to_left = right_to_lefts[vsn-1];
+      }
+      text2pdf.set_font(font);
+      text2pdf.set_no_justification (no_justification);
+      text2pdf.set_line_spacing(line_spacing);
+      text2pdf.set_right_to_left(right_to_left);
 
       // Get the verse text.
       ustring line;
@@ -517,43 +561,24 @@ void view_parallel_references_pdf2(ProjectMemory& main_project, vector <ustring>
         }
       }
 
-      // Add the font family and size for each additional project. Todo do in a different way. 
-      if (vsn > 0) {
-        /*
-        ustring s;
-        s = usfm_get_full_opening_marker(usfm2text.font_family_size_line_height_style());
-        s.append(" ");
-        s.append(fonts[vsn-1]);
-        s.append(" ");
-        s.append(convert_to_string(fontsizes[vsn-1]));
-        s.append(" ");
-        s.append(convert_to_string(lineheights[vsn-1]));
-        usfm2text.add_usfm_code(s);
-        */
-      }
-
-      // Add usfm code of the verse text to the converter. Todo implement this.
+      // Add usfm converter to the layout engine, and set various things.
       Usfm2Text usfm2text(&text2pdf, false);
       usfm2text.add_styles(usfm2xslfo_read_stylesheet(stylesheet));
+
       /* Todo
-      PrintingFonts printingfonts(main_project.name);
-      usfm2text.set_fonts(printingfonts.printing_families, projectconfig->printing_font_size_get());
-      usfm2text.set_line_height(projectconfig->printing_line_height_get());
-      if (projectconfig->right_to_left_get())
-        usfm2text.set_right_to_left();
-      if (settings->genconfig.printdate_get())
-        usfm2text.set_print_date();
-      */
+       if (settings->genconfig.printdate_get())
+       usfm2text.set_print_date();
+       */
       usfm2text.no_bold();
       usfm2text.no_space_before_or_after();
       usfm2text.no_new_page();
       usfm2text.add_usfm_code(line);
-      usfm2text.process();  
+      usfm2text.process();
     }
 
     // Add a bit of space.
     text2pdf.close_paragraph();
-    text2pdf.add_text (" ");
+    text2pdf.add_text(" ");
     text2pdf.close_paragraph();
 
     // Whether to close code keeping things on one page.    

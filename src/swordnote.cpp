@@ -146,9 +146,9 @@ SwordNote::SwordNote (const Usfm& usfm, bool show)
     extraparagraph_marker_close = usfm_get_full_closing_marker ("fp");
   }
   // Create note caller objects.
-  footnotecaller = new NoteCaller (footnote_numbering_type, footnote_numbering_user_sequence, false);
-  endnotecaller = new NoteCaller (endnote_numbering_type, endnote_numbering_user_sequence, false);
-  xrefcaller = new NoteCaller (xref_numbering_type, xref_numbering_user_sequence, false);
+  footnotecaller = new NoteCaller (footnote_numbering_type, footnote_numbering_user_sequence);
+  endnotecaller = new NoteCaller (endnote_numbering_type, endnote_numbering_user_sequence);
+  xrefcaller = new NoteCaller (xref_numbering_type, xref_numbering_user_sequence);
 }
 
 
