@@ -335,7 +335,7 @@ void Text2Pdf::next_page()
   page = new T2PPage (page_number,
       page_width_pango_units, page_height_pango_units,
       inside_margin_pango_units, outside_margin_pango_units, top_margin_pango_units, bottom_margin_pango_units,
-      header_height_pango_units, footer_height_pango_units, cairo);
+      header_height_pango_units, footer_height_pango_units, cairo, print_date);
   pages.push_back(page);
 }
 

@@ -341,6 +341,11 @@ void view_parallel_references_pdf2(ProjectMemory& main_project, vector <ustring>
   text2pdf.page_margins_set(settings->genconfig.paper_inside_margin_get(), settings->genconfig.paper_outside_margin_get(), settings->genconfig.paper_top_margin_get(), settings->genconfig.paper_bottom_margin_get());
   text2pdf.page_one_column_only();
 
+  // Headers.
+  if (settings->genconfig.printdate_get()) {
+    text2pdf.print_date_in_header();
+  }
+
   // Font, etc., of main project.
   ustring main_font = projectconfig->editor_font_name_get();
   bool main_no_justification = projectconfig->text_no_justify_get();
@@ -351,8 +356,8 @@ void view_parallel_references_pdf2(ProjectMemory& main_project, vector <ustring>
     main_line_spacing = 100;
   }
   text2pdf.set_font(main_font);
-  text2pdf.set_no_justification (main_no_justification);
-  text2pdf.set_line_spacing (main_line_spacing);
+  text2pdf.set_no_justification(main_no_justification);
+  text2pdf.set_line_spacing(main_line_spacing);
   bool main_right_to_left = projectconfig->right_to_left_get();
   text2pdf.set_right_to_left(main_right_to_left);
 
@@ -422,8 +427,8 @@ void view_parallel_references_pdf2(ProjectMemory& main_project, vector <ustring>
 
     // Set main font, etc.
     text2pdf.set_font(main_font);
-    text2pdf.set_no_justification (main_no_justification);
-    text2pdf.set_line_spacing (main_line_spacing);
+    text2pdf.set_no_justification(main_no_justification);
+    text2pdf.set_line_spacing(main_line_spacing);
     text2pdf.set_right_to_left(main_right_to_left);
 
     // Add the reference to the text.
@@ -449,7 +454,7 @@ void view_parallel_references_pdf2(ProjectMemory& main_project, vector <ustring>
         right_to_left = right_to_lefts[vsn-1];
       }
       text2pdf.set_font(font);
-      text2pdf.set_no_justification (no_justification);
+      text2pdf.set_no_justification(no_justification);
       text2pdf.set_line_spacing(line_spacing);
       text2pdf.set_right_to_left(right_to_left);
 
@@ -565,10 +570,6 @@ void view_parallel_references_pdf2(ProjectMemory& main_project, vector <ustring>
       Usfm2Text usfm2text(&text2pdf, false);
       usfm2text.add_styles(usfm2xslfo_read_stylesheet(stylesheet));
 
-      /* Todo
-       if (settings->genconfig.printdate_get())
-       usfm2text.set_print_date();
-       */
       usfm2text.no_bold();
       usfm2text.no_space_before_or_after();
       usfm2text.no_new_page();

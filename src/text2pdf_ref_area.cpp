@@ -21,6 +21,7 @@
 #include "text2pdf_ref_area.h"
 #include "gwrappers.h"
 #include "tiny_utilities.h"
+#include "date_time_utils.h"
 
 T2PReferenceArea::T2PReferenceArea(PangoRectangle rectangle_in, cairo_t *cairo_in) :
   T2PArea(rectangle_in)
@@ -34,6 +35,7 @@ T2PReferenceArea::T2PReferenceArea(PangoRectangle rectangle_in, cairo_t *cairo_i
   // Other.
   print_page_number = false;
   page_number = 0;
+  print_date = false;
 }
 
 T2PReferenceArea::~T2PReferenceArea()
@@ -68,51 +70,62 @@ void T2PReferenceArea::print()
     layout_container->rectangle.y += rectangle.y + rectangle.height - notes_height;
     layout_container->print(cairo);
   }
-  // Optionally the headers. Todo
+  // Optionally the headers.
+  T2PLayoutContainer page_number_layout_container(rectangle, NULL, cairo);
   if (print_page_number) {
-    T2PLayoutContainer layoutcontainer(rectangle, NULL, cairo);
-    ustring pn = convert_to_string(page_number);
-    layoutcontainer.layout_text(NULL, 0, pn);
-    // Shift the page number to the right on even pages.
-    if (!(page_number % 2)) {
-      layoutcontainer.rectangle.x = rectangle.x + rectangle.width - layoutcontainer.rectangle.width;
-    }
-    layoutcontainer.print(cairo);
+    ustring s(convert_to_string(page_number));
+    page_number_layout_container.layout_text(NULL, 0, s);
   }
+  T2PLayoutContainer date_layout_container(rectangle, NULL, cairo);
+  if (print_date) {
+    ustring s(date_time_julian_human_readable(date_time_julian_day_get_current(), false));
+    date_layout_container.layout_text(NULL, 0, s);
+  }
+  // Different positions and orders on even or odd pages.
+  if ((page_number % 2)) {
+    // Odd.
+    date_layout_container.rectangle.x += page_number_layout_container.rectangle.width + millimeters_to_pango_units (5);
+  } else {
+    // Even.
+    page_number_layout_container.rectangle.x += rectangle.width - page_number_layout_container.rectangle.width;
+    date_layout_container.rectangle.x += rectangle.width - date_layout_container.rectangle.width - millimeters_to_pango_units (5) - page_number_layout_container.rectangle.width;
+  }
+  page_number_layout_container.print(cairo);
+  date_layout_container.print(cairo);
 }
 
 void T2PReferenceArea::fit_blocks(deque <T2PBlock *>& input_blocks, int column_spacing_pango_units_in)
 // Fits the blocks into the reference area.
 {
-  // Store column spacing.
-  column_spacing_pango_units = column_spacing_pango_units_in;
-  // Deal with the blocks after grouping them by equal column count.
-  deque <T2PBlock *> blocks_with_equal_column_count;
-  int n_columns = 0;
-  while (!input_blocks.empty()) {
-    if (input_blocks[0]->column_count != n_columns) {
-      fit_column(blocks_with_equal_column_count);
-      if (!blocks_with_equal_column_count.empty())
-        break;
-      n_columns = input_blocks[0]->column_count;
-    }
-    blocks_with_equal_column_count.push_back(input_blocks[0]);
-    input_blocks.erase(input_blocks.begin());
+// Store column spacing.
+column_spacing_pango_units = column_spacing_pango_units_in;
+// Deal with the blocks after grouping them by equal column count.
+deque <T2PBlock *> blocks_with_equal_column_count;
+int n_columns = 0;
+while (!input_blocks.empty()) {
+  if (input_blocks[0]->column_count != n_columns) {
+    fit_column(blocks_with_equal_column_count);
+    if (!blocks_with_equal_column_count.empty())
+    break;
+    n_columns = input_blocks[0]->column_count;
   }
-  fit_column(blocks_with_equal_column_count);
+  blocks_with_equal_column_count.push_back(input_blocks[0]);
+  input_blocks.erase(input_blocks.begin());
+}
+fit_column(blocks_with_equal_column_count);
 
-  // Re-insert any unfitted remaining blocks with equal column count into the input blocks.
-  for (int i = blocks_with_equal_column_count.size() - 1; i >= 0; i--) {
-    input_blocks.push_front(blocks_with_equal_column_count[i]);
-  }
+// Re-insert any unfitted remaining blocks with equal column count into the input blocks.
+for (int i = blocks_with_equal_column_count.size() - 1; i >= 0; i--) {
+  input_blocks.push_front(blocks_with_equal_column_count[i]);
+}
 
-  // Look for any last blocks on the page that have their "keep_with_next" property set.
-  // If these are there, that means these should be removed from here, and be put back into 
-  // the input stream, so that they can be kept with paragraphs on the next page.
-  while (!body_blocks.empty() && body_blocks[body_blocks.size()-1]->keep_with_next) {
-    input_blocks.push_front(body_blocks[body_blocks.size()-1]);
-    body_blocks.pop_back();
-  }
+// Look for any last blocks on the page that have their "keep_with_next" property set.
+// If these are there, that means these should be removed from here, and be put back into 
+// the input stream, so that they can be kept with paragraphs on the next page.
+while (!body_blocks.empty() && body_blocks[body_blocks.size()-1]->keep_with_next) {
+  input_blocks.push_front(body_blocks[body_blocks.size()-1]);
+  body_blocks.pop_back();
+}
 }
 
 void T2PReferenceArea::fit_column(deque <T2PBlock *>& input_blocks)
@@ -373,11 +386,12 @@ int T2PReferenceArea::balance_first_column_higher_than_or_equal_to_last_column(d
   return MAX (first_column_height, last_column_height);
 }
 
-void T2PReferenceArea::output_page_number(unsigned int number)
-// Set the object to print the page number.
+void T2PReferenceArea::output_header_data(unsigned int number, bool print_date_in)
+// Set the object to print the page number and/or the date..
 {
   print_page_number = true;
   page_number = number;
+  print_date = print_date_in;
 }
 
 bool T2PReferenceArea::has_content()
@@ -385,3 +399,4 @@ bool T2PReferenceArea::has_content()
 {
   return !body_blocks.empty();
 }
+
