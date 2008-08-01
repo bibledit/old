@@ -6976,7 +6976,7 @@ void MainWindow::on_print() {
         extern Settings * settings;
         vector <ustring> extra_projects = settings->genconfig.print_references_projects_get();
         ProjectMemory projectmemory(settings->genconfig.project_get(), true);
-        view_parallel_references_pdf2(projectmemory, &extra_projects, refs, true, NULL, true);
+        view_parallel_references_pdf(projectmemory, &extra_projects, refs, true, NULL, true);
       }
       break;
     }

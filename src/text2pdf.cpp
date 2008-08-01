@@ -710,11 +710,9 @@ void Text2Pdf::test() {
 
  Todo text2pdf
 
- To implement date printing in header, and the page number too.
+ To implement the parallel Bible.
  
- To implement usfm2text for references printing. And highlighting with \_insertion, etc., does not yet work.
-
- To implement running headers, date, page numbers.
+ To implement running headers.
  
  To implement drop-caps chapter numbers. 
  In the stylesheet the size of these is just given as the number of lines it should span, and bold, etc.
