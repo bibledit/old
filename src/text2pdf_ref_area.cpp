@@ -184,6 +184,8 @@ void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_
     }
 
     // Create any notes caused by the big block.
+    /// Todo we need to track which note_paragraphs are laid out, so that we will be able to reset
+    // their text again once it has been decided that these notes don't fit.
     unsigned int added_notes_count = 0;
     for (unsigned int i = 0; i < big_block.blocks.size(); i++) {
       T2PBlock * block = big_block.blocks[i];
@@ -191,12 +193,11 @@ void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_
         T2PLayoutContainer * layout_container = block->layoutcontainers[i2];
         for (unsigned int i3 = 0; i3 < layout_container->note_paragraphs.size(); i3++) {
           T2PInputParagraph * note_paragraph = layout_container->note_paragraphs[i3];
-          string text(note_paragraph->text);
-          while (!text.empty()) {
+          while (!note_paragraph->text.empty()) {
             PangoRectangle note_rectangle = get_next_free_note_rectangle();
             T2PLayoutContainer * note_layout_container = new T2PLayoutContainer (note_rectangle, NULL, cairo);
             note_layout_container->set_has_note();
-            note_layout_container->layout_text(note_paragraph, 0, text);
+            note_layout_container->layout_text(note_paragraph, 0, note_paragraph->text);
             note_layout_containers.push_back(note_layout_container);
             added_notes_count++;
           }

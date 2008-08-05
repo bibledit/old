@@ -698,21 +698,8 @@ void Text2Pdf::test() {
 
  Todo text2pdf
 
-  
- When printing project Ndebele Genesis:
- The word ubunyama in the footnote is not rightly divided. Fix that.
- This is caused because the previous layout tried to fit the word in, failed, so left some space
- for the next layout. The next layout tried to fit in that word, failed, so tried to fit in part of the word.
- This must not be allowed in note, disable this behaviour, so that, if a word does not fit in completely,
- it won't be fitted at all, and indicate this to the caller. Or better is that if the caller sees that the line didn't
- fit on a line, it goes to the new line, without trying the same line again. These settings must be made for notes.
- In Genesis 1, ekuqalenia is not right, it should be in superscript.
- Some footnotes have the last two characters not in the right format. Fix that.
- The offset may be caused by by footnote caller. Make a correction routine for that.
- There are more problems in the Genesis first page. E.g. a word is cut at the wrong place, because it didn't fit
- in the space, therefore as much as fitted was put there. A setting must be made that this is not done with 
- notes, so the notes routine must call that setting and set it on. For normal text it is off because for
- normal text this is desired behaviour.
+ When printing project Ndebele Genesis, in Genesis 1, ekuqalenia is not right, it should be in superscript. 
+ This occurs if the full book is printed.
  
  The letter sizes when printed seem to be bigger than 12 points. Find out why. Else make internal correction.
  

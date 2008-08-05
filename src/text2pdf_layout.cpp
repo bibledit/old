@@ -142,11 +142,12 @@ void T2PLayoutContainer::layout_text(T2PInputParagraph * paragraph, unsigned int
   // But in the special case that there's a note, and that some text is left to be put in the next layout container,
   // the size won't be set. In this case it is made to appear as if no space if left for anything.
   // As a result the next layout container won't be placed after this note, but rather on a new line, below it.
-  bool modify_size = true;
-  if (has_note && !text.empty())
-    modify_size = false;
-  if (modify_size)
+  if (has_note && !text.empty()) {
+    // Don't modify the size because we're in a note, and there' still text left for the next layout.    
+  } else {
+    // Go ahead and set the real size in the layout container.
     pango_layout_get_size(layout, &rectangle.width, NULL);
+  }
 }
 
 void T2PLayoutContainer::print(cairo_t *cairo)
