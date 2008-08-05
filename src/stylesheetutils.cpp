@@ -32,8 +32,8 @@
 #include "tiny_utilities.h"
 #include "shutdown.h"
 
-#define STYLESHEET_SUFFIX ".sql15"
-char *RECOGNIZED_SUFFIXES [] = { ".sql11", ".sql12", ".sql13", ".sql14", ".sql15" };
+#define STYLESHEET_SUFFIX ".sql16"
+char *RECOGNIZED_SUFFIXES [] = { ".sql11", ".sql12", ".sql13", ".sql14", ".sql15", ".sql16" };
 
 ustring stylesheet_filename(const ustring& name)
 // This returns the database's filename for a named stylesheet.
@@ -364,6 +364,25 @@ void stylesheets_upgrade()
       sqlite3_close (db);
       ustring newfilename (filename);
       newfilename.replace (newfilename.length() - 2, 2, "15");
+      unix_mv (filename, newfilename);
+    }
+  }
+
+  // Upgrade from *.sql15 -> *.sql16: Default paragraph for Bible notes modified.
+  {
+    ReadFiles rf (directories_get_stylesheets (), "", ".sql15");
+    for (unsigned int i = 0; i < rf.files.size(); i++) {
+      ustring filename = gw_build_filename (directories_get_stylesheets (), rf.files[i]);
+      gw_message ("Updating stylesheet " + filename);
+      sqlite3 *db;
+      char *error = NULL;
+      sqlite3_open(filename.c_str (), &db);
+      sqlite3_busy_timeout (db, 1000);
+      sqlite3_exec(db, "update styles set justification = 'left' where marker = 'ft';", NULL, NULL, &error);
+      sqlite3_exec(db, "update styles set justification = 'left' where marker = 'xt';", NULL, NULL, &error);
+      sqlite3_close (db);
+      ustring newfilename (filename);
+      newfilename.replace (newfilename.length() - 2, 2, "16");
       unix_mv (filename, newfilename);
     }
   }

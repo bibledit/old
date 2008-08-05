@@ -73,12 +73,12 @@ void T2PReferenceArea::print()
   // Optionally the headers.
   T2PLayoutContainer page_number_layout_container(rectangle, NULL, cairo);
   if (print_page_number) {
-    ustring s(convert_to_string(page_number));
+    string s(convert_to_string(page_number));
     page_number_layout_container.layout_text(NULL, 0, s);
   }
   T2PLayoutContainer date_layout_container(rectangle, NULL, cairo);
   if (print_date) {
-    ustring s(date_time_julian_human_readable(date_time_julian_day_get_current(), false));
+    string s(date_time_julian_human_readable(date_time_julian_day_get_current(), false));
     date_layout_container.layout_text(NULL, 0, s);
   }
   // Different positions and orders on even or odd pages.
@@ -191,10 +191,11 @@ void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_
         T2PLayoutContainer * layout_container = block->layoutcontainers[i2];
         for (unsigned int i3 = 0; i3 < layout_container->note_paragraphs.size(); i3++) {
           T2PInputParagraph * note_paragraph = layout_container->note_paragraphs[i3];
-          ustring text(note_paragraph->text);
+          string text(note_paragraph->text);
           while (!text.empty()) {
             PangoRectangle note_rectangle = get_next_free_note_rectangle();
             T2PLayoutContainer * note_layout_container = new T2PLayoutContainer (note_rectangle, NULL, cairo);
+            note_layout_container->set_has_note();
             note_layout_container->layout_text(note_paragraph, 0, text);
             note_layout_containers.push_back(note_layout_container);
             added_notes_count++;

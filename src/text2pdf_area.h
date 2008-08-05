@@ -29,7 +29,6 @@ public:
   T2PArea(PangoRectangle rectangle_in);
   virtual ~T2PArea();
   PangoRectangle rectangle;
-  int baseline_offset_pango_units;
   ustring rectangle2text ();
 private:
 };

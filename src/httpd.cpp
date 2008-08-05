@@ -438,7 +438,8 @@ void Httpd::send_search_results (int fd, const ustring& searchword)
   bool succesfull = false;
   while (fgets (buf, sizeof (buf), stream)) {
     // Read a filename from grep.
-    ustring filename = trim (buf);
+    ustring filename = buf;
+    filename = trim (filename);
     // Extract the heading from the file
     string title;
     ReadText rt (filename, true, true);

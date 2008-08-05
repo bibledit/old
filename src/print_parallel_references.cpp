@@ -90,15 +90,12 @@ void view_parallel_references_pdf(ProjectMemory& main_project, vector <ustring> 
 
   // Font, etc., of main project.
   ustring main_font = projectconfig->editor_font_name_get();
-  bool main_no_justification = projectconfig->text_no_justify_get();
   unsigned int main_line_spacing = projectconfig->text_line_height_get();
   if (projectconfig->editor_font_default_get()) {
     main_font.clear();
-    main_no_justification = false;
     main_line_spacing = 100;
   }
   text2pdf.set_font(main_font);
-  text2pdf.set_no_justification(main_no_justification);
   text2pdf.set_line_spacing(main_line_spacing);
   bool main_right_to_left = projectconfig->right_to_left_get();
   text2pdf.set_right_to_left(main_right_to_left);
@@ -129,7 +126,6 @@ void view_parallel_references_pdf(ProjectMemory& main_project, vector <ustring> 
   vector <ProjectMemory> project_memories;
   vector <Mapping> mapping_s;
   vector <ustring> fonts;
-  vector <bool> no_justifications;
   vector <unsigned int> line_spacings;
   vector <bool> right_to_lefts;
   if (extra_projects) {
@@ -142,15 +138,12 @@ void view_parallel_references_pdf(ProjectMemory& main_project, vector <ustring> 
       Mapping mapping(projectconfig->versification_get(), 0);
       mapping_s.push_back(mapping);
       ustring font = projectconfig->editor_font_name_get();
-      bool no_justification = projectconfig->text_no_justify_get();
       unsigned int line_spacing = projectconfig->text_line_height_get();
       if (projectconfig->editor_font_default_get()) {
         font.clear();
-        no_justification = false;
         line_spacing = 100;
       }
       fonts.push_back(font);
-      no_justifications.push_back(no_justification);
       line_spacings.push_back(line_spacing);
       right_to_lefts.push_back(projectconfig->right_to_left_get());
     }
@@ -169,7 +162,6 @@ void view_parallel_references_pdf(ProjectMemory& main_project, vector <ustring> 
 
     // Set main font, etc.
     text2pdf.set_font(main_font);
-    text2pdf.set_no_justification(main_no_justification);
     text2pdf.set_line_spacing(main_line_spacing);
     text2pdf.set_right_to_left(main_right_to_left);
 
@@ -186,17 +178,14 @@ void view_parallel_references_pdf(ProjectMemory& main_project, vector <ustring> 
 
       // Add the font, etc., for each project.
       ustring font(main_font);
-      bool no_justification = main_no_justification;
       unsigned int line_spacing = main_line_spacing;
       bool right_to_left = main_right_to_left;
       if (vsn > 0) {
         font = fonts[vsn-1];
-        no_justification = no_justifications[vsn-1];
         line_spacing = line_spacings[vsn-1];
         right_to_left = right_to_lefts[vsn-1];
       }
       text2pdf.set_font(font);
-      text2pdf.set_no_justification(no_justification);
       text2pdf.set_line_spacing(line_spacing);
       text2pdf.set_right_to_left(right_to_left);
 

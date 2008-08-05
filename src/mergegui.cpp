@@ -989,7 +989,8 @@ void MergeGUI::approval_show_diff()
     GtkTextIter iter;
 
     // Handle new line.
-    if (rt.lines[i].find(trim(merge_new_line_indicator())) != string::npos) {
+    string s = merge_new_line_indicator();
+    if (rt.lines[i].find(trim(s)) != string::npos) {
       gtk_text_buffer_get_end_iter(approve_buffer, &iter);
       gtk_text_buffer_insert(approve_buffer, &iter, "\n", -1);
       continue;

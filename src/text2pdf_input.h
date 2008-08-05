@@ -38,7 +38,7 @@ private:
 class T2PInputParagraph : public T2PInput
 {
 public:
-  T2PInputParagraph(const ustring& font, bool no_justify, unsigned int line_spacing_in, bool right_to_left_in);
+  T2PInputParagraph(const ustring& font, unsigned int line_spacing_in, bool right_to_left_in);
   virtual ~T2PInputParagraph();
   ustring font_name;
   unsigned int font_size_points;
@@ -49,7 +49,6 @@ public:
   bool underline;
   bool small_caps;
   T2PAlignmentType alignment;
-  bool no_justification;
   int space_before_mm;
   int space_after_mm;
   int left_margin_mm;
@@ -57,8 +56,8 @@ public:
   int first_line_indent_mm;
   unsigned int column_count;
   bool keep_with_next;
-  void add_text (const ustring& text_in);
-  ustring text;
+  void add_text (const string& text_in);
+  string text;
   void inline_set_font_size_percentage(int percentage);
   bool inline_get_font_size(unsigned int index, bool& in_range, int& size, int& start_index, int& end_index);
   void inline_set_italic(T2PMarkupType italic, bool cleanup_only = false);

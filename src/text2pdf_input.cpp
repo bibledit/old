@@ -31,7 +31,7 @@ T2PInput::~T2PInput()
 {
 }
 
-T2PInputParagraph::T2PInputParagraph(const ustring& font, bool no_justify, unsigned int line_spacing_in, bool right_to_left_in) :
+T2PInputParagraph::T2PInputParagraph(const ustring& font, unsigned int line_spacing_in, bool right_to_left_in) :
   T2PInput(t2pitParagraph)
 // This is a class that contains a new default paragraph.
 {
@@ -49,7 +49,6 @@ T2PInputParagraph::T2PInputParagraph(const ustring& font, bool no_justify, unsig
   right_margin_mm = 0;
   first_line_indent_mm = 5;
   alignment = t2patJustified;
-  no_justification = no_justify;
   column_count = 2;
   keep_with_next = false;
   maximum_text_length = 0;
@@ -68,7 +67,7 @@ T2PInputParagraph::~T2PInputParagraph()
   }
 }
 
-void T2PInputParagraph::add_text(const ustring& text_in)
+void T2PInputParagraph::add_text(const string& text_in)
 // Adds text to the paragraph.
 {
   text.append(text_in);

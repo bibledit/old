@@ -32,7 +32,6 @@ public:
   FontColorDialog (bool initial_use_default_font, 
                    const ustring& initial_font,
                    unsigned int initial_line_spacing,
-                   bool initial_no_justification,
                    bool initial_use_default_color,
                    unsigned int initial_normal_text_color, 
                    unsigned int initial_background_color,
@@ -43,7 +42,6 @@ public:
   bool new_use_default_font;
   ustring new_font;
   unsigned int new_line_spacing;
-  bool new_no_justification;
   bool new_use_default_color;
   unsigned int new_normal_text_color;
   unsigned int new_background_color;
@@ -59,7 +57,6 @@ protected:
   GtkObject *spinbutton_line_spacing_adj;
   GtkWidget *spinbutton_line_spacing;
   GtkWidget *label8;
-  GtkWidget *checkbutton_no_justify;
   GtkWidget *hseparator1;
   GtkWidget *checkbutton_colors;
   GtkWidget *table1;

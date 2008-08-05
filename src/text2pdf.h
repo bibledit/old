@@ -114,13 +114,11 @@ private:
   // Various setting for whole engine.
 public:
   void set_font(const ustring& font_in);
-  void set_no_justification(bool no_justification_in);
   void set_line_spacing(unsigned int line_spacing_in);
   void set_right_to_left(bool right_to_left_in);
   void print_date_in_header();
 private:
   ustring font;
-  bool no_justification;
   unsigned int line_spacing;
   bool right_to_left;
   bool print_date;

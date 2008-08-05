@@ -22,7 +22,7 @@
 #include "shortcuts.h"
 #include "color.h"
 
-FontColorDialog::FontColorDialog(bool initial_use_default_font, const ustring& initial_font, unsigned int initial_line_spacing, bool initial_no_justification, bool initial_use_default_color, unsigned int initial_normal_text_color, unsigned int initial_background_color, unsigned int initial_selected_text_color, unsigned int initial_selection_color) {
+FontColorDialog::FontColorDialog(bool initial_use_default_font, const ustring& initial_font, unsigned int initial_line_spacing, bool initial_use_default_color, unsigned int initial_normal_text_color, unsigned int initial_background_color, unsigned int initial_selected_text_color, unsigned int initial_selection_color) {
   Shortcuts shortcuts(0);
 
   fontcolordialog = gtk_dialog_new();
@@ -62,14 +62,6 @@ FontColorDialog::FontColorDialog(bool initial_use_default_font, const ustring& i
   label8 = gtk_label_new("%");
   gtk_widget_show(label8);
   gtk_box_pack_start(GTK_BOX (hbox_line_spacing), label8, FALSE, FALSE, 0);
-
-  checkbutton_no_justify = gtk_check_button_new_with_mnemonic("Do not justify text in this font");
-  gtk_widget_show(checkbutton_no_justify);
-  gtk_box_pack_start(GTK_BOX (dialog_vbox1), checkbutton_no_justify, FALSE, FALSE, 0);
-
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (checkbutton_no_justify), initial_no_justification);
-
-  shortcuts.button(checkbutton_no_justify);
 
   hseparator1 = gtk_hseparator_new();
   gtk_widget_show(hseparator1);
@@ -216,7 +208,6 @@ void FontColorDialog::on_checkbutton_font() {
   bool sensitive = !gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON (checkbutton_font));
   gtk_widget_set_sensitive(fontselection, sensitive);
   gtk_widget_set_sensitive(hbox_line_spacing, sensitive);
-  gtk_widget_set_sensitive(checkbutton_no_justify, sensitive);
 }
 
 void FontColorDialog::on_checkbutton_colors_toggled(GtkToggleButton *togglebutton, gpointer user_data) {
@@ -245,7 +236,6 @@ void FontColorDialog::on_okbutton() {
   new_font = gtk_font_selection_get_font_name(GTK_FONT_SELECTION (fontselection));
   gtk_spin_button_update(GTK_SPIN_BUTTON (spinbutton_line_spacing));
   new_line_spacing = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON (spinbutton_line_spacing));
-  new_no_justification = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON (checkbutton_no_justify));
   new_use_default_color = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON (checkbutton_colors));
   GdkColor gdkcolor;
   gtk_color_button_get_color(GTK_COLOR_BUTTON (colorbutton_normal_text), &gdkcolor);

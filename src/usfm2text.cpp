@@ -1706,7 +1706,7 @@ void Usfm2Text::output_text_note(ustring& line, Usfm2XslFoStyle * stylepointer, 
     caller_in_text = notecallers[stylepointer]->get_caller();
     if ((stylepointer->type == u2xtFootNoteStart) || (stylepointer->type == u2xtCrossreferenceStart)) {
       if (stylepointer->note_numbering_restart_type == nnrtPage) {
-        caller_in_text = notecallers[stylepointer]->renumber_per_page_temporal_caller_text;
+        //caller_in_text = notecallers[stylepointer]->renumber_per_page_temporal_caller_text;
       }
     }
   } else if (caller_in_text == "-") {
@@ -1716,14 +1716,14 @@ void Usfm2Text::output_text_note(ustring& line, Usfm2XslFoStyle * stylepointer, 
   rawnote = trim(rawnote);
 
   // Write the footnote caller in the text. 
-  // The stylesheet is not consulted, but it is put in superscript, as is common for notes.
+  // The stylesheet is not consulted, it is just put in superscript, as is common for notes.
   text2pdf->inline_set_superscript();
   text2pdf->add_text(caller_in_text);
   text2pdf->inline_clear_superscript();
 
   // Open the footnote.
   text2pdf->open_note();
-
+  
   // Set the paragraph to the default paragraph style for this note.
   Usfm2XslFoStyle * default_paragraph_style = get_default_paragraph_style_for_note(stylepointer);
   set_paragraph(default_paragraph_style, false);
@@ -1733,7 +1733,7 @@ void Usfm2Text::output_text_note(ustring& line, Usfm2XslFoStyle * stylepointer, 
   ustring caller_in_note = caller_in_text;
   if ((stylepointer->type == u2xtFootNoteStart) || (stylepointer->type == u2xtCrossreferenceStart)) {
     if (stylepointer->note_numbering_restart_type == nnrtPage) {
-      caller_in_note = notecallers[stylepointer]->renumber_per_page_temporal_caller_note;
+      //caller_in_note = notecallers[stylepointer]->renumber_per_page_temporal_caller_note;
     }
   }
 

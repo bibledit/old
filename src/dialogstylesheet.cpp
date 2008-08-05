@@ -760,7 +760,7 @@ void StylesheetDialog::on_style_type(GtkToggleButton *togglebutton) {
       bold_simple_create();
       underline_simple_create();
       smallcaps_simple_create();
-      paragraph_create(NULL);
+      paragraph_create(NULL, false);
       span_columns_create();
       break;
     }
@@ -781,7 +781,7 @@ void StylesheetDialog::on_style_type(GtkToggleButton *togglebutton) {
       bold_simple_create();
       underline_simple_create();
       smallcaps_simple_create();
-      paragraph_create("chapter");
+      paragraph_create("chapter", false);
       span_columns_create();
       print_chapter_at_first_verse_create();
       line_height_percentage_create();
@@ -1542,7 +1542,7 @@ void StylesheetDialog::on_radiobutton_note() {
       underline_simple_create();
       smallcaps_simple_create();
       superscript_create();
-      paragraph_create(NULL);
+      paragraph_create(NULL, true);
       apocrypha_create();
       break;
     case fentContent:
@@ -1569,7 +1569,7 @@ void StylesheetDialog::on_radiobutton_note() {
       underline_simple_create();
       smallcaps_simple_create();
       superscript_create();
-      paragraph_create(NULL);
+      paragraph_create(NULL, true);
       apocrypha_create();
       break;
   }
@@ -1603,7 +1603,7 @@ void StylesheetDialog::on_radiobutton_xref() {
       underline_simple_create();
       smallcaps_simple_create();
       superscript_create();
-      paragraph_create(NULL);
+      paragraph_create(NULL, true);
       apocrypha_create();
       break;
     case ctContent:
@@ -1700,7 +1700,13 @@ void StylesheetDialog::destroy_optional_widgets()
     gtk_spin_button_update(GTK_SPIN_BUTTON (spinbutton_left));
     gtk_spin_button_update(GTK_SPIN_BUTTON (spinbutton_right));
     gtk_spin_button_update(GTK_SPIN_BUTTON (spinbutton_first));
-    justification = get_justification(), spacebefore = gtk_spin_button_get_value(GTK_SPIN_BUTTON (spinbutton_before)), spaceafter = gtk_spin_button_get_value(GTK_SPIN_BUTTON (spinbutton_after)), leftmargin = gtk_spin_button_get_value(GTK_SPIN_BUTTON (spinbutton_left)), rightmargin = gtk_spin_button_get_value(GTK_SPIN_BUTTON (spinbutton_right)), firstlineindent = gtk_spin_button_get_value(GTK_SPIN_BUTTON (spinbutton_first)), gtk_widget_destroy(vbox4);
+    justification = get_justification();
+    spacebefore = gtk_spin_button_get_value(GTK_SPIN_BUTTON (spinbutton_before));
+    spaceafter = gtk_spin_button_get_value(GTK_SPIN_BUTTON (spinbutton_after));
+    leftmargin = gtk_spin_button_get_value(GTK_SPIN_BUTTON (spinbutton_left));
+    rightmargin = gtk_spin_button_get_value(GTK_SPIN_BUTTON (spinbutton_right));\
+    firstlineindent = gtk_spin_button_get_value(GTK_SPIN_BUTTON (spinbutton_first));
+    gtk_widget_destroy(vbox4);
     vbox4 = NULL;
   }
   // Span columns
@@ -2096,7 +2102,7 @@ void StylesheetDialog::superscript_create() {
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (checkbutton_superscript), superscript);
 }
 
-void StylesheetDialog::paragraph_create(gchar * label)
+void StylesheetDialog::paragraph_create(gchar * label, bool grey_out_justify)
 /*
  Creates the paragraph settings.
  label: the label to use. By default it uses "paragraph", but if text is given
@@ -2145,6 +2151,9 @@ void StylesheetDialog::paragraph_create(gchar * label)
   gtk_box_pack_start(GTK_BOX (hbox4), radiobutton_full, FALSE, FALSE, 0);
   gtk_radio_button_set_group(GTK_RADIO_BUTTON (radiobutton_full), radiobutton_left_group);
   radiobutton_left_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON (radiobutton_full));
+  
+  if (grey_out_justify)
+    gtk_widget_set_sensitive (radiobutton_full, false);
 
   table1 = gtk_table_new(5, 4, FALSE);
   gtk_widget_show(table1);
@@ -2553,8 +2562,7 @@ void StylesheetDialog::colour_create() {
   gtk_color_button_set_color(GTK_COLOR_BUTTON (button_colour), &colour);
 }
 
-void StylesheetDialog::print_create()
-{
+void StylesheetDialog::print_create() {
   checkbutton_print = gtk_check_button_new_with_mnemonic("Print");
   gtk_widget_show(checkbutton_print);
   gtk_box_pack_start(GTK_BOX (vbox6), checkbutton_print, FALSE, FALSE, 0);
@@ -2663,7 +2671,7 @@ void StylesheetDialog::on_checkbutton_table_element() {
       bold_simple_create();
       underline_simple_create();
       smallcaps_simple_create();
-      paragraph_create("heading");
+      paragraph_create("heading", false);
       column_number_create();
       break;
     case tetCell:
@@ -2673,7 +2681,7 @@ void StylesheetDialog::on_checkbutton_table_element() {
       bold_simple_create();
       underline_simple_create();
       smallcaps_simple_create();
-      paragraph_create("cell");
+      paragraph_create("cell", false);
       column_number_create();
       break;
   }
@@ -2764,8 +2772,7 @@ void StylesheetDialog::wordlist_add_text_create() {
   gtk_entry_set_text(GTK_ENTRY (entry_wordlist_addition), userstring1.c_str ());
 }
 
-void StylesheetDialog::restarts_paragraph_create()
-{
+void StylesheetDialog::restarts_paragraph_create() {
   checkbutton_restarts_paragraph = gtk_check_button_new_with_mnemonic("Restart paragraph");
   gtk_widget_show(checkbutton_restarts_paragraph);
   gtk_box_pack_start(GTK_BOX (vbox6), checkbutton_restarts_paragraph, FALSE, FALSE, 0);

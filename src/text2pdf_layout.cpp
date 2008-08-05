@@ -34,21 +34,20 @@ T2PLayoutContainer::T2PLayoutContainer(PangoRectangle rectangle_in, T2PArea * pa
   parent = parent_in;
   layout = pango_cairo_create_layout(cairo);
   pango_layout_set_width(layout, rectangle.width);
-  first_pass_layout = pango_cairo_create_layout(cairo);
-  pango_layout_set_width(first_pass_layout, rectangle.width);
+  has_note = false;
 }
 
 T2PLayoutContainer::~T2PLayoutContainer()
 // Destructor.
 {
   g_object_unref(layout);
-  g_object_unref(first_pass_layout);
 }
 
-void T2PLayoutContainer::layout_text(T2PInputParagraph * paragraph, unsigned int line_number, ustring& text)
+void T2PLayoutContainer::layout_text(T2PInputParagraph * paragraph, unsigned int line_number, string& text)
 // This lays text out in the object, one line.
 // The text to be laid out comes in "text".
 // The part of the text that didn't fit is returned through "text". 
+// Be aware that PangoLayout works with byte indexes, therefore we work with "string" instead of with "ustring".
 {
   // Text direction.
   pango_layout_set_auto_dir(layout, false);
@@ -65,24 +64,24 @@ void T2PLayoutContainer::layout_text(T2PInputParagraph * paragraph, unsigned int
   PangoAttrList *attrs = pango_attr_list_new();
 
   if (paragraph) {
-
-    // Font.
     set_font(paragraph, attrs);
-
     indentation_width_margins_alignment(paragraph, line_number == 0);
     set_italic(paragraph, attrs);
     set_bold(paragraph, attrs);
     set_underline(paragraph, attrs);
     set_small_caps(paragraph, attrs);
-
-    set_superscript_font_scale_weight(paragraph, attrs);
-
+    set_superscript(paragraph, attrs);
     set_colour(paragraph, attrs);
-
     set_strike_through(paragraph, attrs);
   }
 
   pango_layout_set_wrap(layout, PANGO_WRAP_WORD_CHAR);
+  // If there's a note, then let the layout wrap on word, rather than on word and char.
+  // This is required because of the system of laying out notes, where notes are laid out one after the other,
+  // so there may be cases that very little space at the end remains. This little space would cause a wrap at the
+  // character level, which is undesirable in notes.
+  if (has_note)
+    pango_layout_set_wrap(layout, PANGO_WRAP_WORD);
   pango_layout_set_text(layout, text.c_str(), -1);
   pango_layout_set_attributes(layout, attrs);
 
@@ -96,8 +95,10 @@ void T2PLayoutContainer::layout_text(T2PInputParagraph * paragraph, unsigned int
   // Store any remnant of the input text.
   // Very often the last character of the first line in the layout is a space because of the wrapping.
   // This space is removed to give a better visual justification.
+  // PangoLayoutLine->start_index gives the start of line as byte index into layout->text. Note the "byte".
+  // PangoLayoutLine->length gives the length of line in bytes. Note the "bytes".
   PangoLayoutLine * layoutline = pango_layout_get_line(layout, 0);
-  ustring line;
+  string line;
   if (layoutline) {
     line = text.substr(layoutline->start_index, layoutline->length);
     text.erase(0, line.length());
@@ -110,33 +111,12 @@ void T2PLayoutContainer::layout_text(T2PInputParagraph * paragraph, unsigned int
   }
 
   // Justification.
-  if (paragraph && paragraph->alignment == t2patJustified && !paragraph->no_justification) {
+  if (paragraph && paragraph->alignment == t2patJustified) {
     justify(paragraph, line, last_line_of_paragraph_loaded, attrs);
   }
 
-  // Store the height of the layout before superscript is applied.
+  // Store the height of the layout.
   pango_layout_get_size(layout, NULL, &(rectangle.height));
-
-  /*
-   Set superscript.
-   If superscript is there, then the height of the PangoLayout increases.
-   This increased height gives the visual effect of a bigger line distance.
-   However, this is undesireable.
-   Therefore there is a mechanism that corrects for the increased height.
-   The height of the PangoLayout is measured without superscript applied.
-   Then the superscript, if any, is applied.
-   The new height is measured, which will be bigger if there was any superscript.
-   To correct for that, an offset for the base line is set.
-   At printing time this will move up the base line of the text.
-   */
-  if (paragraph && set_superscript_ascent(paragraph, attrs, original_length_of_text)) {
-    pango_layout_set_attributes(layout, attrs);
-    int height_with_superscript;
-    pango_layout_get_size(layout, NULL, &height_with_superscript);
-    if (height_with_superscript != rectangle.height) {
-      baseline_offset_pango_units = rectangle.height - height_with_superscript;
-    }
-  }
 
   // Free attributes.
   pango_attr_list_unref(attrs);
@@ -158,8 +138,15 @@ void T2PLayoutContainer::layout_text(T2PInputParagraph * paragraph, unsigned int
   if (paragraph)
     note_paragraphs = paragraph->get_notes(original_length_of_text, line.length());
 
-  // Set the width of the container.
-  pango_layout_get_size(layout, &rectangle.width, NULL);
+  // In normal cases the width of the layout container is set to the actual width of the laid-out text.
+  // But in the special case that there's a note, and that some text is left to be put in the next layout container,
+  // the size won't be set. In this case it is made to appear as if no space if left for anything.
+  // As a result the next layout container won't be placed after this note, but rather on a new line, below it.
+  bool modify_size = true;
+  if (has_note && !text.empty())
+    modify_size = false;
+  if (modify_size)
+    pango_layout_get_size(layout, &rectangle.width, NULL);
 }
 
 void T2PLayoutContainer::print(cairo_t *cairo)
@@ -168,18 +155,19 @@ void T2PLayoutContainer::print(cairo_t *cairo)
   // Write text in black.
   cairo_set_source_rgb(cairo, 0.0, 0.0, 0.0);
   // Move into position.
-  cairo_move_to(cairo, pango_units_to_points(rectangle.x), pango_units_to_points(rectangle.y + baseline_offset_pango_units));
+  cairo_move_to(cairo, pango_units_to_points(rectangle.x), pango_units_to_points(rectangle.y));
   // Show text.
   if (layout) {
     pango_cairo_show_layout(cairo, layout);
   }
 }
 
-void T2PLayoutContainer::index_white_space(const ustring& text, vector<guint>& offsets)
+void T2PLayoutContainer::index_white_space(const string& text, vector<guint>& offsets)
 // Gets the offsets of all white space in the text.
 {
   offsets.clear();
   for (guint i = 0; i < text.length(); i++) {
+    // The utf8_get_char was not expected to work, yet it does the job.
     gunichar character = g_utf8_get_char(text.substr(i, 1).c_str());
     if (g_unichar_isspace(character)) {
       offsets.push_back(i);
@@ -240,7 +228,7 @@ void T2PLayoutContainer::indentation_width_margins_alignment(T2PInputParagraph *
   }
 }
 
-void T2PLayoutContainer::justify(T2PInputParagraph * paragraph, const ustring& line, bool last_line, PangoAttrList *attrs)
+void T2PLayoutContainer::justify(T2PInputParagraph * paragraph, const string& line, bool last_line, PangoAttrList *attrs)
 /* 
  Justifies the text in the layout.
  paragraph: paragraph properties.
@@ -438,8 +426,8 @@ void T2PLayoutContainer::set_small_caps(T2PInputParagraph * paragraph, PangoAttr
   } while (in_range);
 }
 
-void T2PLayoutContainer::set_superscript_font_scale_weight(T2PInputParagraph * paragraph, PangoAttrList *attrs)
-// Sets the superscript font scale and weight.
+void T2PLayoutContainer::set_superscript(T2PInputParagraph * paragraph, PangoAttrList *attrs)
+// Sets the superscript markup.
 {
   bool in_range;
   int index = 0;
@@ -447,6 +435,14 @@ void T2PLayoutContainer::set_superscript_font_scale_weight(T2PInputParagraph * p
   bool superscript;
   do {
     if (paragraph->inline_get_superscript(index, in_range, superscript, start_index, end_index, paragraph->text.length())) {
+      {
+        // In professional typesetting software, the superscript character is raised by 33%.
+        PangoAttribute *attr;
+        attr = pango_attr_rise_new(int(paragraph->font_size_points * PANGO_SCALE * 0.33));
+        attr->start_index = start_index;
+        attr->end_index = end_index;
+        pango_attr_list_insert(attrs, attr);
+      }
       {
         PangoAttribute *attr;
         // In professional typesetting software, the size of the superscript character is 58%
@@ -467,33 +463,6 @@ void T2PLayoutContainer::set_superscript_font_scale_weight(T2PInputParagraph * p
     }
     index++;
   } while (in_range);
-
-}
-
-bool T2PLayoutContainer::set_superscript_ascent(T2PInputParagraph * paragraph, PangoAttrList *attrs, size_t text_length)
-// Sets the superscript markup.
-// Returns whether any superscript is present in the paragraph.
-{
-  bool superscript_present = false;
-  bool in_range;
-  int index = 0;
-  int start_index, end_index;
-  bool superscript;
-  do {
-    if (paragraph->inline_get_superscript(index, in_range, superscript, start_index, end_index, text_length)) {
-      {
-        // In professional typesetting software, the superscript character is raised by 33%.
-        PangoAttribute *attr;
-        attr = pango_attr_rise_new(int(paragraph->font_size_points * PANGO_SCALE * 0.33));
-        attr->start_index = start_index;
-        attr->end_index = end_index;
-        pango_attr_list_insert(attrs, attr);
-      }
-      superscript_present = true;
-    }
-    index++;
-  } while (in_range);
-  return superscript_present;
 }
 
 void T2PLayoutContainer::set_colour(T2PInputParagraph * paragraph, PangoAttrList *attrs)
@@ -540,3 +509,8 @@ void T2PLayoutContainer::set_strike_through(T2PInputParagraph * paragraph, Pango
   } while (in_range);
 }
 
+void T2PLayoutContainer::set_has_note()
+// Sets that this layout container has a note.
+{
+  has_note = true;
+}

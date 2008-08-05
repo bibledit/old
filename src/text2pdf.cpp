@@ -72,7 +72,7 @@ void Text2Pdf::initialize_variables()
   // The page size defaults to A4 = 210 x 297 millimeters (8.27 x 11.69 inches).
   page_width_pango_units = millimeters_to_pango_units(210);
   page_height_pango_units= millimeters_to_pango_units(297);
-  // Ppage margins default in centimeters.
+  // Page margins default in centimeters.
   inside_margin_pango_units = centimeters_to_pango_units(2.5);
   outside_margin_pango_units = centimeters_to_pango_units(1.5);
   top_margin_pango_units = centimeters_to_pango_units(2);
@@ -89,7 +89,6 @@ void Text2Pdf::initialize_variables()
   input_paragraph = NULL;
   stacked_input_paragraph = NULL;
   keep_data_together = false;
-  no_justification = false;
   line_spacing = 100;
   right_to_left = false;
   print_date = false;
@@ -357,7 +356,7 @@ void Text2Pdf::open_paragraph()
 // Open a new paragraph and add this to the input data.
 {
   close_paragraph();
-  input_paragraph = new T2PInputParagraph (font, no_justification, line_spacing, right_to_left);
+  input_paragraph = new T2PInputParagraph (font, line_spacing, right_to_left);
   text_input_data.push_back(input_paragraph);
 }
 
@@ -603,7 +602,7 @@ void Text2Pdf::open_note()
   // Only open a new note if there's no note open already.
   if (stacked_input_paragraph == NULL) {
     stacked_input_paragraph = input_paragraph;
-    input_paragraph = new T2PInputParagraph (font, no_justification, line_spacing, right_to_left);
+    input_paragraph = new T2PInputParagraph (font, line_spacing, right_to_left);
     // The note is stored into the main paragraph.
     stacked_input_paragraph->add_note(input_paragraph);
   }
@@ -637,17 +636,6 @@ void Text2Pdf::set_font(const ustring& font_in)
  */
 {
   font = font_in;
-}
-
-void Text2Pdf::set_no_justification(bool no_justification_in)
-/* 
- Sets whether subsequent paragraphs should not be justified.
- The reason for this setting is that it has been observed that some fonts don't allow text
- to be justified. If justification is attempted, then Pango gives a lot of errors and the text looks bad.
- Each paragraph will use the setting that was current at the time that the input paragraph object was created.
- */
-{
-  no_justification = no_justification_in;
 }
 
 void Text2Pdf::set_line_spacing(unsigned int line_spacing_in)
@@ -710,7 +698,25 @@ void Text2Pdf::test() {
 
  Todo text2pdf
 
- To implement the parallel Bible.
+  
+ When printing project Ndebele Genesis:
+ The word ubunyama in the footnote is not rightly divided. Fix that.
+ This is caused because the previous layout tried to fit the word in, failed, so left some space
+ for the next layout. The next layout tried to fit in that word, failed, so tried to fit in part of the word.
+ This must not be allowed in note, disable this behaviour, so that, if a word does not fit in completely,
+ it won't be fitted at all, and indicate this to the caller. Or better is that if the caller sees that the line didn't
+ fit on a line, it goes to the new line, without trying the same line again. These settings must be made for notes.
+ In Genesis 1, ekuqalenia is not right, it should be in superscript.
+ Some footnotes have the last two characters not in the right format. Fix that.
+ The offset may be caused by by footnote caller. Make a correction routine for that.
+ There are more problems in the Genesis first page. E.g. a word is cut at the wrong place, because it didn't fit
+ in the space, therefore as much as fitted was put there. A setting must be made that this is not done with 
+ notes, so the notes routine must call that setting and set it on. For normal text it is off because for
+ normal text this is desired behaviour.
+ 
+ The letter sizes when printed seem to be bigger than 12 points. Find out why. Else make internal correction.
+ 
+ To go through all of the Usfm2Text object and implement missing bits.
  
  To implement running headers.
  
@@ -721,7 +727,7 @@ void Text2Pdf::test() {
  e.g. if chapter "10" is in a float, then this needs to ensure that the lines are at least two
  in that block.
  
- To implement USFM to TextInput converter, for testing real-world examples.
+ To implement USFM to TextInput converter. Many parts are still left unimplemented.
  
  To implement renumbering note callers per page as in code similar to:
  caller_in_text = notecallers[stylepointer]->renumber_per_page_temporal_caller_text;
@@ -729,6 +735,10 @@ void Text2Pdf::test() {
  or in cases that the numbering restarts per page, we can pass a pointer to a NoteCaller object.
  There can be various NoteCaller objects, one for f, fe, x, and one for the caller in the text, and one for the 
  caller in the note, as these differ.
+ Once this starts, we don't know how many space the note callers will take up. If the renumbering restarts 
+ every page, then in such a situation we don't know whether the space will be one or two digits.
+ To cover this situation too, we need to lay out the text in the page while generating the layouts from the input stream.
+ So this means that there is a continual input stream, and that the layout process is driven by that stream.
  
  To implement images rendering, probably png only as cairo reads them natively.
  When images are rendered, these go into the LayoutContainer object, though the name may have to be changed at that stage.
@@ -780,7 +790,7 @@ void Text2Pdf::test() {
  To try out in a virtual machine whether Debian 4.0 can be upgraded to the version of Pango that has justify working.
  But then, justify may not work right because it won't justify the last line, and in our way of doing things,
  every line is the last line. So it will never justify.
-  
+ 
  The right-to-left property should be properly made working, even to such a degree that the columns start
  at the right instead of at the left, and that the drop-caps chapter number is at the right too.
  

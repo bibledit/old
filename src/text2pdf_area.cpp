@@ -25,7 +25,6 @@ T2PArea::T2PArea(PangoRectangle rectangle_in)
 // This is the base class for any area in which to lay out text.
 {
   rectangle = rectangle_in;
-  baseline_offset_pango_units = 0;
 }
 
 T2PArea::~T2PArea()

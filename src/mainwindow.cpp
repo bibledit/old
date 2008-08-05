@@ -6303,7 +6303,6 @@ void MainWindow::on_text_font() {
   bool defaultfont = settings->genconfig.text_editor_font_default_get();
   ustring fontname = settings->genconfig.text_editor_font_name_get();
   unsigned int linespacing = 100;
-  bool no_justification = false;
   bool defaultcolour = settings->genconfig.text_editor_default_color_get();
   unsigned int normaltextcolour = settings->genconfig.text_editor_normal_text_color_get();
   unsigned int backgroundcolour = settings->genconfig.text_editor_background_color_get();
@@ -6315,7 +6314,6 @@ void MainWindow::on_text_font() {
     defaultfont = projectconfig->editor_font_default_get();
     fontname = projectconfig->editor_font_name_get();
     linespacing = projectconfig->text_line_height_get();
-    no_justification = projectconfig->text_no_justify_get();
     defaultcolour = settings->genconfig.text_editor_default_color_get();
     normaltextcolour = projectconfig->editor_normal_text_color_get();
     backgroundcolour = projectconfig->editor_background_color_get();
@@ -6324,7 +6322,7 @@ void MainWindow::on_text_font() {
   }
 
   // Display font selection dialog. 
-  FontColorDialog dialog(defaultfont, fontname, linespacing, no_justification, defaultcolour, normaltextcolour, backgroundcolour, selectedtextcolour, selectioncolour);
+  FontColorDialog dialog(defaultfont, fontname, linespacing, defaultcolour, normaltextcolour, backgroundcolour, selectedtextcolour, selectioncolour);
   if (dialog.run() != GTK_RESPONSE_OK)
     return;
 
@@ -6341,7 +6339,6 @@ void MainWindow::on_text_font() {
     projectconfig->editor_font_default_set(dialog.new_use_default_font);
     projectconfig->editor_font_name_set(dialog.new_font);
     projectconfig->text_line_height_set(dialog.new_line_spacing);
-    projectconfig->text_no_justify_set(dialog.new_no_justification);
     projectconfig->editor_default_color_set(dialog.new_use_default_color);
     projectconfig->editor_normal_text_color_set(dialog.new_normal_text_color);
     projectconfig->editor_background_color_set(dialog.new_background_color);
@@ -6358,7 +6355,7 @@ void MainWindow::on_view_notes_font_activate(GtkMenuItem * menuitem, gpointer us
 void MainWindow::on_notes_font() {
   extern Settings * settings;
   FontColorDialog
-      dialog(settings->genconfig.notes_editor_font_default_get(), settings->genconfig.notes_editor_font_name_get(), 100, false, settings->genconfig.notes_editor_default_color_get(), settings->genconfig.notes_editor_normal_text_color_get(), settings->genconfig.notes_editor_background_color_get(), settings->genconfig.notes_editor_selected_text_color_get(), settings->genconfig.notes_editor_selection_color_get());
+      dialog(settings->genconfig.notes_editor_font_default_get(), settings->genconfig.notes_editor_font_name_get(), 100, settings->genconfig.notes_editor_default_color_get(), settings->genconfig.notes_editor_normal_text_color_get(), settings->genconfig.notes_editor_background_color_get(), settings->genconfig.notes_editor_selected_text_color_get(), settings->genconfig.notes_editor_selection_color_get());
   if (dialog.run() == GTK_RESPONSE_OK) {
     settings->genconfig.notes_editor_font_default_set(dialog.new_use_default_font);
     settings->genconfig.notes_editor_font_name_set(dialog.new_font);
@@ -6917,8 +6914,9 @@ void MainWindow::on_print() {
     labels.push_back("Project");
     labels.push_back("Parallel Bible");
     labels.push_back("References");
-    labels.push_back("Test usfm2pdf - not for normal usage");
-    labels.push_back("Test Cairo / Pango - not for normal usage");
+    labels.push_back("Test usfm2pdf");
+    labels.push_back("Test Cairo / Pango");
+    labels.push_back("Project - testing");
     extern Settings * settings;
     RadiobuttonDialog dialog("Print", "Select what to print", labels, settings->genconfig.print_job_get());
     if (dialog.run() != GTK_RESPONSE_OK)
@@ -7156,6 +7154,19 @@ void MainWindow::on_print() {
       Text2Pdf text2pdf(gw_build_filename(directories_get_temp(), "pdf.pdf"));
       text2pdf.test();
       text2pdf.view();
+      break;
+    }
+    case 5: // Project.
+    {
+      {
+        PrintProjectDialog dialog(0);
+        if (dialog.run() != GTK_RESPONSE_OK)
+          return;
+      }
+      extern Settings * settings;
+      ProjectMemory projectmemory(settings->genconfig.project_get(), true);
+      PrintProject2 printproject(&projectmemory);
+      printproject.print();
       break;
     }
   }
