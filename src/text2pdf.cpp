@@ -681,7 +681,7 @@ void Text2Pdf::test() {
   // Set Layout's parameters.
   PangoAttrList *attrs = pango_attr_list_new();
   pango_layout_set_width(layout, rectangle.width);
-  pango_layout_set_text(layout, "1 אֵ֣לֶּה הַדְּבָרִ֗ים אֲשֶׁ֨ר דִּבֶּ֤ר מֹשֶׁה֙ אֶל־כָּל־יִשְׂרָאֵ֔ל בְּעֵ֖בֶר הַיַּרְדֵּ֑ן בַּמִּדְבָּ֡ר בָּֽעֲרָבָה֩ מ֨וֹל ס֜וּף בֵּֽין־פָּארָ֧ן וּבֵֽין־תֹּ֛פֶל וְלָבָ֥ן וַֽחֲצֵרֹ֖ת וְדִ֥י זָהָֽב׃ 2 אַחַ֨ד עָשָׂ֥ר יוֹם֙ מֵֽחֹרֵ֔ב דֶּ֖רֶךְ הַר־שֵׂעִ֑יר עַ֖ד קָדֵ֥שׁ בַּרְנֵֽעַ׃ 3 וַֽיְהִי֙ בְּאַרְבָּעִ֣ים שָׁנָ֔ה בְּעַשְׁתֵּֽי־עָשָׂ֥ר חֹ֖דֶשׁ בְּאֶחָ֣ד לַחֹ֑דֶשׁ דִּבֶּ֤ר מֹשֶׁה֙ אֶל־בְּנֵ֣י יִשְׂרָאֵ֔ל כְּ֠כֹל אֲשֶׁ֨ר צִוָּ֧ה יְהוָ֛ה אֹת֖וֹ אֲלֵהֶֽם׃ 4 אַֽחֲרֵ֣י הַכֹּת֗וֹ אֵ֚ת סִיחֹן֙ מֶ֣לֶךְ הָֽאֱמֹרִ֔י אֲשֶׁ֥ר יוֹשֵׁ֖ב בְּחֶשְׁבּ֑וֹן וְאֵ֗ת ע֚וֹג מֶ֣לֶךְ הַבָּשָׁ֔ן אֲשֶׁר־יוֹשֵׁ֥ב בְּעַשְׁתָּרֹ֖ת בְּאֶדְרֶֽעִי׃ 5 בְּעֵ֥בֶר הַיַּרְדֵּ֖ן בְּאֶ֣רֶץ מוֹאָ֑ב הוֹאִ֣יל מֹשֶׁ֔ה בֵּאֵ֛ר אֶת־הַתּוֹרָ֥ה הַזֹּ֖את לֵאמֹֽר׃ 6 יְהוָ֧ה אֱלֹהֵ֛ינוּ דִּבֶּ֥ר אֵלֵ֖ינוּ בְּחֹרֵ֣ב לֵאמֹ֑ר רַב־לָכֶ֥ם שֶׁ֖בֶת בָּהָ֥ר הַזֶּֽה׃", -1);
+  pango_layout_set_text(layout, " Ekuqalenia", -1);
   pango_layout_set_attributes(layout, attrs);
   pango_attr_list_unref(attrs);
 
@@ -698,10 +698,9 @@ void Text2Pdf::test() {
 
  Todo text2pdf
 
- When printing project Ndebele Genesis, in Genesis 1, ekuqalenia is not right, it should be in superscript. 
- This occurs if the full book is printed.
- 
- The letter sizes when printed seem to be bigger than 12 points. Find out why. Else make internal correction.
+ The letters in the headings are too big.
+  
+ The first paragraph of the chapter does not have correct first-line indent.
  
  To go through all of the Usfm2Text object and implement missing bits.
  
@@ -780,6 +779,11 @@ void Text2Pdf::test() {
  
  The right-to-left property should be properly made working, even to such a degree that the columns start
  at the right instead of at the left, and that the drop-caps chapter number is at the right too.
- 
+
+ Suggestion: change size of verse number to around 70% of normal font. 
+ Top of verse number should be even with top of capital T. 
+ Check some Bibles to compare to see if this is correct.  
+ Unless you like this to help you find your way around. 
+   
  */
 

@@ -184,9 +184,7 @@ void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_
     }
 
     // Create any notes caused by the big block.
-    /// Todo we need to track which note_paragraphs are laid out, so that we will be able to reset
-    // their text again once it has been decided that these notes don't fit.
-    unsigned int added_notes_count = 0;
+    deque <T2PLayoutContainer *> added_notes;
     for (unsigned int i = 0; i < big_block.blocks.size(); i++) {
       T2PBlock * block = big_block.blocks[i];
       for (unsigned int i2 = 0; i2 < block->layoutcontainers.size(); i2++) {
@@ -199,7 +197,7 @@ void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_
             note_layout_container->set_has_note();
             note_layout_container->layout_text(note_paragraph, 0, note_paragraph->text);
             note_layout_containers.push_back(note_layout_container);
-            added_notes_count++;
+            added_notes.push_back(note_layout_container);
           }
         }
       }
@@ -230,11 +228,14 @@ void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_
         input_blocks.push_front(big_block.blocks[i]);
       }
 
-      // If the last big block caused any notes to be added, remove these again and destroy them.
-      for (unsigned int i = 0; i < added_notes_count; i++) {
+      // If the last big block caused any notes to be added, put the text of these notes back into their 
+      // input paragraph, remove the notes, and destroy them.
+      while (!added_notes.empty()) {
         T2PLayoutContainer * note_layout_container = note_layout_containers[note_layout_containers.size()-1];
+        note_layout_container->undo_layout_text();
         delete note_layout_container;
         note_layout_containers.pop_back();
+        added_notes.pop_back();
       }
 
       // Bail out.

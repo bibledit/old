@@ -432,7 +432,13 @@ void Usfm2Text::convert_from_usfm_to_xslfo() {
                 position = CLAMP (position, 0, usfm_line.length());
                 set_new_verse(usfm_line.substr(0, position));
                 usfm_line.erase(0, position);
-                output_verse_number(stylepointer, fo_block_style, fo_inline_style, marker_length);
+                bool verse_was_written = output_verse_number(stylepointer, fo_block_style, fo_inline_style, marker_length);
+                // Erase any spaces following the verse if the verse was not written.
+                if (!verse_was_written) {
+                  while (!usfm_line.empty() && (usfm_line.substr (0, 1) == " ")) {
+                    usfm_line.erase (0, 1);
+                  }
+                }
                 break;
               }
               case u2xtFootNoteStart:
@@ -1401,12 +1407,13 @@ void Usfm2Text::signal_progress() {
   }
 }
 
-void Usfm2Text::output_verse_number(Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length)
+bool Usfm2Text::output_verse_number(Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length)
 // Writes the verse number.
+// Returns true if the verse was written.
 {
   // Bail out if this portion is not printed.
   if (!inrange.in_range())
-    return;
+    return false;
 
   // Close possible inline style
   close_possible_inline(fo_inline_style);
@@ -1421,9 +1428,11 @@ void Usfm2Text::output_verse_number(Usfm2XslFoStyle * stylepointer, Usfm2XslFoSt
     }
   }
 
-  // Write any number different from 1.
+  // Write any number different from 1. 
   if (verse != "1")
     printversenumber = true;
+  bool verse_number_written = printversenumber;
+  // Todo if the verse is not written, also remove any following space.
 
   // Write the verse number.
   if (printversenumber && stylepointer->print) {
@@ -1432,9 +1441,12 @@ void Usfm2Text::output_verse_number(Usfm2XslFoStyle * stylepointer, Usfm2XslFoSt
     text2pdf->add_text(verse);
     close_possible_inline(fo_inline_style);
   }
-
+  
   // Write next verse number again.
   printversenumber = true;
+  
+  // Return whether it was written.
+  return verse_number_written;
 }
 
 void Usfm2Text::output_text_character_style(ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length, bool is_opener)

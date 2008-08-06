@@ -32,24 +32,27 @@ public:
   virtual ~T2PLayoutContainer();
   void print(cairo_t *cairo);
   void layout_text(T2PInputParagraph * paragraph, unsigned int line_number, string& text);
+  void undo_layout_text();
   ustring text();
   vector <T2PInputParagraph *> note_paragraphs;
   void set_has_note();
 private:
   T2PArea * parent;
   PangoLayout * layout;
-  void indentation_width_margins_alignment(T2PInputParagraph * paragraph, bool first_line);
-  void justify(T2PInputParagraph * paragraph, const string& line, bool last_line, PangoAttrList *attrs);
+  void indentation_width_margins_alignment(bool first_line);
+  void justify(const string& line, bool last_line, PangoAttrList *attrs);
   void index_white_space(const string& text, vector<guint>& offsets);
-  void set_font(T2PInputParagraph * paragraph, PangoAttrList *attrs);
-  void set_italic(T2PInputParagraph * paragraph, PangoAttrList *attrs);
-  void set_bold(T2PInputParagraph * paragraph, PangoAttrList *attrs);
-  void set_underline(T2PInputParagraph * paragraph, PangoAttrList *attrs);
-  void set_small_caps(T2PInputParagraph * paragraph, PangoAttrList *attrs);
-  void set_superscript(T2PInputParagraph * paragraph, PangoAttrList *attrs);
-  void set_colour(T2PInputParagraph * paragraph, PangoAttrList *attrs);
-  void set_strike_through(T2PInputParagraph * paragraph, PangoAttrList *attrs);
+  void set_font(PangoAttrList *attrs);
+  void set_italic(PangoAttrList *attrs);
+  void set_bold(PangoAttrList *attrs);
+  void set_underline(PangoAttrList *attrs);
+  void set_small_caps(PangoAttrList *attrs);
+  void set_superscript(PangoAttrList *attrs);
+  void set_colour(PangoAttrList *attrs);
+  void set_strike_through(PangoAttrList *attrs);
   bool has_note;
+  T2PInputParagraph * input_paragraph;
+  string input_text;
 };
 
 #endif
