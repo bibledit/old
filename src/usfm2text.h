@@ -71,8 +71,6 @@ private:
   double font_size;
   unsigned int line_height;
   bool right_to_left;
-  double page_width, page_height;
-  double top_margin, bottom_margin, inner_margin, outer_margin;
   bool two_columns;
   bool even_page_count;
   bool chapter_number_in_running_header_at_left_pages;
@@ -83,14 +81,9 @@ private:
   bool book_spans_columns;
 
   // Output.
-  xmlBufferPtr buffer;
-  xmlTextWriterPtr writer;
   Text2Pdf * text2pdf;
 
   // Basic xsl-fo management.
-  void write_root_open();
-  void write_layout_master_set();
-  void write_page_sequence_open();
   void write_static_content();
   void write_flow_open();
   void open_paragraph(Usfm2XslFoStyle * style, bool keep_with_next_paragraph);

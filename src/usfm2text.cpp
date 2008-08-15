@@ -41,12 +41,6 @@ Usfm2Text::Usfm2Text(Text2Pdf * text2pdf_in, bool show_progress) {
   font_size = 12;
   line_height = 100;
   right_to_left = false;
-  page_width = 21.0;
-  page_height = 29.7;
-  top_margin = 2;
-  bottom_margin = 2;
-  inner_margin = 2;
-  outer_margin = 2;
   two_columns = false;
   even_page_count = false;
   chapter_number_in_running_header_at_left_pages = true;
@@ -290,32 +284,6 @@ void Usfm2Text::convert_from_usfm_to_xslfo() {
   // Cancel?
   if (cancel)
     return;
-
-  // Create a new XML buffer, to which the document will be written
-  buffer = xmlBufferCreate();
-  if (!buffer) {
-    gw_critical("Error creating the xml buffer");
-    return;
-  }
-
-  // Create a new XmlWriter for memory, with no compression.
-  writer = xmlNewTextWriterMemory(buffer, 0);
-  if (!writer) {
-    gw_critical("Error creating the xml writer");
-    return;
-  }
-
-  // Create first bit of the xsl-fo document.
-  xmlTextWriterStartDocument(writer, NULL, "UTF-8", NULL);
-
-  // Write the fo:root element, leave it open.  
-  write_root_open();
-
-  // Write the layout master set.
-  write_layout_master_set();
-
-  // Write the page sequence, leaving it open.
-  write_page_sequence_open();
 
   // Write static content.
   write_static_content();
@@ -628,12 +596,6 @@ void Usfm2Text::convert_from_usfm_to_xslfo() {
   }
   // Dump any unprocessed endnotes here. This also dumps them after the last book.
   dump_endnotes(fo_block_style, fo_inline_style);
-
-  // We could close any open elements by hand, but closing the document does it all.
-  xmlTextWriterEndDocument(writer);
-
-  // Flush the writer, else nothing gets transferred to the buffer.
-  xmlTextWriterFlush(writer);
 }
 
 void Usfm2Text::process() {
@@ -662,58 +624,9 @@ void Usfm2Text::process() {
   destroy_note_callers();
 }
 
-void Usfm2Text::set_margins(double top_cm, double bottom_cm, double inner_cm, double outer_cm)
-// Sets the page margins, in cm.
-{
-  top_margin = top_cm;
-  bottom_margin = bottom_cm;
-  inner_margin = inner_cm;
-  outer_margin = outer_cm;
-}
-
 void Usfm2Text::set_fonts(const vector <ustring>& fonts_in, double font_size_in) {
   fonts = fonts_in;
   font_size = font_size_in;
-}
-
-void Usfm2Text::write_root_open()
-// Writes the fo:root element, leaving it open.
-{
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:root");
-
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "xmlns:fo", BAD_CAST "http://www.w3.org/1999/XSL/Format");
-
-  /*
-   In XEP, you can specify multiple font-families in font-family property and if 
-   font-selection-strategy is set to character-by-character value, XEP can 
-   substitute glyphs missing in the first specified font with characters from other 
-   fonts in the list.
-   */
-  ustring font;
-  for (unsigned int i = 0; i < fonts.size(); i++) {
-    if (i)
-      font.append(",");
-    font.append(fonts[i]);
-  }
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "font-family", BAD_CAST font.c_str ());
-  if (fonts.size() > 1)
-    xmlTextWriterWriteAttribute(writer, BAD_CAST "font-selection-strategy", BAD_CAST "character-by-character");
-
-  xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "font-size", "%gpt", font_size);
-
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "text-align", BAD_CAST "justify");
-
-  // If the line height is 100%, do not insert anything, because appears to 
-  // disturb proper calculation of the line heights with different font sizes.
-  if (line_height != 100) {
-    ustring lineheight = convert_to_string(line_height) + "%";
-    xmlTextWriterWriteAttribute(writer, BAD_CAST "line-height", BAD_CAST lineheight.c_str());
-  }
-
-  // Possible right-to-left text flow.
-  if (right_to_left) {
-    xmlTextWriterWriteAttribute(writer, BAD_CAST "writing-mode", BAD_CAST "rl-tb");
-  }
 }
 
 void Usfm2Text::set_line_height(unsigned int line_height_in) {
@@ -728,108 +641,10 @@ void Usfm2Text::set_two_columns() {
   two_columns = true;
 }
 
-void Usfm2Text::write_layout_master_set() {
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:layout-master-set");
-
-  // Page sizes.
-  ustring pagewidth = convert_to_string(page_width) + "cm";
-  ustring pageheight = convert_to_string(page_height) + "cm";
-
-  // A blank page master. It is there so as not to print headers on a blank page.
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:simple-page-master");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "master-name", BAD_CAST "blank-page");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "page-width", BAD_CAST pagewidth.c_str ());
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "page-height", BAD_CAST pageheight.c_str ());
-  // XEP 4 only validates if the region-body is empty, but counts white-space
-  // as non-empty space. Strange behaviour, but solved so:
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:region-body");
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:region-before");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "region-name", BAD_CAST "header-blank");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "extent", BAD_CAST "0cm");
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterEndElement(writer);
-
-  // The page master for the odd page.
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:simple-page-master");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "master-name", BAD_CAST "odd-page");
-  // Fill in paper size, margins.
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "page-width", BAD_CAST pagewidth.c_str ());
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "page-height", BAD_CAST pageheight.c_str ());
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:region-body");
-  ustring topmargin = convert_to_string(top_margin) + "cm";
-  ustring bottommargin = convert_to_string(bottom_margin) + "cm";
-  ustring innermargin = convert_to_string(inner_margin) + "cm";
-  ustring outermargin = convert_to_string(outer_margin) + "cm";
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "margin-top", BAD_CAST topmargin.c_str());
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "margin-bottom", BAD_CAST bottommargin.c_str());
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "margin-left", BAD_CAST innermargin.c_str());
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "margin-right", BAD_CAST outermargin.c_str());
-  if (two_columns)
-    xmlTextWriterWriteAttribute(writer, BAD_CAST "column-count", BAD_CAST "2");
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:region-before");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "region-name", BAD_CAST "header-odd");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "extent", BAD_CAST topmargin.c_str());
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterEndElement(writer);
-
-  // The page master for the even page.
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:simple-page-master");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "master-name", BAD_CAST "even-page");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "page-width", BAD_CAST pagewidth.c_str ());
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "page-height", BAD_CAST pageheight.c_str ());
-  // Mirrored paper : swap left/right margins on even pages.
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:region-body");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "margin-top", BAD_CAST topmargin.c_str());
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "margin-bottom", BAD_CAST bottommargin.c_str());
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "margin-left", BAD_CAST outermargin.c_str());
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "margin-right", BAD_CAST innermargin.c_str());
-  if (two_columns)
-    xmlTextWriterWriteAttribute(writer, BAD_CAST "column-count", BAD_CAST "2");
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:region-before");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "region-name", BAD_CAST "header-even");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "extent", BAD_CAST topmargin.c_str());
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterEndElement(writer);
-
-  // The page sequence master.  
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:page-sequence-master");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "master-name", BAD_CAST "text");
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:repeatable-page-master-alternatives");
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:conditional-page-master-reference");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "blank-or-not-blank", BAD_CAST "blank");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "master-reference", BAD_CAST "blank-page");
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:conditional-page-master-reference");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "odd-or-even", BAD_CAST "odd");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "master-reference", BAD_CAST "odd-page");
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:conditional-page-master-reference");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "odd-or-even", BAD_CAST "even");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "master-reference", BAD_CAST "even-page");
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterEndElement(writer);
-
-  // Close the layout master set.  
-  xmlTextWriterEndElement(writer);
-}
-
 void Usfm2Text::set_even_page_count()
 // This forces an even page count in the page sequence.
 {
   even_page_count = true;
-}
-
-void Usfm2Text::write_page_sequence_open()
-// Write the page sequence, and leave the element open.
-{
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:page-sequence");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "master-reference", BAD_CAST "text");
-  if (even_page_count)
-    xmlTextWriterWriteAttribute(writer, BAD_CAST "force-page-count", BAD_CAST "end-on-even");
 }
 
 void Usfm2Text::set_print_date() {
@@ -837,141 +652,18 @@ void Usfm2Text::set_print_date() {
 }
 
 void Usfm2Text::write_static_content() {
-  // Today's date.
-  ustring date = date_time_julian_human_readable(date_time_julian_day_get_current(), false);
-
-  // Margins.
-  ustring innermargin = convert_to_string(inner_margin) + "cm";
-  ustring outermargin = convert_to_string(outer_margin) + "cm";
-  ustring tableheight = convert_to_string(top_margin - 0.2) + "cm";
-
-  // Blank pages.
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:static-content");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "flow-name", BAD_CAST "header-blank");
-  xmlTextWriterEndElement(writer);
-
   // Odd pages.
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:static-content");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "flow-name", BAD_CAST "header-odd");
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:table");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "table-layout", BAD_CAST "fixed");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "width", BAD_CAST "100%");
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:table-column");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "column-width", BAD_CAST innermargin.c_str());
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:table-column");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "column-width", BAD_CAST "proportional-column-width(1)");
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:table-column");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "column-width", BAD_CAST "proportional-column-width(1)");
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:table-column");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "column-width", BAD_CAST outermargin.c_str());
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:table-body");
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:table-row");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "height", BAD_CAST tableheight.c_str());
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:table-cell");
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:table-cell");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "display-align", BAD_CAST "after");
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:block");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "text-align", BAD_CAST "start");
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:page-number");
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:leader");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "leader-length", BAD_CAST "1cm");
-  xmlTextWriterEndElement(writer);
-  if (print_date)
-    xmlTextWriterWriteFormatString(writer, date.c_str());
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:table-cell");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "display-align", BAD_CAST "after");
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:block");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "text-align", BAD_CAST "end");
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:retrieve-marker");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "retrieve-class-name", BAD_CAST "rightheader");
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterWriteFormatString(writer, " ");
   if (chapter_number_in_running_header_at_right_pages) {
-    xmlTextWriterStartElement(writer, BAD_CAST "fo:retrieve-marker");
-    xmlTextWriterWriteAttribute(writer, BAD_CAST "retrieve-class-name", BAD_CAST "chapter");
-    xmlTextWriterEndElement(writer);
   }
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:table-cell");
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterEndElement(writer);
 
   // Even pages.
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:static-content");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "flow-name", BAD_CAST "header-even");
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:table");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "table-layout", BAD_CAST "fixed");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "width", BAD_CAST "100%");
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:table-column");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "column-width", BAD_CAST outermargin.c_str());
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:table-column");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "column-width", BAD_CAST "proportional-column-width(1)");
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:table-column");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "column-width", BAD_CAST "proportional-column-width(1)");
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:table-column");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "column-width", BAD_CAST innermargin.c_str());
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:table-body");
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:table-row");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "height", BAD_CAST tableheight.c_str());
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:table-cell");
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:table-cell");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "display-align", BAD_CAST "after");
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:block");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "text-align", BAD_CAST "start");
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:retrieve-marker");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "retrieve-class-name", BAD_CAST "leftheader");
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterWriteFormatString(writer, " ");
   if (chapter_number_in_running_header_at_left_pages) {
-    xmlTextWriterStartElement(writer, BAD_CAST "fo:retrieve-marker");
-    xmlTextWriterWriteAttribute(writer, BAD_CAST "retrieve-class-name", BAD_CAST "chapter");
-    xmlTextWriterEndElement(writer);
   }
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:table-cell");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "display-align", BAD_CAST "after");
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:block");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "text-align", BAD_CAST "end");
-  if (print_date)
-    xmlTextWriterWriteFormatString(writer, date.c_str());
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:leader");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "leader-length", BAD_CAST "1cm");
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:page-number");
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:table-cell");
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterEndElement(writer);
 }
 
 void Usfm2Text::write_flow_open()
 // Write the fo:flow, leaving it open.
 {
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:flow");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "flow-name", BAD_CAST "xsl-region-body");
 }
 
 void Usfm2Text::add_styles(const vector <Usfm2XslFoStyle>& styles_in) {
@@ -1204,7 +896,7 @@ void Usfm2Text::open_inline(Usfm2XslFoStyle * style, Usfm2XslFoStyle * block) {
   }
 }
 
-void Usfm2Text::output_chapter_number_try_normal(ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length, unsigned int book)
+void Usfm2Text::output_chapter_number_try_normal(ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length, unsigned int book) // Todo
 // This function tries to output the chapter number at the normal position.
 // Else it stores the data needed for outputting it later on at the first verse.
 {
@@ -1217,12 +909,7 @@ void Usfm2Text::output_chapter_number_try_normal(ustring& line, Usfm2XslFoStyle 
   text2pdf->close_paragraph();
 
   // Insert marker for chapter number in the running headers.
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:block");
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:marker");
-  xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "marker-class-name", "chapter");
-  xmlTextWriterWriteFormatString(writer, "%i", chapter);
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterEndElement(writer);
+  //xmlTextWriterWriteFormatString(writer, "%i", chapter);
 
   // Print no chapter number for books with only one chapter.
   if (highest_chapter_number[book] == 1)
@@ -1254,8 +941,8 @@ void Usfm2Text::output_chapter_number_try_normal(ustring& line, Usfm2XslFoStyle 
     }
   }
   if (!chapterlabel.empty()) {
-    xmlTextWriterWriteFormatString(writer, "%s", chapterlabel.c_str());
-    xmlTextWriterWriteFormatString(writer, " ");
+    text2pdf->add_text (chapterlabel);
+    text2pdf->add_text (" ");
   }
   ustring chapternumber = convert_to_string(chapter);
   for (unsigned int i = 0; i < published_chapter_markers.size(); i++) {
@@ -1265,8 +952,9 @@ void Usfm2Text::output_chapter_number_try_normal(ustring& line, Usfm2XslFoStyle 
       }
     }
   }
-  xmlTextWriterWriteFormatString(writer, "%s", chapternumber.c_str());
+  text2pdf->add_text (chapternumber);
   text2pdf->close_paragraph();
+  fo_block_style = NULL;
 }
 
 void Usfm2Text::output_chapter_number_try_at_first_verse(ustring line, Usfm2XslFoStyle * & fo_block_style) {
@@ -1289,8 +977,6 @@ void Usfm2Text::output_chapter_number_try_at_first_verse(ustring line, Usfm2XslF
         // We're now at the point that the chapter number can be written.
 
         // Open the float.
-        xmlTextWriterStartElement(writer, BAD_CAST "fo:float");
-        xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "float", "start");
 
         // Search the chapter style.
         Usfm2XslFoStyle * chapter_style= NULL;
@@ -1314,12 +1000,9 @@ void Usfm2Text::output_chapter_number_try_at_first_verse(ustring line, Usfm2XslF
         // Write the chapter block.
         if (chapter_style) {
           open_paragraph(chapter_style, true);
-          xmlTextWriterWriteFormatString(writer, "%s", chapternumber.c_str());
+          //xmlTextWriterWriteFormatString(writer, "%s", chapternumber.c_str());
           text2pdf->close_paragraph();
         }
-
-        // Close the float.
-        xmlTextWriterEndElement(writer);
 
         // The next verse number won't be written.
         printversenumber = false;
@@ -1362,14 +1045,12 @@ void Usfm2Text::output_text_running_header(ustring& line, Usfm2XslFoStyle * & fo
   style->justification = default_style_justification;
 
   // Insert the left and right headers.  
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:marker");
-  xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "marker-class-name", "leftheader");
-  xmlTextWriterWriteFormatString(writer, "%s", book_header_left[book].c_str());
-  xmlTextWriterEndElement(writer);
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:marker");
-  xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "marker-class-name", "rightheader");
-  xmlTextWriterWriteFormatString(writer, "%s", book_header_right[book].c_str());
-  xmlTextWriterEndElement(writer);
+  //xmlTextWriterStartElement(writer, BAD_CAST "fo:marker");
+  //xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "marker-class-name", "leftheader");
+  //xmlTextWriterWriteFormatString(writer, "%s", book_header_left[book].c_str());
+  //xmlTextWriterStartElement(writer, BAD_CAST "fo:marker");
+  //xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "marker-class-name", "rightheader");
+  //xmlTextWriterWriteFormatString(writer, "%s", book_header_right[book].c_str());
 
   // Close the block.  
   text2pdf->close_paragraph();
@@ -1432,7 +1113,6 @@ bool Usfm2Text::output_verse_number(Usfm2XslFoStyle * stylepointer, Usfm2XslFoSt
   if (verse != "1")
     printversenumber = true;
   bool verse_number_written = printversenumber;
-  // Todo if the verse is not written, also remove any following space.
 
   // Write the verse number.
   if (printversenumber && stylepointer->print) {
@@ -1597,7 +1277,7 @@ void Usfm2Text::output_text_table(ustring& line, Usfm2XslFoStyle * & fo_block_st
   text2pdf->close_paragraph();
 
   // Open the xml table.
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:table");
+  //xmlTextWriterStartElement(writer, BAD_CAST "fo:table");
 
   // Go through each row.
   for (unsigned int r = 0; r < rows_tidy.size(); r++) {
@@ -1617,12 +1297,11 @@ void Usfm2Text::output_text_table(ustring& line, Usfm2XslFoStyle * & fo_block_st
       header_or_body.append("header");
     else
       header_or_body.append("body");
-    xmlTextWriterStartElement(writer, BAD_CAST header_or_body.c_str());
-    xmlTextWriterStartElement(writer, BAD_CAST "fo:table-row");
-
+    //xmlTextWriterStartElement(writer, BAD_CAST header_or_body.c_str());
+ 
     // Handle each cell.
     for (unsigned int c = 0; c < row.cells.size(); c++) {
-      xmlTextWriterStartElement(writer, BAD_CAST "fo:table-cell");
+      //xmlTextWriterStartElement(writer, BAD_CAST "fo:table-cell");
       vector <ustring> lines;
       Usfm2XslFoStyle * style = row.cells[c].style;
       if (style == NULL)
@@ -1630,19 +1309,15 @@ void Usfm2Text::output_text_table(ustring& line, Usfm2XslFoStyle * & fo_block_st
       open_paragraph(style, false);
       lines.push_back(row.cells[c].text);
       for (unsigned int i = 0; i < lines.size(); i++) {
-        xmlTextWriterWriteString(writer, BAD_CAST lines[i].c_str());
+        //xmlTextWriterWriteString(writer, BAD_CAST lines[i].c_str());
       }
       text2pdf->close_paragraph();
-      xmlTextWriterEndElement(writer);
     }
 
     // Close row.  
-    xmlTextWriterEndElement(writer);
-    xmlTextWriterEndElement(writer);
   }
 
   // Close the xml table.
-  xmlTextWriterEndElement(writer);
 }
 
 void Usfm2Text::create_note_callers()
@@ -2001,14 +1676,12 @@ void Usfm2Text::output_page_break(Usfm2XslFoStyle * & fo_block_style, Usfm2XslFo
   text2pdf->close_paragraph();
 
   // Write the page break.
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:block");
   ustring breaktext;
   if (oddpage)
     breaktext = "odd-page";
   else
     breaktext = "page";
-  xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "break-after", breaktext.c_str());
-  xmlTextWriterEndElement(writer);
+  //xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "break-after", breaktext.c_str());
 }
 
 void Usfm2Text::output_picture(ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length)
@@ -2092,26 +1765,19 @@ void Usfm2Text::output_picture(ustring& line, Usfm2XslFoStyle * stylepointer, Us
   // of the page.  
   // Write caption and reference.
   if (size == "span") {
-    xmlTextWriterStartElement(writer, BAD_CAST "fo:float");
-    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "float", "before");
   }
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:external-graphic");
-  xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "src", "url('%s')", file.c_str());
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "content-width", BAD_CAST "scale-to-fit");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "content-height", BAD_CAST "100%");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "width", BAD_CAST "100%");
-  xmlTextWriterWriteAttribute(writer, BAD_CAST "scaling", BAD_CAST "uniform");
-  xmlTextWriterEndElement(writer);
+  //xmlTextWriterStartElement(writer, BAD_CAST "fo:external-graphic");
+  //xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "src", "url('%s')", file.c_str());
+  //xmlTextWriterWriteAttribute(writer, BAD_CAST "content-width", BAD_CAST "scale-to-fit");
+  //xmlTextWriterWriteAttribute(writer, BAD_CAST "content-height", BAD_CAST "100%");
+  //xmlTextWriterWriteAttribute(writer, BAD_CAST "width", BAD_CAST "100%");
+  //xmlTextWriterWriteAttribute(writer, BAD_CAST "scaling", BAD_CAST "uniform");
   if ((!cap.empty()) || (!ref.empty())) {
-    xmlTextWriterStartElement(writer, BAD_CAST "fo:block");
-    xmlTextWriterWriteFormatString(writer, cap.c_str());
-    xmlTextWriterWriteFormatString(writer, " ");
-    xmlTextWriterWriteFormatString(writer, ref.c_str());
-    xmlTextWriterEndElement(writer);
+    //xmlTextWriterWriteFormatString(writer, cap.c_str());
+    //xmlTextWriterWriteFormatString(writer, " ");
+    //xmlTextWriterWriteFormatString(writer, ref.c_str());
   }
   if (size == "span") {
-    xmlTextWriterEndElement(writer);
-    xmlTextWriterEndElement(writer);
   }
 
   // Close the block.
@@ -2128,7 +1794,7 @@ void Usfm2Text::output_elastic(ustring& line, Usfm2XslFoStyle * & fo_block_style
 
   // Write new default block with the elastic.
   text2pdf->open_paragraph();
-  xmlTextWriterWriteFormatString(writer, ELASTIC_XEP);
+  //xmlTextWriterWriteFormatString(writer, ELASTIC_XEP);
   text2pdf->close_paragraph();
 }
 
@@ -2164,9 +1830,7 @@ void Usfm2Text::toc_insert_anchor(ustring& line, Usfm2XslFoStyle * & fo_block_st
   text2pdf->close_paragraph();
 
   // Write the id in a new block.
-  xmlTextWriterStartElement(writer, BAD_CAST "fo:block");
-  xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "id", toc_identifier (book).c_str());
-  xmlTextWriterEndElement(writer);
+  //xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "id", toc_identifier (book).c_str());
   text2pdf->close_paragraph();
 }
 
@@ -2199,13 +1863,11 @@ void Usfm2Text::toc_insert_body(ustring& line, Usfm2XslFoStyle * & fo_block_styl
     fo_block_style = style;
     open_paragraph(style, false);
     style->justification = default_style_justification;
-    xmlTextWriterWriteFormatString(writer, label.c_str());
-    xmlTextWriterStartElement(writer, BAD_CAST "fo:leader");
-    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "leader-pattern", "dots");
-    xmlTextWriterEndElement(writer);
-    xmlTextWriterStartElement(writer, BAD_CAST "fo:page-number-citation");
-    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "ref-id", toc_identifier (books[bk]).c_str());
-    xmlTextWriterEndElement(writer);
+    //xmlTextWriterWriteFormatString(writer, label.c_str());
+    //xmlTextWriterStartElement(writer, BAD_CAST "fo:leader");
+    //xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "leader-pattern", "dots");
+    //xmlTextWriterStartElement(writer, BAD_CAST "fo:page-number-citation");
+    //xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "ref-id", toc_identifier (books[bk]).c_str());
     text2pdf->close_paragraph();
   }
 }
@@ -2237,16 +1899,10 @@ void Usfm2Text::dump_endnotes(Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyl
     text2pdf->open_paragraph();
 
     // Open the list block for outlining the caller nicely with the footnote body.
-    xmlTextWriterStartElement(writer, BAD_CAST "fo:list-block");
-    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "provisional-label-separation", "0pt");
-    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "provisional-distance-between-starts", "18pt");
 
     // Open the list item.
-    xmlTextWriterStartElement(writer, BAD_CAST "fo:list-item");
 
     // Open the list item label: for the note caller.
-    xmlTextWriterStartElement(writer, BAD_CAST "fo:list-item-label");
-    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "end-indent", "label-end()");
 
     // Get the default paragraph style.
     Usfm2XslFoStyle * default_paragraph_style = get_default_paragraph_style_for_note(endnote_style);
@@ -2277,17 +1933,14 @@ void Usfm2Text::dump_endnotes(Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyl
       blockstyle->firstlineindent = firstlineindent;
       Usfm2XslFoStyle * inlinestyle = endnote_style;
       open_inline(inlinestyle, blockstyle);
-      xmlTextWriterWriteFormatString(writer, caller.c_str());
+      //xmlTextWriterWriteFormatString(writer, caller.c_str());
       close_possible_inline(inlinestyle);
       text2pdf->close_paragraph();
     }
 
     // Close the list item label.
-    xmlTextWriterEndElement(writer);
 
     // Open the list item body: for the note body.
-    xmlTextWriterStartElement(writer, BAD_CAST "fo:list-item-body");
-    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "start-indent", "body-start()");
 
     // Open the default paragraph style for this note.
     default_paragraph_style = get_default_paragraph_style_for_note(endnote_style);
@@ -2341,9 +1994,6 @@ void Usfm2Text::dump_endnotes(Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyl
     text2pdf->close_paragraph();
 
     // Close the list item body, the list item, the list block.
-    xmlTextWriterEndElement(writer);
-    xmlTextWriterEndElement(writer);
-    xmlTextWriterEndElement(writer);
 
     // Close the block after the note has been written.
     close_possible_inline(fo_inline_style);
@@ -2464,16 +2114,12 @@ void Usfm2Text::output_spacing_paragraph(ustring& line, Usfm2XslFoStyle * & fo_b
 
   if (is_opener) {
     // Insert the spacing paragraph.
-    xmlTextWriterStartElement(writer, BAD_CAST "fo:block");
     // XSLFormatter is better than FOP in that it does honour space conditionality,
     // which is initially set at "discard" for the beginning of a 
     // reference area, as here. So to get the distance between the 
     // lines right, this is inserted: space-before.conditionality="retain".
-    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "space-before", "2mm");
-    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "space-before.conditionality", "retain");
   } else {
     // Close spacing paragraph.
-    xmlTextWriterEndElement(writer);
   }
 }
 
@@ -2487,15 +2133,12 @@ void Usfm2Text::output_keep_on_page(ustring& line, Usfm2XslFoStyle * & fo_block_
 
   if (is_opener) {
     // Insert the block keepings things on one page.
-    xmlTextWriterStartElement(writer, BAD_CAST "fo:block");
     // We use keep-together.within-page="always", rather than
     // keep-together="always", as the latter one causes things to be 
     // kept together, in in a line, which causes the line to overflow
     // the right margin.
-    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "keep-together.within-page", "always");
   } else {
     // Close spacing paragraph.
-    xmlTextWriterEndElement(writer);
   }
 }
 
@@ -2515,7 +2158,6 @@ void Usfm2Text::output_font_family_size_line_height(ustring& line, Usfm2XslFoSty
 
   if (is_opener) {
     // Insert the block with the font and line height information.
-    xmlTextWriterStartElement(writer, BAD_CAST "fo:block");
     Parse parse(code, false);
     if (parse.words.size() >= 3) {
       ustring fontfamily;
@@ -2524,16 +2166,15 @@ void Usfm2Text::output_font_family_size_line_height(ustring& line, Usfm2XslFoSty
           fontfamily.append(" ");
         fontfamily.append(parse.words[i]);
       }
-      xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "font-family", fontfamily.c_str());
+      //xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "font-family", fontfamily.c_str());
       ustring fontsize = parse.words[parse.words.size () - 2];
-      xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "font-size", "%spt", fontsize.c_str());
+      //xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "font-size", "%spt", fontsize.c_str());
       ustring lineheight = parse.words[parse.words.size () - 1];
-      if (lineheight != "100")
-        xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "line-height", "%s%%", lineheight.c_str());
+      if (lineheight != "100");
+        //xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "line-height", "%s%%", lineheight.c_str());
     }
   } else {
     // Close spacing paragraph.
-    xmlTextWriterEndElement(writer);
   }
 }
 

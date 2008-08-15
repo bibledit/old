@@ -88,6 +88,8 @@ public:
   void add_text(const ustring& text);
   void open_note();
   void close_note();
+  void open_intrusion();
+  void close_intrusion();
 private:
   T2PInputParagraph * input_paragraph;
   T2PInputParagraph * stacked_input_paragraph;

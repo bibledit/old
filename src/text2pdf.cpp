@@ -245,7 +245,7 @@ void Text2Pdf::lay_out_paragraph()
   // Paragraph itself.
   unsigned int line_number = 0;
   while (!input_paragraph->text.empty() && line_number < 1000) {
-    get_next_layout_container();
+    get_next_layout_container(); // Todo
     layoutcontainer->layout_text(input_paragraph, line_number, input_paragraph->text);
     line_number++;
   }
@@ -267,7 +267,7 @@ void Text2Pdf::lay_out_paragraph()
   }
 }
 
-void Text2Pdf::get_next_layout_container()
+void Text2Pdf::get_next_layout_container() // Todo
 // Gets the next layout container to be used.
 {
   // Create a new block.
@@ -623,6 +623,33 @@ void Text2Pdf::close_note()
   }
 }
 
+void Text2Pdf::open_intrusion() // Todo
+// Open a new intrusion.
+{
+  // Ensure that a paragraph is open.
+  ensure_open_paragraph();
+  // Only open a new intrusion if there's nothing open already.
+  if (stacked_input_paragraph == NULL) {
+    stacked_input_paragraph = input_paragraph;
+    input_paragraph = new T2PInputParagraph (font, line_spacing, right_to_left);
+    // The intrusion is stored into the main paragraph.
+    stacked_input_paragraph->set_intrusion(input_paragraph);
+  }
+  // By default there's no first-line indent.
+  paragraph_set_first_line_indent(0);
+  // By default the instrusion is left aligned.
+  paragraph_set_alignment(t2patLeft);
+}
+
+void Text2Pdf::close_intrusion() // Todo
+// Closes an intrusion.
+{
+  if (stacked_input_paragraph) {
+    input_paragraph = stacked_input_paragraph;
+    stacked_input_paragraph = NULL;
+  }
+}
+
 void Text2Pdf::view()
 // View the pdf file.
 {
@@ -698,20 +725,22 @@ void Text2Pdf::test() {
 
  Todo text2pdf
 
- The letters in the headings are too big.
-  
- The first paragraph of the chapter does not have correct first-line indent.
- 
- To go through all of the Usfm2Text object and implement missing bits.
- 
- To implement running headers.
- 
  To implement drop-caps chapter numbers. 
- In the stylesheet the size of these is just given as the number of lines it should span, and bold, etc.
+ In the stylesheet this is just given as "print at first verse", and bold, etc.
  A block can have one or more PangoLayouts. In the case that
  a PangoLayout intrudes in a block, then PangoLayouts are filled up till the height of the block has been reached,
  e.g. if chapter "10" is in a float, then this needs to ensure that the lines are at least two
  in that block.
+ By default the height of the chapter number is two lines. The value can be given any time within the paragraph,
+ and each paragraph can have one drop-caps text. The text is another paragraph, by the way.
+ Or leave it as it is, the system, and just use the properties of the paragraph, as exists already, to write the
+ number.
+ 
+ To implement negative space following the paragraph by making the height of the block lower.
+ 
+ To go through all of the Usfm2Text object and implement missing bits.
+ 
+ To implement running headers.
  
  To implement USFM to TextInput converter. Many parts are still left unimplemented.
  
@@ -784,6 +813,9 @@ void Text2Pdf::test() {
  Top of verse number should be even with top of capital T. 
  Check some Bibles to compare to see if this is correct.  
  Unless you like this to help you find your way around. 
-   
+ 
+ The xrefs with references written in full still hangs, probably it hangs on the layout stage if something does
+ not fit on the page.
+ 
  */
 

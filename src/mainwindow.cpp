@@ -6981,6 +6981,7 @@ void MainWindow::on_print() {
     case 3: // Test text2pdf Todo
     {
       Text2Pdf text2pdf(gw_build_filename(directories_get_temp(), "pdf.pdf"));
+      /*
       text2pdf.open_paragraph();
       text2pdf.inline_set_font_size_percentage(80);
       text2pdf.add_text("10");
@@ -7016,8 +7017,6 @@ void MainWindow::on_print() {
       text2pdf.inline_set_superscript();
       text2pdf.add_text("1");
       text2pdf.inline_clear_superscript();
-      /*
-       */
       text2pdf.open_note();
       text2pdf.add_text("Note text one.");
       text2pdf.close_note();
@@ -7064,14 +7063,20 @@ void MainWindow::on_print() {
       text2pdf.paragraph_set_column_count(1);
       text2pdf.paragraph_set_space_before(20);
       text2pdf.add_text("I love you because we follow the truth, dear friend. I pray that everything goes well for you. I hope that you are as strong in your body, as I know you are in your spirit. It makes me very happy when the Lord's followers come by and speak openly of how you obey the truth. Nothing brings me greater happiness than that I hear that my children are walking in the truth.");
+       */
       text2pdf.open_paragraph();
       text2pdf.paragraph_set_space_before(10);
-      text2pdf.add_text("1 The one who gives life appeared! We saw it happen, and we are witnesses to what we have seen. Now we are telling you about this eternal life that was with the ");
+      text2pdf.paragraph_set_left_margin(0);
+      text2pdf.paragraph_set_first_line_indent(0);
+      text2pdf.open_intrusion();
+      text2pdf.add_text("150");
+      text2pdf.close_intrusion();
+      text2pdf.add_text("The one who gives life appeared! We saw it happen, and we are witnesses to what we have seen. Now we are telling you about this eternal life that was with the ");
       text2pdf.inline_set_superscript();
       text2pdf.add_text("Father");
       text2pdf.inline_clear_superscript();
-      text2pdf.inline_clear_font_size_percentage();
       text2pdf.add_text(" and appeared to us. 3 We are telling you what we have seen and heard, so that you may share in this life with us. And we share in it with the Father and with his Son Jesus Christ. 4 We are writing to tell you these things, because this makes us truly happy.");
+      /*
       text2pdf.open_paragraph();
       text2pdf.paragraph_set_bold(true);
       text2pdf.paragraph_set_alignment(t2patJustified);
@@ -7143,7 +7148,6 @@ void MainWindow::on_print() {
       text2pdf.paragraph_set_first_line_indent(5);
       text2pdf.paragraph_set_column_count(2);
       text2pdf.add_text("15 If you hate each other, you are murderers, and we know that murderers do not have eternal life. 16 We know what love is because Jesus gave his life for us. That's why we must give our lives for each other. 17 If we have all we need and see one of our own people in need, we must have pity on that person, or else we cannot say we love God. 18 Children, you show love for others by truly helping them, and not merely by talking about it.");
-      /*
        */
       text2pdf.run();
       text2pdf.view();

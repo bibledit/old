@@ -57,6 +57,7 @@ T2PInputParagraph::T2PInputParagraph(const ustring& font, unsigned int line_spac
   underline_values_completed = false;
   small_caps_values_completed = false;
   strike_through_values_completed = false;
+  intrusion = NULL;
 }
 
 T2PInputParagraph::~T2PInputParagraph()
@@ -317,3 +318,10 @@ vector <T2PInputParagraph *> T2PInputParagraph::get_notes(size_t text_length_bef
   }
   return notes;
 }
+
+void T2PInputParagraph::set_intrusion(T2PInputParagraph * intrusion_in) // Todo 
+// Sets the intrusion of this paragraph.
+{
+  intrusion = intrusion_in;
+}
+

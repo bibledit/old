@@ -76,6 +76,7 @@ public:
   bool inline_get_strike_through(unsigned int index, bool& in_range, bool& value, int& start_index, int& end_index);
   void add_note (T2PInputParagraph * note);
   vector <T2PInputParagraph *> get_notes (size_t text_length_before_fitting, size_t text_length_after_fitting);
+  void set_intrusion (T2PInputParagraph * intrusion_in);
 private:
   size_t maximum_text_length;
   vector <int> font_size_percentage_values;
@@ -111,6 +112,7 @@ private:
   bool strike_through_values_completed;
   vector <T2PInputParagraph *> note_pointers;
   vector <size_t> note_offsets;
+  T2PInputParagraph * intrusion;
 };
 
 #endif
