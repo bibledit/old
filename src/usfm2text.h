@@ -107,7 +107,7 @@ private:
 
   // Chapter and running header processing.
   void output_chapter_number_try_normal(ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length, unsigned int book);
-  unsigned int chapter_number_to_output_at_first_verse;
+  ustring chapter_number_to_output_at_first_verse;
   void output_chapter_number_try_at_first_verse(ustring line, Usfm2XslFoStyle * & fo_block_style);
   map <unsigned int, unsigned int> highest_chapter_number;
   map <unsigned int, ustring> book_header_left;

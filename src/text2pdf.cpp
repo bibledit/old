@@ -95,8 +95,8 @@ void Text2Pdf::initialize_variables()
 
   // Layout engine.
   page = NULL;
-  block = NULL;
   layoutcontainer = NULL;
+  laying_out_intrusion = false;
 
   // Progress.
   progresswindow = NULL;
@@ -188,9 +188,16 @@ void Text2Pdf::run_input(vector <T2PInput *>& input)
     {
       case t2pitParagraph:
       {
-        // Point to the new paragraph.
+        // Optionally lay out the paragraph's intrusion.
+        input_paragraph = ((T2PInputParagraph *) input[i])->get_intrusion();
+        if (input_paragraph) {
+          laying_out_intrusion = true;
+          lay_out_paragraph();
+          laying_out_intrusion = false;
+        }
+
+        // Lay the paragraph itself out.
         input_paragraph = (T2PInputParagraph *) input[i];
-        // Lay the paragraph out.
         lay_out_paragraph();
         break;
       }
@@ -212,7 +219,7 @@ void Text2Pdf::run_input(vector <T2PInput *>& input)
         rectangle.y = 0;
         rectangle.width = 0;
         rectangle.height = 0;
-        T2PBlock * block = new T2PBlock (rectangle, 1, column_spacing_pango_units);
+        T2PBlock * block = new T2PBlock (rectangle, 1);
         block->type = t2pbtSpaceAfterParagraph;
         text_input_blocks.push_back(block);
         break;
@@ -236,7 +243,8 @@ void Text2Pdf::lay_out_paragraph()
     rectangle.y = 0;
     rectangle.width = page_width_pango_units - inside_margin_pango_units - outside_margin_pango_units;
     rectangle.height = millimeters_to_pango_units(input_paragraph->space_before_mm);
-    T2PBlock * block = new T2PBlock (rectangle, one_column_only ? 1 : input_paragraph->column_count, column_spacing_pango_units);
+    int column_count = get_column_count_rectangle_width (input_paragraph->column_count, rectangle.width);
+    T2PBlock * block = new T2PBlock (rectangle, column_count);
     block->type = t2pbtSpaceBeforeParagraph;
     block->keep_with_next = true;
     text_input_blocks.push_back(block);
@@ -245,7 +253,7 @@ void Text2Pdf::lay_out_paragraph()
   // Paragraph itself.
   unsigned int line_number = 0;
   while (!input_paragraph->text.empty() && line_number < 1000) {
-    get_next_layout_container(); // Todo
+    get_next_layout_container();
     layoutcontainer->layout_text(input_paragraph, line_number, input_paragraph->text);
     line_number++;
   }
@@ -260,7 +268,8 @@ void Text2Pdf::lay_out_paragraph()
     rectangle.y = 0;
     rectangle.width = page_width_pango_units - inside_margin_pango_units - outside_margin_pango_units;
     rectangle.height = millimeters_to_pango_units(input_paragraph->space_after_mm);
-    T2PBlock * block = new T2PBlock (rectangle, one_column_only ? 1 : input_paragraph->column_count, column_spacing_pango_units);
+    int column_count = get_column_count_rectangle_width (input_paragraph->column_count, rectangle.width);
+    T2PBlock * block = new T2PBlock (rectangle, column_count);
     block->type = t2pbtSpaceAfterParagraph;
     block->keep_with_next = input_paragraph->keep_with_next;
     text_input_blocks.push_back(block);
@@ -270,17 +279,46 @@ void Text2Pdf::lay_out_paragraph()
 void Text2Pdf::get_next_layout_container() // Todo
 // Gets the next layout container to be used.
 {
-  // Create a new block.
-  // Only the width of the block is set, because the other sizes depend on factors not yet known at this stage.
+  // Rectangle for next block.
   PangoRectangle rectangle;
   rectangle.x = 0;
   rectangle.y = 0;
+  // Only the width of the block is set, because the other sizes depend on factors not yet known at this stage.
   rectangle.width = page_width_pango_units - inside_margin_pango_units - outside_margin_pango_units;
   rectangle.height = 0;
-  T2PBlock * block = new T2PBlock (rectangle, one_column_only ? 1 : input_paragraph->column_count, column_spacing_pango_units);
-  block->keep_with_next = input_paragraph->keep_with_next || keep_data_together;
+
+  // Column count. If there's more than one, the width gets smaller.
+  int column_count = get_column_count_rectangle_width (input_paragraph->column_count, rectangle.width);
+ 
+  // Create a new block.
+  T2PBlock * block = new T2PBlock (rectangle, column_count);
+  block->keep_with_next = input_paragraph->keep_with_next || keep_data_together || laying_out_intrusion;
+  if (laying_out_intrusion) {
+    block->type = t2pbtTextIntrusion;
+  }
+
+  // Handle a preceding intrusion.
+  if (!text_input_blocks.empty()) {
+    unsigned int preceding_block_to = text_input_blocks.size();
+    int preceding_block_from = preceding_block_to;
+    // Look 2 blocks back, because by default the intrusion, that's the drop-caps, is two lines high.
+    preceding_block_from -= 2;
+    if (preceding_block_from < 0)
+      preceding_block_from = 0;
+    for (unsigned int i = preceding_block_from; i < preceding_block_to; i++) {
+      if (text_input_blocks[i]->type == t2pbtTextIntrusion) {
+        // Modify size and position of the block.
+        block->rectangle.x += text_input_blocks[i]->rectangle.width;
+        block->rectangle.width -= text_input_blocks[i]->rectangle.width;
+        // Block stays with the next one.
+        block->keep_with_next = true;
+      }
+    }
+  }
+
   // Store the block.
   text_input_blocks.push_back(block);
+
   // Create a new layout container.
   layoutcontainer = block->next_layout_container(cairo);
 }
@@ -325,6 +363,16 @@ void Text2Pdf::find_potential_widows_and_orphans()
       }
     }
   }
+}
+
+int Text2Pdf::get_column_count_rectangle_width (int column_count_in, int& width)
+{
+  int column_count = one_column_only ? 1 : column_count_in; 
+  if (column_count > 1) {
+    width /= column_count;
+    width -= (column_count - 1) * column_spacing_pango_units;
+  }
+  return column_count;  
 }
 
 void Text2Pdf::next_page()
@@ -445,9 +493,10 @@ void Text2Pdf::paragraph_set_first_line_indent(int millimeters)
 }
 
 void Text2Pdf::paragraph_set_column_count(unsigned int count)
-// Sets the number of columns, only 1 or 2 are supported.
+// Sets the number of columns. Only 1 or 2 are supported.
 {
   ensure_open_paragraph();
+  count = CLAMP (count, 1, 2);
   input_paragraph->column_count = count;
 }
 
@@ -623,7 +672,7 @@ void Text2Pdf::close_note()
   }
 }
 
-void Text2Pdf::open_intrusion() // Todo
+void Text2Pdf::open_intrusion()
 // Open a new intrusion.
 {
   // Ensure that a paragraph is open.
@@ -641,7 +690,7 @@ void Text2Pdf::open_intrusion() // Todo
   paragraph_set_alignment(t2patLeft);
 }
 
-void Text2Pdf::close_intrusion() // Todo
+void Text2Pdf::close_intrusion()
 // Closes an intrusion.
 {
   if (stacked_input_paragraph) {
@@ -725,16 +774,12 @@ void Text2Pdf::test() {
 
  Todo text2pdf
 
- To implement drop-caps chapter numbers. 
- In the stylesheet this is just given as "print at first verse", and bold, etc.
- A block can have one or more PangoLayouts. In the case that
- a PangoLayout intrudes in a block, then PangoLayouts are filled up till the height of the block has been reached,
- e.g. if chapter "10" is in a float, then this needs to ensure that the lines are at least two
- in that block.
- By default the height of the chapter number is two lines. The value can be given any time within the paragraph,
- and each paragraph can have one drop-caps text. The text is another paragraph, by the way.
- Or leave it as it is, the system, and just use the properties of the paragraph, as exists already, to write the
- number.
+ Drop-caps.
+ Negative spaces before are not allowed, but are automatically implemented for the intrusion on its own.
+
+
+ If the c-style is inserted, it asks whether to insert a new chapter. If no is replied, it still modifies
+ the style of the current paragraph.
  
  To implement negative space following the paragraph by making the height of the block lower.
  

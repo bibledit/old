@@ -32,8 +32,8 @@
 #include "tiny_utilities.h"
 #include "shutdown.h"
 
-#define STYLESHEET_SUFFIX ".sql16"
-char *RECOGNIZED_SUFFIXES [] = { ".sql11", ".sql12", ".sql13", ".sql14", ".sql15", ".sql16" };
+#define STYLESHEET_SUFFIX ".sql17"
+char *RECOGNIZED_SUFFIXES [] = { ".sql11", ".sql12", ".sql13", ".sql14", ".sql15", ".sql16", ".sql17" };
 
 ustring stylesheet_filename(const ustring& name)
 // This returns the database's filename for a named stylesheet.
@@ -288,7 +288,7 @@ int stylesheet_style_get_pointer(const vector<Style>& styles, const ustring& mar
   return -1;
 }
 
-void stylesheets_upgrade()
+void stylesheets_upgrade() // Todo, and also to update the default stylesheet.
 // Upgrade older stylesheets to the currently used format.
 {
   // Upgrade from *.sql11 -> *.sql12: All font percentages are set to 100.
@@ -387,6 +387,27 @@ void stylesheets_upgrade()
     }
   }
 
+  // Upgrade from *.sql16 -> *.sql17: Style for \c changed.
+  {
+    ReadFiles rf (directories_get_stylesheets (), "", ".sql16");
+    for (unsigned int i = 0; i < rf.files.size(); i++) {
+      ustring filename = gw_build_filename (directories_get_stylesheets (), rf.files[i]);
+      gw_message ("Updating stylesheet " + filename);
+      sqlite3 *db;
+      char *error = NULL;
+      sqlite3_open(filename.c_str (), &db);
+      sqlite3_busy_timeout (db, 1000);
+      sqlite3_exec(db, "update styles set fontsize = 30 where marker = 'c';", NULL, NULL, &error);
+      sqlite3_exec(db, "update styles set spacebefore = 0 where marker = 'xt';", NULL, NULL, &error);
+      sqlite3_close (db);
+      ustring newfilename (filename);
+      newfilename.replace (newfilename.length() - 2, 2, "17");
+      unix_mv (filename, newfilename);
+    }
+  }
+
+  // Note: The stylesheet.sql template has been updated thus far. Everything below this still needs to be done.
+  
   // At the end of everything, check that we have at least one stylesheet.  
   {
     vector<ustring> stylesheets;

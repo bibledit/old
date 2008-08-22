@@ -134,9 +134,16 @@ void T2PLayoutContainer::layout_text(T2PInputParagraph * paragraph, unsigned int
     rectangle.height *= int ((double)(paragraph->line_spacing) / 100);
   }
 
-  // Have the parent fit the container in.
+  // Set the height to zero in case of an intrusion. Todo
+  if (parent) {
+    if (((T2PBlock *)parent)->type == t2pbtTextIntrusion) {
+      rectangle.height = 0;
+    }
+  }
+  
+  // Have the parent store the height of the container.
   if (parent)
-    ((T2PBlock *)parent)->refit_layout_container(this);
+    ((T2PBlock *)parent)->store_layout_container_height(this);
 
   // Have the parent store properties about the paragraph.
   if (parent)
@@ -155,6 +162,8 @@ void T2PLayoutContainer::layout_text(T2PInputParagraph * paragraph, unsigned int
   } else {
     // Go ahead and set the real size in the layout container.
     pango_layout_get_size(layout, &rectangle.width, NULL);
+    if (parent)
+      ((T2PBlock *)parent)->store_layout_container_width(this);
   }
 }
 

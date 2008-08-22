@@ -22,7 +22,7 @@
 #include "text2pdf_ref_area.h"
 #include "text2pdf_block.h"
 
-T2PBlock::T2PBlock(PangoRectangle rectangle_in, int column_count_in, int column_spacing_pango_units) :
+T2PBlock::T2PBlock(PangoRectangle rectangle_in, int column_count_in) :
   T2PArea(rectangle_in)
 // This is used as one block of text that must be kept together.
 {
@@ -32,13 +32,8 @@ T2PBlock::T2PBlock(PangoRectangle rectangle_in, int column_count_in, int column_
   // By default the block is not kept together with the next one.
   keep_with_next = false;
   
-  // Column handling.
-  // If there's more than one colum, the width of the block gets smaller.
-  column_count = CLAMP (column_count_in, 1, 2);
-  if (column_count > 1) {
-    rectangle.width /= column_count;
-    rectangle.width -= (column_count - 1) * column_spacing_pango_units;
-  }
+  // Column count.
+  column_count = column_count_in;
 }
 
 T2PBlock::~T2PBlock()
@@ -58,10 +53,16 @@ T2PLayoutContainer * T2PBlock::next_layout_container (cairo_t *cairo)
   return layoutcontainer;
 }
 
-void T2PBlock::refit_layout_container (T2PLayoutContainer * layoutcontainer)
-// Refits the layout container in the block.
+void T2PBlock::store_layout_container_height (T2PLayoutContainer * layoutcontainer)
+// Stores the layout container's height in the block.
 {
   rectangle.height = layoutcontainer->rectangle.height;
+}
+
+void T2PBlock::store_layout_container_width (T2PLayoutContainer * layoutcontainer)
+// Stores the layout container's width in the block.
+{
+  rectangle.width = layoutcontainer->rectangle.width;
 }
 
 void T2PBlock::print(cairo_t *cairo)
@@ -89,14 +90,31 @@ ustring T2PBlock::text()
 void T2PBlock::set_widow_orphan_data (int paragraph_line_number, bool last_line_of_paragraph)
 // Sets data to be used later for widow and orphan control.
 {
-  if (paragraph_line_number == 0) {
-    type = t2pbtTextParagraphFirstLine;
-  }
-  if (last_line_of_paragraph) {
-    type = t2pbtTextParagraphLastLine;
-  }
-  if ((paragraph_line_number == 0) && last_line_of_paragraph) {
-    type = t2pbtTextParagraphOnlyLine;
+  if (type != t2pbtTextIntrusion) {
+    // No text intrusion: Do Widow and orphan control.
+    if (paragraph_line_number == 0) {
+      type = t2pbtTextParagraphFirstLine;
+    }
+    if (last_line_of_paragraph) {
+      type = t2pbtTextParagraphLastLine;
+    }
+    if ((paragraph_line_number == 0) && last_line_of_paragraph) {
+      type = t2pbtTextParagraphOnlyLine;
+    }
   }
 }
 
+ustring T2PBlock::type2text()
+// For diagnostics.
+{
+  switch (type) {
+    case t2pbtTextGeneral: return "TextGeneral";
+    case t2pbtTextParagraphFirstLine: return "TextParagraphFirstLine";
+    case t2pbtTextParagraphLastLine: return "TextParagraphLastLine";
+    case t2pbtTextParagraphOnlyLine: return "TextParagraphOnlyLine";
+    case t2pbtTextIntrusion: return "TextIntrusion";
+    case t2pbtSpaceBeforeParagraph: return "SpaceBeforeParagraph";
+    case t2pbtSpaceAfterParagraph: return "SpaceAfterParagraph";
+  }
+  return "";
+}

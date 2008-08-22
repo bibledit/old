@@ -56,7 +56,7 @@ int T2PBigBlock::height(int reference_y)
 }
 
 
-void T2PBigBlock::set_blocks_x (int x)
+void T2PBigBlock::set_blocks_x (int x) // Todo
 // Writes the x value to each block.
 {
   for (unsigned int i = 0; i < blocks.size(); i++) {
@@ -64,7 +64,7 @@ void T2PBigBlock::set_blocks_x (int x)
   }
 }
 
-void T2PBigBlock::set_blocks_y (int reference_y)
+void T2PBigBlock::set_blocks_y (int reference_y) // Todo
 // Writes the y values to each block, starting at the reference y.
 {
   int y = reference_y;

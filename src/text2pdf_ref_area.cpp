@@ -84,11 +84,11 @@ void T2PReferenceArea::print()
   // Different positions and orders on even or odd pages.
   if ((page_number % 2)) {
     // Odd.
-    date_layout_container.rectangle.x += page_number_layout_container.rectangle.width + millimeters_to_pango_units (5);
+    date_layout_container.rectangle.x += page_number_layout_container.rectangle.width + millimeters_to_pango_units(5);
   } else {
     // Even.
     page_number_layout_container.rectangle.x += rectangle.width - page_number_layout_container.rectangle.width;
-    date_layout_container.rectangle.x += rectangle.width - date_layout_container.rectangle.width - millimeters_to_pango_units (5) - page_number_layout_container.rectangle.width;
+    date_layout_container.rectangle.x += rectangle.width - date_layout_container.rectangle.width - millimeters_to_pango_units(5) - page_number_layout_container.rectangle.width;
   }
   page_number_layout_container.print(cairo);
   date_layout_container.print(cairo);
@@ -97,35 +97,35 @@ void T2PReferenceArea::print()
 void T2PReferenceArea::fit_blocks(deque <T2PBlock *>& input_blocks, int column_spacing_pango_units_in)
 // Fits the blocks into the reference area.
 {
-// Store column spacing.
-column_spacing_pango_units = column_spacing_pango_units_in;
-// Deal with the blocks after grouping them by equal column count.
-deque <T2PBlock *> blocks_with_equal_column_count;
-int n_columns = 0;
-while (!input_blocks.empty()) {
-  if (input_blocks[0]->column_count != n_columns) {
-    fit_column(blocks_with_equal_column_count);
-    if (!blocks_with_equal_column_count.empty())
-    break;
-    n_columns = input_blocks[0]->column_count;
+  // Store column spacing.
+  column_spacing_pango_units = column_spacing_pango_units_in;
+  // Deal with the blocks after grouping them by equal column count.
+  deque <T2PBlock *> blocks_with_equal_column_count;
+  int n_columns = 0;
+  while (!input_blocks.empty()) {
+    if (input_blocks[0]->column_count != n_columns) {
+      fit_column(blocks_with_equal_column_count);
+      if (!blocks_with_equal_column_count.empty())
+        break;
+      n_columns = input_blocks[0]->column_count;
+    }
+    blocks_with_equal_column_count.push_back(input_blocks[0]);
+    input_blocks.erase(input_blocks.begin());
   }
-  blocks_with_equal_column_count.push_back(input_blocks[0]);
-  input_blocks.erase(input_blocks.begin());
-}
-fit_column(blocks_with_equal_column_count);
+  fit_column(blocks_with_equal_column_count);
 
-// Re-insert any unfitted remaining blocks with equal column count into the input blocks.
-for (int i = blocks_with_equal_column_count.size() - 1; i >= 0; i--) {
-  input_blocks.push_front(blocks_with_equal_column_count[i]);
-}
+  // Re-insert any unfitted remaining blocks with equal column count into the input blocks.
+  for (int i = blocks_with_equal_column_count.size() - 1; i >= 0; i--) {
+    input_blocks.push_front(blocks_with_equal_column_count[i]);
+  }
 
-// Look for any last blocks on the page that have their "keep_with_next" property set.
-// If these are there, that means these should be removed from here, and be put back into 
-// the input stream, so that they can be kept with paragraphs on the next page.
-while (!body_blocks.empty() && body_blocks[body_blocks.size()-1]->keep_with_next) {
-  input_blocks.push_front(body_blocks[body_blocks.size()-1]);
-  body_blocks.pop_back();
-}
+  // Look for any last blocks on the page that have their "keep_with_next" property set.
+  // If these are there, that means these should be removed from here, and be put back into 
+  // the input stream, so that they can be kept with paragraphs on the next page.
+  while (!body_blocks.empty() && body_blocks[body_blocks.size()-1]->keep_with_next) {
+    input_blocks.push_front(body_blocks[body_blocks.size()-1]);
+    body_blocks.pop_back();
+  }
 }
 
 void T2PReferenceArea::fit_column(deque <T2PBlock *>& input_blocks)
@@ -143,20 +143,19 @@ void T2PReferenceArea::fit_column(deque <T2PBlock *>& input_blocks)
   fit_columns(input_blocks, input_blocks[0]->column_count);
 }
 
-void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_count)
+void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_count) // Todo modify for intrusion.
 /*
  Fits the input blocks into one or two columns.
 
  Fitting one column is easy: Just stack the blocks till the area is full.
  
  Fitting two columns requires a little more effort.
- The system described here tries to be fast and simple.
- If there area any input blocks available for fitting in, then instead of considering the 
+ If there are any input blocks available for fitting in, then instead of considering the 
  blocks one by one, it may happen that several blocks are considered at once.
  This happens if the T2PBlock->keep_with_next property is set.
  It tries to fit the next group of blocks into the second column.
- Then it keeps shifting blocks from the second column to the first one till the 
- height of the first colum is bigger than the height of the second one. 
+ Then it keeps shifting blocks from the first to the second column, and vice-versa,
+ till the smallest height for both columns has been reached.
  
  Space after a paragraph at the end of the reference area should be dismissed, 
  but it is not implemented because that situation rarely happens.
@@ -248,7 +247,7 @@ void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_
   // Copy the blocks from the columns into the object.
   int first_column_y = start_stacking_y;
   for (unsigned int i = 0; i < first_column.size(); i++) {
-    first_column[i].set_blocks_x(0);
+    first_column[i].set_blocks_x(0); // Todo
     int column_height = first_column[i].height(first_column_y);
     first_column[i].set_blocks_y(first_column_y);
     first_column_y += column_height;
@@ -259,9 +258,9 @@ void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_
   int last_column_y = start_stacking_y;
   for (unsigned int i = 0; i < last_column.size(); i++) {
     if (last_column[i].column_count == 1) {
-      last_column[i].set_blocks_x(0);
+      last_column[i].set_blocks_x(0); // Todo
     } else {
-      last_column[i].set_blocks_x(rectangle.width - ((rectangle.width - column_spacing_pango_units) / 2));
+      last_column[i].set_blocks_x(rectangle.width - ((rectangle.width - column_spacing_pango_units) / 2)); // Todo
     }
     int column_height = last_column[i].height(last_column_y);
     last_column[i].set_blocks_y(last_column_y);
@@ -285,6 +284,7 @@ T2PBigBlock T2PReferenceArea::get_next_big_block_to_be_kept_together(deque <T2PB
   T2PBigBlock big_block(column_count);
   for (unsigned int i = 0; i < input_blocks.size(); i++) {
     big_block.blocks.push_back(input_blocks[i]);
+    cout << "block type " << input_blocks[i]->type2text() << ", width " << pango_units_to_millimeters (input_blocks[i]->rectangle.width) << ", height " << pango_units_to_millimeters (input_blocks[i]->rectangle.height) << ", text " << input_blocks[i]->text() << endl; // Todo 
     if (!input_blocks[i]->keep_with_next)
       break;
   }
@@ -292,7 +292,7 @@ T2PBigBlock T2PReferenceArea::get_next_big_block_to_be_kept_together(deque <T2PB
   return big_block;
 }
 
-int T2PReferenceArea::get_column_height(deque <T2PBigBlock>& column, int reference_y)
+int T2PReferenceArea::get_column_height(deque <T2PBigBlock>& column, int reference_y) // Todo modify for intrusion.
 // Gets the height of the column.
 {
   int height = 0;

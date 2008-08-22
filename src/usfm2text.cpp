@@ -47,7 +47,6 @@ Usfm2Text::Usfm2Text(Text2Pdf * text2pdf_in, bool show_progress) {
   chapter_number_in_running_header_at_right_pages = true;
   print_date = false;
   usfm_buffer_pointer = 0;
-  chapter_number_to_output_at_first_verse = 0;
   progresswindow = NULL;
   progress_event_id = 0;
   if (show_progress) {
@@ -896,7 +895,7 @@ void Usfm2Text::open_inline(Usfm2XslFoStyle * style, Usfm2XslFoStyle * block) {
   }
 }
 
-void Usfm2Text::output_chapter_number_try_normal(ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length, unsigned int book) // Todo
+void Usfm2Text::output_chapter_number_try_normal(ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length, unsigned int book)
 // This function tries to output the chapter number at the normal position.
 // Else it stores the data needed for outputting it later on at the first verse.
 {
@@ -907,6 +906,7 @@ void Usfm2Text::output_chapter_number_try_normal(ustring& line, Usfm2XslFoStyle 
   // Close possible inline and block styles.  
   close_possible_inline(fo_inline_style);
   text2pdf->close_paragraph();
+  fo_block_style = NULL;
 
   // Insert marker for chapter number in the running headers.
   //xmlTextWriterWriteFormatString(writer, "%i", chapter);
@@ -916,10 +916,10 @@ void Usfm2Text::output_chapter_number_try_normal(ustring& line, Usfm2XslFoStyle 
     return;
 
   // Whether to print the chapter number here, or at first verse.
-  chapter_number_to_output_at_first_verse = 0;
+  chapter_number_to_output_at_first_verse.clear();
   bool at_first_verse = stylepointer->print_chapter_number_at_first_verse;
   if (at_first_verse) {
-    chapter_number_to_output_at_first_verse = chapter;
+    chapter_number_to_output_at_first_verse = convert_to_string(chapter);
   }
 
   // Bail out if printing the chapter number later on, not here.
@@ -957,9 +957,9 @@ void Usfm2Text::output_chapter_number_try_normal(ustring& line, Usfm2XslFoStyle 
   fo_block_style = NULL;
 }
 
-void Usfm2Text::output_chapter_number_try_at_first_verse(ustring line, Usfm2XslFoStyle * & fo_block_style) {
+void Usfm2Text::output_chapter_number_try_at_first_verse(ustring line, Usfm2XslFoStyle * & fo_block_style) { // Todo
   // Bail out if there is no chapter to write.
-  if (chapter_number_to_output_at_first_verse == 0)
+  if (chapter_number_to_output_at_first_verse.empty())
     return;
 
   // This function is called at the marker of a normal paragraph. 
@@ -976,8 +976,9 @@ void Usfm2Text::output_chapter_number_try_at_first_verse(ustring line, Usfm2XslF
       if (stylepointer->type == u2xtVerseNumber) {
         // We're now at the point that the chapter number can be written.
 
-        // Open the float.
-
+        // Set the current paragraph to have no indent.
+        text2pdf->paragraph_set_first_line_indent(0);
+        
         // Search the chapter style.
         Usfm2XslFoStyle * chapter_style= NULL;
         for (unsigned int i = 0; i < styles.size(); i++) {
@@ -988,27 +989,28 @@ void Usfm2Text::output_chapter_number_try_at_first_verse(ustring line, Usfm2XslF
         // Assemble chapter number.
         // Normally this is the number as it is, 
         // but it can be modified if a published chapter marker is given.
-        ustring chapternumber = convert_to_string(chapter_number_to_output_at_first_verse);
+        ustring chapternumber = chapter_number_to_output_at_first_verse;
         for (unsigned int i = 0; i < published_chapter_markers.size(); i++) {
           if (book == published_chapter_markers[i].book) {
-            if (chapter_number_to_output_at_first_verse == published_chapter_markers[i].chapter) {
+            if (convert_to_int(chapter_number_to_output_at_first_verse) == published_chapter_markers[i].chapter) {
               chapternumber = published_chapter_markers[i].label;
             }
           }
         }
 
-        // Write the chapter block.
+        // Write the chapter number.
         if (chapter_style) {
-          open_paragraph(chapter_style, true);
-          //xmlTextWriterWriteFormatString(writer, "%s", chapternumber.c_str());
-          text2pdf->close_paragraph();
+          text2pdf->open_intrusion();
+          set_paragraph(chapter_style, true);
+          text2pdf->add_text(chapternumber);
+          text2pdf->close_intrusion();
         }
 
         // The next verse number won't be written.
         printversenumber = false;
 
         // Done: clear the chapter number.
-        chapter_number_to_output_at_first_verse = 0;
+        chapter_number_to_output_at_first_verse.clear();
       }
     }
   }

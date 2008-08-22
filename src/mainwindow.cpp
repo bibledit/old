@@ -7065,17 +7065,14 @@ void MainWindow::on_print() {
       text2pdf.add_text("I love you because we follow the truth, dear friend. I pray that everything goes well for you. I hope that you are as strong in your body, as I know you are in your spirit. It makes me very happy when the Lord's followers come by and speak openly of how you obey the truth. Nothing brings me greater happiness than that I hear that my children are walking in the truth.");
        */
       text2pdf.open_paragraph();
-      text2pdf.paragraph_set_space_before(10);
       text2pdf.paragraph_set_left_margin(0);
       text2pdf.paragraph_set_first_line_indent(0);
       text2pdf.open_intrusion();
-      text2pdf.add_text("150");
+      text2pdf.paragraph_set_space_before(-3);
+      text2pdf.paragraph_set_font_size(30);
+      text2pdf.add_text("5");
       text2pdf.close_intrusion();
-      text2pdf.add_text("The one who gives life appeared! We saw it happen, and we are witnesses to what we have seen. Now we are telling you about this eternal life that was with the ");
-      text2pdf.inline_set_superscript();
-      text2pdf.add_text("Father");
-      text2pdf.inline_clear_superscript();
-      text2pdf.add_text(" and appeared to us. 3 We are telling you what we have seen and heard, so that you may share in this life with us. And we share in it with the Father and with his Son Jesus Christ. 4 We are writing to tell you these things, because this makes us truly happy.");
+      text2pdf.add_text("The one who gives life appeared! We saw it happen, and we are witnesses to what we have seen. Now we are telling you about this eternal life that was with the Father and appeared to us. 3 We are telling you what we have seen and heard, so that you may share in this life with us. And we share in it with the Father and with his Son Jesus Christ. 4 We are writing to tell you these things, because this makes us truly happy. ");
       /*
       text2pdf.open_paragraph();
       text2pdf.paragraph_set_bold(true);

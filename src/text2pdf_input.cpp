@@ -63,9 +63,13 @@ T2PInputParagraph::T2PInputParagraph(const ustring& font, unsigned int line_spac
 T2PInputParagraph::~T2PInputParagraph()
 // Destructor.
 {
+  // Destroy any note pointers.
   for (unsigned int i = 0; i < note_pointers.size(); i++) {
     delete note_pointers[i];
   }
+  // Destroy possible intrusion.
+  if (intrusion)
+    delete intrusion;
 }
 
 void T2PInputParagraph::add_text(const string& text_in)
@@ -319,9 +323,14 @@ vector <T2PInputParagraph *> T2PInputParagraph::get_notes(size_t text_length_bef
   return notes;
 }
 
-void T2PInputParagraph::set_intrusion(T2PInputParagraph * intrusion_in) // Todo 
+void T2PInputParagraph::set_intrusion(T2PInputParagraph * intrusion_in)
 // Sets the intrusion of this paragraph.
 {
   intrusion = intrusion_in;
 }
 
+T2PInputParagraph * T2PInputParagraph::get_intrusion()
+// Gets the intrusion of this paragraph.
+{
+  return intrusion;
+}

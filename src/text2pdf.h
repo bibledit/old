@@ -132,14 +132,15 @@ private:
   void run_input(vector <T2PInput *>& input);
   T2PPage * page;
   vector <T2PPage *> pages;
-  T2PBlock * block;
   T2PLayoutContainer * layoutcontainer;
+  bool laying_out_intrusion;
   void lay_out_paragraph();
   void get_next_layout_container();
   void fit_blocks_on_pages();
   void next_page();
   void find_potential_widows_and_orphans();
   ProgressWindow * progresswindow;
+  int get_column_count_rectangle_width (int column_count_in, int& width);
 
   // Output.
 public:

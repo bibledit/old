@@ -26,22 +26,25 @@
 #include "text2pdf_layout.h"
 
 enum T2PBlockType { t2pbtTextGeneral, t2pbtTextParagraphFirstLine, t2pbtTextParagraphLastLine, t2pbtTextParagraphOnlyLine,
+                    t2pbtTextIntrusion,
                     t2pbtSpaceBeforeParagraph, t2pbtSpaceAfterParagraph };
 
 class T2PBlock : public T2PArea
 {
 public:
-  T2PBlock(PangoRectangle rectangle_in, int column_count_in, int column_spacing_pango_units);
+  T2PBlock(PangoRectangle rectangle_in, int column_count_in);
   virtual ~T2PBlock();
   vector <T2PLayoutContainer *> layoutcontainers;
   T2PLayoutContainer * next_layout_container (cairo_t *cairo);
-  void refit_layout_container (T2PLayoutContainer * layoutcontainer);
+  void store_layout_container_height (T2PLayoutContainer * layoutcontainer);
+  void store_layout_container_width (T2PLayoutContainer * layoutcontainer);
   void set_widow_orphan_data (int paragraph_line_number, bool last_line_of_paragraph);
   void print(cairo_t *cairo);
   ustring text();
   int column_count;
   T2PBlockType type;
   bool keep_with_next;
+  ustring type2text();
 private:
 };
 
