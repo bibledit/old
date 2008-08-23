@@ -2449,7 +2449,24 @@ void StylesheetDialog::print_chapter_at_first_verse_create() {
   gtk_widget_show(print_chapter_at_first_verse);
   gtk_box_pack_start(GTK_BOX (vbox6), print_chapter_at_first_verse, FALSE, FALSE, 0);
 
+  g_signal_connect ((gpointer) print_chapter_at_first_verse, "toggled", G_CALLBACK (on_radiobutton_print_chapter_at_first_verse_create_toggled), gpointer(this));
+
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (print_chapter_at_first_verse), userbool1);
+}
+
+void StylesheetDialog::on_radiobutton_print_chapter_at_first_verse_create_toggled(GtkToggleButton *togglebutton, gpointer user_data) {
+  ((StylesheetDialog *) user_data)->on_radiobutton_print_chapter_at_first_verse_create();
+}
+
+void StylesheetDialog::on_radiobutton_print_chapter_at_first_verse_create() {
+  bool sensitive = !gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON (print_chapter_at_first_verse));
+  gtk_widget_set_sensitive(hbox2, sensitive);
+  gtk_widget_set_sensitive(checkbutton_italic, sensitive);
+  gtk_widget_set_sensitive(checkbutton_bold, sensitive);
+  gtk_widget_set_sensitive(checkbutton_underline, sensitive);
+  gtk_widget_set_sensitive(checkbutton_small_caps, sensitive);
+  gtk_widget_set_sensitive(vbox4, sensitive); // Paragraph.
+  gtk_widget_set_sensitive(checkbutton_span, sensitive);
 }
 
 void StylesheetDialog::book_id_new_page_create() {
@@ -2578,9 +2595,7 @@ void StylesheetDialog::end_note_placement_create() {
   gtk_box_pack_start(GTK_BOX (hbox14), entry_print_endnotes_marker, FALSE, FALSE, 0);
   gtk_entry_set_width_chars(GTK_ENTRY (entry_print_endnotes_marker), 15);
 
-  g_signal_connect ((gpointer) radiobutton_print_endnotes_at_marker, "toggled",
-      G_CALLBACK (on_radiobutton_print_endnotes_at_marker_toggled),
-      gpointer(this));
+  g_signal_connect ((gpointer) radiobutton_print_endnotes_at_marker, "toggled", G_CALLBACK (on_radiobutton_print_endnotes_at_marker_toggled), gpointer(this));
 
   // Make the settings.
   EndnotePositionType endnote_position = (EndnotePositionType) userint2;

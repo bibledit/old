@@ -775,10 +775,6 @@ void Text2Pdf::test() {
  Todo text2pdf 
 
  Intrusion: implement a way of making the drop-caps chapter number look better.
- Ok, this is the way to go.
- 1. If the chapter number is printed as a simple paragraph, then go as we go now.
- 2. If the chapter number is drop-caps, then things's different.
- - In the stylesheet editor all extra stuff is disabled, and line-height may go out altogether.
  - The fontsize of the containing paragraph is noted, and a PangoLayout containing that font and a "1" is created,
    and measured for height. The height of the top of the first line with the "1", from the bottom to the second line with
    the "1" is measured, and that size is supposed to be the height of the letter in the drop-caps.

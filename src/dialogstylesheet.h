@@ -278,6 +278,8 @@ private:
   // Print chapternumber at first verse.
   GtkWidget *print_chapter_at_first_verse;
   void print_chapter_at_first_verse_create ();
+  static void on_radiobutton_print_chapter_at_first_verse_create_toggled (GtkToggleButton *togglebutton, gpointer user_data);
+  void on_radiobutton_print_chapter_at_first_verse_create ();
 
   // \id : Book starting new page.
   GtkWidget *hbox_id;
