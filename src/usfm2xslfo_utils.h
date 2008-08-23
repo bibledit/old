@@ -117,7 +117,6 @@ public:
   NoteNumberingRestartType note_numbering_restart_type;
   EndnotePositionType endnote_position_type;
   ustring dump_endnotes_upon_encountering_this_marker;
-  int line_height_percentage;
   int table_column_number;
   ustring wordlist_entry_addition;
   bool restart_paragraph;

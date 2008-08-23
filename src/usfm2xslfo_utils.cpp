@@ -52,7 +52,6 @@ Usfm2XslFoStyle::Usfm2XslFoStyle (const ustring& marker_in)
   note_numbering_type = nntNumerical;
   note_numbering_restart_type = nnrtPage;
   endnote_position_type = eptAfterEverything;
-  line_height_percentage = 100;
   table_column_number = 1;
   restart_paragraph = false;
 }
@@ -188,7 +187,6 @@ and puts all these styles in the right format.
         style.print_chapter_number_at_first_verse = usfm.styles[i].userbool1;
         style.print_in_left_running_header = usfm.styles[i].userbool2;
         style.print_in_right_running_header = usfm.styles[i].userbool3;
-        style.line_height_percentage = usfm.styles[i].userint1;
         break;
       }
       case stVerseNumber:

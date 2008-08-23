@@ -38,7 +38,6 @@
 
  userint1
  - Footnote / crossreference / endnote: NoteNumberingType
- - Chapter number: Line height (%)
  - Table Element, heading and cell: column number
 
  userint2
@@ -631,7 +630,6 @@ StylesheetDialog::StylesheetDialog(const ustring& stylesheet, const ustring& sty
   vbox10 = NULL;
   hbox10 = NULL;
   print_chapter_at_first_verse = NULL;
-  hbox_lineheight = NULL;
   hbox_id = NULL;
   hbox_colour = NULL;
   checkbutton_print = NULL;
@@ -784,7 +782,6 @@ void StylesheetDialog::on_style_type(GtkToggleButton *togglebutton) {
       paragraph_create("chapter", false);
       span_columns_create();
       print_chapter_at_first_verse_create();
-      line_height_percentage_create();
       print_in_running_header_create();
       break;
     }
@@ -1751,13 +1748,6 @@ void StylesheetDialog::destroy_optional_widgets()
     gtk_widget_destroy(print_chapter_at_first_verse);
     print_chapter_at_first_verse = NULL;
   }
-  // Line height in percentages. 
-  if (hbox_lineheight) {
-    gtk_spin_button_update(GTK_SPIN_BUTTON (spinbuttonlineheight));
-    userint1 = int (gtk_spin_button_get_value (GTK_SPIN_BUTTON (spinbuttonlineheight)));
-    gtk_widget_destroy(hbox_lineheight);
-    hbox_lineheight = NULL;
-  }
   // Whether and how to start a new book on a new page.
   if (hbox_id) {
     userbool1 = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON (checkbutton_id_newpage));
@@ -2460,32 +2450,6 @@ void StylesheetDialog::print_chapter_at_first_verse_create() {
   gtk_box_pack_start(GTK_BOX (vbox6), print_chapter_at_first_verse, FALSE, FALSE, 0);
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (print_chapter_at_first_verse), userbool1);
-}
-
-void StylesheetDialog::line_height_percentage_create() {
-  hbox_lineheight = gtk_hbox_new(FALSE, 0);
-  gtk_widget_show(hbox_lineheight);
-  gtk_box_pack_start(GTK_BOX (vbox6), hbox_lineheight, TRUE, TRUE, 0);
-
-  label_lineheight = gtk_label_new_with_mnemonic("Line _height");
-  gtk_widget_show(label_lineheight);
-  gtk_box_pack_start(GTK_BOX (hbox_lineheight), label_lineheight, FALSE, FALSE, 0);
-  gtk_misc_set_padding(GTK_MISC (label_lineheight), 4, 0);
-
-  spinbuttonlineheight_adj = gtk_adjustment_new(100, 20, 500, 1, 10, 10);
-  spinbuttonlineheight = gtk_spin_button_new(GTK_ADJUSTMENT (spinbuttonlineheight_adj), 1, 0);
-  gtk_widget_show(spinbuttonlineheight);
-  gtk_box_pack_start(GTK_BOX (hbox_lineheight), spinbuttonlineheight, FALSE, FALSE, 0);
-
-  label_lineheight_unit = gtk_label_new("percent");
-  gtk_widget_show(label_lineheight_unit);
-  gtk_box_pack_start(GTK_BOX (hbox_lineheight), label_lineheight_unit, FALSE, FALSE, 0);
-  gtk_misc_set_alignment(GTK_MISC (label_lineheight_unit), 0, 0.5);
-  gtk_misc_set_padding(GTK_MISC (label_lineheight_unit), 4, 0);
-
-  gtk_label_set_mnemonic_widget(GTK_LABEL (label_lineheight), spinbuttonlineheight);
-
-  gtk_spin_button_set_value(GTK_SPIN_BUTTON (spinbuttonlineheight), userint1);
 }
 
 void StylesheetDialog::book_id_new_page_create() {

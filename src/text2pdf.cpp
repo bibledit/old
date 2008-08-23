@@ -774,8 +774,6 @@ void Text2Pdf::test() {
 
  Todo text2pdf 
 
- Negative spaces before are not allowed in the stylesheet editor.
- 
  Intrusion: implement a way of making the drop-caps chapter number look better.
  Ok, this is the way to go.
  1. If the chapter number is printed as a simple paragraph, then go as we go now.
@@ -844,8 +842,6 @@ void Text2Pdf::test() {
  subsequent timse only load double the measured characters.
  
  The "end-indent" may no longer be needed anywhere.
- 
- Implement the style->line_height_percentage handling.
  
  Setting the Printing fonts can go out.
  

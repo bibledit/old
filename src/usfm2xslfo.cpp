@@ -1117,11 +1117,6 @@ void Usfm2XslFo::open_fo_block (Usfm2XslFoStyle * style, bool keep_with_next_par
   ustring s = convert_to_string (style->fontsize) + "pt";
   xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "font-size", "%gpt", style->fontsize);
   
-  // Lineheight
-  if (style->line_height_percentage != 100) {
-    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "line-height", "%i%%", style->line_height_percentage);
-  }
-
   // Italic
   if (style->italic == ON) {
     xmlTextWriterWriteAttribute(writer, BAD_CAST "font-style", BAD_CAST "italic");

@@ -279,14 +279,6 @@ private:
   GtkWidget *print_chapter_at_first_verse;
   void print_chapter_at_first_verse_create ();
 
-  // Line height in percentages.
-  GtkWidget *hbox_lineheight;
-  GtkWidget *label_lineheight;
-  GtkObject *spinbuttonlineheight_adj;
-  GtkWidget *spinbuttonlineheight;
-  GtkWidget *label_lineheight_unit;
-  void line_height_percentage_create ();
-
   // \id : Book starting new page.
   GtkWidget *hbox_id;
   GtkWidget *checkbutton_id_newpage;

@@ -767,10 +767,6 @@ void Usfm2Text::set_paragraph(Usfm2XslFoStyle * style, bool keep_with_next_parag
   // Fontsize
   text2pdf->paragraph_set_font_size((int)style->fontsize);
 
-  // Lineheight
-  if (style->line_height_percentage != 100) {
-  }
-
   // Italic
   if (style->italic == ON) {
     text2pdf->paragraph_set_italic(true);
