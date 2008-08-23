@@ -2242,14 +2242,14 @@ void StylesheetDialog::paragraph_create(gchar * label, bool grey_out_justify)
   (GtkAttachOptions) (0),
   (GtkAttachOptions) (0), 0, 0);
 
-  spinbutton_before_adj = gtk_adjustment_new(0, -10, 100, 0.1, 1, 1);
+  spinbutton_before_adj = gtk_adjustment_new(0, 0, 100, 0.1, 1, 1);
   spinbutton_before = gtk_spin_button_new(GTK_ADJUSTMENT (spinbutton_before_adj), 1, 1);
   gtk_widget_show(spinbutton_before);
   gtk_table_attach(GTK_TABLE (table1), spinbutton_before, 1, 2, 0, 1,
   (GtkAttachOptions) (0),
   (GtkAttachOptions) (0), 0, 0);
 
-  spinbutton_after_adj = gtk_adjustment_new(0, -10, 100, 0.1, 1, 1);
+  spinbutton_after_adj = gtk_adjustment_new(0, 0, 100, 0.1, 1, 1);
   spinbutton_after = gtk_spin_button_new(GTK_ADJUSTMENT (spinbutton_after_adj), 1, 1);
   gtk_widget_show(spinbutton_after);
   gtk_table_attach(GTK_TABLE (table1), spinbutton_after, 1, 2, 1, 2,

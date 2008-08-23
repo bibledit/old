@@ -957,7 +957,7 @@ void Usfm2Text::output_chapter_number_try_normal(ustring& line, Usfm2XslFoStyle 
   fo_block_style = NULL;
 }
 
-void Usfm2Text::output_chapter_number_try_at_first_verse(ustring line, Usfm2XslFoStyle * & fo_block_style) { // Todo
+void Usfm2Text::output_chapter_number_try_at_first_verse(ustring line, Usfm2XslFoStyle * & fo_block_style) {
   // Bail out if there is no chapter to write.
   if (chapter_number_to_output_at_first_verse.empty())
     return;

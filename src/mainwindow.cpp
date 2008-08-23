@@ -6914,9 +6914,9 @@ void MainWindow::on_print() {
     labels.push_back("Project");
     labels.push_back("Parallel Bible");
     labels.push_back("References");
+    labels.push_back("Project (old) - through Java/XEP");
     labels.push_back("Test usfm2pdf");
     labels.push_back("Test Cairo / Pango");
-    labels.push_back("Project - testing");
     extern Settings * settings;
     RadiobuttonDialog dialog("Print", "Select what to print", labels, settings->genconfig.print_job_get());
     if (dialog.run() != GTK_RESPONSE_OK)
@@ -6938,7 +6938,7 @@ void MainWindow::on_print() {
       }
       extern Settings * settings;
       ProjectMemory projectmemory(settings->genconfig.project_get(), true);
-      PrintProject printproject(&projectmemory);
+      PrintProject2 printproject(&projectmemory);
       printproject.print();
       break;
     }
@@ -6978,7 +6978,20 @@ void MainWindow::on_print() {
       }
       break;
     }
-    case 3: // Test text2pdf Todo
+    case 3: // Project (Java/XEP)
+    {
+      {
+        PrintProjectDialog dialog(0);
+        if (dialog.run() != GTK_RESPONSE_OK)
+          return;
+      }
+      extern Settings * settings;
+      ProjectMemory projectmemory(settings->genconfig.project_get(), true);
+      PrintProject printproject(&projectmemory);
+      printproject.print();
+      break;
+    }
+    case 4: // Test
     {
       Text2Pdf text2pdf(gw_build_filename(directories_get_temp(), "pdf.pdf"));
       /*
@@ -7150,24 +7163,11 @@ void MainWindow::on_print() {
       text2pdf.view();
       break;
     }
-    case 4:
+    case 5: // Test.
     {
       Text2Pdf text2pdf(gw_build_filename(directories_get_temp(), "pdf.pdf"));
       text2pdf.test();
       text2pdf.view();
-      break;
-    }
-    case 5: // Project.
-    {
-      {
-        PrintProjectDialog dialog(0);
-        if (dialog.run() != GTK_RESPONSE_OK)
-          return;
-      }
-      extern Settings * settings;
-      ProjectMemory projectmemory(settings->genconfig.project_get(), true);
-      PrintProject2 printproject(&projectmemory);
-      printproject.print();
       break;
     }
   }

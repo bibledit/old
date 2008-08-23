@@ -134,7 +134,7 @@ void T2PLayoutContainer::layout_text(T2PInputParagraph * paragraph, unsigned int
     rectangle.height *= int ((double)(paragraph->line_spacing) / 100);
   }
 
-  // Set the height to zero in case of an intrusion. Todo
+  // Set the height to zero in case of an intrusion.
   if (parent) {
     if (((T2PBlock *)parent)->type == t2pbtTextIntrusion) {
       rectangle.height = 0;

@@ -288,7 +288,7 @@ int stylesheet_style_get_pointer(const vector<Style>& styles, const ustring& mar
   return -1;
 }
 
-void stylesheets_upgrade() // Todo, and also to update the default stylesheet.
+void stylesheets_upgrade()
 // Upgrade older stylesheets to the currently used format.
 {
   // Upgrade from *.sql11 -> *.sql12: All font percentages are set to 100.

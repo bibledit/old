@@ -143,7 +143,7 @@ void T2PReferenceArea::fit_column(deque <T2PBlock *>& input_blocks)
   fit_columns(input_blocks, input_blocks[0]->column_count);
 }
 
-void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_count) // Todo modify for intrusion.
+void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_count) 
 /*
  Fits the input blocks into one or two columns.
 
@@ -247,7 +247,7 @@ void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_
   // Copy the blocks from the columns into the object.
   int first_column_y = start_stacking_y;
   for (unsigned int i = 0; i < first_column.size(); i++) {
-    first_column[i].set_blocks_x(0); // Todo
+    first_column[i].set_blocks_x(0);
     int column_height = first_column[i].height(first_column_y);
     first_column[i].set_blocks_y(first_column_y);
     first_column_y += column_height;
@@ -258,9 +258,9 @@ void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_
   int last_column_y = start_stacking_y;
   for (unsigned int i = 0; i < last_column.size(); i++) {
     if (last_column[i].column_count == 1) {
-      last_column[i].set_blocks_x(0); // Todo
+      last_column[i].set_blocks_x(0);
     } else {
-      last_column[i].set_blocks_x(rectangle.width - ((rectangle.width - column_spacing_pango_units) / 2)); // Todo
+      last_column[i].set_blocks_x(rectangle.width - ((rectangle.width - column_spacing_pango_units) / 2));
     }
     int column_height = last_column[i].height(last_column_y);
     last_column[i].set_blocks_y(last_column_y);
@@ -284,7 +284,6 @@ T2PBigBlock T2PReferenceArea::get_next_big_block_to_be_kept_together(deque <T2PB
   T2PBigBlock big_block(column_count);
   for (unsigned int i = 0; i < input_blocks.size(); i++) {
     big_block.blocks.push_back(input_blocks[i]);
-    cout << "block type " << input_blocks[i]->type2text() << ", width " << pango_units_to_millimeters (input_blocks[i]->rectangle.width) << ", height " << pango_units_to_millimeters (input_blocks[i]->rectangle.height) << ", text " << input_blocks[i]->text() << endl; // Todo 
     if (!input_blocks[i]->keep_with_next)
       break;
   }
@@ -292,7 +291,7 @@ T2PBigBlock T2PReferenceArea::get_next_big_block_to_be_kept_together(deque <T2PB
   return big_block;
 }
 
-int T2PReferenceArea::get_column_height(deque <T2PBigBlock>& column, int reference_y) // Todo modify for intrusion.
+int T2PReferenceArea::get_column_height(deque <T2PBigBlock>& column, int reference_y)
 // Gets the height of the column.
 {
   int height = 0;
