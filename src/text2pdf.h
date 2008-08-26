@@ -55,7 +55,7 @@ public:
   void close_keep_together();
   void open_paragraph();
   void ensure_open_paragraph();
-  void paragraph_set_font_size(unsigned int points);
+  void paragraph_set_font_size(double points);
   void paragraph_set_italic(bool italic);
   void paragraph_set_bold(bool bold);
   void paragraph_set_underline(bool underline);
@@ -133,9 +133,8 @@ private:
   T2PPage * page;
   vector <T2PPage *> pages;
   T2PLayoutContainer * layoutcontainer;
-  bool laying_out_intrusion;
   void lay_out_paragraph();
-  void get_next_layout_container();
+  void get_next_layout_container(bool intrusion);
   void fit_blocks_on_pages();
   void next_page();
   void find_potential_widows_and_orphans();

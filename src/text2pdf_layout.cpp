@@ -134,13 +134,6 @@ void T2PLayoutContainer::layout_text(T2PInputParagraph * paragraph, unsigned int
     rectangle.height *= int ((double)(paragraph->line_spacing) / 100);
   }
 
-  // Set the height to zero in case of an intrusion.
-  if (parent) {
-    if (((T2PBlock *)parent)->type == t2pbtTextIntrusion) {
-      rectangle.height = 0;
-    }
-  }
-  
   // Have the parent store the height of the container.
   if (parent)
     ((T2PBlock *)parent)->store_layout_container_height(this);
@@ -158,7 +151,7 @@ void T2PLayoutContainer::layout_text(T2PInputParagraph * paragraph, unsigned int
   // the size won't be set. In this case it is made to appear as if no space if left for anything.
   // As a result the next layout container won't be placed after this note, but rather on a new line, below it.
   if (has_note && !text.empty()) {
-    // Don't modify the size because we're in a note, and there' still text left for the next layout.    
+    // Don't modify the size because we're in a note, and there's still text left for the next layout.    
   } else {
     // Go ahead and set the real size in the layout container.
     pango_layout_get_size(layout, &rectangle.width, NULL);
@@ -540,4 +533,92 @@ void T2PLayoutContainer::undo_layout_text()
   if (input_paragraph) {
     input_paragraph->text.insert(0, input_text);
   }
+}
+
+void T2PLayoutContainer::layout_drop_caps(T2PInputParagraph * paragraph, double context_font_size)
+// Lays out a text in drop-caps format.
+{
+  // Store paragraph.
+  input_paragraph = paragraph;
+  input_paragraph->font_size_points = context_font_size;
+
+  // Set font-size and y-offset for the drop-caps text.
+  // The drop-caps text will have a visual height of two lines of the paragraph.
+  {
+    // Set font.
+    PangoFontDescription *desc;
+    desc = pango_font_description_from_string(input_paragraph->font_name.c_str());
+    pango_font_description_set_absolute_size(desc, input_paragraph->font_size_points * PANGO_SCALE);
+    pango_layout_set_font_description(layout, desc);
+    pango_layout_set_text(layout, "1", -1);
+
+    // Measure a couple of sizes.
+    PangoRectangle ink_rect;
+    PangoRectangle logical_rect;
+    pango_layout_get_extents(layout, &ink_rect, &logical_rect);
+
+    // The ink of the drop-caps text should start at a certain y below the baseline.
+    int ink_y_top = ink_rect.y;
+
+    // The ink of the drop-caps text should end at a certain y below the baseline.
+    int ink_y_bottom = logical_rect.height + ink_rect.y + ink_rect.height;
+
+    // The height of the drop-caps text.
+    int required_ink_height = ink_y_bottom - ink_y_top;
+
+    // Set the font size to be used to satisfy the above conditions.
+    int real_ink_height = ink_rect.height;
+    float change = float (required_ink_height) / float (real_ink_height);
+    input_paragraph->font_size_points *= change;
+    pango_font_description_set_absolute_size(desc, input_paragraph->font_size_points * PANGO_SCALE);
+    pango_layout_set_font_description(layout, desc);
+    
+    // Free font description.
+    pango_font_description_free(desc);
+
+    // Set the y-offset to be used.
+    pango_layout_get_extents(layout, &ink_rect, NULL);
+    int new_ink_y_top = ink_rect.y;
+    rectangle.y = ink_y_top - new_ink_y_top; 
+    
+    // Clear layout
+    pango_layout_set_text(layout, "", -1);
+  }
+
+  // Attributes.
+  PangoAttrList *attrs = pango_attr_list_new();
+
+  set_font(attrs);
+  if (paragraph) {
+    set_italic(attrs);
+    set_bold(attrs);
+    set_underline(attrs);
+  }
+
+  pango_layout_set_wrap(layout, PANGO_WRAP_WORD);
+
+  // If the text starts with a space, shifting of the attributes has been noticed.
+  string text = paragraph->text;
+  pango_layout_set_text(layout, text.c_str(), -1);
+
+  // Attributes.
+  pango_layout_set_attributes(layout, attrs);
+  pango_attr_list_unref(attrs);
+
+  // Line spacing.
+  if (paragraph && (paragraph->line_spacing != 100)) {
+    rectangle.height *= int ((double)(paragraph->line_spacing) / 100);
+  }
+
+  // Intrusion: Set the height to zero.
+  rectangle.height = 0;
+
+  // Have the parent store the height of the container.
+  if (parent)
+    ((T2PBlock *)parent)->store_layout_container_height(this);
+
+  // Set the real width in the layout container.
+  pango_layout_get_size(layout, &rectangle.width, NULL);
+  if (parent)
+    ((T2PBlock *)parent)->store_layout_container_width(this);
 }

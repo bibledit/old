@@ -765,7 +765,7 @@ void Usfm2Text::open_paragraph(Usfm2XslFoStyle * style, bool keep_with_next_para
 
 void Usfm2Text::set_paragraph(Usfm2XslFoStyle * style, bool keep_with_next_paragraph) {
   // Fontsize
-  text2pdf->paragraph_set_font_size((int)style->fontsize);
+  text2pdf->paragraph_set_font_size(style->fontsize);
 
   // Italic
   if (style->italic == ON) {

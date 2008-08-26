@@ -2461,9 +2461,6 @@ void StylesheetDialog::on_radiobutton_print_chapter_at_first_verse_create_toggle
 void StylesheetDialog::on_radiobutton_print_chapter_at_first_verse_create() {
   bool sensitive = !gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON (print_chapter_at_first_verse));
   gtk_widget_set_sensitive(hbox2, sensitive);
-  gtk_widget_set_sensitive(checkbutton_italic, sensitive);
-  gtk_widget_set_sensitive(checkbutton_bold, sensitive);
-  gtk_widget_set_sensitive(checkbutton_underline, sensitive);
   gtk_widget_set_sensitive(checkbutton_small_caps, sensitive);
   gtk_widget_set_sensitive(vbox4, sensitive); // Paragraph.
   gtk_widget_set_sensitive(checkbutton_span, sensitive);

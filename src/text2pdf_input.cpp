@@ -108,7 +108,7 @@ bool T2PInputParagraph::inline_get_font_size(unsigned int index, bool& in_range,
   if (end_index == -1)
     end_index = maximum_text_length;
   end_index -= base_offset;
-  size = font_size_points * PANGO_SCALE * font_size_percentage_values[index] / 100;
+  size = int(font_size_points * PANGO_SCALE * font_size_percentage_values[index] / 100);
   if (start_index < 0) {
     start_index = 0;
   }

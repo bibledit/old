@@ -36,6 +36,7 @@ public:
   ustring text();
   vector <T2PInputParagraph *> note_paragraphs;
   void set_has_note();
+  void layout_drop_caps(T2PInputParagraph * paragraph, double context_font_size);
 private:
   T2PArea * parent;
   PangoLayout * layout;

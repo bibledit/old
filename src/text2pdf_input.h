@@ -41,7 +41,7 @@ public:
   T2PInputParagraph(const ustring& font, unsigned int line_spacing_in, bool right_to_left_in);
   virtual ~T2PInputParagraph();
   ustring font_name;
-  unsigned int font_size_points;
+  float font_size_points;
   unsigned int line_spacing;
   bool right_to_left;
   bool italic;

@@ -96,7 +96,6 @@ void Text2Pdf::initialize_variables()
   // Layout engine.
   page = NULL;
   layoutcontainer = NULL;
-  laying_out_intrusion = false;
 
   // Progress.
   progresswindow = NULL;
@@ -188,15 +187,6 @@ void Text2Pdf::run_input(vector <T2PInput *>& input)
     {
       case t2pitParagraph:
       {
-        // Optionally lay out the paragraph's intrusion.
-        input_paragraph = ((T2PInputParagraph *) input[i])->get_intrusion();
-        if (input_paragraph) {
-          laying_out_intrusion = true;
-          lay_out_paragraph();
-          laying_out_intrusion = false;
-        }
-
-        // Lay the paragraph itself out.
         input_paragraph = (T2PInputParagraph *) input[i];
         lay_out_paragraph();
         break;
@@ -236,6 +226,13 @@ void Text2Pdf::lay_out_paragraph()
     return;
   }
 
+  // Optionally lay out the paragraph's intrusion.
+  T2PInputParagraph * intrusion = input_paragraph->get_intrusion();
+  if (intrusion) {
+    get_next_layout_container(true);
+    layoutcontainer->layout_drop_caps(intrusion, input_paragraph->font_size_points);
+  }
+
   // Space before paragraph.
   if (input_paragraph->space_before_mm != 0) {
     PangoRectangle rectangle;
@@ -243,7 +240,7 @@ void Text2Pdf::lay_out_paragraph()
     rectangle.y = 0;
     rectangle.width = page_width_pango_units - inside_margin_pango_units - outside_margin_pango_units;
     rectangle.height = millimeters_to_pango_units(input_paragraph->space_before_mm);
-    int column_count = get_column_count_rectangle_width (input_paragraph->column_count, rectangle.width);
+    int column_count = get_column_count_rectangle_width(input_paragraph->column_count, rectangle.width);
     T2PBlock * block = new T2PBlock (rectangle, column_count);
     block->type = t2pbtSpaceBeforeParagraph;
     block->keep_with_next = true;
@@ -253,7 +250,7 @@ void Text2Pdf::lay_out_paragraph()
   // Paragraph itself.
   unsigned int line_number = 0;
   while (!input_paragraph->text.empty() && line_number < 1000) {
-    get_next_layout_container();
+    get_next_layout_container(false);
     layoutcontainer->layout_text(input_paragraph, line_number, input_paragraph->text);
     line_number++;
   }
@@ -268,7 +265,7 @@ void Text2Pdf::lay_out_paragraph()
     rectangle.y = 0;
     rectangle.width = page_width_pango_units - inside_margin_pango_units - outside_margin_pango_units;
     rectangle.height = millimeters_to_pango_units(input_paragraph->space_after_mm);
-    int column_count = get_column_count_rectangle_width (input_paragraph->column_count, rectangle.width);
+    int column_count = get_column_count_rectangle_width(input_paragraph->column_count, rectangle.width);
     T2PBlock * block = new T2PBlock (rectangle, column_count);
     block->type = t2pbtSpaceAfterParagraph;
     block->keep_with_next = input_paragraph->keep_with_next;
@@ -276,7 +273,7 @@ void Text2Pdf::lay_out_paragraph()
   }
 }
 
-void Text2Pdf::get_next_layout_container()
+void Text2Pdf::get_next_layout_container(bool intrusion)
 // Gets the next layout container to be used.
 {
   // Rectangle for next block.
@@ -288,12 +285,12 @@ void Text2Pdf::get_next_layout_container()
   rectangle.height = 0;
 
   // Column count. If there's more than one, the width gets smaller.
-  int column_count = get_column_count_rectangle_width (input_paragraph->column_count, rectangle.width);
- 
+  int column_count = get_column_count_rectangle_width(input_paragraph->column_count, rectangle.width);
+
   // Create a new block.
   T2PBlock * block = new T2PBlock (rectangle, column_count);
-  block->keep_with_next = input_paragraph->keep_with_next || keep_data_together || laying_out_intrusion;
-  if (laying_out_intrusion) {
+  block->keep_with_next = input_paragraph->keep_with_next || keep_data_together || intrusion;
+  if (intrusion) {
     block->type = t2pbtTextIntrusion;
   }
 
@@ -365,14 +362,13 @@ void Text2Pdf::find_potential_widows_and_orphans()
   }
 }
 
-int Text2Pdf::get_column_count_rectangle_width (int column_count_in, int& width)
-{
-  int column_count = one_column_only ? 1 : column_count_in; 
+int Text2Pdf::get_column_count_rectangle_width(int column_count_in, int& width) {
+  int column_count = one_column_only ? 1 : column_count_in;
   if (column_count > 1) {
     width /= column_count;
     width -= (column_count - 1) * column_spacing_pango_units;
   }
-  return column_count;  
+  return column_count;
 }
 
 void Text2Pdf::next_page()
@@ -415,7 +411,7 @@ void Text2Pdf::ensure_open_paragraph()
     open_paragraph();
 }
 
-void Text2Pdf::paragraph_set_font_size(unsigned int points)
+void Text2Pdf::paragraph_set_font_size(double points) 
 // Sets the font size to be used in the paragraph, in points.
 {
   ensure_open_paragraph();
@@ -658,7 +654,7 @@ void Text2Pdf::open_note()
   // By default there's no first-line indent.
   paragraph_set_first_line_indent(0);
   // By default a smaller font is used for the note.
-  paragraph_set_font_size((int)(0.8 * stacked_input_paragraph->font_size_points));
+  paragraph_set_font_size((0.8 * stacked_input_paragraph->font_size_points));
   // By default the note is left aligned.
   paragraph_set_alignment(t2patLeft);
 }
@@ -774,17 +770,10 @@ void Text2Pdf::test() {
 
  Todo text2pdf 
 
- Intrusion: implement a way of making the drop-caps chapter number look better.
- - The fontsize of the containing paragraph is noted, and a PangoLayout containing that font and a "1" is created,
-   and measured for height. The height of the top of the first line with the "1", from the bottom to the second line with
-   the "1" is measured, and that size is supposed to be the height of the letter in the drop-caps.
- - Then a special PangoLayout is created for the drop-caps, where iterations are made so that the 
-   chapter number gets the desired height. Then it is shifted up till the top of the chapter number, if
-   it contains a "1" is equal to the top of the first line with the "1". Then the offsets are written
-   to the Container that has the PangoLayout, with the result that everything fits nicely.
-
  If the c-style is inserted, it asks whether to insert a new chapter. If no is replied, it still modifies
  the style of the current paragraph.
+ 
+ If the notes are written in full, the formatter hangs. To fix that.
  
  To implement negative space following the paragraph by making the height of the block lower.
  
