@@ -24,7 +24,6 @@
 #include "constants.h"
 #include "odtutils.h"
 #include "date_time_utils.h"
-#include "fonts.h"
 #include "gwrappers.h"
 #include "settings.h"
 #include "color.h"

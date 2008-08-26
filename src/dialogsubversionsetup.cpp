@@ -22,7 +22,6 @@
 #include <glib.h>
 #include "dialogsubversionsetup.h"
 #include "utilities.h"
-#include "java.h"
 #include "gtkwrappers.h"
 #include "gwrappers.h"
 #include "unixwrappers.h"

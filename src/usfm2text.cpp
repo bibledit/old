@@ -28,7 +28,6 @@
 #include "books.h"
 #include "color.h"
 #include "directories.h"
-#include "xep.h"
 #include "gtkwrappers.h"
 #include "pdfviewer.h"
 #include "settings.h"
@@ -617,7 +616,7 @@ void Usfm2Text::process() {
   rewrite_note_callers();
 
   // Calculate the length of elastics.
-  XepElastics xep_elastics(""/*xepfile()*/);
+  //XepElastics xep_elastics(""/*xepfile()*/);
 
   // Delete the note caller objects.
   destroy_note_callers();

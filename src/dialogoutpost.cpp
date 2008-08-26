@@ -22,7 +22,6 @@
 #include <glib.h>
 #include "dialogoutpost.h"
 #include "utilities.h"
-#include "java.h"
 #include "gtkwrappers.h"
 #include "gwrappers.h"
 #include "uname.h"

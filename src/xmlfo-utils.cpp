@@ -24,7 +24,6 @@
 #include "constants.h"
 #include "xmlfo-utils.h"
 #include "date_time_utils.h"
-#include "fonts.h"
 #include "gwrappers.h"
 #include "settings.h"
 #include "color.h"
@@ -51,16 +50,9 @@ fonts in the list.
   // Config and font data.
   extern Settings * settings;
   ProjectConfiguration * projectconfig = settings->projectconfig (settings->genconfig.project_get());
-  PrintingFonts printingfonts (settings->genconfig.project_get());
   // Depending on the amount of fonts used, get the font and the font selection.
   ustring font;
   ustring font_selection_strategy;
-  if (printingfonts.printing_families.size() > 1) {
-    font = printingfonts.printing_families_comma_separated ();
-    font_selection_strategy = " font-selection-strategy=\"character-by-character\"";
-  } else {
-    font = printingfonts.printing_families[0]; 
-  }
   int lineheight = projectconfig->text_line_height_get();
   // Assemble the lines to put in the xslfo file.
   mylines = lines;

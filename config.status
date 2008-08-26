@@ -628,8 +628,6 @@ s,@FIND_GIT@,|#_!!_#|/usr/bin/git,g
 s,@FIND_GPP@,|#_!!_#|/usr/bin/g++,g
 s,@FIND_DIFF@,|#_!!_#|/usr/bin/diff,g
 s,@FIND_PATCH@,|#_!!_#|/usr/bin/patch,g
-s,@FONTCONFIG_CFLAGS@,|#_!!_#| ,g
-s,@FONTCONFIG_LIBS@,|#_!!_#|-lfontconfig  ,g
 s,@GLIB_CFLAGS@,|#_!!_#|-I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  ,g
 s,@GLIB_LIBS@,|#_!!_#|-lglib-2.0  ,g
 s,@GTHREAD_CFLAGS@,|#_!!_#|-pthread -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  ,g

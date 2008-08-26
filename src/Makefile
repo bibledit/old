@@ -77,10 +77,9 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	xmlutils.$(OBJEXT) dialogprintproject.$(OBJEXT) \
 	stylesheetutils.$(OBJEXT) dialogstylesheet.$(OBJEXT) \
 	style.$(OBJEXT) dialogentry3.$(OBJEXT) printproject.$(OBJEXT) \
-	xmlfo-utils.$(OBJEXT) dialogformatter.$(OBJEXT) java.$(OBJEXT) \
-	search_utils.$(OBJEXT) dialogexportnotes.$(OBJEXT) \
-	xep.$(OBJEXT) dialogshownotes.$(OBJEXT) dialogdate.$(OBJEXT) \
-	gwrappers.$(OBJEXT) gtkwrappers.$(OBJEXT) \
+	xmlfo-utils.$(OBJEXT) search_utils.$(OBJEXT) \
+	dialogexportnotes.$(OBJEXT) dialogshownotes.$(OBJEXT) \
+	dialogdate.$(OBJEXT) gwrappers.$(OBJEXT) gtkwrappers.$(OBJEXT) \
 	usfm-inline-markers.$(OBJEXT) completion.$(OBJEXT) \
 	combobox.$(OBJEXT) keyboard.$(OBJEXT) listview.$(OBJEXT) \
 	scripturechecks.$(OBJEXT) versification.$(OBJEXT) \
@@ -88,20 +87,19 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogeditlist.$(OBJEXT) shell.$(OBJEXT) \
 	export_translation_notes.$(OBJEXT) sqlite_reader.$(OBJEXT) \
 	dialogarea.$(OBJEXT) unixwrappers.$(OBJEXT) \
-	highlight.$(OBJEXT) fonts.$(OBJEXT) dialogfont.$(OBJEXT) \
-	dialogopenstylesheet.$(OBJEXT) note_editor.$(OBJEXT) \
-	notecaller.$(OBJEXT) xslfofootnoteparagraph.$(OBJEXT) \
-	dialoginsertnote.$(OBJEXT) notetemplate.$(OBJEXT) \
-	dialogsword.$(OBJEXT) dialogparallelbible.$(OBJEXT) \
-	print_parallel_bible.$(OBJEXT) mapping.$(OBJEXT) \
-	swordnote.$(OBJEXT) languages.$(OBJEXT) osis.$(OBJEXT) \
-	dialogselectchapters.$(OBJEXT) portion_utils.$(OBJEXT) \
-	scriptureportions.$(OBJEXT) editor.$(OBJEXT) uname.$(OBJEXT) \
-	dialogscreenlayout.$(OBJEXT) layout.$(OBJEXT) user.$(OBJEXT) \
-	import.$(OBJEXT) clean.$(OBJEXT) categorize.$(OBJEXT) \
-	progresswindow.$(OBJEXT) books.$(OBJEXT) dialogbook.$(OBJEXT) \
-	generalconfig.$(OBJEXT) screen.$(OBJEXT) \
-	projectconfig.$(OBJEXT) gui.$(OBJEXT) \
+	highlight.$(OBJEXT) dialogopenstylesheet.$(OBJEXT) \
+	note_editor.$(OBJEXT) notecaller.$(OBJEXT) \
+	xslfofootnoteparagraph.$(OBJEXT) dialoginsertnote.$(OBJEXT) \
+	notetemplate.$(OBJEXT) dialogsword.$(OBJEXT) \
+	dialogparallelbible.$(OBJEXT) print_parallel_bible.$(OBJEXT) \
+	mapping.$(OBJEXT) swordnote.$(OBJEXT) languages.$(OBJEXT) \
+	osis.$(OBJEXT) dialogselectchapters.$(OBJEXT) \
+	portion_utils.$(OBJEXT) scriptureportions.$(OBJEXT) \
+	editor.$(OBJEXT) uname.$(OBJEXT) dialogscreenlayout.$(OBJEXT) \
+	layout.$(OBJEXT) user.$(OBJEXT) import.$(OBJEXT) \
+	clean.$(OBJEXT) categorize.$(OBJEXT) progresswindow.$(OBJEXT) \
+	books.$(OBJEXT) dialogbook.$(OBJEXT) generalconfig.$(OBJEXT) \
+	screen.$(OBJEXT) projectconfig.$(OBJEXT) gui.$(OBJEXT) \
 	check_validate_usfm.$(OBJEXT) checks.$(OBJEXT) \
 	dialoglinecutter.$(OBJEXT) check_count_words.$(OBJEXT) \
 	dialogoutpost.$(OBJEXT) dialognotestransfer.$(OBJEXT) \
@@ -236,8 +234,6 @@ FIND_PATCH = /usr/bin/patch
 FIND_PATH = /usr/bin/find
 FIND_PING = /bin/ping
 FIND_XARGS = /usr/bin/xargs
-FONTCONFIG_CFLAGS =  
-FONTCONFIG_LIBS = -lfontconfig  
 GLIB_CFLAGS = -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
 GLIB_LIBS = -lglib-2.0  
 GOBJECT_CFLAGS = -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
@@ -265,9 +261,9 @@ LIBCURL = -L/usr/lib -lcurl -L/usr/lib -lgssapi_krb5 -lkrb5 -lk5crypto -lkrb5sup
 LIBCURL_CPPFLAGS = 
 LIBOBJS = 
 LIBS = -Wall `xml2-config --libs` $(GOBJECT_LIBS) $(GTHREAD_LIBS) \
-	$(GLIB_LIBS) $(GTK_LIBS) $(FONTCONFIG_LIBS) $(SQLITE_LIBS) \
-	$(ENCHANT_LIBS) $(GTKHTML38_LIBS) $(GTKHTML314_LIBS) \
-	$(LIBCURL) $(am__append_1)
+	$(GLIB_LIBS) $(GTK_LIBS) $(SQLITE_LIBS) $(ENCHANT_LIBS) \
+	$(GTKHTML38_LIBS) $(GTKHTML314_LIBS) $(LIBCURL) \
+	$(am__append_1)
 LINUX_FALSE = #
 LINUX_TRUE = 
 LTLIBOBJS = 
@@ -417,11 +413,8 @@ bibledit_bin_SOURCES = \
         dialogentry3.cpp \
         printproject.cpp \
         xmlfo-utils.cpp \
-        dialogformatter.cpp \
-        java.cpp \
         search_utils.cpp \
         dialogexportnotes.cpp \
-        xep.cpp \
         dialogshownotes.cpp \
         dialogdate.cpp \
         gwrappers.cpp \
@@ -442,8 +435,6 @@ bibledit_bin_SOURCES = \
         dialogarea.cpp \
         unixwrappers.cpp \
         highlight.cpp \
-        fonts.cpp \
-        dialogfont.cpp \
         dialogopenstylesheet.cpp \
         note_editor.cpp \
         notecaller.cpp \
@@ -624,8 +615,8 @@ bibledit_bin_SOURCES = \
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
 	$(GTHREAD_CFLAGS) $(GLIB_CFLAGS) $(GTK_CFLAGS) \
-	$(FONTCONFIG_CFLAGS) $(SQLITE_CFLAGS) $(ENCHANT_CFLAGS) \
-	$(GTKHTML38_CFLAGS) $(GTKHTML314_CFLAGS) $(LIBCURL_CPPFLAGS)
+	$(SQLITE_CFLAGS) $(ENCHANT_CFLAGS) $(GTKHTML38_CFLAGS) \
+	$(GTKHTML314_CFLAGS) $(LIBCURL_CPPFLAGS)
 CLEANFILES = *~
 all: all-am
 
@@ -760,9 +751,7 @@ include ./$(DEPDIR)/dialogfeatures.Po
 include ./$(DEPDIR)/dialogfilters.Po
 include ./$(DEPDIR)/dialogfindnote.Po
 include ./$(DEPDIR)/dialogfixmarkers.Po
-include ./$(DEPDIR)/dialogfont.Po
 include ./$(DEPDIR)/dialogfontcolor.Po
-include ./$(DEPDIR)/dialogformatter.Po
 include ./$(DEPDIR)/dialoggotoreference.Po
 include ./$(DEPDIR)/dialogimportnotes.Po
 include ./$(DEPDIR)/dialogimportrawtext.Po
@@ -828,7 +817,6 @@ include ./$(DEPDIR)/exception.Po
 include ./$(DEPDIR)/export_translation_notes.Po
 include ./$(DEPDIR)/export_utils.Po
 include ./$(DEPDIR)/fixmarkers.Po
-include ./$(DEPDIR)/fonts.Po
 include ./$(DEPDIR)/generalconfig.Po
 include ./$(DEPDIR)/git-exec.Po
 include ./$(DEPDIR)/git.Po
@@ -851,7 +839,6 @@ include ./$(DEPDIR)/httpd.Po
 include ./$(DEPDIR)/hyphenate.Po
 include ./$(DEPDIR)/import.Po
 include ./$(DEPDIR)/ipc.Po
-include ./$(DEPDIR)/java.Po
 include ./$(DEPDIR)/keyboard.Po
 include ./$(DEPDIR)/keyterms.Po
 include ./$(DEPDIR)/keytermsgui.Po
@@ -951,7 +938,6 @@ include ./$(DEPDIR)/versification.Po
 include ./$(DEPDIR)/versifications.Po
 include ./$(DEPDIR)/windowsoutpost.Po
 include ./$(DEPDIR)/wordlist.Po
-include ./$(DEPDIR)/xep.Po
 include ./$(DEPDIR)/xmlfo-utils.Po
 include ./$(DEPDIR)/xmlutils.Po
 include ./$(DEPDIR)/xslfofootnoteparagraph.Po

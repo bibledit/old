@@ -30,7 +30,6 @@
 #include "books.h"
 #include "xmlutils.h"
 #include "usfmtools.h"
-#include "fonts.h"
 #include "unixwrappers.h"
 #include "resource_utils.h"
 #include "color.h"
@@ -72,9 +71,6 @@ OpenDocument::OpenDocument(const ustring& project, const ustring& filename, bool
   // Retrieve and process template: page layout, font.
   workingdirectory = gw_build_filename(directories_get_temp(), "opendocument");
   unpack_template();
-  PrintingFonts printingfonts(project);
-  if (!printingfonts.printing_families.empty())
-    fontname = printingfonts.printing_families[0];
   odt_set_font(workingdirectory, fontname);
 
   // Get the available books. If no selection given, take all books available.

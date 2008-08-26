@@ -29,7 +29,6 @@
 #include "books.h"
 #include "color.h"
 #include "directories.h"
-#include "xep.h"
 #include "gtkwrappers.h"
 #include "pdfviewer.h"
 #include "settings.h"
@@ -639,33 +638,6 @@ void Usfm2XslFo::convert_from_usfm_to_xslfo ()
 
 void Usfm2XslFo::process ()
 {
-  // Preprocess the usfm code.
-  preprocess ();
-  
-  // Create the note caller objects.
-  create_note_callers ();
-  
-  // Convert from usfm to xslfo.
-  convert_from_usfm_to_xslfo ();
-
-  // Hide our own progressbar.
-  if (progresswindow) progresswindow->hide ();
-  if (cancel) return;
-
-  // Convert from xslfo to xep intermediate format.
-  if (!xep_convert_from_fo_to_xep (xslfofile (), xepfile ())) return;
-
-  // Modify that intermediate file to restart note numbering each page.
-  rewrite_note_callers ();
-
-  // Calculate the length of elastics.
-  XepElastics xep_elastics (xepfile ());
-
-  // Convert from xep intermediate format to pdf output.  
-  xep_convert_from_xep_to_pdf (xepfile (), pdffile);
-  
-  // Delete the note caller objects.
-  destroy_note_callers ();
 }
 
 
@@ -2017,26 +1989,6 @@ void Usfm2XslFo::display (GtkWidget * window)
 // Display the pdf file.
 // Give information about problems.
 {
-  if (!xep_present ()) {
-    ustring message;
-    message = "XEP was not found.\n";
-    message.append ("XEP is the formatter.\n");
-    message.append ("It is required for printing.\n");
-    message.append ("Install it first.\n");
-    message.append ("For more information see menu Preferences->Formatter.");
-    gtkw_dialog_info (window, message);
-    return;
-  }
-    
-  if (!g_file_test (pdffile.c_str(), G_FILE_TEST_IS_REGULAR)) {
-    string message = "While formatting the text problems were encountered.\n"
-                     "See menu Help - System log for more details.\n"
-                     "See the helpfile for a possible solution.";
-    gtkw_dialog_error (window, message);
-    return;    
-  }
-    
-  pdfviewer_view (pdffile);
 }
 
 

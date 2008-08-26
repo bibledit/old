@@ -734,8 +734,6 @@ FIND_GIT
 FIND_GPP
 FIND_DIFF
 FIND_PATCH
-FONTCONFIG_CFLAGS
-FONTCONFIG_LIBS
 GLIB_CFLAGS
 GLIB_LIBS
 GTHREAD_CFLAGS
@@ -784,8 +782,6 @@ CCC
 PKG_CONFIG
 GTK_CFLAGS
 GTK_LIBS
-FONTCONFIG_CFLAGS
-FONTCONFIG_LIBS
 GLIB_CFLAGS
 GLIB_LIBS
 GTHREAD_CFLAGS
@@ -1407,10 +1403,6 @@ Some influential environment variables:
   PKG_CONFIG  path to pkg-config utility
   GTK_CFLAGS  C compiler flags for GTK, overriding pkg-config
   GTK_LIBS    linker flags for GTK, overriding pkg-config
-  FONTCONFIG_CFLAGS
-              C compiler flags for FONTCONFIG, overriding pkg-config
-  FONTCONFIG_LIBS
-              linker flags for FONTCONFIG, overriding pkg-config
   GLIB_CFLAGS C compiler flags for GLIB, overriding pkg-config
   GLIB_LIBS   linker flags for GLIB, overriding pkg-config
   GTHREAD_CFLAGS
@@ -7613,84 +7605,6 @@ echo "$as_me: error: Program \"patch\" is needed. Install this first." >&2;}
 fi
 
 # Checks for libraries.
-
-
-pkg_failed=no
-{ echo "$as_me:$LINENO: checking for FONTCONFIG" >&5
-echo $ECHO_N "checking for FONTCONFIG... $ECHO_C" >&6; }
-
-if test -n "$PKG_CONFIG"; then
-    if test -n "$FONTCONFIG_CFLAGS"; then
-        pkg_cv_FONTCONFIG_CFLAGS="$FONTCONFIG_CFLAGS"
-    else
-        if test -n "$PKG_CONFIG" && \
-    { (echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"fontconfig >= 1.0.1\"") >&5
-  ($PKG_CONFIG --exists --print-errors "fontconfig >= 1.0.1") 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; then
-  pkg_cv_FONTCONFIG_CFLAGS=`$PKG_CONFIG --cflags "fontconfig >= 1.0.1" 2>/dev/null`
-else
-  pkg_failed=yes
-fi
-    fi
-else
-	pkg_failed=untried
-fi
-if test -n "$PKG_CONFIG"; then
-    if test -n "$FONTCONFIG_LIBS"; then
-        pkg_cv_FONTCONFIG_LIBS="$FONTCONFIG_LIBS"
-    else
-        if test -n "$PKG_CONFIG" && \
-    { (echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"fontconfig >= 1.0.1\"") >&5
-  ($PKG_CONFIG --exists --print-errors "fontconfig >= 1.0.1") 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; then
-  pkg_cv_FONTCONFIG_LIBS=`$PKG_CONFIG --libs "fontconfig >= 1.0.1" 2>/dev/null`
-else
-  pkg_failed=yes
-fi
-    fi
-else
-	pkg_failed=untried
-fi
-
-
-
-if test $pkg_failed = yes; then
-
-if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
-        _pkg_short_errors_supported=yes
-else
-        _pkg_short_errors_supported=no
-fi
-        if test $_pkg_short_errors_supported = yes; then
-	        FONTCONFIG_PKG_ERRORS=`$PKG_CONFIG --short-errors --errors-to-stdout --print-errors "fontconfig >= 1.0.1"`
-        else
-	        FONTCONFIG_PKG_ERRORS=`$PKG_CONFIG --errors-to-stdout --print-errors "fontconfig >= 1.0.1"`
-        fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$FONTCONFIG_PKG_ERRORS" >&5
-
-	{ echo "$as_me:$LINENO: result: no" >&5
-echo "${ECHO_T}no" >&6; }
-                { { echo "$as_me:$LINENO: error: fontconfig development version >= 1.0.1 is needed." >&5
-echo "$as_me: error: fontconfig development version >= 1.0.1 is needed." >&2;}
-   { (exit 1); exit 1; }; }
-elif test $pkg_failed = untried; then
-	{ { echo "$as_me:$LINENO: error: fontconfig development version >= 1.0.1 is needed." >&5
-echo "$as_me: error: fontconfig development version >= 1.0.1 is needed." >&2;}
-   { (exit 1); exit 1; }; }
-else
-	FONTCONFIG_CFLAGS=$pkg_cv_FONTCONFIG_CFLAGS
-	FONTCONFIG_LIBS=$pkg_cv_FONTCONFIG_LIBS
-        { echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6; }
-	:
-fi
-
-
 
 
 pkg_failed=no
@@ -14760,8 +14674,6 @@ FIND_GIT!$FIND_GIT$ac_delim
 FIND_GPP!$FIND_GPP$ac_delim
 FIND_DIFF!$FIND_DIFF$ac_delim
 FIND_PATCH!$FIND_PATCH$ac_delim
-FONTCONFIG_CFLAGS!$FONTCONFIG_CFLAGS$ac_delim
-FONTCONFIG_LIBS!$FONTCONFIG_LIBS$ac_delim
 GLIB_CFLAGS!$GLIB_CFLAGS$ac_delim
 GLIB_LIBS!$GLIB_LIBS$ac_delim
 GTHREAD_CFLAGS!$GTHREAD_CFLAGS$ac_delim
@@ -14800,7 +14712,7 @@ WIN32_FALSE!$WIN32_FALSE$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 60; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 58; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5

@@ -176,8 +176,6 @@ protected:
    GtkWidget *view_notes_font;
    GtkWidget *image20236;
    */
-  GtkWidget *printer_font;
-  GtkWidget *image20237;
   GtkWidget *viewnotes;
   GtkWidget *image2627;
   GtkWidget *screen_layout;
@@ -332,8 +330,6 @@ protected:
   GtkWidget *image2116;
   GtkWidget *printingprefs;
   GtkWidget *image3493;
-  GtkWidget *formatting_objects_processor;
-  GtkWidget *image3718;
   GtkWidget *reference_exchange1;
   GtkWidget *image5972;
   GtkWidget *ignored_references1;
@@ -529,8 +525,6 @@ protected:
   void on_compare_with();
   static void on_printingprefs_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_printing_preferences();
-  static void on_formatting_objects_processor_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_formatter();
   static void on_screen_layout_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_screen_layout();
   static void on_prefs_books_activate(GtkMenuItem *menuitem, gpointer user_data);
@@ -874,8 +868,6 @@ protected:
   static void on_view_notes_font_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_notes_font();
   void set_fonts();
-  static void on_printer_font_activate(GtkMenuItem * menuitem, gpointer user_data);
-  void on_printer_font();
 
   /* Outline */
   Outline * outline;

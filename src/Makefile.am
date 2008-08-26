@@ -64,11 +64,8 @@ bibledit_bin_SOURCES = \
         dialogentry3.cpp \
         printproject.cpp \
         xmlfo-utils.cpp \
-        dialogformatter.cpp \
-        java.cpp \
         search_utils.cpp \
         dialogexportnotes.cpp \
-        xep.cpp \
         dialogshownotes.cpp \
         dialogdate.cpp \
         gwrappers.cpp \
@@ -89,8 +86,6 @@ bibledit_bin_SOURCES = \
         dialogarea.cpp \
         unixwrappers.cpp \
         highlight.cpp \
-        fonts.cpp \
-        dialogfont.cpp \
         dialogopenstylesheet.cpp \
         note_editor.cpp \
         notecaller.cpp \
@@ -276,7 +271,6 @@ AM_CXXFLAGS += $(GOBJECT_CFLAGS)
 AM_CXXFLAGS += $(GTHREAD_CFLAGS)
 AM_CXXFLAGS += $(GLIB_CFLAGS)
 AM_CXXFLAGS += $(GTK_CFLAGS)
-AM_CXXFLAGS += $(FONTCONFIG_CFLAGS)
 AM_CXXFLAGS += $(SQLITE_CFLAGS)
 AM_CXXFLAGS += $(ENCHANT_CFLAGS)
 AM_CXXFLAGS += $(GTKHTML38_CFLAGS)
@@ -289,7 +283,6 @@ LIBS += $(GOBJECT_LIBS)
 LIBS += $(GTHREAD_LIBS)
 LIBS += $(GLIB_LIBS)
 LIBS += $(GTK_LIBS)
-LIBS += $(FONTCONFIG_LIBS)
 LIBS += $(SQLITE_LIBS)
 LIBS += $(ENCHANT_LIBS)
 LIBS += $(GTKHTML38_LIBS)

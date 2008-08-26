@@ -77,10 +77,9 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	xmlutils.$(OBJEXT) dialogprintproject.$(OBJEXT) \
 	stylesheetutils.$(OBJEXT) dialogstylesheet.$(OBJEXT) \
 	style.$(OBJEXT) dialogentry3.$(OBJEXT) printproject.$(OBJEXT) \
-	xmlfo-utils.$(OBJEXT) dialogformatter.$(OBJEXT) java.$(OBJEXT) \
-	search_utils.$(OBJEXT) dialogexportnotes.$(OBJEXT) \
-	xep.$(OBJEXT) dialogshownotes.$(OBJEXT) dialogdate.$(OBJEXT) \
-	gwrappers.$(OBJEXT) gtkwrappers.$(OBJEXT) \
+	xmlfo-utils.$(OBJEXT) search_utils.$(OBJEXT) \
+	dialogexportnotes.$(OBJEXT) dialogshownotes.$(OBJEXT) \
+	dialogdate.$(OBJEXT) gwrappers.$(OBJEXT) gtkwrappers.$(OBJEXT) \
 	usfm-inline-markers.$(OBJEXT) completion.$(OBJEXT) \
 	combobox.$(OBJEXT) keyboard.$(OBJEXT) listview.$(OBJEXT) \
 	scripturechecks.$(OBJEXT) versification.$(OBJEXT) \
@@ -88,20 +87,19 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogeditlist.$(OBJEXT) shell.$(OBJEXT) \
 	export_translation_notes.$(OBJEXT) sqlite_reader.$(OBJEXT) \
 	dialogarea.$(OBJEXT) unixwrappers.$(OBJEXT) \
-	highlight.$(OBJEXT) fonts.$(OBJEXT) dialogfont.$(OBJEXT) \
-	dialogopenstylesheet.$(OBJEXT) note_editor.$(OBJEXT) \
-	notecaller.$(OBJEXT) xslfofootnoteparagraph.$(OBJEXT) \
-	dialoginsertnote.$(OBJEXT) notetemplate.$(OBJEXT) \
-	dialogsword.$(OBJEXT) dialogparallelbible.$(OBJEXT) \
-	print_parallel_bible.$(OBJEXT) mapping.$(OBJEXT) \
-	swordnote.$(OBJEXT) languages.$(OBJEXT) osis.$(OBJEXT) \
-	dialogselectchapters.$(OBJEXT) portion_utils.$(OBJEXT) \
-	scriptureportions.$(OBJEXT) editor.$(OBJEXT) uname.$(OBJEXT) \
-	dialogscreenlayout.$(OBJEXT) layout.$(OBJEXT) user.$(OBJEXT) \
-	import.$(OBJEXT) clean.$(OBJEXT) categorize.$(OBJEXT) \
-	progresswindow.$(OBJEXT) books.$(OBJEXT) dialogbook.$(OBJEXT) \
-	generalconfig.$(OBJEXT) screen.$(OBJEXT) \
-	projectconfig.$(OBJEXT) gui.$(OBJEXT) \
+	highlight.$(OBJEXT) dialogopenstylesheet.$(OBJEXT) \
+	note_editor.$(OBJEXT) notecaller.$(OBJEXT) \
+	xslfofootnoteparagraph.$(OBJEXT) dialoginsertnote.$(OBJEXT) \
+	notetemplate.$(OBJEXT) dialogsword.$(OBJEXT) \
+	dialogparallelbible.$(OBJEXT) print_parallel_bible.$(OBJEXT) \
+	mapping.$(OBJEXT) swordnote.$(OBJEXT) languages.$(OBJEXT) \
+	osis.$(OBJEXT) dialogselectchapters.$(OBJEXT) \
+	portion_utils.$(OBJEXT) scriptureportions.$(OBJEXT) \
+	editor.$(OBJEXT) uname.$(OBJEXT) dialogscreenlayout.$(OBJEXT) \
+	layout.$(OBJEXT) user.$(OBJEXT) import.$(OBJEXT) \
+	clean.$(OBJEXT) categorize.$(OBJEXT) progresswindow.$(OBJEXT) \
+	books.$(OBJEXT) dialogbook.$(OBJEXT) generalconfig.$(OBJEXT) \
+	screen.$(OBJEXT) projectconfig.$(OBJEXT) gui.$(OBJEXT) \
 	check_validate_usfm.$(OBJEXT) checks.$(OBJEXT) \
 	dialoglinecutter.$(OBJEXT) check_count_words.$(OBJEXT) \
 	dialogoutpost.$(OBJEXT) dialognotestransfer.$(OBJEXT) \
@@ -236,8 +234,6 @@ FIND_PATCH = @FIND_PATCH@
 FIND_PATH = @FIND_PATH@
 FIND_PING = @FIND_PING@
 FIND_XARGS = @FIND_XARGS@
-FONTCONFIG_CFLAGS = @FONTCONFIG_CFLAGS@
-FONTCONFIG_LIBS = @FONTCONFIG_LIBS@
 GLIB_CFLAGS = @GLIB_CFLAGS@
 GLIB_LIBS = @GLIB_LIBS@
 GOBJECT_CFLAGS = @GOBJECT_CFLAGS@
@@ -265,9 +261,9 @@ LIBCURL = @LIBCURL@
 LIBCURL_CPPFLAGS = @LIBCURL_CPPFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = -Wall `xml2-config --libs` $(GOBJECT_LIBS) $(GTHREAD_LIBS) \
-	$(GLIB_LIBS) $(GTK_LIBS) $(FONTCONFIG_LIBS) $(SQLITE_LIBS) \
-	$(ENCHANT_LIBS) $(GTKHTML38_LIBS) $(GTKHTML314_LIBS) \
-	$(LIBCURL) $(am__append_1)
+	$(GLIB_LIBS) $(GTK_LIBS) $(SQLITE_LIBS) $(ENCHANT_LIBS) \
+	$(GTKHTML38_LIBS) $(GTKHTML314_LIBS) $(LIBCURL) \
+	$(am__append_1)
 LINUX_FALSE = @LINUX_FALSE@
 LINUX_TRUE = @LINUX_TRUE@
 LTLIBOBJS = @LTLIBOBJS@
@@ -417,11 +413,8 @@ bibledit_bin_SOURCES = \
         dialogentry3.cpp \
         printproject.cpp \
         xmlfo-utils.cpp \
-        dialogformatter.cpp \
-        java.cpp \
         search_utils.cpp \
         dialogexportnotes.cpp \
-        xep.cpp \
         dialogshownotes.cpp \
         dialogdate.cpp \
         gwrappers.cpp \
@@ -442,8 +435,6 @@ bibledit_bin_SOURCES = \
         dialogarea.cpp \
         unixwrappers.cpp \
         highlight.cpp \
-        fonts.cpp \
-        dialogfont.cpp \
         dialogopenstylesheet.cpp \
         note_editor.cpp \
         notecaller.cpp \
@@ -624,8 +615,8 @@ bibledit_bin_SOURCES = \
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
 	$(GTHREAD_CFLAGS) $(GLIB_CFLAGS) $(GTK_CFLAGS) \
-	$(FONTCONFIG_CFLAGS) $(SQLITE_CFLAGS) $(ENCHANT_CFLAGS) \
-	$(GTKHTML38_CFLAGS) $(GTKHTML314_CFLAGS) $(LIBCURL_CPPFLAGS)
+	$(SQLITE_CFLAGS) $(ENCHANT_CFLAGS) $(GTKHTML38_CFLAGS) \
+	$(GTKHTML314_CFLAGS) $(LIBCURL_CPPFLAGS)
 CLEANFILES = *~
 all: all-am
 
@@ -760,9 +751,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogfilters.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogfindnote.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogfixmarkers.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogfont.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogfontcolor.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogformatter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoggotoreference.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogimportnotes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogimportrawtext.Po@am__quote@
@@ -828,7 +817,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/export_translation_notes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/export_utils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fixmarkers.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fonts.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/generalconfig.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/git-exec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/git.Po@am__quote@
@@ -851,7 +839,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hyphenate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/import.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ipc.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/java.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/keyboard.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/keyterms.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/keytermsgui.Po@am__quote@
@@ -951,7 +938,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/versifications.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowsoutpost.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wordlist.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xep.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xmlfo-utils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xmlutils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xslfofootnoteparagraph.Po@am__quote@

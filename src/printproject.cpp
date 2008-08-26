@@ -29,12 +29,10 @@
 #include "xmlfo-utils.h"
 #include "style.h"
 #include "stylesheetutils.h"
-#include "xep.h"
 #include "constants.h"
 #include "gwrappers.h"
 #include "gtkwrappers.h"
 #include "directories.h"
-#include "fonts.h"
 #include "portion_utils.h"
 #include "projectutils.h"
 #include "books.h"
@@ -84,8 +82,6 @@ void PrintProject::print()
   // Usfm to XslFo to pdf converter.
   Usfm2XslFo usfm2xslfo (gw_build_filename (directories_get_temp (), "usfm2pdf.pdf"));
   usfm2xslfo.add_styles (usfm2xslfo_read_stylesheet (projectconfig->stylesheet_get ()));
-  PrintingFonts printingfonts (settings->genconfig.project_get());
-  usfm2xslfo.set_fonts (printingfonts.printing_families, 12);
   usfm2xslfo.set_line_height (100);
   if (projectconfig->right_to_left_get ()) usfm2xslfo.set_right_to_left ();
   usfm2xslfo.set_page_size (settings->genconfig.paper_width_get (), settings->genconfig.paper_height_get ());

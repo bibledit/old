@@ -25,7 +25,6 @@
 #include "projectutilsold.h"
 #include "notes_utils.h"
 #include "settings.h"
-#include "xep.h"
 #include "statistics.h"
 #include "git.h"
 
@@ -42,7 +41,6 @@ void upgrade (bool gui)
   for (unsigned int i = 0; i < projects.size(); i++) {
     upgrade_project_configuration (projects[i]);
   }
-  xep_check ();
   statistics_initial_check_all (gui);
   git_initial_check_all (gui);
 }

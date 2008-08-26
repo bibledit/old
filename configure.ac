@@ -126,10 +126,6 @@ fi
 
 # Checks for libraries.
 
-PKG_CHECK_MODULES(FONTCONFIG, fontconfig >= 1.0.1,,AC_MSG_ERROR(fontconfig development version >= 1.0.1 is needed.))
-AC_SUBST(FONTCONFIG_CFLAGS)
-AC_SUBST(FONTCONFIG_LIBS)
-
 PKG_CHECK_MODULES(GLIB, glib-2.0 >= 2.8.0,,AC_MSG_ERROR(glib development version >= 2.8.0 is needed.))
 AC_SUBST(GLIB_CFLAGS)
 AC_SUBST(GLIB_LIBS)

@@ -54,8 +54,6 @@
 #include "dialogprintprefs.h"
 #include "dialogprintproject.h"
 #include "printproject.h"
-#include "xep.h"
-#include "dialogformatter.h"
 #include "compareutils.h"
 #include "dialogexportnotes.h"
 #include "dialogshownotes.h"
@@ -70,8 +68,6 @@
 #include <sqlite3.h>
 #include "sqlite_reader.h"
 #include "highlight.h"
-#include "fonts.h"
-#include "dialogfont.h"
 #include "stylesheetutils.h"
 #include "keyboard.h"
 #include "dialoginsertnote.h"
@@ -120,7 +116,6 @@
 #include "dialogviewusfm.h"
 #include "dialoginserttable.h"
 #include "tiny_utilities.h"
-#include "xep.h"
 #include "hyphenate.h"
 #include "dialogreportingsetup.h"
 #include "dialogeditstatus.h"
@@ -952,14 +947,6 @@ MainWindow::MainWindow(unsigned long xembed) :
    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (view_notes_font), image20236);
    */
 
-  printer_font = gtk_image_menu_item_new_with_mnemonic("_Printer");
-  gtk_widget_show(printer_font);
-  gtk_container_add(GTK_CONTAINER (view_font_menu), printer_font);
-
-  image20237 = gtk_image_new_from_stock("gtk-select-font", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image20237);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (printer_font), image20237);
-
   if (guifeatures.project_notes()) {
 
     viewnotes = gtk_image_menu_item_new_with_mnemonic("Project _notes");
@@ -1653,14 +1640,6 @@ MainWindow::MainWindow(unsigned long xembed) :
     image3493 = gtk_image_new_from_stock("gtk-print", GTK_ICON_SIZE_MENU);
     gtk_widget_show(image3493);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (printingprefs), image3493);
-
-    formatting_objects_processor = gtk_image_menu_item_new_with_mnemonic("_Formatter");
-    gtk_widget_show(formatting_objects_processor);
-    gtk_container_add(GTK_CONTAINER (menuitem_preferences_menu), formatting_objects_processor);
-
-    image3718 = gtk_image_new_from_stock("gtk-print-preview", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image3718);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (formatting_objects_processor), image3718);
 
     reference_exchange1 = gtk_image_menu_item_new_with_mnemonic("_Reference exchange");
     gtk_widget_show(reference_exchange1);
@@ -2450,7 +2429,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   /* Because of switching to GtkHtml for displaying and editing project notes, the fonts no longer can be set in the menu.
    g_signal_connect ((gpointer) view_notes_font, "activate", G_CALLBACK (on_view_notes_font_activate), gpointer(this));
    */
-  g_signal_connect ((gpointer) printer_font, "activate", G_CALLBACK (on_printer_font_activate), gpointer(this));
   if (guifeatures.project_notes())
     g_signal_connect ((gpointer) viewnotes, "activate", G_CALLBACK (on_viewnotes_activate), gpointer(this));
   g_signal_connect ((gpointer) screen_layout, "activate", G_CALLBACK (on_screen_layout_activate), gpointer(this));
@@ -2528,7 +2506,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   if (guifeatures.preferences()) {
     g_signal_connect ((gpointer) notes_preferences, "activate", G_CALLBACK (on_notes_preferences_activate), gpointer(this));
     g_signal_connect ((gpointer) printingprefs, "activate", G_CALLBACK (on_printingprefs_activate), gpointer(this));
-    g_signal_connect ((gpointer) formatting_objects_processor, "activate", G_CALLBACK (on_formatting_objects_processor_activate), gpointer(this));
     g_signal_connect ((gpointer) reference_exchange1, "activate", G_CALLBACK (on_reference_exchange1_activate), gpointer(this));
     g_signal_connect ((gpointer) ignored_references1, "activate", G_CALLBACK (on_ignored_references1_activate), gpointer(this));
     g_signal_connect ((gpointer) prefs_books, "activate", G_CALLBACK (on_prefs_books_activate), gpointer(this));
@@ -3231,15 +3208,6 @@ void MainWindow::on_printingprefs_activate(GtkMenuItem *menuitem, gpointer user_
 
 void MainWindow::on_printing_preferences() {
   PrintPreferencesDialog dialog(0);
-  dialog.run();
-}
-
-void MainWindow::on_formatting_objects_processor_activate(GtkMenuItem *menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->on_formatter();
-}
-
-void MainWindow::on_formatter() {
-  FormatterDialog dialog(0);
   dialog.run();
 }
 
@@ -6395,15 +6363,6 @@ void MainWindow::set_fonts() {
    */
 }
 
-void MainWindow::on_printer_font_activate(GtkMenuItem * menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->on_printer_font();
-}
-
-void MainWindow::on_printer_font() {
-  FontDialog fontdialog(0);
-  fontdialog.run();
-}
-
 /*
  |
  |
@@ -6914,7 +6873,6 @@ void MainWindow::on_print() {
     labels.push_back("Project");
     labels.push_back("Parallel Bible");
     labels.push_back("References");
-    labels.push_back("Project (old) - through Java/XEP");
     labels.push_back("Test usfm2pdf");
     labels.push_back("Test Cairo / Pango");
     extern Settings * settings;
@@ -6978,20 +6936,7 @@ void MainWindow::on_print() {
       }
       break;
     }
-    case 3: // Project (Java/XEP)
-    {
-      {
-        PrintProjectDialog dialog(0);
-        if (dialog.run() != GTK_RESPONSE_OK)
-          return;
-      }
-      extern Settings * settings;
-      ProjectMemory projectmemory(settings->genconfig.project_get(), true);
-      PrintProject printproject(&projectmemory);
-      printproject.print();
-      break;
-    }
-    case 4: // Test
+    case 3: // Test
     {
       Text2Pdf text2pdf(gw_build_filename(directories_get_temp(), "pdf.pdf"));
       /*
@@ -7163,7 +7108,7 @@ void MainWindow::on_print() {
       text2pdf.view();
       break;
     }
-    case 5: // Test.
+    case 4: // Test.
     {
       Text2Pdf text2pdf(gw_build_filename(directories_get_temp(), "pdf.pdf"));
       text2pdf.test();

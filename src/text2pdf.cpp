@@ -29,7 +29,6 @@
 #include "books.h"
 #include "color.h"
 #include "directories.h"
-#include "xep.h"
 #include "gtkwrappers.h"
 #include "pdfviewer.h"
 #include "settings.h"
@@ -770,6 +769,8 @@ void Text2Pdf::test() {
 
  Todo text2pdf 
 
+ Update the help files for printing.
+
  To go through all of the Usfm2Text object and implement missing bits.
  
  To implement running headers.
@@ -792,8 +793,6 @@ void Text2Pdf::test() {
  
  Try right-to-left text such as Hebrew, and Farsi.
 
- Once we've all dependencies on the fontconfig library out, then we can remove this library, also from Makefile.am.
- 
  The small caps attribute is not yet implemented in Pango. The typesetter should make its own implementation.
  There's some information about this in the object where the layouting is done.
  

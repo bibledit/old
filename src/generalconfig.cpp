@@ -101,8 +101,6 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE (paper_top_margin);
   INITIALIZE (paper_bottom_margin);
   INITIALIZE (notes_print_full_page_width);
-  INITIALIZE (java_binary);
-  INITIALIZE (xep_home);
   INITIALIZE (printdate);
   INITIALIZE (print_changes_only);
   INITIALIZE (project_to_compare_with);
@@ -265,8 +263,6 @@ void GeneralConfiguration::save()
   SAVE_VALUE (paper_top_margin);
   SAVE_VALUE (paper_bottom_margin);
   SAVE_VALUE (notes_print_full_page_width);
-  SAVE_VALUE (java_binary);
-  SAVE_VALUE (xep_home);
   SAVE_VALUE (printdate);
   SAVE_VALUE (print_changes_only);
   SAVE_VALUE (project_to_compare_with);
@@ -499,8 +495,6 @@ IMPLEMENT (double, double_get, paper_outside_margin, 1)
 IMPLEMENT (double, double_get, paper_top_margin, 2)
 IMPLEMENT (double, double_get, paper_bottom_margin, 2)
 IMPLEMENT (bool, bool_get, notes_print_full_page_width, false)
-IMPLEMENT (ustring, string_get, java_binary, "")
-IMPLEMENT (ustring, string_get, xep_home, "")
 IMPLEMENT (bool, bool_get, printdate, true)
 IMPLEMENT (bool, bool_get, print_changes_only, false)
 IMPLEMENT (ustring, string_get, project_to_compare_with, "")
