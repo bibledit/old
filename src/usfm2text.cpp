@@ -2197,13 +2197,8 @@ void Usfm2Text::optionally_add_full_references(ustring& line, Usfm2XslFoStyle * 
   // Extract references.
   ReferencesScanner refscanner(language, book, line);
 
-  // Default style for this note.
-  Usfm2XslFoStyle * default_note_style = get_default_paragraph_style_for_note(stylepointer);
-  ustring default_note_markup = usfm_get_full_opening_marker(default_note_style->marker);
-
   // Add the full text of the references if there is any.
   for (unsigned int i = 0; i < refscanner.references.size(); i++) {
-    line.append(default_note_markup);
     line.append(" ");
     line.append(refscanner.references[i].human_readable(language));
     line.append(" ");
@@ -2214,9 +2209,7 @@ void Usfm2Text::optionally_add_full_references(ustring& line, Usfm2XslFoStyle * 
       CategorizeLine cl(text);
       line.append(cl.verse);
     }
-    line.append("\n");
   }
-  gw_message(line);
 }
 
 

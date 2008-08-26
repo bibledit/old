@@ -770,13 +770,6 @@ void Text2Pdf::test() {
 
  Todo text2pdf 
 
- If the c-style is inserted, it asks whether to insert a new chapter. If no is replied, it still modifies
- the style of the current paragraph.
- 
- If the notes are written in full, the formatter hangs. To fix that.
- 
- To implement negative space following the paragraph by making the height of the block lower.
- 
  To go through all of the Usfm2Text object and implement missing bits.
  
  To implement running headers.
@@ -799,7 +792,7 @@ void Text2Pdf::test() {
  
  Try right-to-left text such as Hebrew, and Farsi.
 
- Once we've all dependencies on the fontconfig library out, then we can remove this library, simplifying the installation procedures.
+ Once we've all dependencies on the fontconfig library out, then we can remove this library, also from Makefile.am.
  
  The small caps attribute is not yet implemented in Pango. The typesetter should make its own implementation.
  There's some information about this in the object where the layouting is done.
