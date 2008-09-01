@@ -369,7 +369,7 @@ int Text2Pdf::get_column_count_rectangle_width(int column_count_in, int& width) 
   int column_count = one_column_only ? 1 : column_count_in;
   if (column_count > 1) {
     width /= column_count;
-    width -= (column_count - 1) * column_spacing_pango_units;
+    width -= (column_count - 1) * column_spacing_pango_units / 2;
   }
   return column_count;
 }
@@ -785,20 +785,17 @@ void Text2Pdf::test() {
 
  Todo text2pdf 
 
- One fixed heading throughout the text.
- There's a vector <header data>, and the object header data has a pointer to the input block that was there when
- the header data was encountered. With some logic the reference area will be able to 
+ The Blocks, when created, attach book, chapter, and verse or verses.
+ With some logic the reference area will be able to 
  find from which range of input blocks has been laid out on the page, what the header should be.
  Both for left and right headers this works.
 
- The page number on even pages is too far to the right.
-
  To implement running headers.
  Steps:
+ Headers based on book / chapter (and/or) verse.
  To create set_book(string) : paragraph-independent routine. 
  to create set_chapter(string) : paragraph-independent routine.
  to make set_verse(string) : Works like italics, e.g., there's an offset in each paragraph.
- 2. Headers based on book / chapter (and/or) verse.
  To pass how to create those headers.
  a. book startchapter (- end chapter) on each page.
  b. book startchapter + startverse on left page, and end-chapter + end-verse on the right page.

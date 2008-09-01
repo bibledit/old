@@ -18,6 +18,7 @@
  */
 
 #include "text2pdf_big_block.h"
+#include "text2pdf_utils.h"
 
 T2PBigBlock::T2PBigBlock(int column_count_in)
 // This is used as one lot of blocks that must be kept together.
@@ -40,14 +41,14 @@ void T2PBigBlock::calculate_height()
       height_first_block = blocks[i]->rectangle.height;
     }
     total_height += blocks[i]->rectangle.height;
-  }  
+  }
 }
 
 int T2PBigBlock::height(int reference_y)
 // Get the total height of the blocks.
 {
   int height = total_height;
-  if (!blocks.empty ()) {
+  if (!blocks.empty()) {
     if ((reference_y == 0) && (blocks[0]->type == t2pbtSpaceBeforeParagraph)) {
       height -= height_first_block;
     }
@@ -55,8 +56,7 @@ int T2PBigBlock::height(int reference_y)
   return height;
 }
 
-
-void T2PBigBlock::set_blocks_x (int x)
+void T2PBigBlock::set_blocks_x(int x)
 // Writes the x value to each block.
 {
   for (unsigned int i = 0; i < blocks.size(); i++) {
@@ -64,12 +64,12 @@ void T2PBigBlock::set_blocks_x (int x)
   }
 }
 
-void T2PBigBlock::set_blocks_y (int reference_y)
+void T2PBigBlock::set_blocks_y(int reference_y)
 // Writes the y values to each block, starting at the reference y.
 {
   int y = reference_y;
   for (unsigned int i = 0; i < blocks.size(); i++) {
-    T2PBlock * block = blocks[i]; 
+    T2PBlock * block = blocks[i];
     block->rectangle.y = y;
     bool take_block_into_account = true;
     if ((i == 0) && (reference_y == 0) && (block->type == t2pbtSpaceBeforeParagraph)) {
