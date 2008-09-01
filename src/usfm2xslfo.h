@@ -113,7 +113,6 @@ private:
   void preprocess ();
   
   // General processing.
-  void convert_from_usfm_to_xslfo ();
   void output_text_starting_new_paragraph (ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length, bool keep_with_next_paragraph);
   void output_text_fallback (ustring& line, Usfm2XslFoStyle * & fo_block_style);
   void output_text_running_header (ustring& line, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length, unsigned int book);

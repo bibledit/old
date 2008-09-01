@@ -101,7 +101,7 @@ T2PPage::~T2PPage()
   delete footer_reference_area;
 }
 
-void T2PPage::print(cairo_t *cairo)
+void T2PPage::print(const ustring& left_header, const ustring& right_header)
 // Prints the page.
 {
   // White background.
@@ -110,7 +110,7 @@ void T2PPage::print(cairo_t *cairo)
   
   // Print the reference areas.
   if (text_reference_area->has_content()) {
-    header_reference_area->output_header_data(number, print_date);
+    header_reference_area->output_header_data(number, print_date, left_header, right_header); // Todo
   }
   header_reference_area->print();
   text_reference_area->print();

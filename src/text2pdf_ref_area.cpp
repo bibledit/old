@@ -62,6 +62,7 @@ void T2PReferenceArea::print()
     // Print this block.
     block->print(cairo);
   }
+  
   // Print the notes. While doing that reposition them to the bottom of the page.
   int notes_height = get_note_height();
   for (unsigned int i = 0; i < note_layout_containers.size(); i++) {
@@ -70,28 +71,53 @@ void T2PReferenceArea::print()
     layout_container->rectangle.y += rectangle.y + rectangle.height - notes_height;
     layout_container->print(cairo);
   }
-  // Optionally the headers.
+  
+  // Page number.
   T2PLayoutContainer page_number_layout_container(rectangle, NULL, cairo);
   if (print_page_number) {
     string s(convert_to_string(page_number));
     page_number_layout_container.layout_text(NULL, 0, s);
   }
+  if (!(page_number % 2)) {
+    // Even.
+    page_number_layout_container.rectangle.x += rectangle.width - page_number_layout_container.rectangle.width;
+  }
+  page_number_layout_container.print(cairo);
+  
+  // Date.
   T2PLayoutContainer date_layout_container(rectangle, NULL, cairo);
-  if (print_date) {
+  if (print_date) { // Todo
     string s(date_time_julian_human_readable(date_time_julian_day_get_current(), false));
     date_layout_container.layout_text(NULL, 0, s);
   }
-  // Different positions and orders on even or odd pages.
   if ((page_number % 2)) {
     // Odd.
     date_layout_container.rectangle.x += page_number_layout_container.rectangle.width + millimeters_to_pango_units(5);
   } else {
     // Even.
-    page_number_layout_container.rectangle.x += rectangle.width - page_number_layout_container.rectangle.width;
     date_layout_container.rectangle.x += rectangle.width - date_layout_container.rectangle.width - millimeters_to_pango_units(5) - page_number_layout_container.rectangle.width;
   }
-  page_number_layout_container.print(cairo);
   date_layout_container.print(cairo);
+  
+  // Running header.
+  T2PLayoutContainer header_layout_container(rectangle, NULL, cairo);
+  string hd;
+  if ((page_number % 2)) {
+    // Odd - right page.
+    hd = right_header;
+  } else {
+    // Even - left page.
+    hd = left_header;
+  }
+  header_layout_container.layout_text(NULL, 0, hd);
+  if (print_date) {
+    cout << pango_units_to_millimeters (rectangle.width) << endl; // Todo
+  }
+  header_layout_container.rectangle.x = (rectangle.width / 2) - (header_layout_container.rectangle.width / 2);
+  header_layout_container.print(cairo);
+  
+  // Todo there's an error in the pango font, probably because the paragraph is NULL.
+  
 }
 
 void T2PReferenceArea::fit_blocks(deque <T2PBlock *>& input_blocks, int column_spacing_pango_units_in)
@@ -388,12 +414,14 @@ int T2PReferenceArea::balance_first_column_higher_than_or_equal_to_last_column(d
   return MAX (first_column_height, last_column_height);
 }
 
-void T2PReferenceArea::output_header_data(unsigned int number, bool print_date_in)
-// Set the object to print the page number and/or the date..
+void T2PReferenceArea::output_header_data(unsigned int number, bool print_date_in, const ustring& left_header_in, const ustring& right_header_in)
+// Set the object to print the page number or the date, and so on.
 {
   print_page_number = true;
   page_number = number;
   print_date = print_date_in;
+  left_header = left_header_in;
+  right_header = right_header_in;
 }
 
 bool T2PReferenceArea::has_content()

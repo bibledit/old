@@ -334,3 +334,18 @@ T2PInputParagraph * T2PInputParagraph::get_intrusion()
 {
   return intrusion;
 }
+
+T2PInputHeader::T2PInputHeader(bool left_in) :
+  T2PInput(t2pitHeader)
+// This is a class that contains a new running header.
+{
+  left = left_in;
+  type = t2phtFixed;
+  input_block = NULL;
+}
+
+T2PInputHeader::~T2PInputHeader()
+// Destructor.
+{
+}
+

@@ -53,8 +53,8 @@ Text2Pdf::Text2Pdf(const ustring& pdf_file)
 Text2Pdf::~Text2Pdf()
 // Object destructor.
 {
-  for (unsigned int i = 0; i < text_input_data.size(); i++) {
-    delete text_input_data[i];
+  for (unsigned int i = 0; i < input_data.size(); i++) {
+    delete input_data[i];
   }
   for (unsigned int i = 0; i < pages.size(); i++) {
     delete pages[i];
@@ -153,7 +153,7 @@ void Text2Pdf::run()
   close_paragraph();
 
   // Go through the input data.
-  run_input(text_input_data);
+  run_input(input_data);
 
   // Find potential widows and orphans.
   find_potential_widows_and_orphans();
@@ -166,7 +166,7 @@ void Text2Pdf::run()
   for (unsigned int pg = 0; pg < pages.size(); pg++) {
     progresswindow->iterate();
     T2PPage * page = pages[pg];
-    page->print(cairo);
+    page->print(running_header_text_left, running_header_text_right);
   }
 
   // Status information.
@@ -210,7 +210,11 @@ void Text2Pdf::run_input(vector <T2PInput *>& input)
         rectangle.height = 0;
         T2PBlock * block = new T2PBlock (rectangle, 1);
         block->type = t2pbtSpaceAfterParagraph;
-        text_input_blocks.push_back(block);
+        input_blocks.push_back(block);
+        break;
+      }
+      case t2pitHeader:
+      {
         break;
       }
     }
@@ -243,7 +247,7 @@ void Text2Pdf::lay_out_paragraph()
     T2PBlock * block = new T2PBlock (rectangle, column_count);
     block->type = t2pbtSpaceBeforeParagraph;
     block->keep_with_next = true;
-    text_input_blocks.push_back(block);
+    input_blocks.push_back(block);
   }
 
   // Paragraph itself.
@@ -268,7 +272,7 @@ void Text2Pdf::lay_out_paragraph()
     T2PBlock * block = new T2PBlock (rectangle, column_count);
     block->type = t2pbtSpaceAfterParagraph;
     block->keep_with_next = input_paragraph->keep_with_next;
-    text_input_blocks.push_back(block);
+    input_blocks.push_back(block);
   }
 }
 
@@ -294,18 +298,18 @@ void Text2Pdf::get_next_layout_container(bool intrusion)
   }
 
   // Handle a preceding intrusion.
-  if (!text_input_blocks.empty()) {
-    unsigned int preceding_block_to = text_input_blocks.size();
+  if (!input_blocks.empty()) {
+    unsigned int preceding_block_to = input_blocks.size();
     int preceding_block_from = preceding_block_to;
     // Look 2 blocks back, because by default the intrusion, that's the drop-caps, is two lines high.
     preceding_block_from -= 2;
     if (preceding_block_from < 0)
       preceding_block_from = 0;
     for (unsigned int i = preceding_block_from; i < preceding_block_to; i++) {
-      if (text_input_blocks[i]->type == t2pbtTextIntrusion) {
+      if (input_blocks[i]->type == t2pbtTextIntrusion) {
         // Modify size and position of the block.
-        block->rectangle.x += text_input_blocks[i]->rectangle.width;
-        block->rectangle.width -= text_input_blocks[i]->rectangle.width;
+        block->rectangle.x += input_blocks[i]->rectangle.width;
+        block->rectangle.width -= input_blocks[i]->rectangle.width;
         // Block stays with the next one.
         block->keep_with_next = true;
       }
@@ -313,7 +317,7 @@ void Text2Pdf::get_next_layout_container(bool intrusion)
   }
 
   // Store the block.
-  text_input_blocks.push_back(block);
+  input_blocks.push_back(block);
 
   // Create a new layout container.
   layoutcontainer = block->next_layout_container(cairo);
@@ -324,14 +328,14 @@ void Text2Pdf::fit_blocks_on_pages()
 {
   // Loop through the input blocks.
   unsigned int infinite_loop_counter = 0;
-  while (!text_input_blocks.empty() && infinite_loop_counter < 5000) {
+  while (!input_blocks.empty() && infinite_loop_counter < 5000) {
     // Create another page.
     next_page();
     // Progress.
     progresswindow->pulse();
     progresswindow->set_text("Page " + convert_to_string(pages.size()));
     // Lay out the input on the page.
-    page->text_reference_area->fit_blocks(text_input_blocks, column_spacing_pango_units);
+    page->text_reference_area->fit_blocks(input_blocks, column_spacing_pango_units);
   }
 }
 
@@ -346,8 +350,8 @@ void Text2Pdf::find_potential_widows_and_orphans()
  The "keep with next" mechanism will then take over when the blocks are fitted in.
  */
 {
-  for (unsigned int blk = 0; blk < text_input_blocks.size(); blk++) {
-    T2PBlock * block = text_input_blocks[blk];
+  for (unsigned int blk = 0; blk < input_blocks.size(); blk++) {
+    T2PBlock * block = input_blocks[blk];
     // The first line of the paragraph is to be kept with the next.
     if (block->type == t2pbtTextParagraphFirstLine) {
       block->keep_with_next = true;
@@ -355,7 +359,7 @@ void Text2Pdf::find_potential_widows_and_orphans()
     // The last-but-one line of the paragraph is to be kept with the next.
     if (block->type == t2pbtTextParagraphLastLine) {
       if (blk) {
-        text_input_blocks[blk-1]->keep_with_next = true;
+        input_blocks[blk-1]->keep_with_next = true;
       }
     }
   }
@@ -385,14 +389,14 @@ void Text2Pdf::open_keep_together()
 // Anything between this and the closer is kept together in one page or column.
 {
   close_paragraph();
-  text_input_data.push_back(new T2PInput (t2pitOpenKeepTogether));
+  input_data.push_back(new T2PInput (t2pitOpenKeepTogether));
 }
 
 void Text2Pdf::close_keep_together()
 // Close keeping together in one page or column.
 {
   close_paragraph();
-  text_input_data.push_back(new T2PInput (t2pitCloseKeepTogether));
+  input_data.push_back(new T2PInput (t2pitCloseKeepTogether));
 }
 
 void Text2Pdf::open_paragraph()
@@ -400,7 +404,7 @@ void Text2Pdf::open_paragraph()
 {
   close_paragraph();
   input_paragraph = new T2PInputParagraph (font, line_spacing, right_to_left);
-  text_input_data.push_back(input_paragraph);
+  input_data.push_back(input_paragraph);
 }
 
 void Text2Pdf::ensure_open_paragraph()
@@ -410,7 +414,7 @@ void Text2Pdf::ensure_open_paragraph()
     open_paragraph();
 }
 
-void Text2Pdf::paragraph_set_font_size(double points) 
+void Text2Pdf::paragraph_set_font_size(double points)
 // Sets the font size to be used in the paragraph, in points.
 {
   ensure_open_paragraph();
@@ -727,6 +731,18 @@ void Text2Pdf::print_date_in_header()
   print_date = true;
 }
 
+void Text2Pdf::running_header_fixed_left(const ustring& header)
+// Sets the engine to print fixed text in the left running headers.
+{
+  running_header_text_left = header;
+}
+
+void Text2Pdf::running_header_fixed_right(const ustring& header)
+// Sets the engine to print fixed text in the right running headers.
+{
+  running_header_text_right = header;
+}
+
 void Text2Pdf::test() {
   // White background.
   cairo_set_source_rgb(cairo, 1.0, 1.0, 1.0);
@@ -769,13 +785,27 @@ void Text2Pdf::test() {
 
  Todo text2pdf 
 
- Update the help files for printing.
+ One fixed heading throughout the text.
+ There's a vector <header data>, and the object header data has a pointer to the input block that was there when
+ the header data was encountered. With some logic the reference area will be able to 
+ find from which range of input blocks has been laid out on the page, what the header should be.
+ Both for left and right headers this works.
 
- To go through all of the Usfm2Text object and implement missing bits.
- 
+ The page number on even pages is too far to the right.
+
  To implement running headers.
+ Steps:
+ To create set_book(string) : paragraph-independent routine. 
+ to create set_chapter(string) : paragraph-independent routine.
+ to make set_verse(string) : Works like italics, e.g., there's an offset in each paragraph.
+ 2. Headers based on book / chapter (and/or) verse.
+ To pass how to create those headers.
+ a. book startchapter (- end chapter) on each page.
+ b. book startchapter + startverse on left page, and end-chapter + end-verse on the right page.
+ This may require a change in the styles system.
+ Finally to implement it all.
  
- To implement USFM to TextInput converter. Many parts are still left unimplemented.
+ To go through the whole Usfm2Text object and implement missing bits.
  
  To implement renumbering note callers per page as in code similar to:
  caller_in_text = notecallers[stylepointer]->renumber_per_page_temporal_caller_text;
@@ -820,20 +850,9 @@ void Text2Pdf::test() {
  
  The "end-indent" may no longer be needed anywhere.
  
- Setting the Printing fonts can go out.
- 
  The line height should affect the text in the Editor also.
  
- The fonts.c / cpp files go out.
- 
- The xep related code goes out.
- 
  Line spacing should affect printed text, also plain usfm printing.
- 
- pango version 1.18 and up has the justify property implemented.
- To try out in a virtual machine whether Debian 4.0 can be upgraded to the version of Pango that has justify working.
- But then, justify may not work right because it won't justify the last line, and in our way of doing things,
- every line is the last line. So it will never justify.
  
  The right-to-left property should be properly made working, even to such a degree that the columns start
  at the right instead of at the left, and that the drop-caps chapter number is at the right too.
@@ -843,8 +862,11 @@ void Text2Pdf::test() {
  Check some Bibles to compare to see if this is correct.  
  Unless you like this to help you find your way around. 
  
- The xrefs with references written in full still hangs, probably it hangs on the layout stage if something does
- not fit on the page.
+ It is said that loading fonts can take a long time. Suggested solution:
+ I am keeping multiple sets of PangoFontDescriptions for each combination of font 
+ and size. I then pass the FontDescription into the text function. This
+ magically resolved the problem ... now the load_fontset gets only
+ called 3 times or so ...
  
  */
 

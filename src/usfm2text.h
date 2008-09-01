@@ -85,7 +85,6 @@ private:
 
   // Basic xsl-fo management.
   void write_static_content();
-  void write_flow_open();
   void open_paragraph(Usfm2XslFoStyle * style, bool keep_with_next_paragraph);
   void set_paragraph(Usfm2XslFoStyle * style, bool keep_with_next_paragraph);
   void open_inline(Usfm2XslFoStyle * style, Usfm2XslFoStyle * block);
@@ -95,7 +94,7 @@ private:
   void preprocess();
 
   // General processing.
-  void convert_from_usfm_to_xslfo();
+  void convert_from_usfm_to_text();
   void output_text_starting_new_paragraph(ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length, bool keep_with_next_paragraph);
   void output_text_fallback(ustring& line, Usfm2XslFoStyle * & fo_block_style);
   void output_text_running_header(ustring& line, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length, unsigned int book);

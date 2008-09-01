@@ -278,16 +278,13 @@ void Usfm2Text::preprocess()
   }
 }
 
-void Usfm2Text::convert_from_usfm_to_xslfo() {
+void Usfm2Text::convert_from_usfm_to_text() {
   // Cancel?
   if (cancel)
     return;
 
   // Write static content.
-  write_static_content();
-
-  // Write the flow, leaving it open.
-  write_flow_open();
+  write_static_content(); // Todo to write the headings.
 
   // Format the body of text.
   usfm_buffer_pointer = 0;
@@ -603,8 +600,8 @@ void Usfm2Text::process() {
   // Create the note caller objects.
   create_note_callers();
 
-  // Convert from usfm to xslfo.
-  convert_from_usfm_to_xslfo();
+  // Convert from usfm to text.
+  convert_from_usfm_to_text();
 
   // Hide our own progressbar.
   if (progresswindow)
@@ -657,11 +654,6 @@ void Usfm2Text::write_static_content() {
   // Even pages.
   if (chapter_number_in_running_header_at_left_pages) {
   }
-}
-
-void Usfm2Text::write_flow_open()
-// Write the fo:flow, leaving it open.
-{
 }
 
 void Usfm2Text::add_styles(const vector <Usfm2XslFoStyle>& styles_in) {

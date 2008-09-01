@@ -93,11 +93,11 @@ public:
 private:
   T2PInputParagraph * input_paragraph;
   T2PInputParagraph * stacked_input_paragraph;
-  vector <T2PInput *> text_input_data;
+  vector <T2PInput *> input_data;
   bool keep_data_together;
-  deque <T2PBlock *> text_input_blocks;
+  deque <T2PBlock *> input_blocks;
 
-  // Areas and their sizes.
+  // Page layout.
 public:
   void page_size_set(double width_centimeters, double height_centimeters);
   void page_margins_set(double inside_margin_centimeters, double outside_margin_centimeters, double top_margin_centimeters, double bottom_margin_centimeters);
@@ -119,12 +119,16 @@ public:
   void set_line_spacing(unsigned int line_spacing_in);
   void set_right_to_left(bool right_to_left_in);
   void print_date_in_header();
+  void running_header_fixed_left (const ustring& header);
+  void running_header_fixed_right (const ustring& header);
 private:
   ustring font;
   unsigned int line_spacing;
   bool right_to_left;
   bool print_date;
-
+  ustring running_header_text_left;
+  ustring running_header_text_right;
+  
   // Running.
 public:
   void run();

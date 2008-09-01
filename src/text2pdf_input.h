@@ -22,9 +22,10 @@
 
 #include "libraries.h"
 
-enum T2PInputType { t2pitParagraph, t2pitOpenKeepTogether, t2pitCloseKeepTogether };
-enum T2PAlignmentType { t2patLeft, t2patCenter, t2patRight, t2patJustified };
-enum T2PMarkupType { t2pmtOff, t2pmtOn, t2pmtInherit, t2pmtToggle };
+enum T2PInputType {t2pitParagraph, t2pitOpenKeepTogether, t2pitCloseKeepTogether, t2pitHeader};
+enum T2PAlignmentType {t2patLeft, t2patCenter, t2patRight, t2patJustified};
+enum T2PMarkupType {t2pmtOff, t2pmtOn, t2pmtInherit, t2pmtToggle};
+enum T2PHeaderType {t2phtFixed};
 
 class T2PInput
 {
@@ -56,7 +57,7 @@ public:
   int first_line_indent_mm;
   unsigned int column_count;
   bool keep_with_next;
-  void add_text (const string& text_in);
+  void add_text(const string& text_in);
   string text;
   void inline_set_font_size_percentage(int percentage);
   bool inline_get_font_size(unsigned int index, bool& in_range, int& size, int& start_index, int& end_index);
@@ -74,17 +75,18 @@ public:
   bool inline_get_colour(unsigned int index, bool& in_range, int& value, int& start_index, int& end_index);
   void inline_set_strike_through(T2PMarkupType strike_through, bool cleanup_only = false);
   bool inline_get_strike_through(unsigned int index, bool& in_range, bool& value, int& start_index, int& end_index);
-  void add_note (T2PInputParagraph * note);
-  vector <T2PInputParagraph *> get_notes (size_t text_length_before_fitting, size_t text_length_after_fitting);
-  void set_intrusion (T2PInputParagraph * intrusion_in);
+  void add_note(T2PInputParagraph * note);
+  vector <T2PInputParagraph *> get_notes(size_t text_length_before_fitting, size_t text_length_after_fitting);
+  void set_intrusion(T2PInputParagraph * intrusion_in);
   T2PInputParagraph * get_intrusion();
 private:
   size_t maximum_text_length;
   vector <int> font_size_percentage_values;
   vector <int> font_size_percentage_start_indices;
   vector <int> font_size_percentage_end_indices;
-  void inline_set_value (vector <int>& values, vector <int>& start_indices, vector <int>& end_indices, T2PMarkupType value, bool cleanup_only);
-  bool inline_get_value (vector <int>& values, vector <int>& start_indices, vector <int>& end_indices, bool& values_completed, bool paragraph_value, unsigned int index, bool& in_range, bool& value, int& start_index, int& end_index);
+  void inline_set_value(vector <int>& values, vector <int>& start_indices, vector <int>& end_indices, T2PMarkupType value, bool cleanup_only);
+  bool
+      inline_get_value(vector <int>& values, vector <int>& start_indices, vector <int>& end_indices, bool& values_completed, bool paragraph_value, unsigned int index, bool& in_range, bool& value, int& start_index, int& end_index);
   vector <int> italic_values;
   vector <int> italic_start_indices;
   vector <int> italic_end_indices;
@@ -114,6 +116,18 @@ private:
   vector <T2PInputParagraph *> note_pointers;
   vector <size_t> note_offsets;
   T2PInputParagraph * intrusion;
+};
+
+class T2PInputHeader : public T2PInput
+{
+public:
+  T2PInputHeader(bool left_in);
+  virtual ~T2PInputHeader();
+  T2PHeaderType type;
+  ustring text;
+  bool left;
+  gpointer input_block;
+private:
 };
 
 #endif
