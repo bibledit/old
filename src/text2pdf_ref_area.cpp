@@ -86,7 +86,7 @@ void T2PReferenceArea::print()
   
   // Date.
   T2PLayoutContainer date_layout_container(rectangle, NULL, cairo);
-  if (print_date) { // Todo
+  if (print_date) {
     string s(date_time_julian_human_readable(date_time_julian_day_get_current(), false));
     date_layout_container.layout_text(NULL, 0, s);
   }
@@ -99,7 +99,7 @@ void T2PReferenceArea::print()
   }
   date_layout_container.print(cairo);
   
-  // Running header.
+  // Running header. // Todo
   T2PLayoutContainer header_layout_container(rectangle, NULL, cairo);
   string hd;
   if ((page_number % 2)) {
@@ -109,15 +109,11 @@ void T2PReferenceArea::print()
     // Even - left page.
     hd = left_header;
   }
-  header_layout_container.layout_text(NULL, 0, hd);
-  if (print_date) {
-    cout << pango_units_to_millimeters (rectangle.width) << endl; // Todo
+  if (!hd.empty()) {
+    header_layout_container.layout_text(NULL, 0, hd);
+    header_layout_container.rectangle.x = rectangle.x + (rectangle.width / 2) - (header_layout_container.rectangle.width / 2);
+    header_layout_container.print(cairo);
   }
-  header_layout_container.rectangle.x = (rectangle.width / 2) - (header_layout_container.rectangle.width / 2);
-  header_layout_container.print(cairo);
-  
-  // Todo there's an error in the pango font, probably because the paragraph is NULL.
-  
 }
 
 void T2PReferenceArea::fit_blocks(deque <T2PBlock *>& input_blocks, int column_spacing_pango_units_in)
