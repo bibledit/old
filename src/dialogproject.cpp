@@ -315,7 +315,8 @@ ProjectDialog::ProjectDialog (bool newproject)
 
   shortcuts.button (checkbutton_spelling);
   
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_spelling), projectconfig->spelling_check_get ());
+  // Set the spelling. A new project has the spelling on by default.
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_spelling), projectconfig->spelling_check_get () || newproject);
   
   button_dictionaries = gtk_button_new_with_mnemonic ("Dictionaries");
   gtk_widget_show (button_dictionaries);
