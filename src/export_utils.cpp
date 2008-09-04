@@ -121,7 +121,7 @@ Yes, this is a bit rough, I know...
 {
   // Configuration
   extern Settings * settings;
-  // Get the filename where the data to save to.
+  // Get the filename to which the data is to be saved.
   ustring filename = gtkw_file_chooser_save (parent, "", settings->genconfig.export_to_bibleworks_filename_get ());
   if (!filename.empty()) {
     // Store (new) filename.

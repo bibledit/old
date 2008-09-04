@@ -22,6 +22,7 @@
 #include "categorize.h"
 #include "usfmtools.h"
 #include "tiny_utilities.h"
+#include "gwrappers.h"
 
 
 CategorizeChapterVerse::CategorizeChapterVerse (const vector<ustring>& lines)
@@ -102,9 +103,69 @@ CategorizeLine::CategorizeLine (const ustring& data)
     if (marker.empty()) actual_marker = previous_marker;
     else actual_marker = marker;
       
+    // Re-insert bible note markers.
+    if (marker == footnote_opener(false)) {
+      line.insert (0, footnote_opener(true));
+    }
+    if (marker == endnote_opener(false)) {
+      line.insert (0, endnote_opener(true));
+    }
+    if (marker == xref_opener(false)) {
+      line.insert (0, xref_opener(true));
+    }
+    
     // Subdivide the line into categories.
     // Each category removes something from this content, until it is empty.
     
+    // Footnotes, endnotes.
+    if (!line.empty()) {
+      size_t beginposition, endposition;
+      ustring opening_marker = footnote_opener (true);
+      ustring closing_marker = footnote_closer ();
+      beginposition = line.find (opening_marker);
+      endposition = line.find (closing_marker);
+      while ((beginposition != string::npos) && (endposition != string::npos)) {
+        ustring notetext;
+        notetext = line.substr (beginposition + opening_marker.length(), endposition - beginposition - closing_marker.length());
+        line.erase (beginposition, endposition - beginposition + closing_marker.length());
+        clear_out_any_marker (notetext);
+        append_text (note, notetext);
+        beginposition = line.find (opening_marker);
+        endposition = line.find (closing_marker);
+      }
+      opening_marker = endnote_opener (true);
+      closing_marker = endnote_closer ();
+      beginposition = line.find (opening_marker);
+      endposition = line.find (closing_marker);
+      while ((beginposition != string::npos) && (endposition != string::npos)) {
+        ustring notetext;
+        notetext = line.substr (beginposition + opening_marker.length(), endposition - beginposition - closing_marker.length());
+        line.erase (beginposition, endposition - beginposition + closing_marker.length());
+        clear_out_any_marker (notetext);
+        append_text (note, notetext);
+        beginposition = line.find (opening_marker);
+        endposition = line.find (closing_marker);
+      }
+    }    
+
+    // Crossreferences.
+    if (!line.empty()) {
+      size_t beginposition, endposition;
+      ustring opening_marker = xref_opener (true);
+      ustring closing_marker = xref_closer ();
+      beginposition = line.find (opening_marker);
+      endposition = line.find (closing_marker);
+      while ((beginposition != string::npos) && (endposition != string::npos)) {
+        ustring referencetext;
+        referencetext = line.substr (beginposition + opening_marker.length(), endposition - beginposition - closing_marker.length());
+        line.erase (beginposition, endposition - beginposition + closing_marker.length());
+        clear_out_any_marker (referencetext);
+        append_text (ref, referencetext);
+        beginposition = line.find (opening_marker);
+        endposition = line.find (closing_marker);
+      }
+    }
+
     // Identifiers.
     if (!line.empty()) {
       if (is_id_marker (actual_marker)) {
@@ -151,55 +212,6 @@ CategorizeLine::CategorizeLine (const ustring& data)
       }
     }
     
-    // Footnotes, endnotes.
-    if (!line.empty()) {
-      size_t beginposition, endposition;
-      ustring opening_marker = footnote_opener ();
-      ustring closing_marker = footnote_closer ();
-      beginposition = line.find (opening_marker);
-      endposition = line.find (closing_marker);
-      while ((beginposition != string::npos) && (endposition != string::npos)) {
-        ustring notetext;
-        notetext = line.substr (beginposition + opening_marker.length(), endposition - beginposition - closing_marker.length());
-        line.erase (beginposition, endposition - beginposition + closing_marker.length());
-        clear_out_any_marker (notetext);
-        append_text (note, notetext);
-        beginposition = line.find (opening_marker);
-        endposition = line.find (closing_marker);
-      }
-      opening_marker = endnote_opener ();
-      closing_marker = endnote_closer ();
-      beginposition = line.find (opening_marker);
-      endposition = line.find (closing_marker);
-      while ((beginposition != string::npos) && (endposition != string::npos)) {
-        ustring notetext;
-        notetext = line.substr (beginposition + opening_marker.length(), endposition - beginposition - closing_marker.length());
-        line.erase (beginposition, endposition - beginposition + closing_marker.length());
-        clear_out_any_marker (notetext);
-        append_text (note, notetext);
-        beginposition = line.find (opening_marker);
-        endposition = line.find (closing_marker);
-      }
-    }    
-
-    // Crossreferences.
-    if (!line.empty()) {
-      size_t beginposition, endposition;
-      ustring opening_marker = xref_opener ();
-      ustring closing_marker = xref_closer ();
-      beginposition = line.find (opening_marker);
-      endposition = line.find (closing_marker);
-      while ((beginposition != string::npos) && (endposition != string::npos)) {
-        ustring referencetext;
-        referencetext = line.substr (beginposition + opening_marker.length(), endposition - beginposition - closing_marker.length());
-        line.erase (beginposition, endposition - beginposition + closing_marker.length());
-        clear_out_any_marker (referencetext);
-        append_text (ref, referencetext);
-        beginposition = line.find (opening_marker);
-        endposition = line.find (closing_marker);
-      }
-    }
-
     // After everything else has been removed, output the rest as main text.
     // This includes the "Verses" group, the "Paragraph Elements", and the
     // "Poetry Elements", the "Table Elements", and the "Special Text and
@@ -355,9 +367,13 @@ bool CategorizeLine::is_study_marker (const ustring& marker)
 }
 
 
-ustring CategorizeLine::footnote_opener ()
+ustring CategorizeLine::footnote_opener (bool full)
 {
-  return "\\f ";
+  ustring opener;
+  if (full) opener.append ("\\");
+  opener.append ("f");
+  if (full) opener.append (" ");
+  return opener;
 }
 
 
@@ -367,9 +383,13 @@ ustring CategorizeLine::footnote_closer ()
 }
 
 
-ustring CategorizeLine::endnote_opener ()
+ustring CategorizeLine::endnote_opener (bool full)
 {
-  return "\\fe ";
+  ustring opener;
+  if (full) opener.append ("\\");
+  opener.append ("fe");
+  if (full) opener.append (" ");
+  return opener;
 }
 
 
@@ -379,9 +399,13 @@ ustring CategorizeLine::endnote_closer ()
 }
 
 
-ustring CategorizeLine::xref_opener ()
+ustring CategorizeLine::xref_opener (bool full)
 {
-  return "\\x ";
+  ustring opener;
+  if (full) opener.append ("\\");
+  opener.append ("x");
+  if (full) opener.append (" ");
+  return opener;
 }
 
 

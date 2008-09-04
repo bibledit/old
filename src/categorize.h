@@ -54,11 +54,11 @@ public:
   bool is_head_marker (const ustring& marker);
   bool is_chap_marker (const ustring& marker);
   bool is_study_marker (const ustring& marker);
-  ustring footnote_opener ();
+  ustring footnote_opener (bool full);
   ustring footnote_closer ();
-  ustring endnote_opener ();
+  ustring endnote_opener (bool full);
   ustring endnote_closer ();
-  ustring xref_opener ();
+  ustring xref_opener (bool full);
   ustring xref_closer ();
   bool is_verse_marker (const ustring& marker);
   void remove_verse_number (const ustring& versenumber);
