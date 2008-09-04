@@ -71,26 +71,31 @@ void Text2Pdf::initialize_variables()
   // The page size defaults to A4 = 210 x 297 millimeters (8.27 x 11.69 inches).
   page_width_pango_units = millimeters_to_pango_units(210);
   page_height_pango_units= millimeters_to_pango_units(297);
+
   // Page margins default in centimeters.
   inside_margin_pango_units = centimeters_to_pango_units(2.5);
   outside_margin_pango_units = centimeters_to_pango_units(1.5);
   top_margin_pango_units = centimeters_to_pango_units(2);
   bottom_margin_pango_units = centimeters_to_pango_units(2);
+
   // The height of the header default value in centimeters.  
   header_height_pango_units = centimeters_to_pango_units(1);
+
   // The height of the footer default value in centimeters.
   footer_height_pango_units = centimeters_to_pango_units(0);
+
   // The default spacing between the two columsn in centimeters.
   column_spacing_pango_units = centimeters_to_pango_units(0.5);
+
   // Whether one column only.
   one_column_only = false;
+
   // The input variables.
   input_paragraph = NULL;
   stacked_input_paragraph = NULL;
   keep_data_together = false;
   line_spacing = 100;
   right_to_left = false;
-  print_date = false;
 
   // Layout engine.
   page = NULL;
@@ -98,6 +103,10 @@ void Text2Pdf::initialize_variables()
 
   // Progress.
   progresswindow = NULL;
+
+  // Running headers.
+  print_date = false;
+  chapter = 0;
 }
 
 void Text2Pdf::page_size_set(double width_centimeters, double height_centimeters)
@@ -184,7 +193,7 @@ void Text2Pdf::run_input(vector <T2PInput *>& input)
     progresswindow->iterate();
     switch (input[i]->type)
     {
-      case t2pitParagraph:
+      case t2pitParagraph: // Todo
       {
         input_paragraph = (T2PInputParagraph *) input[i];
         lay_out_paragraph();
@@ -211,10 +220,6 @@ void Text2Pdf::run_input(vector <T2PInput *>& input)
         T2PBlock * block = new T2PBlock (rectangle, 1);
         block->type = t2pbtSpaceAfterParagraph;
         input_blocks.push_back(block);
-        break;
-      }
-      case t2pitHeader:
-      {
         break;
       }
     }
@@ -296,6 +301,9 @@ void Text2Pdf::get_next_layout_container(bool intrusion)
   if (intrusion) {
     block->type = t2pbtTextIntrusion;
   }
+  // Running header information. Todo
+  block->book = input_paragraph->book;
+  block->chapter = input_paragraph->chapter;
 
   // Handle a preceding intrusion.
   if (!input_blocks.empty()) {
@@ -399,11 +407,17 @@ void Text2Pdf::close_keep_together()
   input_data.push_back(new T2PInput (t2pitCloseKeepTogether));
 }
 
-void Text2Pdf::open_paragraph()
+void Text2Pdf::open_paragraph() // Todo
 // Open a new paragraph and add this to the input data.
 {
+  // Close existing one.
   close_paragraph();
+  // Create new one.
   input_paragraph = new T2PInputParagraph (font, line_spacing, right_to_left);
+  // Store running header information.
+  input_paragraph->book = book;
+  input_paragraph->chapter = chapter;
+  // Store paragraph.
   input_data.push_back(input_paragraph);
 }
 
@@ -743,6 +757,24 @@ void Text2Pdf::running_header_fixed_right(const ustring& header)
   running_header_text_right = header;
 }
 
+void Text2Pdf::set_book(const ustring& bk)
+// Sets the book for in the running header.
+{
+  book = bk;
+}
+
+void Text2Pdf::set_chapter(unsigned int ch)
+// Sets the chapter for in the running header.
+{
+  chapter = ch;
+}
+
+void Text2Pdf::set_verse(const ustring& vs)
+// Sets the verse for in the running header.
+{
+  verse = vs;
+}
+
 void Text2Pdf::test() {
   // White background.
   cairo_set_source_rgb(cairo, 1.0, 1.0, 1.0);
@@ -785,7 +817,7 @@ void Text2Pdf::test() {
 
  Todo text2pdf 
 
- The Blocks, when created, attach book, chapter, and verse or verses.
+ The Blocks, when created, attach book, chapter, and verse or verses. The input paragraphs too.
  With some logic the reference area will be able to 
  find from which range of input blocks has been laid out on the page, what the header should be.
  Both for left and right headers this works.
@@ -793,14 +825,11 @@ void Text2Pdf::test() {
  To implement running headers.
  Steps:
  Headers based on book / chapter (and/or) verse.
- To create set_book(string) : paragraph-independent routine. 
- to create set_chapter(string) : paragraph-independent routine.
- to make set_verse(string) : Works like italics, e.g., there's an offset in each paragraph.
- To pass how to create those headers.
+ to create a function that says how to create those headers.
  a. book startchapter (- end chapter) on each page.
  b. book startchapter + startverse on left page, and end-chapter + end-verse on the right page.
  This may require a change in the styles system.
- Finally to implement it all.
+
  
  To go through the whole Usfm2Text object and implement missing bits.
  
@@ -864,6 +893,8 @@ void Text2Pdf::test() {
  and size. I then pass the FontDescription into the text function. This
  magically resolved the problem ... now the load_fontset gets only
  called 3 times or so ...
+
+ It has been found that even if the project is not editable, applying the styles still change the look.
  
  */
 

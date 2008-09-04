@@ -22,7 +22,7 @@
 
 #include "libraries.h"
 
-enum T2PInputType {t2pitParagraph, t2pitOpenKeepTogether, t2pitCloseKeepTogether, t2pitHeader};
+enum T2PInputType {t2pitParagraph, t2pitOpenKeepTogether, t2pitCloseKeepTogether};
 enum T2PAlignmentType {t2patLeft, t2patCenter, t2patRight, t2patJustified};
 enum T2PMarkupType {t2pmtOff, t2pmtOn, t2pmtInherit, t2pmtToggle};
 enum T2PHeaderType {t2phtFixed};
@@ -79,6 +79,8 @@ public:
   vector <T2PInputParagraph *> get_notes(size_t text_length_before_fitting, size_t text_length_after_fitting);
   void set_intrusion(T2PInputParagraph * intrusion_in);
   T2PInputParagraph * get_intrusion();
+  ustring book;
+  unsigned int chapter;
 private:
   size_t maximum_text_length;
   vector <int> font_size_percentage_values;
@@ -116,18 +118,6 @@ private:
   vector <T2PInputParagraph *> note_pointers;
   vector <size_t> note_offsets;
   T2PInputParagraph * intrusion;
-};
-
-class T2PInputHeader : public T2PInput
-{
-public:
-  T2PInputHeader(bool left_in);
-  virtual ~T2PInputHeader();
-  T2PHeaderType type;
-  ustring text;
-  bool left;
-  gpointer input_block;
-private:
 };
 
 #endif

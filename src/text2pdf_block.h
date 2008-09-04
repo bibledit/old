@@ -45,6 +45,8 @@ public:
   T2PBlockType type;
   bool keep_with_next;
   ustring type2text();
+  ustring book;
+  unsigned int chapter;
 private:
 };
 

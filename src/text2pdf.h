@@ -118,16 +118,10 @@ public:
   void set_font(const ustring& font_in);
   void set_line_spacing(unsigned int line_spacing_in);
   void set_right_to_left(bool right_to_left_in);
-  void print_date_in_header();
-  void running_header_fixed_left (const ustring& header);
-  void running_header_fixed_right (const ustring& header);
 private:
   ustring font;
   unsigned int line_spacing;
   bool right_to_left;
-  bool print_date;
-  ustring running_header_text_left;
-  ustring running_header_text_right;
   
   // Running.
 public:
@@ -155,6 +149,22 @@ private:
 public:
   void test();
 private:
+  
+  // Running headers.
+public:
+  void print_date_in_header();
+  void running_header_fixed_left (const ustring& header);
+  void running_header_fixed_right (const ustring& header);
+  void set_book(const ustring& bk); 
+  void set_chapter(unsigned int ch);
+  void set_verse(const ustring& vs);
+private:
+  bool print_date;
+  ustring running_header_text_left;
+  ustring running_header_text_right;
+  ustring book;
+  unsigned int chapter;
+  ustring verse;
   
 };
 

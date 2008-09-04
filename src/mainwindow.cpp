@@ -6942,6 +6942,8 @@ void MainWindow::on_print() {
       text2pdf.running_header_fixed_left("left header");
       text2pdf.running_header_fixed_right("right header");
       text2pdf.print_date_in_header();
+      text2pdf.set_book("UGenesise");
+      text2pdf.set_chapter(1);
       text2pdf.open_paragraph();
       text2pdf.paragraph_set_first_line_indent(0);
       text2pdf.open_intrusion();
@@ -6952,6 +6954,7 @@ void MainWindow::on_print() {
       text2pdf.add_text("Gen. 10.1; 11.2. Exod. 10.5; 11.5; 12.1; Ps. 110.1; 119.5.");
       text2pdf.close_note();
       text2pdf.open_paragraph();
+      text2pdf.set_chapter(2);
       text2pdf.paragraph_set_first_line_indent(0);
       text2pdf.open_intrusion();
       text2pdf.add_text("5");
@@ -6961,6 +6964,7 @@ void MainWindow::on_print() {
       text2pdf.add_text("Gen. 10.1; 11.2. Exod. 10.5; 11.5; 12.1; Ps. 110.1; 119.5.");
       text2pdf.close_note();
       text2pdf.open_paragraph();
+      text2pdf.set_chapter(3);
       text2pdf.paragraph_set_first_line_indent(0);
       text2pdf.open_intrusion();
       text2pdf.add_text("5");

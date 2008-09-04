@@ -32,9 +32,12 @@ public:
   T2PReferenceArea(PangoRectangle rectangle_in, cairo_t *cairo_in);
   virtual ~T2PReferenceArea();
   void fit_blocks (deque <T2PBlock *>& input_blocks, int column_spacing_pango_units_in);
-  void output_header_data (unsigned int number, bool print_date_in, const ustring& left_header_in, const ustring& right_header_in);
   bool has_content();
   void print();
+  void print(unsigned int page_number, bool print_date, const ustring& left_header, const ustring& right_header);
+  ustring book();
+  unsigned int first_chapter();
+  unsigned int last_chapter();
 private:
   cairo_t *cairo;
   deque <T2PBlock *> body_blocks;
@@ -50,11 +53,6 @@ private:
   deque <T2PLayoutContainer *> note_layout_containers;
   PangoRectangle get_next_free_note_rectangle();
   int get_note_height();
-  bool print_page_number;
-  unsigned int page_number;
-  bool print_date;
-  ustring left_header;
-  ustring right_header;
 };
 
 #endif

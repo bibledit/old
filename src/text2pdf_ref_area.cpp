@@ -32,10 +32,6 @@ T2PReferenceArea::T2PReferenceArea(PangoRectangle rectangle_in, cairo_t *cairo_i
   column_spacing_pango_units = 0;
   // Cairo.
   cairo = cairo_in;
-  // Other.
-  print_page_number = false;
-  page_number = 0;
-  print_date = false;
 }
 
 T2PReferenceArea::~T2PReferenceArea()
@@ -49,8 +45,8 @@ T2PReferenceArea::~T2PReferenceArea()
   }
 }
 
-void T2PReferenceArea::print()
-// Print the blocks.
+void T2PReferenceArea::print() // Todo
+// Print the data.
 {
   // Go through each block.
   for (unsigned int blk = 0; blk < body_blocks.size(); blk++) {
@@ -62,7 +58,7 @@ void T2PReferenceArea::print()
     // Print this block.
     block->print(cairo);
   }
-  
+
   // Print the notes. While doing that reposition them to the bottom of the page.
   int notes_height = get_note_height();
   for (unsigned int i = 0; i < note_layout_containers.size(); i++) {
@@ -71,19 +67,21 @@ void T2PReferenceArea::print()
     layout_container->rectangle.y += rectangle.y + rectangle.height - notes_height;
     layout_container->print(cairo);
   }
-  
+}
+
+void T2PReferenceArea::print(unsigned int page_number, bool print_date, const ustring& left_header, const ustring& right_header)
+// Print the page number, the date, and so on.
+{
   // Page number.
   T2PLayoutContainer page_number_layout_container(rectangle, NULL, cairo);
-  if (print_page_number) {
-    string s(convert_to_string(page_number));
-    page_number_layout_container.layout_text(NULL, 0, s);
-  }
+  string pn(convert_to_string(page_number));
+  page_number_layout_container.layout_text(NULL, 0, pn);
   if (!(page_number % 2)) {
     // Even.
     page_number_layout_container.rectangle.x += rectangle.width - page_number_layout_container.rectangle.width;
   }
   page_number_layout_container.print(cairo);
-  
+
   // Date.
   T2PLayoutContainer date_layout_container(rectangle, NULL, cairo);
   if (print_date) {
@@ -98,7 +96,7 @@ void T2PReferenceArea::print()
     date_layout_container.rectangle.x += rectangle.width - date_layout_container.rectangle.width - millimeters_to_pango_units(5) - page_number_layout_container.rectangle.width;
   }
   date_layout_container.print(cairo);
-  
+
   // Running header. // Todo
   T2PLayoutContainer header_layout_container(rectangle, NULL, cairo);
   string hd;
@@ -109,11 +107,23 @@ void T2PReferenceArea::print()
     // Even - left page.
     hd = left_header;
   }
+  /*
+   if (!book.empty()) {
+   if (first_chapter || last_chapter) {
+   if (!hd.empty())
+   hd.append (" ");
+   hd.append (book);
+   hd.append (" ");
+   hd.append (convert_to_string (first_chapter) + "-" + convert_to_string (last_chapter)); // Todo
+   }
+   }
+   */
   if (!hd.empty()) {
     header_layout_container.layout_text(NULL, 0, hd);
     header_layout_container.rectangle.x = rectangle.x + (rectangle.width / 2) - (header_layout_container.rectangle.width / 2);
     header_layout_container.print(cairo);
   }
+
 }
 
 void T2PReferenceArea::fit_blocks(deque <T2PBlock *>& input_blocks, int column_spacing_pango_units_in)
@@ -165,7 +175,7 @@ void T2PReferenceArea::fit_column(deque <T2PBlock *>& input_blocks)
   fit_columns(input_blocks, input_blocks[0]->column_count);
 }
 
-void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_count) 
+void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_count)
 /*
  Fits the input blocks into one or two columns.
 
@@ -410,19 +420,46 @@ int T2PReferenceArea::balance_first_column_higher_than_or_equal_to_last_column(d
   return MAX (first_column_height, last_column_height);
 }
 
-void T2PReferenceArea::output_header_data(unsigned int number, bool print_date_in, const ustring& left_header_in, const ustring& right_header_in)
-// Set the object to print the page number or the date, and so on.
-{
-  print_page_number = true;
-  page_number = number;
-  print_date = print_date_in;
-  left_header = left_header_in;
-  right_header = right_header_in;
-}
-
 bool T2PReferenceArea::has_content()
 // Returns whether there's any text content on this page.
 {
   return !body_blocks.empty();
+}
+
+ustring T2PReferenceArea::book() // Todo
+// Get the book.
+{
+  ustring book;
+  for (unsigned int blk = 0; blk < body_blocks.size(); blk++) {
+    T2PBlock * block = body_blocks[blk];
+    book = block->book;
+  }
+  return book;
+}
+
+unsigned int T2PReferenceArea::first_chapter() // Todo
+// Get the first chapter.
+{
+  unsigned int first_chapter = 0;
+  for (unsigned int blk = 0; blk < body_blocks.size(); blk++) {
+    if (blk == 0) {
+      T2PBlock * block = body_blocks[blk];
+      first_chapter = block->chapter;
+    }
+  }
+  return first_chapter;
+}
+
+unsigned int T2PReferenceArea::last_chapter() // Todo
+// Get the last chapter.
+{
+  unsigned int last_chapter = 0;
+  for (unsigned int blk = 0; blk < body_blocks.size(); blk++) {
+    if (blk == body_blocks.size()-1) {
+      T2PBlock * block = body_blocks[blk];
+      last_chapter = block->chapter;
+    }
+  }
+  return last_chapter;
 }
 
