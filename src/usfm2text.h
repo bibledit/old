@@ -84,7 +84,7 @@ private:
   Text2Pdf * text2pdf;
 
   // Basic xsl-fo management.
-  void write_static_content();
+  void write_header_content();
   void open_paragraph(Usfm2XslFoStyle * style, bool keep_with_next_paragraph);
   void set_paragraph(Usfm2XslFoStyle * style, bool keep_with_next_paragraph);
   void open_inline(Usfm2XslFoStyle * style, Usfm2XslFoStyle * block);

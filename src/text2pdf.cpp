@@ -175,7 +175,7 @@ void Text2Pdf::run()
   for (unsigned int pg = 0; pg < pages.size(); pg++) {
     progresswindow->iterate();
     T2PPage * page = pages[pg];
-    page->print(running_header_text_left, running_header_text_right);
+    page->print(running_central_header_text_left_page, running_central_header_text_right_page);
   }
 
   // Status information.
@@ -193,7 +193,7 @@ void Text2Pdf::run_input(vector <T2PInput *>& input)
     progresswindow->iterate();
     switch (input[i]->type)
     {
-      case t2pitParagraph: // Todo
+      case t2pitParagraph:
       {
         input_paragraph = (T2PInputParagraph *) input[i];
         lay_out_paragraph();
@@ -301,7 +301,7 @@ void Text2Pdf::get_next_layout_container(bool intrusion)
   if (intrusion) {
     block->type = t2pbtTextIntrusion;
   }
-  // Running header information. Todo
+  // Running header information.
   block->book = input_paragraph->book;
   block->chapter = input_paragraph->chapter;
 
@@ -407,7 +407,7 @@ void Text2Pdf::close_keep_together()
   input_data.push_back(new T2PInput (t2pitCloseKeepTogether));
 }
 
-void Text2Pdf::open_paragraph() // Todo
+void Text2Pdf::open_paragraph()
 // Open a new paragraph and add this to the input data.
 {
   // Close existing one.
@@ -745,16 +745,16 @@ void Text2Pdf::print_date_in_header()
   print_date = true;
 }
 
-void Text2Pdf::running_header_fixed_left(const ustring& header)
+void Text2Pdf::running_central_header_fixed_left_page(const ustring& header)
 // Sets the engine to print fixed text in the left running headers.
 {
-  running_header_text_left = header;
+  running_central_header_text_left_page = header;
 }
 
-void Text2Pdf::running_header_fixed_right(const ustring& header)
+void Text2Pdf::running_central_header_fixed_right_page(const ustring& header)
 // Sets the engine to print fixed text in the right running headers.
 {
-  running_header_text_right = header;
+  running_central_header_text_right_page = header;
 }
 
 void Text2Pdf::set_book(const ustring& bk)
@@ -817,20 +817,11 @@ void Text2Pdf::test() {
 
  Todo text2pdf 
 
- The Blocks, when created, attach book, chapter, and verse or verses. The input paragraphs too.
- With some logic the reference area will be able to 
- find from which range of input blocks has been laid out on the page, what the header should be.
- Both for left and right headers this works.
-
  To implement running headers.
- Steps:
- Headers based on book / chapter (and/or) verse.
- to create a function that says how to create those headers.
- a. book startchapter (- end chapter) on each page.
- b. book startchapter + startverse on left page, and end-chapter + end-verse on the right page.
- This may require a change in the styles system.
+ The stylesheet can put certain text in the running header, left and/or right.
+ It also puts the chapter number there, left and/or right.
+ The chapter number should be assembled, using a comma or a hyphen.
 
- 
  To go through the whole Usfm2Text object and implement missing bits.
  
  To implement renumbering note callers per page as in code similar to:
@@ -895,6 +886,9 @@ void Text2Pdf::test() {
  called 3 times or so ...
 
  It has been found that even if the project is not editable, applying the styles still change the look.
+ 
+ It is visible in lines that have superscript, such as verse numbers or notes, that the line gets higher
+ due to that elevation. IN particular it does look untidy when there's a drop-caps chapter number there.
  
  */
 

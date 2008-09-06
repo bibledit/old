@@ -45,7 +45,7 @@ T2PReferenceArea::~T2PReferenceArea()
   }
 }
 
-void T2PReferenceArea::print() // Todo
+void T2PReferenceArea::print()
 // Print the data.
 {
   // Go through each block.
@@ -69,7 +69,7 @@ void T2PReferenceArea::print() // Todo
   }
 }
 
-void T2PReferenceArea::print(unsigned int page_number, bool print_date, const ustring& left_header, const ustring& right_header)
+void T2PReferenceArea::print(unsigned int page_number, bool print_date, const ustring& left_header, const ustring& right_header, const ustring& book, unsigned int first_chapter, unsigned int last_chapter)
 // Print the page number, the date, and so on.
 {
   // Page number.
@@ -97,7 +97,7 @@ void T2PReferenceArea::print(unsigned int page_number, bool print_date, const us
   }
   date_layout_container.print(cairo);
 
-  // Running header. // Todo
+  // Running header.
   T2PLayoutContainer header_layout_container(rectangle, NULL, cairo);
   string hd;
   if ((page_number % 2)) {
@@ -107,23 +107,32 @@ void T2PReferenceArea::print(unsigned int page_number, bool print_date, const us
     // Even - left page.
     hd = left_header;
   }
-  /*
-   if (!book.empty()) {
-   if (first_chapter || last_chapter) {
-   if (!hd.empty())
-   hd.append (" ");
-   hd.append (book);
-   hd.append (" ");
-   hd.append (convert_to_string (first_chapter) + "-" + convert_to_string (last_chapter)); // Todo
-   }
-   }
-   */
   if (!hd.empty()) {
     header_layout_container.layout_text(NULL, 0, hd);
     header_layout_container.rectangle.x = rectangle.x + (rectangle.width / 2) - (header_layout_container.rectangle.width / 2);
     header_layout_container.print(cairo);
   }
 
+  // Running reference. // Todo to produce a smarter book / chapter combination.
+  T2PLayoutContainer reference_layout_container(rectangle, NULL, cairo);
+  string ref;
+  if (!book.empty()) {
+    if (first_chapter || last_chapter) {
+      ref.append(book);
+      ref.append(" ");
+      ref.append(convert_to_string(first_chapter) + "-" + convert_to_string(last_chapter));
+    }
+  }
+  if (!ref.empty()) {
+    reference_layout_container.layout_text(NULL, 0, ref);
+    if ((page_number % 2)) {
+      // Odd page.
+      reference_layout_container.rectangle.x += rectangle.width - reference_layout_container.rectangle.width;
+    } else {
+      // Even page.
+    }
+    reference_layout_container.print(cairo);
+  }
 }
 
 void T2PReferenceArea::fit_blocks(deque <T2PBlock *>& input_blocks, int column_spacing_pango_units_in)
@@ -426,8 +435,8 @@ bool T2PReferenceArea::has_content()
   return !body_blocks.empty();
 }
 
-ustring T2PReferenceArea::book() // Todo
-// Get the book.
+ustring T2PReferenceArea::running_book()
+// Gets the running book.
 {
   ustring book;
   for (unsigned int blk = 0; blk < body_blocks.size(); blk++) {
@@ -437,8 +446,8 @@ ustring T2PReferenceArea::book() // Todo
   return book;
 }
 
-unsigned int T2PReferenceArea::first_chapter() // Todo
-// Get the first chapter.
+unsigned int T2PReferenceArea::running_first_chapter()
+// Gets the running first chapter.
 {
   unsigned int first_chapter = 0;
   for (unsigned int blk = 0; blk < body_blocks.size(); blk++) {
@@ -450,8 +459,8 @@ unsigned int T2PReferenceArea::first_chapter() // Todo
   return first_chapter;
 }
 
-unsigned int T2PReferenceArea::last_chapter() // Todo
-// Get the last chapter.
+unsigned int T2PReferenceArea::running_last_chapter()
+// Gets the running last chapter.
 {
   unsigned int last_chapter = 0;
   for (unsigned int blk = 0; blk < body_blocks.size(); blk++) {

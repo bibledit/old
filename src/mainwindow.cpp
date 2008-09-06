@@ -6873,7 +6873,7 @@ void MainWindow::on_print() {
     labels.push_back("Project");
     labels.push_back("Parallel Bible");
     labels.push_back("References");
-    labels.push_back("Test usfm2pdf");
+    labels.push_back("Test usfm2pdf"); // Todo
     labels.push_back("Test Cairo / Pango");
     extern Settings * settings;
     RadiobuttonDialog dialog("Print", "Select what to print", labels, settings->genconfig.print_job_get());
@@ -6939,8 +6939,8 @@ void MainWindow::on_print() {
     case 3: // Test
     {
       Text2Pdf text2pdf(gw_build_filename(directories_get_temp(), "pdf.pdf"));
-      text2pdf.running_header_fixed_left("left header");
-      text2pdf.running_header_fixed_right("right header");
+      text2pdf.running_central_header_fixed_left_page("left header");
+      text2pdf.running_central_header_fixed_right_page("right header");
       text2pdf.print_date_in_header();
       text2pdf.set_book("UGenesise");
       text2pdf.set_chapter(1);

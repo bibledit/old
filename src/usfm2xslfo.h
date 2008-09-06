@@ -101,7 +101,6 @@ private:
   void write_root_open ();
   void write_layout_master_set ();
   void write_page_sequence_open ();
-  void write_static_content ();
   void write_flow_open ();
   void open_fo_block (Usfm2XslFoStyle * style, bool keep_with_next_paragraph);
   void ensure_fo_block_open (Usfm2XslFoStyle * & style);

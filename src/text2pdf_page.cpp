@@ -101,17 +101,19 @@ T2PPage::~T2PPage()
   delete footer_reference_area;
 }
 
-void T2PPage::print(const ustring& left_header, const ustring& right_header)
+void T2PPage::print(const ustring& left_header, const ustring& right_header) // Todo pass the book to see if it changed.
 // Prints the page.
 {
   // White background.
   cairo_set_source_rgb(cairo, 1.0, 1.0, 1.0);
   cairo_paint(cairo);
   
-  // Print the reference areas.
+  // Headers.
+  // Todo on the first page of a book, there's no header.
   if (text_reference_area->has_content()) {
-    header_reference_area->print(number, print_date, left_header, right_header); // Todo
+    header_reference_area->print(number, print_date, left_header, right_header, text_reference_area->running_book(), text_reference_area->running_first_chapter(), text_reference_area->running_last_chapter());
   }
+  // Print the reference areas.
   header_reference_area->print();
   text_reference_area->print();
   footer_reference_area->print();

@@ -1,99 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-  <title>Bibledit</title>
-  <!-- 
-  Copyright (©) 2003-2008 Teus Benschop.
-
-  Permission is granted to copy, distribute and/or modify this document
-  under the terms of the GNU Free Documentation License, Version 1.2
-  or any later version published by the Free Software Foundation;
-  with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-  Texts.  A copy of the license is included in the section entitled "GNU
-  Free Documentation License" in the file FDL.
-  -->
-  <link href="bibledit.css" rel="stylesheet" type="text/css" />
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<title>Bibledit</title>
+<!--
+Copyright (©) 2003-2008 Teus Benschop.
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+Texts.  A copy of the license is included in the section entitled "GNU
+Free Documentation License" in the file FDL.
+-->
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
-
 <body>
 <h2><a name="printing"></a>Printing</h2>
 <!-- Table of Contents Start -->
-
 <div id="toc">
 <ul>
-  <li><a href="#introduction" class="level1">Introduction</a></li>
-  <li><a href="#font" class="level1">Font</a></li>
-  <li><a href="#usingseveralfonts" class="level1">Using several fonts</a></li>
-  <li><a href="#problematicfonts" class="level1">Problematic fonts</a></li>
-  <li><a href="#lineheight" class="level1">Line height</a></li>
-  <li><a href="#formatter" class="level1">Formatter</a></li>
-  <li><a href="#biblenotes" class="level1">Bible notes</a></li>
-  <li><a href="#locationofpdffiles" class="level1">Location of .pdf
-  files</a></li>
-  <li><a href="#columns" class="level1">Columns</a></li>
-  <li><a href="#newpages" class="level1">New pages</a></li>
-  <li><a href="#notprintingstyles" class="level1">Not printing styles</a></li>
-  <li><a href="#hyphenation" class="level1">Hyphenation</a></li>
-  <li><a href="#links" class="level1">Links</a></li>
+<li>
+<a href="#introduction" class="level1">Introduction</a></li>
+<li>
+<a href="#font" class="level1">Font</a></li>
+<li>
+<a href="#lineheight" class="level1">Line height</a></li>
+<li>
+<a href="#biblenotes" class="level1">Bible notes</a></li>
+<li>
+<a href="#locationofpdffiles" class="level1">Location of .pdf files</a></li>
+<li>
+<a href="#columns" class="level1">Columns</a></li>
+<li>
+<a href="#newpages" class="level1">New pages</a></li>
+<li>
+<a href="#notprintingstyles" class="level1">Not printing styles</a></li>
+<li>
+<a href="#hyphenation" class="level1">Hyphenation</a></li>
+<li>
+<a href="#links" class="level1">Links</a></li>
 </ul>
 </div>
 <!-- Table of Contents End -->
-
 <h3><a name="introduction"></a>Introduction</h3>
-
 <p>Bibledit can print things like a list of references along with the text,
 or the project.</p>
-
 <p>Printing is done this way: Bibledit generates a .pdf file, and then opens
 this file in a pdf viewer. From there it can be printed.</p>
-
 <h3><a name="font"></a>Font</h3>
-
 <p>The font to be used can be set under menu View / Font &amp; Colour /
 Text.</p>
-
 <p>Additional fonts could be looked for by searching the internet for "Free
 Unicode fonts" or at <a
 href="http://scripts.sil.org">http://scripts.sil.org</a>.</p>
-
-<h3>Line height</h3>
-
+<h3><a name="lineheight"></a>Line height</h3>
 <p>In the dialog where the font can be selected, there is also a setting for
 the line height, in percentages. Normally it is on 100%. Setting it to e.g.
 200% gives the line a double height. This would for example allow for text
 and notes to be written between the lines on worksheets.</p>
-
 <h3><a name="biblenotes"></a>Bible notes</h3>
-
 <p>These are <a href="biblenotes.html">footnotes, endnotes, and
 crossreferences.</a></p>
-
 <h3><a name="locationofpdffiles"></a>Location of .pdf files</h3>
-
 <p>The .pdf file for printing a project usually is <a
 href="internals.html#temporaldirectory">temporary
 directory</a>/document.pdf.</p>
-
 <h3><a name="columns"></a>Columns</h3>
-
 <p>Normally text is laid out in two columns. The stylesheet editor allows the
 "span columns" property to be set. This means that a certain piece of content
 spans the two columns. Biblical content honours this setting, but content
 from the Front Matter and the Back Matter is laid out in one column.</p>
-
 <h3><a name="newpages"></a>New pages</h3>
-
 <p>Normally Bibledit prints all the books one after the other, without
 starting them on a new page. This behaviour is implemented so that normally
 not too much paper is used. Bibledit can be set to print each new book on a
 new page, or, going one step further, to have each book start on an odd page.
 Settings for this are in the stylesheet, under the \id marker.</p>
-
 <h3><a name="notprintingstyles"></a>Not printing styles</h3>
-
 <p>Some styles have the "print" property in the stylesheet editor. If "print"
 is unticked, then this style won't be printed. This comes in useful when
 there is some data in the text that you don't want to print this time.
@@ -101,21 +86,14 @@ Footnotes, for example. The quickest way of doing this is to make two
 stylesheets. One full stylesheet that prints everything. And one adapted
 stylesheet that doesn't print footnotes. Just opening another stylesheet in
 the editor, and printing, makes it work.</p>
-
 <h3><a name="hyphenation"></a>Hyphenation</h3>
-
 <p>Normally words are not hyphenated. But if a word does not look well on the
 printout, and hyphenation is needed, the user can insert a soft hyphen in
 that word. The "Insert" menu caters for that.</p>
-
 <h3><a name="links"></a>Links</h3>
-
 <p>See also:</p>
-
 <p><a href="questions.html">Questions</a></p>
-
 <p><a href="olh_print_book_portion.html">Print portion</a></p>
-
 <p><a href="howto.html">How to</a></p>
 </body>
 </html>

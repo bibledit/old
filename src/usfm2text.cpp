@@ -284,7 +284,7 @@ void Usfm2Text::convert_from_usfm_to_text() {
     return;
 
   // Write static content.
-  write_static_content(); // Todo to write the headings.
+  write_header_content(); // Todo to write the headings.
 
   // Format the body of text.
   usfm_buffer_pointer = 0;
@@ -646,7 +646,7 @@ void Usfm2Text::set_print_date() {
   print_date = true;
 }
 
-void Usfm2Text::write_static_content() {
+void Usfm2Text::write_header_content() { // Todo to imlement this in engine.
   // Odd pages.
   if (chapter_number_in_running_header_at_right_pages) {
   }

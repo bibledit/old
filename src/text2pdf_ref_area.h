@@ -34,10 +34,10 @@ public:
   void fit_blocks (deque <T2PBlock *>& input_blocks, int column_spacing_pango_units_in);
   bool has_content();
   void print();
-  void print(unsigned int page_number, bool print_date, const ustring& left_header, const ustring& right_header);
-  ustring book();
-  unsigned int first_chapter();
-  unsigned int last_chapter();
+  void print(unsigned int page_number, bool print_date, const ustring& left_header, const ustring& right_header, const ustring& book, unsigned int first_chapter, unsigned int last_chapter);
+  ustring running_book();
+  unsigned int running_first_chapter();
+  unsigned int running_last_chapter();
 private:
   cairo_t *cairo;
   deque <T2PBlock *> body_blocks;
