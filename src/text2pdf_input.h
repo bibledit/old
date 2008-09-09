@@ -79,8 +79,10 @@ public:
   vector <T2PInputParagraph *> get_notes(size_t text_length_before_fitting, size_t text_length_after_fitting);
   void set_intrusion(T2PInputParagraph * intrusion_in);
   T2PInputParagraph * get_intrusion();
-  ustring book;
+  ustring left_running_header;
+  ustring right_running_header;
   unsigned int chapter;
+  bool suppress_header;
 private:
   size_t maximum_text_length;
   vector <int> font_size_percentage_values;

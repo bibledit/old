@@ -106,7 +106,8 @@ void Text2Pdf::initialize_variables()
 
   // Running headers.
   print_date = false;
-  chapter = 0;
+  running_chapter = 0;
+  suppress_header_on_this_page = false;
 }
 
 void Text2Pdf::page_size_set(double width_centimeters, double height_centimeters)
@@ -175,7 +176,7 @@ void Text2Pdf::run()
   for (unsigned int pg = 0; pg < pages.size(); pg++) {
     progresswindow->iterate();
     T2PPage * page = pages[pg];
-    page->print(running_central_header_text_left_page, running_central_header_text_right_page);
+    page->print();
   }
 
   // Status information.
@@ -302,8 +303,11 @@ void Text2Pdf::get_next_layout_container(bool intrusion)
     block->type = t2pbtTextIntrusion;
   }
   // Running header information.
-  block->book = input_paragraph->book;
+  block->left_running_header = input_paragraph->left_running_header;
+  block->right_running_header = input_paragraph->right_running_header;
   block->chapter = input_paragraph->chapter;
+  block->suppress_header = input_paragraph->suppress_header;
+  input_paragraph->suppress_header = false;
 
   // Handle a preceding intrusion.
   if (!input_blocks.empty()) {
@@ -415,8 +419,11 @@ void Text2Pdf::open_paragraph()
   // Create new one.
   input_paragraph = new T2PInputParagraph (font, line_spacing, right_to_left);
   // Store running header information.
-  input_paragraph->book = book;
-  input_paragraph->chapter = chapter;
+  input_paragraph->left_running_header = running_header_left_page;
+  input_paragraph->right_running_header = running_header_right_page;
+  input_paragraph->chapter = running_chapter;
+  input_paragraph->suppress_header = suppress_header_on_this_page;
+  suppress_header_on_this_page = false;
   // Store paragraph.
   input_data.push_back(input_paragraph);
 }
@@ -745,34 +752,26 @@ void Text2Pdf::print_date_in_header()
   print_date = true;
 }
 
-void Text2Pdf::running_central_header_fixed_left_page(const ustring& header)
-// Sets the engine to print fixed text in the left running headers.
+void Text2Pdf::set_running_header_left_page(const ustring& header)
 {
-  running_central_header_text_left_page = header;
+  running_header_left_page = header;
 }
 
-void Text2Pdf::running_central_header_fixed_right_page(const ustring& header)
-// Sets the engine to print fixed text in the right running headers.
+void Text2Pdf::set_running_header_right_page(const ustring& header)
 {
-  running_central_header_text_right_page = header;
+  running_header_right_page = header;
 }
 
-void Text2Pdf::set_book(const ustring& bk)
-// Sets the book for in the running header.
+void Text2Pdf::set_chapter_number(unsigned int ch)
+// Sets the chapter number for in the running header.
 {
-  book = bk;
+  running_chapter = ch;
 }
 
-void Text2Pdf::set_chapter(unsigned int ch)
-// Sets the chapter for in the running header.
+void Text2Pdf::suppress_header_this_page()
+// Supresses printing the headers on this page.
 {
-  chapter = ch;
-}
-
-void Text2Pdf::set_verse(const ustring& vs)
-// Sets the verse for in the running header.
-{
-  verse = vs;
+  suppress_header_on_this_page = true;
 }
 
 void Text2Pdf::test() {
@@ -820,7 +819,9 @@ void Text2Pdf::test() {
  To implement running headers.
  The stylesheet can put certain text in the running header, left and/or right.
  It also puts the chapter number there, left and/or right.
- The chapter number should be assembled, using a comma or a hyphen.
+ There's another system for not printing the header on the first page of a book, and to be implemented 
+ later: A flag should be set in the input, such as "no heading on page". This flag is picked up by an imput
+ block, and that clears the flag. 
 
  To go through the whole Usfm2Text object and implement missing bits.
  
@@ -884,11 +885,19 @@ void Text2Pdf::test() {
  and size. I then pass the FontDescription into the text function. This
  magically resolved the problem ... now the load_fontset gets only
  called 3 times or so ...
-
+ The implementation with us is going to be that each style has its own PangoFontDescription
+ which remain stored in memory till the whole process is over. If any style is used,
+ it checks the table if the pointer is there. If not, it creates the object. If found,
+ it uses that object.
+ 
  It has been found that even if the project is not editable, applying the styles still change the look.
  
  It is visible in lines that have superscript, such as verse numbers or notes, that the line gets higher
  due to that elevation. IN particular it does look untidy when there's a drop-caps chapter number there.
+ 
+ Trying to print Numbers with full references for Mpofu, it hangs forever. This is caused by the fact that
+ the notes don't fit on one page, so it keeps flipping the notes forth and never finds a place to allocate 
+ them.
  
  */
 

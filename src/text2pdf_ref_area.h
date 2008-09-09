@@ -34,10 +34,12 @@ public:
   void fit_blocks (deque <T2PBlock *>& input_blocks, int column_spacing_pango_units_in);
   bool has_content();
   void print();
-  void print(unsigned int page_number, bool print_date, const ustring& left_header, const ustring& right_header, const ustring& book, unsigned int first_chapter, unsigned int last_chapter);
-  ustring running_book();
+  void print(unsigned int page_number, bool print_date, const ustring& left_running_header, const ustring& right_running_header, bool suppress_header, unsigned int first_chapter, unsigned int last_chapter);
+  ustring left_running_header();
+  ustring right_running_header();
   unsigned int running_first_chapter();
   unsigned int running_last_chapter();
+  bool suppress_headers();
 private:
   cairo_t *cairo;
   deque <T2PBlock *> body_blocks;
@@ -53,6 +55,7 @@ private:
   deque <T2PLayoutContainer *> note_layout_containers;
   PangoRectangle get_next_free_note_rectangle();
   int get_note_height();
+  ustring produce_running_reference (const ustring& book, bool new_book, unsigned int first_chapter, unsigned int last_chapter);
 };
 
 #endif

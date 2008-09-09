@@ -153,19 +153,17 @@ private:
   // Running headers.
 public:
   void print_date_in_header();
-  void running_central_header_fixed_left_page (const ustring& header);
-  void running_central_header_fixed_right_page (const ustring& header);
-  void set_book(const ustring& bk); 
-  void set_chapter(unsigned int ch);
-  void set_verse(const ustring& vs);
+  void set_running_header_left_page (const ustring& header);
+  void set_running_header_right_page (const ustring& header);
+  void set_chapter_number(unsigned int ch);
+  void suppress_header_this_page();
 private:
   bool print_date;
-  ustring running_central_header_text_left_page;
-  ustring running_central_header_text_right_page;
-  ustring book;
-  unsigned int chapter;
-  ustring verse;
-  
+  ustring running_header_left_page;
+  ustring running_header_right_page;
+  unsigned int running_chapter;
+  bool suppress_header_on_this_page;
+ 
 };
 
 #endif

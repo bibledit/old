@@ -70,6 +70,11 @@ Usfm2Text::Usfm2Text(Text2Pdf * text2pdf_in, bool show_progress) {
   add_style(INSERTION_MARKER, u2xtInsertion);
   add_style(DELETION_MARKER, u2xtDeletion);
   add_style(font_family_size_line_height_style(), u2xtFontFamilySizeLineHeight);
+
+  // Todo headers testing.
+  text2pdf->set_running_header_left_page("Left Genesis");
+  text2pdf->set_running_header_right_page("Right Genesis");
+  text2pdf->set_chapter_number(2); // Todo it needs to print the header even without the chapter number.
 }
 
 Usfm2Text::~Usfm2Text() {
@@ -149,7 +154,7 @@ void Usfm2Text::preprocess()
                 {
                   break;
                 }
-                case u2xtIdentifierRunningHeader:
+                case u2xtIdentifierRunningHeader: // Todo
                 {
                   collect_running_headers(usfm_line, stylepointer, marker_length, book);
                   processed = true;
@@ -283,9 +288,6 @@ void Usfm2Text::convert_from_usfm_to_text() {
   if (cancel)
     return;
 
-  // Write static content.
-  write_header_content(); // Todo to write the headings.
-
   // Format the body of text.
   usfm_buffer_pointer = 0;
   book = 0;
@@ -398,8 +400,8 @@ void Usfm2Text::convert_from_usfm_to_text() {
                 bool verse_was_written = output_verse_number(stylepointer, fo_block_style, fo_inline_style, marker_length);
                 // Erase any spaces following the verse if the verse was not written.
                 if (!verse_was_written) {
-                  while (!usfm_line.empty() && (usfm_line.substr (0, 1) == " ")) {
-                    usfm_line.erase (0, 1);
+                  while (!usfm_line.empty() && (usfm_line.substr(0, 1) == " ")) {
+                    usfm_line.erase(0, 1);
                   }
                 }
                 break;
@@ -646,15 +648,15 @@ void Usfm2Text::set_print_date() {
   print_date = true;
 }
 
-void Usfm2Text::write_header_content() { // Todo to imlement this in engine.
-  // Odd pages.
-  if (chapter_number_in_running_header_at_right_pages) {
-  }
+/*
+ // Odd pages. // Todo to imlement this in engine.
+ if (chapter_number_in_running_header_at_right_pages) {
+ }
 
-  // Even pages.
-  if (chapter_number_in_running_header_at_left_pages) {
-  }
-}
+ // Even pages.
+ if (chapter_number_in_running_header_at_left_pages) {
+ }
+ */
 
 void Usfm2Text::add_styles(const vector <Usfm2XslFoStyle>& styles_in) {
   for (unsigned int i = 0; i < styles_in.size(); i++) {
@@ -928,8 +930,8 @@ void Usfm2Text::output_chapter_number_try_normal(ustring& line, Usfm2XslFoStyle 
     }
   }
   if (!chapterlabel.empty()) {
-    text2pdf->add_text (chapterlabel);
-    text2pdf->add_text (" ");
+    text2pdf->add_text(chapterlabel);
+    text2pdf->add_text(" ");
   }
   ustring chapternumber = convert_to_string(chapter);
   for (unsigned int i = 0; i < published_chapter_markers.size(); i++) {
@@ -939,7 +941,7 @@ void Usfm2Text::output_chapter_number_try_normal(ustring& line, Usfm2XslFoStyle 
       }
     }
   }
-  text2pdf->add_text (chapternumber);
+  text2pdf->add_text(chapternumber);
   text2pdf->close_paragraph();
   fo_block_style = NULL;
 }
@@ -965,7 +967,7 @@ void Usfm2Text::output_chapter_number_try_at_first_verse(ustring line, Usfm2XslF
 
         // Set the current paragraph to have no indent.
         text2pdf->paragraph_set_first_line_indent(0);
-        
+
         // Search the chapter style.
         Usfm2XslFoStyle * chapter_style= NULL;
         for (unsigned int i = 0; i < styles.size(); i++) {
@@ -1045,7 +1047,7 @@ void Usfm2Text::output_text_running_header(ustring& line, Usfm2XslFoStyle * & fo
   text2pdf->close_paragraph();
 }
 
-void Usfm2Text::collect_running_headers(ustring& line, Usfm2XslFoStyle * stylepointer, size_t marker_length, unsigned int book)
+void Usfm2Text::collect_running_headers(ustring& line, Usfm2XslFoStyle * stylepointer, size_t marker_length, unsigned int book) // Todo
 // This function collects the running headers.
 {
   // Extract running header.
@@ -1110,10 +1112,10 @@ bool Usfm2Text::output_verse_number(Usfm2XslFoStyle * stylepointer, Usfm2XslFoSt
     text2pdf->add_text(verse);
     close_possible_inline(fo_inline_style);
   }
-  
+
   // Write next verse number again.
   printversenumber = true;
-  
+
   // Return whether it was written.
   return verse_number_written;
 }
@@ -1287,7 +1289,7 @@ void Usfm2Text::output_text_table(ustring& line, Usfm2XslFoStyle * & fo_block_st
     else
       header_or_body.append("body");
     //xmlTextWriterStartElement(writer, BAD_CAST header_or_body.c_str());
- 
+
     // Handle each cell.
     for (unsigned int c = 0; c < row.cells.size(); c++) {
       //xmlTextWriterStartElement(writer, BAD_CAST "fo:table-cell");
@@ -1399,7 +1401,7 @@ void Usfm2Text::output_text_note(ustring& line, Usfm2XslFoStyle * stylepointer, 
 
   // Open the footnote.
   text2pdf->open_note();
-  
+
   // Set the paragraph to the default paragraph style for this note.
   Usfm2XslFoStyle * default_paragraph_style = get_default_paragraph_style_for_note(stylepointer);
   set_paragraph(default_paragraph_style, false);
@@ -2068,7 +2070,7 @@ void Usfm2Text::output_text_insertion_deletion(ustring& line, Usfm2XslFoStyle * 
   text2pdf->add_text(rawtext);
   text2pdf->inline_clear_bold();
   text2pdf->inline_clear_strike_through();
-  
+
   // If an inline style was open before, reopen it again.
   if (previous_inline_style) {
     fo_inline_style = previous_inline_style;
@@ -2159,8 +2161,9 @@ void Usfm2Text::output_font_family_size_line_height(ustring& line, Usfm2XslFoSty
       ustring fontsize = parse.words[parse.words.size () - 2];
       //xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "font-size", "%spt", fontsize.c_str());
       ustring lineheight = parse.words[parse.words.size () - 1];
-      if (lineheight != "100");
-        //xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "line-height", "%s%%", lineheight.c_str());
+      if (lineheight != "100")
+        ;
+      //xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "line-height", "%s%%", lineheight.c_str());
     }
   } else {
     // Close spacing paragraph.
@@ -2202,5 +2205,4 @@ void Usfm2Text::optionally_add_full_references(ustring& line, Usfm2XslFoStyle * 
     }
   }
 }
-
 

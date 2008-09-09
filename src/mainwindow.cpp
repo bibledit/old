@@ -6936,35 +6936,53 @@ void MainWindow::on_print() {
       }
       break;
     }
-    case 3: // Test
+    case 3: // Test Todo
     {
       Text2Pdf text2pdf(gw_build_filename(directories_get_temp(), "pdf.pdf"));
-      text2pdf.running_central_header_fixed_left_page("left header");
-      text2pdf.running_central_header_fixed_right_page("right header");
       text2pdf.print_date_in_header();
-      text2pdf.set_book("UGenesise");
-      text2pdf.set_chapter(1);
+      text2pdf.set_running_header_left_page("UGenesise");
+      text2pdf.set_running_header_right_page("Genesis");
+      text2pdf.set_chapter_number(1);
+      text2pdf.suppress_header_this_page();
       text2pdf.open_paragraph();
       text2pdf.paragraph_set_first_line_indent(0);
       text2pdf.open_intrusion();
-      text2pdf.add_text("5");
+      text2pdf.add_text("1");
       text2pdf.close_intrusion();
       text2pdf.add_text("The one who gives life appeared! We saw it happen, and we are witnesses to what we have seen. Now we are telling you about this eternal life that was with the Father and appeared to us. 3 We are telling you what we have seen and heard, so that you may share in this life with us. And we share in it with the Father and with his Son Jesus Christ. 4 We are writing to tell you these things, because this makes us truly happy.");
       text2pdf.open_note();
       text2pdf.add_text("Gen. 10.1; 11.2. Exod. 10.5; 11.5; 12.1; Ps. 110.1; 119.5.");
       text2pdf.close_note();
       text2pdf.open_paragraph();
-      text2pdf.set_chapter(2);
+      text2pdf.add_text("The one who gives life appeared! We saw it happen, and we are witnesses to what we have seen. Now we are telling you about this eternal life that was with the Father and appeared to us. 3 We are telling you what we have seen and heard, so that you may share in this life with us. And we share in it with the Father and with his Son Jesus Christ. 4 We are writing to tell you these things, because this makes us truly happy.");
+      text2pdf.open_paragraph();
+      text2pdf.add_text("The one who gives life appeared! We saw it happen, and we are witnesses to what we have seen. Now we are telling you about this eternal life that was with the Father and appeared to us. 3 We are telling you what we have seen and heard, so that you may share in this life with us. And we share in it with the Father and with his Son Jesus Christ. 4 We are writing to tell you these things, because this makes us truly happy.");
+      text2pdf.open_paragraph();
+      text2pdf.add_text("The one who gives life appeared! We saw it happen, and we are witnesses to what we have seen. Now we are telling you about this eternal life that was with the Father and appeared to us. 3 We are telling you what we have seen and heard, so that you may share in this life with us. And we share in it with the Father and with his Son Jesus Christ. 4 We are writing to tell you these things, because this makes us truly happy.");
+      text2pdf.open_paragraph();
+      text2pdf.add_text("The one who gives life appeared! We saw it happen, and we are witnesses to what we have seen. Now we are telling you about this eternal life that was with the Father and appeared to us. 3 We are telling you what we have seen and heard, so that you may share in this life with us. And we share in it with the Father and with his Son Jesus Christ. 4 We are writing to tell you these things, because this makes us truly happy.");
+      text2pdf.open_paragraph();
+      text2pdf.add_text("The one who gives life appeared! We saw it happen, and we are witnesses to what we have seen. Now we are telling you about this eternal life that was with the Father and appeared to us. 3 We are telling you what we have seen and heard, so that you may share in this life with us. And we share in it with the Father and with his Son Jesus Christ. 4 We are writing to tell you these things, because this makes us truly happy.");
+      text2pdf.open_paragraph();
+      text2pdf.add_text("The one who gives life appeared! We saw it happen, and we are witnesses to what we have seen. Now we are telling you about this eternal life that was with the Father and appeared to us. 3 We are telling you what we have seen and heard, so that you may share in this life with us. And we share in it with the Father and with his Son Jesus Christ. 4 We are writing to tell you these things, because this makes us truly happy.");
+      text2pdf.open_paragraph();
+      text2pdf.add_text("The one who gives life appeared! We saw it happen, and we are witnesses to what we have seen. Now we are telling you about this eternal life that was with the Father and appeared to us. 3 We are telling you what we have seen and heard, so that you may share in this life with us. And we share in it with the Father and with his Son Jesus Christ. 4 We are writing to tell you these things, because this makes us truly happy.");
+      text2pdf.open_paragraph();
+      text2pdf.add_text("The one who gives life appeared! We saw it happen, and we are witnesses to what we have seen. Now we are telling you about this eternal life that was with the Father and appeared to us. 3 We are telling you what we have seen and heard, so that you may share in this life with us. And we share in it with the Father and with his Son Jesus Christ. 4 We are writing to tell you these things, because this makes us truly happy.");
+      text2pdf.open_paragraph();
+      text2pdf.add_text("The one who gives life appeared! We saw it happen, and we are witnesses to what we have seen. Now we are telling you about this eternal life that was with the Father and appeared to us. 3 We are telling you what we have seen and heard, so that you may share in this life with us. And we share in it with the Father and with his Son Jesus Christ. 4 We are writing to tell you these things, because this makes us truly happy.");
+      text2pdf.open_paragraph();
+      text2pdf.set_chapter_number(2);
       text2pdf.paragraph_set_first_line_indent(0);
       text2pdf.open_intrusion();
-      text2pdf.add_text("5");
+      text2pdf.add_text("2");
       text2pdf.close_intrusion();
       text2pdf.add_text("The one who gives life appeared! We saw it happen, and we are witnesses to what we have seen. Now we are telling you about this eternal life that was with the Father and appeared to us. 3 We are telling you what we have seen and heard, so that you may share in this life with us. And we share in it with the Father and with his Son Jesus Christ. 4 We are writing to tell you these things, because this makes us truly happy.");
       text2pdf.open_note();
       text2pdf.add_text("Gen. 10.1; 11.2. Exod. 10.5; 11.5; 12.1; Ps. 110.1; 119.5.");
       text2pdf.close_note();
       text2pdf.open_paragraph();
-      text2pdf.set_chapter(3);
+      text2pdf.set_chapter_number(3);
       text2pdf.paragraph_set_first_line_indent(0);
       text2pdf.open_intrusion();
       text2pdf.add_text("5");

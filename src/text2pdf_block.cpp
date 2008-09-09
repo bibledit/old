@@ -37,6 +37,7 @@ T2PBlock::T2PBlock(PangoRectangle rectangle_in, int column_count_in) :
   
   // Running header variables.
   chapter = 0;
+  suppress_header = false;
 }
 
 T2PBlock::~T2PBlock()

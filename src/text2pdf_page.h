@@ -29,7 +29,7 @@ class T2PPage
 public:
   T2PPage(int page_number, int page_width, int page_height, int inside_margin, int outside_margin, int top_margin, int bottom_margin, int header_height, int footer_height, cairo_t *cairo_in, bool print_date_in);
   virtual ~T2PPage();
-  void print(const ustring& left_header, const ustring& right_header);
+  void print();
   T2PReferenceArea * header_reference_area;
   T2PReferenceArea * text_reference_area;
   T2PReferenceArea * footer_reference_area;

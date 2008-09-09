@@ -69,8 +69,8 @@ void T2PReferenceArea::print()
   }
 }
 
-void T2PReferenceArea::print(unsigned int page_number, bool print_date, const ustring& left_header, const ustring& right_header, const ustring& book, unsigned int first_chapter, unsigned int last_chapter)
-// Print the page number, the date, and so on.
+void T2PReferenceArea::print(unsigned int page_number, bool print_date, const ustring& left_running_header, const ustring& right_running_header, bool suppress_header, unsigned int first_chapter, unsigned int last_chapter)
+// Print the page number, the date, the running header.
 {
   // Page number.
   T2PLayoutContainer page_number_layout_container(rectangle, NULL, cairo);
@@ -98,40 +98,25 @@ void T2PReferenceArea::print(unsigned int page_number, bool print_date, const us
   date_layout_container.print(cairo);
 
   // Running header.
-  T2PLayoutContainer header_layout_container(rectangle, NULL, cairo);
-  string hd;
+  T2PLayoutContainer running_header_layout_container(rectangle, NULL, cairo);
+  ustring running_header;
   if ((page_number % 2)) {
-    // Odd - right page.
-    hd = right_header;
+    // Odd page.
+    running_header = left_running_header;
   } else {
-    // Even - left page.
-    hd = left_header;
+    // Even page.
+    running_header = right_running_header;
   }
-  if (!hd.empty()) {
-    header_layout_container.layout_text(NULL, 0, hd);
-    header_layout_container.rectangle.x = rectangle.x + (rectangle.width / 2) - (header_layout_container.rectangle.width / 2);
-    header_layout_container.print(cairo);
-  }
-
-  // Running reference. // Todo to produce a smarter book / chapter combination.
-  T2PLayoutContainer reference_layout_container(rectangle, NULL, cairo);
-  string ref;
-  if (!book.empty()) {
-    if (first_chapter || last_chapter) {
-      ref.append(book);
-      ref.append(" ");
-      ref.append(convert_to_string(first_chapter) + "-" + convert_to_string(last_chapter));
-    }
-  }
-  if (!ref.empty()) {
-    reference_layout_container.layout_text(NULL, 0, ref);
+  string header(produce_running_reference(running_header, suppress_header, first_chapter, last_chapter));
+  if (!header.empty()) {
+    running_header_layout_container.layout_text(NULL, 0, header);
     if ((page_number % 2)) {
       // Odd page.
-      reference_layout_container.rectangle.x += rectangle.width - reference_layout_container.rectangle.width;
+      running_header_layout_container.rectangle.x += rectangle.width - running_header_layout_container.rectangle.width;
     } else {
       // Even page.
     }
-    reference_layout_container.print(cairo);
+    running_header_layout_container.print(cairo);
   }
 }
 
@@ -435,15 +420,26 @@ bool T2PReferenceArea::has_content()
   return !body_blocks.empty();
 }
 
-ustring T2PReferenceArea::running_book()
-// Gets the running book.
+ustring T2PReferenceArea::left_running_header()
+// Gets the left running header.
 {
-  ustring book;
+  ustring header;
   for (unsigned int blk = 0; blk < body_blocks.size(); blk++) {
     T2PBlock * block = body_blocks[blk];
-    book = block->book;
+    header = block->left_running_header;
   }
-  return book;
+  return header;
+}
+
+ustring T2PReferenceArea::right_running_header()
+// Gets the right running header.
+{
+  ustring header;
+  for (unsigned int blk = 0; blk < body_blocks.size(); blk++) {
+    T2PBlock * block = body_blocks[blk];
+    header = block->right_running_header;
+  }
+  return header;
 }
 
 unsigned int T2PReferenceArea::running_first_chapter()
@@ -470,5 +466,51 @@ unsigned int T2PReferenceArea::running_last_chapter()
     }
   }
   return last_chapter;
+}
+
+ustring T2PReferenceArea::produce_running_reference(const ustring& book, bool new_book, unsigned int first_chapter, unsigned int last_chapter)
+// This produces the running reference.
+{
+  // Variable for the reference.
+  ustring ref;
+
+  // Only put a header under certain circumstances.
+  if (!book.empty() && !new_book && (first_chapter || last_chapter)) {
+
+    // Put book.
+    ref.append(book);
+    ref.append(" ");
+
+    // Put first chapter.
+    if (first_chapter == 0)
+      first_chapter++;
+    ref.append(convert_to_string(first_chapter));
+
+    // If last one differs, put that too.
+    if (first_chapter != last_chapter) {
+      string joint;
+      if (last_chapter == (first_chapter + 1))
+        joint = ",";
+      else
+        joint = "-";
+      ref.append(joint);
+      ref.append(convert_to_string(last_chapter));
+    }
+  }
+
+  // Result.
+  return ref;
+}
+
+bool T2PReferenceArea::suppress_headers()
+// Returns true if there's any flag in this page that the headers should be suppressed.
+{
+  bool suppress = false;
+  for (unsigned int blk = 0; blk < body_blocks.size(); blk++) {
+    T2PBlock * block = body_blocks[blk];
+    if (block->suppress_header)
+      suppress = true;
+  }
+  return suppress;
 }
 
