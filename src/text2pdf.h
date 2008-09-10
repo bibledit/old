@@ -155,13 +155,14 @@ public:
   void print_date_in_header();
   void set_running_header_left_page (const ustring& header);
   void set_running_header_right_page (const ustring& header);
-  void set_chapter_number(unsigned int ch);
+  void set_running_chapter_number(unsigned int left, unsigned int right);
   void suppress_header_this_page();
 private:
   bool print_date;
   ustring running_header_left_page;
   ustring running_header_right_page;
-  unsigned int running_chapter;
+  unsigned int running_chapter_left_page;
+  unsigned int running_chapter_right_page;
   bool suppress_header_on_this_page;
  
 };

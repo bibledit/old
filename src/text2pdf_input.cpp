@@ -58,7 +58,8 @@ T2PInputParagraph::T2PInputParagraph(const ustring& font, unsigned int line_spac
   small_caps_values_completed = false;
   strike_through_values_completed = false;
   intrusion = NULL;
-  chapter = 0;
+  left_running_chapter = 0;
+  right_running_chapter = 0;
   suppress_header = false;
 }
 

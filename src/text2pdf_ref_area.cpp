@@ -69,7 +69,7 @@ void T2PReferenceArea::print()
   }
 }
 
-void T2PReferenceArea::print(unsigned int page_number, bool print_date, const ustring& left_running_header, const ustring& right_running_header, bool suppress_header, unsigned int first_chapter, unsigned int last_chapter)
+void T2PReferenceArea::print(unsigned int page_number, bool print_date, const ustring& left_running_header, const ustring& right_running_header, bool suppress_header, unsigned int left_first_chapter, unsigned int left_last_chapter, unsigned int right_first_chapter, unsigned int right_last_chapter)
 // Print the page number, the date, the running header.
 {
   // Page number.
@@ -100,14 +100,19 @@ void T2PReferenceArea::print(unsigned int page_number, bool print_date, const us
   // Running header.
   T2PLayoutContainer running_header_layout_container(rectangle, NULL, cairo);
   ustring running_header;
+  unsigned int first_chapter, last_chapter;
   if ((page_number % 2)) {
     // Odd page.
-    running_header = left_running_header;
+    running_header = right_running_header;
+    first_chapter = right_first_chapter;
+    last_chapter = right_last_chapter;
   } else {
     // Even page.
-    running_header = right_running_header;
+    running_header = left_running_header;
+    first_chapter = left_first_chapter;
+    last_chapter = left_last_chapter;
   }
-  string header(produce_running_reference(running_header, suppress_header, first_chapter, last_chapter));
+  string header(produce_running_header(running_header, suppress_header, first_chapter, last_chapter));
   if (!header.empty()) {
     running_header_layout_container.layout_text(NULL, 0, header);
     if ((page_number % 2)) {
@@ -442,49 +447,74 @@ ustring T2PReferenceArea::right_running_header()
   return header;
 }
 
-unsigned int T2PReferenceArea::running_first_chapter()
-// Gets the running first chapter.
+unsigned int T2PReferenceArea::left_running_first_chapter()
+// Gets the running first left chapter. Zeroes don't count.
 {
   unsigned int first_chapter = 0;
   for (unsigned int blk = 0; blk < body_blocks.size(); blk++) {
-    if (blk == 0) {
+    if (first_chapter == 0) {
       T2PBlock * block = body_blocks[blk];
-      first_chapter = block->chapter;
+      first_chapter = block->left_running_chapter;
     }
   }
   return first_chapter;
 }
 
-unsigned int T2PReferenceArea::running_last_chapter()
-// Gets the running last chapter.
+unsigned int T2PReferenceArea::right_running_first_chapter()
+// Gets the running first right chapter. Zeroes don't count.
+{
+  unsigned int first_chapter = 0;
+  for (unsigned int blk = 0; blk < body_blocks.size(); blk++) {
+    if (first_chapter == 0) {
+      T2PBlock * block = body_blocks[blk];
+      first_chapter = block->right_running_chapter;
+    }
+  }
+  return first_chapter;
+}
+
+unsigned int T2PReferenceArea::left_running_last_chapter()
+// Gets the running last left chapter. Zeroes don't count.
 {
   unsigned int last_chapter = 0;
-  for (unsigned int blk = 0; blk < body_blocks.size(); blk++) {
-    if (blk == body_blocks.size()-1) {
+  for (int blk = body_blocks.size()-1; blk >= 0; blk--) {
+    if (last_chapter == 0) {
       T2PBlock * block = body_blocks[blk];
-      last_chapter = block->chapter;
+      last_chapter = block->left_running_chapter;
     }
   }
   return last_chapter;
 }
 
-ustring T2PReferenceArea::produce_running_reference(const ustring& book, bool new_book, unsigned int first_chapter, unsigned int last_chapter)
-// This produces the running reference.
+unsigned int T2PReferenceArea::right_running_last_chapter()
+// Gets the running last right chapter. Zeroes don't count.
 {
-  // Variable for the reference.
-  ustring ref;
+  unsigned int last_chapter = 0;
+  for (int blk = body_blocks.size()-1; blk >= 0; blk--) {
+    if (last_chapter == 0) {
+      T2PBlock * block = body_blocks[blk];
+      last_chapter = block->right_running_chapter;
+    }
+  }
+  return last_chapter;
+}
 
-  // Only put a header under certain circumstances.
-  if (!book.empty() && !new_book && (first_chapter || last_chapter)) {
+ustring T2PReferenceArea::produce_running_header(const ustring& header, bool suppress, unsigned int first_chapter, unsigned int last_chapter)
+// This produces the running header.
+{
+  // The running header.
+  ustring running_header(header);
 
-    // Put book.
-    ref.append(book);
-    ref.append(" ");
+  // Chapter part.
+  ustring chapter_part;
+
+  // Only put chapter part if there's something to be put.
+  if (first_chapter || last_chapter) {
 
     // Put first chapter.
     if (first_chapter == 0)
       first_chapter++;
-    ref.append(convert_to_string(first_chapter));
+    chapter_part.append(convert_to_string(first_chapter));
 
     // If last one differs, put that too.
     if (first_chapter != last_chapter) {
@@ -493,13 +523,23 @@ ustring T2PReferenceArea::produce_running_reference(const ustring& book, bool ne
         joint = ",";
       else
         joint = "-";
-      ref.append(joint);
-      ref.append(convert_to_string(last_chapter));
+      chapter_part.append(joint);
+      chapter_part.append(convert_to_string(last_chapter));
     }
+
   }
 
+  // Add chapter part.
+  if (!running_header.empty() && !chapter_part.empty())
+    running_header.append(" ");
+  running_header.append(chapter_part);
+
+  // Suppress?
+  if (suppress)
+    running_header.clear();
+
   // Result.
-  return ref;
+  return running_header;
 }
 
 bool T2PReferenceArea::suppress_headers()

@@ -110,7 +110,7 @@ void T2PPage::print()
   
   // Headers.
   if (text_reference_area->has_content()) {
-    header_reference_area->print(number, print_date, text_reference_area->left_running_header(), text_reference_area->right_running_header(), text_reference_area->suppress_headers(), text_reference_area->running_first_chapter(), text_reference_area->running_last_chapter()); 
+    header_reference_area->print(number, print_date, text_reference_area->left_running_header(), text_reference_area->right_running_header(), text_reference_area->suppress_headers(), text_reference_area->left_running_first_chapter(), text_reference_area->left_running_last_chapter(), text_reference_area->right_running_first_chapter(), text_reference_area->right_running_last_chapter());
   }
   // Print the reference areas.
   header_reference_area->print();

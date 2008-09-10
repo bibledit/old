@@ -47,7 +47,8 @@ public:
   ustring type2text();
   ustring left_running_header;
   ustring right_running_header;
-  unsigned int chapter;
+  unsigned int left_running_chapter;
+  unsigned int right_running_chapter;
   bool suppress_header;
 private:
 };

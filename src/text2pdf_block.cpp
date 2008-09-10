@@ -36,7 +36,8 @@ T2PBlock::T2PBlock(PangoRectangle rectangle_in, int column_count_in) :
   column_count = column_count_in;
   
   // Running header variables.
-  chapter = 0;
+  left_running_chapter = 0;
+  right_running_chapter = 0;
   suppress_header = false;
 }
 

@@ -106,7 +106,8 @@ void Text2Pdf::initialize_variables()
 
   // Running headers.
   print_date = false;
-  running_chapter = 0;
+  running_chapter_left_page = 0;
+  running_chapter_right_page = 0;
   suppress_header_on_this_page = false;
 }
 
@@ -305,7 +306,8 @@ void Text2Pdf::get_next_layout_container(bool intrusion)
   // Running header information.
   block->left_running_header = input_paragraph->left_running_header;
   block->right_running_header = input_paragraph->right_running_header;
-  block->chapter = input_paragraph->chapter;
+  block->left_running_chapter = input_paragraph->left_running_chapter;
+  block->right_running_chapter = input_paragraph->right_running_chapter;
   block->suppress_header = input_paragraph->suppress_header;
   input_paragraph->suppress_header = false;
 
@@ -421,7 +423,8 @@ void Text2Pdf::open_paragraph()
   // Store running header information.
   input_paragraph->left_running_header = running_header_left_page;
   input_paragraph->right_running_header = running_header_right_page;
-  input_paragraph->chapter = running_chapter;
+  input_paragraph->left_running_chapter = running_chapter_left_page;
+  input_paragraph->right_running_chapter = running_chapter_right_page;
   input_paragraph->suppress_header = suppress_header_on_this_page;
   suppress_header_on_this_page = false;
   // Store paragraph.
@@ -762,10 +765,11 @@ void Text2Pdf::set_running_header_right_page(const ustring& header)
   running_header_right_page = header;
 }
 
-void Text2Pdf::set_chapter_number(unsigned int ch)
+void Text2Pdf::set_running_chapter_number(unsigned int left, unsigned int right)
 // Sets the chapter number for in the running header.
 {
-  running_chapter = ch;
+  running_chapter_left_page = left;
+  running_chapter_right_page = right;
 }
 
 void Text2Pdf::suppress_header_this_page()
@@ -817,10 +821,8 @@ void Text2Pdf::test() {
  Todo text2pdf 
 
  To implement running headers.
- The stylesheet can put certain text in the running header, left and/or right.
- It also puts the chapter number there, left and/or right.
  There's another system for not printing the header on the first page of a book, and to be implemented 
- later: A flag should be set in the input, such as "no heading on page". This flag is picked up by an imput
+ A flag should be set in the input, such as "no heading on page". This flag is picked up by an imput
  block, and that clears the flag. 
 
  To go through the whole Usfm2Text object and implement missing bits.

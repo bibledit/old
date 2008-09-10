@@ -70,11 +70,6 @@ Usfm2Text::Usfm2Text(Text2Pdf * text2pdf_in, bool show_progress) {
   add_style(INSERTION_MARKER, u2xtInsertion);
   add_style(DELETION_MARKER, u2xtDeletion);
   add_style(font_family_size_line_height_style(), u2xtFontFamilySizeLineHeight);
-
-  // Todo headers testing.
-  text2pdf->set_running_header_left_page("Left Genesis");
-  text2pdf->set_running_header_right_page("Right Genesis");
-  text2pdf->set_chapter_number(2); // Todo it needs to print the header even without the chapter number.
 }
 
 Usfm2Text::~Usfm2Text() {
@@ -154,10 +149,8 @@ void Usfm2Text::preprocess()
                 {
                   break;
                 }
-                case u2xtIdentifierRunningHeader: // Todo
+                case u2xtIdentifierRunningHeader:
                 {
-                  collect_running_headers(usfm_line, stylepointer, marker_length, book);
-                  processed = true;
                   break;
                 }
                 case u2xtIdentifierLongTOC:
@@ -326,7 +319,6 @@ void Usfm2Text::convert_from_usfm_to_text() {
                 if (endnote_position == eptAfterBook)
                   dump_endnotes(fo_block_style, fo_inline_style);
                 output_id_page_break(stylepointer, fo_block_style, fo_inline_style);
-                output_text_running_header(usfm_line, fo_block_style, fo_inline_style, marker_length, book);
                 book_spans_columns = (books_id_to_type(book) == btFrontBackMatter);
                 break;
               }
@@ -337,7 +329,7 @@ void Usfm2Text::convert_from_usfm_to_text() {
               }
               case u2xtIdentifierRunningHeader:
               {
-                get_erase_code_till_next_marker(usfm_line, marker_position, marker_length, true);
+                output_running_header(usfm_line, stylepointer, marker_length, book);
                 break;
               }
               case u2xtIdentifierLongTOC:
@@ -647,16 +639,6 @@ void Usfm2Text::set_even_page_count()
 void Usfm2Text::set_print_date() {
   print_date = true;
 }
-
-/*
- // Odd pages. // Todo to imlement this in engine.
- if (chapter_number_in_running_header_at_right_pages) {
- }
-
- // Even pages.
- if (chapter_number_in_running_header_at_left_pages) {
- }
- */
 
 void Usfm2Text::add_styles(const vector <Usfm2XslFoStyle>& styles_in) {
   for (unsigned int i = 0; i < styles_in.size(); i++) {
@@ -1020,49 +1002,18 @@ void Usfm2Text::close_possible_inline(Usfm2XslFoStyle * & style)
   }
 }
 
-void Usfm2Text::output_text_running_header(ustring& line, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length, unsigned int book) {
-  // Close possible inline and block styles.
-  close_possible_inline(fo_inline_style);
-  text2pdf->close_paragraph();
-
-  // Erase the code: we don't use it here.
-  get_erase_code_till_next_marker(line, 0, marker_length, false);
-
-  // Open a modified default fo:block.
-  Usfm2XslFoStyle * style = marker_get_pointer_to_style(default_style());
-  ustring default_style_justification = style->justification;
-  style->justification = "last-justify";
-  open_paragraph(style, false);
-  style->justification = default_style_justification;
-
-  // Insert the left and right headers.  
-  //xmlTextWriterStartElement(writer, BAD_CAST "fo:marker");
-  //xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "marker-class-name", "leftheader");
-  //xmlTextWriterWriteFormatString(writer, "%s", book_header_left[book].c_str());
-  //xmlTextWriterStartElement(writer, BAD_CAST "fo:marker");
-  //xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "marker-class-name", "rightheader");
-  //xmlTextWriterWriteFormatString(writer, "%s", book_header_right[book].c_str());
-
-  // Close the block.  
-  text2pdf->close_paragraph();
-}
-
-void Usfm2Text::collect_running_headers(ustring& line, Usfm2XslFoStyle * stylepointer, size_t marker_length, unsigned int book) // Todo
-// This function collects the running headers.
+void Usfm2Text::output_running_header(ustring& line, Usfm2XslFoStyle * stylepointer, size_t marker_length, unsigned int book)
+// This function outputs a running header.
 {
   // Extract running header.
   ustring runningheader = get_erase_code_till_next_marker(line, 0, marker_length, true);
 
   // Store left and/or right header.
   if (stylepointer->print_in_left_running_header) {
-    if (!book_header_left[book].empty())
-      book_header_left[book].append(" ");
-    book_header_left[book].append(runningheader);
+    text2pdf->set_running_header_left_page(runningheader);
   }
   if (stylepointer->print_in_right_running_header) {
-    if (!book_header_right[book].empty())
-      book_header_right[book].append(" ");
-    book_header_right[book].append(runningheader);
+    text2pdf->set_running_header_right_page(runningheader);
   }
 }
 
@@ -1624,6 +1575,15 @@ void Usfm2Text::set_new_book(unsigned int book_in) {
 
 void Usfm2Text::set_new_chapter(unsigned int chapter_in) {
   chapter = chapter_in;
+  unsigned int left = 0;
+  unsigned int right = 0;
+  if (chapter_number_in_running_header_at_left_pages) {
+    left = chapter_in;
+  }
+  if (chapter_number_in_running_header_at_right_pages) {
+    right= chapter_in;
+  }
+  text2pdf->set_running_chapter_number(left, right);
   set_new_verse("0");
   inrange.set_chapter(chapter);
 }

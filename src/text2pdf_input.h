@@ -81,7 +81,8 @@ public:
   T2PInputParagraph * get_intrusion();
   ustring left_running_header;
   ustring right_running_header;
-  unsigned int chapter;
+  unsigned int left_running_chapter;
+  unsigned int right_running_chapter;
   bool suppress_header;
 private:
   size_t maximum_text_length;

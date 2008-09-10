@@ -31,31 +31,33 @@ class T2PReferenceArea : public T2PArea
 public:
   T2PReferenceArea(PangoRectangle rectangle_in, cairo_t *cairo_in);
   virtual ~T2PReferenceArea();
-  void fit_blocks (deque <T2PBlock *>& input_blocks, int column_spacing_pango_units_in);
+  void fit_blocks(deque <T2PBlock *>& input_blocks, int column_spacing_pango_units_in);
   bool has_content();
   void print();
-  void print(unsigned int page_number, bool print_date, const ustring& left_running_header, const ustring& right_running_header, bool suppress_header, unsigned int first_chapter, unsigned int last_chapter);
+  void print(unsigned int page_number, bool print_date, const ustring& left_running_header, const ustring& right_running_header, bool suppress_header, unsigned int left_first_chapter, unsigned int left_last_chapter, unsigned int right_first_chapter, unsigned int right_last_chapter);
   ustring left_running_header();
   ustring right_running_header();
-  unsigned int running_first_chapter();
-  unsigned int running_last_chapter();
+  unsigned int left_running_first_chapter();
+  unsigned int right_running_first_chapter();
+  unsigned int left_running_last_chapter();
+  unsigned int right_running_last_chapter();
   bool suppress_headers();
 private:
   cairo_t *cairo;
   deque <T2PBlock *> body_blocks;
   int start_stacking_y;
   int column_spacing_pango_units;
-  void fit_column (deque <T2PBlock *>& input_blocks);
-  void fit_columns (deque <T2PBlock *>& input_blocks, int column_count);
+  void fit_column(deque <T2PBlock *>& input_blocks);
+  void fit_columns(deque <T2PBlock *>& input_blocks, int column_count);
   T2PBigBlock get_next_big_block_to_be_kept_together(deque <T2PBlock *>& input_blocks, int column_count);
-  int get_column_height (deque <T2PBigBlock>& column, int reference_y);
-  void balance_columns (deque <T2PBigBlock>& first_column, deque <T2PBigBlock>& last_column);
-  int balance_last_column_higher_than_or_equal_to_first_column (deque <T2PBigBlock>& first_column, deque <T2PBigBlock>& last_column);
-  int balance_first_column_higher_than_or_equal_to_last_column (deque <T2PBigBlock>& first_column, deque <T2PBigBlock>& last_column);
+  int get_column_height(deque <T2PBigBlock>& column, int reference_y);
+  void balance_columns(deque <T2PBigBlock>& first_column, deque <T2PBigBlock>& last_column);
+  int balance_last_column_higher_than_or_equal_to_first_column(deque <T2PBigBlock>& first_column, deque <T2PBigBlock>& last_column);
+  int balance_first_column_higher_than_or_equal_to_last_column(deque <T2PBigBlock>& first_column, deque <T2PBigBlock>& last_column);
   deque <T2PLayoutContainer *> note_layout_containers;
   PangoRectangle get_next_free_note_rectangle();
   int get_note_height();
-  ustring produce_running_reference (const ustring& book, bool new_book, unsigned int first_chapter, unsigned int last_chapter);
+  ustring produce_running_header(const ustring& header, bool suppress, unsigned int first_chapter, unsigned int last_chapter);
 };
 
 #endif

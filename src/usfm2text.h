@@ -97,7 +97,6 @@ private:
   void convert_from_usfm_to_text();
   void output_text_starting_new_paragraph(ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length, bool keep_with_next_paragraph);
   void output_text_fallback(ustring& line, Usfm2XslFoStyle * & fo_block_style);
-  void output_text_running_header(ustring& line, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length, unsigned int book);
   void output_text_character_style(ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length, bool is_opener);
   void output_elastic(ustring& line, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length);
   void output_spacing_paragraph(ustring& line, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length, bool is_opener);
@@ -109,9 +108,7 @@ private:
   ustring chapter_number_to_output_at_first_verse;
   void output_chapter_number_try_at_first_verse(ustring line, Usfm2XslFoStyle * & fo_block_style);
   map <unsigned int, unsigned int> highest_chapter_number;
-  map <unsigned int, ustring> book_header_left;
-  map <unsigned int, ustring> book_header_right;
-  void collect_running_headers(ustring& line, Usfm2XslFoStyle * stylepointer, size_t marker_length, unsigned int book);
+  void output_running_header(ustring& line, Usfm2XslFoStyle * stylepointer, size_t marker_length, unsigned int book);
   vector <ChapterLabel> chapter_labels;
   vector <ChapterLabel> published_chapter_markers;
 
