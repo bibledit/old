@@ -1571,6 +1571,7 @@ void Usfm2Text::set_new_book(unsigned int book_in) {
   book = book_in;
   set_new_chapter(0);
   inrange.set_book(book);
+  text2pdf->suppress_header_this_page();
 }
 
 void Usfm2Text::set_new_chapter(unsigned int chapter_in) {

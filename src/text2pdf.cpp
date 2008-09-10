@@ -425,8 +425,6 @@ void Text2Pdf::open_paragraph()
   input_paragraph->right_running_header = running_header_right_page;
   input_paragraph->left_running_chapter = running_chapter_left_page;
   input_paragraph->right_running_chapter = running_chapter_right_page;
-  input_paragraph->suppress_header = suppress_header_on_this_page;
-  suppress_header_on_this_page = false;
   // Store paragraph.
   input_data.push_back(input_paragraph);
 }
@@ -662,8 +660,14 @@ void Text2Pdf::inline_clear_strike_through()
 void Text2Pdf::add_text(const ustring& text)
 // Add text to whatever container is on top of the stack.
 {
+  // Add the text to the paragraph.
   ensure_open_paragraph();
   input_paragraph->add_text(text);
+  // Header suppression is done here, because only input paragraph that have text are considered in the suppression system.
+  if (suppress_header_on_this_page) {
+    input_paragraph->suppress_header = true;  
+  }
+  suppress_header_on_this_page = false;
 }
 
 void Text2Pdf::open_note()
@@ -820,10 +824,7 @@ void Text2Pdf::test() {
 
  Todo text2pdf 
 
- To implement running headers.
- There's another system for not printing the header on the first page of a book, and to be implemented 
- A flag should be set in the input, such as "no heading on page". This flag is picked up by an imput
- block, and that clears the flag. 
+ Printing the date in the header should be able to be switched off.
 
  To go through the whole Usfm2Text object and implement missing bits.
  

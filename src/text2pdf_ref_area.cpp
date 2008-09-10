@@ -75,6 +75,8 @@ void T2PReferenceArea::print(unsigned int page_number, bool print_date, const us
   // Page number.
   T2PLayoutContainer page_number_layout_container(rectangle, NULL, cairo);
   string pn(convert_to_string(page_number));
+  if (suppress_header)
+    pn.clear();
   page_number_layout_container.layout_text(NULL, 0, pn);
   if (!(page_number % 2)) {
     // Even.
