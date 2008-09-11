@@ -220,13 +220,6 @@ PrintPreferencesDialog::PrintPreferencesDialog (int dummy)
 
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbuttondate), settings->genconfig.printdate_get ());
 
-  checkbutton_notes_full_width = gtk_check_button_new_with_mnemonic ("Print footnotes and crossreferences over the full width of the page");
-  gtk_widget_show (checkbutton_notes_full_width);
-  gtk_box_pack_start (GTK_BOX (vbox1), checkbutton_notes_full_width, FALSE, FALSE, 0);
-
-  // Set value.
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_notes_full_width), settings->genconfig.notes_print_full_page_width_get ());
-  
   label1 = gtk_label_new ("Page setup");
   gtk_widget_show (label1);
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook1), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook1), 0), label1);
@@ -345,7 +338,6 @@ void PrintPreferencesDialog::on_okbutton1 ()
   settings->genconfig.paper_top_margin_set (gtk_spin_button_get_value (GTK_SPIN_BUTTON (spinbutton_top)));
   settings->genconfig.paper_bottom_margin_set (gtk_spin_button_get_value (GTK_SPIN_BUTTON (spinbutton_bottom)));
   settings->genconfig.printdate_set (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbuttondate)));
-  settings->genconfig.notes_print_full_page_width_set (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_notes_full_width)));
 }
 
 

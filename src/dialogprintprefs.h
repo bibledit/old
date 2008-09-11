@@ -66,7 +66,6 @@ private:
   GtkWidget *vseparator2;
   GtkWidget *vbox1;
   GtkWidget *checkbuttondate;
-  GtkWidget *checkbutton_notes_full_width;
   GtkWidget *label1;
   GtkWidget *dialog_action_area1;
   GtkWidget *cancelbutton1;

@@ -824,8 +824,6 @@ void Text2Pdf::test() {
 
  Todo text2pdf 
 
- Printing the date in the header should be able to be switched off.
-
  To go through the whole Usfm2Text object and implement missing bits.
  
  To implement renumbering note callers per page as in code similar to:
