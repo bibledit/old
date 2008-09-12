@@ -27,7 +27,8 @@
 
 enum T2PBlockType { t2pbtTextGeneral, t2pbtTextParagraphFirstLine, t2pbtTextParagraphLastLine, t2pbtTextParagraphOnlyLine,
                     t2pbtTextIntrusion,
-                    t2pbtSpaceBeforeParagraph, t2pbtSpaceAfterParagraph };
+                    t2pbtSpaceBeforeParagraph, t2pbtSpaceAfterParagraph,
+                    t2pbtNewPage, t2pbtNewOddPage};
 
 class T2PBlock : public T2PArea
 {

@@ -58,6 +58,8 @@ private:
   PangoRectangle get_next_free_note_rectangle();
   int get_note_height();
   ustring produce_running_header(const ustring& header, bool suppress, unsigned int first_chapter, unsigned int last_chapter);
+  bool new_page_input_block_encountered(deque <T2PBlock *>& input_blocks, bool set_flag);
+  bool start_new_page;
 };
 
 #endif

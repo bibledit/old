@@ -153,6 +153,16 @@ void Text2Pdf::page_one_column_only()
   one_column_only = true;
 }
 
+void Text2Pdf::new_page(bool odd)
+// Sets the engine to go to a new page. If odd is true, it goes to a new odd page.
+{
+  close_paragraph();
+  if (odd)
+    input_data.push_back(new T2PInput (t2pitNewOddPage));
+  else
+    input_data.push_back(new T2PInput (t2pitNewPage));
+}
+
 void Text2Pdf::run()
 // Runs the converter.
 {
@@ -221,6 +231,30 @@ void Text2Pdf::run_input(vector <T2PInput *>& input)
         rectangle.height = 0;
         T2PBlock * block = new T2PBlock (rectangle, 1);
         block->type = t2pbtSpaceAfterParagraph;
+        input_blocks.push_back(block);
+        break;
+      }
+      case t2pitNewPage:
+      {
+        PangoRectangle rectangle;
+        rectangle.x = 0;
+        rectangle.y = 0;
+        rectangle.width = 0;
+        rectangle.height = 0;
+        T2PBlock * block = new T2PBlock (rectangle, 1);
+        block->type = t2pbtNewPage;
+        input_blocks.push_back(block);
+        break;
+      }
+      case t2pitNewOddPage:
+      {
+        PangoRectangle rectangle;
+        rectangle.x = 0;
+        rectangle.y = 0;
+        rectangle.width = 0;
+        rectangle.height = 0;
+        T2PBlock * block = new T2PBlock (rectangle, 1);
+        block->type = t2pbtNewOddPage;
         input_blocks.push_back(block);
         break;
       }
@@ -665,7 +699,7 @@ void Text2Pdf::add_text(const ustring& text)
   input_paragraph->add_text(text);
   // Header suppression is done here, because only input paragraph that have text are considered in the suppression system.
   if (suppress_header_on_this_page) {
-    input_paragraph->suppress_header = true;  
+    input_paragraph->suppress_header = true;
   }
   suppress_header_on_this_page = false;
 }
@@ -759,13 +793,11 @@ void Text2Pdf::print_date_in_header()
   print_date = true;
 }
 
-void Text2Pdf::set_running_header_left_page(const ustring& header)
-{
+void Text2Pdf::set_running_header_left_page(const ustring& header) {
   running_header_left_page = header;
 }
 
-void Text2Pdf::set_running_header_right_page(const ustring& header)
-{
+void Text2Pdf::set_running_header_right_page(const ustring& header) {
   running_header_right_page = header;
 }
 

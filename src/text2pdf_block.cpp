@@ -126,6 +126,10 @@ ustring T2PBlock::type2text()
       return "SpaceBeforeParagraph";
     case t2pbtSpaceAfterParagraph:
       return "SpaceAfterParagraph";
+    case t2pbtNewPage:
+      return "NewPage";
+    case t2pbtNewOddPage:
+      return "NewOddPage";
   }
   return "";
 }

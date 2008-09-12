@@ -105,6 +105,7 @@ public:
   void footer_height_set(double size_centimeters);
   void column_spacing_set(double spacing_centimeters);
   void page_one_column_only();
+  void new_page(bool odd);
 private:
   int page_width_pango_units, page_height_pango_units;
   int inside_margin_pango_units, outside_margin_pango_units, top_margin_pango_units, bottom_margin_pango_units;
