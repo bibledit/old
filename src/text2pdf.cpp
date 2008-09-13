@@ -384,6 +384,14 @@ void Text2Pdf::fit_blocks_on_pages()
     progresswindow->set_text("Page " + convert_to_string(pages.size()));
     // Lay out the input on the page.
     page->text_reference_area->fit_blocks(input_blocks, column_spacing_pango_units);
+    // Check whether to start a new odd page.
+    if (page->text_reference_area->start_new_odd_page) {
+      // If the current page is odd, then the next will be even, so we need to insert an extra one here.
+      int current_page_number = pages.size();
+      if (current_page_number % 2) {
+        next_page();      
+      }
+    }
   }
 }
 

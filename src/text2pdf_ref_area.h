@@ -42,6 +42,7 @@ public:
   unsigned int left_running_last_chapter();
   unsigned int right_running_last_chapter();
   bool suppress_headers();
+  bool start_new_odd_page;
 private:
   cairo_t *cairo;
   deque <T2PBlock *> body_blocks;

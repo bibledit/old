@@ -34,6 +34,7 @@ T2PReferenceArea::T2PReferenceArea(PangoRectangle rectangle_in, cairo_t *cairo_i
   cairo = cairo_in;
   // New page.
   start_new_page = false;
+  start_new_odd_page = false;
 }
 
 T2PReferenceArea::~T2PReferenceArea()
@@ -139,13 +140,13 @@ void T2PReferenceArea::fit_blocks(deque <T2PBlock *>& input_blocks, int column_s
   int n_columns = 0;
   while (!input_blocks.empty()) {
     // Handle a new page too.
-    if (input_blocks[0]->column_count != n_columns || new_page_input_block_encountered(input_blocks, false)) { // Todo
+    if (input_blocks[0]->column_count != n_columns || new_page_input_block_encountered(input_blocks, false)) {
       fit_column(blocks_with_equal_column_count);
       // If there are still blocks left, that means that these didn't fit on the page. 
       if (!blocks_with_equal_column_count.empty())
         break;
       /// New page.
-      if (new_page_input_block_encountered(input_blocks, true)) // Todo
+      if (new_page_input_block_encountered(input_blocks, true))
         break;
       n_columns = input_blocks[0]->column_count;
     }
@@ -168,7 +169,7 @@ void T2PReferenceArea::fit_blocks(deque <T2PBlock *>& input_blocks, int column_s
   }
   
   // If a new page block was found, remove it from memory.
-  if (new_page_input_block_encountered(input_blocks, true)) {// Todo
+  if (new_page_input_block_encountered(input_blocks, true)) { 
     if (!input_blocks.empty()) {
       delete input_blocks[0];
       input_blocks.pop_front();
@@ -188,7 +189,7 @@ void T2PReferenceArea::fit_column(deque <T2PBlock *>& input_blocks)
     return;
 
   // Bail out if the next input block starts a new page.
-  if (new_page_input_block_encountered(input_blocks, true)) { // Todo
+  if (new_page_input_block_encountered(input_blocks, true)) {
     return;
   }
   
@@ -196,7 +197,7 @@ void T2PReferenceArea::fit_column(deque <T2PBlock *>& input_blocks)
   fit_columns(input_blocks, input_blocks[0]->column_count);
 }
 
-void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_count) // Todo
+void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_count)
 /*
  Fits the input blocks into one or two columns.
 
@@ -592,6 +593,7 @@ bool T2PReferenceArea::new_page_input_block_encountered(deque <T2PBlock *>& inpu
       if (!set_flag)
         return true;
       start_new_page = true;
+      start_new_odd_page = true;
     }
   }
   return start_new_page;
