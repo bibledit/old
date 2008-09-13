@@ -876,6 +876,7 @@ void Text2Pdf::test() {
  every page, then in such a situation we don't know whether the space will be one or two digits.
  To cover this situation too, we need to lay out the text in the page while generating the layouts from the input stream.
  So this means that there is a continual input stream, and that the layout process is driven by that stream.
+ Later on it occurred to me that it would be better to not renumber per page, and remove this from the stylesheet editor.
  
  To implement images rendering, probably png only as cairo reads them natively.
  When images are rendered, these go into the LayoutContainer object, though the name may have to be changed at that stage.

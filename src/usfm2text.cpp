@@ -306,7 +306,7 @@ void Usfm2Text::convert_from_usfm_to_text() {
           if (stylepointer) {
             switch (stylepointer->type)
             {
-              case u2xtIdentifierBook: // Todo working here.
+              case u2xtIdentifierBook:
               {
                 ustring id_line = get_erase_code_till_next_marker(usfm_line, 0, marker_length, true);
                 if (id_line.length() >= 3) {
@@ -322,7 +322,7 @@ void Usfm2Text::convert_from_usfm_to_text() {
                 book_spans_columns = (books_id_to_type(book) == btFrontBackMatter);
                 break;
               }
-              case u2xtIdentifierComment:
+              case u2xtIdentifierComment: // Todo working here.
               {
                 get_erase_code_till_next_marker(usfm_line, marker_position, marker_length, true);
                 break;
@@ -1594,14 +1594,14 @@ void Usfm2Text::set_new_verse(const ustring& verse_in) {
   inrange.set_verse(verse);
 }
 
-void Usfm2Text::output_id_page_break(Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style) // Todo
+void Usfm2Text::output_id_page_break(Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style)
 // Looks in the style whether the book id should cause a page break.
 {
   // Bail out if no page break to be given.
   if (!stylepointer->book_starts_new_page)
     return;
 
-  // The first id in a project should not cause a page break, else XEP gives an error.
+  // The first id in a project should not cause a page break.
   if (id_page_break_count > 0) {
     output_page_break(fo_block_style, fo_inline_style, stylepointer->book_starts_odd_page);
   }
@@ -1618,7 +1618,7 @@ void Usfm2Text::output_other_page_break(ustring& line, Usfm2XslFoStyle * stylepo
   output_page_break(fo_block_style, fo_inline_style, false);
 }
 
-void Usfm2Text::output_page_break(Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, bool oddpage) { // Todo
+void Usfm2Text::output_page_break(Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, bool oddpage) {
   // Bail out if we're not to write new pages.
   if (do_not_allow_new_page)
     return;
@@ -1628,12 +1628,7 @@ void Usfm2Text::output_page_break(Usfm2XslFoStyle * & fo_block_style, Usfm2XslFo
   text2pdf->close_paragraph();
 
   // Write the page break.
-  ustring breaktext;
-  if (oddpage)
-    breaktext = "odd-page";
-  else
-    breaktext = "page";
-  //xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "break-after", breaktext.c_str()); // Todo
+  text2pdf->new_page(oddpage);
 }
 
 void Usfm2Text::output_picture(ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length)
