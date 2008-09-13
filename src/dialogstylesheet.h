@@ -272,7 +272,6 @@ private:
   GtkWidget *radiobutton_note_numbering_restart_never;
   GtkWidget *radiobutton_note_numbering_restart_book;
   GtkWidget *radiobutton_note_numbering_restart_chapter;
-  GtkWidget *radiobutton_note_numbering_restart_page;
   void note_numering_restart_create ();
   
   // Print chapternumber at first verse.

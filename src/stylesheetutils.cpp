@@ -32,8 +32,8 @@
 #include "tiny_utilities.h"
 #include "shutdown.h"
 
-#define STYLESHEET_SUFFIX ".sql17"
-char *RECOGNIZED_SUFFIXES [] = { ".sql11", ".sql12", ".sql13", ".sql14", ".sql15", ".sql16", ".sql17" };
+#define STYLESHEET_SUFFIX ".sql18"
+char *RECOGNIZED_SUFFIXES [] = { ".sql11", ".sql12", ".sql13", ".sql14", ".sql15", ".sql16", ".sql17", ".sql18" };
 
 ustring stylesheet_filename(const ustring& name)
 // This returns the database's filename for a named stylesheet.
@@ -402,6 +402,25 @@ void stylesheets_upgrade()
       sqlite3_close (db);
       ustring newfilename (filename);
       newfilename.replace (newfilename.length() - 2, 2, "17");
+      unix_mv (filename, newfilename);
+    }
+  }
+
+  // Upgrade from *.sql17 -> *.sql18: Footnote and crossreferences no longer renumber per page.
+  {
+    ReadFiles rf (directories_get_stylesheets (), "", ".sql17");
+    for (unsigned int i = 0; i < rf.files.size(); i++) {
+      ustring filename = gw_build_filename (directories_get_stylesheets (), rf.files[i]);
+      gw_message ("Updating stylesheet " + filename);
+      sqlite3 *db;
+      char *error = NULL;
+      sqlite3_open(filename.c_str (), &db);
+      sqlite3_busy_timeout (db, 1000);
+      sqlite3_exec(db, "update styles set userint2 = 2 where marker = 'f';", NULL, NULL, &error);
+      sqlite3_exec(db, "update styles set userint2 = 2 where marker = 'x';", NULL, NULL, &error);
+      sqlite3_close (db);
+      ustring newfilename (filename);
+      newfilename.replace (newfilename.length() - 2, 2, "18");
       unix_mv (filename, newfilename);
     }
   }

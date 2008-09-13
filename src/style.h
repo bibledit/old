@@ -46,7 +46,7 @@ enum NoteNumberingType {
   nntNumerical, nntAlphabetical, nntUserDefined
 };
 enum NoteNumberingRestartType {
-  nnrtNever, nnrtBook, nnrtChapter, nnrtPage
+  nnrtNever, nnrtBook, nnrtChapter
 };
 enum EndnotePositionType {
   eptAfterBook, eptAfterEverything, eptAtMarker

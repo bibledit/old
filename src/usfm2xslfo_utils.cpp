@@ -50,7 +50,7 @@ Usfm2XslFoStyle::Usfm2XslFoStyle (const ustring& marker_in)
   print_in_left_running_header = false;
   print_in_right_running_header = false;
   note_numbering_type = nntNumerical;
-  note_numbering_restart_type = nnrtPage;
+  note_numbering_restart_type = nnrtChapter;
   endnote_position_type = eptAfterEverything;
   table_column_number = 1;
   restart_paragraph = false;

@@ -36,7 +36,7 @@ OdtFootnote::OdtFootnote (const Usfm& usfm)
   // Store and initialize variables.
   show = true;
   NoteNumberingType note_numbering_type = nntNumerical;
-  note_numbering_restart = nnrtPage;
+  note_numbering_restart = nnrtChapter;
   ustring note_numbering_user_sequence;
   standardparagraph = NULL;
   extraparagraph = NULL;

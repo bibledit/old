@@ -35,8 +35,6 @@ public:
   ustring get_caller ();
   NoteNumberingType numbering;
   ustring sequence;
-  ustring renumber_per_page_temporal_caller_text;
-  ustring renumber_per_page_temporal_caller_note;
 private:
   unsigned int caller_pointer;
 };

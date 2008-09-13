@@ -55,10 +55,6 @@ SwordNote::SwordNote (const Usfm& usfm, bool show)
           footnote_closer = usfm_get_full_closing_marker (usfm.styles[i].marker);
           footnote_numbering_type = (NoteNumberingType) usfm.styles[i].userint1;
           footnote_numbering_restart = (NoteNumberingRestartType) usfm.styles[i].userint2;
-          if (footnote_numbering_restart == nnrtPage) {
-            gw_warning ("Footnote numbering restarts every chapter");
-            footnote_numbering_restart = nnrtChapter;
-          }
           footnote_numbering_user_sequence = usfm.styles[i].userstring1;
           break;
         }
@@ -110,10 +106,6 @@ SwordNote::SwordNote (const Usfm& usfm, bool show)
           xref_closer = usfm_get_full_closing_marker (usfm.styles[i].marker);
           xref_numbering_type = (NoteNumberingType) usfm.styles[i].userint1;
           xref_numbering_restart = (NoteNumberingRestartType) usfm.styles[i].userint2;
-          if (xref_numbering_restart == nnrtPage) {
-            gw_warning ("Crossreference numbering restarts every chapter");
-            xref_numbering_restart = nnrtChapter;
-          }
           xref_numbering_user_sequence = usfm.styles[i].userstring1;
           break;
         }

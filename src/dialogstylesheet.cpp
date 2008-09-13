@@ -1737,8 +1737,6 @@ void StylesheetDialog::destroy_optional_widgets()
       userint2 = nnrtBook;
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON (radiobutton_note_numbering_restart_chapter)))
       userint2 = nnrtChapter;
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON (radiobutton_note_numbering_restart_page)))
-      userint2 = nnrtPage;
     gtk_widget_destroy(hbox10);
     hbox10 = NULL;
   }
@@ -2399,12 +2397,6 @@ void StylesheetDialog::note_numering_restart_create() {
   gtk_radio_button_set_group(GTK_RADIO_BUTTON (radiobutton_note_numbering_restart_chapter), radiobutton_note_numbering_restart_never_group);
   radiobutton_note_numbering_restart_never_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON (radiobutton_note_numbering_restart_chapter));
 
-  radiobutton_note_numbering_restart_page = gtk_radio_button_new_with_mnemonic(NULL, "every page");
-  gtk_widget_show(radiobutton_note_numbering_restart_page);
-  gtk_box_pack_start(GTK_BOX (vbox12), radiobutton_note_numbering_restart_page, FALSE, FALSE, 0);
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON (radiobutton_note_numbering_restart_page), radiobutton_note_numbering_restart_never_group);
-  radiobutton_note_numbering_restart_never_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON (radiobutton_note_numbering_restart_page));
-
   NoteNumberingRestartType note_numbering_type = (NoteNumberingRestartType) userint2;
   switch (note_numbering_type)
   {
@@ -2418,14 +2410,9 @@ void StylesheetDialog::note_numering_restart_create() {
       gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (radiobutton_note_numbering_restart_book), true);
       break;
     }
-    case nnrtChapter:
+    default:
     {
       gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (radiobutton_note_numbering_restart_chapter), true);
-      break;
-    }
-    case nnrtPage:
-    {
-      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (radiobutton_note_numbering_restart_page), true);
       break;
     }
   }

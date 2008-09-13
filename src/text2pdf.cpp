@@ -866,18 +866,6 @@ void Text2Pdf::test() {
 
  To go through the whole Usfm2Text object and implement missing bits.
  
- To implement renumbering note callers per page as in code similar to:
- caller_in_text = notecallers[stylepointer]->renumber_per_page_temporal_caller_text;
- We need to have a .note_caller() function, which can just pass the caller to be formatted literally,
- or in cases that the numbering restarts per page, we can pass a pointer to a NoteCaller object.
- There can be various NoteCaller objects, one for f, fe, x, and one for the caller in the text, and one for the 
- caller in the note, as these differ.
- Once this starts, we don't know how many space the note callers will take up. If the renumbering restarts 
- every page, then in such a situation we don't know whether the space will be one or two digits.
- To cover this situation too, we need to lay out the text in the page while generating the layouts from the input stream.
- So this means that there is a continual input stream, and that the layout process is driven by that stream.
- Later on it occurred to me that it would be better to not renumber per page, and remove this from the stylesheet editor.
- 
  To implement images rendering, probably png only as cairo reads them natively.
  When images are rendered, these go into the LayoutContainer object, though the name may have to be changed at that stage.
  
@@ -940,6 +928,8 @@ void Text2Pdf::test() {
  Trying to print Numbers with full references for Mpofu, it hangs forever. This is caused by the fact that
  the notes don't fit on one page, so it keeps flipping the notes forth and never finds a place to allocate 
  them.
+ 
+ Make elastics work again.
  
  */
 

@@ -1236,18 +1236,8 @@ void Usfm2XslFo::create_note_callers()
     if ((styles[i].type == u2xtFootNoteStart) || (styles[i].type == u2xtEndNoteStart) || (styles[i].type == u2xtCrossreferenceStart)) {
       // Create the note caller.
       NoteCaller * notecaller = new NoteCaller (styles[i].note_numbering_type, styles[i].note_numbering_user_sequence);
-      if (styles[i].note_numbering_restart_type == nnrtPage) {
-        notecaller->renumber_per_page_temporal_caller_text = note_caller_numbering_per_page_pool ().substr(poolpointer, 1);
-        poolpointer++;
-        notecaller->renumber_per_page_temporal_caller_note = note_caller_numbering_per_page_pool ().substr(poolpointer, 1);
-        poolpointer++;
-      }
       // Store it in the main map.
       notecallers[&styles[i]] = notecaller;
-      // Store it in the list of notecaller that need renumbering each page.
-      if (styles[i].note_numbering_restart_type == nnrtPage) {
-        notecallers_per_page.push_back(notecaller);
-      }
     }
   }
 }
@@ -1304,11 +1294,6 @@ void Usfm2XslFo::output_text_note(ustring& line, Usfm2XslFoStyle * stylepointer,
   ustring caller_in_text = trim(rawnote.substr(0, 1));
   if (caller_in_text == "+") {
     caller_in_text = notecallers[stylepointer]->get_caller();
-    if ((stylepointer->type == u2xtFootNoteStart) || (stylepointer->type == u2xtCrossreferenceStart)) {
-      if (stylepointer->note_numbering_restart_type == nnrtPage) {
-        caller_in_text = notecallers[stylepointer]->renumber_per_page_temporal_caller_text;
-      }
-    }
   } else if (caller_in_text == "-") {
     caller_in_text.clear();
   }
@@ -1341,11 +1326,6 @@ void Usfm2XslFo::output_text_note(ustring& line, Usfm2XslFoStyle * stylepointer,
 
   // Get the caller in the note.
   ustring caller_in_note = caller_in_text;
-  if ((stylepointer->type == u2xtFootNoteStart) || (stylepointer->type == u2xtCrossreferenceStart)) {
-    if (stylepointer->note_numbering_restart_type == nnrtPage) {
-      caller_in_note = notecallers[stylepointer]->renumber_per_page_temporal_caller_note;
-    }
-  }
 
   // Insert the caller in the footnote body.
   if (!caller_in_note.empty()) {
@@ -1478,82 +1458,6 @@ void Usfm2XslFo::rewrite_note_callers()
  retrieved from "note_caller_numbering_per_page_pool ()".
  */
 {
-  // If no callers bail out.
-  if (notecallers_per_page.empty())
-    return;
-
-  // Progress information.
-  progresswindow->set_text("Renumbering notes");
-  progresswindow->set_fraction(0);
-
-  // Read all text.
-  ReadText rt(xepfile(), true, false);
-
-  // Mark all page boundaries.
-  vector<unsigned int> page_beginning;
-  vector<unsigned int> page_ending;
-  {
-    unsigned int begin = 0;
-    for (unsigned int i = 0; i < rt.lines.size(); i++) {
-      if (rt.lines[i].find("<xep:page") != string::npos)
-        begin = i;
-      if (rt.lines[i].find("</xep:page") != string::npos) {
-        page_beginning.push_back(begin);
-        page_ending.push_back(i);
-      }
-    }
-  }
-
-  // Progress.
-  progresswindow->set_iterate(0, 1, page_beginning.size());
-
-  // Go through each page.
-  for (unsigned int pg = 0; pg < page_beginning.size(); pg++) {
-
-    // Progress.
-    progresswindow->iterate();
-
-    // Go through all available note callers.
-    for (unsigned int nc = 0; nc < notecallers_per_page.size(); nc++) {
-
-      // Store information about the positions of the footnote and xref markers.
-      vector <unsigned int> lines_with_note_markers_text;
-      vector <size_t> note_markers_positions_text;
-      vector <unsigned int> lines_with_note_markers_note;
-      vector <size_t> note_markers_positions_note;
-      for (unsigned int i2 = page_beginning[pg]; i2 < page_ending[pg]; i2++) {
-        size_t position;
-        position = rt.lines[i2].find(notecallers_per_page[nc]->renumber_per_page_temporal_caller_text);
-        if (position != string::npos) {
-          lines_with_note_markers_text.push_back(i2);
-          note_markers_positions_text.push_back(position);
-        }
-        position = rt.lines[i2].find(notecallers_per_page[nc]->renumber_per_page_temporal_caller_note);
-        if (position != string::npos) {
-          lines_with_note_markers_note.push_back(i2);
-          note_markers_positions_note.push_back(position);
-        }
-      }
-
-      // Handle all positions with the note markers.
-      size_t note_caller_length = 1;
-      if (lines_with_note_markers_text.size() > 0) {
-        notecallers_per_page[nc]->reset();
-        for (unsigned int i2 = 0; i2 < lines_with_note_markers_text.size(); i2++) {
-          rt.lines[lines_with_note_markers_text[i2]].replace(note_markers_positions_text[i2], note_caller_length, notecallers_per_page[nc]->get_caller());
-        }
-      }
-      if (lines_with_note_markers_note.size() > 0) {
-        notecallers_per_page[nc]->reset();
-        for (unsigned int i2 = 0; i2 < lines_with_note_markers_note.size(); i2++) {
-          rt.lines[lines_with_note_markers_note[i2]].replace(note_markers_positions_note[i2], note_caller_length, notecallers_per_page[nc]->get_caller());
-        }
-      }
-    }
-  }
-
-  // Write all text.
-  write_lines(xepfile(), rt.lines);
 }
 
 void Usfm2XslFo::note_callers_new_book()

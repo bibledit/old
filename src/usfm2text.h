@@ -129,7 +129,6 @@ private:
   void destroy_note_callers();
   void output_text_note(ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, size_t marker_length, bool is_opener);
   Usfm2XslFoStyle * get_default_paragraph_style_for_note(Usfm2XslFoStyle * notestyle);
-  void rewrite_note_callers();
   void note_callers_new_book();
   void note_callers_new_chapter();
   void buffer_endnote(ustring& line, Usfm2XslFoStyle * stylepointer, size_t marker_length, bool is_opener);
