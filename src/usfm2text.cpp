@@ -332,14 +332,14 @@ void Usfm2Text::convert_from_usfm_to_text() {
                 output_running_header(usfm_line, stylepointer, marker_length, book);
                 break;
               }
-              case u2xtIdentifierLongTOC: // Todo working here.
+              case u2xtIdentifierLongTOC:
               {
-                toc_insert_anchor(usfm_line, fo_block_style, fo_inline_style, marker_length);
+                toc_insert_referent(usfm_line, fo_block_style, fo_inline_style, marker_length);
                 break;
               }
               case u2xtIdentifierShortTOC:
               {
-                toc_insert_anchor(usfm_line, fo_block_style, fo_inline_style, marker_length);
+                toc_insert_referent(usfm_line, fo_block_style, fo_inline_style, marker_length);
                 break;
               }
               case u2xtIdentifierBookAbbreviation:
@@ -347,7 +347,7 @@ void Usfm2Text::convert_from_usfm_to_text() {
                 get_erase_code_till_next_marker(usfm_line, marker_position, marker_length, true);
                 break;
               }
-              case u2xtParagraphMainTitle:
+              case u2xtParagraphMainTitle: // Todo working here.
               {
                 output_text_starting_new_paragraph(usfm_line, stylepointer, fo_block_style, fo_inline_style, marker_length, true);
                 break;
@@ -1629,15 +1629,6 @@ void Usfm2Text::output_elastic(ustring& line, Usfm2XslFoStyle * & fo_block_style
   text2pdf->close_paragraph();
 }
 
-ustring Usfm2Text::toc_identifier(unsigned int book)
-// Returns the identifier used for the book.
-{
-  // Spaces are not allowed in an identifier, neither can it start with a number.
-  ustring toc_id = "toc_" + lowerCase(books_id_to_english(book));
-  replace_text(toc_id, " ", "_");
-  return toc_id;
-}
-
 void Usfm2Text::toc_collect_text(ustring& line, size_t marker_length, bool longtext, unsigned int book)
 // Collects the texts for the table of contents.
 {
@@ -1649,20 +1640,14 @@ void Usfm2Text::toc_collect_text(ustring& line, size_t marker_length, bool longt
   }
 }
 
-void Usfm2Text::toc_insert_anchor(ustring& line, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length)
-// Inserts an anchor in the text so the table of contents 
-// can reference to its page number.
+void Usfm2Text::toc_insert_referent(ustring& line, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length)
+// Inserts a referent in the text so the table of contents can refer to it to retrieve the page number.
 {
   // Erase code and data from the line.
   get_erase_code_till_next_marker(line, 0, marker_length, false);
 
-  // Close any open styles.
-  close_possible_inline(fo_inline_style);
-  text2pdf->close_paragraph();
-
-  // Write the id in a new block.
-  //xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "id", toc_identifier (book).c_str());
-  text2pdf->close_paragraph();
+  // Write the referent.
+  text2pdf->set_referent (books_id_to_english(book));
 }
 
 void Usfm2Text::toc_insert_body(ustring& line, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length)
@@ -1689,16 +1674,10 @@ void Usfm2Text::toc_insert_body(ustring& line, Usfm2XslFoStyle * & fo_block_styl
 
     // Open a block for this label.
     Usfm2XslFoStyle * style = marker_get_pointer_to_style(default_style());
-    ustring default_style_justification = style->justification;
-    style->justification = "last-justify";
     fo_block_style = style;
     open_paragraph(style, false);
-    style->justification = default_style_justification;
-    //xmlTextWriterWriteFormatString(writer, label.c_str());
-    //xmlTextWriterStartElement(writer, BAD_CAST "fo:leader");
-    //xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "leader-pattern", "dots");
-    //xmlTextWriterStartElement(writer, BAD_CAST "fo:page-number-citation");
-    //xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "ref-id", toc_identifier (books[bk]).c_str());
+    text2pdf->set_reference(books_id_to_english(books[bk]));
+    text2pdf->add_text(label);
     text2pdf->close_paragraph();
   }
 }

@@ -166,6 +166,14 @@ private:
   unsigned int running_chapter_right_page;
   bool suppress_header_on_this_page;
  
+  // Table of contents.
+public:
+  void set_reference (const ustring& label);
+  void set_referent (const ustring& label);
+private:
+  void generate_tables_of_contents();
+  ustring reference;
+  ustring referent;
 };
 
 #endif

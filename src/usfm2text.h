@@ -162,9 +162,8 @@ private:
   vector <unsigned int> books;
   map <unsigned int, ustring> toc_texts_short;
   map <unsigned int, ustring> toc_texts_long;
-  ustring toc_identifier(unsigned int book);
   void toc_collect_text(ustring& line, size_t marker_length, bool longtext, unsigned int book);
-  void toc_insert_anchor(ustring& line, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length);
+  void toc_insert_referent(ustring& line, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length);
   void toc_insert_body(ustring& line, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length);
 
   // Insertions / deletions

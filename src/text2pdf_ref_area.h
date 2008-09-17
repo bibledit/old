@@ -43,6 +43,8 @@ public:
   unsigned int right_running_last_chapter();
   bool suppress_headers();
   bool start_new_odd_page;
+  void get_referents(map <ustring, ustring>& referents, unsigned int page_number);
+  void match_and_expand_references_and_referents(map <ustring, ustring>& referents);
 private:
   cairo_t *cairo;
   deque <T2PBlock *> body_blocks;
@@ -61,6 +63,7 @@ private:
   ustring produce_running_header(const ustring& header, bool suppress, unsigned int first_chapter, unsigned int last_chapter);
   bool new_page_input_block_encountered(deque <T2PBlock *>& input_blocks, bool set_flag);
   bool start_new_page;
+  deque <T2PLayoutContainer *> table_of_contents_layout_containers;
 };
 
 #endif

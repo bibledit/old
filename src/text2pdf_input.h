@@ -84,6 +84,8 @@ public:
   unsigned int left_running_chapter;
   unsigned int right_running_chapter;
   bool suppress_header;
+  ustring reference;
+  ustring referent;
 private:
   size_t maximum_text_length;
   vector <int> font_size_percentage_values;

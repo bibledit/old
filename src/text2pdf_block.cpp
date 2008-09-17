@@ -32,8 +32,9 @@ T2PBlock::T2PBlock(PangoRectangle rectangle_in, int column_count_in) :
   // By default the block is not kept together with the next one.
   keep_with_next = false;
 
-  // Column count.
+  // Columns, size.
   column_count = column_count_in;
+  maximum_width_pango_units = rectangle.width;
   
   // Running header variables.
   left_running_chapter = 0;

@@ -6945,6 +6945,18 @@ void MainWindow::on_print() {
       text2pdf.set_running_chapter_number(1, 1);
       text2pdf.suppress_header_this_page();
       text2pdf.open_paragraph();
+      text2pdf.paragraph_set_alignment(t2patCenter);
+      text2pdf.add_text("Table of Contents");
+      text2pdf.open_paragraph();
+      text2pdf.paragraph_set_first_line_indent(0);
+      text2pdf.set_reference("genesis");
+      text2pdf.add_text("Genesis");
+      text2pdf.open_paragraph();
+      text2pdf.paragraph_set_first_line_indent(0);
+      text2pdf.set_reference("exodus");
+      text2pdf.add_text("Exodus");
+      text2pdf.open_paragraph();
+      text2pdf.set_referent("genesis");
       text2pdf.paragraph_set_first_line_indent(0);
       text2pdf.open_intrusion();
       text2pdf.add_text("1");
@@ -6953,7 +6965,6 @@ void MainWindow::on_print() {
       text2pdf.open_note();
       text2pdf.add_text("Gen. 10.1; 11.2. Exod. 10.5; 11.5; 12.1; Ps. 110.1; 119.5.");
       text2pdf.close_note();
-      text2pdf.new_page(true);
       text2pdf.open_paragraph();
       text2pdf.add_text("The one who gives life appeared! We saw it happen, and we are witnesses to what we have seen. Now we are telling you about this eternal life that was with the Father and appeared to us. 3 We are telling you what we have seen and heard, so that you may share in this life with us. And we share in it with the Father and with his Son Jesus Christ. 4 We are writing to tell you these things, because this makes us truly happy.");
       text2pdf.open_paragraph();
@@ -7057,6 +7068,7 @@ void MainWindow::on_print() {
       text2pdf.close_note();
       text2pdf.open_paragraph();
       text2pdf.paragraph_set_first_line_indent(0);
+      text2pdf.set_referent("exodus");
       text2pdf.open_intrusion();
       text2pdf.add_text("5");
       text2pdf.close_intrusion();

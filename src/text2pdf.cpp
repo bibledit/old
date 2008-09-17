@@ -182,6 +182,9 @@ void Text2Pdf::run()
   // Fit the blocks on the pages.
   fit_blocks_on_pages();
 
+  // Generate tables of contents.
+  generate_tables_of_contents();
+
   // Print the pages.
   progresswindow->set_iterate(0.5, 1, pages.size());
   for (unsigned int pg = 0; pg < pages.size(); pg++) {
@@ -344,6 +347,11 @@ void Text2Pdf::get_next_layout_container(bool intrusion)
   block->right_running_chapter = input_paragraph->right_running_chapter;
   block->suppress_header = input_paragraph->suppress_header;
   input_paragraph->suppress_header = false;
+  // Table of contents.
+  block->reference = input_paragraph->reference;
+  input_paragraph->reference.clear();
+  block->referent = input_paragraph->referent;
+  input_paragraph->referent.clear();
 
   // Handle a preceding intrusion.
   if (!input_blocks.empty()) {
@@ -389,7 +397,7 @@ void Text2Pdf::fit_blocks_on_pages()
       // If the current page is odd, then the next will be even, so we need to insert an extra one here.
       int current_page_number = pages.size();
       if (current_page_number % 2) {
-        next_page();      
+        next_page();
       }
     }
   }
@@ -705,11 +713,14 @@ void Text2Pdf::add_text(const ustring& text)
   // Add the text to the paragraph.
   ensure_open_paragraph();
   input_paragraph->add_text(text);
-  // Header suppression is done here, because only input paragraph that have text are considered in the suppression system.
+  // Header suppression is done here, because only input paragraphs that have text are considered in the suppression system.
   if (suppress_header_on_this_page) {
     input_paragraph->suppress_header = true;
   }
   suppress_header_on_this_page = false;
+  // References and referents are stored here, because only input paragraphs with text are considered in the system.
+  set_reference(reference);
+  set_referent(referent);
 }
 
 void Text2Pdf::open_note()
@@ -860,10 +871,74 @@ void Text2Pdf::test() {
   cairo_show_page(cairo);
 }
 
+void Text2Pdf::set_reference(const ustring& label)
+// Sets a reference.
+// Used for creating a table of contents with page numbers.
+{
+  // Store the reference.
+  reference = label;
+  // Bail out if there's no reference.
+  if (reference.empty())
+    return;
+  // Bail out if there's another paragraph, because the reference is only dealt with if it is found in the main paragraph.
+  if (stacked_input_paragraph)
+    return;
+  // If there's a paragraph with text, set the reference in it.
+  // References are only dealt with if there's text in the paragraph.
+  if (input_paragraph && !input_paragraph->text.empty()) {
+    input_paragraph->reference = reference;
+    reference.clear();
+  }
+}
+
+void Text2Pdf::set_referent(const ustring& label)
+// Sets a referent. 
+// Used for creating a table of contents with page numbers.
+{
+  // Store the referent.
+  referent = label;
+  // Bail out if there's no referent.
+  if (referent.empty())
+    return;
+  // Bail out if there's another paragraph, because the referent is only dealt with if it is found in the main paragraph.
+  if (stacked_input_paragraph)
+    return;
+  // If there's a paragraph with text, set the referent in it.
+  // Referents are only dealt with if there's text in the paragraph.
+  if (input_paragraph && !input_paragraph->text.empty()) {
+    input_paragraph->referent = referent;
+    referent.clear();
+  }
+}
+
+void Text2Pdf::generate_tables_of_contents()
+// Generates the tables of contents.
+{
+  // Get referents and their page numbers.
+  map <ustring, ustring> referents;
+  for (unsigned int pg = 0; pg < pages.size(); pg++) {
+    T2PReferenceArea * reference_area = pages[pg]->text_reference_area;
+    reference_area->get_referents(referents, pg + 1);
+  }
+  // Write the page numbers of the referents.
+  for (unsigned int pg = 0; pg < pages.size(); pg++) {
+    T2PReferenceArea * reference_area = pages[pg]->text_reference_area;
+    reference_area->match_and_expand_references_and_referents(referents);
+  }
+}
+
 /*
 
  Todo text2pdf 
 
+ We need a feature that the Merge window that displays differences is a bit more sticky. That means
+ that if a change is entered in one of the editors, and then the differences are reloaded, that it 
+ then scrolls to the same position it was at before.
+ 
+ If ndebele genesis is printed, there are too many blank pages at the start.
+ 
+ The comparison printing function does not work at present.
+ 
  To go through the whole Usfm2Text object and implement missing bits.
  
  To implement images rendering, probably png only as cairo reads them natively.
@@ -930,6 +1005,10 @@ void Text2Pdf::test() {
  them.
  
  Make elastics work again.
+
+ The printing of the parallel bible is very slow. Check whether internal optimizations will help.
+ E.g. to store each chapter's verse in a map, so that each chapter does not need to be read many times just
+ to pick one verse from it.
  
  */
 

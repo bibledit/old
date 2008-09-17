@@ -46,6 +46,9 @@ T2PReferenceArea::~T2PReferenceArea()
   for (unsigned int i = 0; i < note_layout_containers.size(); i++) {
     delete note_layout_containers[i];
   }
+  for (unsigned int i = 0; i < table_of_contents_layout_containers.size(); i++) {
+    delete table_of_contents_layout_containers[i];
+  }
 }
 
 void T2PReferenceArea::print()
@@ -68,6 +71,14 @@ void T2PReferenceArea::print()
     T2PLayoutContainer * layout_container = note_layout_containers[i];
     layout_container->rectangle.x += rectangle.x;
     layout_container->rectangle.y += rectangle.y + rectangle.height - notes_height;
+    layout_container->print(cairo);
+  }
+
+  // Print table of contents data.
+  for (unsigned int i = 0; i < table_of_contents_layout_containers.size(); i++) {
+    T2PLayoutContainer * layout_container = table_of_contents_layout_containers[i];
+    layout_container->rectangle.x += rectangle.x;
+    layout_container->rectangle.y += rectangle.y;
     layout_container->print(cairo);
   }
 }
@@ -167,9 +178,9 @@ void T2PReferenceArea::fit_blocks(deque <T2PBlock *>& input_blocks, int column_s
     input_blocks.push_front(body_blocks[body_blocks.size()-1]);
     body_blocks.pop_back();
   }
-  
+
   // If a new page block was found, remove it from memory.
-  if (new_page_input_block_encountered(input_blocks, true)) { 
+  if (new_page_input_block_encountered(input_blocks, true)) {
     if (!input_blocks.empty()) {
       delete input_blocks[0];
       input_blocks.pop_front();
@@ -192,7 +203,7 @@ void T2PReferenceArea::fit_column(deque <T2PBlock *>& input_blocks)
   if (new_page_input_block_encountered(input_blocks, true)) {
     return;
   }
-  
+
   // Fit the column(s) in.
   fit_columns(input_blocks, input_blocks[0]->column_count);
 }
@@ -338,7 +349,7 @@ T2PBigBlock T2PReferenceArea::get_next_big_block_to_be_kept_together(deque <T2PB
   T2PBigBlock big_block(column_count);
   for (unsigned int i = 0; i < input_blocks.size(); i++) {
     if (new_page_input_block_encountered(input_blocks, true)) {
-      break;      
+      break;
     }
     big_block.blocks.push_back(input_blocks[i]);
     if (!input_blocks[i]->keep_with_next)
@@ -598,3 +609,55 @@ bool T2PReferenceArea::new_page_input_block_encountered(deque <T2PBlock *>& inpu
   }
   return start_new_page;
 }
+
+void T2PReferenceArea::get_referents(map <ustring, ustring>& referents, unsigned int page_number)
+// Gets the referents on this page, with their page numbers.
+{
+  for (unsigned int i = 0; i < body_blocks.size(); i++) {
+    T2PBlock * block = body_blocks[i];
+    if (!block->referent.empty()) {
+      referents[block->referent] = convert_to_string(page_number);
+    }
+  }
+}
+
+void T2PReferenceArea::match_and_expand_references_and_referents(map <ustring, ustring>& referents)
+// Writes the page numbers of the referents. Used in table of contents.
+{
+  for (unsigned int i = 0; i < body_blocks.size(); i++) {
+    T2PBlock * block = body_blocks[i];
+    if (!block->reference.empty()) {
+      
+      string referent = referents[block->reference];
+      
+      if (!referent.empty()) {
+
+        PangoRectangle toc_rectangle;
+        toc_rectangle.x = block->rectangle.x + block->rectangle.width;
+        toc_rectangle.y = block->rectangle.y;
+        toc_rectangle.width = block->maximum_width_pango_units;
+        toc_rectangle.height = 0;
+
+        T2PLayoutContainer * page_number_layout = new T2PLayoutContainer (toc_rectangle, NULL, cairo);
+        table_of_contents_layout_containers.push_back(page_number_layout);
+        page_number_layout->layout_text(NULL, 0, referent);
+        page_number_layout->rectangle.x = block->rectangle.x + block->maximum_width_pango_units - page_number_layout->rectangle.width;
+
+        int dot_distance_pango_units = millimeters_to_pango_units(2.5);
+        int available_width = block->maximum_width_pango_units - block->rectangle.x - block->rectangle.width - dot_distance_pango_units - dot_distance_pango_units - page_number_layout->rectangle.width;
+        int start_x = block->rectangle.x + block->rectangle.width;
+
+        while (available_width > 0) {
+          T2PLayoutContainer * dotted_line_layout = new T2PLayoutContainer (toc_rectangle, NULL, cairo);
+          table_of_contents_layout_containers.push_back(dotted_line_layout);
+          string dot(".");
+          dotted_line_layout->layout_text(NULL, 0, dot);
+          dotted_line_layout->rectangle.x = start_x + dot_distance_pango_units;
+          start_x += (dotted_line_layout->rectangle.width + dot_distance_pango_units);
+          available_width -= (dotted_line_layout->rectangle.width + dot_distance_pango_units);
+        }
+      }
+    }
+  }
+}
+
