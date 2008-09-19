@@ -174,6 +174,15 @@ private:
   void generate_tables_of_contents();
   ustring reference;
   ustring referent;
+  
+  // Intermediate text.
+public:
+  void use_intermediate_text();
+private:
+  vector <ustring> intermediate_text;
+  bool intermediary_1_double (const ustring command, double parameter);
+  bool intermediary_2_double (const ustring command, double parameter1, double parameter2);
+  bool intermediary_4_double (const ustring command, double parameter1, double parameter2, double parameter3, double parameter4);
 };
 
 #endif

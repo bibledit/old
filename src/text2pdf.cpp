@@ -114,6 +114,8 @@ void Text2Pdf::initialize_variables()
 void Text2Pdf::page_size_set(double width_centimeters, double height_centimeters)
 // Set the page size in centimeters.
 {
+  if (intermediary_2_double ("page_size_set", width_centimeters, height_centimeters))
+    return;
   page_width_pango_units = centimeters_to_pango_units(width_centimeters);
   page_height_pango_units = centimeters_to_pango_units(height_centimeters);
   cairo_pdf_surface_set_size(surface, pango_units_to_points(page_width_pango_units), pango_units_to_points(page_height_pango_units));
@@ -122,6 +124,8 @@ void Text2Pdf::page_size_set(double width_centimeters, double height_centimeters
 void Text2Pdf::page_margins_set(double inside_margin_centimeters, double right_margin_centimeters, double top_margin_centimeters, double bottom_margin_centimeters)
 // Set the margins of the page, in centimeters.
 {
+  if (intermediary_4_double ("page_margins_set", inside_margin_centimeters, right_margin_centimeters, top_margin_centimeters, bottom_margin_centimeters))
+    return;
   inside_margin_pango_units = centimeters_to_pango_units(inside_margin_centimeters);
   outside_margin_pango_units = centimeters_to_pango_units(right_margin_centimeters);
   top_margin_pango_units = centimeters_to_pango_units(top_margin_centimeters);
@@ -131,12 +135,16 @@ void Text2Pdf::page_margins_set(double inside_margin_centimeters, double right_m
 void Text2Pdf::header_height_set(double size_centimeters)
 // Set the height of the header.
 {
+  if (intermediary_1_double ("header_height_set", size_centimeters))
+    return;
   header_height_pango_units = centimeters_to_pango_units(size_centimeters);
 }
 
 void Text2Pdf::footer_height_set(double size_centimeters)
 // Set the height of the footer.
 {
+  if (intermediary_1_double ("footer_height_set", size_centimeters))
+    return;
   footer_height_pango_units = centimeters_to_pango_units(size_centimeters);
 }
 
@@ -144,10 +152,12 @@ void Text2Pdf::column_spacing_set(double spacing_centimeters)
 // Sets the spacing between the two columns.
 // Text is normally laid out in two columns, but there are elements that span the columns.
 {
+  if (intermediary_1_double ("column_spacing_set", spacing_centimeters))
+    return;
   column_spacing_pango_units = centimeters_to_pango_units(spacing_centimeters);
 }
 
-void Text2Pdf::page_one_column_only()
+void Text2Pdf::page_one_column_only() // Todo
 // Sets that there's only one column on the pages.
 {
   one_column_only = true;
@@ -156,6 +166,7 @@ void Text2Pdf::page_one_column_only()
 void Text2Pdf::new_page(bool odd)
 // Sets the engine to go to a new page. If odd is true, it goes to a new odd page.
 {
+  cout << "void Text2Pdf::new_page(bool odd)" << endl; // Todo
   close_paragraph();
   if (odd)
     input_data.push_back(new T2PInput (t2pitNewOddPage));
@@ -927,15 +938,54 @@ void Text2Pdf::generate_tables_of_contents()
   }
 }
 
+void Text2Pdf::use_intermediate_text()
+// Sets the engine to use intermediate text.
+{
+  intermediate_text.push_back("");
+}
+
+bool Text2Pdf::intermediary_1_double(const ustring command, double parameter)
+// Write intermediary text.
+{
+  if (intermediate_text.empty())
+    return false;
+  ustring text = command + "|" + convert_to_string (parameter);
+  intermediate_text.push_back (text);
+  return true;
+}
+
+bool Text2Pdf::intermediary_2_double(const ustring command, double parameter1, double parameter2)
+// Write intermediary text.
+{
+  if (intermediate_text.empty())
+    return false;
+  ustring text = command + "|" + convert_to_string (parameter1) + "|" + convert_to_string (parameter2);
+  intermediate_text.push_back (text);
+  return true;
+}
+
+bool Text2Pdf::intermediary_4_double(const ustring command, double parameter1, double parameter2, double parameter3, double parameter4) // Todo
+// Write intermediary text.
+{
+  if (intermediate_text.empty())
+    return false;
+  ustring text = command + "|" + convert_to_string (parameter1) + "|" + convert_to_string (parameter2) + "|" + convert_to_string (parameter3) + "|" + convert_to_string (parameter4);
+  intermediate_text.push_back (text);
+  return true;
+}
+
 /*
 
  Todo text2pdf 
 
- We need a feature that the Merge window that displays differences is a bit more sticky. That means
- that if a change is entered in one of the editors, and then the differences are reloaded, that it 
- then scrolls to the same position it was at before.
+ Implement a setting for printing the text2pdf commands to file.
+ The setting goes into the printing dialog.
+ Also make command to read such a file again.
+ The command, if used, pops up a dialog, with the text which can be edited.
  
  If ndebele genesis is printed, there are too many blank pages at the start.
+
+ If empty books or templates are printed, it hangs.
  
  The comparison printing function does not work at present.
  

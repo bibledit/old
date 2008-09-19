@@ -1494,7 +1494,9 @@ void Usfm2Text::output_id_page_break(Usfm2XslFoStyle * stylepointer, Usfm2XslFoS
   id_page_break_count++;
 }
 
-void Usfm2Text::output_other_page_break(ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length) {
+void Usfm2Text::output_other_page_break(ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length)
+// Outputs a page break.
+{
   // Erase the marker.
   line.erase(0, marker_length);
 
@@ -1502,7 +1504,9 @@ void Usfm2Text::output_other_page_break(ustring& line, Usfm2XslFoStyle * stylepo
   output_page_break(fo_block_style, fo_inline_style, false);
 }
 
-void Usfm2Text::output_page_break(Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, bool oddpage) {
+void Usfm2Text::output_page_break(Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, bool oddpage)
+// Outputs a page break.
+{
   // Bail out if we're not to write new pages.
   if (do_not_allow_new_page)
     return;
