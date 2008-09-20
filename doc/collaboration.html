@@ -1,67 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-  <title>Bibledit</title>
-  <!--
-  Copyright (©) 2003-2008 Teus Benschop.
-  Permission is granted to copy, distribute and/or modify this document
-  under the terms of the GNU Free Documentation License, Version 1.2
-  or any later version published by the Free Software Foundation;
-  with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-  Texts.  A copy of the license is included in the section entitled "GNU
-  Free Documentation License" in the file FDL.
-  -->
-  <link href="bibledit.css" rel="stylesheet" type="text/css" />
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<title>Bibledit</title>
+<!--
+Copyright (©) 2003-2008 Teus Benschop.
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+Texts.  A copy of the license is included in the section entitled "GNU
+Free Documentation License" in the file FDL.
+-->
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
-
 <body>
 <h2><a name="collaboration"></a>Collaboration</h2>
 <!-- Table of Contents Start -->
-
 <div id="toc">
 <ul>
-  <li><a href="#introduction" class="level1">Introduction</a></li>
-  <li><a href="#network" class="level1">Network</a></li>
-  <li><a href="#usbstick" class="level1">USB stick</a></li>
-  <li><a href="#collaborating" class="level1">Collaborating</a></li>
-  <li><a href="#notes" class="level1">Notes</a></li>
+<li>
+<a href="#introduction" class="level1">Introduction</a></li>
+<li>
+<a href="#network" class="level1">Network</a></li>
+<li>
+<a href="#usbstick" class="level1">USB stick</a></li>
+<li>
+<a href="#collaborating" class="level1">Collaborating</a></li>
+<li>
+<a href="#notes" class="level1">Notes</a></li>
 </ul>
 </div>
 <!-- Table of Contents End -->
-
 <h3><a name="introduction"></a>Introduction</h3>
-
 <p>Bibledit allows several users to work on one Bible at the same time.</p>
-
 <p>Collaboration can happen through the network, or a USB stick.</p>
-
 <p>Under the hood, Bibledit uses Git for collaboration. Git is a content
 manager. The user does not notice that Git is used, neither does he operate
 it. Bibledit does it all for him. The person that sets up the collaboration,
 though, will have to use a few Git commands once. Once everything is set up,
 it all goes automatic.</p>
-
 <p>Bibledit stores all data locally, but when collaboration is enabled, it
 connects to a central repository. The repository will be on the network, or
 on the USB stick. The data is shared through that repository.</p>
-
 <h3><a name="network"></a>Network</h3>
-
 <p>If several users work together on one project using the network, then if
 somebody makes a change in the text of the Bible, within a short time that
 change will be propagated to the other users. They will see that change on
 their screens too.</p>
-
 <p>First of all somebody knowledgeable with computers and networks needs to
 <a href="collaborate_network.html">set up the collaboration</a>. </p>
-
 <p>After that it will go all smoothly.</p>
-
 <h3><a name="usbstick"></a>USB stick</h3>
-
 <p>If several users work together on one project using a USB stick, then the
 changes need to be physically carried from one user's computer to the one of
 the other user. If a stick is inserted into a computer, and everything has
@@ -74,43 +66,32 @@ on his turn update the data on the stick. So the stick can then be moved to
 the first user, and so on. By keeping on moving the stick between the
 computers, all data will be updated, and all changes will get propagated to
 all users. All the users will see the changes on their screens.</p>
-
 <p>To start off with this, somebody knowledgeable with computers needs to <a
 href="collaborate_usb_stick.html">set up the collaboration</a>.</p>
-
 <p>After that all will goo smoothly.</p>
-
 <h3><a name="collaborating"></a>Collaborating</h3>
-
 <p>Now we come to the purpose of everything, which is working together on one
 project.</p>
-
 <p>This collaboration is very simple: Just work on your data as you did
 before.</p>
-
 <p>Bibledit cares for everything, and everything will be updated and shared
 automatically.</p>
-
 <p>On rare occasions you might notice a dialog when Bibledit says that it has
 reloaded the project because of the changes made by other users. This might
 happen if the change is in the chapter you are now editing. But this is
 really all that is visible, the rest is done automatically. And of course,
 you notice changes in your data that you didn't put in yourself. Others did
 that.</p>
-
 <h3><a name="notes"></a>Notes</h3>
-
 <p>Use dialog View / Git tasks to see what the collaboration system actually
 does. Most of the times there should be no pending tasks anyway, because
 tasks will get done immediately. On a slow network you might see some tasks
 pending. Or if you happen to be offline, tasks will accumulate till such time
 that you get online again.</p>
-
 <p>For worldwide collaboration, a server can be set up on the internet, and
 used by all parties. Instead of entering git://192.168.0.6/repository or
 git://localhost/repository as the repository, for example, it will be
 something like git://repo.mydomain.org/repository.</p>
-
 <p>The collaboration system can conveniently be used for automatic backup.
 The system that uses the USB stick for collaboration works well for that. The
 USB stick can be carried around.</p>

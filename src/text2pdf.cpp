@@ -37,6 +37,7 @@
 #include <math.h>
 #include <cairo/cairo.h>
 #include <cairo/cairo-pdf.h>
+#include "text2pdf_intermediate.h"
 
 Text2Pdf::Text2Pdf(const ustring& pdf_file)
 // Converts text code to a pdf file.
@@ -109,12 +110,15 @@ void Text2Pdf::initialize_variables()
   running_chapter_left_page = 0;
   running_chapter_right_page = 0;
   suppress_header_on_this_page = false;
+
+  // Intermediate text.
+  intermediate_text_pointer = NULL;
 }
 
 void Text2Pdf::page_size_set(double width_centimeters, double height_centimeters)
 // Set the page size in centimeters.
 {
-  if (intermediary_2_double ("page_size_set", width_centimeters, height_centimeters))
+  if (intermediary_2_double(intermediate_text_pointer, __func__, width_centimeters, height_centimeters))
     return;
   page_width_pango_units = centimeters_to_pango_units(width_centimeters);
   page_height_pango_units = centimeters_to_pango_units(height_centimeters);
@@ -124,7 +128,7 @@ void Text2Pdf::page_size_set(double width_centimeters, double height_centimeters
 void Text2Pdf::page_margins_set(double inside_margin_centimeters, double right_margin_centimeters, double top_margin_centimeters, double bottom_margin_centimeters)
 // Set the margins of the page, in centimeters.
 {
-  if (intermediary_4_double ("page_margins_set", inside_margin_centimeters, right_margin_centimeters, top_margin_centimeters, bottom_margin_centimeters))
+  if (intermediary_4_double(intermediate_text_pointer, __func__, inside_margin_centimeters, right_margin_centimeters, top_margin_centimeters, bottom_margin_centimeters))
     return;
   inside_margin_pango_units = centimeters_to_pango_units(inside_margin_centimeters);
   outside_margin_pango_units = centimeters_to_pango_units(right_margin_centimeters);
@@ -135,7 +139,7 @@ void Text2Pdf::page_margins_set(double inside_margin_centimeters, double right_m
 void Text2Pdf::header_height_set(double size_centimeters)
 // Set the height of the header.
 {
-  if (intermediary_1_double ("header_height_set", size_centimeters))
+  if (intermediary_1_double(intermediate_text_pointer, __func__, size_centimeters))
     return;
   header_height_pango_units = centimeters_to_pango_units(size_centimeters);
 }
@@ -143,7 +147,7 @@ void Text2Pdf::header_height_set(double size_centimeters)
 void Text2Pdf::footer_height_set(double size_centimeters)
 // Set the height of the footer.
 {
-  if (intermediary_1_double ("footer_height_set", size_centimeters))
+  if (intermediary_1_double(intermediate_text_pointer, __func__, size_centimeters))
     return;
   footer_height_pango_units = centimeters_to_pango_units(size_centimeters);
 }
@@ -152,7 +156,7 @@ void Text2Pdf::column_spacing_set(double spacing_centimeters)
 // Sets the spacing between the two columns.
 // Text is normally laid out in two columns, but there are elements that span the columns.
 {
-  if (intermediary_1_double ("column_spacing_set", spacing_centimeters))
+  if (intermediary_1_double(intermediate_text_pointer, __func__, spacing_centimeters))
     return;
   column_spacing_pango_units = centimeters_to_pango_units(spacing_centimeters);
 }
@@ -160,7 +164,7 @@ void Text2Pdf::column_spacing_set(double spacing_centimeters)
 void Text2Pdf::page_one_column_only()
 // Sets that there's only one column on the pages.
 {
-  if (intermediary_void ("page_one_column_only"))
+  if (intermediary_void(intermediate_text_pointer, __func__))
     return;
   one_column_only = true;
 }
@@ -168,7 +172,7 @@ void Text2Pdf::page_one_column_only()
 void Text2Pdf::new_page(bool odd)
 // Sets the engine to go to a new page. If odd is true, it goes to a new odd page.
 {
-  if (intermediary_1_bool ("new_page", odd))
+  if (intermediary_1_bool(intermediate_text_pointer, __func__, odd))
     return;
   close_paragraph();
   if (odd)
@@ -466,7 +470,7 @@ void Text2Pdf::next_page()
 void Text2Pdf::open_keep_together()
 // Anything between this and the closer is kept together in one page or column.
 {
-  if (intermediary_void ("open_keep_together"))
+  if (intermediary_void(intermediate_text_pointer, __func__))
     return;
   close_paragraph();
   input_data.push_back(new T2PInput (t2pitOpenKeepTogether));
@@ -475,7 +479,7 @@ void Text2Pdf::open_keep_together()
 void Text2Pdf::close_keep_together()
 // Close keeping together in one page or column.
 {
-  if (intermediary_void ("close_keep_together"))
+  if (intermediary_void(intermediate_text_pointer, __func__))
     return;
   close_paragraph();
   input_data.push_back(new T2PInput (t2pitCloseKeepTogether));
@@ -484,7 +488,7 @@ void Text2Pdf::close_keep_together()
 void Text2Pdf::open_paragraph()
 // Open a new paragraph and add this to the input data.
 {
-  if (intermediary_void ("open_paragraph"))
+  if (intermediary_void(intermediate_text_pointer, __func__))
     return;
   // Close existing one.
   close_paragraph();
@@ -509,7 +513,7 @@ void Text2Pdf::ensure_open_paragraph()
 void Text2Pdf::paragraph_set_font_size(double points)
 // Sets the font size to be used in the paragraph, in points.
 {
-  if (intermediary_1_double ("paragraph_set_font_size", points))
+  if (intermediary_1_double(intermediate_text_pointer, __func__, points))
     return;
   ensure_open_paragraph();
   input_paragraph->font_size_points = points;
@@ -518,7 +522,7 @@ void Text2Pdf::paragraph_set_font_size(double points)
 void Text2Pdf::paragraph_set_italic(bool italic)
 // Set whether font should be italic.
 {
-  if (intermediary_1_bool ("paragraph_set_italic", italic))
+  if (intermediary_1_bool(intermediate_text_pointer, __func__, italic))
     return;
   ensure_open_paragraph();
   input_paragraph->italic = italic;
@@ -527,7 +531,7 @@ void Text2Pdf::paragraph_set_italic(bool italic)
 void Text2Pdf::paragraph_set_bold(bool bold)
 // Set whether font should be in bold.
 {
-  if (intermediary_1_bool ("paragraph_set_bold", bold))
+  if (intermediary_1_bool(intermediate_text_pointer, __func__, bold))
     return;
   ensure_open_paragraph();
   input_paragraph->bold = bold;
@@ -536,7 +540,7 @@ void Text2Pdf::paragraph_set_bold(bool bold)
 void Text2Pdf::paragraph_set_underline(bool underline)
 // Set whether text should be underlined.
 {
-  if (intermediary_1_bool ("paragraph_set_underline", underline))
+  if (intermediary_1_bool(intermediate_text_pointer, __func__, underline))
     return;
   ensure_open_paragraph();
   input_paragraph->underline = underline;
@@ -545,7 +549,7 @@ void Text2Pdf::paragraph_set_underline(bool underline)
 void Text2Pdf::paragraph_set_small_caps(bool small_caps)
 // Set whether text should be in small caps.
 {
-  if (intermediary_1_bool ("paragraph_set_small_caps", small_caps))
+  if (intermediary_1_bool(intermediate_text_pointer, __func__, small_caps))
     return;
   ensure_open_paragraph();
   input_paragraph->small_caps = small_caps;
@@ -554,7 +558,7 @@ void Text2Pdf::paragraph_set_small_caps(bool small_caps)
 void Text2Pdf::paragraph_set_alignment(T2PAlignmentType alignment)
 // Sets the paragraph alignment, e.g. left, or justified.
 {
-  if (intermediary_1_int ("paragraph_set_alignment", alignment))
+  if (intermediary_1_int(intermediate_text_pointer, __func__, alignment))
     return;
   ensure_open_paragraph();
   input_paragraph->alignment = alignment;
@@ -563,7 +567,7 @@ void Text2Pdf::paragraph_set_alignment(T2PAlignmentType alignment)
 void Text2Pdf::paragraph_set_space_before(int millimeters)
 // Sets the space before the paragraph, in millimeters.
 {
-  if (intermediary_1_int ("paragraph_set_space_before", millimeters))
+  if (intermediary_1_int(intermediate_text_pointer, __func__, millimeters))
     return;
   ensure_open_paragraph();
   input_paragraph->space_before_mm = millimeters;
@@ -572,7 +576,7 @@ void Text2Pdf::paragraph_set_space_before(int millimeters)
 void Text2Pdf::paragraph_set_space_after(int millimeters)
 // Sets the desired space after the paragraph, in millimeters.
 {
-  if (intermediary_1_int ("paragraph_set_space_after", millimeters))
+  if (intermediary_1_int(intermediate_text_pointer, __func__, millimeters))
     return;
   ensure_open_paragraph();
   input_paragraph->space_after_mm = millimeters;
@@ -581,7 +585,7 @@ void Text2Pdf::paragraph_set_space_after(int millimeters)
 void Text2Pdf::paragraph_set_left_margin(int millimeters)
 // Sets the paragraph's left margin, in millimeters.
 {
-  if (intermediary_1_int ("paragraph_set_left_margin", millimeters))
+  if (intermediary_1_int(intermediate_text_pointer, __func__, millimeters))
     return;
   ensure_open_paragraph();
   input_paragraph->left_margin_mm = millimeters;
@@ -590,7 +594,7 @@ void Text2Pdf::paragraph_set_left_margin(int millimeters)
 void Text2Pdf::paragraph_set_right_margin(int millimeters)
 // // Sets the paragraph's right margin, in millimeters.
 {
-  if (intermediary_1_int ("paragraph_set_right_margin", millimeters))
+  if (intermediary_1_int(intermediate_text_pointer, __func__, millimeters))
     return;
   ensure_open_paragraph();
   input_paragraph->right_margin_mm = millimeters;
@@ -599,7 +603,7 @@ void Text2Pdf::paragraph_set_right_margin(int millimeters)
 void Text2Pdf::paragraph_set_first_line_indent(int millimeters)
 // Sets the indent of the first line of the paragraph.
 {
-  if (intermediary_1_int ("paragraph_set_first_line_indent", millimeters))
+  if (intermediary_1_int(intermediate_text_pointer, __func__, millimeters))
     return;
   ensure_open_paragraph();
   input_paragraph->first_line_indent_mm = millimeters;
@@ -608,16 +612,18 @@ void Text2Pdf::paragraph_set_first_line_indent(int millimeters)
 void Text2Pdf::paragraph_set_column_count(unsigned int count)
 // Sets the number of columns. Only 1 or 2 are supported.
 {
-  if (intermediary_1_int ("paragraph_set_column_count", count))
+  if (intermediary_1_int(intermediate_text_pointer, __func__, count))
     return;
   ensure_open_paragraph();
   count = CLAMP (count, 1, 2);
   input_paragraph->column_count = count;
 }
 
-void Text2Pdf::paragraph_set_keep_with_next() // Todo
+void Text2Pdf::paragraph_set_keep_with_next()
 // Sets that this paragraph should be kept with the next one.
 {
+  if (intermediary_void(intermediate_text_pointer, __func__))
+    return;
   ensure_open_paragraph();
   input_paragraph->keep_with_next = true;
 }
@@ -625,12 +631,16 @@ void Text2Pdf::paragraph_set_keep_with_next() // Todo
 void Text2Pdf::close_paragraph()
 // Close the open paragraph.
 {
+  if (intermediary_void(intermediate_text_pointer, __func__))
+    return;
   input_paragraph = NULL;
 }
 
 void Text2Pdf::inline_set_font_size_percentage(int percentage)
 // Sets the font size percentage for inline text. 
 {
+  if (intermediary_1_int(intermediate_text_pointer, __func__, percentage))
+    return;
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
   // Store the inline value.
@@ -640,12 +650,16 @@ void Text2Pdf::inline_set_font_size_percentage(int percentage)
 void Text2Pdf::inline_clear_font_size_percentage()
 // Clears the font size percentage for inline text. 
 {
+  if (intermediary_void(intermediate_text_pointer, __func__))
+    return;
   inline_set_font_size_percentage(100);
 }
 
 void Text2Pdf::inline_set_italic(int italic)
 // Sets the italic markup for inline text. 
 {
+  if (intermediary_1_int(intermediate_text_pointer, __func__, italic))
+    return;
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
   // Store the inline value.
@@ -655,12 +669,16 @@ void Text2Pdf::inline_set_italic(int italic)
 void Text2Pdf::inline_clear_italic()
 // Clears the italic markup for inline text. 
 {
+  if (intermediary_void(intermediate_text_pointer, __func__))
+    return;
   inline_set_italic(t2pmtInherit);
 }
 
 void Text2Pdf::inline_set_bold(int bold)
 // Sets the bold markup for inline text. 
 {
+  if (intermediary_1_int(intermediate_text_pointer, __func__, bold))
+    return;
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
   // Store the inline value.
@@ -670,12 +688,16 @@ void Text2Pdf::inline_set_bold(int bold)
 void Text2Pdf::inline_clear_bold()
 // Clears the bold markup for inline text. 
 {
+  if (intermediary_void(intermediate_text_pointer, __func__))
+    return;
   inline_set_bold(t2pmtInherit);
 }
 
 void Text2Pdf::inline_set_underline(int underline)
 // Sets the underline markup for inline text. 
 {
+  if (intermediary_1_int(intermediate_text_pointer, __func__, underline))
+    return;
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
   // Store the inline value.
@@ -685,12 +707,16 @@ void Text2Pdf::inline_set_underline(int underline)
 void Text2Pdf::inline_clear_underline()
 // Sets the underline markup for inline text. 
 {
+  if (intermediary_void(intermediate_text_pointer, __func__))
+    return;
   inline_set_underline(t2pmtInherit);
 }
 
 void Text2Pdf::inline_set_small_caps(int small_caps)
 // Sets the small capitals markup for inline text. 
 {
+  if (intermediary_1_int(intermediate_text_pointer, __func__, small_caps))
+    return;
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
   // Store the inline value.
@@ -700,12 +726,16 @@ void Text2Pdf::inline_set_small_caps(int small_caps)
 void Text2Pdf::inline_clear_small_caps()
 // Clears the small capitals markup for inline text. 
 {
+  if (intermediary_void(intermediate_text_pointer, __func__))
+    return;
   inline_set_small_caps(t2pmtInherit);
 }
 
 void Text2Pdf::inline_set_superscript(bool superscript)
 // Sets the superscript markup for inline text. 
 {
+  if (intermediary_1_bool(intermediate_text_pointer, __func__, superscript))
+    return;
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
   // Store the inline value.
@@ -715,12 +745,16 @@ void Text2Pdf::inline_set_superscript(bool superscript)
 void Text2Pdf::inline_clear_superscript()
 // Clears the superscript markup for inline text. 
 {
+  if (intermediary_void(intermediate_text_pointer, __func__))
+    return;
   inline_set_superscript(false);
 }
 
 void Text2Pdf::inline_set_colour(int colour)
 // Sets the colour for inline text. 
 {
+  if (intermediary_1_int(intermediate_text_pointer, __func__, colour))
+    return;
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
   // Store the inline value.
@@ -730,12 +764,16 @@ void Text2Pdf::inline_set_colour(int colour)
 void Text2Pdf::inline_clear_colour()
 // Clears the colour for inline text. 
 {
+  if (intermediary_void(intermediate_text_pointer, __func__))
+    return;
   inline_set_colour(0);
 }
 
 void Text2Pdf::inline_set_strike_through()
 // Sets the strike-through markup for inline text. 
 {
+  if (intermediary_void(intermediate_text_pointer, __func__))
+    return;
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
   // Store the inline value.
@@ -745,15 +783,19 @@ void Text2Pdf::inline_set_strike_through()
 void Text2Pdf::inline_clear_strike_through()
 // Clears the strike-through markup for inline text. 
 {
+  if (intermediary_void(intermediate_text_pointer, __func__))
+    return;
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
   // Switch the inline value off.
   input_paragraph->inline_set_strike_through(t2pmtOff);
 }
 
-void Text2Pdf::add_text(const ustring& text)
+void Text2Pdf::add_text(const ustring& text) // Todo
 // Add text to whatever container is on top of the stack.
 {
+  if (intermediary_1_ustring(intermediate_text_pointer, __func__, text))
+    return;
   // Add the text to the paragraph.
   ensure_open_paragraph();
   input_paragraph->add_text(text);
@@ -770,6 +812,8 @@ void Text2Pdf::add_text(const ustring& text)
 void Text2Pdf::open_note()
 // Open a new note.
 {
+  if (intermediary_void(intermediate_text_pointer, __func__))
+    return;
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
   // Only open a new note if there's no note open already.
@@ -790,6 +834,8 @@ void Text2Pdf::open_note()
 void Text2Pdf::close_note()
 // Close a note.
 {
+  if (intermediary_void(intermediate_text_pointer, __func__))
+    return;
   if (stacked_input_paragraph) {
     input_paragraph = stacked_input_paragraph;
     stacked_input_paragraph = NULL;
@@ -799,6 +845,8 @@ void Text2Pdf::close_note()
 void Text2Pdf::open_intrusion()
 // Open a new intrusion.
 {
+  if (intermediary_void(intermediate_text_pointer, __func__))
+    return;
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
   // Only open a new intrusion if there's nothing open already.
@@ -817,6 +865,8 @@ void Text2Pdf::open_intrusion()
 void Text2Pdf::close_intrusion()
 // Closes an intrusion.
 {
+  if (intermediary_void(intermediate_text_pointer, __func__))
+    return;
   if (stacked_input_paragraph) {
     input_paragraph = stacked_input_paragraph;
     stacked_input_paragraph = NULL;
@@ -835,38 +885,56 @@ void Text2Pdf::set_font(const ustring& font_in)
  Each paragraph will use the font that was current at the time that the input paragraph object was created.
  */
 {
+  if (intermediary_1_ustring(intermediate_text_pointer, __func__, font_in))
+    return;
   font = font_in;
 }
 
 void Text2Pdf::set_line_spacing(unsigned int line_spacing_in)
 // Sets the line spacing for subsequent paragraphs.
 {
+  if (intermediary_1_int(intermediate_text_pointer, __func__, line_spacing_in))
+    return;
   line_spacing = line_spacing_in;
 }
 
 void Text2Pdf::set_right_to_left(bool right_to_left_in)
 // Sets the right-to-left property for subsequent paragraphs.
 {
+  if (intermediary_1_bool(intermediate_text_pointer, __func__, right_to_left_in))
+    return;
   right_to_left = right_to_left_in;
 }
 
 void Text2Pdf::print_date_in_header()
 // Print the date in the header.
 {
+  if (intermediary_void(intermediate_text_pointer, __func__))
+    return;
   print_date = true;
 }
 
-void Text2Pdf::set_running_header_left_page(const ustring& header) {
+void Text2Pdf::set_running_header_left_page(const ustring& header)
+// Sets the running header for the left page.
+{
+  if (intermediary_1_ustring(intermediate_text_pointer, __func__, header))
+    return;
   running_header_left_page = header;
 }
 
-void Text2Pdf::set_running_header_right_page(const ustring& header) {
+void Text2Pdf::set_running_header_right_page(const ustring& header) 
+// Sets the running header for the left page.
+{
+  if (intermediary_1_ustring(intermediate_text_pointer, __func__, header))
+    return;
   running_header_right_page = header;
 }
 
 void Text2Pdf::set_running_chapter_number(unsigned int left, unsigned int right)
 // Sets the chapter number for in the running header.
 {
+  if (intermediary_2_int(intermediate_text_pointer, __func__, left, right))
+    return;
   running_chapter_left_page = left;
   running_chapter_right_page = right;
 }
@@ -874,6 +942,8 @@ void Text2Pdf::set_running_chapter_number(unsigned int left, unsigned int right)
 void Text2Pdf::suppress_header_this_page()
 // Supresses printing the headers on this page.
 {
+  if (intermediary_void(intermediate_text_pointer, __func__))
+    return;
   suppress_header_on_this_page = true;
 }
 
@@ -919,6 +989,8 @@ void Text2Pdf::set_reference(const ustring& label)
 // Sets a reference.
 // Used for creating a table of contents with page numbers.
 {
+  if (intermediary_1_ustring(intermediate_text_pointer, __func__, label))
+    return;
   // Store the reference.
   reference = label;
   // Bail out if there's no reference.
@@ -939,6 +1011,8 @@ void Text2Pdf::set_referent(const ustring& label)
 // Sets a referent. 
 // Used for creating a table of contents with page numbers.
 {
+  if (intermediary_1_ustring(intermediate_text_pointer, __func__, label))
+    return;
   // Store the referent.
   referent = label;
   // Bail out if there's no referent.
@@ -958,6 +1032,8 @@ void Text2Pdf::set_referent(const ustring& label)
 void Text2Pdf::generate_tables_of_contents()
 // Generates the tables of contents.
 {
+  if (intermediary_void(intermediate_text_pointer, __func__))
+    return;
   // Get referents and their page numbers.
   map <ustring, ustring> referents;
   for (unsigned int pg = 0; pg < pages.size(); pg++) {
@@ -974,68 +1050,8 @@ void Text2Pdf::generate_tables_of_contents()
 void Text2Pdf::use_intermediate_text()
 // Sets the engine to use intermediate text.
 {
-  intermediate_text.push_back("");
+  intermediate_text_pointer = &intermediate_text;
 }
-
-bool Text2Pdf::intermediary_1_double(const ustring command, double parameter)
-// Write intermediary text.
-{
-  if (intermediate_text.empty())
-    return false;
-  ustring text = command + "|" + convert_to_string (parameter);
-  intermediate_text.push_back (text);
-  return true;
-}
-
-bool Text2Pdf::intermediary_2_double(const ustring command, double parameter1, double parameter2)
-// Write intermediary text.
-{
-  if (intermediate_text.empty())
-    return false;
-  ustring text = command + "|" + convert_to_string (parameter1) + "|" + convert_to_string (parameter2);
-  intermediate_text.push_back (text);
-  return true;
-}
-
-bool Text2Pdf::intermediary_4_double(const ustring command, double parameter1, double parameter2, double parameter3, double parameter4) // Todo
-// Write intermediary text.
-{
-  if (intermediate_text.empty())
-    return false;
-  ustring text = command + "|" + convert_to_string (parameter1) + "|" + convert_to_string (parameter2) + "|" + convert_to_string (parameter3) + "|" + convert_to_string (parameter4);
-  intermediate_text.push_back (text);
-  return true;
-}
-
-bool Text2Pdf::intermediary_void(const ustring command)
-// Write intermediary text.
-{
-  if (intermediate_text.empty())
-    return false;
-  intermediate_text.push_back (command);
-  return true;
-}
-
-bool Text2Pdf::intermediary_1_bool(const ustring command, bool parameter)
-// Write intermediary text.
-{
-  if (intermediate_text.empty())
-    return false;
-  ustring text = command + "|" + convert_to_string (parameter);
-  intermediate_text.push_back (text);
-  return true;
-}
-
-bool Text2Pdf::intermediary_1_int(const ustring command, int parameter)
-// Write intermediary text.
-{
-  if (intermediate_text.empty())
-    return false;
-  ustring text = command + "|" + convert_to_string (parameter);
-  intermediate_text.push_back (text);
-  return true;
-}
-
 
 /*
 
@@ -1045,6 +1061,8 @@ bool Text2Pdf::intermediary_1_int(const ustring command, int parameter)
  The setting goes into the printing dialog.
  Also make command to read such a file again.
  The command, if used, pops up a dialog, with the text which can be edited.
+ How it is done now, the intermediary texts are in memory twice. Better use a function that provides that
+ text.
  
  If ndebele genesis is printed, there are too many blank pages at the start.
 

@@ -182,12 +182,7 @@ public:
   void use_intermediate_text();
 private:
   vector <ustring> intermediate_text;
-  bool intermediary_1_double (const ustring command, double parameter);
-  bool intermediary_2_double (const ustring command, double parameter1, double parameter2);
-  bool intermediary_4_double (const ustring command, double parameter1, double parameter2, double parameter3, double parameter4);
-  bool intermediary_void (const ustring command);
-  bool intermediary_1_bool (const ustring command, bool parameter);
-  bool intermediary_1_int (const ustring command, int parameter);
+  vector <ustring> * intermediate_text_pointer;
 };
 
 #endif
