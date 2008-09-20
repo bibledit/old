@@ -54,7 +54,9 @@ public:
   void open_keep_together();
   void close_keep_together();
   void open_paragraph();
+private:
   void ensure_open_paragraph();
+public:
   void paragraph_set_font_size(double points);
   void paragraph_set_italic(bool italic);
   void paragraph_set_bold(bool bold);
@@ -183,6 +185,9 @@ private:
   bool intermediary_1_double (const ustring command, double parameter);
   bool intermediary_2_double (const ustring command, double parameter1, double parameter2);
   bool intermediary_4_double (const ustring command, double parameter1, double parameter2, double parameter3, double parameter4);
+  bool intermediary_void (const ustring command);
+  bool intermediary_1_bool (const ustring command, bool parameter);
+  bool intermediary_1_int (const ustring command, int parameter);
 };
 
 #endif

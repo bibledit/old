@@ -157,16 +157,19 @@ void Text2Pdf::column_spacing_set(double spacing_centimeters)
   column_spacing_pango_units = centimeters_to_pango_units(spacing_centimeters);
 }
 
-void Text2Pdf::page_one_column_only() // Todo
+void Text2Pdf::page_one_column_only()
 // Sets that there's only one column on the pages.
 {
+  if (intermediary_void ("page_one_column_only"))
+    return;
   one_column_only = true;
 }
 
 void Text2Pdf::new_page(bool odd)
 // Sets the engine to go to a new page. If odd is true, it goes to a new odd page.
 {
-  cout << "void Text2Pdf::new_page(bool odd)" << endl; // Todo
+  if (intermediary_1_bool ("new_page", odd))
+    return;
   close_paragraph();
   if (odd)
     input_data.push_back(new T2PInput (t2pitNewOddPage));
@@ -463,6 +466,8 @@ void Text2Pdf::next_page()
 void Text2Pdf::open_keep_together()
 // Anything between this and the closer is kept together in one page or column.
 {
+  if (intermediary_void ("open_keep_together"))
+    return;
   close_paragraph();
   input_data.push_back(new T2PInput (t2pitOpenKeepTogether));
 }
@@ -470,6 +475,8 @@ void Text2Pdf::open_keep_together()
 void Text2Pdf::close_keep_together()
 // Close keeping together in one page or column.
 {
+  if (intermediary_void ("close_keep_together"))
+    return;
   close_paragraph();
   input_data.push_back(new T2PInput (t2pitCloseKeepTogether));
 }
@@ -477,6 +484,8 @@ void Text2Pdf::close_keep_together()
 void Text2Pdf::open_paragraph()
 // Open a new paragraph and add this to the input data.
 {
+  if (intermediary_void ("open_paragraph"))
+    return;
   // Close existing one.
   close_paragraph();
   // Create new one.
@@ -500,6 +509,8 @@ void Text2Pdf::ensure_open_paragraph()
 void Text2Pdf::paragraph_set_font_size(double points)
 // Sets the font size to be used in the paragraph, in points.
 {
+  if (intermediary_1_double ("paragraph_set_font_size", points))
+    return;
   ensure_open_paragraph();
   input_paragraph->font_size_points = points;
 }
@@ -507,6 +518,8 @@ void Text2Pdf::paragraph_set_font_size(double points)
 void Text2Pdf::paragraph_set_italic(bool italic)
 // Set whether font should be italic.
 {
+  if (intermediary_1_bool ("paragraph_set_italic", italic))
+    return;
   ensure_open_paragraph();
   input_paragraph->italic = italic;
 }
@@ -514,6 +527,8 @@ void Text2Pdf::paragraph_set_italic(bool italic)
 void Text2Pdf::paragraph_set_bold(bool bold)
 // Set whether font should be in bold.
 {
+  if (intermediary_1_bool ("paragraph_set_bold", bold))
+    return;
   ensure_open_paragraph();
   input_paragraph->bold = bold;
 }
@@ -521,6 +536,8 @@ void Text2Pdf::paragraph_set_bold(bool bold)
 void Text2Pdf::paragraph_set_underline(bool underline)
 // Set whether text should be underlined.
 {
+  if (intermediary_1_bool ("paragraph_set_underline", underline))
+    return;
   ensure_open_paragraph();
   input_paragraph->underline = underline;
 }
@@ -528,6 +545,8 @@ void Text2Pdf::paragraph_set_underline(bool underline)
 void Text2Pdf::paragraph_set_small_caps(bool small_caps)
 // Set whether text should be in small caps.
 {
+  if (intermediary_1_bool ("paragraph_set_small_caps", small_caps))
+    return;
   ensure_open_paragraph();
   input_paragraph->small_caps = small_caps;
 }
@@ -535,6 +554,8 @@ void Text2Pdf::paragraph_set_small_caps(bool small_caps)
 void Text2Pdf::paragraph_set_alignment(T2PAlignmentType alignment)
 // Sets the paragraph alignment, e.g. left, or justified.
 {
+  if (intermediary_1_int ("paragraph_set_alignment", alignment))
+    return;
   ensure_open_paragraph();
   input_paragraph->alignment = alignment;
 }
@@ -542,6 +563,8 @@ void Text2Pdf::paragraph_set_alignment(T2PAlignmentType alignment)
 void Text2Pdf::paragraph_set_space_before(int millimeters)
 // Sets the space before the paragraph, in millimeters.
 {
+  if (intermediary_1_int ("paragraph_set_space_before", millimeters))
+    return;
   ensure_open_paragraph();
   input_paragraph->space_before_mm = millimeters;
 }
@@ -549,6 +572,8 @@ void Text2Pdf::paragraph_set_space_before(int millimeters)
 void Text2Pdf::paragraph_set_space_after(int millimeters)
 // Sets the desired space after the paragraph, in millimeters.
 {
+  if (intermediary_1_int ("paragraph_set_space_after", millimeters))
+    return;
   ensure_open_paragraph();
   input_paragraph->space_after_mm = millimeters;
 }
@@ -556,6 +581,8 @@ void Text2Pdf::paragraph_set_space_after(int millimeters)
 void Text2Pdf::paragraph_set_left_margin(int millimeters)
 // Sets the paragraph's left margin, in millimeters.
 {
+  if (intermediary_1_int ("paragraph_set_left_margin", millimeters))
+    return;
   ensure_open_paragraph();
   input_paragraph->left_margin_mm = millimeters;
 }
@@ -563,6 +590,8 @@ void Text2Pdf::paragraph_set_left_margin(int millimeters)
 void Text2Pdf::paragraph_set_right_margin(int millimeters)
 // // Sets the paragraph's right margin, in millimeters.
 {
+  if (intermediary_1_int ("paragraph_set_right_margin", millimeters))
+    return;
   ensure_open_paragraph();
   input_paragraph->right_margin_mm = millimeters;
 }
@@ -570,6 +599,8 @@ void Text2Pdf::paragraph_set_right_margin(int millimeters)
 void Text2Pdf::paragraph_set_first_line_indent(int millimeters)
 // Sets the indent of the first line of the paragraph.
 {
+  if (intermediary_1_int ("paragraph_set_first_line_indent", millimeters))
+    return;
   ensure_open_paragraph();
   input_paragraph->first_line_indent_mm = millimeters;
 }
@@ -577,12 +608,14 @@ void Text2Pdf::paragraph_set_first_line_indent(int millimeters)
 void Text2Pdf::paragraph_set_column_count(unsigned int count)
 // Sets the number of columns. Only 1 or 2 are supported.
 {
+  if (intermediary_1_int ("paragraph_set_column_count", count))
+    return;
   ensure_open_paragraph();
   count = CLAMP (count, 1, 2);
   input_paragraph->column_count = count;
 }
 
-void Text2Pdf::paragraph_set_keep_with_next()
+void Text2Pdf::paragraph_set_keep_with_next() // Todo
 // Sets that this paragraph should be kept with the next one.
 {
   ensure_open_paragraph();
@@ -974,6 +1007,36 @@ bool Text2Pdf::intermediary_4_double(const ustring command, double parameter1, d
   return true;
 }
 
+bool Text2Pdf::intermediary_void(const ustring command)
+// Write intermediary text.
+{
+  if (intermediate_text.empty())
+    return false;
+  intermediate_text.push_back (command);
+  return true;
+}
+
+bool Text2Pdf::intermediary_1_bool(const ustring command, bool parameter)
+// Write intermediary text.
+{
+  if (intermediate_text.empty())
+    return false;
+  ustring text = command + "|" + convert_to_string (parameter);
+  intermediate_text.push_back (text);
+  return true;
+}
+
+bool Text2Pdf::intermediary_1_int(const ustring command, int parameter)
+// Write intermediary text.
+{
+  if (intermediate_text.empty())
+    return false;
+  ustring text = command + "|" + convert_to_string (parameter);
+  intermediate_text.push_back (text);
+  return true;
+}
+
+
 /*
 
  Todo text2pdf 
@@ -1059,6 +1122,8 @@ bool Text2Pdf::intermediary_4_double(const ustring command, double parameter1, d
  The printing of the parallel bible is very slow. Check whether internal optimizations will help.
  E.g. to store each chapter's verse in a map, so that each chapter does not need to be read many times just
  to pick one verse from it.
+ 
+ To completely rewrite the Printing helpfiles.
  
  */
 
