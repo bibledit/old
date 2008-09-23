@@ -84,6 +84,7 @@ public:
   DEFINE_GENCONFIG_H (double, paper_top_margin);
   DEFINE_GENCONFIG_H (double, paper_bottom_margin);
   DEFINE_GENCONFIG_H (bool, printdate);
+  DEFINE_GENCONFIG_H (bool, print_engine_use_intermediate_text);
   DEFINE_GENCONFIG_H (bool, print_changes_only);
   DEFINE_GENCONFIG_H (ustring, project_to_compare_with);
   DEFINE_GENCONFIG_H (int, notes_selection_reference);

@@ -33,7 +33,7 @@
 class Text2Pdf
 {
 public:
-  Text2Pdf(const ustring& pdf_file);
+  Text2Pdf(const ustring& pdf_file, bool use_intermediate_text);
   ~Text2Pdf();
 
   // Initialization.
@@ -179,8 +179,8 @@ private:
   
   // Intermediate text.
 public:
-  void use_intermediate_text();
 private:
+  void intermediate_interpreter();
   vector <ustring> intermediate_text;
   vector <ustring> * intermediate_text_pointer;
 };

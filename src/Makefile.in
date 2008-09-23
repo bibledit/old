@@ -168,7 +168,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	text2pdf_ref_area.$(OBJEXT) text2pdf_block.$(OBJEXT) \
 	text2pdf_page.$(OBJEXT) text2pdf_input.$(OBJEXT) \
 	text2pdf_layout.$(OBJEXT) text2pdf_big_block.$(OBJEXT) \
-	text2pdf_intermediate.$(OBJEXT) usfm2text.$(OBJEXT)
+	text2pdf_intermediate.$(OBJEXT) usfm2text.$(OBJEXT) \
+	dialogtext2pdf.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -611,7 +612,8 @@ bibledit_bin_SOURCES = \
         text2pdf_layout.cpp \
         text2pdf_big_block.cpp \
         text2pdf_intermediate.cpp \
-        usfm2text.cpp
+        usfm2text.cpp \
+        dialogtext2pdf.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -799,6 +801,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogsubversionsetup.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogsword.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogtaskduration.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogtext2pdf.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogtextreplacement.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogtextview.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogtidy.Po@am__quote@

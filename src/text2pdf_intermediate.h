@@ -22,15 +22,27 @@
 
 #include "libraries.h"
 
-enum IntermediateType { x };
+bool text2pdf_intermediary_1_double(vector <ustring> * lines, const ustring& command, double parameter);
+void text2pdf_intermediary_1_double_get(const vector <ustring>& input, double& parameter);
 
-bool intermediary_1_double(vector <ustring> * lines, const ustring& command, double parameter);
-bool intermediary_2_double(vector <ustring> * lines, const ustring& command, double parameter1, double parameter2);
-bool intermediary_4_double(vector <ustring> * lines, const ustring& command, double parameter1, double parameter2, double parameter3, double parameter4);
-bool intermediary_void(vector <ustring> * lines, const ustring& command);
-bool intermediary_1_bool(vector <ustring> * lines, const ustring& command, bool parameter);
-bool intermediary_1_int(vector <ustring> * lines, const ustring& command, int parameter);
-bool intermediary_2_int(vector <ustring> * lines, const ustring& command, int parameter1, int parameter2);
-bool intermediary_1_ustring(vector <ustring> * lines, const ustring& command, const ustring& parameter);
+bool text2pdf_intermediary_2_double(vector <ustring> * lines, const ustring& command, double parameter1, double parameter2);
+void text2pdf_intermediary_2_double_get(const vector <ustring>& input, double& parameter1, double& parameter2);
+
+bool text2pdf_intermediary_4_double(vector <ustring> * lines, const ustring& command, double parameter1, double parameter2, double parameter3, double parameter4);
+void text2pdf_intermediary_4_double_get(const vector <ustring>& input, double& parameter1, double& parameter2, double& parameter3, double& parameter4);
+
+bool text2pdf_intermediary_void(vector <ustring> * lines, const ustring& command);
+
+bool text2pdf_intermediary_1_bool(vector <ustring> * lines, const ustring& command, bool parameter);
+void text2pdf_intermediary_1_bool_get(const vector <ustring>& input, bool& parameter);
+
+bool text2pdf_intermediary_1_int(vector <ustring> * lines, const ustring& command, int parameter);
+void text2pdf_intermediary_1_int_get(const vector <ustring>& input, int& parameter);
+
+bool text2pdf_intermediary_2_int(vector <ustring> * lines, const ustring& command, int parameter1, int parameter2);
+void text2pdf_intermediary_2_int_get(const vector <ustring>& input, int& parameter1, int& parameter2);
+
+bool text2pdf_intermediary_1_ustring(vector <ustring> * lines, const ustring& command, const ustring& parameter);
+void text2pdf_intermediary_1_ustring_get(const vector <ustring>& input, ustring& parameter);
 
 #endif

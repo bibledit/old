@@ -38,13 +38,17 @@
 #include <cairo/cairo.h>
 #include <cairo/cairo-pdf.h>
 #include "text2pdf_intermediate.h"
+#include "dialogtext2pdf.h"
 
-Text2Pdf::Text2Pdf(const ustring& pdf_file)
+Text2Pdf::Text2Pdf(const ustring& pdf_file, bool use_intermediate_text)
 // Converts text code to a pdf file.
 {
   // Initializers.
   pdffile = pdf_file;
   initialize_variables();
+  intermediate_text_pointer = NULL;
+  if (use_intermediate_text)
+    intermediate_text_pointer = &intermediate_text;
 
   // Create the cairo variables.
   surface = cairo_pdf_surface_create(pdffile.c_str(), pango_units_to_points(page_width_pango_units), pango_units_to_points(page_height_pango_units));
@@ -62,8 +66,7 @@ Text2Pdf::~Text2Pdf()
   }
   cairo_surface_destroy(surface);
   cairo_destroy(cairo);
-  if (progresswindow)
-    delete progresswindow;
+  delete progresswindow;
 }
 
 void Text2Pdf::initialize_variables()
@@ -102,23 +105,17 @@ void Text2Pdf::initialize_variables()
   page = NULL;
   layoutcontainer = NULL;
 
-  // Progress.
-  progresswindow = NULL;
-
   // Running headers.
   print_date = false;
   running_chapter_left_page = 0;
   running_chapter_right_page = 0;
   suppress_header_on_this_page = false;
-
-  // Intermediate text.
-  intermediate_text_pointer = NULL;
 }
 
 void Text2Pdf::page_size_set(double width_centimeters, double height_centimeters)
 // Set the page size in centimeters.
 {
-  if (intermediary_2_double(intermediate_text_pointer, __func__, width_centimeters, height_centimeters))
+  if (text2pdf_intermediary_2_double(intermediate_text_pointer, __func__, width_centimeters, height_centimeters))
     return;
   page_width_pango_units = centimeters_to_pango_units(width_centimeters);
   page_height_pango_units = centimeters_to_pango_units(height_centimeters);
@@ -128,7 +125,7 @@ void Text2Pdf::page_size_set(double width_centimeters, double height_centimeters
 void Text2Pdf::page_margins_set(double inside_margin_centimeters, double right_margin_centimeters, double top_margin_centimeters, double bottom_margin_centimeters)
 // Set the margins of the page, in centimeters.
 {
-  if (intermediary_4_double(intermediate_text_pointer, __func__, inside_margin_centimeters, right_margin_centimeters, top_margin_centimeters, bottom_margin_centimeters))
+  if (text2pdf_intermediary_4_double(intermediate_text_pointer, __func__, inside_margin_centimeters, right_margin_centimeters, top_margin_centimeters, bottom_margin_centimeters))
     return;
   inside_margin_pango_units = centimeters_to_pango_units(inside_margin_centimeters);
   outside_margin_pango_units = centimeters_to_pango_units(right_margin_centimeters);
@@ -139,7 +136,7 @@ void Text2Pdf::page_margins_set(double inside_margin_centimeters, double right_m
 void Text2Pdf::header_height_set(double size_centimeters)
 // Set the height of the header.
 {
-  if (intermediary_1_double(intermediate_text_pointer, __func__, size_centimeters))
+  if (text2pdf_intermediary_1_double(intermediate_text_pointer, __func__, size_centimeters))
     return;
   header_height_pango_units = centimeters_to_pango_units(size_centimeters);
 }
@@ -147,7 +144,7 @@ void Text2Pdf::header_height_set(double size_centimeters)
 void Text2Pdf::footer_height_set(double size_centimeters)
 // Set the height of the footer.
 {
-  if (intermediary_1_double(intermediate_text_pointer, __func__, size_centimeters))
+  if (text2pdf_intermediary_1_double(intermediate_text_pointer, __func__, size_centimeters))
     return;
   footer_height_pango_units = centimeters_to_pango_units(size_centimeters);
 }
@@ -156,7 +153,7 @@ void Text2Pdf::column_spacing_set(double spacing_centimeters)
 // Sets the spacing between the two columns.
 // Text is normally laid out in two columns, but there are elements that span the columns.
 {
-  if (intermediary_1_double(intermediate_text_pointer, __func__, spacing_centimeters))
+  if (text2pdf_intermediary_1_double(intermediate_text_pointer, __func__, spacing_centimeters))
     return;
   column_spacing_pango_units = centimeters_to_pango_units(spacing_centimeters);
 }
@@ -164,7 +161,7 @@ void Text2Pdf::column_spacing_set(double spacing_centimeters)
 void Text2Pdf::page_one_column_only()
 // Sets that there's only one column on the pages.
 {
-  if (intermediary_void(intermediate_text_pointer, __func__))
+  if (text2pdf_intermediary_void(intermediate_text_pointer, __func__))
     return;
   one_column_only = true;
 }
@@ -172,7 +169,7 @@ void Text2Pdf::page_one_column_only()
 void Text2Pdf::new_page(bool odd)
 // Sets the engine to go to a new page. If odd is true, it goes to a new odd page.
 {
-  if (intermediary_1_bool(intermediate_text_pointer, __func__, odd))
+  if (text2pdf_intermediary_1_bool(intermediate_text_pointer, __func__, odd))
     return;
   close_paragraph();
   if (odd)
@@ -185,11 +182,14 @@ void Text2Pdf::run()
 // Runs the converter.
 {
   // Create progress window.
-  if (progresswindow == NULL)
-    progresswindow = new ProgressWindow ("Formatting text", false);
+  progresswindow = new ProgressWindow ("Formatting", false);
+  progresswindow->set_text ("Run");
 
   // Close any open input containers.
   close_paragraph();
+
+  // Intermediate text.
+  intermediate_interpreter();
 
   // Go through the input data.
   run_input(input_data);
@@ -204,7 +204,8 @@ void Text2Pdf::run()
   generate_tables_of_contents();
 
   // Print the pages.
-  progresswindow->set_iterate(0.5, 1, pages.size());
+  progresswindow->set_iterate(0, 1, pages.size());
+  progresswindow->set_text ("Output");
   for (unsigned int pg = 0; pg < pages.size(); pg++) {
     progresswindow->iterate();
     T2PPage * page = pages[pg];
@@ -221,7 +222,8 @@ void Text2Pdf::run()
 void Text2Pdf::run_input(vector <T2PInput *>& input)
 // Goes through all of the input data.
 {
-  progresswindow->set_iterate(0, 0.5, input.size());
+  progresswindow->set_iterate(0, 1, input.size());
+  progresswindow->set_text("Layout");
   for (unsigned int i = 0; i < input.size(); i++) {
     progresswindow->iterate();
     switch (input[i]->type)
@@ -400,16 +402,24 @@ void Text2Pdf::get_next_layout_container(bool intrusion)
 void Text2Pdf::fit_blocks_on_pages()
 // Fits the block onto the pages, and creates new pages if need be.
 {
+  // Progress.
+  unsigned int initial_input_size = input_blocks.size();
+  progresswindow->set_text ("Pages");
+
   // Loop through the input blocks.
   unsigned int infinite_loop_counter = 0;
   while (!input_blocks.empty() && infinite_loop_counter < 5000) {
+  
     // Create another page.
     next_page();
+    
     // Progress.
-    progresswindow->pulse();
-    progresswindow->set_text("Page " + convert_to_string(pages.size()));
+    double fraction = double (initial_input_size - input_blocks.size()) / initial_input_size;
+    progresswindow->set_fraction(fraction);
+
     // Lay out the input on the page.
     page->text_reference_area->fit_blocks(input_blocks, column_spacing_pango_units);
+
     // Check whether to start a new odd page.
     if (page->text_reference_area->start_new_odd_page) {
       // If the current page is odd, then the next will be even, so we need to insert an extra one here.
@@ -470,7 +480,7 @@ void Text2Pdf::next_page()
 void Text2Pdf::open_keep_together()
 // Anything between this and the closer is kept together in one page or column.
 {
-  if (intermediary_void(intermediate_text_pointer, __func__))
+  if (text2pdf_intermediary_void(intermediate_text_pointer, __func__))
     return;
   close_paragraph();
   input_data.push_back(new T2PInput (t2pitOpenKeepTogether));
@@ -479,7 +489,7 @@ void Text2Pdf::open_keep_together()
 void Text2Pdf::close_keep_together()
 // Close keeping together in one page or column.
 {
-  if (intermediary_void(intermediate_text_pointer, __func__))
+  if (text2pdf_intermediary_void(intermediate_text_pointer, __func__))
     return;
   close_paragraph();
   input_data.push_back(new T2PInput (t2pitCloseKeepTogether));
@@ -488,7 +498,7 @@ void Text2Pdf::close_keep_together()
 void Text2Pdf::open_paragraph()
 // Open a new paragraph and add this to the input data.
 {
-  if (intermediary_void(intermediate_text_pointer, __func__))
+  if (text2pdf_intermediary_void(intermediate_text_pointer, __func__))
     return;
   // Close existing one.
   close_paragraph();
@@ -513,7 +523,7 @@ void Text2Pdf::ensure_open_paragraph()
 void Text2Pdf::paragraph_set_font_size(double points)
 // Sets the font size to be used in the paragraph, in points.
 {
-  if (intermediary_1_double(intermediate_text_pointer, __func__, points))
+  if (text2pdf_intermediary_1_double(intermediate_text_pointer, __func__, points))
     return;
   ensure_open_paragraph();
   input_paragraph->font_size_points = points;
@@ -522,7 +532,7 @@ void Text2Pdf::paragraph_set_font_size(double points)
 void Text2Pdf::paragraph_set_italic(bool italic)
 // Set whether font should be italic.
 {
-  if (intermediary_1_bool(intermediate_text_pointer, __func__, italic))
+  if (text2pdf_intermediary_1_bool(intermediate_text_pointer, __func__, italic))
     return;
   ensure_open_paragraph();
   input_paragraph->italic = italic;
@@ -531,7 +541,7 @@ void Text2Pdf::paragraph_set_italic(bool italic)
 void Text2Pdf::paragraph_set_bold(bool bold)
 // Set whether font should be in bold.
 {
-  if (intermediary_1_bool(intermediate_text_pointer, __func__, bold))
+  if (text2pdf_intermediary_1_bool(intermediate_text_pointer, __func__, bold))
     return;
   ensure_open_paragraph();
   input_paragraph->bold = bold;
@@ -540,7 +550,7 @@ void Text2Pdf::paragraph_set_bold(bool bold)
 void Text2Pdf::paragraph_set_underline(bool underline)
 // Set whether text should be underlined.
 {
-  if (intermediary_1_bool(intermediate_text_pointer, __func__, underline))
+  if (text2pdf_intermediary_1_bool(intermediate_text_pointer, __func__, underline))
     return;
   ensure_open_paragraph();
   input_paragraph->underline = underline;
@@ -549,7 +559,7 @@ void Text2Pdf::paragraph_set_underline(bool underline)
 void Text2Pdf::paragraph_set_small_caps(bool small_caps)
 // Set whether text should be in small caps.
 {
-  if (intermediary_1_bool(intermediate_text_pointer, __func__, small_caps))
+  if (text2pdf_intermediary_1_bool(intermediate_text_pointer, __func__, small_caps))
     return;
   ensure_open_paragraph();
   input_paragraph->small_caps = small_caps;
@@ -558,7 +568,7 @@ void Text2Pdf::paragraph_set_small_caps(bool small_caps)
 void Text2Pdf::paragraph_set_alignment(T2PAlignmentType alignment)
 // Sets the paragraph alignment, e.g. left, or justified.
 {
-  if (intermediary_1_int(intermediate_text_pointer, __func__, alignment))
+  if (text2pdf_intermediary_1_int(intermediate_text_pointer, __func__, alignment))
     return;
   ensure_open_paragraph();
   input_paragraph->alignment = alignment;
@@ -567,7 +577,7 @@ void Text2Pdf::paragraph_set_alignment(T2PAlignmentType alignment)
 void Text2Pdf::paragraph_set_space_before(int millimeters)
 // Sets the space before the paragraph, in millimeters.
 {
-  if (intermediary_1_int(intermediate_text_pointer, __func__, millimeters))
+  if (text2pdf_intermediary_1_int(intermediate_text_pointer, __func__, millimeters))
     return;
   ensure_open_paragraph();
   input_paragraph->space_before_mm = millimeters;
@@ -576,7 +586,7 @@ void Text2Pdf::paragraph_set_space_before(int millimeters)
 void Text2Pdf::paragraph_set_space_after(int millimeters)
 // Sets the desired space after the paragraph, in millimeters.
 {
-  if (intermediary_1_int(intermediate_text_pointer, __func__, millimeters))
+  if (text2pdf_intermediary_1_int(intermediate_text_pointer, __func__, millimeters))
     return;
   ensure_open_paragraph();
   input_paragraph->space_after_mm = millimeters;
@@ -585,7 +595,7 @@ void Text2Pdf::paragraph_set_space_after(int millimeters)
 void Text2Pdf::paragraph_set_left_margin(int millimeters)
 // Sets the paragraph's left margin, in millimeters.
 {
-  if (intermediary_1_int(intermediate_text_pointer, __func__, millimeters))
+  if (text2pdf_intermediary_1_int(intermediate_text_pointer, __func__, millimeters))
     return;
   ensure_open_paragraph();
   input_paragraph->left_margin_mm = millimeters;
@@ -594,7 +604,7 @@ void Text2Pdf::paragraph_set_left_margin(int millimeters)
 void Text2Pdf::paragraph_set_right_margin(int millimeters)
 // // Sets the paragraph's right margin, in millimeters.
 {
-  if (intermediary_1_int(intermediate_text_pointer, __func__, millimeters))
+  if (text2pdf_intermediary_1_int(intermediate_text_pointer, __func__, millimeters))
     return;
   ensure_open_paragraph();
   input_paragraph->right_margin_mm = millimeters;
@@ -603,7 +613,7 @@ void Text2Pdf::paragraph_set_right_margin(int millimeters)
 void Text2Pdf::paragraph_set_first_line_indent(int millimeters)
 // Sets the indent of the first line of the paragraph.
 {
-  if (intermediary_1_int(intermediate_text_pointer, __func__, millimeters))
+  if (text2pdf_intermediary_1_int(intermediate_text_pointer, __func__, millimeters))
     return;
   ensure_open_paragraph();
   input_paragraph->first_line_indent_mm = millimeters;
@@ -612,7 +622,7 @@ void Text2Pdf::paragraph_set_first_line_indent(int millimeters)
 void Text2Pdf::paragraph_set_column_count(unsigned int count)
 // Sets the number of columns. Only 1 or 2 are supported.
 {
-  if (intermediary_1_int(intermediate_text_pointer, __func__, count))
+  if (text2pdf_intermediary_1_int(intermediate_text_pointer, __func__, count))
     return;
   ensure_open_paragraph();
   count = CLAMP (count, 1, 2);
@@ -622,7 +632,7 @@ void Text2Pdf::paragraph_set_column_count(unsigned int count)
 void Text2Pdf::paragraph_set_keep_with_next()
 // Sets that this paragraph should be kept with the next one.
 {
-  if (intermediary_void(intermediate_text_pointer, __func__))
+  if (text2pdf_intermediary_void(intermediate_text_pointer, __func__))
     return;
   ensure_open_paragraph();
   input_paragraph->keep_with_next = true;
@@ -631,7 +641,7 @@ void Text2Pdf::paragraph_set_keep_with_next()
 void Text2Pdf::close_paragraph()
 // Close the open paragraph.
 {
-  if (intermediary_void(intermediate_text_pointer, __func__))
+  if (text2pdf_intermediary_void(intermediate_text_pointer, __func__))
     return;
   input_paragraph = NULL;
 }
@@ -639,7 +649,7 @@ void Text2Pdf::close_paragraph()
 void Text2Pdf::inline_set_font_size_percentage(int percentage)
 // Sets the font size percentage for inline text. 
 {
-  if (intermediary_1_int(intermediate_text_pointer, __func__, percentage))
+  if (text2pdf_intermediary_1_int(intermediate_text_pointer, __func__, percentage))
     return;
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
@@ -650,7 +660,7 @@ void Text2Pdf::inline_set_font_size_percentage(int percentage)
 void Text2Pdf::inline_clear_font_size_percentage()
 // Clears the font size percentage for inline text. 
 {
-  if (intermediary_void(intermediate_text_pointer, __func__))
+  if (text2pdf_intermediary_void(intermediate_text_pointer, __func__))
     return;
   inline_set_font_size_percentage(100);
 }
@@ -658,7 +668,7 @@ void Text2Pdf::inline_clear_font_size_percentage()
 void Text2Pdf::inline_set_italic(int italic)
 // Sets the italic markup for inline text. 
 {
-  if (intermediary_1_int(intermediate_text_pointer, __func__, italic))
+  if (text2pdf_intermediary_1_int(intermediate_text_pointer, __func__, italic))
     return;
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
@@ -669,7 +679,7 @@ void Text2Pdf::inline_set_italic(int italic)
 void Text2Pdf::inline_clear_italic()
 // Clears the italic markup for inline text. 
 {
-  if (intermediary_void(intermediate_text_pointer, __func__))
+  if (text2pdf_intermediary_void(intermediate_text_pointer, __func__))
     return;
   inline_set_italic(t2pmtInherit);
 }
@@ -677,7 +687,7 @@ void Text2Pdf::inline_clear_italic()
 void Text2Pdf::inline_set_bold(int bold)
 // Sets the bold markup for inline text. 
 {
-  if (intermediary_1_int(intermediate_text_pointer, __func__, bold))
+  if (text2pdf_intermediary_1_int(intermediate_text_pointer, __func__, bold))
     return;
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
@@ -688,7 +698,7 @@ void Text2Pdf::inline_set_bold(int bold)
 void Text2Pdf::inline_clear_bold()
 // Clears the bold markup for inline text. 
 {
-  if (intermediary_void(intermediate_text_pointer, __func__))
+  if (text2pdf_intermediary_void(intermediate_text_pointer, __func__))
     return;
   inline_set_bold(t2pmtInherit);
 }
@@ -696,7 +706,7 @@ void Text2Pdf::inline_clear_bold()
 void Text2Pdf::inline_set_underline(int underline)
 // Sets the underline markup for inline text. 
 {
-  if (intermediary_1_int(intermediate_text_pointer, __func__, underline))
+  if (text2pdf_intermediary_1_int(intermediate_text_pointer, __func__, underline))
     return;
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
@@ -707,7 +717,7 @@ void Text2Pdf::inline_set_underline(int underline)
 void Text2Pdf::inline_clear_underline()
 // Sets the underline markup for inline text. 
 {
-  if (intermediary_void(intermediate_text_pointer, __func__))
+  if (text2pdf_intermediary_void(intermediate_text_pointer, __func__))
     return;
   inline_set_underline(t2pmtInherit);
 }
@@ -715,7 +725,7 @@ void Text2Pdf::inline_clear_underline()
 void Text2Pdf::inline_set_small_caps(int small_caps)
 // Sets the small capitals markup for inline text. 
 {
-  if (intermediary_1_int(intermediate_text_pointer, __func__, small_caps))
+  if (text2pdf_intermediary_1_int(intermediate_text_pointer, __func__, small_caps))
     return;
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
@@ -726,7 +736,7 @@ void Text2Pdf::inline_set_small_caps(int small_caps)
 void Text2Pdf::inline_clear_small_caps()
 // Clears the small capitals markup for inline text. 
 {
-  if (intermediary_void(intermediate_text_pointer, __func__))
+  if (text2pdf_intermediary_void(intermediate_text_pointer, __func__))
     return;
   inline_set_small_caps(t2pmtInherit);
 }
@@ -734,7 +744,7 @@ void Text2Pdf::inline_clear_small_caps()
 void Text2Pdf::inline_set_superscript(bool superscript)
 // Sets the superscript markup for inline text. 
 {
-  if (intermediary_1_bool(intermediate_text_pointer, __func__, superscript))
+  if (text2pdf_intermediary_1_bool(intermediate_text_pointer, __func__, superscript))
     return;
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
@@ -745,7 +755,7 @@ void Text2Pdf::inline_set_superscript(bool superscript)
 void Text2Pdf::inline_clear_superscript()
 // Clears the superscript markup for inline text. 
 {
-  if (intermediary_void(intermediate_text_pointer, __func__))
+  if (text2pdf_intermediary_void(intermediate_text_pointer, __func__))
     return;
   inline_set_superscript(false);
 }
@@ -753,7 +763,7 @@ void Text2Pdf::inline_clear_superscript()
 void Text2Pdf::inline_set_colour(int colour)
 // Sets the colour for inline text. 
 {
-  if (intermediary_1_int(intermediate_text_pointer, __func__, colour))
+  if (text2pdf_intermediary_1_int(intermediate_text_pointer, __func__, colour))
     return;
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
@@ -764,7 +774,7 @@ void Text2Pdf::inline_set_colour(int colour)
 void Text2Pdf::inline_clear_colour()
 // Clears the colour for inline text. 
 {
-  if (intermediary_void(intermediate_text_pointer, __func__))
+  if (text2pdf_intermediary_void(intermediate_text_pointer, __func__))
     return;
   inline_set_colour(0);
 }
@@ -772,7 +782,7 @@ void Text2Pdf::inline_clear_colour()
 void Text2Pdf::inline_set_strike_through()
 // Sets the strike-through markup for inline text. 
 {
-  if (intermediary_void(intermediate_text_pointer, __func__))
+  if (text2pdf_intermediary_void(intermediate_text_pointer, __func__))
     return;
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
@@ -783,7 +793,7 @@ void Text2Pdf::inline_set_strike_through()
 void Text2Pdf::inline_clear_strike_through()
 // Clears the strike-through markup for inline text. 
 {
-  if (intermediary_void(intermediate_text_pointer, __func__))
+  if (text2pdf_intermediary_void(intermediate_text_pointer, __func__))
     return;
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
@@ -791,10 +801,10 @@ void Text2Pdf::inline_clear_strike_through()
   input_paragraph->inline_set_strike_through(t2pmtOff);
 }
 
-void Text2Pdf::add_text(const ustring& text) // Todo
+void Text2Pdf::add_text(const ustring& text)
 // Add text to whatever container is on top of the stack.
 {
-  if (intermediary_1_ustring(intermediate_text_pointer, __func__, text))
+  if (text2pdf_intermediary_1_ustring(intermediate_text_pointer, __func__, text))
     return;
   // Add the text to the paragraph.
   ensure_open_paragraph();
@@ -812,7 +822,7 @@ void Text2Pdf::add_text(const ustring& text) // Todo
 void Text2Pdf::open_note()
 // Open a new note.
 {
-  if (intermediary_void(intermediate_text_pointer, __func__))
+  if (text2pdf_intermediary_void(intermediate_text_pointer, __func__))
     return;
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
@@ -834,7 +844,7 @@ void Text2Pdf::open_note()
 void Text2Pdf::close_note()
 // Close a note.
 {
-  if (intermediary_void(intermediate_text_pointer, __func__))
+  if (text2pdf_intermediary_void(intermediate_text_pointer, __func__))
     return;
   if (stacked_input_paragraph) {
     input_paragraph = stacked_input_paragraph;
@@ -845,7 +855,7 @@ void Text2Pdf::close_note()
 void Text2Pdf::open_intrusion()
 // Open a new intrusion.
 {
-  if (intermediary_void(intermediate_text_pointer, __func__))
+  if (text2pdf_intermediary_void(intermediate_text_pointer, __func__))
     return;
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
@@ -865,7 +875,7 @@ void Text2Pdf::open_intrusion()
 void Text2Pdf::close_intrusion()
 // Closes an intrusion.
 {
-  if (intermediary_void(intermediate_text_pointer, __func__))
+  if (text2pdf_intermediary_void(intermediate_text_pointer, __func__))
     return;
   if (stacked_input_paragraph) {
     input_paragraph = stacked_input_paragraph;
@@ -885,7 +895,7 @@ void Text2Pdf::set_font(const ustring& font_in)
  Each paragraph will use the font that was current at the time that the input paragraph object was created.
  */
 {
-  if (intermediary_1_ustring(intermediate_text_pointer, __func__, font_in))
+  if (text2pdf_intermediary_1_ustring(intermediate_text_pointer, __func__, font_in))
     return;
   font = font_in;
 }
@@ -893,7 +903,7 @@ void Text2Pdf::set_font(const ustring& font_in)
 void Text2Pdf::set_line_spacing(unsigned int line_spacing_in)
 // Sets the line spacing for subsequent paragraphs.
 {
-  if (intermediary_1_int(intermediate_text_pointer, __func__, line_spacing_in))
+  if (text2pdf_intermediary_1_int(intermediate_text_pointer, __func__, line_spacing_in))
     return;
   line_spacing = line_spacing_in;
 }
@@ -901,7 +911,7 @@ void Text2Pdf::set_line_spacing(unsigned int line_spacing_in)
 void Text2Pdf::set_right_to_left(bool right_to_left_in)
 // Sets the right-to-left property for subsequent paragraphs.
 {
-  if (intermediary_1_bool(intermediate_text_pointer, __func__, right_to_left_in))
+  if (text2pdf_intermediary_1_bool(intermediate_text_pointer, __func__, right_to_left_in))
     return;
   right_to_left = right_to_left_in;
 }
@@ -909,7 +919,7 @@ void Text2Pdf::set_right_to_left(bool right_to_left_in)
 void Text2Pdf::print_date_in_header()
 // Print the date in the header.
 {
-  if (intermediary_void(intermediate_text_pointer, __func__))
+  if (text2pdf_intermediary_void(intermediate_text_pointer, __func__))
     return;
   print_date = true;
 }
@@ -917,15 +927,15 @@ void Text2Pdf::print_date_in_header()
 void Text2Pdf::set_running_header_left_page(const ustring& header)
 // Sets the running header for the left page.
 {
-  if (intermediary_1_ustring(intermediate_text_pointer, __func__, header))
+  if (text2pdf_intermediary_1_ustring(intermediate_text_pointer, __func__, header))
     return;
   running_header_left_page = header;
 }
 
-void Text2Pdf::set_running_header_right_page(const ustring& header) 
+void Text2Pdf::set_running_header_right_page(const ustring& header)
 // Sets the running header for the left page.
 {
-  if (intermediary_1_ustring(intermediate_text_pointer, __func__, header))
+  if (text2pdf_intermediary_1_ustring(intermediate_text_pointer, __func__, header))
     return;
   running_header_right_page = header;
 }
@@ -933,7 +943,7 @@ void Text2Pdf::set_running_header_right_page(const ustring& header)
 void Text2Pdf::set_running_chapter_number(unsigned int left, unsigned int right)
 // Sets the chapter number for in the running header.
 {
-  if (intermediary_2_int(intermediate_text_pointer, __func__, left, right))
+  if (text2pdf_intermediary_2_int(intermediate_text_pointer, __func__, left, right))
     return;
   running_chapter_left_page = left;
   running_chapter_right_page = right;
@@ -942,7 +952,7 @@ void Text2Pdf::set_running_chapter_number(unsigned int left, unsigned int right)
 void Text2Pdf::suppress_header_this_page()
 // Supresses printing the headers on this page.
 {
-  if (intermediary_void(intermediate_text_pointer, __func__))
+  if (text2pdf_intermediary_void(intermediate_text_pointer, __func__))
     return;
   suppress_header_on_this_page = true;
 }
@@ -989,7 +999,7 @@ void Text2Pdf::set_reference(const ustring& label)
 // Sets a reference.
 // Used for creating a table of contents with page numbers.
 {
-  if (intermediary_1_ustring(intermediate_text_pointer, __func__, label))
+  if (text2pdf_intermediary_1_ustring(intermediate_text_pointer, __func__, label))
     return;
   // Store the reference.
   reference = label;
@@ -1011,7 +1021,7 @@ void Text2Pdf::set_referent(const ustring& label)
 // Sets a referent. 
 // Used for creating a table of contents with page numbers.
 {
-  if (intermediary_1_ustring(intermediate_text_pointer, __func__, label))
+  if (text2pdf_intermediary_1_ustring(intermediate_text_pointer, __func__, label))
     return;
   // Store the referent.
   referent = label;
@@ -1032,7 +1042,7 @@ void Text2Pdf::set_referent(const ustring& label)
 void Text2Pdf::generate_tables_of_contents()
 // Generates the tables of contents.
 {
-  if (intermediary_void(intermediate_text_pointer, __func__))
+  if (text2pdf_intermediary_void(intermediate_text_pointer, __func__))
     return;
   // Get referents and their page numbers.
   map <ustring, ustring> referents;
@@ -1047,10 +1057,205 @@ void Text2Pdf::generate_tables_of_contents()
   }
 }
 
-void Text2Pdf::use_intermediate_text()
-// Sets the engine to use intermediate text.
+void Text2Pdf::intermediate_interpreter() // Todo
+// Interpretes the intermediate commands it finds.
 {
-  intermediate_text_pointer = &intermediate_text;
+  // Review or edit the intermediate commands.
+  if (intermediate_text_pointer) {
+    Text2PdfDialog dialog(&intermediate_text);
+    dialog.run();
+  }
+
+  // Clear flag. Without that we enter an infinite loop.
+  intermediate_text_pointer = NULL;
+
+  // Process any available intermediate text.
+  progresswindow->set_iterate(0, 1, intermediate_text.size());
+  progresswindow->set_text ("Interpreting");
+  for (unsigned int i = 0; i < intermediate_text.size(); i++) {
+    progresswindow->iterate();
+
+    // Retrieve the command and the line of parameters.
+    ustring line(intermediate_text[i]);
+    if (line.empty())
+      continue;
+    size_t pos = line.find("|");
+    ustring command;
+    if (pos != string::npos) {
+      command = line.substr(0, pos);
+      line.erase(0, ++pos);
+    } else {
+      command = line;
+      line.clear();
+    }
+
+    // Retrieve the parameters.
+    // In case of the command to add text, don't interprete the | separater character, but pass it through.
+    vector <ustring> parameters;
+    if (command == "add_text") {
+      parameters.push_back(line);
+    } else {
+      Parse parse(line, false, "|");
+      parameters = parse.words;
+    }
+
+    // Add empty parameters at the end, so we avoid crashes if there aren't enough parameters. Todo to remove this?
+    for (unsigned int i2 = 0; i2 < 6; i2++) {
+      parameters.push_back("");
+    }
+
+    // Interprete the commands.
+    double double1, double2, double3, double4;
+    bool bool1;
+    int int1, int2;
+    ustring ustring1;
+    if (command == "page_size_set") {
+      text2pdf_intermediary_2_double_get(parameters, double1, double2);
+      page_size_set(double1, double2);
+    } else if (command == "page_margins_set") {
+      text2pdf_intermediary_4_double_get(parameters, double1, double2, double3, double4);
+      page_margins_set(double1, double2, double3, double4);
+    } else if (command == "header_height_set") {
+      text2pdf_intermediary_1_double_get(parameters, double1);
+      header_height_set(double1);
+    } else if (command == "footer_height_set") {
+      text2pdf_intermediary_1_double_get(parameters, double1);
+      footer_height_set(double1);
+    } else if (command == "column_spacing_set") {
+      text2pdf_intermediary_1_double_get(parameters, double1);
+      column_spacing_set(double1);
+    } else if (command == "page_one_column_only") {
+      page_one_column_only();
+    } else if (command == "new_page") {
+      text2pdf_intermediary_1_bool_get(parameters, bool1);
+      new_page(bool1);
+    } else if (command == "open_keep_together") {
+      open_keep_together();
+    } else if (command == "close_keep_together") {
+      close_keep_together();
+    } else if (command == "open_paragraph") {
+      open_paragraph();
+    } else if (command == "paragraph_set_font_size") {
+      text2pdf_intermediary_1_double_get(parameters, double1);
+      paragraph_set_font_size(double1);
+    } else if (command == "paragraph_set_italic") {
+      text2pdf_intermediary_1_bool_get(parameters, bool1);
+      paragraph_set_italic(bool1);
+    } else if (command == "paragraph_set_bold") {
+      text2pdf_intermediary_1_bool_get(parameters, bool1);
+      paragraph_set_bold(bool1);
+    } else if (command == "paragraph_set_underline") {
+      text2pdf_intermediary_1_bool_get(parameters, bool1);
+      paragraph_set_underline(bool1);
+    } else if (command == "paragraph_set_small_caps") {
+      text2pdf_intermediary_1_bool_get(parameters, bool1);
+      paragraph_set_small_caps(bool1);
+    } else if (command == "paragraph_set_alignment") {
+      text2pdf_intermediary_1_int_get(parameters, int1);
+      paragraph_set_alignment(T2PAlignmentType(int1));
+    } else if (command == "paragraph_set_space_before") {
+      text2pdf_intermediary_1_int_get(parameters, int1);
+      paragraph_set_space_before(int1);
+    } else if (command == "paragraph_set_space_after") {
+      text2pdf_intermediary_1_int_get(parameters, int1);
+      paragraph_set_space_after(int1);
+    } else if (command == "paragraph_set_right_margin") {
+      text2pdf_intermediary_1_int_get(parameters, int1);
+      paragraph_set_right_margin(int1);
+    } else if (command == "paragraph_set_first_line_indent") {
+      text2pdf_intermediary_1_int_get(parameters, int1);
+      paragraph_set_first_line_indent(int1);
+    } else if (command == "paragraph_set_column_count") {
+      text2pdf_intermediary_1_int_get(parameters, int1);
+      paragraph_set_column_count(int1);
+    } else if (command == "paragraph_set_keep_with_next") {
+      paragraph_set_keep_with_next();
+    } else if (command == "close_paragraph") {
+      close_paragraph();
+    } else if (command == "inline_set_font_size_percentage") {
+      text2pdf_intermediary_1_int_get(parameters, int1);
+      inline_set_font_size_percentage(int1);
+    } else if (command == "inline_clear_font_size_percentage") {
+      inline_clear_font_size_percentage();
+    } else if (command == "inline_set_italic") {
+      text2pdf_intermediary_1_int_get(parameters, int1);
+      inline_set_italic(int1);
+    } else if (command == "inline_clear_italic") {
+      inline_clear_italic();
+    } else if (command == "inline_set_bold") {
+      text2pdf_intermediary_1_int_get(parameters, int1);
+      inline_set_bold(int1);
+    } else if (command == "inline_clear_bold") {
+      inline_clear_bold();
+    } else if (command == "inline_set_underline") {
+      text2pdf_intermediary_1_int_get(parameters, int1);
+      inline_set_underline(int1);
+    } else if (command == "inline_clear_underline") {
+      inline_clear_underline();
+    } else if (command == "inline_set_small_caps") {
+      text2pdf_intermediary_1_int_get(parameters, int1);
+      inline_set_small_caps(int1);
+    } else if (command == "inline_clear_small_caps") {
+      inline_clear_small_caps();
+    } else if (command == "inline_set_superscript") {
+      text2pdf_intermediary_1_bool_get(parameters, bool1);
+      inline_set_superscript(bool1);
+    } else if (command == "inline_clear_superscript") {
+      inline_clear_superscript();
+    } else if (command == "inline_set_colour") {
+      text2pdf_intermediary_1_int_get(parameters, int1);
+      inline_set_colour(int1);
+    } else if (command == "inline_clear_colour") {
+      inline_clear_colour();
+    } else if (command == "inline_set_strike_through") {
+      inline_set_strike_through();
+    } else if (command == "inline_clear_strike_through") {
+      inline_clear_strike_through();
+    } else if (command == "add_text") {
+      text2pdf_intermediary_1_ustring_get(parameters, ustring1);
+      add_text(ustring1);
+    } else if (command == "open_note") {
+      open_note();
+    } else if (command == "close_note") {
+      close_note();
+    } else if (command == "open_intrusion") {
+      open_intrusion();
+    } else if (command == "close_intrusion") {
+      close_intrusion();
+    } else if (command == "set_font") {
+      text2pdf_intermediary_1_ustring_get(parameters, ustring1);
+      set_font(ustring1);
+    } else if (command == "set_line_spacing") {
+      text2pdf_intermediary_1_int_get(parameters, int1);
+      set_line_spacing(int1);
+    } else if (command == "set_right_to_left") {
+      text2pdf_intermediary_1_bool_get(parameters, bool1);
+      set_right_to_left(bool1);
+    } else if (command == "print_date_in_header") {
+      print_date_in_header();
+    } else if (command == "set_running_header_left_page") {
+      text2pdf_intermediary_1_ustring_get(parameters, ustring1);
+      set_running_header_left_page(ustring1);
+    } else if (command == "set_running_header_right_page") {
+      text2pdf_intermediary_1_ustring_get(parameters, ustring1);
+      set_running_header_right_page(ustring1);
+    } else if (command == "set_running_chapter_number") {
+      text2pdf_intermediary_2_int_get(parameters, int1, int2);
+      set_running_chapter_number(int1, int2);
+    } else if (command == "suppress_header_this_page") {
+      suppress_header_this_page();
+    } else if (command == "set_reference") {
+      text2pdf_intermediary_1_ustring_get(parameters, ustring1);
+      set_reference(ustring1);
+    } else if (command == "set_referent") {
+      text2pdf_intermediary_1_ustring_get(parameters, ustring1);
+      set_referent(ustring1);
+    } else if (command == "generate_tables_of_contents") {
+      generate_tables_of_contents();
+    } else {
+      gw_critical("Unknown command: " + command);
+    }
+  }
 }
 
 /*
@@ -1065,6 +1270,9 @@ void Text2Pdf::use_intermediate_text()
  text.
  
  If ndebele genesis is printed, there are too many blank pages at the start.
+ We may have to fix the New-Page command, so that it gets its own input paragraph (closes the previous one, closes its own paragraph),
+ and that this input paragraph, though empth of text, will get its output block still, which block
+ then is considered for making new pages. Other settings probably similar, i.e. empty output blocks are considered too.
 
  If empty books or templates are printed, it hangs.
  

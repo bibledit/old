@@ -6938,12 +6938,12 @@ void MainWindow::on_print() {
     }
     case 3: // Test Todo
     {
-      Text2Pdf text2pdf(gw_build_filename(directories_get_temp(), "pdf.pdf"));
+      extern Settings * settings;
+      Text2Pdf text2pdf(gw_build_filename(directories_get_temp(), "pdf.pdf"), settings->genconfig.print_engine_use_intermediate_text_get());
       text2pdf.print_date_in_header();
       text2pdf.set_running_header_left_page("UGenesise");
       text2pdf.set_running_header_right_page("Genesis");
-      
-      
+
       text2pdf.open_paragraph();
       text2pdf.add_text("New");
       text2pdf.open_paragraph();
@@ -6957,7 +6957,6 @@ void MainWindow::on_print() {
       text2pdf.open_paragraph();
       text2pdf.add_text("The one who gives life appeared! We saw it happen, and we are witnesses to what we have seen. Now we are telling you about this eternal life that was with the Father and appeared to us. 3 We are telling you what we have seen and heard, so that you may share in this life with us. And we share in it with the Father and with his Son Jesus Christ. 4 We are writing to tell you these things, because this makes us truly happy.");
 
-      
       /*
       text2pdf.set_running_chapter_number(1, 1);
       text2pdf.suppress_header_this_page();
@@ -7100,7 +7099,8 @@ void MainWindow::on_print() {
     }
     case 4: // Test.
     {
-      Text2Pdf text2pdf(gw_build_filename(directories_get_temp(), "pdf.pdf"));
+      extern Settings * settings;
+      Text2Pdf text2pdf(gw_build_filename(directories_get_temp(), "pdf.pdf"), settings->genconfig.print_engine_use_intermediate_text_get());
       text2pdf.test();
       text2pdf.view();
       break;

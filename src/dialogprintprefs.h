@@ -36,6 +36,8 @@ private:
   GtkWidget *dialogprintpreferences;
   GtkWidget *dialog_vbox1;
   GtkWidget *notebook1;
+  
+  // Page setup.
   GtkWidget *hbox1;
   GtkWidget *table1;
   GtkObject *spinbutton_height_adj;
@@ -67,6 +69,12 @@ private:
   GtkWidget *vbox1;
   GtkWidget *checkbuttondate;
   GtkWidget *label1;
+  
+  // Formatter setup.
+  GtkWidget *vbox2;
+  GtkWidget *checkbutton_intermediate_text;
+  GtkWidget *label11;
+  
   GtkWidget *dialog_action_area1;
   GtkWidget *cancelbutton1;
   GtkWidget *okbutton1;

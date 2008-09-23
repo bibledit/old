@@ -262,7 +262,8 @@ bibledit_bin_SOURCES = \
         text2pdf_layout.cpp \
         text2pdf_big_block.cpp \
         text2pdf_intermediate.cpp \
-        usfm2text.cpp
+        usfm2text.cpp \
+        dialogtext2pdf.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 

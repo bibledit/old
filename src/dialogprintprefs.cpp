@@ -47,6 +47,7 @@ PrintPreferencesDialog::PrintPreferencesDialog (int dummy)
   gtk_box_pack_start (GTK_BOX (dialog_vbox1), notebook1, FALSE, TRUE, 0);
   gtk_container_set_border_width (GTK_CONTAINER (notebook1), 4);
 
+  // Page setup.
   hbox1 = gtk_hbox_new (FALSE, 10);
   gtk_widget_show (hbox1);
   gtk_container_add (GTK_CONTAINER (notebook1), hbox1);
@@ -220,10 +221,26 @@ PrintPreferencesDialog::PrintPreferencesDialog (int dummy)
 
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbuttondate), settings->genconfig.printdate_get ());
 
-  label1 = gtk_label_new ("Page setup");
+  label1 = gtk_label_new ("Page");
   gtk_widget_show (label1);
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook1), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook1), 0), label1);
 
+  // Formatter setup.
+  vbox2 = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (vbox2);
+  gtk_container_add (GTK_CONTAINER (notebook1), vbox2);
+
+  checkbutton_intermediate_text = gtk_check_button_new_with_mnemonic ("Review or edit layout engine's commands");
+  gtk_widget_show (checkbutton_intermediate_text);
+  gtk_box_pack_start (GTK_BOX (vbox2), checkbutton_intermediate_text, FALSE, FALSE, 0);
+
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_intermediate_text), settings->genconfig.print_engine_use_intermediate_text_get ());
+
+  label11 = gtk_label_new ("Formatter");
+  gtk_widget_show (label11);
+  gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook1), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook1), 1), label11);
+
+  // Dialog action area.
   dialog_action_area1 = GTK_DIALOG (dialogprintpreferences)->action_area;
   gtk_widget_show (dialog_action_area1);
   gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area1), GTK_BUTTONBOX_END);
@@ -338,6 +355,7 @@ void PrintPreferencesDialog::on_okbutton1 ()
   settings->genconfig.paper_top_margin_set (gtk_spin_button_get_value (GTK_SPIN_BUTTON (spinbutton_top)));
   settings->genconfig.paper_bottom_margin_set (gtk_spin_button_get_value (GTK_SPIN_BUTTON (spinbutton_bottom)));
   settings->genconfig.printdate_set (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbuttondate)));
+  settings->genconfig.print_engine_use_intermediate_text_set (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_intermediate_text)));
 }
 
 
