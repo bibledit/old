@@ -1348,7 +1348,6 @@ void Text2Pdf::intermediate_interpreter()
  Include:
  The intermediate text viewer / editor.
  
- Remove .bibledit-datafolder-pointer options. Can be done better with symbolic link from .bibledit to something. 
  
  */
 
