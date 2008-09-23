@@ -1057,7 +1057,7 @@ void Text2Pdf::generate_tables_of_contents()
   }
 }
 
-void Text2Pdf::intermediate_interpreter() // Todo
+void Text2Pdf::intermediate_interpreter()
 // Interpretes the intermediate commands it finds.
 {
   // Review or edit the intermediate commands.
@@ -1097,11 +1097,6 @@ void Text2Pdf::intermediate_interpreter() // Todo
     } else {
       Parse parse(line, false, "|");
       parameters = parse.words;
-    }
-
-    // Add empty parameters at the end, so we avoid crashes if there aren't enough parameters. Todo to remove this?
-    for (unsigned int i2 = 0; i2 < 6; i2++) {
-      parameters.push_back("");
     }
 
     // Interprete the commands.
@@ -1159,6 +1154,9 @@ void Text2Pdf::intermediate_interpreter() // Todo
     } else if (command == "paragraph_set_space_after") {
       text2pdf_intermediary_1_int_get(parameters, int1);
       paragraph_set_space_after(int1);
+    } else if (command == "paragraph_set_left_margin") {
+      text2pdf_intermediary_1_int_get(parameters, int1);
+      paragraph_set_left_margin(int1);
     } else if (command == "paragraph_set_right_margin") {
       text2pdf_intermediary_1_int_get(parameters, int1);
       paragraph_set_right_margin(int1);
@@ -1350,6 +1348,14 @@ void Text2Pdf::intermediate_interpreter() // Todo
  to pick one verse from it.
  
  To completely rewrite the Printing helpfiles.
+ Include:
+ The intermediate text viewer / editor.
+ 
+ Collaboration helpfile - implement:
+ Changed the USB stick to ext2 with label be. So this problem should be resolved.
+ USB stick for collaboration setup task #8663 on Savannah.
+ 
+ Remove .bibledit-datafolder-pointer options. Can be done better with symbolic link from .bibledit to something. 
  
  */
 
