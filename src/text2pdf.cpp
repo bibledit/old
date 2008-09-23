@@ -1260,12 +1260,9 @@ void Text2Pdf::intermediate_interpreter()
 
  Todo text2pdf 
 
- Implement a setting for printing the text2pdf commands to file.
- The setting goes into the printing dialog.
- Also make command to read such a file again.
- The command, if used, pops up a dialog, with the text which can be edited.
- How it is done now, the intermediary texts are in memory twice. Better use a function that provides that
- text.
+ Collaboration helpfile - implement:
+ Changed the USB stick to ext2 with label be. So this problem should be resolved.
+ USB stick for collaboration setup task #8663 on Savannah.
  
  If ndebele genesis is printed, there are too many blank pages at the start.
  We may have to fix the New-Page command, so that it gets its own input paragraph (closes the previous one, closes its own paragraph),
@@ -1350,10 +1347,6 @@ void Text2Pdf::intermediate_interpreter()
  To completely rewrite the Printing helpfiles.
  Include:
  The intermediate text viewer / editor.
- 
- Collaboration helpfile - implement:
- Changed the USB stick to ext2 with label be. So this problem should be resolved.
- USB stick for collaboration setup task #8663 on Savannah.
  
  Remove .bibledit-datafolder-pointer options. Can be done better with symbolic link from .bibledit to something. 
  
