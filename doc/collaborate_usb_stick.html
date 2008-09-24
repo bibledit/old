@@ -24,10 +24,13 @@
 <div id="toc">
 <ul>
   <li><a href="#introduction" class="level1">Introduction</a></li>
-  <li><a href="#thestick" class="level1">The stick</a></li>
+  <li><a href="#formattingthestick" class="level1">Formatting the
+  stick</a></li>
+  <li><a href="#labellingthestick" class="level1">Labelling the stick</a></li>
+  <li><a href="#creatingtherepositoryonthestick" class="level1">Creating the
+    repository on the stick</a></li>
   <li><a href="#firstuser" class="level1">First user</a></li>
   <li><a href="#otherusers" class="level1">Other users</a></li>
-  <li><a href="#notes" class="level1">Notes</a></li>
 </ul>
 </div>
 <!-- Table of Contents End -->
@@ -39,7 +42,7 @@ has the data repository, and one or more users that collaborate. The stick
 needs to be physically carried from one user to the other for collaboration
 to work.</p>
 
-<h3>Formatting the stick</h3>
+<h3><a name="formattingthestick"></a>Formatting the stick</h3>
 
 <p>Normally a USB stick has been formatted with the FAT or FAT32 filesystem.
 Such filesystems are not supported for collaboration. The stick needs to
@@ -90,7 +93,7 @@ the main drive of the computer, wiping out all information. Extreme care is
 to be used that the USB stick is going to be formatted, and not something
 else.</p>
 
-<h3>Labelling the stick</h3>
+<h3><a name="labellingthestick"></a>Labelling the stick</h3>
 
 <p>A label needs to be written to the USB stick. The reason of this is so as
 to make sure that this stick will always mount at the same mounting point. In
@@ -122,7 +125,8 @@ tmpfs        1038428         0   1038428   0% /dev/shm
 
 <p>This shows that it now mounts under the new name.</p>
 
-<h3>Creating the repository on the stick</h3>
+<h3><a name="creatingtherepositoryonthestick"></a>Creating the repository on
+the stick</h3>
 
 <p>The USB stick will hold the data repository.</p>
 
@@ -160,7 +164,6 @@ be removed again:</p>
 the data to it.</p>
 
 <p>To create a shared repository on the USB stick, type:</p>
-<pre>cd /media/repo/repository</pre>
 <pre>git --bare init-db --shared</pre>
 
 <p>Git will respond saying that an empty shared Git repository has been

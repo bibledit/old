@@ -1260,9 +1260,14 @@ void Text2Pdf::intermediate_interpreter()
 
  Todo text2pdf 
 
- Collaboration helpfile - implement:
- Changed the USB stick to ext2 with label be. So this problem should be resolved.
- USB stick for collaboration setup task #8663 on Savannah.
+ The Ctrl-F5 does not seem to work anymore.
+ 
+ Some project notes fall in more than one category. Change the category system so that this is accomodated.
+ E.g. clicking on the category label, then a window pops up where one can tick all the categories that apply.
+ The category label has a comma-separated list of categories for this note.
+ 
+ The space before the " file:///" in git setup, and before anything and after, should be removed.
+ It gives false errors.
  
  If ndebele genesis is printed, there are too many blank pages at the start.
  We may have to fix the New-Page command, so that it gets its own input paragraph (closes the previous one, closes its own paragraph),

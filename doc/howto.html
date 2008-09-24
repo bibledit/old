@@ -1,147 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-  <title>Bibledit</title>
-  <!--
-  Copyright (©) 2003-2008 Teus Benschop.
-  Permission is granted to copy, distribute and/or modify this document
-  under the terms of the GNU Free Documentation License, Version 1.2
-  or any later version published by the Free Software Foundation;
-  with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-  Texts.  A copy of the license is included in the section entitled "GNU
-  Free Documentation License" in the file FDL.
-  -->
-  <link href="bibledit.css" rel="stylesheet" type="text/css" />
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<title>Bibledit</title>
+<!--
+Copyright (©) 2003-2008 Teus Benschop.
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+Texts.  A copy of the license is included in the section entitled "GNU
+Free Documentation License" in the file FDL.
+-->
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
-
 <body>
 <h2><a name="howto"></a>How to ...</h2>
 <!-- Table of Contents Start -->
-
 <div id="toc">
 <ul>
-  <li><a href="#howtogethelpfromthebibleditcommunity" class="level2">How to
-    get help from the Bibledit community?</a></li>
-  <li><a href="#howtoruntwoversionsofbibleditsimultanously"
-    class="level2">How to run two versions of Bibledit simultanously?</a></li>
-  <li><a href="#howtochangethelocationwherebibleditstoresitsdata"
-    class="level2">How to change the location where Bibledit stores its
-    data?</a></li>
-  <li><a href="#howtochangetheorderofthebooks" class="level2">How to change
-    the order of the books?</a></li>
-  <li><a href="#howtoletbibleditandparatextworktogetherononeproject"
-    class="level2">How to let Bibledit and Paratext work together on one
-    project?</a></li>
-  <li><a href="#howtomoveaboutinbibleditusingthekeyboard" class="level2">How
-    to move about in Bibledit using the keyboard?</a></li>
-  <li><a href="#howtoprintatableofcontents" class="level2">How to print a
-    table of contents?</a></li>
-  <li><a href="#howtocreateacustomversificationsystemorlanguage"
-    class="level2">How to create a custom versification system or
-    language?</a></li>
-  <li><a href="#howcanicountthenumberofcrossreferencesintheproject"
-    class="level2">How can I count the number of crossreferences in the
-    project?</a></li>
+<li>
+<a href="#howtogethelpfromthebibleditcommunity" class="level2">How to get help from the Bibledit community?</a></li>
+<li>
+<a href="#howtoruntwoversionsofbibleditsimultanously" class="level2">How to run two versions of Bibledit simultanously?</a></li>
+<li>
+<a href="#howtochangetheorderofthebooks" class="level2">How to change the order of the books?</a></li>
+<li>
+<a href="#howtoletbibleditandparatextworktogetherononeproject" class="level2">How to let Bibledit and Paratext work together on one project?</a></li>
+<li>
+<a href="#howtomoveaboutinbibleditusingthekeyboard" class="level2">How to move about in Bibledit using the keyboard?</a></li>
+<li>
+<a href="#howtoprintatableofcontents" class="level2">How to print a table of contents?</a></li>
+<li>
+<a href="#howtocreateacustomversificationsystemorlanguage" class="level2">How to create a custom versification system or language?</a></li>
+<li>
+<a href="#howcanicountthenumberofcrossreferencesintheproject" class="level2">How can I count the number of crossreferences in the project?</a></li>
 </ul>
 </div>
 <!-- Table of Contents End -->
-
-<h4><a name="howtogethelpfromthebibleditcommunity"></a>How to get help from
-the Bibledit community?</h4>
-
+<h4><a name="howtogethelpfromthebibleditcommunity"></a>How to get help from the Bibledit community?</h4>
 <p>* Read the <a href="questions.html">questions and answers.</a></p>
-
 <p>* Search the <a href="contacts.html">mailing list archives</a> to see if
 your problem has been discussed before.</p>
-
 <p>* Subscribe to the <a href="contacts.html">bibledit-general mailing
 list</a>, and ask the question there.</p>
-
-<h4><a name="howtoruntwoversionsofbibleditsimultanously"></a>How to run two
-versions of Bibledit simultanously?</h4>
-
+<h4><a name="howtoruntwoversionsofbibleditsimultanously"></a>How to run two versions of Bibledit simultanously?</h4>
 <p>As there are some drastic changes between versions, it would be helpful to
 have two different versions running of Bibledit.</p>
-
 <p>This is possible, but not recommended for production work, as they will be
 overwriting each other's configuration.</p>
-
 <p>Do it this way.</p>
-
 <p>Install the newer version according to the instructions.</p>
-
 <p>When installing the older version, do this:</p>
 <pre>./configure --prefix=/home/joe/older
 make
 sudo make install</pre>
-
 <p>Then to run the older version, type this:</p>
 <pre>/home/joe/older/bin/bibledit</pre>
-
 <p>Joe stands for the user's name.</p>
-
-<h4><a name="howtochangetheorderofthebooks"></a>How to change the order of
-the books?</h4>
-
+<h4><a name="howtochangetheorderofthebooks"></a>How to change the order of the books?</h4>
 <p>You can fully configure in which order Bibledit displays and prints the
 books. This can be done in menu, Preferences, Books. Drag the books in the
 order you desire, and then click OK to save the settings.</p>
-
-<h4><a name="howtoletbibleditandparatextworktogetherononeproject"></a>How to
-let Bibledit and Paratext work together on one project?</h4>
-
+<h4><a name="howtoletbibleditandparatextworktogetherononeproject"></a>How to let Bibledit and Paratext work together on one project?</h4>
 <p>Paratext remains as it is, and Bibledit accesses Paratext's data files.</p>
-
 <p>Below is an example that shows how to get this working. More information
 is in the topic about <a href="collaboration.html">collaboration</a>.</p>
-
 <p>- We have a Paratext project in our Windows partition. It is at
 /home/joe/windows/My Paratext Projects/NDB. When Windows runs, we can work on
 those files using Paratext. But we wish to work on the same files using
 Bibledit too, from Linux.</p>
-
 <p>- We start Bibledit and create a new project called Ndebele.</p>
-
 <p>- We import all the files at /home/joe/windows/My Paratext Projects/NDB
 into our project, and choose "Link to them" in the import dialog.</p>
-
 <p>You can now edit some text, exit Bibledit, go to Windows, and to Paratext,
 and see that the changes made in Bibledit are also visible in Paratext. You
 can make some changes in Paratext, save them, exit Paratext and Windows and
 go to Bibledit, and see that the changes appear here too.</p>
-
-<h4><a name="howtomoveaboutinbibleditusingthekeyboard"></a>How to move about
-in Bibledit using the keyboard?</h4>
-
+<h4><a name="howtomoveaboutinbibleditusingthekeyboard"></a>How to move about in Bibledit using the keyboard?</h4>
 <p>Bibledit has several <a href="areas.html">areas</a> to work in.</p>
-
 <p>In Menu / GoTo there are hotkeys mentioned to move between areas.</p>
-
 <p>On some distributions F5 (Text Area) and Shift+F5 (Tools Area) work fine,
 but Ctrl+F5 (Project Notes Area) will not work. It leaves the cursor in the
 area it is.</p>
-
 <p>What works fine, is the</p>
-
 <p>* Tab key: moves between all areas counter-clockwise,</p>
-
 <p>* Shift+Tab: moves cursor between areas clockwise,</p>
-
 <p>with the exception text area to references area. In this case Shift+Tab
 has to used twice, as using it once goes to the verse box of the toolbar.</p>
-
-<h4><a name="howtoprintatableofcontents"></a>How to print a table of
-contents?</h4>
-
+<h4><a name="howtoprintatableofcontents"></a>How to print a table of contents?</h4>
 <p>In the example below we're going to learn how to write a table of contents
 for a project consisting of several books.</p>
-
 <p>The table of contents comes in the book called Front Matter. Therefore,
 add this book to the project.</p>
-
 <p>Each book that should go into the table of contents should have a USFM
 indicating this. Therefore, go to chapter 0 of each book and add the \toc2
 marker to it. For example, in the book of Genesis, chapter 0 might look
@@ -149,38 +102,27 @@ like</p>
 <pre>\id GEN
 \h Genesis
 \toc2 Genesis</pre>
-
 <p>Do this for all the books.</p>
-
 <p>Then print the project, and be sure to include all the books, including
 Front Matter. The table of contents will be there.</p>
-
-<h4><a name="howtocreateacustomversificationsystemorlanguage"></a>How to
-create a custom versification system or language?</h4>
-
+<h4><a name="howtocreateacustomversificationsystemorlanguage"></a>How to create a custom versification system or language?</h4>
 <p>If the versification system or language you need does not come with
 Bibledit, then you can create a new versfication system on the wiki of <a
 href="http://scripturechecks.sourceforge.net">Scripture Checks</a>. Once it
 is on that wiki, it usually makes it into Bibledit after about a week. This
 is the simplest way for you.</p>
-
 <p>You can also create your own language or versification system and add it
 to Bibledit yourself. To do that, take an existing versification system
 textfile or language textfile from /usr/share/bibledit, edit it, and save it
 in the <a href="data_directory.html">data directory</a>, subdirectory
 templates.</p>
-
 <p>Restart Bibledit, and you'll notice it creating new templates.</p>
-
 <p>Notes.</p>
-
 <p>The versification files start with vrs_, the mapping files with map_, and
 the language files with language_. It is important to keep that first bit,
 else Bibledit won't recognize the files.</p>
-
 <p>If the name of a template you added is the same as the name one of the
 templates that come with Bibledit, your template will be taken.</p>
-
 <p>As Bibledit evolves your versification system or language may not be
 compatible with a newer version of Bibledit. To keep it compatible, it is
 recommended you create your data on the wiki of <a
@@ -188,10 +130,7 @@ href="http://scripturechecks.sourceforge.net">Scripture Checks</a>. A more
 important reason for sharing your data on the wiki would be that by doing so
 you would help others too in that they benefit from the work you've already
 done.</p>
-
-<h4><a name="howcanicountthenumberofcrossreferencesintheproject"></a>How can
-I count the number of crossreferences in the project?</h4>
-
+<h4><a name="howcanicountthenumberofcrossreferencesintheproject"></a>How can I count the number of crossreferences in the project?</h4>
 <p>This can be done through menu Tools, then Bible notes mass update. Tick
 "Crossreferences", and leave the action to take as "Make no changes but give
 statistics only". After clicking OK it will give the number of
