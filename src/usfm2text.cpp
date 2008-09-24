@@ -417,12 +417,12 @@ void Usfm2Text::convert_from_usfm_to_text() {
               case u2xtCrossreferenceContent:
               case u2xtCrossreferenceContentWithEndmarker:
               {
-                output_text_fallback(usfm_line, fo_block_style);
+                output_text_fallback(usfm_line);
                 break;
               }
               case u2xtPublication:
               {
-                output_text_fallback(usfm_line, fo_block_style);
+                output_text_fallback(usfm_line);
                 break;
               }
               case u2xtTableOfContents:
@@ -432,32 +432,32 @@ void Usfm2Text::convert_from_usfm_to_text() {
               }
               case u2xtPreface:
               {
-                output_text_fallback(usfm_line, fo_block_style);
+                output_text_fallback(usfm_line);
                 break;
               }
               case u2xtIntroduction:
               {
-                output_text_fallback(usfm_line, fo_block_style);
+                output_text_fallback(usfm_line);
                 break;
               }
               case u2xtGlossary:
               {
-                output_text_fallback(usfm_line, fo_block_style);
+                output_text_fallback(usfm_line);
                 break;
               }
               case u2xtConcordance:
               {
-                output_text_fallback(usfm_line, fo_block_style);
+                output_text_fallback(usfm_line);
                 break;
               }
               case u2xtIndex:
               {
-                output_text_fallback(usfm_line, fo_block_style);
+                output_text_fallback(usfm_line);
                 break;
               }
               case u2xtMapIndex:
               {
-                output_text_fallback(usfm_line, fo_block_style);
+                output_text_fallback(usfm_line);
                 break;
               }
               case u2xtCover:
@@ -568,7 +568,7 @@ void Usfm2Text::convert_from_usfm_to_text() {
               }
               default:
               {
-                output_text_fallback(usfm_line, fo_block_style);
+                output_text_fallback(usfm_line);
                 break;
               }
             }
@@ -579,7 +579,7 @@ void Usfm2Text::convert_from_usfm_to_text() {
       }
       // Do default output if the line was not processed.
       if (!processed) {
-        output_text_fallback(usfm_line, fo_block_style);
+        output_text_fallback(usfm_line);
       }
     }
   }
@@ -714,7 +714,7 @@ Usfm2XslFoStyle * Usfm2Text::marker_get_pointer_to_style(const ustring& marker)
   return NULL;
 }
 
-void Usfm2Text::output_text_fallback(ustring& line, Usfm2XslFoStyle * & fo_block_style)
+void Usfm2Text::output_text_fallback(ustring& line)
 /*
  This function outputs text that was not handled by any other method.
  It takes one character from the available text, and moves it to the output.
@@ -722,10 +722,28 @@ void Usfm2Text::output_text_fallback(ustring& line, Usfm2XslFoStyle * & fo_block
  there will be enough markup information to be handled properly.
  */
 {
-  if (inrange.in_range()) {
-    text2pdf->add_text(line.substr(0, 1));
+  // Bail out if there's nothing.
+  if (line.empty()) return;
+  
+  // Get the text till the next marker.
+  ustring marker;
+  size_t marker_position;
+  size_t marker_length;
+  bool is_opener;
+  bool marker_found = usfm_search_marker (line, marker, marker_position, marker_length, is_opener);
+  ustring text;
+  if (marker_found) {
+    text = line.substr (0, marker_position);
+    line.erase (0, marker_position);
+  } else {
+    text = line;
+    line.clear();
   }
-  line.erase(0, 1);
+  
+  // Write that text. 
+  if (inrange.in_range()) {
+    text2pdf->add_text(text);
+  }
 }
 
 void Usfm2Text::open_paragraph(Usfm2XslFoStyle * style, bool keep_with_next_paragraph) {
@@ -1390,7 +1408,7 @@ void Usfm2Text::output_text_note(ustring& line, Usfm2XslFoStyle * stylepointer, 
     }
     iteration++;
     if (!processed) {
-      output_text_fallback(rawnote, blockstyle);
+      output_text_fallback(rawnote);
     }
   }
 
@@ -1799,7 +1817,7 @@ void Usfm2Text::dump_endnotes(Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyl
       }
       iteration++;
       if (!processed) {
-        output_text_fallback(rawnote, blockstyle);
+        output_text_fallback(rawnote);
       }
     }
 

@@ -96,7 +96,7 @@ private:
   // General processing.
   void convert_from_usfm_to_text();
   void output_text_starting_new_paragraph(ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length, bool keep_with_next_paragraph);
-  void output_text_fallback(ustring& line, Usfm2XslFoStyle * & fo_block_style);
+  void output_text_fallback(ustring& line);
   void output_text_character_style(ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length, bool is_opener);
   void output_elastic(ustring& line, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length);
   void output_spacing_paragraph(ustring& line, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length, bool is_opener);

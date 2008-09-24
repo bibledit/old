@@ -1261,9 +1261,6 @@ void Text2Pdf::intermediate_interpreter()
  Todo text2pdf 
 
  If ndebele genesis is printed, there are too many blank pages at the start.
- We may have to fix the New-Page command, so that it gets its own input paragraph (closes the previous one, closes its own paragraph),
- and that this input paragraph, though empth of text, will get its output block still, which block
- then is considered for making new pages. Other settings probably similar, i.e. empty output blocks are considered too.
 
  If empty books or templates are printed, it hangs.
  
