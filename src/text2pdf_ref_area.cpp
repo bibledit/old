@@ -166,7 +166,7 @@ void T2PReferenceArea::fit_blocks(deque <T2PBlock *>& input_blocks, int column_s
   }
   fit_column(blocks_with_equal_column_count);
 
-  // Re-insert any unfitted remaining blocks with equal column count into the input blocks.
+  // Re-insert any unfitted remaining blocks into the input blocks.
   for (int i = blocks_with_equal_column_count.size() - 1; i >= 0; i--) {
     input_blocks.push_front(blocks_with_equal_column_count[i]);
   }
@@ -275,31 +275,46 @@ void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_
     // See if the column(s) didn't get too high after adding this last big block.
     int first_column_height = get_column_height(first_column, start_stacking_y);
     int last_column_height = get_column_height(last_column, start_stacking_y);
-    if ((start_stacking_y + MAX (first_column_height, last_column_height)) > (rectangle.height - get_note_height())) {
+    bool columns_too_high = (start_stacking_y + MAX (first_column_height, last_column_height)) > (rectangle.height - get_note_height());
+    if (columns_too_high) {
 
-      // Remove the last big block and balance the columns again.
-      if (!last_column.empty()) {
-        last_column.pop_back();
-      } else {
-        first_column.pop_back();
-      }
-      if (column_count > 1) {
-        balance_columns(first_column, last_column);
+      // If there's only one block on the page, special handling is needed to avoid an infinite loop.
+      bool one_block_on_page = first_column.size() + last_column.size() == 1;
+      if (!one_block_on_page) {
+
+        // Remove the last big block and balance the columns again.
+        if (!last_column.empty()) {
+          last_column.pop_back();
+        } else {
+          first_column.pop_back();
+        }
+        if (column_count > 1) {
+          balance_columns(first_column, last_column);
+        }
+
+        // Put the blocks back to the input stream.
+        for (int i = big_block.blocks.size() - 1; i >= 0; i--) {
+          input_blocks.push_front(big_block.blocks[i]);
+        }
+
       }
 
-      // Put the blocks back to the input stream.
-      for (int i = big_block.blocks.size() - 1; i >= 0; i--) {
-        input_blocks.push_front(big_block.blocks[i]);
-      }
-
-      // If the last big block caused any notes to be added, put the text of these notes back into their 
+      // If the last big block caused any notes to be added, normally put the text of these notes back into their 
       // input paragraph, remove the notes, and destroy them.
       while (!added_notes.empty()) {
         T2PLayoutContainer * note_layout_container = note_layout_containers[note_layout_containers.size()-1];
-        note_layout_container->undo_layout_text();
+        if (!one_block_on_page)
+          note_layout_container->undo_layout_text();
         delete note_layout_container;
         note_layout_containers.pop_back();
         added_notes.pop_back();
+        // If there's only one block on the page, we have special treatment so that not all note data is removed,
+        // but only excess data. This causes that bits of notes are not printed.
+        if (one_block_on_page) {
+          columns_too_high = (start_stacking_y + MAX (first_column_height, last_column_height)) > (rectangle.height - get_note_height());
+          if (!columns_too_high)
+            break;
+        }
       }
 
       // Bail out.
@@ -627,9 +642,9 @@ void T2PReferenceArea::match_and_expand_references_and_referents(map <ustring, u
   for (unsigned int i = 0; i < body_blocks.size(); i++) {
     T2PBlock * block = body_blocks[i];
     if (!block->reference.empty()) {
-      
+
       string referent = referents[block->reference];
-      
+
       if (!referent.empty()) {
 
         PangoRectangle toc_rectangle;

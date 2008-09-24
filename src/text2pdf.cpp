@@ -1260,6 +1260,8 @@ void Text2Pdf::intermediate_interpreter()
 
  Todo text2pdf 
 
+ Printing e.g. Numbers with references fully written gives strange results.
+ 
  The Ctrl-F5 does not seem to work anymore.
  
  Some project notes fall in more than one category. Change the category system so that this is accomodated.
