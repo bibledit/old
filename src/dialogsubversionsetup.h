@@ -1,36 +1,33 @@
 /*
-** Copyright (©) 2003-2008 Teus Benschop.
-**  
-** This program is free software; you can redistribute it and/or modify
-** it under the terms of the GNU General Public License as published by
-** the Free Software Foundation; either version 3 of the License, or
-** (at your option) any later version.
-**  
-** This program is distributed in the hope that it will be useful,
-** but WITHOUT ANY WARRANTY; without even the implied warranty of
-** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-** GNU General Public License for more details.
-**  
-** You should have received a copy of the GNU General Public License
-** along with this program; if not, write to the Free Software
-** Foundation, Inc.,  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-**  
-*/
-
+ ** Copyright (©) 2003-2008 Teus Benschop.
+ **  
+ ** This program is free software; you can redistribute it and/or modify
+ ** it under the terms of the GNU General Public License as published by
+ ** the Free Software Foundation; either version 3 of the License, or
+ ** (at your option) any later version.
+ **  
+ ** This program is distributed in the hope that it will be useful,
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ ** GNU General Public License for more details.
+ **  
+ ** You should have received a copy of the GNU General Public License
+ ** along with this program; if not, write to the Free Software
+ ** Foundation, Inc.,  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ **  
+ */
 
 #ifndef INCLUDED_DIALOGGITSETUP_H
 #define INCLUDED_DIALOGGITSETUP_H
 
-
 #include <gtk/gtk.h>
-
 
 class GitSetupDialog
 {
 public:
-  GitSetupDialog (int dummy);
-  ~GitSetupDialog ();
-  int run ();
+  GitSetupDialog(int dummy);
+  ~GitSetupDialog();
+  int run();
 protected:
   GtkWidget *gitsetupdialog;
   GtkWidget *dialog_vbox1;
@@ -95,32 +92,31 @@ protected:
   GtkWidget *cancelbutton;
   GtkWidget *okbutton;
 private:
-  static void on_checkbutton_remote_toggled (GtkToggleButton *togglebutton, gpointer user_data);
-  void on_checkbutton_remote ();
-  static void on_entry_changed (GtkEditable *editable, gpointer user_data);
-  void on_entry ();
+  static void on_checkbutton_remote_toggled(GtkToggleButton *togglebutton, gpointer user_data);
+  void on_checkbutton_remote();
+  static void on_entry_changed(GtkEditable *editable, gpointer user_data);
+  void on_entry();
   guint event_id_tasks_ready;
   guint event_id_gui;
-  static bool delayer (gpointer user_data);
-  void delayed ();
-  void copy_repository_to_project ();
-  void set_gui ();
-  static bool tasks_counter_timeout (gpointer user_data);
-  void tasks_counter ();
+  static bool delayer(gpointer user_data);
+  void delayed();
+  void copy_repository_to_project();
+  void set_gui();
+  static bool tasks_counter_timeout(gpointer user_data);
+  void tasks_counter();
   int project_tasks_count;
   int previous_project_tasks_count;
-  static void on_okbutton_clicked (GtkButton *button, gpointer user_data);
-  void on_okbutton ();
+  static void on_okbutton_clicked(GtkButton *button, gpointer user_data);
+  void on_okbutton();
   bool version_okay;
-  ustring url_get ();
-  bool test_read_access (ustring& error);
-  bool test_write_access (ustring& error);
-  bool test_pull_changes (ustring& error);
-  bool test_push_changes (ustring& error);
-  bool test_clone_repository (ustring& error);
-  static void on_checkbutton_action_toggled (GtkToggleButton *togglebutton, gpointer user_data);
-  void checkbutton_action_toggled (GtkToggleButton *togglebutton);
+  ustring url_get();
+  bool test_read_access(ustring& error);
+  bool test_write_access(ustring& error);
+  bool test_pull_changes(ustring& error);
+  bool test_push_changes(ustring& error);
+  bool test_clone_repository(ustring& error);
+  static void on_checkbutton_action_toggled(GtkToggleButton *togglebutton, gpointer user_data);
+  void checkbutton_action_toggled(GtkToggleButton *togglebutton);
 };
-
 
 #endif

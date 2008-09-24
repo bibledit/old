@@ -1260,17 +1260,6 @@ void Text2Pdf::intermediate_interpreter()
 
  Todo text2pdf 
 
- Printing e.g. Numbers with references fully written gives strange results.
- 
- The Ctrl-F5 does not seem to work anymore.
- 
- Some project notes fall in more than one category. Change the category system so that this is accomodated.
- E.g. clicking on the category label, then a window pops up where one can tick all the categories that apply.
- The category label has a comma-separated list of categories for this note.
- 
- The space before the " file:///" in git setup, and before anything and after, should be removed.
- It gives false errors.
- 
  If ndebele genesis is printed, there are too many blank pages at the start.
  We may have to fix the New-Page command, so that it gets its own input paragraph (closes the previous one, closes its own paragraph),
  and that this input paragraph, though empth of text, will get its output block still, which block
@@ -1310,9 +1299,7 @@ void Text2Pdf::intermediate_interpreter()
  When laying out long paragraphs, this takes a huge amount of time.
  Therefore we don't load the full paragraph in the PangoLayout each time, but
  a maximum of so many characters only, or load the first one fully, then measure length of characters, then
- subsequent timse only load double the measured characters.
- 
- The "end-indent" may no longer be needed anywhere.
+ subsequent times only load double the measured characters.
  
  The line height should affect the text in the Editor also.
  
@@ -1340,10 +1327,6 @@ void Text2Pdf::intermediate_interpreter()
  
  It is visible in lines that have superscript, such as verse numbers or notes, that the line gets higher
  due to that elevation. IN particular it does look untidy when there's a drop-caps chapter number there.
- 
- Trying to print Numbers with full references for Mpofu, it hangs forever. This is caused by the fact that
- the notes don't fit on one page, so it keeps flipping the notes forth and never finds a place to allocate 
- them.
  
  Make elastics work again.
 
