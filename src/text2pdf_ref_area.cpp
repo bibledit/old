@@ -174,7 +174,9 @@ void T2PReferenceArea::fit_blocks(deque <T2PBlock *>& input_blocks, int column_s
   // Look for any last blocks on the page that have their "keep_with_next" property set.
   // If these are there, that means these should be removed from here, and be put back into 
   // the input stream, so that they can be kept with paragraphs on the next page.
-  while (!body_blocks.empty() && body_blocks[body_blocks.size()-1]->keep_with_next) {
+  // But this only should be done if there's indeed goint to be a next page. 
+  // If there's no next paragraph to be kept with, then the last block is just left where it is.
+  while (!body_blocks.empty() && body_blocks[body_blocks.size()-1]->keep_with_next && !input_blocks.empty()) {
     input_blocks.push_front(body_blocks[body_blocks.size()-1]);
     body_blocks.pop_back();
   }
