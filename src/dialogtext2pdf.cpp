@@ -111,7 +111,12 @@ void Text2PdfDialog::on_okbutton()
   // Get text if it was modified.
   GtkTextBuffer * buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW (textview1));
   if (gtk_text_buffer_get_modified(buffer)) {
-    textbuffer_get_lines(buffer, *mycommands, false);
+    vector <ustring> commands;
+    textbuffer_get_lines(buffer, commands, false);
+    mycommands->clear();
+    for (unsigned int i = 0; i < commands.size(); i++) {
+      mycommands->push_back (commands[i]);
+    }
   }
   on_text2pdfdialog_delete();
 }
