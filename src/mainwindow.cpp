@@ -3160,7 +3160,10 @@ void MainWindow::on_copy_project_to_activate(GtkMenuItem *menuitem, gpointer use
   ((MainWindow *) user_data)->on_copy_project_to();
 }
 
-void MainWindow::on_copy_project_to() {
+void MainWindow::on_copy_project_to()
+// Copy project to another one.
+{
+  editorsgui->save();
   extern Settings * settings;
   EntryDialog dialog("New project name", "Enter a name of a non-existent project\nwhere this project will be copied to.", settings->genconfig.project_get());
   if (dialog.run() == GTK_RESPONSE_OK) {
@@ -3193,7 +3196,9 @@ void MainWindow::on_compare_with1_activate(GtkMenuItem *menuitem, gpointer user_
   ((MainWindow *) user_data)->on_compare_with();
 }
 
-void MainWindow::on_compare_with() {
+void MainWindow::on_compare_with()
+// Compare the current project with another one.
+{
   editorsgui->save();
   git_command_pause(true);
   References references(liststore_references, treeview_references, treecolumn_references);
@@ -6896,7 +6901,7 @@ void MainWindow::on_print() {
       }
       extern Settings * settings;
       ProjectMemory projectmemory(settings->genconfig.project_get(), true);
-      PrintProject2 printproject(&projectmemory);
+      PrintProject printproject(&projectmemory);
       printproject.print();
       break;
     }

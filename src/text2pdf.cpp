@@ -1290,10 +1290,6 @@ void Text2Pdf::intermediate_interpreter()
 
  Todo text2pdf 
 
- If empty books or templates are printed, it hangs.
- 
- The comparison printing function does not work at present.
- 
  To go through the whole Usfm2Text object and implement missing bits.
  
  To implement images rendering, probably png only as cairo reads them natively.
@@ -1303,16 +1299,6 @@ void Text2Pdf::intermediate_interpreter()
 
  The small caps attribute is not yet implemented in Pango. The typesetter should make its own implementation.
  There's some information about this in the object where the layouting is done.
- 
- There's going to be an option to let the text2pdf input write its input to file, optionally,
- so that people can see what codes are used.
- Some code like:
- open_paragraph
- paragraph_set_font_size 10
- Very, very simple markup, line based.
- Then there's another option in the menu that lets the text2pdf object read its input from a file, and makes 
- pdf out of that. By doing so the user has maximum flexibility to print his own bible and make corrections 
- that bibledit can't do yet.
  
  In the new stylesheet, the "superscript" property in the stylesheet is enough to both raise the letter
  and to set the new font size, and make it slightly heavier.

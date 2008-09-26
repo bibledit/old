@@ -44,20 +44,4 @@ private:
   vector <ustring> comments;
 };
 
-class PrintProject2
-{
-public:
-  PrintProject2(ProjectMemory * project);
-  ~PrintProject2();
-  void portion_project(const ustring& project);
-  void comment(const ustring& text);
-  void print();
-private:
-  ProjectMemory * myproject;
-  ustring portionproject;
-  ScripturePortions * scriptureportions;
-  vector<ustring> xslfo_lines;
-  vector <ustring> comments;
-};
-
 #endif
