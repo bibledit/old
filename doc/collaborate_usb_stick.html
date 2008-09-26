@@ -160,7 +160,11 @@ do it:</p>
 be removed again:</p>
 <pre>rm /media/repo/repository/testfile</pre>
 
-<p>4. The fourth step is to create a repository on the USB stick, and to copy
+<p>2. The second step is to make the USB stick the current working directory.
+Type:</p>
+<pre>cd /media/repo/repository</pre>
+
+<p>3. The next step is to create a repository on the USB stick, and to copy
 the data to it.</p>
 
 <p>To create a shared repository on the USB stick, type:</p>
@@ -172,8 +176,7 @@ created.</p>
 <p>Once this has been done we need to copy the actual data to the USB stick.
 In the example we are going to put the data of Bibledit project "Ndebele"
 onto it.</p>
-<pre>cd /media/repo/repository
-git --bare fetch ~/.bibledit/projects/Ndebele/data master:master</pre>
+<pre>git --bare fetch ~/.bibledit/projects/Ndebele/data master:master</pre>
 
 <p>It is very important to be sure that the data to be copied is up-to-date.
 This is because it is copied to the USB stick, and this stick is going to be
