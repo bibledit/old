@@ -138,7 +138,7 @@ private:
   void get_next_layout_container(bool intrusion);
   void fit_blocks_on_pages();
   void next_page();
-  void find_potential_widows_and_orphans();
+  void widows_and_orphans_and_keep_with_next();
   ProgressWindow * progresswindow;
   int get_column_count_rectangle_width (int column_count_in, int& width);
 

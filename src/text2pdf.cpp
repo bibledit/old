@@ -169,9 +169,22 @@ void Text2Pdf::page_one_column_only()
 void Text2Pdf::new_page(bool odd)
 // Sets the engine to go to a new page. If odd is true, it goes to a new odd page.
 {
+  // Intermediary text handler.
   if (text2pdf_intermediary_1_bool(intermediate_text_pointer, __func__, odd))
     return;
+
+  // Close any open paragraph.
   close_paragraph();
+  
+  // The paragraph before the new page should not have its 'keep-with-next' property set, else the engine chokes on that.
+  if (!input_data.empty()) {
+    T2PInput * preceding_input = input_data[input_data.size()-1];
+    if (preceding_input->type == t2pitParagraph) {
+      ((T2PInputParagraph *) preceding_input)->keep_with_next = false;   
+    }
+  }
+
+  // Store the new page.
   if (odd)
     input_data.push_back(new T2PInput (t2pitNewOddPage));
   else
@@ -190,12 +203,12 @@ void Text2Pdf::run()
 
   // Intermediate text.
   intermediate_interpreter();
-
+  
   // Go through the input data.
   run_input(input_data);
 
   // Find potential widows and orphans.
-  find_potential_widows_and_orphans();
+  widows_and_orphans_and_keep_with_next();
 
   // Fit the blocks on the pages.
   fit_blocks_on_pages();
@@ -436,17 +449,17 @@ void Text2Pdf::fit_blocks_on_pages()
   }
 }
 
-void Text2Pdf::find_potential_widows_and_orphans()
+void Text2Pdf::widows_and_orphans_and_keep_with_next()
 /*
  Widows are the first lines of a paragraph, while the rest is in another column or on another page.
  Orphans are the last lines of a pragraph in such a situation.
  We set two widows and two orphans.
  The first two lines of a paragraph could be widows.
  The last two lines of a paragraph could be orphans.
- It is implemented throught the "keep_with_next" property of the T2PBlock object.
- The "keep with next" mechanism will then take over when the blocks are fitted in.
  */
 {
+  // Widows and orphans control is is implemented throught the "keep_with_next" property of the T2PBlock object.
+  // The "keep with next" mechanism will then take over when the blocks are fitted in.
   for (unsigned int blk = 0; blk < input_blocks.size(); blk++) {
     T2PBlock * block = input_blocks[blk];
     // The first line of the paragraph is to be kept with the next.
@@ -457,6 +470,18 @@ void Text2Pdf::find_potential_widows_and_orphans()
     if (block->type == t2pbtTextParagraphLastLine) {
       if (blk) {
         input_blocks[blk-1]->keep_with_next = true;
+      }
+    }
+  }
+  // If the "keep-with-next" property is set just before a new page, 
+  // the engine chokes on that, so it is cleared here.
+  for (unsigned int blk = 0; blk < input_blocks.size(); blk++) {
+    T2PBlock * block = input_blocks[blk];
+    // The first line of the paragraph is to be kept with the next.
+    if (block->type == t2pbtNewPage || block->type == t2pbtNewOddPage) {
+      if (blk > 0) {
+        T2PBlock * preceding_block = input_blocks[blk-1];
+        preceding_block->keep_with_next = false;
       }
     }
   }
@@ -1265,8 +1290,6 @@ void Text2Pdf::intermediate_interpreter()
 
  Todo text2pdf 
 
- If ndebele genesis is printed, there are too many blank pages at the start.
-
  If empty books or templates are printed, it hangs.
  
  The comparison printing function does not work at present.
@@ -1339,7 +1362,10 @@ void Text2Pdf::intermediate_interpreter()
  To completely rewrite the Printing helpfiles.
  Include:
  The intermediate text viewer / editor.
- 
+
+ On Kubuntu the git machinery with the USB stick does not work. We need to use the git installed there,
+ but obviously we need to indicate from which branch to merge and to which branch. Or probably to create the master branch
+ first. 
  
  */
 

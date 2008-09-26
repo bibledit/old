@@ -6973,7 +6973,7 @@ void MainWindow::on_print() {
       text2pdf.add_text("Ithestamente Elitsha");
       text2pdf.close_paragraph();
 
-      text2pdf.new_page(false); // Todo this gives many extra pages, and takes away previous text.
+      text2pdf.new_page(false); 
 
       text2pdf.open_paragraph();
       text2pdf.paragraph_set_alignment(t2patCenter);
