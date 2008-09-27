@@ -1,62 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-  <title>USB stick collaboration</title>
-  <!--
-  Copyright (©) 2003-2008 Teus Benschop.
-  Permission is granted to copy, distribute and/or modify this document
-  under the terms of the GNU Free Documentation License, Version 1.2
-  or any later version published by the Free Software Foundation;
-  with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-  Texts.  A copy of the license is included in the section entitled "GNU
-  Free Documentation License" in the file FDL.
-  -->
-  <link href="bibledit.css" rel="stylesheet" type="text/css" />
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<title>USB stick collaboration</title>
+<!--
+Copyright (©) 2003-2008 Teus Benschop.
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+Texts.  A copy of the license is included in the section entitled "GNU
+Free Documentation License" in the file FDL.
+-->
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
-
 <body>
 <h2><a name="usbstickcollaboration"></a>USB stick collaboration</h2>
 <!-- Table of Contents Start -->
-
 <div id="toc">
 <ul>
-  <li><a href="#introduction" class="level1">Introduction</a></li>
-  <li><a href="#formattingthestick" class="level1">Formatting the
-  stick</a></li>
-  <li><a href="#labellingthestick" class="level1">Labelling the stick</a></li>
-  <li><a href="#creatingtherepositoryonthestick" class="level1">Creating the
-    repository on the stick</a></li>
-  <li><a href="#firstuser" class="level1">First user</a></li>
-  <li><a href="#otherusers" class="level1">Other users</a></li>
+<li>
+<a href="#introduction" class="level1">Introduction</a></li>
+<li>
+<a href="#formattingthestick" class="level1">Formatting the stick</a></li>
+<li>
+<a href="#labellingthestick" class="level1">Labelling the stick</a></li>
+<li>
+<a href="#creatingtherepositoryonthestick" class="level1">Creating the repository on the stick</a></li>
+<li>
+<a href="#firstuser" class="level1">First user</a></li>
+<li>
+<a href="#otherusers" class="level1">Other users</a></li>
 </ul>
 </div>
 <!-- Table of Contents End -->
-
 <h3><a name="introduction"></a>Introduction</h3>
-
 <p>In the tutorial below we will set up a basic system using a USB stick that
 has the data repository, and one or more users that collaborate. The stick
 needs to be physically carried from one user to the other for collaboration
 to work.</p>
-
 <h3><a name="formattingthestick"></a>Formatting the stick</h3>
-
 <p>Normally a USB stick has been formatted with the FAT or FAT32 filesystem.
 Such filesystems are not supported for collaboration. The stick needs to
 formatted to the ext3 filesystem for collaboration to work. How this is done
 will be described here.</p>
-
 <p>Insert the stick into the computer, and wait a little for it to mount. It
 is supposed to mount automatically. If it does not mount on its own, then
 automatic mounting needs to be set up. Setting up automatic mounting goes
 beyond the scope of this tutorial.</p>
-
 <p>In the terminal, give the command</p>
 <pre>df</pre>
-
 <p>The output of this command can be something like:</p>
 <pre>Filesystem 1K-blocks      Used Available Use% Mounted on
 /dev/sda1   93539428  76882380  11905428  87% /
@@ -67,51 +62,39 @@ tmpfs        1038428         0   1038428   0% /dev/shm
 /dev/sdb5  306619956 189335920 101708620  66% /media/293gig
 /dev/sdc1  240362656  64350876 163801980  29% /media/250gb
 /dev/sdd1    1960684    660896   1200188  36% /media/usbdisk</pre>
-
 <p>Looking through the list of mounting points, we assume that the USB stick
 that was inserted mounts at /media/usbdisk. From there we can see that the
 device is /dev/sdd1. Once we have that information, we are ready for the next
 step.</p>
-
 <p>Before the stick can be formatted, it must be unmounted first. Issue the
 following command to unmount the stick:</p>
 <pre>sudo umount /media/usbdisk</pre>
-
 <p>The "sudo" in the command means that root privileges are needed to execute
 the command.</p>
-
 <p>To format the USB stick to the ext3 filesystem, issue the following
 command:</p>
 <pre>sudo mkfs.ext3 /dev/sdd1</pre>
-
 <p>The formatting process will be visible and at the end some information
 about it will be given. At this point it is important to see if no errors
 occurred.</p>
-
 <p>Note that the formatting command is very powerful. One could even format
 the main drive of the computer, wiping out all information. Extreme care is
 to be used that the USB stick is going to be formatted, and not something
 else.</p>
-
 <h3><a name="labellingthestick"></a>Labelling the stick</h3>
-
 <p>A label needs to be written to the USB stick. The reason of this is so as
 to make sure that this stick will always mount at the same mounting point. In
 this tutorial we write the label "repo" to it.</p>
-
 <p>We take it that the same device is being used as we used for formatting
 the stick. That is device /dev/sdd1. To write the label to the stick, issue
 the following two commands:</p>
 <pre>sudo e2label /dev/sdd1 repo</pre>
 <pre>sync</pre>
-
 <p>After the label has been written to it, remove the stick from the
 computer, and insert it again. It should now mount to the name of the label.
 In this case it should now mount under /media/repo.</p>
-
 <p>This can be verified with command "df":</p>
 <pre>df</pre>
-
 <p>The output of this command:</p>
 <pre>Filesystem 1K-blocks      Used Available Use% Mounted on
 /dev/sda1   93539428  76882380  11905428  87% /
@@ -122,93 +105,64 @@ tmpfs        1038428         0   1038428   0% /dev/shm
 /dev/sdb5  306619956 189335920 101708620  66% /media/293gig
 /dev/sdc1  240362656  64350876 163801980  29% /media/250gb
 /dev/sdd1    1960684    660896   1200188  36% /media/repo</pre>
-
 <p>This shows that it now mounts under the new name.</p>
-
-<h3><a name="creatingtherepositoryonthestick"></a>Creating the repository on
-the stick</h3>
-
+<h3><a name="creatingtherepositoryonthestick"></a>Creating the repository on the stick</h3>
 <p>The USB stick will hold the data repository.</p>
-
 <p>To make this stick fit for collaboration, there are a few steps to be
 taken. These steps are:</p>
-
 <p>1. The first step will be to create a directory for the repository, and to
 make that directory writable. If we assume that the stick mounts at
 /media/repo, then the command to create a directory called "repository"
 is:</p>
 <pre>sudo mkdir /media/repo/repository</pre>
-
 <p>Notice the "sudo" command, which means that this usually needs to be done
 by user root. If this is done by an ordinary user, permission would be
 denied.</p>
-
 <p>Once the directory for the repository is there, this directory needs to be
 made writable for ordinary users. This is the command:</p>
 <pre>sudo chmod -R 0777 /media/repo/repository/</pre>
-
 <p>Note the "sudo" again.</p>
-
 <p>Now it is time to check whether the USB stick is writable. We do this by
 trying to create a file in the repository. If this succeeds, then it is
 writable. Note that this step can be skipped, because Bibledit itself also
 tests whether the stick is writable. Here's the command in case you'd like to
 do it:</p>
 <pre>touch /media/repo/repository/testfile</pre>
-
 <p>This command should complete without errors. After that the file needs to
 be removed again:</p>
 <pre>rm /media/repo/repository/testfile</pre>
-
 <p>2. The second step is to make the USB stick the current working directory.
 Type:</p>
 <pre>cd /media/repo/repository</pre>
-
 <p>3. The next step is to create a repository on the USB stick, and to copy
 the data to it.</p>
-
 <p>To create a shared repository on the USB stick, type:</p>
 <pre>git --bare init-db --shared</pre>
-
 <p>Git will respond saying that an empty shared Git repository has been
 created.</p>
-
 <p>Once this has been done we need to copy the actual data to the USB stick.
 In the example we are going to put the data of Bibledit project "Ndebele"
 onto it.</p>
 <pre>git --bare fetch ~/.bibledit/projects/Ndebele/data master:master</pre>
-
 <p>It is very important to be sure that the data to be copied is up-to-date.
 This is because it is copied to the USB stick, and this stick is going to be
 the data repository where all other users connect to.</p>
-
 <h3><a name="firstuser"></a>First user</h3>
-
 <p>We are now going to setup the first user. This user needs a project on his
 computer. The project can be empty or have books.</p>
-
 <p>The user inserts the USB stick into his computer. In Bibledit he opens the
 project he wishes to work on with others.</p>
-
 <p>He goes to menu <a href="olh_git_setup.html">Preferences / Git
 repository</a>.</p>
-
 <p>In that dialog, he ticks "Use remote repository".</p>
-
 <p>Under "Repository", he enters file:///media/repo/repository</p>
-
 <p>In the dialog he verifies that write access has been granted.</p>
-
 <p>He then ticks "Copy repository to local data". This is to import all books
 from the repository into his own project.</p>
-
 <p>He then clicks OK.</p>
-
 <p>This finishes the setup of the user. He can now work in Bibledit as
 before, and his data will automatically be updated in the repository.</p>
-
 <h3><a name="otherusers"></a>Other users</h3>
-
 <p>Setting up a second user, a third, a fourth, and so on, goes similar. But
 there's one difference, and that is that the project "Ndebele", in this
 example, needs to be created first for each of the other users.</p>

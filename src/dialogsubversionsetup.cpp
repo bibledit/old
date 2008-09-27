@@ -822,11 +822,15 @@ bool GitSetupDialog::test_write_access(ustring& error)
   {
     GwSpawn spawn("git-pull");
     spawn.workingdirectory(working_directory);
+    spawn.arg(url_get());
+    spawn.arg("master:master");
     spawn.run();
   }
   {
     GwSpawn spawn("git-push");
     spawn.workingdirectory(working_directory);
+    spawn.arg(url_get());
+    spawn.arg("master:master");
     spawn.read();
     spawn.run();
     writable = (spawn.exitstatus == 0);
@@ -857,6 +861,8 @@ bool GitSetupDialog::test_write_access(ustring& error)
   {
     GwSpawn spawn("git-push");
     spawn.workingdirectory(working_directory);
+    spawn.arg(url_get());
+    spawn.arg("master:master");
     spawn.run();
   }
 
@@ -887,6 +893,7 @@ bool GitSetupDialog::test_pull_changes(ustring& error)
     GwSpawn spawn("git-pull");
     spawn.workingdirectory(datadirectory);
     spawn.arg(url_get());
+    spawn.arg("master:master");  // Some git installations require the name of the branchs.
     spawn.read();
     spawn.run();
     pulled = (spawn.exitstatus == 0);
@@ -947,6 +954,7 @@ bool GitSetupDialog::test_push_changes(ustring& error)
   GwSpawn spawn("git-push");
   spawn.workingdirectory(datadirectory);
   spawn.arg(url_get());
+  spawn.arg("master:master"); // Some git installations require the branch: master.
   spawn.read();
   spawn.run();
   pushed = (spawn.exitstatus == 0);
