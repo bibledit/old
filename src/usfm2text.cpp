@@ -276,7 +276,7 @@ void Usfm2Text::preprocess()
   }
 }
 
-void Usfm2Text::convert_from_usfm_to_text() {
+void Usfm2Text::convert_from_usfm_to_text() { // Todo
   // Cancel?
   if (cancel)
     return;
@@ -717,14 +717,12 @@ Usfm2XslFoStyle * Usfm2Text::marker_get_pointer_to_style(const ustring& marker)
 void Usfm2Text::output_text_fallback(ustring& line)
 /*
  This function outputs text that was not handled by any other method.
- It takes one character from the available text, and moves it to the output.
- By taking only one character at a time it is hoped that one of the next times,
- there will be enough markup information to be handled properly.
+ It outputs the text till it finds the next marker, if there's one.
  */
 {
   // Bail out if there's nothing.
   if (line.empty()) return;
-  
+
   // Get the text till the next marker.
   ustring marker;
   size_t marker_position;
@@ -735,6 +733,11 @@ void Usfm2Text::output_text_fallback(ustring& line)
   if (marker_found) {
     text = line.substr (0, marker_position);
     line.erase (0, marker_position);
+    // Handle special case that the marker is at the start, which is an error case anyway.
+    if (marker_position == 0) {
+      text = line.substr (0, 1);
+      line.erase (0, 1);
+    }
   } else {
     text = line;
     line.clear();

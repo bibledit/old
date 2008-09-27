@@ -1290,8 +1290,6 @@ void Text2Pdf::intermediate_interpreter()
 
  Todo text2pdf 
 
- It hangs on printing Leviticus in Ndebele, even without notes. The hanging is in the usfm2text stage.
- 
  To go through the whole Usfm2Text object and implement missing bits.
  
  To implement images rendering, probably png only as cairo reads them natively.
