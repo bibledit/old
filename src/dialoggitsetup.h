@@ -64,8 +64,8 @@ protected:
   GtkWidget *label_action_done;
   GtkWidget *label_action_info;
   GtkWidget *vbox5;
-  GtkWidget *checkbutton_copy;
-  GtkWidget *checkbutton_synchronize;
+  GtkWidget *button_copy;
+  GtkWidget *button_synchronize;
   GtkWidget *hseparator11;
   GtkWidget *hbox24;
   GtkWidget *image_pull;
@@ -115,8 +115,11 @@ private:
   bool test_pull_changes(ustring& error);
   bool test_push_changes(ustring& error);
   bool test_clone_repository(ustring& error);
-  static void on_checkbutton_action_toggled(GtkToggleButton *togglebutton, gpointer user_data);
-  void checkbutton_action_toggled(GtkToggleButton *togglebutton);
+  static void on_button_action_clicked(GtkButton *button, gpointer user_data);
+  void button_action_clicked(GtkButton *button);
+  bool action_copy;
+  bool action_sync;
+  
 };
 
 #endif

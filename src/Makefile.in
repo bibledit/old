@@ -120,8 +120,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	check_markers_spacing.$(OBJEXT) gui_navigation.$(OBJEXT) \
 	myfnmatch.$(OBJEXT) statistics.$(OBJEXT) \
 	dialogbackup.$(OBJEXT) backup.$(OBJEXT) \
-	dialogviewsubversion.$(OBJEXT) dialogsubversionadd.$(OBJEXT) \
-	dialogsubversionsetup.$(OBJEXT) projectutilsold.$(OBJEXT) \
+	dialogviewgit.$(OBJEXT) dialoggitadd.$(OBJEXT) \
+	dialoggitsetup.$(OBJEXT) projectutilsold.$(OBJEXT) \
 	dialogchanges.$(OBJEXT) dialogrevert.$(OBJEXT) \
 	dialogselectbooks.$(OBJEXT) resource_utils.$(OBJEXT) \
 	html.$(OBJEXT) dialogreviewanchors.$(OBJEXT) \
@@ -510,9 +510,9 @@ bibledit_bin_SOURCES = \
         statistics.cpp \
         dialogbackup.cpp \
         backup.cpp \
-        dialogviewsubversion.cpp \
-        dialogsubversionadd.cpp \
-        dialogsubversionsetup.cpp \
+        dialogviewgit.cpp \
+        dialoggitadd.cpp \
+        dialoggitsetup.cpp \
         projectutilsold.cpp \
         dialogchanges.cpp \
         dialogrevert.cpp \
@@ -755,6 +755,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogfindnote.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogfixmarkers.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogfontcolor.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoggitadd.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoggitsetup.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoggotoreference.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogimportnotes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogimportrawtext.Po@am__quote@
@@ -797,8 +799,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogshownotes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogshowscript.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogstylesheet.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogsubversionadd.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogsubversionsetup.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogsword.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogtaskduration.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogtext2pdf.Po@am__quote@
@@ -806,8 +806,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogtextview.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogtidy.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogunicode.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogviewgit.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogviewstatus.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogviewsubversion.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogviewusfm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogwait.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogwordlist.Po@am__quote@

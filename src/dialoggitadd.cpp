@@ -20,7 +20,7 @@
 
 #include "libraries.h"
 #include <glib.h>
-#include "dialogsubversionadd.h"
+#include "dialoggitadd.h"
 #include "help.h"
 #include "settings.h"
 #include "projectutils.h"

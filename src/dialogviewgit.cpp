@@ -20,10 +20,10 @@
 
 #include "libraries.h"
 #include <glib.h>
-#include "dialogviewsubversion.h"
+#include "dialogviewgit.h"
 #include "help.h"
 #include "utilities.h"
-#include "dialogsubversionadd.h"
+#include "dialoggitadd.h"
 #include "progresswindow.h"
 #include "gwrappers.h"
 #include "git.h"

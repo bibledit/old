@@ -19,7 +19,7 @@
 
 #include "libraries.h"
 #include <glib.h>
-#include "dialogsubversionsetup.h"
+#include "dialoggitsetup.h"
 #include "utilities.h"
 #include "gtkwrappers.h"
 #include "gwrappers.h"
@@ -38,6 +38,9 @@
 
 GitSetupDialog::GitSetupDialog(int dummy) {
   Shortcuts shortcuts(0);
+
+  action_copy = false;
+  action_sync = false;
 
   // Build GUI.
   gitsetupdialog = gtk_dialog_new();
@@ -198,17 +201,17 @@ GitSetupDialog::GitSetupDialog(int dummy) {
   gtk_widget_show(vbox5);
   gtk_box_pack_start(GTK_BOX (hbox28), vbox5, TRUE, TRUE, 0);
 
-  checkbutton_copy = gtk_check_button_new_with_mnemonic("Copy repository to local data");
-  gtk_widget_show(checkbutton_copy);
-  gtk_box_pack_start(GTK_BOX (vbox5), checkbutton_copy, FALSE, FALSE, 0);
+  button_copy = gtk_button_new_with_mnemonic("Copy repository to local data now");
+  gtk_widget_show(button_copy);
+  gtk_box_pack_start(GTK_BOX (vbox5), button_copy, FALSE, FALSE, 0);
 
-  shortcuts.button(checkbutton_copy);
+  shortcuts.button(button_copy);
 
-  checkbutton_synchronize = gtk_check_button_new_with_mnemonic("Synchronize local data with repository");
-  gtk_widget_show(checkbutton_synchronize);
-  gtk_box_pack_start(GTK_BOX (vbox5), checkbutton_synchronize, FALSE, FALSE, 0);
+  button_synchronize = gtk_button_new_with_mnemonic("Synchronize local data with repository now");
+  gtk_widget_show(button_synchronize);
+  gtk_box_pack_start(GTK_BOX (vbox5), button_synchronize, FALSE, FALSE, 0);
 
-  shortcuts.button(checkbutton_synchronize);
+  shortcuts.button(button_synchronize);
 
   hseparator11 = gtk_hseparator_new();
   gtk_widget_show(hseparator11);
@@ -343,11 +346,11 @@ GitSetupDialog::GitSetupDialog(int dummy) {
   g_signal_connect ((gpointer) entry_path, "changed",
       G_CALLBACK (on_entry_changed),
       gpointer(this));
-  g_signal_connect ((gpointer) checkbutton_copy, "toggled",
-      G_CALLBACK (on_checkbutton_action_toggled),
+  g_signal_connect ((gpointer) button_copy, "clicked",
+      G_CALLBACK (on_button_action_clicked),
       gpointer(this));
-  g_signal_connect ((gpointer) checkbutton_synchronize, "toggled",
-      G_CALLBACK (on_checkbutton_action_toggled),
+  g_signal_connect ((gpointer) button_synchronize, "clicked",
+      G_CALLBACK (on_button_action_clicked),
       gpointer(this));
   g_signal_connect ((gpointer) okbutton, "clicked",
       G_CALLBACK (on_okbutton_clicked),
@@ -465,9 +468,6 @@ void GitSetupDialog::delayed() {
 
 void GitSetupDialog::set_gui() {
   // Clear gui.
-  // The action to be taken influences the gui too.
-  bool action_copy = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON (checkbutton_copy));
-  bool action_sync = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON (checkbutton_synchronize));
   gui_okay(image_tasks_running_ok, label_tasks_running_ok, false);
   gtk_label_set_text(GTK_LABEL (label_tasks_running_info), "Running tasks check");
   gui_okay(image_repository_accessible_ok, label_repository_accessible_done, false);
@@ -552,8 +552,8 @@ void GitSetupDialog::set_gui() {
   gtk_widget_set_sensitive(image_action, use_repository);
   gtk_widget_set_sensitive(label_action_done, use_repository);
   gtk_widget_set_sensitive(label_action_info, use_repository);
-  gtk_widget_set_sensitive(checkbutton_copy, use_repository);
-  gtk_widget_set_sensitive(checkbutton_synchronize, use_repository);
+  gtk_widget_set_sensitive(button_copy, use_repository);
+  gtk_widget_set_sensitive(button_synchronize, use_repository);
 
   // If no repository used, set gui and bail out.
   if (!use_repository) {
@@ -920,6 +920,7 @@ bool GitSetupDialog::test_pull_changes(ustring& error)
     GwSpawn spawn("git-pull");
     spawn.workingdirectory(datadirectory);
     spawn.arg(url_get());
+    spawn.arg("master:master");  // Some git installations require the name of the branchs. First noted on Kubuntu 8.04.
     spawn.read();
     spawn.run();
     pulled = (spawn.exitstatus == 0);
@@ -1022,18 +1023,12 @@ bool GitSetupDialog::test_clone_repository(ustring& error) {
   return cloned;
 }
 
-void GitSetupDialog::on_checkbutton_action_toggled(GtkToggleButton *togglebutton, gpointer user_data) {
-  ((GitSetupDialog *) user_data)->checkbutton_action_toggled(togglebutton);
+void GitSetupDialog::on_button_action_clicked(GtkButton *button, gpointer user_data) {
+  ((GitSetupDialog *) user_data)->button_action_clicked(button);
 }
 
-void GitSetupDialog::checkbutton_action_toggled(GtkToggleButton *togglebutton) {
-  // Ensure that only one checkbutton is active at a time.
-  if (togglebutton == GTK_TOGGLE_BUTTON (checkbutton_copy))
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON (checkbutton_copy)))
-      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (checkbutton_synchronize), false);
-  if (togglebutton == GTK_TOGGLE_BUTTON (checkbutton_synchronize))
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON (checkbutton_synchronize)))
-      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (checkbutton_copy), false);
-  // Update gui.
+void GitSetupDialog::button_action_clicked(GtkButton *button) {
+  action_copy = (button == GTK_BUTTON (button_copy));
+  action_sync = (button == GTK_BUTTON (button_synchronize));
   on_entry();
 }

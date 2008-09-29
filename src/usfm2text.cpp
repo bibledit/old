@@ -276,7 +276,7 @@ void Usfm2Text::preprocess()
   }
 }
 
-void Usfm2Text::convert_from_usfm_to_text() { // Todo
+void Usfm2Text::convert_from_usfm_to_text() {
   // Cancel?
   if (cancel)
     return;
@@ -347,7 +347,7 @@ void Usfm2Text::convert_from_usfm_to_text() { // Todo
                 get_erase_code_till_next_marker(usfm_line, marker_position, marker_length, true);
                 break;
               }
-              case u2xtParagraphMainTitle: // Todo working here.
+              case u2xtParagraphMainTitle:
               {
                 output_text_starting_new_paragraph(usfm_line, stylepointer, fo_block_style, fo_inline_style, marker_length, true);
                 break;
@@ -369,7 +369,7 @@ void Usfm2Text::convert_from_usfm_to_text() { // Todo
                 verses_in_paragraph_count = 0;
                 break;
               }
-              case u2xtInlineText:
+              case u2xtInlineText: 
               {
                 output_text_character_style(usfm_line, stylepointer, fo_block_style, fo_inline_style, marker_length, is_opener);
                 break;
@@ -470,7 +470,7 @@ void Usfm2Text::convert_from_usfm_to_text() { // Todo
                 output_other_page_break(usfm_line, stylepointer, fo_block_style, fo_inline_style, marker_length);
                 break;
               }
-              case u2xtPicture:
+              case u2xtPicture: // Todo picture.
               {
                 output_picture(usfm_line, stylepointer, fo_block_style, fo_inline_style, marker_length);
                 break;
@@ -480,7 +480,7 @@ void Usfm2Text::convert_from_usfm_to_text() { // Todo
                 output_other_page_break(usfm_line, stylepointer, fo_block_style, fo_inline_style, marker_length);
                 break;
               }
-              case u2xtTableElementRow:
+              case u2xtTableElementRow: // Todo table, here and down.
               {
                 output_text_table(usfm_line, fo_block_style, fo_inline_style, marker_length);
                 break;
@@ -495,11 +495,11 @@ void Usfm2Text::convert_from_usfm_to_text() { // Todo
                 output_text_table(usfm_line, fo_block_style, fo_inline_style, marker_length);
                 break;
               }
-              case u2xtColumnBalancer:
+              case u2xtColumnBalancer: // Todo can go out.
               {
                 break;
               }
-              case u2xtElastic:
+              case u2xtElastic: // Tod implement.
               {
                 output_elastic(usfm_line, fo_block_style, fo_inline_style, marker_length);
                 break;
@@ -521,17 +521,17 @@ void Usfm2Text::convert_from_usfm_to_text() { // Todo
                 output_text_insertion_deletion(usfm_line, stylepointer, fo_block_style, fo_inline_style, marker_length, is_opener);
                 break;
               }
-              case u2xtLineSpacing:
+              case u2xtLineSpacing: // Todo try out.
               {
                 output_spacing_paragraph(usfm_line, fo_block_style, fo_inline_style, marker_length, is_opener);
                 break;
               }
-              case u2xtKeepOnPage:
+              case u2xtKeepOnPage: // Todo try out.
               {
                 output_keep_on_page(usfm_line, fo_block_style, fo_inline_style, marker_length, is_opener);
                 break;
               }
-              case u2xtFontFamilySizeLineHeight:
+              case u2xtFontFamilySizeLineHeight: // Todo try out.
               {
                 output_font_family_size_line_height(usfm_line, fo_block_style, fo_inline_style, marker_length, is_opener);
                 break;

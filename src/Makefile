@@ -120,8 +120,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	check_markers_spacing.$(OBJEXT) gui_navigation.$(OBJEXT) \
 	myfnmatch.$(OBJEXT) statistics.$(OBJEXT) \
 	dialogbackup.$(OBJEXT) backup.$(OBJEXT) \
-	dialogviewsubversion.$(OBJEXT) dialogsubversionadd.$(OBJEXT) \
-	dialogsubversionsetup.$(OBJEXT) projectutilsold.$(OBJEXT) \
+	dialogviewgit.$(OBJEXT) dialoggitadd.$(OBJEXT) \
+	dialoggitsetup.$(OBJEXT) projectutilsold.$(OBJEXT) \
 	dialogchanges.$(OBJEXT) dialogrevert.$(OBJEXT) \
 	dialogselectbooks.$(OBJEXT) resource_utils.$(OBJEXT) \
 	html.$(OBJEXT) dialogreviewanchors.$(OBJEXT) \
@@ -274,9 +274,9 @@ OBJEXT = o
 PACKAGE = bibledit
 PACKAGE_BUGREPORT = http://www.nongnu.org/bibledit
 PACKAGE_NAME = bibledit
-PACKAGE_STRING = bibledit 3.3.86
+PACKAGE_STRING = bibledit 3.3.88
 PACKAGE_TARNAME = bibledit
-PACKAGE_VERSION = 3.3.86
+PACKAGE_VERSION = 3.3.88
 PANGO_CFLAGS = -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
 PANGO_LIBS = -lpango-1.0 -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0  
 PATH_SEPARATOR = :
@@ -293,7 +293,7 @@ STRINGS_PATH = /usr/bin/strings
 STRIP = 
 TAIL_PATH = /usr/bin/tail
 TEE_TOUCH = /usr/bin/touch
-VERSION = 3.3.86
+VERSION = 3.3.88
 WIN32_FALSE = 
 WIN32_TRUE = #
 XML2_CONFIG = /usr/bin/xml2-config
@@ -510,9 +510,9 @@ bibledit_bin_SOURCES = \
         statistics.cpp \
         dialogbackup.cpp \
         backup.cpp \
-        dialogviewsubversion.cpp \
-        dialogsubversionadd.cpp \
-        dialogsubversionsetup.cpp \
+        dialogviewgit.cpp \
+        dialoggitadd.cpp \
+        dialoggitsetup.cpp \
         projectutilsold.cpp \
         dialogchanges.cpp \
         dialogrevert.cpp \
@@ -755,6 +755,8 @@ include ./$(DEPDIR)/dialogfilters.Po
 include ./$(DEPDIR)/dialogfindnote.Po
 include ./$(DEPDIR)/dialogfixmarkers.Po
 include ./$(DEPDIR)/dialogfontcolor.Po
+include ./$(DEPDIR)/dialoggitadd.Po
+include ./$(DEPDIR)/dialoggitsetup.Po
 include ./$(DEPDIR)/dialoggotoreference.Po
 include ./$(DEPDIR)/dialogimportnotes.Po
 include ./$(DEPDIR)/dialogimportrawtext.Po
@@ -797,8 +799,6 @@ include ./$(DEPDIR)/dialogselectchapters.Po
 include ./$(DEPDIR)/dialogshownotes.Po
 include ./$(DEPDIR)/dialogshowscript.Po
 include ./$(DEPDIR)/dialogstylesheet.Po
-include ./$(DEPDIR)/dialogsubversionadd.Po
-include ./$(DEPDIR)/dialogsubversionsetup.Po
 include ./$(DEPDIR)/dialogsword.Po
 include ./$(DEPDIR)/dialogtaskduration.Po
 include ./$(DEPDIR)/dialogtext2pdf.Po
@@ -806,8 +806,8 @@ include ./$(DEPDIR)/dialogtextreplacement.Po
 include ./$(DEPDIR)/dialogtextview.Po
 include ./$(DEPDIR)/dialogtidy.Po
 include ./$(DEPDIR)/dialogunicode.Po
+include ./$(DEPDIR)/dialogviewgit.Po
 include ./$(DEPDIR)/dialogviewstatus.Po
-include ./$(DEPDIR)/dialogviewsubversion.Po
 include ./$(DEPDIR)/dialogviewusfm.Po
 include ./$(DEPDIR)/dialogwait.Po
 include ./$(DEPDIR)/dialogwordlist.Po

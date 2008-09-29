@@ -160,9 +160,9 @@ bibledit_bin_SOURCES = \
         statistics.cpp \
         dialogbackup.cpp \
         backup.cpp \
-        dialogviewsubversion.cpp \
-        dialogsubversionadd.cpp \
-        dialogsubversionsetup.cpp \
+        dialogviewgit.cpp \
+        dialoggitadd.cpp \
+        dialoggitsetup.cpp \
         projectutilsold.cpp \
         dialogchanges.cpp \
         dialogrevert.cpp \
