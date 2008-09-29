@@ -1290,10 +1290,10 @@ void Text2Pdf::intermediate_interpreter()
 
  Todo text2pdf 
 
- Write updated installation files.
- 
- Remove any trace of xslfo / xsl-fo / xsl_fo, etc., etc. Or rename it.
- 
+ To completely rewrite the Printing helpfiles.
+ Include:
+ The intermediate text viewer / editor.
+
  To go through the whole Usfm2Text object and implement missing bits.
  
  To implement images rendering, probably png only as cairo reads them natively.
@@ -1349,13 +1349,8 @@ void Text2Pdf::intermediate_interpreter()
  E.g. to store each chapter's verse in a map, so that each chapter does not need to be read many times just
  to pick one verse from it.
  
- To completely rewrite the Printing helpfiles.
- Include:
- The intermediate text viewer / editor.
-
- On Kubuntu the git machinery with the USB stick does not work. We need to use the git installed there,
- but obviously we need to indicate from which branch to merge and to which branch. Or probably to create the master branch
- first. 
+ Remove any trace of xslfo / xsl-fo etc., etc. Or rename it.
+ 
  
  */
 

@@ -42,7 +42,6 @@
 #include "settings.h"
 #include "textreplacement.h"
 #include "tiny_utilities.h"
-#include "usfm2xslfo.h"
 #include "usfm2text.h"
 
 void view_parallel_references_pdf(ProjectMemory& main_project, vector <ustring> * extra_projects, vector <Reference> references, bool keep_verses_together_within_page, vector<ustring> * remarks, bool highlight)

@@ -143,9 +143,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogpdfviewer.$(OBJEXT) displayprojectnotes.$(OBJEXT) \
 	styles.$(OBJEXT) editor_aids.$(OBJEXT) \
 	dialogviewusfm.$(OBJEXT) dialoginserttable.$(OBJEXT) \
-	git.$(OBJEXT) git-exec.$(OBJEXT) usfm2xslfo.$(OBJEXT) \
-	usfm2xslfo_utils.$(OBJEXT) hyphenate.$(OBJEXT) \
-	reporting.$(OBJEXT) planning.$(OBJEXT) \
+	git.$(OBJEXT) git-exec.$(OBJEXT) usfm2xslfo_utils.$(OBJEXT) \
+	hyphenate.$(OBJEXT) reporting.$(OBJEXT) planning.$(OBJEXT) \
 	dialogreportingsetup.$(OBJEXT) dialogeditstatus.$(OBJEXT) \
 	dialogtaskduration.$(OBJEXT) htmlwriter.$(OBJEXT) \
 	dialogviewstatus.$(OBJEXT) dialogplanningsetup.$(OBJEXT) \
@@ -561,7 +560,6 @@ bibledit_bin_SOURCES = \
         dialoginserttable.cpp \
         git.cpp \
         git-exec.cpp \
-        usfm2xslfo.cpp \
         usfm2xslfo_utils.cpp \
         hyphenate.cpp \
         reporting.cpp \
@@ -934,7 +932,6 @@ include ./$(DEPDIR)/user.Po
 include ./$(DEPDIR)/usfm-inline-markers.Po
 include ./$(DEPDIR)/usfm.Po
 include ./$(DEPDIR)/usfm2text.Po
-include ./$(DEPDIR)/usfm2xslfo.Po
 include ./$(DEPDIR)/usfm2xslfo_utils.Po
 include ./$(DEPDIR)/usfmtools.Po
 include ./$(DEPDIR)/ustring.Po

@@ -39,7 +39,6 @@
 #include "unixwrappers.h"
 #include "textreplacement.h"
 #include "tiny_utilities.h"
-#include "usfm2xslfo.h"
 #include "text2pdf.h"
 #include "usfm2text.h"
 

@@ -211,7 +211,6 @@ bibledit_bin_SOURCES = \
         dialoginserttable.cpp \
         git.cpp \
         git-exec.cpp \
-        usfm2xslfo.cpp \
         usfm2xslfo_utils.cpp \
         hyphenate.cpp \
         reporting.cpp \
