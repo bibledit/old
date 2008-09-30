@@ -1290,12 +1290,6 @@ void Text2Pdf::intermediate_interpreter()
 
  Todo text2pdf 
 
- To update the installation instructions on the web, that's just changing the 3.3 to 3.3 and up.
- 
- To completely rewrite the Printing helpfiles.
- Include:
- The intermediate text viewer / editor.
-
  To go through the whole Usfm2Text object and implement missing bits.
  
  To implement images rendering, probably png only as cairo reads them natively.
@@ -1353,6 +1347,7 @@ void Text2Pdf::intermediate_interpreter()
  
  Remove any trace of xslfo / xsl-fo etc., etc. Or rename it.
  
+ Check out whether inserting a soft hyphen does indeed hyphenate the word when printing.
  
  */
 
