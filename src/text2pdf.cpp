@@ -1290,6 +1290,8 @@ void Text2Pdf::intermediate_interpreter()
 
  Todo text2pdf 
 
+ To update the installation instructions on the web, that's just changing the 3.3 to 3.3 and up.
+ 
  To completely rewrite the Printing helpfiles.
  Include:
  The intermediate text viewer / editor.
