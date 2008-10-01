@@ -35,9 +35,9 @@ void git_exec_initialize_project(const ustring& project, bool health) {
     system(command.c_str());
   }
 
-  // On most machines git can determine the user's name from the system 
-  // services. But on the XO machine, it can't.
-  // Therefore to be sure, it is set here manually.
+  // On most machines git can determine the user's name from the system services. 
+  // But on the XO machine, it can't.
+  // Therefore it is set here manually.
   ustring command0("cd '" + datadirectory + "'; ");
   command0.append("git-config user.email \"");
   command0.append(g_get_user_name());
@@ -126,7 +126,7 @@ vector <ustring> git_exec_update_project(const ustring& project, const ustring& 
   // Pull changes from the remote repository.
   // Some git installations need the source and destination branches as well.
   ustring command1("cd '" + datadirectory + "'; ");
-  command1.append("git-pull '" + data + "' master:master");
+  command1.append("git-pull '" + data + "'");
   system(command1.c_str());
 
   // Push changes to the remote repository.

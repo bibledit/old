@@ -6173,10 +6173,6 @@ void MainWindow::on_git_reopen_project() {
   if (git_reopen_project) {
     git_reopen_project = false; // Close flag before dialog shows, else the dialogs keep coming.
     reload_project();
-    gtkw_dialog_info(mainwindow, "The project data has been changed by somebody else.\n"
-      "The changes are of such a nature, that it was needed\n"
-      "to reload the project, so as to update everything.\n"
-      "That has now been done.\n");
   }
 }
 
@@ -7188,9 +7184,9 @@ void MainWindow::on_print() {
       int h = cairo_image_surface_get_height (image);
       cout << w << " " << h << endl; // Todo
       
-      cairo_translate (cairo, 128.0, 128.0);
+      //cairo_translate (cairo, 128.0, 128.0);
       //cairo_scale  (cairo, 2.1, 2.1);
-      cairo_translate (cairo, -128.0, -128.0);
+      //cairo_translate (cairo, -128.0, -128.0);
       //cairo_translate (cairo, -0.5*w, -0.5*h);
       
       cairo_set_source_surface(cairo, image, 100, 120);

@@ -666,7 +666,7 @@ void GitSetupDialog::set_gui() {
 
   // Handle the synchronize action.
   if (action_sync) {
-
+    
     // Check whether we can pull the changes without conflicts.
     ustring pull_output;
     bool changes_pulled = test_pull_changes(pull_output);
@@ -703,7 +703,7 @@ void GitSetupDialog::set_gui() {
 
   }
 
-  // Finally set the ok button sensitive.
+  // Finally set the ok button sensitive if there was a sync or copy.
   gtk_widget_set_sensitive(okbutton, true);
 }
 
@@ -823,14 +823,12 @@ bool GitSetupDialog::test_write_access(ustring& error)
     GwSpawn spawn("git-pull");
     spawn.workingdirectory(working_directory);
     spawn.arg(url_get());
-    spawn.arg("master:master");
     spawn.run();
   }
   {
     GwSpawn spawn("git-push");
     spawn.workingdirectory(working_directory);
     spawn.arg(url_get());
-    spawn.arg("master:master");
     spawn.read();
     spawn.run();
     writable = (spawn.exitstatus == 0);
@@ -862,7 +860,6 @@ bool GitSetupDialog::test_write_access(ustring& error)
     GwSpawn spawn("git-push");
     spawn.workingdirectory(working_directory);
     spawn.arg(url_get());
-    spawn.arg("master:master");
     spawn.run();
   }
 
@@ -893,7 +890,6 @@ bool GitSetupDialog::test_pull_changes(ustring& error)
     GwSpawn spawn("git-pull");
     spawn.workingdirectory(datadirectory);
     spawn.arg(url_get());
-    spawn.arg("master:master");  // Some git installations require the name of the branchs.
     spawn.read();
     spawn.run();
     pulled = (spawn.exitstatus == 0);
@@ -920,7 +916,6 @@ bool GitSetupDialog::test_pull_changes(ustring& error)
     GwSpawn spawn("git-pull");
     spawn.workingdirectory(datadirectory);
     spawn.arg(url_get());
-    spawn.arg("master:master");  // Some git installations require the name of the branchs. First noted on Kubuntu 8.04.
     spawn.read();
     spawn.run();
     pulled = (spawn.exitstatus == 0);
@@ -955,7 +950,6 @@ bool GitSetupDialog::test_push_changes(ustring& error)
   GwSpawn spawn("git-push");
   spawn.workingdirectory(datadirectory);
   spawn.arg(url_get());
-  spawn.arg("master:master"); // Some git installations require the branch: master.
   spawn.read();
   spawn.run();
   pushed = (spawn.exitstatus == 0);
@@ -1032,3 +1026,4 @@ void GitSetupDialog::button_action_clicked(GtkButton *button) {
   action_sync = (button == GTK_BUTTON (button_synchronize));
   on_entry();
 }
+
