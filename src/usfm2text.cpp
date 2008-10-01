@@ -897,9 +897,6 @@ void Usfm2Text::output_chapter_number_try_normal(ustring& line, Usfm2XslFoStyle 
   text2pdf->close_paragraph();
   fo_block_style = NULL;
 
-  // Insert marker for chapter number in the running headers.
-  //xmlTextWriterWriteFormatString(writer, "%i", chapter);
-
   // Print no chapter number for books with only one chapter.
   if (highest_chapter_number[book] == 1)
     return;
@@ -1237,7 +1234,7 @@ void Usfm2Text::output_text_table(ustring& line, Usfm2XslFoStyle * & fo_block_st
   text2pdf->close_paragraph();
 
   // Open the xml table.
-  //xmlTextWriterStartElement(writer, BAD_CAST "fo:table");
+  //xmlTextWriterStartElement(writer, BAD_CAST "fo:table"); // Todo here and down.
 
   // Go through each row.
   for (unsigned int r = 0; r < rows_tidy.size(); r++) {
@@ -1540,7 +1537,7 @@ void Usfm2Text::output_page_break(Usfm2XslFoStyle * & fo_block_style, Usfm2XslFo
   text2pdf->new_page(oddpage);
 }
 
-void Usfm2Text::output_picture(ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length)
+void Usfm2Text::output_picture(ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length) // Todo to implement.
 // Prints a picture.
 {
   // Get the actual bit that describes the picture; erase it from the line.
@@ -1640,7 +1637,9 @@ void Usfm2Text::output_picture(ustring& line, Usfm2XslFoStyle * stylepointer, Us
   text2pdf->close_paragraph();
 }
 
-void Usfm2Text::output_elastic(ustring& line, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length) {
+void Usfm2Text::output_elastic(ustring& line, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length)
+// Output the elastic command.
+{ 
   // Erase the marker from the line.
   line.erase(0, marker_length);
 
@@ -1707,7 +1706,7 @@ void Usfm2Text::toc_insert_body(ustring& line, Usfm2XslFoStyle * & fo_block_styl
   }
 }
 
-void Usfm2Text::dump_endnotes(Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style)
+void Usfm2Text::dump_endnotes(Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style) // Todo try out.
 // Dumps the buffered endnotes, if there are any.
 {
   // If there are no endnotes, bail out.
@@ -1981,7 +1980,7 @@ gchar * Usfm2Text::font_family_size_line_height_style() {
   return "_font_family_size_line_height_";
 }
 
-void Usfm2Text::output_font_family_size_line_height(ustring& line, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length, bool is_opener)
+void Usfm2Text::output_font_family_size_line_height(ustring& line, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length, bool is_opener) /// Todo try out.
 // This function adds the font family, the font size, and the line height to the xslfo file.
 {
   // Erase the marker from the line.

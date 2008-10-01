@@ -148,11 +148,6 @@ public:
 private:
   ustring pdffile;
 
-  // Test.
-public:
-  void test();
-private:
-  
   // Running headers.
 public:
   void print_date_in_header();

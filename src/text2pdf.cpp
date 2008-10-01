@@ -175,12 +175,12 @@ void Text2Pdf::new_page(bool odd)
 
   // Close any open paragraph.
   close_paragraph();
-  
+
   // The paragraph before the new page should not have its 'keep-with-next' property set, else the engine chokes on that.
   if (!input_data.empty()) {
     T2PInput * preceding_input = input_data[input_data.size()-1];
     if (preceding_input->type == t2pitParagraph) {
-      ((T2PInputParagraph *) preceding_input)->keep_with_next = false;   
+      ((T2PInputParagraph *) preceding_input)->keep_with_next = false;
     }
   }
 
@@ -196,14 +196,14 @@ void Text2Pdf::run()
 {
   // Create progress window.
   progresswindow = new ProgressWindow ("Formatting", false);
-  progresswindow->set_text ("Run");
+  progresswindow->set_text("Run");
 
   // Close any open input containers.
   close_paragraph();
 
   // Intermediate text.
   intermediate_interpreter();
-  
+
   // Go through the input data.
   run_input(input_data);
 
@@ -215,7 +215,7 @@ void Text2Pdf::run()
 
   // Generate tables of contents.
   generate_tables_of_contents();
-  
+
   // If there are no pages, give an empty one. That looks better.
   if (pages.empty()) {
     next_page();
@@ -223,7 +223,7 @@ void Text2Pdf::run()
 
   // Print the pages.
   progresswindow->set_iterate(0, 1, pages.size());
-  progresswindow->set_text ("Output");
+  progresswindow->set_text("Output");
   for (unsigned int pg = 0; pg < pages.size(); pg++) {
     progresswindow->iterate();
     T2PPage * page = pages[pg];
@@ -422,15 +422,15 @@ void Text2Pdf::fit_blocks_on_pages()
 {
   // Progress.
   unsigned int initial_input_size = input_blocks.size();
-  progresswindow->set_text ("Pages");
+  progresswindow->set_text("Pages");
 
   // Loop through the input blocks.
   unsigned int infinite_loop_counter = 0;
   while (!input_blocks.empty() && infinite_loop_counter < 5000) {
-  
+
     // Create another page.
     next_page();
-    
+
     // Progress.
     double fraction = double (initial_input_size - input_blocks.size()) / initial_input_size;
     progresswindow->set_fraction(fraction);
@@ -987,44 +987,6 @@ void Text2Pdf::suppress_header_this_page()
   suppress_header_on_this_page = true;
 }
 
-void Text2Pdf::test() {
-  // White background.
-  cairo_set_source_rgb(cairo, 1.0, 1.0, 1.0);
-  cairo_paint(cairo);
-
-  // Size of the layout.
-  PangoRectangle rectangle;
-  rectangle.x = inside_margin_pango_units;
-  rectangle.y = top_margin_pango_units;
-  rectangle.width = page_width_pango_units - inside_margin_pango_units - outside_margin_pango_units;
-  rectangle.height = 0;
-
-  // New Pango layout.
-  PangoLayout * layout = pango_cairo_create_layout(cairo);
-
-  // Font.
-  PangoFontDescription *desc;
-  desc = pango_font_description_from_string("Cardo 12");
-  pango_font_description_set_size(desc, 12 * PANGO_SCALE);
-  pango_layout_set_font_description(layout, desc);
-  pango_font_description_free(desc);
-
-  // Set Layout's parameters.
-  PangoAttrList *attrs = pango_attr_list_new();
-  pango_layout_set_width(layout, rectangle.width);
-  pango_layout_set_text(layout, " Ekuqalenia", -1);
-  pango_layout_set_attributes(layout, attrs);
-  pango_attr_list_unref(attrs);
-
-  // Paint the layout.  
-  cairo_set_source_rgb(cairo, 0.0, 0.0, 0.0);
-  cairo_move_to(cairo, pango_units_to_points(rectangle.x), pango_units_to_points(rectangle.y));
-  pango_cairo_show_layout(cairo, layout);
-
-  // Write page.
-  cairo_show_page(cairo);
-}
-
 void Text2Pdf::set_reference(const ustring& label)
 // Sets a reference.
 // Used for creating a table of contents with page numbers.
@@ -1101,7 +1063,7 @@ void Text2Pdf::intermediate_interpreter()
 
   // Process any available intermediate text.
   progresswindow->set_iterate(0, 1, intermediate_text.size());
-  progresswindow->set_text ("Interpreting");
+  progresswindow->set_text("Interpreting");
   for (unsigned int i = 0; i < intermediate_text.size(); i++) {
     progresswindow->iterate();
 
@@ -1290,8 +1252,6 @@ void Text2Pdf::intermediate_interpreter()
 
  Todo text2pdf 
 
- To go through the whole Usfm2Text object and implement missing bits.
- 
  To implement images rendering, probably png only as cairo reads them natively.
  When images are rendered, these go into the LayoutContainer object, though the name may have to be changed at that stage.
  
@@ -1307,11 +1267,6 @@ void Text2Pdf::intermediate_interpreter()
  Footnotes don't need superscript, except for the caller in the text.
  The footnotes themselves just use the same characters for both caller in note and note text itself.
  
- When laying out long paragraphs, this takes a huge amount of time.
- Therefore we don't load the full paragraph in the PangoLayout each time, but
- a maximum of so many characters only, or load the first one fully, then measure length of characters, then
- subsequent times only load double the measured characters.
- 
  The line height should affect the text in the Editor also.
  
  Line spacing should affect printed text, also plain usfm printing.
@@ -1322,22 +1277,13 @@ void Text2Pdf::intermediate_interpreter()
  Suggestion: change size of verse number to around 70% of normal font. 
  Top of verse number should be even with top of capital T. 
  Check some Bibles to compare to see if this is correct.  
- Unless you like this to help you find your way around. 
- 
- It is said that loading fonts can take a long time. Suggested solution:
- I am keeping multiple sets of PangoFontDescriptions for each combination of font 
- and size. I then pass the FontDescription into the text function. This
- magically resolved the problem ... now the load_fontset gets only
- called 3 times or so ...
- The implementation with us is going to be that each style has its own PangoFontDescription
- which remain stored in memory till the whole process is over. If any style is used,
- it checks the table if the pointer is there. If not, it creates the object. If found,
- it uses that object.
+ Unless you like this to help you find your way around.
+ The superscript should also show in the editor. 
  
  It has been found that even if the project is not editable, applying the styles still change the look.
  
  It is visible in lines that have superscript, such as verse numbers or notes, that the line gets higher
- due to that elevation. IN particular it does look untidy when there's a drop-caps chapter number there.
+ due to that elevation. In particular it does look untidy when there's a drop-caps chapter number there.
  
  Make elastics work again.
 
