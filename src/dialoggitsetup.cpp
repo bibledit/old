@@ -1027,3 +1027,7 @@ void GitSetupDialog::button_action_clicked(GtkButton *button) {
   on_entry();
 }
 
+// Todo if a conflict is resolved by git, it keeps saying that the conflict needs to be resolved in the git log.
+
+// Todo to try if the git on Ubuntu 8.04, if installed from source, fails too. If so, this number should be rejected by the dialog.
+

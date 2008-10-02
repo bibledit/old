@@ -34,6 +34,7 @@
 #include "unixwrappers.h"
 #include "gtkwrappers.h"
 #include "generalconfig.h"
+#include "git-exec.h"
 
 vector <GitTask> gittasks;
 
@@ -437,7 +438,7 @@ void git_resolve_conflict_chapter(const ustring& project, unsigned int book, uns
 // This solves a conflicting chapter.
 {
   // Log message
-  gw_message("Resolving conflict for " + books_id_to_english(book) + " " + convert_to_string(chapter));
+  gw_message("Resolving conflict for project " + project + " book " + books_id_to_english(book) + " " + convert_to_string(chapter));
 
   // Directory of the chapter in the data.
   ustring directory = project_data_directory_chapter(project, book, chapter);
@@ -504,6 +505,9 @@ void git_resolve_conflict_chapter(const ustring& project, unsigned int book, uns
     }
   }
   write_lines(datafile, newdata);
+  
+  // Todo To inform git that the conflict has been resolved.
+  git_exec_store_chapter (project, book, chapter);  
 }
 
 ustring git_mine_conflict_marker()
