@@ -65,7 +65,6 @@ enum Usfm2XslFoStyleType {
   u2xtTableElementRow,
   u2xtTableElementHeading,
   u2xtTableElementCell,
-  u2xtColumnBalancer,
   u2xtElastic,
   u2xtDumpEndnotes,
   u2xtInsertion,

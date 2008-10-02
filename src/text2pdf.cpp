@@ -1242,20 +1242,67 @@ void Text2Pdf::intermediate_interpreter()
       set_referent(ustring1);
     } else if (command == "generate_tables_of_contents") {
       generate_tables_of_contents();
+    } else if (command == "display_picture") {
+      text2pdf_intermediary_1_ustring_get(parameters, ustring1);
+      display_picture(ustring1);
     } else {
       gw_critical("Unknown command: " + command);
     }
   }
 }
 
+
+void Text2Pdf::display_picture (const ustring& filename)
+// Display a picture.
+{
+  if (text2pdf_intermediary_1_ustring(intermediate_text_pointer, __func__, filename))
+    return;
+  /*
+        cairo_surface_t *surface;
+      
+      ustring pdffile = gw_build_filename(directories_get_temp(), "pdf.pdf");
+      surface = cairo_pdf_surface_create(pdffile.c_str(), 504, 648);
+
+      cairo_t *cairo;
+      cairo = cairo_create(surface);
+
+      cairo_set_source_rgb(cairo, 1.0, 1.0, 1.0);
+      cairo_paint(cairo);
+
+      PangoLayout * layout = pango_cairo_create_layout(cairo);
+      pango_layout_set_text(layout, "Ekuqaleni", -1);
+
+      cairo_set_source_rgb(cairo, 0.0, 0.0, 0.0);
+      cairo_move_to(cairo, 100, 100);
+      pango_cairo_show_layout(cairo, layout);
+
+      cairo_surface_t *image;
+      image = cairo_image_surface_create_from_png("../pix/biblesociety.png");
+      
+      int w = cairo_image_surface_get_width (image);
+      int h = cairo_image_surface_get_height (image);
+      
+      //cairo_translate (cairo, 128.0, 128.0);
+      //cairo_scale  (cairo, 2.1, 2.1);
+      //cairo_translate (cairo, -128.0, -128.0);
+      //cairo_translate (cairo, -0.5*w, -0.5*h);
+      
+      cairo_set_source_surface(cairo, image, 100, 120);
+      cairo_paint(cairo);
+      
+      cairo_show_page(cairo);
+
+      cairo_surface_destroy(surface);
+      cairo_destroy(cairo);
+
+      pdfviewer_view(pdffile);
+  
+  */
+}
+
 /*
 
  Todo text2pdf 
-
- To implement images rendering, probably png only as cairo reads them natively.
- When images are rendered, these go into the LayoutContainer object, though the name may have to be changed at that stage.
- 
- Try right-to-left text such as Hebrew, and Farsi.
 
  The small caps attribute is not yet implemented in Pango. The typesetter should make its own implementation.
  There's some information about this in the object where the layouting is done.
@@ -1271,29 +1318,11 @@ void Text2Pdf::intermediate_interpreter()
  
  Line spacing should affect printed text, also plain usfm printing.
  
- The right-to-left property should be properly made working, even to such a degree that the columns start
- at the right instead of at the left, and that the drop-caps chapter number is at the right too.
-
  Suggestion: change size of verse number to around 70% of normal font. 
  Top of verse number should be even with top of capital T. 
  Check some Bibles to compare to see if this is correct.  
  Unless you like this to help you find your way around.
  The superscript should also show in the editor. 
- 
- It has been found that even if the project is not editable, applying the styles still change the look.
- 
- It is visible in lines that have superscript, such as verse numbers or notes, that the line gets higher
- due to that elevation. In particular it does look untidy when there's a drop-caps chapter number there.
- 
- Make elastics work again.
-
- The printing of the parallel bible is very slow. Check whether internal optimizations will help.
- E.g. to store each chapter's verse in a map, so that each chapter does not need to be read many times just
- to pick one verse from it.
- 
- Remove any trace of xslfo / xsl-fo etc., etc. Or rename it.
- 
- Check out whether inserting a soft hyphen does indeed hyphenate the word when printing.
- 
+  
  */
 

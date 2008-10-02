@@ -132,8 +132,6 @@
 #include "dialogxfernotes2text.h"
 #include "htmlcolor.h"
 #include "text2pdf.h"
-#include <cairo/cairo.h> // Todo out.
-#include <cairo/cairo-pdf.h> // Todo out.
 
 /*
  |
@@ -6876,8 +6874,8 @@ void MainWindow::on_print() {
     labels.push_back("Project");
     labels.push_back("Parallel Bible");
     labels.push_back("References");
-    labels.push_back("Test usfm2pdf"); // Todo
-    labels.push_back("Test Cairo / Pango");
+    //labels.push_back("Test usfm2pdf");
+    //labels.push_back("Test Cairo / Pango");
     extern Settings * settings;
     RadiobuttonDialog dialog("Print", "Select what to print", labels, settings->genconfig.print_job_get());
     if (dialog.run() != GTK_RESPONSE_OK)
@@ -6939,61 +6937,14 @@ void MainWindow::on_print() {
       }
       break;
     }
-    case 3: // Test Todo
+    case 3: // Tes
     {
       extern Settings * settings;
       Text2Pdf text2pdf(gw_build_filename(directories_get_temp(), "pdf.pdf"), settings->genconfig.print_engine_use_intermediate_text_get());
 
-      text2pdf.close_paragraph();
       text2pdf.open_paragraph();
-      text2pdf.close_paragraph();
-
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(20);
-      text2pdf.paragraph_set_alignment(t2patCenter);
-      text2pdf.paragraph_set_column_count(1);
-      text2pdf.paragraph_set_keep_with_next(); 
-      text2pdf.add_text("ITHESTAMENTE");
-      text2pdf.close_paragraph();
-
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_font_size(20);
-      text2pdf.paragraph_set_alignment(t2patCenter);
-      text2pdf.paragraph_set_column_count(1);
-      text2pdf.paragraph_set_keep_with_next(); 
-      text2pdf.add_text("ELITSHA");
-      text2pdf.close_paragraph();
-
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_column_count(1);
-      text2pdf.paragraph_set_keep_with_next(); 
-      text2pdf.close_paragraph();
-
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_alignment(t2patCenter);
-      text2pdf.paragraph_set_column_count(1);
-      text2pdf.paragraph_set_keep_with_next(); 
-      text2pdf.add_text("Ithestamente Elitsha");
-      text2pdf.close_paragraph();
-
-      text2pdf.new_page(false); 
-
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_alignment(t2patCenter);
-      text2pdf.paragraph_set_column_count(1);
-      text2pdf.paragraph_set_keep_with_next(); 
-      text2pdf.add_text("IVANGELI ELALOTSHWA");
-      text2pdf.close_paragraph();
-      
-      text2pdf.open_paragraph();
-      text2pdf.paragraph_set_alignment(t2patCenter);
-      text2pdf.paragraph_set_column_count(1);
-      text2pdf.paragraph_set_keep_with_next(); 
-      text2pdf.add_text("NGUMATEWU");
-      text2pdf.close_paragraph();
-      
-      text2pdf.set_running_chapter_number(1, 1);
-      text2pdf.close_paragraph();
+      text2pdf.add_text("Some text above the picture.");
+      text2pdf.display_picture (gw_build_filename (directories_get_package_data(), "biblesociety.png"));
       
       
       /*
@@ -7155,52 +7106,6 @@ void MainWindow::on_print() {
     }
     case 4: // Test.
     {
-      cairo_surface_t *surface;
-      
-      ustring pdffile = gw_build_filename(directories_get_temp(), "pdf.pdf");
-      surface = cairo_pdf_surface_create(pdffile.c_str(), 504, 648);
-
-      cairo_t *cairo;
-      cairo = cairo_create(surface);
-
-      // White background.
-      cairo_set_source_rgb(cairo, 1.0, 1.0, 1.0);
-      cairo_paint(cairo);
-
-      // Pango layout.
-      PangoLayout * layout = pango_cairo_create_layout(cairo);
-      pango_layout_set_text(layout, "Ekuqaleni", -1);
-
-      // Paint the layout.  
-      cairo_set_source_rgb(cairo, 0.0, 0.0, 0.0);
-      cairo_move_to(cairo, 100, 100);
-      pango_cairo_show_layout(cairo, layout);
-
-      // The image.
-      cairo_surface_t *image;
-      image = cairo_image_surface_create_from_png("../pix/biblesociety.png");
-      
-      int w = cairo_image_surface_get_width (image);
-      int h = cairo_image_surface_get_height (image);
-      cout << w << " " << h << endl; // Todo
-      
-      //cairo_translate (cairo, 128.0, 128.0);
-      //cairo_scale  (cairo, 2.1, 2.1);
-      //cairo_translate (cairo, -128.0, -128.0);
-      //cairo_translate (cairo, -0.5*w, -0.5*h);
-      
-      cairo_set_source_surface(cairo, image, 100, 120);
-      cairo_paint(cairo);
-      
-      // Write page.
-      cairo_show_page(cairo);
-
-      // Destroy object.
-      cairo_surface_destroy(surface);
-      cairo_destroy(cairo);
-
-      pdfviewer_view(pdffile);
-
       break;
     }
   }

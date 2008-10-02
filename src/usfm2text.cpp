@@ -224,7 +224,6 @@ void Usfm2Text::preprocess()
                 case u2xtTableElementRow:
                 case u2xtTableElementHeading:
                 case u2xtTableElementCell:
-                case u2xtColumnBalancer:
                 case u2xtElastic:
                 case u2xtDumpEndnotes:
                 case u2xtInsertion:
@@ -470,7 +469,7 @@ void Usfm2Text::convert_from_usfm_to_text() {
                 output_other_page_break(usfm_line, stylepointer, fo_block_style, fo_inline_style, marker_length);
                 break;
               }
-              case u2xtPicture: // Todo picture.
+              case u2xtPicture:
               {
                 output_picture(usfm_line, stylepointer, fo_block_style, fo_inline_style, marker_length);
                 break;
@@ -480,7 +479,7 @@ void Usfm2Text::convert_from_usfm_to_text() {
                 output_other_page_break(usfm_line, stylepointer, fo_block_style, fo_inline_style, marker_length);
                 break;
               }
-              case u2xtTableElementRow: // Todo table, here and down.
+              case u2xtTableElementRow:
               {
                 output_text_table(usfm_line, fo_block_style, fo_inline_style, marker_length);
                 break;
@@ -495,11 +494,7 @@ void Usfm2Text::convert_from_usfm_to_text() {
                 output_text_table(usfm_line, fo_block_style, fo_inline_style, marker_length);
                 break;
               }
-              case u2xtColumnBalancer: // Todo can go out.
-              {
-                break;
-              }
-              case u2xtElastic: // Tod implement.
+              case u2xtElastic:
               {
                 output_elastic(usfm_line, fo_block_style, fo_inline_style, marker_length);
                 break;
@@ -521,17 +516,17 @@ void Usfm2Text::convert_from_usfm_to_text() {
                 output_text_insertion_deletion(usfm_line, stylepointer, fo_block_style, fo_inline_style, marker_length, is_opener);
                 break;
               }
-              case u2xtLineSpacing: // Todo try out.
+              case u2xtLineSpacing:
               {
                 output_spacing_paragraph(usfm_line, fo_block_style, fo_inline_style, marker_length, is_opener);
                 break;
               }
-              case u2xtKeepOnPage: // Todo try out.
+              case u2xtKeepOnPage:
               {
                 output_keep_on_page(usfm_line, fo_block_style, fo_inline_style, marker_length, is_opener);
                 break;
               }
-              case u2xtFontFamilySizeLineHeight: // Todo try out.
+              case u2xtFontFamilySizeLineHeight:
               {
                 output_font_family_size_line_height(usfm_line, fo_block_style, fo_inline_style, marker_length, is_opener);
                 break;
@@ -1234,7 +1229,7 @@ void Usfm2Text::output_text_table(ustring& line, Usfm2XslFoStyle * & fo_block_st
   text2pdf->close_paragraph();
 
   // Open the xml table.
-  //xmlTextWriterStartElement(writer, BAD_CAST "fo:table"); // Todo here and down.
+  //xmlTextWriterStartElement(writer, BAD_CAST "fo:table");
 
   // Go through each row.
   for (unsigned int r = 0; r < rows_tidy.size(); r++) {
@@ -1537,7 +1532,7 @@ void Usfm2Text::output_page_break(Usfm2XslFoStyle * & fo_block_style, Usfm2XslFo
   text2pdf->new_page(oddpage);
 }
 
-void Usfm2Text::output_picture(ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length) // Todo to implement.
+void Usfm2Text::output_picture(ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length)
 // Prints a picture.
 {
   // Get the actual bit that describes the picture; erase it from the line.
@@ -1619,16 +1614,12 @@ void Usfm2Text::output_picture(ustring& line, Usfm2XslFoStyle * stylepointer, Us
   // Write caption and reference.
   if (size == "span") {
   }
-  //xmlTextWriterStartElement(writer, BAD_CAST "fo:external-graphic");
-  //xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "src", "url('%s')", file.c_str());
-  //xmlTextWriterWriteAttribute(writer, BAD_CAST "content-width", BAD_CAST "scale-to-fit");
-  //xmlTextWriterWriteAttribute(writer, BAD_CAST "content-height", BAD_CAST "100%");
-  //xmlTextWriterWriteAttribute(writer, BAD_CAST "width", BAD_CAST "100%");
-  //xmlTextWriterWriteAttribute(writer, BAD_CAST "scaling", BAD_CAST "uniform");
+  text2pdf->add_text (file);
   if ((!cap.empty()) || (!ref.empty())) {
-    //xmlTextWriterWriteFormatString(writer, cap.c_str());
-    //xmlTextWriterWriteFormatString(writer, " ");
-    //xmlTextWriterWriteFormatString(writer, ref.c_str());
+    text2pdf->add_text (" ");
+    text2pdf->add_text (cap);
+    text2pdf->add_text (" ");
+    text2pdf->add_text (ref);
   }
   if (size == "span") {
   }
@@ -1706,7 +1697,7 @@ void Usfm2Text::toc_insert_body(ustring& line, Usfm2XslFoStyle * & fo_block_styl
   }
 }
 
-void Usfm2Text::dump_endnotes(Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style) // Todo try out.
+void Usfm2Text::dump_endnotes(Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style)
 // Dumps the buffered endnotes, if there are any.
 {
   // If there are no endnotes, bail out.
@@ -1948,10 +1939,6 @@ void Usfm2Text::output_spacing_paragraph(ustring& line, Usfm2XslFoStyle * & fo_b
 
   if (is_opener) {
     // Insert the spacing paragraph.
-    // XSLFormatter is better than FOP in that it does honour space conditionality,
-    // which is initially set at "discard" for the beginning of a 
-    // reference area, as here. So to get the distance between the 
-    // lines right, this is inserted: space-before.conditionality="retain".
   } else {
     // Close spacing paragraph.
   }
@@ -1980,7 +1967,7 @@ gchar * Usfm2Text::font_family_size_line_height_style() {
   return "_font_family_size_line_height_";
 }
 
-void Usfm2Text::output_font_family_size_line_height(ustring& line, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length, bool is_opener) /// Todo try out.
+void Usfm2Text::output_font_family_size_line_height(ustring& line, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length, bool is_opener)
 // This function adds the font family, the font size, and the line height to the xslfo file.
 {
   // Erase the marker from the line.

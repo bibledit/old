@@ -213,7 +213,7 @@ target_os = linux-gnu
 target_vendor = pc
 appicondir = $(datadir)/pixmaps
 appicon_DATA = bibledit.xpm
-dist_pkgdata_DATA = *.xpm *.jpeg *.ico *.svg *.gif
+dist_pkgdata_DATA = *.xpm *.jpeg *.ico *.svg *.gif *.png
 CLEANFILES = *~
 all: all-am
 

@@ -506,7 +506,7 @@ void git_resolve_conflict_chapter(const ustring& project, unsigned int book, uns
   }
   write_lines(datafile, newdata);
   
-  // Todo To inform git that the conflict has been resolved.
+  // To inform git that the conflict has been resolved.
   git_exec_store_chapter (project, book, chapter);  
 }
 

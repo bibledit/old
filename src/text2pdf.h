@@ -49,7 +49,7 @@ private:
   cairo_status_t status;
   cairo_surface_t *surface;
 
-  // Input data.
+  // Data input.
 public:
   void open_keep_together();
   void close_keep_together();
@@ -92,6 +92,7 @@ public:
   void close_note();
   void open_intrusion();
   void close_intrusion();
+  void display_picture (const ustring& filename);
 private:
   T2PInputParagraph * input_paragraph;
   T2PInputParagraph * stacked_input_paragraph;
