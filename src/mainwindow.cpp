@@ -156,6 +156,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   note_editor = NULL;
   resourcesgui = NULL;
   editorsgui = NULL;
+  window_screen_layout = NULL;
 
   // Initialize some variables.
   notes_redisplay_source_id = 0;
@@ -1002,6 +1003,10 @@ MainWindow::MainWindow(unsigned long xembed) :
   image26812 = gtk_image_new_from_stock("gtk-info", GTK_ICON_SIZE_MENU);
   gtk_widget_show(image26812);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (view_planning), image26812);
+
+  view_screen_layout = gtk_check_menu_item_new_with_mnemonic ("_Screen layout");
+  gtk_widget_show (view_screen_layout);
+  gtk_container_add (GTK_CONTAINER (menuitem_view_menu), view_screen_layout);
 
   insert1 = gtk_menu_item_new_with_mnemonic("_Insert");
   gtk_widget_show(insert1);
@@ -2437,6 +2442,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   g_signal_connect ((gpointer) view_usfm_code, "activate", G_CALLBACK (on_view_usfm_code_activate), gpointer(this));
   g_signal_connect ((gpointer) view_status, "activate", G_CALLBACK (on_view_status_activate), gpointer(this));
   g_signal_connect ((gpointer) view_planning, "activate", G_CALLBACK (on_view_planning_activate), gpointer(this));
+  g_signal_connect ((gpointer) view_screen_layout, "activate", G_CALLBACK (on_view_screen_layout_activate), gpointer(this));
   g_signal_connect ((gpointer) insert1, "activate", G_CALLBACK (on_insert1_activate), gpointer(this));
   if (guifeatures.project_notes()) {
     g_signal_connect ((gpointer) standard_text_1, "activate", G_CALLBACK (on_standard_text_1_activate), gpointer (this));
@@ -7110,4 +7116,99 @@ void MainWindow::on_print() {
     }
   }
 }
+
+/*
+ |
+ |
+ |
+ |
+ |
+ Screen layout
+ |
+ |
+ |
+ |
+ |
+ */
+
+void MainWindow::on_view_screen_layout_activate (GtkMenuItem *menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_view_screen_layout();
+}
+
+void MainWindow::on_view_screen_layout ()
+{
+  on_window_screen_layout_button();
+  if (gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (view_screen_layout))) {
+    window_screen_layout = new WindowLayout (0);
+    g_signal_connect ((gpointer) window_screen_layout->signal_button, "clicked", G_CALLBACK (on_window_screen_layout_button_clicked), gpointer(this));
+  }
+}
+
+void MainWindow::on_window_screen_layout_button_clicked(GtkButton *button, gpointer user_data)
+  {
+    ((MainWindow *) user_data)->on_window_screen_layout_button();
+  }
+
+void MainWindow::on_window_screen_layout_button()
+  {
+    if (window_screen_layout) { 
+      delete window_screen_layout;
+      window_screen_layout = NULL;
+      gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (view_screen_layout), false);
+    }
+  }
+
+
+/*
+
+Todo improve the window layout system.
+
+We need to move away from the current windows system that bibledit is using.
+We need to move to the model that for example glade is using, or The Gimp.
+There is one menu window, and each function has its own window.
+The windows, their position and sizes, will be remembered, and the user can reorder these freely.
+Not sure how this runs on the XO machine, that would need to be tested.
+We can start by creating a small application with a few windows.
+Then take it from there.
+We need then to make a separate window for the keyterms, and another separate window that
+gives the information Steve is requesting. Both windows show independently or are hidden.
+
+We need to implement the new window layout system.
+There needs to be a definition for what the editor area is, so that any new editors opened
+will automatically enter this area.
+Then there's the area where the project notes come.
+And another area for the tools.
+All so that new tools / editors / notes automatically go to the desired position.
+
+The system with many windows is likely to get rid of the WIDE problem as well.
+Or reduce the impact greatly.
+
+When a new window is opened, for example, a new editor is opened, it then automatically finds a place
+within the existing editors, and tiles (or stacks) the windows.
+
+To make a View / Tile menu. And a stack one. This only becomes relevant when there are more windows than one.
+At present there's only one.
+
+
+
+
+Todo Bibledit Keyterms and NT names facility for vernacular input. 
+
+1. The user can type in the word that they have chosen in their language
+for that particular keyterm. If he types that word, the keyterms comes up,
+just like now it comes up when the english word is typed.
+"Word" or "words". Sometimes depending upon the context of the verse 2 different
+words are used for the one key term.
+
+2. When translating, and going to a certain verse, the user wishes to see
+all of the keyterms found in that verse, and what word they have chosen for
+it in their own language.
+Yes that is correct. We have found this feature to be very helpful. Also if
+you have a data base on NT Names and or OT Names a similar database where the
+name is shown in the vernacular non-roman script.
+
+
+*/
+
 

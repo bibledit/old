@@ -61,6 +61,10 @@ public:
   DEFINE_GENCONFIG_H (int, vpane_editor_position);
   DEFINE_GENCONFIG_H (int, vpane_quick_references_position);
   DEFINE_GENCONFIG_H (bool, tools_area_left);
+  DEFINE_GENCONFIG_H (int, tools_area_width);
+  DEFINE_GENCONFIG_H (int, tools_area_height);
+  DEFINE_GENCONFIG_H (int, tools_area_x_position);
+  DEFINE_GENCONFIG_H (int, tools_area_y_position);
   DEFINE_GENCONFIG_H (ustring, edit_note_standard_text_one);
   DEFINE_GENCONFIG_H (ustring, edit_note_standard_text_two);
   DEFINE_GENCONFIG_H (ustring, edit_note_standard_text_three);

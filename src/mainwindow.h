@@ -38,6 +38,7 @@
 #include "resourceviewergui.h"
 #include "editorsgui.h"
 #include "mergegui.h"
+#include "windowlayout.h"
 
 class MainWindow
 {
@@ -189,6 +190,7 @@ protected:
   GtkWidget *image25963;
   GtkWidget *view_planning;
   GtkWidget *image26812;
+  GtkWidget *view_screen_layout; 
   GtkWidget *insert1;
   GtkWidget *insert1_menu;
   GtkWidget *standard_text_1;
@@ -397,7 +399,7 @@ protected:
   GtkWidget *togglebutton_note_edit_strike_through;
   GtkWidget *image29123;
   GtkWidget *toolitem_note_edit_left_justify;
-  GtkWidget *togglebutton_note_edit_left_justify; 
+  GtkWidget *togglebutton_note_edit_left_justify;
   GtkWidget *image29124;
   GtkWidget *toolitem_note_edit_center_justify;
   GtkWidget *togglebutton_note_edit_center_justify;
@@ -940,6 +942,13 @@ protected:
   /* Print */
   static void on_print_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_print();
+
+  /* Screen layout */
+  static void on_view_screen_layout_activate (GtkMenuItem *menuitem, gpointer user_data);
+  void on_view_screen_layout ();
+  WindowLayout * window_screen_layout;
+  static void on_window_screen_layout_button_clicked(GtkButton *button, gpointer user_data);
+  void on_window_screen_layout_button();
 };
 
 #endif

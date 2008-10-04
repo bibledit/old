@@ -1300,29 +1300,3 @@ void Text2Pdf::display_picture (const ustring& filename)
   */
 }
 
-/*
-
- Todo text2pdf 
-
- The small caps attribute is not yet implemented in Pango. The typesetter should make its own implementation.
- There's some information about this in the object where the layouting is done.
- 
- In the new stylesheet, the "superscript" property in the stylesheet is enough to both raise the letter
- and to set the new font size, and make it slightly heavier.
- To remove the font size property altogether, so as to make things easier.
- If users wish more control, they can do the manual conversion routine.
- Footnotes don't need superscript, except for the caller in the text.
- The footnotes themselves just use the same characters for both caller in note and note text itself.
- 
- The line height should affect the text in the Editor also.
- 
- Line spacing should affect printed text, also plain usfm printing.
- 
- Suggestion: change size of verse number to around 70% of normal font. 
- Top of verse number should be even with top of capital T. 
- Check some Bibles to compare to see if this is correct.  
- Unless you like this to help you find your way around.
- The superscript should also show in the editor. 
-  
- */
-
