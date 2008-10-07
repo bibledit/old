@@ -168,7 +168,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	text2pdf_page.$(OBJEXT) text2pdf_input.$(OBJEXT) \
 	text2pdf_layout.$(OBJEXT) text2pdf_big_block.$(OBJEXT) \
 	text2pdf_intermediate.$(OBJEXT) usfm2text.$(OBJEXT) \
-	dialogtext2pdf.$(OBJEXT) windowlayout.$(OBJEXT)
+	dialogtext2pdf.$(OBJEXT) windowlayout.$(OBJEXT) \
+	windowshowkeyterms.$(OBJEXT) windows.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -274,9 +275,9 @@ OBJEXT = o
 PACKAGE = bibledit
 PACKAGE_BUGREPORT = http://www.nongnu.org/bibledit
 PACKAGE_NAME = bibledit
-PACKAGE_STRING = bibledit 3.4.7
+PACKAGE_STRING = bibledit 3.4.9
 PACKAGE_TARNAME = bibledit
-PACKAGE_VERSION = 3.4.7
+PACKAGE_VERSION = 3.4.9
 PANGO_CFLAGS = -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
 PANGO_LIBS = -lpango-1.0 -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0  
 PATH_SEPARATOR = :
@@ -293,7 +294,7 @@ STRINGS_PATH = /usr/bin/strings
 STRIP = 
 TAIL_PATH = /usr/bin/tail
 TEE_TOUCH = /usr/bin/touch
-VERSION = 3.4.7
+VERSION = 3.4.9
 WIN32_FALSE = 
 WIN32_TRUE = #
 XML2_CONFIG = /usr/bin/xml2-config
@@ -613,7 +614,9 @@ bibledit_bin_SOURCES = \
         text2pdf_intermediate.cpp \
         usfm2text.cpp \
         dialogtext2pdf.cpp \
-        windowlayout.cpp
+        windowlayout.cpp \
+        windowshowkeyterms.cpp \
+        windows.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -941,6 +944,8 @@ include ./$(DEPDIR)/utilities.Po
 include ./$(DEPDIR)/versification.Po
 include ./$(DEPDIR)/versifications.Po
 include ./$(DEPDIR)/windowlayout.Po
+include ./$(DEPDIR)/windows.Po
+include ./$(DEPDIR)/windowshowkeyterms.Po
 include ./$(DEPDIR)/windowsoutpost.Po
 include ./$(DEPDIR)/wordlist.Po
 include ./$(DEPDIR)/xmlfo-utils.Po

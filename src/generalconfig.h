@@ -65,6 +65,11 @@ public:
   DEFINE_GENCONFIG_H (int, tools_area_height);
   DEFINE_GENCONFIG_H (int, tools_area_x_position);
   DEFINE_GENCONFIG_H (int, tools_area_y_position);
+  DEFINE_GENCONFIG_H (vector<int>, window_widths);
+  DEFINE_GENCONFIG_H (vector<int>, window_heights);
+  DEFINE_GENCONFIG_H (vector<int>, window_x_positions);
+  DEFINE_GENCONFIG_H (vector<int>, window_y_positions);
+  DEFINE_GENCONFIG_H (vector<int>, window_ids);
   DEFINE_GENCONFIG_H (ustring, edit_note_standard_text_one);
   DEFINE_GENCONFIG_H (ustring, edit_note_standard_text_two);
   DEFINE_GENCONFIG_H (ustring, edit_note_standard_text_three);

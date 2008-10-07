@@ -82,6 +82,11 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE (tools_area_height);
   INITIALIZE (tools_area_x_position);
   INITIALIZE (tools_area_y_position);
+  INITIALIZE (window_widths);
+  INITIALIZE (window_heights);
+  INITIALIZE (window_x_positions);
+  INITIALIZE (window_y_positions);
+  INITIALIZE (window_ids);
   INITIALIZE (edit_note_standard_text_one);
   INITIALIZE (edit_note_standard_text_two);
   INITIALIZE (edit_note_standard_text_three);
@@ -248,6 +253,11 @@ void GeneralConfiguration::save()
   SAVE_VALUE (tools_area_height);
   SAVE_VALUE (tools_area_x_position);
   SAVE_VALUE (tools_area_y_position);
+  SAVE_VALUE (window_widths);
+  SAVE_VALUE (window_heights);
+  SAVE_VALUE (window_x_positions);
+  SAVE_VALUE (window_y_positions);
+  SAVE_VALUE (window_ids);
   SAVE_VALUE (edit_note_standard_text_one);
   SAVE_VALUE (edit_note_standard_text_two);
   SAVE_VALUE (edit_note_standard_text_three);
@@ -484,6 +494,11 @@ IMPLEMENT (int, int_get, tools_area_width, 0)
 IMPLEMENT (int, int_get, tools_area_height, 0)
 IMPLEMENT (int, int_get, tools_area_x_position, 0)
 IMPLEMENT (int, int_get, tools_area_y_position, 0)
+IMPLEMENT (vector<int>, vector_int_get, window_widths, NULL)
+IMPLEMENT (vector<int>, vector_int_get, window_heights, NULL)
+IMPLEMENT (vector<int>, vector_int_get, window_x_positions, NULL)
+IMPLEMENT (vector<int>, vector_int_get, window_y_positions, NULL)
+IMPLEMENT (vector<int>, vector_int_get, window_ids, NULL)
 IMPLEMENT (ustring, string_get, edit_note_standard_text_one, "")
 IMPLEMENT (ustring, string_get, edit_note_standard_text_two, "")
 IMPLEMENT (ustring, string_get, edit_note_standard_text_three, "")

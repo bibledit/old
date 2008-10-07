@@ -168,7 +168,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	text2pdf_page.$(OBJEXT) text2pdf_input.$(OBJEXT) \
 	text2pdf_layout.$(OBJEXT) text2pdf_big_block.$(OBJEXT) \
 	text2pdf_intermediate.$(OBJEXT) usfm2text.$(OBJEXT) \
-	dialogtext2pdf.$(OBJEXT) windowlayout.$(OBJEXT)
+	dialogtext2pdf.$(OBJEXT) windowlayout.$(OBJEXT) \
+	windowshowkeyterms.$(OBJEXT) windows.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -613,7 +614,9 @@ bibledit_bin_SOURCES = \
         text2pdf_intermediate.cpp \
         usfm2text.cpp \
         dialogtext2pdf.cpp \
-        windowlayout.cpp
+        windowlayout.cpp \
+        windowshowkeyterms.cpp \
+        windows.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -941,6 +944,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/versification.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/versifications.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowlayout.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windows.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowshowkeyterms.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowsoutpost.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wordlist.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xmlfo-utils.Po@am__quote@

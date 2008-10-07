@@ -39,6 +39,7 @@
 #include "editorsgui.h"
 #include "mergegui.h"
 #include "windowlayout.h"
+#include "windowshowkeyterms.h"
 
 class MainWindow
 {
@@ -190,7 +191,8 @@ protected:
   GtkWidget *image25963;
   GtkWidget *view_planning;
   GtkWidget *image26812;
-  GtkWidget *view_screen_layout; 
+  GtkWidget *view_screen_layout;
+  GtkWidget *view_keyterms;
   GtkWidget *insert1;
   GtkWidget *insert1_menu;
   GtkWidget *standard_text_1;
@@ -839,6 +841,11 @@ protected:
   void destroy_keyterms_object();
   static void on_keyterms_new_reference(GtkButton *button, gpointer user_data);
   void check_move_new_reference();
+  static void on_view_keyterms_activate (GtkMenuItem *menuitem, gpointer user_data);
+  void on_view_keyterms ();
+  WindowShowKeyterms * window_show_keyterms;
+  static void on_window_show_keyterms_button_clicked(GtkButton *button, gpointer user_data);
+  void on_window_show_keyterms_button();
 
   /* Backups */
   static void on_project_backup_incremental_activate(GtkMenuItem *menuitem, gpointer user_data);
@@ -949,6 +956,11 @@ protected:
   WindowLayout * window_screen_layout;
   static void on_window_screen_layout_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_screen_layout_button();
+  static bool on_windows_startup_timeout(gpointer data);
+  bool on_windows_startup();
+  unsigned int windows_startup_pointer;
+  void shutdown_windows();
+  
 };
 
 #endif
