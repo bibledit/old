@@ -35,7 +35,8 @@ public:
   ustring verse;
   ustring human_readable (const ustring& language);
   bool equals (const Reference& reference);
-};
+  void assign(const Reference& reference);
+  };
 
 
 #endif

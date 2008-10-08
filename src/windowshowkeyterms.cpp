@@ -22,12 +22,14 @@
 #include "windowshowkeyterms.h"
 #include "help.h"
 #include "windows.h"
+#include "keyterms.h"
+#include "tiny_utilities.h"
 
-WindowShowKeyterms::WindowShowKeyterms(bool startup)
-// Screen Layout Windows.
+WindowShowKeyterms::WindowShowKeyterms(bool startup) :
+  myreference(0)
   {
     showkeytermswindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title(GTK_WINDOW (showkeytermswindow), "Keyterms");
+    gtk_window_set_title(GTK_WINDOW (showkeytermswindow), "Keyterms in verse");
 
     scrolledwindow1 = gtk_scrolled_window_new(NULL, NULL);
     gtk_widget_show(scrolledwindow1);
@@ -40,6 +42,7 @@ WindowShowKeyterms::WindowShowKeyterms(bool startup)
     gtk_container_add(GTK_CONTAINER (scrolledwindow1), textview1);
     gtk_text_view_set_editable(GTK_TEXT_VIEW (textview1), FALSE);
     gtk_text_view_set_accepts_tab(GTK_TEXT_VIEW (textview1), FALSE);
+    gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW (textview1), GTK_WRAP_WORD);
     gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW (textview1), FALSE);
 
     signal_button = gtk_button_new();
@@ -50,12 +53,12 @@ WindowShowKeyterms::WindowShowKeyterms(bool startup)
 
     gtk_widget_show_all(showkeytermswindow);
 
-    window_set_state (showkeytermswindow, widShowKeyterms, startup);
+    window_set_state(showkeytermswindow, widShowKeyterms, startup);
   }
 
 WindowShowKeyterms::~WindowShowKeyterms()
   {
-    window_store_state (showkeytermswindow, widShowKeyterms);
+    window_store_state(showkeytermswindow, widShowKeyterms);
     gtk_widget_destroy(showkeytermswindow);
     gtk_widget_destroy(signal_button);
   }
@@ -72,20 +75,54 @@ bool WindowShowKeyterms::on_window_delete()
     return false;
   }
 
-/*
- 
- Todo 
- 
- When translating, and going to a certain verse, the user wishes to see
- all of the keyterms found in that verse, and what word they have chosen for
- it in their own language.
- This is going to be one tool in one window. No controls in that window.
- It's a GtkTextView that shows all in simple order. No fancy things.
+void WindowShowKeyterms::go_to(const ustring& project,
+    const Reference& reference)
+  {
+    // Bail out if there's no change in the reference.
+    if (myreference.equals(reference))
+      return;
 
- When this tool is chosen, it pops up as a window and tiles itself in the Tools area.
- We need a generic routine for that.
- The routine looks for empty space within constraints. It can make other windows smaller.
- When a window closes, the other windows are left as they are. 
- Thus if the same window is opened again, it will go in the same free space as it was before.
+    // Display the keyterms.
+    vector <int> keyterms = keyterms_get_terms_in_verse(reference);
+    GtkTextBuffer * buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview1));
+    gtk_text_buffer_set_text(buffer, "", -1);
+    for (unsigned int i = 0; i < keyterms.size(); i++)
+      {
 
- */
+        // Display the keyterm.
+        ustring term;
+        unsigned int dummy;
+        keyterms_get_term(keyterms[i], term, dummy);
+        gtk_text_buffer_insert_at_cursor(buffer, "* ", -1);
+        gtk_text_buffer_insert_at_cursor(buffer, term.c_str(), -1);
+        gtk_text_buffer_insert_at_cursor(buffer, ": ", -1);
+
+        // Display the renderings.
+        vector <ustring> renderings;
+        vector <bool> wholewords;
+        vector <bool> casesensitives;
+        ustring category;
+          {
+            ustring dummy1;
+            vector <Reference> dummy2;
+            vector <ustring> dummy3;
+            keyterms_get_data(keyterms[i], category, dummy1, dummy2, dummy3);
+          }
+        keyterms_retrieve_renderings(project, term, category, renderings,
+            wholewords, casesensitives);
+        for (unsigned int i2 = 0; i2 < renderings.size(); i2++)
+          {
+            if (i2)
+              gtk_text_buffer_insert_at_cursor(buffer, ", ", -1);
+            gtk_text_buffer_insert_at_cursor(buffer, renderings[i2].c_str(), -1);
+          }
+
+        // Newline.
+        gtk_text_buffer_insert_at_cursor(buffer, "\n", -1);
+
+      }
+
+    // Store the new reference in the object.
+    myreference.assign(reference);
+  }
+

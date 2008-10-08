@@ -3627,6 +3627,10 @@ void MainWindow::on_navigation_new_reference()
         parallel_passages_display(navigation.reference, liststore_references,
             treeview_references, treecolumn_references);
       }
+    // Optional displaying keyterms in verse.
+    if (window_show_keyterms) {
+      window_show_keyterms->go_to(settings->genconfig.project_get(), navigation.reference);
+    }
   }
 
 void MainWindow::on_next_verse_activate(GtkMenuItem * menuitem,
@@ -7113,6 +7117,8 @@ void MainWindow::on_view_keyterms()
       {
         window_show_keyterms = new WindowShowKeyterms (windows_startup_pointer != G_MAXINT);
         g_signal_connect ((gpointer) window_show_keyterms->signal_button, "clicked", G_CALLBACK (on_window_show_keyterms_button_clicked), gpointer(this));
+        extern Settings * settings;
+        window_show_keyterms->go_to(settings->genconfig.project_get(), navigation.reference);
       }
   }
 
@@ -8411,6 +8417,12 @@ void MainWindow::shutdown_windows()
 
  Todo Improve the window layout system.
  And Bibledit Keyterms and NT names facility for vernacular input. 
+
+ When this tool is chosen, it pops up as a window and tiles itself in the Tools area.
+ We need a generic routine for that.
+ The routine looks for empty space within constraints. It can make other windows smaller.
+ When a window closes, the other windows are left as they are. 
+ Thus if the same window is opened again, it will go in the same free space as it was before.
 
  On shutdown the windows then open are remembered for next startup, when they will be opened
  again in exactly the same position.

@@ -22,6 +22,7 @@
 
 #include <gtk/gtk.h>
 #include "ustring.h"
+#include "reference.h"
 
 class WindowShowKeyterms
   {
@@ -29,6 +30,7 @@ public:
   WindowShowKeyterms(bool startup);
   ~WindowShowKeyterms();
   GtkWidget * signal_button;
+  void go_to (const ustring& project, const Reference& reference);
 protected:
   GtkWidget *showkeytermswindow;
   GtkWidget *scrolledwindow1;
@@ -37,6 +39,7 @@ private:
   static bool on_window_delete_event(GtkWidget *widget, GdkEvent *event,
       gpointer user_data);
   bool on_window_delete();
+  Reference myreference;
   };
 
 #endif
