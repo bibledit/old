@@ -8694,9 +8694,9 @@ void MainWindow::shutdown_windows()
 
 /*
 
- Also to include help for the areas. To write help for defining the area.
- 
  Todo Improve the window layout system.
+
+ Make four areas: Menu, Text, Notes, Tools.
 
  When this tool is chosen, it pops up as a window and tiles itself in the Tools area.
  We need a generic routine for that.
