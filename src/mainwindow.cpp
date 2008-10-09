@@ -8694,12 +8694,6 @@ void MainWindow::shutdown_windows()
 
 /*
 
- Todo Bibledit Keyterms and NT names facility for vernacular input.
- 
- The user can type in the word that they have chosen in their language
- for that particular keyterm. If he types that word, the keyterms come up.
-
-
  Once done we need to update the helpfile completely, under one main heading "Keyterms".
  There are two systems now, one to enter these, and the other one to view there.
  To specify everything clearly.
