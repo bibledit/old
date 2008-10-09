@@ -308,7 +308,7 @@ protected:
   GtkWidget *image24105;
   GtkWidget *parallels_from_the_ot;
   GtkWidget *image24106;
-  GtkWidget *check_terms;
+  GtkWidget *check_key_terms;
   GtkWidget *image17074;
   GtkWidget *my_checks;
   GtkWidget *image15438;
@@ -783,8 +783,8 @@ protected:
   void on_check_httpd();
   static void on_my_checks_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_my_checks();
-  static void on_check_terms_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_check_terms();
+  static void on_check_key_terms_activate(GtkMenuItem *menuitem, gpointer user_data);
+  void on_check_key_terms();
   static void on_check_markers_spacing_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_check_markers_spacing();
   static void on_check_references_inventory_activate(GtkMenuItem *menuitem, gpointer user_data);

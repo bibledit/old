@@ -1667,14 +1667,14 @@ MainWindow::MainWindow(unsigned long xembed) :
         gtk_widget_show(image24106);
         gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (parallels_from_the_ot), image24106);
 
-        check_terms = gtk_image_menu_item_new_with_mnemonic("_Terms");
-        gtk_widget_show(check_terms);
-        gtk_container_add(GTK_CONTAINER (check1_menu), check_terms);
+        check_key_terms = gtk_image_menu_item_new_with_mnemonic("_Key terms");
+        gtk_widget_show(check_key_terms);
+        gtk_container_add(GTK_CONTAINER (check1_menu), check_key_terms);
 
         image17074 = gtk_image_new_from_stock("gtk-spell-check",
             GTK_ICON_SIZE_MENU);
         gtk_widget_show(image17074);
-        gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (check_terms), image17074);
+        gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (check_key_terms), image17074);
 
         my_checks = gtk_image_menu_item_new_with_mnemonic("M_y checks");
         gtk_widget_show(my_checks);
@@ -2702,7 +2702,7 @@ MainWindow::MainWindow(unsigned long xembed) :
         g_signal_connect ((gpointer) check_nt_quotations_from_the_ot, "activate", G_CALLBACK (on_check_nt_quotations_from_the_ot_activate), gpointer(this));
         g_signal_connect ((gpointer) synoptic_parallel_passages_from_the_nt, "activate", G_CALLBACK (on_synoptic_parallel_passages_from_the_nt_activate), gpointer(this));
         g_signal_connect ((gpointer) parallels_from_the_ot, "activate", G_CALLBACK (on_parallels_from_the_ot_activate), gpointer(this));
-        g_signal_connect ((gpointer) check_terms, "activate", G_CALLBACK (on_check_terms_activate), gpointer(this));
+        g_signal_connect ((gpointer) check_key_terms, "activate", G_CALLBACK (on_check_key_terms_activate), gpointer(this));
         g_signal_connect ((gpointer) my_checks, "activate", G_CALLBACK (on_my_checks_activate), gpointer(this));
       }
     if (guifeatures.tools())
@@ -6403,13 +6403,13 @@ void MainWindow::on_my_checks()
     dialog.run();
   }
 
-void MainWindow::on_check_terms_activate(GtkMenuItem *menuitem,
+void MainWindow::on_check_key_terms_activate(GtkMenuItem *menuitem,
     gpointer user_data)
   {
-    ((MainWindow *) user_data)->on_check_terms();
+    ((MainWindow *) user_data)->on_check_key_terms();
   }
 
-void MainWindow::on_check_terms()
+void MainWindow::on_check_key_terms()
   {
     gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_tools), tapntKeyterms);
     keytermsgui->focus_entry();
@@ -8694,11 +8694,8 @@ void MainWindow::shutdown_windows()
 
 /*
 
- Once done we need to update the helpfile completely, under one main heading "Keyterms".
- There are two systems now, one to enter these, and the other one to view there.
- To specify everything clearly.
-
-
+ Also to include help for the areas. To write help for defining the area.
+ 
  Todo Improve the window layout system.
 
  When this tool is chosen, it pops up as a window and tiles itself in the Tools area.
