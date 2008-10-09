@@ -991,6 +991,7 @@ void keyterms_get_terms(const ustring& searchterm, const ustring& collection,
 // Depending on the searchterm and collection, get the keyterms, together with 
 // their levels, parents, and ids. If the searchterm is empty, give them all.
 // If the collection is empty, get them from all collections.
+// Todo also to include the renderings if a project is given.
   {
     // Variables we need.
     sqlite3 *db;
@@ -1171,7 +1172,8 @@ ustring keyterms_renderings_filename(const ustring& project)
     return filename;
   }
 
-void keyterms_retrieve_renderings(const ustring& project,
+void keyterms_retrieve_renderings(
+    const ustring& project, // Todo
     const ustring& keyterm, const ustring& collection,
     vector<ustring>& renderings, vector<bool>& wholewords,
     vector<bool>& casesensitives)
@@ -1323,12 +1325,27 @@ vector <int> keyterms_get_terms_in_verse(const Reference& reference)
     sqlite3_open(keyterms_get_filename ().c_str(), &db);
     sqlite3_busy_timeout(db, 1000);
     SqliteReader reader(0);
-    char * sql = g_strdup_printf("select keyword from refs where book = %d and chapter = %d and verse = '%s';", reference.book, reference.chapter, reference.verse.c_str());
+    char
+        * sql =
+            g_strdup_printf(
+                "select keyword from refs where book = %d and chapter = %d and verse = '%s';",
+                reference.book, reference.chapter, reference.verse.c_str());
     sqlite3_exec(db, sql, reader.callback, &reader, NULL);
     g_free(sql);
-    for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
-      terms.push_back (convert_to_int(reader.ustring0[i]));
-    }
+    for (unsigned int i = 0; i < reader.ustring0.size(); i++)
+      {
+        terms.push_back(convert_to_int(reader.ustring0[i]));
+      }
     sqlite3_close(db);
     return terms;
   }
+
+vector <ustring> keyterms_rendering_retrieve_terms(const ustring& project, // Todo
+    const ustring& rendering)
+// This retrieves the keyterms that have the given rendering in them.
+  {
+    vector <ustring> keyterms;
+
+    return keyterms;
+  }
+

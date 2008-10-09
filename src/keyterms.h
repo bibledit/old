@@ -45,6 +45,8 @@ void keyterms_store_renderings(const ustring& project, const ustring& keyterm,
     const ustring& collection, const vector<ustring>& renderings,
     const vector<bool>& wholewords, const vector<bool>& casesensitives);
 void keyterms_export(const ustring& directory, bool gui);
-vector <int> keyterms_get_terms_in_verse (const Reference& reference);
+vector <int> keyterms_get_terms_in_verse(const Reference& reference);
+vector <ustring> keyterms_rendering_retrieve_terms(const ustring& project,
+    const ustring& rendering);
 
 #endif

@@ -8415,8 +8415,15 @@ void MainWindow::shutdown_windows()
 
 /*
 
+ Todo Bibledit Keyterms and NT names facility for vernacular input.
+  
+ The user can type in the word that they have chosen in their language
+ for that particular keyterm. If he types that word, the keyterms come up.
+
+
+
+
  Todo Improve the window layout system.
- And Bibledit Keyterms and NT names facility for vernacular input. 
 
  When this tool is chosen, it pops up as a window and tiles itself in the Tools area.
  We need a generic routine for that.
@@ -8424,19 +8431,12 @@ void MainWindow::shutdown_windows()
  When a window closes, the other windows are left as they are. 
  Thus if the same window is opened again, it will go in the same free space as it was before.
 
- On shutdown the windows then open are remembered for next startup, when they will be opened
- again in exactly the same position.
-
- There is one menu window, and each function has its own window.
- The windows, their position and sizes, will be remembered, and the user can reorder these freely.
+ There is one menu window, which is the main one, and each function will get its own window.
 
  It is very important to make the program to "feel" as if it is one and the same window.
  This means that, e.g. the same shortcuts work in every window, and that the menu can be accessed
  from any window.
  
- We need then to make a separate window for the keyterms, and another separate window that
- gives the information Steve is requesting. Both windows show independently or are hidden.
-
  We need to implement the new window layout system.
  There needs to be a definition for what the editor area is, so that any new editors opened
  will automatically enter this area.
@@ -8445,31 +8445,15 @@ void MainWindow::shutdown_windows()
  All so that new tools / editors / notes automatically go to the desired position.
  Then there's the area for the menubar and toolbar as well.
  
- The areas of the independent windows is stored as a vector<int> because these windows can become so many,
- then it will be easier to allocate each one an ID, which then is found in the vector<int>.
-
- The system with many windows is likely to get rid of the WIDE problem as well.
- Or reduce the impact greatly.
-
  When a new window is opened, for example, a new editor is opened, it then automatically finds a place
  within the existing editors, and tiles (or stacks) the windows.
 
  To make a View / Tile menu. And a stack one. This only becomes relevant when there are more windows than one.
  At present there's only one.
 
- There are few feature requests which should be implemented at the same time, in particular 
- those of drag and dropping of editors, and resources, and so on. The user will just drag the window somewhere else.
-
  There needs to be one standard routine that, if a window's position is found to be 0, it positions them in the allocated areas.
  If the positons are reset, then all standard positions are put to zero, so that next time they show up,
  they will be allocated into the new position.
-
-
- The user can type in the word that they have chosen in their language
- for that particular keyterm. If he types that word, the keyterms comes up,
- just like now it comes up when the english word is typed.
- "Word" or "words". Sometimes depending upon the context of the verse 2 different
- words are used for the one key term.
 
  */
 

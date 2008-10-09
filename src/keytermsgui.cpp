@@ -267,6 +267,11 @@ void KeytermsGUI::on_entry_keyterm_change ()
   
   // Clear the store.
   gtk_tree_store_clear (treestore_keywords);
+
+  // Project
+  extern Settings * settings;
+  myproject = settings->genconfig.project_get();
+  
   
   // Get the keyterms and devide them into four levels.
   vector<ustring>      terms1,   terms2,   terms3,   terms4;
@@ -277,7 +282,11 @@ void KeytermsGUI::on_entry_keyterm_change ()
     vector<unsigned int> levels;
     vector<unsigned int> parents;
     vector<unsigned int> ids;
-    keyterms_get_terms (keyterm, collection, terms, levels, parents, ids);
+    
+    cout << "Looking for keyterm " << keyterm << endl; // Todo
+    cout << "Project " << myproject << endl; // Todo
+    
+    keyterms_get_terms (keyterm, collection, terms, levels, parents, ids); // Todo
     for (unsigned int i = 0; i < terms.size(); i++) {
       switch (levels[i]) {
         case 1:
