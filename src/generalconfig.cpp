@@ -78,6 +78,18 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE (vpane_editor_position);
   INITIALIZE (vpane_quick_references_position);
   INITIALIZE (tools_area_left);
+  INITIALIZE (menu_area_width);
+  INITIALIZE (menu_area_height);
+  INITIALIZE (menu_area_x_position);
+  INITIALIZE (menu_area_y_position);
+  INITIALIZE (text_area_width);
+  INITIALIZE (text_area_height);
+  INITIALIZE (text_area_x_position);
+  INITIALIZE (text_area_y_position);
+  INITIALIZE (notes_area_width);
+  INITIALIZE (notes_area_height);
+  INITIALIZE (notes_area_x_position);
+  INITIALIZE (notes_area_y_position);
   INITIALIZE (tools_area_width);
   INITIALIZE (tools_area_height);
   INITIALIZE (tools_area_x_position);
@@ -249,6 +261,18 @@ void GeneralConfiguration::save()
   SAVE_VALUE (vpane_editor_position);
   SAVE_VALUE (vpane_quick_references_position);
   SAVE_VALUE (tools_area_left);
+  SAVE_VALUE (menu_area_width);
+  SAVE_VALUE (menu_area_height);
+  SAVE_VALUE (menu_area_x_position);
+  SAVE_VALUE (menu_area_y_position);
+  SAVE_VALUE (text_area_width);
+  SAVE_VALUE (text_area_height);
+  SAVE_VALUE (text_area_x_position);
+  SAVE_VALUE (text_area_y_position);
+  SAVE_VALUE (notes_area_width);
+  SAVE_VALUE (notes_area_height);
+  SAVE_VALUE (notes_area_x_position);
+  SAVE_VALUE (notes_area_y_position);
   SAVE_VALUE (tools_area_width);
   SAVE_VALUE (tools_area_height);
   SAVE_VALUE (tools_area_x_position);
@@ -490,6 +514,18 @@ IMPLEMENT (int, int_get, hpane_position, 0)
 IMPLEMENT (int, int_get, vpane_editor_position, 0)
 IMPLEMENT (int, int_get, vpane_quick_references_position, 0)
 IMPLEMENT (bool, bool_get, tools_area_left, false)
+IMPLEMENT (int, int_get, menu_area_width, 0) 
+IMPLEMENT (int, int_get, menu_area_height, 0)
+IMPLEMENT (int, int_get, menu_area_x_position, 0)
+IMPLEMENT (int, int_get, menu_area_y_position, 0)
+IMPLEMENT (int, int_get, text_area_width, 0) 
+IMPLEMENT (int, int_get, text_area_height, 0)
+IMPLEMENT (int, int_get, text_area_x_position, 0)
+IMPLEMENT (int, int_get, text_area_y_position, 0)
+IMPLEMENT (int, int_get, notes_area_width, 0) 
+IMPLEMENT (int, int_get, notes_area_height, 0)
+IMPLEMENT (int, int_get, notes_area_x_position, 0)
+IMPLEMENT (int, int_get, notes_area_y_position, 0)
 IMPLEMENT (int, int_get, tools_area_width, 0) 
 IMPLEMENT (int, int_get, tools_area_height, 0)
 IMPLEMENT (int, int_get, tools_area_x_position, 0)

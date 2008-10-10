@@ -8070,7 +8070,7 @@ void MainWindow::on_print()
         labels.push_back("Project");
         labels.push_back("Parallel Bible");
         labels.push_back("References");
-        labels.push_back("Test usfm2pdf");
+        //labels.push_back("Test usfm2pdf");
         extern Settings * settings;
         RadiobuttonDialog dialog("Print", "Select what to print", labels,
             settings->genconfig.print_job_get());
@@ -8696,9 +8696,7 @@ void MainWindow::shutdown_windows()
 
  Todo Improve the window layout system.
 
- Make four areas: Menu, Text, Notes, Tools.
-
- When this tool is chosen, it pops up as a window and tiles itself in the Tools area.
+ When a tool is chosen, it pops up as a window and tiles itself in the Tools area.
  We need a generic routine for that.
  The routine looks for empty space within constraints. It can make other windows smaller.
  When a window closes, the other windows are left as they are. 
@@ -8710,14 +8708,6 @@ void MainWindow::shutdown_windows()
  This means that, e.g. the same shortcuts work in every window, and that the menu can be accessed
  from any window.
  
- We need to implement the new window layout system.
- There needs to be a definition for what the editor area is, so that any new editors opened
- will automatically enter this area.
- Then there's the area where the project notes come.
- And another area for the tools.
- All so that new tools / editors / notes automatically go to the desired position.
- Then there's the area for the menubar and toolbar as well.
- 
  When a new window is opened, for example, a new editor is opened, it then automatically finds a place
  within the existing editors, and tiles (or stacks) the windows.
 
@@ -8727,6 +8717,8 @@ void MainWindow::shutdown_windows()
  There needs to be one standard routine that, if a window's position is found to be 0, it positions them in the allocated areas.
  If the positons are reset, then all standard positions are put to zero, so that next time they show up,
  they will be allocated into the new position.
+
+ Once the window system has been implemented, if there's any repetitive check on sizes, remove these.
 
  */
 

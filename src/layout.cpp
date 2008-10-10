@@ -83,7 +83,7 @@ void ScreenLayoutDimensions::verify()
     int vpane_quick_references_position =
         settings->genconfig.vpane_quick_references_position_get();
     bool tools_area_left = settings->genconfig.tools_area_left_get();
-    // If the screen resolution got changed, or if the window is too big, 
+    // If the screen resolution got changed, or if the windows are too big, 
     // recalculate the values.
     bool recalculate = false;
     GdkScreen * screen = gtk_window_get_screen(mywindow);
@@ -99,10 +99,35 @@ void ScreenLayoutDimensions::verify()
       recalculate = true;
     if (y + height > real_screen_height)
       recalculate = true;
-    if (settings->genconfig.tools_area_width_get() == 0)
+
+    width = settings->genconfig.menu_area_width_get();
+    height = settings->genconfig.menu_area_height_get();
+    x = settings->genconfig.menu_area_x_position_get();
+    y = settings->genconfig.menu_area_y_position_get();
+    if ((width == 0) || (height == 0) || (x < 0) || (y < 0) || (x + width > real_screen_width) || (y + height > real_screen_height))
       recalculate = true;
-    if (settings->genconfig.tools_area_height_get() == 0)
+
+    width = settings->genconfig.text_area_width_get();
+    height = settings->genconfig.text_area_height_get();
+    x = settings->genconfig.text_area_x_position_get();
+    y = settings->genconfig.text_area_y_position_get();
+    if ((width == 0) || (height == 0) || (x < 0) || (y < 0) || (x + width > real_screen_width) || (y + height > real_screen_height))
       recalculate = true;
+
+    width = settings->genconfig.notes_area_width_get();
+    height = settings->genconfig.notes_area_height_get();
+    x = settings->genconfig.notes_area_x_position_get();
+    y = settings->genconfig.notes_area_y_position_get();
+    if ((width == 0) || (height == 0) || (x < 0) || (y < 0) || (x + width > real_screen_width) || (y + height > real_screen_height))
+      recalculate = true;
+
+    width = settings->genconfig.tools_area_width_get();
+    height = settings->genconfig.tools_area_height_get();
+    x = settings->genconfig.tools_area_x_position_get();
+    y = settings->genconfig.tools_area_y_position_get();
+    if ((width == 0) || (height == 0) || (x < 0) || (y < 0) || (x + width > real_screen_width) || (y + height > real_screen_height))
+      recalculate = true;
+
     if (recalculate)
       {
         gw_message("Recalculating windows positions and sizes");
@@ -111,12 +136,12 @@ void ScreenLayoutDimensions::verify()
         settings->genconfig.screen_height_set(real_screen_height);
         // Main window.
         width = real_screen_width * 75 / 100;
-        settings->genconfig.window_width_set(width);
         height = real_screen_height * 85 / 100;
-        settings->genconfig.window_height_set(height);
         x = 0;
-        settings->genconfig.window_x_position_set(x);
         y = 0;
+        settings->genconfig.window_width_set(width);
+        settings->genconfig.window_height_set(height);
+        settings->genconfig.window_x_position_set(x);
         settings->genconfig.window_y_position_set(y);
         // Panes.
         hpane_position = width * 80 / 100;
@@ -130,14 +155,45 @@ void ScreenLayoutDimensions::verify()
         settings->genconfig.tools_area_left_set(tools_area_left);
         // Remove stored dialog positions.
         dialog_position_reset_all();
-        // Floating tools area window.
-        width = real_screen_width * 15 / 100;
-        settings->genconfig.tools_area_width_set(width);
-        height = real_screen_height * 85 / 100;
-        settings->genconfig.tools_area_height_set(height);
-        x = settings->genconfig.screen_width_get() - width;
-        settings->genconfig.tools_area_x_position_set(x);
+
+        // Menu area window at top-left, width 30% and height 10%.
+        width = real_screen_width * 26 / 100;
+        height = real_screen_height * 8 / 100;
+        x = 0;
         y = 0;
+        settings->genconfig.menu_area_width_set(width);
+        settings->genconfig.menu_area_height_set(height);
+        settings->genconfig.menu_area_x_position_set(x);
+        settings->genconfig.menu_area_y_position_set(y);
+        
+        // Text area window at 10% from top, at left, width 70%, height 60%.
+        width = real_screen_width * 66 / 100;
+        height = real_screen_height * 56 / 100;
+        x = 0;
+        y = real_screen_height * 14 / 100;
+        settings->genconfig.text_area_width_set(width);
+        settings->genconfig.text_area_height_set(height);
+        settings->genconfig.text_area_x_position_set(x);
+        settings->genconfig.text_area_y_position_set(y);
+
+        // Notes area window at 70% from top, at left, width 70%, height 30%.
+        width = real_screen_width * 66 / 100;
+        height = real_screen_height * 16 / 100;
+        x = 0;
+        y = real_screen_height * 82 / 100;
+        settings->genconfig.notes_area_width_set(width);
+        settings->genconfig.notes_area_height_set(height);
+        settings->genconfig.notes_area_x_position_set(x);
+        settings->genconfig.notes_area_y_position_set(y);
+
+        // Tools area window at top, 70% off left, width 30%, height 100%.
+        width = real_screen_width * 26 / 100;
+        height = real_screen_height * 90 / 100;
+        x = real_screen_width - (real_screen_width * 30 / 100);
+        y = 0;
+        settings->genconfig.tools_area_width_set(width);
+        settings->genconfig.tools_area_height_set(height);
+        settings->genconfig.tools_area_x_position_set(x);
         settings->genconfig.tools_area_y_position_set(y);
       }
     // Prevents areas from becoming invisible altogether,
