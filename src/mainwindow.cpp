@@ -8696,6 +8696,8 @@ void MainWindow::shutdown_windows()
 
  Todo Improve the window layout system.
 
+ To add the "sync" command in the USB stick setup for git.
+ 
  When a tool is chosen, it pops up as a window and tiles itself in the Tools area.
  We need a generic routine for that.
  The routine looks for empty space within constraints. It can make other windows smaller.
