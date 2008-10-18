@@ -7639,9 +7639,7 @@ void MainWindow::on_show_quick_references_signal_button(GtkButton *button) {
  When a new window is opened, for example, a new editor is opened, it then automatically finds a place
  within the existing editors, and tiles (or stacks) the windows.
 
- Once the window system has been implemented, if there's any repetitive check on window sizes, remove these.
-
- There needs to be one standard routine that, if a window's position is found to be 0, it positions them in the allocated areas.
+  There needs to be one standard routine that, if a window's position is found to be 0, it positions them in the allocated areas.
  If the positions are reset, then all standard positions are put to zero, so that next time they show up,
  they will be allocated into the new position.
 
@@ -7649,8 +7647,6 @@ void MainWindow::on_show_quick_references_signal_button(GtkButton *button) {
 
  We need to define the size of the borders in pixels. There's the top border, the left, the right, and the bottom.
  It probably is enough to define this once, e.g. only in the text area. 
- 
- To make a link to the docs folder from the home pages.
- 
+  
  */
 
