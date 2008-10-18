@@ -76,7 +76,6 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE (window_y_position);
   INITIALIZE (hpane_position);
   INITIALIZE (vpane_editor_position);
-  INITIALIZE (vpane_quick_references_position);
   INITIALIZE (tools_area_left);
   INITIALIZE (menu_area_width);
   INITIALIZE (menu_area_height);
@@ -261,7 +260,6 @@ void GeneralConfiguration::save()
   SAVE_VALUE (window_y_position);
   SAVE_VALUE (hpane_position);
   SAVE_VALUE (vpane_editor_position);
-  SAVE_VALUE (vpane_quick_references_position);
   SAVE_VALUE (tools_area_left);
   SAVE_VALUE (menu_area_width);
   SAVE_VALUE (menu_area_height);
@@ -516,7 +514,6 @@ IMPLEMENT (int, int_get, window_x_position, 0)
 IMPLEMENT (int, int_get, window_y_position, 0)
 IMPLEMENT (int, int_get, hpane_position, 0)
 IMPLEMENT (int, int_get, vpane_editor_position, 0)
-IMPLEMENT (int, int_get, vpane_quick_references_position, 0)
 IMPLEMENT (bool, bool_get, tools_area_left, false)
 IMPLEMENT (int, int_get, menu_area_width, 0) 
 IMPLEMENT (int, int_get, menu_area_height, 0)

@@ -2111,15 +2111,9 @@ MainWindow::MainWindow(unsigned long xembed) :
     screen_layout_tools_area_set(false, vbox_left, vbox_right, vpaned1, notebook_tools);
   }
 
-  vpaned_references = gtk_vpaned_new();
-  gtk_widget_show(vpaned_references);
-  gtk_container_add(GTK_CONTAINER (notebook_tools), vpaned_references);
-  // Position of pane will be set later, but is here initialized to a decent value.
-  gtk_paned_set_position(GTK_PANED (vpaned_references), 400);
-
   scrolledwindow_references = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow_references);
-  gtk_paned_pack1(GTK_PANED (vpaned_references), scrolledwindow_references, FALSE, TRUE);
+  gtk_container_add(GTK_CONTAINER (notebook_tools), scrolledwindow_references);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow_references), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
   // Manually added and changed.
@@ -2150,19 +2144,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   gtk_tree_view_append_column(GTK_TREE_VIEW (treeview_references), treecolumn2);
   treeselect_references = gtk_tree_view_get_selection(GTK_TREE_VIEW (treeview_references));
   gtk_tree_selection_set_mode(treeselect_references, GTK_SELECTION_MULTIPLE);
-
-  scrolledwindow_quick_refs = gtk_scrolled_window_new(NULL, NULL);
-  gtk_widget_show(scrolledwindow_quick_refs);
-  gtk_paned_pack2(GTK_PANED (vpaned_references), scrolledwindow_quick_refs, TRUE, TRUE);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow_quick_refs), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-
-  textview_quick_refs = gtk_text_view_new();
-  gtk_widget_show(textview_quick_refs);
-  gtk_container_add(GTK_CONTAINER (scrolledwindow_quick_refs), textview_quick_refs);
-  gtk_text_view_set_editable(GTK_TEXT_VIEW (textview_quick_refs), FALSE);
-  gtk_text_view_set_accepts_tab(GTK_TEXT_VIEW (textview_quick_refs), FALSE);
-  gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW (textview_quick_refs), GTK_WRAP_WORD);
-  gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW (textview_quick_refs), FALSE);
 
   label13 = gtk_label_new("References");
   gtk_widget_show(label13);
@@ -2367,7 +2348,7 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   // Size and position of window and screen layout.
   {
-    ScreenLayoutDimensions dimensions(mainwindow, hpaned1, vpaned1, vpaned_references);
+    ScreenLayoutDimensions dimensions(mainwindow, hpaned1, vpaned1);
     dimensions.verify();
     dimensions.load();
   }
@@ -2657,7 +2638,7 @@ MainWindow::~MainWindow() {
   shutdown_windows();
 
   // Save the size and position of the program window.
-  ScreenLayoutDimensions dimensions(mainwindow, hpaned1, vpaned1, vpaned_references);
+  ScreenLayoutDimensions dimensions(mainwindow, hpaned1, vpaned1);
   dimensions.save();
   // Hide bibledit. Note: This is done after saving the window's size/position
   // to have that done properly.
@@ -4099,34 +4080,42 @@ void MainWindow::on_treeview_references_cursor_changed(GtkTreeView *treeview, gp
   ((MainWindow *) user_data)->treeview_references_display_quick_reference();
 }
 
-void MainWindow::treeview_references_display_quick_reference() {
-  extern Settings * settings;
-  // Clear the quick reference area.
-  GtkTextBuffer * buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW (textview_quick_refs));
-  gtk_text_buffer_set_text(buffer, "", 0);
+void MainWindow::treeview_references_display_quick_reference() // Todo
+// Display the quick references.
+{ 
+  // Bail out if there's no quick references window.
+  if (window_show_quick_references == NULL) return;
+  
   // Get the model.
   GtkTreeModel * model;
   model = gtk_tree_view_get_model(GTK_TREE_VIEW (treeview_references));
+
   // Get all selected iterators.
   GtkTreeSelection *selection;
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW (treeview_references));
   vector <GtkTreeIter> iters;
   gtk_tree_selection_selected_foreach(selection, MainWindow::on_references_collect_iters, gpointer(&iters));
+  
   // Bail out if none was selected.
   if (iters.size() == 0)
     return;
-  // Go through all the selected iterators.
+  
+  // Go through all the selected iterators and get their references.
+  vector <Reference> references; 
   for (unsigned int i = 0; i < iters.size(); i++) {
     gint book, chapter;
     gchar *verse;
     gtk_tree_model_get(model, &iters[i], 2, &book, 3, &chapter, 4, &verse, -1);
-    // Get and display the verse.
-    ustring text = project_retrieve_verse(settings->genconfig.project_get(), book, chapter, verse);
-    gtk_text_buffer_insert_at_cursor(buffer, text.c_str(), -1);
-    gtk_text_buffer_insert_at_cursor(buffer, "\n", -1);
+    Reference reference (book,chapter, verse);
+    references.push_back(reference);
     // Free memory.
     g_free(verse);
   }
+  
+  // Display the verses.
+  extern Settings * settings;
+  ustring project = settings->genconfig.project_get();
+  window_show_quick_references->go_to(project, references);
 }
 
 /*
@@ -4330,12 +4319,8 @@ void MainWindow::on_gui()
     gtk_main_quit();
   }
 
-  // Check window size.
-  {
-    mainwindow_width_safe = true;
-    //ScreenLayoutDimensions dimensions(mainwindow, hpaned1, vpaned1, vpaned_references);
-    //dimensions.clip();
-  }
+  // Window size.
+  mainwindow_width_safe = true;
 }
 
 gboolean MainWindow::on_mainwindow_window_state_event(GtkWidget *widget, GdkEvent *event, gpointer user_data) {
@@ -6849,7 +6834,7 @@ void MainWindow::jump_start_editors(const ustring& project)
   g_signal_connect ((gpointer) editorsgui->editor_reload_button, "clicked", G_CALLBACK (on_editor_reload_clicked), gpointer(this));
   g_signal_connect ((gpointer) editorsgui->editor_changed_button, "clicked", G_CALLBACK (on_editorsgui_changed_clicked), gpointer(this));
   // Set the quick references view.
-  editorsgui->quick_references_textview_set(textview_quick_refs);
+  // Todo do differently editorsgui->quick_references_textview_set(textview_quick_refs);
 }
 
 void MainWindow::on_editorsgui_changed_clicked(GtkButton *button, gpointer user_data) {
@@ -7611,8 +7596,7 @@ void MainWindow::on_view_quick_references() {
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (view_quick_references))) {
     window_show_quick_references = new WindowShowQuickReferences (windows_startup_pointer != G_MAXINT);
     g_signal_connect ((gpointer) window_show_quick_references->signal_button, "clicked", G_CALLBACK (on_window_show_quick_references_button_clicked), gpointer(this));
-    extern Settings * settings;
-    window_show_quick_references->go_to(settings->genconfig.project_get(), navigation.reference);
+    treeview_references_display_quick_reference();
   }
 }
 
@@ -7649,6 +7633,9 @@ void MainWindow::on_window_show_quick_references_button() {
  they will be allocated into the new position.
 
  The menu area settings should be removed, because that's the program itself.
+
+ We need to define the size of the borders in pixels. There's the top border, the left, the right, and the bottom.
+ It probably is enough to define this once, e.g. only in the text area. 
  
  To make a link to the docs folder from the home pages.
  

@@ -25,21 +25,19 @@
 #include "reference.h"
 
 class WindowShowQuickReferences
-  {
+{
 public:
   WindowShowQuickReferences(bool startup);
   ~WindowShowQuickReferences();
   GtkWidget * signal_button;
-  void go_to (const ustring& project, const Reference& reference);
+  void go_to(const ustring& project, vector<Reference>& references);
 protected:
   GtkWidget *window1;
   GtkWidget *scrolledwindow1;
   GtkWidget *textview1;
 private:
-  static bool on_window_delete_event(GtkWidget *widget, GdkEvent *event,
-      gpointer user_data);
+  static bool on_window_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);
   bool on_window_delete();
-  Reference myreference;
-  };
+};
 
 #endif

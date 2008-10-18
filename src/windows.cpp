@@ -309,14 +309,3 @@ void WindowData::debug()
     cout << "window " << i << ", width " << widths[i] << ", height " << heights[i] << ", x " << x_positions[i] << ", y " << y_positions[i] << ", id " << ids[i] << ", data " << datas[i] << ", show " << shows[i] << endl;
   }
 }
-
-/*
- Todo window positioning. 
- 
- It needs to tile itself with other windows.
-
- We need to define the size of the borders in pixels. There's the top border, the left, the right, and the bottom.
- It probably is enough to define this once, e.g. only in the text area. 
- 
- */
-

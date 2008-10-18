@@ -36,16 +36,14 @@ class ScreenLayoutDimensions
 // Manages screen layout dimensions.
 {
 public:
-  ScreenLayoutDimensions (GtkWidget *window, GtkWidget * hpane, GtkWidget * editor, GtkWidget * references);
+  ScreenLayoutDimensions (GtkWidget *window, GtkWidget * hpane, GtkWidget * editor);
   void verify ();
   void load ();
-  void clip ();
   void save ();
 private:
   GtkWindow * mywindow;
   GtkWidget * my_hpane;
   GtkWidget * my_editor;
-  GtkWidget * my_references;
   int counter;
 };
 

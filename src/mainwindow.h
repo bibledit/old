@@ -194,7 +194,7 @@ protected:
   GtkWidget *image26812;
   GtkWidget *view_screen_layout;
   GtkWidget *view_keyterms;
-  GtkWidget *view_quick_references; // Todo
+  GtkWidget *view_quick_references;
   GtkWidget *insert1;
   GtkWidget *insert1_menu;
   GtkWidget *standard_text_1;
@@ -432,7 +432,6 @@ protected:
   GtkWidget *label31;
   GtkWidget *vbox_right;
   GtkWidget *notebook_tools;
-  GtkWidget *vpaned_references;
   GtkWidget *scrolledwindow_references;
   GtkWidget *treeview_references;
   GtkWidget *label13;
@@ -1115,10 +1114,7 @@ protected:
   unsigned int windows_startup_pointer;
   void shutdown_windows();
 
-  /* Quick references */// Todo
-  GtkWidget *scrolledwindow_quick_refs; // Todo these go out.
-  GtkWidget *textview_quick_refs;
-
+  /* Quick references */
   static void on_view_quick_references_activate(GtkMenuItem *menuitem,
       gpointer user_data);
   void on_view_quick_references();
