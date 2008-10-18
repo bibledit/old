@@ -93,6 +93,8 @@ public:
   guint event_id_show_quick_references;
   static bool show_quick_references_timeout(gpointer user_data);
   void show_quick_references_execute();
+  vector <Reference> quick_references;
+  GtkWidget * quick_references_button;
 
   GtkWidget *scrolledwindow;
 
@@ -107,9 +109,6 @@ public:
   GtkWidget * word_double_clicked_signal;
 
   void set_font();
-
-  void quick_references_textview_set(GtkWidget * widget);
-  GtkWidget * quick_references_textview;
 
   ustring project;
   unsigned int book;

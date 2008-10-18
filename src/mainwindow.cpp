@@ -1857,6 +1857,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   // Building the tabbed and split editor.
   editorsgui = new EditorsGUI (vboxeditors);
   g_signal_connect ((gpointer) editorsgui->focus_button, "clicked", G_CALLBACK (on_editorsgui_focus_button_clicked), gpointer(this));
+  g_signal_connect ((gpointer) editorsgui->quick_references_button, "clicked", G_CALLBACK (on_show_quick_references_signal_button_clicked), gpointer(this));
 
   // Another topic: project notes.
   notebook_notes_area = gtk_notebook_new();
@@ -4080,7 +4081,7 @@ void MainWindow::on_treeview_references_cursor_changed(GtkTreeView *treeview, gp
   ((MainWindow *) user_data)->treeview_references_display_quick_reference();
 }
 
-void MainWindow::treeview_references_display_quick_reference() // Todo
+void MainWindow::treeview_references_display_quick_reference()
 // Display the quick references.
 { 
   // Bail out if there's no quick references window.
@@ -6833,8 +6834,6 @@ void MainWindow::jump_start_editors(const ustring& project)
   g_signal_connect ((gpointer) editorsgui->word_double_clicked_button, "clicked", G_CALLBACK (on_send_word_to_toolbox_signalled), gpointer(this));
   g_signal_connect ((gpointer) editorsgui->editor_reload_button, "clicked", G_CALLBACK (on_editor_reload_clicked), gpointer(this));
   g_signal_connect ((gpointer) editorsgui->editor_changed_button, "clicked", G_CALLBACK (on_editorsgui_changed_clicked), gpointer(this));
-  // Set the quick references view.
-  // Todo do differently editorsgui->quick_references_textview_set(textview_quick_refs);
 }
 
 void MainWindow::on_editorsgui_changed_clicked(GtkButton *button, gpointer user_data) {
@@ -7578,7 +7577,7 @@ void MainWindow::shutdown_windows()
  |
  |
  |
- Quick references Todo
+ Quick references
  |
  |
  |
@@ -7612,10 +7611,24 @@ void MainWindow::on_window_show_quick_references_button() {
   }
 }
 
+void MainWindow::on_show_quick_references_signal_button_clicked(GtkButton *button, gpointer user_data) {
+  ((MainWindow *) user_data)->on_show_quick_references_signal_button(button);
+}
+
+void MainWindow::on_show_quick_references_signal_button(GtkButton *button) {
+  if (window_show_quick_references) {
+    extern Settings * settings;
+    ustring project = settings->genconfig.project_get();
+    window_show_quick_references->go_to (project, editorsgui->quick_references);
+  }
+}
+
 /*
 
  Todo Improve the window layout system.
 
+ On startup the sizes of the windows are not remembered.
+ 
  There is one menu window, which is the main one, and each function will get its own window.
 
  It is very important to make the program to "feel" as if it is one and the same window.

@@ -166,6 +166,7 @@ Editor::Editor(GtkWidget * vbox, GtkWidget * notebook_page, GtkWidget * tab_labe
   reload_signal = gtk_button_new();
   focus_signal = gtk_button_new();
   changed_signal = gtk_button_new();
+  quick_references_button = gtk_button_new();
 
   // Initialize a couple of event ids.
   textview_cursor_moved_delayer_event_id = 0;
@@ -225,7 +226,8 @@ Editor::~Editor() {
   gtk_widget_destroy(reload_signal);
   gtk_widget_destroy(focus_signal);
   gtk_widget_destroy(changed_signal);
-
+  gtk_widget_destroy(quick_references_button);
+  
   // Destroy the texttag tables.
   g_object_unref(texttagtable);
 
@@ -702,24 +704,9 @@ void Editor::show_quick_references_execute()
   // Extract references.
   ReferencesScanner refscanner(language, book, note_text);
 
-  // Produce the text for the quick reference area.
-  ustring quickreferences;
-  for (unsigned int i = 0; i < refscanner.references.size(); i++) {
-    quickreferences.append(refscanner.references[i].human_readable(language));
-    quickreferences.append(" ");
-    ustring text = project_retrieve_verse(project, refscanner.references[i].book, refscanner.references[i].chapter, refscanner.references[i].verse);
-    if (text.empty()) {
-      quickreferences.append("<empty>");
-    } else {
-      CategorizeLine cl(text);
-      quickreferences.append(cl.verse);
-    }
-    quickreferences.append("\n");
-  }
-
-  // Set the text in the buffer.
-  GtkTextBuffer * quick_ref_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW (quick_references_textview));
-  gtk_text_buffer_set_text(quick_ref_buffer, quickreferences.c_str(), -1);
+  // Make the references available and fire a signal.
+  quick_references = refscanner.references;
+  gtk_button_clicked (GTK_BUTTON (quick_references_button));
 }
 
 void Editor::on_textview_move_cursor(GtkTextView * textview, GtkMovementStep step, gint count, gboolean extend_selection, gpointer user_data) {
@@ -1216,10 +1203,6 @@ void Editor::on_textbuffer_footnotes() {
   if (record_undo_actions()) {
     show_quick_references();
   }
-}
-
-void Editor::quick_references_textview_set(GtkWidget * widget) {
-  quick_references_textview = widget;
 }
 
 gboolean Editor::on_textview_button_press_event(GtkWidget *widget, GdkEventButton *event, gpointer user_data) {

@@ -25,6 +25,7 @@
 #include "keyterms.h"
 #include "tiny_utilities.h"
 #include "projectutils.h"
+#include "settings.h"
 
 WindowShowQuickReferences::WindowShowQuickReferences(bool startup) {
   window1 = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -74,15 +75,23 @@ bool WindowShowQuickReferences::on_window_delete() {
 void WindowShowQuickReferences::go_to(const ustring& project, vector<Reference>& references)
 // Show the references.
 {
-  // Clear the text.
-  GtkTextBuffer * buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview1));
-  gtk_text_buffer_set_text(buffer, "", 0);
-
-  // Display the verses.
+  extern Settings * settings;
+  ProjectConfiguration * projectconfig = settings->projectconfig(project);
+  ustring language = projectconfig->language_get();
+  ustring quickreferences;
   for (unsigned int i = 0; i < references.size(); i++) {
+    quickreferences.append(references[i].human_readable(language));
+    quickreferences.append(" ");
     ustring text = project_retrieve_verse(project, references[i].book, references[i].chapter, references[i].verse);
-    gtk_text_buffer_insert_at_cursor(buffer, text.c_str(), -1);
-    gtk_text_buffer_insert_at_cursor(buffer, "\n", -1);
+    if (text.empty()) {
+      quickreferences.append("<empty>");
+    } else {
+      CategorizeLine cl(text);
+      quickreferences.append(cl.verse);
+    }
+    quickreferences.append("\n");
   }
+  GtkTextBuffer * buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview1));
+  gtk_text_buffer_set_text(buffer, quickreferences.c_str(), -1);
 }
 
