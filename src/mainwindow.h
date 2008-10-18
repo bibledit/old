@@ -40,9 +40,10 @@
 #include "mergegui.h"
 #include "windowlayout.h"
 #include "windowshowkeyterms.h"
+#include "windowshowquickrefs.h"
 
 class MainWindow
-{
+  {
 public:
   MainWindow(unsigned long xembed);
   ~MainWindow();
@@ -193,6 +194,7 @@ protected:
   GtkWidget *image26812;
   GtkWidget *view_screen_layout;
   GtkWidget *view_keyterms;
+  GtkWidget *view_quick_references; // Todo
   GtkWidget *insert1;
   GtkWidget *insert1_menu;
   GtkWidget *standard_text_1;
@@ -433,8 +435,6 @@ protected:
   GtkWidget *vpaned_references;
   GtkWidget *scrolledwindow_references;
   GtkWidget *treeview_references;
-  GtkWidget *scrolledwindow_quick_refs;
-  GtkWidget *textview_quick_refs;
   GtkWidget *label13;
   GtkWidget *vbox_styles;
   GtkWidget *label14;
@@ -491,14 +491,17 @@ protected:
   void close();
   static void on_new1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void newproject();
-  static void on_properties1_activate(GtkMenuItem * menuitem, gpointer user_data);
+  static void
+      on_properties1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void editproject();
   static void on_delete1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void deleteproject();
   static void on_quit1_activate(GtkMenuItem * menuitem, gpointer user_data);
-  static void on_system_log1_activate(GtkMenuItem * menuitem, gpointer user_data);
+  static void
+      on_system_log1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void viewlog();
-  static void on_help_context_activate(GtkMenuItem * menuitem, gpointer user_data);
+  static void on_help_context_activate(GtkMenuItem * menuitem,
+      gpointer user_data);
   void on_help_context();
   static void on_help_main_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_help_main();
@@ -510,66 +513,93 @@ protected:
   void menu_redo();
   static void on_edit1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void menu_edit();
-  static void on_find_and_replace1_activate(GtkMenuItem * menuitem, gpointer user_data);
+  static void on_find_and_replace1_activate(GtkMenuItem * menuitem,
+      gpointer user_data);
   void menu_replace();
-  static void on_findspecial1_activate(GtkMenuItem * menuitem, gpointer user_data);
+  static void on_findspecial1_activate(GtkMenuItem * menuitem,
+      gpointer user_data);
   void menu_findspecial();
   static void on_import1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void menu_import();
-  static gboolean on_mainwindow_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);
-  static gboolean on_mainwindow_focus_in_event(GtkWidget *widget, GdkEventFocus *event, gpointer user_data);
+  static gboolean on_mainwindow_delete_event(GtkWidget *widget,
+      GdkEvent *event, gpointer user_data);
+  static gboolean on_mainwindow_focus_in_event(GtkWidget *widget,
+      GdkEventFocus *event, gpointer user_data);
   void on_mainwindow_focus_in(GdkEventFocus *event);
   static void on_insert1_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_menu_insert();
-  static void on_notes_preferences_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_notes_preferences_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_notes_preferences();
-  static void on_copy_project_to_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_copy_project_to_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_copy_project_to();
-  static void on_compare_with1_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_compare_with1_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_compare_with();
-  static void on_printingprefs_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_printingprefs_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_printing_preferences();
-  static void on_screen_layout_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_screen_layout_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_screen_layout();
-  static void on_prefs_books_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void
+      on_prefs_books_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_prefs_books();
-  static void on_preferences_tidy_text_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_preferences_tidy_text_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_preferences_tidy_text();
-  static void on_tool_generate_word_lists_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_tool_generate_word_lists_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_tool_generate_word_lists();
-  static void on_preferences_features_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_preferences_features_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_preferences_features();
-  static void on_preferences_password_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_preferences_password_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_preferences_password();
-  static void on_tool_simple_text_corrections_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_tool_simple_text_corrections_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_tool_simple_text_corrections();
-  static void on_preferences_text_replacement_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_preferences_text_replacement_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_preferences_text_replacement();
-  static void on_parallel_passages1_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_parallel_passages1_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_parallel_passages1();
-  static void on_pdf_viewer1_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void
+      on_pdf_viewer1_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_pdf_viewer();
-  static void on_view_usfm_code_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_view_usfm_code_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_view_usfm_code();
-  static void on_insert_special_character_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_insert_special_character_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_insert_special_character();
-  static void on_preferences_graphical_interface_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_preferences_graphical_interface_activate(
+      GtkMenuItem *menuitem, gpointer user_data);
   void on_preferences_graphical_interface();
 
   /* Navigation  */
-  static void on_navigation_new_reference_clicked(GtkButton *button, gpointer user_data);
+  static void on_navigation_new_reference_clicked(GtkButton *button,
+      gpointer user_data);
   void on_navigation_new_reference();
-  static void on_next_verse_activate(GtkMenuItem * menuitem, gpointer user_data);
+  static void
+      on_next_verse_activate(GtkMenuItem * menuitem, gpointer user_data);
   void goto_next_verse();
-  static void on_previous_verse_activate(GtkMenuItem * menuitem, gpointer user_data);
+  static void on_previous_verse_activate(GtkMenuItem * menuitem,
+      gpointer user_data);
   void goto_previous_verse();
-  static void on_next_chapter_activate(GtkMenuItem * menuitem, gpointer user_data);
+  static void on_next_chapter_activate(GtkMenuItem * menuitem,
+      gpointer user_data);
   void goto_next_chapter();
-  static void on_previous_chapter_activate(GtkMenuItem * menuitem, gpointer user_data);
+  static void on_previous_chapter_activate(GtkMenuItem * menuitem,
+      gpointer user_data);
   void goto_previous_chapter();
   static void on_next_book_activate(GtkMenuItem * menuitem, gpointer user_data);
   void goto_next_book();
-  static void on_previous_book_activate(GtkMenuItem * menuitem, gpointer user_data);
+  static void on_previous_book_activate(GtkMenuItem * menuitem,
+      gpointer user_data);
   void goto_previous_book();
   static void on_reference_activate(GtkMenuItem * menuitem, gpointer user_data);
   void goto_reference_interactive();
@@ -578,61 +608,85 @@ protected:
   void on_new_verse();
   static void on_text_area1_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_text_area_activate();
-  static void on_goto_bible_notes_area1_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_goto_bible_notes_area1_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_bible_notes_area_activate();
-  static void on_tools_area1_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void
+      on_tools_area1_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_tools_area_activate();
-  static void on_notes_area1_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void
+      on_notes_area1_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_notes_area_activate();
-  static void on_synchronize_other_programs2_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_synchronize_other_programs2_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_synchronize_other_programs();
-  static void on_goto_next_project_activate(GtkMenuItem *menuitem, gpointer user_data);
-  static void on_goto_previous_project_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_goto_next_project_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
+  static void on_goto_previous_project_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
 
   /* Clipboard */
   static void on_cut1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_cut();
   static void on_copy1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_copy();
-  static void on_copy_without_formatting_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_copy_without_formatting_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_copy_without_formatting();
   static void on_paste1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_paste();
 
   /* Tools Area */
-  static void on_notebook_tools_switch_page(GtkNotebook *notebook, GtkNotebookPage *page, guint page_num, gpointer user_data);
+  static void on_notebook_tools_switch_page(GtkNotebook *notebook,
+      GtkNotebookPage *page, guint page_num, gpointer user_data);
   void notebook_tools_switch_page(guint page_num);
-  static void on_file_references_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_file_references_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_file_references();
 
   /* List store and reference handling */
-  static gboolean on_treeview_references_key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer user_data);
-  static gboolean on_treeview_references_button_press_event(GtkWidget * widget, GdkEventButton * event, gpointer user_data);
+  static gboolean on_treeview_references_key_press_event(GtkWidget * widget,
+      GdkEventKey * event, gpointer user_data);
+  static gboolean on_treeview_references_button_press_event(GtkWidget * widget,
+      GdkEventButton * event, gpointer user_data);
   void on_list_goto();
-  static void mainwindow_selection_foreach_function(GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data);
-  static void on_open_references1_activate(GtkMenuItem * menuitem, gpointer user_data);
+  static void mainwindow_selection_foreach_function(GtkTreeModel * model,
+      GtkTreePath * path, GtkTreeIter * iter, gpointer data);
+  static void on_open_references1_activate(GtkMenuItem * menuitem,
+      gpointer user_data);
   void on_open_references();
   Reference selected_reference;
-  static void on_references_save_as_activate(GtkMenuItem * menuitem, gpointer user_data);
+  static void on_references_save_as_activate(GtkMenuItem * menuitem,
+      gpointer user_data);
   void on_save_references();
-  static void on_close_references_activate(GtkMenuItem * menuitem, gpointer user_data);
+  static void on_close_references_activate(GtkMenuItem * menuitem,
+      gpointer user_data);
   void on_clear_references();
-  static void on_delete_references_activate(GtkMenuItem * menuitem, gpointer user_data);
+  static void on_delete_references_activate(GtkMenuItem * menuitem,
+      gpointer user_data);
   void on_delete_references();
-  static void on_references_collect_iters(GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data);
-  static void on_next_reference1_activate(GtkMenuItem * menuitem, gpointer user_data);
+  static void on_references_collect_iters(GtkTreeModel * model,
+      GtkTreePath * path, GtkTreeIter * iter, gpointer data);
+  static void on_next_reference1_activate(GtkMenuItem * menuitem,
+      gpointer user_data);
   void on_next_reference();
-  static void on_previous_reference1_activate(GtkMenuItem * menuitem, gpointer user_data);
+  static void on_previous_reference1_activate(GtkMenuItem * menuitem,
+      gpointer user_data);
   void on_previous_reference();
-  static void on_ignored_references1_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_ignored_references1_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_ignored_references();
-  static gboolean on_treeview_references_popup_menu(GtkWidget *widget, gpointer user_data);
+  static gboolean on_treeview_references_popup_menu(GtkWidget *widget,
+      gpointer user_data);
   void treeview_references_popup_menu(GtkWidget *widget);
-  static void on_reference_hide_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_reference_hide_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_reference_hide();
   void show_references_popup_menu(GtkWidget *my_widget, GdkEventButton *event);
-  static gboolean on_treeview_references_move_cursor(GtkTreeView *treeview, GtkMovementStep step, gint count, gpointer user_data);
-  static void on_treeview_references_cursor_changed(GtkTreeView *treeview, gpointer user_data);
+  static gboolean on_treeview_references_move_cursor(GtkTreeView *treeview,
+      GtkMovementStep step, gint count, gpointer user_data);
+  static void on_treeview_references_cursor_changed(GtkTreeView *treeview,
+      gpointer user_data);
   void treeview_references_display_quick_reference();
 
   // Bibledit Windows Outpost
@@ -640,15 +694,18 @@ protected:
   static bool mainwindow_on_external_programs_timeout(gpointer data);
   bool on_external_programs_timeout();
   WindowsOutpost * windowsoutpost;
-  static void on_reference_exchange1_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_reference_exchange1_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_reference_exchange();
   BibleTime bibletime;
   int got_new_bt_reference;
   ustring bibledit_bt_previous_reference;
   ustring bibletime_previous_reference;
-  static void on_send_word_to_toolbox_signalled(GtkButton *button, gpointer user_data);
+  static void on_send_word_to_toolbox_signalled(GtkButton *button,
+      gpointer user_data);
   void send_word_to_toolbox();
-  static void on_preferences_windows_outpost_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_preferences_windows_outpost_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_preferences_windows_outpost();
 
   /* Title bar and status bar, GUI */
@@ -656,9 +713,11 @@ protected:
   static bool on_gui_timeout(gpointer data);
   void on_gui();
   gint editor_undo_redo_accelerator_state;
-  static gboolean on_mainwindow_window_state_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);
+  static gboolean on_mainwindow_window_state_event(GtkWidget *widget,
+      GdkEvent *event, gpointer user_data);
   void on_mainwindow_window_state(GdkEvent *event);
-  static void on_window_size_allocated(GtkWidget *widget, GtkAllocation *allocation, gpointer user_data);
+  static void on_window_size_allocated(GtkWidget *widget,
+      GtkAllocation *allocation, gpointer user_data);
   void window_size_allocated(GtkWidget *widget, GtkAllocation *allocation);
   gint mainwindow_width;
   bool mainwindow_width_safe;
@@ -666,7 +725,8 @@ protected:
   /* Notes editor */
   static void on_new_note_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_new_note();
-  static void on_delete_note_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void
+      on_delete_note_activate(GtkMenuItem *menuitem, gpointer user_data);
   static void on_viewnotes_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_notes();
   void notes_redisplay();
@@ -674,11 +734,14 @@ protected:
   static bool on_notes_redisplay_timeout(gpointer data);
   void notes_redisplay_timeout();
   DisplayProjectNotes * displayprojectnotes;
-  static void on_find_in_notes1_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_find_in_notes1_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void find_in_notes();
-  static void on_import_notes_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void
+      on_import_notes_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_import_notes();
-  static void on_export_notes_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void
+      on_export_notes_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_export_notes();
   static void on_button_cancel_clicked(GtkButton *button, gpointer user_data);
   void on_notes_button_cancel();
@@ -687,69 +750,101 @@ protected:
   void on_notes_button_ok_cancel();
   void notes_fill_edit_screen(int id, bool newnote);
   NoteEditor * note_editor;
-  static void on_standard_text_1_activate(GtkMenuItem *menuitem, gpointer user_data);
-  static void on_standard_text_2_activate(GtkMenuItem *menuitem, gpointer user_data);
-  static void on_standard_text_3_activate(GtkMenuItem *menuitem, gpointer user_data);
-  static void on_standard_text_4_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_standard_text_1_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
+  static void on_standard_text_2_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
+  static void on_standard_text_3_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
+  static void on_standard_text_4_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_insert_standard_text(GtkMenuItem *menuitem);
-  static void on_current_reference1_activate(GtkMenuItem *menuitem, gpointer user_data);
-  static void on_menuitem_view_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_current_reference1_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
+  static void on_menuitem_view_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_menuitem_view();
   void stop_displaying_more_notes();
-  static void on_get_references_from_note_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_get_references_from_note_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_get_references_from_note();
   void notes_get_references_from_id(gint id);
-  static gboolean note_save_receiver(const HTMLEngine * engine, const char *data, unsigned int len, void *user_data);
+  static gboolean note_save_receiver(const HTMLEngine * engine,
+      const char *data, unsigned int len, void *user_data);
   bool project_notes_editable;
-  static gboolean on_notes_html_link_clicked(GtkHTML *html, const gchar * url, gpointer user_data);
+  static gboolean on_notes_html_link_clicked(GtkHTML *html, const gchar * url,
+      gpointer user_data);
   void notes_html_link_clicked(GtkHTML *html, const gchar * url);
   void notes_delete_ids(const vector<gint>& ids);
 
   /* Notes formatting */
-  static void on_combobox_note_edit_font_size_changed(GtkComboBox *combobox, gpointer user_data);
+  static void on_combobox_note_edit_font_size_changed(GtkComboBox *combobox,
+      gpointer user_data);
   void combobox_note_edit_font_size_changed();
-  static void on_note_editor_insertion_font_style_changed(GtkHTML * html, GtkHTMLFontStyle style, gpointer user_data);
+  static void on_note_editor_insertion_font_style_changed(GtkHTML * html,
+      GtkHTMLFontStyle style, gpointer user_data);
   void note_editor_insertion_font_style_changed(GtkHTMLFontStyle style);
-  static void on_combobox_note_edit_paragraph_style_changed(GtkComboBox *combobox, gpointer user_data);
+  static void on_combobox_note_edit_paragraph_style_changed(
+      GtkComboBox *combobox, gpointer user_data);
   void combobox_note_edit_paragraph_style_changed();
-  static void on_note_editor_current_paragraph_style_changed(GtkHTML * html, GtkHTMLParagraphStyle style, gpointer user_data);
+  static void on_note_editor_current_paragraph_style_changed(GtkHTML * html,
+      GtkHTMLParagraphStyle style, gpointer user_data);
   void note_editor_current_paragraph_style_changed(GtkHTMLParagraphStyle style);
-  static void on_togglebutton_note_edit_bold_toggled(GtkToggleButton *togglebutton, gpointer user_data);
+  static void on_togglebutton_note_edit_bold_toggled(
+      GtkToggleButton *togglebutton, gpointer user_data);
   void togglebutton_note_edit_bold_toggled();
-  static void on_togglebutton_note_edit_italics_toggled(GtkToggleButton *togglebutton, gpointer user_data);
+  static void on_togglebutton_note_edit_italics_toggled(
+      GtkToggleButton *togglebutton, gpointer user_data);
   void togglebutton_note_edit_italics_toggled();
-  static void on_togglebutton_note_edit_underline_toggled(GtkToggleButton *togglebutton, gpointer user_data);
+  static void on_togglebutton_note_edit_underline_toggled(
+      GtkToggleButton *togglebutton, gpointer user_data);
   void togglebutton_note_edit_underline_toggled();
-  static void on_togglebutton_note_edit_strike_through_toggled(GtkToggleButton *togglebutton, gpointer user_data);
+  static void on_togglebutton_note_edit_strike_through_toggled(
+      GtkToggleButton *togglebutton, gpointer user_data);
   void togglebutton_note_edit_strike_through_toggled();
-  static void on_togglebutton_note_edit_left_justify_toggled(GtkToggleButton *togglebutton, gpointer user_data);
+  static void on_togglebutton_note_edit_left_justify_toggled(
+      GtkToggleButton *togglebutton, gpointer user_data);
   void togglebutton_note_edit_left_justify_toggled();
-  static void on_togglebutton_note_edit_center_justify_toggled(GtkToggleButton *togglebutton, gpointer user_data);
+  static void on_togglebutton_note_edit_center_justify_toggled(
+      GtkToggleButton *togglebutton, gpointer user_data);
   void togglebutton_note_edit_center_justify_toggled();
-  static void on_togglebutton_note_edit_right_justify_toggled(GtkToggleButton *togglebutton, gpointer user_data);
+  static void on_togglebutton_note_edit_right_justify_toggled(
+      GtkToggleButton *togglebutton, gpointer user_data);
   void togglebutton_note_edit_right_justify_toggled();
-  static void on_current_paragraph_alignment_changed(GtkHTML *html, GtkHTMLParagraphAlignment new_alignment, gpointer user_data);
-  void current_paragraph_alignment_changed(GtkHTMLParagraphAlignment new_alignment);
-  static void on_button_note_edit_decrease_indent_clicked(GtkButton *button, gpointer user_data);
+  static void on_current_paragraph_alignment_changed(GtkHTML *html,
+      GtkHTMLParagraphAlignment new_alignment, gpointer user_data);
+  void current_paragraph_alignment_changed(
+      GtkHTMLParagraphAlignment new_alignment);
+  static void on_button_note_edit_decrease_indent_clicked(GtkButton *button,
+      gpointer user_data);
   void button_note_edit_decrease_indent_clicked();
-  static void on_button_note_edit_increase_indent_clicked(GtkButton *button, gpointer user_data);
+  static void on_button_note_edit_increase_indent_clicked(GtkButton *button,
+      gpointer user_data);
   void button_note_edit_increase_indent_clicked();
-  static void on_current_paragraph_indentation_changed(GtkHTML *html, guint new_indentation, gpointer user_data);
+  static void on_current_paragraph_indentation_changed(GtkHTML *html,
+      guint new_indentation, gpointer user_data);
   void current_paragraph_indentation_changed(guint new_indentation);
-  static void on_colorbutton_note_edit_color_set(GtkColorButton *colorbutton, gpointer user_data);
+  static void on_colorbutton_note_edit_color_set(GtkColorButton *colorbutton,
+      gpointer user_data);
   void colorbutton_note_edit_color_set(GtkColorButton *colorbutton);
-  static void on_insertion_color_changed(GtkHTML *html, GdkColor *color, gpointer user_data);
+  static void on_insertion_color_changed(GtkHTML *html, GdkColor *color,
+      gpointer user_data);
   void insertion_color_changed(GdkColor *color);
 
   /* Export */
-  static void on_export_usfm_files_activate(GtkMenuItem *menuitem, gpointer user_data);
-  static void on_export_zipped_unified_standard_format_markers1_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_export_usfm_files_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
+  static void on_export_zipped_unified_standard_format_markers1_activate(
+      GtkMenuItem *menuitem, gpointer user_data);
   void on_export_usfm_files(bool zipped);
-  static void on_to_bibleworks_version_compiler_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_to_bibleworks_version_compiler_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_to_bibleworks_version_compiler();
-  static void on_export_to_sword_module_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_export_to_sword_module_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_export_to_sword_module();
-  static void on_export_opendocument_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_export_opendocument_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_export_opendocument();
 
   /* Checks */
@@ -757,79 +852,108 @@ protected:
   void on_menu_check();
   static void on_markers1_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_menu_check_markers();
-  static void on_validate_usfms1_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_validate_usfms1_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_menu_check_markers_validate();
-  static void on_count_usfms1_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void
+      on_count_usfms1_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_menu_check_markers_count();
-  static void on_compare_usfm1_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_compare_usfm1_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_menu_check_markers_compare();
-  static void on_chapters_and_verses1_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_chapters_and_verses1_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_menu_check_chapters_and_verses();
-  static void on_count_characters_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_count_characters_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_count_characters();
-  static void on_unwanted_patterns_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_unwanted_patterns_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_unwanted_patterns();
-  static void on_check_capitalization_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_check_capitalization_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_check_capitalization();
-  static void on_check_repetition_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_check_repetition_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_check_repetition();
-  static void on_check_matching_pairs_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_check_matching_pairs_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_check_matching_pairs();
-  static void on_unwanted_words_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_unwanted_words_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_unwanted_words();
-  static void on_word_count_inventory_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_word_count_inventory_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_word_count_inventory();
   static bool on_check_httpd_timeout(gpointer data);
   void on_check_httpd();
   static void on_my_checks_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_my_checks();
-  static void on_check_key_terms_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_check_key_terms_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_check_key_terms();
-  static void on_check_markers_spacing_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_check_markers_spacing_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_check_markers_spacing();
-  static void on_check_references_inventory_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_check_references_inventory_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_check_references_inventory();
-  static void on_check_references_validate_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_check_references_validate_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_check_references_validate();
-  static void on_check_nt_quotations_from_the_ot_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_check_nt_quotations_from_the_ot_activate(
+      GtkMenuItem *menuitem, gpointer user_data);
   void on_check_nt_quotations_from_the_ot();
-  static void on_synoptic_parallel_passages_from_the_nt_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_synoptic_parallel_passages_from_the_nt_activate(
+      GtkMenuItem *menuitem, gpointer user_data);
   void on_synoptic_parallel_passages_from_the_nt();
-  static void on_parallels_from_the_ot_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_parallels_from_the_ot_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_parallels_from_the_ot();
-  static void on_check_sentence_structure_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_check_sentence_structure_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_check_sentence_structure();
 
   /* Styles */
   GuiStyles * styles;
-  static void on_goto_styles_area_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_goto_styles_area_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_goto_styles_area();
-  static void on_file_styles_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void
+      on_file_styles_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_file_styles();
   void stylesheet_open_named(const ustring& stylesheet);
-  static void on_style_button_open_clicked(GtkButton *button, gpointer user_data);
+  static void
+      on_style_button_open_clicked(GtkButton *button, gpointer user_data);
   void on_style_button_open();
-  static void on_style_button_apply_clicked(GtkButton *button, gpointer user_data);
+  static void on_style_button_apply_clicked(GtkButton *button,
+      gpointer user_data);
   void on_style_apply();
   static void on_editor_style_changed(GtkButton *button, gpointer user_data);
   void editor_style_changed();
   static void on_style_edited(GtkButton *button, gpointer user_data);
 
   /* Footnotes, endnotes, crossreferences */
-  static void on_edit_bible_note_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_edit_bible_note_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_edit_bible_note();
 
   /* Tools */
   static void on_menutools_activate(GtkMenuItem *menuitem, gpointer user_data);
-  static void on_line_cutter_for_hebrew_text1_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_line_cutter_for_hebrew_text1_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_line_cutter_for_hebrew_text();
-  static void on_notes_transfer_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_notes_transfer_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_notes_transfer();
-  static void on_tool_origin_references_in_bible_notes_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_tool_origin_references_in_bible_notes_activate(
+      GtkMenuItem *menuitem, gpointer user_data);
   void on_tool_origin_references_in_bible_notes();
-  static void on_tool_project_notes_mass_update1_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_tool_project_notes_mass_update1_activate(
+      GtkMenuItem *menuitem, gpointer user_data);
   void on_tool_project_notes_mass_update();
-  static void on_tool_transfer_project_notes_to_text_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_tool_transfer_project_notes_to_text_activate(
+      GtkMenuItem *menuitem, gpointer user_data);
   void on_tool_transfer_project_notes_to_text();
 
   /* Webserver */
@@ -841,27 +965,35 @@ protected:
   void destroy_keyterms_object();
   static void on_keyterms_new_reference(GtkButton *button, gpointer user_data);
   void check_move_new_reference();
-  static void on_view_keyterms_activate (GtkMenuItem *menuitem, gpointer user_data);
-  void on_view_keyterms ();
+  static void on_view_keyterms_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
+  void on_view_keyterms();
   WindowShowKeyterms * window_show_keyterms;
-  static void on_window_show_keyterms_button_clicked(GtkButton *button, gpointer user_data);
+  static void on_window_show_keyterms_button_clicked(GtkButton *button,
+      gpointer user_data);
   void on_window_show_keyterms_button();
 
   /* Backups */
-  static void on_project_backup_incremental_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_project_backup_incremental_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_project_backup_incremental();
-  static void on_project_backup_flexible_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_project_backup_flexible_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_project_backup_flexible();
 
   /* Git */
-  static void on_view_git_tasks_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_view_git_tasks_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_view_git_tasks();
-  static void on_preferences_remote_git_repository_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_preferences_remote_git_repository_activate(
+      GtkMenuItem *menuitem, gpointer user_data);
   void on_preferences_remote_git_repository();
   void on_git_reopen_project();
-  static void on_project_changes_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_project_changes_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_project_changes();
-  static void on_edit_revert_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void
+      on_edit_revert_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_edit_revert();
   void git_update_intervals_initialize();
   map <ustring, unsigned int> git_update_intervals;
@@ -872,9 +1004,11 @@ protected:
   bool git_reopen_project;
 
   /* Fonts */
-  static void on_view_text_font_activate(GtkMenuItem * menuitem, gpointer user_data);
+  static void on_view_text_font_activate(GtkMenuItem * menuitem,
+      gpointer user_data);
   void on_text_font();
-  static void on_view_notes_font_activate(GtkMenuItem * menuitem, gpointer user_data);
+  static void on_view_notes_font_activate(GtkMenuItem * menuitem,
+      gpointer user_data);
   void on_notes_font();
   void set_fonts();
 
@@ -890,60 +1024,78 @@ protected:
   void on_ipc_method();
 
   /* Reporting and Planning */
-  static void on_preferences_reporting_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_preferences_reporting_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_preferences_reporting();
   static void on_editstatus_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_editstatus();
-  static void on_view_status_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void
+      on_view_status_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_status();
-  static void on_edit_planning_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_edit_planning_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_edit_planning();
-  static void on_view_planning_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_view_planning_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_view_planning();
-  static void on_preferences_planning_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_preferences_planning_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_preferences_planning();
 
   /* Resources */
   ResourcesGUI * resourcesgui;
   void activate_resources_object();
   void destroy_resources_object();
-  static void on_file_resources_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_file_resources_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_file_resources();
-  static void on_file_resources_open_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_file_resources_open_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_file_resources_open();
-  static void on_file_resources_close_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_file_resources_close_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_file_resources_close();
-  static void on_file_resources_new_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_file_resources_new_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_file_resources_new();
-  static void on_file_resources_edit_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_file_resources_edit_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_file_resources_edit();
-  static void on_file_resources_delete_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_file_resources_delete_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_file_resources_delete();
 
   /* Text editors */
-  static void on_editorsgui_focus_button_clicked(GtkButton *button, gpointer user_data);
+  static void on_editorsgui_focus_button_clicked(GtkButton *button,
+      gpointer user_data);
   void on_editorsgui_focus_button();
   static void on_editor_reload_clicked(GtkButton *button, gpointer user_data);
   void on_editor_reload();
   EditorsGUI * editorsgui;
   void jump_start_editors(const ustring& project);
-  static void on_editorsgui_changed_clicked(GtkButton *button, gpointer user_data);
+  static void on_editorsgui_changed_clicked(GtkButton *button,
+      gpointer user_data);
   void on_editorsgui_changed();
   void reload_project();
 
   /* Merge */
-  static void on_file_projects_merge_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_file_projects_merge_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_file_projects_merge();
   MergeGUI * mergegui;
-  static void on_mergegui_get_text_button_clicked(GtkButton *button, gpointer user_data);
+  static void on_mergegui_get_text_button_clicked(GtkButton *button,
+      gpointer user_data);
   void on_mergegui_get_text_button();
-  static void on_mergegui_new_reference_button_clicked(GtkButton *button, gpointer user_data);
+  static void on_mergegui_new_reference_button_clicked(GtkButton *button,
+      gpointer user_data);
   void on_mergegui_new_reference_button();
-  static void on_mergegui_save_editors_button_clicked(GtkButton *button, gpointer user_data);
+  static void on_mergegui_save_editors_button_clicked(GtkButton *button,
+      gpointer user_data);
   void on_mergegui_save_editors_button();
 
   /* Diglot */
-  static void on_preferences_filters_activate(GtkMenuItem *menuitem, gpointer user_data);
+  static void on_preferences_filters_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
   void on_preferences_filters();
 
   /* Print */
@@ -951,16 +1103,30 @@ protected:
   void on_print();
 
   /* Screen layout */
-  static void on_view_screen_layout_activate (GtkMenuItem *menuitem, gpointer user_data);
-  void on_view_screen_layout ();
+  static void on_view_screen_layout_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
+  void on_view_screen_layout();
   WindowLayout * window_screen_layout;
-  static void on_window_screen_layout_button_clicked(GtkButton *button, gpointer user_data);
+  static void on_window_screen_layout_button_clicked(GtkButton *button,
+      gpointer user_data);
   void on_window_screen_layout_button();
   static bool on_windows_startup_timeout(gpointer data);
   bool on_windows_startup();
   unsigned int windows_startup_pointer;
   void shutdown_windows();
-  
-};
+
+  /* Quick references */// Todo
+  GtkWidget *scrolledwindow_quick_refs; // Todo these go out.
+  GtkWidget *textview_quick_refs;
+
+  static void on_view_quick_references_activate(GtkMenuItem *menuitem,
+      gpointer user_data);
+  void on_view_quick_references();
+  WindowShowQuickReferences * window_show_quick_references;
+  static void on_window_show_quick_references_button_clicked(GtkButton *button,
+      gpointer user_data);
+  void on_window_show_quick_references_button();
+
+  };
 
 #endif

@@ -17,33 +17,29 @@
  **  
  */
 
-#ifndef INCLUDED_WINDOWS_H
-#define INCLUDED_WINDOWS_H
+#ifndef INCLUDED_WINDOW_SHOW_QUICK_REFS_H
+#define INCLUDED_WINDOW_SHOW_QUICK_REFS_H
 
-#include "libraries.h"
 #include <gtk/gtk.h>
+#include "ustring.h"
+#include "reference.h"
 
-enum WindowID
-{ widShowKeyterms, widShowQuickReferences};
-
-void window_display(GtkWidget * window, WindowID id, ustring data, bool startup);
-void window_delete(GtkWidget * window, WindowID id, ustring data);
-
-class WindowData
-{
+class WindowShowQuickReferences
+  {
 public:
-  WindowData(bool save_on_destroy);
-  ~WindowData();
-  vector<int> widths;
-  vector<int> heights;
-  vector<int> x_positions;
-  vector<int> y_positions;
-  vector<int> ids;
-  vector<ustring> datas;
-  vector<bool> shows;
-  void debug();
+  WindowShowQuickReferences(bool startup);
+  ~WindowShowQuickReferences();
+  GtkWidget * signal_button;
+  void go_to (const ustring& project, const Reference& reference);
+protected:
+  GtkWidget *window1;
+  GtkWidget *scrolledwindow1;
+  GtkWidget *textview1;
 private:
-  bool my_save_on_destroy;
-};
+  static bool on_window_delete_event(GtkWidget *widget, GdkEvent *event,
+      gpointer user_data);
+  bool on_window_delete();
+  Reference myreference;
+  };
 
 #endif

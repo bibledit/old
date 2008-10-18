@@ -265,7 +265,8 @@ bibledit_bin_SOURCES = \
         dialogtext2pdf.cpp \
         windowlayout.cpp \
         windowshowkeyterms.cpp \
-        windows.cpp
+        windows.cpp \
+        windowshowquickrefs.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 

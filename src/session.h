@@ -1,40 +1,37 @@
 /*
-** Copyright (©) 2003-2008 Teus Benschop.
-**  
-** This program is free software; you can redistribute it and/or modify
-** it under the terms of the GNU General Public License as published by
-** the Free Software Foundation; either version 3 of the License, or
-** (at your option) any later version.
-**  
-** This program is distributed in the hope that it will be useful,
-** but WITHOUT ANY WARRANTY; without even the implied warranty of
-** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-** GNU General Public License for more details.
-**  
-** You should have received a copy of the GNU General Public License
-** along with this program; if not, write to the Free Software
-** Foundation, Inc.,  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-**  
-*/
-
+ ** Copyright (©) 2003-2008 Teus Benschop.
+ **  
+ ** This program is free software; you can redistribute it and/or modify
+ ** it under the terms of the GNU General Public License as published by
+ ** the Free Software Foundation; either version 3 of the License, or
+ ** (at your option) any later version.
+ **  
+ ** This program is distributed in the hope that it will be useful,
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ ** GNU General Public License for more details.
+ **  
+ ** You should have received a copy of the GNU General Public License
+ ** along with this program; if not, write to the Free Software
+ ** Foundation, Inc.,  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ **  
+ */
 
 #ifndef INCLUDED_SESSION_H
 #define INCLUDED_SESSION_H
-
 
 #include "libraries.h"
 #include <gtk/gtk.h>
 #include "types.h"
 #include "session_highlights.h"
 
-
 class Session
 // Stores settings valid only during one session. If the program stops, this
 // information is lost - and that is what is wanted.
-{
+  {
 public:
-  Session (int dummy);
-  ~Session ();
+  Session(int dummy);
+  ~Session();
   // Search / Replace
   ustring searchword;
   ustring replaceword;
@@ -95,8 +92,9 @@ public:
   // Import raw text.
   int import_raw_text_book;
   int import_raw_text_chapter;
+  // Windows.
+  vector <GtkWindow *> open_windows;
 private:
-};
-
+  };
 
 #endif
