@@ -7643,9 +7643,7 @@ void MainWindow::on_show_quick_references_signal_button(GtkButton *button) {
  If the positions are reset, then all standard positions are put to zero, so that next time they show up,
  they will be allocated into the new position.
 
- The menu area settings should be removed, because that's the program itself.
-
- We need to define the size of the borders in pixels. There's the top border, the left, the right, and the bottom.
+  We need to define the size of the borders in pixels. There's the top border, the left, the right, and the bottom.
  It probably is enough to define this once, e.g. only in the text area. 
   
  */

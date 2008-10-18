@@ -24,14 +24,12 @@
 #include "ustring.h"
 
 class WindowLayout
-  {
+{
 public:
   WindowLayout(int dummy);
   ~WindowLayout();
   GtkWidget * signal_button;
 protected:
-  GtkWidget *menuwindow;
-  GtkWidget *menulabel;
   GtkWidget *textwindow;
   GtkWidget *textlabel;
   GtkWidget *noteswindow;
@@ -39,21 +37,17 @@ protected:
   GtkWidget *toolswindow;
   GtkWidget *toolslabel;
 private:
-  static gboolean on_window_focus_in_event(GtkWidget *widget,
-      GdkEventFocus *event, gpointer user_data);
+  static gboolean on_window_focus_in_event(GtkWidget *widget, GdkEventFocus *event, gpointer user_data);
   void on_window_focus_in(GtkWidget *widget);
   bool block_focus_signal;
   GtkWidget * focus_widget;
-  
-  guint event_id;
-  static bool on_timeout (gpointer data);
-  void timeout ();
 
-  
-  
-  static bool on_window_delete_event(GtkWidget *widget, GdkEvent *event,
-      gpointer user_data);
+  guint event_id;
+  static bool on_timeout(gpointer data);
+  void timeout();
+
+  static bool on_window_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);
   bool on_window_delete();
-  };
+};
 
 #endif

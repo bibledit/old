@@ -83,10 +83,6 @@ void window_display(GtkWidget * window, WindowID id, ustring data, bool startup)
         break;
       }
         /*
-         int menu_area_width = settings->genconfig.menu_area_width_get();
-         int menu_area_height = settings->genconfig.menu_area_height_get();
-         int menu_area_x = settings->genconfig.menu_area_x_position_get();
-         int menu_area_y = settings->genconfig.menu_area_y_position_get();
          int text_area_width = settings->genconfig.text_area_width_get();
          int text_area_height = settings->genconfig.text_area_height_get();
          int text_area_x = settings->genconfig.text_area_x_position_get();

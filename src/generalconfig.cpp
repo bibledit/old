@@ -77,10 +77,6 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE (hpane_position);
   INITIALIZE (vpane_editor_position);
   INITIALIZE (tools_area_left);
-  INITIALIZE (menu_area_width);
-  INITIALIZE (menu_area_height);
-  INITIALIZE (menu_area_x_position);
-  INITIALIZE (menu_area_y_position);
   INITIALIZE (text_area_width);
   INITIALIZE (text_area_height);
   INITIALIZE (text_area_x_position);
@@ -261,10 +257,6 @@ void GeneralConfiguration::save()
   SAVE_VALUE (hpane_position);
   SAVE_VALUE (vpane_editor_position);
   SAVE_VALUE (tools_area_left);
-  SAVE_VALUE (menu_area_width);
-  SAVE_VALUE (menu_area_height);
-  SAVE_VALUE (menu_area_x_position);
-  SAVE_VALUE (menu_area_y_position);
   SAVE_VALUE (text_area_width);
   SAVE_VALUE (text_area_height);
   SAVE_VALUE (text_area_x_position);
@@ -515,10 +507,6 @@ IMPLEMENT (int, int_get, window_y_position, 0)
 IMPLEMENT (int, int_get, hpane_position, 0)
 IMPLEMENT (int, int_get, vpane_editor_position, 0)
 IMPLEMENT (bool, bool_get, tools_area_left, false)
-IMPLEMENT (int, int_get, menu_area_width, 0) 
-IMPLEMENT (int, int_get, menu_area_height, 0)
-IMPLEMENT (int, int_get, menu_area_x_position, 0)
-IMPLEMENT (int, int_get, menu_area_y_position, 0)
 IMPLEMENT (int, int_get, text_area_width, 0) 
 IMPLEMENT (int, int_get, text_area_height, 0)
 IMPLEMENT (int, int_get, text_area_x_position, 0)
