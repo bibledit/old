@@ -23,23 +23,19 @@
 #include <gtk/gtk.h>
 #include "ustring.h"
 #include "reference.h"
+#include "windows.h"
 
-class WindowShowKeyterms
-  {
+class WindowShowKeyterms : public WindowBase
+{
 public:
   WindowShowKeyterms(bool startup);
-  ~WindowShowKeyterms();
-  GtkWidget * signal_button;
-  void go_to (const ustring& project, const Reference& reference);
+  virtual ~WindowShowKeyterms();
+  void go_to(const ustring& project, const Reference& reference);
 protected:
-  GtkWidget *showkeytermswindow;
   GtkWidget *scrolledwindow1;
   GtkWidget *textview1;
 private:
-  static bool on_window_delete_event(GtkWidget *widget, GdkEvent *event,
-      gpointer user_data);
-  bool on_window_delete();
   Reference myreference;
-  };
+};
 
 #endif

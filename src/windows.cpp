@@ -132,7 +132,7 @@ void window_display(GtkWidget * window, WindowID id, ustring data, bool startup)
     // Step 6: If no area big enough is found, then the window that takes most space in the area is chosen, 
     // the longest side is halved, and the new window is put in that freed area.
     if ((new_window_rectangle.width == 0) || (new_window_rectangle.height == 0)) {
-      GtkWindow * biggest_window = NULL;
+      GtkWindow * biggest_window= NULL;
       int largest_intersection = 0;
       for (unsigned int i = 0; i < settings->session.open_windows.size(); i++) {
         GtkWindow * open_window = settings->session.open_windows[i];
@@ -140,7 +140,7 @@ void window_display(GtkWidget * window, WindowID id, ustring data, bool startup)
         gtk_window_get_size(open_window, &window_rectangle.width, &window_rectangle.height);
         gtk_window_get_position(open_window, &window_rectangle.x, &window_rectangle.y);
         GdkRectangle intersection_rectangle;
-        if (gdk_rectangle_intersect (&area_rectangle, &window_rectangle, &intersection_rectangle)) {
+        if (gdk_rectangle_intersect(&area_rectangle, &window_rectangle, &intersection_rectangle)) {
           int intersection = intersection_rectangle.width * intersection_rectangle.height;
           if (intersection > largest_intersection) {
             biggest_window = open_window;
@@ -203,7 +203,7 @@ void window_display(GtkWidget * window, WindowID id, ustring data, bool startup)
   settings->session.open_windows.push_back(GTK_WINDOW (window));
 }
 
-void window_delete(GtkWidget * window, WindowID id, ustring data)
+void window_delete(GtkWidget * window, WindowID id, ustring data, bool shutdown)
 // Does the bookkeeping needed for deleting a window.
 // When a window closes, the sizes of other windows are not affected. 
 // Thus if the same window is opened again, it will go in the same free space as it was in before.
@@ -221,10 +221,17 @@ void window_delete(GtkWidget * window, WindowID id, ustring data)
   // Get the parameters of all the windows.
   WindowData window_data(true);
 
-  // Clear the "showing" flag for the window.
+  // Set data for the window.
   for (unsigned int i = 0; i < window_data.ids.size(); i++) {
     if ((id == window_data.ids[i]) && (data == window_data.datas[i])) {
-      window_data.shows[i] = false;
+      // Set the position and size of the window.
+      window_data.widths[i] = width;
+      window_data.heights[i] = height;
+      window_data.x_positions[i] = x;
+      window_data.y_positions[i] = y;
+      // Clear the "showing" flag for the window, except on program shutdown.
+      if (!shutdown) 
+        window_data.shows[i] = false;
     }
   }
 
@@ -305,3 +312,49 @@ void WindowData::debug()
     cout << "window " << i << ", width " << widths[i] << ", height " << heights[i] << ", x " << x_positions[i] << ", y " << y_positions[i] << ", id " << ids[i] << ", data " << datas[i] << ", show " << shows[i] << endl;
   }
 }
+
+WindowBase::WindowBase(WindowID id, const ustring title, bool startup)
+// Base class for each window.
+{
+  // Initialize variables.
+  my_shutdown = false;
+  window_id = id;
+
+  // Button that gives a signal if the window is deleted.
+  delete_signal_button = gtk_button_new();
+
+  // Craete the window.
+  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_title(GTK_WINDOW (window), title.c_str());
+
+  // Signal handlers.
+  g_signal_connect ((gpointer) window, "delete_event", G_CALLBACK (on_window_delete_event), gpointer (this));
+
+  // The window needs to be positioned before it shows.
+  window_display(window, window_id, window_data, startup);
+
+  // Show it.
+  gtk_widget_show_all(window);
+}
+
+WindowBase::~WindowBase() {
+  window_delete(window, window_id, window_data, my_shutdown);
+  gtk_widget_destroy(window);
+  gtk_widget_destroy(delete_signal_button);
+}
+
+bool WindowBase::on_window_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data) {
+  return ((WindowBase *) user_data)->on_window_delete();
+}
+
+bool WindowBase::on_window_delete() {
+  gtk_button_clicked(GTK_BUTTON (delete_signal_button));
+  return false;
+}
+
+void WindowBase::shutdown()
+// Program shutdown.
+{
+  my_shutdown = true;
+}
+

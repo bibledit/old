@@ -27,7 +27,7 @@ enum WindowID
 { widShowKeyterms, widShowQuickReferences};
 
 void window_display(GtkWidget * window, WindowID id, ustring data, bool startup);
-void window_delete(GtkWidget * window, WindowID id, ustring data);
+void window_delete(GtkWidget * window, WindowID id, ustring data, bool shutdown);
 
 class WindowData
 {
@@ -44,6 +44,21 @@ public:
   void debug();
 private:
   bool my_save_on_destroy;
+};
+
+class WindowBase
+{
+public:
+  WindowBase(WindowID id, const ustring title, bool startup);
+  virtual ~WindowBase();
+  GtkWidget *window;
+  WindowID window_id;
+  ustring window_data;
+  GtkWidget * delete_signal_button;
+  static bool on_window_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);
+  bool on_window_delete();
+  bool my_shutdown;
+  void shutdown();
 };
 
 #endif

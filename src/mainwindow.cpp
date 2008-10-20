@@ -6169,7 +6169,7 @@ void MainWindow::on_view_keyterms() {
   on_window_show_keyterms_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (view_keyterms))) {
     window_show_keyterms = new WindowShowKeyterms (windows_startup_pointer != G_MAXINT);
-    g_signal_connect ((gpointer) window_show_keyterms->signal_button, "clicked", G_CALLBACK (on_window_show_keyterms_button_clicked), gpointer(this));
+    g_signal_connect ((gpointer) window_show_keyterms->delete_signal_button, "clicked", G_CALLBACK (on_window_show_keyterms_button_clicked), gpointer(this));
     extern Settings * settings;
     window_show_keyterms->go_to(settings->genconfig.project_get(), navigation.reference);
   }
@@ -7555,17 +7555,16 @@ bool MainWindow::on_windows_startup()
 void MainWindow::shutdown_windows()  
 // Shut any open windows down.
 {
-  // Keep the list of open windows.
-  WindowData windows_data (true);
-
   // Keyterms in verse. 
   if (window_show_keyterms) {
+    window_show_keyterms->shutdown();
     delete window_show_keyterms;
     window_show_keyterms = NULL;
   }
 
   // Quick references.
   if (window_show_quick_references) {
+    window_show_quick_references->shutdown();
     delete window_show_quick_references;
     window_show_quick_references = NULL;
   }
@@ -7594,7 +7593,7 @@ void MainWindow::on_view_quick_references() {
   on_window_show_quick_references_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (view_quick_references))) {
     window_show_quick_references = new WindowShowQuickReferences (windows_startup_pointer != G_MAXINT);
-    g_signal_connect ((gpointer) window_show_quick_references->signal_button, "clicked", G_CALLBACK (on_window_show_quick_references_button_clicked), gpointer(this));
+    g_signal_connect ((gpointer) window_show_quick_references->delete_signal_button, "clicked", G_CALLBACK (on_window_show_quick_references_button_clicked), gpointer(this));
     treeview_references_display_quick_reference();
   }
 }
@@ -7627,8 +7626,6 @@ void MainWindow::on_show_quick_references_signal_button(GtkButton *button) {
 
  Todo Improve the window layout system.
 
- On startup the sizes of the windows are not remembered.
- 
  There is one menu window, which is the main one, and each function will get its own window.
 
  It is very important to make the program to "feel" as if it is one and the same window.
