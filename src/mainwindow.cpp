@@ -184,11 +184,16 @@ MainWindow::MainWindow(unsigned long xembed) :
   gtk_window_set_default_icon_from_file(gw_build_filename (directories_get_package_data (), "bibledit.xpm").c_str(), NULL);
   gtk_window_set_gravity(GTK_WINDOW (mainwindow), GDK_GRAVITY_STATIC);
 
+  // Focus handler.
+  g_signal_connect ((gpointer) mainwindow, "focus_in_event", G_CALLBACK (on_main_window_focus_in_event), gpointer (this));
+  act_on_focus_in_signal = true;
+  focus_event_id = 0;
+  
   // Pointer to the settings.
   extern Settings * settings;
 
   // Store the window for other windows to refer to it.
-  settings->session.open_windows.push_back (GTK_WINDOW (mainwindow));
+  settings->session.open_windows.push_back(GTK_WINDOW (mainwindow));
 
   g_set_application_name("Bibledit");
 
@@ -2637,6 +2642,7 @@ MainWindow::MainWindow(unsigned long xembed) :
 MainWindow::~MainWindow() {
   // Shut the separate windows down.
   shutdown_windows();
+  gw_destroy_source(focus_event_id);
 
   // Save the size and position of the program window.
   ScreenLayoutDimensions dimensions(mainwindow, hpaned1, vpaned1);
@@ -4083,10 +4089,11 @@ void MainWindow::on_treeview_references_cursor_changed(GtkTreeView *treeview, gp
 
 void MainWindow::treeview_references_display_quick_reference()
 // Display the quick references.
-{ 
+{
   // Bail out if there's no quick references window.
-  if (window_show_quick_references == NULL) return;
-  
+  if (window_show_quick_references == NULL)
+    return;
+
   // Get the model.
   GtkTreeModel * model;
   model = gtk_tree_view_get_model(GTK_TREE_VIEW (treeview_references));
@@ -4096,23 +4103,23 @@ void MainWindow::treeview_references_display_quick_reference()
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW (treeview_references));
   vector <GtkTreeIter> iters;
   gtk_tree_selection_selected_foreach(selection, MainWindow::on_references_collect_iters, gpointer(&iters));
-  
+
   // Bail out if none was selected.
   if (iters.size() == 0)
     return;
-  
+
   // Go through all the selected iterators and get their references.
-  vector <Reference> references; 
+  vector <Reference> references;
   for (unsigned int i = 0; i < iters.size(); i++) {
     gint book, chapter;
     gchar *verse;
     gtk_tree_model_get(model, &iters[i], 2, &book, 3, &chapter, 4, &verse, -1);
-    Reference reference (book,chapter, verse);
+    Reference reference(book, chapter, verse);
     references.push_back(reference);
     // Free memory.
     g_free(verse);
   }
-  
+
   // Display the verses.
   extern Settings * settings;
   ustring project = settings->genconfig.project_get();
@@ -6170,6 +6177,7 @@ void MainWindow::on_view_keyterms() {
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (view_keyterms))) {
     window_show_keyterms = new WindowShowKeyterms (windows_startup_pointer != G_MAXINT);
     g_signal_connect ((gpointer) window_show_keyterms->delete_signal_button, "clicked", G_CALLBACK (on_window_show_keyterms_button_clicked), gpointer(this));
+    g_signal_connect ((gpointer) window_show_keyterms->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
     extern Settings * settings;
     window_show_keyterms->go_to(settings->genconfig.project_get(), navigation.reference);
   }
@@ -7483,7 +7491,7 @@ void MainWindow::on_print() {
  |
  |
  |
- Screen layout
+ Windowing system
  |
  |
  |
@@ -7519,10 +7527,9 @@ bool MainWindow::on_windows_startup_timeout(gpointer data) {
   return ((MainWindow *) data)->on_windows_startup();
 }
 
-bool MainWindow::on_windows_startup() 
-{
+bool MainWindow::on_windows_startup() {
   // Get all window data.
-  WindowData window_data (false);
+  WindowData window_data(false);
 
   if (windows_startup_pointer < window_data.ids.size()) {
     if (window_data.shows[windows_startup_pointer]) {
@@ -7552,7 +7559,7 @@ bool MainWindow::on_windows_startup()
   return false;
 }
 
-void MainWindow::shutdown_windows()  
+void MainWindow::shutdown_windows()
 // Shut any open windows down.
 {
   // Keyterms in verse. 
@@ -7570,6 +7577,74 @@ void MainWindow::shutdown_windows()
   }
 }
 
+void MainWindow::on_window_focus_button_clicked(GtkButton *button, gpointer user_data) {
+  ((MainWindow *) user_data)->on_window_focus_button(button);
+}
+
+void MainWindow::on_window_focus_button(GtkButton *button)
+// Called when a subwindow gets focused.
+{
+  extern Settings * settings;
+  vector <GtkWindow *> windows = settings->session.open_windows;
+  
+  // The main window is going to be presented, and therefore will fire the "focus_in_event".
+  // Don't act on this signal for a short while, lest the focusing goes on and on in an endless loop.
+  act_on_focus_in_signal = false;
+
+  // Restart the timeout.
+  gw_destroy_source(focus_event_id);
+  focus_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 1000, GSourceFunc (on_focus_timeout), gpointer(this), NULL);
+
+  // Present all windows.
+  //gtk_window_set_skip_taskbar_hint(GTK_WINDOW (mainwindow), true);
+  //gtk_window_present(GTK_WINDOW (mainwindow));
+  if (window_show_quick_references)
+    window_show_quick_references->present();
+  if (window_show_keyterms)
+    window_show_keyterms->present();
+
+  // Present the calling window again.
+  GtkWidget * widget = GTK_WIDGET (button);
+  if (widget == NULL) {
+    //gtk_window_present(GTK_WINDOW (mainwindow));
+  }
+  if (window_show_quick_references) {
+    if (widget == window_show_quick_references->focus_in_signal_button)
+      window_show_quick_references->present();
+  }
+  if (window_show_keyterms) {
+    if (widget == window_show_keyterms->focus_in_signal_button)
+      window_show_keyterms->present();
+  }
+}
+
+gboolean MainWindow::on_main_window_focus_in_event(GtkWidget *widget, GdkEventFocus *event, gpointer user_data) {
+  ((MainWindow *) user_data)->on_main_window_focus_in(widget);
+  return FALSE;
+}
+
+void MainWindow::on_main_window_focus_in(GtkWidget *widget)
+// The handler is called when the main window focuses in.
+{
+  if (act_on_focus_in_signal) {
+    on_window_focus_button(NULL);
+  }
+}
+
+bool MainWindow::on_focus_timeout(gpointer data) {
+  ((MainWindow*) data)->focus_timeout();
+  return false;
+}
+
+void MainWindow::focus_timeout() {
+  // After a while the window should act on the "focus_in_event" again.
+  act_on_focus_in_signal = true;
+  //gtk_window_set_skip_taskbar_hint(GTK_WINDOW (mainwindow), false);
+}
+
+
+
+
 /*
  |
  |
@@ -7586,7 +7661,6 @@ void MainWindow::shutdown_windows()
 
 void MainWindow::on_view_quick_references_activate(GtkMenuItem *menuitem, gpointer user_data) {
   ((MainWindow *) user_data)->on_view_quick_references();
-
 }
 
 void MainWindow::on_view_quick_references() {
@@ -7594,6 +7668,7 @@ void MainWindow::on_view_quick_references() {
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (view_quick_references))) {
     window_show_quick_references = new WindowShowQuickReferences (windows_startup_pointer != G_MAXINT);
     g_signal_connect ((gpointer) window_show_quick_references->delete_signal_button, "clicked", G_CALLBACK (on_window_show_quick_references_button_clicked), gpointer(this));
+    g_signal_connect ((gpointer) window_show_quick_references->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
     treeview_references_display_quick_reference();
   }
 }
@@ -7618,7 +7693,7 @@ void MainWindow::on_show_quick_references_signal_button(GtkButton *button) {
   if (window_show_quick_references) {
     extern Settings * settings;
     ustring project = settings->genconfig.project_get();
-    window_show_quick_references->go_to (project, editorsgui->quick_references);
+    window_show_quick_references->go_to(project, editorsgui->quick_references);
   }
 }
 
@@ -7632,16 +7707,19 @@ void MainWindow::on_show_quick_references_signal_button(GtkButton *button) {
  This means that, e.g. the same shortcuts work in every window, and that the menu can be accessed
  from any window.
  
+ 
  To make a View / Tile menu. And a stack one. 
  When a new window is opened, for example, a new editor is opened, it then automatically finds a place
  within the existing editors, and tiles (or stacks) the windows.
 
-  There needs to be one standard routine that, if a window's position is found to be 0, it positions them in the allocated areas.
+ There needs to be one standard routine that, if a window's position is found to be 0, it positions them in the allocated areas.
  If the positions are reset, then all standard positions are put to zero, so that next time they show up,
  they will be allocated into the new position.
 
-  We need to define the size of the borders in pixels. There's the top border, the left, the right, and the bottom.
+ We need to define the size of the borders in pixels. There's the top border, the left, the right, and the bottom.
  It probably is enough to define this once, e.g. only in the text area. 
-  
+ With function gdk_window_get_frame_extents this is no longer needed.
+ gdk_window_get_origin
+ 
  */
 

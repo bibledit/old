@@ -19,6 +19,7 @@
 
 #include "windows.h"
 #include "settings.h"
+#include "gwrappers.h"
 
 void window_display(GtkWidget * window, WindowID id, ustring data, bool startup)
 // Does the bookkeeping needed to display the window.
@@ -230,7 +231,7 @@ void window_delete(GtkWidget * window, WindowID id, ustring data, bool shutdown)
       window_data.x_positions[i] = x;
       window_data.y_positions[i] = y;
       // Clear the "showing" flag for the window, except on program shutdown.
-      if (!shutdown) 
+      if (!shutdown)
         window_data.shows[i] = false;
     }
   }
@@ -318,16 +319,26 @@ WindowBase::WindowBase(WindowID id, const ustring title, bool startup)
 {
   // Initialize variables.
   my_shutdown = false;
+  act_on_focus_in_signal = true;
+  focus_event_id = 0;
   window_id = id;
 
-  // Button that gives a signal if the window is deleted.
+  // Signalling buttons.
+  focus_in_signal_button = gtk_button_new();
   delete_signal_button = gtk_button_new();
 
   // Craete the window.
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title(GTK_WINDOW (window), title.c_str());
+  
+  // The extra window should not appear in the taskbar in addition to the main window of Bibledit.
+  // If it were to appear in the taskbar, then it looks as if there are many programs running.
+  // And worse even, if it is in the taskbar, and a window gets focused so focusing all the other ones as well,
+  // then the window in the taskbar would keep flashing.
+  gtk_window_set_skip_taskbar_hint(GTK_WINDOW (window), true);
 
   // Signal handlers.
+  g_signal_connect ((gpointer) window, "focus_in_event", G_CALLBACK (on_window_focus_in_event), gpointer (this));
   g_signal_connect ((gpointer) window, "delete_event", G_CALLBACK (on_window_delete_event), gpointer (this));
 
   // The window needs to be positioned before it shows.
@@ -340,16 +351,53 @@ WindowBase::WindowBase(WindowID id, const ustring title, bool startup)
 WindowBase::~WindowBase() {
   window_delete(window, window_id, window_data, my_shutdown);
   gtk_widget_destroy(window);
+  gtk_widget_destroy(focus_in_signal_button);
   gtk_widget_destroy(delete_signal_button);
+  gw_destroy_source(focus_event_id);
 }
+
+gboolean WindowBase::on_window_focus_in_event(GtkWidget *widget, GdkEventFocus *event, gpointer user_data) {
+  ((WindowBase *) user_data)->on_window_focus_in(widget);
+  return FALSE;
+}
+
+void WindowBase::on_window_focus_in(GtkWidget *widget) {
+  if (act_on_focus_in_signal) {
+    gtk_button_clicked(GTK_BUTTON (focus_in_signal_button));
+  }
+}
+
+void WindowBase::present()
+// Presents the window.
+{
+  // The window is going to be presented, and therefore will fire the "focus_in_event".
+  // Don't act on this signal for a short while, lest the focusing goes on and on in an endless loop.
+  act_on_focus_in_signal = false;
+  // Restart the timeout.
+  gw_destroy_source(focus_event_id);
+  focus_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 1000, GSourceFunc (on_focus_timeout), gpointer(this), NULL);
+  // Present the window.
+  gtk_window_present(GTK_WINDOW (window));
+}
+
+bool WindowBase::on_focus_timeout(gpointer data) {
+  ((WindowBase*) data)->focus_timeout();
+  return false;
+}
+
+void WindowBase::focus_timeout() {
+  // After a while the window should act on the "focus_in_event" again.
+  act_on_focus_in_signal = true;
+}
+
 
 bool WindowBase::on_window_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data) {
-  return ((WindowBase *) user_data)->on_window_delete();
+  ((WindowBase *) user_data)->on_window_delete();
+  return false;
 }
 
-bool WindowBase::on_window_delete() {
+void WindowBase::on_window_delete() {
   gtk_button_clicked(GTK_BUTTON (delete_signal_button));
-  return false;
 }
 
 void WindowBase::shutdown()

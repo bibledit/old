@@ -52,11 +52,23 @@ public:
   WindowBase(WindowID id, const ustring title, bool startup);
   virtual ~WindowBase();
   GtkWidget *window;
+  
   WindowID window_id;
   ustring window_data;
+  
+  GtkWidget * focus_in_signal_button;
+  static gboolean on_window_focus_in_event(GtkWidget *widget, GdkEventFocus *event, gpointer user_data);
+  void on_window_focus_in(GtkWidget *widget);
+  bool act_on_focus_in_signal;
+  void present();
+  
+  guint focus_event_id;
+  static bool on_focus_timeout(gpointer data);
+  void focus_timeout();
+  
   GtkWidget * delete_signal_button;
   static bool on_window_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);
-  bool on_window_delete();
+  void on_window_delete();
   bool my_shutdown;
   void shutdown();
 };

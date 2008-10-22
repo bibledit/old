@@ -949,7 +949,7 @@ protected:
   static void on_print_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_print();
 
-  /* Screen layout */
+  /* Windowing system */
   static void on_view_screen_layout_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_screen_layout();
   WindowLayout * window_screen_layout;
@@ -959,7 +959,16 @@ protected:
   bool on_windows_startup();
   unsigned int windows_startup_pointer;
   void shutdown_windows();
+  static void on_window_focus_button_clicked(GtkButton *button, gpointer user_data);
+  void on_window_focus_button(GtkButton *button);
+  static gboolean on_main_window_focus_in_event(GtkWidget *widget, GdkEventFocus *event, gpointer user_data);
+  void on_main_window_focus_in(GtkWidget *widget);
+  bool act_on_focus_in_signal;
+  guint focus_event_id;
+  static bool on_focus_timeout(gpointer data);
+  void focus_timeout();
 
+  
   /* Quick references */
   static void on_view_quick_references_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_quick_references();
