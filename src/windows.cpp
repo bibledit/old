@@ -58,8 +58,8 @@ void window_display(GtkWidget * window, WindowID id, ustring data, bool startup)
     }
   }
 
-  // Reject null values.
-  if ((new_window_rectangle.width == 0) || (new_window_rectangle.height == 0) || (new_window_rectangle.x == 0) || (new_window_rectangle.y == 0))
+  // Reject null values, except for x or y, because the window might have positioned at 0,0 by the user.
+  if ((new_window_rectangle.width == 0) || (new_window_rectangle.height == 0))
     startup = false;
 
   // When a new window needs to be allocated, there are a few steps to be taken.
@@ -330,7 +330,7 @@ WindowBase::WindowBase(WindowID id, const ustring title, bool startup)
   // Craete the window.
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title(GTK_WINDOW (window), title.c_str());
-  
+
   // The extra window should not appear in the taskbar in addition to the main window of Bibledit.
   // If it were to appear in the taskbar, then it looks as if there are many programs running.
   // And worse even, if it is in the taskbar, and a window gets focused so focusing all the other ones as well,
@@ -346,6 +346,25 @@ WindowBase::WindowBase(WindowID id, const ustring title, bool startup)
 
   // Show it.
   gtk_widget_show_all(window);
+
+  // Get the sizes of the frame that the window manager puts around the window.
+  /*
+   The size of the borders in pixels. There's the top border, the left, the right, and the bottom.
+   We may have to get this setting when defining the areas, so that they are kept for future use.
+   Or we may have to retrieve them from the main window, which probably is a better idea, so that
+   they are automatically available all times even after changing the styles.
+   We may have to see how to position them.
+   GtkWidget * toplevel_widget = gtk_widget_get_toplevel(window);
+   GdkWindow *gdk_window = toplevel_widget->window;
+   gint x, y;
+   gdk_window_get_origin(gdk_window, &x, &y);
+   GdkRectangle gdk_rectangle;
+   gdk_rectangle.x = 0;
+   gdk_rectangle.y = 0;
+   gdk_rectangle.width = 0;
+   gdk_rectangle.height = 0;
+   gdk_window_get_frame_extents(gdk_window, &gdk_rectangle);
+   */
 }
 
 WindowBase::~WindowBase() {
@@ -389,7 +408,6 @@ void WindowBase::focus_timeout() {
   // After a while the window should act on the "focus_in_event" again.
   act_on_focus_in_signal = true;
 }
-
 
 bool WindowBase::on_window_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data) {
   ((WindowBase *) user_data)->on_window_delete();

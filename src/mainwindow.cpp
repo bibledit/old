@@ -188,7 +188,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   g_signal_connect ((gpointer) mainwindow, "focus_in_event", G_CALLBACK (on_main_window_focus_in_event), gpointer (this));
   act_on_focus_in_signal = true;
   focus_event_id = 0;
-  
+
   // Pointer to the settings.
   extern Settings * settings;
 
@@ -7586,7 +7586,7 @@ void MainWindow::on_window_focus_button(GtkButton *button)
 {
   extern Settings * settings;
   vector <GtkWindow *> windows = settings->session.open_windows;
-  
+
   // The main window is going to be presented, and therefore will fire the "focus_in_event".
   // Don't act on this signal for a short while, lest the focusing goes on and on in an endless loop.
   act_on_focus_in_signal = false;
@@ -7604,7 +7604,7 @@ void MainWindow::on_window_focus_button(GtkButton *button)
     window_show_keyterms->present();
 
   // Present the calling window again.
-  GtkWidget * widget = GTK_WIDGET (button);
+  GtkWidget * widget= GTK_WIDGET (button);
   if (widget == NULL) {
     //gtk_window_present(GTK_WINDOW (mainwindow));
   }
@@ -7641,9 +7641,6 @@ void MainWindow::focus_timeout() {
   act_on_focus_in_signal = true;
   //gtk_window_set_skip_taskbar_hint(GTK_WINDOW (mainwindow), false);
 }
-
-
-
 
 /*
  |
@@ -7707,19 +7704,19 @@ void MainWindow::on_show_quick_references_signal_button(GtkButton *button) {
  This means that, e.g. the same shortcuts work in every window, and that the menu can be accessed
  from any window.
  
- 
  To make a View / Tile menu. And a stack one. 
  When a new window is opened, for example, a new editor is opened, it then automatically finds a place
  within the existing editors, and tiles (or stacks) the windows.
 
- There needs to be one standard routine that, if a window's position is found to be 0, it positions them in the allocated areas.
  If the positions are reset, then all standard positions are put to zero, so that next time they show up,
  they will be allocated into the new position.
-
- We need to define the size of the borders in pixels. There's the top border, the left, the right, and the bottom.
- It probably is enough to define this once, e.g. only in the text area. 
- With function gdk_window_get_frame_extents this is no longer needed.
- gdk_window_get_origin
+ 
+ If we'd like to present all windows when one window is focused, then the programs's icon in the taskbar will flash.
+ This can be resolved in the following manner. Make the menu window to be like any of the other extra windows.
+ And make the main window to be the main window, but it does not show. This main window has the icon in the taskbar,
+ if never present()-ed, so the icon will never flash. If the menu window is deleted, then we might delete the 
+ main window too, or else we can do it that we delete the main window only if all windows get deleted, or 
+ if the quit menu is chosen. But the best I think is to quit when the menu quits.
  
  */
 
