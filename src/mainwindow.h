@@ -41,6 +41,7 @@
 #include "windowlayout.h"
 #include "windowshowkeyterms.h"
 #include "windowshowquickrefs.h"
+#include "windowmerge.h"
 
 class MainWindow
 {
@@ -94,8 +95,7 @@ protected:
   GtkWidget *image18537;
   GtkWidget *project_changes;
   GtkWidget *image19115;
-  GtkWidget *file_projects_merge;
-  GtkWidget *image28085;
+  GtkWidget *file_projects_merge; // Todo
   GtkWidget *file_references;
   GtkWidget *image465;
   GtkWidget *file_references_menu;
@@ -930,9 +930,14 @@ protected:
   void on_editorsgui_changed();
   void reload_project();
 
-  /* Merge */
+  /* Merge */ // Todo
   static void on_file_projects_merge_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_file_projects_merge();
+  
+  WindowMerge * window_merge;
+  static void on_window_merge_button_clicked(GtkButton *button, gpointer user_data);
+  void on_window_merge_button();
+
   MergeGUI * mergegui;
   static void on_mergegui_get_text_button_clicked(GtkButton *button, gpointer user_data);
   void on_mergegui_get_text_button();
@@ -968,7 +973,6 @@ protected:
   static bool on_focus_timeout(gpointer data);
   void focus_timeout();
 
-  
   /* Quick references */
   static void on_view_quick_references_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_quick_references();

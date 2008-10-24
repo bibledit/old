@@ -266,7 +266,8 @@ bibledit_bin_SOURCES = \
         windowlayout.cpp \
         windowshowkeyterms.cpp \
         windows.cpp \
-        windowshowquickrefs.cpp
+        windowshowquickrefs.cpp \
+        windowmerge.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 

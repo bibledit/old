@@ -36,7 +36,7 @@ void window_display(GtkWidget * window, WindowID id, ustring data, bool startup)
   extern Settings * settings;
 
   // The parameters of all the windows.
-  WindowData window_data(true);
+  WindowData window_data(false);
 
   // The new window's position.
   GdkRectangle new_window_rectangle;
@@ -76,6 +76,7 @@ void window_display(GtkWidget * window, WindowID id, ustring data, bool startup)
     {
       case widShowKeyterms:
       case widShowQuickReferences:
+      case widMerge:
       {
         area_rectangle.x = settings->genconfig.tools_area_x_position_get();
         area_rectangle.y = settings->genconfig.tools_area_y_position_get();
@@ -174,32 +175,6 @@ void window_display(GtkWidget * window, WindowID id, ustring data, bool startup)
     gtk_window_move(GTK_WINDOW (window), new_window_rectangle.x, new_window_rectangle.y);
   }
 
-  // Store the window's parameters as showing.
-  if (!startup) {
-    bool window_found = false;
-    for (unsigned int i = 0; i < window_data.widths.size(); i++) {
-      if ((window_data.ids[i] == id) && (window_data.datas[i] == data)) {
-        window_data.x_positions[i] = new_window_rectangle.x;
-        window_data.y_positions[i] = new_window_rectangle.y;
-        window_data.widths[i] = new_window_rectangle.width;
-        window_data.heights[i] = new_window_rectangle.height;
-        window_data.shows[i] = true;
-        window_found = true;
-        break;
-      }
-    }
-
-    if (!window_found) {
-      window_data.x_positions.push_back(new_window_rectangle.x);
-      window_data.y_positions.push_back(new_window_rectangle.y);
-      window_data.widths.push_back(new_window_rectangle.width);
-      window_data.heights.push_back(new_window_rectangle.height);
-      window_data.ids.push_back(id);
-      window_data.datas.push_back(data);
-      window_data.shows.push_back(true);
-    }
-  }
-
   // Store a pointer to this window in the Session.
   settings->session.open_windows.push_back(GTK_WINDOW (window));
 }
@@ -222,17 +197,33 @@ void window_delete(GtkWidget * window, WindowID id, ustring data, bool shutdown)
   // Get the parameters of all the windows.
   WindowData window_data(true);
 
+  // Ensure that the window has its entry in the settings.
+  bool window_found = false;
+  for (unsigned int i = 0; i < window_data.widths.size(); i++) {
+    if ((window_data.ids[i] == id) && (window_data.datas[i] == data)) {
+      window_found = true;
+    }
+  }
+  if (!window_found) {
+    window_data.x_positions.push_back(0);
+    window_data.y_positions.push_back(0);
+    window_data.widths.push_back(0);
+    window_data.heights.push_back(0);
+    window_data.ids.push_back(id);
+    window_data.datas.push_back(data);
+    window_data.shows.push_back(false);
+  }
+
   // Set data for the window.
   for (unsigned int i = 0; i < window_data.ids.size(); i++) {
     if ((id == window_data.ids[i]) && (data == window_data.datas[i])) {
       // Set the position and size of the window.
-      window_data.widths[i] = width;
-      window_data.heights[i] = height;
       window_data.x_positions[i] = x;
       window_data.y_positions[i] = y;
-      // Clear the "showing" flag for the window, except on program shutdown.
-      if (!shutdown)
-        window_data.shows[i] = false;
+      window_data.widths[i] = width;
+      window_data.heights[i] = height;
+      // The "showing" flag is set on program shutdown, else it is cleared.
+      window_data.shows[i] = shutdown;
     }
   }
 
@@ -288,7 +279,6 @@ WindowData::WindowData(bool save_on_destroy) {
     datas.clear();
     shows.clear();
   }
-
 }
 
 WindowData::~WindowData() {

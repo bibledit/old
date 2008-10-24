@@ -160,7 +160,8 @@ MainWindow::MainWindow(unsigned long xembed) :
   window_screen_layout = NULL;
   window_show_keyterms = NULL;
   window_show_quick_references = NULL;
-
+  window_merge = NULL;
+  
   // Initialize some variables.
   notes_redisplay_source_id = 0;
   displayprojectnotes = NULL;
@@ -394,13 +395,9 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   }
 
-  file_projects_merge = gtk_image_menu_item_new_with_mnemonic("Mer_ge");
+  file_projects_merge = gtk_check_menu_item_new_with_mnemonic("Mer_ge"); // Todo
   gtk_widget_show(file_projects_merge);
   gtk_container_add(GTK_CONTAINER (file_project_menu), file_projects_merge);
-
-  image28085 = gtk_image_new_from_stock("gtk-refresh", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image28085);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (file_projects_merge), image28085);
 
   file_references = NULL;
   if (guifeatures.references_management() || guifeatures.printing()) {
@@ -6880,7 +6877,7 @@ void MainWindow::reload_project()
  |
  |
  |
- Merge
+ Merge // Todo
  |
  |
  |
@@ -6894,7 +6891,31 @@ void MainWindow::on_file_projects_merge_activate(GtkMenuItem *menuitem, gpointer
 
 void MainWindow::on_file_projects_merge() {
   gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_tools), tapntMerge);
+  on_window_merge_button();
+  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (file_projects_merge))) {
+    window_merge = new WindowMerge (windows_startup_pointer != G_MAXINT);
+    g_signal_connect ((gpointer) window_merge->delete_signal_button, "clicked", G_CALLBACK (on_window_merge_button_clicked), gpointer(this));
+    g_signal_connect ((gpointer) window_merge->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
+  }
 }
+
+void MainWindow::on_window_merge_button_clicked(GtkButton *button, gpointer user_data) {
+  ((MainWindow *) user_data)->on_window_merge_button();
+}
+
+void MainWindow::on_window_merge_button() {
+  if (window_merge) {
+    delete window_merge;
+    window_merge = NULL;
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (file_projects_merge), false);
+  }
+}
+
+
+
+
+
+
 
 void MainWindow::on_mergegui_get_text_button_clicked(GtkButton *button, gpointer user_data) {
   ((MainWindow *) user_data)->on_mergegui_get_text_button();
@@ -7547,6 +7568,11 @@ bool MainWindow::on_windows_startup() {
           gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (view_quick_references), true);
           break;
         }
+        case widMerge:
+        {
+          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (file_projects_merge), true);
+          break;
+        }
       }
     }
   }
@@ -7575,6 +7601,13 @@ void MainWindow::shutdown_windows()
     delete window_show_quick_references;
     window_show_quick_references = NULL;
   }
+  
+  // Merge
+  if (window_merge) {
+    window_merge->shutdown();
+    delete window_merge;
+    window_merge = NULL;
+  }
 }
 
 void MainWindow::on_window_focus_button_clicked(GtkButton *button, gpointer user_data) {
@@ -7602,6 +7635,8 @@ void MainWindow::on_window_focus_button(GtkButton *button)
     window_show_quick_references->present();
   if (window_show_keyterms)
     window_show_keyterms->present();
+  if (window_merge)
+    window_merge->present();
 
   // Present the calling window again.
   GtkWidget * widget= GTK_WIDGET (button);
@@ -7615,6 +7650,10 @@ void MainWindow::on_window_focus_button(GtkButton *button)
   if (window_show_keyterms) {
     if (widget == window_show_keyterms->focus_in_signal_button)
       window_show_keyterms->present();
+  }
+  if (window_merge) {
+    if (widget == window_merge->focus_in_signal_button)
+      window_merge->present();
   }
 }
 
@@ -7698,6 +7737,8 @@ void MainWindow::on_show_quick_references_signal_button(GtkButton *button) {
 
  Todo Improve the window layout system.
 
+ The merge window does not remember its position.
+ 
  There is one menu window, which is the main one, and each function will get its own window.
 
  It is very important to make the program to "feel" as if it is one and the same window.
