@@ -37,7 +37,6 @@
 #include "git.h"
 #include "resourceviewergui.h"
 #include "editorsgui.h"
-#include "mergegui.h"
 #include "windowlayout.h"
 #include "windowshowkeyterms.h"
 #include "windowshowquickrefs.h"
@@ -95,7 +94,7 @@ protected:
   GtkWidget *image18537;
   GtkWidget *project_changes;
   GtkWidget *image19115;
-  GtkWidget *file_projects_merge; // Todo
+  GtkWidget *file_projects_merge;
   GtkWidget *file_references;
   GtkWidget *image465;
   GtkWidget *file_references_menu;
@@ -461,9 +460,6 @@ protected:
   GtkWidget *label36;
   GtkWidget *scrolledwindow_resources;
   GtkWidget *vbox_resources;
-  GtkWidget *scrolledwindow_merge;
-  GtkWidget *vboxmerge;
-  GtkWidget *labelmerge;
   GtkWidget *label_tool_resources;
   GtkWidget *hbox5;
   GtkWidget *hbox7;
@@ -930,21 +926,18 @@ protected:
   void on_editorsgui_changed();
   void reload_project();
 
-  /* Merge */ // Todo
+  /* Merge */
   static void on_file_projects_merge_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_file_projects_merge();
-  
   WindowMerge * window_merge;
   static void on_window_merge_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_merge_button();
-
-  MergeGUI * mergegui;
-  static void on_mergegui_get_text_button_clicked(GtkButton *button, gpointer user_data);
-  void on_mergegui_get_text_button();
-  static void on_mergegui_new_reference_button_clicked(GtkButton *button, gpointer user_data);
-  void on_mergegui_new_reference_button();
-  static void on_mergegui_save_editors_button_clicked(GtkButton *button, gpointer user_data);
-  void on_mergegui_save_editors_button();
+  static void on_merge_window_get_text_button_clicked(GtkButton *button, gpointer user_data);
+  void on_merge_window_get_text_button();
+  static void on_merge_window_new_reference_button_clicked(GtkButton *button, gpointer user_data);
+  void on_merge_window_new_reference_button();
+  static void on_merge_window_save_editors_button_clicked(GtkButton *button, gpointer user_data);
+  void on_merge_window_save_editors_button();
 
   /* Diglot */
   static void on_preferences_filters_activate(GtkMenuItem *menuitem, gpointer user_data);

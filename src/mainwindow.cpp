@@ -161,7 +161,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   window_show_keyterms = NULL;
   window_show_quick_references = NULL;
   window_merge = NULL;
-  
+
   // Initialize some variables.
   notes_redisplay_source_id = 0;
   displayprojectnotes = NULL;
@@ -395,7 +395,7 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   }
 
-  file_projects_merge = gtk_check_menu_item_new_with_mnemonic("Mer_ge"); // Todo
+  file_projects_merge = gtk_check_menu_item_new_with_mnemonic("Mer_ge");
   gtk_widget_show(file_projects_merge);
   gtk_container_add(GTK_CONTAINER (file_project_menu), file_projects_merge);
 
@@ -2295,26 +2295,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   gtk_widget_show(label_tool_resources);
   gtk_notebook_set_tab_label(GTK_NOTEBOOK (notebook_tools), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_tools), 5), label_tool_resources);
 
-  scrolledwindow_merge = gtk_scrolled_window_new(NULL, NULL);
-  gtk_widget_show(scrolledwindow_merge);
-  gtk_container_add(GTK_CONTAINER (notebook_tools), scrolledwindow_merge);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow_merge), GTK_POLICY_AUTOMATIC, GTK_POLICY_NEVER);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW (scrolledwindow_merge), GTK_SHADOW_IN);
-
-  vboxmerge = gtk_vbox_new(FALSE, 0);
-  gtk_widget_show(vboxmerge);
-  gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW (scrolledwindow_merge), vboxmerge);
-
-  labelmerge = gtk_label_new("Merge");
-  gtk_widget_show(labelmerge);
-  gtk_notebook_set_tab_label(GTK_NOTEBOOK (notebook_tools), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_tools), 6), labelmerge);
-
-  mergegui = new MergeGUI (vboxmerge);
-  g_signal_connect ((gpointer) mergegui->editors_get_text_button, "clicked", G_CALLBACK (on_mergegui_get_text_button_clicked), gpointer(this));
-  g_signal_connect ((gpointer) mergegui->new_reference_button, "clicked", G_CALLBACK (on_mergegui_new_reference_button_clicked), gpointer(this));
-  g_signal_connect ((gpointer) mergegui->save_editors_button, "clicked", G_CALLBACK (on_mergegui_save_editors_button_clicked), gpointer(this));
-  g_signal_connect ((gpointer) mergegui->reload_editors_button, "clicked", G_CALLBACK (on_editor_reload_clicked), gpointer(this));
-
   hbox5 = gtk_hbox_new(FALSE, 0);
   gtk_widget_show(hbox5);
   gtk_box_pack_start(GTK_BOX (vbox1), hbox5, FALSE, FALSE, 0);
@@ -2674,8 +2654,6 @@ MainWindow::~MainWindow() {
   delete styles;
   // Destroy editors.
   delete editorsgui;
-  // Destroy merge GUI.
-  delete mergegui;
   // Do shutdown actions.
   shutdown_actions();
   // Destroying the window is done by gtk itself.
@@ -3506,11 +3484,6 @@ void MainWindow::on_tools_area_activate() {
       focused = true;
       break;
     }
-    case tapntMerge:
-    {
-      focused = mergegui->has_focus();
-      break;
-    }
     case tapntEnd:
     {
       focused = true;
@@ -3539,7 +3512,6 @@ void MainWindow::on_tools_area_activate() {
         case tapntKeyterms:
         case tapntOutline:
         case tapntResources:
-        case tapntMerge:
           pageshows = GTK_WIDGET_VISIBLE (gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_tools), page));
           break;
         case tapntEnd:
@@ -3578,9 +3550,6 @@ void MainWindow::on_tools_area_activate() {
       break;
     case tapntResources:
       gtk_widget_grab_focus(vbox_resources);
-      break;
-    case tapntMerge:
-      mergegui->give_focus();
       break;
     case tapntEnd:
       break;
@@ -3773,8 +3742,6 @@ void MainWindow::notebook_tools_switch_page(guint page_num) {
   // Whether the outlines are produced.
   if (outline)
     outline->operate = (page_num == tapntOutline);
-  // Tell the merge object whether we're on the merge page.
-  mergegui->set_active(page_num == tapntMerge);
 }
 
 void MainWindow::on_file_references_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -6795,9 +6762,11 @@ void MainWindow::on_editorsgui_focus_button() {
   // Set the project in the titlebar.
   set_titlebar(project);
 
-  // Inform the merge GUI about the editors.
-  mergegui->set_focused_editor(editor);
-  mergegui->set_visible_editors(editorsgui->visible_editors_get());
+  // Inform the merge window, if it is there, about the editors.
+  if (window_merge) {
+    window_merge->set_focused_editor(editor);
+    window_merge->set_visible_editors(editorsgui->visible_editors_get());
+  }
 
   // If we've no project bail out.
   if (project.empty())
@@ -6846,7 +6815,9 @@ void MainWindow::on_editorsgui_changed_clicked(GtkButton *button, gpointer user_
 }
 
 void MainWindow::on_editorsgui_changed() {
-  mergegui->editors_changed();
+  if (window_merge) {
+    window_merge->editors_changed();
+  }
 }
 
 void MainWindow::reload_project()
@@ -6877,7 +6848,7 @@ void MainWindow::reload_project()
  |
  |
  |
- Merge // Todo
+ Merge
  |
  |
  |
@@ -6890,12 +6861,15 @@ void MainWindow::on_file_projects_merge_activate(GtkMenuItem *menuitem, gpointer
 }
 
 void MainWindow::on_file_projects_merge() {
-  gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_tools), tapntMerge);
   on_window_merge_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (file_projects_merge))) {
     window_merge = new WindowMerge (windows_startup_pointer != G_MAXINT);
     g_signal_connect ((gpointer) window_merge->delete_signal_button, "clicked", G_CALLBACK (on_window_merge_button_clicked), gpointer(this));
     g_signal_connect ((gpointer) window_merge->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
+    g_signal_connect ((gpointer) window_merge->editors_get_text_button, "clicked", G_CALLBACK (on_merge_window_get_text_button_clicked), gpointer(this));
+    g_signal_connect ((gpointer) window_merge->new_reference_button, "clicked", G_CALLBACK (on_merge_window_new_reference_button_clicked), gpointer(this));
+    g_signal_connect ((gpointer) window_merge->save_editors_button, "clicked", G_CALLBACK (on_merge_window_save_editors_button_clicked), gpointer(this));
+    g_signal_connect ((gpointer) window_merge->reload_editors_button, "clicked", G_CALLBACK (on_editor_reload_clicked), gpointer(this));
   }
 }
 
@@ -6911,37 +6885,35 @@ void MainWindow::on_window_merge_button() {
   }
 }
 
-
-
-
-
-
-
-void MainWindow::on_mergegui_get_text_button_clicked(GtkButton *button, gpointer user_data) {
-  ((MainWindow *) user_data)->on_mergegui_get_text_button();
+void MainWindow::on_merge_window_get_text_button_clicked(GtkButton *button, gpointer user_data) {
+  ((MainWindow *) user_data)->on_merge_window_get_text_button();
 }
 
-void MainWindow::on_mergegui_get_text_button() {
-  mergegui->main_project_data = editorsgui->get_text(mergegui->current_master_project);
-  mergegui->edited_project_data = editorsgui->get_text(mergegui->current_edited_project);
-  mergegui->book = navigation.reference.book;
-  mergegui->chapter = navigation.reference.chapter;
+void MainWindow::on_merge_window_get_text_button() {
+  if (window_merge) {
+    window_merge->main_project_data = editorsgui->get_text(window_merge->current_master_project);
+    window_merge->edited_project_data = editorsgui->get_text(window_merge->current_edited_project);
+    window_merge->book = navigation.reference.book;
+    window_merge->chapter = navigation.reference.chapter;
+  }
 }
 
-void MainWindow::on_mergegui_new_reference_button_clicked(GtkButton *button, gpointer user_data) {
-  ((MainWindow *) user_data)->on_mergegui_new_reference_button();
+void MainWindow::on_merge_window_new_reference_button_clicked(GtkButton *button, gpointer user_data) {
+  ((MainWindow *) user_data)->on_merge_window_new_reference_button();
 }
 
-void MainWindow::on_mergegui_new_reference_button() {
-  Reference reference(mergegui->book, mergegui->chapter, "0");
-  navigation.display(reference);
+void MainWindow::on_merge_window_new_reference_button() {
+  if (window_merge) {
+    Reference reference(window_merge->book, window_merge->chapter, "0");
+    navigation.display(reference);
+  }
 }
 
-void MainWindow::on_mergegui_save_editors_button_clicked(GtkButton *button, gpointer user_data) {
-  ((MainWindow *) user_data)->on_mergegui_save_editors_button();
+void MainWindow::on_merge_window_save_editors_button_clicked(GtkButton *button, gpointer user_data) {
+  ((MainWindow *) user_data)->on_merge_window_save_editors_button();
 }
 
-void MainWindow::on_mergegui_save_editors_button() {
+void MainWindow::on_merge_window_save_editors_button() {
   editorsgui->save();
 }
 
@@ -7601,7 +7573,7 @@ void MainWindow::shutdown_windows()
     delete window_show_quick_references;
     window_show_quick_references = NULL;
   }
-  
+
   // Merge
   if (window_merge) {
     window_merge->shutdown();
@@ -7737,8 +7709,6 @@ void MainWindow::on_show_quick_references_signal_button(GtkButton *button) {
 
  Todo Improve the window layout system.
 
- The merge window does not remember its position.
- 
  There is one menu window, which is the main one, and each function will get its own window.
 
  It is very important to make the program to "feel" as if it is one and the same window.

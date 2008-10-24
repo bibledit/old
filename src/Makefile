@@ -154,11 +154,10 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogresourceconverter2.$(OBJEXT) \
 	resource_conversion_utils.$(OBJEXT) convert.$(OBJEXT) \
 	textviewer.$(OBJEXT) roman.$(OBJEXT) project_memory.$(OBJEXT) \
-	editorsgui.$(OBJEXT) restart.$(OBJEXT) mergegui.$(OBJEXT) \
-	dialogmerge.$(OBJEXT) merge_utils.$(OBJEXT) shutdown.$(OBJEXT) \
-	scripts.$(OBJEXT) dialogfilters.$(OBJEXT) \
-	dialogdictionary.$(OBJEXT) spelling.$(OBJEXT) \
-	dialogeditdictionary.$(OBJEXT) \
+	editorsgui.$(OBJEXT) restart.$(OBJEXT) dialogmerge.$(OBJEXT) \
+	merge_utils.$(OBJEXT) shutdown.$(OBJEXT) scripts.$(OBJEXT) \
+	dialogfilters.$(OBJEXT) dialogdictionary.$(OBJEXT) \
+	spelling.$(OBJEXT) dialogeditdictionary.$(OBJEXT) \
 	check_sentence_structure.$(OBJEXT) dialogcheckbutton.$(OBJEXT) \
 	dialogimportrawtext.$(OBJEXT) gtkhtml3browser.$(OBJEXT) \
 	htmlcache.$(OBJEXT) dialogxfernotes2text.$(OBJEXT) \
@@ -587,7 +586,6 @@ bibledit_bin_SOURCES = \
         project_memory.cpp \
         editorsgui.cpp \
         restart.cpp \
-        mergegui.cpp \
         dialogmerge.cpp \
         merge_utils.cpp \
         shutdown.cpp \
@@ -860,7 +858,6 @@ include ./$(DEPDIR)/mainwindow.Po
 include ./$(DEPDIR)/mapping.Po
 include ./$(DEPDIR)/mappings.Po
 include ./$(DEPDIR)/merge_utils.Po
-include ./$(DEPDIR)/mergegui.Po
 include ./$(DEPDIR)/myfnmatch.Po
 include ./$(DEPDIR)/note_editor.Po
 include ./$(DEPDIR)/notecaller.Po

@@ -235,7 +235,6 @@ bibledit_bin_SOURCES = \
         project_memory.cpp \
         editorsgui.cpp \
         restart.cpp \
-        mergegui.cpp \
         dialogmerge.cpp \
         merge_utils.cpp \
         shutdown.cpp \

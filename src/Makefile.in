@@ -154,11 +154,10 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogresourceconverter2.$(OBJEXT) \
 	resource_conversion_utils.$(OBJEXT) convert.$(OBJEXT) \
 	textviewer.$(OBJEXT) roman.$(OBJEXT) project_memory.$(OBJEXT) \
-	editorsgui.$(OBJEXT) restart.$(OBJEXT) mergegui.$(OBJEXT) \
-	dialogmerge.$(OBJEXT) merge_utils.$(OBJEXT) shutdown.$(OBJEXT) \
-	scripts.$(OBJEXT) dialogfilters.$(OBJEXT) \
-	dialogdictionary.$(OBJEXT) spelling.$(OBJEXT) \
-	dialogeditdictionary.$(OBJEXT) \
+	editorsgui.$(OBJEXT) restart.$(OBJEXT) dialogmerge.$(OBJEXT) \
+	merge_utils.$(OBJEXT) shutdown.$(OBJEXT) scripts.$(OBJEXT) \
+	dialogfilters.$(OBJEXT) dialogdictionary.$(OBJEXT) \
+	spelling.$(OBJEXT) dialogeditdictionary.$(OBJEXT) \
 	check_sentence_structure.$(OBJEXT) dialogcheckbutton.$(OBJEXT) \
 	dialogimportrawtext.$(OBJEXT) gtkhtml3browser.$(OBJEXT) \
 	htmlcache.$(OBJEXT) dialogxfernotes2text.$(OBJEXT) \
@@ -587,7 +586,6 @@ bibledit_bin_SOURCES = \
         project_memory.cpp \
         editorsgui.cpp \
         restart.cpp \
-        mergegui.cpp \
         dialogmerge.cpp \
         merge_utils.cpp \
         shutdown.cpp \
@@ -860,7 +858,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mapping.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mappings.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/merge_utils.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mergegui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/myfnmatch.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/note_editor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/notecaller.Po@am__quote@
