@@ -94,6 +94,8 @@ public:
   int import_raw_text_chapter;
   // Windows.
   vector <GtkWindow *> open_windows;
+  // Project notes.
+  bool project_notes_show_title;
 private:
   };
 

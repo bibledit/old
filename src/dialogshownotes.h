@@ -66,7 +66,7 @@ protected:
   GtkWidget *radiobutton_order_sort;
   GtkWidget *radiobutton_center;
   GtkWidget *hbox12;
-  GtkWidget *label11;
+  GtkWidget *checkbutton_show_title;
   GtkWidget *checkbutton_showproject;
   GtkWidget *checkbutton_show_category;
   GtkWidget *checkbutton_date_created;
@@ -92,6 +92,8 @@ private:
   ustring all_categories ();
   GtkToggleButton * reference_get_button (int selector);
   GtkToggleButton * edited_get_button (int selector);
+  static void on_checkbutton_show_title_toggled (GtkToggleButton *togglebutton, gpointer user_data);
+  void on_checkbutton_show_title();
 };
 
 

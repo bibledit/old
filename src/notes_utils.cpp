@@ -574,27 +574,29 @@ void notes_display(ustring& note_buffer, vector <unsigned int> ids, unsigned int
           linkheading.append (notes_cursor_anchor());
           linkheading.append ("\"></a>");
         }
-        // Insert a link with this heading, e.g.: <a href="10">Genesis 1.1</a>
-        linkheading.append ("<a href=\"" + convert_to_string (ids[c]) + "\">");
-        linkheading.append (reference);
-        if (settings->genconfig.notes_display_project_get ())
-        linkheading.append (" " + project);
-        if (settings->genconfig.notes_display_category_get ())
-        linkheading.append (" " + reader.ustring4[r]);
-        if (settings->genconfig.notes_display_date_created_get ())
-        linkheading.append (" " + date_time_julian_human_readable (convert_to_int (reader.ustring5[r]), true));
-        if (settings->genconfig.notes_display_created_by_get ())
-        linkheading.append (" " + reader.ustring6[r]);
-        linkheading.append ("</a>");
-        // Append a [delete] link too, e.g.: <a href="d10">[delete]</a>
-        linkheading.append (" <a href=\"d" + convert_to_string (ids[c]) + "\">");
-        linkheading.append ("[delete]");
-        linkheading.append ("</a>");
-        // Append a [references] link too, e.g.: <a href="r10">[references]</a>
-        linkheading.append (" <a href=\"r" + convert_to_string (ids[c]) + "\">");
-        linkheading.append ("[references]");
-        linkheading.append ("</a>");
-        // Add the link to the note data.
+        if (settings->session.project_notes_show_title) {
+          // Insert a link with this heading, e.g.: <a href="10">Genesis 1.1</a>
+          linkheading.append ("<a href=\"" + convert_to_string (ids[c]) + "\">");
+          linkheading.append (reference);
+          if (settings->genconfig.notes_display_project_get ())
+          linkheading.append (" " + project);
+          if (settings->genconfig.notes_display_category_get ())
+          linkheading.append (" " + reader.ustring4[r]);
+          if (settings->genconfig.notes_display_date_created_get ())
+          linkheading.append (" " + date_time_julian_human_readable (convert_to_int (reader.ustring5[r]), true));
+          if (settings->genconfig.notes_display_created_by_get ())
+          linkheading.append (" " + reader.ustring6[r]);
+          linkheading.append ("</a>");
+          // Append a [delete] link too, e.g.: <a href="d10">[delete]</a>
+          linkheading.append (" <a href=\"d" + convert_to_string (ids[c]) + "\">");
+          linkheading.append ("[delete]");
+          linkheading.append ("</a>");
+          // Append a [references] link too, e.g.: <a href="r10">[references]</a>
+          linkheading.append (" <a href=\"r" + convert_to_string (ids[c]) + "\">");
+          linkheading.append ("[references]");
+          linkheading.append ("</a>");
+        }
+        // Add the heading to the note data.
         note_buffer.append (linkheading);
 
         // Handle summary. Show only the first few words.
