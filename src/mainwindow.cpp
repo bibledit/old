@@ -133,6 +133,7 @@
 #include "htmlcolor.h"
 #include "text2pdf.h"
 #include "windows.h"
+#include "unixwrappers.h"
 
 /*
  |
@@ -155,7 +156,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   keytermsgui = NULL;
   outline = NULL;
   note_editor = NULL;
-  resourcesgui = NULL;
   editorsgui = NULL;
   window_screen_layout = NULL;
   window_show_keyterms = NULL;
@@ -2281,20 +2281,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   gtk_widget_show(label36);
   gtk_notebook_set_tab_label(GTK_NOTEBOOK (notebook_tools), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_tools), 4), label36);
 
-  scrolledwindow_resources = gtk_scrolled_window_new(NULL, NULL);
-  gtk_widget_show(scrolledwindow_resources);
-  gtk_container_add(GTK_CONTAINER (notebook_tools), scrolledwindow_resources);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow_resources), GTK_POLICY_AUTOMATIC, GTK_POLICY_NEVER);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW (scrolledwindow_resources), GTK_SHADOW_IN);
-
-  vbox_resources = gtk_vbox_new(FALSE, 0);
-  gtk_widget_show(vbox_resources);
-  gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW (scrolledwindow_resources), vbox_resources);
-
-  label_tool_resources = gtk_label_new("Resources");
-  gtk_widget_show(label_tool_resources);
-  gtk_notebook_set_tab_label(GTK_NOTEBOOK (notebook_tools), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_tools), 5), label_tool_resources);
-
   hbox5 = gtk_hbox_new(FALSE, 0);
   gtk_widget_show(hbox5);
   gtk_box_pack_start(GTK_BOX (vbox1), hbox5, FALSE, FALSE, 0);
@@ -2644,8 +2630,6 @@ MainWindow::~MainWindow() {
   delete windowsoutpost;
   // Destroy keyterms gui object if it is there.
   destroy_keyterms_object();
-  // Destroy the resources gui if it is there.
-  destroy_resources_object();
   // Finalize content manager subsystem.
   git_finalize_subsystem();
   // Destroy Outline
@@ -3270,6 +3254,10 @@ void MainWindow::on_navigation_new_reference() {
   if (window_show_keyterms) {
     window_show_keyterms->go_to(settings->genconfig.project_get(), navigation.reference);
   }
+  // Optional resource windows.
+  for (unsigned int i = 0; i < resource_windows.size(); i++) {
+    resource_windows[i]->go_to(navigation.reference);
+  }
 }
 
 void MainWindow::on_next_verse_activate(GtkMenuItem * menuitem, gpointer user_data) {
@@ -3350,10 +3338,11 @@ void MainWindow::go_to_new_reference()
     windowsoutpost->BibleWorksReferenceSet(goto_reference);
   if (settings->genconfig.reference_exchange_send_to_santafefocus_get())
     windowsoutpost->SantaFeFocusReferenceSet(goto_reference);
-  if (settings->genconfig.reference_exchange_send_to_bibledit_resource_viewer_get())
-    if (resourcesgui)
-      resourcesgui->go_to(goto_reference);
 
+  // Send to resources.
+  for (unsigned int i = 0; i < resource_windows.size(); i++) {
+    resource_windows[i]->go_to(goto_reference);
+  }
   // Update the notes view.
   notes_redisplay();
 }
@@ -3402,10 +3391,8 @@ void MainWindow::on_synchronize_other_programs() {
   if (settings->genconfig.reference_exchange_send_to_bibletime_get()) {
     bibletime.sendreference(editor->current_reference);
   }
-  if (settings->genconfig.reference_exchange_send_to_bibledit_resource_viewer_get()) {
-    if (resourcesgui) {
-      resourcesgui->go_to(editor->current_reference);
-    }
+  for (unsigned int i = 0; i < resource_windows.size(); i++) {
+    resource_windows[i]->go_to(editor->current_reference);
   }
 }
 
@@ -3479,11 +3466,6 @@ void MainWindow::on_tools_area_activate() {
       focused = (outline && outline->focused());
       break;
     }
-    case tapntResources:
-    {
-      focused = true;
-      break;
-    }
     case tapntEnd:
     {
       focused = true;
@@ -3511,7 +3493,6 @@ void MainWindow::on_tools_area_activate() {
         case tapntProjectNote:
         case tapntKeyterms:
         case tapntOutline:
-        case tapntResources:
           pageshows = GTK_WIDGET_VISIBLE (gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_tools), page));
           break;
         case tapntEnd:
@@ -3547,9 +3528,6 @@ void MainWindow::on_tools_area_activate() {
       break;
     case tapntOutline:
       outline->focus();
-      break;
-    case tapntResources:
-      gtk_widget_grab_focus(vbox_resources);
       break;
     case tapntEnd:
       break;
@@ -3640,15 +3618,6 @@ void MainWindow::on_copy() {
       keytermsgui->copy_clipboard();
     }
   }
-  if (resourcesgui) {
-    ToolsAreaPageNumberType page = (ToolsAreaPageNumberType) gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook_tools));
-    if (page == tapntResources) {
-      Resource * resource = resourcesgui->focused_resource();
-      if (resource) {
-        resource->copy();
-      }
-    }
-  }
 }
 
 void MainWindow::on_copy_without_formatting_activate(GtkMenuItem * menuitem, gpointer user_data) {
@@ -3730,10 +3699,6 @@ void MainWindow::notebook_tools_switch_page(guint page_num) {
     editorsgui->save();
     activate_keyterms_object();
     notebook_notes_area_page_num = 1;
-  }
-  // If we're on the resources page create the object if need be.
-  if (page_num == tapntResources) {
-    activate_resources_object();
   }
   gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_notes_area), notebook_notes_area_page_num);
   // Initialize outline system
@@ -6137,21 +6102,21 @@ void MainWindow::on_view_keyterms_activate(GtkMenuItem *menuitem, gpointer user_
 }
 
 void MainWindow::on_view_keyterms() {
-  on_window_show_keyterms_button();
+  on_window_show_keyterms_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (view_keyterms))) {
     window_show_keyterms = new WindowShowKeyterms (windows_startup_pointer != G_MAXINT);
-    g_signal_connect ((gpointer) window_show_keyterms->delete_signal_button, "clicked", G_CALLBACK (on_window_show_keyterms_button_clicked), gpointer(this));
+    g_signal_connect ((gpointer) window_show_keyterms->delete_signal_button, "clicked", G_CALLBACK (on_window_show_keyterms_delete_button_clicked), gpointer(this));
     g_signal_connect ((gpointer) window_show_keyterms->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
     extern Settings * settings;
     window_show_keyterms->go_to(settings->genconfig.project_get(), navigation.reference);
   }
 }
 
-void MainWindow::on_window_show_keyterms_button_clicked(GtkButton *button, gpointer user_data) {
-  ((MainWindow *) user_data)->on_window_show_keyterms_button();
+void MainWindow::on_window_show_keyterms_delete_button_clicked(GtkButton *button, gpointer user_data) {
+  ((MainWindow *) user_data)->on_window_show_keyterms_delete_button();
 }
 
-void MainWindow::on_window_show_keyterms_button() {
+void MainWindow::on_window_show_keyterms_delete_button() {
   if (window_show_keyterms) {
     delete window_show_keyterms;
     window_show_keyterms = NULL;
@@ -6619,7 +6584,7 @@ void MainWindow::on_preferences_planning() {
  |
  |
  |
- Resources
+ Resources Todo implementing and testing multiple resource windows.
  |
  |
  |
@@ -6627,54 +6592,92 @@ void MainWindow::on_preferences_planning() {
  |
  */
 
-void MainWindow::activate_resources_object()
-// Create the resources object if it does not yet exist.
-{
-  if (!resourcesgui) {
-    // The purpose of the next line is to prevent creation of two resource objects
-    // in case that bibledit starts with the Resources tab activated.
-    resourcesgui++;
-    // Create object.
-    resourcesgui = new ResourcesGUI (vbox_resources);
-  }
+void MainWindow::on_window_resource_delete_button_clicked(GtkButton *button, gpointer user_data) {
+  ((MainWindow *) user_data)->on_window_resource_delete_button(button);
 }
 
-void MainWindow::destroy_resources_object() {
-  if (resourcesgui)
-    delete resourcesgui;
+void MainWindow::on_window_resource_delete_button(GtkButton *button) {
+  GtkWidget * widget= GTK_WIDGET (button);
+  vector <WindowResource *>::iterator iterator = resource_windows.begin();
+  for (unsigned int i = 0; i < resource_windows.size(); i++) {
+    if (widget == resource_windows[i]->delete_signal_button) {
+      delete resource_windows[i];
+      resource_windows.erase(iterator);
+      break;
+    }
+    iterator++;
+  }
 }
 
 void MainWindow::on_file_resources_activate(GtkMenuItem *menuitem, gpointer user_data) {
   ((MainWindow *) user_data)->on_file_resources();
 }
 
-void MainWindow::on_file_resources() {
-  // Switch the view to the resources (creating the object if it was not there).
-  gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_tools), tapntResources);
-  // Set the Edit menu option sensitive only if a resource has been opened.
-  bool enable = false;
-  if (resourcesgui) {
-    if (resourcesgui->focused_resource()) {
-      enable = true;
+WindowResource * MainWindow::last_focused_resource_window()
+// Get the focused resource window, or NULL if there's none.
+{
+  WindowResource * resource_window= NULL;
+  time_t most_recent_time = 0;
+  for (unsigned int i = 0; i < resource_windows.size(); i++) {
+    if (resource_windows[i]->focused_time > most_recent_time) {
+      most_recent_time = resource_windows[i]->focused_time;
+      resource_window = resource_windows[i];
     }
   }
-  gtk_widget_set_sensitive(file_resources_edit, enable);
+  return resource_window;
+}
+
+void MainWindow::on_file_resources()
+// Set some menu options sensitive if a resource is open.
+{
+  gtk_widget_set_sensitive(file_resources_close, !resource_windows.empty());
+  gtk_widget_set_sensitive(file_resources_edit, !resource_windows.empty());
 }
 
 void MainWindow::on_file_resources_open_activate(GtkMenuItem *menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->on_file_resources_open();
+  ((MainWindow *) user_data)->on_file_resources_open("");
 }
 
-void MainWindow::on_file_resources_open() {
-  resource_open(resourcesgui);
+void MainWindow::on_file_resources_open(ustring resource)
+// Opens a resource.
+{
+  vector <ustring> filenames;
+  vector <ustring> resources = resource_get_resources(filenames, false);
+  quick_sort(resources, filenames, 0, resources.size());
+  if (resource.empty()) {
+    ListviewDialog dialog("Open resource", resources, "", false, NULL);
+    if (dialog.run() == GTK_RESPONSE_OK) {
+      resource = dialog.focus;
+    }
+  }
+  if (resource.empty())
+    return;
+  ustring filename;
+  for (unsigned int i = 0; i < resources.size(); i++) {
+    if (resource == resources[i]) {
+      filename = filenames[i];
+    }
+  }
+  if (filename.empty())
+    return;
+  WindowResource * resource_window = new WindowResource (resource, false);
+  g_signal_connect ((gpointer) resource_window->delete_signal_button, "clicked", G_CALLBACK (on_window_resource_delete_button_clicked), gpointer(this));
+  g_signal_connect ((gpointer) resource_window->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
+  resource_window->go_to(navigation.reference);
+  resource_windows.push_back(resource_window);
 }
 
 void MainWindow::on_file_resources_close_activate(GtkMenuItem *menuitem, gpointer user_data) {
   ((MainWindow *) user_data)->on_file_resources_close();
 }
 
-void MainWindow::on_file_resources_close() {
-  resource_close(resourcesgui);
+void MainWindow::on_file_resources_close()
+// Closes the focused resource.
+{
+  WindowResource * focused_window = last_focused_resource_window();
+  if (focused_window) {
+    on_window_resource_delete_button(GTK_BUTTON (focused_window->delete_signal_button));
+  }
 }
 
 void MainWindow::on_file_resources_new_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -6690,14 +6693,17 @@ void MainWindow::on_file_resources_edit_activate(GtkMenuItem *menuitem, gpointer
   ((MainWindow *) user_data)->on_file_resources_edit();
 }
 
-void MainWindow::on_file_resources_edit() {
-  Resource * resource = resourcesgui->focused_resource();
-  if (!resource)
-    return;
-  ustring templatefile = resource->template_get();
-  NewResourceDialog dialog(templatefile);
-  if (dialog.run() == GTK_RESPONSE_OK) {
-    resourcesgui->reload(templatefile, dialog.edited_template_file);
+void MainWindow::on_file_resources_edit() // Todo implement again. To make the focus system operational first. 
+{
+  WindowResource * focused_resource_window = last_focused_resource_window();
+  if (focused_resource_window) {
+    /*
+     ustring templatefile = resource->template_get();
+     NewResourceDialog dialog(templatefile);
+     if (dialog.run() == GTK_RESPONSE_OK) {
+     resourcesgui->reload(templatefile, dialog.edited_template_file);
+     }
+     */
   }
 }
 
@@ -6705,8 +6711,34 @@ void MainWindow::on_file_resources_delete_activate(GtkMenuItem *menuitem, gpoint
   ((MainWindow *) user_data)->on_file_resources_delete();
 }
 
-void MainWindow::on_file_resources_delete() {
-  resource_delete(resourcesgui);
+void MainWindow::on_file_resources_delete()
+// Delete a resource.
+{
+  vector <ustring> filenames;
+  vector <ustring> resources = resource_get_resources(filenames, false);
+  ListviewDialog dialog("Delete resource", resources, "", false, NULL);
+  if (dialog.run() == GTK_RESPONSE_OK) {
+    int result = gtkw_dialog_question(NULL, "Are you sure you want to delete resource " + dialog.focus + "?");
+    if (result == GTK_RESPONSE_YES) {
+      ustring filename;
+      for (unsigned int i = 0; i < resources.size(); i++) {
+        if (dialog.focus == resources[i]) {
+          filename = filenames[i];
+        }
+      }
+      // There are two methods of deleting resources:
+      if (resource_add_name_to_deleted_ones_if_standard_template(filename)) {
+        // 1. A template that comes with bibledit: We can't delete this as we don't 
+        // have write access to the folder where it is stored. Therefore 
+        // we "delete" it by placing it in a file that lists deleted
+        // resources.
+      } else {
+        // 2. A user-generated resource: Just delete it.
+        ustring directory = gw_path_get_dirname(filename);
+        unix_rmdir(directory);
+      }
+    }
+  }
 }
 
 /*
@@ -6861,10 +6893,10 @@ void MainWindow::on_file_projects_merge_activate(GtkMenuItem *menuitem, gpointer
 }
 
 void MainWindow::on_file_projects_merge() {
-  on_window_merge_button();
+  on_window_merge_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (file_projects_merge))) {
     window_merge = new WindowMerge (windows_startup_pointer != G_MAXINT);
-    g_signal_connect ((gpointer) window_merge->delete_signal_button, "clicked", G_CALLBACK (on_window_merge_button_clicked), gpointer(this));
+    g_signal_connect ((gpointer) window_merge->delete_signal_button, "clicked", G_CALLBACK (on_window_merge_delete_button_clicked), gpointer(this));
     g_signal_connect ((gpointer) window_merge->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
     g_signal_connect ((gpointer) window_merge->editors_get_text_button, "clicked", G_CALLBACK (on_merge_window_get_text_button_clicked), gpointer(this));
     g_signal_connect ((gpointer) window_merge->new_reference_button, "clicked", G_CALLBACK (on_merge_window_new_reference_button_clicked), gpointer(this));
@@ -6873,11 +6905,11 @@ void MainWindow::on_file_projects_merge() {
   }
 }
 
-void MainWindow::on_window_merge_button_clicked(GtkButton *button, gpointer user_data) {
-  ((MainWindow *) user_data)->on_window_merge_button();
+void MainWindow::on_window_merge_delete_button_clicked(GtkButton *button, gpointer user_data) {
+  ((MainWindow *) user_data)->on_window_merge_delete_button();
 }
 
-void MainWindow::on_window_merge_button() {
+void MainWindow::on_window_merge_delete_button() {
   if (window_merge) {
     delete window_merge;
     window_merge = NULL;
@@ -7545,6 +7577,11 @@ bool MainWindow::on_windows_startup() {
           gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (file_projects_merge), true);
           break;
         }
+        case widResource:
+        {
+          on_file_resources_open(data);
+          break;
+        }
       }
     }
   }
@@ -7580,6 +7617,14 @@ void MainWindow::shutdown_windows()
     delete window_merge;
     window_merge = NULL;
   }
+
+  // Resources.
+  while (!resource_windows.empty()) {
+    WindowResource * resource_window = resource_windows[0];
+    resource_window->shutdown();
+    delete resource_window;
+    resource_windows.erase(resource_windows.begin());
+  }
 }
 
 void MainWindow::on_window_focus_button_clicked(GtkButton *button, gpointer user_data) {
@@ -7609,6 +7654,9 @@ void MainWindow::on_window_focus_button(GtkButton *button)
     window_show_keyterms->present();
   if (window_merge)
     window_merge->present();
+  for (unsigned int i = 0; i < resource_windows.size(); i++) {
+    resource_windows[i]->present();
+  }
 
   // Present the calling window again.
   GtkWidget * widget= GTK_WIDGET (button);
@@ -7626,6 +7674,10 @@ void MainWindow::on_window_focus_button(GtkButton *button)
   if (window_merge) {
     if (widget == window_merge->focus_in_signal_button)
       window_merge->present();
+  }
+  for (unsigned int i = 0; i < resource_windows.size(); i++) {
+    if (widget == resource_windows[i]->focus_in_signal_button)
+      resource_windows[i]->present();
   }
 }
 
@@ -7672,20 +7724,20 @@ void MainWindow::on_view_quick_references_activate(GtkMenuItem *menuitem, gpoint
 }
 
 void MainWindow::on_view_quick_references() {
-  on_window_show_quick_references_button();
+  on_window_show_quick_references_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (view_quick_references))) {
     window_show_quick_references = new WindowShowQuickReferences (windows_startup_pointer != G_MAXINT);
-    g_signal_connect ((gpointer) window_show_quick_references->delete_signal_button, "clicked", G_CALLBACK (on_window_show_quick_references_button_clicked), gpointer(this));
+    g_signal_connect ((gpointer) window_show_quick_references->delete_signal_button, "clicked", G_CALLBACK (on_window_show_quick_references_delete_button_clicked), gpointer(this));
     g_signal_connect ((gpointer) window_show_quick_references->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
     treeview_references_display_quick_reference();
   }
 }
 
-void MainWindow::on_window_show_quick_references_button_clicked(GtkButton *button, gpointer user_data) {
-  ((MainWindow *) user_data)->on_window_show_quick_references_button();
+void MainWindow::on_window_show_quick_references_delete_button_clicked(GtkButton *button, gpointer user_data) {
+  ((MainWindow *) user_data)->on_window_show_quick_references_delete_button();
 }
 
-void MainWindow::on_window_show_quick_references_button() {
+void MainWindow::on_window_show_quick_references_delete_button() {
   if (window_show_quick_references) {
     delete window_show_quick_references;
     window_show_quick_references = NULL;
@@ -7708,6 +7760,23 @@ void MainWindow::on_show_quick_references_signal_button(GtkButton *button) {
 /*
 
  Todo Improve the window layout system.
+
+
+
+  for (unsigned int i = 0; i < resource_objects.size(); i++) {
+    if (oldfilename == resource_objects[i]->template_get()) {
+      resource_objects[i]->open(newfilename);
+    }
+  }
+
+ We need to make the copy to clipboard function work in each resource.
+
+ Make a focus system for the resource windows.
+ Ensure that if a named resource is opened, and that resource was open already, it focuses that resource. 
+ Implement copy to clipboard from any resource. Probably in that resource itself.
+ Implement and try multiple windows.
+ Try the resource edit functionality, in particular that the right resource gets edited.
+ To implement: on_file_resources_close
 
  There is one menu window, which is the main one, and each function will get its own window.
 

@@ -141,7 +141,6 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE (reference_exchange_send_to_bibletime);
   INITIALIZE (reference_exchange_receive_from_bibletime);
   INITIALIZE (reference_exchange_send_to_santafefocus);
-  INITIALIZE (reference_exchange_send_to_bibledit_resource_viewer);
   INITIALIZE (reference_exchange_receive_from_santafefocus);
   INITIALIZE (check_markers_compare_project);
   INITIALIZE (check_markers_compare_all_markers);
@@ -226,8 +225,6 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE (project_tasks_names);
   INITIALIZE (project_tasks_durations);
   INITIALIZE (inserting_xref_shows_references);
-  INITIALIZE (resources);
-  INITIALIZE (resource_pages);
   INITIALIZE (split_view_open_method);
   INITIALIZE (split_view_editor_top_down_layout);
   INITIALIZE (print_job);
@@ -321,7 +318,6 @@ void GeneralConfiguration::save()
   SAVE_VALUE (reference_exchange_send_to_bibletime);
   SAVE_VALUE (reference_exchange_receive_from_bibletime);
   SAVE_VALUE (reference_exchange_send_to_santafefocus);
-  SAVE_VALUE (reference_exchange_send_to_bibledit_resource_viewer);
   SAVE_VALUE (reference_exchange_receive_from_santafefocus);
   SAVE_VALUE (check_markers_compare_project);
   SAVE_VALUE (check_markers_compare_all_markers);
@@ -406,8 +402,6 @@ void GeneralConfiguration::save()
   SAVE_VALUE (project_tasks_names);
   SAVE_VALUE (project_tasks_durations);
   SAVE_VALUE (inserting_xref_shows_references);
-  SAVE_VALUE (resources);
-  SAVE_VALUE (resource_pages);
   SAVE_VALUE (split_view_open_method);
   SAVE_VALUE (split_view_editor_top_down_layout);
   SAVE_VALUE (print_job);
@@ -572,7 +566,6 @@ IMPLEMENT (bool, bool_get, reference_exchange_send_to_bibletime, false)
 IMPLEMENT (bool, bool_get, reference_exchange_receive_from_bibletime, false)
 IMPLEMENT (bool, bool_get, reference_exchange_send_to_santafefocus, true)
 IMPLEMENT (bool, bool_get, reference_exchange_receive_from_santafefocus, false)
-IMPLEMENT (bool, bool_get, reference_exchange_send_to_bibledit_resource_viewer, true)
 IMPLEMENT (ustring, string_get, check_markers_compare_project, "")
 IMPLEMENT (bool, bool_get, check_markers_compare_all_markers, true)
 IMPLEMENT (ustring, string_get, check_markers_compare_include_only, "")
@@ -656,8 +649,6 @@ IMPLEMENT (ustring, string_get, pdf_viewer_arguments, "")
 IMPLEMENT (vector<ustring>, vector_string_get, project_tasks_names, NULL)
 IMPLEMENT (vector<double>, vector_double_get, project_tasks_durations, NULL)
 IMPLEMENT (bool, bool_get, inserting_xref_shows_references, false)
-IMPLEMENT (vector<ustring>, vector_string_get, resources, NULL)
-IMPLEMENT (vector<int>, vector_int_get, resource_pages, NULL)
 IMPLEMENT (int, int_get, split_view_open_method, 0)
 IMPLEMENT (bool, bool_get, split_view_editor_top_down_layout, true)
 IMPLEMENT (int, int_get, print_job, 0)

@@ -148,10 +148,9 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogreportingsetup.$(OBJEXT) dialogeditstatus.$(OBJEXT) \
 	dialogtaskduration.$(OBJEXT) htmlwriter.$(OBJEXT) \
 	dialogviewstatus.$(OBJEXT) dialogplanningsetup.$(OBJEXT) \
-	dialoginterfaceprefs.$(OBJEXT) resourceviewergui.$(OBJEXT) \
-	resource.$(OBJEXT) dialognewresource.$(OBJEXT) \
-	dialogresourcebooks.$(OBJEXT) dialogradiobutton.$(OBJEXT) \
-	dialogresourceconverter2.$(OBJEXT) \
+	dialoginterfaceprefs.$(OBJEXT) resource.$(OBJEXT) \
+	dialognewresource.$(OBJEXT) dialogresourcebooks.$(OBJEXT) \
+	dialogradiobutton.$(OBJEXT) dialogresourceconverter2.$(OBJEXT) \
 	resource_conversion_utils.$(OBJEXT) convert.$(OBJEXT) \
 	textviewer.$(OBJEXT) roman.$(OBJEXT) project_memory.$(OBJEXT) \
 	editorsgui.$(OBJEXT) restart.$(OBJEXT) dialogmerge.$(OBJEXT) \
@@ -169,7 +168,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	text2pdf_intermediate.$(OBJEXT) usfm2text.$(OBJEXT) \
 	dialogtext2pdf.$(OBJEXT) windowlayout.$(OBJEXT) \
 	windowshowkeyterms.$(OBJEXT) windows.$(OBJEXT) \
-	windowshowquickrefs.$(OBJEXT) windowmerge.$(OBJEXT)
+	windowshowquickrefs.$(OBJEXT) windowmerge.$(OBJEXT) \
+	windowresource.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -573,7 +573,6 @@ bibledit_bin_SOURCES = \
         dialogviewstatus.cpp \
         dialogplanningsetup.cpp \
         dialoginterfaceprefs.cpp \
-        resourceviewergui.cpp \
         resource.cpp \
         dialognewresource.cpp \
         dialogresourcebooks.cpp \
@@ -617,7 +616,8 @@ bibledit_bin_SOURCES = \
         windowshowkeyterms.cpp \
         windows.cpp \
         windowshowquickrefs.cpp \
-        windowmerge.cpp
+        windowmerge.cpp \
+        windowresource.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -893,7 +893,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/resource.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/resource_conversion_utils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/resource_utils.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/resourceviewergui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/restart.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/roman.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/screen.Po@am__quote@
@@ -945,6 +944,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/versifications.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowlayout.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowmerge.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowresource.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windows.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowshowkeyterms.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowshowquickrefs.Po@am__quote@

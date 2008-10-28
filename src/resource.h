@@ -27,15 +27,13 @@
 #include "types.h"
 #include "gtkhtml3browser.h"
 
-class Resource
+class Resource // Todo let it fit in the resource window.
 {
 public:
-  Resource(GtkWidget * vbox, GtkWidget * notebook_page, GtkWidget * tab_label);
+  Resource(GtkWidget * window);
   ~Resource();
   void focus();
   bool focused();
-  void parent_notebook_switches_to_page(GtkWidget * page);
-  GtkWidget * parent_notebook_page();
   void copy();
   void go_to(const Reference& reference);
   ustring template_get();
@@ -43,7 +41,7 @@ public:
   time_t last_focused_time();
 private:
   // Widgets.
-  GtkWidget *my_vbox;
+  GtkWidget *vbox;
   GtkWidget *progressbar;
   GtkWidget *homebutton;
   GtkHtml3Browser * browser;
@@ -59,10 +57,6 @@ private:
   map <unsigned int, ustring> book_renderer;
   map <unsigned int, ustring> anchor_renderer;
   ustring url_filter;
-
-  // Focus handling.
-  GtkWidget * my_notebook_page;
-  GtkWidget * my_tab_label;
 
   // Home.
   static void on_homebutton_clicked(GtkButton *button, gpointer user_data);

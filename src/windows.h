@@ -24,10 +24,10 @@
 #include <gtk/gtk.h>
 
 enum WindowID
-{ widShowKeyterms, widShowQuickReferences, widMerge };
+{ widShowKeyterms, widShowQuickReferences, widMerge, widResource };
 
-void window_display(GtkWidget * window, WindowID id, ustring data, bool startup);
-void window_delete(GtkWidget * window, WindowID id, ustring data, bool shutdown);
+void window_display(GtkWidget * window, WindowID id, const ustring& data, bool startup);
+void window_delete(GtkWidget * window, WindowID id, const ustring& data, bool shutdown);
 
 class WindowData
 {
@@ -49,7 +49,7 @@ private:
 class WindowBase
 {
 public:
-  WindowBase(WindowID id, const ustring title, bool startup);
+  WindowBase(WindowID id, ustring data_title, bool startup);
   virtual ~WindowBase();
   GtkWidget *window;
   
@@ -59,6 +59,7 @@ public:
   GtkWidget * focus_in_signal_button;
   static gboolean on_window_focus_in_event(GtkWidget *widget, GdkEventFocus *event, gpointer user_data);
   void on_window_focus_in(GtkWidget *widget);
+  time_t focused_time;
   bool act_on_focus_in_signal;
   void present();
   

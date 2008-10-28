@@ -26,7 +26,6 @@
 #include "directories.h"
 #include "books.h"
 #include "resource_utils.h"
-#include "resourceviewergui.h"
 #include "htmlcache.h"
 
 GtkHtml3Browser::GtkHtml3Browser(GtkWidget * vbox) {

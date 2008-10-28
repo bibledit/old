@@ -35,12 +35,12 @@
 #include "gui_styles.h"
 #include "displayprojectnotes.h"
 #include "git.h"
-#include "resourceviewergui.h"
 #include "editorsgui.h"
 #include "windowlayout.h"
 #include "windowshowkeyterms.h"
 #include "windowshowquickrefs.h"
 #include "windowmerge.h"
+#include "windowresource.h"
 
 class MainWindow
 {
@@ -458,9 +458,6 @@ protected:
   GtkWidget *vbox_outline;
   // Widgets that belong here have been moved to the Outline object.
   GtkWidget *label36;
-  GtkWidget *scrolledwindow_resources;
-  GtkWidget *vbox_resources;
-  GtkWidget *label_tool_resources;
   GtkWidget *hbox5;
   GtkWidget *hbox7;
   GtkWidget *statuslabel_stylesheet;
@@ -839,8 +836,8 @@ protected:
   static void on_view_keyterms_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_keyterms();
   WindowShowKeyterms * window_show_keyterms;
-  static void on_window_show_keyterms_button_clicked(GtkButton *button, gpointer user_data);
-  void on_window_show_keyterms_button();
+  static void on_window_show_keyterms_delete_button_clicked(GtkButton *button, gpointer user_data);
+  void on_window_show_keyterms_delete_button();
 
   /* Backups */
   static void on_project_backup_incremental_activate(GtkMenuItem *menuitem, gpointer user_data);
@@ -898,14 +895,16 @@ protected:
   static void on_preferences_planning_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_preferences_planning();
 
-  /* Resources */
-  ResourcesGUI * resourcesgui;
-  void activate_resources_object();
-  void destroy_resources_object();
+  /* Resources */ // Todo work on that here.
+  vector <WindowResource *> resource_windows;  
+  static void on_window_resource_delete_button_clicked(GtkButton *button, gpointer user_data);
+  void on_window_resource_delete_button(GtkButton *button);
+  WindowResource * last_focused_resource_window();
+  
   static void on_file_resources_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_file_resources();
   static void on_file_resources_open_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_file_resources_open();
+  void on_file_resources_open(ustring resource);
   static void on_file_resources_close_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_file_resources_close();
   static void on_file_resources_new_activate(GtkMenuItem *menuitem, gpointer user_data);
@@ -930,8 +929,8 @@ protected:
   static void on_file_projects_merge_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_file_projects_merge();
   WindowMerge * window_merge;
-  static void on_window_merge_button_clicked(GtkButton *button, gpointer user_data);
-  void on_window_merge_button();
+  static void on_window_merge_delete_button_clicked(GtkButton *button, gpointer user_data);
+  void on_window_merge_delete_button();
   static void on_merge_window_get_text_button_clicked(GtkButton *button, gpointer user_data);
   void on_merge_window_get_text_button();
   static void on_merge_window_new_reference_button_clicked(GtkButton *button, gpointer user_data);
@@ -970,8 +969,8 @@ protected:
   static void on_view_quick_references_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_quick_references();
   WindowShowQuickReferences * window_show_quick_references;
-  static void on_window_show_quick_references_button_clicked(GtkButton *button, gpointer user_data);
-  void on_window_show_quick_references_button();
+  static void on_window_show_quick_references_delete_button_clicked(GtkButton *button, gpointer user_data);
+  void on_window_show_quick_references_delete_button();
   static void on_show_quick_references_signal_button_clicked(GtkButton *button, gpointer user_data);
   void on_show_quick_references_signal_button(GtkButton *button);
 

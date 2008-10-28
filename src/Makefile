@@ -148,10 +148,9 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogreportingsetup.$(OBJEXT) dialogeditstatus.$(OBJEXT) \
 	dialogtaskduration.$(OBJEXT) htmlwriter.$(OBJEXT) \
 	dialogviewstatus.$(OBJEXT) dialogplanningsetup.$(OBJEXT) \
-	dialoginterfaceprefs.$(OBJEXT) resourceviewergui.$(OBJEXT) \
-	resource.$(OBJEXT) dialognewresource.$(OBJEXT) \
-	dialogresourcebooks.$(OBJEXT) dialogradiobutton.$(OBJEXT) \
-	dialogresourceconverter2.$(OBJEXT) \
+	dialoginterfaceprefs.$(OBJEXT) resource.$(OBJEXT) \
+	dialognewresource.$(OBJEXT) dialogresourcebooks.$(OBJEXT) \
+	dialogradiobutton.$(OBJEXT) dialogresourceconverter2.$(OBJEXT) \
 	resource_conversion_utils.$(OBJEXT) convert.$(OBJEXT) \
 	textviewer.$(OBJEXT) roman.$(OBJEXT) project_memory.$(OBJEXT) \
 	editorsgui.$(OBJEXT) restart.$(OBJEXT) dialogmerge.$(OBJEXT) \
@@ -169,7 +168,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	text2pdf_intermediate.$(OBJEXT) usfm2text.$(OBJEXT) \
 	dialogtext2pdf.$(OBJEXT) windowlayout.$(OBJEXT) \
 	windowshowkeyterms.$(OBJEXT) windows.$(OBJEXT) \
-	windowshowquickrefs.$(OBJEXT) windowmerge.$(OBJEXT)
+	windowshowquickrefs.$(OBJEXT) windowmerge.$(OBJEXT) \
+	windowresource.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -275,9 +275,9 @@ OBJEXT = o
 PACKAGE = bibledit
 PACKAGE_BUGREPORT = http://www.nongnu.org/bibledit
 PACKAGE_NAME = bibledit
-PACKAGE_STRING = bibledit 3.4.26
+PACKAGE_STRING = bibledit 3.4.29
 PACKAGE_TARNAME = bibledit
-PACKAGE_VERSION = 3.4.26
+PACKAGE_VERSION = 3.4.29
 PANGO_CFLAGS = -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
 PANGO_LIBS = -lpango-1.0 -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0  
 PATH_SEPARATOR = :
@@ -294,7 +294,7 @@ STRINGS_PATH = /usr/bin/strings
 STRIP = 
 TAIL_PATH = /usr/bin/tail
 TEE_TOUCH = /usr/bin/touch
-VERSION = 3.4.26
+VERSION = 3.4.29
 WIN32_FALSE = 
 WIN32_TRUE = #
 XML2_CONFIG = /usr/bin/xml2-config
@@ -573,7 +573,6 @@ bibledit_bin_SOURCES = \
         dialogviewstatus.cpp \
         dialogplanningsetup.cpp \
         dialoginterfaceprefs.cpp \
-        resourceviewergui.cpp \
         resource.cpp \
         dialognewresource.cpp \
         dialogresourcebooks.cpp \
@@ -617,7 +616,8 @@ bibledit_bin_SOURCES = \
         windowshowkeyterms.cpp \
         windows.cpp \
         windowshowquickrefs.cpp \
-        windowmerge.cpp
+        windowmerge.cpp \
+        windowresource.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -893,7 +893,6 @@ include ./$(DEPDIR)/reporting.Po
 include ./$(DEPDIR)/resource.Po
 include ./$(DEPDIR)/resource_conversion_utils.Po
 include ./$(DEPDIR)/resource_utils.Po
-include ./$(DEPDIR)/resourceviewergui.Po
 include ./$(DEPDIR)/restart.Po
 include ./$(DEPDIR)/roman.Po
 include ./$(DEPDIR)/screen.Po
@@ -945,6 +944,7 @@ include ./$(DEPDIR)/versification.Po
 include ./$(DEPDIR)/versifications.Po
 include ./$(DEPDIR)/windowlayout.Po
 include ./$(DEPDIR)/windowmerge.Po
+include ./$(DEPDIR)/windowresource.Po
 include ./$(DEPDIR)/windows.Po
 include ./$(DEPDIR)/windowshowkeyterms.Po
 include ./$(DEPDIR)/windowshowquickrefs.Po

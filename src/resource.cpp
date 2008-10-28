@@ -30,15 +30,16 @@ extern "C" {
 #include <gtkhtml/gtkhtml.h>
 }
 
-Resource::Resource(GtkWidget * vbox, GtkWidget * notebook_page, GtkWidget * tab_label) {
+Resource::Resource(GtkWidget * window) {
   // Save and initialize varables.
-  my_vbox = vbox;
-  my_notebook_page = notebook_page;
-  my_tab_label = tab_label;
   resource_type = rtEnd;
   browser2 = NULL;
 
   // Build GUI.
+  vbox = gtk_vbox_new(FALSE, 0);
+  gtk_widget_show(vbox);
+  gtk_container_add (GTK_CONTAINER (window), vbox);
+
   GtkWidget *hbox;
   hbox = gtk_hbox_new(FALSE, 0);
   gtk_widget_show(hbox);
@@ -69,7 +70,7 @@ Resource::~Resource() {
   delete browser;
   if (browser2)
     delete browser2;
-  gtk_widget_destroy(my_vbox);
+  gtk_widget_destroy(vbox);
 }
 
 void Resource::focus() {
@@ -84,12 +85,6 @@ bool Resource::focused() {
     if (browser2->focused())
       focus = true;
   return focus;
-}
-
-void Resource::parent_notebook_switches_to_page(GtkWidget * page) {
-  if (page == my_notebook_page) {
-    focus();
-  }
 }
 
 void Resource::copy() {
@@ -136,7 +131,7 @@ void Resource::open(const ustring& filename) {
   url_filter = resource_get_lower_url_filter(filename);
   if (resource_type == rtURLForEachVerseAboveURLFilterBelowWithDifferentAnchors) {
     if (browser2 == NULL) {
-      browser2 = new GtkHtml3Browser (my_vbox);
+      browser2 = new GtkHtml3Browser (vbox);
       browser->set_second_browser(url_filter, browser2);
     }
   }
@@ -146,10 +141,6 @@ void Resource::open(const ustring& filename) {
 
 ustring Resource::template_get() {
   return mytemplatefile;
-}
-
-GtkWidget * Resource::parent_notebook_page() {
-  return my_notebook_page;
 }
 
 void Resource::on_homebutton_clicked(GtkButton *button, gpointer user_data) {

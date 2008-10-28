@@ -124,7 +124,6 @@ public:
   DEFINE_GENCONFIG_H (bool, reference_exchange_send_to_bibletime);
   DEFINE_GENCONFIG_H (bool, reference_exchange_receive_from_bibletime);
   DEFINE_GENCONFIG_H (bool, reference_exchange_send_to_santafefocus);
-  DEFINE_GENCONFIG_H (bool, reference_exchange_send_to_bibledit_resource_viewer);
   DEFINE_GENCONFIG_H (bool, reference_exchange_receive_from_santafefocus);
   DEFINE_GENCONFIG_H (ustring, check_markers_compare_project);
   DEFINE_GENCONFIG_H (bool, check_markers_compare_all_markers);
@@ -209,8 +208,6 @@ public:
   DEFINE_GENCONFIG_H (vector<ustring>, project_tasks_names);
   DEFINE_GENCONFIG_H (vector<double>, project_tasks_durations);
   DEFINE_GENCONFIG_H (bool, inserting_xref_shows_references);
-  DEFINE_GENCONFIG_H (vector<ustring>, resources);
-  DEFINE_GENCONFIG_H (vector<int>, resource_pages);
   DEFINE_GENCONFIG_H (int, split_view_open_method);
   DEFINE_GENCONFIG_H (bool, split_view_editor_top_down_layout);
   DEFINE_GENCONFIG_H (int, print_job);

@@ -17,22 +17,24 @@
  **  
  */
 
-#ifndef INCLUDED_RESOURCEVIEWER_GUI_H
-#define INCLUDED_RESOURCEVIEWER_GUI_H
+#ifndef INCLUDED_WINDOW_RESOURCE_H
+#define INCLUDED_WINDOW_RESOURCE_H
 
-#include "libraries.h"
-#include <glib.h>
 #include <gtk/gtk.h>
+#include "ustring.h"
 #include "reference.h"
+#include "windows.h"
 #include "resource.h"
 
-class ResourcesGUI // Todo to go out.
+class WindowResource : public WindowBase
 {
 public:
-  ResourcesGUI(GtkWidget * notebook_vbox);
-  ~ResourcesGUI();
-  void open(const ustring& filename, int method);
-  void reload(const ustring& oldfilename, const ustring& newfilename);
+  WindowResource(const ustring& name, bool startup);
+  virtual ~WindowResource();
+  void go_to(Reference& reference);
+  Resource * resource;
+protected:
+  ustring resourcename_to_filename(const ustring& resourcename);
 private:
 };
 

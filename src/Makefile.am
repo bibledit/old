@@ -222,7 +222,6 @@ bibledit_bin_SOURCES = \
         dialogviewstatus.cpp \
         dialogplanningsetup.cpp \
         dialoginterfaceprefs.cpp \
-        resourceviewergui.cpp \
         resource.cpp \
         dialognewresource.cpp \
         dialogresourcebooks.cpp \
@@ -266,7 +265,8 @@ bibledit_bin_SOURCES = \
         windowshowkeyterms.cpp \
         windows.cpp \
         windowshowquickrefs.cpp \
-        windowmerge.cpp
+        windowmerge.cpp \
+        windowresource.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 

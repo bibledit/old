@@ -93,13 +93,6 @@ ReferenceExchangeDialog::ReferenceExchangeDialog (int dummy)
   // Set state.
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_send_paratext), settings->genconfig.reference_exchange_send_to_santafefocus_get ());
 
-  checkbutton_send_resource_viewer = gtk_check_button_new_with_mnemonic ("_Resources");
-  gtk_widget_show (checkbutton_send_resource_viewer);
-  gtk_box_pack_start (GTK_BOX (vbox2), checkbutton_send_resource_viewer, FALSE, FALSE, 0);
-
-  // Set state.
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_send_resource_viewer), settings->genconfig.reference_exchange_send_to_bibledit_resource_viewer_get ());
-
   hseparator1 = gtk_hseparator_new ();
   gtk_widget_show (hseparator1);
   gtk_box_pack_start (GTK_BOX (vbox1), hseparator1, TRUE, TRUE, 0);
@@ -220,7 +213,6 @@ void ReferenceExchangeDialog::on_okbutton ()
   settings->genconfig.reference_exchange_receive_from_bibletime_set (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_receive_bt)));
   settings->genconfig.reference_exchange_send_to_santafefocus_set (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_send_paratext)));
   settings->genconfig.reference_exchange_receive_from_santafefocus_set (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_receive_paratext)));
-  settings->genconfig.reference_exchange_send_to_bibledit_resource_viewer_set (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_send_resource_viewer)));
 }
 
 

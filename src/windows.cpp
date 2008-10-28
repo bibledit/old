@@ -21,18 +21,13 @@
 #include "settings.h"
 #include "gwrappers.h"
 
-void window_display(GtkWidget * window, WindowID id, ustring data, bool startup)
+void window_display(GtkWidget * window, WindowID id, const ustring& data, bool startup)
 // Does the bookkeeping needed to display the window.
 // window: pointer to the GtkWindow.
 // id: the id of the window.
 // data: the data attached to the window.
 // startup: whether windows are handled at program startup.
 {
-  // If there's no data, then the configuration file gets inconsistent. Therefore put something there.
-  if (data.empty()) {
-    data.append("none");
-  }
-
   extern Settings * settings;
 
   // The parameters of all the windows.
@@ -77,6 +72,7 @@ void window_display(GtkWidget * window, WindowID id, ustring data, bool startup)
       case widShowKeyterms:
       case widShowQuickReferences:
       case widMerge:
+      case widResource:
       {
         area_rectangle.x = settings->genconfig.tools_area_x_position_get();
         area_rectangle.y = settings->genconfig.tools_area_y_position_get();
@@ -179,16 +175,11 @@ void window_display(GtkWidget * window, WindowID id, ustring data, bool startup)
   settings->session.open_windows.push_back(GTK_WINDOW (window));
 }
 
-void window_delete(GtkWidget * window, WindowID id, ustring data, bool shutdown)
+void window_delete(GtkWidget * window, WindowID id, const ustring& data, bool shutdown)
 // Does the bookkeeping needed for deleting a window.
 // When a window closes, the sizes of other windows are not affected. 
 // Thus if the same window is opened again, it will go in the same free space as it was in before.
 {
-  // If there's no data, then the configuration file gets inconsistent. Therefore put something there.
-  if (data.empty()) {
-    data.append("none");
-  }
-
   // Window position.
   gint width, height, x, y;
   gtk_window_get_size(GTK_WINDOW(window), &width, &height);
@@ -304,14 +295,21 @@ void WindowData::debug()
   }
 }
 
-WindowBase::WindowBase(WindowID id, const ustring title, bool startup)
+WindowBase::WindowBase(WindowID id, ustring data_title, bool startup)
 // Base class for each window.
 {
+  // If there's no title/data, then the configuration file gets inconsistent. Therefore put something there.
+  if (data_title.empty()) {
+    data_title.append("Untitled");
+  }
+
   // Initialize variables.
   my_shutdown = false;
   act_on_focus_in_signal = true;
   focus_event_id = 0;
   window_id = id;
+  window_data = data_title;
+  focused_time = time(0);
 
   // Signalling buttons.
   focus_in_signal_button = gtk_button_new();
@@ -319,7 +317,7 @@ WindowBase::WindowBase(WindowID id, const ustring title, bool startup)
 
   // Craete the window.
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title(GTK_WINDOW (window), title.c_str());
+  gtk_window_set_title(GTK_WINDOW (window), data_title.c_str());
 
   // The extra window should not appear in the taskbar in addition to the main window of Bibledit.
   // If it were to appear in the taskbar, then it looks as if there are many programs running.
@@ -373,6 +371,7 @@ gboolean WindowBase::on_window_focus_in_event(GtkWidget *widget, GdkEventFocus *
 void WindowBase::on_window_focus_in(GtkWidget *widget) {
   if (act_on_focus_in_signal) {
     gtk_button_clicked(GTK_BUTTON (focus_in_signal_button));
+    focused_time = time(0);
   }
 }
 

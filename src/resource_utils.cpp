@@ -61,63 +61,6 @@ ustring resource_viewer_produce_anchor(unsigned int book, unsigned int chapter, 
   return anchor;
 }
 
-void resource_open(ResourcesGUI * resourcesgui)
-// This function cares for opening a resource through the menu.
-{
-  if (!resourcesgui)
-    return;
-  vector <ustring> filenames;
-  vector <ustring> resources = resource_get_resources(filenames, false);
-  quick_sort(resources, filenames, 0, resources.size());
-  ListviewDialog dialog("Open resource", resources, "", false, NULL);
-  if (dialog.run() == GTK_RESPONSE_OK) {
-    ustring filename;
-    for (unsigned int i = 0; i < resources.size(); i++) {
-      if (dialog.focus == resources[i]) {
-        filename = filenames[i];
-      }
-    }
-    if (filename.empty())
-      return;
-    resourcesgui->open(filename, -1);
-  }
-}
-
-void resource_close(ResourcesGUI * resourcesgui) {
-  if (!resourcesgui)
-    return;
-  resourcesgui->close();
-}
-
-void resource_delete(ResourcesGUI * resourcesgui)
-// Delete a resource from the available ones.
-{
-  vector <ustring> filenames;
-  vector <ustring> resources = resource_get_resources(filenames, false);
-  ListviewDialog dialog("Delete resource", resources, "", false, NULL);
-  if (dialog.run() == GTK_RESPONSE_OK) {
-    int result = gtkw_dialog_question(NULL, "Are you sure you want to delete resource " + dialog.focus + "?");
-    if (result == GTK_RESPONSE_YES) {
-      ustring filename;
-      for (unsigned int i = 0; i < resources.size(); i++) {
-        if (dialog.focus == resources[i])
-          filename = filenames[i];
-      }
-      // There are two methods of deleting resources:
-      if (resource_add_name_to_deleted_ones_if_standard_template(filename)) {
-        // 1. A template that comes with bibledit: We can't delete this as we don't 
-        // have write access to the folder where they are stored. Therefore 
-        // we "delete" them by placing them in a file that lists deleted
-        // resources.
-      } else {
-        // 2. A user-generated resource: Just delete it.
-        ustring directory = gw_path_get_dirname(filename);
-        unix_rmdir(directory);
-      }
-    }
-  }
-}
-
 bool resource_add_name_to_deleted_ones_if_standard_template(const ustring& filename)
 /*
  If the filename given is a standard template, it adds the name of the resource

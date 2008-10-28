@@ -47,8 +47,7 @@ enum StylesheetType {stBasic, stBasicParagraph, stBasicParagraphWordNote,
                      stSilBestPractice, stFull};
 
 enum ToolsAreaPageNumberType {tapntReferences, tapntStyles, tapntProjectNote,
-                              tapntKeyterms, tapntOutline, tapntResources,
-                              tapntEnd};
+                              tapntKeyterms, tapntOutline,  tapntEnd};
 
 enum NotesSelectionReferenceType {nsrtCurrentVerse, nsrtCurrentChapter, nsrtCurrentBook, nsrtAny};
 enum NotesSelectionEditedType {nsetToday, nsetDateRange, nsetAny};

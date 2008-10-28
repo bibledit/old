@@ -24,14 +24,9 @@
 #include <glib.h>
 
 #include "reference.h"
-#include "resourceviewergui.h"
 #include "types.h"
 
 ustring resource_viewer_produce_anchor(unsigned int book, unsigned int chapter, unsigned int verse);
-
-void resource_open(ResourcesGUI * resourcesgui);
-void resource_close(ResourcesGUI * resourcesgui);
-void resource_delete(ResourcesGUI * resourcesgui);
 
 bool resource_add_name_to_deleted_ones_if_standard_template(const ustring& filename);
 

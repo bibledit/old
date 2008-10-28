@@ -44,7 +44,6 @@ protected:
   GtkWidget *checkbutton_send_bw;
   GtkWidget *checkbutton_send_bt;
   GtkWidget *checkbutton_send_paratext;
-  GtkWidget *checkbutton_send_resource_viewer;
   GtkWidget *hseparator1;
   GtkWidget *label4;
   GtkWidget *vbox3;
