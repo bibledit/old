@@ -375,6 +375,11 @@ void WindowBase::on_window_focus_in(GtkWidget *widget) {
   }
 }
 
+bool WindowBase::focused() // Todo
+{
+  return GTK_WIDGET_HAS_FOCUS(window);
+}
+
 void WindowBase::present()
 // Presents the window.
 {

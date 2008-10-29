@@ -7773,10 +7773,6 @@ void MainWindow::on_show_quick_references_signal_button(GtkButton *button) {
 
  Todo Improve the window layout system.
 
- Implement copy to clipboard from any resource. 
- We may probably throw the focus functionality out of that resource.
- 
- 
  There is one menu window, which is the main one, and each function will get its own window.
 
  It is very important to make the program to "feel" as if it is one and the same window.
