@@ -27,7 +27,7 @@
 #include "types.h"
 #include "gtkhtml3browser.h"
 
-class Resource // Todo let it fit in the resource window.
+class Resource
 {
 public:
   Resource(GtkWidget * window);

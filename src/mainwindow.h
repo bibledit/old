@@ -960,6 +960,7 @@ protected:
   void on_window_focus_button(GtkButton *button);
   static gboolean on_main_window_focus_in_event(GtkWidget *widget, GdkEventFocus *event, gpointer user_data);
   void on_main_window_focus_in(GtkWidget *widget);
+  void temporarily_switch_off_act_on_focus_in_signal();
   bool act_on_focus_in_signal;
   guint focus_event_id;
   static bool on_focus_timeout(gpointer data);

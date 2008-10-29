@@ -29,10 +29,11 @@
 class WindowResource : public WindowBase
 {
 public:
-  WindowResource(const ustring& name, bool startup);
+  WindowResource(const ustring& resource_name, bool startup);
   virtual ~WindowResource();
   void go_to(Reference& reference);
   Resource * resource;
+  ustring name;
 protected:
   ustring resourcename_to_filename(const ustring& resourcename);
 private:

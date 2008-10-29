@@ -6641,6 +6641,10 @@ void MainWindow::on_file_resources_open_activate(GtkMenuItem *menuitem, gpointer
 void MainWindow::on_file_resources_open(ustring resource)
 // Opens a resource.
 {
+  // Focus signals off.
+  temporarily_switch_off_act_on_focus_in_signal();
+  
+  // Find data about the resource, and whether it exists.
   vector <ustring> filenames;
   vector <ustring> resources = resource_get_resources(filenames, false);
   quick_sort(resources, filenames, 0, resources.size());
@@ -6660,6 +6664,15 @@ void MainWindow::on_file_resources_open(ustring resource)
   }
   if (filename.empty())
     return;
+
+  // If the resource already displays, bail out.
+  for (unsigned int i = 0; i < resource_windows.size(); i++) {
+    if (resource == resource_windows[i]->name) {
+      return;
+    }
+  }
+
+  // Display a new resource.
   WindowResource * resource_window = new WindowResource (resource, false);
   g_signal_connect ((gpointer) resource_window->delete_signal_button, "clicked", G_CALLBACK (on_window_resource_delete_button_clicked), gpointer(this));
   g_signal_connect ((gpointer) resource_window->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
@@ -6693,17 +6706,14 @@ void MainWindow::on_file_resources_edit_activate(GtkMenuItem *menuitem, gpointer
   ((MainWindow *) user_data)->on_file_resources_edit();
 }
 
-void MainWindow::on_file_resources_edit() // Todo implement again. To make the focus system operational first. 
-{
+void MainWindow::on_file_resources_edit() {
   WindowResource * focused_resource_window = last_focused_resource_window();
   if (focused_resource_window) {
-    /*
-     ustring templatefile = resource->template_get();
-     NewResourceDialog dialog(templatefile);
-     if (dialog.run() == GTK_RESPONSE_OK) {
-     resourcesgui->reload(templatefile, dialog.edited_template_file);
-     }
-     */
+    ustring templatefile = focused_resource_window->resource->template_get();
+    NewResourceDialog dialog(templatefile);
+    if (dialog.run() == GTK_RESPONSE_OK) {
+      focused_resource_window->resource->open(dialog.edited_template_file);
+    }
   }
 }
 
@@ -7516,7 +7526,7 @@ void MainWindow::on_print() {
  |
  |
  |
- Windowing system
+ Windowing system Todo
  |
  |
  |
@@ -7639,11 +7649,7 @@ void MainWindow::on_window_focus_button(GtkButton *button)
 
   // The main window is going to be presented, and therefore will fire the "focus_in_event".
   // Don't act on this signal for a short while, lest the focusing goes on and on in an endless loop.
-  act_on_focus_in_signal = false;
-
-  // Restart the timeout.
-  gw_destroy_source(focus_event_id);
-  focus_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 1000, GSourceFunc (on_focus_timeout), gpointer(this), NULL);
+  temporarily_switch_off_act_on_focus_in_signal();
 
   // Present all windows.
   //gtk_window_set_skip_taskbar_hint(GTK_WINDOW (mainwindow), true);
@@ -7692,6 +7698,12 @@ void MainWindow::on_main_window_focus_in(GtkWidget *widget)
   if (act_on_focus_in_signal) {
     on_window_focus_button(NULL);
   }
+}
+
+void MainWindow::temporarily_switch_off_act_on_focus_in_signal() {
+  act_on_focus_in_signal = false;
+  gw_destroy_source(focus_event_id);
+  focus_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 1000, GSourceFunc (on_focus_timeout), gpointer(this), NULL);
 }
 
 bool MainWindow::on_focus_timeout(gpointer data) {
@@ -7761,23 +7773,10 @@ void MainWindow::on_show_quick_references_signal_button(GtkButton *button) {
 
  Todo Improve the window layout system.
 
-
-
-  for (unsigned int i = 0; i < resource_objects.size(); i++) {
-    if (oldfilename == resource_objects[i]->template_get()) {
-      resource_objects[i]->open(newfilename);
-    }
-  }
-
- We need to make the copy to clipboard function work in each resource.
-
- Make a focus system for the resource windows.
- Ensure that if a named resource is opened, and that resource was open already, it focuses that resource. 
- Implement copy to clipboard from any resource. Probably in that resource itself.
- Implement and try multiple windows.
- Try the resource edit functionality, in particular that the right resource gets edited.
- To implement: on_file_resources_close
-
+ Implement copy to clipboard from any resource. 
+ We may probably throw the focus functionality out of that resource.
+ 
+ 
  There is one menu window, which is the main one, and each function will get its own window.
 
  It is very important to make the program to "feel" as if it is one and the same window.

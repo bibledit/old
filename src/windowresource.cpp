@@ -28,10 +28,11 @@
 #include "settings.h"
 #include "resource_utils.h"
 
-WindowResource::WindowResource(const ustring& name, bool startup) :
-  WindowBase(widResource, name, startup)
+WindowResource::WindowResource(const ustring& resource_name, bool startup) :
+  WindowBase(widResource, resource_name, startup)
 // Window for showing the quick references.  
 {
+  name = resource_name;
   resource = new Resource (window);
   resource->open(resourcename_to_filename(name));
 }
