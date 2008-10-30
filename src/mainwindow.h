@@ -31,7 +31,6 @@
 #include "reference.h"
 #include "keytermsgui.h"
 #include "gui_navigation.h"
-#include "outline.h"
 #include "gui_styles.h"
 #include "displayprojectnotes.h"
 #include "git.h"
@@ -41,6 +40,7 @@
 #include "windowshowquickrefs.h"
 #include "windowmerge.h"
 #include "windowresource.h"
+#include "windowoutline.h"
 
 class MainWindow
 {
@@ -194,6 +194,7 @@ protected:
   GtkWidget *view_screen_layout;
   GtkWidget *view_keyterms;
   GtkWidget *view_quick_references;
+  GtkWidget *view_outline;
   GtkWidget *insert1;
   GtkWidget *insert1_menu;
   GtkWidget *standard_text_1;
@@ -871,9 +872,11 @@ protected:
   void set_fonts();
 
   /* Outline */
-  Outline * outline;
-  void outline_initialize();
-  void outline_destroy();
+  static void on_view_outline_activate (GtkMenuItem *menuitem, gpointer user_data);
+  void on_view_outline();
+  WindowOutline * window_outline;
+  static void on_window_outline_delete_button_clicked(GtkButton *button, gpointer user_data);
+  void on_window_outline_delete_button();
   static void on_button_outline_clicked(GtkButton *button, gpointer user_data);
   void on_button_outline();
 
@@ -895,12 +898,12 @@ protected:
   static void on_preferences_planning_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_preferences_planning();
 
-  /* Resources */ // Todo work on that here.
-  vector <WindowResource *> resource_windows;  
+  /* Resources */
+  vector <WindowResource *> resource_windows;
   static void on_window_resource_delete_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_resource_delete_button(GtkButton *button);
   WindowResource * last_focused_resource_window();
-  
+
   static void on_file_resources_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_file_resources();
   static void on_file_resources_open_activate(GtkMenuItem *menuitem, gpointer user_data);

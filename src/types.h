@@ -46,8 +46,7 @@ enum GitTaskType {gttInitializeProject, gttCommitProject, gttStoreChapter, gttUp
 enum StylesheetType {stBasic, stBasicParagraph, stBasicParagraphWordNote, 
                      stSilBestPractice, stFull};
 
-enum ToolsAreaPageNumberType {tapntReferences, tapntStyles, tapntProjectNote,
-                              tapntKeyterms, tapntOutline,  tapntEnd};
+enum ToolsAreaPageNumberType {tapntReferences, tapntStyles, tapntProjectNote, tapntKeyterms, tapntEnd};
 
 enum NotesSelectionReferenceType {nsrtCurrentVerse, nsrtCurrentChapter, nsrtCurrentBook, nsrtAny};
 enum NotesSelectionEditedType {nsetToday, nsetDateRange, nsetAny};

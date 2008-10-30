@@ -154,13 +154,13 @@ MainWindow::MainWindow(unsigned long xembed) :
   // Set some pointers to NULL.  
   // To save memory, we only create the object when actually needed.
   keytermsgui = NULL;
-  outline = NULL;
   note_editor = NULL;
   editorsgui = NULL;
   window_screen_layout = NULL;
   window_show_keyterms = NULL;
   window_show_quick_references = NULL;
   window_merge = NULL;
+  window_outline = NULL;
 
   // Initialize some variables.
   notes_redisplay_source_id = 0;
@@ -1024,6 +1024,10 @@ MainWindow::MainWindow(unsigned long xembed) :
   view_quick_references = gtk_check_menu_item_new_with_mnemonic("_Quick references");
   gtk_widget_show(view_quick_references);
   gtk_container_add(GTK_CONTAINER (menuitem_view_menu), view_quick_references);
+
+  view_outline = gtk_check_menu_item_new_with_mnemonic("_Outline");
+  gtk_widget_show(view_outline);
+  gtk_container_add(GTK_CONTAINER (menuitem_view_menu), view_outline);
 
   insert1 = gtk_menu_item_new_with_mnemonic("_Insert");
   gtk_widget_show(insert1);
@@ -2412,6 +2416,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   g_signal_connect ((gpointer) view_screen_layout, "activate", G_CALLBACK (on_view_screen_layout_activate), gpointer(this));
   g_signal_connect ((gpointer) view_keyterms, "activate", G_CALLBACK (on_view_keyterms_activate), gpointer(this));
   g_signal_connect ((gpointer) view_quick_references, "activate", G_CALLBACK (on_view_quick_references_activate), gpointer(this));
+  g_signal_connect ((gpointer) view_outline, "activate", G_CALLBACK (on_view_outline_activate), gpointer(this));
 
   g_signal_connect ((gpointer) insert1, "activate", G_CALLBACK (on_insert1_activate), gpointer(this));
   if (guifeatures.project_notes()) {
@@ -2632,8 +2637,6 @@ MainWindow::~MainWindow() {
   destroy_keyterms_object();
   // Finalize content manager subsystem.
   git_finalize_subsystem();
-  // Destroy Outline
-  outline_destroy();
   // Destroy the Styles.
   delete styles;
   // Destroy editors.
@@ -3244,8 +3247,6 @@ void MainWindow::on_navigation_new_reference() {
   settings->genconfig.chapter_set(convert_to_string(navigation.reference.chapter));
   settings->genconfig.verse_set(navigation.reference.verse);
   go_to_new_reference();
-  if (outline)
-    outline->goto_reference(settings->genconfig.project_get(), navigation.reference);
   // Optionally display the parallel passages in the reference area.
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (parallel_passages1))) {
     parallel_passages_display(navigation.reference, liststore_references, treeview_references, treecolumn_references);
@@ -3257,6 +3258,10 @@ void MainWindow::on_navigation_new_reference() {
   // Optional resource windows.
   for (unsigned int i = 0; i < resource_windows.size(); i++) {
     resource_windows[i]->go_to(navigation.reference);
+  }
+  // Optional outline window.
+  if (window_outline) {
+    window_outline->go_to(settings->genconfig.project_get(), navigation.reference);
   }
 }
 
@@ -3366,8 +3371,8 @@ void MainWindow::on_new_verse()
   if (editor) {
     Reference reference(navigation.reference.book, navigation.reference.chapter, editor->current_verse_number);
     navigation.display(reference);
-    if (outline)
-      outline->goto_reference(editor->project, navigation.reference);
+    if (window_outline)
+      window_outline->go_to(editor->project, navigation.reference);
   }
 }
 
@@ -3461,11 +3466,6 @@ void MainWindow::on_tools_area_activate() {
       focused = (keytermsgui && keytermsgui->focused());
       break;
     }
-    case tapntOutline:
-    {
-      focused = (outline && outline->focused());
-      break;
-    }
     case tapntEnd:
     {
       focused = true;
@@ -3492,7 +3492,6 @@ void MainWindow::on_tools_area_activate() {
         case tapntStyles:
         case tapntProjectNote:
         case tapntKeyterms:
-        case tapntOutline:
           pageshows = GTK_WIDGET_VISIBLE (gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_tools), page));
           break;
         case tapntEnd:
@@ -3525,9 +3524,6 @@ void MainWindow::on_tools_area_activate() {
       break;
     case tapntKeyterms:
       keytermsgui->focus();
-      break;
-    case tapntOutline:
-      outline->focus();
       break;
     case tapntEnd:
       break;
@@ -3701,12 +3697,6 @@ void MainWindow::notebook_tools_switch_page(guint page_num) {
     notebook_notes_area_page_num = 1;
   }
   gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_notes_area), notebook_notes_area_page_num);
-  // Initialize outline system
-  if (page_num == tapntOutline)
-    outline_initialize();
-  // Whether the outlines are produced.
-  if (outline)
-    outline->operate = (page_num == tapntOutline);
 }
 
 void MainWindow::on_file_references_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -6408,20 +6398,32 @@ void MainWindow::set_fonts() {
  |
  */
 
-void MainWindow::outline_initialize() {
-  if (!outline) {
-    outline = new Outline (vbox_outline);
-    g_signal_connect ((gpointer) outline->reference_changed_signal, "clicked", G_CALLBACK (on_button_outline_clicked), gpointer(this));
-  }
-  outline->operate = true;
-  extern Settings * settings;
-  outline->goto_reference(settings->genconfig.project_get(), navigation.reference);
+void MainWindow::on_view_outline_activate(GtkMenuItem *menuitem, gpointer user_data) {
+  ((MainWindow *) user_data)->on_view_outline();
 }
 
-void MainWindow::outline_destroy() {
-  if (outline)
-    delete outline;
-  outline = NULL;
+void MainWindow::on_view_outline() {
+  on_window_outline_delete_button();
+  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (view_outline))) {
+    window_outline = new WindowOutline (windows_startup_pointer != G_MAXINT);
+    g_signal_connect ((gpointer) window_outline->delete_signal_button, "clicked", G_CALLBACK (on_window_outline_delete_button_clicked), gpointer(this));
+    g_signal_connect ((gpointer) window_outline->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
+    g_signal_connect ((gpointer) window_outline->outline->reference_changed_signal, "clicked", G_CALLBACK (on_button_outline_clicked), gpointer(this));
+    extern Settings * settings;
+    window_outline->go_to(settings->genconfig.project_get(), navigation.reference);
+  }
+}
+
+void MainWindow::on_window_outline_delete_button_clicked(GtkButton *button, gpointer user_data) {
+  ((MainWindow *) user_data)->on_window_outline_delete_button();
+}
+
+void MainWindow::on_window_outline_delete_button() {
+  if (window_outline) {
+    delete window_outline;
+    window_outline = NULL;
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (view_outline), false);
+  }
 }
 
 void MainWindow::on_button_outline_clicked(GtkButton *button, gpointer user_data) {
@@ -6429,10 +6431,12 @@ void MainWindow::on_button_outline_clicked(GtkButton *button, gpointer user_data
 }
 
 void MainWindow::on_button_outline() {
-  Reference reference(navigation.reference);
-  reference.chapter = outline->newchapter;
-  reference.verse = convert_to_string(outline->newverse);
-  navigation.display(reference);
+  if (window_outline) {
+    Reference reference(navigation.reference);
+    reference.chapter = window_outline->outline->newchapter;
+    reference.verse = convert_to_string(window_outline->outline->newverse);
+    navigation.display(reference);
+  }
 }
 
 /*
@@ -6584,7 +6588,7 @@ void MainWindow::on_preferences_planning() {
  |
  |
  |
- Resources Todo implementing and testing multiple resource windows.
+ Resources
  |
  |
  |
@@ -6643,7 +6647,7 @@ void MainWindow::on_file_resources_open(ustring resource)
 {
   // Focus signals off.
   temporarily_switch_off_act_on_focus_in_signal();
-  
+
   // Find data about the resource, and whether it exists.
   vector <ustring> filenames;
   vector <ustring> resources = resource_get_resources(filenames, false);
@@ -7526,7 +7530,7 @@ void MainWindow::on_print() {
  |
  |
  |
- Windowing system Todo
+ Windowing system
  |
  |
  |
@@ -7592,6 +7596,11 @@ bool MainWindow::on_windows_startup() {
           on_file_resources_open(data);
           break;
         }
+        case widOutline:
+        {
+          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (view_outline), true);
+          break;
+        }
       }
     }
   }
@@ -7635,6 +7644,14 @@ void MainWindow::shutdown_windows()
     delete resource_window;
     resource_windows.erase(resource_windows.begin());
   }
+
+  // Outline
+  if (window_outline) {
+    window_outline->shutdown();
+    delete window_outline;
+    window_outline = NULL;
+  }
+
 }
 
 void MainWindow::on_window_focus_button_clicked(GtkButton *button, gpointer user_data) {
@@ -7663,6 +7680,8 @@ void MainWindow::on_window_focus_button(GtkButton *button)
   for (unsigned int i = 0; i < resource_windows.size(); i++) {
     resource_windows[i]->present();
   }
+  if (window_outline)
+    window_outline->present();
 
   // Present the calling window again.
   GtkWidget * widget= GTK_WIDGET (button);
@@ -7684,6 +7703,10 @@ void MainWindow::on_window_focus_button(GtkButton *button)
   for (unsigned int i = 0; i < resource_windows.size(); i++) {
     if (widget == resource_windows[i]->focus_in_signal_button)
       resource_windows[i]->present();
+  }
+  if (window_outline) {
+    if (widget == window_outline->focus_in_signal_button)
+      window_outline->present();
   }
 }
 

@@ -73,6 +73,7 @@ void window_display(GtkWidget * window, WindowID id, const ustring& data, bool s
       case widShowQuickReferences:
       case widMerge:
       case widResource:
+      case widOutline:
       {
         area_rectangle.x = settings->genconfig.tools_area_x_position_get();
         area_rectangle.y = settings->genconfig.tools_area_y_position_get();
@@ -375,7 +376,7 @@ void WindowBase::on_window_focus_in(GtkWidget *widget) {
   }
 }
 
-bool WindowBase::focused() // Todo
+bool WindowBase::focused()
 {
   return GTK_WIDGET_HAS_FOCUS(window);
 }
