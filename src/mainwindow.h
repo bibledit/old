@@ -456,9 +456,6 @@ protected:
   GtkWidget *vbox_keyterms;
   // Widgets that belong here are moved to the KeytermsGUI object.  
   GtkWidget *label22;
-  GtkWidget *vbox_outline;
-  // Widgets that belong here have been moved to the Outline object.
-  GtkWidget *label36;
   GtkWidget *hbox5;
   GtkWidget *hbox7;
   GtkWidget *statuslabel_stylesheet;

@@ -2271,19 +2271,9 @@ MainWindow::MainWindow(unsigned long xembed) :
   gtk_widget_show(label22);
   gtk_notebook_set_tab_label(GTK_NOTEBOOK (notebook_tools), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_tools), 3), label22);
 
-  vbox_outline = gtk_vbox_new(FALSE, 0);
-  gtk_widget_show(vbox_outline);
-  gtk_container_add(GTK_CONTAINER (notebook_tools), vbox_outline);
-
   if (!guifeatures.checks()) {
     gtk_widget_hide(gtk_notebook_get_nth_page(GTK_NOTEBOOK (notebook_tools), tapntKeyterms));
   }
-
-  // Code for widgets creation for the Outline object has been moved there.
-
-  label36 = gtk_label_new("Outline");
-  gtk_widget_show(label36);
-  gtk_notebook_set_tab_label(GTK_NOTEBOOK (notebook_tools), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_tools), 4), label36);
 
   hbox5 = gtk_hbox_new(FALSE, 0);
   gtk_widget_show(hbox5);
