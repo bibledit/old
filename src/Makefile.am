@@ -152,7 +152,6 @@ bibledit_bin_SOURCES = \
         reference.cpp \
         keyterms.cpp \
         dialognotesupdate.cpp \
-        keytermsgui.cpp \
         guiselectproject.cpp \
         check_markers_spacing.cpp \
         gui_navigation.cpp \
@@ -267,7 +266,8 @@ bibledit_bin_SOURCES = \
         windowshowquickrefs.cpp \
         windowmerge.cpp \
         windowresource.cpp \
-        windowoutline.cpp
+        windowoutline.cpp \
+        windowcheckkeyterms.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 

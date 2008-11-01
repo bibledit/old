@@ -116,10 +116,9 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	originreferences.$(OBJEXT) dialogtidy.$(OBJEXT) tidy.$(OBJEXT) \
 	shortcuts.$(OBJEXT) upgrade.$(OBJEXT) reference.$(OBJEXT) \
 	keyterms.$(OBJEXT) dialognotesupdate.$(OBJEXT) \
-	keytermsgui.$(OBJEXT) guiselectproject.$(OBJEXT) \
-	check_markers_spacing.$(OBJEXT) gui_navigation.$(OBJEXT) \
-	myfnmatch.$(OBJEXT) statistics.$(OBJEXT) \
-	dialogbackup.$(OBJEXT) backup.$(OBJEXT) \
+	guiselectproject.$(OBJEXT) check_markers_spacing.$(OBJEXT) \
+	gui_navigation.$(OBJEXT) myfnmatch.$(OBJEXT) \
+	statistics.$(OBJEXT) dialogbackup.$(OBJEXT) backup.$(OBJEXT) \
 	dialogviewgit.$(OBJEXT) dialoggitadd.$(OBJEXT) \
 	dialoggitsetup.$(OBJEXT) projectutilsold.$(OBJEXT) \
 	dialogchanges.$(OBJEXT) dialogrevert.$(OBJEXT) \
@@ -169,7 +168,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogtext2pdf.$(OBJEXT) windowlayout.$(OBJEXT) \
 	windowshowkeyterms.$(OBJEXT) windows.$(OBJEXT) \
 	windowshowquickrefs.$(OBJEXT) windowmerge.$(OBJEXT) \
-	windowresource.$(OBJEXT) windowoutline.$(OBJEXT)
+	windowresource.$(OBJEXT) windowoutline.$(OBJEXT) \
+	windowcheckkeyterms.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -503,7 +503,6 @@ bibledit_bin_SOURCES = \
         reference.cpp \
         keyterms.cpp \
         dialognotesupdate.cpp \
-        keytermsgui.cpp \
         guiselectproject.cpp \
         check_markers_spacing.cpp \
         gui_navigation.cpp \
@@ -618,7 +617,8 @@ bibledit_bin_SOURCES = \
         windowshowquickrefs.cpp \
         windowmerge.cpp \
         windowresource.cpp \
-        windowoutline.cpp
+        windowoutline.cpp \
+        windowcheckkeyterms.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -850,7 +850,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ipc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/keyboard.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/keyterms.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/keytermsgui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/languages.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/layout.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/listview.Po@am__quote@
@@ -943,6 +942,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/utilities.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/versification.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/versifications.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowcheckkeyterms.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowlayout.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowmerge.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowoutline.Po@am__quote@

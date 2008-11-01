@@ -153,7 +153,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   navigation(0), selected_reference(0, 0, ""), bibletime(true), httpd(0) {
   // Set some pointers to NULL.  
   // To save memory, we only create the object when actually needed.
-  keytermsgui = NULL;
   note_editor = NULL;
   editorsgui = NULL;
   window_screen_layout = NULL;
@@ -161,6 +160,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   window_show_quick_references = NULL;
   window_merge = NULL;
   window_outline = NULL;
+  window_check_keyterms = NULL;
 
   // Initialize some variables.
   notes_redisplay_source_id = 0;
@@ -1551,13 +1551,9 @@ MainWindow::MainWindow(unsigned long xembed) :
     gtk_widget_show(image24106);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (parallels_from_the_ot), image24106);
 
-    check_key_terms = gtk_image_menu_item_new_with_mnemonic("_Key terms");
+    check_key_terms = gtk_check_menu_item_new_with_mnemonic("_Key terms");
     gtk_widget_show(check_key_terms);
     gtk_container_add(GTK_CONTAINER (check1_menu), check_key_terms);
-
-    image17074 = gtk_image_new_from_stock("gtk-spell-check", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image17074);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (check_key_terms), image17074);
 
     my_checks = gtk_image_menu_item_new_with_mnemonic("M_y checks");
     gtk_widget_show(my_checks);
@@ -2088,22 +2084,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   gtk_widget_show(label30);
   gtk_notebook_set_tab_label(GTK_NOTEBOOK (notebook_notes_area), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_notes_area), 0), label30);
 
-  scrolledwindow_keyterm_text = gtk_scrolled_window_new(NULL, NULL);
-  gtk_widget_show(scrolledwindow_keyterm_text);
-  gtk_container_add(GTK_CONTAINER (notebook_notes_area), scrolledwindow_keyterm_text);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow_keyterm_text), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW (scrolledwindow_keyterm_text), GTK_SHADOW_IN);
-
-  textview_keyterm_text = gtk_text_view_new();
-  gtk_widget_show(textview_keyterm_text);
-  gtk_container_add(GTK_CONTAINER (scrolledwindow_keyterm_text), textview_keyterm_text);
-  gtk_text_view_set_editable(GTK_TEXT_VIEW (textview_keyterm_text), FALSE);
-  gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW (textview_keyterm_text), GTK_WRAP_WORD);
-
-  label31 = gtk_label_new("");
-  gtk_widget_show(label31);
-  gtk_notebook_set_tab_label(GTK_NOTEBOOK (notebook_notes_area), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_notes_area), 1), label31);
-
   vbox_right = gtk_vbox_new(FALSE, 0);
   gtk_widget_show(vbox_right);
   gtk_paned_pack2(GTK_PANED (hpaned1), vbox_right, TRUE, TRUE);
@@ -2254,26 +2234,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   label_notetools = gtk_label_new("Project note");
   gtk_widget_show(label_notetools);
   gtk_notebook_set_tab_label(GTK_NOTEBOOK (notebook_tools), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_tools), 2), label_notetools);
-
-  scrolledwindow_keyterms = gtk_scrolled_window_new(NULL, NULL);
-  gtk_widget_show(scrolledwindow_keyterms);
-  gtk_container_add(GTK_CONTAINER (notebook_tools), scrolledwindow_keyterms);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow_keyterms), GTK_POLICY_AUTOMATIC, GTK_POLICY_NEVER);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW (scrolledwindow_keyterms), GTK_SHADOW_IN);
-
-  vbox_keyterms = gtk_vbox_new(FALSE, 0);
-  gtk_widget_show(vbox_keyterms);
-  gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW (scrolledwindow_keyterms), vbox_keyterms);
-
-  // Code that creates widgets for the KeytermsGUI has been moved there.
-
-  label22 = gtk_label_new("Keyterms");
-  gtk_widget_show(label22);
-  gtk_notebook_set_tab_label(GTK_NOTEBOOK (notebook_tools), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_tools), 3), label22);
-
-  if (!guifeatures.checks()) {
-    gtk_widget_hide(gtk_notebook_get_nth_page(GTK_NOTEBOOK (notebook_tools), tapntKeyterms));
-  }
 
   hbox5 = gtk_hbox_new(FALSE, 0);
   gtk_widget_show(hbox5);
@@ -2623,8 +2583,6 @@ MainWindow::~MainWindow() {
   stop_displaying_more_notes();
   // Destroy the Outpost
   delete windowsoutpost;
-  // Destroy keyterms gui object if it is there.
-  destroy_keyterms_object();
   // Finalize content manager subsystem.
   git_finalize_subsystem();
   // Destroy the Styles.
@@ -3415,9 +3373,6 @@ void MainWindow::on_bible_notes_area_activate() {
         gtk_widget_grab_focus(editor->last_focused_textview());
       break;
     }
-    case 1:
-      gtk_widget_grab_focus(textview_keyterm_text);
-      break;
   }
 }
 
@@ -3451,11 +3406,6 @@ void MainWindow::on_tools_area_activate() {
       | GTK_WIDGET_HAS_FOCUS (textview_note_logbook);
       break;
     }
-    case tapntKeyterms:
-    {
-      focused = (keytermsgui && keytermsgui->focused());
-      break;
-    }
     case tapntEnd:
     {
       focused = true;
@@ -3481,7 +3431,6 @@ void MainWindow::on_tools_area_activate() {
         case tapntReferences:
         case tapntStyles:
         case tapntProjectNote:
-        case tapntKeyterms:
           pageshows = GTK_WIDGET_VISIBLE (gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_tools), page));
           break;
         case tapntEnd:
@@ -3511,9 +3460,6 @@ void MainWindow::on_tools_area_activate() {
       break;
     case tapntProjectNote:
       gtk_widget_grab_focus(textview_note_references);
-      break;
-    case tapntKeyterms:
-      keytermsgui->focus();
       break;
     case tapntEnd:
       break;
@@ -3581,8 +3527,7 @@ void MainWindow::on_copy1_activate(GtkMenuItem * menuitem, gpointer user_data) {
 }
 
 void MainWindow::on_copy() {
-  GtkClipboard *clipboard;
-  clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
   if (editorsgui->has_focus()) {
     Editor * editor = editorsgui->focused_editor();
     if (editor) {
@@ -3597,12 +3542,8 @@ void MainWindow::on_copy() {
   }
   if (GTK_WIDGET_HAS_FOCUS (textview_note_references))
     gtk_text_buffer_copy_clipboard(note_editor->textbuffer_references, clipboard);
-  if (keytermsgui) {
-    if (GTK_WIDGET_HAS_FOCUS (keytermsgui->textview_check_text)) {
-      GtkTextBuffer * buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW (keytermsgui->textview_check_text));
-      gtk_text_buffer_copy_clipboard(buffer, clipboard);
-      keytermsgui->copy_clipboard();
-    }
+  if (window_check_keyterms) {
+    window_check_keyterms->copy_clipboard();
   }
 }
 
@@ -3678,15 +3619,6 @@ void MainWindow::notebook_tools_switch_page(guint page_num) {
   if (note_editor) {
     note_editor->previous_tools_page = -1;
   }
-  // If we're on the keyterms page, create the object if need be, and do
-  // other tasks.
-  unsigned int notebook_notes_area_page_num = 0;
-  if (page_num == tapntKeyterms) {
-    editorsgui->save();
-    activate_keyterms_object();
-    notebook_notes_area_page_num = 1;
-  }
-  gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_notes_area), notebook_notes_area_page_num);
 }
 
 void MainWindow::on_file_references_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -5517,15 +5449,6 @@ void MainWindow::on_my_checks() {
   dialog.run();
 }
 
-void MainWindow::on_check_key_terms_activate(GtkMenuItem *menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->on_check_key_terms();
-}
-
-void MainWindow::on_check_key_terms() {
-  gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_tools), tapntKeyterms);
-  keytermsgui->focus_entry();
-}
-
 void MainWindow::on_check_markers_spacing_activate(GtkMenuItem *menuitem, gpointer user_data) {
   ((MainWindow *) user_data)->on_check_markers_spacing();
 }
@@ -6055,16 +5978,30 @@ void MainWindow::on_preferences_graphical_interface() {
  |
  */
 
-void MainWindow::activate_keyterms_object() {
-  if (!keytermsgui) {
-    keytermsgui = new KeytermsGUI (vbox_keyterms, textview_keyterm_text);
-    g_signal_connect ((gpointer) keytermsgui->signal, "clicked", G_CALLBACK (on_keyterms_new_reference), gpointer(this));
+void MainWindow::on_check_key_terms_activate(GtkMenuItem *menuitem, gpointer user_data) {
+  ((MainWindow *) user_data)->on_check_key_terms();
+}
+
+void MainWindow::on_check_key_terms() {
+  on_window_check_keyterms_delete_button();
+  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (check_key_terms))) {
+    window_check_keyterms = new WindowCheckKeyterms (windows_startup_pointer != G_MAXINT);
+    g_signal_connect ((gpointer) window_check_keyterms->delete_signal_button, "clicked", G_CALLBACK (on_window_check_keyterms_delete_button_clicked), gpointer(this));
+    g_signal_connect ((gpointer) window_check_keyterms->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
+    g_signal_connect ((gpointer) window_check_keyterms->signal, "clicked", G_CALLBACK (on_keyterms_new_reference), gpointer(this));
   }
 }
 
-void MainWindow::destroy_keyterms_object() {
-  if (keytermsgui)
-    delete keytermsgui;
+void MainWindow::on_window_check_keyterms_delete_button_clicked(GtkButton *button, gpointer user_data) {
+  ((MainWindow *) user_data)->on_window_check_keyterms_delete_button();
+}
+
+void MainWindow::on_window_check_keyterms_delete_button() {
+  if (window_check_keyterms) {
+    delete window_check_keyterms;
+    window_check_keyterms = NULL;
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (check_key_terms), false);
+  }
 }
 
 void MainWindow::on_keyterms_new_reference(GtkButton *button, gpointer user_data) {
@@ -6072,7 +6009,7 @@ void MainWindow::on_keyterms_new_reference(GtkButton *button, gpointer user_data
 }
 
 void MainWindow::check_move_new_reference() {
-  Reference reference(keytermsgui->new_reference_showing->book, keytermsgui->new_reference_showing->chapter, keytermsgui->new_reference_showing->verse);
+  Reference reference(window_check_keyterms->new_reference_showing->book, window_check_keyterms->new_reference_showing->chapter, window_check_keyterms->new_reference_showing->verse);
   navigation.display(reference);
 }
 
@@ -7591,6 +7528,11 @@ bool MainWindow::on_windows_startup() {
           gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (view_outline), true);
           break;
         }
+        case widCheckKeyterms:
+        {
+          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (check_key_terms), true);
+          break;
+        }
       }
     }
   }
@@ -7635,11 +7577,18 @@ void MainWindow::shutdown_windows()
     resource_windows.erase(resource_windows.begin());
   }
 
-  // Outline
+  // Outline.
   if (window_outline) {
     window_outline->shutdown();
     delete window_outline;
     window_outline = NULL;
+  }
+
+  // Check keyterms.
+  if (window_check_keyterms) {
+    window_check_keyterms->shutdown();
+    delete window_check_keyterms;
+    window_check_keyterms = NULL;
   }
 
 }
@@ -7672,6 +7621,8 @@ void MainWindow::on_window_focus_button(GtkButton *button)
   }
   if (window_outline)
     window_outline->present();
+  if (window_check_keyterms)
+    window_check_keyterms->present();
 
   // Present the calling window again.
   GtkWidget * widget= GTK_WIDGET (button);
@@ -7697,6 +7648,10 @@ void MainWindow::on_window_focus_button(GtkButton *button)
   if (window_outline) {
     if (widget == window_outline->focus_in_signal_button)
       window_outline->present();
+  }
+  if (window_check_keyterms) {
+    if (widget == window_check_keyterms->focus_in_signal_button)
+      window_check_keyterms->present();
   }
 }
 
@@ -7805,6 +7760,14 @@ void MainWindow::on_show_quick_references_signal_button(GtkButton *button) {
  if never present()-ed, so the icon will never flash. If the menu window is deleted, then we might delete the 
  main window too, or else we can do it that we delete the main window only if all windows get deleted, or 
  if the quit menu is chosen. But the best I think is to quit when the menu quits.
+ 
+ Eventually the menu will also become an independent window, and can be clicked away to disappear from the screen.
+ But ideally we would like to stop the program if the menu is clicked away.
+ We can resolved it this way.
+ - If the menu is clicked away, then it asks whether to stop the program. If so, yes, if not, the menu goes away.
+ - If the last window is clicked away, then the program stops too.
+ - If Ctrl-Q is typed, it stops too, and this applies in any window.
+ - If Ctrl-W is clicked in any window, it it goes away, and if it is the last one, the program stops.
  
  */
 

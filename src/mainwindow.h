@@ -29,7 +29,6 @@
 #include "editor.h"
 #include "httpd.h"
 #include "reference.h"
-#include "keytermsgui.h"
 #include "gui_navigation.h"
 #include "gui_styles.h"
 #include "displayprojectnotes.h"
@@ -41,6 +40,7 @@
 #include "windowmerge.h"
 #include "windowresource.h"
 #include "windowoutline.h"
+#include "windowcheckkeyterms.h"
 
 class MainWindow
 {
@@ -311,7 +311,6 @@ protected:
   GtkWidget *parallels_from_the_ot;
   GtkWidget *image24106;
   GtkWidget *check_key_terms;
-  GtkWidget *image17074;
   GtkWidget *my_checks;
   GtkWidget *image15438;
   GtkWidget *menutools;
@@ -427,9 +426,6 @@ protected:
   GtkWidget *button_note_cancel;
   GtkWidget *label2;
   GtkWidget *label30;
-  GtkWidget *scrolledwindow_keyterm_text;
-  GtkWidget *textview_keyterm_text;
-  GtkWidget *label31;
   GtkWidget *vbox_right;
   GtkWidget *notebook_tools;
   GtkWidget *scrolledwindow_references;
@@ -452,10 +448,6 @@ protected:
   GtkWidget *scrolledwindow9;
   GtkWidget *textview_note_logbook;
   GtkWidget *label_notetools;
-  GtkWidget *scrolledwindow_keyterms;
-  GtkWidget *vbox_keyterms;
-  // Widgets that belong here are moved to the KeytermsGUI object.  
-  GtkWidget *label22;
   GtkWidget *hbox5;
   GtkWidget *hbox7;
   GtkWidget *statuslabel_stylesheet;
@@ -773,8 +765,6 @@ protected:
   void on_check_httpd();
   static void on_my_checks_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_my_checks();
-  static void on_check_key_terms_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_check_key_terms();
   static void on_check_markers_spacing_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_check_markers_spacing();
   static void on_check_references_inventory_activate(GtkMenuItem *menuitem, gpointer user_data);
@@ -826,9 +816,11 @@ protected:
   Httpd httpd;
 
   /* Keyterms */
-  KeytermsGUI * keytermsgui;
-  void activate_keyterms_object();
-  void destroy_keyterms_object();
+  static void on_check_key_terms_activate(GtkMenuItem *menuitem, gpointer user_data);
+  void on_check_key_terms();
+  WindowCheckKeyterms * window_check_keyterms;
+  static void on_window_check_keyterms_delete_button_clicked(GtkButton *button, gpointer user_data);
+  void on_window_check_keyterms_delete_button();
   static void on_keyterms_new_reference(GtkButton *button, gpointer user_data);
   void check_move_new_reference();
   static void on_view_keyterms_activate(GtkMenuItem *menuitem, gpointer user_data);
