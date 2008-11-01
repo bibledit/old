@@ -176,7 +176,6 @@ bibledit_bin_SOURCES = \
         dialogfontcolor.cpp \
         dialognewstylesheet.cpp \
         outline.cpp \
-        gui_styles.cpp \
         settings.cpp \
         session.cpp \
         session_highlights.cpp \
@@ -267,7 +266,8 @@ bibledit_bin_SOURCES = \
         windowmerge.cpp \
         windowresource.cpp \
         windowoutline.cpp \
-        windowcheckkeyterms.cpp
+        windowcheckkeyterms.cpp \
+        windowstyles.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 

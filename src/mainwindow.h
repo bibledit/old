@@ -30,7 +30,6 @@
 #include "httpd.h"
 #include "reference.h"
 #include "gui_navigation.h"
-#include "gui_styles.h"
 #include "displayprojectnotes.h"
 #include "git.h"
 #include "editorsgui.h"
@@ -41,6 +40,7 @@
 #include "windowresource.h"
 #include "windowoutline.h"
 #include "windowcheckkeyterms.h"
+#include "windowstyles.h"
 
 class MainWindow
 {
@@ -109,8 +109,22 @@ protected:
   GtkWidget *image6483;
   GtkWidget *style;
   GtkWidget *image10735;
-  // Some of the widgets for the style menu have been moved to the GuiStyles 
-  // object. Other ones are in the constructor of MainWindow.
+  GtkWidget *style_menu;
+  GtkWidget *stylesheets_expand_all;
+  GtkWidget *stylesheets_collapse_all;
+  GtkWidget *style_insert;
+  GtkWidget *stylesheet_edit_mode;
+  GtkWidget *style_new;
+  GtkWidget *style_properties;
+  GtkWidget *style_delete;
+  GtkWidget *menu_stylesheet;
+  GtkWidget *menu_stylesheet_menu;
+  GtkWidget *stylesheet_switch;
+  GtkWidget *stylesheets_new;
+  GtkWidget *stylesheets_delete;
+  GtkWidget *stylesheets_rename;
+  GtkWidget *stylesheets_import;
+  GtkWidget *stylesheets_export;
   GtkWidget *notes2;
   GtkWidget *image936;
   GtkWidget *notes2_menu;
@@ -431,8 +445,6 @@ protected:
   GtkWidget *scrolledwindow_references;
   GtkWidget *treeview_references;
   GtkWidget *label13;
-  GtkWidget *vbox_styles;
-  GtkWidget *label14;
   GtkWidget *vbox_project_note;
   GtkWidget *label_note_category;
   GtkWidget *combobox_note_category;
@@ -450,7 +462,6 @@ protected:
   GtkWidget *label_notetools;
   GtkWidget *hbox5;
   GtkWidget *hbox7;
-  GtkWidget *statuslabel_stylesheet;
   GtkWidget *statuslabel_style;
   GtkWidget *label_git;
   GtkWidget *statusbar1;
@@ -781,11 +792,14 @@ protected:
   void on_check_sentence_structure();
 
   /* Styles */
-  GuiStyles * styles;
   static void on_goto_styles_area_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_goto_styles_area();
   static void on_file_styles_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_file_styles();
+  WindowStyles * window_styles;
+  static void on_window_styles_delete_button_clicked(GtkButton *button, gpointer user_data);
+  void on_window_styles_delete_button();
+  
   void stylesheet_open_named(const ustring& stylesheet);
   static void on_style_button_open_clicked(GtkButton *button, gpointer user_data);
   void on_style_button_open();

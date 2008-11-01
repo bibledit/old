@@ -127,11 +127,11 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogeditnote.$(OBJEXT) biblenotes.$(OBJEXT) \
 	dialogwordlist.$(OBJEXT) wordlist.$(OBJEXT) \
 	dialogfontcolor.$(OBJEXT) dialognewstylesheet.$(OBJEXT) \
-	outline.$(OBJEXT) gui_styles.$(OBJEXT) settings.$(OBJEXT) \
-	session.$(OBJEXT) session_highlights.$(OBJEXT) \
-	bookdata.$(OBJEXT) ipc.$(OBJEXT) config.xml.$(OBJEXT) \
-	localizedbooks.$(OBJEXT) versifications.$(OBJEXT) \
-	mappings.$(OBJEXT) dialogfeatures.$(OBJEXT) password.$(OBJEXT) \
+	outline.$(OBJEXT) settings.$(OBJEXT) session.$(OBJEXT) \
+	session_highlights.$(OBJEXT) bookdata.$(OBJEXT) ipc.$(OBJEXT) \
+	config.xml.$(OBJEXT) localizedbooks.$(OBJEXT) \
+	versifications.$(OBJEXT) mappings.$(OBJEXT) \
+	dialogfeatures.$(OBJEXT) password.$(OBJEXT) \
 	gui_features.$(OBJEXT) dialogprintreferences.$(OBJEXT) \
 	print_parallel_references.$(OBJEXT) dialogfixmarkers.$(OBJEXT) \
 	fixmarkers.$(OBJEXT) check_ref_inventory.$(OBJEXT) \
@@ -169,7 +169,7 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	windowshowkeyterms.$(OBJEXT) windows.$(OBJEXT) \
 	windowshowquickrefs.$(OBJEXT) windowmerge.$(OBJEXT) \
 	windowresource.$(OBJEXT) windowoutline.$(OBJEXT) \
-	windowcheckkeyterms.$(OBJEXT)
+	windowcheckkeyterms.$(OBJEXT) windowstyles.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -527,7 +527,6 @@ bibledit_bin_SOURCES = \
         dialogfontcolor.cpp \
         dialognewstylesheet.cpp \
         outline.cpp \
-        gui_styles.cpp \
         settings.cpp \
         session.cpp \
         session_highlights.cpp \
@@ -618,7 +617,8 @@ bibledit_bin_SOURCES = \
         windowmerge.cpp \
         windowresource.cpp \
         windowoutline.cpp \
-        windowcheckkeyterms.cpp
+        windowcheckkeyterms.cpp \
+        windowstyles.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -834,7 +834,6 @@ include ./$(DEPDIR)/gtkwrappers.Po
 include ./$(DEPDIR)/gui.Po
 include ./$(DEPDIR)/gui_features.Po
 include ./$(DEPDIR)/gui_navigation.Po
-include ./$(DEPDIR)/gui_styles.Po
 include ./$(DEPDIR)/guiselectproject.Po
 include ./$(DEPDIR)/gwrappers.Po
 include ./$(DEPDIR)/help.Po
@@ -951,6 +950,7 @@ include ./$(DEPDIR)/windows.Po
 include ./$(DEPDIR)/windowshowkeyterms.Po
 include ./$(DEPDIR)/windowshowquickrefs.Po
 include ./$(DEPDIR)/windowsoutpost.Po
+include ./$(DEPDIR)/windowstyles.Po
 include ./$(DEPDIR)/wordlist.Po
 include ./$(DEPDIR)/xmlfo-utils.Po
 include ./$(DEPDIR)/xmlutils.Po

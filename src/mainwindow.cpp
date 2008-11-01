@@ -161,6 +161,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   window_merge = NULL;
   window_outline = NULL;
   window_check_keyterms = NULL;
+  window_styles = NULL;
 
   // Initialize some variables.
   notes_redisplay_source_id = 0;
@@ -472,7 +473,7 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   }
 
-  GtkWidget *style_menu= NULL;
+  style_menu= NULL;
   if (guifeatures.styles()) {
 
     style_menu = gtk_menu_new();
@@ -480,7 +481,7 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   }
 
-  GtkWidget *stylesheets_expand_all= NULL;
+  stylesheets_expand_all= NULL;
   if (guifeatures.styles()) {
 
     stylesheets_expand_all = gtk_image_menu_item_new_with_mnemonic("_Expand all");
@@ -494,7 +495,7 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   }
 
-  GtkWidget *stylesheets_collapse_all= NULL;
+  stylesheets_collapse_all= NULL;
   if (guifeatures.styles()) {
 
     stylesheets_collapse_all = gtk_image_menu_item_new_with_mnemonic("_Collapse all");
@@ -508,7 +509,7 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   }
 
-  GtkWidget *style_insert= NULL;
+  style_insert= NULL;
   if (guifeatures.styles()) {
 
     style_insert = gtk_image_menu_item_new_with_mnemonic("_Insert");
@@ -522,7 +523,7 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   }
 
-  GtkWidget *stylesheet_edit_mode= NULL;
+  stylesheet_edit_mode= NULL;
   if (guifeatures.styles_management()) {
 
     stylesheet_edit_mode = gtk_check_menu_item_new_with_mnemonic("Edit _mode");
@@ -531,7 +532,7 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   }
 
-  GtkWidget *style_new= NULL;
+  style_new= NULL;
   if (guifeatures.styles_management()) {
 
     style_new = gtk_image_menu_item_new_with_mnemonic("_New");
@@ -545,7 +546,7 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   }
 
-  GtkWidget *style_properties= NULL;
+  style_properties= NULL;
   if (guifeatures.styles_management()) {
 
     style_properties = gtk_image_menu_item_new_from_stock("gtk-properties", accel_group);
@@ -554,7 +555,7 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   }
 
-  GtkWidget *style_delete= NULL;
+  style_delete= NULL;
   if (guifeatures.styles_management()) {
 
     style_delete = gtk_image_menu_item_new_from_stock("gtk-delete", accel_group);
@@ -563,7 +564,7 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   }
 
-  GtkWidget *menu_stylesheet= NULL;
+  menu_stylesheet= NULL;
   if (guifeatures.styles_management()) {
 
     menu_stylesheet = gtk_image_menu_item_new_with_mnemonic("_Stylesheet");
@@ -577,7 +578,7 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   }
 
-  GtkWidget *menu_stylesheet_menu= NULL;
+  menu_stylesheet_menu= NULL;
   if (guifeatures.styles_management()) {
 
     menu_stylesheet_menu = gtk_menu_new();
@@ -585,7 +586,7 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   }
 
-  GtkWidget *stylesheet_switch= NULL;
+  stylesheet_switch= NULL;
   if (guifeatures.styles_management()) {
 
     stylesheet_switch = gtk_image_menu_item_new_with_mnemonic("_Switch");
@@ -599,7 +600,7 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   }
 
-  GtkWidget *stylesheets_new= NULL;
+  stylesheets_new= NULL;
   if (guifeatures.styles_management()) {
 
     stylesheets_new = gtk_image_menu_item_new_with_mnemonic("_New");
@@ -613,7 +614,7 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   }
 
-  GtkWidget *stylesheets_delete= NULL;
+  stylesheets_delete= NULL;
   if (guifeatures.styles_management()) {
 
     stylesheets_delete = gtk_image_menu_item_new_with_mnemonic("_Delete");
@@ -627,7 +628,7 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   }
 
-  GtkWidget *stylesheets_rename= NULL;
+  stylesheets_rename= NULL;
   if (guifeatures.styles_management()) {
 
     stylesheets_rename = gtk_image_menu_item_new_with_mnemonic("_Rename");
@@ -641,7 +642,7 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   }
 
-  GtkWidget *stylesheets_import= NULL;
+  stylesheets_import= NULL;
   if (guifeatures.styles_management()) {
 
     stylesheets_import = gtk_image_menu_item_new_with_mnemonic("_Import");
@@ -655,7 +656,7 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   }
 
-  GtkWidget *stylesheets_export= NULL;
+  stylesheets_export= NULL;
   if (guifeatures.styles_management()) {
 
     stylesheets_export = gtk_image_menu_item_new_with_mnemonic("_Export");
@@ -2140,26 +2141,6 @@ MainWindow::MainWindow(unsigned long xembed) :
     gtk_widget_hide(gtk_notebook_get_nth_page(GTK_NOTEBOOK (notebook_tools), 0));
   }
 
-  vbox_styles = gtk_vbox_new(FALSE, 0);
-  gtk_widget_show(vbox_styles);
-  gtk_container_add(GTK_CONTAINER (notebook_tools), vbox_styles);
-
-  // Styles gui object
-  styles = new GuiStyles (vbox_styles, style, style_menu,
-      stylesheets_expand_all, stylesheets_collapse_all,
-      style_insert, stylesheet_edit_mode, style_new,
-      style_properties, style_delete,
-      stylesheet_switch, stylesheets_new, stylesheets_delete,
-      stylesheets_rename, stylesheets_import, stylesheets_export);
-
-  label14 = gtk_label_new("Styles");
-  gtk_widget_show(label14);
-  gtk_notebook_set_tab_label(GTK_NOTEBOOK (notebook_tools), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_tools), 1), label14);
-
-  if (!guifeatures.styles()) {
-    gtk_widget_hide(gtk_notebook_get_nth_page(GTK_NOTEBOOK (notebook_tools), 1));
-  }
-
   vbox_project_note = gtk_vbox_new(FALSE, 1);
   gtk_widget_show(vbox_project_note);
   gtk_container_add(GTK_CONTAINER (notebook_tools), vbox_project_note);
@@ -2233,7 +2214,7 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   label_notetools = gtk_label_new("Project note");
   gtk_widget_show(label_notetools);
-  gtk_notebook_set_tab_label(GTK_NOTEBOOK (notebook_tools), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_tools), 2), label_notetools);
+  gtk_notebook_set_tab_label(GTK_NOTEBOOK (notebook_tools), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_tools), 1), label_notetools);
 
   hbox5 = gtk_hbox_new(FALSE, 0);
   gtk_widget_show(hbox5);
@@ -2242,11 +2223,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   hbox7 = gtk_hbox_new(FALSE, 8);
   gtk_widget_show(hbox7);
   gtk_box_pack_start(GTK_BOX (hbox5), hbox7, TRUE, TRUE, 0);
-
-  statuslabel_stylesheet = gtk_label_new("");
-  gtk_widget_show(statuslabel_stylesheet);
-  gtk_box_pack_start(GTK_BOX (hbox7), statuslabel_stylesheet, FALSE, FALSE, 0);
-  gtk_misc_set_alignment(GTK_MISC (statuslabel_stylesheet), 0, 0.5);
 
   statuslabel_style = gtk_label_new("");
   gtk_widget_show(statuslabel_style);
@@ -2467,9 +2443,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   g_signal_connect ((gpointer) treeview_references, "move_cursor", G_CALLBACK (on_treeview_references_move_cursor), gpointer(this));
   g_signal_connect ((gpointer) treeview_references, "cursor_changed", G_CALLBACK (on_treeview_references_cursor_changed), gpointer(this));
   g_signal_connect ((gpointer) htmlview_notes, "link-clicked", G_CALLBACK (on_notes_html_link_clicked), gpointer(this));
-  g_signal_connect ((gpointer) styles->apply_signal, "clicked", G_CALLBACK (on_style_button_apply_clicked), gpointer (this));
-  g_signal_connect ((gpointer) styles->open_signal, "clicked", G_CALLBACK (on_style_button_open_clicked), gpointer (this));
-  g_signal_connect ((gpointer) styles->edited_signal, "clicked", G_CALLBACK (on_style_edited), gpointer (this));
   // Project notes editor signals.
   g_signal_connect ((gpointer) combobox_note_edit_font_size, "changed", G_CALLBACK (on_combobox_note_edit_font_size_changed), gpointer (this));
   g_signal_connect ((gpointer) htmlview_note_editor, "insertion_font_style_changed", G_CALLBACK (on_note_editor_insertion_font_style_changed), gpointer (this));
@@ -2585,8 +2558,6 @@ MainWindow::~MainWindow() {
   delete windowsoutpost;
   // Finalize content manager subsystem.
   git_finalize_subsystem();
-  // Destroy the Styles.
-  delete styles;
   // Destroy editors.
   delete editorsgui;
   // Do shutdown actions.
@@ -3393,11 +3364,6 @@ void MainWindow::on_tools_area_activate() {
       focused = GTK_WIDGET_HAS_FOCUS (treeview_references);
       break;
     }
-    case tapntStyles:
-    {
-      focused = GTK_WIDGET_HAS_FOCUS (styles->treeview);
-      break;
-    }
     case tapntProjectNote:
     {
       focused = GTK_WIDGET_HAS_FOCUS (combobox_note_category)
@@ -3429,7 +3395,6 @@ void MainWindow::on_tools_area_activate() {
       switch (page)
       {
         case tapntReferences:
-        case tapntStyles:
         case tapntProjectNote:
           pageshows = GTK_WIDGET_VISIBLE (gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_tools), page));
           break;
@@ -3454,9 +3419,6 @@ void MainWindow::on_tools_area_activate() {
   {
     case tapntReferences:
       gtk_widget_grab_focus(treeview_references);
-      break;
-    case tapntStyles:
-      gtk_widget_grab_focus(styles->treeview);
       break;
     case tapntProjectNote:
       gtk_widget_grab_focus(textview_note_references);
@@ -5531,10 +5493,12 @@ void MainWindow::on_goto_styles_area_activate(GtkMenuItem *menuitem, gpointer us
 }
 
 void MainWindow::on_goto_styles_area() {
-  // Set the right page and focus the right treeview to enable the user to start
-  // inserting the style using the keyboard.
-  gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_tools), tapntStyles);
-  gtk_widget_grab_focus(styles->treeview);
+  // Create or active the styles window.
+  on_file_styles();
+  // Focus the window to enable the user to start inserting the style using the keyboard.
+  if (window_styles) {
+    window_styles->present();
+  }
 }
 
 void MainWindow::on_file_styles_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -5542,16 +5506,41 @@ void MainWindow::on_file_styles_activate(GtkMenuItem *menuitem, gpointer user_da
 }
 
 void MainWindow::on_file_styles() {
-  // Show the Styles Area.
-  gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_tools), tapntStyles);
+  // Display the styles if needed.
+  if (!window_styles) {
+    window_styles = new WindowStyles (windows_startup_pointer != G_MAXINT,
+        style, style_menu,
+        stylesheets_expand_all, stylesheets_collapse_all,
+        style_insert, stylesheet_edit_mode, style_new,
+        style_properties, style_delete,
+        stylesheet_switch, stylesheets_new, stylesheets_delete,
+        stylesheets_rename, stylesheets_import, stylesheets_export);
+    g_signal_connect ((gpointer) window_styles->delete_signal_button, "clicked", G_CALLBACK (on_window_styles_delete_button_clicked), gpointer(this));
+    g_signal_connect ((gpointer) window_styles->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
+    g_signal_connect ((gpointer) window_styles->apply_signal, "clicked", G_CALLBACK (on_style_button_apply_clicked), gpointer (this));
+    g_signal_connect ((gpointer) window_styles->open_signal, "clicked", G_CALLBACK (on_style_button_open_clicked), gpointer (this));
+    g_signal_connect ((gpointer) window_styles->edited_signal, "clicked", G_CALLBACK (on_style_edited), gpointer (this));
+    extern Settings * settings;
+    ustring stylesheet = settings->genconfig.stylesheet_get();
+    stylesheet_open_named(stylesheet);
+  }
+}
+
+void MainWindow::on_window_styles_delete_button_clicked(GtkButton *button, gpointer user_data) {
+  ((MainWindow *) user_data)->on_window_styles_delete_button();
+}
+
+void MainWindow::on_window_styles_delete_button() {
+  if (window_styles) {
+    delete window_styles;
+    window_styles = NULL;
+  }
 }
 
 void MainWindow::stylesheet_open_named(const ustring& stylesheet) {
-  // Load stylesheet.
-  styles->load(stylesheet);
-  // Set gui.
-  ustring s = "Stylesheet " + stylesheet;
-  gtk_label_set_text(GTK_LABEL (statuslabel_stylesheet), s.c_str());
+  if (window_styles) {
+    window_styles->load(stylesheet);
+  }
 }
 
 void MainWindow::on_style_button_open_clicked(GtkButton *button, gpointer user_data)
@@ -5561,15 +5550,17 @@ void MainWindow::on_style_button_open_clicked(GtkButton *button, gpointer user_d
 }
 
 void MainWindow::on_style_button_open() {
-  // Save the name of the stylesheet in two locations.
-  extern Settings * settings;
-  settings->genconfig.stylesheet_set(styles->get_sheet());
-  if (!settings->genconfig.project_get().empty()) {
-    ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
-    projectconfig->stylesheet_set(styles->get_sheet());
+  if (window_styles) {
+    // Save the name of the stylesheet in two locations.
+    extern Settings * settings;
+    settings->genconfig.stylesheet_set(window_styles->get_sheet());
+    if (!settings->genconfig.project_get().empty()) {
+      ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
+      projectconfig->stylesheet_set(window_styles->get_sheet());
+    }
+    // Actually open it.  
+    stylesheet_open_named(window_styles->get_sheet());
   }
-  // Actually open it.  
-  stylesheet_open_named(styles->get_sheet());
 }
 
 void MainWindow::on_style_button_apply_clicked(GtkButton *button, gpointer user_data) {
@@ -5582,8 +5573,12 @@ void MainWindow::on_style_apply() {
   if (!editor)
     return;
 
+  // Bail out ifthere's no styles window.
+  if (!window_styles)
+    return;
+
   // Get the focused style(s).
-  ustring selected_style = styles->get_focus();
+  ustring selected_style = window_styles->get_focus();
 
   // Only proceed when a style has been selected.
   if (selected_style.empty())
@@ -5684,7 +5679,7 @@ void MainWindow::on_style_apply() {
 
   // Take some actions if the style was used.
   if (style_was_used) {
-    styles->use(selected_style);
+    window_styles->use(selected_style);
   }
 }
 
@@ -7533,6 +7528,11 @@ bool MainWindow::on_windows_startup() {
           gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (check_key_terms), true);
           break;
         }
+        case widStyles:
+        {
+          on_goto_styles_area();
+          break;
+        }
       }
     }
   }
@@ -7591,6 +7591,13 @@ void MainWindow::shutdown_windows()
     window_check_keyterms = NULL;
   }
 
+  // Styles.
+  if (window_styles) {
+    window_styles->shutdown();
+    delete window_styles;
+    window_styles = NULL;
+  }
+
 }
 
 void MainWindow::on_window_focus_button_clicked(GtkButton *button, gpointer user_data) {
@@ -7623,6 +7630,8 @@ void MainWindow::on_window_focus_button(GtkButton *button)
     window_outline->present();
   if (window_check_keyterms)
     window_check_keyterms->present();
+  if (window_styles)
+    window_styles->present();
 
   // Present the calling window again.
   GtkWidget * widget= GTK_WIDGET (button);
@@ -7652,6 +7661,10 @@ void MainWindow::on_window_focus_button(GtkButton *button)
   if (window_check_keyterms) {
     if (widget == window_check_keyterms->focus_in_signal_button)
       window_check_keyterms->present();
+  }
+  if (window_styles) {
+    if (widget == window_styles->focus_in_signal_button)
+      window_styles->present();
   }
 }
 
@@ -7741,6 +7754,8 @@ void MainWindow::on_show_quick_references_signal_button(GtkButton *button) {
 
  Todo Improve the window layout system.
 
+ Todo to make the project notes independent.
+ 
  There is one menu window, which is the main one, and each function will get its own window.
 
  It is very important to make the program to "feel" as if it is one and the same window.
