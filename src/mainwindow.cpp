@@ -153,7 +153,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   navigation(0), selected_reference(0, 0, ""), bibletime(true), httpd(0) {
   // Set some pointers to NULL.  
   // To save memory, we only create the object when actually needed.
-  note_editor = NULL;
   editorsgui = NULL;
   window_screen_layout = NULL;
   window_show_keyterms = NULL;
@@ -162,10 +161,9 @@ MainWindow::MainWindow(unsigned long xembed) :
   window_outline = NULL;
   window_check_keyterms = NULL;
   window_styles = NULL;
+  window_notes = NULL;
 
   // Initialize some variables.
-  notes_redisplay_source_id = 0;
-  displayprojectnotes = NULL;
   git_reopen_project = false;
   mainwindow_width = 0;
   mainwindow_width_safe = false;
@@ -671,7 +669,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   }
 
   notes2 = NULL;
-  if (guifeatures.project_notes_management()) {
+  if (guifeatures.project_notes_management()) { // Todo to implement the project notes gui features.
 
     notes2 = gtk_image_menu_item_new_with_mnemonic("Project _notes");
     gtk_widget_show(notes2);
@@ -1862,228 +1860,10 @@ MainWindow::MainWindow(unsigned long xembed) :
   g_signal_connect ((gpointer) editorsgui->focus_button, "clicked", G_CALLBACK (on_editorsgui_focus_button_clicked), gpointer(this));
   g_signal_connect ((gpointer) editorsgui->quick_references_button, "clicked", G_CALLBACK (on_show_quick_references_signal_button_clicked), gpointer(this));
 
-  // Another topic: project notes.
-  notebook_notes_area = gtk_notebook_new();
-  gtk_widget_show(notebook_notes_area);
-  if (guifeatures.project_notes()) {
-    gtk_paned_pack2(GTK_PANED (vpaned1), notebook_notes_area, TRUE, TRUE);
+  if (guifeatures.project_notes()) { // Todo to implement.
   }
-  gtk_notebook_set_show_border(GTK_NOTEBOOK (notebook_notes_area), FALSE);
-  gtk_notebook_set_show_tabs(GTK_NOTEBOOK (notebook_notes_area), FALSE);
 
-  notebook1 = gtk_notebook_new();
-  gtk_widget_show(notebook1);
-  gtk_container_add(GTK_CONTAINER (notebook_notes_area), notebook1);
-  gtk_notebook_set_show_tabs(GTK_NOTEBOOK (notebook1), FALSE);
-
-  scrolledwindow_notes = gtk_scrolled_window_new(NULL, NULL);
-  gtk_widget_show(scrolledwindow_notes);
-  gtk_container_add(GTK_CONTAINER (notebook1), scrolledwindow_notes);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow_notes), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-
-  htmlview_notes = gtk_html_new();
-  gtk_widget_show(htmlview_notes);
-  gtk_container_add(GTK_CONTAINER (scrolledwindow_notes), htmlview_notes);
-  gtk_html_allow_selection(GTK_HTML (htmlview_notes), true);
-
-  label1 = gtk_label_new("");
-  gtk_widget_show(label1);
-  gtk_notebook_set_tab_label(GTK_NOTEBOOK (notebook1), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook1), 0), label1);
-
-  vbox_note_editor = gtk_vbox_new(FALSE, 0);
-  gtk_widget_show(vbox_note_editor);
-  gtk_container_add(GTK_CONTAINER (notebook1), vbox_note_editor);
-  gtk_notebook_set_tab_label_packing(GTK_NOTEBOOK (notebook1), vbox_note_editor,
-  FALSE, FALSE, GTK_PACK_START);
-
-  toolbar_note_editor = gtk_toolbar_new();
-  gtk_widget_show(toolbar_note_editor);
-  gtk_box_pack_start(GTK_BOX (vbox_note_editor), toolbar_note_editor, FALSE, FALSE, 0);
-  gtk_toolbar_set_style(GTK_TOOLBAR (toolbar_note_editor), GTK_TOOLBAR_BOTH);
-  GtkIconSize tmp_toolbar_icon_size;
-  tmp_toolbar_icon_size = gtk_toolbar_get_icon_size(GTK_TOOLBAR (toolbar_note_editor));
-
-  toolitem_note_edit_font_size = (GtkWidget*) gtk_tool_item_new();
-  gtk_widget_show(toolitem_note_edit_font_size);
-  gtk_container_add(GTK_CONTAINER (toolbar_note_editor), toolitem_note_edit_font_size);
-
-  combobox_note_edit_font_size = gtk_combo_box_new_text();
-  gtk_widget_show(combobox_note_edit_font_size);
-  gtk_container_add(GTK_CONTAINER (toolitem_note_edit_font_size), combobox_note_edit_font_size);
-  gtk_combo_box_set_focus_on_click(GTK_COMBO_BOX (combobox_note_edit_font_size), FALSE);
-
-  toolitem_note_edit_paragraph_style = (GtkWidget*) gtk_tool_item_new();
-  gtk_widget_show(toolitem_note_edit_paragraph_style);
-  gtk_container_add(GTK_CONTAINER (toolbar_note_editor), toolitem_note_edit_paragraph_style);
-
-  combobox_note_edit_paragraph_style = gtk_combo_box_new_text();
-  gtk_widget_show(combobox_note_edit_paragraph_style);
-  gtk_container_add(GTK_CONTAINER (toolitem_note_edit_paragraph_style), combobox_note_edit_paragraph_style);
-  gtk_combo_box_set_focus_on_click(GTK_COMBO_BOX (combobox_note_edit_paragraph_style), FALSE);
-
-  toolitem_note_edit_bold = (GtkWidget*) gtk_tool_item_new();
-  gtk_widget_show(toolitem_note_edit_bold);
-  gtk_container_add(GTK_CONTAINER (toolbar_note_editor), toolitem_note_edit_bold);
-
-  togglebutton_note_edit_bold = gtk_toggle_button_new();
-  gtk_widget_show(togglebutton_note_edit_bold);
-  gtk_container_add(GTK_CONTAINER (toolitem_note_edit_bold), togglebutton_note_edit_bold);
-  gtk_button_set_focus_on_click(GTK_BUTTON (togglebutton_note_edit_bold), FALSE);
-
-  image29121 = gtk_image_new_from_stock("gtk-bold", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show(image29121);
-  gtk_container_add(GTK_CONTAINER (togglebutton_note_edit_bold), image29121);
-
-  toolitem_note_edit_italics = (GtkWidget*) gtk_tool_item_new();
-  gtk_widget_show(toolitem_note_edit_italics);
-  gtk_container_add(GTK_CONTAINER (toolbar_note_editor), toolitem_note_edit_italics);
-
-  togglebutton_note_edit_italics = gtk_toggle_button_new();
-  gtk_widget_show(togglebutton_note_edit_italics);
-  gtk_container_add(GTK_CONTAINER (toolitem_note_edit_italics), togglebutton_note_edit_italics);
-  gtk_button_set_focus_on_click(GTK_BUTTON (togglebutton_note_edit_italics), FALSE);
-
-  image29122 = gtk_image_new_from_stock("gtk-italic", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show(image29122);
-  gtk_container_add(GTK_CONTAINER (togglebutton_note_edit_italics), image29122);
-
-  toolitem_note_edit_underline = (GtkWidget*) gtk_tool_item_new();
-  gtk_widget_show(toolitem_note_edit_underline);
-  gtk_container_add(GTK_CONTAINER (toolbar_note_editor), toolitem_note_edit_underline);
-
-  togglebutton_note_edit_underline = gtk_toggle_button_new();
-  gtk_widget_show(togglebutton_note_edit_underline);
-  gtk_container_add(GTK_CONTAINER (toolitem_note_edit_underline), togglebutton_note_edit_underline);
-  gtk_button_set_focus_on_click(GTK_BUTTON (togglebutton_note_edit_underline), FALSE);
-
-  image29114 = gtk_image_new_from_stock("gtk-underline", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show(image29114);
-  gtk_container_add(GTK_CONTAINER (togglebutton_note_edit_underline), image29114);
-
-  toolitem_note_edit_strike_through = (GtkWidget*) gtk_tool_item_new();
-  gtk_widget_show(toolitem_note_edit_strike_through);
-  gtk_container_add(GTK_CONTAINER (toolbar_note_editor), toolitem_note_edit_strike_through);
-
-  togglebutton_note_edit_strike_through = gtk_toggle_button_new();
-  gtk_widget_show(togglebutton_note_edit_strike_through);
-  gtk_container_add(GTK_CONTAINER (toolitem_note_edit_strike_through), togglebutton_note_edit_strike_through);
-  gtk_button_set_focus_on_click(GTK_BUTTON (togglebutton_note_edit_strike_through), FALSE);
-
-  image29123 = gtk_image_new_from_stock("gtk-strikethrough", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show(image29123);
-  gtk_container_add(GTK_CONTAINER (togglebutton_note_edit_strike_through), image29123);
-
-  toolitem_note_edit_left_justify = (GtkWidget*) gtk_tool_item_new();
-  gtk_widget_show(toolitem_note_edit_left_justify);
-  gtk_container_add(GTK_CONTAINER (toolbar_note_editor), toolitem_note_edit_left_justify);
-
-  togglebutton_note_edit_left_justify = gtk_toggle_button_new();
-  gtk_widget_show(togglebutton_note_edit_left_justify);
-  gtk_container_add(GTK_CONTAINER (toolitem_note_edit_left_justify), togglebutton_note_edit_left_justify);
-  gtk_button_set_focus_on_click(GTK_BUTTON (togglebutton_note_edit_left_justify), FALSE);
-
-  image29124 = gtk_image_new_from_stock("gtk-justify-left", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show(image29124);
-  gtk_container_add(GTK_CONTAINER (togglebutton_note_edit_left_justify), image29124);
-
-  toolitem_note_edit_center_justify = (GtkWidget*) gtk_tool_item_new();
-  gtk_widget_show(toolitem_note_edit_center_justify);
-  gtk_container_add(GTK_CONTAINER (toolbar_note_editor), toolitem_note_edit_center_justify);
-
-  togglebutton_note_edit_center_justify = gtk_toggle_button_new();
-  gtk_widget_show(togglebutton_note_edit_center_justify);
-  gtk_container_add(GTK_CONTAINER (toolitem_note_edit_center_justify), togglebutton_note_edit_center_justify);
-  gtk_button_set_focus_on_click(GTK_BUTTON (togglebutton_note_edit_center_justify), FALSE);
-
-  image29125 = gtk_image_new_from_stock("gtk-justify-center", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show(image29125);
-  gtk_container_add(GTK_CONTAINER (togglebutton_note_edit_center_justify), image29125);
-
-  toolitem_note_edit_right_justify = (GtkWidget*) gtk_tool_item_new();
-  gtk_widget_show(toolitem_note_edit_right_justify);
-  gtk_container_add(GTK_CONTAINER (toolbar_note_editor), toolitem_note_edit_right_justify);
-
-  togglebutton_note_edit_right_justify = gtk_toggle_button_new();
-  gtk_widget_show(togglebutton_note_edit_right_justify);
-  gtk_container_add(GTK_CONTAINER (toolitem_note_edit_right_justify), togglebutton_note_edit_right_justify);
-  gtk_button_set_focus_on_click(GTK_BUTTON (togglebutton_note_edit_right_justify), FALSE);
-
-  image29126 = gtk_image_new_from_stock("gtk-justify-right", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show(image29126);
-  gtk_container_add(GTK_CONTAINER (togglebutton_note_edit_right_justify), image29126);
-
-  toolitem_note_edit_decrease_indent = (GtkWidget*) gtk_tool_item_new();
-  gtk_widget_show(toolitem_note_edit_decrease_indent);
-  gtk_container_add(GTK_CONTAINER (toolbar_note_editor), toolitem_note_edit_decrease_indent);
-
-  button_note_edit_decrease_indent = gtk_button_new();
-  gtk_widget_show(button_note_edit_decrease_indent);
-  gtk_container_add(GTK_CONTAINER (toolitem_note_edit_decrease_indent), button_note_edit_decrease_indent);
-  gtk_button_set_focus_on_click(GTK_BUTTON (button_note_edit_decrease_indent), FALSE);
-
-  image29127 = gtk_image_new_from_stock("gtk-unindent", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show(image29127);
-  gtk_container_add(GTK_CONTAINER (button_note_edit_decrease_indent), image29127);
-
-  toolitem_note_edit_increase_indent = (GtkWidget*) gtk_tool_item_new();
-  gtk_widget_show(toolitem_note_edit_increase_indent);
-  gtk_container_add(GTK_CONTAINER (toolbar_note_editor), toolitem_note_edit_increase_indent);
-
-  button_note_edit_increase_indent = gtk_button_new();
-  gtk_widget_show(button_note_edit_increase_indent);
-  gtk_container_add(GTK_CONTAINER (toolitem_note_edit_increase_indent), button_note_edit_increase_indent);
-  gtk_button_set_focus_on_click(GTK_BUTTON (button_note_edit_increase_indent), FALSE);
-
-  image29128 = gtk_image_new_from_stock("gtk-indent", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show(image29128);
-  gtk_container_add(GTK_CONTAINER (button_note_edit_increase_indent), image29128);
-
-  toolitem_note_edit_color = (GtkWidget*) gtk_tool_item_new();
-  gtk_widget_show(toolitem_note_edit_color);
-  gtk_container_add(GTK_CONTAINER (toolbar_note_editor), toolitem_note_edit_color);
-
-  colorbutton_note_edit = gtk_color_button_new();
-  gtk_widget_show(colorbutton_note_edit);
-  gtk_container_add(GTK_CONTAINER (toolitem_note_edit_color), colorbutton_note_edit);
-  gtk_button_set_focus_on_click(GTK_BUTTON (colorbutton_note_edit), FALSE);
-
-  hbox_note_editor = gtk_hbox_new(FALSE, 4);
-  gtk_widget_show(hbox_note_editor);
-  gtk_box_pack_start(GTK_BOX (vbox_note_editor), hbox_note_editor, TRUE, TRUE, 0);
-  gtk_container_set_border_width(GTK_CONTAINER (hbox_note_editor), 1);
-
-  project_notes_editable = guifeatures.project_notes_management();
-
-  scrolledwindow_note_editor = gtk_scrolled_window_new(NULL, NULL);
-  gtk_widget_show(scrolledwindow_note_editor);
-  gtk_box_pack_start(GTK_BOX (hbox_note_editor), scrolledwindow_note_editor, TRUE, TRUE, 0);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow_note_editor), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-
-  htmlview_note_editor = gtk_html_new();
-  gtk_widget_show(htmlview_note_editor);
-  gtk_container_add(GTK_CONTAINER (scrolledwindow_note_editor), htmlview_note_editor);
-  gtk_html_allow_selection(GTK_HTML (htmlview_note_editor), true);
-
-  vbox4 = gtk_vbox_new(FALSE, 0);
-  gtk_widget_show(vbox4);
-  gtk_box_pack_start(GTK_BOX (hbox_note_editor), vbox4, FALSE, FALSE, 0);
-
-  button_note_cancel = gtk_button_new_from_stock("gtk-cancel");
-  gtk_widget_show(button_note_cancel);
-  gtk_box_pack_end(GTK_BOX (vbox4), button_note_cancel, FALSE, FALSE, 0);
-
-  button_note_ok = gtk_button_new_from_stock("gtk-ok");
-  if (guifeatures.project_notes_management())
-    gtk_widget_show(button_note_ok);
-  gtk_box_pack_end(GTK_BOX (vbox4), button_note_ok, FALSE, FALSE, 0);
-
-  label2 = gtk_label_new("");
-  gtk_widget_show(label2);
-  gtk_notebook_set_tab_label(GTK_NOTEBOOK (notebook1), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook1), 1), label2);
-
-  label30 = gtk_label_new("");
-  gtk_widget_show(label30);
-  gtk_notebook_set_tab_label(GTK_NOTEBOOK (notebook_notes_area), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_notes_area), 0), label30);
+  // Todo bool project_notes_editable = guifeatures.project_notes_management();
 
   vbox_right = gtk_vbox_new(FALSE, 0);
   gtk_widget_show(vbox_right);
@@ -2140,81 +1920,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   if (!guifeatures.references_and_find()) {
     gtk_widget_hide(gtk_notebook_get_nth_page(GTK_NOTEBOOK (notebook_tools), 0));
   }
-
-  vbox_project_note = gtk_vbox_new(FALSE, 1);
-  gtk_widget_show(vbox_project_note);
-  gtk_container_add(GTK_CONTAINER (notebook_tools), vbox_project_note);
-  gtk_container_set_border_width(GTK_CONTAINER (vbox_project_note), 2);
-
-  label_note_category = gtk_label_new_with_mnemonic("C_ategory");
-  gtk_widget_show(label_note_category);
-  gtk_box_pack_start(GTK_BOX (vbox_project_note), label_note_category, FALSE, FALSE, 0);
-  gtk_misc_set_alignment(GTK_MISC (label_note_category), 0, 0.5);
-
-  combobox_note_category = gtk_combo_box_new_text();
-  gtk_widget_show(combobox_note_category);
-  gtk_box_pack_start(GTK_BOX (vbox_project_note), combobox_note_category, FALSE, TRUE, 0);
-
-  label_note_references = gtk_label_new_with_mnemonic("_References");
-  gtk_widget_show(label_note_references);
-  gtk_box_pack_start(GTK_BOX (vbox_project_note), label_note_references, FALSE, FALSE, 0);
-  gtk_misc_set_alignment(GTK_MISC (label_note_references), 0, 0.5);
-
-  scrolledwindow8 = gtk_scrolled_window_new(NULL, NULL);
-  gtk_widget_show(scrolledwindow8);
-  gtk_box_pack_start(GTK_BOX (vbox_project_note), scrolledwindow8, TRUE, TRUE, 0);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow8), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-
-  textview_note_references = gtk_text_view_new();
-  gtk_widget_show(textview_note_references);
-  gtk_container_add(GTK_CONTAINER (scrolledwindow8), textview_note_references);
-  gtk_text_view_set_accepts_tab(GTK_TEXT_VIEW (textview_note_references), FALSE);
-
-  label_note_project = gtk_label_new_with_mnemonic("Pro_ject");
-  gtk_widget_show(label_note_project);
-  gtk_box_pack_start(GTK_BOX (vbox_project_note), label_note_project, FALSE, FALSE, 0);
-  gtk_misc_set_alignment(GTK_MISC (label_note_project), 0, 0.5);
-
-  combobox_note_project = gtk_combo_box_new_text();
-  gtk_widget_show(combobox_note_project);
-  gtk_box_pack_start(GTK_BOX (vbox_project_note), combobox_note_project, FALSE, TRUE, 0);
-
-  label_note_created_on = gtk_label_new("");
-  gtk_widget_show(label_note_created_on);
-  gtk_box_pack_start(GTK_BOX (vbox_project_note), label_note_created_on, FALSE, FALSE, 0);
-  gtk_misc_set_alignment(GTK_MISC (label_note_created_on), 0, 0.5);
-
-  label_note_created_by = gtk_label_new("");
-  gtk_widget_show(label_note_created_by);
-  gtk_box_pack_start(GTK_BOX (vbox_project_note), label_note_created_by, FALSE, FALSE, 0);
-  gtk_misc_set_alignment(GTK_MISC (label_note_created_by), 0, 0.5);
-
-  label_note_edited_on = gtk_label_new("");
-  gtk_widget_show(label_note_edited_on);
-  gtk_box_pack_start(GTK_BOX (vbox_project_note), label_note_edited_on, FALSE, FALSE, 0);
-  gtk_misc_set_alignment(GTK_MISC (label_note_edited_on), 0, 0.5);
-
-  label_note_logbook = gtk_label_new("Logbook");
-  gtk_widget_show(label_note_logbook);
-  gtk_box_pack_start(GTK_BOX (vbox_project_note), label_note_logbook, FALSE, FALSE, 0);
-  gtk_misc_set_alignment(GTK_MISC (label_note_logbook), 0, 0.5);
-
-  scrolledwindow9 = gtk_scrolled_window_new(NULL, NULL);
-  gtk_widget_show(scrolledwindow9);
-  gtk_box_pack_start(GTK_BOX (vbox_project_note), scrolledwindow9, TRUE, TRUE, 0);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow9), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-
-  textview_note_logbook = gtk_text_view_new();
-  gtk_widget_show(textview_note_logbook);
-  gtk_container_add(GTK_CONTAINER (scrolledwindow9), textview_note_logbook);
-  gtk_text_view_set_editable(GTK_TEXT_VIEW (textview_note_logbook), FALSE);
-  gtk_text_view_set_accepts_tab(GTK_TEXT_VIEW (textview_note_logbook), FALSE);
-  gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW (textview_note_logbook), GTK_WRAP_WORD);
-  gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW (textview_note_logbook), FALSE);
-
-  label_notetools = gtk_label_new("Project note");
-  gtk_widget_show(label_notetools);
-  gtk_notebook_set_tab_label(GTK_NOTEBOOK (notebook_tools), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_tools), 1), label_notetools);
 
   hbox5 = gtk_hbox_new(FALSE, 0);
   gtk_widget_show(hbox5);
@@ -2434,50 +2139,13 @@ MainWindow::MainWindow(unsigned long xembed) :
   g_signal_connect ((gpointer) help_main, "activate", G_CALLBACK (on_help_main_activate), gpointer(this));
   g_signal_connect ((gpointer) system_log1, "activate", G_CALLBACK (on_system_log1_activate), gpointer(this));
   g_signal_connect ((gpointer) about1, "activate", G_CALLBACK (on_about1_activate), gpointer(this));
-  g_signal_connect ((gpointer) button_note_ok, "clicked", G_CALLBACK (on_button_ok_clicked), gpointer(this));
-  g_signal_connect ((gpointer) button_note_cancel, "clicked", G_CALLBACK (on_button_cancel_clicked), gpointer(this));
-  g_signal_connect ((gpointer) notebook_tools, "switch_page", G_CALLBACK (on_notebook_tools_switch_page), gpointer(this));
   g_signal_connect ((gpointer) treeview_references, "key_press_event", G_CALLBACK (on_treeview_references_key_press_event), gpointer(this));
   g_signal_connect ((gpointer) treeview_references, "button_press_event", G_CALLBACK (on_treeview_references_button_press_event), gpointer(this));
   g_signal_connect ((gpointer) treeview_references, "popup_menu", G_CALLBACK (on_treeview_references_popup_menu), gpointer(this));
   g_signal_connect ((gpointer) treeview_references, "move_cursor", G_CALLBACK (on_treeview_references_move_cursor), gpointer(this));
   g_signal_connect ((gpointer) treeview_references, "cursor_changed", G_CALLBACK (on_treeview_references_cursor_changed), gpointer(this));
-  g_signal_connect ((gpointer) htmlview_notes, "link-clicked", G_CALLBACK (on_notes_html_link_clicked), gpointer(this));
-  // Project notes editor signals.
-  g_signal_connect ((gpointer) combobox_note_edit_font_size, "changed", G_CALLBACK (on_combobox_note_edit_font_size_changed), gpointer (this));
-  g_signal_connect ((gpointer) htmlview_note_editor, "insertion_font_style_changed", G_CALLBACK (on_note_editor_insertion_font_style_changed), gpointer (this));
-  g_signal_connect ((gpointer) combobox_note_edit_paragraph_style, "changed", G_CALLBACK (on_combobox_note_edit_paragraph_style_changed), gpointer (this));
-  g_signal_connect ((gpointer) htmlview_note_editor, "current_paragraph_style_changed", G_CALLBACK (on_note_editor_current_paragraph_style_changed), gpointer (this));
-  g_signal_connect ((gpointer) togglebutton_note_edit_bold, "toggled", G_CALLBACK (on_togglebutton_note_edit_bold_toggled), gpointer (this));
-  g_signal_connect ((gpointer) togglebutton_note_edit_italics, "toggled", G_CALLBACK (on_togglebutton_note_edit_italics_toggled), gpointer (this));
-  g_signal_connect ((gpointer) togglebutton_note_edit_underline, "toggled", G_CALLBACK (on_togglebutton_note_edit_underline_toggled), gpointer (this));
-  g_signal_connect ((gpointer) togglebutton_note_edit_strike_through, "toggled", G_CALLBACK (on_togglebutton_note_edit_strike_through_toggled), gpointer (this));
-  g_signal_connect ((gpointer) togglebutton_note_edit_left_justify, "toggled", G_CALLBACK (on_togglebutton_note_edit_left_justify_toggled), gpointer (this));
-  g_signal_connect ((gpointer) togglebutton_note_edit_center_justify, "toggled", G_CALLBACK (on_togglebutton_note_edit_center_justify_toggled), gpointer (this));
-  g_signal_connect ((gpointer) togglebutton_note_edit_right_justify, "toggled", G_CALLBACK (on_togglebutton_note_edit_right_justify_toggled), gpointer (this));
-  g_signal_connect ((gpointer) htmlview_note_editor, "current_paragraph_alignment_changed", G_CALLBACK (on_current_paragraph_alignment_changed), gpointer (this));
-  g_signal_connect ((gpointer) button_note_edit_decrease_indent, "clicked", G_CALLBACK (on_button_note_edit_decrease_indent_clicked), gpointer (this));
-  g_signal_connect ((gpointer) button_note_edit_increase_indent, "clicked", G_CALLBACK (on_button_note_edit_increase_indent_clicked), gpointer (this));
-  g_signal_connect ((gpointer) htmlview_note_editor, "current_paragraph_indentation_changed", G_CALLBACK (on_current_paragraph_indentation_changed), gpointer (this));
-  g_signal_connect ((gpointer) colorbutton_note_edit, "color_set", G_CALLBACK (on_colorbutton_note_edit_color_set), gpointer (this));
-  g_signal_connect ((gpointer) htmlview_note_editor, "insertion_color_changed", G_CALLBACK (on_insertion_color_changed), gpointer (this));
 
   gtk_window_add_accel_group(GTK_WINDOW (mainwindow), accel_group);
-
-  gtk_label_set_mnemonic_widget(GTK_LABEL (label_note_references), textview_note_references);
-  gtk_label_set_mnemonic_widget(GTK_LABEL (label_note_category), combobox_note_category);
-  gtk_label_set_mnemonic_widget(GTK_LABEL (label_note_project), combobox_note_project);
-
-  // Tools Area: set page number to display, but don't display the notes tab.
-  int tools_area_page = settings->genconfig.tools_area_page_number_get();
-  if (tools_area_page == tapntProjectNote)
-    tools_area_page--;
-  gtk_widget_hide(gtk_notebook_get_nth_page(GTK_NOTEBOOK (notebook_tools), tapntProjectNote));
-  gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_tools), tools_area_page);
-  // If the last page currently shows, it won't give a signal that the page switches,
-  // because the page already would be at the last page. Simulate this signal.
-  if (tools_area_page == tapntEnd - 1)
-    notebook_tools_switch_page(tools_area_page);
 
   // Jumpstart editor.
   jump_start_editors(project_last_session);
@@ -2552,8 +2220,6 @@ MainWindow::~MainWindow() {
   References references(liststore_references, treeview_references, treecolumn_references);
   references.get_loaded();
   references.save();
-  // Stop possible thread that is displaying notes.
-  stop_displaying_more_notes();
   // Destroy the Outpost
   delete windowsoutpost;
   // Finalize content manager subsystem.
@@ -2797,8 +2463,8 @@ void MainWindow::menu_undo()
   }
   if (editor_has_focus) {
     editor->undo();
-  } else if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) {
-    gtk_html_undo(GTK_HTML (htmlview_note_editor));
+  } else /* Todo to implement again. if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) */{
+    //gtk_html_undo(GTK_HTML (htmlview_note_editor));
   }
 }
 
@@ -2816,8 +2482,8 @@ void MainWindow::menu_redo()
   }
   if (editor_has_focus) {
     editor->redo();
-  } else if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) {
-    gtk_html_redo(GTK_HTML (htmlview_note_editor));
+  } else /* Todo implement again if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) */{
+    //gtk_html_redo(GTK_HTML (htmlview_note_editor));
   }
 }
 
@@ -2845,8 +2511,7 @@ void MainWindow::menu_edit() {
   gtk_widget_set_sensitive(paste1, paste);
 
   // Enable/disable based on whether we're editing a note.
-  bool enable;
-  enable = (gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook1)) == 1);
+  bool enable = true; // Todo to implement.
   // References can only be taken from a note when it is opened.
   gtk_widget_set_sensitive(get_references_from_note, enable);
 
@@ -2989,8 +2654,7 @@ void MainWindow::on_menu_insert()
   if (standard_text_4)
     gtk_label_set_text_with_mnemonic(GTK_LABEL (gtk_bin_get_child (GTK_BIN (standard_text_4))), label.c_str());
   // Enable or disable depending on situation.
-  bool enable;
-  enable = (gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook1)) == 1);
+  bool enable = true; // Todo implement again.
   if (standard_text_1)
     gtk_widget_set_sensitive(standard_text_1, enable);
   if (standard_text_2)
@@ -3001,7 +2665,8 @@ void MainWindow::on_menu_insert()
     gtk_widget_set_sensitive(standard_text_4, enable);
   // Allow inserting reference when we edit a note and the reference is different 
   // from any of the references loaded already.
-  enable = false;
+  enable = false; // Todo implement.
+  /*
   if (gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook1)) == 1) {
     // Get all references from the note.
     vector<Reference> references;
@@ -3019,6 +2684,7 @@ void MainWindow::on_menu_insert()
       enable = true;
     }
   }
+  */
   // Update menu.
   ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
   if (editor) {
@@ -3335,16 +3001,9 @@ void MainWindow::on_goto_bible_notes_area1_activate(GtkMenuItem *menuitem, gpoin
 }
 
 void MainWindow::on_bible_notes_area_activate() {
-  switch (gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook_notes_area)))
-  {
-    case 0:
-    {
-      Editor * editor = editorsgui->focused_editor();
-      if (editor)
-        gtk_widget_grab_focus(editor->last_focused_textview());
-      break;
-    }
-  }
+  Editor * editor = editorsgui->focused_editor();
+  if (editor)
+    gtk_widget_grab_focus(editor->last_focused_textview());
 }
 
 void MainWindow::on_tools_area1_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3352,80 +3011,6 @@ void MainWindow::on_tools_area1_activate(GtkMenuItem *menuitem, gpointer user_da
 }
 
 void MainWindow::on_tools_area_activate() {
-  // Get the page that now shows.
-  ToolsAreaPageNumberType page = (ToolsAreaPageNumberType) gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook_tools));
-
-  // See if this page has focus.
-  bool focused = false;
-  switch (page)
-  {
-    case tapntReferences:
-    {
-      focused = GTK_WIDGET_HAS_FOCUS (treeview_references);
-      break;
-    }
-    case tapntProjectNote:
-    {
-      focused = GTK_WIDGET_HAS_FOCUS (combobox_note_category)
-      | GTK_WIDGET_HAS_FOCUS (textview_note_references)
-      | GTK_WIDGET_HAS_FOCUS (combobox_note_project)
-      | GTK_WIDGET_HAS_FOCUS (textview_note_logbook);
-      break;
-    }
-    case tapntEnd:
-    {
-      focused = true;
-      break;
-    }
-  }
-
-  // If the page is focused already, switch to the next one.
-  if (focused) {
-
-    // Iterate through the possible tabs to find the next visible one.
-    bool pageshows = false;
-    int iterations = 0;
-    while (!pageshows && (iterations < 100)) {
-      iterations++;
-      // Take next page if available. Else take the first one.
-      int ipage = page;
-      ipage++;
-      page = (ToolsAreaPageNumberType) ipage;
-      // See if that next page is visible.
-      switch (page)
-      {
-        case tapntReferences:
-        case tapntProjectNote:
-          pageshows = GTK_WIDGET_VISIBLE (gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_tools), page));
-          break;
-        case tapntEnd:
-          pageshows = false;
-          page = (ToolsAreaPageNumberType) -1;
-          break;
-      }
-    }
-
-    // If no next page was available, bail out.
-    if (!pageshows)
-      return;
-
-    // Activate the next page.  
-    gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_tools), page);
-
-  }
-
-  // Focus the widget belonging to the page now showing.
-  switch (page)
-  {
-    case tapntReferences:
-      gtk_widget_grab_focus(treeview_references);
-      break;
-    case tapntProjectNote:
-      gtk_widget_grab_focus(textview_note_references);
-      break;
-    case tapntEnd:
-      break;
-  }
 }
 
 void MainWindow::on_notes_area1_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3433,10 +3018,8 @@ void MainWindow::on_notes_area1_activate(GtkMenuItem *menuitem, gpointer user_da
 }
 
 void MainWindow::on_notes_area_activate() {
-  if (gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook1)) == 0)
-    gtk_widget_grab_focus(htmlview_notes);
-  else
-    gtk_widget_grab_focus(htmlview_note_editor);
+  view_project_notes();
+  notes_redisplay();
 }
 
 void MainWindow::on_goto_next_project_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3475,13 +3058,15 @@ void MainWindow::on_cut() {
       editor->text_erase_selection();
     }
   }
-  if (GTK_WIDGET_HAS_FOCUS (htmlview_notes))
-    gtk_html_cut(GTK_HTML(htmlview_notes));
-  if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) {
-    gtk_html_cut(GTK_HTML (htmlview_note_editor));
-  }
+  /* Todo to implement again.
+   if (GTK_WIDGET_HAS_FOCUS (htmlview_notes))
+   gtk_html_cut(GTK_HTML(htmlview_notes));
+   if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) {
+   gtk_html_cut(GTK_HTML (htmlview_note_editor));
+   }
   if (GTK_WIDGET_HAS_FOCUS (textview_note_references))
     gtk_text_buffer_cut_clipboard(note_editor->textbuffer_references, clipboard, true);
+   */
 }
 
 void MainWindow::on_copy1_activate(GtkMenuItem * menuitem, gpointer user_data) {
@@ -3497,13 +3082,15 @@ void MainWindow::on_copy() {
       gtk_clipboard_set_text(clipboard, editor->text_get_selection ().c_str(), -1);
     }
   }
-  if (GTK_WIDGET_HAS_FOCUS (htmlview_notes))
-    gtk_html_copy(GTK_HTML (htmlview_notes));
-  if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) {
-    gtk_html_copy(GTK_HTML(htmlview_note_editor));
-  }
+  /* Todo to implement again.
+   if (GTK_WIDGET_HAS_FOCUS (htmlview_notes))
+   gtk_html_copy(GTK_HTML (htmlview_notes));
+   if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) {
+   gtk_html_copy(GTK_HTML(htmlview_note_editor));
+   }
   if (GTK_WIDGET_HAS_FOCUS (textview_note_references))
     gtk_text_buffer_copy_clipboard(note_editor->textbuffer_references, clipboard);
+   */
   if (window_check_keyterms) {
     window_check_keyterms->copy_clipboard();
   }
@@ -3545,13 +3132,15 @@ void MainWindow::on_paste() {
       }
     }
   }
-  if (GTK_WIDGET_HAS_FOCUS (htmlview_notes))
-    gtk_html_paste(GTK_HTML(htmlview_notes), false);
-  if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) {
-    gtk_html_paste(GTK_HTML(htmlview_note_editor), false);
-  }
+  /* Todo implement again.
+   if (GTK_WIDGET_HAS_FOCUS (htmlview_notes))
+   gtk_html_paste(GTK_HTML(htmlview_notes), false);
+   if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) {
+   gtk_html_paste(GTK_HTML(htmlview_note_editor), false);
+   }
   if (GTK_WIDGET_HAS_FOCUS (textview_note_references))
     gtk_text_buffer_paste_clipboard(note_editor->textbuffer_references, clipboard, NULL, true);
+   */
 }
 
 /*
@@ -3568,27 +3157,11 @@ void MainWindow::on_paste() {
  |
  */
 
-void MainWindow::on_notebook_tools_switch_page(GtkNotebook *notebook, GtkNotebookPage *page, guint page_num, gpointer user_data) {
-  ((MainWindow *) user_data)->notebook_tools_switch_page(page_num);
-}
-
-void MainWindow::notebook_tools_switch_page(guint page_num) {
-  // Store the page number in the configuration.
-  extern Settings * settings;
-  settings->genconfig.tools_area_page_number_set(page_num);
-  // If the user switches to another page, and the note is being edited, do not 
-  // return to the page displayed previously, but leave it as it is.
-  if (note_editor) {
-    note_editor->previous_tools_page = -1;
-  }
-}
-
 void MainWindow::on_file_references_activate(GtkMenuItem *menuitem, gpointer user_data) {
   ((MainWindow *) user_data)->on_file_references();
 }
 
-void MainWindow::on_file_references() {
-  gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_tools), tapntReferences);
+void MainWindow::on_file_references() { // Todo to implemnet to display the references window.
 }
 
 /*
@@ -4110,20 +3683,6 @@ void MainWindow::on_gui()
   // Check whether to reopen the project.
   on_git_reopen_project();
 
-  // Handle the gui part of displaying project notes.
-  // These notes are displayed in a thread, and it is quite a hassle to make Gtk
-  // thread-safe, therefore rather than going through this hassle, we just 
-  // let the widgets be updated in the main thread.
-  if (displayprojectnotes) {
-    if (displayprojectnotes->ready) {
-      displayprojectnotes->ready = false;
-      displayprojectnotes->show_buffer();
-      displayprojectnotes->position_cursor();
-      delete displayprojectnotes;
-      displayprojectnotes = NULL;
-    }
-  }
-
   // Care for possible restart.
   extern Settings * settings;
   if (settings->session.restart) {
@@ -4186,7 +3745,7 @@ void MainWindow::window_size_allocated(GtkWidget *widget, GtkAllocation *allocat
  |
  |
  |
- Notes editor
+ Notes editor // Todo
  |
  |
  |
@@ -4194,19 +3753,36 @@ void MainWindow::window_size_allocated(GtkWidget *widget, GtkAllocation *allocat
  |
  */
 
+void MainWindow::view_project_notes() {
+  if (!window_notes) {
+    window_notes = new WindowNotes (windows_startup_pointer != G_MAXINT);
+    g_signal_connect ((gpointer) window_notes->delete_signal_button, "clicked", G_CALLBACK (on_window_notes_delete_button_clicked), gpointer(this));
+    g_signal_connect ((gpointer) window_notes->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
+    treeview_references_display_quick_reference();
+  }
+}
+
+void MainWindow::on_window_notes_delete_button_clicked(GtkButton *button, gpointer user_data) {
+  ((MainWindow *) user_data)->on_window_notes_delete_button();
+}
+
+void MainWindow::on_window_notes_delete_button() {
+  if (window_notes) {
+    delete window_notes;
+    window_notes = NULL;
+  }
+}
+
 void MainWindow::on_new_note_activate(GtkMenuItem *menuitem, gpointer user_data) {
   ((MainWindow *) user_data)->on_new_note();
 }
 
 void MainWindow::on_new_note() {
-  // If we are currently editing a note, do nothing.
-  if (gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook1)) > 0)
-    return;
-
-  // Get the unique id for the new note.
-  int id = notes_database_get_unique_id();
-  // Create the new note.
-  notes_fill_edit_screen(id, true);
+  // Display notes.
+  view_project_notes();
+  // Create new note.
+  if (window_notes)
+    window_notes->new_note();
 }
 
 void MainWindow::on_delete_note_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -4219,35 +3795,16 @@ void MainWindow::on_viewnotes_activate(GtkMenuItem *menuitem, gpointer user_data
 
 void MainWindow::on_view_notes() {
   ShowNotesDialog dialog(0);
-  if (dialog.run() == GTK_RESPONSE_OK)
+  if (dialog.run() == GTK_RESPONSE_OK) {
+    view_project_notes();
     notes_redisplay();
+  }
 }
 
 void MainWindow::notes_redisplay() {
-  // Do not display notes while a note is being edited.
-  if (gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook1)) != 0)
-    return;
-  // Stop any previous notes display.
-  stop_displaying_more_notes();
-  // Display the notes with a little delay. This improves navigation speed.
-  gw_destroy_source(notes_redisplay_source_id);
-  notes_redisplay_source_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 500, GSourceFunc (on_notes_redisplay_timeout), gpointer(this), NULL);
-}
-
-bool MainWindow::on_notes_redisplay_timeout(gpointer data) {
-  ((MainWindow *) data)->notes_redisplay_timeout();
-  return false;
-}
-
-void MainWindow::notes_redisplay_timeout() {
-  // Get the focused Editor. If none, bail out.
-  Editor * editor = editorsgui->focused_editor();
-  if (!editor)
-    return;
-  // Get actual verse from the editor.
-  ustring reference = books_id_to_english(editor->current_reference.book) + " " + convert_to_string(editor->current_reference.chapter) + ":" + editor->current_reference.verse;
-  // Create displaying object.
-  displayprojectnotes = new DisplayProjectNotes (reference, htmlview_notes, NULL);
+  if (window_notes) {
+    window_notes->redisplay();
+  }
 }
 
 void MainWindow::on_find_in_notes1_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -4255,11 +3812,11 @@ void MainWindow::on_find_in_notes1_activate(GtkMenuItem *menuitem, gpointer user
 }
 
 void MainWindow::find_in_notes() {
-  {
-    FindNoteDialog findnotedialog(0);
-    if (findnotedialog.run() == GTK_RESPONSE_OK) {
-      stop_displaying_more_notes();
-      displayprojectnotes = new DisplayProjectNotes ("", htmlview_notes, &findnotedialog.ids);
+  FindNoteDialog findnotedialog(0);
+  if (findnotedialog.run() == GTK_RESPONSE_OK) {
+    view_project_notes();
+    if (window_notes) {
+      window_notes->display(findnotedialog.ids);
     }
   }
 }
@@ -4271,6 +3828,7 @@ void MainWindow::on_import_notes_activate(GtkMenuItem *menuitem, gpointer user_d
 void MainWindow::on_import_notes() {
   ImportNotesDialog dialog(0);
   if (dialog.run() == GTK_RESPONSE_APPLY) {
+    view_project_notes();
     notes_redisplay();
   }
 }
@@ -4280,6 +3838,7 @@ void MainWindow::on_export_notes_activate(GtkMenuItem *menuitem, gpointer user_d
 }
 
 void MainWindow::on_export_notes() {
+  view_project_notes();
   int result;
   ustring filename;
   ExportNotesFormat format;
@@ -4295,468 +3854,6 @@ void MainWindow::on_export_notes() {
     vector <unsigned int> ids_to_display;
     export_translation_notes(filename, format, ids_to_display, save_all_notes, mainwindow);
   }
-}
-
-void MainWindow::on_button_cancel_clicked(GtkButton *button, gpointer user_data) {
-  ((MainWindow *) user_data)->on_notes_button_cancel();
-}
-
-void MainWindow::on_notes_button_cancel() {
-  // Do standard functions for both ok and cancel.
-  on_notes_button_ok_cancel();
-}
-
-void MainWindow::on_button_ok_clicked(GtkButton *button, gpointer user_data) {
-  ((MainWindow *) user_data)->on_notes_button_ok();
-}
-
-void MainWindow::on_notes_button_ok() {
-  sqlite3 *db;
-  int rc;
-  char *error= NULL;
-  try
-  {
-    /*
-     Validate and normalize the references.
-     Bad ones are removed and a message will be given.
-     If no valid references remain, stop the whole transaction and give a message.
-     */
-    ustring encoded_references;
-    ustring osis_references;
-    // Get and validate all references from the textview.
-
-    {
-      // Store references.
-      vector<Reference> references;
-      // Store possible messages here for later display.
-      vector<ustring> messages;
-      // Get all references from the editor.
-      notes_get_references_from_editor (note_editor->textbuffer_references, references, messages);
-      // Encode all references.
-      for (unsigned int i = 0; i < references.size(); i++)
-      {
-        // Encode the reference.
-        vector<int> verses = verses_encode (references[i].verse);
-        Reference ref = references[i];
-        ref.verse = "0";
-        int book_chapter = reference_to_numerical_equivalent (ref);
-        for (unsigned int i2 = 0; i2 < verses.size(); i2++)
-        {
-          encoded_references.append(" ");
-          encoded_references.append (convert_to_string (int (book_chapter + verses[i2])));
-        }
-        // Store the references in OSIS format too.
-        ustring osis_book = books_id_to_osis (references[i].book);
-        ustring osis_reference = osis_book + "." + convert_to_string (references[i].chapter) + "." + references[i].verse;
-        if (!osis_references.empty())
-        osis_references.append (" ");
-        osis_references.append (osis_reference);
-      }
-      encoded_references.append (" ");
-      // See whether there are messages to display.
-      if (messages.size()> 0)
-      {
-        ustring message;
-        for (unsigned int i = 0; i < messages.size(); i++)
-        {
-          message.append (messages[i]);
-          message.append ("\n");
-        }
-        gtkw_dialog_error (mainwindow, message);
-      }
-    }
-    // See whether any references are left. If not give a message.
-    if (encoded_references.empty())
-    {
-      gtkw_dialog_error (mainwindow, "No valid references. Note was not stored");
-      return;
-    }
-    // Connect to database and start transaction.
-    rc = sqlite3_open(notes_database_filename ().c_str (), &db);
-    if (rc) throw runtime_error (sqlite3_errmsg(db));
-    sqlite3_busy_timeout (db, 1000);
-    rc = sqlite3_exec (db, "begin;", NULL, NULL, &error);
-    if (rc != SQLITE_OK)
-    {
-      throw runtime_error (error);
-    }
-    // Delete previous data with "id".
-    gchar * sql;
-    sql = g_strdup_printf ("delete from %s where id = %d;", TABLE_NOTES, note_editor->id);
-    rc = sqlite3_exec (db, sql, NULL, NULL, &error);
-    g_free (sql);
-    if (rc != SQLITE_OK)
-    {
-      throw runtime_error (error);
-    }
-    // Put new data in the database.
-    // ID (integer), we take variable "myid"
-    // References (text), we take variable "encoded_references"
-    // Project (text)
-    ustring project = combobox_get_active_string (combobox_note_project);
-    // Status (integer) This field is not used, and could be reused.
-    // Category (text)
-    ustring category = combobox_get_active_string (combobox_note_category);
-    // Note (text)
-    gtk_html_save (GTK_HTML(htmlview_note_editor), (GtkHTMLSaveReceiverFn) note_save_receiver, gpointer(note_editor));
-    ustring note = note_editor->clean_edited_data();
-    // Apostrophies need to be doubled before storing them.
-    note = double_apostrophy (note);
-    // Casefolded (text)
-    ustring casefolded = note.casefold();
-    // Date created. Variabele note_info_date_created
-    // Date modified.
-    int date_modified;
-    date_modified = date_time_julian_day_get_current ();
-    // Username. Use: note_info_user_created
-    // Logbook (text)
-    ustring logbook;
-    {
-      // Get and clean the lines.
-      vector<ustring> lines;
-      textbuffer_get_lines (note_editor->textbuffer_logbook, lines);
-      for (unsigned int i = 0; i < lines.size(); i++)
-      {
-        if (!logbook.empty())
-        logbook.append("\n");
-        logbook.append(lines[i]);
-      }
-      // Trim off extra newlines at the end.
-      logbook = trim(logbook);
-      // Now add new data to the logbook.
-      ustring date_user_text = date_time_julian_human_readable (date_modified, true);
-      date_user_text.append (", ");
-      date_user_text.append (g_get_real_name());
-      date_user_text.append (" ");
-      if (note_editor->newnote)
-      {
-        if (!logbook.empty())
-        logbook.append ("\n");
-        logbook.append (date_user_text);
-        logbook.append ("created a new note, category \"");
-        logbook.append (category);
-        logbook.append ("\", project \"");
-        logbook.append (project);
-        logbook.append ("\".");
-      }
-      else
-      {
-        vector<ustring> actions;
-        if (gtk_text_buffer_get_modified (note_editor->textbuffer_references))
-        {
-          actions.push_back ("modified the references");
-        }
-        if (note_editor->data_was_edited())
-        {
-          actions.push_back ("modified the note");
-        }
-        if (category != note_editor->previous_category)
-        {
-          actions.push_back ("changed the category to \"" + category + "\"");
-        }
-        if (project != note_editor->previous_project)
-        {
-          actions.push_back ("changed the project to \"" + project + "\"");
-        }
-        if (actions.size()> 0)
-        {
-          if (!logbook.empty())
-          logbook.append ("\n");
-          logbook.append (date_user_text);
-          for (unsigned int i = 0; i < actions.size(); i++)
-          {
-            if (i> 0)
-            logbook.append (", ");
-            logbook.append (actions[i]);
-          }
-          logbook.append (".");
-        }
-      }
-      // Apostrophies need to be doubled before storing them.
-      logbook = double_apostrophy (logbook);
-    }
-    // Insert data in database.
-    sql = g_strdup_printf ("insert into %s values (%d, '%s', '%s', '%s', '%s', '%s', '%s', %d, %d, '%s', '%s');", TABLE_NOTES, note_editor->id, encoded_references.c_str(), osis_references.c_str(), project.c_str(), category.c_str(), note.c_str(), casefolded.c_str(), note_editor->date_created, date_modified, note_editor->created_by.c_str(), logbook.c_str());
-    rc = sqlite3_exec (db, sql, NULL, NULL, &error);
-    g_free (sql);
-    if (rc != SQLITE_OK)
-    {
-      throw runtime_error (error);
-    }
-    // Commit the transaction.
-    rc = sqlite3_exec (db, "commit;", NULL, NULL, &error);
-    if (rc != SQLITE_OK)
-    {
-      throw runtime_error (error);
-    }
-  }
-  catch (exception & ex)
-  {
-    gw_critical (ex.what ());
-  }
-  // Close connection.  
-  sqlite3_close(db);
-  // Do standard functions for both ok and cancel.
-  on_notes_button_ok_cancel();
-  // New note, or note edited, so display notes again.
-  notes_redisplay();
-}
-
-void MainWindow::on_notes_button_ok_cancel()
-// Functions common to both the ok and cancel buttons.
-{
-  // Show the normal notes display again.
-  gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook1), 0);
-  // Focus widget that was focused previously.
-  // This must be done after switching the page of the notebook,
-  // to ensure the widget (usually the text editor) does indeed get focus.
-  gtk_window_set_focus(GTK_WINDOW (mainwindow), note_editor->previous_focus);
-  gtk_widget_grab_focus(note_editor->previous_focus);
-  // Same for Tools Area tab that displayed previously (unless user changed it).
-  if (note_editor->previous_tools_page >= 0)
-    gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_tools), note_editor->previous_tools_page);
-  // Clear some widgets.
-  combobox_clear_strings(combobox_note_category);
-  gtk_text_buffer_set_text(note_editor->textbuffer_references, "", -1);
-  combobox_clear_strings(combobox_note_project);
-  gtk_label_set_text(GTK_LABEL (label_note_created_on), "");
-  gtk_label_set_text(GTK_LABEL (label_note_created_by), "");
-  gtk_label_set_text(GTK_LABEL (label_note_edited_on), "");
-  gtk_text_buffer_set_text(note_editor->textbuffer_logbook, "", -1);
-
-  // Clear the html editor.
-  gtk_html_set_editable(GTK_HTML(htmlview_note_editor), false);
-  gtk_html_load_empty(GTK_HTML(htmlview_note_editor));
-
-  // Hide the notebook page.
-  gtk_widget_hide(gtk_notebook_get_nth_page(GTK_NOTEBOOK (notebook_tools), tapntProjectNote));
-
-  // Destroy NoteEditor object.
-  if (note_editor)
-    delete note_editor;
-  note_editor = NULL;
-}
-
-void MainWindow::notes_fill_edit_screen(int id, bool newnote)
-/*
- When a new note is made, or an existing one edited, this function
- sets up the edit screen.
- */
-{
-  // Create the NoteEditor object.
-  if (note_editor)
-    delete note_editor;
-  note_editor = new NoteEditor (0);
-  // Save variables.
-  note_editor->id = id;
-  note_editor->newnote = newnote;
-
-  // Show the notebook page.
-  gtk_widget_show(gtk_notebook_get_nth_page(GTK_NOTEBOOK (notebook_tools), tapntProjectNote));
-
-  // Initialize pointers to the text buffers.
-  note_editor->textbuffer_references = gtk_text_view_get_buffer(GTK_TEXT_VIEW (textview_note_references));
-  note_editor->textbuffer_logbook = gtk_text_view_get_buffer(GTK_TEXT_VIEW (textview_note_logbook));
-
-  // Save the widget that had the focus, so that when the notes had been edited,
-  // the same widget gets the focus again.
-  note_editor->previous_focus = gtk_window_get_focus(GTK_WINDOW (mainwindow));
-  // Same for the tab that now displays in the Tools Area.
-  int tools_page_displayed_previously = gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook_tools));
-
-  // Get the Editor that has the focus.
-  Editor * editor = editorsgui->focused_editor();
-
-  // Get our language.
-  extern Settings * settings;
-  ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
-  ustring language = projectconfig->language_get();
-
-  // Fill comboboxes for the toolbar.
-  combobox_set_strings(combobox_note_edit_font_size, note_editor_font_size_names_list());
-  combobox_set_string(combobox_note_edit_font_size, note_editor_font_size_enum_to_name(GTK_HTML_FONT_STYLE_DEFAULT));
-  combobox_set_strings(combobox_note_edit_paragraph_style, note_editor_paragraph_style_names_list());
-  combobox_set_string(combobox_note_edit_paragraph_style, note_editor_paragraph_style_enum_to_name(GTK_HTML_PARAGRAPH_STYLE_NORMAL));
-
-  // Fetch the data for the note from the database. And fill comboboxes.
-  // Or in case of a new note, deal appropriately with that.
-  sqlite3 *db;
-  int rc;
-  char *error= NULL;
-  try
-  {
-    rc = sqlite3_open(notes_database_filename ().c_str (), &db);
-    if (rc) throw runtime_error (sqlite3_errmsg(db));
-    sqlite3_busy_timeout (db, 1000);
-    SqliteReader sqlitereader (0);
-    char * sql;
-    sql = g_strdup_printf ("select ref_osis, project, category, note, created, modified, user, logbook from %s where id = %d;", TABLE_NOTES, id);
-    rc = sqlite3_exec(db, sql, sqlitereader.callback, &sqlitereader, &error);
-    g_free (sql);
-    if (rc != SQLITE_OK)
-    {
-      throw runtime_error (error);
-    }
-    if ((sqlitereader.ustring0.size()> 0) || newnote)
-    {
-      ustring reference;
-      gtk_text_buffer_set_text (note_editor->textbuffer_references, "", -1);
-      if (newnote)
-      {
-        // New note, so get the current reference from the editor.
-        if (editor)
-        {
-          reference = books_id_to_english (editor->current_reference.book) + " " + convert_to_string (editor->current_reference.chapter) + ":" + editor->current_reference.verse;
-        }
-        gtk_text_buffer_insert_at_cursor (note_editor->textbuffer_references, reference.c_str(), -1);
-        gtk_text_buffer_insert_at_cursor (note_editor->textbuffer_references, "\n", -1);
-      }
-      else
-      {
-        // Existing note, so get the reference(s) from the database.
-        reference = sqlitereader.ustring0[0];
-        // Read the reference(s) and show them.
-        Parse parse (reference, false);
-        for (unsigned int i = 0; i < parse.words.size(); i++)
-        {
-          Reference reference (0);
-          reference_discover (0, 0, "", parse.words[i], reference.book, reference.chapter, reference.verse);
-          ustring ref = reference.human_readable (language);
-          gtk_text_buffer_insert_at_cursor (note_editor->textbuffer_references, ref.c_str(), -1);
-          gtk_text_buffer_insert_at_cursor (note_editor->textbuffer_references, "\n", -1);
-        }
-      }
-      // Read the note.
-      ustring note;
-      if (!newnote)
-      {
-        note = sqlitereader.ustring3[0];
-        notes_update_old_one(note);
-      }
-      GtkHTMLStream *stream = gtk_html_begin(GTK_HTML(htmlview_note_editor));
-      gtk_html_write(GTK_HTML(htmlview_note_editor), stream, note.c_str(), -1);
-      gtk_html_end(GTK_HTML(htmlview_note_editor), stream, GTK_HTML_STREAM_OK);
-      gtk_html_set_editable(GTK_HTML(htmlview_note_editor), project_notes_editable);
-
-      note_editor->store_original_data(note);
-      gtk_text_buffer_set_modified (note_editor->textbuffer_references, false);
-
-      /*
-       Fill the category combo.
-       */
-      {
-        ReadText rt (notes_categories_filename());
-        combobox_set_strings (combobox_note_category, rt.lines);
-        if (rt.lines.size()> 0)
-        combobox_set_string (combobox_note_category, rt.lines[0]);
-      }
-      // Read the "category" variable.
-
-      {
-        if (!newnote)
-        {
-          ustring category = sqlitereader.ustring2[0];
-          combobox_set_string (combobox_note_category, category);
-        }
-      }
-      // Read the project. Fill the combo.
-
-      {
-        ustring project;
-        if (newnote)
-        {
-          project = settings->genconfig.project_get();
-        }
-        else
-        {
-          project = sqlitereader.ustring1[0];
-        }
-        vector<ustring> projects;
-        if (project != "All")
-        projects.push_back(project);
-        if (settings->genconfig.project_get() != project)
-        projects.push_back(settings->genconfig.project_get());
-        projects.push_back("All");
-        combobox_set_strings (combobox_note_project, projects);
-        combobox_set_string (combobox_note_project, project);
-      }
-      // Read the date created.
-
-      {
-        // Fetch and store variable for display and later use.
-        if (newnote)
-        {
-          note_editor->date_created = date_time_julian_day_get_current ();
-        }
-        else
-        {
-          note_editor->date_created = convert_to_int (sqlitereader.ustring4[0]);
-        }
-        ustring s;
-        s = "Created on " + date_time_julian_human_readable (note_editor->date_created, true);
-        gtk_label_set_text (GTK_LABEL (label_note_created_on), s.c_str());
-      }
-      // Read the date modified.
-
-      {
-        if (newnote)
-        {
-          note_editor->date_modified = date_time_julian_day_get_current ();
-        }
-        else
-        {
-          note_editor->date_modified = convert_to_int (sqlitereader.ustring5[0]);
-        }
-        ustring s;
-        s = "Edited on " + date_time_julian_human_readable (note_editor->date_modified, true);
-        gtk_label_set_text (GTK_LABEL (label_note_edited_on), s.c_str());
-      }
-      // Read the user that created the note.
-
-      {
-        if (newnote)
-        {
-          note_editor->created_by = g_get_real_name();
-        }
-        else
-        {
-          note_editor->created_by = sqlitereader.ustring6[0];
-        }
-        ustring s;
-        s = "Created by " + note_editor->created_by;
-        gtk_label_set_text (GTK_LABEL (label_note_created_by), s.c_str());
-      }
-      // Read the logbook.
-
-      {
-        ustring logbook;
-        if (!newnote)
-        logbook = sqlitereader.ustring7[0];
-        gtk_text_buffer_set_text (note_editor->textbuffer_logbook, logbook.c_str(), -1);
-      }
-    }
-  }
-  catch (exception & ex)
-  {
-    gw_critical (ex.what ());
-  }
-  // Close connection.  
-  sqlite3_close(db);
-
-  // Store category and project.
-  note_editor->previous_category = combobox_get_active_string(combobox_note_category);
-  note_editor->previous_project = combobox_get_active_string(combobox_note_project);
-
-  // Set GUI elements.
-  current_paragraph_indentation_changed(gtk_html_get_paragraph_indentation(GTK_HTML (htmlview_note_editor)));
-
-  // Switch screen to displaying the tabs for editing.
-  gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook1), 1);
-  gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_tools), tapntProjectNote);
-  // Store current page, so we can switch back to it later.
-  note_editor->previous_tools_page = tools_page_displayed_previously;
-  // Focus the widget the user is most likely going to type in.
-  gtk_widget_grab_focus(htmlview_note_editor);
 }
 
 void MainWindow::on_standard_text_1_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -4775,91 +3872,50 @@ void MainWindow::on_standard_text_4_activate(GtkMenuItem *menuitem, gpointer use
   ((MainWindow *) user_data)->on_insert_standard_text(menuitem);
 }
 
-void MainWindow::on_current_reference1_activate(GtkMenuItem *menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->on_insert_standard_text(menuitem);
-}
-
 void MainWindow::on_insert_standard_text(GtkMenuItem *menuitem) {
   // Find out which standard text to insert, and where to insert it, and how.
   extern Settings * settings;
   ustring standardtext;
+  unsigned int selector = 0;
   bool addspace = false;
   bool gtkhtml = false;
-  GtkWidget * textview = htmlview_note_editor;
   if (menuitem == GTK_MENU_ITEM (standard_text_1)) {
     standardtext = settings->genconfig.edit_note_standard_text_one_get();
+    selector = 0;
     addspace = true;
-    textview = htmlview_note_editor;
     gtkhtml = true;
   } else if (menuitem == GTK_MENU_ITEM (standard_text_2)) {
     standardtext = settings->genconfig.edit_note_standard_text_two_get();
+    selector = 1;
     addspace = true;
-    textview = htmlview_note_editor;
     gtkhtml = true;
   } else if (menuitem == GTK_MENU_ITEM (standard_text_3)) {
     standardtext = settings->genconfig.edit_note_standard_text_three_get();
+    selector = 2;
     addspace = true;
-    textview = htmlview_note_editor;
     gtkhtml = true;
   } else if (menuitem == GTK_MENU_ITEM (standard_text_4)) {
     standardtext = settings->genconfig.edit_note_standard_text_four_get();
+    selector = 3;
     addspace = true;
-    textview = htmlview_note_editor;
     gtkhtml = true;
   } else if (menuitem == GTK_MENU_ITEM (current_reference1)) {
     Editor * editor = editorsgui->focused_editor();
     if (editor)
       standardtext = books_id_to_english(editor->current_reference.book) + " " + convert_to_string(editor->current_reference.chapter) + ":" + editor->current_reference.verse;
+    selector = 4;
     addspace = false;
-    textview = textview_note_references;
     gtkhtml = false;
   }
-  // Add space.
-  if (addspace)
-    standardtext.append(" ");
-  // If text was selected, erase that text.
-  if (!gtkhtml) {
-    GtkTextIter iter1, iter2;
-    if (gtk_text_buffer_get_selection_bounds(gtk_text_view_get_buffer(GTK_TEXT_VIEW (textview)), &iter1, &iter2)) {
-      gtk_text_buffer_delete(gtk_text_view_get_buffer(GTK_TEXT_VIEW (textview)), &iter1, &iter2);
-    }
-  }
-  // If buffer does not end with a new line, insert one.
-  if (!gtkhtml) {
-    GtkTextIter enditer;
-    gtk_text_buffer_get_end_iter(gtk_text_view_get_buffer(GTK_TEXT_VIEW (textview)), &enditer);
-    if (!gtk_text_iter_starts_line(&enditer)) {
-      gtk_text_buffer_insert(gtk_text_view_get_buffer(GTK_TEXT_VIEW (textview)), &enditer, "\n", -1);
-    }
-  }
-  // Message.
-  ustring message;
-  // Add the standard text.
-  message.append(standardtext);
-  // Insert message at the end of the note.
-  if (gtkhtml) {
-    gtk_html_insert_html(GTK_HTML (htmlview_note_editor), message.c_str());
-  } else {
-    GtkTextIter enditer;
-    gtk_text_buffer_get_end_iter(gtk_text_view_get_buffer(GTK_TEXT_VIEW (textview)), &enditer);
-    gtk_text_buffer_insert(gtk_text_view_get_buffer(GTK_TEXT_VIEW (textview)), &enditer, message.c_str(), -1);
+
+  // Insert the text.
+  if (window_notes) {
+    window_notes->insert_standard_text(selector);
   }
 }
 
-void MainWindow::stop_displaying_more_notes()
-// Stop the process of displaying notes.
-{
-  if (displayprojectnotes) {
-    displayprojectnotes->stop();
-  }
-  while (displayprojectnotes) {
-    // Events must go on to keep the program responsive.
-    while (gtk_events_pending())
-      gtk_main_iteration();
-    g_usleep(100000);
-    // While waiting run the on_gui routine, because this deletes the object if it is ready.
-    on_gui();
-  }
+void MainWindow::on_current_reference1_activate(GtkMenuItem *menuitem, gpointer user_data) {
+  ((MainWindow *) user_data)->on_insert_standard_text(menuitem);
 }
 
 void MainWindow::on_get_references_from_note_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -4872,8 +3928,8 @@ void MainWindow::on_get_references_from_note() {
   // Store possible messages here, but they will be dumped.
   vector<ustring> messages;
   // Get all references from the editor.
-  if (note_editor)
-    notes_get_references_from_editor(note_editor->textbuffer_references, references, messages);
+  if (window_notes)
+    window_notes->get_references_from_note(references, messages);
   // Sort the references so they appear nicely in the editor.
   sort_references(references);
   // Set none searchwords.
@@ -4884,8 +3940,8 @@ void MainWindow::on_get_references_from_note() {
   references2.set_references(references);
   ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
   references2.fill_store(projectconfig->language_get());
-  // Display the References Area
-  gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_tools), tapntReferences);
+  // Display the References Area 
+  on_file_references();
 }
 
 void MainWindow::notes_get_references_from_id(gint id)
@@ -4938,249 +3994,7 @@ void MainWindow::notes_get_references_from_id(gint id)
   ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
   references2.fill_store(projectconfig->language_get());
   // Display the References Area
-  gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_tools), tapntReferences);
-}
-
-gboolean MainWindow::note_save_receiver(const HTMLEngine * engine, const char *data, unsigned int len, void *user_data)
-// Called by the gtkhtml project note editor when saving its data
-{
-  ((NoteEditor *) user_data)->receive_data_from_html_editor(data, len);
-  return true;
-}
-
-gboolean MainWindow::on_notes_html_link_clicked(GtkHTML *html, const gchar * url, gpointer user_data) {
-  ((MainWindow *) user_data)->notes_html_link_clicked(html, url);
-  return true;
-}
-
-void MainWindow::notes_html_link_clicked(GtkHTML *html, const gchar * url)
-// Callback for clicking a link in the project notes.
-{
-  ustring myurl(url);
-  bool del = myurl.substr(0, 1) == "d";
-  bool refs = myurl.substr(0, 1) == "r";
-  myurl = number_in_string(myurl);
-  unsigned int id = convert_to_int(myurl);
-  if (del) {
-    // Delete the note.
-    vector<gint> ids;
-    ids.push_back(id);
-    notes_delete_ids(ids);
-  } else if (refs) {
-    // Get the reference(s) from the note.
-    notes_get_references_from_id(id);
-  } else {
-    // Edit note.
-    notes_fill_edit_screen(id, false);
-  }
-}
-
-void MainWindow::notes_delete_ids(const vector<gint>& ids)
-// Deletes notes whose id is given in "ids".
-{
-  if (ids.empty())
-    return;
-
-  ustring message = "Are you sure you want to delete ";
-  if (ids.size() == 1)
-    message.append("this note");
-  else
-    message.append("these notes");
-  message.append("?");
-
-  if (gtkw_dialog_question(mainwindow, message) != GTK_RESPONSE_YES)
-    return;
-  for (unsigned int i = 0; i < ids.size(); i++) {
-    notes_delete_one(ids[i]);
-  }
-
-  notes_redisplay();
-}
-
-/*
- |
- |
- |
- |
- |
- Notes formatting
- |
- |
- |
- |
- |
- */
-
-void MainWindow::on_combobox_note_edit_font_size_changed(GtkComboBox *combobox, gpointer user_data) {
-  ((MainWindow *) user_data)->combobox_note_edit_font_size_changed();
-}
-
-void MainWindow::combobox_note_edit_font_size_changed() {
-  GtkHTMLFontStyle style = note_editor_font_size_name_to_enum(combobox_get_active_string(combobox_note_edit_font_size));
-  gtk_html_set_font_style(GTK_HTML (htmlview_note_editor), GtkHTMLFontStyle (GTK_HTML_FONT_STYLE_SIZE_MASK & ~GTK_HTML_FONT_STYLE_SIZE_MASK), style);
-}
-
-void MainWindow::on_note_editor_insertion_font_style_changed(GtkHTML * html, GtkHTMLFontStyle style, gpointer user_data) {
-  ((MainWindow *) user_data)->note_editor_insertion_font_style_changed(style);
-}
-
-void MainWindow::note_editor_insertion_font_style_changed(GtkHTMLFontStyle style) {
-  combobox_set_string(combobox_note_edit_font_size, note_editor_font_size_enum_to_name(GtkHTMLFontStyle(style & GTK_HTML_FONT_STYLE_SIZE_MASK)));
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (togglebutton_note_edit_italics), style & GTK_HTML_FONT_STYLE_ITALIC);
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (togglebutton_note_edit_bold), style & GTK_HTML_FONT_STYLE_BOLD);
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (togglebutton_note_edit_underline), style & GTK_HTML_FONT_STYLE_UNDERLINE);
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (togglebutton_note_edit_strike_through), style & GTK_HTML_FONT_STYLE_STRIKEOUT);
-}
-
-void MainWindow::on_combobox_note_edit_paragraph_style_changed(GtkComboBox *combobox, gpointer user_data) {
-  ((MainWindow *) user_data)->combobox_note_edit_paragraph_style_changed();
-}
-
-void MainWindow::combobox_note_edit_paragraph_style_changed() {
-  GtkHTMLParagraphStyle style = note_editor_paragraph_style_name_to_enum(combobox_get_active_string(combobox_note_edit_paragraph_style));
-  gtk_html_set_paragraph_style(GTK_HTML (htmlview_note_editor), style);
-}
-
-void MainWindow::on_note_editor_current_paragraph_style_changed(GtkHTML * html, GtkHTMLParagraphStyle style, gpointer user_data) {
-  ((MainWindow *) user_data)->note_editor_current_paragraph_style_changed(style);
-}
-
-void MainWindow::note_editor_current_paragraph_style_changed(GtkHTMLParagraphStyle style) {
-  combobox_set_string(combobox_note_edit_paragraph_style, note_editor_paragraph_style_enum_to_name(style));
-}
-
-void MainWindow::on_togglebutton_note_edit_bold_toggled(GtkToggleButton *togglebutton, gpointer user_data) {
-  ((MainWindow *) user_data)->togglebutton_note_edit_bold_toggled();
-}
-
-void MainWindow::togglebutton_note_edit_bold_toggled() {
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(togglebutton_note_edit_bold))) {
-    gtk_html_set_font_style(GTK_HTML (htmlview_note_editor), (GtkHTMLFontStyle)~0, GTK_HTML_FONT_STYLE_BOLD);
-  } else {
-    gtk_html_set_font_style(GTK_HTML (htmlview_note_editor), (GtkHTMLFontStyle)~GTK_HTML_FONT_STYLE_BOLD, (GtkHTMLFontStyle)0);
-  }
-}
-
-void MainWindow::on_togglebutton_note_edit_italics_toggled(GtkToggleButton *togglebutton, gpointer user_data) {
-  ((MainWindow *) user_data)->togglebutton_note_edit_italics_toggled();
-}
-
-void MainWindow::togglebutton_note_edit_italics_toggled() {
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(togglebutton_note_edit_italics))) {
-    gtk_html_set_font_style(GTK_HTML (htmlview_note_editor), (GtkHTMLFontStyle)~0, GTK_HTML_FONT_STYLE_ITALIC);
-  } else {
-    gtk_html_set_font_style(GTK_HTML (htmlview_note_editor), (GtkHTMLFontStyle)~GTK_HTML_FONT_STYLE_ITALIC, (GtkHTMLFontStyle)0);
-  }
-}
-
-void MainWindow::on_togglebutton_note_edit_underline_toggled(GtkToggleButton *togglebutton, gpointer user_data) {
-  ((MainWindow *) user_data)->togglebutton_note_edit_underline_toggled();
-}
-
-void MainWindow::togglebutton_note_edit_underline_toggled() {
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(togglebutton_note_edit_underline))) {
-    gtk_html_set_font_style(GTK_HTML (htmlview_note_editor), (GtkHTMLFontStyle)~0, GTK_HTML_FONT_STYLE_UNDERLINE);
-  } else {
-    gtk_html_set_font_style(GTK_HTML (htmlview_note_editor), (GtkHTMLFontStyle)~GTK_HTML_FONT_STYLE_UNDERLINE, (GtkHTMLFontStyle)0);
-  }
-}
-
-void MainWindow::on_togglebutton_note_edit_strike_through_toggled(GtkToggleButton *togglebutton, gpointer user_data) {
-  ((MainWindow *) user_data)->togglebutton_note_edit_strike_through_toggled();
-}
-
-void MainWindow::togglebutton_note_edit_strike_through_toggled() {
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(togglebutton_note_edit_strike_through))) {
-    gtk_html_set_font_style(GTK_HTML (htmlview_note_editor), (GtkHTMLFontStyle)~0, GTK_HTML_FONT_STYLE_STRIKEOUT);
-  } else {
-    gtk_html_set_font_style(GTK_HTML (htmlview_note_editor), (GtkHTMLFontStyle)~GTK_HTML_FONT_STYLE_STRIKEOUT, (GtkHTMLFontStyle)0);
-  }
-}
-
-void MainWindow::on_togglebutton_note_edit_left_justify_toggled(GtkToggleButton *togglebutton, gpointer user_data) {
-  ((MainWindow *) user_data)->togglebutton_note_edit_left_justify_toggled();
-}
-
-void MainWindow::togglebutton_note_edit_left_justify_toggled() {
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(togglebutton_note_edit_left_justify))) {
-    gtk_html_set_paragraph_alignment(GTK_HTML (htmlview_note_editor), GTK_HTML_PARAGRAPH_ALIGNMENT_LEFT);
-  }
-}
-
-void MainWindow::on_togglebutton_note_edit_center_justify_toggled(GtkToggleButton *togglebutton, gpointer user_data) {
-  ((MainWindow *) user_data)->togglebutton_note_edit_center_justify_toggled();
-}
-
-void MainWindow::togglebutton_note_edit_center_justify_toggled() {
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(togglebutton_note_edit_center_justify))) {
-    gtk_html_set_paragraph_alignment(GTK_HTML (htmlview_note_editor), GTK_HTML_PARAGRAPH_ALIGNMENT_CENTER);
-  }
-}
-
-void MainWindow::on_togglebutton_note_edit_right_justify_toggled(GtkToggleButton *togglebutton, gpointer user_data) {
-  ((MainWindow *) user_data)->togglebutton_note_edit_right_justify_toggled();
-}
-
-void MainWindow::togglebutton_note_edit_right_justify_toggled() {
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(togglebutton_note_edit_right_justify))) {
-    gtk_html_set_paragraph_alignment(GTK_HTML (htmlview_note_editor), GTK_HTML_PARAGRAPH_ALIGNMENT_RIGHT);
-  }
-}
-
-void MainWindow::on_current_paragraph_alignment_changed(GtkHTML *html, GtkHTMLParagraphAlignment new_alignment, gpointer user_data) {
-  ((MainWindow *) user_data)->current_paragraph_alignment_changed(new_alignment);
-}
-
-void MainWindow::current_paragraph_alignment_changed(GtkHTMLParagraphAlignment new_alignment) {
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (togglebutton_note_edit_left_justify), new_alignment == GTK_HTML_PARAGRAPH_ALIGNMENT_LEFT);
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (togglebutton_note_edit_center_justify), new_alignment == GTK_HTML_PARAGRAPH_ALIGNMENT_CENTER);
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (togglebutton_note_edit_right_justify), new_alignment == GTK_HTML_PARAGRAPH_ALIGNMENT_RIGHT);
-}
-
-void MainWindow::on_button_note_edit_decrease_indent_clicked(GtkButton *button, gpointer user_data) {
-  ((MainWindow *) user_data)->button_note_edit_decrease_indent_clicked();
-}
-
-void MainWindow::button_note_edit_decrease_indent_clicked() {
-  //guint indentation = gtk_html_get_paragraph_indentation (GTK_HTML (htmlview_note_editor));
-  //if (indentation > 0)
-  gtk_html_indent_pop_level(GTK_HTML (htmlview_note_editor));
-}
-
-void MainWindow::on_button_note_edit_increase_indent_clicked(GtkButton *button, gpointer user_data) {
-  ((MainWindow *) user_data)->button_note_edit_increase_indent_clicked();
-}
-
-void MainWindow::button_note_edit_increase_indent_clicked() {
-  gtk_html_indent_push_level(GTK_HTML (htmlview_note_editor), HTML_LIST_TYPE_BLOCKQUOTE);
-}
-
-void MainWindow::on_current_paragraph_indentation_changed(GtkHTML *html, guint new_indentation, gpointer user_data) {
-  ((MainWindow *) user_data)->current_paragraph_indentation_changed(new_indentation);
-}
-
-void MainWindow::current_paragraph_indentation_changed(guint new_indentation) {
-  gtk_widget_set_sensitive(toolitem_note_edit_decrease_indent, new_indentation > 0);
-}
-
-void MainWindow::on_colorbutton_note_edit_color_set(GtkColorButton *colorbutton, gpointer user_data) {
-  ((MainWindow *) user_data)->colorbutton_note_edit_color_set(colorbutton);
-}
-
-void MainWindow::colorbutton_note_edit_color_set(GtkColorButton *colorbutton) {
-  GdkColor gdk_color;
-  gtk_color_button_get_color(colorbutton, &gdk_color);
-  HTMLColor * html_color = html_color_new_from_gdk_color(&gdk_color);
-  gtk_html_set_color(GTK_HTML (htmlview_note_editor), html_color);
-  html_color_unref(html_color);
-}
-
-void MainWindow::on_insertion_color_changed(GtkHTML *html, GdkColor *color, gpointer user_data) {
-  ((MainWindow *) user_data)->insertion_color_changed(color);
-}
-
-void MainWindow::insertion_color_changed(GdkColor *color) {
-  gtk_color_button_set_color(GTK_COLOR_BUTTON(colorbutton_note_edit), color);
+  on_file_references();
 }
 
 /*
@@ -5645,7 +4459,7 @@ void MainWindow::on_style_apply() {
           style_was_treated_specially = true;
           // If the gui has been set so, display the references in the tools area.
           if (settings->genconfig.inserting_xref_shows_references_get()) {
-            gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_tools), tapntReferences);
+            on_file_references();
             gtk_widget_grab_focus(editor->last_focused_textview());
           }
         }
@@ -7492,7 +6306,8 @@ bool MainWindow::on_windows_startup() {
   // Get all window data.
   WindowData window_data(false);
 
-  if (windows_startup_pointer < window_data.ids.size()) {
+  bool window_started = false;
+  while ((windows_startup_pointer < window_data.ids.size()) && !window_started) {
     if (window_data.shows[windows_startup_pointer]) {
       WindowID id = WindowID(window_data.ids[windows_startup_pointer]);
       ustring data = window_data.datas[windows_startup_pointer];
@@ -7533,10 +6348,16 @@ bool MainWindow::on_windows_startup() {
           on_goto_styles_area();
           break;
         }
+        case widNotes:
+        {
+          view_project_notes();
+          break;
+        }
       }
+      window_started = true;
     }
+    windows_startup_pointer++;
   }
-  windows_startup_pointer++;
   if (windows_startup_pointer < window_data.ids.size()) {
     return true;
   } else {
@@ -7598,6 +6419,13 @@ void MainWindow::shutdown_windows()
     window_styles = NULL;
   }
 
+  // Styles.
+  if (window_notes) {
+    window_notes->shutdown();
+    delete window_notes;
+    window_notes = NULL;
+  }
+
 }
 
 void MainWindow::on_window_focus_button_clicked(GtkButton *button, gpointer user_data) {
@@ -7632,6 +6460,8 @@ void MainWindow::on_window_focus_button(GtkButton *button)
     window_check_keyterms->present();
   if (window_styles)
     window_styles->present();
+  if (window_notes)
+    window_notes->present();
 
   // Present the calling window again.
   GtkWidget * widget= GTK_WIDGET (button);
@@ -7665,6 +6495,10 @@ void MainWindow::on_window_focus_button(GtkButton *button)
   if (window_styles) {
     if (widget == window_styles->focus_in_signal_button)
       window_styles->present();
+  }
+  if (window_notes) {
+    if (widget == window_notes->focus_in_signal_button)
+      window_notes->present();
   }
 }
 
@@ -7754,7 +6588,10 @@ void MainWindow::on_show_quick_references_signal_button(GtkButton *button) {
 
  Todo Improve the window layout system.
 
- Todo to make the project notes independent.
+ Todo to hide some lesser used controls in the notes editor, using a button "More".
+
+ If starting windows, and a window does not show, there's now a delay for the next to be tried.
+ Skip these delays, because they make things look slow.
  
  There is one menu window, which is the main one, and each function will get its own window.
 
@@ -7783,6 +6620,10 @@ void MainWindow::on_show_quick_references_signal_button(GtkButton *button) {
  - If the last window is clicked away, then the program stops too.
  - If Ctrl-Q is typed, it stops too, and this applies in any window.
  - If Ctrl-W is clicked in any window, it it goes away, and if it is the last one, the program stops.
+
+ A window does not always seem to position to the right place after the first attempt.
+ Perhaps we need to build a timer that tries about 5 times or so, in addition to the first initial attempt.
+ 
  
  */
 

@@ -157,7 +157,6 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE (check_words_inventory_not_include_words_count);
   INITIALIZE (check_words_inventory_word_forming_characters);
   INITIALIZE (check_markers_spacing_include);
-  INITIALIZE (tools_area_page_number);
   INITIALIZE (styles_category_expanded);
   INITIALIZE (insert_footnote_template);
   INITIALIZE (insert_endnote_template);
@@ -334,7 +333,6 @@ void GeneralConfiguration::save()
   SAVE_VALUE (check_words_inventory_not_include_words_count);
   SAVE_VALUE (check_words_inventory_word_forming_characters);
   SAVE_VALUE (check_markers_spacing_include);
-  SAVE_VALUE (tools_area_page_number);
   SAVE_VALUE (styles_category_expanded);
   SAVE_VALUE (insert_footnote_template);
   SAVE_VALUE (insert_endnote_template);
@@ -581,7 +579,6 @@ IMPLEMENT (ustring, string_get, check_matching_pairs_ignore, "")
 IMPLEMENT (int, int_get, check_words_inventory_not_include_words_count, 0)
 IMPLEMENT (ustring, string_get, check_words_inventory_word_forming_characters, "")
 IMPLEMENT (ustring, string_get, check_markers_spacing_include, "xo")
-IMPLEMENT (int, int_get, tools_area_page_number, 0)
 IMPLEMENT (vector<bool>, vector_bool_get, styles_category_expanded, NULL)
 IMPLEMENT (ustring, string_get, insert_footnote_template, "")
 IMPLEMENT (ustring, string_get, insert_endnote_template, "")

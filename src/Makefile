@@ -169,7 +169,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	windowshowkeyterms.$(OBJEXT) windows.$(OBJEXT) \
 	windowshowquickrefs.$(OBJEXT) windowmerge.$(OBJEXT) \
 	windowresource.$(OBJEXT) windowoutline.$(OBJEXT) \
-	windowcheckkeyterms.$(OBJEXT) windowstyles.$(OBJEXT)
+	windowcheckkeyterms.$(OBJEXT) windowstyles.$(OBJEXT) \
+	windownotes.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -275,9 +276,9 @@ OBJEXT = o
 PACKAGE = bibledit
 PACKAGE_BUGREPORT = http://www.nongnu.org/bibledit
 PACKAGE_NAME = bibledit
-PACKAGE_STRING = bibledit 3.4.35
+PACKAGE_STRING = bibledit 3.4.38
 PACKAGE_TARNAME = bibledit
-PACKAGE_VERSION = 3.4.35
+PACKAGE_VERSION = 3.4.38
 PANGO_CFLAGS = -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
 PANGO_LIBS = -lpango-1.0 -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0  
 PATH_SEPARATOR = :
@@ -294,7 +295,7 @@ STRINGS_PATH = /usr/bin/strings
 STRIP = 
 TAIL_PATH = /usr/bin/tail
 TEE_TOUCH = /usr/bin/touch
-VERSION = 3.4.35
+VERSION = 3.4.38
 WIN32_FALSE = 
 WIN32_TRUE = #
 XML2_CONFIG = /usr/bin/xml2-config
@@ -618,7 +619,8 @@ bibledit_bin_SOURCES = \
         windowresource.cpp \
         windowoutline.cpp \
         windowcheckkeyterms.cpp \
-        windowstyles.cpp
+        windowstyles.cpp \
+        windownotes.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -944,6 +946,7 @@ include ./$(DEPDIR)/versifications.Po
 include ./$(DEPDIR)/windowcheckkeyterms.Po
 include ./$(DEPDIR)/windowlayout.Po
 include ./$(DEPDIR)/windowmerge.Po
+include ./$(DEPDIR)/windownotes.Po
 include ./$(DEPDIR)/windowoutline.Po
 include ./$(DEPDIR)/windowresource.Po
 include ./$(DEPDIR)/windows.Po

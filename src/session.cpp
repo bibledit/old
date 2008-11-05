@@ -63,7 +63,7 @@ Session::Session(int dummy)
   bnmu_verse_suffix = ".";
   import_raw_text_book = -1;
   import_raw_text_chapter = -1;
-  project_notes_show_title;
+  project_notes_show_title = true;
 }
 
 Session::~Session() {

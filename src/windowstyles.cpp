@@ -159,7 +159,7 @@ void WindowStyles::load(const ustring& stylesheet) {
   // The actual loading is done with a delay, to make it easier for Gtk.
   g_timeout_add(500, GSourceFunc(on_load_timeout), gpointer(this));
   // Set the title.
-  ustring title = window_data + " " + stylesheet;  
+  ustring title = window_data + " " + stylesheet;
   gtk_window_set_title(GTK_WINDOW (window), title.c_str());
 }
 

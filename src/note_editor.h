@@ -40,7 +40,6 @@ public:
   GtkTextBuffer * textbuffer_references;
   GtkTextBuffer * textbuffer_logbook;
   GtkWidget * previous_focus;
-  int previous_tools_page;
   ustring previous_category;
   ustring previous_project;
   void store_original_data (const ustring& data);

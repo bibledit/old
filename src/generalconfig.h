@@ -140,7 +140,6 @@ public:
   DEFINE_GENCONFIG_H (int, check_words_inventory_not_include_words_count);
   DEFINE_GENCONFIG_H (ustring, check_words_inventory_word_forming_characters);
   DEFINE_GENCONFIG_H (ustring, check_markers_spacing_include);
-  DEFINE_GENCONFIG_H (int, tools_area_page_number);
   DEFINE_GENCONFIG_H (vector<bool>, styles_category_expanded);
   DEFINE_GENCONFIG_H (ustring, insert_footnote_template);
   DEFINE_GENCONFIG_H (ustring, insert_endnote_template);

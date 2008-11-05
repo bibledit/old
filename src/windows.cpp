@@ -83,15 +83,19 @@ void window_display(GtkWidget * window, WindowID id, const ustring& data, bool s
         area_rectangle.height = settings->genconfig.tools_area_height_get();
         break;
       }
+      case widNotes:
+      {
+        area_rectangle.x = settings->genconfig.notes_area_x_position_get();
+        area_rectangle.y = settings->genconfig.notes_area_y_position_get();
+        area_rectangle.width = settings->genconfig.notes_area_width_get();
+        area_rectangle.height = settings->genconfig.notes_area_height_get();
+        break;
+      }
         /*
          int text_area_width = settings->genconfig.text_area_width_get();
          int text_area_height = settings->genconfig.text_area_height_get();
          int text_area_x = settings->genconfig.text_area_x_position_get();
          int text_area_y = settings->genconfig.text_area_y_position_get();
-         int notes_area_width = settings->genconfig.notes_area_width_get();
-         int notes_area_height = settings->genconfig.notes_area_height_get();
-         int notes_area_x = settings->genconfig.notes_area_x_position_get();
-         int notes_area_y = settings->genconfig.notes_area_y_position_get();
          */
     }
 
@@ -375,6 +379,16 @@ void WindowBase::on_window_focus_in(GtkWidget *widget) {
   if (act_on_focus_in_signal) {
     gtk_button_clicked(GTK_BUTTON (focus_in_signal_button));
     focused_time = time(0);
+    /* 
+    Finer-grained timing.
+    The Linux kernel maintains a global variable called jiffies, 
+    which represents the number of timer ticks since the machine started. 
+    This variable is initialized to zero and increments each timer interrupt. 
+    You can read jiffies with the get_jiffies_64 function, 
+    and then convert this value to milliseconds (msec) with jiffies_to_msecs 
+    or to microseconds (usec) with jiffies_to_usecs. 
+    The jiffies' global and associated functions are provided in include/linux/jiffies.h.
+    */
   }
 }
 
