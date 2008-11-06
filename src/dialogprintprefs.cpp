@@ -226,7 +226,7 @@ PrintPreferencesDialog::PrintPreferencesDialog(int dummy) {
   gtk_widget_show (label12);
   gtk_box_pack_start (GTK_BOX (hbox2), label12, FALSE, FALSE, 0);
 
-  spinbutton_header_font_size_adj = gtk_adjustment_new (12, 5, 25, 0.1, 1, 1); // Todo
+  spinbutton_header_font_size_adj = gtk_adjustment_new (12, 5, 25, 0.1, 1, 1);
   spinbutton_header_font_size = gtk_spin_button_new (GTK_ADJUSTMENT (spinbutton_header_font_size_adj), 1, 1);
   gtk_widget_show (spinbutton_header_font_size);
   gtk_box_pack_start (GTK_BOX (hbox2), spinbutton_header_font_size, FALSE, FALSE, 0);

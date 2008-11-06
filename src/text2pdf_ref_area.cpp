@@ -22,6 +22,7 @@
 #include "gwrappers.h"
 #include "tiny_utilities.h"
 #include "date_time_utils.h"
+#include "settings.h"
 
 T2PReferenceArea::T2PReferenceArea(PangoRectangle rectangle_in, cairo_t *cairo_in) :
   T2PArea(rectangle_in)
@@ -86,12 +87,18 @@ void T2PReferenceArea::print()
 void T2PReferenceArea::print(unsigned int page_number, bool print_date, const ustring& left_running_header, const ustring& right_running_header, bool suppress_header, unsigned int left_first_chapter, unsigned int left_last_chapter, unsigned int right_first_chapter, unsigned int right_last_chapter)
 // Print the page number, the date, the running header.
 {
+  // Headers can have their fontsize set. Create a paragraph for that.
+  T2PInputParagraph header_paragraph ("", 100, false);
+  extern Settings * settings;
+  header_paragraph.font_size_points = settings->genconfig.header_font_size_get();
+  header_paragraph.first_line_indent_mm = 0;
+  
   // Page number.
   T2PLayoutContainer page_number_layout_container(rectangle, NULL, cairo);
   string pn(convert_to_string(page_number));
   if (suppress_header)
     pn.clear();
-  page_number_layout_container.layout_text(NULL, 0, pn);
+  page_number_layout_container.layout_text(&header_paragraph, 0, pn);
   if (!(page_number % 2)) {
     // Even.
     page_number_layout_container.rectangle.x += rectangle.width - page_number_layout_container.rectangle.width;
@@ -102,7 +109,7 @@ void T2PReferenceArea::print(unsigned int page_number, bool print_date, const us
   T2PLayoutContainer date_layout_container(rectangle, NULL, cairo);
   if (print_date) {
     string s(date_time_julian_human_readable(date_time_julian_day_get_current(), false));
-    date_layout_container.layout_text(NULL, 0, s);
+    date_layout_container.layout_text(&header_paragraph, 0, s);
   }
   if ((page_number % 2)) {
     // Odd.
@@ -130,7 +137,7 @@ void T2PReferenceArea::print(unsigned int page_number, bool print_date, const us
   }
   string header(produce_running_header(running_header, suppress_header, first_chapter, last_chapter));
   if (!header.empty()) {
-    running_header_layout_container.layout_text(NULL, 0, header);
+    running_header_layout_container.layout_text(&header_paragraph, 0, header);
     if ((page_number % 2)) {
       // Odd page.
       running_header_layout_container.rectangle.x += rectangle.width - running_header_layout_container.rectangle.width;
