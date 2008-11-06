@@ -852,8 +852,10 @@ protected:
   void shutdown_windows();
   static void on_window_focus_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_focus_button(GtkButton *button);
+  GtkWidget * now_focused_signal_button;
+  GtkWidget * last_focused_signal_button;
   static gboolean on_main_window_focus_in_event(GtkWidget *widget, GdkEventFocus *event, gpointer user_data);
-  void on_main_window_focus_in(GtkWidget *widget);
+  void on_main_window_focus_in();
   void temporarily_switch_off_act_on_focus_in_signal();
   bool act_on_focus_in_signal;
   guint focus_event_id;
@@ -875,6 +877,12 @@ protected:
   void accelerator_undo();
   static void accelerator_redo_callback(gpointer user_data);
   void accelerator_redo();
+  static void accelerator_cut_callback(gpointer user_data);
+  void accelerator_cut();
+  static void accelerator_copy_callback(gpointer user_data);
+  void accelerator_copy();
+  static void accelerator_paste_callback(gpointer user_data);
+  void accelerator_paste();
 };
 
 #endif

@@ -168,17 +168,18 @@ MainWindow::MainWindow(unsigned long xembed) :
   mainwindow_width = 0;
   mainwindow_width_safe = false;
   windows_startup_pointer = 0;
+  now_focused_signal_button = NULL;
+  last_focused_signal_button = NULL;
 
   // Gui Features object.
   GuiFeatures guifeatures(0);
   project_notes_enabled = guifeatures.project_notes();
 
+  // Accelerators.
   accel_group = gtk_accel_group_new();
-
-  accelerator_group = gtk_accel_group_new(); // Todo
+  accelerator_group = gtk_accel_group_new();
   
-  
-  
+  // GUI build.
   if (xembed) {
     mainwindow = gtk_plug_new(GdkNativeWindow(xembed));
   } else {
@@ -2460,14 +2461,13 @@ void MainWindow::menu_undo()
 // Called for undo.
 {
   Editor * editor = editorsgui->focused_editor();
-  bool editor_has_focus = false;
   if (editor) {
-    editor_has_focus = editor->has_focus();
+    if (editor->has_focus()) {
+      editor->undo();
+    }
   }
-  if (editor_has_focus) {
-    editor->undo();
-  } else /* Todo to implement again. if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) */{
-    //gtk_html_undo(GTK_HTML (htmlview_note_editor));
+  if (window_notes && (now_focused_signal_button == NULL) &&  (last_focused_signal_button == window_notes->focus_in_signal_button)) {
+    window_notes->undo();
   }
 }
 
@@ -2479,14 +2479,13 @@ void MainWindow::menu_redo()
 // Called for redo.
 {
   Editor * editor = editorsgui->focused_editor();
-  bool editor_has_focus = false;
   if (editor) {
-    editor_has_focus = editor->has_focus();
+    if (editor->has_focus()) {
+      editor->redo();
+    }
   }
-  if (editor_has_focus) {
-    editor->redo();
-  } else /* Todo implement again if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) */{
-    //gtk_html_redo(GTK_HTML (htmlview_note_editor));
+  if (window_notes && (now_focused_signal_button == NULL) &&  (last_focused_signal_button == window_notes->focus_in_signal_button)) {
+    window_notes->redo();
   }
 }
 
@@ -2499,8 +2498,11 @@ void MainWindow::menu_edit() {
   Editor * editor = editorsgui->focused_editor();
   if (editor) {
     gtk_widget_set_sensitive(copy_without_formatting, editor->has_focus());
-    gtk_widget_set_sensitive(undo1, editor->can_undo());
-    gtk_widget_set_sensitive(redo1, editor->can_redo());
+    //gtk_widget_set_sensitive(undo1, editor->can_undo());
+    //gtk_widget_set_sensitive(redo1, editor->can_redo());
+  } else {
+    gtk_widget_set_sensitive(undo1, true);
+    gtk_widget_set_sensitive(redo1, true);
   }
 
   // Sensitivity of the clipboard operations.
@@ -3052,8 +3054,7 @@ void MainWindow::on_cut1_activate(GtkMenuItem * menuitem, gpointer user_data) {
 }
 
 void MainWindow::on_cut() {
-  GtkClipboard *clipboard;
-  clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
   if (editorsgui->has_focus()) {
     Editor * editor = editorsgui->focused_editor();
     if (editor) {
@@ -3061,15 +3062,9 @@ void MainWindow::on_cut() {
       editor->text_erase_selection();
     }
   }
-  /* Todo to implement again.
-   if (GTK_WIDGET_HAS_FOCUS (htmlview_notes))
-   gtk_html_cut(GTK_HTML(htmlview_notes));
-   if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) {
-   gtk_html_cut(GTK_HTML (htmlview_note_editor));
-   }
-   if (GTK_WIDGET_HAS_FOCUS (textview_note_references))
-   gtk_text_buffer_cut_clipboard(note_editor->textbuffer_references, clipboard, true);
-   */
+  if (window_notes && (now_focused_signal_button == NULL) &&  (last_focused_signal_button == window_notes->focus_in_signal_button)) {
+    window_notes->cut();
+  }
 }
 
 void MainWindow::on_copy1_activate(GtkMenuItem * menuitem, gpointer user_data) {
@@ -3085,15 +3080,9 @@ void MainWindow::on_copy() {
       gtk_clipboard_set_text(clipboard, editor->text_get_selection ().c_str(), -1);
     }
   }
-  /* Todo to implement again.
-   if (GTK_WIDGET_HAS_FOCUS (htmlview_notes))
-   gtk_html_copy(GTK_HTML (htmlview_notes));
-   if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) {
-   gtk_html_copy(GTK_HTML(htmlview_note_editor));
-   }
-   if (GTK_WIDGET_HAS_FOCUS (textview_note_references))
-   gtk_text_buffer_copy_clipboard(note_editor->textbuffer_references, clipboard);
-   */
+  if (window_notes && (now_focused_signal_button == NULL) &&  (last_focused_signal_button == window_notes->focus_in_signal_button)) {
+    window_notes->copy();
+  }
   if (window_check_keyterms) {
     window_check_keyterms->copy_clipboard();
   }
@@ -3135,15 +3124,9 @@ void MainWindow::on_paste() {
       }
     }
   }
-  /* Todo implement again.
-   if (GTK_WIDGET_HAS_FOCUS (htmlview_notes))
-   gtk_html_paste(GTK_HTML(htmlview_notes), false);
-   if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) {
-   gtk_html_paste(GTK_HTML(htmlview_note_editor), false);
-   }
-   if (GTK_WIDGET_HAS_FOCUS (textview_note_references))
-   gtk_text_buffer_paste_clipboard(note_editor->textbuffer_references, clipboard, NULL, true);
-   */
+  if (window_notes && (now_focused_signal_button == NULL) &&  (last_focused_signal_button == window_notes->focus_in_signal_button)) {
+    window_notes->paste();
+  }
 }
 
 /*
@@ -6440,6 +6423,13 @@ void MainWindow::on_window_focus_button_clicked(GtkButton *button, gpointer user
 void MainWindow::on_window_focus_button(GtkButton *button) // Todo
 // Called when a subwindow gets focused.
 {
+  // Store the focus if it is different from the currently stored values.
+  GtkWidget * widget = GTK_WIDGET (button);
+  if (widget != now_focused_signal_button) {
+    last_focused_signal_button = now_focused_signal_button;
+    now_focused_signal_button = widget;
+  }
+
   extern Settings * settings;
   vector <GtkWindow *> windows = settings->session.open_windows;
 
@@ -6469,7 +6459,6 @@ void MainWindow::on_window_focus_button(GtkButton *button) // Todo
     window_notes->present();
 
   // Present the calling window again.
-  GtkWidget * widget= GTK_WIDGET (button);
   if (widget == NULL) {
     //gtk_window_present(GTK_WINDOW (mainwindow));
   }
@@ -6505,8 +6494,8 @@ void MainWindow::on_window_focus_button(GtkButton *button) // Todo
     if (widget == window_notes->focus_in_signal_button)
       window_notes->present();
   }
-  
-  // The html editor in the notes window crashes when undo or redo is passed to it through an accelerator. // Todo
+
+  // The html editor in the notes window crashes when undo or redo is passed to it through an accelerator.
   // So we take steps to ensure that the relevant accelerators are (dis)connected depending on the focus.
   bool have_undo_redo_accelerators = true;
   if (window_notes) {
@@ -6516,23 +6505,44 @@ void MainWindow::on_window_focus_button(GtkButton *button) // Todo
   }
   if (have_undo_redo_accelerators) {
     guint n_entries = 0;
-    gtk_accel_group_query (accelerator_group, GDK_Z, GDK_CONTROL_MASK, &n_entries);
+    gtk_accel_group_query(accelerator_group, GDK_Z, GDK_CONTROL_MASK, &n_entries);
     if (n_entries == 0) {
       gtk_accel_group_connect(accelerator_group, GDK_Z, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new(G_CALLBACK(accelerator_undo_callback), gpointer(this), NULL));
       gtk_accel_group_connect(accelerator_group, GDK_Z, GdkModifierType(GDK_CONTROL_MASK | GDK_SHIFT_MASK), GtkAccelFlags(0), g_cclosure_new(G_CALLBACK(accelerator_redo_callback), gpointer(this), NULL));
     }
   } else {
-    gtk_accel_group_disconnect_key (accelerator_group, GDK_Z, GDK_CONTROL_MASK);
-    gtk_accel_group_disconnect_key (accelerator_group, GDK_Z, GdkModifierType(GDK_CONTROL_MASK | GDK_SHIFT_MASK));
+    gtk_accel_group_disconnect_key(accelerator_group, GDK_Z, GDK_CONTROL_MASK);
+    gtk_accel_group_disconnect_key(accelerator_group, GDK_Z, GdkModifierType(GDK_CONTROL_MASK | GDK_SHIFT_MASK));
+  }
+  
+  // The html editor in the notes window has its own accelerators for cut, copy, and paste.
+  bool have_cut_copy_paste_accelerators = true;  // Todo
+  if (window_notes) {
+    if (widget == window_notes->focus_in_signal_button) {
+      have_cut_copy_paste_accelerators = false;
+    }
+  }
+  if (have_cut_copy_paste_accelerators) {
+    guint n_entries = 0;
+    gtk_accel_group_query(accelerator_group, GDK_X, GDK_CONTROL_MASK, &n_entries);
+    if (n_entries == 0) {
+      gtk_accel_group_connect(accelerator_group, GDK_X, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new(G_CALLBACK(accelerator_cut_callback), gpointer(this), NULL));
+      gtk_accel_group_connect(accelerator_group, GDK_C, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new(G_CALLBACK(accelerator_copy_callback), gpointer(this), NULL));
+      gtk_accel_group_connect(accelerator_group, GDK_V, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new(G_CALLBACK(accelerator_paste_callback), gpointer(this), NULL));
+    }
+  } else {
+    gtk_accel_group_disconnect_key(accelerator_group, GDK_X, GDK_CONTROL_MASK);
+    gtk_accel_group_disconnect_key(accelerator_group, GDK_C, GDK_CONTROL_MASK);
+    gtk_accel_group_disconnect_key(accelerator_group, GDK_V, GDK_CONTROL_MASK);
   }
 }
 
 gboolean MainWindow::on_main_window_focus_in_event(GtkWidget *widget, GdkEventFocus *event, gpointer user_data) {
-  ((MainWindow *) user_data)->on_main_window_focus_in(widget);
+  ((MainWindow *) user_data)->on_main_window_focus_in();
   return FALSE;
 }
 
-void MainWindow::on_main_window_focus_in(GtkWidget *widget)
+void MainWindow::on_main_window_focus_in()
 // The handler is called when the main window focuses in.
 {
   if (act_on_focus_in_signal) {
@@ -6628,10 +6638,6 @@ void MainWindow::accelerator_undo_callback(gpointer user_data) {
 }
 
 void MainWindow::accelerator_undo() {
-  cout << "undo" << endl; // Todo
-  if (window_notes) {
-    window_notes->undo();
-  }
 }
 
 void MainWindow::accelerator_redo_callback(gpointer user_data) {
@@ -6639,28 +6645,49 @@ void MainWindow::accelerator_redo_callback(gpointer user_data) {
 }
 
 void MainWindow::accelerator_redo() {
-  cout << "redo" << endl; // Todo
-  //if (window_notes)
-    //window_notes->redo();
 }
+
+void MainWindow::accelerator_cut_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->accelerator_cut();
+}
+
+void MainWindow::accelerator_cut() { // Todo
+}
+
+void MainWindow::accelerator_copy_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->accelerator_copy();
+}
+
+void MainWindow::accelerator_copy() {
+}
+
+void MainWindow::accelerator_paste_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->accelerator_paste();
+}
+
+void MainWindow::accelerator_paste() {
+}
+
 
 /*
 
  Todo Improve the window layout system.
 
- Depending on focused windows, we may need to add or remove accelerators to the accelerator group.
- If the notes window is focused, then the undo and redo accelerators are removed.
- If another window gets the focus, then these are added again.
+ If Ctrl-F5 is pressed, and the window is active already, it should present that notes window.
+
+ If Ctrl-N is pressed for a new note, and the notes window already shows, it should present that window.
+
+ Add the Ctrl-1-4 accelerators for the notes view.
  
  When Ctrl-N is pressed, and a new notes window starts, when the new note is cancelled, the window does not display
  the relevant notes.
- 
+
  Add all the accelerators in a helpfile, build the file while adding the accelerator.
  
  For finding the last focused window, we may have to use a double focus finding mechanism,
  the first, and the second one.
 
- Todo to hide some lesser used controls in the notes editor, using a button "More".
+ To hide some lesser used controls in the notes editor, using a button "More".
 
  There is one menu window, which is the main one, and each function will get its own window.
 
@@ -6693,6 +6720,7 @@ void MainWindow::accelerator_redo() {
  A window does not always seem to position to the right place after the first attempt.
  Perhaps we need to build a timer that tries about 5 times or so, in addition to the first initial attempt.
  
+ If an editor is open, and a project note, and clipboard operations are done, then there's a clash between the two.
  
  */
 

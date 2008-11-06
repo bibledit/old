@@ -41,6 +41,9 @@ public:
   void display(vector <unsigned int>& ids);
   void insert_standard_text(unsigned int selector);
   void get_references_from_note(vector<Reference>& references, vector<ustring>& messages);
+  void cut();
+  void copy();
+  void paste();
   void undo();
   void redo();
   

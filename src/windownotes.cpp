@@ -1228,16 +1228,59 @@ void WindowNotes::delete_ids(const vector<gint>& ids)
   redisplay();
 }
 
-void WindowNotes::undo() { // Todo
-  cout << "notes undo" << endl; // Todo
-  //if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) {
-    //gtk_html_undo(GTK_HTML (htmlview_note_editor));
-  //}
+void WindowNotes::cut() { // Todo
+  // Cut to clipboard if editing.
+  if (gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook1)) > 0) {
+    gtk_html_cut(GTK_HTML (htmlview_note_editor));
+  }
+  /*
+   With the current code, clipboard operations on the references work through the accelerators, 
+   but not from the menu.
+   GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+   if (GTK_WIDGET_HAS_FOCUS (textview_note_references))
+   gtk_text_buffer_cut_clipboard(note_editor->textbuffer_references, clipboard, true);
+   */
 }
 
-void WindowNotes::redo() { // Todo
-  if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) {
-    //gtk_html_redo(GTK_HTML (htmlview_note_editor));
+void WindowNotes::copy() { // Todo
+  // Copy to clipboard.
+  if (gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook1)) > 0) {
+    gtk_html_copy(GTK_HTML (htmlview_note_editor));
+  } else {
+    gtk_html_copy(GTK_HTML (htmlview_notes));
+  }
+  /* Todo to implement again.
+   With the current code, clipboard operations on the references work through the accelerators, 
+   but not from the menu.
+   if (GTK_WIDGET_HAS_FOCUS (textview_note_references))
+   gtk_text_buffer_copy_clipboard(note_editor->textbuffer_references, clipboard);
+   */
+  
+}
+
+void WindowNotes::paste() { // Todo
+  // Paste from clipboard if editing.
+  if (gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook1)) > 0) {
+    gtk_html_paste(GTK_HTML(htmlview_note_editor), false);
+  }
+  /* Todo implement again.
+   With the current code, clipboard operations on the references work through the accelerators, 
+   but not from the menu.
+   if (GTK_WIDGET_HAS_FOCUS (textview_note_references))
+   gtk_text_buffer_paste_clipboard(note_editor->textbuffer_references, clipboard, NULL, true);
+   */
+}
+
+void WindowNotes::undo() {
+  // Undo if editing.
+  if (gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook1)) > 0) {
+    gtk_html_undo(GTK_HTML (htmlview_note_editor));
+  }
+}
+
+void WindowNotes::redo() {
+  if (gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook1)) > 0) {
+    gtk_html_redo(GTK_HTML (htmlview_note_editor));
   }
 }
 
