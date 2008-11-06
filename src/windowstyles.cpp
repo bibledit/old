@@ -39,8 +39,8 @@
 #include "gwrappers.h"
 #include "styles.h"
 
-WindowStyles::WindowStyles(bool startup, GtkWidget *stl, GtkWidget *stl_menu, GtkWidget *stl_expand_all, GtkWidget *stl_collapse_all, GtkWidget *stl_insert, GtkWidget *stl_edit_mode, GtkWidget *stl_new, GtkWidget *stl_properties, GtkWidget *stl_delete, GtkWidget *stlsheet_switch, GtkWidget *stlsheet_new, GtkWidget *stlsheet_delete, GtkWidget *stlsheet_rename, GtkWidget *stlsheet_import, GtkWidget *stlsheet_export) :
-  WindowBase(widStyles, "Stylesheet", startup)
+WindowStyles::WindowStyles(GtkAccelGroup *accelerator_group, bool startup, GtkWidget *stl, GtkWidget *stl_menu, GtkWidget *stl_expand_all, GtkWidget *stl_collapse_all, GtkWidget *stl_insert, GtkWidget *stl_edit_mode, GtkWidget *stl_new, GtkWidget *stl_properties, GtkWidget *stl_delete, GtkWidget *stlsheet_switch, GtkWidget *stlsheet_new, GtkWidget *stlsheet_delete, GtkWidget *stlsheet_rename, GtkWidget *stlsheet_import, GtkWidget *stlsheet_export) :
+  WindowBase(widStyles, "Stylesheet", accelerator_group, startup)
 // Styles window.
 {
   // Variables.

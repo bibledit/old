@@ -302,7 +302,7 @@ void WindowData::debug()
   }
 }
 
-WindowBase::WindowBase(WindowID id, ustring data_title, bool startup)
+WindowBase::WindowBase(WindowID id, ustring data_title, GtkAccelGroup *accelerator_group, bool startup)
 // Base class for each window.
 {
   // If there's no title/data, then the configuration file gets inconsistent. Therefore put something there.
@@ -325,6 +325,9 @@ WindowBase::WindowBase(WindowID id, ustring data_title, bool startup)
   // Craete the window.
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title(GTK_WINDOW (window), data_title.c_str());
+
+  // Use accelerator in each window to make them look and feel the same.
+  gtk_window_add_accel_group (GTK_WINDOW (window), accelerator_group);
 
   // The extra window should not appear in the taskbar in addition to the main window of Bibledit.
   // If it were to appear in the taskbar, then it looks as if there are many programs running.

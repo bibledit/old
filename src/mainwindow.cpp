@@ -171,9 +171,14 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   // Gui Features object.
   GuiFeatures guifeatures(0);
+  project_notes_enabled = guifeatures.project_notes();
 
   accel_group = gtk_accel_group_new();
 
+  accelerator_group = gtk_accel_group_new(); // Todo
+  
+  
+  
   if (xembed) {
     mainwindow = gtk_plug_new(GdkNativeWindow(xembed));
   } else {
@@ -669,7 +674,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   }
 
   notes2 = NULL;
-  if (guifeatures.project_notes_management()) { // Todo to implement the project notes gui features.
+  if (guifeatures.project_notes_management()) {
 
     notes2 = gtk_image_menu_item_new_with_mnemonic("Project _notes");
     gtk_widget_show(notes2);
@@ -1860,11 +1865,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   g_signal_connect ((gpointer) editorsgui->focus_button, "clicked", G_CALLBACK (on_editorsgui_focus_button_clicked), gpointer(this));
   g_signal_connect ((gpointer) editorsgui->quick_references_button, "clicked", G_CALLBACK (on_show_quick_references_signal_button_clicked), gpointer(this));
 
-  if (guifeatures.project_notes()) { // Todo to implement.
-  }
-
-  // Todo bool project_notes_editable = guifeatures.project_notes_management();
-
   vbox_right = gtk_vbox_new(FALSE, 0);
   gtk_widget_show(vbox_right);
   gtk_paned_pack2(GTK_PANED (hpaned1), vbox_right, TRUE, TRUE);
@@ -2199,6 +2199,9 @@ MainWindow::MainWindow(unsigned long xembed) :
 }
 
 MainWindow::~MainWindow() {
+  // Destroy the accelerator group.
+  g_object_unref(G_OBJECT (accelerator_group));
+
   // Shut the separate windows down.
   shutdown_windows();
   gw_destroy_source(focus_event_id);
@@ -2667,24 +2670,24 @@ void MainWindow::on_menu_insert()
   // from any of the references loaded already.
   enable = false; // Todo implement.
   /*
-  if (gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook1)) == 1) {
-    // Get all references from the note.
-    vector<Reference> references;
-    vector<ustring> messages;
-    notes_get_references_from_editor(note_editor->textbuffer_references, references, messages);
-    // See whether the current reference is already in it.
-    bool already_in = false;
-    for (unsigned int i = 0; i < references.size(); i++) {
-      if (editor)
-        if (references[i].equals(editor->current_reference))
-          already_in = true;
-    }
-    if (!already_in) {
-      // No, not yet, enable menu, so user can add it.
-      enable = true;
-    }
-  }
-  */
+   if (gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook1)) == 1) {
+   // Get all references from the note.
+   vector<Reference> references;
+   vector<ustring> messages;
+   notes_get_references_from_editor(note_editor->textbuffer_references, references, messages);
+   // See whether the current reference is already in it.
+   bool already_in = false;
+   for (unsigned int i = 0; i < references.size(); i++) {
+   if (editor)
+   if (references[i].equals(editor->current_reference))
+   already_in = true;
+   }
+   if (!already_in) {
+   // No, not yet, enable menu, so user can add it.
+   enable = true;
+   }
+   }
+   */
   // Update menu.
   ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
   if (editor) {
@@ -3064,8 +3067,8 @@ void MainWindow::on_cut() {
    if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) {
    gtk_html_cut(GTK_HTML (htmlview_note_editor));
    }
-  if (GTK_WIDGET_HAS_FOCUS (textview_note_references))
-    gtk_text_buffer_cut_clipboard(note_editor->textbuffer_references, clipboard, true);
+   if (GTK_WIDGET_HAS_FOCUS (textview_note_references))
+   gtk_text_buffer_cut_clipboard(note_editor->textbuffer_references, clipboard, true);
    */
 }
 
@@ -3088,8 +3091,8 @@ void MainWindow::on_copy() {
    if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) {
    gtk_html_copy(GTK_HTML(htmlview_note_editor));
    }
-  if (GTK_WIDGET_HAS_FOCUS (textview_note_references))
-    gtk_text_buffer_copy_clipboard(note_editor->textbuffer_references, clipboard);
+   if (GTK_WIDGET_HAS_FOCUS (textview_note_references))
+   gtk_text_buffer_copy_clipboard(note_editor->textbuffer_references, clipboard);
    */
   if (window_check_keyterms) {
     window_check_keyterms->copy_clipboard();
@@ -3138,8 +3141,8 @@ void MainWindow::on_paste() {
    if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) {
    gtk_html_paste(GTK_HTML(htmlview_note_editor), false);
    }
-  if (GTK_WIDGET_HAS_FOCUS (textview_note_references))
-    gtk_text_buffer_paste_clipboard(note_editor->textbuffer_references, clipboard, NULL, true);
+   if (GTK_WIDGET_HAS_FOCUS (textview_note_references))
+   gtk_text_buffer_paste_clipboard(note_editor->textbuffer_references, clipboard, NULL, true);
    */
 }
 
@@ -3745,7 +3748,7 @@ void MainWindow::window_size_allocated(GtkWidget *widget, GtkAllocation *allocat
  |
  |
  |
- Notes editor // Todo
+ Project notes // Todo
  |
  |
  |
@@ -3754,8 +3757,10 @@ void MainWindow::window_size_allocated(GtkWidget *widget, GtkAllocation *allocat
  */
 
 void MainWindow::view_project_notes() {
+  if (!project_notes_enabled)
+    return;
   if (!window_notes) {
-    window_notes = new WindowNotes (windows_startup_pointer != G_MAXINT);
+    window_notes = new WindowNotes (accelerator_group, windows_startup_pointer != G_MAXINT);
     g_signal_connect ((gpointer) window_notes->delete_signal_button, "clicked", G_CALLBACK (on_window_notes_delete_button_clicked), gpointer(this));
     g_signal_connect ((gpointer) window_notes->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
     treeview_references_display_quick_reference();
@@ -4322,7 +4327,7 @@ void MainWindow::on_file_styles_activate(GtkMenuItem *menuitem, gpointer user_da
 void MainWindow::on_file_styles() {
   // Display the styles if needed.
   if (!window_styles) {
-    window_styles = new WindowStyles (windows_startup_pointer != G_MAXINT,
+    window_styles = new WindowStyles (accelerator_group, windows_startup_pointer != G_MAXINT,
         style, style_menu,
         stylesheets_expand_all, stylesheets_collapse_all,
         style_insert, stylesheet_edit_mode, style_new,
@@ -4794,7 +4799,7 @@ void MainWindow::on_check_key_terms_activate(GtkMenuItem *menuitem, gpointer use
 void MainWindow::on_check_key_terms() {
   on_window_check_keyterms_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (check_key_terms))) {
-    window_check_keyterms = new WindowCheckKeyterms (windows_startup_pointer != G_MAXINT);
+    window_check_keyterms = new WindowCheckKeyterms (accelerator_group, windows_startup_pointer != G_MAXINT);
     g_signal_connect ((gpointer) window_check_keyterms->delete_signal_button, "clicked", G_CALLBACK (on_window_check_keyterms_delete_button_clicked), gpointer(this));
     g_signal_connect ((gpointer) window_check_keyterms->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
     g_signal_connect ((gpointer) window_check_keyterms->signal, "clicked", G_CALLBACK (on_keyterms_new_reference), gpointer(this));
@@ -4830,7 +4835,7 @@ void MainWindow::on_view_keyterms_activate(GtkMenuItem *menuitem, gpointer user_
 void MainWindow::on_view_keyterms() {
   on_window_show_keyterms_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (view_keyterms))) {
-    window_show_keyterms = new WindowShowKeyterms (windows_startup_pointer != G_MAXINT);
+    window_show_keyterms = new WindowShowKeyterms (accelerator_group, windows_startup_pointer != G_MAXINT);
     g_signal_connect ((gpointer) window_show_keyterms->delete_signal_button, "clicked", G_CALLBACK (on_window_show_keyterms_delete_button_clicked), gpointer(this));
     g_signal_connect ((gpointer) window_show_keyterms->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
     extern Settings * settings;
@@ -5141,7 +5146,7 @@ void MainWindow::on_view_outline_activate(GtkMenuItem *menuitem, gpointer user_d
 void MainWindow::on_view_outline() {
   on_window_outline_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (view_outline))) {
-    window_outline = new WindowOutline (windows_startup_pointer != G_MAXINT);
+    window_outline = new WindowOutline (accelerator_group, windows_startup_pointer != G_MAXINT);
     g_signal_connect ((gpointer) window_outline->delete_signal_button, "clicked", G_CALLBACK (on_window_outline_delete_button_clicked), gpointer(this));
     g_signal_connect ((gpointer) window_outline->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
     g_signal_connect ((gpointer) window_outline->outline->reference_changed_signal, "clicked", G_CALLBACK (on_button_outline_clicked), gpointer(this));
@@ -5413,7 +5418,7 @@ void MainWindow::on_file_resources_open(ustring resource)
   }
 
   // Display a new resource.
-  WindowResource * resource_window = new WindowResource (resource, false);
+  WindowResource * resource_window = new WindowResource (resource, accelerator_group, false);
   g_signal_connect ((gpointer) resource_window->delete_signal_button, "clicked", G_CALLBACK (on_window_resource_delete_button_clicked), gpointer(this));
   g_signal_connect ((gpointer) resource_window->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
   resource_window->go_to(navigation.reference);
@@ -5645,7 +5650,7 @@ void MainWindow::on_file_projects_merge_activate(GtkMenuItem *menuitem, gpointer
 void MainWindow::on_file_projects_merge() {
   on_window_merge_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (file_projects_merge))) {
-    window_merge = new WindowMerge (windows_startup_pointer != G_MAXINT);
+    window_merge = new WindowMerge (accelerator_group, windows_startup_pointer != G_MAXINT);
     g_signal_connect ((gpointer) window_merge->delete_signal_button, "clicked", G_CALLBACK (on_window_merge_delete_button_clicked), gpointer(this));
     g_signal_connect ((gpointer) window_merge->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
     g_signal_connect ((gpointer) window_merge->editors_get_text_button, "clicked", G_CALLBACK (on_merge_window_get_text_button_clicked), gpointer(this));
@@ -6432,7 +6437,7 @@ void MainWindow::on_window_focus_button_clicked(GtkButton *button, gpointer user
   ((MainWindow *) user_data)->on_window_focus_button(button);
 }
 
-void MainWindow::on_window_focus_button(GtkButton *button)
+void MainWindow::on_window_focus_button(GtkButton *button) // Todo
 // Called when a subwindow gets focused.
 {
   extern Settings * settings;
@@ -6500,6 +6505,26 @@ void MainWindow::on_window_focus_button(GtkButton *button)
     if (widget == window_notes->focus_in_signal_button)
       window_notes->present();
   }
+  
+  // The html editor in the notes window crashes when undo or redo is passed to it through an accelerator. // Todo
+  // So we take steps to ensure that the relevant accelerators are (dis)connected depending on the focus.
+  bool have_undo_redo_accelerators = true;
+  if (window_notes) {
+    if (widget == window_notes->focus_in_signal_button) {
+      have_undo_redo_accelerators = false;
+    }
+  }
+  if (have_undo_redo_accelerators) {
+    guint n_entries = 0;
+    gtk_accel_group_query (accelerator_group, GDK_Z, GDK_CONTROL_MASK, &n_entries);
+    if (n_entries == 0) {
+      gtk_accel_group_connect(accelerator_group, GDK_Z, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new(G_CALLBACK(accelerator_undo_callback), gpointer(this), NULL));
+      gtk_accel_group_connect(accelerator_group, GDK_Z, GdkModifierType(GDK_CONTROL_MASK | GDK_SHIFT_MASK), GtkAccelFlags(0), g_cclosure_new(G_CALLBACK(accelerator_redo_callback), gpointer(this), NULL));
+    }
+  } else {
+    gtk_accel_group_disconnect_key (accelerator_group, GDK_Z, GDK_CONTROL_MASK);
+    gtk_accel_group_disconnect_key (accelerator_group, GDK_Z, GdkModifierType(GDK_CONTROL_MASK | GDK_SHIFT_MASK));
+  }
 }
 
 gboolean MainWindow::on_main_window_focus_in_event(GtkWidget *widget, GdkEventFocus *event, gpointer user_data) {
@@ -6553,7 +6578,7 @@ void MainWindow::on_view_quick_references_activate(GtkMenuItem *menuitem, gpoint
 void MainWindow::on_view_quick_references() {
   on_window_show_quick_references_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (view_quick_references))) {
-    window_show_quick_references = new WindowShowQuickReferences (windows_startup_pointer != G_MAXINT);
+    window_show_quick_references = new WindowShowQuickReferences (accelerator_group, windows_startup_pointer != G_MAXINT);
     g_signal_connect ((gpointer) window_show_quick_references->delete_signal_button, "clicked", G_CALLBACK (on_window_show_quick_references_delete_button_clicked), gpointer(this));
     g_signal_connect ((gpointer) window_show_quick_references->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
     treeview_references_display_quick_reference();
@@ -6585,14 +6610,58 @@ void MainWindow::on_show_quick_references_signal_button(GtkButton *button) {
 }
 
 /*
+ |
+ |
+ |
+ |
+ |
+ Accelerators
+ |
+ |
+ |
+ |
+ |
+ */
+
+void MainWindow::accelerator_undo_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->accelerator_undo();
+}
+
+void MainWindow::accelerator_undo() {
+  cout << "undo" << endl; // Todo
+  if (window_notes) {
+    window_notes->undo();
+  }
+}
+
+void MainWindow::accelerator_redo_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->accelerator_undo();
+}
+
+void MainWindow::accelerator_redo() {
+  cout << "redo" << endl; // Todo
+  //if (window_notes)
+    //window_notes->redo();
+}
+
+/*
 
  Todo Improve the window layout system.
 
+ Depending on focused windows, we may need to add or remove accelerators to the accelerator group.
+ If the notes window is focused, then the undo and redo accelerators are removed.
+ If another window gets the focus, then these are added again.
+ 
+ When Ctrl-N is pressed, and a new notes window starts, when the new note is cancelled, the window does not display
+ the relevant notes.
+ 
+ Add all the accelerators in a helpfile, build the file while adding the accelerator.
+ 
+ For finding the last focused window, we may have to use a double focus finding mechanism,
+ the first, and the second one.
+
  Todo to hide some lesser used controls in the notes editor, using a button "More".
 
- If starting windows, and a window does not show, there's now a delay for the next to be tried.
- Skip these delays, because they make things look slow.
- 
  There is one menu window, which is the main one, and each function will get its own window.
 
  It is very important to make the program to "feel" as if it is one and the same window.

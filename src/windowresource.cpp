@@ -28,8 +28,8 @@
 #include "settings.h"
 #include "resource_utils.h"
 
-WindowResource::WindowResource(const ustring& resource_name, bool startup) :
-  WindowBase(widResource, resource_name, startup)
+WindowResource::WindowResource(const ustring& resource_name, GtkAccelGroup *accelerator_group, bool startup) :
+  WindowBase(widResource, resource_name, accelerator_group, startup)
 // Window for showing the quick references.  
 {
   name = resource_name;

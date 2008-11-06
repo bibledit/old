@@ -28,7 +28,7 @@
 class WindowShowKeyterms : public WindowBase
 {
 public:
-  WindowShowKeyterms(bool startup);
+  WindowShowKeyterms(GtkAccelGroup *accelerator_group, bool startup);
   virtual ~WindowShowKeyterms();
   void go_to(const ustring& project, const Reference& reference);
 protected:

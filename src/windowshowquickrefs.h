@@ -28,7 +28,7 @@
 class WindowShowQuickReferences : public WindowBase
 {
 public:
-  WindowShowQuickReferences(bool startup);
+  WindowShowQuickReferences(GtkAccelGroup *accelerator_group, bool startup);
   virtual ~WindowShowQuickReferences();
   void go_to(const ustring& project, vector<Reference>& references);
 protected:

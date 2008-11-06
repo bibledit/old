@@ -29,7 +29,7 @@
 class WindowResource : public WindowBase
 {
 public:
-  WindowResource(const ustring& resource_name, bool startup);
+  WindowResource(const ustring& resource_name, GtkAccelGroup *accelerator_group, bool startup);
   virtual ~WindowResource();
   void go_to(Reference& reference);
   Resource * resource;

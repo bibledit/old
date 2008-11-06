@@ -49,7 +49,7 @@ private:
 class WindowBase
 {
 public:
-  WindowBase(WindowID id, ustring data_title, bool startup);
+  WindowBase(WindowID id, ustring data_title, GtkAccelGroup *accelerator_group, bool startup);
   virtual ~WindowBase();
   GtkWidget *window;
   

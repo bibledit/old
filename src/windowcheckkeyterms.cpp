@@ -32,8 +32,8 @@
 #include "categorize.h"
 #include "mapping.h"
 
-WindowCheckKeyterms::WindowCheckKeyterms(bool startup) :
-  WindowBase(widCheckKeyterms, "Check keyterms", startup), myreference(0)
+WindowCheckKeyterms::WindowCheckKeyterms(GtkAccelGroup *accelerator_group, bool startup) :
+  WindowBase(widCheckKeyterms, "Check keyterms", accelerator_group, startup), myreference(0)
 // Window for checking keyterms.
 {
   // Save / initialize variables.

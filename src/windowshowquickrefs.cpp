@@ -27,8 +27,8 @@
 #include "projectutils.h"
 #include "settings.h"
 
-WindowShowQuickReferences::WindowShowQuickReferences(bool startup) :
-  WindowBase(widShowQuickReferences, "Quick references", startup)
+WindowShowQuickReferences::WindowShowQuickReferences(GtkAccelGroup *accelerator_group, bool startup) :
+  WindowBase(widShowQuickReferences, "Quick references", accelerator_group, startup)
 // Window for showing the quick references.  
 {
   scrolledwindow1 = gtk_scrolled_window_new(NULL, NULL);

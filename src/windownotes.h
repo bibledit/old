@@ -33,21 +33,19 @@ extern "C" {
 class WindowNotes : public WindowBase
 {
 public:
-  WindowNotes(bool startup);
+  WindowNotes(GtkAccelGroup *accelerator_group, bool startup);
   virtual ~WindowNotes();
-  void go_to (Reference& reference);
-  void new_note ();
+  void go_to(Reference& reference);
+  void new_note();
   void redisplay();
-  void display (vector <unsigned int>& ids);
+  void display(vector <unsigned int>& ids);
   void insert_standard_text(unsigned int selector);
   void get_references_from_note(vector<Reference>& references, vector<ustring>& messages);
-
+  void undo();
+  void redo();
+  
 private:
-  
-  
 
-  
-  
   GtkWidget *notebook1;
   GtkWidget *scrolledwindow_notes;
   GtkWidget *htmlview_notes;
@@ -110,11 +108,8 @@ private:
   GtkWidget *scrolledwindow9;
   GtkWidget *textview_note_logbook;
 
-  
-  
   bool project_notes_editable;
 
-  
   NoteEditor * note_editor;
   void notes_fill_edit_screen(int id, bool newnote);
 
@@ -154,7 +149,6 @@ private:
   static void on_insertion_color_changed(GtkHTML *html, GdkColor *color, gpointer user_data);
   void insertion_color_changed(GdkColor *color);
 
-  
   guint redisplay_source_id;
   static bool on_redisplay_timeout(gpointer data);
   void redisplay_timeout();
@@ -169,15 +163,14 @@ private:
   void on_notes_button_cancel();
   static void on_button_ok_clicked(GtkButton *button, gpointer user_data);
   void on_notes_button_ok();
-  void on_notes_button_ok_cancel();// Todo working here.
+  void on_notes_button_ok_cancel();
   static gboolean note_save_receiver(const HTMLEngine * engine, const char *data, unsigned int len, void *user_data);
 
-  void get_references_from_id(gint id);// Todo working here.
+  void get_references_from_id(gint id);
 
   static gboolean on_html_link_clicked(GtkHTML *html, const gchar * url, gpointer user_data);
   void html_link_clicked(GtkHTML *html, const gchar * url);
   void delete_ids(const vector<gint>& ids);
-
 };
 
 #endif

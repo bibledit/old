@@ -37,8 +37,8 @@
 #include "bible.h"
 #include "gtkwrappers.h"
 
-WindowNotes::WindowNotes(bool startup) : // Todo to implement.
-  WindowBase(widNotes, "Project notes", startup)
+WindowNotes::WindowNotes(GtkAccelGroup *accelerator_group, bool startup) :
+  WindowBase(widNotes, "Project notes", accelerator_group, startup)
 // Project notes window.
 {
   // Initialize variables.
@@ -46,7 +46,7 @@ WindowNotes::WindowNotes(bool startup) : // Todo to implement.
   redisplay_source_id = 0;
   displayprojectnotes = NULL;
   gui_source_id = 0;
-  
+
   GuiFeatures guifeatures(0);
 
   notebook1 = gtk_notebook_new();
@@ -350,7 +350,7 @@ void WindowNotes::go_to(Reference& reference) {
 
 }
 
-void WindowNotes::new_note ()
+void WindowNotes::new_note()
 // Create a new note.
 {
   // If we are currently editing a note, do nothing.
@@ -743,7 +743,6 @@ void WindowNotes::insertion_color_changed(GdkColor *color) {
   gtk_color_button_set_color(GTK_COLOR_BUTTON(colorbutton_note_edit), color);
 }
 
-
 void WindowNotes::redisplay() {
   // Do not display notes while a note is being edited.
   if (gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook1)) != 0)
@@ -807,8 +806,7 @@ void WindowNotes::on_gui()
   }
 }
 
-void WindowNotes::display (vector <unsigned int>& ids)
-{
+void WindowNotes::display(vector <unsigned int>& ids) {
   stop_displaying_more_notes();
   displayprojectnotes = new DisplayProjectNotes ("", htmlview_notes, &ids);
 }
@@ -1121,8 +1119,7 @@ void WindowNotes::insert_standard_text(unsigned int selector)
   }
 }
 
-void WindowNotes::get_references_from_note(vector<Reference>& references, vector<ustring>& messages)
-{
+void WindowNotes::get_references_from_note(vector<Reference>& references, vector<ustring>& messages) {
   if (note_editor)
     notes_get_references_from_editor(note_editor->textbuffer_references, references, messages);
 }
@@ -1172,14 +1169,14 @@ void WindowNotes::get_references_from_id(gint id)
 
   // Set references. // Todo
   /*
-  References references2(liststore_references, treeview_references, treecolumn_references);
-  references2.set_references(references);
-  extern Settings * settings;
-  ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
-  references2.fill_store(projectconfig->language_get());
-  // Display the References Area
-  gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_tools), tapntReferences);
-  */
+   References references2(liststore_references, treeview_references, treecolumn_references);
+   references2.set_references(references);
+   extern Settings * settings;
+   ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
+   references2.fill_store(projectconfig->language_get());
+   // Display the References Area
+   gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_tools), tapntReferences);
+   */
 }
 
 gboolean WindowNotes::on_html_link_clicked(GtkHTML *html, const gchar * url, gpointer user_data) {
@@ -1229,5 +1226,18 @@ void WindowNotes::delete_ids(const vector<gint>& ids)
   }
 
   redisplay();
+}
+
+void WindowNotes::undo() { // Todo
+  cout << "notes undo" << endl; // Todo
+  //if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) {
+    //gtk_html_undo(GTK_HTML (htmlview_note_editor));
+  //}
+}
+
+void WindowNotes::redo() { // Todo
+  if (GTK_WIDGET_HAS_FOCUS (htmlview_note_editor)) {
+    //gtk_html_redo(GTK_HTML (htmlview_note_editor));
+  }
 }
 

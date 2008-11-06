@@ -592,7 +592,8 @@ protected:
   gint mainwindow_width;
   bool mainwindow_width_safe;
 
-  /* Notes editor */ // Todo
+  /* Project notes */ // Todo
+  bool project_notes_enabled;
   void view_project_notes();
   WindowNotes * window_notes;
   static void on_window_notes_delete_button_clicked(GtkButton *button, gpointer user_data);
@@ -868,6 +869,12 @@ protected:
   static void on_show_quick_references_signal_button_clicked(GtkButton *button, gpointer user_data);
   void on_show_quick_references_signal_button(GtkButton *button);
 
+  // Accelerators.
+  GtkAccelGroup *accelerator_group;
+  static void accelerator_undo_callback(gpointer user_data);
+  void accelerator_undo();
+  static void accelerator_redo_callback(gpointer user_data);
+  void accelerator_redo();
 };
 
 #endif

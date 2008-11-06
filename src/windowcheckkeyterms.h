@@ -28,7 +28,7 @@
 class WindowCheckKeyterms : public WindowBase
 {
 public:
-  WindowCheckKeyterms(bool startup);
+  WindowCheckKeyterms(GtkAccelGroup *accelerator_group, bool startup);
   virtual ~WindowCheckKeyterms();
   void go_to(const ustring& project, Reference& reference);
   void copy_clipboard();
