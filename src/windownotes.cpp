@@ -354,7 +354,7 @@ void WindowNotes::new_note()
 // Create a new note.
 {
   // If we are currently editing a note, do nothing.
-  if (gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook1)) > 0)
+  if (note_being_edited())
     return;
 
   // Get the unique id for the new note.
@@ -745,7 +745,7 @@ void WindowNotes::insertion_color_changed(GdkColor *color) {
 
 void WindowNotes::redisplay() {
   // Do not display notes while a note is being edited.
-  if (gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook1)) != 0)
+  if (note_being_edited())
     return;
   // Stop any previous notes display.
   stop_displaying_more_notes();
@@ -1012,8 +1012,6 @@ void WindowNotes::on_notes_button_ok() {
   sqlite3_close(db);
   // Do standard functions for both ok and cancel.
   on_notes_button_ok_cancel();
-  // New note, or note edited, so display notes again.
-  redisplay();
 }
 
 void WindowNotes::on_notes_button_ok_cancel()
@@ -1043,6 +1041,10 @@ void WindowNotes::on_notes_button_ok_cancel()
   if (note_editor)
     delete note_editor;
   note_editor = NULL;
+  
+  // Just to be sure, redisplay the notes.
+  redisplay();
+
 }
 
 gboolean WindowNotes::note_save_receiver(const HTMLEngine * engine, const char *data, unsigned int len, void *user_data)
@@ -1228,9 +1230,9 @@ void WindowNotes::delete_ids(const vector<gint>& ids)
   redisplay();
 }
 
-void WindowNotes::cut() { // Todo
+void WindowNotes::cut() {
   // Cut to clipboard if editing.
-  if (gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook1)) > 0) {
+  if (note_being_edited()) {
     gtk_html_cut(GTK_HTML (htmlview_note_editor));
   }
   /*
@@ -1242,14 +1244,14 @@ void WindowNotes::cut() { // Todo
    */
 }
 
-void WindowNotes::copy() { // Todo
+void WindowNotes::copy() {
   // Copy to clipboard.
-  if (gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook1)) > 0) {
+  if (note_being_edited()) {
     gtk_html_copy(GTK_HTML (htmlview_note_editor));
   } else {
     gtk_html_copy(GTK_HTML (htmlview_notes));
   }
-  /* Todo to implement again.
+  /* 
    With the current code, clipboard operations on the references work through the accelerators, 
    but not from the menu.
    if (GTK_WIDGET_HAS_FOCUS (textview_note_references))
@@ -1258,12 +1260,12 @@ void WindowNotes::copy() { // Todo
   
 }
 
-void WindowNotes::paste() { // Todo
+void WindowNotes::paste() {
   // Paste from clipboard if editing.
-  if (gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook1)) > 0) {
+  if (note_being_edited()) {
     gtk_html_paste(GTK_HTML(htmlview_note_editor), false);
   }
-  /* Todo implement again.
+  /* 
    With the current code, clipboard operations on the references work through the accelerators, 
    but not from the menu.
    if (GTK_WIDGET_HAS_FOCUS (textview_note_references))
@@ -1273,14 +1275,19 @@ void WindowNotes::paste() { // Todo
 
 void WindowNotes::undo() {
   // Undo if editing.
-  if (gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook1)) > 0) {
+  if (note_being_edited()) {
     gtk_html_undo(GTK_HTML (htmlview_note_editor));
   }
 }
 
 void WindowNotes::redo() {
-  if (gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook1)) > 0) {
+  if (note_being_edited()) {
     gtk_html_redo(GTK_HTML (htmlview_note_editor));
   }
 }
 
+bool WindowNotes::note_being_edited()
+// Returns whether a note is now being edited.
+{
+  return (gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook1)) > 0);  
+}

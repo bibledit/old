@@ -530,10 +530,6 @@ protected:
   static void on_paste1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_paste();
 
-  /* Tools Area */
-  static void on_file_references_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_file_references();
-
   /* List store and reference handling */
   static gboolean on_treeview_references_key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer user_data);
   static gboolean on_treeview_references_button_press_event(GtkWidget * widget, GdkEventButton * event, gpointer user_data);

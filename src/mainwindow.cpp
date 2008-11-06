@@ -178,7 +178,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   // Accelerators.
   accel_group = gtk_accel_group_new();
   accelerator_group = gtk_accel_group_new();
-  
+
   // GUI build.
   if (xembed) {
     mainwindow = gtk_plug_new(GdkNativeWindow(xembed));
@@ -1987,7 +1987,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   }
   g_signal_connect ((gpointer) file_projects_merge, "activate", G_CALLBACK (on_file_projects_merge_activate), gpointer(this));
   if (guifeatures.references_management()) {
-    g_signal_connect ((gpointer) file_references, "activate", G_CALLBACK (on_file_references_activate), gpointer(this));
     g_signal_connect ((gpointer) open_references1, "activate", G_CALLBACK (on_open_references1_activate), gpointer(this));
     g_signal_connect ((gpointer) references_save_as, "activate", G_CALLBACK (on_references_save_as_activate), gpointer(this));
   }
@@ -2466,7 +2465,7 @@ void MainWindow::menu_undo()
       editor->undo();
     }
   }
-  if (window_notes && (now_focused_signal_button == NULL) &&  (last_focused_signal_button == window_notes->focus_in_signal_button)) {
+  if (window_notes && (now_focused_signal_button == NULL) && (last_focused_signal_button == window_notes->focus_in_signal_button)) {
     window_notes->undo();
   }
 }
@@ -2484,7 +2483,7 @@ void MainWindow::menu_redo()
       editor->redo();
     }
   }
-  if (window_notes && (now_focused_signal_button == NULL) &&  (last_focused_signal_button == window_notes->focus_in_signal_button)) {
+  if (window_notes && (now_focused_signal_button == NULL) && (last_focused_signal_button == window_notes->focus_in_signal_button)) {
     window_notes->redo();
   }
 }
@@ -2516,7 +2515,7 @@ void MainWindow::menu_edit() {
   gtk_widget_set_sensitive(paste1, paste);
 
   // Enable/disable based on whether we're editing a note.
-  bool enable = true; // Todo to implement.
+  bool enable = (window_notes && window_notes->note_being_edited());
   // References can only be taken from a note when it is opened.
   gtk_widget_set_sensitive(get_references_from_note, enable);
 
@@ -2569,7 +2568,7 @@ void MainWindow::menu_findspecial() {
   // Before finding, save the current file.
   editorsgui->save();
   // Switch to the References Area.
-  on_file_references();
+  // on_file_references();
   // Start dialog.
   {
     SearchSpecialDialog dialog(&bibletime);
@@ -2659,7 +2658,7 @@ void MainWindow::on_menu_insert()
   if (standard_text_4)
     gtk_label_set_text_with_mnemonic(GTK_LABEL (gtk_bin_get_child (GTK_BIN (standard_text_4))), label.c_str());
   // Enable or disable depending on situation.
-  bool enable = true; // Todo implement again.
+  bool enable = (window_notes && window_notes->note_being_edited());
   if (standard_text_1)
     gtk_widget_set_sensitive(standard_text_1, enable);
   if (standard_text_2)
@@ -2668,28 +2667,25 @@ void MainWindow::on_menu_insert()
     gtk_widget_set_sensitive(standard_text_3, enable);
   if (standard_text_4)
     gtk_widget_set_sensitive(standard_text_4, enable);
+
   // Allow inserting reference when we edit a note and the reference is different 
   // from any of the references loaded already.
-  enable = false; // Todo implement.
-  /*
-   if (gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook1)) == 1) {
-   // Get all references from the note.
-   vector<Reference> references;
-   vector<ustring> messages;
-   notes_get_references_from_editor(note_editor->textbuffer_references, references, messages);
-   // See whether the current reference is already in it.
-   bool already_in = false;
-   for (unsigned int i = 0; i < references.size(); i++) {
-   if (editor)
-   if (references[i].equals(editor->current_reference))
-   already_in = true;
-   }
-   if (!already_in) {
-   // No, not yet, enable menu, so user can add it.
-   enable = true;
-   }
-   }
-   */
+  enable = (window_notes && window_notes->note_being_edited());
+  if (enable) {
+    // Get all references from the note.
+    vector<Reference> references;
+    vector<ustring> messages;
+    window_notes->get_references_from_note(references, messages);
+    // See whether the current reference is already in it.
+    bool already_in = false;
+    for (unsigned int i = 0; i < references.size(); i++) {
+      if (editor)
+        if (references[i].equals(editor->current_reference))
+          already_in = true;
+    }
+    // If the reference is not yet in the note's references, enable menu, so user can add it.
+    enable = !already_in;
+  }
   // Update menu.
   ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
   if (editor) {
@@ -2701,6 +2697,7 @@ void MainWindow::on_menu_insert()
     gtk_label_set_text_with_mnemonic(GTK_LABEL (gtk_bin_get_child (GTK_BIN (current_reference1))), label.c_str());
   if (current_reference1)
     gtk_widget_set_sensitive(current_reference1, enable);
+
   // Inserting special character.
   gtk_widget_set_sensitive(insert_special_character, (editor && editor->has_focus()));
 }
@@ -3062,7 +3059,7 @@ void MainWindow::on_cut() {
       editor->text_erase_selection();
     }
   }
-  if (window_notes && (now_focused_signal_button == NULL) &&  (last_focused_signal_button == window_notes->focus_in_signal_button)) {
+  if (window_notes && (now_focused_signal_button == NULL) && (last_focused_signal_button == window_notes->focus_in_signal_button)) {
     window_notes->cut();
   }
 }
@@ -3080,7 +3077,7 @@ void MainWindow::on_copy() {
       gtk_clipboard_set_text(clipboard, editor->text_get_selection ().c_str(), -1);
     }
   }
-  if (window_notes && (now_focused_signal_button == NULL) &&  (last_focused_signal_button == window_notes->focus_in_signal_button)) {
+  if (window_notes && (now_focused_signal_button == NULL) && (last_focused_signal_button == window_notes->focus_in_signal_button)) {
     window_notes->copy();
   }
   if (window_check_keyterms) {
@@ -3124,30 +3121,9 @@ void MainWindow::on_paste() {
       }
     }
   }
-  if (window_notes && (now_focused_signal_button == NULL) &&  (last_focused_signal_button == window_notes->focus_in_signal_button)) {
+  if (window_notes && (now_focused_signal_button == NULL) && (last_focused_signal_button == window_notes->focus_in_signal_button)) {
     window_notes->paste();
   }
-}
-
-/*
- |
- |
- |
- |
- |
- Tools Area
- |
- |
- |
- |
- |
- */
-
-void MainWindow::on_file_references_activate(GtkMenuItem *menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->on_file_references();
-}
-
-void MainWindow::on_file_references() { // Todo to implemnet to display the references window.
 }
 
 /*
@@ -3344,7 +3320,7 @@ void MainWindow::on_next_reference()
 // If no item has been selected it chooses the first, if it's there.
 {
   // Show references area.
-  on_file_references();
+  // on_file_references();
   // Select next reference in the list.
   References references(liststore_references, treeview_references, treecolumn_references);
   references.goto_next();
@@ -3362,7 +3338,7 @@ void MainWindow::on_previous_reference() {
    * If no item has been selected it chooses the first, if it's there.
    */
   // Show references area.
-  on_file_references();
+  // on_file_references();
   // Select previous reference in the list.
   References references(liststore_references, treeview_references, treecolumn_references);
   references.goto_previous();
@@ -3731,7 +3707,7 @@ void MainWindow::window_size_allocated(GtkWidget *widget, GtkAllocation *allocat
  |
  |
  |
- Project notes // Todo
+ Project notes
  |
  |
  |
@@ -3742,7 +3718,10 @@ void MainWindow::window_size_allocated(GtkWidget *widget, GtkAllocation *allocat
 void MainWindow::view_project_notes() {
   if (!project_notes_enabled)
     return;
-  if (!window_notes) {
+  if (window_notes) {
+    // If the window is there, present it to the user.
+    window_notes->present();
+  } else {
     window_notes = new WindowNotes (accelerator_group, windows_startup_pointer != G_MAXINT);
     g_signal_connect ((gpointer) window_notes->delete_signal_button, "clicked", G_CALLBACK (on_window_notes_delete_button_clicked), gpointer(this));
     g_signal_connect ((gpointer) window_notes->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
@@ -3929,7 +3908,7 @@ void MainWindow::on_get_references_from_note() {
   ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
   references2.fill_store(projectconfig->language_get());
   // Display the References Area 
-  on_file_references();
+  // on_file_references();
 }
 
 void MainWindow::notes_get_references_from_id(gint id)
@@ -3982,7 +3961,7 @@ void MainWindow::notes_get_references_from_id(gint id)
   ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
   references2.fill_store(projectconfig->language_get());
   // Display the References Area
-  on_file_references();
+  // on_file_references();
 }
 
 /*
@@ -4060,7 +4039,7 @@ void MainWindow::on_check1_activate(GtkMenuItem *menuitem, gpointer user_data) {
 
 void MainWindow::on_menu_check() {
   // Switch to the References Area.
-  on_file_references();
+  // on_file_references();
 }
 
 void MainWindow::on_markers1_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -4447,7 +4426,7 @@ void MainWindow::on_style_apply() {
           style_was_treated_specially = true;
           // If the gui has been set so, display the references in the tools area.
           if (settings->genconfig.inserting_xref_shows_references_get()) {
-            on_file_references();
+            // on_file_references();
             gtk_widget_grab_focus(editor->last_focused_textview());
           }
         }
@@ -4684,7 +4663,7 @@ void MainWindow::on_parallel_passages1() {
   // Act depending on whether to view the parallel passages.
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (parallel_passages1))) {
     // View them: show references tab, view passages.
-    on_file_references();
+    // on_file_references();
     parallel_passages_display(navigation.reference, liststore_references, treeview_references, treecolumn_references);
   } else {
     // Don't view them: clear store.
@@ -5775,7 +5754,7 @@ void MainWindow::on_print() {
     case 2: // References.
     {
       // Activate references area.
-      on_file_references();
+      // on_file_references();
       // Show dialog.
       {
         PrintReferencesDialog dialog(0);
@@ -6424,7 +6403,7 @@ void MainWindow::on_window_focus_button(GtkButton *button) // Todo
 // Called when a subwindow gets focused.
 {
   // Store the focus if it is different from the currently stored values.
-  GtkWidget * widget = GTK_WIDGET (button);
+  GtkWidget * widget= GTK_WIDGET (button);
   if (widget != now_focused_signal_button) {
     last_focused_signal_button = now_focused_signal_button;
     now_focused_signal_button = widget;
@@ -6514,9 +6493,9 @@ void MainWindow::on_window_focus_button(GtkButton *button) // Todo
     gtk_accel_group_disconnect_key(accelerator_group, GDK_Z, GDK_CONTROL_MASK);
     gtk_accel_group_disconnect_key(accelerator_group, GDK_Z, GdkModifierType(GDK_CONTROL_MASK | GDK_SHIFT_MASK));
   }
-  
+
   // The html editor in the notes window has its own accelerators for cut, copy, and paste.
-  bool have_cut_copy_paste_accelerators = true;  // Todo
+  bool have_cut_copy_paste_accelerators = true;
   if (window_notes) {
     if (widget == window_notes->focus_in_signal_button) {
       have_cut_copy_paste_accelerators = false;
@@ -6651,7 +6630,7 @@ void MainWindow::accelerator_cut_callback(gpointer user_data) {
   ((MainWindow *) user_data)->accelerator_cut();
 }
 
-void MainWindow::accelerator_cut() { // Todo
+void MainWindow::accelerator_cut() {
 }
 
 void MainWindow::accelerator_copy_callback(gpointer user_data) {
@@ -6668,25 +6647,14 @@ void MainWindow::accelerator_paste_callback(gpointer user_data) {
 void MainWindow::accelerator_paste() {
 }
 
-
 /*
 
  Todo Improve the window layout system.
 
- If Ctrl-F5 is pressed, and the window is active already, it should present that notes window.
-
- If Ctrl-N is pressed for a new note, and the notes window already shows, it should present that window.
-
  Add the Ctrl-1-4 accelerators for the notes view.
  
- When Ctrl-N is pressed, and a new notes window starts, when the new note is cancelled, the window does not display
- the relevant notes.
-
  Add all the accelerators in a helpfile, build the file while adding the accelerator.
  
- For finding the last focused window, we may have to use a double focus finding mechanism,
- the first, and the second one.
-
  To hide some lesser used controls in the notes editor, using a button "More".
 
  There is one menu window, which is the main one, and each function will get its own window.
@@ -6721,6 +6689,9 @@ void MainWindow::accelerator_paste() {
  Perhaps we need to build a timer that tries about 5 times or so, in addition to the first initial attempt.
  
  If an editor is open, and a project note, and clipboard operations are done, then there's a clash between the two.
+ 
+ Where function on_file_references() is called, we need to implement that the references window comes up. 
+ 
  
  */
 

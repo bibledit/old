@@ -46,6 +46,7 @@ public:
   void paste();
   void undo();
   void redo();
+  bool note_being_edited();
   
 private:
 
