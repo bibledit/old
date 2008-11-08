@@ -366,7 +366,7 @@ void WindowNotes::notes_fill_edit_screen(int id, bool newnote)
 
   // Save the widget that had the focus, so that when the notes had been edited,
   // the same widget gets the focus again.
-  // Todo this goes into the function call.  note_editor->previous_focus = gtk_window_get_focus(GTK_WINDOW (mainwindow));
+  // todo this goes into the function call.  note_editor->previous_focus = gtk_window_get_focus(GTK_WINDOW (mainwindow));
 
   // Get our language.
   extern Settings * settings;
@@ -521,7 +521,7 @@ void WindowNotes::notes_fill_edit_screen(int id, bool newnote)
       {
         logbook.clear();
         if (!newnote)
-          logbook = sqlitereader.ustring7[0];
+        logbook = sqlitereader.ustring7[0];
       }
     }
   }
@@ -985,8 +985,8 @@ void WindowNotes::on_notes_button_ok_cancel()
   // Focus widget that was focused previously.
   // This must be done after switching the page of the notebook,
   // to ensure the widget (usually the text editor) does indeed get focus.
-  // Todo gtk_window_set_focus(GTK_WINDOW (window), note_editor->previous_focus);
-  // Todo gtk_widget_grab_focus(note_editor->previous_focus);
+  // todo gtk_window_set_focus(GTK_WINDOW (window), note_editor->previous_focus);
+  // todo gtk_widget_grab_focus(note_editor->previous_focus);
   // Clear some widgets.
   combobox_clear_strings(combobox_note_category);
   gtk_text_buffer_set_text(note_editor->textbuffer_references, "", -1);
@@ -1132,7 +1132,7 @@ void WindowNotes::get_references_from_id(gint id)
   // Close connection.  
   sqlite3_close(db);
 
-  // Set references. // Todo
+  // Set references. // todo
   /*
    References references2(liststore_references, treeview_references, treecolumn_references);
    references2.set_references(references);
@@ -1196,44 +1196,43 @@ void WindowNotes::delete_ids(const vector<gint>& ids)
 void WindowNotes::cut() {
   // Cut to clipboard if editing.
   if (note_being_edited()) {
-    gtk_html_cut(GTK_HTML (htmlview_note_editor));
+    GtkWidget * focused_widget = gtk_window_get_focus(GTK_WINDOW (window));
+    if (focused_widget == htmlview_note_editor)
+      gtk_html_cut(GTK_HTML (htmlview_note_editor));
+    if (focused_widget == textview_note_references) {
+      GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+      gtk_text_buffer_cut_clipboard(note_editor->textbuffer_references, clipboard, true);
+    }
   }
-  /*
-   With the current code, clipboard operations on the references work through the accelerators, 
-   but not from the menu.
-   GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
-   if (GTK_WIDGET_HAS_FOCUS (textview_note_references))
-   gtk_text_buffer_cut_clipboard(note_editor->textbuffer_references, clipboard, true);
-   */
 }
 
 void WindowNotes::copy() {
   // Copy to clipboard.
   if (note_being_edited()) {
-    gtk_html_copy(GTK_HTML (htmlview_note_editor));
+
+    GtkWidget * focused_widget = gtk_window_get_focus(GTK_WINDOW (window));
+    if (focused_widget == htmlview_note_editor)
+      gtk_html_copy(GTK_HTML (htmlview_note_editor));
+    if (focused_widget == textview_note_references) {
+      GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+      gtk_text_buffer_copy_clipboard(note_editor->textbuffer_references, clipboard);
+    }
   } else {
     gtk_html_copy(GTK_HTML (htmlview_notes));
   }
-  /* 
-   With the current code, clipboard operations on the references work through the accelerators, 
-   but not from the menu.
-   if (GTK_WIDGET_HAS_FOCUS (textview_note_references))
-   gtk_text_buffer_copy_clipboard(note_editor->textbuffer_references, clipboard);
-   */
-
 }
 
 void WindowNotes::paste() {
   // Paste from clipboard if editing.
   if (note_being_edited()) {
-    gtk_html_paste(GTK_HTML(htmlview_note_editor), false);
+    GtkWidget * focused_widget = gtk_window_get_focus(GTK_WINDOW (window));
+    if (focused_widget == htmlview_note_editor)
+      gtk_html_paste(GTK_HTML(htmlview_note_editor), false);
+    if (focused_widget == textview_note_references) {
+      GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+      gtk_text_buffer_paste_clipboard(note_editor->textbuffer_references, clipboard, NULL, true);
+    }
   }
-  /* 
-   With the current code, clipboard operations on the references work through the accelerators, 
-   but not from the menu.
-   if (GTK_WIDGET_HAS_FOCUS (textview_note_references))
-   gtk_text_buffer_paste_clipboard(note_editor->textbuffer_references, clipboard, NULL, true);
-   */
 }
 
 void WindowNotes::undo() {
@@ -1259,7 +1258,7 @@ void WindowNotes::on_button_more_clicked(GtkButton *button, gpointer user_data) 
   ((WindowNotes *) user_data)->on_button_more();
 }
 
-void WindowNotes::on_button_more() // Todo
+void WindowNotes::on_button_more()
 {
   ProjectNoteDialog dialog(window, projects, project, created_on, created_by, edited_on, logbook);
   if (dialog.run() == GTK_RESPONSE_OK) {

@@ -179,6 +179,11 @@ MainWindow::MainWindow(unsigned long xembed) :
   // Accelerators.
   accel_group = gtk_accel_group_new();
   accelerator_group = gtk_accel_group_new();
+  gtk_accel_group_connect(accelerator_group, GDK_X, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_cut_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_C, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_copy_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_V, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_paste_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_Z, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_undo_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_Z, GdkModifierType(GDK_CONTROL_MASK | GDK_SHIFT_MASK), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_redo_callback), gpointer(this), NULL));
   gtk_accel_group_connect(accelerator_group, GDK_1, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_standard_text_1_callback), gpointer(this), NULL));
   gtk_accel_group_connect(accelerator_group, GDK_2, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_standard_text_2_callback), gpointer(this), NULL));
   gtk_accel_group_connect(accelerator_group, GDK_3, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_standard_text_3_callback), gpointer(this), NULL));
@@ -2472,7 +2477,7 @@ void MainWindow::menu_undo()
     }
   }
   if (window_notes && (now_focused_signal_button == NULL) && (last_focused_signal_button == window_notes->focus_in_signal_button)) {
-    window_notes->undo();
+    //window_notes->undo();
   }
 }
 
@@ -2490,7 +2495,7 @@ void MainWindow::menu_redo()
     }
   }
   if (window_notes && (now_focused_signal_button == NULL) && (last_focused_signal_button == window_notes->focus_in_signal_button)) {
-    window_notes->redo();
+    //window_notes->redo();
   }
 }
 
@@ -3066,7 +3071,7 @@ void MainWindow::on_cut() {
     }
   }
   if (window_notes && (now_focused_signal_button == NULL) && (last_focused_signal_button == window_notes->focus_in_signal_button)) {
-    window_notes->cut();
+    //window_notes->cut();
   }
 }
 
@@ -3084,7 +3089,7 @@ void MainWindow::on_copy() {
     }
   }
   if (window_notes && (now_focused_signal_button == NULL) && (last_focused_signal_button == window_notes->focus_in_signal_button)) {
-    window_notes->copy();
+    //window_notes->copy();
   }
   if (window_check_keyterms) {
     window_check_keyterms->copy_clipboard();
@@ -3128,7 +3133,7 @@ void MainWindow::on_paste() {
     }
   }
   if (window_notes && (now_focused_signal_button == NULL) && (last_focused_signal_button == window_notes->focus_in_signal_button)) {
-    window_notes->paste();
+    //window_notes->paste();
   }
 }
 
@@ -3845,7 +3850,7 @@ void MainWindow::on_standard_text_4_activate(GtkMenuItem *menuitem, gpointer use
   ((MainWindow *) user_data)->on_insert_standard_text(menuitem);
 }
 
-void MainWindow::on_insert_standard_text(GtkMenuItem *menuitem) { // Todo see how to do the other ones.
+void MainWindow::on_insert_standard_text(GtkMenuItem *menuitem) {
   // Find out which standard text to insert, and where to insert it, and how.
   extern Settings * settings;
   ustring standardtext;
@@ -6405,7 +6410,7 @@ void MainWindow::on_window_focus_button_clicked(GtkButton *button, gpointer user
   ((MainWindow *) user_data)->on_window_focus_button(button);
 }
 
-void MainWindow::on_window_focus_button(GtkButton *button) // Todo
+void MainWindow::on_window_focus_button(GtkButton *button)
 // Called when a subwindow gets focused.
 {
   // Store the focus if it is different from the currently stored values.
@@ -6414,8 +6419,7 @@ void MainWindow::on_window_focus_button(GtkButton *button) // Todo
     last_focused_signal_button = now_focused_signal_button;
     now_focused_signal_button = widget;
   }
-  cout << "on_window_focus_button " << button << ", now focusing " << now_focused_signal_button << ", last focus " << last_focused_signal_button << endl; // Todo
-  
+
   extern Settings * settings;
   vector <GtkWindow *> windows = settings->session.open_windows;
 
@@ -6479,47 +6483,6 @@ void MainWindow::on_window_focus_button(GtkButton *button) // Todo
   if (window_notes) {
     if (widget == window_notes->focus_in_signal_button)
       window_notes->present();
-  }
-
-  // The html editor in the notes window crashes when undo or redo is passed to it through an accelerator.
-  // So we take steps to ensure that the relevant accelerators are (dis)connected depending on the focus.
-  bool have_undo_redo_accelerators = true;
-  if (window_notes) {
-    if (widget == window_notes->focus_in_signal_button) {
-      have_undo_redo_accelerators = false;
-    }
-  }
-  if (have_undo_redo_accelerators) {
-    guint n_entries = 0;
-    gtk_accel_group_query(accelerator_group, GDK_Z, GDK_CONTROL_MASK, &n_entries);
-    if (n_entries == 0) {
-      gtk_accel_group_connect(accelerator_group, GDK_Z, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_undo_callback), gpointer(this), NULL));
-      gtk_accel_group_connect(accelerator_group, GDK_Z, GdkModifierType(GDK_CONTROL_MASK | GDK_SHIFT_MASK), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_redo_callback), gpointer(this), NULL));
-    }
-  } else {
-    gtk_accel_group_disconnect_key(accelerator_group, GDK_Z, GDK_CONTROL_MASK);
-    gtk_accel_group_disconnect_key(accelerator_group, GDK_Z, GdkModifierType(GDK_CONTROL_MASK | GDK_SHIFT_MASK));
-  }
-
-  // The html editor in the notes window has its own accelerators for cut, copy, and paste.
-  bool have_cut_copy_paste_accelerators = true;
-  if (window_notes) {
-    if (widget == window_notes->focus_in_signal_button) {
-      have_cut_copy_paste_accelerators = false;
-    }
-  }
-  if (have_cut_copy_paste_accelerators) {
-    guint n_entries = 0;
-    gtk_accel_group_query(accelerator_group, GDK_X, GDK_CONTROL_MASK, &n_entries);
-    if (n_entries == 0) {
-      gtk_accel_group_connect(accelerator_group, GDK_X, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_cut_callback), gpointer(this), NULL));
-      gtk_accel_group_connect(accelerator_group, GDK_C, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_copy_callback), gpointer(this), NULL));
-      gtk_accel_group_connect(accelerator_group, GDK_V, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_paste_callback), gpointer(this), NULL));
-    }
-  } else {
-    gtk_accel_group_disconnect_key(accelerator_group, GDK_X, GDK_CONTROL_MASK);
-    gtk_accel_group_disconnect_key(accelerator_group, GDK_C, GDK_CONTROL_MASK);
-    gtk_accel_group_disconnect_key(accelerator_group, GDK_V, GDK_CONTROL_MASK);
   }
 }
 
@@ -6620,18 +6583,63 @@ void MainWindow::on_show_quick_references_signal_button(GtkButton *button) {
  */
 
 void MainWindow::accelerator_undo_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->accelerator_undo();
+}
+
+void MainWindow::accelerator_undo() {
+  if (window_notes) {
+    if (now_focused_signal_button == window_notes->focus_in_signal_button) {
+      window_notes->undo();
+    }
+  }
 }
 
 void MainWindow::accelerator_redo_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->accelerator_redo();
+}
+
+void MainWindow::accelerator_redo() {
+  if (window_notes) {
+    if (now_focused_signal_button == window_notes->focus_in_signal_button) {
+      window_notes->redo();
+    }
+  }
 }
 
 void MainWindow::accelerator_cut_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->accelerator_cut();
+}
+
+void MainWindow::accelerator_cut() {
+  if (window_notes) {
+    if (now_focused_signal_button == window_notes->focus_in_signal_button) {
+      window_notes->cut();
+    }
+  }
 }
 
 void MainWindow::accelerator_copy_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->accelerator_copy();
+}
+
+void MainWindow::accelerator_copy() {
+  if (window_notes) {
+    if (now_focused_signal_button == window_notes->focus_in_signal_button) {
+      window_notes->copy();
+    }
+  }
 }
 
 void MainWindow::accelerator_paste_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->accelerator_paste();
+}
+
+void MainWindow::accelerator_paste() {
+  if (window_notes) {
+    if (now_focused_signal_button == window_notes->focus_in_signal_button) {
+      window_notes->paste();
+    }
+  }
 }
 
 void MainWindow::accelerator_standard_text_1_callback(gpointer user_data) {
@@ -6659,8 +6667,7 @@ void MainWindow::accelerator_standard_text_n(unsigned int selector) {
   }
 }
 
-void MainWindow::accelerator_new_project_note_callback(gpointer user_data)
-{
+void MainWindow::accelerator_new_project_note_callback(gpointer user_data) {
   ((MainWindow *) user_data)->on_new_note();
 }
 
@@ -6668,9 +6675,9 @@ void MainWindow::accelerator_new_project_note_callback(gpointer user_data)
 
  Todo Improve the window layout system.
 
- If an editor is open, and a project note, and clipboard operations are done, then there's a clash between the two.
- Copy and paste don't work well if the editor displays and a note as well. Both copy, but only one should.
- 
+
+ We need to look at the "todo" entries in windownotes.h/cpp.
+
  Adding text to notes by accelerators, and by the menu.
  Adding the current reference to the note.
  If the notes window shows up on startup, it does now not display the relevant notes.
@@ -6715,6 +6722,10 @@ void MainWindow::accelerator_new_project_note_callback(gpointer user_data)
  Perhaps we need to build a timer that tries about 5 times or so, in addition to the first initial attempt.
  
  Where function on_file_references() is called, we need to implement that the references window comes up. 
+ 
+ When all the windows are done, then we need to check whether all menu entries work in each window,
+ and whether all shortcuts in each relevant window.
+ When all windows have been detached, we need to verify copy and paste through the menu and through shortcuts.
  
  
  */

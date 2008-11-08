@@ -588,7 +588,7 @@ protected:
   gint mainwindow_width;
   bool mainwindow_width_safe;
 
-  /* Project notes */ // Todo
+  /* Project notes */
   bool project_notes_enabled;
   void view_project_notes();
   WindowNotes * window_notes;
@@ -870,10 +870,15 @@ protected:
   // Accelerators.
   GtkAccelGroup *accelerator_group;
   static void accelerator_undo_callback(gpointer user_data);
+  void accelerator_undo();
   static void accelerator_redo_callback(gpointer user_data);
+  void accelerator_redo();
   static void accelerator_cut_callback(gpointer user_data);
+  void accelerator_cut();
   static void accelerator_copy_callback(gpointer user_data);
+  void accelerator_copy();
   static void accelerator_paste_callback(gpointer user_data);
+  void accelerator_paste();
   static void accelerator_standard_text_1_callback(gpointer user_data);
   static void accelerator_standard_text_2_callback(gpointer user_data);
   static void accelerator_standard_text_3_callback(gpointer user_data);
