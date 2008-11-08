@@ -36,6 +36,7 @@
 #include "utilities.h"
 #include "bible.h"
 #include "gtkwrappers.h"
+#include "dialogprojectnote.h"
 
 WindowNotes::WindowNotes(GtkAccelGroup *accelerator_group, bool startup) :
   WindowBase(widNotes, "Project notes", accelerator_group, startup)
@@ -251,6 +252,26 @@ WindowNotes::WindowNotes(GtkAccelGroup *accelerator_group, bool startup) :
   gtk_widget_show(button_note_ok);
   gtk_box_pack_start(GTK_BOX (hbox_ok_cancel), button_note_ok, FALSE, FALSE, 0);
 
+  button_more = gtk_button_new();
+  gtk_widget_show(button_more);
+  gtk_box_pack_start(GTK_BOX (hbox_ok_cancel), button_more, FALSE, FALSE, 0);
+
+  alignment1 = gtk_alignment_new(0.5, 0.5, 0, 0);
+  gtk_widget_show(alignment1);
+  gtk_container_add(GTK_CONTAINER (button_more), alignment1);
+
+  hbox15 = gtk_hbox_new(FALSE, 2);
+  gtk_widget_show(hbox15);
+  gtk_container_add(GTK_CONTAINER (alignment1), hbox15);
+
+  image1 = gtk_image_new_from_stock("gtk-add", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_show(image1);
+  gtk_box_pack_start(GTK_BOX (hbox15), image1, FALSE, FALSE, 0);
+
+  label1 = gtk_label_new_with_mnemonic("_More");
+  gtk_widget_show(label1);
+  gtk_box_pack_start(GTK_BOX (hbox15), label1, FALSE, FALSE, 0);
+
   label_note_category = gtk_label_new_with_mnemonic("C_ategory");
   gtk_widget_show(label_note_category);
   gtk_box_pack_start(GTK_BOX (vbox_controls), label_note_category, FALSE, FALSE, 0);
@@ -270,46 +291,10 @@ WindowNotes::WindowNotes(GtkAccelGroup *accelerator_group, bool startup) :
   gtk_box_pack_start(GTK_BOX (vbox_controls), textview_note_references, TRUE, TRUE, 0);
   gtk_text_view_set_accepts_tab(GTK_TEXT_VIEW (textview_note_references), FALSE);
 
-  label_note_project = gtk_label_new_with_mnemonic("Pro_ject");
-  gtk_widget_show(label_note_project);
-  gtk_box_pack_start(GTK_BOX (vbox_controls), label_note_project, FALSE, FALSE, 0);
-  gtk_misc_set_alignment(GTK_MISC (label_note_project), 0, 0.5);
-
-  combobox_note_project = gtk_combo_box_new_text();
-  gtk_widget_show(combobox_note_project);
-  gtk_box_pack_start(GTK_BOX (vbox_controls), combobox_note_project, FALSE, FALSE, 0);
-
-  label_note_created_on = gtk_label_new("Created on");
-  gtk_widget_show(label_note_created_on);
-  gtk_box_pack_start(GTK_BOX (vbox_controls), label_note_created_on, FALSE, FALSE, 0);
-  gtk_misc_set_alignment(GTK_MISC (label_note_created_on), 0, 0.5);
-
-  label_note_created_by = gtk_label_new("Created by");
-  gtk_widget_show(label_note_created_by);
-  gtk_box_pack_start(GTK_BOX (vbox_controls), label_note_created_by, FALSE, FALSE, 0);
-  gtk_misc_set_alignment(GTK_MISC (label_note_created_by), 0, 0.5);
-
-  label_note_edited_on = gtk_label_new("Edited on");
-  gtk_widget_show(label_note_edited_on);
-  gtk_box_pack_start(GTK_BOX (vbox_controls), label_note_edited_on, FALSE, FALSE, 0);
-  gtk_misc_set_alignment(GTK_MISC (label_note_edited_on), 0, 0.5);
-
-  label_note_logbook = gtk_label_new("Logbook");
-  gtk_widget_show(label_note_logbook);
-  gtk_box_pack_start(GTK_BOX (vbox_controls), label_note_logbook, FALSE, FALSE, 0);
-  gtk_misc_set_alignment(GTK_MISC (label_note_logbook), 0, 0.5);
-
-  textview_note_logbook = gtk_text_view_new();
-  gtk_widget_show(textview_note_logbook);
-  gtk_box_pack_start(GTK_BOX (vbox_controls), textview_note_logbook, TRUE, TRUE, 0);
-  gtk_text_view_set_editable(GTK_TEXT_VIEW (textview_note_logbook), FALSE);
-  gtk_text_view_set_accepts_tab(GTK_TEXT_VIEW (textview_note_logbook), FALSE);
-  gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW (textview_note_logbook), GTK_WRAP_WORD);
-  gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW (textview_note_logbook), FALSE);
-
   g_signal_connect ((gpointer) htmlview_notes, "link-clicked", G_CALLBACK (on_html_link_clicked), gpointer(this));
   g_signal_connect ((gpointer) button_note_ok, "clicked", G_CALLBACK (on_button_ok_clicked), gpointer(this));
   g_signal_connect ((gpointer) button_note_cancel, "clicked", G_CALLBACK (on_button_cancel_clicked), gpointer(this));
+  g_signal_connect ((gpointer) button_more, "clicked", G_CALLBACK (on_button_more_clicked), gpointer(this));
 
   // Project notes editor signals.
   g_signal_connect ((gpointer) combobox_note_edit_font_size, "changed", G_CALLBACK (on_combobox_note_edit_font_size_changed), gpointer (this));
@@ -332,7 +317,6 @@ WindowNotes::WindowNotes(GtkAccelGroup *accelerator_group, bool startup) :
 
   gtk_label_set_mnemonic_widget(GTK_LABEL (label_note_references), textview_note_references);
   gtk_label_set_mnemonic_widget(GTK_LABEL (label_note_category), combobox_note_category);
-  gtk_label_set_mnemonic_widget(GTK_LABEL (label_note_project), combobox_note_project);
 
   // GUI timer.
   gui_source_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc (on_gui_timeout), gpointer(this), NULL);
@@ -379,7 +363,6 @@ void WindowNotes::notes_fill_edit_screen(int id, bool newnote)
 
   // Initialize pointers to the text buffers.
   note_editor->textbuffer_references = gtk_text_view_get_buffer(GTK_TEXT_VIEW (textview_note_references));
-  note_editor->textbuffer_logbook = gtk_text_view_get_buffer(GTK_TEXT_VIEW (textview_note_logbook));
 
   // Save the widget that had the focus, so that when the notes had been edited,
   // the same widget gets the focus again.
@@ -477,7 +460,7 @@ void WindowNotes::notes_fill_edit_screen(int id, bool newnote)
       // Read the project. Fill the combo.
 
       {
-        ustring project;
+        project.clear();
         if (newnote)
         {
           project = settings->genconfig.project_get();
@@ -486,14 +469,12 @@ void WindowNotes::notes_fill_edit_screen(int id, bool newnote)
         {
           project = sqlitereader.ustring1[0];
         }
-        vector<ustring> projects;
+        projects.clear();
         if (project != "All")
         projects.push_back(project);
         if (settings->genconfig.project_get() != project)
         projects.push_back(settings->genconfig.project_get());
         projects.push_back("All");
-        combobox_set_strings (combobox_note_project, projects);
-        combobox_set_string (combobox_note_project, project);
       }
       // Read the date created.
 
@@ -507,9 +488,7 @@ void WindowNotes::notes_fill_edit_screen(int id, bool newnote)
         {
           note_editor->date_created = convert_to_int (sqlitereader.ustring4[0]);
         }
-        ustring s;
-        s = "Created on " + date_time_julian_human_readable (note_editor->date_created, true);
-        gtk_label_set_text (GTK_LABEL (label_note_created_on), s.c_str());
+        created_on = "Created on " + date_time_julian_human_readable (note_editor->date_created, true);
       }
       // Read the date modified.
 
@@ -522,9 +501,7 @@ void WindowNotes::notes_fill_edit_screen(int id, bool newnote)
         {
           note_editor->date_modified = convert_to_int (sqlitereader.ustring5[0]);
         }
-        ustring s;
-        s = "Edited on " + date_time_julian_human_readable (note_editor->date_modified, true);
-        gtk_label_set_text (GTK_LABEL (label_note_edited_on), s.c_str());
+        edited_on = "Edited on " + date_time_julian_human_readable (note_editor->date_modified, true);
       }
       // Read the user that created the note.
 
@@ -537,17 +514,14 @@ void WindowNotes::notes_fill_edit_screen(int id, bool newnote)
         {
           note_editor->created_by = sqlitereader.ustring6[0];
         }
-        ustring s;
-        s = "Created by " + note_editor->created_by;
-        gtk_label_set_text (GTK_LABEL (label_note_created_by), s.c_str());
+        created_by = "Created by " + note_editor->created_by;
       }
       // Read the logbook.
 
       {
-        ustring logbook;
+        logbook.clear();
         if (!newnote)
-        logbook = sqlitereader.ustring7[0];
-        gtk_text_buffer_set_text (note_editor->textbuffer_logbook, logbook.c_str(), -1);
+          logbook = sqlitereader.ustring7[0];
       }
     }
   }
@@ -560,7 +534,7 @@ void WindowNotes::notes_fill_edit_screen(int id, bool newnote)
 
   // Store category and project.
   note_editor->previous_category = combobox_get_active_string(combobox_note_category);
-  note_editor->previous_project = combobox_get_active_string(combobox_note_project);
+  note_editor->previous_project = project;
 
   // Set GUI elements.
   current_paragraph_indentation_changed(gtk_html_get_paragraph_indentation(GTK_HTML (htmlview_note_editor)));
@@ -906,8 +880,7 @@ void WindowNotes::on_notes_button_ok() {
     // Put new data in the database.
     // ID (integer), we take variable "myid"
     // References (text), we take variable "encoded_references"
-    // Project (text)
-    ustring project = combobox_get_active_string (combobox_note_project);
+    // Project (text) - done already.    
     // Status (integer) This field is not used, and could be reused.
     // Category (text)
     ustring category = combobox_get_active_string (combobox_note_category);
@@ -924,17 +897,7 @@ void WindowNotes::on_notes_button_ok() {
     date_modified = date_time_julian_day_get_current ();
     // Username. Use: note_info_user_created
     // Logbook (text)
-    ustring logbook;
     {
-      // Get and clean the lines.
-      vector<ustring> lines;
-      textbuffer_get_lines (note_editor->textbuffer_logbook, lines);
-      for (unsigned int i = 0; i < lines.size(); i++)
-      {
-        if (!logbook.empty())
-        logbook.append("\n");
-        logbook.append(lines[i]);
-      }
       // Trim off extra newlines at the end.
       logbook = trim(logbook);
       // Now add new data to the logbook.
@@ -1027,11 +990,6 @@ void WindowNotes::on_notes_button_ok_cancel()
   // Clear some widgets.
   combobox_clear_strings(combobox_note_category);
   gtk_text_buffer_set_text(note_editor->textbuffer_references, "", -1);
-  combobox_clear_strings(combobox_note_project);
-  gtk_label_set_text(GTK_LABEL (label_note_created_on), "");
-  gtk_label_set_text(GTK_LABEL (label_note_created_by), "");
-  gtk_label_set_text(GTK_LABEL (label_note_edited_on), "");
-  gtk_text_buffer_set_text(note_editor->textbuffer_logbook, "", -1);
 
   // Clear the html editor.
   gtk_html_set_editable(GTK_HTML(htmlview_note_editor), false);
@@ -1041,7 +999,7 @@ void WindowNotes::on_notes_button_ok_cancel()
   if (note_editor)
     delete note_editor;
   note_editor = NULL;
-  
+
   // Just to be sure, redisplay the notes.
   redisplay();
 
@@ -1055,8 +1013,12 @@ gboolean WindowNotes::note_save_receiver(const HTMLEngine * engine, const char *
 }
 
 void WindowNotes::insert_standard_text(unsigned int selector)
-// Inserts standard text into the note.
+// Sets the system to insert standard text into the note.
 {
+  // Bail out if no note is being edited.
+  if (!note_being_edited())
+    return;
+
   // Find out which standard text to insert, and where to insert it, and how.
   extern Settings * settings;
   ustring standardtext;
@@ -1092,6 +1054,7 @@ void WindowNotes::insert_standard_text(unsigned int selector)
   // Add space.
   if (addspace)
     standardtext.append(" ");
+
   // If text was selected, erase that text.
   if (!gtkhtml) {
     GtkTextIter iter1, iter2;
@@ -1257,7 +1220,7 @@ void WindowNotes::copy() {
    if (GTK_WIDGET_HAS_FOCUS (textview_note_references))
    gtk_text_buffer_copy_clipboard(note_editor->textbuffer_references, clipboard);
    */
-  
+
 }
 
 void WindowNotes::paste() {
@@ -1289,5 +1252,17 @@ void WindowNotes::redo() {
 bool WindowNotes::note_being_edited()
 // Returns whether a note is now being edited.
 {
-  return (gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook1)) > 0);  
+  return (gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook1)) > 0);
+}
+
+void WindowNotes::on_button_more_clicked(GtkButton *button, gpointer user_data) {
+  ((WindowNotes *) user_data)->on_button_more();
+}
+
+void WindowNotes::on_button_more() // Todo
+{
+  ProjectNoteDialog dialog(window, projects, project, created_on, created_by, edited_on, logbook);
+  if (dialog.run() == GTK_RESPONSE_OK) {
+    project = dialog.project;
+  }
 }

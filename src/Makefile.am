@@ -268,7 +268,9 @@ bibledit_bin_SOURCES = \
         windowoutline.cpp \
         windowcheckkeyterms.cpp \
         windowstyles.cpp \
-        windownotes.cpp
+        windownotes.cpp \
+        accelerators.cpp \
+        dialogprojectnote.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 

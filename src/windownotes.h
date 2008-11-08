@@ -47,7 +47,7 @@ public:
   void undo();
   void redo();
   bool note_being_edited();
-  
+
 private:
 
   GtkWidget *notebook1;
@@ -97,20 +97,17 @@ private:
   GtkWidget *hbox_ok_cancel;
   GtkWidget *button_note_ok;
   GtkWidget *button_note_cancel;
+  GtkWidget *button_more;
+  GtkWidget *alignment1;
+  GtkWidget *hbox15;
+  GtkWidget *image1;
+  GtkWidget *label1;
 
   GtkWidget *label_note_category;
   GtkWidget *combobox_note_category;
   GtkWidget *label_note_references;
   GtkWidget *scrolledwindow8;
   GtkWidget *textview_note_references;
-  GtkWidget *label_note_project;
-  GtkWidget *combobox_note_project;
-  GtkWidget *label_note_created_on;
-  GtkWidget *label_note_created_by;
-  GtkWidget *label_note_edited_on;
-  GtkWidget *label_note_logbook;
-  GtkWidget *scrolledwindow9;
-  GtkWidget *textview_note_logbook;
 
   bool project_notes_editable;
 
@@ -175,6 +172,15 @@ private:
   static gboolean on_html_link_clicked(GtkHTML *html, const gchar * url, gpointer user_data);
   void html_link_clicked(GtkHTML *html, const gchar * url);
   void delete_ids(const vector<gint>& ids);
+
+  static void on_button_more_clicked(GtkButton *button, gpointer user_data);
+  void on_button_more();
+  vector <ustring> projects;
+  ustring project;
+  ustring created_on;
+  ustring created_by;
+  ustring edited_on;
+  ustring logbook;
 };
 
 #endif

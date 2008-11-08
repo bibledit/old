@@ -134,6 +134,7 @@
 #include "text2pdf.h"
 #include "windows.h"
 #include "unixwrappers.h"
+#include "accelerators.h"
 
 /*
  |
@@ -178,6 +179,11 @@ MainWindow::MainWindow(unsigned long xembed) :
   // Accelerators.
   accel_group = gtk_accel_group_new();
   accelerator_group = gtk_accel_group_new();
+  gtk_accel_group_connect(accelerator_group, GDK_1, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_standard_text_1_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_2, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_standard_text_2_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_3, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_standard_text_3_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_4, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_standard_text_4_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_N, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_new_project_note_callback), gpointer(this), NULL));
 
   // GUI build.
   if (xembed) {
@@ -2199,7 +2205,7 @@ MainWindow::MainWindow(unsigned long xembed) :
 }
 
 MainWindow::~MainWindow() {
-  // Destroy the accelerator group.
+  // Destroy the accelerator system.
   g_object_unref(G_OBJECT (accelerator_group));
 
   // Shut the separate windows down.
@@ -3839,7 +3845,7 @@ void MainWindow::on_standard_text_4_activate(GtkMenuItem *menuitem, gpointer use
   ((MainWindow *) user_data)->on_insert_standard_text(menuitem);
 }
 
-void MainWindow::on_insert_standard_text(GtkMenuItem *menuitem) {
+void MainWindow::on_insert_standard_text(GtkMenuItem *menuitem) { // Todo see how to do the other ones.
   // Find out which standard text to insert, and where to insert it, and how.
   extern Settings * settings;
   ustring standardtext;
@@ -3848,29 +3854,29 @@ void MainWindow::on_insert_standard_text(GtkMenuItem *menuitem) {
   bool gtkhtml = false;
   if (menuitem == GTK_MENU_ITEM (standard_text_1)) {
     standardtext = settings->genconfig.edit_note_standard_text_one_get();
-    selector = 0;
+    selector = 1;
     addspace = true;
     gtkhtml = true;
   } else if (menuitem == GTK_MENU_ITEM (standard_text_2)) {
     standardtext = settings->genconfig.edit_note_standard_text_two_get();
-    selector = 1;
+    selector = 2;
     addspace = true;
     gtkhtml = true;
   } else if (menuitem == GTK_MENU_ITEM (standard_text_3)) {
     standardtext = settings->genconfig.edit_note_standard_text_three_get();
-    selector = 2;
+    selector = 3;
     addspace = true;
     gtkhtml = true;
   } else if (menuitem == GTK_MENU_ITEM (standard_text_4)) {
     standardtext = settings->genconfig.edit_note_standard_text_four_get();
-    selector = 3;
+    selector = 4;
     addspace = true;
     gtkhtml = true;
   } else if (menuitem == GTK_MENU_ITEM (current_reference1)) {
     Editor * editor = editorsgui->focused_editor();
     if (editor)
       standardtext = books_id_to_english(editor->current_reference.book) + " " + convert_to_string(editor->current_reference.chapter) + ":" + editor->current_reference.verse;
-    selector = 4;
+    selector = 5;
     addspace = false;
     gtkhtml = false;
   }
@@ -6408,7 +6414,8 @@ void MainWindow::on_window_focus_button(GtkButton *button) // Todo
     last_focused_signal_button = now_focused_signal_button;
     now_focused_signal_button = widget;
   }
-
+  cout << "on_window_focus_button " << button << ", now focusing " << now_focused_signal_button << ", last focus " << last_focused_signal_button << endl; // Todo
+  
   extern Settings * settings;
   vector <GtkWindow *> windows = settings->session.open_windows;
 
@@ -6486,8 +6493,8 @@ void MainWindow::on_window_focus_button(GtkButton *button) // Todo
     guint n_entries = 0;
     gtk_accel_group_query(accelerator_group, GDK_Z, GDK_CONTROL_MASK, &n_entries);
     if (n_entries == 0) {
-      gtk_accel_group_connect(accelerator_group, GDK_Z, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new(G_CALLBACK(accelerator_undo_callback), gpointer(this), NULL));
-      gtk_accel_group_connect(accelerator_group, GDK_Z, GdkModifierType(GDK_CONTROL_MASK | GDK_SHIFT_MASK), GtkAccelFlags(0), g_cclosure_new(G_CALLBACK(accelerator_redo_callback), gpointer(this), NULL));
+      gtk_accel_group_connect(accelerator_group, GDK_Z, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_undo_callback), gpointer(this), NULL));
+      gtk_accel_group_connect(accelerator_group, GDK_Z, GdkModifierType(GDK_CONTROL_MASK | GDK_SHIFT_MASK), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_redo_callback), gpointer(this), NULL));
     }
   } else {
     gtk_accel_group_disconnect_key(accelerator_group, GDK_Z, GDK_CONTROL_MASK);
@@ -6505,9 +6512,9 @@ void MainWindow::on_window_focus_button(GtkButton *button) // Todo
     guint n_entries = 0;
     gtk_accel_group_query(accelerator_group, GDK_X, GDK_CONTROL_MASK, &n_entries);
     if (n_entries == 0) {
-      gtk_accel_group_connect(accelerator_group, GDK_X, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new(G_CALLBACK(accelerator_cut_callback), gpointer(this), NULL));
-      gtk_accel_group_connect(accelerator_group, GDK_C, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new(G_CALLBACK(accelerator_copy_callback), gpointer(this), NULL));
-      gtk_accel_group_connect(accelerator_group, GDK_V, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new(G_CALLBACK(accelerator_paste_callback), gpointer(this), NULL));
+      gtk_accel_group_connect(accelerator_group, GDK_X, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_cut_callback), gpointer(this), NULL));
+      gtk_accel_group_connect(accelerator_group, GDK_C, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_copy_callback), gpointer(this), NULL));
+      gtk_accel_group_connect(accelerator_group, GDK_V, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_paste_callback), gpointer(this), NULL));
     }
   } else {
     gtk_accel_group_disconnect_key(accelerator_group, GDK_X, GDK_CONTROL_MASK);
@@ -6613,50 +6620,66 @@ void MainWindow::on_show_quick_references_signal_button(GtkButton *button) {
  */
 
 void MainWindow::accelerator_undo_callback(gpointer user_data) {
-  ((MainWindow *) user_data)->accelerator_undo();
-}
-
-void MainWindow::accelerator_undo() {
 }
 
 void MainWindow::accelerator_redo_callback(gpointer user_data) {
-  ((MainWindow *) user_data)->accelerator_undo();
-}
-
-void MainWindow::accelerator_redo() {
 }
 
 void MainWindow::accelerator_cut_callback(gpointer user_data) {
-  ((MainWindow *) user_data)->accelerator_cut();
-}
-
-void MainWindow::accelerator_cut() {
 }
 
 void MainWindow::accelerator_copy_callback(gpointer user_data) {
-  ((MainWindow *) user_data)->accelerator_copy();
-}
-
-void MainWindow::accelerator_copy() {
 }
 
 void MainWindow::accelerator_paste_callback(gpointer user_data) {
-  ((MainWindow *) user_data)->accelerator_paste();
 }
 
-void MainWindow::accelerator_paste() {
+void MainWindow::accelerator_standard_text_1_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->accelerator_standard_text_n(0);
+}
+
+void MainWindow::accelerator_standard_text_2_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->accelerator_standard_text_n(1);
+}
+
+void MainWindow::accelerator_standard_text_3_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->accelerator_standard_text_n(2);
+}
+
+void MainWindow::accelerator_standard_text_4_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->accelerator_standard_text_n(3);
+}
+
+void MainWindow::accelerator_standard_text_n(unsigned int selector) {
+  if (window_notes) {
+    // Insert the text if the notes window has focus.
+    if (now_focused_signal_button == window_notes->focus_in_signal_button) {
+      window_notes->insert_standard_text(selector);
+    }
+  }
+}
+
+void MainWindow::accelerator_new_project_note_callback(gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_new_note();
 }
 
 /*
 
  Todo Improve the window layout system.
 
- Add the Ctrl-1-4 accelerators for the notes view.
+ If an editor is open, and a project note, and clipboard operations are done, then there's a clash between the two.
+ Copy and paste don't work well if the editor displays and a note as well. Both copy, but only one should.
  
+ Adding text to notes by accelerators, and by the menu.
+ Adding the current reference to the note.
+ If the notes window shows up on startup, it does now not display the relevant notes.
+
+ Fix the accelerators for the clipboard, and let the accelerators always be active, 
+ only that they have an effect only when a certain window is active.
+
  Add all the accelerators in a helpfile, build the file while adding the accelerator.
  
- To hide some lesser used controls in the notes editor, using a button "More".
-
  There is one menu window, which is the main one, and each function will get its own window.
 
  It is very important to make the program to "feel" as if it is one and the same window.
@@ -6677,6 +6700,9 @@ void MainWindow::accelerator_paste() {
  main window too, or else we can do it that we delete the main window only if all windows get deleted, or 
  if the quit menu is chosen. But the best I think is to quit when the menu quits.
  
+ The focusing should not happen too often. We may only enable it after a mouse click in a window, 
+ and then for a short time only.
+ 
  Eventually the menu will also become an independent window, and can be clicked away to disappear from the screen.
  But ideally we would like to stop the program if the menu is clicked away.
  We can resolved it this way.
@@ -6687,8 +6713,6 @@ void MainWindow::accelerator_paste() {
 
  A window does not always seem to position to the right place after the first attempt.
  Perhaps we need to build a timer that tries about 5 times or so, in addition to the first initial attempt.
- 
- If an editor is open, and a project note, and clipboard operations are done, then there's a clash between the two.
  
  Where function on_file_references() is called, we need to implement that the references window comes up. 
  
