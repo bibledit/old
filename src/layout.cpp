@@ -24,37 +24,6 @@
 #include "screen.h"
 #include "gwrappers.h"
 
-void screen_layout_tools_area_set(bool current_pos, GtkWidget * parentleft, GtkWidget * parentright, GtkWidget * childleft, GtkWidget * childright)
-// Sets Tools Area left or right.
-{
-  extern Settings * settings;
-  // Current and desired position are the same: bail out.
-  if (current_pos == settings->genconfig.tools_area_left_get())
-    return;
-  // Swap the left and right side.
-  if (settings->genconfig.tools_area_left_get()) {
-    // Swapped
-    gtk_widget_reparent(childleft, parentright);
-    gtk_widget_reparent(childright, parentleft);
-  } else {
-    // Normal
-    gtk_widget_reparent(childleft, parentleft);
-    gtk_widget_reparent(childright, parentright);
-  }
-}
-
-void screen_layout_vertical_pane_mirror(bool current_pos, GtkWidget * pane)
-// Mirrors the divisions of the main vertical pane, if need be.
-{
-  extern Settings * settings;
-  // Current and desired position are the same: bail out.
-  if (current_pos == settings->genconfig.tools_area_left_get())
-    return;
-  int position = gtk_paned_get_position(GTK_PANED (pane));
-  position = settings->genconfig.window_width_get() - position;
-  gtk_paned_set_position(GTK_PANED (pane), position);
-}
-
 ScreenLayoutDimensions::ScreenLayoutDimensions(GtkWidget *window, GtkWidget * hpane, GtkWidget * editor) {
   mywindow = GTK_WINDOW (window);
   my_hpane = hpane;
@@ -71,9 +40,6 @@ void ScreenLayoutDimensions::verify()
   int height = settings->genconfig.window_height_get();
   int x = settings->genconfig.window_x_position_get();
   int y = settings->genconfig.window_y_position_get();
-  int hpane_position = settings->genconfig.hpane_position_get();
-  int vpane_editor_position = settings->genconfig.vpane_editor_position_get();
-  bool tools_area_left = settings->genconfig.tools_area_left_get();
   // If the screen resolution got changed, or if the windows are too big, 
   // recalculate the values.
   bool recalculate = false;
@@ -90,7 +56,7 @@ void ScreenLayoutDimensions::verify()
     recalculate = true;
   if (y + height > real_screen_height)
     recalculate = true;
- 
+
   width = settings->genconfig.text_area_width_get();
   height = settings->genconfig.text_area_height_get();
   x = settings->genconfig.text_area_x_position_get();
@@ -126,14 +92,6 @@ void ScreenLayoutDimensions::verify()
     settings->genconfig.window_height_set(height);
     settings->genconfig.window_x_position_set(x);
     settings->genconfig.window_y_position_set(y);
-    // Panes.
-    hpane_position = width * 80 / 100;
-    settings->genconfig.hpane_position_set(hpane_position);
-    vpane_editor_position = height * 60 / 100;
-    settings->genconfig.vpane_editor_position_set(vpane_editor_position);
-    // Integrated tools area (to go out later).
-    tools_area_left = false;
-    settings->genconfig.tools_area_left_set(tools_area_left);
     // Remove stored dialog positions.
     dialog_position_reset_all();
 
@@ -167,17 +125,10 @@ void ScreenLayoutDimensions::verify()
     settings->genconfig.tools_area_x_position_set(x);
     settings->genconfig.tools_area_y_position_set(y);
   }
-  // Prevents areas from becoming invisible altogether,
-  // prompting users to ask for support.
-  if (hpane_position < 300)
-    hpane_position = 300;
-  if (vpane_editor_position < 200)
-    vpane_editor_position = 200;
 }
 
 void ScreenLayoutDimensions::save() {
   extern Settings * settings;
-  GuiFeatures guifeatures(0);
   if (!settings->genconfig.window_maximized_get()) {
     gint width, height, x, y;
     gtk_window_get_size(mywindow, &width, &height);
@@ -187,15 +138,10 @@ void ScreenLayoutDimensions::save() {
     settings->genconfig.window_x_position_set(x);
     settings->genconfig.window_y_position_set(y);
   }
-  if (guifeatures.project_notes())
-    settings->genconfig.hpane_position_set(gtk_paned_get_position(GTK_PANED (my_hpane)));
-  settings->genconfig.vpane_editor_position_set(gtk_paned_get_position(GTK_PANED (my_editor)));
 }
 
 void ScreenLayoutDimensions::load() {
   extern Settings * settings;
   gtk_window_resize(mywindow, settings->genconfig.window_width_get(), settings->genconfig.window_height_get());
   gtk_window_move(mywindow, settings->genconfig.window_x_position_get(), settings->genconfig.window_y_position_get());
-  gtk_paned_set_position(GTK_PANED (my_hpane), settings->genconfig.hpane_position_get ());
-  gtk_paned_set_position(GTK_PANED (my_editor), settings->genconfig.vpane_editor_position_get ());
 }

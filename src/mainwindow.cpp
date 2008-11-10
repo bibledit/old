@@ -151,7 +151,7 @@
  */
 
 MainWindow::MainWindow(unsigned long xembed) :
-  navigation(0), selected_reference(0, 0, ""), bibletime(true), httpd(0) {
+  navigation(0), bibletime(true), httpd(0) {
   // Set some pointers to NULL.  
   // To save memory, we only create the object when actually needed.
   editorsgui = NULL;
@@ -163,6 +163,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   window_check_keyterms = NULL;
   window_styles = NULL;
   window_notes = NULL;
+  window_references = NULL;
 
   // Initialize some variables.
   git_reopen_project = false;
@@ -1877,62 +1878,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   g_signal_connect ((gpointer) editorsgui->focus_button, "clicked", G_CALLBACK (on_editorsgui_focus_button_clicked), gpointer(this));
   g_signal_connect ((gpointer) editorsgui->quick_references_button, "clicked", G_CALLBACK (on_show_quick_references_signal_button_clicked), gpointer(this));
 
-  vbox_right = gtk_vbox_new(FALSE, 0);
-  gtk_widget_show(vbox_right);
-  gtk_paned_pack2(GTK_PANED (hpaned1), vbox_right, TRUE, TRUE);
-
-  notebook_tools = gtk_notebook_new();
-  gtk_widget_show(notebook_tools);
-  gtk_box_pack_start(GTK_BOX (vbox_right), notebook_tools, TRUE, TRUE, 0);
-  gtk_notebook_set_scrollable(GTK_NOTEBOOK (notebook_tools), TRUE);
-
-  // Deal with screen layout.
-  if (settings->genconfig.tools_area_left_get()) {
-    screen_layout_tools_area_set(false, vbox_left, vbox_right, vpaned1, notebook_tools);
-  }
-
-  scrolledwindow_references = gtk_scrolled_window_new(NULL, NULL);
-  gtk_widget_show(scrolledwindow_references);
-  gtk_container_add(GTK_CONTAINER (notebook_tools), scrolledwindow_references);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow_references), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-
-  // Manually added and changed.
-  // 1. localized human readable reference
-  // 2. comment
-  // 3. book id
-  // 4. chapter
-  // 5. verse
-  liststore_references = gtk_list_store_new(5, G_TYPE_STRING, G_TYPE_STRING, 
-  G_TYPE_INT, G_TYPE_INT, G_TYPE_STRING);
-  // Text cell renderer.
-  GtkCellRenderer *renderer;
-  renderer = gtk_cell_renderer_text_new();
-
-  treeview_references = gtk_tree_view_new_with_model(GTK_TREE_MODEL (liststore_references));
-  gtk_widget_show(treeview_references);
-  gtk_container_add(GTK_CONTAINER (scrolledwindow_references), treeview_references);
-
-  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW (treeview_references), TRUE);
-  // Unreference the store once, so it gets destroyed with the treeview.
-  g_object_unref(liststore_references);
-  // Add reference column.
-  treecolumn_references = gtk_tree_view_column_new_with_attributes("", renderer, "text", 0, NULL);
-  gtk_tree_view_append_column(GTK_TREE_VIEW (treeview_references), treecolumn_references);
-  // Add comments column
-  GtkTreeViewColumn * treecolumn2;
-  treecolumn2 = gtk_tree_view_column_new_with_attributes("Comment", renderer, "text", 1, NULL);
-  gtk_tree_view_append_column(GTK_TREE_VIEW (treeview_references), treecolumn2);
-  treeselect_references = gtk_tree_view_get_selection(GTK_TREE_VIEW (treeview_references));
-  gtk_tree_selection_set_mode(treeselect_references, GTK_SELECTION_MULTIPLE);
-
-  label13 = gtk_label_new("References");
-  gtk_widget_show(label13);
-  gtk_notebook_set_tab_label(GTK_NOTEBOOK (notebook_tools), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_tools), 0), label13);
-
-  if (!guifeatures.references_and_find()) {
-    gtk_widget_hide(gtk_notebook_get_nth_page(GTK_NOTEBOOK (notebook_tools), 0));
-  }
-
   hbox5 = gtk_hbox_new(FALSE, 0);
   gtk_widget_show(hbox5);
   gtk_box_pack_start(GTK_BOX (vbox1), hbox5, FALSE, FALSE, 0);
@@ -2150,11 +2095,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   g_signal_connect ((gpointer) help_main, "activate", G_CALLBACK (on_help_main_activate), gpointer(this));
   g_signal_connect ((gpointer) system_log1, "activate", G_CALLBACK (on_system_log1_activate), gpointer(this));
   g_signal_connect ((gpointer) about1, "activate", G_CALLBACK (on_about1_activate), gpointer(this));
-  g_signal_connect ((gpointer) treeview_references, "key_press_event", G_CALLBACK (on_treeview_references_key_press_event), gpointer(this));
-  g_signal_connect ((gpointer) treeview_references, "button_press_event", G_CALLBACK (on_treeview_references_button_press_event), gpointer(this));
-  g_signal_connect ((gpointer) treeview_references, "popup_menu", G_CALLBACK (on_treeview_references_popup_menu), gpointer(this));
-  g_signal_connect ((gpointer) treeview_references, "move_cursor", G_CALLBACK (on_treeview_references_move_cursor), gpointer(this));
-  g_signal_connect ((gpointer) treeview_references, "cursor_changed", G_CALLBACK (on_treeview_references_cursor_changed), gpointer(this));
 
   gtk_window_add_accel_group(GTK_WINDOW (mainwindow), accel_group);
 
@@ -2172,12 +2112,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   // USR1, ignore it.
   signal(SIGUSR1, SIG_IGN);
 #endif
-
-  // Load previously saved references, if any.
-  References references(liststore_references, treeview_references, treecolumn_references);
-  references.load();
-  ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
-  references.fill_store(projectconfig->language_get());
 
   // Display project notes.
   notes_redisplay();
@@ -2230,10 +2164,6 @@ MainWindow::~MainWindow() {
 
   // Save text in editors.
   editorsgui->save();
-  // Save references.
-  References references(liststore_references, treeview_references, treecolumn_references);
-  references.get_loaded();
-  references.save();
   // Destroy the Outpost
   delete windowsoutpost;
   // Finalize content manager subsystem.
@@ -2546,16 +2476,17 @@ void MainWindow::menu_replace() {
   extern Settings * settings;
   // Before finding, save the current file.
   editorsgui->save();
+  // Display references.
+  show_references_window();
   // Start find/replace dialog.
   vector <Reference> results;
   {
     ReplaceDialog replacedialog(0);
     if (replacedialog.run() == GTK_RESPONSE_OK) {
       results.assign(replacedialog.results.begin(), replacedialog.results.end());
-      References references(liststore_references, treeview_references, treecolumn_references);
-      references.set_references(replacedialog.results);
-      ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
-      references.fill_store(projectconfig->language_get());
+      if (window_references) {
+        window_references->display(replacedialog.results); // Todo try out.
+      }
     } else {
       return;
     }
@@ -2578,8 +2509,8 @@ void MainWindow::on_findspecial1_activate(GtkMenuItem * menuitem, gpointer user_
 void MainWindow::menu_findspecial() {
   // Before finding, save the current file.
   editorsgui->save();
-  // Switch to the References Area.
-  // on_file_references();
+  // Display the references window.
+  show_references_window();
   // Start dialog.
   {
     SearchSpecialDialog dialog(&bibletime);
@@ -2587,7 +2518,7 @@ void MainWindow::menu_findspecial() {
       return;
   }
   // Carry out the search. 
-  search_string(liststore_references, treeview_references, treecolumn_references, &bibletime);
+  search_string(window_references->liststore, window_references->treeview, window_references->treecolumn, &bibletime); // Todo try out.
 }
 
 void MainWindow::on_import1_activate(GtkMenuItem * menuitem, gpointer user_data) {
@@ -2773,8 +2704,9 @@ void MainWindow::on_compare_with()
 // Compare the current project with another one.
 {
   editorsgui->save();
+  show_references_window();
   git_command_pause(true);
-  References references(liststore_references, treeview_references, treecolumn_references);
+  References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
   CompareDialog dialog(&references);
   dialog.run();
   git_command_pause(false);
@@ -2845,10 +2777,12 @@ void MainWindow::on_navigation_new_reference() {
   settings->genconfig.chapter_set(convert_to_string(navigation.reference.chapter));
   settings->genconfig.verse_set(navigation.reference.verse);
   go_to_new_reference();
-  // Optionally display the parallel passages in the reference area.
+  // Optionally display the parallel passages in the reference area. // Todo move to a separate window.
+  /*
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (parallel_passages1))) {
     parallel_passages_display(navigation.reference, liststore_references, treeview_references, treecolumn_references);
   }
+  */
   // Optional displaying keyterms in verse.
   if (window_show_keyterms) {
     window_show_keyterms->go_to(settings->genconfig.project_get(), navigation.reference);
@@ -3143,7 +3077,7 @@ void MainWindow::on_paste() {
  |
  |
  |
- List store and reference handling
+ List store and reference handling Todo working here.
  |
  |
  |
@@ -3151,24 +3085,45 @@ void MainWindow::on_paste() {
  |
  */
 
-gboolean MainWindow::on_treeview_references_key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer user_data) {
-  /* Pressing Return on the keyboard, or Enter on the numerical keypad
-   * make us go to the reference.
-   */
-  if (event->keyval == GDK_Return || event->keyval == GDK_KP_Enter)
-    ((MainWindow *) user_data)->on_list_goto();
-  // Pressing Delete takes the reference(s) out that have been selected.
-  if (event->keyval == GDK_Delete || event->keyval == GDK_KP_Delete)
-    ((MainWindow *) user_data)->on_delete_references();
-  return FALSE;
+void MainWindow::show_references_window() {
+  if (!window_references) {
+    window_references = new WindowReferences (accelerator_group, windows_startup_pointer != G_MAXINT);
+    g_signal_connect ((gpointer) window_references->delete_signal_button, "clicked", G_CALLBACK (on_window_references_delete_button_clicked), gpointer(this));
+    g_signal_connect ((gpointer) window_references->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
+    g_signal_connect ((gpointer) window_references->general_signal_button, "clicked", G_CALLBACK (on_window_references_general_signal_button_clicked), gpointer(this));
+  }
 }
 
-gboolean MainWindow::on_treeview_references_button_press_event(GtkWidget * widget, GdkEventButton * event, gpointer user_data) {
-  // Double-clicking a references makes us go to the reference.
-  if (event->type == GDK_2BUTTON_PRESS) {
-    ((MainWindow *) user_data)->on_list_goto();
-    return true;
+void MainWindow::on_window_references_delete_button_clicked(GtkButton *button, gpointer user_data) {
+  ((MainWindow *) user_data)->on_window_references_delete_button();
+}
+
+void MainWindow::on_window_references_delete_button() {
+  if (window_references) {
+    delete window_references;
+    window_references = NULL;
   }
+}
+
+void MainWindow::on_window_references_general_signal_button_clicked(GtkButton *button, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_window_references_general_signal_button();  
+}
+
+void MainWindow::on_window_references_general_signal_button() // Todo
+// This routine is called when the reference window fires a signal that something has happened.
+{
+  cout << "on_window_references_general_signal_button, action " << window_references->action << ", reference count " << window_references->references.size() << endl; // Todo
+  switch (window_references->action) {
+    case wratReferenceActivated: 
+    {
+      on_list_goto();
+      break;
+    }
+  }
+}
+
+gboolean MainWindow::on_treeview_references_button_press_event(GtkWidget * widget, GdkEventButton * event, gpointer user_data) { // Todo
   // Popup menu handler.
   if (event->button == 3 && event->type == GDK_BUTTON_PRESS) {
     ((MainWindow *) user_data)->show_references_popup_menu(widget, event);
@@ -3177,38 +3132,23 @@ gboolean MainWindow::on_treeview_references_button_press_event(GtkWidget * widge
   return false;
 }
 
-void MainWindow::on_list_goto()
+void MainWindow::on_list_goto() // Todo move into object.
 // Handler for when the user pressed Enter in the list and wants to go to a reference.
 {
   // Get the Editor. If none, bail out.
   Editor * editor = editorsgui->focused_editor();
   if (!editor)
     return;
-  try
-  {
-    // Get the string the user selected.
-    GtkTreeSelection *selection;
-    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview_references));
-    gtk_tree_selection_selected_foreach (selection, mainwindow_selection_foreach_function, gpointer(this));
-    // Jump to the reference.
-    Reference reference (selected_reference.book, selected_reference.chapter, selected_reference.verse);
-    navigation.display (reference);
-    editor->go_to_new_reference_highlight = true;
-  }
-  catch (exception & ex)
-  {
-    cerr << ex.what () << endl;
-  }
-}
+  
+  // Bail out if there's no references window.
+  if (!window_references) 
+    return;
 
-void MainWindow::mainwindow_selection_foreach_function(GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data) {
-  unsigned int book, chapter;
-  gchar *verse;
-  gtk_tree_model_get(model, iter, 2, &book, 3, &chapter, 4, &verse, -1);
-  ((MainWindow *) data)->selected_reference.book = book;
-  ((MainWindow *) data)->selected_reference.chapter = chapter;
-  ((MainWindow *) data)->selected_reference.verse = verse;
-  g_free(verse);
+  // Jump to the reference.
+  Reference reference (window_references->references[0]);
+  navigation.display (reference);
+  editor->go_to_new_reference_highlight = true;
+
 }
 
 void MainWindow::on_open_references1_activate(GtkMenuItem * menuitem, gpointer user_data) {
@@ -3216,6 +3156,8 @@ void MainWindow::on_open_references1_activate(GtkMenuItem * menuitem, gpointer u
 }
 
 void MainWindow::on_open_references() {
+  // Display references.
+  show_references_window();
   // Settings.
   extern Settings * settings;
   // Ask for a file.
@@ -3248,7 +3190,7 @@ void MainWindow::on_open_references() {
       import_references_searchwords.push_back(searchword3);
     settings->session.import_references_searchwords = import_references_searchwords;
     settings->genconfig.references_file_set(filename);
-    References references(liststore_references, treeview_references, treecolumn_references);
+    References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
     references.load(settings->genconfig.references_file_get());
     ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
     references.fill_store(projectconfig->language_get());
@@ -3267,6 +3209,7 @@ void MainWindow::on_references_save_as_activate(GtkMenuItem * menuitem, gpointer
 }
 
 void MainWindow::on_save_references() {
+  show_references_window();
   extern Settings * settings;
   try
   {
@@ -3274,7 +3217,7 @@ void MainWindow::on_save_references() {
     if (filename.empty())
     return;
     settings->genconfig.references_file_set (filename);
-    References references (liststore_references, treeview_references, treecolumn_references);
+    References references (window_references->liststore, window_references->treeview, window_references->treecolumn);
     // Hack: set references with a dummy, then load the real ones from the editor.
     vector <Reference> dummy;
     references.set_references (dummy);
@@ -3292,7 +3235,8 @@ void MainWindow::on_close_references_activate(GtkMenuItem * menuitem, gpointer u
 }
 
 void MainWindow::on_clear_references() {
-  References references(liststore_references, treeview_references, treecolumn_references);
+  show_references_window();
+  References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
   references.fill_store("");
   extern Settings* settings;
   settings->session.highlights.clear();
@@ -3302,7 +3246,8 @@ void MainWindow::on_delete_references_activate(GtkMenuItem * menuitem, gpointer 
   ((MainWindow *) user_data)->on_delete_references();
 }
 
-void MainWindow::on_delete_references() {
+void MainWindow::on_delete_references() { // Todo move into object.
+  /*
   // Delete each selected row.
   GtkTreeSelection *selection;
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW (treeview_references));
@@ -3316,6 +3261,7 @@ void MainWindow::on_delete_references() {
   References references(liststore_references, treeview_references, treecolumn_references);
   references.get_loaded();
   references.set_header();
+  */
 }
 
 void MainWindow::on_references_collect_iters(GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data) {
@@ -3326,14 +3272,14 @@ void MainWindow::on_next_reference1_activate(GtkMenuItem * menuitem, gpointer us
   ((MainWindow *) user_data)->on_next_reference();
 }
 
-void MainWindow::on_next_reference()
+void MainWindow::on_next_reference() // Todo move into object.
 // This goes to the next reference, if there is any.
 // If no item has been selected it chooses the first, if it's there.
 {
-  // Show references area.
-  // on_file_references();
+  // Display references.
+  show_references_window();
   // Select next reference in the list.
-  References references(liststore_references, treeview_references, treecolumn_references);
+  References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
   references.goto_next();
   // Actually open the reference in the editor.
   on_list_goto();
@@ -3343,15 +3289,15 @@ void MainWindow::on_previous_reference1_activate(GtkMenuItem * menuitem, gpointe
   ((MainWindow *) user_data)->on_previous_reference();
 }
 
-void MainWindow::on_previous_reference() {
+void MainWindow::on_previous_reference() { // Todo move into object.
   /* 
    * This goes to the previous reference, if there is any.
    * If no item has been selected it chooses the first, if it's there.
    */
-  // Show references area.
-  // on_file_references();
+  // Show references.
+  show_references_window();
   // Select previous reference in the list.
-  References references(liststore_references, treeview_references, treecolumn_references);
+  References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
   references.goto_previous();
   // Actually open the reference in the editor.
   on_list_goto();
@@ -3389,10 +3335,10 @@ void MainWindow::on_reference_hide()
   vector <ustring> hidden_references = references_hidden_ones_load();
   // Get the model.
   GtkTreeModel * model;
-  model = gtk_tree_view_get_model(GTK_TREE_VIEW (treeview_references));
+  model = gtk_tree_view_get_model(GTK_TREE_VIEW (window_references->treeview));
   // Get all selected iterators.
   GtkTreeSelection *selection;
-  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW (treeview_references));
+  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW (window_references->treeview));
   vector < GtkTreeIter> iters;
   gtk_tree_selection_selected_foreach(selection, MainWindow::on_references_collect_iters, gpointer(&iters));
   // Get the strings describing the references, and add them to the ones already loaded.
@@ -3445,11 +3391,11 @@ void MainWindow::treeview_references_display_quick_reference()
 
   // Get the model.
   GtkTreeModel * model;
-  model = gtk_tree_view_get_model(GTK_TREE_VIEW (treeview_references));
+  model = gtk_tree_view_get_model(GTK_TREE_VIEW (window_references->treeview));
 
   // Get all selected iterators.
   GtkTreeSelection *selection;
-  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW (treeview_references));
+  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW (window_references->treeview));
   vector <GtkTreeIter> iters;
   gtk_tree_selection_selected_foreach(selection, MainWindow::on_references_collect_iters, gpointer(&iters));
 
@@ -3913,16 +3859,16 @@ void MainWindow::on_get_references_from_note() {
   // Set none searchwords.
   extern Settings* settings;
   settings->session.highlights.clear();
+  // Display the References
+  show_references_window();
   // Set references.
-  References references2(liststore_references, treeview_references, treecolumn_references);
+  References references2(window_references->liststore, window_references->treeview, window_references->treecolumn);
   references2.set_references(references);
   ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
   references2.fill_store(projectconfig->language_get());
-  // Display the References Area 
-  // on_file_references();
 }
 
-void MainWindow::notes_get_references_from_id(gint id)
+void MainWindow::notes_get_references_from_id(gint id) // Todo probably move out of the main window object.
 // Get the references from the note id
 {
   // Store references we get.
@@ -3965,14 +3911,14 @@ void MainWindow::notes_get_references_from_id(gint id)
   // Close connection.  
   sqlite3_close(db);
 
+  // Display the References
+  show_references_window();
   // Set references.
-  References references2(liststore_references, treeview_references, treecolumn_references);
+  References references2(window_references->liststore, window_references->treeview, window_references->treecolumn);
   references2.set_references(references);
   extern Settings * settings;
   ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
   references2.fill_store(projectconfig->language_get());
-  // Display the References Area
-  // on_file_references();
 }
 
 /*
@@ -4049,8 +3995,8 @@ void MainWindow::on_check1_activate(GtkMenuItem *menuitem, gpointer user_data) {
 }
 
 void MainWindow::on_menu_check() {
-  // Switch to the References Area.
-  // on_file_references();
+  // Display the references.
+  show_references_window();
 }
 
 void MainWindow::on_markers1_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -4066,7 +4012,8 @@ void MainWindow::on_validate_usfms1_activate(GtkMenuItem *menuitem, gpointer use
 
 void MainWindow::on_menu_check_markers_validate() {
   editorsgui->save();
-  scripture_checks_validate_usfms(liststore_references, treeview_references, treecolumn_references, NULL);
+  show_references_window();
+  scripture_checks_validate_usfms(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 void MainWindow::on_count_usfms1_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -4084,7 +4031,8 @@ void MainWindow::on_compare_usfm1_activate(GtkMenuItem *menuitem, gpointer user_
 
 void MainWindow::on_menu_check_markers_compare() {
   editorsgui->save();
-  scripture_checks_compare_usfms(liststore_references, treeview_references, treecolumn_references, NULL);
+  show_references_window();
+  scripture_checks_compare_usfms(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 void MainWindow::on_chapters_and_verses1_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -4093,7 +4041,8 @@ void MainWindow::on_chapters_and_verses1_activate(GtkMenuItem *menuitem, gpointe
 
 void MainWindow::on_menu_check_chapters_and_verses() {
   editorsgui->save();
-  scripture_checks_chapters_verses(liststore_references, treeview_references, treecolumn_references, NULL);
+  show_references_window();
+  scripture_checks_chapters_verses(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 void MainWindow::on_count_characters_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -4111,7 +4060,8 @@ void MainWindow::on_unwanted_patterns_activate(GtkMenuItem *menuitem, gpointer u
 
 void MainWindow::on_unwanted_patterns() {
   editorsgui->save();
-  scripture_checks_unwanted_patterns(liststore_references, treeview_references, treecolumn_references, NULL);
+  show_references_window();
+  scripture_checks_unwanted_patterns(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 void MainWindow::on_check_capitalization_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -4120,7 +4070,8 @@ void MainWindow::on_check_capitalization_activate(GtkMenuItem *menuitem, gpointe
 
 void MainWindow::on_check_capitalization() {
   editorsgui->save();
-  scripture_checks_capitalization(liststore_references, treeview_references, treecolumn_references, NULL);
+  show_references_window();
+  scripture_checks_capitalization(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 void MainWindow::on_check_repetition_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -4129,7 +4080,8 @@ void MainWindow::on_check_repetition_activate(GtkMenuItem *menuitem, gpointer us
 
 void MainWindow::on_check_repetition() {
   editorsgui->save();
-  scripture_checks_repetition(liststore_references, treeview_references, treecolumn_references, NULL);
+  show_references_window();
+  scripture_checks_repetition(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 void MainWindow::on_check_matching_pairs_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -4138,7 +4090,8 @@ void MainWindow::on_check_matching_pairs_activate(GtkMenuItem *menuitem, gpointe
 
 void MainWindow::on_check_matching_pairs() {
   editorsgui->save();
-  scripture_checks_matching_pairs(liststore_references, treeview_references, treecolumn_references, NULL);
+  show_references_window();
+  scripture_checks_matching_pairs(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 void MainWindow::on_unwanted_words_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -4147,7 +4100,8 @@ void MainWindow::on_unwanted_words_activate(GtkMenuItem *menuitem, gpointer user
 
 void MainWindow::on_unwanted_words() {
   editorsgui->save();
-  scripture_checks_unwanted_words(liststore_references, treeview_references, treecolumn_references, NULL);
+  show_references_window();
+  scripture_checks_unwanted_words(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 void MainWindow::on_word_count_inventory_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -4184,7 +4138,8 @@ void MainWindow::on_check_httpd() {
     SessionHighlights
         sessionhighlights(settings->session.searchword, settings->session.search_case_sensitive, settings->session.search_globbing, settings->session.search_start_word_match, settings->session.search_end_word_match, atRaw, false, false, false, false, false, false, false, false);
     settings->session.highlights.push_back(sessionhighlights);
-    search_string(liststore_references, treeview_references, treecolumn_references, &bibletime);
+    show_references_window();
+    search_string(window_references->liststore, window_references->treeview, window_references->treecolumn, &bibletime);
   }
   // Did the browser request a url too difficult for it to handle?
   if (!httpd.difficult_url.empty()) {
@@ -4199,7 +4154,8 @@ void MainWindow::on_my_checks_activate(GtkMenuItem *menuitem, gpointer user_data
 
 void MainWindow::on_my_checks() {
   editorsgui->save();
-  MyChecksDialog dialog(liststore_references, treeview_references, treecolumn_references);
+  show_references_window();
+  MyChecksDialog dialog(window_references->liststore, window_references->treeview, window_references->treecolumn);
   dialog.run();
 }
 
@@ -4209,7 +4165,8 @@ void MainWindow::on_check_markers_spacing_activate(GtkMenuItem *menuitem, gpoint
 
 void MainWindow::on_check_markers_spacing() {
   editorsgui->save();
-  scripture_checks_usfm_spacing(liststore_references, treeview_references, treecolumn_references, NULL);
+  show_references_window();
+  scripture_checks_usfm_spacing(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 void MainWindow::on_check_references_inventory_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -4227,7 +4184,8 @@ void MainWindow::on_check_references_validate_activate(GtkMenuItem *menuitem, gp
 
 void MainWindow::on_check_references_validate() {
   editorsgui->save();
-  scripture_checks_validate_references(liststore_references, treeview_references, treecolumn_references, NULL);
+  show_references_window();
+  scripture_checks_validate_references(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 void MainWindow::on_check_nt_quotations_from_the_ot_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -4263,7 +4221,8 @@ void MainWindow::on_check_sentence_structure_activate(GtkMenuItem *menuitem, gpo
 
 void MainWindow::on_check_sentence_structure() {
   editorsgui->save();
-  scripture_checks_sentence_structure(liststore_references, treeview_references, treecolumn_references, NULL);
+  show_references_window();
+  scripture_checks_sentence_structure(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 /*
@@ -4437,7 +4396,7 @@ void MainWindow::on_style_apply() {
           style_was_treated_specially = true;
           // If the gui has been set so, display the references in the tools area.
           if (settings->genconfig.inserting_xref_shows_references_get()) {
-            // on_file_references();
+            show_references_window();
             gtk_widget_grab_focus(editor->last_focused_textview());
           }
         }
@@ -4674,8 +4633,8 @@ void MainWindow::on_parallel_passages1() {
   // Act depending on whether to view the parallel passages.
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (parallel_passages1))) {
     // View them: show references tab, view passages.
-    // on_file_references();
-    parallel_passages_display(navigation.reference, liststore_references, treeview_references, treecolumn_references);
+    show_references_window();
+    parallel_passages_display(navigation.reference, window_references->liststore, window_references->treeview, window_references->treecolumn);
   } else {
     // Don't view them: clear store.
     on_clear_references();
@@ -4919,7 +4878,8 @@ void MainWindow::on_project_changes() {
   git_command_pause(true);
   // Do the actual changes dialog. 
   // It will delete the unwanted git tasks.
-  References references(liststore_references, treeview_references, treecolumn_references);
+  show_references_window();
+  References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
   ChangesDialog dialog(&references);
   dialog.run();
   // Resume git operations.
@@ -5764,8 +5724,8 @@ void MainWindow::on_print() {
     }
     case 2: // References.
     {
-      // Activate references area.
-      // on_file_references();
+      // Activate references.
+       show_references_window();
       // Show dialog.
       {
         PrintReferencesDialog dialog(0);
@@ -5773,7 +5733,8 @@ void MainWindow::on_print() {
           return;
       }
       // Load refs from the editor.
-      References references(liststore_references, treeview_references, treecolumn_references);
+      show_references_window();
+      References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
       references.get_loaded();
       vector<Reference> refs;
       references.get_references(refs);
@@ -6331,6 +6292,11 @@ bool MainWindow::on_windows_startup() {
           view_project_notes();
           break;
         }
+        case widReferences:
+        {
+          show_references_window();
+          break;
+        }
       }
       window_started = true;
     }
@@ -6404,6 +6370,13 @@ void MainWindow::shutdown_windows()
     window_notes = NULL;
   }
 
+  // References.
+  if (window_references) {
+    window_references->shutdown();
+    delete window_references;
+    window_references = NULL;
+  }
+
 }
 
 void MainWindow::on_window_focus_button_clicked(GtkButton *button, gpointer user_data) {
@@ -6447,6 +6420,8 @@ void MainWindow::on_window_focus_button(GtkButton *button)
     window_styles->present();
   if (window_notes)
     window_notes->present();
+  if (window_references)
+    window_references->present();
 
   // Present the calling window again.
   if (widget == NULL) {
@@ -6483,6 +6458,10 @@ void MainWindow::on_window_focus_button(GtkButton *button)
   if (window_notes) {
     if (widget == window_notes->focus_in_signal_button)
       window_notes->present();
+  }
+  if (window_references) {
+    if (widget == window_references->focus_in_signal_button)
+      window_references->present();
   }
 }
 
@@ -6675,6 +6654,7 @@ void MainWindow::accelerator_new_project_note_callback(gpointer user_data) {
 
  Todo Improve the window layout system.
 
+ Working on the references.
 
  We need to look at the "todo" entries in windownotes.h/cpp.
 
@@ -6721,12 +6701,21 @@ void MainWindow::accelerator_new_project_note_callback(gpointer user_data) {
  A window does not always seem to position to the right place after the first attempt.
  Perhaps we need to build a timer that tries about 5 times or so, in addition to the first initial attempt.
  
- Where function on_file_references() is called, we need to implement that the references window comes up. 
- 
  When all the windows are done, then we need to check whether all menu entries work in each window,
  and whether all shortcuts in each relevant window.
  When all windows have been detached, we need to verify copy and paste through the menu and through shortcuts.
  
- 
+ All those places where it has "References references", it is to be looked into whether that cannot be moved
+ into the references window itself, rather than cluttering the code in MainWindow.
+
+ If the merge window opens while the two projects are opened already, it does not show them in the merge window.
+ Does the merge window not have a horizontal scrollbar that can prevent the main window from getting too wide?
+ The lines in the merge window should wrap, really.
+ If Ctrl-N is pressed in an already existing notes window, the Ctrl-1/4 shortcuts don't work unless the window
+ is clicked so as to focus it. No, even after clicking in the window, the shortcuts don't work.
+
+ We may have to put the footnotes in a separate window. This will have the advantage that we can then use
+ as many GtkTextViews as there are footnotes. And then the automatic width routines go away.
+ But this can be done in the same window still, just by adding the required number of GtkTextViews to the vertical box.  
  */
 

@@ -43,42 +43,6 @@ ScreenLayoutDialog::ScreenLayoutDialog (int dummy)
   gtk_widget_show (vbox1);
   gtk_box_pack_start (GTK_BOX (dialog_vbox1), vbox1, TRUE, TRUE, 0);
 
-  hbox3 = gtk_hbox_new (FALSE, 15);
-  gtk_widget_show (hbox3);
-  gtk_box_pack_start (GTK_BOX (vbox1), hbox3, FALSE, FALSE, 0);
-
-  label3 = gtk_label_new ("The Tools area is at the");
-  gtk_widget_show (label3);
-  gtk_box_pack_start (GTK_BOX (hbox3), label3, FALSE, FALSE, 0);
-
-  GSList *radiobutton_tools_left_group = NULL;
-
-  radiobutton_tools_left = gtk_radio_button_new_with_mnemonic (NULL, "left");
-  gtk_widget_show (radiobutton_tools_left);
-  gtk_box_pack_start (GTK_BOX (hbox3), radiobutton_tools_left, FALSE, FALSE, 0);
-  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_tools_left), radiobutton_tools_left_group);
-  radiobutton_tools_left_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_tools_left));
-
-  shortcuts.button (radiobutton_tools_left);
-
-  radiobutton_tools_right = gtk_radio_button_new_with_mnemonic (NULL, "right");
-  gtk_widget_show (radiobutton_tools_right);
-  gtk_box_pack_start (GTK_BOX (hbox3), radiobutton_tools_right, FALSE, FALSE, 0);
-  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_tools_right), radiobutton_tools_left_group);
-  radiobutton_tools_left_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_tools_right));
-
-  shortcuts.button (radiobutton_tools_right);
-
-  if (settings->genconfig.tools_area_left_get ()) {
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton_tools_left), true);
-  } else {
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton_tools_right), true);
-  }
-  
-  label4 = gtk_label_new ("side");
-  gtk_widget_show (label4);
-  gtk_box_pack_start (GTK_BOX (hbox3), label4, FALSE, FALSE, 0);
-
   hseparator1 = gtk_hseparator_new ();
   gtk_widget_show (hseparator1);
   gtk_box_pack_start (GTK_BOX (vbox1), hseparator1, TRUE, TRUE, 0);
@@ -161,19 +125,15 @@ void ScreenLayoutDialog::on_okbutton1_clicked (GtkButton *button, gpointer user_
 void ScreenLayoutDialog::on_ok ()
 {
   // Get settings from gui.
-  bool tools_left = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_tools_left));
   bool top_down = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_editor_top_down));
 
   // See whether restart is required.
   bool restart_flag = false;
   extern Settings * settings;
-  if (settings->genconfig.tools_area_left_get () != tools_left)
-    restart_flag = true;
   if (settings->genconfig.split_view_editor_top_down_layout_get () != top_down)
     restart_flag = true;
   
   // Store new settings.
-  settings->genconfig.tools_area_left_set (tools_left);
   settings->genconfig.split_view_editor_top_down_layout_set (top_down);
   
   // Optionally do the restarting.

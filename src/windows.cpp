@@ -76,6 +76,7 @@ void window_display(GtkWidget * window, WindowID id, const ustring& data, bool s
       case widOutline:
       case widCheckKeyterms:
       case widStyles:
+      case widReferences:
       {
         area_rectangle.x = settings->genconfig.tools_area_x_position_get();
         area_rectangle.y = settings->genconfig.tools_area_y_position_get();

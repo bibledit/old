@@ -42,6 +42,7 @@
 #include "windowcheckkeyterms.h"
 #include "windowstyles.h"
 #include "windownotes.h"
+#include "windowreferences.h"
 
 class MainWindow
 {
@@ -393,21 +394,12 @@ protected:
   GtkWidget *vbox_left;
   GtkWidget *vpaned1;
   GtkWidget *vboxeditors;
-  GtkWidget *vbox_right;
-  GtkWidget *notebook_tools;
-  GtkWidget *scrolledwindow_references;
-  GtkWidget *treeview_references;
-  GtkWidget *label13;
   GtkWidget *hbox5;
   GtkWidget *hbox7;
   GtkWidget *statuslabel_style;
   GtkWidget *label_git;
   GtkWidget *statusbar1;
   GtkAccelGroup *accel_group;
-  // Gtk variables manually added.
-  GtkListStore *liststore_references;
-  GtkTreeViewColumn *treecolumn_references;
-  GtkTreeSelection *treeselect_references;
 
   // Navigator object.
   GuiNavigation navigation;
@@ -530,14 +522,20 @@ protected:
   static void on_paste1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_paste();
 
-  /* List store and reference handling */
-  static gboolean on_treeview_references_key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer user_data);
+  /* List store and reference handling */ // Todo working on this one.
+  void show_references_window();
+  WindowReferences * window_references;
+  static void on_window_references_delete_button_clicked(GtkButton *button, gpointer user_data);
+  void on_window_references_delete_button();
+  static void on_window_references_general_signal_button_clicked(GtkButton *button, gpointer user_data);
+  void on_window_references_general_signal_button();
+
+  
+  
   static gboolean on_treeview_references_button_press_event(GtkWidget * widget, GdkEventButton * event, gpointer user_data);
   void on_list_goto();
-  static void mainwindow_selection_foreach_function(GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data);
   static void on_open_references1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_open_references();
-  Reference selected_reference;
   static void on_references_save_as_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_save_references();
   static void on_close_references_activate(GtkMenuItem * menuitem, gpointer user_data);
@@ -858,7 +856,7 @@ protected:
   static bool on_focus_timeout(gpointer data);
   void focus_timeout();
 
-  /* Quick references */ 
+  /* Quick references */
   static void on_view_quick_references_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_quick_references();
   WindowShowQuickReferences * window_show_quick_references;

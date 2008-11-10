@@ -24,7 +24,7 @@
 #include <gtk/gtk.h>
 
 enum WindowID
-{ widShowKeyterms, widShowQuickReferences, widMerge, widResource, widOutline, widCheckKeyterms, widStyles, widNotes };
+{ widShowKeyterms, widShowQuickReferences, widMerge, widResource, widOutline, widCheckKeyterms, widStyles, widNotes, widReferences };
 
 void window_display(GtkWidget * window, WindowID id, const ustring& data, bool startup);
 void window_delete(GtkWidget * window, WindowID id, const ustring& data, bool shutdown);
