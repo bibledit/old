@@ -2777,12 +2777,11 @@ void MainWindow::on_navigation_new_reference() {
   settings->genconfig.chapter_set(convert_to_string(navigation.reference.chapter));
   settings->genconfig.verse_set(navigation.reference.verse);
   go_to_new_reference();
-  // Optionally display the parallel passages in the reference area. // Todo move to a separate window.
-  /*
+  // Optionally display the parallel passages in the reference area.
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (parallel_passages1))) {
-    parallel_passages_display(navigation.reference, liststore_references, treeview_references, treecolumn_references);
+    show_references_window();
+    parallel_passages_display(navigation.reference, window_references->liststore, window_references->treeview, window_references->treecolumn);
   }
-  */
   // Optional displaying keyterms in verse.
   if (window_show_keyterms) {
     window_show_keyterms->go_to(settings->genconfig.project_get(), navigation.reference);
