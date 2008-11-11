@@ -2473,7 +2473,6 @@ void MainWindow::on_find_and_replace1_activate(GtkMenuItem * menuitem, gpointer 
 }
 
 void MainWindow::menu_replace() {
-  extern Settings * settings;
   // Before finding, save the current file.
   editorsgui->save();
   // Display references.
@@ -2485,7 +2484,7 @@ void MainWindow::menu_replace() {
     if (replacedialog.run() == GTK_RESPONSE_OK) {
       results.assign(replacedialog.results.begin(), replacedialog.results.end());
       if (window_references) {
-        window_references->display(replacedialog.results); // Todo try out.
+        window_references->display(replacedialog.results);
       }
     } else {
       return;
@@ -2493,6 +2492,7 @@ void MainWindow::menu_replace() {
   }
   // Replace text.
   if (results.size()) {
+    extern Settings * settings;
     ustring prj = settings->genconfig.project_get();
     ReplacingDialog replacedialog(results);
     replacedialog.run();
@@ -2518,7 +2518,7 @@ void MainWindow::menu_findspecial() {
       return;
   }
   // Carry out the search. 
-  search_string(window_references->liststore, window_references->treeview, window_references->treecolumn, &bibletime); // Todo try out.
+  search_string(window_references->liststore, window_references->treeview, window_references->treecolumn, &bibletime);
 }
 
 void MainWindow::on_import1_activate(GtkMenuItem * menuitem, gpointer user_data) {
@@ -3199,7 +3199,7 @@ void MainWindow::on_next_reference()
   References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
   references.goto_next();
   // Actually open the reference in the editor.
-  on_list_goto();
+  window_references->activate();
 }
 
 void MainWindow::on_previous_reference1_activate(GtkMenuItem * menuitem, gpointer user_data) {
@@ -3216,7 +3216,7 @@ void MainWindow::on_previous_reference()
   References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
   references.goto_previous();
   // Actually open the reference in the editor.
-  on_list_goto();
+  window_references->activate();
 }
 
 void MainWindow::on_ignored_references1_activate(GtkMenuItem *menuitem, gpointer user_data) {

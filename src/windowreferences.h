@@ -47,6 +47,7 @@ public:
   void clear();
   void dismiss();
   void hide();
+  void activate();
 protected:
   GtkWidget *scrolledwindow;
   GtkTreeSelection *treeselect;
@@ -58,7 +59,6 @@ private:
   static gboolean on_treeview_move_cursor(GtkTreeView *treeview, GtkMovementStep step, gint count, gpointer user_data);
   static void on_treeview_cursor_changed(GtkTreeView *treeview, gpointer user_data);
 
-  void reference_activated();
   static void references_window_selection_foreach_function(GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data);
   static void on_collect_iters(GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data);
   void show_popup_menu(GtkWidget *my_widget, GdkEventButton *event);

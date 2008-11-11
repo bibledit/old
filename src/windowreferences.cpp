@@ -106,7 +106,7 @@ void WindowReferences::display(vector <Reference>& refs) {
 gboolean WindowReferences::on_treeview_key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer user_data) {
   // Pressing Return on the keyboard, or Enter on the numerical keypad make us go to the reference.
   if (keyboard_enter_pressed(event)) {
-    ((WindowReferences *) user_data)->reference_activated();
+    ((WindowReferences *) user_data)->activate();
   }
   // Pressing Delete takes the reference(s) out that have been selected.
   if (keyboard_delete_pressed(event)) {
@@ -118,7 +118,7 @@ gboolean WindowReferences::on_treeview_key_press_event(GtkWidget * widget, GdkEv
 gboolean WindowReferences::on_treeview_button_press_event(GtkWidget * widget, GdkEventButton * event, gpointer user_data) {
   // Double-clicking a references makes us go to the reference.
   if (event->type == GDK_2BUTTON_PRESS) {
-    ((WindowReferences *) user_data)->reference_activated();
+    ((WindowReferences *) user_data)->activate();
     return true;
   }
   // Popup menu handler.
@@ -142,7 +142,7 @@ void WindowReferences::on_treeview_cursor_changed(GtkTreeView *treeview, gpointe
   ((WindowReferences *) user_data)->treeview_references_display_quick_reference();
 }
 
-void WindowReferences::reference_activated() {
+void WindowReferences::activate() {
   // Get the reference the user selected.
   GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW (treeview));
   gtk_tree_selection_selected_foreach(selection, references_window_selection_foreach_function, gpointer(this));
