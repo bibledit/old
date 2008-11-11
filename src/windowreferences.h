@@ -25,7 +25,7 @@
 #include "reference.h"
 #include "windows.h"
 
-enum WindowReferencesActionType { wratReferenceActivated };
+enum WindowReferencesActionType { wratReferenceActivated, wratPopupMenu, wratReferencesSelected };
 
 class WindowReferences : public WindowBase
 {
@@ -36,9 +36,17 @@ public:
   GtkWidget *treeview;
   GtkListStore *liststore;
   GtkTreeViewColumn *treecolumn;
-  vector <Reference> references;
-  WindowReferencesActionType action;
   GtkWidget * general_signal_button;
+  WindowReferencesActionType action;
+  Reference reference;
+  vector <Reference> references;
+  int popup_button;
+  int popup_event_time;
+  void open();
+  void save();
+  void clear();
+  void dismiss();
+  void hide();
 protected:
   GtkWidget *scrolledwindow;
   GtkTreeSelection *treeselect;
@@ -51,10 +59,12 @@ private:
   static void on_treeview_cursor_changed(GtkTreeView *treeview, gpointer user_data);
 
   void reference_activated();
-  Reference selected_reference;
   static void references_window_selection_foreach_function(GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data);
-  void on_delete_references();
-  static void on_references_collect_iters(GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data);
+  static void on_collect_iters(GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data);
+  void show_popup_menu(GtkWidget *my_widget, GdkEventButton *event);
+  static gboolean on_treeview_references_popup_menu(GtkWidget *widget, gpointer user_data);
+  void treeview_references_popup_menu(GtkWidget *widget);
+  void treeview_references_display_quick_reference();
 
 };
 

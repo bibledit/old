@@ -522,17 +522,13 @@ protected:
   static void on_paste1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_paste();
 
-  /* List store and reference handling */ // Todo working on this one.
+  /* References */
   void show_references_window();
   WindowReferences * window_references;
   static void on_window_references_delete_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_references_delete_button();
   static void on_window_references_general_signal_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_references_general_signal_button();
-
-  
-  
-  static gboolean on_treeview_references_button_press_event(GtkWidget * widget, GdkEventButton * event, gpointer user_data);
   void on_list_goto();
   static void on_open_references1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_open_references();
@@ -542,20 +538,14 @@ protected:
   void on_clear_references();
   static void on_delete_references_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_delete_references();
-  static void on_references_collect_iters(GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data);
   static void on_next_reference1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_next_reference();
   static void on_previous_reference1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_previous_reference();
   static void on_ignored_references1_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_ignored_references();
-  static gboolean on_treeview_references_popup_menu(GtkWidget *widget, gpointer user_data);
-  void treeview_references_popup_menu(GtkWidget *widget);
   static void on_reference_hide_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_reference_hide();
-  void show_references_popup_menu(GtkWidget *my_widget, GdkEventButton *event);
-  static gboolean on_treeview_references_move_cursor(GtkTreeView *treeview, GtkMovementStep step, gint count, gpointer user_data);
-  static void on_treeview_references_cursor_changed(GtkTreeView *treeview, gpointer user_data);
   void treeview_references_display_quick_reference();
 
   // Bibledit Windows Outpost
