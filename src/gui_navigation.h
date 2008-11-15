@@ -50,6 +50,8 @@ public:
   GtkWidget * reference_signal_late;
   Reference reference;
   void display_delayed (const ustring& verse);
+  void on_back ();
+  void on_forward ();
 private:
   GtkWidget *menu_back;
   GtkWidget *menu_forward;
@@ -77,8 +79,6 @@ private:
   static void on_spinbutton_book_value_changed (GtkSpinButton *spinbutton, gpointer user_data);
   static void on_spinbutton_chapter_value_changed (GtkSpinButton *spinbutton, gpointer user_data);
   static void on_spinbutton_verse_value_changed (GtkSpinButton *spinbutton, gpointer user_data);
-  void on_back ();
-  void on_forward ();
   void on_combo_book ();
   void on_combo_chapter ();
   void on_combo_verse ();

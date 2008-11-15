@@ -65,9 +65,6 @@ EditorsGUI::~EditorsGUI() {
   gtk_widget_destroy(editor_changed_button);
   gtk_widget_destroy(quick_references_button);
 
-  // Save desktop.
-  desktop_save();
-
   // Destroy all editors.
   for (unsigned int i = 0; i < editors.size(); i++) {
     delete editors[i];
@@ -99,6 +96,13 @@ void EditorsGUI::open(const ustring& project, int method)
   if (project.empty())
     return;
 
+  // Open method. 
+  if (editors.empty()) {
+    method = 1;
+  } else {
+    method = 0;
+  }
+
   // If this project is open already, switch to it and focus it.
   for (unsigned int i = 0; i < editors.size(); i++) {
     if (project == editors[i]->project) {
@@ -113,25 +117,6 @@ void EditorsGUI::open(const ustring& project, int method)
     }
   }
 
-  // Ask where to open the editor if the method is negative 
-  // and if there are no editors yet.
-  if (editors.empty()) {
-    method = 1;
-  } else {
-    if (method < 0) {
-      method = 0;
-      vector <ustring> labels;
-      labels.push_back("In the current window");
-      labels.push_back("In a new tab");
-      extern Settings * settings;
-      RadiobuttonDialog dialog("Open project", "Where would you like this editor to be displayed?", labels, settings->genconfig.split_view_open_method_get());
-      if (dialog.run() == GTK_RESPONSE_OK) {
-        method = dialog.selection;
-        settings->genconfig.split_view_open_method_set(method);
-      }
-    }
-  }
-
   // The vertical (or horizontal) box for the split view, and the tab label.
   GtkWidget *box_split;
   GtkWidget *label;
@@ -141,13 +126,8 @@ void EditorsGUI::open(const ustring& project, int method)
 
     // Display in a new tab.
 
-    // Create the vertical or horizontal box for the split view.
-    extern Settings * settings;
-    if (settings->genconfig.split_view_editor_top_down_layout_get()) {
-      box_split = gtk_vbox_new(true, 0);
-    } else {
-      box_split = gtk_hbox_new(true, 0);
-    }
+    // Create the vertical for the split view.
+    box_split = gtk_vbox_new(true, 0);
     gtk_widget_show(box_split);
 
     // The label for the notebook tab, and the close button.
@@ -435,47 +415,6 @@ void EditorsGUI::on_focus_signal(GtkButton *button)
     settings->genconfig.text_editor_selection_color_set(projectconfig->editor_selection_color_get());
 
   }
-}
-
-void EditorsGUI::desktop_save()
-// Save the editor desktop.
-{
-  // Get the projects, and the notebook page they are on.
-  vector <ustring> projectnames;
-  vector <int> pagenumbers;
-  projects_pages_get(projectnames, &pagenumbers);
-
-  // Save them, including their page numbers.
-  extern Settings * settings;
-  settings->genconfig.projects_set(projectnames);
-  settings->genconfig.project_pages_set(pagenumbers);
-}
-
-void EditorsGUI::desktop_load()
-// Load the saved resources desktop.
-{
-  // Get the projects and their page numbers in the notebook.
-  extern Settings * settings;
-  vector <ustring> projects = settings->genconfig.projects_get();
-  vector <int> pagenumbers = settings->genconfig.project_pages_get();
-  if (projects.size() != pagenumbers.size()) {
-    pagenumbers.clear();
-    for (unsigned int i = 0; i < projects.size(); i++) {
-      pagenumbers.push_back(i);
-    }
-  }
-  // Open the projects in the right notebook pages.
-  int previouspage = -1;
-  for (unsigned int i = 0; i < projects.size(); i++) {
-    open(projects[i], pagenumbers[i] - previouspage);
-    previouspage = pagenumbers[i];
-  }
-  // Clear projects and page numbers as these may no longer be in sync with 
-  // the actual situation.
-  projects.clear();
-  settings->genconfig.projects_set(projects);
-  pagenumbers.clear();
-  settings->genconfig.project_pages_set(pagenumbers);
 }
 
 void EditorsGUI::on_button_close_tab_clicked(GtkButton *button, gpointer user_data) {

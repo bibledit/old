@@ -32,7 +32,6 @@
 #include "gui_navigation.h"
 #include "displayprojectnotes.h"
 #include "git.h"
-#include "editorsgui.h"
 #include "windowlayout.h"
 #include "windowshowkeyterms.h"
 #include "windowshowquickrefs.h"
@@ -43,6 +42,7 @@
 #include "windowstyles.h"
 #include "windownotes.h"
 #include "windowreferences.h"
+#include "windoweditor.h"
 
 class MainWindow
 {
@@ -196,8 +196,6 @@ protected:
    */
   GtkWidget *viewnotes;
   GtkWidget *image2627;
-  GtkWidget *screen_layout;
-  GtkWidget *image11944;
   GtkWidget *view_git_tasks;
   GtkWidget *image18685;
   GtkWidget *parallel_passages1;
@@ -389,11 +387,6 @@ protected:
   GtkWidget *image4388;
   GtkWidget *about1;
   GtkWidget *toolbar1;
-  GtkWidget *hbox1;
-  GtkWidget *hpaned1;
-  GtkWidget *vbox_left;
-  GtkWidget *vpaned1;
-  GtkWidget *vboxeditors;
   GtkWidget *hbox5;
   GtkWidget *hbox7;
   GtkWidget *statuslabel_style;
@@ -440,8 +433,6 @@ protected:
   static void on_import1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void menu_import();
   static gboolean on_mainwindow_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);
-  static gboolean on_mainwindow_focus_in_event(GtkWidget *widget, GdkEventFocus *event, gpointer user_data);
-  void on_mainwindow_focus_in(GdkEventFocus *event);
   static void on_insert1_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_menu_insert();
   static void on_notes_preferences_activate(GtkMenuItem *menuitem, gpointer user_data);
@@ -452,8 +443,6 @@ protected:
   void on_compare_with();
   static void on_printingprefs_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_printing_preferences();
-  static void on_screen_layout_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_screen_layout();
   static void on_prefs_books_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_prefs_books();
   static void on_preferences_tidy_text_activate(GtkMenuItem *menuitem, gpointer user_data);
@@ -565,16 +554,9 @@ protected:
   void on_preferences_windows_outpost();
 
   /* Title bar and status bar, GUI */
-  void set_titlebar(const ustring& project);
   static bool on_gui_timeout(gpointer data);
   void on_gui();
   gint editor_undo_redo_accelerator_state;
-  static gboolean on_mainwindow_window_state_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);
-  void on_mainwindow_window_state(GdkEvent *event);
-  static void on_window_size_allocated(GtkWidget *widget, GtkAllocation *allocation, gpointer user_data);
-  void window_size_allocated(GtkWidget *widget, GtkAllocation *allocation);
-  gint mainwindow_width;
-  bool mainwindow_width_safe;
 
   /* Project notes */
   bool project_notes_enabled;
@@ -778,7 +760,6 @@ protected:
   static void on_window_resource_delete_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_resource_delete_button(GtkButton *button);
   WindowResource * last_focused_resource_window();
-
   static void on_file_resources_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_file_resources();
   static void on_file_resources_open_activate(GtkMenuItem *menuitem, gpointer user_data);
@@ -792,12 +773,19 @@ protected:
   static void on_file_resources_delete_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_file_resources_delete();
 
-  /* Text editors */
-  static void on_editorsgui_focus_button_clicked(GtkButton *button, gpointer user_data);
-  void on_editorsgui_focus_button();
+  /* Text editors */ // Todo
+  vector <WindowEditor *> editor_windows;
+  static void on_window_editor_delete_button_clicked(GtkButton *button, gpointer user_data);
+  void on_window_editor_delete_button(GtkButton *button);
+  WindowEditor * last_focused_editor_window();
+  void on_file_project_open(const ustring& project);
+  void handle_editor_focus();
+
+  
+  
+
   static void on_editor_reload_clicked(GtkButton *button, gpointer user_data);
   void on_editor_reload();
-  EditorsGUI * editorsgui;
   void jump_start_editors(const ustring& project);
   static void on_editorsgui_changed_clicked(GtkButton *button, gpointer user_data);
   void on_editorsgui_changed();
@@ -838,13 +826,7 @@ protected:
   void on_window_focus_button(GtkButton *button);
   GtkWidget * now_focused_signal_button;
   GtkWidget * last_focused_signal_button;
-  static gboolean on_main_window_focus_in_event(GtkWidget *widget, GdkEventFocus *event, gpointer user_data);
-  void on_main_window_focus_in();
-  void temporarily_switch_off_act_on_focus_in_signal();
-  bool act_on_focus_in_signal;
-  guint focus_event_id;
-  static bool on_focus_timeout(gpointer data);
-  void focus_timeout();
+  void present_windows(GtkWidget * widget);
 
   /* Quick references */
   static void on_view_quick_references_activate(GtkMenuItem *menuitem, gpointer user_data);
@@ -855,7 +837,7 @@ protected:
   static void on_show_quick_references_signal_button_clicked(GtkButton *button, gpointer user_data);
   void on_show_quick_references_signal_button(GtkButton *button);
 
-  // Accelerators.
+  // Accelerators. Todo working here
   GtkAccelGroup *accelerator_group;
   static void accelerator_undo_callback(gpointer user_data);
   void accelerator_undo();
@@ -873,6 +855,16 @@ protected:
   static void accelerator_standard_text_4_callback(gpointer user_data);
   void accelerator_standard_text_n(unsigned int selector);
   static void accelerator_new_project_note_callback(gpointer user_data);
+  static void accelerator_next_verse_callback(gpointer user_data);
+  static void accelerator_previous_verse_callback(gpointer user_data);
+  static void accelerator_next_chapter_callback(gpointer user_data);
+  static void accelerator_previous_chapter_callback(gpointer user_data);
+  static void accelerator_next_book_callback(gpointer user_data);
+  static void accelerator_previous_book_callback(gpointer user_data);
+  static void accelerator_next_reference_in_history_callback(gpointer user_data);
+  void accelerator_next_reference_in_history();
+  static void accelerator_previous_reference_in_history_callback(gpointer user_data);
+  void accelerator_previous_reference_in_history();
 };
 
 #endif

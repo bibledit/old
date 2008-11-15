@@ -42,8 +42,6 @@ private:
 public:
   void jumpstart(const ustring& project);
 private:
-  void desktop_save();
-  void desktop_load();
 
   // Open.
 public:

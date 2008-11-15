@@ -134,8 +134,8 @@ void dialog_position_restore (DialogPositionType type, GtkWidget * dialog)
   gtk_window_get_size (GTK_WINDOW (dialog), &window_width, &window_height);
   int minimum_x = 0 - (int) (0.75 * window_width);
   int minimum_y = 0 - (int) (0.75 * window_height);  
-  int maximum_x = settings->genconfig.window_width_get () - (int) (0.25 * window_width);
-  int maximum_y = settings->genconfig.window_height_get () - (int) (0.25 * window_height);
+  int maximum_x = settings->genconfig.screen_width_get () - (int) (0.25 * window_width);
+  int maximum_y = settings->genconfig.screen_height_get () - (int) (0.25 * window_height);
   
   // If the desired position is out of bounds, bail out.
   if (x < minimum_x) return;

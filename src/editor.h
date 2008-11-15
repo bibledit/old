@@ -33,17 +33,8 @@
 class Editor
 {
 public:
-  Editor(GtkWidget * vbox, GtkWidget * notebook_page, GtkWidget * tab_label, const ustring& project_in);
+  Editor(GtkWidget * vbox, const ustring& project_in);
   ~Editor();
-
-  // Close handling.
-public:
-  GtkWidget * close_button;
-
-  // Parent information.
-public:
-  GtkWidget * parent_vbox;
-  GtkWidget * parent_notebook_page;
 
   // Focus handling.
 public:
@@ -62,16 +53,10 @@ public:
   unsigned int last_focused_column();
   GtkTextChildAnchor * child_anchor_clicked;
   GtkWidget * focus_signal;
-  GtkWidget * hbox_title;
-  GtkWidget * titlebutton;
-  GtkWidget *progressbar;
   bool focus_set;
-  GtkWidget * my_tab_label;
   void focus();
   bool focused();
   void defocus();
-  static void on_button_titlebar_clicked(GtkButton *button, gpointer user_data);
-  void title_bar_show(bool show);
 
   // Cursor movement handling.
   static void on_textview_move_cursor(GtkTextView * textview, GtkMovementStep step, gint count, gboolean extend_selection, gpointer user_data);

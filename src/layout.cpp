@@ -24,10 +24,8 @@
 #include "screen.h"
 #include "gwrappers.h"
 
-ScreenLayoutDimensions::ScreenLayoutDimensions(GtkWidget *window, GtkWidget * hpane, GtkWidget * editor) {
+ScreenLayoutDimensions::ScreenLayoutDimensions(GtkWidget *window) {
   mywindow = GTK_WINDOW (window);
-  my_hpane = hpane;
-  my_editor = editor;
   counter = 0;
 }
 
@@ -36,10 +34,6 @@ void ScreenLayoutDimensions::verify()
 {
   // Open configuration and get values.
   extern Settings * settings;
-  int width = settings->genconfig.window_width_get();
-  int height = settings->genconfig.window_height_get();
-  int x = settings->genconfig.window_x_position_get();
-  int y = settings->genconfig.window_y_position_get();
   // If the screen resolution got changed, or if the windows are too big, 
   // recalculate the values.
   bool recalculate = false;
@@ -52,11 +46,9 @@ void ScreenLayoutDimensions::verify()
     recalculate = true;
   if (real_screen_height != stored_screen_height)
     recalculate = true;
-  if (x + width > real_screen_width)
-    recalculate = true;
-  if (y + height > real_screen_height)
-    recalculate = true;
 
+  int width, height, x, y;
+  
   width = settings->genconfig.text_area_width_get();
   height = settings->genconfig.text_area_height_get();
   x = settings->genconfig.text_area_x_position_get();
@@ -83,15 +75,7 @@ void ScreenLayoutDimensions::verify()
     // Store screen size.
     settings->genconfig.screen_width_set(real_screen_width);
     settings->genconfig.screen_height_set(real_screen_height);
-    // Main window.
-    width = real_screen_width * 75 / 100;
-    height = real_screen_height * 85 / 100;
-    x = 0;
-    y = 0;
-    settings->genconfig.window_width_set(width);
-    settings->genconfig.window_height_set(height);
-    settings->genconfig.window_x_position_set(x);
-    settings->genconfig.window_y_position_set(y);
+
     // Remove stored dialog positions.
     dialog_position_reset_all();
 
@@ -127,21 +111,3 @@ void ScreenLayoutDimensions::verify()
   }
 }
 
-void ScreenLayoutDimensions::save() {
-  extern Settings * settings;
-  if (!settings->genconfig.window_maximized_get()) {
-    gint width, height, x, y;
-    gtk_window_get_size(mywindow, &width, &height);
-    gtk_window_get_position(mywindow, &x, &y);
-    settings->genconfig.window_width_set(width);
-    settings->genconfig.window_height_set(height);
-    settings->genconfig.window_x_position_set(x);
-    settings->genconfig.window_y_position_set(y);
-  }
-}
-
-void ScreenLayoutDimensions::load() {
-  extern Settings * settings;
-  gtk_window_resize(mywindow, settings->genconfig.window_width_get(), settings->genconfig.window_height_get());
-  gtk_window_move(mywindow, settings->genconfig.window_x_position_get(), settings->genconfig.window_y_position_get());
-}

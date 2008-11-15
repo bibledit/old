@@ -17,34 +17,28 @@
  **  
  */
 
-#ifndef INCLUDED_DIALOGSCREENLAYOUT
-#define INCLUDED_DIALOGSCREENLAYOUT
+#ifndef INCLUDED_WINDOW_EDITOR_H
+#define INCLUDED_WINDOW_EDITOR_H
 
 #include <gtk/gtk.h>
-#include "libraries.h"
-#include "settings.h"
+#include "ustring.h"
+#include "windows.h"
+#include "editor.h"
 
-class ScreenLayoutDialog
+class WindowEditor : public WindowBase
 {
 public:
-  ScreenLayoutDialog(int dummy);
-  ~ScreenLayoutDialog();
-  int run();
+  WindowEditor(const ustring& project_name, GtkAccelGroup *accelerator_group, bool startup);
+  virtual ~WindowEditor();
+  Editor * editor;
+  void go_to(const Reference& reference);
 protected:
-  GtkWidget *screenlayoutdialog;
-  GtkWidget *dialog_vbox1;
-  GtkWidget *vbox1;
-  GtkWidget *hseparator1;
-  GtkWidget *hbox5;
-  GtkWidget *label5;
-  GtkWidget *radiobutton_editor_top_down;
-  GtkWidget *radiobutton_editor_side_by_side;
-  GtkWidget *dialog_action_area1;
-  GtkWidget *cancelbutton1;
-  GtkWidget *okbutton1;
+  GtkWidget *vbox;
 private:
-  static void on_okbutton1_clicked(GtkButton *button, gpointer user_data);
-  void on_ok();
+  
+
+  
+  
 };
 
 #endif

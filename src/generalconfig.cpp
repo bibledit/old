@@ -69,11 +69,6 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE (clear_up_day);
   INITIALIZE (screen_width);
   INITIALIZE (screen_height);
-  INITIALIZE (window_maximized);
-  INITIALIZE (window_width);
-  INITIALIZE (window_height);
-  INITIALIZE (window_x_position);
-  INITIALIZE (window_y_position);
   INITIALIZE (text_area_width);
   INITIALIZE (text_area_height);
   INITIALIZE (text_area_x_position);
@@ -97,8 +92,6 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE (edit_note_standard_text_two);
   INITIALIZE (edit_note_standard_text_three);
   INITIALIZE (edit_note_standard_text_four);
-  INITIALIZE (projects);
-  INITIALIZE (project_pages);
   INITIALIZE (project);
   INITIALIZE (book);
   INITIALIZE (chapter);
@@ -222,8 +215,6 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE (project_tasks_names);
   INITIALIZE (project_tasks_durations);
   INITIALIZE (inserting_xref_shows_references);
-  INITIALIZE (split_view_open_method);
-  INITIALIZE (split_view_editor_top_down_layout);
   INITIALIZE (print_job);
   INITIALIZE (git_health);
 }
@@ -243,11 +234,6 @@ void GeneralConfiguration::save()
   SAVE_VALUE (clear_up_day);
   SAVE_VALUE (screen_width);
   SAVE_VALUE (screen_height);
-  SAVE_VALUE (window_maximized);
-  SAVE_VALUE (window_width);
-  SAVE_VALUE (window_height);
-  SAVE_VALUE (window_x_position);
-  SAVE_VALUE (window_y_position);
   SAVE_VALUE (text_area_width);
   SAVE_VALUE (text_area_height);
   SAVE_VALUE (text_area_x_position);
@@ -271,8 +257,6 @@ void GeneralConfiguration::save()
   SAVE_VALUE (edit_note_standard_text_two);
   SAVE_VALUE (edit_note_standard_text_three);
   SAVE_VALUE (edit_note_standard_text_four);
-  SAVE_VALUE (projects);
-  SAVE_VALUE (project_pages);
   SAVE_VALUE (project);
   SAVE_VALUE (book);
   SAVE_VALUE (chapter);
@@ -396,8 +380,6 @@ void GeneralConfiguration::save()
   SAVE_VALUE (project_tasks_names);
   SAVE_VALUE (project_tasks_durations);
   SAVE_VALUE (inserting_xref_shows_references);
-  SAVE_VALUE (split_view_open_method);
-  SAVE_VALUE (split_view_editor_top_down_layout);
   SAVE_VALUE (print_job);
   SAVE_VALUE (git_health);
 
@@ -487,11 +469,6 @@ void GeneralConfiguration::store##_set (type value) \
 IMPLEMENT (int, int_get, clear_up_day, 0)
 IMPLEMENT (int, int_get, screen_width, 0)
 IMPLEMENT (int, int_get, screen_height, 0)
-IMPLEMENT (bool, bool_get, window_maximized, true)
-IMPLEMENT (int, int_get, window_width, 0)
-IMPLEMENT (int, int_get, window_height, 0)
-IMPLEMENT (int, int_get, window_x_position, 0)
-IMPLEMENT (int, int_get, window_y_position, 0)
 IMPLEMENT (int, int_get, text_area_width, 0) 
 IMPLEMENT (int, int_get, text_area_height, 0)
 IMPLEMENT (int, int_get, text_area_x_position, 0)
@@ -515,8 +492,6 @@ IMPLEMENT (ustring, string_get, edit_note_standard_text_one, "")
 IMPLEMENT (ustring, string_get, edit_note_standard_text_two, "")
 IMPLEMENT (ustring, string_get, edit_note_standard_text_three, "")
 IMPLEMENT (ustring, string_get, edit_note_standard_text_four, "")
-IMPLEMENT (vector<ustring>, vector_string_get, projects, NULL)
-IMPLEMENT (vector<int>, vector_int_get, project_pages, NULL)
 IMPLEMENT (ustring, string_get, project, "")
 IMPLEMENT (int, int_get, book, 0)
 IMPLEMENT (ustring, string_get, chapter, "")
@@ -640,7 +615,5 @@ IMPLEMENT (ustring, string_get, pdf_viewer_arguments, "")
 IMPLEMENT (vector<ustring>, vector_string_get, project_tasks_names, NULL)
 IMPLEMENT (vector<double>, vector_double_get, project_tasks_durations, NULL)
 IMPLEMENT (bool, bool_get, inserting_xref_shows_references, false)
-IMPLEMENT (int, int_get, split_view_open_method, 0)
-IMPLEMENT (bool, bool_get, split_view_editor_top_down_layout, true)
 IMPLEMENT (int, int_get, print_job, 0)
 IMPLEMENT (int, int_get, git_health, date_time_julian_day_get_current())

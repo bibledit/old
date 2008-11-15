@@ -95,11 +95,11 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	mapping.$(OBJEXT) swordnote.$(OBJEXT) languages.$(OBJEXT) \
 	osis.$(OBJEXT) dialogselectchapters.$(OBJEXT) \
 	portion_utils.$(OBJEXT) scriptureportions.$(OBJEXT) \
-	editor.$(OBJEXT) uname.$(OBJEXT) dialogscreenlayout.$(OBJEXT) \
-	layout.$(OBJEXT) user.$(OBJEXT) import.$(OBJEXT) \
-	clean.$(OBJEXT) categorize.$(OBJEXT) progresswindow.$(OBJEXT) \
-	books.$(OBJEXT) dialogbook.$(OBJEXT) generalconfig.$(OBJEXT) \
-	screen.$(OBJEXT) projectconfig.$(OBJEXT) gui.$(OBJEXT) \
+	editor.$(OBJEXT) uname.$(OBJEXT) layout.$(OBJEXT) \
+	user.$(OBJEXT) import.$(OBJEXT) clean.$(OBJEXT) \
+	categorize.$(OBJEXT) progresswindow.$(OBJEXT) books.$(OBJEXT) \
+	dialogbook.$(OBJEXT) generalconfig.$(OBJEXT) screen.$(OBJEXT) \
+	projectconfig.$(OBJEXT) gui.$(OBJEXT) \
 	check_validate_usfm.$(OBJEXT) checks.$(OBJEXT) \
 	dialoglinecutter.$(OBJEXT) check_count_words.$(OBJEXT) \
 	dialogoutpost.$(OBJEXT) dialognotestransfer.$(OBJEXT) \
@@ -152,10 +152,10 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogradiobutton.$(OBJEXT) dialogresourceconverter2.$(OBJEXT) \
 	resource_conversion_utils.$(OBJEXT) convert.$(OBJEXT) \
 	textviewer.$(OBJEXT) roman.$(OBJEXT) project_memory.$(OBJEXT) \
-	editorsgui.$(OBJEXT) restart.$(OBJEXT) dialogmerge.$(OBJEXT) \
-	merge_utils.$(OBJEXT) shutdown.$(OBJEXT) scripts.$(OBJEXT) \
-	dialogfilters.$(OBJEXT) dialogdictionary.$(OBJEXT) \
-	spelling.$(OBJEXT) dialogeditdictionary.$(OBJEXT) \
+	restart.$(OBJEXT) dialogmerge.$(OBJEXT) merge_utils.$(OBJEXT) \
+	shutdown.$(OBJEXT) scripts.$(OBJEXT) dialogfilters.$(OBJEXT) \
+	dialogdictionary.$(OBJEXT) spelling.$(OBJEXT) \
+	dialogeditdictionary.$(OBJEXT) \
 	check_sentence_structure.$(OBJEXT) dialogcheckbutton.$(OBJEXT) \
 	dialogimportrawtext.$(OBJEXT) gtkhtml3browser.$(OBJEXT) \
 	htmlcache.$(OBJEXT) dialogxfernotes2text.$(OBJEXT) \
@@ -171,7 +171,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	windowresource.$(OBJEXT) windowoutline.$(OBJEXT) \
 	windowcheckkeyterms.$(OBJEXT) windowstyles.$(OBJEXT) \
 	windownotes.$(OBJEXT) accelerators.$(OBJEXT) \
-	dialogprojectnote.$(OBJEXT) windowreferences.$(OBJEXT)
+	dialogprojectnote.$(OBJEXT) windowreferences.$(OBJEXT) \
+	windoweditor.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -457,7 +458,6 @@ bibledit_bin_SOURCES = \
         scriptureportions.cpp \
         editor.cpp \
         uname.cpp \
-        dialogscreenlayout.cpp \
         layout.cpp \
         user.cpp \
         import.cpp \
@@ -583,7 +583,6 @@ bibledit_bin_SOURCES = \
         textviewer.cpp \
         roman.cpp \
         project_memory.cpp \
-        editorsgui.cpp \
         restart.cpp \
         dialogmerge.cpp \
         merge_utils.cpp \
@@ -624,7 +623,8 @@ bibledit_bin_SOURCES = \
         windownotes.cpp \
         accelerators.cpp \
         dialogprojectnote.cpp \
-        windowreferences.cpp
+        windowreferences.cpp \
+        windoweditor.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -805,7 +805,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogresourceconverter2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogrevert.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogreviewanchors.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogscreenlayout.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogsearchspecial.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogselectbooks.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogselectchapters.Po@am__quote@
@@ -829,7 +828,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/displayprojectnotes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/editor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/editor_aids.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/editorsgui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/exception.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/export_translation_notes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/export_utils.Po@am__quote@
@@ -950,6 +948,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/versification.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/versifications.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowcheckkeyterms.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windoweditor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowlayout.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowmerge.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windownotes.Po@am__quote@

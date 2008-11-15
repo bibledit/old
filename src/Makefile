@@ -95,11 +95,11 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	mapping.$(OBJEXT) swordnote.$(OBJEXT) languages.$(OBJEXT) \
 	osis.$(OBJEXT) dialogselectchapters.$(OBJEXT) \
 	portion_utils.$(OBJEXT) scriptureportions.$(OBJEXT) \
-	editor.$(OBJEXT) uname.$(OBJEXT) dialogscreenlayout.$(OBJEXT) \
-	layout.$(OBJEXT) user.$(OBJEXT) import.$(OBJEXT) \
-	clean.$(OBJEXT) categorize.$(OBJEXT) progresswindow.$(OBJEXT) \
-	books.$(OBJEXT) dialogbook.$(OBJEXT) generalconfig.$(OBJEXT) \
-	screen.$(OBJEXT) projectconfig.$(OBJEXT) gui.$(OBJEXT) \
+	editor.$(OBJEXT) uname.$(OBJEXT) layout.$(OBJEXT) \
+	user.$(OBJEXT) import.$(OBJEXT) clean.$(OBJEXT) \
+	categorize.$(OBJEXT) progresswindow.$(OBJEXT) books.$(OBJEXT) \
+	dialogbook.$(OBJEXT) generalconfig.$(OBJEXT) screen.$(OBJEXT) \
+	projectconfig.$(OBJEXT) gui.$(OBJEXT) \
 	check_validate_usfm.$(OBJEXT) checks.$(OBJEXT) \
 	dialoglinecutter.$(OBJEXT) check_count_words.$(OBJEXT) \
 	dialogoutpost.$(OBJEXT) dialognotestransfer.$(OBJEXT) \
@@ -152,10 +152,10 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogradiobutton.$(OBJEXT) dialogresourceconverter2.$(OBJEXT) \
 	resource_conversion_utils.$(OBJEXT) convert.$(OBJEXT) \
 	textviewer.$(OBJEXT) roman.$(OBJEXT) project_memory.$(OBJEXT) \
-	editorsgui.$(OBJEXT) restart.$(OBJEXT) dialogmerge.$(OBJEXT) \
-	merge_utils.$(OBJEXT) shutdown.$(OBJEXT) scripts.$(OBJEXT) \
-	dialogfilters.$(OBJEXT) dialogdictionary.$(OBJEXT) \
-	spelling.$(OBJEXT) dialogeditdictionary.$(OBJEXT) \
+	restart.$(OBJEXT) dialogmerge.$(OBJEXT) merge_utils.$(OBJEXT) \
+	shutdown.$(OBJEXT) scripts.$(OBJEXT) dialogfilters.$(OBJEXT) \
+	dialogdictionary.$(OBJEXT) spelling.$(OBJEXT) \
+	dialogeditdictionary.$(OBJEXT) \
 	check_sentence_structure.$(OBJEXT) dialogcheckbutton.$(OBJEXT) \
 	dialogimportrawtext.$(OBJEXT) gtkhtml3browser.$(OBJEXT) \
 	htmlcache.$(OBJEXT) dialogxfernotes2text.$(OBJEXT) \
@@ -171,7 +171,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	windowresource.$(OBJEXT) windowoutline.$(OBJEXT) \
 	windowcheckkeyterms.$(OBJEXT) windowstyles.$(OBJEXT) \
 	windownotes.$(OBJEXT) accelerators.$(OBJEXT) \
-	dialogprojectnote.$(OBJEXT) windowreferences.$(OBJEXT)
+	dialogprojectnote.$(OBJEXT) windowreferences.$(OBJEXT) \
+	windoweditor.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -277,9 +278,9 @@ OBJEXT = o
 PACKAGE = bibledit
 PACKAGE_BUGREPORT = http://www.nongnu.org/bibledit
 PACKAGE_NAME = bibledit
-PACKAGE_STRING = bibledit 3.4.43
+PACKAGE_STRING = bibledit 3.4.47
 PACKAGE_TARNAME = bibledit
-PACKAGE_VERSION = 3.4.43
+PACKAGE_VERSION = 3.4.47
 PANGO_CFLAGS = -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
 PANGO_LIBS = -lpango-1.0 -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0  
 PATH_SEPARATOR = :
@@ -296,7 +297,7 @@ STRINGS_PATH = /usr/bin/strings
 STRIP = 
 TAIL_PATH = /usr/bin/tail
 TEE_TOUCH = /usr/bin/touch
-VERSION = 3.4.43
+VERSION = 3.4.47
 WIN32_FALSE = 
 WIN32_TRUE = #
 XML2_CONFIG = /usr/bin/xml2-config
@@ -457,7 +458,6 @@ bibledit_bin_SOURCES = \
         scriptureportions.cpp \
         editor.cpp \
         uname.cpp \
-        dialogscreenlayout.cpp \
         layout.cpp \
         user.cpp \
         import.cpp \
@@ -583,7 +583,6 @@ bibledit_bin_SOURCES = \
         textviewer.cpp \
         roman.cpp \
         project_memory.cpp \
-        editorsgui.cpp \
         restart.cpp \
         dialogmerge.cpp \
         merge_utils.cpp \
@@ -624,7 +623,8 @@ bibledit_bin_SOURCES = \
         windownotes.cpp \
         accelerators.cpp \
         dialogprojectnote.cpp \
-        windowreferences.cpp
+        windowreferences.cpp \
+        windoweditor.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -805,7 +805,6 @@ include ./$(DEPDIR)/dialogresourcebooks.Po
 include ./$(DEPDIR)/dialogresourceconverter2.Po
 include ./$(DEPDIR)/dialogrevert.Po
 include ./$(DEPDIR)/dialogreviewanchors.Po
-include ./$(DEPDIR)/dialogscreenlayout.Po
 include ./$(DEPDIR)/dialogsearchspecial.Po
 include ./$(DEPDIR)/dialogselectbooks.Po
 include ./$(DEPDIR)/dialogselectchapters.Po
@@ -829,7 +828,6 @@ include ./$(DEPDIR)/directories.Po
 include ./$(DEPDIR)/displayprojectnotes.Po
 include ./$(DEPDIR)/editor.Po
 include ./$(DEPDIR)/editor_aids.Po
-include ./$(DEPDIR)/editorsgui.Po
 include ./$(DEPDIR)/exception.Po
 include ./$(DEPDIR)/export_translation_notes.Po
 include ./$(DEPDIR)/export_utils.Po
@@ -950,6 +948,7 @@ include ./$(DEPDIR)/utilities.Po
 include ./$(DEPDIR)/versification.Po
 include ./$(DEPDIR)/versifications.Po
 include ./$(DEPDIR)/windowcheckkeyterms.Po
+include ./$(DEPDIR)/windoweditor.Po
 include ./$(DEPDIR)/windowlayout.Po
 include ./$(DEPDIR)/windowmerge.Po
 include ./$(DEPDIR)/windownotes.Po

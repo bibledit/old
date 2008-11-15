@@ -104,7 +104,6 @@ bibledit_bin_SOURCES = \
         scriptureportions.cpp \
         editor.cpp \
         uname.cpp \
-        dialogscreenlayout.cpp \
         layout.cpp \
         user.cpp \
         import.cpp \
@@ -230,7 +229,6 @@ bibledit_bin_SOURCES = \
         textviewer.cpp \
         roman.cpp \
         project_memory.cpp \
-        editorsgui.cpp \
         restart.cpp \
         dialogmerge.cpp \
         merge_utils.cpp \
@@ -271,7 +269,8 @@ bibledit_bin_SOURCES = \
         windownotes.cpp \
         accelerators.cpp \
         dialogprojectnote.cpp \
-        windowreferences.cpp
+        windowreferences.cpp \
+        windoweditor.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 

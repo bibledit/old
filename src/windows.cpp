@@ -21,168 +21,6 @@
 #include "settings.h"
 #include "gwrappers.h"
 
-void window_display(GtkWidget * window, WindowID id, const ustring& data, bool startup)
-// Does the bookkeeping needed to display the window.
-// window: pointer to the GtkWindow.
-// id: the id of the window.
-// data: the data attached to the window.
-// startup: whether windows are handled at program startup.
-{
-  extern Settings * settings;
-
-  // The parameters of all the windows.
-  WindowData window_data(false);
-
-  // The new window's position.
-  GdkRectangle new_window_rectangle;
-  new_window_rectangle.x = 0;
-  new_window_rectangle.y = 0;
-  new_window_rectangle.width = 0;
-  new_window_rectangle.height = 0;
-
-  // At this stage we take it that the windows shows at program startup.
-  // We extract the position and size of the window from the general configuration.
-  // It does not matter here whether the space for the window is already taken up by another window,
-  // because the user wishes it to be so.
-  for (unsigned int i = 0; i < window_data.widths.size(); i++) {
-    if ((window_data.ids[i] == id) && (window_data.datas[i] == data) && startup) {
-      new_window_rectangle.x = window_data.x_positions[i];
-      new_window_rectangle.y = window_data.y_positions[i];
-      new_window_rectangle.width = window_data.widths[i];
-      new_window_rectangle.height = window_data.heights[i];
-    }
-  }
-
-  // Reject null values, except for x or y, because the window might have positioned at 0,0 by the user.
-  if ((new_window_rectangle.width == 0) || (new_window_rectangle.height == 0))
-    startup = false;
-
-  // When a new window needs to be allocated, there are a few steps to be taken.
-  if (!startup) {
-
-    // Step 1: The area rectangle where the window should fit in is defined, e.g. the tools area, or the text area. 
-    GdkRectangle area_rectangle;
-    area_rectangle.x = 0;
-    area_rectangle.y = 0;
-    area_rectangle.width = 0;
-    area_rectangle.height = 0;
-    extern Settings * settings;
-    switch (id)
-    {
-      case widShowKeyterms:
-      case widShowQuickReferences:
-      case widMerge:
-      case widResource:
-      case widOutline:
-      case widCheckKeyterms:
-      case widStyles:
-      case widReferences:
-      {
-        area_rectangle.x = settings->genconfig.tools_area_x_position_get();
-        area_rectangle.y = settings->genconfig.tools_area_y_position_get();
-        area_rectangle.width = settings->genconfig.tools_area_width_get();
-        area_rectangle.height = settings->genconfig.tools_area_height_get();
-        break;
-      }
-      case widNotes:
-      {
-        area_rectangle.x = settings->genconfig.notes_area_x_position_get();
-        area_rectangle.y = settings->genconfig.notes_area_y_position_get();
-        area_rectangle.width = settings->genconfig.notes_area_width_get();
-        area_rectangle.height = settings->genconfig.notes_area_height_get();
-        break;
-      }
-        /*
-         int text_area_width = settings->genconfig.text_area_width_get();
-         int text_area_height = settings->genconfig.text_area_height_get();
-         int text_area_x = settings->genconfig.text_area_x_position_get();
-         int text_area_y = settings->genconfig.text_area_y_position_get();
-         */
-    }
-
-    // Step 2: A GdkRegion is made of that area.  
-    GdkRegion * area_region = gdk_region_rectangle(&area_rectangle);
-
-    // Step 3: GdkRegions are made of each of the open windows, and each region is subtracted from the area region.
-    for (unsigned int i = 0; i < settings->session.open_windows.size(); i++) {
-      GtkWindow * open_window = settings->session.open_windows[i];
-      GdkRectangle rectangle;
-      gtk_window_get_size(open_window, &rectangle.width, &rectangle.height);
-      gtk_window_get_position(open_window, &rectangle.x, &rectangle.y);
-      GdkRegion * region = gdk_region_rectangle(&rectangle);
-      gdk_region_subtract(area_region, region);
-      gdk_region_destroy(region);
-    }
-
-    // Step 4: The rectangles that the area region consists of are requested,
-    // and the biggest suitable rectangle is chosen for the window.
-    // A rectangle is considered suitable if it has at least 10% of the width, and 10% of the height of the area rectangle.
-    GdkRectangle *gdk_rectangles= NULL;
-    gint rectangle_count = 0;
-    gdk_region_get_rectangles(area_region, &gdk_rectangles, &rectangle_count);
-    for (int i = 0; i < rectangle_count; ++i) {
-      GdkRectangle & rectangle = gdk_rectangles[i];
-      if (rectangle.width >= (area_rectangle.width / 10)) {
-        if (rectangle.height >= (area_rectangle.height / 10)) {
-          if ((rectangle.width * rectangle.height) > (new_window_rectangle.width * new_window_rectangle.height)) {
-            new_window_rectangle = rectangle;
-          }
-        }
-      }
-    }
-    g_free(gdk_rectangles);
-
-    // Step 5: The area region is destroyed.
-    gdk_region_destroy(area_region);
-
-    // Step 6: If no area big enough is found, then the window that takes most space in the area is chosen, 
-    // the longest side is halved, and the new window is put in that freed area.
-    if ((new_window_rectangle.width == 0) || (new_window_rectangle.height == 0)) {
-      GtkWindow * biggest_window= NULL;
-      int largest_intersection = 0;
-      for (unsigned int i = 0; i < settings->session.open_windows.size(); i++) {
-        GtkWindow * open_window = settings->session.open_windows[i];
-        GdkRectangle window_rectangle;
-        gtk_window_get_size(open_window, &window_rectangle.width, &window_rectangle.height);
-        gtk_window_get_position(open_window, &window_rectangle.x, &window_rectangle.y);
-        GdkRectangle intersection_rectangle;
-        if (gdk_rectangle_intersect(&area_rectangle, &window_rectangle, &intersection_rectangle)) {
-          int intersection = intersection_rectangle.width * intersection_rectangle.height;
-          if (intersection > largest_intersection) {
-            biggest_window = open_window;
-            largest_intersection = intersection;
-          }
-        }
-      }
-      if (biggest_window) {
-        GdkRectangle window_rectangle;
-        gtk_window_get_size(biggest_window, &window_rectangle.width, &window_rectangle.height);
-        gtk_window_get_position(biggest_window, &window_rectangle.x, &window_rectangle.y);
-        new_window_rectangle = window_rectangle;
-        if (window_rectangle.width > window_rectangle.height) {
-          window_rectangle.width /= 2;
-          new_window_rectangle.width /= 2;
-          new_window_rectangle.x += window_rectangle.width;
-        } else {
-          window_rectangle.height /= 2;
-          new_window_rectangle.height /= 2;
-          new_window_rectangle.y += window_rectangle.height;
-        }
-        gtk_window_resize(GTK_WINDOW (biggest_window), window_rectangle.width, window_rectangle.height);
-      }
-    }
-  }
-
-  // Set the window's position if there's something to be set.
-  if (new_window_rectangle.width && new_window_rectangle.height) {
-    gtk_window_resize(GTK_WINDOW (window), new_window_rectangle.width, new_window_rectangle.height);
-    gtk_window_move(GTK_WINDOW (window), new_window_rectangle.x, new_window_rectangle.y);
-  }
-
-  // Store a pointer to this window in the Session.
-  settings->session.open_windows.push_back(GTK_WINDOW (window));
-}
-
 void window_delete(GtkWidget * window, WindowID id, const ustring& data, bool shutdown)
 // Does the bookkeeping needed for deleting a window.
 // When a window closes, the sizes of other windows are not affected. 
@@ -341,7 +179,7 @@ WindowBase::WindowBase(WindowID id, ustring data_title, GtkAccelGroup *accelerat
   g_signal_connect ((gpointer) window, "delete_event", G_CALLBACK (on_window_delete_event), gpointer (this));
 
   // The window needs to be positioned before it shows.
-  window_display(window, window_id, window_data, startup);
+  display(startup);
 
   // Show it.
   gtk_widget_show_all(window);
@@ -367,11 +205,186 @@ WindowBase::WindowBase(WindowID id, ustring data_title, GtkAccelGroup *accelerat
 }
 
 WindowBase::~WindowBase() {
+  gw_destroy_source(display_event_id);
   window_delete(window, window_id, window_data, my_shutdown);
   gtk_widget_destroy(window);
   gtk_widget_destroy(focus_in_signal_button);
   gtk_widget_destroy(delete_signal_button);
   gw_destroy_source(focus_event_id);
+}
+
+
+void WindowBase::display (bool startup)
+// Does the bookkeeping necessary for displaying the window.
+// startup: whether the window is started at program startup.
+{
+  extern Settings * settings;
+
+  // The parameters of all the windows.
+  WindowData window_datas(false);
+
+  // Clear the new window's position.
+  gdk_rectangle.x = 0;
+  gdk_rectangle.y = 0;
+  gdk_rectangle.width = 0;
+  gdk_rectangle.height = 0;
+
+  // At this stage we take it that the windows shows at program startup.
+  // We extract the position and size of the window from the general configuration.
+  // It does not matter here whether the space for the window is already taken up by another window,
+  // because the user wishes it to be so.
+  for (unsigned int i = 0; i < window_datas.widths.size(); i++) {
+    if ((window_datas.ids[i] == window_id) && (window_datas.datas[i] == window_data) && startup) {
+      gdk_rectangle.x = window_datas.x_positions[i];
+      gdk_rectangle.y = window_datas.y_positions[i];
+      gdk_rectangle.width = window_datas.widths[i];
+      gdk_rectangle.height = window_datas.heights[i];
+    }
+  }
+
+  // Reject null values, except for x or y, because the window might have positioned at 0,0 by the user.
+  if ((gdk_rectangle.width == 0) || (gdk_rectangle.height == 0))
+    startup = false;
+
+  // When a new window needs to be allocated, there are a few steps to be taken.
+  if (!startup) {
+
+    // Step 1: The area rectangle where the window should fit in is defined, e.g. the tools area, or the text area. 
+    GdkRectangle area_rectangle;
+    area_rectangle.x = 0;
+    area_rectangle.y = 0;
+    area_rectangle.width = 0;
+    area_rectangle.height = 0;
+    extern Settings * settings;
+    switch (window_id)
+    {
+      case widShowKeyterms:
+      case widShowQuickReferences:
+      case widMerge:
+      case widResource:
+      case widOutline:
+      case widCheckKeyterms:
+      case widStyles:
+      case widReferences:
+      {
+        area_rectangle.x = settings->genconfig.tools_area_x_position_get();
+        area_rectangle.y = settings->genconfig.tools_area_y_position_get();
+        area_rectangle.width = settings->genconfig.tools_area_width_get();
+        area_rectangle.height = settings->genconfig.tools_area_height_get();
+        break;
+      }
+      case widNotes:
+      {
+        area_rectangle.x = settings->genconfig.notes_area_x_position_get();
+        area_rectangle.y = settings->genconfig.notes_area_y_position_get();
+        area_rectangle.width = settings->genconfig.notes_area_width_get();
+        area_rectangle.height = settings->genconfig.notes_area_height_get();
+        break;
+      }
+      case widEditor:
+      {
+        area_rectangle.x = settings->genconfig.text_area_x_position_get();
+        area_rectangle.y = settings->genconfig.text_area_y_position_get();
+        area_rectangle.width = settings->genconfig.text_area_width_get();
+        area_rectangle.height = settings->genconfig.text_area_height_get();
+        break;
+      }
+    }
+
+    // Step 2: A GdkRegion is made of that area.
+    GdkRegion * area_region = gdk_region_rectangle(&area_rectangle);
+
+    // Step 3: GdkRegions are made of each of the open windows, and each region is subtracted from the area region.
+    for (unsigned int i = 0; i < settings->session.open_windows.size(); i++) {
+      GtkWindow * open_window = settings->session.open_windows[i];
+      GdkRectangle rectangle;
+      gtk_window_get_size(open_window, &rectangle.width, &rectangle.height);
+      gtk_window_get_position(open_window, &rectangle.x, &rectangle.y);
+      GdkRegion * region = gdk_region_rectangle(&rectangle);
+      gdk_region_subtract(area_region, region);
+      gdk_region_destroy(region);
+    }
+
+    // Step 4: The rectangles that the area region consists of are requested,
+    // and the biggest suitable rectangle is chosen for the window.
+    // A rectangle is considered suitable if it has at least 10% of the width, and 10% of the height of the area rectangle.
+    GdkRectangle *gdk_rectangles= NULL;
+    gint rectangle_count = 0;
+    gdk_region_get_rectangles(area_region, &gdk_rectangles, &rectangle_count);
+    for (int i = 0; i < rectangle_count; ++i) {
+      GdkRectangle & rectangle = gdk_rectangles[i];
+      if (rectangle.width >= (area_rectangle.width / 10)) {
+        if (rectangle.height >= (area_rectangle.height / 10)) {
+          if ((rectangle.width * rectangle.height) > (gdk_rectangle.width * gdk_rectangle.height)) {
+            gdk_rectangle = rectangle;
+          }
+        }
+      }
+    }
+    g_free(gdk_rectangles);
+
+    // Step 5: The area region is destroyed.
+    gdk_region_destroy(area_region);
+
+    // Step 6: If no area big enough is found, then the window that takes most space in the area is chosen, 
+    // the longest side is halved, and the new window is put in that freed area.
+    if ((gdk_rectangle.width == 0) || (gdk_rectangle.height == 0)) {
+      GtkWindow * biggest_window= NULL;
+      int largest_intersection = 0;
+      for (unsigned int i = 0; i < settings->session.open_windows.size(); i++) {
+        GtkWindow * open_window = settings->session.open_windows[i];
+        GdkRectangle window_rectangle;
+        gtk_window_get_size(open_window, &window_rectangle.width, &window_rectangle.height);
+        gtk_window_get_position(open_window, &window_rectangle.x, &window_rectangle.y);
+        GdkRectangle intersection_rectangle;
+        if (gdk_rectangle_intersect(&area_rectangle, &window_rectangle, &intersection_rectangle)) {
+          int intersection = intersection_rectangle.width * intersection_rectangle.height;
+          if (intersection > largest_intersection) {
+            biggest_window = open_window;
+            largest_intersection = intersection;
+          }
+        }
+      }
+      if (biggest_window) {
+        GdkRectangle window_rectangle;
+        gtk_window_get_size(biggest_window, &window_rectangle.width, &window_rectangle.height);
+        gtk_window_get_position(biggest_window, &window_rectangle.x, &window_rectangle.y);
+        gdk_rectangle = window_rectangle;
+        if (window_rectangle.width > window_rectangle.height) {
+          window_rectangle.width /= 2;
+          gdk_rectangle.width /= 2;
+          gdk_rectangle.x += window_rectangle.width;
+        } else {
+          window_rectangle.height /= 2;
+          gdk_rectangle.height /= 2;
+          gdk_rectangle.y += window_rectangle.height;
+        }
+        gtk_window_resize(GTK_WINDOW (biggest_window), window_rectangle.width, window_rectangle.height);
+      }
+    }
+  }
+
+  // Set the window's position if there's something to be set.
+  if (gdk_rectangle.width && gdk_rectangle.height) {
+    gtk_window_resize(GTK_WINDOW (window), gdk_rectangle.width, gdk_rectangle.height);
+    gtk_window_move(GTK_WINDOW (window), gdk_rectangle.x, gdk_rectangle.y);
+    // It was found that the window's position is not always set properly at the first attempt.
+    // Therefore a timeout starts here that does it a second time.
+    display_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 300, GSourceFunc (on_display_timeout), gpointer(this), NULL);
+  }
+
+  // Store a pointer to this window in the Session.
+  settings->session.open_windows.push_back(GTK_WINDOW (window));
+}
+
+bool WindowBase::on_display_timeout(gpointer data) {
+  return ((WindowBase*) data)->display_timeout();
+}
+
+bool WindowBase::display_timeout() {
+  gtk_window_resize(GTK_WINDOW (window), gdk_rectangle.width, gdk_rectangle.height);
+  gtk_window_move(GTK_WINDOW (window), gdk_rectangle.x, gdk_rectangle.y);
+  return false;
 }
 
 gboolean WindowBase::on_window_focus_in_event(GtkWidget *widget, GdkEventFocus *event, gpointer user_data) {
@@ -381,8 +394,8 @@ gboolean WindowBase::on_window_focus_in_event(GtkWidget *widget, GdkEventFocus *
 
 void WindowBase::on_window_focus_in(GtkWidget *widget) {
   if (act_on_focus_in_signal) {
-    gtk_button_clicked(GTK_BUTTON (focus_in_signal_button));
     focused_time = time(0);
+    gtk_button_clicked(GTK_BUTTON (focus_in_signal_button));
     /* 
     Finer-grained timing.
     The Linux kernel maintains a global variable called jiffies, 
@@ -409,7 +422,7 @@ void WindowBase::present()
   act_on_focus_in_signal = false;
   // Restart the timeout.
   gw_destroy_source(focus_event_id);
-  focus_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 1000, GSourceFunc (on_focus_timeout), gpointer(this), NULL);
+  focus_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc (on_focus_timeout), gpointer(this), NULL);
   // Present the window.
   gtk_window_present(GTK_WINDOW (window));
 }

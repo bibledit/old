@@ -52,7 +52,6 @@ public:
   DEFINE_GENCONFIG_H (int, clear_up_day);
   DEFINE_GENCONFIG_H (int, screen_width);
   DEFINE_GENCONFIG_H (int, screen_height);
-  DEFINE_GENCONFIG_H (bool, window_maximized);
   DEFINE_GENCONFIG_H (int, window_width);
   DEFINE_GENCONFIG_H (int, window_height);
   DEFINE_GENCONFIG_H (int, window_x_position);
@@ -80,8 +79,6 @@ public:
   DEFINE_GENCONFIG_H (ustring, edit_note_standard_text_two);
   DEFINE_GENCONFIG_H (ustring, edit_note_standard_text_three);
   DEFINE_GENCONFIG_H (ustring, edit_note_standard_text_four);
-  DEFINE_GENCONFIG_H (vector<ustring>, projects);
-  DEFINE_GENCONFIG_H (vector<int>, project_pages);
   DEFINE_GENCONFIG_H (ustring, project);
   DEFINE_GENCONFIG_H (int, book);
   DEFINE_GENCONFIG_H (ustring, chapter);
@@ -205,8 +202,6 @@ public:
   DEFINE_GENCONFIG_H (vector<ustring>, project_tasks_names);
   DEFINE_GENCONFIG_H (vector<double>, project_tasks_durations);
   DEFINE_GENCONFIG_H (bool, inserting_xref_shows_references);
-  DEFINE_GENCONFIG_H (int, split_view_open_method);
-  DEFINE_GENCONFIG_H (bool, split_view_editor_top_down_layout);
   DEFINE_GENCONFIG_H (int, print_job);
   DEFINE_GENCONFIG_H (int, git_health);
 private:

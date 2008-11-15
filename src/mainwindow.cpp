@@ -74,7 +74,6 @@
 #include "dialogparallelbible.h"
 #include "print_parallel_bible.h"
 #include "editor.h"
-#include "dialogscreenlayout.h"
 #include "layout.h"
 #include "dialogbook.h"
 #include "books.h"
@@ -154,7 +153,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   navigation(0), bibletime(true), httpd(0) {
   // Set some pointers to NULL.  
   // To save memory, we only create the object when actually needed.
-  editorsgui = NULL;
   window_screen_layout = NULL;
   window_show_keyterms = NULL;
   window_show_quick_references = NULL;
@@ -167,8 +165,6 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   // Initialize some variables.
   git_reopen_project = false;
-  mainwindow_width = 0;
-  mainwindow_width_safe = false;
   windows_startup_pointer = 0;
   now_focused_signal_button = NULL;
   last_focused_signal_button = NULL;
@@ -177,7 +173,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   GuiFeatures guifeatures(0);
   project_notes_enabled = guifeatures.project_notes();
 
-  // Accelerators.
+  // Accelerators. // Todo working here.
   accel_group = gtk_accel_group_new();
   accelerator_group = gtk_accel_group_new();
   gtk_accel_group_connect(accelerator_group, GDK_X, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_cut_callback), gpointer(this), NULL));
@@ -190,28 +186,26 @@ MainWindow::MainWindow(unsigned long xembed) :
   gtk_accel_group_connect(accelerator_group, GDK_3, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_standard_text_3_callback), gpointer(this), NULL));
   gtk_accel_group_connect(accelerator_group, GDK_4, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_standard_text_4_callback), gpointer(this), NULL));
   gtk_accel_group_connect(accelerator_group, GDK_N, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_new_project_note_callback), gpointer(this), NULL));
-
+  gtk_accel_group_connect(accelerator_group, GDK_Down, (GdkModifierType) GDK_MOD1_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_next_verse_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_Up, (GdkModifierType) GDK_MOD1_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_previous_verse_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_Page_Down, (GdkModifierType) GDK_MOD1_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_next_chapter_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_Page_Up, (GdkModifierType) GDK_MOD1_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_previous_chapter_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_Page_Down, (GdkModifierType) (GDK_CONTROL_MASK | GDK_MOD1_MASK), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_next_book_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_Page_Up, (GdkModifierType) (GDK_CONTROL_MASK | GDK_MOD1_MASK), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_previous_book_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_Right, GDK_MOD1_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_next_reference_in_history_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_Left, GDK_MOD1_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_previous_reference_in_history_callback), gpointer(this), NULL));
+  
   // GUI build.
   if (xembed) {
     mainwindow = gtk_plug_new(GdkNativeWindow(xembed));
   } else {
     mainwindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   }
-  set_titlebar("");
-  gtk_window_set_default_size(GTK_WINDOW (mainwindow), 800, 600);
   gtk_window_set_default_icon_from_file(gw_build_filename (directories_get_package_data (), "bibledit.xpm").c_str(), NULL);
   gtk_window_set_gravity(GTK_WINDOW (mainwindow), GDK_GRAVITY_STATIC);
 
-  // Focus handler.
-  g_signal_connect ((gpointer) mainwindow, "focus_in_event", G_CALLBACK (on_main_window_focus_in_event), gpointer (this));
-  act_on_focus_in_signal = true;
-  focus_event_id = 0;
-
   // Pointer to the settings.
   extern Settings * settings;
-
-  // Store the window for other windows to refer to it.
-  settings->session.open_windows.push_back(GTK_WINDOW (mainwindow));
 
   g_set_application_name("Bibledit");
 
@@ -986,14 +980,6 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   }
 
-  screen_layout = gtk_image_menu_item_new_with_mnemonic("Screen _layout");
-  gtk_widget_show(screen_layout);
-  gtk_container_add(GTK_CONTAINER (menuitem_view_menu), screen_layout);
-
-  image11944 = gtk_image_new_from_stock("gtk-justify-fill", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image11944);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (screen_layout), image11944);
-
   view_git_tasks = gtk_image_menu_item_new_with_mnemonic("_Git tasks");
   gtk_widget_show(view_git_tasks);
   gtk_container_add(GTK_CONTAINER (menuitem_view_menu), view_git_tasks);
@@ -1139,9 +1125,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   next_verse1 = gtk_image_menu_item_new_with_mnemonic("Next verse");
   gtk_widget_show(next_verse1);
   gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), next_verse1);
-  gtk_widget_add_accelerator(next_verse1, "activate", accel_group, 
-  GDK_Down, (GdkModifierType) GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);
-  // The GdkModifierType has to be cast to a GdkModifierType.
+  gtk_widget_add_accelerator(next_verse1, "activate", accel_group, GDK_Down, (GdkModifierType) GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);
 
   image95 = gtk_image_new_from_stock("gtk-go-forward", GTK_ICON_SIZE_MENU);
   gtk_widget_show(image95);
@@ -1150,8 +1134,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   previous_verse1 = gtk_image_menu_item_new_with_mnemonic("Previous verse");
   gtk_widget_show(previous_verse1);
   gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), previous_verse1);
-  gtk_widget_add_accelerator(previous_verse1, "activate", accel_group, 
-  GDK_Up, (GdkModifierType) GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);
+  gtk_widget_add_accelerator(previous_verse1, "activate", accel_group, GDK_Up, (GdkModifierType) GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);
 
   image96 = gtk_image_new_from_stock("gtk-go-back", GTK_ICON_SIZE_MENU);
   gtk_widget_show(image96);
@@ -1160,8 +1143,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   next_chapter1 = gtk_image_menu_item_new_with_mnemonic("Next chapter");
   gtk_widget_show(next_chapter1);
   gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), next_chapter1);
-  gtk_widget_add_accelerator(next_chapter1, "activate", accel_group, 
-  GDK_Page_Down, (GdkModifierType) GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);
+  gtk_widget_add_accelerator(next_chapter1, "activate", accel_group, GDK_Page_Down, (GdkModifierType) GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);
 
   image97 = gtk_image_new_from_stock("gtk-go-forward", GTK_ICON_SIZE_MENU);
   gtk_widget_show(image97);
@@ -1170,8 +1152,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   previous_chapter1 = gtk_image_menu_item_new_with_mnemonic("Previous chapter");
   gtk_widget_show(previous_chapter1);
   gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), previous_chapter1);
-  gtk_widget_add_accelerator(previous_chapter1, "activate", accel_group, 
-  GDK_Page_Up, (GdkModifierType) GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);
+  gtk_widget_add_accelerator(previous_chapter1, "activate", accel_group, GDK_Page_Up, (GdkModifierType) GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);
 
   image98 = gtk_image_new_from_stock("gtk-go-back", GTK_ICON_SIZE_MENU);
   gtk_widget_show(image98);
@@ -1180,8 +1161,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   next_book1 = gtk_image_menu_item_new_with_mnemonic("Next book");
   gtk_widget_show(next_book1);
   gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), next_book1);
-  gtk_widget_add_accelerator(next_book1, "activate", accel_group, 
-  GDK_Page_Down, (GdkModifierType) (GDK_CONTROL_MASK | GDK_MOD1_MASK), GTK_ACCEL_VISIBLE);
+  gtk_widget_add_accelerator(next_book1, "activate", accel_group, GDK_Page_Down, (GdkModifierType) (GDK_CONTROL_MASK | GDK_MOD1_MASK), GTK_ACCEL_VISIBLE);
 
   image99 = gtk_image_new_from_stock("gtk-go-forward", GTK_ICON_SIZE_MENU);
   gtk_widget_show(image99);
@@ -1190,8 +1170,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   previous_book1 = gtk_image_menu_item_new_with_mnemonic("Previous book");
   gtk_widget_show(previous_book1);
   gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), previous_book1);
-  gtk_widget_add_accelerator(previous_book1, "activate", accel_group, 
-  GDK_Page_Up, (GdkModifierType) (GDK_CONTROL_MASK | GDK_MOD1_MASK), GTK_ACCEL_VISIBLE);
+  gtk_widget_add_accelerator(previous_book1, "activate", accel_group, GDK_Page_Up, (GdkModifierType) (GDK_CONTROL_MASK | GDK_MOD1_MASK), GTK_ACCEL_VISIBLE);
 
   image100 = gtk_image_new_from_stock("gtk-go-back", GTK_ICON_SIZE_MENU);
   gtk_widget_show(image100);
@@ -1200,8 +1179,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   next_reference_in_history1 = gtk_image_menu_item_new_with_mnemonic("Next reference in history");
   gtk_widget_show(next_reference_in_history1);
   gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), next_reference_in_history1);
-  gtk_widget_add_accelerator(next_reference_in_history1, "activate", accel_group, 
-  GDK_Right, GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);
+  gtk_widget_add_accelerator(next_reference_in_history1, "activate", accel_group, GDK_Right, GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);
 
   image5687 = gtk_image_new_from_stock("gtk-go-forward", GTK_ICON_SIZE_MENU);
   gtk_widget_show(image5687);
@@ -1210,8 +1188,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   previous_reference_in_history1 = gtk_image_menu_item_new_with_mnemonic("Previous reference in history");
   gtk_widget_show(previous_reference_in_history1);
   gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), previous_reference_in_history1);
-  gtk_widget_add_accelerator(previous_reference_in_history1, "activate", accel_group, 
-  GDK_Left, GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);
+  gtk_widget_add_accelerator(previous_reference_in_history1, "activate", accel_group, GDK_Left, GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);
 
   image5688 = gtk_image_new_from_stock("gtk-go-back", GTK_ICON_SIZE_MENU);
   gtk_widget_show(image5688);
@@ -1847,36 +1824,9 @@ MainWindow::MainWindow(unsigned long xembed) :
   navigation.build(toolbar1, next_reference_in_history1, previous_reference_in_history1);
   g_signal_connect ((gpointer) navigation.reference_signal_delayed, "clicked", G_CALLBACK (on_navigation_new_reference_clicked), gpointer(this));
 
-  hbox1 = gtk_hbox_new(FALSE, 0);
-  gtk_widget_show(hbox1);
-  gtk_box_pack_start(GTK_BOX (vbox1), hbox1, TRUE, TRUE, 0);
-
-  hpaned1 = gtk_hpaned_new();
-  gtk_widget_show(hpaned1);
-  gtk_box_pack_start(GTK_BOX (hbox1), hpaned1, TRUE, TRUE, 0);
-  // Position of horizontal pane will be set later, but is set here to a decent value.
-  gtk_paned_set_position(GTK_PANED (hpaned1), 600);
-
-  vbox_left = gtk_vbox_new(FALSE, 0);
-  gtk_widget_show(vbox_left);
-  gtk_paned_pack1(GTK_PANED (hpaned1), vbox_left, FALSE, TRUE);
-
-  vpaned1 = gtk_vpaned_new();
-  gtk_widget_show(vpaned1);
-  gtk_box_pack_start(GTK_BOX (vbox_left), vpaned1, TRUE, TRUE, 0);
-  // Position of main vertical pane will be set later, but is set here to a decent value.
-  gtk_paned_set_position(GTK_PANED (vpaned1), 400);
-
-  vboxeditors = gtk_vbox_new(FALSE, 0);
-  gtk_widget_show(vboxeditors);
-  gtk_paned_pack1(GTK_PANED (vpaned1), vboxeditors, FALSE, TRUE);
-
   // Store project of last session because it gets affected when the editors build.
-  ustring project_last_session = settings->genconfig.project_get();
-  // Building the tabbed and split editor.
-  editorsgui = new EditorsGUI (vboxeditors);
-  g_signal_connect ((gpointer) editorsgui->focus_button, "clicked", G_CALLBACK (on_editorsgui_focus_button_clicked), gpointer(this));
-  g_signal_connect ((gpointer) editorsgui->quick_references_button, "clicked", G_CALLBACK (on_show_quick_references_signal_button_clicked), gpointer(this));
+  ustring project_last_session = settings->genconfig.project_get(); // Todo use this to focus the right one at the end.
+  // Todo connect signal straight to the editors, if relevant. g_signal_connect ((gpointer) editorsgui->quick_references_button, "clicked", G_CALLBACK (on_show_quick_references_signal_button_clicked), gpointer(this));
 
   hbox5 = gtk_hbox_new(FALSE, 0);
   gtk_widget_show(hbox5);
@@ -1909,16 +1859,12 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   // Size and position of window and screen layout.
   {
-    ScreenLayoutDimensions dimensions(mainwindow, hpaned1, vpaned1);
+    ScreenLayoutDimensions dimensions(mainwindow);
     dimensions.verify();
-    dimensions.load();
   }
 
   g_signal_connect ((gpointer) mainwindow, "destroy", G_CALLBACK (gtk_main_quit), gpointer(this));
   g_signal_connect ((gpointer) mainwindow, "delete_event", G_CALLBACK (on_mainwindow_delete_event), gpointer(this));
-  g_signal_connect ((gpointer) mainwindow, "focus_in_event", G_CALLBACK (on_mainwindow_focus_in_event), gpointer(this));
-  g_signal_connect ((gpointer) mainwindow, "window_state_event", G_CALLBACK (on_mainwindow_window_state_event), gpointer(this));
-  g_signal_connect ((gpointer) mainwindow, "size-allocate", G_CALLBACK (on_window_size_allocated), gpointer (this));
   if (guifeatures.project_management()) {
     g_signal_connect ((gpointer) new1, "activate", G_CALLBACK (on_new1_activate), gpointer(this));
     g_signal_connect ((gpointer) open1, "activate", G_CALLBACK (on_open1_activate), gpointer(this));
@@ -1994,7 +1940,6 @@ MainWindow::MainWindow(unsigned long xembed) :
    */
   if (guifeatures.project_notes())
     g_signal_connect ((gpointer) viewnotes, "activate", G_CALLBACK (on_viewnotes_activate), gpointer(this));
-  g_signal_connect ((gpointer) screen_layout, "activate", G_CALLBACK (on_screen_layout_activate), gpointer(this));
   g_signal_connect ((gpointer) view_git_tasks, "activate", G_CALLBACK (on_view_git_tasks_activate), gpointer(this));
   g_signal_connect ((gpointer) parallel_passages1, "activate", G_CALLBACK (on_parallel_passages1_activate), gpointer(this));
   g_signal_connect ((gpointer) view_usfm_code, "activate", G_CALLBACK (on_view_usfm_code_activate), gpointer(this));
@@ -2149,13 +2094,8 @@ MainWindow::~MainWindow() {
 
   // Shut the separate windows down.
   shutdown_windows();
-  gw_destroy_source(focus_event_id);
 
-  // Save the size and position of the program window.
-  ScreenLayoutDimensions dimensions(mainwindow, hpaned1, vpaned1);
-  dimensions.save();
-  // Hide bibledit. Note: This is done after saving the window's size/position
-  // to have that done properly.
+  // Hide bibledit. 
   gtk_widget_hide(mainwindow);
 
   // No ipc signals anymore.
@@ -2163,13 +2103,11 @@ MainWindow::~MainWindow() {
   ipc->methodcall_remove_all_signals();
 
   // Save text in editors.
-  editorsgui->save();
+  // Todo implement again. editorsgui->save();
   // Destroy the Outpost
   delete windowsoutpost;
   // Finalize content manager subsystem.
   git_finalize_subsystem();
-  // Destroy editors.
-  delete editorsgui;
   // Do shutdown actions.
   shutdown_actions();
   // Destroying the window is done by gtk itself.
@@ -2263,7 +2201,8 @@ void MainWindow::open()
   ustring newproject;
   if (!project_select(newproject))
     return;
-  editorsgui->open(newproject, -1);
+  // Open editor.
+  on_file_project_open(newproject);
 }
 
 void MainWindow::on_close1_activate(GtkMenuItem * menuitem, gpointer user_data) {
@@ -2272,7 +2211,7 @@ void MainWindow::on_close1_activate(GtkMenuItem * menuitem, gpointer user_data) 
 
 void MainWindow::close() {
   // Close focused editor.
-  editorsgui->close();
+  // Todo implement again. editorsgui->close();
 }
 
 void MainWindow::on_new1_activate(GtkMenuItem * menuitem, gpointer user_data) {
@@ -2283,7 +2222,7 @@ void MainWindow::newproject() {
   git_command_pause(true);
   ProjectDialog projectdialog(true);
   if (projectdialog.run() == GTK_RESPONSE_OK) {
-    editorsgui->open(projectdialog.newprojectname, -1);
+    // Todo implement. editorsgui->open(projectdialog.newprojectname, -1);
   }
   git_command_pause(false);
 }
@@ -2294,12 +2233,12 @@ void MainWindow::on_properties1_activate(GtkMenuItem * menuitem, gpointer user_d
 
 void MainWindow::editproject() {
   git_command_pause(true);
-  editorsgui->save();
+  // Todo editorsgui->save();
   // Show project dialog.
   ProjectDialog projectdialog(false);
   if (projectdialog.run() == GTK_RESPONSE_OK) {
     // Reload dictionaries.
-    editorsgui->reload_dictionaries();
+    // Todo editorsgui->reload_dictionaries();
     // As anything could have been changed to the project, reopen it.
     reload_project();
   }
@@ -2400,12 +2339,14 @@ void MainWindow::on_undo1_activate(GtkMenuItem * menuitem, gpointer user_data) {
 void MainWindow::menu_undo()
 // Called for undo.
 {
-  Editor * editor = editorsgui->focused_editor();
-  if (editor) {
-    if (editor->has_focus()) {
-      editor->undo();
-    }
-  }
+  /* Todo
+   Editor * editor = editorsgui->focused_editor();
+   if (editor) {
+   if (editor->has_focus()) {
+   editor->undo();
+   }
+   }
+   */
   if (window_notes && (now_focused_signal_button == NULL) && (last_focused_signal_button == window_notes->focus_in_signal_button)) {
     //window_notes->undo();
   }
@@ -2418,12 +2359,14 @@ void MainWindow::on_redo1_activate(GtkMenuItem * menuitem, gpointer user_data) {
 void MainWindow::menu_redo()
 // Called for redo.
 {
-  Editor * editor = editorsgui->focused_editor();
-  if (editor) {
-    if (editor->has_focus()) {
-      editor->redo();
-    }
-  }
+  /* Todo
+   Editor * editor = editorsgui->focused_editor();
+   if (editor) {
+   if (editor->has_focus()) {
+   editor->redo();
+   }
+   }
+   */
   if (window_notes && (now_focused_signal_button == NULL) && (last_focused_signal_button == window_notes->focus_in_signal_button)) {
     //window_notes->redo();
   }
@@ -2435,15 +2378,17 @@ void MainWindow::on_edit1_activate(GtkMenuItem * menuitem, gpointer user_data) {
 
 void MainWindow::menu_edit() {
   // Set the sensitivity of some items in the Edit menu.
-  Editor * editor = editorsgui->focused_editor();
-  if (editor) {
-    gtk_widget_set_sensitive(copy_without_formatting, editor->has_focus());
-    //gtk_widget_set_sensitive(undo1, editor->can_undo());
-    //gtk_widget_set_sensitive(redo1, editor->can_redo());
-  } else {
-    gtk_widget_set_sensitive(undo1, true);
-    gtk_widget_set_sensitive(redo1, true);
-  }
+  /* Todo
+   Editor * editor = editorsgui->focused_editor();
+   if (editor) {
+   gtk_widget_set_sensitive(copy_without_formatting, editor->has_focus());
+   //gtk_widget_set_sensitive(undo1, editor->can_undo());
+   //gtk_widget_set_sensitive(redo1, editor->can_redo());
+   } else {
+   gtk_widget_set_sensitive(undo1, true);
+   gtk_widget_set_sensitive(redo1, true);
+   }
+   */
 
   // Sensitivity of the clipboard operations.
   // There is also the "owner-change" signal of the clipboard, but this is not
@@ -2462,9 +2407,11 @@ void MainWindow::menu_edit() {
 
   // The Bible notes can only be edited when the cursor is in a note text.
   enable = false;
-  if (editor)
-    if (editor->last_focused_type() == etvtNote)
-      enable = true;
+  /* Todo
+   if (editor)
+   if (editor->last_focused_type() == etvtNote)
+   enable = true;
+   */
   gtk_widget_set_sensitive(edit_bible_note, enable);
 }
 
@@ -2474,7 +2421,7 @@ void MainWindow::on_find_and_replace1_activate(GtkMenuItem * menuitem, gpointer 
 
 void MainWindow::menu_replace() {
   // Before finding, save the current file.
-  editorsgui->save();
+  /// Todo editorsgui->save();
   // Display references.
   show_references_window();
   // Start find/replace dialog.
@@ -2508,7 +2455,7 @@ void MainWindow::on_findspecial1_activate(GtkMenuItem * menuitem, gpointer user_
 
 void MainWindow::menu_findspecial() {
   // Before finding, save the current file.
-  editorsgui->save();
+  // Todo editorsgui->save();
   // Display the references window.
   show_references_window();
   // Start dialog.
@@ -2541,7 +2488,7 @@ void MainWindow::menu_import() {
   extern Settings * settings;
   ustring prj = settings->genconfig.project_get();
   close();
-  editorsgui->open(prj, 1);
+  // Todo editorsgui->open(prj, 1);
 }
 
 gboolean MainWindow::on_mainwindow_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data) {
@@ -2564,17 +2511,6 @@ gboolean MainWindow::on_mainwindow_delete_event(GtkWidget *widget, GdkEvent *eve
   return true;
 }
 
-gboolean MainWindow::on_mainwindow_focus_in_event(GtkWidget *widget, GdkEventFocus *event, gpointer user_data) {
-  ((MainWindow *) user_data)->on_mainwindow_focus_in(event);
-  return FALSE;
-}
-
-void MainWindow::on_mainwindow_focus_in(GdkEventFocus *event) {
-  // When bibledit receives focus, immediately after that synchronize it with 
-  // external programs.
-  // No longer used now.
-}
-
 void MainWindow::on_insert1_activate(GtkMenuItem *menuitem, gpointer user_data) {
   ((MainWindow *) user_data)->on_menu_insert();
 }
@@ -2583,7 +2519,7 @@ void MainWindow::on_menu_insert()
 // Sets the labels of the underlying menu items right.
 {
   // Write the proper labels.
-  Editor * editor = editorsgui->focused_editor();
+  // Todo Editor * editor = editorsgui->focused_editor();
   extern Settings * settings;
   ustring std_txt = "Standard text ";
   ustring label;
@@ -2621,27 +2557,31 @@ void MainWindow::on_menu_insert()
     // See whether the current reference is already in it.
     bool already_in = false;
     for (unsigned int i = 0; i < references.size(); i++) {
-      if (editor)
-        if (references[i].equals(editor->current_reference))
-          already_in = true;
+      /* Todo
+       if (editor)
+       if (references[i].equals(editor->current_reference))
+       already_in = true;
+       */
     }
     // If the reference is not yet in the note's references, enable menu, so user can add it.
     enable = !already_in;
   }
   // Update menu.
   ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
-  if (editor) {
-    label = "_Add " + editor->current_reference.human_readable(projectconfig->language_get()) + " to project note";
-  } else {
-    enable = false;
-  }
+  /* Todo
+   if (editor) {
+   label = "_Add " + editor->current_reference.human_readable(projectconfig->language_get()) + " to project note";
+   } else {
+   enable = false;
+   }
+   */
   if (current_reference1)
     gtk_label_set_text_with_mnemonic(GTK_LABEL (gtk_bin_get_child (GTK_BIN (current_reference1))), label.c_str());
   if (current_reference1)
     gtk_widget_set_sensitive(current_reference1, enable);
 
   // Inserting special character.
-  gtk_widget_set_sensitive(insert_special_character, (editor && editor->has_focus()));
+  // Todo gtk_widget_set_sensitive(insert_special_character, (editor && editor->has_focus()));
 }
 
 void MainWindow::on_menuitem_view_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -2667,7 +2607,7 @@ void MainWindow::on_copy_project_to_activate(GtkMenuItem *menuitem, gpointer use
 void MainWindow::on_copy_project_to()
 // Copy project to another one.
 {
-  editorsgui->save();
+  // Todo editorsgui->save();
   extern Settings * settings;
   EntryDialog dialog("New project name", "Enter a name of a non-existent project\nwhere this project will be copied to.", settings->genconfig.project_get());
   if (dialog.run() == GTK_RESPONSE_OK) {
@@ -2703,7 +2643,7 @@ void MainWindow::on_compare_with1_activate(GtkMenuItem *menuitem, gpointer user_
 void MainWindow::on_compare_with()
 // Compare the current project with another one.
 {
-  editorsgui->save();
+  // Todo editorsgui->save();
   show_references_window();
   git_command_pause(true);
   References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
@@ -2721,15 +2661,6 @@ void MainWindow::on_printing_preferences() {
   dialog.run();
 }
 
-void MainWindow::on_screen_layout_activate(GtkMenuItem *menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->on_screen_layout();
-}
-
-void MainWindow::on_screen_layout() {
-  ScreenLayoutDialog dialog(0);
-  dialog.run();
-}
-
 void MainWindow::on_prefs_books_activate(GtkMenuItem *menuitem, gpointer user_data) {
   ((MainWindow *) user_data)->on_prefs_books();
 }
@@ -2740,7 +2671,7 @@ void MainWindow::on_prefs_books() {
   if (dialog.run() == GTK_RESPONSE_OK) {
     ustring project = settings->genconfig.project_get();
     close();
-    editorsgui->open(project, 1);
+    // Todo editorsgui->open(project, 1);
   }
 }
 
@@ -2849,20 +2780,24 @@ void MainWindow::on_reference_activate(GtkMenuItem * menuitem, gpointer user_dat
 }
 
 void MainWindow::goto_reference_interactive() {
-  Editor * editor = editorsgui->focused_editor();
-  GotoReferenceDialog dialog(editor->current_reference.book, editor->current_reference.chapter, editor->current_reference.verse);
-  if (dialog.run() == GTK_RESPONSE_OK) {
-    if (dialog.newreference) {
-      navigation.display(dialog.reference);
-    }
-  }
+  /* Todo
+   Editor * editor = editorsgui->focused_editor();
+   GotoReferenceDialog dialog(editor->current_reference.book, editor->current_reference.chapter, editor->current_reference.verse);
+   if (dialog.run() == GTK_RESPONSE_OK) {
+   if (dialog.newreference) {
+   navigation.display(dialog.reference);
+   }
+   }
+   */
 }
 
 void MainWindow::go_to_new_reference()
 // This starts the procedure to carries out a requested change of reference.
 {
   // Let the editor(s) show the right reference.
-  editorsgui->go_to(navigation.reference);
+  for (unsigned int i = 0; i < editor_windows.size(); i++) {
+    editor_windows[i]->go_to(navigation.reference);
+  }
 
   // Create a reference for the external programs.
   // These do not take verses like 10a or 10-12, but only numbers like 10 or 12.
@@ -2898,13 +2833,15 @@ void MainWindow::on_new_verse()
  The only thing we don't know is the verse. 
  */
 {
-  Editor * editor = editorsgui->focused_editor();
-  if (editor) {
-    Reference reference(navigation.reference.book, navigation.reference.chapter, editor->current_verse_number);
-    navigation.display(reference);
-    if (window_outline)
-      window_outline->go_to(editor->project, navigation.reference);
-  }
+  /* Todo
+   Editor * editor = editorsgui->focused_editor();
+   if (editor) {
+   Reference reference(navigation.reference.book, navigation.reference.chapter, editor->current_verse_number);
+   navigation.display(reference);
+   if (window_outline)
+   window_outline->go_to(editor->project, navigation.reference);
+   }
+   */
 }
 
 void MainWindow::on_synchronize_other_programs2_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -2913,22 +2850,22 @@ void MainWindow::on_synchronize_other_programs2_activate(GtkMenuItem *menuitem, 
 
 void MainWindow::on_synchronize_other_programs() {
   // Get the focused editor. If none, bail out.
-  Editor * editor = editorsgui->focused_editor();
-  if (!editor)
+  WindowEditor * editor_window = last_focused_editor_window();
+  if (!editor_window)
     return;
   // Send the reference.
   extern Settings * settings;
   if (settings->genconfig.reference_exchange_send_to_bibleworks_get()) {
-    windowsoutpost->BibleWorksReferenceSet(editor->current_reference);
+    windowsoutpost->BibleWorksReferenceSet(editor_window->editor->current_reference);
   }
   if (settings->genconfig.reference_exchange_send_to_santafefocus_get()) {
-    windowsoutpost->SantaFeFocusReferenceSet(editor->current_reference);
+    windowsoutpost->SantaFeFocusReferenceSet(editor_window->editor->current_reference);
   }
   if (settings->genconfig.reference_exchange_send_to_bibletime_get()) {
-    bibletime.sendreference(editor->current_reference);
+    bibletime.sendreference(editor_window->editor->current_reference);
   }
   for (unsigned int i = 0; i < resource_windows.size(); i++) {
-    resource_windows[i]->go_to(editor->current_reference);
+    resource_windows[i]->go_to(editor_window->editor->current_reference);
   }
 }
 
@@ -2937,9 +2874,11 @@ void MainWindow::on_text_area1_activate(GtkMenuItem *menuitem, gpointer user_dat
 }
 
 void MainWindow::on_text_area_activate() {
-  Editor * editor = editorsgui->focused_editor();
-  if (editor)
-    gtk_widget_grab_focus(editor->last_focused_textview());
+  /* Todo
+   Editor * editor = editorsgui->focused_editor();
+   if (editor)
+   gtk_widget_grab_focus(editor->last_focused_textview());
+   */
 }
 
 void MainWindow::on_goto_bible_notes_area1_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -2947,9 +2886,11 @@ void MainWindow::on_goto_bible_notes_area1_activate(GtkMenuItem *menuitem, gpoin
 }
 
 void MainWindow::on_bible_notes_area_activate() {
-  Editor * editor = editorsgui->focused_editor();
-  if (editor)
-    gtk_widget_grab_focus(editor->last_focused_textview());
+  /*
+   Editor * editor = editorsgui->focused_editor();
+   if (editor)
+   gtk_widget_grab_focus(editor->last_focused_textview());
+   */
 }
 
 void MainWindow::on_tools_area1_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -2969,11 +2910,11 @@ void MainWindow::on_notes_area_activate() {
 }
 
 void MainWindow::on_goto_next_project_activate(GtkMenuItem *menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->editorsgui->next_previous_project(true);
+  // Todo this one has to work with the separate windows. ((MainWindow *) user_data)->editorsgui->next_previous_project(true);
 }
 
 void MainWindow::on_goto_previous_project_activate(GtkMenuItem *menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->editorsgui->next_previous_project(false);
+  // Todo this one has to work with the separate windows. ((MainWindow *) user_data)->editorsgui->next_previous_project(false);
 }
 
 /*
@@ -2996,16 +2937,18 @@ void MainWindow::on_cut1_activate(GtkMenuItem * menuitem, gpointer user_data) {
 
 void MainWindow::on_cut() {
   GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
-  if (editorsgui->has_focus()) {
-    Editor * editor = editorsgui->focused_editor();
-    if (editor) {
-      gtk_clipboard_set_text(clipboard, editor->text_get_selection ().c_str(), -1);
-      editor->text_erase_selection();
-    }
-  }
-  if (window_notes && (now_focused_signal_button == NULL) && (last_focused_signal_button == window_notes->focus_in_signal_button)) {
-    //window_notes->cut();
-  }
+  /* Todo
+   if (editorsgui->has_focus()) {
+   Editor * editor = editorsgui->focused_editor();
+   if (editor) {
+   gtk_clipboard_set_text(clipboard, editor->text_get_selection ().c_str(), -1);
+   editor->text_erase_selection();
+   }
+   }
+   if (window_notes && (now_focused_signal_button == NULL) && (last_focused_signal_button == window_notes->focus_in_signal_button)) {
+   //window_notes->cut();
+   }
+   */
 }
 
 void MainWindow::on_copy1_activate(GtkMenuItem * menuitem, gpointer user_data) {
@@ -3014,19 +2957,21 @@ void MainWindow::on_copy1_activate(GtkMenuItem * menuitem, gpointer user_data) {
 
 void MainWindow::on_copy() {
   GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
-  if (editorsgui->has_focus()) {
-    Editor * editor = editorsgui->focused_editor();
-    if (editor) {
-      // In case of the text editor, the USFM code is copied, not the plain text. 
-      gtk_clipboard_set_text(clipboard, editor->text_get_selection ().c_str(), -1);
-    }
-  }
-  if (window_notes && (now_focused_signal_button == NULL) && (last_focused_signal_button == window_notes->focus_in_signal_button)) {
-    //window_notes->copy();
-  }
-  if (window_check_keyterms) {
-    window_check_keyterms->copy_clipboard();
-  }
+  /* Todo
+   if (editorsgui->has_focus()) {
+   Editor * editor = editorsgui->focused_editor();
+   if (editor) {
+   // In case of the text editor, the USFM code is copied, not the plain text. 
+   gtk_clipboard_set_text(clipboard, editor->text_get_selection ().c_str(), -1);
+   }
+   }
+   if (window_notes && (now_focused_signal_button == NULL) && (last_focused_signal_button == window_notes->focus_in_signal_button)) {
+   //window_notes->copy();
+   }
+   if (window_check_keyterms) {
+   window_check_keyterms->copy_clipboard();
+   }
+   */
 }
 
 void MainWindow::on_copy_without_formatting_activate(GtkMenuItem * menuitem, gpointer user_data) {
@@ -3035,12 +2980,14 @@ void MainWindow::on_copy_without_formatting_activate(GtkMenuItem * menuitem, gpo
 
 void MainWindow::on_copy_without_formatting() {
   GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
-  if (editorsgui->has_focus()) {
-    Editor * editor = editorsgui->focused_editor();
-    if (editor) {
-      gtk_text_buffer_copy_clipboard(editor->last_focused_textbuffer(), clipboard);
-    }
-  }
+  /* Todo
+   if (editorsgui->has_focus()) {
+   Editor * editor = editorsgui->focused_editor();
+   if (editor) {
+   gtk_text_buffer_copy_clipboard(editor->last_focused_textbuffer(), clipboard);
+   }
+   }
+   */
 }
 
 void MainWindow::on_paste1_activate(GtkMenuItem * menuitem, gpointer user_data) {
@@ -3055,19 +3002,21 @@ void MainWindow::on_paste() {
   if (!gtk_clipboard_wait_is_text_available(clipboard))
     return;
   // Paste text in the focused textview.  
-  if (editorsgui->has_focus()) {
-    Editor * editor = editorsgui->focused_editor();
-    if (editor) {
-      gchar * text = gtk_clipboard_wait_for_text(clipboard);
-      if (text) {
-        editor->text_insert(text);
-        g_free(text);
-      }
-    }
-  }
-  if (window_notes && (now_focused_signal_button == NULL) && (last_focused_signal_button == window_notes->focus_in_signal_button)) {
-    //window_notes->paste();
-  }
+  /* Todo
+   if (editorsgui->has_focus()) {
+   Editor * editor = editorsgui->focused_editor();
+   if (editor) {
+   gchar * text = gtk_clipboard_wait_for_text(clipboard);
+   if (text) {
+   editor->text_insert(text);
+   g_free(text);
+   }
+   }
+   }
+   if (window_notes && (now_focused_signal_button == NULL) && (last_focused_signal_button == window_notes->focus_in_signal_button)) {
+   //window_notes->paste();
+   }
+   */
 }
 
 /*
@@ -3104,16 +3053,16 @@ void MainWindow::on_window_references_delete_button() {
   }
 }
 
-void MainWindow::on_window_references_general_signal_button_clicked(GtkButton *button, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_window_references_general_signal_button();  
+void MainWindow::on_window_references_general_signal_button_clicked(GtkButton *button, gpointer user_data) {
+  ((MainWindow *) user_data)->on_window_references_general_signal_button();
 }
 
 void MainWindow::on_window_references_general_signal_button()
 // This routine is called when the reference window fires a signal that something has happened.
 {
-  switch (window_references->action) {
-    case wratReferenceActivated: 
+  switch (window_references->action)
+  {
+    case wratReferenceActivated:
     {
       on_list_goto();
       break;
@@ -3135,17 +3084,19 @@ void MainWindow::on_list_goto()
 // Handler for when the user pressed Enter in the list and wants to go to a reference.
 {
   // Get the Editor. If none, bail out.
-  Editor * editor = editorsgui->focused_editor();
-  if (!editor)
-    return;
-  
-  // Bail out if there's no references window.
-  if (!window_references) 
-    return;
+  /* Todo
+   Editor * editor = editorsgui->focused_editor();
+   if (!editor)
+   return;
+   
+   // Bail out if there's no references window.
+   if (!window_references) 
+   return;
 
-  // Jump to the reference.
-  navigation.display (window_references->reference);
-  editor->go_to_new_reference_highlight = true;
+   // Jump to the reference.
+   navigation.display (window_references->reference);
+   editor->go_to_new_reference_highlight = true;
+   */
 }
 
 void MainWindow::on_open_references1_activate(GtkMenuItem * menuitem, gpointer user_data) {
@@ -3205,7 +3156,7 @@ void MainWindow::on_previous_reference1_activate(GtkMenuItem * menuitem, gpointe
   ((MainWindow *) user_data)->on_previous_reference();
 }
 
-void MainWindow::on_previous_reference() 
+void MainWindow::on_previous_reference()
 // This goes to the previous reference, if there is any.
 // If no item has been selected it chooses the first, if it's there.
 {
@@ -3297,13 +3248,14 @@ bool MainWindow::on_external_programs_timeout() {
   if (got_new_bt_reference > 0)
     got_new_bt_reference--;
   if (got_new_bt_reference == 0) {
-    Editor * editor = editorsgui->focused_editor();
-    if (editor) {
+    WindowEditor * editor_window = last_focused_editor_window();
+    if (editor_window) {
       if (settings->genconfig.reference_exchange_send_to_bibletime_get()) {
-        ustring bibledit_bt_new_reference = convert_to_string(editor->current_reference.book) + convert_to_string(editor->current_reference.chapter) + editor->current_reference.verse;
+        ustring bibledit_bt_new_reference = convert_to_string(editor_window->editor->current_reference.book) + convert_to_string(editor_window->editor->current_reference.chapter)
+            + editor_window->editor->current_reference.verse;
         if (bibledit_bt_new_reference != bibledit_bt_previous_reference) {
           bibledit_bt_previous_reference = bibledit_bt_new_reference;
-          bibletime.sendreference(editor->current_reference);
+          bibletime.sendreference(editor_window->editor->current_reference);
         }
       }
     }
@@ -3326,14 +3278,16 @@ void MainWindow::on_send_word_to_toolbox_signalled(GtkButton *button, gpointer u
 }
 
 void MainWindow::send_word_to_toolbox() {
-  Editor * editor = editorsgui->focused_editor();
-  if (!editor)
-    return;
-  ustring word = editor->word_double_clicked_text;
-  if (word.empty())
-    return;
-  gw_message("Sending to Toolbox: " + word);
-  windowsoutpost->SantaFeFocusWordSet(word);
+  /* Todo
+   Editor * editor = editorsgui->focused_editor();
+   if (!editor)
+   return;
+   ustring word = editor->word_double_clicked_text;
+   if (word.empty())
+   return;
+   gw_message("Sending to Toolbox: " + word);
+   windowsoutpost->SantaFeFocusWordSet(word);
+   */
 }
 
 void MainWindow::on_preferences_windows_outpost_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3371,13 +3325,6 @@ void MainWindow::on_preferences_windows_outpost() {
  |
  |
  */
-
-void MainWindow::set_titlebar(const ustring& project) {
-  ustring title("Bibledit");
-  if (project.length() > 0)
-    title.append(" - " + project);
-  gtk_window_set_title(GTK_WINDOW (mainwindow), title.c_str());
-}
 
 bool MainWindow::on_gui_timeout(gpointer data) {
   ((MainWindow *) data)->on_gui();
@@ -3426,55 +3373,6 @@ void MainWindow::on_gui()
   if (settings->session.restart) {
     gtk_main_quit();
   }
-
-  // Window size.
-  mainwindow_width_safe = true;
-}
-
-gboolean MainWindow::on_mainwindow_window_state_event(GtkWidget *widget, GdkEvent *event, gpointer user_data) {
-  ((MainWindow *) user_data)->on_mainwindow_window_state(event);
-  return FALSE;
-}
-
-void MainWindow::on_mainwindow_window_state(GdkEvent *event) {
-  extern Settings * settings;
-  if (settings->session.window_initialized) {
-    bool maximized = ((GdkEventWindowState *)event)->new_window_state == GDK_WINDOW_STATE_MAXIMIZED;
-    settings->genconfig.window_maximized_set(maximized);
-  } else {
-    if (settings->genconfig.window_maximized_get())
-      gtk_window_maximize(GTK_WINDOW (mainwindow));
-    settings->session.window_initialized = true;
-  }
-}
-
-void MainWindow::on_window_size_allocated(GtkWidget *widget, GtkAllocation *allocation, gpointer user_data) {
-  ((MainWindow *) user_data)->window_size_allocated(widget, allocation);
-}
-
-void MainWindow::window_size_allocated(GtkWidget *widget, GtkAllocation *allocation)
-// Handles situation where the main window gets a size allocated.
-{
-  // The following variable was introduced to avoid a situation where Bibledit gets wider and wider on its own.
-  if (!mainwindow_width_safe)
-    return;
-  if (mainwindow_width != 0 && mainwindow_width != allocation->width) {
-    bool increased = allocation->width > mainwindow_width;
-    gint difference= ABS (allocation->width - mainwindow_width);
-    gint position = gtk_paned_get_position(GTK_PANED (hpaned1));
-    gint percentage = position * 100 / mainwindow_width;
-    difference = difference * percentage / 100;
-    if (difference != 0) {
-      if (increased) {
-        // Increating the position is now allowed because it would make the main window too big.
-        // position += difference;
-      } else {
-        position -= difference;
-        gtk_paned_set_position(GTK_PANED (hpaned1), position);
-      }
-    }
-  }
-  mainwindow_width = allocation->width;
 }
 
 /*
@@ -3643,12 +3541,14 @@ void MainWindow::on_insert_standard_text(GtkMenuItem *menuitem) {
     addspace = true;
     gtkhtml = true;
   } else if (menuitem == GTK_MENU_ITEM (current_reference1)) {
-    Editor * editor = editorsgui->focused_editor();
-    if (editor)
-      standardtext = books_id_to_english(editor->current_reference.book) + " " + convert_to_string(editor->current_reference.chapter) + ":" + editor->current_reference.verse;
-    selector = 5;
-    addspace = false;
-    gtkhtml = false;
+    /* Todo
+     Editor * editor = editorsgui->focused_editor();
+     if (editor)
+     standardtext = books_id_to_english(editor->current_reference.book) + " " + convert_to_string(editor->current_reference.chapter) + ":" + editor->current_reference.verse;
+     selector = 5;
+     addspace = false;
+     gtkhtml = false;
+     */
   }
 
   // Insert the text.
@@ -3687,7 +3587,7 @@ void MainWindow::on_get_references_from_note() {
   references2.fill_store(projectconfig->language_get());
 }
 
-void MainWindow::notes_get_references_from_id(gint id) // Todo probably move out of the main window object.
+void MainWindow::notes_get_references_from_id(gint id)
 // Get the references from the note id
 {
   // Store references we get.
@@ -3763,8 +3663,10 @@ void MainWindow::on_export_zipped_unified_standard_format_markers1_activate(GtkM
 }
 
 void MainWindow::on_export_usfm_files(bool zipped) {
-  editorsgui->save();
-  export_to_usfm(mainwindow, zipped);
+  /* Todo
+   editorsgui->save();
+   export_to_usfm(mainwindow, zipped);
+   */
 }
 
 void MainWindow::on_to_bibleworks_version_compiler_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3772,8 +3674,10 @@ void MainWindow::on_to_bibleworks_version_compiler_activate(GtkMenuItem *menuite
 }
 
 void MainWindow::on_to_bibleworks_version_compiler() {
-  editorsgui->save();
-  export_to_bibleworks(mainwindow);
+  /* Todo
+   editorsgui->save();
+   export_to_bibleworks(mainwindow);
+   */
 }
 
 void MainWindow::on_export_to_sword_module_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3781,9 +3685,11 @@ void MainWindow::on_export_to_sword_module_activate(GtkMenuItem *menuitem, gpoin
 }
 
 void MainWindow::on_export_to_sword_module() {
-  editorsgui->save();
-  export_to_sword_interactive();
-  bibletime.reloadmodules();
+  /* Todo
+   editorsgui->save();
+   export_to_sword_interactive();
+   bibletime.reloadmodules();
+   */
 }
 
 void MainWindow::on_export_opendocument_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3791,8 +3697,10 @@ void MainWindow::on_export_opendocument_activate(GtkMenuItem *menuitem, gpointer
 }
 
 void MainWindow::on_export_opendocument() {
-  editorsgui->save();
-  export_to_opendocument(mainwindow);
+  /* Todo
+   editorsgui->save();
+   export_to_opendocument(mainwindow);
+   */
 }
 
 /*
@@ -3830,9 +3738,11 @@ void MainWindow::on_validate_usfms1_activate(GtkMenuItem *menuitem, gpointer use
 }
 
 void MainWindow::on_menu_check_markers_validate() {
-  editorsgui->save();
-  show_references_window();
-  scripture_checks_validate_usfms(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  /* Todo
+   editorsgui->save();
+   show_references_window();
+   scripture_checks_validate_usfms(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+   */
 }
 
 void MainWindow::on_count_usfms1_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3840,8 +3750,10 @@ void MainWindow::on_count_usfms1_activate(GtkMenuItem *menuitem, gpointer user_d
 }
 
 void MainWindow::on_menu_check_markers_count() {
-  editorsgui->save();
-  scripture_checks_count_usfms(true);
+  /* Todo
+   editorsgui->save();
+   scripture_checks_count_usfms(true);
+   */
 }
 
 void MainWindow::on_compare_usfm1_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3849,9 +3761,11 @@ void MainWindow::on_compare_usfm1_activate(GtkMenuItem *menuitem, gpointer user_
 }
 
 void MainWindow::on_menu_check_markers_compare() {
-  editorsgui->save();
-  show_references_window();
-  scripture_checks_compare_usfms(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  /* Todo
+   editorsgui->save();
+   show_references_window();
+   scripture_checks_compare_usfms(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+   */
 }
 
 void MainWindow::on_chapters_and_verses1_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3859,9 +3773,11 @@ void MainWindow::on_chapters_and_verses1_activate(GtkMenuItem *menuitem, gpointe
 }
 
 void MainWindow::on_menu_check_chapters_and_verses() {
-  editorsgui->save();
-  show_references_window();
-  scripture_checks_chapters_verses(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  /* Todo
+   editorsgui->save();
+   show_references_window();
+   scripture_checks_chapters_verses(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+   */
 }
 
 void MainWindow::on_count_characters_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3869,8 +3785,10 @@ void MainWindow::on_count_characters_activate(GtkMenuItem *menuitem, gpointer us
 }
 
 void MainWindow::on_count_characters() {
-  editorsgui->save();
-  scripture_checks_count_characters(true);
+  /* Todo
+   editorsgui->save();
+   scripture_checks_count_characters(true);
+   */
 }
 
 void MainWindow::on_unwanted_patterns_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3878,9 +3796,11 @@ void MainWindow::on_unwanted_patterns_activate(GtkMenuItem *menuitem, gpointer u
 }
 
 void MainWindow::on_unwanted_patterns() {
-  editorsgui->save();
-  show_references_window();
-  scripture_checks_unwanted_patterns(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  /* Todo
+   editorsgui->save();
+   show_references_window();
+   scripture_checks_unwanted_patterns(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+   */
 }
 
 void MainWindow::on_check_capitalization_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3888,9 +3808,11 @@ void MainWindow::on_check_capitalization_activate(GtkMenuItem *menuitem, gpointe
 }
 
 void MainWindow::on_check_capitalization() {
-  editorsgui->save();
-  show_references_window();
-  scripture_checks_capitalization(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  /* Todo
+   editorsgui->save();
+   show_references_window();
+   scripture_checks_capitalization(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+   */
 }
 
 void MainWindow::on_check_repetition_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3898,9 +3820,11 @@ void MainWindow::on_check_repetition_activate(GtkMenuItem *menuitem, gpointer us
 }
 
 void MainWindow::on_check_repetition() {
-  editorsgui->save();
-  show_references_window();
-  scripture_checks_repetition(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  /* Todo
+   editorsgui->save();
+   show_references_window();
+   scripture_checks_repetition(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+   */
 }
 
 void MainWindow::on_check_matching_pairs_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3908,9 +3832,11 @@ void MainWindow::on_check_matching_pairs_activate(GtkMenuItem *menuitem, gpointe
 }
 
 void MainWindow::on_check_matching_pairs() {
-  editorsgui->save();
-  show_references_window();
-  scripture_checks_matching_pairs(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  /* Todo
+   editorsgui->save();
+   show_references_window();
+   scripture_checks_matching_pairs(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+   */
 }
 
 void MainWindow::on_unwanted_words_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3918,9 +3844,11 @@ void MainWindow::on_unwanted_words_activate(GtkMenuItem *menuitem, gpointer user
 }
 
 void MainWindow::on_unwanted_words() {
-  editorsgui->save();
-  show_references_window();
-  scripture_checks_unwanted_words(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  /* Todo
+   editorsgui->save();
+   show_references_window();
+   scripture_checks_unwanted_words(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+   */
 }
 
 void MainWindow::on_word_count_inventory_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3928,8 +3856,10 @@ void MainWindow::on_word_count_inventory_activate(GtkMenuItem *menuitem, gpointe
 }
 
 void MainWindow::on_word_count_inventory() {
-  editorsgui->save();
-  scripture_checks_word_inventory(true);
+  /* Todo
+   editorsgui->save();
+   scripture_checks_word_inventory(true);
+   */
 }
 
 bool MainWindow::on_check_httpd_timeout(gpointer data) {
@@ -3972,7 +3902,7 @@ void MainWindow::on_my_checks_activate(GtkMenuItem *menuitem, gpointer user_data
 }
 
 void MainWindow::on_my_checks() {
-  editorsgui->save();
+  // Todo editorsgui->save();
   show_references_window();
   MyChecksDialog dialog(window_references->liststore, window_references->treeview, window_references->treecolumn);
   dialog.run();
@@ -3983,7 +3913,7 @@ void MainWindow::on_check_markers_spacing_activate(GtkMenuItem *menuitem, gpoint
 }
 
 void MainWindow::on_check_markers_spacing() {
-  editorsgui->save();
+  // Todo editorsgui->save();
   show_references_window();
   scripture_checks_usfm_spacing(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
@@ -3993,7 +3923,7 @@ void MainWindow::on_check_references_inventory_activate(GtkMenuItem *menuitem, g
 }
 
 void MainWindow::on_check_references_inventory() {
-  editorsgui->save();
+  // Todo editorsgui->save();
   scripture_checks_references_inventory(true);
 }
 
@@ -4002,7 +3932,7 @@ void MainWindow::on_check_references_validate_activate(GtkMenuItem *menuitem, gp
 }
 
 void MainWindow::on_check_references_validate() {
-  editorsgui->save();
+  // Todo editorsgui->save();
   show_references_window();
   scripture_checks_validate_references(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
@@ -4012,7 +3942,7 @@ void MainWindow::on_check_nt_quotations_from_the_ot_activate(GtkMenuItem *menuit
 }
 
 void MainWindow::on_check_nt_quotations_from_the_ot() {
-  editorsgui->save();
+  // Todo editorsgui->save();
   scripture_checks_nt_quotations_from_ot(true);
 }
 
@@ -4021,7 +3951,7 @@ void MainWindow::on_synoptic_parallel_passages_from_the_nt_activate(GtkMenuItem 
 }
 
 void MainWindow::on_synoptic_parallel_passages_from_the_nt() {
-  editorsgui->save();
+  // Todo editorsgui->save();
   scripture_checks_synoptic_parallels_from_nt(true);
 }
 
@@ -4030,7 +3960,7 @@ void MainWindow::on_parallels_from_the_ot_activate(GtkMenuItem *menuitem, gpoint
 }
 
 void MainWindow::on_parallels_from_the_ot() {
-  editorsgui->save();
+  // Todo editorsgui->save();
   scripture_checks_parallels_from_ot(true);
 }
 
@@ -4039,7 +3969,7 @@ void MainWindow::on_check_sentence_structure_activate(GtkMenuItem *menuitem, gpo
 }
 
 void MainWindow::on_check_sentence_structure() {
-  editorsgui->save();
+  // Todo editorsgui->save();
   show_references_window();
   scripture_checks_sentence_structure(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
@@ -4139,118 +4069,120 @@ void MainWindow::on_style_button_apply_clicked(GtkButton *button, gpointer user_
 
 void MainWindow::on_style_apply() {
   // Get the focused Editor. If none, bail out.
-  Editor * editor = editorsgui->focused_editor();
-  if (!editor)
-    return;
+  /* Todo 
+   Editor * editor = editorsgui->focused_editor();
+   if (!editor)
+   return;
 
-  // Bail out ifthere's no styles window.
-  if (!window_styles)
-    return;
+   // Bail out ifthere's no styles window.
+   if (!window_styles)
+   return;
 
-  // Get the focused style(s).
-  ustring selected_style = window_styles->get_focus();
+   // Get the focused style(s).
+   ustring selected_style = window_styles->get_focus();
 
-  // Only proceed when a style has been selected.
-  if (selected_style.empty())
-    return;
+   // Only proceed when a style has been selected.
+   if (selected_style.empty())
+   return;
 
-  // Get the Style object.
-  extern Settings * settings;
-  Style style(settings->genconfig.stylesheet_get(), selected_style, false);
+   // Get the Style object.
+   extern Settings * settings;
+   Style style(settings->genconfig.stylesheet_get(), selected_style, false);
 
-  // Whether and how the style is used.
-  bool style_was_used = true;
-  bool style_was_treated_specially = false;
+   // Whether and how the style is used.
+   bool style_was_used = true;
+   bool style_was_treated_specially = false;
 
-  // Special treatment for the chapter style.
-  if (style.type == stChapterNumber) {
-    // Ask whether the user wishes to insert a new chapter.
-    if (gtkw_dialog_question(mainwindow, "Would you like to insert a new chapter?", GTK_RESPONSE_YES) == GTK_RESPONSE_YES) {
-      // Insert a new chapter.
-      editorsgui->save();
-      ChapterNumberDialog dialog(true);
-      if (dialog.run() == GTK_RESPONSE_OK) {
-        reload_project();
-      } else {
-        style_was_used = false;
-      }
-      style_was_treated_specially = true;
-    }
-  }
+   // Special treatment for the chapter style.
+   if (style.type == stChapterNumber) {
+   // Ask whether the user wishes to insert a new chapter.
+   if (gtkw_dialog_question(mainwindow, "Would you like to insert a new chapter?", GTK_RESPONSE_YES) == GTK_RESPONSE_YES) {
+   // Insert a new chapter.
+   editorsgui->save();
+   ChapterNumberDialog dialog(true);
+   if (dialog.run() == GTK_RESPONSE_OK) {
+   reload_project();
+   } else {
+   style_was_used = false;
+   }
+   style_was_treated_specially = true;
+   }
+   }
 
-  // Inserting footnote or endnote or crossreference.
-  {
-    Editor * editor = editorsgui->focused_editor();
-    if (editor) {
-      if (editor->last_focused_type() == etvtBody) {
-        if (style.type == stFootEndNote) {
-          if (style.subtype == fentFootnote) {
-            InsertNoteDialog dialog(indtFootnote);
-            if (dialog.run() == GTK_RESPONSE_OK) {
-              editor->insert_note(style.marker, dialog.rawtext, 
-              NULL, true);
-            } else {
-              style_was_used = false;
-            }
-            style_was_treated_specially = true;
-          }
-          if (style.subtype == fentEndnote) {
-            InsertNoteDialog dialog(indtEndnote);
-            if (dialog.run() == GTK_RESPONSE_OK) {
-              editor->insert_note(style.marker, dialog.rawtext, 
-              NULL, true);
-            } else {
-              style_was_used = false;
-            }
-            style_was_treated_specially = true;
-          }
-        }
-        if (style.type == stCrossreference) {
-          InsertNoteDialog dialog(indtCrossreference);
-          if (dialog.run() == GTK_RESPONSE_OK) {
-            editor->insert_note(style.marker, dialog.rawtext, NULL, true);
-          } else {
-            style_was_used = false;
-          }
-          style_was_treated_specially = true;
-          // If the gui has been set so, display the references in the tools area.
-          if (settings->genconfig.inserting_xref_shows_references_get()) {
-            show_references_window();
-            gtk_widget_grab_focus(editor->last_focused_textview());
-          }
-        }
-      }
-    }
-  }
+   // Inserting footnote or endnote or crossreference.
+   {
+   Editor * editor = editorsgui->focused_editor();
+   if (editor) {
+   if (editor->last_focused_type() == etvtBody) {
+   if (style.type == stFootEndNote) {
+   if (style.subtype == fentFootnote) {
+   InsertNoteDialog dialog(indtFootnote);
+   if (dialog.run() == GTK_RESPONSE_OK) {
+   editor->insert_note(style.marker, dialog.rawtext, 
+   NULL, true);
+   } else {
+   style_was_used = false;
+   }
+   style_was_treated_specially = true;
+   }
+   if (style.subtype == fentEndnote) {
+   InsertNoteDialog dialog(indtEndnote);
+   if (dialog.run() == GTK_RESPONSE_OK) {
+   editor->insert_note(style.marker, dialog.rawtext, 
+   NULL, true);
+   } else {
+   style_was_used = false;
+   }
+   style_was_treated_specially = true;
+   }
+   }
+   if (style.type == stCrossreference) {
+   InsertNoteDialog dialog(indtCrossreference);
+   if (dialog.run() == GTK_RESPONSE_OK) {
+   editor->insert_note(style.marker, dialog.rawtext, NULL, true);
+   } else {
+   style_was_used = false;
+   }
+   style_was_treated_specially = true;
+   // If the gui has been set so, display the references in the tools area.
+   if (settings->genconfig.inserting_xref_shows_references_get()) {
+   show_references_window();
+   gtk_widget_grab_focus(editor->last_focused_textview());
+   }
+   }
+   }
+   }
+   }
 
-  // Special treatment for a table style.
-  {
-    Editor * editor = editorsgui->focused_editor();
-    if (editor) {
-      if (editor->last_focused_type() == etvtBody) {
-        if (style.type == stTableElement) {
-          InsertTableDialog dialog(editor->project);
-          if (dialog.run() == GTK_RESPONSE_OK) {
-            editor->insert_table(dialog.rawtext, NULL);
-          } else {
-            style_was_used = false;
-          }
-          style_was_treated_specially = true;
-        }
-      }
-    }
-  }
+   // Special treatment for a table style.
+   {
+   Editor * editor = editorsgui->focused_editor();
+   if (editor) {
+   if (editor->last_focused_type() == etvtBody) {
+   if (style.type == stTableElement) {
+   InsertTableDialog dialog(editor->project);
+   if (dialog.run() == GTK_RESPONSE_OK) {
+   editor->insert_table(dialog.rawtext, NULL);
+   } else {
+   style_was_used = false;
+   }
+   style_was_treated_specially = true;
+   }
+   }
+   }
+   }
 
-  // Normal treatment of the style if it was not handled specially.
-  if (!style_was_treated_specially) {
-    // Normal treatment of the marker: apply it.
-    editor->apply_style(selected_style);
-  }
+   // Normal treatment of the style if it was not handled specially.
+   if (!style_was_treated_specially) {
+   // Normal treatment of the marker: apply it.
+   editor->apply_style(selected_style);
+   }
 
-  // Take some actions if the style was used.
-  if (style_was_used) {
-    window_styles->use(selected_style);
-  }
+   // Take some actions if the style was used.
+   if (style_was_used) {
+   window_styles->use(selected_style);
+   }
+   */
 }
 
 void MainWindow::on_editor_style_changed(GtkButton *button, gpointer user_data) {
@@ -4258,24 +4190,26 @@ void MainWindow::on_editor_style_changed(GtkButton *button, gpointer user_data) 
 }
 
 void MainWindow::editor_style_changed() {
-  Editor * editor = editorsgui->focused_editor();
-  if (!editor)
-    return;
-  set <ustring> styles = editor->get_styles_at_cursor();
-  vector <ustring> styles2(styles.begin(), styles.end());
-  ustring text = "Style ";
-  for (unsigned int i = 0; i < styles2.size(); i++) {
-    if (i)
-      text.append(", ");
-    text.append(styles2[i]);
-  }
-  gtk_label_set_text(GTK_LABEL (statuslabel_style), text.c_str ());
+  /* Todo
+   Editor * editor = editorsgui->focused_editor();
+   if (!editor)
+   return;
+   set <ustring> styles = editor->get_styles_at_cursor();
+   vector <ustring> styles2(styles.begin(), styles.end());
+   ustring text = "Style ";
+   for (unsigned int i = 0; i < styles2.size(); i++) {
+   if (i)
+   text.append(", ");
+   text.append(styles2[i]);
+   }
+   gtk_label_set_text(GTK_LABEL (statuslabel_style), text.c_str ());
+   */
 }
 
 void MainWindow::on_style_edited(GtkButton *button, gpointer user_data)
 // This function is called when the properties of a style have been edited.
 {
-  ((MainWindow *) user_data)->editorsgui->reload_styles();
+  // Todo implement again. ((MainWindow *) user_data)->editorsgui->reload_styles();
 }
 
 /*
@@ -4297,11 +4231,13 @@ void MainWindow::on_edit_bible_note_activate(GtkMenuItem *menuitem, gpointer use
 }
 
 void MainWindow::on_edit_bible_note() {
-  Editor * editor = editorsgui->focused_editor();
-  if (editor) {
-    EditNoteDialog dialog(editor);
-    dialog.run();
-  }
+  /* Todo
+   Editor * editor = editorsgui->focused_editor();
+   if (editor) {
+   EditNoteDialog dialog(editor);
+   dialog.run();
+   }
+   */
 }
 
 /*
@@ -4351,7 +4287,7 @@ void MainWindow::on_notes_transfer_activate(GtkMenuItem *menuitem, gpointer user
 }
 
 void MainWindow::on_notes_transfer() {
-  editorsgui->save();
+  // Todo editorsgui->save();
   NotesTransferDialog dialog(0);
   if (dialog.run() == GTK_RESPONSE_OK)
     notes_redisplay();
@@ -4362,7 +4298,7 @@ void MainWindow::on_tool_origin_references_in_bible_notes_activate(GtkMenuItem *
 }
 
 void MainWindow::on_tool_origin_references_in_bible_notes() {
-  editorsgui->save();
+  // Todo editorsgui->save();
   OriginReferencesDialog dialog(0);
   if (dialog.run() == GTK_RESPONSE_OK)
     reload_project();
@@ -4384,7 +4320,7 @@ void MainWindow::on_tool_generate_word_lists_activate(GtkMenuItem *menuitem, gpo
 }
 
 void MainWindow::on_tool_generate_word_lists() {
-  editorsgui->save();
+  // Todo editorsgui->save();
   WordlistDialog dialog(0);
   if (dialog.run() == GTK_RESPONSE_OK)
     reload_project();
@@ -4398,7 +4334,7 @@ void MainWindow::on_tool_transfer_project_notes_to_text()
 // This transfers the currently visible project notes to the currently active project, 
 // and does that for each verse.
 {
-  editorsgui->save();
+  // Todo editorsgui->save();
   XferNotes2TextDialog dialog(0);
   if (dialog.run() == GTK_RESPONSE_OK) {
     reload_project();
@@ -4429,7 +4365,7 @@ void MainWindow::on_tool_simple_text_corrections_activate(GtkMenuItem *menuitem,
 }
 
 void MainWindow::on_tool_simple_text_corrections() {
-  editorsgui->save();
+  // Todo editorsgui->save();
   FixMarkersDialog dialog(0);
   if (dialog.run() == GTK_RESPONSE_OK)
     reload_project();
@@ -4474,16 +4410,18 @@ void MainWindow::on_view_usfm_code_activate(GtkMenuItem *menuitem, gpointer user
 }
 
 void MainWindow::on_view_usfm_code() {
-  Editor * editor = editorsgui->focused_editor();
-  if (!editor)
-    return;
-  editorsgui->save();
-  ustring filename = project_data_filename_chapter(editor->project, editor->book, editor->chapter, false);
-  ViewUSFMDialog dialog(filename);
-  dialog.run();
-  if (dialog.changed) {
-    reload_project();
-  }
+  /* // Todo 
+   Editor * editor = editorsgui->focused_editor();
+   if (!editor)
+   return;
+   editorsgui->save();
+   ustring filename = project_data_filename_chapter(editor->project, editor->book, editor->chapter, false);
+   ViewUSFMDialog dialog(filename);
+   dialog.run();
+   if (dialog.changed) {
+   reload_project();
+   }
+   */
 }
 
 void MainWindow::on_insert_special_character_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -4491,33 +4429,35 @@ void MainWindow::on_insert_special_character_activate(GtkMenuItem *menuitem, gpo
 }
 
 void MainWindow::on_insert_special_character() {
-  Editor * editor = editorsgui->focused_editor();
-  if (!editor)
-    return;
-  extern Settings * settings;
-  vector <ustring> characters;
-  vector <ustring> descriptions;
-  characters.push_back("­");
-  descriptions.push_back("Soft hyphen");
-  characters.push_back(" ");
-  descriptions.push_back("No-break space");
-  characters.push_back("“");
-  descriptions.push_back("Left double quotation mark");
-  characters.push_back("”");
-  descriptions.push_back("Right double quotation mark");
-  characters.push_back("‘");
-  descriptions.push_back("Left single quotation mark");
-  characters.push_back("’");
-  descriptions.push_back("Right single quotation mark");
-  characters.push_back("«");
-  descriptions.push_back("Left-pointing double angle quotation mark");
-  characters.push_back("»");
-  descriptions.push_back("Right-pointing double angle quotation mark");
-  RadiobuttonDialog dialog("Insert character", "Insert special character", descriptions, settings->session.special_character_selection);
-  if (dialog.run() != GTK_RESPONSE_OK)
-    return;
-  settings->session.special_character_selection = dialog.selection;
-  editor->text_insert(characters[dialog.selection]);
+  /* // Todo 
+   Editor * editor = editorsgui->focused_editor();
+   if (!editor)
+   return;
+   extern Settings * settings;
+   vector <ustring> characters;
+   vector <ustring> descriptions;
+   characters.push_back("­");
+   descriptions.push_back("Soft hyphen");
+   characters.push_back(" ");
+   descriptions.push_back("No-break space");
+   characters.push_back("“");
+   descriptions.push_back("Left double quotation mark");
+   characters.push_back("”");
+   descriptions.push_back("Right double quotation mark");
+   characters.push_back("‘");
+   descriptions.push_back("Left single quotation mark");
+   characters.push_back("’");
+   descriptions.push_back("Right single quotation mark");
+   characters.push_back("«");
+   descriptions.push_back("Left-pointing double angle quotation mark");
+   characters.push_back("»");
+   descriptions.push_back("Right-pointing double angle quotation mark");
+   RadiobuttonDialog dialog("Insert character", "Insert special character", descriptions, settings->session.special_character_selection);
+   if (dialog.run() != GTK_RESPONSE_OK)
+   return;
+   settings->session.special_character_selection = dialog.selection;
+   editor->text_insert(characters[dialog.selection]);
+   */
 }
 
 void MainWindow::on_preferences_graphical_interface_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -4625,7 +4565,7 @@ void MainWindow::on_project_backup_incremental_activate(GtkMenuItem *menuitem, g
 }
 
 void MainWindow::on_project_backup_incremental() {
-  editorsgui->save();
+  // Todo editorsgui->save();
   git_command_pause(true);
   backup_make_incremental();
   git_command_pause(false);
@@ -4636,7 +4576,7 @@ void MainWindow::on_project_backup_flexible_activate(GtkMenuItem *menuitem, gpoi
 }
 
 void MainWindow::on_project_backup_flexible() {
-  editorsgui->save();
+  // Todo editorsgui->save();
   git_command_pause(true);
   BackupDialog dialog(0);
   if (dialog.run() == GTK_RESPONSE_OK) {
@@ -4673,7 +4613,7 @@ void MainWindow::on_preferences_remote_git_repository_activate(GtkMenuItem *menu
 }
 
 void MainWindow::on_preferences_remote_git_repository() {
-  editorsgui->save();
+  // Todo editorsgui->save();
   GitSetupDialog dialog(0);
   if (dialog.run() == GTK_RESPONSE_OK)
     reload_project();
@@ -4692,7 +4632,7 @@ void MainWindow::on_project_changes_activate(GtkMenuItem *menuitem, gpointer use
 
 void MainWindow::on_project_changes() {
   // Save even the very latest changes.
-  editorsgui->save();
+  // Todo editorsgui->save();
   // The changes checker will generate git tasks. Pause git.
   git_command_pause(true);
   // Do the actual changes dialog. 
@@ -4710,7 +4650,7 @@ void MainWindow::on_edit_revert_activate(GtkMenuItem *menuitem, gpointer user_da
 }
 
 void MainWindow::on_edit_revert() {
-  editorsgui->save();
+  // Todo editorsgui->save();
   RevertDialog dialog(&navigation.reference);
   if (dialog.run() == GTK_RESPONSE_OK) {
     reload_project();
@@ -4779,55 +4719,57 @@ void MainWindow::on_view_text_font_activate(GtkMenuItem * menuitem, gpointer use
 }
 
 void MainWindow::on_text_font() {
-  // Get the font and colour settings, either from the project, if it is opened, 
-  // or else from genconfig.
-  extern Settings * settings;
-  bool defaultfont = settings->genconfig.text_editor_font_default_get();
-  ustring fontname = settings->genconfig.text_editor_font_name_get();
-  unsigned int linespacing = 100;
-  bool defaultcolour = settings->genconfig.text_editor_default_color_get();
-  unsigned int normaltextcolour = settings->genconfig.text_editor_normal_text_color_get();
-  unsigned int backgroundcolour = settings->genconfig.text_editor_background_color_get();
-  unsigned int selectedtextcolour = settings->genconfig.text_editor_selected_text_color_get();
-  unsigned int selectioncolour = settings->genconfig.text_editor_selection_color_get();
-  Editor * editor = editorsgui->focused_editor();
-  if (editor) {
-    ProjectConfiguration * projectconfig = settings->projectconfig(editor->project);
-    defaultfont = projectconfig->editor_font_default_get();
-    fontname = projectconfig->editor_font_name_get();
-    linespacing = projectconfig->text_line_height_get();
-    defaultcolour = settings->genconfig.text_editor_default_color_get();
-    normaltextcolour = projectconfig->editor_normal_text_color_get();
-    backgroundcolour = projectconfig->editor_background_color_get();
-    selectedtextcolour = projectconfig->editor_selected_text_color_get();
-    selectioncolour = projectconfig->editor_selection_color_get();
-  }
+  /* // Todo 
+   // Get the font and colour settings, either from the project, if it is opened, 
+   // or else from genconfig.
+   extern Settings * settings;
+   bool defaultfont = settings->genconfig.text_editor_font_default_get();
+   ustring fontname = settings->genconfig.text_editor_font_name_get();
+   unsigned int linespacing = 100;
+   bool defaultcolour = settings->genconfig.text_editor_default_color_get();
+   unsigned int normaltextcolour = settings->genconfig.text_editor_normal_text_color_get();
+   unsigned int backgroundcolour = settings->genconfig.text_editor_background_color_get();
+   unsigned int selectedtextcolour = settings->genconfig.text_editor_selected_text_color_get();
+   unsigned int selectioncolour = settings->genconfig.text_editor_selection_color_get();
+   Editor * editor = editorsgui->focused_editor();
+   if (editor) {
+   ProjectConfiguration * projectconfig = settings->projectconfig(editor->project);
+   defaultfont = projectconfig->editor_font_default_get();
+   fontname = projectconfig->editor_font_name_get();
+   linespacing = projectconfig->text_line_height_get();
+   defaultcolour = settings->genconfig.text_editor_default_color_get();
+   normaltextcolour = projectconfig->editor_normal_text_color_get();
+   backgroundcolour = projectconfig->editor_background_color_get();
+   selectedtextcolour = projectconfig->editor_selected_text_color_get();
+   selectioncolour = projectconfig->editor_selection_color_get();
+   }
 
-  // Display font selection dialog. 
-  FontColorDialog dialog(defaultfont, fontname, linespacing, defaultcolour, normaltextcolour, backgroundcolour, selectedtextcolour, selectioncolour);
-  if (dialog.run() != GTK_RESPONSE_OK)
-    return;
+   // Display font selection dialog. 
+   FontColorDialog dialog(defaultfont, fontname, linespacing, defaultcolour, normaltextcolour, backgroundcolour, selectedtextcolour, selectioncolour);
+   if (dialog.run() != GTK_RESPONSE_OK)
+   return;
 
-  // Save font, and set it.
-  settings->genconfig.text_editor_font_default_set(dialog.new_use_default_font);
-  settings->genconfig.text_editor_font_name_set(dialog.new_font);
-  settings->genconfig.text_editor_default_color_set(dialog.new_use_default_color);
-  settings->genconfig.text_editor_normal_text_color_set(dialog.new_normal_text_color);
-  settings->genconfig.text_editor_background_color_set(dialog.new_background_color);
-  settings->genconfig.text_editor_selected_text_color_set(dialog.new_selected_text_color);
-  settings->genconfig.text_editor_selection_color_set(dialog.new_selection_color);
-  if (editor) {
-    ProjectConfiguration * projectconfig = settings->projectconfig(editor->project);
-    projectconfig->editor_font_default_set(dialog.new_use_default_font);
-    projectconfig->editor_font_name_set(dialog.new_font);
-    projectconfig->text_line_height_set(dialog.new_line_spacing);
-    projectconfig->editor_default_color_set(dialog.new_use_default_color);
-    projectconfig->editor_normal_text_color_set(dialog.new_normal_text_color);
-    projectconfig->editor_background_color_set(dialog.new_background_color);
-    projectconfig->editor_selected_text_color_set(dialog.new_selected_text_color);
-    projectconfig->editor_selection_color_set(dialog.new_selection_color);
-  }
-  set_fonts();
+   // Save font, and set it.
+   settings->genconfig.text_editor_font_default_set(dialog.new_use_default_font);
+   settings->genconfig.text_editor_font_name_set(dialog.new_font);
+   settings->genconfig.text_editor_default_color_set(dialog.new_use_default_color);
+   settings->genconfig.text_editor_normal_text_color_set(dialog.new_normal_text_color);
+   settings->genconfig.text_editor_background_color_set(dialog.new_background_color);
+   settings->genconfig.text_editor_selected_text_color_set(dialog.new_selected_text_color);
+   settings->genconfig.text_editor_selection_color_set(dialog.new_selection_color);
+   if (editor) {
+   ProjectConfiguration * projectconfig = settings->projectconfig(editor->project);
+   projectconfig->editor_font_default_set(dialog.new_use_default_font);
+   projectconfig->editor_font_name_set(dialog.new_font);
+   projectconfig->text_line_height_set(dialog.new_line_spacing);
+   projectconfig->editor_default_color_set(dialog.new_use_default_color);
+   projectconfig->editor_normal_text_color_set(dialog.new_normal_text_color);
+   projectconfig->editor_background_color_set(dialog.new_background_color);
+   projectconfig->editor_selected_text_color_set(dialog.new_selected_text_color);
+   projectconfig->editor_selection_color_set(dialog.new_selection_color);
+   }
+   set_fonts();
+   */
 }
 
 void MainWindow::on_view_notes_font_activate(GtkMenuItem * menuitem, gpointer user_data) {
@@ -4852,7 +4794,7 @@ void MainWindow::on_notes_font() {
 
 void MainWindow::set_fonts() {
   // Set font in the text editors. Set text direction too.
-  editorsgui->set_fonts();
+  // Todo editorsgui->set_fonts();
 
   /* Because of switching to GtkHtml for displaying and editing project notes, the fonts no longer can be set through the menu.
    // Set font for the translation notes editor.
@@ -5138,9 +5080,6 @@ void MainWindow::on_file_resources_open_activate(GtkMenuItem *menuitem, gpointer
 void MainWindow::on_file_resources_open(ustring resource)
 // Opens a resource.
 {
-  // Focus signals off.
-  temporarily_switch_off_act_on_focus_in_signal();
-
   // Find data about the resource, and whether it exists.
   vector <ustring> filenames;
   vector <ustring> resources = resource_get_resources(filenames, false);
@@ -5254,7 +5193,7 @@ void MainWindow::on_file_resources_delete()
  |
  |
  |
- Text Editor
+ Text Editors Todo working here
  |
  |
  |
@@ -5262,49 +5201,100 @@ void MainWindow::on_file_resources_delete()
  |
  */
 
+void MainWindow::on_window_editor_delete_button_clicked(GtkButton *button, gpointer user_data) {
+  ((MainWindow *) user_data)->on_window_editor_delete_button(button);
+}
+
+void MainWindow::on_window_editor_delete_button(GtkButton *button) {
+  GtkWidget * widget= GTK_WIDGET (button);
+  vector <WindowEditor *>::iterator iterator = editor_windows.begin();
+  for (unsigned int i = 0; i < editor_windows.size(); i++) {
+    if (widget == editor_windows[i]->delete_signal_button) {
+      delete editor_windows[i];
+      editor_windows.erase(iterator);
+      break;
+    }
+    iterator++;
+  }
+}
+
+WindowEditor * MainWindow::last_focused_editor_window()
+// Get the focused editor window, or NULL if there's none.
+{
+  WindowEditor * editor_window= NULL;
+  time_t most_recent_time = 0;
+  for (unsigned int i = 0; i < editor_windows.size(); i++) {
+    if (editor_windows[i]->focused_time > most_recent_time) {
+      most_recent_time = editor_windows[i]->focused_time;
+      editor_window = editor_windows[i];
+    }
+  }
+  return editor_window;
+}
+
+void MainWindow::on_file_project_open(const ustring& project) // Todo implement. Todo working here.
+// Opens an editor.
+{
+  // If the editor already displays, present it and bail out.
+  for (unsigned int i = 0; i < editor_windows.size(); i++) {
+    if (project == editor_windows[i]->window_data) {
+      editor_windows[i]->present();
+      return;
+    }
+  }
+
+  // Display a new editor.
+  WindowEditor * editor_window = new WindowEditor (project, accelerator_group, false);
+  g_signal_connect ((gpointer) editor_window->delete_signal_button, "clicked", G_CALLBACK (on_window_editor_delete_button_clicked), gpointer(this));
+  g_signal_connect ((gpointer) editor_window->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
+  editor_windows.push_back(editor_window);
+
+  // After creation the window will generate a focus signal, 
+  // and this signal in turn will cause further processing of the editor.
+}
+
 void MainWindow::on_editor_reload_clicked(GtkButton *button, gpointer user_data) {
   ((MainWindow *) user_data)->on_editor_reload();
 }
 
 void MainWindow::on_editor_reload() {
   // Get the focused editor, if none, bail out.
-  Editor * editor = editorsgui->focused_editor();
-  if (!editor)
-    return;
-  // Create the reference where to go to after the project has been reopened.
-  // The reference should be obtained before closing the project,
-  // so that the chapter number to go to is accessible.
-  Reference reference(navigation.reference);
-  reference.chapter = editor->reload_chapter_number;
-  if (editor->reload_chapter_number == 0)
-    reference.verse = "0";
-  // Reopen.
-  reload_project();
-  // Go to the right reference.
-  navigation.display(reference);
+  /* // Todo 
+   Editor * editor = editorsgui->focused_editor();
+   if (!editor)
+   return;
+   // Create the reference where to go to after the project has been reopened.
+   // The reference should be obtained before closing the project,
+   // so that the chapter number to go to is accessible.
+   Reference reference(navigation.reference);
+   reference.chapter = editor->reload_chapter_number;
+   if (editor->reload_chapter_number == 0)
+   reference.verse = "0";
+   // Reopen.
+   reload_project();
+   // Go to the right reference.
+   navigation.display(reference);
+   */
 }
 
-void MainWindow::on_editorsgui_focus_button_clicked(GtkButton *button, gpointer user_data) {
-  ((MainWindow *) user_data)->on_editorsgui_focus_button();
-}
-
-void MainWindow::on_editorsgui_focus_button() {
+void MainWindow::handle_editor_focus() {
   // Get the focused editor and the project.
-  Editor * editor = editorsgui->focused_editor();
+  WindowEditor * editor_window = last_focused_editor_window();
   ustring project;
-  if (editor)
-    project = editor->project;
+  if (editor_window)
+    project = editor_window->editor->project;
 
-  // Enable or disable widgets depending on whether an editor is focused.
-  enable_or_disable_widgets(editor);
-
-  // Set the project in the titlebar.
-  set_titlebar(project);
+  // Enable or disable widgets depending on whether an editor window is focused.
+  enable_or_disable_widgets(editor_window);
 
   // Inform the merge window, if it is there, about the editors.
   if (window_merge) {
-    window_merge->set_focused_editor(editor);
-    window_merge->set_visible_editors(editorsgui->visible_editors_get());
+    window_merge->set_focused_editor(editor_window->editor);
+    vector <Editor *> visible_editors;
+    for (unsigned int i = 0; i < editor_windows.size(); i++) {
+      visible_editors.push_back(editor_windows[i]->editor);
+    }
+    window_merge->set_visible_editors(visible_editors);
   }
 
   // If we've no project bail out.
@@ -5340,13 +5330,15 @@ void MainWindow::on_editorsgui_focus_button() {
 void MainWindow::jump_start_editors(const ustring& project)
 // Jump starts the text editors.
 {
-  enable_or_disable_widgets(false);
-  editorsgui->jumpstart(project);
-  g_signal_connect ((gpointer) editorsgui->new_verse_button, "clicked", G_CALLBACK (on_new_verse_signalled), gpointer(this));
-  g_signal_connect ((gpointer) editorsgui->new_styles_button, "clicked", G_CALLBACK (on_editor_style_changed), gpointer(this));
-  g_signal_connect ((gpointer) editorsgui->word_double_clicked_button, "clicked", G_CALLBACK (on_send_word_to_toolbox_signalled), gpointer(this));
-  g_signal_connect ((gpointer) editorsgui->editor_reload_button, "clicked", G_CALLBACK (on_editor_reload_clicked), gpointer(this));
-  g_signal_connect ((gpointer) editorsgui->editor_changed_button, "clicked", G_CALLBACK (on_editorsgui_changed_clicked), gpointer(this));
+  /* // Todo 
+   enable_or_disable_widgets(false);
+   editorsgui->jumpstart(project);
+   g_signal_connect ((gpointer) editorsgui->new_verse_button, "clicked", G_CALLBACK (on_new_verse_signalled), gpointer(this));
+   g_signal_connect ((gpointer) editorsgui->new_styles_button, "clicked", G_CALLBACK (on_editor_style_changed), gpointer(this));
+   g_signal_connect ((gpointer) editorsgui->word_double_clicked_button, "clicked", G_CALLBACK (on_send_word_to_toolbox_signalled), gpointer(this));
+   g_signal_connect ((gpointer) editorsgui->editor_reload_button, "clicked", G_CALLBACK (on_editor_reload_clicked), gpointer(this));
+   g_signal_connect ((gpointer) editorsgui->editor_changed_button, "clicked", G_CALLBACK (on_editorsgui_changed_clicked), gpointer(this));
+   */
 }
 
 void MainWindow::on_editorsgui_changed_clicked(GtkButton *button, gpointer user_data) {
@@ -5378,7 +5370,7 @@ void MainWindow::reload_project()
   navigation.display(reference);
 
   // Reload all editors.
-  editorsgui->reload_chapter(reference.book, reference.chapter);
+  // Todo editorsgui->reload_chapter(reference.book, reference.chapter);
 }
 
 /*
@@ -5429,12 +5421,14 @@ void MainWindow::on_merge_window_get_text_button_clicked(GtkButton *button, gpoi
 }
 
 void MainWindow::on_merge_window_get_text_button() {
-  if (window_merge) {
-    window_merge->main_project_data = editorsgui->get_text(window_merge->current_master_project);
-    window_merge->edited_project_data = editorsgui->get_text(window_merge->current_edited_project);
-    window_merge->book = navigation.reference.book;
-    window_merge->chapter = navigation.reference.chapter;
-  }
+  /*
+   if (window_merge) {
+   window_merge->main_project_data = editorsgui->get_text(window_merge->current_master_project);
+   window_merge->edited_project_data = editorsgui->get_text(window_merge->current_edited_project);
+   window_merge->book = navigation.reference.book;
+   window_merge->chapter = navigation.reference.chapter;
+   }
+   */
 }
 
 void MainWindow::on_merge_window_new_reference_button_clicked(GtkButton *button, gpointer user_data) {
@@ -5453,7 +5447,7 @@ void MainWindow::on_merge_window_save_editors_button_clicked(GtkButton *button, 
 }
 
 void MainWindow::on_merge_window_save_editors_button() {
-  editorsgui->save();
+  // Todo editorsgui->save();
 }
 
 /*
@@ -5514,7 +5508,7 @@ void MainWindow::on_print() {
     settings->genconfig.print_job_set(selection);
   }
   // Save the editors.
-  editorsgui->save();
+  // Todo editorsgui->save();
 
   switch (selection)
   {
@@ -5544,7 +5538,7 @@ void MainWindow::on_print() {
     case 2: // References.
     {
       // Activate references.
-       show_references_window();
+      show_references_window();
       // Show dialog.
       {
         PrintReferencesDialog dialog(0);
@@ -6116,6 +6110,11 @@ bool MainWindow::on_windows_startup() {
           show_references_window();
           break;
         }
+        case widEditor:
+        {
+          on_file_project_open(data);
+          break;
+        }
       }
       window_started = true;
     }
@@ -6196,6 +6195,14 @@ void MainWindow::shutdown_windows()
     window_references = NULL;
   }
 
+  // Editor.
+  while (!editor_windows.empty()) {
+    WindowEditor * editor_window = editor_windows[0];
+    editor_window->shutdown();
+    delete editor_window;
+    editor_windows.erase(editor_windows.begin());
+  }
+
 }
 
 void MainWindow::on_window_focus_button_clicked(GtkButton *button, gpointer user_data) {
@@ -6212,16 +6219,17 @@ void MainWindow::on_window_focus_button(GtkButton *button)
     now_focused_signal_button = widget;
   }
 
-  extern Settings * settings;
-  vector <GtkWindow *> windows = settings->session.open_windows;
+  // Present the windows.
+  present_windows(widget);
 
-  // The main window is going to be presented, and therefore will fire the "focus_in_event".
-  // Don't act on this signal for a short while, lest the focusing goes on and on in an endless loop.
-  temporarily_switch_off_act_on_focus_in_signal();
+  // Handle cases that an editor receives focus.
+  handle_editor_focus();
+}
 
+void MainWindow::present_windows(GtkWidget * widget)
+// If one window is focused, present them all.
+{
   // Present all windows.
-  //gtk_window_set_skip_taskbar_hint(GTK_WINDOW (mainwindow), true);
-  //gtk_window_present(GTK_WINDOW (mainwindow));
   if (window_show_quick_references)
     window_show_quick_references->present();
   if (window_show_keyterms)
@@ -6241,11 +6249,11 @@ void MainWindow::on_window_focus_button(GtkButton *button)
     window_notes->present();
   if (window_references)
     window_references->present();
-
-  // Present the calling window again.
-  if (widget == NULL) {
-    //gtk_window_present(GTK_WINDOW (mainwindow));
+  for (unsigned int i = 0; i < editor_windows.size(); i++) {
+    editor_windows[i]->present();
   }
+
+  // Present the calling window again so that it keeps the focus.
   if (window_show_quick_references) {
     if (widget == window_show_quick_references->focus_in_signal_button)
       window_show_quick_references->present();
@@ -6282,36 +6290,10 @@ void MainWindow::on_window_focus_button(GtkButton *button)
     if (widget == window_references->focus_in_signal_button)
       window_references->present();
   }
-}
-
-gboolean MainWindow::on_main_window_focus_in_event(GtkWidget *widget, GdkEventFocus *event, gpointer user_data) {
-  ((MainWindow *) user_data)->on_main_window_focus_in();
-  return FALSE;
-}
-
-void MainWindow::on_main_window_focus_in()
-// The handler is called when the main window focuses in.
-{
-  if (act_on_focus_in_signal) {
-    on_window_focus_button(NULL);
+  for (unsigned int i = 0; i < editor_windows.size(); i++) {
+    if (widget == editor_windows[i]->focus_in_signal_button)
+      editor_windows[i]->present();
   }
-}
-
-void MainWindow::temporarily_switch_off_act_on_focus_in_signal() {
-  act_on_focus_in_signal = false;
-  gw_destroy_source(focus_event_id);
-  focus_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 1000, GSourceFunc (on_focus_timeout), gpointer(this), NULL);
-}
-
-bool MainWindow::on_focus_timeout(gpointer data) {
-  ((MainWindow*) data)->focus_timeout();
-  return false;
-}
-
-void MainWindow::focus_timeout() {
-  // After a while the window should act on the "focus_in_event" again.
-  act_on_focus_in_signal = true;
-  //gtk_window_set_skip_taskbar_hint(GTK_WINDOW (mainwindow), false);
 }
 
 /*
@@ -6362,7 +6344,7 @@ void MainWindow::on_show_quick_references_signal_button(GtkButton *button) {
   if (window_show_quick_references) {
     extern Settings * settings;
     ustring project = settings->genconfig.project_get();
-    window_show_quick_references->go_to(project, editorsgui->quick_references);
+    // Todo window_show_quick_references->go_to(project, editorsgui->quick_references);
   }
 }
 
@@ -6387,7 +6369,7 @@ void MainWindow::treeview_references_display_quick_reference()
  |
  |
  |
- Accelerators
+ Accelerators Todo working here.
  |
  |
  |
@@ -6484,6 +6466,50 @@ void MainWindow::accelerator_new_project_note_callback(gpointer user_data) {
   ((MainWindow *) user_data)->on_new_note();
 }
 
+void MainWindow::accelerator_next_verse_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->goto_next_verse();
+
+}
+
+void MainWindow::accelerator_previous_verse_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->goto_previous_verse();
+}
+
+void MainWindow::accelerator_next_chapter_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->goto_next_chapter();
+}
+
+void MainWindow::accelerator_previous_chapter_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->goto_previous_chapter();
+}
+
+void MainWindow::accelerator_next_book_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->goto_next_book();
+}
+
+void MainWindow::accelerator_previous_book_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->goto_previous_book();
+}
+
+void MainWindow::accelerator_next_reference_in_history_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->accelerator_next_reference_in_history();
+}
+
+void MainWindow::accelerator_next_reference_in_history()
+{
+  navigation.on_forward();
+}
+
+void MainWindow::accelerator_previous_reference_in_history_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->accelerator_previous_reference_in_history();
+}
+
+void MainWindow::accelerator_previous_reference_in_history()
+{
+  navigation.on_back();
+}
+
+
 /*
 
  Todo Improve the window layout system.
@@ -6493,9 +6519,6 @@ void MainWindow::accelerator_new_project_note_callback(gpointer user_data) {
  Adding text to notes by accelerators, and by the menu.
  Adding the current reference to the note.
  If the notes window shows up on startup, it does now not display the relevant notes.
-
- Fix the accelerators for the clipboard, and let the accelerators always be active, 
- only that they have an effect only when a certain window is active.
 
  Add all the accelerators in a helpfile, build the file while adding the accelerator.
  
@@ -6519,20 +6542,14 @@ void MainWindow::accelerator_new_project_note_callback(gpointer user_data) {
  main window too, or else we can do it that we delete the main window only if all windows get deleted, or 
  if the quit menu is chosen. But the best I think is to quit when the menu quits.
  
- The focusing should not happen too often. We may only enable it after a mouse click in a window, 
- and then for a short time only.
- 
  Eventually the menu will also become an independent window, and can be clicked away to disappear from the screen.
  But ideally we would like to stop the program if the menu is clicked away.
  We can resolved it this way.
  - If the menu is clicked away, then it asks whether to stop the program. If so, yes, if not, the menu goes away.
  - If the last window is clicked away, then the program stops too.
  - If Ctrl-Q is typed, it stops too, and this applies in any window.
- - If Ctrl-W is clicked in any window, it it goes away, and if it is the last one, the program stops.
+ - If Ctrl-W is clicked in any window, it goes away, and if it is the last one, the program quits.
 
- A window does not always seem to position to the right place after the first attempt.
- Perhaps we need to build a timer that tries about 5 times or so, in addition to the first initial attempt.
- 
  When all the windows are done, then we need to check whether all menu entries work in each window,
  and whether all shortcuts in each relevant window.
  When all windows have been detached, we need to verify copy and paste through the menu and through shortcuts.
@@ -6546,12 +6563,17 @@ void MainWindow::accelerator_new_project_note_callback(gpointer user_data) {
  If Ctrl-N is pressed in an already existing notes window, the Ctrl-1/4 shortcuts don't work unless the window
  is clicked so as to focus it. No, even after clicking in the window, the shortcuts don't work.
 
- We may have to put the footnotes in a separate window. This will have the advantage that we can then use
- as many GtkTextViews as there are footnotes. And then the automatic width routines go away.
- But this can be done in the same window still, just by adding the required number of GtkTextViews to the vertical box.
+ We have to put the footnotes in separate GtkTextViews. 
+ So we can then use as many GtkTextViews as there are footnotes. 
+ And then the automatic width routines go away.
+ This is done in the same scrolled window, just by adding the required number of GtkTextViews to the vertical box.
+ Each note consists of a horizontal box, with the caller in it as a label, and then a GtkTextView for the note.
+ The up / down arrows keep working, so one can move from one GtkTextView to another, just as it is now.
  
  Adding the current reference to the project note does not work.
+
+ Clicking on a project notes [references] should bring up the references in the window. It does not do that now. 
  
- When opening the quick references, and nothing else, it crashes. Probably because there are no references visible.  
+ 
  */
 

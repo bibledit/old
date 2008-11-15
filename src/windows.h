@@ -24,9 +24,8 @@
 #include <gtk/gtk.h>
 
 enum WindowID
-{ widShowKeyterms, widShowQuickReferences, widMerge, widResource, widOutline, widCheckKeyterms, widStyles, widNotes, widReferences };
+{ widShowKeyterms, widShowQuickReferences, widMerge, widResource, widOutline, widCheckKeyterms, widStyles, widNotes, widReferences, widEditor };
 
-void window_display(GtkWidget * window, WindowID id, const ustring& data, bool startup);
 void window_delete(GtkWidget * window, WindowID id, const ustring& data, bool shutdown);
 
 class WindowData
@@ -55,6 +54,12 @@ public:
   
   WindowID window_id;
   ustring window_data;
+  
+  void display (bool startup);
+  GdkRectangle gdk_rectangle;
+  guint display_event_id;
+  static bool on_display_timeout(gpointer data);
+  bool display_timeout();
   
   GtkWidget * focus_in_signal_button;
   static gboolean on_window_focus_in_event(GtkWidget *widget, GdkEventFocus *event, gpointer user_data);

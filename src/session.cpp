@@ -51,7 +51,6 @@ Session::Session(int dummy)
   area_xref = false;
   area_verse = false;
   line_cutter_for_hebrew_text_characters = 80;
-  window_initialized = false;
   git_pause = false;
   restart = false;
   special_character_selection = 0;

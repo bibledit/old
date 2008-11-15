@@ -38,7 +38,7 @@ MergeDialog::MergeDialog (const ustring& text)
   gtk_window_set_title (GTK_WINDOW (mergedialog), "Merge");
   gtk_window_set_position (GTK_WINDOW (mergedialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal (GTK_WINDOW (mergedialog), TRUE);
-  gtk_window_set_default_size (GTK_WINDOW (mergedialog), (int) (settings->genconfig.window_width_get () * 0.9), (int) (settings->genconfig.window_height_get () * 0.9));
+  gtk_window_set_default_size (GTK_WINDOW (mergedialog), (int) (settings->genconfig.screen_width_get () * 0.8), (int) (settings->genconfig.screen_height_get () * 0.9));
 
   dialog_vbox1 = GTK_DIALOG (mergedialog)->vbox;
   gtk_widget_show (dialog_vbox1);

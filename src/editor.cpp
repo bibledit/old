@@ -40,12 +40,9 @@
 #include "tiny_utilities.h"
 #include "git.h"
 
-Editor::Editor(GtkWidget * vbox, GtkWidget * notebook_page, GtkWidget * tab_label, const ustring& project_in) :
+Editor::Editor(GtkWidget * vbox, const ustring& project_in) :
   current_reference(0, 1000, "") {
   // Save and initialize variables.
-  parent_vbox = vbox;
-  parent_notebook_page = notebook_page;
-  my_tab_label = tab_label;
   project = project_in;
   focus_set = false;
   do_not_process_child_anchors_being_deleted = false;
@@ -72,53 +69,11 @@ Editor::Editor(GtkWidget * vbox, GtkWidget * notebook_page, GtkWidget * tab_labe
   g_signal_connect ((gpointer) spellingchecker->check_signal, "clicked", G_CALLBACK (on_button_spelling_recheck_clicked), gpointer (this));
   load_dictionaries();
 
-  // The title button with progressbar for focus and close button.
-  hbox_title = gtk_hbox_new(FALSE, 0);
-  gtk_widget_show(hbox_title);
-  gtk_box_pack_start(GTK_BOX (parent_vbox), hbox_title, FALSE, FALSE, 0);
-
-  titlebutton = gtk_button_new();
-  gtk_widget_show(titlebutton);
-  gtk_box_pack_start(GTK_BOX (hbox_title), titlebutton, true, true, 0);
-  gtk_button_set_relief(GTK_BUTTON (titlebutton), GTK_RELIEF_NONE);
-  gtk_button_set_focus_on_click(GTK_BUTTON (titlebutton), FALSE);
-  GTK_WIDGET_UNSET_FLAGS (titlebutton, GTK_CAN_FOCUS);
-
-  progressbar = gtk_progress_bar_new();
-  gtk_widget_show(progressbar);
-  gtk_container_add(GTK_CONTAINER (titlebutton), progressbar);
-  gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR (progressbar), 0);
-  gtk_progress_bar_set_text(GTK_PROGRESS_BAR (progressbar), "");
-  gtk_progress_bar_set_ellipsize(GTK_PROGRESS_BAR (progressbar), PANGO_ELLIPSIZE_MIDDLE);
-
-  close_button = gtk_button_new();
-  gtk_widget_show(close_button);
-  gtk_box_pack_start(GTK_BOX (hbox_title), close_button, FALSE, FALSE, 0);
-  gtk_button_set_focus_on_click(GTK_BUTTON (close_button), FALSE);
-  GTK_WIDGET_UNSET_FLAGS (close_button, GTK_CAN_FOCUS);
-
-  GtkWidget *image_close;
-  image_close = gtk_image_new_from_stock("gtk-close", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show(image_close);
-  gtk_container_add(GTK_CONTAINER (close_button), image_close);
-
-  g_signal_connect ((gpointer) titlebutton, "clicked", G_CALLBACK (on_button_titlebar_clicked), gpointer (this));
-
-  // Set the height of title bar and close button.
-  GtkRequisition sizerequisition;
-  gtk_widget_size_request(progressbar, &sizerequisition);
-  gint default_progressbar_height = sizerequisition.height;
-  gtk_widget_set_size_request(image_close, default_progressbar_height / 2, default_progressbar_height / 2);
-  gtk_widget_set_size_request(titlebutton, -1, default_progressbar_height * 10 / 8);
-
   // The scrolled window that contains the main formatted view.
   scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow);
-  gtk_box_pack_start(GTK_BOX (parent_vbox), scrolledwindow, true, true, 0);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-
-  // Set pointer to the vertical box to NULL if the widget get destroyed.
-  g_signal_connect (G_OBJECT (parent_vbox), "destroy", GTK_SIGNAL_FUNC (gtk_widget_destroyed), &parent_vbox);
+  gtk_box_pack_start(GTK_BOX (vbox), scrolledwindow, true, true, 0);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
   // A textbuffer to store all text.
   textbuffer = gtk_text_buffer_new(texttagtable);
@@ -231,17 +186,12 @@ Editor::~Editor() {
   // Destroy the texttag tables.
   g_object_unref(texttagtable);
 
+  // Destroy the textview.
+  gtk_widget_destroy (scrolledwindow);
+  
   // Destroy possible highlight object.
   if (highlight)
     delete highlight;
-
-  // Destroy topmost widget. 
-  // Normally, when shutting down Bibledit, Gtk will destroy it. 
-  // But if we don't shut down Bibledit, but only remove the editor, 
-  // then the widget need to be destroyed manually, 
-  // which is what is done here.
-  if (parent_vbox)
-    gtk_widget_destroy(parent_vbox);
 }
 
 void Editor::book_set(unsigned int book_in) {
@@ -2418,7 +2368,7 @@ void Editor::set_embedded_note_textview_width(unsigned int notenumber)
   if (width < 1)
     return;
   extern Settings * settings;
-  if (width > settings->genconfig.window_width_get() - 200) {
+  if (width > settings->genconfig.screen_width_get() - 200) {
     return;
   }
   gtk_widget_set_size_request(editornotes[notenumber].textview, width, -1);
@@ -3379,10 +3329,6 @@ void Editor::focus() {
   focus_set = true; // Set focus flag.
   gtk_button_clicked(GTK_BUTTON (focus_signal));
   focus_set = true; // Set flag again.
-  gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR (progressbar), 1);
-  if (my_tab_label)
-    gtk_label_set_text(GTK_LABEL (my_tab_label), project.c_str());
-  gtk_progress_bar_set_text(GTK_PROGRESS_BAR (progressbar), project.c_str());
   // Focus the active textview.  
   focus_programmatically_being_grabbed = true;
   if (GTK_WIDGET_REALIZED (last_focused_widget)) {
@@ -3396,22 +3342,7 @@ bool Editor::focused() {
 }
 
 void Editor::defocus() {
-  gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR (progressbar), 0);
   focus_set = false;
-}
-
-void Editor::on_button_titlebar_clicked(GtkButton *button, gpointer user_data) {
-  ((Editor *) user_data)->focus();
-}
-
-void Editor::title_bar_show(bool show)
-// Whether to show the title bar.
-{
-  if (show) {
-    gtk_widget_show(hbox_title);
-  } else {
-    gtk_widget_hide(hbox_title);
-  }
 }
 
 void Editor::signal_editor_changed() {

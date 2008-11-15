@@ -75,8 +75,6 @@ public:
   bool print_references_in_notes_in_full;
   // Tools
   int line_cutter_for_hebrew_text_characters;
-  // State
-  bool window_initialized;
   // Git 
   bool git_pause;
   // Restart
