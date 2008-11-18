@@ -56,7 +56,9 @@ public:
   ustring window_data;
   
   void display (bool startup);
-  GdkRectangle gdk_rectangle;
+  GdkRectangle window_gdk_rectangle;
+  GtkWindow * resize_window_pointer;
+  GdkRectangle resize_window_rectangle;
   guint display_event_id;
   static bool on_display_timeout(gpointer data);
   bool display_timeout();

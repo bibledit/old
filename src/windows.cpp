@@ -156,6 +156,7 @@ WindowBase::WindowBase(WindowID id, ustring data_title, GtkAccelGroup *accelerat
   window_id = id;
   window_data = data_title;
   focused_time = time(0);
+  resize_window_pointer = NULL;
 
   // Signalling buttons.
   focus_in_signal_button = gtk_button_new();
@@ -166,7 +167,7 @@ WindowBase::WindowBase(WindowID id, ustring data_title, GtkAccelGroup *accelerat
   gtk_window_set_title(GTK_WINDOW (window), data_title.c_str());
 
   // Use accelerator in each window to make them look and feel the same.
-  gtk_window_add_accel_group (GTK_WINDOW (window), accelerator_group);
+  gtk_window_add_accel_group(GTK_WINDOW (window), accelerator_group);
 
   // The extra window should not appear in the taskbar in addition to the main window of Bibledit.
   // If it were to appear in the taskbar, then it looks as if there are many programs running.
@@ -213,8 +214,7 @@ WindowBase::~WindowBase() {
   gw_destroy_source(focus_event_id);
 }
 
-
-void WindowBase::display (bool startup)
+void WindowBase::display(bool startup)
 // Does the bookkeeping necessary for displaying the window.
 // startup: whether the window is started at program startup.
 {
@@ -224,10 +224,10 @@ void WindowBase::display (bool startup)
   WindowData window_datas(false);
 
   // Clear the new window's position.
-  gdk_rectangle.x = 0;
-  gdk_rectangle.y = 0;
-  gdk_rectangle.width = 0;
-  gdk_rectangle.height = 0;
+  window_gdk_rectangle.x = 0;
+  window_gdk_rectangle.y = 0;
+  window_gdk_rectangle.width = 0;
+  window_gdk_rectangle.height = 0;
 
   // At this stage we take it that the windows shows at program startup.
   // We extract the position and size of the window from the general configuration.
@@ -235,15 +235,15 @@ void WindowBase::display (bool startup)
   // because the user wishes it to be so.
   for (unsigned int i = 0; i < window_datas.widths.size(); i++) {
     if ((window_datas.ids[i] == window_id) && (window_datas.datas[i] == window_data) && startup) {
-      gdk_rectangle.x = window_datas.x_positions[i];
-      gdk_rectangle.y = window_datas.y_positions[i];
-      gdk_rectangle.width = window_datas.widths[i];
-      gdk_rectangle.height = window_datas.heights[i];
+      window_gdk_rectangle.x = window_datas.x_positions[i];
+      window_gdk_rectangle.y = window_datas.y_positions[i];
+      window_gdk_rectangle.width = window_datas.widths[i];
+      window_gdk_rectangle.height = window_datas.heights[i];
     }
   }
 
   // Reject null values, except for x or y, because the window might have positioned at 0,0 by the user.
-  if ((gdk_rectangle.width == 0) || (gdk_rectangle.height == 0))
+  if ((window_gdk_rectangle.width == 0) || (window_gdk_rectangle.height == 0))
     startup = false;
 
   // When a new window needs to be allocated, there are a few steps to be taken.
@@ -315,8 +315,8 @@ void WindowBase::display (bool startup)
       GdkRectangle & rectangle = gdk_rectangles[i];
       if (rectangle.width >= (area_rectangle.width / 10)) {
         if (rectangle.height >= (area_rectangle.height / 10)) {
-          if ((rectangle.width * rectangle.height) > (gdk_rectangle.width * gdk_rectangle.height)) {
-            gdk_rectangle = rectangle;
+          if ((rectangle.width * rectangle.height) > (window_gdk_rectangle.width * window_gdk_rectangle.height)) {
+            window_gdk_rectangle = rectangle;
           }
         }
       }
@@ -328,8 +328,8 @@ void WindowBase::display (bool startup)
 
     // Step 6: If no area big enough is found, then the window that takes most space in the area is chosen, 
     // the longest side is halved, and the new window is put in that freed area.
-    if ((gdk_rectangle.width == 0) || (gdk_rectangle.height == 0)) {
-      GtkWindow * biggest_window= NULL;
+    if ((window_gdk_rectangle.width == 0) || (window_gdk_rectangle.height == 0)) {
+      resize_window_pointer = NULL;
       int largest_intersection = 0;
       for (unsigned int i = 0; i < settings->session.open_windows.size(); i++) {
         GtkWindow * open_window = settings->session.open_windows[i];
@@ -340,34 +340,33 @@ void WindowBase::display (bool startup)
         if (gdk_rectangle_intersect(&area_rectangle, &window_rectangle, &intersection_rectangle)) {
           int intersection = intersection_rectangle.width * intersection_rectangle.height;
           if (intersection > largest_intersection) {
-            biggest_window = open_window;
+            resize_window_pointer = open_window;
             largest_intersection = intersection;
           }
         }
       }
-      if (biggest_window) {
-        GdkRectangle window_rectangle;
-        gtk_window_get_size(biggest_window, &window_rectangle.width, &window_rectangle.height);
-        gtk_window_get_position(biggest_window, &window_rectangle.x, &window_rectangle.y);
-        gdk_rectangle = window_rectangle;
-        if (window_rectangle.width > window_rectangle.height) {
-          window_rectangle.width /= 2;
-          gdk_rectangle.width /= 2;
-          gdk_rectangle.x += window_rectangle.width;
+      if (resize_window_pointer) {
+        gtk_window_get_size(resize_window_pointer, &resize_window_rectangle.width, &resize_window_rectangle.height);
+        gtk_window_get_position(resize_window_pointer, &resize_window_rectangle.x, &resize_window_rectangle.y);
+        window_gdk_rectangle = resize_window_rectangle;
+        if (resize_window_rectangle.width > resize_window_rectangle.height) {
+          resize_window_rectangle.width /= 2;
+          window_gdk_rectangle.width /= 2;
+          window_gdk_rectangle.x += resize_window_rectangle.width;
         } else {
-          window_rectangle.height /= 2;
-          gdk_rectangle.height /= 2;
-          gdk_rectangle.y += window_rectangle.height;
+          resize_window_rectangle.height /= 2;
+          window_gdk_rectangle.height /= 2;
+          window_gdk_rectangle.y += resize_window_rectangle.height;
         }
-        gtk_window_resize(GTK_WINDOW (biggest_window), window_rectangle.width, window_rectangle.height);
+        gtk_window_resize(GTK_WINDOW (resize_window_pointer), resize_window_rectangle.width, resize_window_rectangle.height);
       }
     }
   }
 
   // Set the window's position if there's something to be set.
-  if (gdk_rectangle.width && gdk_rectangle.height) {
-    gtk_window_resize(GTK_WINDOW (window), gdk_rectangle.width, gdk_rectangle.height);
-    gtk_window_move(GTK_WINDOW (window), gdk_rectangle.x, gdk_rectangle.y);
+  if (window_gdk_rectangle.width && window_gdk_rectangle.height) {
+    gtk_window_resize(GTK_WINDOW (window), window_gdk_rectangle.width, window_gdk_rectangle.height);
+    gtk_window_move(GTK_WINDOW (window), window_gdk_rectangle.x, window_gdk_rectangle.y);
     // It was found that the window's position is not always set properly at the first attempt.
     // Therefore a timeout starts here that does it a second time.
     display_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 300, GSourceFunc (on_display_timeout), gpointer(this), NULL);
@@ -382,8 +381,11 @@ bool WindowBase::on_display_timeout(gpointer data) {
 }
 
 bool WindowBase::display_timeout() {
-  gtk_window_resize(GTK_WINDOW (window), gdk_rectangle.width, gdk_rectangle.height);
-  gtk_window_move(GTK_WINDOW (window), gdk_rectangle.x, gdk_rectangle.y);
+  gtk_window_resize(GTK_WINDOW (window), window_gdk_rectangle.width, window_gdk_rectangle.height);
+  gtk_window_move(GTK_WINDOW (window), window_gdk_rectangle.x, window_gdk_rectangle.y);
+  if (resize_window_pointer) {
+    gtk_window_resize(resize_window_pointer, resize_window_rectangle.width, resize_window_rectangle.height);
+  }
   return false;
 }
 
@@ -397,20 +399,19 @@ void WindowBase::on_window_focus_in(GtkWidget *widget) {
     focused_time = time(0);
     gtk_button_clicked(GTK_BUTTON (focus_in_signal_button));
     /* 
-    Finer-grained timing.
-    The Linux kernel maintains a global variable called jiffies, 
-    which represents the number of timer ticks since the machine started. 
-    This variable is initialized to zero and increments each timer interrupt. 
-    You can read jiffies with the get_jiffies_64 function, 
-    and then convert this value to milliseconds (msec) with jiffies_to_msecs 
-    or to microseconds (usec) with jiffies_to_usecs. 
-    The jiffies' global and associated functions are provided in include/linux/jiffies.h.
-    */
+     Finer-grained timing.
+     The Linux kernel maintains a global variable called jiffies, 
+     which represents the number of timer ticks since the machine started. 
+     This variable is initialized to zero and increments each timer interrupt. 
+     You can read jiffies with the get_jiffies_64 function, 
+     and then convert this value to milliseconds (msec) with jiffies_to_msecs 
+     or to microseconds (usec) with jiffies_to_usecs. 
+     The jiffies' global and associated functions are provided in include/linux/jiffies.h.
+     */
   }
 }
 
-bool WindowBase::focused()
-{
+bool WindowBase::focused() {
   return GTK_WIDGET_HAS_FOCUS(window);
 }
 
