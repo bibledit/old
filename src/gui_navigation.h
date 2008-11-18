@@ -34,7 +34,7 @@ class GuiNavigation
 public:
   GuiNavigation (int dummy);
   ~GuiNavigation ();
-  void build (GtkWidget * toolbar, GtkWidget * menu_next_reference, GtkWidget * menu_previous_reference);
+  void build (GtkWidget * toolbar);
   void sensitive (bool sensitive);
   void set_project (const ustring& value, bool force);
   void clamp (Reference& reference);
@@ -53,8 +53,6 @@ public:
   void on_back ();
   void on_forward ();
 private:
-  GtkWidget *menu_back;
-  GtkWidget *menu_forward;
   GtkWidget *button_back;
   GtkWidget *image1;
   GtkWidget *button_forward;
@@ -69,8 +67,6 @@ private:
   GtkObject *spinbutton_verse_adj;
   GtkWidget *spinbutton_verse;
 
-  static void on_menu_back_activate (GtkMenuItem *menuitem, gpointer user_data);
-  static void on_menu_forward_activate (GtkMenuItem *menuitem, gpointer user_data);
   static void on_button_back_clicked (GtkButton *button, gpointer user_data);
   static void on_button_forward_clicked (GtkButton *button, gpointer user_data);
   static void on_combo_book_changed (GtkComboBox *combobox, gpointer user_data);

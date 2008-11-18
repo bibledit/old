@@ -173,7 +173,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   GuiFeatures guifeatures(0);
   project_notes_enabled = guifeatures.project_notes();
 
-  // Accelerators. // Todo working here.
+  // Accelerators.
   accel_group = gtk_accel_group_new();
   accelerator_group = gtk_accel_group_new();
   gtk_accel_group_connect(accelerator_group, GDK_X, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_cut_callback), gpointer(this), NULL));
@@ -194,7 +194,8 @@ MainWindow::MainWindow(unsigned long xembed) :
   gtk_accel_group_connect(accelerator_group, GDK_Page_Up, (GdkModifierType) (GDK_CONTROL_MASK | GDK_MOD1_MASK), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_previous_book_callback), gpointer(this), NULL));
   gtk_accel_group_connect(accelerator_group, GDK_Right, GDK_MOD1_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_next_reference_in_history_callback), gpointer(this), NULL));
   gtk_accel_group_connect(accelerator_group, GDK_Left, GDK_MOD1_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_previous_reference_in_history_callback), gpointer(this), NULL));
-  
+  gtk_accel_group_connect(accelerator_group, GDK_G, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_go_to_reference_callback), gpointer(this), NULL));
+
   // GUI build.
   if (xembed) {
     mainwindow = gtk_plug_new(GdkNativeWindow(xembed));
@@ -1122,82 +1123,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   menuitem_goto_menu = gtk_menu_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM (menuitem_goto), menuitem_goto_menu);
 
-  next_verse1 = gtk_image_menu_item_new_with_mnemonic("Next verse");
-  gtk_widget_show(next_verse1);
-  gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), next_verse1);
-  gtk_widget_add_accelerator(next_verse1, "activate", accel_group, GDK_Down, (GdkModifierType) GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);
-
-  image95 = gtk_image_new_from_stock("gtk-go-forward", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image95);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (next_verse1), image95);
-
-  previous_verse1 = gtk_image_menu_item_new_with_mnemonic("Previous verse");
-  gtk_widget_show(previous_verse1);
-  gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), previous_verse1);
-  gtk_widget_add_accelerator(previous_verse1, "activate", accel_group, GDK_Up, (GdkModifierType) GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);
-
-  image96 = gtk_image_new_from_stock("gtk-go-back", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image96);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (previous_verse1), image96);
-
-  next_chapter1 = gtk_image_menu_item_new_with_mnemonic("Next chapter");
-  gtk_widget_show(next_chapter1);
-  gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), next_chapter1);
-  gtk_widget_add_accelerator(next_chapter1, "activate", accel_group, GDK_Page_Down, (GdkModifierType) GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);
-
-  image97 = gtk_image_new_from_stock("gtk-go-forward", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image97);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (next_chapter1), image97);
-
-  previous_chapter1 = gtk_image_menu_item_new_with_mnemonic("Previous chapter");
-  gtk_widget_show(previous_chapter1);
-  gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), previous_chapter1);
-  gtk_widget_add_accelerator(previous_chapter1, "activate", accel_group, GDK_Page_Up, (GdkModifierType) GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);
-
-  image98 = gtk_image_new_from_stock("gtk-go-back", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image98);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (previous_chapter1), image98);
-
-  next_book1 = gtk_image_menu_item_new_with_mnemonic("Next book");
-  gtk_widget_show(next_book1);
-  gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), next_book1);
-  gtk_widget_add_accelerator(next_book1, "activate", accel_group, GDK_Page_Down, (GdkModifierType) (GDK_CONTROL_MASK | GDK_MOD1_MASK), GTK_ACCEL_VISIBLE);
-
-  image99 = gtk_image_new_from_stock("gtk-go-forward", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image99);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (next_book1), image99);
-
-  previous_book1 = gtk_image_menu_item_new_with_mnemonic("Previous book");
-  gtk_widget_show(previous_book1);
-  gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), previous_book1);
-  gtk_widget_add_accelerator(previous_book1, "activate", accel_group, GDK_Page_Up, (GdkModifierType) (GDK_CONTROL_MASK | GDK_MOD1_MASK), GTK_ACCEL_VISIBLE);
-
-  image100 = gtk_image_new_from_stock("gtk-go-back", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image100);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (previous_book1), image100);
-
-  next_reference_in_history1 = gtk_image_menu_item_new_with_mnemonic("Next reference in history");
-  gtk_widget_show(next_reference_in_history1);
-  gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), next_reference_in_history1);
-  gtk_widget_add_accelerator(next_reference_in_history1, "activate", accel_group, GDK_Right, GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);
-
-  image5687 = gtk_image_new_from_stock("gtk-go-forward", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image5687);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (next_reference_in_history1), image5687);
-
-  previous_reference_in_history1 = gtk_image_menu_item_new_with_mnemonic("Previous reference in history");
-  gtk_widget_show(previous_reference_in_history1);
-  gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), previous_reference_in_history1);
-  gtk_widget_add_accelerator(previous_reference_in_history1, "activate", accel_group, GDK_Left, GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);
-
-  image5688 = gtk_image_new_from_stock("gtk-go-back", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image5688);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (previous_reference_in_history1), image5688);
-
-  separator18 = gtk_separator_menu_item_new();
-  gtk_widget_show(separator18);
-  gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), separator18);
-
   if (guifeatures.references_and_find()) {
 
     next_reference1 = gtk_image_menu_item_new_with_mnemonic("Next reference in Reference Area");
@@ -1240,15 +1165,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   image19529 = gtk_image_new_from_stock("gtk-go-back", GTK_ICON_SIZE_MENU);
   gtk_widget_show(image19529);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (goto_previous_project), image19529);
-
-  reference1 = gtk_image_menu_item_new_with_mnemonic("Any reference");
-  gtk_widget_show(reference1);
-  gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), reference1);
-  gtk_widget_add_accelerator(reference1, "activate", accel_group, GDK_g, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
-
-  image101 = gtk_image_new_from_stock("gtk-jump-to", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image101);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (reference1), image101);
 
   separator19 = gtk_separator_menu_item_new();
   gtk_widget_show(separator19);
@@ -1821,7 +1737,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   gtk_box_pack_start(GTK_BOX (vbox1), toolbar1, FALSE, FALSE, 0);
   gtk_toolbar_set_style(GTK_TOOLBAR (toolbar1), GTK_TOOLBAR_BOTH_HORIZ);
 
-  navigation.build(toolbar1, next_reference_in_history1, previous_reference_in_history1);
+  navigation.build(toolbar1);
   g_signal_connect ((gpointer) navigation.reference_signal_delayed, "clicked", G_CALLBACK (on_navigation_new_reference_clicked), gpointer(this));
 
   // Store project of last session because it gets affected when the editors build.
@@ -1962,19 +1878,12 @@ MainWindow::MainWindow(unsigned long xembed) :
   if (guifeatures.styles()) {
     g_signal_connect ((gpointer) insert_style, "activate", G_CALLBACK (on_goto_styles_area_activate), gpointer (this));
   }
-  g_signal_connect ((gpointer) next_verse1, "activate", G_CALLBACK (on_next_verse_activate), gpointer (this));
-  g_signal_connect ((gpointer) previous_verse1, "activate", G_CALLBACK (on_previous_verse_activate), gpointer (this));
-  g_signal_connect ((gpointer) next_chapter1, "activate", G_CALLBACK (on_next_chapter_activate), gpointer (this));
-  g_signal_connect ((gpointer) previous_chapter1, "activate", G_CALLBACK (on_previous_chapter_activate), gpointer (this));
-  g_signal_connect ((gpointer) next_book1, "activate", G_CALLBACK (on_next_book_activate), gpointer (this));
-  g_signal_connect ((gpointer) previous_book1, "activate", G_CALLBACK (on_previous_book_activate), gpointer (this));
   if (guifeatures.references_and_find()) {
     g_signal_connect ((gpointer) next_reference1, "activate", G_CALLBACK (on_next_reference1_activate), gpointer(this));
     g_signal_connect ((gpointer) previous_reference1, "activate", G_CALLBACK (on_previous_reference1_activate), gpointer(this));
   }
   g_signal_connect ((gpointer) goto_next_project, "activate", G_CALLBACK (on_goto_next_project_activate), gpointer(this));
   g_signal_connect ((gpointer) goto_previous_project, "activate", G_CALLBACK (on_goto_previous_project_activate), gpointer(this));
-  g_signal_connect ((gpointer) reference1, "activate", G_CALLBACK (on_reference_activate), gpointer(this));
   g_signal_connect ((gpointer) text_area1, "activate", G_CALLBACK (on_text_area1_activate), gpointer(this));
   g_signal_connect ((gpointer) goto_bible_notes_area1, "activate", G_CALLBACK (on_goto_bible_notes_area1_activate), gpointer(this));
   g_signal_connect ((gpointer) references_area1, "activate", G_CALLBACK (on_tools_area1_activate), gpointer(this));
@@ -2727,68 +2636,51 @@ void MainWindow::on_navigation_new_reference() {
   }
 }
 
-void MainWindow::on_next_verse_activate(GtkMenuItem * menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->goto_next_verse();
-}
-
 void MainWindow::goto_next_verse() {
   navigation.nextverse();
-}
-
-void MainWindow::on_previous_verse_activate(GtkMenuItem * menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->goto_previous_verse();
 }
 
 void MainWindow::goto_previous_verse() {
   navigation.previousverse();
 }
 
-void MainWindow::on_next_chapter_activate(GtkMenuItem * menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->goto_next_chapter();
-}
-
 void MainWindow::goto_next_chapter() {
   navigation.nextchapter();
-}
-
-void MainWindow::on_previous_chapter_activate(GtkMenuItem * menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->goto_previous_chapter();
 }
 
 void MainWindow::goto_previous_chapter() {
   navigation.previouschapter();
 }
 
-void MainWindow::on_next_book_activate(GtkMenuItem * menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->goto_next_book();
-}
-
 void MainWindow::goto_next_book() {
   navigation.nextbook();
-}
-
-void MainWindow::on_previous_book_activate(GtkMenuItem * menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->goto_previous_book();
 }
 
 void MainWindow::goto_previous_book() {
   navigation.previousbook();
 }
 
-void MainWindow::on_reference_activate(GtkMenuItem * menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->goto_reference_interactive();
-}
-
 void MainWindow::goto_reference_interactive() {
-  /* Todo
-   Editor * editor = editorsgui->focused_editor();
-   GotoReferenceDialog dialog(editor->current_reference.book, editor->current_reference.chapter, editor->current_reference.verse);
-   if (dialog.run() == GTK_RESPONSE_OK) {
-   if (dialog.newreference) {
-   navigation.display(dialog.reference);
-   }
-   }
-   */
+  WindowEditor * editor_window = last_focused_editor_window();
+  if (editor_window) {
+    Editor * editor = editor_window->editor;
+    GotoReferenceDialog dialog(editor->current_reference.book, editor->current_reference.chapter, editor->current_reference.verse);
+    if (dialog.run() == GTK_RESPONSE_OK) {
+      if (dialog.newreference) {
+        cout << "Setting reference by dialog" << endl; // Todo
+
+        // If the dialog closes, then another window will receive focus again.
+        // This focusing causes the navigation to take the values as they are in the configuration.
+        // This would frustrate the desire of the user to go somewhere else.
+        // To fix the problem, the settings are updated here.
+        extern Settings * settings;
+        settings->genconfig.book_set(dialog.reference.book);
+        settings->genconfig.chapter_set(convert_to_string(dialog.reference.chapter));
+        settings->genconfig.verse_set(dialog.reference.verse);
+        navigation.display(dialog.reference);
+      }
+    }
+  }
 }
 
 void MainWindow::go_to_new_reference()
@@ -5232,7 +5124,7 @@ WindowEditor * MainWindow::last_focused_editor_window()
   return editor_window;
 }
 
-void MainWindow::on_file_project_open(const ustring& project) // Todo implement. Todo working here.
+void MainWindow::on_file_project_open(const ustring& project)
 // Opens an editor.
 {
   // If the editor already displays, present it and bail out.
@@ -5284,6 +5176,10 @@ void MainWindow::handle_editor_focus() {
   if (editor_window)
     project = editor_window->editor->project;
 
+  // Set the focused project in the configuration.
+  extern Settings * settings;
+  settings->genconfig.project_set(project);
+
   // Enable or disable widgets depending on whether an editor window is focused.
   enable_or_disable_widgets(editor_window);
 
@@ -5307,6 +5203,7 @@ void MainWindow::handle_editor_focus() {
   // Re-initialize Navigation.
   navigation.set_project(project, false);
   Reference reference(settings->genconfig.book_get(), convert_to_int(settings->genconfig.chapter_get()), settings->genconfig.verse_get());
+  cout << "setting navigation as a result of a focused window" << endl; // Todo
   navigation.display(reference);
   // Some rumbling internal logic causes the verse to jump to 0 in several cases.
   // To resolve this in a rough manner, after a delay, that is, after the 
@@ -6369,7 +6266,7 @@ void MainWindow::treeview_references_display_quick_reference()
  |
  |
  |
- Accelerators Todo working here.
+ Accelerators
  |
  |
  |
@@ -6495,8 +6392,7 @@ void MainWindow::accelerator_next_reference_in_history_callback(gpointer user_da
   ((MainWindow *) user_data)->accelerator_next_reference_in_history();
 }
 
-void MainWindow::accelerator_next_reference_in_history()
-{
+void MainWindow::accelerator_next_reference_in_history() {
   navigation.on_forward();
 }
 
@@ -6504,11 +6400,13 @@ void MainWindow::accelerator_previous_reference_in_history_callback(gpointer use
   ((MainWindow *) user_data)->accelerator_previous_reference_in_history();
 }
 
-void MainWindow::accelerator_previous_reference_in_history()
-{
+void MainWindow::accelerator_previous_reference_in_history() {
   navigation.on_back();
 }
 
+void MainWindow::accelerator_go_to_reference_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->goto_reference_interactive();
+}
 
 /*
 

@@ -227,23 +227,6 @@ protected:
   GtkWidget *image25281;
   GtkWidget *menuitem_goto;
   GtkWidget *menuitem_goto_menu;
-  GtkWidget *next_verse1;
-  GtkWidget *image95;
-  GtkWidget *previous_verse1;
-  GtkWidget *image96;
-  GtkWidget *next_chapter1;
-  GtkWidget *image97;
-  GtkWidget *previous_chapter1;
-  GtkWidget *image98;
-  GtkWidget *next_book1;
-  GtkWidget *image99;
-  GtkWidget *previous_book1;
-  GtkWidget *image100;
-  GtkWidget *next_reference_in_history1;
-  GtkWidget *image5687;
-  GtkWidget *previous_reference_in_history1;
-  GtkWidget *image5688;
-  GtkWidget *separator18;
   GtkWidget *next_reference1;
   GtkWidget *image608;
   GtkWidget *previous_reference1;
@@ -252,8 +235,6 @@ protected:
   GtkWidget *image19528;
   GtkWidget *goto_previous_project;
   GtkWidget *image19529;
-  GtkWidget *reference1;
-  GtkWidget *image101;
   GtkWidget *separator19;
   GtkWidget *text_area1;
   GtkWidget *image4721;
@@ -471,19 +452,12 @@ protected:
   /* Navigation  */
   static void on_navigation_new_reference_clicked(GtkButton *button, gpointer user_data);
   void on_navigation_new_reference();
-  static void on_next_verse_activate(GtkMenuItem * menuitem, gpointer user_data);
   void goto_next_verse();
-  static void on_previous_verse_activate(GtkMenuItem * menuitem, gpointer user_data);
   void goto_previous_verse();
-  static void on_next_chapter_activate(GtkMenuItem * menuitem, gpointer user_data);
   void goto_next_chapter();
-  static void on_previous_chapter_activate(GtkMenuItem * menuitem, gpointer user_data);
   void goto_previous_chapter();
-  static void on_next_book_activate(GtkMenuItem * menuitem, gpointer user_data);
   void goto_next_book();
-  static void on_previous_book_activate(GtkMenuItem * menuitem, gpointer user_data);
   void goto_previous_book();
-  static void on_reference_activate(GtkMenuItem * menuitem, gpointer user_data);
   void goto_reference_interactive();
   void go_to_new_reference();
   static void on_new_verse_signalled(GtkButton *button, gpointer user_data);
@@ -837,7 +811,7 @@ protected:
   static void on_show_quick_references_signal_button_clicked(GtkButton *button, gpointer user_data);
   void on_show_quick_references_signal_button(GtkButton *button);
 
-  // Accelerators. Todo working here
+  // Accelerators.
   GtkAccelGroup *accelerator_group;
   static void accelerator_undo_callback(gpointer user_data);
   void accelerator_undo();
@@ -865,6 +839,8 @@ protected:
   void accelerator_next_reference_in_history();
   static void accelerator_previous_reference_in_history_callback(gpointer user_data);
   void accelerator_previous_reference_in_history();
+  static void accelerator_go_to_reference_callback(gpointer user_data);
+  
 };
 
 #endif

@@ -45,11 +45,7 @@ GuiNavigation::GuiNavigation(int dummy) :
 GuiNavigation::~GuiNavigation() {
 }
 
-void GuiNavigation::build(GtkWidget * toolbar, GtkWidget * menu_next_reference, GtkWidget * menu_previous_reference) {
-  // Save pointers to menu items.
-  menu_back = menu_previous_reference;
-  menu_forward = menu_next_reference;
-
+void GuiNavigation::build(GtkWidget * toolbar) {
   // Signalling buttons, but not visible.
   GtkToolItem * toolitem_immediate = gtk_tool_item_new();
   gtk_toolbar_insert(GTK_TOOLBAR (toolbar), GTK_TOOL_ITEM (toolitem_immediate), -1);
@@ -167,8 +163,6 @@ void GuiNavigation::build(GtkWidget * toolbar, GtkWidget * menu_next_reference, 
   gtk_widget_set_size_request(spinbutton_chapter, int (defaultheight * 0.7), -1);
   gtk_widget_set_size_request(spinbutton_verse, int (defaultheight * 0.7), -1);
 
-  g_signal_connect ((gpointer) menu_forward, "activate", G_CALLBACK (on_menu_forward_activate), gpointer(this));
-  g_signal_connect ((gpointer) menu_back, "activate", G_CALLBACK(on_menu_back_activate), gpointer(this));
   g_signal_connect ((gpointer) button_back, "clicked", G_CALLBACK (on_button_back_clicked), gpointer(this));
   g_signal_connect ((gpointer) button_forward, "clicked", G_CALLBACK (on_button_forward_clicked), gpointer(this));
   g_signal_connect ((gpointer) combo_book, "changed", G_CALLBACK (on_combo_book_changed), gpointer(this));
@@ -284,7 +278,7 @@ void GuiNavigation::display(const Reference& ref)
   bool newchapter = (ref.chapter != currentchapter);
   ustring currentverse = combobox_get_active_string(combo_verse);
   bool newverse = (ref.verse != currentverse);
-
+  
   // If a new book, then there is also a new chapter, and so on.
   if (newbook)
     newchapter = true;
@@ -484,14 +478,6 @@ void GuiNavigation::previousverse() {
   set_verse(verse);
   reference.verse = verse;
   signal();
-}
-
-void GuiNavigation::on_menu_back_activate(GtkMenuItem *menuitem, gpointer user_data) {
-  ((GuiNavigation *) user_data)->on_back();
-}
-
-void GuiNavigation::on_menu_forward_activate(GtkMenuItem *menuitem, gpointer user_data) {
-  ((GuiNavigation *) user_data)->on_forward();
 }
 
 void GuiNavigation::on_button_back_clicked(GtkButton *button, gpointer user_data) {
@@ -909,9 +895,6 @@ void GuiNavigation::crossboundarieschapter(bool forward) {
 }
 
 void GuiNavigation::tracker_sensitivity() {
-  // Menu items.
-  gtk_widget_set_sensitive(menu_back, track.previous_reference_available());
-  gtk_widget_set_sensitive(menu_forward, track.next_reference_available());
   // Buttons.
   gtk_widget_set_sensitive(button_back, track.previous_reference_available());
   gtk_widget_set_sensitive(button_forward, track.next_reference_available());
