@@ -1741,7 +1741,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   g_signal_connect ((gpointer) navigation.reference_signal_delayed, "clicked", G_CALLBACK (on_navigation_new_reference_clicked), gpointer(this));
 
   // Store project of last session because it gets affected when the editors build.
-  ustring project_last_session = settings->genconfig.project_get(); // Todo use this to focus the right one at the end.
+  focused_project_last_session = settings->genconfig.project_get();
   // Todo connect signal straight to the editors, if relevant. g_signal_connect ((gpointer) editorsgui->quick_references_button, "clicked", G_CALLBACK (on_show_quick_references_signal_button_clicked), gpointer(this));
 
   hbox5 = gtk_hbox_new(FALSE, 0);
@@ -1953,7 +1953,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   gtk_window_add_accel_group(GTK_WINDOW (mainwindow), accel_group);
 
   // Jumpstart editor.
-  jump_start_editors(project_last_session);
+  jump_start_editors(focused_project_last_session);
 
   // Communication with BibleTime
   got_new_bt_reference = 0;
@@ -6022,6 +6022,18 @@ bool MainWindow::on_windows_startup() {
   } else {
     windows_startup_pointer = G_MAXINT;
   }
+  
+  // At the end of all focus the right editor, the one that had focus last time on shutdown.
+  if (focused_project_last_session.empty()) {
+    for (unsigned int i = 0; i < editor_windows.size(); i++) {
+      if (focused_project_last_session == editor_windows[i]->window_data) {
+        editor_windows[i]->present();
+      }
+    }
+    focused_project_last_session.clear();
+  }
+  
+  // We're through.
   return false;
 }
 

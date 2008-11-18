@@ -795,6 +795,7 @@ protected:
   static bool on_windows_startup_timeout(gpointer data);
   bool on_windows_startup();
   unsigned int windows_startup_pointer;
+  ustring focused_project_last_session;
   void shutdown_windows();
   static void on_window_focus_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_focus_button(GtkButton *button);
