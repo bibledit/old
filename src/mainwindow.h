@@ -740,7 +740,7 @@ protected:
   static void on_file_resources_delete_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_file_resources_delete();
 
-  /* Text editors */// Todo
+  /* Text editors */// Todo working here
   vector <WindowEditor *> editor_windows;
   static void on_window_editor_delete_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_editor_delete_button(GtkButton *button);
@@ -839,6 +839,7 @@ protected:
   static void accelerator_close_window_callback(gpointer user_data);
   void accelerator_close_window();
   static void accelerator_goto_styles_area_callback(gpointer user_data);
+  static void accelerator_quit_program_callback(gpointer user_data);
 
 };
 

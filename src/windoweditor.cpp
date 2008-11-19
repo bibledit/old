@@ -35,7 +35,6 @@ WindowEditor::WindowEditor(const ustring& project_name, GtkAccelGroup *accelerat
 
   // Create the new editor.
   editor = new Editor (vbox, project_name);
-  editor->focus();
 }
 
 WindowEditor::~WindowEditor() {

@@ -52,11 +52,6 @@ public:
   EditorTextViewType last_focused_type();
   unsigned int last_focused_column();
   GtkTextChildAnchor * child_anchor_clicked;
-  GtkWidget * focus_signal;
-  bool focus_set;
-  void focus();
-  bool focused();
-  void defocus();
 
   // Cursor movement handling.
   static void on_textview_move_cursor(GtkTextView * textview, GtkMovementStep step, gint count, gboolean extend_selection, gpointer user_data);

@@ -199,6 +199,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   if (guifeatures.styles()) {
     gtk_accel_group_connect(accelerator_group, GDK_S, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_goto_styles_area_callback), gpointer(this), NULL));
   }
+  gtk_accel_group_connect(accelerator_group, GDK_Q, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_quit_program_callback), gpointer(this), NULL));
 
   // GUI build.
   if (xembed) {
@@ -2100,7 +2101,7 @@ void MainWindow::newproject() {
   git_command_pause(true);
   ProjectDialog projectdialog(true);
   if (projectdialog.run() == GTK_RESPONSE_OK) {
-    // Todo implement. editorsgui->open(projectdialog.newprojectname, -1);
+    on_file_project_open(projectdialog.newprojectname);
   }
   git_command_pause(false);
 }
@@ -2365,7 +2366,7 @@ void MainWindow::menu_import() {
   }
   extern Settings * settings;
   ustring prj = settings->genconfig.project_get();
-  // Todo working here. close();
+  // Todo close();
   // Todo editorsgui->open(prj, 1);
 }
 
@@ -2445,7 +2446,7 @@ void MainWindow::on_menu_insert()
     enable = !already_in;
   }
   // Update menu.
-  ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
+  // ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
   /* Todo
    if (editor) {
    label = "_Add " + editor->current_reference.human_readable(projectconfig->language_get()) + " to project note";
@@ -2548,7 +2549,7 @@ void MainWindow::on_prefs_books() {
   BookDialog dialog(settings->genconfig.project_get());
   if (dialog.run() == GTK_RESPONSE_OK) {
     ustring project = settings->genconfig.project_get();
-    // Todo working here. close();
+    // Todo close();
     // Todo editorsgui->open(project, 1);
   }
 }
@@ -2797,8 +2798,8 @@ void MainWindow::on_cut1_activate(GtkMenuItem * menuitem, gpointer user_data) {
 }
 
 void MainWindow::on_cut() {
-  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
   /* Todo
+  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
    if (editorsgui->has_focus()) {
    Editor * editor = editorsgui->focused_editor();
    if (editor) {
@@ -2817,8 +2818,8 @@ void MainWindow::on_copy1_activate(GtkMenuItem * menuitem, gpointer user_data) {
 }
 
 void MainWindow::on_copy() {
-  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
   /* Todo
+  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
    if (editorsgui->has_focus()) {
    Editor * editor = editorsgui->focused_editor();
    if (editor) {
@@ -2840,8 +2841,8 @@ void MainWindow::on_copy_without_formatting_activate(GtkMenuItem * menuitem, gpo
 }
 
 void MainWindow::on_copy_without_formatting() {
-  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
   /* Todo
+  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
    if (editorsgui->has_focus()) {
    Editor * editor = editorsgui->focused_editor();
    if (editor) {
@@ -6507,7 +6508,7 @@ void MainWindow::accelerator_close_window()
     }
   }
 
-  // Editor.
+  // Editors.
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
     WindowEditor * editor_window = editor_windows[i];
     if (now_focused_signal_button == editor_window->focus_in_signal_button) {
@@ -6515,11 +6516,15 @@ void MainWindow::accelerator_close_window()
       break;
     }
   }
-  handle_editor_focus();  
+  handle_editor_focus();
 }
 
 void MainWindow::accelerator_goto_styles_area_callback(gpointer user_data) {
   ((MainWindow *) user_data)->on_goto_styles_area();
+}
+
+void MainWindow::accelerator_quit_program_callback(gpointer user_data) {
+  gtk_main_quit();
 }
 
 /*

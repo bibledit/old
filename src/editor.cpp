@@ -44,7 +44,6 @@ Editor::Editor(GtkWidget * vbox, const ustring& project_in) :
   current_reference(0, 1000, "") {
   // Save and initialize variables.
   project = project_in;
-  focus_set = false;
   do_not_process_child_anchors_being_deleted = false;
   textview_allocated_width = 0;
   texttagtable = NULL;
@@ -119,7 +118,6 @@ Editor::Editor(GtkWidget * vbox, const ustring& project_in) :
   new_styles_signal = gtk_button_new();
   word_double_clicked_signal = gtk_button_new();
   reload_signal = gtk_button_new();
-  focus_signal = gtk_button_new();
   changed_signal = gtk_button_new();
   quick_references_button = gtk_button_new();
 
@@ -179,7 +177,6 @@ Editor::~Editor() {
   new_styles_signal = NULL;
   gtk_widget_destroy(word_double_clicked_signal);
   gtk_widget_destroy(reload_signal);
-  gtk_widget_destroy(focus_signal);
   gtk_widget_destroy(changed_signal);
   gtk_widget_destroy(quick_references_button);
   
@@ -731,8 +728,6 @@ void Editor::textview_grab_focus(GtkWidget * widget) {
   // Bail out if the focus is grabbed by the program itself.
   if (focus_programmatically_being_grabbed)
     return;
-  // Focus handling (continued).
-  focus();
   // Clear the character style that was going to be applied when the user starts typing.
   character_style_on_start_typing.clear();
   // Further processing of the focus grab is done with a delay.
@@ -3323,26 +3318,6 @@ void Editor::highlight_thread_main() {
   if (highlight) {
     highlight->determine_locations();
   }
-}
-
-void Editor::focus() {
-  focus_set = true; // Set focus flag.
-  gtk_button_clicked(GTK_BUTTON (focus_signal));
-  focus_set = true; // Set flag again.
-  // Focus the active textview.  
-  focus_programmatically_being_grabbed = true;
-  if (GTK_WIDGET_REALIZED (last_focused_widget)) {
-    gtk_widget_grab_focus(last_focused_widget);
-  }
-  focus_programmatically_being_grabbed = false;
-}
-
-bool Editor::focused() {
-  return focus_set;
-}
-
-void Editor::defocus() {
-  focus_set = false;
 }
 
 void Editor::signal_editor_changed() {
