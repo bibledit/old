@@ -53,16 +53,6 @@ public:
   void save();
 private:
 
-  // Close.
-public:
-  void close();
-private:
-  static void on_button_close_tab_clicked(GtkButton *button, gpointer user_data);
-  void on_button_close_tab(GtkButton *button);
-  static void on_button_close_editor_clicked(GtkButton *button, gpointer user_data);
-  void on_button_close_editor(GtkButton *button);
-  void close(Editor * editor);
-
   // Focus.
 public:
   Editor * focused_editor();

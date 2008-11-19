@@ -64,7 +64,6 @@ protected:
   GtkWidget *new1;
   GtkWidget *image903;
   GtkWidget *open1;
-  GtkWidget *close1;
   GtkWidget *delete1;
   GtkWidget *properties1;
   GtkWidget *image4995;
@@ -242,8 +241,6 @@ protected:
   GtkWidget *image11878;
   GtkWidget *references_area1;
   GtkWidget *image4722;
-  GtkWidget *insert_style;
-  GtkWidget *image11111;
   GtkWidget *notes_area1;
   GtkWidget *image4723;
   GtkWidget *separator11;
@@ -384,8 +381,6 @@ protected:
   /* Menu callbacks */
   static void on_open1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void open();
-  static void on_close1_activate(GtkMenuItem * menuitem, gpointer user_data);
-  void close();
   static void on_new1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void newproject();
   static void on_properties1_activate(GtkMenuItem * menuitem, gpointer user_data);
@@ -620,14 +615,12 @@ protected:
   void on_check_sentence_structure();
 
   /* Styles */
-  static void on_goto_styles_area_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_goto_styles_area();
   static void on_file_styles_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_file_styles();
   WindowStyles * window_styles;
   static void on_window_styles_delete_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_styles_delete_button();
-  
   void stylesheet_open_named(const ustring& stylesheet);
   static void on_style_button_open_clicked(GtkButton *button, gpointer user_data);
   void on_style_button_open();
@@ -841,6 +834,9 @@ protected:
   static void accelerator_previous_reference_in_history_callback(gpointer user_data);
   void accelerator_previous_reference_in_history();
   static void accelerator_go_to_reference_callback(gpointer user_data);
+  static void accelerator_close_window_callback(gpointer user_data);
+  void accelerator_close_window();
+  static void accelerator_goto_styles_area_callback(gpointer user_data);
   
 };
 
