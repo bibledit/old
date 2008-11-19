@@ -507,15 +507,6 @@ void EditorsGUI::reload_chapter(unsigned int book, unsigned int chapter) {
   }
 }
 
-void EditorsGUI::reload_dictionaries()
-// Reloads the dictionaries of the focused project.
-{
-  Editor * editor = focused_editor();
-  if (editor) {
-    editor->load_dictionaries();
-  }
-}
-
 void EditorsGUI::on_quick_references_signal_button_clicked(GtkButton *button, gpointer user_data) {
   ((EditorsGUI *) user_data)->on_quick_references_signal_button(button);
 }

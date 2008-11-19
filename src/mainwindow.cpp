@@ -2116,8 +2116,12 @@ void MainWindow::editproject() {
   // Show project dialog.
   ProjectDialog projectdialog(false);
   if (projectdialog.run() == GTK_RESPONSE_OK) {
-    // Reload dictionaries.
-    // Todo editorsgui->reload_dictionaries();
+    // Get focused project window.
+    WindowEditor * editor_window = last_focused_editor_window();
+    if (editor_window) {
+      // Reload dictionaries.
+      editor_window->editor->load_dictionaries();
+    }
     // As anything could have been changed to the project, reopen it.
     reload_project();
   }
