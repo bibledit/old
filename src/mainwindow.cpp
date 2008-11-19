@@ -5066,6 +5066,7 @@ void MainWindow::on_window_editor_delete_button(GtkButton *button) {
     }
     iterator++;
   }
+  handle_editor_focus();
 }
 
 WindowEditor * MainWindow::last_focused_editor_window()
@@ -6048,7 +6049,7 @@ void MainWindow::shutdown_windows()
     window_styles = NULL;
   }
 
-  // Styles.
+  // Notes.
   if (window_notes) {
     window_notes->shutdown();
     delete window_notes;
@@ -6438,7 +6439,7 @@ void MainWindow::accelerator_close_window_callback(gpointer user_data) {
   ((MainWindow *) user_data)->accelerator_close_window();
 }
 
-void MainWindow::accelerator_close_window() // Todo working here.
+void MainWindow::accelerator_close_window()
 // Closes the focused window.
 {
   // Keyterms in verse. 
@@ -6462,74 +6463,64 @@ void MainWindow::accelerator_close_window() // Todo working here.
     }
   }
 
-  /*
+  // Resources.
+  for (unsigned int i = 0; i < resource_windows.size(); i++) {
+    WindowResource * resource_window = resource_windows[i];
+    if (now_focused_signal_button == resource_window->focus_in_signal_button) {
+      on_window_resource_delete_button(GTK_BUTTON(resource_window->delete_signal_button));
+      break;
+    }
+  }
 
-   // Resources.
-   while (!resource_windows.empty()) {
-   WindowResource * resource_window = resource_windows[0];
-   resource_window->shutdown();
-   delete resource_window;
-   resource_windows.erase(resource_windows.begin());
-   }
+  // Outline.
+  if (window_outline) {
+    if (now_focused_signal_button == window_outline->focus_in_signal_button) {
+      on_window_outline_delete_button();
+    }
+  }
 
-   // Outline.
-   if (window_outline) {
-   window_outline->shutdown();
-   delete window_outline;
-   window_outline = NULL;
-   }
+  // Check keyterms.
+  if (window_check_keyterms) {
+    if (now_focused_signal_button == window_check_keyterms->focus_in_signal_button) {
+      on_window_check_keyterms_delete_button();
+    }
+  }
 
-   // Check keyterms.
-   if (window_check_keyterms) {
-   window_check_keyterms->shutdown();
-   delete window_check_keyterms;
-   window_check_keyterms = NULL;
-   }
+  // Styles.
+  if (window_styles) {
+    if (now_focused_signal_button == window_styles->focus_in_signal_button) {
+      on_window_styles_delete_button();
+    }
+  }
 
-   // Styles.
-   if (window_styles) {
-   window_styles->shutdown();
-   delete window_styles;
-   window_styles = NULL;
-   }
+  // Notes.
+  if (window_notes) {
+    if (now_focused_signal_button == window_notes->focus_in_signal_button) {
+      on_window_notes_delete_button();
+    }
+  }
 
-   // Styles.
-   if (window_notes) {
-   window_notes->shutdown();
-   delete window_notes;
-   window_notes = NULL;
-   }
+  // References.
+  if (window_references) {
+    if (now_focused_signal_button == window_references->focus_in_signal_button) {
+      on_window_references_delete_button();
+    }
+  }
 
-   // References.
-   if (window_references) {
-   window_references->shutdown();
-   delete window_references;
-   window_references = NULL;
-   }
-
-   // Editor.
-   while (!editor_windows.empty()) {
-   WindowEditor * editor_window = editor_windows[0];
-   editor_window->shutdown();
-   delete editor_window;
-   editor_windows.erase(editor_windows.begin());
-   }
-
-   
-   // Clear project is there's no project left. // Todo working here.
-   extern Settings * settings;
-   if (gtk_notebook_get_n_pages(GTK_NOTEBOOK (notebook)) == 0) {
-   settings->genconfig.project_set("");
-   }
-   */
+  // Editor.
+  for (unsigned int i = 0; i < editor_windows.size(); i++) {
+    WindowEditor * editor_window = editor_windows[i];
+    if (now_focused_signal_button == editor_window->focus_in_signal_button) {
+      on_window_editor_delete_button(GTK_BUTTON(editor_window->delete_signal_button));
+      break;
+    }
+  }
+  handle_editor_focus();  
 }
 
 void MainWindow::accelerator_goto_styles_area_callback(gpointer user_data) {
   ((MainWindow *) user_data)->on_goto_styles_area();
 }
-
-// Todo working here, implement close accelerator Ctrl-W.
-
 
 /*
 

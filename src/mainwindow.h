@@ -748,6 +748,7 @@ protected:
   void on_file_project_open(const ustring& project);
   void handle_editor_focus();
 
+  
   static void on_editor_reload_clicked(GtkButton *button, gpointer user_data);
   void on_editor_reload();
   void jump_start_editors(const ustring& project);
