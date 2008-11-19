@@ -696,7 +696,7 @@ protected:
   void set_fonts();
 
   /* Outline */
-  static void on_view_outline_activate (GtkMenuItem *menuitem, gpointer user_data);
+  static void on_view_outline_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_outline();
   WindowOutline * window_outline;
   static void on_window_outline_delete_button_clicked(GtkButton *button, gpointer user_data);
@@ -740,16 +740,13 @@ protected:
   static void on_file_resources_delete_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_file_resources_delete();
 
-  /* Text editors */ // Todo
+  /* Text editors */// Todo
   vector <WindowEditor *> editor_windows;
   static void on_window_editor_delete_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_editor_delete_button(GtkButton *button);
   WindowEditor * last_focused_editor_window();
   void on_file_project_open(const ustring& project);
   void handle_editor_focus();
-
-  
-  
 
   static void on_editor_reload_clicked(GtkButton *button, gpointer user_data);
   void on_editor_reload();
@@ -795,6 +792,10 @@ protected:
   GtkWidget * now_focused_signal_button;
   GtkWidget * last_focused_signal_button;
   void present_windows(GtkWidget * widget);
+  static gboolean on_mainwindow_focus_in_event (GtkWidget *widget, GdkEventFocus *event, gpointer user_data);
+  void mainwindow_focus_in_event(GdkEventFocus *event);
+  static gboolean on_mainwindow_window_state_event (GtkWidget *widget, GdkEvent *event, gpointer user_data);
+  void mainwindow_window_state_event(GdkEvent *event);
 
   /* Quick references */
   static void on_view_quick_references_activate(GtkMenuItem *menuitem, gpointer user_data);
@@ -837,7 +838,7 @@ protected:
   static void accelerator_close_window_callback(gpointer user_data);
   void accelerator_close_window();
   static void accelerator_goto_styles_area_callback(gpointer user_data);
-  
+
 };
 
 #endif

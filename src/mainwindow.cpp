@@ -1765,6 +1765,8 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   g_signal_connect ((gpointer) mainwindow, "destroy", G_CALLBACK (gtk_main_quit), gpointer(this));
   g_signal_connect ((gpointer) mainwindow, "delete_event", G_CALLBACK (on_mainwindow_delete_event), gpointer(this));
+  g_signal_connect ((gpointer) mainwindow, "focus_in_event", G_CALLBACK (on_mainwindow_focus_in_event), gpointer(this));
+  g_signal_connect ((gpointer) mainwindow, "window_state_event", G_CALLBACK (on_mainwindow_window_state_event), gpointer(this));
   if (guifeatures.project_management()) {
     g_signal_connect ((gpointer) new1, "activate", G_CALLBACK (on_new1_activate), gpointer(this));
     g_signal_connect ((gpointer) open1, "activate", G_CALLBACK (on_open1_activate), gpointer(this));
@@ -2855,8 +2857,7 @@ void MainWindow::on_paste1_activate(GtkMenuItem * menuitem, gpointer user_data) 
 
 void MainWindow::on_paste() {
   // Get the clipboard.
-  GtkClipboard *clipboard;
-  clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
   // Bail out if no text is available.
   if (!gtk_clipboard_wait_is_text_available(clipboard))
     return;
@@ -3922,7 +3923,7 @@ void MainWindow::on_style_button_apply_clicked(GtkButton *button, gpointer user_
   ((MainWindow *) user_data)->on_style_apply();
 }
 
-void MainWindow::on_style_apply() { // todo working here on styles.
+void MainWindow::on_style_apply() {
   // Get the focused Editor. If none, bail out.
   WindowEditor * editor_window = last_focused_editor_window();
   if (!editor_window)
@@ -6162,6 +6163,23 @@ void MainWindow::present_windows(GtkWidget * widget)
   }
 }
 
+gboolean MainWindow::on_mainwindow_focus_in_event(GtkWidget *widget, GdkEventFocus *event, gpointer user_data) {
+  ((MainWindow *) user_data)->mainwindow_focus_in_event(event);
+  return FALSE;
+}
+
+void MainWindow::mainwindow_focus_in_event(GdkEventFocus *event) {
+  present_windows(NULL);
+}
+
+gboolean MainWindow::on_mainwindow_window_state_event(GtkWidget *widget, GdkEvent *event, gpointer user_data) {
+  ((MainWindow *) user_data)->mainwindow_window_state_event(event);
+  return FALSE;
+}
+
+void MainWindow::mainwindow_window_state_event(GdkEvent *event) {
+}
+
 /*
  |
  |
@@ -6272,6 +6290,15 @@ void MainWindow::accelerator_cut_callback(gpointer user_data) {
 }
 
 void MainWindow::accelerator_cut() {
+  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+  for (unsigned int i = 0; i < editor_windows.size(); i++) {
+    if (now_focused_signal_button == editor_windows[i]->focus_in_signal_button) {
+      Editor * editor = editor_windows[i]->editor;
+      gtk_clipboard_set_text(clipboard, editor->text_get_selection ().c_str(), -1);
+      editor->text_erase_selection();
+    }
+  }
+
   if (window_notes) {
     if (now_focused_signal_button == window_notes->focus_in_signal_button) {
       window_notes->cut();
@@ -6284,6 +6311,21 @@ void MainWindow::accelerator_copy_callback(gpointer user_data) {
 }
 
 void MainWindow::accelerator_copy() {
+  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+  for (unsigned int i = 0; i < editor_windows.size(); i++) {
+    if (now_focused_signal_button == editor_windows[i]->focus_in_signal_button) {
+      // In case of the text editor, the USFM code is copied, not the plain text. 
+      Editor * editor = editor_windows[i]->editor;
+      gtk_clipboard_set_text(clipboard, editor->text_get_selection ().c_str(), -1);
+    }
+  }
+
+  if (window_check_keyterms) {
+    if (now_focused_signal_button == window_check_keyterms->focus_in_signal_button) {
+      window_check_keyterms->copy_clipboard();
+    }
+  }
+
   if (window_notes) {
     if (now_focused_signal_button == window_notes->focus_in_signal_button) {
       window_notes->copy();
@@ -6296,6 +6338,21 @@ void MainWindow::accelerator_paste_callback(gpointer user_data) {
 }
 
 void MainWindow::accelerator_paste() {
+  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+  if (!gtk_clipboard_wait_is_text_available(clipboard))
+    return;
+
+  for (unsigned int i = 0; i < editor_windows.size(); i++) {
+    if (now_focused_signal_button == editor_windows[i]->focus_in_signal_button) {
+      Editor * editor = editor_windows[i]->editor;
+      gchar * text = gtk_clipboard_wait_for_text(clipboard);
+      if (text) {
+        editor->text_insert(text);
+        g_free(text);
+      }
+    }
+  }
+
   if (window_notes) {
     if (now_focused_signal_button == window_notes->focus_in_signal_button) {
       window_notes->paste();
@@ -6478,10 +6535,7 @@ void MainWindow::accelerator_goto_styles_area_callback(gpointer user_data) {
 
  Todo Improve the window layout system.
 
- Todo work here. Urgent things, most urgent above:
- - apply styles.
- - to focus editor because it hides and cannot be recalled.
- - clipboard operations in editor.
+ Urgent things, most urgent above:
  - clicking in the editor on a certain verse should update the navigation.
  - when selecting the note category there's a lot of redundant focusing going around, and same applies to deleting a note.
  - usfm view.
