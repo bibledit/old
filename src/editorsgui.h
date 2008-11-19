@@ -48,11 +48,6 @@ public:
   void open(const ustring& project, int method);
 private:
 
-  // Save.
-public:
-  void save();
-private:
-
   // Focus.
 public:
   Editor * focused_editor();

@@ -747,6 +747,7 @@ protected:
   WindowEditor * last_focused_editor_window();
   void on_file_project_open(const ustring& project);
   void handle_editor_focus();
+  void save_editors();
 
   
   static void on_editor_reload_clicked(GtkButton *button, gpointer user_data);

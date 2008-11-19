@@ -2112,7 +2112,7 @@ void MainWindow::on_properties1_activate(GtkMenuItem * menuitem, gpointer user_d
 
 void MainWindow::editproject() {
   git_command_pause(true);
-  // Todo editorsgui->save();
+  save_editors();
   // Show project dialog.
   ProjectDialog projectdialog(false);
   if (projectdialog.run() == GTK_RESPONSE_OK) {
@@ -2300,7 +2300,7 @@ void MainWindow::on_find_and_replace1_activate(GtkMenuItem * menuitem, gpointer 
 
 void MainWindow::menu_replace() {
   // Before finding, save the current file.
-  /// Todo editorsgui->save();
+  save_editors();
   // Display references.
   show_references_window();
   // Start find/replace dialog.
@@ -2334,7 +2334,7 @@ void MainWindow::on_findspecial1_activate(GtkMenuItem * menuitem, gpointer user_
 
 void MainWindow::menu_findspecial() {
   // Before finding, save the current file.
-  // Todo editorsgui->save();
+  save_editors();
   // Display the references window.
   show_references_window();
   // Start dialog.
@@ -2486,7 +2486,7 @@ void MainWindow::on_copy_project_to_activate(GtkMenuItem *menuitem, gpointer use
 void MainWindow::on_copy_project_to()
 // Copy project to another one.
 {
-  // Todo editorsgui->save();
+  save_editors();
   extern Settings * settings;
   EntryDialog dialog("New project name", "Enter a name of a non-existent project\nwhere this project will be copied to.", settings->genconfig.project_get());
   if (dialog.run() == GTK_RESPONSE_OK) {
@@ -2522,7 +2522,7 @@ void MainWindow::on_compare_with1_activate(GtkMenuItem *menuitem, gpointer user_
 void MainWindow::on_compare_with()
 // Compare the current project with another one.
 {
-  // Todo editorsgui->save();
+  save_editors();
   show_references_window();
   git_command_pause(true);
   References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
@@ -3524,10 +3524,8 @@ void MainWindow::on_export_zipped_unified_standard_format_markers1_activate(GtkM
 }
 
 void MainWindow::on_export_usfm_files(bool zipped) {
-  /* Todo
-   editorsgui->save();
-   export_to_usfm(mainwindow, zipped);
-   */
+  save_editors();
+  export_to_usfm(mainwindow, zipped);
 }
 
 void MainWindow::on_to_bibleworks_version_compiler_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3535,10 +3533,8 @@ void MainWindow::on_to_bibleworks_version_compiler_activate(GtkMenuItem *menuite
 }
 
 void MainWindow::on_to_bibleworks_version_compiler() {
-  /* Todo
-   editorsgui->save();
-   export_to_bibleworks(mainwindow);
-   */
+  save_editors();
+  export_to_bibleworks(mainwindow);
 }
 
 void MainWindow::on_export_to_sword_module_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3546,11 +3542,9 @@ void MainWindow::on_export_to_sword_module_activate(GtkMenuItem *menuitem, gpoin
 }
 
 void MainWindow::on_export_to_sword_module() {
-  /* Todo
-   editorsgui->save();
-   export_to_sword_interactive();
-   bibletime.reloadmodules();
-   */
+  save_editors();
+  export_to_sword_interactive();
+  bibletime.reloadmodules();
 }
 
 void MainWindow::on_export_opendocument_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3558,10 +3552,8 @@ void MainWindow::on_export_opendocument_activate(GtkMenuItem *menuitem, gpointer
 }
 
 void MainWindow::on_export_opendocument() {
-  /* Todo
-   editorsgui->save();
-   export_to_opendocument(mainwindow);
-   */
+  save_editors();
+  export_to_opendocument(mainwindow);
 }
 
 /*
@@ -3599,11 +3591,9 @@ void MainWindow::on_validate_usfms1_activate(GtkMenuItem *menuitem, gpointer use
 }
 
 void MainWindow::on_menu_check_markers_validate() {
-  /* Todo
-   editorsgui->save();
-   show_references_window();
-   scripture_checks_validate_usfms(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
-   */
+  save_editors();
+  show_references_window();
+  scripture_checks_validate_usfms(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 void MainWindow::on_count_usfms1_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3611,10 +3601,8 @@ void MainWindow::on_count_usfms1_activate(GtkMenuItem *menuitem, gpointer user_d
 }
 
 void MainWindow::on_menu_check_markers_count() {
-  /* Todo
-   editorsgui->save();
-   scripture_checks_count_usfms(true);
-   */
+  save_editors();
+  scripture_checks_count_usfms(true);
 }
 
 void MainWindow::on_compare_usfm1_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3622,11 +3610,9 @@ void MainWindow::on_compare_usfm1_activate(GtkMenuItem *menuitem, gpointer user_
 }
 
 void MainWindow::on_menu_check_markers_compare() {
-  /* Todo
-   editorsgui->save();
-   show_references_window();
-   scripture_checks_compare_usfms(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
-   */
+  save_editors();
+  show_references_window();
+  scripture_checks_compare_usfms(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 void MainWindow::on_chapters_and_verses1_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3634,11 +3620,9 @@ void MainWindow::on_chapters_and_verses1_activate(GtkMenuItem *menuitem, gpointe
 }
 
 void MainWindow::on_menu_check_chapters_and_verses() {
-  /* Todo
-   editorsgui->save();
-   show_references_window();
-   scripture_checks_chapters_verses(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
-   */
+  save_editors();
+  show_references_window();
+  scripture_checks_chapters_verses(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 void MainWindow::on_count_characters_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3646,10 +3630,8 @@ void MainWindow::on_count_characters_activate(GtkMenuItem *menuitem, gpointer us
 }
 
 void MainWindow::on_count_characters() {
-  /* Todo
-   editorsgui->save();
-   scripture_checks_count_characters(true);
-   */
+  save_editors();
+  scripture_checks_count_characters(true);
 }
 
 void MainWindow::on_unwanted_patterns_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3657,11 +3639,9 @@ void MainWindow::on_unwanted_patterns_activate(GtkMenuItem *menuitem, gpointer u
 }
 
 void MainWindow::on_unwanted_patterns() {
-  /* Todo
-   editorsgui->save();
-   show_references_window();
-   scripture_checks_unwanted_patterns(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
-   */
+  save_editors();
+  show_references_window();
+  scripture_checks_unwanted_patterns(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 void MainWindow::on_check_capitalization_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3669,11 +3649,9 @@ void MainWindow::on_check_capitalization_activate(GtkMenuItem *menuitem, gpointe
 }
 
 void MainWindow::on_check_capitalization() {
-  /* Todo
-   editorsgui->save();
-   show_references_window();
-   scripture_checks_capitalization(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
-   */
+  save_editors();
+  show_references_window();
+  scripture_checks_capitalization(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 void MainWindow::on_check_repetition_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3681,11 +3659,9 @@ void MainWindow::on_check_repetition_activate(GtkMenuItem *menuitem, gpointer us
 }
 
 void MainWindow::on_check_repetition() {
-  /* Todo
-   editorsgui->save();
-   show_references_window();
-   scripture_checks_repetition(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
-   */
+  save_editors();
+  show_references_window();
+  scripture_checks_repetition(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 void MainWindow::on_check_matching_pairs_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3693,11 +3669,9 @@ void MainWindow::on_check_matching_pairs_activate(GtkMenuItem *menuitem, gpointe
 }
 
 void MainWindow::on_check_matching_pairs() {
-  /* Todo
-   editorsgui->save();
-   show_references_window();
-   scripture_checks_matching_pairs(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
-   */
+  save_editors();
+  show_references_window();
+  scripture_checks_matching_pairs(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 void MainWindow::on_unwanted_words_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3705,11 +3679,9 @@ void MainWindow::on_unwanted_words_activate(GtkMenuItem *menuitem, gpointer user
 }
 
 void MainWindow::on_unwanted_words() {
-  /* Todo
-   editorsgui->save();
-   show_references_window();
-   scripture_checks_unwanted_words(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
-   */
+  save_editors();
+  show_references_window();
+  scripture_checks_unwanted_words(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 void MainWindow::on_word_count_inventory_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -3717,10 +3689,8 @@ void MainWindow::on_word_count_inventory_activate(GtkMenuItem *menuitem, gpointe
 }
 
 void MainWindow::on_word_count_inventory() {
-  /* Todo
-   editorsgui->save();
-   scripture_checks_word_inventory(true);
-   */
+  save_editors();
+  scripture_checks_word_inventory(true);
 }
 
 bool MainWindow::on_check_httpd_timeout(gpointer data) {
@@ -3763,7 +3733,7 @@ void MainWindow::on_my_checks_activate(GtkMenuItem *menuitem, gpointer user_data
 }
 
 void MainWindow::on_my_checks() {
-  // Todo editorsgui->save();
+  save_editors();
   show_references_window();
   MyChecksDialog dialog(window_references->liststore, window_references->treeview, window_references->treecolumn);
   dialog.run();
@@ -3774,7 +3744,7 @@ void MainWindow::on_check_markers_spacing_activate(GtkMenuItem *menuitem, gpoint
 }
 
 void MainWindow::on_check_markers_spacing() {
-  // Todo editorsgui->save();
+  save_editors();
   show_references_window();
   scripture_checks_usfm_spacing(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
@@ -3784,7 +3754,7 @@ void MainWindow::on_check_references_inventory_activate(GtkMenuItem *menuitem, g
 }
 
 void MainWindow::on_check_references_inventory() {
-  // Todo editorsgui->save();
+  save_editors();
   scripture_checks_references_inventory(true);
 }
 
@@ -3793,7 +3763,7 @@ void MainWindow::on_check_references_validate_activate(GtkMenuItem *menuitem, gp
 }
 
 void MainWindow::on_check_references_validate() {
-  // Todo editorsgui->save();
+  save_editors();
   show_references_window();
   scripture_checks_validate_references(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
@@ -3803,7 +3773,7 @@ void MainWindow::on_check_nt_quotations_from_the_ot_activate(GtkMenuItem *menuit
 }
 
 void MainWindow::on_check_nt_quotations_from_the_ot() {
-  // Todo editorsgui->save();
+  save_editors();
   scripture_checks_nt_quotations_from_ot(true);
 }
 
@@ -3812,7 +3782,7 @@ void MainWindow::on_synoptic_parallel_passages_from_the_nt_activate(GtkMenuItem 
 }
 
 void MainWindow::on_synoptic_parallel_passages_from_the_nt() {
-  // Todo editorsgui->save();
+  save_editors();
   scripture_checks_synoptic_parallels_from_nt(true);
 }
 
@@ -3821,7 +3791,7 @@ void MainWindow::on_parallels_from_the_ot_activate(GtkMenuItem *menuitem, gpoint
 }
 
 void MainWindow::on_parallels_from_the_ot() {
-  // Todo editorsgui->save();
+  save_editors();
   scripture_checks_parallels_from_ot(true);
 }
 
@@ -3830,7 +3800,7 @@ void MainWindow::on_check_sentence_structure_activate(GtkMenuItem *menuitem, gpo
 }
 
 void MainWindow::on_check_sentence_structure() {
-  // Todo editorsgui->save();
+  save_editors();
   show_references_window();
   scripture_checks_sentence_structure(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
@@ -3954,7 +3924,7 @@ void MainWindow::on_style_apply() {
     // Ask whether the user wishes to insert a new chapter.
     if (gtkw_dialog_question(mainwindow, "Would you like to insert a new chapter?", GTK_RESPONSE_YES) == GTK_RESPONSE_YES) {
       // Insert a new chapter.
-      // Todo re-implement editorsgui->save();
+      save_editors();
       ChapterNumberDialog dialog(true);
       if (dialog.run() == GTK_RESPONSE_OK) {
         reload_project();
@@ -4138,7 +4108,7 @@ void MainWindow::on_notes_transfer_activate(GtkMenuItem *menuitem, gpointer user
 }
 
 void MainWindow::on_notes_transfer() {
-  // Todo editorsgui->save();
+  save_editors();
   NotesTransferDialog dialog(0);
   if (dialog.run() == GTK_RESPONSE_OK)
     notes_redisplay();
@@ -4149,7 +4119,7 @@ void MainWindow::on_tool_origin_references_in_bible_notes_activate(GtkMenuItem *
 }
 
 void MainWindow::on_tool_origin_references_in_bible_notes() {
-  // Todo editorsgui->save();
+  save_editors();
   OriginReferencesDialog dialog(0);
   if (dialog.run() == GTK_RESPONSE_OK)
     reload_project();
@@ -4171,7 +4141,7 @@ void MainWindow::on_tool_generate_word_lists_activate(GtkMenuItem *menuitem, gpo
 }
 
 void MainWindow::on_tool_generate_word_lists() {
-  // Todo editorsgui->save();
+  save_editors();
   WordlistDialog dialog(0);
   if (dialog.run() == GTK_RESPONSE_OK)
     reload_project();
@@ -4185,7 +4155,7 @@ void MainWindow::on_tool_transfer_project_notes_to_text()
 // This transfers the currently visible project notes to the currently active project, 
 // and does that for each verse.
 {
-  // Todo editorsgui->save();
+  save_editors();
   XferNotes2TextDialog dialog(0);
   if (dialog.run() == GTK_RESPONSE_OK) {
     reload_project();
@@ -4216,7 +4186,7 @@ void MainWindow::on_tool_simple_text_corrections_activate(GtkMenuItem *menuitem,
 }
 
 void MainWindow::on_tool_simple_text_corrections() {
-  // Todo editorsgui->save();
+  save_editors();
   FixMarkersDialog dialog(0);
   if (dialog.run() == GTK_RESPONSE_OK)
     reload_project();
@@ -4265,7 +4235,7 @@ void MainWindow::on_view_usfm_code() {
    Editor * editor = editorsgui->focused_editor();
    if (!editor)
    return;
-   editorsgui->save();
+save_editors();
    ustring filename = project_data_filename_chapter(editor->project, editor->book, editor->chapter, false);
    ViewUSFMDialog dialog(filename);
    dialog.run();
@@ -4416,7 +4386,7 @@ void MainWindow::on_project_backup_incremental_activate(GtkMenuItem *menuitem, g
 }
 
 void MainWindow::on_project_backup_incremental() {
-  // Todo editorsgui->save();
+  save_editors();
   git_command_pause(true);
   backup_make_incremental();
   git_command_pause(false);
@@ -4427,7 +4397,7 @@ void MainWindow::on_project_backup_flexible_activate(GtkMenuItem *menuitem, gpoi
 }
 
 void MainWindow::on_project_backup_flexible() {
-  // Todo editorsgui->save();
+  save_editors();
   git_command_pause(true);
   BackupDialog dialog(0);
   if (dialog.run() == GTK_RESPONSE_OK) {
@@ -4464,7 +4434,7 @@ void MainWindow::on_preferences_remote_git_repository_activate(GtkMenuItem *menu
 }
 
 void MainWindow::on_preferences_remote_git_repository() {
-  // Todo editorsgui->save();
+  save_editors();
   GitSetupDialog dialog(0);
   if (dialog.run() == GTK_RESPONSE_OK)
     reload_project();
@@ -4483,7 +4453,7 @@ void MainWindow::on_project_changes_activate(GtkMenuItem *menuitem, gpointer use
 
 void MainWindow::on_project_changes() {
   // Save even the very latest changes.
-  // Todo editorsgui->save();
+  save_editors();
   // The changes checker will generate git tasks. Pause git.
   git_command_pause(true);
   // Do the actual changes dialog. 
@@ -4501,7 +4471,7 @@ void MainWindow::on_edit_revert_activate(GtkMenuItem *menuitem, gpointer user_da
 }
 
 void MainWindow::on_edit_revert() {
-  // Todo editorsgui->save();
+  save_editors();
   RevertDialog dialog(&navigation.reference);
   if (dialog.run() == GTK_RESPONSE_OK) {
     reload_project();
@@ -5184,6 +5154,15 @@ void MainWindow::handle_editor_focus() {
   stylesheet_open_named(settings->genconfig.stylesheet_get());
 }
 
+
+void MainWindow::save_editors()
+// Save all and any editors.
+{
+  for (unsigned int i = 0; i < editor_windows.size(); i++) {
+    editor_windows[i]->editor->chapter_save();
+  }
+}
+
 void MainWindow::jump_start_editors(const ustring& project)
 // Jump starts the text editors.
 {
@@ -5304,7 +5283,7 @@ void MainWindow::on_merge_window_save_editors_button_clicked(GtkButton *button, 
 }
 
 void MainWindow::on_merge_window_save_editors_button() {
-  // Todo editorsgui->save();
+  save_editors();
 }
 
 /*
@@ -5365,7 +5344,7 @@ void MainWindow::on_print() {
     settings->genconfig.print_job_set(selection);
   }
   // Save the editors.
-  // Todo editorsgui->save();
+  save_editors();
 
   switch (selection)
   {

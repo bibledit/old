@@ -275,14 +275,6 @@ void EditorsGUI::on_button_close_editor(GtkButton *button) {
   }
 }
 
-void EditorsGUI::save()
-// Save all the editors.
-{
-  for (unsigned int e = 0; e < editors.size(); e++) {
-    editors[e]->chapter_save();
-  }
-}
-
 void EditorsGUI::on_new_verse_signalled(GtkButton *button, gpointer user_data) {
   ((EditorsGUI *) user_data)->on_new_verse();
 }
