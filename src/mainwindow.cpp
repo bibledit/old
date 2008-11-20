@@ -2219,7 +2219,7 @@ void MainWindow::on_undo1_activate(GtkMenuItem * menuitem, gpointer user_data) {
   ((MainWindow *) user_data)->menu_undo();
 }
 
-void MainWindow::menu_undo() // Todo working here to get undo working through menu and shortcuts.
+void MainWindow::menu_undo()
 // Called for undo.
 {
   /* Todo
@@ -5188,7 +5188,7 @@ void MainWindow::on_editorsgui_changed() {
   }
 }
 
-void MainWindow::reload_project() // Todo working here.
+void MainWindow::reload_project()
 // This function reloads the projects.
 {
   // Project.
@@ -6250,6 +6250,11 @@ void MainWindow::accelerator_undo_callback(gpointer user_data) {
 }
 
 void MainWindow::accelerator_undo() {
+  for (unsigned int i = 0; i < editor_windows.size(); i++) {
+    if (now_focused_signal_button == editor_windows[i]->focus_in_signal_button) {
+      editor_windows[i]->editor->undo();
+    }
+  }
   if (window_notes) {
     if (now_focused_signal_button == window_notes->focus_in_signal_button) {
       window_notes->undo();
@@ -6262,6 +6267,11 @@ void MainWindow::accelerator_redo_callback(gpointer user_data) {
 }
 
 void MainWindow::accelerator_redo() {
+  for (unsigned int i = 0; i < editor_windows.size(); i++) {
+    if (now_focused_signal_button == editor_windows[i]->focus_in_signal_button) {
+      editor_windows[i]->editor->redo();
+    }
+  }
   if (window_notes) {
     if (now_focused_signal_button == window_notes->focus_in_signal_button) {
       window_notes->redo();
