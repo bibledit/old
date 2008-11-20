@@ -200,6 +200,7 @@ MainWindow::MainWindow(unsigned long xembed) :
     gtk_accel_group_connect(accelerator_group, GDK_S, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_goto_styles_area_callback), gpointer(this), NULL));
   }
   gtk_accel_group_connect(accelerator_group, GDK_Q, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_quit_program_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_F5, GdkModifierType(0), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_activate_text_area_callback), gpointer(this), NULL));
 
   // GUI build.
   if (xembed) {
@@ -1170,26 +1171,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   gtk_widget_show(separator19);
   gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), separator19);
 
-  text_area1 = gtk_image_menu_item_new_with_mnemonic("Text area");
-  gtk_widget_show(text_area1);
-  gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), text_area1);
-  gtk_widget_add_accelerator(text_area1, "activate", accel_group, 
-  GDK_F5, GdkModifierType(0), GTK_ACCEL_VISIBLE);
-
-  image4721 = gtk_image_new_from_stock("gtk-home", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image4721);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (text_area1), image4721);
-
-  goto_bible_notes_area1 = gtk_image_menu_item_new_with_mnemonic("Bible notes area");
-  gtk_widget_show(goto_bible_notes_area1);
-  gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), goto_bible_notes_area1);
-  gtk_widget_add_accelerator(goto_bible_notes_area1, "activate", accel_group, 
-  GDK_F5, GdkModifierType(GDK_CONTROL_MASK | GDK_SHIFT_MASK), GTK_ACCEL_VISIBLE);
-
-  image11878 = gtk_image_new_from_stock("gtk-dialog-info", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image11878);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (goto_bible_notes_area1), image11878);
-
   references_area1 = gtk_image_menu_item_new_with_mnemonic("Tools area");
   gtk_widget_show(references_area1);
   gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), references_area1);
@@ -1867,8 +1848,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   }
   g_signal_connect ((gpointer) goto_next_project, "activate", G_CALLBACK (on_goto_next_project_activate), gpointer(this));
   g_signal_connect ((gpointer) goto_previous_project, "activate", G_CALLBACK (on_goto_previous_project_activate), gpointer(this));
-  g_signal_connect ((gpointer) text_area1, "activate", G_CALLBACK (on_text_area1_activate), gpointer(this));
-  g_signal_connect ((gpointer) goto_bible_notes_area1, "activate", G_CALLBACK (on_goto_bible_notes_area1_activate), gpointer(this));
   g_signal_connect ((gpointer) references_area1, "activate", G_CALLBACK (on_tools_area1_activate), gpointer(this));
   if (guifeatures.project_notes()) {
     g_signal_connect ((gpointer) notes_area1, "activate", G_CALLBACK (on_notes_area1_activate), gpointer(this));
@@ -2632,8 +2611,6 @@ void MainWindow::goto_reference_interactive() {
     GotoReferenceDialog dialog(editor->current_reference.book, editor->current_reference.chapter, editor->current_reference.verse);
     if (dialog.run() == GTK_RESPONSE_OK) {
       if (dialog.newreference) {
-        cout << "Setting reference by dialog" << endl; // Todo
-
         // If the dialog closes, then another window will receive focus again.
         // This focusing causes the navigation to take the values as they are in the configuration.
         // This would frustrate the desire of the user to go somewhere else.
@@ -2725,28 +2702,11 @@ void MainWindow::on_synchronize_other_programs() {
   }
 }
 
-void MainWindow::on_text_area1_activate(GtkMenuItem *menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->on_text_area_activate();
-}
-
 void MainWindow::on_text_area_activate() {
-  /* Todo
-   Editor * editor = editorsgui->focused_editor();
-   if (editor)
-   gtk_widget_grab_focus(editor->last_focused_textview());
-   */
-}
-
-void MainWindow::on_goto_bible_notes_area1_activate(GtkMenuItem *menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->on_bible_notes_area_activate();
-}
-
-void MainWindow::on_bible_notes_area_activate() {
-  /*
-   Editor * editor = editorsgui->focused_editor();
-   if (editor)
-   gtk_widget_grab_focus(editor->last_focused_textview());
-   */
+  WindowEditor * editor_window = last_focused_editor_window();
+  if (editor_window) {
+    editor_window->present();
+  }
 }
 
 void MainWindow::on_tools_area1_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -6510,6 +6470,10 @@ void MainWindow::accelerator_quit_program_callback(gpointer user_data) {
   gtk_main_quit();
 }
 
+void MainWindow::accelerator_activate_text_area_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->on_text_area_activate();
+}
+
 /*
 
  Todo Improve the window layout system.
@@ -6580,6 +6544,9 @@ void MainWindow::accelerator_quit_program_callback(gpointer user_data) {
  void MainWindow::menu_redo()
  void MainWindow::menu_edit()
  void MainWindow::menu_undo() 
+ void MainWindow::on_tools_area_activate() - This needs a routine that tracks the last focused tool, and this is
+ the tool to be focused when the area is activated.
+ 
  
  */
 

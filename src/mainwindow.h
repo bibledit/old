@@ -235,10 +235,6 @@ protected:
   GtkWidget *goto_previous_project;
   GtkWidget *image19529;
   GtkWidget *separator19;
-  GtkWidget *text_area1;
-  GtkWidget *image4721;
-  GtkWidget *goto_bible_notes_area1;
-  GtkWidget *image11878;
   GtkWidget *references_area1;
   GtkWidget *image4722;
   GtkWidget *notes_area1;
@@ -457,10 +453,7 @@ protected:
   void go_to_new_reference();
   static void on_new_verse_signalled(GtkButton *button, gpointer user_data);
   void on_new_verse();
-  static void on_text_area1_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_text_area_activate();
-  static void on_goto_bible_notes_area1_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_bible_notes_area_activate();
   static void on_tools_area1_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_tools_area_activate();
   static void on_notes_area1_activate(GtkMenuItem *menuitem, gpointer user_data);
@@ -841,6 +834,7 @@ protected:
   void accelerator_close_window();
   static void accelerator_goto_styles_area_callback(gpointer user_data);
   static void accelerator_quit_program_callback(gpointer user_data);
+  static void accelerator_activate_text_area_callback(gpointer user_data);
 
 };
 
