@@ -201,6 +201,16 @@ MainWindow::MainWindow(unsigned long xembed) :
   }
   gtk_accel_group_connect(accelerator_group, GDK_Q, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_quit_program_callback), gpointer(this), NULL));
   gtk_accel_group_connect(accelerator_group, GDK_F5, GdkModifierType(0), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_activate_text_area_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_F5, GDK_SHIFT_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_activate_tools_area_callback), gpointer(this), NULL));
+  if (guifeatures.project_notes()) {
+    gtk_accel_group_connect(accelerator_group, GDK_F5, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_activate_notes_area_callback), gpointer(this), NULL));
+  }
+  if (guifeatures.references_and_find()) {
+    gtk_accel_group_connect(accelerator_group, GDK_F6, GdkModifierType(0), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_next_reference_in_reference_area_callback), gpointer(this), NULL));
+    gtk_accel_group_connect(accelerator_group, GDK_F6, GDK_SHIFT_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_previous_reference_in_reference_area_callback), gpointer(this), NULL));
+  }
+  gtk_accel_group_connect(accelerator_group, GDK_Right, (GdkModifierType) (GDK_CONTROL_MASK | GDK_MOD1_MASK), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_next_project_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_Left, (GdkModifierType) (GDK_CONTROL_MASK | GDK_MOD1_MASK), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_previous_project_callback), gpointer(this), NULL));
 
   // GUI build.
   if (xembed) {
@@ -1124,82 +1134,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   menuitem_goto_menu = gtk_menu_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM (menuitem_goto), menuitem_goto_menu);
 
-  if (guifeatures.references_and_find()) {
-
-    next_reference1 = gtk_image_menu_item_new_with_mnemonic("Next reference in Reference Area");
-    gtk_widget_show(next_reference1);
-    gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), next_reference1);
-    gtk_widget_add_accelerator(next_reference1, "activate", accel_group, 
-    GDK_F6, GdkModifierType(0), GTK_ACCEL_VISIBLE);
-
-    image608 = gtk_image_new_from_stock("gtk-go-down", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image608);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (next_reference1), image608);
-
-    previous_reference1 = gtk_image_menu_item_new_with_mnemonic("Previous reference in Reference Area");
-    gtk_widget_show(previous_reference1);
-    gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), previous_reference1);
-    gtk_widget_add_accelerator(previous_reference1, "activate", accel_group, GDK_F6, GDK_SHIFT_MASK, GTK_ACCEL_VISIBLE);
-
-    image609 = gtk_image_new_from_stock("gtk-go-up", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image609);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (previous_reference1), image609);
-
-  }
-
-  goto_next_project = gtk_image_menu_item_new_with_mnemonic("Next project");
-  gtk_widget_show(goto_next_project);
-  gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), goto_next_project);
-  gtk_widget_add_accelerator(goto_next_project, "activate", accel_group, 
-  GDK_Right, (GdkModifierType) (GDK_SHIFT_MASK | GDK_MOD1_MASK), GTK_ACCEL_VISIBLE);
-
-  image19528 = gtk_image_new_from_stock("gtk-go-forward", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image19528);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (goto_next_project), image19528);
-
-  goto_previous_project = gtk_image_menu_item_new_with_mnemonic("Previous project");
-  gtk_widget_show(goto_previous_project);
-  gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), goto_previous_project);
-  gtk_widget_add_accelerator(goto_previous_project, "activate", accel_group, 
-  GDK_Left, (GdkModifierType) (GDK_SHIFT_MASK | GDK_MOD1_MASK), GTK_ACCEL_VISIBLE);
-
-  image19529 = gtk_image_new_from_stock("gtk-go-back", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image19529);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (goto_previous_project), image19529);
-
-  separator19 = gtk_separator_menu_item_new();
-  gtk_widget_show(separator19);
-  gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), separator19);
-
-  references_area1 = gtk_image_menu_item_new_with_mnemonic("Tools area");
-  gtk_widget_show(references_area1);
-  gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), references_area1);
-  gtk_widget_add_accelerator(references_area1, "activate", accel_group, 
-  GDK_F5, GDK_SHIFT_MASK, GTK_ACCEL_VISIBLE);
-
-  image4722 = gtk_image_new_from_stock("gtk-jump-to", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image4722);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (references_area1), image4722);
-
-  if (guifeatures.project_notes()) {
-
-    notes_area1 = gtk_image_menu_item_new_with_mnemonic("Project notes area");
-    gtk_widget_show(notes_area1);
-    gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), notes_area1);
-    gtk_widget_add_accelerator(notes_area1, "activate", accel_group, 
-    GDK_F5, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
-
-    image4723 = gtk_image_new_from_stock("gtk-dialog-info", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image4723);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (notes_area1), image4723);
-
-  }
-
-  separator11 = gtk_separator_menu_item_new();
-  gtk_widget_show(separator11);
-  gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), separator11);
-  gtk_widget_set_sensitive(separator11, FALSE);
-
   synchronize_other_programs2 = gtk_image_menu_item_new_with_mnemonic("_Synchronize other programs");
   gtk_widget_show(synchronize_other_programs2);
   gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), synchronize_other_programs2);
@@ -1842,16 +1776,6 @@ MainWindow::MainWindow(unsigned long xembed) :
     g_signal_connect ((gpointer) current_reference1, "activate", G_CALLBACK (on_current_reference1_activate), gpointer (this));
   }
   g_signal_connect ((gpointer) insert_special_character, "activate", G_CALLBACK (on_insert_special_character_activate), gpointer (this));
-  if (guifeatures.references_and_find()) {
-    g_signal_connect ((gpointer) next_reference1, "activate", G_CALLBACK (on_next_reference1_activate), gpointer(this));
-    g_signal_connect ((gpointer) previous_reference1, "activate", G_CALLBACK (on_previous_reference1_activate), gpointer(this));
-  }
-  g_signal_connect ((gpointer) goto_next_project, "activate", G_CALLBACK (on_goto_next_project_activate), gpointer(this));
-  g_signal_connect ((gpointer) goto_previous_project, "activate", G_CALLBACK (on_goto_previous_project_activate), gpointer(this));
-  g_signal_connect ((gpointer) references_area1, "activate", G_CALLBACK (on_tools_area1_activate), gpointer(this));
-  if (guifeatures.project_notes()) {
-    g_signal_connect ((gpointer) notes_area1, "activate", G_CALLBACK (on_notes_area1_activate), gpointer(this));
-  }
   g_signal_connect ((gpointer) synchronize_other_programs2, "activate", G_CALLBACK (on_synchronize_other_programs2_activate), gpointer(this));
   if (guifeatures.checks()) {
     g_signal_connect ((gpointer) check1, "activate", G_CALLBACK (on_check1_activate), gpointer(this));
@@ -2709,28 +2633,12 @@ void MainWindow::on_text_area_activate() {
   }
 }
 
-void MainWindow::on_tools_area1_activate(GtkMenuItem *menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->on_tools_area_activate();
-}
-
 void MainWindow::on_tools_area_activate() {
-}
-
-void MainWindow::on_notes_area1_activate(GtkMenuItem *menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->on_notes_area_activate();
 }
 
 void MainWindow::on_notes_area_activate() {
   view_project_notes();
   notes_redisplay();
-}
-
-void MainWindow::on_goto_next_project_activate(GtkMenuItem *menuitem, gpointer user_data) {
-  // Todo this one has to work with the separate windows. ((MainWindow *) user_data)->editorsgui->next_previous_project(true);
-}
-
-void MainWindow::on_goto_previous_project_activate(GtkMenuItem *menuitem, gpointer user_data) {
-  // Todo this one has to work with the separate windows. ((MainWindow *) user_data)->editorsgui->next_previous_project(false);
 }
 
 /*
@@ -2898,20 +2806,18 @@ void MainWindow::on_window_references_general_signal_button()
 void MainWindow::on_list_goto()
 // Handler for when the user pressed Enter in the list and wants to go to a reference.
 {
-  // Get the Editor. If none, bail out.
-  /* Todo
-   Editor * editor = editorsgui->focused_editor();
-   if (!editor)
-   return;
-   
-   // Bail out if there's no references window.
-   if (!window_references) 
-   return;
+  // Get the editor window. If none, bail out.
+  WindowEditor * editor_window = last_focused_editor_window();
+  if (!editor_window)
+    return;
 
-   // Jump to the reference.
-   navigation.display (window_references->reference);
-   editor->go_to_new_reference_highlight = true;
-   */
+  // Bail out if there's no references window.
+  if (!window_references)
+    return;
+
+  // Jump to the reference.
+  navigation.display(window_references->reference);
+  editor_window->editor->go_to_new_reference_highlight = true;
 }
 
 void MainWindow::on_open_references1_activate(GtkMenuItem * menuitem, gpointer user_data) {
@@ -2950,10 +2856,6 @@ void MainWindow::on_delete_references() {
   window_references->dismiss();
 }
 
-void MainWindow::on_next_reference1_activate(GtkMenuItem * menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->on_next_reference();
-}
-
 void MainWindow::on_next_reference()
 // This goes to the next reference, if there is any.
 // If no item has been selected it chooses the first, if it's there.
@@ -2965,10 +2867,6 @@ void MainWindow::on_next_reference()
   references.goto_next();
   // Actually open the reference in the editor.
   window_references->activate();
-}
-
-void MainWindow::on_previous_reference1_activate(GtkMenuItem * menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->on_previous_reference();
 }
 
 void MainWindow::on_previous_reference()
@@ -6472,6 +6370,27 @@ void MainWindow::accelerator_quit_program_callback(gpointer user_data) {
 
 void MainWindow::accelerator_activate_text_area_callback(gpointer user_data) {
   ((MainWindow *) user_data)->on_text_area_activate();
+}
+
+void MainWindow::accelerator_activate_tools_area_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->on_tools_area_activate();
+}
+
+void MainWindow::accelerator_activate_notes_area_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->on_notes_area_activate();
+}
+
+void MainWindow::accelerator_next_reference_in_reference_area_callback(gpointer user_data) { // Todo working here.
+  ((MainWindow *) user_data)->on_next_reference();
+}
+void MainWindow::accelerator_previous_reference_in_reference_area_callback(gpointer user_data) { // Todo
+  ((MainWindow *) user_data)->on_previous_reference();
+}
+void MainWindow::accelerator_next_project_callback(gpointer user_data) { // Todo
+  // Todo this one has to work with the separate windows. ((MainWindow *) user_data)->editorsgui->next_previous_project(true);
+}
+void MainWindow::accelerator_previous_project_callback(gpointer user_data) { // Todo
+  // Todo this one has to work with the separate windows. ((MainWindow *) user_data)->editorsgui->next_previous_project(false);
 }
 
 /*

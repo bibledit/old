@@ -226,20 +226,6 @@ protected:
   GtkWidget *image25281;
   GtkWidget *menuitem_goto;
   GtkWidget *menuitem_goto_menu;
-  GtkWidget *next_reference1;
-  GtkWidget *image608;
-  GtkWidget *previous_reference1;
-  GtkWidget *image609;
-  GtkWidget *goto_next_project;
-  GtkWidget *image19528;
-  GtkWidget *goto_previous_project;
-  GtkWidget *image19529;
-  GtkWidget *separator19;
-  GtkWidget *references_area1;
-  GtkWidget *image4722;
-  GtkWidget *notes_area1;
-  GtkWidget *image4723;
-  GtkWidget *separator11;
   GtkWidget *synchronize_other_programs2;
   GtkWidget *image4931;
   GtkWidget *check1;
@@ -454,14 +440,10 @@ protected:
   static void on_new_verse_signalled(GtkButton *button, gpointer user_data);
   void on_new_verse();
   void on_text_area_activate();
-  static void on_tools_area1_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_tools_area_activate();
-  static void on_notes_area1_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_notes_area_activate();
   static void on_synchronize_other_programs2_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_synchronize_other_programs();
-  static void on_goto_next_project_activate(GtkMenuItem *menuitem, gpointer user_data);
-  static void on_goto_previous_project_activate(GtkMenuItem *menuitem, gpointer user_data);
 
   /* Clipboard */
   static void on_cut1_activate(GtkMenuItem * menuitem, gpointer user_data);
@@ -489,9 +471,7 @@ protected:
   void on_clear_references();
   static void on_delete_references_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_delete_references();
-  static void on_next_reference1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_next_reference();
-  static void on_previous_reference1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_previous_reference();
   static void on_ignored_references1_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_ignored_references();
@@ -742,7 +722,6 @@ protected:
   void handle_editor_focus();
   void save_editors();
 
-  
   static void on_editor_reload_clicked(GtkButton *button, gpointer user_data);
   void on_editor_reload();
   void jump_start_editors(const ustring& project);
@@ -787,9 +766,9 @@ protected:
   GtkWidget * now_focused_signal_button;
   GtkWidget * last_focused_signal_button;
   void present_windows(GtkWidget * widget);
-  static gboolean on_mainwindow_focus_in_event (GtkWidget *widget, GdkEventFocus *event, gpointer user_data);
+  static gboolean on_mainwindow_focus_in_event(GtkWidget *widget, GdkEventFocus *event, gpointer user_data);
   void mainwindow_focus_in_event(GdkEventFocus *event);
-  static gboolean on_mainwindow_window_state_event (GtkWidget *widget, GdkEvent *event, gpointer user_data);
+  static gboolean on_mainwindow_window_state_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);
   void mainwindow_window_state_event(GdkEvent *event);
 
   /* Quick references */
@@ -835,6 +814,12 @@ protected:
   static void accelerator_goto_styles_area_callback(gpointer user_data);
   static void accelerator_quit_program_callback(gpointer user_data);
   static void accelerator_activate_text_area_callback(gpointer user_data);
+  static void accelerator_activate_tools_area_callback(gpointer user_data);
+  static void accelerator_activate_notes_area_callback(gpointer user_data);
+  static void accelerator_next_reference_in_reference_area_callback(gpointer user_data);
+  static void accelerator_previous_reference_in_reference_area_callback(gpointer user_data);
+  static void accelerator_next_project_callback(gpointer user_data);
+  static void accelerator_previous_project_callback(gpointer user_data);
 
 };
 
