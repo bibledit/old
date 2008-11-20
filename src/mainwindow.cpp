@@ -2222,7 +2222,7 @@ void MainWindow::on_undo1_activate(GtkMenuItem * menuitem, gpointer user_data) {
 void MainWindow::menu_undo()
 // Called for undo.
 {
-  /* Todo
+  /* 
    Editor * editor = editorsgui->focused_editor();
    if (editor) {
    if (editor->has_focus()) {
@@ -2231,7 +2231,7 @@ void MainWindow::menu_undo()
    }
    */
   if (window_notes && (now_focused_signal_button == NULL) && (last_focused_signal_button == window_notes->focus_in_signal_button)) {
-    //window_notes->undo(); Todo
+    //window_notes->undo();
   }
 }
 
@@ -2242,7 +2242,7 @@ void MainWindow::on_redo1_activate(GtkMenuItem * menuitem, gpointer user_data) {
 void MainWindow::menu_redo()
 // Called for redo.
 {
-  /* Todo
+  /*
    Editor * editor = editorsgui->focused_editor();
    if (editor) {
    if (editor->has_focus()) {
@@ -2251,7 +2251,7 @@ void MainWindow::menu_redo()
    }
    */
   if (window_notes && (now_focused_signal_button == NULL) && (last_focused_signal_button == window_notes->focus_in_signal_button)) {
-    //window_notes->redo(); Todo
+    //window_notes->redo();
   }
 }
 
@@ -2261,7 +2261,7 @@ void MainWindow::on_edit1_activate(GtkMenuItem * menuitem, gpointer user_data) {
 
 void MainWindow::menu_edit() {
   // Set the sensitivity of some items in the Edit menu.
-  /* Todo
+  /* 
    Editor * editor = editorsgui->focused_editor();
    if (editor) {
    gtk_widget_set_sensitive(copy_without_formatting, editor->has_focus());
@@ -2290,7 +2290,7 @@ void MainWindow::menu_edit() {
 
   // The Bible notes can only be edited when the cursor is in a note text.
   enable = false;
-  /* Todo
+  /*
    if (editor)
    if (editor->last_focused_type() == etvtNote)
    enable = true;
@@ -2322,8 +2322,6 @@ void MainWindow::menu_replace() {
   }
   // Replace text.
   if (results.size()) {
-    extern Settings * settings;
-    ustring prj = settings->genconfig.project_get();
     ReplacingDialog replacedialog(results);
     replacedialog.run();
     reload_project();
@@ -2368,10 +2366,7 @@ void MainWindow::menu_import() {
     if (dialog.run() != GTK_RESPONSE_OK)
       return;
   }
-  extern Settings * settings;
-  ustring prj = settings->genconfig.project_get();
-  // Todo close();
-  // Todo editorsgui->open(prj, 1);
+  reload_project();
 }
 
 gboolean MainWindow::on_mainwindow_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data) {
@@ -2401,8 +2396,9 @@ void MainWindow::on_insert1_activate(GtkMenuItem *menuitem, gpointer user_data) 
 void MainWindow::on_menu_insert()
 // Sets the labels of the underlying menu items right.
 {
+  // Get the focused editor window.
+  WindowEditor * editor_window = last_focused_editor_window();
   // Write the proper labels.
-  // Todo Editor * editor = editorsgui->focused_editor();
   extern Settings * settings;
   ustring std_txt = "Standard text ";
   ustring label;
@@ -2440,31 +2436,28 @@ void MainWindow::on_menu_insert()
     // See whether the current reference is already in it.
     bool already_in = false;
     for (unsigned int i = 0; i < references.size(); i++) {
-      /* Todo
-       if (editor)
-       if (references[i].equals(editor->current_reference))
-       already_in = true;
-       */
+      if (editor_window)
+        if (references[i].equals(editor_window->editor->current_reference))
+          already_in = true;
     }
     // If the reference is not yet in the note's references, enable menu, so user can add it.
     enable = !already_in;
   }
   // Update menu.
-  // ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
-  /* Todo
-   if (editor) {
-   label = "_Add " + editor->current_reference.human_readable(projectconfig->language_get()) + " to project note";
-   } else {
-   enable = false;
-   }
-   */
+  ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
+  if (editor_window) {
+    label = "_Add " + editor_window->editor->current_reference.human_readable(projectconfig->language_get()) + " to project note";
+  } else {
+    enable = false;
+  }
+
   if (current_reference1)
     gtk_label_set_text_with_mnemonic(GTK_LABEL (gtk_bin_get_child (GTK_BIN (current_reference1))), label.c_str());
   if (current_reference1)
     gtk_widget_set_sensitive(current_reference1, enable);
 
   // Inserting special character.
-  // Todo gtk_widget_set_sensitive(insert_special_character, (editor && editor->has_focus()));
+  gtk_widget_set_sensitive(insert_special_character, (editor_window && (now_focused_signal_button == editor_window->focus_in_signal_button)));
 }
 
 void MainWindow::on_menuitem_view_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -2552,9 +2545,7 @@ void MainWindow::on_prefs_books() {
   extern Settings * settings;
   BookDialog dialog(settings->genconfig.project_get());
   if (dialog.run() == GTK_RESPONSE_OK) {
-    ustring project = settings->genconfig.project_get();
-    // Todo close();
-    // Todo editorsgui->open(project, 1);
+    reload_project();
   }
 }
 
@@ -6585,6 +6576,10 @@ void MainWindow::accelerator_quit_program_callback(gpointer user_data) {
  
  When selecting the note category there's a lot of redundant focusing going around, and same applies to deleting a note.
  
+ The following routines need attention to their code that has been commented out:
+ void MainWindow::menu_redo()
+ void MainWindow::menu_edit()
+ void MainWindow::menu_undo() 
  
  */
 
