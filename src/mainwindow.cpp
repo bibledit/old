@@ -2219,7 +2219,7 @@ void MainWindow::on_undo1_activate(GtkMenuItem * menuitem, gpointer user_data) {
   ((MainWindow *) user_data)->menu_undo();
 }
 
-void MainWindow::menu_undo()
+void MainWindow::menu_undo() // Todo working here to get undo working through menu and shortcuts.
 // Called for undo.
 {
   /* Todo
@@ -2231,7 +2231,7 @@ void MainWindow::menu_undo()
    }
    */
   if (window_notes && (now_focused_signal_button == NULL) && (last_focused_signal_button == window_notes->focus_in_signal_button)) {
-    //window_notes->undo();
+    //window_notes->undo(); Todo
   }
 }
 
@@ -2251,7 +2251,7 @@ void MainWindow::menu_redo()
    }
    */
   if (window_notes && (now_focused_signal_button == NULL) && (last_focused_signal_button == window_notes->focus_in_signal_button)) {
-    //window_notes->redo();
+    //window_notes->redo(); Todo
   }
 }
 
@@ -2699,15 +2699,14 @@ void MainWindow::on_new_verse()
  The only thing we don't know is the verse. 
  */
 {
-  /* Todo
-   Editor * editor = editorsgui->focused_editor();
-   if (editor) {
-   Reference reference(navigation.reference.book, navigation.reference.chapter, editor->current_verse_number);
-   navigation.display(reference);
-   if (window_outline)
-   window_outline->go_to(editor->project, navigation.reference);
-   }
-   */
+  WindowEditor * editor_window = last_focused_editor_window();
+  if (editor_window) {
+    Editor * editor = editor_window->editor;
+    Reference reference(navigation.reference.book, navigation.reference.chapter, editor->current_verse_number);
+    navigation.display(reference);
+    if (window_outline)
+      window_outline->go_to(editor->project, navigation.reference);
+  }
 }
 
 void MainWindow::on_synchronize_other_programs2_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -2803,7 +2802,7 @@ void MainWindow::on_cut1_activate(GtkMenuItem * menuitem, gpointer user_data) {
 
 void MainWindow::on_cut() {
   /* Todo
-  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+   GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
    if (editorsgui->has_focus()) {
    Editor * editor = editorsgui->focused_editor();
    if (editor) {
@@ -2823,7 +2822,7 @@ void MainWindow::on_copy1_activate(GtkMenuItem * menuitem, gpointer user_data) {
 
 void MainWindow::on_copy() {
   /* Todo
-  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+   GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
    if (editorsgui->has_focus()) {
    Editor * editor = editorsgui->focused_editor();
    if (editor) {
@@ -2846,7 +2845,7 @@ void MainWindow::on_copy_without_formatting_activate(GtkMenuItem * menuitem, gpo
 
 void MainWindow::on_copy_without_formatting() {
   /* Todo
-  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+   GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
    if (editorsgui->has_focus()) {
    Editor * editor = editorsgui->focused_editor();
    if (editor) {
@@ -4235,18 +4234,17 @@ void MainWindow::on_view_usfm_code_activate(GtkMenuItem *menuitem, gpointer user
 }
 
 void MainWindow::on_view_usfm_code() {
-  /* // Todo 
-   Editor * editor = editorsgui->focused_editor();
-   if (!editor)
-   return;
-save_editors();
-   ustring filename = project_data_filename_chapter(editor->project, editor->book, editor->chapter, false);
-   ViewUSFMDialog dialog(filename);
-   dialog.run();
-   if (dialog.changed) {
-   reload_project();
-   }
-   */
+  WindowEditor * editor_window = last_focused_editor_window();
+  if (!editor_window)
+    return;
+  Editor * editor = editor_window->editor;
+  save_editors();
+  ustring filename = project_data_filename_chapter(editor->project, editor->book, editor->chapter, false);
+  ViewUSFMDialog dialog(filename);
+  dialog.run();
+  if (dialog.changed) {
+    reload_project();
+  }
 }
 
 void MainWindow::on_insert_special_character_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -5073,6 +5071,7 @@ void MainWindow::on_file_project_open(const ustring& project)
   WindowEditor * editor_window = new WindowEditor (project, accelerator_group, false);
   g_signal_connect ((gpointer) editor_window->delete_signal_button, "clicked", G_CALLBACK (on_window_editor_delete_button_clicked), gpointer(this));
   g_signal_connect ((gpointer) editor_window->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
+  g_signal_connect ((gpointer) editor_window->editor->new_verse_signal, "clicked", G_CALLBACK (on_new_verse_signalled), gpointer(this));
   // Todo connect signal straight to the editors, if relevant. g_signal_connect ((gpointer) editorsgui->quick_references_button, "clicked", G_CALLBACK (on_show_quick_references_signal_button_clicked), gpointer(this));
   editor_windows.push_back(editor_window);
 
@@ -5158,7 +5157,6 @@ void MainWindow::handle_editor_focus() {
   stylesheet_open_named(settings->genconfig.stylesheet_get());
 }
 
-
 void MainWindow::save_editors()
 // Save all and any editors.
 {
@@ -5173,7 +5171,6 @@ void MainWindow::jump_start_editors(const ustring& project)
   /* // Todo 
    enable_or_disable_widgets(false);
    editorsgui->jumpstart(project);
-   g_signal_connect ((gpointer) editorsgui->new_verse_button, "clicked", G_CALLBACK (on_new_verse_signalled), gpointer(this));
    g_signal_connect ((gpointer) editorsgui->new_styles_button, "clicked", G_CALLBACK (on_editor_style_changed), gpointer(this));
    g_signal_connect ((gpointer) editorsgui->word_double_clicked_button, "clicked", G_CALLBACK (on_send_word_to_toolbox_signalled), gpointer(this));
    g_signal_connect ((gpointer) editorsgui->editor_reload_button, "clicked", G_CALLBACK (on_editor_reload_clicked), gpointer(this));
@@ -5191,7 +5188,7 @@ void MainWindow::on_editorsgui_changed() {
   }
 }
 
-void MainWindow::reload_project()
+void MainWindow::reload_project() // Todo working here.
 // This function reloads the projects.
 {
   // Project.
@@ -5210,7 +5207,9 @@ void MainWindow::reload_project()
   navigation.display(reference);
 
   // Reload all editors.
-  // Todo editorsgui->reload_chapter(reference.book, reference.chapter);
+  for (unsigned int i = 0; i < editor_windows.size(); i++) {
+    editor_windows[i]->editor->chapter_load(reference.chapter);
+  }
 }
 
 /*
@@ -6514,11 +6513,6 @@ void MainWindow::accelerator_quit_program_callback(gpointer user_data) {
 
  Todo Improve the window layout system.
 
- Urgent things, most urgent above:
- - clicking in the editor on a certain verse should update the navigation.
- - when selecting the note category there's a lot of redundant focusing going around, and same applies to deleting a note.
- - usfm view.
-
  We need to look at the "todo" entries in windownotes.h/cpp.
 
  Adding text to notes by accelerators, and by the menu.
@@ -6578,6 +6572,8 @@ void MainWindow::accelerator_quit_program_callback(gpointer user_data) {
  Adding the current reference to the project note does not work.
 
  Clicking on a project notes [references] should bring up the references in the window. It does not do that now. 
+ 
+ When selecting the note category there's a lot of redundant focusing going around, and same applies to deleting a note.
  
  
  */

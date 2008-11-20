@@ -1,74 +1,21 @@
-/*
- ** Copyright (©) 2003-2008 Teus Benschop.
- **  
- ** This program is free software; you can redistribute it and/or modify
- ** it under the terms of the GNU General Public License as published by
- ** the Free Software Foundation; either version 3 of the License, or
- ** (at your option) any later version.
- **  
- ** This program is distributed in the hope that it will be useful,
- ** but WITHOUT ANY WARRANTY; without even the implied warranty of
- ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- ** GNU General Public License for more details.
- **  
- ** You should have received a copy of the GNU General Public License
- ** along with this program; if not, write to the Free Software
- ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
- **  
- */
-
-#include "utilities.h"
-#include <glib.h>
-#include "editorsgui.h"
-#include "settings.h"
-#include "tiny_utilities.h"
-#include "gwrappers.h"
-#include "directories.h"
-#include "books.h"
-#include "resource_utils.h"
-#include "dialogradiobutton.h"
-
 EditorsGUI::EditorsGUI(GtkWidget * notebook_vbox) {
-  // Save and initialize varables.
-  my_notebook_vbox = notebook_vbox;
-  pass_signals_on = false;
-
-  // Build gui.
-  notebook = gtk_notebook_new();
-  gtk_widget_show(notebook);
-  gtk_box_pack_start(GTK_BOX (notebook_vbox), notebook, TRUE, TRUE, 0);
-
-  gtk_notebook_set_scrollable(GTK_NOTEBOOK (notebook), true);
-
-  gtk_widget_grab_focus(notebook);
-
   // Create signalling buttons.
-  focus_button = gtk_button_new();
   new_verse_button = gtk_button_new();
   new_styles_button = gtk_button_new();
   word_double_clicked_button = gtk_button_new();
   editor_reload_button = gtk_button_new();
   editor_changed_button = gtk_button_new();
   quick_references_button = gtk_button_new();
-
-  // Load desktop.
-  desktop_load();
 }
 
 EditorsGUI::~EditorsGUI() {
   // Destroy signalling buttons.
-  gtk_widget_destroy(focus_button);
   gtk_widget_destroy(new_verse_button);
   gtk_widget_destroy(new_styles_button);
   gtk_widget_destroy(word_double_clicked_button);
   gtk_widget_destroy(editor_reload_button);
   gtk_widget_destroy(editor_changed_button);
   gtk_widget_destroy(quick_references_button);
-
-  // Destroy all editors.
-  for (unsigned int i = 0; i < editors.size(); i++) {
-    delete editors[i];
-  }
 }
 
 void EditorsGUI::jumpstart(const ustring& project)
@@ -85,29 +32,12 @@ void EditorsGUI::jumpstart(const ustring& project)
 
 void EditorsGUI::open(const ustring& project, int method)
 {
-  // Focus handlers.
-  g_signal_connect ((gpointer) editor->focus_signal, "clicked", G_CALLBACK (on_focus_signal_clicked), gpointer(this));
-  editor->focus();
-  gtk_button_clicked(GTK_BUTTON (focus_button));
-
   // Other signal handlers.
-  g_signal_connect ((gpointer) editor->new_verse_signal, "clicked", G_CALLBACK (on_new_verse_signalled), gpointer(this));
   g_signal_connect ((gpointer) editor->new_styles_signal, "clicked", G_CALLBACK (on_editor_style_changed), gpointer(this));
   g_signal_connect ((gpointer) editor->word_double_clicked_signal, "clicked", G_CALLBACK (on_word_double_clicked), gpointer(this));
   g_signal_connect ((gpointer) editor->reload_signal, "clicked", G_CALLBACK (on_editor_reload_clicked), gpointer(this));
   g_signal_connect ((gpointer) editor->changed_signal, "clicked", G_CALLBACK (on_editor_changed_clicked), gpointer(this));
   g_signal_connect ((gpointer) editor->quick_references_button, "clicked", G_CALLBACK (on_quick_references_signal_button_clicked), gpointer(this));
-}
-
-Editor * EditorsGUI::focused_editor()
-// Returns the focused editor or NULL if there's none.
-{
-  for (unsigned int i = 0; i < editors.size(); i++) {
-    if (editors[i]->focused()) {
-      return editors[i];
-    }
-  }
-  return NULL;
 }
 
 void EditorsGUI::go_to(const Reference& reference) {
@@ -181,37 +111,9 @@ void EditorsGUI::go_to(const Reference& reference) {
   }
 }
 
-void EditorsGUI::on_focus_signal_clicked(GtkButton *button, gpointer user_data) {
-  ((EditorsGUI *) user_data)->on_focus_signal(button);
-}
-
 void EditorsGUI::on_focus_signal(GtkButton *button)
 // Handle the change of focus, that is, another editor gets focused.
 {
-  // Defocus all editors except the focused one.
-  for (unsigned int i = 0; i < editors.size(); i++) {
-    if (GTK_WIDGET (button) != editors[i]->focus_signal) {
-      editors[i]->defocus();
-    }
-  }
-
-  // Settings.
-  extern Settings * settings;
-
-  // Get the focused project.
-  ustring project;
-  Editor * editor = focused_editor();
-  if (editor)
-    project = editor->project;
-
-  // If the project changed, store it and give a signal.
-  if (project != settings->genconfig.project_get()) {
-    settings->genconfig.project_set(project);
-    if (pass_signals_on) {
-      gtk_button_clicked(GTK_BUTTON (focus_button));
-    }
-  }
-
   // The font and colour are tied to the project, 
   // but also stored in the general configuration.
   if (!project.empty()) {
@@ -225,62 +127,6 @@ void EditorsGUI::on_focus_signal(GtkButton *button)
     settings->genconfig.text_editor_selection_color_set(projectconfig->editor_selection_color_get());
 
   }
-}
-
-void EditorsGUI::on_button_close_tab_clicked(GtkButton *button, gpointer user_data) {
-  ((EditorsGUI *) user_data)->on_button_close_tab(button);
-}
-
-void EditorsGUI::on_button_close_tab(GtkButton *button) {
-  // Get this button's parent notebook page.
-  GtkWidget * notebook_page= NULL;
-  for (int i = 0; i < gtk_notebook_get_n_pages(GTK_NOTEBOOK (notebook)); i++) {
-    GtkWidget * page = gtk_notebook_get_nth_page(GTK_NOTEBOOK (notebook), i);
-    GtkWidget * hbox_tab = gtk_notebook_get_tab_label(GTK_NOTEBOOK (notebook), page);
-    GList * children = gtk_container_get_children(GTK_CONTAINER (hbox_tab));
-    GList * list= g_list_next (children);
-    GtkButton * tab_button= NULL;
-    if (list)
-      tab_button = GTK_BUTTON (list->data);
-    g_list_free(children);
-    if (tab_button == button) {
-      notebook_page = page;
-    }
-  }
-
-  // Gather pointers to all editors in the tab that closes.
-  vector <Editor *> editors_to_close;
-  for (unsigned int i = 0; i < editors.size(); i++) {
-    if (notebook_page == editors[i]->parent_notebook_page) {
-      editors_to_close.push_back(editors[i]);
-    }
-  }
-
-  // Close the editors.
-  for (unsigned int i = 0; i < editors_to_close.size(); i++) {
-    close(editors_to_close[i]);
-  }
-}
-
-void EditorsGUI::on_button_close_editor_clicked(GtkButton *button, gpointer user_data) {
-  ((EditorsGUI *) user_data)->on_button_close_editor(button);
-}
-
-void EditorsGUI::on_button_close_editor(GtkButton *button) {
-  for (unsigned int i = 0; i < editors.size(); i++) {
-    if (GTK_WIDGET (button) == editors[i]->close_button) {
-      close(editors[i]);
-      break;
-    }
-  }
-}
-
-void EditorsGUI::on_new_verse_signalled(GtkButton *button, gpointer user_data) {
-  ((EditorsGUI *) user_data)->on_new_verse();
-}
-
-void EditorsGUI::on_new_verse() {
-  gtk_button_clicked(GTK_BUTTON (new_verse_button));
 }
 
 void EditorsGUI::on_editor_style_changed(GtkButton *button, gpointer user_data) {
@@ -499,12 +345,6 @@ ustring EditorsGUI::get_text(const ustring& project) {
     }
   }
   return text;
-}
-
-void EditorsGUI::reload_chapter(unsigned int book, unsigned int chapter) {
-  for (unsigned int i = 0; i < editors.size(); i++) {
-    editors[i]->chapter_load(chapter);
-  }
 }
 
 void EditorsGUI::on_quick_references_signal_button_clicked(GtkButton *button, gpointer user_data) {
