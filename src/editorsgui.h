@@ -1,23 +1,10 @@
 class EditorsGUI
 {
-  // Initialization and finalization.
-public:
-  void jumpstart(const ustring& project);
-private:
-
-  // Open.
-public:
-  void open(const ustring& project, int method);
-private:
-
   // Navigation.
 public:
   void go_to(const Reference& reference);
   GtkWidget * new_verse_button;
   GtkWidget * new_styles_button;
-private:
-  static void on_editor_style_changed(GtkButton *button, gpointer user_data);
-  void editor_style_changed();
 
   // Internal storage and flags.
 public:

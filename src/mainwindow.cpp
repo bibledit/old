@@ -3863,20 +3863,19 @@ void MainWindow::on_editor_style_changed(GtkButton *button, gpointer user_data) 
 }
 
 void MainWindow::editor_style_changed() {
-  /* Todo
-   Editor * editor = editorsgui->focused_editor();
-   if (!editor)
-   return;
-   set <ustring> styles = editor->get_styles_at_cursor();
-   vector <ustring> styles2(styles.begin(), styles.end());
-   ustring text = "Style ";
-   for (unsigned int i = 0; i < styles2.size(); i++) {
-   if (i)
-   text.append(", ");
-   text.append(styles2[i]);
-   }
-   gtk_label_set_text(GTK_LABEL (statuslabel_style), text.c_str ());
-   */
+  WindowEditor * editor_window = last_focused_editor_window();
+  if (!editor_window)
+    return;
+  Editor * editor = editor_window->editor;
+  set <ustring> styles = editor->get_styles_at_cursor();
+  vector <ustring> styles2(styles.begin(), styles.end());
+  ustring text = "Style ";
+  for (unsigned int i = 0; i < styles2.size(); i++) {
+    if (i)
+      text.append(", ");
+    text.append(styles2[i]);
+  }
+  gtk_label_set_text(GTK_LABEL (statuslabel_style), text.c_str ());
 }
 
 void MainWindow::on_style_edited(GtkButton *button, gpointer user_data)
@@ -4921,7 +4920,27 @@ void MainWindow::on_file_project_open(const ustring& project)
   g_signal_connect ((gpointer) editor_window->delete_signal_button, "clicked", G_CALLBACK (on_window_editor_delete_button_clicked), gpointer(this));
   g_signal_connect ((gpointer) editor_window->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
   g_signal_connect ((gpointer) editor_window->editor->new_verse_signal, "clicked", G_CALLBACK (on_new_verse_signalled), gpointer(this));
-  // Todo connect signal straight to the editors, if relevant. g_signal_connect ((gpointer) editorsgui->quick_references_button, "clicked", G_CALLBACK (on_show_quick_references_signal_button_clicked), gpointer(this));
+  g_signal_connect ((gpointer) editor_window->editor->new_styles_signal, "clicked", G_CALLBACK (on_editor_style_changed), gpointer(this));
+
+  /* // Todo working here
+   // Todo connect signal straight to the editors, if relevant. g_signal_connect ((gpointer) editorsgui->quick_references_button, "clicked", G_CALLBACK (on_show_quick_references_signal_button_clicked), gpointer(this));
+
+   g_signal_connect ((gpointer) editorsgui->word_double_clicked_button, "clicked", G_CALLBACK (on_send_word_to_toolbox_signalled), gpointer(this));
+   g_signal_connect ((gpointer) editorsgui->editor_reload_button, "clicked", G_CALLBACK (on_editor_reload_clicked), gpointer(this));
+   g_signal_connect ((gpointer) editorsgui->editor_changed_button, "clicked", G_CALLBACK (on_editorsgui_changed_clicked), gpointer(this));
+   
+   
+   // Other signal handlers.
+   g_signal_connect ((gpointer) editor->new_styles_signal, "clicked", G_CALLBACK (on_editor_style_changed), gpointer(this));
+   g_signal_connect ((gpointer) editor->word_double_clicked_signal, "clicked", G_CALLBACK (on_word_double_clicked), gpointer(this));
+   g_signal_connect ((gpointer) editor->reload_signal, "clicked", G_CALLBACK (on_editor_reload_clicked), gpointer(this));
+   g_signal_connect ((gpointer) editor->changed_signal, "clicked", G_CALLBACK (on_editor_changed_clicked), gpointer(this));
+   g_signal_connect ((gpointer) editor->quick_references_button, "clicked", G_CALLBACK (on_quick_references_signal_button_clicked), gpointer(this));
+   
+   
+   
+   */
+
   editor_windows.push_back(editor_window);
 
   // After creation the window will generate a focus signal, 
@@ -5027,7 +5046,7 @@ void MainWindow::goto_next_previous_project(bool next) {
       offset = i;
     }
   }
-  
+
   // Move offset to next (or previous) window.
   if (next) {
     offset++;
@@ -5035,32 +5054,24 @@ void MainWindow::goto_next_previous_project(bool next) {
       offset = 0;
   } else {
     offset--;
-    if (offset < 0) 
+    if (offset < 0)
       offset = editor_windows.size() - 1;
   }
-  
+
   // Present the new window.
   editor_windows[offset]->present();
 }
 
-void MainWindow::jump_start_editors(const ustring& project)
+void MainWindow::jump_start_editors(const ustring& project) // Todo working here can go out.
 // Jump starts the text editors.
 {
-  /* // Todo 
-   enable_or_disable_widgets(false);
-   editorsgui->jumpstart(project);
-   g_signal_connect ((gpointer) editorsgui->new_styles_button, "clicked", G_CALLBACK (on_editor_style_changed), gpointer(this));
-   g_signal_connect ((gpointer) editorsgui->word_double_clicked_button, "clicked", G_CALLBACK (on_send_word_to_toolbox_signalled), gpointer(this));
-   g_signal_connect ((gpointer) editorsgui->editor_reload_button, "clicked", G_CALLBACK (on_editor_reload_clicked), gpointer(this));
-   g_signal_connect ((gpointer) editorsgui->editor_changed_button, "clicked", G_CALLBACK (on_editorsgui_changed_clicked), gpointer(this));
-   */
 }
 
 void MainWindow::on_editorsgui_changed_clicked(GtkButton *button, gpointer user_data) {
   ((MainWindow *) user_data)->on_editorsgui_changed();
 }
 
-void MainWindow::on_editorsgui_changed() {
+void MainWindow::on_editorsgui_changed() { // Todo working here
   if (window_merge) {
     window_merge->editors_changed();
   }
@@ -5108,7 +5119,7 @@ void MainWindow::on_file_projects_merge_activate(GtkMenuItem *menuitem, gpointer
   ((MainWindow *) user_data)->on_file_projects_merge();
 }
 
-void MainWindow::on_file_projects_merge() {
+void MainWindow::on_file_projects_merge() { // Todo working here
   on_window_merge_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (file_projects_merge))) {
     window_merge = new WindowMerge (accelerator_group, windows_startup_pointer != G_MAXINT);
@@ -5137,7 +5148,7 @@ void MainWindow::on_merge_window_get_text_button_clicked(GtkButton *button, gpoi
   ((MainWindow *) user_data)->on_merge_window_get_text_button();
 }
 
-void MainWindow::on_merge_window_get_text_button() {
+void MainWindow::on_merge_window_get_text_button() { // Todo working here.
   /*
    if (window_merge) {
    window_merge->main_project_data = editorsgui->get_text(window_merge->current_master_project);

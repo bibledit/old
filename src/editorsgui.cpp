@@ -18,28 +18,6 @@ EditorsGUI::~EditorsGUI() {
   gtk_widget_destroy(quick_references_button);
 }
 
-void EditorsGUI::jumpstart(const ustring& project)
-// This jumpstarts the editor(s).
-{
-  // Pass subsequent signals on.
-  pass_signals_on = true;
-
-  // Open project - this will give a focus signal because the project artificially changes.
-  extern Settings * settings;
-  settings->genconfig.project_set("");
-  open(project, 1);
-}
-
-void EditorsGUI::open(const ustring& project, int method)
-{
-  // Other signal handlers.
-  g_signal_connect ((gpointer) editor->new_styles_signal, "clicked", G_CALLBACK (on_editor_style_changed), gpointer(this));
-  g_signal_connect ((gpointer) editor->word_double_clicked_signal, "clicked", G_CALLBACK (on_word_double_clicked), gpointer(this));
-  g_signal_connect ((gpointer) editor->reload_signal, "clicked", G_CALLBACK (on_editor_reload_clicked), gpointer(this));
-  g_signal_connect ((gpointer) editor->changed_signal, "clicked", G_CALLBACK (on_editor_changed_clicked), gpointer(this));
-  g_signal_connect ((gpointer) editor->quick_references_button, "clicked", G_CALLBACK (on_quick_references_signal_button_clicked), gpointer(this));
-}
-
 void EditorsGUI::go_to(const Reference& reference) {
   // Get the Editor. If none, bail out.
   Editor * editor = focused_editor();
@@ -127,14 +105,6 @@ void EditorsGUI::on_focus_signal(GtkButton *button)
     settings->genconfig.text_editor_selection_color_set(projectconfig->editor_selection_color_get());
 
   }
-}
-
-void EditorsGUI::on_editor_style_changed(GtkButton *button, gpointer user_data) {
-  ((EditorsGUI *) user_data)->editor_style_changed();
-}
-
-void EditorsGUI::editor_style_changed() {
-  gtk_button_clicked(GTK_BUTTON (new_styles_button));
 }
 
 void EditorsGUI::on_word_double_clicked(GtkButton *button, gpointer user_data) {
