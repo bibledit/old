@@ -2987,7 +2987,7 @@ void MainWindow::on_send_word_to_toolbox_signalled(GtkButton *button, gpointer u
   ((MainWindow *) user_data)->send_word_to_toolbox();
 }
 
-void MainWindow::send_word_to_toolbox() { // Todo working here.
+void MainWindow::send_word_to_toolbox() {
   WindowEditor * editor_window = last_focused_editor_window();
   if (!editor_window)
     return;
