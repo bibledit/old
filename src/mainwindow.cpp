@@ -2657,7 +2657,7 @@ void MainWindow::on_cut1_activate(GtkMenuItem * menuitem, gpointer user_data) {
 }
 
 void MainWindow::on_cut() {
-  /* Todo
+  /* 
    GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
    if (editorsgui->has_focus()) {
    Editor * editor = editorsgui->focused_editor();
@@ -2677,7 +2677,7 @@ void MainWindow::on_copy1_activate(GtkMenuItem * menuitem, gpointer user_data) {
 }
 
 void MainWindow::on_copy() {
-  /* Todo
+  /* 
    GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
    if (editorsgui->has_focus()) {
    Editor * editor = editorsgui->focused_editor();
@@ -2700,7 +2700,7 @@ void MainWindow::on_copy_without_formatting_activate(GtkMenuItem * menuitem, gpo
 }
 
 void MainWindow::on_copy_without_formatting() {
-  /* Todo
+  /* 
    GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
    if (editorsgui->has_focus()) {
    Editor * editor = editorsgui->focused_editor();
@@ -2722,7 +2722,7 @@ void MainWindow::on_paste() {
   if (!gtk_clipboard_wait_is_text_available(clipboard))
     return;
   // Paste text in the focused textview.  
-  /* Todo
+  /* 
    if (editorsgui->has_focus()) {
    Editor * editor = editorsgui->focused_editor();
    if (editor) {
@@ -3230,33 +3230,33 @@ void MainWindow::on_insert_standard_text(GtkMenuItem *menuitem) {
   bool gtkhtml = false;
   if (menuitem == GTK_MENU_ITEM (standard_text_1)) {
     standardtext = settings->genconfig.edit_note_standard_text_one_get();
-    selector = 1;
+    selector = 0;
     addspace = true;
     gtkhtml = true;
   } else if (menuitem == GTK_MENU_ITEM (standard_text_2)) {
     standardtext = settings->genconfig.edit_note_standard_text_two_get();
-    selector = 2;
+    selector = 1;
     addspace = true;
     gtkhtml = true;
   } else if (menuitem == GTK_MENU_ITEM (standard_text_3)) {
     standardtext = settings->genconfig.edit_note_standard_text_three_get();
-    selector = 3;
+    selector = 2;
     addspace = true;
     gtkhtml = true;
   } else if (menuitem == GTK_MENU_ITEM (standard_text_4)) {
     standardtext = settings->genconfig.edit_note_standard_text_four_get();
-    selector = 4;
+    selector = 3;
     addspace = true;
     gtkhtml = true;
   } else if (menuitem == GTK_MENU_ITEM (current_reference1)) {
-    /* Todo
-     Editor * editor = editorsgui->focused_editor();
-     if (editor)
-     standardtext = books_id_to_english(editor->current_reference.book) + " " + convert_to_string(editor->current_reference.chapter) + ":" + editor->current_reference.verse;
-     selector = 5;
-     addspace = false;
-     gtkhtml = false;
-     */
+    WindowEditor * editor_window = last_focused_editor_window();
+    if (editor_window) {
+      Editor * editor = editor_window->editor;
+      standardtext = books_id_to_english(editor->current_reference.book) + " " + convert_to_string(editor->current_reference.chapter) + ":" + editor->current_reference.verse;
+      selector = 4;
+      addspace = false;
+      gtkhtml = false;
+    }
   }
 
   // Insert the text.
@@ -6418,6 +6418,8 @@ void MainWindow::accelerator_previous_project_callback(gpointer user_data) {
 
  Todo Improve the window layout system.
 
+ The merge window should have its horizontal scrollbar set to automatic.
+ 
  We need to look at the "todo" entries in windownotes.h/cpp.
 
  Adding text to notes by accelerators, and by the menu.
@@ -6486,7 +6488,10 @@ void MainWindow::accelerator_previous_project_callback(gpointer user_data) {
  void MainWindow::menu_undo() 
  void MainWindow::on_tools_area_activate() - This needs a routine that tracks the last focused tool, and this is
  the tool to be focused when the area is activated.
- 
+ void MainWindow::on_cut() 
+ void MainWindow::on_copy()
+ void MainWindow::on_copy_without_formatting()
+ void MainWindow::on_paste() 
  
  */
 
