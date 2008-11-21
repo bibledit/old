@@ -19,11 +19,6 @@ private:
   void projects_pages_get(vector <ustring>& projects, vector <int> * pages);
   void editors_pages_get(vector <Editor *>& editorpointers, vector <int> * pages);
 
-  // Fonts.
-public:
-  void set_fonts();
-private:
-
   // Title bar.
 public:
   void title_bar_display();

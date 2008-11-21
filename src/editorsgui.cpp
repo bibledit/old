@@ -107,13 +107,6 @@ void EditorsGUI::on_focus_signal(GtkButton *button)
   }
 }
 
-void EditorsGUI::set_fonts() {
-  for (unsigned int e = 0; e < editors.size(); e++) {
-    editors[e]->set_font();
-    editors[e]->create_or_update_formatting_data();
-  }
-}
-
 void EditorsGUI::on_editor_changed_clicked(GtkButton *button, gpointer user_data)
 // This signal will be called if anything in any of the editors changed.
 {

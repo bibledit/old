@@ -4386,7 +4386,7 @@ void MainWindow::on_view_text_font_activate(GtkMenuItem * menuitem, gpointer use
   ((MainWindow *) user_data)->on_text_font();
 }
 
-void MainWindow::on_text_font() {// Todo
+void MainWindow::on_text_font() {
   // Get the font and colour settings, either from the project, if it is opened, 
   // or else from genconfig.
   extern Settings * settings;
@@ -4460,9 +4460,12 @@ void MainWindow::on_notes_font() {
   }
 }
 
-void MainWindow::set_fonts() {
+void MainWindow::set_fonts() { // 
   // Set font in the text editors. Set text direction too.
-  // Todo editorsgui->set_fonts();
+  for (unsigned int i = 0; i < editor_windows.size(); i++) {
+    editor_windows[i]->editor->set_font();
+    editor_windows[i]->editor->create_or_update_formatting_data();
+  }
 
   /* Because of switching to GtkHtml for displaying and editing project notes, the fonts no longer can be set through the menu.
    // Set font for the translation notes editor.
