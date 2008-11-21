@@ -59,11 +59,6 @@ public:
   void set_fonts();
 private:
 
-  // Project switching.
-public:
-  void next_previous_project(bool next);
-private:
-
   // Styles.
 public:
   void reload_styles();

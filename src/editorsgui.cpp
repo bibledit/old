@@ -219,44 +219,6 @@ void EditorsGUI::editors_pages_get(vector <Editor *>& editorpointers, vector <in
   }
 }
 
-void EditorsGUI::next_previous_project(bool next) {
-  // Bail out if there are not enough editors to switch.
-  if (editors.size() < 2)
-    return;
-
-  // The next (or previous) project to focus.
-  ustring newproject;
-
-  // Get the projects.
-  vector <ustring> projects;
-  projects_pages_get(projects, NULL);
-
-  // Get current editor.
-  Editor * editor = focused_editor();
-  if (!editor)
-    return;
-
-  // Get next (or previous) project.
-  for (unsigned int i = 0; i < projects.size(); i++) {
-    if (editor->project == projects[i]) {
-      if (next) {
-        if (i < editors.size() - 1)
-          newproject = projects[i + 1];
-      } else {
-        if (i > 0)
-          newproject = projects[i - 1];
-      }
-    }
-  }
-
-  // Bail out if no next (previous) project was found.
-  if (projects.empty())
-    return;
-
-  // Focus the new project.
-  open(newproject, 0);
-}
-
 bool EditorsGUI::has_focus()
 // Returns true if one of the editors has focus.
 {

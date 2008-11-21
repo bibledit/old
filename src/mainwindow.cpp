@@ -5014,6 +5014,35 @@ void MainWindow::save_editors()
   }
 }
 
+void MainWindow::goto_next_previous_project(bool next) {
+  // Bail out if there are not enough windows to switch.
+  if (editor_windows.size() < 2)
+    return;
+
+  // Get the focused project window and its offset.
+  WindowEditor * present_window = last_focused_editor_window();
+  int offset = 0;
+  for (unsigned int i = 0; i < editor_windows.size(); i++) {
+    if (present_window == editor_windows[i]) {
+      offset = i;
+    }
+  }
+  
+  // Move offset to next (or previous) window.
+  if (next) {
+    offset++;
+    if ((unsigned int)(offset) >= editor_windows.size())
+      offset = 0;
+  } else {
+    offset--;
+    if (offset < 0) 
+      offset = editor_windows.size() - 1;
+  }
+  
+  // Present the new window.
+  editor_windows[offset]->present();
+}
+
 void MainWindow::jump_start_editors(const ustring& project)
 // Jump starts the text editors.
 {
@@ -6380,23 +6409,26 @@ void MainWindow::accelerator_activate_notes_area_callback(gpointer user_data) {
   ((MainWindow *) user_data)->on_notes_area_activate();
 }
 
-void MainWindow::accelerator_next_reference_in_reference_area_callback(gpointer user_data) { // Todo working here.
+void MainWindow::accelerator_next_reference_in_reference_area_callback(gpointer user_data) {
   ((MainWindow *) user_data)->on_next_reference();
 }
-void MainWindow::accelerator_previous_reference_in_reference_area_callback(gpointer user_data) { // Todo
+void MainWindow::accelerator_previous_reference_in_reference_area_callback(gpointer user_data) {
   ((MainWindow *) user_data)->on_previous_reference();
 }
-void MainWindow::accelerator_next_project_callback(gpointer user_data) { // Todo
-  // Todo this one has to work with the separate windows. ((MainWindow *) user_data)->editorsgui->next_previous_project(true);
+void MainWindow::accelerator_next_project_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->goto_next_previous_project(true);
 }
-void MainWindow::accelerator_previous_project_callback(gpointer user_data) { // Todo
-  // Todo this one has to work with the separate windows. ((MainWindow *) user_data)->editorsgui->next_previous_project(false);
+
+void MainWindow::accelerator_previous_project_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->goto_next_previous_project(false);
 }
 
 /*
 
  Todo Improve the window layout system.
 
+ Todo work on this urgent thing: to make merge working again.
+ 
  We need to look at the "todo" entries in windownotes.h/cpp.
 
  Adding text to notes by accelerators, and by the menu.
