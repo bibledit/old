@@ -4097,7 +4097,7 @@ void MainWindow::on_insert_special_character_activate(GtkMenuItem *menuitem, gpo
   ((MainWindow *) user_data)->on_insert_special_character();
 }
 
-void MainWindow::on_insert_special_character() {// Todo
+void MainWindow::on_insert_special_character() {
   WindowEditor * editor_window = last_focused_editor_window();
   if (!editor_window)
     return;
@@ -4386,58 +4386,58 @@ void MainWindow::on_view_text_font_activate(GtkMenuItem * menuitem, gpointer use
   ((MainWindow *) user_data)->on_text_font();
 }
 
-void MainWindow::on_text_font() {
-  /* // Todo 
-   // Get the font and colour settings, either from the project, if it is opened, 
-   // or else from genconfig.
-   extern Settings * settings;
-   bool defaultfont = settings->genconfig.text_editor_font_default_get();
-   ustring fontname = settings->genconfig.text_editor_font_name_get();
-   unsigned int linespacing = 100;
-   bool defaultcolour = settings->genconfig.text_editor_default_color_get();
-   unsigned int normaltextcolour = settings->genconfig.text_editor_normal_text_color_get();
-   unsigned int backgroundcolour = settings->genconfig.text_editor_background_color_get();
-   unsigned int selectedtextcolour = settings->genconfig.text_editor_selected_text_color_get();
-   unsigned int selectioncolour = settings->genconfig.text_editor_selection_color_get();
-   Editor * editor = editorsgui->focused_editor();
-   if (editor) {
-   ProjectConfiguration * projectconfig = settings->projectconfig(editor->project);
-   defaultfont = projectconfig->editor_font_default_get();
-   fontname = projectconfig->editor_font_name_get();
-   linespacing = projectconfig->text_line_height_get();
-   defaultcolour = settings->genconfig.text_editor_default_color_get();
-   normaltextcolour = projectconfig->editor_normal_text_color_get();
-   backgroundcolour = projectconfig->editor_background_color_get();
-   selectedtextcolour = projectconfig->editor_selected_text_color_get();
-   selectioncolour = projectconfig->editor_selection_color_get();
-   }
+void MainWindow::on_text_font() {// Todo
+  // Get the font and colour settings, either from the project, if it is opened, 
+  // or else from genconfig.
+  extern Settings * settings;
+  bool defaultfont = settings->genconfig.text_editor_font_default_get();
+  ustring fontname = settings->genconfig.text_editor_font_name_get();
+  unsigned int linespacing = 100;
+  bool defaultcolour = settings->genconfig.text_editor_default_color_get();
+  unsigned int normaltextcolour = settings->genconfig.text_editor_normal_text_color_get();
+  unsigned int backgroundcolour = settings->genconfig.text_editor_background_color_get();
+  unsigned int selectedtextcolour = settings->genconfig.text_editor_selected_text_color_get();
+  unsigned int selectioncolour = settings->genconfig.text_editor_selection_color_get();
+  WindowEditor * editor_window = last_focused_editor_window();
+  if (editor_window) {
+    Editor * editor = editor_window->editor;
+    ProjectConfiguration * projectconfig = settings->projectconfig(editor->project);
+    defaultfont = projectconfig->editor_font_default_get();
+    fontname = projectconfig->editor_font_name_get();
+    linespacing = projectconfig->text_line_height_get();
+    defaultcolour = settings->genconfig.text_editor_default_color_get();
+    normaltextcolour = projectconfig->editor_normal_text_color_get();
+    backgroundcolour = projectconfig->editor_background_color_get();
+    selectedtextcolour = projectconfig->editor_selected_text_color_get();
+    selectioncolour = projectconfig->editor_selection_color_get();
+  }
 
-   // Display font selection dialog. 
-   FontColorDialog dialog(defaultfont, fontname, linespacing, defaultcolour, normaltextcolour, backgroundcolour, selectedtextcolour, selectioncolour);
-   if (dialog.run() != GTK_RESPONSE_OK)
-   return;
+  // Display font selection dialog. 
+  FontColorDialog dialog(defaultfont, fontname, linespacing, defaultcolour, normaltextcolour, backgroundcolour, selectedtextcolour, selectioncolour);
+  if (dialog.run() != GTK_RESPONSE_OK)
+    return;
 
-   // Save font, and set it.
-   settings->genconfig.text_editor_font_default_set(dialog.new_use_default_font);
-   settings->genconfig.text_editor_font_name_set(dialog.new_font);
-   settings->genconfig.text_editor_default_color_set(dialog.new_use_default_color);
-   settings->genconfig.text_editor_normal_text_color_set(dialog.new_normal_text_color);
-   settings->genconfig.text_editor_background_color_set(dialog.new_background_color);
-   settings->genconfig.text_editor_selected_text_color_set(dialog.new_selected_text_color);
-   settings->genconfig.text_editor_selection_color_set(dialog.new_selection_color);
-   if (editor) {
-   ProjectConfiguration * projectconfig = settings->projectconfig(editor->project);
-   projectconfig->editor_font_default_set(dialog.new_use_default_font);
-   projectconfig->editor_font_name_set(dialog.new_font);
-   projectconfig->text_line_height_set(dialog.new_line_spacing);
-   projectconfig->editor_default_color_set(dialog.new_use_default_color);
-   projectconfig->editor_normal_text_color_set(dialog.new_normal_text_color);
-   projectconfig->editor_background_color_set(dialog.new_background_color);
-   projectconfig->editor_selected_text_color_set(dialog.new_selected_text_color);
-   projectconfig->editor_selection_color_set(dialog.new_selection_color);
-   }
-   set_fonts();
-   */
+  // Save font, and set it.
+  settings->genconfig.text_editor_font_default_set(dialog.new_use_default_font);
+  settings->genconfig.text_editor_font_name_set(dialog.new_font);
+  settings->genconfig.text_editor_default_color_set(dialog.new_use_default_color);
+  settings->genconfig.text_editor_normal_text_color_set(dialog.new_normal_text_color);
+  settings->genconfig.text_editor_background_color_set(dialog.new_background_color);
+  settings->genconfig.text_editor_selected_text_color_set(dialog.new_selected_text_color);
+  settings->genconfig.text_editor_selection_color_set(dialog.new_selection_color);
+  if (editor_window) {
+    Editor * editor = editor_window->editor;
+    ProjectConfiguration * projectconfig = settings->projectconfig(editor->project);
+    projectconfig->editor_font_default_set(dialog.new_use_default_font);
+    projectconfig->editor_font_name_set(dialog.new_font);
+    projectconfig->text_line_height_set(dialog.new_line_spacing);
+    projectconfig->editor_default_color_set(dialog.new_use_default_color);
+    projectconfig->editor_normal_text_color_set(dialog.new_normal_text_color);
+    projectconfig->editor_background_color_set(dialog.new_background_color);
+    projectconfig->editor_selected_text_color_set(dialog.new_selected_text_color);
+    projectconfig->editor_selection_color_set(dialog.new_selection_color);
+  }
+  set_fonts();
 }
 
 void MainWindow::on_view_notes_font_activate(GtkMenuItem * menuitem, gpointer user_data) {
