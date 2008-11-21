@@ -714,7 +714,7 @@ protected:
   static void on_file_resources_delete_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_file_resources_delete();
 
-  /* Text editors */// Todo working here
+  /* Text editors */
   vector <WindowEditor *> editor_windows;
   static void on_window_editor_delete_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_editor_delete_button(GtkButton *button);
@@ -723,7 +723,6 @@ protected:
   void handle_editor_focus();
   void save_editors();
   void goto_next_previous_project(bool next);
-
   static void on_editor_reload_clicked(GtkButton *button, gpointer user_data);
   void on_editor_reload();
   static void on_editorsgui_changed_clicked(GtkButton *button, gpointer user_data);

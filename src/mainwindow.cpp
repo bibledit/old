@@ -4460,7 +4460,7 @@ void MainWindow::on_notes_font() {
   }
 }
 
-void MainWindow::set_fonts() { // 
+void MainWindow::set_fonts() {
   // Set font in the text editors. Set text direction too.
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
     editor_windows[i]->editor->set_font();
@@ -4864,7 +4864,7 @@ void MainWindow::on_file_resources_delete()
  |
  |
  |
- Text Editors Todo working here
+ Text Editors
  |
  |
  |
