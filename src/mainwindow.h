@@ -602,6 +602,7 @@ protected:
   static void on_editor_style_changed(GtkButton *button, gpointer user_data);
   void editor_style_changed();
   static void on_style_edited(GtkButton *button, gpointer user_data);
+  void reload_styles();
 
   /* Footnotes, endnotes, crossreferences */
   static void on_edit_bible_note_activate(GtkMenuItem *menuitem, gpointer user_data);

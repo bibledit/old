@@ -3876,7 +3876,13 @@ void MainWindow::editor_style_changed() {
 void MainWindow::on_style_edited(GtkButton *button, gpointer user_data)
 // This function is called when the properties of a style have been edited.
 {
-  // Todo implement again. ((MainWindow *) user_data)->editorsgui->reload_styles();
+  ((MainWindow *) user_data)->reload_styles();
+}
+
+void MainWindow::reload_styles() {
+  for (unsigned int i = 0; i < editor_windows.size(); i++) {
+    editor_windows[i]->editor->create_or_update_formatting_data();
+  }
 }
 
 /*

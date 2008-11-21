@@ -24,11 +24,6 @@ public:
   void set_fonts();
 private:
 
-  // Styles.
-public:
-  void reload_styles();
-private:
-
   // Title bar.
 public:
   void title_bar_display();

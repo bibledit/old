@@ -114,12 +114,6 @@ void EditorsGUI::set_fonts() {
   }
 }
 
-void EditorsGUI::reload_styles() {
-  for (unsigned int e = 0; e < editors.size(); e++) {
-    editors[e]->create_or_update_formatting_data();
-  }
-}
-
 void EditorsGUI::on_editor_changed_clicked(GtkButton *button, gpointer user_data)
 // This signal will be called if anything in any of the editors changed.
 {
