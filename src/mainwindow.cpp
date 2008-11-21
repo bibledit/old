@@ -6432,8 +6432,6 @@ void MainWindow::accelerator_previous_project_callback(gpointer user_data) {
 
  Todo Improve the window layout system.
 
- The merge window should have its horizontal scrollbar set to automatic.
- 
  We need to look at the "todo" entries in windownotes.h/cpp.
 
  Adding text to notes by accelerators, and by the menu.
