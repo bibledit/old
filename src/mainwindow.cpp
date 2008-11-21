@@ -4982,8 +4982,18 @@ void MainWindow::handle_editor_focus() {
   if (project.empty())
     return;
 
-  // Settings.
-  extern Settings * settings;
+  // Project configuration.
+  ProjectConfiguration * projectconfig = settings->projectconfig(project);
+  
+  // The font and colour are tied to the project, 
+  // but also stored in the general configuration.
+  settings->genconfig.text_editor_font_default_set(projectconfig->editor_font_default_get());
+  settings->genconfig.text_editor_font_name_set(projectconfig->editor_font_name_get());
+  settings->genconfig.text_editor_default_color_set(projectconfig->editor_default_color_get());
+  settings->genconfig.text_editor_normal_text_color_set(projectconfig->editor_normal_text_color_get());
+  settings->genconfig.text_editor_background_color_set(projectconfig->editor_background_color_get());
+  settings->genconfig.text_editor_selected_text_color_set(projectconfig->editor_selected_text_color_get());
+  settings->genconfig.text_editor_selection_color_set(projectconfig->editor_selection_color_get());
 
   // Re-initialize Navigation.
   navigation.set_project(project, false);
@@ -5003,7 +5013,6 @@ void MainWindow::handle_editor_focus() {
   notes_redisplay();
 
   // Open the right stylesheet.
-  ProjectConfiguration * projectconfig = settings->projectconfig(project);
   settings->genconfig.stylesheet_set(projectconfig->stylesheet_get());
   stylesheet_open_named(settings->genconfig.stylesheet_get());
 }
