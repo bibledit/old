@@ -279,17 +279,3 @@ ustring EditorsGUI::get_text(const ustring& project) {
   return text;
 }
 
-void EditorsGUI::on_quick_references_signal_button_clicked(GtkButton *button, gpointer user_data) {
-  ((EditorsGUI *) user_data)->on_quick_references_signal_button(button);
-}
-
-void EditorsGUI::on_quick_references_signal_button(GtkButton *button) {
-  GtkWidget * widget = GTK_WIDGET (button);
-  for (unsigned int i = 0; i < editors.size(); i++) {
-    if (widget == editors[i]->quick_references_button) {
-      quick_references = editors[i]->quick_references;
-    }
-  }
-
-  gtk_button_clicked (GTK_BUTTON (quick_references_button));
-}

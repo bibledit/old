@@ -19,14 +19,6 @@ private:
   void projects_pages_get(vector <ustring>& projects, vector <int> * pages);
   void editors_pages_get(vector <Editor *>& editorpointers, vector <int> * pages);
 
-  // Quick references.
-public:
-  GtkWidget * quick_references_button;
-  vector <Reference> quick_references;
-private:
-  static void on_quick_references_signal_button_clicked(GtkButton *button, gpointer user_data);
-  void on_quick_references_signal_button(GtkButton *button);
-  
   // Word double-click.
 public:
   GtkWidget * word_double_clicked_button;

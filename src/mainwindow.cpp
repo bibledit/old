@@ -1838,9 +1838,6 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   gtk_window_add_accel_group(GTK_WINDOW (mainwindow), accel_group);
 
-  // Jumpstart editor.
-  jump_start_editors(focused_project_last_session);
-
   // Communication with BibleTime
   got_new_bt_reference = 0;
   g_timeout_add(100, GSourceFunc(mainwindow_on_external_programs_timeout), gpointer(this));
@@ -4921,9 +4918,9 @@ void MainWindow::on_file_project_open(const ustring& project)
   g_signal_connect ((gpointer) editor_window->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
   g_signal_connect ((gpointer) editor_window->editor->new_verse_signal, "clicked", G_CALLBACK (on_new_verse_signalled), gpointer(this));
   g_signal_connect ((gpointer) editor_window->editor->new_styles_signal, "clicked", G_CALLBACK (on_editor_style_changed), gpointer(this));
+  g_signal_connect ((gpointer) editor_window->editor->quick_references_button, "clicked", G_CALLBACK (on_show_quick_references_signal_button_clicked), gpointer(this));
 
   /* // Todo working here
-   // Todo connect signal straight to the editors, if relevant. g_signal_connect ((gpointer) editorsgui->quick_references_button, "clicked", G_CALLBACK (on_show_quick_references_signal_button_clicked), gpointer(this));
 
    g_signal_connect ((gpointer) editorsgui->word_double_clicked_button, "clicked", G_CALLBACK (on_send_word_to_toolbox_signalled), gpointer(this));
    g_signal_connect ((gpointer) editorsgui->editor_reload_button, "clicked", G_CALLBACK (on_editor_reload_clicked), gpointer(this));
@@ -4935,7 +4932,6 @@ void MainWindow::on_file_project_open(const ustring& project)
    g_signal_connect ((gpointer) editor->word_double_clicked_signal, "clicked", G_CALLBACK (on_word_double_clicked), gpointer(this));
    g_signal_connect ((gpointer) editor->reload_signal, "clicked", G_CALLBACK (on_editor_reload_clicked), gpointer(this));
    g_signal_connect ((gpointer) editor->changed_signal, "clicked", G_CALLBACK (on_editor_changed_clicked), gpointer(this));
-   g_signal_connect ((gpointer) editor->quick_references_button, "clicked", G_CALLBACK (on_quick_references_signal_button_clicked), gpointer(this));
    
    
    
@@ -5060,11 +5056,6 @@ void MainWindow::goto_next_previous_project(bool next) {
 
   // Present the new window.
   editor_windows[offset]->present();
-}
-
-void MainWindow::jump_start_editors(const ustring& project) // Todo working here can go out.
-// Jump starts the text editors.
-{
 }
 
 void MainWindow::on_editorsgui_changed_clicked(GtkButton *button, gpointer user_data) {
@@ -6098,11 +6089,14 @@ void MainWindow::on_show_quick_references_signal_button_clicked(GtkButton *butto
 }
 
 void MainWindow::on_show_quick_references_signal_button(GtkButton *button) {
-  if (window_show_quick_references) {
-    extern Settings * settings;
-    ustring project = settings->genconfig.project_get();
-    // Todo window_show_quick_references->go_to(project, editorsgui->quick_references);
-  }
+  if (!window_show_quick_references)
+    return;
+  WindowEditor * editor_window = last_focused_editor_window();
+  if (!editor_window)
+    return;
+  extern Settings * settings;
+  ustring project = settings->genconfig.project_get();
+  window_show_quick_references->go_to(project, editor_window->editor->quick_references);
 }
 
 void MainWindow::treeview_references_display_quick_reference()

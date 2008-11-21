@@ -725,7 +725,6 @@ protected:
 
   static void on_editor_reload_clicked(GtkButton *button, gpointer user_data);
   void on_editor_reload();
-  void jump_start_editors(const ustring& project);
   static void on_editorsgui_changed_clicked(GtkButton *button, gpointer user_data);
   void on_editorsgui_changed();
   void reload_project();
