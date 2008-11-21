@@ -4918,13 +4918,8 @@ void MainWindow::on_file_project_open(const ustring& project)
   g_signal_connect ((gpointer) editor_window->editor->new_styles_signal, "clicked", G_CALLBACK (on_editor_style_changed), gpointer(this));
   g_signal_connect ((gpointer) editor_window->editor->quick_references_button, "clicked", G_CALLBACK (on_show_quick_references_signal_button_clicked), gpointer(this));
   g_signal_connect ((gpointer) editor_window->editor->word_double_clicked_signal, "clicked", G_CALLBACK (on_send_word_to_toolbox_signalled), gpointer(this));
-  /* // Todo working here
-   g_signal_connect ((gpointer) editorsgui->editor_reload_button, "clicked", G_CALLBACK (on_editor_reload_clicked), gpointer(this));
-   g_signal_connect ((gpointer) editorsgui->editor_changed_button, "clicked", G_CALLBACK (on_editorsgui_changed_clicked), gpointer(this));
-
-   g_signal_connect ((gpointer) editor->reload_signal, "clicked", G_CALLBACK (on_editor_reload_clicked), gpointer(this));
-   g_signal_connect ((gpointer) editor->changed_signal, "clicked", G_CALLBACK (on_editor_changed_clicked), gpointer(this));
-   */
+  g_signal_connect ((gpointer) editor_window->editor->reload_signal, "clicked", G_CALLBACK (on_editor_reload_clicked), gpointer(this));
+  g_signal_connect ((gpointer) editor_window->editor->changed_signal, "clicked", G_CALLBACK (on_editorsgui_changed_clicked), gpointer(this));
   editor_windows.push_back(editor_window);
 
   // After creation the window will generate a focus signal, 
@@ -4937,22 +4932,21 @@ void MainWindow::on_editor_reload_clicked(GtkButton *button, gpointer user_data)
 
 void MainWindow::on_editor_reload() {
   // Get the focused editor, if none, bail out.
-  /* // Todo 
-   Editor * editor = editorsgui->focused_editor();
-   if (!editor)
-   return;
-   // Create the reference where to go to after the project has been reopened.
-   // The reference should be obtained before closing the project,
-   // so that the chapter number to go to is accessible.
-   Reference reference(navigation.reference);
-   reference.chapter = editor->reload_chapter_number;
-   if (editor->reload_chapter_number == 0)
-   reference.verse = "0";
-   // Reopen.
-   reload_project();
-   // Go to the right reference.
-   navigation.display(reference);
-   */
+  WindowEditor * editor_window = last_focused_editor_window();
+  if (!editor_window)
+    return;
+  Editor * editor = editor_window->editor;
+  // Create the reference where to go to after the project has been reopened.
+  // The reference should be obtained before closing the project,
+  // so that the chapter number to go to is accessible.
+  Reference reference(navigation.reference);
+  reference.chapter = editor->reload_chapter_number;
+  if (editor->reload_chapter_number == 0)
+    reference.verse = "0";
+  // Reopen.
+  reload_project();
+  // Go to the right reference.
+  navigation.display(reference);
 }
 
 void MainWindow::handle_editor_focus() {
@@ -5050,7 +5044,7 @@ void MainWindow::on_editorsgui_changed_clicked(GtkButton *button, gpointer user_
   ((MainWindow *) user_data)->on_editorsgui_changed();
 }
 
-void MainWindow::on_editorsgui_changed() { // Todo working here
+void MainWindow::on_editorsgui_changed() {
   if (window_merge) {
     window_merge->editors_changed();
   }
@@ -5098,7 +5092,7 @@ void MainWindow::on_file_projects_merge_activate(GtkMenuItem *menuitem, gpointer
   ((MainWindow *) user_data)->on_file_projects_merge();
 }
 
-void MainWindow::on_file_projects_merge() { // Todo working here
+void MainWindow::on_file_projects_merge() {
   on_window_merge_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (file_projects_merge))) {
     window_merge = new WindowMerge (accelerator_group, windows_startup_pointer != G_MAXINT);
@@ -5127,15 +5121,19 @@ void MainWindow::on_merge_window_get_text_button_clicked(GtkButton *button, gpoi
   ((MainWindow *) user_data)->on_merge_window_get_text_button();
 }
 
-void MainWindow::on_merge_window_get_text_button() { // Todo working here.
-  /*
-   if (window_merge) {
-   window_merge->main_project_data = editorsgui->get_text(window_merge->current_master_project);
-   window_merge->edited_project_data = editorsgui->get_text(window_merge->current_edited_project);
-   window_merge->book = navigation.reference.book;
-   window_merge->chapter = navigation.reference.chapter;
-   }
-   */
+void MainWindow::on_merge_window_get_text_button() {
+  if (window_merge) {
+    for (unsigned int i = 0; i < editor_windows.size(); i++) {
+      if (editor_windows[i]->window_data == window_merge->current_master_project) {
+        window_merge->main_project_data = editor_windows[i]->editor->get_chapter();
+      }
+      if (editor_windows[i]->window_data == window_merge->current_edited_project) {
+        window_merge->edited_project_data = editor_windows[i]->editor->get_chapter();
+      }
+    }
+    window_merge->book = navigation.reference.book;
+    window_merge->chapter = navigation.reference.chapter;
+  }
 }
 
 void MainWindow::on_merge_window_new_reference_button_clicked(GtkButton *button, gpointer user_data) {
@@ -6420,8 +6418,6 @@ void MainWindow::accelerator_previous_project_callback(gpointer user_data) {
 
  Todo Improve the window layout system.
 
- Todo work on this urgent thing: to make merge working again.
- 
  We need to look at the "todo" entries in windownotes.h/cpp.
 
  Adding text to notes by accelerators, and by the menu.

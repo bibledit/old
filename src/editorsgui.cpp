@@ -107,22 +107,6 @@ void EditorsGUI::on_focus_signal(GtkButton *button)
   }
 }
 
-void EditorsGUI::on_word_double_clicked(GtkButton *button, gpointer user_data) {
-  ((EditorsGUI *) user_data)->word_double_clicked();
-}
-
-void EditorsGUI::word_double_clicked() {
-  gtk_button_clicked(GTK_BUTTON (word_double_clicked_button));
-}
-
-void EditorsGUI::on_editor_reload_clicked(GtkButton *button, gpointer user_data) {
-  ((EditorsGUI *) user_data)->on_editor_reload();
-}
-
-void EditorsGUI::on_editor_reload() {
-  gtk_button_clicked(GTK_BUTTON (editor_reload_button));
-}
-
 void EditorsGUI::set_fonts() {
   for (unsigned int e = 0; e < editors.size(); e++) {
     editors[e]->set_font();
@@ -130,133 +114,10 @@ void EditorsGUI::set_fonts() {
   }
 }
 
-void EditorsGUI::projects_pages_get(vector <ustring>& projects, vector <int> * pages)
-// Get a list of projects loaded, and optionally the page numbers they're on.
-// projects: To store the list of projects.
-// pages: If non-NULL: To store the list of page numbers.
-{
-  for (int i = 0; i < gtk_notebook_get_n_pages(GTK_NOTEBOOK (notebook)); i++) {
-    // Get the notebook page, which is a box for the split view.
-    GtkWidget * split_box = gtk_notebook_get_nth_page(GTK_NOTEBOOK (notebook), i);
-    // The box for the split view contains one or more vertical boxes for the editors.
-    GList * children = gtk_container_get_children(GTK_CONTAINER (split_box));
-    GList * list = children;
-    do {
-      GtkWidget * vbox= GTK_WIDGET (list->data);
-      for (unsigned int i2 = 0; i2 < editors.size(); i2++) {
-        if (vbox == editors[i2]->parent_vbox) {
-          projects.push_back(editors[i2]->project);
-          if (pages)
-            pages->push_back(i);
-        }
-      }
-      list = g_list_next (list);
-    } while (list);
-    g_list_free(children);
-  }
-
-}
-
-void EditorsGUI::editors_pages_get(vector <Editor *>& editorpointers, vector <int> * pages)
-// Get a list of Editors loaded, and optionally the page numbers they're on.
-// editorpointers : To store the list of Editors.
-// pages: If non-NULL: To store the list of page numbers.
-{
-  // If no editor is focused, bail out.
-  Editor * editor = focused_editor();
-  if (!editor)
-    return;
-  for (int i = 0; i < gtk_notebook_get_n_pages(GTK_NOTEBOOK (notebook)); i++) {
-    // Get the notebook page, which is a box for the split view.
-    GtkWidget * split_box = gtk_notebook_get_nth_page(GTK_NOTEBOOK (notebook), i);
-    // The box for the split view contains one or more vertical boxes for the editors.
-    GList * children = gtk_container_get_children(GTK_CONTAINER (split_box));
-    GList * list = children;
-    if (children) {
-      do {
-        GtkWidget * vbox= GTK_WIDGET (list->data);
-        for (unsigned int i2 = 0; i2 < editors.size(); i2++) {
-          if (vbox == editors[i2]->parent_vbox) {
-            editorpointers.push_back(editors[i2]);
-            if (pages)
-              pages->push_back(i);
-          }
-        }
-        list = g_list_next (list);
-      } while (list);
-      g_list_free(children);
-    }
-  }
-}
-
-bool EditorsGUI::has_focus()
-// Returns true if one of the editors has focus.
-{
-  for (unsigned int e = 0; e < editors.size(); e++) {
-    if (editors[e]->has_focus()) {
-      return true;
-    }
-  }
-  return false;
-}
-
 void EditorsGUI::reload_styles() {
   for (unsigned int e = 0; e < editors.size(); e++) {
     editors[e]->create_or_update_formatting_data();
   }
-}
-
-void EditorsGUI::title_bar_display()
-// If there are more than one editor in a tab, it shows the title bar.
-// Else it hides it.
-{
-  vector <ustring> projects;
-  vector <int> pages;
-  projects_pages_get(projects, &pages);
-  for (unsigned int i = 0; i < projects.size(); i++) {
-    int projects_per_page = 0;
-    for (unsigned int i2 = 0; i2 < pages.size(); i2++) {
-      if (pages[i] == pages[i2])
-        projects_per_page++;
-    }
-    for (unsigned int i2 = 0; i2 < editors.size(); i2++) {
-      if (projects[i] == editors[i2]->project) {
-        editors[i2]->title_bar_show(projects_per_page > 1);
-      }
-    }
-  }
-}
-
-vector <Editor *> EditorsGUI::visible_editors_get()
-// Gives a list of now visible editors.
-{
-  // Storage for the visible editors.
-  vector <Editor *> visible_editors;
-
-  // Get the focused editor.
-  Editor * editor = focused_editor();
-
-  // Get all editors, and on which pages they are.
-  vector <Editor *> all_editors;
-  vector <int> pages;
-  editors_pages_get(all_editors, &pages);
-
-  // Get the page number of the focused editor.
-  int page = -1;
-  for (unsigned int i = 0; i < all_editors.size(); i++) {
-    if (editor == all_editors[i])
-      page = pages[i];
-  }
-
-  // Get all the editors that are on that page.  
-  for (unsigned int i = 0; i < all_editors.size(); i++) {
-    if (page == pages[i]) {
-      visible_editors.push_back(all_editors[i]);
-    }
-  }
-
-  // Give the list.
-  return visible_editors;
 }
 
 void EditorsGUI::on_editor_changed_clicked(GtkButton *button, gpointer user_data)
@@ -267,15 +128,5 @@ void EditorsGUI::on_editor_changed_clicked(GtkButton *button, gpointer user_data
 
 void EditorsGUI::on_editor_changed() {
   gtk_button_clicked(GTK_BUTTON (editor_changed_button));
-}
-
-ustring EditorsGUI::get_text(const ustring& project) {
-  ustring text;
-  for (unsigned int i = 0; i < editors.size(); i++) {
-    if (editors[i]->project == project) {
-      text = editors[i]->get_chapter();
-    }
-  }
-  return text;
 }
 
