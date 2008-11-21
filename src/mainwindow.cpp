@@ -4097,36 +4097,35 @@ void MainWindow::on_insert_special_character_activate(GtkMenuItem *menuitem, gpo
   ((MainWindow *) user_data)->on_insert_special_character();
 }
 
-void MainWindow::on_insert_special_character() {
-  /* // Todo 
-   Editor * editor = editorsgui->focused_editor();
-   if (!editor)
-   return;
-   extern Settings * settings;
-   vector <ustring> characters;
-   vector <ustring> descriptions;
-   characters.push_back("­");
-   descriptions.push_back("Soft hyphen");
-   characters.push_back(" ");
-   descriptions.push_back("No-break space");
-   characters.push_back("“");
-   descriptions.push_back("Left double quotation mark");
-   characters.push_back("”");
-   descriptions.push_back("Right double quotation mark");
-   characters.push_back("‘");
-   descriptions.push_back("Left single quotation mark");
-   characters.push_back("’");
-   descriptions.push_back("Right single quotation mark");
-   characters.push_back("«");
-   descriptions.push_back("Left-pointing double angle quotation mark");
-   characters.push_back("»");
-   descriptions.push_back("Right-pointing double angle quotation mark");
-   RadiobuttonDialog dialog("Insert character", "Insert special character", descriptions, settings->session.special_character_selection);
-   if (dialog.run() != GTK_RESPONSE_OK)
-   return;
-   settings->session.special_character_selection = dialog.selection;
-   editor->text_insert(characters[dialog.selection]);
-   */
+void MainWindow::on_insert_special_character() {// Todo
+  WindowEditor * editor_window = last_focused_editor_window();
+  if (!editor_window)
+    return;
+  Editor * editor = editor_window->editor;
+  extern Settings * settings;
+  vector <ustring> characters;
+  vector <ustring> descriptions;
+  characters.push_back("­");
+  descriptions.push_back("Soft hyphen");
+  characters.push_back(" ");
+  descriptions.push_back("No-break space");
+  characters.push_back("“");
+  descriptions.push_back("Left double quotation mark");
+  characters.push_back("”");
+  descriptions.push_back("Right double quotation mark");
+  characters.push_back("‘");
+  descriptions.push_back("Left single quotation mark");
+  characters.push_back("’");
+  descriptions.push_back("Right single quotation mark");
+  characters.push_back("«");
+  descriptions.push_back("Left-pointing double angle quotation mark");
+  characters.push_back("»");
+  descriptions.push_back("Right-pointing double angle quotation mark");
+  RadiobuttonDialog dialog("Insert character", "Insert special character", descriptions, settings->session.special_character_selection);
+  if (dialog.run() != GTK_RESPONSE_OK)
+    return;
+  settings->session.special_character_selection = dialog.selection;
+  editor->text_insert(characters[dialog.selection]);
 }
 
 void MainWindow::on_preferences_graphical_interface_activate(GtkMenuItem *menuitem, gpointer user_data) {
