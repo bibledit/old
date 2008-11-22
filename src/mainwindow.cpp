@@ -264,66 +264,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   menuitem_file_menu = gtk_menu_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM (menuitem_file), menuitem_file_menu);
 
-  file_references = NULL;
-  if (guifeatures.references_management() || guifeatures.printing()) {
-
-    file_references = gtk_image_menu_item_new_with_mnemonic("_References");
-    gtk_widget_show(file_references);
-    gtk_container_add(GTK_CONTAINER (menuitem_file_menu), file_references);
-
-    image465 = gtk_image_new_from_stock("gtk-find", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image465);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (file_references), image465);
-
-    file_references_menu = gtk_menu_new();
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM (file_references), file_references_menu);
-
-  }
-
-  if (guifeatures.references_management()) {
-
-    open_references1 = gtk_image_menu_item_new_with_mnemonic("_Open");
-    gtk_widget_show(open_references1);
-    gtk_container_add(GTK_CONTAINER (file_references_menu), open_references1);
-
-    image466 = gtk_image_new_from_stock("gtk-open", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image466);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (open_references1), image466);
-
-    references_save_as = gtk_image_menu_item_new_from_stock("gtk-save-as", accel_group);
-    gtk_widget_show(references_save_as);
-    gtk_container_add(GTK_CONTAINER (file_references_menu), references_save_as);
-
-  }
-
-  if (guifeatures.references_management()) {
-
-    close_references = gtk_image_menu_item_new_with_mnemonic("D_ismiss all");
-    gtk_widget_show(close_references);
-    gtk_container_add(GTK_CONTAINER (file_references_menu), close_references);
-
-    image468 = gtk_image_new_from_stock("gtk-close", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image468);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (close_references), image468);
-
-    delete_references = gtk_image_menu_item_new_with_mnemonic("_Dismiss");
-    gtk_widget_show(delete_references);
-    gtk_container_add(GTK_CONTAINER (file_references_menu), delete_references);
-
-    image469 = gtk_image_new_from_stock("gtk-delete", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image469);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (delete_references), image469);
-
-    reference_hide = gtk_image_menu_item_new_with_mnemonic("_Hide from now on");
-    gtk_widget_show(reference_hide);
-    gtk_container_add(GTK_CONTAINER (file_references_menu), reference_hide);
-
-    image6483 = gtk_image_new_from_stock("gtk-remove", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image6483);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (reference_hide), image6483);
-
-  }
-
   style = NULL;
   if (guifeatures.styles()) {
 
@@ -1515,15 +1455,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   g_signal_connect ((gpointer) mainwindow, "delete_event", G_CALLBACK (on_mainwindow_delete_event), gpointer(this));
   g_signal_connect ((gpointer) mainwindow, "focus_in_event", G_CALLBACK (on_mainwindow_focus_in_event), gpointer(this));
   g_signal_connect ((gpointer) mainwindow, "window_state_event", G_CALLBACK (on_mainwindow_window_state_event), gpointer(this));
-  if (guifeatures.references_management()) {
-    g_signal_connect ((gpointer) open_references1, "activate", G_CALLBACK (on_open_references1_activate), gpointer(this));
-    g_signal_connect ((gpointer) references_save_as, "activate", G_CALLBACK (on_references_save_as_activate), gpointer(this));
-  }
-  if (guifeatures.references_management()) {
-    g_signal_connect ((gpointer) close_references, "activate", G_CALLBACK (on_close_references_activate), gpointer (this));
-    g_signal_connect ((gpointer) delete_references, "activate", G_CALLBACK (on_delete_references_activate), gpointer (this));
-    g_signal_connect ((gpointer) reference_hide, "activate", G_CALLBACK (on_reference_hide_activate), gpointer (this));
-  }
   if (guifeatures.project_notes_management()) {
     g_signal_connect ((gpointer) new_note, "activate", G_CALLBACK (on_new_note_activate), gpointer(this));
     g_signal_connect ((gpointer) delete_note, "activate", G_CALLBACK (on_delete_note_activate), gpointer(this));
@@ -1738,8 +1669,8 @@ void MainWindow::enable_or_disable_widgets(bool enable) {
     gtk_widget_set_sensitive(notes2, enable);
   if (menuitem_edit)
     gtk_widget_set_sensitive(menuitem_edit, enable);
-  if (file_references)
-    gtk_widget_set_sensitive(file_references, enable);
+  if (window_menu && window_menu->file_references)
+    gtk_widget_set_sensitive(window_menu->file_references, enable);
   if (window_menu && window_menu->export_project)
     gtk_widget_set_sensitive(window_menu->export_project, enable);
   if (print)
@@ -1823,7 +1754,16 @@ void MainWindow::display_menu_window() {
       g_signal_connect ((gpointer) window_menu->project_changes, "activate", G_CALLBACK (on_project_changes_activate), gpointer(this));
     if (window_menu->file_projects_merge)
       g_signal_connect ((gpointer) window_menu->file_projects_merge, "activate", G_CALLBACK (on_file_projects_merge_activate), gpointer(this));
-
+    if (window_menu->open_references1)
+      g_signal_connect ((gpointer) window_menu->open_references1, "activate", G_CALLBACK (on_open_references1_activate), gpointer(this));
+    if (window_menu->references_save_as)
+      g_signal_connect ((gpointer) window_menu->references_save_as, "activate", G_CALLBACK (on_references_save_as_activate), gpointer(this));
+    if (window_menu->close_references)
+      g_signal_connect ((gpointer) window_menu->close_references, "activate", G_CALLBACK (on_close_references_activate), gpointer (this));
+    if (window_menu->delete_references)
+      g_signal_connect ((gpointer) window_menu->delete_references, "activate", G_CALLBACK (on_delete_references_activate), gpointer (this));
+    if (window_menu->reference_hide)
+      g_signal_connect ((gpointer) window_menu->reference_hide, "activate", G_CALLBACK (on_reference_hide_activate), gpointer (this));
   }
   window_menu->present();
 }
@@ -2646,7 +2586,7 @@ void MainWindow::on_window_references_general_signal_button()
     }
     case wratPopupMenu:
     {
-      gtk_menu_popup(GTK_MENU (file_references_menu), NULL, NULL, NULL, NULL, window_references->popup_button, window_references->popup_event_time);
+      gtk_menu_popup(GTK_MENU (window_menu->file_references_menu), NULL, NULL, NULL, NULL, window_references->popup_button, window_references->popup_event_time);
       break;
     }
     case wratReferencesSelected:

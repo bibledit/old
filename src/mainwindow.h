@@ -60,18 +60,6 @@ protected:
   GtkWidget *menuitem_file;
   GtkWidget *menuitem_file_menu; // Todo
 
-  GtkWidget *file_references;
-  GtkWidget *image465;
-  GtkWidget *file_references_menu;
-  GtkWidget *open_references1;
-  GtkWidget *image466;
-  GtkWidget *references_save_as;
-  GtkWidget *close_references;
-  GtkWidget *image468;
-  GtkWidget *delete_references;
-  GtkWidget *image469;
-  GtkWidget *reference_hide;
-  GtkWidget *image6483;
   GtkWidget *style;
   GtkWidget *image10735;
   GtkWidget *style_menu;
