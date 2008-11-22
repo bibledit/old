@@ -90,32 +90,45 @@ WindowStyles::WindowStyles(GtkAccelGroup *accelerator_group, bool startup, GtkWi
   treeselect = gtk_tree_view_get_selection(GTK_TREE_VIEW (treeview));
   gtk_tree_selection_set_mode(treeselect, GTK_SELECTION_MULTIPLE);
 
+  styles_menu_handler_id = 0;
+  expand_all_handler_id = 0;
+  collapse_all_handler_id = 0;
+  new_handler_id = 0;
+  properties_handler_id = 0;
+  delete_handler_id = 0;
+  insert_handler_id = 0;
+  switch_stylesheet_handler_id = 0;
+  new_stylesheet_handler_id = 0;
+  delete_stylesheet_handler_id = 0;
+  rename_stylesheet_handler_id = 0;
+  import_stylesheet_handler_id = 0;
+  export_stylesheet_handler_id = 0;
   if (style)
-    g_signal_connect ((gpointer) style, "activate", G_CALLBACK (on_style_menu_activate), gpointer(this));
+    styles_menu_handler_id = g_signal_connect ((gpointer) style, "activate", G_CALLBACK (on_style_menu_activate), gpointer(this));
   if (style_expand_all)
-    g_signal_connect ((gpointer) style_expand_all, "activate", G_CALLBACK (on_expand_all_activate), gpointer(this));
+    expand_all_handler_id = g_signal_connect ((gpointer) style_expand_all, "activate", G_CALLBACK (on_expand_all_activate), gpointer(this));
   if (style_collapse_all)
-    g_signal_connect ((gpointer) style_collapse_all, "activate", G_CALLBACK (on_collapse_all_activate), gpointer(this));
+    collapse_all_handler_id = g_signal_connect ((gpointer) style_collapse_all, "activate", G_CALLBACK (on_collapse_all_activate), gpointer(this));
   if (style_new)
-    g_signal_connect ((gpointer) style_new, "activate", G_CALLBACK (on_style_new_activate), gpointer(this));
+    new_handler_id = g_signal_connect ((gpointer) style_new, "activate", G_CALLBACK (on_style_new_activate), gpointer(this));
   if (style_properties)
-    g_signal_connect ((gpointer) style_properties, "activate", G_CALLBACK (on_style_properties_activate), gpointer(this));
+    properties_handler_id = g_signal_connect ((gpointer) style_properties, "activate", G_CALLBACK (on_style_properties_activate), gpointer(this));
   if (style_delete)
-    g_signal_connect ((gpointer) style_delete, "activate", G_CALLBACK (on_style_delete_activate), gpointer(this));
+    delete_handler_id = g_signal_connect ((gpointer) style_delete, "activate", G_CALLBACK (on_style_delete_activate), gpointer(this));
   if (style_insert)
-    g_signal_connect ((gpointer) style_insert, "activate", G_CALLBACK (on_style_insert_activate), gpointer(this));
+    insert_handler_id = g_signal_connect ((gpointer) style_insert, "activate", G_CALLBACK (on_style_insert_activate), gpointer(this));
   if (stylesheet_switch)
-    g_signal_connect ((gpointer) stylesheet_switch, "activate", G_CALLBACK (on_stylesheet_switch_activate), gpointer(this));
+    switch_stylesheet_handler_id = g_signal_connect ((gpointer) stylesheet_switch, "activate", G_CALLBACK (on_stylesheet_switch_activate), gpointer(this));
   if (stylesheet_new)
-    g_signal_connect ((gpointer) stylesheet_new, "activate", G_CALLBACK (on_stylesheet_new_activate), gpointer(this));
+    new_stylesheet_handler_id = g_signal_connect ((gpointer) stylesheet_new, "activate", G_CALLBACK (on_stylesheet_new_activate), gpointer(this));
   if (stylesheet_remove)
-    g_signal_connect ((gpointer) stylesheet_remove, "activate", G_CALLBACK (on_stylesheet_delete_activate), gpointer(this));
+    delete_stylesheet_handler_id = g_signal_connect ((gpointer) stylesheet_remove, "activate", G_CALLBACK (on_stylesheet_delete_activate), gpointer(this));
   if (stylesheet_rename)
-    g_signal_connect ((gpointer) stylesheet_rename, "activate", G_CALLBACK (on_stylesheet_rename_activate), gpointer(this));
+    rename_stylesheet_handler_id = g_signal_connect ((gpointer) stylesheet_rename, "activate", G_CALLBACK (on_stylesheet_rename_activate), gpointer(this));
   if (stylesheet_import1)
-    g_signal_connect ((gpointer) stylesheet_import1, "activate", G_CALLBACK (on_stylesheet_import_activate), gpointer(this));
+    import_stylesheet_handler_id = g_signal_connect ((gpointer) stylesheet_import1, "activate", G_CALLBACK (on_stylesheet_import_activate), gpointer(this));
   if (stylesheet_export1)
-    g_signal_connect ((gpointer) stylesheet_export1, "activate", G_CALLBACK (on_stylesheet_export_activate), gpointer(this));
+    export_stylesheet_handler_id = g_signal_connect ((gpointer) stylesheet_export1, "activate", G_CALLBACK (on_stylesheet_export_activate), gpointer(this));
 
   g_signal_connect ((gpointer) treeview, "key_press_event", G_CALLBACK (on_key_press_event), gpointer(this));
   g_signal_connect ((gpointer) treeview, "button_press_event", G_CALLBACK (on_button_press_event), gpointer(this));
@@ -145,6 +158,33 @@ WindowStyles::~WindowStyles() {
   gtk_widget_destroy(apply_signal);
   gtk_widget_destroy(open_signal);
   gtk_widget_destroy(edited_signal);
+  // Disconnect signals manually as the widgets they are now connected to are not destroyed at this stage.
+  if (styles_menu_handler_id)
+    g_signal_handler_disconnect((gpointer)style, styles_menu_handler_id);
+  if (expand_all_handler_id)
+    g_signal_handler_disconnect((gpointer)style_expand_all, expand_all_handler_id);
+  if (collapse_all_handler_id)
+    g_signal_handler_disconnect((gpointer)style_collapse_all, collapse_all_handler_id);
+  if (new_handler_id)
+    g_signal_handler_disconnect((gpointer)style_new, new_handler_id);
+  if (properties_handler_id)
+    g_signal_handler_disconnect((gpointer)style_properties, properties_handler_id);
+  if (delete_handler_id)
+    g_signal_handler_disconnect((gpointer)style_delete, delete_handler_id);
+  if (insert_handler_id)
+    g_signal_handler_disconnect((gpointer)style_insert, insert_handler_id);
+  if (switch_stylesheet_handler_id)
+    g_signal_handler_disconnect((gpointer)stylesheet_switch, switch_stylesheet_handler_id);
+  if (new_stylesheet_handler_id)
+    g_signal_handler_disconnect((gpointer)stylesheet_new, new_stylesheet_handler_id);
+  if (delete_stylesheet_handler_id)
+    g_signal_handler_disconnect((gpointer)stylesheet_remove, delete_stylesheet_handler_id);
+  if (rename_stylesheet_handler_id)
+    g_signal_handler_disconnect((gpointer)stylesheet_rename, rename_stylesheet_handler_id);
+  if (import_stylesheet_handler_id)
+    g_signal_handler_disconnect((gpointer)stylesheet_import1, import_stylesheet_handler_id);
+  if (export_stylesheet_handler_id)
+    g_signal_handler_disconnect((gpointer)stylesheet_export1, export_stylesheet_handler_id);
 }
 
 void WindowStyles::load(const ustring& stylesheet) {

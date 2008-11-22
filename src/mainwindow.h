@@ -56,35 +56,8 @@ protected:
   /* IMPORTANT If more menu items are added see whether they should be made 
    * in(sensitive) depending on whether a project has been opened. */
   GtkWidget *vbox1;
-  GtkWidget *menubar1;
-  GtkWidget *menuitem_file;
-  GtkWidget *menuitem_file_menu; // Todo
+  GtkWidget *menubar1; // Todo
 
-  GtkWidget *notes2;
-  GtkWidget *image936;
-  GtkWidget *notes2_menu;
-  GtkWidget *new_note;
-  GtkWidget *delete_note;
-  GtkWidget *image963;
-  GtkWidget *import_notes;
-  GtkWidget *image1455;
-  GtkWidget *export_notes;
-  GtkWidget *image4068;
-  GtkWidget *file_resources;
-  GtkWidget *image27365;
-  GtkWidget *file_resources_menu;
-  GtkWidget *file_resources_open;
-  GtkWidget *image27366;
-  GtkWidget *file_resources_close;
-  GtkWidget *image27367;
-  GtkWidget *file_resources_new;
-  GtkWidget *image27514;
-  GtkWidget *file_resources_edit;
-  GtkWidget *image27515;
-  GtkWidget *file_resources_delete;
-  GtkWidget *image27664;
-  GtkWidget *print;
-  GtkWidget *quit1;
   GtkWidget *menuitem_edit;
   GtkWidget *menuitem_edit_menu;
   GtkWidget *cut1;
@@ -526,8 +499,7 @@ protected:
 
   /* Styles */
   void on_goto_styles_area();
-  static void on_file_styles_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_file_styles();
+  void display_window_styles();
   WindowStyles * window_styles;
   static void on_window_styles_delete_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_styles_delete_button();

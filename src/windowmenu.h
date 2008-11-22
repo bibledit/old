@@ -1,0 +1,332 @@
+/*
+ ** Copyright (©) 2003-2008 Teus Benschop.
+ **  
+ ** This program is free software; you can redistribute it and/or modify
+ ** it under the terms of the GNU General Public License as published by
+ ** the Free Software Foundation; either version 3 of the License, or
+ ** (at your option) any later version.
+ **  
+ ** This program is distributed in the hope that it will be useful,
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ ** GNU General Public License for more details.
+ **  
+ ** You should have received a copy of the GNU General Public License
+ ** along with this program; if not, write to the Free Software
+ ** Foundation, Inc.,  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ **  
+ */
+
+#ifndef INCLUDED_WINDOW_MENU_H
+#define INCLUDED_WINDOW_MENU_H
+
+#include <gtk/gtk.h>
+#include "ustring.h"
+#include "windows.h"
+
+class WindowMenu : public WindowBase
+{
+public:
+  WindowMenu(GtkAccelGroup *accelerator_group, bool startup);
+  virtual ~WindowMenu();
+  
+  GtkWidget *menubar1;
+  GtkWidget *menuitem_file;
+  GtkWidget *menuitem_file_menu;
+  GtkWidget *file_project;
+  GtkWidget *image463;
+  GtkWidget *file_project_menu;
+  GtkWidget *new1;
+  GtkWidget *image903;
+  GtkWidget *open1;
+  GtkWidget *delete1;
+  GtkWidget *properties1;
+  GtkWidget *image4995;
+  GtkWidget *import1;
+  GtkWidget *image464;
+  GtkWidget *export_project;
+  GtkWidget *image3298;
+  GtkWidget *export_project_menu;
+  GtkWidget *export_usfm_files;
+  GtkWidget *image12814;
+  GtkWidget *export_zipped_unified_standard_format_markers1;
+  GtkWidget *image17639;
+  GtkWidget *to_bibleworks_version_database_compiler;
+  GtkWidget *image3299;
+  GtkWidget *export_to_sword_module;
+  GtkWidget *image11392;
+  GtkWidget *export_opendocument;
+  GtkWidget *image15162;
+  GtkWidget *copy_project_to;
+  GtkWidget *image2688;
+  GtkWidget *compare_with1;
+  GtkWidget *image2764;
+  GtkWidget *project_backup;
+  GtkWidget *image18535;
+  GtkWidget *project_backup_menu;
+  GtkWidget *project_backup_incremental;
+  GtkWidget *image18536;
+  GtkWidget *project_backup_flexible;
+  GtkWidget *image18537;
+  GtkWidget *project_changes;
+  GtkWidget *image19115;
+  GtkWidget *file_projects_merge;
+  GtkWidget *file_references;
+  GtkWidget *image465;
+  GtkWidget *file_references_menu;
+  GtkWidget *open_references1;
+  GtkWidget *image466;
+  GtkWidget *references_save_as;
+  GtkWidget *close_references;
+  GtkWidget *image468;
+  GtkWidget *delete_references;
+  GtkWidget *image469;
+  GtkWidget *reference_hide;
+  GtkWidget *image6483;
+  GtkWidget *style;
+  GtkWidget *image10735;
+  GtkWidget *style_menu;
+  GtkWidget *stylesheets_expand_all;
+  GtkWidget *stylesheets_collapse_all;
+  GtkWidget *style_insert;
+  GtkWidget *stylesheet_edit_mode;
+  GtkWidget *style_new;
+  GtkWidget *style_properties;
+  GtkWidget *style_delete;
+  GtkWidget *menu_stylesheet;
+  GtkWidget *menu_stylesheet_menu;
+  GtkWidget *stylesheet_switch;
+  GtkWidget *stylesheets_new;
+  GtkWidget *stylesheets_delete;
+  GtkWidget *stylesheets_rename;
+  GtkWidget *stylesheets_import;
+  GtkWidget *stylesheets_export;
+  GtkWidget *notes2;
+  GtkWidget *image936;
+  GtkWidget *notes2_menu;
+  GtkWidget *new_note;
+  GtkWidget *delete_note;
+  GtkWidget *image963;
+  GtkWidget *import_notes;
+  GtkWidget *image1455;
+  GtkWidget *export_notes;
+  GtkWidget *image4068;
+  GtkWidget *file_resources;
+  GtkWidget *image27365;
+  GtkWidget *file_resources_menu;
+  GtkWidget *file_resources_open;
+  GtkWidget *image27366;
+  GtkWidget *file_resources_close;
+  GtkWidget *image27367;
+  GtkWidget *file_resources_new;
+  GtkWidget *image27514;
+  GtkWidget *file_resources_edit;
+  GtkWidget *image27515;
+  GtkWidget *file_resources_delete;
+  GtkWidget *image27664;
+  GtkWidget *print;
+  GtkWidget *quit1;
+  GtkWidget *menuitem_edit;
+  GtkWidget *menuitem_edit_menu;
+  GtkWidget *cut1;
+  GtkWidget *copy1;
+  GtkWidget *copy_without_formatting;
+  GtkWidget *image18220;
+  GtkWidget *paste1;
+  GtkWidget *separator2;
+  GtkWidget *undo1;
+  GtkWidget *image295;
+  GtkWidget *redo1;
+  GtkWidget *image296;
+  GtkWidget *separator4;
+  GtkWidget *find1;
+  GtkWidget *find_and_replace1;
+  GtkWidget *find_in_notes1;
+  GtkWidget *image1430;
+  GtkWidget *separator7;
+  GtkWidget *get_references_from_note;
+  GtkWidget *image3158;
+  GtkWidget *separator15;
+  GtkWidget *edit_revert;
+  GtkWidget *image19262;
+  GtkWidget *separator17;
+  GtkWidget *edit_bible_note;
+  GtkWidget *image20483;
+  GtkWidget *separator21;
+  GtkWidget *editstatus;
+  GtkWidget *image25815;
+  GtkWidget *edit_planning;
+  GtkWidget *image26801;
+  GtkWidget *menuitem_view;
+  GtkWidget *menuitem_view_menu;
+  GtkWidget *view_font;
+  GtkWidget *image20234;
+  GtkWidget *view_font_menu;
+  GtkWidget *view_text_font;
+  GtkWidget *image20235;
+  GtkWidget *viewnotes;
+  GtkWidget *image2627;
+  GtkWidget *view_git_tasks;
+  GtkWidget *image18685;
+  GtkWidget *parallel_passages1;
+  GtkWidget *view_usfm_code;
+  GtkWidget *image25006;
+  GtkWidget *view_status;
+  GtkWidget *image25963;
+  GtkWidget *view_planning;
+  GtkWidget *image26812;
+  GtkWidget *view_screen_layout;
+  GtkWidget *view_keyterms;
+  GtkWidget *view_quick_references;
+  GtkWidget *view_outline;
+  GtkWidget *insert1;
+  GtkWidget *insert1_menu;
+  GtkWidget *standard_text_1;
+  GtkWidget *image1963;
+  GtkWidget *standard_text_2;
+  GtkWidget *image1964;
+  GtkWidget *standard_text_3;
+  GtkWidget *image1965;
+  GtkWidget *standard_text_4;
+  GtkWidget *image1966;
+  GtkWidget *separator9;
+  GtkWidget *current_reference1;
+  GtkWidget *image3797;
+  GtkWidget *separator20;
+  GtkWidget *insert_special_character;
+  GtkWidget *image25281;
+  GtkWidget *menuitem_goto;
+  GtkWidget *menuitem_goto_menu;
+  GtkWidget *synchronize_other_programs2;
+  GtkWidget *image4931;
+  GtkWidget *check1;
+  GtkWidget *check1_menu;
+  GtkWidget *chapters_and_verses1;
+  GtkWidget *image5580;
+  GtkWidget *markers1;
+  GtkWidget *image5578;
+  GtkWidget *markers1_menu;
+  GtkWidget *validate_usfms1;
+  GtkWidget *image5579;
+  GtkWidget *count_usfms1;
+  GtkWidget *image6239;
+  GtkWidget *compare_usfm1;
+  GtkWidget *image6748;
+  GtkWidget *check_markers_spacing;
+  GtkWidget *image17930;
+  GtkWidget *characters1;
+  GtkWidget *image6867;
+  GtkWidget *characters1_menu;
+  GtkWidget *count_characters;
+  GtkWidget *image6868;
+  GtkWidget *unwanted_patterns;
+  GtkWidget *image7494;
+  GtkWidget *check_words;
+  GtkWidget *image7111;
+  GtkWidget *check_words_menu;
+  GtkWidget *check_capitalization;
+  GtkWidget *image7112;
+  GtkWidget *check_repetition;
+  GtkWidget *image7238;
+  GtkWidget *unwanted_words;
+  GtkWidget *image7631;
+  GtkWidget *word_count_inventory;
+  GtkWidget *image13715;
+  GtkWidget *check_punctuation;
+  GtkWidget *image7366;
+  GtkWidget *check_punctuation_menu;
+  GtkWidget *check_matching_pairs;
+  GtkWidget *image7367;
+  GtkWidget *check_sentence_structure;
+  GtkWidget *image28475;
+  GtkWidget *check_references;
+  GtkWidget *image21826;
+  GtkWidget *check_references_menu;
+  GtkWidget *check_references_inventory;
+  GtkWidget *image21827;
+  GtkWidget *check_references_validate;
+  GtkWidget *image21828;
+  GtkWidget *checks_passages;
+  GtkWidget *image24103;
+  GtkWidget *checks_passages_menu;
+  GtkWidget *check_nt_quotations_from_the_ot;
+  GtkWidget *image24104;
+  GtkWidget *synoptic_parallel_passages_from_the_nt;
+  GtkWidget *image24105;
+  GtkWidget *parallels_from_the_ot;
+  GtkWidget *image24106;
+  GtkWidget *check_key_terms;
+  GtkWidget *my_checks;
+  GtkWidget *image15438;
+  GtkWidget *menutools;
+  GtkWidget *menutools_menu;
+  GtkWidget *line_cutter_for_hebrew_text1;
+  GtkWidget *image13532;
+  GtkWidget *notes_transfer;
+  GtkWidget *image14659;
+  GtkWidget *tool_origin_references_in_bible_notes;
+  GtkWidget *image16248;
+  GtkWidget *tool_project_notes_mass_update1;
+  GtkWidget *image17187;
+  GtkWidget *tool_generate_word_lists;
+  GtkWidget *image20671;
+  GtkWidget *tool_simple_text_corrections;
+  GtkWidget *image21054;
+  GtkWidget *tool_transfer_project_notes_to_text;
+  GtkWidget *image29089;
+  GtkWidget *menuitem_preferences;
+  GtkWidget *menuitem_preferences_menu;
+  GtkWidget *notes_preferences;
+  GtkWidget *image2116;
+  GtkWidget *printingprefs;
+  GtkWidget *image3493;
+  GtkWidget *reference_exchange1;
+  GtkWidget *image5972;
+  GtkWidget *ignored_references1;
+  GtkWidget *image6467;
+  GtkWidget *prefs_books;
+  GtkWidget *image12167;
+  GtkWidget *preferences_windows_outpost;
+  GtkWidget *image14287;
+  GtkWidget *preferences_tidy_text;
+  GtkWidget *image16359;
+  GtkWidget *preferences_remote_git_repository;
+  GtkWidget *image18977;
+  GtkWidget *preferences_features;
+  GtkWidget *image20936;
+  GtkWidget *preferences_password;
+  GtkWidget *image20937;
+  GtkWidget *preferences_text_replacement;
+  GtkWidget *image23181;
+  GtkWidget *pdf_viewer1;
+  GtkWidget *image24540;
+  GtkWidget *preferences_reporting;
+  GtkWidget *image25623;
+  GtkWidget *preferences_planning;
+  GtkWidget *image26888;
+  GtkWidget *preferences_graphical_interface;
+  GtkWidget *image27031;
+  GtkWidget *preferences_filters;
+  GtkWidget *image28360;
+  GtkWidget *menuitem_help;
+  GtkWidget *menuitem_help_menu;
+  GtkWidget *help_main;
+  GtkWidget *image17520;
+  GtkWidget *help_context;
+  GtkWidget *image16053;
+  GtkWidget *system_log1;
+  GtkWidget *image4388;
+  GtkWidget *about1;
+  GtkWidget *toolbar1;
+  GtkWidget *hbox5;
+  GtkWidget *hbox7;
+  GtkWidget *statuslabel_style;
+  GtkWidget *label_git;
+  GtkWidget *statusbar1;
+  
+protected:
+  GtkWidget *vbox;
+private:
+};
+
+#endif

@@ -72,34 +72,47 @@ private:
   vector<bool> expanded_states;
 
   // Menu callbacks.
+  guint styles_menu_handler_id;
   static void on_style_menu_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_style_menu();
+  guint expand_all_handler_id;
   static void on_expand_all_activate(GtkMenuItem *menuitem, gpointer user_data);
   void expand_all();
+  guint collapse_all_handler_id;
   static void on_collapse_all_activate(GtkMenuItem *menuitem, gpointer user_data);
   void collapse_all();
   bool styletree_expand_collapse(bool expand);
   static void on_treeview_styles_row_collapsed(GtkTreeView *treeview, GtkTreeIter *iter, GtkTreePath *path, gpointer user_data);
   static void on_treeview_styles_row_expanded(GtkTreeView *treeview, GtkTreeIter *iter, GtkTreePath *path, gpointer user_data);
   void on_treeview_styles_collapsed_expanded(GtkTreeIter *iter, GtkTreePath *path, bool expand);
+  guint new_handler_id;
   static void on_style_new_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_style_new();
+  guint properties_handler_id;
   static void on_style_properties_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_style_properties();
+  guint delete_handler_id;
   static void on_style_delete_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_style_delete();
   void delete_categories(vector<ustring> categories);
+  guint insert_handler_id;
   static void on_style_insert_activate(GtkMenuItem *menuitem, gpointer user_data);
+  guint switch_stylesheet_handler_id;
   static void on_stylesheet_switch_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_stylesheet_switch();
+  guint new_stylesheet_handler_id;
   static void on_stylesheet_new_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_stylesheet_new();
+  guint delete_stylesheet_handler_id;
   static void on_stylesheet_delete_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_stylesheet_delete();
+  guint rename_stylesheet_handler_id;
   static void on_stylesheet_rename_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_stylesheet_rename();
+  guint import_stylesheet_handler_id;
   static void on_stylesheet_import_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_stylesheet_import();
+  guint export_stylesheet_handler_id;
   static void on_stylesheet_export_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_stylesheet_export();
 

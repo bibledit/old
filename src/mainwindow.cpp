@@ -257,124 +257,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   gtk_widget_show(menubar1);
   gtk_box_pack_start(GTK_BOX (vbox1), menubar1, FALSE, FALSE, 0);
 
-  menuitem_file = gtk_menu_item_new_with_mnemonic("_File");
-  gtk_widget_show(menuitem_file);
-  gtk_container_add(GTK_CONTAINER (menubar1), menuitem_file);
-
-  menuitem_file_menu = gtk_menu_new();
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM (menuitem_file), menuitem_file_menu);
-
-  notes2 = NULL;
-  if (guifeatures.project_notes_management()) {
-
-    notes2 = gtk_image_menu_item_new_with_mnemonic("Project _notes");
-    gtk_widget_show(notes2);
-    gtk_container_add(GTK_CONTAINER (menuitem_file_menu), notes2);
-
-    image936 = gtk_image_new_from_stock("gtk-dialog-info", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image936);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (notes2), image936);
-
-    notes2_menu = gtk_menu_new();
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM (notes2), notes2_menu);
-
-    new_note = gtk_image_menu_item_new_from_stock("gtk-new", accel_group);
-    gtk_widget_show(new_note);
-    gtk_container_add(GTK_CONTAINER (notes2_menu), new_note);
-
-    delete_note = gtk_image_menu_item_new_with_mnemonic("_Delete");
-    gtk_widget_show(delete_note);
-    gtk_container_add(GTK_CONTAINER (notes2_menu), delete_note);
-
-    image963 = gtk_image_new_from_stock("gtk-delete", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image963);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (delete_note), image963);
-
-    import_notes = gtk_image_menu_item_new_with_mnemonic("_Import");
-    gtk_widget_show(import_notes);
-    gtk_container_add(GTK_CONTAINER (notes2_menu), import_notes);
-
-    image1455 = gtk_image_new_from_stock("gtk-convert", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image1455);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (import_notes), image1455);
-
-    export_notes = gtk_image_menu_item_new_with_mnemonic("_Export");
-    gtk_widget_show(export_notes);
-    gtk_container_add(GTK_CONTAINER (notes2_menu), export_notes);
-
-    image4068 = gtk_image_new_from_stock("gtk-convert", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image4068);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (export_notes), image4068);
-
-  }
-
-  file_resources = gtk_image_menu_item_new_with_mnemonic("R_esources");
-  gtk_widget_show(file_resources);
-  gtk_container_add(GTK_CONTAINER (menuitem_file_menu), file_resources);
-
-  image27365 = gtk_image_new_from_stock("gtk-info", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image27365);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (file_resources), image27365);
-
-  file_resources_menu = gtk_menu_new();
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM (file_resources), file_resources_menu);
-
-  file_resources_open = gtk_image_menu_item_new_with_mnemonic("_Open");
-  gtk_widget_show(file_resources_open);
-  gtk_container_add(GTK_CONTAINER (file_resources_menu), file_resources_open);
-
-  image27366 = gtk_image_new_from_stock("gtk-open", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image27366);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (file_resources_open), image27366);
-
-  file_resources_close = gtk_image_menu_item_new_with_mnemonic("_Close");
-  gtk_widget_show(file_resources_close);
-  gtk_container_add(GTK_CONTAINER (file_resources_menu), file_resources_close);
-
-  image27367 = gtk_image_new_from_stock("gtk-close", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image27367);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (file_resources_close), image27367);
-
-  file_resources_new = gtk_image_menu_item_new_with_mnemonic("_New");
-  gtk_widget_show(file_resources_new);
-  gtk_container_add(GTK_CONTAINER (file_resources_menu), file_resources_new);
-
-  image27514 = gtk_image_new_from_stock("gtk-new", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image27514);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (file_resources_new), image27514);
-
-  file_resources_edit = gtk_image_menu_item_new_with_mnemonic("_Edit");
-  gtk_widget_show(file_resources_edit);
-  gtk_container_add(GTK_CONTAINER (file_resources_menu), file_resources_edit);
-
-  image27515 = gtk_image_new_from_stock("gtk-edit", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image27515);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (file_resources_edit), image27515);
-
-  file_resources_delete = gtk_image_menu_item_new_with_mnemonic("_Delete");
-  gtk_widget_show(file_resources_delete);
-  gtk_container_add(GTK_CONTAINER (file_resources_menu), file_resources_delete);
-
-  image27664 = gtk_image_new_from_stock("gtk-delete", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image27664);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (file_resources_delete), image27664);
-
-  print = NULL;
-
-  if (guifeatures.printing()) {
-
-    print = gtk_image_menu_item_new_from_stock("gtk-print", accel_group);
-    gtk_widget_show(print);
-    gtk_container_add(GTK_CONTAINER (menuitem_file_menu), print);
-    gtk_widget_add_accelerator(print, "activate", accel_group, 
-    GDK_P, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
-
-  }
-
-  quit1 = gtk_image_menu_item_new_from_stock("gtk-quit", accel_group);
-  gtk_widget_show(quit1);
-  gtk_container_add(GTK_CONTAINER (menuitem_file_menu), quit1);
-
   menuitem_edit = gtk_menu_item_new_with_mnemonic("_Edit");
   gtk_widget_show(menuitem_edit);
   gtk_container_add(GTK_CONTAINER (menubar1), menuitem_edit);
@@ -1245,23 +1127,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   g_signal_connect ((gpointer) mainwindow, "delete_event", G_CALLBACK (on_mainwindow_delete_event), gpointer(this));
   g_signal_connect ((gpointer) mainwindow, "focus_in_event", G_CALLBACK (on_mainwindow_focus_in_event), gpointer(this));
   g_signal_connect ((gpointer) mainwindow, "window_state_event", G_CALLBACK (on_mainwindow_window_state_event), gpointer(this));
-  if (guifeatures.project_notes_management()) {
-    g_signal_connect ((gpointer) new_note, "activate", G_CALLBACK (on_new_note_activate), gpointer(this));
-    g_signal_connect ((gpointer) delete_note, "activate", G_CALLBACK (on_delete_note_activate), gpointer(this));
-    g_signal_connect ((gpointer) import_notes, "activate", G_CALLBACK (on_import_notes_activate), gpointer(this));
-    g_signal_connect ((gpointer) export_notes, "activate", G_CALLBACK (on_export_notes_activate), gpointer(this));
-  }
-  if (window_menu->style)
-    g_signal_connect ((gpointer) window_menu->style, "activate", G_CALLBACK (on_file_styles_activate), gpointer(this));
-  g_signal_connect ((gpointer) file_resources, "activate", G_CALLBACK (on_file_resources_activate), gpointer(this));
-  g_signal_connect ((gpointer) file_resources_open, "activate", G_CALLBACK (on_file_resources_open_activate), gpointer(this));
-  g_signal_connect ((gpointer) file_resources_close, "activate", G_CALLBACK (on_file_resources_close_activate), gpointer(this));
-  g_signal_connect ((gpointer) file_resources_new, "activate", G_CALLBACK (on_file_resources_new_activate), gpointer(this));
-  g_signal_connect ((gpointer) file_resources_edit, "activate", G_CALLBACK (on_file_resources_edit_activate), gpointer(this));
-  g_signal_connect ((gpointer) file_resources_delete, "activate", G_CALLBACK (on_file_resources_delete_activate), gpointer(this));
-  if (print)
-    g_signal_connect ((gpointer) print, "activate", G_CALLBACK (on_print_activate), gpointer(this));
-  g_signal_connect ((gpointer) quit1, "activate", G_CALLBACK (on_quit1_activate), gpointer(this));
   g_signal_connect ((gpointer) menuitem_edit, "activate", G_CALLBACK (on_edit1_activate), gpointer(this));
   g_signal_connect ((gpointer) cut1, "activate", G_CALLBACK (on_cut1_activate), gpointer(this));
   g_signal_connect ((gpointer) copy1, "activate", G_CALLBACK (on_copy1_activate), gpointer(this));
@@ -1455,16 +1320,16 @@ void MainWindow::enable_or_disable_widgets(bool enable) {
     gtk_widget_set_sensitive(window_menu->properties1, enable);
   if (window_menu && window_menu->import1)
     gtk_widget_set_sensitive(window_menu->import1, enable);
-  if (notes2)
-    gtk_widget_set_sensitive(notes2, enable);
+  if (window_menu && window_menu->notes2)
+    gtk_widget_set_sensitive(window_menu->notes2, enable);
   if (menuitem_edit)
     gtk_widget_set_sensitive(menuitem_edit, enable);
   if (window_menu && window_menu->file_references)
     gtk_widget_set_sensitive(window_menu->file_references, enable);
   if (window_menu && window_menu->export_project)
     gtk_widget_set_sensitive(window_menu->export_project, enable);
-  if (print)
-    gtk_widget_set_sensitive(print, enable);
+  if (window_menu && window_menu->print)
+    gtk_widget_set_sensitive(window_menu->print, enable);
   if (window_menu && window_menu->project_changes)
     gtk_widget_set_sensitive(window_menu->project_changes, enable);
   if (menuitem_view)
@@ -1554,6 +1419,31 @@ void MainWindow::display_menu_window() {
       g_signal_connect ((gpointer) window_menu->delete_references, "activate", G_CALLBACK (on_delete_references_activate), gpointer (this));
     if (window_menu->reference_hide)
       g_signal_connect ((gpointer) window_menu->reference_hide, "activate", G_CALLBACK (on_reference_hide_activate), gpointer (this));
+    if (window_menu->new_note)
+      g_signal_connect ((gpointer) window_menu->new_note, "activate", G_CALLBACK (on_new_note_activate), gpointer(this));
+    if (window_menu->delete_note)
+      g_signal_connect ((gpointer) window_menu->delete_note, "activate", G_CALLBACK (on_delete_note_activate), gpointer(this));
+    if (window_menu->import_notes)
+      g_signal_connect ((gpointer) window_menu->import_notes, "activate", G_CALLBACK (on_import_notes_activate), gpointer(this));
+    if (window_menu->export_notes)
+      g_signal_connect ((gpointer) window_menu->export_notes, "activate", G_CALLBACK (on_export_notes_activate), gpointer(this));
+    if (window_menu->file_resources)
+      g_signal_connect ((gpointer) window_menu->file_resources, "activate", G_CALLBACK (on_file_resources_activate), gpointer(this));
+    if (window_menu->file_resources_open)
+      g_signal_connect ((gpointer) window_menu->file_resources_open, "activate", G_CALLBACK (on_file_resources_open_activate), gpointer(this));
+    if (window_menu->file_resources_close)
+      g_signal_connect ((gpointer) window_menu->file_resources_close, "activate", G_CALLBACK (on_file_resources_close_activate), gpointer(this));
+    if (window_menu->file_resources_new)
+      g_signal_connect ((gpointer) window_menu->file_resources_new, "activate", G_CALLBACK (on_file_resources_new_activate), gpointer(this));
+    if (window_menu->file_resources_edit)
+      g_signal_connect ((gpointer) window_menu->file_resources_edit, "activate", G_CALLBACK (on_file_resources_edit_activate), gpointer(this));
+    if (window_menu->file_resources_delete)
+      g_signal_connect ((gpointer) window_menu->file_resources_delete, "activate", G_CALLBACK (on_file_resources_delete_activate), gpointer(this));
+    if (window_menu->print)
+      g_signal_connect ((gpointer) window_menu->print, "activate", G_CALLBACK (on_print_activate), gpointer(this));
+    if (window_menu->quit1)
+      g_signal_connect ((gpointer) window_menu->quit1, "activate", G_CALLBACK (on_quit1_activate), gpointer(this));
+
   }
   window_menu->present();
 }
@@ -3255,18 +3145,14 @@ void MainWindow::on_check_sentence_structure() {
 
 void MainWindow::on_goto_styles_area() {
   // Create or active the styles window.
-  on_file_styles();
+  display_window_styles();
   // Focus the window to enable the user to start inserting the style using the keyboard.
   if (window_styles) {
     window_styles->present();
   }
 }
 
-void MainWindow::on_file_styles_activate(GtkMenuItem *menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->on_file_styles();
-}
-
-void MainWindow::on_file_styles() {
+void MainWindow::display_window_styles() {
   // Display the styles if needed.
   if (!window_styles) {
     window_styles = new WindowStyles (accelerator_group, windows_startup_pointer != G_MAXINT,
@@ -3334,7 +3220,7 @@ void MainWindow::on_style_apply() {
   if (!editor_window)
     return;
 
-  // Bail out ifthere's no styles window.
+  // Bail out if there's no styles window.
   if (!window_styles)
     return;
 
@@ -4286,8 +4172,8 @@ WindowResource * MainWindow::last_focused_resource_window()
 void MainWindow::on_file_resources()
 // Set some menu options sensitive if a resource is open.
 {
-  gtk_widget_set_sensitive(file_resources_close, !resource_windows.empty());
-  gtk_widget_set_sensitive(file_resources_edit, !resource_windows.empty());
+  gtk_widget_set_sensitive(window_menu->file_resources_close, !resource_windows.empty());
+  gtk_widget_set_sensitive(window_menu->file_resources_edit, !resource_windows.empty());
 }
 
 void MainWindow::on_file_resources_open_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -6037,6 +5923,17 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
 
  Todo Improve the window layout system.
 
+
+
+   Todo 
+   
+   The menu should normally be disabled when there's no stylesheet opened.
+   When "Open" is chosen, then it points to the stylesheet that currently belongs to the project,
+   and suggests to open it.
+   Otherwise all other options are disabled.
+   When the styles window closes again, the menu is disabled again.
+
+
  If we'd like to present all windows when one window is focused, then the programs's icon in the taskbar will flash.
  This can be resolved in the following manner. Make the menu window to be like any of the other extra windows.
  And make the main window to be the main window, but it does not show. This main window has the icon in the taskbar,
@@ -6116,6 +6013,7 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
  Hi Teus, Downloaded this version, BE opens in 5 windows Text, Quickreference, Styles, Merge, Resources, 
  where not project is loaded. As soon as I try to load a project (click file/open) BE crashes. Wolfgang
  
+ If there's no project, disable the Ctrl-P accelerator.
  
  
  */
