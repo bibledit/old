@@ -786,7 +786,13 @@ protected:
   static void accelerator_next_project_callback(gpointer user_data);
   static void accelerator_previous_project_callback(gpointer user_data);
   static void accelerator_open_project_callback(gpointer user_data);
-
+  static void accelerator_print_callback(gpointer user_data);
+  static void accelerator_copy_without_formatting_callback(gpointer user_data);
+  static void accelerator_find_callback(gpointer user_data);
+  static void accelerator_replace_callback(gpointer user_data);
+  static void accelerator_main_help_callback(gpointer user_data);
+  static void accelerator_context_help_callback(gpointer user_data);
+  static void accelerator_menu_callback(gpointer user_data);
 };
 
 #endif

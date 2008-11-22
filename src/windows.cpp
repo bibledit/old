@@ -289,7 +289,7 @@ void WindowBase::display(bool startup)
         area_rectangle.height = settings->genconfig.text_area_height_get();
         break;
       }
-      case widMenu: // Todo create area for menu
+      case widMenu:
       {
         area_rectangle.x = settings->genconfig.menu_area_x_position_get();
         area_rectangle.y = settings->genconfig.menu_area_y_position_get();

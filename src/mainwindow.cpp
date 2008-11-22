@@ -213,6 +213,19 @@ MainWindow::MainWindow(unsigned long xembed) :
   gtk_accel_group_connect(accelerator_group, GDK_Right, (GdkModifierType) (GDK_CONTROL_MASK | GDK_MOD1_MASK), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_next_project_callback), gpointer(this), NULL));
   gtk_accel_group_connect(accelerator_group, GDK_Left, (GdkModifierType) (GDK_CONTROL_MASK | GDK_MOD1_MASK), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_previous_project_callback), gpointer(this), NULL));
   gtk_accel_group_connect(accelerator_group, GDK_O, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_open_project_callback), gpointer(this), NULL));
+  if (guifeatures.printing()) {
+    gtk_accel_group_connect(accelerator_group, GDK_P, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_print_callback), gpointer(this), NULL));
+  }
+  gtk_accel_group_connect(accelerator_group, GDK_C, (GdkModifierType) (GDK_CONTROL_MASK | GDK_SHIFT_MASK), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_copy_without_formatting_callback), gpointer(this), NULL));
+  if (guifeatures.references_and_find()) {
+    gtk_accel_group_connect(accelerator_group, GDK_F, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_find_callback), gpointer(this), NULL));
+  }
+  if (guifeatures.replace()) {
+    gtk_accel_group_connect(accelerator_group, GDK_R, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_replace_callback), gpointer(this), NULL));
+  }
+  gtk_accel_group_connect(accelerator_group, GDK_F1, GdkModifierType(0), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_main_help_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_H, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_context_help_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_M, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_menu_callback), gpointer(this), NULL));
 
   // GUI build.
   if (xembed) {
@@ -6262,18 +6275,38 @@ void MainWindow::accelerator_open_project_callback(gpointer user_data) {
   ((MainWindow *) user_data)->open();
 }
 
+void MainWindow::accelerator_print_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->on_print();
+}
+
+void MainWindow::accelerator_copy_without_formatting_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->on_copy_without_formatting();
+}
+
+void MainWindow::accelerator_find_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->menu_findspecial();
+}
+
+void MainWindow::accelerator_replace_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->menu_replace();
+}
+
+void MainWindow::accelerator_main_help_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->on_help_main();
+}
+
+void MainWindow::accelerator_context_help_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->on_help_context();
+}
+
+void MainWindow::accelerator_menu_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->display_menu_window();
+}
+
 /*
 
  Todo Improve the window layout system.
 
- Pressing Ctrl-M brings up or focuses the menu.
- 
- The menu is a separate window, just like all the other ones.
-
- It is very important to make the program to "feel" as if it is one and the same window.
- This means that, e.g. the same shortcuts work in every window, and that the menu can be accessed
- from any window.
- 
  If we'd like to present all windows when one window is focused, then the programs's icon in the taskbar will flash.
  This can be resolved in the following manner. Make the menu window to be like any of the other extra windows.
  And make the main window to be the main window, but it does not show. This main window has the icon in the taskbar,
@@ -6345,6 +6378,10 @@ void MainWindow::accelerator_open_project_callback(gpointer user_data) {
  void MainWindow::on_copy()
  void MainWindow::on_copy_without_formatting()
  void MainWindow::on_paste() 
+ 
+ For the various functions that can be called by either the menu or by a shortcut, 
+ the called functions should be integrated into one, and should further know
+ whether it was called from the menu or from a shortcut.
  
  Hi Teus, Downloaded this version, BE opens in 5 windows Text, Quickreference, Styles, Merge, Resources, 
  where not project is loaded. As soon as I try to load a project (click file/open) BE crashes. Wolfgang
