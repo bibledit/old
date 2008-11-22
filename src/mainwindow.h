@@ -60,24 +60,6 @@ protected:
   GtkWidget *menuitem_file;
   GtkWidget *menuitem_file_menu; // Todo
 
-  GtkWidget *style;
-  GtkWidget *image10735;
-  GtkWidget *style_menu;
-  GtkWidget *stylesheets_expand_all;
-  GtkWidget *stylesheets_collapse_all;
-  GtkWidget *style_insert;
-  GtkWidget *stylesheet_edit_mode;
-  GtkWidget *style_new;
-  GtkWidget *style_properties;
-  GtkWidget *style_delete;
-  GtkWidget *menu_stylesheet;
-  GtkWidget *menu_stylesheet_menu;
-  GtkWidget *stylesheet_switch;
-  GtkWidget *stylesheets_new;
-  GtkWidget *stylesheets_delete;
-  GtkWidget *stylesheets_rename;
-  GtkWidget *stylesheets_import;
-  GtkWidget *stylesheets_export;
   GtkWidget *notes2;
   GtkWidget *image936;
   GtkWidget *notes2_menu;

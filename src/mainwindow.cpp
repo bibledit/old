@@ -264,216 +264,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   menuitem_file_menu = gtk_menu_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM (menuitem_file), menuitem_file_menu);
 
-  style = NULL;
-  if (guifeatures.styles()) {
-
-    style = gtk_image_menu_item_new_with_mnemonic("_Styles");
-    gtk_widget_show(style);
-    gtk_container_add(GTK_CONTAINER (menuitem_file_menu), style);
-
-    image10735 = gtk_image_new_from_stock("gtk-print-preview", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image10735);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (style), image10735);
-
-  }
-
-  style_menu= NULL;
-  if (guifeatures.styles()) {
-
-    style_menu = gtk_menu_new();
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM (style), style_menu);
-
-  }
-
-  stylesheets_expand_all= NULL;
-  if (guifeatures.styles()) {
-
-    stylesheets_expand_all = gtk_image_menu_item_new_with_mnemonic("_Expand all");
-    gtk_widget_show(stylesheets_expand_all);
-    gtk_container_add(GTK_CONTAINER (style_menu), stylesheets_expand_all);
-
-    GtkWidget *image10736;
-    image10736 = gtk_image_new_from_stock("gtk-add", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image10736);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (stylesheets_expand_all), image10736);
-
-  }
-
-  stylesheets_collapse_all= NULL;
-  if (guifeatures.styles()) {
-
-    stylesheets_collapse_all = gtk_image_menu_item_new_with_mnemonic("_Collapse all");
-    gtk_widget_show(stylesheets_collapse_all);
-    gtk_container_add(GTK_CONTAINER (style_menu), stylesheets_collapse_all);
-
-    GtkWidget *image10737;
-    image10737 = gtk_image_new_from_stock("gtk-remove", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image10737);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (stylesheets_collapse_all), image10737);
-
-  }
-
-  style_insert= NULL;
-  if (guifeatures.styles()) {
-
-    style_insert = gtk_image_menu_item_new_with_mnemonic("_Insert");
-    gtk_widget_show(style_insert);
-    gtk_container_add(GTK_CONTAINER (style_menu), style_insert);
-
-    GtkWidget *image10738;
-    image10738 = gtk_image_new_from_stock("gtk-paste", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image10738);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (style_insert), image10738);
-
-  }
-
-  stylesheet_edit_mode= NULL;
-  if (guifeatures.styles_management()) {
-
-    stylesheet_edit_mode = gtk_check_menu_item_new_with_mnemonic("Edit _mode");
-    gtk_widget_show(stylesheet_edit_mode);
-    gtk_container_add(GTK_CONTAINER (style_menu), stylesheet_edit_mode);
-
-  }
-
-  style_new= NULL;
-  if (guifeatures.styles_management()) {
-
-    style_new = gtk_image_menu_item_new_with_mnemonic("_New");
-    gtk_widget_show(style_new);
-    gtk_container_add(GTK_CONTAINER (style_menu), style_new);
-
-    GtkWidget *image10739;
-    image10739 = gtk_image_new_from_stock("gtk-new", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image10739);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (style_new), image10739);
-
-  }
-
-  style_properties= NULL;
-  if (guifeatures.styles_management()) {
-
-    style_properties = gtk_image_menu_item_new_from_stock("gtk-properties", accel_group);
-    gtk_widget_show(style_properties);
-    gtk_container_add(GTK_CONTAINER (style_menu), style_properties);
-
-  }
-
-  style_delete= NULL;
-  if (guifeatures.styles_management()) {
-
-    style_delete = gtk_image_menu_item_new_from_stock("gtk-delete", accel_group);
-    gtk_widget_show(style_delete);
-    gtk_container_add(GTK_CONTAINER (style_menu), style_delete);
-
-  }
-
-  menu_stylesheet= NULL;
-  if (guifeatures.styles_management()) {
-
-    menu_stylesheet = gtk_image_menu_item_new_with_mnemonic("_Stylesheet");
-    gtk_widget_show(menu_stylesheet);
-    gtk_container_add(GTK_CONTAINER (style_menu), menu_stylesheet);
-
-    GtkWidget *image10740;
-    image10740 = gtk_image_new_from_stock("gtk-print-preview", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image10740);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (menu_stylesheet), image10740);
-
-  }
-
-  menu_stylesheet_menu= NULL;
-  if (guifeatures.styles_management()) {
-
-    menu_stylesheet_menu = gtk_menu_new();
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM (menu_stylesheet), menu_stylesheet_menu);
-
-  }
-
-  stylesheet_switch= NULL;
-  if (guifeatures.styles_management()) {
-
-    stylesheet_switch = gtk_image_menu_item_new_with_mnemonic("_Switch");
-    gtk_widget_show(stylesheet_switch);
-    gtk_container_add(GTK_CONTAINER (menu_stylesheet_menu), stylesheet_switch);
-
-    GtkWidget *image10741;
-    image10741 = gtk_image_new_from_stock("gtk-open", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image10741);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (stylesheet_switch), image10741);
-
-  }
-
-  stylesheets_new= NULL;
-  if (guifeatures.styles_management()) {
-
-    stylesheets_new = gtk_image_menu_item_new_with_mnemonic("_New");
-    gtk_widget_show(stylesheets_new);
-    gtk_container_add(GTK_CONTAINER (menu_stylesheet_menu), stylesheets_new);
-
-    GtkWidget *image10742;
-    image10742 = gtk_image_new_from_stock("gtk-new", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image10742);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (stylesheets_new), image10742);
-
-  }
-
-  stylesheets_delete= NULL;
-  if (guifeatures.styles_management()) {
-
-    stylesheets_delete = gtk_image_menu_item_new_with_mnemonic("_Delete");
-    gtk_widget_show(stylesheets_delete);
-    gtk_container_add(GTK_CONTAINER (menu_stylesheet_menu), stylesheets_delete);
-
-    GtkWidget *image10743;
-    image10743 = gtk_image_new_from_stock("gtk-delete", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image10743);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (stylesheets_delete), image10743);
-
-  }
-
-  stylesheets_rename= NULL;
-  if (guifeatures.styles_management()) {
-
-    stylesheets_rename = gtk_image_menu_item_new_with_mnemonic("_Rename");
-    gtk_widget_show(stylesheets_rename);
-    gtk_container_add(GTK_CONTAINER (menu_stylesheet_menu), stylesheets_rename);
-
-    GtkWidget *image10744;
-    image10744 = gtk_image_new_from_stock("gtk-redo", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image10744);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (stylesheets_rename), image10744);
-
-  }
-
-  stylesheets_import= NULL;
-  if (guifeatures.styles_management()) {
-
-    stylesheets_import = gtk_image_menu_item_new_with_mnemonic("_Import");
-    gtk_widget_show(stylesheets_import);
-    gtk_container_add(GTK_CONTAINER (menu_stylesheet_menu), stylesheets_import);
-
-    GtkWidget *image10745;
-    image10745 = gtk_image_new_from_stock("gtk-network", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image10745);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (stylesheets_import), image10745);
-
-  }
-
-  stylesheets_export= NULL;
-  if (guifeatures.styles_management()) {
-
-    stylesheets_export = gtk_image_menu_item_new_with_mnemonic("_Export");
-    gtk_widget_show(stylesheets_export);
-    gtk_container_add(GTK_CONTAINER (menu_stylesheet_menu), stylesheets_export);
-
-    GtkWidget *image10746;
-    image10746 = gtk_image_new_from_stock("gtk-network", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image10746);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (stylesheets_export), image10746);
-
-  }
-
   notes2 = NULL;
   if (guifeatures.project_notes_management()) {
 
@@ -1461,8 +1251,8 @@ MainWindow::MainWindow(unsigned long xembed) :
     g_signal_connect ((gpointer) import_notes, "activate", G_CALLBACK (on_import_notes_activate), gpointer(this));
     g_signal_connect ((gpointer) export_notes, "activate", G_CALLBACK (on_export_notes_activate), gpointer(this));
   }
-  if (style)
-    g_signal_connect ((gpointer) style, "activate", G_CALLBACK (on_file_styles_activate), gpointer(this));
+  if (window_menu->style)
+    g_signal_connect ((gpointer) window_menu->style, "activate", G_CALLBACK (on_file_styles_activate), gpointer(this));
   g_signal_connect ((gpointer) file_resources, "activate", G_CALLBACK (on_file_resources_activate), gpointer(this));
   g_signal_connect ((gpointer) file_resources_open, "activate", G_CALLBACK (on_file_resources_open_activate), gpointer(this));
   g_signal_connect ((gpointer) file_resources_close, "activate", G_CALLBACK (on_file_resources_close_activate), gpointer(this));
@@ -3480,12 +3270,12 @@ void MainWindow::on_file_styles() {
   // Display the styles if needed.
   if (!window_styles) {
     window_styles = new WindowStyles (accelerator_group, windows_startup_pointer != G_MAXINT,
-        style, style_menu,
-        stylesheets_expand_all, stylesheets_collapse_all,
-        style_insert, stylesheet_edit_mode, style_new,
-        style_properties, style_delete,
-        stylesheet_switch, stylesheets_new, stylesheets_delete,
-        stylesheets_rename, stylesheets_import, stylesheets_export);
+        window_menu->style, window_menu->style_menu,
+        window_menu->stylesheets_expand_all, window_menu->stylesheets_collapse_all,
+        window_menu->style_insert, window_menu->stylesheet_edit_mode, window_menu->style_new,
+        window_menu->style_properties, window_menu->style_delete,
+        window_menu->stylesheet_switch, window_menu->stylesheets_new, window_menu->stylesheets_delete,
+        window_menu->stylesheets_rename, window_menu->stylesheets_import, window_menu->stylesheets_export);
     g_signal_connect ((gpointer) window_styles->delete_signal_button, "clicked", G_CALLBACK (on_window_styles_delete_button_clicked), gpointer(this));
     g_signal_connect ((gpointer) window_styles->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
     g_signal_connect ((gpointer) window_styles->apply_signal, "clicked", G_CALLBACK (on_style_button_apply_clicked), gpointer (this));
