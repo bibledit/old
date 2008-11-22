@@ -49,6 +49,13 @@ void ScreenLayoutDimensions::verify()
 
   int width, height, x, y;
   
+  width = settings->genconfig.menu_area_width_get();
+  height = settings->genconfig.menu_area_height_get();
+  x = settings->genconfig.menu_area_x_position_get();
+  y = settings->genconfig.menu_area_y_position_get();
+  if ((width == 0) || (height == 0) || (x < 0) || (y < 0) || (x + width > real_screen_width) || (y + height > real_screen_height))
+    recalculate = true;
+
   width = settings->genconfig.text_area_width_get();
   height = settings->genconfig.text_area_height_get();
   x = settings->genconfig.text_area_x_position_get();
@@ -78,6 +85,16 @@ void ScreenLayoutDimensions::verify()
 
     // Remove stored dialog positions.
     dialog_position_reset_all();
+
+    // Menu area window at 0% from top, at left, width 50%, height 10%.
+    width = real_screen_width * 50 / 100;
+    height = real_screen_height * 10 / 100;
+    x = 0;
+    y = 0;
+    settings->genconfig.menu_area_width_set(width);
+    settings->genconfig.menu_area_height_set(height);
+    settings->genconfig.menu_area_x_position_set(x);
+    settings->genconfig.menu_area_y_position_set(y);
 
     // Text area window at 10% from top, at left, width 70%, height 60%.
     width = real_screen_width * 66 / 100;

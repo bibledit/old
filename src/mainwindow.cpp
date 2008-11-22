@@ -153,6 +153,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   navigation(0), bibletime(true), httpd(0) {
   // Set some pointers to NULL.  
   // To save memory, we only create the object when actually needed.
+  window_menu = NULL;
   window_screen_layout = NULL;
   window_show_keyterms = NULL;
   window_show_quick_references = NULL;
@@ -211,6 +212,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   }
   gtk_accel_group_connect(accelerator_group, GDK_Right, (GdkModifierType) (GDK_CONTROL_MASK | GDK_MOD1_MASK), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_next_project_callback), gpointer(this), NULL));
   gtk_accel_group_connect(accelerator_group, GDK_Left, (GdkModifierType) (GDK_CONTROL_MASK | GDK_MOD1_MASK), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_previous_project_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_O, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_open_project_callback), gpointer(this), NULL));
 
   // GUI build.
   if (xembed) {
@@ -220,6 +222,9 @@ MainWindow::MainWindow(unsigned long xembed) :
   }
   gtk_window_set_default_icon_from_file(gw_build_filename (directories_get_package_data (), "bibledit.xpm").c_str(), NULL);
   gtk_window_set_gravity(GTK_WINDOW (mainwindow), GDK_GRAVITY_STATIC);
+
+  // Menu window.
+  display_menu_window();
 
   // Pointer to the settings.
   extern Settings * settings;
@@ -245,182 +250,6 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   menuitem_file_menu = gtk_menu_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM (menuitem_file), menuitem_file_menu);
-
-  file_project = gtk_image_menu_item_new_with_mnemonic("Pr_oject");
-  gtk_widget_show(file_project);
-  gtk_container_add(GTK_CONTAINER (menuitem_file_menu), file_project);
-
-  image463 = gtk_image_new_from_stock("gtk-index", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image463);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (file_project), image463);
-
-  file_project_menu = gtk_menu_new();
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM (file_project), file_project_menu);
-
-  new1 = NULL;
-  open1 = NULL;
-  delete1 = NULL;
-  if (guifeatures.project_management()) {
-
-    new1 = gtk_image_menu_item_new_with_mnemonic("_New");
-    gtk_widget_show(new1);
-    gtk_container_add(GTK_CONTAINER (file_project_menu), new1);
-
-    image903 = gtk_image_new_from_stock("gtk-new", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image903);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (new1), image903);
-
-    open1 = gtk_image_menu_item_new_from_stock("gtk-open", accel_group);
-    gtk_widget_show(open1);
-    gtk_container_add(GTK_CONTAINER (file_project_menu), open1);
-
-    delete1 = gtk_image_menu_item_new_from_stock("gtk-delete", accel_group);
-    gtk_widget_show(delete1);
-    gtk_container_add(GTK_CONTAINER (file_project_menu), delete1);
-
-  }
-
-  properties1 = NULL;
-  import1 = NULL;
-  export_project = NULL;
-  export_project_menu = NULL;
-  export_usfm_files = NULL;
-  export_zipped_unified_standard_format_markers1 = NULL;
-  to_bibleworks_version_database_compiler = NULL;
-  export_to_sword_module = NULL;
-  export_opendocument = NULL;
-  copy_project_to = NULL;
-  compare_with1 = NULL;
-  if (guifeatures.project_management()) {
-
-    properties1 = gtk_image_menu_item_new_with_mnemonic("P_roperties");
-    gtk_widget_show(properties1);
-    gtk_container_add(GTK_CONTAINER (file_project_menu), properties1);
-
-    image4995 = gtk_image_new_from_stock("gtk-properties", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image4995);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (properties1), image4995);
-
-    import1 = gtk_image_menu_item_new_with_mnemonic("_Import");
-    gtk_widget_show(import1);
-    gtk_container_add(GTK_CONTAINER (file_project_menu), import1);
-
-    image464 = gtk_image_new_from_stock("gtk-convert", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image464);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (import1), image464);
-
-    export_project = gtk_image_menu_item_new_with_mnemonic("_Export");
-    gtk_widget_show(export_project);
-    gtk_container_add(GTK_CONTAINER (file_project_menu), export_project);
-
-    image3298 = gtk_image_new_from_stock("gtk-convert", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image3298);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (export_project), image3298);
-
-    export_project_menu = gtk_menu_new();
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM (export_project), export_project_menu);
-
-    export_usfm_files = gtk_image_menu_item_new_with_mnemonic("_Unified Standard Format Markers files");
-    gtk_widget_show(export_usfm_files);
-    gtk_container_add(GTK_CONTAINER (export_project_menu), export_usfm_files);
-
-    image12814 = gtk_image_new_from_stock("gtk-convert", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image12814);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (export_usfm_files), image12814);
-
-    export_zipped_unified_standard_format_markers1 = gtk_image_menu_item_new_with_mnemonic("_Zipped Unified Standard Format Markers");
-    gtk_widget_show(export_zipped_unified_standard_format_markers1);
-    gtk_container_add(GTK_CONTAINER (export_project_menu), export_zipped_unified_standard_format_markers1);
-
-    image17639 = gtk_image_new_from_stock("gtk-convert", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image17639);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (export_zipped_unified_standard_format_markers1), image17639);
-
-    to_bibleworks_version_database_compiler = gtk_image_menu_item_new_with_mnemonic("_BibleWorks Version Database Compiler");
-    gtk_widget_show(to_bibleworks_version_database_compiler);
-    gtk_container_add(GTK_CONTAINER (export_project_menu), to_bibleworks_version_database_compiler);
-
-    image3299 = gtk_image_new_from_stock("gtk-convert", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image3299);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (to_bibleworks_version_database_compiler), image3299);
-
-    export_to_sword_module = gtk_image_menu_item_new_with_mnemonic("_SWORD module");
-    gtk_widget_show(export_to_sword_module);
-    gtk_container_add(GTK_CONTAINER (export_project_menu), export_to_sword_module);
-
-    image11392 = gtk_image_new_from_stock("gtk-convert", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image11392);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (export_to_sword_module), image11392);
-
-    export_opendocument = gtk_image_menu_item_new_with_mnemonic("_OpenDocument");
-    gtk_widget_show(export_opendocument);
-    gtk_container_add(GTK_CONTAINER (export_project_menu), export_opendocument);
-
-    image15162 = gtk_image_new_from_stock("gtk-edit", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image15162);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (export_opendocument), image15162);
-
-    copy_project_to = gtk_image_menu_item_new_with_mnemonic("Cop_y to");
-    gtk_widget_show(copy_project_to);
-    gtk_container_add(GTK_CONTAINER (file_project_menu), copy_project_to);
-
-    image2688 = gtk_image_new_from_stock("gtk-copy", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image2688);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (copy_project_to), image2688);
-
-    compare_with1 = gtk_image_menu_item_new_with_mnemonic("Co_mpare with");
-    gtk_widget_show(compare_with1);
-    gtk_container_add(GTK_CONTAINER (file_project_menu), compare_with1);
-
-    image2764 = gtk_image_new_from_stock("gtk-zoom-fit", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image2764);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (compare_with1), image2764);
-
-  }
-
-  project_backup = gtk_image_menu_item_new_with_mnemonic("_Backup");
-  gtk_widget_show(project_backup);
-  gtk_container_add(GTK_CONTAINER (file_project_menu), project_backup);
-
-  image18535 = gtk_image_new_from_stock("gtk-floppy", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image18535);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (project_backup), image18535);
-
-  project_backup_menu = gtk_menu_new();
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM (project_backup), project_backup_menu);
-
-  project_backup_incremental = gtk_image_menu_item_new_with_mnemonic("_Incremental");
-  gtk_widget_show(project_backup_incremental);
-  gtk_container_add(GTK_CONTAINER (project_backup_menu), project_backup_incremental);
-
-  image18536 = gtk_image_new_from_stock("gtk-floppy", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image18536);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (project_backup_incremental), image18536);
-
-  project_backup_flexible = gtk_image_menu_item_new_with_mnemonic("_Flexible");
-  gtk_widget_show(project_backup_flexible);
-  gtk_container_add(GTK_CONTAINER (project_backup_menu), project_backup_flexible);
-
-  image18537 = gtk_image_new_from_stock("gtk-cdrom", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image18537);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (project_backup_flexible), image18537);
-
-  project_changes = NULL;
-  if (guifeatures.project_management()) {
-
-    project_changes = gtk_image_menu_item_new_with_mnemonic("C_hanges");
-    gtk_widget_show(project_changes);
-    gtk_container_add(GTK_CONTAINER (file_project_menu), project_changes);
-
-    image19115 = gtk_image_new_from_stock("gtk-zoom-fit", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image19115);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (project_changes), image19115);
-
-  }
-
-  file_projects_merge = gtk_check_menu_item_new_with_mnemonic("Mer_ge");
-  gtk_widget_show(file_projects_merge);
-  gtk_container_add(GTK_CONTAINER (file_project_menu), file_projects_merge);
 
   file_references = NULL;
   if (guifeatures.references_management() || guifeatures.printing()) {
@@ -969,16 +798,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   image20235 = gtk_image_new_from_stock("gtk-select-font", GTK_ICON_SIZE_MENU);
   gtk_widget_show(image20235);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (view_text_font), image20235);
-
-  /* Because of switching to GtkHtml for displaying and editing project notes, the fonts no longer can be set in the menu.
-   view_notes_font = gtk_image_menu_item_new_with_mnemonic("_Notes");
-   gtk_widget_show(view_notes_font);
-   gtk_container_add(GTK_CONTAINER (view_font_menu), view_notes_font);
-
-   image20236 = gtk_image_new_from_stock("gtk-select-font", GTK_ICON_SIZE_MENU);
-   gtk_widget_show(image20236);
-   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (view_notes_font), image20236);
-   */
 
   if (guifeatures.project_notes()) {
 
@@ -1683,28 +1502,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   g_signal_connect ((gpointer) mainwindow, "delete_event", G_CALLBACK (on_mainwindow_delete_event), gpointer(this));
   g_signal_connect ((gpointer) mainwindow, "focus_in_event", G_CALLBACK (on_mainwindow_focus_in_event), gpointer(this));
   g_signal_connect ((gpointer) mainwindow, "window_state_event", G_CALLBACK (on_mainwindow_window_state_event), gpointer(this));
-  if (guifeatures.project_management()) {
-    g_signal_connect ((gpointer) new1, "activate", G_CALLBACK (on_new1_activate), gpointer(this));
-    g_signal_connect ((gpointer) open1, "activate", G_CALLBACK (on_open1_activate), gpointer(this));
-    g_signal_connect ((gpointer) delete1, "activate", G_CALLBACK (on_delete1_activate), gpointer(this));
-  }
-  if (guifeatures.project_management()) {
-    g_signal_connect ((gpointer) properties1, "activate", G_CALLBACK (on_properties1_activate), gpointer(this));
-    g_signal_connect ((gpointer) import1, "activate", G_CALLBACK (on_import1_activate), gpointer(this));
-    g_signal_connect ((gpointer) export_usfm_files, "activate", G_CALLBACK (on_export_usfm_files_activate), gpointer(this));
-    g_signal_connect ((gpointer) export_zipped_unified_standard_format_markers1, "activate", G_CALLBACK (on_export_zipped_unified_standard_format_markers1_activate), gpointer(this));
-    g_signal_connect ((gpointer) to_bibleworks_version_database_compiler, "activate", G_CALLBACK (on_to_bibleworks_version_compiler_activate), gpointer(this));
-    g_signal_connect ((gpointer) export_to_sword_module, "activate", G_CALLBACK (on_export_to_sword_module_activate), gpointer(this));
-    g_signal_connect ((gpointer) export_opendocument, "activate", G_CALLBACK (on_export_opendocument_activate), gpointer(this));
-    g_signal_connect ((gpointer) copy_project_to, "activate", G_CALLBACK (on_copy_project_to_activate), gpointer(this));
-    g_signal_connect ((gpointer) compare_with1, "activate", G_CALLBACK (on_compare_with1_activate), gpointer(this));
-  }
-  g_signal_connect ((gpointer) project_backup_incremental, "activate", G_CALLBACK (on_project_backup_incremental_activate), gpointer(this));
-  g_signal_connect ((gpointer) project_backup_flexible, "activate", G_CALLBACK (on_project_backup_flexible_activate), gpointer(this));
-  if (guifeatures.project_management()) {
-    g_signal_connect ((gpointer) project_changes, "activate", G_CALLBACK (on_project_changes_activate), gpointer(this));
-  }
-  g_signal_connect ((gpointer) file_projects_merge, "activate", G_CALLBACK (on_file_projects_merge_activate), gpointer(this));
   if (guifeatures.references_management()) {
     g_signal_connect ((gpointer) open_references1, "activate", G_CALLBACK (on_open_references1_activate), gpointer(this));
     g_signal_connect ((gpointer) references_save_as, "activate", G_CALLBACK (on_references_save_as_activate), gpointer(this));
@@ -1752,9 +1549,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   g_signal_connect ((gpointer) edit_planning, "activate", G_CALLBACK (on_edit_planning_activate), gpointer(this));
   g_signal_connect ((gpointer) menuitem_view, "activate", G_CALLBACK (on_menuitem_view_activate), gpointer(this));
   g_signal_connect ((gpointer) view_text_font, "activate", G_CALLBACK (on_view_text_font_activate), gpointer(this));
-  /* Because of switching to GtkHtml for displaying and editing project notes, the fonts no longer can be set in the menu.
-   g_signal_connect ((gpointer) view_notes_font, "activate", G_CALLBACK (on_view_notes_font_activate), gpointer(this));
-   */
   if (guifeatures.project_notes())
     g_signal_connect ((gpointer) viewnotes, "activate", G_CALLBACK (on_viewnotes_activate), gpointer(this));
   g_signal_connect ((gpointer) view_git_tasks, "activate", G_CALLBACK (on_view_git_tasks_activate), gpointer(this));
@@ -1923,30 +1717,30 @@ int MainWindow::run() {
 
 void MainWindow::enable_or_disable_widgets(bool enable) {
   // Set some widgets (in)sensitive depending on whether a project is open.
-  if (properties1)
-    gtk_widget_set_sensitive(properties1, enable);
-  if (import1)
-    gtk_widget_set_sensitive(import1, enable);
+  if (window_menu && window_menu->properties1)
+    gtk_widget_set_sensitive(window_menu->properties1, enable);
+  if (window_menu && window_menu->import1)
+    gtk_widget_set_sensitive(window_menu->import1, enable);
   if (notes2)
     gtk_widget_set_sensitive(notes2, enable);
   if (menuitem_edit)
     gtk_widget_set_sensitive(menuitem_edit, enable);
   if (file_references)
     gtk_widget_set_sensitive(file_references, enable);
-  if (export_project)
-    gtk_widget_set_sensitive(export_project, enable);
+  if (window_menu && window_menu->export_project)
+    gtk_widget_set_sensitive(window_menu->export_project, enable);
   if (print)
     gtk_widget_set_sensitive(print, enable);
-  if (project_changes)
-    gtk_widget_set_sensitive(project_changes, enable);
+  if (window_menu && window_menu->project_changes)
+    gtk_widget_set_sensitive(window_menu->project_changes, enable);
   if (menuitem_view)
     gtk_widget_set_sensitive(menuitem_view, enable);
   if (menuitem_goto)
     gtk_widget_set_sensitive(menuitem_goto, enable);
-  if (compare_with1)
-    gtk_widget_set_sensitive(compare_with1, enable);
-  if (copy_project_to)
-    gtk_widget_set_sensitive(copy_project_to, enable);
+  if (window_menu && window_menu->compare_with1)
+    gtk_widget_set_sensitive(window_menu->compare_with1, enable);
+  if (window_menu && window_menu->copy_project_to)
+    gtk_widget_set_sensitive(window_menu->copy_project_to, enable);
   if (insert1)
     gtk_widget_set_sensitive(insert1, enable);
   if (check1)
@@ -1957,10 +1751,10 @@ void MainWindow::enable_or_disable_widgets(bool enable) {
     gtk_widget_set_sensitive(preferences_remote_git_repository, enable);
   if (preferences_planning)
     gtk_widget_set_sensitive(preferences_planning, enable);
-  if (project_backup)
-    gtk_widget_set_sensitive(project_backup, enable);
-  if (file_projects_merge)
-    gtk_widget_set_sensitive(file_projects_merge, enable);
+  if (window_menu && window_menu->project_backup)
+    gtk_widget_set_sensitive(window_menu->project_backup, enable);
+  if (window_menu && window_menu->file_projects_merge)
+    gtk_widget_set_sensitive(window_menu->file_projects_merge, enable);
   navigation.sensitive(enable);
 }
 
@@ -1970,13 +1764,64 @@ void MainWindow::enable_or_disable_widgets(bool enable) {
  |
  |
  |
- Menu callbacks
+ Menu window Todo
  |
  |
  |
  |
  |
  */
+
+void MainWindow::display_menu_window() {
+  if (window_menu == NULL) {
+    window_menu = new WindowMenu (accelerator_group, windows_startup_pointer != G_MAXINT);
+    g_signal_connect ((gpointer) window_menu->delete_signal_button, "clicked", G_CALLBACK (on_window_menu_delete_button_clicked), gpointer(this));
+    g_signal_connect ((gpointer) window_menu->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
+    // Menu callbacks.
+    if (window_menu->new1)
+      g_signal_connect ((gpointer) window_menu->new1, "activate", G_CALLBACK (on_new1_activate), gpointer(this));
+    if (window_menu->open1)
+      g_signal_connect ((gpointer) window_menu->open1, "activate", G_CALLBACK (on_open1_activate), gpointer(this));
+    if (window_menu->delete1)
+      g_signal_connect ((gpointer) window_menu->delete1, "activate", G_CALLBACK (on_delete1_activate), gpointer(this));
+    if (window_menu->properties1)
+      g_signal_connect ((gpointer) window_menu->properties1, "activate", G_CALLBACK (on_properties1_activate), gpointer(this));
+    if (window_menu->import1)
+      g_signal_connect ((gpointer) window_menu->import1, "activate", G_CALLBACK (on_import1_activate), gpointer(this));
+    if (window_menu->export_usfm_files)
+      g_signal_connect ((gpointer) window_menu->export_usfm_files, "activate", G_CALLBACK (on_export_usfm_files_activate), gpointer(this));
+    if (window_menu->export_zipped_unified_standard_format_markers1)
+      g_signal_connect ((gpointer) window_menu->export_zipped_unified_standard_format_markers1, "activate", G_CALLBACK (on_export_zipped_unified_standard_format_markers1_activate), gpointer(this));
+    if (window_menu->to_bibleworks_version_database_compiler)
+      g_signal_connect ((gpointer) window_menu->to_bibleworks_version_database_compiler, "activate", G_CALLBACK (on_to_bibleworks_version_compiler_activate), gpointer(this));
+    if (window_menu->export_to_sword_module)
+      g_signal_connect ((gpointer) window_menu->export_to_sword_module, "activate", G_CALLBACK (on_export_to_sword_module_activate), gpointer(this));
+    if (window_menu->export_opendocument)
+      g_signal_connect ((gpointer) window_menu->export_opendocument, "activate", G_CALLBACK (on_export_opendocument_activate), gpointer(this));
+    if (window_menu->copy_project_to)
+      g_signal_connect ((gpointer) window_menu->copy_project_to, "activate", G_CALLBACK (on_copy_project_to_activate), gpointer(this));
+    if (window_menu->compare_with1)
+      g_signal_connect ((gpointer) window_menu->compare_with1, "activate", G_CALLBACK (on_compare_with1_activate), gpointer(this));
+    if (window_menu->project_backup_incremental)
+      g_signal_connect ((gpointer) window_menu->project_backup_incremental, "activate", G_CALLBACK (on_project_backup_incremental_activate), gpointer(this));
+    if (window_menu->project_backup_flexible)
+      g_signal_connect ((gpointer) window_menu->project_backup_flexible, "activate", G_CALLBACK (on_project_backup_flexible_activate), gpointer(this));
+    if (window_menu->project_changes)
+      g_signal_connect ((gpointer) window_menu->project_changes, "activate", G_CALLBACK (on_project_changes_activate), gpointer(this));
+    if (window_menu->file_projects_merge)
+      g_signal_connect ((gpointer) window_menu->file_projects_merge, "activate", G_CALLBACK (on_file_projects_merge_activate), gpointer(this));
+
+  }
+  window_menu->present();
+}
+
+void MainWindow::on_window_menu_delete_button_clicked(GtkButton *button, gpointer user_data) {
+  ((MainWindow *) user_data)->on_window_menu_delete_button();
+}
+
+void MainWindow::on_window_menu_delete_button() {
+  gtk_main_quit();
+}
 
 void MainWindow::on_open1_activate(GtkMenuItem * menuitem, gpointer user_data) {
   ((MainWindow *) user_data)->open();
@@ -4440,54 +4285,12 @@ void MainWindow::on_text_font() {
   set_fonts();
 }
 
-void MainWindow::on_view_notes_font_activate(GtkMenuItem * menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->on_notes_font();
-}
-
-void MainWindow::on_notes_font() {
-  extern Settings * settings;
-  FontColorDialog
-      dialog(settings->genconfig.notes_editor_font_default_get(), settings->genconfig.notes_editor_font_name_get(), 100, settings->genconfig.notes_editor_default_color_get(), settings->genconfig.notes_editor_normal_text_color_get(), settings->genconfig.notes_editor_background_color_get(), settings->genconfig.notes_editor_selected_text_color_get(), settings->genconfig.notes_editor_selection_color_get());
-  if (dialog.run() == GTK_RESPONSE_OK) {
-    settings->genconfig.notes_editor_font_default_set(dialog.new_use_default_font);
-    settings->genconfig.notes_editor_font_name_set(dialog.new_font);
-    settings->genconfig.notes_editor_default_color_set(dialog.new_use_default_color);
-    settings->genconfig.notes_editor_normal_text_color_set(dialog.new_normal_text_color);
-    settings->genconfig.notes_editor_background_color_set(dialog.new_background_color);
-    settings->genconfig.notes_editor_selected_text_color_set(dialog.new_selected_text_color);
-    settings->genconfig.notes_editor_selection_color_set(dialog.new_selection_color);
-    set_fonts();
-  }
-}
-
 void MainWindow::set_fonts() {
   // Set font in the text editors. Set text direction too.
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
     editor_windows[i]->editor->set_font();
     editor_windows[i]->editor->create_or_update_formatting_data();
   }
-
-  /* Because of switching to GtkHtml for displaying and editing project notes, the fonts no longer can be set through the menu.
-   // Set font for the translation notes editor.
-   PangoFontDescription *font_desc= NULL;
-   extern Settings * settings;
-   if (!settings->genconfig.notes_editor_font_default_get()) {
-   font_desc = pango_font_description_from_string(settings->genconfig.notes_editor_font_name_get ().c_str());
-   }
-   gtk_widget_modify_font(textview_notes, font_desc);
-   gtk_widget_modify_font(textview_note, font_desc);
-   if (font_desc)
-   pango_font_description_free(font_desc);
-
-   // Set the colors for the translation notes editor.
-   if (settings->genconfig.notes_editor_default_color_get()) {
-   color_widget_default(textview_notes);
-   color_widget_default(textview_note);
-   } else {
-   color_widget_set(textview_notes, settings->genconfig.notes_editor_normal_text_color_get(), settings->genconfig.notes_editor_background_color_get(), settings->genconfig.notes_editor_selected_text_color_get(), settings->genconfig.notes_editor_selection_color_get());
-   color_widget_set(textview_note, settings->genconfig.notes_editor_normal_text_color_get(), settings->genconfig.notes_editor_background_color_get(), settings->genconfig.notes_editor_selected_text_color_get(), settings->genconfig.notes_editor_selection_color_get());
-   }
-   */
 }
 
 /*
@@ -4984,7 +4787,7 @@ void MainWindow::handle_editor_focus() {
 
   // Project configuration.
   ProjectConfiguration * projectconfig = settings->projectconfig(project);
-  
+
   // The font and colour are tied to the project, 
   // but also stored in the general configuration.
   settings->genconfig.text_editor_font_default_set(projectconfig->editor_font_default_get());
@@ -5108,14 +4911,16 @@ void MainWindow::on_file_projects_merge_activate(GtkMenuItem *menuitem, gpointer
 
 void MainWindow::on_file_projects_merge() {
   on_window_merge_delete_button();
-  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (file_projects_merge))) {
-    window_merge = new WindowMerge (accelerator_group, windows_startup_pointer != G_MAXINT);
-    g_signal_connect ((gpointer) window_merge->delete_signal_button, "clicked", G_CALLBACK (on_window_merge_delete_button_clicked), gpointer(this));
-    g_signal_connect ((gpointer) window_merge->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
-    g_signal_connect ((gpointer) window_merge->editors_get_text_button, "clicked", G_CALLBACK (on_merge_window_get_text_button_clicked), gpointer(this));
-    g_signal_connect ((gpointer) window_merge->new_reference_button, "clicked", G_CALLBACK (on_merge_window_new_reference_button_clicked), gpointer(this));
-    g_signal_connect ((gpointer) window_merge->save_editors_button, "clicked", G_CALLBACK (on_merge_window_save_editors_button_clicked), gpointer(this));
-    g_signal_connect ((gpointer) window_merge->reload_editors_button, "clicked", G_CALLBACK (on_editor_reload_clicked), gpointer(this));
+  if (window_menu) {
+    if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (window_menu->file_projects_merge))) {
+      window_merge = new WindowMerge (accelerator_group, windows_startup_pointer != G_MAXINT);
+      g_signal_connect ((gpointer) window_merge->delete_signal_button, "clicked", G_CALLBACK (on_window_merge_delete_button_clicked), gpointer(this));
+      g_signal_connect ((gpointer) window_merge->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
+      g_signal_connect ((gpointer) window_merge->editors_get_text_button, "clicked", G_CALLBACK (on_merge_window_get_text_button_clicked), gpointer(this));
+      g_signal_connect ((gpointer) window_merge->new_reference_button, "clicked", G_CALLBACK (on_merge_window_new_reference_button_clicked), gpointer(this));
+      g_signal_connect ((gpointer) window_merge->save_editors_button, "clicked", G_CALLBACK (on_merge_window_save_editors_button_clicked), gpointer(this));
+      g_signal_connect ((gpointer) window_merge->reload_editors_button, "clicked", G_CALLBACK (on_editor_reload_clicked), gpointer(this));
+    }
   }
 }
 
@@ -5127,7 +4932,9 @@ void MainWindow::on_window_merge_delete_button() {
   if (window_merge) {
     delete window_merge;
     window_merge = NULL;
-    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (file_projects_merge), false);
+    if (window_menu) {
+      gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (window_menu->file_projects_merge), false);
+    }
   }
 }
 
@@ -5796,7 +5603,7 @@ bool MainWindow::on_windows_startup() {
         }
         case widMerge:
         {
-          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (file_projects_merge), true);
+          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (window_menu->file_projects_merge), true);
           break;
         }
         case widResource:
@@ -5832,6 +5639,10 @@ bool MainWindow::on_windows_startup() {
         case widEditor:
         {
           on_file_project_open(data);
+          break;
+        }
+        case widMenu:
+        {
           break;
         }
       }
@@ -5926,12 +5737,17 @@ void MainWindow::shutdown_windows()
     window_references = NULL;
   }
 
-  // Editor.
+  // Editors.
   while (!editor_windows.empty()) {
     WindowEditor * editor_window = editor_windows[0];
     editor_window->shutdown();
     delete editor_window;
     editor_windows.erase(editor_windows.begin());
+  }
+
+  // Menu.
+  if (window_menu) {
+    on_window_menu_delete_button();
   }
 
 }
@@ -5983,6 +5799,8 @@ void MainWindow::present_windows(GtkWidget * widget)
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
     editor_windows[i]->present();
   }
+  if (window_menu)
+    window_menu->present();
 
   // Present the calling window again so that it keeps the focus.
   if (window_show_quick_references) {
@@ -6024,6 +5842,10 @@ void MainWindow::present_windows(GtkWidget * widget)
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
     if (widget == editor_windows[i]->focus_in_signal_button)
       editor_windows[i]->present();
+  }
+  if (window_menu) {
+    if (widget == window_menu->focus_in_signal_button)
+      window_menu->present();
   }
 }
 
@@ -6392,6 +6214,14 @@ void MainWindow::accelerator_close_window()
     }
   }
   handle_editor_focus();
+
+  // Menu.
+  if (window_menu) {
+    if (now_focused_signal_button == window_menu->focus_in_signal_button) {
+      gtk_main_quit();
+    }
+  }
+
 }
 
 void MainWindow::accelerator_goto_styles_area_callback(gpointer user_data) {
@@ -6428,23 +6258,46 @@ void MainWindow::accelerator_previous_project_callback(gpointer user_data) {
   ((MainWindow *) user_data)->goto_next_previous_project(false);
 }
 
+void MainWindow::accelerator_open_project_callback(gpointer user_data) {
+  ((MainWindow *) user_data)->open();
+}
+
 /*
 
  Todo Improve the window layout system.
+
+ Pressing Ctrl-M brings up or focuses the menu.
+ 
+ The menu is a separate window, just like all the other ones.
+
+ It is very important to make the program to "feel" as if it is one and the same window.
+ This means that, e.g. the same shortcuts work in every window, and that the menu can be accessed
+ from any window.
+ 
+ If we'd like to present all windows when one window is focused, then the programs's icon in the taskbar will flash.
+ This can be resolved in the following manner. Make the menu window to be like any of the other extra windows.
+ And make the main window to be the main window, but it does not show. This main window has the icon in the taskbar,
+ is never present()-ed, so the icon will never flash. If the menu window is deleted, then we might delete the 
+ main window too, or else we can do it that we delete the main window only if all windows get deleted, or 
+ if the quit menu is chosen. But the best I think is to quit when the menu quits.
+ 
+ If the icon on the taskbar is signalled to minimize, all windows should minimize.
+ If restore, all windows should restore.
+ If maximize, all windows should tile.
+
+
+
+
 
  We need to look at the "todo" entries in windownotes.h/cpp.
 
  Adding text to notes by accelerators, and by the menu.
  Adding the current reference to the note.
  If the notes window shows up on startup, it does now not display the relevant notes.
+ 
+ There are still a lot of accelerators that should be added to the system.
 
  Add all the accelerators in a helpfile, build the file while adding the accelerator.
- 
- There is one menu window, which is the main one, and each function will get its own window.
-
- It is very important to make the program to "feel" as if it is one and the same window.
- This means that, e.g. the same shortcuts work in every window, and that the menu can be accessed
- from any window.
  
  To make a View / Tile menu. And a stack one. 
  When a new window is opened, for example, a new editor is opened, it then automatically finds a place
@@ -6452,13 +6305,6 @@ void MainWindow::accelerator_previous_project_callback(gpointer user_data) {
 
  If the positions are reset, then all standard positions are put to zero, so that next time they show up,
  they will be allocated into the new position.
- 
- If we'd like to present all windows when one window is focused, then the programs's icon in the taskbar will flash.
- This can be resolved in the following manner. Make the menu window to be like any of the other extra windows.
- And make the main window to be the main window, but it does not show. This main window has the icon in the taskbar,
- if never present()-ed, so the icon will never flash. If the menu window is deleted, then we might delete the 
- main window too, or else we can do it that we delete the main window only if all windows get deleted, or 
- if the quit menu is chosen. But the best I think is to quit when the menu quits.
  
  Eventually the menu will also become an independent window, and can be clicked away to disappear from the screen.
  But ideally we would like to stop the program if the menu is clicked away.
@@ -6475,9 +6321,6 @@ void MainWindow::accelerator_previous_project_callback(gpointer user_data) {
  All those places where it has "References references", it is to be looked into whether that cannot be moved
  into the references window itself, rather than cluttering the code in MainWindow.
 
- If the merge window opens while the two projects are opened already, it does not show them in the merge window.
- Does the merge window not have a horizontal scrollbar that can prevent the main window from getting too wide?
- The lines in the merge window should wrap, really.
  If Ctrl-N is pressed in an already existing notes window, the Ctrl-1/4 shortcuts don't work unless the window
  is clicked so as to focus it. No, even after clicking in the window, the shortcuts don't work.
 
@@ -6488,8 +6331,6 @@ void MainWindow::accelerator_previous_project_callback(gpointer user_data) {
  Each note consists of a horizontal box, with the caller in it as a label, and then a GtkTextView for the note.
  The up / down arrows keep working, so one can move from one GtkTextView to another, just as it is now.
  
- Adding the current reference to the project note does not work.
-
  Clicking on a project notes [references] should bring up the references in the window. It does not do that now. 
  
  When selecting the note category there's a lot of redundant focusing going around, and same applies to deleting a note.
@@ -6504,6 +6345,11 @@ void MainWindow::accelerator_previous_project_callback(gpointer user_data) {
  void MainWindow::on_copy()
  void MainWindow::on_copy_without_formatting()
  void MainWindow::on_paste() 
+ 
+ Hi Teus, Downloaded this version, BE opens in 5 windows Text, Quickreference, Styles, Merge, Resources, 
+ where not project is loaded. As soon as I try to load a project (click file/open) BE crashes. Wolfgang
+ 
+ 
  
  */
 

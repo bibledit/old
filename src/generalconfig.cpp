@@ -69,6 +69,10 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE (clear_up_day);
   INITIALIZE (screen_width);
   INITIALIZE (screen_height);
+  INITIALIZE (menu_area_width);
+  INITIALIZE (menu_area_height);
+  INITIALIZE (menu_area_x_position);
+  INITIALIZE (menu_area_y_position);
   INITIALIZE (text_area_width);
   INITIALIZE (text_area_height);
   INITIALIZE (text_area_x_position);
@@ -185,13 +189,6 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE (wordlist_process_index);
   INITIALIZE (wordlist_index_asterisk);
   INITIALIZE (wordlist_index_asterisk_first);
-  INITIALIZE (notes_editor_font_default);
-  INITIALIZE (notes_editor_font_name);
-  INITIALIZE (notes_editor_default_color);
-  INITIALIZE (notes_editor_normal_text_color);
-  INITIALIZE (notes_editor_background_color);
-  INITIALIZE (notes_editor_selected_text_color);
-  INITIALIZE (notes_editor_selection_color);
   INITIALIZE (text_editor_font_default);
   INITIALIZE (text_editor_font_name);
   INITIALIZE (text_editor_default_color);
@@ -234,6 +231,10 @@ void GeneralConfiguration::save()
   SAVE_VALUE (clear_up_day);
   SAVE_VALUE (screen_width);
   SAVE_VALUE (screen_height);
+  SAVE_VALUE (menu_area_width);
+  SAVE_VALUE (menu_area_height);
+  SAVE_VALUE (menu_area_x_position);
+  SAVE_VALUE (menu_area_y_position);
   SAVE_VALUE (text_area_width);
   SAVE_VALUE (text_area_height);
   SAVE_VALUE (text_area_x_position);
@@ -350,13 +351,6 @@ void GeneralConfiguration::save()
   SAVE_VALUE (wordlist_process_index);
   SAVE_VALUE (wordlist_index_asterisk);
   SAVE_VALUE (wordlist_index_asterisk_first);
-  SAVE_VALUE (notes_editor_font_default);
-  SAVE_VALUE (notes_editor_font_name);
-  SAVE_VALUE (notes_editor_default_color);
-  SAVE_VALUE (notes_editor_normal_text_color);
-  SAVE_VALUE (notes_editor_background_color);
-  SAVE_VALUE (notes_editor_selected_text_color);
-  SAVE_VALUE (notes_editor_selection_color);
   SAVE_VALUE (text_editor_font_default);
   SAVE_VALUE (text_editor_font_name);
   SAVE_VALUE (text_editor_default_color);
@@ -469,6 +463,10 @@ void GeneralConfiguration::store##_set (type value) \
 IMPLEMENT (int, int_get, clear_up_day, 0)
 IMPLEMENT (int, int_get, screen_width, 0)
 IMPLEMENT (int, int_get, screen_height, 0)
+IMPLEMENT (int, int_get, menu_area_width, 0) 
+IMPLEMENT (int, int_get, menu_area_height, 0)
+IMPLEMENT (int, int_get, menu_area_x_position, 0)
+IMPLEMENT (int, int_get, menu_area_y_position, 0)
 IMPLEMENT (int, int_get, text_area_width, 0) 
 IMPLEMENT (int, int_get, text_area_height, 0)
 IMPLEMENT (int, int_get, text_area_x_position, 0)
@@ -585,13 +583,6 @@ IMPLEMENT (bool, bool_get, wordlist_greek_asterisk_first, false)
 IMPLEMENT (bool, bool_get, wordlist_process_index, false)
 IMPLEMENT (bool, bool_get, wordlist_index_asterisk, false)
 IMPLEMENT (bool, bool_get, wordlist_index_asterisk_first, false)
-IMPLEMENT (bool, bool_get, notes_editor_font_default, true)
-IMPLEMENT (ustring, string_get, notes_editor_font_name, "Sans 14")
-IMPLEMENT (bool, bool_get, notes_editor_default_color, true)
-IMPLEMENT (int, int_get, notes_editor_normal_text_color, 0)
-IMPLEMENT (int, int_get, notes_editor_background_color, 16777215)
-IMPLEMENT (int, int_get, notes_editor_selected_text_color, 16777215)
-IMPLEMENT (int, int_get, notes_editor_selection_color, 4294343)
 IMPLEMENT (bool, bool_get, text_editor_font_default, true)
 IMPLEMENT (ustring, string_get, text_editor_font_name, "Sans 14")
 IMPLEMENT (bool, bool_get, text_editor_default_color, true)

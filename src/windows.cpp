@@ -289,6 +289,14 @@ void WindowBase::display(bool startup)
         area_rectangle.height = settings->genconfig.text_area_height_get();
         break;
       }
+      case widMenu: // Todo create area for menu
+      {
+        area_rectangle.x = settings->genconfig.menu_area_x_position_get();
+        area_rectangle.y = settings->genconfig.menu_area_y_position_get();
+        area_rectangle.width = settings->genconfig.menu_area_width_get();
+        area_rectangle.height = settings->genconfig.menu_area_height_get();
+        break;
+      }
     }
 
     // Step 2: A GdkRegion is made of that area.

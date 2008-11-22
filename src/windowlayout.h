@@ -30,6 +30,8 @@ public:
   ~WindowLayout();
   GtkWidget * signal_button;
 protected:
+  GtkWidget *menuwindow;
+  GtkWidget *menulabel;
   GtkWidget *textwindow;
   GtkWidget *textlabel;
   GtkWidget *noteswindow;

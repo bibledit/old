@@ -43,6 +43,7 @@
 #include "windownotes.h"
 #include "windowreferences.h"
 #include "windoweditor.h"
+#include "windowmenu.h"
 
 class MainWindow
 {
@@ -57,45 +58,8 @@ protected:
   GtkWidget *vbox1;
   GtkWidget *menubar1;
   GtkWidget *menuitem_file;
-  GtkWidget *menuitem_file_menu;
-  GtkWidget *file_project;
-  GtkWidget *image463;
-  GtkWidget *file_project_menu;
-  GtkWidget *new1;
-  GtkWidget *image903;
-  GtkWidget *open1;
-  GtkWidget *delete1;
-  GtkWidget *properties1;
-  GtkWidget *image4995;
-  GtkWidget *import1;
-  GtkWidget *image464;
-  GtkWidget *export_project;
-  GtkWidget *image3298;
-  GtkWidget *export_project_menu;
-  GtkWidget *export_usfm_files;
-  GtkWidget *image12814;
-  GtkWidget *export_zipped_unified_standard_format_markers1;
-  GtkWidget *image17639;
-  GtkWidget *to_bibleworks_version_database_compiler;
-  GtkWidget *image3299;
-  GtkWidget *export_to_sword_module;
-  GtkWidget *image11392;
-  GtkWidget *export_opendocument;
-  GtkWidget *image15162;
-  GtkWidget *copy_project_to;
-  GtkWidget *image2688;
-  GtkWidget *compare_with1;
-  GtkWidget *image2764;
-  GtkWidget *project_backup;
-  GtkWidget *image18535;
-  GtkWidget *project_backup_menu;
-  GtkWidget *project_backup_incremental;
-  GtkWidget *image18536;
-  GtkWidget *project_backup_flexible;
-  GtkWidget *image18537;
-  GtkWidget *project_changes;
-  GtkWidget *image19115;
-  GtkWidget *file_projects_merge;
+  GtkWidget *menuitem_file_menu; // Todo
+
   GtkWidget *file_references;
   GtkWidget *image465;
   GtkWidget *file_references_menu;
@@ -189,10 +153,6 @@ protected:
   GtkWidget *view_font_menu;
   GtkWidget *view_text_font;
   GtkWidget *image20235;
-  /* Because of switching to GtkHtml for displaying and editing fonts, the fonts no longer can be set in the menu.
-   GtkWidget *view_notes_font;
-   GtkWidget *image20236;
-   */
   GtkWidget *viewnotes;
   GtkWidget *image2627;
   GtkWidget *view_git_tasks;
@@ -360,7 +320,14 @@ protected:
   /* Initialization */
   void enable_or_disable_widgets(bool enable);
 
-  /* Menu callbacks */
+  /* Menu window */ // Todo
+  WindowMenu * window_menu;
+  void display_menu_window();
+
+  static void on_window_menu_delete_button_clicked(GtkButton *button, gpointer user_data);
+  void on_window_menu_delete_button();
+
+  
   static void on_open1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void open();
   static void on_new1_activate(GtkMenuItem * menuitem, gpointer user_data);
@@ -665,8 +632,6 @@ protected:
   /* Fonts */
   static void on_view_text_font_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_text_font();
-  static void on_view_notes_font_activate(GtkMenuItem * menuitem, gpointer user_data);
-  void on_notes_font();
   void set_fonts();
 
   /* Outline */
@@ -820,6 +785,7 @@ protected:
   static void accelerator_previous_reference_in_reference_area_callback(gpointer user_data);
   static void accelerator_next_project_callback(gpointer user_data);
   static void accelerator_previous_project_callback(gpointer user_data);
+  static void accelerator_open_project_callback(gpointer user_data);
 
 };
 

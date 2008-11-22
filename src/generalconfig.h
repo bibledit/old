@@ -52,10 +52,10 @@ public:
   DEFINE_GENCONFIG_H (int, clear_up_day);
   DEFINE_GENCONFIG_H (int, screen_width);
   DEFINE_GENCONFIG_H (int, screen_height);
-  DEFINE_GENCONFIG_H (int, window_width);
-  DEFINE_GENCONFIG_H (int, window_height);
-  DEFINE_GENCONFIG_H (int, window_x_position);
-  DEFINE_GENCONFIG_H (int, window_y_position);
+  DEFINE_GENCONFIG_H (int, menu_area_width);
+  DEFINE_GENCONFIG_H (int, menu_area_height);
+  DEFINE_GENCONFIG_H (int, menu_area_x_position);
+  DEFINE_GENCONFIG_H (int, menu_area_y_position);
   DEFINE_GENCONFIG_H (int, text_area_width);
   DEFINE_GENCONFIG_H (int, text_area_height);
   DEFINE_GENCONFIG_H (int, text_area_x_position);
@@ -172,13 +172,6 @@ public:
   DEFINE_GENCONFIG_H (bool, wordlist_process_index);
   DEFINE_GENCONFIG_H (bool, wordlist_index_asterisk);
   DEFINE_GENCONFIG_H (bool, wordlist_index_asterisk_first);
-  DEFINE_GENCONFIG_H (bool, notes_editor_font_default);
-  DEFINE_GENCONFIG_H (ustring, notes_editor_font_name);
-  DEFINE_GENCONFIG_H (bool, notes_editor_default_color);
-  DEFINE_GENCONFIG_H (int, notes_editor_normal_text_color);
-  DEFINE_GENCONFIG_H (int, notes_editor_background_color);
-  DEFINE_GENCONFIG_H (int, notes_editor_selected_text_color);
-  DEFINE_GENCONFIG_H (int, notes_editor_selection_color);
   DEFINE_GENCONFIG_H (bool, text_editor_font_default);
   DEFINE_GENCONFIG_H (ustring, text_editor_font_name);
   DEFINE_GENCONFIG_H (bool, text_editor_default_color);
