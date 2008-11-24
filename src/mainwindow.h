@@ -58,28 +58,6 @@ protected:
   GtkWidget *vbox1;
   GtkWidget *menubar1; // Todo
 
-  GtkWidget *menuitem_view;
-  GtkWidget *menuitem_view_menu;
-  GtkWidget *view_font;
-  GtkWidget *image20234;
-  GtkWidget *view_font_menu;
-  GtkWidget *view_text_font;
-  GtkWidget *image20235;
-  GtkWidget *viewnotes;
-  GtkWidget *image2627;
-  GtkWidget *view_git_tasks;
-  GtkWidget *image18685;
-  GtkWidget *parallel_passages1;
-  GtkWidget *view_usfm_code;
-  GtkWidget *image25006;
-  GtkWidget *view_status;
-  GtkWidget *image25963;
-  GtkWidget *view_planning;
-  GtkWidget *image26812;
-  GtkWidget *view_screen_layout;
-  GtkWidget *view_keyterms;
-  GtkWidget *view_quick_references;
-  GtkWidget *view_outline;
   GtkWidget *insert1;
   GtkWidget *insert1_menu;
   GtkWidget *standard_text_1;

@@ -748,8 +748,6 @@ WindowMenu::WindowMenu(GtkAccelGroup *accelerator_group, bool startup) :
   gtk_widget_show(image26801);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (edit_planning), image26801);
 
-  /* Todo implement menu.
-
   menuitem_view = gtk_menu_item_new_with_mnemonic("_View");
   gtk_widget_show(menuitem_view);
   gtk_container_add(GTK_CONTAINER (menubar1), menuitem_view);
@@ -776,6 +774,7 @@ WindowMenu::WindowMenu(GtkAccelGroup *accelerator_group, bool startup) :
   gtk_widget_show(image20235);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (view_text_font), image20235);
 
+  viewnotes = NULL;
   if (guifeatures.project_notes()) {
 
     viewnotes = gtk_image_menu_item_new_with_mnemonic("Project _notes");
@@ -839,6 +838,8 @@ WindowMenu::WindowMenu(GtkAccelGroup *accelerator_group, bool startup) :
   view_outline = gtk_check_menu_item_new_with_mnemonic("_Outline");
   gtk_widget_show(view_outline);
   gtk_container_add(GTK_CONTAINER (menuitem_view_menu), view_outline);
+
+  /* Todo implement menu.
 
   insert1 = gtk_menu_item_new_with_mnemonic("_Insert");
   gtk_widget_show(insert1);

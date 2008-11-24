@@ -257,96 +257,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   gtk_widget_show(menubar1);
   gtk_box_pack_start(GTK_BOX (vbox1), menubar1, FALSE, FALSE, 0);
 
-  menuitem_view = gtk_menu_item_new_with_mnemonic("_View");
-  gtk_widget_show(menuitem_view);
-  gtk_container_add(GTK_CONTAINER (menubar1), menuitem_view);
-
-  menuitem_view_menu = gtk_menu_new();
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM (menuitem_view), menuitem_view_menu);
-
-  view_font = gtk_image_menu_item_new_with_mnemonic("_Font & Color");
-  gtk_widget_show(view_font);
-  gtk_container_add(GTK_CONTAINER (menuitem_view_menu), view_font);
-
-  image20234 = gtk_image_new_from_stock("gtk-select-font", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image20234);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (view_font), image20234);
-
-  view_font_menu = gtk_menu_new();
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM (view_font), view_font_menu);
-
-  view_text_font = gtk_image_menu_item_new_with_mnemonic("_Text");
-  gtk_widget_show(view_text_font);
-  gtk_container_add(GTK_CONTAINER (view_font_menu), view_text_font);
-
-  image20235 = gtk_image_new_from_stock("gtk-select-font", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image20235);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (view_text_font), image20235);
-
-  if (guifeatures.project_notes()) {
-
-    viewnotes = gtk_image_menu_item_new_with_mnemonic("Project _notes");
-    gtk_widget_show(viewnotes);
-    gtk_container_add(GTK_CONTAINER (menuitem_view_menu), viewnotes);
-
-    image2627 = gtk_image_new_from_stock("gtk-index", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image2627);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (viewnotes), image2627);
-
-  }
-
-  view_git_tasks = gtk_image_menu_item_new_with_mnemonic("_Git tasks");
-  gtk_widget_show(view_git_tasks);
-  gtk_container_add(GTK_CONTAINER (menuitem_view_menu), view_git_tasks);
-
-  image18685 = gtk_image_new_from_stock("gtk-connect", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image18685);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (view_git_tasks), image18685);
-
-  parallel_passages1 = gtk_check_menu_item_new_with_mnemonic("_Parallel passages");
-  gtk_widget_show(parallel_passages1);
-  gtk_container_add(GTK_CONTAINER (menuitem_view_menu), parallel_passages1);
-
-  view_usfm_code = gtk_image_menu_item_new_with_mnemonic("USFM _code");
-  gtk_widget_show(view_usfm_code);
-  gtk_container_add(GTK_CONTAINER (menuitem_view_menu), view_usfm_code);
-
-  image25006 = gtk_image_new_from_stock("gtk-properties", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image25006);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (view_usfm_code), image25006);
-
-  view_status = gtk_image_menu_item_new_with_mnemonic("S_tatus");
-  gtk_widget_show(view_status);
-  gtk_container_add(GTK_CONTAINER (menuitem_view_menu), view_status);
-
-  image25963 = gtk_image_new_from_stock("gtk-apply", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image25963);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (view_status), image25963);
-
-  view_planning = gtk_image_menu_item_new_with_mnemonic("Pl_anning");
-  gtk_widget_show(view_planning);
-  gtk_container_add(GTK_CONTAINER (menuitem_view_menu), view_planning);
-
-  image26812 = gtk_image_new_from_stock("gtk-info", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image26812);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (view_planning), image26812);
-
-  view_screen_layout = gtk_check_menu_item_new_with_mnemonic("_Screen layout");
-  gtk_widget_show(view_screen_layout);
-  gtk_container_add(GTK_CONTAINER (menuitem_view_menu), view_screen_layout);
-
-  view_keyterms = gtk_check_menu_item_new_with_mnemonic("_Keyterms in verse");
-  gtk_widget_show(view_keyterms);
-  gtk_container_add(GTK_CONTAINER (menuitem_view_menu), view_keyterms);
-
-  view_quick_references = gtk_check_menu_item_new_with_mnemonic("_Quick references");
-  gtk_widget_show(view_quick_references);
-  gtk_container_add(GTK_CONTAINER (menuitem_view_menu), view_quick_references);
-
-  view_outline = gtk_check_menu_item_new_with_mnemonic("_Outline");
-  gtk_widget_show(view_outline);
-  gtk_container_add(GTK_CONTAINER (menuitem_view_menu), view_outline);
-
   insert1 = gtk_menu_item_new_with_mnemonic("_Insert");
   gtk_widget_show(insert1);
   gtk_container_add(GTK_CONTAINER (menubar1), insert1);
@@ -986,19 +896,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   g_signal_connect ((gpointer) mainwindow, "delete_event", G_CALLBACK (on_mainwindow_delete_event), gpointer(this));
   g_signal_connect ((gpointer) mainwindow, "focus_in_event", G_CALLBACK (on_mainwindow_focus_in_event), gpointer(this));
   g_signal_connect ((gpointer) mainwindow, "window_state_event", G_CALLBACK (on_mainwindow_window_state_event), gpointer(this));
-  g_signal_connect ((gpointer) menuitem_view, "activate", G_CALLBACK (on_menuitem_view_activate), gpointer(this));
-  g_signal_connect ((gpointer) view_text_font, "activate", G_CALLBACK (on_view_text_font_activate), gpointer(this));
-  if (guifeatures.project_notes())
-    g_signal_connect ((gpointer) viewnotes, "activate", G_CALLBACK (on_viewnotes_activate), gpointer(this));
-  g_signal_connect ((gpointer) view_git_tasks, "activate", G_CALLBACK (on_view_git_tasks_activate), gpointer(this));
-  g_signal_connect ((gpointer) parallel_passages1, "activate", G_CALLBACK (on_parallel_passages1_activate), gpointer(this));
-  g_signal_connect ((gpointer) view_usfm_code, "activate", G_CALLBACK (on_view_usfm_code_activate), gpointer(this));
-  g_signal_connect ((gpointer) view_status, "activate", G_CALLBACK (on_view_status_activate), gpointer(this));
-  g_signal_connect ((gpointer) view_planning, "activate", G_CALLBACK (on_view_planning_activate), gpointer(this));
-  g_signal_connect ((gpointer) view_screen_layout, "activate", G_CALLBACK (on_view_screen_layout_activate), gpointer(this));
-  g_signal_connect ((gpointer) view_keyterms, "activate", G_CALLBACK (on_view_keyterms_activate), gpointer(this));
-  g_signal_connect ((gpointer) view_quick_references, "activate", G_CALLBACK (on_view_quick_references_activate), gpointer(this));
-  g_signal_connect ((gpointer) view_outline, "activate", G_CALLBACK (on_view_outline_activate), gpointer(this));
 
   g_signal_connect ((gpointer) insert1, "activate", G_CALLBACK (on_insert1_activate), gpointer(this));
   if (guifeatures.project_notes()) {
@@ -1172,8 +1069,8 @@ void MainWindow::enable_or_disable_widgets(bool enable) {
     gtk_widget_set_sensitive(window_menu->print, enable);
   if (window_menu && window_menu->project_changes)
     gtk_widget_set_sensitive(window_menu->project_changes, enable);
-  if (menuitem_view)
-    gtk_widget_set_sensitive(menuitem_view, enable);
+  if (window_menu && window_menu->menuitem_view)
+    gtk_widget_set_sensitive(window_menu->menuitem_view, enable);
   if (menuitem_goto)
     gtk_widget_set_sensitive(menuitem_goto, enable);
   if (window_menu && window_menu->compare_with1)
@@ -1313,6 +1210,30 @@ void MainWindow::display_menu_window() {
       g_signal_connect ((gpointer) window_menu->editstatus, "activate", G_CALLBACK (on_editstatus_activate), gpointer(this));
     if (window_menu->edit_planning)
       g_signal_connect ((gpointer) window_menu->edit_planning, "activate", G_CALLBACK (on_edit_planning_activate), gpointer(this));
+    if (window_menu->menuitem_view)
+      g_signal_connect ((gpointer) window_menu->menuitem_view, "activate", G_CALLBACK (on_menuitem_view_activate), gpointer(this));
+    if (window_menu->view_text_font)
+      g_signal_connect ((gpointer) window_menu->view_text_font, "activate", G_CALLBACK (on_view_text_font_activate), gpointer(this));
+    if (window_menu->viewnotes)
+      g_signal_connect ((gpointer) window_menu->viewnotes, "activate", G_CALLBACK (on_viewnotes_activate), gpointer(this));
+    if (window_menu->view_git_tasks)
+      g_signal_connect ((gpointer) window_menu->view_git_tasks, "activate", G_CALLBACK (on_view_git_tasks_activate), gpointer(this));
+    if (window_menu->parallel_passages1)
+      g_signal_connect ((gpointer) window_menu->parallel_passages1, "activate", G_CALLBACK (on_parallel_passages1_activate), gpointer(this));
+    if (window_menu->view_usfm_code)
+      g_signal_connect ((gpointer) window_menu->view_usfm_code, "activate", G_CALLBACK (on_view_usfm_code_activate), gpointer(this));
+    if (window_menu->view_status)
+      g_signal_connect ((gpointer) window_menu->view_status, "activate", G_CALLBACK (on_view_status_activate), gpointer(this));
+    if (window_menu->view_planning)
+      g_signal_connect ((gpointer) window_menu->view_planning, "activate", G_CALLBACK (on_view_planning_activate), gpointer(this));
+    if (window_menu->view_screen_layout)
+      g_signal_connect ((gpointer) window_menu->view_screen_layout, "activate", G_CALLBACK (on_view_screen_layout_activate), gpointer(this));
+    if (window_menu->view_keyterms)
+      g_signal_connect ((gpointer) window_menu->view_keyterms, "activate", G_CALLBACK (on_view_keyterms_activate), gpointer(this));
+    if (window_menu->view_quick_references)
+      g_signal_connect ((gpointer) window_menu->view_quick_references, "activate", G_CALLBACK (on_view_quick_references_activate), gpointer(this));
+    if (window_menu->view_outline)
+      g_signal_connect ((gpointer) window_menu->view_outline, "activate", G_CALLBACK (on_view_outline_activate), gpointer(this));
 
   }
   window_menu->present();
@@ -1830,7 +1751,7 @@ void MainWindow::on_navigation_new_reference() {
   settings->genconfig.verse_set(navigation.reference.verse);
   go_to_new_reference();
   // Optionally display the parallel passages in the reference area.
-  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (parallel_passages1))) {
+  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (window_menu->parallel_passages1))) {
     show_references_window();
     parallel_passages_display(navigation.reference, window_references->liststore, window_references->treeview, window_references->treecolumn);
   }
@@ -3380,7 +3301,7 @@ void MainWindow::on_parallel_passages1_activate(GtkMenuItem *menuitem, gpointer 
 
 void MainWindow::on_parallel_passages1() {
   // Act depending on whether to view the parallel passages.
-  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (parallel_passages1))) {
+  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (window_menu->parallel_passages1))) {
     // View them: show references tab, view passages.
     show_references_window();
     parallel_passages_display(navigation.reference, window_references->liststore, window_references->treeview, window_references->treecolumn);
@@ -3517,7 +3438,7 @@ void MainWindow::on_view_keyterms_activate(GtkMenuItem *menuitem, gpointer user_
 
 void MainWindow::on_view_keyterms() {
   on_window_show_keyterms_delete_button();
-  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (view_keyterms))) {
+  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (window_menu->view_keyterms))) {
     window_show_keyterms = new WindowShowKeyterms (accelerator_group, windows_startup_pointer != G_MAXINT);
     g_signal_connect ((gpointer) window_show_keyterms->delete_signal_button, "clicked", G_CALLBACK (on_window_show_keyterms_delete_button_clicked), gpointer(this));
     g_signal_connect ((gpointer) window_show_keyterms->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
@@ -3534,7 +3455,7 @@ void MainWindow::on_window_show_keyterms_delete_button() {
   if (window_show_keyterms) {
     delete window_show_keyterms;
     window_show_keyterms = NULL;
-    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (view_keyterms), false);
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (window_menu->view_keyterms), false);
   }
 }
 
@@ -3792,7 +3713,7 @@ void MainWindow::on_view_outline_activate(GtkMenuItem *menuitem, gpointer user_d
 
 void MainWindow::on_view_outline() {
   on_window_outline_delete_button();
-  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (view_outline))) {
+  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (window_menu->view_outline))) {
     window_outline = new WindowOutline (accelerator_group, windows_startup_pointer != G_MAXINT);
     g_signal_connect ((gpointer) window_outline->delete_signal_button, "clicked", G_CALLBACK (on_window_outline_delete_button_clicked), gpointer(this));
     g_signal_connect ((gpointer) window_outline->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
@@ -3810,7 +3731,7 @@ void MainWindow::on_window_outline_delete_button() {
   if (window_outline) {
     delete window_outline;
     window_outline = NULL;
-    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (view_outline), false);
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (window_menu->view_outline), false);
   }
 }
 
@@ -5037,7 +4958,7 @@ void MainWindow::on_view_screen_layout_activate(GtkMenuItem *menuitem, gpointer 
 
 void MainWindow::on_view_screen_layout() {
   on_window_screen_layout_button();
-  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (view_screen_layout))) {
+  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (window_menu->view_screen_layout))) {
     window_screen_layout = new WindowLayout (0);
     g_signal_connect ((gpointer) window_screen_layout->signal_button, "clicked", G_CALLBACK (on_window_screen_layout_button_clicked), gpointer(this));
   }
@@ -5051,7 +4972,7 @@ void MainWindow::on_window_screen_layout_button() {
   if (window_screen_layout) {
     delete window_screen_layout;
     window_screen_layout = NULL;
-    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (view_screen_layout), false);
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (window_menu->view_screen_layout), false);
   }
 }
 
@@ -5072,12 +4993,12 @@ bool MainWindow::on_windows_startup() {
       {
         case widShowKeyterms:
         {
-          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (view_keyterms), true);
+          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (window_menu->view_keyterms), true);
           break;
         }
         case widShowQuickReferences:
         {
-          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (view_quick_references), true);
+          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (window_menu->view_quick_references), true);
           break;
         }
         case widMerge:
@@ -5092,7 +5013,7 @@ bool MainWindow::on_windows_startup() {
         }
         case widOutline:
         {
-          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (view_outline), true);
+          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (window_menu->view_outline), true);
           break;
         }
         case widCheckKeyterms:
@@ -5365,7 +5286,7 @@ void MainWindow::on_view_quick_references_activate(GtkMenuItem *menuitem, gpoint
 
 void MainWindow::on_view_quick_references() {
   on_window_show_quick_references_delete_button();
-  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (view_quick_references))) {
+  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (window_menu->view_quick_references))) {
     window_show_quick_references = new WindowShowQuickReferences (accelerator_group, windows_startup_pointer != G_MAXINT);
     g_signal_connect ((gpointer) window_show_quick_references->delete_signal_button, "clicked", G_CALLBACK (on_window_show_quick_references_delete_button_clicked), gpointer(this));
     g_signal_connect ((gpointer) window_show_quick_references->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
@@ -5381,7 +5302,7 @@ void MainWindow::on_window_show_quick_references_delete_button() {
   if (window_show_quick_references) {
     delete window_show_quick_references;
     window_show_quick_references = NULL;
-    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (view_quick_references), false);
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (window_menu->view_quick_references), false);
   }
 }
 
