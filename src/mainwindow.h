@@ -58,37 +58,6 @@ protected:
   GtkWidget *vbox1;
   GtkWidget *menubar1; // Todo
 
-  GtkWidget *menuitem_edit;
-  GtkWidget *menuitem_edit_menu;
-  GtkWidget *cut1;
-  GtkWidget *copy1;
-  GtkWidget *copy_without_formatting;
-  GtkWidget *image18220;
-  GtkWidget *paste1;
-  GtkWidget *separator2;
-  GtkWidget *undo1;
-  GtkWidget *image295;
-  GtkWidget *redo1;
-  GtkWidget *image296;
-  GtkWidget *separator4;
-  GtkWidget *find1;
-  GtkWidget *find_and_replace1;
-  GtkWidget *find_in_notes1;
-  GtkWidget *image1430;
-  GtkWidget *separator7;
-  GtkWidget *get_references_from_note;
-  GtkWidget *image3158;
-  GtkWidget *separator15;
-  GtkWidget *edit_revert;
-  GtkWidget *image19262;
-  GtkWidget *separator17;
-  GtkWidget *edit_bible_note;
-  GtkWidget *image20483;
-  GtkWidget *separator21;
-  GtkWidget *editstatus;
-  GtkWidget *image25815;
-  GtkWidget *edit_planning;
-  GtkWidget *image26801;
   GtkWidget *menuitem_view;
   GtkWidget *menuitem_view_menu;
   GtkWidget *view_font;
@@ -408,7 +377,6 @@ protected:
   /* Title bar and status bar, GUI */
   static bool on_gui_timeout(gpointer data);
   void on_gui();
-  gint editor_undo_redo_accelerator_state;
 
   /* Project notes */
   bool project_notes_enabled;

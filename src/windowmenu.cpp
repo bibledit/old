@@ -609,8 +609,6 @@ WindowMenu::WindowMenu(GtkAccelGroup *accelerator_group, bool startup) :
   gtk_widget_show(quit1);
   gtk_container_add(GTK_CONTAINER (menuitem_file_menu), quit1);
 
-  /* Todo implement menu.
-
   menuitem_edit = gtk_menu_item_new_with_mnemonic("_Edit");
   gtk_widget_show(menuitem_edit);
   gtk_container_add(GTK_CONTAINER (menubar1), menuitem_edit);
@@ -664,6 +662,7 @@ WindowMenu::WindowMenu(GtkAccelGroup *accelerator_group, bool startup) :
   gtk_container_add(GTK_CONTAINER (menuitem_edit_menu), separator4);
   gtk_widget_set_sensitive(separator4, FALSE);
 
+  find1 = NULL;
   if (guifeatures.references_and_find()) {
 
     find1 = gtk_image_menu_item_new_from_stock("gtk-find", NULL); 
@@ -672,6 +671,7 @@ WindowMenu::WindowMenu(GtkAccelGroup *accelerator_group, bool startup) :
 
   }
 
+  find_and_replace1 = NULL;
   if (guifeatures.replace()) {
 
     find_and_replace1 = gtk_image_menu_item_new_from_stock("gtk-find-and-replace", NULL);
@@ -747,6 +747,8 @@ WindowMenu::WindowMenu(GtkAccelGroup *accelerator_group, bool startup) :
   image26801 = gtk_image_new_from_stock("gtk-info", GTK_ICON_SIZE_MENU);
   gtk_widget_show(image26801);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (edit_planning), image26801);
+
+  /* Todo implement menu.
 
   menuitem_view = gtk_menu_item_new_with_mnemonic("_View");
   gtk_widget_show(menuitem_view);

@@ -257,147 +257,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   gtk_widget_show(menubar1);
   gtk_box_pack_start(GTK_BOX (vbox1), menubar1, FALSE, FALSE, 0);
 
-  menuitem_edit = gtk_menu_item_new_with_mnemonic("_Edit");
-  gtk_widget_show(menuitem_edit);
-  gtk_container_add(GTK_CONTAINER (menubar1), menuitem_edit);
-
-  menuitem_edit_menu = gtk_menu_new();
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM (menuitem_edit), menuitem_edit_menu);
-
-  cut1 = gtk_image_menu_item_new_from_stock("gtk-cut", accel_group);
-  gtk_widget_show(cut1);
-  gtk_container_add(GTK_CONTAINER (menuitem_edit_menu), cut1);
-
-  copy1 = gtk_image_menu_item_new_from_stock("gtk-copy", accel_group);
-  gtk_widget_show(copy1);
-  gtk_container_add(GTK_CONTAINER (menuitem_edit_menu), copy1);
-
-  copy_without_formatting = gtk_image_menu_item_new_with_mnemonic("Copy _without formatting");
-  gtk_widget_show(copy_without_formatting);
-  gtk_container_add(GTK_CONTAINER (menuitem_edit_menu), copy_without_formatting);
-  gtk_widget_add_accelerator(copy_without_formatting, "activate", accel_group, 
-  GDK_C, (GdkModifierType) (GDK_CONTROL_MASK | GDK_SHIFT_MASK), GTK_ACCEL_VISIBLE);
-
-  image18220 = gtk_image_new_from_stock("gtk-copy", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image18220);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (copy_without_formatting), image18220);
-
-  paste1 = gtk_image_menu_item_new_from_stock("gtk-paste", accel_group);
-  gtk_widget_show(paste1);
-  gtk_container_add(GTK_CONTAINER (menuitem_edit_menu), paste1);
-
-  separator2 = gtk_separator_menu_item_new();
-  gtk_widget_show(separator2);
-  gtk_container_add(GTK_CONTAINER (menuitem_edit_menu), separator2);
-  gtk_widget_set_sensitive(separator2, FALSE);
-
-  undo1 = gtk_image_menu_item_new_with_mnemonic("_Undo");
-  gtk_widget_show(undo1);
-  gtk_container_add(GTK_CONTAINER (menuitem_edit_menu), undo1);
-  gtk_widget_add_accelerator(undo1, "activate", accel_group, GDK_Z, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
-
-  image295 = gtk_image_new_from_stock("gtk-undo", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image295);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (undo1), image295);
-
-  redo1 = gtk_image_menu_item_new_with_mnemonic("_Redo");
-  gtk_widget_show(redo1);
-  gtk_container_add(GTK_CONTAINER (menuitem_edit_menu), redo1);
-  gtk_widget_add_accelerator(redo1, "activate", accel_group, GDK_Z, GdkModifierType(GDK_CONTROL_MASK | GDK_SHIFT_MASK), GTK_ACCEL_VISIBLE);
-
-  image296 = gtk_image_new_from_stock("gtk-redo", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image296);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (redo1), image296);
-
-  separator4 = gtk_separator_menu_item_new();
-  gtk_widget_show(separator4);
-  gtk_container_add(GTK_CONTAINER (menuitem_edit_menu), separator4);
-  gtk_widget_set_sensitive(separator4, FALSE);
-
-  if (guifeatures.references_and_find()) {
-
-    find1 = gtk_image_menu_item_new_from_stock("gtk-find", accel_group);
-    gtk_widget_show(find1);
-    gtk_container_add(GTK_CONTAINER (menuitem_edit_menu), find1);
-
-  }
-
-  if (guifeatures.replace()) {
-
-    find_and_replace1 = gtk_image_menu_item_new_from_stock("gtk-find-and-replace", accel_group);
-    gtk_widget_show(find_and_replace1);
-    gtk_container_add(GTK_CONTAINER (menuitem_edit_menu), find_and_replace1);
-
-  }
-
-  find_in_notes1 = gtk_image_menu_item_new_with_mnemonic("Find in Project _notes");
-  gtk_widget_show(find_in_notes1);
-  gtk_container_add(GTK_CONTAINER (menuitem_edit_menu), find_in_notes1);
-
-  image1430 = gtk_image_new_from_stock("gtk-find", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image1430);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (find_in_notes1), image1430);
-
-  separator7 = gtk_separator_menu_item_new();
-  gtk_widget_show(separator7);
-  gtk_container_add(GTK_CONTAINER (menuitem_edit_menu), separator7);
-  gtk_widget_set_sensitive(separator7, FALSE);
-
-  get_references_from_note = gtk_image_menu_item_new_with_mnemonic("_Get references from project note");
-  gtk_widget_show(get_references_from_note);
-  gtk_container_add(GTK_CONTAINER (menuitem_edit_menu), get_references_from_note);
-
-  image3158 = gtk_image_new_from_stock("gtk-index", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image3158);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (get_references_from_note), image3158);
-
-  separator15 = gtk_separator_menu_item_new();
-  gtk_widget_show(separator15);
-  gtk_container_add(GTK_CONTAINER (menuitem_edit_menu), separator15);
-  gtk_widget_set_sensitive(separator15, FALSE);
-
-  edit_revert = gtk_image_menu_item_new_with_mnemonic("Re_vert");
-  gtk_widget_show(edit_revert);
-  gtk_container_add(GTK_CONTAINER (menuitem_edit_menu), edit_revert);
-
-  image19262 = gtk_image_new_from_stock("gtk-go-back", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image19262);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (edit_revert), image19262);
-
-  separator17 = gtk_separator_menu_item_new();
-  gtk_widget_show(separator17);
-  gtk_container_add(GTK_CONTAINER (menuitem_edit_menu), separator17);
-  gtk_widget_set_sensitive(separator17, FALSE);
-
-  edit_bible_note = gtk_image_menu_item_new_with_mnemonic("_Bible note");
-  gtk_widget_show(edit_bible_note);
-  gtk_container_add(GTK_CONTAINER (menuitem_edit_menu), edit_bible_note);
-
-  image20483 = gtk_image_new_from_stock("gtk-convert", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image20483);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (edit_bible_note), image20483);
-
-  separator21 = gtk_separator_menu_item_new();
-  gtk_widget_show(separator21);
-  gtk_container_add(GTK_CONTAINER (menuitem_edit_menu), separator21);
-  gtk_widget_set_sensitive(separator21, FALSE);
-
-  editstatus = gtk_image_menu_item_new_with_mnemonic("St_atus");
-  gtk_widget_show(editstatus);
-  gtk_container_add(GTK_CONTAINER (menuitem_edit_menu), editstatus);
-
-  image25815 = gtk_image_new_from_stock("gtk-about", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image25815);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (editstatus), image25815);
-
-  edit_planning = gtk_image_menu_item_new_with_mnemonic("P_lanning");
-  gtk_widget_show(edit_planning);
-  gtk_container_add(GTK_CONTAINER (menuitem_edit_menu), edit_planning);
-
-  image26801 = gtk_image_new_from_stock("gtk-info", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image26801);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (edit_planning), image26801);
-
   menuitem_view = gtk_menu_item_new_with_mnemonic("_View");
   gtk_widget_show(menuitem_view);
   gtk_container_add(GTK_CONTAINER (menubar1), menuitem_view);
@@ -1127,25 +986,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   g_signal_connect ((gpointer) mainwindow, "delete_event", G_CALLBACK (on_mainwindow_delete_event), gpointer(this));
   g_signal_connect ((gpointer) mainwindow, "focus_in_event", G_CALLBACK (on_mainwindow_focus_in_event), gpointer(this));
   g_signal_connect ((gpointer) mainwindow, "window_state_event", G_CALLBACK (on_mainwindow_window_state_event), gpointer(this));
-  g_signal_connect ((gpointer) menuitem_edit, "activate", G_CALLBACK (on_edit1_activate), gpointer(this));
-  g_signal_connect ((gpointer) cut1, "activate", G_CALLBACK (on_cut1_activate), gpointer(this));
-  g_signal_connect ((gpointer) copy1, "activate", G_CALLBACK (on_copy1_activate), gpointer(this));
-  g_signal_connect ((gpointer) copy_without_formatting, "activate", G_CALLBACK (on_copy_without_formatting_activate), gpointer(this));
-  g_signal_connect ((gpointer) paste1, "activate", G_CALLBACK (on_paste1_activate), gpointer(this));
-  g_signal_connect ((gpointer) undo1, "activate", G_CALLBACK (on_undo1_activate), gpointer(this));
-  g_signal_connect ((gpointer) redo1, "activate", G_CALLBACK (on_redo1_activate), gpointer(this));
-  if (guifeatures.references_and_find()) {
-    g_signal_connect ((gpointer) find1, "activate", G_CALLBACK (on_findspecial1_activate), gpointer(this));
-  }
-  if (guifeatures.replace()) {
-    g_signal_connect ((gpointer) find_and_replace1, "activate", G_CALLBACK (on_find_and_replace1_activate), gpointer (this));
-  }
-  g_signal_connect ((gpointer) find_in_notes1, "activate", G_CALLBACK (on_find_in_notes1_activate), gpointer(this));
-  g_signal_connect ((gpointer) get_references_from_note, "activate", G_CALLBACK (on_get_references_from_note_activate), gpointer(this));
-  g_signal_connect ((gpointer) edit_revert, "activate", G_CALLBACK (on_edit_revert_activate), gpointer(this));
-  g_signal_connect ((gpointer) edit_bible_note, "activate", G_CALLBACK (on_edit_bible_note_activate), gpointer(this));
-  g_signal_connect ((gpointer) editstatus, "activate", G_CALLBACK (on_editstatus_activate), gpointer(this));
-  g_signal_connect ((gpointer) edit_planning, "activate", G_CALLBACK (on_edit_planning_activate), gpointer(this));
   g_signal_connect ((gpointer) menuitem_view, "activate", G_CALLBACK (on_menuitem_view_activate), gpointer(this));
   g_signal_connect ((gpointer) view_text_font, "activate", G_CALLBACK (on_view_text_font_activate), gpointer(this));
   if (guifeatures.project_notes())
@@ -1322,8 +1162,8 @@ void MainWindow::enable_or_disable_widgets(bool enable) {
     gtk_widget_set_sensitive(window_menu->import1, enable);
   if (window_menu && window_menu->notes2)
     gtk_widget_set_sensitive(window_menu->notes2, enable);
-  if (menuitem_edit)
-    gtk_widget_set_sensitive(menuitem_edit, enable);
+  if (window_menu && window_menu->menuitem_edit)
+    gtk_widget_set_sensitive(window_menu->menuitem_edit, enable);
   if (window_menu && window_menu->file_references)
     gtk_widget_set_sensitive(window_menu->file_references, enable);
   if (window_menu && window_menu->export_project)
@@ -1443,6 +1283,36 @@ void MainWindow::display_menu_window() {
       g_signal_connect ((gpointer) window_menu->print, "activate", G_CALLBACK (on_print_activate), gpointer(this));
     if (window_menu->quit1)
       g_signal_connect ((gpointer) window_menu->quit1, "activate", G_CALLBACK (on_quit1_activate), gpointer(this));
+    if (window_menu->menuitem_edit)
+      g_signal_connect ((gpointer) window_menu->menuitem_edit, "activate", G_CALLBACK (on_edit1_activate), gpointer(this));
+    if (window_menu->cut1)
+      g_signal_connect ((gpointer) window_menu->cut1, "activate", G_CALLBACK (on_cut1_activate), gpointer(this));
+    if (window_menu->copy1)
+      g_signal_connect ((gpointer) window_menu->copy1, "activate", G_CALLBACK (on_copy1_activate), gpointer(this));
+    if (window_menu->copy_without_formatting)
+      g_signal_connect ((gpointer) window_menu->copy_without_formatting, "activate", G_CALLBACK (on_copy_without_formatting_activate), gpointer(this));
+    if (window_menu->paste1)
+      g_signal_connect ((gpointer) window_menu->paste1, "activate", G_CALLBACK (on_paste1_activate), gpointer(this));
+    if (window_menu->undo1)
+      g_signal_connect ((gpointer) window_menu->undo1, "activate", G_CALLBACK (on_undo1_activate), gpointer(this));
+    if (window_menu->redo1)
+      g_signal_connect ((gpointer) window_menu->redo1, "activate", G_CALLBACK (on_redo1_activate), gpointer(this));
+    if (window_menu->find1)
+      g_signal_connect ((gpointer) window_menu->find1, "activate", G_CALLBACK (on_findspecial1_activate), gpointer(this));
+    if (window_menu->find_and_replace1)
+      g_signal_connect ((gpointer) window_menu->find_and_replace1, "activate", G_CALLBACK (on_find_and_replace1_activate), gpointer (this));
+    if (window_menu->find_in_notes1)
+      g_signal_connect ((gpointer) window_menu->find_in_notes1, "activate", G_CALLBACK (on_find_in_notes1_activate), gpointer(this));
+    if (window_menu->get_references_from_note)
+      g_signal_connect ((gpointer) window_menu->get_references_from_note, "activate", G_CALLBACK (on_get_references_from_note_activate), gpointer(this));
+    if (window_menu->edit_revert)
+      g_signal_connect ((gpointer) window_menu->edit_revert, "activate", G_CALLBACK (on_edit_revert_activate), gpointer(this));
+    if (window_menu->edit_bible_note)
+      g_signal_connect ((gpointer) window_menu->edit_bible_note, "activate", G_CALLBACK (on_edit_bible_note_activate), gpointer(this));
+    if (window_menu->editstatus)
+      g_signal_connect ((gpointer) window_menu->editstatus, "activate", G_CALLBACK (on_editstatus_activate), gpointer(this));
+    if (window_menu->edit_planning)
+      g_signal_connect ((gpointer) window_menu->edit_planning, "activate", G_CALLBACK (on_edit_planning_activate), gpointer(this));
 
   }
   window_menu->present();
@@ -1657,14 +1527,14 @@ void MainWindow::menu_edit() {
   bool cut = true;
   bool copy = true;
   bool paste = true;
-  gtk_widget_set_sensitive(cut1, cut);
-  gtk_widget_set_sensitive(copy1, copy);
-  gtk_widget_set_sensitive(paste1, paste);
+  gtk_widget_set_sensitive(window_menu->cut1, cut);
+  gtk_widget_set_sensitive(window_menu->copy1, copy);
+  gtk_widget_set_sensitive(window_menu->paste1, paste);
 
   // Enable/disable based on whether we're editing a note.
   bool enable = (window_notes && window_notes->note_being_edited());
   // References can only be taken from a note when it is opened.
-  gtk_widget_set_sensitive(get_references_from_note, enable);
+  gtk_widget_set_sensitive(window_menu->get_references_from_note, enable);
 
   // The Bible notes can only be edited when the cursor is in a note text.
   enable = false;
@@ -1672,7 +1542,7 @@ void MainWindow::menu_edit() {
   if (editor_window)
     if (editor_window->editor->last_focused_type() == etvtNote)
       enable = true;
-  gtk_widget_set_sensitive(edit_bible_note, enable);
+  gtk_widget_set_sensitive(window_menu->edit_bible_note, enable);
 }
 
 void MainWindow::on_find_and_replace1_activate(GtkMenuItem * menuitem, gpointer user_data) {
@@ -2519,26 +2389,6 @@ bool MainWindow::on_gui_timeout(gpointer data) {
 void MainWindow::on_gui()
 // Tasks related to the GUI.
 {
-  // The accelerators for undo and redo (Control(+Shift)-Z) stop working after
-  // the widget has been set to insensitive and back to sensitive again.
-  // As this may happen often, here we keep setting the accelerators.
-  // But keeping setting these too often seems to disturb the mechanism, therefore 
-  // they are set only when there was a change that makes it needed.
-  {
-    gint undo_redo_state = 0;
-    if (GTK_WIDGET_SENSITIVE(undo1))
-      undo_redo_state++;
-    if (GTK_WIDGET_SENSITIVE(redo1))
-      undo_redo_state++;
-    if (undo_redo_state != editor_undo_redo_accelerator_state) {
-      gtk_widget_remove_accelerator(undo1, accel_group, GDK_Z, GDK_CONTROL_MASK);
-      gtk_widget_add_accelerator(undo1, "activate", accel_group, GDK_Z, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
-      gtk_widget_remove_accelerator(redo1, accel_group, GDK_Z, GdkModifierType(GDK_CONTROL_MASK | GDK_SHIFT_MASK));
-      gtk_widget_add_accelerator(redo1, "activate", accel_group, GDK_Z, GdkModifierType(GDK_CONTROL_MASK | GDK_SHIFT_MASK), GTK_ACCEL_VISIBLE);
-      editor_undo_redo_accelerator_state = undo_redo_state;
-    }
-  }
-
   // Display information about the number of Git tasks to be done if there are many of them.
   {
     ustring git;
@@ -5923,15 +5773,12 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
 
  Todo Improve the window layout system.
 
-
-
-   Todo 
-   
-   The menu should normally be disabled when there's no stylesheet opened.
-   When "Open" is chosen, then it points to the stylesheet that currently belongs to the project,
-   and suggests to open it.
-   Otherwise all other options are disabled.
-   When the styles window closes again, the menu is disabled again.
+ The menu should normally be disabled when there's no stylesheet opened.
+ When "Open" is chosen, then it points to the stylesheet that currently belongs to the project,
+ and suggests to open it.
+ Otherwise all other options are disabled.
+ When the styles window closes again, the menu is disabled again.
+ Under normal condition the menu is operated by the styles window object.
 
 
  If we'd like to present all windows when one window is focused, then the programs's icon in the taskbar will flash.
@@ -6014,6 +5861,11 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
  where not project is loaded. As soon as I try to load a project (click file/open) BE crashes. Wolfgang
  
  If there's no project, disable the Ctrl-P accelerator.
+
+ As BibleWorks runs under Linux without the extra translations, what we need to do is to move those extra translations
+ to BibleTime, and then run BibleWorks under Linux. Else they could be moved to a Resource, but that would require
+ search functionality to be added to the Resource, which is a thing we are not now looking for. It could be put in as 
+ a feature request though.
  
  
  */
