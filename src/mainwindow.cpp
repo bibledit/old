@@ -175,7 +175,6 @@ MainWindow::MainWindow(unsigned long xembed) :
   project_notes_enabled = guifeatures.project_notes();
 
   // Accelerators.
-  accel_group = gtk_accel_group_new();
   accelerator_group = gtk_accel_group_new();
   gtk_accel_group_connect(accelerator_group, GDK_X, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_cut_callback), gpointer(this), NULL));
   gtk_accel_group_connect(accelerator_group, GDK_C, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_copy_callback), gpointer(this), NULL));
@@ -249,639 +248,8 @@ MainWindow::MainWindow(unsigned long xembed) :
   if (settings->genconfig.use_outpost_get())
     windowsoutpost->Start();
 
-  vbox1 = gtk_vbox_new(FALSE, 0);
-  gtk_widget_show(vbox1);
-  gtk_container_add(GTK_CONTAINER (mainwindow), vbox1);
-
-  menubar1 = gtk_menu_bar_new();
-  gtk_widget_show(menubar1);
-  gtk_box_pack_start(GTK_BOX (vbox1), menubar1, FALSE, FALSE, 0);
-
-  insert1 = gtk_menu_item_new_with_mnemonic("_Insert");
-  gtk_widget_show(insert1);
-  gtk_container_add(GTK_CONTAINER (menubar1), insert1);
-
-  insert1_menu = gtk_menu_new();
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM (insert1), insert1_menu);
-
-  standard_text_1 = NULL;
-  standard_text_2 = NULL;
-  standard_text_3 = NULL;
-  standard_text_4 = NULL;
-  current_reference1 = NULL;
-
-  if (guifeatures.project_notes()) {
-
-    standard_text_1 = gtk_image_menu_item_new_with_mnemonic("Standard text _1");
-    gtk_widget_show(standard_text_1);
-    gtk_container_add(GTK_CONTAINER (insert1_menu), standard_text_1);
-    gtk_widget_add_accelerator(standard_text_1, "activate", accel_group, 
-    GDK_1, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
-
-    image1963 = gtk_image_new_from_stock("gtk-paste", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image1963);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (standard_text_1), image1963);
-
-    standard_text_2 = gtk_image_menu_item_new_with_mnemonic("Standard text _2");
-    gtk_widget_show(standard_text_2);
-    gtk_container_add(GTK_CONTAINER (insert1_menu), standard_text_2);
-    gtk_widget_add_accelerator(standard_text_2, "activate", accel_group, 
-    GDK_2, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
-
-    image1964 = gtk_image_new_from_stock("gtk-paste", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image1964);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (standard_text_2), image1964);
-
-    standard_text_3 = gtk_image_menu_item_new_with_mnemonic("Standard text _3");
-    gtk_widget_show(standard_text_3);
-    gtk_container_add(GTK_CONTAINER (insert1_menu), standard_text_3);
-    gtk_widget_add_accelerator(standard_text_3, "activate", accel_group, 
-    GDK_3, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
-
-    image1965 = gtk_image_new_from_stock("gtk-paste", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image1965);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (standard_text_3), image1965);
-
-    standard_text_4 = gtk_image_menu_item_new_with_mnemonic("Standard text _4");
-    gtk_widget_show(standard_text_4);
-    gtk_container_add(GTK_CONTAINER (insert1_menu), standard_text_4);
-    gtk_widget_add_accelerator(standard_text_4, "activate", accel_group, 
-    GDK_4, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
-
-    image1966 = gtk_image_new_from_stock("gtk-paste", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image1966);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (standard_text_4), image1966);
-
-    separator9 = gtk_separator_menu_item_new();
-    gtk_widget_show(separator9);
-    gtk_container_add(GTK_CONTAINER (insert1_menu), separator9);
-    gtk_widget_set_sensitive(separator9, FALSE);
-
-    current_reference1 = gtk_image_menu_item_new_with_mnemonic("_Current reference");
-    gtk_widget_show(current_reference1);
-    gtk_container_add(GTK_CONTAINER (insert1_menu), current_reference1);
-
-    image3797 = gtk_image_new_from_stock("gtk-paste", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image3797);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (current_reference1), image3797);
-
-    separator20 = gtk_separator_menu_item_new();
-    gtk_widget_show(separator20);
-    gtk_container_add(GTK_CONTAINER (insert1_menu), separator20);
-    gtk_widget_set_sensitive(separator20, FALSE);
-
-  }
-
-  insert_special_character = gtk_image_menu_item_new_with_mnemonic("_Special character");
-  gtk_widget_show(insert_special_character);
-  gtk_container_add(GTK_CONTAINER (insert1_menu), insert_special_character);
-
-  image25281 = gtk_image_new_from_stock("gtk-edit", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image25281);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (insert_special_character), image25281);
-
-  menuitem_goto = gtk_menu_item_new_with_mnemonic("_Goto");
-  gtk_widget_show(menuitem_goto);
-  gtk_container_add(GTK_CONTAINER (menubar1), menuitem_goto);
-
-  menuitem_goto_menu = gtk_menu_new();
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM (menuitem_goto), menuitem_goto_menu);
-
-  synchronize_other_programs2 = gtk_image_menu_item_new_with_mnemonic("_Synchronize other programs");
-  gtk_widget_show(synchronize_other_programs2);
-  gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), synchronize_other_programs2);
-
-  image4931 = gtk_image_new_from_stock("gtk-execute", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image4931);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (synchronize_other_programs2), image4931);
-
-  check1 = NULL;
-  if (guifeatures.checks()) {
-
-    check1 = gtk_menu_item_new_with_mnemonic("Chec_k");
-    gtk_widget_show(check1);
-    gtk_container_add(GTK_CONTAINER (menubar1), check1);
-
-    check1_menu = gtk_menu_new();
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM (check1), check1_menu);
-
-    chapters_and_verses1 = gtk_image_menu_item_new_with_mnemonic("_Chapters and verses");
-    gtk_widget_show(chapters_and_verses1);
-    gtk_container_add(GTK_CONTAINER (check1_menu), chapters_and_verses1);
-
-    image5580 = gtk_image_new_from_stock("gtk-zoom-100", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image5580);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (chapters_and_verses1), image5580);
-
-    markers1 = gtk_image_menu_item_new_with_mnemonic("_Markers");
-    gtk_widget_show(markers1);
-    gtk_container_add(GTK_CONTAINER (check1_menu), markers1);
-
-    image5578 = gtk_image_new_from_stock("gtk-zoom-100", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image5578);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (markers1), image5578);
-
-    markers1_menu = gtk_menu_new();
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM (markers1), markers1_menu);
-
-    validate_usfms1 = gtk_image_menu_item_new_with_mnemonic("_Validate");
-    gtk_widget_show(validate_usfms1);
-    gtk_container_add(GTK_CONTAINER (markers1_menu), validate_usfms1);
-
-    image5579 = gtk_image_new_from_stock("gtk-ok", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image5579);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (validate_usfms1), image5579);
-
-    count_usfms1 = gtk_image_menu_item_new_with_mnemonic("_Count");
-    gtk_widget_show(count_usfms1);
-    gtk_container_add(GTK_CONTAINER (markers1_menu), count_usfms1);
-
-    image6239 = gtk_image_new_from_stock("gtk-dialog-info", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image6239);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (count_usfms1), image6239);
-
-    compare_usfm1 = gtk_image_menu_item_new_with_mnemonic("C_ompare");
-    gtk_widget_show(compare_usfm1);
-    gtk_container_add(GTK_CONTAINER (markers1_menu), compare_usfm1);
-
-    image6748 = gtk_image_new_from_stock("gtk-zoom-fit", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image6748);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (compare_usfm1), image6748);
-
-    check_markers_spacing = gtk_image_menu_item_new_with_mnemonic("_Spacing");
-    gtk_widget_show(check_markers_spacing);
-    gtk_container_add(GTK_CONTAINER (markers1_menu), check_markers_spacing);
-
-    image17930 = gtk_image_new_from_stock("gtk-media-pause", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image17930);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (check_markers_spacing), image17930);
-
-    characters1 = gtk_image_menu_item_new_with_mnemonic("C_haracters");
-    gtk_widget_show(characters1);
-    gtk_container_add(GTK_CONTAINER (check1_menu), characters1);
-
-    image6867 = gtk_image_new_from_stock("gtk-zoom-100", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image6867);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (characters1), image6867);
-
-    characters1_menu = gtk_menu_new();
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM (characters1), characters1_menu);
-
-    count_characters = gtk_image_menu_item_new_with_mnemonic("_Inventory");
-    gtk_widget_show(count_characters);
-    gtk_container_add(GTK_CONTAINER (characters1_menu), count_characters);
-
-    image6868 = gtk_image_new_from_stock("gtk-dialog-info", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image6868);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (count_characters), image6868);
-
-    unwanted_patterns = gtk_image_menu_item_new_with_mnemonic("_Unwanted patterns");
-    gtk_widget_show(unwanted_patterns);
-    gtk_container_add(GTK_CONTAINER (characters1_menu), unwanted_patterns);
-
-    image7494 = gtk_image_new_from_stock("gtk-clear", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image7494);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (unwanted_patterns), image7494);
-
-    check_words = gtk_image_menu_item_new_with_mnemonic("_Words");
-    gtk_widget_show(check_words);
-    gtk_container_add(GTK_CONTAINER (check1_menu), check_words);
-
-    image7111 = gtk_image_new_from_stock("gtk-zoom-100", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image7111);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (check_words), image7111);
-
-    check_words_menu = gtk_menu_new();
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM (check_words), check_words_menu);
-
-    check_capitalization = gtk_image_menu_item_new_with_mnemonic("_Capitalization");
-    gtk_widget_show(check_capitalization);
-    gtk_container_add(GTK_CONTAINER (check_words_menu), check_capitalization);
-
-    image7112 = gtk_image_new_from_stock("gtk-ok", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image7112);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (check_capitalization), image7112);
-
-    check_repetition = gtk_image_menu_item_new_with_mnemonic("_Repetition");
-    gtk_widget_show(check_repetition);
-    gtk_container_add(GTK_CONTAINER (check_words_menu), check_repetition);
-
-    image7238 = gtk_image_new_from_stock("gtk-refresh", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image7238);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (check_repetition), image7238);
-
-    unwanted_words = gtk_image_menu_item_new_with_mnemonic("_Unwanted");
-    gtk_widget_show(unwanted_words);
-    gtk_container_add(GTK_CONTAINER (check_words_menu), unwanted_words);
-
-    image7631 = gtk_image_new_from_stock("gtk-clear", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image7631);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (unwanted_words), image7631);
-
-    word_count_inventory = gtk_image_menu_item_new_with_mnemonic("_Inventory");
-    gtk_widget_show(word_count_inventory);
-    gtk_container_add(GTK_CONTAINER (check_words_menu), word_count_inventory);
-
-    image13715 = gtk_image_new_from_stock("gtk-dialog-info", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image13715);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (word_count_inventory), image13715);
-
-    check_punctuation = gtk_image_menu_item_new_with_mnemonic("_Punctuation");
-    gtk_widget_show(check_punctuation);
-    gtk_container_add(GTK_CONTAINER (check1_menu), check_punctuation);
-
-    image7366 = gtk_image_new_from_stock("gtk-zoom-100", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image7366);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (check_punctuation), image7366);
-
-    check_punctuation_menu = gtk_menu_new();
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM (check_punctuation), check_punctuation_menu);
-
-    check_matching_pairs = gtk_image_menu_item_new_with_mnemonic("_Matching pairs");
-    gtk_widget_show(check_matching_pairs);
-    gtk_container_add(GTK_CONTAINER (check_punctuation_menu), check_matching_pairs);
-
-    image7367 = gtk_image_new_from_stock("gtk-refresh", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image7367);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (check_matching_pairs), image7367);
-
-    check_sentence_structure = gtk_image_menu_item_new_with_mnemonic("_Sentence structure");
-    gtk_widget_show(check_sentence_structure);
-    gtk_container_add(GTK_CONTAINER (check_punctuation_menu), check_sentence_structure);
-
-    image28475 = gtk_image_new_from_stock("gtk-justify-fill", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image28475);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (check_sentence_structure), image28475);
-
-    check_references = gtk_image_menu_item_new_with_mnemonic("_References");
-    gtk_widget_show(check_references);
-    gtk_container_add(GTK_CONTAINER (check1_menu), check_references);
-
-    image21826 = gtk_image_new_from_stock("gtk-zoom-fit", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image21826);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (check_references), image21826);
-
-    check_references_menu = gtk_menu_new();
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM (check_references), check_references_menu);
-
-    check_references_inventory = gtk_image_menu_item_new_with_mnemonic("_Inventory");
-    gtk_widget_show(check_references_inventory);
-    gtk_container_add(GTK_CONTAINER (check_references_menu), check_references_inventory);
-
-    image21827 = gtk_image_new_from_stock("gtk-info", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image21827);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (check_references_inventory), image21827);
-
-    check_references_validate = gtk_image_menu_item_new_with_mnemonic("_Validate");
-    gtk_widget_show(check_references_validate);
-    gtk_container_add(GTK_CONTAINER (check_references_menu), check_references_validate);
-
-    image21828 = gtk_image_new_from_stock("gtk-spell-check", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image21828);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (check_references_validate), image21828);
-
-    checks_passages = gtk_image_menu_item_new_with_mnemonic("P_assages");
-    gtk_widget_show(checks_passages);
-    gtk_container_add(GTK_CONTAINER (check1_menu), checks_passages);
-
-    image24103 = gtk_image_new_from_stock("gtk-justify-fill", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image24103);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (checks_passages), image24103);
-
-    checks_passages_menu = gtk_menu_new();
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM (checks_passages), checks_passages_menu);
-
-    check_nt_quotations_from_the_ot = gtk_image_menu_item_new_with_mnemonic("_NT quotations from the OT");
-    gtk_widget_show(check_nt_quotations_from_the_ot);
-    gtk_container_add(GTK_CONTAINER (checks_passages_menu), check_nt_quotations_from_the_ot);
-
-    image24104 = gtk_image_new_from_stock("gtk-edit", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image24104);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (check_nt_quotations_from_the_ot), image24104);
-
-    synoptic_parallel_passages_from_the_nt = gtk_image_menu_item_new_with_mnemonic("_Synoptic parallels from the NT");
-    gtk_widget_show(synoptic_parallel_passages_from_the_nt);
-    gtk_container_add(GTK_CONTAINER (checks_passages_menu), synoptic_parallel_passages_from_the_nt);
-
-    image24105 = gtk_image_new_from_stock("gtk-index", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image24105);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (synoptic_parallel_passages_from_the_nt), image24105);
-
-    parallels_from_the_ot = gtk_image_menu_item_new_with_mnemonic("_Parallels from the OT");
-    gtk_widget_show(parallels_from_the_ot);
-    gtk_container_add(GTK_CONTAINER (checks_passages_menu), parallels_from_the_ot);
-
-    image24106 = gtk_image_new_from_stock("gtk-index", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image24106);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (parallels_from_the_ot), image24106);
-
-    check_key_terms = gtk_check_menu_item_new_with_mnemonic("_Key terms");
-    gtk_widget_show(check_key_terms);
-    gtk_container_add(GTK_CONTAINER (check1_menu), check_key_terms);
-
-    my_checks = gtk_image_menu_item_new_with_mnemonic("M_y checks");
-    gtk_widget_show(my_checks);
-    gtk_container_add(GTK_CONTAINER (check1_menu), my_checks);
-
-    image15438 = gtk_image_new_from_stock("gtk-home", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image15438);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (my_checks), image15438);
-
-  }
-
-  menutools = NULL;
-  if (guifeatures.tools()) {
-
-    menutools = gtk_menu_item_new_with_mnemonic("_Tools");
-    gtk_widget_show(menutools);
-    gtk_container_add(GTK_CONTAINER (menubar1), menutools);
-
-    menutools_menu = gtk_menu_new();
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM (menutools), menutools_menu);
-
-    line_cutter_for_hebrew_text1 = gtk_image_menu_item_new_with_mnemonic("_Line cutter for Hebrew text");
-    gtk_widget_show(line_cutter_for_hebrew_text1);
-    gtk_container_add(GTK_CONTAINER (menutools_menu), line_cutter_for_hebrew_text1);
-
-    image13532 = gtk_image_new_from_stock("gtk-cut", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image13532);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (line_cutter_for_hebrew_text1), image13532);
-
-    notes_transfer = gtk_image_menu_item_new_with_mnemonic("_Transfer text to project notes");
-    gtk_widget_show(notes_transfer);
-    gtk_container_add(GTK_CONTAINER (menutools_menu), notes_transfer);
-
-    image14659 = gtk_image_new_from_stock("gtk-refresh", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image14659);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (notes_transfer), image14659);
-
-    tool_origin_references_in_bible_notes = gtk_image_menu_item_new_with_mnemonic("_Bible notes mass update");
-    gtk_widget_show(tool_origin_references_in_bible_notes);
-    gtk_container_add(GTK_CONTAINER (menutools_menu), tool_origin_references_in_bible_notes);
-
-    image16248 = gtk_image_new_from_stock("gtk-find-and-replace", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image16248);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (tool_origin_references_in_bible_notes), image16248);
-
-    tool_project_notes_mass_update1 = gtk_image_menu_item_new_with_mnemonic("_Project notes mass update");
-    gtk_widget_show(tool_project_notes_mass_update1);
-    gtk_container_add(GTK_CONTAINER (menutools_menu), tool_project_notes_mass_update1);
-
-    image17187 = gtk_image_new_from_stock("gtk-execute", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image17187);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (tool_project_notes_mass_update1), image17187);
-
-    tool_generate_word_lists = gtk_image_menu_item_new_with_mnemonic("_Generate word lists");
-    gtk_widget_show(tool_generate_word_lists);
-    gtk_container_add(GTK_CONTAINER (menutools_menu), tool_generate_word_lists);
-
-    image20671 = gtk_image_new_from_stock("gtk-justify-fill", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image20671);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (tool_generate_word_lists), image20671);
-
-    tool_simple_text_corrections = gtk_image_menu_item_new_with_mnemonic("_Simple text corrections");
-    gtk_widget_show(tool_simple_text_corrections);
-    gtk_container_add(GTK_CONTAINER (menutools_menu), tool_simple_text_corrections);
-
-    image21054 = gtk_image_new_from_stock("gtk-preferences", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image21054);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (tool_simple_text_corrections), image21054);
-
-    tool_transfer_project_notes_to_text = gtk_image_menu_item_new_with_mnemonic("Tr_ansfer project notes to text");
-    gtk_widget_show(tool_transfer_project_notes_to_text);
-    gtk_container_add(GTK_CONTAINER (menutools_menu), tool_transfer_project_notes_to_text);
-
-    image29089 = gtk_image_new_from_stock("gtk-refresh", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image29089);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (tool_transfer_project_notes_to_text), image29089);
-
-  }
-
-  menuitem_preferences = gtk_menu_item_new_with_mnemonic("P_references");
-  // At first the Alt-P was the shortcut key. On the XO machine, this key is 
-  // in use already: 
-  // Alt-N goes to the Next Activity and
-  // Alt-P goes to the Previous one. 
-  // For that reason the Alt-R is now the shortcut key.
-  gtk_widget_show(menuitem_preferences);
-  gtk_container_add(GTK_CONTAINER (menubar1), menuitem_preferences);
-
-  menuitem_preferences_menu = gtk_menu_new();
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM (menuitem_preferences), menuitem_preferences_menu);
-
-  preferences_remote_git_repository = NULL;
-  if (guifeatures.preferences()) {
-
-    notes_preferences = gtk_image_menu_item_new_with_mnemonic("Project _notes");
-    gtk_widget_show(notes_preferences);
-    gtk_container_add(GTK_CONTAINER (menuitem_preferences_menu), notes_preferences);
-
-    image2116 = gtk_image_new_from_stock("gtk-dialog-info", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image2116);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (notes_preferences), image2116);
-
-    printingprefs = gtk_image_menu_item_new_with_mnemonic("_Printing");
-    gtk_widget_show(printingprefs);
-    gtk_container_add(GTK_CONTAINER (menuitem_preferences_menu), printingprefs);
-
-    image3493 = gtk_image_new_from_stock("gtk-print", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image3493);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (printingprefs), image3493);
-
-    reference_exchange1 = gtk_image_menu_item_new_with_mnemonic("_Reference exchange");
-    gtk_widget_show(reference_exchange1);
-    gtk_container_add(GTK_CONTAINER (menuitem_preferences_menu), reference_exchange1);
-
-    image5972 = gtk_image_new_from_stock("gtk-network", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image5972);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (reference_exchange1), image5972);
-
-    ignored_references1 = gtk_image_menu_item_new_with_mnemonic("_Ignored references");
-    gtk_widget_show(ignored_references1);
-    gtk_container_add(GTK_CONTAINER (menuitem_preferences_menu), ignored_references1);
-
-    image6467 = gtk_image_new_from_stock("gtk-remove", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image6467);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (ignored_references1), image6467);
-
-    prefs_books = gtk_image_menu_item_new_with_mnemonic("_Books");
-    gtk_widget_show(prefs_books);
-    gtk_container_add(GTK_CONTAINER (menuitem_preferences_menu), prefs_books);
-
-    image12167 = gtk_image_new_from_stock("gtk-index", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image12167);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (prefs_books), image12167);
-
-    preferences_windows_outpost = gtk_image_menu_item_new_with_mnemonic("_Windows Outpost");
-    gtk_widget_show(preferences_windows_outpost);
-    gtk_container_add(GTK_CONTAINER (menuitem_preferences_menu), preferences_windows_outpost);
-
-    image14287 = gtk_image_new_from_stock("gtk-network", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image14287);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (preferences_windows_outpost), image14287);
-
-    preferences_tidy_text = gtk_image_menu_item_new_with_mnemonic("_Tidy text");
-    gtk_widget_show(preferences_tidy_text);
-    gtk_container_add(GTK_CONTAINER (menuitem_preferences_menu), preferences_tidy_text);
-
-    image16359 = gtk_image_new_from_stock("gtk-clear", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image16359);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (preferences_tidy_text), image16359);
-
-    preferences_remote_git_repository = gtk_image_menu_item_new_with_mnemonic("_Git repository");
-    gtk_widget_show(preferences_remote_git_repository);
-    gtk_container_add(GTK_CONTAINER (menuitem_preferences_menu), preferences_remote_git_repository);
-
-    image18977 = gtk_image_new_from_stock("gtk-connect", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image18977);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (preferences_remote_git_repository), image18977);
-
-  }
-
-  preferences_features = gtk_image_menu_item_new_with_mnemonic("F_eatures");
-  gtk_widget_show(preferences_features);
-  gtk_container_add(GTK_CONTAINER (menuitem_preferences_menu), preferences_features);
-
-  image20936 = gtk_image_new_from_stock("gtk-properties", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image20936);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (preferences_features), image20936);
-
-  preferences_planning = NULL;
-  if (guifeatures.preferences()) {
-
-    preferences_password = gtk_image_menu_item_new_with_mnemonic("P_assword");
-    gtk_widget_show(preferences_password);
-    gtk_container_add(GTK_CONTAINER (menuitem_preferences_menu), preferences_password);
-
-    image20937 = gtk_image_new_from_stock("gtk-dialog-authentication", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image20937);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (preferences_password), image20937);
-
-    preferences_text_replacement = gtk_image_menu_item_new_with_mnemonic("Te_xt replacement");
-    gtk_widget_show(preferences_text_replacement);
-    gtk_container_add(GTK_CONTAINER (menuitem_preferences_menu), preferences_text_replacement);
-
-    image23181 = gtk_image_new_from_stock("gtk-find-and-replace", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image23181);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (preferences_text_replacement), image23181);
-
-    pdf_viewer1 = gtk_image_menu_item_new_with_mnemonic("P_DF Viewer");
-    gtk_widget_show(pdf_viewer1);
-    gtk_container_add(GTK_CONTAINER (menuitem_preferences_menu), pdf_viewer1);
-
-    image24540 = gtk_image_new_from_stock("gtk-zoom-fit", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image24540);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (pdf_viewer1), image24540);
-
-    preferences_reporting = gtk_image_menu_item_new_with_mnemonic("Rep_orting");
-    gtk_widget_show(preferences_reporting);
-    gtk_container_add(GTK_CONTAINER (menuitem_preferences_menu), preferences_reporting);
-
-    image25623 = gtk_image_new_from_stock("gtk-sort-ascending", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image25623);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (preferences_reporting), image25623);
-
-    preferences_planning = gtk_image_menu_item_new_with_mnemonic("P_lanning");
-    gtk_widget_show(preferences_planning);
-    gtk_container_add(GTK_CONTAINER (menuitem_preferences_menu), preferences_planning);
-
-    image26888 = gtk_image_new_from_stock("gtk-preferences", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image26888);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (preferences_planning), image26888);
-
-    preferences_graphical_interface = gtk_image_menu_item_new_with_mnemonic("Grap_hical Interface");
-    gtk_widget_show(preferences_graphical_interface);
-    gtk_container_add(GTK_CONTAINER (menuitem_preferences_menu), preferences_graphical_interface);
-
-    image27031 = gtk_image_new_from_stock("gtk-fullscreen", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image27031);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (preferences_graphical_interface), image27031);
-
-    preferences_filters = gtk_image_menu_item_new_with_mnemonic("Filter_s");
-    gtk_widget_show(preferences_filters);
-    gtk_container_add(GTK_CONTAINER (menuitem_preferences_menu), preferences_filters);
-
-    image28360 = gtk_image_new_from_stock("gtk-convert", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image28360);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (preferences_filters), image28360);
-
-  }
-
-  menuitem_help = gtk_menu_item_new_with_mnemonic("_Help");
-  gtk_widget_show(menuitem_help);
-  gtk_container_add(GTK_CONTAINER (menubar1), menuitem_help);
-
-  menuitem_help_menu = gtk_menu_new();
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM (menuitem_help), menuitem_help_menu);
-
-  help_main = gtk_image_menu_item_new_with_mnemonic("_Contents");
-  gtk_widget_show(help_main);
-  gtk_container_add(GTK_CONTAINER (menuitem_help_menu), help_main);
-  gtk_widget_add_accelerator(help_main, "activate", accel_group, 
-  GDK_F1, (GdkModifierType) 0, GTK_ACCEL_VISIBLE);
-
-  image17520 = gtk_image_new_from_stock("gtk-help", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image17520);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (help_main), image17520);
-
-  help_context = gtk_image_menu_item_new_with_mnemonic("C_ontext");
-  gtk_widget_show(help_context);
-  gtk_container_add(GTK_CONTAINER (menuitem_help_menu), help_context);
-  gtk_widget_add_accelerator(help_context, "activate", accel_group, 
-  GDK_H, (GdkModifierType) GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
-
-  image16053 = gtk_image_new_from_stock("gtk-help", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image16053);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (help_context), image16053);
-
-  system_log1 = gtk_image_menu_item_new_with_mnemonic("_System log");
-  gtk_widget_show(system_log1);
-  gtk_container_add(GTK_CONTAINER (menuitem_help_menu), system_log1);
-
-  image4388 = gtk_image_new_from_stock("gtk-dialog-info", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image4388);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (system_log1), image4388);
-
-  about1 = gtk_image_menu_item_new_from_stock("gtk-about", accel_group);
-  gtk_widget_show(about1);
-  gtk_container_add(GTK_CONTAINER (menuitem_help_menu), about1);
-
-  toolbar1 = gtk_toolbar_new();
-  gtk_widget_show(toolbar1);
-  gtk_box_pack_start(GTK_BOX (vbox1), toolbar1, FALSE, FALSE, 0);
-  gtk_toolbar_set_style(GTK_TOOLBAR (toolbar1), GTK_TOOLBAR_BOTH_HORIZ);
-
-  navigation.build(toolbar1);
-  g_signal_connect ((gpointer) navigation.reference_signal_delayed, "clicked", G_CALLBACK (on_navigation_new_reference_clicked), gpointer(this));
-
   // Store project of last session because it gets affected when the editors build.
   focused_project_last_session = settings->genconfig.project_get();
-
-  hbox5 = gtk_hbox_new(FALSE, 0);
-  gtk_widget_show(hbox5);
-  gtk_box_pack_start(GTK_BOX (vbox1), hbox5, FALSE, FALSE, 0);
-
-  hbox7 = gtk_hbox_new(FALSE, 8);
-  gtk_widget_show(hbox7);
-  gtk_box_pack_start(GTK_BOX (hbox5), hbox7, TRUE, TRUE, 0);
-
-  statuslabel_style = gtk_label_new("");
-  gtk_widget_show(statuslabel_style);
-  gtk_box_pack_start(GTK_BOX (hbox7), statuslabel_style, FALSE, FALSE, 0);
-
-  // This label could display a lot of styles so running out of space, and 
-  // therefore needs to show an ellipsis if there is too much text.
-  gtk_label_set_ellipsize(GTK_LABEL (statuslabel_style), PANGO_ELLIPSIZE_MIDDLE);
-  gtk_label_set_max_width_chars(GTK_LABEL (statuslabel_style), 50);
-
-  label_git = gtk_label_new("");
-  gtk_widget_show(label_git);
-  gtk_box_pack_start(GTK_BOX (hbox7), label_git, FALSE, FALSE, 0);
-
-  statusbar1 = gtk_statusbar_new();
-  gtk_widget_show(statusbar1);
-  gtk_box_pack_start(GTK_BOX (hbox5), statusbar1, FALSE, TRUE, 0);
-  gtk_widget_set_size_request(statusbar1, 25, -1);
 
   // Appearance of text in editor.
   set_fonts();
@@ -897,76 +265,7 @@ MainWindow::MainWindow(unsigned long xembed) :
   g_signal_connect ((gpointer) mainwindow, "focus_in_event", G_CALLBACK (on_mainwindow_focus_in_event), gpointer(this));
   g_signal_connect ((gpointer) mainwindow, "window_state_event", G_CALLBACK (on_mainwindow_window_state_event), gpointer(this));
 
-  g_signal_connect ((gpointer) insert1, "activate", G_CALLBACK (on_insert1_activate), gpointer(this));
-  if (guifeatures.project_notes()) {
-    g_signal_connect ((gpointer) standard_text_1, "activate", G_CALLBACK (on_standard_text_1_activate), gpointer (this));
-    g_signal_connect ((gpointer) standard_text_2, "activate", G_CALLBACK (on_standard_text_2_activate), gpointer (this));
-    g_signal_connect ((gpointer) standard_text_3, "activate", G_CALLBACK (on_standard_text_3_activate), gpointer (this));
-    g_signal_connect ((gpointer) standard_text_4, "activate", G_CALLBACK (on_standard_text_4_activate), gpointer (this));
-    g_signal_connect ((gpointer) current_reference1, "activate", G_CALLBACK (on_current_reference1_activate), gpointer (this));
-  }
-  g_signal_connect ((gpointer) insert_special_character, "activate", G_CALLBACK (on_insert_special_character_activate), gpointer (this));
-  g_signal_connect ((gpointer) synchronize_other_programs2, "activate", G_CALLBACK (on_synchronize_other_programs2_activate), gpointer(this));
-  if (guifeatures.checks()) {
-    g_signal_connect ((gpointer) check1, "activate", G_CALLBACK (on_check1_activate), gpointer(this));
-    g_signal_connect ((gpointer) markers1, "activate", G_CALLBACK (on_markers1_activate), gpointer(this));
-    g_signal_connect ((gpointer) validate_usfms1, "activate", G_CALLBACK (on_validate_usfms1_activate), gpointer(this));
-    g_signal_connect ((gpointer) count_usfms1, "activate", G_CALLBACK (on_count_usfms1_activate), gpointer(this));
-    g_signal_connect ((gpointer) compare_usfm1, "activate", G_CALLBACK (on_compare_usfm1_activate), gpointer(this));
-    g_signal_connect ((gpointer) check_markers_spacing, "activate", G_CALLBACK (on_check_markers_spacing_activate), gpointer(this));
-    g_signal_connect ((gpointer) chapters_and_verses1, "activate", G_CALLBACK (on_chapters_and_verses1_activate), gpointer(this));
-    g_signal_connect ((gpointer) count_characters, "activate", G_CALLBACK (on_count_characters_activate), gpointer(this));
-    g_signal_connect ((gpointer) unwanted_patterns, "activate", G_CALLBACK (on_unwanted_patterns_activate), gpointer(this));
-    g_signal_connect ((gpointer) check_capitalization, "activate", G_CALLBACK (on_check_capitalization_activate), gpointer(this));
-    g_signal_connect ((gpointer) check_repetition, "activate", G_CALLBACK (on_check_repetition_activate), gpointer(this));
-    g_signal_connect ((gpointer) unwanted_words, "activate", G_CALLBACK (on_unwanted_words_activate), gpointer(this));
-    g_signal_connect ((gpointer) check_matching_pairs, "activate", G_CALLBACK (on_check_matching_pairs_activate), gpointer(this));
-    g_signal_connect ((gpointer) check_sentence_structure, "activate", G_CALLBACK (on_check_sentence_structure_activate), gpointer(this));
-    g_signal_connect ((gpointer) word_count_inventory, "activate", G_CALLBACK (on_word_count_inventory_activate), gpointer(this));
-    g_signal_connect ((gpointer) check_references_inventory, "activate", G_CALLBACK (on_check_references_inventory_activate), gpointer(this));
-    g_signal_connect ((gpointer) check_references_validate, "activate", G_CALLBACK (on_check_references_validate_activate), gpointer(this));
-    g_signal_connect ((gpointer) check_nt_quotations_from_the_ot, "activate", G_CALLBACK (on_check_nt_quotations_from_the_ot_activate), gpointer(this));
-    g_signal_connect ((gpointer) synoptic_parallel_passages_from_the_nt, "activate", G_CALLBACK (on_synoptic_parallel_passages_from_the_nt_activate), gpointer(this));
-    g_signal_connect ((gpointer) parallels_from_the_ot, "activate", G_CALLBACK (on_parallels_from_the_ot_activate), gpointer(this));
-    g_signal_connect ((gpointer) check_key_terms, "activate", G_CALLBACK (on_check_key_terms_activate), gpointer(this));
-    g_signal_connect ((gpointer) my_checks, "activate", G_CALLBACK (on_my_checks_activate), gpointer(this));
-  }
-  if (guifeatures.tools()) {
-    g_signal_connect ((gpointer) menutools, "activate", G_CALLBACK (on_menutools_activate), gpointer(this));
-    g_signal_connect ((gpointer) line_cutter_for_hebrew_text1, "activate", G_CALLBACK (on_line_cutter_for_hebrew_text1_activate), gpointer(this));
-    g_signal_connect ((gpointer) notes_transfer, "activate", G_CALLBACK (on_notes_transfer_activate), gpointer(this));
-    g_signal_connect ((gpointer) tool_origin_references_in_bible_notes, "activate", G_CALLBACK (on_tool_origin_references_in_bible_notes_activate), gpointer(this));
-    g_signal_connect ((gpointer) tool_project_notes_mass_update1, "activate", G_CALLBACK (on_tool_project_notes_mass_update1_activate), gpointer(this));
-    g_signal_connect ((gpointer) tool_generate_word_lists, "activate", G_CALLBACK (on_tool_generate_word_lists_activate), gpointer(this));
-    g_signal_connect ((gpointer) tool_simple_text_corrections, "activate", G_CALLBACK (on_tool_simple_text_corrections_activate), gpointer(this));
-    g_signal_connect ((gpointer) tool_transfer_project_notes_to_text, "activate", G_CALLBACK (on_tool_transfer_project_notes_to_text_activate), gpointer(this));
-  }
-  if (guifeatures.preferences()) {
-    g_signal_connect ((gpointer) notes_preferences, "activate", G_CALLBACK (on_notes_preferences_activate), gpointer(this));
-    g_signal_connect ((gpointer) printingprefs, "activate", G_CALLBACK (on_printingprefs_activate), gpointer(this));
-    g_signal_connect ((gpointer) reference_exchange1, "activate", G_CALLBACK (on_reference_exchange1_activate), gpointer(this));
-    g_signal_connect ((gpointer) ignored_references1, "activate", G_CALLBACK (on_ignored_references1_activate), gpointer(this));
-    g_signal_connect ((gpointer) prefs_books, "activate", G_CALLBACK (on_prefs_books_activate), gpointer(this));
-    g_signal_connect ((gpointer) preferences_windows_outpost, "activate", G_CALLBACK (on_preferences_windows_outpost_activate), gpointer(this));
-    g_signal_connect ((gpointer) preferences_tidy_text, "activate", G_CALLBACK (on_preferences_tidy_text_activate), gpointer(this));
-    g_signal_connect ((gpointer) preferences_remote_git_repository, "activate", G_CALLBACK (on_preferences_remote_git_repository_activate), gpointer(this));
-  }
-  g_signal_connect ((gpointer) preferences_features, "activate", G_CALLBACK (on_preferences_features_activate), gpointer(this));
-  if (guifeatures.preferences()) {
-    g_signal_connect ((gpointer) preferences_password, "activate", G_CALLBACK (on_preferences_password_activate), gpointer(this));
-    g_signal_connect ((gpointer) preferences_text_replacement, "activate", G_CALLBACK (on_preferences_text_replacement_activate), gpointer(this));
-    g_signal_connect ((gpointer) pdf_viewer1, "activate", G_CALLBACK (on_pdf_viewer1_activate), gpointer(this));
-    g_signal_connect ((gpointer) preferences_reporting, "activate", G_CALLBACK (on_preferences_reporting_activate), gpointer(this));
-    g_signal_connect ((gpointer) preferences_planning, "activate", G_CALLBACK (on_preferences_planning_activate), gpointer(this));
-    g_signal_connect ((gpointer) preferences_graphical_interface, "activate", G_CALLBACK (on_preferences_graphical_interface_activate), gpointer(this));
-    g_signal_connect ((gpointer) preferences_filters, "activate", G_CALLBACK (on_preferences_filters_activate), gpointer(this));
-  }
-  g_signal_connect ((gpointer) help_context, "activate", G_CALLBACK (on_help_context_activate), gpointer(this));
-  g_signal_connect ((gpointer) help_main, "activate", G_CALLBACK (on_help_main_activate), gpointer(this));
-  g_signal_connect ((gpointer) system_log1, "activate", G_CALLBACK (on_system_log1_activate), gpointer(this));
-  g_signal_connect ((gpointer) about1, "activate", G_CALLBACK (on_about1_activate), gpointer(this));
-
-  gtk_window_add_accel_group(GTK_WINDOW (mainwindow), accel_group);
+  gtk_window_add_accel_group(GTK_WINDOW (mainwindow), accelerator_group);
 
   // Communication with BibleTime
   got_new_bt_reference = 0;
@@ -1071,22 +370,22 @@ void MainWindow::enable_or_disable_widgets(bool enable) {
     gtk_widget_set_sensitive(window_menu->project_changes, enable);
   if (window_menu && window_menu->menuitem_view)
     gtk_widget_set_sensitive(window_menu->menuitem_view, enable);
-  if (menuitem_goto)
-    gtk_widget_set_sensitive(menuitem_goto, enable);
+  if (window_menu && window_menu->menuitem_goto)
+    gtk_widget_set_sensitive(window_menu->menuitem_goto, enable);
   if (window_menu && window_menu->compare_with1)
     gtk_widget_set_sensitive(window_menu->compare_with1, enable);
   if (window_menu && window_menu->copy_project_to)
     gtk_widget_set_sensitive(window_menu->copy_project_to, enable);
-  if (insert1)
-    gtk_widget_set_sensitive(insert1, enable);
-  if (check1)
-    gtk_widget_set_sensitive(check1, enable);
-  if (menutools)
-    gtk_widget_set_sensitive(menutools, enable);
-  if (preferences_remote_git_repository)
-    gtk_widget_set_sensitive(preferences_remote_git_repository, enable);
-  if (preferences_planning)
-    gtk_widget_set_sensitive(preferences_planning, enable);
+  if (window_menu && window_menu->insert1)
+    gtk_widget_set_sensitive(window_menu->insert1, enable);
+  if (window_menu && window_menu->check1)
+    gtk_widget_set_sensitive(window_menu->check1, enable);
+  if (window_menu && window_menu->menutools)
+    gtk_widget_set_sensitive(window_menu->menutools, enable);
+  if (window_menu && window_menu->preferences_remote_git_repository)
+    gtk_widget_set_sensitive(window_menu->preferences_remote_git_repository, enable);
+  if (window_menu && window_menu->preferences_planning)
+    gtk_widget_set_sensitive(window_menu->preferences_planning, enable);
   if (window_menu && window_menu->project_backup)
     gtk_widget_set_sensitive(window_menu->project_backup, enable);
   if (window_menu && window_menu->file_projects_merge)
@@ -1234,7 +533,124 @@ void MainWindow::display_menu_window() {
       g_signal_connect ((gpointer) window_menu->view_quick_references, "activate", G_CALLBACK (on_view_quick_references_activate), gpointer(this));
     if (window_menu->view_outline)
       g_signal_connect ((gpointer) window_menu->view_outline, "activate", G_CALLBACK (on_view_outline_activate), gpointer(this));
-
+    if (window_menu->insert1)
+      g_signal_connect ((gpointer) window_menu->insert1, "activate", G_CALLBACK (on_insert1_activate), gpointer(this));
+    if (window_menu->standard_text_1)
+      g_signal_connect ((gpointer) window_menu->standard_text_1, "activate", G_CALLBACK (on_standard_text_1_activate), gpointer (this));
+    if (window_menu->standard_text_2)
+      g_signal_connect ((gpointer) window_menu->standard_text_2, "activate", G_CALLBACK (on_standard_text_2_activate), gpointer (this));
+    if (window_menu->standard_text_3)
+      g_signal_connect ((gpointer) window_menu->standard_text_3, "activate", G_CALLBACK (on_standard_text_3_activate), gpointer (this));
+    if (window_menu->standard_text_4)
+      g_signal_connect ((gpointer) window_menu->standard_text_4, "activate", G_CALLBACK (on_standard_text_4_activate), gpointer (this));
+    if (window_menu->current_reference1)
+      g_signal_connect ((gpointer) window_menu->current_reference1, "activate", G_CALLBACK (on_current_reference1_activate), gpointer (this));
+    if (window_menu->insert_special_character)
+      g_signal_connect ((gpointer) window_menu->insert_special_character, "activate", G_CALLBACK (on_insert_special_character_activate), gpointer (this));
+    if (window_menu->synchronize_other_programs2)
+      g_signal_connect ((gpointer) window_menu->synchronize_other_programs2, "activate", G_CALLBACK (on_synchronize_other_programs2_activate), gpointer(this));
+    if (window_menu->check1)
+      g_signal_connect ((gpointer) window_menu->check1, "activate", G_CALLBACK (on_check1_activate), gpointer(this));
+    if (window_menu->markers1)
+      g_signal_connect ((gpointer) window_menu->markers1, "activate", G_CALLBACK (on_markers1_activate), gpointer(this));
+    if (window_menu->validate_usfms1)
+      g_signal_connect ((gpointer) window_menu->validate_usfms1, "activate", G_CALLBACK (on_validate_usfms1_activate), gpointer(this));
+    if (window_menu->count_usfms1)
+      g_signal_connect ((gpointer) window_menu->count_usfms1, "activate", G_CALLBACK (on_count_usfms1_activate), gpointer(this));
+    if (window_menu->compare_usfm1)
+      g_signal_connect ((gpointer) window_menu->compare_usfm1, "activate", G_CALLBACK (on_compare_usfm1_activate), gpointer(this));
+    if (window_menu->check_markers_spacing)
+      g_signal_connect ((gpointer) window_menu->check_markers_spacing, "activate", G_CALLBACK (on_check_markers_spacing_activate), gpointer(this));
+    if (window_menu->chapters_and_verses1)
+      g_signal_connect ((gpointer) window_menu->chapters_and_verses1, "activate", G_CALLBACK (on_chapters_and_verses1_activate), gpointer(this));
+    if (window_menu->count_characters)
+      g_signal_connect ((gpointer) window_menu->count_characters, "activate", G_CALLBACK (on_count_characters_activate), gpointer(this));
+    if (window_menu->unwanted_patterns)
+      g_signal_connect ((gpointer) window_menu->unwanted_patterns, "activate", G_CALLBACK (on_unwanted_patterns_activate), gpointer(this));
+    if (window_menu->check_capitalization)
+      g_signal_connect ((gpointer) window_menu->check_capitalization, "activate", G_CALLBACK (on_check_capitalization_activate), gpointer(this));
+    if (window_menu->check_repetition)
+      g_signal_connect ((gpointer) window_menu->check_repetition, "activate", G_CALLBACK (on_check_repetition_activate), gpointer(this));
+    if (window_menu->unwanted_words)
+      g_signal_connect ((gpointer) window_menu->unwanted_words, "activate", G_CALLBACK (on_unwanted_words_activate), gpointer(this));
+    if (window_menu->check_matching_pairs)
+      g_signal_connect ((gpointer) window_menu->check_matching_pairs, "activate", G_CALLBACK (on_check_matching_pairs_activate), gpointer(this));
+    if (window_menu->check_sentence_structure)
+      g_signal_connect ((gpointer) window_menu->check_sentence_structure, "activate", G_CALLBACK (on_check_sentence_structure_activate), gpointer(this));
+    if (window_menu->word_count_inventory)
+      g_signal_connect ((gpointer) window_menu->word_count_inventory, "activate", G_CALLBACK (on_word_count_inventory_activate), gpointer(this));
+    if (window_menu->check_references_inventory)
+      g_signal_connect ((gpointer) window_menu->check_references_inventory, "activate", G_CALLBACK (on_check_references_inventory_activate), gpointer(this));
+    if (window_menu->check_references_validate)
+      g_signal_connect ((gpointer) window_menu->check_references_validate, "activate", G_CALLBACK (on_check_references_validate_activate), gpointer(this));
+    if (window_menu->check_nt_quotations_from_the_ot)
+      g_signal_connect ((gpointer) window_menu->check_nt_quotations_from_the_ot, "activate", G_CALLBACK (on_check_nt_quotations_from_the_ot_activate), gpointer(this));
+    if (window_menu->synoptic_parallel_passages_from_the_nt)
+      g_signal_connect ((gpointer) window_menu->synoptic_parallel_passages_from_the_nt, "activate", G_CALLBACK (on_synoptic_parallel_passages_from_the_nt_activate), gpointer(this));
+    if (window_menu->parallels_from_the_ot)
+      g_signal_connect ((gpointer) window_menu->parallels_from_the_ot, "activate", G_CALLBACK (on_parallels_from_the_ot_activate), gpointer(this));
+    if (window_menu->check_key_terms)
+      g_signal_connect ((gpointer) window_menu->check_key_terms, "activate", G_CALLBACK (on_check_key_terms_activate), gpointer(this));
+    if (window_menu->my_checks)
+      g_signal_connect ((gpointer) window_menu->my_checks, "activate", G_CALLBACK (on_my_checks_activate), gpointer(this));
+    if (window_menu->menutools)
+      g_signal_connect ((gpointer) window_menu->menutools, "activate", G_CALLBACK (on_menutools_activate), gpointer(this));
+    if (window_menu->line_cutter_for_hebrew_text1)
+      g_signal_connect ((gpointer) window_menu->line_cutter_for_hebrew_text1, "activate", G_CALLBACK (on_line_cutter_for_hebrew_text1_activate), gpointer(this));
+    if (window_menu->notes_transfer)
+      g_signal_connect ((gpointer) window_menu->notes_transfer, "activate", G_CALLBACK (on_notes_transfer_activate), gpointer(this));
+    if (window_menu->tool_origin_references_in_bible_notes)
+      g_signal_connect ((gpointer) window_menu->tool_origin_references_in_bible_notes, "activate", G_CALLBACK (on_tool_origin_references_in_bible_notes_activate), gpointer(this));
+    if (window_menu->tool_project_notes_mass_update1)
+      g_signal_connect ((gpointer) window_menu->tool_project_notes_mass_update1, "activate", G_CALLBACK (on_tool_project_notes_mass_update1_activate), gpointer(this));
+    if (window_menu->tool_generate_word_lists)
+      g_signal_connect ((gpointer) window_menu->tool_generate_word_lists, "activate", G_CALLBACK (on_tool_generate_word_lists_activate), gpointer(this));
+    if (window_menu->tool_simple_text_corrections)
+      g_signal_connect ((gpointer) window_menu->tool_simple_text_corrections, "activate", G_CALLBACK (on_tool_simple_text_corrections_activate), gpointer(this));
+    if (window_menu->tool_transfer_project_notes_to_text)
+      g_signal_connect ((gpointer) window_menu->tool_transfer_project_notes_to_text, "activate", G_CALLBACK (on_tool_transfer_project_notes_to_text_activate), gpointer(this));
+    if (window_menu->notes_preferences)
+      g_signal_connect ((gpointer) window_menu->notes_preferences, "activate", G_CALLBACK (on_notes_preferences_activate), gpointer(this));
+    if (window_menu->printingprefs)
+      g_signal_connect ((gpointer) window_menu->printingprefs, "activate", G_CALLBACK (on_printingprefs_activate), gpointer(this));
+    if (window_menu->reference_exchange1)
+      g_signal_connect ((gpointer) window_menu->reference_exchange1, "activate", G_CALLBACK (on_reference_exchange1_activate), gpointer(this));
+    if (window_menu->ignored_references1)
+      g_signal_connect ((gpointer) window_menu->ignored_references1, "activate", G_CALLBACK (on_ignored_references1_activate), gpointer(this));
+    if (window_menu->prefs_books)
+      g_signal_connect ((gpointer) window_menu->prefs_books, "activate", G_CALLBACK (on_prefs_books_activate), gpointer(this));
+    if (window_menu->preferences_windows_outpost)
+      g_signal_connect ((gpointer) window_menu->preferences_windows_outpost, "activate", G_CALLBACK (on_preferences_windows_outpost_activate), gpointer(this));
+    if (window_menu->preferences_tidy_text)
+      g_signal_connect ((gpointer) window_menu->preferences_tidy_text, "activate", G_CALLBACK (on_preferences_tidy_text_activate), gpointer(this));
+    if (window_menu->preferences_remote_git_repository)
+      g_signal_connect ((gpointer) window_menu->preferences_remote_git_repository, "activate", G_CALLBACK (on_preferences_remote_git_repository_activate), gpointer(this));
+    if (window_menu->preferences_features)
+      g_signal_connect ((gpointer) window_menu->preferences_features, "activate", G_CALLBACK (on_preferences_features_activate), gpointer(this));
+    if (window_menu->preferences_password)
+      g_signal_connect ((gpointer) window_menu->preferences_password, "activate", G_CALLBACK (on_preferences_password_activate), gpointer(this));
+    if (window_menu->preferences_text_replacement)
+      g_signal_connect ((gpointer) window_menu->preferences_text_replacement, "activate", G_CALLBACK (on_preferences_text_replacement_activate), gpointer(this));
+    if (window_menu->pdf_viewer1)
+      g_signal_connect ((gpointer) window_menu->pdf_viewer1, "activate", G_CALLBACK (on_pdf_viewer1_activate), gpointer(this));
+    if (window_menu->preferences_reporting)
+      g_signal_connect ((gpointer) window_menu->preferences_reporting, "activate", G_CALLBACK (on_preferences_reporting_activate), gpointer(this));
+    if (window_menu->preferences_planning)
+      g_signal_connect ((gpointer) window_menu->preferences_planning, "activate", G_CALLBACK (on_preferences_planning_activate), gpointer(this));
+    if (window_menu->preferences_graphical_interface)
+      g_signal_connect ((gpointer) window_menu->preferences_graphical_interface, "activate", G_CALLBACK (on_preferences_graphical_interface_activate), gpointer(this));
+    if (window_menu->preferences_filters)
+      g_signal_connect ((gpointer) window_menu->preferences_filters, "activate", G_CALLBACK (on_preferences_filters_activate), gpointer(this));
+    if (window_menu->help_context)
+      g_signal_connect ((gpointer) window_menu->help_context, "activate", G_CALLBACK (on_help_context_activate), gpointer(this));
+    if (window_menu->help_main)
+      g_signal_connect ((gpointer) window_menu->help_main, "activate", G_CALLBACK (on_help_main_activate), gpointer(this));
+    if (window_menu->system_log1)
+      g_signal_connect ((gpointer) window_menu->system_log1, "activate", G_CALLBACK (on_system_log1_activate), gpointer(this));
+    if (window_menu->about1)
+      g_signal_connect ((gpointer) window_menu->about1, "activate", G_CALLBACK (on_about1_activate), gpointer(this));
+    navigation.build(window_menu->toolbar1);
+    g_signal_connect ((gpointer) navigation.reference_signal_delayed, "clicked", G_CALLBACK (on_navigation_new_reference_clicked), gpointer(this));
   }
   window_menu->present();
 }
@@ -1571,27 +987,27 @@ void MainWindow::on_menu_insert()
   ustring std_txt = "Standard text ";
   ustring label;
   label = std_txt + "_1: " + settings->genconfig.edit_note_standard_text_one_get();
-  if (standard_text_1)
-    gtk_label_set_text_with_mnemonic(GTK_LABEL (gtk_bin_get_child (GTK_BIN (standard_text_1))), label.c_str());
+  if (window_menu->standard_text_1)
+    gtk_label_set_text_with_mnemonic(GTK_LABEL (gtk_bin_get_child (GTK_BIN (window_menu->standard_text_1))), label.c_str());
   label = std_txt + "_2: " + settings->genconfig.edit_note_standard_text_two_get();
-  if (standard_text_2)
-    gtk_label_set_text_with_mnemonic(GTK_LABEL (gtk_bin_get_child (GTK_BIN (standard_text_2))), label.c_str());
+  if (window_menu->standard_text_2)
+    gtk_label_set_text_with_mnemonic(GTK_LABEL (gtk_bin_get_child (GTK_BIN (window_menu->standard_text_2))), label.c_str());
   label = std_txt + "_3: " + settings->genconfig.edit_note_standard_text_three_get();
-  if (standard_text_3)
-    gtk_label_set_text_with_mnemonic(GTK_LABEL (gtk_bin_get_child (GTK_BIN (standard_text_3))), label.c_str());
+  if (window_menu->standard_text_3)
+    gtk_label_set_text_with_mnemonic(GTK_LABEL (gtk_bin_get_child (GTK_BIN (window_menu->standard_text_3))), label.c_str());
   label = std_txt + "_4: " + settings->genconfig.edit_note_standard_text_four_get();
-  if (standard_text_4)
-    gtk_label_set_text_with_mnemonic(GTK_LABEL (gtk_bin_get_child (GTK_BIN (standard_text_4))), label.c_str());
+  if (window_menu->standard_text_4)
+    gtk_label_set_text_with_mnemonic(GTK_LABEL (gtk_bin_get_child (GTK_BIN (window_menu->standard_text_4))), label.c_str());
   // Enable or disable depending on situation.
   bool enable = (window_notes && window_notes->note_being_edited());
-  if (standard_text_1)
-    gtk_widget_set_sensitive(standard_text_1, enable);
-  if (standard_text_2)
-    gtk_widget_set_sensitive(standard_text_2, enable);
-  if (standard_text_3)
-    gtk_widget_set_sensitive(standard_text_3, enable);
-  if (standard_text_4)
-    gtk_widget_set_sensitive(standard_text_4, enable);
+  if (window_menu->standard_text_1)
+    gtk_widget_set_sensitive(window_menu->standard_text_1, enable);
+  if (window_menu->standard_text_2)
+    gtk_widget_set_sensitive(window_menu->standard_text_2, enable);
+  if (window_menu->standard_text_3)
+    gtk_widget_set_sensitive(window_menu->standard_text_3, enable);
+  if (window_menu->standard_text_4)
+    gtk_widget_set_sensitive(window_menu->standard_text_4, enable);
 
   // Allow inserting reference when we edit a note and the reference is different 
   // from any of the references loaded already.
@@ -1619,13 +1035,13 @@ void MainWindow::on_menu_insert()
     enable = false;
   }
 
-  if (current_reference1)
-    gtk_label_set_text_with_mnemonic(GTK_LABEL (gtk_bin_get_child (GTK_BIN (current_reference1))), label.c_str());
-  if (current_reference1)
-    gtk_widget_set_sensitive(current_reference1, enable);
+  if (window_menu->current_reference1)
+    gtk_label_set_text_with_mnemonic(GTK_LABEL (gtk_bin_get_child (GTK_BIN (window_menu->current_reference1))), label.c_str());
+  if (window_menu->current_reference1)
+    gtk_widget_set_sensitive(window_menu->current_reference1, enable);
 
   // Inserting special character.
-  gtk_widget_set_sensitive(insert_special_character, (editor_window && (now_focused_signal_button == editor_window->focus_in_signal_button)));
+  gtk_widget_set_sensitive(window_menu->insert_special_character, (editor_window && (now_focused_signal_button == editor_window->focus_in_signal_button)));
 }
 
 void MainWindow::on_menuitem_view_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -2315,9 +1731,9 @@ void MainWindow::on_gui()
     ustring git;
     if (git_tasks_count() >= 100)
       git = "Git tasks pending: " + convert_to_string(git_tasks_count());
-    ustring currenttext = gtk_label_get_text(GTK_LABEL (label_git));
+    ustring currenttext = gtk_label_get_text(GTK_LABEL (window_menu->label_git));
     if (git != currenttext) {
-      gtk_label_set_text(GTK_LABEL (label_git), git.c_str());
+      gtk_label_set_text(GTK_LABEL (window_menu->label_git), git.c_str());
     }
   }
 
@@ -2476,27 +1892,27 @@ void MainWindow::on_insert_standard_text(GtkMenuItem *menuitem) {
   unsigned int selector = 0;
   bool addspace = false;
   bool gtkhtml = false;
-  if (menuitem == GTK_MENU_ITEM (standard_text_1)) {
+  if (menuitem == GTK_MENU_ITEM (window_menu->standard_text_1)) {
     standardtext = settings->genconfig.edit_note_standard_text_one_get();
     selector = 0;
     addspace = true;
     gtkhtml = true;
-  } else if (menuitem == GTK_MENU_ITEM (standard_text_2)) {
+  } else if (menuitem == GTK_MENU_ITEM (window_menu->standard_text_2)) {
     standardtext = settings->genconfig.edit_note_standard_text_two_get();
     selector = 1;
     addspace = true;
     gtkhtml = true;
-  } else if (menuitem == GTK_MENU_ITEM (standard_text_3)) {
+  } else if (menuitem == GTK_MENU_ITEM (window_menu->standard_text_3)) {
     standardtext = settings->genconfig.edit_note_standard_text_three_get();
     selector = 2;
     addspace = true;
     gtkhtml = true;
-  } else if (menuitem == GTK_MENU_ITEM (standard_text_4)) {
+  } else if (menuitem == GTK_MENU_ITEM (window_menu->standard_text_4)) {
     standardtext = settings->genconfig.edit_note_standard_text_four_get();
     selector = 3;
     addspace = true;
     gtkhtml = true;
-  } else if (menuitem == GTK_MENU_ITEM (current_reference1)) {
+  } else if (menuitem == GTK_MENU_ITEM (window_menu->current_reference1)) {
     WindowEditor * editor_window = last_focused_editor_window();
     if (editor_window) {
       Editor * editor = editor_window->editor;
@@ -3114,7 +2530,7 @@ void MainWindow::editor_style_changed() {
       text.append(", ");
     text.append(styles2[i]);
   }
-  gtk_label_set_text(GTK_LABEL (statuslabel_style), text.c_str ());
+  gtk_label_set_text(GTK_LABEL (window_menu->statuslabel_style), text.c_str ());
 }
 
 void MainWindow::on_style_edited(GtkButton *button, gpointer user_data)
@@ -3402,7 +2818,7 @@ void MainWindow::on_check_key_terms_activate(GtkMenuItem *menuitem, gpointer use
 
 void MainWindow::on_check_key_terms() {
   on_window_check_keyterms_delete_button();
-  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (check_key_terms))) {
+  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (window_menu->check_key_terms))) {
     window_check_keyterms = new WindowCheckKeyterms (accelerator_group, windows_startup_pointer != G_MAXINT);
     g_signal_connect ((gpointer) window_check_keyterms->delete_signal_button, "clicked", G_CALLBACK (on_window_check_keyterms_delete_button_clicked), gpointer(this));
     g_signal_connect ((gpointer) window_check_keyterms->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
@@ -3418,7 +2834,7 @@ void MainWindow::on_window_check_keyterms_delete_button() {
   if (window_check_keyterms) {
     delete window_check_keyterms;
     window_check_keyterms = NULL;
-    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (check_key_terms), false);
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (window_menu->check_key_terms), false);
   }
 }
 
@@ -5018,7 +4434,7 @@ bool MainWindow::on_windows_startup() {
         }
         case widCheckKeyterms:
         {
-          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (check_key_terms), true);
+          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (window_menu->check_key_terms), true);
           break;
         }
         case widStyles:

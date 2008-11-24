@@ -839,8 +839,6 @@ WindowMenu::WindowMenu(GtkAccelGroup *accelerator_group, bool startup) :
   gtk_widget_show(view_outline);
   gtk_container_add(GTK_CONTAINER (menuitem_view_menu), view_outline);
 
-  /* Todo implement menu.
-
   insert1 = gtk_menu_item_new_with_mnemonic("_Insert");
   gtk_widget_show(insert1);
   gtk_container_add(GTK_CONTAINER (menubar1), insert1);
@@ -932,6 +930,38 @@ WindowMenu::WindowMenu(GtkAccelGroup *accelerator_group, bool startup) :
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (synchronize_other_programs2), image4931);
 
   check1 = NULL;
+  chapters_and_verses1 = NULL;
+  markers1 = NULL;
+  markers1_menu = NULL;
+  validate_usfms1 = NULL;
+  count_usfms1 = NULL;
+  compare_usfm1 = NULL;
+  check_markers_spacing = NULL;
+  characters1 = NULL;
+  characters1_menu = NULL;
+  count_characters = NULL;
+  unwanted_patterns = NULL;
+  check_words = NULL;
+  check_words_menu = NULL;
+  check_capitalization = NULL;
+  check_repetition = NULL;
+  unwanted_words = NULL;
+  word_count_inventory = NULL;
+  check_punctuation = NULL;
+  check_punctuation_menu = NULL;
+  check_matching_pairs = NULL;
+  check_sentence_structure = NULL;
+  check_references = NULL;
+  check_references_menu = NULL;
+  check_references_inventory = NULL;
+  check_references_validate = NULL;
+  checks_passages = NULL;
+  checks_passages_menu = NULL;
+  check_nt_quotations_from_the_ot = NULL;
+  synoptic_parallel_passages_from_the_nt = NULL;
+  parallels_from_the_ot = NULL;
+  check_key_terms = NULL;
+  my_checks = NULL;
   if (guifeatures.checks()) {
 
     check1 = gtk_menu_item_new_with_mnemonic("Chec_k");
@@ -1166,6 +1196,14 @@ WindowMenu::WindowMenu(GtkAccelGroup *accelerator_group, bool startup) :
   }
 
   menutools = NULL;
+  menutools_menu = NULL;
+  line_cutter_for_hebrew_text1 = NULL;
+  notes_transfer = NULL;
+  tool_origin_references_in_bible_notes = NULL;
+  tool_project_notes_mass_update1 = NULL;
+  tool_generate_word_lists = NULL;
+  tool_simple_text_corrections = NULL;
+  tool_transfer_project_notes_to_text = NULL;
   if (guifeatures.tools()) {
 
     menutools = gtk_menu_item_new_with_mnemonic("_Tools");
@@ -1246,6 +1284,14 @@ WindowMenu::WindowMenu(GtkAccelGroup *accelerator_group, bool startup) :
   gtk_menu_item_set_submenu(GTK_MENU_ITEM (menuitem_preferences), menuitem_preferences_menu);
 
   preferences_remote_git_repository = NULL;
+  notes_preferences = NULL;
+  printingprefs = NULL;
+  reference_exchange1 = NULL;
+  ignored_references1 = NULL;
+  prefs_books = NULL;
+  preferences_windows_outpost = NULL;
+  preferences_tidy_text = NULL;
+  preferences_remote_git_repository = NULL;
   if (guifeatures.preferences()) {
 
     notes_preferences = gtk_image_menu_item_new_with_mnemonic("Project _notes");
@@ -1323,6 +1369,13 @@ WindowMenu::WindowMenu(GtkAccelGroup *accelerator_group, bool startup) :
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (preferences_features), image20936);
 
   preferences_planning = NULL;
+  preferences_password = NULL;
+  preferences_text_replacement = NULL;
+  pdf_viewer1 = NULL;
+  preferences_reporting = NULL;
+  preferences_planning = NULL;
+  preferences_graphical_interface = NULL;
+  preferences_filters = NULL;
   if (guifeatures.preferences()) {
 
     preferences_password = gtk_image_menu_item_new_with_mnemonic("P_assword");
@@ -1423,9 +1476,6 @@ WindowMenu::WindowMenu(GtkAccelGroup *accelerator_group, bool startup) :
   gtk_box_pack_start(GTK_BOX (vbox), toolbar1, FALSE, FALSE, 0);
   gtk_toolbar_set_style(GTK_TOOLBAR (toolbar1), GTK_TOOLBAR_BOTH_HORIZ);
 
-  // Todo navigation.build(toolbar1);
-  // g_signal_connect ((gpointer) navigation.reference_signal_delayed, "clicked", G_CALLBACK (on_navigation_new_reference_clicked), gpointer(this));
-
   hbox5 = gtk_hbox_new(FALSE, 0);
   gtk_widget_show(hbox5);
   gtk_box_pack_start(GTK_BOX (vbox), hbox5, FALSE, FALSE, 0);
@@ -1451,8 +1501,6 @@ WindowMenu::WindowMenu(GtkAccelGroup *accelerator_group, bool startup) :
   gtk_widget_show(statusbar1);
   gtk_box_pack_start(GTK_BOX (hbox5), statusbar1, FALSE, TRUE, 0);
   gtk_widget_set_size_request(statusbar1, 25, -1);
-  
-  */
 }
 
 WindowMenu::~WindowMenu() {
