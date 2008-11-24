@@ -63,14 +63,11 @@ protected:
   /* Initialization */
   void enable_or_disable_widgets(bool enable);
 
-  /* Menu window */ // Todo
+  /* Menu window */
   WindowMenu * window_menu;
   void display_menu_window();
-
   static void on_window_menu_delete_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_menu_delete_button();
-
-  
   static void on_open1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void open();
   static void on_new1_activate(GtkMenuItem * menuitem, gpointer user_data);
@@ -474,8 +471,8 @@ protected:
   void present_windows(GtkWidget * widget);
   static gboolean on_mainwindow_focus_in_event(GtkWidget *widget, GdkEventFocus *event, gpointer user_data);
   void mainwindow_focus_in_event(GdkEventFocus *event);
-  static gboolean on_mainwindow_window_state_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);
-  void mainwindow_window_state_event(GdkEvent *event);
+  static gboolean on_mainwindow_window_state_event(GtkWidget *widget, GdkEventWindowState *event, gpointer user_data);
+  void mainwindow_window_state_event(GdkEventWindowState *event);
 
   /* Quick references */
   static void on_view_quick_references_activate(GtkMenuItem *menuitem, gpointer user_data);

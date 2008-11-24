@@ -292,11 +292,9 @@ MainWindow::MainWindow(unsigned long xembed) :
   git_initialize_subsystem();
   git_update_intervals_initialize();
 
-  // Show main window.
+  // Show main window iconified.
   gtk_widget_show(mainwindow);
-  // Present it because some window managers do not present it when started from 
-  // a terminal.
-  gtk_window_present(GTK_WINDOW (mainwindow));
+  gtk_window_iconify(GTK_WINDOW(mainwindow));  
 
   // Interprocess communications.
   extern InterprocessCommunication * ipc;
@@ -306,7 +304,6 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   // Show open windows.
   g_timeout_add(300, GSourceFunc(on_windows_startup_timeout), gpointer(this));
-
 }
 
 MainWindow::~MainWindow() {
@@ -315,9 +312,6 @@ MainWindow::~MainWindow() {
 
   // Shut the separate windows down.
   shutdown_windows();
-
-  // Hide bibledit. 
-  gtk_widget_hide(mainwindow);
 
   // No ipc signals anymore.
   extern InterprocessCommunication * ipc;
@@ -399,7 +393,7 @@ void MainWindow::enable_or_disable_widgets(bool enable) {
  |
  |
  |
- Menu window Todo
+ Menu window
  |
  |
  |
@@ -4674,12 +4668,13 @@ void MainWindow::mainwindow_focus_in_event(GdkEventFocus *event) {
   present_windows(NULL);
 }
 
-gboolean MainWindow::on_mainwindow_window_state_event(GtkWidget *widget, GdkEvent *event, gpointer user_data) {
+gboolean MainWindow::on_mainwindow_window_state_event(GtkWidget *widget, GdkEventWindowState *event, gpointer user_data) {
   ((MainWindow *) user_data)->mainwindow_window_state_event(event);
   return FALSE;
 }
 
-void MainWindow::mainwindow_window_state_event(GdkEvent *event) {
+void MainWindow::mainwindow_window_state_event(GdkEventWindowState *event) {
+  gtk_window_iconify(GTK_WINDOW(mainwindow));
 }
 
 /*
@@ -5110,28 +5105,13 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
 
  Todo Improve the window layout system.
 
- The menu should normally be disabled when there's no stylesheet opened.
+
+ The styles menu should normally be disabled when there's no stylesheet opened.
  When "Open" is chosen, then it points to the stylesheet that currently belongs to the project,
  and suggests to open it.
  Otherwise all other options are disabled.
  When the styles window closes again, the menu is disabled again.
  Under normal condition the menu is operated by the styles window object.
-
-
- If we'd like to present all windows when one window is focused, then the programs's icon in the taskbar will flash.
- This can be resolved in the following manner. Make the menu window to be like any of the other extra windows.
- And make the main window to be the main window, but it does not show. This main window has the icon in the taskbar,
- is never present()-ed, so the icon will never flash. If the menu window is deleted, then we might delete the 
- main window too, or else we can do it that we delete the main window only if all windows get deleted, or 
- if the quit menu is chosen. But the best I think is to quit when the menu quits.
- 
- If the icon on the taskbar is signalled to minimize, all windows should minimize.
- If restore, all windows should restore.
- If maximize, all windows should tile.
-
-
-
-
 
  We need to look at the "todo" entries in windownotes.h/cpp.
 
