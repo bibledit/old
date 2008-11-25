@@ -294,7 +294,7 @@ MainWindow::MainWindow(unsigned long xembed) :
 
   // Show main window iconified.
   gtk_widget_show(mainwindow);
-  gtk_window_iconify(GTK_WINDOW(mainwindow));  
+  // Todo this works badly gtk_window_iconify(GTK_WINDOW(mainwindow));  
 
   // Interprocess communications.
   extern InterprocessCommunication * ipc;
@@ -4674,7 +4674,7 @@ gboolean MainWindow::on_mainwindow_window_state_event(GtkWidget *widget, GdkEven
 }
 
 void MainWindow::mainwindow_window_state_event(GdkEventWindowState *event) {
-  gtk_window_iconify(GTK_WINDOW(mainwindow));
+  // Todo this works terribly gtk_window_iconify(GTK_WINDOW(mainwindow));
 }
 
 /*
@@ -5105,6 +5105,9 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
 
  Todo Improve the window layout system.
 
+ Urgent: To revert to mainwindow being the menu one again, as the current system is bad.
+ further to track the state of a window in the signal callback, whether hidden or not.
+ If not hidden, not to present it. If hidden to present it.
 
  The styles menu should normally be disabled when there's no stylesheet opened.
  When "Open" is chosen, then it points to the stylesheet that currently belongs to the project,
