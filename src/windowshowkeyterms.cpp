@@ -43,6 +43,7 @@ WindowShowKeyterms::WindowShowKeyterms(GtkAccelGroup *accelerator_group, bool st
   gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW (textview1), GTK_WRAP_WORD);
   gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW (textview1), FALSE);
 
+  g_signal_connect ((gpointer) textview1, "visibility-notify-event", G_CALLBACK (on_visibility_notify_event), gpointer(this));
 }
 
 WindowShowKeyterms::~WindowShowKeyterms() {

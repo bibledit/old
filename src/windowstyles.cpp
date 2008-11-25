@@ -82,6 +82,8 @@ WindowStyles::WindowStyles(GtkAccelGroup *accelerator_group, bool startup, GtkWi
   gtk_container_add(GTK_CONTAINER (scrolledwindow), treeview);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW (treeview), false);
 
+  g_signal_connect ((gpointer) treeview, "visibility-notify-event", G_CALLBACK (on_visibility_notify_event), gpointer(this));
+
   GtkCellRenderer *renderer = gtk_cell_renderer_text_new();
 
   treecolumn = gtk_tree_view_column_new_with_attributes("", renderer, "text", 0, NULL);

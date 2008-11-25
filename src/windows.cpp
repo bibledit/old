@@ -397,7 +397,8 @@ bool WindowBase::display_timeout() {
   return false;
 }
 
-gboolean WindowBase::on_window_focus_in_event(GtkWidget *widget, GdkEventFocus *event, gpointer user_data) {
+gboolean WindowBase::on_window_focus_in_event(GtkWidget *widget, GdkEventFocus *event, gpointer user_data)
+{
   ((WindowBase *) user_data)->on_window_focus_in(widget);
   return FALSE;
 }
@@ -433,7 +434,10 @@ void WindowBase::present()
   gw_destroy_source(focus_event_id);
   focus_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc (on_focus_timeout), gpointer(this), NULL);
   // Present the window.
-  gtk_window_present(GTK_WINDOW (window));
+  // Only do that if the window is not fully visible alraedy.
+  if (visibility_state() != GDK_VISIBILITY_UNOBSCURED) {
+    gtk_window_present(GTK_WINDOW (window));
+  }
 }
 
 bool WindowBase::on_focus_timeout(gpointer data) {
@@ -461,3 +465,45 @@ void WindowBase::shutdown()
   my_shutdown = true;
 }
 
+gboolean WindowBase::on_visibility_notify_event (GtkWidget *widget, GdkEventVisibility *event, gpointer user_data)
+{
+  ((WindowBase *) user_data)->visibility_notify_event(event);
+  return false;
+}
+
+void WindowBase::visibility_notify_event(GdkEventVisibility *event)
+/*
+The signal should be connected to a widget that can be visible, such as a textview, or a listview, and so on.
+Like so:
+g_signal_connect ((gpointer) widget, "visibility-notify-event", G_CALLBACK (on_visibility_notify_event), gpointer(this));
+*/
+{
+  bool state_registered = false;
+  for (unsigned int i = 0; i < visibility_windows.size(); i++) {
+    if (event->window == visibility_windows[i]) {
+      visibility_states[i] = event->state;
+      state_registered = true;
+    }
+  }
+  if (!state_registered) {
+    visibility_windows.push_back (event->window);
+    visibility_states.push_back (event->state);
+  }
+}
+
+GdkVisibilityState WindowBase::visibility_state()
+/*
+Gets the visibility state of the window.
+GDK_VISIBILITY_UNOBSCURED the window is completely visible.
+GDK_VISIBILITY_PARTIAL the window is partially visible.
+GDK_VISIBILITY_FULLY_OBSCURED the window is not visible at all.
+*/
+{
+  GdkVisibilityState visibility = GDK_VISIBILITY_UNOBSCURED;
+  for (unsigned int i = 0; i < visibility_states.size(); i++) {
+    if (visibility_states[i] > visibility) {
+      visibility = visibility_states[i];
+    }
+  }
+  return visibility;
+}

@@ -44,7 +44,9 @@ private:
   GtkWidget *vbox;
   GtkWidget *progressbar;
   GtkWidget *homebutton;
+public:
   GtkHtml3Browser * browser;
+private:
   GtkHtml3Browser * browser2;
   
   // Resource loader.

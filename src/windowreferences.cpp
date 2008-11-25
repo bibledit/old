@@ -56,6 +56,8 @@ WindowReferences::WindowReferences(GtkAccelGroup *accelerator_group, bool startu
   gtk_widget_show(treeview);
   gtk_container_add(GTK_CONTAINER (scrolledwindow), treeview);
 
+  g_signal_connect ((gpointer) treeview, "visibility-notify-event", G_CALLBACK (on_visibility_notify_event), gpointer(this));
+
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW (treeview), TRUE);
   // Unreference the store once, so it gets destroyed with the treeview.
   g_object_unref(liststore);

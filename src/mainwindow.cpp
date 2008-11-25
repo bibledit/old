@@ -6128,7 +6128,7 @@ gboolean MainWindow::on_mainwindow_window_state_event(GtkWidget *widget, GdkEven
   return FALSE;
 }
 
-void MainWindow::mainwindow_window_state_event(GdkEventWindowState *event) {
+void MainWindow::mainwindow_window_state_event(GdkEventWindowState *event) { // Todo
 }
 
 /*
@@ -6555,10 +6555,6 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
 
  Todo Improve the window layout system.
 
- Urgent: To revert to mainwindow being the menu one again, as the current system is bad.
- further to track the state of a window in the signal callback, whether hidden or not.
- If not hidden, not to present it. If hidden to present it.
-
  The styles menu should normally be disabled when there's no stylesheet opened.
  When "Open" is chosen, then it points to the stylesheet that currently belongs to the project,
  and suggests to open it.
@@ -6572,8 +6568,6 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
  Adding the current reference to the note.
  If the notes window shows up on startup, it does now not display the relevant notes.
  
- There are still a lot of accelerators that should be added to the system.
-
  Add all the accelerators in a helpfile, build the file while adding the accelerator.
  
  To make a View / Tile menu. And a stack one. 
@@ -6609,8 +6603,6 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
  The up / down arrows keep working, so one can move from one GtkTextView to another, just as it is now.
  
  Clicking on a project notes [references] should bring up the references in the window. It does not do that now. 
- 
- When selecting the note category there's a lot of redundant focusing going around, and same applies to deleting a note.
  
  The following routines need attention to their code that has been commented out:
  void MainWindow::menu_redo()

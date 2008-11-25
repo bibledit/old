@@ -44,7 +44,9 @@ private:
   // Widgets.
   GtkWidget *my_vbox;
   GtkWidget *scrolledwindow;
+public:
   GtkWidget *htmlview;
+private:
 
   // Timer.
   guint event_id;

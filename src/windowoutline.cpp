@@ -34,6 +34,8 @@ WindowOutline::WindowOutline(GtkAccelGroup *accelerator_group, bool startup) :
   gtk_container_add (GTK_CONTAINER (window), vbox);
   
   outline = new Outline (vbox);
+  g_signal_connect ((gpointer) outline->treeview, "visibility-notify-event", G_CALLBACK (on_visibility_notify_event), gpointer(this));
+
 }
 
 WindowOutline::~WindowOutline() {

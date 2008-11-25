@@ -37,7 +37,9 @@ public:
   guint newchapter, newverse;
 private:
   GtkWidget *scrolledwindow;
+public:
   GtkWidget *treeview;
+private:
   GtkTreeStore *store;
   ustring myproject;
   unsigned int mybook;

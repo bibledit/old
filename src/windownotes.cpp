@@ -65,6 +65,8 @@ WindowNotes::WindowNotes(GtkAccelGroup *accelerator_group, bool startup) :
   gtk_container_add(GTK_CONTAINER (scrolledwindow_notes), htmlview_notes);
   gtk_html_allow_selection(GTK_HTML (htmlview_notes), true);
 
+  g_signal_connect ((gpointer) htmlview_notes, "visibility-notify-event", G_CALLBACK (on_visibility_notify_event), gpointer(this));
+
   hbox14 = gtk_hbox_new(FALSE, 0);
   gtk_widget_show(hbox14);
   gtk_container_add(GTK_CONTAINER (notebook1), hbox14);

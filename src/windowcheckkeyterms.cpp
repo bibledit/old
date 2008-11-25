@@ -54,6 +54,8 @@ WindowCheckKeyterms::WindowCheckKeyterms(GtkAccelGroup *accelerator_group, bool 
   gtk_box_pack_start(GTK_BOX (vbox), entry_keyterm, FALSE, FALSE, 0);
   gtk_entry_set_invisible_char(GTK_ENTRY (entry_keyterm), 8226);
 
+  g_signal_connect ((gpointer) entry_keyterm, "visibility-notify-event", G_CALLBACK (on_visibility_notify_event), gpointer(this));
+
   // Produce the signal to be given on a new reference.
   signal = gtk_button_new();
   gtk_box_pack_start(GTK_BOX (vbox), signal, FALSE, FALSE, 0);
@@ -66,7 +68,9 @@ WindowCheckKeyterms::WindowCheckKeyterms(GtkAccelGroup *accelerator_group, bool 
   combobox_collection = gtk_combo_box_new_text();
   gtk_widget_show(combobox_collection);
   gtk_box_pack_start(GTK_BOX (vbox), combobox_collection, FALSE, TRUE, 0);
-
+  
+  g_signal_connect ((gpointer) combobox_collection, "visibility-notify-event", G_CALLBACK (on_visibility_notify_event), gpointer(this));
+  
   label25 = gtk_label_new_with_mnemonic("_List");
   gtk_widget_show(label25);
   gtk_box_pack_start(GTK_BOX (vbox), label25, FALSE, FALSE, 0);
@@ -84,6 +88,8 @@ WindowCheckKeyterms::WindowCheckKeyterms(GtkAccelGroup *accelerator_group, bool 
   gtk_widget_show(treeview_keyterm);
   gtk_container_add(GTK_CONTAINER (scrolledwindow_keyterm), treeview_keyterm);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW (treeview_keyterm), FALSE);
+  
+  g_signal_connect ((gpointer) treeview_keyterm, "visibility-notify-event", G_CALLBACK (on_visibility_notify_event), gpointer(this));
 
   // Renderer, column and selection.
   GtkCellRenderer *renderer_keywords = gtk_cell_renderer_text_new();
@@ -106,6 +112,8 @@ WindowCheckKeyterms::WindowCheckKeyterms(GtkAccelGroup *accelerator_group, bool 
   gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW (textview_comments), GTK_WRAP_WORD);
   gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW (textview_comments), FALSE);
 
+  g_signal_connect ((gpointer) textview_comments, "visibility-notify-event", G_CALLBACK (on_visibility_notify_event), gpointer(this));
+
   scrolledwindow_renderings = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow_renderings);
   gtk_box_pack_start(GTK_BOX (vbox), scrolledwindow_renderings, TRUE, TRUE, 0);
@@ -119,6 +127,8 @@ WindowCheckKeyterms::WindowCheckKeyterms(GtkAccelGroup *accelerator_group, bool 
   treeview_renderings = gtk_tree_view_new_with_model(GTK_TREE_MODEL (treestore_renderings));
   gtk_widget_show(treeview_renderings);
   gtk_container_add(GTK_CONTAINER (scrolledwindow_renderings), treeview_renderings);
+
+  g_signal_connect ((gpointer) treeview_renderings, "visibility-notify-event", G_CALLBACK (on_visibility_notify_event), gpointer(this));
 
   // Renderer, column and selection.
   GtkCellRenderer *renderer_renderings = gtk_cell_renderer_toggle_new();
@@ -148,6 +158,8 @@ WindowCheckKeyterms::WindowCheckKeyterms(GtkAccelGroup *accelerator_group, bool 
   gtk_container_add(GTK_CONTAINER (scrolledwindow_check_text), textview_check_text);
   gtk_text_view_set_editable(GTK_TEXT_VIEW (textview_check_text), FALSE);
   gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW (textview_check_text), GTK_WRAP_WORD);
+
+  g_signal_connect ((gpointer) textview_check_text, "visibility-notify-event", G_CALLBACK (on_visibility_notify_event), gpointer(this));
 
   g_signal_connect ((gpointer) entry_keyterm, "changed", G_CALLBACK (on_entry_keyterm_changed), gpointer(this));
   g_signal_connect ((gpointer) entry_keyterm, "activate", G_CALLBACK (on_entry_keyterm_activate), gpointer(this));

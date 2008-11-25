@@ -34,6 +34,7 @@ WindowResource::WindowResource(const ustring& resource_name, GtkAccelGroup *acce
 {
   name = resource_name;
   resource = new Resource (window);
+  g_signal_connect ((gpointer) resource->browser->htmlview, "visibility-notify-event", G_CALLBACK (on_visibility_notify_event), gpointer(this));
   resource->open(resourcename_to_filename(name));
 }
 

@@ -80,6 +80,14 @@ public:
   void on_window_delete();
   bool my_shutdown;
   void shutdown();
+  
+  // Visibility.
+  static gboolean on_visibility_notify_event (GtkWidget *widget, GdkEventVisibility *event, gpointer user_data);
+  void visibility_notify_event(GdkEventVisibility *event);
+  vector <GdkWindow *> visibility_windows;
+  vector <GdkVisibilityState> visibility_states;
+  GdkVisibilityState visibility_state();
+  
 };
 
 #endif

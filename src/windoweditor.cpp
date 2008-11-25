@@ -35,6 +35,7 @@ WindowEditor::WindowEditor(const ustring& project_name, GtkAccelGroup *accelerat
 
   // Create the new editor.
   editor = new Editor (vbox, project_name);
+  g_signal_connect ((gpointer) editor->textview, "visibility-notify-event", G_CALLBACK (on_visibility_notify_event), gpointer(this));
 }
 
 WindowEditor::~WindowEditor() {

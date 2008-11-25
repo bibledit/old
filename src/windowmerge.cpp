@@ -97,6 +97,8 @@ WindowMerge::WindowMerge(GtkAccelGroup *accelerator_group, bool startup) :
   gtk_text_view_set_accepts_tab(GTK_TEXT_VIEW (textview1), FALSE);
   gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW (textview1), GTK_WRAP_WORD);
 
+  g_signal_connect ((gpointer) textview1, "visibility-notify-event", G_CALLBACK (on_visibility_notify_event), gpointer(this));
+
   differencesbuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW (textview1));
 
   hbox1 = gtk_hbox_new(FALSE, 0);
