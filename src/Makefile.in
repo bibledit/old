@@ -172,7 +172,7 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	windowcheckkeyterms.$(OBJEXT) windowstyles.$(OBJEXT) \
 	windownotes.$(OBJEXT) accelerators.$(OBJEXT) \
 	dialogprojectnote.$(OBJEXT) windowreferences.$(OBJEXT) \
-	windoweditor.$(OBJEXT) windowmenu.$(OBJEXT)
+	windoweditor.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -624,8 +624,7 @@ bibledit_bin_SOURCES = \
         accelerators.cpp \
         dialogprojectnote.cpp \
         windowreferences.cpp \
-        windoweditor.cpp \
-        windowmenu.cpp
+        windoweditor.cpp 
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -951,7 +950,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowcheckkeyterms.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windoweditor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowlayout.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowmenu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowmerge.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windownotes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowoutline.Po@am__quote@
