@@ -26,7 +26,7 @@
 #include "tiny_utilities.h"
 
 WindowEditor::WindowEditor(const ustring& project_name, GtkAccelGroup *accelerator_group, bool startup) :
-  WindowBase(widEditor, project_name, accelerator_group, startup)
+  WindowBase(widEditor, project_name, startup, 0)
 // Text editor.
 {
   vbox = gtk_vbox_new(FALSE, 0);

@@ -33,7 +33,7 @@
 #include "mapping.h"
 
 WindowCheckKeyterms::WindowCheckKeyterms(GtkAccelGroup *accelerator_group, bool startup) :
-  WindowBase(widCheckKeyterms, "Check keyterms", accelerator_group, startup), myreference(0)
+  WindowBase(widCheckKeyterms, "Check keyterms", startup, 0), myreference(0)
 // Window for checking keyterms.
 {
   // Save / initialize variables.

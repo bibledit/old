@@ -26,7 +26,7 @@
 #include "tiny_utilities.h"
 
 WindowOutline::WindowOutline(GtkAccelGroup *accelerator_group, bool startup) :
-  WindowBase(widOutline, "Outline", accelerator_group, startup), myreference(0)
+  WindowBase(widOutline, "Outline", startup, 0), myreference(0)
 // Window showing outline.
 {
   vbox = gtk_vbox_new (FALSE, 0);

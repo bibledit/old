@@ -39,7 +39,7 @@
 #include "dialogprojectnote.h"
 
 WindowNotes::WindowNotes(GtkAccelGroup *accelerator_group, bool startup) :
-  WindowBase(widNotes, "Project notes", accelerator_group, startup)
+  WindowBase(widNotes, "Project notes", startup, 0)
 // Project notes window.
 {
   // Initialize variables.

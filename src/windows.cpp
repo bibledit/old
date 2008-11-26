@@ -141,7 +141,7 @@ void WindowData::debug()
   }
 }
 
-WindowBase::WindowBase(WindowID id, ustring data_title, GtkAccelGroup *accelerator_group, bool startup)
+WindowBase::WindowBase(WindowID id, ustring data_title, bool startup, unsigned long xembed)
 // Base class for each window.
 {
   // If there's no title/data, then the configuration file gets inconsistent. Therefore put something there.
@@ -162,11 +162,16 @@ WindowBase::WindowBase(WindowID id, ustring data_title, GtkAccelGroup *accelerat
   focus_in_signal_button = gtk_button_new();
   delete_signal_button = gtk_button_new();
 
-  // Craete the window.
-  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  // Create the window.
+  if (xembed) {
+    window = gtk_plug_new(GdkNativeWindow(xembed));
+  } else {
+    window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  }
   gtk_window_set_title(GTK_WINDOW (window), data_title.c_str());
 
-  // Use accelerator in each window to make them look and feel the same.
+  // Use the same accelerators in each window to make them look and feel the same.
+  extern GtkAccelGroup *accelerator_group;
   gtk_window_add_accel_group(GTK_WINDOW (window), accelerator_group);
 
   // The extra window should not appear in the taskbar in addition to the main window of Bibledit.

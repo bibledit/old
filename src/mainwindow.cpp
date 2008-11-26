@@ -150,7 +150,7 @@
  */
 
 MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
-  WindowBase(widMenu, "Main window", accelerator_group, false), navigation(0), bibletime(true), httpd(0) {
+  WindowBase(widMenu, "Main window", false, xembed), navigation(0), bibletime(true), httpd(0) {
   // Set some pointers to NULL.  
   // To save memory, we only create the object when actually needed.
   window_screen_layout = NULL;
@@ -228,13 +228,6 @@ MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
   gtk_accel_group_connect(accelerator_group, GDK_M, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_menu_callback), gpointer(this), NULL));
 
   // GUI build.
-  /* Todo to implement all of this again
-  if (xembed) {
-    mainwindow = gtk_plug_new(GdkNativeWindow(xembed));
-  } else {
-    mainwindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  }
-  */
   gtk_window_set_default_icon_from_file(gw_build_filename (directories_get_package_data (), "bibledit.xpm").c_str(), NULL);
 
   vbox = gtk_vbox_new(FALSE, 0);
@@ -5990,11 +5983,6 @@ void MainWindow::shutdown_windows()
     delete editor_window;
     editor_windows.erase(editor_windows.begin());
   }
-
-  // Menu.
-  // Todo if (window_menu) on_window_menu_delete_button();
-
-
 }
 
 void MainWindow::on_window_focus_button_clicked(GtkButton *button, gpointer user_data) {
@@ -6044,7 +6032,7 @@ void MainWindow::present_windows(GtkWidget * widget)
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
     editor_windows[i]->present(false);
   }
-  // Todo if (window_menu)  present();
+  present(false);
 
   // Present the calling window again so that it keeps the focus.
   if (window_show_quick_references) {
@@ -6087,7 +6075,9 @@ void MainWindow::present_windows(GtkWidget * widget)
     if (widget == editor_windows[i]->focus_in_signal_button)
       editor_windows[i]->present(true);
   }
-  // Todo if (window_menu) if (widget == focus_in_signal_button)  present();
+  if (widget == focus_in_signal_button) {
+    present(true);
+  }
 }
 
 /*
@@ -6440,9 +6430,10 @@ void MainWindow::accelerator_close_window()
   }
   handle_editor_focus();
 
-  // Menu.
-  // Todo if (window_menu) if (now_focused_signal_button == focus_in_signal_button) gtk_main_quit();
-
+  // Menu / main window.
+  if (now_focused_signal_button == focus_in_signal_button) {
+    gtk_main_quit();
+  }
 }
 
 void MainWindow::accelerator_goto_styles_area_callback(gpointer user_data) {
@@ -6515,9 +6506,6 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
 
  Todo Improve the window layout system.
 
- If F5 is pressed, then the window is not focused, because it is visible already. Therefore we
- need a bool force variable to be passed to the present() function, and check where this should be used and where not.
- 
  When Ctrl-F is pressed, and the references window comes up, then the find window may not be focused.
  We need a timeout that presents this window shortly after creation.
  

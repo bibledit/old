@@ -33,7 +33,7 @@
 #include "referenceutils.h"
 
 WindowReferences::WindowReferences(GtkAccelGroup *accelerator_group, bool startup) :
-  WindowBase(widReferences, "References", accelerator_group, startup), reference(0, 0, "")
+  WindowBase(widReferences, "References", startup, 0), reference(0, 0, "")
 // Window for showing the quick references.  
 {
   scrolledwindow = gtk_scrolled_window_new(NULL, NULL);

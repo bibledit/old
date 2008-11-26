@@ -354,7 +354,7 @@ protected:
   /* Initialization */
   void enable_or_disable_widgets(bool enable);
 
-  /* Menu window */ // Todo remove stuff from here.
+  /* Menu window */
   static void on_window_menu_delete_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_menu_delete_button();
   static void on_open1_activate(GtkMenuItem * menuitem, gpointer user_data);

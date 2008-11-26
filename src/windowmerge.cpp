@@ -44,7 +44,7 @@
 #include "shell.h"
 
 WindowMerge::WindowMerge(GtkAccelGroup *accelerator_group, bool startup) :
-  WindowBase(widMerge, "Merge", accelerator_group, startup)
+  WindowBase(widMerge, "Merge", startup, 0)
 // Window for merging changes.  
 {
   // Save and initialize variables.
