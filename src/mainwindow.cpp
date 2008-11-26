@@ -2768,7 +2768,7 @@ void MainWindow::on_synchronize_other_programs() {
 void MainWindow::on_text_area_activate() {
   WindowEditor * editor_window = last_focused_editor_window();
   if (editor_window) {
-    editor_window->present();
+    editor_window->present(true);
   }
 }
 
@@ -3224,7 +3224,7 @@ void MainWindow::view_project_notes() {
     return;
   if (window_notes) {
     // If the window is there, present it to the user.
-    window_notes->present();
+    window_notes->present(true);
   } else {
     window_notes = new WindowNotes (accelerator_group, windows_startup_pointer != G_MAXINT);
     g_signal_connect ((gpointer) window_notes->delete_signal_button, "clicked", G_CALLBACK (on_window_notes_delete_button_clicked), gpointer(this));
@@ -3793,7 +3793,7 @@ void MainWindow::on_goto_styles_area() {
   display_window_styles();
   // Focus the window to enable the user to start inserting the style using the keyboard.
   if (window_styles) {
-    window_styles->present();
+    window_styles->present(true);
   }
 }
 
@@ -4987,7 +4987,7 @@ void MainWindow::on_file_project_open(const ustring& project)
   // If the editor already displays, present it and bail out.
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
     if (project == editor_windows[i]->window_data) {
-      editor_windows[i]->present();
+      editor_windows[i]->present(false);
       return;
     }
   }
@@ -5128,7 +5128,7 @@ void MainWindow::goto_next_previous_project(bool next) {
   }
 
   // Present the new window.
-  editor_windows[offset]->present();
+  editor_windows[offset]->present(true);
 }
 
 void MainWindow::on_editorsgui_changed_clicked(GtkButton *button, gpointer user_data) {
@@ -5930,7 +5930,7 @@ bool MainWindow::on_windows_startup() {
   if (focused_project_last_session.empty()) {
     for (unsigned int i = 0; i < editor_windows.size(); i++) {
       if (focused_project_last_session == editor_windows[i]->window_data) {
-        editor_windows[i]->present();
+        editor_windows[i]->present(true);
       }
     }
     focused_project_last_session.clear();
@@ -6047,69 +6047,69 @@ void MainWindow::present_windows(GtkWidget * widget)
 {
   // Present all windows.
   if (window_show_quick_references)
-    window_show_quick_references->present();
+    window_show_quick_references->present(false);
   if (window_show_keyterms)
-    window_show_keyterms->present();
+    window_show_keyterms->present(false);
   if (window_merge)
-    window_merge->present();
+    window_merge->present(false);
   for (unsigned int i = 0; i < resource_windows.size(); i++) {
-    resource_windows[i]->present();
+    resource_windows[i]->present(false);
   }
   if (window_outline)
-    window_outline->present();
+    window_outline->present(false);
   if (window_check_keyterms)
-    window_check_keyterms->present();
+    window_check_keyterms->present(false);
   if (window_styles)
-    window_styles->present();
+    window_styles->present(false);
   if (window_notes)
-    window_notes->present();
+    window_notes->present(false);
   if (window_references)
-    window_references->present();
+    window_references->present(false);
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    editor_windows[i]->present();
+    editor_windows[i]->present(false);
   }
   // Todo if (window_menu)  present();
 
   // Present the calling window again so that it keeps the focus.
   if (window_show_quick_references) {
     if (widget == window_show_quick_references->focus_in_signal_button)
-      window_show_quick_references->present();
+      window_show_quick_references->present(true);
   }
   if (window_show_keyterms) {
     if (widget == window_show_keyterms->focus_in_signal_button)
-      window_show_keyterms->present();
+      window_show_keyterms->present(true);
   }
   if (window_merge) {
     if (widget == window_merge->focus_in_signal_button)
-      window_merge->present();
+      window_merge->present(true);
   }
   for (unsigned int i = 0; i < resource_windows.size(); i++) {
     if (widget == resource_windows[i]->focus_in_signal_button)
-      resource_windows[i]->present();
+      resource_windows[i]->present(true);
   }
   if (window_outline) {
     if (widget == window_outline->focus_in_signal_button)
-      window_outline->present();
+      window_outline->present(true);
   }
   if (window_check_keyterms) {
     if (widget == window_check_keyterms->focus_in_signal_button)
-      window_check_keyterms->present();
+      window_check_keyterms->present(true);
   }
   if (window_styles) {
     if (widget == window_styles->focus_in_signal_button)
-      window_styles->present();
+      window_styles->present(true);
   }
   if (window_notes) {
     if (widget == window_notes->focus_in_signal_button)
-      window_notes->present();
+      window_notes->present(true);
   }
   if (window_references) {
     if (widget == window_references->focus_in_signal_button)
-      window_references->present();
+      window_references->present(true);
   }
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
     if (widget == editor_windows[i]->focus_in_signal_button)
-      editor_windows[i]->present();
+      editor_windows[i]->present(true);
   }
   // Todo if (window_menu) if (widget == focus_in_signal_button)  present();
 }
@@ -6558,8 +6558,8 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
  If F5 is pressed, then the window is not focused, because it is visible already. Therefore we
  need a bool force variable to be passed to the present() function, and check where this should be used and where not.
  
- If a project note is being edited, it is not presented on focusing, and hence remains invisible.
- A solution is needed that takes in account the state of the notebook.
+ When Ctrl-F is pressed, and the references window comes up, then the find window may not be focused.
+ We need a timeout that presents this window shortly after creation.
  
  The styles menu should normally be disabled when there's no stylesheet opened.
  When "Open" is chosen, then it points to the stylesheet that currently belongs to the project,
@@ -6636,6 +6636,9 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
  a feature request though. BibleTime crashes under exported Bibles, such as BSZ Ndebele, therefore we may have to be forced
  to make a quick search functionality and export to html options in Bibledit.
  
+ When sending references to the external programs, it should be the external program controller object that decides whether
+ to send a new reference or not. Not MainWindow decides it, but it should be the controller object. The object decides whether 
+ to send it by comparing the reference sent earlier with the one newly coming in. If differing it sends, if not, it quits.
  
  */
 

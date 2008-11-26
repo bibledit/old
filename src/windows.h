@@ -68,7 +68,7 @@ public:
   void on_window_focus_in(GtkWidget *widget);
   time_t focused_time;
   bool act_on_focus_in_signal;
-  void present();
+  void present(bool force);
   bool focused();
   
   guint focus_event_id;

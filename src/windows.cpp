@@ -424,7 +424,7 @@ bool WindowBase::focused() {
   return GTK_WIDGET_HAS_FOCUS(window);
 }
 
-void WindowBase::present()
+void WindowBase::present(bool force)
 // Presents the window.
 {
   // The window is going to be presented, and therefore will fire the "focus_in_event".
@@ -435,7 +435,7 @@ void WindowBase::present()
   focus_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc (on_focus_timeout), gpointer(this), NULL);
   // Present the window.
   // Only do that if the window is not fully visible alraedy.
-  if (visibility_state() != GDK_VISIBILITY_UNOBSCURED) {
+  if ((visibility_state() != GDK_VISIBILITY_UNOBSCURED) || force) {
     gtk_window_present(GTK_WINDOW (window));
   }
 }
