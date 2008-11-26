@@ -50,6 +50,7 @@ Mappings * mappings;
 Styles * styles;
 CURL * curl;
 HtmlCache * htmlcache;
+GtkAccelGroup *accelerator_group;
 
 int main(int argc, char *argv[]) {
   // Unhandled exception handler.
@@ -96,6 +97,10 @@ int main(int argc, char *argv[]) {
    I changed Bibledit to accept a --xembed argument with a window ID. 
    It that argument is present, it then creates a plug for its main window instead of a normal top-level window.   
    */
+  // Accelerators.
+  g_type_init();
+  accelerator_group = gtk_accel_group_new();
+  // Window.
   unsigned long xembed = 0;
   if (argc > 2 && strcmp(argv[1], "--xembed") == 0) {
     xembed = strtoul(argv[2], &argv[2], 0);
@@ -120,12 +125,14 @@ int main(int argc, char *argv[]) {
   // Upgrade data.
   upgrade(true);
   // Start the gui.
-  MainWindow mainwindow(xembed);
+  MainWindow mainwindow(xembed, accelerator_group);
   gtk_main();
   // Cleanup http fetching. Note: the html cache must be deleted before curl is cleaned up. 
   // If this is done in the wrong order, and a fetch is going on at this moment, then bibledit crashes on shutdown.
   delete htmlcache;
   curl_easy_cleanup(curl);
+  // Destroy the accelerator group.
+  g_object_unref(G_OBJECT (accelerator_group));
   // Quit.
   return 0;
 }

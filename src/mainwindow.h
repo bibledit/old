@@ -44,13 +44,12 @@
 #include "windowreferences.h"
 #include "windoweditor.h"
 
-class MainWindow
+class MainWindow : public WindowBase
 {
 public:
-  MainWindow(unsigned long xembed);
+  MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group);
   ~MainWindow();
   int run();
-  GtkWidget *mainwindow;
 protected:
   /* IMPORTANT If more menu items are added see whether they should be made 
    * in(sensitive) depending on whether a project has been opened. */
@@ -356,10 +355,8 @@ protected:
   void enable_or_disable_widgets(bool enable);
 
   /* Menu window */ // Todo remove stuff from here.
-  void display_menu_window();
   static void on_window_menu_delete_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_menu_delete_button();
-  
   static void on_open1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void open();
   static void on_new1_activate(GtkMenuItem * menuitem, gpointer user_data);
@@ -389,7 +386,6 @@ protected:
   void menu_findspecial();
   static void on_import1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void menu_import();
-  static gboolean on_mainwindow_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);
   static void on_insert1_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_menu_insert();
   static void on_notes_preferences_activate(GtkMenuItem *menuitem, gpointer user_data);
@@ -761,10 +757,6 @@ protected:
   GtkWidget * now_focused_signal_button;
   GtkWidget * last_focused_signal_button;
   void present_windows(GtkWidget * widget);
-  static gboolean on_mainwindow_focus_in_event(GtkWidget *widget, GdkEventFocus *event, gpointer user_data);
-  void mainwindow_focus_in_event(GdkEventFocus *event);
-  static gboolean on_mainwindow_window_state_event(GtkWidget *widget, GdkEventWindowState *event, gpointer user_data);
-  void mainwindow_window_state_event(GdkEventWindowState *event);
 
   /* Quick references */
   static void on_view_quick_references_activate(GtkMenuItem *menuitem, gpointer user_data);
@@ -776,7 +768,6 @@ protected:
   void on_show_quick_references_signal_button(GtkButton *button);
 
   // Accelerators.
-  GtkAccelGroup *accelerator_group;
   static void accelerator_undo_callback(gpointer user_data);
   void accelerator_undo();
   static void accelerator_redo_callback(gpointer user_data);
