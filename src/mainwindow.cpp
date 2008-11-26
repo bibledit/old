@@ -6522,8 +6522,6 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
  Adding the current reference to the note.
  If the notes window shows up on startup, it does now not display the relevant notes.
  
- Add all the accelerators in a helpfile, build the file while adding the accelerator.
- 
  To make a View / Tile menu. And a stack one. 
  When a new window is opened, for example, a new editor is opened, it then automatically finds a place
  within the existing editors, and tiles (or stacks) the windows.
