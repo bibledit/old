@@ -6555,6 +6555,12 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
 
  Todo Improve the window layout system.
 
+ If F5 is pressed, then the window is not focused, because it is visible already. Therefore we
+ need a bool force variable to be passed to the present() function, and check where this should be used and where not.
+ 
+ If a project note is being edited, it is not presented on focusing, and hence remains invisible.
+ A solution is needed that takes in account the state of the notebook.
+ 
  The styles menu should normally be disabled when there's no stylesheet opened.
  When "Open" is chosen, then it points to the stylesheet that currently belongs to the project,
  and suggests to open it.
@@ -6627,7 +6633,8 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
  As BibleWorks runs under Linux without the extra translations, what we need to do is to move those extra translations
  to BibleTime, and then run BibleWorks under Linux. Else they could be moved to a Resource, but that would require
  search functionality to be added to the Resource, which is a thing we are not now looking for. It could be put in as 
- a feature request though.
+ a feature request though. BibleTime crashes under exported Bibles, such as BSZ Ndebele, therefore we may have to be forced
+ to make a quick search functionality and export to html options in Bibledit.
  
  
  */

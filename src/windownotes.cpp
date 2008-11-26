@@ -238,6 +238,8 @@ WindowNotes::WindowNotes(GtkAccelGroup *accelerator_group, bool startup) :
   gtk_container_add(GTK_CONTAINER (scrolledwindow_note_editor), htmlview_note_editor);
   gtk_html_allow_selection(GTK_HTML (htmlview_note_editor), true);
 
+  g_signal_connect ((gpointer) htmlview_note_editor, "visibility-notify-event", G_CALLBACK (on_visibility_notify_event), gpointer(this));
+
   vbox_controls = gtk_vbox_new(FALSE, 0);
   gtk_widget_show(vbox_controls);
   gtk_box_pack_start(GTK_BOX (hbox14), vbox_controls, FALSE, FALSE, 0);
