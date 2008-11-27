@@ -150,7 +150,7 @@
  */
 
 MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
-  WindowBase(widMenu, "Main window", false, xembed), navigation(0), bibletime(true), httpd(0) {
+  WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), httpd(0) {
   // Set some pointers to NULL.  
   // To save memory, we only create the object when actually needed.
   window_screen_layout = NULL;
@@ -229,6 +229,7 @@ MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
 
   // GUI build.
   gtk_window_set_default_icon_from_file(gw_build_filename (directories_get_package_data (), "bibledit.xpm").c_str(), NULL);
+  gtk_window_set_skip_taskbar_hint(GTK_WINDOW (window), false);
 
   vbox = gtk_vbox_new(FALSE, 0);
   gtk_widget_show(vbox);
@@ -6506,37 +6507,15 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
 
  Todo Improve the window layout system.
 
- When Ctrl-F is pressed, and the references window comes up, then the find window may not be focused.
- We need a timeout that presents this window shortly after creation.
- 
- The styles menu should normally be disabled when there's no stylesheet opened.
- When "Open" is chosen, then it points to the stylesheet that currently belongs to the project,
- and suggests to open it.
- Otherwise all other options are disabled.
- When the styles window closes again, the menu is disabled again.
- Under normal condition the menu is operated by the styles window object.
-
  We need to look at the "todo" entries in windownotes.h/cpp.
 
  Adding text to notes by accelerators, and by the menu.
  Adding the current reference to the note.
  If the notes window shows up on startup, it does now not display the relevant notes.
  
- To make a View / Tile menu. And a stack one. 
- When a new window is opened, for example, a new editor is opened, it then automatically finds a place
- within the existing editors, and tiles (or stacks) the windows.
-
  If the positions are reset, then all standard positions are put to zero, so that next time they show up,
  they will be allocated into the new position.
  
- Eventually the menu will also become an independent window, and can be clicked away to disappear from the screen.
- But ideally we would like to stop the program if the menu is clicked away.
- We can resolved it this way.
- - If the menu is clicked away, then it asks whether to stop the program. If so, yes, if not, the menu goes away.
- - If the last window is clicked away, then the program stops too.
- - If Ctrl-Q is typed, it stops too, and this applies in any window.
- - If Ctrl-W is clicked in any window, it goes away, and if it is the last one, the program quits.
-
  When all the windows are done, then we need to check whether all menu entries work in each window,
  and whether all shortcuts in each relevant window.
  When all windows have been detached, we need to verify copy and paste through the menu and through shortcuts.
@@ -6544,17 +6523,12 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
  All those places where it has "References references", it is to be looked into whether that cannot be moved
  into the references window itself, rather than cluttering the code in MainWindow.
 
- If Ctrl-N is pressed in an already existing notes window, the Ctrl-1/4 shortcuts don't work unless the window
- is clicked so as to focus it. No, even after clicking in the window, the shortcuts don't work.
-
  We have to put the footnotes in separate GtkTextViews. 
  So we can then use as many GtkTextViews as there are footnotes. 
  And then the automatic width routines go away.
  This is done in the same scrolled window, just by adding the required number of GtkTextViews to the vertical box.
  Each note consists of a horizontal box, with the caller in it as a label, and then a GtkTextView for the note.
  The up / down arrows keep working, so one can move from one GtkTextView to another, just as it is now.
- 
- Clicking on a project notes [references] should bring up the references in the window. It does not do that now. 
  
  The following routines need attention to their code that has been commented out:
  void MainWindow::menu_redo()
@@ -6571,20 +6545,11 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
  the called functions should be integrated into one, and should further know
  whether it was called from the menu or from a shortcut.
  
- Hi Teus, Downloaded this version, BE opens in 5 windows Text, Quickreference, Styles, Merge, Resources, 
- where not project is loaded. As soon as I try to load a project (click file/open) BE crashes. Wolfgang
- 
- If there's no project, disable the Ctrl-P accelerator.
-
  As BibleWorks runs under Linux without the extra translations, what we need to do is to move those extra translations
  to BibleTime, and then run BibleWorks under Linux. Else they could be moved to a Resource, but that would require
  search functionality to be added to the Resource, which is a thing we are not now looking for. It could be put in as 
  a feature request though. BibleTime crashes under exported Bibles, such as BSZ Ndebele, therefore we may have to be forced
  to make a quick search functionality and export to html options in Bibledit.
- 
- When sending references to the external programs, it should be the external program controller object that decides whether
- to send a new reference or not. Not MainWindow decides it, but it should be the controller object. The object decides whether 
- to send it by comparing the reference sent earlier with the one newly coming in. If differing it sends, if not, it quits.
  
  */
 
