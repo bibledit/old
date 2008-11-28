@@ -450,7 +450,7 @@ protected:
   static void on_paste1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_paste();
 
-  /* References */ // Todo
+  /* References */
   void show_references_window();
   WindowReferences * window_references;
   static void on_window_references_delete_button_clicked(GtkButton *button, gpointer user_data);
@@ -494,7 +494,7 @@ protected:
   static bool on_gui_timeout(gpointer data);
   void on_gui();
 
-  /* Project notes */ // Todo
+  /* Project notes */
   bool project_notes_enabled;
   void view_project_notes();
   WindowNotes * window_notes;

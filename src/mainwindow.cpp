@@ -2860,7 +2860,7 @@ void MainWindow::on_paste() {
  |
  |
  |
- References Todo
+ References
  |
  |
  |
@@ -3185,7 +3185,7 @@ void MainWindow::on_gui()
  |
  |
  |
- Project notes Todo
+ Project notes
  |
  |
  |
@@ -3450,7 +3450,7 @@ void MainWindow::on_window_notes_references_available_button_clicked(GtkButton *
   ((MainWindow *) user_data)->on_window_notes_references_available_button();
 }
 
-void MainWindow::on_window_notes_references_available_button() { // Todo
+void MainWindow::on_window_notes_references_available_button() {
   show_references_window();
   if (window_notes) {
      References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
@@ -6574,17 +6574,10 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
 
 /*
 
- Todo Improve the window layout system.
+ Todo
 
- Adding text to notes by accelerators, and by the menu.
- Adding the current reference to the note.
- If the notes window shows up on startup, it does now not display the relevant notes.
- 
- When all the windows are done, then we need to check whether all menu entries work in each window,
- and whether all shortcuts in each relevant window.
- When all windows have been detached, we need to verify copy and paste through the menu and through shortcuts.
- 
- The following routines need attention to their code that has been commented out:
+The following routines need attention to their code that has been commented out:
+At the same time join the menu-based functions with their accelerator-based equivalents.
  void MainWindow::menu_redo()
  void MainWindow::menu_edit()
  void MainWindow::menu_undo() 
