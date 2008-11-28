@@ -166,8 +166,12 @@ MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
   // Initialize some variables.
   git_reopen_project = false;
   windows_startup_pointer = 0;
-  now_focused_signal_button = NULL;
-  last_focused_signal_button = NULL;
+  now_focused_window_button = NULL;
+  last_focused_window_button = NULL;
+  focused_editor_button = NULL;
+  focused_resource_button = NULL;
+  act_on_window_focus_signal = true;
+  window_focus_event_id = 0;
 
   g_set_application_name("Bibledit");
 
@@ -227,10 +231,14 @@ MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
   gtk_accel_group_connect(accelerator_group, GDK_H, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_context_help_callback), gpointer(this), NULL));
   gtk_accel_group_connect(accelerator_group, GDK_M, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_menu_callback), gpointer(this), NULL));
 
-  // GUI build.
+  // Icon fallback.
   gtk_window_set_default_icon_from_file(gw_build_filename (directories_get_package_data (), "bibledit.xpm").c_str(), NULL);
+
+  // The object that created the window is set to have the window skip the taskbar.
+  // For the main window, however, it should show up in the taskbar.
   gtk_window_set_skip_taskbar_hint(GTK_WINDOW (window), false);
 
+  // GUI build.
   vbox = gtk_vbox_new(FALSE, 0);
   gtk_widget_show(vbox);
   gtk_container_add(GTK_CONTAINER (window), vbox);
@@ -2003,7 +2011,11 @@ MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
 }
 
 MainWindow::~MainWindow() {
-  // Shut the separate windows down.
+  // Destroy window focus system.
+  act_on_window_focus_signal = false;
+  gw_destroy_source(window_focus_event_id);
+
+  // Shut down the various windows.
   shutdown_windows();
 
   // No ipc signals anymore.
@@ -2254,7 +2266,7 @@ void MainWindow::menu_undo()
    }
    }
    */
-  if (window_notes && (now_focused_signal_button == NULL) && (last_focused_signal_button == window_notes->focus_in_signal_button)) {
+  if (window_notes && (now_focused_window_button == NULL) && (last_focused_window_button == window_notes->focus_in_signal_button)) {
     //window_notes->undo();
   }
 }
@@ -2274,7 +2286,7 @@ void MainWindow::menu_redo()
    }
    }
    */
-  if (window_notes && (now_focused_signal_button == NULL) && (last_focused_signal_button == window_notes->focus_in_signal_button)) {
+  if (window_notes && (now_focused_window_button == NULL) && (last_focused_window_button == window_notes->focus_in_signal_button)) {
     //window_notes->redo();
   }
 }
@@ -2460,7 +2472,7 @@ void MainWindow::on_menu_insert()
     gtk_widget_set_sensitive(current_reference1, enable);
 
   // Inserting special character.
-  gtk_widget_set_sensitive(insert_special_character, (editor_window && (now_focused_signal_button == editor_window->focus_in_signal_button)));
+  gtk_widget_set_sensitive(insert_special_character, (editor_window && (now_focused_window_button == editor_window->focus_in_signal_button)));
 }
 
 void MainWindow::on_menuitem_view_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -2769,7 +2781,7 @@ void MainWindow::on_cut() {
    editor->text_erase_selection();
    }
    }
-   if (window_notes && (now_focused_signal_button == NULL) && (last_focused_signal_button == window_notes->focus_in_signal_button)) {
+   if (window_notes && (now_focused_signal_button == NULL) && (last_focused_window_button == window_notes->focus_in_signal_button)) {
    //window_notes->cut();
    }
    */
@@ -2789,7 +2801,7 @@ void MainWindow::on_copy() {
    gtk_clipboard_set_text(clipboard, editor->text_get_selection ().c_str(), -1);
    }
    }
-   if (window_notes && (now_focused_signal_button == NULL) && (last_focused_signal_button == window_notes->focus_in_signal_button)) {
+   if (window_notes && (now_focused_signal_button == NULL) && (last_focused_window_button == window_notes->focus_in_signal_button)) {
    //window_notes->copy();
    }
    if (window_check_keyterms) {
@@ -2836,7 +2848,7 @@ void MainWindow::on_paste() {
    }
    }
    }
-   if (window_notes && (now_focused_signal_button == NULL) && (last_focused_signal_button == window_notes->focus_in_signal_button)) {
+   if (window_notes && (now_focused_signal_button == NULL) && (last_focused_window_button == window_notes->focus_in_signal_button)) {
    //window_notes->paste();
    }
    */
@@ -4771,10 +4783,8 @@ WindowResource * MainWindow::last_focused_resource_window()
 // Get the focused resource window, or NULL if there's none.
 {
   WindowResource * resource_window= NULL;
-  time_t most_recent_time = 0;
   for (unsigned int i = 0; i < resource_windows.size(); i++) {
-    if (resource_windows[i]->focused_time > most_recent_time) {
-      most_recent_time = resource_windows[i]->focused_time;
+    if (resource_windows[i]->focus_in_signal_button == focused_resource_button) {
       resource_window = resource_windows[i];
     }
   }
@@ -4939,10 +4949,8 @@ WindowEditor * MainWindow::last_focused_editor_window()
 // Get the focused editor window, or NULL if there's none.
 {
   WindowEditor * editor_window= NULL;
-  time_t most_recent_time = 0;
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    if (editor_windows[i]->focused_time > most_recent_time) {
-      most_recent_time = editor_windows[i]->focused_time;
+    if (editor_windows[i]->focus_in_signal_button == focused_editor_button) {
       editor_window = editor_windows[i];
     }
   }
@@ -5784,7 +5792,7 @@ void MainWindow::on_print() {
  |
  |
  |
- Windowing system
+ Windowing system Todo
  |
  |
  |
@@ -5993,18 +6001,15 @@ void MainWindow::on_window_focus_button_clicked(GtkButton *button, gpointer user
 void MainWindow::on_window_focus_button(GtkButton *button)
 // Called when a window gets focused.
 {
-  // Store the focus if it is different from the currently stored values.
-  GtkWidget * widget= GTK_WIDGET (button);
-  if (widget != now_focused_signal_button) {
-    last_focused_signal_button = now_focused_signal_button;
-    now_focused_signal_button = widget;
+  if (!act_on_window_focus_signal) {
+    return;
   }
 
-  // Present the windows.
-  present_windows(widget);
+  temporally_ignore_window_focus_events();
 
-  // Handle cases that an editor receives focus.
-  handle_editor_focus();
+  register_focused_windows(button);
+
+  present_windows(GTK_WIDGET (button));
 }
 
 void MainWindow::present_windows(GtkWidget * widget)
@@ -6078,6 +6083,53 @@ void MainWindow::present_windows(GtkWidget * widget)
   }
   if (widget == focus_in_signal_button) {
     present(true);
+  }
+}
+
+void MainWindow::temporally_ignore_window_focus_events() {
+  gw_destroy_source(window_focus_event_id);
+  window_focus_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc (on_window_focus_timeout), gpointer(this), NULL);
+  act_on_window_focus_signal = false;
+}
+
+bool MainWindow::on_window_focus_timeout(gpointer data) {
+  ((MainWindow*) data)->window_focus_timeout();
+  return false;
+}
+
+void MainWindow::window_focus_timeout() {
+  // After a while the window should act on the "focus_in_event" again.
+  act_on_window_focus_signal = true;
+}
+
+void MainWindow::register_focused_windows(GtkButton * button)
+{
+  // Bail out if there's no change in the focus.
+  GtkWidget * widget= GTK_WIDGET (button);
+  if (widget == now_focused_window_button)
+    return;
+
+  // Save the new focused window and keep the previous one.
+  last_focused_window_button = now_focused_window_button;
+  now_focused_window_button = widget;
+
+  // Save possible new focused resource.
+  for (unsigned int i = 0; i < resource_windows.size(); i++) {
+    if (resource_windows[i]->focus_in_signal_button == widget) {
+      if (widget != focused_resource_button) {
+        focused_resource_button = widget;
+      }
+    }
+  }
+
+  // Save possible new focused editor.
+  for (unsigned int i = 0; i < editor_windows.size(); i++) {
+    if (editor_windows[i]->focus_in_signal_button == widget) {
+      if (widget != focused_editor_button) {
+        focused_editor_button = widget;
+        handle_editor_focus();
+      }
+    }
   }
 }
 
@@ -6172,12 +6224,12 @@ void MainWindow::accelerator_undo_callback(gpointer user_data) {
 
 void MainWindow::accelerator_undo() {
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    if (now_focused_signal_button == editor_windows[i]->focus_in_signal_button) {
+    if (now_focused_window_button == editor_windows[i]->focus_in_signal_button) {
       editor_windows[i]->editor->undo();
     }
   }
   if (window_notes) {
-    if (now_focused_signal_button == window_notes->focus_in_signal_button) {
+    if (now_focused_window_button == window_notes->focus_in_signal_button) {
       window_notes->undo();
     }
   }
@@ -6189,12 +6241,12 @@ void MainWindow::accelerator_redo_callback(gpointer user_data) {
 
 void MainWindow::accelerator_redo() {
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    if (now_focused_signal_button == editor_windows[i]->focus_in_signal_button) {
+    if (now_focused_window_button == editor_windows[i]->focus_in_signal_button) {
       editor_windows[i]->editor->redo();
     }
   }
   if (window_notes) {
-    if (now_focused_signal_button == window_notes->focus_in_signal_button) {
+    if (now_focused_window_button == window_notes->focus_in_signal_button) {
       window_notes->redo();
     }
   }
@@ -6207,7 +6259,7 @@ void MainWindow::accelerator_cut_callback(gpointer user_data) {
 void MainWindow::accelerator_cut() {
   GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    if (now_focused_signal_button == editor_windows[i]->focus_in_signal_button) {
+    if (now_focused_window_button == editor_windows[i]->focus_in_signal_button) {
       Editor * editor = editor_windows[i]->editor;
       gtk_clipboard_set_text(clipboard, editor->text_get_selection ().c_str(), -1);
       editor->text_erase_selection();
@@ -6215,7 +6267,7 @@ void MainWindow::accelerator_cut() {
   }
 
   if (window_notes) {
-    if (now_focused_signal_button == window_notes->focus_in_signal_button) {
+    if (now_focused_window_button == window_notes->focus_in_signal_button) {
       window_notes->cut();
     }
   }
@@ -6228,7 +6280,7 @@ void MainWindow::accelerator_copy_callback(gpointer user_data) {
 void MainWindow::accelerator_copy() {
   GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    if (now_focused_signal_button == editor_windows[i]->focus_in_signal_button) {
+    if (now_focused_window_button == editor_windows[i]->focus_in_signal_button) {
       // In case of the text editor, the USFM code is copied, not the plain text. 
       Editor * editor = editor_windows[i]->editor;
       gtk_clipboard_set_text(clipboard, editor->text_get_selection ().c_str(), -1);
@@ -6236,13 +6288,13 @@ void MainWindow::accelerator_copy() {
   }
 
   if (window_check_keyterms) {
-    if (now_focused_signal_button == window_check_keyterms->focus_in_signal_button) {
+    if (now_focused_window_button == window_check_keyterms->focus_in_signal_button) {
       window_check_keyterms->copy_clipboard();
     }
   }
 
   if (window_notes) {
-    if (now_focused_signal_button == window_notes->focus_in_signal_button) {
+    if (now_focused_window_button == window_notes->focus_in_signal_button) {
       window_notes->copy();
     }
   }
@@ -6258,7 +6310,7 @@ void MainWindow::accelerator_paste() {
     return;
 
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    if (now_focused_signal_button == editor_windows[i]->focus_in_signal_button) {
+    if (now_focused_window_button == editor_windows[i]->focus_in_signal_button) {
       Editor * editor = editor_windows[i]->editor;
       gchar * text = gtk_clipboard_wait_for_text(clipboard);
       if (text) {
@@ -6269,7 +6321,7 @@ void MainWindow::accelerator_paste() {
   }
 
   if (window_notes) {
-    if (now_focused_signal_button == window_notes->focus_in_signal_button) {
+    if (now_focused_window_button == window_notes->focus_in_signal_button) {
       window_notes->paste();
     }
   }
@@ -6294,7 +6346,7 @@ void MainWindow::accelerator_standard_text_4_callback(gpointer user_data) {
 void MainWindow::accelerator_standard_text_n(unsigned int selector) {
   if (window_notes) {
     // Insert the text if the notes window has focus.
-    if (now_focused_signal_button == window_notes->focus_in_signal_button) {
+    if (now_focused_window_button == window_notes->focus_in_signal_button) {
       window_notes->insert_standard_text(selector);
     }
   }
@@ -6358,21 +6410,21 @@ void MainWindow::accelerator_close_window()
 {
   // Keyterms in verse. 
   if (window_show_keyterms) {
-    if (now_focused_signal_button == window_show_keyterms->focus_in_signal_button) {
+    if (now_focused_window_button == window_show_keyterms->focus_in_signal_button) {
       on_window_show_keyterms_delete_button();
     }
   }
 
   // Quick references.
   if (window_show_quick_references) {
-    if (now_focused_signal_button == window_show_quick_references->focus_in_signal_button) {
+    if (now_focused_window_button == window_show_quick_references->focus_in_signal_button) {
       on_window_show_quick_references_delete_button();
     }
   }
 
   // Merge
   if (window_merge) {
-    if (now_focused_signal_button == window_merge->focus_in_signal_button) {
+    if (now_focused_window_button == window_merge->focus_in_signal_button) {
       on_window_merge_delete_button();
     }
   }
@@ -6380,7 +6432,7 @@ void MainWindow::accelerator_close_window()
   // Resources.
   for (unsigned int i = 0; i < resource_windows.size(); i++) {
     WindowResource * resource_window = resource_windows[i];
-    if (now_focused_signal_button == resource_window->focus_in_signal_button) {
+    if (now_focused_window_button == resource_window->focus_in_signal_button) {
       on_window_resource_delete_button(GTK_BUTTON(resource_window->delete_signal_button));
       break;
     }
@@ -6388,35 +6440,35 @@ void MainWindow::accelerator_close_window()
 
   // Outline.
   if (window_outline) {
-    if (now_focused_signal_button == window_outline->focus_in_signal_button) {
+    if (now_focused_window_button == window_outline->focus_in_signal_button) {
       on_window_outline_delete_button();
     }
   }
 
   // Check keyterms.
   if (window_check_keyterms) {
-    if (now_focused_signal_button == window_check_keyterms->focus_in_signal_button) {
+    if (now_focused_window_button == window_check_keyterms->focus_in_signal_button) {
       on_window_check_keyterms_delete_button();
     }
   }
 
   // Styles.
   if (window_styles) {
-    if (now_focused_signal_button == window_styles->focus_in_signal_button) {
+    if (now_focused_window_button == window_styles->focus_in_signal_button) {
       on_window_styles_delete_button();
     }
   }
 
   // Notes.
   if (window_notes) {
-    if (now_focused_signal_button == window_notes->focus_in_signal_button) {
+    if (now_focused_window_button == window_notes->focus_in_signal_button) {
       on_window_notes_delete_button();
     }
   }
 
   // References.
   if (window_references) {
-    if (now_focused_signal_button == window_references->focus_in_signal_button) {
+    if (now_focused_window_button == window_references->focus_in_signal_button) {
       on_window_references_delete_button();
     }
   }
@@ -6424,7 +6476,7 @@ void MainWindow::accelerator_close_window()
   // Editors.
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
     WindowEditor * editor_window = editor_windows[i];
-    if (now_focused_signal_button == editor_window->focus_in_signal_button) {
+    if (now_focused_window_button == editor_window->focus_in_signal_button) {
       on_window_editor_delete_button(GTK_BUTTON(editor_window->delete_signal_button));
       break;
     }
@@ -6432,7 +6484,7 @@ void MainWindow::accelerator_close_window()
   handle_editor_focus();
 
   // Menu / main window.
-  if (now_focused_signal_button == focus_in_signal_button) {
+  if (now_focused_window_button == focus_in_signal_button) {
     gtk_main_quit();
   }
 }
@@ -6507,14 +6559,17 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
 
  Todo Improve the window layout system.
 
+ The icon of the main window keeps flashing in the taskbar.
+ What about skipping the menu, that is, not having it focused?
+ Or else temporarily to focus it then wait a short while, then focus the one we need to.
+
+ When searching the project notes, the search results disappear almost immediately due to the focusing behaviour.
+
  We need to look at the "todo" entries in windownotes.h/cpp.
 
  Adding text to notes by accelerators, and by the menu.
  Adding the current reference to the note.
  If the notes window shows up on startup, it does now not display the relevant notes.
- 
- If the positions are reset, then all standard positions are put to zero, so that next time they show up,
- they will be allocated into the new position.
  
  When all the windows are done, then we need to check whether all menu entries work in each window,
  and whether all shortcuts in each relevant window.

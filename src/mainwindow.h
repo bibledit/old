@@ -741,7 +741,7 @@ protected:
   static void on_print_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_print();
 
-  /* Windowing system */
+  /* Windowing system */ // Todo
   static void on_view_screen_layout_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_screen_layout();
   WindowLayout * window_screen_layout;
@@ -752,12 +752,23 @@ protected:
   unsigned int windows_startup_pointer;
   ustring focused_project_last_session;
   void shutdown_windows();
+
   static void on_window_focus_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_focus_button(GtkButton *button);
-  GtkWidget * now_focused_signal_button;
-  GtkWidget * last_focused_signal_button;
   void present_windows(GtkWidget * widget);
-
+  
+  void temporally_ignore_window_focus_events();
+  guint window_focus_event_id;
+  static bool on_window_focus_timeout(gpointer data);
+  void window_focus_timeout();
+  bool act_on_window_focus_signal;
+  
+  void register_focused_windows (GtkButton * button);
+  GtkWidget * now_focused_window_button;
+  GtkWidget * last_focused_window_button;
+  GtkWidget * focused_editor_button;
+  GtkWidget * focused_resource_button;
+  
   /* Quick references */
   static void on_view_quick_references_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_quick_references();

@@ -66,14 +66,7 @@ public:
   GtkWidget * focus_in_signal_button;
   static gboolean on_window_focus_in_event(GtkWidget *widget, GdkEventFocus *event, gpointer user_data);
   void on_window_focus_in(GtkWidget *widget);
-  time_t focused_time;
-  bool act_on_focus_in_signal;
   void present(bool force);
-  bool focused();
-  
-  guint focus_event_id;
-  static bool on_focus_timeout(gpointer data);
-  void focus_timeout();
   
   GtkWidget * delete_signal_button;
   static bool on_window_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);

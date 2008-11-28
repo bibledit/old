@@ -151,11 +151,8 @@ WindowBase::WindowBase(WindowID id, ustring data_title, bool startup, unsigned l
 
   // Initialize variables.
   my_shutdown = false;
-  act_on_focus_in_signal = true;
-  focus_event_id = 0;
   window_id = id;
   window_data = data_title;
-  focused_time = time(0);
   resize_window_pointer = NULL;
 
   // Signalling buttons.
@@ -216,7 +213,6 @@ WindowBase::~WindowBase() {
   gtk_widget_destroy(window);
   gtk_widget_destroy(focus_in_signal_button);
   gtk_widget_destroy(delete_signal_button);
-  gw_destroy_source(focus_event_id);
 }
 
 void WindowBase::display(bool startup)
@@ -409,50 +405,16 @@ gboolean WindowBase::on_window_focus_in_event(GtkWidget *widget, GdkEventFocus *
 }
 
 void WindowBase::on_window_focus_in(GtkWidget *widget) {
-  if (act_on_focus_in_signal) {
-    focused_time = time(0);
-    gtk_button_clicked(GTK_BUTTON (focus_in_signal_button));
-    /* 
-     Finer-grained timing.
-     The Linux kernel maintains a global variable called jiffies, 
-     which represents the number of timer ticks since the machine started. 
-     This variable is initialized to zero and increments each timer interrupt. 
-     You can read jiffies with the get_jiffies_64 function, 
-     and then convert this value to milliseconds (msec) with jiffies_to_msecs 
-     or to microseconds (usec) with jiffies_to_usecs. 
-     The jiffies' global and associated functions are provided in include/linux/jiffies.h.
-     */
-  }
-}
-
-bool WindowBase::focused() {
-  return GTK_WIDGET_HAS_FOCUS(window);
+  gtk_button_clicked(GTK_BUTTON (focus_in_signal_button));
 }
 
 void WindowBase::present(bool force)
 // Presents the window.
 {
-  // The window is going to be presented, and therefore will fire the "focus_in_event".
-  // Don't act on this signal for a short while, lest the focusing goes on and on in an endless loop.
-  act_on_focus_in_signal = false;
-  // Restart the timeout.
-  gw_destroy_source(focus_event_id);
-  focus_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc (on_focus_timeout), gpointer(this), NULL);
-  // Present the window.
-  // Only do that if the window is not fully visible alraedy.
+  // Only act if the window is not fully visible already, or if forced.
   if ((visibility_state() != GDK_VISIBILITY_UNOBSCURED) || force) {
     gtk_window_present(GTK_WINDOW (window));
   }
-}
-
-bool WindowBase::on_focus_timeout(gpointer data) {
-  ((WindowBase*) data)->focus_timeout();
-  return false;
-}
-
-void WindowBase::focus_timeout() {
-  // After a while the window should act on the "focus_in_event" again.
-  act_on_focus_in_signal = true;
 }
 
 bool WindowBase::on_window_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data) {
