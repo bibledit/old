@@ -450,7 +450,7 @@ protected:
   static void on_paste1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_paste();
 
-  /* References */
+  /* References */ // Todo
   void show_references_window();
   WindowReferences * window_references;
   static void on_window_references_delete_button_clicked(GtkButton *button, gpointer user_data);
@@ -494,7 +494,7 @@ protected:
   static bool on_gui_timeout(gpointer data);
   void on_gui();
 
-  /* Project notes */
+  /* Project notes */ // Todo
   bool project_notes_enabled;
   void view_project_notes();
   WindowNotes * window_notes;
@@ -523,6 +523,8 @@ protected:
   static void on_get_references_from_note_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_get_references_from_note();
   void notes_get_references_from_id(gint id);
+  static void on_window_notes_references_available_button_clicked(GtkButton *button, gpointer user_data);
+  void on_window_notes_references_available_button();
 
   /* Export */
   static void on_export_usfm_files_activate(GtkMenuItem *menuitem, gpointer user_data);
@@ -741,7 +743,7 @@ protected:
   static void on_print_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_print();
 
-  /* Windowing system */ // Todo
+  /* Windowing system */
   static void on_view_screen_layout_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_screen_layout();
   WindowLayout * window_screen_layout;

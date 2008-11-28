@@ -38,7 +38,6 @@ public:
   unsigned int date_modified;
   ustring created_by;
   GtkTextBuffer * textbuffer_references;
-  GtkWidget * previous_focus;
   ustring previous_category;
   ustring previous_project;
   void store_original_data (const ustring& data);

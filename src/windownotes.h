@@ -47,9 +47,9 @@ public:
   void undo();
   void redo();
   bool note_being_edited();
-
+  GtkWidget * references_available_signal_button;
+  vector<Reference> available_references;
 private:
-
   GtkWidget *notebook1;
   GtkWidget *scrolledwindow_notes;
   GtkWidget *htmlview_notes;
@@ -91,7 +91,6 @@ private:
   GtkWidget *colorbutton_note_edit;
   GtkWidget *scrolledwindow_note_editor;
   GtkWidget *htmlview_note_editor;
-
   GtkWidget *scrolledwindow_controls;
   GtkWidget *vbox_controls;
   GtkWidget *hbox_ok_cancel;
@@ -102,7 +101,6 @@ private:
   GtkWidget *hbox15;
   GtkWidget *image1;
   GtkWidget *label1;
-
   GtkWidget *label_note_category;
   GtkWidget *combobox_note_category;
   GtkWidget *label_note_references;

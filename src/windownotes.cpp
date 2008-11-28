@@ -324,6 +324,9 @@ WindowNotes::WindowNotes(GtkAccelGroup *accelerator_group, bool startup) :
 
   // GUI timer.
   gui_source_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc (on_gui_timeout), gpointer(this), NULL);
+
+  // Signal button.
+  references_available_signal_button = gtk_button_new();
 }
 
 WindowNotes::~WindowNotes() {
@@ -332,6 +335,8 @@ WindowNotes::~WindowNotes() {
   // Destroy a couple of timeouts.
   gw_destroy_source(redisplay_source_id);
   gw_destroy_source(gui_source_id);
+  // Destroy signal button.
+  gtk_widget_destroy(references_available_signal_button);
 }
 
 void WindowNotes::go_to(Reference& reference) {
@@ -367,10 +372,6 @@ void WindowNotes::notes_fill_edit_screen(int id, bool newnote)
 
   // Initialize pointers to the text buffers.
   note_editor->textbuffer_references = gtk_text_view_get_buffer(GTK_TEXT_VIEW (textview_note_references));
-
-  // Save the widget that had the focus, so that when the notes had been edited,
-  // the same widget gets the focus again.
-  // todo this goes into the function call.  note_editor->previous_focus = gtk_window_get_focus(GTK_WINDOW (mainwindow));
 
   // Get our language.
   extern Settings * settings;
@@ -986,11 +987,7 @@ void WindowNotes::on_notes_button_ok_cancel()
 {
   // Show the normal notes display again.
   gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook1), 0);
-  // Focus widget that was focused previously.
-  // This must be done after switching the page of the notebook,
-  // to ensure the widget (usually the text editor) does indeed get focus.
-  // todo gtk_window_set_focus(GTK_WINDOW (window), note_editor->previous_focus);
-  // todo gtk_widget_grab_focus(note_editor->previous_focus);
+
   // Clear some widgets.
   combobox_clear_strings(combobox_note_category);
   gtk_text_buffer_set_text(note_editor->textbuffer_references, "", -1);
@@ -1096,9 +1093,8 @@ void WindowNotes::get_references_from_note(vector<Reference>& references, vector
 void WindowNotes::get_references_from_id(gint id)
 // Get the references from the note id
 {
-  // Store references we get.
-  vector<Reference> references;
-
+  // Clear references.
+  available_references.clear();
   // Fetch the references for the note from the database.
   sqlite3 *db;
   int rc;
@@ -1125,7 +1121,7 @@ void WindowNotes::get_references_from_id(gint id)
       {
         Reference ref (0);
         reference_discover (0, 0, "", parse.words[i], ref.book, ref.chapter, ref.verse);
-        references.push_back (ref);
+        available_references.push_back (ref);
       }
     }
   }
@@ -1136,16 +1132,8 @@ void WindowNotes::get_references_from_id(gint id)
   // Close connection.  
   sqlite3_close(db);
 
-  // Set references. // todo
-  /*
-   References references2(liststore_references, treeview_references, treecolumn_references);
-   references2.set_references(references);
-   extern Settings * settings;
-   ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
-   references2.fill_store(projectconfig->language_get());
-   // Display the References Area
-   gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_tools), tapntReferences);
-   */
+  // Fire a signal indicating that references are available
+  gtk_button_clicked (GTK_BUTTON (references_available_signal_button));
 }
 
 gboolean WindowNotes::on_html_link_clicked(GtkHTML *html, const gchar * url, gpointer user_data) {

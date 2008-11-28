@@ -65,8 +65,3 @@ ProjectConfiguration * Settings::projectconfig (ustring project, bool save_on_de
   return projectconfigurations[projectconfigurations.size() - 1];
 }
 
-
-/*
-todo Also for scripting, I think the Sword export uses the Settings object.
-Take that out, and pass arguments on the commandline instead.
-*/

@@ -2860,7 +2860,7 @@ void MainWindow::on_paste() {
  |
  |
  |
- References
+ References Todo
  |
  |
  |
@@ -3185,7 +3185,7 @@ void MainWindow::on_gui()
  |
  |
  |
- Project notes
+ Project notes Todo
  |
  |
  |
@@ -3204,6 +3204,7 @@ void MainWindow::view_project_notes() {
     window_notes = new WindowNotes (accelerator_group, windows_startup_pointer != G_MAXINT);
     g_signal_connect ((gpointer) window_notes->delete_signal_button, "clicked", G_CALLBACK (on_window_notes_delete_button_clicked), gpointer(this));
     g_signal_connect ((gpointer) window_notes->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
+    g_signal_connect ((gpointer) window_notes->references_available_signal_button, "clicked", G_CALLBACK (on_window_notes_references_available_button_clicked), gpointer(this));
     treeview_references_display_quick_reference();
   }
 }
@@ -3444,6 +3445,22 @@ void MainWindow::notes_get_references_from_id(gint id)
   ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
   references2.fill_store(projectconfig->language_get());
 }
+
+void MainWindow::on_window_notes_references_available_button_clicked(GtkButton *button, gpointer user_data) {
+  ((MainWindow *) user_data)->on_window_notes_references_available_button();
+}
+
+void MainWindow::on_window_notes_references_available_button() { // Todo
+  show_references_window();
+  if (window_notes) {
+     References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
+     references.set_references(window_notes->available_references);
+     extern Settings * settings;
+     ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
+     references.fill_store(projectconfig->language_get());
+  }
+}
+
 
 /*
  |
@@ -5792,7 +5809,7 @@ void MainWindow::on_print() {
  |
  |
  |
- Windowing system Todo
+ Windowing system
  |
  |
  |
@@ -6558,10 +6575,6 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
 /*
 
  Todo Improve the window layout system.
-
- When searching the project notes, the search results disappear almost immediately due to the focusing behaviour.
-
- We need to look at the "todo" entries in windownotes.h/cpp.
 
  Adding text to notes by accelerators, and by the menu.
  Adding the current reference to the note.
