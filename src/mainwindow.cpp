@@ -6559,10 +6559,6 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
 
  Todo Improve the window layout system.
 
- The icon of the main window keeps flashing in the taskbar.
- What about skipping the menu, that is, not having it focused?
- Or else temporarily to focus it then wait a short while, then focus the one we need to.
-
  When searching the project notes, the search results disappear almost immediately due to the focusing behaviour.
 
  We need to look at the "todo" entries in windownotes.h/cpp.
@@ -6574,16 +6570,6 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
  When all the windows are done, then we need to check whether all menu entries work in each window,
  and whether all shortcuts in each relevant window.
  When all windows have been detached, we need to verify copy and paste through the menu and through shortcuts.
- 
- All those places where it has "References references", it is to be looked into whether that cannot be moved
- into the references window itself, rather than cluttering the code in MainWindow.
-
- We have to put the footnotes in separate GtkTextViews. 
- So we can then use as many GtkTextViews as there are footnotes. 
- And then the automatic width routines go away.
- This is done in the same scrolled window, just by adding the required number of GtkTextViews to the vertical box.
- Each note consists of a horizontal box, with the caller in it as a label, and then a GtkTextView for the note.
- The up / down arrows keep working, so one can move from one GtkTextView to another, just as it is now.
  
  The following routines need attention to their code that has been commented out:
  void MainWindow::menu_redo()
@@ -6604,7 +6590,8 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
  to BibleTime, and then run BibleWorks under Linux. Else they could be moved to a Resource, but that would require
  search functionality to be added to the Resource, which is a thing we are not now looking for. It could be put in as 
  a feature request though. BibleTime crashes under exported Bibles, such as BSZ Ndebele, therefore we may have to be forced
- to make a quick search functionality and export to html options in Bibledit.
+ to make a quick search functionality and export to html options in Bibledit. Or fix our export routines. Probably 
+ the apocrypha may trouble up the system.
  
  */
 
