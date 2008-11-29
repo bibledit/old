@@ -6531,16 +6531,38 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
 
  Todo
 
- For the various functions that can be called by either the menu or by a shortcut, 
- the called functions should be integrated into one, and should further know
- whether it was called from the menu or from a shortcut.
- 
+
+Running Sword export will create in the intermittent OSIS file an extraneous verse in the begin of each chapter. This verse will have a verse number which is identical to the last verse number of the previous chapter and it appears directly after verse 0:
+
+....
+<verse 31>
+</chapter 1>
+<chapter 2>
+<verse 0>
+<verse 31>
+<verse 1>
+.... 
+
+
+It appears that the problem lies in export_utils.cpp line 358 onwards.
+
+If I understand your code correctly (and I can not programmer, so forgive my presumption) 
+then you are setting at the begin of every book a chapter and a verse counter to zero, 
+but then the verse counter (current_verse) is never reset to "0" at the start of a new chapter. 
+And so it is carried over into the next chapter and appears there again if a verse 0 is part of the chapter.
+
+
+
+
+
+
+
  As BibleWorks runs under Linux without the extra translations, what we need to do is to move those extra translations
  to BibleTime, and then run BibleWorks under Linux. Else they could be moved to a Resource, but that would require
  search functionality to be added to the Resource, which is a thing we are not now looking for. It could be put in as 
  a feature request though. BibleTime crashes under exported Bibles, such as BSZ Ndebele, therefore we may have to be forced
  to make a quick search functionality and export to html options in Bibledit. Or fix our export routines. Probably 
- the apocrypha may trouble up the system.
+ the apocrypha may trouble the system.
  
  */
 
