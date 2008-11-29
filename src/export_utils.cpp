@@ -334,6 +334,7 @@ Here's how we do the conversion
           ustring marker = usfm_extract_marker (line);
           if (usfm.is_chapter_number (marker)) {
             swordchapter = convert_to_int (number_in_string (line));
+            swordverse = "0";
           } else if (usfm.is_verse_number (marker)) {
             // Extract verse number.
             size_t position = line.find (" ");
@@ -370,6 +371,7 @@ Here's how we do the conversion
           delete osischapter;
           // Store new chapter.
           current_chapter = chapters[i2];
+          cout << "new chapter is " << chapters[i2] << " and verse would be " << verses[i2] << endl; // Todo
           // Reopen chapter and verse.
           osischapter = new OsisChapter (&wt, osisbook.book, current_chapter);
           current_verse = "0";
