@@ -446,12 +446,12 @@ ustring Editor::text_get_selection()
   // table, whichever has the focus. Get the text too.
   GtkTextIter startiter, enditer;
   gtk_text_buffer_get_selection_bounds(textbuffer, &startiter, &enditer);
-  if (GTK_WIDGET_HAS_FOCUS (textview)) {
+  if (gtk_widget_is_focus (textview)) {
     gtk_text_buffer_get_selection_bounds(textbuffer, &startiter, &enditer);
     usfm_get_text(textbuffer, startiter, enditer, &editornotes, &editortables, project, text);
   }
   for (unsigned int i = 0; i < editornotes.size(); i++) {
-    if (GTK_WIDGET_HAS_FOCUS (editornotes[i].textview)) {
+    if (gtk_widget_is_focus (editornotes[i].textview)) {
       GtkTextBuffer * buffer = editornotes[i].textbuffer;
       gtk_text_buffer_get_selection_bounds(buffer, &startiter, &enditer);
       usfm_get_note_text(editornotes[i], startiter, enditer, project, text);
@@ -460,7 +460,7 @@ ustring Editor::text_get_selection()
   for (unsigned int i = 0; i < editortables.size(); i++) {
     for (unsigned int row = 0; row < editortables[i].textviews.size(); row++) {
       for (unsigned int column = 0; column < editortables[i].textviews[row].size(); column++) {
-        if (GTK_WIDGET_HAS_FOCUS (table_cell_get_view (editortables[i], row, column))) {
+        if (gtk_widget_is_focus (table_cell_get_view (editortables[i], row, column))) {
           GtkTextBuffer * buffer = table_cell_get_buffer(editortables[i], row, column);
           gtk_text_buffer_get_selection_bounds(buffer, &startiter, &enditer);
           usfm_get_text(buffer, startiter, enditer, NULL, NULL, project, text);
@@ -480,12 +480,12 @@ void Editor::text_erase_selection()
   // table, whichever has the focus. Erase that bit.
   GtkTextIter startiter, enditer;
   gtk_text_buffer_get_selection_bounds(textbuffer, &startiter, &enditer);
-  if (GTK_WIDGET_HAS_FOCUS (textview)) {
+  if (gtk_widget_is_focus (textview)) {
     gtk_text_buffer_get_selection_bounds(textbuffer, &startiter, &enditer);
     gtk_text_buffer_delete(textbuffer, &startiter, &enditer);
   }
   for (unsigned int i = 0; i < editornotes.size(); i++) {
-    if (GTK_WIDGET_HAS_FOCUS (editornotes[i].textview)) {
+    if (gtk_widget_is_focus (editornotes[i].textview)) {
       GtkTextBuffer * buffer = editornotes[i].textbuffer;
       gtk_text_buffer_get_selection_bounds(buffer, &startiter, &enditer);
       gtk_text_buffer_delete(buffer, &startiter, &enditer);
@@ -494,7 +494,7 @@ void Editor::text_erase_selection()
   for (unsigned int i = 0; i < editortables.size(); i++) {
     for (unsigned int row = 0; row < editortables[i].textviews.size(); row++) {
       for (unsigned int column = 0; column < editortables[i].textviews[row].size(); column++) {
-        if (GTK_WIDGET_HAS_FOCUS (table_cell_get_view (editortables[i], row, column))) {
+        if (gtk_widget_is_focus (table_cell_get_view (editortables[i], row, column))) {
           GtkTextBuffer * buffer = table_cell_get_buffer(editortables[i], row, column);
           gtk_text_buffer_get_selection_bounds(buffer, &startiter, &enditer);
           gtk_text_buffer_delete(buffer, &startiter, &enditer);
@@ -522,18 +522,18 @@ void Editor::text_insert(ustring text)
 
   // Get the textbuffer that is focused.
   GtkTextBuffer * buffer = textbuffer;
-  if (GTK_WIDGET_HAS_FOCUS (textview)) {
+  if (gtk_widget_is_focus (textview)) {
     buffer = textbuffer;
   }
   for (unsigned int i = 0; i < editornotes.size(); i++) {
-    if (GTK_WIDGET_HAS_FOCUS (editornotes[i].textview)) {
+    if (gtk_widget_is_focus (editornotes[i].textview)) {
       buffer = editornotes[i].textbuffer;
     }
   }
   for (unsigned int i = 0; i < editortables.size(); i++) {
     for (unsigned int row = 0; row < editortables[i].textviews.size(); row++) {
       for (unsigned int column = 0; column < editortables[i].textviews[row].size(); column++) {
-        if (GTK_WIDGET_HAS_FOCUS (table_cell_get_view (editortables[i], row, column))) {
+        if (gtk_widget_is_focus (table_cell_get_view (editortables[i], row, column))) {
           buffer = table_cell_get_buffer(editortables[i], row, column);
         }
       }
@@ -691,21 +691,21 @@ ustring Editor::verse_number_get()
   // Get an iterator at the cursor location of the main textview.
   GtkTextIter iter;
   gtk_text_buffer_get_iter_at_mark(textbuffer, &iter, gtk_text_buffer_get_insert(textbuffer));
-  if (GTK_WIDGET_HAS_FOCUS (textview)) {
+  if (gtk_widget_is_focus (textview)) {
     gtk_text_buffer_get_iter_at_mark(textbuffer, &iter, gtk_text_buffer_get_insert(textbuffer));
   } else {
     // If the cursor is in a footnote, or in a table, 
     // then the iterator is retrieved from another location in the main textview.
     // This location corresponds to the verse that the footnote refers to or that the table is in.
     for (unsigned int i = 0; i < editornotes.size(); i++) {
-      if (GTK_WIDGET_HAS_FOCUS (editornotes[i].textview)) {
+      if (gtk_widget_is_focus (editornotes[i].textview)) {
         gtk_text_buffer_get_iter_at_child_anchor(textbuffer, &iter, editornotes[i].childanchor_caller_text);
       }
     }
     for (unsigned int i = 0; i < editortables.size(); i++) {
       for (unsigned int row = 0; row < editortables[i].textviews.size(); row++) {
         for (unsigned int column = 0; column < editortables[i].textviews[row].size(); column++) {
-          if (GTK_WIDGET_HAS_FOCUS (table_cell_get_view (editortables[i], row, column))) {
+          if (gtk_widget_is_focus (table_cell_get_view (editortables[i], row, column))) {
             gtk_text_buffer_get_iter_at_child_anchor(textbuffer, &iter, editortables[i].childanchor);
           }
         }
@@ -2769,11 +2769,11 @@ set <ustring> Editor::get_styles_at_cursor()
   // Get the iterators at the selection bounds of the main textview or note or table.
   GtkTextIter startiter, enditer;
   gtk_text_buffer_get_selection_bounds(textbuffer, &startiter, &enditer);
-  if (GTK_WIDGET_HAS_FOCUS (textview)) {
+  if (gtk_widget_is_focus (textview)) {
     gtk_text_buffer_get_selection_bounds(textbuffer, &startiter, &enditer);
   } else {
     for (unsigned int i = 0; i < editornotes.size(); i++) {
-      if (GTK_WIDGET_HAS_FOCUS (editornotes[i].textview)) {
+      if (gtk_widget_is_focus (editornotes[i].textview)) {
         GtkTextBuffer * buffer = editornotes[i].textbuffer;
         gtk_text_buffer_get_selection_bounds(buffer, &startiter, &enditer);
       }
@@ -2781,7 +2781,7 @@ set <ustring> Editor::get_styles_at_cursor()
     for (unsigned int i = 0; i < editortables.size(); i++) {
       for (unsigned int row = 0; row < editortables[i].textviews.size(); row++) {
         for (unsigned int column = 0; column < editortables[i].textviews[row].size(); column++) {
-          if (GTK_WIDGET_HAS_FOCUS (table_cell_get_view (editortables[i], row, column))) {
+          if (gtk_widget_is_focus (table_cell_get_view (editortables[i], row, column))) {
             GtkTextBuffer * buffer = table_cell_get_buffer(editortables[i], row, column);
             gtk_text_buffer_get_selection_bounds(buffer, &startiter, &enditer);
           }
@@ -2818,31 +2818,6 @@ set <ustring> Editor::styles_at_iterator(GtkTextIter iter)
   if (!character_style.empty())
     styles.insert(character_style);
   return styles;
-}
-
-bool Editor::has_focus()
-// This returns true if the editor is focused now.
-// Focused, that means that either the main textview has focus, 
-// or any of the embedded notes or tables.
-{
-  if (GTK_WIDGET_HAS_FOCUS (textview)) {
-    return true;
-  }
-  for (unsigned int i = 0; i < editornotes.size(); i++) {
-    if (GTK_WIDGET_HAS_FOCUS (editornotes[i].textview)) {
-      return true;
-    }
-  }
-  for (unsigned int i = 0; i < editortables.size(); i++) {
-    for (unsigned int row = 0; row < editortables[i].textviews.size(); row++) {
-      for (unsigned int column = 0; column < editortables[i].textviews[row].size(); column++) {
-        if (GTK_WIDGET_HAS_FOCUS (table_cell_get_view (editortables[i], row, column))) {
-          return true;
-        }
-      }
-    }
-  }
-  return false;
 }
 
 GtkTextBuffer * Editor::last_focused_textbuffer()

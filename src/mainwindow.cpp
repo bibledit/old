@@ -2252,42 +2252,52 @@ void MainWindow::showabout() {
 }
 
 void MainWindow::on_undo1_activate(GtkMenuItem * menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->menu_undo();
+  ((MainWindow *) user_data)->menu_accelerator_undo(true);
 }
 
-void MainWindow::menu_undo()
+void MainWindow::menu_accelerator_undo(bool called_by_menu)
 // Called for undo.
 {
-  /* 
-   Editor * editor = editorsgui->focused_editor();
-   if (editor) {
-   if (editor->has_focus()) {
-   editor->undo();
-   }
-   }
-   */
-  if (window_notes && (now_focused_window_button == NULL) && (last_focused_window_button == window_notes->focus_in_signal_button)) {
-    //window_notes->undo();
+  GtkWidget * focused_window_button= NULL;
+  if (called_by_menu) {
+    focused_window_button = last_focused_window_button;
+  } else {
+    focused_window_button = now_focused_window_button;
+  }
+  for (unsigned int i = 0; i < editor_windows.size(); i++) {
+    if (focused_window_button == editor_windows[i]->focus_in_signal_button) {
+      editor_windows[i]->editor->undo();
+    }
+  }
+  if (window_notes) {
+    if (focused_window_button == window_notes->focus_in_signal_button) {
+      window_notes->undo();
+    }
   }
 }
 
 void MainWindow::on_redo1_activate(GtkMenuItem * menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->menu_redo();
+  ((MainWindow *) user_data)->menu_accelerator_redo(false);
 }
 
-void MainWindow::menu_redo()
+void MainWindow::menu_accelerator_redo(bool called_by_menu)
 // Called for redo.
 {
-  /*
-   Editor * editor = editorsgui->focused_editor();
-   if (editor) {
-   if (editor->has_focus()) {
-   editor->redo();
-   }
-   }
-   */
-  if (window_notes && (now_focused_window_button == NULL) && (last_focused_window_button == window_notes->focus_in_signal_button)) {
-    //window_notes->redo();
+  GtkWidget * focused_window_button= NULL;
+  if (called_by_menu) {
+    focused_window_button = last_focused_window_button;
+  } else {
+    focused_window_button = now_focused_window_button;
+  }
+  for (unsigned int i = 0; i < editor_windows.size(); i++) {
+    if (focused_window_button == editor_windows[i]->focus_in_signal_button) {
+      editor_windows[i]->editor->redo();
+    }
+  }
+  if (window_notes) {
+    if (focused_window_button == window_notes->focus_in_signal_button) {
+      window_notes->redo();
+    }
   }
 }
 
@@ -2297,17 +2307,21 @@ void MainWindow::on_edit1_activate(GtkMenuItem * menuitem, gpointer user_data) {
 
 void MainWindow::menu_edit() {
   // Set the sensitivity of some items in the Edit menu.
-  /* 
-   Editor * editor = editorsgui->focused_editor();
-   if (editor) {
-   gtk_widget_set_sensitive(copy_without_formatting, editor->has_focus());
-   //gtk_widget_set_sensitive(undo1, editor->can_undo());
-   //gtk_widget_set_sensitive(redo1, editor->can_redo());
-   } else {
-   gtk_widget_set_sensitive(undo1, true);
-   gtk_widget_set_sensitive(redo1, true);
-   }
-   */
+  WindowEditor * editor_window = last_focused_editor_window();
+
+  bool copy_wo_formatting = false;
+  bool undo = true;
+  bool redo = true;
+  if (editor_window) {
+    if (last_focused_window_button == editor_window->focus_in_signal_button) {
+      copy_wo_formatting = true;
+      undo = editor_window->editor->can_undo();
+      redo = editor_window->editor->can_redo();
+    }
+  }
+  gtk_widget_set_sensitive(copy_without_formatting, copy_wo_formatting);
+  gtk_widget_set_sensitive(undo1, undo);
+  gtk_widget_set_sensitive(redo1, redo);
 
   // Sensitivity of the clipboard operations.
   // There is also the "owner-change" signal of the clipboard, but this is not
@@ -2326,7 +2340,6 @@ void MainWindow::menu_edit() {
 
   // The Bible notes can only be edited when the cursor is in a note text.
   enable = false;
-  WindowEditor * editor_window = last_focused_editor_window();
   if (editor_window)
     if (editor_window->editor->last_focused_type() == etvtNote)
       enable = true;
@@ -2768,90 +2781,123 @@ void MainWindow::on_notes_area_activate() {
  */
 
 void MainWindow::on_cut1_activate(GtkMenuItem * menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->on_cut();
+  ((MainWindow *) user_data)->on_cut(true);
 }
 
-void MainWindow::on_cut() {
-  /* 
-   GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
-   if (editorsgui->has_focus()) {
-   Editor * editor = editorsgui->focused_editor();
-   if (editor) {
-   gtk_clipboard_set_text(clipboard, editor->text_get_selection ().c_str(), -1);
-   editor->text_erase_selection();
-   }
-   }
-   if (window_notes && (now_focused_signal_button == NULL) && (last_focused_window_button == window_notes->focus_in_signal_button)) {
-   //window_notes->cut();
-   }
-   */
+void MainWindow::on_cut(bool called_by_menu) {
+  GtkWidget * focused_window_button= NULL;
+  if (called_by_menu) {
+    focused_window_button = last_focused_window_button;
+  } else {
+    focused_window_button = now_focused_window_button;
+  }
+
+  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+  for (unsigned int i = 0; i < editor_windows.size(); i++) {
+    if (focused_window_button == editor_windows[i]->focus_in_signal_button) {
+      Editor * editor = editor_windows[i]->editor;
+      gtk_clipboard_set_text(clipboard, editor->text_get_selection ().c_str(), -1);
+      editor->text_erase_selection();
+    }
+  }
+
+  if (window_notes) {
+    if (focused_window_button == window_notes->focus_in_signal_button) {
+      window_notes->cut();
+    }
+  }
 }
 
 void MainWindow::on_copy1_activate(GtkMenuItem * menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->on_copy();
+  ((MainWindow *) user_data)->on_copy(true);
 }
 
-void MainWindow::on_copy() {
-  /* 
-   GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
-   if (editorsgui->has_focus()) {
-   Editor * editor = editorsgui->focused_editor();
-   if (editor) {
-   // In case of the text editor, the USFM code is copied, not the plain text. 
-   gtk_clipboard_set_text(clipboard, editor->text_get_selection ().c_str(), -1);
-   }
-   }
-   if (window_notes && (now_focused_signal_button == NULL) && (last_focused_window_button == window_notes->focus_in_signal_button)) {
-   //window_notes->copy();
-   }
-   if (window_check_keyterms) {
-   window_check_keyterms->copy_clipboard();
-   }
-   */
+void MainWindow::on_copy(bool called_by_menu) {
+  GtkWidget * focused_window_button= NULL;
+  if (called_by_menu) {
+    focused_window_button = last_focused_window_button;
+  } else {
+    focused_window_button = now_focused_window_button;
+  }
+
+  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+  for (unsigned int i = 0; i < editor_windows.size(); i++) {
+    if (focused_window_button == editor_windows[i]->focus_in_signal_button) {
+      // In case of the text editor, the USFM code is copied, not the plain text. 
+      Editor * editor = editor_windows[i]->editor;
+      gtk_clipboard_set_text(clipboard, editor->text_get_selection ().c_str(), -1);
+    }
+  }
+
+  if (window_check_keyterms) {
+    if (focused_window_button == window_check_keyterms->focus_in_signal_button) {
+      window_check_keyterms->copy_clipboard();
+    }
+  }
+
+  if (window_notes) {
+    if (focused_window_button == window_notes->focus_in_signal_button) {
+      window_notes->copy();
+    }
+  }
 }
 
 void MainWindow::on_copy_without_formatting_activate(GtkMenuItem * menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->on_copy_without_formatting();
+  ((MainWindow *) user_data)->on_copy_without_formatting(true);
 }
 
-void MainWindow::on_copy_without_formatting() {
-  /* 
-   GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
-   if (editorsgui->has_focus()) {
-   Editor * editor = editorsgui->focused_editor();
-   if (editor) {
-   gtk_text_buffer_copy_clipboard(editor->last_focused_textbuffer(), clipboard);
-   }
-   }
-   */
+void MainWindow::on_copy_without_formatting(bool called_by_menu) {
+  GtkWidget * focused_window_button= NULL;
+  if (called_by_menu) {
+    focused_window_button = last_focused_window_button;
+  } else {
+    focused_window_button = now_focused_window_button;
+  }
+
+  WindowEditor * editor_window = last_focused_editor_window();
+  if (editor_window) {
+    if (focused_window_button == editor_window->focus_in_signal_button) {
+      GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+      gtk_text_buffer_copy_clipboard(editor_window->editor->last_focused_textbuffer(), clipboard);
+    }
+  }
 }
 
 void MainWindow::on_paste1_activate(GtkMenuItem * menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->on_paste();
+  ((MainWindow *) user_data)->on_paste(true);
 }
 
-void MainWindow::on_paste() {
+void MainWindow::on_paste(bool called_by_menu) {
+  GtkWidget * focused_window_button= NULL;
+  if (called_by_menu) {
+    focused_window_button = last_focused_window_button;
+  } else {
+    focused_window_button = now_focused_window_button;
+  }
+
   // Get the clipboard.
   GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
   // Bail out if no text is available.
   if (!gtk_clipboard_wait_is_text_available(clipboard))
     return;
+
   // Paste text in the focused textview.  
-  /* 
-   if (editorsgui->has_focus()) {
-   Editor * editor = editorsgui->focused_editor();
-   if (editor) {
-   gchar * text = gtk_clipboard_wait_for_text(clipboard);
-   if (text) {
-   editor->text_insert(text);
-   g_free(text);
-   }
-   }
-   }
-   if (window_notes && (now_focused_signal_button == NULL) && (last_focused_window_button == window_notes->focus_in_signal_button)) {
-   //window_notes->paste();
-   }
-   */
+  for (unsigned int i = 0; i < editor_windows.size(); i++) {
+    if (focused_window_button == editor_windows[i]->focus_in_signal_button) {
+      Editor * editor = editor_windows[i]->editor;
+      gchar * text = gtk_clipboard_wait_for_text(clipboard);
+      if (text) {
+        editor->text_insert(text);
+        g_free(text);
+      }
+    }
+  }
+
+  if (window_notes) {
+    if (now_focused_window_button == window_notes->focus_in_signal_button) {
+      window_notes->paste();
+    }
+  }
 }
 
 /*
@@ -3453,14 +3499,13 @@ void MainWindow::on_window_notes_references_available_button_clicked(GtkButton *
 void MainWindow::on_window_notes_references_available_button() {
   show_references_window();
   if (window_notes) {
-     References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
-     references.set_references(window_notes->available_references);
-     extern Settings * settings;
-     ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
-     references.fill_store(projectconfig->language_get());
+    References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
+    references.set_references(window_notes->available_references);
+    extern Settings * settings;
+    ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
+    references.fill_store(projectconfig->language_get());
   }
 }
-
 
 /*
  |
@@ -6119,8 +6164,7 @@ void MainWindow::window_focus_timeout() {
   act_on_window_focus_signal = true;
 }
 
-void MainWindow::register_focused_windows(GtkButton * button)
-{
+void MainWindow::register_focused_windows(GtkButton * button) {
   // Bail out if there's no change in the focus.
   GtkWidget * widget= GTK_WIDGET (button);
   if (widget == now_focused_window_button)
@@ -6236,112 +6280,23 @@ void MainWindow::treeview_references_display_quick_reference()
  */
 
 void MainWindow::accelerator_undo_callback(gpointer user_data) {
-  ((MainWindow *) user_data)->accelerator_undo();
-}
-
-void MainWindow::accelerator_undo() {
-  for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    if (now_focused_window_button == editor_windows[i]->focus_in_signal_button) {
-      editor_windows[i]->editor->undo();
-    }
-  }
-  if (window_notes) {
-    if (now_focused_window_button == window_notes->focus_in_signal_button) {
-      window_notes->undo();
-    }
-  }
+  ((MainWindow *) user_data)->menu_accelerator_undo(false);
 }
 
 void MainWindow::accelerator_redo_callback(gpointer user_data) {
-  ((MainWindow *) user_data)->accelerator_redo();
-}
-
-void MainWindow::accelerator_redo() {
-  for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    if (now_focused_window_button == editor_windows[i]->focus_in_signal_button) {
-      editor_windows[i]->editor->redo();
-    }
-  }
-  if (window_notes) {
-    if (now_focused_window_button == window_notes->focus_in_signal_button) {
-      window_notes->redo();
-    }
-  }
+  ((MainWindow *) user_data)->menu_accelerator_redo(false);
 }
 
 void MainWindow::accelerator_cut_callback(gpointer user_data) {
-  ((MainWindow *) user_data)->accelerator_cut();
-}
-
-void MainWindow::accelerator_cut() {
-  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
-  for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    if (now_focused_window_button == editor_windows[i]->focus_in_signal_button) {
-      Editor * editor = editor_windows[i]->editor;
-      gtk_clipboard_set_text(clipboard, editor->text_get_selection ().c_str(), -1);
-      editor->text_erase_selection();
-    }
-  }
-
-  if (window_notes) {
-    if (now_focused_window_button == window_notes->focus_in_signal_button) {
-      window_notes->cut();
-    }
-  }
+  ((MainWindow *) user_data)->on_cut(false);
 }
 
 void MainWindow::accelerator_copy_callback(gpointer user_data) {
-  ((MainWindow *) user_data)->accelerator_copy();
-}
-
-void MainWindow::accelerator_copy() {
-  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
-  for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    if (now_focused_window_button == editor_windows[i]->focus_in_signal_button) {
-      // In case of the text editor, the USFM code is copied, not the plain text. 
-      Editor * editor = editor_windows[i]->editor;
-      gtk_clipboard_set_text(clipboard, editor->text_get_selection ().c_str(), -1);
-    }
-  }
-
-  if (window_check_keyterms) {
-    if (now_focused_window_button == window_check_keyterms->focus_in_signal_button) {
-      window_check_keyterms->copy_clipboard();
-    }
-  }
-
-  if (window_notes) {
-    if (now_focused_window_button == window_notes->focus_in_signal_button) {
-      window_notes->copy();
-    }
-  }
+  ((MainWindow *) user_data)->on_copy(false);
 }
 
 void MainWindow::accelerator_paste_callback(gpointer user_data) {
-  ((MainWindow *) user_data)->accelerator_paste();
-}
-
-void MainWindow::accelerator_paste() {
-  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
-  if (!gtk_clipboard_wait_is_text_available(clipboard))
-    return;
-
-  for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    if (now_focused_window_button == editor_windows[i]->focus_in_signal_button) {
-      Editor * editor = editor_windows[i]->editor;
-      gchar * text = gtk_clipboard_wait_for_text(clipboard);
-      if (text) {
-        editor->text_insert(text);
-        g_free(text);
-      }
-    }
-  }
-
-  if (window_notes) {
-    if (now_focused_window_button == window_notes->focus_in_signal_button) {
-      window_notes->paste();
-    }
-  }
+  ((MainWindow *) user_data)->on_paste(false);
 }
 
 void MainWindow::accelerator_standard_text_1_callback(gpointer user_data) {
@@ -6549,7 +6504,7 @@ void MainWindow::accelerator_print_callback(gpointer user_data) {
 }
 
 void MainWindow::accelerator_copy_without_formatting_callback(gpointer user_data) {
-  ((MainWindow *) user_data)->on_copy_without_formatting();
+  ((MainWindow *) user_data)->on_copy_without_formatting(false);
 }
 
 void MainWindow::accelerator_find_callback(gpointer user_data) {
@@ -6576,18 +6531,6 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
 
  Todo
 
-The following routines need attention to their code that has been commented out:
-At the same time join the menu-based functions with their accelerator-based equivalents.
- void MainWindow::menu_redo()
- void MainWindow::menu_edit()
- void MainWindow::menu_undo() 
- void MainWindow::on_tools_area_activate() - This needs a routine that tracks the last focused tool, and this is
- the tool to be focused when the area is activated.
- void MainWindow::on_cut() 
- void MainWindow::on_copy()
- void MainWindow::on_copy_without_formatting()
- void MainWindow::on_paste() 
- 
  For the various functions that can be called by either the menu or by a shortcut, 
  the called functions should be integrated into one, and should further know
  whether it was called from the menu or from a shortcut.

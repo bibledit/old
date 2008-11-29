@@ -375,9 +375,9 @@ protected:
   static void on_about1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void showabout();
   static void on_undo1_activate(GtkMenuItem * menuitem, gpointer user_data);
-  void menu_undo();
+  void menu_accelerator_undo(bool called_by_menu);
   static void on_redo1_activate(GtkMenuItem * menuitem, gpointer user_data);
-  void menu_redo();
+  void menu_accelerator_redo(bool called_by_menu);
   static void on_edit1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void menu_edit();
   static void on_find_and_replace1_activate(GtkMenuItem * menuitem, gpointer user_data);
@@ -442,13 +442,13 @@ protected:
 
   /* Clipboard */
   static void on_cut1_activate(GtkMenuItem * menuitem, gpointer user_data);
-  void on_cut();
+  void on_cut(bool called_by_menu);
   static void on_copy1_activate(GtkMenuItem * menuitem, gpointer user_data);
-  void on_copy();
+  void on_copy(bool called_by_menu);
   static void on_copy_without_formatting_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_copy_without_formatting();
+  void on_copy_without_formatting(bool called_by_menu);
   static void on_paste1_activate(GtkMenuItem * menuitem, gpointer user_data);
-  void on_paste();
+  void on_paste(bool called_by_menu);
 
   /* References */
   void show_references_window();
@@ -782,15 +782,10 @@ protected:
 
   // Accelerators.
   static void accelerator_undo_callback(gpointer user_data);
-  void accelerator_undo();
   static void accelerator_redo_callback(gpointer user_data);
-  void accelerator_redo();
   static void accelerator_cut_callback(gpointer user_data);
-  void accelerator_cut();
   static void accelerator_copy_callback(gpointer user_data);
-  void accelerator_copy();
   static void accelerator_paste_callback(gpointer user_data);
-  void accelerator_paste();
   static void accelerator_standard_text_1_callback(gpointer user_data);
   static void accelerator_standard_text_2_callback(gpointer user_data);
   static void accelerator_standard_text_3_callback(gpointer user_data);

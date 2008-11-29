@@ -46,7 +46,6 @@ public:
   bool focus_programmatically_being_grabbed;
   static bool on_grab_focus_delayer_timeout(gpointer data);
   void on_grab_focus_delayed_handler();
-  bool has_focus();
   GtkWidget * last_focused_textview();
   GtkTextBuffer * last_focused_textbuffer();
   EditorTextViewType last_focused_type();
