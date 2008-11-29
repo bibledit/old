@@ -33,7 +33,7 @@ public:
   ~EntryDialog ();
   int run ();
   ustring entered_value;
-  bool always_ok;
+  void always_ok();
   void text_invisible ();
 protected:
   GtkWidget *entrydialog;
@@ -49,6 +49,7 @@ private:
   void on_okbutton ();
   static void on_entry_changed (GtkEditable *editable, gpointer user_data);
   void on_entry ();
+  bool my_always_ok;
 };
 
 

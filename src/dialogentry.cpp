@@ -26,7 +26,7 @@
 
 EntryDialog::EntryDialog (const ustring& title, const ustring& info, const ustring& value)
 {
-  always_ok = false;
+  my_always_ok = false;
   
   entrydialog = gtk_dialog_new ();
   gtk_window_set_title (GTK_WINDOW (entrydialog), title.c_str());
@@ -116,7 +116,7 @@ void EntryDialog::on_entry ()
 // when it is "always_ok".
 {
   string value = gtk_entry_get_text (GTK_ENTRY (entry));
-  gtk_widget_set_sensitive (okbutton, !value.empty() || always_ok);
+  gtk_widget_set_sensitive (okbutton, !value.empty() || my_always_ok);
 }
 
 
@@ -124,4 +124,10 @@ void EntryDialog::text_invisible ()
 // This function makes the text in the entry invisible.
 {
   gtk_entry_set_visibility (GTK_ENTRY (entry), false);
+}
+
+void EntryDialog::always_ok()
+{
+  my_always_ok = true;
+  on_entry();
 }
