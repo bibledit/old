@@ -371,7 +371,6 @@ Here's how we do the conversion
           delete osischapter;
           // Store new chapter.
           current_chapter = chapters[i2];
-          cout << "new chapter is " << chapters[i2] << " and verse would be " << verses[i2] << endl; // Todo
           // Reopen chapter and verse.
           osischapter = new OsisChapter (&wt, osisbook.book, current_chapter);
           current_verse = "0";
