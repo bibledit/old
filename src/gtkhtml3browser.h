@@ -76,7 +76,9 @@ private:
   guint scroll_event_id;
   static bool on_scroll_timeout(gpointer user_data);
   void scroll_timeout();
-
+  
+  // Errors.
+  void invalid_utf8_at_url (const gchar *url);
 };
 
 #endif

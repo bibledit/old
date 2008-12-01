@@ -107,6 +107,9 @@ void GtkHtml3Browser::html_url_requested(GtkHTML *html, const gchar *url, GtkHTM
   gchar * contents = htmlcache->request_url(myurl, size, trylater);
   if (contents) {
     gtk_html_write(html, handle, contents, size);
+    if (!g_utf8_validate (contents, -1, NULL)) {
+      invalid_utf8_at_url (url);
+    }
     g_free(contents);
   }
 
@@ -181,6 +184,9 @@ void GtkHtml3Browser::html_link_clicked(GtkHTML *html, const gchar * url)
     gchar * contents = htmlcache->request_url(myurl, size, trylater);
     if (contents) {
       gtk_html_write(html, stream, contents, size);
+      if (!g_utf8_validate (contents, -1, NULL)) {
+        invalid_utf8_at_url (url);
+      }
       g_free(contents);
     }
 
@@ -250,3 +256,9 @@ void GtkHtml3Browser::scroll_timeout()
   gtk_adjustment_set_value (adjustment, value - 30);
 }
 
+void GtkHtml3Browser::invalid_utf8_at_url (const gchar *url)
+{
+  ustring msg = "Resource tried to load invalid UTF-8 Unicode from ";
+  msg.append (url);
+  gw_critical (msg);
+}
