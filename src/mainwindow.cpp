@@ -6488,46 +6488,10 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
  Todo
 
 
-BE is not updating the verse number after mouse clicks on a different verse
-
-Clicking within the text on a different verse than the currently focused one often does not cause BE to consider 
-that verse the current new focus. BART and TW are often not being updated just by clicking on the text on the next verse. 
-When use the menu or tool bar buttons, the verse is incremented properly.
-
-When sending references to the external programs, 
-it should be the external program controller object that decides whether to send a new reference or not. 
-Not MainWindow decides it, but it should be the controller object. 
-The object decides whether to send it by comparing the reference sent earlier with the one newly coming in. 
-If differing it sends, if not, it quits. 
-
-  extern Settings * settings;
-  if (settings->genconfig.reference_exchange_send_to_bibleworks_get()) {
-    windowsoutpost->BibleWorksReferenceSet(editor_window->editor->current_reference);
-  }
-  if (settings->genconfig.reference_exchange_send_to_santafefocus_get()) {
-    windowsoutpost->SantaFeFocusReferenceSet(editor_window->editor->current_reference);
-  }
-  if (settings->genconfig.reference_exchange_send_to_bibletime_get()) {
-    bibletime.sendreference(editor_window->editor->current_reference);
-  }
-  for (unsigned int i = 0; i < resource_windows.size(); i++) {
-    resource_windows[i]->go_to(editor_window->editor->current_reference);
-  }
+ The back button goes gray, indicating that the browsing history has been forgotten when additional projects are loaded. 
+ It would be best to remember! 
 
 
-
-
-
-
-
-
-
- As BibleWorks runs under Linux without the extra translations, what we need to do is to move those extra translations
- to BibleTime, and then run BibleWorks under Linux. Else they could be moved to a Resource, but that would require
- search functionality to be added to the Resource, which is a thing we are not now looking for. It could be put in as 
- a feature request though. BibleTime crashes under exported Bibles, such as BSZ Ndebele, therefore we may have to be forced
- to make a quick search functionality and export to html options in Bibledit. Or fix our export routines. Probably 
- the apocrypha may trouble the system.
  
  */
 

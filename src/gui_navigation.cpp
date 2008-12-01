@@ -214,9 +214,6 @@ void GuiNavigation::set_project(const ustring& value, bool force)
 
   // Load books.
   load_books();
-
-  // Clear the references tracker.
-  track.clear();
 }
 
 void GuiNavigation::clamp(Reference& reference)

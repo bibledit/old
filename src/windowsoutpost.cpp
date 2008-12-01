@@ -102,7 +102,6 @@ void WindowsOutpost::SantaFeFocusReferenceSet(const Reference& reference)
   if (bk.empty())
     return;
   santafefocus_reference_set_value = "SantaFeFocusReferenceSet " + bk + " " + convert_to_string(reference.chapter) + ":" + reference.verse;
-  cout << "SantaFeFocusReferenceSet " << santafefocus_reference_set_value << endl;
 #endif
 }
 
