@@ -1123,21 +1123,6 @@ MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
   gtk_widget_show(image25281);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (insert_special_character), image25281);
 
-  menuitem_goto = gtk_menu_item_new_with_mnemonic("_Goto");
-  gtk_widget_show(menuitem_goto);
-  gtk_container_add(GTK_CONTAINER (menubar1), menuitem_goto);
-
-  menuitem_goto_menu = gtk_menu_new();
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM (menuitem_goto), menuitem_goto_menu);
-
-  synchronize_other_programs2 = gtk_image_menu_item_new_with_mnemonic("_Synchronize other programs");
-  gtk_widget_show(synchronize_other_programs2);
-  gtk_container_add(GTK_CONTAINER (menuitem_goto_menu), synchronize_other_programs2);
-
-  image4931 = gtk_image_new_from_stock("gtk-execute", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image4931);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (synchronize_other_programs2), image4931);
-
   check1 = NULL;
   chapters_and_verses1 = NULL;
   markers1 = NULL;
@@ -1846,8 +1831,6 @@ MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
     g_signal_connect ((gpointer) current_reference1, "activate", G_CALLBACK (on_current_reference1_activate), gpointer (this));
   if (insert_special_character)
     g_signal_connect ((gpointer) insert_special_character, "activate", G_CALLBACK (on_insert_special_character_activate), gpointer (this));
-  if (synchronize_other_programs2)
-    g_signal_connect ((gpointer) synchronize_other_programs2, "activate", G_CALLBACK (on_synchronize_other_programs2_activate), gpointer(this));
   if (check1)
     g_signal_connect ((gpointer) check1, "activate", G_CALLBACK (on_check1_activate), gpointer(this));
   if (markers1)
@@ -2069,8 +2052,6 @@ void MainWindow::enable_or_disable_widgets(bool enable) {
     gtk_widget_set_sensitive(project_changes, enable);
   if (menuitem_view)
     gtk_widget_set_sensitive(menuitem_view, enable);
-  if (menuitem_goto)
-    gtk_widget_set_sensitive(menuitem_goto, enable);
   if (compare_with1)
     gtk_widget_set_sensitive(compare_with1, enable);
   if (copy_project_to)
@@ -2723,31 +2704,6 @@ void MainWindow::on_new_verse()
     navigation.display(reference);
     if (window_outline)
       window_outline->go_to(editor->project, navigation.reference);
-  }
-}
-
-void MainWindow::on_synchronize_other_programs2_activate(GtkMenuItem *menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->on_synchronize_other_programs();
-}
-
-void MainWindow::on_synchronize_other_programs() {
-  // Get the focused editor. If none, bail out.
-  WindowEditor * editor_window = last_focused_editor_window();
-  if (!editor_window)
-    return;
-  // Send the reference.
-  extern Settings * settings;
-  if (settings->genconfig.reference_exchange_send_to_bibleworks_get()) {
-    windowsoutpost->BibleWorksReferenceSet(editor_window->editor->current_reference);
-  }
-  if (settings->genconfig.reference_exchange_send_to_santafefocus_get()) {
-    windowsoutpost->SantaFeFocusReferenceSet(editor_window->editor->current_reference);
-  }
-  if (settings->genconfig.reference_exchange_send_to_bibletime_get()) {
-    bibletime.sendreference(editor_window->editor->current_reference);
-  }
-  for (unsigned int i = 0; i < resource_windows.size(); i++) {
-    resource_windows[i]->go_to(editor_window->editor->current_reference);
   }
 }
 
@@ -6530,6 +6486,41 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
 /*
 
  Todo
+
+
+BE is not updating the verse number after mouse clicks on a different verse
+
+Clicking within the text on a different verse than the currently focused one often does not cause BE to consider 
+that verse the current new focus. BART and TW are often not being updated just by clicking on the text on the next verse. 
+When use the menu or tool bar buttons, the verse is incremented properly.
+
+When sending references to the external programs, 
+it should be the external program controller object that decides whether to send a new reference or not. 
+Not MainWindow decides it, but it should be the controller object. 
+The object decides whether to send it by comparing the reference sent earlier with the one newly coming in. 
+If differing it sends, if not, it quits. 
+
+  extern Settings * settings;
+  if (settings->genconfig.reference_exchange_send_to_bibleworks_get()) {
+    windowsoutpost->BibleWorksReferenceSet(editor_window->editor->current_reference);
+  }
+  if (settings->genconfig.reference_exchange_send_to_santafefocus_get()) {
+    windowsoutpost->SantaFeFocusReferenceSet(editor_window->editor->current_reference);
+  }
+  if (settings->genconfig.reference_exchange_send_to_bibletime_get()) {
+    bibletime.sendreference(editor_window->editor->current_reference);
+  }
+  for (unsigned int i = 0; i < resource_windows.size(); i++) {
+    resource_windows[i]->go_to(editor_window->editor->current_reference);
+  }
+
+
+
+
+
+
+
+
 
  As BibleWorks runs under Linux without the extra translations, what we need to do is to move those extra translations
  to BibleTime, and then run BibleWorks under Linux. Else they could be moved to a Resource, but that would require

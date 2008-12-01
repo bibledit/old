@@ -219,10 +219,6 @@ protected:
   GtkWidget *separator20;
   GtkWidget *insert_special_character;
   GtkWidget *image25281;
-  GtkWidget *menuitem_goto;
-  GtkWidget *menuitem_goto_menu;
-  GtkWidget *synchronize_other_programs2;
-  GtkWidget *image4931;
   GtkWidget *check1;
   GtkWidget *check1_menu;
   GtkWidget *chapters_and_verses1;
@@ -437,8 +433,6 @@ protected:
   void on_text_area_activate();
   void on_tools_area_activate();
   void on_notes_area_activate();
-  static void on_synchronize_other_programs2_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_synchronize_other_programs();
 
   /* Clipboard */
   static void on_cut1_activate(GtkMenuItem * menuitem, gpointer user_data);
