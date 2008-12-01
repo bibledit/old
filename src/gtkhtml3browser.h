@@ -70,6 +70,13 @@ private:
   // Second browser.
   ustring url_filter;
   GtkHtml3Browser * browser2;
+  
+  // Scroller.
+  void adjust_scroller();
+  guint scroll_event_id;
+  static bool on_scroll_timeout(gpointer user_data);
+  void scroll_timeout();
+
 };
 
 #endif

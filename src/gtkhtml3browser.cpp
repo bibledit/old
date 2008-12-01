@@ -32,6 +32,7 @@ GtkHtml3Browser::GtkHtml3Browser(GtkWidget * vbox) {
   // Save and initialize variables.
   my_vbox = vbox;
   event_id = 0;
+  scroll_event_id = 0;
   last_focused_time = 0;
 
   // The html widget.
@@ -55,6 +56,7 @@ GtkHtml3Browser::GtkHtml3Browser(GtkWidget * vbox) {
 
 GtkHtml3Browser::~GtkHtml3Browser() {
   gw_destroy_source(event_id);
+  gw_destroy_source(scroll_event_id);
   gtk_widget_destroy(scrolledwindow);
 }
 
@@ -125,7 +127,6 @@ gboolean GtkHtml3Browser::on_html_link_clicked(GtkHTML *html, const gchar * url,
 void GtkHtml3Browser::html_link_clicked(GtkHTML *html, const gchar * url)
 // Callback for loading a new page in the browser.
 {
-
   // Retry flags.
   try_again = false;
 
@@ -146,6 +147,7 @@ void GtkHtml3Browser::html_link_clicked(GtkHTML *html, const gchar * url)
   if (myurl.substr(0, 1) == "#") {
     myurl.erase(0, 1);
     gtk_html_jump_to_anchor(html, myurl.c_str());
+    adjust_scroller();
     return;
   }
 
@@ -195,6 +197,9 @@ void GtkHtml3Browser::html_link_clicked(GtkHTML *html, const gchar * url)
       event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 1000, GSourceFunc (on_timeout), gpointer(this), NULL);
     }
 
+    // Adjust scrolling
+    adjust_scroller();
+
     // If everything's ok, save url loaded.
     if (!try_again)
       loaded_url = myurl;
@@ -203,6 +208,7 @@ void GtkHtml3Browser::html_link_clicked(GtkHTML *html, const gchar * url)
   // Optionally jump to an anchor.
   if (!myanchor.empty()) {
     gtk_html_jump_to_anchor(html, myanchor.c_str());
+    adjust_scroller();
   }
 }
 
@@ -223,5 +229,24 @@ void GtkHtml3Browser::set_second_browser(const ustring& filter, GtkHtml3Browser 
   browser2 = browser;
 }
 
+void GtkHtml3Browser::adjust_scroller() {
+  gw_destroy_source(scroll_event_id);
+  scroll_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 200, GSourceFunc (on_scroll_timeout), gpointer(this), NULL);
+}
 
+bool GtkHtml3Browser::on_scroll_timeout(gpointer user_data) {
+  ((GtkHtml3Browser *) user_data)->scroll_timeout();
+  return false;
+}
+
+void GtkHtml3Browser::scroll_timeout()
+// Work around a scrolling bug in gtkhtml.
+{
+  scroll_event_id = 0;
+  GtkAdjustment* adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW (scrolledwindow));
+  gdouble value = gtk_adjustment_get_value(adjustment);
+  // Usually the first line of a verse is hidden in the Resource.
+  // We scroll a bit back to make that line visible.
+  gtk_adjustment_set_value (adjustment, value - 30);
+}
 

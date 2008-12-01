@@ -6488,33 +6488,6 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
  Todo
 
 
- In BE/Resources/NetBible: The first line of the verse is hidden under the Resource-NetBible-title bar.
-
- It happens both in the Net Bible and in the Cambridge Paragraph Bible. 
- I supposed that it actually is a bug in the libgtkhtml library. 
- This is the library that is used to display the html pages. 
-
-To try whether gdk_window_scroll does the trick. Or the gtk equivalent.
-
-GtkAdjustment* gtk_scrolled_window_get_hadjustment
-                                            (GtkScrolledWindow *scrolled_window);
-
-gdouble     gtk_adjustment_get_value        (GtkAdjustment *adjustment);
-
-Gets the current value of the adjustment. See gtk_adjustment_set_value().
-
-adjustment :  a GtkAdjustment
-Returns : The current value of the adjustment.
-gtk_adjustment_set_value ()
-
-void        gtk_adjustment_set_value        (GtkAdjustment *adjustment,
-                                             gdouble value);
-
-Sets the GtkAdjustment value. The value is clamped to lie between adjustment->lower and adjustment->upper.
-
-Note that for adjustments which are used in a GtkScrollbar, the effective range of allowed values goes from adjustment->lower to adjustment->upper - adjustment->page_size.
-adjustment :  a GtkAdjustment.
-value : the new value.
 
 
 
