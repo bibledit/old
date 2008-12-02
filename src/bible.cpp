@@ -604,10 +604,15 @@ bool chapter_span_discover(const ustring& reference, ustring& chapter1, ustring&
   // Work on a copy of the reference.
   ustring ref_in(reference);
 
-  // Change colons to spaced dots, space hyphens, and parse it into the separate words.
+  // Change colons to spaced dots, space hyphens.
   replace_text(ref_in, ".", " . ");
   replace_text(ref_in, ":", " . ");
   replace_text(ref_in, "-", " - ");
+  // Remove double spaces.
+  replace_text(ref_in, "  ", " ");
+  replace_text(ref_in, "  ", " ");
+  replace_text(ref_in, "  ", " ");
+  // Parse it into the separate words.
   Parse parse(ref_in, false);
 
   // Is the chapter spanning signature (two dots, one hyphen) in it?
