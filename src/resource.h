@@ -42,13 +42,13 @@ public:
 private:
   // Widgets.
   GtkWidget *vbox;
-  GtkWidget *progressbar;
+  GtkWidget *label;
   GtkWidget *homebutton;
 public:
   GtkHtml3Browser * browser;
 private:
   GtkHtml3Browser * browser2;
-  
+
   // Resource loader.
   ustring mytemplatefile;
   ResourceType resource_type;

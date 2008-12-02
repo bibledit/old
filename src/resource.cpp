@@ -38,18 +38,17 @@ Resource::Resource(GtkWidget * window) {
   // Build GUI.
   vbox = gtk_vbox_new(FALSE, 0);
   gtk_widget_show(vbox);
-  gtk_container_add (GTK_CONTAINER (window), vbox);
+  gtk_container_add(GTK_CONTAINER (window), vbox);
 
   GtkWidget *hbox;
   hbox = gtk_hbox_new(FALSE, 0);
   gtk_widget_show(hbox);
   gtk_box_pack_start(GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
 
-  progressbar = gtk_progress_bar_new();
-  gtk_widget_show(progressbar);
-  gtk_box_pack_start(GTK_BOX (hbox), progressbar, true, true, 0);
-  gtk_progress_bar_set_ellipsize(GTK_PROGRESS_BAR (progressbar), PANGO_ELLIPSIZE_MIDDLE);
-  gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR (progressbar), 1);
+  label = gtk_label_new("");
+  gtk_widget_show(label);
+  gtk_box_pack_start(GTK_BOX (hbox), label, true, true, 0);
+  gtk_label_set_ellipsize(GTK_LABEL (label), PANGO_ELLIPSIZE_MIDDLE);
 
   homebutton = gtk_button_new();
   gtk_widget_show(homebutton);
@@ -125,7 +124,7 @@ void Resource::open(const ustring& filename) {
   index_file_structure = resource_get_index_file_constructor(filename);
   book_renderer = resource_get_books(filename);
   anchor_renderer = resource_get_anchors(filename);
-  gtk_progress_bar_set_text(GTK_PROGRESS_BAR (progressbar), resource_get_title(filename).c_str());
+  gtk_label_set_text(GTK_LABEL (label), resource_get_title(filename).c_str());
   homepage = resource_url_modifier(resource_get_home_page(filename), resource_type, filename);
   homepage2 = resource_url_modifier(resource_get_lower_home_page(filename), resource_type, filename);
   url_filter = resource_get_lower_url_filter(filename);

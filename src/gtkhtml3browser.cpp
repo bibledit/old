@@ -130,6 +130,8 @@ gboolean GtkHtml3Browser::on_html_link_clicked(GtkHTML *html, const gchar * url,
 void GtkHtml3Browser::html_link_clicked(GtkHTML *html, const gchar * url)
 // Callback for loading a new page in the browser.
 {
+  cout << "html_link_clicked " << url << endl; // Todo
+  
   // Retry flags.
   try_again = false;
 
@@ -170,6 +172,8 @@ void GtkHtml3Browser::html_link_clicked(GtkHTML *html, const gchar * url)
   // Only load a new url if it differs from the one currently loaded.
   if ((myurl != loaded_url) && !myurl.empty()) {
 
+    cout << "Loading url " << myurl << endl; // Todo
+    
     // Create a new html stream.
     GtkHTMLStream *stream;
     stream = gtk_html_begin(html);

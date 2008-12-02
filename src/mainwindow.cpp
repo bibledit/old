@@ -6487,7 +6487,40 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
 
  Todo
 
+Several things need to be improved in the resources.
+1. The blue bar should not be blue anymore, but normal, as it confuses one to think it is focused.
+2. If the mouse hovers over a link, the text in the bar should be replaced by the url of that link.
+3. Any relative links should be resolved properly, e.g. ones that begin with . or .. All slashes should 
+   be interpreted too.
 
- 
+
+
+
+'As jumps within and to other resources work: ...'
+At this time, I could execute a link from one resource (e.g. ubshbk72= Colossions) to ubshbk76#bible.76.1.1 = 2TI, 
+now this same link only goes to the beginning of the book ubshbk76.
+
+Here is the resource added as zipped file.
+
+Additional info:
+- The resource contains COL and 1TI
+- Only COL has the correct links (1TI is linked to a bible)
+- Link in COL to 1TI are in COL 1:29
+
+
+Tried the same to link ubshbk78.html to NetBible by the following links in PHM 1:1:
+- ../NetBible/eph1.htm#Eph 1:1
+-- (it changes to ../NetBible/eph1.htm#Eph%201:1)
+- ../NetBible/col4.htm#Col 4:15
+-- (it changes to ../NetBible/col4.htm#Col%204:15)
+And those links work in Firefox in .bibledit/resources,
+but do not work with BE/Resources.
+In BE it gives the message: Couldn't resolve host '..'
+
+I attach ubshbk78.html.
+In order to check this, the NetBible must be installed as resource in BE.
+
+
+
  */
 
