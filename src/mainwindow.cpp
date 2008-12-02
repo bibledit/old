@@ -6483,11 +6483,7 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
   ((MainWindow *) user_data)->present(true);
 }
 
-/*
-
- Todo
-
-
+/* Todo
 
 
  */
