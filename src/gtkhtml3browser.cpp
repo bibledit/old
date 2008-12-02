@@ -107,8 +107,8 @@ void GtkHtml3Browser::html_url_requested(GtkHTML *html, const gchar *url, GtkHTM
   gchar * contents = htmlcache->request_url(myurl, size, trylater);
   if (contents) {
     gtk_html_write(html, handle, contents, size);
-    if (!g_utf8_validate (contents, -1, NULL)) {
-      invalid_utf8_at_url (url);
+    if (!g_utf8_validate(contents, -1, NULL)) {
+      invalid_utf8_at_url(url);
     }
     g_free(contents);
   }
@@ -130,8 +130,6 @@ gboolean GtkHtml3Browser::on_html_link_clicked(GtkHTML *html, const gchar * url,
 void GtkHtml3Browser::html_link_clicked(GtkHTML *html, const gchar * url)
 // Callback for loading a new page in the browser.
 {
-  cout << "html_link_clicked " << url << endl; // Todo
-  
   // Retry flags.
   try_again = false;
 
@@ -158,22 +156,36 @@ void GtkHtml3Browser::html_link_clicked(GtkHTML *html, const gchar * url)
 
   // Parse the url into the url and the anchor.  
   Parse parse(myurl, false, "#");
-  if (parse.words.size() > 0)
+  if (parse.words.size()> 0)
     myurl = parse.words[0];
   ustring myanchor;
-  if (parse.words.size() > 1)
+  if (parse.words.size()> 1)
     myanchor = parse.words[1];
 
-  // When a relative link is given, assemble the full url.
-  if (gw_path_get_dirname (myurl).empty() || gw_path_get_dirname(myurl) == ".") {
-    myurl = gw_build_filename(gw_path_get_dirname(loaded_url), myurl);
+  // Modify relative link that start with ./ or ../
+  ustring loaded_path = gw_path_get_dirname(loaded_url);
+  if (myurl.length() > 2) {
+    if (myurl.substr (0, 2) == "./") {
+      myurl.erase (0, 2);
+      myurl = gw_build_filename(loaded_path, myurl);
+    }
+  }
+  Parse parse2 (myurl, false, "/");
+  bool assemble_full_url = false;
+  for (unsigned int i = 0; i < parse2.words.size(); i++) {
+    if (parse2.words[i] != "..") 
+      break;
+    loaded_path = gw_path_get_dirname(loaded_path);
+    myurl.erase (0, 3);
+    assemble_full_url = true;
+  }
+  if (assemble_full_url) {
+    myurl = gw_build_filename(loaded_path, myurl);
   }
 
   // Only load a new url if it differs from the one currently loaded.
   if ((myurl != loaded_url) && !myurl.empty()) {
 
-    cout << "Loading url " << myurl << endl; // Todo
-    
     // Create a new html stream.
     GtkHTMLStream *stream;
     stream = gtk_html_begin(html);
@@ -188,8 +200,8 @@ void GtkHtml3Browser::html_link_clicked(GtkHTML *html, const gchar * url)
     gchar * contents = htmlcache->request_url(myurl, size, trylater);
     if (contents) {
       gtk_html_write(html, stream, contents, size);
-      if (!g_utf8_validate (contents, -1, NULL)) {
-        invalid_utf8_at_url (url);
+      if (!g_utf8_validate(contents, -1, NULL)) {
+        invalid_utf8_at_url(url);
       }
       g_free(contents);
     }
@@ -257,12 +269,11 @@ void GtkHtml3Browser::scroll_timeout()
   gdouble value = gtk_adjustment_get_value(adjustment);
   // Usually the first line of a verse is hidden in the Resource.
   // We scroll a bit back to make that line visible.
-  gtk_adjustment_set_value (adjustment, value - 30);
+  gtk_adjustment_set_value(adjustment, value - 30);
 }
 
-void GtkHtml3Browser::invalid_utf8_at_url (const gchar *url)
-{
+void GtkHtml3Browser::invalid_utf8_at_url(const gchar *url) {
   ustring msg = "Resource tried to load invalid UTF-8 Unicode from ";
-  msg.append (url);
-  gw_critical (msg);
+  msg.append(url);
+  gw_critical(msg);
 }
