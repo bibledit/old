@@ -52,7 +52,6 @@ Session::Session(int dummy)
   area_verse = false;
   line_cutter_for_hebrew_text_characters = 80;
   git_pause = false;
-  restart = false;
   special_character_selection = 0;
   print_references_in_notes_in_full = false;
   bnmu_add_book = false;

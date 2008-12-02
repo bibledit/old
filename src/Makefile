@@ -38,7 +38,7 @@ build_triplet = i686-pc-linux-gnu
 host_triplet = i686-pc-linux-gnu
 target_triplet = i686-pc-linux-gnu
 bin_PROGRAMS = bibledit-bin$(EXEEXT) bibledit-bibletime$(EXEEXT) \
-	bibledit-git$(EXEEXT) bibledit-restart$(EXEEXT)
+	bibledit-git$(EXEEXT)
 #am__append_1 = -mwindows
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -152,8 +152,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogradiobutton.$(OBJEXT) dialogresourceconverter2.$(OBJEXT) \
 	resource_conversion_utils.$(OBJEXT) convert.$(OBJEXT) \
 	textviewer.$(OBJEXT) roman.$(OBJEXT) project_memory.$(OBJEXT) \
-	restart.$(OBJEXT) dialogmerge.$(OBJEXT) merge_utils.$(OBJEXT) \
-	shutdown.$(OBJEXT) scripts.$(OBJEXT) dialogfilters.$(OBJEXT) \
+	dialogmerge.$(OBJEXT) merge_utils.$(OBJEXT) shutdown.$(OBJEXT) \
+	scripts.$(OBJEXT) dialogfilters.$(OBJEXT) \
 	dialogdictionary.$(OBJEXT) spelling.$(OBJEXT) \
 	dialogeditdictionary.$(OBJEXT) \
 	check_sentence_structure.$(OBJEXT) dialogcheckbutton.$(OBJEXT) \
@@ -179,9 +179,6 @@ am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
 	ipc.$(OBJEXT) git-exec.$(OBJEXT) tiny_utilities.$(OBJEXT)
 bibledit_git_OBJECTS = $(am_bibledit_git_OBJECTS)
 bibledit_git_LDADD = $(LDADD)
-am_bibledit_restart_OBJECTS = bibledit-restart.$(OBJEXT)
-bibledit_restart_OBJECTS = $(am_bibledit_restart_OBJECTS)
-bibledit_restart_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -195,9 +192,9 @@ CXXLD = $(CXX)
 CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
 SOURCES = $(bibledit_bibletime_SOURCES) $(bibledit_bin_SOURCES) \
-	$(bibledit_git_SOURCES) $(bibledit_restart_SOURCES)
+	$(bibledit_git_SOURCES)
 DIST_SOURCES = $(bibledit_bibletime_SOURCES) $(bibledit_bin_SOURCES) \
-	$(bibledit_git_SOURCES) $(bibledit_restart_SOURCES)
+	$(bibledit_git_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -366,9 +363,6 @@ bibledit_git_SOURCES = \
         ipc.cpp \
         git-exec.cpp \
         tiny_utilities.cpp
-
-bibledit_restart_SOURCES = \
-        bibledit-restart.cpp
 
 bibledit_bin_SOURCES = \
 		bibledit.cpp \
@@ -583,7 +577,6 @@ bibledit_bin_SOURCES = \
         textviewer.cpp \
         roman.cpp \
         project_memory.cpp \
-        restart.cpp \
         dialogmerge.cpp \
         merge_utils.cpp \
         shutdown.cpp \
@@ -697,9 +690,6 @@ bibledit-bin$(EXEEXT): $(bibledit_bin_OBJECTS) $(bibledit_bin_DEPENDENCIES)
 bibledit-git$(EXEEXT): $(bibledit_git_OBJECTS) $(bibledit_git_DEPENDENCIES) 
 	@rm -f bibledit-git$(EXEEXT)
 	$(CXXLINK) $(bibledit_git_LDFLAGS) $(bibledit_git_OBJECTS) $(bibledit_git_LDADD) $(LIBS)
-bibledit-restart$(EXEEXT): $(bibledit_restart_OBJECTS) $(bibledit_restart_DEPENDENCIES) 
-	@rm -f bibledit-restart$(EXEEXT)
-	$(CXXLINK) $(bibledit_restart_LDFLAGS) $(bibledit_restart_OBJECTS) $(bibledit_restart_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -712,7 +702,6 @@ include ./$(DEPDIR)/backup.Po
 include ./$(DEPDIR)/bible.Po
 include ./$(DEPDIR)/bibledit-bibletime.Po
 include ./$(DEPDIR)/bibledit-git.Po
-include ./$(DEPDIR)/bibledit-restart.Po
 include ./$(DEPDIR)/bibledit.Po
 include ./$(DEPDIR)/biblenotes.Po
 include ./$(DEPDIR)/bibletime.Po
@@ -898,7 +887,6 @@ include ./$(DEPDIR)/reporting.Po
 include ./$(DEPDIR)/resource.Po
 include ./$(DEPDIR)/resource_conversion_utils.Po
 include ./$(DEPDIR)/resource_utils.Po
-include ./$(DEPDIR)/restart.Po
 include ./$(DEPDIR)/roman.Po
 include ./$(DEPDIR)/screen.Po
 include ./$(DEPDIR)/scripts.Po

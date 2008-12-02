@@ -603,6 +603,7 @@ void notes_display(ustring& note_buffer, vector <unsigned int> ids, unsigned int
         if (show_summary) {
           ustring summary = reader.ustring2[r];
           replace_text (summary, "\n", " ");
+          replace_text (summary, "<BR>", " ");
           Parse parse (summary, false);
           unsigned int maximum = 5;
           maximum = CLAMP (maximum, 0, parse.words.size());

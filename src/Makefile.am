@@ -1,4 +1,4 @@
-bin_PROGRAMS = bibledit-bin bibledit-bibletime bibledit-git bibledit-restart
+bin_PROGRAMS = bibledit-bin bibledit-bibletime bibledit-git
 
 bibledit_bibletime_SOURCES = \
         bibledit-bibletime.cpp \
@@ -12,9 +12,6 @@ bibledit_git_SOURCES = \
         ipc.cpp \
         git-exec.cpp \
         tiny_utilities.cpp
-
-bibledit_restart_SOURCES = \
-        bibledit-restart.cpp
 
 bibledit_bin_SOURCES = \
 		bibledit.cpp \
@@ -229,7 +226,6 @@ bibledit_bin_SOURCES = \
         textviewer.cpp \
         roman.cpp \
         project_memory.cpp \
-        restart.cpp \
         dialogmerge.cpp \
         merge_utils.cpp \
         shutdown.cpp \

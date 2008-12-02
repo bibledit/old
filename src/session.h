@@ -77,8 +77,6 @@ public:
   int line_cutter_for_hebrew_text_characters;
   // Git 
   bool git_pause;
-  // Restart
-  bool restart;
   // Insert special character.
   int special_character_selection;
   // Bible notes mass update.

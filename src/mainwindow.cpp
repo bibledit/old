@@ -3173,12 +3173,6 @@ void MainWindow::on_gui()
 
   // Check whether to reopen the project.
   on_git_reopen_project();
-
-  // Care for possible restart.
-  extern Settings * settings;
-  if (settings->session.restart) {
-    gtk_main_quit();
-  }
 }
 
 /*

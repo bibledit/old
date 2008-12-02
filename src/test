@@ -37,11 +37,6 @@ fi
 
 
 
-# Remove the restart flag.
-rm -rf ~/.bibledit-restart-flag
-
-
-
 # The temporal directory. Create it.
 mkdir -p ~/.bibledit_temp
 
@@ -185,10 +180,3 @@ if [ $RUNGUI -eq 1 ]
 fi
 
 
-
-# If a flag has been set that we need to restart, carry that out.
-if test -f ~/.bibledit-restart-flag
-then
-  bibledit-restart
-  bibledit $@
-fi
