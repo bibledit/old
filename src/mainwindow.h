@@ -332,8 +332,6 @@ protected:
   GtkWidget *menuitem_help_menu;
   GtkWidget *help_main;
   GtkWidget *image17520;
-  GtkWidget *help_context;
-  GtkWidget *image16053;
   GtkWidget *system_log1;
   GtkWidget *image4388;
   GtkWidget *about1;
@@ -364,8 +362,6 @@ protected:
   static void on_quit1_activate(GtkMenuItem * menuitem, gpointer user_data);
   static void on_system_log1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void viewlog();
-  static void on_help_context_activate(GtkMenuItem * menuitem, gpointer user_data);
-  void on_help_context();
   static void on_help_main_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_help_main();
   static void on_about1_activate(GtkMenuItem * menuitem, gpointer user_data);
@@ -814,7 +810,6 @@ protected:
   static void accelerator_find_callback(gpointer user_data);
   static void accelerator_replace_callback(gpointer user_data);
   static void accelerator_main_help_callback(gpointer user_data);
-  static void accelerator_context_help_callback(gpointer user_data);
   static void accelerator_menu_callback(gpointer user_data);
 };
 

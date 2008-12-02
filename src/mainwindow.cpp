@@ -228,7 +228,6 @@ MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
     gtk_accel_group_connect(accelerator_group, GDK_R, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_replace_callback), gpointer(this), NULL));
   }
   gtk_accel_group_connect(accelerator_group, GDK_F1, GdkModifierType(0), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_main_help_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_H, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_context_help_callback), gpointer(this), NULL));
   gtk_accel_group_connect(accelerator_group, GDK_M, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_menu_callback), gpointer(this), NULL));
 
   // Icon fallback.
@@ -1645,14 +1644,6 @@ MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
   gtk_widget_show(image17520);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (help_main), image17520);
 
-  help_context = gtk_image_menu_item_new_with_mnemonic("C_ontext");
-  gtk_widget_show(help_context);
-  gtk_container_add(GTK_CONTAINER (menuitem_help_menu), help_context);
-
-  image16053 = gtk_image_new_from_stock("gtk-help", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image16053);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (help_context), image16053);
-
   system_log1 = gtk_image_menu_item_new_with_mnemonic("_System log");
   gtk_widget_show(system_log1);
   gtk_container_add(GTK_CONTAINER (menuitem_help_menu), system_log1);
@@ -1923,8 +1914,6 @@ MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
     g_signal_connect ((gpointer) preferences_graphical_interface, "activate", G_CALLBACK (on_preferences_graphical_interface_activate), gpointer(this));
   if (preferences_filters)
     g_signal_connect ((gpointer) preferences_filters, "activate", G_CALLBACK (on_preferences_filters_activate), gpointer(this));
-  if (help_context)
-    g_signal_connect ((gpointer) help_context, "activate", G_CALLBACK (on_help_context_activate), gpointer(this));
   if (help_main)
     g_signal_connect ((gpointer) help_main, "activate", G_CALLBACK (on_help_main_activate), gpointer(this));
   if (system_log1)
@@ -2189,14 +2178,6 @@ void MainWindow::on_system_log1_activate(GtkMenuItem * menuitem, gpointer user_d
 void MainWindow::viewlog() {
   ShowScriptDialog showscript(0);
   showscript.run();
-}
-
-void MainWindow::on_help_context_activate(GtkMenuItem * menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->on_help_context();
-}
-
-void MainWindow::on_help_context() {
-  help_open(NULL, gpointer ("none"));
 }
 
 void MainWindow::on_help_main_activate(GtkMenuItem * menuitem, gpointer user_data) {
@@ -6467,10 +6448,6 @@ void MainWindow::accelerator_replace_callback(gpointer user_data) {
 
 void MainWindow::accelerator_main_help_callback(gpointer user_data) {
   ((MainWindow *) user_data)->on_help_main();
-}
-
-void MainWindow::accelerator_context_help_callback(gpointer user_data) {
-  ((MainWindow *) user_data)->on_help_context();
 }
 
 void MainWindow::accelerator_menu_callback(gpointer user_data) {
