@@ -679,15 +679,23 @@ void notes_get_references_from_editor(GtkTextBuffer *textbuffer, vector<Referenc
       if (reference_discover(previousreference.book, previousreference.chapter, previousreference.verse, lines[i], reference.book, reference.chapter, reference.verse)) {
         ustring ch1, vs1, ch2, vs2;
         if (chapter_span_discover(lines[i], ch1, vs1, ch2, vs2)) {
-          // We cross the chapter boundaries. Store as two references, the first
-          // one going up to the end of the chapter, and the second one starting
-          // at the next chapter verse 1.
+          // We cross the chapter boundaries. 
+          // Store as two or more references, 
+          // the first one going up to the end of the chapter, 
+          // and the second one starting at the next chapter verse 1,
+          // and any chapter in-between.
           extern Settings * settings;
           ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
           Reference ref(reference.book, convert_to_int(ch1), vs1);
           ustring lastverse = versification_get_last_verse(projectconfig->versification_get(), reference.book, convert_to_int(ch1));
           ref.verse.append("-" + lastverse);
           references.push_back(ref);
+          for (unsigned int ch = convert_to_int(ch1) + 1; ch < convert_to_int (ch2); ch++) {
+            Reference ref(reference.book, ch, "1");
+            ustring lastverse = versification_get_last_verse(projectconfig->versification_get(), reference.book, ch);
+            ref.verse.append("-" + lastverse);
+            references.push_back(ref);
+          }
           ref.chapter = convert_to_int(ch2);
           ref.verse = "1-" + vs2;
           references.push_back(ref);
