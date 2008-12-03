@@ -6466,13 +6466,6 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
 
 /* Todo
 
- Choosing Preferences/Features: Basic ones, the whole area of Project Notes is taken out of this setting.
-
- What is left, is in Edit:
- - Find Project Notes
- - get references from Project Notes.
-
- -> Take those tools out, as they are not relevant in this context.
 
 
  */
