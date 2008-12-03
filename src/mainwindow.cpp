@@ -888,26 +888,35 @@ MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
 
   }
 
-  find_in_notes1 = gtk_image_menu_item_new_with_mnemonic("Find in Project _notes");
-  gtk_widget_show(find_in_notes1);
-  gtk_container_add(GTK_CONTAINER (menuitem_edit_menu), find_in_notes1);
+  find_in_notes1 = NULL;
+  if (guifeatures.project_notes()) {
 
-  image1430 = gtk_image_new_from_stock("gtk-find", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image1430);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (find_in_notes1), image1430);
+    find_in_notes1 = gtk_image_menu_item_new_with_mnemonic("Find in Project _notes");
+    gtk_widget_show(find_in_notes1);
+    gtk_container_add(GTK_CONTAINER (menuitem_edit_menu), find_in_notes1);
 
+    image1430 = gtk_image_new_from_stock("gtk-find", GTK_ICON_SIZE_MENU);
+    gtk_widget_show(image1430);
+    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (find_in_notes1), image1430);
+
+  }
   separator7 = gtk_separator_menu_item_new();
   gtk_widget_show(separator7);
   gtk_container_add(GTK_CONTAINER (menuitem_edit_menu), separator7);
   gtk_widget_set_sensitive(separator7, FALSE);
 
-  get_references_from_note = gtk_image_menu_item_new_with_mnemonic("_Get references from project note");
-  gtk_widget_show(get_references_from_note);
-  gtk_container_add(GTK_CONTAINER (menuitem_edit_menu), get_references_from_note);
+  get_references_from_note = NULL;
+  if (guifeatures.project_notes()) {
 
-  image3158 = gtk_image_new_from_stock("gtk-index", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image3158);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (get_references_from_note), image3158);
+    get_references_from_note = gtk_image_menu_item_new_with_mnemonic("_Get references from project note");
+    gtk_widget_show(get_references_from_note);
+    gtk_container_add(GTK_CONTAINER (menuitem_edit_menu), get_references_from_note);
+
+    image3158 = gtk_image_new_from_stock("gtk-index", GTK_ICON_SIZE_MENU);
+    gtk_widget_show(image3158);
+    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (get_references_from_note), image3158);
+
+  }
 
   separator15 = gtk_separator_menu_item_new();
   gtk_widget_show(separator15);
@@ -2298,7 +2307,8 @@ void MainWindow::menu_edit() {
   // Enable/disable based on whether we're editing a note.
   bool enable = (window_notes && window_notes->note_being_edited());
   // References can only be taken from a note when it is opened.
-  gtk_widget_set_sensitive(get_references_from_note, enable);
+  if (get_references_from_note)
+    gtk_widget_set_sensitive(get_references_from_note, enable);
 
   // The Bible notes can only be edited when the cursor is in a note text.
   enable = false;
@@ -6455,6 +6465,14 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
 }
 
 /* Todo
+
+ Choosing Preferences/Features: Basic ones, the whole area of Project Notes is taken out of this setting.
+
+ What is left, is in Edit:
+ - Find Project Notes
+ - get references from Project Notes.
+
+ -> Take those tools out, as they are not relevant in this context.
 
 
  */
