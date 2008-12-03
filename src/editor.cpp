@@ -166,7 +166,7 @@ Editor::~Editor() {
 
   // Clear a few flags.
   verse_tracker_on = false;
-  
+
   // Delete speller.
   delete spellingchecker;
 
@@ -179,13 +179,13 @@ Editor::~Editor() {
   gtk_widget_destroy(reload_signal);
   gtk_widget_destroy(changed_signal);
   gtk_widget_destroy(quick_references_button);
-  
+
   // Destroy the texttag tables.
   g_object_unref(texttagtable);
 
   // Destroy the textview.
-  gtk_widget_destroy (scrolledwindow);
-  
+  gtk_widget_destroy(scrolledwindow);
+
   // Destroy possible highlight object.
   if (highlight)
     delete highlight;
@@ -386,7 +386,7 @@ void Editor::chapter_save()
         chapter_in_text = ccv.chapter[i];
       }
     }
-    // Ask what to do if the chapter number in the text differs from the Todo 
+    // Ask what to do if the chapter number in the text differs from the 
     // chapter that has been loaded.
     if (chapter_in_text != chapter) {
       unsigned int confirmed_chapter_number;
@@ -446,12 +446,12 @@ ustring Editor::text_get_selection()
   // table, whichever has the focus. Get the text too.
   GtkTextIter startiter, enditer;
   gtk_text_buffer_get_selection_bounds(textbuffer, &startiter, &enditer);
-  if (gtk_widget_is_focus (textview)) {
+  if (gtk_widget_is_focus(textview)) {
     gtk_text_buffer_get_selection_bounds(textbuffer, &startiter, &enditer);
     usfm_get_text(textbuffer, startiter, enditer, &editornotes, &editortables, project, text);
   }
   for (unsigned int i = 0; i < editornotes.size(); i++) {
-    if (gtk_widget_is_focus (editornotes[i].textview)) {
+    if (gtk_widget_is_focus(editornotes[i].textview)) {
       GtkTextBuffer * buffer = editornotes[i].textbuffer;
       gtk_text_buffer_get_selection_bounds(buffer, &startiter, &enditer);
       usfm_get_note_text(editornotes[i], startiter, enditer, project, text);
@@ -460,7 +460,7 @@ ustring Editor::text_get_selection()
   for (unsigned int i = 0; i < editortables.size(); i++) {
     for (unsigned int row = 0; row < editortables[i].textviews.size(); row++) {
       for (unsigned int column = 0; column < editortables[i].textviews[row].size(); column++) {
-        if (gtk_widget_is_focus (table_cell_get_view (editortables[i], row, column))) {
+        if (gtk_widget_is_focus(table_cell_get_view(editortables[i], row, column))) {
           GtkTextBuffer * buffer = table_cell_get_buffer(editortables[i], row, column);
           gtk_text_buffer_get_selection_bounds(buffer, &startiter, &enditer);
           usfm_get_text(buffer, startiter, enditer, NULL, NULL, project, text);
@@ -480,12 +480,12 @@ void Editor::text_erase_selection()
   // table, whichever has the focus. Erase that bit.
   GtkTextIter startiter, enditer;
   gtk_text_buffer_get_selection_bounds(textbuffer, &startiter, &enditer);
-  if (gtk_widget_is_focus (textview)) {
+  if (gtk_widget_is_focus(textview)) {
     gtk_text_buffer_get_selection_bounds(textbuffer, &startiter, &enditer);
     gtk_text_buffer_delete(textbuffer, &startiter, &enditer);
   }
   for (unsigned int i = 0; i < editornotes.size(); i++) {
-    if (gtk_widget_is_focus (editornotes[i].textview)) {
+    if (gtk_widget_is_focus(editornotes[i].textview)) {
       GtkTextBuffer * buffer = editornotes[i].textbuffer;
       gtk_text_buffer_get_selection_bounds(buffer, &startiter, &enditer);
       gtk_text_buffer_delete(buffer, &startiter, &enditer);
@@ -494,7 +494,7 @@ void Editor::text_erase_selection()
   for (unsigned int i = 0; i < editortables.size(); i++) {
     for (unsigned int row = 0; row < editortables[i].textviews.size(); row++) {
       for (unsigned int column = 0; column < editortables[i].textviews[row].size(); column++) {
-        if (gtk_widget_is_focus (table_cell_get_view (editortables[i], row, column))) {
+        if (gtk_widget_is_focus(table_cell_get_view(editortables[i], row, column))) {
           GtkTextBuffer * buffer = table_cell_get_buffer(editortables[i], row, column);
           gtk_text_buffer_get_selection_bounds(buffer, &startiter, &enditer);
           gtk_text_buffer_delete(buffer, &startiter, &enditer);
@@ -522,18 +522,18 @@ void Editor::text_insert(ustring text)
 
   // Get the textbuffer that is focused.
   GtkTextBuffer * buffer = textbuffer;
-  if (gtk_widget_is_focus (textview)) {
+  if (gtk_widget_is_focus(textview)) {
     buffer = textbuffer;
   }
   for (unsigned int i = 0; i < editornotes.size(); i++) {
-    if (gtk_widget_is_focus (editornotes[i].textview)) {
+    if (gtk_widget_is_focus(editornotes[i].textview)) {
       buffer = editornotes[i].textbuffer;
     }
   }
   for (unsigned int i = 0; i < editortables.size(); i++) {
     for (unsigned int row = 0; row < editortables[i].textviews.size(); row++) {
       for (unsigned int column = 0; column < editortables[i].textviews[row].size(); column++) {
-        if (gtk_widget_is_focus (table_cell_get_view (editortables[i], row, column))) {
+        if (gtk_widget_is_focus(table_cell_get_view(editortables[i], row, column))) {
           buffer = table_cell_get_buffer(editortables[i], row, column);
         }
       }
@@ -563,14 +563,21 @@ void Editor::text_insert(ustring text)
   // Initialize paragraph and character styles to the ones prevalent at the insert location.
   ustring paragraph_mark;
   ustring character_mark;
-  // It seems to be more natural to initialize the markers according to the 
-  // character that the cursor is after: move the iterator backward.
-  // This addresses the following bug:
-  //   When text is pasted just before a verse number, it gets it wrong.
-  //   It puts the text in the verse style.
-  //   It does not happen with just typing, but only with pasting text.
-  //   The same thing happens when pasting before any character style.
-  gtk_text_iter_backward_char(&insert_iter);
+  /*
+   It seems to be more natural to initialize the markers according to the 
+   character that the cursor is after: move the iterator backward.
+   This addresses the following bug:
+   "When text is pasted just before a verse number, it gets it wrong.
+   "It puts the text in the verse style.
+   "It does not happen with just typing, but only with pasting text.
+   "The same thing happens when pasting before any character style."
+   But there's another bug, that when a header is inserted straight after a chapter number,
+   it gets it wrong. So if there's an empty line, it should not move the iterator backward.
+   */
+  bool cursor_on_empty_line = gtk_text_iter_starts_line(&insert_iter) && gtk_text_iter_ends_line(&insert_iter);
+  if (!cursor_on_empty_line) {
+    gtk_text_iter_backward_char(&insert_iter);
+  }
   get_styles_at_iterator(insert_iter, paragraph_mark, character_mark);
   // When inserting text at the end of the buffer, no paragraph mark will be found.
   // In that case iterate back till there is one.
@@ -653,7 +660,7 @@ void Editor::show_quick_references_execute()
 
   // Make the references available and fire a signal.
   quick_references = refscanner.references;
-  gtk_button_clicked (GTK_BUTTON (quick_references_button));
+  gtk_button_clicked(GTK_BUTTON (quick_references_button));
 }
 
 void Editor::on_textview_move_cursor(GtkTextView * textview, GtkMovementStep step, gint count, gboolean extend_selection, gpointer user_data) {
@@ -691,21 +698,21 @@ ustring Editor::verse_number_get()
   // Get an iterator at the cursor location of the main textview.
   GtkTextIter iter;
   gtk_text_buffer_get_iter_at_mark(textbuffer, &iter, gtk_text_buffer_get_insert(textbuffer));
-  if (gtk_widget_is_focus (textview)) {
+  if (gtk_widget_is_focus(textview)) {
     gtk_text_buffer_get_iter_at_mark(textbuffer, &iter, gtk_text_buffer_get_insert(textbuffer));
   } else {
     // If the cursor is in a footnote, or in a table, 
     // then the iterator is retrieved from another location in the main textview.
     // This location corresponds to the verse that the footnote refers to or that the table is in.
     for (unsigned int i = 0; i < editornotes.size(); i++) {
-      if (gtk_widget_is_focus (editornotes[i].textview)) {
+      if (gtk_widget_is_focus(editornotes[i].textview)) {
         gtk_text_buffer_get_iter_at_child_anchor(textbuffer, &iter, editornotes[i].childanchor_caller_text);
       }
     }
     for (unsigned int i = 0; i < editortables.size(); i++) {
       for (unsigned int row = 0; row < editortables[i].textviews.size(); row++) {
         for (unsigned int column = 0; column < editortables[i].textviews[row].size(); column++) {
-          if (gtk_widget_is_focus (table_cell_get_view (editortables[i], row, column))) {
+          if (gtk_widget_is_focus(table_cell_get_view(editortables[i], row, column))) {
             gtk_text_buffer_get_iter_at_child_anchor(textbuffer, &iter, editortables[i].childanchor);
           }
         }
@@ -2769,11 +2776,11 @@ set <ustring> Editor::get_styles_at_cursor()
   // Get the iterators at the selection bounds of the main textview or note or table.
   GtkTextIter startiter, enditer;
   gtk_text_buffer_get_selection_bounds(textbuffer, &startiter, &enditer);
-  if (gtk_widget_is_focus (textview)) {
+  if (gtk_widget_is_focus(textview)) {
     gtk_text_buffer_get_selection_bounds(textbuffer, &startiter, &enditer);
   } else {
     for (unsigned int i = 0; i < editornotes.size(); i++) {
-      if (gtk_widget_is_focus (editornotes[i].textview)) {
+      if (gtk_widget_is_focus(editornotes[i].textview)) {
         GtkTextBuffer * buffer = editornotes[i].textbuffer;
         gtk_text_buffer_get_selection_bounds(buffer, &startiter, &enditer);
       }
@@ -2781,7 +2788,7 @@ set <ustring> Editor::get_styles_at_cursor()
     for (unsigned int i = 0; i < editortables.size(); i++) {
       for (unsigned int row = 0; row < editortables[i].textviews.size(); row++) {
         for (unsigned int column = 0; column < editortables[i].textviews[row].size(); column++) {
-          if (gtk_widget_is_focus (table_cell_get_view (editortables[i], row, column))) {
+          if (gtk_widget_is_focus(table_cell_get_view(editortables[i], row, column))) {
             GtkTextBuffer * buffer = table_cell_get_buffer(editortables[i], row, column);
             gtk_text_buffer_get_selection_bounds(buffer, &startiter, &enditer);
           }
@@ -3561,7 +3568,7 @@ bool Editor::verse_tracker_timeout()
         gtk_button_clicked(GTK_BUTTON (new_verse_signal));
       }
     }
-    
+
   }
 
   // Next iteration.

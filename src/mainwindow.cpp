@@ -6466,22 +6466,6 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
 
 /* Todo
 
-Pasting causes errors that require me to go to usfm view.
-
-If a section head is pasted in, when the section head is at the top of the chapter, 
-an extra blank \c gets added, then Bibledit asks if the user wants to make the current chapter into chapter one. 
-This sounds like it would obliterate a real chapter one.
-
-This is to be addressed first, so that it no longer asks this when such code is there. It requires a 
-more strict check on the chapter number, so that numbers that don't seem right are not accepted, 
-and that in such cases the existing chapter number is preserved.
-
-
-I think there was nothing special in the formatting of the headings I pasted into BE, 
-but most of the time they come with a trailing Line Break. That seems to be the thing that causes 
-BE to add extra things like /s .... /s* or /p .... /p*
-
-This is to be addressed next, so that pasting "does the right thing".
 
  */
 
