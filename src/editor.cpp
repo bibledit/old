@@ -386,7 +386,7 @@ void Editor::chapter_save()
         chapter_in_text = ccv.chapter[i];
       }
     }
-    // Ask what to do if the chapter number in the text differs from the 
+    // Ask what to do if the chapter number in the text differs from the Todo 
     // chapter that has been loaded.
     if (chapter_in_text != chapter) {
       unsigned int confirmed_chapter_number;
