@@ -737,6 +737,7 @@ void GitSetupDialog::on_okbutton() {
   projectconfig->git_remote_repository_url_set(url_get());
 
   // Remote update interval.
+  gtk_spin_button_update(GTK_SPIN_BUTTON (spinbutton_update));
   projectconfig->git_remote_update_interval_set(gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON (spinbutton_update)));
 
   // Save conflict handling system.
