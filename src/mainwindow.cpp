@@ -5353,7 +5353,7 @@ void MainWindow::on_print() {
       }
       break;
     }
-    case 3: // Tes
+    case 3: // Test
     {
       extern Settings * settings;
       Text2Pdf text2pdf(gw_build_filename(directories_get_temp(), "pdf.pdf"), settings->genconfig.print_engine_use_intermediate_text_get());
