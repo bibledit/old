@@ -4637,10 +4637,18 @@ void MainWindow::on_ipc_method() {
         ipc->send(ipcstBibleditGit, ipcctGitJobDescription, task);
         // The chapter state looks whether something changed in the chapter 
         // now opened while we pull changes from the remote repository.
-        gitchapterstate = NULL;
+        // As there can be more than one editor that points to the same remote repository,
+        // we need to include any editor that has this particular remote repository.
         if (convert_to_int(task[0]) == gttUpdateProject) {
-          if (task[1] == settings->genconfig.project_get()) {
-            gitchapterstate = new GitChapterState (task[1], navigation.reference.book, navigation.reference.chapter);
+          ustring task_project = task[1];
+          ProjectConfiguration * projectconfig = settings->projectconfig(task_project);
+          ustring remote_repository = projectconfig->git_remote_repository_url_get();
+          for (unsigned int i = 0; i < editor_windows.size(); i++) {
+            projectconfig = settings->projectconfig(editor_windows[i]->editor->project);
+            if (remote_repository == projectconfig->git_remote_repository_url_get()) {
+              GitChapterState * gitchapterstate = new GitChapterState (editor_windows[i]->editor->project, navigation.reference.book, navigation.reference.chapter);
+              gitchapterstates.push_back(gitchapterstate);
+            }
           }
         }
       }
@@ -4663,15 +4671,17 @@ void MainWindow::on_ipc_method() {
       // Task failed: re-queue it.
       git_fail_task_done();
     }
-    // Set a flag if the state of the currently opened chapter changed.
+    // Set a flag if the state of any of the currently opened chapters changed.
     // (This must be done after conflicting merges have been resolved, as that
     //  could affect the chapter now opened).
-    if (gitchapterstate) {
-      if (gitchapterstate->changed()) {
-        git_reopen_project = true;
+    if (!gitchapterstates.empty()) {
+      for (unsigned int i = 0; i < gitchapterstates.size(); i++) {
+        if (gitchapterstates[i]->changed()) {
+          git_reopen_project = true;
+        }
+        delete gitchapterstates[i];
       }
-      delete gitchapterstate;
-      gitchapterstate = NULL;
+      gitchapterstates.clear();
     }
   }
 }

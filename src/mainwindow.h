@@ -644,7 +644,7 @@ protected:
   unsigned int git_update_interval_event_id;
   static bool on_git_update_timeout(gpointer user_data);
   void git_update_timeout();
-  GitChapterState * gitchapterstate;
+  vector <GitChapterState *> gitchapterstates;
   bool git_reopen_project;
 
   /* Fonts */
