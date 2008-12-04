@@ -3844,6 +3844,10 @@ void MainWindow::on_style_apply() {
   if (!editor_window)
     return;
 
+  // Bail out if the editor is not editable.
+  if (!editor_window->editor->editable)
+    return;
+  
   // Bail out if there's no styles window.
   if (!window_styles)
     return;
