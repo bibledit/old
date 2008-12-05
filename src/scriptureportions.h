@@ -35,6 +35,7 @@ public:
   vector<bool> reordered_includes;
   vector<ustring> reordered_portions;
   bool reordering_portions_all ();
+  bool included (const ustring& book);
 private:
   void reordering_read ();
   ustring myproject;

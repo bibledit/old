@@ -94,16 +94,28 @@ bool compare_projects (ProjectMemory& originalproject, ProjectMemory& secondproj
 {
   // Progress information.
   ProgressWindow progresswindow ("Comparing", true);
+
   // Open the Scriptures.
   vector<unsigned int> originalscripture_books = originalproject.get_books ();
   vector<unsigned int> secondscripture_books = secondproject.get_books ();
   vector<unsigned int> outputscripture = outputproject.get_books ();
+  
+  // Portions.
+  ScripturePortions scriptureportions (originalproject.name);
+  
   // Progress information.
   progresswindow.set_iterate (0, 1, originalscripture_books.size());
+
   // Go through the original scripture.
   for (unsigned int ib = 0; ib < originalscripture_books.size(); ib++) {
     // Progress.
     progresswindow.iterate ();
+    
+    // Skip book if it is not included in the portion.
+    if (!scriptureportions.included (books_id_to_english (originalscripture_books[ib]))) {
+      continue;
+    }
+    
     // Get a pointer to the book in the second project.
     ProjectBook * secondprojectbook = secondproject.get_book_pointer (originalscripture_books[ib]);
     // If that book does not exists in the second project, skip it.

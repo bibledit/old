@@ -98,3 +98,15 @@ bool ScripturePortions::reordering_portions_all ()
       return false;
   return true;
 }
+
+bool ScripturePortions::included (const ustring& book)
+// Returns true if the book is included in the portion.
+{
+  bool incl = false;
+  for (unsigned int i = 0; i < reordered_books.size(); i++) {
+    if (reordered_books[i] == book) {
+      incl = reordered_includes[i];
+    }
+  }
+  return incl;
+}
