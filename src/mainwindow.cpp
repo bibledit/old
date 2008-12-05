@@ -6481,6 +6481,7 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
 /* Todo
 
 
+
 In order to display USFM resources better within Bibledit, we need to create a window that can display
 one verse at a time of many USFM projects. Projects can be added or deleted, and are remembered.
 
