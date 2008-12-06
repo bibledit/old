@@ -6101,7 +6101,8 @@ void MainWindow::present_windows(GtkWidget * widget)
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
     editor_windows[i]->present(false);
   }
-  present(false);
+  // The main window should be focused too, but then the icon in the taskbar keeps flashing, so it is not done.
+  //present(false);
 
   // Present the calling window again so that it keeps the focus.
   if (window_show_quick_references) {
@@ -6145,7 +6146,8 @@ void MainWindow::present_windows(GtkWidget * widget)
       editor_windows[i]->present(true);
   }
   if (widget == focus_in_signal_button) {
-    present(true);
+    // The main window should be focused too, but then the icon in the taskbar keeps flashing, so it is not done.
+    // present(true);
   }
 }
 
@@ -6525,8 +6527,6 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
 }
 
 /* Todo
-
-
 
 
 
