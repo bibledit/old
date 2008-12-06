@@ -124,6 +124,8 @@ int main(int argc, char *argv[]) {
   }
   // Upgrade data.
   upgrade(true);
+  // Icon fallback.
+  gtk_window_set_default_icon_from_file(gw_build_filename (directories_get_package_data (), "bibledit.xpm").c_str(), NULL);
   // Start the gui.
   MainWindow mainwindow(xembed, accelerator_group);
   gtk_main();

@@ -230,9 +230,6 @@ MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
   gtk_accel_group_connect(accelerator_group, GDK_F1, GdkModifierType(0), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_main_help_callback), gpointer(this), NULL));
   gtk_accel_group_connect(accelerator_group, GDK_M, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_menu_callback), gpointer(this), NULL));
 
-  // Icon fallback.
-  gtk_window_set_default_icon_from_file(gw_build_filename (directories_get_package_data (), "bibledit.xpm").c_str(), NULL);
-
   // The object that created the window is set to have the window skip the taskbar.
   // For the main window, however, it should show up in the taskbar.
   gtk_window_set_skip_taskbar_hint(GTK_WINDOW (window), false);
