@@ -1483,11 +1483,11 @@ MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
   }
 
   menuitem_preferences = gtk_menu_item_new_with_mnemonic("P_references");
-  // At first the Alt-P was the shortcut key. On the XO machine, this key is 
+  // At first the Alt-P was the accelerator. On the XO machine, this key is 
   // in use already: 
   // Alt-N goes to the Next Activity and
   // Alt-P goes to the Previous one. 
-  // For that reason the Alt-R is now the shortcut key.
+  // For that reason the Alt-R is now the accelerator.
   gtk_widget_show(menuitem_preferences);
   gtk_container_add(GTK_CONTAINER (menubar1), menuitem_preferences);
 
@@ -2809,7 +2809,7 @@ void MainWindow::on_copy_without_formatting(bool called_by_menu) {
   if (called_by_menu) {
     focused_window_button = last_focused_window_button;
   } else {
-    // Using the shortcut in the GtkTextView give weird results. The shortcut has been removed.
+    // Using the accelerator in the GtkTextView give weird results. The accelerator has been removed.
     focused_window_button = now_focused_window_button;
   }
 
