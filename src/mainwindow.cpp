@@ -220,7 +220,6 @@ MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
   if (guifeatures.printing()) {
     gtk_accel_group_connect(accelerator_group, GDK_P, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_print_callback), gpointer(this), NULL));
   }
-  gtk_accel_group_connect(accelerator_group, GDK_C, (GdkModifierType) (GDK_CONTROL_MASK | GDK_SHIFT_MASK), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_copy_without_formatting_callback), gpointer(this), NULL));
   if (guifeatures.references_and_find()) {
     gtk_accel_group_connect(accelerator_group, GDK_F, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_find_callback), gpointer(this), NULL));
   }
@@ -2810,6 +2809,7 @@ void MainWindow::on_copy_without_formatting(bool called_by_menu) {
   if (called_by_menu) {
     focused_window_button = last_focused_window_button;
   } else {
+    // Using the shortcut in the GtkTextView give weird results. The shortcut has been removed.
     focused_window_button = now_focused_window_button;
   }
 
@@ -6504,10 +6504,6 @@ void MainWindow::accelerator_open_project_callback(gpointer user_data) {
 
 void MainWindow::accelerator_print_callback(gpointer user_data) {
   ((MainWindow *) user_data)->on_print();
-}
-
-void MainWindow::accelerator_copy_without_formatting_callback(gpointer user_data) {
-  ((MainWindow *) user_data)->on_copy_without_formatting(false);
 }
 
 void MainWindow::accelerator_find_callback(gpointer user_data) {
