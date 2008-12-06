@@ -515,11 +515,24 @@ MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
 
   }
 
+  stylesheet_open = NULL;
+  if (guifeatures.styles()) {
+
+    stylesheet_open = gtk_image_menu_item_new_with_mnemonic("_Open");
+    gtk_widget_show(stylesheet_open);
+    gtk_container_add(GTK_CONTAINER (style_menu), stylesheet_open);
+
+    image31346 = gtk_image_new_from_stock("gtk-open", GTK_ICON_SIZE_MENU);
+    gtk_widget_show(image31346);
+    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (stylesheet_open), image31346);
+
+  }
+
   stylesheets_expand_all= NULL;
   if (guifeatures.styles()) {
 
     stylesheets_expand_all = gtk_image_menu_item_new_with_mnemonic("_Expand all");
-    gtk_widget_show(stylesheets_expand_all);
+    //gtk_widget_show(stylesheets_expand_all);
     gtk_container_add(GTK_CONTAINER (style_menu), stylesheets_expand_all);
 
     GtkWidget *image10736;
@@ -533,7 +546,7 @@ MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
   if (guifeatures.styles()) {
 
     stylesheets_collapse_all = gtk_image_menu_item_new_with_mnemonic("_Collapse all");
-    gtk_widget_show(stylesheets_collapse_all);
+    //gtk_widget_show(stylesheets_collapse_all);
     gtk_container_add(GTK_CONTAINER (style_menu), stylesheets_collapse_all);
 
     GtkWidget *image10737;
@@ -547,7 +560,7 @@ MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
   if (guifeatures.styles()) {
 
     style_insert = gtk_image_menu_item_new_with_mnemonic("_Insert");
-    gtk_widget_show(style_insert);
+    //gtk_widget_show(style_insert);
     gtk_container_add(GTK_CONTAINER (style_menu), style_insert);
 
     GtkWidget *image10738;
@@ -561,7 +574,7 @@ MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
   if (guifeatures.styles_management()) {
 
     stylesheet_edit_mode = gtk_check_menu_item_new_with_mnemonic("Edit _mode");
-    gtk_widget_show(stylesheet_edit_mode);
+    //gtk_widget_show(stylesheet_edit_mode);
     gtk_container_add(GTK_CONTAINER (style_menu), stylesheet_edit_mode);
 
   }
@@ -570,7 +583,7 @@ MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
   if (guifeatures.styles_management()) {
 
     style_new = gtk_image_menu_item_new_with_mnemonic("_New");
-    gtk_widget_show(style_new);
+    //gtk_widget_show(style_new);
     gtk_container_add(GTK_CONTAINER (style_menu), style_new);
 
     GtkWidget *image10739;
@@ -584,7 +597,7 @@ MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
   if (guifeatures.styles_management()) {
 
     style_properties = gtk_image_menu_item_new_from_stock("gtk-properties", NULL);
-    gtk_widget_show(style_properties);
+    //gtk_widget_show(style_properties);
     gtk_container_add(GTK_CONTAINER (style_menu), style_properties);
 
   }
@@ -593,7 +606,7 @@ MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
   if (guifeatures.styles_management()) {
 
     style_delete = gtk_image_menu_item_new_from_stock("gtk-delete", NULL);
-    gtk_widget_show(style_delete);
+    //gtk_widget_show(style_delete);
     gtk_container_add(GTK_CONTAINER (style_menu), style_delete);
 
   }
@@ -602,7 +615,7 @@ MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
   if (guifeatures.styles_management()) {
 
     menu_stylesheet = gtk_image_menu_item_new_with_mnemonic("_Stylesheet");
-    gtk_widget_show(menu_stylesheet);
+    //gtk_widget_show(menu_stylesheet);
     gtk_container_add(GTK_CONTAINER (style_menu), menu_stylesheet);
 
     GtkWidget *image10740;
@@ -1739,6 +1752,8 @@ MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
     g_signal_connect ((gpointer) delete_references, "activate", G_CALLBACK (on_delete_references_activate), gpointer (this));
   if (reference_hide)
     g_signal_connect ((gpointer) reference_hide, "activate", G_CALLBACK (on_reference_hide_activate), gpointer (this));
+  if (stylesheet_open)
+    g_signal_connect ((gpointer) stylesheet_open, "activate", G_CALLBACK (on_stylesheet_open_activate), gpointer (this));
   if (new_note)
     g_signal_connect ((gpointer) new_note, "activate", G_CALLBACK (on_new_note_activate), gpointer(this));
   if (delete_note)
@@ -3766,6 +3781,14 @@ void MainWindow::on_check_sentence_structure() {
  |
  */
 
+void MainWindow::on_stylesheet_open_activate(GtkMenuItem *menuitem, gpointer user_data) {
+  ((MainWindow *) user_data)->on_stylesheet_open();
+}
+
+void MainWindow::on_stylesheet_open() {
+  display_window_styles();
+}
+
 void MainWindow::on_goto_styles_area() {
   // Create or active the styles window.
   display_window_styles();
@@ -3778,6 +3801,17 @@ void MainWindow::on_goto_styles_area() {
 void MainWindow::display_window_styles() {
   // Display the styles if needed.
   if (!window_styles) {
+    // The visibility of widgets depends on whether a stylesheet shows.
+    gtk_widget_hide(stylesheet_open);
+    gtk_widget_show(stylesheets_expand_all);
+    gtk_widget_show(stylesheets_collapse_all);
+    gtk_widget_show(style_insert);
+    gtk_widget_show(stylesheet_edit_mode);
+    gtk_widget_show(style_new);
+    gtk_widget_show(style_properties);
+    gtk_widget_show(style_delete);
+    gtk_widget_show(menu_stylesheet);
+    // Open the window.
     extern GtkAccelGroup *accelerator_group;
     window_styles = new WindowStyles (accelerator_group, windows_startup_pointer != G_MAXINT,
         style, style_menu,
@@ -3806,6 +3840,15 @@ void MainWindow::on_window_styles_delete_button() {
     delete window_styles;
     window_styles = NULL;
   }
+  gtk_widget_show(stylesheet_open);
+  gtk_widget_hide(stylesheets_expand_all);
+  gtk_widget_hide(stylesheets_collapse_all);
+  gtk_widget_hide(style_insert);
+  gtk_widget_hide(stylesheet_edit_mode);
+  gtk_widget_hide(style_new);
+  gtk_widget_hide(style_properties);
+  gtk_widget_hide(style_delete);
+  gtk_widget_hide(menu_stylesheet);
 }
 
 void MainWindow::stylesheet_open_named(const ustring& stylesheet) {
@@ -3847,7 +3890,7 @@ void MainWindow::on_style_apply() {
   // Bail out if the editor is not editable.
   if (!editor_window->editor->editable)
     return;
-  
+
   // Bail out if there's no styles window.
   if (!window_styles)
     return;
@@ -6482,8 +6525,10 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
 
 
 
-In order to display USFM resources better within Bibledit, we need to create a window that can display
-one verse at a time of many USFM projects. Projects can be added or deleted, and are remembered.
+
+
+ In order to display USFM resources better within Bibledit, we need to create a window that can display
+ one verse at a time of many USFM projects. Projects can be added or deleted, and are remembered.
 
  */
 

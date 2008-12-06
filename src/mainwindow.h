@@ -110,6 +110,8 @@ protected:
   GtkWidget *style;
   GtkWidget *image10735;
   GtkWidget *style_menu;
+  GtkWidget *stylesheet_open;
+  GtkWidget *image31346;
   GtkWidget *stylesheets_expand_all;
   GtkWidget *stylesheets_collapse_all;
   GtkWidget *style_insert;
@@ -574,6 +576,8 @@ protected:
   void on_check_sentence_structure();
 
   /* Styles */
+  static void on_stylesheet_open_activate(GtkMenuItem *menuitem, gpointer user_data);
+  void on_stylesheet_open();
   void on_goto_styles_area();
   void display_window_styles();
   WindowStyles * window_styles;
@@ -748,19 +752,19 @@ protected:
   static void on_window_focus_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_focus_button(GtkButton *button);
   void present_windows(GtkWidget * widget);
-  
+
   void temporally_ignore_window_focus_events();
   guint window_focus_event_id;
   static bool on_window_focus_timeout(gpointer data);
   void window_focus_timeout();
   bool act_on_window_focus_signal;
-  
-  void register_focused_windows (GtkButton * button);
+
+  void register_focused_windows(GtkButton * button);
   GtkWidget * now_focused_window_button;
   GtkWidget * last_focused_window_button;
   GtkWidget * focused_editor_button;
   GtkWidget * focused_resource_button;
-  
+
   /* Quick references */
   static void on_view_quick_references_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_quick_references();
