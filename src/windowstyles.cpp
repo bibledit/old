@@ -354,6 +354,9 @@ void WindowStyles::use(const ustring& marker)
   // Focus the style we selected.
   ustring complete_style = marker + " " + get_name(marker);
   focus_string(complete_style);
+  // Store focus.
+  extern Settings * settings;
+  settings->session.selected_style = complete_style;
 }
 
 #define RECENTLY_USED "Recently Used"
@@ -1102,6 +1105,13 @@ void WindowStyles::load_stylesheet()
   }
   while (gtk_events_pending())
     gtk_main_iteration();
+  
+  // Focus the last style, if there's any.
+  extern Settings * settings;
+  ustring last_style = settings->session.selected_style;
+  if (!last_style.empty()) {
+    focus_string(last_style);
+  }
 }
 
 void WindowStyles::get_focused_strings(vector<ustring>& focused_strings, vector<bool>& recently_used, vector<bool>& categories) {

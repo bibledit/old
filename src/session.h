@@ -92,6 +92,8 @@ public:
   vector <GtkWindow *> open_windows;
   // Project notes.
   bool project_notes_show_title;
+  // Styles.
+  ustring selected_style;
 private:
   };
 
