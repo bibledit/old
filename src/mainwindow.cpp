@@ -5326,6 +5326,11 @@ void MainWindow::on_print_activate(GtkMenuItem *menuitem, gpointer user_data) {
 }
 
 void MainWindow::on_print() {
+  // Bail out if no project is open.
+  WindowEditor * editorwindow = last_focused_editor_window();
+  if (!editorwindow)
+    return;
+  
   // Create the selection dialog using the saved selection.
   unsigned int selection;
   {
@@ -5341,6 +5346,7 @@ void MainWindow::on_print() {
     selection = dialog.selection;
     settings->genconfig.print_job_set(selection);
   }
+  
   // Save the editors.
   save_editors();
 
