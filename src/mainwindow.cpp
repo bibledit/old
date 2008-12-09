@@ -4897,6 +4897,8 @@ void MainWindow::on_file_resources_open(ustring resource)
   g_signal_connect ((gpointer) resource_window->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
   resource_window->go_to(navigation.reference);
   resource_windows.push_back(resource_window);
+  // Register the focus.
+  register_focused_windows (GTK_BUTTON (resource_window->focus_in_signal_button));
 }
 
 void MainWindow::on_file_resources_close_activate(GtkMenuItem *menuitem, gpointer user_data) {
@@ -6524,10 +6526,20 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
 
 /* Todo
 
+ Main window, project test, and resource NET bible. Presssin Ctrl-M does not focus the main window, but the resource.
+
+ When the Main menu/program window is moved behind the editing window, it cannot be accessed by Ctrl+M any more. 
+ It starts to do it, but it only flickers for a while.
+ -> Allow overlap of winodws, which would be useful for machines with a small screen.
+
+ If notes and the editor were open, and if the notes are closed, then these have been focused shortly.
+ As a result there's no focus in the editor window working anymore, visible in clipboard operations.
+ So we need to fix that by somehow manually focusing the editor window then open.
 
 
  In order to display USFM resources better within Bibledit, we need to create a window that can display
  one verse at a time of many USFM projects. Projects can be added or deleted, and are remembered.
 
  */
+
 

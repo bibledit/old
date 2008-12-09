@@ -239,7 +239,7 @@
 #define LIBCURL_FEATURE_LIBZ 1
 
 /* Defined if libcurl supports NTLM */
-/* #undef LIBCURL_FEATURE_NTLM */
+#define LIBCURL_FEATURE_NTLM 1
 
 /* Defined if libcurl supports SSL */
 #define LIBCURL_FEATURE_SSL 1
@@ -257,13 +257,13 @@
 #define LIBCURL_PROTOCOL_FTP 1
 
 /* Defined if libcurl supports FTPS */
-/* #undef LIBCURL_PROTOCOL_FTPS */
+#define LIBCURL_PROTOCOL_FTPS 1
 
 /* Defined if libcurl supports HTTP */
 #define LIBCURL_PROTOCOL_HTTP 1
 
 /* Defined if libcurl supports HTTPS */
-/* #undef LIBCURL_PROTOCOL_HTTPS */
+#define LIBCURL_PROTOCOL_HTTPS 1
 
 /* Defined if libcurl supports LDAP */
 #define LIBCURL_PROTOCOL_LDAP 1
@@ -291,13 +291,13 @@
 #define PACKAGE_NAME "bibledit"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit 3.4.65"
+#define PACKAGE_STRING "bibledit 3.4.66"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "3.4.65"
+#define PACKAGE_VERSION "3.4.66"
 
 /* Define as the return type of signal handlers (`int' or `void'). */
 #define RETSIGTYPE void
@@ -318,7 +318,7 @@
 #define TIME_WITH_SYS_TIME 1
 
 /* Version number of package */
-#define VERSION "3.4.65"
+#define VERSION "3.4.66"
 
 /* Define to empty if `const' does not conform to ANSI C. */
 /* #undef const */
