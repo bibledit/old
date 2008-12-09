@@ -6536,10 +6536,15 @@ void MainWindow::accelerator_menu_callback(gpointer user_data) {
  As a result there's no focus in the editor window working anymore, visible in clipboard operations.
  So we need to fix that by somehow manually focusing the editor window then open.
 
+ There is a problem with the git version that we use, so we need to install the right version from source,
+ and also look into ways to find out whether the version of git installed is okay. There should be automated
+ tests that do this on git-setup.
 
  In order to display USFM resources better within Bibledit, we need to create a window that can display
  one verse at a time of many USFM projects. Projects can be added or deleted, and are remembered.
 
+ Todo
+ 
  */
 
 

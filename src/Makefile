@@ -267,9 +267,9 @@ OBJEXT = o
 PACKAGE = bibledit
 PACKAGE_BUGREPORT = http://www.nongnu.org/bibledit
 PACKAGE_NAME = bibledit
-PACKAGE_STRING = bibledit 3.4.66
+PACKAGE_STRING = bibledit 3.4.67
 PACKAGE_TARNAME = bibledit
-PACKAGE_VERSION = 3.4.66
+PACKAGE_VERSION = 3.4.67
 PANGO_CFLAGS = -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
 PANGO_LIBS = -lpango-1.0 -lgobject-2.0 -lgmodule-2.0 -lglib-2.0  
 PATH_SEPARATOR = :
@@ -286,7 +286,7 @@ STRINGS_PATH = /usr/bin/strings
 STRIP = 
 TAIL_PATH = /usr/bin/tail
 TEE_TOUCH = /usr/bin/touch
-VERSION = 3.4.66
+VERSION = 3.4.67
 XML2_CONFIG = /usr/bin/xml2-config
 XML_CPPFLAGS = -I/usr/include/libxml2
 XML_LIBS = -lxml2
@@ -611,7 +611,7 @@ bibledit_bin_SOURCES = \
         accelerators.cpp \
         dialogprojectnote.cpp \
         windowreferences.cpp \
-        windoweditor.cpp 
+        windoweditor.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \

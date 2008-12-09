@@ -266,7 +266,7 @@ bibledit_bin_SOURCES = \
         accelerators.cpp \
         dialogprojectnote.cpp \
         windowreferences.cpp \
-        windoweditor.cpp 
+        windoweditor.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 
