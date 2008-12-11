@@ -172,6 +172,7 @@ MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
   focused_resource_button = NULL;
   act_on_window_focus_signal = true;
   window_focus_event_id = 0;
+  final_focus_event_id = 0;
 
   g_set_application_name("Bibledit");
 
@@ -2006,6 +2007,7 @@ MainWindow::~MainWindow() {
   // Destroy window focus system.
   act_on_window_focus_signal = false;
   gw_destroy_source(window_focus_event_id);
+  gw_destroy_source(final_focus_event_id);
 
   // Shut down the various windows.
   shutdown_windows();
@@ -6106,51 +6108,10 @@ void MainWindow::present_windows(GtkWidget * widget)
   // The main window should be focused too, but then the icon in the taskbar keeps flashing, so it is not done.
   //present(false);
 
-  // Present the calling window again so that it keeps the focus.
-  if (window_show_quick_references) {
-    if (widget == window_show_quick_references->focus_in_signal_button)
-      window_show_quick_references->present(true);
-  }
-  if (window_show_keyterms) {
-    if (widget == window_show_keyterms->focus_in_signal_button)
-      window_show_keyterms->present(true);
-  }
-  if (window_merge) {
-    if (widget == window_merge->focus_in_signal_button)
-      window_merge->present(true);
-  }
-  for (unsigned int i = 0; i < resource_windows.size(); i++) {
-    if (widget == resource_windows[i]->focus_in_signal_button)
-      resource_windows[i]->present(true);
-  }
-  if (window_outline) {
-    if (widget == window_outline->focus_in_signal_button)
-      window_outline->present(true);
-  }
-  if (window_check_keyterms) {
-    if (widget == window_check_keyterms->focus_in_signal_button)
-      window_check_keyterms->present(true);
-  }
-  if (window_styles) {
-    if (widget == window_styles->focus_in_signal_button)
-      window_styles->present(true);
-  }
-  if (window_notes) {
-    if (widget == window_notes->focus_in_signal_button)
-      window_notes->present(true);
-  }
-  if (window_references) {
-    if (widget == window_references->focus_in_signal_button)
-      window_references->present(true);
-  }
-  for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    if (widget == editor_windows[i]->focus_in_signal_button)
-      editor_windows[i]->present(true);
-  }
-  if (widget == focus_in_signal_button) {
-    // The main window should be focused too, but then the icon in the taskbar keeps flashing, so it is not done.
-    // present(true);
-  }
+  // After a delay, process the final focus call.
+  final_focus_button = widget;
+  gw_destroy_source(final_focus_event_id);
+  final_focus_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 500, GSourceFunc (on_final_focus_timeout), gpointer(this), NULL);
 }
 
 void MainWindow::temporally_ignore_window_focus_events() {
@@ -6198,6 +6159,62 @@ void MainWindow::register_focused_windows(GtkButton * button) {
     }
   }
 }
+
+bool MainWindow::on_final_focus_timeout(gpointer data) {
+  ((MainWindow*) data)->final_focus_timeout();
+  return false;
+}
+
+void MainWindow::final_focus_timeout() {
+  // No focus handlers right now.
+  temporally_ignore_window_focus_events();
+  // Present the calling window again so that it keeps the focus.
+  if (window_show_quick_references) {
+    if (final_focus_button == window_show_quick_references->focus_in_signal_button)
+      window_show_quick_references->present(true);
+  }
+  if (window_show_keyterms) {
+    if (final_focus_button == window_show_keyterms->focus_in_signal_button)
+      window_show_keyterms->present(true);
+  }
+  if (window_merge) {
+    if (final_focus_button == window_merge->focus_in_signal_button)
+      window_merge->present(true);
+  }
+  for (unsigned int i = 0; i < resource_windows.size(); i++) {
+    if (final_focus_button == resource_windows[i]->focus_in_signal_button)
+      resource_windows[i]->present(true);
+  }
+  if (window_outline) {
+    if (final_focus_button == window_outline->focus_in_signal_button)
+      window_outline->present(true);
+  }
+  if (window_check_keyterms) {
+    if (final_focus_button == window_check_keyterms->focus_in_signal_button)
+      window_check_keyterms->present(true);
+  }
+  if (window_styles) {
+    if (final_focus_button == window_styles->focus_in_signal_button)
+      window_styles->present(true);
+  }
+  if (window_notes) {
+    if (final_focus_button == window_notes->focus_in_signal_button)
+      window_notes->present(true);
+  }
+  if (window_references) {
+    if (final_focus_button == window_references->focus_in_signal_button)
+      window_references->present(true);
+  }
+  for (unsigned int i = 0; i < editor_windows.size(); i++) {
+    if (final_focus_button == editor_windows[i]->focus_in_signal_button)
+      editor_windows[i]->present(true);
+  }
+  if (final_focus_button == focus_in_signal_button) {
+    // The main window should be focused too, but then the icon in the taskbar keeps flashing, so it is not done.
+    // present(true);
+  }
+}
+
 
 /*
  |
@@ -6521,30 +6538,49 @@ void MainWindow::accelerator_main_help_callback(gpointer user_data) {
 }
 
 void MainWindow::accelerator_menu_callback(gpointer user_data) {
-  ((MainWindow *) user_data)->present(true);
+  ((MainWindow *) user_data)->accelerator_menu();
 }
 
-/* Todo
+void MainWindow::accelerator_menu()
+{
+  temporally_ignore_window_focus_events();
+  present (true);
+}
 
- Main window, project test, and resource NET bible. Presssin Ctrl-M does not focus the main window, but the resource.
+/* 
+
+Todo
+
+ Main window, project test, and resource NET bible. Presssing Ctrl-M does not focus the main window, but the resource.
 
  When the Main menu/program window is moved behind the editing window, it cannot be accessed by Ctrl+M any more. 
  It starts to do it, but it only flickers for a while.
  -> Allow overlap of winodws, which would be useful for machines with a small screen.
-
+ 
  If notes and the editor were open, and if the notes are closed, then these have been focused shortly.
  As a result there's no focus in the editor window working anymore, visible in clipboard operations.
  So we need to fix that by somehow manually focusing the editor window then open.
 
+  
+
+
+
+
  There is a problem with the git version that we use, so we need to install the right version from source,
  and also look into ways to find out whether the version of git installed is okay. There should be automated
  tests that do this on git-setup.
-
+ 
  In order to display USFM resources better within Bibledit, we need to create a window that can display
  one verse at a time of many USFM projects. Projects can be added or deleted, and are remembered.
 
- Todo
+ Process bibledit-git takes far too many resources, this should be reduced greatly. 
+ And bibledit-bin too takes too much of the resources, and should be reduced too. 
+ Wonder whether the signal processing system of Linux can be of help here. In that case 
+ bibledit signals bibledit-git when a new task is available, and bibledit-git signals bibledit-bin
+ if the task has been processed. In case signals could be missed, we need to check once in a while
+ even if no signal was received.
  
  */
+
 
 

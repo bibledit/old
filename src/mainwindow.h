@@ -761,6 +761,11 @@ protected:
   GtkWidget * last_focused_window_button;
   GtkWidget * focused_editor_button;
   GtkWidget * focused_resource_button;
+  guint final_focus_event_id;
+  static bool on_final_focus_timeout(gpointer data);
+  void final_focus_timeout();
+  GtkWidget * final_focus_button;
+
 
   /* Quick references */
   static void on_view_quick_references_activate(GtkMenuItem *menuitem, gpointer user_data);
@@ -811,8 +816,7 @@ protected:
   static void accelerator_replace_callback(gpointer user_data);
   static void accelerator_main_help_callback(gpointer user_data);
   static void accelerator_menu_callback(gpointer user_data);
+  void accelerator_menu();
 };
-
-// Todo
 
 #endif
