@@ -411,8 +411,10 @@ void WindowBase::on_window_focus_in(GtkWidget *widget) {
 void WindowBase::present(bool force)
 // Presents the window.
 {
+  cout << "void WindowBase::present force " << force <<  " window data " << window_data << endl; // Todo
   // Only act if the window is not fully visible already, or if forced.
   if ((visibility_state() != GDK_VISIBILITY_UNOBSCURED) || force) {
+    cout << "gtk_window_present " << window_data << endl; // Todo
     gtk_window_present(GTK_WINDOW (window));
   }
 }

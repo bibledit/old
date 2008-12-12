@@ -35,6 +35,9 @@ WindowResource::WindowResource(const ustring& resource_name, GtkAccelGroup *acce
   name = resource_name;
   resource = new Resource (window);
   g_signal_connect ((gpointer) resource->browser->htmlview, "visibility-notify-event", G_CALLBACK (on_visibility_notify_event), gpointer(this));
+  // It seems that the visibility signal on the htmlview does not work. 
+  // Therefore in order to get the focus system work, we pick another visible widget.
+  g_signal_connect ((gpointer) resource->label, "visibility-notify-event", G_CALLBACK (on_visibility_notify_event), gpointer(this));
   resource->open(resourcename_to_filename(name));
 }
 

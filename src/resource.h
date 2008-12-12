@@ -42,7 +42,9 @@ public:
 private:
   // Widgets.
   GtkWidget *vbox;
+public:
   GtkWidget *label;
+private:
   GtkWidget *homebutton;
 public:
   GtkHtml3Browser * browser;
