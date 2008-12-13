@@ -326,8 +326,6 @@ protected:
   GtkWidget *image25623;
   GtkWidget *preferences_planning;
   GtkWidget *image26888;
-  GtkWidget *preferences_graphical_interface;
-  GtkWidget *image27031;
   GtkWidget *preferences_filters;
   GtkWidget *image28360;
   GtkWidget *menuitem_help;
@@ -412,8 +410,6 @@ protected:
   void on_view_usfm_code();
   static void on_insert_special_character_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_insert_special_character();
-  static void on_preferences_graphical_interface_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_preferences_graphical_interface();
 
   /* Navigation  */
   static void on_navigation_new_reference_clicked(GtkButton *button, gpointer user_data);

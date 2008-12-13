@@ -215,7 +215,6 @@ bibledit_bin_SOURCES = \
         htmlwriter.cpp \
         dialogviewstatus.cpp \
         dialogplanningsetup.cpp \
-        dialoginterfaceprefs.cpp \
         resource.cpp \
         dialognewresource.cpp \
         dialogresourcebooks.cpp \

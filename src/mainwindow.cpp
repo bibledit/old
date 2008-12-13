@@ -121,7 +121,6 @@
 #include "dialogviewstatus.h"
 #include "planning.h"
 #include "dialogplanningsetup.h"
-#include "dialoginterfaceprefs.h"
 #include "dialognewresource.h"
 #include "shutdown.h"
 #include "dialogfilters.h"
@@ -1586,7 +1585,6 @@ MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
   pdf_viewer1 = NULL;
   preferences_reporting = NULL;
   preferences_planning = NULL;
-  preferences_graphical_interface = NULL;
   preferences_filters = NULL;
   if (guifeatures.preferences()) {
 
@@ -1629,14 +1627,6 @@ MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
     image26888 = gtk_image_new_from_stock("gtk-preferences", GTK_ICON_SIZE_MENU);
     gtk_widget_show(image26888);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (preferences_planning), image26888);
-
-    preferences_graphical_interface = gtk_image_menu_item_new_with_mnemonic("Grap_hical Interface");
-    gtk_widget_show(preferences_graphical_interface);
-    gtk_container_add(GTK_CONTAINER (menuitem_preferences_menu), preferences_graphical_interface);
-
-    image27031 = gtk_image_new_from_stock("gtk-fullscreen", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image27031);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM (preferences_graphical_interface), image27031);
 
     preferences_filters = gtk_image_menu_item_new_with_mnemonic("Filter_s");
     gtk_widget_show(preferences_filters);
@@ -1931,8 +1921,6 @@ MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
     g_signal_connect ((gpointer) preferences_reporting, "activate", G_CALLBACK (on_preferences_reporting_activate), gpointer(this));
   if (preferences_planning)
     g_signal_connect ((gpointer) preferences_planning, "activate", G_CALLBACK (on_preferences_planning_activate), gpointer(this));
-  if (preferences_graphical_interface)
-    g_signal_connect ((gpointer) preferences_graphical_interface, "activate", G_CALLBACK (on_preferences_graphical_interface_activate), gpointer(this));
   if (preferences_filters)
     g_signal_connect ((gpointer) preferences_filters, "activate", G_CALLBACK (on_preferences_filters_activate), gpointer(this));
   if (help_main)
@@ -3968,11 +3956,6 @@ void MainWindow::on_style_apply() {
           style_was_used = false;
         }
         style_was_treated_specially = true;
-        // If the gui has been set so, display the references in the tools area.
-        if (settings->genconfig.inserting_xref_shows_references_get()) {
-          show_references_window();
-          gtk_widget_grab_focus(editor->last_focused_textview());
-        }
       }
     }
   }
@@ -4279,15 +4262,6 @@ void MainWindow::on_insert_special_character() {
     return;
   settings->session.special_character_selection = dialog.selection;
   editor->text_insert(characters[dialog.selection]);
-}
-
-void MainWindow::on_preferences_graphical_interface_activate(GtkMenuItem *menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->on_preferences_graphical_interface();
-}
-
-void MainWindow::on_preferences_graphical_interface() {
-  InterfacePreferencesDialog dialog(0);
-  dialog.run();
 }
 
 /*

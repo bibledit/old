@@ -211,7 +211,6 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE (pdf_viewer_arguments);
   INITIALIZE (project_tasks_names);
   INITIALIZE (project_tasks_durations);
-  INITIALIZE (inserting_xref_shows_references);
   INITIALIZE (print_job);
   INITIALIZE (git_health);
 }
@@ -373,7 +372,6 @@ void GeneralConfiguration::save()
   SAVE_VALUE (pdf_viewer_arguments);
   SAVE_VALUE (project_tasks_names);
   SAVE_VALUE (project_tasks_durations);
-  SAVE_VALUE (inserting_xref_shows_references);
   SAVE_VALUE (print_job);
   SAVE_VALUE (git_health);
 
@@ -605,6 +603,5 @@ IMPLEMENT (ustring, string_get, pdf_viewer_path, "")
 IMPLEMENT (ustring, string_get, pdf_viewer_arguments, "")
 IMPLEMENT (vector<ustring>, vector_string_get, project_tasks_names, NULL)
 IMPLEMENT (vector<double>, vector_double_get, project_tasks_durations, NULL)
-IMPLEMENT (bool, bool_get, inserting_xref_shows_references, false)
 IMPLEMENT (int, int_get, print_job, 0)
 IMPLEMENT (int, int_get, git_health, date_time_julian_day_get_current())

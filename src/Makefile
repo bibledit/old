@@ -143,9 +143,9 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogreportingsetup.$(OBJEXT) dialogeditstatus.$(OBJEXT) \
 	dialogtaskduration.$(OBJEXT) htmlwriter.$(OBJEXT) \
 	dialogviewstatus.$(OBJEXT) dialogplanningsetup.$(OBJEXT) \
-	dialoginterfaceprefs.$(OBJEXT) resource.$(OBJEXT) \
-	dialognewresource.$(OBJEXT) dialogresourcebooks.$(OBJEXT) \
-	dialogradiobutton.$(OBJEXT) dialogresourceconverter2.$(OBJEXT) \
+	resource.$(OBJEXT) dialognewresource.$(OBJEXT) \
+	dialogresourcebooks.$(OBJEXT) dialogradiobutton.$(OBJEXT) \
+	dialogresourceconverter2.$(OBJEXT) \
 	resource_conversion_utils.$(OBJEXT) convert.$(OBJEXT) \
 	textviewer.$(OBJEXT) roman.$(OBJEXT) project_memory.$(OBJEXT) \
 	dialogmerge.$(OBJEXT) merge_utils.$(OBJEXT) shutdown.$(OBJEXT) \
@@ -560,7 +560,6 @@ bibledit_bin_SOURCES = \
         htmlwriter.cpp \
         dialogviewstatus.cpp \
         dialogplanningsetup.cpp \
-        dialoginterfaceprefs.cpp \
         resource.cpp \
         dialognewresource.cpp \
         dialogresourcebooks.cpp \
@@ -758,7 +757,6 @@ include ./$(DEPDIR)/dialogimportrawtext.Po
 include ./$(DEPDIR)/dialogimporttext.Po
 include ./$(DEPDIR)/dialoginsertnote.Po
 include ./$(DEPDIR)/dialoginserttable.Po
-include ./$(DEPDIR)/dialoginterfaceprefs.Po
 include ./$(DEPDIR)/dialoglinecutter.Po
 include ./$(DEPDIR)/dialoglistview.Po
 include ./$(DEPDIR)/dialogmerge.Po

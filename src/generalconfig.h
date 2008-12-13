@@ -194,7 +194,6 @@ public:
   DEFINE_GENCONFIG_H (ustring, pdf_viewer_arguments);
   DEFINE_GENCONFIG_H (vector<ustring>, project_tasks_names);
   DEFINE_GENCONFIG_H (vector<double>, project_tasks_durations);
-  DEFINE_GENCONFIG_H (bool, inserting_xref_shows_references);
   DEFINE_GENCONFIG_H (int, print_job);
   DEFINE_GENCONFIG_H (int, git_health);
 private:
