@@ -49,7 +49,7 @@ protected:
   GtkWidget *label8;
   GtkWidget *vbox2;
   GtkWidget *label10;
-  GtkWidget *combobox1;
+  GtkWidget *treeview1;
   GtkWidget *hbox1;
   GtkWidget *buttondelete;
   GtkWidget *alignment1;
@@ -65,14 +65,14 @@ protected:
   GtkWidget *dialog_action_area1;
   GtkWidget *cancelbutton1;
   GtkWidget *okbutton1;
-  vector<ustring> mycategories;
   static void on_okbutton1_clicked (GtkButton *button, gpointer user_data);
   void on_okbutton ();
   static void on_buttondelete_clicked (GtkButton *button, gpointer user_data);
   void on_delete_category ();
   static void on_buttonadd_clicked (GtkButton *button, gpointer user_data);
   void on_add_category ();
-  void set_gui(const ustring& display_value);
+  void set_gui(const vector<ustring>& categories, const ustring& display_value);
+  GtkListStore *model;
 };
 
 
