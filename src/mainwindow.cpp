@@ -2713,9 +2713,15 @@ void MainWindow::on_new_verse()
 
 void MainWindow::on_text_area_activate() {
   WindowEditor * editor_window = last_focused_editor_window();
+  if (editor_window == NULL) {
+    if (!editor_windows.empty()) {
+      editor_window = editor_windows[0];
+    }
+  }
   if (editor_window) {
     temporally_ignore_window_focus_events();
     editor_window->present(true);
+    register_focused_windows(GTK_BUTTON (editor_window->focus_in_signal_button));
   }
 }
 
@@ -6071,12 +6077,15 @@ void MainWindow::on_window_focus_button_clicked(GtkButton *button, gpointer user
 void MainWindow::on_window_focus_button(GtkButton *button)
 // Called when a window gets focused.
 {
-  cout << "void MainWindow::on_window_focus_button(GtkButton *button)" << endl; // Todo
-  describe_focus_button (GTK_WIDGET (button)); // Todo
   if (!act_on_window_focus_signal) {
     return;
   }
 
+  static int counter = 0;
+  counter++;
+
+  cout << counter << " on windows focus button " << describe_focus_button (GTK_WIDGET (button)) << endl; // Todo
+  
   temporally_ignore_window_focus_events();
 
   register_focused_windows(button);
@@ -6137,7 +6146,7 @@ void MainWindow::window_focus_timeout() {
 
 void MainWindow::register_focused_windows(GtkButton * button) {
   // Bail out if there's no change in the focus.
-  GtkWidget * widget= GTK_WIDGET (button);
+  GtkWidget * widget = GTK_WIDGET (button);
   if (widget == now_focused_window_button)
     return;
 
@@ -6163,6 +6172,11 @@ void MainWindow::register_focused_windows(GtkButton * button) {
       }
     }
   }
+
+  cout << "now focused window is " << describe_focus_button (now_focused_window_button) << endl; // Todo
+  cout << "last focused window is " << describe_focus_button (last_focused_window_button) << endl; // Todo
+  cout << "focused resource is " << describe_focus_button (focused_resource_button) << endl; // Todo
+  cout << "focused editor is " << describe_focus_button (focused_editor_button) << endl; // Todo
 }
 
 bool MainWindow::on_final_focus_timeout(gpointer data) {
@@ -6220,53 +6234,53 @@ void MainWindow::final_focus_timeout() {
   }
 }
 
-void MainWindow::describe_focus_button (GtkWidget * widget) // Todo
+ustring MainWindow::describe_focus_button (GtkWidget * widget)
 {
-  static int counter = 0;
-  counter++;
+  ustring description;
   if (window_show_quick_references) {
-    if (final_focus_button == window_show_quick_references->focus_in_signal_button)
-      gw_message (convert_to_string (counter) + window_show_quick_references->window_data);
+    if (widget == window_show_quick_references->focus_in_signal_button)
+      description.append (window_show_quick_references->window_data);
   }
   if (window_show_keyterms) {
-    if (final_focus_button == window_show_keyterms->focus_in_signal_button)
-      gw_message (convert_to_string (counter) + window_show_keyterms->window_data);
+    if (widget == window_show_keyterms->focus_in_signal_button)
+      description.append (window_show_keyterms->window_data);
   }
   if (window_merge) {
-    if (final_focus_button == window_merge->focus_in_signal_button)
-      gw_message (convert_to_string (counter) + window_merge->window_data);
+    if (widget == window_merge->focus_in_signal_button)
+      description.append (window_merge->window_data);
   }
   for (unsigned int i = 0; i < resource_windows.size(); i++) {
-    if (final_focus_button == resource_windows[i]->focus_in_signal_button)
-      gw_message (convert_to_string (counter) + resource_windows[i]->window_data);
+    if (widget == resource_windows[i]->focus_in_signal_button)
+      description.append (resource_windows[i]->window_data);
   }
   if (window_outline) {
-    if (final_focus_button == window_outline->focus_in_signal_button)
-      gw_message (convert_to_string (counter) + window_outline->window_data);
+    if (widget == window_outline->focus_in_signal_button)
+      description.append (window_outline->window_data);
   }
   if (window_check_keyterms) {
-    if (final_focus_button == window_check_keyterms->focus_in_signal_button)
-      gw_message (convert_to_string (counter) + window_check_keyterms->window_data);
+    if (widget == window_check_keyterms->focus_in_signal_button)
+      description.append (window_check_keyterms->window_data);
   }
   if (window_styles) {
-    if (final_focus_button == window_styles->focus_in_signal_button)
-      gw_message (convert_to_string (counter) + window_styles->window_data);
+    if (widget == window_styles->focus_in_signal_button)
+      description.append (window_styles->window_data);
   }
   if (window_notes) {
-    if (final_focus_button == window_notes->focus_in_signal_button)
-      gw_message (convert_to_string (counter) + window_notes->window_data);
+    if (widget == window_notes->focus_in_signal_button)
+      description.append (window_notes->window_data);
   }
   if (window_references) {
-    if (final_focus_button == window_references->focus_in_signal_button)
-      gw_message (convert_to_string (counter) + window_references->window_data);
+    if (widget == window_references->focus_in_signal_button)
+      description.append (window_references->window_data);
   }
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    if (final_focus_button == editor_windows[i]->focus_in_signal_button)
-      gw_message (convert_to_string (counter) + editor_windows[i]->window_data);
+    if (widget == editor_windows[i]->focus_in_signal_button)
+      description.append (editor_windows[i]->window_data);
   }
-  if (final_focus_button == focus_in_signal_button) {
-      gw_message (convert_to_string (counter) + window_data);
+  if (widget == focus_in_signal_button) {
+      description.append (window_data);
   }
+  return description;
 }
 
 
@@ -6537,7 +6551,7 @@ void MainWindow::accelerator_close_window()
   }
 }
 
-void MainWindow::accelerator_goto_styles_area_callback(gpointer user_data) { // Todo
+void MainWindow::accelerator_goto_styles_area_callback(gpointer user_data) {
   ((MainWindow *) user_data)->on_goto_styles_area();
 }
 
@@ -6545,15 +6559,15 @@ void MainWindow::accelerator_quit_program_callback(gpointer user_data) {
   gtk_main_quit();
 }
 
-void MainWindow::accelerator_activate_text_area_callback(gpointer user_data) { // Todo
+void MainWindow::accelerator_activate_text_area_callback(gpointer user_data) {
   ((MainWindow *) user_data)->on_text_area_activate();
 }
 
-void MainWindow::accelerator_activate_tools_area_callback(gpointer user_data) { // Todo
+void MainWindow::accelerator_activate_tools_area_callback(gpointer user_data) {
   ((MainWindow *) user_data)->on_tools_area_activate();
 }
 
-void MainWindow::accelerator_activate_notes_area_callback(gpointer user_data) { // Todo
+void MainWindow::accelerator_activate_notes_area_callback(gpointer user_data) {
   ((MainWindow *) user_data)->on_notes_area_activate();
 }
 
@@ -6600,48 +6614,4 @@ void MainWindow::accelerator_menu()
   temporally_ignore_window_focus_events();
   present (true);
 }
-
-/* 
-
-Todo
-
- If notes and the editor were open, and if the notes are closed, then these have been focused shortly.
- As a result there's no focus in the editor window working anymore, visible in clipboard operations.
- So we need to fix that by somehow manually focusing the editor window then open.
-
- When an editor is open, and one Alt-Tabs to another program, and then back again, then the mainwindow focuses, 
- not the editor that was open before switching to the other program.
-  
-At times when editing, the cutting to the clipboard works, but not the pasting. When focusing the editor again, it works.
-Is there a difference then between the two, because one works and the other fails?
-
-
-
- There is a problem with the git version that we use, so we need to install the right version from source,
- and also look into ways to find out whether the version of git installed is okay. There should be automated
- tests that do this on git-setup.
- 
- In order to display USFM resources better within Bibledit, we need to create a window that can display
- one verse at a time of many USFM projects. Projects can be added or deleted, and are remembered.
-
- Process bibledit-git takes far too many resources, this should be reduced greatly. 
- And bibledit-bin too takes too much of the resources, and should be reduced too. 
- Wonder whether the signal processing system of Linux can be of help here. In that case 
- bibledit signals bibledit-git when a new task is available, and bibledit-git signals bibledit-bin
- if the task has been processed. In case signals could be missed, we need to check once in a while
- even if no signal was received.
- 
- Merging takes too much time. WE need a clever routine that only looks through the most recent part of history,
- and then keeps comparing till the common ancestor has been found. We work on dates, going back in history in both 
- projects at the same pace, and not go through one project completely, then through the whole other one, and only
- then start comparing. No, we need to start with comparing date by date. That way an enormous speedup
- will be obtained. 
- 
- Also when loading the differences in the compare window, we only load them if the chapters of both
- projects are the same, else the window is clear, or indicates different chapters. That way we hope to 
- gain some speed.
- 
- */
-
-
 
