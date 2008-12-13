@@ -951,7 +951,7 @@ void Usfm2Text::set_paragraph(Usfm2XslFoStyle * style,
 gchar * Usfm2Text::default_style()
 // The name of the default style.
   {
-    return "usfm2xslfo_default_style";
+    return (gchar*) "usfm2xslfo_default_style";
   }
 
 void Usfm2Text::open_inline(Usfm2XslFoStyle * style, Usfm2XslFoStyle * block)
@@ -2307,7 +2307,7 @@ void Usfm2Text::output_keep_on_page(ustring& line,
 
 gchar * Usfm2Text::font_family_size_line_height_style()
   {
-    return "_font_family_size_line_height_";
+    return (gchar*) "_font_family_size_line_height_";
   }
 
 void Usfm2Text::output_font_family_size_line_height(ustring& line,

@@ -359,133 +359,327 @@ void usfm_remove_inline_text_markers (ustring& line, UsfmInlineMarkers * inline_
 #define NUMBER_OF_MARKERS_IdentificationInformation 10
 char *USFM_MARKERS_IdentificationInformation [NUMBER_OF_MARKERS_IdentificationInformation] =
 { 
-  "id", "ide", "rem", "h", "h1", "h2", "h3", "toc1", "toc2", "toc3"
+  (char *) "id",
+  (char *) "ide", 
+  (char *) "rem", 
+  (char *) "h", 
+  (char *) "h1", 
+  (char *) "h2", 
+  (char *) "h3", 
+  (char *) "toc1", 
+  (char *) "toc2", 
+  (char *) "toc3"
 };
 
 
 #define NUMBER_OF_MARKERS_IntroductionTitlesHeadings 11
 char *USFM_MARKERS_IntroductionTitlesHeadings [NUMBER_OF_MARKERS_IntroductionTitlesHeadings] =
 { 
-  "imt", "imt1", "imt2", "imt3", "imt4", "is", "is1", "is2", "is3", "is4", "imte"
+  (char *) "imt", 
+  (char *) "imt1", 
+  (char *) "imt2", 
+  (char *) "imt3", 
+  (char *) "imt4", 
+  (char *) "is", 
+  (char *) "is1", 
+  (char *) "is2", 
+  (char *) "is3", 
+  (char *) "is4", 
+  (char *) "imte"
 };
 
 
 #define NUMBER_OF_MARKERS_IntroductionParagraphsPoetry 14
 char *USFM_MARKERS_IntroductionParagraphsPoetry [NUMBER_OF_MARKERS_IntroductionParagraphsPoetry] =
 { 
-  "ip", "ipi", "im", "imi", "imq", "ipr", "ipq", "ib", "iex", "iq", "iq1", "iq2", "iq3", "iq4"
+  (char *) "ip", 
+  (char *) "ipi", 
+  (char *) "im", 
+  (char *) "imi", 
+  (char *) "imq", 
+  (char *) "ipr", 
+  (char *) "ipq", 
+  (char *) "ib", 
+  (char *) "iex", 
+  (char *) "iq", 
+  (char *) "iq1", 
+  (char *) "iq2", 
+  (char *) "iq3", 
+  (char *) "iq4"
 };
 
 
 #define NUMBER_OF_MARKERS_IntroductionOtherElements 8
 char *USFM_MARKERS_IntroductionOtherElements [NUMBER_OF_MARKERS_IntroductionOtherElements] =
 { 
-  "iot", "io", "io1", "io2", "io3", "io4", "ior", "ie"
+  (char *) "iot", 
+  (char *) "io", 
+  (char *) "io1", 
+  (char *) "io2", 
+  (char *) "io3", 
+  (char *) "io4", 
+  (char *) "ior", 
+  (char *) "ie"
 };
 
 
 #define NUMBER_OF_MARKERS_Titles 11
 char *USFM_MARKERS_Titles [NUMBER_OF_MARKERS_Titles] =
 { 
-  "mt", "mt1", "mt2", "mt3", "mt4", "mte", "mte1", "mte2", "mte3", "mte4", "d"
+  (char *) "mt", 
+  (char *) "mt1", 
+  (char *) "mt2", 
+  (char *) "mt3", 
+  (char *) "mt4", 
+  (char *) "mte", 
+  (char *) "mte1", 
+  (char *) "mte2", 
+  (char *) "mte3", 
+  (char *) "mte4", 
+  (char *) "d"
 };
 
 
 #define NUMBER_OF_MARKERS_Headings 15
 char *USFM_MARKERS_Headings [NUMBER_OF_MARKERS_Headings] =
 { 
-  "ms", "ms1", "ms2", "ms3", "ms4", "mr", "s", "s1", "s2", "s3", "s4", "sr", "r", "rq", "sp"
+  (char *) "ms",
+  (char *) "ms1",
+  (char *) "ms2",
+  (char *) "ms3",
+  (char *) "ms4",
+  (char *) "mr",
+  (char *) "s",
+  (char *) "s1",
+  (char *) "s2",
+  (char *) "s3",
+  (char *) "s4",
+  (char *) "sr",
+  (char *) "r",
+  (char *) "rq",
+  (char *) "sp"
 };
 
 
 #define NUMBER_OF_MARKERS_ChaptersAndVerses 8
 char *USFM_MARKERS_ChaptersAndVerses [NUMBER_OF_MARKERS_ChaptersAndVerses] =
 { 
-  "c", "ca", "cl", "cp", "cd", "v", "va", "vp"
+  (char *) "c",
+  (char *) "ca",
+  (char *) "cl",
+  (char *) "cp",
+  (char *) "cd",
+  (char *) "v",
+  (char *) "va",
+  (char *) "vp"
 };
 
 
 #define NUMBER_OF_MARKERS_Paragraphs 22
 char *USFM_MARKERS_Paragraphs [NUMBER_OF_MARKERS_Paragraphs] =
 { 
-  "p", "m", "pmo", "pm", "pmc", "pmr", "pi", "pi1", "pi2", "pi3", "pi4", "mi", "nb", "cls", "b", "pc", "pr", "ph", "ph1", "ph2", "ph3", "ph4"
+  (char *) "p",
+  (char *) "m",
+  (char *) "pmo",
+  (char *) "pm",
+  (char *) "pmc",
+  (char *) "pmr",
+  (char *) "pi",
+  (char *) "pi1",
+  (char *) "pi2",
+  (char *) "pi3",
+  (char *) "pi4",
+  (char *) "mi",
+  (char *) "nb",
+  (char *) "cls",
+  (char *) "b",
+  (char *) "pc",
+  (char *) "pr",
+  (char *) "ph",
+  (char *) "ph1",
+  (char *) "ph2",
+  (char *) "ph3",
+  (char *) "ph4"
 };
 
 
 #define NUMBER_OF_MARKERS_Lists 5
 char *USFM_MARKERS_Lists [NUMBER_OF_MARKERS_Lists] =
 { 
-  "li", "li1", "li2", "li3", "li4"
+  (char *) "li",
+  (char *) "li1",
+  (char *) "li2",
+  (char *) "li3",
+  (char *) "li4"
 };
 
 
 #define NUMBER_OF_MARKERS_PoetryElements 16
 char *USFM_MARKERS_PoetryElements [NUMBER_OF_MARKERS_PoetryElements] =
 { 
-  "q", "q1", "q2", "q3", "q4", "qr", "qc", "qs", "qa", "qac", "qm", "qm1", "qm2", "qm3", "qm4", "b"
+  (char *) "q",
+  (char *) "q1",
+  (char *) "q2",
+  (char *) "q3",
+  (char *) "q4",
+  (char *) "qr",
+  (char *) "qc",
+  (char *) "qs",
+  (char *) "qa",
+  (char *) "qac",
+  (char *) "qm",
+  (char *) "qm1",
+  (char *) "qm2",
+  (char *) "qm3",
+  (char *) "qm4",
+  (char *) "b"
 };
 
 
 #define NUMBER_OF_MARKERS_TableElements 25
 char *USFM_MARKERS_TableElements [NUMBER_OF_MARKERS_TableElements] =
 { 
-  "tr", "th", "th1", "th2", "th3", "th4", "th5", "thr", "thr1", "thr2", "thr3", "thr4", "thr5", "tc", "tc1", "tc2", "tc3", "tc4", "tc5", "tcr", "tcr1", "tcr2", "tcr3", "tcr4", "tcr5"
+  (char *) "tr",
+  (char *) "th",
+  (char *) "th1",
+  (char *) "th2",
+  (char *) "th3",
+  (char *) "th4",
+  (char *) "th5",
+  (char *) "thr",
+  (char *) "thr1",
+  (char *) "thr2",
+  (char *) "thr3",
+  (char *) "thr4",
+  (char *) "thr5",
+  (char *) "tc",
+  (char *) "tc1",
+  (char *) "tc2",
+  (char *) "tc3",
+  (char *) "tc4",
+  (char *) "tc5",
+  (char *) "tcr",
+  (char *) "tcr1",
+  (char *) "tcr2",
+  (char *) "tcr3",
+  (char *) "tcr4",
+  (char *) "tcr5"
 };
 
 
 #define NUMBER_OF_MARKERS_Footnotes 12
 char *USFM_MARKERS_Footnotes [NUMBER_OF_MARKERS_Footnotes] =
 { 
-  "f", "fe", "fr", "fk", "fq", "fqa", "fl", "fp", "fv", "ft", "fdc", "fm"
+  (char *) "f",
+  (char *) "fe",
+  (char *) "fr",
+  (char *) "fk",
+  (char *) "fq",
+  (char *) "fqa",
+  (char *) "fl",
+  (char *) "fp",
+  (char *) "fv",
+  (char *) "ft",
+  (char *) "fdc",
+  (char *) "fm"
 };
 
 
 #define NUMBER_OF_MARKERS_CrossReferences 6
 char *USFM_MARKERS_CrossReferences [NUMBER_OF_MARKERS_CrossReferences] =
 { 
-  "x", "xo", "xk", "xq", "xt", "xdc"
+  (char *) "x",
+  (char *) "xo",
+  (char *) "xk",
+  (char *) "xq",
+  (char *) "xt",
+  (char *) "xdc"
 };
 
 
 #define NUMBER_OF_MARKERS_ExtendedStudyNotes 9
 char *USFM_MARKERS_ExtendedStudyNotes [NUMBER_OF_MARKERS_ExtendedStudyNotes] =
 { 
-  "env", "enw", "enk", "enc", "cat1", "cat2", "cat3", "cat4", "cat5"
+  (char *) "env",
+  (char *) "enw",
+  (char *) "enk",
+  (char *) "enc",
+  (char *) "cat1",
+  (char *) "cat2",
+  (char *) "cat3",
+  (char *) "cat4",
+  (char *) "cat5"
 };
 
 
 #define NUMBER_OF_MARKERS_SpecialText 13
 char *USFM_MARKERS_SpecialText [NUMBER_OF_MARKERS_SpecialText] =
 { 
-  "qt", "nd", "tl", "dc", "bk", "sig", "pn", "wj", "k", "sls", "ord", "add", "lit"
+  (char *) "qt",
+  (char *) "nd",
+  (char *) "tl",
+  (char *) "dc",
+  (char *) "bk",
+  (char *) "sig",
+  (char *) "pn",
+  (char *) "wj",
+  (char *) "k",
+  (char *) "sls",
+  (char *) "ord",
+  (char *) "add",
+  (char *) "lit"
 };
 
 
 #define NUMBER_OF_MARKERS_CharacterStyles 6
 char *USFM_MARKERS_CharacterStyles [NUMBER_OF_MARKERS_CharacterStyles] =
 { 
-  "no", "bd", "it", "bdit", "em", "sc"
+  (char *) "no",
+  (char *) "bd",
+  (char *) "it",
+  (char *) "bdit",
+  (char *) "em",
+  (char *) "sc"
 };
 
 
 #define NUMBER_OF_MARKERS_SpacingsAndBreaks 1
 char *USFM_MARKERS_SpacingsAndBreaks [NUMBER_OF_MARKERS_SpacingsAndBreaks] =
 { 
-  "pb"
+  (char *) "pb"
 };
 
 
 #define NUMBER_OF_MARKERS_SpecialFeatures 6
 char *USFM_MARKERS_SpecialFeatures [NUMBER_OF_MARKERS_SpecialFeatures] =
 { 
-  "fig", "pro", "w", "wh", "wg", "ndx"
+  (char *) "fig",
+  (char *) "pro",
+  (char *) "w",
+  (char *) "wh",
+  (char *) "wg",
+  (char *) "ndx"
 };
 
 
 #define NUMBER_OF_MARKERS_PeripheralMaterials 15
 char *USFM_MARKERS_PeripheralMaterials [NUMBER_OF_MARKERS_PeripheralMaterials] =
 { 
-  "pub", "toc", "pref", "intro", "conc", "glo", "idx", "maps", "cov", "spine", "k1", "k2", "p1", "p2", "pubinfo"
+  (char *) "pub",
+  (char *) "toc",
+  (char *) "pref",
+  (char *) "intro",
+  (char *) "conc",
+  (char *) "glo",
+  (char *) "idx",
+  (char *) "maps",
+  (char *) "cov",
+  (char *) "spine",
+  (char *) "k1",
+  (char *) "k2",
+  (char *) "p1",
+  (char *) "p2",
+  (char *) "pubinfo"
 };
 
 

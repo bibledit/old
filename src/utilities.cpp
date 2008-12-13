@@ -511,7 +511,7 @@ ustring present_working_directory ()
 // Gives the present working directory.
 {
   char pwd [10000];
-  getcwd (pwd, 10000);
+  if (getcwd (pwd, 10000));
   ustring s (pwd);
   return s;  
 }
@@ -634,7 +634,7 @@ void WriteText::text (const ustring& text)
 // because this gives the number of unicode characters, not the length in bytes. 
 // Use strlen () instead.
 {
-  write (fd, text.c_str(), strlen (text.c_str()));
+  if (write (fd, text.c_str(), strlen (text.c_str())));
 }
 
 

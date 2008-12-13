@@ -512,7 +512,7 @@ bool looks_like_verse(const ustring& text)
     return true;
   // If it contains a digit followed by either an "a" or a "b", it's a verse.
   // Note everything is capitalized, so we check for "A" or "B".
-  if (unix_fnmatch("*[0-9][A,B]*", text))
+  if (unix_fnmatch((char*) "*[0-9][A,B]*", text))
     return true;
   return false;
 }
