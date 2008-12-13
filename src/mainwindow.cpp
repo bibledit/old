@@ -5051,8 +5051,9 @@ void MainWindow::on_file_project_open(const ustring& project)
   g_signal_connect ((gpointer) editor_window->editor->changed_signal, "clicked", G_CALLBACK (on_editorsgui_changed_clicked), gpointer(this));
   editor_windows.push_back(editor_window);
 
-  // After creation the window will generate a focus signal, 
+  // After creation the window should generate a focus signal, 
   // and this signal in turn will cause further processing of the editor.
+  on_window_focus_button(GTK_BUTTON (editor_window->focus_in_signal_button));
 }
 
 void MainWindow::on_editor_reload_clicked(GtkButton *button, gpointer user_data) {
