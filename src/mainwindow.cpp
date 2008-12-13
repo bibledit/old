@@ -6084,8 +6084,6 @@ void MainWindow::on_window_focus_button(GtkButton *button)
   static int counter = 0;
   counter++;
 
-  cout << counter << " on windows focus button " << describe_focus_button (GTK_WIDGET (button)) << endl; // Todo
-  
   temporally_ignore_window_focus_events();
 
   register_focused_windows(button);
@@ -6172,11 +6170,6 @@ void MainWindow::register_focused_windows(GtkButton * button) {
       }
     }
   }
-
-  cout << "now focused window is " << describe_focus_button (now_focused_window_button) << endl; // Todo
-  cout << "last focused window is " << describe_focus_button (last_focused_window_button) << endl; // Todo
-  cout << "focused resource is " << describe_focus_button (focused_resource_button) << endl; // Todo
-  cout << "focused editor is " << describe_focus_button (focused_editor_button) << endl; // Todo
 }
 
 bool MainWindow::on_final_focus_timeout(gpointer data) {
@@ -6613,5 +6606,6 @@ void MainWindow::accelerator_menu()
 {
   temporally_ignore_window_focus_events();
   present (true);
+  register_focused_windows(GTK_BUTTON (focus_in_signal_button));
 }
 
