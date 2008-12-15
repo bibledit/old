@@ -104,13 +104,8 @@ int main (int argc, char *argv[])
       if (!error.empty ()) {
         g_usleep (1000000);
       }
-  
-    }
 
-    // If the task was done, delay shortly so it can quickly do the next one.
-    // Else it delays longer to save system resources.
-    if (error.empty ()) g_usleep (10000);
-    else g_usleep (1000000);
+    }
 
   }
 

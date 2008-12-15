@@ -245,8 +245,8 @@ void InterprocessCommunication::log(const ustring& message, bool critical) {
   if (critical) {
     g_critical ("%s", message.c_str());
   } else {
-    write(1, message.c_str(), strlen(message.c_str()));
-    write(1, "\n", 1);
+    if (write(1, message.c_str(), strlen(message.c_str()))); // Suppress compiler warning.
+    if (write(1, "\n", 1));
   }
 }
 
@@ -305,7 +305,7 @@ bool InterprocessCommunication::send(IPCSocketType name, IPCCallType method, con
 #ifdef WIN32
   ::send (sock, "\n", 1, 0);
 #else
-  write(sock, "\n", 1);
+  if (write(sock, "\n", 1)); // Suppress compiler warning.
 #endif
 
   // Send the data.
@@ -315,8 +315,8 @@ bool InterprocessCommunication::send(IPCSocketType name, IPCCallType method, con
       ::send (sock, payload[i].c_str(), strlen (payload[i].c_str()), 0);
       ::send (sock, "\n", 1, 0);
 #else
-      write(sock, payload[i].c_str(), strlen(payload[i].c_str()));
-      write(sock, "\n", 1);
+      if (write(sock, payload[i].c_str(), strlen(payload[i].c_str()))); // Suppress compiler warning.
+      if (write(sock, "\n", 1));
 #endif
     }
   }
@@ -348,7 +348,7 @@ vector <ustring> InterprocessCommunication::receive(IPCSocketType name, IPCCallT
   // Wait for the reply to come back.
   if (success) {
     while ((method_called_type != method) && (time(0) <= (oldtime + timeout))) {
-      g_usleep(10);
+      g_usleep(100);
     }
   }
 
