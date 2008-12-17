@@ -42,6 +42,10 @@
 #include "help.h"
 #include "shortcuts.h"
 #include "tiny_utilities.h"
+#include "gtkwrappers.h"
+#include "compress.h"
+#include "directories.h"
+#include "unixwrappers.h"
 
 
 ImportTextDialog::ImportTextDialog (int dummy)
@@ -59,11 +63,12 @@ ImportTextDialog::ImportTextDialog (int dummy)
   gtk_widget_show (vbox1);
   gtk_box_pack_start (GTK_BOX (dialog_vbox1), vbox1, TRUE, TRUE, 0);
 
-  table1 = gtk_table_new (10, 4, FALSE);
+  table1 = gtk_table_new (11, 4, FALSE);
   gtk_widget_show (table1);
   gtk_box_pack_start (GTK_BOX (vbox1), table1, TRUE, TRUE, 0);
   gtk_table_set_row_spacings (GTK_TABLE (table1), 4);
   gtk_table_set_col_spacings (GTK_TABLE (table1), 4);
+
 
   image_directory = gtk_image_new_from_stock ("gtk-no", GTK_ICON_SIZE_BUTTON);
   gtk_widget_show (image_directory);
@@ -109,39 +114,71 @@ ImportTextDialog::ImportTextDialog (int dummy)
 
   shortcuts.label (label25);
 
+  // Gui for compressed file.
+  
+  label_compressed = gtk_label_new_with_mnemonic ("Select compressed file?");
+  gtk_widget_show (label_compressed);
+  gtk_table_attach (GTK_TABLE (table1), label_compressed, 2, 3, 1, 2,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_misc_set_alignment (GTK_MISC (label_compressed), 0, 0.5);
+
+  button_compressed = gtk_button_new ();
+  gtk_widget_show (button_compressed);
+  gtk_table_attach (GTK_TABLE (table1), button_compressed, 3, 4, 1, 2,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+
+  alignment9 = gtk_alignment_new (0.5, 0.5, 0, 0);
+  gtk_widget_show (alignment9);
+  gtk_container_add (GTK_CONTAINER (button_compressed), alignment9);
+
+  hbox14 = gtk_hbox_new (FALSE, 2);
+  gtk_widget_show (hbox14);
+  gtk_container_add (GTK_CONTAINER (alignment9), hbox14);
+
+  image13 = gtk_image_new_from_stock ("gtk-open", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_show (image13);
+  gtk_box_pack_start (GTK_BOX (hbox14), image13, FALSE, FALSE, 0);
+
+  label43 = gtk_label_new_with_mnemonic ("_File");
+  gtk_widget_show (label43);
+  gtk_box_pack_start (GTK_BOX (hbox14), label43, FALSE, FALSE, 0);
+
+
   // Set the type to USFM by default.
   importtype = itUsfm;
 
   label_unicode = gtk_label_new ("");
   gtk_widget_show (label_unicode);
-  gtk_table_attach (GTK_TABLE (table1), label_unicode, 0, 4, 8, 9,
+  gtk_table_attach (GTK_TABLE (table1), label_unicode, 0, 4, 9, 10,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment (GTK_MISC (label_unicode), 0, 0.5);
 
   image_unicode = gtk_image_new_from_stock ("gtk-no", GTK_ICON_SIZE_BUTTON);
   gtk_widget_show (image_unicode);
-  gtk_table_attach (GTK_TABLE (table1), image_unicode, 0, 1, 7, 8,
+  gtk_table_attach (GTK_TABLE (table1), image_unicode, 0, 1, 8, 9,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (GTK_FILL), 0, 0);
 
   label_unicode_gui = gtk_label_new ("");
   gtk_widget_show (label_unicode_gui);
-  gtk_table_attach (GTK_TABLE (table1), label_unicode_gui, 1, 2, 7, 8,
+  gtk_table_attach (GTK_TABLE (table1), label_unicode_gui, 1, 2, 8, 9,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment (GTK_MISC (label_unicode_gui), 0, 0.5);
 
   label29 = gtk_label_new ("Convert to Unicode");
   gtk_widget_show (label29);
-  gtk_table_attach (GTK_TABLE (table1), label29, 2, 3, 7, 8,
+  gtk_table_attach (GTK_TABLE (table1), label29, 2, 3, 8, 9,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment (GTK_MISC (label29), 0, 0.5);
 
   button_unicode = gtk_button_new ();
   gtk_widget_show (button_unicode);
-  gtk_table_attach (GTK_TABLE (table1), button_unicode, 3, 4, 7, 8,
+  gtk_table_attach (GTK_TABLE (table1), button_unicode, 3, 4, 8, 9,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
 
@@ -165,34 +202,34 @@ ImportTextDialog::ImportTextDialog (int dummy)
   
   label_books = gtk_label_new ("");
   gtk_widget_show (label_books);
-  gtk_table_attach (GTK_TABLE (table1), label_books, 0, 4, 6, 7,
+  gtk_table_attach (GTK_TABLE (table1), label_books, 0, 4, 7, 8,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment (GTK_MISC (label_books), 0, 0.5);
 
   image_books = gtk_image_new_from_stock ("gtk-no", GTK_ICON_SIZE_BUTTON);
   gtk_widget_show (image_books);
-  gtk_table_attach (GTK_TABLE (table1), image_books, 0, 1, 5, 6,
+  gtk_table_attach (GTK_TABLE (table1), image_books, 0, 1, 6, 7,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (GTK_FILL), 0, 0);
 
   label_books_gui = gtk_label_new ("");
   gtk_widget_show (label_books_gui);
-  gtk_table_attach (GTK_TABLE (table1), label_books_gui, 1, 2, 5, 6,
+  gtk_table_attach (GTK_TABLE (table1), label_books_gui, 1, 2, 6, 7,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment (GTK_MISC (label_books_gui), 0, 0.5);
 
   label27 = gtk_label_new ("Select books");
   gtk_widget_show (label27);
-  gtk_table_attach (GTK_TABLE (table1), label27, 2, 3, 5, 6,
+  gtk_table_attach (GTK_TABLE (table1), label27, 2, 3, 6, 7,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment (GTK_MISC (label27), 0, 0.5);
 
   button_books = gtk_button_new ();
   gtk_widget_show (button_books);
-  gtk_table_attach (GTK_TABLE (table1), button_books, 3, 4, 5, 6,
+  gtk_table_attach (GTK_TABLE (table1), button_books, 3, 4, 6, 7,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
 
@@ -216,41 +253,41 @@ ImportTextDialog::ImportTextDialog (int dummy)
 
   label_directory = gtk_label_new ("");
   gtk_widget_show (label_directory);
-  gtk_table_attach (GTK_TABLE (table1), label_directory, 0, 3, 1, 2,
+  gtk_table_attach (GTK_TABLE (table1), label_directory, 0, 3, 2, 3,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment (GTK_MISC (label_directory), 0, 0.5);
 
   label_import = gtk_label_new ("");
   gtk_widget_show (label_import);
-  gtk_table_attach (GTK_TABLE (table1), label_import, 0, 4, 11, 12,
+  gtk_table_attach (GTK_TABLE (table1), label_import, 0, 4, 12, 13,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment (GTK_MISC (label_import), 0, 0.5);
 
   image_assign_ok = gtk_image_new_from_stock ("gtk-about", GTK_ICON_SIZE_BUTTON);
   gtk_widget_show (image_assign_ok);
-  gtk_table_attach (GTK_TABLE (table1), image_assign_ok, 0, 1, 3, 4,
+  gtk_table_attach (GTK_TABLE (table1), image_assign_ok, 0, 1, 4, 5,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
 
   label_assign_ok = gtk_label_new ("Done");
   gtk_widget_show (label_assign_ok);
-  gtk_table_attach (GTK_TABLE (table1), label_assign_ok, 1, 2, 3, 4,
+  gtk_table_attach (GTK_TABLE (table1), label_assign_ok, 1, 2, 4, 5,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment (GTK_MISC (label_assign_ok), 0, 0.5);
 
   label_assign_question = gtk_label_new ("Assign names to unknown books");
   gtk_widget_show (label_assign_question);
-  gtk_table_attach (GTK_TABLE (table1), label_assign_question, 2, 3, 3, 4,
+  gtk_table_attach (GTK_TABLE (table1), label_assign_question, 2, 3, 4, 5,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment (GTK_MISC (label_assign_question), 0, 0.5);
 
   button_assign = gtk_button_new ();
   gtk_widget_show (button_assign);
-  gtk_table_attach (GTK_TABLE (table1), button_assign, 3, 4, 3, 4,
+  gtk_table_attach (GTK_TABLE (table1), button_assign, 3, 4, 4, 5,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
 
@@ -274,14 +311,14 @@ ImportTextDialog::ImportTextDialog (int dummy)
 
   label_assign_info = gtk_label_new ("Information");
   gtk_widget_show (label_assign_info);
-  gtk_table_attach (GTK_TABLE (table1), label_assign_info, 0, 4, 4, 5,
+  gtk_table_attach (GTK_TABLE (table1), label_assign_info, 0, 4, 5, 6,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment (GTK_MISC (label_assign_info), 0, 0.5);
 
   expander1 = gtk_expander_new (NULL);
   gtk_widget_show (expander1);
-  gtk_table_attach (GTK_TABLE (table1), expander1, 0, 4, 9, 10,
+  gtk_table_attach (GTK_TABLE (table1), expander1, 0, 4, 10, 11,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
   gtk_expander_set_expanded (GTK_EXPANDER (expander1), false);
@@ -326,6 +363,9 @@ ImportTextDialog::ImportTextDialog (int dummy)
 
   g_signal_connect ((gpointer) button_directory, "clicked",
                     G_CALLBACK (on_button_directory_clicked),
+                    gpointer(this));
+  g_signal_connect ((gpointer) button_compressed, "clicked",
+                    G_CALLBACK (on_button_compressed_clicked),
                     gpointer(this));
   g_signal_connect ((gpointer) button_assign, "clicked",
                     G_CALLBACK (on_button_assign_clicked),
@@ -387,26 +427,64 @@ ustring ImportTextDialog::pick_newest_filename (const vector <ustring>& filename
 
 void ImportTextDialog::on_button_directory_clicked (GtkButton *button, gpointer user_data)
 {
-  ((ImportTextDialog *) user_data)->on_button_directory();
+  ((ImportTextDialog *) user_data)->on_button_directory("");
 }
 
 
-void ImportTextDialog::on_button_directory ()
+void ImportTextDialog::on_button_directory (ustring dir)
 {
-  GtkWidget *dialog;
-  dialog = gtk_file_chooser_dialog_new ("Select a folder", GTK_WINDOW (importsfmdialog),
-    GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-    GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
-  gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (dialog), directory.c_str());
-  if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
-    directory = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
-    select_all_books = true;
+  if (dir.empty()) {
+    dir = gtkw_file_chooser_select_folder (importsfmdialog, "", directory);
   }
-  gtk_widget_destroy (dialog);
+  if (dir.empty())
+    return;
+  directory = dir;
+  select_all_books = true;
   assigning_done = false;
   set_gui ();
 }
 
+
+void ImportTextDialog::on_button_compressed_clicked (GtkButton *button, gpointer user_data)
+{
+  ((ImportTextDialog *) user_data)->on_button_compressed();
+}
+
+
+void ImportTextDialog::on_button_compressed ()
+/*
+The user can select a compressed file.
+The function tries to uncompress that file.
+If it succeeds in that, then the uncompressed data is moved in a temporal directory,
+and the directory where to import from is set to that temporal directory.
+*/
+{
+  // Select an archive.
+  ustring filename = gtkw_file_chooser_open (importsfmdialog, "Select a compressed file", directory);
+  if (filename.empty())
+    return;
+    
+  // Check that the archive is recognized.
+  if (!compressed_archive_recognized (filename)) {
+    gtkw_dialog_error (importsfmdialog, "File " + filename + " was not recognized as a compressed archive");
+    return;
+  }
+  
+  // Create temporal directory.
+  ustring archive_directory = uncompress_directory();
+  unix_rmdir (archive_directory);
+  gw_mkdir_with_parents (archive_directory);
+  
+  // Uncompress the archive.
+  bool uncompressed = uncompress (filename, archive_directory);
+  if (!uncompressed) {
+    gtkw_dialog_error (importsfmdialog, "Could not uncompress " + filename);
+    return;
+  }
+  
+  // Select the directory with the uncompressed archive.
+  on_button_directory (archive_directory);
+}
 
 
 void ImportTextDialog::on_button_assign_clicked (GtkButton *button, gpointer user_data)
@@ -848,4 +926,11 @@ void ImportTextDialog::set_gui()
   gtk_label_set_text (GTK_LABEL (label_import), info.c_str());
   // Set sensitivity of OK button.
   gtk_widget_set_sensitive (okbutton, import_possible);
+}
+
+
+ustring ImportTextDialog::uncompress_directory()
+// Directory where to uncompress archives.
+{
+  return gw_build_filename (directories_get_temp(), "uncompress");
 }

@@ -927,7 +927,7 @@ void WindowMerge::approval_show_diff()
   // Create a patch file by running a diff.
   approve_patch_file = gw_build_filename(workingdirectory, "patch");
   ustring command = "diff" + shell_quote_space(approve_master_file) + shell_quote_space(approve_merge_file) + ">" + shell_quote_space(approve_patch_file);
-  system(command.c_str());
+  if (system(command.c_str()));
 
   // Clear items.
   gtk_text_buffer_set_text(approve_buffer, "", 0);
@@ -1048,7 +1048,7 @@ void WindowMerge::approval_approve(GtkButton *button)
 
       // Apply the patch to master.
       ustring command = "patch" + shell_quote_space(approve_master_file) + shell_quote_space(approve_patch_file);
-      system(command.c_str());
+      if (system(command.c_str())); // Suppress compiler warning.
 
       // Show the new differences after the change has been accepted.
       approval_show_diff();

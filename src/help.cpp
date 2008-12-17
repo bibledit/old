@@ -41,7 +41,7 @@ void help_open (GtkButton * button, gpointer user_data)
 }
 
 
-InDialogHelp::InDialogHelp (GtkWidget * dialog, Shortcuts * shortcuts, gchar * topic)
+InDialogHelp::InDialogHelp (GtkWidget * dialog, Shortcuts * shortcuts, const gchar * topic)
 {
   // Save and initialize variables.
   mydialog = dialog;

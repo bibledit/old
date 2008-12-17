@@ -168,7 +168,7 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	windowcheckkeyterms.$(OBJEXT) windowstyles.$(OBJEXT) \
 	windownotes.$(OBJEXT) accelerators.$(OBJEXT) \
 	dialogprojectnote.$(OBJEXT) windowreferences.$(OBJEXT) \
-	windoweditor.$(OBJEXT)
+	windoweditor.$(OBJEXT) compress.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -267,9 +267,9 @@ OBJEXT = o
 PACKAGE = bibledit
 PACKAGE_BUGREPORT = http://www.nongnu.org/bibledit
 PACKAGE_NAME = bibledit
-PACKAGE_STRING = bibledit 3.5.3
+PACKAGE_STRING = bibledit 3.5.5
 PACKAGE_TARNAME = bibledit
-PACKAGE_VERSION = 3.5.3
+PACKAGE_VERSION = 3.5.5
 PANGO_CFLAGS = -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  
 PANGO_LIBS = -lpango-1.0 -lgobject-2.0 -lgmodule-2.0 -lglib-2.0  
 PATH_SEPARATOR = :
@@ -286,7 +286,7 @@ STRINGS_PATH = /usr/bin/strings
 STRIP = 
 TAIL_PATH = /usr/bin/tail
 TEE_TOUCH = /usr/bin/touch
-VERSION = 3.5.3
+VERSION = 3.5.5
 XML2_CONFIG = /usr/bin/xml2-config
 XML_CPPFLAGS = -I/usr/include/libxml2
 XML_LIBS = -lxml2
@@ -610,7 +610,8 @@ bibledit_bin_SOURCES = \
         accelerators.cpp \
         dialogprojectnote.cpp \
         windowreferences.cpp \
-        windoweditor.cpp
+        windoweditor.cpp \
+        compress.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -723,6 +724,7 @@ include ./$(DEPDIR)/color.Po
 include ./$(DEPDIR)/combobox.Po
 include ./$(DEPDIR)/compareutils.Po
 include ./$(DEPDIR)/completion.Po
+include ./$(DEPDIR)/compress.Po
 include ./$(DEPDIR)/config.xml.Po
 include ./$(DEPDIR)/convert.Po
 include ./$(DEPDIR)/date_time_utils.Po

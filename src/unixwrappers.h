@@ -32,7 +32,6 @@ void unix_cp_r (const ustring& from, const ustring& to);
 void unix_mv (const ustring& from, const ustring& to);
 void unix_rmdir (const ustring& dir);
 void unix_kill (GPid pid);
-void unix_unzip (const ustring& zipfile, const ustring& directory);
 
 
 #endif

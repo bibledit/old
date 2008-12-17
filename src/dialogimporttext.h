@@ -46,6 +46,15 @@ protected:
   GtkWidget *hbox6;
   GtkWidget *image3;
   GtkWidget *label25;
+  
+  // Compressed file.  
+  GtkWidget *label_compressed;
+  GtkWidget *button_compressed;
+  GtkWidget *alignment9;
+  GtkWidget *hbox14;
+  GtkWidget *image13;
+  GtkWidget *label43;
+  
   GtkWidget *label_unicode;
   GtkWidget *image_unicode;
   GtkWidget *label_unicode_gui;
@@ -95,8 +104,10 @@ private:
   bool assigning_done;
   ustring pick_newest_filename (const vector <ustring> &filenames);
   static void on_button_directory_clicked (GtkButton *button, gpointer user_data);
-  void on_button_directory ();
+  void on_button_directory (ustring dir);
   ImportType importtype;
+  static void on_button_compressed_clicked (GtkButton *button, gpointer user_data);
+  void on_button_compressed();
   static void on_button_assign_clicked (GtkButton *button, gpointer user_data);
   void on_button_assign ();
   static void on_button_books_clicked (GtkButton *button, gpointer user_data);
@@ -107,6 +118,7 @@ private:
   static void on_okbutton_clicked (GtkButton *button, gpointer user_data);
   void on_okbutton ();
   void set_gui ();
+  ustring uncompress_directory();
 };
 
 

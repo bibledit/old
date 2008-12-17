@@ -33,7 +33,7 @@ void help_open (GtkButton * button, gpointer user_data);
 class InDialogHelp
 {
 public:
-  InDialogHelp (GtkWidget * dialog, Shortcuts * shortcuts, gchar * topic);
+  InDialogHelp (GtkWidget * dialog, Shortcuts * shortcuts, const gchar * topic);
   ~InDialogHelp ();
 private:
   GtkWidget *helpbutton;
@@ -43,7 +43,7 @@ private:
   GtkWidget *label;
   GtkWidget *scrolledwindow;
   GtkWidget *htmlview;
-  gchar * mytopic;
+  const gchar * mytopic;
   GtkWidget * mydialog;
   GPid process_id;
   static void on_helpbutton_activated (GtkButton * button, gpointer user_data);

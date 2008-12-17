@@ -103,14 +103,3 @@ void unix_kill (GPid pid)
 }
 
 
-void unix_unzip (const ustring& zipfile, const ustring& directory)
-{
-  GwSpawn spawn ("unzip");
-  spawn.arg ("-o");
-  if (!directory.empty()) {
-    spawn.arg ("-d");
-    spawn.arg (directory);
-  }
-  spawn.arg (zipfile);
-  spawn.run ();
-}

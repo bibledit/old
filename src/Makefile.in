@@ -168,7 +168,7 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	windowcheckkeyterms.$(OBJEXT) windowstyles.$(OBJEXT) \
 	windownotes.$(OBJEXT) accelerators.$(OBJEXT) \
 	dialogprojectnote.$(OBJEXT) windowreferences.$(OBJEXT) \
-	windoweditor.$(OBJEXT)
+	windoweditor.$(OBJEXT) compress.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -610,7 +610,8 @@ bibledit_bin_SOURCES = \
         accelerators.cpp \
         dialogprojectnote.cpp \
         windowreferences.cpp \
-        windoweditor.cpp
+        windoweditor.cpp \
+        compress.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -723,6 +724,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/combobox.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/compareutils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/completion.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/compress.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/config.xml.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/convert.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/date_time_utils.Po@am__quote@

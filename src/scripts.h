@@ -40,11 +40,11 @@ ustring script_temporal_error_file();
 ustring script_get_named_type(ScriptType scripttype);
 bool script_sed_installed();
 bool script_teckit_installed();
-gchar * script_sed_binary();
-gchar * script_teckit_compiler();
-gchar * script_teckit_txtconverter();
-gchar * script_free_input_identifier();
-gchar * script_free_output_identifier();
+const gchar * script_sed_binary();
+const gchar * script_teckit_compiler();
+const gchar * script_teckit_txtconverter();
+const gchar * script_free_input_identifier();
+const gchar * script_free_output_identifier();
 void script_encode_usfm_file(const ustring& filename);
 void script_decode_usfm_file(const ustring& filename);
 

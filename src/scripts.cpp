@@ -342,23 +342,23 @@ bool script_teckit_installed() {
   return gw_find_program_in_path(script_teckit_compiler());
 }
 
-gchar * script_sed_binary() {
+const gchar * script_sed_binary() {
   return "sed";
 }
 
-gchar * script_teckit_compiler() {
+const gchar * script_teckit_compiler() {
   return "teckit_compile";
 }
 
-gchar * script_teckit_txtconverter() {
+const gchar * script_teckit_txtconverter() {
   return "txtconv";
 }
 
-gchar * script_free_input_identifier() {
+const gchar * script_free_input_identifier() {
   return "inputfile";
 }
 
-gchar * script_free_output_identifier() {
+const gchar * script_free_output_identifier() {
   return "outputfile";
 }
 

@@ -165,7 +165,7 @@ ListviewDialog::~ListviewDialog ()
 }
 
 
-void ListviewDialog::two_pages (gchar * tab1, gchar * tab2, vector<ustring>& list, bool sortlist)
+void ListviewDialog::two_pages (const gchar * tab1, const gchar * tab2, vector<ustring>& list, bool sortlist)
 {
   // Modify GUI.
   gtk_notebook_set_show_tabs (GTK_NOTEBOOK (notebook1), true);

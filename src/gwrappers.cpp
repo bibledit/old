@@ -167,7 +167,7 @@ void gw_mkdir_with_parents (const ustring& directory)
 }
 
 
-GwSpawn::GwSpawn (char * program)
+GwSpawn::GwSpawn (const char * program)
 {
   myprogram = program;
   myasync = false;  
@@ -261,7 +261,7 @@ void GwSpawn::run ()
     workingdirectory = myworkingdirectory.c_str();
   // Store arguments in argv.
   char *argv[myarguments.size() + 2];
-  argv[0] = myprogram;
+  argv[0] = (char *) myprogram;
   for (unsigned int i = 0; i < myarguments.size(); i++) {
     argv[i + 1] = (char *) myarguments[i].c_str();
   }

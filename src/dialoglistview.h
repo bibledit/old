@@ -30,7 +30,7 @@ class ListviewDialog
 public:
   ListviewDialog (const ustring& title, vector<ustring>& list, const ustring& focus, bool sortlist, gchar * help);
   ~ListviewDialog ();
-  void two_pages (gchar * tab1, gchar * tab2, vector<ustring>& list, bool sortlist);
+  void two_pages (const gchar * tab1, const gchar * tab2, vector<ustring>& list, bool sortlist);
   void tab_switcher (guint accel_key, GdkModifierType accel_mods, gchar * acceleratortext, gchar * actiontext1, gchar * actiontext2);
   int run ();
   ustring focus;
