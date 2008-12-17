@@ -50,14 +50,14 @@ protected:
 
   // Information label.
   GtkWidget *infolabel;
-  void information_setup (gchar * information);
+  void information_setup (const gchar * information);
 
   // Output sorting.
   GtkWidget *radiobutton_sort0;
   GtkWidget *radiobutton_sort1;
   GtkWidget *radiobutton_sort2;
   GtkWidget *radiobutton_sort3;
-  void sorting_setup (gchar * sort0, gchar * sort1, gchar * sort2, gchar * sort3);
+  void sorting_setup (const gchar * sort0, const gchar * sort1, const gchar * sort2, const gchar * sort3);
 
   // Book selection.
   GtkWidget *hbox1;

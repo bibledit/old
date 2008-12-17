@@ -195,9 +195,9 @@ void ListviewDialog::two_pages (const gchar * tab1, const gchar * tab2, vector<u
 
 void ListviewDialog::tab_switcher (guint accel_key, 
                                    GdkModifierType accel_mods, 
-                                   gchar * acceleratortext, 
-                                   gchar * actiontext1,
-                                   gchar * actiontext2)
+                                   const gchar * acceleratortext, 
+                                   const gchar * actiontext1,
+                                   const gchar * actiontext2)
 {
   // Integrate the accelerator.
   accel_group = gtk_accel_group_new ();
@@ -286,7 +286,7 @@ void ListviewDialog::on_switch_page ()
   }
   gtk_widget_set_sensitive (okbutton, sensitive);
   // Update the GUI.
-  gchar * actiontext;
+  const gchar * actiontext;
   if (page == 0) {
     actiontext = action_text_2;
   } else {

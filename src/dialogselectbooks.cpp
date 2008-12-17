@@ -271,7 +271,7 @@ It then loads the books.
   gtk_widget_show (dialog_action_area1);
   gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area1), GTK_BUTTONBOX_END);
 
-  gchar * helpfile;
+  const gchar * helpfile;
   if (showportions) {
     helpfile = "print_book_portion";
   } else {

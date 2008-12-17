@@ -109,14 +109,14 @@ void main_loop ()
 void log (const ustring& message)
 {
   if (message != previous_message) {
-    write (1, message.c_str(), strlen (message.c_str()));
-    write (1, "\n", 1);
+    if (write (1, message.c_str(), strlen (message.c_str())));
+    if (write (1, "\n", 1));
     previous_message = message;
   }
 }
 
 
-gchar * dcop ()
+const gchar * dcop ()
 {
   return "dcop";
 }
@@ -297,7 +297,7 @@ void reloadmodules ()
   ustring command = (dcop ());
   command.append (dcop_arguments ());
   command.append ("reloadModules");
-  system (command.c_str());
+  if (system (command.c_str()));
 }
 
 
@@ -382,7 +382,7 @@ void search ()
 }
 
 
-bool program_is_running (gchar * program)
+bool program_is_running (const gchar * program)
 {
   ustring command = "ps -C ";
   command.append (program);

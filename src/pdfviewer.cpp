@@ -30,7 +30,7 @@
 #include "settings.h"
 
 
-void pdfviewer_run (gchar * command, gchar * argument, const ustring& filename)
+void pdfviewer_run (const gchar * command, const gchar * argument, const ustring& filename)
 {
   GwSpawn spawn (command);
   if (strlen (argument) > 0)
@@ -59,7 +59,7 @@ void pdfviewer_view (const ustring& filename)
   }
   
   // Possible viewers on Linux and Macintosh.
-  struct { char * command; char *argument; } pdf_viewers [] = 
+  struct { const char * command; const char *argument; } pdf_viewers [] = 
   {
     { "acroread", "" },
     { "evince", "" },

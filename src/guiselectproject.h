@@ -31,7 +31,7 @@ class SelectProjectGui
 public:
   SelectProjectGui (int dummy);
   ~SelectProjectGui ();
-  void build (GtkWidget * box, gchar * labeltext, const ustring& project_in);
+  void build (GtkWidget * box, const gchar * labeltext, const ustring& project_in);
   void focus();
   void set_label (const ustring& text);
   ustring project;

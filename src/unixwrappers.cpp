@@ -26,7 +26,7 @@
 #include "tiny_utilities.h"
 
 
-bool unix_fnmatch (char * pattern, const ustring& text)
+bool unix_fnmatch (const char * pattern, const ustring& text)
 // This is a wrapper for the fnmatch function on Unix, as this is not available
 // on Windows and some versions of Mac OSX.
 {

@@ -150,7 +150,7 @@ void backup_make (const ustring& project, bool full, int timefrom)
     // Zip them.
     ustring command = "cd" + shell_quote_space (workingdirectory) + "; zip -r " 
                     + gw_path_get_basename (filename) + " *.usfm; rm *.usfm";
-    system (command.c_str());
+    if (system (command.c_str()));
   }
 
   // Open web page with information: backup_is_ready.html.

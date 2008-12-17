@@ -158,7 +158,7 @@ void WindowsOutpost::thread_main() {
             // Is wine there?
             if (gw_find_program_in_path(settings->genconfig.wine_path_get())) {
               ustring command = settings->genconfig.outpost_command_get() + " &";
-              system(command.c_str());
+              if (system(command.c_str()));
               // Wait few seconds to give it a change to start.
               g_usleep(3000000);
             } else {
@@ -315,8 +315,8 @@ void WindowsOutpost::send_line(const ustring & command)
   if (connected) {
     // Discard any previous reply.
     char buf[1024];
-    read(sock, buf, sizeof (buf));
-    write(sock, command.c_str(), command.length());
+    if (read(sock, buf, sizeof (buf)));
+    if (write(sock, command.c_str(), command.length()));
     result = write(sock, "\n", 1);
     // Give some time to allow the reply to come back.
     g_usleep(1000000);
@@ -379,7 +379,7 @@ void windowsoutpost_open_url(const ustring& url)
       } else {
         fcntl(sock, F_SETFL, fcntl(sock, F_GETFL, 0) | O_NONBLOCK);
         ustring command = "open " + url + "\n";
-        write(sock, command.c_str(), command.length());
+        if (write(sock, command.c_str(), command.length()));
         cout << "Outpost opens " << url << endl;
       }
     } else {

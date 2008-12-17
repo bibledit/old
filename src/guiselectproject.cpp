@@ -35,7 +35,7 @@ SelectProjectGui::~SelectProjectGui ()
 }
 
 
-void SelectProjectGui::build (GtkWidget * box, gchar * labeltext, const ustring& project_in)
+void SelectProjectGui::build (GtkWidget * box, const gchar * labeltext, const ustring& project_in)
 {
   hbox = gtk_hbox_new (FALSE, 0);
   gtk_widget_show (hbox);

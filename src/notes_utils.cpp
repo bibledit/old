@@ -1022,7 +1022,7 @@ void notes_update_old_one(ustring& note)
   replace_text(note, "\n", "<BR>\n");
 }
 
-gchar * notes_cursor_anchor()
+const gchar * notes_cursor_anchor()
 // Gives the name of the anchor where the cursor has to jump to.
 {
   return "cursoranchor";

@@ -52,8 +52,8 @@ protected:
   void gui ();
 private:
   GtkListStore *model;
-  char * enter_new_text_here ();
-  char * enter_new_replacement_here ();
+  const char * enter_new_text_here ();
+  const char * enter_new_replacement_here ();
   ustring original_get (GtkTreeModel * model, GtkTreeIter * iter);
   ustring replacement_get (GtkTreeModel * model, GtkTreeIter * iter);
 };

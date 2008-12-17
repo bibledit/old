@@ -24,10 +24,10 @@ enum BookType {btOldTestament, btNewTestament, btFrontBackMatter, btOtherMateria
 
 typedef struct
 {
-  char *name; // English name.
-  char *osis; // Osis name.
-  char *paratext; // Paratext ID.
-  char *bibleworks; // BibleWorks name.
+  const char *name; // English name.
+  const char *osis; // Osis name.
+  const char *paratext; // Paratext ID.
+  const char *bibleworks; // BibleWorks name.
   unsigned int id; // Bibledit's internal id.
   BookType type; // The type of the book.
   bool onechapter; // The book has one chapter.

@@ -140,7 +140,7 @@ void ResourceConverter2Dialog::build_table_and_type (Shortcuts& shortcuts)
 }
 
 
-void ResourceConverter2Dialog::build_entry (GtkWidget *& image_ok, GtkWidget *& label_ok, GtkWidget *& label, gchar * label_text, GtkWidget *& entry, const ustring& entry_text, GCallback handler)
+void ResourceConverter2Dialog::build_entry (GtkWidget *& image_ok, GtkWidget *& label_ok, GtkWidget *& label, const gchar * label_text, GtkWidget *& entry, const ustring& entry_text, GCallback handler)
 {
   GtkWidget *hseparator;
   hseparator = gtk_hseparator_new ();
@@ -184,7 +184,7 @@ void ResourceConverter2Dialog::build_entry (GtkWidget *& image_ok, GtkWidget *& 
 }
 
 
-void ResourceConverter2Dialog::build_button (GtkWidget *& image_ok, GtkWidget *& label_ok, GtkWidget *& label_short, GtkWidget *& button, gchar * button_text, Shortcuts& shortcuts, GCallback handler, GtkWidget *& label_long)
+void ResourceConverter2Dialog::build_button (GtkWidget *& image_ok, GtkWidget *& label_ok, GtkWidget *& label_short, GtkWidget *& button, const gchar * button_text, Shortcuts& shortcuts, GCallback handler, GtkWidget *& label_long)
 {
   GtkWidget *hseparator;
   hseparator = gtk_hseparator_new ();
@@ -256,8 +256,8 @@ void ResourceConverter2Dialog::build_button (GtkWidget *& image_ok, GtkWidget *&
 
 
 void ResourceConverter2Dialog::build_checkbutton_button (GtkWidget *& image_ok, GtkWidget *& label_ok, 
-                                                         GtkWidget *& checkbutton, gchar * checkbutton_text, GCallback checkbutton_handler, 
-                                                         GtkWidget *& button, gchar * button_text, GCallback button_handler, 
+                                                         GtkWidget *& checkbutton, const gchar * checkbutton_text, GCallback checkbutton_handler, 
+                                                         GtkWidget *& button, const gchar * button_text, GCallback button_handler, 
                                                          Shortcuts& shortcuts, 
                                                          GtkWidget *& label)
 {

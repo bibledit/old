@@ -389,7 +389,7 @@ void scripture_checks_nt_quotations_from_ot (bool gui)
   CheckNTQuotationsFromOT check (settings->genconfig.project_get(), 
                                  checks_generate_booknames (), 
                                  settings->session.check_include_verse_text, true);
-  gchar * main_heading = "New Testament quotations from the Old Testament";
+  const gchar * main_heading = "New Testament quotations from the Old Testament";
   DisplayCheckingResults display (main_heading);
   display.nt_quotations_from_ot (check.nt, check.ot, main_heading); 
 }
@@ -405,7 +405,7 @@ void scripture_checks_synoptic_parallels_from_nt (bool gui)
   CheckParallelPassages check (true, settings->genconfig.project_get(), 
                                checks_generate_booknames (), 
                                settings->session.check_include_verse_text, true);
-  gchar * main_heading = "Synoptic parallel passages of the New Testament";
+  const gchar * main_heading = "Synoptic parallel passages of the New Testament";
   DisplayCheckingResults display (main_heading);
   display.parallel_passages (check.data, main_heading);
 }
@@ -421,7 +421,7 @@ void scripture_checks_parallels_from_ot (bool gui)
   CheckParallelPassages check (false, settings->genconfig.project_get(), 
                                checks_generate_booknames (), 
                                settings->session.check_include_verse_text, true);
-  gchar * main_heading = "Parallel passages of the Old Testament";
+  const gchar * main_heading = "Parallel passages of the Old Testament";
   DisplayCheckingResults display (main_heading);
   display.parallel_passages (check.data, main_heading); 
 }

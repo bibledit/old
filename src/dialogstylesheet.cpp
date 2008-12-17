@@ -2090,7 +2090,7 @@ void StylesheetDialog::superscript_create() {
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (checkbutton_superscript), superscript);
 }
 
-void StylesheetDialog::paragraph_create(gchar * label, bool grey_out_justify)
+void StylesheetDialog::paragraph_create(const gchar * label, bool grey_out_justify)
 /*
  Creates the paragraph settings.
  label: the label to use. By default it uses "paragraph", but if text is given
@@ -2098,7 +2098,7 @@ void StylesheetDialog::paragraph_create(gchar * label, bool grey_out_justify)
  */
 {
   if (!label)
-    label = "paragraph";
+    label = (const gchar *) "paragraph";
   ustring text;
 
   vbox4 = gtk_vbox_new(FALSE, 0);

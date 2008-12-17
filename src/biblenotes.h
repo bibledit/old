@@ -34,7 +34,6 @@ void biblenotes_extract_note_opener_caller_closer (const ustring& text,
                                                    ustring& opener, ustring& caller, ustring& closer);
 ustring biblenotes_extract_note_body (ustring text);
 void biblenotes_switch_markers (ustring& bodytext, gchar * from_marker, gchar * to_marker);
-gchar * biblenotes_note_caller_human_readable (NumberingType numberingtype);
 
 
 #endif

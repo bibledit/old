@@ -37,7 +37,7 @@ void checks_output_references_comments (const vector<ustring>& references,
 {
   for (unsigned int i = 0; i < references.size(); i++) { 
     ustring line = references[i] + " " + comments[i] + "\n";
-    write (1, line.c_str(), strlen (line.c_str()));
+    if (write (1, line.c_str(), strlen (line.c_str())));
   }
 }
 
@@ -75,7 +75,7 @@ void checks_output_two_columns
   // Output the data.
   for (unsigned int i = 0; i < column1.size(); i++) { 
     ustring line = column1[i] + spaces (longestword - column1[i].length()) + convert_to_string (column2[i]) + "\n";
-    write (1, line.c_str(), strlen (line.c_str()));
+    if (write (1, line.c_str(), strlen (line.c_str())));
   }
 }
 
@@ -239,7 +239,7 @@ void DisplayCheckingResults::references_inventory (const vector <ustring>& verse
 }
 
 
-void DisplayCheckingResults::nt_quotations_from_ot (const vector <ustring> nt, const vector <VectorUstring>& ot, gchar * mainheading)
+void DisplayCheckingResults::nt_quotations_from_ot (const vector <ustring> nt, const vector <VectorUstring>& ot, const gchar * mainheading)
 {
   heading (2, mainheading);
   open_table ();
@@ -273,7 +273,7 @@ void DisplayCheckingResults::nt_quotations_from_ot (const vector <ustring> nt, c
 }
 
 
-void DisplayCheckingResults::parallel_passages (const vector <OtNtParallelDataSection>& data, gchar * mainheading)
+void DisplayCheckingResults::parallel_passages (const vector <OtNtParallelDataSection>& data, const gchar * mainheading)
 {
   heading (2, mainheading);
 

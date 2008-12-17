@@ -123,7 +123,7 @@ void NewResourceDialog::build_table_and_type(Shortcuts& shortcuts) {
   build_button(image_type_ok, label_type_ok, label_type_short, button_type, "Type", shortcuts, G_CALLBACK (on_type_button_clicked), label_type_long);
 }
 
-void NewResourceDialog::build_entry(GtkWidget *& image_ok, GtkWidget *& label_ok, GtkWidget *& label, gchar * label_text, GtkWidget *& entry, const ustring& entry_text, GCallback handler) {
+void NewResourceDialog::build_entry(GtkWidget *& image_ok, GtkWidget *& label_ok, GtkWidget *& label, const gchar * label_text, GtkWidget *& entry, const ustring& entry_text, GCallback handler) {
   GtkWidget *hseparator;
   hseparator = gtk_hseparator_new();
   gtk_widget_show(hseparator);
@@ -177,7 +177,7 @@ void NewResourceDialog::build_entry(GtkWidget *& image_ok, GtkWidget *& label_ok
  }
  */
 
-void NewResourceDialog::build_button(GtkWidget *& image_ok, GtkWidget *& label_ok, GtkWidget *& label_short, GtkWidget *& button, gchar * button_text, Shortcuts& shortcuts, GCallback handler, GtkWidget *& label_long) {
+void NewResourceDialog::build_button(GtkWidget *& image_ok, GtkWidget *& label_ok, GtkWidget *& label_short, GtkWidget *& button, const gchar * button_text, Shortcuts& shortcuts, GCallback handler, GtkWidget *& label_long) {
   GtkWidget *hseparator;
   hseparator = gtk_hseparator_new();
   gtk_widget_show(hseparator);
@@ -258,7 +258,7 @@ void NewResourceDialog::build_button(GtkWidget *& image_ok, GtkWidget *& label_o
  }
  */
 
-void NewResourceDialog::build_checkbutton_button(GtkWidget *& image_ok, GtkWidget *& label_ok, GtkWidget *& checkbutton, gchar * checkbutton_text, GCallback checkbutton_handler, GtkWidget *& button, gchar * button_text, GCallback button_handler, Shortcuts& shortcuts, GtkWidget *& label) {
+void NewResourceDialog::build_checkbutton_button(GtkWidget *& image_ok, GtkWidget *& label_ok, GtkWidget *& checkbutton, const gchar * checkbutton_text, GCallback checkbutton_handler, GtkWidget *& button, const gchar * button_text, GCallback button_handler, Shortcuts& shortcuts, GtkWidget *& label) {
   GtkWidget * hseparator = gtk_hseparator_new();
   gtk_widget_show(hseparator);
   gtk_table_attach(GTK_TABLE (table1), hseparator, 0, 4, table_attachment_offset, table_attachment_offset + 1,
@@ -971,7 +971,7 @@ void NewResourceDialog::on_okbutton() {
   if (directory != workingdirectory) {
     ustring command = "cd" + shell_quote_space(workingdirectory);
     command.append("; mv *" + shell_quote_space(directory));
-    system(command.c_str());
+    if (system(command.c_str()));
   }
 
   // Assemble the template.

@@ -243,7 +243,7 @@ private:
   double leftmargin;
   double rightmargin;
   double firstlineindent;
-  void paragraph_create (gchar * label, bool grey_out_justify);
+  void paragraph_create (const gchar * label, bool grey_out_justify);
 
   // Span columns.
   GtkWidget *checkbutton_span;

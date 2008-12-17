@@ -134,12 +134,3 @@ void biblenotes_switch_markers (ustring& bodytext, gchar * from_marker, gchar * 
 }
 
 
-gchar * biblenotes_note_caller_human_readable (NumberingType numberingtype)
-{
-  switch (numberingtype) {
-    case ntAutomatic: return "automatic";
-    case ntNone:      return "none";
-    case ntCharacter: return "character";
-  }
-  return "";
-}

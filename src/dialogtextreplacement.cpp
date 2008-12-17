@@ -255,13 +255,13 @@ void TextReplacementDialog::gui ()
 }
 
 
-char * TextReplacementDialog::enter_new_text_here ()
+const char * TextReplacementDialog::enter_new_text_here ()
 {
   return "<Enter new text here>";
 }
 
 
-char * TextReplacementDialog::enter_new_replacement_here ()
+const char * TextReplacementDialog::enter_new_replacement_here ()
 {
   return "<Enter new replacement here>";
 }

@@ -196,7 +196,7 @@ int CheckDialog::run ()
 }
 
 
-void CheckDialog::information_setup (gchar * information)
+void CheckDialog::information_setup (const gchar * information)
 {
   infolabel = gtk_label_new (information);
   gtk_widget_show (infolabel);
@@ -206,7 +206,7 @@ void CheckDialog::information_setup (gchar * information)
 }
 
 
-void CheckDialog::sorting_setup (gchar * sort0, gchar * sort1, gchar * sort2, gchar * sort3)
+void CheckDialog::sorting_setup (const gchar * sort0, const gchar * sort1, const gchar * sort2, const gchar * sort3)
 {
   GSList *radiobutton_sort_group = NULL;
 

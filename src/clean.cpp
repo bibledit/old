@@ -24,7 +24,7 @@
 #include "tiny_utilities.h"
 
 
-char *markers_that_dont_split[] =
+const char *markers_that_dont_split[] =
 {
   "th1", "th2", "th3", "th4", "thr1", "thr2", "thr3", "thr4", 
   "tc1", "tc2", "tc3", "tc4", "tcr1", "tcr2", "tcr3", "tcr4", 
@@ -42,7 +42,7 @@ char *markers_that_dont_split[] =
 };
 
 
-char *markers_that_join_to_previous_line [] =
+const char *markers_that_join_to_previous_line [] =
 { 
   "f*",  "fe*", "x*", "wj*", "add*", "it", "it*"
 };

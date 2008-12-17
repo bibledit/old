@@ -33,7 +33,7 @@
 #include "shutdown.h"
 
 #define STYLESHEET_SUFFIX ".sql18"
-char *RECOGNIZED_SUFFIXES [] = { ".sql11", ".sql12", ".sql13", ".sql14", ".sql15", ".sql16", ".sql17", ".sql18" };
+const char *RECOGNIZED_SUFFIXES [] = { ".sql11", ".sql12", ".sql13", ".sql14", ".sql15", ".sql16", ".sql17", ".sql18" };
 
 ustring stylesheet_filename(const ustring& name)
 // This returns the database's filename for a named stylesheet.
@@ -56,11 +56,11 @@ void stylesheet_get_ones_available(vector<ustring>& names)
   names.assign(rf.files.begin(), rf.files.end());
 }
 
-char * stylesheet_basic [] = { "id", "h", "mt1", "c", "s1", "r", "p", "v", "q1", "m" };
-char * stylesheet_paragraph [] = { "rem", "mt2", "imt", "ip", "ms", "mr", "nb" };
-char * stylesheet_word_note [] = { "qt", "nd", "f", "fr", "ft", "fq" };
-char * stylesheet_sil_best_practice [] = { "c", "p", "r", "s", "v", "f", "fk", "fq", "fr", "ft", "fv", "h", "id", "mt", "mt2", "mt3", "b", "d", "m", "q", "q2", "q3", "qa", "qc", "qm", "qm2", "qm3", "qr", "qs", "qt",
-    "x", "xk", "xo", "xq", "xt", "ie", "im", "imq", "imt", "imt2", "imt3", "io", "io2", "io3", "ior", "ip", "ipr", "iq", "iq2", "is", "is2", "cov", "intro", "pref", "pub", "pubinfo", "spine", "toc", "toc1", "toc2",
+const char * stylesheet_basic [] = { "id", "h", "mt1", "c", "s1", "r", "p", "v", "q1", "m" };
+const char * stylesheet_paragraph [] = { "rem", "mt2", "imt", "ip", "ms", "mr", "nb" };
+const char * stylesheet_word_note [] = { "qt", "nd", "f", "fr", "ft", "fq" };
+const char * stylesheet_sil_best_practice [] = { "c", "p", "r", "s", "v", "f", "fk", "fq", "fr", "ft", "fv", "h", "id", "mt", "mt2", "mt3", "b", "d", "m", "q", "q2", "q3", "qa", "qc", "qm", "qm2", "qm3", "qr", "qs", "qt",
+        "x", "xk", "xo", "xq", "xt", "ie", "im", "imq", "imt", "imt2", "imt3", "io", "io2", "io3", "ior", "ip", "ipr", "iq", "iq2", "is", "is2", "cov", "intro", "pref", "pub", "pubinfo", "spine", "toc", "toc1", "toc2",
         "toc3", "conc", "glo", "idx", "k", "maps", "w", "ca", "cl", "fig", "h1", "h2", "h3", "ide", "lit", "mi", "mr", "ms", "nb", "pc", "pi1", "pi2", "pm", "pmc", "pmo", "pmr", "ps", "rem", "restore", "rq", "s2", "sp",
         "va", "li", "li2", "li3", "li4", "tc1", "tc2", "tc3", "tc4", "tcr1", "tcr2", "tcr3", "tcr4", "th1", "th2", "th3", "th4", "thr1", "thr2", "thr3", "thr4", "tr", "add", "bk", "cls", "nd", "ord", "sig", "tl" };
 

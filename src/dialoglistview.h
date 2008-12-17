@@ -31,7 +31,7 @@ public:
   ListviewDialog (const ustring& title, vector<ustring>& list, const ustring& focus, bool sortlist, gchar * help);
   ~ListviewDialog ();
   void two_pages (const gchar * tab1, const gchar * tab2, vector<ustring>& list, bool sortlist);
-  void tab_switcher (guint accel_key, GdkModifierType accel_mods, gchar * acceleratortext, gchar * actiontext1, gchar * actiontext2);
+  void tab_switcher (guint accel_key, GdkModifierType accel_mods, const gchar * acceleratortext, const gchar * actiontext1, const gchar * actiontext2);
   int run ();
   ustring focus;
 protected:
@@ -66,8 +66,8 @@ protected:
   GtkTreeSelection *select2;
   static void on_activate_focus (GtkWindow *window, gpointer user_data);
   void on_focus ();
-  gchar * action_text_1;
-  gchar * action_text_2;
+  const gchar * action_text_1;
+  const gchar * action_text_2;
   static void on_notebook1_switch_page (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num, gpointer user_data);
   void on_switch_page ();
   ustring initialfocus;

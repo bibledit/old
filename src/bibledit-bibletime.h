@@ -27,7 +27,7 @@
 
 void main_loop ();
 void log (const ustring & message);
-gchar * dcop ();
+const gchar * dcop ();
 void getreference ();
 void setreference ();
 ustring dcop_arguments ();
@@ -36,7 +36,7 @@ void getmodules ();
 void reloadmodules ();
 void set_connected (bool connect);
 void search ();
-bool program_is_running (gchar * program);
+bool program_is_running (const gchar * program);
 ustring trimstring (const ustring s);
 unsigned int convert_string_to_int (const ustring & str);
 ustring convert_unsigned_int_to_string (unsigned int i);
