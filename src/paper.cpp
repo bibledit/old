@@ -22,7 +22,7 @@
 #include "paper.h"
 
 
-char *PAPER_SIZES[NUMBER_OF_PAPERSIZES] =
+const char *PAPER_SIZES[NUMBER_OF_PAPERSIZES] =
   { "A3", "A4", "A5",
     "B4 (ISO)", "B5 (ISO)", "B6 (ISO)",
     "B4 (JIS)", "B5 (JIS)", "B6 (JIS)",

@@ -133,7 +133,7 @@ GtkTextIter editor_get_iter_for_note(GtkTextBuffer * textbuffer, const vector <E
 void get_styles_at_iterator(GtkTextIter iter, ustring& paragraph_style, ustring& character_style);
 ustring get_verse_number_at_iterator(GtkTextIter iter, const ustring& verse_marker, const ustring& project);
 
-gchar * unknown_style();
+const gchar * unknown_style();
 void textbuffer_apply_named_tag(GtkTextBuffer *buffer, const ustring& name, const GtkTextIter *start, const GtkTextIter *end);
 void textbuffer_insert_with_named_tags(GtkTextBuffer *buffer, GtkTextIter *iter, const ustring& text, ustring first_tag_name, ustring second_tag_name);
 

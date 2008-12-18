@@ -41,7 +41,7 @@ private:
 };
 
 
-ustring statistics_database (const ustring& project, gchar * suffix)
+ustring statistics_database (const ustring& project, const gchar * suffix)
 {
   ustring filename;
   filename = gw_build_filename (directories_get_projects (), project, "statistics.");

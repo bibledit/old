@@ -127,5 +127,5 @@ void shell_pipe_file_append (const ustring& inputfile, const ustring& outputfile
   command.append (shell_quote_space (inputfile));
   command.append (">>");
   command.append (shell_quote_space (outputfile));
-  system (command.c_str ());
+  if (system (command.c_str ()));
 }

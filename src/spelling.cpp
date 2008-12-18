@@ -35,13 +35,13 @@ ustring spelling_global_dictionary ()
 }
 
 
-gchar * spelling_project_dictionary_prefix ()
+const gchar * spelling_project_dictionary_prefix ()
 {
   return "Project ";
 }
 
 
-gchar * spelling_project_dictionary_suffix ()
+const gchar * spelling_project_dictionary_suffix ()
 {
   return " Shared Dictionary";
 }
@@ -120,7 +120,7 @@ ustring spelling_dictionary_filename (ustring dictionary)
 }
 
 
-gchar * spelling_tag_name ()
+const gchar * spelling_tag_name ()
 {
   return "misspelling";
 }

@@ -69,8 +69,8 @@ public:
 private:
 };
 
-gchar * merge_new_line_indicator();
-gchar * merge_verse_indicator();
+const gchar * merge_new_line_indicator();
+const gchar * merge_verse_indicator();
 ustring merge_split_data(const ustring& data);
 ustring merge_join_data(const ustring& data);
 ustring merge_split_data_character(const ustring& data);

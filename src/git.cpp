@@ -261,22 +261,22 @@ void git_task_human_readable(unsigned int task, const ustring& project, unsigned
   {
     case gttInitializeProject:
     {
-      human_readable_task = "Initialize project";
+      human_readable_task = (gchar *) "Initialize project";
       break;
     }
     case gttCommitProject:
     {
-      human_readable_task = "Commit project";
+      human_readable_task = (gchar *) "Commit project";
       break;
     }
     case gttStoreChapter:
     {
-      human_readable_task = "Store chapter";
+      human_readable_task = (gchar *) "Store chapter";
       break;
     }
     case gttUpdateProject:
     {
-      human_readable_task = "Update project";
+      human_readable_task = (gchar *) "Update project";
       break;
     }
   }
@@ -552,7 +552,7 @@ void git_log_read(const ustring& directory, vector <ustring>& commits, vector <u
     command.append(shell_quote_space(path));
   ustring logfile = gw_build_filename(directories_get_temp(), ".git_log_read");
   command.append(" > " + logfile);
-  system(command.c_str());
+  if (system(command.c_str()));
 
   // Process the log.
   ustring commit;

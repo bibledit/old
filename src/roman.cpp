@@ -28,7 +28,7 @@ ustring integer2roman (int arabic)
   // Type definition.
   struct roman_digit_type
   {
-    char * roman;
+    const char * roman;
     int integer;
   };
 

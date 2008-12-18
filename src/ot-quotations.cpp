@@ -199,7 +199,7 @@ void OTQuotations::read ()
 }
 
 
-ustring OTQuotations::comment (gchar * text, bool lxx)
+ustring OTQuotations::comment (const gchar * text, bool lxx)
 {
   ustring s (text);
   if (lxx)

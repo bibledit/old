@@ -34,7 +34,7 @@ public:
 private:
 };
 
-gchar * reporting_status_filename();
+const gchar * reporting_status_filename();
 ustring reporting_status_filename(const ustring& project, unsigned int book);
 void reporting_check_tasks_and_durations(vector <ustring>& tasks, vector <double> * durations);
 void reporting_durations_to_percentages(vector <double>& durations, vector <unsigned int>& percentages);
@@ -58,7 +58,7 @@ public:
   void print();
 private:
   vector <ustring> * alltasks;
-  gchar * chapter_key();
+  const gchar * chapter_key();
 };
 
 class ProjectStatusBook

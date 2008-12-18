@@ -46,7 +46,7 @@ public:
   void read ();
   vector <OTQuotation> quotations;
 private:
-  ustring comment (gchar * text, bool lxx);
+  ustring comment (const gchar * text, bool lxx);
 };
 
 

@@ -31,7 +31,7 @@
 #include "directories.h"
 #include "utilities.h"
 
-gchar * reporting_status_filename()
+const gchar * reporting_status_filename()
 // Gives the base filename of the status file.
 {
   return "status";
@@ -53,7 +53,7 @@ void reporting_check_tasks_and_durations(vector <ustring>& tasks, vector <double
 {
   struct
   {
-    char * task;
+    const char * task;
     double duration;
   } default_values [] = { { "First Draft", 2 }, { "Self Check", 0.4 }, { "Team Check", 0.4 }, { "Back Translation", 0.4 }, { "Advisor Check", 0.1 }, { "First Revision", 0.4 }, { "First Village Check", 0.5 }, {
       "Second Revision", 0.4 }, { "Second Village Check", 0.5 }, { "Third Revision", 0.4 }, { "Consultant Check", 0.1 }, { "Fourth Revision", 0.4 }, { "First Read Through", 0.2 }, { "Second Read Through", 0.2 }, {
@@ -416,7 +416,7 @@ void ProjectStatusChapter::save(GKeyFile * keyfile)
   }
 }
 
-gchar * ProjectStatusChapter::chapter_key()
+const gchar * ProjectStatusChapter::chapter_key()
 /*
  The chapter key has been introduced to save space.
  Without it the status of each verse would be saved per verse.

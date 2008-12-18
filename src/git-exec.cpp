@@ -32,7 +32,7 @@ void git_exec_initialize_project(const ustring& project, bool health) {
     ustring command = "cd '" + datadirectory + "'; ";
     command.append("find . -name .svn -print0 | xargs -0 rm -rf");
     git_exec_message("All .svn traces were removed", true);
-    system(command.c_str());
+    if (system(command.c_str()));
   }
 
   // On most machines git can determine the user's name from the system services. 
@@ -44,12 +44,12 @@ void git_exec_initialize_project(const ustring& project, bool health) {
   command0.append("@");
   command0.append(g_get_host_name());
   command0.append("\"");
-  system(command0.c_str());
+  if (system(command0.c_str()));
   command0 = ("cd '" + datadirectory + "'; ");
   command0.append("git-config user.name \"");
   command0.append(g_get_real_name());
   command0.append("\"");
-  system(command0.c_str());
+  if (system(command0.c_str()));
 
   // (Re)initialize the repository. This can be done repeatedly without harm,
   // and it ensures that anything that was put in by hand will be seen by git,
@@ -57,15 +57,15 @@ void git_exec_initialize_project(const ustring& project, bool health) {
   // At times health-related commands are ran too.
   ustring command1("cd '" + datadirectory + "'; ");
   command1.append("git-init-db");
-  system(command1.c_str());
+  if (system(command1.c_str()));
   if (health) {
     ustring command("cd '" + datadirectory + "'; ");
     command.append("git-gc --prune");
-    system(command.c_str());
+    if (system(command.c_str()));
   }
   ustring command2("cd '" + datadirectory + "'; ");
   command2.append("git-add .");
-  system(command2.c_str());
+  if (system(command2.c_str()));
   git_exec_commit_directory(datadirectory);
 }
 
@@ -82,7 +82,7 @@ void git_exec_store_chapter(const ustring& project, unsigned int book, unsigned 
   // Just to be sure, add anything under the data directory.  
   ustring command("cd '" + datadirectory + "'; ");
   command.append("git-add .");
-  system(command.c_str());
+  if (system(command.c_str()));
 
   // Show status, and commit changes.
   git_exec_commit_directory(datadirectory);
@@ -99,15 +99,15 @@ void git_exec_commit_directory(const ustring& directory) {
   // Show status, and commit changes.
   ustring command1("cd '" + directory + "'; ");
   command1.append("git-status -a");
-  system(command1.c_str());
+  if (system(command1.c_str()));
 
   ustring command2("cd '" + directory + "'; ");
   command2.append("git-add .");
-  system(command2.c_str());
+  if (system(command2.c_str()));
 
   ustring command3("cd '" + directory + "'; ");
   command3.append("git-commit -m Commit -a");
-  system(command3.c_str());
+  if (system(command3.c_str()));
 }
 
 vector <ustring> git_exec_update_project(const ustring& project, const ustring& data)
@@ -127,12 +127,12 @@ vector <ustring> git_exec_update_project(const ustring& project, const ustring& 
   // Some git installations need the source and destination branches as well.
   ustring command1("cd '" + datadirectory + "'; ");
   command1.append("git-pull '" + data + "'");
-  system(command1.c_str());
+  if (system(command1.c_str()));
 
   // Push changes to the remote repository.
   ustring command2("cd '" + datadirectory + "'; ");
   command2.append("git-push '" + data + "'");
-  system(command2.c_str());
+  if (system(command2.c_str()));
 
   // An update can fail in cases that the remote repository is not available 
   // at this time. In case of failure it would keep trying too often.
@@ -143,7 +143,7 @@ vector <ustring> git_exec_update_project(const ustring& project, const ustring& 
 }
 
 void git_exec_message(const ustring& message, bool eol) {
-  write(1, message.c_str(), strlen(message.c_str()));
+  if (write(1, message.c_str(), strlen(message.c_str())));
   if (eol)
-    write(1, "\n", 1);
+    if (write(1, "\n", 1));
 }

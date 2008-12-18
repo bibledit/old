@@ -51,7 +51,7 @@ private:
   void handle_request (int fd);
   void log (const ustring & message);
   void sendline (int fd, const ustring & line);
-  char * getmimetype (char *name);
+  const char * getmimetype (char *name);
   void send_content_type (int fd, const ustring& filename);
   void send_file (int fd, const ustring& filename);
   void send_404 (int fd);

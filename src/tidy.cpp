@@ -27,7 +27,7 @@
 #include "tiny_utilities.h"
 
 
-void tidy_pattern (ustring& text, gchar * pattern, size_t window, const ustring& lookfor, const ustring& replacewith)
+void tidy_pattern (ustring& text, const gchar * pattern, size_t window, const ustring& lookfor, const ustring& replacewith)
 /*
 This routine replaces "lookfor" with "replacewith" in "text", provided that
 a certain length of text, with length "window" agrees with a certain "pattern".

@@ -36,7 +36,7 @@ void upgrade_project_configuration (const ustring& project);
 private: \
   type    parameter; \
   bool    parameter##_loaded; \
-  gchar * parameter##_key (); \
+  const gchar * parameter##_key (); \
 public: \
   type    parameter##_get (); \
   void    parameter##_set (type value) \
@@ -93,13 +93,13 @@ public:
   DEFINE_PROJECTCONFIG_H (vector<ustring>, spelling_dictionaries);
 private:
   bool my_save_on_destroy;
-  bool bool_get (gchar * key, bool& store, bool& loaded, bool standard);
-  int int_get (gchar * key, int& store, bool& loaded, int standard);
-  ustring string_get (gchar * key, ustring& store, bool& loaded, const ustring& standard);
-  double double_get (gchar * key, double& store, bool& loaded, double standard);
-  vector<bool> vector_bool_get (gchar * key, vector<bool>& store, bool& loaded, void * dummy);
-  vector<ustring> vector_string_get (gchar * key, vector<ustring>& store, bool& loaded, void * dummy);
-  vector<int> vector_int_get (gchar * key, vector<int>& store, bool& loaded, void * dummy);
+  bool bool_get (const gchar * key, bool& store, bool& loaded, bool standard);
+  int int_get (const gchar * key, int& store, bool& loaded, int standard);
+  ustring string_get (const gchar * key, ustring& store, bool& loaded, const ustring& standard);
+  double double_get (const gchar * key, double& store, bool& loaded, double standard);
+  vector<bool> vector_bool_get (const gchar * key, vector<bool>& store, bool& loaded, void * dummy);
+  vector<ustring> vector_string_get (const gchar * key, vector<ustring>& store, bool& loaded, void * dummy);
+  vector<int> vector_int_get (const gchar * key, vector<int>& store, bool& loaded, void * dummy);
 };
 
 

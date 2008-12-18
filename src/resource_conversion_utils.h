@@ -27,9 +27,9 @@
 #include "types.h"
 
 
-gchar * resource_conversion_type_to_text (ResourceConversionType type);
+const gchar * resource_conversion_type_to_text (ResourceConversionType type);
 ResourceConversionType resource_conversion_text_to_type (const ustring& text);
-gchar * resource_conversion_anchor_prefix ();
+const gchar * resource_conversion_anchor_prefix ();
 ustring resource_conversion_create_anchor_chapter_verse (unsigned int chapter, unsigned int verse);
 void resource_conversion_insert_anchors (vector <ustring>& lines, 
                                          const ustring& chapter_prefix, unsigned int chapter_pattern, const ustring& chapter_suffix,

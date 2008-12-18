@@ -29,13 +29,13 @@
 
 
 ustring spelling_global_dictionary ();
-gchar * spelling_project_dictionary_prefix ();
-gchar * spelling_project_dictionary_suffix ();
+const gchar * spelling_project_dictionary_prefix ();
+const gchar * spelling_project_dictionary_suffix ();
 ustring spelling_project_dictionary (const ustring& project);
 vector <ustring> spelling_enchant_dictionaries ();
 bool spelling_dictionary_editable (const ustring& dictionary);
 ustring spelling_dictionary_filename (ustring dictionary);
-gchar * spelling_tag_name ();
+const gchar * spelling_tag_name ();
 
 
 class SpellingChecker

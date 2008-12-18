@@ -53,7 +53,7 @@ Following information was taken from the BibleTime source, file clanguagemgr.cpp
 #define LANGUAGE_COUNT 380
 
 
-char *languages [LANGUAGE_COUNT] =
+const char *languages [LANGUAGE_COUNT] =
 { 
   "aa", "Afar",
   "ab", "Abkhazian",

@@ -71,8 +71,8 @@ ustring gw_build_filename (const ustring& part1, const ustring& part2, const ust
 
 void gw_message (const ustring& message)
 {
-  write (1, message.c_str(), strlen (message.c_str()));
-  write (1, "\n", 1);
+  if (write (1, message.c_str(), strlen (message.c_str())));
+  if (write (1, "\n", 1));
 }
 
 
@@ -526,5 +526,5 @@ These calls allow one to hide the console window.
 
 void gw_spawn_write (int fd, const ustring& text)
 {
-  write (fd, text.c_str(), strlen (text.c_str()));
+  if (write (fd, text.c_str(), strlen (text.c_str())));
 }

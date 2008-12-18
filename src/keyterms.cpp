@@ -328,7 +328,7 @@ void keyterms_import_textfile(const ustring& textfile)
               {
                 ustring msg = "Skipping: ";
                 msg.append (ex.what ());
-                write (1, msg.c_str(), strlen (msg.c_str()));
+                if (write (1, msg.c_str(), strlen (msg.c_str())));
                 cout << endl;
               }
 
@@ -444,7 +444,7 @@ void keyterms_import_otkey_db()
               {
                 ustring msg = "Skipping: ";
                 msg.append (ex.what ());
-                write (1, msg.c_str(), strlen (msg.c_str()));
+                if (write (1, msg.c_str(), strlen (msg.c_str())));
                 cout << endl;
               }
 
@@ -659,7 +659,7 @@ void keyterms_import_ktref_db()
               {
                 ustring msg = "Skipping: ";
                 msg.append (ex.what ());
-                write (1, msg.c_str(), strlen (msg.c_str()));
+                if (write (1, msg.c_str(), strlen (msg.c_str())));
                 cout << endl;
               }
 
@@ -943,7 +943,7 @@ void keyterms_import_ktbh_txt()
               {
                 ustring msg = "Skipping: ";
                 msg.append (ex.what ());
-                write (1, msg.c_str(), strlen (msg.c_str()));
+                if (write (1, msg.c_str(), strlen (msg.c_str())));
                 cout << endl;
               }
 

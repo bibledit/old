@@ -103,11 +103,11 @@ vector <Patch> merge_read_patch(const ustring& filename)
   return patches;
 }
 
-gchar * merge_new_line_indicator() {
+const gchar * merge_new_line_indicator() {
   return "__new__line__indicator__\n";
 }
 
-gchar * merge_verse_indicator() {
+const gchar * merge_verse_indicator() {
   return "___verse___indicator___";
 }
 

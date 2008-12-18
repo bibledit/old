@@ -27,7 +27,7 @@
 void gtkw_dialog_info (GtkWidget * parent, const ustring& info)
 {
   // Create the basic dialog.
-  GtkWidget * dialog = gtk_message_dialog_new (GTK_WINDOW (parent), GtkDialogFlags (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_MESSAGE_INFO, GTK_BUTTONS_OK, info.c_str());
+  GtkWidget * dialog = gtk_message_dialog_new (GTK_WINDOW (parent), GtkDialogFlags (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_MESSAGE_INFO, GTK_BUTTONS_OK, "%s", info.c_str());
   // Add cancel button so that pressing the Escape button will also close the window,
   // but hide this button so it's not visible, but Escape remains working.
   GtkWidget * cancel = gtk_dialog_add_button (GTK_DIALOG (dialog), "", GTK_RESPONSE_CANCEL);
@@ -42,7 +42,7 @@ void gtkw_dialog_info (GtkWidget * parent, const ustring& info)
 int gtkw_dialog_question (GtkWidget * parent, const ustring& question, int default_response)
 {
   int result;
-  GtkWidget * dialog = gtk_message_dialog_new (GTK_WINDOW (parent), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, question.c_str());
+  GtkWidget * dialog = gtk_message_dialog_new (GTK_WINDOW (parent), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, "%s", question.c_str());
   if (default_response != GTK_RESPONSE_NO)
     gtk_dialog_set_default_response (GTK_DIALOG (dialog), default_response);    
   result = gtk_dialog_run (GTK_DIALOG (dialog));
@@ -53,7 +53,7 @@ int gtkw_dialog_question (GtkWidget * parent, const ustring& question, int defau
 
 void gtkw_dialog_error (GtkWidget * parent, const ustring& error)
 {
-  GtkWidget * dialog = gtk_message_dialog_new (GTK_WINDOW (parent), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, error.c_str());
+  GtkWidget * dialog = gtk_message_dialog_new (GTK_WINDOW (parent), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "%s", error.c_str());
   gtk_dialog_run (GTK_DIALOG (dialog));
   gtk_widget_destroy (dialog);
 }
@@ -61,7 +61,7 @@ void gtkw_dialog_error (GtkWidget * parent, const ustring& error)
 
 void gtkw_dialog_warning (GtkWidget * parent, const ustring& warning)
 {
-  GtkWidget * dialog = gtk_message_dialog_new (GTK_WINDOW (parent), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_WARNING, GTK_BUTTONS_OK, warning.c_str());
+  GtkWidget * dialog = gtk_message_dialog_new (GTK_WINDOW (parent), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_WARNING, GTK_BUTTONS_OK, "%s", warning.c_str());
   gtk_dialog_run (GTK_DIALOG (dialog));
   gtk_widget_destroy (dialog);
 }

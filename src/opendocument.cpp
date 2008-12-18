@@ -164,7 +164,7 @@ void OpenDocument::unpack_template() {
   command.append("; cp ");
   command.append(gw_build_filename(directories_get_package_data(), "template.odt"));
   command.append(" .; unzip *; rm *.odt");
-  system(command.c_str());
+  if (system(command.c_str()));
 }
 
 void OpenDocument::cover()
@@ -408,7 +408,7 @@ void OpenDocument::zip(const ustring filename) {
   command.append("; zip -r");
   command.append(shell_quote_space(filename));
   command.append("*");
-  system(command.c_str());
+  if (system(command.c_str()));
 }
 
 void OpenDocument::generate_styles_xml(bool right_to_left)

@@ -25,7 +25,7 @@
 #include "roman.h"
 
 
-gchar * resource_conversion_type_to_text (ResourceConversionType type)
+const gchar * resource_conversion_type_to_text (ResourceConversionType type)
 {
   switch (type) {
     case rctChapterStartsAtPatternVerseOneStartsAtChapterVerseStartsAtPattern: 
@@ -47,7 +47,7 @@ ResourceConversionType resource_conversion_text_to_type (const ustring& text)
 }
 
 
-gchar * resource_conversion_anchor_prefix ()
+const gchar * resource_conversion_anchor_prefix ()
 // Every anchor that the resource converter inserts start with this prefix.
 {
   return "be_anc_";

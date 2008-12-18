@@ -1757,7 +1757,7 @@ ustring get_verse_number_at_iterator(GtkTextIter iter, const ustring& verse_mark
   return verse;
 }
 
-gchar * unknown_style()
+const gchar * unknown_style()
 // Gives the name of the style that is for markers that are not in the stylesheet.
 {
   return "unknown";

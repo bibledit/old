@@ -378,7 +378,7 @@ void GeneralConfiguration::save()
   config_xml_values_set_execute(general_configuration_filename(), values);
 }
 
-bool GeneralConfiguration::bool_get(gchar * key, bool& store, bool& loaded, bool standard) {
+bool GeneralConfiguration::bool_get(const gchar * key, bool& store, bool& loaded, bool standard) {
   if (!loaded) {
     store = config_xml_bool_get(general_configuration_filename(), key, standard);
     loaded = true;
@@ -386,7 +386,7 @@ bool GeneralConfiguration::bool_get(gchar * key, bool& store, bool& loaded, bool
   return store;
 }
 
-int GeneralConfiguration::int_get(gchar * key, int& store, bool& loaded, int standard) {
+int GeneralConfiguration::int_get(const gchar * key, int& store, bool& loaded, int standard) {
   if (!loaded) {
     store = config_xml_int_get(general_configuration_filename(), key, standard);
     loaded = true;
@@ -394,7 +394,7 @@ int GeneralConfiguration::int_get(gchar * key, int& store, bool& loaded, int sta
   return store;
 }
 
-ustring GeneralConfiguration::string_get(gchar * key, ustring& store, bool& loaded, const ustring& standard) {
+ustring GeneralConfiguration::string_get(const gchar * key, ustring& store, bool& loaded, const ustring& standard) {
   if (!loaded) {
     store = config_xml_string_get(general_configuration_filename(), key, standard);
     loaded = true;
@@ -402,7 +402,7 @@ ustring GeneralConfiguration::string_get(gchar * key, ustring& store, bool& load
   return store;
 }
 
-double GeneralConfiguration::double_get(gchar * key, double& store, bool& loaded, double standard) {
+double GeneralConfiguration::double_get(const gchar * key, double& store, bool& loaded, double standard) {
   if (!loaded) {
     store = config_xml_double_get(general_configuration_filename(), key, standard);
     loaded = true;
@@ -410,7 +410,7 @@ double GeneralConfiguration::double_get(gchar * key, double& store, bool& loaded
   return store;
 }
 
-vector<bool> GeneralConfiguration::vector_bool_get(gchar * key, vector<bool>& store, bool& loaded, void * dummy) {
+vector<bool> GeneralConfiguration::vector_bool_get(const gchar * key, vector<bool>& store, bool& loaded, void * dummy) {
   if (!loaded) {
     store = config_xml_vector_bool_get(general_configuration_filename(), key);
     loaded = true;
@@ -418,7 +418,7 @@ vector<bool> GeneralConfiguration::vector_bool_get(gchar * key, vector<bool>& st
   return store;
 }
 
-vector<ustring> GeneralConfiguration::vector_string_get(gchar * key, vector<ustring>& store, bool& loaded, void * dummy) {
+vector<ustring> GeneralConfiguration::vector_string_get(const gchar * key, vector<ustring>& store, bool& loaded, void * dummy) {
   if (!loaded) {
     store = config_xml_vector_string_get(general_configuration_filename(), key);
     loaded = true;
@@ -426,7 +426,7 @@ vector<ustring> GeneralConfiguration::vector_string_get(gchar * key, vector<ustr
   return store;
 }
 
-vector<int> GeneralConfiguration::vector_int_get(gchar * key, vector<int>& store, bool& loaded, void * dummy) {
+vector<int> GeneralConfiguration::vector_int_get(const gchar * key, vector<int>& store, bool& loaded, void * dummy) {
   if (!loaded) {
     store = config_xml_vector_int_get(general_configuration_filename(), key);
     loaded = true;
@@ -434,7 +434,7 @@ vector<int> GeneralConfiguration::vector_int_get(gchar * key, vector<int>& store
   return store;
 }
 
-vector<double> GeneralConfiguration::vector_double_get(gchar * key, vector<double>& store, bool& loaded, void * dummy) {
+vector<double> GeneralConfiguration::vector_double_get(const gchar * key, vector<double>& store, bool& loaded, void * dummy) {
   if (!loaded) {
     store = config_xml_vector_double_get(general_configuration_filename(), key);
     loaded = true;
@@ -444,7 +444,7 @@ vector<double> GeneralConfiguration::vector_double_get(gchar * key, vector<doubl
 
 // Definitions of the implementation of the code in the general configuration.
 #define IMPLEMENT(type, getter, store, defaultvalue) \
-gchar * GeneralConfiguration::store##_key () \
+const gchar * GeneralConfiguration::store##_key () \
 { \
   return #store; \
 } \

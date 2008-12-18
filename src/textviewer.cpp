@@ -28,7 +28,7 @@
 #include "gwrappers.h"
 
 
-void textviewer_run (gchar * command, gchar * argument, const ustring& filename)
+void textviewer_run (const gchar * command, const gchar * argument, const ustring& filename)
 {
   GwSpawn spawn (command);
   if (strlen (argument) > 0)
@@ -41,7 +41,7 @@ void textviewer_run (gchar * command, gchar * argument, const ustring& filename)
 
 void textviewer_view (const ustring& filename)
 {
-  struct { char * command; char *argument; } text_viewers [] = 
+  struct { const char * command; const char *argument; } text_viewers [] = 
   {
     { "gedit", "" },
     { "kedit", "" },

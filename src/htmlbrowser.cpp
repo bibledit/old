@@ -34,11 +34,11 @@
 #define NUMBER_OF_BROWSERS 8
 
 
-gchar * helpcommand (int index)
+const gchar * helpcommand (int index)
 {
   // Returns a command to be executed to get the helpfile displayed.
   // Variable "index" selects which browser will be used.
-  gchar * command = NULL;
+  const gchar * command = NULL;
   switch (index)
     {
     case 0:

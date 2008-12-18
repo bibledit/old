@@ -221,7 +221,7 @@ ustring resource_get_lower_url_filter(const ustring& templatefile) {
   return lower_url_filter;
 }
 
-gchar * resource_type_to_text(ResourceType type) {
+const gchar * resource_type_to_text(ResourceType type) {
   switch (type)
   {
     case rtForeignDataURLForEachVerse:
@@ -244,51 +244,51 @@ ResourceType resource_text_to_type(const ustring& text) {
   return rtEnd;
 }
 
-gchar * resource_url_constructor_book() {
+const gchar * resource_url_constructor_book() {
   return "<book>";
 }
 
-gchar * resource_url_constructor_book_anchor() {
+const gchar * resource_url_constructor_book_anchor() {
   return "<bookanchor>";
 }
 
-gchar * resource_url_constructor_chapter() {
+const gchar * resource_url_constructor_chapter() {
   return "<chapter>";
 }
 
-gchar * resource_url_constructor_verse() {
+const gchar * resource_url_constructor_verse() {
   return "<verse>";
 }
 
-gchar * resource_template_general_group() {
+const gchar * resource_template_general_group() {
   return "general";
 }
 
-gchar * resource_template_books_group() {
+const gchar * resource_template_books_group() {
   return "books";
 }
 
-gchar * resource_template_type_key() {
+const gchar * resource_template_type_key() {
   return "type";
 }
 
-gchar * resource_template_title_key() {
+const gchar * resource_template_title_key() {
   return "title";
 }
 
-gchar * resource_template_home_page_key() {
+const gchar * resource_template_home_page_key() {
   return "home page";
 }
 
-gchar * resource_template_url_constructor_key() {
+const gchar * resource_template_url_constructor_key() {
   return "url constructor";
 }
 
-gchar * resource_template_lower_home_page_key() {
+const gchar * resource_template_lower_home_page_key() {
   return "lower home page";
 }
 
-gchar * resource_template_lower_url_filter_key() {
+const gchar * resource_template_lower_url_filter_key() {
   return "lower url filter";
 }
 
@@ -399,7 +399,7 @@ ustring resource_construct_index_file(const ustring& workingdirectory, ustring c
   return filename;
 }
 
-gchar * resource_template_index_file_constructor_key() {
+const gchar * resource_template_index_file_constructor_key() {
   return "index file constructor";
 }
 
@@ -437,11 +437,11 @@ map <unsigned int, ustring> resource_get_anchors(const ustring& templatefile) {
   return anchors;
 }
 
-gchar * resource_template_anchors_group() {
+const gchar * resource_template_anchors_group() {
   return "anchors";
 }
 
-gchar * resource_file_prefix() {
+const gchar * resource_file_prefix() {
   return "file://";
 }
 

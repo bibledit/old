@@ -202,16 +202,16 @@ void Httpd::log (const ustring & message)
 
 void Httpd::sendline (int fd, const ustring& line)
 {
-  write (fd, line.c_str(), strlen (line.c_str()));
-  write (fd, "\n", 1);
+  if (write (fd, line.c_str(), strlen (line.c_str())));
+  if (write (fd, "\n", 1));
 }
 
 
-char * Httpd::getmimetype (char *name) {
+const char * Httpd::getmimetype (char *name) {
   
 struct {
-  char *ext;
-  char *type;
+  const char *ext;
+  const char *type;
 } mime_table[] = {
 
 { ".html", "text/html" },
@@ -380,9 +380,9 @@ void Httpd::send_file (int fd, const ustring& filename)
       ustring s (contents);
       size_t pos = s.find ("</body>");
       s.insert (pos, "<p>See also the <a href=\"index.html\">general online help.</a></p>\n");
-      write (fd, s.c_str(), strlen (s.c_str()));
+      if (write (fd, s.c_str(), strlen (s.c_str())));
     } else {
-      write (fd, contents, length);
+      if (write (fd, contents, length));
     }
     g_free (contents);
   } else {

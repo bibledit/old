@@ -159,7 +159,7 @@ void ProjectConfiguration::save ()
 }
 
 
-bool ProjectConfiguration::bool_get (gchar * key, bool& store, bool& loaded, bool standard)
+bool ProjectConfiguration::bool_get (const gchar * key, bool& store, bool& loaded, bool standard)
 {
   if (!loaded) {
     store = config_xml_bool_get (project_configuration_filename (project), key, standard);
@@ -169,7 +169,7 @@ bool ProjectConfiguration::bool_get (gchar * key, bool& store, bool& loaded, boo
 }
 
 
-int ProjectConfiguration::int_get (gchar * key, int& store, bool& loaded, int standard)
+int ProjectConfiguration::int_get (const gchar * key, int& store, bool& loaded, int standard)
 {
   if (!loaded) {
     store = config_xml_int_get (project_configuration_filename (project), key, standard);
@@ -179,7 +179,7 @@ int ProjectConfiguration::int_get (gchar * key, int& store, bool& loaded, int st
 }
 
 
-ustring ProjectConfiguration::string_get (gchar * key, ustring& store, bool& loaded, const ustring& standard)
+ustring ProjectConfiguration::string_get (const gchar * key, ustring& store, bool& loaded, const ustring& standard)
 {
   if (!loaded) {
     store = config_xml_string_get (project_configuration_filename (project), key, standard);
@@ -189,7 +189,7 @@ ustring ProjectConfiguration::string_get (gchar * key, ustring& store, bool& loa
 }
 
 
-double ProjectConfiguration::double_get (gchar * key, double& store, bool& loaded, double standard)
+double ProjectConfiguration::double_get (const gchar * key, double& store, bool& loaded, double standard)
 {
   if (!loaded) {
     store = config_xml_double_get (project_configuration_filename (project), key, standard);
@@ -199,7 +199,7 @@ double ProjectConfiguration::double_get (gchar * key, double& store, bool& loade
 }
 
 
-vector<bool> ProjectConfiguration::vector_bool_get (gchar * key, vector<bool>& store, bool& loaded, void * dummy)
+vector<bool> ProjectConfiguration::vector_bool_get (const gchar * key, vector<bool>& store, bool& loaded, void * dummy)
 {
   if (!loaded) {
     store = config_xml_vector_bool_get (project_configuration_filename (project), key);
@@ -209,7 +209,7 @@ vector<bool> ProjectConfiguration::vector_bool_get (gchar * key, vector<bool>& s
 }
 
 
-vector<ustring> ProjectConfiguration::vector_string_get (gchar * key, vector<ustring>& store, bool& loaded, void * dummy)
+vector<ustring> ProjectConfiguration::vector_string_get (const gchar * key, vector<ustring>& store, bool& loaded, void * dummy)
 {
   if (!loaded) {
     store = config_xml_vector_string_get (project_configuration_filename (project), key);
@@ -219,7 +219,7 @@ vector<ustring> ProjectConfiguration::vector_string_get (gchar * key, vector<ust
 }
 
 
-vector<int> ProjectConfiguration::vector_int_get (gchar * key, vector<int>& store, bool& loaded, void * dummy)
+vector<int> ProjectConfiguration::vector_int_get (const gchar * key, vector<int>& store, bool& loaded, void * dummy)
 {
   if (!loaded) {
     store = config_xml_vector_int_get (project_configuration_filename (project), key);
@@ -231,7 +231,7 @@ vector<int> ProjectConfiguration::vector_int_get (gchar * key, vector<int>& stor
 
 // Definitions of the implementation of the code in the project configuration.
 #define IMPLEMENT(type, getter, store, defaultvalue) \
-gchar * ProjectConfiguration::store##_key () \
+const gchar * ProjectConfiguration::store##_key () \
 { \
   return #store; \
 } \
@@ -246,7 +246,7 @@ void ProjectConfiguration::store##_set (type value) \
 }
 
 
-char * ProjectConfiguration::stylesheet_key ()
+const char * ProjectConfiguration::stylesheet_key ()
 {
   return "stylesheet";
 }
