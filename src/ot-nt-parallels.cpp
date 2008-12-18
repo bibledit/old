@@ -99,7 +99,7 @@ comments: The headings the passages fall under, or another comment.
 }
 
 
-void OtNtParallels::read (gchar * filename)
+void OtNtParallels::read (const gchar * filename)
 {
   // Get contents of the data file. Bail out if not there.
   ustring xmlfilename = gw_build_filename (directories_get_package_data (), filename);

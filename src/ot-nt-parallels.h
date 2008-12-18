@@ -54,7 +54,7 @@ public:
   void readnt ();
   vector <OtNtParallelSection> sections;
 private:
-  void read (gchar * filename);
+  void read (const gchar * filename);
 };
 
 
