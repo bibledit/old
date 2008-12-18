@@ -281,7 +281,7 @@ GitSetupDialog::GitSetupDialog(int dummy) {
 
   shortcuts.label(label_pull_push);
 
-  spinbutton_update_adj = gtk_adjustment_new(5, 5, 3600, 1, 10, 10);
+  spinbutton_update_adj = gtk_adjustment_new(5, 5, 3600, 1, 10, 0);
   spinbutton_update = gtk_spin_button_new(GTK_ADJUSTMENT (spinbutton_update_adj), 1, 0);
   gtk_widget_show(spinbutton_update);
   gtk_box_pack_start(GTK_BOX (hbox19), spinbutton_update, FALSE, FALSE, 0);

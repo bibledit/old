@@ -589,7 +589,7 @@ void InsertNoteDialog::on_button_add ()
   gtk_widget_show (label_size);
   gtk_box_pack_start (GTK_BOX (hbox8), label_size, FALSE, FALSE, 0);
 
-  spinbutton_size_adj = gtk_adjustment_new (defaultheight, defaultheight, 30 * defaultheight, defaultheight, 3 * defaultheight, 3 * defaultheight);
+  spinbutton_size_adj = gtk_adjustment_new (defaultheight, defaultheight, 30 * defaultheight, defaultheight, 3 * defaultheight, 0);
   spinbutton_size = gtk_spin_button_new (GTK_ADJUSTMENT (spinbutton_size_adj), 1, 0);
   gtk_widget_show (spinbutton_size);
   gtk_widget_set_size_request (spinbutton_size, defaultheight / 2, -1);

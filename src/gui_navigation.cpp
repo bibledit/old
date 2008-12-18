@@ -97,7 +97,7 @@ void GuiNavigation::build(GtkWidget * toolbar) {
   gtk_widget_show(GTK_WIDGET (toolitem4));
   gtk_toolbar_insert(GTK_TOOLBAR (toolbar), GTK_TOOL_ITEM (toolitem4), -1);
 
-  spinbutton_book_adj = gtk_adjustment_new(0, -1e+06, 1e+06, 1, 10, 10);
+  spinbutton_book_adj = gtk_adjustment_new(0, -1e+06, 1e+06, 1, 10, 0);
   spinbutton_book = gtk_spin_button_new(GTK_ADJUSTMENT (spinbutton_book_adj), 1, 0);
   gtk_widget_show(spinbutton_book);
   gtk_container_add(GTK_CONTAINER (toolitem4), spinbutton_book);
@@ -120,7 +120,7 @@ void GuiNavigation::build(GtkWidget * toolbar) {
   gtk_widget_show(GTK_WIDGET (toolitem5));
   gtk_toolbar_insert(GTK_TOOLBAR (toolbar), GTK_TOOL_ITEM (toolitem5), -1);
 
-  spinbutton_chapter_adj = gtk_adjustment_new(0, -1e+06, 1e+06, 1, 10, 10);
+  spinbutton_chapter_adj = gtk_adjustment_new(0, -1e+06, 1e+06, 1, 10, 0);
   spinbutton_chapter = gtk_spin_button_new(GTK_ADJUSTMENT (spinbutton_chapter_adj), 1, 0);
   gtk_widget_show(spinbutton_chapter);
   gtk_container_add(GTK_CONTAINER (toolitem5), spinbutton_chapter);
@@ -143,7 +143,7 @@ void GuiNavigation::build(GtkWidget * toolbar) {
   gtk_widget_show(GTK_WIDGET (toolitem7));
   gtk_toolbar_insert(GTK_TOOLBAR (toolbar), GTK_TOOL_ITEM (toolitem7), -1);
 
-  spinbutton_verse_adj = gtk_adjustment_new(0, -1e+06, 1e+06, 1, 10, 10);
+  spinbutton_verse_adj = gtk_adjustment_new(0, -1e+06, 1e+06, 1, 10, 0);
   spinbutton_verse = gtk_spin_button_new(GTK_ADJUSTMENT (spinbutton_verse_adj), 1, 0);
   gtk_widget_show(spinbutton_verse);
   gtk_container_add(GTK_CONTAINER (toolitem7), spinbutton_verse);

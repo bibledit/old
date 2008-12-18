@@ -56,7 +56,7 @@ PrintPreferencesDialog::PrintPreferencesDialog(int dummy) {
   gtk_table_set_row_spacings(GTK_TABLE (table1), 6);
   gtk_table_set_col_spacings(GTK_TABLE (table1), 2);
 
-  spinbutton_height_adj = gtk_adjustment_new(1, 0, 100, 0.01, 0.1, 0.1);
+  spinbutton_height_adj = gtk_adjustment_new(1, 0, 100, 0.01, 0.1, 0);
   spinbutton_height = gtk_spin_button_new(GTK_ADJUSTMENT (spinbutton_height_adj), 1, 2);
   gtk_widget_show(spinbutton_height);
   gtk_table_attach(GTK_TABLE (table1), spinbutton_height, 1, 2, 3, 4,
@@ -73,7 +73,7 @@ PrintPreferencesDialog::PrintPreferencesDialog(int dummy) {
   (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC (label4), 1, 0.5);
 
-  spinbutton_width_adj = gtk_adjustment_new(1, 0, 100, 0.01, 0.1, 0.1);
+  spinbutton_width_adj = gtk_adjustment_new(1, 0, 100, 0.01, 0.1, 0);
   spinbutton_width = gtk_spin_button_new(GTK_ADJUSTMENT (spinbutton_width_adj), 1, 2);
   gtk_widget_show(spinbutton_width);
   gtk_table_attach(GTK_TABLE (table1), spinbutton_width, 1, 2, 2, 3,
@@ -164,7 +164,7 @@ PrintPreferencesDialog::PrintPreferencesDialog(int dummy) {
   (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC (label10), 1, 0.5);
 
-  spinbutton_left_adj = gtk_adjustment_new(1, 0, 100, 0.01, 0.1, 0.1);
+  spinbutton_left_adj = gtk_adjustment_new(1, 0, 100, 0.01, 0.1, 0);
   spinbutton_left = gtk_spin_button_new(GTK_ADJUSTMENT (spinbutton_left_adj), 1, 2);
   gtk_widget_show(spinbutton_left);
   gtk_table_attach(GTK_TABLE (table2), spinbutton_left, 1, 2, 1, 2,
@@ -174,7 +174,7 @@ PrintPreferencesDialog::PrintPreferencesDialog(int dummy) {
 
   gtk_spin_button_set_value(GTK_SPIN_BUTTON (spinbutton_left), settings->genconfig.paper_inside_margin_get ());
 
-  spinbutton_right_adj = gtk_adjustment_new(1, 0, 100, 0.01, 0.1, 0.1);
+  spinbutton_right_adj = gtk_adjustment_new(1, 0, 100, 0.01, 0.1, 0);
   spinbutton_right = gtk_spin_button_new(GTK_ADJUSTMENT (spinbutton_right_adj), 1, 2);
   gtk_widget_show(spinbutton_right);
   gtk_table_attach(GTK_TABLE (table2), spinbutton_right, 1, 2, 2, 3,
@@ -184,7 +184,7 @@ PrintPreferencesDialog::PrintPreferencesDialog(int dummy) {
 
   gtk_spin_button_set_value(GTK_SPIN_BUTTON (spinbutton_right), settings->genconfig.paper_outside_margin_get ());
 
-  spinbutton_top_adj = gtk_adjustment_new(1, 0, 100, 0.01, 0.1, 0.1);
+  spinbutton_top_adj = gtk_adjustment_new(1, 0, 100, 0.01, 0.1, 0);
   spinbutton_top = gtk_spin_button_new(GTK_ADJUSTMENT (spinbutton_top_adj), 1, 2);
   gtk_widget_show(spinbutton_top);
   gtk_table_attach(GTK_TABLE (table2), spinbutton_top, 1, 2, 3, 4,
@@ -194,7 +194,7 @@ PrintPreferencesDialog::PrintPreferencesDialog(int dummy) {
 
   gtk_spin_button_set_value(GTK_SPIN_BUTTON (spinbutton_top), settings->genconfig.paper_top_margin_get ());
 
-  spinbutton_bottom_adj = gtk_adjustment_new(1, 0, 100, 0.01, 0.1, 0.1);
+  spinbutton_bottom_adj = gtk_adjustment_new(1, 0, 100, 0.01, 0.1, 0);
   spinbutton_bottom = gtk_spin_button_new(GTK_ADJUSTMENT (spinbutton_bottom_adj), 1, 2);
   gtk_widget_show(spinbutton_bottom);
   gtk_table_attach(GTK_TABLE (table2), spinbutton_bottom, 1, 2, 4, 5,
@@ -226,7 +226,7 @@ PrintPreferencesDialog::PrintPreferencesDialog(int dummy) {
   gtk_widget_show (label12);
   gtk_box_pack_start (GTK_BOX (hbox2), label12, FALSE, FALSE, 0);
 
-  spinbutton_header_font_size_adj = gtk_adjustment_new (12, 5, 25, 0.1, 1, 1);
+  spinbutton_header_font_size_adj = gtk_adjustment_new (12, 5, 25, 0.1, 1, 0);
   spinbutton_header_font_size = gtk_spin_button_new (GTK_ADJUSTMENT (spinbutton_header_font_size_adj), 1, 1);
   gtk_widget_show (spinbutton_header_font_size);
   gtk_box_pack_start (GTK_BOX (hbox2), spinbutton_header_font_size, FALSE, FALSE, 0);

@@ -53,7 +53,7 @@ FontColorDialog::FontColorDialog(bool initial_use_default_font, const ustring& i
 
   shortcuts.label(label7);
 
-  spinbutton_line_spacing_adj = gtk_adjustment_new(initial_line_spacing, 50, 500, 1, 10, 10);
+  spinbutton_line_spacing_adj = gtk_adjustment_new(initial_line_spacing, 50, 500, 1, 10, 0);
   spinbutton_line_spacing = gtk_spin_button_new(GTK_ADJUSTMENT (spinbutton_line_spacing_adj), 1, 0);
   gtk_widget_show(spinbutton_line_spacing);
   gtk_box_pack_start(GTK_BOX (hbox_line_spacing), spinbutton_line_spacing, FALSE, FALSE, 0);

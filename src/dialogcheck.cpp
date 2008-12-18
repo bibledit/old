@@ -1169,7 +1169,7 @@ void CheckDialog::word_count_setup ()
   gtk_widget_show (wordcount_checkbutton1);
   gtk_box_pack_start (GTK_BOX (wordcount_hbox1), wordcount_checkbutton1, FALSE, FALSE, 0);
 
-  wordcount_spinbutton1_adj = gtk_adjustment_new (0, 0, 1000000, 1, 10, 10);
+  wordcount_spinbutton1_adj = gtk_adjustment_new (0, 0, 1000000, 1, 10, 0);
   wordcount_spinbutton1 = gtk_spin_button_new (GTK_ADJUSTMENT (wordcount_spinbutton1_adj), 1, 0);
   gtk_widget_show (wordcount_spinbutton1);
   gtk_box_pack_start (GTK_BOX (wordcount_hbox1), wordcount_spinbutton1, FALSE, FALSE, 0);

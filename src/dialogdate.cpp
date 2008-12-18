@@ -129,7 +129,7 @@ If showtime is true it shows the time also.
     unsigned int minute = remaining_seconds / 60;
     unsigned int second = remaining_seconds % 60;
 
-    spinbutton_minute_adj = gtk_adjustment_new (minute, 0, 59, 1, 10, 10);
+    spinbutton_minute_adj = gtk_adjustment_new (minute, 0, 59, 1, 10, 0);
     spinbutton_minute = gtk_spin_button_new (GTK_ADJUSTMENT (spinbutton_minute_adj), 1, 0);
     gtk_widget_show (spinbutton_minute);
     gtk_table_attach (GTK_TABLE (table1), spinbutton_minute, 1, 2, 1, 2,
@@ -137,7 +137,7 @@ If showtime is true it shows the time also.
                       (GtkAttachOptions) (0), 0, 0);
     gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (spinbutton_minute), TRUE);
 
-    spinbutton_second_adj = gtk_adjustment_new (second, 0, 59, 1, 10, 10);
+    spinbutton_second_adj = gtk_adjustment_new (second, 0, 59, 1, 10, 0);
     spinbutton_second = gtk_spin_button_new (GTK_ADJUSTMENT (spinbutton_second_adj), 1, 0);
     gtk_widget_show (spinbutton_second);
     gtk_table_attach (GTK_TABLE (table1), spinbutton_second, 1, 2, 2, 3,
@@ -145,7 +145,7 @@ If showtime is true it shows the time also.
                       (GtkAttachOptions) (0), 0, 0);
     gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (spinbutton_second), TRUE);
 
-    spinbutton_hour_adj = gtk_adjustment_new (hour, 0, 23, 1, 10, 10);
+    spinbutton_hour_adj = gtk_adjustment_new (hour, 0, 23, 1, 10, 0);
     spinbutton_hour = gtk_spin_button_new (GTK_ADJUSTMENT (spinbutton_hour_adj), 1, 0);
     gtk_widget_show (spinbutton_hour);
     gtk_table_attach (GTK_TABLE (table1), spinbutton_hour, 1, 2, 0, 1,

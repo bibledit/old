@@ -1817,7 +1817,7 @@ void StylesheetDialog::fontsize_points_create() {
   gtk_box_pack_start(GTK_BOX (hbox2), label8, FALSE, FALSE, 0);
   gtk_misc_set_padding(GTK_MISC (label8), 4, 0);
 
-  spinbuttonfontsize_adj = gtk_adjustment_new(12, 5, 60, 0.1, 1, 1);
+  spinbuttonfontsize_adj = gtk_adjustment_new(12, 5, 60, 0.1, 1, 0);
   spinbuttonfontsize = gtk_spin_button_new(GTK_ADJUSTMENT (spinbuttonfontsize_adj), 1, 1);
   gtk_widget_show(spinbuttonfontsize);
   gtk_box_pack_start(GTK_BOX (hbox2), spinbuttonfontsize, FALSE, FALSE, 0);
@@ -1843,7 +1843,7 @@ void StylesheetDialog::fontsize_percentage_create() {
   gtk_box_pack_start(GTK_BOX (hbox6), label31, FALSE, FALSE, 0);
   gtk_misc_set_padding(GTK_MISC (label31), 4, 0);
 
-  spinbuttonfontpercentage_adj = gtk_adjustment_new(100, 20, 500, 1, 10, 10);
+  spinbuttonfontpercentage_adj = gtk_adjustment_new(100, 20, 500, 1, 10, 0);
   spinbuttonfontpercentage = gtk_spin_button_new(GTK_ADJUSTMENT (spinbuttonfontpercentage_adj), 1, 0);
   gtk_widget_show(spinbuttonfontpercentage);
   gtk_box_pack_start(GTK_BOX (hbox6), spinbuttonfontpercentage, FALSE, FALSE, 0);
@@ -2223,35 +2223,35 @@ void StylesheetDialog::paragraph_create(const gchar * label, bool grey_out_justi
   (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment(GTK_MISC (label20), 0, 0.5);
 
-  spinbutton_first_adj = gtk_adjustment_new(0, -100, 100, 0.1, 1, 1);
+  spinbutton_first_adj = gtk_adjustment_new(0, -100, 100, 0.1, 1, 0);
   spinbutton_first = gtk_spin_button_new(GTK_ADJUSTMENT (spinbutton_first_adj), 1, 1);
   gtk_widget_show(spinbutton_first);
   gtk_table_attach(GTK_TABLE (table1), spinbutton_first, 1, 2, 4, 5,
   (GtkAttachOptions) (0),
   (GtkAttachOptions) (0), 0, 0);
 
-  spinbutton_before_adj = gtk_adjustment_new(0, 0, 100, 0.1, 1, 1);
+  spinbutton_before_adj = gtk_adjustment_new(0, 0, 100, 0.1, 1, 0);
   spinbutton_before = gtk_spin_button_new(GTK_ADJUSTMENT (spinbutton_before_adj), 1, 1);
   gtk_widget_show(spinbutton_before);
   gtk_table_attach(GTK_TABLE (table1), spinbutton_before, 1, 2, 0, 1,
   (GtkAttachOptions) (0),
   (GtkAttachOptions) (0), 0, 0);
 
-  spinbutton_after_adj = gtk_adjustment_new(0, 0, 100, 0.1, 1, 1);
+  spinbutton_after_adj = gtk_adjustment_new(0, 0, 100, 0.1, 1, 0);
   spinbutton_after = gtk_spin_button_new(GTK_ADJUSTMENT (spinbutton_after_adj), 1, 1);
   gtk_widget_show(spinbutton_after);
   gtk_table_attach(GTK_TABLE (table1), spinbutton_after, 1, 2, 1, 2,
   (GtkAttachOptions) (0),
   (GtkAttachOptions) (0), 0, 0);
 
-  spinbutton_left_adj = gtk_adjustment_new(0, -100, 100, 0.1, 1, 1);
+  spinbutton_left_adj = gtk_adjustment_new(0, -100, 100, 0.1, 1, 0);
   spinbutton_left = gtk_spin_button_new(GTK_ADJUSTMENT (spinbutton_left_adj), 1, 1);
   gtk_widget_show(spinbutton_left);
   gtk_table_attach(GTK_TABLE (table1), spinbutton_left, 1, 2, 2, 3,
   (GtkAttachOptions) (0),
   (GtkAttachOptions) (0), 0, 0);
 
-  spinbutton_right_adj = gtk_adjustment_new(0, -100, 100, 0.1, 1, 1);
+  spinbutton_right_adj = gtk_adjustment_new(0, -100, 100, 0.1, 1, 0);
   spinbutton_right = gtk_spin_button_new(GTK_ADJUSTMENT (spinbutton_right_adj), 1, 1);
   gtk_widget_show(spinbutton_right);
   gtk_table_attach(GTK_TABLE (table1), spinbutton_right, 1, 2, 3, 4,
@@ -2690,7 +2690,7 @@ void StylesheetDialog::column_number_create() {
   gtk_widget_show(label62);
   gtk_box_pack_start(GTK_BOX (hbox15), label62, FALSE, FALSE, 0);
 
-  spinbutton_column_number_adj = gtk_adjustment_new(1, 1, 10, 1, 10, 10);
+  spinbutton_column_number_adj = gtk_adjustment_new(1, 1, 10, 1, 10, 0);
   spinbutton_column_number = gtk_spin_button_new(GTK_ADJUSTMENT (spinbutton_column_number_adj), 1, 0);
   gtk_widget_show(spinbutton_column_number);
   gtk_box_pack_start(GTK_BOX (hbox15), spinbutton_column_number, FALSE, FALSE, 0);

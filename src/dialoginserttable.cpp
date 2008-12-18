@@ -64,7 +64,7 @@ InsertTableDialog::InsertTableDialog (const ustring& project)
                     (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment (GTK_MISC (label3), 1, 0.5);
 
-  spinbutton_rows_adj = gtk_adjustment_new (2, 1, 100, 1, 10, 10);
+  spinbutton_rows_adj = gtk_adjustment_new (2, 1, 100, 1, 10, 0);
   spinbutton_rows = gtk_spin_button_new (GTK_ADJUSTMENT (spinbutton_rows_adj), 1, 0);
   gtk_widget_show (spinbutton_rows);
   gtk_table_attach (GTK_TABLE (table1), spinbutton_rows, 1, 2, 0, 1,
@@ -72,7 +72,7 @@ InsertTableDialog::InsertTableDialog (const ustring& project)
                     (GtkAttachOptions) (0), 0, 0);
   gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (spinbutton_rows), TRUE);
 
-  spinbutton_columns_adj = gtk_adjustment_new (2, 1, 4, 1, 10, 10);
+  spinbutton_columns_adj = gtk_adjustment_new (2, 1, 4, 1, 10, 0);
   spinbutton_columns = gtk_spin_button_new (GTK_ADJUSTMENT (spinbutton_columns_adj), 1, 0);
   gtk_widget_show (spinbutton_columns);
   gtk_table_attach (GTK_TABLE (table1), spinbutton_columns, 1, 2, 1, 2,

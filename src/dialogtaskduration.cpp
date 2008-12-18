@@ -80,7 +80,7 @@ TaskDurationDialog::TaskDurationDialog (vector <ustring> * tasks, vector <double
 
     shortcuts.label (label_task);
     
-    spinbutton1_adj = gtk_adjustment_new (mydurations->at(i), 0, 5, 0.1, 1, 1);
+    spinbutton1_adj = gtk_adjustment_new (mydurations->at(i), 0, 5, 0.1, 1, 0);
     spinbutton1 = gtk_spin_button_new (GTK_ADJUSTMENT (spinbutton1_adj), 0.1, 1);
     gtk_widget_show (spinbutton1);
     gtk_table_attach (GTK_TABLE (table1), spinbutton1, 1, 2, i + 1, i + 2,
