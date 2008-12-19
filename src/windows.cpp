@@ -423,7 +423,7 @@ void WindowBase::present(bool force)
 
 bool WindowBase::on_window_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data) {
   ((WindowBase *) user_data)->on_window_delete();
-  return false;
+  return true;
 }
 
 void WindowBase::on_window_delete() {
