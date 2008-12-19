@@ -813,6 +813,11 @@ protected:
   static void accelerator_main_help_callback(gpointer user_data);
   static void accelerator_menu_callback(gpointer user_data);
   void accelerator_menu();
+  
+  // Shutdown.
+  bool shutting_down;
+  void initiate_shutdown();
+
 };
 
 #endif

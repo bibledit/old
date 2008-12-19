@@ -26,6 +26,10 @@ void window_delete(GtkWidget * window, WindowID id, const ustring& data, bool sh
 // When a window closes, the sizes of other windows are not affected. 
 // Thus if the same window is opened again, it will go in the same free space as it was in before.
 {
+  // If the menu is getting deleted, skip everything else, as this is the main window.
+  if (id == widMenu)
+    return;
+  
   // Window position.
   gint width, height, x, y;
   gtk_window_get_size(GTK_WINDOW(window), &width, &height);

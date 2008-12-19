@@ -172,7 +172,8 @@ MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
   act_on_window_focus_signal = true;
   window_focus_event_id = 0;
   final_focus_event_id = 0;
-
+  shutting_down = false;
+  
   g_set_application_name("Bibledit");
 
   // Gui Features object.
@@ -1952,7 +1953,6 @@ MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group) :
     dimensions.verify();
   }
 
-  g_signal_connect ((gpointer) window, "destroy", G_CALLBACK (gtk_main_quit), gpointer(this));
   g_signal_connect ((gpointer) delete_signal_button, "clicked", G_CALLBACK (on_window_menu_delete_button_clicked), gpointer(this));
   g_signal_connect ((gpointer) focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
 
@@ -2091,7 +2091,7 @@ void MainWindow::on_window_menu_delete_button_clicked(GtkButton *button, gpointe
 }
 
 void MainWindow::on_window_menu_delete_button() {
-  gtk_main_quit();
+  initiate_shutdown();
 }
 
 void MainWindow::on_open1_activate(GtkMenuItem * menuitem, gpointer user_data) {
@@ -2178,7 +2178,7 @@ void MainWindow::deleteproject() {
 }
 
 void MainWindow::on_quit1_activate(GtkMenuItem * menuitem, gpointer user_data) {
-  gtk_main_quit();
+  ((MainWindow *) user_data)->initiate_shutdown();
 }
 
 void MainWindow::on_system_log1_activate(GtkMenuItem * menuitem, gpointer user_data) {
@@ -6515,7 +6515,7 @@ void MainWindow::accelerator_close_window()
 
   // Menu / main window.
   if (now_focused_window_button == focus_in_signal_button) {
-    gtk_main_quit();
+    initiate_shutdown();
   }
 }
 
@@ -6524,7 +6524,7 @@ void MainWindow::accelerator_goto_styles_area_callback(gpointer user_data) {
 }
 
 void MainWindow::accelerator_quit_program_callback(gpointer user_data) {
-  gtk_main_quit();
+  ((MainWindow *) user_data)->initiate_shutdown();
 }
 
 void MainWindow::accelerator_activate_text_area_callback(gpointer user_data) {
@@ -6584,3 +6584,28 @@ void MainWindow::accelerator_menu()
   register_focused_windows(GTK_BUTTON (focus_in_signal_button));
 }
 
+
+/*
+ |
+ |
+ |
+ |
+ |
+ Shutdown
+ |
+ |
+ |
+ |
+ |
+ */
+
+void MainWindow::initiate_shutdown() 
+// Starts the shutdown sequence.
+{
+  // Bail out if we are already shutting down.
+  if (shutting_down) 
+    return;
+   
+   // Shut down after a delay.
+   g_timeout_add (10, GSourceFunc (gtk_main_quit), NULL);
+}
