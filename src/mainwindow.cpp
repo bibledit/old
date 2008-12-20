@@ -4877,7 +4877,7 @@ void MainWindow::on_file_resources_open(ustring resource, bool startup)
 
   // Display a new resource.
   extern GtkAccelGroup *accelerator_group;
-  WindowResource * resource_window = new WindowResource (resource, accelerator_group, startup); // Todo
+  WindowResource * resource_window = new WindowResource (resource, accelerator_group, startup);
   g_signal_connect ((gpointer) resource_window->delete_signal_button, "clicked", G_CALLBACK (on_window_resource_delete_button_clicked), gpointer(this));
   g_signal_connect ((gpointer) resource_window->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
   resource_window->go_to(navigation.reference);

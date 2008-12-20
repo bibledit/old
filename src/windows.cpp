@@ -93,7 +93,6 @@ WindowBase::WindowBase(WindowID id, ustring data_title, bool startup, unsigned l
     data_title.append("Untitled");
   }
 
-  cout << "WindowBase::WindowBase(WindowID id, ustring data_title, bool startup, unsigned long xembed) " << startup << endl; // Todo
   // Initialize variables.
   my_shutdown = false;
   window_id = id;
@@ -160,13 +159,10 @@ WindowBase::~WindowBase() {
   gtk_widget_destroy(delete_signal_button);
 }
 
-void WindowBase::display(bool startup) // Todo
+void WindowBase::display(bool startup)
 // Does the bookkeeping necessary for displaying the window.
 // startup: whether the window is started at program startup.
 {
-  
-  cout << "void WindowBase::display(bool startup) " << startup << endl; // Todo
-  
   extern Settings * settings;
 
   // The parameters of all the windows.
