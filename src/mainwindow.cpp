@@ -2106,7 +2106,7 @@ void MainWindow::open()
   if (!project_select(newproject))
     return;
   // Open editor.
-  on_file_project_open(newproject);
+  on_file_project_open(newproject, false);
 }
 
 void MainWindow::on_new1_activate(GtkMenuItem * menuitem, gpointer user_data) {
@@ -2117,7 +2117,7 @@ void MainWindow::newproject() {
   git_command_pause(true);
   ProjectDialog projectdialog(true);
   if (projectdialog.run() == GTK_RESPONSE_OK) {
-    on_file_project_open(projectdialog.newprojectname);
+    on_file_project_open(projectdialog.newprojectname, false);
   }
   git_command_pause(false);
 }
@@ -4841,10 +4841,10 @@ void MainWindow::on_file_resources()
 }
 
 void MainWindow::on_file_resources_open_activate(GtkMenuItem *menuitem, gpointer user_data) {
-  ((MainWindow *) user_data)->on_file_resources_open("");
+  ((MainWindow *) user_data)->on_file_resources_open("", false);
 }
 
-void MainWindow::on_file_resources_open(ustring resource)
+void MainWindow::on_file_resources_open(ustring resource, bool startup)
 // Opens a resource.
 {
   // Find data about the resource, and whether it exists.
@@ -4877,7 +4877,7 @@ void MainWindow::on_file_resources_open(ustring resource)
 
   // Display a new resource.
   extern GtkAccelGroup *accelerator_group;
-  WindowResource * resource_window = new WindowResource (resource, accelerator_group, false);
+  WindowResource * resource_window = new WindowResource (resource, accelerator_group, startup); // Todo
   g_signal_connect ((gpointer) resource_window->delete_signal_button, "clicked", G_CALLBACK (on_window_resource_delete_button_clicked), gpointer(this));
   g_signal_connect ((gpointer) resource_window->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
   resource_window->go_to(navigation.reference);
@@ -5001,7 +5001,7 @@ WindowEditor * MainWindow::last_focused_editor_window()
   return editor_window;
 }
 
-void MainWindow::on_file_project_open(const ustring& project)
+void MainWindow::on_file_project_open(const ustring& project, bool startup)
 // Opens an editor.
 {
   // If the editor already displays, present it and bail out.
@@ -5014,7 +5014,7 @@ void MainWindow::on_file_project_open(const ustring& project)
 
   // Display a new editor.
   extern GtkAccelGroup *accelerator_group;
-  WindowEditor * editor_window = new WindowEditor (project, accelerator_group, false);
+  WindowEditor * editor_window = new WindowEditor (project, accelerator_group, startup);
   g_signal_connect ((gpointer) editor_window->delete_signal_button, "clicked", G_CALLBACK (on_window_editor_delete_button_clicked), gpointer(this));
   g_signal_connect ((gpointer) editor_window->focus_in_signal_button, "clicked", G_CALLBACK (on_window_focus_button_clicked), gpointer(this));
   g_signal_connect ((gpointer) editor_window->editor->new_verse_signal, "clicked", G_CALLBACK (on_new_verse_signalled), gpointer(this));
@@ -5907,7 +5907,7 @@ bool MainWindow::on_windows_startup() {
         }
         case widResource:
         {
-          on_file_resources_open(data);
+          on_file_resources_open(data, true);
           break;
         }
         case widOutline:
@@ -5937,7 +5937,7 @@ bool MainWindow::on_windows_startup() {
         }
         case widEditor:
         {
-          on_file_project_open(data);
+          on_file_project_open(data, true);
           break;
         }
         case widMenu:

@@ -687,7 +687,7 @@ protected:
   static void on_file_resources_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_file_resources();
   static void on_file_resources_open_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_file_resources_open(ustring resource);
+  void on_file_resources_open(ustring resource, bool startup);
   static void on_file_resources_close_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_file_resources_close();
   static void on_file_resources_new_activate(GtkMenuItem *menuitem, gpointer user_data);
@@ -702,7 +702,7 @@ protected:
   static void on_window_editor_delete_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_editor_delete_button(GtkButton *button);
   WindowEditor * last_focused_editor_window();
-  void on_file_project_open(const ustring& project);
+  void on_file_project_open(const ustring& project, bool startup);
   void handle_editor_focus();
   void save_editors();
   void goto_next_previous_project(bool next);

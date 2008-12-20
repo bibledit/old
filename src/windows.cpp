@@ -21,66 +21,6 @@
 #include "settings.h"
 #include "gwrappers.h"
 
-void window_delete(GtkWidget * window, WindowID id, const ustring& data, bool shutdown)
-// Does the bookkeeping needed for deleting a window.
-// When a window closes, the sizes of other windows are not affected. 
-// Thus if the same window is opened again, it will go in the same free space as it was in before.
-{
-  // If the menu is getting deleted, skip everything else, as this is the main window.
-  if (id == widMenu)
-    return;
-  
-  // Window position.
-  gint width, height, x, y;
-  gtk_window_get_size(GTK_WINDOW(window), &width, &height);
-  gtk_window_get_position(GTK_WINDOW(window), &x, &y);
-
-  // Get the parameters of all the windows.
-  WindowData window_data(true);
-
-  // Ensure that the window has its entry in the settings.
-  bool window_found = false;
-  for (unsigned int i = 0; i < window_data.widths.size(); i++) {
-    if ((window_data.ids[i] == id) && (window_data.datas[i] == data)) {
-      window_found = true;
-    }
-  }
-  if (!window_found) {
-    window_data.x_positions.push_back(0);
-    window_data.y_positions.push_back(0);
-    window_data.widths.push_back(0);
-    window_data.heights.push_back(0);
-    window_data.ids.push_back(id);
-    window_data.datas.push_back(data);
-    window_data.shows.push_back(false);
-  }
-
-  // Set data for the window.
-  for (unsigned int i = 0; i < window_data.ids.size(); i++) {
-    if ((id == window_data.ids[i]) && (data == window_data.datas[i])) {
-      // Set the position and size of the window.
-      window_data.x_positions[i] = x;
-      window_data.y_positions[i] = y;
-      window_data.widths[i] = width;
-      window_data.heights[i] = height;
-      // The "showing" flag is set on program shutdown, else it is cleared.
-      window_data.shows[i] = shutdown;
-    }
-  }
-
-  // Remove the pointer to this window from the Session.
-  GtkWindow * current_window= GTK_WINDOW (window);
-  extern Settings * settings;
-  vector <GtkWindow *> old_windows = settings->session.open_windows;
-  vector <GtkWindow *> new_windows;
-  for (unsigned int i = 0; i < old_windows.size(); i++) {
-    if (current_window != old_windows[i]) {
-      new_windows.push_back(old_windows[i]);
-    }
-  }
-  settings->session.open_windows = new_windows;
-}
-
 WindowData::WindowData(bool save_on_destroy) {
   // Save variable.
   my_save_on_destroy = save_on_destroy;
@@ -153,6 +93,7 @@ WindowBase::WindowBase(WindowID id, ustring data_title, bool startup, unsigned l
     data_title.append("Untitled");
   }
 
+  cout << "WindowBase::WindowBase(WindowID id, ustring data_title, bool startup, unsigned long xembed) " << startup << endl; // Todo
   // Initialize variables.
   my_shutdown = false;
   window_id = id;
@@ -213,20 +154,23 @@ WindowBase::WindowBase(WindowID id, ustring data_title, bool startup, unsigned l
 
 WindowBase::~WindowBase() {
   gw_destroy_source(display_event_id);
-  window_delete(window, window_id, window_data, my_shutdown);
+  undisplay();
   gtk_widget_destroy(window);
   gtk_widget_destroy(focus_in_signal_button);
   gtk_widget_destroy(delete_signal_button);
 }
 
-void WindowBase::display(bool startup)
+void WindowBase::display(bool startup) // Todo
 // Does the bookkeeping necessary for displaying the window.
 // startup: whether the window is started at program startup.
 {
+  
+  cout << "void WindowBase::display(bool startup) " << startup << endl; // Todo
+  
   extern Settings * settings;
 
   // The parameters of all the windows.
-  WindowData window_datas(false);
+  WindowData window_parameters(false);
 
   // Clear the new window's position.
   window_gdk_rectangle.x = 0;
@@ -238,12 +182,12 @@ void WindowBase::display(bool startup)
   // We extract the position and size of the window from the general configuration.
   // It does not matter here whether the space for the window is already taken up by another window,
   // because the user wishes it to be so.
-  for (unsigned int i = 0; i < window_datas.widths.size(); i++) {
-    if ((window_datas.ids[i] == window_id) && (window_datas.datas[i] == window_data) && startup) {
-      window_gdk_rectangle.x = window_datas.x_positions[i];
-      window_gdk_rectangle.y = window_datas.y_positions[i];
-      window_gdk_rectangle.width = window_datas.widths[i];
-      window_gdk_rectangle.height = window_datas.heights[i];
+  for (unsigned int i = 0; i < window_parameters.widths.size(); i++) {
+    if ((window_parameters.ids[i] == window_id) && (window_parameters.datas[i] == window_data) && startup) {
+      window_gdk_rectangle.x = window_parameters.x_positions[i];
+      window_gdk_rectangle.y = window_parameters.y_positions[i];
+      window_gdk_rectangle.width = window_parameters.widths[i];
+      window_gdk_rectangle.height = window_parameters.heights[i];
     }
   }
 
@@ -423,6 +367,9 @@ void WindowBase::present(bool force)
 
 bool WindowBase::on_window_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data) {
   ((WindowBase *) user_data)->on_window_delete();
+  // Prevent the window from being deleted right now.
+  // This prevents crashes.
+  // The window will be deleted later on.
   return true;
 }
 
@@ -435,6 +382,68 @@ void WindowBase::shutdown()
 {
   my_shutdown = true;
 }
+
+
+void WindowBase::undisplay()
+// Does the bookkeeping needed for deleting a window.
+// When a window closes, the sizes of other windows are not affected. 
+// Thus if the same window is opened again, it will go in the same free space as it was in before.
+{
+  // If the menu is getting deleted, skip everything else, as this is the main window.
+  if (window_id == widMenu)
+    return;
+  
+  // Window position.
+  gint width, height, x, y;
+  gtk_window_get_size(GTK_WINDOW(window), &width, &height);
+  gtk_window_get_position(GTK_WINDOW(window), &x, &y);
+
+  // Get the parameters of all the windows.
+  WindowData window_params(true);
+
+  // Ensure that the window has its entry in the settings.
+  bool window_found = false;
+  for (unsigned int i = 0; i < window_params.widths.size(); i++) {
+    if ((window_params.ids[i] == window_id) && (window_params.datas[i] == window_data)) {
+      window_found = true;
+    }
+  }
+  if (!window_found) {
+    window_params.x_positions.push_back(0);
+    window_params.y_positions.push_back(0);
+    window_params.widths.push_back(0);
+    window_params.heights.push_back(0);
+    window_params.ids.push_back(window_id);
+    window_params.datas.push_back(window_data);
+    window_params.shows.push_back(false);
+  }
+
+  // Set data for the window.
+  for (unsigned int i = 0; i < window_params.ids.size(); i++) {
+    if ((window_id == window_params.ids[i]) && (window_data == window_params.datas[i])) {
+      // Set the position and size of the window.
+      window_params.x_positions[i] = x;
+      window_params.y_positions[i] = y;
+      window_params.widths[i] = width;
+      window_params.heights[i] = height;
+      // The "showing" flag is set on program shutdown, else it is cleared.
+      window_params.shows[i] = my_shutdown;
+    }
+  }
+
+  // Remove the pointer to this window from the Session.
+  GtkWindow * current_window= GTK_WINDOW (window);
+  extern Settings * settings;
+  vector <GtkWindow *> old_windows = settings->session.open_windows;
+  vector <GtkWindow *> new_windows;
+  for (unsigned int i = 0; i < old_windows.size(); i++) {
+    if (current_window != old_windows[i]) {
+      new_windows.push_back(old_windows[i]);
+    }
+  }
+  settings->session.open_windows = new_windows;
+}
+
 
 gboolean WindowBase::on_visibility_notify_event (GtkWidget *widget, GdkEventVisibility *event, gpointer user_data)
 {

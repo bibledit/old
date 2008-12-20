@@ -26,8 +26,6 @@
 enum WindowID
 { widShowKeyterms, widShowQuickReferences, widMerge, widResource, widOutline, widCheckKeyterms, widStyles, widNotes, widReferences, widEditor, widMenu };
 
-void window_delete(GtkWidget * window, WindowID id, const ustring& data, bool shutdown);
-
 class WindowData
 {
 public:
@@ -73,6 +71,7 @@ public:
   void on_window_delete();
   bool my_shutdown;
   void shutdown();
+  void undisplay();
   
   // Visibility.
   static gboolean on_visibility_notify_event (GtkWidget *widget, GdkEventVisibility *event, gpointer user_data);
