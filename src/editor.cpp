@@ -1341,7 +1341,7 @@ if (paragraph)
   g_value_unset (&gvalue);
 }
 {
-  PangoVariant pangovariant = PANGO_VARIANT_NORMAL;
+  PangoVariant pangovariant = PANGO_VARIANT_NORMAL; // Todo
   if ((style->smallcaps == ON) || (style->smallcaps == TOGGLE))
   pangovariant = PANGO_VARIANT_NORMAL;
   GValue gvalue = {0,};

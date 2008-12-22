@@ -391,9 +391,9 @@ void T2PLayoutContainer::set_underline(PangoAttrList *attrs)
   } while (in_range);
 }
 
-void T2PLayoutContainer::set_small_caps(PangoAttrList *attrs)
+void T2PLayoutContainer::set_small_caps(PangoAttrList *attrs) // Todo
 /*
- Sets the small caps. But this is not yet implemented in Pango.
+ Sets the small caps. But this was not yet implemented in Pango at the time of programming this function.
 
  Small capitals (usually abbreviated small caps) are uppercase (capital) characters set at the same height as surrounding 
  lowercase (small) letters or text figures. 
@@ -428,7 +428,13 @@ void T2PLayoutContainer::set_small_caps(PangoAttrList *attrs)
     if (input_paragraph->inline_get_small_caps(index, in_range, small_caps, start_index, end_index)) {
       if (small_caps) {
         PangoAttribute *attr;
-        attr = pango_attr_variant_new(PANGO_VARIANT_SMALL_CAPS);
+        //attr = pango_attr_variant_new(PANGO_VARIANT_SMALL_CAPS);
+        attr = pango_attr_scale_new(0.6);
+        attr->start_index = start_index;
+        attr->end_index = end_index;
+        pango_attr_list_insert(attrs, attr);
+        
+        attr = pango_attr_weight_new((PangoWeight)500);
         attr->start_index = start_index;
         attr->end_index = end_index;
         pango_attr_list_insert(attrs, attr);
