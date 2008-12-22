@@ -28,7 +28,7 @@ Free Documentation License" in the file FDL.
 <li>
 <a href="#howtochangetheorderofthebooks" class="level2">How to change the order of the books?</a></li>
 <li>
-<a href="#howtoletbibleditandparatextworktogetherononeproject" class="level2">How to let Bibledit and Paratext work together on one project?</a></li>
+<a href="#howtomodifytheplacewherebibleditstoresitsdata" class="level2">How to modify the place where Bibledit stores its data?</a></li>
 <li>
 <a href="#howtomoveaboutinbibleditusingthekeyboard" class="level2">How to move about in Bibledit using the keyboard?</a></li>
 <li>
@@ -64,21 +64,14 @@ sudo make install</pre>
 <p>You can fully configure in which order Bibledit displays and prints the
 books. This can be done in menu, Preferences, Books. Drag the books in the
 order you desire, and then click OK to save the settings.</p>
-<h4><a name="howtoletbibleditandparatextworktogetherononeproject"></a>How to let Bibledit and Paratext work together on one project?</h4>
-<p>Paratext remains as it is, and Bibledit accesses Paratext's data files.</p>
-<p>Below is an example that shows how to get this working. More information
-is in the topic about <a href="collaboration.html">collaboration</a>.</p>
-<p>- We have a Paratext project in our Windows partition. It is at
-/home/joe/windows/My Paratext Projects/NDB. When Windows runs, we can work on
-those files using Paratext. But we wish to work on the same files using
-Bibledit too, from Linux.</p>
-<p>- We start Bibledit and create a new project called Ndebele.</p>
-<p>- We import all the files at /home/joe/windows/My Paratext Projects/NDB
-into our project, and choose "Link to them" in the import dialog.</p>
-<p>You can now edit some text, exit Bibledit, go to Windows, and to Paratext,
-and see that the changes made in Bibledit are also visible in Paratext. You
-can make some changes in Paratext, save them, exit Paratext and Windows and
-go to Bibledit, and see that the changes appear here too.</p>
+<h4><a name="howtomodifytheplacewherebibleditstoresitsdata"></a>How to modify the place where Bibledit stores its data?</h4>
+<p>Normally Bibledit stores its data in subdirectory ".bibledit" of the
+user's home directory, e.g. in </p>
+<pre>/home/joe/.bibledit</pre>
+<p>If it is desirable to have Bibledit store its data elsewhere, the solution
+is simple:</p>
+<p>1. Move the current .bibledit directory to the new directory.</p>
+<p>2. Create a symbolic link from .bibledit to that new directory.</p>
 <h4><a name="howtomoveaboutinbibleditusingthekeyboard"></a>How to move about in Bibledit using the keyboard?</h4>
 <p>Bibledit has several <a href="areas.html">areas</a> to work in.</p>
 <p>In Menu / GoTo there are hotkeys mentioned to move between areas.</p>
