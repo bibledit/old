@@ -241,7 +241,7 @@ void stylesheet_new_style(const ustring& stylesheet, const ustring& marker)
   style.read_template();
 }
 
-void stylesheet_save_style(const ustring& stylesheet, const ustring& marker, const ustring& name, const ustring& info, StyleType type, int subtype, double fontsize, int fontpercentage, const ustring& italic, const ustring& bold, const ustring& underline, const ustring& smallcaps, bool superscript, const ustring& justification, double spacebefore, double spaceafter, double leftmargin, double rightmargin, double firstlineindent, bool spancolumns, unsigned int color, bool print, bool userbool1, bool userbool2, bool userbool3, int userint1, int userint2, int userint3, ustring userstring1, ustring userstring2, ustring userstring3)
+void stylesheet_save_style(const ustring& stylesheet, const ustring& marker, const ustring& name, const ustring& info, StyleType type, int subtype, double fontsize, const ustring& italic, const ustring& bold, const ustring& underline, const ustring& smallcaps, bool superscript, const ustring& justification, double spacebefore, double spaceafter, double leftmargin, double rightmargin, double firstlineindent, bool spancolumns, unsigned int color, bool print, bool userbool1, bool userbool2, bool userbool3, int userint1, int userint2, int userint3, ustring userstring1, ustring userstring2, ustring userstring3)
 // Saves style information.
 {
   Style style(stylesheet, marker, true);
@@ -250,7 +250,6 @@ void stylesheet_save_style(const ustring& stylesheet, const ustring& marker, con
   style.type = type;
   style.subtype = subtype;
   style.fontsize = fontsize;
-  style.fontpercentage = fontpercentage;
   style.italic = italic;
   style.bold = bold;
   style.underline = underline;
@@ -532,7 +531,7 @@ void stylesheet_save_style(const ustring& stylesheet, const Style& style) {
     // Save the style.
     sql = g_strdup_printf("insert into styles values ('%s', '%s', '%s', %f, %i, '%s', '%s', '%s', '%s', %i, '%s', %f, %f, %f, %f, %f, %i, %i, %i, %i, %i, %i, %i, %i, %i, '%s', '%s', '%s', %d, %d);",
         style.marker.c_str(), double_apostrophy (style.name).c_str(), double_apostrophy (style.info).c_str(),
-        style.fontsize, style.fontpercentage,
+        style.fontsize, 100, // Font percentage no longer in use but left here for historical reasons. Todo to remove from database.
         style.italic.c_str(), style.bold.c_str(), style.underline.c_str(), style.smallcaps.c_str(), style.superscript, style.justification.c_str(),
         style.spacebefore, style.spaceafter, style.leftmargin, style.rightmargin,
         style.firstlineindent, style.spancolumns,
@@ -589,7 +588,7 @@ void stylesheet_load_style(const ustring& stylesheet, Style& style) {
       style.name = reader.ustring0[0];
       style.info = reader.ustring1[0];
       style.fontsize = convert_to_double (reader.ustring2[0]);
-      style.fontpercentage = convert_to_int (reader.ustring3[0]);
+      // Font percentage no longer used.
       style.italic = reader.ustring4[0];
       style.bold = reader.ustring5[0];
       style.underline = reader.ustring6[0];

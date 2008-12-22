@@ -1299,7 +1299,7 @@ void Editor::create_or_update_text_style(Style * style, bool paragraph, bool pla
     g_object_set_property (G_OBJECT (tag), "size-points", &gvalue);
     g_value_unset (&gvalue);
   } else {
-    double percentage = (double) style->fontpercentage / 100 * font_multiplier;
+    double percentage = (double) 100 / 100 * font_multiplier;
     GValue gvalue = {0,};
     g_value_init (&gvalue, G_TYPE_DOUBLE);
     g_value_set_double (&gvalue, percentage);

@@ -150,15 +150,6 @@ private:
   void fontsize_points_create ();
   double fontsize_points;
 
-  // Fontsize in percentages.
-  GtkWidget *hbox6;
-  GtkWidget *label31;
-  GtkObject *spinbuttonfontpercentage_adj;
-  GtkWidget *spinbuttonfontpercentage;
-  GtkWidget *label32;
-  void fontsize_percentage_create ();
-  int fontsize_percentage;
-
   // Italic
   ustring italic;
   GtkWidget *checkbutton_italic;

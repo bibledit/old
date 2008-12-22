@@ -41,7 +41,7 @@ void stylesheet_new_style (const ustring& stylesheet, const ustring& marker);
 void stylesheet_save_style (const ustring& stylesheet, const ustring& marker,
                             const ustring& name, const ustring& info,
                             StyleType type, int subtype,
-                            double fontsize, int fontpercentage,
+                            double fontsize,
                             const ustring& italic, const ustring& bold, 
                             const ustring& underline, const ustring& smallcaps,
                             bool superscript, const ustring& justification,

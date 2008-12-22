@@ -57,7 +57,6 @@ UsfmInlineMarkers::UsfmInlineMarkers (const Usfm& usfm)
       s = usfm_get_full_closing_marker (usfm.styles[i].marker);
       closing_markers.push_back (s);
       // Store the relevant properties of this style.
-      fontpercentage.push_back(usfm.styles[i].fontpercentage);
       italic.push_back(usfm.styles[i].italic);
       bold.push_back(usfm.styles[i].bold);
       underline.push_back(usfm.styles[i].underline);
@@ -85,11 +84,7 @@ string UsfmInlineMarkers::opening_xslfo_markup (XmlFoBlock * block, int index)
 // paragraph 'block' it is in to find out what markup should be given.
 {
   string opening_xslfo_markup;
-  // Deal with the fontpercentage.
   opening_xslfo_markup = "<fo:inline";
-  opening_xslfo_markup.append (" font-size=\"");
-  opening_xslfo_markup.append (convert_to_string (fontpercentage[index]));
-  opening_xslfo_markup.append ("%\"");
   // Deal with italics.
   if (italic[index] == ON)
     opening_xslfo_markup.append (" font-style=\"italic\"");

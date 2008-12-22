@@ -210,12 +210,6 @@ double Usfm::fontsize ()
 }
 
 
-int Usfm::fontpercentage ()
-{
-  return styles[last_style_pointer].fontpercentage;
-}
-
-
 ustring Usfm::italic ()
 {
   return styles[last_style_pointer].italic;

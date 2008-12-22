@@ -617,7 +617,6 @@ StylesheetDialog::StylesheetDialog(const ustring& stylesheet, const ustring& sty
 
   // Optional widgets, set them all to NULL.
   hbox2 = NULL;
-  hbox6 = NULL;
   checkbutton_italic = NULL;
   checkbutton_bold = NULL;
   checkbutton_underline = NULL;
@@ -765,7 +764,6 @@ void StylesheetDialog::on_style_type(GtkToggleButton *togglebutton) {
     case stInlineText:
     {
       gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_subtype), 0);
-      fontsize_percentage_create();
       italic_bold_underline_smallcaps_extended_create();
       colour_create();
       superscript_create();
@@ -788,7 +786,6 @@ void StylesheetDialog::on_style_type(GtkToggleButton *togglebutton) {
     case stVerseNumber:
     {
       gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_subtype), 0);
-      fontsize_percentage_create();
       italic_bold_underline_smallcaps_extended_create();
       colour_create();
       superscript_create();
@@ -853,7 +850,6 @@ void StylesheetDialog::set_gui() {
   if (pointer >= 0) {
     // Store values in the object.
     fontsize_points = styles[pointer].fontsize;
-    fontsize_percentage = styles[pointer].fontpercentage;
     italic = styles[pointer].italic;
     bold = styles[pointer].bold;
     underline = styles[pointer].underline;
@@ -973,7 +969,7 @@ void StylesheetDialog::save_style() {
   info = gtk_text_buffer_get_text(GTK_TEXT_BUFFER (buffer), &startiter, &enditer, false);
   info = trim(info);
   // Save this style.
-  stylesheet_save_style(mystylesheet, mystyle, gtk_entry_get_text(GTK_ENTRY (entryname)), info, type, get_subtype(), fontsize_points, fontsize_percentage, italic, bold, underline, smallcaps, superscript, justification, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, spancolumns, color, print, userbool1, userbool2, userbool3, userint1, userint2, userint3, userstring1, userstring2, userstring3);
+  stylesheet_save_style(mystylesheet, mystyle, gtk_entry_get_text(GTK_ENTRY (entryname)), info, type, get_subtype(), fontsize_points, italic, bold, underline, smallcaps, superscript, justification, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, spancolumns, color, print, userbool1, userbool2, userbool3, userint1, userint2, userint3, userstring1, userstring2, userstring3);
 }
 
 void StylesheetDialog::set_justification(const ustring& justification)
@@ -1515,7 +1511,6 @@ void StylesheetDialog::on_radiobutton_note() {
   {
     case fentFootnote:
       gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_subtype), 1);
-      fontsize_percentage_create();
       italic_bold_underline_smallcaps_extended_create();
       superscript_create();
       note_numbering_type_create();
@@ -1524,7 +1519,6 @@ void StylesheetDialog::on_radiobutton_note() {
       break;
     case fentEndnote:
       gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_subtype), 1);
-      fontsize_percentage_create();
       italic_bold_underline_smallcaps_extended_create();
       superscript_create();
       note_numbering_type_create();
@@ -1544,7 +1538,6 @@ void StylesheetDialog::on_radiobutton_note() {
       break;
     case fentContent:
       gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_subtype), 1);
-      fontsize_percentage_create();
       italic_bold_underline_smallcaps_extended_create();
       colour_create();
       superscript_create();
@@ -1552,7 +1545,6 @@ void StylesheetDialog::on_radiobutton_note() {
       break;
     case fentContentWithEndmarker:
       gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_subtype), 1);
-      fontsize_percentage_create();
       italic_bold_underline_smallcaps_extended_create();
       colour_create();
       superscript_create();
@@ -1585,7 +1577,6 @@ void StylesheetDialog::on_radiobutton_xref() {
   {
     case ctCrossreference:
       gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_subtype), 2);
-      fontsize_percentage_create();
       italic_bold_underline_smallcaps_extended_create();
       superscript_create();
       note_numbering_type_create();
@@ -1606,10 +1597,8 @@ void StylesheetDialog::on_radiobutton_xref() {
     case ctContent:
     case ctContentWithEndmarker:
       gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_subtype), 2);
-      fontsize_percentage_create();
       italic_bold_underline_smallcaps_extended_create();
       colour_create();
-      superscript_create();
       apocrypha_create();
       break;
   }
@@ -1635,13 +1624,6 @@ void StylesheetDialog::destroy_optional_widgets()
     fontsize_points = gtk_spin_button_get_value(GTK_SPIN_BUTTON (spinbuttonfontsize));
     gtk_widget_destroy(hbox2);
     hbox2 = NULL;
-  }
-  // Fontsize in percentages.
-  if (hbox6) {
-    gtk_spin_button_update(GTK_SPIN_BUTTON (spinbuttonfontpercentage));
-    fontsize_percentage = int (gtk_spin_button_get_value (GTK_SPIN_BUTTON (spinbuttonfontpercentage)));
-    gtk_widget_destroy(hbox6);
-    hbox6 = NULL;
   }
   // Simple italic;
   if (checkbutton_italic) {
@@ -1831,32 +1813,6 @@ void StylesheetDialog::fontsize_points_create() {
   gtk_label_set_mnemonic_widget(GTK_LABEL (label8), spinbuttonfontsize);
 
   gtk_spin_button_set_value(GTK_SPIN_BUTTON (spinbuttonfontsize), fontsize_points);
-}
-
-void StylesheetDialog::fontsize_percentage_create() {
-  hbox6 = gtk_hbox_new(FALSE, 0);
-  gtk_widget_show(hbox6);
-  gtk_box_pack_start(GTK_BOX (vbox6), hbox6, TRUE, TRUE, 0);
-
-  label31 = gtk_label_new_with_mnemonic("_Font size");
-  gtk_widget_show(label31);
-  gtk_box_pack_start(GTK_BOX (hbox6), label31, FALSE, FALSE, 0);
-  gtk_misc_set_padding(GTK_MISC (label31), 4, 0);
-
-  spinbuttonfontpercentage_adj = gtk_adjustment_new(100, 20, 500, 1, 10, 0);
-  spinbuttonfontpercentage = gtk_spin_button_new(GTK_ADJUSTMENT (spinbuttonfontpercentage_adj), 1, 0);
-  gtk_widget_show(spinbuttonfontpercentage);
-  gtk_box_pack_start(GTK_BOX (hbox6), spinbuttonfontpercentage, FALSE, FALSE, 0);
-
-  label32 = gtk_label_new("percent of surrounding text");
-  gtk_widget_show(label32);
-  gtk_box_pack_start(GTK_BOX (hbox6), label32, FALSE, FALSE, 0);
-  gtk_misc_set_alignment(GTK_MISC (label32), 0, 0.5);
-  gtk_misc_set_padding(GTK_MISC (label32), 4, 0);
-
-  gtk_label_set_mnemonic_widget(GTK_LABEL (label31), spinbuttonfontpercentage);
-
-  gtk_spin_button_set_value(GTK_SPIN_BUTTON (spinbuttonfontpercentage), fontsize_percentage);
 }
 
 void StylesheetDialog::italic_simple_create() {

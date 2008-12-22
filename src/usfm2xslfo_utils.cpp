@@ -73,7 +73,7 @@ and puts all these styles in the right format.
   for (unsigned int i = 0; i < usfm.styles.size (); i++) {
     Usfm2XslFoStyle style (usfm.styles[i].marker);
     style.fontsize = usfm.styles[i].fontsize;
-    style.fontpercentage = usfm.styles[i].fontpercentage;
+    style.fontpercentage = 100;
     style.italic = usfm.styles[i].italic;
     style.bold = usfm.styles[i].bold;
     style.underline = usfm.styles[i].underline;

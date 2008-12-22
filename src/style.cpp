@@ -40,7 +40,6 @@ Style::Style (const ustring& stylesheet, const ustring& style, bool write)
   name = "Marker";
   info = "Unified Standard Format Marker";
   fontsize = 12;
-  fontpercentage = 100;
   italic = OFF;
   bold = OFF;
   underline = OFF;

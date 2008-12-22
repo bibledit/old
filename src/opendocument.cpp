@@ -333,13 +333,13 @@ void OpenDocument::generate_styles(xmlTextWriterPtr writer) {
       paragraph_style(writer, marker, usfm->name(), fontname, usfm->fontsize(), 100, usfm->italic(), usfm->bold(), usfm->underline(), usfm->smallcaps(), usfm->justification(), usfm->spacebefore(), usfm->spaceafter(), usfm->leftmargin(), usfm->rightmargin(), usfm->firstlineindent(), false, false);
     }
     if (usfm->is_inline_text(marker)) {
-      span_style(writer, marker, usfm->name(), fontname, usfm->fontpercentage(), usfm->italic(), usfm->bold(), usfm->underline(), usfm->smallcaps(), usfm->superscript(), usfm->color());
+      span_style(writer, marker, usfm->name(), fontname, 100, usfm->italic(), usfm->bold(), usfm->underline(), usfm->smallcaps(), usfm->superscript(), usfm->color());
     }
     if (usfm->is_chapter_number(marker)) {
       paragraph_style(writer, marker, usfm->name(), fontname, usfm->fontsize(), 100, usfm->italic(), usfm->bold(), usfm->underline(), usfm->smallcaps(), usfm->justification(), usfm->spacebefore(), usfm->spaceafter(), usfm->leftmargin(), usfm->rightmargin(), usfm->firstlineindent(), false, false);
     }
     if (usfm->is_verse_number(marker)) {
-      span_style(writer, marker, usfm->name(), fontname, usfm->fontpercentage(), usfm->italic(), usfm->bold(), usfm->underline(), usfm->smallcaps(), usfm->superscript(), usfm->color());
+      span_style(writer, marker, usfm->name(), fontname, 100, usfm->italic(), usfm->bold(), usfm->underline(), usfm->smallcaps(), usfm->superscript(), usfm->color());
     }
     if (usfm->is_foot_endnote(marker)) {
       switch (usfm->foot_endnote_get_subtype(marker))
@@ -351,7 +351,7 @@ void OpenDocument::generate_styles(xmlTextWriterPtr writer) {
         case fentStandardContent:
         case fentContent:
         case fentContentWithEndmarker:
-          span_style(writer, marker, usfm->name(), fontname, usfm->fontpercentage(), usfm->italic(), usfm->bold(), usfm->underline(), OFF, usfm->superscript(), usfm->color());
+          span_style(writer, marker, usfm->name(), fontname, 100, usfm->italic(), usfm->bold(), usfm->underline(), OFF, usfm->superscript(), usfm->color());
           break;
         case fentParagraph:
           break;
@@ -365,7 +365,7 @@ void OpenDocument::generate_styles(xmlTextWriterPtr writer) {
         case ctStandardContent:
         case ctContent:
         case ctContentWithEndmarker:
-          span_style(writer, marker, usfm->name(), fontname, usfm->fontpercentage(), usfm->italic(), usfm->bold(), usfm->underline(), OFF, usfm->superscript(), usfm->color());
+          span_style(writer, marker, usfm->name(), fontname, 100, usfm->italic(), usfm->bold(), usfm->underline(), OFF, usfm->superscript(), usfm->color());
           break;
       }
     }

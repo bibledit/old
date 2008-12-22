@@ -77,7 +77,6 @@ public:
   ustring name;
   ustring info;
   double fontsize;
-  int fontpercentage;
   ustring italic;
   ustring bold;
   ustring underline;

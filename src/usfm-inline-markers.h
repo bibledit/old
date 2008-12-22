@@ -42,7 +42,6 @@ public:
   ustring opening_odt_markup (int index);
   ustring closing_odt_markup;
 private:
-  vector<double> fontpercentage;
   vector<ustring> italic;
   vector<ustring> bold;
   vector<ustring> underline;

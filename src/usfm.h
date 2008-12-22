@@ -53,7 +53,6 @@ public:
   TableElementType table_element_get_subtype (const ustring& usfm);
   ustring name ();
   double fontsize ();
-  int fontpercentage ();
   ustring italic ();
   ustring bold ();
   ustring underline ();
