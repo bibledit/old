@@ -1265,7 +1265,7 @@ void Editor::create_or_update_formatting_data()
 void Editor::create_or_update_text_style(Style * style, bool paragraph, bool plaintext, double font_multiplier)
 /*
  This creates or updates a GtkTextTag with the data stored in "style".
- The fontsize of thi style is calculated by the value as stored in "style", and 
+ The fontsize of the style is calculated by the value as stored in "style", and 
  multiplied by "font_multiplier".
  */
 {
@@ -1280,175 +1280,185 @@ void Editor::create_or_update_text_style(Style * style, bool paragraph, bool pla
   // Optionally handle plain-text style and return.
   if (plaintext) {
     GValue gvalue = { 0, };
-  g_value_init (&gvalue, G_TYPE_STRING);
-  int fontsize = (int) (12 * font_multiplier);
-  ustring font = "Courier " + convert_to_string (fontsize);
-  g_value_set_string (&gvalue, font.c_str());
-  g_object_set_property (G_OBJECT (tag), "font", &gvalue);
-  g_value_unset (&gvalue);
-  return;
-}
+    g_value_init (&gvalue, G_TYPE_STRING);
+    int fontsize = (int) (12 * font_multiplier);
+    ustring font = "Courier " + convert_to_string (fontsize);
+    g_value_set_string (&gvalue, font.c_str());
+    g_object_set_property (G_OBJECT (tag), "font", &gvalue);
+    g_value_unset (&gvalue);
+    return;
+  }
 
-// Fontsize or fontpercentage.
-if (paragraph)
-{
-  GValue gvalue = {0,};
-  g_value_init (&gvalue, G_TYPE_DOUBLE);
-  double fontsize = style->fontsize * font_multiplier;
-  g_value_set_double (&gvalue, fontsize);
-  g_object_set_property (G_OBJECT (tag), "size-points", &gvalue);
-  g_value_unset (&gvalue);
-} else {
-  double percentage = (double) style->fontpercentage / 100 * font_multiplier;
-  GValue gvalue = {0,};
-  g_value_init (&gvalue, G_TYPE_DOUBLE);
-  g_value_set_double (&gvalue, percentage);
-  g_object_set_property (G_OBJECT (tag), "scale", &gvalue);
-  g_value_unset (&gvalue);
-}
+  // Fontsize or fontpercentage.
+  if (paragraph)
+  {
+    GValue gvalue = {0,};
+    g_value_init (&gvalue, G_TYPE_DOUBLE);
+    double fontsize = style->fontsize * font_multiplier;
+    g_value_set_double (&gvalue, fontsize);
+    g_object_set_property (G_OBJECT (tag), "size-points", &gvalue);
+    g_value_unset (&gvalue);
+  } else {
+    double percentage = (double) style->fontpercentage / 100 * font_multiplier;
+    GValue gvalue = {0,};
+    g_value_init (&gvalue, G_TYPE_DOUBLE);
+    g_value_set_double (&gvalue, percentage);
+    g_object_set_property (G_OBJECT (tag), "scale", &gvalue);
+    g_value_unset (&gvalue);  
+  }
 
-// Italic, bold, underline, smallcaps can be ON, OFF, INHERIT, or TOGGLE.
-// Right now, INHERIT is taken as OFF, and TOGGLE is interpreted as ON.
-// Improvements might be needed.
-{
-  PangoStyle pangostyle = PANGO_STYLE_NORMAL;
-  if ((style->italic == ON) || (style->italic == TOGGLE))
-  pangostyle = PANGO_STYLE_ITALIC;
-  GValue gvalue = {0,};
-  g_value_init (&gvalue, PANGO_TYPE_STYLE);
-  g_value_set_enum (&gvalue, pangostyle);
-  g_object_set_property (G_OBJECT (tag), "style", &gvalue);
-  g_value_unset (&gvalue);
-}
-{
-  PangoWeight pangoweight = PANGO_WEIGHT_NORMAL;
-  if ((style->bold == ON) || (style->bold == TOGGLE))
-  pangoweight = PANGO_WEIGHT_BOLD;
-  GValue gvalue = {0,};
-  g_value_init (&gvalue, PANGO_TYPE_WEIGHT);
-  g_value_set_enum (&gvalue, pangoweight);
-  g_object_set_property (G_OBJECT (tag), "weight", &gvalue);
-  g_value_unset (&gvalue);
-}
-{
-  PangoUnderline pangounderline = PANGO_UNDERLINE_NONE;
-  if ((style->underline == ON) || (style->underline == TOGGLE))
-  pangounderline = PANGO_UNDERLINE_SINGLE;
-  GValue gvalue = {0,};
-  g_value_init (&gvalue, PANGO_TYPE_UNDERLINE);
-  g_value_set_enum (&gvalue, pangounderline);
-  g_object_set_property (G_OBJECT (tag), "underline", &gvalue);
-  g_value_unset (&gvalue);
-}
-{
-  PangoVariant pangovariant = PANGO_VARIANT_NORMAL; // Todo
-  if ((style->smallcaps == ON) || (style->smallcaps == TOGGLE))
-  pangovariant = PANGO_VARIANT_NORMAL;
-  GValue gvalue = {0,};
-  g_value_init (&gvalue, PANGO_TYPE_VARIANT);
-  g_value_set_enum (&gvalue, pangovariant);
-  g_object_set_property (G_OBJECT (tag), "variant", &gvalue);
-  g_value_unset (&gvalue);
-}
+  // Italic, bold, underline, smallcaps can be ON, OFF, INHERIT, or TOGGLE.
+  // Right now, INHERIT is taken as OFF, and TOGGLE is interpreted as ON.
+  // Improvements might be needed.
+  {
+    PangoStyle pangostyle = PANGO_STYLE_NORMAL;
+    if ((style->italic == ON) || (style->italic == TOGGLE))
+      pangostyle = PANGO_STYLE_ITALIC;
+    GValue gvalue = {0,};
+    g_value_init (&gvalue, PANGO_TYPE_STYLE);
+    g_value_set_enum (&gvalue, pangostyle);
+    g_object_set_property (G_OBJECT (tag), "style", &gvalue);
+    g_value_unset (&gvalue);
+  }
+  {
+    PangoWeight pangoweight = PANGO_WEIGHT_NORMAL;
+    if ((style->bold == ON) || (style->bold == TOGGLE))
+      pangoweight = PANGO_WEIGHT_BOLD;
+    GValue gvalue = {0,};
+    g_value_init (&gvalue, PANGO_TYPE_WEIGHT);
+    g_value_set_enum (&gvalue, pangoweight);
+    g_object_set_property (G_OBJECT (tag), "weight", &gvalue);
+    g_value_unset (&gvalue);
+  }
+  {
+    PangoUnderline pangounderline = PANGO_UNDERLINE_NONE;
+    if ((style->underline == ON) || (style->underline == TOGGLE))
+      pangounderline = PANGO_UNDERLINE_SINGLE;
+    GValue gvalue = {0,};
+    g_value_init (&gvalue, PANGO_TYPE_UNDERLINE);
+    g_value_set_enum (&gvalue, pangounderline);
+    g_object_set_property (G_OBJECT (tag), "underline", &gvalue);
+    g_value_unset (&gvalue);
+  }
+  {
+    /*
+    The small caps variant has not yet been implemented in Pango.
+    PangoVariant pangovariant = PANGO_VARIANT_NORMAL;
+    if ((style->smallcaps == ON) || (style->smallcaps == TOGGLE))
+      pangovariant = PANGO_VARIANT_NORMAL;
+      GValue gvalue = {0,};
+      g_value_init (&gvalue, PANGO_TYPE_VARIANT);
+      g_value_set_enum (&gvalue, pangovariant);
+      g_object_set_property (G_OBJECT (tag), "variant", &gvalue);
+      g_value_unset (&gvalue);
+    */
+    if ((style->smallcaps == ON) || (style->smallcaps == TOGGLE)) {
+      double percentage = (double) 0.6 * font_multiplier;
+      GValue gvalue = {0,};
+      g_value_init (&gvalue, G_TYPE_DOUBLE);
+      g_value_set_double (&gvalue, percentage);
+      g_object_set_property (G_OBJECT (tag), "scale", &gvalue);
+      g_value_unset (&gvalue);    
+    }
+  }
 
-// Superscript.
-if (style->superscript) {
-  // Rise n pixels.
-  gint rise = 6 * PANGO_SCALE;
-  GValue gvalue = {0,};
-  g_value_init (&gvalue, G_TYPE_INT);
-  g_value_set_int (&gvalue, rise);
-  g_object_set_property (G_OBJECT (tag), "rise", &gvalue);
-  g_value_unset (&gvalue);
-}
+  // Superscript.
+  if (style->superscript) {
+    // Rise n pixels.
+    gint rise = 6 * PANGO_SCALE;
+    GValue gvalue = {0,};
+    g_value_init (&gvalue, G_TYPE_INT);
+    g_value_set_int (&gvalue, rise);
+    g_object_set_property (G_OBJECT (tag), "rise", &gvalue);
+    g_value_unset (&gvalue);
+  }
 
-// Styles that only occur in paragraphs, not in character styles.  
-if (paragraph) {
+  // Styles that only occur in paragraphs, not in character styles.  
+  if (paragraph) {
 
-  GtkJustification gtkjustification;
-  if (style->justification == CENTER) {
-    gtkjustification = GTK_JUSTIFY_CENTER;
-  } else if (style->justification == RIGHT) {
-    gtkjustification = GTK_JUSTIFY_RIGHT;
-  } else if (style->justification == JUSTIFIED) {
-    // Gtk+ does not yet support this way of justification. 
-    // To avoid a lot of lines in our system log, saying this is not yet supported,
+    GtkJustification gtkjustification;
+    if (style->justification == CENTER) {
+      gtkjustification = GTK_JUSTIFY_CENTER;
+    } else if (style->justification == RIGHT) {
+      gtkjustification = GTK_JUSTIFY_RIGHT;
+    } else if (style->justification == JUSTIFIED) {
+      // Gtk+ does not yet support this way of justification. 
+      // To avoid a lot of lines in our system log, saying this is not yet supported,
     // it has been disabled here till such time that this is supported.
     // Works as from version Gtk+ 2.12.
-    // todo implement when generally this Gtk version has been deployed.
+    // Todo implement when generally this Gtk version has been deployed.
     // gtkjustification = GTK_JUSTIFY_FILL;
     gtkjustification = GTK_JUSTIFY_LEFT;
-  } else { // Default is LEFT.
-    gtkjustification = GTK_JUSTIFY_LEFT;
+    } else { // Default is LEFT.
+      gtkjustification = GTK_JUSTIFY_LEFT;
+    }
+    {
+      GValue gvalue = {0,};
+      g_value_init (&gvalue, GTK_TYPE_JUSTIFICATION);
+      g_value_set_enum (&gvalue, gtkjustification);
+      g_object_set_property (G_OBJECT (tag), "justification", &gvalue);
+      g_value_unset (&gvalue);
+    }
+
+    // For property "pixels-above/below-...", only values >= 0 are valid.
+    if (style->spacebefore> 0) {
+      gint spacebefore = (gint) (4 * style->spacebefore);
+      GValue gvalue = {0,};
+      g_value_init (&gvalue, G_TYPE_INT);
+      g_value_set_int (&gvalue, spacebefore);
+      g_object_set_property (G_OBJECT (tag), "pixels-above-lines", &gvalue);
+      g_value_unset (&gvalue);
+    }
+
+    if (style->spaceafter> 0) {
+      gint spaceafter = (gint) (4 * style->spaceafter);
+      GValue gvalue = {0,};
+      g_value_init (&gvalue, G_TYPE_INT);
+      g_value_set_int (&gvalue, spaceafter);
+      g_object_set_property (G_OBJECT (tag), "pixels-below-lines", &gvalue);
+      g_value_unset (&gvalue);
+    }
+
+    {
+      gint leftmargin = (gint) (4 * style->leftmargin);
+      // A little left margin is desired to make selecting words easier.
+      leftmargin += 5;
+      GValue gvalue = {0,};
+      g_value_init (&gvalue, G_TYPE_INT);
+      g_value_set_int (&gvalue, leftmargin);
+      g_object_set_property (G_OBJECT (tag), "left-margin", &gvalue);
+      g_value_unset (&gvalue);
+    }
+
+    if (style->rightmargin> 0) {
+      gint rightmargin = (gint) (4 * style->rightmargin);
+      GValue gvalue = {0,};
+      g_value_init (&gvalue, G_TYPE_INT);
+      g_value_set_int (&gvalue, rightmargin);
+      g_object_set_property (G_OBJECT (tag), "right-margin", &gvalue);
+      g_value_unset (&gvalue);
+    }
+
+    {
+      gint firstlineindent = (gint) (4 * style->firstlineindent);
+      GValue gvalue = {0,};
+      g_value_init (&gvalue, G_TYPE_INT);
+      g_value_set_int (&gvalue, firstlineindent);
+      g_object_set_property (G_OBJECT (tag), "indent", &gvalue);
+      g_value_unset (&gvalue);
+    }
+
   }
+
   {
+    GdkColor color;
+    color_decimal_to_gdk (style->color, &color);
     GValue gvalue = {0,};
-    g_value_init (&gvalue, GTK_TYPE_JUSTIFICATION);
-    g_value_set_enum (&gvalue, gtkjustification);
-    g_object_set_property (G_OBJECT (tag), "justification", &gvalue);
+    g_value_init (&gvalue, GDK_TYPE_COLOR);
+    g_value_set_boxed (&gvalue, &color);
+    g_object_set_property (G_OBJECT (tag), "foreground-gdk", &gvalue);
     g_value_unset (&gvalue);
   }
-
-  // For property "pixels-above/below-...", only values >= 0 are valid.
-  if (style->spacebefore> 0) {
-    gint spacebefore = (gint) (4 * style->spacebefore);
-    GValue gvalue = {0,};
-    g_value_init (&gvalue, G_TYPE_INT);
-    g_value_set_int (&gvalue, spacebefore);
-    g_object_set_property (G_OBJECT (tag), "pixels-above-lines", &gvalue);
-    g_value_unset (&gvalue);
-  }
-
-  if (style->spaceafter> 0) {
-    gint spaceafter = (gint) (4 * style->spaceafter);
-    GValue gvalue = {0,};
-    g_value_init (&gvalue, G_TYPE_INT);
-    g_value_set_int (&gvalue, spaceafter);
-    g_object_set_property (G_OBJECT (tag), "pixels-below-lines", &gvalue);
-    g_value_unset (&gvalue);
-  }
-
-  {
-    gint leftmargin = (gint) (4 * style->leftmargin);
-    // A little left margin is desired to make selecting words easier.
-    leftmargin += 5;
-    GValue gvalue = {0,};
-    g_value_init (&gvalue, G_TYPE_INT);
-    g_value_set_int (&gvalue, leftmargin);
-    g_object_set_property (G_OBJECT (tag), "left-margin", &gvalue);
-    g_value_unset (&gvalue);
-  }
-
-  if (style->rightmargin> 0) {
-    gint rightmargin = (gint) (4 * style->rightmargin);
-    GValue gvalue = {0,};
-    g_value_init (&gvalue, G_TYPE_INT);
-    g_value_set_int (&gvalue, rightmargin);
-    g_object_set_property (G_OBJECT (tag), "right-margin", &gvalue);
-    g_value_unset (&gvalue);
-  }
-
-  {
-    gint firstlineindent = (gint) (4 * style->firstlineindent);
-    GValue gvalue = {0,};
-    g_value_init (&gvalue, G_TYPE_INT);
-    g_value_set_int (&gvalue, firstlineindent);
-    g_object_set_property (G_OBJECT (tag), "indent", &gvalue);
-    g_value_unset (&gvalue);
-  }
-
-}
-
-//if (style->color) {
-{
-  GdkColor color;
-  color_decimal_to_gdk (style->color, &color);
-  GValue gvalue = {0,};
-  g_value_init (&gvalue, GDK_TYPE_COLOR);
-  g_value_set_boxed (&gvalue, &color);
-  g_object_set_property (G_OBJECT (tag), "foreground-gdk", &gvalue);
-  g_value_unset (&gvalue);
-}
 }
 
 bool Editor::load_text_not_starting_with_marker(GtkTextBuffer * textbuffer, ustring& line, ustring& paragraph_mark, ustring& character_mark, size_t marker_pos, size_t marker_length, bool marker_found)
