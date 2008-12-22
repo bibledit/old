@@ -1382,13 +1382,11 @@ void Editor::create_or_update_text_style(Style * style, bool paragraph, bool pla
     } else if (style->justification == RIGHT) {
       gtkjustification = GTK_JUSTIFY_RIGHT;
     } else if (style->justification == JUSTIFIED) {
-      // Gtk+ does not yet support this way of justification. 
-      // To avoid a lot of lines in our system log, saying this is not yet supported,
-    // it has been disabled here till such time that this is supported.
-    // Works as from version Gtk+ 2.12.
-    // Todo implement when generally this Gtk version has been deployed.
-    // gtkjustification = GTK_JUSTIFY_FILL;
-    gtkjustification = GTK_JUSTIFY_LEFT;
+      // Gtk+ supports this as from version 2.12.
+      gtkjustification = GTK_JUSTIFY_LEFT;
+      if (GTK_MAJOR_VERSION >= 2)
+        if (GTK_MINOR_VERSION >= 12)
+          gtkjustification = GTK_JUSTIFY_FILL;
     } else { // Default is LEFT.
       gtkjustification = GTK_JUSTIFY_LEFT;
     }

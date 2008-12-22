@@ -391,7 +391,7 @@ void T2PLayoutContainer::set_underline(PangoAttrList *attrs)
   } while (in_range);
 }
 
-void T2PLayoutContainer::set_small_caps(PangoAttrList *attrs) // Todo
+void T2PLayoutContainer::set_small_caps(PangoAttrList *attrs)
 /*
  Sets the small caps. But this was not yet implemented in Pango at the time of programming this function.
 
