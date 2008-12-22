@@ -531,7 +531,7 @@ void stylesheet_save_style(const ustring& stylesheet, const Style& style) {
     // Save the style.
     sql = g_strdup_printf("insert into styles values ('%s', '%s', '%s', %f, %i, '%s', '%s', '%s', '%s', %i, '%s', %f, %f, %f, %f, %f, %i, %i, %i, %i, %i, %i, %i, %i, %i, '%s', '%s', '%s', %d, %d);",
         style.marker.c_str(), double_apostrophy (style.name).c_str(), double_apostrophy (style.info).c_str(),
-        style.fontsize, 100, // Font percentage no longer in use but left here for historical reasons. Todo to remove from database.
+        style.fontsize, 100, // Font percentage no longer in use but left here for historical reasons.
         style.italic.c_str(), style.bold.c_str(), style.underline.c_str(), style.smallcaps.c_str(), style.superscript, style.justification.c_str(),
         style.spacebefore, style.spaceafter, style.leftmargin, style.rightmargin,
         style.firstlineindent, style.spancolumns,
