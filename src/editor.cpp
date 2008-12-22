@@ -1289,7 +1289,7 @@ void Editor::create_or_update_text_style(Style * style, bool paragraph, bool pla
     return;
   }
 
-  // Fontsize or fontpercentage.
+  // Fontsize.
   if (paragraph)
   {
     GValue gvalue = {0,};
@@ -1298,13 +1298,6 @@ void Editor::create_or_update_text_style(Style * style, bool paragraph, bool pla
     g_value_set_double (&gvalue, fontsize);
     g_object_set_property (G_OBJECT (tag), "size-points", &gvalue);
     g_value_unset (&gvalue);
-  } else {
-    double percentage = (double) 100 / 100 * font_multiplier;
-    GValue gvalue = {0,};
-    g_value_init (&gvalue, G_TYPE_DOUBLE);
-    g_value_set_double (&gvalue, percentage);
-    g_object_set_property (G_OBJECT (tag), "scale", &gvalue);
-    g_value_unset (&gvalue);  
   }
 
   // Italic, bold, underline, smallcaps can be ON, OFF, INHERIT, or TOGGLE.
@@ -1362,15 +1355,30 @@ void Editor::create_or_update_text_style(Style * style, bool paragraph, bool pla
     }
   }
 
-  // Superscript.
+  /*
+  Superscript.
+  Make size of verse or indeed any superscript equal to around 70% of normal font.
+  Top of verse number should be even with top of capital T.
+  */
   if (style->superscript) {
     // Rise n pixels.
-    gint rise = 6 * PANGO_SCALE;
-    GValue gvalue = {0,};
-    g_value_init (&gvalue, G_TYPE_INT);
-    g_value_set_int (&gvalue, rise);
-    g_object_set_property (G_OBJECT (tag), "rise", &gvalue);
-    g_value_unset (&gvalue);
+    {
+      gint rise = 6 * PANGO_SCALE;
+      GValue gvalue = {0,};
+      g_value_init (&gvalue, G_TYPE_INT);
+      g_value_set_int (&gvalue, rise);
+      g_object_set_property (G_OBJECT (tag), "rise", &gvalue);
+      g_value_unset (&gvalue);
+    }
+    // Smaller size.
+    {
+      double percentage = 0.7;
+      GValue gvalue = {0,};
+      g_value_init (&gvalue, G_TYPE_DOUBLE);
+      g_value_set_double (&gvalue, percentage);
+      g_object_set_property (G_OBJECT (tag), "scale", &gvalue);
+      g_value_unset (&gvalue); 
+    }
   }
 
   // Styles that only occur in paragraphs, not in character styles.  
