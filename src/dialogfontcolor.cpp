@@ -230,8 +230,8 @@ void FontColorDialog::on_okbutton_clicked(GtkButton *button, gpointer user_data)
   ((FontColorDialog *) user_data)->on_okbutton();
 }
 
-void FontColorDialog::on_okbutton() {
-
+void FontColorDialog::on_okbutton() 
+{
   new_use_default_font = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON (checkbutton_font));
   new_font = gtk_font_selection_get_font_name(GTK_FONT_SELECTION (fontselection));
   gtk_spin_button_update(GTK_SPIN_BUTTON (spinbutton_line_spacing));
