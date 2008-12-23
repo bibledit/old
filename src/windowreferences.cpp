@@ -32,14 +32,14 @@
 #include "gtkwrappers.h"
 #include "referenceutils.h"
 
-WindowReferences::WindowReferences(GtkAccelGroup *accelerator_group, bool startup) :
-  WindowBase(widReferences, "References", startup, 0), reference(0, 0, "")
+ WindowReferences::WindowReferences(GtkAccelGroup * accelerator_group, bool startup):
+WindowBase(widReferences, "References", startup, 0), reference(0, 0, "")
 // Window for showing the quick references.  
 {
   scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow);
-  gtk_container_add(GTK_CONTAINER (window), scrolledwindow);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_container_add(GTK_CONTAINER(window), scrolledwindow);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
   // Manually added and changed.
   // 1. localized human readable reference
@@ -52,43 +52,44 @@ WindowReferences::WindowReferences(GtkAccelGroup *accelerator_group, bool startu
   GtkCellRenderer *renderer;
   renderer = gtk_cell_renderer_text_new();
 
-  treeview = gtk_tree_view_new_with_model(GTK_TREE_MODEL (liststore));
+  treeview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(liststore));
   gtk_widget_show(treeview);
-  gtk_container_add(GTK_CONTAINER (scrolledwindow), treeview);
+  gtk_container_add(GTK_CONTAINER(scrolledwindow), treeview);
 
-  g_signal_connect ((gpointer) treeview, "visibility-notify-event", G_CALLBACK (on_visibility_notify_event), gpointer(this));
+  g_signal_connect((gpointer) treeview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
 
-  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW (treeview), TRUE);
+  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(treeview), TRUE);
   // Unreference the store once, so it gets destroyed with the treeview.
   g_object_unref(liststore);
   // Add reference column.
   treecolumn = gtk_tree_view_column_new_with_attributes("", renderer, "text", 0, NULL);
-  gtk_tree_view_append_column(GTK_TREE_VIEW (treeview), treecolumn);
+  gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), treecolumn);
   // Add comments column
-  GtkTreeViewColumn * treecolumn2;
+  GtkTreeViewColumn *treecolumn2;
   treecolumn2 = gtk_tree_view_column_new_with_attributes("Comment", renderer, "text", 1, NULL);
-  gtk_tree_view_append_column(GTK_TREE_VIEW (treeview), treecolumn2);
-  treeselect = gtk_tree_view_get_selection(GTK_TREE_VIEW (treeview));
+  gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), treecolumn2);
+  treeselect = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
   gtk_tree_selection_set_mode(treeselect, GTK_SELECTION_MULTIPLE);
 
-  g_signal_connect ((gpointer) treeview, "key_press_event", G_CALLBACK (on_treeview_key_press_event), gpointer(this));
-  g_signal_connect ((gpointer) treeview, "button_press_event", G_CALLBACK (on_treeview_button_press_event), gpointer(this));
-  g_signal_connect ((gpointer) treeview, "popup_menu", G_CALLBACK (on_treeview_popup_menu), gpointer(this));
-  g_signal_connect ((gpointer) treeview, "move_cursor", G_CALLBACK (on_treeview_move_cursor), gpointer(this));
-  g_signal_connect ((gpointer) treeview, "cursor_changed", G_CALLBACK (on_treeview_cursor_changed), gpointer(this));
+  g_signal_connect((gpointer) treeview, "key_press_event", G_CALLBACK(on_treeview_key_press_event), gpointer(this));
+  g_signal_connect((gpointer) treeview, "button_press_event", G_CALLBACK(on_treeview_button_press_event), gpointer(this));
+  g_signal_connect((gpointer) treeview, "popup_menu", G_CALLBACK(on_treeview_popup_menu), gpointer(this));
+  g_signal_connect((gpointer) treeview, "move_cursor", G_CALLBACK(on_treeview_move_cursor), gpointer(this));
+  g_signal_connect((gpointer) treeview, "cursor_changed", G_CALLBACK(on_treeview_cursor_changed), gpointer(this));
 
   // Load previously saved references.
   References references(liststore, treeview, treecolumn);
   references.load();
-  extern Settings * settings;
-  ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
+  extern Settings *settings;
+  ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
   references.fill_store(projectconfig->language_get());
 
   // Signal button.
   general_signal_button = gtk_button_new();
 }
 
-WindowReferences::~WindowReferences() {
+WindowReferences::~WindowReferences()
+{
   // Save references.
   References references(liststore, treeview, treecolumn);
   references.get_loaded();
@@ -97,15 +98,17 @@ WindowReferences::~WindowReferences() {
   gtk_widget_destroy(general_signal_button);
 }
 
-void WindowReferences::display(vector <Reference>& refs) {
+void WindowReferences::display(vector < Reference > &refs)
+{
   References references(liststore, treeview, treecolumn);
   references.set_references(refs);
-  extern Settings * settings;
-  ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
+  extern Settings *settings;
+  ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
   references.fill_store(projectconfig->language_get());
 }
 
-gboolean WindowReferences::on_treeview_key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer user_data) {
+gboolean WindowReferences::on_treeview_key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer user_data)
+{
   // Pressing Return on the keyboard, or Enter on the numerical keypad make us go to the reference.
   if (keyboard_enter_pressed(event)) {
     ((WindowReferences *) user_data)->activate();
@@ -117,7 +120,8 @@ gboolean WindowReferences::on_treeview_key_press_event(GtkWidget * widget, GdkEv
   return FALSE;
 }
 
-gboolean WindowReferences::on_treeview_button_press_event(GtkWidget * widget, GdkEventButton * event, gpointer user_data) {
+gboolean WindowReferences::on_treeview_button_press_event(GtkWidget * widget, GdkEventButton * event, gpointer user_data)
+{
   // Double-clicking a references makes us go to the reference.
   if (event->type == GDK_2BUTTON_PRESS) {
     ((WindowReferences *) user_data)->activate();
@@ -131,29 +135,34 @@ gboolean WindowReferences::on_treeview_button_press_event(GtkWidget * widget, Gd
   return false;
 }
 
-gboolean WindowReferences::on_treeview_popup_menu(GtkWidget *widget, gpointer user_data) {
+gboolean WindowReferences::on_treeview_popup_menu(GtkWidget * widget, gpointer user_data)
+{
   ((WindowReferences *) user_data)->treeview_references_popup_menu(widget);
-  return true; // Do not call the original handler.
+  return true;                  // Do not call the original handler.
 }
 
-gboolean WindowReferences::on_treeview_move_cursor(GtkTreeView *treeview, GtkMovementStep step, gint count, gpointer user_data) {
+gboolean WindowReferences::on_treeview_move_cursor(GtkTreeView * treeview, GtkMovementStep step, gint count, gpointer user_data)
+{
   return false;
 }
 
-void WindowReferences::on_treeview_cursor_changed(GtkTreeView *treeview, gpointer user_data) {
+void WindowReferences::on_treeview_cursor_changed(GtkTreeView * treeview, gpointer user_data)
+{
   ((WindowReferences *) user_data)->treeview_references_display_quick_reference();
 }
 
-void WindowReferences::activate() {
+void WindowReferences::activate()
+{
   // Get the reference the user selected.
-  GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW (treeview));
+  GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
   gtk_tree_selection_selected_foreach(selection, references_window_selection_foreach_function, gpointer(this));
   // Signal the action.
   action = wratReferenceActivated;
-  gtk_button_clicked(GTK_BUTTON (general_signal_button));
+  gtk_button_clicked(GTK_BUTTON(general_signal_button));
 }
 
-void WindowReferences::references_window_selection_foreach_function(GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data) {
+void WindowReferences::references_window_selection_foreach_function(GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data)
+{
   unsigned int book, chapter;
   gchar *verse;
   gtk_tree_model_get(model, iter, 2, &book, 3, &chapter, 4, &verse, -1);
@@ -163,10 +172,11 @@ void WindowReferences::references_window_selection_foreach_function(GtkTreeModel
   g_free(verse);
 }
 
-void WindowReferences::dismiss() {
+void WindowReferences::dismiss()
+{
   // Delete each selected row.
-  GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW (treeview));
-  vector < GtkTreeIter> iters;
+  GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
+  vector < GtkTreeIter > iters;
   gtk_tree_selection_selected_foreach(selection, WindowReferences::on_collect_iters, gpointer(&iters));
   for (unsigned int i = 0; i < iters.size(); i++) {
     GtkTreeIter iter = iters[i];
@@ -178,11 +188,13 @@ void WindowReferences::dismiss() {
   references.set_header();
 }
 
-void WindowReferences::on_collect_iters(GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data) {
-  ((vector < GtkTreeIter> *)data)->push_back(*iter);
+void WindowReferences::on_collect_iters(GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data)
+{
+  ((vector < GtkTreeIter > *)data)->push_back(*iter);
 }
 
-void WindowReferences::show_popup_menu(GtkWidget *my_widget, GdkEventButton *event) {
+void WindowReferences::show_popup_menu(GtkWidget * my_widget, GdkEventButton * event)
+{
   if (event) {
     popup_button = event->button;
     popup_event_time = event->time;
@@ -191,28 +203,31 @@ void WindowReferences::show_popup_menu(GtkWidget *my_widget, GdkEventButton *eve
     popup_event_time = gtk_get_current_event_time();
   }
   action = wratPopupMenu;
-  gtk_button_clicked(GTK_BUTTON (general_signal_button));
+  gtk_button_clicked(GTK_BUTTON(general_signal_button));
 }
 
-gboolean WindowReferences::on_treeview_references_popup_menu(GtkWidget *widget, gpointer user_data) {
+gboolean WindowReferences::on_treeview_references_popup_menu(GtkWidget * widget, gpointer user_data)
+{
   ((WindowReferences *) user_data)->treeview_references_popup_menu(widget);
-  return true; // Do not call the original handler.
+  return true;                  // Do not call the original handler.
 }
 
-void WindowReferences::treeview_references_popup_menu(GtkWidget *widget) {
+void WindowReferences::treeview_references_popup_menu(GtkWidget * widget)
+{
   show_popup_menu(widget, NULL);
 }
 
-void WindowReferences::open() {
+void WindowReferences::open()
+{
   // Settings.
-  extern Settings * settings;
+  extern Settings *settings;
   // Ask for a file.
   ustring filename = gtkw_file_chooser_open(window, "Open File", settings->genconfig.references_file_get());
   if (filename.empty())
     return;
   // Allow for up to three words to search for in these references.
   ustring searchword1, searchword2, searchword3;
-  vector <ustring> import_references_searchwords = settings->session.import_references_searchwords;
+  vector < ustring > import_references_searchwords = settings->session.import_references_searchwords;
   for (unsigned int i = 0; i < import_references_searchwords.size(); i++) {
     if (i == 0)
       searchword1 = import_references_searchwords[i];
@@ -238,7 +253,7 @@ void WindowReferences::open() {
     settings->genconfig.references_file_set(filename);
     References references(liststore, treeview, treecolumn);
     references.load(settings->genconfig.references_file_get());
-    ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
+    ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
     references.fill_store(projectconfig->language_get());
     if (import_references_searchwords.size() > 0) {
       settings->session.highlights.clear();
@@ -250,44 +265,45 @@ void WindowReferences::open() {
   }
 }
 
-void WindowReferences::save() {
-  extern Settings * settings;
-  try
-  {
-    ustring filename = gtkw_file_chooser_save (window, "", settings->genconfig.references_file_get ());
+void WindowReferences::save()
+{
+  extern Settings *settings;
+  try {
+    ustring filename = gtkw_file_chooser_save(window, "", settings->genconfig.references_file_get());
     if (filename.empty())
-    return;
-    settings->genconfig.references_file_set (filename);
-    References references (liststore, treeview, treecolumn);
+      return;
+    settings->genconfig.references_file_set(filename);
+    References references(liststore, treeview, treecolumn);
     // Hack: set references with a dummy, then load the real ones from the editor.
-    vector <Reference> dummy;
-    references.set_references (dummy);
-    references.get_loaded ();
-    references.save (filename);
+    vector < Reference > dummy;
+    references.set_references(dummy);
+    references.get_loaded();
+    references.save(filename);
   }
-  catch (exception & ex)
-  {
-    cerr << "Saving references: " << ex.what () << endl;
+  catch(exception & ex) {
+    cerr << "Saving references: " << ex.what() << endl;
   }
 }
 
-void WindowReferences::clear() {
+void WindowReferences::clear()
+{
   References references(liststore, treeview, treecolumn);
   references.fill_store("");
-  extern Settings* settings;
+  extern Settings *settings;
   settings->session.highlights.clear();
 }
 
-void WindowReferences::hide() {
+void WindowReferences::hide()
+{
   // Load currently hidden references.
-  vector <ustring> hidden_references = references_hidden_ones_load();
+  vector < ustring > hidden_references = references_hidden_ones_load();
   // Get the model.
-  GtkTreeModel * model;
-  model = gtk_tree_view_get_model(GTK_TREE_VIEW (treeview));
+  GtkTreeModel *model;
+  model = gtk_tree_view_get_model(GTK_TREE_VIEW(treeview));
   // Get all selected iterators.
   GtkTreeSelection *selection;
-  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW (treeview));
-  vector < GtkTreeIter> iters;
+  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
+  vector < GtkTreeIter > iters;
   gtk_tree_selection_selected_foreach(selection, WindowReferences::on_collect_iters, gpointer(&iters));
   // Get the strings describing the references, and add them to the ones already loaded.
   for (unsigned int i = 0; i < iters.size(); i++) {
@@ -314,12 +330,12 @@ void WindowReferences::treeview_references_display_quick_reference()
 // Display the quick references.
 {
   // Get the model.
-  GtkTreeModel * model = gtk_tree_view_get_model(GTK_TREE_VIEW (treeview));
+  GtkTreeModel *model = gtk_tree_view_get_model(GTK_TREE_VIEW(treeview));
 
   // Get all selected iterators.
   GtkTreeSelection *selection;
-  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW (treeview));
-  vector <GtkTreeIter> iters;
+  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
+  vector < GtkTreeIter > iters;
   gtk_tree_selection_selected_foreach(selection, WindowReferences::on_collect_iters, gpointer(&iters));
 
   // Bail out if none was selected.
@@ -340,6 +356,5 @@ void WindowReferences::treeview_references_display_quick_reference()
 
   // Give a signal that quick references can be viewed.
   action = wratReferencesSelected;
-  gtk_button_clicked(GTK_BUTTON (general_signal_button));
+  gtk_button_clicked(GTK_BUTTON(general_signal_button));
 }
-

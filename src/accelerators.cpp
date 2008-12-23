@@ -18,4 +18,3 @@
  */
 
 #include "accelerators.h"
-

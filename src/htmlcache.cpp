@@ -18,19 +18,21 @@
  */
 
 #include "utilities.h"
-#include <glib.h> 
+#include <glib.h>
 #include "htmlcache.h"
 #include "settings.h"
 #include "tiny_utilities.h"
 #include "gwrappers.h"
 #include "directories.h"
 
-HtmlCache::HtmlCache(int dummy) {
+HtmlCache::HtmlCache(int dummy)
+{
   thread_runs = 0;
   abort_thread = false;
 }
 
-HtmlCache::~HtmlCache() {
+HtmlCache::~HtmlCache()
+{
   abort_thread = true;
   while (thread_runs) {
     gw_message("Waiting for html cache to shut down");
@@ -38,7 +40,8 @@ HtmlCache::~HtmlCache() {
   }
 }
 
-ustring HtmlCache::clean_url(ustring url) {
+ustring HtmlCache::clean_url(ustring url)
+{
   // Remove optional anchor.  
   Parse parse(url, false, "#");
   if (parse.words.size() > 0)
@@ -46,24 +49,28 @@ ustring HtmlCache::clean_url(ustring url) {
   return url;
 }
 
-ustring HtmlCache::cache_name(ustring url) {
+ustring HtmlCache::cache_name(ustring url)
+{
   replace_text(url, "/", "_");
   replace_text(url, "\"", "_");
   url = gw_build_filename(directories_get_htmlcache(), url);
   return url;
 }
 
-ustring HtmlCache::cache_error(ustring url) {
+ustring HtmlCache::cache_error(ustring url)
+{
   url = cache_name(url);
   url.append("_error_");
   return url;
 }
 
-void HtmlCache::thread_start(gpointer data) {
-  ((HtmlCache*) data)->thread_main();
+void HtmlCache::thread_start(gpointer data)
+{
+  ((HtmlCache *) data)->thread_main();
 }
 
-void HtmlCache::thread_main() {
+void HtmlCache::thread_main()
+{
 
   // Bail out if thread should abort.
   if (abort_thread)
@@ -78,14 +85,13 @@ void HtmlCache::thread_main() {
     url = url_queue[0];
     url_queue.erase(url_queue.begin());
   }
-
   // Initialize memory for storing the page contents.
   struct CurlMemoryStruct chunk;
   chunk.memory = NULL;
   chunk.size = 0;
 
   // Curl pointer.
-  extern CURL * curl;
+  extern CURL *curl;
 
   // Make libcurl verbose.
   curl_easy_setopt(curl, CURLOPT_VERBOSE, true);
@@ -141,14 +147,13 @@ void HtmlCache::thread_main() {
 
   // Create thread if there's another url in the queue.
   if (!url_queue.empty() && !abort_thread) {
-    g_thread_create (GThreadFunc (thread_start), gpointer (this), false, NULL);
+    g_thread_create(GThreadFunc(thread_start), gpointer(this), false, NULL);
   }
-
   // Thread state flag.
   thread_runs--;
 }
 
-char * HtmlCache::request_url(ustring url, size_t& size, bool& trylater)
+char *HtmlCache::request_url(ustring url, size_t & size, bool & trylater)
 // Requests a URL from the cache. Return value must be freed by the caller. Value may be NULL.
 {
   // Clean url.
@@ -158,18 +163,16 @@ char * HtmlCache::request_url(ustring url, size_t& size, bool& trylater)
   if (url.empty()) {
     trylater = false;
     size = 0;
-    return g_strdup ("");
+    return g_strdup("");
   }
-
   // If the url is in the cache, get it from there and bail out.
   ustring cachename = cache_name(url);
   if (g_file_test(cachename.c_str(), G_FILE_TEST_IS_REGULAR)) {
-    gchar * content;
+    gchar *content;
     g_file_get_contents(cachename.c_str(), &content, &size, NULL);
     trylater = false;
     return content;
   }
-
   // If the code reaches this stage, it means that the url was not in the cache.
   // Therefore ensure that the url is in the fetcher queue.
   bool queue = true;
@@ -182,27 +185,26 @@ char * HtmlCache::request_url(ustring url, size_t& size, bool& trylater)
 
   // Optionally create fetcher thread.
   if (!thread_runs) {
-    g_thread_create (GThreadFunc (thread_start), gpointer (this), false, NULL);
+    g_thread_create(GThreadFunc(thread_start), gpointer(this), false, NULL);
   }
-
   // If an error message is in the cache, get it from there and bail out.
   ustring cacheerror = cache_error(url);
   if (g_file_test(cacheerror.c_str(), G_FILE_TEST_IS_REGULAR)) {
-    gchar * content;
+    gchar *content;
     g_file_get_contents(cacheerror.c_str(), &content, &size, NULL);
     trylater = false;
     return content;
   }
-
   // If the code gets here it means that nothing related to the url was in the cache.
   // Therefore tell the client to retry and give info about loading.
   trylater = true;
-  gchar * content = g_strdup ("Loading...");
-  size = strlen (content);
+  gchar *content = g_strdup("Loading...");
+  size = strlen(content);
   return content;
 }
 
-void * HtmlCache::myrealloc(void *ptr, size_t size) {
+void *HtmlCache::myrealloc(void *ptr, size_t size)
+{
   // There might be a realloc() out there that doesn't like reallocing NULL 
   // pointers, so we take care of it here.
   if (ptr)
@@ -211,7 +213,8 @@ void * HtmlCache::myrealloc(void *ptr, size_t size) {
     return malloc(size);
 }
 
-size_t HtmlCache::WriteMemoryCallback(void *ptr, size_t size, size_t nmemb, void *data) {
+size_t HtmlCache::WriteMemoryCallback(void *ptr, size_t size, size_t nmemb, void *data)
+{
   size_t realsize = size * nmemb;
   struct CurlMemoryStruct *mem = (struct CurlMemoryStruct *)data;
 
@@ -240,7 +243,7 @@ int HtmlCache::on_progress_function(gpointer user_data, double t, double d, doub
  CURLOPT_NOPROGRESS must be set to FALSE to make this function actually get called.   
  */
 {
-  return ((HtmlCache*) user_data)->progress_function();
+  return ((HtmlCache *) user_data)->progress_function();
 }
 
 int HtmlCache::progress_function()
@@ -250,4 +253,3 @@ int HtmlCache::progress_function()
     return 1;
   return 0;
 }
-

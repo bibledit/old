@@ -17,60 +17,60 @@
 **  
 */
 
-
 #include "temporal.h"
 #include "utilities.h"
 #include <libxml/xmlwriter.h>
 #include "bible.h"
 #include "books.h"
 
-
-void temporal_convert_parallel_passages ()
+void temporal_convert_parallel_passages()
 // This was used to convert file NT_order_of_OT_Quotations_in_NT.pps to xml.
 // Then for converting NT_Parallel_Passages.pps.
 // Then for converting OT_Parallel_Passages.pps.
 {
-  bool set_opened = false;  
+  bool set_opened = false;
   xmlBufferPtr buffer = xmlBufferCreate();
   xmlTextWriterPtr writer = xmlNewTextWriterMemory(buffer, 0);
   xmlTextWriterStartDocument(writer, NULL, "UTF-8", NULL);
   xmlTextWriterSetIndent(writer, 1);
-  xmlTextWriterStartElement (writer, BAD_CAST "ot-parallel-passages");
+  xmlTextWriterStartElement(writer, BAD_CAST "ot-parallel-passages");
 
-  ReadText rt ("/home/joe/parallel-passages/OT_Parallel_Passages.pps", true);
+  ReadText rt("/home/joe/parallel-passages/OT_Parallel_Passages.pps", true);
   for (unsigned int i = 0; i < rt.lines.size(); i++) {
-    if (rt.lines[i].find ("\\key ") == 0) {
-      rt.lines[i].erase (0, 5);
-      xmlTextWriterStartElement (writer, BAD_CAST "section");
-      xmlTextWriterWriteAttribute (writer, BAD_CAST "title", BAD_CAST rt.lines[i].c_str());
+    if (rt.lines[i].find("\\key ") == 0) {
+      rt.lines[i].erase(0, 5);
+      xmlTextWriterStartElement(writer, BAD_CAST "section");
+      xmlTextWriterWriteAttribute(writer, BAD_CAST "title", BAD_CAST rt.lines[i].c_str());
     }
-    if (rt.lines[i].find ("\\ref ") == 0) {
+    if (rt.lines[i].find("\\ref ") == 0) {
       if (!set_opened) {
-        xmlTextWriterStartElement (writer, BAD_CAST "set");
+        xmlTextWriterStartElement(writer, BAD_CAST "set");
         set_opened = true;
       }
-      xmlTextWriterStartElement (writer, BAD_CAST "reference");
-      rt.lines[i].erase (0, 5);
+      xmlTextWriterStartElement(writer, BAD_CAST "reference");
+      rt.lines[i].erase(0, 5);
       ustring book, chapter, verse;
-      decode_reference (rt.lines[i], book, chapter, verse);
-      book = books_id_to_english (books_paratext_to_id (book));
-      xmlTextWriterWriteAttribute (writer, BAD_CAST "book", BAD_CAST book.c_str());          
-      xmlTextWriterWriteAttribute (writer, BAD_CAST "chapter", BAD_CAST chapter.c_str());          
-      xmlTextWriterWriteAttribute (writer, BAD_CAST "verse", BAD_CAST verse.c_str());          
-      xmlTextWriterEndElement (writer);        
-    } 
-    if (rt.lines[i].empty () || (rt.lines[i].find ("\\com") == 0)) {
-      xmlTextWriterEndElement (writer);
+      decode_reference(rt.lines[i], book, chapter, verse);
+      book = books_id_to_english(books_paratext_to_id(book));
+      xmlTextWriterWriteAttribute(writer, BAD_CAST "book", BAD_CAST book.c_str());
+      xmlTextWriterWriteAttribute(writer, BAD_CAST "chapter", BAD_CAST chapter.c_str());
+      xmlTextWriterWriteAttribute(writer, BAD_CAST "verse", BAD_CAST verse.c_str());
+      xmlTextWriterEndElement(writer);
+    }
+    if (rt.lines[i].empty() || (rt.lines[i].find("\\com") == 0)) {
+      xmlTextWriterEndElement(writer);
       set_opened = false;
     }
-    if (rt.lines[i].empty ()) {
-      xmlTextWriterEndElement (writer);
+    if (rt.lines[i].empty()) {
+      xmlTextWriterEndElement(writer);
     }
   }
-  
-  xmlTextWriterEndDocument (writer);
-  xmlTextWriterFlush (writer);
-  g_file_set_contents ("/home/joe/ot-parallel-passages.xml", (const gchar *) buffer->content, -1, NULL);
-  if (writer) xmlFreeTextWriter (writer);
-  if (buffer) xmlBufferFree (buffer);
+
+  xmlTextWriterEndDocument(writer);
+  xmlTextWriterFlush(writer);
+  g_file_set_contents("/home/joe/ot-parallel-passages.xml", (const gchar *)buffer->content, -1, NULL);
+  if (writer)
+    xmlFreeTextWriter(writer);
+  if (buffer)
+    xmlBufferFree(buffer);
 }

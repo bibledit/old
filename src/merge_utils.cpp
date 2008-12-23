@@ -27,19 +27,18 @@ ustring merge_conflict_markup(unsigned int number)
 // Number: 1..3.
 {
   ustring markup;
-  switch (number)
-  {
-    case 1:
+  switch (number) {
+  case 1:
     {
       markup = "before";
       break;
     }
-    case 2:
+  case 2:
     {
       markup = "middle";
       break;
     }
-    case 3:
+  case 3:
     {
       markup = "after";
       break;
@@ -52,34 +51,42 @@ ustring merge_conflict_markup(unsigned int number)
   return markup;
 }
 
-MergeButton::MergeButton(int dummy) {
+MergeButton::MergeButton(int dummy)
+{
 }
 
-MergeButton::MergeButton() {
+MergeButton::MergeButton()
+{
 }
 
-MergeButtonPair::MergeButtonPair(int dummy) {
+MergeButtonPair::MergeButtonPair(int dummy)
+{
 }
 
-MergeButtonPair::MergeButtonPair() {
+MergeButtonPair::MergeButtonPair()
+{
 }
 
-ApproveButton::ApproveButton(int dummy) {
+ApproveButton::ApproveButton(int dummy)
+{
 }
 
-ApproveButton::ApproveButton() {
+ApproveButton::ApproveButton()
+{
 }
 
-Patch::Patch(int dummy) {
+Patch::Patch(int dummy)
+{
 }
 
-Patch::Patch() {
+Patch::Patch()
+{
 }
 
-vector <Patch> merge_read_patch(const ustring& filename)
+vector < Patch > merge_read_patch(const ustring & filename)
 // Reads patches from file.
 {
-  vector <Patch> patches;
+  vector < Patch > patches;
   ReadText rt(filename, true, false);
   for (unsigned int i = 0; i < rt.lines.size(); i++) {
     unsigned int linenumber = convert_to_int(number_in_string(rt.lines[i]));
@@ -103,16 +110,18 @@ vector <Patch> merge_read_patch(const ustring& filename)
   return patches;
 }
 
-const gchar * merge_new_line_indicator() {
+const gchar *merge_new_line_indicator()
+{
   return "__new__line__indicator__\n";
 }
 
-const gchar * merge_verse_indicator() {
+const gchar *merge_verse_indicator()
+{
   return "___verse___indicator___";
 }
 
-
-ustring merge_split_data(const ustring& data) {
+ustring merge_split_data(const ustring & data)
+{
   ustring splitdata;
   ParseLine parseline(data);
   for (unsigned int l = 0; l < parseline.lines.size(); l++) {
@@ -120,7 +129,7 @@ ustring merge_split_data(const ustring& data) {
     ustring v = usfm_extract_marker(s);
     if (v == "v") {
       size_t position = s.find(" ");
-      position = CLAMP (position, 0, s.length());
+      position = CLAMP(position, 0, s.length());
       s = s.substr(0, position);
       s.insert(0, " ");
       v = merge_verse_indicator();
@@ -143,7 +152,8 @@ ustring merge_split_data(const ustring& data) {
   return splitdata;
 }
 
-ustring merge_join_data(const ustring& data) {
+ustring merge_join_data(const ustring & data)
+{
   ustring joineddata;
   Parse parse(data, false, merge_new_line_indicator());
   for (unsigned int p = 0; p < parse.words.size(); p++) {
@@ -160,7 +170,7 @@ ustring merge_join_data(const ustring& data) {
   return joineddata;
 }
 
-ustring merge_split_data_character(const ustring& data)
+ustring merge_split_data_character(const ustring & data)
 // Splits the data on the character level, so preparing it for running a diff.
 {
   ustring splitdata;
@@ -170,7 +180,7 @@ ustring merge_split_data_character(const ustring& data)
     ustring v = usfm_extract_marker(s);
     if (v == "v") {
       size_t position = s.find(" ");
-      position = CLAMP (position, 0, s.length());
+      position = CLAMP(position, 0, s.length());
       s = s.substr(0, position);
       s.insert(0, " ");
       v = merge_verse_indicator();
@@ -192,7 +202,7 @@ ustring merge_split_data_character(const ustring& data)
   return splitdata;
 }
 
-ustring merge_join_data_character(const ustring& data)
+ustring merge_join_data_character(const ustring & data)
 // Joins data previously split.
 {
   ustring joineddata;
@@ -208,4 +218,3 @@ ustring merge_join_data_character(const ustring& data)
   }
   return joineddata;
 }
-

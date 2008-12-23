@@ -17,7 +17,6 @@
 **  
 */
 
-
 #include "check_parallel_passages.h"
 #include "projectutils.h"
 #include "settings.h"
@@ -26,145 +25,135 @@
 #include "ot-nt-parallels.h"
 #include "tiny_utilities.h"
 
-
-CheckNTQuotationsFromOT::CheckNTQuotationsFromOT (const ustring& project, 
-                                                  const vector<unsigned int>& books,  
-                                                  bool includetext, 
-                                                  bool gui)
+CheckNTQuotationsFromOT::CheckNTQuotationsFromOT(const ustring & project, const vector < unsigned int >&books, bool includetext, bool gui)
 {
   // Language and versification.
-  extern Settings * settings;
-  ustring language = settings->projectconfig (project, false)->language_get ();
-  ustring versification = settings->projectconfig (project, false)->versification_get ();
-  Mapping mapping (versification, 0);
+  extern Settings *settings;
+  ustring language = settings->projectconfig(project, false)->language_get();
+  ustring versification = settings->projectconfig(project, false)->versification_get();
+  Mapping mapping(versification, 0);
   // Get a list of the books to check. If no books were given, take them all.
-  vector<unsigned int> mybooks (books.begin(), books.end());
+  vector < unsigned int >mybooks(books.begin(), books.end());
   if (mybooks.empty())
-    mybooks = project_get_books (project);
-  set <unsigned int> bookset (mybooks.begin(), mybooks.end());
+    mybooks = project_get_books(project);
+  set < unsigned int >bookset(mybooks.begin(), mybooks.end());
   // Get all quotations.
-  OTQuotations otquotations (0);
-  otquotations.read ();
+  OTQuotations otquotations(0);
+  otquotations.read();
   // GUI.
   progresswindow = NULL;
   if (gui) {
-    progresswindow = new ProgressWindow ("Producing passages", true);
-    progresswindow->set_iterate (0, 1, otquotations.quotations.size());
+    progresswindow = new ProgressWindow("Producing passages", true);
+    progresswindow->set_iterate(0, 1, otquotations.quotations.size());
   }
   // Go through each quotations.
   for (unsigned int i = 0; i < otquotations.quotations.size(); i++) {
     if (gui) {
-      progresswindow->iterate ();
+      progresswindow->iterate();
       if (progresswindow->cancel)
         return;
     }
     // Skip if NT book is not to be included.
-    if (bookset.find (otquotations.quotations[i].nt.book) == bookset.end ())
+    if (bookset.find(otquotations.quotations[i].nt.book) == bookset.end())
       continue;
-    mapping.book_change (otquotations.quotations[i].nt.book);
-    mapping.original_to_me (otquotations.quotations[i].nt);
-    ustring verse = otquotations.quotations[i].nt.human_readable (language);
+    mapping.book_change(otquotations.quotations[i].nt.book);
+    mapping.original_to_me(otquotations.quotations[i].nt);
+    ustring verse = otquotations.quotations[i].nt.human_readable(language);
     if (includetext) {
-      verse.append (" ");
-      verse.append (project_retrieve_verse (project, otquotations.quotations[i].nt.book, otquotations.quotations[i].nt.chapter, otquotations.quotations[i].nt.verse));
+      verse.append(" ");
+      verse.append(project_retrieve_verse(project, otquotations.quotations[i].nt.book, otquotations.quotations[i].nt.chapter, otquotations.quotations[i].nt.verse));
     }
-    nt.push_back (verse);
+    nt.push_back(verse);
     // Go through the OT quotations processing them.
-    vector <ustring> store;
+    vector < ustring > store;
     for (unsigned i2 = 0; i2 < otquotations.quotations[i].ot.size(); i2++) {
-      mapping.book_change (otquotations.quotations[i].ot[i2].book);
-      mapping.original_to_me (otquotations.quotations[i].ot[i2]);
-      ustring verse = otquotations.quotations[i].ot[i2].human_readable (language);
+      mapping.book_change(otquotations.quotations[i].ot[i2].book);
+      mapping.original_to_me(otquotations.quotations[i].ot[i2]);
+      ustring verse = otquotations.quotations[i].ot[i2].human_readable(language);
       if (includetext) {
-        verse.append (" ");
-        verse.append (project_retrieve_verse (project, otquotations.quotations[i].ot[i2].book, otquotations.quotations[i].ot[i2].chapter, otquotations.quotations[i].ot[i2].verse));
+        verse.append(" ");
+        verse.append(project_retrieve_verse(project, otquotations.quotations[i].ot[i2].book, otquotations.quotations[i].ot[i2].chapter, otquotations.quotations[i].ot[i2].verse));
       }
-      store.push_back (verse);
+      store.push_back(verse);
     }
     // Save data.
-    ot.push_back (store);
+    ot.push_back(store);
   }
 }
 
-
-CheckNTQuotationsFromOT::~CheckNTQuotationsFromOT ()
+CheckNTQuotationsFromOT::~CheckNTQuotationsFromOT()
 {
-  if (progresswindow) 
+  if (progresswindow)
     delete progresswindow;
 }
 
-
-CheckParallelPassages::CheckParallelPassages (bool nt,
-                                              const ustring& project, 
-                                              const vector<unsigned int>& books,  
-                                              bool includetext, 
-                                              bool gui)
+CheckParallelPassages::CheckParallelPassages(bool nt, const ustring & project, const vector < unsigned int >&books, bool includetext, bool gui)
 {
   // Language.
-  extern Settings * settings;
-  ustring language = settings->projectconfig (project, false)->language_get ();
-  
+  extern Settings *settings;
+  ustring language = settings->projectconfig(project, false)->language_get();
+
   // Mapping.
-  ustring versification = settings->projectconfig (project, false)->versification_get ();
-  Mapping mapping (versification, 0);
-  
+  ustring versification = settings->projectconfig(project, false)->versification_get();
+  Mapping mapping(versification, 0);
+
   // Get a list of the books to check. If no books were given, take them all.
-  vector<unsigned int> mybooks (books.begin(), books.end());
+  vector < unsigned int >mybooks(books.begin(), books.end());
   if (mybooks.empty())
-    mybooks = project_get_books (project);
-  set <unsigned int> bookset (mybooks.begin(), mybooks.end());
+    mybooks = project_get_books(project);
+  set < unsigned int >bookset(mybooks.begin(), mybooks.end());
 
   // Get the parallel passages.
-  OtNtParallels otntparallels (0);
-  if (nt) otntparallels.readnt ();
-  else otntparallels.readot ();
-  
+  OtNtParallels otntparallels(0);
+  if (nt)
+    otntparallels.readnt();
+  else
+    otntparallels.readot();
+
   // GUI.
   progresswindow = NULL;
   if (gui) {
-    progresswindow = new ProgressWindow ("Producing passages", true);
-    progresswindow->set_iterate (0, 1, otntparallels.sections.size());
+    progresswindow = new ProgressWindow("Producing passages", true);
+    progresswindow->set_iterate(0, 1, otntparallels.sections.size());
   }
-
   // Go through each section.
   for (unsigned int i = 0; i < otntparallels.sections.size(); i++) {
     if (gui) {
-      progresswindow->iterate ();
+      progresswindow->iterate();
       if (progresswindow->cancel)
         return;
     }
-    OtNtParallelDataSection datasection (0);
+    OtNtParallelDataSection datasection(0);
     // Section's heading.
     datasection.title = otntparallels.sections[i].title;
     // Go through each set of references.
     for (unsigned int i2 = 0; i2 < otntparallels.sections[i].sets.size(); i2++) {
       // Go through the references in the set.
-      OtNtParallelDataSet dataset (0);
+      OtNtParallelDataSet dataset(0);
       for (unsigned int i3 = 0; i3 < otntparallels.sections[i].sets[i2].references.size(); i3++) {
         // Skip if NT book is not to be included.
-        if (bookset.find (otntparallels.sections[i].sets[i2].references[i3].book) == bookset.end ())
+        if (bookset.find(otntparallels.sections[i].sets[i2].references[i3].book) == bookset.end())
           continue;
-        vector <int> remapped_chapter;
-        vector <int> remapped_verse;
-        mapping.book_change (otntparallels.sections[i].sets[i2].references[i3].book);
-        mapping.original_to_me (otntparallels.sections[i].sets[i2].references[i3].chapter, otntparallels.sections[i].sets[i2].references[i3].verse, remapped_chapter, remapped_verse);
-        Reference mapped_reference (otntparallels.sections[i].sets[i2].references[i3].book, remapped_chapter[0], convert_to_string (remapped_verse[0]));
-        ustring verse = mapped_reference.human_readable (language);
+        vector < int >remapped_chapter;
+        vector < int >remapped_verse;
+        mapping.book_change(otntparallels.sections[i].sets[i2].references[i3].book);
+        mapping.original_to_me(otntparallels.sections[i].sets[i2].references[i3].chapter, otntparallels.sections[i].sets[i2].references[i3].verse, remapped_chapter, remapped_verse);
+        Reference mapped_reference(otntparallels.sections[i].sets[i2].references[i3].book, remapped_chapter[0], convert_to_string(remapped_verse[0]));
+        ustring verse = mapped_reference.human_readable(language);
         if (includetext) {
-          verse.append (" ");
-          verse.append (project_retrieve_verse (project, mapped_reference.book, mapped_reference.chapter, mapped_reference.verse));
+          verse.append(" ");
+          verse.append(project_retrieve_verse(project, mapped_reference.book, mapped_reference.chapter, mapped_reference.verse));
         }
-        dataset.data.push_back (verse);
+        dataset.data.push_back(verse);
       }
-      datasection.sets.push_back (dataset);
+      datasection.sets.push_back(dataset);
     }
-    data.push_back (datasection);
+    data.push_back(datasection);
   }
 }
 
-
-CheckParallelPassages::~CheckParallelPassages ()
+CheckParallelPassages::~CheckParallelPassages()
 {
-  if (progresswindow) 
+  if (progresswindow)
     delete progresswindow;
 }

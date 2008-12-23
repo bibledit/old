@@ -17,104 +17,90 @@
 **  
 */
 
-
 #include "gui_features.h"
 #include "settings.h"
 #include "utilities.h"
 
-
-GuiFeatures::GuiFeatures (int dummy)
+GuiFeatures::GuiFeatures(int dummy)
 {
   // Get features variables.
-  extern Settings * settings;
-  ustring pattern = settings->genconfig.features_list_get ();
-  
-  b_basics = settings->genconfig.features_mode_get () == 0;
-  b_full = settings->genconfig.features_mode_get () == 1;
+  extern Settings *settings;
+  ustring pattern = settings->genconfig.features_list_get();
+
+  b_basics = settings->genconfig.features_mode_get() == 0;
+  b_full = settings->genconfig.features_mode_get() == 1;
 
   // The order of this pattern handling should agree to the order used in the features dialog source.
-  b_printing = bitpattern_take (pattern);
-  b_project_management = bitpattern_take (pattern);
-  b_references_management = bitpattern_take (pattern);
-  b_styles = bitpattern_take (pattern);
-  b_styles_management = bitpattern_take (pattern);
-  b_project_notes = bitpattern_take (pattern);
-  b_project_notes_management = bitpattern_take (pattern);
-  b_references_and_find = bitpattern_take (pattern);
-  b_replace = bitpattern_take (pattern);
-  b_checks = bitpattern_take (pattern);
-  b_tools = bitpattern_take (pattern);
-  b_preferences = bitpattern_take (pattern);
+  b_printing = bitpattern_take(pattern);
+  b_project_management = bitpattern_take(pattern);
+  b_references_management = bitpattern_take(pattern);
+  b_styles = bitpattern_take(pattern);
+  b_styles_management = bitpattern_take(pattern);
+  b_project_notes = bitpattern_take(pattern);
+  b_project_notes_management = bitpattern_take(pattern);
+  b_references_and_find = bitpattern_take(pattern);
+  b_replace = bitpattern_take(pattern);
+  b_checks = bitpattern_take(pattern);
+  b_tools = bitpattern_take(pattern);
+  b_preferences = bitpattern_take(pattern);
 }
 
-
-bool GuiFeatures::printing ()
+bool GuiFeatures::printing()
 {
   return !b_basics && (b_full || b_printing);
 }
 
-
-bool GuiFeatures::project_management ()
+bool GuiFeatures::project_management()
 {
   return !b_basics && (b_full || b_project_management);
 }
 
-
-bool GuiFeatures::references_management ()
+bool GuiFeatures::references_management()
 {
   return !b_basics && (b_full || b_references_management);
 }
 
-
-bool GuiFeatures::styles ()
+bool GuiFeatures::styles()
 {
   return !b_basics && (b_full || b_styles);
 }
 
-
-bool GuiFeatures::styles_management ()
+bool GuiFeatures::styles_management()
 {
   return !b_basics && (b_full || b_styles_management);
 }
 
-
-bool GuiFeatures::project_notes ()
+bool GuiFeatures::project_notes()
 {
   return !b_basics && (b_full || b_project_notes);
 }
 
-
-bool GuiFeatures::project_notes_management ()
+bool GuiFeatures::project_notes_management()
 {
   return !b_basics && (b_full || b_project_notes_management);
 }
 
-
-bool GuiFeatures::references_and_find ()
+bool GuiFeatures::references_and_find()
 {
   return !b_basics && (b_full || b_references_and_find);
 }
 
-
-bool GuiFeatures::replace ()
+bool GuiFeatures::replace()
 {
   return !b_basics && (b_full || b_replace);
 }
 
-
-bool GuiFeatures::checks ()
+bool GuiFeatures::checks()
 {
   return !b_basics && (b_full || b_checks);
 }
 
-
-bool GuiFeatures::tools ()
+bool GuiFeatures::tools()
 {
   return !b_basics && (b_full || b_tools);
 }
 
-
-bool GuiFeatures::preferences ()
+bool GuiFeatures::preferences()
 {
   return !b_basics && (b_full || b_preferences);
 }

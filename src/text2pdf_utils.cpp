@@ -19,28 +19,29 @@
 
 #include "text2pdf_utils.h"
 
-#define CENTIMETERS_TO_INCHES_FACTOR 0.393700787 // 1 centimeter = 0.393700787 inches 
+#define CENTIMETERS_TO_INCHES_FACTOR 0.393700787        // 1 centimeter = 0.393700787 inches
 #define INCHES_TO_POINTS_FACTOR 72.0
 
-int centimeters_to_pango_units(double centimeters) {
-  int pango_units = int(centimeters * CENTIMETERS_TO_INCHES_FACTOR * INCHES_TO_POINTS_FACTOR * PANGO_SCALE);
-  return pango_units;
-}
-
-int millimeters_to_pango_units(double millimeters) {
-  int pango_units = int(millimeters / 10 * CENTIMETERS_TO_INCHES_FACTOR * INCHES_TO_POINTS_FACTOR * PANGO_SCALE);
-  return pango_units;
-}
-
-double pango_units_to_millimeters (int pango_units)
+int centimeters_to_pango_units(double centimeters)
 {
-  double millimeters = double(pango_units) / PANGO_SCALE / INCHES_TO_POINTS_FACTOR / CENTIMETERS_TO_INCHES_FACTOR * 10;
+  int pango_units = int (centimeters * CENTIMETERS_TO_INCHES_FACTOR * INCHES_TO_POINTS_FACTOR * PANGO_SCALE);
+  return pango_units;
+}
+
+int millimeters_to_pango_units(double millimeters)
+{
+  int pango_units = int (millimeters / 10 * CENTIMETERS_TO_INCHES_FACTOR * INCHES_TO_POINTS_FACTOR * PANGO_SCALE);
+  return pango_units;
+}
+
+double pango_units_to_millimeters(int pango_units)
+{
+  double millimeters = double (pango_units) / PANGO_SCALE / INCHES_TO_POINTS_FACTOR / CENTIMETERS_TO_INCHES_FACTOR * 10;
   return millimeters;
 }
 
-double pango_units_to_points (int pango_units)
+double pango_units_to_points(int pango_units)
 {
-  double points = double(pango_units) / PANGO_SCALE;
+  double points = double (pango_units) / PANGO_SCALE;
   return points;
 }
-

@@ -17,7 +17,6 @@
 **  
 */
 
-
 #include "libraries.h"
 #include "utilities.h"
 #include <glib.h>
@@ -28,96 +27,85 @@
 #include "shell.h"
 #include "tiny_utilities.h"
 
-
 #define MY_NUMBERS "0123456789"
 
-
-ustring number_in_string (const ustring & str)
+ustring number_in_string(const ustring & str)
 {
   // Looks for and returns a positive number in a string.
   ustring output = str;
-  output.erase (0, output.find_first_of (MY_NUMBERS));
-  size_t end_position = output.find_first_not_of (MY_NUMBERS);
+  output.erase(0, output.find_first_of(MY_NUMBERS));
+  size_t end_position = output.find_first_not_of(MY_NUMBERS);
   if (end_position != string::npos) {
-    output.erase (end_position, output.length ());
+    output.erase(end_position, output.length());
   }
   return output;
 }
 
-
 #undef MY_NUMBERS
 
-
-unsigned int digit_count_in_string (const ustring & str)
+unsigned int digit_count_in_string(const ustring & str)
 {
   unsigned int digitcount = 0;
-  string s (str);
+  string s(str);
   for (unsigned int i = 0; i < s.length(); i++) {
-    if (g_ascii_isdigit (guchar (s[i])))
+    if (g_ascii_isdigit(guchar(s[i])))
       digitcount++;
   }
   return digitcount;
 }
 
-
-ustring upperCase (const ustring & s)
+ustring upperCase(const ustring & s)
 {
 // Make an uppercase copy of s
-  string upper (s);
-  for (size_t i = 0; i < s.length (); ++i)
-    upper[i] = toupper (upper[i]);
+  string upper(s);
+  for (size_t i = 0; i < s.length(); ++i)
+    upper[i] = toupper(upper[i]);
   return upper;
 }
 
-
-ustring lowerCase (const ustring & s)
+ustring lowerCase(const ustring & s)
 {
 // Make a lowercase copy of s
-  string lower (s);
-  for (size_t i = 0; i < s.length (); ++i)
-    lower[i] = tolower (lower[i]);
+  string lower(s);
+  for (size_t i = 0; i < s.length(); ++i)
+    lower[i] = tolower(lower[i]);
   return lower;
 }
 
-
-ustring remove_spaces (const ustring & s)
+ustring remove_spaces(const ustring & s)
 {
   ustring s2 = s;
-  size_t spacepos = s2.find (" ");
+  size_t spacepos = s2.find(" ");
   while (spacepos != string::npos) {
-    s2.erase (spacepos, 1);
-    spacepos = s2.find (" ");
+    s2.erase(spacepos, 1);
+    spacepos = s2.find(" ");
   }
   return s2;
 }
 
-
-void write_lines (const ustring & file, vector < ustring > &lines)
+void write_lines(const ustring & file, vector < ustring > &lines)
 {
-  WriteText wt (file);
-  for (unsigned int i = 0; i < lines.size (); i++) {
-    wt.text (lines[i]);
-    wt.text ("\n");
+  WriteText wt(file);
+  for (unsigned int i = 0; i < lines.size(); i++) {
+    wt.text(lines[i]);
+    wt.text("\n");
   }
 }
 
-
-ustring temporary_file (const ustring & filename)
+ustring temporary_file(const ustring & filename)
 {
-  return gw_build_filename (directories_get_temp(), filename);
+  return gw_build_filename(directories_get_temp(), filename);
 }
 
-
-ustring string_reverse (const ustring & s)
+ustring string_reverse(const ustring & s)
 {
   ustring returnvalue;
-  for (int i = s.length () - 1; i >= 0; i--)
-    returnvalue.append (s.substr (i, 1));
+  for (int i = s.length() - 1; i >= 0; i--)
+    returnvalue.append(s.substr(i, 1));
   return returnvalue;
 }
 
-
-ustring double_apostrophy (const ustring & line)
+ustring double_apostrophy(const ustring & line)
 {
   /*
      SQLite needs any apostrophy in the data to be prefixed by another one.
@@ -125,125 +113,115 @@ ustring double_apostrophy (const ustring & line)
    */
   ustring returnvalue;
   returnvalue = line;
-  size_t offset = returnvalue.find ("'");
-  while (offset != string::npos)
-  {
-    returnvalue.insert (offset, "'");
+  size_t offset = returnvalue.find("'");
+  while (offset != string::npos) {
+    returnvalue.insert(offset, "'");
     offset++;
     offset++;
-    offset = returnvalue.find ("'", offset);
+    offset = returnvalue.find("'", offset);
   }
   return returnvalue;
 }
 
-
-unsigned int file_get_modification_time (const ustring & filename)
+unsigned int file_get_modification_time(const ustring & filename)
 {
   struct stat statbuf;
-  stat (filename.c_str(), &statbuf);
+  stat(filename.c_str(), &statbuf);
   return statbuf.st_mtime;
 }
 
-
-unsigned int file_get_size (const ustring & filename)
+unsigned int file_get_size(const ustring & filename)
 {
   struct stat statbuf;
-  stat (filename.c_str(), &statbuf);
+  stat(filename.c_str(), &statbuf);
   return statbuf.st_size;
 }
 
-
-void textbuffer_get_lines (GtkTextBuffer * buffer, vector<ustring>& lines, bool trimline)
+void textbuffer_get_lines(GtkTextBuffer * buffer, vector < ustring > &lines, bool trimline)
 // Reads all the lines in the textbuffer.
 {
   // We need to know the number of lines.
-  int number_of_lines = gtk_text_buffer_get_line_count (buffer);
+  int number_of_lines = gtk_text_buffer_get_line_count(buffer);
   GtkTextIter iterator;
   GtkTextIter endofline;
   // Get all lines.
   for (int i = 0; i < number_of_lines; i++) {
-    gtk_text_buffer_get_iter_at_line (buffer, &iterator, i);
+    gtk_text_buffer_get_iter_at_line(buffer, &iterator, i);
     // Ensure that also the last line, without a newline character, gets taken.
     if (i + 1 == number_of_lines) {
-      gtk_text_buffer_get_end_iter (buffer, &endofline);
+      gtk_text_buffer_get_end_iter(buffer, &endofline);
     } else {
-      gtk_text_buffer_get_iter_at_line (buffer, &endofline, i + 1);
-      gtk_text_iter_backward_char (&endofline);
+      gtk_text_buffer_get_iter_at_line(buffer, &endofline, i + 1);
+      gtk_text_iter_backward_char(&endofline);
     }
     // Get the line.
-    ustring line = gtk_text_buffer_get_text (buffer, &iterator, &endofline, false);
+    ustring line = gtk_text_buffer_get_text(buffer, &iterator, &endofline, false);
     // Trim it.
-    if (trimline) line = trim (line);
+    if (trimline)
+      line = trim(line);
     // Store it.
-    lines.push_back (line);
-  }  
+    lines.push_back(line);
+  }
 }
 
-
-bool replace_text (ustring& line, const ustring& look_for, const ustring& replace_with)
+bool replace_text(ustring & line, const ustring & look_for, const ustring & replace_with)
 // Replaces some text. Returns true if any replacement was done.
 {
   bool replacements_done = false;
-  size_t offposition = line.find (look_for);
+  size_t offposition = line.find(look_for);
   while (offposition != string::npos) {
-    line.replace (offposition, look_for.length (), replace_with);
-    offposition = line.find (look_for, offposition + replace_with.length ());
+    line.replace(offposition, look_for.length(), replace_with);
+    offposition = line.find(look_for, offposition + replace_with.length());
     replacements_done = true;
   }
   return replacements_done;
 }
 
-
-bool replace_text_between (ustring& line, const ustring& start, const ustring& end, const ustring& replacement)
+bool replace_text_between(ustring & line, const ustring & start, const ustring & end, const ustring & replacement)
 // Replaces text that starts with "start" and ends with "end" with "replacement".
 // Returns true if replacement was done.
 {
   bool replacements_done = false;
-  size_t beginpos = line.find (start);
-  size_t endpos = line.find (end);
+  size_t beginpos = line.find(start);
+  size_t endpos = line.find(end);
   while ((beginpos != string::npos) && (endpos != string::npos) && (endpos > beginpos)) {
-    line.replace (beginpos, endpos - beginpos + end.length(), replacement);
-    beginpos = line.find (start, beginpos + replacement.length());
-    endpos = line.find (end, beginpos + replacement.length());
+    line.replace(beginpos, endpos - beginpos + end.length(), replacement);
+    beginpos = line.find(start, beginpos + replacement.length());
+    endpos = line.find(end, beginpos + replacement.length());
     replacements_done = true;
-  }  
+  }
   return replacements_done;
 }
 
-
-void quick_swap(ustring& a, ustring& b)
+void quick_swap(ustring & a, ustring & b)
 {
   ustring t = a;
   a = b;
-  b = t; 
+  b = t;
 }
 
-
-void quick_swap(unsigned int& a, unsigned int& b)
+void quick_swap(unsigned int &a, unsigned int &b)
 {
   unsigned int t = a;
   a = b;
-  b = t; 
+  b = t;
 }
 
-
-void quick_swap(int& a, int& b)
+void quick_swap(int &a, int &b)
 {
   int t = a;
   a = b;
-  b = t; 
+  b = t;
 }
 
-
-void quick_swap(bool& a, bool& b)
+void quick_swap(bool & a, bool & b)
 {
   bool t = a;
   a = b;
-  b = t; 
+  b = t;
 }
 
-
-void quick_sort(vector<unsigned int>& one, vector<ustring>& two, unsigned int beg, unsigned int end)
+void quick_sort(vector < unsigned int >&one, vector < ustring > &two, unsigned int beg, unsigned int end)
 /*
 This function is unusual in the sense that it does not sort one container, as
 the big majority of sort functions do, but it accepts two containers.
@@ -272,8 +250,7 @@ following the reordering done in the first container.
   }
 }
 
-
-void quick_sort(vector<ustring>& one, vector<unsigned int>& two, unsigned int beg, unsigned int end)
+void quick_sort(vector < ustring > &one, vector < unsigned int >&two, unsigned int beg, unsigned int end)
 {
   if (end > beg + 1) {
     ustring piv = one[beg];
@@ -296,8 +273,7 @@ void quick_sort(vector<ustring>& one, vector<unsigned int>& two, unsigned int be
   }
 }
 
-
-void quick_sort(vector<unsigned int>& one, vector<unsigned int>& two, unsigned int beg, unsigned int end)
+void quick_sort(vector < unsigned int >&one, vector < unsigned int >&two, unsigned int beg, unsigned int end)
 {
   if (end > beg + 1) {
     unsigned int piv = one[beg];
@@ -320,8 +296,7 @@ void quick_sort(vector<unsigned int>& one, vector<unsigned int>& two, unsigned i
   }
 }
 
-
-void quick_sort(vector<int>& one, vector<unsigned int>& two, unsigned int beg, unsigned int end)
+void quick_sort(vector < int >&one, vector < unsigned int >&two, unsigned int beg, unsigned int end)
 {
   if (end > beg + 1) {
     int piv = one[beg];
@@ -344,8 +319,7 @@ void quick_sort(vector<int>& one, vector<unsigned int>& two, unsigned int beg, u
   }
 }
 
-
-void quick_sort (vector<ustring>& one, vector<ustring>& two, unsigned int beg, unsigned int end)
+void quick_sort(vector < ustring > &one, vector < ustring > &two, unsigned int beg, unsigned int end)
 {
   if (end > beg + 1) {
     ustring piv = one[beg];
@@ -368,8 +342,7 @@ void quick_sort (vector<ustring>& one, vector<ustring>& two, unsigned int beg, u
   }
 }
 
-
-void quick_sort (vector<ustring>& one, vector<bool>& two, unsigned int beg, unsigned int end)
+void quick_sort(vector < ustring > &one, vector < bool > &two, unsigned int beg, unsigned int end)
 {
   if (end > beg + 1) {
     ustring piv = one[beg];
@@ -400,8 +373,7 @@ void quick_sort (vector<ustring>& one, vector<bool>& two, unsigned int beg, unsi
   }
 }
 
-
-void quick_sort (vector<ustring>& one, unsigned int beg, unsigned int end)
+void quick_sort(vector < ustring > &one, unsigned int beg, unsigned int end)
 {
   if (end > beg + 1) {
     ustring piv = one[beg];
@@ -422,169 +394,150 @@ void quick_sort (vector<ustring>& one, unsigned int beg, unsigned int end)
   }
 }
 
-
-gchar * de_windows_notepad (gchar * contents)
+gchar *de_windows_notepad(gchar * contents)
 // Some Windows textfiles, probably the ones created with Notepad, have 
 // the "feature" to put \xEF\xBB\xBF at the start of the file.
 // This function removes those characters.
 {
-  gchar * returnvalue = contents;
-  char *ef_bb_bf = g_strstr_len (contents, 3, "\xef\xbb\xbf");
+  gchar *returnvalue = contents;
+  char *ef_bb_bf = g_strstr_len(contents, 3, "\xef\xbb\xbf");
   if (ef_bb_bf) {
     ef_bb_bf += 3;
-    returnvalue = g_strdup (ef_bb_bf);
-    g_free (contents);
+    returnvalue = g_strdup(ef_bb_bf);
+    g_free(contents);
   }
   return returnvalue;
 }
 
-
-ustring spaces (unsigned int count)
+ustring spaces(unsigned int count)
 // Returns "count" spaces.
 {
   ustring space;
   for (unsigned int i = 0; i < count; i++)
-    space.append (" ");
+    space.append(" ");
   return space;
 }
 
-
-void bitpattern_add (ustring& pattern, bool setting)
+void bitpattern_add(ustring & pattern, bool setting)
 // Adds one bit for "setting" to "pattern".
 {
-  pattern.append (convert_to_string (setting));
+  pattern.append(convert_to_string(setting));
 }
 
-
-bool bitpattern_take (ustring& pattern)
+bool bitpattern_take(ustring & pattern)
 // Return the next bit from "pattern" and removes it from that string.
 // This implies that settngs from the pattern must be taken in the same order
 // that they were added.
 {
   bool setting = false;
   if (!pattern.empty()) {
-    setting = convert_to_bool (pattern.substr (0, 1));
-    pattern.erase (0, 1);
+    setting = convert_to_bool(pattern.substr(0, 1));
+    pattern.erase(0, 1);
   }
   return setting;
 }
 
-
-ustring character_to_decimal_entity (const ustring& character)
+ustring character_to_decimal_entity(const ustring & character)
 {
   gunichar unichar;
-  gunichar * uc;
-  uc = g_utf8_to_ucs4_fast (character.c_str(), -1, NULL);
-  unichar = * uc;
-  g_free (uc);
-  gchar * decimal = g_strdup_printf ("&#%d;", unichar);
-  ustring udec (decimal);
-  g_free (decimal);
+  gunichar *uc;
+  uc = g_utf8_to_ucs4_fast(character.c_str(), -1, NULL);
+  unichar = *uc;
+  g_free(uc);
+  gchar *decimal = g_strdup_printf("&#%d;", unichar);
+  ustring udec(decimal);
+  g_free(decimal);
   return udec;
 }
 
-
-ustring character_to_hexadecimal_entity (const ustring& character)
+ustring character_to_hexadecimal_entity(const ustring & character)
 {
   gunichar unichar;
-  gunichar * uc;
-  uc = g_utf8_to_ucs4_fast (character.c_str(), -1, NULL);
-  unichar = * uc;
-  g_free (uc);
-  gchar * decimal = g_strdup_printf ("U+%04X", unichar);
-  ustring udec (decimal);
-  g_free (decimal);
+  gunichar *uc;
+  uc = g_utf8_to_ucs4_fast(character.c_str(), -1, NULL);
+  unichar = *uc;
+  g_free(uc);
+  gchar *decimal = g_strdup_printf("U+%04X", unichar);
+  ustring udec(decimal);
+  g_free(decimal);
   return udec;
 }
 
-
-void string_append_line (ustring& container, const ustring& line)
+void string_append_line(ustring & container, const ustring & line)
 {
   if (!container.empty()) {
-    container.append ("\n");
+    container.append("\n");
   }
-  container.append (line);
+  container.append(line);
 }
 
-
-ustring present_working_directory ()
+ustring present_working_directory()
 // Gives the present working directory.
 {
-  char pwd [10000];
-  if (getcwd (pwd, 10000));
-  ustring s (pwd);
-  return s;  
+  char pwd[10000];
+  if (getcwd(pwd, 10000)) ;
+  ustring s(pwd);
+  return s;
 }
 
-
-ReadDirectories::ReadDirectories (const ustring & path, const ustring & prefix,
-                                  const ustring & suffix)
+ReadDirectories::ReadDirectories(const ustring & path, const ustring & prefix, const ustring & suffix)
 {
   // Reads the directories in directory "path" that end on "suffix".
   // It does not return regular files.
-  try
-  {
-    GDir *dir = g_dir_open (path.c_str(), 0, NULL);
+  try {
+    GDir *dir = g_dir_open(path.c_str(), 0, NULL);
     const gchar *s;
-    vector <ustring> entries;
-    while ((s = g_dir_read_name (dir)) != NULL)
-      entries.push_back (s);
-    g_dir_close (dir);    
-    for (unsigned int i = 0; i < entries.size (); i++) {
-      if (g_str_has_suffix (entries[i].c_str(), suffix.c_str()))
-        if (g_str_has_prefix (entries[i].c_str(), prefix.c_str()))
-          if (g_file_test (gw_build_filename (path, entries[i]).c_str(),  G_FILE_TEST_IS_DIR))
-            directories.push_back (entries[i]);
+    vector < ustring > entries;
+    while ((s = g_dir_read_name(dir)) != NULL)
+      entries.push_back(s);
+    g_dir_close(dir);
+    for (unsigned int i = 0; i < entries.size(); i++) {
+      if (g_str_has_suffix(entries[i].c_str(), suffix.c_str()))
+        if (g_str_has_prefix(entries[i].c_str(), prefix.c_str()))
+          if (g_file_test(gw_build_filename(path, entries[i]).c_str(), G_FILE_TEST_IS_DIR))
+            directories.push_back(entries[i]);
     }
   }
-  catch (...)
-  {
+  catch(...) {
   }
 }
 
-
-ReadDirectories::~ReadDirectories ()
+ReadDirectories::~ReadDirectories()
 {
 }
 
-
-ReadFiles::ReadFiles (const ustring & path, const ustring & prefix,
-                      const ustring & suffix)
+ReadFiles::ReadFiles(const ustring & path, const ustring & prefix, const ustring & suffix)
 {
   // Reads the regular files in directory "path" that end on "suffix".
   // It does not return directories.
-  try
-  {
-    GDir *dir = g_dir_open (path.c_str(), 0, NULL);
+  try {
+    GDir *dir = g_dir_open(path.c_str(), 0, NULL);
     const gchar *s;
-    vector <ustring> entries;
-    while ((s = g_dir_read_name (dir)) != NULL)
-      entries.push_back (s);
-    g_dir_close (dir);    
-    for (unsigned int i = 0; i < entries.size (); i++) {
-      if (g_str_has_suffix (entries[i].c_str(), suffix.c_str()))
-        if (g_str_has_prefix (entries[i].c_str(), prefix.c_str()))
-          if (!g_file_test (gw_build_filename (path, entries[i]).c_str(), G_FILE_TEST_IS_DIR))
-            files.push_back (entries[i]);
+    vector < ustring > entries;
+    while ((s = g_dir_read_name(dir)) != NULL)
+      entries.push_back(s);
+    g_dir_close(dir);
+    for (unsigned int i = 0; i < entries.size(); i++) {
+      if (g_str_has_suffix(entries[i].c_str(), suffix.c_str()))
+        if (g_str_has_prefix(entries[i].c_str(), prefix.c_str()))
+          if (!g_file_test(gw_build_filename(path, entries[i]).c_str(), G_FILE_TEST_IS_DIR))
+            files.push_back(entries[i]);
     }
   }
-  catch (...)
-  {
+  catch(...) {
   }
 }
 
-
-ReadFiles::~ReadFiles ()
+ReadFiles::~ReadFiles()
 {
 }
 
-
-ReadText::ReadText (const ustring & file, bool silent, bool trimming)
+ReadText::ReadText(const ustring & file, bool silent, bool trimming)
 {
   // Reads the text and stores it line by line, trimmed, into "lines".
   // If "silent" is true, then no exception will be thrown in case of an error.
   // The lines will be trimmed if "trimming" is true.
-  ifstream in (file.c_str ());
+  ifstream in(file.c_str());
   if (!in) {
     if (!silent) {
       cerr << "Error opening file " << file << endl;
@@ -593,20 +546,18 @@ ReadText::ReadText (const ustring & file, bool silent, bool trimming)
     return;
   }
   string s;
-  while (getline (in, s)) {
+  while (getline(in, s)) {
     if (trimming)
-      s = trim (s);
-    lines.push_back (s);
+      s = trim(s);
+    lines.push_back(s);
   }
 }
 
-
-ReadText::~ReadText ()
+ReadText::~ReadText()
 {
 }
 
-
-WriteText::WriteText (const ustring & file)
+WriteText::WriteText(const ustring & file)
 {
 /*
   This opens a textfile for writing.
@@ -614,104 +565,96 @@ WriteText::WriteText (const ustring & file)
   this causes crashes on Macintosh when writing Unicode, this has been changed
   to regular Linux calls: open, write.
 */
-  fd = open (file.c_str (), O_CREAT | O_WRONLY | O_TRUNC, 0666);
-  if (fd < 0)
-  {
-    gw_critical ("Error creating file " + file);
-    perror (NULL);
+  fd = open(file.c_str(), O_CREAT | O_WRONLY | O_TRUNC, 0666);
+  if (fd < 0) {
+    gw_critical("Error creating file " + file);
+    perror(NULL);
   }
 }
 
-
-WriteText::~WriteText ()
+WriteText::~WriteText()
 {
-  close (fd);
+  close(fd);
 }
 
-
-void WriteText::text (const ustring& text)
+void WriteText::text(const ustring & text)
 // Write the text. For calculating the lenght, do not use text.length(),
 // because this gives the number of unicode characters, not the length in bytes. 
 // Use strlen () instead.
 {
-  if (write (fd, text.c_str(), strlen (text.c_str())));
+  if (write(fd, text.c_str(), strlen(text.c_str()))) ;
 }
 
-
-Parse::Parse (const ustring & line, bool remove_punctuation, const ustring& separator)
+Parse::Parse(const ustring & line, bool remove_punctuation, const ustring & separator)
 // Parses a line of text in its separate words.
 // remove_punctuation: remove some standard punctuation.
 // separator: standard this is a space, but can be modified.
 {
   ustring processed_line;
-  processed_line = trim (line);
-  processed_line.append (separator);
+  processed_line = trim(line);
+  processed_line.append(separator);
   size_t spaceposition;
-  spaceposition = processed_line.find (separator);
+  spaceposition = processed_line.find(separator);
   while (spaceposition != string::npos) {
-    ustring word = processed_line.substr (0, spaceposition);
+    ustring word = processed_line.substr(0, spaceposition);
     if (remove_punctuation) {
-      string::size_type location = word.find_last_of (".,;:");
+      string::size_type location = word.find_last_of(".,;:");
       if (location != string::npos)
-        word = word.substr (0, location);
+        word = word.substr(0, location);
     }
-    words.push_back (word);
-    processed_line.erase (0, spaceposition + separator.length ());
-    spaceposition = processed_line.find (separator);
+    words.push_back(word);
+    processed_line.erase(0, spaceposition + separator.length());
+    spaceposition = processed_line.find(separator);
   }
 }
 
-
-Parse::~Parse ()
+Parse::~Parse()
 {
 }
 
-
-ParseWords::ParseWords (const ustring& text)
+ParseWords::ParseWords(const ustring & text)
 // Parses a line of text in its separate words.
 // Note: This is comparable to object Parse, but does a better job.
 {
   // Load text into buffer.
-  ustring text2 (text);
-  text2.append (" ");
-  GtkTextBuffer * textbuffer;
-  textbuffer = gtk_text_buffer_new (NULL);
-  gtk_text_buffer_set_text (textbuffer, text2.c_str(), -1);
+  ustring text2(text);
+  text2.append(" ");
+  GtkTextBuffer *textbuffer;
+  textbuffer = gtk_text_buffer_new(NULL);
+  gtk_text_buffer_set_text(textbuffer, text2.c_str(), -1);
   // Iterators.  
   GtkTextIter startiter, enditer;
   // Parse into separate words.
-  gtk_text_buffer_get_start_iter (textbuffer, &enditer);
-  while (gtk_text_iter_forward_word_end (&enditer)) {
+  gtk_text_buffer_get_start_iter(textbuffer, &enditer);
+  while (gtk_text_iter_forward_word_end(&enditer)) {
     startiter = enditer;
-    gtk_text_iter_backward_word_start (&startiter);    
+    gtk_text_iter_backward_word_start(&startiter);
     GtkTextIter iter = startiter;
-    ustring word = gtk_text_iter_get_text (&startiter, &enditer);
-    words.push_back (word);
+    ustring word = gtk_text_iter_get_text(&startiter, &enditer);
+    words.push_back(word);
   }
   // Free memory
-  g_object_unref (textbuffer);
+  g_object_unref(textbuffer);
 }
 
-
-ParseLine::ParseLine (const ustring & text)
+ParseLine::ParseLine(const ustring & text)
 // Parses text in its separate lines.
 {
   ustring processed_line;
-  processed_line = trim (text);
+  processed_line = trim(text);
   size_t newlineposition;
-  newlineposition = processed_line.find ("\n");
+  newlineposition = processed_line.find("\n");
   while (newlineposition != string::npos) {
-    ustring word = processed_line.substr (0, newlineposition);
-    lines.push_back (trim(word));
-    processed_line.erase (0, newlineposition + 1);
-    processed_line = trim (processed_line);
-    newlineposition = processed_line.find ("\n");
+    ustring word = processed_line.substr(0, newlineposition);
+    lines.push_back(trim(word));
+    processed_line.erase(0, newlineposition + 1);
+    processed_line = trim(processed_line);
+    newlineposition = processed_line.find("\n");
   }
   if (!processed_line.empty())
     lines.push_back(trim(processed_line));
 }
 
-
-ParseLine::~ParseLine ()
+ParseLine::~ParseLine()
 {
 }

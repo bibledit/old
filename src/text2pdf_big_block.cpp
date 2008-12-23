@@ -69,7 +69,7 @@ void T2PBigBlock::set_blocks_y(int reference_y)
 {
   int y = reference_y;
   for (unsigned int i = 0; i < blocks.size(); i++) {
-    T2PBlock * block = blocks[i];
+    T2PBlock *block = blocks[i];
     block->rectangle.y = y;
     bool take_block_into_account = true;
     if ((i == 0) && (reference_y == 0) && (block->type == t2pbtSpaceBeforeParagraph)) {
@@ -80,4 +80,3 @@ void T2PBigBlock::set_blocks_y(int reference_y)
     }
   }
 }
-

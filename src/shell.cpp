@@ -17,7 +17,6 @@
 **  
 */
 
-
 #include "libraries.h"
 #include "shell.h"
 #include "gwrappers.h"
@@ -28,54 +27,50 @@
 #include "unixwrappers.h"
 #include "tiny_utilities.h"
 
-
-bool program_is_running (const ustring & commandline)
+bool program_is_running(const ustring & commandline)
 // Returns true if the program given on "commandline" is running.
 {
-  return (programs_running_count (commandline) > 0);
+  return (programs_running_count(commandline) > 0);
 }
 
-
-int programs_running_count (const ustring & commandline)
+int programs_running_count(const ustring & commandline)
 // Returns how many times the program given on "commandline" is running.
 {
   // Run the process status program.
-  GwSpawn spawn ("ps");
-  spawn.arg ("ax");
-  spawn.read ();
-  spawn.run ();
+  GwSpawn spawn("ps");
+  spawn.arg("ax");
+  spawn.read();
+  spawn.run();
   // Usage count.
   int count = 0;
   for (unsigned int i = 0; i < spawn.standardout.size(); i++)
-    if (spawn.standardout[i].find (commandline) != string::npos)
+    if (spawn.standardout[i].find(commandline) != string::npos)
       count++;
   // Return the count.
   return count;
 }
 
-
-bool program_is_running_basic (const ustring & program)
+bool program_is_running_basic(const ustring & program)
 // Returns true if the program given running.
 {
-  return (programs_running_count_basic (program) > 0);
+  return (programs_running_count_basic(program) > 0);
 }
 
-
-int programs_running_count_basic (const ustring & program)
+int programs_running_count_basic(const ustring & program)
 // Returns how many times the program given is running.
 {
   // Run the process status program.
-  GwSpawn spawn ("ps");
-  spawn.arg ("-e");
-  spawn.read ();
-  spawn.run ();
+  GwSpawn spawn("ps");
+  spawn.arg("-e");
+  spawn.read();
+  spawn.run();
   // Usage count.
   int count = 0;
   for (unsigned int i = 0; i < spawn.standardout.size(); i++) {
     ustring line = spawn.standardout[i];
-    size_t position = line.rfind (" ");
-    line.erase (0, position);
-    line = trim (line);
+    size_t position = line.rfind(" ");
+    line.erase(0, position);
+    line = trim(line);
     if (line == program) {
       count++;
     }
@@ -84,8 +79,7 @@ int programs_running_count_basic (const ustring & program)
   return count;
 }
 
-
-ustring shell_quote_space (const ustring& filename)
+ustring shell_quote_space(const ustring & filename)
 // Puts quotes and spaces around a filename, making it fit for the shell.
 // Example: /home/user/John Johnson/.bibledit/projects/test/Genesis
 // becomes: '/home/user/John Johnson/.bibledit/projects/test/Genesis'
@@ -98,34 +92,34 @@ ustring shell_quote_space (const ustring& filename)
 // Quoting the /s of the rmdir command, for example, confused the command.
 {
   ustring quotedname;
-  #ifdef WIN32
-  if (filename.find (" ") != string::npos) quotedname = " \"" + filename + "\" ";
-  else quotedname = " " + filename + " ";
-  #endif
-  #ifndef WIN32
+#ifdef WIN32
+  if (filename.find(" ") != string::npos)
+    quotedname = " \"" + filename + "\" ";
+  else
+    quotedname = " " + filename + " ";
+#endif
+#ifndef WIN32
   quotedname = " '" + filename + "' ";
-  #endif
+#endif
   return quotedname;
 }
 
-
-ustring shell_clean_filename (const ustring& filename)
+ustring shell_clean_filename(const ustring & filename)
 // Replace characters like ' and / occur in the filename with _.
 {
-  ustring cleanfile (filename);
-  replace_text (cleanfile, "'", "_");
-  replace_text (cleanfile, "/", "_");
+  ustring cleanfile(filename);
+  replace_text(cleanfile, "'", "_");
+  replace_text(cleanfile, "/", "_");
   return cleanfile;
 }
 
-
-void shell_pipe_file_append (const ustring& inputfile, const ustring& outputfile)
+void shell_pipe_file_append(const ustring & inputfile, const ustring & outputfile)
 // cat inputfile >> outputfile.
 {
   ustring command;
-  command.append ("cat");
-  command.append (shell_quote_space (inputfile));
-  command.append (">>");
-  command.append (shell_quote_space (outputfile));
-  if (system (command.c_str ()));
+  command.append("cat");
+  command.append(shell_quote_space(inputfile));
+  command.append(">>");
+  command.append(shell_quote_space(outputfile));
+  if (system(command.c_str())) ;
 }

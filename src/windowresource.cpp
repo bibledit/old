@@ -28,32 +28,33 @@
 #include "settings.h"
 #include "resource_utils.h"
 
-WindowResource::WindowResource(const ustring& resource_name, GtkAccelGroup *accelerator_group, bool startup) :
-  WindowBase(widResource, resource_name, startup, 0)
+WindowResource::WindowResource(const ustring & resource_name, GtkAccelGroup * accelerator_group, bool startup):WindowBase(widResource, resource_name, startup, 0)
 // Window for showing the quick references.  
 {
   name = resource_name;
-  resource = new Resource (window);
-  g_signal_connect ((gpointer) resource->browser->htmlview, "visibility-notify-event", G_CALLBACK (on_visibility_notify_event), gpointer(this));
+  resource = new Resource(window);
+  g_signal_connect((gpointer) resource->browser->htmlview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
   // It seems that the visibility signal on the htmlview does not work. 
   // Therefore in order to get the focus system work, we pick another visible widget.
-  g_signal_connect ((gpointer) resource->label, "visibility-notify-event", G_CALLBACK (on_visibility_notify_event), gpointer(this));
+  g_signal_connect((gpointer) resource->label, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
   resource->open(resourcename_to_filename(name));
 }
 
-WindowResource::~WindowResource() {
+WindowResource::~WindowResource()
+{
   delete resource;
 }
 
-void WindowResource::go_to(Reference& reference)
+void WindowResource::go_to(Reference & reference)
 // Go to the references.
 {
   resource->go_to(reference);
 }
 
-ustring WindowResource::resourcename_to_filename(const ustring& resourcename) {
-  vector <ustring> filenames;
-  vector <ustring> resources = resource_get_resources(filenames, false);
+ustring WindowResource::resourcename_to_filename(const ustring & resourcename)
+{
+  vector < ustring > filenames;
+  vector < ustring > resources = resource_get_resources(filenames, false);
   ustring filename;
   for (unsigned int i = 0; i < resources.size(); i++) {
     if (resourcename == resources[i]) {

@@ -27,59 +27,65 @@
 #include "keyboard.h"
 #include "tiny_utilities.h"
 
-enum {COLUMN_HEADING,
+enum { COLUMN_HEADING,
   COLUMN_CHAPTER_START, COLUMN_VERSE_START,
   COLUMN_CHAPTER_END, COLUMN_VERSE_END,
-  NUM_COLUMNS};
+  NUM_COLUMNS
+};
 
-Outline::Outline(GtkWidget *vbox) {
+Outline::Outline(GtkWidget * vbox)
+{
   // Initialize / save variables.
 
   // Build GUI.
   reference_changed_signal = gtk_button_new_with_mnemonic("");
-  gtk_box_pack_start(GTK_BOX (vbox), reference_changed_signal, FALSE, FALSE, 0);
-  GTK_WIDGET_UNSET_FLAGS (reference_changed_signal, GTK_CAN_FOCUS);
-  gtk_button_set_focus_on_click(GTK_BUTTON (reference_changed_signal), FALSE);
+  gtk_box_pack_start(GTK_BOX(vbox), reference_changed_signal, FALSE, FALSE, 0);
+  GTK_WIDGET_UNSET_FLAGS(reference_changed_signal, GTK_CAN_FOCUS);
+  gtk_button_set_focus_on_click(GTK_BUTTON(reference_changed_signal), FALSE);
 
   scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow);
-  gtk_box_pack_start(GTK_BOX (vbox), scrolledwindow, TRUE, TRUE, 0);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW (scrolledwindow), GTK_SHADOW_IN);
+  gtk_box_pack_start(GTK_BOX(vbox), scrolledwindow, TRUE, TRUE, 0);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_SHADOW_IN);
 
   treeview = gtk_tree_view_new();
   gtk_widget_show(treeview);
-  gtk_container_add(GTK_CONTAINER (scrolledwindow), treeview);
-  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW (treeview), FALSE);
+  gtk_container_add(GTK_CONTAINER(scrolledwindow), treeview);
+  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(treeview), FALSE);
 
   // Build underlying structure.
   store = gtk_tree_store_new(NUM_COLUMNS, G_TYPE_STRING, G_TYPE_INT, G_TYPE_INT, G_TYPE_INT, G_TYPE_INT);
-  gtk_tree_view_set_model(GTK_TREE_VIEW (treeview), GTK_TREE_MODEL (store));
+  gtk_tree_view_set_model(GTK_TREE_VIEW(treeview), GTK_TREE_MODEL(store));
   g_object_unref(store);
   GtkCellRenderer *renderer = gtk_cell_renderer_text_new();
   GtkTreeViewColumn *column;
   column = gtk_tree_view_column_new_with_attributes("", renderer, "text", COLUMN_HEADING, NULL);
-  gtk_tree_view_append_column(GTK_TREE_VIEW (treeview), column);
-  GtkTreeSelection *select = gtk_tree_view_get_selection(GTK_TREE_VIEW (treeview));
+  gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
+  GtkTreeSelection *select = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
   gtk_tree_selection_set_mode(select, GTK_SELECTION_SINGLE);
-  g_signal_connect ((gpointer) treeview, "button_press_event", G_CALLBACK (on_view_button_press_event), gpointer(this));
-  g_signal_connect ((gpointer) treeview, "key_press_event", G_CALLBACK (on_view_key_press_event), gpointer(this));
-  g_signal_connect ((gpointer) treeview, "row_activated", G_CALLBACK (on_view_row_activated), gpointer(this));
-  g_signal_connect ((gpointer) treeview, "popup_menu", G_CALLBACK (on_view_popup_menu), gpointer(this));
+  g_signal_connect((gpointer) treeview, "button_press_event", G_CALLBACK(on_view_button_press_event), gpointer(this));
+  g_signal_connect((gpointer) treeview, "key_press_event", G_CALLBACK(on_view_key_press_event), gpointer(this));
+  g_signal_connect((gpointer) treeview, "row_activated", G_CALLBACK(on_view_row_activated), gpointer(this));
+  g_signal_connect((gpointer) treeview, "popup_menu", G_CALLBACK(on_view_popup_menu), gpointer(this));
 }
 
-Outline::~Outline() {
+Outline::~Outline()
+{
 }
 
-void Outline::focus() {
+void Outline::focus()
+{
   gtk_widget_grab_focus(treeview);
 }
 
-bool Outline::focused() {
-  return GTK_WIDGET_HAS_FOCUS (treeview);
+bool Outline::focused()
+{
+  return GTK_WIDGET_HAS_FOCUS(treeview);
 }
 
-void Outline::goto_reference(const ustring& project, Reference& reference) {
+void Outline::goto_reference(const ustring & project, Reference & reference)
+{
   // See what changed.
   bool changed = false;
 
@@ -89,25 +95,21 @@ void Outline::goto_reference(const ustring& project, Reference& reference) {
     myproject = project;
     new_project_handling();
   }
-
   // Handle change of book.  
   if (reference.book != mybook) {
     changed = true;
     mybook = reference.book;
   }
-
   // Handle change of chapter.
   if (reference.chapter != mychapter) {
     changed = true;
     mychapter = reference.chapter;
   }
-
   // If no change, bail out after focusing for any verse change.
   if (!changed) {
     focus(reference);
     return;
   }
-
   // Get and process headers from the text.
   headers.clear();
   levels.clear();
@@ -117,7 +119,7 @@ void Outline::goto_reference(const ustring& project, Reference& reference) {
   verses_to.clear();
   verses_last.clear();
   chapter_last = 0;
-  vector <unsigned int> chapt = project_get_chapters(myproject, mybook);
+  vector < unsigned int >chapt = project_get_chapters(myproject, mybook);
   for (unsigned int ch = 0; ch < chapt.size(); ch++) {
     retrieve_headers(chapt[ch]);
   }
@@ -155,7 +157,7 @@ void Outline::load()
     // Situation that the level remains the same.
     else if (current_level == last_level) {
       GtkTreeIter child = iter;
-      gtk_tree_model_iter_parent(GTK_TREE_MODEL (store), &iter, &child);
+      gtk_tree_model_iter_parent(GTK_TREE_MODEL(store), &iter, &child);
       gtk_tree_store_append(store, &iter, &iter);
     }
     // Situation that the level goes up.
@@ -176,7 +178,7 @@ void Outline::load()
     else if (current_level < last_level) {
       for (unsigned int i2 = current_level; i2 <= last_level; i2++) {
         GtkTreeIter child = iter;
-        gtk_tree_model_iter_parent(GTK_TREE_MODEL (store), &iter, &child);
+        gtk_tree_model_iter_parent(GTK_TREE_MODEL(store), &iter, &child);
       }
       gtk_tree_store_append(store, &iter, &iter);
     }
@@ -187,9 +189,10 @@ void Outline::load()
   }
 }
 
-void Outline::retrieve_headers(unsigned int chapter) {
+void Outline::retrieve_headers(unsigned int chapter)
+{
   unsigned int verse = 0;
-  vector <ustring> lines = project_retrieve_chapter(myproject, mybook, chapter);
+  vector < ustring > lines = project_retrieve_chapter(myproject, mybook, chapter);
   for (unsigned int i = 0; i < lines.size(); i++) {
     ustring marker = usfm_extract_marker(lines[i]);
     unsigned int level = 0;
@@ -209,9 +212,9 @@ void Outline::retrieve_headers(unsigned int chapter) {
       // This also finds the last verse in a sequence or range, e.g.
       // verse 8 from \v 6-8.
       size_t position = lines[i].find(" ");
-      position = CLAMP (position, 0, lines[i].length());
+      position = CLAMP(position, 0, lines[i].length());
       ustring vs = lines[i].substr(0, position);
-      vector <unsigned int> verses = verse_range_sequence(vs);
+      vector < unsigned int >verses = verse_range_sequence(vs);
       if (verses.empty())
         verse = 0;
       else
@@ -312,8 +315,8 @@ void Outline::new_project_handling()
 // Does some operations when there is another project.
 {
   // Create an USFM object of the relevant stylesheet.
-  extern Settings * settings;
-  ProjectConfiguration * projectconfig = settings->projectconfig(myproject);
+  extern Settings *settings;
+  ProjectConfiguration *projectconfig = settings->projectconfig(myproject);
   Usfm usfm(projectconfig->stylesheet_get());
   // Clear markers of the various levels of the paragraphs.
   paragraphmarkers.clear();
@@ -347,11 +350,13 @@ void Outline::new_project_handling()
   }
 }
 
-gboolean Outline::on_view_button_press_event(GtkWidget *widget, GdkEventButton *event, gpointer user_data) {
+gboolean Outline::on_view_button_press_event(GtkWidget * widget, GdkEventButton * event, gpointer user_data)
+{
   return false;
 }
 
-gboolean Outline::on_view_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data) {
+gboolean Outline::on_view_key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer user_data)
+{
   // Collapse or expand an item.
   if (keyboard_left_arrow_pressed(event)) {
     return ((Outline *) user_data)->expand_collapse(false);
@@ -366,16 +371,16 @@ bool Outline::expand_collapse(bool expand)
 // Expands or collapses the selected items in the treeview.
 {
   bool expanded_collapsed = false;
-  GtkTreeModel * model = gtk_tree_view_get_model(GTK_TREE_VIEW (treeview));
-  GtkTreeSelection * selection = gtk_tree_view_get_selection(GTK_TREE_VIEW (treeview));
+  GtkTreeModel *model = gtk_tree_view_get_model(GTK_TREE_VIEW(treeview));
+  GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
   GtkTreeIter iter;
   if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
-    GtkTreePath * path = gtk_tree_model_get_path(model, &iter);
+    GtkTreePath *path = gtk_tree_model_get_path(model, &iter);
     if (expand) {
-      if (gtk_tree_view_expand_row(GTK_TREE_VIEW (treeview), path, false))
+      if (gtk_tree_view_expand_row(GTK_TREE_VIEW(treeview), path, false))
         expanded_collapsed = true;
     } else {
-      if (gtk_tree_view_collapse_row(GTK_TREE_VIEW (treeview), path))
+      if (gtk_tree_view_collapse_row(GTK_TREE_VIEW(treeview), path))
         expanded_collapsed = true;
     }
     gtk_tree_path_free(path);
@@ -386,11 +391,11 @@ bool Outline::expand_collapse(bool expand)
   return expanded_collapsed;
 }
 
-void Outline::focus(Reference& reference)
+void Outline::focus(Reference & reference)
 // Focus the entry that has the reference.
 {
-  GtkTreeModel * model= GTK_TREE_MODEL (store);
-  GtkTreeSelection * selection = gtk_tree_view_get_selection(GTK_TREE_VIEW (treeview));
+  GtkTreeModel *model = GTK_TREE_MODEL(store);
+  GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
   GtkTreeIter iter;
   gboolean valid;
   bool focused = false;
@@ -404,10 +409,10 @@ void Outline::focus(Reference& reference)
   }
 }
 
-void Outline::focus_internal_children(unsigned int reference, GtkTreeIter& parent, GtkTreeSelection * selection, bool& focused)
+void Outline::focus_internal_children(unsigned int reference, GtkTreeIter & parent, GtkTreeSelection * selection, bool & focused)
 // Iterates through possible children. Re-entrant function.
 {
-  GtkTreeModel * model= GTK_TREE_MODEL (store);
+  GtkTreeModel *model = GTK_TREE_MODEL(store);
   GtkTreeIter iter;
   gboolean valid;
   valid = gtk_tree_model_iter_children(model, &iter, &parent);
@@ -418,12 +423,12 @@ void Outline::focus_internal_children(unsigned int reference, GtkTreeIter& paren
   }
 }
 
-void Outline::focus_internal_select(unsigned int reference, GtkTreeIter& iter, GtkTreeSelection * selection, bool& focused)
+void Outline::focus_internal_select(unsigned int reference, GtkTreeIter & iter, GtkTreeSelection * selection, bool & focused)
 // Selects and focuses the entry that corresponds to the reference.
 {
   if (focused)
     return;
-  GtkTreeModel * model= GTK_TREE_MODEL (store);
+  GtkTreeModel *model = GTK_TREE_MODEL(store);
   guint chapter_start, verse_start, chapter_end, verse_end;
   gtk_tree_model_get(model, &iter, COLUMN_CHAPTER_START, &chapter_start, COLUMN_VERSE_START, &verse_start, COLUMN_CHAPTER_END, &chapter_end, COLUMN_VERSE_END, &verse_end, -1);
   unsigned int heading_start = reference_number(chapter_start, verse_start);
@@ -433,35 +438,39 @@ void Outline::focus_internal_select(unsigned int reference, GtkTreeIter& iter, G
       while (gtk_events_pending())
         gtk_main_iteration();
       gtk_tree_selection_select_iter(selection, &iter);
-      GtkTreePath * path = gtk_tree_model_get_path(GTK_TREE_MODEL (store), &iter);
-      gtk_tree_view_expand_row(GTK_TREE_VIEW (treeview), path, false);
-      gtk_tree_view_set_cursor(GTK_TREE_VIEW (treeview), path, NULL, false);
-      gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW (treeview), path, NULL, true, 0.5, 0.5);
+      GtkTreePath *path = gtk_tree_model_get_path(GTK_TREE_MODEL(store), &iter);
+      gtk_tree_view_expand_row(GTK_TREE_VIEW(treeview), path, false);
+      gtk_tree_view_set_cursor(GTK_TREE_VIEW(treeview), path, NULL, false);
+      gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(treeview), path, NULL, true, 0.5, 0.5);
       gtk_tree_path_free(path);
       focused = true;
     }
   }
 }
 
-void Outline::on_view_row_activated(GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewColumn *column, gpointer user_data) {
+void Outline::on_view_row_activated(GtkTreeView * treeview, GtkTreePath * path, GtkTreeViewColumn * column, gpointer user_data)
+{
   ((Outline *) user_data)->on_view_row(path);
 }
 
-void Outline::on_view_row(GtkTreePath *path) {
+void Outline::on_view_row(GtkTreePath * path)
+{
   // Get the chapter and verse Bibledit ought to go to.
-  GtkTreeModel * model= GTK_TREE_MODEL (store);
+  GtkTreeModel *model = GTK_TREE_MODEL(store);
   GtkTreeIter iter;
   if (!gtk_tree_model_get_iter(model, &iter, path))
     return;
   gtk_tree_model_get(model, &iter, COLUMN_CHAPTER_START, &newchapter, COLUMN_VERSE_START, &newverse, -1);
   // Signal that a new reference is available.
-  gtk_button_clicked(GTK_BUTTON (reference_changed_signal));
+  gtk_button_clicked(GTK_BUTTON(reference_changed_signal));
 }
 
-gboolean Outline::on_view_popup_menu(GtkWidget *widget, gpointer user_data) {
+gboolean Outline::on_view_popup_menu(GtkWidget * widget, gpointer user_data)
+{
   return false;
 }
 
-unsigned int Outline::reference_number(unsigned int chapter, unsigned int verse) {
+unsigned int Outline::reference_number(unsigned int chapter, unsigned int verse)
+{
   return (200 * chapter) + verse;
 }

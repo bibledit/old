@@ -24,8 +24,9 @@
 #include "screen.h"
 #include "gwrappers.h"
 
-ScreenLayoutDimensions::ScreenLayoutDimensions(GtkWidget *window) {
-  mywindow = GTK_WINDOW (window);
+ScreenLayoutDimensions::ScreenLayoutDimensions(GtkWidget * window)
+{
+  mywindow = GTK_WINDOW(window);
   counter = 0;
 }
 
@@ -33,11 +34,11 @@ void ScreenLayoutDimensions::verify()
 // Set the dimensions in the screen.
 {
   // Open configuration and get values.
-  extern Settings * settings;
+  extern Settings *settings;
   // If the screen resolution got changed, or if the windows are too big, 
   // recalculate the values.
   bool recalculate = false;
-  GdkScreen * screen = gtk_window_get_screen(mywindow);
+  GdkScreen *screen = gtk_window_get_screen(mywindow);
   int real_screen_width = gdk_screen_get_width(screen);
   int stored_screen_width = settings->genconfig.screen_width_get();
   int real_screen_height = gdk_screen_get_height(screen);
@@ -48,7 +49,7 @@ void ScreenLayoutDimensions::verify()
     recalculate = true;
 
   int width, height, x, y;
-  
+
   width = settings->genconfig.menu_area_width_get();
   height = settings->genconfig.menu_area_height_get();
   x = settings->genconfig.menu_area_x_position_get();
@@ -127,4 +128,3 @@ void ScreenLayoutDimensions::verify()
     settings->genconfig.tools_area_y_position_set(y);
   }
 }
-

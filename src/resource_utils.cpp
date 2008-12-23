@@ -30,7 +30,8 @@
 #include "dialoglistview.h"
 #include "gtkwrappers.h"
 
-ustring resource_viewer_directory() {
+ustring resource_viewer_directory()
+{
   return gw_build_filename(directories_get_temp(), "resource_viewer");
 }
 
@@ -43,12 +44,14 @@ void resource_viewer_ensure_directory()
   }
 }
 
-ustring resource_viewer_reference_html_filename() {
+ustring resource_viewer_reference_html_filename()
+{
   ustring filename("bibledit_resource_viewer_reference.html");
   return filename;
 }
 
-ustring resource_viewer_main_html_filename() {
+ustring resource_viewer_main_html_filename()
+{
   ustring filename("bibledit_resource_viewer_main.html");
   return filename;
 }
@@ -61,7 +64,7 @@ ustring resource_viewer_produce_anchor(unsigned int book, unsigned int chapter, 
   return anchor;
 }
 
-bool resource_add_name_to_deleted_ones_if_standard_template(const ustring& filename)
+bool resource_add_name_to_deleted_ones_if_standard_template(const ustring & filename)
 /*
  If the filename given is a standard template, it adds the name of the resource
  to the list of deleted ones and then returns true.
@@ -79,9 +82,10 @@ bool resource_add_name_to_deleted_ones_if_standard_template(const ustring& filen
   return false;
 }
 
-vector <ustring> resource_get_resources(vector <ustring>& filenames, bool list_deleted_ones) {
+vector < ustring > resource_get_resources(vector < ustring > &filenames, bool list_deleted_ones)
+{
   // Storage.
-  vector <ustring> resources;
+  vector < ustring > resources;
   filenames.clear();
 
   // Read the user's templates.
@@ -101,7 +105,7 @@ vector <ustring> resource_get_resources(vector <ustring>& filenames, bool list_d
   if (!list_deleted_ones)
     deleted_filename = gw_build_filename(directories_get_resources(), "deleted");
   ReadText rt(deleted_filename, true, true);
-  set <ustring> unwanted_ones(rt.lines.begin(), rt.lines.end());
+  set < ustring > unwanted_ones(rt.lines.begin(), rt.lines.end());
   for (unsigned int i = 0; i < resources.size(); i++) {
     unwanted_ones.insert(resources[i]);
   }
@@ -117,7 +121,6 @@ vector <ustring> resource_get_resources(vector <ustring>& filenames, bool list_d
   if (!list_deleted_ones) {
     unwanted_ones.insert("NetBible");
   }
-
   // Read the templates that come with Bibledit.
   ReadFiles rf(directories_get_package_data(), "resource", ".ini");
   for (unsigned int i = 0; i < rf.files.size(); i++) {
@@ -136,9 +139,10 @@ vector <ustring> resource_get_resources(vector <ustring>& filenames, bool list_d
   return resources;
 }
 
-ResourceType resource_get_type(const ustring& templatefile) {
+ResourceType resource_get_type(const ustring & templatefile)
+{
   ResourceType type = rtEnd;
-  GKeyFile * keyfile = g_key_file_new();
+  GKeyFile *keyfile = g_key_file_new();
   if (g_key_file_load_from_file(keyfile, templatefile.c_str(), G_KEY_FILE_NONE, NULL)) {
     type = (ResourceType) g_key_file_get_integer(keyfile, resource_template_general_group(), resource_template_type_key(), NULL);
     g_key_file_free(keyfile);
@@ -146,11 +150,12 @@ ResourceType resource_get_type(const ustring& templatefile) {
   return type;
 }
 
-ustring resource_get_title(const ustring& templatefile) {
+ustring resource_get_title(const ustring & templatefile)
+{
   ustring title;
-  GKeyFile * keyfile = g_key_file_new();
+  GKeyFile *keyfile = g_key_file_new();
   if (g_key_file_load_from_file(keyfile, templatefile.c_str(), G_KEY_FILE_NONE, NULL)) {
-    gchar * value;
+    gchar *value;
     value = g_key_file_get_string(keyfile, resource_template_general_group(), resource_template_title_key(), NULL);
     if (value) {
       title = value;
@@ -161,11 +166,12 @@ ustring resource_get_title(const ustring& templatefile) {
   return title;
 }
 
-ustring resource_get_home_page(const ustring& templatefile) {
+ustring resource_get_home_page(const ustring & templatefile)
+{
   ustring home_page;
-  GKeyFile * keyfile = g_key_file_new();
+  GKeyFile *keyfile = g_key_file_new();
   if (g_key_file_load_from_file(keyfile, templatefile.c_str(), G_KEY_FILE_NONE, NULL)) {
-    gchar * value;
+    gchar *value;
     value = g_key_file_get_string(keyfile, resource_template_general_group(), resource_template_home_page_key(), NULL);
     if (value) {
       home_page = value;
@@ -176,11 +182,12 @@ ustring resource_get_home_page(const ustring& templatefile) {
   return home_page;
 }
 
-ustring resource_get_url_constructor(const ustring& templatefile) {
+ustring resource_get_url_constructor(const ustring & templatefile)
+{
   ustring url_constructor;
-  GKeyFile * keyfile = g_key_file_new();
+  GKeyFile *keyfile = g_key_file_new();
   if (g_key_file_load_from_file(keyfile, templatefile.c_str(), G_KEY_FILE_NONE, NULL)) {
-    gchar * value;
+    gchar *value;
     value = g_key_file_get_string(keyfile, resource_template_general_group(), resource_template_url_constructor_key(), NULL);
     if (value) {
       url_constructor = value;
@@ -191,11 +198,12 @@ ustring resource_get_url_constructor(const ustring& templatefile) {
   return url_constructor;
 }
 
-ustring resource_get_lower_home_page(const ustring& templatefile) {
+ustring resource_get_lower_home_page(const ustring & templatefile)
+{
   ustring lower_home_page;
-  GKeyFile * keyfile = g_key_file_new();
+  GKeyFile *keyfile = g_key_file_new();
   if (g_key_file_load_from_file(keyfile, templatefile.c_str(), G_KEY_FILE_NONE, NULL)) {
-    gchar * value;
+    gchar *value;
     value = g_key_file_get_string(keyfile, resource_template_general_group(), resource_template_lower_home_page_key(), NULL);
     if (value) {
       lower_home_page = value;
@@ -206,11 +214,12 @@ ustring resource_get_lower_home_page(const ustring& templatefile) {
   return lower_home_page;
 }
 
-ustring resource_get_lower_url_filter(const ustring& templatefile) {
+ustring resource_get_lower_url_filter(const ustring & templatefile)
+{
   ustring lower_url_filter;
-  GKeyFile * keyfile = g_key_file_new();
+  GKeyFile *keyfile = g_key_file_new();
   if (g_key_file_load_from_file(keyfile, templatefile.c_str(), G_KEY_FILE_NONE, NULL)) {
-    gchar * value;
+    gchar *value;
     value = g_key_file_get_string(keyfile, resource_template_general_group(), resource_template_lower_url_filter_key(), NULL);
     if (value) {
       lower_url_filter = value;
@@ -221,22 +230,23 @@ ustring resource_get_lower_url_filter(const ustring& templatefile) {
   return lower_url_filter;
 }
 
-const gchar * resource_type_to_text(ResourceType type) {
-  switch (type)
-  {
-    case rtForeignDataURLForEachVerse:
-      return "Data lives somewhere else, retrieve a different URL for each verse";
-    case rtURLForEachVerseAboveURLFilterBelowWithDifferentAnchors:
-      return "Retrieve a different URL for each chapter, above, and use a filter for below, and use different anchors";
-    case rtURLForEachVerse:
-      return "Retrieve a different URL for each verse";
-    case rtEnd:
-      return "";
+const gchar *resource_type_to_text(ResourceType type)
+{
+  switch (type) {
+  case rtForeignDataURLForEachVerse:
+    return "Data lives somewhere else, retrieve a different URL for each verse";
+  case rtURLForEachVerseAboveURLFilterBelowWithDifferentAnchors:
+    return "Retrieve a different URL for each chapter, above, and use a filter for below, and use different anchors";
+  case rtURLForEachVerse:
+    return "Retrieve a different URL for each verse";
+  case rtEnd:
+    return "";
   }
   return "";
 }
 
-ResourceType resource_text_to_type(const ustring& text) {
+ResourceType resource_text_to_type(const ustring & text)
+{
   for (unsigned int i = 0; i < rtEnd; i++) {
     if (text == resource_type_to_text(ResourceType(i)))
       return (ResourceType) i;
@@ -244,65 +254,78 @@ ResourceType resource_text_to_type(const ustring& text) {
   return rtEnd;
 }
 
-const gchar * resource_url_constructor_book() {
+const gchar *resource_url_constructor_book()
+{
   return "<book>";
 }
 
-const gchar * resource_url_constructor_book_anchor() {
+const gchar *resource_url_constructor_book_anchor()
+{
   return "<bookanchor>";
 }
 
-const gchar * resource_url_constructor_chapter() {
+const gchar *resource_url_constructor_chapter()
+{
   return "<chapter>";
 }
 
-const gchar * resource_url_constructor_verse() {
+const gchar *resource_url_constructor_verse()
+{
   return "<verse>";
 }
 
-const gchar * resource_template_general_group() {
+const gchar *resource_template_general_group()
+{
   return "general";
 }
 
-const gchar * resource_template_books_group() {
+const gchar *resource_template_books_group()
+{
   return "books";
 }
 
-const gchar * resource_template_type_key() {
+const gchar *resource_template_type_key()
+{
   return "type";
 }
 
-const gchar * resource_template_title_key() {
+const gchar *resource_template_title_key()
+{
   return "title";
 }
 
-const gchar * resource_template_home_page_key() {
+const gchar *resource_template_home_page_key()
+{
   return "home page";
 }
 
-const gchar * resource_template_url_constructor_key() {
+const gchar *resource_template_url_constructor_key()
+{
   return "url constructor";
 }
 
-const gchar * resource_template_lower_home_page_key() {
+const gchar *resource_template_lower_home_page_key()
+{
   return "lower home page";
 }
 
-const gchar * resource_template_lower_url_filter_key() {
+const gchar *resource_template_lower_url_filter_key()
+{
   return "lower url filter";
 }
 
-map <unsigned int, ustring> resource_get_books(const ustring& templatefile) {
-  map <unsigned int, ustring> books;
-  GKeyFile * keyfile = g_key_file_new();
+map < unsigned int, ustring > resource_get_books(const ustring & templatefile)
+{
+  map < unsigned int, ustring > books;
+  GKeyFile *keyfile = g_key_file_new();
   if (g_key_file_load_from_file(keyfile, templatefile.c_str(), G_KEY_FILE_NONE, NULL)) {
-    vector <unsigned int> ids = books_type_to_ids(btUnknown);
+    vector < unsigned int >ids = books_type_to_ids(btUnknown);
     for (unsigned int i = 0; i < ids.size(); i++) {
       ustring english_name = books_id_to_english(ids[i]);
-      gchar * value;
+      gchar *value;
       value = g_key_file_get_string(keyfile, resource_template_books_group(), english_name.c_str(), NULL);
       if (value) {
-        books [i] = value;
+        books[i] = value;
         g_free(value);
       }
     }
@@ -311,11 +334,13 @@ map <unsigned int, ustring> resource_get_books(const ustring& templatefile) {
   return books;
 }
 
-ustring resource_construct_url(const ustring& constructor, map <unsigned int, ustring>& books, const Reference& reference) {
+ustring resource_construct_url(const ustring & constructor, map < unsigned int, ustring > &books, const Reference & reference)
+{
   return resource_construct_url(constructor, books, reference, "");
 }
 
-ustring resource_construct_url(const ustring& constructor, map <unsigned int, ustring>& books, const Reference& reference, const ustring& workingdirectory) {
+ustring resource_construct_url(const ustring & constructor, map < unsigned int, ustring > &books, const Reference & reference, const ustring & workingdirectory)
+{
   unsigned int book = reference.book;
   unsigned int chapter = reference.chapter;
   if (chapter == 0)
@@ -324,7 +349,7 @@ ustring resource_construct_url(const ustring& constructor, map <unsigned int, us
   if (verse == "0")
     verse = "1";
   ustring url(constructor);
-  replace_text(url, resource_url_constructor_book(), books [book]);
+  replace_text(url, resource_url_constructor_book(), books[book]);
   replace_text(url, resource_url_constructor_chapter(), convert_to_string(chapter));
   replace_text(url, resource_url_constructor_verse(), verse);
   if (!workingdirectory.empty())
@@ -332,11 +357,13 @@ ustring resource_construct_url(const ustring& constructor, map <unsigned int, us
   return url;
 }
 
-ustring resource_construct_url(const ustring& constructor, map <unsigned int, ustring>& books, map <unsigned int, ustring>& anchors, const Reference& reference) {
+ustring resource_construct_url(const ustring & constructor, map < unsigned int, ustring > &books, map < unsigned int, ustring > &anchors, const Reference & reference)
+{
   return resource_construct_url(constructor, books, anchors, reference, "");
 }
 
-ustring resource_construct_url(const ustring& constructor, map <unsigned int, ustring>& books, map <unsigned int, ustring>& anchors, const Reference& reference, const ustring& workingdirectory) {
+ustring resource_construct_url(const ustring & constructor, map < unsigned int, ustring > &books, map < unsigned int, ustring > &anchors, const Reference & reference, const ustring & workingdirectory)
+{
   unsigned int book = reference.book;
   unsigned int chapter = reference.chapter;
   if (chapter == 0)
@@ -345,8 +372,8 @@ ustring resource_construct_url(const ustring& constructor, map <unsigned int, us
   if (verse == "0")
     verse = "1";
   ustring url(constructor);
-  replace_text(url, resource_url_constructor_book(), books [book]);
-  replace_text(url, resource_url_constructor_book_anchor(), anchors [book]);
+  replace_text(url, resource_url_constructor_book(), books[book]);
+  replace_text(url, resource_url_constructor_book_anchor(), anchors[book]);
   replace_text(url, resource_url_constructor_chapter(), convert_to_string(chapter));
   replace_text(url, resource_url_constructor_verse(), verse);
   if (!workingdirectory.empty())
@@ -354,7 +381,8 @@ ustring resource_construct_url(const ustring& constructor, map <unsigned int, us
   return url;
 }
 
-ustring resource_construct_index_file(const ustring& workingdirectory, ustring constructor, map <unsigned int, ustring>& books, const Reference& reference, bool vary_filename) {
+ustring resource_construct_index_file(const ustring & workingdirectory, ustring constructor, map < unsigned int, ustring > &books, const Reference & reference, bool vary_filename)
+{
   ustring filename("bibledit-index-on-fly.html");
   if (vary_filename) {
     Reference ref(reference);
@@ -369,14 +397,15 @@ ustring resource_construct_index_file(const ustring& workingdirectory, ustring c
   ustring verse = number_in_string(reference.verse);
   if (verse == "0")
     verse = "1";
-  replace_text(constructor, resource_url_constructor_book(), books [book]);
+  replace_text(constructor, resource_url_constructor_book(), books[book]);
   replace_text(constructor, resource_url_constructor_chapter(), convert_to_string(chapter));
   replace_text(constructor, resource_url_constructor_verse(), verse);
   g_file_set_contents(filename.c_str(), constructor.c_str(), -1, NULL);
   return filename;
 }
 
-ustring resource_construct_index_file(const ustring& workingdirectory, ustring constructor, map <unsigned int, ustring>& books, map <unsigned int, ustring>& anchors, const Reference& reference, bool vary_filename) {
+ustring resource_construct_index_file(const ustring & workingdirectory, ustring constructor, map < unsigned int, ustring > &books, map < unsigned int, ustring > &anchors, const Reference & reference, bool vary_filename)
+{
   ustring filename("bibledit-index-on-fly.html");
   if (vary_filename) {
     Reference ref(reference);
@@ -391,23 +420,25 @@ ustring resource_construct_index_file(const ustring& workingdirectory, ustring c
   ustring verse = number_in_string(reference.verse);
   if (verse == "0")
     verse = "1";
-  replace_text(constructor, resource_url_constructor_book(), books [book]);
-  replace_text(constructor, resource_url_constructor_book_anchor(), anchors [book]);
+  replace_text(constructor, resource_url_constructor_book(), books[book]);
+  replace_text(constructor, resource_url_constructor_book_anchor(), anchors[book]);
   replace_text(constructor, resource_url_constructor_chapter(), convert_to_string(chapter));
   replace_text(constructor, resource_url_constructor_verse(), verse);
   g_file_set_contents(filename.c_str(), constructor.c_str(), -1, NULL);
   return filename;
 }
 
-const gchar * resource_template_index_file_constructor_key() {
+const gchar *resource_template_index_file_constructor_key()
+{
   return "index file constructor";
 }
 
-ustring resource_get_index_file_constructor(const ustring& templatefile) {
+ustring resource_get_index_file_constructor(const ustring & templatefile)
+{
   ustring index_file_constructor;
-  GKeyFile * keyfile = g_key_file_new();
+  GKeyFile *keyfile = g_key_file_new();
   if (g_key_file_load_from_file(keyfile, templatefile.c_str(), G_KEY_FILE_NONE, NULL)) {
-    gchar * value;
+    gchar *value;
     value = g_key_file_get_string(keyfile, resource_template_general_group(), resource_template_index_file_constructor_key(), NULL);
     if (value) {
       index_file_constructor = value;
@@ -418,17 +449,18 @@ ustring resource_get_index_file_constructor(const ustring& templatefile) {
   return index_file_constructor;
 }
 
-map <unsigned int, ustring> resource_get_anchors(const ustring& templatefile) {
-  map <unsigned int, ustring> anchors;
-  GKeyFile * keyfile = g_key_file_new();
+map < unsigned int, ustring > resource_get_anchors(const ustring & templatefile)
+{
+  map < unsigned int, ustring > anchors;
+  GKeyFile *keyfile = g_key_file_new();
   if (g_key_file_load_from_file(keyfile, templatefile.c_str(), G_KEY_FILE_NONE, NULL)) {
-    vector <unsigned int> ids = books_type_to_ids(btUnknown);
+    vector < unsigned int >ids = books_type_to_ids(btUnknown);
     for (unsigned int i = 0; i < ids.size(); i++) {
       ustring english_name = books_id_to_english(ids[i]);
-      gchar * value;
+      gchar *value;
       value = g_key_file_get_string(keyfile, resource_template_anchors_group(), english_name.c_str(), NULL);
       if (value) {
-        anchors [i] = value;
+        anchors[i] = value;
         g_free(value);
       }
     }
@@ -437,15 +469,17 @@ map <unsigned int, ustring> resource_get_anchors(const ustring& templatefile) {
   return anchors;
 }
 
-const gchar * resource_template_anchors_group() {
+const gchar *resource_template_anchors_group()
+{
   return "anchors";
 }
 
-const gchar * resource_file_prefix() {
+const gchar *resource_file_prefix()
+{
   return "file://";
 }
 
-ustring resource_url_modifier(const ustring& url, ResourceType resource_type, const ustring& templatefile)
+ustring resource_url_modifier(const ustring & url, ResourceType resource_type, const ustring & templatefile)
 /*
  Some urls are given as full ones, e.g. http://somesite.org.
  These don't need any modification.
@@ -455,21 +489,20 @@ ustring resource_url_modifier(const ustring& url, ResourceType resource_type, co
  */
 {
   ustring modified_url(url);
-  switch (resource_type)
-  {
-    case rtForeignDataURLForEachVerse:
+  switch (resource_type) {
+  case rtForeignDataURLForEachVerse:
     {
       break;
     }
-    case rtURLForEachVerseAboveURLFilterBelowWithDifferentAnchors:
-    case rtURLForEachVerse:
+  case rtURLForEachVerseAboveURLFilterBelowWithDifferentAnchors:
+  case rtURLForEachVerse:
     {
       ustring path = gw_path_get_dirname(templatefile);
       modified_url = resource_file_prefix();
       modified_url.append(gw_build_filename(path, url));
       break;
     }
-    case rtEnd:
+  case rtEnd:
     {
       break;
     }

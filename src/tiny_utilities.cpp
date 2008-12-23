@@ -23,46 +23,52 @@
 // The tiny utilities as listed below are mainly intended to be linked with 
 // small executables, such as for example bibledit-git.
 
-
-unsigned int convert_to_int(const ustring & str) {
+unsigned int convert_to_int(const ustring & str)
+{
   unsigned int i = 0;
   istringstream r(str);
   r >> i;
   return i;
 }
 
-ustring convert_to_string(int i) {
+ustring convert_to_string(int i)
+{
   ostringstream r;
   r << i;
   return r.str();
 }
 
-ustring convert_to_string(unsigned int i) {
+ustring convert_to_string(unsigned int i)
+{
   ostringstream r;
   r << i;
   return r.str();
 }
 
-ustring convert_to_string(bool b) {
+ustring convert_to_string(bool b)
+{
   if (b)
     return "1";
   else
     return "0";
 }
 
-ustring convert_to_string(double d) {
+ustring convert_to_string(double d)
+{
   ostringstream r;
   r << d;
   return r.str();
 }
 
-ustring convert_to_string(long unsigned int i) {
+ustring convert_to_string(long unsigned int i)
+{
   ostringstream r;
   r << i;
   return r.str();
 }
 
-bool convert_to_bool(const ustring & s) {
+bool convert_to_bool(const ustring & s)
+{
   if (s == "")
     return false;
   if (s == "0")
@@ -73,21 +79,24 @@ bool convert_to_bool(const ustring & s) {
     return true;
 }
 
-double convert_to_double(const ustring & s) {
+double convert_to_double(const ustring & s)
+{
   double result;
   istringstream i(s);
   i >> result;
   return result;
 }
 
-ustring convert_bool_to_yes_no(bool b) {
+ustring convert_bool_to_yes_no(bool b)
+{
   if (b)
     return "yes";
   else
     return "no";
 }
 
-ustring trim(const ustring & s) {
+ustring trim(const ustring & s)
+{
   if (s.length() == 0)
     return s;
   // Strip spaces, tabs, new lines, carriage returns.
@@ -99,7 +108,8 @@ ustring trim(const ustring & s) {
   return ustring(s, beg, end - beg + 1);
 }
 
-string trim(const string & s) {
+string trim(const string & s)
+{
   if (s.length() == 0)
     return s;
   // Strip spaces, tabs, new lines, carriage returns.
@@ -111,7 +121,7 @@ string trim(const string & s) {
   return string(s, beg, end - beg + 1);
 }
 
-ustring tiny_gw_build_filename(const ustring& part1, const ustring& part2)
+ustring tiny_gw_build_filename(const ustring & part1, const ustring & part2)
 // Wrapper for g_build_filename, to make programming easier.
 {
   ustring filename;
@@ -122,7 +132,8 @@ ustring tiny_gw_build_filename(const ustring& part1, const ustring& part2)
   return filename;
 }
 
-ustring tiny_gw_build_filename(const ustring& part1, const ustring& part2, const ustring& part3) {
+ustring tiny_gw_build_filename(const ustring & part1, const ustring & part2, const ustring & part3)
+{
   ustring filename;
   gchar *name;
   name = g_build_filename(part1.c_str(), part2.c_str(), part3.c_str(), NULL);
@@ -144,21 +155,23 @@ ustring tiny_directories_get_root()
     root_directory = tiny_gw_build_filename(g_get_home_dir(), ".bibledit");
   }
   root_directory_initialized = true;
-  
+
   // Return the root of all data, <home>/.bibledit
   return root_directory;
 }
 
-ustring tiny_directories_get_projects() {
+ustring tiny_directories_get_projects()
+{
   // This returns the directory with all the projects.
   return tiny_gw_build_filename(tiny_directories_get_root(), "projects");
 }
 
-ustring tiny_project_data_directory_part() {
+ustring tiny_project_data_directory_part()
+{
   return "data";
 }
 
-ustring tiny_project_data_directory_project(const ustring& project)
+ustring tiny_project_data_directory_project(const ustring & project)
 // Returns the data directory for the project, e.g.:
 // ~/.bibledit/projects/testproject/data
 {

@@ -17,7 +17,6 @@
 **  
 */
 
-
 #include "libraries.h"
 #include <glib.h>
 #include "dialogreplace.h"
@@ -32,269 +31,239 @@
 #include "settings.h"
 #include "tiny_utilities.h"
 
-
-ReplaceDialog::ReplaceDialog (int dummy)
+ReplaceDialog::ReplaceDialog(int dummy)
 {
-  Shortcuts shortcuts (0);
-  
-  extern Settings * settings;
-  
-  replacedialog = gtk_dialog_new ();
-  gtk_window_set_title (GTK_WINDOW (replacedialog), "Replace");
-  gtk_window_set_position (GTK_WINDOW (replacedialog), GTK_WIN_POS_CENTER_ON_PARENT);
-  gtk_window_set_modal (GTK_WINDOW (replacedialog), TRUE);
-  gtk_window_set_destroy_with_parent (GTK_WINDOW (replacedialog), TRUE);
+  Shortcuts shortcuts(0);
 
-  dialog_vbox1 = GTK_DIALOG (replacedialog)->vbox;
-  gtk_widget_show (dialog_vbox1);
+  extern Settings *settings;
 
-  table1 = gtk_table_new (6, 2, FALSE);
-  gtk_widget_show (table1);
-  gtk_box_pack_start (GTK_BOX (dialog_vbox1), table1, TRUE, TRUE, 0);
+  replacedialog = gtk_dialog_new();
+  gtk_window_set_title(GTK_WINDOW(replacedialog), "Replace");
+  gtk_window_set_position(GTK_WINDOW(replacedialog), GTK_WIN_POS_CENTER_ON_PARENT);
+  gtk_window_set_modal(GTK_WINDOW(replacedialog), TRUE);
+  gtk_window_set_destroy_with_parent(GTK_WINDOW(replacedialog), TRUE);
 
-  label7 = gtk_label_new ("Search for");
-  gtk_widget_show (label7);
-  gtk_table_attach (GTK_TABLE (table1), label7, 0, 1, 0, 1,
-                    (GtkAttachOptions) (GTK_FILL),
-                    (GtkAttachOptions) (0), 4, 4);
-  gtk_misc_set_alignment (GTK_MISC (label7), 1, 0.5);
-  
-  shortcuts.label (label7);
+  dialog_vbox1 = GTK_DIALOG(replacedialog)->vbox;
+  gtk_widget_show(dialog_vbox1);
 
-  label8 = gtk_label_new ("Replace with");
-  gtk_widget_show (label8);
-  gtk_table_attach (GTK_TABLE (table1), label8, 0, 1, 1, 2,
-                    (GtkAttachOptions) (GTK_FILL),
-                    (GtkAttachOptions) (0), 4, 4);
-  gtk_misc_set_alignment (GTK_MISC (label8), 1, 0.5);
+  table1 = gtk_table_new(6, 2, FALSE);
+  gtk_widget_show(table1);
+  gtk_box_pack_start(GTK_BOX(dialog_vbox1), table1, TRUE, TRUE, 0);
 
-  shortcuts.label (label8);
+  label7 = gtk_label_new("Search for");
+  gtk_widget_show(label7);
+  gtk_table_attach(GTK_TABLE(table1), label7, 0, 1, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 4, 4);
+  gtk_misc_set_alignment(GTK_MISC(label7), 1, 0.5);
 
-  entry2 = gtk_entry_new ();
+  shortcuts.label(label7);
+
+  label8 = gtk_label_new("Replace with");
+  gtk_widget_show(label8);
+  gtk_table_attach(GTK_TABLE(table1), label8, 0, 1, 1, 2, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 4, 4);
+  gtk_misc_set_alignment(GTK_MISC(label8), 1, 0.5);
+
+  shortcuts.label(label8);
+
+  entry2 = gtk_entry_new();
   // Manually added code.
-  gtk_entry_set_text (GTK_ENTRY (entry2), settings->session.searchword.c_str ());
-  gtk_widget_show (entry2);
-  gtk_table_attach (GTK_TABLE (table1), entry2, 1, 2, 0, 1,
-                    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-                    (GtkAttachOptions) (0), 0, 2);
-  gtk_entry_set_activates_default (GTK_ENTRY (entry2), TRUE);
+  gtk_entry_set_text(GTK_ENTRY(entry2), settings->session.searchword.c_str());
+  gtk_widget_show(entry2);
+  gtk_table_attach(GTK_TABLE(table1), entry2, 1, 2, 0, 1, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 2);
+  gtk_entry_set_activates_default(GTK_ENTRY(entry2), TRUE);
 
-  entry3 = gtk_entry_new ();
+  entry3 = gtk_entry_new();
   // Manually added code.
-  gtk_entry_set_text (GTK_ENTRY (entry3), settings->session.replaceword.c_str ());
-  gtk_widget_show (entry3);
-  gtk_table_attach (GTK_TABLE (table1), entry3, 1, 2, 1, 2,
-                    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-                    (GtkAttachOptions) (0), 0, 2);
-  gtk_entry_set_activates_default (GTK_ENTRY (entry3), TRUE);
+  gtk_entry_set_text(GTK_ENTRY(entry3), settings->session.replaceword.c_str());
+  gtk_widget_show(entry3);
+  gtk_table_attach(GTK_TABLE(table1), entry3, 1, 2, 1, 2, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 2);
+  gtk_entry_set_activates_default(GTK_ENTRY(entry3), TRUE);
 
-  checkbuttoncase = gtk_check_button_new_with_mnemonic ("Case sensitive");
-  gtk_widget_show (checkbuttoncase);
-  gtk_table_attach (GTK_TABLE (table1), checkbuttoncase, 0, 2, 2, 3,
-                    (GtkAttachOptions) (GTK_FILL),
-                    (GtkAttachOptions) (0), 0, 0);
+  checkbuttoncase = gtk_check_button_new_with_mnemonic("Case sensitive");
+  gtk_widget_show(checkbuttoncase);
+  gtk_table_attach(GTK_TABLE(table1), checkbuttoncase, 0, 2, 2, 3, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 
-  shortcuts.button (checkbuttoncase);
-  
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbuttoncase), settings->session.search_case_sensitive);
+  shortcuts.button(checkbuttoncase);
 
-  checkbuttonbook = gtk_check_button_new_with_mnemonic ("Current book only");
-  gtk_widget_show (checkbuttonbook);
-  gtk_table_attach (GTK_TABLE (table1), checkbuttonbook, 0, 2, 3, 4,
-                    (GtkAttachOptions) (GTK_FILL),
-                    (GtkAttachOptions) (0), 0, 0);
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbuttoncase), settings->session.search_case_sensitive);
 
-  shortcuts.button (checkbuttonbook);
-  
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbuttonbook), settings->session.search_current_book);
+  checkbuttonbook = gtk_check_button_new_with_mnemonic("Current book only");
+  gtk_widget_show(checkbuttonbook);
+  gtk_table_attach(GTK_TABLE(table1), checkbuttonbook, 0, 2, 3, 4, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 
-  checkbuttonchapter = gtk_check_button_new_with_mnemonic ("Current chapter only");
-  gtk_widget_show (checkbuttonchapter);
-  gtk_table_attach (GTK_TABLE (table1), checkbuttonchapter, 0, 2, 4, 5,
-                    (GtkAttachOptions) (GTK_FILL),
-                    (GtkAttachOptions) (0), 0, 0);
+  shortcuts.button(checkbuttonbook);
 
-  shortcuts.button (checkbuttonchapter);
-  
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbuttonchapter), settings->session.search_current_chapter);
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbuttonbook), settings->session.search_current_book);
 
-  selectbutton = gtk_button_new ();
-  gtk_widget_show (selectbutton);
-  gtk_table_attach (GTK_TABLE (table1), selectbutton, 0, 1, 5, 6,
-                    (GtkAttachOptions) (GTK_FILL),
-                    (GtkAttachOptions) (0), 0, 0);
+  checkbuttonchapter = gtk_check_button_new_with_mnemonic("Current chapter only");
+  gtk_widget_show(checkbuttonchapter);
+  gtk_table_attach(GTK_TABLE(table1), checkbuttonchapter, 0, 2, 4, 5, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 
-  alignment1 = gtk_alignment_new (0.5, 0.5, 0, 0);
-  gtk_widget_show (alignment1);
-  gtk_container_add (GTK_CONTAINER (selectbutton), alignment1);
+  shortcuts.button(checkbuttonchapter);
 
-  hbox1 = gtk_hbox_new (FALSE, 2);
-  gtk_widget_show (hbox1);
-  gtk_container_add (GTK_CONTAINER (alignment1), hbox1);
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbuttonchapter), settings->session.search_current_chapter);
 
-  image1 = gtk_image_new_from_stock ("gtk-properties", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show (image1);
-  gtk_box_pack_start (GTK_BOX (hbox1), image1, FALSE, FALSE, 0);
+  selectbutton = gtk_button_new();
+  gtk_widget_show(selectbutton);
+  gtk_table_attach(GTK_TABLE(table1), selectbutton, 0, 1, 5, 6, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 
-  label9 = gtk_label_new_with_mnemonic ("Select books");
-  gtk_widget_show (label9);
-  gtk_box_pack_start (GTK_BOX (hbox1), label9, FALSE, FALSE, 0);
+  alignment1 = gtk_alignment_new(0.5, 0.5, 0, 0);
+  gtk_widget_show(alignment1);
+  gtk_container_add(GTK_CONTAINER(selectbutton), alignment1);
 
-  shortcuts.label (label9);
-  
-  dialog_action_area1 = GTK_DIALOG (replacedialog)->action_area;
-  gtk_widget_show (dialog_action_area1);
-  gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area1), GTK_BUTTONBOX_END);
+  hbox1 = gtk_hbox_new(FALSE, 2);
+  gtk_widget_show(hbox1);
+  gtk_container_add(GTK_CONTAINER(alignment1), hbox1);
 
-  new InDialogHelp (replacedialog, &shortcuts, NULL);
+  image1 = gtk_image_new_from_stock("gtk-properties", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_show(image1);
+  gtk_box_pack_start(GTK_BOX(hbox1), image1, FALSE, FALSE, 0);
 
-  buttonfind = gtk_button_new_from_stock ("gtk-find");
-  gtk_widget_show (buttonfind);
-  gtk_dialog_add_action_widget (GTK_DIALOG (replacedialog), buttonfind, GTK_RESPONSE_OK);
-  GTK_WIDGET_SET_FLAGS (buttonfind, GTK_CAN_DEFAULT);
+  label9 = gtk_label_new_with_mnemonic("Select books");
+  gtk_widget_show(label9);
+  gtk_box_pack_start(GTK_BOX(hbox1), label9, FALSE, FALSE, 0);
 
-  buttoncancel = gtk_button_new_from_stock ("gtk-cancel");
-  gtk_widget_show (buttoncancel);
-  gtk_dialog_add_action_widget (GTK_DIALOG (replacedialog), buttoncancel, GTK_RESPONSE_CANCEL);
-  GTK_WIDGET_SET_FLAGS (buttoncancel, GTK_CAN_DEFAULT);
-  
-  shortcuts.stockbutton (buttonfind);
-  shortcuts.stockbutton (buttoncancel);
-  shortcuts.process ();
+  shortcuts.label(label9);
 
-  g_signal_connect ((gpointer) checkbuttonbook, "toggled", G_CALLBACK (on_checkbuttonbook_toggled), gpointer (this));
-  g_signal_connect ((gpointer) checkbuttonchapter, "toggled", G_CALLBACK (on_checkbuttonchapter_toggled), gpointer (this));
-  g_signal_connect ((gpointer) selectbutton, "clicked", G_CALLBACK (on_selectbutton_clicked), gpointer (this));
-  g_signal_connect ((gpointer) buttonfind, "clicked", G_CALLBACK (replacedialog_on_buttonfind_clicked), gpointer (this));
-  g_signal_connect ((gpointer) entry2, "changed", G_CALLBACK (on_word_entry_changed), gpointer(this));
+  dialog_action_area1 = GTK_DIALOG(replacedialog)->action_area;
+  gtk_widget_show(dialog_action_area1);
+  gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
-  gtk_label_set_mnemonic_widget (GTK_LABEL (label7), entry2);
-  gtk_label_set_mnemonic_widget (GTK_LABEL (label8), entry3);
+  new InDialogHelp(replacedialog, &shortcuts, NULL);
 
-  gtk_widget_grab_focus (entry2);
-  gtk_widget_grab_default (buttonfind);
+  buttonfind = gtk_button_new_from_stock("gtk-find");
+  gtk_widget_show(buttonfind);
+  gtk_dialog_add_action_widget(GTK_DIALOG(replacedialog), buttonfind, GTK_RESPONSE_OK);
+  GTK_WIDGET_SET_FLAGS(buttonfind, GTK_CAN_DEFAULT);
+
+  buttoncancel = gtk_button_new_from_stock("gtk-cancel");
+  gtk_widget_show(buttoncancel);
+  gtk_dialog_add_action_widget(GTK_DIALOG(replacedialog), buttoncancel, GTK_RESPONSE_CANCEL);
+  GTK_WIDGET_SET_FLAGS(buttoncancel, GTK_CAN_DEFAULT);
+
+  shortcuts.stockbutton(buttonfind);
+  shortcuts.stockbutton(buttoncancel);
+  shortcuts.process();
+
+  g_signal_connect((gpointer) checkbuttonbook, "toggled", G_CALLBACK(on_checkbuttonbook_toggled), gpointer(this));
+  g_signal_connect((gpointer) checkbuttonchapter, "toggled", G_CALLBACK(on_checkbuttonchapter_toggled), gpointer(this));
+  g_signal_connect((gpointer) selectbutton, "clicked", G_CALLBACK(on_selectbutton_clicked), gpointer(this));
+  g_signal_connect((gpointer) buttonfind, "clicked", G_CALLBACK(replacedialog_on_buttonfind_clicked), gpointer(this));
+  g_signal_connect((gpointer) entry2, "changed", G_CALLBACK(on_word_entry_changed), gpointer(this));
+
+  gtk_label_set_mnemonic_widget(GTK_LABEL(label7), entry2);
+  gtk_label_set_mnemonic_widget(GTK_LABEL(label8), entry3);
+
+  gtk_widget_grab_focus(entry2);
+  gtk_widget_grab_default(buttonfind);
 
   // Select books feature.
-  selectable_books = project_get_books (settings->genconfig.project_get());
+  selectable_books = project_get_books(settings->genconfig.project_get());
 
   // Entry completion
-  completion_setup (entry2, cpSearch);
-  completion_setup (entry3, cpReplace);
-  
+  completion_setup(entry2, cpSearch);
+  completion_setup(entry3, cpReplace);
+
   set_gui();
 }
 
-
-ReplaceDialog::~ReplaceDialog ()
+ReplaceDialog::~ReplaceDialog()
 {
-  gtk_widget_destroy (replacedialog);
+  gtk_widget_destroy(replacedialog);
 }
 
-
-int ReplaceDialog::run ()
+int ReplaceDialog::run()
 {
-  return gtk_dialog_run (GTK_DIALOG (replacedialog));
+  return gtk_dialog_run(GTK_DIALOG(replacedialog));
 }
 
-
-void ReplaceDialog::on_checkbuttonbook_toggled (GtkToggleButton *togglebutton, gpointer user_data)
+void ReplaceDialog::on_checkbuttonbook_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
-  ((ReplaceDialog*)user_data)->on_checkbutton_book ();
+  ((ReplaceDialog *) user_data)->on_checkbutton_book();
 }
 
-
-void ReplaceDialog::on_checkbutton_book ()
+void ReplaceDialog::on_checkbutton_book()
 {
-  if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbuttonbook))) {
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbuttonchapter), false);
+  if (!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbuttonbook))) {
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbuttonchapter), false);
   }
 }
 
-
-void ReplaceDialog::on_checkbuttonchapter_toggled (GtkToggleButton *togglebutton, gpointer user_data)
+void ReplaceDialog::on_checkbuttonchapter_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
-  ((ReplaceDialog*)user_data)->on_checkbutton_chapter ();
+  ((ReplaceDialog *) user_data)->on_checkbutton_chapter();
 }
 
-
-void ReplaceDialog::on_checkbutton_chapter ()
+void ReplaceDialog::on_checkbutton_chapter()
 {
-  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbuttonchapter))) {
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbuttonbook), true);
+  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbuttonchapter))) {
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbuttonbook), true);
   }
 }
 
-
-void ReplaceDialog::replacedialog_on_buttonfind_clicked (GtkButton *button, gpointer user_data)
+void ReplaceDialog::replacedialog_on_buttonfind_clicked(GtkButton * button, gpointer user_data)
 {
-  ((ReplaceDialog*)user_data)->on_buttonfind_clicked ();
+  ((ReplaceDialog *) user_data)->on_buttonfind_clicked();
 }
 
-
-void ReplaceDialog::on_buttonfind_clicked ()
+void ReplaceDialog::on_buttonfind_clicked()
 {
-  extern Settings * settings;
+  extern Settings *settings;
   // Get data from the user interface.
-  ustring searchword = gtk_entry_get_text (GTK_ENTRY (entry2));
+  ustring searchword = gtk_entry_get_text(GTK_ENTRY(entry2));
   settings->session.searchword = searchword;
-  ustring replaceword = gtk_entry_get_text (GTK_ENTRY (entry3));
+  ustring replaceword = gtk_entry_get_text(GTK_ENTRY(entry3));
   settings->session.replaceword = replaceword;
-  settings->session.search_case_sensitive = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbuttoncase));
-  settings->session.search_current_book = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbuttonbook));
-  settings->session.search_current_chapter = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbuttonchapter));
+  settings->session.search_case_sensitive = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbuttoncase));
+  settings->session.search_current_book = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbuttonbook));
+  settings->session.search_current_chapter = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbuttonchapter));
   // Search.
-  vector <unsigned int> mybooks;
-  mybooks.assign (settings->session.selected_books.begin(), settings->session.selected_books.end());
-  set <unsigned int> selected_books;
-  selected_books.insert (settings->genconfig.book_get ());
+  vector < unsigned int >mybooks;
+  mybooks.assign(settings->session.selected_books.begin(), settings->session.selected_books.end());
+  set < unsigned int >selected_books;
+  selected_books.insert(settings->genconfig.book_get());
   settings->session.selected_books = selected_books;
-  unsigned int chapter = convert_to_int (settings->genconfig.chapter_get ());
-  search_string_basic (settings->genconfig.project_get(), settings->session.search_current_book, chapter, results);
+  unsigned int chapter = convert_to_int(settings->genconfig.chapter_get());
+  search_string_basic(settings->genconfig.project_get(), settings->session.search_current_book, chapter, results);
   selected_books.clear();
   for (unsigned int i = 0; i < mybooks.size(); i++)
-    selected_books.insert (mybooks[i]);
+    selected_books.insert(mybooks[i]);
   settings->session.selected_books = selected_books;
-  sort_references (results);
+  sort_references(results);
   // Highlighting words in editor.
   settings->session.highlights.clear();
-  SessionHighlights sessionhighlights1 (searchword, settings->session.search_case_sensitive, false, false, false, atRaw, false, false, false, false, false, false, false, false);
-  settings->session.highlights.push_back (sessionhighlights1);
-  SessionHighlights sessionhighlights2 (replaceword, settings->session.search_case_sensitive, false, false, false, atRaw, false, false, false, false, false, false, false, false);
-  settings->session.highlights.push_back (sessionhighlights2);
+  SessionHighlights sessionhighlights1(searchword, settings->session.search_case_sensitive, false, false, false, atRaw, false, false, false, false, false, false, false, false);
+  settings->session.highlights.push_back(sessionhighlights1);
+  SessionHighlights sessionhighlights2(replaceword, settings->session.search_case_sensitive, false, false, false, atRaw, false, false, false, false, false, false, false, false);
+  settings->session.highlights.push_back(sessionhighlights2);
   // Entry completion
-  completion_finish (entry2, cpSearch);
-  completion_finish (entry3, cpReplace);
+  completion_finish(entry2, cpSearch);
+  completion_finish(entry3, cpReplace);
 }
 
-
-void ReplaceDialog::on_selectbutton_clicked (GtkButton *button,
-                                             gpointer user_data)
+void ReplaceDialog::on_selectbutton_clicked(GtkButton * button, gpointer user_data)
 {
-  ((ReplaceDialog*)user_data)->on_selectbutton_clicked2 ();
+  ((ReplaceDialog *) user_data)->on_selectbutton_clicked2();
 }
 
-
-void ReplaceDialog::on_selectbutton_clicked2 ()
+void ReplaceDialog::on_selectbutton_clicked2()
 // The user can select which books to search and replace in.
 {
-  extern Settings * settings;
-  SelectBooksDialog dialog (false);
-  dialog.selectables (selectable_books);
-  dialog.selection_set (settings->session.selected_books);
-  if (dialog.run () == GTK_RESPONSE_OK) {
+  extern Settings *settings;
+  SelectBooksDialog dialog(false);
+  dialog.selectables(selectable_books);
+  dialog.selection_set(settings->session.selected_books);
+  if (dialog.run() == GTK_RESPONSE_OK) {
     settings->session.selected_books = dialog.selectionset;
   }
 }
 
-
-void ReplaceDialog::on_word_entry_changed (GtkEditable * editable, gpointer user_data)
+void ReplaceDialog::on_word_entry_changed(GtkEditable * editable, gpointer user_data)
 {
-  ((ReplaceDialog *) user_data)->set_gui ();
+  ((ReplaceDialog *) user_data)->set_gui();
 }
 
-
-void ReplaceDialog::set_gui ()
+void ReplaceDialog::set_gui()
 {
-  ustring searchword = gtk_entry_get_text (GTK_ENTRY (entry2));
-  gtk_widget_set_sensitive (buttonfind, !searchword.empty ());
+  ustring searchword = gtk_entry_get_text(GTK_ENTRY(entry2));
+  gtk_widget_set_sensitive(buttonfind, !searchword.empty());
 }

@@ -17,26 +17,22 @@
 **  
 */
 
-
 #include "libraries.h"
 #include "styles.h"
 #include "stylesheetutils.h"
 
-
-Styles::Styles (int dummy)
+Styles::Styles(int dummy)
 {
 }
 
-
-Styles::~Styles ()
+Styles::~Styles()
 {
   for (unsigned int i = 0; i < usfms.size(); i++) {
     delete usfms[i];
   }
 }
 
-
-Usfm * Styles::usfm (const ustring& stylesheet)
+Usfm *Styles::usfm(const ustring & stylesheet)
 {
   // If these styles have been loaded already, return a pointer to them.
   for (unsigned int i = 0; i < usfms.size(); i++) {
@@ -45,11 +41,11 @@ Usfm * Styles::usfm (const ustring& stylesheet)
     }
   }
   // If this stylesheet does not exist, create it.
-  if (!stylesheet_exists (stylesheet)) {
-    stylesheet_create_new (stylesheet, stFull);
+  if (!stylesheet_exists(stylesheet)) {
+    stylesheet_create_new(stylesheet, stFull);
   }
   // The styles were not loaded yet: create a new object and return a pointer to it.
-  Usfm * usfm = new Usfm (stylesheet);
-  usfms.push_back (usfm);
+  Usfm *usfm = new Usfm(stylesheet);
+  usfms.push_back(usfm);
   return usfms[usfms.size() - 1];
 }

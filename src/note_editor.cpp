@@ -22,13 +22,15 @@
 #include "tiny_utilities.h"
 #include "html.h"
 
-NoteEditor::NoteEditor(int dummy) {
+NoteEditor::NoteEditor(int dummy)
+{
 }
 
-NoteEditor::~NoteEditor() {
+NoteEditor::~NoteEditor()
+{
 }
 
-void NoteEditor::store_original_data(const ustring& data)
+void NoteEditor::store_original_data(const ustring & data)
 // Stores the data before editing.
 {
   original_data = data;
@@ -81,7 +83,7 @@ ustring NoteEditor::clean_edited_data()
   // Libgtkhtml3 stores data in html entities. 
   // Transform these back to UTF8. It would have been fine to leave these as entities,
   // but because of the note search functionality, we need normal characters, not entities.
-  html_entities_to_utf8 (edited_data);
+  html_entities_to_utf8(edited_data);
   // Give result.  
   return edited_data;
 }
@@ -92,17 +94,17 @@ bool NoteEditor::data_was_edited()
   return (edited_data != original_data);
 }
 
-vector <ustring> note_editor_font_size_names_list()
+vector < ustring > note_editor_font_size_names_list()
 // This gives a list of possible font sizes.
 {
-  vector <ustring> list;
+  vector < ustring > list;
   for (int i = GTK_HTML_FONT_STYLE_SIZE_1; i <= GTK_HTML_FONT_STYLE_SIZE_7; i++) {
     list.push_back(note_editor_font_size_enum_to_name(GtkHTMLFontStyle(i)));
   }
   return list;
 }
 
-GtkHTMLFontStyle note_editor_font_size_name_to_enum(const ustring& style)
+GtkHTMLFontStyle note_editor_font_size_name_to_enum(const ustring & style)
 // This accepts a name of a font size and returns the style enum.
 {
   GtkHTMLFontStyle enumeration = GTK_HTML_FONT_STYLE_DEFAULT;
@@ -136,17 +138,17 @@ ustring note_editor_font_size_enum_to_name(GtkHTMLFontStyle style)
   return "Unknown";
 }
 
-vector <ustring> note_editor_paragraph_style_names_list()
+vector < ustring > note_editor_paragraph_style_names_list()
 // This gives a list of possible paragraph styles.
 {
-  vector <ustring> list;
+  vector < ustring > list;
   for (int i = 0; i < GTK_HTML_PARAGRAPH_STYLE_ITEMALPHA; i++) {
     list.push_back(note_editor_paragraph_style_enum_to_name(GtkHTMLParagraphStyle(i)));
   }
   return list;
 }
 
-GtkHTMLParagraphStyle note_editor_paragraph_style_name_to_enum(const ustring& style)
+GtkHTMLParagraphStyle note_editor_paragraph_style_name_to_enum(const ustring & style)
 // This accepts the name of a paragraph style, and returns the style enum.
 {
   GtkHTMLParagraphStyle enumeration = GTK_HTML_PARAGRAPH_STYLE_NORMAL;
@@ -160,34 +162,33 @@ GtkHTMLParagraphStyle note_editor_paragraph_style_name_to_enum(const ustring& st
 ustring note_editor_paragraph_style_enum_to_name(GtkHTMLParagraphStyle style)
 // Accepts a paragraph style enumeration and returns the name of it.
 {
-  switch (style)
-  {
-    case GTK_HTML_PARAGRAPH_STYLE_NORMAL:
-      return "Normal";
-    case GTK_HTML_PARAGRAPH_STYLE_H1:
-      return "Header 1";
-    case GTK_HTML_PARAGRAPH_STYLE_H2:
-      return "Header 2";
-    case GTK_HTML_PARAGRAPH_STYLE_H3:
-      return "Header 3";
-    case GTK_HTML_PARAGRAPH_STYLE_H4:
-      return "Header 4";
-    case GTK_HTML_PARAGRAPH_STYLE_H5:
-      return "Header 5";
-    case GTK_HTML_PARAGRAPH_STYLE_H6:
-      return "Header 6";
-    case GTK_HTML_PARAGRAPH_STYLE_ADDRESS:
-      return "Address";
-    case GTK_HTML_PARAGRAPH_STYLE_PRE:
-      return "Preformatted";
-    case GTK_HTML_PARAGRAPH_STYLE_ITEMDOTTED:
-      return "Bulleted list";
-    case GTK_HTML_PARAGRAPH_STYLE_ITEMROMAN:
-      return "Roman list";
-    case GTK_HTML_PARAGRAPH_STYLE_ITEMDIGIT:
-      return "Latin list";
-    case GTK_HTML_PARAGRAPH_STYLE_ITEMALPHA:
-      return "Alphabetical list";
+  switch (style) {
+  case GTK_HTML_PARAGRAPH_STYLE_NORMAL:
+    return "Normal";
+  case GTK_HTML_PARAGRAPH_STYLE_H1:
+    return "Header 1";
+  case GTK_HTML_PARAGRAPH_STYLE_H2:
+    return "Header 2";
+  case GTK_HTML_PARAGRAPH_STYLE_H3:
+    return "Header 3";
+  case GTK_HTML_PARAGRAPH_STYLE_H4:
+    return "Header 4";
+  case GTK_HTML_PARAGRAPH_STYLE_H5:
+    return "Header 5";
+  case GTK_HTML_PARAGRAPH_STYLE_H6:
+    return "Header 6";
+  case GTK_HTML_PARAGRAPH_STYLE_ADDRESS:
+    return "Address";
+  case GTK_HTML_PARAGRAPH_STYLE_PRE:
+    return "Preformatted";
+  case GTK_HTML_PARAGRAPH_STYLE_ITEMDOTTED:
+    return "Bulleted list";
+  case GTK_HTML_PARAGRAPH_STYLE_ITEMROMAN:
+    return "Roman list";
+  case GTK_HTML_PARAGRAPH_STYLE_ITEMDIGIT:
+    return "Latin list";
+  case GTK_HTML_PARAGRAPH_STYLE_ITEMALPHA:
+    return "Alphabetical list";
   }
   return "";
 }

@@ -22,8 +22,7 @@
 #include "text2pdf_ref_area.h"
 #include "text2pdf_block.h"
 
-T2PBlock::T2PBlock(PangoRectangle rectangle_in, int column_count_in) :
-  T2PArea(rectangle_in)
+T2PBlock::T2PBlock(PangoRectangle rectangle_in, int column_count_in):T2PArea(rectangle_in)
 // This is used as one block of text that must be kept together.
 {
   // Default type is text.
@@ -35,7 +34,7 @@ T2PBlock::T2PBlock(PangoRectangle rectangle_in, int column_count_in) :
   // Columns, size.
   column_count = column_count_in;
   maximum_width_pango_units = rectangle.width;
-  
+
   // Running header variables.
   left_running_chapter = 0;
   right_running_chapter = 0;
@@ -51,10 +50,10 @@ T2PBlock::~T2PBlock()
   }
 }
 
-T2PLayoutContainer * T2PBlock::next_layout_container(cairo_t *cairo)
+T2PLayoutContainer *T2PBlock::next_layout_container(cairo_t * cairo)
 // Gets the next layout container object.
 {
-  T2PLayoutContainer * layoutcontainer = new T2PLayoutContainer (rectangle, this, cairo);
+  T2PLayoutContainer *layoutcontainer = new T2PLayoutContainer(rectangle, this, cairo);
   layoutcontainers.push_back(layoutcontainer);
   return layoutcontainer;
 }
@@ -71,11 +70,11 @@ void T2PBlock::store_layout_container_width(T2PLayoutContainer * layoutcontainer
   rectangle.width = layoutcontainer->rectangle.width;
 }
 
-void T2PBlock::print(cairo_t *cairo)
+void T2PBlock::print(cairo_t * cairo)
 // Print the block.
 {
   for (unsigned int l = 0; l < layoutcontainers.size(); l++) {
-    T2PLayoutContainer * layoutcontainer = layoutcontainers[l];
+    T2PLayoutContainer *layoutcontainer = layoutcontainers[l];
     layoutcontainer->rectangle.x += rectangle.x;
     layoutcontainer->rectangle.y += rectangle.y;
     layoutcontainer->print(cairo);
@@ -111,26 +110,25 @@ void T2PBlock::set_widow_orphan_data(int paragraph_line_number, bool last_line_o
 ustring T2PBlock::type2text()
 // For diagnostics.
 {
-  switch (type)
-  {
-    case t2pbtTextGeneral:
-      return "TextGeneral";
-    case t2pbtTextParagraphFirstLine:
-      return "TextParagraphFirstLine";
-    case t2pbtTextParagraphLastLine:
-      return "TextParagraphLastLine";
-    case t2pbtTextParagraphOnlyLine:
-      return "TextParagraphOnlyLine";
-    case t2pbtTextIntrusion:
-      return "TextIntrusion";
-    case t2pbtSpaceBeforeParagraph:
-      return "SpaceBeforeParagraph";
-    case t2pbtSpaceAfterParagraph:
-      return "SpaceAfterParagraph";
-    case t2pbtNewPage:
-      return "NewPage";
-    case t2pbtNewOddPage:
-      return "NewOddPage";
+  switch (type) {
+  case t2pbtTextGeneral:
+    return "TextGeneral";
+  case t2pbtTextParagraphFirstLine:
+    return "TextParagraphFirstLine";
+  case t2pbtTextParagraphLastLine:
+    return "TextParagraphLastLine";
+  case t2pbtTextParagraphOnlyLine:
+    return "TextParagraphOnlyLine";
+  case t2pbtTextIntrusion:
+    return "TextIntrusion";
+  case t2pbtSpaceBeforeParagraph:
+    return "SpaceBeforeParagraph";
+  case t2pbtSpaceAfterParagraph:
+    return "SpaceAfterParagraph";
+  case t2pbtNewPage:
+    return "NewPage";
+  case t2pbtNewOddPage:
+    return "NewOddPage";
   }
   return "";
 }

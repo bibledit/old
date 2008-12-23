@@ -31,13 +31,13 @@
 #include "directories.h"
 #include "utilities.h"
 
-const gchar * reporting_status_filename()
+const gchar *reporting_status_filename()
 // Gives the base filename of the status file.
 {
   return "status";
 }
 
-ustring reporting_status_filename(const ustring& project, unsigned int book)
+ustring reporting_status_filename(const ustring & project, unsigned int book)
 // Gives the full filename of the filename that has the status information.
 // project: project
 // book: book - there is one status file per book.
@@ -45,23 +45,36 @@ ustring reporting_status_filename(const ustring& project, unsigned int book)
   return gw_build_filename(project_data_directory_book(project, book), reporting_status_filename());
 }
 
-void reporting_check_tasks_and_durations(vector <ustring>& tasks, vector <double> * durations)
+void reporting_check_tasks_and_durations(vector < ustring > &tasks, vector < double >*durations)
 // This is a function designed to initialize an empty vector of tasks
 // and accompanying durations.
 // If the vector are empty, they get initialized with a defaults.
 // If the vectors are not of the same size, their sizes will be adjusted.
 {
-  struct
-  {
-    const char * task;
+  struct {
+    const char *task;
     double duration;
-  } default_values [] = { { "First Draft", 2 }, { "Self Check", 0.4 }, { "Team Check", 0.4 }, { "Back Translation", 0.4 }, { "Advisor Check", 0.1 }, { "First Revision", 0.4 }, { "First Village Check", 0.5 }, {
-      "Second Revision", 0.4 }, { "Second Village Check", 0.5 }, { "Third Revision", 0.4 }, { "Consultant Check", 0.1 }, { "Fourth Revision", 0.4 }, { "First Read Through", 0.2 }, { "Second Read Through", 0.2 }, {
-      "Publish", 0 }, { "Post Publish Revision", 0 } };
+  } default_values[] = { {
+  "First Draft", 2}, {
+  "Self Check", 0.4}, {
+  "Team Check", 0.4}, {
+  "Back Translation", 0.4}, {
+  "Advisor Check", 0.1}, {
+  "First Revision", 0.4}, {
+  "First Village Check", 0.5}, {
+  "Second Revision", 0.4}, {
+  "Second Village Check", 0.5}, {
+  "Third Revision", 0.4}, {
+  "Consultant Check", 0.1}, {
+  "Fourth Revision", 0.4}, {
+  "First Read Through", 0.2}, {
+  "Second Read Through", 0.2}, {
+  "Publish", 0}, {
+  "Post Publish Revision", 0}};
 
   if (tasks.empty()) {
-    vector <ustring> values;
-    for (unsigned int i = 0; i < (sizeof (default_values) / sizeof (*default_values)); i++) {
+    vector < ustring > values;
+    for (unsigned int i = 0; i < (sizeof(default_values) / sizeof(*default_values)); i++) {
       values.push_back(default_values[i].task);
     }
     tasks = values;
@@ -72,7 +85,7 @@ void reporting_check_tasks_and_durations(vector <ustring>& tasks, vector <double
       durations->clear();
       for (unsigned int i = 0; i < tasks.size(); i++) {
         double duration = 0.5;
-        for (unsigned int i2 = 0; i2 < (sizeof (default_values) / sizeof (*default_values)); i2++) {
+        for (unsigned int i2 = 0; i2 < (sizeof(default_values) / sizeof(*default_values)); i2++) {
           if (tasks[i] == default_values[i2].task) {
             duration = default_values[i2].duration;
           }
@@ -83,7 +96,7 @@ void reporting_check_tasks_and_durations(vector <ustring>& tasks, vector <double
   }
 }
 
-void reporting_durations_to_percentages(vector <double>& durations, vector <unsigned int>& percentages)
+void reporting_durations_to_percentages(vector < double >&durations, vector < unsigned int >&percentages)
 // Takes durations, and creates a list of percentages out of that.
 {
   // Bail out if there's nothing.
@@ -104,7 +117,7 @@ void reporting_durations_to_percentages(vector <double>& durations, vector <unsi
   unsigned int total_percentage = 0;
   percentages.clear();
   for (unsigned int i = 0; i < durations.size(); i++) {
-    unsigned int percentage = (unsigned int) round(factor * durations[i]);
+    unsigned int percentage = (unsigned int)round(factor * durations[i]);
     percentages.push_back(percentage);
     total_percentage += percentage;
   }
@@ -114,7 +127,7 @@ void reporting_durations_to_percentages(vector <double>& durations, vector <unsi
     return;
   if (total_percentage < 100) {
     for (unsigned int i = 0; i < 100 - total_percentage; i++) {
-      percentages[i % percentages.size ()]++;
+      percentages[i % percentages.size()]++;
     }
   }
   if (total_percentage > 100) {
@@ -129,7 +142,7 @@ void reporting_durations_to_percentages(vector <double>& durations, vector <unsi
   }
 }
 
-unsigned int reporting_calculate_percentage_ready(vector <int>& tasks_done, const vector <unsigned int>& percentages)
+unsigned int reporting_calculate_percentage_ready(vector < int >&tasks_done, const vector < unsigned int >&percentages)
 // Calculates the percentage ready
 {
   unsigned int percentage = 0;
@@ -143,7 +156,7 @@ unsigned int reporting_calculate_percentage_ready(vector <int>& tasks_done, cons
   return percentage;
 }
 
-unsigned int reporting_status_string_to_int(const ustring& status, vector <ustring> * allstatus)
+unsigned int reporting_status_string_to_int(const ustring & status, vector < ustring > *allstatus)
 // Takes string "status", and returns the offset this string has in "allstatus".
 {
   for (unsigned int i = 0; i < allstatus->size(); i++) {
@@ -154,7 +167,7 @@ unsigned int reporting_status_string_to_int(const ustring& status, vector <ustri
   return 0;
 }
 
-void reporting_derive_parent_status_from_children(unsigned int taskcount, ProjectStatusRecord * parent, vector <ProjectStatusRecord *> children)
+void reporting_derive_parent_status_from_children(unsigned int taskcount, ProjectStatusRecord * parent, vector < ProjectStatusRecord * >children)
 // Takes pointers to existing status records, and calculates the parent's status
 // from the children.
 {
@@ -177,7 +190,7 @@ void reporting_derive_parent_status_from_children(unsigned int taskcount, Projec
   }
 }
 
-void reporting_merge_child_status_into_parent(unsigned int taskcount, unsigned int childnumber, ProjectStatusRecord& parent, const ProjectStatusRecord& child)
+void reporting_merge_child_status_into_parent(unsigned int taskcount, unsigned int childnumber, ProjectStatusRecord & parent, const ProjectStatusRecord & child)
 // Merges a child's status record into a parent.
 {
   for (unsigned int i = 0; i < taskcount; i++) {
@@ -192,7 +205,7 @@ void reporting_merge_child_status_into_parent(unsigned int taskcount, unsigned i
   }
 }
 
-void reporting_derive_children_status_from_parent(unsigned int taskcount, vector <ProjectStatusRecord *> children, ProjectStatusRecord * parent)
+void reporting_derive_children_status_from_parent(unsigned int taskcount, vector < ProjectStatusRecord * >children, ProjectStatusRecord * parent)
 // Takes pointers to an existing status record, and derives the children's status
 // from their parent.
 {
@@ -222,17 +235,19 @@ ProjectStatusRecord::ProjectStatusRecord(unsigned int tasks_size)
   }
 }
 
-unsigned int ProjectStatusRecord::calculate_percentage(const vector <unsigned int>& percentages) {
+unsigned int ProjectStatusRecord::calculate_percentage(const vector < unsigned int >&percentages)
+{
   return reporting_calculate_percentage_ready(tasks_done, percentages);
 }
 
-void ProjectStatusRecord::print() {
+void ProjectStatusRecord::print()
+{
   for (unsigned int i = 0; i < tasks_done.size(); i++)
     cout << tasks_done[i];
   cout << endl;
 }
 
-ProjectStatusChapter::ProjectStatusChapter(unsigned int chapter_in, unsigned int highestverse, GKeyFile * keyfile, vector <ustring> * alltasks_in)
+ProjectStatusChapter::ProjectStatusChapter(unsigned int chapter_in, unsigned int highestverse, GKeyFile * keyfile, vector < ustring > *alltasks_in)
 /*
  Retrieves the chapter status from the keyfile.
  An example file would look so:
@@ -258,7 +273,7 @@ ProjectStatusChapter::ProjectStatusChapter(unsigned int chapter_in, unsigned int
   bool chapterrecord_available = false;
   {
     gsize length;
-    gchar ** stringlist = g_key_file_get_string_list(keyfile, convert_to_string (chapter).c_str(), chapter_key(), &length, NULL);
+    gchar **stringlist = g_key_file_get_string_list(keyfile, convert_to_string(chapter).c_str(), chapter_key(), &length, NULL);
     if (stringlist) {
       for (unsigned int i2 = 0; i2 < length; i2++) {
         for (unsigned int i3 = 0; i3 < alltasks->size(); i3++) {
@@ -281,7 +296,7 @@ ProjectStatusChapter::ProjectStatusChapter(unsigned int chapter_in, unsigned int
       }
     } else {
       gsize length;
-      gchar ** stringlist = g_key_file_get_string_list(keyfile, convert_to_string (chapter).c_str(), convert_to_string (i).c_str(), &length, NULL);
+      gchar **stringlist = g_key_file_get_string_list(keyfile, convert_to_string(chapter).c_str(), convert_to_string(i).c_str(), &length, NULL);
       if (stringlist) {
         for (unsigned int i2 = 0; i2 < length; i2++) {
           for (unsigned int i3 = 0; i3 < alltasks->size(); i3++) {
@@ -305,7 +320,7 @@ ProjectStatusRecord ProjectStatusChapter::get()
   ProjectStatusRecord statusrecord(alltasks->size());
 
   // Collect pointers to the status record for the children.
-  vector <ProjectStatusRecord *> children_records;
+  vector < ProjectStatusRecord * >children_records;
   for (unsigned int i = 0; i < status.size(); i++) {
     children_records.push_back(&status[i]);
   }
@@ -317,10 +332,10 @@ ProjectStatusRecord ProjectStatusChapter::get()
   return statusrecord;
 }
 
-void ProjectStatusChapter::set(ProjectStatusRecord& state)
+void ProjectStatusChapter::set(ProjectStatusRecord & state)
 // Propagates the "state" to all the verses in the chapter.
 {
-  vector <ProjectStatusRecord *> verses_status;
+  vector < ProjectStatusRecord * >verses_status;
   for (unsigned int i = 0; i < status.size(); i++) {
     verses_status.push_back(&status[i]);
   }
@@ -336,7 +351,7 @@ ProjectStatusRecord ProjectStatusChapter::get_verse(unsigned int verse)
   return statusrecord;
 }
 
-void ProjectStatusChapter::set_verse(unsigned int verse, const ProjectStatusRecord& state)
+void ProjectStatusChapter::set_verse(unsigned int verse, const ProjectStatusRecord & state)
 // Sets the status of a verse.
 {
   if (verse < status.size())
@@ -364,7 +379,7 @@ void ProjectStatusChapter::save(GKeyFile * keyfile)
     // Set the values for the whole chapter at once.
 
     // Assemble values to set at this key.
-    vector <ustring> values;
+    vector < ustring > values;
     for (unsigned int i2 = 0; i2 < chapterrecord.tasks_done.size(); i2++) {
       if (chapterrecord.tasks_done[i2] > 0) {
         values.push_back(alltasks->at(i2));
@@ -373,12 +388,12 @@ void ProjectStatusChapter::save(GKeyFile * keyfile)
     // Continue if there is something to save.
     if (!values.empty()) {
       // Write the values to the keyfile.
-      gchar **strs= NULL;
-      strs = g_new (gchar *, values.size());
+      gchar **strs = NULL;
+      strs = g_new(gchar *, values.size());
       for (unsigned int i2 = 0; i2 < values.size(); i2++) {
         strs[i2] = g_strdup(values[i2].c_str());
       }
-      g_key_file_set_string_list(keyfile, group.c_str(), chapter_key(), (const gchar **const) strs, values.size());
+      g_key_file_set_string_list(keyfile, group.c_str(), chapter_key(), (const gchar ** const)strs, values.size());
       for (unsigned int i2 = 0; i2 < values.size(); i2++) {
         g_free(strs[i2]);
       }
@@ -391,7 +406,7 @@ void ProjectStatusChapter::save(GKeyFile * keyfile)
       // Key name.
       ustring name = convert_to_string(i);
       // Assemble values to set at this key.
-      vector <ustring> values;
+      vector < ustring > values;
       for (unsigned int i2 = 0; i2 < status[i].tasks_done.size(); i2++) {
         if (status[i].tasks_done[i2] > 0) {
           values.push_back(alltasks->at(i2));
@@ -401,12 +416,12 @@ void ProjectStatusChapter::save(GKeyFile * keyfile)
       if (values.empty())
         continue;
       // Write the values to the keyfile.
-      gchar **strs= NULL;
-      strs = g_new (gchar *, values.size());
+      gchar **strs = NULL;
+      strs = g_new(gchar *, values.size());
       for (unsigned int i2 = 0; i2 < values.size(); i2++) {
         strs[i2] = g_strdup(values[i2].c_str());
       }
-      g_key_file_set_string_list(keyfile, group.c_str(), name.c_str(), (const gchar **const) strs, values.size());
+      g_key_file_set_string_list(keyfile, group.c_str(), name.c_str(), (const gchar ** const)strs, values.size());
       for (unsigned int i2 = 0; i2 < values.size(); i2++) {
         g_free(strs[i2]);
       }
@@ -416,7 +431,7 @@ void ProjectStatusChapter::save(GKeyFile * keyfile)
   }
 }
 
-const gchar * ProjectStatusChapter::chapter_key()
+const gchar *ProjectStatusChapter::chapter_key()
 /*
  The chapter key has been introduced to save space.
  Without it the status of each verse would be saved per verse.
@@ -430,34 +445,36 @@ const gchar * ProjectStatusChapter::chapter_key()
   return "chapter";
 }
 
-void ProjectStatusChapter::print() {
+void ProjectStatusChapter::print()
+{
   cout << "Status for chapter " << chapter << endl;
   for (unsigned int i = 0; i < status.size(); i++) {
     status[i].print();
   }
 }
 
-ProjectStatusBook::ProjectStatusBook(const ustring& project_in, unsigned int book_in, vector <ustring> * alltasks_in) {
+ProjectStatusBook::ProjectStatusBook(const ustring & project_in, unsigned int book_in, vector < ustring > *alltasks_in)
+{
   // Save variables.
   project = project_in;
   book = book_in;
   alltasks = alltasks_in;
 
   // Versification.
-  extern Settings * settings;
-  ustring versification = settings->projectconfig (project)->versification_get();
+  extern Settings *settings;
+  ustring versification = settings->projectconfig(project)->versification_get();
 
   // Load the keyfile.
-  GKeyFile * keyfile = g_key_file_new();
-  g_key_file_load_from_file(keyfile, reporting_status_filename (project, book).c_str(), G_KEY_FILE_NONE, NULL);
+  GKeyFile *keyfile = g_key_file_new();
+  g_key_file_load_from_file(keyfile, reporting_status_filename(project, book).c_str(), G_KEY_FILE_NONE, NULL);
 
   // Create the chapters in this book.
-  vector <unsigned int> chps = project_get_chapters(project, book);
+  vector < unsigned int >chps = project_get_chapters(project, book);
   for (unsigned int i = 0; i < chps.size(); i++) {
     unsigned int highestverse = convert_to_int(versification_get_last_verse(versification, book, chps[i]));
     if (highestverse == 1)
       highestverse = 0;
-    ProjectStatusChapter * chapter = new ProjectStatusChapter (chps[i], highestverse, keyfile, alltasks);
+    ProjectStatusChapter *chapter = new ProjectStatusChapter(chps[i], highestverse, keyfile, alltasks);
     chapters.push_back(chapter);
   }
 
@@ -465,7 +482,8 @@ ProjectStatusBook::ProjectStatusBook(const ustring& project_in, unsigned int boo
   g_key_file_free(keyfile);
 }
 
-ProjectStatusBook::~ProjectStatusBook() {
+ProjectStatusBook::~ProjectStatusBook()
+{
   for (unsigned int i = 0; i < chapters.size(); i++) {
     delete chapters[i];
   }
@@ -479,12 +497,12 @@ ProjectStatusRecord ProjectStatusBook::get()
   ProjectStatusRecord statusrecord(alltasks->size());
 
   // Collect pointers to the status record for the children.
-  vector <ProjectStatusRecord> children_records_objects;
+  vector < ProjectStatusRecord > children_records_objects;
   for (unsigned int i = 0; i < chapters.size(); i++) {
     ProjectStatusRecord statusrecord = chapters[i]->get();
     children_records_objects.push_back(statusrecord);
   }
-  vector <ProjectStatusRecord *> children_records_pointers;
+  vector < ProjectStatusRecord * >children_records_pointers;
   for (unsigned int i = 0; i < children_records_objects.size(); i++) {
     children_records_pointers.push_back(&children_records_objects[i]);
   }
@@ -496,7 +514,7 @@ ProjectStatusRecord ProjectStatusBook::get()
   return statusrecord;
 }
 
-void ProjectStatusBook::set(ProjectStatusRecord& state)
+void ProjectStatusBook::set(ProjectStatusRecord & state)
 // Sets the status of the entire book.
 // This status is propagated to all chapters in the book.
 {
@@ -509,47 +527,48 @@ void ProjectStatusBook::save()
 // Save the status of the book.
 {
   // Create new keyfile.
-  GKeyFile * keyfile = g_key_file_new();
+  GKeyFile *keyfile = g_key_file_new();
   // Let every chapter store its own bit in that keyfile.
   for (unsigned int i = 0; i < chapters.size(); i++) {
     chapters[i]->save(keyfile);
   }
   // Save the file to disk.
-  gchar * data = g_key_file_to_data(keyfile, NULL, NULL);
+  gchar *data = g_key_file_to_data(keyfile, NULL, NULL);
   if (data) {
-    g_file_set_contents(reporting_status_filename (project, book).c_str(), data, -1, NULL);
+    g_file_set_contents(reporting_status_filename(project, book).c_str(), data, -1, NULL);
     g_free(data);
   }
   // Free memory.
   g_key_file_free(keyfile);
 }
 
-void ProjectStatusBook::print() {
+void ProjectStatusBook::print()
+{
   cout << "Printing status for book " << book << endl;
   for (unsigned int i = 0; i < chapters.size(); i++) {
     chapters[i]->print();
   }
 }
 
-ProjectStatus::ProjectStatus(const ustring& project_in, const vector <ustring>& alltasks_in, bool gui) {
+ProjectStatus::ProjectStatus(const ustring & project_in, const vector < ustring > &alltasks_in, bool gui)
+{
   // Save project.
   project = project_in;
   alltasks = alltasks_in;
 
   // Progress window.
-  ProgressWindow * progresswindow= NULL;
+  ProgressWindow *progresswindow = NULL;
   if (gui) {
-    progresswindow = new ProgressWindow ("Loading status", false);
+    progresswindow = new ProgressWindow("Loading status", false);
   }
-
   // Load books in project.
-  vector <unsigned int> bks = project_get_books(project);
+  vector < unsigned int >bks = project_get_books(project);
   if (gui)
     progresswindow->set_iterate(0, 1, bks.size());
   for (unsigned int i = 0; i < bks.size(); i++) {
     if (gui)
       progresswindow->iterate();
-    ProjectStatusBook * book = new ProjectStatusBook (project, bks[i], &alltasks);
+    ProjectStatusBook *book = new ProjectStatusBook(project, bks[i], &alltasks);
     books.push_back(book);
   }
 
@@ -558,7 +577,8 @@ ProjectStatus::ProjectStatus(const ustring& project_in, const vector <ustring>& 
     delete progresswindow;
 }
 
-ProjectStatus::~ProjectStatus() {
+ProjectStatus::~ProjectStatus()
+{
   for (unsigned int i = 0; i < books.size(); i++) {
     delete books[i];
   }
@@ -572,12 +592,12 @@ ProjectStatusRecord ProjectStatus::get()
   ProjectStatusRecord statusrecord(alltasks.size());
 
   // Collect pointers to the status record for the children.
-  vector <ProjectStatusRecord> children_records_objects;
+  vector < ProjectStatusRecord > children_records_objects;
   for (unsigned int i = 0; i < books.size(); i++) {
     ProjectStatusRecord statusrecord = books[i]->get();
     children_records_objects.push_back(statusrecord);
   }
-  vector <ProjectStatusRecord *> children_records_pointers;
+  vector < ProjectStatusRecord * >children_records_pointers;
   for (unsigned int i = 0; i < children_records_objects.size(); i++) {
     children_records_pointers.push_back(&children_records_objects[i]);
   }
@@ -589,7 +609,7 @@ ProjectStatusRecord ProjectStatus::get()
   return statusrecord;
 }
 
-void ProjectStatus::set(ProjectStatusRecord& state)
+void ProjectStatus::set(ProjectStatusRecord & state)
 // Sets the status of the entire project.
 // This status is set in all books of the project.
 {
@@ -598,13 +618,15 @@ void ProjectStatus::set(ProjectStatusRecord& state)
   }
 }
 
-void ProjectStatus::save() {
+void ProjectStatus::save()
+{
   for (unsigned int i = 0; i < books.size(); i++) {
     books[i]->save();
   }
 }
 
-void ProjectStatus::print() {
+void ProjectStatus::print()
+{
   cout << "Printing project status " << this << endl;
   for (unsigned int i = 0; i < books.size(); i++) {
     books[i]->print();
@@ -614,19 +636,19 @@ void ProjectStatus::print() {
 unsigned int reporting_get_percentage_ready_project(ProjectStatus * projectstatus)
 // Calculates the percentage ready for the whole project.
 {
-  extern Settings * settings;
-  vector <ustring> tasks = settings->genconfig.project_tasks_names_get();
-  vector <double> durations;
+  extern Settings *settings;
+  vector < ustring > tasks = settings->genconfig.project_tasks_names_get();
+  vector < double >durations;
   reporting_check_tasks_and_durations(tasks, &durations);
-  vector <unsigned int> percentages;
+  vector < unsigned int >percentages;
   reporting_durations_to_percentages(durations, percentages);
 
   unsigned int verse_count = 0;
   unsigned int accumulated_percentage = 0;
   for (unsigned int i = 0; i < projectstatus->books.size(); i++) {
-    ProjectStatusBook * projectstatusbook = projectstatus->books[i];
+    ProjectStatusBook *projectstatusbook = projectstatus->books[i];
     for (unsigned int i = 0; i < projectstatusbook->chapters.size(); i++) {
-      ProjectStatusChapter * projectstatuschapter = projectstatusbook->chapters[i];
+      ProjectStatusChapter *projectstatuschapter = projectstatusbook->chapters[i];
       for (unsigned int i = 0; i < projectstatuschapter->status.size(); i++) {
         unsigned int percentage = projectstatuschapter->status[i].calculate_percentage(percentages);
         verse_count++;
@@ -638,18 +660,19 @@ unsigned int reporting_get_percentage_ready_project(ProjectStatus * projectstatu
   return accumulated_percentage / verse_count;
 }
 
-unsigned int reporting_get_percentage_ready_book(ProjectStatusBook * projectstatusbook) {
-  extern Settings * settings;
-  vector <ustring> tasks = settings->genconfig.project_tasks_names_get();
-  vector <double> durations;
+unsigned int reporting_get_percentage_ready_book(ProjectStatusBook * projectstatusbook)
+{
+  extern Settings *settings;
+  vector < ustring > tasks = settings->genconfig.project_tasks_names_get();
+  vector < double >durations;
   reporting_check_tasks_and_durations(tasks, &durations);
-  vector <unsigned int> percentages;
+  vector < unsigned int >percentages;
   reporting_durations_to_percentages(durations, percentages);
 
   unsigned int verse_count = 0;
   unsigned int accumulated_percentage = 0;
   for (unsigned int i = 0; i < projectstatusbook->chapters.size(); i++) {
-    ProjectStatusChapter * projectstatuschapter = projectstatusbook->chapters[i];
+    ProjectStatusChapter *projectstatuschapter = projectstatusbook->chapters[i];
     for (unsigned int i = 0; i < projectstatuschapter->status.size(); i++) {
       unsigned int percentage = projectstatuschapter->status[i].calculate_percentage(percentages);
       verse_count++;
@@ -660,7 +683,8 @@ unsigned int reporting_get_percentage_ready_book(ProjectStatusBook * projectstat
   return accumulated_percentage / verse_count;
 }
 
-ustring reporting_get_task_done_sign(int state) {
+ustring reporting_get_task_done_sign(int state)
+{
   ustring sign;
   if (state > 0)
     sign = "✔";
@@ -671,12 +695,12 @@ ustring reporting_get_task_done_sign(int state) {
   return sign;
 }
 
-void reporting_get_tasks_done_per_book(ProjectStatus * projectstatus, vector <ustring>& headers, vector <VectorUstring>& texts)
+void reporting_get_tasks_done_per_book(ProjectStatus * projectstatus, vector < ustring > &headers, vector < VectorUstring > &texts)
 // Produces the tasks completed / undone / partially done for each book.
 {
   // Get the available tasks to be done.
-  extern Settings * settings;
-  vector <ustring> tasks = settings->genconfig.project_tasks_names_get();
+  extern Settings *settings;
+  vector < ustring > tasks = settings->genconfig.project_tasks_names_get();
   reporting_check_tasks_and_durations(tasks, NULL);
 
   // Put the tasks in the headers.
@@ -684,10 +708,10 @@ void reporting_get_tasks_done_per_book(ProjectStatus * projectstatus, vector <us
   headers.insert(headers.begin(), "");
 
   for (unsigned int i = 0; i < projectstatus->books.size(); i++) {
-    ProjectStatusBook * projectstatusbook = projectstatus->books[i];
+    ProjectStatusBook *projectstatusbook = projectstatus->books[i];
     ProjectStatusRecord statusrecord(tasks.size());
     statusrecord = projectstatusbook->get();
-    vector <ustring> cells;
+    vector < ustring > cells;
     cells.push_back(books_id_to_english(projectstatusbook->book));
     for (unsigned int i = 0; i < tasks.size(); i++) {
       int state = statusrecord.tasks_done[i];
@@ -697,10 +721,11 @@ void reporting_get_tasks_done_per_book(ProjectStatus * projectstatus, vector <us
   }
 }
 
-void reporting_get_tasks_done_per_chapter(ProjectStatusBook * projectstatusbook, vector <ustring>& headers, vector <VectorUstring>& texts) {
+void reporting_get_tasks_done_per_chapter(ProjectStatusBook * projectstatusbook, vector < ustring > &headers, vector < VectorUstring > &texts)
+{
   // Get the available tasks to be done.
-  extern Settings * settings;
-  vector <ustring> tasks = settings->genconfig.project_tasks_names_get();
+  extern Settings *settings;
+  vector < ustring > tasks = settings->genconfig.project_tasks_names_get();
   reporting_check_tasks_and_durations(tasks, NULL);
 
   // Put the tasks in the headers.
@@ -708,10 +733,10 @@ void reporting_get_tasks_done_per_chapter(ProjectStatusBook * projectstatusbook,
   headers.insert(headers.begin(), "");
 
   for (unsigned int i = 0; i < projectstatusbook->chapters.size(); i++) {
-    ProjectStatusChapter * projectstatuschapter = projectstatusbook->chapters[i];
+    ProjectStatusChapter *projectstatuschapter = projectstatusbook->chapters[i];
     ProjectStatusRecord statusrecord(tasks.size());
     statusrecord = projectstatuschapter->get();
-    vector <ustring> cells;
+    vector < ustring > cells;
     cells.push_back(convert_to_string(projectstatuschapter->chapter));
     for (unsigned int i = 0; i < tasks.size(); i++) {
       int state = statusrecord.tasks_done[i];
@@ -721,7 +746,7 @@ void reporting_get_tasks_done_per_chapter(ProjectStatusBook * projectstatusbook,
   }
 }
 
-void reporting_produce_status_report(const ustring& project, bool perc_done_project, bool perc_done_book, bool tasks_book, bool tasks_chapter, bool csv_export)
+void reporting_produce_status_report(const ustring & project, bool perc_done_project, bool perc_done_book, bool tasks_book, bool tasks_chapter, bool csv_export)
 // This produces a status report.
 {
   // Bail out if there's no project.
@@ -740,8 +765,8 @@ void reporting_produce_status_report(const ustring& project, bool perc_done_proj
   htmlwriter.paragraph("Produced on " + date_time_julian_human_readable(date_time_julian_day_get_current(), true) + ".");
 
   // Load status data.
-  extern Settings * settings;
-  vector <ustring> tasks = settings->genconfig.project_tasks_names_get();
+  extern Settings *settings;
+  vector < ustring > tasks = settings->genconfig.project_tasks_names_get();
   reporting_check_tasks_and_durations(tasks, NULL);
   ProjectStatus projectstatus(project, tasks, false);
 
@@ -749,8 +774,8 @@ void reporting_produce_status_report(const ustring& project, bool perc_done_proj
   progresswindow.set_fraction(0.2);
   if (perc_done_project) {
     // Bar graph.
-    vector <ustring> texts;
-    vector <unsigned int> percentages;
+    vector < ustring > texts;
+    vector < unsigned int >percentages;
     texts.push_back(project);
     unsigned int percentage = reporting_get_percentage_ready_project(&projectstatus);
     percentages.push_back(percentage);
@@ -759,7 +784,7 @@ void reporting_produce_status_report(const ustring& project, bool perc_done_proj
 
     // CSV export.
     if (csv_export) {
-      vector <ustring> csv;
+      vector < ustring > csv;
       csv.push_back("\"project\"," + convert_to_string(percentage));
       ustring filename = gw_build_filename(directories_get_temp(), "project_complete.csv");
       write_lines(filename, csv);
@@ -767,14 +792,13 @@ void reporting_produce_status_report(const ustring& project, bool perc_done_proj
       htmlwriter.paragraph("");
     }
   }
-
   // Percentage complete for each book.
   progresswindow.set_fraction(0.3);
   if (perc_done_book) {
-    vector <ustring> texts;
-    vector <unsigned int> percentages;
+    vector < ustring > texts;
+    vector < unsigned int >percentages;
     for (unsigned int i = 0; i < projectstatus.books.size(); i++) {
-      ProjectStatusBook * projectstatusbook = projectstatus.books[i];
+      ProjectStatusBook *projectstatusbook = projectstatus.books[i];
       texts.push_back(books_id_to_english(projectstatusbook->book));
       percentages.push_back(reporting_get_percentage_ready_book(projectstatusbook));
     }
@@ -783,7 +807,7 @@ void reporting_produce_status_report(const ustring& project, bool perc_done_proj
 
     // CSV export.
     if (csv_export) {
-      vector <ustring> csv;
+      vector < ustring > csv;
       for (unsigned int i = 0; i < texts.size(); i++) {
         csv.push_back("\"" + texts[i] + "\"," + convert_to_string(percentages[i]));
       }
@@ -793,30 +817,29 @@ void reporting_produce_status_report(const ustring& project, bool perc_done_proj
       htmlwriter.paragraph("");
     }
   }
-
   // Show tasks per book.
   progresswindow.set_fraction(0.4);
   if (tasks_book) {
-    vector <ustring> column_headers;
-    vector <VectorUstring> cell_texts;
+    vector < ustring > column_headers;
+    vector < VectorUstring > cell_texts;
     reporting_get_tasks_done_per_book(&projectstatus, column_headers, cell_texts);
-    vector <bool> centers;
+    vector < bool > centers;
     for (unsigned int i = 0; i < column_headers.size(); i++) {
       if (i == 0)
         centers.push_back(false);
       else
         centers.push_back(true);
     }
-    vector <ustring> shortened_column_headers;
+    vector < ustring > shortened_column_headers;
     for (unsigned int i = 0; i < column_headers.size(); i++) {
       if (i)
         shortened_column_headers.push_back(convert_to_string(i));
       else
         shortened_column_headers.push_back("");
     }
-    vector <VectorUstring> legend;
+    vector < VectorUstring > legend;
     for (unsigned int i = 0; i < column_headers.size(); i++) {
-      vector <ustring> s;
+      vector < ustring > s;
       s.push_back(column_headers[i]);
       s.push_back(shortened_column_headers[i]);
       legend.push_back(s);
@@ -827,16 +850,15 @@ void reporting_produce_status_report(const ustring& project, bool perc_done_proj
     htmlwriter.table("Tasks per book - Data", shortened_column_headers, cell_texts, "", &centers, -1);
     htmlwriter.paragraph("");
   }
-
   // Show tasks per chapter.
   progresswindow.set_fraction(0.5);
   if (tasks_chapter) {
     for (unsigned int i = 0; i < projectstatus.books.size(); i++) {
-      ProjectStatusBook * projectstatusbook = projectstatus.books[i];
-      vector <ustring> column_headers;
-      vector <VectorUstring> cell_texts;
+      ProjectStatusBook *projectstatusbook = projectstatus.books[i];
+      vector < ustring > column_headers;
+      vector < VectorUstring > cell_texts;
       reporting_get_tasks_done_per_chapter(projectstatusbook, column_headers, cell_texts);
-      vector <bool> centers;
+      vector < bool > centers;
       for (unsigned int i2 = 0; i2 < column_headers.size(); i2++) {
         if (i2 == 0)
           centers.push_back(false);
@@ -850,17 +872,17 @@ void reporting_produce_status_report(const ustring& project, bool perc_done_proj
 
 }
 
-void reporting_get_tasks_undone(ProjectStatus * projectstatus, vector <unsigned int>& books, vector <ustring>& tasks)
+void reporting_get_tasks_undone(ProjectStatus * projectstatus, vector < unsigned int >&books, vector < ustring > &tasks)
 // Produces the tasks not yet (fully) done for all books.
 {
   // Get the available tasks to be done.
-  extern Settings * settings;
-  vector <ustring> alltasks = settings->genconfig.project_tasks_names_get();
+  extern Settings *settings;
+  vector < ustring > alltasks = settings->genconfig.project_tasks_names_get();
   reporting_check_tasks_and_durations(alltasks, NULL);
 
   // Get the undone (or partially done) tasks.
   for (unsigned int i = 0; i < projectstatus->books.size(); i++) {
-    ProjectStatusBook * projectstatusbook = projectstatus->books[i];
+    ProjectStatusBook *projectstatusbook = projectstatus->books[i];
     ProjectStatusRecord statusrecord(tasks.size());
     statusrecord = projectstatusbook->get();
     for (unsigned int i = 0; i < alltasks.size(); i++) {
@@ -873,25 +895,25 @@ void reporting_get_tasks_undone(ProjectStatus * projectstatus, vector <unsigned 
   }
 }
 
-unsigned int reporting_get_task_percentage_complete(ProjectStatus * projectstatus, unsigned int book, const ustring& task)
+unsigned int reporting_get_task_percentage_complete(ProjectStatus * projectstatus, unsigned int book, const ustring & task)
 // Returns the percentage complete of a particular task of a book.
 {
   unsigned int percentage_complete = 0;
 
-  extern Settings * settings;
-  vector <ustring> alltasks = settings->genconfig.project_tasks_names_get();
-  vector <double> durations;
+  extern Settings *settings;
+  vector < ustring > alltasks = settings->genconfig.project_tasks_names_get();
+  vector < double >durations;
   reporting_check_tasks_and_durations(alltasks, &durations);
 
   for (unsigned int bk = 0; bk < projectstatus->books.size(); bk++) {
-    ProjectStatusBook * projectstatusbook = projectstatus->books[bk];
+    ProjectStatusBook *projectstatusbook = projectstatus->books[bk];
     if (projectstatusbook->book == book) {
       unsigned int verse_count = 0;
       unsigned int accumulated_percentage = 0;
       for (unsigned int i = 0; i < projectstatusbook->chapters.size(); i++) {
-        ProjectStatusChapter * projectstatuschapter = projectstatusbook->chapters[i];
+        ProjectStatusChapter *projectstatuschapter = projectstatusbook->chapters[i];
         for (unsigned int i = 0; i < projectstatuschapter->status.size(); i++) {
-          ProjectStatusRecord * statusrecord = &projectstatuschapter->status[i];
+          ProjectStatusRecord *statusrecord = &projectstatuschapter->status[i];
           for (unsigned int i = 0; i < alltasks.size(); i++) {
             if (task == alltasks[i]) {
               if (statusrecord->tasks_done[i] > 0)

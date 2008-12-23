@@ -17,7 +17,6 @@
 **  
 */
 
-
 #include "libraries.h"
 #include "textviewer.h"
 #include <gtk/gtk.h>
@@ -27,38 +26,38 @@
 #include "uname.h"
 #include "gwrappers.h"
 
-
-void textviewer_run (const gchar * command, const gchar * argument, const ustring& filename)
+void textviewer_run(const gchar * command, const gchar * argument, const ustring & filename)
 {
-  GwSpawn spawn (command);
-  if (strlen (argument) > 0)
-    spawn.arg (argument);
-  spawn.arg (filename);
-  spawn.async ();
-  spawn.run ();
+  GwSpawn spawn(command);
+  if (strlen(argument) > 0)
+    spawn.arg(argument);
+  spawn.arg(filename);
+  spawn.async();
+  spawn.run();
 }
 
-
-void textviewer_view (const ustring& filename)
+void textviewer_view(const ustring & filename)
 {
-  struct { const char * command; const char *argument; } text_viewers [] = 
-  {
-    { "gedit", "" },
-    { "kedit", "" },
-    { "open", "" }
+  struct {
+    const char *command;
+    const char *argument;
+  } text_viewers[] = {
+    {
+    "gedit", ""}, {
+    "kedit", ""}, {
+    "open", ""}
   };
 
-  for (unsigned int i = 0; i < (sizeof (text_viewers) / sizeof (* text_viewers)); i++)
-  {
-    if (gw_find_program_in_path (text_viewers [i].command)) {
-      textviewer_run (text_viewers [i].command, text_viewers[i].argument, filename);
+  for (unsigned int i = 0; i < (sizeof(text_viewers) / sizeof(*text_viewers)); i++) {
+    if (gw_find_program_in_path(text_viewers[i].command)) {
+      textviewer_run(text_viewers[i].command, text_viewers[i].argument, filename);
       return;
     }
   }
-  
+
   // If we're here, it shows that no suitable viewer was found.
   // Inform the user about it, and what to do to solve it.
   ustring message = "The file cannot be displayed, because there is no suitable text viewer installed.\n";
-  message.append ("Install a supported text viewer");
-  gtkw_dialog_error (NULL, message);
+  message.append("Install a supported text viewer");
+  gtkw_dialog_error(NULL, message);
 }

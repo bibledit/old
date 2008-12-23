@@ -24,8 +24,8 @@
 #include "date_time_utils.h"
 #include "settings.h"
 
-T2PReferenceArea::T2PReferenceArea(PangoRectangle rectangle_in, cairo_t *cairo_in) :
-  T2PArea(rectangle_in)
+ T2PReferenceArea::T2PReferenceArea(PangoRectangle rectangle_in, cairo_t * cairo_in):
+T2PArea(rectangle_in)
 // This is a reference area, e.g. a header, footer, or text area.
 {
   // Initialize the y value to start stacking blocks at.
@@ -57,7 +57,7 @@ void T2PReferenceArea::print()
 {
   // Go through each block.
   for (unsigned int blk = 0; blk < body_blocks.size(); blk++) {
-    T2PBlock * block = body_blocks[blk];
+    T2PBlock *block = body_blocks[blk];
     // While laying out text, the block's x and y values are relative to the parent's values.
     // For printing this needs to be adjusted.
     block->rectangle.x += rectangle.x;
@@ -69,7 +69,7 @@ void T2PReferenceArea::print()
   // Print the notes. While doing that reposition them to the bottom of the page.
   int notes_height = get_note_height();
   for (unsigned int i = 0; i < note_layout_containers.size(); i++) {
-    T2PLayoutContainer * layout_container = note_layout_containers[i];
+    T2PLayoutContainer *layout_container = note_layout_containers[i];
     layout_container->rectangle.x += rectangle.x;
     layout_container->rectangle.y += rectangle.y + rectangle.height - notes_height;
     layout_container->print(cairo);
@@ -77,22 +77,22 @@ void T2PReferenceArea::print()
 
   // Print table of contents data.
   for (unsigned int i = 0; i < table_of_contents_layout_containers.size(); i++) {
-    T2PLayoutContainer * layout_container = table_of_contents_layout_containers[i];
+    T2PLayoutContainer *layout_container = table_of_contents_layout_containers[i];
     layout_container->rectangle.x += rectangle.x;
     layout_container->rectangle.y += rectangle.y;
     layout_container->print(cairo);
   }
 }
 
-void T2PReferenceArea::print(unsigned int page_number, bool print_date, const ustring& left_running_header, const ustring& right_running_header, bool suppress_header, unsigned int left_first_chapter, unsigned int left_last_chapter, unsigned int right_first_chapter, unsigned int right_last_chapter)
+void T2PReferenceArea::print(unsigned int page_number, bool print_date, const ustring & left_running_header, const ustring & right_running_header, bool suppress_header, unsigned int left_first_chapter, unsigned int left_last_chapter, unsigned int right_first_chapter, unsigned int right_last_chapter)
 // Print the page number, the date, the running header.
 {
   // Headers can have their fontsize set. Create a paragraph for that.
-  T2PInputParagraph header_paragraph ("", 100, false);
-  extern Settings * settings;
+  T2PInputParagraph header_paragraph("", 100, false);
+  extern Settings *settings;
   header_paragraph.font_size_points = settings->genconfig.header_font_size_get();
   header_paragraph.first_line_indent_mm = 0;
-  
+
   // Page number.
   T2PLayoutContainer page_number_layout_container(rectangle, NULL, cairo);
   string pn(convert_to_string(page_number));
@@ -148,15 +148,15 @@ void T2PReferenceArea::print(unsigned int page_number, bool print_date, const us
   }
 }
 
-void T2PReferenceArea::fit_blocks(deque <T2PBlock *>& input_blocks, int column_spacing_pango_units_in)
+void T2PReferenceArea::fit_blocks(deque < T2PBlock * >&input_blocks, int column_spacing_pango_units_in)
 // Fits the blocks into the reference area.
 {
   // Page full flag.
-  bool page_is_full = false;  
+  bool page_is_full = false;
   // Store column spacing.
   column_spacing_pango_units = column_spacing_pango_units_in;
   // Deal with the blocks after grouping them by equal column count.
-  deque <T2PBlock *> blocks_with_equal_column_count;
+  deque < T2PBlock * >blocks_with_equal_column_count;
   int n_columns = 0;
   while (!input_blocks.empty()) {
     // Handle a new page too.
@@ -177,8 +177,7 @@ void T2PReferenceArea::fit_blocks(deque <T2PBlock *>& input_blocks, int column_s
   }
   if (!page_is_full) {
     fit_column(blocks_with_equal_column_count);
-  }    
-
+  }
   // Return any unfitted remaining blocks to the input blocks.
   for (int i = blocks_with_equal_column_count.size() - 1; i >= 0; i--) {
     input_blocks.push_front(blocks_with_equal_column_count[i]);
@@ -189,8 +188,8 @@ void T2PReferenceArea::fit_blocks(deque <T2PBlock *>& input_blocks, int column_s
   // the input stream, so that they can be kept with paragraphs on the next page.
   // But this only should be done if there's indeed goint to be a next page. 
   // If there's no next paragraph to be kept with, then the last block is just left where it is.
-  while (!body_blocks.empty() && body_blocks[body_blocks.size()-1]->keep_with_next && !input_blocks.empty()) {
-    input_blocks.push_front(body_blocks[body_blocks.size()-1]);
+  while (!body_blocks.empty() && body_blocks[body_blocks.size() - 1]->keep_with_next && !input_blocks.empty()) {
+    input_blocks.push_front(body_blocks[body_blocks.size() - 1]);
     body_blocks.pop_back();
   }
 
@@ -203,7 +202,7 @@ void T2PReferenceArea::fit_blocks(deque <T2PBlock *>& input_blocks, int column_s
   }
 }
 
-void T2PReferenceArea::fit_column(deque <T2PBlock *>& input_blocks)
+void T2PReferenceArea::fit_column(deque < T2PBlock * >&input_blocks)
 // Tries to fit in a group of blocks that has the same column count.
 {
   // Bail out if there's no input.
@@ -218,12 +217,11 @@ void T2PReferenceArea::fit_column(deque <T2PBlock *>& input_blocks)
   if (new_page_input_block_encountered(input_blocks, true)) {
     return;
   }
-
   // Fit the column(s) in.
   fit_columns(input_blocks, input_blocks[0]->column_count);
 }
 
-void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_count)
+void T2PReferenceArea::fit_columns(deque < T2PBlock * >&input_blocks, int column_count)
 /*
  Fits the input blocks into one or two columns.
 
@@ -249,8 +247,8 @@ void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_
  */
 {
   // Container for the columns.
-  deque <T2PBigBlock> first_column;
-  deque <T2PBigBlock> last_column;
+  deque < T2PBigBlock > first_column;
+  deque < T2PBigBlock > last_column;
 
   // Go through the input blocks.
   while (!input_blocks.empty()) {
@@ -263,16 +261,16 @@ void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_
     }
 
     // Create any notes caused by the big block.
-    deque <T2PLayoutContainer *> added_notes;
+    deque < T2PLayoutContainer * >added_notes;
     for (unsigned int i = 0; i < big_block.blocks.size(); i++) {
-      T2PBlock * block = big_block.blocks[i];
+      T2PBlock *block = big_block.blocks[i];
       for (unsigned int i2 = 0; i2 < block->layoutcontainers.size(); i2++) {
-        T2PLayoutContainer * layout_container = block->layoutcontainers[i2];
+        T2PLayoutContainer *layout_container = block->layoutcontainers[i2];
         for (unsigned int i3 = 0; i3 < layout_container->note_paragraphs.size(); i3++) {
-          T2PInputParagraph * note_paragraph = layout_container->note_paragraphs[i3];
+          T2PInputParagraph *note_paragraph = layout_container->note_paragraphs[i3];
           while (!note_paragraph->text.empty()) {
             PangoRectangle note_rectangle = get_next_free_note_rectangle();
-            T2PLayoutContainer * note_layout_container = new T2PLayoutContainer (note_rectangle, NULL, cairo);
+            T2PLayoutContainer *note_layout_container = new T2PLayoutContainer(note_rectangle, NULL, cairo);
             note_layout_container->set_has_note();
             note_layout_container->layout_text(note_paragraph, 0, note_paragraph->text);
             note_layout_containers.push_back(note_layout_container);
@@ -286,13 +284,12 @@ void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_
     if (column_count > 1) {
       balance_columns(first_column, last_column);
     }
-
     // See if the column(s) didn't get too high after adding this last big block.
     int first_column_height = get_column_height(first_column, start_stacking_y);
     int last_column_height = get_column_height(last_column, start_stacking_y);
-    bool columns_too_high = (start_stacking_y + MAX (first_column_height, last_column_height)) > (rectangle.height - get_note_height());
+    bool columns_too_high = (start_stacking_y + MAX(first_column_height, last_column_height)) > (rectangle.height - get_note_height());
     if (columns_too_high) {
-      
+
       // If there's only one block on the page, special handling is needed to avoid an infinite loop.
       bool one_block_on_page = first_column.size() + last_column.size() == 1;
       if (!one_block_on_page) {
@@ -306,18 +303,16 @@ void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_
         if (column_count > 1) {
           balance_columns(first_column, last_column);
         }
-
         // Put the blocks back to the input stream.
         for (int i = big_block.blocks.size() - 1; i >= 0; i--) {
           input_blocks.push_front(big_block.blocks[i]);
         }
 
       }
-
       // If the last big block caused any notes to be added, normally put the text of these notes back into their 
       // input paragraph, remove the notes, and destroy them.
       while (!added_notes.empty()) {
-        T2PLayoutContainer * note_layout_container = note_layout_containers[note_layout_containers.size()-1];
+        T2PLayoutContainer *note_layout_container = note_layout_containers[note_layout_containers.size() - 1];
         if (!one_block_on_page)
           note_layout_container->undo_layout_text();
         delete note_layout_container;
@@ -326,7 +321,7 @@ void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_
         // If there's only one block on the page, we have special treatment so that not all note data is removed,
         // but only excess data. This causes that bits of notes are not printed.
         if (one_block_on_page) {
-          columns_too_high = (start_stacking_y + MAX (first_column_height, last_column_height)) > (rectangle.height - get_note_height());
+          columns_too_high = (start_stacking_y + MAX(first_column_height, last_column_height)) > (rectangle.height - get_note_height());
           if (!columns_too_high)
             break;
         }
@@ -366,10 +361,10 @@ void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_
   }
 
   // Store maximum height of any column as the starting point for the next column.
-  start_stacking_y = MAX (first_column_y, last_column_y);
+  start_stacking_y = MAX(first_column_y, last_column_y);
 }
 
-T2PBigBlock T2PReferenceArea::get_next_big_block_to_be_kept_together(deque <T2PBlock *>& input_blocks, int column_count)
+T2PBigBlock T2PReferenceArea::get_next_big_block_to_be_kept_together(deque < T2PBlock * >&input_blocks, int column_count)
 // Looks at "input_blocks", and gets the next blocks to be kept together.
 // It does that by considering the "keep_with_next" property of T2PBlock.
 // The big blocks returned could contain one block in the normal case, and more if these are kept
@@ -389,7 +384,7 @@ T2PBigBlock T2PReferenceArea::get_next_big_block_to_be_kept_together(deque <T2PB
   return big_block;
 }
 
-int T2PReferenceArea::get_column_height(deque <T2PBigBlock>& column, int reference_y)
+int T2PReferenceArea::get_column_height(deque < T2PBigBlock > &column, int reference_y)
 // Gets the height of the column.
 {
   int height = 0;
@@ -407,20 +402,18 @@ PangoRectangle T2PReferenceArea::get_next_free_note_rectangle()
   int next_y = 0;
   int last_height = 0;
   if (!note_layout_containers.empty()) {
-    T2PLayoutContainer * last_container = note_layout_containers[note_layout_containers.size()-1];
+    T2PLayoutContainer *last_container = note_layout_containers[note_layout_containers.size() - 1];
     next_x = last_container->rectangle.x + last_container->rectangle.width;
     next_x += millimeters_to_pango_units(3);
     next_y = last_container->rectangle.y;
     last_height = last_container->rectangle.height;
   }
-
   // If there's not enough space for the note on the x-axis, move it to the next line.
   double remaining_millimeters = pango_units_to_millimeters(rectangle.width - next_x);
   if (remaining_millimeters < 20) {
     next_x = 0;
     next_y += last_height;
   }
-
   // Create next rectangle. 
   PangoRectangle next_rectangle;
   next_rectangle.x = next_x;
@@ -435,14 +428,14 @@ int T2PReferenceArea::get_note_height()
 {
   int height = 0;
   if (!note_layout_containers.empty()) {
-    T2PLayoutContainer * last_container = note_layout_containers[note_layout_containers.size()-1];
+    T2PLayoutContainer *last_container = note_layout_containers[note_layout_containers.size() - 1];
     height += last_container->rectangle.y;
     height += last_container->rectangle.height;
   }
   return height;
 }
 
-void T2PReferenceArea::balance_columns(deque <T2PBigBlock>& first_column, deque <T2PBigBlock>& last_column)
+void T2PReferenceArea::balance_columns(deque < T2PBigBlock > &first_column, deque < T2PBigBlock > &last_column)
 // Two-way balancing of the first and the second column.
 // Two-way balancing means that content can be moved from the first column to the last one, 
 // or from the last one to the first, depending on the needs.
@@ -454,23 +447,23 @@ void T2PReferenceArea::balance_columns(deque <T2PBigBlock>& first_column, deque 
   }
 }
 
-int T2PReferenceArea::balance_last_column_higher_than_or_equal_to_first_column(deque <T2PBigBlock>& first_column, deque <T2PBigBlock>& last_column)
+int T2PReferenceArea::balance_last_column_higher_than_or_equal_to_first_column(deque < T2PBigBlock > &first_column, deque < T2PBigBlock > &last_column)
 // Move block from the first column to the last till the last column is higher than or equal to the first one.
 // Returns the maximum height of both columns.
 {
   int first_column_height = get_column_height(first_column, start_stacking_y);
   int last_column_height = get_column_height(last_column, start_stacking_y);
   while (last_column_height <= first_column_height && !first_column.empty()) {
-    T2PBigBlock last_big_block_of_first_column = first_column[first_column.size()-1];
+    T2PBigBlock last_big_block_of_first_column = first_column[first_column.size() - 1];
     last_column.push_front(last_big_block_of_first_column);
     first_column.pop_back();
     first_column_height = get_column_height(first_column, start_stacking_y);
     last_column_height = get_column_height(last_column, start_stacking_y);
   }
-  return MAX (first_column_height, last_column_height);
+  return MAX(first_column_height, last_column_height);
 }
 
-int T2PReferenceArea::balance_first_column_higher_than_or_equal_to_last_column(deque <T2PBigBlock>& first_column, deque <T2PBigBlock>& last_column)
+int T2PReferenceArea::balance_first_column_higher_than_or_equal_to_last_column(deque < T2PBigBlock > &first_column, deque < T2PBigBlock > &last_column)
 // Move blocks from the last column to the first till the first column is higher than or equal to the last one.
 // Returns the maximum height of both columns.
 {
@@ -483,7 +476,7 @@ int T2PReferenceArea::balance_first_column_higher_than_or_equal_to_last_column(d
     first_column_height = get_column_height(first_column, start_stacking_y);
     last_column_height = get_column_height(last_column, start_stacking_y);
   }
-  return MAX (first_column_height, last_column_height);
+  return MAX(first_column_height, last_column_height);
 }
 
 bool T2PReferenceArea::has_content()
@@ -497,7 +490,7 @@ ustring T2PReferenceArea::left_running_header()
 {
   ustring header;
   for (unsigned int blk = 0; blk < body_blocks.size(); blk++) {
-    T2PBlock * block = body_blocks[blk];
+    T2PBlock *block = body_blocks[blk];
     if (!block->left_running_header.empty())
       header = block->left_running_header;
   }
@@ -509,7 +502,7 @@ ustring T2PReferenceArea::right_running_header()
 {
   ustring header;
   for (unsigned int blk = 0; blk < body_blocks.size(); blk++) {
-    T2PBlock * block = body_blocks[blk];
+    T2PBlock *block = body_blocks[blk];
     if (!block->right_running_header.empty())
       header = block->right_running_header;
   }
@@ -522,7 +515,7 @@ unsigned int T2PReferenceArea::left_running_first_chapter()
   unsigned int first_chapter = 0;
   for (unsigned int blk = 0; blk < body_blocks.size(); blk++) {
     if (first_chapter == 0) {
-      T2PBlock * block = body_blocks[blk];
+      T2PBlock *block = body_blocks[blk];
       first_chapter = block->left_running_chapter;
     }
   }
@@ -535,7 +528,7 @@ unsigned int T2PReferenceArea::right_running_first_chapter()
   unsigned int first_chapter = 0;
   for (unsigned int blk = 0; blk < body_blocks.size(); blk++) {
     if (first_chapter == 0) {
-      T2PBlock * block = body_blocks[blk];
+      T2PBlock *block = body_blocks[blk];
       first_chapter = block->right_running_chapter;
     }
   }
@@ -546,9 +539,9 @@ unsigned int T2PReferenceArea::left_running_last_chapter()
 // Gets the running last left chapter. Zeroes don't count.
 {
   unsigned int last_chapter = 0;
-  for (int blk = body_blocks.size()-1; blk >= 0; blk--) {
+  for (int blk = body_blocks.size() - 1; blk >= 0; blk--) {
     if (last_chapter == 0) {
-      T2PBlock * block = body_blocks[blk];
+      T2PBlock *block = body_blocks[blk];
       last_chapter = block->left_running_chapter;
     }
   }
@@ -559,16 +552,16 @@ unsigned int T2PReferenceArea::right_running_last_chapter()
 // Gets the running last right chapter. Zeroes don't count.
 {
   unsigned int last_chapter = 0;
-  for (int blk = body_blocks.size()-1; blk >= 0; blk--) {
+  for (int blk = body_blocks.size() - 1; blk >= 0; blk--) {
     if (last_chapter == 0) {
-      T2PBlock * block = body_blocks[blk];
+      T2PBlock *block = body_blocks[blk];
       last_chapter = block->right_running_chapter;
     }
   }
   return last_chapter;
 }
 
-ustring T2PReferenceArea::produce_running_header(const ustring& header, bool suppress, unsigned int first_chapter, unsigned int last_chapter)
+ustring T2PReferenceArea::produce_running_header(const ustring & header, bool suppress, unsigned int first_chapter, unsigned int last_chapter)
 // This produces the running header.
 {
   // The running header.
@@ -597,7 +590,6 @@ ustring T2PReferenceArea::produce_running_header(const ustring& header, bool sup
     }
 
   }
-
   // Add chapter part.
   if (!running_header.empty() && !chapter_part.empty())
     running_header.append(" ");
@@ -616,14 +608,14 @@ bool T2PReferenceArea::suppress_headers()
 {
   bool suppress = false;
   for (unsigned int blk = 0; blk < body_blocks.size(); blk++) {
-    T2PBlock * block = body_blocks[blk];
+    T2PBlock *block = body_blocks[blk];
     if (block->suppress_header)
       suppress = true;
   }
   return suppress;
 }
 
-bool T2PReferenceArea::new_page_input_block_encountered(deque <T2PBlock *>& input_blocks, bool set_flag)
+bool T2PReferenceArea::new_page_input_block_encountered(deque < T2PBlock * >&input_blocks, bool set_flag)
 // Return true if the next input block starts a new page.
 {
   if (!input_blocks.empty()) {
@@ -642,22 +634,22 @@ bool T2PReferenceArea::new_page_input_block_encountered(deque <T2PBlock *>& inpu
   return start_new_page;
 }
 
-void T2PReferenceArea::get_referents(map <ustring, ustring>& referents, unsigned int page_number)
+void T2PReferenceArea::get_referents(map < ustring, ustring > &referents, unsigned int page_number)
 // Gets the referents on this page, with their page numbers.
 {
   for (unsigned int i = 0; i < body_blocks.size(); i++) {
-    T2PBlock * block = body_blocks[i];
+    T2PBlock *block = body_blocks[i];
     if (!block->referent.empty()) {
       referents[block->referent] = convert_to_string(page_number);
     }
   }
 }
 
-void T2PReferenceArea::match_and_expand_references_and_referents(map <ustring, ustring>& referents)
+void T2PReferenceArea::match_and_expand_references_and_referents(map < ustring, ustring > &referents)
 // Writes the page numbers of the referents. Used in table of contents.
 {
   for (unsigned int i = 0; i < body_blocks.size(); i++) {
-    T2PBlock * block = body_blocks[i];
+    T2PBlock *block = body_blocks[i];
     if (!block->reference.empty()) {
 
       string referent = referents[block->reference];
@@ -670,7 +662,7 @@ void T2PReferenceArea::match_and_expand_references_and_referents(map <ustring, u
         toc_rectangle.width = block->maximum_width_pango_units;
         toc_rectangle.height = 0;
 
-        T2PLayoutContainer * page_number_layout = new T2PLayoutContainer (toc_rectangle, NULL, cairo);
+        T2PLayoutContainer *page_number_layout = new T2PLayoutContainer(toc_rectangle, NULL, cairo);
         table_of_contents_layout_containers.push_back(page_number_layout);
         page_number_layout->layout_text(NULL, 0, referent);
         page_number_layout->rectangle.x = block->rectangle.x + block->maximum_width_pango_units - page_number_layout->rectangle.width;
@@ -680,7 +672,7 @@ void T2PReferenceArea::match_and_expand_references_and_referents(map <ustring, u
         int start_x = block->rectangle.x + block->rectangle.width;
 
         while (available_width > 0) {
-          T2PLayoutContainer * dotted_line_layout = new T2PLayoutContainer (toc_rectangle, NULL, cairo);
+          T2PLayoutContainer *dotted_line_layout = new T2PLayoutContainer(toc_rectangle, NULL, cairo);
           table_of_contents_layout_containers.push_back(dotted_line_layout);
           string dot(".");
           dotted_line_layout->layout_text(NULL, 0, dot);
@@ -692,4 +684,3 @@ void T2PReferenceArea::match_and_expand_references_and_referents(map <ustring, u
     }
   }
 }
-

@@ -32,14 +32,13 @@ T2PArea::~T2PArea()
 {
 }
 
-ustring T2PArea::rectangle2text ()
+ustring T2PArea::rectangle2text()
 // Gives the rectangle as text. For debugging purposes.
 {
   ustring text;
-  text.append ("x=" + convert_to_string (pango_units_to_millimeters(rectangle.x)));
-  text.append (" y="+ convert_to_string (pango_units_to_millimeters(rectangle.y)));
-  text.append (" width="+ convert_to_string (pango_units_to_millimeters(rectangle.width)));
-  text.append (" height="+ convert_to_string (pango_units_to_millimeters(rectangle.height)));
+  text.append("x=" + convert_to_string(pango_units_to_millimeters(rectangle.x)));
+  text.append(" y=" + convert_to_string(pango_units_to_millimeters(rectangle.y)));
+  text.append(" width=" + convert_to_string(pango_units_to_millimeters(rectangle.width)));
+  text.append(" height=" + convert_to_string(pango_units_to_millimeters(rectangle.height)));
   return text;
 }
-

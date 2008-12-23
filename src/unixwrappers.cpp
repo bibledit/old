@@ -17,7 +17,6 @@
 **  
 */
 
-
 #include "libraries.h"
 #include "unixwrappers.h"
 #include "myfnmatch.h"
@@ -25,81 +24,73 @@
 #include "utilities.h"
 #include "tiny_utilities.h"
 
-
-bool unix_fnmatch (const char * pattern, const ustring& text)
+bool unix_fnmatch(const char *pattern, const ustring & text)
 // This is a wrapper for the fnmatch function on Unix, as this is not available
 // on Windows and some versions of Mac OSX.
 {
-  return (myfnmatch (pattern, text.c_str(), 0) == 0);
+  return (myfnmatch(pattern, text.c_str(), 0) == 0);
 }
 
-
-void unix_cp (const ustring& from, const ustring& to)
+void unix_cp(const ustring & from, const ustring & to)
 // This is a wrapper for the cp function on Unix, as Windows uses another one.
 {
-  #ifdef WIN32
-  GwSpawn spawn ("copy");
-  #else
-  GwSpawn spawn ("cp");
-  #endif
-  spawn.arg (from);
-  spawn.arg (to);
-  spawn.run ();
+#ifdef WIN32
+  GwSpawn spawn("copy");
+#else
+  GwSpawn spawn("cp");
+#endif
+  spawn.arg(from);
+  spawn.arg(to);
+  spawn.run();
 }
 
-
-void unix_cp_r (const ustring& from, const ustring& to)
+void unix_cp_r(const ustring & from, const ustring & to)
 // This is a wrapper for the cp function on Unix, as Windows uses another one.
 {
-  #ifdef WIN32
-  gw_mkdir_with_parents (to);
-  GwSpawn spawn ("xcopy");
-  spawn.arg ("/e");
-  #else
-  GwSpawn spawn ("cp");
-  spawn.arg ("-r");
-  #endif
-  spawn.arg (from);
-  spawn.arg (to);
-  spawn.run ();
+#ifdef WIN32
+  gw_mkdir_with_parents(to);
+  GwSpawn spawn("xcopy");
+  spawn.arg("/e");
+#else
+  GwSpawn spawn("cp");
+  spawn.arg("-r");
+#endif
+  spawn.arg(from);
+  spawn.arg(to);
+  spawn.run();
 }
 
-
-void unix_mv (const ustring& from, const ustring& to)
+void unix_mv(const ustring & from, const ustring & to)
 // This is a wrapper for the mv function on Unix, which is move on Windows.
 {
-  #ifdef WIN32
-  GwSpawn spawn ("move");
-  #else
-  GwSpawn spawn ("mv");
-  #endif
-  spawn.arg (from);
-  spawn.arg (to);
-  spawn.run ();
+#ifdef WIN32
+  GwSpawn spawn("move");
+#else
+  GwSpawn spawn("mv");
+#endif
+  spawn.arg(from);
+  spawn.arg(to);
+  spawn.run();
 }
 
-
-void unix_rmdir (const ustring& dir)
+void unix_rmdir(const ustring & dir)
 {
-  #ifdef WIN32
-  GwSpawn spawn ("rmdir");
-  spawn.arg ("/s");
-  spawn.arg ("/q");
-  #else
-  GwSpawn spawn ("rm");
-  spawn.arg ("-rf");
-  #endif
-  spawn.arg (dir);
-  spawn.run ();
+#ifdef WIN32
+  GwSpawn spawn("rmdir");
+  spawn.arg("/s");
+  spawn.arg("/q");
+#else
+  GwSpawn spawn("rm");
+  spawn.arg("-rf");
+#endif
+  spawn.arg(dir);
+  spawn.run();
 }
 
-
-void unix_kill (GPid pid)
+void unix_kill(GPid pid)
 {
-  GwSpawn spawn ("kill");
-  spawn.arg ("-HUP");
-  spawn.arg (convert_to_string (pid));
-  spawn.run ();
+  GwSpawn spawn("kill");
+  spawn.arg("-HUP");
+  spawn.arg(convert_to_string(pid));
+  spawn.run();
 }
-
-

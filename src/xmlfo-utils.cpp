@@ -28,7 +28,8 @@
 #include "color.h"
 #include "tiny_utilities.h"
 
-XmlFoBlock::XmlFoBlock(vector<ustring> * lines, double fontsize, int lineheight, const ustring& italic_in, const ustring& bold_in, const ustring& underline_in, const ustring& smallcaps_in, ustring justification, double spacebefore, double spaceafter, double leftmargin, double rightmargin, double firstlineindent, bool spancolumns, bool keepwithnext) {
+XmlFoBlock::XmlFoBlock(vector < ustring > *lines, double fontsize, int lineheight, const ustring & italic_in, const ustring & bold_in, const ustring & underline_in, const ustring & smallcaps_in, ustring justification, double spacebefore, double spaceafter, double leftmargin, double rightmargin, double firstlineindent, bool spancolumns, bool keepwithnext)
+{
   mylines = lines;
   ustring line;
   line = "      <fo:block";
@@ -113,7 +114,8 @@ XmlFoBlock::XmlFoBlock(vector<ustring> * lines, double fontsize, int lineheight,
   linescount = mylines->size();
 }
 
-XmlFoBlock::~XmlFoBlock() {
+XmlFoBlock::~XmlFoBlock()
+{
   // If nothing was inserted, insert a non-breaking space.
   if (linescount == mylines->size()) {
     mylines->push_back(" ");

@@ -34,64 +34,66 @@
 #include "tiny_utilities.h"
 #include "gui.h"
 
-XferNotes2TextDialog::XferNotes2TextDialog(int dummy) {
+XferNotes2TextDialog::XferNotes2TextDialog(int dummy)
+{
 
   notestransferdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW (notestransferdialog), "Transfer Project Notes To Text");
-  gtk_window_set_position(GTK_WINDOW (notestransferdialog), GTK_WIN_POS_CENTER_ON_PARENT);
-  gtk_window_set_modal(GTK_WINDOW (notestransferdialog), TRUE);
+  gtk_window_set_title(GTK_WINDOW(notestransferdialog), "Transfer Project Notes To Text");
+  gtk_window_set_position(GTK_WINDOW(notestransferdialog), GTK_WIN_POS_CENTER_ON_PARENT);
+  gtk_window_set_modal(GTK_WINDOW(notestransferdialog), TRUE);
 
-  dialog_vbox1 = GTK_DIALOG (notestransferdialog)->vbox;
+  dialog_vbox1 = GTK_DIALOG(notestransferdialog)->vbox;
   gtk_widget_show(dialog_vbox1);
 
   vbox1 = gtk_vbox_new(FALSE, 5);
   gtk_widget_show(vbox1);
-  gtk_box_pack_start(GTK_BOX (dialog_vbox1), vbox1, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(dialog_vbox1), vbox1, FALSE, FALSE, 0);
 
   label1 = gtk_label_new("This will transfer all the Project Notes that display for each verse into the currently opened project");
   gtk_widget_show(label1);
-  gtk_box_pack_start(GTK_BOX (vbox1), label1, FALSE, FALSE, 0);
-  gtk_label_set_line_wrap(GTK_LABEL (label1), TRUE);
-  gtk_misc_set_alignment(GTK_MISC (label1), 0, 0.5);
+  gtk_box_pack_start(GTK_BOX(vbox1), label1, FALSE, FALSE, 0);
+  gtk_label_set_line_wrap(GTK_LABEL(label1), TRUE);
+  gtk_misc_set_alignment(GTK_MISC(label1), 0, 0.5);
 
   label3 = gtk_label_new("The transfer cannot be undone.");
   gtk_widget_show(label3);
-  gtk_box_pack_start(GTK_BOX (vbox1), label3, FALSE, FALSE, 0);
-  gtk_misc_set_alignment(GTK_MISC (label3), 0, 0.5);
+  gtk_box_pack_start(GTK_BOX(vbox1), label3, FALSE, FALSE, 0);
+  gtk_misc_set_alignment(GTK_MISC(label3), 0, 0.5);
 
-  dialog_action_area1 = GTK_DIALOG (notestransferdialog)->action_area;
+  dialog_action_area1 = GTK_DIALOG(notestransferdialog)->action_area;
   gtk_widget_show(dialog_action_area1);
-  gtk_button_box_set_layout(GTK_BUTTON_BOX (dialog_action_area1), GTK_BUTTONBOX_END);
+  gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
-  new InDialogHelp (notestransferdialog, NULL, "tool_notes2text");
+  new InDialogHelp(notestransferdialog, NULL, "tool_notes2text");
 
   cancelbutton = gtk_button_new_from_stock("gtk-cancel");
   gtk_widget_show(cancelbutton);
-  gtk_dialog_add_action_widget(GTK_DIALOG (notestransferdialog), cancelbutton, GTK_RESPONSE_CANCEL);
-  GTK_WIDGET_SET_FLAGS (cancelbutton, GTK_CAN_DEFAULT);
+  gtk_dialog_add_action_widget(GTK_DIALOG(notestransferdialog), cancelbutton, GTK_RESPONSE_CANCEL);
+  GTK_WIDGET_SET_FLAGS(cancelbutton, GTK_CAN_DEFAULT);
 
   okbutton = gtk_button_new_from_stock("gtk-ok");
   gtk_widget_show(okbutton);
-  gtk_dialog_add_action_widget(GTK_DIALOG (notestransferdialog), okbutton, GTK_RESPONSE_OK);
-  GTK_WIDGET_SET_FLAGS (okbutton, GTK_CAN_DEFAULT);
+  gtk_dialog_add_action_widget(GTK_DIALOG(notestransferdialog), okbutton, GTK_RESPONSE_OK);
+  GTK_WIDGET_SET_FLAGS(okbutton, GTK_CAN_DEFAULT);
 
-  g_signal_connect ((gpointer) okbutton, "clicked",
-      G_CALLBACK (on_okbutton_clicked),
-      gpointer(this));
+  g_signal_connect((gpointer) okbutton, "clicked", G_CALLBACK(on_okbutton_clicked), gpointer(this));
 
   gtk_widget_grab_default(okbutton);
   gtk_widget_grab_focus(okbutton);
 }
 
-XferNotes2TextDialog::~XferNotes2TextDialog() {
+XferNotes2TextDialog::~XferNotes2TextDialog()
+{
   gtk_widget_destroy(notestransferdialog);
 }
 
-int XferNotes2TextDialog::run() {
-  return gtk_dialog_run(GTK_DIALOG (notestransferdialog));
+int XferNotes2TextDialog::run()
+{
+  return gtk_dialog_run(GTK_DIALOG(notestransferdialog));
 }
 
-void XferNotes2TextDialog::on_okbutton_clicked(GtkButton *button, gpointer user_data) {
+void XferNotes2TextDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
+{
   ((XferNotes2TextDialog *) user_data)->on_okbutton();
 }
 
@@ -103,67 +105,67 @@ void XferNotes2TextDialog::on_okbutton()
     return;
 
   // Get the project.
-  extern Settings * settings;
+  extern Settings *settings;
   ustring project = settings->genconfig.project_get();
 
   // Progress.
   ProgressWindow progresswindow("Transferring notes to text", false);
 
   // Go through the books in the project.
-  vector <unsigned int> books = project_get_books(project);
+  vector < unsigned int >books = project_get_books(project);
   for (unsigned int bk = 0; bk < books.size(); bk++) {
 
     // Progress.
     progresswindow.set_text(books_id_to_english(books[bk]));
 
     // Go through the chapters in this book. Progress.
-    vector <unsigned int> chapters = project_get_chapters(project, books[bk]);
+    vector < unsigned int >chapters = project_get_chapters(project, books[bk]);
     progresswindow.set_iterate(0, 1, chapters.size());
     for (unsigned int ch = 0; ch < chapters.size(); ch++) {
       progresswindow.iterate();
 
       // Go through the verses in this chapter.
-      vector <ustring> verses = project_get_verses(project, books[bk], chapters[ch]);
+      vector < ustring > verses = project_get_verses(project, books[bk], chapters[ch]);
       for (unsigned int vs = 0; vs < verses.size(); vs++) {
 
         // Transfer the note.
-        transfer_note (project, books[bk], chapters[ch], verses[vs]);
+        transfer_note(project, books[bk], chapters[ch], verses[vs]);
       }
     }
   }
 }
 
-void XferNotes2TextDialog::transfer_note(const ustring& project, unsigned int book, unsigned int chapter, const ustring& verse)
+void XferNotes2TextDialog::transfer_note(const ustring & project, unsigned int book, unsigned int chapter, const ustring & verse)
 // Transfer the note.
 {
   // Select the set of notes for the current reference.
   ustring reference = books_id_to_english(book) + " " + convert_to_string(chapter) + ":" + verse;
-  vector<unsigned int> ids;
+  vector < unsigned int >ids;
   unsigned int id_cursor;
-  notes_select (ids, id_cursor, reference);
+  notes_select(ids, id_cursor, reference);
 
   // Bail out if there are no notes.
-  if (ids.empty()) return;
-  
+  if (ids.empty())
+    return;
+
   // Retrieve the note(s) and the verse text.
-  vector <ustring> notes;
-  notes_read (ids, notes);
+  vector < ustring > notes;
+  notes_read(ids, notes);
   ustring text = project_retrieve_verse(project, book, chapter, verse);
-  
+
   for (unsigned int i = 0; i < notes.size(); i++) {
-    
+
     if (i)
-      text.append ("\n\\p ");
-    
-    ParseLine parseline (notes[i]);
+      text.append("\n\\p ");
+
+    ParseLine parseline(notes[i]);
     for (unsigned int i2 = 0; i2 < parseline.lines.size(); i2++) {
-      text.append ("\n\\p ");
-      text.append (parseline.lines[i2]);
+      text.append("\n\\p ");
+      text.append(parseline.lines[i2]);
     }
-    
+
   }
-  
+
   // Store the modified verse text.
   project_store_verse(project, book, chapter, verse, text);
 }
-

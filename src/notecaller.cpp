@@ -17,51 +17,46 @@
 **  
 */
 
-
 #include "libraries.h"
 #include "notecaller.h"
 #include "utilities.h"
 #include "constants.h"
 #include "tiny_utilities.h"
 
-
-NoteCaller::NoteCaller (NoteNumberingType numbering_in, ustring user_sequence)
+NoteCaller::NoteCaller(NoteNumberingType numbering_in, ustring user_sequence)
 // Deal with the note callers.
 {
   numbering = numbering_in;
   sequence = user_sequence;
   if (numbering == nntAlphabetical)
     sequence = ALPHABET;
-  reset ();
+  reset();
 }
 
-
-NoteCaller::~NoteCaller ()
+NoteCaller::~NoteCaller()
 {
 }
 
-
-void NoteCaller::reset ()
+void NoteCaller::reset()
 {
   caller_pointer = 0;
 }
 
-
-ustring NoteCaller::get_caller ()
+ustring NoteCaller::get_caller()
 {
   ustring caller;
   switch (numbering) {
-    case nntNumerical:
+  case nntNumerical:
     {
-      caller = convert_to_string (caller_pointer + 1);
+      caller = convert_to_string(caller_pointer + 1);
       break;
     }
-    case nntAlphabetical:
-    case nntUserDefined:
+  case nntAlphabetical:
+  case nntUserDefined:
     {
       if (caller_pointer >= sequence.length())
         caller_pointer = 0;
-      caller = sequence[caller_pointer];      
+      caller = sequence[caller_pointer];
       break;
     }
   }
@@ -69,8 +64,7 @@ ustring NoteCaller::get_caller ()
   return caller;
 }
 
-
-ustring note_caller_numbering_per_page_pool ()
+ustring note_caller_numbering_per_page_pool()
 // This provides a pool of characters, to be used as temporary placeholders 
 // for footnote numbers to be renumbered per page later on.
 // The "Linear B" script is used as it is not expected that these 

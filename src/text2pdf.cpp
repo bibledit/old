@@ -40,7 +40,7 @@
 #include "text2pdf_intermediate.h"
 #include "dialogtext2pdf.h"
 
-Text2Pdf::Text2Pdf(const ustring& pdf_file, bool use_intermediate_text)
+Text2Pdf::Text2Pdf(const ustring & pdf_file, bool use_intermediate_text)
 // Converts text code to a pdf file.
 {
   // Initializers.
@@ -74,7 +74,7 @@ void Text2Pdf::initialize_variables()
 {
   // The page size defaults to A4 = 210 x 297 millimeters (8.27 x 11.69 inches).
   page_width_pango_units = millimeters_to_pango_units(210);
-  page_height_pango_units= millimeters_to_pango_units(297);
+  page_height_pango_units = millimeters_to_pango_units(297);
 
   // Page margins default in centimeters.
   inside_margin_pango_units = centimeters_to_pango_units(2.5);
@@ -178,24 +178,23 @@ void Text2Pdf::new_page(bool odd)
 
   // The paragraph before the new page should not have its 'keep-with-next' property set, else the engine chokes on that.
   if (!input_data.empty()) {
-    T2PInput * preceding_input = input_data[input_data.size()-1];
+    T2PInput *preceding_input = input_data[input_data.size() - 1];
     if (preceding_input->type == t2pitParagraph) {
       ((T2PInputParagraph *) preceding_input)->keep_with_next = false;
     }
   }
-
   // Store the new page.
   if (odd)
-    input_data.push_back(new T2PInput (t2pitNewOddPage));
+    input_data.push_back(new T2PInput(t2pitNewOddPage));
   else
-    input_data.push_back(new T2PInput (t2pitNewPage));
+    input_data.push_back(new T2PInput(t2pitNewPage));
 }
 
 void Text2Pdf::run()
 // Runs the converter.
 {
   // Create progress window.
-  progresswindow = new ProgressWindow ("Formatting", false);
+  progresswindow = new ProgressWindow("Formatting", false);
   progresswindow->set_text("Run");
 
   // Close any open input containers.
@@ -220,13 +219,12 @@ void Text2Pdf::run()
   if (pages.empty()) {
     next_page();
   }
-
   // Print the pages.
   progresswindow->set_iterate(0, 1, pages.size());
   progresswindow->set_text("Output");
   for (unsigned int pg = 0; pg < pages.size(); pg++) {
     progresswindow->iterate();
-    T2PPage * page = pages[pg];
+    T2PPage *page = pages[pg];
     page->print();
   }
 
@@ -237,22 +235,21 @@ void Text2Pdf::run()
   }
 }
 
-void Text2Pdf::run_input(vector <T2PInput *>& input)
+void Text2Pdf::run_input(vector < T2PInput * >&input)
 // Goes through all of the input data.
 {
   progresswindow->set_iterate(0, 1, input.size());
   progresswindow->set_text("Layout");
   for (unsigned int i = 0; i < input.size(); i++) {
     progresswindow->iterate();
-    switch (input[i]->type)
-    {
-      case t2pitParagraph:
+    switch (input[i]->type) {
+    case t2pitParagraph:
       {
         input_paragraph = (T2PInputParagraph *) input[i];
         lay_out_paragraph();
         break;
       }
-      case t2pitOpenKeepTogether:
+    case t2pitOpenKeepTogether:
       {
         // Paragraphs from here till the next t2pitCloseKeepTogether should be kept together
         // in one column or page.
@@ -260,7 +257,7 @@ void Text2Pdf::run_input(vector <T2PInput *>& input)
         keep_data_together = true;
         break;
       }
-      case t2pitCloseKeepTogether:
+    case t2pitCloseKeepTogether:
       {
         // Clear the flag.
         keep_data_together = false;
@@ -270,31 +267,31 @@ void Text2Pdf::run_input(vector <T2PInput *>& input)
         rectangle.y = 0;
         rectangle.width = 0;
         rectangle.height = 0;
-        T2PBlock * block = new T2PBlock (rectangle, 1);
+        T2PBlock *block = new T2PBlock(rectangle, 1);
         block->type = t2pbtSpaceAfterParagraph;
         input_blocks.push_back(block);
         break;
       }
-      case t2pitNewPage:
+    case t2pitNewPage:
       {
         PangoRectangle rectangle;
         rectangle.x = 0;
         rectangle.y = 0;
         rectangle.width = 0;
         rectangle.height = 0;
-        T2PBlock * block = new T2PBlock (rectangle, 1);
+        T2PBlock *block = new T2PBlock(rectangle, 1);
         block->type = t2pbtNewPage;
         input_blocks.push_back(block);
         break;
       }
-      case t2pitNewOddPage:
+    case t2pitNewOddPage:
       {
         PangoRectangle rectangle;
         rectangle.x = 0;
         rectangle.y = 0;
         rectangle.width = 0;
         rectangle.height = 0;
-        T2PBlock * block = new T2PBlock (rectangle, 1);
+        T2PBlock *block = new T2PBlock(rectangle, 1);
         block->type = t2pbtNewOddPage;
         input_blocks.push_back(block);
         break;
@@ -310,14 +307,12 @@ void Text2Pdf::lay_out_paragraph()
   if (input_paragraph->text.empty()) {
     return;
   }
-
   // Optionally lay out the paragraph's intrusion.
-  T2PInputParagraph * intrusion = input_paragraph->get_intrusion();
+  T2PInputParagraph *intrusion = input_paragraph->get_intrusion();
   if (intrusion) {
     get_next_layout_container(true);
     layoutcontainer->layout_drop_caps(intrusion, input_paragraph->font_size_points);
   }
-
   // Space before paragraph.
   if (input_paragraph->space_before_mm != 0) {
     PangoRectangle rectangle;
@@ -326,12 +321,11 @@ void Text2Pdf::lay_out_paragraph()
     rectangle.width = page_width_pango_units - inside_margin_pango_units - outside_margin_pango_units;
     rectangle.height = millimeters_to_pango_units(input_paragraph->space_before_mm);
     int column_count = get_column_count_rectangle_width(input_paragraph->column_count, rectangle.width);
-    T2PBlock * block = new T2PBlock (rectangle, column_count);
+    T2PBlock *block = new T2PBlock(rectangle, column_count);
     block->type = t2pbtSpaceBeforeParagraph;
     block->keep_with_next = true;
     input_blocks.push_back(block);
   }
-
   // Paragraph itself.
   unsigned int line_number = 0;
   while (!input_paragraph->text.empty() && line_number < 1000) {
@@ -342,7 +336,6 @@ void Text2Pdf::lay_out_paragraph()
   if (!input_paragraph->text.empty()) {
     gw_warning("Can't fit in \"" + input_paragraph->text + "\"");
   }
-
   // Space after paragraph.
   if (input_paragraph->space_after_mm != 0) {
     PangoRectangle rectangle;
@@ -351,7 +344,7 @@ void Text2Pdf::lay_out_paragraph()
     rectangle.width = page_width_pango_units - inside_margin_pango_units - outside_margin_pango_units;
     rectangle.height = millimeters_to_pango_units(input_paragraph->space_after_mm);
     int column_count = get_column_count_rectangle_width(input_paragraph->column_count, rectangle.width);
-    T2PBlock * block = new T2PBlock (rectangle, column_count);
+    T2PBlock *block = new T2PBlock(rectangle, column_count);
     block->type = t2pbtSpaceAfterParagraph;
     block->keep_with_next = input_paragraph->keep_with_next;
     input_blocks.push_back(block);
@@ -373,7 +366,7 @@ void Text2Pdf::get_next_layout_container(bool intrusion)
   int column_count = get_column_count_rectangle_width(input_paragraph->column_count, rectangle.width);
 
   // Create a new block.
-  T2PBlock * block = new T2PBlock (rectangle, column_count);
+  T2PBlock *block = new T2PBlock(rectangle, column_count);
   block->keep_with_next = input_paragraph->keep_with_next || keep_data_together || intrusion;
   if (intrusion) {
     block->type = t2pbtTextIntrusion;
@@ -409,7 +402,6 @@ void Text2Pdf::get_next_layout_container(bool intrusion)
       }
     }
   }
-
   // Store the block.
   input_blocks.push_back(block);
 
@@ -461,7 +453,7 @@ void Text2Pdf::widows_and_orphans_and_keep_with_next()
   // Widows and orphans control is is implemented throught the "keep_with_next" property of the T2PBlock object.
   // The "keep with next" mechanism will then take over when the blocks are fitted in.
   for (unsigned int blk = 0; blk < input_blocks.size(); blk++) {
-    T2PBlock * block = input_blocks[blk];
+    T2PBlock *block = input_blocks[blk];
     // The first line of the paragraph is to be kept with the next.
     if (block->type == t2pbtTextParagraphFirstLine) {
       block->keep_with_next = true;
@@ -469,25 +461,26 @@ void Text2Pdf::widows_and_orphans_and_keep_with_next()
     // The last-but-one line of the paragraph is to be kept with the next.
     if (block->type == t2pbtTextParagraphLastLine) {
       if (blk) {
-        input_blocks[blk-1]->keep_with_next = true;
+        input_blocks[blk - 1]->keep_with_next = true;
       }
     }
   }
   // If the "keep-with-next" property is set just before a new page, 
   // the engine chokes on that, so it is cleared here.
   for (unsigned int blk = 0; blk < input_blocks.size(); blk++) {
-    T2PBlock * block = input_blocks[blk];
+    T2PBlock *block = input_blocks[blk];
     // The first line of the paragraph is to be kept with the next.
     if (block->type == t2pbtNewPage || block->type == t2pbtNewOddPage) {
       if (blk > 0) {
-        T2PBlock * preceding_block = input_blocks[blk-1];
+        T2PBlock *preceding_block = input_blocks[blk - 1];
         preceding_block->keep_with_next = false;
       }
     }
   }
 }
 
-int Text2Pdf::get_column_count_rectangle_width(int column_count_in, int& width) {
+int Text2Pdf::get_column_count_rectangle_width(int column_count_in, int &width)
+{
   int column_count = one_column_only ? 1 : column_count_in;
   if (column_count > 1) {
     width /= column_count;
@@ -500,10 +493,7 @@ void Text2Pdf::next_page()
 // Produces the next page and related objects.
 {
   int page_number = pages.size() + 1;
-  page = new T2PPage (page_number,
-      page_width_pango_units, page_height_pango_units,
-      inside_margin_pango_units, outside_margin_pango_units, top_margin_pango_units, bottom_margin_pango_units,
-      header_height_pango_units, footer_height_pango_units, cairo, print_date);
+  page = new T2PPage(page_number, page_width_pango_units, page_height_pango_units, inside_margin_pango_units, outside_margin_pango_units, top_margin_pango_units, bottom_margin_pango_units, header_height_pango_units, footer_height_pango_units, cairo, print_date);
   pages.push_back(page);
 }
 
@@ -513,7 +503,7 @@ void Text2Pdf::open_keep_together()
   if (text2pdf_intermediary_void(intermediate_text_pointer, __func__))
     return;
   close_paragraph();
-  input_data.push_back(new T2PInput (t2pitOpenKeepTogether));
+  input_data.push_back(new T2PInput(t2pitOpenKeepTogether));
 }
 
 void Text2Pdf::close_keep_together()
@@ -522,7 +512,7 @@ void Text2Pdf::close_keep_together()
   if (text2pdf_intermediary_void(intermediate_text_pointer, __func__))
     return;
   close_paragraph();
-  input_data.push_back(new T2PInput (t2pitCloseKeepTogether));
+  input_data.push_back(new T2PInput(t2pitCloseKeepTogether));
 }
 
 void Text2Pdf::open_paragraph()
@@ -533,7 +523,7 @@ void Text2Pdf::open_paragraph()
   // Close existing one.
   close_paragraph();
   // Create new one.
-  input_paragraph = new T2PInputParagraph (font, line_spacing, right_to_left);
+  input_paragraph = new T2PInputParagraph(font, line_spacing, right_to_left);
   // Store running header information.
   input_paragraph->left_running_header = running_header_left_page;
   input_paragraph->right_running_header = running_header_right_page;
@@ -655,7 +645,7 @@ void Text2Pdf::paragraph_set_column_count(unsigned int count)
   if (text2pdf_intermediary_1_int(intermediate_text_pointer, __func__, count))
     return;
   ensure_open_paragraph();
-  count = CLAMP (count, 1, 2);
+  count = CLAMP(count, 1, 2);
   input_paragraph->column_count = count;
 }
 
@@ -703,7 +693,7 @@ void Text2Pdf::inline_set_italic(int italic)
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
   // Store the inline value.
-  input_paragraph->inline_set_italic((T2PMarkupType)italic);
+  input_paragraph->inline_set_italic((T2PMarkupType) italic);
 }
 
 void Text2Pdf::inline_clear_italic()
@@ -722,7 +712,7 @@ void Text2Pdf::inline_set_bold(int bold)
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
   // Store the inline value.
-  input_paragraph->inline_set_bold((T2PMarkupType)bold);
+  input_paragraph->inline_set_bold((T2PMarkupType) bold);
 }
 
 void Text2Pdf::inline_clear_bold()
@@ -741,7 +731,7 @@ void Text2Pdf::inline_set_underline(int underline)
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
   // Store the inline value.
-  input_paragraph->inline_set_underline((T2PMarkupType)underline);
+  input_paragraph->inline_set_underline((T2PMarkupType) underline);
 }
 
 void Text2Pdf::inline_clear_underline()
@@ -760,7 +750,7 @@ void Text2Pdf::inline_set_small_caps(int small_caps)
   // Ensure that a paragraph is open.
   ensure_open_paragraph();
   // Store the inline value.
-  input_paragraph->inline_set_small_caps((T2PMarkupType)small_caps);
+  input_paragraph->inline_set_small_caps((T2PMarkupType) small_caps);
 }
 
 void Text2Pdf::inline_clear_small_caps()
@@ -831,7 +821,7 @@ void Text2Pdf::inline_clear_strike_through()
   input_paragraph->inline_set_strike_through(t2pmtOff);
 }
 
-void Text2Pdf::add_text(const ustring& text)
+void Text2Pdf::add_text(const ustring & text)
 // Add text to whatever container is on top of the stack.
 {
   if (text2pdf_intermediary_1_ustring(intermediate_text_pointer, __func__, text))
@@ -859,7 +849,7 @@ void Text2Pdf::open_note()
   // Only open a new note if there's no note open already.
   if (stacked_input_paragraph == NULL) {
     stacked_input_paragraph = input_paragraph;
-    input_paragraph = new T2PInputParagraph (font, line_spacing, right_to_left);
+    input_paragraph = new T2PInputParagraph(font, line_spacing, right_to_left);
     // The note is stored into the main paragraph.
     stacked_input_paragraph->add_note(input_paragraph);
   }
@@ -892,7 +882,7 @@ void Text2Pdf::open_intrusion()
   // Only open a new intrusion if there's nothing open already.
   if (stacked_input_paragraph == NULL) {
     stacked_input_paragraph = input_paragraph;
-    input_paragraph = new T2PInputParagraph (font, line_spacing, right_to_left);
+    input_paragraph = new T2PInputParagraph(font, line_spacing, right_to_left);
     // The intrusion is stored into the main paragraph.
     stacked_input_paragraph->set_intrusion(input_paragraph);
   }
@@ -919,7 +909,7 @@ void Text2Pdf::view()
   pdfviewer_view(pdffile);
 }
 
-void Text2Pdf::set_font(const ustring& font_in)
+void Text2Pdf::set_font(const ustring & font_in)
 /* 
  Sets the font to use. The font can be set multiple times. 
  Each paragraph will use the font that was current at the time that the input paragraph object was created.
@@ -954,7 +944,7 @@ void Text2Pdf::print_date_in_header()
   print_date = true;
 }
 
-void Text2Pdf::set_running_header_left_page(const ustring& header)
+void Text2Pdf::set_running_header_left_page(const ustring & header)
 // Sets the running header for the left page.
 {
   if (text2pdf_intermediary_1_ustring(intermediate_text_pointer, __func__, header))
@@ -962,7 +952,7 @@ void Text2Pdf::set_running_header_left_page(const ustring& header)
   running_header_left_page = header;
 }
 
-void Text2Pdf::set_running_header_right_page(const ustring& header)
+void Text2Pdf::set_running_header_right_page(const ustring & header)
 // Sets the running header for the left page.
 {
   if (text2pdf_intermediary_1_ustring(intermediate_text_pointer, __func__, header))
@@ -987,7 +977,7 @@ void Text2Pdf::suppress_header_this_page()
   suppress_header_on_this_page = true;
 }
 
-void Text2Pdf::set_reference(const ustring& label)
+void Text2Pdf::set_reference(const ustring & label)
 // Sets a reference.
 // Used for creating a table of contents with page numbers.
 {
@@ -1009,7 +999,7 @@ void Text2Pdf::set_reference(const ustring& label)
   }
 }
 
-void Text2Pdf::set_referent(const ustring& label)
+void Text2Pdf::set_referent(const ustring & label)
 // Sets a referent. 
 // Used for creating a table of contents with page numbers.
 {
@@ -1037,14 +1027,14 @@ void Text2Pdf::generate_tables_of_contents()
   if (text2pdf_intermediary_void(intermediate_text_pointer, __func__))
     return;
   // Get referents and their page numbers.
-  map <ustring, ustring> referents;
+  map < ustring, ustring > referents;
   for (unsigned int pg = 0; pg < pages.size(); pg++) {
-    T2PReferenceArea * reference_area = pages[pg]->text_reference_area;
+    T2PReferenceArea *reference_area = pages[pg]->text_reference_area;
     reference_area->get_referents(referents, pg + 1);
   }
   // Write the page numbers of the referents.
   for (unsigned int pg = 0; pg < pages.size(); pg++) {
-    T2PReferenceArea * reference_area = pages[pg]->text_reference_area;
+    T2PReferenceArea *reference_area = pages[pg]->text_reference_area;
     reference_area->match_and_expand_references_and_referents(referents);
   }
 }
@@ -1057,7 +1047,6 @@ void Text2Pdf::intermediate_interpreter()
     Text2PdfDialog dialog(&intermediate_text);
     dialog.run();
   }
-
   // Clear flag. Without that we enter an infinite loop.
   intermediate_text_pointer = NULL;
 
@@ -1083,7 +1072,7 @@ void Text2Pdf::intermediate_interpreter()
 
     // Retrieve the parameters.
     // In case of the command to add text, don't interprete the | separater character, but pass it through.
-    vector <ustring> parameters;
+    vector < ustring > parameters;
     if (command == "add_text") {
       parameters.push_back(line);
     } else {
@@ -1251,52 +1240,50 @@ void Text2Pdf::intermediate_interpreter()
   }
 }
 
-
-void Text2Pdf::display_picture (const ustring& filename)
+void Text2Pdf::display_picture(const ustring & filename)
 // Display a picture.
 {
   if (text2pdf_intermediary_1_ustring(intermediate_text_pointer, __func__, filename))
     return;
   /*
-        cairo_surface_t *surface;
-      
-      ustring pdffile = gw_build_filename(directories_get_temp(), "pdf.pdf");
-      surface = cairo_pdf_surface_create(pdffile.c_str(), 504, 648);
+     cairo_surface_t *surface;
 
-      cairo_t *cairo;
-      cairo = cairo_create(surface);
+     ustring pdffile = gw_build_filename(directories_get_temp(), "pdf.pdf");
+     surface = cairo_pdf_surface_create(pdffile.c_str(), 504, 648);
 
-      cairo_set_source_rgb(cairo, 1.0, 1.0, 1.0);
-      cairo_paint(cairo);
+     cairo_t *cairo;
+     cairo = cairo_create(surface);
 
-      PangoLayout * layout = pango_cairo_create_layout(cairo);
-      pango_layout_set_text(layout, "Ekuqaleni", -1);
+     cairo_set_source_rgb(cairo, 1.0, 1.0, 1.0);
+     cairo_paint(cairo);
 
-      cairo_set_source_rgb(cairo, 0.0, 0.0, 0.0);
-      cairo_move_to(cairo, 100, 100);
-      pango_cairo_show_layout(cairo, layout);
+     PangoLayout * layout = pango_cairo_create_layout(cairo);
+     pango_layout_set_text(layout, "Ekuqaleni", -1);
 
-      cairo_surface_t *image;
-      image = cairo_image_surface_create_from_png("../pix/biblesociety.png");
-      
-      int w = cairo_image_surface_get_width (image);
-      int h = cairo_image_surface_get_height (image);
-      
-      //cairo_translate (cairo, 128.0, 128.0);
-      //cairo_scale  (cairo, 2.1, 2.1);
-      //cairo_translate (cairo, -128.0, -128.0);
-      //cairo_translate (cairo, -0.5*w, -0.5*h);
-      
-      cairo_set_source_surface(cairo, image, 100, 120);
-      cairo_paint(cairo);
-      
-      cairo_show_page(cairo);
+     cairo_set_source_rgb(cairo, 0.0, 0.0, 0.0);
+     cairo_move_to(cairo, 100, 100);
+     pango_cairo_show_layout(cairo, layout);
 
-      cairo_surface_destroy(surface);
-      cairo_destroy(cairo);
+     cairo_surface_t *image;
+     image = cairo_image_surface_create_from_png("../pix/biblesociety.png");
 
-      pdfviewer_view(pdffile);
-  
-  */
+     int w = cairo_image_surface_get_width (image);
+     int h = cairo_image_surface_get_height (image);
+
+     //cairo_translate (cairo, 128.0, 128.0);
+     //cairo_scale  (cairo, 2.1, 2.1);
+     //cairo_translate (cairo, -128.0, -128.0);
+     //cairo_translate (cairo, -0.5*w, -0.5*h);
+
+     cairo_set_source_surface(cairo, image, 100, 120);
+     cairo_paint(cairo);
+
+     cairo_show_page(cairo);
+
+     cairo_surface_destroy(surface);
+     cairo_destroy(cairo);
+
+     pdfviewer_view(pdffile);
+
+   */
 }
-

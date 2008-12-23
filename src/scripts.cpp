@@ -25,49 +25,50 @@
 #include "shell.h"
 #include "tiny_utilities.h"
 
-ustring scripts_straight_through() {
+ustring scripts_straight_through()
+{
   return "straight through";
 }
 
-ustring script_prefix(ScriptType scripttype) {
+ustring script_prefix(ScriptType scripttype)
+{
   ustring prefix = "script_";
-  switch (scripttype)
-  {
-    case stSed:
-      prefix.append("sed_");
-      break;
-    case stTECkit:
-      prefix.append("teckit_");
-      break;
-    case stFree:
-      prefix.append("free_");
-      break;
-    case stEnd:
-      break;
+  switch (scripttype) {
+  case stSed:
+    prefix.append("sed_");
+    break;
+  case stTECkit:
+    prefix.append("teckit_");
+    break;
+  case stFree:
+    prefix.append("free_");
+    break;
+  case stEnd:
+    break;
   }
   return prefix;
 }
 
-ustring script_suffix(ScriptType scripttype, bool binary) {
+ustring script_suffix(ScriptType scripttype, bool binary)
+{
   ustring suffix;
-  switch (scripttype)
-  {
-    case stSed:
-      break;
-    case stTECkit:
-      if (binary)
-        suffix.append(".tec");
-      else
-        suffix.append(".map");
-      break;
-    case stFree:
-    case stEnd:
-      break;
+  switch (scripttype) {
+  case stSed:
+    break;
+  case stTECkit:
+    if (binary)
+      suffix.append(".tec");
+    else
+      suffix.append(".map");
+    break;
+  case stFree:
+  case stEnd:
+    break;
   }
   return suffix;
 }
 
-vector <ustring> scripts_get_all()
+vector < ustring > scripts_get_all()
 // Gets a list of available scripts.
 {
   // Read available scripts and clean them up.
@@ -96,8 +97,8 @@ vector <ustring> scripts_get_all()
   // In cases of TECkit, there is the .map script and the compiled .tec script.
   // These both have the same name, so we have two scripts of the same name.
   // Remove any double names.
-  set <ustring> scriptset(rf.files.begin(), rf.files.end());
-  vector <ustring> scripts(scriptset.begin(), scriptset.end());
+  set < ustring > scriptset(rf.files.begin(), rf.files.end());
+  vector < ustring > scripts(scriptset.begin(), scriptset.end());
 
   // Sort them.
   sort(scripts.begin(), scripts.end());
@@ -109,15 +110,15 @@ vector <ustring> scripts_get_all()
   return scripts;
 }
 
-bool script_available(const ustring& script)
+bool script_available(const ustring & script)
 // Returns whether "script" is available.
 {
-  vector <ustring> scripts = scripts_get_all();
-  set <ustring> scripts_set(scripts.begin(), scripts.end());
+  vector < ustring > scripts = scripts_get_all();
+  set < ustring > scripts_set(scripts.begin(), scripts.end());
   return scripts_set.find(script) != scripts_set.end();
 }
 
-ustring script_filter(const ustring& scriptname, bool straightthrough, const ustring& inputfile, const ustring& outputfile)
+ustring script_filter(const ustring & scriptname, bool straightthrough, const ustring & inputfile, const ustring & outputfile)
 /*
  Runs the filter "scriptname".
  Input text in "inputfile", and the output text goes in "outputfile".
@@ -127,14 +128,13 @@ ustring script_filter(const ustring& scriptname, bool straightthrough, const ust
 {
   // Remove any previous output.
   unlink(outputfile.c_str());
-  unlink(script_temporal_error_file ().c_str());
-  
+  unlink(script_temporal_error_file().c_str());
+
   // Handle straight through.
   if (straightthrough) {
     unix_cp(inputfile, outputfile);
     return "";
   }
-
   // Get the filename and the type of the script.
   ScriptType scripttype;
   ustring scriptfile = script_get_path(scriptname, &scripttype, true);
@@ -145,7 +145,6 @@ ustring script_filter(const ustring& scriptname, bool straightthrough, const ust
     gw_warning("Error in script " + scriptname);
     return "";
   }
-
   // Encode the input usfm file.
   ustring encodedinputfile = script_temporal_input_file();
   if (inputfile != encodedinputfile) {
@@ -156,9 +155,8 @@ ustring script_filter(const ustring& scriptname, bool straightthrough, const ust
   // Run filter.
   ustring command;
   ustring error;
-  switch (scripttype)
-  {
-    case stSed:
+  switch (scripttype) {
+  case stSed:
     {
       command.append(script_sed_binary());
       command.append(" -f");
@@ -169,7 +167,7 @@ ustring script_filter(const ustring& scriptname, bool straightthrough, const ust
       command.append(shell_quote_space(outputfile));
       break;
     }
-    case stTECkit:
+  case stTECkit:
     {
       command.append(script_teckit_txtconverter());
       command.append(" -i");
@@ -181,13 +179,13 @@ ustring script_filter(const ustring& scriptname, bool straightthrough, const ust
       command.append(" -nobom");
       break;
     }
-    case stFree:
+  case stFree:
     {
       // Text of the script.
       ustring scriptdata;
       {
         // Read script.
-        gchar * contents;
+        gchar *contents;
         g_file_get_contents(scriptfile.c_str(), &contents, NULL, NULL);
         if (contents) {
           scriptdata = contents;
@@ -213,13 +211,13 @@ ustring script_filter(const ustring& scriptname, bool straightthrough, const ust
       }
       replace_text(scriptdata, script_free_output_identifier(), shell_quote_space(outputfile));
       // Write temporal script.
-      g_file_set_contents(script_temporal_script_file ().c_str(), scriptdata.c_str(), -1, NULL);
+      g_file_set_contents(script_temporal_script_file().c_str(), scriptdata.c_str(), -1, NULL);
       // Assemble command to run.
       command.append("sh");
       command.append(shell_quote_space(script_temporal_script_file()));
       break;
     }
-    case stEnd:
+  case stEnd:
     {
       break;
     }
@@ -237,7 +235,7 @@ ustring script_filter(const ustring& scriptname, bool straightthrough, const ust
   // So here check the UTF-8 encoding. 
   // If UTF-8 validation fails, we copy the input straight to the output.
   {
-    gchar * contents;
+    gchar *contents;
     g_file_get_contents(outputfile.c_str(), &contents, NULL, NULL);
     if (contents) {
       if (!g_utf8_validate(contents, -1, NULL)) {
@@ -260,7 +258,7 @@ ustring script_filter(const ustring& scriptname, bool straightthrough, const ust
 
   // Handle error.
   gchar *contents;
-  g_file_get_contents(script_temporal_error_file ().c_str(), &contents, NULL, NULL);
+  g_file_get_contents(script_temporal_error_file().c_str(), &contents, NULL, NULL);
   if (contents) {
     error = contents;
     g_free(contents);
@@ -269,7 +267,7 @@ ustring script_filter(const ustring& scriptname, bool straightthrough, const ust
   return error;
 }
 
-ustring script_get_path(const ustring& script, ScriptType * scripttype, bool binary)
+ustring script_get_path(const ustring & script, ScriptType * scripttype, bool binary)
 // Gets the full path to an existing "script".
 // If "binary" is true, then, if possible, it gives the path, not to the original
 // script, but to the binary form of it. Right now this is used for TECkit support
@@ -293,76 +291,87 @@ ustring script_get_path(const ustring& script, ScriptType * scripttype, bool bin
   return "";
 }
 
-ustring script_get_path(const ustring& script, ScriptType scripttype, bool binary)
+ustring script_get_path(const ustring & script, ScriptType scripttype, bool binary)
 // Gets the full path to a new or existing "script" of "scripttype".
 {
   return gw_build_filename(directories_get_scripts(), script_prefix(scripttype) + script + script_suffix(scripttype, binary));
 }
 
-ustring script_temporal_script_file() {
+ustring script_temporal_script_file()
+{
   return gw_build_filename(directories_get_temp(), "script_filter_script");
 }
 
-ustring script_temporal_input_file() {
+ustring script_temporal_input_file()
+{
   return gw_build_filename(directories_get_temp(), "script_filter_input");
 }
 
-ustring script_temporal_output_file() {
+ustring script_temporal_output_file()
+{
   return gw_build_filename(directories_get_temp(), "script_filter_output");
 }
 
-ustring script_temporal_error_file() {
+ustring script_temporal_error_file()
+{
   return gw_build_filename(directories_get_temp(), "script_filter_error");
 }
 
-ustring script_get_named_type(ScriptType scripttype) {
+ustring script_get_named_type(ScriptType scripttype)
+{
   ustring name;
-  switch (scripttype)
-  {
-    case stSed:
-      name = "Sed rules";
-      break;
-    case stTECkit:
-      name = "TECkit mapping";
-      break;
-    case stFree:
-      name = "Free script";
-      break;
-    case stEnd:
-      break;
+  switch (scripttype) {
+  case stSed:
+    name = "Sed rules";
+    break;
+  case stTECkit:
+    name = "TECkit mapping";
+    break;
+  case stFree:
+    name = "Free script";
+    break;
+  case stEnd:
+    break;
   }
   return name;
 }
 
-bool script_sed_installed() {
+bool script_sed_installed()
+{
   return gw_find_program_in_path(script_sed_binary());
 }
 
-bool script_teckit_installed() {
+bool script_teckit_installed()
+{
   return gw_find_program_in_path(script_teckit_compiler());
 }
 
-const gchar * script_sed_binary() {
+const gchar *script_sed_binary()
+{
   return "sed";
 }
 
-const gchar * script_teckit_compiler() {
+const gchar *script_teckit_compiler()
+{
   return "teckit_compile";
 }
 
-const gchar * script_teckit_txtconverter() {
+const gchar *script_teckit_txtconverter()
+{
   return "txtconv";
 }
 
-const gchar * script_free_input_identifier() {
+const gchar *script_free_input_identifier()
+{
   return "inputfile";
 }
 
-const gchar * script_free_output_identifier() {
+const gchar *script_free_output_identifier()
+{
   return "outputfile";
 }
 
-void script_encode_usfm_file(const ustring& filename) 
+void script_encode_usfm_file(const ustring & filename)
 // Encodes a USFM file. The purpose is that the USFM marked are not changed by the script.
 // The assumption is that numbers are not affected.
 {
@@ -391,7 +400,7 @@ void script_encode_usfm_file(const ustring& filename)
         within_usfm = false;
     if (within_usfm) {
       gunichar unichar;
-      gunichar * uc;
+      gunichar *uc;
       uc = g_utf8_to_ucs4_fast(character.c_str(), -1, NULL);
       unichar = *uc;
       g_free(uc);
@@ -406,7 +415,7 @@ void script_encode_usfm_file(const ustring& filename)
   g_file_set_contents(filename.c_str(), output.c_str(), -1, NULL);
 }
 
-void script_decode_usfm_file(const ustring& filename)
+void script_decode_usfm_file(const ustring & filename)
 // Decodes a USFM file, that means, puts the original USFM code back.
 {
   // Read the file. Bail out if there's no text.
@@ -440,7 +449,7 @@ void script_decode_usfm_file(const ustring& filename)
       for (unsigned int i = 0; i < parse.words.size(); i++) {
         gunichar unichar = convert_to_int(parse.words[i]);
         gchar buf[7];
-        gint length = g_unichar_to_utf8(unichar, (gchar *) &buf);
+        gint length = g_unichar_to_utf8(unichar, (gchar *) & buf);
         buf[length] = '\0';
         character = buf;
         output.append(character);

@@ -26,90 +26,91 @@
 #include "listview.h"
 #include "git.h"
 
-EditStatusDialog::EditStatusDialog(const ustring& project_in, unsigned int book, unsigned int chapter) {
+EditStatusDialog::EditStatusDialog(const ustring & project_in, unsigned int book, unsigned int chapter)
+{
   // Initialize variables.
   project = project_in;
   setting_status = false;
 
   // Settings.
-  extern Settings * settings;
+  extern Settings *settings;
 
   // Project status.
-  vector <ustring> alltasks = settings->genconfig.project_tasks_names_get();
+  vector < ustring > alltasks = settings->genconfig.project_tasks_names_get();
   alltasks_size = alltasks.size();
-  projectstatus = new ProjectStatus (project, alltasks, true);
+  projectstatus = new ProjectStatus(project, alltasks, true);
 
   // Build dialog.  
   editstatusdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW (editstatusdialog), "Edit Status");
-  gtk_window_set_position(GTK_WINDOW (editstatusdialog), GTK_WIN_POS_CENTER_ON_PARENT);
-  gtk_window_set_modal(GTK_WINDOW (editstatusdialog), TRUE);
+  gtk_window_set_title(GTK_WINDOW(editstatusdialog), "Edit Status");
+  gtk_window_set_position(GTK_WINDOW(editstatusdialog), GTK_WIN_POS_CENTER_ON_PARENT);
+  gtk_window_set_modal(GTK_WINDOW(editstatusdialog), TRUE);
 
   // Set the size of the dialog big.
   gint height = (gint) (settings->genconfig.screen_height_get() * 0.80);
-  gtk_window_set_default_size(GTK_WINDOW (editstatusdialog), -1, height);
+  gtk_window_set_default_size(GTK_WINDOW(editstatusdialog), -1, height);
 
-  dialog_vbox1 = GTK_DIALOG (editstatusdialog)->vbox;
+  dialog_vbox1 = GTK_DIALOG(editstatusdialog)->vbox;
   gtk_widget_show(dialog_vbox1);
 
   hbox = gtk_hbox_new(FALSE, 4);
   gtk_widget_show(hbox);
-  gtk_box_pack_start(GTK_BOX (dialog_vbox1), hbox, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(dialog_vbox1), hbox, TRUE, TRUE, 0);
 
   scrolledwindow_books = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow_books);
-  gtk_box_pack_start(GTK_BOX (hbox), scrolledwindow_books, TRUE, TRUE, 0);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow_books), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW (scrolledwindow_books), GTK_SHADOW_IN);
+  gtk_box_pack_start(GTK_BOX(hbox), scrolledwindow_books, TRUE, TRUE, 0);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow_books), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwindow_books), GTK_SHADOW_IN);
 
   treeview_books = gtk_tree_view_new();
   gtk_widget_show(treeview_books);
-  gtk_container_add(GTK_CONTAINER (scrolledwindow_books), treeview_books);
+  gtk_container_add(GTK_CONTAINER(scrolledwindow_books), treeview_books);
 
   liststore_books = gtk_list_store_new(1, G_TYPE_STRING);
-  gtk_tree_view_set_model(GTK_TREE_VIEW (treeview_books), GTK_TREE_MODEL (liststore_books));
+  gtk_tree_view_set_model(GTK_TREE_VIEW(treeview_books), GTK_TREE_MODEL(liststore_books));
   g_object_unref(liststore_books);
-  GtkCellRenderer * renderer_books = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW (treeview_books), -1, "Books", renderer_books, "text", 0, NULL);
-  gtk_tree_selection_set_mode(gtk_tree_view_get_selection(GTK_TREE_VIEW (treeview_books)), GTK_SELECTION_MULTIPLE);
+  GtkCellRenderer *renderer_books = gtk_cell_renderer_text_new();
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview_books), -1, "Books", renderer_books, "text", 0, NULL);
+  gtk_tree_selection_set_mode(gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview_books)), GTK_SELECTION_MULTIPLE);
 
   scrolledwindow_chapters = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow_chapters);
-  gtk_box_pack_start(GTK_BOX (hbox), scrolledwindow_chapters, TRUE, TRUE, 0);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow_chapters), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW (scrolledwindow_chapters), GTK_SHADOW_IN);
+  gtk_box_pack_start(GTK_BOX(hbox), scrolledwindow_chapters, TRUE, TRUE, 0);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow_chapters), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwindow_chapters), GTK_SHADOW_IN);
 
   treeview_chapters = gtk_tree_view_new();
   gtk_widget_show(treeview_chapters);
-  gtk_container_add(GTK_CONTAINER (scrolledwindow_chapters), treeview_chapters);
+  gtk_container_add(GTK_CONTAINER(scrolledwindow_chapters), treeview_chapters);
 
   liststore_chapters = gtk_list_store_new(1, G_TYPE_STRING);
-  gtk_tree_view_set_model(GTK_TREE_VIEW (treeview_chapters), GTK_TREE_MODEL (liststore_chapters));
+  gtk_tree_view_set_model(GTK_TREE_VIEW(treeview_chapters), GTK_TREE_MODEL(liststore_chapters));
   g_object_unref(liststore_chapters);
-  GtkCellRenderer * renderer_chapters = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW (treeview_chapters), -1, "Chapters", renderer_chapters, "text", 0, NULL);
-  gtk_tree_selection_set_mode(gtk_tree_view_get_selection(GTK_TREE_VIEW (treeview_chapters)), GTK_SELECTION_MULTIPLE);
+  GtkCellRenderer *renderer_chapters = gtk_cell_renderer_text_new();
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview_chapters), -1, "Chapters", renderer_chapters, "text", 0, NULL);
+  gtk_tree_selection_set_mode(gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview_chapters)), GTK_SELECTION_MULTIPLE);
 
   scrolledwindow_verses = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow_verses);
-  gtk_box_pack_start(GTK_BOX (hbox), scrolledwindow_verses, TRUE, TRUE, 0);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow_verses), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW (scrolledwindow_verses), GTK_SHADOW_IN);
+  gtk_box_pack_start(GTK_BOX(hbox), scrolledwindow_verses, TRUE, TRUE, 0);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow_verses), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwindow_verses), GTK_SHADOW_IN);
 
   treeview_verses = gtk_tree_view_new();
   gtk_widget_show(treeview_verses);
-  gtk_container_add(GTK_CONTAINER (scrolledwindow_verses), treeview_verses);
+  gtk_container_add(GTK_CONTAINER(scrolledwindow_verses), treeview_verses);
 
   liststore_verses = gtk_list_store_new(1, G_TYPE_STRING);
-  gtk_tree_view_set_model(GTK_TREE_VIEW (treeview_verses), GTK_TREE_MODEL (liststore_verses));
+  gtk_tree_view_set_model(GTK_TREE_VIEW(treeview_verses), GTK_TREE_MODEL(liststore_verses));
   g_object_unref(liststore_verses);
-  GtkCellRenderer * renderer_verses = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW (treeview_verses), -1, "Verses", renderer_verses, "text", 0, NULL);
-  gtk_tree_selection_set_mode(gtk_tree_view_get_selection(GTK_TREE_VIEW (treeview_verses)), GTK_SELECTION_MULTIPLE);
+  GtkCellRenderer *renderer_verses = gtk_cell_renderer_text_new();
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview_verses), -1, "Verses", renderer_verses, "text", 0, NULL);
+  gtk_tree_selection_set_mode(gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview_verses)), GTK_SELECTION_MULTIPLE);
 
   vbox_status = gtk_vbox_new(FALSE, 0);
   gtk_widget_show(vbox_status);
-  gtk_box_pack_start(GTK_BOX (hbox), vbox_status, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox), vbox_status, TRUE, TRUE, 0);
 
   // Build buttons for each state.
   for (unsigned int i = 0; i < alltasks.size(); i++) {
@@ -117,60 +118,44 @@ EditStatusDialog::EditStatusDialog(const ustring& project_in, unsigned int book,
     GtkWidget *checkbutton_status;
     checkbutton_status = gtk_check_button_new_with_mnemonic(alltasks[i].c_str());
     gtk_widget_show(checkbutton_status);
-    gtk_box_pack_start(GTK_BOX (vbox_status), checkbutton_status, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(vbox_status), checkbutton_status, FALSE, FALSE, 0);
 
-    g_signal_connect ((gpointer) checkbutton_status, "toggled",
-        G_CALLBACK (on_checkbutton_status_toggled),
-        gpointer (this));
+    g_signal_connect((gpointer) checkbutton_status, "toggled", G_CALLBACK(on_checkbutton_status_toggled), gpointer(this));
 
     statusbuttons.push_back(checkbutton_status);
   }
 
-  dialog_action_area1 = GTK_DIALOG (editstatusdialog)->action_area;
+  dialog_action_area1 = GTK_DIALOG(editstatusdialog)->action_area;
   gtk_widget_show(dialog_action_area1);
-  gtk_button_box_set_layout(GTK_BUTTON_BOX (dialog_action_area1), GTK_BUTTONBOX_END);
+  gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
-  new InDialogHelp (editstatusdialog, NULL, "edit_status");
+  new InDialogHelp(editstatusdialog, NULL, "edit_status");
 
   cancelbutton = gtk_button_new_from_stock("gtk-cancel");
   gtk_widget_show(cancelbutton);
-  gtk_dialog_add_action_widget(GTK_DIALOG (editstatusdialog), cancelbutton, GTK_RESPONSE_CANCEL);
-  GTK_WIDGET_SET_FLAGS (cancelbutton, GTK_CAN_DEFAULT);
+  gtk_dialog_add_action_widget(GTK_DIALOG(editstatusdialog), cancelbutton, GTK_RESPONSE_CANCEL);
+  GTK_WIDGET_SET_FLAGS(cancelbutton, GTK_CAN_DEFAULT);
 
   okbutton = gtk_button_new_from_stock("gtk-ok");
   gtk_widget_show(okbutton);
-  gtk_dialog_add_action_widget(GTK_DIALOG (editstatusdialog), okbutton, GTK_RESPONSE_OK);
-  GTK_WIDGET_SET_FLAGS (okbutton, GTK_CAN_DEFAULT);
+  gtk_dialog_add_action_widget(GTK_DIALOG(editstatusdialog), okbutton, GTK_RESPONSE_OK);
+  GTK_WIDGET_SET_FLAGS(okbutton, GTK_CAN_DEFAULT);
 
-  g_signal_connect_after ((gpointer) treeview_books, "button_release_event",
-      G_CALLBACK (on_treeview_books_button_event),
-      gpointer (this));
-  g_signal_connect_after ((gpointer) treeview_books, "key_release_event",
-      G_CALLBACK (on_treeview_books_key_event),
-      gpointer (this));
-  g_signal_connect_after ((gpointer) treeview_chapters, "button_release_event",
-      G_CALLBACK (on_treeview_chapters_button_event),
-      gpointer (this));
-  g_signal_connect_after ((gpointer) treeview_chapters, "key_release_event",
-      G_CALLBACK (on_treeview_chapters_key_event),
-      gpointer (this));
-  g_signal_connect_after ((gpointer) treeview_verses, "button_release_event",
-      G_CALLBACK (on_treeview_verses_button_event),
-      gpointer (this));
-  g_signal_connect_after ((gpointer) treeview_verses, "key_release_event",
-      G_CALLBACK (on_treeview_verses_key_event),
-      gpointer (this));
-  g_signal_connect ((gpointer) okbutton, "clicked",
-      G_CALLBACK (on_okbutton_clicked),
-      gpointer (this));
+  g_signal_connect_after((gpointer) treeview_books, "button_release_event", G_CALLBACK(on_treeview_books_button_event), gpointer(this));
+  g_signal_connect_after((gpointer) treeview_books, "key_release_event", G_CALLBACK(on_treeview_books_key_event), gpointer(this));
+  g_signal_connect_after((gpointer) treeview_chapters, "button_release_event", G_CALLBACK(on_treeview_chapters_button_event), gpointer(this));
+  g_signal_connect_after((gpointer) treeview_chapters, "key_release_event", G_CALLBACK(on_treeview_chapters_key_event), gpointer(this));
+  g_signal_connect_after((gpointer) treeview_verses, "button_release_event", G_CALLBACK(on_treeview_verses_button_event), gpointer(this));
+  g_signal_connect_after((gpointer) treeview_verses, "key_release_event", G_CALLBACK(on_treeview_verses_key_event), gpointer(this));
+  g_signal_connect((gpointer) okbutton, "clicked", G_CALLBACK(on_okbutton_clicked), gpointer(this));
 
   gtk_widget_grab_focus(okbutton);
   gtk_widget_grab_default(okbutton);
 
   // Load the books and focus the one that is in the editor.
-  vector <ustring> books;
+  vector < ustring > books;
   for (unsigned int i = 0; i < projectstatus->books.size(); i++) {
-    ProjectStatusBook * project_status_book = projectstatus->books.at(i);
+    ProjectStatusBook *project_status_book = projectstatus->books.at(i);
     books.push_back(books_id_to_english(project_status_book->book));
   }
   listview_set_strings(treeview_books, liststore_books, books);
@@ -182,37 +167,43 @@ EditStatusDialog::EditStatusDialog(const ustring& project_in, unsigned int book,
   on_treeview_chapters_cursor();
 }
 
-EditStatusDialog::~EditStatusDialog() {
+EditStatusDialog::~EditStatusDialog()
+{
   delete projectstatus;
   gtk_widget_destroy(editstatusdialog);
 }
 
-int EditStatusDialog::run() {
-  return gtk_dialog_run(GTK_DIALOG (editstatusdialog));
+int EditStatusDialog::run()
+{
+  return gtk_dialog_run(GTK_DIALOG(editstatusdialog));
 }
 
-gboolean EditStatusDialog::on_treeview_books_button_event(GtkWidget *widget, GdkEventButton *event, gpointer user_data) {
+gboolean EditStatusDialog::on_treeview_books_button_event(GtkWidget * widget, GdkEventButton * event, gpointer user_data)
+{
   ((EditStatusDialog *) user_data)->on_treeview_books_cursor();
   return FALSE;
 }
 
-gboolean EditStatusDialog::on_treeview_books_key_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data) {
+gboolean EditStatusDialog::on_treeview_books_key_event(GtkWidget * widget, GdkEventKey * event, gpointer user_data)
+{
   ((EditStatusDialog *) user_data)->on_treeview_books_cursor();
   return FALSE;
 }
 
-void EditStatusDialog::on_treeview_books_cursor() {
+void EditStatusDialog::on_treeview_books_cursor()
+{
   currentbooks = listview_get_active_offsets(treeview_books);
   load_chapters();
 }
 
-void EditStatusDialog::load_chapters() {
+void EditStatusDialog::load_chapters()
+{
   currentchapters.clear();
-  vector <ustring> chapters;
+  vector < ustring > chapters;
   if (currentbooks.size() == 1) {
-    ProjectStatusBook * project_status_book = projectstatus->books.at(currentbooks[0]);
+    ProjectStatusBook *project_status_book = projectstatus->books.at(currentbooks[0]);
     for (unsigned int i = 0; i < project_status_book->chapters.size(); i++) {
-      ProjectStatusChapter * project_status_chapter = project_status_book->chapters.at(i);
+      ProjectStatusChapter *project_status_chapter = project_status_book->chapters.at(i);
       chapters.push_back(convert_to_string(project_status_chapter->chapter));
     }
   }
@@ -221,26 +212,30 @@ void EditStatusDialog::load_chapters() {
   show_status();
 }
 
-gboolean EditStatusDialog::on_treeview_chapters_button_event(GtkWidget *widget, GdkEventButton *event, gpointer user_data) {
+gboolean EditStatusDialog::on_treeview_chapters_button_event(GtkWidget * widget, GdkEventButton * event, gpointer user_data)
+{
   ((EditStatusDialog *) user_data)->on_treeview_chapters_cursor();
   return FALSE;
 }
 
-gboolean EditStatusDialog::on_treeview_chapters_key_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data) {
+gboolean EditStatusDialog::on_treeview_chapters_key_event(GtkWidget * widget, GdkEventKey * event, gpointer user_data)
+{
   ((EditStatusDialog *) user_data)->on_treeview_chapters_cursor();
   return FALSE;
 }
 
-void EditStatusDialog::on_treeview_chapters_cursor() {
+void EditStatusDialog::on_treeview_chapters_cursor()
+{
   currentchapters = listview_get_active_offsets(treeview_chapters);
   load_verses();
 }
 
-void EditStatusDialog::load_verses() {
+void EditStatusDialog::load_verses()
+{
   currentverses.clear();
-  vector <ustring> verses;
+  vector < ustring > verses;
   if ((currentbooks.size() == 1) && (currentchapters.size() == 1)) {
-    ProjectStatusChapter * project_status_chapter = projectstatus->books.at(currentbooks[0])->chapters.at(currentchapters[0]);
+    ProjectStatusChapter *project_status_chapter = projectstatus->books.at(currentbooks[0])->chapters.at(currentchapters[0]);
     for (unsigned int i = 0; i < project_status_chapter->status.size(); i++) {
       verses.push_back(convert_to_string(i));
     }
@@ -249,17 +244,20 @@ void EditStatusDialog::load_verses() {
   show_status();
 }
 
-gboolean EditStatusDialog::on_treeview_verses_button_event(GtkWidget *widget, GdkEventButton *event, gpointer user_data) {
+gboolean EditStatusDialog::on_treeview_verses_button_event(GtkWidget * widget, GdkEventButton * event, gpointer user_data)
+{
   ((EditStatusDialog *) user_data)->on_treeview_verses_cursor();
   return FALSE;
 }
 
-gboolean EditStatusDialog::on_treeview_verses_key_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data) {
+gboolean EditStatusDialog::on_treeview_verses_key_event(GtkWidget * widget, GdkEventKey * event, gpointer user_data)
+{
   ((EditStatusDialog *) user_data)->on_treeview_verses_cursor();
   return FALSE;
 }
 
-void EditStatusDialog::on_treeview_verses_cursor() {
+void EditStatusDialog::on_treeview_verses_cursor()
+{
   currentverses = listview_get_active_offsets(treeview_verses);
   show_status();
 }
@@ -325,9 +323,8 @@ void EditStatusDialog::show_status()
   }
 
   // Take action based on what type of status to set.
-  switch (statustype)
-  {
-    case estNone:
+  switch (statustype) {
+  case estNone:
     {
       for (unsigned int i = 0; i < statusbuttons.size(); i++) {
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(statusbuttons[i]), false);
@@ -335,59 +332,59 @@ void EditStatusDialog::show_status()
       }
       break;
     }
-    case estBook:
+  case estBook:
     {
-      ProjectStatusBook * project_status_book = projectstatus->books.at(currentbooks[0]);
+      ProjectStatusBook *project_status_book = projectstatus->books.at(currentbooks[0]);
       ProjectStatusRecord statusrecord = project_status_book->get();
       set_status(&statusrecord);
       break;
     }
-    case estBooks:
+  case estBooks:
     {
       ProjectStatusRecord combinedrecord(alltasks_size);
       for (unsigned int i = 0; i < currentbooks.size(); i++) {
-        ProjectStatusBook * project_status_book = projectstatus->books.at(currentbooks[i]);
+        ProjectStatusBook *project_status_book = projectstatus->books.at(currentbooks[i]);
         ProjectStatusRecord statusrecord = project_status_book->get();
         reporting_merge_child_status_into_parent(alltasks_size, i, combinedrecord, statusrecord);
       }
       set_status(&combinedrecord);
       break;
     }
-    case estChapter:
+  case estChapter:
     {
-      ProjectStatusBook * project_status_book = projectstatus->books.at(currentbooks[0]);
-      ProjectStatusChapter * project_status_chapter = project_status_book->chapters.at(currentchapters[0]);
+      ProjectStatusBook *project_status_book = projectstatus->books.at(currentbooks[0]);
+      ProjectStatusChapter *project_status_chapter = project_status_book->chapters.at(currentchapters[0]);
       ProjectStatusRecord statusrecord = project_status_chapter->get();
       set_status(&statusrecord);
       break;
     }
-    case estChapters:
+  case estChapters:
     {
       ProjectStatusRecord combinedrecord(alltasks_size);
       for (unsigned int i = 0; i < currentchapters.size(); i++) {
-        ProjectStatusBook * project_status_book = projectstatus->books.at(currentbooks[0]);
-        ProjectStatusChapter * project_status_chapter = project_status_book->chapters.at(currentchapters[i]);
+        ProjectStatusBook *project_status_book = projectstatus->books.at(currentbooks[0]);
+        ProjectStatusChapter *project_status_chapter = project_status_book->chapters.at(currentchapters[i]);
         ProjectStatusRecord statusrecord = project_status_chapter->get();
         reporting_merge_child_status_into_parent(alltasks_size, i, combinedrecord, statusrecord);
       }
       set_status(&combinedrecord);
       break;
     }
-    case estVerse:
+  case estVerse:
     {
-      ProjectStatusBook * project_status_book = projectstatus->books.at(currentbooks[0]);
-      ProjectStatusChapter * project_status_chapter = project_status_book->chapters.at(currentchapters[0]);
+      ProjectStatusBook *project_status_book = projectstatus->books.at(currentbooks[0]);
+      ProjectStatusChapter *project_status_chapter = project_status_book->chapters.at(currentchapters[0]);
       int verse = currentverses[0];
       ProjectStatusRecord statusrecord = project_status_chapter->status[verse];
       set_status(&statusrecord);
       break;
     }
-    case estVerses:
+  case estVerses:
     {
       ProjectStatusRecord combinedrecord(alltasks_size);
       for (unsigned int i = 0; i < currentverses.size(); i++) {
-        ProjectStatusBook * project_status_book = projectstatus->books.at(currentbooks[0]);
-        ProjectStatusChapter * project_status_chapter = project_status_book->chapters.at(currentchapters[0]);
+        ProjectStatusBook *project_status_book = projectstatus->books.at(currentbooks[0]);
+        ProjectStatusChapter *project_status_chapter = project_status_book->chapters.at(currentchapters[0]);
         int verse = currentverses[i];
         ProjectStatusRecord statusrecord = project_status_chapter->status[verse];
         reporting_merge_child_status_into_parent(alltasks_size, i, combinedrecord, statusrecord);
@@ -398,24 +395,27 @@ void EditStatusDialog::show_status()
   }
 }
 
-void EditStatusDialog::set_status(ProjectStatusRecord * statusrecord) {
+void EditStatusDialog::set_status(ProjectStatusRecord * statusrecord)
+{
   setting_status = true;
   for (unsigned int i = 0; i < statusrecord->tasks_done.size(); i++) {
-    gtk_toggle_button_set_inconsistent(GTK_TOGGLE_BUTTON (statusbuttons[i]), false);
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (statusbuttons[i]), false);
+    gtk_toggle_button_set_inconsistent(GTK_TOGGLE_BUTTON(statusbuttons[i]), false);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(statusbuttons[i]), false);
     if (statusrecord->tasks_done[i] > 0)
-      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (statusbuttons[i]), true);
+      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(statusbuttons[i]), true);
     if (statusrecord->tasks_done[i] < 0)
-      gtk_toggle_button_set_inconsistent(GTK_TOGGLE_BUTTON (statusbuttons[i]), true);
+      gtk_toggle_button_set_inconsistent(GTK_TOGGLE_BUTTON(statusbuttons[i]), true);
   }
   setting_status = false;
 }
 
-void EditStatusDialog::on_checkbutton_status_toggled(GtkToggleButton *togglebutton, gpointer user_data) {
+void EditStatusDialog::on_checkbutton_status_toggled(GtkToggleButton * togglebutton, gpointer user_data)
+{
   ((EditStatusDialog *) user_data)->on_checkbutton_status(togglebutton);
 }
 
-void EditStatusDialog::on_checkbutton_status(GtkToggleButton *togglebutton) {
+void EditStatusDialog::on_checkbutton_status(GtkToggleButton * togglebutton)
+{
   // Bail out if status is being set by the program.
   if (setting_status)
     return;
@@ -424,11 +424,10 @@ void EditStatusDialog::on_checkbutton_status(GtkToggleButton *togglebutton) {
   if (gtk_toggle_button_get_inconsistent(togglebutton)) {
     gtk_toggle_button_set_inconsistent(togglebutton, false);
   }
-
   // Get button's offset.
   unsigned int button_offset = 0;
   for (unsigned int i = 0; i < statusbuttons.size(); i++) {
-    if (GTK_TOGGLE_BUTTON (statusbuttons[i]) == togglebutton) {
+    if (GTK_TOGGLE_BUTTON(statusbuttons[i]) == togglebutton) {
       button_offset = i;
     }
   }
@@ -447,76 +446,75 @@ void EditStatusDialog::on_checkbutton_status(GtkToggleButton *togglebutton) {
   EditStatusType statustype = editstatustype();
 
   // Take action based on what type of status to save.
-  switch (statustype)
-  {
-    case estNone:
+  switch (statustype) {
+  case estNone:
     {
       break;
     }
-    case estBook:
+  case estBook:
     {
-      ProjectStatusBook * project_status_book = projectstatus->books.at(currentbooks[0]);
+      ProjectStatusBook *project_status_book = projectstatus->books.at(currentbooks[0]);
       ProjectStatusRecord statusrecord = project_status_book->get();
       statusrecord.tasks_done[button_offset] = button_value;
       project_status_book->set(statusrecord);
       break;
     }
-    case estBooks:
+  case estBooks:
     {
       ProjectStatusRecord combinedrecord(alltasks_size);
       for (unsigned int i = 0; i < currentbooks.size(); i++) {
-        ProjectStatusBook * project_status_book = projectstatus->books.at(currentbooks[i]);
+        ProjectStatusBook *project_status_book = projectstatus->books.at(currentbooks[i]);
         ProjectStatusRecord statusrecord = project_status_book->get();
         reporting_merge_child_status_into_parent(alltasks_size, i, combinedrecord, statusrecord);
       }
       combinedrecord.tasks_done[button_offset] = button_value;
       for (unsigned int i = 0; i < currentbooks.size(); i++) {
-        ProjectStatusBook * project_status_book = projectstatus->books.at(currentbooks[i]);
+        ProjectStatusBook *project_status_book = projectstatus->books.at(currentbooks[i]);
         project_status_book->set(combinedrecord);
       }
       break;
     }
-    case estChapter:
+  case estChapter:
     {
-      ProjectStatusBook * project_status_book = projectstatus->books.at(currentbooks[0]);
-      ProjectStatusChapter * project_status_chapter = project_status_book->chapters.at(currentchapters[0]);
+      ProjectStatusBook *project_status_book = projectstatus->books.at(currentbooks[0]);
+      ProjectStatusChapter *project_status_chapter = project_status_book->chapters.at(currentchapters[0]);
       ProjectStatusRecord statusrecord = project_status_chapter->get();
       statusrecord.tasks_done[button_offset] = button_value;
       project_status_chapter->set(statusrecord);
       break;
     }
-    case estChapters:
+  case estChapters:
     {
       ProjectStatusRecord combinedrecord(alltasks_size);
       for (unsigned int i = 0; i < currentchapters.size(); i++) {
-        ProjectStatusBook * project_status_book = projectstatus->books.at(currentbooks[0]);
-        ProjectStatusChapter * project_status_chapter = project_status_book->chapters.at(currentchapters[i]);
+        ProjectStatusBook *project_status_book = projectstatus->books.at(currentbooks[0]);
+        ProjectStatusChapter *project_status_chapter = project_status_book->chapters.at(currentchapters[i]);
         ProjectStatusRecord statusrecord = project_status_chapter->get();
         reporting_merge_child_status_into_parent(alltasks_size, i, combinedrecord, statusrecord);
       }
       combinedrecord.tasks_done[button_offset] = button_value;
       for (unsigned int i = 0; i < currentchapters.size(); i++) {
-        ProjectStatusBook * project_status_book = projectstatus->books.at(currentbooks[0]);
-        ProjectStatusChapter * project_status_chapter = project_status_book->chapters.at(currentchapters[i]);
+        ProjectStatusBook *project_status_book = projectstatus->books.at(currentbooks[0]);
+        ProjectStatusChapter *project_status_chapter = project_status_book->chapters.at(currentchapters[i]);
         project_status_chapter->set(combinedrecord);
-      }      
+      }
       break;
     }
-    case estVerse:
+  case estVerse:
     {
-      ProjectStatusBook * project_status_book = projectstatus->books.at(currentbooks[0]);
-      ProjectStatusChapter * project_status_chapter = project_status_book->chapters.at(currentchapters[0]);
+      ProjectStatusBook *project_status_book = projectstatus->books.at(currentbooks[0]);
+      ProjectStatusChapter *project_status_chapter = project_status_book->chapters.at(currentchapters[0]);
       int verse = currentverses[0];
       ProjectStatusRecord statusrecord = project_status_chapter->status[verse];
       statusrecord.tasks_done[button_offset] = button_value;
       project_status_chapter->set_verse(verse, statusrecord);
       break;
     }
-    case estVerses:
+  case estVerses:
     {
       ProjectStatusRecord combinedrecord(alltasks_size);
-      ProjectStatusBook * project_status_book = projectstatus->books.at(currentbooks[0]);
-      ProjectStatusChapter * project_status_chapter = project_status_book->chapters.at(currentchapters[0]);
+      ProjectStatusBook *project_status_book = projectstatus->books.at(currentbooks[0]);
+      ProjectStatusChapter *project_status_chapter = project_status_book->chapters.at(currentchapters[0]);
       for (unsigned int i = 0; i < currentverses.size(); i++) {
         int verse = currentverses[i];
         ProjectStatusRecord statusrecord = project_status_chapter->status[verse];
@@ -534,7 +532,8 @@ void EditStatusDialog::on_checkbutton_status(GtkToggleButton *togglebutton) {
   }
 }
 
-void EditStatusDialog::on_okbutton_clicked(GtkButton *button, gpointer user_data) {
+void EditStatusDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
+{
   ((EditStatusDialog *) user_data)->on_okbutton();
 }
 
@@ -544,6 +543,5 @@ void EditStatusDialog::on_okbutton()
   // Save status.
   projectstatus->save();
   // Commit any changes.
-  git_schedule (gttCommitProject, project, 0, 0, "");
+  git_schedule(gttCommitProject, project, 0, 0, "");
 }
-

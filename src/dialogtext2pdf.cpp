@@ -23,48 +23,48 @@
 #include "help.h"
 #include "utilities.h"
 
-Text2PdfDialog::Text2PdfDialog(vector <ustring> * commands)
+Text2PdfDialog::Text2PdfDialog(vector < ustring > *commands)
 // Dialog to show the commands used in the text2pdf object.
 {
   mycommands = commands;
 
   text2pdfdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW (text2pdfdialog), "Formatter commands");
-  gtk_window_set_position(GTK_WINDOW (text2pdfdialog), GTK_WIN_POS_CENTER_ON_PARENT);
-  gtk_window_set_modal(GTK_WINDOW (text2pdfdialog), TRUE);
+  gtk_window_set_title(GTK_WINDOW(text2pdfdialog), "Formatter commands");
+  gtk_window_set_position(GTK_WINDOW(text2pdfdialog), GTK_WIN_POS_CENTER_ON_PARENT);
+  gtk_window_set_modal(GTK_WINDOW(text2pdfdialog), TRUE);
 
-  dialog_vbox1 = GTK_DIALOG (text2pdfdialog)->vbox;
+  dialog_vbox1 = GTK_DIALOG(text2pdfdialog)->vbox;
   gtk_widget_show(dialog_vbox1);
 
   scrolledwindow1 = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow1);
-  gtk_box_pack_start(GTK_BOX (dialog_vbox1), scrolledwindow1, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(dialog_vbox1), scrolledwindow1, TRUE, TRUE, 0);
   gtk_widget_set_size_request(scrolledwindow1, 800, 600);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow1), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW (scrolledwindow1), GTK_SHADOW_IN);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow1), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwindow1), GTK_SHADOW_IN);
 
   textview1 = gtk_text_view_new();
   gtk_widget_show(textview1);
-  gtk_container_add(GTK_CONTAINER (scrolledwindow1), textview1);
+  gtk_container_add(GTK_CONTAINER(scrolledwindow1), textview1);
 
-  dialog_action_area1 = GTK_DIALOG (text2pdfdialog)->action_area;
+  dialog_action_area1 = GTK_DIALOG(text2pdfdialog)->action_area;
   gtk_widget_show(dialog_action_area1);
-  gtk_button_box_set_layout(GTK_BUTTON_BOX (dialog_action_area1), GTK_BUTTONBOX_END);
+  gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
-  new InDialogHelp (text2pdfdialog, NULL, NULL);
+  new InDialogHelp(text2pdfdialog, NULL, NULL);
 
   cancelbutton = gtk_button_new_from_stock("gtk-cancel");
   gtk_widget_show(cancelbutton);
-  gtk_dialog_add_action_widget(GTK_DIALOG (text2pdfdialog), cancelbutton, GTK_RESPONSE_CANCEL);
-  GTK_WIDGET_SET_FLAGS (cancelbutton, GTK_CAN_DEFAULT);
+  gtk_dialog_add_action_widget(GTK_DIALOG(text2pdfdialog), cancelbutton, GTK_RESPONSE_CANCEL);
+  GTK_WIDGET_SET_FLAGS(cancelbutton, GTK_CAN_DEFAULT);
 
   okbutton = gtk_button_new_from_stock("gtk-ok");
   gtk_widget_show(okbutton);
-  gtk_dialog_add_action_widget(GTK_DIALOG (text2pdfdialog), okbutton, GTK_RESPONSE_OK);
-  GTK_WIDGET_SET_FLAGS (okbutton, GTK_CAN_DEFAULT);
+  gtk_dialog_add_action_widget(GTK_DIALOG(text2pdfdialog), okbutton, GTK_RESPONSE_OK);
+  GTK_WIDGET_SET_FLAGS(okbutton, GTK_CAN_DEFAULT);
 
-  g_signal_connect ((gpointer) okbutton, "clicked", G_CALLBACK (on_okbutton_clicked), gpointer (this));
-  g_signal_connect ((gpointer) text2pdfdialog, "delete_event", G_CALLBACK (on_text2pdfdialog_delete_event), gpointer (this));
+  g_signal_connect((gpointer) okbutton, "clicked", G_CALLBACK(on_okbutton_clicked), gpointer(this));
+  g_signal_connect((gpointer) text2pdfdialog, "delete_event", G_CALLBACK(on_text2pdfdialog_delete_event), gpointer(this));
 
   // Set text.
   // Loading a huge chunk of text would take a long time.
@@ -74,11 +74,11 @@ Text2PdfDialog::Text2PdfDialog(vector <ustring> * commands)
     text.append(mycommands->at(i));
     text.append("\n");
   }
-  GtkTextBuffer * buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW (textview1));
+  GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview1));
   g_object_ref(buffer);
-  gtk_text_view_set_buffer(GTK_TEXT_VIEW (textview1), NULL);
+  gtk_text_view_set_buffer(GTK_TEXT_VIEW(textview1), NULL);
   gtk_text_buffer_set_text(buffer, text.c_str(), -1);
-  gtk_text_view_set_buffer(GTK_TEXT_VIEW (textview1), buffer);
+  gtk_text_view_set_buffer(GTK_TEXT_VIEW(textview1), buffer);
   g_object_unref(buffer);
 
   // Place cursor at start of buffer.
@@ -93,15 +93,18 @@ Text2PdfDialog::Text2PdfDialog(vector <ustring> * commands)
   gtk_widget_grab_default(okbutton);
 }
 
-Text2PdfDialog::~Text2PdfDialog() {
+Text2PdfDialog::~Text2PdfDialog()
+{
   gtk_widget_destroy(text2pdfdialog);
 }
 
-int Text2PdfDialog::run() {
-  return gtk_dialog_run(GTK_DIALOG (text2pdfdialog));
+int Text2PdfDialog::run()
+{
+  return gtk_dialog_run(GTK_DIALOG(text2pdfdialog));
 }
 
-void Text2PdfDialog::on_okbutton_clicked(GtkButton *button, gpointer user_data) {
+void Text2PdfDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
+{
   ((Text2PdfDialog *) user_data)->on_okbutton();
 }
 
@@ -109,19 +112,19 @@ void Text2PdfDialog::on_okbutton()
 // Ok handler.
 {
   // Get text if it was modified.
-  GtkTextBuffer * buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW (textview1));
+  GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview1));
   if (gtk_text_buffer_get_modified(buffer)) {
-    vector <ustring> commands;
+    vector < ustring > commands;
     textbuffer_get_lines(buffer, commands, false);
     mycommands->clear();
     for (unsigned int i = 0; i < commands.size(); i++) {
-      mycommands->push_back (commands[i]);
+      mycommands->push_back(commands[i]);
     }
   }
   on_text2pdfdialog_delete();
 }
 
-gboolean Text2PdfDialog::on_text2pdfdialog_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data)
+gboolean Text2PdfDialog::on_text2pdfdialog_delete_event(GtkWidget * widget, GdkEvent * event, gpointer user_data)
 // Event handler.
 {
   ((Text2PdfDialog *) user_data)->on_text2pdfdialog_delete();
@@ -133,7 +136,6 @@ void Text2PdfDialog::on_text2pdfdialog_delete()
 {
   // The following line hugely speeds up the destruction of the textview.
   // Without that it takes a long time if a lot of text is loaded in the buffer.
-  GtkTextBuffer * buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW (textview1));
+  GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview1));
   gtk_text_buffer_set_text(buffer, "", -1);
 }
-

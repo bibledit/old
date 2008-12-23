@@ -17,7 +17,6 @@
 **  
 */
 
-
 #include "check_count_usfms.h"
 #include "projectutils.h"
 #include "settings.h"
@@ -27,9 +26,7 @@
 #include "books.h"
 #include "checks.h"
 
-
-CheckCountUsfms::CheckCountUsfms (const ustring& project, const vector<unsigned int>& books,
-                                  CheckSortType sorttype, bool gui)
+CheckCountUsfms::CheckCountUsfms(const ustring & project, const vector < unsigned int >&books, CheckSortType sorttype, bool gui)
 /*
 It counts the USFM in the project.
 project: project to check.
@@ -41,30 +38,31 @@ gui: show graphical progressbar.
   // Initialize variables.
   cancelled = false;
   // Get a list of the books to check. If no books were given, take them all.
-  vector<unsigned int> mybooks (books.begin(), books.end());
-  if (mybooks.empty()) mybooks = project_get_books (project);
+  vector < unsigned int >mybooks(books.begin(), books.end());
+  if (mybooks.empty())
+    mybooks = project_get_books(project);
   // GUI.
   progresswindow = NULL;
   if (gui) {
-    progresswindow = new ProgressWindow ("Counting markers", true);
-    progresswindow->set_iterate (0, 1, mybooks.size());
+    progresswindow = new ProgressWindow("Counting markers", true);
+    progresswindow->set_iterate(0, 1, mybooks.size());
   }
   // Check each book.
   for (unsigned int bk = 0; bk < mybooks.size(); bk++) {
     if (gui) {
-      progresswindow->iterate ();
+      progresswindow->iterate();
       if (progresswindow->cancel) {
         cancelled = true;
         return;
       }
     } else {
-      cout << books_id_to_english (mybooks[bk]) << endl;
+      cout << books_id_to_english(mybooks[bk]) << endl;
     }
     // Get text of the book and go through each line.
-    vector <ustring> lines = project_retrieve_book (project, mybooks[bk]);
+    vector < ustring > lines = project_retrieve_book(project, mybooks[bk]);
     for (unsigned int ln = 0; ln < lines.size(); ln++) {
       // Extract the markers, and deal with them.
-      ustring marker = usfm_extract_marker_within_line (lines[ln]);
+      ustring marker = usfm_extract_marker_within_line(lines[ln]);
       // Discard lines without a marker and get more markers per line.
       while (!marker.empty()) {
         // Look whether this particular USFM is already in the list.
@@ -80,31 +78,30 @@ gui: show graphical progressbar.
           ++counts[found_position];
         } else {
           // This is a new USFM: add it and set its count to one.
-          markers.push_back (marker);
-          counts.push_back (1);
+          markers.push_back(marker);
+          counts.push_back(1);
         }
-        marker = usfm_extract_marker_within_line (lines[ln]);
+        marker = usfm_extract_marker_within_line(lines[ln]);
       }
     }
   }
   // Sorting, if requested.
   switch (sorttype) {
-    case cstSort0:
-      break;
-    case cstSort1:
-      quick_sort (markers, counts, 0, markers.size());
-      break;
-    case cstSort2:
-      quick_sort (counts, markers, 0, counts.size());
-      break;
-    case cstSort3:
-      break;
+  case cstSort0:
+    break;
+  case cstSort1:
+    quick_sort(markers, counts, 0, markers.size());
+    break;
+  case cstSort2:
+    quick_sort(counts, markers, 0, counts.size());
+    break;
+  case cstSort3:
+    break;
   }
 }
 
-
-CheckCountUsfms::~CheckCountUsfms ()
+CheckCountUsfms::~CheckCountUsfms()
 {
-  if (progresswindow) 
+  if (progresswindow)
     delete progresswindow;
 }

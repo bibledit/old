@@ -17,7 +17,6 @@
 **  
 */
 
-
 #include "languages.h"
 #include "utilities.h"
 #include "gwrappers.h"
@@ -25,7 +24,6 @@
 #include "directories.h"
 #include "books.h"
 #include "bible.h"
-
 
 /*
 Following information was taken from the BibleTime source, file clanguagemgr.cpp.
@@ -49,12 +47,9 @@ Following information was taken from the BibleTime source, file clanguagemgr.cpp
 	--Chris
 */
 
-
 #define LANGUAGE_COUNT 380
 
-
-const char *languages [LANGUAGE_COUNT] =
-{ 
+const char *languages[LANGUAGE_COUNT] = {
   "aa", "Afar",
   "ab", "Abkhazian",
   "ae", "Avestan",
@@ -79,7 +74,7 @@ const char *languages [LANGUAGE_COUNT] =
   "ch", "Chamorro",
   "co", "Corsican",
   "cop", "Coptic",
-  "cs", "Czech", 
+  "cs", "Czech",
   "cu", "Church Slavic",
   "cv", "Chuvash",
   "cy", "Welsh",
@@ -87,8 +82,7 @@ const char *languages [LANGUAGE_COUNT] =
   "de", "German",
   "dz", "Dzongkha",
   "el", "Greek, Modern (1453-)",
-  "en", "English",  "English"
-  "en_US", "American English",
+  "en", "English", "English" "en_US", "American English",
   "enm", "English, Middle (1100-1500)",
   "eo", "Esperanto",
   "es", "Spanish",
@@ -175,7 +169,7 @@ const char *languages [LANGUAGE_COUNT] =
   "os", "Ossetian; Ossetic",
   "pa", "Panjabi",
   "pap", "Papiamento",
-  "pi", "Pali", 
+  "pi", "Pali",
   "pl", "Polish",
   "ps", "Pushto",
   "pt", "Portuguese",
@@ -206,60 +200,58 @@ const char *languages [LANGUAGE_COUNT] =
   "sv", "Swedish",
   "sw", "Swahili",
   "syr", "Syriac",
-  "ta", "Tamil", 
+  "ta", "Tamil",
   "te", "Telugu",
-  "tg", "Tajik", 
-  "th", "Thai",  
+  "tg", "Tajik",
+  "th", "Thai",
   "tk", "Turkmen",
   "tl", "Tagalog",
-  "tn", "Tswana", 
+  "tn", "Tswana",
   "tr", "Turkish",
-  "ts", "Tsonga", 
-  "tt", "Tatar",  
-  "tw", "Twi", 
+  "ts", "Tsonga",
+  "tt", "Tatar",
+  "tw", "Twi",
   "ty", "Tahitian",
-  "ug", "Uighur", 
+  "ug", "Uighur",
   "uk", "Ukrainian",
-  "ur", "Urdu", 
+  "ur", "Urdu",
   "uz", "Uzbek",
   "vi", "Vietnamese",
   "vo", "Volapük",
-  "wo", "Wolof", 
-  "xh", "Xhosa", 
+  "wo", "Wolof",
+  "xh", "Xhosa",
   "x-E-BAR", "Bavarian",
   "x-E-DJE", "Zarma",
   "x-E-GSW", "Alemannisch",
   "x-E-HAT", "Haitian Creole French",
-  "x-E-ITZ", "Itzá", 
+  "x-E-ITZ", "Itzá",
   "x-E-JIV", "Shuar",
   "x-E-KEK", "Kekchí",
   "x-E-KAB", "Kabyle",
   "x-E-LMO", "Lombard",
   "x-E-MKJ", "Macedonian",
-  "x-E-PDG", "Tok Pisin", 
-  "x-E-PPK", "Uma", 
+  "x-E-PDG", "Tok Pisin",
+  "x-E-PPK", "Uma",
   "x-E-RMY", "Romani, Vlax",
-  "x-E-SAJ", "Sango", 
+  "x-E-SAJ", "Sango",
   "x-E-SRN", "Sranan",
-  "yi", "Yiddish", 
-  "za", "Zhuang",  
-  "zh", "Chinese", 
+  "yi", "Yiddish",
+  "za", "Zhuang",
+  "zh", "Chinese",
   "zu", "Zulu"
 };
 
-
-vector<ustring> languages_get_sword ()
+vector < ustring > languages_get_sword()
 {
-  vector <ustring> language;
+  vector < ustring > language;
   for (unsigned int i = 0; i < LANGUAGE_COUNT; i++) {
-    language.push_back (languages[++i]);
+    language.push_back(languages[++i]);
   }
-  sort (language.begin(), language.end());
+  sort(language.begin(), language.end());
   return language;
 }
 
-
-ustring language_encode_sword (const ustring& language)
+ustring language_encode_sword(const ustring & language)
 {
   ustring code;
   for (unsigned int i = 0; i < LANGUAGE_COUNT; i++) {
@@ -268,5 +260,5 @@ ustring language_encode_sword (const ustring& language)
       break;
     }
   }
-  return code; 
+  return code;
 }

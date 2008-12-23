@@ -25,25 +25,27 @@
 #include "keyterms.h"
 #include "tiny_utilities.h"
 
-WindowOutline::WindowOutline(GtkAccelGroup *accelerator_group, bool startup) :
-  WindowBase(widOutline, "Outline", startup, 0), myreference(0)
+ WindowOutline::WindowOutline(GtkAccelGroup * accelerator_group, bool startup):
+WindowBase(widOutline, "Outline", startup, 0), myreference(0)
 // Window showing outline.
 {
-  vbox = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox);
-  gtk_container_add (GTK_CONTAINER (window), vbox);
-  
-  outline = new Outline (vbox);
-  g_signal_connect ((gpointer) outline->treeview, "visibility-notify-event", G_CALLBACK (on_visibility_notify_event), gpointer(this));
+  vbox = gtk_vbox_new(FALSE, 0);
+  gtk_widget_show(vbox);
+  gtk_container_add(GTK_CONTAINER(window), vbox);
+
+  outline = new Outline(vbox);
+  g_signal_connect((gpointer) outline->treeview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
 
 }
 
-WindowOutline::~WindowOutline() {
+WindowOutline::~WindowOutline()
+{
   if (outline)
     delete outline;
 }
 
-void WindowOutline::go_to(const ustring& project, Reference& reference) {
+void WindowOutline::go_to(const ustring & project, Reference & reference)
+{
   // Bail out if there's no change in the reference.
   if (myreference.equals(reference))
     return;
@@ -54,4 +56,3 @@ void WindowOutline::go_to(const ustring& project, Reference& reference) {
   // Store the new reference in the object.
   myreference.assign(reference);
 }
-

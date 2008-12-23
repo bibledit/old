@@ -35,7 +35,8 @@ EditorNote::EditorNote(int dummy)
   textview = NULL;
 }
 
-EditorNote::~EditorNote() {
+EditorNote::~EditorNote()
+{
 }
 
 EditorTable::EditorTable(int dummy)
@@ -44,7 +45,8 @@ EditorTable::EditorTable(int dummy)
 {
 }
 
-EditorTable::~EditorTable() {
+EditorTable::~EditorTable()
+{
 }
 
 EditorUndo::EditorUndo(int dummy)
@@ -56,25 +58,26 @@ EditorUndo::EditorUndo(int dummy)
   flag = false;
 }
 
-EditorUndo::~EditorUndo() {
+EditorUndo::~EditorUndo()
+{
 }
 
-ustring EditorUndo::type2text() {
-  switch (type)
-  {
-    case eudInsertText:
-      return "InsertText";
-    case eudDeleteText:
-      return "DeleteText";
-    case eudApplyTag:
-      return "ApplyTag";
-    case eudRemoveTag:
-      return "RemoveTag";
+ustring EditorUndo::type2text()
+{
+  switch (type) {
+  case eudInsertText:
+    return "InsertText";
+  case eudDeleteText:
+    return "DeleteText";
+  case eudApplyTag:
+    return "ApplyTag";
+  case eudRemoveTag:
+    return "RemoveTag";
   }
   return "";
 }
 
-PreventEditorUndo::PreventEditorUndo(int * flag)
+PreventEditorUndo::PreventEditorUndo(int *flag)
 /*
  Preventing recording of undo-able actions could be made simpler.
  This implementation is more complex, using an object.
@@ -94,20 +97,21 @@ PreventEditorUndo::PreventEditorUndo(int * flag)
   (*flagpointer)--;
 }
 
-PreventEditorUndo::~PreventEditorUndo() {
+PreventEditorUndo::~PreventEditorUndo()
+{
   (*flagpointer)++;
 }
 
-void marker_get_type_and_subtype(const ustring& project, const ustring& marker, StyleType& type, int& subtype)
+void marker_get_type_and_subtype(const ustring & project, const ustring & marker, StyleType & type, int &subtype)
 /*
  Given a "project", and a "marker", this function gives the "type" and the 
  "subtype" of the style of that marker.
  */
 {
-  extern Settings * settings;
-  ustring stylesheet = settings->projectconfig (project)->stylesheet_get();
-  extern Styles * styles;
-  Usfm * usfm = styles->usfm(stylesheet);
+  extern Settings *settings;
+  ustring stylesheet = settings->projectconfig(project)->stylesheet_get();
+  extern Styles *styles;
+  Usfm *usfm = styles->usfm(stylesheet);
   type = stIdentifier;
   subtype = itComment;
   for (unsigned int i = 0; i < usfm->styles.size(); i++) {
@@ -132,47 +136,46 @@ bool style_get_plaintext(StyleType type, int subtype)
   bool plaintext = true;
   // Set value depending on the type of the marker, and the subtype.
   // Only set value if it differs from the default.
-  switch (type)
-  {
-    case stIdentifier:
+  switch (type) {
+  case stIdentifier:
     {
       if (subtype == itCommentWithEndmarker)
         plaintext = false;
       break;
     }
-    case stNotUsedComment:
-    case stNotUsedRunningHeader:
+  case stNotUsedComment:
+  case stNotUsedRunningHeader:
     {
       break;
     }
-    case stStartsParagraph:
-    case stInlineText:
-    case stChapterNumber:
-    case stVerseNumber:
-    case stFootEndNote:
-    case stCrossreference:
-    {
-      plaintext = false;
-      break;
-    }
-    case stPeripheral:
-    {
-      break;
-    }
-    case stPicture:
-    {
-      break;
-    }
-    case stPageBreak:
-    {
-      break;
-    }
-    case stTableElement:
+  case stStartsParagraph:
+  case stInlineText:
+  case stChapterNumber:
+  case stVerseNumber:
+  case stFootEndNote:
+  case stCrossreference:
     {
       plaintext = false;
       break;
     }
-    case stWordlistElement:
+  case stPeripheral:
+    {
+      break;
+    }
+  case stPicture:
+    {
+      break;
+    }
+  case stPageBreak:
+    {
+      break;
+    }
+  case stTableElement:
+    {
+      plaintext = false;
+      break;
+    }
+  case stWordlistElement:
     {
       plaintext = false;
       break;
@@ -197,66 +200,65 @@ bool style_get_paragraph(StyleType type, int subtype)
   bool paragraph_style = true;
   // Set value depending on the type of the marker, and the subtype.
   // Only set value if it differs from the default.
-  switch (type)
-  {
-    case stIdentifier:
+  switch (type) {
+  case stIdentifier:
     {
       if (subtype == itCommentWithEndmarker)
         paragraph_style = false;
       break;
     }
-    case stNotUsedComment:
-    case stNotUsedRunningHeader:
+  case stNotUsedComment:
+  case stNotUsedRunningHeader:
     {
       break;
     }
-    case stStartsParagraph:
+  case stStartsParagraph:
     {
       break;
     }
-    case stInlineText:
-    {
-      paragraph_style = false;
-      break;
-    }
-    case stChapterNumber:
-    {
-      break;
-    }
-    case stVerseNumber:
+  case stInlineText:
     {
       paragraph_style = false;
       break;
     }
-    case stFootEndNote:
+  case stChapterNumber:
+    {
+      break;
+    }
+  case stVerseNumber:
+    {
+      paragraph_style = false;
+      break;
+    }
+  case stFootEndNote:
     {
       if ((subtype != fentParagraph) && (subtype != fentStandardContent))
         paragraph_style = false;
       break;
     }
-    case stCrossreference:
+  case stCrossreference:
     {
       if (subtype != ctStandardContent)
         paragraph_style = false;
       break;
     }
-    case stPeripheral:
+  case stPeripheral:
     {
       break;
     }
-    case stPicture:
+  case stPicture:
     {
       break;
     }
-    case stPageBreak:
+  case stPageBreak:
     {
       break;
     }
-    case stTableElement:
+  case stTableElement:
     {
       break;
     }
-    case stWordlistElement:
+  case stWordlistElement:
     {
       paragraph_style = false;
       break;
@@ -273,65 +275,64 @@ bool style_get_starts_new_line_in_editor(StyleType type, int subtype)
   bool starts_new_line = true;
   // Set value depending on the type of the marker, and the subtype.
   // Only set value if it differs from the default.
-  switch (type)
-  {
-    case stIdentifier:
+  switch (type) {
+  case stIdentifier:
     {
       if (subtype == itCommentWithEndmarker)
         starts_new_line = false;
       break;
     }
-    case stNotUsedComment:
-    case stNotUsedRunningHeader:
+  case stNotUsedComment:
+  case stNotUsedRunningHeader:
     {
       break;
     }
-    case stStartsParagraph:
+  case stStartsParagraph:
     {
       break;
     }
-    case stInlineText:
-    {
-      starts_new_line = false;
-      break;
-    }
-    case stChapterNumber:
-    {
-      break;
-    }
-    case stVerseNumber:
+  case stInlineText:
     {
       starts_new_line = false;
       break;
     }
-    case stFootEndNote:
+  case stChapterNumber:
+    {
+      break;
+    }
+  case stVerseNumber:
+    {
+      starts_new_line = false;
+      break;
+    }
+  case stFootEndNote:
     {
       if (subtype != fentParagraph)
         starts_new_line = false;
       break;
     }
-    case stCrossreference:
+  case stCrossreference:
     {
       starts_new_line = false;
       break;
     }
-    case stPeripheral:
+  case stPeripheral:
     {
       break;
     }
-    case stPicture:
+  case stPicture:
     {
       break;
     }
-    case stPageBreak:
+  case stPageBreak:
     {
       break;
     }
-    case stTableElement:
+  case stTableElement:
     {
       break;
     }
-    case stWordlistElement:
+  case stWordlistElement:
     {
       starts_new_line = false;
       break;
@@ -349,63 +350,62 @@ bool style_get_starts_new_line_in_usfm(StyleType type, int subtype)
   bool starts_new_line = true;
   // Set value depending on the type of the marker, and the subtype.
   // Only set value if it differs from the default.
-  switch (type)
-  {
-    case stIdentifier:
+  switch (type) {
+  case stIdentifier:
     {
       if (subtype == itCommentWithEndmarker)
         starts_new_line = false;
       break;
     }
-    case stNotUsedComment:
-    case stNotUsedRunningHeader:
+  case stNotUsedComment:
+  case stNotUsedRunningHeader:
     {
       break;
     }
-    case stStartsParagraph:
+  case stStartsParagraph:
     {
       break;
     }
-    case stInlineText:
-    {
-      starts_new_line = false;
-      break;
-    }
-    case stChapterNumber:
-    {
-      break;
-    }
-    case stVerseNumber:
-    {
-      break;
-    }
-    case stFootEndNote:
+  case stInlineText:
     {
       starts_new_line = false;
       break;
     }
-    case stCrossreference:
+  case stChapterNumber:
+    {
+      break;
+    }
+  case stVerseNumber:
+    {
+      break;
+    }
+  case stFootEndNote:
     {
       starts_new_line = false;
       break;
     }
-    case stPeripheral:
+  case stCrossreference:
+    {
+      starts_new_line = false;
+      break;
+    }
+  case stPeripheral:
     {
       break;
     }
-    case stPicture:
+  case stPicture:
     {
       break;
     }
-    case stPageBreak:
+  case stPageBreak:
     {
       break;
     }
-    case stTableElement:
+  case stTableElement:
     {
       break;
     }
-    case stWordlistElement:
+  case stWordlistElement:
     {
       starts_new_line = false;
       break;
@@ -423,67 +423,66 @@ bool style_get_displays_marker(StyleType type, int subtype)
   bool display_marker = true;
   // Set value depending on the type of the marker, and the subtype.
   // Only set value if it differs from the default.
-  switch (type)
-  {
-    case stIdentifier:
+  switch (type) {
+  case stIdentifier:
     {
       if (subtype == itCommentWithEndmarker)
         display_marker = false;
       break;
     }
-    case stNotUsedComment:
-    case stNotUsedRunningHeader:
+  case stNotUsedComment:
+  case stNotUsedRunningHeader:
     {
       break;
     }
-    case stStartsParagraph:
-    {
-      display_marker = false;
-      break;
-    }
-    case stInlineText:
+  case stStartsParagraph:
     {
       display_marker = false;
       break;
     }
-    case stChapterNumber:
+  case stInlineText:
     {
       display_marker = false;
       break;
     }
-    case stVerseNumber:
+  case stChapterNumber:
     {
       display_marker = false;
       break;
     }
-    case stFootEndNote:
+  case stVerseNumber:
     {
       display_marker = false;
       break;
     }
-    case stCrossreference:
+  case stFootEndNote:
     {
       display_marker = false;
       break;
     }
-    case stPeripheral:
-    {
-      break;
-    }
-    case stPicture:
-    {
-      break;
-    }
-    case stPageBreak:
-    {
-      break;
-    }
-    case stTableElement:
+  case stCrossreference:
     {
       display_marker = false;
       break;
     }
-    case stWordlistElement:
+  case stPeripheral:
+    {
+      break;
+    }
+  case stPicture:
+    {
+      break;
+    }
+  case stPageBreak:
+    {
+      break;
+    }
+  case stTableElement:
+    {
+      display_marker = false;
+      break;
+    }
+  case stWordlistElement:
     {
       display_marker = false;
       break;
@@ -502,65 +501,64 @@ bool style_get_starts_character_style(StyleType type, int subtype)
   bool starts_character_style = false;
   // Set value depending on the type of the marker, and the subtype.
   // Only set value if it differs from the default.
-  switch (type)
-  {
-    case stIdentifier:
+  switch (type) {
+  case stIdentifier:
     {
       if (subtype == itCommentWithEndmarker)
         starts_character_style = true;
       break;
     }
-    case stNotUsedComment:
-    case stNotUsedRunningHeader:
+  case stNotUsedComment:
+  case stNotUsedRunningHeader:
     {
       break;
     }
-    case stStartsParagraph:
+  case stStartsParagraph:
     {
       break;
     }
-    case stInlineText:
+  case stInlineText:
     {
       starts_character_style = true;
       break;
     }
-    case stChapterNumber:
+  case stChapterNumber:
     {
       break;
     }
-    case stVerseNumber:
+  case stVerseNumber:
     {
       break;
     }
-    case stFootEndNote:
+  case stFootEndNote:
     {
       if (subtype == fentContentWithEndmarker)
         starts_character_style = true;
       break;
     }
-    case stCrossreference:
+  case stCrossreference:
     {
       if (subtype == ctContentWithEndmarker)
         starts_character_style = true;
       break;
     }
-    case stPeripheral:
+  case stPeripheral:
     {
       break;
     }
-    case stPicture:
+  case stPicture:
     {
       break;
     }
-    case stPageBreak:
+  case stPageBreak:
     {
       break;
     }
-    case stTableElement:
+  case stTableElement:
     {
       break;
     }
-    case stWordlistElement:
+  case stWordlistElement:
     {
       starts_character_style = true;
       break;
@@ -578,29 +576,28 @@ bool style_get_starts_verse_number(StyleType type, int subtype)
   bool starts_verse_number = false;
   // Set value depending on the type of the marker, and the subtype.
   // Only set value if it differs from the default.
-  switch (type)
-  {
-    case stIdentifier:
-    case stNotUsedComment:
-    case stNotUsedRunningHeader:
-    case stStartsParagraph:
-    case stInlineText:
-    case stChapterNumber:
+  switch (type) {
+  case stIdentifier:
+  case stNotUsedComment:
+  case stNotUsedRunningHeader:
+  case stStartsParagraph:
+  case stInlineText:
+  case stChapterNumber:
     {
       break;
     }
-    case stVerseNumber:
+  case stVerseNumber:
     {
       starts_verse_number = true;
       break;
     }
-    case stFootEndNote:
-    case stCrossreference:
-    case stPeripheral:
-    case stPicture:
-    case stPageBreak:
-    case stTableElement:
-    case stWordlistElement:
+  case stFootEndNote:
+  case stCrossreference:
+  case stPeripheral:
+  case stPicture:
+  case stPageBreak:
+  case stTableElement:
+  case stWordlistElement:
     {
       break;
     }
@@ -609,13 +606,13 @@ bool style_get_starts_verse_number(StyleType type, int subtype)
   return starts_verse_number;
 }
 
-ustring style_get_verse_marker(const ustring& project)
+ustring style_get_verse_marker(const ustring & project)
 // Gets the verse marker, normally the "v".
 {
-  extern Settings * settings;
-  ustring stylesheet = settings->projectconfig (project)->stylesheet_get();
-  extern Styles * styles;
-  Usfm * usfm = styles->usfm(stylesheet);
+  extern Settings *settings;
+  ustring stylesheet = settings->projectconfig(project)->stylesheet_get();
+  extern Styles *styles;
+  Usfm *usfm = styles->usfm(stylesheet);
   ustring style = "v";
   for (unsigned int i = 0; i < usfm->styles.size(); i++) {
     if (style_get_starts_verse_number(usfm->styles[i].type, usfm->styles[i].subtype)) {
@@ -630,30 +627,29 @@ bool style_get_starts_footnote(StyleType type, int subtype)
 // Returns true if the combination of the "type" and the"subtype" starts
 // a footnote.
 {
-  switch (type)
-  {
-    case stIdentifier:
-    case stNotUsedComment:
-    case stNotUsedRunningHeader:
-    case stStartsParagraph:
-    case stInlineText:
-    case stChapterNumber:
-    case stVerseNumber:
+  switch (type) {
+  case stIdentifier:
+  case stNotUsedComment:
+  case stNotUsedRunningHeader:
+  case stStartsParagraph:
+  case stInlineText:
+  case stChapterNumber:
+  case stVerseNumber:
     {
       break;
     }
-    case stFootEndNote:
+  case stFootEndNote:
     {
       if (subtype == fentFootnote)
         return true;
       break;
     }
-    case stCrossreference:
-    case stPeripheral:
-    case stPicture:
-    case stPageBreak:
-    case stTableElement:
-    case stWordlistElement:
+  case stCrossreference:
+  case stPeripheral:
+  case stPicture:
+  case stPageBreak:
+  case stTableElement:
+  case stWordlistElement:
     {
       break;
     }
@@ -665,30 +661,29 @@ bool style_get_starts_endnote(StyleType type, int subtype)
 // Returns true if the combination of the "type" and the"subtype" starts
 // an endnote.
 {
-  switch (type)
-  {
-    case stIdentifier:
-    case stNotUsedComment:
-    case stNotUsedRunningHeader:
-    case stStartsParagraph:
-    case stInlineText:
-    case stChapterNumber:
-    case stVerseNumber:
+  switch (type) {
+  case stIdentifier:
+  case stNotUsedComment:
+  case stNotUsedRunningHeader:
+  case stStartsParagraph:
+  case stInlineText:
+  case stChapterNumber:
+  case stVerseNumber:
     {
       break;
     }
-    case stFootEndNote:
+  case stFootEndNote:
     {
       if (subtype == fentEndnote)
         return true;
       break;
     }
-    case stCrossreference:
-    case stPeripheral:
-    case stPicture:
-    case stPageBreak:
-    case stTableElement:
-    case stWordlistElement:
+  case stCrossreference:
+  case stPeripheral:
+  case stPicture:
+  case stPageBreak:
+  case stTableElement:
+  case stWordlistElement:
     {
       break;
     }
@@ -700,30 +695,29 @@ bool style_get_starts_crossreference(StyleType type, int subtype)
 // Returns true if the combination of the "type" and the"subtype" starts
 // a crossreference.
 {
-  switch (type)
-  {
-    case stIdentifier:
-    case stNotUsedComment:
-    case stNotUsedRunningHeader:
-    case stStartsParagraph:
-    case stInlineText:
-    case stChapterNumber:
-    case stVerseNumber:
-    case stFootEndNote:
+  switch (type) {
+  case stIdentifier:
+  case stNotUsedComment:
+  case stNotUsedRunningHeader:
+  case stStartsParagraph:
+  case stInlineText:
+  case stChapterNumber:
+  case stVerseNumber:
+  case stFootEndNote:
     {
       break;
     }
-    case stCrossreference:
+  case stCrossreference:
     {
       if (subtype == ctCrossreference)
         return true;
       break;
     }
-    case stPeripheral:
-    case stPicture:
-    case stPageBreak:
-    case stTableElement:
-    case stWordlistElement:
+  case stPeripheral:
+  case stPicture:
+  case stPageBreak:
+  case stTableElement:
+  case stWordlistElement:
     {
       break;
     }
@@ -736,35 +730,34 @@ bool style_get_starts_note_content(StyleType type, int subtype)
 // note content.
 {
   bool note_content = false;
-  switch (type)
-  {
-    case stIdentifier:
-    case stNotUsedComment:
-    case stNotUsedRunningHeader:
-    case stStartsParagraph:
-    case stInlineText:
-    case stChapterNumber:
-    case stVerseNumber:
+  switch (type) {
+  case stIdentifier:
+  case stNotUsedComment:
+  case stNotUsedRunningHeader:
+  case stStartsParagraph:
+  case stInlineText:
+  case stChapterNumber:
+  case stVerseNumber:
     {
       break;
     }
-    case stFootEndNote:
+  case stFootEndNote:
     {
       if ((subtype == fentContent) || (subtype == fentStandardContent))
         note_content = true;
       break;
     }
-    case stCrossreference:
+  case stCrossreference:
     {
       if ((subtype == ctContent) || (subtype == ctStandardContent))
         note_content = true;
       break;
     }
-    case stPeripheral:
-    case stPicture:
-    case stPageBreak:
-    case stTableElement:
-    case stWordlistElement:
+  case stPeripheral:
+  case stPicture:
+  case stPageBreak:
+  case stTableElement:
+  case stWordlistElement:
     {
       break;
     }
@@ -772,38 +765,37 @@ bool style_get_starts_note_content(StyleType type, int subtype)
   return note_content;
 }
 
-ustring style_get_default_note_style(const ustring& project, EditorNoteType type) {
-  extern Settings * settings;
-  ustring stylesheet = settings->projectconfig (project)->stylesheet_get();
-  extern Styles * styles;
-  Usfm * usfm = styles->usfm(stylesheet);
+ustring style_get_default_note_style(const ustring & project, EditorNoteType type)
+{
+  extern Settings *settings;
+  ustring stylesheet = settings->projectconfig(project)->stylesheet_get();
+  extern Styles *styles;
+  Usfm *usfm = styles->usfm(stylesheet);
   ustring style;
-  switch (type)
-  {
-    case entFootnote:
-    case entEndnote:
+  switch (type) {
+  case entFootnote:
+  case entEndnote:
     {
       style = "ft";
       break;
     }
-    case entCrossreference:
+  case entCrossreference:
     {
       style = "xt";
       break;
     }
   }
   for (unsigned int i = 0; i < usfm->styles.size(); i++) {
-    switch (type)
-    {
-      case entFootnote:
-      case entEndnote:
+    switch (type) {
+    case entFootnote:
+    case entEndnote:
       {
         if (usfm->styles[i].type == stFootEndNote)
           if (usfm->styles[i].subtype == fentStandardContent)
             style = usfm->styles[i].marker;
         break;
       }
-      case entCrossreference:
+    case entCrossreference:
       {
         if (usfm->styles[i].type == stCrossreference)
           if (usfm->styles[i].subtype == ctStandardContent)
@@ -815,13 +807,13 @@ ustring style_get_default_note_style(const ustring& project, EditorNoteType type
   return style;
 }
 
-ustring style_get_paragraph_note_style(const ustring& project)
+ustring style_get_paragraph_note_style(const ustring & project)
 // Gets the style that starts a new paragraph in a footnote or endnote.
 {
-  extern Settings * settings;
-  ustring stylesheet = settings->projectconfig (project)->stylesheet_get();
-  extern Styles * styles;
-  Usfm * usfm = styles->usfm(stylesheet);
+  extern Settings *settings;
+  ustring stylesheet = settings->projectconfig(project)->stylesheet_get();
+  extern Styles *styles;
+  Usfm *usfm = styles->usfm(stylesheet);
   ustring style("fp");
   for (unsigned int i = 0; i < usfm->styles.size(); i++) {
     if (usfm->styles[i].type == stFootEndNote)
@@ -831,32 +823,32 @@ ustring style_get_paragraph_note_style(const ustring& project)
   return style;
 }
 
-bool style_get_starts_table_row(StyleType type, int subtype) {
+bool style_get_starts_table_row(StyleType type, int subtype)
+{
   bool starts_row = false;
-  switch (type)
-  {
-    case stIdentifier:
-    case stNotUsedComment:
-    case stNotUsedRunningHeader:
-    case stStartsParagraph:
-    case stInlineText:
-    case stChapterNumber:
-    case stVerseNumber:
-    case stFootEndNote:
-    case stCrossreference:
-    case stPeripheral:
-    case stPicture:
-    case stPageBreak:
+  switch (type) {
+  case stIdentifier:
+  case stNotUsedComment:
+  case stNotUsedRunningHeader:
+  case stStartsParagraph:
+  case stInlineText:
+  case stChapterNumber:
+  case stVerseNumber:
+  case stFootEndNote:
+  case stCrossreference:
+  case stPeripheral:
+  case stPicture:
+  case stPageBreak:
     {
       break;
     }
-    case stTableElement:
+  case stTableElement:
     {
       if (subtype == tetRow)
         starts_row = true;
       break;
     }
-    case stWordlistElement:
+  case stWordlistElement:
     {
       break;
     }
@@ -864,13 +856,13 @@ bool style_get_starts_table_row(StyleType type, int subtype) {
   return starts_row;
 }
 
-ustring style_get_table_row_marker(const ustring& project)
+ustring style_get_table_row_marker(const ustring & project)
 // Get the marker that starts a new row in a table.
 {
-  extern Settings * settings;
-  ustring stylesheet = settings->projectconfig (project)->stylesheet_get();
-  extern Styles * styles;
-  Usfm * usfm = styles->usfm(stylesheet);
+  extern Settings *settings;
+  ustring stylesheet = settings->projectconfig(project)->stylesheet_get();
+  extern Styles *styles;
+  Usfm *usfm = styles->usfm(stylesheet);
   ustring style = "tr";
   for (unsigned int i = 0; i < usfm->styles.size(); i++) {
     if (style_get_starts_table_row(usfm->styles[i].type, usfm->styles[i].subtype)) {
@@ -881,32 +873,32 @@ ustring style_get_table_row_marker(const ustring& project)
   return style;
 }
 
-bool style_get_starts_table_cell(StyleType type, int subtype) {
+bool style_get_starts_table_cell(StyleType type, int subtype)
+{
   bool starts_cell = false;
-  switch (type)
-  {
-    case stIdentifier:
-    case stNotUsedComment:
-    case stNotUsedRunningHeader:
-    case stStartsParagraph:
-    case stInlineText:
-    case stChapterNumber:
-    case stVerseNumber:
-    case stFootEndNote:
-    case stCrossreference:
-    case stPeripheral:
-    case stPicture:
-    case stPageBreak:
+  switch (type) {
+  case stIdentifier:
+  case stNotUsedComment:
+  case stNotUsedRunningHeader:
+  case stStartsParagraph:
+  case stInlineText:
+  case stChapterNumber:
+  case stVerseNumber:
+  case stFootEndNote:
+  case stCrossreference:
+  case stPeripheral:
+  case stPicture:
+  case stPageBreak:
     {
       break;
     }
-    case stTableElement:
+  case stTableElement:
     {
       if (subtype != tetRow)
         starts_cell = true;
       break;
     }
-    case stWordlistElement:
+  case stWordlistElement:
     {
       break;
     }
@@ -914,14 +906,14 @@ bool style_get_starts_table_cell(StyleType type, int subtype) {
   return starts_cell;
 }
 
-ustring style_get_table_cell_marker(const ustring& project, int column)
+ustring style_get_table_cell_marker(const ustring & project, int column)
 // Get the marker that starts a cell in a table in "column".
 // Column starts with 1 for the first column.
 {
-  extern Settings * settings;
-  ustring stylesheet = settings->projectconfig (project)->stylesheet_get();
-  extern Styles * styles;
-  Usfm * usfm = styles->usfm(stylesheet);
+  extern Settings *settings;
+  ustring stylesheet = settings->projectconfig(project)->stylesheet_get();
+  extern Styles *styles;
+  Usfm *usfm = styles->usfm(stylesheet);
   ustring style = "tc" + convert_to_string(column);
   for (unsigned int i = 0; i < usfm->styles.size(); i++) {
     if (style_get_starts_table_cell(usfm->styles[i].type, usfm->styles[i].subtype)) {
@@ -968,7 +960,8 @@ void textbuffer_erase_white_space_at_end(GtkTextBuffer * textbuffer)
   gtk_text_buffer_delete(textbuffer, &iter, &iter2);
 }
 
-void textbuffer_erase_child_anchor(GtkTextBuffer * textbuffer, GtkTextChildAnchor * anchor) {
+void textbuffer_erase_child_anchor(GtkTextBuffer * textbuffer, GtkTextChildAnchor * anchor)
+{
   GtkTextIter iter;
   gtk_text_buffer_get_iter_at_child_anchor(textbuffer, &iter, anchor);
   GtkTextIter iter2 = iter;
@@ -976,14 +969,15 @@ void textbuffer_erase_child_anchor(GtkTextBuffer * textbuffer, GtkTextChildAncho
   gtk_text_buffer_delete(textbuffer, &iter, &iter2);
 }
 
-bool textbuffer_empty(GtkTextBuffer * textbuffer) {
+bool textbuffer_empty(GtkTextBuffer * textbuffer)
+{
   GtkTextIter startiter, enditer;
   gtk_text_buffer_get_start_iter(textbuffer, &startiter);
   gtk_text_buffer_get_end_iter(textbuffer, &enditer);
   return gtk_text_iter_equal(&startiter, &enditer);
 }
 
-void textbuffers_set_unmodified(GtkTextBuffer * mainbuffer, vector <EditorNote>& editornotes, vector <EditorTable>& editortables)
+void textbuffers_set_unmodified(GtkTextBuffer * mainbuffer, vector < EditorNote > &editornotes, vector < EditorTable > &editortables)
 // This clears the "modified" flag of the main textbuffer and all the 
 // embedded ones,
 {
@@ -994,14 +988,14 @@ void textbuffers_set_unmodified(GtkTextBuffer * mainbuffer, vector <EditorNote>&
   for (unsigned int i = 0; i < editortables.size(); i++) {
     for (unsigned int row = 0; row < editortables[i].textbuffers.size(); row++) {
       for (unsigned int column = 0; column < editortables[i].textbuffers[row].size(); column++) {
-        GtkTextBuffer * textbuffer = table_cell_get_buffer(editortables[i], row, column);
+        GtkTextBuffer *textbuffer = table_cell_get_buffer(editortables[i], row, column);
         gtk_text_buffer_set_modified(textbuffer, false);
       }
     }
   }
 }
 
-bool textbuffers_get_modified(GtkTextBuffer * mainbuffer, vector <EditorNote>& editornotes, vector <EditorTable>& editortables)
+bool textbuffers_get_modified(GtkTextBuffer * mainbuffer, vector < EditorNote > &editornotes, vector < EditorTable > &editortables)
 // This returns true if any if the textbuffers is modified.
 {
   if (gtk_text_buffer_get_modified(mainbuffer))
@@ -1013,7 +1007,7 @@ bool textbuffers_get_modified(GtkTextBuffer * mainbuffer, vector <EditorNote>& e
   for (unsigned int i = 0; i < editortables.size(); i++) {
     for (unsigned int row = 0; row < editortables[i].textbuffers.size(); row++) {
       for (unsigned int column = 0; column < editortables[i].textbuffers[row].size(); column++) {
-        GtkTextBuffer * textbuffer = table_cell_get_buffer(editortables[i], row, column);
+        GtkTextBuffer *textbuffer = table_cell_get_buffer(editortables[i], row, column);
         if (gtk_text_buffer_get_modified(textbuffer))
           return true;
       }
@@ -1022,14 +1016,14 @@ bool textbuffers_get_modified(GtkTextBuffer * mainbuffer, vector <EditorNote>& e
   return false;
 }
 
-EditorNoteType note_type_get(const ustring& project, const ustring& marker)
+EditorNoteType note_type_get(const ustring & project, const ustring & marker)
 // Gets the type of the note, e.g. a footnote.
 {
   EditorNoteType notetype = entFootnote;
-  extern Settings * settings;
-  ustring stylesheet = settings->projectconfig (project)->stylesheet_get();
-  extern Styles * styles;
-  Usfm * usfm = styles->usfm(stylesheet);
+  extern Settings *settings;
+  ustring stylesheet = settings->projectconfig(project)->stylesheet_get();
+  extern Styles *styles;
+  Usfm *usfm = styles->usfm(stylesheet);
   for (unsigned int i = 0; i < usfm->styles.size(); i++) {
     if (usfm->styles[i].marker == marker) {
       if (usfm->styles[i].type == stFootEndNote) {
@@ -1048,17 +1042,17 @@ EditorNoteType note_type_get(const ustring& project, const ustring& marker)
   return notetype;
 }
 
-NoteNumberingType note_numbering_type_get(const ustring& project, const ustring& marker)
+NoteNumberingType note_numbering_type_get(const ustring & project, const ustring & marker)
 /*
  Gets the numbering type of a note, for example, the numbering could be numerical
  or alphabethical.
  */
 {
   NoteNumberingType numbering = nntNumerical;
-  extern Settings * settings;
-  ustring stylesheet = settings->projectconfig (project)->stylesheet_get();
-  extern Styles * styles;
-  Usfm * usfm = styles->usfm(stylesheet);
+  extern Settings *settings;
+  ustring stylesheet = settings->projectconfig(project)->stylesheet_get();
+  extern Styles *styles;
+  Usfm *usfm = styles->usfm(stylesheet);
   for (unsigned int i = 0; i < usfm->styles.size(); i++) {
     if (usfm->styles[i].marker == marker) {
       numbering = (NoteNumberingType) usfm->styles[i].userint1;
@@ -1067,14 +1061,14 @@ NoteNumberingType note_numbering_type_get(const ustring& project, const ustring&
   return numbering;
 }
 
-ustring note_numbering_user_sequence_get(const ustring& project, const ustring& marker)
+ustring note_numbering_user_sequence_get(const ustring & project, const ustring & marker)
 // Gets the sequence of characters from which the note caller should be taken.
 {
   ustring sequence;
-  extern Settings * settings;
-  ustring stylesheet = settings->projectconfig (project)->stylesheet_get();
-  extern Styles * styles;
-  Usfm * usfm = styles->usfm(stylesheet);
+  extern Settings *settings;
+  ustring stylesheet = settings->projectconfig(project)->stylesheet_get();
+  extern Styles *styles;
+  Usfm *usfm = styles->usfm(stylesheet);
   for (unsigned int i = 0; i < usfm->styles.size(); i++) {
     if (usfm->styles[i].marker == marker) {
       sequence = usfm->styles[i].userstring1;
@@ -1083,33 +1077,37 @@ ustring note_numbering_user_sequence_get(const ustring& project, const ustring& 
   return sequence;
 }
 
-gint table_get_n_rows(GtkTable * table) {
-  gint n_rows= GPOINTER_TO_INT (g_object_get_data (G_OBJECT (table), "n_rows"));
+gint table_get_n_rows(GtkTable * table)
+{
+  gint n_rows = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(table), "n_rows"));
   return n_rows;
 }
 
-gint table_get_n_columns(GtkTable * table) {
-  gint n_columns= GPOINTER_TO_INT (g_object_get_data (G_OBJECT (table), "n_columns"));
+gint table_get_n_columns(GtkTable * table)
+{
+  gint n_columns = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(table), "n_columns"));
   return n_columns;
 }
 
-GtkTextBuffer * table_cell_get_buffer(const EditorTable& editortable, gint row, gint column) {
-  GtkTextBuffer * textbuffer= NULL;
+GtkTextBuffer *table_cell_get_buffer(const EditorTable & editortable, gint row, gint column)
+{
+  GtkTextBuffer *textbuffer = NULL;
   if (row < (gint) editortable.textbuffers.size())
     if (column < (gint) editortable.textbuffers[row].size())
       textbuffer = editortable.textbuffers[row][column];
   return textbuffer;
 }
 
-GtkWidget * table_cell_get_view(const EditorTable& editortable, gint row, gint column) {
-  GtkWidget * textview= NULL;
+GtkWidget *table_cell_get_view(const EditorTable & editortable, gint row, gint column)
+{
+  GtkWidget *textview = NULL;
   if (row < (gint) editortable.textviews.size())
     if (column < (gint) editortable.textviews[row].size())
       textview = editortable.textviews[row][column];
   return textview;
 }
 
-void table_resize(EditorTable& editortable, GtkTextTagTable * texttagtable, gint n_rows, gint n_columns, bool editable)
+void table_resize(EditorTable & editortable, GtkTextTagTable * texttagtable, gint n_rows, gint n_columns, bool editable)
 /*
  This function supposes that there is an already existing table. 
  It may have zero or more columns and/or rows.
@@ -1119,7 +1117,7 @@ void table_resize(EditorTable& editortable, GtkTextTagTable * texttagtable, gint
  */
 {
   // Get table pointer.
-  GtkTable * table= GTK_TABLE (editortable.table);
+  GtkTable *table = GTK_TABLE(editortable.table);
 
   // Get current rows and columns.
   gint current_n_rows = table_get_n_rows(table) / 3;
@@ -1130,13 +1128,13 @@ void table_resize(EditorTable& editortable, GtkTextTagTable * texttagtable, gint
 
   // Add the required amount of rows and columns and store them in the EditorTable object.
   for (gint row = current_n_rows; row < n_rows; row++) {
-    vector <GtkWidget *> widgets;
+    vector < GtkWidget * >widgets;
     editortable.textviews.push_back(widgets);
-    vector <GtkTextBuffer *> buffers;
+    vector < GtkTextBuffer * >buffers;
     editortable.textbuffers.push_back(buffers);
     for (gint column = current_n_columns; column < n_columns; column++) {
-      GtkWidget * textview;
-      GtkTextBuffer * textbuffer;
+      GtkWidget *textview;
+      GtkTextBuffer *textbuffer;
       table_create_cell(table, texttagtable, textview, textbuffer, row, column, editable);
       editortable.textviews[row].push_back(textview);
       editortable.textbuffers[row].push_back(textbuffer);
@@ -1144,7 +1142,7 @@ void table_resize(EditorTable& editortable, GtkTextTagTable * texttagtable, gint
   }
 }
 
-void table_create_cell(GtkTable * table, GtkTextTagTable * texttagtable, GtkWidget * & textview, GtkTextBuffer * & textbuffer, gint row, gint column, bool editable)
+void table_create_cell(GtkTable * table, GtkTextTagTable * texttagtable, GtkWidget * &textview, GtkTextBuffer * &textbuffer, gint row, gint column, bool editable)
 /*
  This prepares one cell in the table. It assumes that the table has enough space
  for this cell. It writes the borders, and writes the GtkTextView and the 
@@ -1170,40 +1168,30 @@ void table_create_cell(GtkTable * table, GtkTextTagTable * texttagtable, GtkWidg
 
   hseparator1 = gtk_hseparator_new();
   gtk_widget_show(hseparator1);
-  gtk_table_attach(GTK_TABLE (table), hseparator1, zero_column + 1, zero_column + 2, zero_row + 0, zero_row + 1,
-  (GtkAttachOptions) (GTK_FILL),
-  (GtkAttachOptions) (GTK_FILL), 0, 0);
+  gtk_table_attach(GTK_TABLE(table), hseparator1, zero_column + 1, zero_column + 2, zero_row + 0, zero_row + 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (GTK_FILL), 0, 0);
 
   vseparator1 = gtk_vseparator_new();
   gtk_widget_show(vseparator1);
-  gtk_table_attach(GTK_TABLE (table), vseparator1, zero_column + 0, zero_column + 1, zero_row + 1, zero_row + 2,
-  (GtkAttachOptions) (GTK_FILL),
-  (GtkAttachOptions) (GTK_FILL), 0, 0);
+  gtk_table_attach(GTK_TABLE(table), vseparator1, zero_column + 0, zero_column + 1, zero_row + 1, zero_row + 2, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (GTK_FILL), 0, 0);
 
   hseparator2 = gtk_hseparator_new();
   gtk_widget_show(hseparator2);
-  gtk_table_attach(GTK_TABLE (table), hseparator2, zero_column + 1, zero_column + 2, zero_row + 2, zero_row + 3,
-  (GtkAttachOptions) (GTK_FILL),
-  (GtkAttachOptions) (GTK_FILL), 0, 0);
+  gtk_table_attach(GTK_TABLE(table), hseparator2, zero_column + 1, zero_column + 2, zero_row + 2, zero_row + 3, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (GTK_FILL), 0, 0);
 
   vseparator2 = gtk_vseparator_new();
   gtk_widget_show(vseparator2);
-  gtk_table_attach(GTK_TABLE (table), vseparator2, zero_column + 2, zero_column + 3, zero_row + 1, zero_row + 2,
-  (GtkAttachOptions) (GTK_FILL),
-  (GtkAttachOptions) (GTK_FILL), 0, 0);
+  gtk_table_attach(GTK_TABLE(table), vseparator2, zero_column + 2, zero_column + 3, zero_row + 1, zero_row + 2, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (GTK_FILL), 0, 0);
 
   textbuffer = gtk_text_buffer_new(texttagtable);
 
   textview = gtk_text_view_new_with_buffer(textbuffer);
   gtk_widget_show(textview);
-  gtk_table_attach(GTK_TABLE (table), textview, zero_column + 1, zero_column + 2, zero_row + 1, zero_row + 2,
-  (GtkAttachOptions) (0),
-  (GtkAttachOptions) (0), 0, 0);
-  gtk_text_view_set_accepts_tab(GTK_TEXT_VIEW (textview), FALSE);
-  gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW (textview), GTK_WRAP_WORD);
+  gtk_table_attach(GTK_TABLE(table), textview, zero_column + 1, zero_column + 2, zero_row + 1, zero_row + 2, (GtkAttachOptions) (0), (GtkAttachOptions) (0), 0, 0);
+  gtk_text_view_set_accepts_tab(GTK_TEXT_VIEW(textview), FALSE);
+  gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textview), GTK_WRAP_WORD);
 }
 
-void usfm_get_text(GtkTextBuffer * textbuffer, GtkTextIter startiter, GtkTextIter enditer, vector <EditorNote> * editornotes, vector <EditorTable> * editortables, const ustring& project, ustring& text)
+void usfm_get_text(GtkTextBuffer * textbuffer, GtkTextIter startiter, GtkTextIter enditer, vector < EditorNote > *editornotes, vector < EditorTable > *editortables, const ustring & project, ustring & text)
 /*
  Gets the USFM text from the main textbuffer between the two offsets.
  Calls routines so as to include the text of notes and tables.
@@ -1236,14 +1224,13 @@ void usfm_get_text(GtkTextBuffer * textbuffer, GtkTextIter startiter, GtkTextIte
         previous_paragraph_style = new_paragraph_style;
       }
     }
-
     // Get the text at the iterator, and whether this is a linebreak.
     ustring new_character;
     bool line_break;
     {
       gunichar unichar = gtk_text_iter_get_char(&iter);
       gchar buf[7];
-      gint length = g_unichar_to_utf8(unichar, (gchar *) &buf);
+      gint length = g_unichar_to_utf8(unichar, (gchar *) & buf);
       buf[length] = '\0';
       new_character = buf;
       line_break = (new_character.find_first_of("\n\r") == 0);
@@ -1258,7 +1245,7 @@ void usfm_get_text(GtkTextBuffer * textbuffer, GtkTextIter startiter, GtkTextIte
     bool character_style_opening = false;
 
     // Look whether there is a child anchor here.
-    GtkTextChildAnchor* childanchor = gtk_text_iter_get_child_anchor(&iter);
+    GtkTextChildAnchor *childanchor = gtk_text_iter_get_child_anchor(&iter);
     if (childanchor) {
 
       // See if this child anchor is a note.
@@ -1273,7 +1260,6 @@ void usfm_get_text(GtkTextBuffer * textbuffer, GtkTextIter startiter, GtkTextIte
           }
         }
       }
-
       // See if this child anchor is a table.
       if (editortables) {
         for (unsigned int i = 0; i < editortables->size(); i++) {
@@ -1283,7 +1269,6 @@ void usfm_get_text(GtkTextBuffer * textbuffer, GtkTextIter startiter, GtkTextIte
           }
         }
       }
-
       // The textbuffer would have the character for the unknown unicode character. 
       // This must be discarded, so that no actual text is going to be stored.
       new_character.clear();
@@ -1323,11 +1308,9 @@ void usfm_get_text(GtkTextBuffer * textbuffer, GtkTextIter startiter, GtkTextIte
       if (character_style_closing) {
         usfm_internal_get_text_close_character_style(text, project, previous_character_style);
       }
-
       // USFM doesn't need anything if a paragraph style is closing.
       if (paragraph_style_closing) {
       }
-
       // Handle possible paragraph style opening.
       if (paragraph_style_opening) {
         usfm_internal_add_text(text, "\n");
@@ -1355,7 +1338,6 @@ void usfm_get_text(GtkTextBuffer * textbuffer, GtkTextIter startiter, GtkTextIte
             usfm_internal_add_text(text, usfm_code);
         }
       }
-
       // Handle possible character style opening.
       if (character_style_opening) {
         // Get the type and the subtype.
@@ -1373,7 +1355,6 @@ void usfm_get_text(GtkTextBuffer * textbuffer, GtkTextIter startiter, GtkTextIte
         }
         usfm_internal_add_text(text, usfm_get_full_opening_marker(new_character_style));
       }
-
       // Store all styles for next iteration.
       previous_paragraph_style = new_paragraph_style;
       previous_character_style = new_character_style;
@@ -1403,7 +1384,7 @@ void usfm_get_text(GtkTextBuffer * textbuffer, GtkTextIter startiter, GtkTextIte
 
 }
 
-void usfm_internal_add_text(ustring& text, const ustring& addition)
+void usfm_internal_add_text(ustring & text, const ustring & addition)
 // This is an internal function that adds an addition to already existing
 // USFM text.
 {
@@ -1419,7 +1400,7 @@ void usfm_internal_add_text(ustring& text, const ustring& addition)
   text.append(addition);
 }
 
-void usfm_internal_get_text_close_character_style(ustring& text, const ustring& project, const ustring& style)
+void usfm_internal_get_text_close_character_style(ustring & text, const ustring & project, const ustring & style)
 // Adds the USFM code for a character style that closes.
 {
   // Get the type and the subtype.
@@ -1432,7 +1413,8 @@ void usfm_internal_get_text_close_character_style(ustring& text, const ustring& 
   }
 }
 
-void usfm_get_note_text(const EditorNote& editornote, GtkTextIter startiter, GtkTextIter enditer, const ustring& project, ustring& text) {
+void usfm_get_note_text(const EditorNote & editornote, GtkTextIter startiter, GtkTextIter enditer, const ustring & project, ustring & text)
+{
   // Add the note opener.
   usfm_internal_add_text(text, usfm_get_full_opening_marker(editornote.marker));
 
@@ -1468,7 +1450,7 @@ void usfm_get_note_text(const EditorNote& editornote, GtkTextIter startiter, Gtk
     {
       gunichar unichar = gtk_text_iter_get_char(&iter);
       gchar buf[7];
-      gint length = g_unichar_to_utf8(unichar, (gchar *) &buf);
+      gint length = g_unichar_to_utf8(unichar, (gchar *) & buf);
       buf[length] = '\0';
       new_character = buf;
       line_break = (new_character.find_first_of("\n\r") == 0);
@@ -1479,15 +1461,15 @@ void usfm_get_note_text(const EditorNote& editornote, GtkTextIter startiter, Gtk
     }
 
     /*
-     How to get the usfm code of a note.
-     Generally speaking, this is the way to do it:
-     If a character marker of the type "note content" appears or changes,
-     then that is the code to be inserted as an opening marker.
-     At the moment that such a character marker disappears,
-     then insert the then prevailing paragraph marker.
-     If a character marker of type "note content with endmarker" appears,
-     then insert the opening code of it, 
-     and if such a marker disappears, insert the closing code.
+       How to get the usfm code of a note.
+       Generally speaking, this is the way to do it:
+       If a character marker of the type "note content" appears or changes,
+       then that is the code to be inserted as an opening marker.
+       At the moment that such a character marker disappears,
+       then insert the then prevailing paragraph marker.
+       If a character marker of type "note content with endmarker" appears,
+       then insert the opening code of it, 
+       and if such a marker disappears, insert the closing code.
      */
 
     bool note_content_opening = false;
@@ -1523,7 +1505,6 @@ void usfm_get_note_text(const EditorNote& editornote, GtkTextIter startiter, Gtk
         }
       }
     }
-
     // Determine the usfm code to be inserted.
     ustring usfm_code;
     if (note_content_opening || note_content_with_endmarker_opening) {
@@ -1533,24 +1514,23 @@ void usfm_get_note_text(const EditorNote& editornote, GtkTextIter startiter, Gtk
     } else if (note_content_with_endmarker_closing) {
       usfm_code = usfm_get_full_closing_marker(previous_character_style);
     }
-
     // Store all styles and flags for next iteration.
     previous_paragraph_style = new_paragraph_style;
     previous_character_style = new_character_style;
     paragraph_initialized = true;
 
     /*
-     Store the possible code and the character.
-     We have had cases that such code was produced:
-     \f + \fr v1:\ft  one \fdc two\fdc* three.\f*
-     This was coming from v1: one two three.
-     But the fr style was only applied to "v1:", thus giving a space after the \ft marker.
-     The "\ft " marker itself already has a space. 
-     We then find that case that one space follows the other.
-     Two consecusitive spaces in USFM count as only one space, hence this space
-     was removed. And that again results in this faulty text:
-     "v1:one two three".
-     A special routine solves that, putting the space before the "\ft " marker.
+       Store the possible code and the character.
+       We have had cases that such code was produced:
+       \f + \fr v1:\ft  one \fdc two\fdc* three.\f*
+       This was coming from v1: one two three.
+       But the fr style was only applied to "v1:", thus giving a space after the \ft marker.
+       The "\ft " marker itself already has a space. 
+       We then find that case that one space follows the other.
+       Two consecusitive spaces in USFM count as only one space, hence this space
+       was removed. And that again results in this faulty text:
+       "v1:one two three".
+       A special routine solves that, putting the space before the "\ft " marker.
      */
     bool swap_code_and_text = false;
     if (paragraph_initialized) {
@@ -1579,7 +1559,8 @@ void usfm_get_note_text(const EditorNote& editornote, GtkTextIter startiter, Gtk
   usfm_internal_add_text(text, usfm_get_full_closing_marker(editornote.marker));
 }
 
-void usfm_get_table_text(const EditorTable& editortable, const ustring& project, ustring& text) {
+void usfm_get_table_text(const EditorTable & editortable, const ustring & project, ustring & text)
+{
   // Go through all the rows of this table.
   for (unsigned int row = 0; row < editortable.textbuffers.size(); row++) {
 
@@ -1592,7 +1573,7 @@ void usfm_get_table_text(const EditorTable& editortable, const ustring& project,
 
       // Get the USFM code of this cell.
       ustring celltext;
-      GtkTextBuffer * textbuffer = table_cell_get_buffer(editortable, row, column);
+      GtkTextBuffer *textbuffer = table_cell_get_buffer(editortable, row, column);
       GtkTextIter startiter, enditer;
       gtk_text_buffer_get_start_iter(textbuffer, &startiter);
       gtk_text_buffer_get_end_iter(textbuffer, &enditer);
@@ -1604,19 +1585,20 @@ void usfm_get_table_text(const EditorTable& editortable, const ustring& project,
   }
 }
 
-void get_styles_at_iterator(GtkTextIter iter, ustring& paragraph_style, ustring& character_style) {
+void get_styles_at_iterator(GtkTextIter iter, ustring & paragraph_style, ustring & character_style)
+{
   // Get the applicable styles.
   // This is done by getting the names of the styles at the iterator.
   // The first named tag is the paragraph style, 
   // and the second named one is the character style.
   paragraph_style.clear();
   character_style.clear();
-  GSList *tags= NULL, *tagp= NULL;
+  GSList *tags = NULL, *tagp = NULL;
   tags = gtk_text_iter_get_tags(&iter);
   for (tagp = tags; tagp != NULL; tagp = tagp->next) {
     GtkTextTag *tag = (GtkTextTag *) tagp->data;
-    gchar * strval;
-    g_object_get(G_OBJECT (tag), "name", &strval, NULL);
+    gchar *strval;
+    g_object_get(G_OBJECT(tag), "name", &strval, NULL);
     if (strval) {
       if (strlen(strval)) {
         // Skip the tag for a misspelled word.
@@ -1640,7 +1622,7 @@ void get_styles_at_iterator(GtkTextIter iter, ustring& paragraph_style, ustring&
   }
 }
 
-GtkTextIter editor_get_iter_for_note(GtkTextBuffer * textbuffer, const vector <EditorNote>& editornotes, unsigned int offset, unsigned int function)
+GtkTextIter editor_get_iter_for_note(GtkTextBuffer * textbuffer, const vector < EditorNote > &editornotes, unsigned int offset, unsigned int function)
 /*
  This function gets the iterator where to insert a note in the "textbuffer". 
  It gives this iterator for a note of "editornotes", with offset "offset".
@@ -1657,8 +1639,8 @@ GtkTextIter editor_get_iter_for_note(GtkTextBuffer * textbuffer, const vector <E
   gtk_text_buffer_get_end_iter(textbuffer, &iter);
 
   /*
-   If the first note is not rendered yet, the location will be the one before
-   the first next note that has been rendered.
+     If the first note is not rendered yet, the location will be the one before
+     the first next note that has been rendered.
    */
   if (offset == 0) {
     bool iterfound = false;
@@ -1675,20 +1657,19 @@ GtkTextIter editor_get_iter_for_note(GtkTextBuffer * textbuffer, const vector <E
   }
 
   /*
-   For the second note, and up, it is right after the previous note.
-   This assumes that any previous note has been rendered already. With the 
-   current mechanism this assumption is always true.
+     For the second note, and up, it is right after the previous note.
+     This assumes that any previous note has been rendered already. With the 
+     current mechanism this assumption is always true.
    */
   if (offset > 0) {
-    gtk_text_buffer_get_iter_at_child_anchor(textbuffer, &iter, editornotes[offset-1].childanchor_textview);
+    gtk_text_buffer_get_iter_at_child_anchor(textbuffer, &iter, editornotes[offset - 1].childanchor_textview);
     gtk_text_iter_forward_chars(&iter, ++function);
   }
-
   // Return the iterator.
   return iter;
 }
 
-ustring get_verse_number_at_iterator(GtkTextIter iter, const ustring& verse_marker, const ustring& project)
+ustring get_verse_number_at_iterator(GtkTextIter iter, const ustring & verse_marker, const ustring & project)
 /* This function returns the verse number at the iterator.
  * It also takes into account a situation where the cursor is on a heading.
  * The user expects a heading to belong to the next verse. 
@@ -1719,7 +1700,7 @@ ustring get_verse_number_at_iterator(GtkTextIter iter, const ustring& verse_mark
         gtk_text_iter_forward_chars(&enditer, 10);
         verse = gtk_text_iter_get_slice(&startiter, &enditer);
         size_t position = verse.find(" ");
-        position = CLAMP (position, 0, verse.length());
+        position = CLAMP(position, 0, verse.length());
         verse = verse.substr(0, position);
         break;
       }
@@ -1732,55 +1713,53 @@ ustring get_verse_number_at_iterator(GtkTextIter iter, const ustring& verse_mark
     int subtype;
     marker_get_type_and_subtype(project, paragraph_style_at_cursor, type, subtype);
     if (type == stStartsParagraph) {
-      switch (subtype)
-      {
-        case ptMainTitle:
-        case ptSubTitle:
-        case ptSectionHeading:
+      switch (subtype) {
+      case ptMainTitle:
+      case ptSubTitle:
+      case ptSectionHeading:
         {
           // At this stage the cursor is on a title / heading.
           // We look one line ahead and take the verse number it gives.
           if (gtk_text_iter_forward_line(&iter_at_cursor)) {
-            verse = get_verse_number_at_iterator (iter_at_cursor, verse_marker, project);
+            verse = get_verse_number_at_iterator(iter_at_cursor, verse_marker, project);
           }
           break;
         }
-        case ptNormalParagraph:
+      case ptNormalParagraph:
         {
           break;
         }
       }
     }
   }
-
   // Return the verse number found.
   return verse;
 }
 
-const gchar * unknown_style()
+const gchar *unknown_style()
 // Gives the name of the style that is for markers that are not in the stylesheet.
 {
   return "unknown";
 }
 
-void textbuffer_apply_named_tag(GtkTextBuffer *buffer, const ustring& name, const GtkTextIter *start, const GtkTextIter *end)
+void textbuffer_apply_named_tag(GtkTextBuffer * buffer, const ustring & name, const GtkTextIter * start, const GtkTextIter * end)
 // Applies the tag on the textbuffer, if the tag exists.
 // Else applies the "unknown" style.
 {
-  GtkTextTagTable * table = gtk_text_buffer_get_tag_table(buffer);
-  GtkTextTag * tag = gtk_text_tag_table_lookup(table, name.c_str());
+  GtkTextTagTable *table = gtk_text_buffer_get_tag_table(buffer);
+  GtkTextTag *tag = gtk_text_tag_table_lookup(table, name.c_str());
   if (tag)
     gtk_text_buffer_apply_tag_by_name(buffer, name.c_str(), start, end);
   else
     gtk_text_buffer_apply_tag_by_name(buffer, unknown_style(), start, end);
 }
 
-void textbuffer_insert_with_named_tags(GtkTextBuffer *buffer, GtkTextIter *iter, const ustring& text, ustring first_tag_name, ustring second_tag_name)
+void textbuffer_insert_with_named_tags(GtkTextBuffer * buffer, GtkTextIter * iter, const ustring & text, ustring first_tag_name, ustring second_tag_name)
 // Inserts text into the buffer applying one or two named tags at the same time.
 // If a tag does not exist, it applies the "unknown" style instead.
 {
-  GtkTextTagTable * table = gtk_text_buffer_get_tag_table(buffer);
-  GtkTextTag * tag = gtk_text_tag_table_lookup(table, first_tag_name.c_str());
+  GtkTextTagTable *table = gtk_text_buffer_get_tag_table(buffer);
+  GtkTextTag *tag = gtk_text_tag_table_lookup(table, first_tag_name.c_str());
   if (!tag)
     first_tag_name = unknown_style();
   if (!second_tag_name.empty()) {
@@ -1795,22 +1774,22 @@ void textbuffer_insert_with_named_tags(GtkTextBuffer *buffer, GtkTextIter *iter,
   }
 }
 
-GtkWidget * textview_note_get_another(GtkTextBuffer * mainbuffer, GtkWidget * currentview, vector <EditorNote>& editornotes, EditorMovementType movement) {
+GtkWidget *textview_note_get_another(GtkTextBuffer * mainbuffer, GtkWidget * currentview, vector < EditorNote > &editornotes, EditorMovementType movement)
+{
   // Variable for the next textview to go to.
-  GtkWidget * anotherview= NULL;
+  GtkWidget *anotherview = NULL;
 
   // See whether to get the next or previous textview.
   bool nextview = false;
-  switch (movement)
-  {
-    case emtForward:
-    case emtDown:
-      nextview = true;
-      break;
-    case emtBack:
-    case emtUp:
-      nextview = false;
-      break;
+  switch (movement) {
+  case emtForward:
+  case emtDown:
+    nextview = true;
+    break;
+  case emtBack:
+  case emtUp:
+    nextview = false;
+    break;
   }
 
   // Get offset of current textview.
@@ -1827,7 +1806,7 @@ GtkWidget * textview_note_get_another(GtkTextBuffer * mainbuffer, GtkWidget * cu
   if (currentoffset > 0) {
 
     // Variables.
-    gint minimum_difference= G_MAXINT;
+    gint minimum_difference = G_MAXINT;
 
     // Go through all notes.
     for (unsigned int i = 0; i < editornotes.size(); i++) {
@@ -1847,7 +1826,7 @@ GtkWidget * textview_note_get_another(GtkTextBuffer * mainbuffer, GtkWidget * cu
       if (proceed) {
 
         // Look for the textview nearest the current one.
-        gint difference= ABS (textviewoffset - currentoffset);
+        gint difference = ABS(textviewoffset - currentoffset);
         if (difference < minimum_difference) {
           anotherview = editornotes[i].textview;
           minimum_difference = difference;
@@ -1856,7 +1835,6 @@ GtkWidget * textview_note_get_another(GtkTextBuffer * mainbuffer, GtkWidget * cu
       }
     }
   }
-
   // Return the next view, if any.
   return anotherview;
 }

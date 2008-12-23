@@ -17,37 +17,33 @@
 **  
 */
 
-
 #include "roman.h"
 #include "tiny_utilities.h"
 
-
-ustring integer2roman (int arabic)
+ustring integer2roman(int arabic)
 // Converts an integer to a Roman numeral.
 {
   // Type definition.
-  struct roman_digit_type
-  {
-    const char * roman;
+  struct roman_digit_type {
+    const char *roman;
     int integer;
   };
 
   // Conversion data.
-  const roman_digit_type roman_digits[]=
-  {
-    {"M",  1000},
-    {"CM",  900},
-    {"D",   500},
-    {"CD",  400},
-    {"C",   100},
-    {"XC",   90},
-    {"L",    50},
-    {"XL",   40},
-    {"X",    10},
-    {"IX",    9},
-    {"V",     5},
-    {"IV",    4},
-    {"I",     1},
+  const roman_digit_type roman_digits[] = {
+    {"M", 1000},
+    {"CM", 900},
+    {"D", 500},
+    {"CD", 400},
+    {"C", 100},
+    {"XC", 90},
+    {"L", 50},
+    {"XL", 40},
+    {"X", 10},
+    {"IX", 9},
+    {"V", 5},
+    {"IV", 4},
+    {"I", 1},
   };
 
   // Roman digits can't display something like 4999 
@@ -58,7 +54,7 @@ ustring integer2roman (int arabic)
   ustring roman;
   for (unsigned int i = 0; arabic && i < sizeof(roman_digits) / sizeof(roman_digits[0]); i++) {
     while (roman_digits[i].integer <= arabic) {
-      roman.append (roman_digits[i].roman);
+      roman.append(roman_digits[i].roman);
       arabic -= roman_digits[i].integer;
     }
   }
@@ -67,36 +63,34 @@ ustring integer2roman (int arabic)
   return roman;
 }
 
-
-vector <ustring> roman_digits ()
+vector < ustring > roman_digits()
 // Gives the available roman digits.
 {
-  vector <ustring> digits;
-  digits.push_back ("I");
-  digits.push_back ("V");
-  digits.push_back ("X");
-  digits.push_back ("L");
-  digits.push_back ("C");
-  digits.push_back ("D");
-  digits.push_back ("M");
+  vector < ustring > digits;
+  digits.push_back("I");
+  digits.push_back("V");
+  digits.push_back("X");
+  digits.push_back("L");
+  digits.push_back("C");
+  digits.push_back("D");
+  digits.push_back("M");
   return digits;
 }
 
-
-ustring integer_or_roman_sample (unsigned int index) 
+ustring integer_or_roman_sample(unsigned int index)
 {
   ustring sample;
   for (unsigned int i = 1; i <= 3; i++) {
     if (i > 1) {
-      sample.append (", ");
+      sample.append(", ");
     }
     switch (index) {
-      case 1: {
-        sample.append (integer2roman (i));
+    case 1:{
+        sample.append(integer2roman(i));
         break;
       }
-      default: {
-        sample.append (convert_to_string (i));
+    default:{
+        sample.append(convert_to_string(i));
         break;
       }
     }
@@ -104,17 +98,16 @@ ustring integer_or_roman_sample (unsigned int index)
   return sample;
 }
 
-
-ustring integer_or_roman_numeral (unsigned int integer, unsigned int index)
+ustring integer_or_roman_numeral(unsigned int integer, unsigned int index)
 {
   ustring numeral;
   switch (index) {
-    case 1: {
-      numeral = integer2roman (integer);
+  case 1:{
+      numeral = integer2roman(integer);
       break;
     }
-    default: {
-      numeral = convert_to_string (integer);
+  default:{
+      numeral = convert_to_string(integer);
       break;
     }
   }

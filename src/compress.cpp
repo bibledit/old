@@ -17,11 +17,9 @@
 **  
 */
 
-
 #include "compress.h"
 #include "utilities.h"
 #include "gwrappers.h"
- 
 
 /*
 
@@ -38,40 +36,37 @@
 
 */
 
-typedef struct
-{
-  const char *suffix; // Suffix of the archive.
-  unsigned int compress;       // Compression identifier.
-  unsigned int uncompress;     // Uncompression identifier.
+typedef struct {
+  const char *suffix;           // Suffix of the archive.
+  unsigned int compress;        // Compression identifier.
+  unsigned int uncompress;      // Uncompression identifier.
 } compression_record_data;
 
 unsigned int compression_record_count();
-unsigned int uncompression_identifier_get (const ustring& filename);
+unsigned int uncompression_identifier_get(const ustring & filename);
 
-
-typeof (compression_record_data) compression_table [] = {
-  { ".tar.gz",    0, 0 },
-  { ".tgz",       0, 0 },
-  { ".tar.bz",    0, 0 },
-  { ".tbz",       0, 0 },
-  { ".tar.bz2",   0, 0 },
-  { ".tbz2",      0, 0 },
-  { ".zip",       0, 1 },
-};
-
-
-unsigned int compression_record_count ()
+typeof(compression_record_data) compression_table[] =
 {
-  unsigned int count = sizeof (compression_table) / sizeof (*compression_table);
+  {
+  ".tar.gz", 0, 0}, {
+  ".tgz", 0, 0}, {
+  ".tar.bz", 0, 0}, {
+  ".tbz", 0, 0}, {
+  ".tar.bz2", 0, 0}, {
+  ".tbz2", 0, 0}, {
+".zip", 0, 1},};
+
+unsigned int compression_record_count()
+{
+  unsigned int count = sizeof(compression_table) / sizeof(*compression_table);
   return count;
 }
 
-
-unsigned int uncompression_identifier_get (const ustring& filename)
+unsigned int uncompression_identifier_get(const ustring & filename)
 // Gets the identifier for uncompressing "filename".
 {
   for (unsigned int i = 0; i < compression_record_count(); i++) {
-    if (g_str_has_suffix (filename.c_str(), compression_table[i].suffix)) {
+    if (g_str_has_suffix(filename.c_str(), compression_table[i].suffix)) {
       if (compression_table[i].uncompress) {
         return compression_table[i].uncompress;
       }
@@ -80,43 +75,40 @@ unsigned int uncompression_identifier_get (const ustring& filename)
   return 0;
 }
 
-
-bool compressed_archive_recognized (const ustring& archive)
+bool compressed_archive_recognized(const ustring & archive)
 // Returns true if the file is recognized as a compressed archive.
 {
-  return uncompression_identifier_get (archive);
+  return uncompression_identifier_get(archive);
 }
 
-
-bool uncompress (const ustring& archive, const ustring& directory)
+bool uncompress(const ustring & archive, const ustring & directory)
 // Uncompresses "archive" into "directory".
 // Returns whether this was successful.
 {
   // Bail out if the archive was not recognized.
-  if (!compressed_archive_recognized (archive)) {
-    gw_critical ("cannot uncompress unrecognized archive");
+  if (!compressed_archive_recognized(archive)) {
+    gw_critical("cannot uncompress unrecognized archive");
     return false;
   }
-  
   // Ensure that the output directory is there.
-  gw_mkdir_with_parents (directory);
+  gw_mkdir_with_parents(directory);
 
   // Get the uncompression identifier.
-  int uncompression_identifier = uncompression_identifier_get (archive);
-  
+  int uncompression_identifier = uncompression_identifier_get(archive);
+
   // Do the uncompression.
   int result = -1;
   switch (uncompression_identifier) {
-    case 1:
+  case 1:
     {
-      GwSpawn spawn ("unzip");
-      spawn.arg ("-o");
+      GwSpawn spawn("unzip");
+      spawn.arg("-o");
       if (!directory.empty()) {
-        spawn.arg ("-d");
-        spawn.arg (directory);
+        spawn.arg("-d");
+        spawn.arg(directory);
       }
-      spawn.arg (archive);
-      spawn.run ();
+      spawn.arg(archive);
+      spawn.run();
       result = 0;
       break;
     }
@@ -125,4 +117,3 @@ bool uncompress (const ustring& archive, const ustring& directory)
   // Return whether things were ok.  
   return (result == 0);
 }
-

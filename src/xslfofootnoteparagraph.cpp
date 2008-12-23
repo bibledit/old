@@ -17,21 +17,13 @@
 **  
 */
 
-
 #include "xslfofootnoteparagraph.h"
 #include "usfmtools.h"
 
-
-XslFoFootnoteParagraph::XslFoFootnoteParagraph (
-                          ustring marker_i, double fontsize_i,
-                          ustring italic_i, ustring bold_i, ustring underline_i, ustring smallcaps_i,
-                          ustring justification_i,
-                          double spacebefore_i, double spaceafter_i, 
-                          double leftmargin_i, double rightmargin_i, double firstlineindent_i,
-                          bool apocrypha_i)
+XslFoFootnoteParagraph::XslFoFootnoteParagraph(ustring marker_i, double fontsize_i, ustring italic_i, ustring bold_i, ustring underline_i, ustring smallcaps_i, ustring justification_i, double spacebefore_i, double spaceafter_i, double leftmargin_i, double rightmargin_i, double firstlineindent_i, bool apocrypha_i)
 {
-  marker_open = usfm_get_full_opening_marker (marker_i);
-  marker_close = usfm_get_full_closing_marker (marker_i);
+  marker_open = usfm_get_full_opening_marker(marker_i);
+  marker_close = usfm_get_full_closing_marker(marker_i);
   fontsize = fontsize_i;
   italic = italic_i;
   bold = bold_i;
@@ -46,7 +38,6 @@ XslFoFootnoteParagraph::XslFoFootnoteParagraph (
   apocrypha = apocrypha_i;
 }
 
-
-XslFoFootnoteParagraph::~XslFoFootnoteParagraph ()
+XslFoFootnoteParagraph::~XslFoFootnoteParagraph()
 {
 }

@@ -29,19 +29,22 @@
 #include "localizedbooks.h"
 #include "tiny_utilities.h"
 
-void quick_swap2(unsigned int& a, unsigned int& b) {
+void quick_swap2(unsigned int &a, unsigned int &b)
+{
   unsigned int t = a;
   a = b;
   b = t;
 }
 
-void quick_swap(Reference& a, Reference& b) {
+void quick_swap(Reference & a, Reference & b)
+{
   Reference t = a;
   a = b;
   b = t;
 }
 
-void quick_sort(vector<unsigned int>& one, vector<Reference>& two, unsigned int beg, unsigned int end) {
+void quick_sort(vector < unsigned int >&one, vector < Reference > &two, unsigned int beg, unsigned int end)
+{
   if (end > beg + 1) {
     unsigned int piv = one[beg];
     unsigned int l = beg + 1;
@@ -63,7 +66,7 @@ void quick_sort(vector<unsigned int>& one, vector<Reference>& two, unsigned int 
   }
 }
 
-void sort_references(vector <Reference>& references)
+void sort_references(vector < Reference > &references)
 /*
  Sorts all references from Genesis to Revelation. 
  Sorts on book first, then chapter, and finally verse.
@@ -72,19 +75,17 @@ void sort_references(vector <Reference>& references)
   // When there are less than two entries no sorting is needed.
   if (references.size() < 2)
     return;
-  try
-  {
+  try {
     // Make a vector that contains the numerical equivalent of the references.
-    vector <unsigned int> numerical;
-    for (unsigned int i = 0; i < references.size (); i++) {
-      numerical.push_back (reference_to_numerical_equivalent (references[i]));
+    vector < unsigned int >numerical;
+    for (unsigned int i = 0; i < references.size(); i++) {
+      numerical.push_back(reference_to_numerical_equivalent(references[i]));
     }
     // Sort the references.
-    quick_sort (numerical, references, 0, numerical.size());
+    quick_sort(numerical, references, 0, numerical.size());
   }
-  catch (exception & ex)
-  {
-    cerr << "Sorting references: " << ex.what () << endl;
+  catch(exception & ex) {
+    cerr << "Sorting references: " << ex.what() << endl;
   }
 }
 
@@ -99,30 +100,28 @@ void decode_reference(const ustring & reference, ustring & book, ustring & chapt
  * chapter "1" and verse "1".
  */
 {
-  try
-  {
-    ustring ref (reference);
+  try {
+    ustring ref(reference);
     // Extract the book.
     // Deal with books like "1 Samuel" or "Song of Solomon".
     int booklength;
-    booklength = ref.rfind (" ");
-    book = ref.substr (0, booklength);
-    ref.erase (0, booklength);
-    ref = trim (ref);
+    booklength = ref.rfind(" ");
+    book = ref.substr(0, booklength);
+    ref.erase(0, booklength);
+    ref = trim(ref);
     // Extract chapter.
-    chapter = number_in_string (ref);
-    ref.erase (0, chapter.length () + 1);
-    ref = trim (ref);
+    chapter = number_in_string(ref);
+    ref.erase(0, chapter.length() + 1);
+    ref = trim(ref);
     // Extract verse.
     verse = ref;
   }
-  catch (exception & ex)
-  {
-    cerr << ex.what () << endl;
+  catch(exception & ex) {
+    cerr << ex.what() << endl;
   }
 }
 
-bool reference_discover_internal(unsigned int oldbook, unsigned int oldchapter, const ustring& oldverse, const ustring& reference, unsigned int& newbook, unsigned int& newchapter, ustring& newverse)
+bool reference_discover_internal(unsigned int oldbook, unsigned int oldchapter, const ustring & oldverse, const ustring & reference, unsigned int &newbook, unsigned int &newchapter, ustring & newverse)
 /*
  This interprets "reference" as a valid reference.
  If needed it will use information of the current reference to complete the info.
@@ -165,7 +164,7 @@ bool reference_discover_internal(unsigned int oldbook, unsigned int oldchapter, 
   // Think of "1 Corinthians 10:1" and "Song of Songs".
   // Deal with verses like 1-10, and 1,2, and 1a-3b, and so on.
   ustring bookpart;
-  vector <ustring> numbers;
+  vector < ustring > numbers;
   {
     Parse parse(response);
     int highest_text_offset = -1;
@@ -191,14 +190,14 @@ bool reference_discover_internal(unsigned int oldbook, unsigned int oldchapter, 
   }
 
   /*
-   We now come to the interpretation of the tokens passed to us.
-   The following situations can occur:
-   - Only book given, e.g. "Genesis".
-   - One number given, e.g. "10".
-   - Two numbers given, e.g. "1 2".
-   - Book and one number given, e.g. "Exodus 10".
-   - Book and two numbers given, e.g. "Song of Solomon 2 3".
-   These situations will be dealt with below.
+     We now come to the interpretation of the tokens passed to us.
+     The following situations can occur:
+     - Only book given, e.g. "Genesis".
+     - One number given, e.g. "10".
+     - Two numbers given, e.g. "1 2".
+     - Book and one number given, e.g. "Exodus 10".
+     - Book and two numbers given, e.g. "Song of Solomon 2 3".
+     These situations will be dealt with below.
    */
 
   // Handle situation where a book is passed.
@@ -215,17 +214,14 @@ bool reference_discover_internal(unsigned int oldbook, unsigned int oldchapter, 
       }
     }
   }
-
   // Handle a situation where no book is given.
   if (bookpart.empty()) {
     newbook = oldbook;
   }
-
   // Bail out on a bad book.
   if (newbook == 0) {
     return false;
   }
-
   // From here and down we can be sure of having a proper book.
   // Only chapter and/or verse remain to be dealt with, if they're there.
 
@@ -234,51 +230,47 @@ bool reference_discover_internal(unsigned int oldbook, unsigned int oldchapter, 
     newchapter = 1;
     newverse = "1";
   }
-
   // Handle a situation where only one number is given, e.g. "10". This is interpreted as the verse.
   if (bookpart.empty() && numbers.size() == 1) {
     newchapter = oldchapter;
-    newverse = lowerCase(numbers[0]);    
+    newverse = lowerCase(numbers[0]);
   }
-  
   // Handle a situation where only two numbers are given, e.g. "1 2". These are the chapter and verse.
   if (bookpart.empty() && numbers.size() == 2) {
-    newchapter = convert_to_int (numbers[0]);
+    newchapter = convert_to_int(numbers[0]);
     newverse = lowerCase(numbers[1]);
   }
-  
   // Handle a situation where a book and a number is given, e.g. "Exodus 10". These are book and chapter.
   if (!bookpart.empty() && numbers.size() == 1) {
-    newchapter = convert_to_int (numbers[0]);
+    newchapter = convert_to_int(numbers[0]);
     newverse = "1";
   }
-
   // Handle situation where book and two numbers are given, e.g. "Song of Solomon 2 3".
   if (!bookpart.empty() && numbers.size() == 2) {
-    newchapter = convert_to_int (numbers[0]);
+    newchapter = convert_to_int(numbers[0]);
     newverse = lowerCase(numbers[1]);
   }
-
   // Return okay.
   return true;
 }
 
-bool reference_discover(unsigned int oldbook, unsigned int oldchapter, const ustring& oldverse, const ustring& reference, unsigned int& newbook, unsigned int& newchapter, ustring& newverse) {
+bool reference_discover(unsigned int oldbook, unsigned int oldchapter, const ustring & oldverse, const ustring & reference, unsigned int &newbook, unsigned int &newchapter, ustring & newverse)
+{
   /* 
-   This is the new function "reference_discover". It uses the previous one which
-   has now been renamed "reference_discover_internal".
-   This new function iterates even more over a references, and is able to cut
-   off bits at the beginning that would not be a references. This occurs when 
-   loading a file with references saved by BibleWorks. It has a format as 
-   shown here:
-   
-   BWRL 1
+     This is the new function "reference_discover". It uses the previous one which
+     has now been renamed "reference_discover_internal".
+     This new function iterates even more over a references, and is able to cut
+     off bits at the beginning that would not be a references. This occurs when 
+     loading a file with references saved by BibleWorks. It has a format as 
+     shown here:
 
-   KJV 2Ki 25:18
-   KJV 1Ch 6:36
+     BWRL 1
 
-   In this example the "KJV" needs to be taken out and then the reference will 
-   appear cleanly.
+     KJV 2Ki 25:18
+     KJV 1Ch 6:36
+
+     In this example the "KJV" needs to be taken out and then the reference will 
+     appear cleanly.
    */
   // Do the discovery.
   bool result;
@@ -396,8 +388,8 @@ unsigned int book_find_valid_internal(const ustring & rawbook)
   // Go through the language of the project, and see if the book is among the 
   // booknames or abbreviations.
   {
-    extern Settings * settings;
-    ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
+    extern Settings *settings;
+    ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
     index = books_name_to_id(projectconfig->language_get(), rawbook);
     if (index)
       return index;
@@ -412,8 +404,8 @@ unsigned int book_find_valid_internal(const ustring & rawbook)
   // Go through all available languages, and see if the book is among the
   // names or abbreviations of the book.
   {
-    extern BookLocalizations * booklocalizations;
-    vector<ustring> languages = booklocalizations->localizations_get();
+    extern BookLocalizations *booklocalizations;
+    vector < ustring > languages = booklocalizations->localizations_get();
     for (unsigned int i = 0; i < languages.size(); i++) {
       index = books_name_to_id(languages[i], rawbook);
       if (index)
@@ -437,8 +429,8 @@ unsigned int book_find_valid(const ustring & rawbook)
   // and a list of the ids that have been assigned to those raw books.
   // If the same raw book is passed again, we just return the previously 
   // discovered id.
-  static vector<unsigned int> assigned_ids;
-  static vector<ustring> raw_books;
+  static vector < unsigned int >assigned_ids;
+  static vector < ustring > raw_books;
   for (unsigned int i = 0; i < raw_books.size(); i++) {
     if (rawbook == raw_books[i]) {
       return assigned_ids[i];
@@ -450,7 +442,7 @@ unsigned int book_find_valid(const ustring & rawbook)
   return id;
 }
 
-unsigned int reference_to_numerical_equivalent(const ustring& book, const ustring& chapter, const ustring& verse)
+unsigned int reference_to_numerical_equivalent(const ustring & book, const ustring & chapter, const ustring & verse)
 /*
  Produces the numerical equivalent of a reference.
  Supports half verses, like 10a, and 11b.
@@ -463,12 +455,12 @@ unsigned int reference_to_numerical_equivalent(const ustring& book, const ustrin
   unsigned int i;
   i = books_english_to_id(book) * 1000000;
   i = i + (convert_to_int(chapter) * 1000);
-  vector<int> verses = verses_encode(verse);
+  vector < int >verses = verses_encode(verse);
   i = i + verses[0];
   return i;
 }
 
-unsigned int reference_to_numerical_equivalent(const Reference& reference)
+unsigned int reference_to_numerical_equivalent(const Reference & reference)
 /*
  Produces the numerical equivalent of a reference.
  Supports half verses, like 10a, and 11b.
@@ -481,12 +473,12 @@ unsigned int reference_to_numerical_equivalent(const Reference& reference)
   unsigned int i;
   i = reference.book * 1000000;
   i = i + (reference.chapter * 1000);
-  vector<int> verses = verses_encode(reference.verse);
+  vector < int >verses = verses_encode(reference.verse);
   i = i + verses[0];
   return i;
 }
 
-ustring book_chapter_verse_to_reference(const ustring& book, int chapter, const ustring& verse)
+ustring book_chapter_verse_to_reference(const ustring & book, int chapter, const ustring & verse)
 /*
  Changes a bookname, with a chapter number, and a verse number, 
  to a full references, e.g. "Genesis 1:1a-4".
@@ -500,7 +492,7 @@ ustring book_chapter_verse_to_reference(const ustring& book, int chapter, const 
   return reference;
 }
 
-bool looks_like_verse(const ustring& text)
+bool looks_like_verse(const ustring & text)
 // This checks the text given and sees whether it looks like a verse. If so
 // it returns true.
 {
@@ -512,12 +504,13 @@ bool looks_like_verse(const ustring& text)
     return true;
   // If it contains a digit followed by either an "a" or a "b", it's a verse.
   // Note everything is capitalized, so we check for "A" or "B".
-  if (unix_fnmatch((char*) "*[0-9][A,B]*", text))
+  if (unix_fnmatch((char *)"*[0-9][A,B]*", text))
     return true;
   return false;
 }
 
-void verses_encode_internal(const ustring& verse, vector<int>& expanded_verses) {
+void verses_encode_internal(const ustring & verse, vector < int >&expanded_verses)
+{
   int expanded_verse;
   expanded_verse = 2 * (convert_to_int(verse));
   if (verse.find_first_of("aA") != string::npos) {
@@ -530,7 +523,7 @@ void verses_encode_internal(const ustring& verse, vector<int>& expanded_verses) 
   }
 }
 
-vector<int> verses_encode(const ustring& verse)
+vector < int >verses_encode(const ustring & verse)
 /*
  This encodes a verse into a number of integers. As we may have ranges of verses,
  like 1b-5, or 1b,2, we handle these ranges or sequences by converting them to
@@ -540,7 +533,7 @@ vector<int> verses_encode(const ustring& verse)
  */
 {
   // Storage.
-  vector<int> expanded_verses;
+  vector < int >expanded_verses;
   // Work on a copy of the verse;
   ustring vs = verse;
   // If there is a range, take the beginning and the end and fill up in between.
@@ -559,8 +552,8 @@ vector<int> verses_encode(const ustring& verse)
       end_expanded_verse++;
     // Sometimes people give start higher than the end, so swap them here.
     {
-      int min= MIN (start_expanded_verse, end_expanded_verse);
-      int max= MAX (start_expanded_verse, end_expanded_verse);
+      int min = MIN(start_expanded_verse, end_expanded_verse);
+      int max = MAX(start_expanded_verse, end_expanded_verse);
       start_expanded_verse = min;
       end_expanded_verse = max;
     }
@@ -597,7 +590,7 @@ vector<int> verses_encode(const ustring& verse)
   return expanded_verses;
 }
 
-bool chapter_span_discover(const ustring& reference, ustring& chapter1, ustring& verse1, ustring& chapter2, ustring& verse2)
+bool chapter_span_discover(const ustring & reference, ustring & chapter1, ustring & verse1, ustring & chapter2, ustring & verse2)
 // Discover whether the reference spans the chapter boundary.
 // E.g. Luke 1:3-2.5
 {
@@ -657,7 +650,7 @@ bool chapter_span_discover(const ustring& reference, ustring& chapter1, ustring&
     chapter1 = parse.words[firstdotlocation - 1];
   verse1 = parse.words[hyphenlocation - 1];
   chapter2 = parse.words[seconddotlocation - 1];
-  if ((unsigned int) (seconddotlocation + 1) < parse.words.size())
+  if ((unsigned int)(seconddotlocation + 1) < parse.words.size())
     verse2 = parse.words[seconddotlocation + 1];
 
   // Do we have all information?
@@ -674,21 +667,17 @@ bool chapter_span_discover(const ustring& reference, ustring& chapter1, ustring&
   return true;
 }
 
-vector <unsigned int> verse_range_sequence(const ustring& verse)
+vector < unsigned int >verse_range_sequence(const ustring & verse)
 // Returns the verse(s) that are in variable "verse".
 // It handles a single verse, a range of verses, or a sequence of verses.
 // Examples:
 // 10
 // 10-12
 // 10,11
-
-
 // Note: Do not improve this function anymore, but instead use verse_range_sequence_v2
-
-
 {
   // Result.
-  vector <unsigned int> verses;
+  vector < unsigned int >verses;
 
   // Work on a copy.
   ustring vs(verse);
@@ -707,7 +696,6 @@ vector <unsigned int> verse_range_sequence(const ustring& verse)
       verses.push_back(i);
     }
   }
-
   // Else if there is a sequence, take each verse in the sequence, and store it.
   else if (vs.find(",") != string::npos) {
     int iterations = 0;
@@ -729,7 +717,6 @@ vector <unsigned int> verse_range_sequence(const ustring& verse)
       verses.push_back(convert_to_int(verse));
     } while (!vs.empty());
   }
-
   // No range and no sequence: a "normal" verse.
   else {
     verses.push_back(convert_to_int(vs));
@@ -739,7 +726,7 @@ vector <unsigned int> verse_range_sequence(const ustring& verse)
   return verses;
 }
 
-vector <ustring> verse_range_sequence_v2(ustring verse)
+vector < ustring > verse_range_sequence_v2(ustring verse)
 // Returns the verse(s) that are in variable "verse".
 // It handles a single verse, a range of verses, or a sequence of verses.
 // Examples:
@@ -749,7 +736,7 @@ vector <ustring> verse_range_sequence_v2(ustring verse)
 // 10,12
 {
   // Result.
-  vector <ustring> verses;
+  vector < ustring > verses;
 
   // If there is a range, take the beginning and the end and fill up in between.
   if (verse.find("-") != string::npos) {
@@ -770,7 +757,6 @@ vector <ustring> verse_range_sequence_v2(ustring verse)
         verses.push_back(convert_to_string(i));
     }
   }
-
   // Else if there is a sequence, take each verse in the sequence, and store it.
   else if (verse.find(",") != string::npos) {
     int iterations = 0;
@@ -792,7 +778,6 @@ vector <ustring> verse_range_sequence_v2(ustring verse)
       verses.push_back(vs);
     } while (!verse.empty());
   }
-
   // No range and no sequence: a "normal" verse.
   else {
     verses.push_back(verse);

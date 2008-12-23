@@ -17,62 +17,57 @@
 **  
 */
 
-
 #include "convert.h"
 #include "tiny_utilities.h"
 
-
-gchar * unicode_convert (gchar * data, gchar * encoding)
+gchar *unicode_convert(gchar * data, gchar * encoding)
 {
   gchar *output;
-  output = g_convert (data, -1, "UTF-8", encoding, NULL, NULL, NULL);
+  output = g_convert(data, -1, "UTF-8", encoding, NULL, NULL, NULL);
   return output;
 }
 
-
-gchar * unicode_convert_automatic (gchar * data)
+gchar *unicode_convert_automatic(gchar * data)
 {
   // Storage for the output.
-  gchar * output;
-  
+  gchar *output;
+
   // If the data is already utf8, return a copy of it and that's it.
-  if (g_utf8_validate (data, -1, NULL)) {
-    output = g_strdup (data);
+  if (g_utf8_validate(data, -1, NULL)) {
+    output = g_strdup(data);
     return output;
   }
-  
   // Convert from known encoding(s).
   // Note that these known one(s) can be expanded if need be.
-  vector <ustring> encodings = encodings_get ();
-  for (unsigned int i = 0; i < encodings.size (); i++) {
-    output = unicode_convert (data, (gchar *) encodings[i].c_str());
+  vector < ustring > encodings = encodings_get();
+  for (unsigned int i = 0; i < encodings.size(); i++) {
+    output = unicode_convert(data, (gchar *) encodings[i].c_str());
     if (output) {
-      if (g_utf8_validate (data, -1, NULL)) {
+      if (g_utf8_validate(data, -1, NULL)) {
         return output;
       }
-      g_free (output);
+      g_free(output);
     }
   }
-  
+
   // None found.
   return NULL;
 }
 
-
-vector <ustring> encodings_get ()
+vector < ustring > encodings_get()
 // Get the available character encodings.
 {
-  vector <ustring> encodings;
-  FILE * stream = popen ("iconv -l", "r");
+  vector < ustring > encodings;
+  FILE *stream = popen("iconv -l", "r");
   char buf[1024];
-  while (fgets (buf, sizeof (buf), stream)) {
+  while (fgets(buf, sizeof(buf), stream)) {
     ustring output = buf;
-    output = trim (output);
-    if (g_str_has_suffix (output.c_str(), "//")) {
-      output = output.substr (0, output.length () - 2);
+    output = trim(output);
+    if (g_str_has_suffix(output.c_str(), "//")) {
+      output = output.substr(0, output.length() - 2);
     }
-    encodings.push_back (output);
+    encodings.push_back(output);
   }
-  pclose (stream);
+  pclose(stream);
   return encodings;
 }

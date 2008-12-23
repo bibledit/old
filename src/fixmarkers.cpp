@@ -17,7 +17,6 @@
 **  
 */
 
-
 #include "fixmarkers.h"
 #include "settings.h"
 #include "projectutils.h"
@@ -27,8 +26,7 @@
 #include "usfmtools.h"
 #include "tiny_utilities.h"
 
-
-void fix_markers_insert_space_after_opener ()
+void fix_markers_insert_space_after_opener()
 /*
 Using Check / Marker / Validate in CEV, John 1:5 has:
 \q1\x - \xo 1.6: \xt Mt 3.1; Mk 1.4; Lk 3.1,2.\x*
@@ -46,58 +44,57 @@ But after a closing marker it does not insert spaces, because the * is enough.
 */
 {
   // Settings.
-  extern Settings * settings;
-  
+  extern Settings *settings;
+
   // Progress.
-  ProgressWindow progresswindow ("Inserting missing spaces after opening markers", false);
-  
+  ProgressWindow progresswindow("Inserting missing spaces after opening markers", false);
+
   // Statistics.
   unsigned int insertcount = 0;
 
   // Go through the books in the project.
-  ustring project = settings->genconfig.project_get ();
-  vector <unsigned int> books = project_get_books (project);
-  progresswindow.set_iterate (0, 1, books.size());
+  ustring project = settings->genconfig.project_get();
+  vector < unsigned int >books = project_get_books(project);
+  progresswindow.set_iterate(0, 1, books.size());
   for (unsigned int bk = 0; bk < books.size(); bk++) {
-    
+
     // Progress.
-    progresswindow.iterate ();
-    
+    progresswindow.iterate();
+
     // Go through the chapters in this book.
-    vector <unsigned int> chapters = project_get_chapters (project, books[bk]);
+    vector < unsigned int >chapters = project_get_chapters(project, books[bk]);
     for (unsigned int ch = 0; ch < chapters.size(); ch++) {
 
       // Go through the verses in this chapter.
-      vector <ustring> verses = project_get_verses (project, books[bk], chapters[ch]);
+      vector < ustring > verses = project_get_verses(project, books[bk], chapters[ch]);
       for (unsigned int vs = 0; vs < verses.size(); vs++) {
-  
+
         // Retrieve each verse and process it.
-        ustring text = project_retrieve_verse (project, books[bk], chapters[ch], verses[vs]);
+        ustring text = project_retrieve_verse(project, books[bk], chapters[ch], verses[vs]);
         unsigned int previous_insertcount = insertcount;
-        
-        vector<ustring> markers = usfm_get_all_markers (text);
+
+        vector < ustring > markers = usfm_get_all_markers(text);
         for (unsigned int i = 0; i < markers.size(); i++) {
-          if (markers[i].find ("\\") != string::npos) {
-            size_t position = text.find (markers[i]);
+          if (markers[i].find("\\") != string::npos) {
+            size_t position = text.find(markers[i]);
             if (position != string::npos) {
-              ustring marker = text.substr (position, markers[i].length());
-              replace_text (marker, "\\", " \\");
+              ustring marker = text.substr(position, markers[i].length());
+              replace_text(marker, "\\", " \\");
               insertcount++;
-              text.replace (position, markers[i].length(), marker);
+              text.replace(position, markers[i].length(), marker);
             }
           }
         }
 
-        
         // If there were changes, store the verse.
         if (insertcount != previous_insertcount) {
-          project_store_verse (project, books[bk], chapters[ch], verses[vs], text);
+          project_store_verse(project, books[bk], chapters[ch], verses[vs], text);
         }
       }
     }
   }
-  
+
   // Give statistics.
-  ustring message ("Missing spaces inserted: " + convert_to_string (insertcount));
-  gtkw_dialog_info (NULL, message);
+  ustring message("Missing spaces inserted: " + convert_to_string(insertcount));
+  gtkw_dialog_info(NULL, message);
 }

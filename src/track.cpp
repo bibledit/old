@@ -17,83 +17,73 @@
 **  
 */
 
-
 #include "libraries.h"
 #include "utilities.h"
 #include "track.h"
 #include "bible.h"
 
-
-Track::Track (unsigned int dummy)
+Track::Track(unsigned int dummy)
 {
-  clear ();
+  clear();
 }
 
-
-Track::~Track ()
+Track::~Track()
 {
 }
 
-
-void Track::store (const Reference& reference)
+void Track::store(const Reference & reference)
 // Stores the reference for tracking them.
 {
-  recorded_references.push_back (reference);
-  reference_pointer = recorded_references.size ();
+  recorded_references.push_back(reference);
+  reference_pointer = recorded_references.size();
 }
 
-
-void Track::get_next_reference (Reference& reference)
+void Track::get_next_reference(Reference & reference)
 {
-  bool equal = reference.equals (recorded_references[reference_pointer]);
+  bool equal = reference.equals(recorded_references[reference_pointer]);
   reference = recorded_references[reference_pointer];
   reference_pointer++;
-  if (equal && next_reference_available ()) {
+  if (equal && next_reference_available()) {
     reference = recorded_references[reference_pointer];
     reference_pointer++;
   }
 }
 
-
-void Track::get_previous_reference (Reference& reference)
+void Track::get_previous_reference(Reference & reference)
 {
   reference_pointer--;
-  bool equal = reference.equals (recorded_references[reference_pointer]);
+  bool equal = reference.equals(recorded_references[reference_pointer]);
   reference = recorded_references[reference_pointer];
-  if (equal && previous_reference_available ()) {
+  if (equal && previous_reference_available()) {
     reference_pointer--;
     reference = recorded_references[reference_pointer];
   }
 }
 
-
-bool Track::next_reference_available ()
+bool Track::next_reference_available()
 {
-  return (reference_pointer < int (recorded_references.size ()));
+  return (reference_pointer < int (recorded_references.size()));
 }
 
-
-bool Track::previous_reference_available ()
+bool Track::previous_reference_available()
 {
   return (reference_pointer > 0);
 }
 
-
-void Track::clear ()
+void Track::clear()
 {
   reference_pointer = 0;
-  recorded_references.clear ();
+  recorded_references.clear();
 }
 
-
-void Track::state ()
+void Track::state()
 // For testing only.
 {
   /*
-  cout << "--begin state--" << endl;
-  for (unsigned int i = 0; i < recorded_references.size(); i++)
-    cout << recorded_references[i].human_readable ("") << endl;
-  cout << "pointer: " << reference_pointer << endl;
-  cout << "--end state--" << endl;
-  */
+     cout << "--begin state--" << endl;
+     for (unsigned int i = 0; i < recorded_references.size(); i++)
+     cout << recorded_references[i].human_readable ("") << endl;
+     cout << "pointer: " << reference_pointer << endl;
+     cout << "--end state--" << endl;
+   */
 }

@@ -17,24 +17,21 @@
 **  
 */
 
-
 #include "libraries.h"
 #include "gtkwrappers.h"
 
-
-bool runs_as_root ()
+bool runs_as_root()
 {
-  #ifndef WIN32
-  bool root = (getuid () == 0);
+#ifndef WIN32
+  bool root = (getuid() == 0);
   if (root) {
-    ustring message = "Bibledit has not been designed to run as user root.\n"
-                      "Please run it as a normal user.";
-    cout << message << endl; 
-    gtkw_dialog_error (NULL, message);
-  }    
+    ustring message = "Bibledit has not been designed to run as user root.\n" "Please run it as a normal user.";
+    cout << message << endl;
+    gtkw_dialog_error(NULL, message);
+  }
   return root;
-  #endif
-  #ifdef WIN32
+#endif
+#ifdef WIN32
   return false;
-  #endif
+#endif
 }

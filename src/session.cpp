@@ -64,5 +64,6 @@ Session::Session(int dummy)
   project_notes_show_title = true;
 }
 
-Session::~Session() {
+Session::~Session()
+{
 }

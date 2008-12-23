@@ -17,7 +17,6 @@
 **  
 */
 
-
 #include "libraries.h"
 #include "utilities.h"
 #include <glib.h>
@@ -28,8 +27,7 @@
 #include "stylesheetutils.h"
 #include "constants.h"
 
-
-Style::Style (const ustring& stylesheet, const ustring& style, bool write)
+Style::Style(const ustring & stylesheet, const ustring & style, bool write)
 // Reads a style from the database.
 {
   // Save variables.
@@ -63,20 +61,18 @@ Style::Style (const ustring& stylesheet, const ustring& style, bool write)
   userint2 = 0;
   userint3 = 0;
   // Read values from the database.
-  stylesheet_load_style (mystylesheet, * this);  
+  stylesheet_load_style(mystylesheet, *this);
 }
 
-
-Style::~Style ()
+Style::~Style()
 {
   // Save style in database.
   if (mywrite) {
-    stylesheet_save_style (mystylesheet, * this);
+    stylesheet_save_style(mystylesheet, *this);
   }
 }
 
-
-void Style::read_template ()
+void Style::read_template()
 {
-  stylesheet_load_style ("", * this);
+  stylesheet_load_style("", *this);
 }

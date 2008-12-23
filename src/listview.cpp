@@ -27,11 +27,11 @@ ustring listview_get_active_string(GtkWidget * listview)
   // Storage for result
   ustring active_string;
   // Get the model
-  GtkTreeModel * model;
-  model = gtk_tree_view_get_model(GTK_TREE_VIEW (listview));
+  GtkTreeModel *model;
+  model = gtk_tree_view_get_model(GTK_TREE_VIEW(listview));
   // Get the selection.
-  GtkTreeSelection * selection;
-  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW (listview));
+  GtkTreeSelection *selection;
+  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(listview));
   // Some variables needed.
   GtkTreeIter iter;
   // Get the selected iterator.
@@ -51,8 +51,8 @@ int listview_get_active_offset(GtkWidget * listview)
 // If nothing is selected, it returns -1.
 {
   // Get model and selection.
-  GtkTreeModel * model = gtk_tree_view_get_model(GTK_TREE_VIEW (listview));
-  GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW (listview));
+  GtkTreeModel *model = gtk_tree_view_get_model(GTK_TREE_VIEW(listview));
+  GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(listview));
   // Initialize iterator that points to the selected row.  
   GtkTreeIter selectediter;
   bool somethingselected = gtk_tree_selection_get_selected(selection, &model, &selectediter);
@@ -77,20 +77,21 @@ int listview_get_active_offset(GtkWidget * listview)
   return result;
 }
 
-static void listview_collect_iterators(GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data) {
-  ((vector < GtkTreeIter> *)data)->push_back(*iter);
+static void listview_collect_iterators(GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data)
+{
+  ((vector < GtkTreeIter > *)data)->push_back(*iter);
 }
 
-vector <int> listview_get_active_offsets(GtkWidget * listview)
+vector < int >listview_get_active_offsets(GtkWidget * listview)
 // Gets the offsets of the items now selected.
 {
   // Container with offsets.
-  vector <int> offsets;
+  vector < int >offsets;
 
   // Get model and selected iterators.
-  GtkTreeModel * model = gtk_tree_view_get_model(GTK_TREE_VIEW (listview));
-  GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW (listview));
-  vector <GtkTreeIter> iters;
+  GtkTreeModel *model = gtk_tree_view_get_model(GTK_TREE_VIEW(listview));
+  GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(listview));
+  vector < GtkTreeIter > iters;
   gtk_tree_selection_selected_foreach(selection, listview_collect_iterators, gpointer(&iters));
   for (unsigned int i = 0; i < iters.size(); i++) {
     GtkTreeIter iter = iters[i];
@@ -102,9 +103,9 @@ vector <int> listview_get_active_offsets(GtkWidget * listview)
   GtkTreeIter iter;
   gboolean valid = gtk_tree_model_get_iter_first(model, &iter);
   while (valid) {
-    for (unsigned int i = 0; i < iters.size (); i++) {
+    for (unsigned int i = 0; i < iters.size(); i++) {
       if (iter.user_data == iters[i].user_data) {
-        offsets.push_back (offset);
+        offsets.push_back(offset);
       }
     }
     valid = gtk_tree_model_iter_next(model, &iter);
@@ -121,7 +122,8 @@ void listview_clear_strings(GtkWidget * listview, GtkListStore * store)
   gtk_list_store_clear(store);
 }
 
-void listview_set_strings(GtkWidget * listview, GtkListStore * store, const vector<ustring>& strings) {
+void listview_set_strings(GtkWidget * listview, GtkListStore * store, const vector < ustring > &strings)
+{
   listview_clear_strings(listview, store);
   GtkTreeIter iter;
   for (unsigned int i = 0; i < strings.size(); i++) {
@@ -130,23 +132,24 @@ void listview_set_strings(GtkWidget * listview, GtkListStore * store, const vect
   }
 }
 
-void listview_set_strings(GtkWidget * listview, GtkListStore * store, const vector<unsigned int>& strings) {
-  vector <ustring> strings2;
+void listview_set_strings(GtkWidget * listview, GtkListStore * store, const vector < unsigned int >&strings)
+{
+  vector < ustring > strings2;
   for (unsigned int i = 0; i < strings.size(); i++)
     strings2.push_back(convert_to_string(strings[i]));
   listview_set_strings(listview, store, strings2);
 }
 
-void listview_focus_string(GtkWidget * listview, const ustring& string, bool grabfocus)
+void listview_focus_string(GtkWidget * listview, const ustring & string, bool grabfocus)
 // Sets the string that is focused and scrolls to it.
 // If grabfocus = true, the listview grabs the focus.
 {
   // Get the model
-  GtkTreeModel * model;
-  model = gtk_tree_view_get_model(GTK_TREE_VIEW (listview));
+  GtkTreeModel *model;
+  model = gtk_tree_view_get_model(GTK_TREE_VIEW(listview));
   // Get the selection.
-  GtkTreeSelection * selection;
-  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW (listview));
+  GtkTreeSelection *selection;
+  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(listview));
   // Some variables needed.
   GtkTreeIter iter;
   gboolean valid;
@@ -162,11 +165,11 @@ void listview_focus_string(GtkWidget * listview, const ustring& string, bool gra
     // and focus on the listview.
     if (str_data == string) {
       gtk_tree_selection_select_iter(selection, &iter);
-      GtkTreePath * path= NULL;
+      GtkTreePath *path = NULL;
       path = gtk_tree_path_new_from_indices(index, -1);
       if (path) {
-        gtk_tree_view_set_cursor(GTK_TREE_VIEW (listview), path, NULL, false);
-        gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW (listview), path, NULL, true, 0.5, 0.5);
+        gtk_tree_view_set_cursor(GTK_TREE_VIEW(listview), path, NULL, false);
+        gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(listview), path, NULL, true, 0.5, 0.5);
       }
       gtk_tree_path_free(path);
       if (grabfocus)
@@ -178,18 +181,19 @@ void listview_focus_string(GtkWidget * listview, const ustring& string, bool gra
   }
 }
 
-void listview_focus_string(GtkWidget * listview, unsigned int string, bool grabfocus) {
+void listview_focus_string(GtkWidget * listview, unsigned int string, bool grabfocus)
+{
   listview_focus_string(listview, convert_to_string(string), grabfocus);
 }
 
-vector <ustring> listview_get_strings(GtkWidget * listview)
+vector < ustring > listview_get_strings(GtkWidget * listview)
 // Gets the strings loaded in the listview.
 {
   // Storage for the result.
-  vector <ustring> strings;
+  vector < ustring > strings;
   // Get the model
-  GtkTreeModel * model;
-  model = gtk_tree_view_get_model(GTK_TREE_VIEW (listview));
+  GtkTreeModel *model;
+  model = gtk_tree_view_get_model(GTK_TREE_VIEW(listview));
   // Some variables needed.
   GtkTreeIter iter;
   gboolean valid;
@@ -213,17 +217,18 @@ vector <ustring> listview_get_strings(GtkWidget * listview)
 void list_view_erase_selection(GtkWidget * listview)
 // Erase the current selected string.
 {
-  GtkTreeModel * model = gtk_tree_view_get_model(GTK_TREE_VIEW (listview));
-  GtkTreeSelection * selection = gtk_tree_view_get_selection(GTK_TREE_VIEW (listview));
+  GtkTreeModel *model = gtk_tree_view_get_model(GTK_TREE_VIEW(listview));
+  GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(listview));
   GtkTreeIter iter;
   if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
-    gtk_list_store_remove(GTK_LIST_STORE (model), &iter);
+    gtk_list_store_remove(GTK_LIST_STORE(model), &iter);
   }
 }
 
-void listview_set_row(GtkWidget * listview, GtkListStore * store, unsigned int offset, const ustring row) {
+void listview_set_row(GtkWidget * listview, GtkListStore * store, unsigned int offset, const ustring row)
+{
   // Get the model
-  GtkTreeModel * model = gtk_tree_view_get_model(GTK_TREE_VIEW (listview));
+  GtkTreeModel *model = gtk_tree_view_get_model(GTK_TREE_VIEW(listview));
 
   // Some variables needed.
   GtkTreeIter iter;
@@ -238,7 +243,6 @@ void listview_set_row(GtkWidget * listview, GtkListStore * store, unsigned int o
     if (index == offset) {
       gtk_list_store_set(store, &iter, 0, row.c_str(), -1);
     }
-
     // Next iteration.
     valid = gtk_tree_model_iter_next(model, &iter);
     index++;

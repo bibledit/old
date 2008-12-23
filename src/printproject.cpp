@@ -42,21 +42,24 @@
 #include "text2pdf.h"
 #include "usfm2text.h"
 
-PrintProject::PrintProject(ProjectMemory * project) {
+PrintProject::PrintProject(ProjectMemory * project)
+{
   myproject = project;
   scriptureportions = NULL;
 }
 
-PrintProject::~PrintProject() {
+PrintProject::~PrintProject()
+{
   if (scriptureportions)
     delete scriptureportions;
 }
 
-void PrintProject::portion_project(const ustring& project) {
+void PrintProject::portion_project(const ustring & project)
+{
   portionproject = project;
 }
 
-void PrintProject::comment(const ustring& text)
+void PrintProject::comment(const ustring & text)
 // Adds a comment to be printed with the main text.
 {
   comments.push_back(text);
@@ -69,15 +72,14 @@ void PrintProject::print()
   // Possible exclusion of books.
   if (portionproject.empty())
     portionproject = myproject->name;
-  scriptureportions = new ScripturePortions (portionproject);
+  scriptureportions = new ScripturePortions(portionproject);
   if (scriptureportions->books.empty()) {
     gtkw_dialog_info(NULL, "There were no books to print\nSelect some books and try again");
     return;
   }
-
   // Settings.
-  extern Settings * settings;
-  ProjectConfiguration * projectconfig = settings->projectconfig(myproject->name);
+  extern Settings *settings;
+  ProjectConfiguration *projectconfig = settings->projectconfig(myproject->name);
 
   // Create Text to PDF and Usfm to Text converters.
   Text2Pdf text2pdf(gw_build_filename(directories_get_temp(), "document.pdf"), settings->genconfig.print_engine_use_intermediate_text_get());
@@ -85,7 +87,7 @@ void PrintProject::print()
 
   // Styles.
   usfm2text.add_styles(usfm2xslfo_read_stylesheet(projectconfig->stylesheet_get()));
-  
+
   // Page.
   text2pdf.page_size_set(settings->genconfig.paper_width_get(), settings->genconfig.paper_height_get());
   text2pdf.page_margins_set(settings->genconfig.paper_inside_margin_get(), settings->genconfig.paper_outside_margin_get(), settings->genconfig.paper_top_margin_get(), settings->genconfig.paper_bottom_margin_get());
@@ -94,7 +96,6 @@ void PrintProject::print()
   if (settings->genconfig.printdate_get()) {
     text2pdf.print_date_in_header();
   }
-  
   // Font.
   if (!projectconfig->editor_font_default_get())
     text2pdf.set_font(projectconfig->editor_font_name_get());
@@ -102,7 +103,7 @@ void PrintProject::print()
   // Line spacing.
   if (!projectconfig->editor_font_default_get())
     text2pdf.set_line_spacing(projectconfig->text_line_height_get());
-  
+
   // Right-to-left.
   text2pdf.set_right_to_left(projectconfig->right_to_left_get());
 
@@ -112,8 +113,8 @@ void PrintProject::print()
 
   // Portions.  
   for (unsigned int i = 0; i < scriptureportions->books.size(); i++) {
-    vector <unsigned int> chapters_from, chapters_to;
-    vector <ustring> verses_from, verses_to;
+    vector < unsigned int >chapters_from, chapters_to;
+    vector < ustring > verses_from, verses_to;
     select_portion_get_values(portionproject, books_english_to_id(scriptureportions->books[i]), scriptureportions->portions[i], chapters_from, verses_from, chapters_to, verses_to);
     usfm2text.add_print_portion(books_english_to_id(scriptureportions->books[i]), chapters_from, verses_from, chapters_to, verses_to);
   }
@@ -128,7 +129,7 @@ void PrintProject::print()
   // Collect usfm code for all the books.
   for (unsigned int i = 0; i < scriptureportions->books.size(); i++) {
     // Open the book.
-    vector<ustring> book_lines;
+    vector < ustring > book_lines;
     unsigned int id = books_english_to_id(scriptureportions->books[i]);
     for (unsigned int i2 = 0; i2 < myproject->data.size(); i2++) {
       if (myproject->data[i2].number == id) {

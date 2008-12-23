@@ -17,7 +17,6 @@
 **  
 */
 
-
 #include "libraries.h"
 #include <glib.h>
 #include "highlight.h"
@@ -29,31 +28,24 @@
 #include "settings.h"
 #include "date_time_utils.h"
 
-
-Highlight::Highlight (GtkTextBuffer * buffer, 
-                      GtkWidget * textview, 
-                      const ustring& project, 
-                      const vector <EditorNote>& editornotes, 
-                      const vector <EditorTable>& editortables,
-                      GtkTextTag * tag,
-                      const ustring& verse)
+Highlight::Highlight(GtkTextBuffer * buffer, GtkWidget * textview, const ustring & project, const vector < EditorNote > &editornotes, const vector < EditorTable > &editortables, GtkTextTag * tag, const ustring & verse)
 {
   // Save and initialize variables.
   maintextbuffer = buffer;
-  maintextview = GTK_TEXT_VIEW (textview);
+  maintextview = GTK_TEXT_VIEW(textview);
   mytag = tag;
   locations_ready = false;
   interrupt_thread = false;
-  
+
   // Remove any previous highlights.  
-  remove_previous_highlights (maintextbuffer);
+  remove_previous_highlights(maintextbuffer);
   for (unsigned int i = 0; i < editornotes.size(); i++) {
-    remove_previous_highlights (editornotes[i].textbuffer);
+    remove_previous_highlights(editornotes[i].textbuffer);
   }
-  for (unsigned int i = 0; i < editortables.size (); i++) {
-    for (unsigned int row = 0; row < editortables[i].textviews.size (); row++) {
+  for (unsigned int i = 0; i < editortables.size(); i++) {
+    for (unsigned int row = 0; row < editortables[i].textviews.size(); row++) {
       for (unsigned int column = 0; column < editortables[i].textviews[row].size(); column++) {
-        remove_previous_highlights (table_cell_get_buffer (editortables[i], row, column));
+        remove_previous_highlights(table_cell_get_buffer(editortables[i], row, column));
       }
     }
   }
@@ -61,22 +53,22 @@ Highlight::Highlight (GtkTextBuffer * buffer,
   // Determine the boundaries between which to highlight,
   // in order to highlight only the words that are within the right verse.
   // At the same time collect any GtkTextChildAnchors within range.
-  set <GtkTextChildAnchor *> childanchors;
+  set < GtkTextChildAnchor * >childanchors;
   {
     GtkTextIter startiter;
     GtkTextIter enditer;
-    gtk_text_buffer_get_start_iter (maintextbuffer, &startiter);
-    gtk_text_buffer_get_end_iter (maintextbuffer, &enditer);
+    gtk_text_buffer_get_start_iter(maintextbuffer, &startiter);
+    gtk_text_buffer_get_end_iter(maintextbuffer, &enditer);
     GtkTextIter iter = startiter;
     bool started = false;
     bool ended = false;
     bool start = true;
-    ustring verse_style = style_get_verse_marker (project);
-    while (!gtk_text_iter_is_end (&iter)) {
+    ustring verse_style = style_get_verse_marker(project);
+    while (!gtk_text_iter_is_end(&iter)) {
       ustring paragraph_style, character_style;
-      get_styles_at_iterator (iter, paragraph_style, character_style);
+      get_styles_at_iterator(iter, paragraph_style, character_style);
       if (start || (character_style == verse_style)) {
-        ustring verse_at_iter = get_verse_number_at_iterator (iter, verse_style, "");
+        ustring verse_at_iter = get_verse_number_at_iterator(iter, verse_style, "");
         if (verse == verse_at_iter) {
           if (!started) {
             started = true;
@@ -88,56 +80,54 @@ Highlight::Highlight (GtkTextBuffer * buffer,
               ended = true;
               enditer = iter;
             }
-          }            
+          }
         }
       }
       start = false;
       if ((started) && (!ended)) {
-        GtkTextChildAnchor * anchor = gtk_text_iter_get_child_anchor (&iter);
+        GtkTextChildAnchor *anchor = gtk_text_iter_get_child_anchor(&iter);
         if (anchor) {
-          childanchors.insert (anchor);
+          childanchors.insert(anchor);
         }
       }
-      gtk_text_iter_forward_char (&iter);    
+      gtk_text_iter_forward_char(&iter);
     }
-    main_start_offset = gtk_text_iter_get_offset (&startiter);
-    main_end_offset = gtk_text_iter_get_offset (&enditer);
+    main_start_offset = gtk_text_iter_get_offset(&startiter);
+    main_end_offset = gtk_text_iter_get_offset(&enditer);
   }
 
   // Go through all the embedded editors that are within the verse, 
   // and mark these for processing too.
   for (unsigned int i = 0; i < editornotes.size(); i++) {
-    if (childanchors.find (editornotes[i].childanchor_caller_text) != childanchors.end ()) {
-      searchbuffers.push_back (editornotes[i].textbuffer);
-      searchviews.push_back (GTK_TEXT_VIEW (editornotes[i].textview));
+    if (childanchors.find(editornotes[i].childanchor_caller_text) != childanchors.end()) {
+      searchbuffers.push_back(editornotes[i].textbuffer);
+      searchviews.push_back(GTK_TEXT_VIEW(editornotes[i].textview));
     }
   }
-  for (unsigned int i = 0; i < editortables.size (); i++) {
-    if (childanchors.find (editortables[i].childanchor) != childanchors.end ()) {
-      for (unsigned int row = 0; row < editortables[i].textviews.size (); row++) {
+  for (unsigned int i = 0; i < editortables.size(); i++) {
+    if (childanchors.find(editortables[i].childanchor) != childanchors.end()) {
+      for (unsigned int row = 0; row < editortables[i].textviews.size(); row++) {
         for (unsigned int column = 0; column < editortables[i].textviews[row].size(); column++) {
-          searchbuffers.push_back (table_cell_get_buffer (editortables[i], row, column));
-          searchviews.push_back (GTK_TEXT_VIEW (table_cell_get_view (editortables[i], row, column)));
+          searchbuffers.push_back(table_cell_get_buffer(editortables[i], row, column));
+          searchviews.push_back(GTK_TEXT_VIEW(table_cell_get_view(editortables[i], row, column)));
         }
       }
     }
   }
 }
 
-
-Highlight::~Highlight ()
+Highlight::~Highlight()
 {
   // Set flag to interrupt the thread.
   interrupt_thread = true;
   // Wait till the locations are ready
   while (!locations_ready) {
-    g_usleep (100000);
+    g_usleep(100000);
   }
   // The object destroys itself.
 }
 
-
-void Highlight::searchwords (GtkTextBuffer * textbuffer, GtkTextView * textview, gint startoffset, gint endoffset)
+void Highlight::searchwords(GtkTextBuffer * textbuffer, GtkTextView * textview, gint startoffset, gint endoffset)
 /*
 This looks for the positions between startoffset and endoffset of the words to 
 be highlighted highlights based upon the word that was searched for.
@@ -146,57 +136,37 @@ be highlighted highlights based upon the word that was searched for.
   // Get the iterators to work in between.
   GtkTextIter startiter;
   GtkTextIter enditer;
-  gtk_text_buffer_get_iter_at_offset (textbuffer, &startiter, startoffset);
-  gtk_text_buffer_get_iter_at_offset (textbuffer, &enditer, endoffset);
+  gtk_text_buffer_get_iter_at_offset(textbuffer, &startiter, startoffset);
+  gtk_text_buffer_get_iter_at_offset(textbuffer, &enditer, endoffset);
   // Find the boundaries for highlighting search words within the iterators.
-  extern Settings * settings;
+  extern Settings *settings;
   for (unsigned int i = 0; i < settings->session.highlights.size(); i++) {
-    if (interrupt_thread) continue;
-    vector<GtkTextIter> wordbegin;
-    vector<GtkTextIter> wordend;
+    if (interrupt_thread)
+      continue;
+    vector < GtkTextIter > wordbegin;
+    vector < GtkTextIter > wordend;
     if (settings->session.highlights[i].globbing || settings->session.highlights[i].matchbegin || settings->session.highlights[i].matchend) {
       // Advanced and slow highlighting.
-      searchwords_find_slow (textbuffer, &startiter, &enditer, 
-                             settings->session.highlights[i].word, 
-                             settings->session.highlights[i].casesensitive, 
-                             settings->session.highlights[i].globbing, 
-                             settings->session.highlights[i].matchbegin, 
-                             settings->session.highlights[i].matchend,
-                             wordbegin, wordend);
+      searchwords_find_slow(textbuffer, &startiter, &enditer, settings->session.highlights[i].word, settings->session.highlights[i].casesensitive, settings->session.highlights[i].globbing, settings->session.highlights[i].matchbegin, settings->session.highlights[i].matchend, wordbegin, wordend);
     } else {
       // Basic and fast highlighting.
-      searchwords_find_fast (textbuffer, &startiter, &enditer, 
-                             settings->session.highlights[i].word,
-                             settings->session.highlights[i].casesensitive, wordbegin, wordend);
+      searchwords_find_fast(textbuffer, &startiter, &enditer, settings->session.highlights[i].word, settings->session.highlights[i].casesensitive, wordbegin, wordend);
     }
     // If we do searching in areas, check that the boundaries are inside the areas.
     if (settings->session.highlights[i].areatype == atSelection) {
-      searchwords_in_area (textbuffer, wordbegin, wordend, 
-                           settings->session.highlights[i].id, 
-                           settings->session.highlights[i].intro,
-                           settings->session.highlights[i].heading, 
-                           settings->session.highlights[i].chapter, 
-                           settings->session.highlights[i].study, 
-                           settings->session.highlights[i].notes, 
-                           settings->session.highlights[i].xref, 
-                           settings->session.highlights[i].verse); 
-    } 
+      searchwords_in_area(textbuffer, wordbegin, wordend, settings->session.highlights[i].id, settings->session.highlights[i].intro, settings->session.highlights[i].heading, settings->session.highlights[i].chapter, settings->session.highlights[i].study, settings->session.highlights[i].notes, settings->session.highlights[i].xref, settings->session.highlights[i].verse);
+    }
     // Copy any remaining iterators to the main containers.
     for (unsigned int i = 0; i < wordbegin.size(); i++) {
-      highlightwordstarts.push_back (gtk_text_iter_get_offset (&wordbegin[i]));
-      highlightwordends.push_back (gtk_text_iter_get_offset (&wordend[i]));
-      highlightbuffers.push_back (textbuffer);
-      highlightviews.push_back (textview);
+      highlightwordstarts.push_back(gtk_text_iter_get_offset(&wordbegin[i]));
+      highlightwordends.push_back(gtk_text_iter_get_offset(&wordend[i]));
+      highlightbuffers.push_back(textbuffer);
+      highlightviews.push_back(textview);
     }
   }
 }
 
-
-void Highlight::searchwords_find_slow (GtkTextBuffer * textbuffer, 
-                                       GtkTextIter * beginbound, GtkTextIter * endbound,
-                                       const ustring & searchword,
-                                       bool casesensitive, bool globbing, bool matchbegin, bool matchend,
-                                       vector <GtkTextIter>& wordstart, vector<GtkTextIter>& wordend)
+void Highlight::searchwords_find_slow(GtkTextBuffer * textbuffer, GtkTextIter * beginbound, GtkTextIter * endbound, const ustring & searchword, bool casesensitive, bool globbing, bool matchbegin, bool matchend, vector < GtkTextIter > &wordstart, vector < GtkTextIter > &wordend)
 /*
 Searches for words to highlight.
 Problem when case insensitive searching:
@@ -211,39 +181,40 @@ to highlight, not from the casefolded searchword, but the original one.
   GtkTextIter begin;
   GtkTextIter end;
   // Extract the line.
-  ustring line = gtk_text_buffer_get_slice (textbuffer, beginbound, endbound, false);
+  ustring line = gtk_text_buffer_get_slice(textbuffer, beginbound, endbound, false);
   // Find all places in this line that have the search word.
   /*
-  To do that properly for glob-style pattern matching, for begin/end word
-  matching and case (in)sensitivity, we need to open the box of tricks.
-  We produce all possible combinations for characters and lengths, e.g.
-  We have this text:
-    he is
-  We then make the following strings from it, and see whether they match:
-    "h"
-    "he"
-    "he "
-    "he i"
-    "he is"
-    "e"
-    "e "
-    "e i"
-    "e is"
-    " "
-    " i"
-    " is"
-    "i"
-    "is"
-    "s"
-  Any string matching will then be highlighted.
-  */
+     To do that properly for glob-style pattern matching, for begin/end word
+     matching and case (in)sensitivity, we need to open the box of tricks.
+     We produce all possible combinations for characters and lengths, e.g.
+     We have this text:
+     he is
+     We then make the following strings from it, and see whether they match:
+     "h"
+     "he"
+     "he "
+     "he i"
+     "he is"
+     "e"
+     "e "
+     "e i"
+     "e is"
+     " "
+     " i"
+     " is"
+     "i"
+     "is"
+     "s"
+     Any string matching will then be highlighted.
+   */
   // Deal with case sensitivity.
-  ustring case_considerate_search_word (searchword);
+  ustring case_considerate_search_word(searchword);
   if (!casesensitive)
     case_considerate_search_word = case_considerate_search_word.casefold();
   for (unsigned int i = 0; i < line.length(); i++) {
-    if (interrupt_thread) continue;
-    ustring line2 (line.substr (0, i + 1));
+    if (interrupt_thread)
+      continue;
+    ustring line2(line.substr(0, i + 1));
     for (unsigned int offposition = 0; offposition < line2.length(); offposition++) {
       // Get the line as described above.
       // We use optimization here to get the speed acceptable when we have 
@@ -252,56 +223,52 @@ to highlight, not from the casefolded searchword, but the original one.
       // we do not use that optimization.
       unsigned int linelength = line2.length() - offposition;
       if (!globbing)
-        if (linelength > searchword.length()) 
+        if (linelength > searchword.length())
           continue;
-      ustring compareline (line2.substr (offposition, linelength));
+      ustring compareline(line2.substr(offposition, linelength));
       // Deal with case sensitivity.
       if (!casesensitive)
         compareline = compareline.casefold();
       // Now compare.
       bool match = false;
       if (globbing) {
-        if (g_pattern_match_simple (case_considerate_search_word.c_str(), compareline.c_str()))
-          match = true;        
+        if (g_pattern_match_simple(case_considerate_search_word.c_str(), compareline.c_str()))
+          match = true;
       } else {
         if (case_considerate_search_word == compareline)
           match = true;
       }
       // Get the iterators in the textbuffer that belong to this possible match.
       if (match) {
-        begin = * beginbound;
-        gtk_text_iter_forward_chars (&begin, offposition);
+        begin = *beginbound;
+        gtk_text_iter_forward_chars(&begin, offposition);
         end = begin;
-        gtk_text_iter_forward_chars (&end, searchword.length ());
+        gtk_text_iter_forward_chars(&end, searchword.length());
       }
       // Deal with begin-word matching.
       if (match) {
         if (matchbegin) {
-          if (!gtk_text_iter_starts_word (&begin))
+          if (!gtk_text_iter_starts_word(&begin))
             match = false;
         }
       }
       // Deal with end-word matching.
       if (match) {
         if (matchend) {
-          if (!gtk_text_iter_ends_word (&end))
+          if (!gtk_text_iter_ends_word(&end))
             match = false;
         }
       }
       // Add the boundaries of the word to highlight.
       if (match) {
-        wordstart.push_back (begin);
-        wordend.push_back (end);
+        wordstart.push_back(begin);
+        wordend.push_back(end);
       }
     }
   }
 }
 
-
-void Highlight::searchwords_find_fast (GtkTextBuffer * textbuffer, 
-                                       GtkTextIter * beginbound, GtkTextIter * endbound,
-                                       const ustring & searchword, bool casesensitive,
-                                       vector <GtkTextIter>& wordstart, vector<GtkTextIter>& wordend)
+void Highlight::searchwords_find_fast(GtkTextBuffer * textbuffer, GtkTextIter * beginbound, GtkTextIter * endbound, const ustring & searchword, bool casesensitive, vector < GtkTextIter > &wordstart, vector < GtkTextIter > &wordend)
 // Searches for words to highlight. For simple highligthing. 
 // Is much faster than the slow routine, see there fore more information.
 {
@@ -309,143 +276,140 @@ void Highlight::searchwords_find_fast (GtkTextBuffer * textbuffer,
   GtkTextIter begin;
   GtkTextIter end;
   // Extract the line.
-  ustring line = gtk_text_buffer_get_slice (textbuffer, beginbound, endbound, false);
+  ustring line = gtk_text_buffer_get_slice(textbuffer, beginbound, endbound, false);
   // Deal with case sensitivity.
-  ustring case_considerate_search_word (searchword);
+  ustring case_considerate_search_word(searchword);
   if (!casesensitive)
     case_considerate_search_word = case_considerate_search_word.casefold();
   // Go through the line looking for matches.
   for (unsigned int i = 0; i < line.length(); i++) {
-    if (interrupt_thread) continue;
-    ustring compareline (line.substr (i, searchword.length()));
+    if (interrupt_thread)
+      continue;
+    ustring compareline(line.substr(i, searchword.length()));
     // Deal with case sensitivity.
     if (!casesensitive)
       compareline = compareline.casefold();
     // Now compare.
     if (case_considerate_search_word == compareline) {
       // Get the iterators in the textbuffer that belong to this possible match.
-      begin = * beginbound;
-      gtk_text_iter_forward_chars (&begin, i);
+      begin = *beginbound;
+      gtk_text_iter_forward_chars(&begin, i);
       end = begin;
-      gtk_text_iter_forward_chars (&end, searchword.length ());
+      gtk_text_iter_forward_chars(&end, searchword.length());
       // Add the boundaries of the word to highlight.
-      wordstart.push_back (begin);
-      wordend.push_back (end);
+      wordstart.push_back(begin);
+      wordend.push_back(end);
     }
   }
 }
 
-
-void Highlight::searchwords_in_area (GtkTextBuffer * textbuffer, 
-                                     vector <GtkTextIter>& start, vector<GtkTextIter>& end,
-                                     bool area_id, bool area_intro, bool area_heading, bool area_chapter, 
-                                     bool area_study, bool area_notes, bool area_xref, bool area_verse)
+void Highlight::searchwords_in_area(GtkTextBuffer * textbuffer, vector < GtkTextIter > &start, vector < GtkTextIter > &end, bool area_id, bool area_intro, bool area_heading, bool area_chapter, bool area_study, bool area_notes, bool area_xref, bool area_verse)
 /*
 Finds out whether the text within the "start" and "end" iterators is inside
 one of the given areas. If not, it removes the iterator from the containers.
 */
 {
   // Categorization data
-  CategorizeLine categorize ("");
+  CategorizeLine categorize("");
   // Go through the iterators, starting at the end (to make erasing it easier).
   for (int it = start.size() - 1; it >= 0; it--) {
     // Get line number of the iterator.
-    gint linenumber = gtk_text_iter_get_line (&start[it]);
+    gint linenumber = gtk_text_iter_get_line(&start[it]);
     // Get the usfm this line starts with.
     ustring usfm;
     {
       GtkTextIter line1;
-      gtk_text_buffer_get_iter_at_line (textbuffer, &line1, linenumber);
+      gtk_text_buffer_get_iter_at_line(textbuffer, &line1, linenumber);
       GtkTextIter line2 = line1;
-      gtk_text_iter_forward_chars (&line2, 10);
-      ustring line = gtk_text_iter_get_text (&line1, &line2);
-      usfm = usfm_extract_marker (line);
+      gtk_text_iter_forward_chars(&line2, 10);
+      ustring line = gtk_text_iter_get_text(&line1, &line2);
+      usfm = usfm_extract_marker(line);
     }
     // See if this usfm is in one of the areas given.
     bool in_area = false;
     if (area_id)
-      if (categorize.is_id_marker (usfm))
+      if (categorize.is_id_marker(usfm))
         in_area = true;
     if (area_intro)
-      if (categorize.is_intro_marker (usfm))
+      if (categorize.is_intro_marker(usfm))
         in_area = true;
     if (area_heading)
-      if (categorize.is_head_marker (usfm))
+      if (categorize.is_head_marker(usfm))
         in_area = true;
     if (area_chapter)
-      if (categorize.is_chap_marker (usfm))
+      if (categorize.is_chap_marker(usfm))
         in_area = true;
     if (area_study)
-      if (categorize.is_study_marker (usfm))
+      if (categorize.is_study_marker(usfm))
         in_area = true;
     // The variables "area_notes" and "area_xref" are not relevant.
     if (area_verse)
-      if (categorize.is_verse_marker (usfm))
+      if (categorize.is_verse_marker(usfm))
         in_area = true;
     // If not in one of the areas, remove this iterator from the container.
     if (!in_area) {
-      vector <GtkTextIter>::iterator startiter = start.begin();
-      vector <GtkTextIter>::iterator enditer = end.begin();
+      vector < GtkTextIter >::iterator startiter = start.begin();
+      vector < GtkTextIter >::iterator enditer = end.begin();
       for (int i = 0; i < it; i++) {
         startiter++;
         enditer++;
       }
-      start.erase (startiter);
-      end.erase (enditer);
+      start.erase(startiter);
+      end.erase(enditer);
     }
   }
 }
 
-
-void Highlight::remove_previous_highlights (GtkTextBuffer * textbuffer)
+void Highlight::remove_previous_highlights(GtkTextBuffer * textbuffer)
 // Removes previous highlights.
 // Ensure that removing the tags does not influence the modified status of the textbuffer.
 {
   GtkTextIter startiter;
   GtkTextIter enditer;
-  gtk_text_buffer_get_start_iter (textbuffer, &startiter);
-  gtk_text_buffer_get_end_iter (textbuffer, &enditer);
-  bool modified_status = gtk_text_buffer_get_modified (textbuffer);
-  gtk_text_buffer_remove_tag (textbuffer, mytag, &startiter, &enditer);
-  if (!modified_status) gtk_text_buffer_set_modified (textbuffer, false);
+  gtk_text_buffer_get_start_iter(textbuffer, &startiter);
+  gtk_text_buffer_get_end_iter(textbuffer, &enditer);
+  bool modified_status = gtk_text_buffer_get_modified(textbuffer);
+  gtk_text_buffer_remove_tag(textbuffer, mytag, &startiter, &enditer);
+  if (!modified_status)
+    gtk_text_buffer_set_modified(textbuffer, false);
 }
 
-
-void Highlight::determine_locations ()
+void Highlight::determine_locations()
 // Determine the locations where to highlight text.
 {
   // Call the highlight routine for the main body of text.
-  searchwords (maintextbuffer, maintextview, main_start_offset, main_end_offset);
+  searchwords(maintextbuffer, maintextview, main_start_offset, main_end_offset);
 
   // Call the routine for the relevant embedded editors.
-  for (unsigned int i = 0; i < searchbuffers.size (); i++) {
-    if (interrupt_thread) continue;
+  for (unsigned int i = 0; i < searchbuffers.size(); i++) {
+    if (interrupt_thread)
+      continue;
     GtkTextIter enditer;
-    gtk_text_buffer_get_end_iter (searchbuffers[i], &enditer);
-    gint endoffset = gtk_text_iter_get_offset (&enditer);
-    searchwords (searchbuffers[i], searchviews[i], 0, endoffset);
+    gtk_text_buffer_get_end_iter(searchbuffers[i], &enditer);
+    gint endoffset = gtk_text_iter_get_offset(&enditer);
+    searchwords(searchbuffers[i], searchviews[i], 0, endoffset);
   }
-  
+
   // Set a flag informing the main thread that the locations are available.
   locations_ready = true;
 }
 
-
-void Highlight::highlight ()
+void Highlight::highlight()
 // This does the actual highlighting.
 // Ensure that applying a tag does not change the modified status of the textbuffer.
 {
   bool cursor_set = false;
   for (unsigned int i = 0; i < highlightwordstarts.size(); i++) {
     GtkTextIter start, end;
-    gtk_text_buffer_get_iter_at_offset (highlightbuffers[i], &start, highlightwordstarts [i]);
-    gtk_text_buffer_get_iter_at_offset (highlightbuffers[i], &end, highlightwordends [i]);
-    bool modified_status = gtk_text_buffer_get_modified (highlightbuffers[i]);
-    gtk_text_buffer_apply_tag (highlightbuffers[i], mytag, &start, &end);
-    if (!modified_status) gtk_text_buffer_set_modified (highlightbuffers[i], false);
+    gtk_text_buffer_get_iter_at_offset(highlightbuffers[i], &start, highlightwordstarts[i]);
+    gtk_text_buffer_get_iter_at_offset(highlightbuffers[i], &end, highlightwordends[i]);
+    bool modified_status = gtk_text_buffer_get_modified(highlightbuffers[i]);
+    gtk_text_buffer_apply_tag(highlightbuffers[i], mytag, &start, &end);
+    if (!modified_status)
+      gtk_text_buffer_set_modified(highlightbuffers[i], false);
     if (!cursor_set) {
-      gtk_text_buffer_place_cursor (highlightbuffers[i], &start);
-      screen_scroll_to_iterator (highlightviews[i], &start);
+      gtk_text_buffer_place_cursor(highlightbuffers[i], &start);
+      screen_scroll_to_iterator(highlightviews[i], &start);
       cursor_set = true;
     }
   }

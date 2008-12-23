@@ -25,38 +25,40 @@
 #include "keyterms.h"
 #include "tiny_utilities.h"
 
-WindowShowKeyterms::WindowShowKeyterms(GtkAccelGroup *accelerator_group, bool startup) :
-  WindowBase(widShowKeyterms, "Keyterms in verse", startup, 0), myreference(0)
+ WindowShowKeyterms::WindowShowKeyterms(GtkAccelGroup * accelerator_group, bool startup):
+WindowBase(widShowKeyterms, "Keyterms in verse", startup, 0), myreference(0)
 // Window showing keyterms.
 {
   scrolledwindow1 = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow1);
-  gtk_container_add(GTK_CONTAINER (window), scrolledwindow1);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow1), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW (scrolledwindow1), GTK_SHADOW_IN);
+  gtk_container_add(GTK_CONTAINER(window), scrolledwindow1);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow1), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwindow1), GTK_SHADOW_IN);
 
   textview1 = gtk_text_view_new();
   gtk_widget_show(textview1);
-  gtk_container_add(GTK_CONTAINER (scrolledwindow1), textview1);
-  gtk_text_view_set_editable(GTK_TEXT_VIEW (textview1), FALSE);
-  gtk_text_view_set_accepts_tab(GTK_TEXT_VIEW (textview1), FALSE);
-  gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW (textview1), GTK_WRAP_WORD);
-  gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW (textview1), FALSE);
+  gtk_container_add(GTK_CONTAINER(scrolledwindow1), textview1);
+  gtk_text_view_set_editable(GTK_TEXT_VIEW(textview1), FALSE);
+  gtk_text_view_set_accepts_tab(GTK_TEXT_VIEW(textview1), FALSE);
+  gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textview1), GTK_WRAP_WORD);
+  gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(textview1), FALSE);
 
-  g_signal_connect ((gpointer) textview1, "visibility-notify-event", G_CALLBACK (on_visibility_notify_event), gpointer(this));
+  g_signal_connect((gpointer) textview1, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
 }
 
-WindowShowKeyterms::~WindowShowKeyterms() {
+WindowShowKeyterms::~WindowShowKeyterms()
+{
 }
 
-void WindowShowKeyterms::go_to(const ustring& project, const Reference& reference) {
+void WindowShowKeyterms::go_to(const ustring & project, const Reference & reference)
+{
   // Bail out if there's no change in the reference.
   if (myreference.equals(reference))
     return;
 
   // Display the keyterms.
-  vector <int> keyterms = keyterms_get_terms_in_verse(reference);
-  GtkTextBuffer * buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview1));
+  vector < int >keyterms = keyterms_get_terms_in_verse(reference);
+  GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview1));
   gtk_text_buffer_set_text(buffer, "", -1);
   for (unsigned int i = 0; i < keyterms.size(); i++) {
 
@@ -69,14 +71,14 @@ void WindowShowKeyterms::go_to(const ustring& project, const Reference& referenc
     gtk_text_buffer_insert_at_cursor(buffer, ": ", -1);
 
     // Display the renderings.
-    vector <ustring> renderings;
-    vector <bool> wholewords;
-    vector <bool> casesensitives;
+    vector < ustring > renderings;
+    vector < bool > wholewords;
+    vector < bool > casesensitives;
     ustring category;
     {
       ustring dummy1;
-      vector <Reference> dummy2;
-      vector <ustring> dummy3;
+      vector < Reference > dummy2;
+      vector < ustring > dummy3;
       keyterms_get_data(keyterms[i], category, dummy1, dummy2, dummy3);
     }
     keyterms_retrieve_renderings(project, term, category, renderings, wholewords, casesensitives);
@@ -94,4 +96,3 @@ void WindowShowKeyterms::go_to(const ustring& project, const Reference& referenc
   // Store the new reference in the object.
   myreference.assign(reference);
 }
-

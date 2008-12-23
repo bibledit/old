@@ -17,7 +17,6 @@
 **  
 */
 
-
 #include "check_unwanted_patterns.h"
 #include "projectutils.h"
 #include "settings.h"
@@ -28,11 +27,7 @@
 #include "scripturechecks.h"
 #include "tiny_utilities.h"
 
-
-CheckUnwantedPatterns::CheckUnwantedPatterns (const ustring& project,
-                                              const vector<unsigned int>& books, 
-                                              ustring patternsfile,
-                                              bool gui)
+CheckUnwantedPatterns::CheckUnwantedPatterns(const ustring & project, const vector < unsigned int >&books, ustring patternsfile, bool gui)
 /*
 It checks for unwanted patterns in the text.
 project: project to check.
@@ -45,54 +40,55 @@ gui: whether to show graphical progressbar.
   // Variables.
   cancelled = false;
   // Get a list of the books to check. If no books were given, take them all.
-  vector<unsigned int> mybooks (books.begin(), books.end());
-  if (mybooks.empty()) mybooks = project_get_books (project);
+  vector < unsigned int >mybooks(books.begin(), books.end());
+  if (mybooks.empty())
+    mybooks = project_get_books(project);
   // Read the patterns to look for.
-  if (patternsfile.empty()) 
-    patternsfile = checks_unwanted_patterns_get_filename (project);
-  vector<ustring> patterns;
-  ReadText rt (patternsfile, true, false);
+  if (patternsfile.empty())
+    patternsfile = checks_unwanted_patterns_get_filename(project);
+  vector < ustring > patterns;
+  ReadText rt(patternsfile, true, false);
   for (unsigned int i = 0; i < rt.lines.size(); i++)
-    patterns.push_back (rt.lines[i]);
+    patterns.push_back(rt.lines[i]);
   // GUI.
   progresswindow = NULL;
   if (gui) {
-    progresswindow = new ProgressWindow ("Looking for unwanted patterns", true);
-    progresswindow->set_iterate (0, 1, mybooks.size());
+    progresswindow = new ProgressWindow("Looking for unwanted patterns", true);
+    progresswindow->set_iterate(0, 1, mybooks.size());
   }
   // Check each book in the project.
   for (unsigned int bk = 0; bk < mybooks.size(); bk++) {
     if (gui) {
-      progresswindow->iterate ();
+      progresswindow->iterate();
       if (progresswindow->cancel) {
         cancelled = true;
         return;
       }
     }
-    cout << books_id_to_english (mybooks[bk]) << endl;
+    cout << books_id_to_english(mybooks[bk]) << endl;
     // Check each chapter in the book.
-    vector <unsigned int> chapters = project_get_chapters (project, mybooks[bk]);
+    vector < unsigned int >chapters = project_get_chapters(project, mybooks[bk]);
     for (unsigned int ch = 0; ch < chapters.size(); ch++) {
-      vector <ustring> verses = project_get_verses (project, mybooks[bk], chapters[ch]);
+      vector < ustring > verses = project_get_verses(project, mybooks[bk], chapters[ch]);
       // Check each verse in the chapter.
       for (unsigned int vs = 0; vs < verses.size(); vs++) {
-        ustring line = project_retrieve_verse (project, mybooks[bk], chapters[ch], verses[vs]);
+        ustring line = project_retrieve_verse(project, mybooks[bk], chapters[ch], verses[vs]);
         // Check the verse.
-        CategorizeLine categorize (line);
-        ustring text (categorize.id);
-        text.append (categorize.intro);
-        text.append (categorize.head);
-        text.append (categorize.chap);
-        text.append (categorize.study);
-        text.append (categorize.note);
-        text.append (categorize.ref);
-        text.append (categorize.verse);
+        CategorizeLine categorize(line);
+        ustring text(categorize.id);
+        text.append(categorize.intro);
+        text.append(categorize.head);
+        text.append(categorize.chap);
+        text.append(categorize.study);
+        text.append(categorize.note);
+        text.append(categorize.ref);
+        text.append(categorize.verse);
         for (unsigned int i = 0; i < patterns.size(); i++) {
-          if (text.find (patterns[i]) != string::npos) {
+          if (text.find(patterns[i]) != string::npos) {
             ustring message = "Unwanted pattern ";
-            message.append (patterns[i]);
-            references.push_back (books_id_to_english (mybooks[bk]) + " " + convert_to_string (chapters[ch]) + ":" + verses[vs]);
-            comments.push_back (message);
+            message.append(patterns[i]);
+            references.push_back(books_id_to_english(mybooks[bk]) + " " + convert_to_string(chapters[ch]) + ":" + verses[vs]);
+            comments.push_back(message);
           }
         }
       }
@@ -100,9 +96,9 @@ gui: whether to show graphical progressbar.
   }
 }
 
-
-CheckUnwantedPatterns::~CheckUnwantedPatterns ()
+CheckUnwantedPatterns::~CheckUnwantedPatterns()
 {
   // Clean up.
-  if (progresswindow) delete progresswindow;
+  if (progresswindow)
+    delete progresswindow;
 }

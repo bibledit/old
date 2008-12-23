@@ -51,7 +51,8 @@ WindowsOutpost::WindowsOutpost(bool dummy)
 #endif
 }
 
-WindowsOutpost::~WindowsOutpost() {
+WindowsOutpost::~WindowsOutpost()
+{
 #ifndef WIN32
   // Disconnect.
   disconnect();
@@ -68,11 +69,11 @@ void WindowsOutpost::Start()
 {
 #ifndef WIN32
   thread_run = true;
-  g_thread_create (GThreadFunc (thread_start), gpointer (this), false, NULL);
+  g_thread_create(GThreadFunc(thread_start), gpointer(this), false, NULL);
 #endif
 }
 
-void WindowsOutpost::BibleWorksReferenceSet(const Reference& reference) 
+void WindowsOutpost::BibleWorksReferenceSet(const Reference & reference)
 // Schedules a reference to be sent to BibleWorks.
 {
 #ifndef WIN32
@@ -92,7 +93,7 @@ void WindowsOutpost::BibleWorksReferenceSet(const Reference& reference)
 #endif
 }
 
-void WindowsOutpost::SantaFeFocusReferenceSet(const Reference& reference)
+void WindowsOutpost::SantaFeFocusReferenceSet(const Reference & reference)
 // Schedules a reference to be sent to the santa fe focus system.
 {
 #ifndef WIN32
@@ -105,7 +106,7 @@ void WindowsOutpost::SantaFeFocusReferenceSet(const Reference& reference)
 #endif
 }
 
-void WindowsOutpost::SantaFeFocusWordSet(const ustring& word)
+void WindowsOutpost::SantaFeFocusWordSet(const ustring & word)
 // Schedules a word to be sent to the santa fe focus system.
 {
 #ifndef WIN32
@@ -115,29 +116,31 @@ void WindowsOutpost::SantaFeFocusWordSet(const ustring& word)
 
 #ifndef WIN32
 
-void WindowsOutpost::clear() {
+void WindowsOutpost::clear()
+{
   disconnect();
   stage = STAGE_ZERO;
   connected = false;
 }
 
-void WindowsOutpost::thread_start(gpointer data) {
-  ((WindowsOutpost*) data)->thread_main();
+void WindowsOutpost::thread_start(gpointer data)
+{
+  ((WindowsOutpost *) data)->thread_main();
 }
 
-void WindowsOutpost::thread_main() {
-  extern Settings * settings;
+void WindowsOutpost::thread_main()
+{
+  extern Settings *settings;
   thread_running = true;
   while (thread_run) {
-    switch (stage)
-    {
-      case STAGE_ZERO:
+    switch (stage) {
+    case STAGE_ZERO:
       {
         // Next stage.
         stage = STAGE_START;
         break;
       }
-      case STAGE_START:
+    case STAGE_START:
       {
         // If Outpost is networked, skip this step.
         if (settings->genconfig.outpost_networked_get()) {
@@ -158,7 +161,7 @@ void WindowsOutpost::thread_main() {
             // Is wine there?
             if (gw_find_program_in_path(settings->genconfig.wine_path_get())) {
               ustring command = settings->genconfig.outpost_command_get() + " &";
-              if (system(command.c_str()));
+              if (system(command.c_str())) ;
               // Wait few seconds to give it a change to start.
               g_usleep(3000000);
             } else {
@@ -173,7 +176,7 @@ void WindowsOutpost::thread_main() {
           stage = STAGE_WAIT_RETRY;
         break;
       }
-      case STAGE_CONNECT:
+    case STAGE_CONNECT:
       {
         ustring hostname = "localhost";
         if (settings->genconfig.outpost_networked_get())
@@ -186,7 +189,7 @@ void WindowsOutpost::thread_main() {
         }
         break;
       }
-      case STAGE_COMMUNICATE:
+    case STAGE_COMMUNICATE:
       {
         // Carry out the scheduled tasks.
         // If BibleWorks does not run, and Outpost tries to contact it, it 
@@ -194,40 +197,40 @@ void WindowsOutpost::thread_main() {
         // BibleWorks runs.
         if (!bibleworks_reference_set_value.empty()) {
           if (program_is_running(settings->genconfig.bibleworks_executable_get()) || settings->genconfig.outpost_networked_get()) {
-            ustring line (bibleworks_reference_set_value);
+            ustring line(bibleworks_reference_set_value);
             bibleworks_reference_set_value.clear();
             send_line(line);
           }
         }
         if (!santafefocus_reference_set_value.empty()) {
-          ustring line (santafefocus_reference_set_value);
+          ustring line(santafefocus_reference_set_value);
           santafefocus_reference_set_value.clear();
-          send_line (line);
+          send_line(line);
         }
         if (!santafefocus_word_set_value.empty()) {
-          ustring line (santafefocus_word_set_value);
+          ustring line(santafefocus_word_set_value);
           santafefocus_word_set_value.clear();
-          send_line (line);
+          send_line(line);
         }
         /*
-         Later: 
-         The status of the other programs needs to be collected regularly, e.g. 
-         every second, so that the current reference is immediately available on 
-         request.
+           Later: 
+           The status of the other programs needs to be collected regularly, e.g. 
+           every second, so that the current reference is immediately available on 
+           request.
          */
         break;
       }
-      case STAGE_WAIT_RETRY:
+    case STAGE_WAIT_RETRY:
       {
         stage++;
         break;
       }
-      case STAGE_RETRY:
+    case STAGE_RETRY:
       {
         clear();
         break;
       }
-      default:
+    default:
       {
         stage++;
       }
@@ -237,12 +240,13 @@ void WindowsOutpost::thread_main() {
   thread_running = false;
 }
 
-void WindowsOutpost::disconnect() {
+void WindowsOutpost::disconnect()
+{
   if (sock) {
     // Send 'exit' command. This closes the socket and quits the program.
     // In case the Outpost runs on another host, do not quit it, but instead
     // make it visible again.
-    extern Settings * settings;
+    extern Settings *settings;
     if (settings->genconfig.outpost_networked_get())
       send_line("show");
     else
@@ -252,7 +256,8 @@ void WindowsOutpost::disconnect() {
   sock = 0;
 }
 
-void WindowsOutpost::telnet(const ustring& hostname) {
+void WindowsOutpost::telnet(const ustring & hostname)
+{
   // If the computer address can be converted to an IP, do so. 
   // If not, try to look it up in DNS.
   host = gethostbyname(hostname.c_str());
@@ -261,11 +266,11 @@ void WindowsOutpost::telnet(const ustring& hostname) {
     if ((sock = socket(PF_INET, SOCK_STREAM, 0)) >= 0) {
       // We've got the socket, now set some variables.
       address.sin_family = AF_INET;
-      address.sin_port = htons (51515);
+      address.sin_port = htons(51515);
       // Take the first IP address associated with this hostname.
-      memcpy(&address.sin_addr, host->h_addr_list[0], sizeof (address.sin_addr));
+      memcpy(&address.sin_addr, host->h_addr_list[0], sizeof(address.sin_addr));
       // Now connect.
-      if (connect(sock, (struct sockaddr *) &address, sizeof (address))) {
+      if (connect(sock, (struct sockaddr *)&address, sizeof(address))) {
         log("No connection possible");
         close(sock);
       } else {
@@ -315,8 +320,8 @@ void WindowsOutpost::send_line(const ustring & command)
   if (connected) {
     // Discard any previous reply.
     char buf[1024];
-    if (read(sock, buf, sizeof (buf)));
-    if (write(sock, command.c_str(), command.length()));
+    if (read(sock, buf, sizeof(buf))) ;
+    if (write(sock, command.c_str(), command.length())) ;
     result = write(sock, "\n", 1);
     // Give some time to allow the reply to come back.
     g_usleep(1000000);
@@ -340,7 +345,7 @@ ustring WindowsOutpost::Readln()
   if (sock) {
     char buf[1024];
     int len = 0;
-    len = read(sock, buf, sizeof (buf));
+    len = read(sock, buf, sizeof(buf));
     if (len > 0) {
       buf[len] = '\0';
       return trim(ustring(buf));
@@ -358,7 +363,7 @@ ustring WindowsOutpost::Readln()
 
 #endif
 
-void windowsoutpost_open_url(const ustring& url)
+void windowsoutpost_open_url(const ustring & url)
 // This function supposes that the Bibledit Windows Outpost already runs.
 // It commands the outpost to open "url", a .pdf file or .html, etc.
 {
@@ -371,15 +376,15 @@ void windowsoutpost_open_url(const ustring& url)
   if (host) {
     if ((sock = socket(PF_INET, SOCK_STREAM, 0)) >= 0) {
       address.sin_family = AF_INET;
-      address.sin_port = htons (51515);
-      memcpy(&address.sin_addr, host->h_addr_list[0], sizeof (address.sin_addr));
-      if (connect(sock, (struct sockaddr *) &address, sizeof (address))) {
+      address.sin_port = htons(51515);
+      memcpy(&address.sin_addr, host->h_addr_list[0], sizeof(address.sin_addr));
+      if (connect(sock, (struct sockaddr *)&address, sizeof(address))) {
         cout << "Cannot connect" << endl;
         close(sock);
       } else {
         fcntl(sock, F_SETFL, fcntl(sock, F_GETFL, 0) | O_NONBLOCK);
         ustring command = "open " + url + "\n";
-        if (write(sock, command.c_str(), command.length()));
+        if (write(sock, command.c_str(), command.length())) ;
         cout << "Outpost opens " << url << endl;
       }
     } else {
@@ -391,7 +396,7 @@ void windowsoutpost_open_url(const ustring& url)
 #endif
 }
 
-bool windowsoutpost_telnet(const ustring& hostname)
+bool windowsoutpost_telnet(const ustring & hostname)
 // This makes a connection with the Outpost on "host" and then disconnects again.
 // It returns true if this worked out.
 {
@@ -404,9 +409,9 @@ bool windowsoutpost_telnet(const ustring& hostname)
   if (host) {
     if ((sock = socket(PF_INET, SOCK_STREAM, 0)) >= 0) {
       address.sin_family = AF_INET;
-      address.sin_port = htons (51515);
-      memcpy(&address.sin_addr, host->h_addr_list[0], sizeof (address.sin_addr));
-      if (connect(sock, (struct sockaddr *) &address, sizeof (address))) {
+      address.sin_port = htons(51515);
+      memcpy(&address.sin_addr, host->h_addr_list[0], sizeof(address.sin_addr));
+      if (connect(sock, (struct sockaddr *)&address, sizeof(address))) {
         close(sock);
       } else {
         success = true;
@@ -420,7 +425,6 @@ bool windowsoutpost_telnet(const ustring& hostname)
 
 // Below are some files that show how the SantaFeFocus system works. They were sent
 // to me by Nathan Miles, Paratext programmer.
-
 
 // File SFFocus.ctl
 /*

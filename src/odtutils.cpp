@@ -17,7 +17,6 @@
 **  
 */
 
-
 #include "libraries.h"
 #include "utilities.h"
 #include <glib.h>
@@ -28,94 +27,89 @@
 #include "settings.h"
 #include "color.h"
 
-
-OdtTextParagraph::OdtTextParagraph (vector<ustring> * lines, const ustring& stylename)
+OdtTextParagraph::OdtTextParagraph(vector < ustring > *lines, const ustring & stylename)
 // OpenDocument Text Text Paragraph.
 // If no stylename is given, it takes the "Standard" style.
 {
   // Save pointer, init variables.
   mylines = lines;
   mynewline = false;
-  
+
   // Build the line.
   myline = "<text:p text:style-name=\"";
   if (stylename.empty())
-    myline.append ("Standard");
+    myline.append("Standard");
   else
-    myline.append (stylename);
-  myline.append ("\">");
-  
+    myline.append(stylename);
+  myline.append("\">");
+
   // Line length.
   linelength = myline.length();
 }
 
-
-OdtTextParagraph::~OdtTextParagraph ()
+OdtTextParagraph::~OdtTextParagraph()
 {
   // Close the paragraph.
-  myline.append ("</text:p>");
-  
+  myline.append("</text:p>");
+
   // Store the line.
-  mylines->push_back (myline);
+  mylines->push_back(myline);
 }
 
-
-void OdtTextParagraph::newline ()
+void OdtTextParagraph::newline()
 {
   mynewline = true;
 }
 
-
-void OdtTextParagraph::plaintext (const ustring& line)
+void OdtTextParagraph::plaintext(const ustring & line)
 {
-  if (mynewline) myline.append (" ");
+  if (mynewline)
+    myline.append(" ");
   mynewline = false;
-  if (linelength != myline.length()) myline.append (" ");
-  myline.append (line);
+  if (linelength != myline.length())
+    myline.append(" ");
+  myline.append(line);
 }
 
-
-void OdtTextParagraph::spannedtext (const ustring& line, const ustring& stylename)
+void OdtTextParagraph::spannedtext(const ustring & line, const ustring & stylename)
 {
-  if (mynewline) myline.append (" ");
+  if (mynewline)
+    myline.append(" ");
   mynewline = false;
-  myline.append ("<text:span text:style-name=\"");
-  myline.append (stylename);
-  myline.append ("\">");
-  myline.append (line);
-  myline.append ("</text:span>");
+  myline.append("<text:span text:style-name=\"");
+  myline.append(stylename);
+  myline.append("\">");
+  myline.append(line);
+  myline.append("</text:span>");
 }
 
-
-ustring odt_content_xml_filename (const ustring& directory)
+ustring odt_content_xml_filename(const ustring & directory)
 {
-  return gw_build_filename (directory, "content.xml");
+  return gw_build_filename(directory, "content.xml");
 }
 
-
-void odt_set_font (const ustring& directory, const ustring& fontname)
+void odt_set_font(const ustring & directory, const ustring & fontname)
 // Writes the font to the right files in the directory given.
 {
   // Save the font in the content file.
-  ReadText rt2 (odt_content_xml_filename (directory), true, false);
+  ReadText rt2(odt_content_xml_filename(directory), true, false);
   for (unsigned int i = 0; i < rt2.lines.size(); i++) {
-    replace_text (rt2.lines[i], "Bitstream", fontname);
+    replace_text(rt2.lines[i], "Bitstream", fontname);
   }
-  write_lines (odt_content_xml_filename (directory), rt2.lines);
+  write_lines(odt_content_xml_filename(directory), rt2.lines);
 }
 
-
-void odt_insert_content (const ustring& directory, const vector <ustring>& text)
+void odt_insert_content(const ustring & directory, const vector < ustring > &text)
 {
-  vector <ustring> odtlines;
-  ReadText rt (odt_content_xml_filename (directory), true, false);
+  vector < ustring > odtlines;
+  ReadText rt(odt_content_xml_filename(directory), true, false);
   for (unsigned int i = 0; i < rt.lines.size(); i++) {
-    if (rt.lines[i].find ("</office:text>") == 0) {
+    if (rt.lines[i].find("</office:text>") == 0) {
       for (unsigned int i2 = 0; i2 < text.size(); i2++) {
-        odtlines.push_back (text[i2]);
+        odtlines.push_back(text[i2]);
       }
     }
-    odtlines.push_back (rt.lines[i]);
+    odtlines.push_back(rt.lines[i]);
   }
-  write_lines (odt_content_xml_filename (directory), odtlines);  
+  write_lines(odt_content_xml_filename(directory), odtlines);
 }

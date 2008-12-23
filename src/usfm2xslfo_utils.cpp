@@ -17,13 +17,11 @@
 **  
 */
 
-
 #include "usfm2xslfo_utils.h"
 #include "usfm.h"
 #include "constants.h"
 
-
-Usfm2XslFoStyle::Usfm2XslFoStyle (const ustring& marker_in)
+Usfm2XslFoStyle::Usfm2XslFoStyle(const ustring & marker_in)
 {
   marker = marker_in;
   type = u2xtIdentifierComment;
@@ -56,22 +54,20 @@ Usfm2XslFoStyle::Usfm2XslFoStyle (const ustring& marker_in)
   restart_paragraph = false;
 }
 
-
-Usfm2XslFoStyle::~Usfm2XslFoStyle ()
+Usfm2XslFoStyle::~Usfm2XslFoStyle()
 {
 }
 
-
-vector <Usfm2XslFoStyle> usfm2xslfo_read_stylesheet (const ustring& stylesheet)
+vector < Usfm2XslFoStyle > usfm2xslfo_read_stylesheet(const ustring & stylesheet)
 /*
 This function reads a stylesheet,
 and puts all these styles in the right format.
 */
 {
-  vector <Usfm2XslFoStyle> styles;
-  Usfm usfm (stylesheet);
-  for (unsigned int i = 0; i < usfm.styles.size (); i++) {
-    Usfm2XslFoStyle style (usfm.styles[i].marker);
+  vector < Usfm2XslFoStyle > styles;
+  Usfm usfm(stylesheet);
+  for (unsigned int i = 0; i < usfm.styles.size(); i++) {
+    Usfm2XslFoStyle style(usfm.styles[i].marker);
     style.fontsize = usfm.styles[i].fontsize;
     style.fontpercentage = 100;
     style.italic = usfm.styles[i].italic;
@@ -89,55 +85,55 @@ and puts all these styles in the right format.
     style.color = usfm.styles[i].color;
     style.print = usfm.styles[i].print;
     switch (usfm.styles[i].type) {
-      case stIdentifier:
+    case stIdentifier:
       {
         switch (usfm.styles[i].subtype) {
-          case itBook:
+        case itBook:
           {
             style.type = u2xtIdentifierBook;
             style.book_starts_new_page = usfm.styles[i].userbool1;
             style.book_starts_odd_page = usfm.styles[i].userbool2;
             break;
           }
-          case itEncoding:
-          case itComment:
+        case itEncoding:
+        case itComment:
           {
             style.type = u2xtIdentifierComment;
             break;
           }
-          case itRunningHeader:
+        case itRunningHeader:
           {
             style.type = u2xtIdentifierRunningHeader;
             style.print_in_left_running_header = usfm.styles[i].userbool2;
             style.print_in_right_running_header = usfm.styles[i].userbool3;
             break;
           }
-          case itLongTOC:
+        case itLongTOC:
           {
             style.type = u2xtIdentifierLongTOC;
             break;
           }
-          case itShortTOC:
+        case itShortTOC:
           {
             style.type = u2xtIdentifierShortTOC;
             break;
           }
-          case itBookAbbrev:
+        case itBookAbbrev:
           {
             style.type = u2xtIdentifierBookAbbreviation;
             break;
           }
-          case itChapterLabel:
+        case itChapterLabel:
           {
             style.type = u2xtChapterLabel;
             break;
           }
-          case itPublishedChapterMarker:
+        case itPublishedChapterMarker:
           {
             style.type = u2xtPublishedChapterMarker;
             break;
           }
-          case itCommentWithEndmarker:
+        case itCommentWithEndmarker:
           {
             style.type = u2xtIdentifierCommentWithEndmarker;
             break;
@@ -145,30 +141,30 @@ and puts all these styles in the right format.
         }
         break;
       }
-      case stNotUsedComment:
-      case stNotUsedRunningHeader:
+    case stNotUsedComment:
+    case stNotUsedRunningHeader:
       {
         break;
       }
-      case stStartsParagraph:
+    case stStartsParagraph:
       {
         switch (usfm.styles[i].subtype) {
-          case ptMainTitle:
+        case ptMainTitle:
           {
             style.type = u2xtParagraphMainTitle;
             break;
           }
-          case ptSubTitle:
+        case ptSubTitle:
           {
             style.type = u2xtParagraphSubTitle;
             break;
           }
-          case ptSectionHeading:
+        case ptSectionHeading:
           {
             style.type = u2xtParagraphSectionHeading;
             break;
           }
-          case ptNormalParagraph:
+        case ptNormalParagraph:
           {
             style.type = u2xtParagraphNormalParagraph;
             break;
@@ -176,12 +172,12 @@ and puts all these styles in the right format.
         }
         break;
       }
-      case stInlineText:
+    case stInlineText:
       {
         style.type = u2xtInlineText;
         break;
       }
-      case stChapterNumber:
+    case stChapterNumber:
       {
         style.type = u2xtChapterNumber;
         style.print_chapter_number_at_first_verse = usfm.styles[i].userbool1;
@@ -189,16 +185,16 @@ and puts all these styles in the right format.
         style.print_in_right_running_header = usfm.styles[i].userbool3;
         break;
       }
-      case stVerseNumber:
+    case stVerseNumber:
       {
         style.type = u2xtVerseNumber;
         style.restart_paragraph = usfm.styles[i].userbool1;
         break;
       }
-      case stFootEndNote:
+    case stFootEndNote:
       {
         switch (usfm.styles[i].subtype) {
-          case fentFootnote:
+        case fentFootnote:
           {
             style.type = u2xtFootNoteStart;
             style.note_numbering_type = (NoteNumberingType) usfm.styles[i].userint1;
@@ -206,7 +202,7 @@ and puts all these styles in the right format.
             style.note_numbering_user_sequence = usfm.styles[i].userstring1;
             break;
           }
-          case fentEndnote:
+        case fentEndnote:
           {
             style.type = u2xtEndNoteStart;
             style.note_numbering_type = (NoteNumberingType) usfm.styles[i].userint1;
@@ -215,25 +211,25 @@ and puts all these styles in the right format.
             style.dump_endnotes_upon_encountering_this_marker = usfm.styles[i].userstring2;
             break;
           }
-          case fentStandardContent:
+        case fentStandardContent:
           {
             style.type = u2xtFootEndNoteStandardContent;
             style.bible_note_apocrypha_only = usfm.styles[i].userbool1;
             break;
           }
-          case fentContent:
+        case fentContent:
           {
             style.type = u2xtFootEndNoteContent;
             style.bible_note_apocrypha_only = usfm.styles[i].userbool1;
             break;
           }
-          case fentContentWithEndmarker:
+        case fentContentWithEndmarker:
           {
             style.type = u2xtFootEndNoteContentWithEndmarker;
             style.bible_note_apocrypha_only = usfm.styles[i].userbool1;
             break;
           }
-          case fentParagraph:
+        case fentParagraph:
           {
             style.type = u2xtFootEndNoteParagraph;
             style.bible_note_apocrypha_only = usfm.styles[i].userbool1;
@@ -242,10 +238,10 @@ and puts all these styles in the right format.
         }
         break;
       }
-      case stCrossreference:
+    case stCrossreference:
       {
         switch (usfm.styles[i].subtype) {
-          case ctCrossreference:
+        case ctCrossreference:
           {
             style.type = u2xtCrossreferenceStart;
             style.note_numbering_type = (NoteNumberingType) usfm.styles[i].userint1;
@@ -253,19 +249,19 @@ and puts all these styles in the right format.
             style.note_numbering_user_sequence = usfm.styles[i].userstring1;
             break;
           }
-          case ctStandardContent:
+        case ctStandardContent:
           {
             style.type = u2xtCrossreferenceStandardContent;
             style.bible_note_apocrypha_only = usfm.styles[i].userbool1;
             break;
           }
-          case ctContent:
+        case ctContent:
           {
             style.type = u2xtCrossreferenceContent;
             style.bible_note_apocrypha_only = usfm.styles[i].userbool1;
             break;
           }
-          case ctContentWithEndmarker:
+        case ctContentWithEndmarker:
           {
             style.type = u2xtCrossreferenceContentWithEndmarker;
             style.bible_note_apocrypha_only = usfm.styles[i].userbool1;
@@ -274,55 +270,55 @@ and puts all these styles in the right format.
         }
         break;
       }
-      case stPeripheral:
+    case stPeripheral:
       {
         switch (usfm.styles[i].subtype) {
-          case ptPublication:
+        case ptPublication:
           {
             style.type = u2xtPublication;
             break;
           }
-          case ptTableOfContents:
+        case ptTableOfContents:
           {
             style.type = u2xtTableOfContents;
             break;
           }
-          case ptPreface:
+        case ptPreface:
           {
             style.type = u2xtPreface;
             break;
           }
-          case ptIntroduction:
+        case ptIntroduction:
           {
             style.type = u2xtIntroduction;
             break;
           }
-          case ptGlossary:
+        case ptGlossary:
           {
             style.type = u2xtGlossary;
             break;
           }
-          case ptConcordance:
+        case ptConcordance:
           {
             style.type = u2xtConcordance;
             break;
           }
-          case ptIndex:
+        case ptIndex:
           {
             style.type = u2xtIndex;
             break;
           }
-          case ptMapIndex:
+        case ptMapIndex:
           {
             style.type = u2xtMapIndex;
             break;
           }
-          case ptCover:
+        case ptCover:
           {
             style.type = u2xtCover;
             break;
           }
-          case ptSpine:
+        case ptSpine:
           {
             style.type = u2xtSpine;
             break;
@@ -330,31 +326,31 @@ and puts all these styles in the right format.
         }
         break;
       }
-      case stPicture:
+    case stPicture:
       {
         style.type = u2xtPicture;
         break;
       }
-      case stPageBreak:
+    case stPageBreak:
       {
         style.type = u2xtPageBreak;
         break;
       }
-      case stTableElement:
+    case stTableElement:
       {
         switch (usfm.styles[i].subtype) {
-          case tetRow:
+        case tetRow:
           {
             style.type = u2xtTableElementRow;
             break;
           }
-          case tetHeading:
+        case tetHeading:
           {
             style.type = u2xtTableElementHeading;
             style.table_column_number = usfm.styles[i].userint1;
             break;
           }
-          case tetCell:
+        case tetCell:
           {
             style.type = u2xtTableElementCell;
             style.table_column_number = usfm.styles[i].userint1;
@@ -363,28 +359,28 @@ and puts all these styles in the right format.
         }
         break;
       }
-      case stWordlistElement:
+    case stWordlistElement:
       {
         switch (usfm.styles[i].subtype) {
-          case wltWordlistGlossaryDictionary:
+        case wltWordlistGlossaryDictionary:
           {
             style.type = u2xtGeneralWordlistEntry;
             style.wordlist_entry_addition = usfm.styles[i].userstring1;
             break;
           }
-          case wltHebrewWordlistEntry:
+        case wltHebrewWordlistEntry:
           {
             style.type = u2xtHebrewWordlistEntry;
             style.wordlist_entry_addition = usfm.styles[i].userstring1;
             break;
           }
-          case wltGreekWordlistEntry:
+        case wltGreekWordlistEntry:
           {
             style.type = u2xtGreekWordlistEntry;
             style.wordlist_entry_addition = usfm.styles[i].userstring1;
             break;
           }
-          case wltSubjectIndexEntry:
+        case wltSubjectIndexEntry:
           {
             style.type = u2xtSubjectIndexEntry;
             style.wordlist_entry_addition = usfm.styles[i].userstring1;
@@ -394,25 +390,22 @@ and puts all these styles in the right format.
         break;
       }
     }
-    styles.push_back (style);
-  }  
+    styles.push_back(style);
+  }
   return styles;
 }
 
-
-XslFoTableCell::XslFoTableCell (Usfm2XslFoStyle * style_in, const ustring& text_in)
+XslFoTableCell::XslFoTableCell(Usfm2XslFoStyle * style_in, const ustring & text_in)
 {
   style = style_in;
   text = text_in;
 }
 
-
-XslFoTableRow::XslFoTableRow (int dummy)
+XslFoTableRow::XslFoTableRow(int dummy)
 {
 }
 
-
-ChapterLabel::ChapterLabel (unsigned int book_in, unsigned int chapter_in, ustring label_in)
+ChapterLabel::ChapterLabel(unsigned int book_in, unsigned int chapter_in, ustring label_in)
 {
   book = book_in;
   chapter = chapter_in;

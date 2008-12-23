@@ -25,24 +25,24 @@
 #include "keyterms.h"
 #include "tiny_utilities.h"
 
-WindowEditor::WindowEditor(const ustring& project_name, GtkAccelGroup *accelerator_group, bool startup) :
-  WindowBase(widEditor, project_name, startup, 0)
+WindowEditor::WindowEditor(const ustring & project_name, GtkAccelGroup * accelerator_group, bool startup):WindowBase(widEditor, project_name, startup, 0)
 // Text editor.
 {
   vbox = gtk_vbox_new(FALSE, 0);
   gtk_widget_show(vbox);
-  gtk_container_add(GTK_CONTAINER (window), vbox);
+  gtk_container_add(GTK_CONTAINER(window), vbox);
 
   // Create the new editor.
-  editor = new Editor (vbox, project_name);
-  g_signal_connect ((gpointer) editor->textview, "visibility-notify-event", G_CALLBACK (on_visibility_notify_event), gpointer(this));
+  editor = new Editor(vbox, project_name);
+  g_signal_connect((gpointer) editor->textview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
 }
 
-WindowEditor::~WindowEditor() {
+WindowEditor::~WindowEditor()
+{
   delete editor;
 }
 
-void WindowEditor::go_to(const Reference& reference)
+void WindowEditor::go_to(const Reference & reference)
 // Let the editor go to a reference.
 {
   // Find out what needs to be changed: book, chapter and/or verse.
@@ -57,13 +57,11 @@ void WindowEditor::go_to(const Reference& reference)
   if (new_book || new_chapter) {
     editor->chapter_save();
   }
-
   // With a new book, also load a new chapter.
   if (new_book) {
     new_chapter = true;
     editor->book_set(reference.book);
   }
-
   // Deal with a new chapter.
   if (new_chapter) {
     // Load chapter in Editor, if need be.
@@ -71,7 +69,6 @@ void WindowEditor::go_to(const Reference& reference)
     // When loading a new chapter, there is also a new verse.
     new_verse = true;
   }
-
   // New reference handling.  
   if (new_book || new_chapter || new_verse) {
     // Position the cursor properly.
@@ -85,11 +82,9 @@ void WindowEditor::go_to(const Reference& reference)
       gtk_main_iteration();
     editor->position_cursor_at_verse(reference.verse, false);
   }
-
   // Highlighting of searchwords.
   if (editor->go_to_new_reference_highlight) {
     editor->highlight_searchwords();
     editor->go_to_new_reference_highlight = false;
   }
 }
-

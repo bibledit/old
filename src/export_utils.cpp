@@ -17,7 +17,6 @@
 **  
 */
 
-
 #include "libraries.h"
 #include "utilities.h"
 #include "export_utils.h"
@@ -51,61 +50,66 @@
 #include "clean.h"
 #include "dialogradiobutton.h"
 
-
-void export_to_usfm (GtkWidget * parent, bool zipped)
+void export_to_usfm(GtkWidget * parent, bool zipped)
 // Export the whole project to USFM files.
 {
-  extern Settings * settings;
+  extern Settings *settings;
   ustring location = settings->session.export_usfm_location;
-  if (location.empty()) location = g_get_home_dir ();
+  if (location.empty())
+    location = g_get_home_dir();
   // Get zipped output in the right directory, and not in its parent.
-  if (zipped) location = gw_build_filename (location, "dummy");
-  if (zipped) location = gtkw_file_chooser_save (parent, "", location);
-  else location = gtkw_file_chooser_select_folder (parent, "", location);
+  if (zipped)
+    location = gw_build_filename(location, "dummy");
+  if (zipped)
+    location = gtkw_file_chooser_save(parent, "", location);
+  else
+    location = gtkw_file_chooser_select_folder(parent, "", location);
   if (!location.empty()) {
     settings->session.export_usfm_location = location;
-    export_to_usfm (settings->genconfig.project_get(), location, zipped);
-  }    
+    export_to_usfm(settings->genconfig.project_get(), location, zipped);
+  }
 }
 
-
-void export_to_usfm (const ustring& project, ustring location, bool zip)
+void export_to_usfm(const ustring & project, ustring location, bool zip)
 {
   // (Temporal) output directory.
-  ustring tempdir = gw_build_filename (directories_get_temp(), "usfm-export");
-  unix_rmdir (tempdir);
-  gw_mkdir_with_parents (tempdir);
-  if (!zip) gw_mkdir_with_parents (location);
-    
+  ustring tempdir = gw_build_filename(directories_get_temp(), "usfm-export");
+  unix_rmdir(tempdir);
+  gw_mkdir_with_parents(tempdir);
+  if (!zip)
+    gw_mkdir_with_parents(location);
+
   // Get books.
-  vector <unsigned int> books = project_get_books (project);
+  vector < unsigned int >books = project_get_books(project);
 
   // Progress information.
-  ProgressWindow progresswindow ("Exporting project", false);
-  progresswindow.set_iterate (0, 1, books.size());
+  ProgressWindow progresswindow("Exporting project", false);
+  progresswindow.set_iterate(0, 1, books.size());
 
   // Export all books to usfm.
   for (unsigned int i = 0; i < books.size(); i++) {
     // Progress info.
-    progresswindow.iterate ();
-    vector <ustring> lines = project_retrieve_book (project, books[i]);
-    ustring filename = books_id_to_english (books[i]) + ".usfm";
-    if (zip) filename = gw_build_filename (tempdir, filename);
-    else filename = gw_build_filename (location, filename);
-    write_lines (filename, lines);
+    progresswindow.iterate();
+    vector < ustring > lines = project_retrieve_book(project, books[i]);
+    ustring filename = books_id_to_english(books[i]) + ".usfm";
+    if (zip)
+      filename = gw_build_filename(tempdir, filename);
+    else
+      filename = gw_build_filename(location, filename);
+    write_lines(filename, lines);
   }
 
   // Zip them?
   if (zip) {
-    if (!g_str_has_suffix (location.c_str(), ".zip")) location.append (".zip");
-    unlink (location.c_str());
-    ustring command = "cd" + shell_quote_space (tempdir) + "; zip -r zip.zip *.usfm; mv zip.zip" + shell_quote_space (location);
-    if (system (command.c_str()));
+    if (!g_str_has_suffix(location.c_str(), ".zip"))
+      location.append(".zip");
+    unlink(location.c_str());
+    ustring command = "cd" + shell_quote_space(tempdir) + "; zip -r zip.zip *.usfm; mv zip.zip" + shell_quote_space(location);
+    if (system(command.c_str())) ;
   }
 }
 
-
-void export_to_bibleworks (GtkWidget * parent)
+void export_to_bibleworks(GtkWidget * parent)
 /*
 Exports a whole project to a file that is fit for being imported by the 
 BibleWorks Version Database Compiler.
@@ -120,67 +124,67 @@ Yes, this is a bit rough, I know...
 */
 {
   // Configuration
-  extern Settings * settings;
+  extern Settings *settings;
   // Get the filename to which the data is to be saved.
-  ustring filename = gtkw_file_chooser_save (parent, "", settings->genconfig.export_to_bibleworks_filename_get ());
+  ustring filename = gtkw_file_chooser_save(parent, "", settings->genconfig.export_to_bibleworks_filename_get());
   if (!filename.empty()) {
     // Store (new) filename.
-    settings->genconfig.export_to_bibleworks_filename_set (filename);
+    settings->genconfig.export_to_bibleworks_filename_set(filename);
     // Progress bar.
-    ProgressWindow progresswindow ("Export", true);
+    ProgressWindow progresswindow("Export", true);
     // Start process.
-    try
-    {
-      ProjectConfiguration * projectconfig = settings->projectconfig (settings->genconfig.project_get());
-      Usfm usfm (projectconfig->stylesheet_get());
+    try {
+      ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
+      Usfm usfm(projectconfig->stylesheet_get());
       // Write to outputfile.
-      WriteText wt (filename);
+      WriteText wt(filename);
       // Get all the books and go through them.
-      vector<unsigned int> scripture_books = project_get_books (settings->genconfig.project_get());
-      progresswindow.set_iterate (0, 1, scripture_books.size());
-      progresswindow.set_text ("Exporting");
+      vector < unsigned int >scripture_books = project_get_books(settings->genconfig.project_get());
+      progresswindow.set_iterate(0, 1, scripture_books.size());
+      progresswindow.set_text("Exporting");
       for (unsigned int bk = 0; bk < scripture_books.size(); bk++) {
         // Progress information.
         progresswindow.iterate();
-        if (progresswindow.cancel) return;
+        if (progresswindow.cancel)
+          return;
         // Get the abbreviation to be used.
-        ustring abbreviation = books_id_to_bibleworks (scripture_books[bk]);
+        ustring abbreviation = books_id_to_bibleworks(scripture_books[bk]);
         // If the book does not exist in BibleWorks, skip it.
         if (abbreviation.empty())
           continue;
         // Handle each chapter in the book.
-        vector<unsigned int> chapters = project_get_chapters (settings->genconfig.project_get(), scripture_books[bk]);
+        vector < unsigned int >chapters = project_get_chapters(settings->genconfig.project_get(), scripture_books[bk]);
         for (unsigned int ch = 0; ch < chapters.size(); ch++) {
           // Do not export chapter 0.
           if (chapters[ch] == 0)
             continue;
           // Get the chapter and handle it.
-          vector<ustring> lines;
-          lines = project_retrieve_chapter (settings->genconfig.project_get(), scripture_books[bk], chapters[ch]);
-          text_replacement (lines);
-          CategorizeChapterVerse ccv (lines);
+          vector < ustring > lines;
+          lines = project_retrieve_chapter(settings->genconfig.project_get(), scripture_books[bk], chapters[ch]);
+          text_replacement(lines);
+          CategorizeChapterVerse ccv(lines);
           for (unsigned int vs = 0; vs < ccv.verse.size(); vs++) {
             // Do not export verse 0.
             if (ccv.verse[vs] == "0")
               continue;
             // Bibledit does not handle combined verses like 1-4a., etc. So make
             // a simple verse.
-            ustring verse = number_in_string (ccv.verse[vs]);
+            ustring verse = number_in_string(ccv.verse[vs]);
             // Remove the verse number from the line itself, except when the verse
             // was not a simple one, e.g. it was something like verse 1-3.
-            size_t position = ccv.line[vs].find (" ");
+            size_t position = ccv.line[vs].find(" ");
             if (position != string::npos)
-              ccv.line[vs].erase (0, ++position);
+              ccv.line[vs].erase(0, ++position);
             if (verse == ccv.verse[vs]) {
-              position = ccv.line[vs].find (" ");
+              position = ccv.line[vs].find(" ");
               if (position != string::npos)
-                ccv.line[vs].erase (0, ++position);
+                ccv.line[vs].erase(0, ++position);
             }
-            CategorizeLine cat_line (ccv.line [vs]);
+            CategorizeLine cat_line(ccv.line[vs]);
             // Output verse.
             wt.text(abbreviation);
             wt.text(" ");
-            wt.text(convert_to_string (chapters[ch]));
+            wt.text(convert_to_string(chapters[ch]));
             wt.text(":");
             wt.text(verse);
             wt.text(" ");
@@ -190,35 +194,31 @@ Yes, this is a bit rough, I know...
         }
       }
     }
-    catch (exception & ex)
-    {
-      cerr << "Converting to BibleWorks: " << ex.what () << endl;
+    catch(exception & ex) {
+      cerr << "Converting to BibleWorks: " << ex.what() << endl;
     }
   }
 }
 
-
-void export_translation_notes (const ustring& filename, ExportNotesFormat format, const vector<unsigned int> & ids_to_display, bool export_all, GtkWidget * parent)
+void export_translation_notes(const ustring & filename, ExportNotesFormat format, const vector < unsigned int >&ids_to_display, bool export_all, GtkWidget * parent)
 {
-  ExportTranslationNotes etn (filename, format, ids_to_display, export_all, parent);
+  ExportTranslationNotes etn(filename, format, ids_to_display, export_all, parent);
 }
 
-
-void export_to_sword_interactive ()
+void export_to_sword_interactive()
 // Exports a whole project to a SWORD module.
 {
   // Dialog for information entry.
   {
-    SwordDialog sworddialog (0);
+    SwordDialog sworddialog(0);
     if (sworddialog.run() != GTK_RESPONSE_OK)
       return;
   }
-  extern Settings * settings;
-  export_to_sword_script (settings->genconfig.project_get(), "", true);
+  extern Settings *settings;
+  export_to_sword_script(settings->genconfig.project_get(), "", true);
 }
 
-
-void export_to_sword_script (const ustring& project, ustring directory, bool gui)
+void export_to_sword_script(const ustring & project, ustring directory, bool gui)
 /*
 Exports a whole project to a SWORD module.
 At the time of writing this, the information on how to create a module for 
@@ -231,9 +231,10 @@ Here's how we do the conversion
 */
 {
   // Check for converter.
-  if (!gw_find_program_in_path ("osis2mod")) {
+  if (!gw_find_program_in_path("osis2mod")) {
     ustring message = "The SWORD compiler osis2mod was not found.";
-    if (gui) gtkw_dialog_error (NULL, message);
+    if (gui)
+      gtkw_dialog_error(NULL, message);
     cerr << message << endl;
     return;
   }
@@ -241,66 +242,66 @@ Here's how we do the conversion
   if (directory.empty())
     directory = g_get_home_dir();
   // Configuration
-  extern Settings * settings;
+  extern Settings *settings;
   // Progress information.
-  ProgressWindow * progresswindow = NULL;
-  if (gui) progresswindow = new ProgressWindow ("Exporting project", true);
+  ProgressWindow *progresswindow = NULL;
+  if (gui)
+    progresswindow = new ProgressWindow("Exporting project", true);
   // Open the project that contains the data.
-  ProjectConfiguration * projectconfig = settings->projectconfig (project);
+  ProjectConfiguration *projectconfig = settings->projectconfig(project);
   // The temporal directories for the data.
-  ustring base_directory = gw_build_filename (directories_get_temp(), "sword");
-  unix_rmdir (base_directory);
-  gw_mkdir_with_parents (base_directory);
-  ustring absolute_conf_directory = gw_build_filename (base_directory, "mods.d");
-  gw_mkdir_with_parents (absolute_conf_directory);
-  ustring relative_text_directory = gw_build_filename ("modules", "texts", "bibledit", lowerCase (settings->genconfig.project_get() + projectconfig->sword_name_get()));
-  ustring absolute_text_directory = gw_build_filename (base_directory, relative_text_directory);
-  gw_mkdir_with_parents (absolute_text_directory);
+  ustring base_directory = gw_build_filename(directories_get_temp(), "sword");
+  unix_rmdir(base_directory);
+  gw_mkdir_with_parents(base_directory);
+  ustring absolute_conf_directory = gw_build_filename(base_directory, "mods.d");
+  gw_mkdir_with_parents(absolute_conf_directory);
+  ustring relative_text_directory = gw_build_filename("modules", "texts", "bibledit", lowerCase(settings->genconfig.project_get() + projectconfig->sword_name_get()));
+  ustring absolute_text_directory = gw_build_filename(base_directory, relative_text_directory);
+  gw_mkdir_with_parents(absolute_text_directory);
   // Create the configuration file.
-  vector<ustring> lines;
+  vector < ustring > lines;
   ustring line;
-  lines.push_back ("[" + settings->genconfig.project_get() + projectconfig->sword_name_get() + "]");
+  lines.push_back("[" + settings->genconfig.project_get() + projectconfig->sword_name_get() + "]");
   line = "DataPath=.";
-  line.append (G_DIR_SEPARATOR_S + relative_text_directory + G_DIR_SEPARATOR_S);
-  lines.push_back (line);
-  lines.push_back ("ModDrv=RawText");
-  lines.push_back ("SourceType=OSIS");
-  lines.push_back ("Encoding=UTF-8");
-  lines.push_back ("BlockType=BOOK");
-  lines.push_back ("GlobalOptionFilter=OSISStrongs");
-  lines.push_back ("GlobalOptionFilter=OSISMorph");
-  lines.push_back ("GlobalOptionFilter=OSISFootnotes");
-  lines.push_back ("GlobalOptionFilter=OSISHeadings");
-  lines.push_back ("GlobalOptionFilter=OSISRedLetterWords");
-  lines.push_back ("MinimumVersion=1.5.6");
-  lines.push_back ("Lang=" + language_encode_sword (projectconfig->sword_language_get()));
-  lines.push_back ("Version=" + projectconfig->sword_version_get());
-  lines.push_back ("Description=" + settings->genconfig.project_get() + projectconfig->sword_description_get());
-  lines.push_back ("About=" + settings->genconfig.project_get() + projectconfig->sword_about_get());
-  lines.push_back ("LCSH=" + projectconfig->sword_lcsh_get());
-  lines.push_back ("DistributionLicense=" + projectconfig->sword_license_get());
-  if (projectconfig->right_to_left_get ()) 
-    lines.push_back ("Direction=RtoL");
-  write_lines (gw_build_filename (absolute_conf_directory, lowerCase (settings->genconfig.project_get() + projectconfig->sword_name_get()) + ".conf"), lines);
+  line.append(G_DIR_SEPARATOR_S + relative_text_directory + G_DIR_SEPARATOR_S);
+  lines.push_back(line);
+  lines.push_back("ModDrv=RawText");
+  lines.push_back("SourceType=OSIS");
+  lines.push_back("Encoding=UTF-8");
+  lines.push_back("BlockType=BOOK");
+  lines.push_back("GlobalOptionFilter=OSISStrongs");
+  lines.push_back("GlobalOptionFilter=OSISMorph");
+  lines.push_back("GlobalOptionFilter=OSISFootnotes");
+  lines.push_back("GlobalOptionFilter=OSISHeadings");
+  lines.push_back("GlobalOptionFilter=OSISRedLetterWords");
+  lines.push_back("MinimumVersion=1.5.6");
+  lines.push_back("Lang=" + language_encode_sword(projectconfig->sword_language_get()));
+  lines.push_back("Version=" + projectconfig->sword_version_get());
+  lines.push_back("Description=" + settings->genconfig.project_get() + projectconfig->sword_description_get());
+  lines.push_back("About=" + settings->genconfig.project_get() + projectconfig->sword_about_get());
+  lines.push_back("LCSH=" + projectconfig->sword_lcsh_get());
+  lines.push_back("DistributionLicense=" + projectconfig->sword_license_get());
+  if (projectconfig->right_to_left_get())
+    lines.push_back("Direction=RtoL");
+  write_lines(gw_build_filename(absolute_conf_directory, lowerCase(settings->genconfig.project_get() + projectconfig->sword_name_get()) + ".conf"), lines);
   lines.clear();
   // Start process of producing the text file.
   ustring inputfile;
-  try
-  {
+  try {
     // Prepare for notes and inline text.
-    Usfm usfm (projectconfig->stylesheet_get());
-    SwordNote swordnote (usfm, true);
-    UsfmInlineMarkers usfm_inline_markers (usfm);
+    Usfm usfm(projectconfig->stylesheet_get());
+    SwordNote swordnote(usfm, true);
+    UsfmInlineMarkers usfm_inline_markers(usfm);
     // Write to inputfile.
-    inputfile = gw_build_filename (directories_get_temp(), "sword_osis_input.txt");
-    unlink (inputfile.c_str());
-    WriteText wt (inputfile);
+    inputfile = gw_build_filename(directories_get_temp(), "sword_osis_input.txt");
+    unlink(inputfile.c_str());
+    WriteText wt(inputfile);
     // Write out xml headers.
-    OsisRoot osisroot (&wt, settings->genconfig.project_get() + projectconfig->sword_name_get(), settings->genconfig.project_get() + projectconfig->sword_description_get());
+    OsisRoot osisroot(&wt, settings->genconfig.project_get() + projectconfig->sword_name_get(), settings->genconfig.project_get() + projectconfig->sword_description_get());
     // Get all the books and go through them.
-    vector <unsigned int> scripture_books = project_get_books (settings->genconfig.project_get());
+    vector < unsigned int >scripture_books = project_get_books(settings->genconfig.project_get());
     if (gui)
-      progresswindow->set_iterate (0, 1, scripture_books.size());
+      progresswindow->set_iterate(0, 1, scripture_books.size());
     for (unsigned int bk = 0; bk < scripture_books.size(); bk++) {
       // Progress information.
       if (gui) {
@@ -311,57 +312,57 @@ Here's how we do the conversion
         }
       }
       // Only proceed if book exists in the Osis encoding.
-      if (books_id_to_osis (scripture_books[bk]).empty()) 
+      if (books_id_to_osis(scripture_books[bk]).empty())
         continue;
       // Progress.
-      cout << books_id_to_english (scripture_books[bk]) << endl;
+      cout << books_id_to_english(scripture_books[bk]) << endl;
       // Signal "new book" to notes system.
-      swordnote.new_book ();
+      swordnote.new_book();
       // Open book in osis code.
-      OsisBook osisbook (&wt, books_id_to_english (scripture_books[bk]));
+      OsisBook osisbook(&wt, books_id_to_english(scripture_books[bk]));
       // Go through the book and collect verses and other data.
-      vector<unsigned int> chapters;
-      vector<ustring> verses;
-      vector<ustring> lines;
+      vector < unsigned int >chapters;
+      vector < ustring > verses;
+      vector < ustring > lines;
       {
         ustring swordverse = "0";
         int swordchapter = 0;
-        vector <ustring> bookcontents = project_retrieve_book (settings->genconfig.project_get(), scripture_books[bk]);
-        CleanUsfm clean_usfm (bookcontents);
-        text_replacement (clean_usfm.lines);
+        vector < ustring > bookcontents = project_retrieve_book(settings->genconfig.project_get(), scripture_books[bk]);
+        CleanUsfm clean_usfm(bookcontents);
+        text_replacement(clean_usfm.lines);
         for (unsigned int i2 = 0; i2 < clean_usfm.lines.size(); i2++) {
           ustring line = clean_usfm.lines[i2];
-          ustring marker = usfm_extract_marker (line);
-          if (usfm.is_chapter_number (marker)) {
-            swordchapter = convert_to_int (number_in_string (line));
+          ustring marker = usfm_extract_marker(line);
+          if (usfm.is_chapter_number(marker)) {
+            swordchapter = convert_to_int(number_in_string(line));
             swordverse = "0";
-          } else if (usfm.is_verse_number (marker)) {
+          } else if (usfm.is_verse_number(marker)) {
             // Extract verse number.
-            size_t position = line.find (" ");
-            position = CLAMP (position, 0, line.length());
-            swordverse = line.substr (0, position);
+            size_t position = line.find(" ");
+            position = CLAMP(position, 0, line.length());
+            swordverse = line.substr(0, position);
             // Erase verse number from the line.
             position++;
-            line.erase (0, position);
+            line.erase(0, position);
             // Store data.
-            chapters.push_back (swordchapter);
-            verses.push_back (swordverse);
-            lines.push_back (line);
+            chapters.push_back(swordchapter);
+            verses.push_back(swordverse);
+            lines.push_back(line);
           } else {
             // Store data.
-            chapters.push_back (swordchapter);
-            verses.push_back (swordverse);
+            chapters.push_back(swordchapter);
+            verses.push_back(swordverse);
             // Store line with marker in it. Needed for formatting.
-            lines.push_back (clean_usfm.lines[i2]);
+            lines.push_back(clean_usfm.lines[i2]);
           }
-        } 
+        }
       }
       // Default to opening chapter 0 and verse 0.
       unsigned int current_chapter = 0;
       ustring current_verse = "0";
-      OsisChapter * osischapter = new OsisChapter (&wt, osisbook.book, current_chapter);
-      OsisVerse * osisverse = new OsisVerse (&wt, osisbook.book, osischapter->chapter, current_verse);
-      OsisParagraph * osisparagraph = NULL;
+      OsisChapter *osischapter = new OsisChapter(&wt, osisbook.book, current_chapter);
+      OsisVerse *osisverse = new OsisVerse(&wt, osisbook.book, osischapter->chapter, current_verse);
+      OsisParagraph *osisparagraph = NULL;
       // Go through all the lines of the remapped book.
       for (unsigned int i2 = 0; i2 < chapters.size(); i2++) {
         // Deal with a new chapter.
@@ -372,11 +373,11 @@ Here's how we do the conversion
           // Store new chapter.
           current_chapter = chapters[i2];
           // Reopen chapter and verse.
-          osischapter = new OsisChapter (&wt, osisbook.book, current_chapter);
+          osischapter = new OsisChapter(&wt, osisbook.book, current_chapter);
           current_verse = "0";
-          osisverse = new OsisVerse (&wt, osisbook.book, osischapter->chapter, current_verse);
+          osisverse = new OsisVerse(&wt, osisbook.book, osischapter->chapter, current_verse);
           // Signal new chapter to notes system.
-          swordnote.new_chapter ();
+          swordnote.new_chapter();
         }
         // Handle new verse.
         bool newverse = false;
@@ -386,45 +387,45 @@ Here's how we do the conversion
           // Store new verse.
           current_verse = verses[i2];
           // Reopen osis verse.
-          osisverse = new OsisVerse (&wt, osisbook.book, osischapter->chapter, current_verse);
+          osisverse = new OsisVerse(&wt, osisbook.book, osischapter->chapter, current_verse);
           // Mark a new verse.
           newverse = true;
         }
         // Get the raw line.
         ustring line = lines[i2];
         // Change certain characters to xml entities.
-        xml_handle_entities (line, NULL);
+        xml_handle_entities(line, NULL);
         // Deal with notes.
-        swordnote.transform (line);
+        swordnote.transform(line);
         // Deal with inline text.
-        usfm_handle_inline_text (line, &usfm_inline_markers, NULL, imSword, NULL);
+        usfm_handle_inline_text(line, &usfm_inline_markers, NULL, imSword, NULL);
         // Get the style belonging to the marker.
-        ustring marker = usfm_extract_marker (line);
-        if (usfm.is_identifier (marker)) {
+        ustring marker = usfm_extract_marker(line);
+        if (usfm.is_identifier(marker)) {
           // Do nothing with an identifier.
-        } else if (usfm.is_starting_paragraph (marker)) {
+        } else if (usfm.is_starting_paragraph(marker)) {
           // Find out what type of paragraph it is.
-          ParagraphType paragraphtype = usfm.paragraph_get_subtype (marker);
+          ParagraphType paragraphtype = usfm.paragraph_get_subtype(marker);
           bool close_paragraph = false;
           bool new_paragraph = false;
           ustring title_type;
           switch (paragraphtype) {
-            case ptMainTitle:
-              close_paragraph = true;
-              title_type = "main";
-              break;
-            case ptSubTitle:
-              close_paragraph = true;
-              title_type = "sub";
-              break;
-            case ptSectionHeading:
-              close_paragraph = true;
-              title_type = "part";
-              break;
-            case ptNormalParagraph:
-              close_paragraph = true;
-              new_paragraph = true;
-              break;
+          case ptMainTitle:
+            close_paragraph = true;
+            title_type = "main";
+            break;
+          case ptSubTitle:
+            close_paragraph = true;
+            title_type = "sub";
+            break;
+          case ptSectionHeading:
+            close_paragraph = true;
+            title_type = "part";
+            break;
+          case ptNormalParagraph:
+            close_paragraph = true;
+            new_paragraph = true;
+            break;
           }
           // Close if need be.
           if (close_paragraph) {
@@ -434,24 +435,25 @@ Here's how we do the conversion
           }
           // Open new one if needed.
           if (new_paragraph) {
-            osisparagraph = new OsisParagraph (&wt);
+            osisparagraph = new OsisParagraph(&wt);
           }
           // Handle titles also.
           if (!title_type.empty()) {
-            wt.text ("<title type=\"" + title_type + "\">");
+            wt.text("<title type=\"" + title_type + "\">");
           }
           // Output text.
-          wt.text (line);
+          wt.text(line);
           // Close title if need be.
           if (!title_type.empty()) {
-            wt.text ("</title>");
+            wt.text("</title>");
           }
         } else {
           // Fallback for verse marker (removed before), unknown marker, or no marker, or incomplete marker.
-          if (!newverse) wt.text (" ");
-          wt.text (line);
+          if (!newverse)
+            wt.text(" ");
+          wt.text(line);
         }
-      } 
+      }
       // Close paragraph, verse and chapter.      
       if (osisparagraph)
         delete osisparagraph;
@@ -459,77 +461,78 @@ Here's how we do the conversion
       delete osischapter;
     }
   }
-  catch (exception & ex)
-  {
-    cerr << "Export: " << ex.what () << endl;
+  catch(exception & ex) {
+    cerr << "Export: " << ex.what() << endl;
   }
   // Hide progress.
-  if (progresswindow) delete progresswindow;
+  if (progresswindow)
+    delete progresswindow;
   // Convert the inputfile using the sword api utility.
   {
-    GwSpawn spawn ("osis2mod");
-    spawn.arg (absolute_text_directory);
-    spawn.arg (inputfile);
-    spawn.progress ("Compiling", false);
-    spawn.run ();
+    GwSpawn spawn("osis2mod");
+    spawn.arg(absolute_text_directory);
+    spawn.arg(inputfile);
+    spawn.progress("Compiling", false);
+    spawn.run();
   }
   // Install it.
-  unix_cp_r (gw_build_filename (base_directory, "mods.d"), settings->genconfig.export_to_sword_install_path_get ());
-  unix_cp_r (gw_build_filename (base_directory, "modules"), settings->genconfig.export_to_sword_install_path_get ());
+  unix_cp_r(gw_build_filename(base_directory, "mods.d"), settings->genconfig.export_to_sword_install_path_get());
+  unix_cp_r(gw_build_filename(base_directory, "modules"), settings->genconfig.export_to_sword_install_path_get());
   // Compress and save the module.
   ustring command;
-  ustring zipfile = temporary_file (settings->genconfig.project_get() + projectconfig->sword_name_get()) + ".zip";
-  unlink (zipfile.c_str());
-  command = "cd" + shell_quote_space (base_directory) + "; ";
-  command.append ("zip -r" + shell_quote_space (zipfile) + "*");
-  if (system (command.c_str()));
-  unix_mv (zipfile, settings->genconfig.export_to_sword_module_path_get ());
+  ustring zipfile = temporary_file(settings->genconfig.project_get() + projectconfig->sword_name_get()) + ".zip";
+  unlink(zipfile.c_str());
+  command = "cd" + shell_quote_space(base_directory) + "; ";
+  command.append("zip -r" + shell_quote_space(zipfile) + "*");
+  if (system(command.c_str())) ;
+  unix_mv(zipfile, settings->genconfig.export_to_sword_module_path_get());
 }
 
-
-void export_to_opendocument (GtkWidget * parent)
+void export_to_opendocument(GtkWidget * parent)
 {
   // Configurations.
-  extern Settings * settings;
-  ProjectConfiguration * projectconfig = settings->projectconfig (settings->genconfig.project_get());
+  extern Settings *settings;
+  ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
 
   // Book selection.
-  vector <unsigned int> books = project_get_books (settings->genconfig.project_get());
-  set <unsigned int> selectedbooks (books.begin(), books.end());
+  vector < unsigned int >books = project_get_books(settings->genconfig.project_get());
+  set < unsigned int >selectedbooks(books.begin(), books.end());
   {
-    SelectBooksDialog dialog (false);
-    dialog.language (projectconfig->language_get());
-    dialog.selection_set (selectedbooks);
-    if (dialog.run () != GTK_RESPONSE_OK) return;
+    SelectBooksDialog dialog(false);
+    dialog.language(projectconfig->language_get());
+    dialog.selection_set(selectedbooks);
+    if (dialog.run() != GTK_RESPONSE_OK)
+      return;
     selectedbooks = dialog.selectionset;
   }
 
   // Filename to save to.
-  ustring filename = gw_build_filename (g_get_home_dir (), "bibledit-export");
-  filename = gtkw_file_chooser_save (parent, "", filename);
-  if (filename.empty()) return;
-    
+  ustring filename = gw_build_filename(g_get_home_dir(), "bibledit-export");
+  filename = gtkw_file_chooser_save(parent, "", filename);
+  if (filename.empty())
+    return;
+
   // If more books are selected, whether to save to multiple files.
   bool singlefile = true;
-  if (selectedbooks.size () > 1) {
-    vector <ustring> labels;
-    labels.push_back ("Single file");
-    labels.push_back ("Multiple files");
-    RadiobuttonDialog dialog ("Save method", "Multiple books have been selected.\nShould these be saved to a single file or to multiple files?", labels, 0);
-    if (dialog.run () != GTK_RESPONSE_OK) return;
+  if (selectedbooks.size() > 1) {
+    vector < ustring > labels;
+    labels.push_back("Single file");
+    labels.push_back("Multiple files");
+    RadiobuttonDialog dialog("Save method", "Multiple books have been selected.\nShould these be saved to a single file or to multiple files?", labels, 0);
+    if (dialog.run() != GTK_RESPONSE_OK)
+      return;
     singlefile = dialog.selection == 0;
   }
-  
   // Export.
   if (singlefile) {
-    OpenDocument odt (settings->genconfig.project_get(), filename, true, &selectedbooks);
+    OpenDocument odt(settings->genconfig.project_get(), filename, true, &selectedbooks);
   } else {
-    vector <unsigned int> books (selectedbooks.begin (), selectedbooks.end ());
-    for (unsigned int i = 0; i < books.size (); i++) {
-      set <unsigned int> selectedbook;
-      selectedbook.insert (books[i]);
-      ustring combinedfilename = filename + "-" + books_id_to_english (books[i]);
-      OpenDocument odt (settings->genconfig.project_get(), combinedfilename, true, &selectedbook);
+    vector < unsigned int >books(selectedbooks.begin(), selectedbooks.end());
+    for (unsigned int i = 0; i < books.size(); i++) {
+      set < unsigned int >selectedbook;
+      selectedbook.insert(books[i]);
+      ustring combinedfilename = filename + "-" + books_id_to_english(books[i]);
+      OpenDocument odt(settings->genconfig.project_get(), combinedfilename, true, &selectedbook);
     }
   }
 }

@@ -22,7 +22,8 @@
 #include "notes_utils.h"
 #include "mainwindow.h"
 
-DisplayProjectNotes::DisplayProjectNotes(const ustring& reference, GtkWidget * htmlview_in, vector <unsigned int> * ids) {
+DisplayProjectNotes::DisplayProjectNotes(const ustring & reference, GtkWidget * htmlview_in, vector < unsigned int >*ids)
+{
   // Initialize and save variables.
   editor_reference = reference;
   htmlview = htmlview_in;
@@ -37,33 +38,39 @@ DisplayProjectNotes::DisplayProjectNotes(const ustring& reference, GtkWidget * h
     ids_passed = false;
   }
   // Start main thread.  
-  g_thread_create (GThreadFunc (thread_start), gpointer (this), false, NULL);
+  g_thread_create(GThreadFunc(thread_start), gpointer(this), false, NULL);
 }
 
-DisplayProjectNotes::~DisplayProjectNotes() {
+DisplayProjectNotes::~DisplayProjectNotes()
+{
 }
 
-void DisplayProjectNotes::stop() {
+void DisplayProjectNotes::stop()
+{
   mystop = true;
 }
 
-void DisplayProjectNotes::show_buffer() {
+void DisplayProjectNotes::show_buffer()
+{
   // Displays the textbuffer.
   GtkHTMLStream *stream = gtk_html_begin(GTK_HTML(htmlview));
   gtk_html_write(GTK_HTML(htmlview), stream, note_buffer.c_str(), -1);
   gtk_html_end(GTK_HTML(htmlview), stream, GTK_HTML_STREAM_OK);
 }
 
-void DisplayProjectNotes::position_cursor() {
+void DisplayProjectNotes::position_cursor()
+{
   // Position the cursor at the right anchor.
-  gtk_html_jump_to_anchor (GTK_HTML (htmlview), notes_cursor_anchor());
+  gtk_html_jump_to_anchor(GTK_HTML(htmlview), notes_cursor_anchor());
 }
 
-void DisplayProjectNotes::thread_start(gpointer data) {
+void DisplayProjectNotes::thread_start(gpointer data)
+{
   ((DisplayProjectNotes *) data)->thread_main(data);
 }
 
-void DisplayProjectNotes::thread_main(gpointer data) {
+void DisplayProjectNotes::thread_main(gpointer data)
+{
   // Select notes for display, and the one to scroll to, if none were given.
   if (!ids_passed) {
     notes_select(ids_to_display, id_to_scroll_to, editor_reference);
@@ -75,4 +82,3 @@ void DisplayProjectNotes::thread_main(gpointer data) {
   // Finish off.
   ready = true;
 }
-

@@ -17,18 +17,10 @@
 **  
 */
 
-
 #include "libraries.h"
 #include "session_highlights.h"
 
-
-SessionHighlights::SessionHighlights (
-                     const ustring& word_in, 
-                     bool casesensitive_in, bool globbing_in,
-                     bool matchbegin_in, bool matchend_in,
-                     AreaType areatype_in,
-                     bool id_in, bool intro_in, bool heading_in, bool chapter_in,
-                     bool study_in, bool notes_in, bool xref_in, bool verse_in)
+SessionHighlights::SessionHighlights(const ustring & word_in, bool casesensitive_in, bool globbing_in, bool matchbegin_in, bool matchend_in, AreaType areatype_in, bool id_in, bool intro_in, bool heading_in, bool chapter_in, bool study_in, bool notes_in, bool xref_in, bool verse_in)
 // This object stores highlighting information.
 {
   word = word_in;
@@ -47,7 +39,6 @@ SessionHighlights::SessionHighlights (
   verse = verse_in;
 }
 
-
-SessionHighlights::~SessionHighlights ()
+SessionHighlights::~SessionHighlights()
 {
 }

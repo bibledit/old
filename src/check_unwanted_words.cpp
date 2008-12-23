@@ -17,7 +17,6 @@
 **  
 */
 
-
 #include "check_unwanted_words.h"
 #include "projectutils.h"
 #include "settings.h"
@@ -28,11 +27,7 @@
 #include "scripturechecks.h"
 #include "tiny_utilities.h"
 
-
-CheckUnwantedWords::CheckUnwantedWords (const ustring& project,
-                                        const vector<unsigned int>& books, 
-                                        ustring wordsfile,
-                                        bool gui)
+CheckUnwantedWords::CheckUnwantedWords(const ustring & project, const vector < unsigned int >&books, ustring wordsfile, bool gui)
 /*
 It checks for unwanted whole words in the text.
 project: project to check.
@@ -45,56 +40,57 @@ gui: whether to show graphical progressbar.
   // Variables.
   cancelled = false;
   // Get a list of the books to check. If no books were given, take them all.
-  vector<unsigned int> mybooks (books.begin(), books.end());
-  if (mybooks.empty()) mybooks = project_get_books (project);
+  vector < unsigned int >mybooks(books.begin(), books.end());
+  if (mybooks.empty())
+    mybooks = project_get_books(project);
   // Read the words to look for.
-  if (wordsfile.empty()) 
-    wordsfile = checks_unwanted_words_get_filename (project);
-  vector<ustring> words;
-  ReadText rt (wordsfile, true, false);
+  if (wordsfile.empty())
+    wordsfile = checks_unwanted_words_get_filename(project);
+  vector < ustring > words;
+  ReadText rt(wordsfile, true, false);
   for (unsigned int i = 0; i < rt.lines.size(); i++)
-    words.push_back (rt.lines[i]);
+    words.push_back(rt.lines[i]);
   // GUI.
   progresswindow = NULL;
   if (gui) {
-    progresswindow = new ProgressWindow ("Looking for unwanted words", true);
-    progresswindow->set_iterate (0, 1, mybooks.size());
+    progresswindow = new ProgressWindow("Looking for unwanted words", true);
+    progresswindow->set_iterate(0, 1, mybooks.size());
   }
   // Check each book in the project.
   for (unsigned int bk = 0; bk < mybooks.size(); bk++) {
     if (gui) {
-      progresswindow->iterate ();
+      progresswindow->iterate();
       if (progresswindow->cancel) {
         cancelled = true;
         return;
       }
     }
-    cout << books_id_to_english (mybooks[bk]) << endl;
+    cout << books_id_to_english(mybooks[bk]) << endl;
     // Check each chapter in the book.
-    vector <unsigned int> chapters = project_get_chapters (project, mybooks[bk]);
+    vector < unsigned int >chapters = project_get_chapters(project, mybooks[bk]);
     for (unsigned int ch = 0; ch < chapters.size(); ch++) {
-      vector <ustring> verses = project_get_verses (project, mybooks[bk], chapters[ch]);
+      vector < ustring > verses = project_get_verses(project, mybooks[bk], chapters[ch]);
       // Check each verse in the chapter.
       for (unsigned int vs = 0; vs < verses.size(); vs++) {
-        ustring line = project_retrieve_verse (project, mybooks[bk], chapters[ch], verses[vs]);
+        ustring line = project_retrieve_verse(project, mybooks[bk], chapters[ch], verses[vs]);
         // Check the verse.
-        CategorizeLine categorize (line);
-        ustring text (categorize.id);
-        text.append (categorize.intro);
-        text.append (categorize.head);
-        text.append (categorize.chap);
-        text.append (categorize.study);
-        text.append (categorize.note);
-        text.append (categorize.ref);
-        text.append (categorize.verse);
-        ParseWords parsewords (text);
+        CategorizeLine categorize(line);
+        ustring text(categorize.id);
+        text.append(categorize.intro);
+        text.append(categorize.head);
+        text.append(categorize.chap);
+        text.append(categorize.study);
+        text.append(categorize.note);
+        text.append(categorize.ref);
+        text.append(categorize.verse);
+        ParseWords parsewords(text);
         for (unsigned int i = 0; i < parsewords.words.size(); i++) {
           for (unsigned int i2 = 0; i2 < words.size(); i2++) {
             if (parsewords.words[i] == words[i2]) {
               ustring message = "Unwanted word: ";
-              message.append (words[i2]);
-              references.push_back (books_id_to_english (mybooks[bk]) + " " + convert_to_string (chapters[ch]) + ":" + verses[vs]);
-              comments.push_back (message);
+              message.append(words[i2]);
+              references.push_back(books_id_to_english(mybooks[bk]) + " " + convert_to_string(chapters[ch]) + ":" + verses[vs]);
+              comments.push_back(message);
             }
           }
         }
@@ -103,9 +99,9 @@ gui: whether to show graphical progressbar.
   }
 }
 
-
-CheckUnwantedWords::~CheckUnwantedWords ()
+CheckUnwantedWords::~CheckUnwantedWords()
 {
   // Clean up.
-  if (progresswindow) delete progresswindow;
+  if (progresswindow)
+    delete progresswindow;
 }

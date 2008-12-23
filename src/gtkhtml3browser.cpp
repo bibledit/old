@@ -18,7 +18,7 @@
  */
 
 #include "utilities.h"
-#include <glib.h> 
+#include <glib.h>
 #include "gtkhtml3browser.h"
 #include "settings.h"
 #include "tiny_utilities.h"
@@ -28,7 +28,8 @@
 #include "resource_utils.h"
 #include "htmlcache.h"
 
-GtkHtml3Browser::GtkHtml3Browser(GtkWidget * vbox) {
+GtkHtml3Browser::GtkHtml3Browser(GtkWidget * vbox)
+{
   // Save and initialize variables.
   my_vbox = vbox;
   event_id = 0;
@@ -38,61 +39,69 @@ GtkHtml3Browser::GtkHtml3Browser(GtkWidget * vbox) {
   // The html widget.
   scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow);
-  gtk_box_pack_start(GTK_BOX (vbox), scrolledwindow, TRUE, TRUE, 0);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_box_pack_start(GTK_BOX(vbox), scrolledwindow, TRUE, TRUE, 0);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
   htmlview = gtk_html_new();
   gtk_widget_show(htmlview);
-  gtk_container_add(GTK_CONTAINER (scrolledwindow), htmlview);
+  gtk_container_add(GTK_CONTAINER(scrolledwindow), htmlview);
 
-  gtk_html_set_editable(GTK_HTML (htmlview), FALSE);
-  gtk_html_allow_selection(GTK_HTML (htmlview), TRUE);
+  gtk_html_set_editable(GTK_HTML(htmlview), FALSE);
+  gtk_html_allow_selection(GTK_HTML(htmlview), TRUE);
 
   // Signals.
-  g_signal_connect (G_OBJECT (htmlview), "url-requested", G_CALLBACK (on_html_url_requested), gpointer(this));
-  g_signal_connect (G_OBJECT (htmlview), "link-clicked", G_CALLBACK (on_html_link_clicked), gpointer(this));
-  g_signal_connect (G_OBJECT (htmlview), "grab_focus", G_CALLBACK (on_htmlview_grab_focus), gpointer(this));
+  g_signal_connect(G_OBJECT(htmlview), "url-requested", G_CALLBACK(on_html_url_requested), gpointer(this));
+  g_signal_connect(G_OBJECT(htmlview), "link-clicked", G_CALLBACK(on_html_link_clicked), gpointer(this));
+  g_signal_connect(G_OBJECT(htmlview), "grab_focus", G_CALLBACK(on_htmlview_grab_focus), gpointer(this));
 }
 
-GtkHtml3Browser::~GtkHtml3Browser() {
+GtkHtml3Browser::~GtkHtml3Browser()
+{
   gw_destroy_source(event_id);
   gw_destroy_source(scroll_event_id);
   gtk_widget_destroy(scrolledwindow);
 }
 
-void GtkHtml3Browser::focus() {
+void GtkHtml3Browser::focus()
+{
   gtk_widget_grab_focus(htmlview);
 }
 
-bool GtkHtml3Browser::focused() {
-  return GTK_WIDGET_HAS_FOCUS (htmlview);
+bool GtkHtml3Browser::focused()
+{
+  return GTK_WIDGET_HAS_FOCUS(htmlview);
 }
 
-void GtkHtml3Browser::copy() {
+void GtkHtml3Browser::copy()
+{
   if (focused())
-    gtk_html_copy(GTK_HTML (htmlview));
+    gtk_html_copy(GTK_HTML(htmlview));
 }
 
-void GtkHtml3Browser::go_to(const ustring& url) {
-  html_link_clicked(GTK_HTML (htmlview), url.c_str ());
+void GtkHtml3Browser::go_to(const ustring & url)
+{
+  html_link_clicked(GTK_HTML(htmlview), url.c_str());
 }
 
-bool GtkHtml3Browser::on_timeout(gpointer user_data) {
+bool GtkHtml3Browser::on_timeout(gpointer user_data)
+{
   ((GtkHtml3Browser *) user_data)->timeout();
   return false;
 }
 
-void GtkHtml3Browser::timeout() {
+void GtkHtml3Browser::timeout()
+{
   go_to(attempt_url);
   event_id = 0;
 }
 
-gboolean GtkHtml3Browser::on_html_url_requested(GtkHTML *html, const gchar *url, GtkHTMLStream *handle, gpointer user_data) {
+gboolean GtkHtml3Browser::on_html_url_requested(GtkHTML * html, const gchar * url, GtkHTMLStream * handle, gpointer user_data)
+{
   ((GtkHtml3Browser *) user_data)->html_url_requested(html, url, handle);
   return true;
 }
 
-void GtkHtml3Browser::html_url_requested(GtkHTML *html, const gchar *url, GtkHTMLStream *handle)
+void GtkHtml3Browser::html_url_requested(GtkHTML * html, const gchar * url, GtkHTMLStream * handle)
 // Callback for fetching url within the page.
 {
 
@@ -101,10 +110,10 @@ void GtkHtml3Browser::html_url_requested(GtkHTML *html, const gchar *url, GtkHTM
   myurl = gw_build_filename(loading_dir, myurl);
 
   // Fetch the url through the cache.
-  extern HtmlCache * htmlcache;
+  extern HtmlCache *htmlcache;
   bool trylater;
   size_t size;
-  gchar * contents = htmlcache->request_url(myurl, size, trylater);
+  gchar *contents = htmlcache->request_url(myurl, size, trylater);
   if (contents) {
     gtk_html_write(html, handle, contents, size);
     if (!g_utf8_validate(contents, -1, NULL)) {
@@ -112,22 +121,21 @@ void GtkHtml3Browser::html_url_requested(GtkHTML *html, const gchar *url, GtkHTM
     }
     g_free(contents);
   }
-
   // Optionally register a retry.
   if (trylater) {
     try_again = true;
   }
-
   // Finish.
   gtk_html_end(html, handle, GTK_HTML_STREAM_OK);
 }
 
-gboolean GtkHtml3Browser::on_html_link_clicked(GtkHTML *html, const gchar * url, gpointer user_data) {
+gboolean GtkHtml3Browser::on_html_link_clicked(GtkHTML * html, const gchar * url, gpointer user_data)
+{
   ((GtkHtml3Browser *) user_data)->html_link_clicked(html, url);
   return true;
 }
 
-void GtkHtml3Browser::html_link_clicked(GtkHTML *html, const gchar * url)
+void GtkHtml3Browser::html_link_clicked(GtkHTML * html, const gchar * url)
 // Callback for loading a new page in the browser.
 {
   // Retry flags.
@@ -145,7 +153,6 @@ void GtkHtml3Browser::html_link_clicked(GtkHTML *html, const gchar * url)
       return;
     }
   }
-
   // Handle a single anchor.
   if (myurl.substr(0, 1) == "#") {
     myurl.erase(0, 1);
@@ -153,36 +160,34 @@ void GtkHtml3Browser::html_link_clicked(GtkHTML *html, const gchar * url)
     adjust_scroller();
     return;
   }
-
   // Parse the url into the url and the anchor.  
   Parse parse(myurl, false, "#");
-  if (parse.words.size()> 0)
+  if (parse.words.size() > 0)
     myurl = parse.words[0];
   ustring myanchor;
-  if (parse.words.size()> 1)
+  if (parse.words.size() > 1)
     myanchor = parse.words[1];
 
   // Modify relative link that start with ./ or ../
   ustring loaded_path = gw_path_get_dirname(loaded_url);
   if (myurl.length() > 2) {
-    if (myurl.substr (0, 2) == "./") {
-      myurl.erase (0, 2);
+    if (myurl.substr(0, 2) == "./") {
+      myurl.erase(0, 2);
       myurl = gw_build_filename(loaded_path, myurl);
     }
   }
-  Parse parse2 (myurl, false, "/");
+  Parse parse2(myurl, false, "/");
   bool assemble_full_url = false;
   for (unsigned int i = 0; i < parse2.words.size(); i++) {
-    if (parse2.words[i] != "..") 
+    if (parse2.words[i] != "..")
       break;
     loaded_path = gw_path_get_dirname(loaded_path);
-    myurl.erase (0, 3);
+    myurl.erase(0, 3);
     assemble_full_url = true;
   }
   if (assemble_full_url) {
     myurl = gw_build_filename(loaded_path, myurl);
   }
-
   // Only load a new url if it differs from the one currently loaded.
   if ((myurl != loaded_url) && !myurl.empty()) {
 
@@ -194,10 +199,10 @@ void GtkHtml3Browser::html_link_clicked(GtkHTML *html, const gchar * url)
     loading_dir = gw_path_get_dirname(myurl);
 
     // Retrieve the contents via the cache, write it to the widget.
-    extern HtmlCache * htmlcache;
+    extern HtmlCache *htmlcache;
     bool trylater;
     size_t size;
-    gchar * contents = htmlcache->request_url(myurl, size, trylater);
+    gchar *contents = htmlcache->request_url(myurl, size, trylater);
     if (contents) {
       gtk_html_write(html, stream, contents, size);
       if (!g_utf8_validate(contents, -1, NULL)) {
@@ -205,7 +210,6 @@ void GtkHtml3Browser::html_link_clicked(GtkHTML *html, const gchar * url)
       }
       g_free(contents);
     }
-
     // Finish the stream okay.
     gtk_html_end(html, stream, GTK_HTML_STREAM_OK);
 
@@ -216,9 +220,8 @@ void GtkHtml3Browser::html_link_clicked(GtkHTML *html, const gchar * url)
     }
     if (try_again) {
       gw_destroy_source(event_id);
-      event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 1000, GSourceFunc (on_timeout), gpointer(this), NULL);
+      event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 1000, GSourceFunc(on_timeout), gpointer(this), NULL);
     }
-
     // Adjust scrolling
     adjust_scroller();
 
@@ -226,7 +229,6 @@ void GtkHtml3Browser::html_link_clicked(GtkHTML *html, const gchar * url)
     if (!try_again)
       loaded_url = myurl;
   }
-
   // Optionally jump to an anchor.
   if (!myanchor.empty()) {
     gtk_html_jump_to_anchor(html, myanchor.c_str());
@@ -234,7 +236,8 @@ void GtkHtml3Browser::html_link_clicked(GtkHTML *html, const gchar * url)
   }
 }
 
-void GtkHtml3Browser::on_htmlview_grab_focus(GtkWidget *widget, gpointer user_data) {
+void GtkHtml3Browser::on_htmlview_grab_focus(GtkWidget * widget, gpointer user_data)
+{
   ((GtkHtml3Browser *) user_data)->htmlview_grab_focus();
 }
 
@@ -244,19 +247,21 @@ void GtkHtml3Browser::htmlview_grab_focus()
   last_focused_time = time(0);
 }
 
-void GtkHtml3Browser::set_second_browser(const ustring& filter, GtkHtml3Browser * browser)
+void GtkHtml3Browser::set_second_browser(const ustring & filter, GtkHtml3Browser * browser)
 // Instead of doing frames properly, a second browser is used. This browser should intercept URLs clicked.
 {
   url_filter = filter;
   browser2 = browser;
 }
 
-void GtkHtml3Browser::adjust_scroller() {
+void GtkHtml3Browser::adjust_scroller()
+{
   gw_destroy_source(scroll_event_id);
-  scroll_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 200, GSourceFunc (on_scroll_timeout), gpointer(this), NULL);
+  scroll_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 200, GSourceFunc(on_scroll_timeout), gpointer(this), NULL);
 }
 
-bool GtkHtml3Browser::on_scroll_timeout(gpointer user_data) {
+bool GtkHtml3Browser::on_scroll_timeout(gpointer user_data)
+{
   ((GtkHtml3Browser *) user_data)->scroll_timeout();
   return false;
 }
@@ -265,14 +270,15 @@ void GtkHtml3Browser::scroll_timeout()
 // Work around a scrolling bug in gtkhtml.
 {
   scroll_event_id = 0;
-  GtkAdjustment* adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW (scrolledwindow));
+  GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(scrolledwindow));
   gdouble value = gtk_adjustment_get_value(adjustment);
   // Usually the first line of a verse is hidden in the Resource.
   // We scroll a bit back to make that line visible.
   gtk_adjustment_set_value(adjustment, value - 30);
 }
 
-void GtkHtml3Browser::invalid_utf8_at_url(const gchar *url) {
+void GtkHtml3Browser::invalid_utf8_at_url(const gchar * url)
+{
   ustring msg = "Resource tried to load invalid UTF-8 Unicode from ";
   msg.append(url);
   gw_critical(msg);

@@ -17,7 +17,6 @@
 **  
 */
 
-
 #include "libraries.h"
 #include "upgrade.h"
 #include "stylesheetutils.h"
@@ -28,19 +27,18 @@
 #include "statistics.h"
 #include "git.h"
 
-
-void upgrade (bool gui)
+void upgrade(bool gui)
 {
-  stylesheets_upgrade ();
-  projects_initial_check_old (gui);
-  projects_initial_check (gui);
-  notes_database_verify (gui);
-  notes_categories_check ();
-  upgrade_configuration ();
-  vector <ustring> projects = projects_get_all ();
+  stylesheets_upgrade();
+  projects_initial_check_old(gui);
+  projects_initial_check(gui);
+  notes_database_verify(gui);
+  notes_categories_check();
+  upgrade_configuration();
+  vector < ustring > projects = projects_get_all();
   for (unsigned int i = 0; i < projects.size(); i++) {
-    upgrade_project_configuration (projects[i]);
+    upgrade_project_configuration(projects[i]);
   }
-  statistics_initial_check_all (gui);
-  git_initial_check_all (gui);
+  statistics_initial_check_all(gui);
+  git_initial_check_all(gui);
 }

@@ -17,7 +17,6 @@
 **  
 */
 
-
 #include "shutdown.h"
 #include "directories.h"
 #include "stylesheetutils.h"
@@ -30,40 +29,39 @@
 #include <sqlite3.h>
 #include "date_time_utils.h"
 
-
-void shutdown_actions ()
+void shutdown_actions()
 // Takes certain actions when Bibledit shuts down.
 {
   // Open a configuration.
-  extern Settings * settings;
+  extern Settings *settings;
 
   // The actions are not always taken, but only once in so many days.
-  int clear_up_day = settings->genconfig.clear_up_day_get ();
-  int current_day = date_time_julian_day_get_current ();
-  if (current_day < (clear_up_day + 30)) return;
-  settings->genconfig.clear_up_day_set (current_day);
-    
+  int clear_up_day = settings->genconfig.clear_up_day_get();
+  int current_day = date_time_julian_day_get_current();
+  if (current_day < (clear_up_day + 30))
+    return;
+  settings->genconfig.clear_up_day_set(current_day);
+
   // Project related databases.
   // Delete these, as they are old. This is temporal, 
   // after some versions it can go away. Introduced in version 3.2. todo
-  vector <ustring> projects = projects_get_all ();
+  vector < ustring > projects = projects_get_all();
   for (unsigned int i = 0; i < projects.size(); i++) {
-    unlink (gw_build_filename (directories_get_projects (), projects[i], "data.sql2").c_str());
+    unlink(gw_build_filename(directories_get_projects(), projects[i], "data.sql2").c_str());
   }
 
   // Stylesheets: vacuum the sqlite databases.
-  vector <ustring> stylesheets;
-  stylesheet_get_ones_available (stylesheets);
+  vector < ustring > stylesheets;
+  stylesheet_get_ones_available(stylesheets);
   for (unsigned int i = 0; i < stylesheets.size(); i++) {
-    stylesheet_vacuum (stylesheets[i]);
+    stylesheet_vacuum(stylesheets[i]);
   }
 
   // Notes: vacuum the sqlite databases.
-  notes_vacuum ();
+  notes_vacuum();
 }
 
-
-void vacuum_database (const ustring& filename)
+void vacuum_database(const ustring & filename)
 // Vacuums the database given by "filename". 
 {
   if (filename.empty())
@@ -71,20 +69,19 @@ void vacuum_database (const ustring& filename)
   sqlite3 *db;
   int rc;
   char *error = NULL;
-  try
-  {
-    rc = sqlite3_open(filename.c_str (), &db);
-    if (rc) throw runtime_error (sqlite3_errmsg(db));
-    sqlite3_busy_timeout (db, 2000);
-    rc = sqlite3_exec (db, "vacuum;", NULL, NULL, &error);
+  try {
+    rc = sqlite3_open(filename.c_str(), &db);
+    if (rc)
+      throw runtime_error(sqlite3_errmsg(db));
+    sqlite3_busy_timeout(db, 2000);
+    rc = sqlite3_exec(db, "vacuum;", NULL, NULL, &error);
     if (rc != SQLITE_OK) {
-      throw runtime_error (error);
+      throw runtime_error(error);
     }
   }
-  catch (exception & ex)
-  {
-    ustring message (ex.what ());
-    g_critical ("%s", message.c_str());
+  catch(exception & ex) {
+    ustring message(ex.what());
+    g_critical("%s", message.c_str());
   }
-  sqlite3_close (db);
+  sqlite3_close(db);
 }

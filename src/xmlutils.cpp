@@ -17,39 +17,37 @@
 **  
 */
 
-
 #include "libraries.h"
 #include "xmlutils.h"
 #include <glib.h>
 #include "constants.h"
 
-
-void xml_sort_positions (vector <size_t>& positions, vector <size_t>& lengths)
+void xml_sort_positions(vector < size_t > &positions, vector < size_t > &lengths)
 /*
   This sorts positions in a ustring, and lengths of any word to operated on.
   It sorts on positions, and the lengths are kept attached to their positions.
 */
 {
   // If there are zero or one positions, there is nothing to sort.
-  if (positions.size() < 2) return;
+  if (positions.size() < 2)
+    return;
   // Make combined numbers, made up of the positions and the lengths.
-  vector<unsigned long> combination;
+  vector < unsigned long >combination;
   for (unsigned int i = 0; i < positions.size(); i++) {
-    combination.push_back ((1000000 * positions[i]) + lengths[i]);
+    combination.push_back((1000000 * positions[i]) + lengths[i]);
   }
   // Sort these combined numbers.  
-  sort (combination.begin(), combination.end());
+  sort(combination.begin(), combination.end());
   // Split the combined numbers again into positions and lengths.  
   positions.clear();
   lengths.clear();
   for (unsigned int i = 0; i < combination.size(); i++) {
-    positions.push_back (combination[i] / 1000000);
-    lengths.push_back (combination[i] % 1000000);
+    positions.push_back(combination[i] / 1000000);
+    lengths.push_back(combination[i] % 1000000);
   }
 }
 
-
-void xml_combine_overlaps (vector <size_t>& positions, vector <size_t>& lengths)
+void xml_combine_overlaps(vector < size_t > &positions, vector < size_t > &lengths)
 /*
   If there are words in a line that are to be highlighted, and some of 
   these words overlap, combine these words into one string to be highlighted.
@@ -62,8 +60,8 @@ void xml_combine_overlaps (vector <size_t>& positions, vector <size_t>& lengths)
   bool position_was_removed;
   do {
     position_was_removed = false;
-    vector<size_t>::iterator iterpos (positions.begin());
-    vector<size_t>::iterator iterlen (lengths.begin());
+    vector < size_t >::iterator iterpos(positions.begin());
+    vector < size_t >::iterator iterlen(lengths.begin());
     for (unsigned int i = 0; i < positions.size() - 1; i++) {
       // Let the two iterators point to the second position that might have to be removed.
       iterpos++;
@@ -76,7 +74,7 @@ void xml_combine_overlaps (vector <size_t>& positions, vector <size_t>& lengths)
       // Does the following position start somewhere between the boundaries?
       if ((second_bound >= lower_bound) && (second_bound <= upper_bound)) {
         // There is overlap. Get the highest upper boundary of the two positions.
-        unsigned int highest_bound = MAX (upper_bound, second_bound + lengths[i + 1]);
+        unsigned int highest_bound = MAX(upper_bound, second_bound + lengths[i + 1]);
         lengths[i] = highest_bound - positions[i];
         positions.erase(iterpos);
         lengths.erase(iterlen);
@@ -87,15 +85,14 @@ void xml_combine_overlaps (vector <size_t>& positions, vector <size_t>& lengths)
   } while (position_was_removed);
 }
 
-
-void xml_html_insert_emphasis (ustring& line, vector <size_t>& positions, vector <size_t>& lengths)
+void xml_html_insert_emphasis(ustring & line, vector < size_t > &positions, vector < size_t > &lengths)
 // This inserts the <b> tag to get the text bold.
 {
   for (unsigned int i = 0; i < positions.size(); i++) {
     // Text to insert to highlight it.
-    ustring taggedtext = "<b>" + line.substr (positions[i], lengths[i]) + "</b>";
+    ustring taggedtext = "<b>" + line.substr(positions[i], lengths[i]) + "</b>";
     // Insert tag.
-    line.replace (positions[i], lengths[i], taggedtext);
+    line.replace(positions[i], lengths[i], taggedtext);
     // Push any following positions up.
     for (unsigned int i2 = i + 1; i2 < positions.size(); i2++) {
       positions[i2] = positions[i2] + 7;
@@ -103,8 +100,7 @@ void xml_html_insert_emphasis (ustring& line, vector <size_t>& positions, vector
   }
 }
 
-
-void xml_handle_entities (ustring& line, vector <size_t> * positions) 
+void xml_handle_entities(ustring & line, vector < size_t > *positions)
 /*
   Changes the < and the > in the text to the xml entities &lt; and &gt
   Changes the ampersand (&) to &amp;
@@ -114,34 +110,33 @@ void xml_handle_entities (ustring& line, vector <size_t> * positions)
   size_t offposition;
   // Deal with &. This one is done first, 
   // else the ampersands inserted later will get changed too.
-  offposition  = line.find ("&");
-  while (offposition != string::npos)
-  {
-    line.replace (offposition, 1, "&amp;");
-    if (positions) xml_positions_push_up (offposition, 4, * positions);
+  offposition = line.find("&");
+  while (offposition != string::npos) {
+    line.replace(offposition, 1, "&amp;");
+    if (positions)
+      xml_positions_push_up(offposition, 4, *positions);
     // Do not repeat on the & just removed and inserted, but start searching after it.
-    offposition = line.find ("&", offposition + 3);
-  }  
+    offposition = line.find("&", offposition + 3);
+  }
   // Deal with <
-  offposition  = line.find ("<");
-  while (offposition != string::npos)
-  {
-    line.replace (offposition, 1, "&lt;");
-    if (positions) xml_positions_push_up (offposition, 3, * positions);
-    offposition = line.find ("<", offposition);
-  }  
+  offposition = line.find("<");
+  while (offposition != string::npos) {
+    line.replace(offposition, 1, "&lt;");
+    if (positions)
+      xml_positions_push_up(offposition, 3, *positions);
+    offposition = line.find("<", offposition);
+  }
   // Deal with >
-  offposition  = line.find (">");
-  while (offposition != string::npos)
-  {
-    line.replace (offposition, 1, "&gt;");
-    if (positions) xml_positions_push_up (offposition, 3, * positions);
-    offposition = line.find (">", offposition);
-  }  
+  offposition = line.find(">");
+  while (offposition != string::npos) {
+    line.replace(offposition, 1, "&gt;");
+    if (positions)
+      xml_positions_push_up(offposition, 3, *positions);
+    offposition = line.find(">", offposition);
+  }
 }
 
-
-void xml_positions_push_up (size_t position, size_t up, vector <size_t>& positions)
+void xml_positions_push_up(size_t position, size_t up, vector < size_t > &positions)
 // Pushes the positions in variable "positions" up with "up" steps,
 // when the position is greater than "position"
 {
@@ -152,30 +147,28 @@ void xml_positions_push_up (size_t position, size_t up, vector <size_t>& positio
   }
 }
 
-
-ustring xml_text_embed_in_tags (int level, const ustring tag, const ustring& text)
+ustring xml_text_embed_in_tags(int level, const ustring tag, const ustring & text)
 {
   // Handle < and > and &.
-  ustring text2 (text);
-  xml_handle_entities (text2, NULL);
+  ustring text2(text);
+  xml_handle_entities(text2, NULL);
   // Embed the text.
   ustring result;
   for (int i = 0; i < level; i++)
-    result.append ("  ");
-  result.append ("<" + tag + ">" + text2 + "</" + tag + ">");
+    result.append("  ");
+  result.append("<" + tag + ">" + text2 + "</" + tag + ">");
   return result;
 }
 
-
-ustring xml_tag (int level, const ustring tag, bool closing)
+ustring xml_tag(int level, const ustring tag, bool closing)
 {
   ustring result;
   for (int i = 0; i < level; i++)
-    result.append ("  ");
-  result.append ("<");
+    result.append("  ");
+  result.append("<");
   if (closing)
-    result.append ("/");
-  result.append (tag);
-  result.append (">");
-  return result;  
+    result.append("/");
+  result.append(tag);
+  result.append(">");
+  return result;
 }

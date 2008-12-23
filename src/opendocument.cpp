@@ -47,11 +47,11 @@
  because frames would be needed, and this makes copying text more difficult.
  */
 
-OpenDocument::OpenDocument(const ustring& project, const ustring& filename, bool gui, set<unsigned int> * selection)
+OpenDocument::OpenDocument(const ustring & project, const ustring & filename, bool gui, set < unsigned int >*selection)
 // Export a project to OpenDocument format. Allows books selection.
 {
-  projectconfig = new ProjectConfiguration (project, false);
-  usfm = new Usfm (projectconfig->stylesheet_get());
+  projectconfig = new ProjectConfiguration(project, false);
+  usfm = new Usfm(projectconfig->stylesheet_get());
 
   // Check on basic markers.
   if (!usfm_basic_markers_present(*usfm, gui))
@@ -60,13 +60,13 @@ OpenDocument::OpenDocument(const ustring& project, const ustring& filename, bool
   // Progress information.  
   progresswindow = NULL;
   if (gui)
-    progresswindow = new ProgressWindow ("Exporting to OpenDocument", true);
+    progresswindow = new ProgressWindow("Exporting to OpenDocument", true);
 
   // Prepare for inline text markers, notes and xrefs.
-  usfm_inline_markers = new UsfmInlineMarkers (* usfm);
-  odtfootnote = new OdtFootnote (* usfm);
-  odtendnote = new OdtEndnote (* usfm);
-  odtxref = new OdtXref (* usfm);
+  usfm_inline_markers = new UsfmInlineMarkers(*usfm);
+  odtfootnote = new OdtFootnote(*usfm);
+  odtendnote = new OdtEndnote(*usfm);
+  odtxref = new OdtXref(*usfm);
 
   // Retrieve and process template: page layout, font.
   workingdirectory = gw_build_filename(directories_get_temp(), "opendocument");
@@ -75,7 +75,7 @@ OpenDocument::OpenDocument(const ustring& project, const ustring& filename, bool
 
   // Get the available books. If no selection given, take all books available.
   if (selection) {
-    vector <unsigned int> bks = project_get_books(project);
+    vector < unsigned int >bks = project_get_books(project);
     for (unsigned int i = 0; i < bks.size(); i++) {
       if (selection->find(bks[i]) != selection->end())
         books.push_back(bks[i]);
@@ -119,7 +119,7 @@ OpenDocument::OpenDocument(const ustring& project, const ustring& filename, bool
     anchor_book = books[i];
 
     // Open the book. Do any replacements.
-    vector<ustring> book_lines;
+    vector < ustring > book_lines;
     book_lines = project_retrieve_book(project, books[i]);
     text_replacement(book_lines);
 
@@ -142,7 +142,8 @@ OpenDocument::OpenDocument(const ustring& project, const ustring& filename, bool
   zip(filename_odt);
 }
 
-OpenDocument::~OpenDocument() {
+OpenDocument::~OpenDocument()
+{
   if (progresswindow)
     delete progresswindow;
   delete projectconfig;
@@ -153,7 +154,8 @@ OpenDocument::~OpenDocument() {
   delete odtxref;
 }
 
-void OpenDocument::unpack_template() {
+void OpenDocument::unpack_template()
+{
   // Clear working directory.
   unix_rmdir(workingdirectory);
   gw_mkdir_with_parents(workingdirectory);
@@ -164,22 +166,22 @@ void OpenDocument::unpack_template() {
   command.append("; cp ");
   command.append(gw_build_filename(directories_get_package_data(), "template.odt"));
   command.append(" .; unzip *; rm *.odt");
-  if (system(command.c_str()));
+  if (system(command.c_str())) ;
 }
 
 void OpenDocument::cover()
 // Generate cover page.
 {
-  extern Settings * settings;
+  extern Settings *settings;
 
   // Store the lines containing the cover.  
-  vector <ustring> lines;
+  vector < ustring > lines;
 
   // Collect the lines: Look for the \cov section in the Other Material book. 
   for (unsigned int i = 0; i < books.size(); i++) {
     if (books_id_to_type(books[i]) == btOtherMaterial)
       continue;
-    vector <ustring> rawlines = project_retrieve_chapter(settings->genconfig.project_get(), books[i], 0);
+    vector < ustring > rawlines = project_retrieve_chapter(settings->genconfig.project_get(), books[i], 0);
     bool within_cover_section = false;
     for (unsigned int i2 = 0; i2 < rawlines.size(); i2++) {
       ustring line = rawlines[i2];
@@ -201,7 +203,7 @@ void OpenDocument::cover()
   format_general(lines);
 }
 
-void OpenDocument::format_general(vector <ustring>& lines)
+void OpenDocument::format_general(vector < ustring > &lines)
 // General formatter for USFM lines given.
 {
   // Go through all the lines.
@@ -232,13 +234,13 @@ void OpenDocument::format_general(vector <ustring>& lines)
       if (identifiertype == itBook) {
         if (odttextparagraph)
           delete odttextparagraph;
-        odttextparagraph = new OdtTextParagraph (&odtlines, marker);
+        odttextparagraph = new OdtTextParagraph(&odtlines, marker);
       }
     } else if (usfm->is_verse_number(marker)) {
       // Because of dealing with portions to include/exclude, handle verse first.
       // Get verse number. Handle combined verses too, e.g. 10-12b, etc.
       size_t position = line.find(" ");
-      position = CLAMP (position, 0, line.length());
+      position = CLAMP(position, 0, line.length());
       ustring versenumber = line.substr(0, position);
       position++;
       line.erase(0, position);
@@ -246,7 +248,7 @@ void OpenDocument::format_general(vector <ustring>& lines)
       // and that results in text being inserted without the opening xml code.
       // Solution: If no paragraph has been opened, open a default one.
       if (odttextparagraph == NULL)
-        odttextparagraph = new OdtTextParagraph (&odtlines, "");
+        odttextparagraph = new OdtTextParagraph(&odtlines, "");
       // Insert a bookmark at the verse.
       // This will become an anchor for the Bibledit Resource Viewer,
       // once OpenOffice saves the document to a HTML Document.
@@ -263,7 +265,7 @@ void OpenDocument::format_general(vector <ustring>& lines)
     } else if (usfm->is_starting_paragraph(marker)) {
       if (odttextparagraph)
         delete odttextparagraph;
-      odttextparagraph = new OdtTextParagraph (&odtlines, marker);
+      odttextparagraph = new OdtTextParagraph(&odtlines, marker);
       if (!line.empty())
         odttextparagraph->plaintext(line);
     } else if (usfm->is_inline_text(marker)) {
@@ -279,18 +281,18 @@ void OpenDocument::format_general(vector <ustring>& lines)
       // Store chapter for the anchors.
       anchor_chapter = convert_to_int(number_in_string(line));
       // Insert or prepare chapter text.
-      odttextparagraph = new OdtTextParagraph (&odtlines, marker);
+      odttextparagraph = new OdtTextParagraph(&odtlines, marker);
       odttextparagraph->plaintext(line);
     } else if (usfm->is_peripheral(marker)) {
     } else if (usfm->is_picture(marker)) {
     } else if (usfm->is_pagebreak(marker)) {
       if (odttextparagraph)
         delete odttextparagraph;
-      odttextparagraph = new OdtTextParagraph (&odtlines, marker);
+      odttextparagraph = new OdtTextParagraph(&odtlines, marker);
     } else {
       // Fallback for unknown marker or no marker.
       if (!odttextparagraph)
-        odttextparagraph = new OdtTextParagraph (&odtlines, "");
+        odttextparagraph = new OdtTextParagraph(&odtlines, "");
       odttextparagraph->plaintext(line);
     }
   }
@@ -299,34 +301,34 @@ void OpenDocument::format_general(vector <ustring>& lines)
     delete odttextparagraph;
 }
 
-void OpenDocument::generate_styles(xmlTextWriterPtr writer) {
+void OpenDocument::generate_styles(xmlTextWriterPtr writer)
+{
   // Go through all the styles and generate the appropriate code.
   for (unsigned int i = 0; i < usfm->styles.size(); i++) {
     ustring marker = usfm->styles[i].marker;
     if (usfm->is_identifier(marker)) {
-      switch (usfm->identifier_get_subtype(marker))
-      {
-        case itBook:
-          paragraph_style(writer, marker, usfm->name(), fontname, 12, 100, OFF, OFF, OFF, OFF, "", 0, 0, 0, 0, 0, false, usfm->userbool1());
-          break;
-        case itEncoding:
-          break;
-        case itComment:
-          break;
-        case itRunningHeader:
-          break;
-        case itLongTOC:
-          break;
-        case itShortTOC:
-          break;
-        case itBookAbbrev:
-          break;
-        case itChapterLabel:
-          break;
-        case itPublishedChapterMarker:
-          break;
-        case itCommentWithEndmarker:
-          break;
+      switch (usfm->identifier_get_subtype(marker)) {
+      case itBook:
+        paragraph_style(writer, marker, usfm->name(), fontname, 12, 100, OFF, OFF, OFF, OFF, "", 0, 0, 0, 0, 0, false, usfm->userbool1());
+        break;
+      case itEncoding:
+        break;
+      case itComment:
+        break;
+      case itRunningHeader:
+        break;
+      case itLongTOC:
+        break;
+      case itShortTOC:
+        break;
+      case itBookAbbrev:
+        break;
+      case itChapterLabel:
+        break;
+      case itPublishedChapterMarker:
+        break;
+      case itCommentWithEndmarker:
+        break;
       }
     }
     if (usfm->is_starting_paragraph(marker)) {
@@ -342,56 +344,53 @@ void OpenDocument::generate_styles(xmlTextWriterPtr writer) {
       span_style(writer, marker, usfm->name(), fontname, 100, usfm->italic(), usfm->bold(), usfm->underline(), usfm->smallcaps(), usfm->superscript(), usfm->color());
     }
     if (usfm->is_foot_endnote(marker)) {
-      switch (usfm->foot_endnote_get_subtype(marker))
-      {
-        case fentFootnote:
-          break;
-        case fentEndnote:
-          break;
-        case fentStandardContent:
-        case fentContent:
-        case fentContentWithEndmarker:
-          span_style(writer, marker, usfm->name(), fontname, 100, usfm->italic(), usfm->bold(), usfm->underline(), OFF, usfm->superscript(), usfm->color());
-          break;
-        case fentParagraph:
-          break;
+      switch (usfm->foot_endnote_get_subtype(marker)) {
+      case fentFootnote:
+        break;
+      case fentEndnote:
+        break;
+      case fentStandardContent:
+      case fentContent:
+      case fentContentWithEndmarker:
+        span_style(writer, marker, usfm->name(), fontname, 100, usfm->italic(), usfm->bold(), usfm->underline(), OFF, usfm->superscript(), usfm->color());
+        break;
+      case fentParagraph:
+        break;
       }
     }
     if (usfm->is_xref(marker)) {
-      switch (usfm->xref_get_subtype(marker))
-      {
-        case ctCrossreference:
-          break;
-        case ctStandardContent:
-        case ctContent:
-        case ctContentWithEndmarker:
-          span_style(writer, marker, usfm->name(), fontname, 100, usfm->italic(), usfm->bold(), usfm->underline(), OFF, usfm->superscript(), usfm->color());
-          break;
+      switch (usfm->xref_get_subtype(marker)) {
+      case ctCrossreference:
+        break;
+      case ctStandardContent:
+      case ctContent:
+      case ctContentWithEndmarker:
+        span_style(writer, marker, usfm->name(), fontname, 100, usfm->italic(), usfm->bold(), usfm->underline(), OFF, usfm->superscript(), usfm->color());
+        break;
       }
     }
     if (usfm->is_peripheral(marker)) {
-      switch (usfm->peripheral_get_subtype(marker))
-      {
-        case ptPublication:
-          break;
-        case ptTableOfContents:
-          break;
-        case ptPreface:
-          break;
-        case ptIntroduction:
-          break;
-        case ptGlossary:
-          break;
-        case ptConcordance:
-          break;
-        case ptIndex:
-          break;
-        case ptMapIndex:
-          break;
-        case ptCover:
-          break;
-        case ptSpine:
-          break;
+      switch (usfm->peripheral_get_subtype(marker)) {
+      case ptPublication:
+        break;
+      case ptTableOfContents:
+        break;
+      case ptPreface:
+        break;
+      case ptIntroduction:
+        break;
+      case ptGlossary:
+        break;
+      case ptConcordance:
+        break;
+      case ptIndex:
+        break;
+      case ptMapIndex:
+        break;
+      case ptCover:
+        break;
+      case ptSpine:
+        break;
       }
     }
     if (usfm->is_picture(marker)) {
@@ -402,13 +401,14 @@ void OpenDocument::generate_styles(xmlTextWriterPtr writer) {
   }
 }
 
-void OpenDocument::zip(const ustring filename) {
+void OpenDocument::zip(const ustring filename)
+{
   ustring command = "cd";
   command.append(shell_quote_space(workingdirectory));
   command.append("; zip -r");
   command.append(shell_quote_space(filename));
   command.append("*");
-  if (system(command.c_str()));
+  if (system(command.c_str())) ;
 }
 
 void OpenDocument::generate_styles_xml(bool right_to_left)
@@ -456,7 +456,7 @@ void OpenDocument::generate_styles_xml(bool right_to_left)
   xmlTextWriterStartElement(writer, BAD_CAST "style:page-layout");
   xmlTextWriterWriteAttribute(writer, BAD_CAST "style:name", BAD_CAST "pm1");
   xmlTextWriterStartElement(writer, BAD_CAST "style:page-layout-properties");
-  extern Settings * settings;
+  extern Settings *settings;
   xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "fo:page-width", "%.2fcm", settings->genconfig.paper_width_get());
   xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "fo:page-height", "%.2fcm", settings->genconfig.paper_height_get());
   xmlTextWriterWriteAttribute(writer, BAD_CAST "style:print-orientation", BAD_CAST "portrait");
@@ -488,7 +488,7 @@ void OpenDocument::generate_styles_xml(bool right_to_left)
   xmlTextWriterEndDocument(writer);
   xmlTextWriterFlush(writer);
   ustring filename = gw_build_filename(workingdirectory, "styles.xml");
-  g_file_set_contents(filename.c_str(), (const gchar *) buffer->content, -1, NULL);
+  g_file_set_contents(filename.c_str(), (const gchar *)buffer->content, -1, NULL);
 
   // Free memory.
   if (writer)
@@ -497,7 +497,8 @@ void OpenDocument::generate_styles_xml(bool right_to_left)
     xmlBufferFree(buffer);
 }
 
-void OpenDocument::paragraph_style(xmlTextWriterPtr writer, const ustring& marker, const ustring& name, const ustring& fontname, double fontsize, int lineheight, const ustring& italic, const ustring& bold, const ustring& underline, const ustring& smallcaps, ustring justification, double spacebefore, double spaceafter, double leftmargin, double rightmargin, double firstlineindent, bool spancolumns, bool startpage) {
+void OpenDocument::paragraph_style(xmlTextWriterPtr writer, const ustring & marker, const ustring & name, const ustring & fontname, double fontsize, int lineheight, const ustring & italic, const ustring & bold, const ustring & underline, const ustring & smallcaps, ustring justification, double spacebefore, double spaceafter, double leftmargin, double rightmargin, double firstlineindent, bool spancolumns, bool startpage)
+{
   // Style properties.
   xmlTextWriterStartElement(writer, BAD_CAST "style:style");
   {
@@ -581,7 +582,8 @@ void OpenDocument::paragraph_style(xmlTextWriterPtr writer, const ustring& marke
   xmlTextWriterEndElement(writer);
 }
 
-void OpenDocument::span_style(xmlTextWriterPtr writer, const ustring& marker, const ustring& name, const ustring& fontname, double fontpercentage, ustring italic, ustring bold, ustring underline, ustring smallcaps, bool superscript, unsigned int color) {
+void OpenDocument::span_style(xmlTextWriterPtr writer, const ustring & marker, const ustring & name, const ustring & fontname, double fontpercentage, ustring italic, ustring bold, ustring underline, ustring smallcaps, bool superscript, unsigned int color)
+{
   // Open the style.
   xmlTextWriterStartElement(writer, BAD_CAST "style:style");
   {
@@ -637,7 +639,7 @@ void OpenDocument::span_style(xmlTextWriterPtr writer, const ustring& marker, co
         xmlTextWriterWriteAttribute(writer, BAD_CAST "style:text-position", BAD_CAST "super 58%");
       }
       if (color != 0) {
-        xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "fo:color", "#%s", color_decimal_to_hex (color).c_str());
+        xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "fo:color", "#%s", color_decimal_to_hex(color).c_str());
       }
     }
     xmlTextWriterEndElement(writer);

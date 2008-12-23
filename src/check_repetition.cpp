@@ -17,7 +17,6 @@
 **  
 */
 
-
 #include "check_repetition.h"
 #include "projectutils.h"
 #include "settings.h"
@@ -28,13 +27,7 @@
 #include "scripturechecks.h"
 #include "tiny_utilities.h"
 
-
-CheckRepetition::CheckRepetition (const ustring& project,
-                                  const vector<unsigned int>& books,
-                                  bool ignorecase,
-                                  const ustring& only_these,
-                                  const ustring& ignore_these,
-                                  bool gui)
+CheckRepetition::CheckRepetition(const ustring & project, const vector < unsigned int >&books, bool ignorecase, const ustring & only_these, const ustring & ignore_these, bool gui)
 /*
 It checks repeating whole words in the text.
 project: project to check.
@@ -48,96 +41,99 @@ gui: whether to show graphical progressbar.
   // Variables.
   cancelled = false;
   // Get a list of the books to check. If no books were given, take them all.
-  vector<unsigned int> mybooks (books.begin(), books.end());
-  if (mybooks.empty()) mybooks = project_get_books (project);
+  vector < unsigned int >mybooks(books.begin(), books.end());
+  if (mybooks.empty())
+    mybooks = project_get_books(project);
   // Read possible words to only include, or to exclude.
-  set <ustring> onlythese;
+  set < ustring > onlythese;
   if (!only_these.empty()) {
-    ReadText rt (only_these, true, false);
+    ReadText rt(only_these, true, false);
     for (unsigned int i = 0; i < rt.lines.size(); i++) {
-      if (ignorecase) 
-        rt.lines[i] = rt.lines[i].casefold ();
-      onlythese.insert (rt.lines[i]);
+      if (ignorecase)
+        rt.lines[i] = rt.lines[i].casefold();
+      onlythese.insert(rt.lines[i]);
     }
   }
-  set <ustring> ignorethese_set;
-  vector <ustring> ignorethese_list;
+  set < ustring > ignorethese_set;
+  vector < ustring > ignorethese_list;
   if (!ignore_these.empty()) {
-    ReadText rt (ignore_these, true, false);
+    ReadText rt(ignore_these, true, false);
     for (unsigned int i = 0; i < rt.lines.size(); i++) {
-      if (ignorecase) 
-        rt.lines[i] = rt.lines[i].casefold ();
-      ignorethese_set.insert (rt.lines[i]);
-      ignorethese_list.push_back (rt.lines[i]);
+      if (ignorecase)
+        rt.lines[i] = rt.lines[i].casefold();
+      ignorethese_set.insert(rt.lines[i]);
+      ignorethese_list.push_back(rt.lines[i]);
     }
     ignorethese_list = rt.lines;
   }
   // GUI.
   progresswindow = NULL;
   if (gui) {
-    progresswindow = new ProgressWindow ("Repeating words", true);
-    progresswindow->set_iterate (0, 1, mybooks.size());
+    progresswindow = new ProgressWindow("Repeating words", true);
+    progresswindow->set_iterate(0, 1, mybooks.size());
   }
   // Check each book in the project.
   for (unsigned int bk = 0; bk < mybooks.size(); bk++) {
     if (gui) {
-      progresswindow->iterate ();
+      progresswindow->iterate();
       if (progresswindow->cancel) {
         cancelled = true;
         return;
       }
     }
-    cout << books_id_to_english (mybooks[bk]) << endl;
+    cout << books_id_to_english(mybooks[bk]) << endl;
     // Check each chapter in the book.
-    vector <unsigned int> chapters = project_get_chapters (project, mybooks[bk]);
+    vector < unsigned int >chapters = project_get_chapters(project, mybooks[bk]);
     for (unsigned int ch = 0; ch < chapters.size(); ch++) {
-      vector <ustring> verses = project_get_verses (project, mybooks[bk], chapters[ch]);
+      vector < ustring > verses = project_get_verses(project, mybooks[bk], chapters[ch]);
       // Check each verse in the chapter.
       for (unsigned int vs = 0; vs < verses.size(); vs++) {
-        ustring line = project_retrieve_verse (project, mybooks[bk], chapters[ch], verses[vs]);
+        ustring line = project_retrieve_verse(project, mybooks[bk], chapters[ch], verses[vs]);
         // Check the verse.
-        CategorizeLine categorize (line);
-        ustring text (categorize.id);
-        text.append (categorize.intro);
-        text.append (categorize.head);
-        text.append (categorize.chap);
-        text.append (categorize.study);
-        text.append (categorize.note);
-        text.append (categorize.ref);
-        text.append (categorize.verse);
-        ParseWords parsewords (text);
+        CategorizeLine categorize(line);
+        ustring text(categorize.id);
+        text.append(categorize.intro);
+        text.append(categorize.head);
+        text.append(categorize.chap);
+        text.append(categorize.study);
+        text.append(categorize.note);
+        text.append(categorize.ref);
+        text.append(categorize.verse);
+        ParseWords parsewords(text);
         ustring previousword;
         for (unsigned int i = 0; i < parsewords.words.size(); i++) {
           ustring word = parsewords.words[i];
-          if (ignorecase) word = word.casefold ();
+          if (ignorecase)
+            word = word.casefold();
           if (word == previousword) {
             bool print = true;
             if (!onlythese.empty()) {
-              if (onlythese.find (word) == onlythese.end ())
+              if (onlythese.find(word) == onlythese.end())
                 print = false;
             }
             if (print) {
               if (!ignorethese_set.empty())
-                if (ignorethese_set.find (word) != ignorethese_set.end())
+                if (ignorethese_set.find(word) != ignorethese_set.end())
                   print = false;
             }
             // Deal with certain texts between repeating words, so that if these texts
             // are found in between, this repetition is ignored.
             if (print) {
-              if (ignorecase) text = text.casefold ();
+              if (ignorecase)
+                text = text.casefold();
               for (unsigned int i2 = 0; i2 < ignorethese_list.size(); i2++) {
                 ustring assembly = word + ignorethese_list[i2] + word;
-                if (text.find (assembly) != string::npos) {
+                if (text.find(assembly) != string::npos) {
                   print = false;
                   continue;
-                }                
+                }
               }
             }
             if (print) {
               ustring message = "Repeated: ";
-              message.append (word);
-              references.push_back (books_id_to_english (mybooks[bk]) + " " + convert_to_string (chapters[ch]) + ":" + verses[vs]);
-              comments.push_back (message);
+              message.append(word);
+              references.push_back(books_id_to_english(mybooks[bk]) + " " + convert_to_string(chapters[ch]) + ":" + verses[vs]);
+              comments.push_back(message);
             }
           }
           previousword = word;
@@ -147,8 +143,8 @@ gui: whether to show graphical progressbar.
   }
 }
 
-
-CheckRepetition::~CheckRepetition ()
+CheckRepetition::~CheckRepetition()
 {
-  if (progresswindow) delete progresswindow;
+  if (progresswindow)
+    delete progresswindow;
 }

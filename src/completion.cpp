@@ -17,78 +17,75 @@
 **  
 */
 
-
 #include "completion.h"
 #include "settings.h"
 
-
-void completion_setup (GtkWidget * entry, CompletionType completiontype)
+void completion_setup(GtkWidget * entry, CompletionType completiontype)
 // Sets up completion on an entry.
 {
   // Create completion.
-  GtkEntryCompletion * completion;
-  completion = gtk_entry_completion_new ();
+  GtkEntryCompletion *completion;
+  completion = gtk_entry_completion_new();
   // Assign it to the entry.
-  gtk_entry_set_completion (GTK_ENTRY (entry), completion);
+  gtk_entry_set_completion(GTK_ENTRY(entry), completion);
   // Free memory.
-  g_object_unref (completion);
+  g_object_unref(completion);
   // Create a model / store and fill it with data.
-  extern Settings * settings;
-  GtkListStore * store;
-  store = gtk_list_store_new (1, G_TYPE_STRING);
+  extern Settings *settings;
+  GtkListStore *store;
+  store = gtk_list_store_new(1, G_TYPE_STRING);
   GtkTreeIter iter;
-  vector<ustring> completiontable;
+  vector < ustring > completiontable;
   switch (completiontype) {
-    case cpSearch :
-      completiontable = settings->session.completion_search;
-    case cpReplace :
-      completiontable = settings->session.completion_replace;
-    case cpGoto :
-      completiontable = settings->session.completion_goto;
+  case cpSearch:
+    completiontable = settings->session.completion_search;
+  case cpReplace:
+    completiontable = settings->session.completion_replace;
+  case cpGoto:
+    completiontable = settings->session.completion_goto;
   }
   for (unsigned int i = 0; i < completiontable.size(); i++) {
-    gtk_list_store_append (store, &iter);
-    gtk_list_store_set (store, &iter, 0, completiontable[i].c_str(), -1);
+    gtk_list_store_append(store, &iter);
+    gtk_list_store_set(store, &iter, 0, completiontable[i].c_str(), -1);
   }
-  gtk_entry_completion_set_model (completion, GTK_TREE_MODEL (store));
+  gtk_entry_completion_set_model(completion, GTK_TREE_MODEL(store));
   // Free memory.
-  g_object_unref (store);
+  g_object_unref(store);
   // Point it to first column to use.
-  gtk_entry_completion_set_text_column (completion, 0);
+  gtk_entry_completion_set_text_column(completion, 0);
 }
 
-
-void completion_finish (GtkWidget * entry, CompletionType completiontype)
+void completion_finish(GtkWidget * entry, CompletionType completiontype)
 // Finalizes completion on an entry.
 {
   // Get the word to add to the completion table.
-  ustring word = gtk_entry_get_text (GTK_ENTRY (entry));
+  ustring word = gtk_entry_get_text(GTK_ENTRY(entry));
   // No word? Finish here.
   if (word.length() == 0)
     return;
   // Word already in table? Finish now.
-  vector<ustring> completiontable;
-  extern Settings * settings;
+  vector < ustring > completiontable;
+  extern Settings *settings;
   switch (completiontype) {
-    case cpSearch :
-      completiontable = settings->session.completion_search;
-    case cpReplace :
-      completiontable = settings->session.completion_replace;
-    case cpGoto :
-      completiontable = settings->session.completion_goto;
+  case cpSearch:
+    completiontable = settings->session.completion_search;
+  case cpReplace:
+    completiontable = settings->session.completion_replace;
+  case cpGoto:
+    completiontable = settings->session.completion_goto;
   }
   for (unsigned int i = 0; i < completiontable.size(); i++)
     if (completiontable[i] == word)
       return;
   // Add word to table.
-  completiontable.push_back (word);
+  completiontable.push_back(word);
   // Store table.
   switch (completiontype) {
-    case cpSearch :
-      settings->session.completion_search = completiontable;
-    case cpReplace :
-      settings->session.completion_replace = completiontable;
-    case cpGoto :
-      settings->session.completion_goto = completiontable;
+  case cpSearch:
+    settings->session.completion_search = completiontable;
+  case cpReplace:
+    settings->session.completion_replace = completiontable;
+  case cpGoto:
+    settings->session.completion_goto = completiontable;
   }
 }

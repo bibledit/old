@@ -17,12 +17,10 @@
 **  
 */
 
-
 #include "utilities.h"
 #include "shortcuts.h"
 
-
-Shortcuts::Shortcuts (int dummy)
+Shortcuts::Shortcuts(int dummy)
 /*
 In many dialogs there are various texts which need to have their underscore
 character to get a shortcut.
@@ -32,79 +30,84 @@ are unique within the set given.
 */
 {
   // Can't make a shortcut out of a space.
-  unavailables.insert (" ");
+  unavailables.insert(" ");
 }
 
-
-void Shortcuts::stockbutton (GtkWidget * widget)
+void Shortcuts::stockbutton(GtkWidget * widget)
 {
   GtkStockItem stockitem;
-  if (gtk_stock_lookup (gtk_button_get_label (GTK_BUTTON (widget)), &stockitem)) {
-    ustring s (stockitem.label);
-    size_t pos = s.find ("_");
+  if (gtk_stock_lookup(gtk_button_get_label(GTK_BUTTON(widget)), &stockitem)) {
+    ustring s(stockitem.label);
+    size_t pos = s.find("_");
     pos++;
-    if (pos < s.length()) unavailables.insert (s.substr (pos, 1).casefold());
+    if (pos < s.length())
+      unavailables.insert(s.substr(pos, 1).casefold());
   }
   lastwidget = widget;
 }
 
-
-void Shortcuts::button (GtkWidget * widget)
+void Shortcuts::button(GtkWidget * widget)
 {
-  widgets.push_back (widget);
-  is_button.push_back (true);
+  widgets.push_back(widget);
+  is_button.push_back(true);
   lastwidget = widget;
 }
 
-
-void Shortcuts::label (GtkWidget * widget)
+void Shortcuts::label(GtkWidget * widget)
 {
-  widgets.push_back (widget);
-  is_button.push_back (false);
+  widgets.push_back(widget);
+  is_button.push_back(false);
   lastwidget = widget;
 }
 
-
-void Shortcuts::process ()
+void Shortcuts::process()
 // Removes any existing shortcuts, and insert new ones.
 {
   // First pass: Go through the widgets and the ones that have the first 
   // character of their label not yet used as a shortcut, set it as the shortcut.
   // Store the other ones for the next pass.
-  vector <GtkWidget *> widgets2;
-  vector <bool> is_button2;
+  vector < GtkWidget * >widgets2;
+  vector < bool > is_button2;
   for (unsigned int i = 0; i < widgets.size(); i++) {
     ustring label;
-    if (is_button[i]) label = gtk_button_get_label (GTK_BUTTON (widgets[i]));
-    else label = gtk_label_get_text (GTK_LABEL (widgets[i]));
-    replace_text (label, "_", "");
+    if (is_button[i])
+      label = gtk_button_get_label(GTK_BUTTON(widgets[i]));
+    else
+      label = gtk_label_get_text(GTK_LABEL(widgets[i]));
+    replace_text(label, "_", "");
     if (!label.empty()) {
-      ustring start = label.substr (0, 1).casefold();
-      if (unavailables.find (start) == unavailables.end()) {
-        label.insert (0, "_");
-        if (is_button[i]) gtk_button_set_label (GTK_BUTTON (widgets[i]), label.c_str());
-        else gtk_label_set_text_with_mnemonic (GTK_LABEL (widgets[i]), label.c_str());
-        unavailables.insert (start);
+      ustring start = label.substr(0, 1).casefold();
+      if (unavailables.find(start) == unavailables.end()) {
+        label.insert(0, "_");
+        if (is_button[i])
+          gtk_button_set_label(GTK_BUTTON(widgets[i]), label.c_str());
+        else
+          gtk_label_set_text_with_mnemonic(GTK_LABEL(widgets[i]), label.c_str());
+        unavailables.insert(start);
       } else {
-        widgets2.push_back (widgets[i]);
-        is_button2.push_back (is_button[i]);
+        widgets2.push_back(widgets[i]);
+        is_button2.push_back(is_button[i]);
       }
-    }    
+    }
   }
   // Second pass: use the next available character of a widget's label as a 
   // shortcut.
   for (unsigned int i = 0; i < widgets2.size(); i++) {
     ustring label;
-    if (is_button2[i]) label = gtk_button_get_label (GTK_BUTTON (widgets2[i]));
-    else label = gtk_label_get_text (GTK_LABEL (widgets2[i]));
-    replace_text (label, "_", "");
+    if (is_button2[i])
+      label = gtk_button_get_label(GTK_BUTTON(widgets2[i]));
+    else
+      label = gtk_label_get_text(GTK_LABEL(widgets2[i]));
+    replace_text(label, "_", "");
     for (unsigned int i2 = 1; i2 < label.length(); i2++) {
-      ustring character = label.substr (i2, 1).casefold();
-      if (unavailables.find (character) == unavailables.end()) {
-        label.insert (i2, "_");
-        if (is_button2[i]) gtk_button_set_label (GTK_BUTTON (widgets2[i]), label.c_str());
-        else gtk_label_set_text_with_mnemonic (GTK_LABEL (widgets2[i]), label.c_str());
-        unavailables.insert (character);
+      ustring character = label.substr(i2, 1).casefold();
+      if (unavailables.find(character) == unavailables.end()) {
+        label.insert(i2, "_");
+        if (is_button2[i])
+          gtk_button_set_label(GTK_BUTTON(widgets2[i]), label.c_str());
+        else
+          gtk_label_set_text_with_mnemonic(GTK_LABEL(widgets2[i]), label.c_str());
+        unavailables.insert(character);
         break;
       }
     }

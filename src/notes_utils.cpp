@@ -60,106 +60,107 @@ void notes_database_verify(bool gui)
     unix_cp(oldfilename, filename);
     sqlite3 *db;
     int rc;
-    char *error= NULL;
-    ProgressWindow * progresswindow= NULL;
+    char *error = NULL;
+    ProgressWindow *progresswindow = NULL;
     if (gui)
-      progresswindow = new ProgressWindow ("Upgrading projectnotes", false);
-    try
-    {
+      progresswindow = new ProgressWindow("Upgrading projectnotes", false);
+    try {
       // Connect to the database.
-      rc = sqlite3_open(filename.c_str (), &db);
-      if (rc) throw runtime_error (sqlite3_errmsg(db));
-      sqlite3_busy_timeout (db, 1000);
+      rc = sqlite3_open(filename.c_str(), &db);
+      if (rc)
+        throw runtime_error(sqlite3_errmsg(db));
+      sqlite3_busy_timeout(db, 1000);
       // Read relevant selection of the data.
-      SqliteReader reader (0);
-      char * sql;
+      SqliteReader reader(0);
+      char *sql;
       sql = g_strdup_printf("select id, reference, ref_osis from notes;");
       rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
-      g_free (sql);
-      if (rc) throw runtime_error (sqlite3_errmsg(db));
+      g_free(sql);
+      if (rc)
+        throw runtime_error(sqlite3_errmsg(db));
       // Go through it all and upgrade it.
-      if (gui) progresswindow->set_iterate (0, 1, reader.ustring0.size());
+      if (gui)
+        progresswindow->set_iterate(0, 1, reader.ustring0.size());
       for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
-        if (gui) progresswindow->iterate ();
+        if (gui)
+          progresswindow->iterate();
         ustring id = reader.ustring0[i];
         ustring reference = reader.ustring1[i];
         ustring newreference = " ";
-        Parse parse (reference);
+        Parse parse(reference);
         for (unsigned int i2 = 0; i2 < parse.words.size(); i2++) {
-          int numerical_reference = convert_to_int (parse.words[i2]);
+          int numerical_reference = convert_to_int(parse.words[i2]);
           int book = numerical_reference / 1000000;
           int chapter_verse = numerical_reference % 1000000;
-          book++; // Here's the trick.
+          book++;               // Here's the trick.
           int newref = (1000000 * book) + chapter_verse;
-          newreference.append (convert_to_string (newref) + " ");
+          newreference.append(convert_to_string(newref) + " ");
         }
-        sql = g_strdup_printf ("update notes set reference = '%s' where id = '%s';", newreference.c_str(), id.c_str());
+        sql = g_strdup_printf("update notes set reference = '%s' where id = '%s';", newreference.c_str(), id.c_str());
         rc = sqlite3_exec(db, sql, NULL, NULL, &error);
-        g_free (sql);
-        if (rc) throw runtime_error (sqlite3_errmsg(db));
+        g_free(sql);
+        if (rc)
+          throw runtime_error(sqlite3_errmsg(db));
       }
       // Remove old database.
-      unlink (oldfilename.c_str());
+      unlink(oldfilename.c_str());
     }
-    catch (exception & ex)
-    {
-      gw_critical (ex.what ());
+    catch(exception & ex) {
+      gw_critical(ex.what());
     }
     sqlite3_close(db);
     if (progresswindow)
       delete progresswindow;
   }
-
   // Update: Any project "None" will be renamed to "All",
   // and the version table will be dropped.
   oldfilename = gw_build_filename(directories_get_notes(), "notes.sql1");
   filename = gw_build_filename(directories_get_notes(), "notes.sql2");
   if (g_file_test(oldfilename.c_str(), G_FILE_TEST_IS_REGULAR)) {
-    g_message ("Upgrading notes");
+    g_message("Upgrading notes");
     unix_mv(oldfilename, filename);
     sqlite3 *db;
     int rc;
-    char *error= NULL;
-    try
-    {
+    char *error = NULL;
+    try {
       // Connect to the database.
-      rc = sqlite3_open(filename.c_str (), &db);
-      if (rc) throw runtime_error (sqlite3_errmsg(db));
-      sqlite3_busy_timeout (db, 1000);
+      rc = sqlite3_open(filename.c_str(), &db);
+      if (rc)
+        throw runtime_error(sqlite3_errmsg(db));
+      sqlite3_busy_timeout(db, 1000);
       // Do the upgrade.
       rc = sqlite3_exec(db, "update notes set project = 'All' where project = 'None';", NULL, NULL, &error);
-      if (rc) throw runtime_error (sqlite3_errmsg(db));
+      if (rc)
+        throw runtime_error(sqlite3_errmsg(db));
       rc = sqlite3_exec(db, "drop table version;", NULL, NULL, &error);
-      if (rc) throw runtime_error (sqlite3_errmsg(db));
+      if (rc)
+        throw runtime_error(sqlite3_errmsg(db));
     }
-    catch (exception & ex)
-    {
-      gw_critical (ex.what ());
+    catch(exception & ex) {
+      gw_critical(ex.what());
     }
     sqlite3_close(db);
   }
-
   // Last thing: make new database if there is no db.
   filename = notes_database_filename();
   if (!g_file_test(filename.c_str(), G_FILE_TEST_IS_REGULAR)) {
     sqlite3 *db;
     int rc;
-    char *error= NULL;
-    try
-    {
+    char *error = NULL;
+    try {
       // Connect to the database.
-      rc = sqlite3_open(filename.c_str (), &db);
-      if (rc) throw runtime_error (sqlite3_errmsg(db));
-      sqlite3_busy_timeout (db, 1000);
+      rc = sqlite3_open(filename.c_str(), &db);
+      if (rc)
+        throw runtime_error(sqlite3_errmsg(db));
+      sqlite3_busy_timeout(db, 1000);
       // Create the notes table.
-      char * sql;
+      char *sql;
       sql = g_strdup_printf("create table '%s' (id integer, reference text, ref_osis text, project text, category text, note text, casefolded text, created integer, modified integer, user text, logbook text);", TABLE_NOTES);
-      rc = sqlite3_exec (db, sql, NULL, NULL, &error);
-      g_free (sql);
+      rc = sqlite3_exec(db, sql, NULL, NULL, &error);
+      g_free(sql);
     }
-    catch (exception & ex)
-    {
-      gw_critical (ex.what ());
+    catch(exception & ex) {
+      gw_critical(ex.what());
     }
     // Close connection.  
     sqlite3_close(db);
@@ -178,32 +179,31 @@ gint notes_database_get_unique_id()
   gint32 result = 0;
   sqlite3 *db;
   int rc;
-  char *error= NULL;
-  try
-  {
-    rc = sqlite3_open(notes_database_filename().c_str (), &db);
-    if (rc) throw runtime_error (sqlite3_errmsg(db));
-    sqlite3_busy_timeout (db, 1000);
+  char *error = NULL;
+  try {
+    rc = sqlite3_open(notes_database_filename().c_str(), &db);
+    if (rc)
+      throw runtime_error(sqlite3_errmsg(db));
+    sqlite3_busy_timeout(db, 1000);
     bool found = false;
     while (!found) {
-      result = g_random_int_range (1, 100000000);
-      SqliteReader reader (0);
-      char * sql;
-      sql = g_strdup_printf ("select count(*) from '%s' where id=%i;", TABLE_NOTES, result);
-      rc = sqlite3_exec (db, sql, reader.callback, &reader, &error);
-      g_free (sql);
+      result = g_random_int_range(1, 100000000);
+      SqliteReader reader(0);
+      char *sql;
+      sql = g_strdup_printf("select count(*) from '%s' where id=%i;", TABLE_NOTES, result);
+      rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
+      g_free(sql);
       if (rc != SQLITE_OK) {
-        throw runtime_error (error);
+        throw runtime_error(error);
       }
-      gint count = convert_to_int (reader.ustring0[0]);
+      gint count = convert_to_int(reader.ustring0[0]);
       if (count == 0) {
         found = true;
       }
     }
   }
-  catch (exception & ex)
-  {
-    gw_critical (ex.what ());
+  catch(exception & ex) {
+    gw_critical(ex.what());
   }
   sqlite3_close(db);
   return result;
@@ -214,30 +214,29 @@ void notes_delete_one(int id)
 {
   sqlite3 *db;
   int rc;
-  char *error= NULL;
-  try
-  {
+  char *error = NULL;
+  try {
     // Connect to database and start transaction
-    rc = sqlite3_open(notes_database_filename ().c_str (), &db);
-    if (rc) throw runtime_error (sqlite3_errmsg(db));
-    sqlite3_busy_timeout (db, 1000);
-    rc = sqlite3_exec (db, "begin;", NULL, NULL, &error);
+    rc = sqlite3_open(notes_database_filename().c_str(), &db);
+    if (rc)
+      throw runtime_error(sqlite3_errmsg(db));
+    sqlite3_busy_timeout(db, 1000);
+    rc = sqlite3_exec(db, "begin;", NULL, NULL, &error);
     // Delete data with "id".
-    char * sql;
+    char *sql;
     sql = g_strdup_printf("delete from %s where id = %d;", TABLE_NOTES, id);
-    rc = sqlite3_exec (db, sql, NULL, NULL, &error);
-    g_free (sql);
+    rc = sqlite3_exec(db, sql, NULL, NULL, &error);
+    g_free(sql);
     // Commit the transaction and close connection.
-    rc = sqlite3_exec (db, "commit;", NULL, NULL, &error);
+    rc = sqlite3_exec(db, "commit;", NULL, NULL, &error);
   }
-  catch (exception & ex)
-  {
-    gw_critical (ex.what ());
+  catch(exception & ex) {
+    gw_critical(ex.what());
   }
   sqlite3_close(db);
 }
 
-void notes_sort(vector<unsigned int>& ids, const vector<ustring>& refs, const vector<ustring>& allrefs, const vector<int>& dates)
+void notes_sort(vector < unsigned int >&ids, const vector < ustring > &refs, const vector < ustring > &allrefs, const vector < int >&dates)
 /*
  This sorts notes.
  ids         - ID's of the notes.
@@ -256,7 +255,7 @@ void notes_sort(vector<unsigned int>& ids, const vector<ustring>& refs, const ve
   // sorting the vector of strings, and then taking out the ids again.
 
   // Storage for strings to sort
-  vector<ustring> strings_to_sort;
+  vector < ustring > strings_to_sort;
 
   // Go through all data to sort.
   for (unsigned int i = 0; i < ids.size(); i++) {
@@ -290,7 +289,7 @@ void notes_sort(vector<unsigned int>& ids, const vector<ustring>& refs, const ve
   quick_sort(strings_to_sort, ids, 0, strings_to_sort.size());
 }
 
-void notes_select(vector<unsigned int>& ids, unsigned int& id_cursor, const ustring& currentreference)
+void notes_select(vector < unsigned int >&ids, unsigned int &id_cursor, const ustring & currentreference)
 /*
  This selects notes for display.
  It does this based on the current reference.
@@ -299,7 +298,7 @@ void notes_select(vector<unsigned int>& ids, unsigned int& id_cursor, const ustr
  */
 {
   // Configuration.
-  extern Settings * settings;
+  extern Settings *settings;
   // Clear ids.
   ids.clear();
   // Numerical equivalent of current reference.
@@ -308,7 +307,7 @@ void notes_select(vector<unsigned int>& ids, unsigned int& id_cursor, const ustr
     ustring book, chapter, verse;
     decode_reference(currentreference, book, chapter, verse);
     numerical_currentreference = reference_to_numerical_equivalent(book, chapter, "0");
-    vector<int> verses = verses_encode(verse);
+    vector < int >verses = verses_encode(verse);
     if (!verses.empty())
       numerical_currentreference += verses[0];
   }
@@ -317,147 +316,152 @@ void notes_select(vector<unsigned int>& ids, unsigned int& id_cursor, const ustr
   // Category selection.
   ustring category = settings->genconfig.notes_selection_category_get();
   // Cursor focus calculation.
-  int minimum_cursor_distance= G_MAXINT;
+  int minimum_cursor_distance = G_MAXINT;
   // Database variables.
   sqlite3 *db;
   int rc;
-  char *error= NULL;
-  try
-  {
+  char *error = NULL;
+  try {
     // Connect to database.
-    rc = sqlite3_open(notes_database_filename().c_str (), &db);
-    if (rc) throw runtime_error (sqlite3_errmsg(db));
-    sqlite3_busy_timeout (db, 1000);
+    rc = sqlite3_open(notes_database_filename().c_str(), &db);
+    if (rc)
+      throw runtime_error(sqlite3_errmsg(db));
+    sqlite3_busy_timeout(db, 1000);
     // Read from database, and sort the results.
-    SqliteReader sqlitereader (0);
+    SqliteReader sqlitereader(0);
     // See which notes to select.
-    switch ((NotesSelectionReferenceType) settings->genconfig.notes_selection_reference_get ()) {
-      case nsrtCurrentVerse:
+    switch ((NotesSelectionReferenceType) settings->genconfig.notes_selection_reference_get()) {
+    case nsrtCurrentVerse:
       {
         // This selects any notes which refer to the current verse.
         ustring book, chapter, verse;
-        decode_reference (currentreference, book, chapter, verse);
+        decode_reference(currentreference, book, chapter, verse);
         unsigned int verse_zero;
-        verse_zero = reference_to_numerical_equivalent (book, chapter, "0");
-        vector<int> verses = verses_encode (verse);
+        verse_zero = reference_to_numerical_equivalent(book, chapter, "0");
+        vector < int >verses = verses_encode(verse);
         for (unsigned int i = 0; i < verses.size(); i++) {
-          ustring this_verse = convert_to_string (int (verse_zero + verses[i]));
-          char * sql;
-          sql = g_strdup_printf ("select id, reference, modified, project, category from '%s' where reference glob ('* %s *');", TABLE_NOTES, this_verse.c_str());
-          rc = sqlite3_exec (db, sql, sqlitereader.callback, &sqlitereader, &error);
-          g_free (sql);
+          ustring this_verse = convert_to_string(int (verse_zero + verses[i]));
+          char *sql;
+          sql = g_strdup_printf("select id, reference, modified, project, category from '%s' where reference glob ('* %s *');", TABLE_NOTES, this_verse.c_str());
+          rc = sqlite3_exec(db, sql, sqlitereader.callback, &sqlitereader, &error);
+          g_free(sql);
           if (rc != SQLITE_OK) {
-            throw runtime_error (error);
+            throw runtime_error(error);
           }
         }
         break;
       }
-      case nsrtCurrentChapter:
+    case nsrtCurrentChapter:
       {
         // This selects any notes which refer to the current chapter.
         ustring book, chapter, verse;
-        decode_reference (currentreference, book, chapter, verse);
+        decode_reference(currentreference, book, chapter, verse);
         unsigned int verse_zero;
-        verse_zero = reference_to_numerical_equivalent (book, chapter, "0");
-        ustring this_chapter = convert_to_string (verse_zero);
-        this_chapter.erase (this_chapter.length() - 3, 3);
-        char * sql;
-        sql = g_strdup_printf ("select id, reference, modified, project, category from '%s' where reference glob ('* %s??? *');", TABLE_NOTES, this_chapter.c_str());
-        rc = sqlite3_exec (db, sql, sqlitereader.callback, &sqlitereader, &error);
-        g_free (sql);
+        verse_zero = reference_to_numerical_equivalent(book, chapter, "0");
+        ustring this_chapter = convert_to_string(verse_zero);
+        this_chapter.erase(this_chapter.length() - 3, 3);
+        char *sql;
+        sql = g_strdup_printf("select id, reference, modified, project, category from '%s' where reference glob ('* %s??? *');", TABLE_NOTES, this_chapter.c_str());
+        rc = sqlite3_exec(db, sql, sqlitereader.callback, &sqlitereader, &error);
+        g_free(sql);
         if (rc != SQLITE_OK) {
-          throw runtime_error (error);
+          throw runtime_error(error);
         }
         break;
       }
-      case nsrtCurrentBook:
+    case nsrtCurrentBook:
       {
         // This selects any notes which refer to the current book.
         ustring book, chapter, verse;
-        decode_reference (currentreference, book, chapter, verse);
+        decode_reference(currentreference, book, chapter, verse);
         unsigned int verse_zero;
-        verse_zero = reference_to_numerical_equivalent (book, chapter, "0");
-        ustring this_book = convert_to_string (verse_zero);
-        this_book.erase (this_book.length() - 6);
-        char * sql;
-        sql = g_strdup_printf ("select id, reference, modified, project, category from '%s' where reference glob ('* %s?????? *');", TABLE_NOTES, this_book.c_str());
-        rc = sqlite3_exec (db, sql, sqlitereader.callback, &sqlitereader, &error);
-        g_free (sql);
+        verse_zero = reference_to_numerical_equivalent(book, chapter, "0");
+        ustring this_book = convert_to_string(verse_zero);
+        this_book.erase(this_book.length() - 6);
+        char *sql;
+        sql = g_strdup_printf("select id, reference, modified, project, category from '%s' where reference glob ('* %s?????? *');", TABLE_NOTES, this_book.c_str());
+        rc = sqlite3_exec(db, sql, sqlitereader.callback, &sqlitereader, &error);
+        g_free(sql);
         if (rc != SQLITE_OK) {
-          throw runtime_error (error);
+          throw runtime_error(error);
         }
         break;
       }
-      case nsrtAny:
+    case nsrtAny:
       {
-        char * sql;
-        sql = g_strdup_printf ("select id, reference, modified, project, category from '%s';", TABLE_NOTES);
-        rc = sqlite3_exec (db, sql, sqlitereader.callback, &sqlitereader, &error);
-        g_free (sql);
+        char *sql;
+        sql = g_strdup_printf("select id, reference, modified, project, category from '%s';", TABLE_NOTES);
+        rc = sqlite3_exec(db, sql, sqlitereader.callback, &sqlitereader, &error);
+        g_free(sql);
         if (rc != SQLITE_OK) {
-          throw runtime_error (error);
+          throw runtime_error(error);
         }
         break;
       }
     }
     // Storage for sorting purposes.
-    vector<ustring> references;
-    vector<ustring> allreferences;
-    vector<int> dates;
-    vector<int> distances;
-    set<gint32> already_stored_ids;
+    vector < ustring > references;
+    vector < ustring > allreferences;
+    vector < int >dates;
+    vector < int >distances;
+    set < gint32 > already_stored_ids;
     // Read all resulting data from the db. Make further selections.
     for (unsigned int rc = 0; rc < sqlitereader.ustring0.size(); rc++) {
       // Selection based on the date.
-      int modified_date = convert_to_int (sqlitereader.ustring2[rc]);
-      switch ((NotesSelectionEditedType) settings->genconfig.notes_selection_edited_get ()) {
-        case nsetToday:
+      int modified_date = convert_to_int(sqlitereader.ustring2[rc]);
+      switch ((NotesSelectionEditedType) settings->genconfig.notes_selection_edited_get()) {
+      case nsetToday:
         {
-          if (modified_date != currentdate) continue;
+          if (modified_date != currentdate)
+            continue;
           break;
         }
-        case nsetDateRange:
+      case nsetDateRange:
         {
-          if (modified_date < settings->genconfig.notes_selection_date_from_get ()) continue;
-          if (modified_date> settings->genconfig.notes_selection_date_to_get ()) continue;
+          if (modified_date < settings->genconfig.notes_selection_date_from_get())
+            continue;
+          if (modified_date > settings->genconfig.notes_selection_date_to_get())
+            continue;
           break;
         }
-        case nsetAny:
+      case nsetAny:
         {
           break;
         }
       }
       // Selection based on the category.
-      if (!category.empty ()) {
-        if (category != sqlitereader.ustring4[rc]) continue;
+      if (!category.empty()) {
+        if (category != sqlitereader.ustring4[rc])
+          continue;
       }
       // Selection based on project.
-      if (settings->genconfig.notes_selection_current_project_get ()) {
+      if (settings->genconfig.notes_selection_current_project_get()) {
         bool project_ok = false;
         ustring project_in_db = sqlitereader.ustring3[rc];
         if (project_in_db == settings->genconfig.project_get())
-        project_ok = true;
+          project_ok = true;
         // Current notes can use "All".
         if (project_in_db == "All")
-        project_ok = true;
+          project_ok = true;
         // Only show notes when the project is fine.
         if (!project_ok)
-        continue;
+          continue;
       }
       // Get id.
-      gint32 id = convert_to_int (sqlitereader.ustring0[rc]);
+      gint32 id = convert_to_int(sqlitereader.ustring0[rc]);
       // Parse the string into its possible several references.
-      Parse parse (sqlitereader.ustring1[rc]);
+      Parse parse(sqlitereader.ustring1[rc]);
       // Get the first numerical equivalent of the reference.
       ustring reference;
-      if (parse.words.size()> 0) reference = parse.words[0];
+      if (parse.words.size() > 0)
+        reference = parse.words[0];
       // Calculate the smallest distance between note and reference.
       // Also see if the cursor must be positioned here.
       int smallest_distance = G_MAXINT;
       int smallest_absolute_distance = G_MAXINT;
       for (unsigned int p = 0; p < parse.words.size(); p++) {
-        int distance = convert_to_int (parse.words[p]) - numerical_currentreference;
-        int absolute_distance = ABS (distance);
+        int distance = convert_to_int(parse.words[p]) - numerical_currentreference;
+        int absolute_distance = ABS(distance);
         if (absolute_distance < smallest_absolute_distance) {
           smallest_distance = distance;
           smallest_absolute_distance = absolute_distance;
@@ -468,77 +472,76 @@ void notes_select(vector<unsigned int>& ids, unsigned int& id_cursor, const ustr
         }
       }
       // Get date modified.
-      int date = convert_to_int (sqlitereader.ustring2[rc]);
+      int date = convert_to_int(sqlitereader.ustring2[rc]);
       // Store data. 
       // As we now work with half-verses (10a, 10b), because of the way we select 
       // notes we might have repeating ids. Filter these out.
-      if (already_stored_ids.find (id) == already_stored_ids.end()) {
+      if (already_stored_ids.find(id) == already_stored_ids.end()) {
         ids.push_back(id);
-        already_stored_ids.insert (id);
+        already_stored_ids.insert(id);
         references.push_back(reference);
         // Sort not only on the first reference, but on the other ones as well.
-        allreferences.push_back (sqlitereader.ustring1[rc]);
+        allreferences.push_back(sqlitereader.ustring1[rc]);
         dates.push_back(date);
-        distances.push_back (smallest_distance);
+        distances.push_back(smallest_distance);
       }
     }
     // Sort the notes.
-    if (settings->genconfig.notes_display_center_around_reference_get ()) {
-      quick_sort (distances, ids, 0, distances.size());
+    if (settings->genconfig.notes_display_center_around_reference_get()) {
+      quick_sort(distances, ids, 0, distances.size());
     } else {
-      notes_sort (ids, references, allreferences, dates);
+      notes_sort(ids, references, allreferences, dates);
     }
   }
-  catch (exception & ex)
-  {
-    gw_critical (ex.what ());
+  catch(exception & ex) {
+    gw_critical(ex.what());
   }
   // Close database
   sqlite3_close(db);
 }
 
-void notes_display(ustring& note_buffer, vector <unsigned int> ids, unsigned int cursor_id, unsigned int& cursor_offset, bool& stop)
+void notes_display(ustring & note_buffer, vector < unsigned int >ids, unsigned int cursor_id, unsigned int &cursor_offset, bool & stop)
 /*
  This collect html data for displaying the notes.
  It collects data for all the notes that have an id given in ids.
  It inserts a html anchor at the start of the note whose id is "cursor_id".
  */
 {
-  extern Settings * settings;
-  ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
+  extern Settings *settings;
+  ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
   ustring language = projectconfig->language_get();
   sqlite3 *db;
   int rc;
-  char *error= NULL;
-  try
-  {
+  char *error = NULL;
+  try {
     // Connect to database.
-    rc = sqlite3_open(notes_database_filename().c_str (), &db);
-    if (rc) throw runtime_error (sqlite3_errmsg(db));
-    sqlite3_busy_timeout (db, 1000);
+    rc = sqlite3_open(notes_database_filename().c_str(), &db);
+    if (rc)
+      throw runtime_error(sqlite3_errmsg(db));
+    sqlite3_busy_timeout(db, 1000);
 
     // Whether to show the text of the reference(s).
-    bool show_reference_text = settings->genconfig.notes_display_reference_text_get ();
+    bool show_reference_text = settings->genconfig.notes_display_reference_text_get();
 
     // Whether to show the summary only.
-    bool show_summary = settings->genconfig.notes_display_summary_get ();
+    bool show_summary = settings->genconfig.notes_display_summary_get();
 
     // Go through all the notes.
     for (unsigned int c = 0; c < ids.size(); c++) {
 
       // Handle possible stop command.
-      if (stop) continue;
+      if (stop)
+        continue;
 
       // Get from the database.
-      SqliteReader reader (0);
-      char * sql;
-      sql = g_strdup_printf ("select id, ref_osis, note, project, category, created, user from '%s' where id = %d;", TABLE_NOTES, ids[c]);
-      rc = sqlite3_exec (db, sql, reader.callback, &reader, &error);
-      g_free (sql);
+      SqliteReader reader(0);
+      char *sql;
+      sql = g_strdup_printf("select id, ref_osis, note, project, category, created, user from '%s' where id = %d;", TABLE_NOTES, ids[c]);
+      rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
+      g_free(sql);
       if (rc != SQLITE_OK) {
-        throw runtime_error (error);
+        throw runtime_error(error);
       }
-
       // Go through the results (there should be only one anyway).
       for (unsigned int r = 0; r < reader.ustring0.size(); r++) {
 
@@ -546,21 +549,21 @@ void notes_display(ustring& note_buffer, vector <unsigned int> ids, unsigned int
         ustring reference = reader.ustring1[r];
 
         // Parse the string into its possible several references.
-        Parse parse (reference, false);
+        Parse parse(reference, false);
         reference.clear();
 
         // Keep list of references.
-        vector<Reference> references;
+        vector < Reference > references;
 
         // Go through each reference.
         for (unsigned int i2 = 0; i2 < parse.words.size(); i2++) {
           // Make it human readable.
-          Reference ref (0);
-          reference_discover (0, 0, "", parse.words[i2], ref.book, ref.chapter, ref.verse);
+          Reference ref(0);
+          reference_discover(0, 0, "", parse.words[i2], ref.book, ref.chapter, ref.verse);
           if (!reference.empty())
-          reference.append (", ");
-          reference.append (ref.human_readable (language));
-          references.push_back (ref);
+            reference.append(", ");
+          reference.append(ref.human_readable(language));
+          references.push_back(ref);
         }
 
         // Get project.
@@ -570,94 +573,93 @@ void notes_display(ustring& note_buffer, vector <unsigned int> ids, unsigned int
         ustring linkheading;
         // If this note is to be focused, then insert a special anchor for that: <a name="cursoranchor"></a>
         if (ids[c] == cursor_id) {
-          linkheading.append ("<a name=\"");
-          linkheading.append (notes_cursor_anchor());
-          linkheading.append ("\"></a>");
+          linkheading.append("<a name=\"");
+          linkheading.append(notes_cursor_anchor());
+          linkheading.append("\"></a>");
         }
         if (settings->session.project_notes_show_title) {
           // Insert a link with this heading, e.g.: <a href="10">Genesis 1.1</a>
-          linkheading.append ("<a href=\"" + convert_to_string (ids[c]) + "\">");
-          linkheading.append (reference);
-          if (settings->genconfig.notes_display_project_get ())
-          linkheading.append (" " + project);
-          if (settings->genconfig.notes_display_category_get ())
-          linkheading.append (" " + reader.ustring4[r]);
-          if (settings->genconfig.notes_display_date_created_get ())
-          linkheading.append (" " + date_time_julian_human_readable (convert_to_int (reader.ustring5[r]), true));
-          if (settings->genconfig.notes_display_created_by_get ())
-          linkheading.append (" " + reader.ustring6[r]);
-          linkheading.append ("</a>");
+          linkheading.append("<a href=\"" + convert_to_string(ids[c]) + "\">");
+          linkheading.append(reference);
+          if (settings->genconfig.notes_display_project_get())
+            linkheading.append(" " + project);
+          if (settings->genconfig.notes_display_category_get())
+            linkheading.append(" " + reader.ustring4[r]);
+          if (settings->genconfig.notes_display_date_created_get())
+            linkheading.append(" " + date_time_julian_human_readable(convert_to_int(reader.ustring5[r]), true));
+          if (settings->genconfig.notes_display_created_by_get())
+            linkheading.append(" " + reader.ustring6[r]);
+          linkheading.append("</a>");
           // Append a [delete] link too, e.g.: <a href="d10">[delete]</a>
-          linkheading.append (" <a href=\"d" + convert_to_string (ids[c]) + "\">");
-          linkheading.append ("[delete]");
-          linkheading.append ("</a>");
+          linkheading.append(" <a href=\"d" + convert_to_string(ids[c]) + "\">");
+          linkheading.append("[delete]");
+          linkheading.append("</a>");
           // Append a [references] link too, e.g.: <a href="r10">[references]</a>
-          linkheading.append (" <a href=\"r" + convert_to_string (ids[c]) + "\">");
-          linkheading.append ("[references]");
-          linkheading.append ("</a>");
+          linkheading.append(" <a href=\"r" + convert_to_string(ids[c]) + "\">");
+          linkheading.append("[references]");
+          linkheading.append("</a>");
         }
         // Add the heading to the note data.
-        note_buffer.append (linkheading);
+        note_buffer.append(linkheading);
 
         // Handle summary. Show only the first few words.
         if (show_summary) {
           ustring summary = reader.ustring2[r];
-          replace_text (summary, "\n", " ");
-          replace_text (summary, "<BR>", " ");
-          Parse parse (summary, false);
+          replace_text(summary, "\n", " ");
+          replace_text(summary, "<BR>", " ");
+          Parse parse(summary, false);
           unsigned int maximum = 5;
-          maximum = CLAMP (maximum, 0, parse.words.size());
-          summary.clear ();
+          maximum = CLAMP(maximum, 0, parse.words.size());
+          summary.clear();
           for (unsigned int w = 0; w < maximum; w++) {
-            summary.append (" ");
-            summary.append (parse.words[w]);
+            summary.append(" ");
+            summary.append(parse.words[w]);
           }
-          if (!summary.empty()) summary.append (" ...");
-          note_buffer.append (summary);
+          if (!summary.empty())
+            summary.append(" ...");
+          note_buffer.append(summary);
         }
         // Append a new line.
-        note_buffer.append ("<BR>\n");
+        note_buffer.append("<BR>\n");
 
         // Insert text of the references, if requested.
         if (show_reference_text) {
           for (unsigned int r = 0; r < references.size(); r++) {
-            vector <unsigned int> simple_verses = verse_range_sequence (references[r].verse);
+            vector < unsigned int >simple_verses = verse_range_sequence(references[r].verse);
             for (unsigned int sv = 0; sv < simple_verses.size(); sv++) {
-              Reference ref (references[r]);
-              ref.verse = convert_to_string (simple_verses[sv]);
-              note_buffer.append (ref.human_readable (language));
-              note_buffer.append (" ");
-              ustring text = project_retrieve_verse (project, ref.book, ref.chapter, ref.verse);
+              Reference ref(references[r]);
+              ref.verse = convert_to_string(simple_verses[sv]);
+              note_buffer.append(ref.human_readable(language));
+              note_buffer.append(" ");
+              ustring text = project_retrieve_verse(project, ref.book, ref.chapter, ref.verse);
               if (!text.empty()) {
-                CategorizeLine cl (text);
+                CategorizeLine cl(text);
                 text = cl.verse;
               }
-              note_buffer.append (text);
-              note_buffer.append ("<BR>\n");
+              note_buffer.append(text);
+              note_buffer.append("<BR>\n");
             }
           }
         }
-
         // Get the text of the note.
         if (!show_summary) {
           ustring note = reader.ustring2[r];
           notes_update_old_one(note);
-          note_buffer.append (note);
-          note_buffer.append ("<BR>\n");
+          note_buffer.append(note);
+          note_buffer.append("<BR>\n");
         }
 
       }
     }
   }
-  catch (exception & ex)
-  {
-    gw_critical (ex.what ());
+  catch(exception & ex) {
+    gw_critical(ex.what());
   }
   // Close connection.  
   sqlite3_close(db);
 }
 
-void notes_get_references_from_editor(GtkTextBuffer *textbuffer, vector<Reference>& references, vector<ustring>& messages)
+void notes_get_references_from_editor(GtkTextBuffer * textbuffer, vector < Reference > &references, vector < ustring > &messages)
 /*
  Gets all references from the notes editor.
  Normalizes them.
@@ -666,7 +668,7 @@ void notes_get_references_from_editor(GtkTextBuffer *textbuffer, vector<Referenc
  */
 {
   // Get all lines from the textbuffer.
-  vector<ustring> lines;
+  vector < ustring > lines;
   textbuffer_get_lines(textbuffer, lines);
   // When discovering a reference from a user's entry, use previous values,
   // so that it becomes quicker for a user to enter new references.
@@ -685,13 +687,13 @@ void notes_get_references_from_editor(GtkTextBuffer *textbuffer, vector<Referenc
           // the first one going up to the end of the chapter, 
           // and the second one starting at the next chapter verse 1,
           // and any chapter in-between.
-          extern Settings * settings;
-          ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
+          extern Settings *settings;
+          ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
           Reference ref(reference.book, convert_to_int(ch1), vs1);
           ustring lastverse = versification_get_last_verse(projectconfig->versification_get(), reference.book, convert_to_int(ch1));
           ref.verse.append("-" + lastverse);
           references.push_back(ref);
-          for (unsigned int ch = convert_to_int(ch1) + 1; ch < convert_to_int (ch2); ch++) {
+          for (unsigned int ch = convert_to_int(ch1) + 1; ch < convert_to_int(ch2); ch++) {
             Reference ref(reference.book, ch, "1");
             ustring lastverse = versification_get_last_verse(projectconfig->versification_get(), reference.book, ch);
             ref.verse.append("-" + lastverse);
@@ -729,8 +731,8 @@ ustring notes_categories_filename()
 void notes_categories_check()
 // Check categories are there - if not, create default set.
 {
-  if (!g_file_test(notes_categories_filename ().c_str(), G_FILE_TEST_IS_REGULAR)) {
-    vector<ustring> categories;
+  if (!g_file_test(notes_categories_filename().c_str(), G_FILE_TEST_IS_REGULAR)) {
+    vector < ustring > categories;
     categories.push_back("No issue");
     categories.push_back("For myself");
     categories.push_back("For subteam");
@@ -744,84 +746,82 @@ void notes_categories_check()
   }
 }
 
-void notes_categories_add_from_database(vector<ustring>& categories)
+void notes_categories_add_from_database(vector < ustring > &categories)
 // Takes the existing notes categories, if there are any, and adds any
 // extra categories found in the database.
 {
   sqlite3 *db;
   int rc;
-  char *error= NULL;
-  try
-  {
+  char *error = NULL;
+  try {
     // Get the unique categories.
-    set<ustring> database_categories;
-    rc = sqlite3_open(notes_database_filename ().c_str (), &db);
-    if (rc) throw runtime_error (sqlite3_errmsg(db));
-    sqlite3_busy_timeout (db, 1000);
-    SqliteReader reader (0);
-    char * sql;
+    set < ustring > database_categories;
+    rc = sqlite3_open(notes_database_filename().c_str(), &db);
+    if (rc)
+      throw runtime_error(sqlite3_errmsg(db));
+    sqlite3_busy_timeout(db, 1000);
+    SqliteReader reader(0);
+    char *sql;
     sql = g_strdup_printf("select category from '%s';", TABLE_NOTES);
     rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
-    g_free (sql);
+    g_free(sql);
     if (rc != SQLITE_OK) {
-      throw runtime_error (error);
+      throw runtime_error(error);
     }
     for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
-      database_categories.insert (reader.ustring0[i]);
+      database_categories.insert(reader.ustring0[i]);
     }
     // Add any new categories to the container.
-    set<ustring> localcategories (categories.begin(), categories.end());
-    vector<ustring> db_categories (database_categories.begin(), database_categories.end());
+    set < ustring > localcategories(categories.begin(), categories.end());
+    vector < ustring > db_categories(database_categories.begin(), database_categories.end());
     for (unsigned int i = 0; i < db_categories.size(); i++) {
-      if (localcategories.find (db_categories[i]) == localcategories.end()) {
-        categories.push_back (db_categories[i]);
+      if (localcategories.find(db_categories[i]) == localcategories.end()) {
+        categories.push_back(db_categories[i]);
       }
     }
   }
-  catch (exception & ex)
-  {
-    gw_critical (ex.what ());
+  catch(exception & ex) {
+    gw_critical(ex.what());
   }
   sqlite3_close(db);
 }
 
-void notes_projects_add_from_database(vector<ustring>& projects)
+void notes_projects_add_from_database(vector < ustring > &projects)
 // Takes the existing projects, if there are any, and adds any
 // extra projects found in the database.
 {
   sqlite3 *db;
   int rc;
-  char *error= NULL;
-  try
-  {
+  char *error = NULL;
+  try {
     // Get the unique categories.
-    set<ustring> database_projects;
-    rc = sqlite3_open(notes_database_filename ().c_str (), &db);
-    if (rc) throw runtime_error (sqlite3_errmsg(db));
-    sqlite3_busy_timeout (db, 1000);
-    SqliteReader reader (0);
-    char * sql;
+    set < ustring > database_projects;
+    rc = sqlite3_open(notes_database_filename().c_str(), &db);
+    if (rc)
+      throw runtime_error(sqlite3_errmsg(db));
+    sqlite3_busy_timeout(db, 1000);
+    SqliteReader reader(0);
+    char *sql;
     sql = g_strdup_printf("select project from '%s';", TABLE_NOTES);
     rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
-    g_free (sql);
+    g_free(sql);
     if (rc != SQLITE_OK) {
-      throw runtime_error (error);
+      throw runtime_error(error);
     }
     for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
-      database_projects.insert (reader.ustring0[i]);
+      database_projects.insert(reader.ustring0[i]);
     }
     // Add any new categories to the container.
-    set<ustring> localprojects (projects.begin(), projects.end());
-    vector<ustring> db_projects (database_projects.begin(), database_projects.end());
+    set < ustring > localprojects(projects.begin(), projects.end());
+    vector < ustring > db_projects(database_projects.begin(), database_projects.end());
     for (unsigned int i = 0; i < db_projects.size(); i++) {
-      if (localprojects.find (db_projects[i]) == localprojects.end()) {
-        projects.push_back (db_projects[i]);
+      if (localprojects.find(db_projects[i]) == localprojects.end()) {
+        projects.push_back(db_projects[i]);
       }
     }
   }
-  catch (exception & ex)
-  {
-    gw_critical (ex.what ());
+  catch(exception & ex) {
+    gw_critical(ex.what());
   }
   sqlite3_close(db);
 }
@@ -832,58 +832,59 @@ void notes_vacuum()
   vacuum_database(notes_database_filename());
 }
 
-void notes_store_one(int id, ustring& note, const ustring& project, vector<Reference>& references, const ustring& category, int date_created, const ustring& user_created, ustring& logbook) {
+void notes_store_one(int id, ustring & note, const ustring & project, vector < Reference > &references, const ustring & category, int date_created, const ustring & user_created, ustring & logbook)
+{
   sqlite3 *db;
   int rc;
-  char *error= NULL;
-  try
-  {
+  char *error = NULL;
+  try {
     /*
-     Validate and normalize the references.
-     Bad ones are removed and a message will be given.
-     If no valid references remain, stop the whole transaction and give a message.
+       Validate and normalize the references.
+       Bad ones are removed and a message will be given.
+       If no valid references remain, stop the whole transaction and give a message.
      */
     ustring encoded_references;
     ustring osis_references;
     // Get and validate all references from the textview.
     {
       // Sort the references so they appear tidy in the editor.
-      sort_references (references);
+      sort_references(references);
       // Encode all references.
       for (unsigned int i = 0; i < references.size(); i++) {
         // Encode the reference.
-        ustring book = books_id_to_english (references[i].book);
-        ustring chapter = convert_to_string (references[i].chapter);
-        vector<int> verses = verses_encode (references[i].verse);
-        int book_chapter = reference_to_numerical_equivalent (book, chapter, "0");
+        ustring book = books_id_to_english(references[i].book);
+        ustring chapter = convert_to_string(references[i].chapter);
+        vector < int >verses = verses_encode(references[i].verse);
+        int book_chapter = reference_to_numerical_equivalent(book, chapter, "0");
         for (unsigned int i2 = 0; i2 < verses.size(); i2++) {
           encoded_references.append(" ");
-          encoded_references.append (convert_to_string (int (book_chapter + verses[i2])));
+          encoded_references.append(convert_to_string(int (book_chapter + verses[i2])));
         }
         // Store the references in OSIS format too.
-        ustring osis_book = books_id_to_osis (references[i].book);
+        ustring osis_book = books_id_to_osis(references[i].book);
         ustring osis_reference = osis_book + "." + chapter + "." + references[i].verse;
         if (!osis_references.empty())
-        osis_references.append (" ");
-        osis_references.append (osis_reference);
+          osis_references.append(" ");
+        osis_references.append(osis_reference);
       }
-      encoded_references.append (" ");
+      encoded_references.append(" ");
     }
     // Connect to database and start transaction.
-    rc = sqlite3_open(notes_database_filename ().c_str (), &db);
-    if (rc) throw runtime_error (sqlite3_errmsg(db));
-    sqlite3_busy_timeout (db, 1000);
-    rc = sqlite3_exec (db, "begin;", NULL, NULL, &error);
+    rc = sqlite3_open(notes_database_filename().c_str(), &db);
+    if (rc)
+      throw runtime_error(sqlite3_errmsg(db));
+    sqlite3_busy_timeout(db, 1000);
+    rc = sqlite3_exec(db, "begin;", NULL, NULL, &error);
     if (rc != SQLITE_OK) {
-      throw runtime_error (error);
+      throw runtime_error(error);
     }
     // Delete previous data with "id".
-    gchar * sql;
-    sql = g_strdup_printf ("delete from %s where id = %d;", TABLE_NOTES, id);
-    rc = sqlite3_exec (db, sql, NULL, NULL, &error);
-    g_free (sql);
+    gchar *sql;
+    sql = g_strdup_printf("delete from %s where id = %d;", TABLE_NOTES, id);
+    rc = sqlite3_exec(db, sql, NULL, NULL, &error);
+    g_free(sql);
     if (rc != SQLITE_OK) {
-      throw runtime_error (error);
+      throw runtime_error(error);
     }
     // Put new data in the database.
     // ID (integer), we take variable "id".
@@ -894,119 +895,117 @@ void notes_store_one(int id, ustring& note, const ustring& project, vector<Refer
     // Note (text), we take variable "note".
     // Trim off extra newlines at the end, and ensure it always has one.
     note = trim(note);
-    note.append ("\n");
+    note.append("\n");
     // Apostrophies need to be doubled before storing them.
-    note = double_apostrophy (note);
+    note = double_apostrophy(note);
     // Casefolded (text)
     ustring casefolded = note.casefold();
     // Date created. Variabele "date_created".
     // Date modified.
-    int date_modified = date_time_julian_day_get_current ();
+    int date_modified = date_time_julian_day_get_current();
     // Username. Use: user_created
     // Logbook (text), take variable logbook.
     // Apostrophies need to be doubled before storing them.
-    logbook = double_apostrophy (logbook);
+    logbook = double_apostrophy(logbook);
     // Insert data in database.
-    sql = g_strdup_printf ("insert into %s values (%d, '%s', '%s', '%s', '%s', '%s', '%s', %d, %d, '%s', '%s');", TABLE_NOTES, id, encoded_references.c_str(), osis_references.c_str(), project.c_str(), category.c_str(), note.c_str(), casefolded.c_str(), date_created, date_modified, user_created.c_str(), logbook.c_str());
-    rc = sqlite3_exec (db, sql, NULL, NULL, &error);
-    g_free (sql);
+    sql = g_strdup_printf("insert into %s values (%d, '%s', '%s', '%s', '%s', '%s', '%s', %d, %d, '%s', '%s');", TABLE_NOTES, id, encoded_references.c_str(), osis_references.c_str(), project.c_str(), category.c_str(), note.c_str(), casefolded.c_str(), date_created, date_modified, user_created.c_str(), logbook.c_str());
+    rc = sqlite3_exec(db, sql, NULL, NULL, &error);
+    g_free(sql);
     if (rc != SQLITE_OK) {
-      throw runtime_error (error);
+      throw runtime_error(error);
     }
     // Commit the transaction.
-    rc = sqlite3_exec (db, "commit;", NULL, NULL, &error);
+    rc = sqlite3_exec(db, "commit;", NULL, NULL, &error);
     if (rc != SQLITE_OK) {
-      throw runtime_error (error);
+      throw runtime_error(error);
     }
   }
-  catch (exception & ex)
-  {
-    gw_critical (ex.what ());
+  catch(exception & ex) {
+    gw_critical(ex.what());
   }
   // Close connection.  
   sqlite3_close(db);
 }
 
-void notes_change_category(const ustring& from, const ustring& to)
+void notes_change_category(const ustring & from, const ustring & to)
 // Changes all notes in category "from" to category "to".
 {
   sqlite3 *db;
   int rc;
-  char *error= NULL;
-  try
-  {
-    rc = sqlite3_open(notes_database_filename ().c_str (), &db);
-    if (rc) throw runtime_error (sqlite3_errmsg(db));
-    sqlite3_busy_timeout (db, 1000);
-    char * sql;
+  char *error = NULL;
+  try {
+    rc = sqlite3_open(notes_database_filename().c_str(), &db);
+    if (rc)
+      throw runtime_error(sqlite3_errmsg(db));
+    sqlite3_busy_timeout(db, 1000);
+    char *sql;
     sql = g_strdup_printf("update '%s' set category = '%s' where category = '%s';", TABLE_NOTES, to.c_str(), from.c_str());
     rc = sqlite3_exec(db, sql, NULL, NULL, &error);
-    g_free (sql);
-    if (rc) throw runtime_error (error);
+    g_free(sql);
+    if (rc)
+      throw runtime_error(error);
   }
-  catch (exception & ex)
-  {
-    gw_critical (ex.what ());
+  catch(exception & ex) {
+    gw_critical(ex.what());
   }
   sqlite3_close(db);
 }
 
-void notes_change_project(const ustring& from, const ustring& to)
+void notes_change_project(const ustring & from, const ustring & to)
 // Changes all notes in project "from" to project "to".
 {
   sqlite3 *db;
   int rc;
-  char *error= NULL;
-  try
-  {
-    rc = sqlite3_open(notes_database_filename ().c_str (), &db);
-    if (rc) throw runtime_error (sqlite3_errmsg(db));
-    sqlite3_busy_timeout (db, 1000);
-    char * sql;
+  char *error = NULL;
+  try {
+    rc = sqlite3_open(notes_database_filename().c_str(), &db);
+    if (rc)
+      throw runtime_error(sqlite3_errmsg(db));
+    sqlite3_busy_timeout(db, 1000);
+    char *sql;
     sql = g_strdup_printf("update '%s' set project = '%s' where project = '%s';", TABLE_NOTES, to.c_str(), from.c_str());
     rc = sqlite3_exec(db, sql, NULL, NULL, &error);
-    g_free (sql);
-    if (rc) throw runtime_error (error);
+    g_free(sql);
+    if (rc)
+      throw runtime_error(error);
   }
-  catch (exception & ex)
-  {
-    gw_critical (ex.what ());
+  catch(exception & ex) {
+    gw_critical(ex.what());
   }
   sqlite3_close(db);
 }
 
-void notes_read(vector <unsigned int> ids, vector <ustring>& data)
+void notes_read(vector < unsigned int >ids, vector < ustring > &data)
 // Reads notes.
 {
   sqlite3 *db;
   int rc;
-  char *error= NULL;
-  try
-  {
+  char *error = NULL;
+  try {
     data.clear();
-    rc = sqlite3_open(notes_database_filename().c_str (), &db);
-    if (rc) throw runtime_error (sqlite3_errmsg(db));
-    sqlite3_busy_timeout (db, 1000);
+    rc = sqlite3_open(notes_database_filename().c_str(), &db);
+    if (rc)
+      throw runtime_error(sqlite3_errmsg(db));
+    sqlite3_busy_timeout(db, 1000);
     for (unsigned int c = 0; c < ids.size(); c++) {
-      SqliteReader reader (0);
-      char * sql;
-      sql = g_strdup_printf ("select note from '%s' where id = %d;", TABLE_NOTES, ids[c]);
-      rc = sqlite3_exec (db, sql, reader.callback, &reader, &error);
-      g_free (sql);
+      SqliteReader reader(0);
+      char *sql;
+      sql = g_strdup_printf("select note from '%s' where id = %d;", TABLE_NOTES, ids[c]);
+      rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
+      g_free(sql);
       if (rc != SQLITE_OK) {
-        throw runtime_error (error);
+        throw runtime_error(error);
       }
-      data.push_back (reader.ustring0[0]);
+      data.push_back(reader.ustring0[0]);
     }
   }
-  catch (exception & ex)
-  {
-    gw_critical (ex.what ());
+  catch(exception & ex) {
+    gw_critical(ex.what());
   }
   sqlite3_close(db);
 }
 
-void notes_update_old_one(ustring& note)
+void notes_update_old_one(ustring & note)
 /*
  If there are newlines, and no <BR>, then this is an old note, 
  and the <BR>'s need to be added for proper display of the newlines
@@ -1022,9 +1021,8 @@ void notes_update_old_one(ustring& note)
   replace_text(note, "\n", "<BR>\n");
 }
 
-const gchar * notes_cursor_anchor()
+const gchar *notes_cursor_anchor()
 // Gives the name of the anchor where the cursor has to jump to.
 {
   return "cursoranchor";
 }
-

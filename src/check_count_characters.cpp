@@ -17,7 +17,6 @@
 **  
 */
 
-
 #include "check_count_characters.h"
 #include "projectutils.h"
 #include "settings.h"
@@ -27,9 +26,7 @@
 #include "books.h"
 #include "checks.h"
 
-
-CheckCountCharacters::CheckCountCharacters (const ustring& project, const vector<unsigned int>& books,
-                                            bool sortcharacter, bool sortcount, bool gui)
+CheckCountCharacters::CheckCountCharacters(const ustring & project, const vector < unsigned int >&books, bool sortcharacter, bool sortcount, bool gui)
 /*
 It counts the characters in the project.
 project: project to check.
@@ -42,76 +39,75 @@ gui: show graphical progressbar.
   // Initialize variables.
   cancelled = false;
   // Get a list of the books to check. If no books were given, take them all.
-  vector<unsigned int> mybooks (books.begin(), books.end());
+  vector < unsigned int >mybooks(books.begin(), books.end());
   if (mybooks.empty())
-    mybooks = project_get_books (project);
+    mybooks = project_get_books(project);
   // GUI.
   progresswindow = NULL;
   if (gui) {
-    progresswindow = new ProgressWindow ("Counting characters", true);
-    progresswindow->set_iterate (0, 1, mybooks.size());
+    progresswindow = new ProgressWindow("Counting characters", true);
+    progresswindow->set_iterate(0, 1, mybooks.size());
   }
   // Check each book.
   for (unsigned int bk = 0; bk < mybooks.size(); bk++) {
     if (gui) {
-      progresswindow->iterate ();
+      progresswindow->iterate();
       if (progresswindow->cancel) {
         cancelled = true;
         return;
       }
     } else {
-      cout << books_id_to_english (mybooks[bk]) << endl;
+      cout << books_id_to_english(mybooks[bk]) << endl;
     }
     // Get text of the book and go through each line.
-    vector <ustring> lines = project_retrieve_book (project, mybooks[bk]);
+    vector < ustring > lines = project_retrieve_book(project, mybooks[bk]);
     for (unsigned int ln = 0; ln < lines.size(); ln++) {
-      ustring line (lines[ln]);
+      ustring line(lines[ln]);
       for (unsigned int c = 0; c < line.size(); c++) {
-        ustring character = line.substr (c, 1);
-        gchar * g_character = g_strdup ((gchar *) character.c_str());
+        ustring character = line.substr(c, 1);
+        gchar *g_character = g_strdup((gchar *) character.c_str());
         bool character_found = false;
         for (unsigned int i2 = 0; i2 < characters.size(); i2++) {
           /*
-          We would have said: if (character == characters[i2])
-          But something funny is going on here. In a text like
-          nǀi nǂûî
-          the ǀ would be considered equal to the ǂ, so the latter would not show
-          up in the inventory under ǂ, but under ǀ.
-          Comparing g_chars solves this.
-          */
-          if (g_strrstr (g_characters[i2], g_character) != NULL) {
+             We would have said: if (character == characters[i2])
+             But something funny is going on here. In a text like
+             nǀi nǂûî
+             the ǀ would be considered equal to the ǂ, so the latter would not show
+             up in the inventory under ǂ, but under ǀ.
+             Comparing g_chars solves this.
+           */
+          if (g_strrstr(g_characters[i2], g_character) != NULL) {
             character_found = true;
             counts[i2]++;
             break;
           }
-        }  
-        if (!character_found) {
-          characters.push_back (character);
-          g_characters.push_back (g_strdup (g_character));
-          counts.push_back (1);
         }
-        g_free (g_character);
-      }      
+        if (!character_found) {
+          characters.push_back(character);
+          g_characters.push_back(g_strdup(g_character));
+          counts.push_back(1);
+        }
+        g_free(g_character);
+      }
     }
   }
   // Sorting, if requested.
   if (sortcharacter) {
-    quick_sort (characters, counts, 0, characters.size());
+    quick_sort(characters, counts, 0, characters.size());
   }
   if (sortcount) {
-    quick_sort (counts, characters, 0, counts.size());
+    quick_sort(counts, characters, 0, counts.size());
   }
 }
 
-
-CheckCountCharacters::~CheckCountCharacters ()
+CheckCountCharacters::~CheckCountCharacters()
 {
-  if (progresswindow) delete progresswindow;
+  if (progresswindow)
+    delete progresswindow;
   for (unsigned int i = 0; i < g_characters.size(); i++) {
-    g_free (g_characters[i]);
+    g_free(g_characters[i]);
   }
 }
-
 
 /*
 Paratext can find invalid characters, but as we have Unicode, where all 

@@ -22,7 +22,7 @@
 #include "text2pdf_ref_area.h"
 #include "text2pdf_page.h"
 
-T2PPage::T2PPage(int page_number, int page_width, int page_height, int inside_margin, int outside_margin, int top_margin, int bottom_margin, int header_height, int footer_height, cairo_t *cairo_in, bool print_date_in)
+T2PPage::T2PPage(int page_number, int page_width, int page_height, int inside_margin, int outside_margin, int top_margin, int bottom_margin, int header_height, int footer_height, cairo_t * cairo_in, bool print_date_in)
 /* This encapsulates one page.
 
  ------------------------------------------
@@ -63,7 +63,7 @@ T2PPage::T2PPage(int page_number, int page_width, int page_height, int inside_ma
     rectangle.y = top_margin;
     rectangle.width = page_width - inside_margin - outside_margin;
     rectangle.height = header_height;
-    header_reference_area = new T2PReferenceArea (rectangle, cairo);
+    header_reference_area = new T2PReferenceArea(rectangle, cairo);
   }
 
   // Create the reference area for the text.
@@ -76,7 +76,7 @@ T2PPage::T2PPage(int page_number, int page_width, int page_height, int inside_ma
     rectangle.y = top_margin + header_height;
     rectangle.width = page_width - inside_margin - outside_margin;
     rectangle.height = page_height - top_margin - header_height - footer_height - bottom_margin;
-    text_reference_area = new T2PReferenceArea (rectangle, cairo);
+    text_reference_area = new T2PReferenceArea(rectangle, cairo);
   }
 
   // Create the reference area for the footer.
@@ -89,7 +89,7 @@ T2PPage::T2PPage(int page_number, int page_width, int page_height, int inside_ma
     rectangle.y = page_height - bottom_margin;
     rectangle.width = page_width - inside_margin - outside_margin;
     rectangle.height = footer_height;
-    footer_reference_area = new T2PReferenceArea (rectangle, cairo);
+    footer_reference_area = new T2PReferenceArea(rectangle, cairo);
   }
 }
 
@@ -107,7 +107,7 @@ void T2PPage::print()
   // White background.
   cairo_set_source_rgb(cairo, 1.0, 1.0, 1.0);
   cairo_paint(cairo);
-  
+
   // Headers.
   if (text_reference_area->has_content()) {
     header_reference_area->print(number, print_date, text_reference_area->left_running_header(), text_reference_area->right_running_header(), text_reference_area->suppress_headers(), text_reference_area->left_running_first_chapter(), text_reference_area->left_running_last_chapter(), text_reference_area->right_running_first_chapter(), text_reference_area->right_running_last_chapter());
@@ -116,7 +116,7 @@ void T2PPage::print()
   header_reference_area->print();
   text_reference_area->print();
   footer_reference_area->print();
-  
+
   // Output this page.
   cairo_show_page(cairo);
 }

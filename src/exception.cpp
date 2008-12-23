@@ -17,21 +17,16 @@
 **  
 */
 
-
 #include "libraries.h"
 
-
-void
-terminator ()
+void terminator()
 {
   cerr << "A serious problem occurred" << endl;
-  exit (EXIT_FAILURE);
+  exit(EXIT_FAILURE);
 }
 
-
-void
-my_unexpected ()
+void my_unexpected()
 {
   cerr << "An exception occured" << endl;
-  exit (EXIT_FAILURE);
+  exit(EXIT_FAILURE);
 }

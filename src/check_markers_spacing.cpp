@@ -17,7 +17,6 @@
 **  
 */
 
-
 #include "check_markers_spacing.h"
 #include "projectutils.h"
 #include "progresswindow.h"
@@ -28,10 +27,7 @@
 #include "books.h"
 #include "tiny_utilities.h"
 
-
-CheckMarkersSpacing::CheckMarkersSpacing (const ustring& project,
-                                          const vector<unsigned int>& books, 
-                                          bool gui)
+CheckMarkersSpacing::CheckMarkersSpacing(const ustring & project, const vector < unsigned int >&books, bool gui)
 /*
 It performs checks related to the USFM standard.
 project: project to check.
@@ -42,85 +38,84 @@ gui: whether to show graphical progressbar.
   // Init variables.
   cancelled = false;
   // Get a list of the books to check. If no books were given, take them all.
-  vector<unsigned int> mybooks (books.begin(), books.end());
+  vector < unsigned int >mybooks(books.begin(), books.end());
   if (mybooks.empty())
-    mybooks = project_get_books (project);
+    mybooks = project_get_books(project);
   // Get the markers to check the spacing for.
-  extern Settings * settings;
-  Parse parse (settings->genconfig.check_markers_spacing_include_get ());
+  extern Settings *settings;
+  Parse parse(settings->genconfig.check_markers_spacing_include_get());
   for (unsigned int i = 0; i < parse.words.size(); i++) {
-    markers.insert (parse.words[i]);
+    markers.insert(parse.words[i]);
   }
   // GUI.
-  ProgressWindow * progresswindow = NULL;
+  ProgressWindow *progresswindow = NULL;
   if (gui) {
-    progresswindow = new ProgressWindow ("Checking spacing", true);
-    progresswindow->set_iterate (0, 1, mybooks.size());
+    progresswindow = new ProgressWindow("Checking spacing", true);
+    progresswindow->set_iterate(0, 1, mybooks.size());
   }
   // Check each book.
   for (unsigned int bk = 0; bk < mybooks.size(); bk++) {
     if (gui) {
-      progresswindow->iterate ();
+      progresswindow->iterate();
       if (progresswindow->cancel) {
         cancelled = true;
         break;
       }
     }
     book = mybooks[bk];
-    cout << books_id_to_english (book) << endl;
+    cout << books_id_to_english(book) << endl;
     // Check each chapter.
-    vector <unsigned int> chapters = project_get_chapters (project, book);
+    vector < unsigned int >chapters = project_get_chapters(project, book);
     for (unsigned int ch = 0; ch < chapters.size(); ch++) {
       chapter = chapters[ch];
-      vector <ustring> verses = project_get_verses (project, book, chapter);
+      vector < ustring > verses = project_get_verses(project, book, chapter);
       // Check each verse.
       for (unsigned int vs = 0; vs < verses.size(); vs++) {
         verse = verses[vs];
-        ustring line = project_retrieve_verse (project, book, chapter, verse);
-        check (line); 
+        ustring line = project_retrieve_verse(project, book, chapter, verse);
+        check(line);
       }
     }
   }
   // Clean up.
-  if (progresswindow) delete progresswindow;
+  if (progresswindow)
+    delete progresswindow;
 }
 
-
-CheckMarkersSpacing::~CheckMarkersSpacing ()
+CheckMarkersSpacing::~CheckMarkersSpacing()
 {
 }
 
-
-void CheckMarkersSpacing::check (ustring text)
+void CheckMarkersSpacing::check(ustring text)
 // Do the actual check of one verse.
 {
   // Extract the marker, and deal with it.
-  text = trim (text);
-  if (text.empty()) return;
-  ustring marker = usfm_extract_marker_within_line (text);
+  text = trim(text);
+  if (text.empty())
+    return;
+  ustring marker = usfm_extract_marker_within_line(text);
   while (!marker.empty()) {
-    if (markers.find (marker) != markers.end()) {
-      size_t pos = text.find ("\\");
+    if (markers.find(marker) != markers.end()) {
+      size_t pos = text.find("\\");
       if (pos != string::npos) {
-        if (text.substr (--pos, 1) == " ") {
+        if (text.substr(--pos, 1) == " ") {
           if (pos > 1) {
-            if (text.substr (--pos, 1) == " ") {
-             message ("Text of marker " + marker + " ends with more than one space");              
+            if (text.substr(--pos, 1) == " ") {
+              message("Text of marker " + marker + " ends with more than one space");
             }
           }
         } else {
-          message ("Text of marker " + marker + " doesn't end with a space");              
+          message("Text of marker " + marker + " doesn't end with a space");
         }
       }
     }
     // Extract any next marker in this text.
-    marker = usfm_extract_marker_within_line (text);
+    marker = usfm_extract_marker_within_line(text);
   }
 }
 
-
-void CheckMarkersSpacing::message (const ustring& message)
+void CheckMarkersSpacing::message(const ustring & message)
 {
-  references.push_back (books_id_to_english (book) + " " + convert_to_string (chapter) + ":" + verse);
-  comments.push_back (message);
+  references.push_back(books_id_to_english(book) + " " + convert_to_string(chapter) + ":" + verse);
+  comments.push_back(message);
 }

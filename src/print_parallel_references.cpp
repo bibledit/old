@@ -44,7 +44,7 @@
 #include "tiny_utilities.h"
 #include "usfm2text.h"
 
-void view_parallel_references_pdf(ProjectMemory& main_project, vector <ustring> * extra_projects, vector <Reference> references, bool keep_verses_together_within_page, vector<ustring> * remarks, bool highlight)
+void view_parallel_references_pdf(ProjectMemory & main_project, vector < ustring > *extra_projects, vector < Reference > references, bool keep_verses_together_within_page, vector < ustring > *remarks, bool highlight)
 /*
  Formats the references in "references", and highlights all words in
  "session->highlights*" and shows them in a pdf viewer.
@@ -59,12 +59,12 @@ void view_parallel_references_pdf(ProjectMemory& main_project, vector <ustring> 
   progresswindow.set_iterate(0, 1, references.size());
 
   // Configuration
-  extern Settings * settings;
-  ProjectConfiguration * projectconfig = settings->projectconfig(main_project.name);
+  extern Settings *settings;
+  ProjectConfiguration *projectconfig = settings->projectconfig(main_project.name);
   ustring stylesheet = projectconfig->stylesheet_get();
 
   // Store the additional projects to print.
-  vector<ustring> additional_projects;
+  vector < ustring > additional_projects;
   if (extra_projects)
     additional_projects = *extra_projects;
   settings->session.additional_printing_projects = additional_projects;
@@ -84,7 +84,6 @@ void view_parallel_references_pdf(ProjectMemory& main_project, vector <ustring> 
   if (settings->genconfig.printdate_get()) {
     text2pdf.print_date_in_header();
   }
-
   // Font, etc., of main project.
   ustring main_font = projectconfig->editor_font_name_get();
   unsigned int main_line_spacing = projectconfig->text_line_height_get();
@@ -106,31 +105,29 @@ void view_parallel_references_pdf(ProjectMemory& main_project, vector <ustring> 
       text2pdf.close_paragraph();
     }
   }
-
   // Some variables to avoid excessive session access during highlighting.
-  vector<bool> highlight_casesensitives;
-  vector<ustring> highlight_words;
+  vector < bool > highlight_casesensitives;
+  vector < ustring > highlight_words;
   if (highlight) {
     for (unsigned int hl = 0; hl < settings->session.highlights.size(); hl++) {
       highlight_casesensitives.push_back(settings->session.highlights[hl].casesensitive);
       highlight_words.push_back(settings->session.highlights[hl].word);
     }
   }
-
   // All the projects to be put in this parallel Bible, together with
   // their related information, like mapping, fonts.
-  vector <ustring> project_names;
-  vector <ProjectMemory> project_memories;
-  vector <Mapping> mapping_s;
-  vector <ustring> fonts;
-  vector <unsigned int> line_spacings;
-  vector <bool> right_to_lefts;
+  vector < ustring > project_names;
+  vector < ProjectMemory > project_memories;
+  vector < Mapping > mapping_s;
+  vector < ustring > fonts;
+  vector < unsigned int >line_spacings;
+  vector < bool > right_to_lefts;
   if (extra_projects) {
-    vector<ustring> project_s_raw = *extra_projects;
+    vector < ustring > project_s_raw = *extra_projects;
     for (unsigned int i = 0; i < project_s_raw.size(); i++) {
       ProjectMemory projectmemory(project_s_raw[i], true);
       project_memories.push_back(projectmemory);
-      ProjectConfiguration * projectconfig = settings->projectconfig(project_s_raw[i]);
+      ProjectConfiguration *projectconfig = settings->projectconfig(project_s_raw[i]);
       project_names.push_back(project_s_raw[i]);
       Mapping mapping(projectconfig->versification_get(), 0);
       mapping_s.push_back(mapping);
@@ -145,7 +142,6 @@ void view_parallel_references_pdf(ProjectMemory& main_project, vector <ustring> 
       right_to_lefts.push_back(projectconfig->right_to_left_get());
     }
   }
-
   // Produce chunks for all references.
   for (unsigned int rf = 0; rf < references.size(); rf++) {
 
@@ -156,7 +152,6 @@ void view_parallel_references_pdf(ProjectMemory& main_project, vector <ustring> 
     if (keep_verses_together_within_page) {
       text2pdf.open_keep_together();
     }
-
     // Set main font, etc.
     text2pdf.set_font(main_font);
     text2pdf.set_line_spacing(main_line_spacing);
@@ -166,8 +161,8 @@ void view_parallel_references_pdf(ProjectMemory& main_project, vector <ustring> 
     text2pdf.add_text(references[rf].human_readable(""));
 
     // Map this verse to the original, that is, to Hebrew or Greek.
-    vector<int> hebrew_greek_chapters;
-    vector<int> hebrew_greek_verses;
+    vector < int >hebrew_greek_chapters;
+    vector < int >hebrew_greek_verses;
     mapping.book_change(references[rf].book);
     mapping.me_to_original(references[rf].chapter, references[rf].verse, hebrew_greek_chapters, hebrew_greek_verses);
     // Get verse text for each version.
@@ -178,9 +173,9 @@ void view_parallel_references_pdf(ProjectMemory& main_project, vector <ustring> 
       unsigned int line_spacing = main_line_spacing;
       bool right_to_left = main_right_to_left;
       if (vsn > 0) {
-        font = fonts[vsn-1];
-        line_spacing = line_spacings[vsn-1];
-        right_to_left = right_to_lefts[vsn-1];
+        font = fonts[vsn - 1];
+        line_spacing = line_spacings[vsn - 1];
+        right_to_left = right_to_lefts[vsn - 1];
       }
       text2pdf.set_font(font);
       text2pdf.set_line_spacing(line_spacing);
@@ -190,11 +185,11 @@ void view_parallel_references_pdf(ProjectMemory& main_project, vector <ustring> 
       ustring line;
       if (vsn == 0) {
         // First version.
-        ProjectBook * projectbook = main_project.get_book_pointer(references[rf].book);
+        ProjectBook *projectbook = main_project.get_book_pointer(references[rf].book);
         if (projectbook) {
-          ProjectChapter * projectchapter = projectbook->get_chapter_pointer(references[rf].chapter);
+          ProjectChapter *projectchapter = projectbook->get_chapter_pointer(references[rf].chapter);
           if (projectchapter) {
-            ProjectVerse * projectverse = projectchapter->get_verse_pointer(references[rf].verse);
+            ProjectVerse *projectverse = projectchapter->get_verse_pointer(references[rf].verse);
             if (projectverse) {
               line = projectverse->data;
             }
@@ -203,18 +198,18 @@ void view_parallel_references_pdf(ProjectMemory& main_project, vector <ustring> 
       } else {
         // Other versions. 
         // Get mapped chapters / verses.
-        vector<int> mychapters;
-        vector<int> myverses;
+        vector < int >mychapters;
+        vector < int >myverses;
         mapping_s[vsn - 1].book_change(references[rf].book);
         mapping_s[vsn - 1].original_to_me(hebrew_greek_chapters, hebrew_greek_verses, mychapters, myverses);
         // Get text of any of the mapped verses.
         for (unsigned int mp = 0; mp < mychapters.size(); mp++) {
           // Get the verse and add it to the usfm code.
-          ProjectBook * projectbook = project_memories [vsn - 1].get_book_pointer(references[rf].book);
+          ProjectBook *projectbook = project_memories[vsn - 1].get_book_pointer(references[rf].book);
           if (projectbook) {
-            ProjectChapter * projectchapter = projectbook->get_chapter_pointer(mychapters[mp]);
+            ProjectChapter *projectchapter = projectbook->get_chapter_pointer(mychapters[mp]);
             if (projectchapter) {
-              ProjectVerse * projectverse = projectchapter->get_verse_pointer(convert_to_string(myverses[mp]));
+              ProjectVerse *projectverse = projectchapter->get_verse_pointer(convert_to_string(myverses[mp]));
               if (projectverse) {
                 line = projectverse->data;
               }
@@ -243,8 +238,8 @@ void view_parallel_references_pdf(ProjectMemory& main_project, vector <ustring> 
       text_replacement(line);
 
       // Positions in the line, and lengths to highlight.
-      vector <size_t> highlight_positions;
-      vector <size_t> highlight_lengths;
+      vector < size_t > highlight_positions;
+      vector < size_t > highlight_lengths;
 
       // Go through all the words to highlight.
       for (unsigned int i2 = 0; i2 < highlight_casesensitives.size(); i2++) {
@@ -290,7 +285,7 @@ void view_parallel_references_pdf(ProjectMemory& main_project, vector <ustring> 
         line.replace(highlight_positions[i], highlight_lengths[i], taggedtext);
         // Push any following positions up.
         for (unsigned int i2 = i + 1; i2 < highlight_positions.size(); i2++) {
-          highlight_positions[i2] = highlight_positions[i2] + usfm_get_full_opening_marker (INSERTION_MARKER).length() + usfm_get_full_closing_marker (INSERTION_MARKER).length();
+          highlight_positions[i2] = highlight_positions[i2] + usfm_get_full_opening_marker(INSERTION_MARKER).length() + usfm_get_full_closing_marker(INSERTION_MARKER).length();
         }
       }
 

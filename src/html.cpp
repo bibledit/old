@@ -21,7 +21,8 @@
 #include "utilities.h"
 #include "tiny_utilities.h"
 
-ustring html_remove_code_between_less_than_and_greater_than_signs(const ustring& text) {
+ustring html_remove_code_between_less_than_and_greater_than_signs(const ustring & text)
+{
   ustring clean_line(text);
   unsigned int infinite_loop_counter = 0;
   while (true) {
@@ -39,7 +40,8 @@ ustring html_remove_code_between_less_than_and_greater_than_signs(const ustring&
   return clean_line;
 }
 
-ustring html_create_anchor(const ustring& anchor, const ustring& text) {
+ustring html_create_anchor(const ustring & anchor, const ustring & text)
+{
   ustring result;
   result.append("<a name=\"");
   result.append(anchor);
@@ -49,7 +51,7 @@ ustring html_create_anchor(const ustring& anchor, const ustring& text) {
   return result;
 }
 
-ustring html_extract_title(const ustring& filename)
+ustring html_extract_title(const ustring & filename)
 // Extracts the title from the file: <title>Page Title</title>
 {
   ustring title;
@@ -70,7 +72,7 @@ ustring html_extract_title(const ustring& filename)
   return title;
 }
 
-void html_entities_to_utf8(ustring& code)
+void html_entities_to_utf8(ustring & code)
 // Change html entities to utf8 code, e.g. &#949; becomes ε.
 // The entities for < and > and & remain because they are supposed to be given like &amp;, etc.
 {
@@ -95,13 +97,12 @@ void html_entities_to_utf8(ustring& code)
       continue;
     }
     gunichar unichar = convert_to_int(number);
-    char * buffer = g_ucs4_to_utf8(&unichar, 1, NULL, NULL, NULL);
+    char *buffer = g_ucs4_to_utf8(&unichar, 1, NULL, NULL, NULL);
     if (buffer) {
-      code.erase (ampersand_pos, semicolon_pos - ampersand_pos + 1);
-      code.insert (ampersand_pos, buffer);
+      code.erase(ampersand_pos, semicolon_pos - ampersand_pos + 1);
+      code.insert(ampersand_pos, buffer);
       g_free(buffer);
     }
     ampersand_pos++;
   }
 }
-

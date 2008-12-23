@@ -26,7 +26,7 @@ void password_edit(GtkWidget * window)
 // The routine to edit the administrator's password.
 {
   // Get the current administrator's password.
-  extern Settings * settings;
+  extern Settings *settings;
   ustring currentpassword = settings->genconfig.administration_password_get();
 
   // If the password is set, first ask for the current password before proceeding.
@@ -40,7 +40,6 @@ void password_edit(GtkWidget * window)
       return;
     }
   }
-
   // Ask whether the user wishes to set a(nother) password.
   ustring message;
   message = "The current password is ";
@@ -81,7 +80,6 @@ void password_edit(GtkWidget * window)
     gtkw_dialog_warning(window, "The two passwords differ");
     return;
   }
-
   // Store the new password.
   settings->genconfig.administration_password_set(password1);
 
@@ -99,7 +97,7 @@ bool password_pass(GtkWidget * window)
 // Returns true if the user provides a correct password.
 {
   // Retrieve the password.
-  extern Settings * settings;
+  extern Settings *settings;
   ustring currentpassword = settings->genconfig.administration_password_get();
 
   // Return true if the password is unset.

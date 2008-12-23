@@ -17,7 +17,6 @@
 **  
 */
 
-
 #include "libraries.h"
 #include "htmlbrowser.h"
 #include <gtk/gtk.h>
@@ -30,65 +29,61 @@
 #include "uname.h"
 #include "windowsoutpost.h"
 
-
 #define NUMBER_OF_BROWSERS 8
 
-
-const gchar * helpcommand (int index)
+const gchar *helpcommand(int index)
 {
   // Returns a command to be executed to get the helpfile displayed.
   // Variable "index" selects which browser will be used.
-  const gchar * command = NULL;
-  switch (index)
+  const gchar *command = NULL;
+  switch (index) {
+  case 0:
     {
-    case 0:
-      {
-        command = "htmlview";
-        break;
-      }
-    case 1:
-      {
-        command = "firefox";
-        break;
-      }
-    case 2:
-      {
-        command = "mozilla";
-        break;
-      }
-    case 3:
-      {
-        command = "galeon";
-        break;
-      }
-    case 4:
-      {
-        command = "konqueror";
-        break;
-      }
-    case 5:
-      {
-        command = "epiphany";
-        break;
-      }
-    case 6:
-      {
-        command = "opera";
-        break;
-      }
-    case 7:
-      {
-        command = "open";
-        break;
-      }
-      // Note: when adding new browsers, ensure that
-      // NUMBER_OF_BROWSERS is updated too.
+      command = "htmlview";
+      break;
     }
+  case 1:
+    {
+      command = "firefox";
+      break;
+    }
+  case 2:
+    {
+      command = "mozilla";
+      break;
+    }
+  case 3:
+    {
+      command = "galeon";
+      break;
+    }
+  case 4:
+    {
+      command = "konqueror";
+      break;
+    }
+  case 5:
+    {
+      command = "epiphany";
+      break;
+    }
+  case 6:
+    {
+      command = "opera";
+      break;
+    }
+  case 7:
+    {
+      command = "open";
+      break;
+    }
+    // Note: when adding new browsers, ensure that
+    // NUMBER_OF_BROWSERS is updated too.
+  }
   return command;
 }
 
-
-void htmlbrowser (const ustring& filename, bool network, bool no_tamper)
+void htmlbrowser(const ustring & filename, bool network, bool no_tamper)
 // Get the name of an existing browser, and view the file through it.
 // If "no_tamper", there is no tampering with the "filename".
 {
@@ -100,14 +95,13 @@ void htmlbrowser (const ustring& filename, bool network, bool no_tamper)
     else
       prefix = "file://";
   }
- 
   // Handle if Windows.
-  #ifdef WIN32
-  ustring url (filename);
-  url.insert (0, prefix);
-  windowsoutpost_open_url (url);
-  return; 
-  #endif
+#ifdef WIN32
+  ustring url(filename);
+  url.insert(0, prefix);
+  windowsoutpost_open_url(url);
+  return;
+#endif
 
   // Handle Unix.
   int browser_index = -1;
@@ -116,26 +110,26 @@ void htmlbrowser (const ustring& filename, bool network, bool no_tamper)
     // At first we used the exit code of "which" to determine whether it had
     // found the program, but this does not work on BSD likes. So now we read
     // the output to see what whether it found the program.
-    if (gw_find_program_in_path (helpcommand (i))) {
+    if (gw_find_program_in_path(helpcommand(i))) {
       browser_index = i;
       break;
     }
   }
   if (browser_index >= 0) {
-    GwSpawn spawn (helpcommand (browser_index));
-    spawn.arg (prefix + filename);
-    spawn.async ();
-    spawn.run ();
+    GwSpawn spawn(helpcommand(browser_index));
+    spawn.arg(prefix + filename);
+    spawn.async();
+    spawn.run();
   } else {
     // No suitable browser was found.
     // Inform the user about it, and what to do to solve it.
     ustring message;
     message = "The help cannot be displayed, because there is no suitable browser installed.\n";
-    message.append ("Install one of the following supported browsers:\n");
+    message.append("Install one of the following supported browsers:\n");
     for (unsigned int i = 0; i < NUMBER_OF_BROWSERS; i++) {
-      message.append (helpcommand (i));
-      message.append ("\n");
+      message.append(helpcommand(i));
+      message.append("\n");
     }
-    gtkw_dialog_error (NULL, message);
-  }    
+    gtkw_dialog_error(NULL, message);
+  }
 }

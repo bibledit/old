@@ -17,50 +17,47 @@
 **  
 */
 
-
 #include <glib.h>
 #include "uname.h"
 #include "utilities.h"
 
-
-UNameType uname_get ()
+UNameType uname_get()
 {
-  #ifndef WIN32
+#ifndef WIN32
   string sysname;
   struct utsname info;
-  if(uname(&info) == -1)
+  if (uname(&info) == -1)
     perror("uname");
   else
     sysname = info.sysname;
   UNameType result;
-  sysname = lowerCase (sysname);
-  if (sysname.find ("linux") != string::npos)
+  sysname = lowerCase(sysname);
+  if (sysname.find("linux") != string::npos)
     result = untLinux;
-  else if (sysname.find ("darwin") != string::npos)
+  else if (sysname.find("darwin") != string::npos)
     result = untDarwin;
   else
     result = untUnknown;
   return result;
-  #endif
-  #ifdef WIN32
+#endif
+#ifdef WIN32
   return untWindows;
-  #endif
+#endif
 }
 
-
-ustring uname_apostrophy (const ustring& filename, bool windows)
+ustring uname_apostrophy(const ustring & filename, bool windows)
 // Normally, that is on Linux, a filename can be put in apostrophies, like
 // '/usr/bin/bibledit'. On Windows this should be "\usr\bin\bibledit".
 // This function puts the right apostrophies around the filename and returns
 // the resulting filename.
 {
-  ustring localfilename (filename);
+  ustring localfilename(filename);
   if (windows) {
-    localfilename.insert (0, "\"");
-    localfilename.append ("\"");
+    localfilename.insert(0, "\"");
+    localfilename.append("\"");
   } else {
-    localfilename.insert (0, "'");
-    localfilename.append ("'");
+    localfilename.insert(0, "'");
+    localfilename.append("'");
   }
   return localfilename;
 }

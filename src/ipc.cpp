@@ -21,7 +21,8 @@
 #include "ipc.h"
 #include <glib.h>
 
-InterprocessCommunication::InterprocessCommunication(IPCSocketType name) {
+InterprocessCommunication::InterprocessCommunication(IPCSocketType name)
+{
   // Initialize variables.
   listener_running = false;
   method_called_signal = NULL;
@@ -32,14 +33,14 @@ InterprocessCommunication::InterprocessCommunication(IPCSocketType name) {
   // Under Win32, you need to initialize the Winsock environment.
   // It seems this constructor is called once per process, so it
   // should be safe to init here and destroy in the destructor.
-  WORD wVersionRequested = MAKEWORD(2,0);
+  WORD wVersionRequested = MAKEWORD(2, 0);
   WSADATA wsaData;
   if (WSAStartup(wVersionRequested, &wsaData)) {
-    log ("Couldn't call WSAStartup!", true);
+    log("Couldn't call WSAStartup!", true);
     return;
   }
   if (LOBYTE(wsaData.wVersion) != 2 || HIBYTE(wsaData.wVersion) != 0) {
-    log ("Windows Sockets DLL unusable.", true);
+    log("Windows Sockets DLL unusable.", true);
     return;
   }
   if ((sock = socket(PF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET) {
@@ -49,7 +50,6 @@ InterprocessCommunication::InterprocessCommunication(IPCSocketType name) {
     log("No socket", true);
     return;
   }
-
 #ifdef WIN32
   address.sin_family = AF_INET;
   WSAHtons(sock, atoi(socketname(name).c_str()), &address.sin_port);
@@ -57,11 +57,11 @@ InterprocessCommunication::InterprocessCommunication(IPCSocketType name) {
   addrLength = sizeof(address);
 #else
   // Remove any preexisting socket (or other file)
-  unlink(socketname (name).c_str());
+  unlink(socketname(name).c_str());
 
   // Unix domain socket
   address.sun_family = AF_UNIX;
-  strcpy(address.sun_path, socketname (name).c_str());
+  strcpy(address.sun_path, socketname(name).c_str());
 
   // The total length of the address includes the sun_family element
   addrLength = sizeof(address.sun_family) + strlen(address.sun_path);
@@ -69,14 +69,13 @@ InterprocessCommunication::InterprocessCommunication(IPCSocketType name) {
 
   // Bind to the socket.  
 #ifdef WIN32
-  if (bind(sock, (struct sockaddr *) &address, addrLength) == SOCKET_ERROR) {
+  if (bind(sock, (struct sockaddr *)&address, addrLength) == SOCKET_ERROR) {
 #else
-  if (bind(sock, (struct sockaddr *) &address, addrLength)) {
+  if (bind(sock, (struct sockaddr *)&address, addrLength)) {
 #endif
     log("Cannot bind to socket", true);
     return;
   }
-
   // Listen to the socket.
 #ifdef WIN32
   if (listen(sock, 10) == SOCKET_ERROR) {
@@ -86,20 +85,20 @@ InterprocessCommunication::InterprocessCommunication(IPCSocketType name) {
     log("Cannot listen to socket", true);
     return;
   }
-
   // Start the thread with the connection loop.
   listener_run = true;
-  g_thread_create (GThreadFunc (listener_start), gpointer (this), false, NULL);
+  g_thread_create(GThreadFunc(listener_start), gpointer(this), false, NULL);
 }
 
-InterprocessCommunication::~InterprocessCommunication() {
+InterprocessCommunication::~InterprocessCommunication()
+{
   // Indicate to the thread that we want to stop.
   listener_run = false;
 
   // Connect to our socket and close, so as to exit the waiting loop.
   // If this is going to give problems of bibledit not shutting down, 
   // consider using a non-blocking socket.
-  vector <ustring> dummy;
+  vector < ustring > dummy;
   send(myname, ipcctEnd, dummy);
 
   // Wait until the thread has exited.
@@ -109,18 +108,17 @@ InterprocessCommunication::~InterprocessCommunication() {
   // Close the socket.
   if (sock >= 0) {
 #ifdef WIN32
-    closesocket(sock); // sockets aren't files on WIN32
+    closesocket(sock);          // sockets aren't files on WIN32
 #else
     close(sock);
 #endif
   }
-
 #ifdef WIN32
   // Shutdown Windows Sockets
   WSACleanup();
 #else
   // Remove the socket (or other file)
-  unlink(socketname (myname).c_str());
+  unlink(socketname(myname).c_str());
 #endif
 
   // Destroy the signal button.
@@ -128,34 +126,34 @@ InterprocessCommunication::~InterprocessCommunication() {
     gtk_widget_destroy(method_called_signal);
 }
 
-ustring InterprocessCommunication::socketname(IPCSocketType socket) {
+ustring InterprocessCommunication::socketname(IPCSocketType socket)
+{
   ustring filename;
-  gchar * name= NULL;
-  switch (socket)
-  {
-    case ipcstBibleditBin:
+  gchar *name = NULL;
+  switch (socket) {
+  case ipcstBibleditBin:
     {
 #ifdef WIN32
       // Need to switch to dynamic and authenticated ports. For now, static unauthenticated.
-      name = "33487"; // Touch Tone code for EDITR
+      name = "33487";           // Touch Tone code for EDITR
 #else
       name = g_build_filename(g_get_home_dir(), ".bibledit.bin.socket", NULL);
 #endif
       break;
     }
-    case ipcstBibleditBibletime:
+  case ipcstBibleditBibletime:
     {
 #ifdef WIN32
-      name = "24253"; // BIBLE
+      name = "24253";           // BIBLE
 #else
       name = g_build_filename(g_get_home_dir(), ".bibledit.bibletime.socket", NULL);
 #endif
       break;
     }
-    case ipcstBibleditGit:
+  case ipcstBibleditGit:
     {
 #ifdef WIN32
-      name = "23448"; // BEGIT
+      name = "23448";           // BEGIT
 #else
       name = g_build_filename(g_get_home_dir(), ".bibledit.git.socket", NULL);
 #endif
@@ -167,8 +165,9 @@ ustring InterprocessCommunication::socketname(IPCSocketType socket) {
   return filename;
 }
 
-void InterprocessCommunication::listener_start(gpointer data) {
-  ((InterprocessCommunication*) data)->listener_main();
+void InterprocessCommunication::listener_start(gpointer data)
+{
+  ((InterprocessCommunication *) data)->listener_main();
 }
 
 void InterprocessCommunication::listener_main()
@@ -179,21 +178,21 @@ void InterprocessCommunication::listener_main()
   // While the flag is set loop listening for connections.
   while (listener_run) {
     // Buffer holding the data.
-    vector <ustring> message;
+    vector < ustring > message;
     // Wait for a connection.
 #ifdef WIN32
-    if ((conn = accept (sock, (struct sockaddr *) &address, &addrLength)) != INVALID_SOCKET) {
+    if ((conn = accept(sock, (struct sockaddr *)&address, &addrLength)) != INVALID_SOCKET) {
 #else
-    if ((conn = accept(sock, (struct sockaddr *) &address, &addrLength)) >= 0) {
+    if ((conn = accept(sock, (struct sockaddr *)&address, &addrLength)) >= 0) {
 #endif
       // Read the message sent.
       ustring buffer;
       char buf[1024];
       int amount;
 #ifdef WIN32
-      while ((amount = recv (conn, buf, sizeof (buf), 0)) != SOCKET_ERROR) {
+      while ((amount = recv(conn, buf, sizeof(buf), 0)) != SOCKET_ERROR) {
 #else
-      while ((amount = read(conn, buf, sizeof (buf))) > 0) {
+      while ((amount = read(conn, buf, sizeof(buf))) > 0) {
 #endif
         buf[amount] = '\0';
         buffer.append(buf);
@@ -211,7 +210,7 @@ void InterprocessCommunication::listener_main()
         log("Read error", false);
       }
 #ifdef WIN32
-      closesocket (conn);
+      closesocket(conn);
 #else
       close(conn);
 #endif
@@ -225,14 +224,14 @@ void InterprocessCommunication::listener_main()
       istringstream r(message[0]);
       int method;
       r >> method;
-      method_called_type = (IPCCallType)method;
+      method_called_type = (IPCCallType) method;
       message.erase(message.begin());
       if (method_called_type != ipcctEnd) {
         methodcalls[method_called_type] = message;
       }
       // See whether to emit a signal on this method.
       if (signalling_methods.find(method_called_type) != signalling_methods.end()) {
-        gtk_button_clicked(GTK_BUTTON (method_called_signal));
+        gtk_button_clicked(GTK_BUTTON(method_called_signal));
       }
     }
   }
@@ -240,17 +239,18 @@ void InterprocessCommunication::listener_main()
   listener_running = false;
 }
 
-void InterprocessCommunication::log(const ustring& message, bool critical) {
+void InterprocessCommunication::log(const ustring & message, bool critical)
+{
   ustring msg = "InterprocessCommunication: " + message;
   if (critical) {
-    g_critical ("%s", message.c_str());
+    g_critical("%s", message.c_str());
   } else {
-    if (write(1, message.c_str(), strlen(message.c_str()))); // Suppress compiler warning.
-    if (write(1, "\n", 1));
+    if (write(1, message.c_str(), strlen(message.c_str()))) ;   // Suppress compiler warning.
+    if (write(1, "\n", 1)) ;
   }
 }
 
-bool InterprocessCommunication::send(IPCSocketType name, IPCCallType method, const vector<ustring>& payload)
+bool InterprocessCommunication::send(IPCSocketType name, IPCCallType method, const vector < ustring > &payload)
 // Sends "method" and "payload" to the destination socket "name".
 {
   // Connect to the socket given in "name".
@@ -274,16 +274,16 @@ bool InterprocessCommunication::send(IPCSocketType name, IPCCallType method, con
   WSAHtons(sock, atoi(socketname(name).c_str()), &address.sin_port);
   address.sin_addr.s_addr = inet_addr("127.0.0.1");
   addrLength = sizeof(address);
-  if (connect(sock, (struct sockaddr *) &address, addrLength) == SOCKET_ERROR) {
-    log ("Sending: connect error", true);
+  if (connect(sock, (struct sockaddr *)&address, addrLength) == SOCKET_ERROR) {
+    log("Sending: connect error", true);
     cerr << "WSAGetLastError: " << WSAGetLastError() << endl;
     return false;
   }
 #else
   address.sun_family = AF_UNIX;
-  strcpy(address.sun_path, socketname (name).c_str());
+  strcpy(address.sun_path, socketname(name).c_str());
   addrLength = sizeof(address.sun_family) + strlen(address.sun_path);
-  if (connect(sock, (struct sockaddr *) &address, addrLength)) {
+  if (connect(sock, (struct sockaddr *)&address, addrLength)) {
     log("Sending: connect error", true);
     return false;
   }
@@ -292,10 +292,10 @@ bool InterprocessCommunication::send(IPCSocketType name, IPCCallType method, con
   // Send the call type.
   bool success = true;
   ostringstream r;
-  r << (int) method;
+  r << (int)method;
   ustring calltype(r.str());
 #ifdef WIN32
-  if (::send (sock, calltype.c_str(), strlen (calltype.c_str()), 0) == SOCKET_ERROR) {
+  if (::send(sock, calltype.c_str(), strlen(calltype.c_str()), 0) == SOCKET_ERROR) {
 #else
   if (write(sock, calltype.c_str(), strlen(calltype.c_str())) < 0) {
 #endif
@@ -303,27 +303,26 @@ bool InterprocessCommunication::send(IPCSocketType name, IPCCallType method, con
     success = false;
   }
 #ifdef WIN32
-  ::send (sock, "\n", 1, 0);
+  ::send(sock, "\n", 1, 0);
 #else
-  if (write(sock, "\n", 1)); // Suppress compiler warning.
+  if (write(sock, "\n", 1)) ;   // Suppress compiler warning.
 #endif
 
   // Send the data.
   if (success) {
     for (unsigned int i = 0; i < payload.size(); i++) {
 #ifdef WIN32
-      ::send (sock, payload[i].c_str(), strlen (payload[i].c_str()), 0);
-      ::send (sock, "\n", 1, 0);
+      ::send(sock, payload[i].c_str(), strlen(payload[i].c_str()), 0);
+      ::send(sock, "\n", 1, 0);
 #else
-      if (write(sock, payload[i].c_str(), strlen(payload[i].c_str()))); // Suppress compiler warning.
-      if (write(sock, "\n", 1));
+      if (write(sock, payload[i].c_str(), strlen(payload[i].c_str()))) ;        // Suppress compiler warning.
+      if (write(sock, "\n", 1)) ;
 #endif
     }
   }
-
   // Close the socket.
 #ifdef WIN32
-  closesocket (sock);
+  closesocket(sock);
 #else
   close(sock);
 #endif
@@ -332,7 +331,7 @@ bool InterprocessCommunication::send(IPCSocketType name, IPCCallType method, con
   return success;
 }
 
-vector <ustring> InterprocessCommunication::receive(IPCSocketType name, IPCCallType method, const vector<ustring>& payload, int timeout)
+vector < ustring > InterprocessCommunication::receive(IPCSocketType name, IPCCallType method, const vector < ustring > &payload, int timeout)
 // Sends "method" and "payload" to the destination socket "name".
 // Wait for the reply "method" to come back.
 // Don't wait more than "timeout" seconds.
@@ -351,19 +350,20 @@ vector <ustring> InterprocessCommunication::receive(IPCSocketType name, IPCCallT
       g_usleep(100);
     }
   }
-
   // Get the answer, whether it was there or not.  
-  vector <ustring> answer = get_payload(method);
+  vector < ustring > answer = get_payload(method);
   return answer;
 }
 
-vector<ustring> InterprocessCommunication::get_payload(IPCCallType method) {
-  vector<ustring> payload;
+vector < ustring > InterprocessCommunication::get_payload(IPCCallType method)
+{
+  vector < ustring > payload;
   payload = methodcalls[method];
   return payload;
 }
 
-void InterprocessCommunication::erase_payload(IPCCallType method) {
+void InterprocessCommunication::erase_payload(IPCCallType method)
+{
   methodcalls[method].clear();
 }
 
@@ -374,7 +374,6 @@ void InterprocessCommunication::methodcall_add_signal(IPCCallType method)
   if (!method_called_signal) {
     method_called_signal = gtk_button_new();
   }
-
   // Store this method.
   signalling_methods.insert(method);
 }
