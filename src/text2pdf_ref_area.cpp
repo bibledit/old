@@ -151,6 +151,8 @@ void T2PReferenceArea::print(unsigned int page_number, bool print_date, const us
 void T2PReferenceArea::fit_blocks(deque <T2PBlock *>& input_blocks, int column_spacing_pango_units_in)
 // Fits the blocks into the reference area.
 {
+  // Page full flag.
+  bool page_is_full = false;  
   // Store column spacing.
   column_spacing_pango_units = column_spacing_pango_units_in;
   // Deal with the blocks after grouping them by equal column count.
@@ -161,9 +163,11 @@ void T2PReferenceArea::fit_blocks(deque <T2PBlock *>& input_blocks, int column_s
     if (input_blocks[0]->column_count != n_columns || new_page_input_block_encountered(input_blocks, false)) {
       fit_column(blocks_with_equal_column_count);
       // If there are still blocks left, that means that these didn't fit on the page. 
-      if (!blocks_with_equal_column_count.empty())
+      if (!blocks_with_equal_column_count.empty()) {
+        page_is_full = true;
         break;
-      /// New page.
+      }
+      // New page.
       if (new_page_input_block_encountered(input_blocks, true))
         break;
       n_columns = input_blocks[0]->column_count;
@@ -171,9 +175,11 @@ void T2PReferenceArea::fit_blocks(deque <T2PBlock *>& input_blocks, int column_s
     blocks_with_equal_column_count.push_back(input_blocks[0]);
     input_blocks.erase(input_blocks.begin());
   }
-  fit_column(blocks_with_equal_column_count);
+  if (!page_is_full) {
+    fit_column(blocks_with_equal_column_count);
+  }    
 
-  // Re-insert any unfitted remaining blocks into the input blocks.
+  // Return any unfitted remaining blocks to the input blocks.
   for (int i = blocks_with_equal_column_count.size() - 1; i >= 0; i--) {
     input_blocks.push_front(blocks_with_equal_column_count[i]);
   }
@@ -286,7 +292,7 @@ void T2PReferenceArea::fit_columns(deque <T2PBlock *>& input_blocks, int column_
     int last_column_height = get_column_height(last_column, start_stacking_y);
     bool columns_too_high = (start_stacking_y + MAX (first_column_height, last_column_height)) > (rectangle.height - get_note_height());
     if (columns_too_high) {
-
+      
       // If there's only one block on the page, special handling is needed to avoid an infinite loop.
       bool one_block_on_page = first_column.size() + last_column.size() == 1;
       if (!one_block_on_page) {

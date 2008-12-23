@@ -1,3 +1,3 @@
---line-length120
---gnu-style
+--line-length500
 --no-tabs
+--tab-size2
