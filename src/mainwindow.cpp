@@ -5596,7 +5596,7 @@ void MainWindow::on_print()
   save_editors();
 
   switch (selection) {
-  case 0:                      // Project.
+  case 0: // Project.
     {
       {
         PrintProjectDialog dialog(0);
@@ -5609,7 +5609,7 @@ void MainWindow::on_print()
       printproject.print();
       break;
     }
-  case 1:                      // Parallel Bible.
+  case 1: // Parallel Bible.
     {
       {
         ParallelBibleDialog dialog(0);
@@ -5619,7 +5619,7 @@ void MainWindow::on_print()
       view_parallel_bible_pdf();
       break;
     }
-  case 2:                      // References.
+  case 2: // References.
     {
       // Activate references.
       show_references_window();
@@ -5646,7 +5646,7 @@ void MainWindow::on_print()
       }
       break;
     }
-  case 3:                      // Test
+  case 3: // Test
     {
       extern Settings *settings;
       Text2Pdf text2pdf(gw_build_filename(directories_get_temp(), "pdf.pdf"), settings->genconfig.print_engine_use_intermediate_text_get());

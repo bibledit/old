@@ -22,7 +22,7 @@
 #include "text2pdf_ref_area.h"
 #include "text2pdf_page.h"
 
-T2PPage::T2PPage(int page_number, int page_width, int page_height, int inside_margin, int outside_margin, int top_margin, int bottom_margin, int header_height, int footer_height, cairo_t * cairo_in, bool print_date_in)
+T2PPage::T2PPage(int page_number, int page_width, int page_height, int inside_margin, int outside_margin, int top_margin, int bottom_margin, int header_height, int footer_height, cairo_t * cairo_in, bool print_date_in, bool right_to_left_in)
 /* This encapsulates one page.
 
  ------------------------------------------
@@ -53,6 +53,7 @@ T2PPage::T2PPage(int page_number, int page_width, int page_height, int inside_ma
   number = page_number;
   cairo = cairo_in;
   print_date = print_date_in;
+  right_to_left = right_to_left_in;
   // Create the reference area for the header.
   {
     PangoRectangle rectangle;
@@ -63,7 +64,7 @@ T2PPage::T2PPage(int page_number, int page_width, int page_height, int inside_ma
     rectangle.y = top_margin;
     rectangle.width = page_width - inside_margin - outside_margin;
     rectangle.height = header_height;
-    header_reference_area = new T2PReferenceArea(rectangle, cairo);
+    header_reference_area = new T2PReferenceArea(rectangle, cairo, right_to_left);
   }
 
   // Create the reference area for the text.
@@ -76,7 +77,7 @@ T2PPage::T2PPage(int page_number, int page_width, int page_height, int inside_ma
     rectangle.y = top_margin + header_height;
     rectangle.width = page_width - inside_margin - outside_margin;
     rectangle.height = page_height - top_margin - header_height - footer_height - bottom_margin;
-    text_reference_area = new T2PReferenceArea(rectangle, cairo);
+    text_reference_area = new T2PReferenceArea(rectangle, cairo, right_to_left);
   }
 
   // Create the reference area for the footer.
@@ -89,7 +90,7 @@ T2PPage::T2PPage(int page_number, int page_width, int page_height, int inside_ma
     rectangle.y = page_height - bottom_margin;
     rectangle.width = page_width - inside_margin - outside_margin;
     rectangle.height = footer_height;
-    footer_reference_area = new T2PReferenceArea(rectangle, cairo);
+    footer_reference_area = new T2PReferenceArea(rectangle, cairo, right_to_left);
   }
 }
 

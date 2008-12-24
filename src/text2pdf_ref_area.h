@@ -29,7 +29,7 @@
 class T2PReferenceArea : public T2PArea
 {
 public:
-  T2PReferenceArea(PangoRectangle rectangle_in, cairo_t *cairo_in);
+  T2PReferenceArea(PangoRectangle rectangle_in, cairo_t *cairo_in, bool right_to_left_in);
   virtual ~T2PReferenceArea();
   void fit_blocks(deque <T2PBlock *>& input_blocks, int column_spacing_pango_units_in);
   bool has_content();
@@ -64,6 +64,7 @@ private:
   bool new_page_input_block_encountered(deque <T2PBlock *>& input_blocks, bool set_flag);
   bool start_new_page;
   deque <T2PLayoutContainer *> table_of_contents_layout_containers;
+  bool right_to_left;
 };
 
 #endif

@@ -24,7 +24,7 @@
 #include "date_time_utils.h"
 #include "settings.h"
 
- T2PReferenceArea::T2PReferenceArea(PangoRectangle rectangle_in, cairo_t * cairo_in):
+T2PReferenceArea::T2PReferenceArea(PangoRectangle rectangle_in, cairo_t * cairo_in, bool right_to_left_in):
 T2PArea(rectangle_in)
 // This is a reference area, e.g. a header, footer, or text area.
 {
@@ -36,6 +36,8 @@ T2PArea(rectangle_in)
   // New page.
   start_new_page = false;
   start_new_odd_page = false;
+  // Right to left.
+  right_to_left = right_to_left_in;
 }
 
 T2PReferenceArea::~T2PReferenceArea()
@@ -334,10 +336,16 @@ void T2PReferenceArea::fit_columns(deque < T2PBlock * >&input_blocks, int column
   }
 
   // Set the position of each individual block.
+  // When text runs from right to left, the columns get swapped.
   // Copy the blocks from the columns into the object.
+  int second_x = rectangle.width - ((rectangle.width - column_spacing_pango_units) / 2);
   int first_column_y = start_stacking_y;
   for (unsigned int i = 0; i < first_column.size(); i++) {
-    first_column[i].set_blocks_x(0);
+    int column_x = 0;
+    if (first_column[i].column_count > 1)
+      if (right_to_left)
+        column_x = second_x;
+    first_column[i].set_blocks_x(column_x);
     int column_height = first_column[i].height(first_column_y);
     first_column[i].set_blocks_y(first_column_y);
     first_column_y += column_height;
@@ -347,11 +355,10 @@ void T2PReferenceArea::fit_columns(deque < T2PBlock * >&input_blocks, int column
   }
   int last_column_y = start_stacking_y;
   for (unsigned int i = 0; i < last_column.size(); i++) {
-    if (last_column[i].column_count == 1) {
-      last_column[i].set_blocks_x(0);
-    } else {
-      last_column[i].set_blocks_x(rectangle.width - ((rectangle.width - column_spacing_pango_units) / 2));
-    }
+    int column_x = second_x;
+    if ((last_column[i].column_count == 1) || right_to_left) 
+      column_x = 0;
+    last_column[i].set_blocks_x(column_x);
     int column_height = last_column[i].height(last_column_y);
     last_column[i].set_blocks_y(last_column_y);
     last_column_y += column_height;
