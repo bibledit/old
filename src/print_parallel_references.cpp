@@ -161,8 +161,8 @@ void view_parallel_references_pdf(ProjectMemory & main_project, vector < ustring
     text2pdf.add_text(references[rf].human_readable(""));
 
     // Map this verse to the original, that is, to Hebrew or Greek.
-    vector < int >hebrew_greek_chapters;
-    vector < int >hebrew_greek_verses;
+    vector <int> hebrew_greek_chapters;
+    vector <int> hebrew_greek_verses;
     mapping.book_change(references[rf].book);
     mapping.me_to_original(references[rf].chapter, references[rf].verse, hebrew_greek_chapters, hebrew_greek_verses);
     // Get verse text for each version.
@@ -198,8 +198,9 @@ void view_parallel_references_pdf(ProjectMemory & main_project, vector < ustring
       } else {
         // Other versions. 
         // Get mapped chapters / verses.
-        vector < int >mychapters;
-        vector < int >myverses;
+        line.clear();
+        vector <int> mychapters;
+        vector <int> myverses;
         mapping_s[vsn - 1].book_change(references[rf].book);
         mapping_s[vsn - 1].original_to_me(hebrew_greek_chapters, hebrew_greek_verses, mychapters, myverses);
         // Get text of any of the mapped verses.
@@ -211,7 +212,9 @@ void view_parallel_references_pdf(ProjectMemory & main_project, vector < ustring
             if (projectchapter) {
               ProjectVerse *projectverse = projectchapter->get_verse_pointer(convert_to_string(myverses[mp]));
               if (projectverse) {
-                line = projectverse->data;
+                if (!line.empty()) 
+                  line.append (" ");
+                line.append (projectverse->data);
               }
             }
           }

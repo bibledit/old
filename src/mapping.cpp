@@ -131,8 +131,8 @@ Output:
 void Mapping::original_to_me(vector < int >original_chapter, vector < int >original_verse, vector < int >&mychapter, vector < int >&myverse)
 {
   for (unsigned int i = 0; i < original_chapter.size(); i++) {
-    vector < int >chapter;
-    vector < int >verse;
+    vector <int> chapter;
+    vector <int> verse;
     get_me(original_chapter[i], original_verse[i], chapter, verse);
     for (unsigned int i2 = 0; i2 < chapter.size(); i2++) {
       mychapter.push_back(chapter[i2]);
