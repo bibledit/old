@@ -525,6 +525,11 @@ void ImportTextDialog::on_okbutton()
           ibr.mechonmamre();
           break;
         }
+      case itOnlineBible:
+        {
+          ibr.onlinebible();
+          break;
+        }
       }
       // Rewrite the \id line, mainly for unknown books, but also just to be sure.
       for (unsigned int ln = 0; ln < ibr.lines.size(); ln++) {
@@ -562,14 +567,21 @@ void ImportTextDialog::set_gui()
   vector < ustring > all_files;
   ReadFiles rd(directory, "", "");
   for (unsigned int i = 0; i < rd.files.size(); i++) {
+    // Skip empty filenames.
+    if (rd.files[i].empty())
+      continue;
+    // Skip filenames that start with a dot.
+    if (rd.files[i].substr (0, 1) == ".")
+      continue;
     ustring filename = gw_build_filename(directory, rd.files[i]);
     /* Only check on files with a size smaller than so many bytes. This solves a
        problem of importing files, when a huge file of hundreds of megabytes is 
        found. It would try to read it all. This would take a very long time. 
        Therefore only files that are relatively small are taken into account.
        A file exported from BibleWorks can have sizes up to about 5 Mbyte.
+       Ones from the Online Bible can be much bigger, e.g. 25 Mbyte.
      */
-    if (file_get_size(filename) < 10000000) {
+    if (file_get_size(filename) < 30000000) {
       all_files.push_back(filename);
     }
   }
@@ -606,6 +618,13 @@ void ImportTextDialog::set_gui()
           }
           break;
         }
+      case itOnlineBible:
+      {
+        if (online_bible_file(all_files[i])) {
+          proper_text_files.push_back (all_files[i]);
+        }
+        break;
+      }
       default:
         {
           // We're through looking for importable files.
@@ -662,6 +681,19 @@ void ImportTextDialog::set_gui()
       proper_text_files = mechon_mamre_produce_master_files(proper_text_files);
       break;
     }
+  case itOnlineBible:
+    {
+      // Divide the files per book as we don't know how many books the user put in one file.
+      vector < ustring > olb_text_files(proper_text_files);
+      proper_text_files.clear();
+      for (unsigned int i = 0; i < olb_text_files.size(); i++) {
+        vector < ustring > filenames = online_bible_file_divide(olb_text_files[i]);
+        for (unsigned int i2 = 0; i2 < filenames.size(); i2++) {
+          proper_text_files.push_back(filenames[i2]);
+        }
+      }
+      break;
+    }
   }
 
   // Handle Book Assignment.
@@ -686,6 +718,14 @@ void ImportTextDialog::set_gui()
     case itMechonMamre:
       {
         english_name = gw_path_get_basename(proper_text_files[i]);
+        break;
+      }
+    case itOnlineBible:
+      {
+        unsigned int book, chapter, verse;
+        ReadText rt (proper_text_files[i], true, false);
+        online_bible_parse_reference (rt.lines[0], book, chapter, verse);
+        english_name = books_id_to_english(book);
         break;
       }
     }
@@ -827,6 +867,7 @@ void ImportTextDialog::set_gui()
     // BibleWorks, etc.: not possible.
   case itBibleWorks:
   case itMechonMamre:
+  case itOnlineBible:
     {
       gtk_widget_set_sensitive(checkbutton_overwrite, false);
       gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_overwrite), false);
