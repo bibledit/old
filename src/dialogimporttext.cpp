@@ -847,7 +847,7 @@ void ImportTextDialog::set_gui()
   }
   // User information. Widgets sensitivity.
   bool unicode_ok = filenames_not_in_unicode.size() == 0;
-  info = "Books in already Unicode format: " + convert_to_string((unsigned int)(selected_books.size() - filenames_not_in_unicode.size()));
+  info = "Books already in Unicode format: " + convert_to_string((unsigned int)(selected_books.size() - filenames_not_in_unicode.size()));
   if (!encoding_convert_from.empty()) {
     info.append("\nBooks to be converted from encoding " + encoding_convert_from + " to Unicode: " + convert_to_string((unsigned int)(filenames_not_in_unicode.size())));
     unicode_ok = true;
