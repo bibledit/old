@@ -107,28 +107,3 @@ void T2PBlock::set_widow_orphan_data(int paragraph_line_number, bool last_line_o
   }
 }
 
-ustring T2PBlock::type2text()
-// For diagnostics.
-{
-  switch (type) {
-  case t2pbtTextGeneral:
-    return "TextGeneral";
-  case t2pbtTextParagraphFirstLine:
-    return "TextParagraphFirstLine";
-  case t2pbtTextParagraphLastLine:
-    return "TextParagraphLastLine";
-  case t2pbtTextParagraphOnlyLine:
-    return "TextParagraphOnlyLine";
-  case t2pbtTextIntrusion:
-    return "TextIntrusion";
-  case t2pbtSpaceBeforeParagraph:
-    return "SpaceBeforeParagraph";
-  case t2pbtSpaceAfterParagraph:
-    return "SpaceAfterParagraph";
-  case t2pbtNewPage:
-    return "NewPage";
-  case t2pbtNewOddPage:
-    return "NewOddPage";
-  }
-  return "";
-}

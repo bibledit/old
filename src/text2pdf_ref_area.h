@@ -64,7 +64,10 @@ private:
   bool new_page_input_block_encountered(deque <T2PBlock *>& input_blocks, bool set_flag);
   bool start_new_page;
   deque <T2PLayoutContainer *> table_of_contents_layout_containers;
+  
+  // Right to left script.
   bool right_to_left;
+
 };
 
 #endif

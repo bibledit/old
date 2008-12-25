@@ -28,7 +28,7 @@
 #include "color.h"
 #include "utilities.h"
 
- T2PLayoutContainer::T2PLayoutContainer(PangoRectangle rectangle_in, T2PArea * parent_in, cairo_t * cairo):
+T2PLayoutContainer::T2PLayoutContainer(PangoRectangle rectangle_in, T2PArea * parent_in, cairo_t * cairo):
 T2PArea(rectangle_in)
 // This is a container for one PangoLayout.
 {
@@ -542,7 +542,7 @@ void T2PLayoutContainer::layout_drop_caps(T2PInputParagraph * paragraph, double 
   input_paragraph->font_size_points = context_font_size;
 
   // Set font-size and y-offset for the drop-caps text.
-  // The drop-caps text will have a visual height of two lines of the paragraph.
+  // The drop-caps text gets a visual height of two lines of the paragraph.
   {
     // Set font.
     PangoFontDescription *desc;

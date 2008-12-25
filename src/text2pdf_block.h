@@ -46,7 +46,6 @@ public:
   T2PBlockType type;
   bool keep_with_next;
   int maximum_width_pango_units;
-  ustring type2text();
   ustring left_running_header;
   ustring right_running_header;
   unsigned int left_running_chapter;
