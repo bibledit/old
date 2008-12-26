@@ -888,7 +888,7 @@ void Usfm2Text::open_inline(Usfm2XslFoStyle * style, Usfm2XslFoStyle * block)
   }
 }
 
-void Usfm2Text::output_chapter_number_try_normal(ustring & line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * &fo_block_style, Usfm2XslFoStyle * &fo_inline_style, size_t marker_length, unsigned int book) // Todo
+void Usfm2Text::output_chapter_number_try_normal(ustring & line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * &fo_block_style, Usfm2XslFoStyle * &fo_inline_style, size_t marker_length, unsigned int book)
 // This function tries to output the chapter number at the normal position.
 // Else it stores the data needed for outputting it later on at the first verse.
 {
@@ -951,7 +951,7 @@ void Usfm2Text::output_chapter_number_try_normal(ustring & line, Usfm2XslFoStyle
   fo_block_style = NULL;
 }
 
-void Usfm2Text::output_chapter_number_try_at_first_verse(ustring line, Usfm2XslFoStyle * &fo_block_style) // Todo
+void Usfm2Text::output_chapter_number_try_at_first_verse(ustring line, Usfm2XslFoStyle * &fo_block_style)
 {
   // Bail out if there is no chapter to write.
   if (chapter_number_to_output_at_first_verse.empty())
@@ -1060,7 +1060,7 @@ void Usfm2Text::signal_progress()
   }
 }
 
-bool Usfm2Text::output_verse_number(Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * &fo_block_style, Usfm2XslFoStyle * &fo_inline_style, size_t marker_length) // Todo
+bool Usfm2Text::output_verse_number(Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * &fo_block_style, Usfm2XslFoStyle * &fo_inline_style, size_t marker_length)
 // Writes the verse number.
 // Returns true if the verse was written.
 {
