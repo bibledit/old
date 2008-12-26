@@ -119,6 +119,9 @@ void PrintProject::print()
     usfm2text.add_print_portion(books_english_to_id(scriptureportions->books[i]), chapters_from, verses_from, chapters_to, verses_to);
   }
 
+  // Language.
+  usfm2text.set_language (projectconfig->language_get());
+  
   // Start off with inserting any remarks.
   for (unsigned int r = 0; r < comments.size(); r++) {
     text2pdf.open_paragraph();

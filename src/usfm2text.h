@@ -27,6 +27,7 @@
 #include "notecaller.h"
 #include "portion_utils.h"
 #include "text2pdf.h"
+#include "localizednumerals.h"
 
 class Usfm2Text
 {
@@ -55,6 +56,8 @@ public:
 
   void add_print_portion(unsigned int book_in, vector<unsigned int> chapters_from_in, const vector<ustring>& verses_from_in, vector<unsigned int> chapters_to_in, const vector <ustring>& verses_to_in);
 
+  void set_language (const ustring& language);
+  
   void process();
 
 private:
@@ -172,6 +175,9 @@ private:
   // Verse processing.
   bool output_verse_number(Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length);
   unsigned int verses_in_paragraph_count;
+  
+  // Localizations.
+  NumeralLocalization * numeral_localization;
 };
 
 #endif

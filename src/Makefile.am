@@ -266,7 +266,8 @@ bibledit_bin_SOURCES = \
         dialogprojectnote.cpp \
         windowreferences.cpp \
         windoweditor.cpp \
-        compress.cpp
+        compress.cpp \
+        localizednumerals.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 

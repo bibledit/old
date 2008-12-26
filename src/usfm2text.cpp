@@ -64,6 +64,7 @@ Usfm2Text::Usfm2Text(Text2Pdf * text2pdf_in, bool show_progress)
   do_not_allow_new_page = false;
   include_full_references_with_notes = false;
   verses_in_paragraph_count = 0;
+  numeral_localization = NULL;
 
   // Add a couple of extra styles.
   add_style(default_style(), u2xtParagraphNormalParagraph);
@@ -78,10 +79,11 @@ Usfm2Text::~Usfm2Text()
   gw_destroy_source(progress_event_id);
   if (progresswindow)
     delete progresswindow;
+  if (numeral_localization)
+    delete (numeral_localization);
 }
 
-void
- Usfm2Text::add_usfm_code(const vector < ustring > &lines)
+void Usfm2Text::add_usfm_code(const vector < ustring > &lines)
 // Add some usfm code to the object's usfm input buffer.
 {
   for (unsigned int i = 0; i < lines.size(); i++) {
@@ -131,8 +133,7 @@ void Usfm2Text::preprocess()
               case u2xtIdentifierBook:
                 {
                   // Extract the book from the id string.
-                  ustring id_line = get_erase_code_till_next_marker(usfm_line,
-                                                                    0, marker_length, true);
+                  ustring id_line = get_erase_code_till_next_marker(usfm_line, 0, marker_length, true);
                   if (id_line.length() >= 3) {
                     id_line = id_line.substr(0, 3);
                     book = books_paratext_to_id(id_line);
@@ -180,8 +181,7 @@ void Usfm2Text::preprocess()
               case u2xtChapterNumber:
                 {
                   // Get the highest chapter number in the current book.
-                  ustring chaptertext = get_erase_code_till_next_marker(usfm_line,
-                                                                        0, marker_length, true);
+                  ustring chaptertext = get_erase_code_till_next_marker(usfm_line, 0, marker_length, true);
                   chapter = convert_to_int(chaptertext);
                   highest_chapter_number[book] = chapter;
                   // Whether to print the chapter number in the left/right headers.
@@ -394,8 +394,7 @@ void Usfm2Text::convert_from_usfm_to_text()
                 position = CLAMP(position, 0, usfm_line.length());
                 set_new_verse(usfm_line.substr(0, position));
                 usfm_line.erase(0, position);
-                bool verse_was_written = output_verse_number(stylepointer, fo_block_style, fo_inline_style,
-                                                             marker_length);
+                bool verse_was_written = output_verse_number(stylepointer, fo_block_style, fo_inline_style, marker_length);
                 // Erase any spaces following the verse if the verse was not written.
                 if (!verse_was_written) {
                   while (!usfm_line.empty() && (usfm_line.substr(0, 1) == " ")) {
@@ -889,7 +888,7 @@ void Usfm2Text::open_inline(Usfm2XslFoStyle * style, Usfm2XslFoStyle * block)
   }
 }
 
-void Usfm2Text::output_chapter_number_try_normal(ustring & line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * &fo_block_style, Usfm2XslFoStyle * &fo_inline_style, size_t marker_length, unsigned int book)
+void Usfm2Text::output_chapter_number_try_normal(ustring & line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * &fo_block_style, Usfm2XslFoStyle * &fo_inline_style, size_t marker_length, unsigned int book) // Todo
 // This function tries to output the chapter number at the normal position.
 // Else it stores the data needed for outputting it later on at the first verse.
 {
@@ -947,7 +946,7 @@ void Usfm2Text::output_chapter_number_try_normal(ustring & line, Usfm2XslFoStyle
   fo_block_style = NULL;
 }
 
-void Usfm2Text::output_chapter_number_try_at_first_verse(ustring line, Usfm2XslFoStyle * &fo_block_style)
+void Usfm2Text::output_chapter_number_try_at_first_verse(ustring line, Usfm2XslFoStyle * &fo_block_style) // Todo
 {
   // Bail out if there is no chapter to write.
   if (chapter_number_to_output_at_first_verse.empty())
@@ -1053,7 +1052,7 @@ void Usfm2Text::signal_progress()
   }
 }
 
-bool Usfm2Text::output_verse_number(Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * &fo_block_style, Usfm2XslFoStyle * &fo_inline_style, size_t marker_length)
+bool Usfm2Text::output_verse_number(Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * &fo_block_style, Usfm2XslFoStyle * &fo_inline_style, size_t marker_length) // Todo
 // Writes the verse number.
 // Returns true if the verse was written.
 {
@@ -1073,16 +1072,20 @@ bool Usfm2Text::output_verse_number(Usfm2XslFoStyle * stylepointer, Usfm2XslFoSt
       open_paragraph(style, false);
     }
   }
-  // Write any number different from 1. 
+  // Write any number different from 1.
   if (verse != "1")
     printversenumber = true;
   bool verse_number_written = printversenumber;
 
-  // Write the verse number.
+  // Write the localized verse number.
   if (printversenumber && stylepointer->print) {
     fo_inline_style = stylepointer;
     open_inline(fo_inline_style, fo_block_style);
-    text2pdf->add_text(verse);
+    ustring localization (verse);
+    if (numeral_localization) {
+      localization = numeral_localization->latin2localization (verse);
+    }
+    text2pdf->add_text(localization);
     close_possible_inline(fo_inline_style);
   }
   // Write next verse number again.
@@ -2050,3 +2053,12 @@ void Usfm2Text::optionally_add_full_references(ustring & line, Usfm2XslFoStyle *
     }
   }
 }
+
+void Usfm2Text::set_language (const ustring& language)
+// Sets the language. Used for localization operations.
+{
+  if (numeral_localization) 
+    delete numeral_localization;
+  numeral_localization = new NumeralLocalization (language);
+}
+

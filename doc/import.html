@@ -1,68 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-  <title>Bibledit</title>
-  <!--
-      Copyright (©) 2003-2008 Teus Benschop.
-      Permission is granted to copy, distribute and/or modify this document
-      under the terms of the GNU Free Documentation License, Version 1.2
-      or any later version published by the Free Software Foundation;
-      with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-      Texts.  A copy of the license is included in the section entitled "GNU
-      Free Documentation License" in the file FDL.
-      -->
-  <link href="bibledit.css" rel="stylesheet" type="text/css" />
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<title>Bibledit</title>
+<!--
+Copyright (©) 2003-2008 Teus Benschop.
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+Texts.  A copy of the license is included in the section entitled "GNU
+Free Documentation License" in the file FDL.
+-->
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
-
 <body>
 <h2><a name="import"></a>Import</h2>
 <!-- Table of Contents Start -->
-
 <div id="toc">
 <ul>
-  <li><a href="#introduction" class="level1">Introduction</a></li>
-  <li><a href="#usfm" class="level1">USFM</a></li>
-  <li><a href="#bibleworks" class="level1">BibleWorks</a></li>
-  <li><a href="#mechonmamrehebrew" class="level1">Mechon Mamre Hebrew</a></li>
+<li>
+<a href="#introduction" class="level1">Introduction</a></li>
+<li>
+<a href="#usfm" class="level1">USFM</a></li>
+<li>
+<a href="#bibleworks" class="level1">BibleWorks</a></li>
+<li>
+<a href="#mechonmamrehebrew" class="level1">Mechon Mamre Hebrew</a></li>
+<li>
+<a href="#onlinebible" class="level1">Online Bible</a></li>
+<li>
+<a href="#notes" class="level1">Notes</a></li>
 </ul>
 </div>
 <!-- Table of Contents End -->
-
 <h3><a name="introduction"></a>Introduction</h3>
-
 <p>Bibledit can import existing Biblical text. It imports various formats of
 the texts. Text is normally imported into a project using the menu, File,
 Project, Import. <a href="olh_import_text.html">Set all the options
 there</a>. Ensure that everything says "Done". Then clicking OK will import
 the text.</p>
-
 <h3><a name="usfm"></a>USFM</h3>
-
 <p>Bibledit can import <a href="glossary.html#usfm">USFM</a> text. </p>
-
 <h3><a name="bibleworks"></a>BibleWorks</h3>
-
 <p>Bibledit can import text that has been exported from BibleWorks. This is
 how to do it: In BibleWorks choose Tools - Export Database. Export the Bible
 of your choice to a file and save it in Text format. Then do the Import in
 Bibledit. In the "Import text" dialog, set the type of the file to import to
 "BibleWorks".</p>
-
 <p>Notes on importing Hebrew text from BibleWorks. This works fine, but when
 converting the text to Unicode during import, the encoding "Windows-1252"
 gives best results. The screen fonts needs to be set to "Bwhebb". This font
 should be copied from the BibleWorks installation and installed in Linux. If
 the llines of this visually ordered Hebrew text are too long, then use "Tools
 - Line cutter for Hebrew text" to shorten the lines.</p>
-
 <h3><a name="mechonmamrehebrew"></a>Mechon Mamre Hebrew</h3>
-
 <p>Mechon Mamre has a good quality Hebrew text, with vowels and cantillation
 marks.</p>
-
 <p>To import this Hebrew text into Bibledit, do this: Go to <a
 href="http://www.mechon-mamre.org/">http://www.mechon-mamre.org</a>, and
 download the Hebrew Bible with cantillation marks, see the offline resources
@@ -72,56 +68,41 @@ subdirectory c/ct in the directory where you unzipped the file. Point the
 Import text dialog to this directory, and set the import type to Mechon
 Mamre. Then finish the import. The screen font can be set to "Ezra SIL" or
 similar.</p>
-
-<h3>Online Bible</h3>
-
+<h3><a name="onlinebible"></a>Online Bible</h3>
 <p>Data from the Online Bible can be imported into Bibledit. This can be done
 in two simple steps. 1. Export the data from the Online Bible. And 2. Import
 the data into Bibledit.</p>
-
 <p>As an example we are going to import the commentary written by Matthew
 Poole into Bibledit.</p>
-
 <p>Export the Poole commentary from the Online Bible. Certain options need to
 be set in the Online Bible so that only the text is exported that is wanted,
 without extra bits. The exported file is in Rich Text Format, and should look
 like the sample below.</p>
-
 <p>-----</p>
-
 <p>Genesis 50:24 (Poole)</p>
-
 <p></p>
-
 <p>Ver. 24. God will surely visit you, i.e. deliver you out of this place,
 where I foresee you will be hardly used after my decease; or, fulfil his
 promised kindness to you, as that word is used, Ge 21:1 Ex 4:31. There is a
 double visitation oft mentioned in Scripture; the one of grace and mercy,
 which is here meant; the other of justice and anger, as elsewhere.</p>
-
 <p>-----</p>
-
 <p>In the example above, the important thing is that there is one line that
 shows the reference, and below that any text follows. The line with the
 reference starts with the name of the book in English, then a chapter, a
 colon and the verse, and finally the name of the commentary in brackets.
 Bibledit can only import files if these are in this format.</p>
-
 <p>The data is in Rich Text Format, and needs to be converted to plain text.
 Conversion can be done with several word processors, or with the unrtf
 utility:</p>
 <pre>unrtf --text poole.RTF &gt; poole.txt</pre>
-
 <p>Next the file "poole.txt" should be stored somewhere, e.g. in the home
 directory. From there it can be imported normally.</p>
-
 <p>Be aware that after clicking on the OK button in the import dialog,
 importing the whole of Poole, or even a few books, can take a long time due
 to the inefficient implementation of some of the code. It may seem that the
 system hangs. But this is not the case.</p>
-
-<h3>Notes</h3>
-
+<h3><a name="notes"></a>Notes</h3>
 <p>Hidden files, that is filenames that start with a dot, are not considered
 for import.</p>
 </body>
