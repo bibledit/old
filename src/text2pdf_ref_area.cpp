@@ -336,7 +336,8 @@ void T2PReferenceArea::fit_columns(deque < T2PBlock * >&input_blocks, int column
   }
 
   // Set the position of each individual block.
-  // When text runs from right to left, the columns get swapped, and the intrusions flush to the right.
+  // When text runs from right to left, the columns get swapped, the intrusions flush to the right,
+  // The last lines of the paragraphs are flushed to the right.
   // Copy the blocks from the columns into the object.
   int intrusion_width = 0;
   int positions_past_intrusion = 100;
@@ -352,20 +353,29 @@ void T2PReferenceArea::fit_columns(deque < T2PBlock * >&input_blocks, int column
     first_column[i].set_blocks_y(first_column_y);
     first_column_y += column_height;
     for (unsigned int i2 = 0; i2 < first_column[i].blocks.size(); i2++) {
-      // Right-to-left: Flush chapter number right.
-      positions_past_intrusion++;
-      if (first_column[i].blocks[i2]->type == t2pbtTextIntrusion) {
-        if (right_to_left) {
-          intrusion_width = first_column[i].blocks[i2]->rectangle.width;
+      T2PBlock * block = first_column[i].blocks[i2];
+      // Right-to-left handling.
+      if (right_to_left) {
+        positions_past_intrusion++;
+        // Flush chapter number right, and move the paragraph besides it a bit to the left so as to make space for it.
+        if (block->type == t2pbtTextIntrusion) {
+          intrusion_width = block->rectangle.width;
           positions_past_intrusion = 0;
-          first_column[i].blocks[i2]->rectangle.x += ((rectangle.width / 2) - column_spacing_pango_units - intrusion_width);
+          block->rectangle.x += ((rectangle.width / 2) - column_spacing_pango_units - intrusion_width);
+        }
+        else if ((positions_past_intrusion == 1) || (positions_past_intrusion == 2)) {
+          block->rectangle.x -= intrusion_width;
+        }
+        else {
+          // Flush everything else to the right.
+          int desired_width = (rectangle.width / 2) - column_spacing_pango_units;
+          if (block->rectangle.width < desired_width) {
+            block->rectangle.x += (desired_width - block->rectangle.width);
+          }
         }
       }
-      if ((positions_past_intrusion == 1) || (positions_past_intrusion == 2)) {
-        first_column[i].blocks[i2]->rectangle.x -= intrusion_width;
-      }
       // Store the block.
-      body_blocks.push_back(first_column[i].blocks[i2]);
+      body_blocks.push_back(block);
     }
   }
   intrusion_width = 0;
@@ -380,20 +390,29 @@ void T2PReferenceArea::fit_columns(deque < T2PBlock * >&input_blocks, int column
     last_column[i].set_blocks_y(last_column_y);
     last_column_y += column_height;
     for (unsigned int i2 = 0; i2 < last_column[i].blocks.size(); i2++) {
-      // Right-to-left: Flush chapter number right.
-      positions_past_intrusion++;
-      if (last_column[i].blocks[i2]->type == t2pbtTextIntrusion) {
-        if (right_to_left) {
-          intrusion_width = last_column[i].blocks[i2]->rectangle.width;
+      T2PBlock * block = last_column[i].blocks[i2];
+      // Right-to-left handling.
+      if (right_to_left) {
+        positions_past_intrusion++;
+        // Flush chapter number right, and move the paragraph besides it a bit to the left so as to make space for it.
+        if (block->type == t2pbtTextIntrusion) {
+          intrusion_width = block->rectangle.width;
           positions_past_intrusion = 0;
-          last_column[i].blocks[i2]->rectangle.x += ((rectangle.width / 2) - column_spacing_pango_units - intrusion_width);
+          block->rectangle.x += ((rectangle.width / 2) - column_spacing_pango_units - intrusion_width);
+        }
+        else if ((positions_past_intrusion == 1) || (positions_past_intrusion == 2)) {
+          block->rectangle.x -= intrusion_width;
+        }
+        else {
+          // Flush everything else to the right.
+          int desired_width = (rectangle.width / 2) - column_spacing_pango_units;
+          if (block->rectangle.width < desired_width) {
+            block->rectangle.x += (desired_width - block->rectangle.width);
+          }
         }
       }
-      if ((positions_past_intrusion == 1) || (positions_past_intrusion == 2)) {
-        last_column[i].blocks[i2]->rectangle.x -= intrusion_width;
-      }
       // Store the block.
-      body_blocks.push_back(last_column[i].blocks[i2]);
+      body_blocks.push_back(block);
     }
   }
 
