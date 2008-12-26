@@ -43,7 +43,7 @@
 #include "merge_utils.h"
 #include "shell.h"
 
- WindowMerge::WindowMerge(GtkAccelGroup * accelerator_group, bool startup):
+WindowMerge::WindowMerge(GtkAccelGroup * accelerator_group, bool startup):
 WindowBase(widMerge, "Merge", startup, 0)
 // Window for merging changes.  
 {
@@ -859,6 +859,10 @@ void WindowMerge::show_comparison()
   vector < ustring > comparison;
   compare_chapter(parseline_edited.lines, parseline_main.lines, comparison);
 
+  // Temporally removing the view from the buffer speeds things up a huge lot.
+  g_object_ref(differencesbuffer);
+  gtk_text_view_set_buffer(GTK_TEXT_VIEW(textview1), NULL);
+  
   // Clear buffer.
   gtk_text_buffer_set_text(differencesbuffer, "", 0);
 
@@ -902,6 +906,10 @@ void WindowMerge::show_comparison()
     gtk_text_buffer_get_end_iter(differencesbuffer, &iter);
     gtk_text_buffer_insert(differencesbuffer, &iter, "\n", 1);
   }
+  
+  // Reconnect the view to the buffer.
+  gtk_text_view_set_buffer(GTK_TEXT_VIEW(textview1), differencesbuffer);
+  g_object_unref(differencesbuffer);
 }
 
 void WindowMerge::approval_setup(const ustring & maindata, const ustring & mergedata)

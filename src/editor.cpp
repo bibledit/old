@@ -40,7 +40,7 @@
 #include "tiny_utilities.h"
 #include "git.h"
 
- Editor::Editor(GtkWidget * vbox, const ustring & project_in):
+Editor::Editor(GtkWidget * vbox, const ustring & project_in):
 current_reference(0, 1000, "")
 {
   // Save and initialize variables.
@@ -208,6 +208,10 @@ void Editor::chapter_load(unsigned int chapter_in, vector < ustring > *lines_in)
   // Restart the verse tracker.
   restart_verse_tracker();
 
+  // Temporally removing the view from the buffer speeds operations up a huge lot.
+  g_object_ref(textbuffer);
+  gtk_text_view_set_buffer(GTK_TEXT_VIEW(textview), NULL);
+  
   // Get rid of possible previous text.
   gtk_text_buffer_set_text(textbuffer, "", -1);
 
@@ -274,6 +278,10 @@ void Editor::chapter_load(unsigned int chapter_in, vector < ustring > *lines_in)
       load_text_with_unknown_markup(textbuffer, line, paragraph_mark, character_mark);
   }
 
+  // Reconnect the view to the buffer.
+  gtk_text_view_set_buffer(GTK_TEXT_VIEW(textview), textbuffer);
+  g_object_unref(textbuffer);
+  
   // Finalize displaying any notes.
   display_notes_remainder(false);
   renumber_and_clean_notes_callers();

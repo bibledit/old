@@ -180,7 +180,7 @@ bool ShowScriptDialog::load()
   if (g_ascii_strcasecmp(contents, gtk_text_buffer_get_text(textbuffer, &begin, &end, false)) != 0) {
 
     // Loading a huge chunk of text would take a long time.
-    // Temporally removing the buffer from the view speeds it up a huge lot.
+    // Temporally removing the view from the buffer speeds it up a huge lot.
     g_object_ref(textbuffer);
     gtk_text_view_set_buffer(GTK_TEXT_VIEW(textview1), NULL);
     gtk_text_buffer_set_text(textbuffer, contents, -1);
