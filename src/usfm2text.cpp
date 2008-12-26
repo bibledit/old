@@ -915,10 +915,11 @@ void Usfm2Text::output_chapter_number_try_normal(ustring & line, Usfm2XslFoStyle
   if (at_first_verse)
     return;
 
-  // Write the chapter number in a fo:block, and close that block again.
+  // Write the chapter number.
   // Normally this is the number as it is, 
   // but it can be modified if a published chapter marker is given.
   // Insert a possible chapter label too.
+  // Localization is done too.
   fo_block_style = stylepointer;
   open_paragraph(fo_block_style, true);
   ustring chapterlabel;
@@ -941,7 +942,11 @@ void Usfm2Text::output_chapter_number_try_normal(ustring & line, Usfm2XslFoStyle
       }
     }
   }
-  text2pdf->add_text(chapternumber);
+  ustring localization (chapternumber);
+  if (numeral_localization) {
+    localization = numeral_localization->latin2localization (chapternumber);
+  }
+  text2pdf->add_text(localization);
   text2pdf->close_paragraph();
   fo_block_style = NULL;
 }
@@ -959,8 +964,7 @@ void Usfm2Text::output_chapter_number_try_at_first_verse(ustring line, Usfm2XslF
   size_t position;
   size_t length;
   bool is_opener;
-  bool marker_found = usfm_search_marker(line, marker, position, length,
-                                         is_opener);
+  bool marker_found = usfm_search_marker(line, marker, position, length, is_opener);
   if (marker_found) {
     Usfm2XslFoStyle *stylepointer = marker_get_pointer_to_style(marker);
     if (stylepointer) {
@@ -989,11 +993,15 @@ void Usfm2Text::output_chapter_number_try_at_first_verse(ustring line, Usfm2XslF
           }
         }
 
-        // Write the chapter number.
+        // Write the localized chapter number.
         if (chapter_style) {
           text2pdf->open_intrusion();
           set_paragraph(chapter_style, true);
-          text2pdf->add_text(chapternumber);
+          ustring localization (chapternumber);
+          if (numeral_localization) {
+            localization = numeral_localization->latin2localization (chapternumber);
+          }
+          text2pdf->add_text(localization);
           text2pdf->close_intrusion();
         }
         // The next verse number won't be written.
