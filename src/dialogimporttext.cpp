@@ -579,9 +579,9 @@ void ImportTextDialog::set_gui()
        found. It would try to read it all. This would take a very long time. 
        Therefore only files that are relatively small are taken into account.
        A file exported from BibleWorks can have sizes up to about 5 Mbyte.
-       Ones from the Online Bible can be much bigger, e.g. 25 Mbyte.
+       Ones from the Online Bible can be much bigger, e.g. 50 Mbyte.
      */
-    if (file_get_size(filename) < 30000000) {
+    if (file_get_size(filename) < 60000000) {
       all_files.push_back(filename);
     }
   }
