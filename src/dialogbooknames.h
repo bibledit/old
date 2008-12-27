@@ -18,19 +18,19 @@
 */
 
 
-#ifndef INCLUDED_DIALOGRESOURCEBOOKS_H
-#define INCLUDED_DIALOGRESOURCEBOOKS_H
+#ifndef INCLUDED_DIALOGBOOKNAMES_H
+#define INCLUDED_DIALOGBOOKNAMES_H
 
 
 #include <gtk/gtk.h>
 #include "ustring.h"
 
 
-class ResourceBooksDialog
+class BooknamesDialog
 {
 public:
-  ResourceBooksDialog (map <unsigned int, ustring>& books);
-  ~ResourceBooksDialog ();
+  BooknamesDialog (map <unsigned int, ustring>& books, const gchar * info, const gchar * heading2);
+  ~BooknamesDialog ();
   int run ();
   map <unsigned int, ustring> newbooks;
 protected:

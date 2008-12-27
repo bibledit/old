@@ -24,7 +24,7 @@
 #include "dialoglistview.h"
 #include "gui.h"
 #include "tiny_utilities.h"
-#include "dialogresourcebooks.h"
+#include "dialogbooknames.h"
 #include "shell.h"
 #include "gwrappers.h"
 #include "directories.h"
@@ -595,7 +595,7 @@ void NewResourceDialog::on_books_button_clicked(GtkButton * button, gpointer use
 
 void NewResourceDialog::on_books_button()
 {
-  ResourceBooksDialog dialog(books);
+  BooknamesDialog dialog(books, "Enter the books as they are supposed to be inserted in the URL", "Book in URL");
   if (dialog.run() == GTK_RESPONSE_OK) {
     books = dialog.newbooks;
     if (books_gui()) {
@@ -698,7 +698,7 @@ void NewResourceDialog::on_anchors_button_clicked(GtkButton * button, gpointer u
 
 void NewResourceDialog::on_anchors_button()
 {
-  ResourceBooksDialog dialog(anchors);
+  BooknamesDialog dialog(anchors, "Enter the books as they are in the anchors", "Book in anchor");
   if (dialog.run() == GTK_RESPONSE_OK) {
     anchors = dialog.newbooks;
     if (anchors_gui()) {

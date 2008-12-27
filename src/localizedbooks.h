@@ -57,4 +57,9 @@ private:
 };
 
 
+map <unsigned int, ustring> general_adapted_booknames_read ();
+void general_adapted_booknames_write (map <unsigned int, ustring>& booknames);
+map <ustring, unsigned int> general_adapted_booknames_fill_up (map <unsigned int, ustring>& mapping);
+
+
 #endif

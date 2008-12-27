@@ -34,7 +34,7 @@ public:
   void usfm ();
   void bibleworks ();
   void mechonmamre ();
-  void onlinebible ();
+  void onlinebible (map <ustring, unsigned int> bookmap);
   vector<ustring> lines;
   ustring bookname;
 private:
@@ -52,8 +52,8 @@ vector<ustring> bibleworks_file_divide (const ustring& inputfile);
 bool mechon_mamre_copyright (const ustring& inputfile);
 vector<ustring> mechon_mamre_produce_master_files (const vector<ustring>& inputfiles);
 bool online_bible_file (const ustring& filename);
-bool online_bible_parse_reference (ustring line, unsigned int& book, unsigned int& chapter, unsigned int& verse);
-vector <ustring> online_bible_file_divide (const ustring& inputfile);
+bool online_bible_parse_reference (ustring line, unsigned int& book, unsigned int& chapter, unsigned int& verse, map <ustring, unsigned int>& bookmap);
+vector <ustring> online_bible_file_divide (const ustring& inputfile, map <ustring, unsigned int> bookmap);
 
 
 #endif

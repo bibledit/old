@@ -26,6 +26,10 @@
 #include "books.h"
 #include "tiny_utilities.h"
 
+
+extern typeof(book_record) books_table[];
+
+
 BookLocalization::BookLocalization(const ustring & language_in, const ustring & filename)
 {
   language = language_in;
@@ -247,4 +251,62 @@ ustring BookLocalizations::id2abbrev(const ustring & language, unsigned int id)
       return loaded_localizations[pointer].abbreviation[i];
   }
   return "";
+}
+
+
+ustring general_adapted_booknames_filename ()
+// Returns the name of the file that contains the general adapted book names.
+{
+  ustring filename;
+  filename = gw_build_filename (directories_get_configuration(), "adapted_booknames");
+  return filename;
+}
+
+map <unsigned int, ustring> general_adapted_booknames_read ()
+// Reads the general adapted book names from file.
+{
+  map <unsigned int, ustring> books;
+  ReadText rt (general_adapted_booknames_filename(), true, false);
+  for (unsigned int i = 0; i < rt.lines.size(); i++) {
+    ustring book = rt.lines[i];
+    if (!book.empty()) {
+      books[i] = book;
+    }
+  }
+  return books;
+}
+
+void general_adapted_booknames_write (map <unsigned int, ustring>& booknames)
+// Writes the general adapted book names to file.
+{
+  unsigned int highest_book_id = 0;  
+  for (unsigned int i = 0; i < bookdata_books_count(); i++) {
+    unsigned int id = books_table[i].id;
+    if (id > highest_book_id) {
+      highest_book_id = id;
+    }
+  }
+  vector <ustring> books;
+  for (unsigned int i = 0; i <= highest_book_id; i++) {
+    books.push_back (booknames[i]);
+  }
+  write_lines (general_adapted_booknames_filename(), books);
+}
+
+
+map <ustring, unsigned int> general_adapted_booknames_fill_up (map <unsigned int, ustring>& mapping)
+// The variable "mapping" contains adapted booknames.
+// This function generates a full map of booknames. 
+// If there are adapted names, it takes these, 
+// and those books that have no adapted names get the English ones.
+{
+  map <ustring, unsigned int> swapped_mapping;
+  for (unsigned int i = 0; i < bookdata_books_count(); i++) {
+    ustring book = mapping[i];
+    if (book.empty()) {
+      book = books_id_to_english(i);
+    }
+    swapped_mapping [book] = i;
+  }
+  return swapped_mapping;
 }

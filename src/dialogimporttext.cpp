@@ -45,6 +45,8 @@
 #include "compress.h"
 #include "directories.h"
 #include "unixwrappers.h"
+#include "localizedbooks.h"
+#include "dialogbooknames.h"
 
 ImportTextDialog::ImportTextDialog(int dummy)
 {
@@ -281,6 +283,41 @@ ImportTextDialog::ImportTextDialog(int dummy)
 
   shortcuts.button(checkbutton_overwrite);
 
+  hbox_book_names = gtk_hbox_new (FALSE, 0);
+  gtk_widget_show (hbox_book_names);
+  gtk_box_pack_start (GTK_BOX (vbox2), hbox_book_names, TRUE, TRUE, 0);
+
+  checkbutton_book_names = gtk_check_button_new_with_mnemonic ("Use unusual book names");
+  gtk_widget_show (checkbutton_book_names);
+  gtk_box_pack_start (GTK_BOX (hbox_book_names), checkbutton_book_names, FALSE, FALSE, 0);
+
+  shortcuts.button(checkbutton_book_names);
+
+  button_book_names = gtk_button_new ();
+  gtk_widget_show (button_book_names);
+  gtk_box_pack_start (GTK_BOX (hbox_book_names), button_book_names, FALSE, FALSE, 0);
+
+  // By default we don't use unusual book names, so the button should be insensitive.
+  gtk_widget_set_sensitive (button_book_names, false);
+
+  alignment10 = gtk_alignment_new (0.5, 0.5, 0, 0);
+  gtk_widget_show (alignment10);
+  gtk_container_add (GTK_CONTAINER (button_book_names), alignment10);
+
+  hbox16 = gtk_hbox_new (FALSE, 2);
+  gtk_widget_show (hbox16);
+  gtk_container_add (GTK_CONTAINER (alignment10), hbox16);
+
+  image14 = gtk_image_new_from_stock ("gtk-preferences", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_show (image14);
+  gtk_box_pack_start (GTK_BOX (hbox16), image14, FALSE, FALSE, 0);
+
+  label44 = gtk_label_new_with_mnemonic ("Book names");
+  gtk_widget_show (label44);
+  gtk_box_pack_start (GTK_BOX (hbox16), label44, FALSE, FALSE, 0);
+
+  shortcuts.label(label44);
+
   label42 = gtk_label_new("Options");
   gtk_widget_show(label42);
   gtk_expander_set_label_widget(GTK_EXPANDER(expander1), label42);
@@ -315,6 +352,8 @@ ImportTextDialog::ImportTextDialog(int dummy)
   g_signal_connect((gpointer) button_unicode, "clicked", G_CALLBACK(on_button_unicode_clicked), gpointer(this));
   g_signal_connect((gpointer) button_books, "clicked", G_CALLBACK(on_button_books_clicked), gpointer(this));
   g_signal_connect((gpointer) checkbutton_overwrite, "toggled", G_CALLBACK(on_checkbutton_overwrite_toggled), gpointer(this));
+  g_signal_connect ((gpointer) checkbutton_book_names, "toggled", G_CALLBACK (on_checkbutton_book_names_toggled), gpointer(this));
+  g_signal_connect ((gpointer) button_book_names, "clicked", G_CALLBACK (on_button_book_names_clicked), gpointer(this));
   g_signal_connect((gpointer) okbutton, "clicked", G_CALLBACK(on_okbutton_clicked), gpointer(this));
 
   gtk_widget_grab_default(okbutton);
@@ -527,7 +566,7 @@ void ImportTextDialog::on_okbutton()
         }
       case itOnlineBible:
         {
-          ibr.onlinebible();
+          ibr.onlinebible(general_adapted_booknames_fill_up(unusual_book_names));
           break;
         }
       }
@@ -555,7 +594,7 @@ void ImportTextDialog::set_gui()
   // Handle progress.
   ProgressWindow progresswindow("Processing import...", false);
 
-  // Configuration
+  // Configuration.
   extern Settings *settings;
 
   // Directory part.
@@ -654,6 +693,11 @@ void ImportTextDialog::set_gui()
   // Set Warning/Okay.
   gui_okay(image_directory, label_directory_gui, proper_text_files.size() > 0);
 
+
+  // When importing files from the Online Bible, we can use unusual book names.
+  gtk_widget_set_sensitive (hbox_book_names, (importtype == itOnlineBible));
+
+
   // Handle book type.
 
   switch (importtype) {
@@ -687,7 +731,7 @@ void ImportTextDialog::set_gui()
       vector < ustring > olb_text_files(proper_text_files);
       proper_text_files.clear();
       for (unsigned int i = 0; i < olb_text_files.size(); i++) {
-        vector < ustring > filenames = online_bible_file_divide(olb_text_files[i]);
+        vector < ustring > filenames = online_bible_file_divide(olb_text_files[i], general_adapted_booknames_fill_up(unusual_book_names));
         for (unsigned int i2 = 0; i2 < filenames.size(); i2++) {
           proper_text_files.push_back(filenames[i2]);
         }
@@ -724,7 +768,8 @@ void ImportTextDialog::set_gui()
       {
         unsigned int book, chapter, verse;
         ReadText rt (proper_text_files[i], true, false);
-        online_bible_parse_reference (rt.lines[0], book, chapter, verse);
+        map <ustring, unsigned int> bookmap = general_adapted_booknames_fill_up(unusual_book_names);
+        online_bible_parse_reference (rt.lines[0], book, chapter, verse, bookmap);
         english_name = books_id_to_english(book);
         break;
       }
@@ -890,3 +935,36 @@ ustring ImportTextDialog::uncompress_directory()
 {
   return gw_build_filename(directories_get_temp(), "uncompress");
 }
+
+void ImportTextDialog::on_checkbutton_book_names_toggled (GtkToggleButton *togglebutton, gpointer user_data)
+{
+  ((ImportTextDialog *) user_data)->on_checkbutton_book_names();
+}
+
+void ImportTextDialog::on_checkbutton_book_names()
+{
+  bool use_names = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_book_names));
+  gtk_widget_set_sensitive (button_book_names, use_names);
+  if (use_names) {
+    unusual_book_names = general_adapted_booknames_read();
+  } else {
+    unusual_book_names.clear();
+  }
+  set_gui();
+}
+
+void ImportTextDialog::on_button_book_names_clicked (GtkButton *button, gpointer user_data)
+{
+  ((ImportTextDialog *) user_data)->on_button_book_names();
+}
+
+void ImportTextDialog::on_button_book_names ()
+{
+  BooknamesDialog dialog(unusual_book_names, "Enter the books as they will be in the file to be imported", "Book in file");
+  if (dialog.run() == GTK_RESPONSE_OK) {
+    unusual_book_names = dialog.newbooks;
+    general_adapted_booknames_write (unusual_book_names);
+    set_gui();
+  }
+}
+

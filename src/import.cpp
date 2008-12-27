@@ -29,6 +29,7 @@
 #include "unixwrappers.h"
 #include "tiny_utilities.h"
 #include "dialogradiobutton.h"
+#include "localizedbooks.h"
 
 ImportBookRead::ImportBookRead(const ustring & filename, const ustring & encoding)
 {
@@ -207,7 +208,7 @@ void ImportBookRead::mechonmamre()
   }
 }
 
-void ImportBookRead::onlinebible()
+void ImportBookRead::onlinebible(map <ustring, unsigned int> bookmap)
 {
   // If there's nothing to import, bail out.
   if (rawlines.empty())
@@ -217,7 +218,7 @@ void ImportBookRead::onlinebible()
 
     // Get the name of the book.
     unsigned int book, chapter, verse;
-    online_bible_parse_reference (rawlines[0], book, chapter, verse);
+    online_bible_parse_reference (rawlines[0], book, chapter, verse, bookmap);
     if (book)
       bookname = books_id_to_english(book);
     else
@@ -232,7 +233,7 @@ void ImportBookRead::onlinebible()
     unsigned int previousverse = 0;
     bool verse_was_added = false;
     for (unsigned int i = 0; i < rawlines.size(); i++) {
-      if (online_bible_parse_reference (rawlines[i], book, chapter, verse)) {
+      if (online_bible_parse_reference (rawlines[i], book, chapter, verse, bookmap)) {
         if (chapter != previouschapter) {
           lines.push_back("\\c " + convert_to_string (chapter));
           previouschapter = chapter;
@@ -658,9 +659,11 @@ bool online_bible_file (const ustring& filename)
   
   */
 
+  map <unsigned int, ustring> booknames;
+  map <ustring, unsigned int> bookmap = general_adapted_booknames_fill_up (booknames);
   for (unsigned int i = 0; i < maxline; i++) {
     unsigned int dummy;
-    if (online_bible_parse_reference (rt.lines[i], dummy, dummy, dummy)) {
+    if (online_bible_parse_reference (rt.lines[i], dummy, dummy, dummy, bookmap)) {
       // Online Bible file found.
       return true;
     }
@@ -671,7 +674,7 @@ bool online_bible_file (const ustring& filename)
 }
 
 
-bool online_bible_parse_reference (ustring line, unsigned int& book, unsigned int& chapter, unsigned int& verse)
+bool online_bible_parse_reference (ustring line, unsigned int& book, unsigned int& chapter, unsigned int& verse, map <ustring, unsigned int>& bookmap)
 // Parses a line of text exported from the Online Bible to see if a reference can be discovered in it.
 {
   // Line should contain text.
@@ -699,7 +702,7 @@ bool online_bible_parse_reference (ustring line, unsigned int& book, unsigned in
                 if (number_in_string (s) == s) {
                   chapter = convert_to_int (s);
                   // The remainder of the line should be a book name.
-                  book = books_english_to_id (line);
+                  book = bookmap [line];
                   if (book) {
                     return true;
                   }
@@ -732,7 +735,7 @@ void online_bible_save_book_internal(const ustring& directory, const ustring& in
 }
 
 
-vector <ustring> online_bible_file_divide (const ustring& inputfile)
+vector <ustring> online_bible_file_divide (const ustring& inputfile, map <ustring, unsigned int> bookmap)
 // This function takes one textfile exported from the Online Bible,
 // and divides it into several files, each containing only one book.
 // It puts them all in the temporal directory, 
@@ -753,7 +756,7 @@ vector <ustring> online_bible_file_divide (const ustring& inputfile)
   vector < ustring > booklines;
   for (unsigned int i = 0; i < rt.lines.size(); i++) {
     unsigned int book, chapter, verse = 0;
-    if (online_bible_parse_reference (rt.lines[i], book, chapter, verse)) {
+    if (online_bible_parse_reference (rt.lines[i], book, chapter, verse, bookmap)) {
       if (book != previousbook) {
         online_bible_save_book_internal(directory, inputfile, previousbook, booklines, divided_files);
         booklines.clear();

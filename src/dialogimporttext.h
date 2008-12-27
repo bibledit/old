@@ -87,6 +87,13 @@ protected:
   GtkWidget *expander1;
   GtkWidget *vbox2;
   GtkWidget *checkbutton_overwrite;
+  GtkWidget *hbox_book_names;
+  GtkWidget *checkbutton_book_names;
+  GtkWidget *button_book_names;
+  GtkWidget *alignment10;
+  GtkWidget *hbox16;
+  GtkWidget *image14;
+  GtkWidget *label44;
   GtkWidget *label42;
   GtkWidget *dialog_action_area1;
   GtkWidget *cancelbutton;
@@ -119,6 +126,11 @@ private:
   void on_okbutton ();
   void set_gui ();
   ustring uncompress_directory();
+  map <unsigned int, ustring> unusual_book_names;
+  static void on_checkbutton_book_names_toggled (GtkToggleButton *togglebutton, gpointer user_data);
+  void on_checkbutton_book_names();
+  static void on_button_book_names_clicked (GtkButton *button, gpointer user_data);
+  void on_button_book_names();
 };
 
 

@@ -144,7 +144,7 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogtaskduration.$(OBJEXT) htmlwriter.$(OBJEXT) \
 	dialogviewstatus.$(OBJEXT) dialogplanningsetup.$(OBJEXT) \
 	resource.$(OBJEXT) dialognewresource.$(OBJEXT) \
-	dialogresourcebooks.$(OBJEXT) dialogradiobutton.$(OBJEXT) \
+	dialogbooknames.$(OBJEXT) dialogradiobutton.$(OBJEXT) \
 	dialogresourceconverter2.$(OBJEXT) \
 	resource_conversion_utils.$(OBJEXT) convert.$(OBJEXT) \
 	textviewer.$(OBJEXT) roman.$(OBJEXT) project_memory.$(OBJEXT) \
@@ -563,7 +563,7 @@ bibledit_bin_SOURCES = \
         dialogplanningsetup.cpp \
         resource.cpp \
         dialognewresource.cpp \
-        dialogresourcebooks.cpp \
+        dialogbooknames.cpp \
         dialogradiobutton.cpp \
         dialogresourceconverter2.cpp \
         resource_conversion_utils.cpp \
@@ -734,6 +734,7 @@ include ./$(DEPDIR)/dialogarea.Po
 include ./$(DEPDIR)/dialogassignbooks.Po
 include ./$(DEPDIR)/dialogbackup.Po
 include ./$(DEPDIR)/dialogbook.Po
+include ./$(DEPDIR)/dialogbooknames.Po
 include ./$(DEPDIR)/dialogchanges.Po
 include ./$(DEPDIR)/dialogchapternumber.Po
 include ./$(DEPDIR)/dialogcheck.Po
@@ -786,7 +787,6 @@ include ./$(DEPDIR)/dialogrefexchange.Po
 include ./$(DEPDIR)/dialogreplace.Po
 include ./$(DEPDIR)/dialogreplacing.Po
 include ./$(DEPDIR)/dialogreportingsetup.Po
-include ./$(DEPDIR)/dialogresourcebooks.Po
 include ./$(DEPDIR)/dialogresourceconverter2.Po
 include ./$(DEPDIR)/dialogrevert.Po
 include ./$(DEPDIR)/dialogreviewanchors.Po

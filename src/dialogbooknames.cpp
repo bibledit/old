@@ -19,7 +19,7 @@
 
 #include "libraries.h"
 #include <glib.h>
-#include "dialogresourcebooks.h"
+#include "dialogbooknames.h"
 #include "utilities.h"
 #include "projectutils.h"
 #include "books.h"
@@ -29,7 +29,7 @@
 
 enum { COLUMN_BIBLEDIT, COLUMN_EDITABLE, COLUMN_URL, NUM_COLUMNS };
 
-ResourceBooksDialog::ResourceBooksDialog(map < unsigned int, ustring > &books)
+BooknamesDialog::BooknamesDialog(map < unsigned int, ustring >& books, const gchar * info, const gchar * heading2)
 {
   // Shortcuts.
   Shortcuts shortcuts(0);
@@ -47,7 +47,7 @@ ResourceBooksDialog::ResourceBooksDialog(map < unsigned int, ustring > &books)
   gtk_widget_show(vbox1);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), vbox1, TRUE, TRUE, 0);
 
-  label_info = gtk_label_new("Enter the books as they are supposed to be inserted in the URL");
+  label_info = gtk_label_new(info);
   gtk_widget_show(label_info);
   gtk_box_pack_start(GTK_BOX(vbox1), label_info, FALSE, FALSE, 0);
   gtk_label_set_line_wrap(GTK_LABEL(label_info), TRUE);
@@ -104,7 +104,7 @@ ResourceBooksDialog::ResourceBooksDialog(map < unsigned int, ustring > &books)
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview1), -1, "Book in Bibledit", renderer1, "text", COLUMN_BIBLEDIT, NULL);
   GtkCellRenderer *renderer2 = gtk_cell_renderer_text_new();
   g_signal_connect(renderer2, "edited", G_CALLBACK(cell_edited), gpointer(this));
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview1), -1, "Book in URL", renderer2, "text", COLUMN_URL, "editable", COLUMN_EDITABLE, NULL);
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview1), -1, heading2, renderer2, "text", COLUMN_URL, "editable", COLUMN_EDITABLE, NULL);
   gtk_tree_selection_set_mode(gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview1)), GTK_SELECTION_SINGLE);
 
   // Load texts.
@@ -118,22 +118,22 @@ ResourceBooksDialog::ResourceBooksDialog(map < unsigned int, ustring > &books)
   }
 }
 
-ResourceBooksDialog::~ResourceBooksDialog()
+BooknamesDialog::~BooknamesDialog()
 {
   gtk_widget_destroy(resourcebooksdialog);
 }
 
-int ResourceBooksDialog::run()
+int BooknamesDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(resourcebooksdialog));
 }
 
-void ResourceBooksDialog::on_okbutton1_clicked(GtkButton * button, gpointer user_data)
+void BooknamesDialog::on_okbutton1_clicked(GtkButton * button, gpointer user_data)
 {
-  ((ResourceBooksDialog *) user_data)->on_okbutton();
+  ((BooknamesDialog *) user_data)->on_okbutton();
 }
 
-void ResourceBooksDialog::on_okbutton()
+void BooknamesDialog::on_okbutton()
 {
   GtkTreeModel *model;
   model = gtk_tree_view_get_model(GTK_TREE_VIEW(treeview1));
@@ -161,12 +161,12 @@ void ResourceBooksDialog::on_okbutton()
   }
 }
 
-void ResourceBooksDialog::cell_edited(GtkCellRendererText * cell, const gchar * path_string, const gchar * new_text, gpointer data)
+void BooknamesDialog::cell_edited(GtkCellRendererText * cell, const gchar * path_string, const gchar * new_text, gpointer data)
 {
-  ((ResourceBooksDialog *) data)->on_cell_edited(cell, path_string, new_text);
+  ((BooknamesDialog *) data)->on_cell_edited(cell, path_string, new_text);
 }
 
-void ResourceBooksDialog::on_cell_edited(GtkCellRendererText * cell, const gchar * path_string, const gchar * new_text)
+void BooknamesDialog::on_cell_edited(GtkCellRendererText * cell, const gchar * path_string, const gchar * new_text)
 {
   // Set / initialize some variables.
   GtkTreeModel *tmodel = (GtkTreeModel *) model;

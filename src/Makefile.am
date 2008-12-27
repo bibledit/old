@@ -217,7 +217,7 @@ bibledit_bin_SOURCES = \
         dialogplanningsetup.cpp \
         resource.cpp \
         dialognewresource.cpp \
-        dialogresourcebooks.cpp \
+        dialogbooknames.cpp \
         dialogradiobutton.cpp \
         dialogresourceconverter2.cpp \
         resource_conversion_utils.cpp \
