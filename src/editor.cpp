@@ -278,14 +278,14 @@ void Editor::chapter_load(unsigned int chapter_in, vector < ustring > *lines_in)
       load_text_with_unknown_markup(textbuffer, line, paragraph_mark, character_mark);
   }
 
-  // Reconnect the view to the buffer.
-  gtk_text_view_set_buffer(GTK_TEXT_VIEW(textview), textbuffer);
-  g_object_unref(textbuffer);
-  
   // Finalize displaying any notes.
   display_notes_remainder(false);
   renumber_and_clean_notes_callers();
 
+  // Reconnect the view to the buffer.
+  gtk_text_view_set_buffer(GTK_TEXT_VIEW(textview), textbuffer);
+  g_object_unref(textbuffer);
+  
   // Clear undo buffer.
   editorundoes.clear();
 
