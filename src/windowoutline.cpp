@@ -25,7 +25,7 @@
 #include "keyterms.h"
 #include "tiny_utilities.h"
 
- WindowOutline::WindowOutline(GtkAccelGroup * accelerator_group, bool startup):
+WindowOutline::WindowOutline(GtkAccelGroup * accelerator_group, bool startup):
 WindowBase(widOutline, "Outline", startup, 0), myreference(0)
 // Window showing outline.
 {

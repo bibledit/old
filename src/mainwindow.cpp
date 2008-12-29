@@ -162,6 +162,7 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
   window_styles = NULL;
   window_notes = NULL;
   window_references = NULL;
+  window_show_verses = NULL;
 
   // Initialize some variables.
   git_reopen_project = false;
@@ -1067,6 +1068,10 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
   gtk_widget_show(view_outline);
   gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_outline);
 
+  view_verses = gtk_check_menu_item_new_with_mnemonic ("_Verses");
+  gtk_widget_show (view_verses);
+  gtk_container_add (GTK_CONTAINER (menuitem_view_menu), view_verses);
+
   insert1 = gtk_menu_item_new_with_mnemonic("_Insert");
   gtk_widget_show(insert1);
   gtk_container_add(GTK_CONTAINER(menubar1), insert1);
@@ -1821,6 +1826,8 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
     g_signal_connect((gpointer) view_quick_references, "activate", G_CALLBACK(on_view_quick_references_activate), gpointer(this));
   if (view_outline)
     g_signal_connect((gpointer) view_outline, "activate", G_CALLBACK(on_view_outline_activate), gpointer(this));
+  if (view_verses)
+    g_signal_connect((gpointer) view_verses, "activate", G_CALLBACK(on_view_verses_activate), gpointer(this));
   if (insert1)
     g_signal_connect((gpointer) insert1, "activate", G_CALLBACK(on_insert1_activate), gpointer(this));
   if (standard_text_1)
@@ -2637,6 +2644,8 @@ void MainWindow::on_navigation_new_reference()
   if (window_outline) {
     window_outline->go_to(settings->genconfig.project_get(), navigation.reference);
   }
+  // Optional verses window.
+  show_verses();
 }
 
 void MainWindow::goto_next_verse()
@@ -2739,8 +2748,10 @@ void MainWindow::on_new_verse()
     Editor *editor = editor_window->editor;
     Reference reference(navigation.reference.book, navigation.reference.chapter, editor->current_verse_number);
     navigation.display(reference);
-    if (window_outline)
+    if (window_outline) {
       window_outline->go_to(editor->project, navigation.reference);
+    }
+    show_verses();
   }
 }
 
@@ -6208,6 +6219,11 @@ bool MainWindow::on_windows_startup()
         {
           break;
         }
+      case widShowVerses:
+        {
+          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_verses), true);
+          break;
+        }
       }
       window_started = true;
     }
@@ -6298,6 +6314,12 @@ void MainWindow::shutdown_windows()
     delete editor_window;
     editor_windows.erase(editor_windows.begin());
   }
+  // View verses.
+  if (window_show_verses) {
+    window_show_verses->shutdown();
+    delete window_show_verses;
+    window_show_verses = NULL;
+  }
 }
 
 void MainWindow::on_window_focus_button_clicked(GtkButton * button, gpointer user_data)
@@ -6348,6 +6370,8 @@ void MainWindow::present_windows(GtkWidget * widget)
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
     editor_windows[i]->present(false);
   }
+  if (window_show_verses)
+    window_show_verses->present(false);
   // The main window should be focused too, but then the icon in the taskbar keeps flashing, so it is not done.
   //present(false);
 
@@ -6462,6 +6486,10 @@ void MainWindow::final_focus_timeout()
     // The main window should be focused too, but then the icon in the taskbar keeps flashing, so it is not done.
     // present(true);
   }
+  if (window_show_verses) {
+    if (final_focus_button == window_show_verses->focus_in_signal_button)
+      window_show_verses->present(true);
+  }
 }
 
 ustring MainWindow::describe_focus_button(GtkWidget * widget)
@@ -6509,6 +6537,10 @@ ustring MainWindow::describe_focus_button(GtkWidget * widget)
   }
   if (widget == focus_in_signal_button) {
     description.append(window_data);
+  }
+  if (window_show_verses) {
+    if (widget == window_show_verses->focus_in_signal_button)
+      description.append(window_show_verses->window_data);
   }
   return description;
 }
@@ -6799,6 +6831,13 @@ void MainWindow::accelerator_close_window()
   if (now_focused_window_button == focus_in_signal_button) {
     initiate_shutdown();
   }
+
+  // Quick references.
+  if (window_show_verses) {
+    if (now_focused_window_button == window_show_verses->focus_in_signal_button) {
+      on_window_show_verses_delete_button();
+    }
+  }
 }
 
 void MainWindow::accelerator_goto_styles_area_callback(gpointer user_data)
@@ -6906,4 +6945,58 @@ void MainWindow::initiate_shutdown()
 
   // Shut down after a delay.
   g_timeout_add(10, GSourceFunc(gtk_main_quit), NULL);
+}
+
+
+/*
+ |
+ |
+ |
+ |
+ |
+ Verses
+ |
+ |
+ |
+ |
+ |
+ */
+
+
+void MainWindow::on_view_verses_activate(GtkMenuItem * menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_view_verses();
+}
+
+void MainWindow::on_view_verses()
+{
+  on_window_show_verses_delete_button();
+  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_verses))) {
+    extern GtkAccelGroup *accelerator_group;
+    window_show_verses = new WindowShowVerses(accelerator_group, windows_startup_pointer != G_MAXINT);
+    g_signal_connect((gpointer) window_show_verses->delete_signal_button, "clicked", G_CALLBACK(on_window_show_verses_delete_button_clicked), gpointer(this));
+    g_signal_connect((gpointer) window_show_verses->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
+    show_verses();
+  }
+}
+
+void MainWindow::on_window_show_verses_delete_button_clicked(GtkButton * button, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_window_show_verses_delete_button();
+}
+
+void MainWindow::on_window_show_verses_delete_button()
+{
+  if (window_show_verses) {
+    delete window_show_verses;
+    window_show_verses = NULL;
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_verses), false);
+  }
+}
+
+void MainWindow::show_verses()
+{
+  if (window_show_verses) {
+    window_show_verses->go_to (navigation.reference);
+  }
 }

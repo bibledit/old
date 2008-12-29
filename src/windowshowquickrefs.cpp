@@ -27,7 +27,7 @@
 #include "projectutils.h"
 #include "settings.h"
 
- WindowShowQuickReferences::WindowShowQuickReferences(GtkAccelGroup * accelerator_group, bool startup):
+WindowShowQuickReferences::WindowShowQuickReferences(GtkAccelGroup * accelerator_group, bool startup):
 WindowBase(widShowQuickReferences, "Quick references", startup, 0)
 // Window for showing the quick references.  
 {

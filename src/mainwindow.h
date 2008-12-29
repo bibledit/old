@@ -43,6 +43,7 @@
 #include "windownotes.h"
 #include "windowreferences.h"
 #include "windoweditor.h"
+#include "windowshowverses.h"
 
 class MainWindow : public WindowBase
 {
@@ -205,6 +206,7 @@ protected:
   GtkWidget *view_keyterms;
   GtkWidget *view_quick_references;
   GtkWidget *view_outline;
+  GtkWidget *view_verses;
   GtkWidget *insert1;
   GtkWidget *insert1_menu;
   GtkWidget *standard_text_1;
@@ -817,6 +819,14 @@ protected:
   // Shutdown.
   bool shutting_down;
   void initiate_shutdown();
+  
+  // Verses
+  static void on_view_verses_activate (GtkMenuItem *menuitem, gpointer user_data);
+  void on_view_verses ();
+  WindowShowVerses * window_show_verses;
+  static void on_window_show_verses_delete_button_clicked(GtkButton *button, gpointer user_data);
+  void on_window_show_verses_delete_button();
+  void show_verses();
 
 };
 

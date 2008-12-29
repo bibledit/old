@@ -169,7 +169,7 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	windownotes.$(OBJEXT) accelerators.$(OBJEXT) \
 	dialogprojectnote.$(OBJEXT) windowreferences.$(OBJEXT) \
 	windoweditor.$(OBJEXT) compress.$(OBJEXT) \
-	localizednumerals.$(OBJEXT)
+	localizednumerals.$(OBJEXT) windowshowverses.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -613,7 +613,8 @@ bibledit_bin_SOURCES = \
         windowreferences.cpp \
         windoweditor.cpp \
         compress.cpp \
-        localizednumerals.cpp
+        localizednumerals.cpp \
+        windowshowverses.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -943,6 +944,7 @@ include ./$(DEPDIR)/windowresource.Po
 include ./$(DEPDIR)/windows.Po
 include ./$(DEPDIR)/windowshowkeyterms.Po
 include ./$(DEPDIR)/windowshowquickrefs.Po
+include ./$(DEPDIR)/windowshowverses.Po
 include ./$(DEPDIR)/windowsoutpost.Po
 include ./$(DEPDIR)/windowstyles.Po
 include ./$(DEPDIR)/wordlist.Po
