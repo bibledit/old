@@ -135,7 +135,7 @@ PKG_CHECK_MODULES(GLIB, glib-2.0 >= 2.8.0,,AC_MSG_ERROR(glib development version
 AC_SUBST(GLIB_CFLAGS)
 AC_SUBST(GLIB_LIBS)
 
-PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.6.0,,AC_MSG_ERROR(gtk+ development version >= 2.6.0 is needed.))
+PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.10.0,,AC_MSG_ERROR(gtk+ development version >= 2.10.0 is needed.))
 AC_SUBST(GTK_CFLAGS)
 AC_SUBST(GTK_LIBS)
 
@@ -149,8 +149,7 @@ AC_SUBST(GOBJECT_LIBS)
 
 # Library sqlite3.
 # Note that we use only the library part of package sqlite3.
-# The commandline tool "sqlite3" is not used because some distributions
-# do not include it.
+# The commandline tool "sqlite3" is not used because some distributions do not include it.
 PKG_CHECK_MODULES(SQLITE, sqlite3 >= 3.0.0,,AC_MSG_ERROR(sqlite development version >= 3.0.0 is needed.))
 AC_SUBST(SQLITE_CFLAGS)
 AC_SUBST(SQLITE_LIBS)
