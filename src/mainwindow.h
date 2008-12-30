@@ -44,6 +44,7 @@
 #include "windowreferences.h"
 #include "windoweditor.h"
 #include "windowshowverses.h"
+#include "assistantimportkeyterms.h"
 
 class MainWindow : public WindowBase
 {
@@ -151,6 +152,15 @@ protected:
   GtkWidget *image27515;
   GtkWidget *file_resources_delete;
   GtkWidget *image27664;
+  
+  // Todo
+  GtkWidget *file_keyterms;
+  GtkWidget *image32231;
+  GtkWidget *file_keyterms_menu;
+  GtkWidget *keyterms_import;
+  GtkWidget *image32232;
+  GtkWidget *keyterms_delete;
+  
   GtkWidget *print;
   GtkWidget *quit1;
   GtkWidget *menuitem_edit;
@@ -330,8 +340,6 @@ protected:
   GtkWidget *image26888;
   GtkWidget *preferences_filters;
   GtkWidget *image28360;
-  GtkWidget *preferences_keyterms; /// Todo
-  GtkWidget *image31931;
   GtkWidget *menuitem_help;
   GtkWidget *menuitem_help_menu;
   GtkWidget *help_main;
@@ -613,7 +621,7 @@ protected:
   /* Webserver */
   Httpd httpd;
 
-  /* Keyterms */
+  /* Keyterms */ // Todo
   static void on_check_key_terms_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_check_key_terms();
   WindowCheckKeyterms * window_check_keyterms;
@@ -626,8 +634,16 @@ protected:
   WindowShowKeyterms * window_show_keyterms;
   static void on_window_show_keyterms_delete_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_show_keyterms_delete_button();
-  static void on_preferences_keyterms_activate (GtkMenuItem *menuitem, gpointer user_data);
-  void on_preferences_keyterms ();
+  ImportKeytermsAssistant * import_keyterms_assistant;
+  static void on_preferences_keyterms_ready_signal (GtkButton *button, gpointer user_data);
+  void on_preferences_keyterms_ready ();
+  
+  static void on_keyterms_import_activate (GtkMenuItem *menuitem, gpointer user_data);
+  void on_keyterms_import ();
+  static void on_keyterms_delete_activate (GtkMenuItem *menuitem, gpointer user_data);
+  void on_keyterms_delete ();
+  
+  
 
   /* Backups */
   static void on_project_backup_incremental_activate(GtkMenuItem *menuitem, gpointer user_data);

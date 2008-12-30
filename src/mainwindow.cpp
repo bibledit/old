@@ -133,7 +133,6 @@
 #include "windows.h"
 #include "unixwrappers.h"
 #include "accelerators.h"
-#include "dialogkeytermprefs.h"
 
 
 /*
@@ -816,6 +815,29 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
   image27664 = gtk_image_new_from_stock("gtk-delete", GTK_ICON_SIZE_MENU);
   gtk_widget_show(image27664);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(file_resources_delete), image27664);
+
+  file_keyterms = gtk_image_menu_item_new_with_mnemonic ("_Keyterms"); // Todo depending on features, this one needs to be disabled.
+  gtk_widget_show (file_keyterms);
+  gtk_container_add (GTK_CONTAINER (menuitem_file_menu), file_keyterms);
+
+  image32231 = gtk_image_new_from_stock ("gtk-select-font", GTK_ICON_SIZE_MENU);
+  gtk_widget_show (image32231);
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (file_keyterms), image32231);
+
+  file_keyterms_menu = gtk_menu_new ();
+  gtk_menu_item_set_submenu (GTK_MENU_ITEM (file_keyterms), file_keyterms_menu);
+
+  keyterms_import = gtk_image_menu_item_new_with_mnemonic ("_Import");
+  gtk_widget_show (keyterms_import);
+  gtk_container_add (GTK_CONTAINER (file_keyterms_menu), keyterms_import);
+
+  image32232 = gtk_image_new_from_stock ("gtk-open", GTK_ICON_SIZE_MENU);
+  gtk_widget_show (image32232);
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (keyterms_import), image32232);
+
+  keyterms_delete = gtk_image_menu_item_new_from_stock ("gtk-delete", NULL);
+  gtk_widget_show (keyterms_delete);
+  gtk_container_add (GTK_CONTAINER (file_keyterms_menu), keyterms_delete);
 
   print = NULL;
 
@@ -1595,7 +1617,6 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
   preferences_reporting = NULL;
   preferences_planning = NULL;
   preferences_filters = NULL;
-  preferences_keyterms = NULL;
   if (guifeatures.preferences()) {
 
     preferences_password = gtk_image_menu_item_new_with_mnemonic("P_assword");
@@ -1645,14 +1666,6 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
     image28360 = gtk_image_new_from_stock("gtk-convert", GTK_ICON_SIZE_MENU);
     gtk_widget_show(image28360);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(preferences_filters), image28360);
-
-    preferences_keyterms = gtk_image_menu_item_new_with_mnemonic ("_Keyterms");
-    gtk_widget_show (preferences_keyterms);
-    gtk_container_add (GTK_CONTAINER (menuitem_preferences_menu), preferences_keyterms);
-
-    image31931 = gtk_image_new_from_stock ("gtk-edit", GTK_ICON_SIZE_MENU);
-    gtk_widget_show (image31931);
-    gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (preferences_keyterms), image31931);
 
   }
 
@@ -1779,6 +1792,10 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
     g_signal_connect((gpointer) file_resources_edit, "activate", G_CALLBACK(on_file_resources_edit_activate), gpointer(this));
   if (file_resources_delete)
     g_signal_connect((gpointer) file_resources_delete, "activate", G_CALLBACK(on_file_resources_delete_activate), gpointer(this));
+  if (keyterms_import)
+    g_signal_connect((gpointer) keyterms_import, "activate", G_CALLBACK(on_keyterms_import_activate), gpointer(this));
+  if (keyterms_delete)
+    g_signal_connect((gpointer) keyterms_delete, "activate", G_CALLBACK(on_keyterms_delete_activate), gpointer(this));
   if (print)
     g_signal_connect((gpointer) print, "activate", G_CALLBACK(on_print_activate), gpointer(this));
   if (quit1)
@@ -1943,8 +1960,6 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
     g_signal_connect((gpointer) preferences_planning, "activate", G_CALLBACK(on_preferences_planning_activate), gpointer(this));
   if (preferences_filters)
     g_signal_connect((gpointer) preferences_filters, "activate", G_CALLBACK(on_preferences_filters_activate), gpointer(this));
-  if (preferences_keyterms)
-    g_signal_connect((gpointer) preferences_keyterms, "activate", G_CALLBACK(on_preferences_keyterms_activate), gpointer(this));
   if (help_main)
     g_signal_connect((gpointer) help_main, "activate", G_CALLBACK(on_help_main_activate), gpointer(this));
   if (system_log1)
@@ -4562,16 +4577,40 @@ void MainWindow::on_window_show_keyterms_delete_button()
 }
 
 
-void MainWindow::on_preferences_keyterms_activate(GtkMenuItem *menuitem, gpointer user_data)
+void MainWindow::on_preferences_keyterms_ready_signal (GtkButton *button, gpointer user_data)
 {
-  ((MainWindow *) user_data)->on_preferences_keyterms();
+  ((MainWindow *) user_data)->on_preferences_keyterms_ready();
 }
 
-void MainWindow::on_preferences_keyterms() // Todo
+void MainWindow::on_preferences_keyterms_ready ()
 {
-  KeytermPreferencesDialog dialog (0);
-  dialog.run();
+  delete import_keyterms_assistant;
 }
+
+
+void MainWindow::on_keyterms_import_activate(GtkMenuItem *menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_keyterms_import();
+}
+
+void MainWindow::on_keyterms_import() // Todo
+{
+  import_keyterms_assistant = new ImportKeytermsAssistant (0);
+  g_signal_connect ((gpointer) import_keyterms_assistant->signal_button, "clicked", G_CALLBACK (on_preferences_keyterms_ready_signal), gpointer (this));
+}
+
+
+void MainWindow::on_keyterms_delete_activate(GtkMenuItem *menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_keyterms_delete();
+}
+
+void MainWindow::on_keyterms_delete() // Todo
+{
+  //preferences_keyterms_assistant = new KeytermsAssistant (0);
+  //g_signal_connect ((gpointer) preferences_keyterms_assistant->signal_button, "clicked", G_CALLBACK (on_preferences_keyterms_ready_signal), gpointer (this));
+}
+
 
 
 /*
