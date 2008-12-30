@@ -133,6 +133,8 @@
 #include "windows.h"
 #include "unixwrappers.h"
 #include "accelerators.h"
+#include "dialogkeytermprefs.h"
+
 
 /*
  |
@@ -1593,6 +1595,7 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
   preferences_reporting = NULL;
   preferences_planning = NULL;
   preferences_filters = NULL;
+  preferences_keyterms = NULL;
   if (guifeatures.preferences()) {
 
     preferences_password = gtk_image_menu_item_new_with_mnemonic("P_assword");
@@ -1642,6 +1645,14 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
     image28360 = gtk_image_new_from_stock("gtk-convert", GTK_ICON_SIZE_MENU);
     gtk_widget_show(image28360);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(preferences_filters), image28360);
+
+    preferences_keyterms = gtk_image_menu_item_new_with_mnemonic ("_Keyterms");
+    gtk_widget_show (preferences_keyterms);
+    gtk_container_add (GTK_CONTAINER (menuitem_preferences_menu), preferences_keyterms);
+
+    image31931 = gtk_image_new_from_stock ("gtk-edit", GTK_ICON_SIZE_MENU);
+    gtk_widget_show (image31931);
+    gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (preferences_keyterms), image31931);
 
   }
 
@@ -1932,6 +1943,8 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
     g_signal_connect((gpointer) preferences_planning, "activate", G_CALLBACK(on_preferences_planning_activate), gpointer(this));
   if (preferences_filters)
     g_signal_connect((gpointer) preferences_filters, "activate", G_CALLBACK(on_preferences_filters_activate), gpointer(this));
+  if (preferences_keyterms)
+    g_signal_connect((gpointer) preferences_keyterms, "activate", G_CALLBACK(on_preferences_keyterms_activate), gpointer(this));
   if (help_main)
     g_signal_connect((gpointer) help_main, "activate", G_CALLBACK(on_help_main_activate), gpointer(this));
   if (system_log1)
@@ -4547,6 +4560,19 @@ void MainWindow::on_window_show_keyterms_delete_button()
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_keyterms), false);
   }
 }
+
+
+void MainWindow::on_preferences_keyterms_activate(GtkMenuItem *menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_preferences_keyterms();
+}
+
+void MainWindow::on_preferences_keyterms() // Todo
+{
+  KeytermPreferencesDialog dialog (0);
+  dialog.run();
+}
+
 
 /*
  |

@@ -169,7 +169,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	windownotes.$(OBJEXT) accelerators.$(OBJEXT) \
 	dialogprojectnote.$(OBJEXT) windowreferences.$(OBJEXT) \
 	windoweditor.$(OBJEXT) compress.$(OBJEXT) \
-	localizednumerals.$(OBJEXT) windowshowverses.$(OBJEXT)
+	localizednumerals.$(OBJEXT) windowshowverses.$(OBJEXT) \
+	dialogkeytermprefs.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -614,7 +615,8 @@ bibledit_bin_SOURCES = \
         windoweditor.cpp \
         compress.cpp \
         localizednumerals.cpp \
-        windowshowverses.cpp
+        windowshowverses.cpp \
+        dialogkeytermprefs.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -763,6 +765,7 @@ include ./$(DEPDIR)/dialogimportrawtext.Po
 include ./$(DEPDIR)/dialogimporttext.Po
 include ./$(DEPDIR)/dialoginsertnote.Po
 include ./$(DEPDIR)/dialoginserttable.Po
+include ./$(DEPDIR)/dialogkeytermprefs.Po
 include ./$(DEPDIR)/dialoglinecutter.Po
 include ./$(DEPDIR)/dialoglistview.Po
 include ./$(DEPDIR)/dialogmerge.Po

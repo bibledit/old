@@ -330,6 +330,8 @@ protected:
   GtkWidget *image26888;
   GtkWidget *preferences_filters;
   GtkWidget *image28360;
+  GtkWidget *preferences_keyterms; /// Todo
+  GtkWidget *image31931;
   GtkWidget *menuitem_help;
   GtkWidget *menuitem_help_menu;
   GtkWidget *help_main;
@@ -624,6 +626,8 @@ protected:
   WindowShowKeyterms * window_show_keyterms;
   static void on_window_show_keyterms_delete_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_show_keyterms_delete_button();
+  static void on_preferences_keyterms_activate (GtkMenuItem *menuitem, gpointer user_data);
+  void on_preferences_keyterms ();
 
   /* Backups */
   static void on_project_backup_incremental_activate(GtkMenuItem *menuitem, gpointer user_data);

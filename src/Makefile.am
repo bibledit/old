@@ -268,7 +268,8 @@ bibledit_bin_SOURCES = \
         windoweditor.cpp \
         compress.cpp \
         localizednumerals.cpp \
-        windowshowverses.cpp
+        windowshowverses.cpp \
+        dialogkeytermprefs.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 
