@@ -156,8 +156,8 @@ int main (int argc, char *argv[])
     int fd;
     fd = open ("allpages.html", O_CREAT | O_WRONLY | O_TRUNC, 0666);
     for (unsigned int i = 0; i < allpages.size(); i++) {
-      write (fd, allpages[i].c_str(), strlen (allpages[i].c_str()));
-      write (fd, "\n", 1);
+      if (write (fd, allpages[i].c_str(), strlen (allpages[i].c_str())));
+      if (write (fd, "\n", 1));
     }
     close (fd);
   }

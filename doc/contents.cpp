@@ -312,8 +312,8 @@ int main (int argc, char *argv[])
         int fd;
         fd = open (files[i].c_str(), O_CREAT | O_WRONLY | O_TRUNC, 0666);
         for (unsigned int i2 = 0; i2 < lines2.size(); i2++) {
-          write (fd, lines2[i2].c_str(), strlen (lines2[i2].c_str()));
-          write (fd, "\n", 1);
+          if (write (fd, lines2[i2].c_str(), strlen (lines2[i2].c_str())));
+          if (write (fd, "\n", 1));
         }
         close (fd);
       }
