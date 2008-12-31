@@ -5513,6 +5513,11 @@ void MainWindow::on_file_projects_merge()
     g_signal_connect((gpointer) window_merge->new_reference_button, "clicked", G_CALLBACK(on_merge_window_new_reference_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_merge->save_editors_button, "clicked", G_CALLBACK(on_merge_window_save_editors_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_merge->reload_editors_button, "clicked", G_CALLBACK(on_editor_reload_clicked), gpointer(this));
+    vector < Editor * >visible_editors;
+    for (unsigned int i = 0; i < editor_windows.size(); i++) {
+      visible_editors.push_back(editor_windows[i]->editor);
+    }
+    window_merge->set_visible_editors(visible_editors);
   }
 }
 
