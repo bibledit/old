@@ -23,20 +23,14 @@
 #include <gtk/gtk.h>
 #include "ustring.h"
 #include "reference.h"
-#include "windows.h"
+#include "assistants.h"
 
-class ImportKeytermsAssistant
+class ImportKeytermsAssistant : public AssistantBase
 {
 public:
   ImportKeytermsAssistant(int dummy);
-  ~ImportKeytermsAssistant();
-  GtkWidget * signal_button;
+  virtual ~ImportKeytermsAssistant();
 private:
-  GtkWidget * assistant;
-  
-  // Introduction page.
-  GtkWidget *label_intro;
-  
   // File to import.
   GtkWidget *vbox_select_file;
   GtkWidget *label5;
@@ -66,14 +60,6 @@ private:
   
   static void on_assistant_apply_signal (GtkAssistant *assistant, gpointer user_data);
   void on_assistant_apply ();
-  static void on_assistant_cancel_signal (GtkAssistant *assistant, gpointer user_data);
-  void on_assistant_cancel ();
-  static void on_assistant_close_signal (GtkAssistant *assistant, gpointer user_data);
-  void on_assistant_close ();
-  static void on_assistant_prepare_signal (GtkAssistant *assistant, gpointer user_data);
-  void on_assistant_prepare ();
-  static bool on_assistant_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);
-  void on_assistant_delete ();
 
   static gint assistant_forward_function (gint current_page, gpointer user_data);
   gint assistant_forward (gint current_page);

@@ -152,15 +152,12 @@ protected:
   GtkWidget *image27515;
   GtkWidget *file_resources_delete;
   GtkWidget *image27664;
-  
-  // Todo
   GtkWidget *file_keyterms;
   GtkWidget *image32231;
   GtkWidget *file_keyterms_menu;
   GtkWidget *keyterms_import;
   GtkWidget *image32232;
   GtkWidget *keyterms_delete;
-  
   GtkWidget *print;
   GtkWidget *quit1;
   GtkWidget *menuitem_edit;
@@ -637,13 +634,10 @@ protected:
   ImportKeytermsAssistant * import_keyterms_assistant;
   static void on_preferences_keyterms_ready_signal (GtkButton *button, gpointer user_data);
   void on_preferences_keyterms_ready ();
-  
   static void on_keyterms_import_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_keyterms_import ();
   static void on_keyterms_delete_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_keyterms_delete ();
-  
-  
 
   /* Backups */
   static void on_project_backup_incremental_activate(GtkMenuItem *menuitem, gpointer user_data);

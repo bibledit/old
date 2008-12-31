@@ -4593,7 +4593,7 @@ void MainWindow::on_keyterms_import_activate(GtkMenuItem *menuitem, gpointer use
   ((MainWindow *) user_data)->on_keyterms_import();
 }
 
-void MainWindow::on_keyterms_import() // Todo
+void MainWindow::on_keyterms_import()
 {
   import_keyterms_assistant = new ImportKeytermsAssistant (0);
   g_signal_connect ((gpointer) import_keyterms_assistant->signal_button, "clicked", G_CALLBACK (on_preferences_keyterms_ready_signal), gpointer (this));

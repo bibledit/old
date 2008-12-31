@@ -28,35 +28,16 @@
 #include "settings.h"
 #include "gtkwrappers.h"
 
-ImportKeytermsAssistant::ImportKeytermsAssistant(int dummy)
+ImportKeytermsAssistant::ImportKeytermsAssistant(int dummy) :
+AssistantBase("Keyterms")
+
 // Assistant for adding keyterms.
 {
-  signal_button = gtk_button_new ();
-  
-  assistant = gtk_assistant_new();
-  gtk_widget_show (assistant);
-  gtk_window_set_modal (GTK_WINDOW (assistant), true);
-  gtk_window_set_title (GTK_WINDOW (assistant), "Keyterms");
-  
   gtk_assistant_set_forward_page_func (GTK_ASSISTANT (assistant), GtkAssistantPageFunc (assistant_forward_function), gpointer(this), NULL);
   
   g_signal_connect (G_OBJECT (assistant), "apply", G_CALLBACK (on_assistant_apply_signal), gpointer(this));
-  g_signal_connect (G_OBJECT (assistant), "cancel", G_CALLBACK (on_assistant_cancel_signal), gpointer(this));
-  g_signal_connect (G_OBJECT (assistant), "close", G_CALLBACK (on_assistant_close_signal), gpointer(this));
-  g_signal_connect (G_OBJECT (assistant), "prepare", G_CALLBACK (on_assistant_prepare_signal), gpointer(this));
-  g_signal_connect (G_OBJECT (assistant), "delete_event", G_CALLBACK(on_assistant_delete_event), gpointer(this));
 
-  // Introduction.
-  
-  label_intro = gtk_label_new ("Text files that contain keyterms can be imported into the keyterms database.");
-  gtk_widget_show (label_intro);
-  gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_intro);
-  gtk_label_set_line_wrap (GTK_LABEL (label_intro), TRUE);
-
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_intro, "Introduction");
-  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_intro, GTK_ASSISTANT_PAGE_INTRO);
-  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_intro, true);
-
+  introduction ("Text files that contain keyterms can be imported into the keyterms database.");
   // File to import.
 
   vbox_select_file = gtk_vbox_new (FALSE, 0);
@@ -153,7 +134,7 @@ ImportKeytermsAssistant::ImportKeytermsAssistant(int dummy)
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_progress, GTK_ASSISTANT_PAGE_PROGRESS);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_progress, true);
   
-  label_summary = gtk_label_new ("Import done. If there were any errors, these would show up in the system log.");
+  label_summary = gtk_label_new ("Import done.");
   gtk_widget_show (label_summary);
   summary_page_number = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_summary);
 
@@ -170,8 +151,6 @@ ImportKeytermsAssistant::ImportKeytermsAssistant(int dummy)
 
 ImportKeytermsAssistant::~ImportKeytermsAssistant()
 {
-  gtk_widget_destroy (assistant);
-  gtk_widget_destroy (signal_button);
 }
 
 void ImportKeytermsAssistant::on_assistant_apply_signal (GtkAssistant *assistant, gpointer user_data)
@@ -189,64 +168,16 @@ void ImportKeytermsAssistant::on_assistant_apply ()
     keyterms_import_textfile (filename, category);
   }
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_type_otkey_db))) {
-    cout << "radiobutton_type_otkey_db " << filename << endl; // Todo
+    keyterms_import_otkey_db (filename, category);
   }
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_type_ktref_db))) {
-    cout << "radiobutton_type_ktref_db " << filename << endl; // Todo
+    keyterms_import_ktref_db (filename, category);
   }
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_type_ktbh))) {
-    cout << "radiobutton_type_ktbh " << filename << endl; // Todo
+    keyterms_import_ktbh_txt (filename, category);
   }
   // Show summary.
   gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), summary_page_number);
-}
-
-
-void ImportKeytermsAssistant::on_assistant_cancel_signal (GtkAssistant *assistant, gpointer user_data)
-{
-  ((ImportKeytermsAssistant *) user_data)->on_assistant_cancel();
-}
-
-
-void ImportKeytermsAssistant::on_assistant_cancel ()
-{
-  gtk_button_clicked (GTK_BUTTON (signal_button));
-}
-
-
-void ImportKeytermsAssistant::on_assistant_close_signal (GtkAssistant *assistant, gpointer user_data)
-{
-  ((ImportKeytermsAssistant *) user_data)->on_assistant_close();
-}
-
-
-void ImportKeytermsAssistant::on_assistant_close ()
-{
-  gtk_button_clicked (GTK_BUTTON (signal_button));
-}
-
-
-void ImportKeytermsAssistant::on_assistant_prepare_signal (GtkAssistant *assistant, gpointer user_data)
-{
-  ((ImportKeytermsAssistant *) user_data)->on_assistant_prepare();
-}
-
-
-void ImportKeytermsAssistant::on_assistant_prepare ()
-{
-}
-
-
-bool ImportKeytermsAssistant::on_assistant_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data)
-{
-  ((ImportKeytermsAssistant *) user_data)->on_assistant_delete();
-  return true;
-}
-
-
-void ImportKeytermsAssistant::on_assistant_delete ()
-{
-  gtk_button_clicked (GTK_BUTTON (signal_button));
 }
 
 

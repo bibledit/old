@@ -313,7 +313,7 @@ void keyterms_import_textfile(const ustring & textfile, ustring category)
   sqlite3_close(db);
 }
 
-void keyterms_import_otkey_db()
+void keyterms_import_otkey_db(const ustring& textfile, ustring category)
 {
   // Some variables we need.
   sqlite3 *db;
@@ -322,7 +322,7 @@ void keyterms_import_otkey_db()
   try {
     // Read the text.
     cout << "Trying to process OTKEY.DB" << endl;
-    ReadText rt(gw_build_filename(present_working_directory(), "OTKEY.DB"));
+    ReadText rt(textfile);
 
     // Open the database.
     rc = sqlite3_open(keyterms_get_user_filename().c_str(), &db);
@@ -337,7 +337,6 @@ void keyterms_import_otkey_db()
       throw runtime_error(sqlite3_errmsg(db));
 
     // Store the category of these keyterms.
-    ustring category("Bible Translation Website's OT Key Terms");
     category = double_apostrophy(category);
     sql = g_strdup_printf("insert into categories values ('%s');", category.c_str());
     rc = sqlite3_exec(db, sql, NULL, NULL, &error);
@@ -423,7 +422,7 @@ void keyterms_import_otkey_db()
   sqlite3_close(db);
 }
 
-void keyterms_import_ktref_db()
+void keyterms_import_ktref_db(const ustring& textfile, ustring category)
 {
   // Some variables we need.
   sqlite3 *db;
@@ -436,7 +435,7 @@ void keyterms_import_ktref_db()
     cout << "Trying to process KTREF.DB" << endl;
     vector < ustring > lines;
     {
-      ReadText rt(gw_build_filename(present_working_directory(), "KTREF.DB"));
+      ReadText rt(textfile);
       for (unsigned int i = 0; i < rt.lines.size(); i++) {
         if (rt.lines[i].empty())
           continue;
@@ -461,7 +460,6 @@ void keyterms_import_ktref_db()
       throw runtime_error(sqlite3_errmsg(db));
 
     // Store the category of these keyterms.
-    ustring category("Bible Translation Website's NT Key Terms");
     category = double_apostrophy(category);
     sql = g_strdup_printf("insert into categories values ('%s');", category.c_str());
     rc = sqlite3_exec(db, sql, NULL, NULL, &error);
@@ -684,13 +682,11 @@ void keyterms_import_ktbh_txt_references(ustring line, vector < Reference > &ref
   }
 }
 
-void keyterms_import_ktbh_txt()
+void keyterms_import_ktbh_txt(const ustring& textfile, ustring category)
 {
   // If KTBH file's not there, bail out.
   cout << "Trying to process KTBH-U.txt" << endl;
-  ustring filename = gw_build_filename(present_working_directory(),
-                                       "KTBH-U.txt");
-  if (!g_file_test(filename.c_str(), G_FILE_TEST_IS_REGULAR))
+  if (!g_file_test(textfile.c_str(), G_FILE_TEST_IS_REGULAR))
     return;
 
   // Some variables we need.
@@ -704,7 +700,7 @@ void keyterms_import_ktbh_txt()
     // Clear empty ones out.
     vector < ustring > lines;
     {
-      ReadText rt(filename, true);
+      ReadText rt(textfile, true);
       for (unsigned int i = 0; i < rt.lines.size(); i++) {
         if (rt.lines[i].empty())
           continue;
@@ -729,7 +725,6 @@ void keyterms_import_ktbh_txt()
       throw runtime_error(sqlite3_errmsg(db));
 
     // Store the category of these keyterms.
-    ustring category("Key Terms in Biblical Hebrew Project");
     sql = g_strdup_printf("insert into categories values ('%s');", category.c_str());
     rc = sqlite3_exec(db, sql, NULL, NULL, &error);
     g_free(sql);
@@ -951,7 +946,7 @@ vector <ustring> keyterms_get_categories(vector <bool> * user)
   return categories;
 }
 
-void keyterms_get_terms(const ustring & searchterm, const ustring & collection, vector < ustring > &terms, vector < unsigned int >&levels, vector < unsigned int >&parents, vector < unsigned int >&ids)
+void keyterms_get_terms(const ustring & searchterm, const ustring & collection, vector < ustring > &terms, vector < unsigned int >&levels, vector < unsigned int >&parents, vector < unsigned int >&ids) // Todo use user-db too.
 // Depending on the searchterm and collection, get the keyterms, together with 
 // their levels, parents, and ids. If the searchterm is empty, give them all.
 // If the collection is empty, get them from all collections.
@@ -1012,7 +1007,7 @@ void keyterms_get_terms(const ustring & searchterm, const ustring & collection, 
   sqlite3_close(db);
 }
 
-bool keyterms_get_term(unsigned int id, ustring & term, unsigned int &parent)
+bool keyterms_get_term(unsigned int id, ustring & term, unsigned int &parent)// Todo use user-db too.
 {
   bool result = false;
   sqlite3 *db;
@@ -1043,7 +1038,7 @@ bool keyterms_get_term(unsigned int id, ustring & term, unsigned int &parent)
   return result;
 }
 
-bool keyterms_get_data(unsigned int id, ustring & category, ustring & comments, vector < Reference > &references, vector < ustring > &related)
+bool keyterms_get_data(unsigned int id, ustring & category, ustring & comments, vector < Reference > &references, vector < ustring > &related)// Todo use user-db too.
 {
   bool result = false;
   sqlite3 *db;
@@ -1187,6 +1182,9 @@ void keyterms_store_renderings(const ustring & project, const ustring & keyterm,
 
 void keyterms_export(const ustring & directory, bool gui)
 {
+  return;
+  
+  // This might need to be updated to use the user-database too.
   // GUI.
   ProgressWindow *progresswindow = NULL;
   if (gui)
@@ -1196,8 +1194,7 @@ void keyterms_export(const ustring & directory, bool gui)
   for (unsigned int cat = 0; cat < categories.size(); cat++) {
     cout << categories[cat] << endl;
     // Output data.
-    ustring paratext_filename = gw_build_filename(directory,
-                                                  categories[cat] + ".lex");
+    ustring paratext_filename = gw_build_filename(directory, categories[cat] + ".lex");
     replace_text(paratext_filename, " ", "_");
     replace_text(paratext_filename, "'", "_");
     vector < ustring > paratext_lines;
@@ -1253,7 +1250,7 @@ void keyterms_export(const ustring & directory, bool gui)
     delete progresswindow;
 }
 
-vector < int >keyterms_get_terms_in_verse(const Reference & reference)
+vector < int >keyterms_get_terms_in_verse(const Reference & reference)// Todo use user-db too.
 {
   vector < int >terms;
   sqlite3 *db;

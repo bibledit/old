@@ -25,9 +25,9 @@
 #include "progresswindow.h"
 
 void keyterms_import_textfile(const ustring& textfile, ustring category);
-void keyterms_import_otkey_db();
-void keyterms_import_ktref_db();
-void keyterms_import_ktbh_txt();
+void keyterms_import_otkey_db(const ustring& textfile, ustring category);
+void keyterms_import_ktref_db(const ustring& textfile, ustring category);
+void keyterms_import_ktbh_txt(const ustring& textfile, ustring category);
 vector <ustring> keyterms_get_categories(vector <bool> * user);
 void keyterms_get_terms(const ustring& searchterm, const ustring& collection,
     vector<ustring>& terms, vector<unsigned int>& levels,

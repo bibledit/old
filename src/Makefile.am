@@ -269,7 +269,8 @@ bibledit_bin_SOURCES = \
         compress.cpp \
         localizednumerals.cpp \
         windowshowverses.cpp \
-        assistantimportkeyterms.cpp
+        assistantimportkeyterms.cpp \
+        assistants.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 
