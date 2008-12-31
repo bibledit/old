@@ -2506,7 +2506,7 @@ void MainWindow::on_menu_insert()
     gtk_widget_set_sensitive(current_reference1, enable);
 
   // Inserting special character.
-  gtk_widget_set_sensitive(insert_special_character, (editor_window && (now_focused_window_button == editor_window->focus_in_signal_button)));
+  gtk_widget_set_sensitive(insert_special_character, (editor_window && (last_focused_window_button == editor_window->focus_in_signal_button)));
 }
 
 void MainWindow::on_menuitem_view_activate(GtkMenuItem * menuitem, gpointer user_data)
