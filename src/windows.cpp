@@ -120,11 +120,11 @@ WindowBase::WindowBase(WindowID id, ustring data_title, bool startup, unsigned l
   // If it were to appear in the taskbar, then it looks as if there are many programs running.
   // And worse even, if it is in the taskbar, and a window gets focused so focusing all the other ones as well,
   // then the window in the taskbar would keep flashing.
-  gtk_window_set_skip_taskbar_hint(GTK_WINDOW(window), true);
+  // Todo gtk_window_set_skip_taskbar_hint(GTK_WINDOW(window), true);
 
   // Signal handlers.
-  g_signal_connect((gpointer) window, "focus_in_event", G_CALLBACK(on_window_focus_in_event), gpointer(this));
-  g_signal_connect((gpointer) window, "delete_event", G_CALLBACK(on_window_delete_event), gpointer(this));
+  g_signal_connect ((gpointer) window, "focus_in_event", G_CALLBACK(on_window_focus_in_event), gpointer(this));
+  g_signal_connect ((gpointer) window, "delete_event", G_CALLBACK(on_window_delete_event), gpointer(this));
 
   // The window needs to be positioned before it shows.
   display(startup);
@@ -485,3 +485,4 @@ GDK_VISIBILITY_FULLY_OBSCURED the window is not visible at all.
   }
   return visibility;
 }
+

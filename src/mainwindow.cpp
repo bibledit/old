@@ -235,10 +235,6 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
   gtk_accel_group_connect(accelerator_group, GDK_F1, GdkModifierType(0), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_main_help_callback), gpointer(this), NULL));
   gtk_accel_group_connect(accelerator_group, GDK_M, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_menu_callback), gpointer(this), NULL));
 
-  // The object that created the window is set to have the window skip the taskbar.
-  // For the main window, however, it should show up in the taskbar.
-  gtk_window_set_skip_taskbar_hint(GTK_WINDOW(window), false);
-
   // GUI build.
   vbox = gtk_vbox_new(FALSE, 0);
   gtk_widget_show(vbox);
