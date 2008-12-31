@@ -31,7 +31,7 @@ public:
   ImportKeytermsAssistant(int dummy);
   ~ImportKeytermsAssistant();
   GtkWidget * signal_button;
-protected:
+private:
   GtkWidget * assistant;
   
   // Introduction page.
@@ -51,11 +51,19 @@ protected:
   GtkWidget *radiobutton_type_ktref_db;
   GtkWidget *radiobutton_type_ktbh;
   
-  // Confirm.
+  // Category.
+  GtkWidget *vbox_category;
+  GtkWidget *entry_category;
+  GtkWidget *label_category;
+  static void on_entry_category_changed (GtkEditable *editable, gpointer user_data);
+  void on_entry_category ();
+  
+  // Importing.
   GtkWidget *label_confirm;
+  GtkWidget *label_progress;
+  GtkWidget *label_summary;
+  unsigned int summary_page_number;
   
-  
-private:
   static void on_assistant_apply_signal (GtkAssistant *assistant, gpointer user_data);
   void on_assistant_apply ();
   static void on_assistant_cancel_signal (GtkAssistant *assistant, gpointer user_data);

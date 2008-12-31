@@ -113,7 +113,29 @@ ImportKeytermsAssistant::ImportKeytermsAssistant(int dummy)
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_type_ktbh), radiobutton_type_standard_group);
   radiobutton_type_standard_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_type_ktbh));
 
-  // Confirmation.
+  // Category.
+  
+  vbox_category = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (vbox_category);
+
+  gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_category);
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_category, "Into which category will you import?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_category, GTK_ASSISTANT_PAGE_CONTENT);
+
+  entry_category = gtk_entry_new ();
+  gtk_widget_show (entry_category);
+  gtk_box_pack_start (GTK_BOX (vbox_category), entry_category, FALSE, FALSE, 0);
+
+  g_signal_connect ((gpointer) entry_category, "changed", G_CALLBACK (on_entry_category_changed), gpointer (this));
+
+  label_category = gtk_label_new ("");
+  gtk_widget_show (label_category);
+  gtk_box_pack_start (GTK_BOX (vbox_category), label_category, FALSE, FALSE, 0);
+  gtk_label_set_line_wrap (GTK_LABEL (label_category), TRUE);
+  
+  on_entry_category();
+  
+  // Importing.
   
   label_confirm = gtk_label_new ("Ready for import");
   gtk_widget_show (label_confirm);
@@ -122,6 +144,22 @@ ImportKeytermsAssistant::ImportKeytermsAssistant(int dummy)
   gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_confirm, "Ready for import");
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_confirm, GTK_ASSISTANT_PAGE_CONFIRM);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_confirm, true);
+  
+  label_progress = gtk_label_new ("Importing...");
+  gtk_widget_show (label_progress);
+  gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_progress);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_progress, "Importing");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_progress, GTK_ASSISTANT_PAGE_PROGRESS);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_progress, true);
+  
+  label_summary = gtk_label_new ("Import done. If there were any errors, these would show up in the system log.");
+  gtk_widget_show (label_summary);
+  summary_page_number = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_summary);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_summary, "Ready");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_summary, GTK_ASSISTANT_PAGE_SUMMARY);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_summary, true);
   
   
   // Finish assistant.
@@ -138,20 +176,34 @@ ImportKeytermsAssistant::~ImportKeytermsAssistant()
 
 void ImportKeytermsAssistant::on_assistant_apply_signal (GtkAssistant *assistant, gpointer user_data)
 {
-  cout << "apply" << endl; // Todo
   ((ImportKeytermsAssistant *) user_data)->on_assistant_apply();
 }
 
 
 void ImportKeytermsAssistant::on_assistant_apply ()
 {
-  gtk_button_clicked (GTK_BUTTON (signal_button));
+  // gtk_button_clicked (GTK_BUTTON (signal_button));
+  ustring filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (button_open));
+  ustring category = gtk_entry_get_text (GTK_ENTRY (entry_category));
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_type_standard))) {
+    keyterms_import_textfile (filename, category);
+  }
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_type_otkey_db))) {
+    cout << "radiobutton_type_otkey_db " << filename << endl; // Todo
+  }
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_type_ktref_db))) {
+    cout << "radiobutton_type_ktref_db " << filename << endl; // Todo
+  }
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_type_ktbh))) {
+    cout << "radiobutton_type_ktbh " << filename << endl; // Todo
+  }
+  // Show summary.
+  gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), summary_page_number);
 }
 
 
 void ImportKeytermsAssistant::on_assistant_cancel_signal (GtkAssistant *assistant, gpointer user_data)
 {
-  cout << "cancel" << endl; // Todo
   ((ImportKeytermsAssistant *) user_data)->on_assistant_cancel();
 }
 
@@ -164,7 +216,6 @@ void ImportKeytermsAssistant::on_assistant_cancel ()
 
 void ImportKeytermsAssistant::on_assistant_close_signal (GtkAssistant *assistant, gpointer user_data)
 {
-  cout << "close" << endl; // Todo
   ((ImportKeytermsAssistant *) user_data)->on_assistant_close();
 }
 
@@ -223,3 +274,37 @@ void ImportKeytermsAssistant::on_file_chooser_open ()
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_select_file, !filename.empty ());
 }
 
+
+void ImportKeytermsAssistant::on_entry_category_changed (GtkEditable *editable, gpointer user_data)
+{
+  ((ImportKeytermsAssistant *) user_data)->on_entry_category ();
+}
+
+
+void ImportKeytermsAssistant::on_entry_category ()
+// Give appropriate information about entering the category.
+{
+  ustring category = gtk_entry_get_text (GTK_ENTRY (entry_category));
+  
+  ustring information;
+  bool exists = false;
+  bool user = false;
+  if (category.empty ()) {
+    information = "Please enter a category.";  
+  } else {
+    vector <bool> users;
+    vector <ustring> categories = keyterms_get_categories(&users);
+    for (unsigned int i = 0; i < categories.size(); i++) {
+      if (category == categories[i]) {
+        exists = true;
+        user = users[i];
+      }
+    }
+    if (exists) {
+      information = "This category already exists.";
+    }
+  }
+  gtk_label_set_text (GTK_LABEL (label_category), information.c_str());
+  
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_category, (!category.empty()) && (!exists)); 
+}

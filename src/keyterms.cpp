@@ -31,36 +31,33 @@
 #include <glib.h>
 #include "tiny_utilities.h"
 
-ustring keyterms_get_filename_scripting()
-// Gives the filename for the keyterms database, if used in scripting.
+ustring keyterms_get_user_filename()
+// Gives the filename for the user-created keyterms database.
 {
-  return gw_build_filename(present_working_directory(), "keyterms.sql");
+  return gw_build_filename(directories_get_templates_user(), "keyterms.sql");
 }
 
-ustring keyterms_get_filename()
+ustring keyterms_get_package_filename()
 // Gives the filename for the keyterms database that comes with bibledit.
 {
   return gw_build_filename(directories_get_package_data(), "keyterms.sql");
 }
 
-vector < ustring > keyterms_get_raw_files()
+void keyterms_ensure_user_database()
 {
-  cout << "Looking for keyterms_*.txt";
-  ReadFiles rf(present_working_directory(), "keyterms_", ".txt");
-  cout << "..., found " << rf.files.size() << endl;
-  return rf.files;
-}
-
-void keyterms_create_database()
-{
+  // Bail out if the database exists.
+  if (g_file_test (keyterms_get_user_filename().c_str(), G_FILE_TEST_IS_REGULAR)) {
+    return;
+  }
+  // New database.
   sqlite3 *db;
   int rc;
   char *error = NULL;
   try {
     // Get the database template, create the database.
-    unix_cp(gw_build_filename(directories_get_package_data(), "sqlite-empty.sql"), keyterms_get_filename_scripting());
-    chmod(keyterms_get_filename_scripting().c_str(), 00666);
-    rc = sqlite3_open(keyterms_get_filename_scripting().c_str(), &db);
+    unix_cp(gw_build_filename(directories_get_package_data(), "sqlite-empty.sql"), keyterms_get_user_filename());
+    chmod(keyterms_get_user_filename().c_str(), 00666);
+    rc = sqlite3_open(keyterms_get_user_filename().c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
@@ -87,7 +84,7 @@ void keyterms_create_database()
       throw runtime_error(sqlite3_errmsg(db));
   }
   catch(exception & ex) {
-    unlink(keyterms_get_filename().c_str());
+    unlink(keyterms_get_package_filename().c_str());
     gw_critical(ex.what());
   }
   sqlite3_close(db);
@@ -183,11 +180,12 @@ void keyterms_import_textfile_flags_down(bool & flag1, bool & flag2, bool & flag
   flag5 = false;
 }
 
-void keyterms_import_textfile(const ustring & textfile)
+void keyterms_import_textfile(const ustring & textfile, ustring category)
 // Imports a keyterms textfile.
 {
-  cout << "Doing " << textfile << endl;
-  // Some variables we direly need.
+  // Ensure the db is there.
+  keyterms_ensure_user_database();
+  // Variables.
   sqlite3 *db;
   int rc;
   char *error = NULL;
@@ -196,7 +194,7 @@ void keyterms_import_textfile(const ustring & textfile)
     ReadText rt(textfile);
 
     // Open the database.
-    rc = sqlite3_open(keyterms_get_filename_scripting().c_str(), &db);
+    rc = sqlite3_open(keyterms_get_user_filename().c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
@@ -207,10 +205,8 @@ void keyterms_import_textfile(const ustring & textfile)
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
 
-    // Extract the category of these keyterms. It is in the first line.
-    ustring category;
-    if (rt.lines.size() > 0)
-      category = double_apostrophy(rt.lines[0]);
+    // The category of these keyterms.
+    category = double_apostrophy(category);
     // Store the category.
     sql = g_strdup_printf("insert into categories values ('%s');", category.c_str());
     rc = sqlite3_exec(db, sql, NULL, NULL, &error);
@@ -329,7 +325,7 @@ void keyterms_import_otkey_db()
     ReadText rt(gw_build_filename(present_working_directory(), "OTKEY.DB"));
 
     // Open the database.
-    rc = sqlite3_open(keyterms_get_filename_scripting().c_str(), &db);
+    rc = sqlite3_open(keyterms_get_user_filename().c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
@@ -453,7 +449,7 @@ void keyterms_import_ktref_db()
     }
 
     // Open the database.
-    rc = sqlite3_open(keyterms_get_filename_scripting().c_str(), &db);
+    rc = sqlite3_open(keyterms_get_user_filename().c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
@@ -721,7 +717,7 @@ void keyterms_import_ktbh_txt()
     }
 
     // Open the database.
-    rc = sqlite3_open(keyterms_get_filename_scripting().c_str(), &db);
+    rc = sqlite3_open(keyterms_get_user_filename().c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
@@ -885,15 +881,24 @@ void keyterms_import_ktbh_txt()
   sqlite3_close(db);
 }
 
-vector < ustring > keyterms_get_categories()
+vector <ustring> keyterms_get_categories(vector <bool> * user)
 // Retrieves the different categories from the database.
+// If "user" is given, then its flags will be set if a category comes from the user-supplies keyterms.
 {
-  SqliteReader reader(0);
+  // Optionally clear user flags.
+  if (user) {
+    user->clear();
+  }
+  // Categories container.
+  vector <ustring> categories;
+  // Database variables.
   sqlite3 *db;
   int rc;
   char *error = NULL;
+  // Read Bibledit's standard keyterms.
   try {
-    rc = sqlite3_open(keyterms_get_filename().c_str(), &db);
+    SqliteReader reader(0);
+    rc = sqlite3_open(keyterms_get_package_filename().c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
@@ -901,14 +906,49 @@ vector < ustring > keyterms_get_categories()
     sql = g_strdup_printf("select name from categories;");
     rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
     g_free(sql);
-    if (rc)
+    if (rc) {
       throw runtime_error(sqlite3_errmsg(db));
+    }
+    for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
+      categories.push_back (reader.ustring0[i]);
+      if (user) {
+        user->push_back (false);
+      }
+    }
   }
   catch(exception & ex) {
     gw_critical(ex.what());
   }
   sqlite3_close(db);
-  return reader.ustring0;
+  // Read user's keyterms.
+  if (g_file_test (keyterms_get_user_filename().c_str(), G_FILE_TEST_IS_REGULAR)) {
+    try {
+      SqliteReader reader(0);
+      rc = sqlite3_open(keyterms_get_user_filename().c_str(), &db);
+      if (rc)
+        throw runtime_error(sqlite3_errmsg(db));
+      sqlite3_busy_timeout(db, 1000);
+      char *sql;
+      sql = g_strdup_printf("select name from categories;");
+      rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
+      g_free(sql);
+      if (rc) {
+        throw runtime_error(sqlite3_errmsg(db));
+      }
+      for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
+        categories.push_back (reader.ustring0[i]);
+        if (user) {
+          user->push_back (true);
+        }
+      }
+    }
+    catch(exception & ex) {
+      gw_critical(ex.what());
+    }
+    sqlite3_close(db);
+  }
+  // Give results.
+  return categories;
 }
 
 void keyterms_get_terms(const ustring & searchterm, const ustring & collection, vector < ustring > &terms, vector < unsigned int >&levels, vector < unsigned int >&parents, vector < unsigned int >&ids)
@@ -922,7 +962,7 @@ void keyterms_get_terms(const ustring & searchterm, const ustring & collection, 
   char *error = NULL;
   try {
     // Open database, readers.
-    rc = sqlite3_open(keyterms_get_filename().c_str(), &db);
+    rc = sqlite3_open(keyterms_get_package_filename().c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
@@ -979,7 +1019,7 @@ bool keyterms_get_term(unsigned int id, ustring & term, unsigned int &parent)
   int rc;
   char *error = NULL;
   try {
-    rc = sqlite3_open(keyterms_get_filename().c_str(), &db);
+    rc = sqlite3_open(keyterms_get_package_filename().c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
@@ -1010,7 +1050,7 @@ bool keyterms_get_data(unsigned int id, ustring & category, ustring & comments, 
   int rc;
   char *error = NULL;
   try {
-    rc = sqlite3_open(keyterms_get_filename().c_str(), &db);
+    rc = sqlite3_open(keyterms_get_package_filename().c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
@@ -1128,8 +1168,7 @@ void keyterms_store_renderings(const ustring & project, const ustring & keyterm,
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
-    char *sql;
-    sql = g_strdup_printf("delete from renderings where keyword = '%s' and collection = '%s';", double_apostrophy(keyterm).c_str(), double_apostrophy(collection).c_str());
+    char *sql = g_strdup_printf("delete from renderings where keyword = '%s' and collection = '%s';", double_apostrophy(keyterm).c_str(), double_apostrophy(collection).c_str());
     rc = sqlite3_exec(db, sql, NULL, NULL, &error);
     g_free(sql);
     for (unsigned int i = 0; i < renderings.size(); i++) {
@@ -1153,7 +1192,7 @@ void keyterms_export(const ustring & directory, bool gui)
   if (gui)
     progresswindow = new ProgressWindow("Exporting keyterms", false);
   // Go through the categories.  
-  vector < ustring > categories = keyterms_get_categories();
+  vector < ustring > categories = keyterms_get_categories(NULL);
   for (unsigned int cat = 0; cat < categories.size(); cat++) {
     cout << categories[cat] << endl;
     // Output data.
@@ -1218,12 +1257,10 @@ vector < int >keyterms_get_terms_in_verse(const Reference & reference)
 {
   vector < int >terms;
   sqlite3 *db;
-  sqlite3_open(keyterms_get_filename().c_str(), &db);
+  sqlite3_open(keyterms_get_package_filename().c_str(), &db);
   sqlite3_busy_timeout(db, 1000);
   SqliteReader reader(0);
-  char
-  *sql = g_strdup_printf("select keyword from refs where book = %d and chapter = %d and verse = '%s';",
-                         reference.book, reference.chapter, reference.verse.c_str());
+  char *sql = g_strdup_printf("select keyword from refs where book = %d and chapter = %d and verse = '%s';", reference.book, reference.chapter, reference.verse.c_str());
   sqlite3_exec(db, sql, reader.callback, &reader, NULL);
   g_free(sql);
   for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
@@ -1244,8 +1281,7 @@ deque < ustring > keyterms_rendering_retrieve_terms(const ustring & project, con
   sqlite3_busy_timeout(db, 1000);
   SqliteReader reader(0);
   // Do the search.
-  char *sql;
-  sql = g_strdup_printf("select keyword from renderings where rendering glob ('*%s*');", double_apostrophy(rendering).c_str());
+  char *sql = g_strdup_printf("select keyword from renderings where rendering glob ('*%s*');", double_apostrophy(rendering).c_str());
   sqlite3_exec(db, sql, reader.callback, &reader, NULL);
   g_free(sql);
   for (unsigned int i = 0; i < reader.ustring0.size(); i++)
