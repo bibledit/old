@@ -538,7 +538,7 @@ ustring git_mine_conflict_marker()
   return "<<<<<<< HEAD";
 }
 
-void git_log_read(const ustring & directory, vector < ustring > &commits, vector < unsigned int >&seconds, const ustring & path)
+void git_log_read(const ustring & directory, vector <ustring>& commits, vector <unsigned int>& seconds, const ustring& path)
 /*
  Reads git's log, and retrieves the commits and the date/time from it.
  Date/time expressed in seconds.
@@ -581,8 +581,8 @@ void git_log_read(const ustring & directory, vector < ustring > &commits, vector
     if (rt.lines[i].find("committer") == 0) {
       Parse parse(rt.lines[i]);
       if (parse.words.size() >= 5) {
-        second = parse.words[3];
-        ustring timezone = parse.words[4];
+        second = parse.words[parse.words.size() - 2];
+        ustring timezone = parse.words[parse.words.size() - 1];
         bool add = timezone.find("+") == 0;
         timezone = number_in_string(timezone);
         if (timezone.length() == 4) {

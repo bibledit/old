@@ -606,7 +606,7 @@ void WindowMerge::on_button_merge()
   git_command_pause(false);
 }
 
-void WindowMerge::merge_edited_into_master(bool approve)
+void WindowMerge::merge_edited_into_master(bool approve) // Todo
 // This merges the edited data into the master data, and does error checking.
 {
   // Bail out if there's nothing to merge.
@@ -623,26 +623,33 @@ void WindowMerge::merge_edited_into_master(bool approve)
   ustring masterchapterdirectory = project_data_directory_chapter(current_master_project, book, chapter);
   ustring masterpath = project_data_filename_chapter(current_master_project, book, chapter, false);
   masterpath = gw_path_get_basename(masterpath);
-  vector < ustring > mastercommits;
-  vector < unsigned int >masterseconds;
-  git_log_read(masterchapterdirectory, mastercommits, masterseconds, masterpath);
+  vector <ustring> mastercommits;
+  vector <unsigned int> masterseconds;
+  git_log_read (masterchapterdirectory, mastercommits, masterseconds, masterpath);
 
   // Get the commits of the edited project.
   progresswindow.set_fraction(0.6);
   ustring editedchapterdirectory = project_data_directory_chapter(current_edited_project, book, chapter);
   ustring editedpath = project_data_filename_chapter(current_edited_project, book, chapter, false);
   editedpath = gw_path_get_basename(editedpath);
-  vector < ustring > editedcommits;
-  vector < unsigned int >editedseconds;
+  vector <ustring> editedcommits;
+  vector <unsigned int> editedseconds;
   git_log_read(editedchapterdirectory, editedcommits, editedseconds, editedpath);
+
+  for (unsigned int i = 0; i < mastercommits.size(); i++) {
+    cout << "master commit " << mastercommits[i] << " at second " << masterseconds[i] << endl; // Todo
+  }
+
+
+
 
   // Get the texts belonging to the commits of the master project.
   progresswindow.set_iterate(0, 1, mastercommits.size());
   progresswindow.set_text("reading history");
-  vector < ustring > mastertexts;
+  vector <ustring> mastertexts;
   for (unsigned int i = 0; i < mastercommits.size(); i++) {
     progresswindow.iterate();
-    vector < ustring > lines = git_retrieve_chapter_commit(current_master_project, book, chapter, mastercommits[i]);
+    vector <ustring> lines = git_retrieve_chapter_commit(current_master_project, book, chapter, mastercommits[i]);
     ustring line;
     for (unsigned int i = 0; i < lines.size(); i++) {
       line.append(lines[i]);
@@ -653,10 +660,10 @@ void WindowMerge::merge_edited_into_master(bool approve)
 
   // Get the texts belonging to the commits of the edited project.
   progresswindow.set_iterate(0, 1, editedcommits.size());
-  vector < ustring > editedtexts;
+  vector <ustring> editedtexts;
   for (unsigned int i = 0; i < editedcommits.size(); i++) {
     progresswindow.iterate();
-    vector < ustring > lines = git_retrieve_chapter_commit(current_edited_project, book, chapter, editedcommits[i]);
+    vector <ustring> lines = git_retrieve_chapter_commit(current_edited_project, book, chapter, editedcommits[i]);
     ustring line;
     for (unsigned int i = 0; i < lines.size(); i++) {
       line.append(lines[i]);
