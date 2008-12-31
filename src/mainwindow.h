@@ -763,21 +763,10 @@ protected:
   static void on_window_focus_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_focus_button(GtkButton *button);
   void present_windows(GtkWidget * widget);
-  void temporally_ignore_window_focus_events();
-  guint window_focus_event_id;
-  static bool on_window_focus_timeout(gpointer data);
-  void window_focus_timeout();
-  bool act_on_window_focus_signal;
-  void register_focused_windows(GtkButton * button);
   GtkWidget * now_focused_window_button;
   GtkWidget * last_focused_window_button;
   GtkWidget * focused_editor_button;
   GtkWidget * focused_resource_button;
-  guint final_focus_event_id;
-  static bool on_final_focus_timeout(gpointer data);
-  void final_focus_timeout();
-  GtkWidget * final_focus_button;
-  ustring describe_focus_button (GtkWidget * widget);
 
   /* Quick references */
   static void on_view_quick_references_activate(GtkMenuItem *menuitem, gpointer user_data);

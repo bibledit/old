@@ -116,12 +116,6 @@ WindowBase::WindowBase(WindowID id, ustring data_title, bool startup, unsigned l
   extern GtkAccelGroup *accelerator_group;
   gtk_window_add_accel_group(GTK_WINDOW(window), accelerator_group);
 
-  // The extra window should not appear in the taskbar in addition to the main window of Bibledit.
-  // If it were to appear in the taskbar, then it looks as if there are many programs running.
-  // And worse even, if it is in the taskbar, and a window gets focused so focusing all the other ones as well,
-  // then the window in the taskbar would keep flashing.
-  // Todo gtk_window_set_skip_taskbar_hint(GTK_WINDOW(window), true);
-
   // Signal handlers.
   g_signal_connect ((gpointer) window, "focus_in_event", G_CALLBACK(on_window_focus_in_event), gpointer(this));
   g_signal_connect ((gpointer) window, "delete_event", G_CALLBACK(on_window_delete_event), gpointer(this));

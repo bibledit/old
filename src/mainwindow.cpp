@@ -174,9 +174,6 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
   last_focused_window_button = NULL;
   focused_editor_button = NULL;
   focused_resource_button = NULL;
-  act_on_window_focus_signal = true;
-  window_focus_event_id = 0;
-  final_focus_event_id = 0;
   shutting_down = false;
 
   g_set_application_name("Bibledit");
@@ -2027,11 +2024,6 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
 
 MainWindow::~MainWindow()
 {
-  // Destroy window focus system.
-  act_on_window_focus_signal = false;
-  gw_destroy_source(window_focus_event_id);
-  gw_destroy_source(final_focus_event_id);
-
   // Shut down the various windows.
   shutdown_windows();
 
@@ -2790,9 +2782,7 @@ void MainWindow::on_text_area_activate()
     }
   }
   if (editor_window) {
-    temporally_ignore_window_focus_events();
     editor_window->present(true);
-    register_focused_windows(GTK_BUTTON(editor_window->focus_in_signal_button));
   }
 }
 
@@ -2802,7 +2792,6 @@ void MainWindow::on_tools_area_activate()
 
 void MainWindow::on_notes_area_activate()
 {
-  temporally_ignore_window_focus_events();
   view_project_notes();
   notes_redisplay();
 }
@@ -3980,7 +3969,6 @@ void MainWindow::on_goto_styles_area()
   display_window_styles();
   // Focus the window to enable the user to start inserting the style using the keyboard.
   if (window_styles) {
-    temporally_ignore_window_focus_events();
     window_styles->present(true);
   }
 }
@@ -5178,8 +5166,6 @@ void MainWindow::on_file_resources_open(ustring resource, bool startup)
   g_signal_connect((gpointer) resource_window->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
   resource_window->go_to(navigation.reference);
   resource_windows.push_back(resource_window);
-  // Register the focus.
-  register_focused_windows(GTK_BUTTON(resource_window->focus_in_signal_button));
 }
 
 void MainWindow::on_file_resources_close_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -6382,78 +6368,6 @@ void MainWindow::on_window_focus_button_clicked(GtkButton * button, gpointer use
 void MainWindow::on_window_focus_button(GtkButton * button)
 // Called when a window gets focused.
 {
-  if (!act_on_window_focus_signal) {
-    return;
-  }
-
-  static int counter = 0;
-  counter++;
-
-  temporally_ignore_window_focus_events();
-
-  register_focused_windows(button);
-
-  present_windows(GTK_WIDGET(button));
-}
-
-void MainWindow::present_windows(GtkWidget * widget)
-// If one window is focused, present them all.
-{
-  // Present all windows.
-  if (window_show_quick_references)
-    window_show_quick_references->present(false);
-  if (window_show_keyterms)
-    window_show_keyterms->present(false);
-  if (window_merge)
-    window_merge->present(false);
-  for (unsigned int i = 0; i < resource_windows.size(); i++) {
-    resource_windows[i]->present(false);
-  }
-  if (window_outline)
-    window_outline->present(false);
-  if (window_check_keyterms)
-    window_check_keyterms->present(false);
-  if (window_styles)
-    window_styles->present(false);
-  if (window_notes)
-    window_notes->present(false);
-  if (window_references)
-    window_references->present(false);
-  for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    editor_windows[i]->present(false);
-  }
-  if (window_show_verses)
-    window_show_verses->present(false);
-  // The main window should be focused too, but then the icon in the taskbar keeps flashing, so it is not done.
-  //present(false);
-
-  // After a delay, process the final focus call.
-  final_focus_button = widget;
-  gw_destroy_source(final_focus_event_id);
-  final_focus_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 500, GSourceFunc(on_final_focus_timeout), gpointer(this), NULL);
-}
-
-void MainWindow::temporally_ignore_window_focus_events()
-{
-  gw_destroy_source(window_focus_event_id);
-  window_focus_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_window_focus_timeout), gpointer(this), NULL);
-  act_on_window_focus_signal = false;
-}
-
-bool MainWindow::on_window_focus_timeout(gpointer data)
-{
-  ((MainWindow *) data)->window_focus_timeout();
-  return false;
-}
-
-void MainWindow::window_focus_timeout()
-{
-  // After a while the window should act on the "focus_in_event" again.
-  act_on_window_focus_signal = true;
-}
-
-void MainWindow::register_focused_windows(GtkButton * button)
-{
   // Bail out if there's no change in the focus.
   GtkWidget *widget = GTK_WIDGET(button);
   if (widget == now_focused_window_button)
@@ -6483,118 +6397,35 @@ void MainWindow::register_focused_windows(GtkButton * button)
   }
 }
 
-bool MainWindow::on_final_focus_timeout(gpointer data)
+void MainWindow::present_windows(GtkWidget * widget)
+// Focus all windows.
 {
-  ((MainWindow *) data)->final_focus_timeout();
-  return false;
-}
-
-void MainWindow::final_focus_timeout()
-{
-  // No focus handlers right now.
-  temporally_ignore_window_focus_events();
-  // Present the calling window again so that it keeps the focus.
-  if (window_show_quick_references) {
-    if (final_focus_button == window_show_quick_references->focus_in_signal_button)
-      window_show_quick_references->present(true);
-  }
-  if (window_show_keyterms) {
-    if (final_focus_button == window_show_keyterms->focus_in_signal_button)
-      window_show_keyterms->present(true);
-  }
-  if (window_merge) {
-    if (final_focus_button == window_merge->focus_in_signal_button)
-      window_merge->present(true);
-  }
+  // Present all windows.
+  if (window_show_quick_references)
+    window_show_quick_references->present(false);
+  if (window_show_keyterms)
+    window_show_keyterms->present(false);
+  if (window_merge)
+    window_merge->present(false);
   for (unsigned int i = 0; i < resource_windows.size(); i++) {
-    if (final_focus_button == resource_windows[i]->focus_in_signal_button)
-      resource_windows[i]->present(true);
+    resource_windows[i]->present(false);
   }
-  if (window_outline) {
-    if (final_focus_button == window_outline->focus_in_signal_button)
-      window_outline->present(true);
-  }
-  if (window_check_keyterms) {
-    if (final_focus_button == window_check_keyterms->focus_in_signal_button)
-      window_check_keyterms->present(true);
-  }
-  if (window_styles) {
-    if (final_focus_button == window_styles->focus_in_signal_button)
-      window_styles->present(true);
-  }
-  if (window_notes) {
-    if (final_focus_button == window_notes->focus_in_signal_button)
-      window_notes->present(true);
-  }
-  if (window_references) {
-    if (final_focus_button == window_references->focus_in_signal_button)
-      window_references->present(true);
-  }
+  if (window_outline)
+    window_outline->present(false);
+  if (window_check_keyterms)
+    window_check_keyterms->present(false);
+  if (window_styles)
+    window_styles->present(false);
+  if (window_notes)
+    window_notes->present(false);
+  if (window_references)
+    window_references->present(false);
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    if (final_focus_button == editor_windows[i]->focus_in_signal_button)
-      editor_windows[i]->present(true);
+    editor_windows[i]->present(false);
   }
-  if (final_focus_button == focus_in_signal_button) {
-    // The main window should be focused too, but then the icon in the taskbar keeps flashing, so it is not done.
-    // present(true);
-  }
-  if (window_show_verses) {
-    if (final_focus_button == window_show_verses->focus_in_signal_button)
-      window_show_verses->present(true);
-  }
-}
-
-ustring MainWindow::describe_focus_button(GtkWidget * widget)
-{
-  ustring description;
-  if (window_show_quick_references) {
-    if (widget == window_show_quick_references->focus_in_signal_button)
-      description.append(window_show_quick_references->window_data);
-  }
-  if (window_show_keyterms) {
-    if (widget == window_show_keyterms->focus_in_signal_button)
-      description.append(window_show_keyterms->window_data);
-  }
-  if (window_merge) {
-    if (widget == window_merge->focus_in_signal_button)
-      description.append(window_merge->window_data);
-  }
-  for (unsigned int i = 0; i < resource_windows.size(); i++) {
-    if (widget == resource_windows[i]->focus_in_signal_button)
-      description.append(resource_windows[i]->window_data);
-  }
-  if (window_outline) {
-    if (widget == window_outline->focus_in_signal_button)
-      description.append(window_outline->window_data);
-  }
-  if (window_check_keyterms) {
-    if (widget == window_check_keyterms->focus_in_signal_button)
-      description.append(window_check_keyterms->window_data);
-  }
-  if (window_styles) {
-    if (widget == window_styles->focus_in_signal_button)
-      description.append(window_styles->window_data);
-  }
-  if (window_notes) {
-    if (widget == window_notes->focus_in_signal_button)
-      description.append(window_notes->window_data);
-  }
-  if (window_references) {
-    if (widget == window_references->focus_in_signal_button)
-      description.append(window_references->window_data);
-  }
-  for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    if (widget == editor_windows[i]->focus_in_signal_button)
-      description.append(editor_windows[i]->window_data);
-  }
-  if (widget == focus_in_signal_button) {
-    description.append(window_data);
-  }
-  if (window_show_verses) {
-    if (widget == window_show_verses->focus_in_signal_button)
-      description.append(window_show_verses->window_data);
-  }
-  return description;
+  if (window_show_verses)
+    window_show_verses->present(false);
+  present(false);
 }
 
 /*
@@ -6969,9 +6800,7 @@ void MainWindow::accelerator_menu_callback(gpointer user_data)
 
 void MainWindow::accelerator_menu()
 {
-  temporally_ignore_window_focus_events();
   present(true);
-  register_focused_windows(GTK_BUTTON(focus_in_signal_button));
 }
 
 /*
