@@ -45,6 +45,7 @@
 #include "windoweditor.h"
 #include "windowshowverses.h"
 #include "assistantimportkeyterms.h"
+#include "assistantdeletekeyterms.h"
 
 class MainWindow : public WindowBase
 {
@@ -618,7 +619,7 @@ protected:
   /* Webserver */
   Httpd httpd;
 
-  /* Keyterms */ // Todo
+  /* Keyterms */
   static void on_check_key_terms_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_check_key_terms();
   WindowCheckKeyterms * window_check_keyterms;
@@ -631,13 +632,12 @@ protected:
   WindowShowKeyterms * window_show_keyterms;
   static void on_window_show_keyterms_delete_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_show_keyterms_delete_button();
-  ImportKeytermsAssistant * import_keyterms_assistant;
-  static void on_preferences_keyterms_ready_signal (GtkButton *button, gpointer user_data);
-  void on_preferences_keyterms_ready ();
   static void on_keyterms_import_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_keyterms_import ();
+  ImportKeytermsAssistant * import_keyterms_assistant;
   static void on_keyterms_delete_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_keyterms_delete ();
+  DeleteKeytermsAssistant * delete_keyterms_assistant;
 
   /* Backups */
   static void on_project_backup_incremental_activate(GtkMenuItem *menuitem, gpointer user_data);
@@ -841,6 +841,10 @@ protected:
   static void on_window_show_verses_delete_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_show_verses_delete_button();
   void show_verses();
+  
+  // Assistants.
+  static void on_assistant_ready_signal (GtkButton *button, gpointer user_data);
+  void on_assistant_keyterms_ready ();
 
 };
 

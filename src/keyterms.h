@@ -28,7 +28,8 @@ void keyterms_import_textfile(const ustring& textfile, ustring category);
 void keyterms_import_otkey_db(const ustring& textfile, ustring category);
 void keyterms_import_ktref_db(const ustring& textfile, ustring category);
 void keyterms_import_ktbh_txt(const ustring& textfile, ustring category);
-vector <ustring> keyterms_get_categories(vector <bool> * user);
+vector <ustring> keyterms_get_categories();
+void keyterms_delete_collection (const ustring& collection);
 void keyterms_get_terms(const ustring& searchterm, const ustring& collection,
     vector<ustring>& terms, vector<unsigned int>& levels,
     vector<unsigned int>& parents, vector<unsigned int>& ids);

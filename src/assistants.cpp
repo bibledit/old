@@ -37,7 +37,8 @@ AssistantBase::AssistantBase(const ustring& title)
   gdk_window_set_keep_above (gtk_widget_get_root_window (assistant), true);
   
   // The extra window should not appear in the taskbar in addition to the main window of Bibledit.
-  gtk_window_set_skip_taskbar_hint(GTK_WINDOW(assistant), true);
+  // Later it was thought better to show it in the taskbar, else the assistant could be hidden.
+  //gtk_window_set_skip_taskbar_hint(GTK_WINDOW(assistant), true);
 
   // Introduction.
   label_intro = gtk_label_new (title.c_str());

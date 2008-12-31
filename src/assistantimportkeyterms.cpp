@@ -94,13 +94,13 @@ AssistantBase("Keyterms")
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_type_ktbh), radiobutton_type_standard_group);
   radiobutton_type_standard_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_type_ktbh));
 
-  // Category.
+  // Collection.
   
   vbox_category = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vbox_category);
 
   gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_category);
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_category, "Into which category will you import?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_category, "Into which collection will you import?");
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_category, GTK_ASSISTANT_PAGE_CONTENT);
 
   entry_category = gtk_entry_new ();
@@ -161,7 +161,6 @@ void ImportKeytermsAssistant::on_assistant_apply_signal (GtkAssistant *assistant
 
 void ImportKeytermsAssistant::on_assistant_apply ()
 {
-  // gtk_button_clicked (GTK_BUTTON (signal_button));
   ustring filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (button_open));
   ustring category = gtk_entry_get_text (GTK_ENTRY (entry_category));
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_type_standard))) {
@@ -219,20 +218,17 @@ void ImportKeytermsAssistant::on_entry_category ()
   
   ustring information;
   bool exists = false;
-  bool user = false;
   if (category.empty ()) {
-    information = "Please enter a category.";  
+    information = "Please enter a collection.";  
   } else {
-    vector <bool> users;
-    vector <ustring> categories = keyterms_get_categories(&users);
+    vector <ustring> categories = keyterms_get_categories();
     for (unsigned int i = 0; i < categories.size(); i++) {
       if (category == categories[i]) {
         exists = true;
-        user = users[i];
       }
     }
     if (exists) {
-      information = "This category already exists.";
+      information = "This collection already exists.";
     }
   }
   gtk_label_set_text (GTK_LABEL (label_category), information.c_str());

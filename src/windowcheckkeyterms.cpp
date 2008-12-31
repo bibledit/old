@@ -175,7 +175,7 @@ WindowBase(widCheckKeyterms, "Check keyterms", startup, 0), myreference(0)
   gtk_label_set_mnemonic_widget(GTK_LABEL(label25), treeview_keyterm);
 
   // Load the categories.
-  vector < ustring > categories = keyterms_get_categories(NULL);
+  vector < ustring > categories = keyterms_get_categories();
   categories.push_back(all_categories());
   combobox_set_strings(combobox_collection, categories);
   combobox_set_string(combobox_collection, all_categories());

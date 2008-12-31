@@ -164,6 +164,8 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
   window_notes = NULL;
   window_references = NULL;
   window_show_verses = NULL;
+  import_keyterms_assistant = NULL;
+  delete_keyterms_assistant = NULL;
 
   // Initialize some variables.
   git_reopen_project = false;
@@ -816,7 +818,7 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
   gtk_widget_show(image27664);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(file_resources_delete), image27664);
 
-  file_keyterms = gtk_image_menu_item_new_with_mnemonic ("_Keyterms"); // Todo depending on features, this one needs to be disabled.
+  file_keyterms = gtk_image_menu_item_new_with_mnemonic ("_Keyterms");
   gtk_widget_show (file_keyterms);
   gtk_container_add (GTK_CONTAINER (menuitem_file_menu), file_keyterms);
 
@@ -4577,17 +4579,6 @@ void MainWindow::on_window_show_keyterms_delete_button()
 }
 
 
-void MainWindow::on_preferences_keyterms_ready_signal (GtkButton *button, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_preferences_keyterms_ready();
-}
-
-void MainWindow::on_preferences_keyterms_ready ()
-{
-  delete import_keyterms_assistant;
-}
-
-
 void MainWindow::on_keyterms_import_activate(GtkMenuItem *menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_keyterms_import();
@@ -4596,7 +4587,7 @@ void MainWindow::on_keyterms_import_activate(GtkMenuItem *menuitem, gpointer use
 void MainWindow::on_keyterms_import()
 {
   import_keyterms_assistant = new ImportKeytermsAssistant (0);
-  g_signal_connect ((gpointer) import_keyterms_assistant->signal_button, "clicked", G_CALLBACK (on_preferences_keyterms_ready_signal), gpointer (this));
+  g_signal_connect ((gpointer) import_keyterms_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
 }
 
 
@@ -4605,10 +4596,10 @@ void MainWindow::on_keyterms_delete_activate(GtkMenuItem *menuitem, gpointer use
   ((MainWindow *) user_data)->on_keyterms_delete();
 }
 
-void MainWindow::on_keyterms_delete() // Todo
+void MainWindow::on_keyterms_delete()
 {
-  //preferences_keyterms_assistant = new KeytermsAssistant (0);
-  //g_signal_connect ((gpointer) preferences_keyterms_assistant->signal_button, "clicked", G_CALLBACK (on_preferences_keyterms_ready_signal), gpointer (this));
+  delete_keyterms_assistant = new DeleteKeytermsAssistant (0);
+  g_signal_connect ((gpointer) delete_keyterms_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
 }
 
 
@@ -7065,3 +7056,39 @@ void MainWindow::show_verses()
     window_show_verses->go_to (navigation.reference);
   }
 }
+
+
+/*
+ |
+ |
+ |
+ |
+ |
+ Assistants
+ |
+ |
+ |
+ |
+ |
+ */
+
+
+void MainWindow::on_assistant_ready_signal (GtkButton *button, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_assistant_keyterms_ready();
+}
+
+void MainWindow::on_assistant_keyterms_ready ()
+// This handles the situation that any assistant is ready.
+{
+  // Importing keyterms.
+  if (import_keyterms_assistant)
+    delete import_keyterms_assistant;
+  import_keyterms_assistant = NULL;
+  // Deleting keyterms.
+  if (delete_keyterms_assistant)
+    delete delete_keyterms_assistant;
+  delete_keyterms_assistant = NULL;
+}
+
+

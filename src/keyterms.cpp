@@ -43,12 +43,32 @@ ustring keyterms_get_package_filename()
   return gw_build_filename(directories_get_package_data(), "keyterms.sql");
 }
 
+ustring keyterms_get_filename ()
+// Gives the standard filename, or the user file if it's there.
+{
+  ustring filename = keyterms_get_user_filename();
+  if (!g_file_test (filename.c_str(), G_FILE_TEST_IS_REGULAR)) {
+    filename = keyterms_get_package_filename();
+  }
+  return filename;
+}
+
 void keyterms_ensure_user_database()
 {
-  // Bail out if the database exists.
+  // Bail out if the user database exists.
   if (g_file_test (keyterms_get_user_filename().c_str(), G_FILE_TEST_IS_REGULAR)) {
     return;
   }
+  
+  // Copy the package database to the user one.
+  unix_cp (keyterms_get_package_filename(), keyterms_get_user_filename());
+  chmod(keyterms_get_user_filename().c_str(), 00666);
+  
+  // Ready.
+  return;
+
+  /*  
+  // The code below is left there in case a new database needs to be created from scratch.
   // New database.
   sqlite3 *db;
   int rc;
@@ -84,10 +104,11 @@ void keyterms_ensure_user_database()
       throw runtime_error(sqlite3_errmsg(db));
   }
   catch(exception & ex) {
-    unlink(keyterms_get_package_filename().c_str());
+    unlink(keyterms_get_user_filename().c_str());
     gw_critical(ex.what());
   }
   sqlite3_close(db);
+  */
 }
 
 void keyterms_import_textfile_flush(sqlite3 * db, unsigned int category_id, ustring & keyterm, unsigned int &level, unsigned int &previous_level, vector < unsigned int >&parents, vector < ustring > &comments, vector < Reference > &references, vector < ustring > &related)
@@ -194,7 +215,7 @@ void keyterms_import_textfile(const ustring & textfile, ustring category)
     ReadText rt(textfile);
 
     // Open the database.
-    rc = sqlite3_open(keyterms_get_user_filename().c_str(), &db);
+    rc = sqlite3_open(keyterms_get_filename().c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
@@ -325,7 +346,7 @@ void keyterms_import_otkey_db(const ustring& textfile, ustring category)
     ReadText rt(textfile);
 
     // Open the database.
-    rc = sqlite3_open(keyterms_get_user_filename().c_str(), &db);
+    rc = sqlite3_open(keyterms_get_filename().c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
@@ -448,7 +469,7 @@ void keyterms_import_ktref_db(const ustring& textfile, ustring category)
     }
 
     // Open the database.
-    rc = sqlite3_open(keyterms_get_user_filename().c_str(), &db);
+    rc = sqlite3_open(keyterms_get_filename().c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
@@ -713,7 +734,7 @@ void keyterms_import_ktbh_txt(const ustring& textfile, ustring category)
     }
 
     // Open the database.
-    rc = sqlite3_open(keyterms_get_user_filename().c_str(), &db);
+    rc = sqlite3_open(keyterms_get_filename().c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
@@ -876,24 +897,15 @@ void keyterms_import_ktbh_txt(const ustring& textfile, ustring category)
   sqlite3_close(db);
 }
 
-vector <ustring> keyterms_get_categories(vector <bool> * user)
+vector <ustring> keyterms_get_categories()
 // Retrieves the different categories from the database.
-// If "user" is given, then its flags will be set if a category comes from the user-supplies keyterms.
 {
-  // Optionally clear user flags.
-  if (user) {
-    user->clear();
-  }
-  // Categories container.
-  vector <ustring> categories;
-  // Database variables.
   sqlite3 *db;
   int rc;
   char *error = NULL;
-  // Read Bibledit's standard keyterms.
+  SqliteReader reader(0);
   try {
-    SqliteReader reader(0);
-    rc = sqlite3_open(keyterms_get_package_filename().c_str(), &db);
+    rc = sqlite3_open(keyterms_get_filename().c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
@@ -904,49 +916,47 @@ vector <ustring> keyterms_get_categories(vector <bool> * user)
     if (rc) {
       throw runtime_error(sqlite3_errmsg(db));
     }
-    for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
-      categories.push_back (reader.ustring0[i]);
-      if (user) {
-        user->push_back (false);
-      }
-    }
   }
   catch(exception & ex) {
     gw_critical(ex.what());
   }
   sqlite3_close(db);
-  // Read user's keyterms.
-  if (g_file_test (keyterms_get_user_filename().c_str(), G_FILE_TEST_IS_REGULAR)) {
-    try {
-      SqliteReader reader(0);
-      rc = sqlite3_open(keyterms_get_user_filename().c_str(), &db);
-      if (rc)
-        throw runtime_error(sqlite3_errmsg(db));
-      sqlite3_busy_timeout(db, 1000);
-      char *sql;
-      sql = g_strdup_printf("select name from categories;");
-      rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
-      g_free(sql);
-      if (rc) {
-        throw runtime_error(sqlite3_errmsg(db));
-      }
-      for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
-        categories.push_back (reader.ustring0[i]);
-        if (user) {
-          user->push_back (true);
-        }
-      }
-    }
-    catch(exception & ex) {
-      gw_critical(ex.what());
-    }
-    sqlite3_close(db);
-  }
-  // Give results.
-  return categories;
+  return reader.ustring0;
 }
 
-void keyterms_get_terms(const ustring & searchterm, const ustring & collection, vector < ustring > &terms, vector < unsigned int >&levels, vector < unsigned int >&parents, vector < unsigned int >&ids) // Todo use user-db too.
+void keyterms_delete_collection (const ustring& collection)
+// Delete the collection from the database. If all collections have been deleted, it reverts to the original database of the package.
+{
+  // Ensure we work with the user database.
+  keyterms_ensure_user_database ();
+
+  // Delete the collection.
+  sqlite3 *db;
+  sqlite3_open(keyterms_get_filename().c_str(), &db);
+  sqlite3_busy_timeout(db, 1000);
+  SqliteReader reader(0);
+  char *sql;
+  sql = g_strdup_printf("select ROWID from categories where name = '%s';", double_apostrophy(collection).c_str());
+  sqlite3_exec(db, sql, reader.callback, &reader, NULL);
+  g_free(sql);
+  unsigned int collection_id = 0;
+  if (!reader.ustring0.empty())
+    collection_id = convert_to_int(reader.ustring0[0]);
+  sql = g_strdup_printf("delete from keyterms where ROWID = '%d';", collection_id);
+  sqlite3_exec(db, sql, NULL, NULL, NULL);
+  g_free(sql);
+  sql = g_strdup_printf("delete from categories where name = '%s';", double_apostrophy(collection).c_str());
+  sqlite3_exec(db, sql, NULL, NULL, NULL);
+  g_free(sql);
+  sqlite3_close(db);
+  
+  // If there are no categories left, revert to the package database.
+  if (keyterms_get_categories ().empty ()) {
+    unlink (keyterms_get_user_filename().c_str());
+  }
+}
+
+void keyterms_get_terms(const ustring & searchterm, const ustring & collection, vector < ustring > &terms, vector < unsigned int >&levels, vector < unsigned int >&parents, vector < unsigned int >&ids)
 // Depending on the searchterm and collection, get the keyterms, together with 
 // their levels, parents, and ids. If the searchterm is empty, give them all.
 // If the collection is empty, get them from all collections.
@@ -957,7 +967,7 @@ void keyterms_get_terms(const ustring & searchterm, const ustring & collection, 
   char *error = NULL;
   try {
     // Open database, readers.
-    rc = sqlite3_open(keyterms_get_package_filename().c_str(), &db);
+    rc = sqlite3_open(keyterms_get_filename().c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
@@ -1007,14 +1017,14 @@ void keyterms_get_terms(const ustring & searchterm, const ustring & collection, 
   sqlite3_close(db);
 }
 
-bool keyterms_get_term(unsigned int id, ustring & term, unsigned int &parent)// Todo use user-db too.
+bool keyterms_get_term(unsigned int id, ustring & term, unsigned int &parent)
 {
   bool result = false;
   sqlite3 *db;
   int rc;
   char *error = NULL;
   try {
-    rc = sqlite3_open(keyterms_get_package_filename().c_str(), &db);
+    rc = sqlite3_open(keyterms_get_filename().c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
@@ -1038,14 +1048,14 @@ bool keyterms_get_term(unsigned int id, ustring & term, unsigned int &parent)// 
   return result;
 }
 
-bool keyterms_get_data(unsigned int id, ustring & category, ustring & comments, vector < Reference > &references, vector < ustring > &related)// Todo use user-db too.
+bool keyterms_get_data(unsigned int id, ustring & category, ustring & comments, vector < Reference > &references, vector < ustring > &related)
 {
   bool result = false;
   sqlite3 *db;
   int rc;
   char *error = NULL;
   try {
-    rc = sqlite3_open(keyterms_get_package_filename().c_str(), &db);
+    rc = sqlite3_open(keyterms_get_filename().c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
@@ -1190,7 +1200,7 @@ void keyterms_export(const ustring & directory, bool gui)
   if (gui)
     progresswindow = new ProgressWindow("Exporting keyterms", false);
   // Go through the categories.  
-  vector < ustring > categories = keyterms_get_categories(NULL);
+  vector < ustring > categories = keyterms_get_categories();
   for (unsigned int cat = 0; cat < categories.size(); cat++) {
     cout << categories[cat] << endl;
     // Output data.
@@ -1250,11 +1260,11 @@ void keyterms_export(const ustring & directory, bool gui)
     delete progresswindow;
 }
 
-vector < int >keyterms_get_terms_in_verse(const Reference & reference)// Todo use user-db too.
+vector < int >keyterms_get_terms_in_verse(const Reference & reference)
 {
   vector < int >terms;
   sqlite3 *db;
-  sqlite3_open(keyterms_get_package_filename().c_str(), &db);
+  sqlite3_open(keyterms_get_filename().c_str(), &db);
   sqlite3_busy_timeout(db, 1000);
   SqliteReader reader(0);
   char *sql = g_strdup_printf("select keyword from refs where book = %d and chapter = %d and verse = '%s';", reference.book, reference.chapter, reference.verse.c_str());
