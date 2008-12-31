@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
   // Copy the icons to the directory.
   string command = "cp *.png " + directory;
   cout << command << endl; 
-  system (command.c_str());
+  if (system (command.c_str()));
   
   // Filename of the original simplegui.rc file.
   string originalfile;
@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
   // Create directory if it does not yet exist.
   command = "mkdir -p " + userdir;
   cout << command << endl; 
-  system (command.c_str ());
+  if (system (command.c_str ()));
   
   // Filename of the user's simplegui.rc file.
   string userfile;
@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
   if (!g_file_test (userfile.c_str(), G_FILE_TEST_IS_REGULAR)) {
     command = "cp " + originalfile + " " + userfile;
     cout << command << endl; 
-    system (command.c_str());
+    if (system (command.c_str()));
   }
 
   // Read the menu rc file.
