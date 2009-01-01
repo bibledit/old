@@ -60,6 +60,8 @@ WindowData::WindowData(bool save_on_destroy)
     ids.clear();
     datas.clear();
     shows.clear();
+    // And save it.
+    my_save_on_destroy = true;
   }
 }
 
