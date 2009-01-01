@@ -606,7 +606,7 @@ void WindowMerge::on_button_merge()
   git_command_pause(false);
 }
 
-void WindowMerge::merge_edited_into_master(bool approve) // Todo
+void WindowMerge::merge_edited_into_master(bool approve)
 // This merges the edited data into the master data, and does error checking.
 {
   // Bail out if there's nothing to merge.
@@ -636,56 +636,77 @@ void WindowMerge::merge_edited_into_master(bool approve) // Todo
   vector <unsigned int> editedseconds;
   git_log_read(editedchapterdirectory, editedcommits, editedseconds, editedpath);
 
+  // We are now due to look for the common ancestor.
+  // It needs a fast and clever routine that goes through the history as little as possible.
+  // Going through history takes time. So if we go as little as possible through that,
+  // it makes the process of looking for the common ancestor fast.
+  
+  // Make a combined set of commits and their times, 
+  // differentiating between the two sets using a prefix.
+  vector <ustring> combinedcommits;
+  vector <unsigned int> combinedseconds;
   for (unsigned int i = 0; i < mastercommits.size(); i++) {
-    cout << "master commit " << mastercommits[i] << " at second " << masterseconds[i] << endl; // Todo
+    combinedcommits.push_back ("m" + mastercommits[i]);
+    combinedseconds.push_back (masterseconds[i]);    
   }
-
-
-
-
-  // Get the texts belonging to the commits of the master project.
-  progresswindow.set_iterate(0, 1, mastercommits.size());
-  progresswindow.set_text("reading history");
-  vector <ustring> mastertexts;
-  for (unsigned int i = 0; i < mastercommits.size(); i++) {
-    progresswindow.iterate();
-    vector <ustring> lines = git_retrieve_chapter_commit(current_master_project, book, chapter, mastercommits[i]);
-    ustring line;
-    for (unsigned int i = 0; i < lines.size(); i++) {
-      line.append(lines[i]);
-      line.append("\n");
-    }
-    mastertexts.push_back(line);
-  }
-
-  // Get the texts belonging to the commits of the edited project.
-  progresswindow.set_iterate(0, 1, editedcommits.size());
-  vector <ustring> editedtexts;
   for (unsigned int i = 0; i < editedcommits.size(); i++) {
+    combinedcommits.push_back ("e" + editedcommits[i]);
+    combinedseconds.push_back (editedseconds[i]);    
+  }
+  // Sort the combined set on the time, most recent ones first.
+  quick_sort (combinedseconds, combinedcommits, 0, combinedseconds.size());
+  {
+    vector <ustring> commits = combinedcommits;
+    vector <unsigned int> seconds = combinedseconds;
+    combinedcommits.clear();
+    combinedseconds.clear();
+    for (int i = commits.size() - 1; i >= 0; i--) {
+      combinedcommits.push_back (commits[i]);
+      combinedseconds.push_back (seconds[i]);
+    }
+  }
+  
+  // Go through the history of both projects, extract the state in history,
+  // and compare them in order to find the common ancestor.
+  progresswindow.set_iterate(0, 1, combinedcommits.size());
+  progresswindow.set_text("looking for common ancestor");
+  vector <ustring> mastertexts;
+  vector <ustring> editedtexts;
+  ustring common_ancestor;
+  for (unsigned int i = 0; i < combinedcommits.size(); i++) {
     progresswindow.iterate();
-    vector <ustring> lines = git_retrieve_chapter_commit(current_edited_project, book, chapter, editedcommits[i]);
+    ustring commit = combinedcommits[i];
+    bool master = commit.substr (0, 1) == "m";
+    commit.erase (0, 1);
+    vector <ustring> lines;
+    if (master) {
+      lines = git_retrieve_chapter_commit(current_master_project, book, chapter, commit);
+    } else {
+      lines = git_retrieve_chapter_commit(current_edited_project, book, chapter, commit);
+    }
     ustring line;
     for (unsigned int i = 0; i < lines.size(); i++) {
       line.append(lines[i]);
       line.append("\n");
     }
-    editedtexts.push_back(line);
-  }
-
-  // Compare them till a common ancestor has been found.
-  progresswindow.set_iterate(0, 1, mastertexts.size());
-  progresswindow.set_text("finding ancestor");
-  ustring common_ancestor;
-  for (unsigned int m = 0; m < mastertexts.size(); m++) {
-    progresswindow.iterate();
-    for (unsigned int e = 0; e < editedtexts.size(); e++) {
-      if (common_ancestor.empty()) {
-        if (mastertexts[m] == editedtexts[e]) {
-          common_ancestor = mastertexts[m];
+    if (master) {
+      mastertexts.push_back(line);
+    } else {
+      editedtexts.push_back(line);
+    }
+    for (unsigned int m = 0; m < mastertexts.size(); m++) {
+      for (unsigned int e = 0; e < editedtexts.size(); e++) {
+        if (common_ancestor.empty()) {
+          if (mastertexts[m] == editedtexts[e]) {
+            common_ancestor = mastertexts[m];
+          }
         }
       }
     }
-  }
+    if (!common_ancestor.empty()) {
+      break;
+    }
+  }  
 
   // If no common ancestor was found, give message and bail out.
   if (common_ancestor.empty()) {
