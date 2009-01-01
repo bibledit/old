@@ -272,7 +272,8 @@ bibledit_bin_SOURCES = \
         assistantimportkeyterms.cpp \
         assistants.cpp \
         assistantdeletekeyterms.cpp \
-        assistantchanges.cpp
+        assistantchanges.cpp \
+        widgetdate.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 

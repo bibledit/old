@@ -27,7 +27,7 @@
 
 
 ChangesAssistant::ChangesAssistant(int dummy) :
-AssistantBase("Keyterms")
+AssistantBase("Changes")
 
 // Assistant for adding keyterms.
 {

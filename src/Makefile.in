@@ -171,7 +171,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	windoweditor.$(OBJEXT) compress.$(OBJEXT) \
 	localizednumerals.$(OBJEXT) windowshowverses.$(OBJEXT) \
 	assistantimportkeyterms.$(OBJEXT) assistants.$(OBJEXT) \
-	assistantdeletekeyterms.$(OBJEXT) assistantchanges.$(OBJEXT)
+	assistantdeletekeyterms.$(OBJEXT) assistantchanges.$(OBJEXT) \
+	widgetdate.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -620,7 +621,8 @@ bibledit_bin_SOURCES = \
         assistantimportkeyterms.cpp \
         assistants.cpp \
         assistantdeletekeyterms.cpp \
-        assistantchanges.cpp
+        assistantchanges.cpp \
+        widgetdate.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -943,6 +945,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/utilities.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/versification.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/versifications.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/widgetdate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowcheckkeyterms.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windoweditor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowlayout.Po@am__quote@
