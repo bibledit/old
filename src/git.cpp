@@ -1,5 +1,5 @@
 /*
- ** Copyright (©) 2003-2008 Teus Benschop.
+ ** Copyright (©) 2003-2009 Teus Benschop.
  **  
  ** This program is free software; you can redistribute it and/or modify
  ** it under the terms of the GNU General Public License as published by
@@ -888,4 +888,18 @@ vector < ustring > git_retrieve_chapter_commit(const ustring & project, unsigned
 
   // Give results.  
   return rt.lines;
+}
+
+
+unsigned int git_oldest_commit (const ustring& project)
+// Reads the oldest commit in the git repository of "project".
+{
+  unsigned int second = 0;
+  vector <ustring> commits;
+  vector <unsigned int>seconds;
+  git_log_read(project, commits, seconds, "");
+  if (!seconds.empty()) {
+    second = seconds[seconds.size() - 1];
+  }
+  return second;
 }

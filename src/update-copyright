@@ -1,8 +1,8 @@
-# for file in *.h
-# do
-#   sed 's/2003-2007/2003-2008/g' $file > update-copyright.tmp
-#   mv update-copyright.tmp $file
-# done
+for file in *.cpp
+do
+  sed 's/2003-2008/2003-2009/g' $file > update-copyright.tmp
+  mv update-copyright.tmp $file
+done
 
 exit
 

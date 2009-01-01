@@ -1,5 +1,5 @@
 /*
- ** Copyright (©) 2003-2008 Teus Benschop.
+ ** Copyright (©) 2003-2009 Teus Benschop.
  **  
  ** This program is free software; you can redistribute it and/or modify
  ** it under the terms of the GNU General Public License as published by
@@ -166,6 +166,7 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
   window_show_verses = NULL;
   import_keyterms_assistant = NULL;
   delete_keyterms_assistant = NULL;
+  changes_assistant = NULL;
 
   // Initialize some variables.
   git_reopen_project = false;
@@ -2251,7 +2252,7 @@ void MainWindow::showabout()
   gtk_show_about_dialog(GTK_WINDOW(window),
                         "version", PACKAGE_VERSION,
                         "website", PACKAGE_BUGREPORT,
-                        "copyright", "Copyright (©) 2003-2008 Teus Benschop",
+                        "copyright", "Copyright (©) 2003-2009 Teus Benschop",
                         "license", "This program is free software; you can redistribute it and/or modify\n"
                         "it under the terms of the GNU General Public License as published by\n"
                         "the Free Software Foundation; either version 3 of the License, or\n"
@@ -4689,13 +4690,14 @@ void MainWindow::on_project_changes()
   // The changes checker will generate git tasks. Pause git.
   git_command_pause(true);
   // Do the actual changes dialog. 
-  // It will delete the unwanted git tasks.
+  // It will delete the unwanted git tasks. // Todo ensure that the assistant does this too.
   show_references_window();
-  References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
-  ChangesDialog dialog(&references);
+  References references(window_references->liststore, window_references->treeview, window_references->treecolumn); // Todo let this also work in the assistant.
+  ChangesDialog dialog(&references);  // Todo goes out.
   dialog.run();
-  // Resume git operations.
-  git_command_pause(false);
+  // Display the assistant.
+  changes_assistant = new ChangesAssistant (0);
+  g_signal_connect ((gpointer) changes_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
 }
 
 void MainWindow::on_edit_revert_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -6919,6 +6921,13 @@ void MainWindow::on_assistant_keyterms_ready ()
   if (delete_keyterms_assistant)
     delete delete_keyterms_assistant;
   delete_keyterms_assistant = NULL;
+  // Changes.
+  if (changes_assistant)
+    delete changes_assistant;
+  changes_assistant = NULL;
+  
+  // Some of the assistant may have switched git operations off. Resume these.
+  git_command_pause(false);
 }
 
 

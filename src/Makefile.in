@@ -171,7 +171,7 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	windoweditor.$(OBJEXT) compress.$(OBJEXT) \
 	localizednumerals.$(OBJEXT) windowshowverses.$(OBJEXT) \
 	assistantimportkeyterms.$(OBJEXT) assistants.$(OBJEXT) \
-	assistantdeletekeyterms.$(OBJEXT)
+	assistantdeletekeyterms.$(OBJEXT) assistantchanges.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -619,7 +619,8 @@ bibledit_bin_SOURCES = \
         windowshowverses.cpp \
         assistantimportkeyterms.cpp \
         assistants.cpp \
-        assistantdeletekeyterms.cpp
+        assistantdeletekeyterms.cpp \
+        assistantchanges.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -700,6 +701,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/accelerators.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/assistantchanges.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/assistantdeletekeyterms.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/assistantimportkeyterms.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/assistants.Po@am__quote@

@@ -1,5 +1,5 @@
 /*
-** Copyright (©) 2003-2008 Teus Benschop.
+** Copyright (©) 2003-2009 Teus Benschop.
 **  
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
@@ -90,6 +90,7 @@ void git_command_pause (bool pause);
 void git_command_set_update_frequency (unsigned int frequency);
 void git_resolve_conflicts (const ustring& project, const vector <ustring>& errors);
 vector<ustring> git_retrieve_chapter_commit (const ustring& project, unsigned int book, unsigned int chapter, const ustring& commit);
+unsigned int git_oldest_commit (const ustring& project);
 
 
 #endif

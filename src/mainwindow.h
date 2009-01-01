@@ -1,5 +1,5 @@
 /*
- ** Copyright (©) 2003-2008 Teus Benschop.
+ ** Copyright (©) 2003-2009 Teus Benschop.
  **  
  ** This program is free software; you can redistribute it and/or modify
  ** it under the terms of the GNU General Public License as published by
@@ -46,6 +46,7 @@
 #include "windowshowverses.h"
 #include "assistantimportkeyterms.h"
 #include "assistantdeletekeyterms.h"
+#include "assistantchanges.h"
 
 class MainWindow : public WindowBase
 {
@@ -645,7 +646,7 @@ protected:
   static void on_project_backup_flexible_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_project_backup_flexible();
 
-  /* Git */
+  /* Git */ // Todo
   static void on_view_git_tasks_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_git_tasks();
   static void on_preferences_remote_git_repository_activate(GtkMenuItem *menuitem, gpointer user_data);
@@ -653,6 +654,7 @@ protected:
   void on_git_reopen_project();
   static void on_project_changes_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_project_changes();
+  ChangesAssistant * changes_assistant;
   static void on_edit_revert_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_edit_revert();
   void git_update_intervals_initialize();
