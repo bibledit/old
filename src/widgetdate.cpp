@@ -21,7 +21,6 @@
 #include <glib.h>
 #include "widgetdate.h"
 #include "date_time_utils.h"
-#include "help.h"
 #include "shortcuts.h"
 
 DateWidget::DateWidget(guint32 * seconds_since_epoch, bool showtime)
@@ -30,28 +29,19 @@ By default this dialog shows the calendar only.
 If showtime is true it shows the time also.
 */
 {
-  // Store variabeles.
+  // Store and initialize variabeles.
   my_seconds_since_epoch = seconds_since_epoch;
-  myshowtime = showtime;
+  setting_date_time = false;
 
   // Shortcuts.
   Shortcuts shortcuts(0);
 
-  datedialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(datedialog), "Date");
-  gtk_window_set_position(GTK_WINDOW(datedialog), GTK_WIN_POS_CENTER_ON_PARENT);
-  gtk_window_set_type_hint(GTK_WINDOW(datedialog), GDK_WINDOW_TYPE_HINT_DIALOG);
-
-  dialog_vbox1 = GTK_DIALOG(datedialog)->vbox;
-  gtk_widget_show(dialog_vbox1);
-
-  hbox1 = gtk_hbox_new(FALSE, 10);
-  gtk_widget_show(hbox1);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), hbox1, TRUE, TRUE, 0);
+  hbox = gtk_hbox_new(FALSE, 10);
+  gtk_widget_show(hbox);
 
   vbox2 = gtk_vbox_new(FALSE, 0);
   gtk_widget_show(vbox2);
-  gtk_box_pack_start(GTK_BOX(hbox1), vbox2, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox), vbox2, TRUE, TRUE, 0);
 
   label_date = gtk_label_new("Date");
   gtk_widget_show(label_date);
@@ -65,21 +55,16 @@ If showtime is true it shows the time also.
   gtk_box_pack_start(GTK_BOX(vbox2), calendar1, TRUE, TRUE, 0);
   gtk_calendar_display_options(GTK_CALENDAR(calendar1), GtkCalendarDisplayOptions(GTK_CALENDAR_SHOW_HEADING | GTK_CALENDAR_SHOW_DAY_NAMES | GTK_CALENDAR_SHOW_WEEK_NUMBERS));
 
-  // Set the date.
-  guint year, month, day;
-  date_time_normal_get_year_month_day(date_time_seconds_to_julian(*my_seconds_since_epoch), year, month, day);
-  gtk_calendar_select_month(GTK_CALENDAR(calendar1), month - 1, year);
-  gtk_calendar_select_day(GTK_CALENDAR(calendar1), day);
-
+  label_time = NULL;
   if (showtime) {
 
     vseparator1 = gtk_vseparator_new();
     gtk_widget_show(vseparator1);
-    gtk_box_pack_start(GTK_BOX(hbox1), vseparator1, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(hbox), vseparator1, TRUE, TRUE, 0);
 
     vbox1 = gtk_vbox_new(FALSE, 4);
     gtk_widget_show(vbox1);
-    gtk_box_pack_start(GTK_BOX(hbox1), vbox1, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(hbox), vbox1, TRUE, TRUE, 0);
 
     label_time = gtk_label_new("Time");
     gtk_widget_show(label_time);
@@ -113,26 +98,19 @@ If showtime is true it shows the time also.
 
     shortcuts.label(label_second);
 
-    // Caclulate the time.
-    unsigned int seconds_in_day = (*seconds_since_epoch) % 86400;
-    unsigned int hour = seconds_in_day / 3600;
-    unsigned int remaining_seconds = seconds_in_day - (3600 * hour);
-    unsigned int minute = remaining_seconds / 60;
-    unsigned int second = remaining_seconds % 60;
-
-    spinbutton_minute_adj = gtk_adjustment_new(minute, 0, 59, 1, 10, 0);
+    spinbutton_minute_adj = gtk_adjustment_new(0, 0, 59, 1, 10, 0);
     spinbutton_minute = gtk_spin_button_new(GTK_ADJUSTMENT(spinbutton_minute_adj), 1, 0);
     gtk_widget_show(spinbutton_minute);
     gtk_table_attach(GTK_TABLE(table1), spinbutton_minute, 1, 2, 1, 2, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
     gtk_spin_button_set_numeric(GTK_SPIN_BUTTON(spinbutton_minute), TRUE);
 
-    spinbutton_second_adj = gtk_adjustment_new(second, 0, 59, 1, 10, 0);
+    spinbutton_second_adj = gtk_adjustment_new(0, 0, 59, 1, 10, 0);
     spinbutton_second = gtk_spin_button_new(GTK_ADJUSTMENT(spinbutton_second_adj), 1, 0);
     gtk_widget_show(spinbutton_second);
     gtk_table_attach(GTK_TABLE(table1), spinbutton_second, 1, 2, 2, 3, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
     gtk_spin_button_set_numeric(GTK_SPIN_BUTTON(spinbutton_second), TRUE);
 
-    spinbutton_hour_adj = gtk_adjustment_new(hour, 0, 23, 1, 10, 0);
+    spinbutton_hour_adj = gtk_adjustment_new(0, 0, 23, 1, 10, 0);
     spinbutton_hour = gtk_spin_button_new(GTK_ADJUSTMENT(spinbutton_hour_adj), 1, 0);
     gtk_widget_show(spinbutton_hour);
     gtk_table_attach(GTK_TABLE(table1), spinbutton_hour, 1, 2, 0, 1, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
@@ -140,61 +118,98 @@ If showtime is true it shows the time also.
 
   }
 
-  dialog_action_area1 = GTK_DIALOG(datedialog)->action_area;
-  gtk_widget_show(dialog_action_area1);
-  gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
-
-  new InDialogHelp(datedialog, &shortcuts, NULL);
-
-  cancelbutton1 = gtk_button_new_from_stock("gtk-cancel");
-  gtk_widget_show(cancelbutton1);
-  gtk_dialog_add_action_widget(GTK_DIALOG(datedialog), cancelbutton1, GTK_RESPONSE_CANCEL);
-  GTK_WIDGET_SET_FLAGS(cancelbutton1, GTK_CAN_DEFAULT);
-
-  okbutton1 = gtk_button_new_from_stock("gtk-ok");
-  gtk_widget_show(okbutton1);
-  gtk_dialog_add_action_widget(GTK_DIALOG(datedialog), okbutton1, GTK_RESPONSE_OK);
-  GTK_WIDGET_SET_FLAGS(okbutton1, GTK_CAN_DEFAULT);
-
-  shortcuts.stockbutton(cancelbutton1);
-  shortcuts.stockbutton(okbutton1);
   shortcuts.process();
+  
+  g_signal_connect ((gpointer) calendar1, "day_selected", G_CALLBACK (on_calendar_changed), gpointer(this));
+  if (showtime) {
+    g_signal_connect ((gpointer) spinbutton_minute, "changed", G_CALLBACK (on_spinbutton_changed), gpointer(this));
+    g_signal_connect ((gpointer) spinbutton_minute, "value_changed", G_CALLBACK (on_spinbutton_value_changed), gpointer(this));
+    g_signal_connect ((gpointer) spinbutton_second, "changed", G_CALLBACK (on_spinbutton_changed), gpointer(this));
+    g_signal_connect ((gpointer) spinbutton_second, "value_changed", G_CALLBACK (on_spinbutton_value_changed), gpointer(this));
+    g_signal_connect ((gpointer) spinbutton_hour, "changed", G_CALLBACK (on_spinbutton_changed), gpointer(this));
+    g_signal_connect ((gpointer) spinbutton_hour, "value_changed", G_CALLBACK (on_spinbutton_value_changed), gpointer(this));
+  }
 
-  g_signal_connect((gpointer) okbutton1, "clicked", G_CALLBACK(on_okbutton_clicked), gpointer(this));
-
-  gtk_widget_grab_default(okbutton1);
   gtk_label_set_mnemonic_widget(GTK_LABEL(label_date), calendar1);
   if (showtime) {
     gtk_label_set_mnemonic_widget(GTK_LABEL(label_hour), spinbutton_hour);
     gtk_label_set_mnemonic_widget(GTK_LABEL(label_minute), spinbutton_minute);
     gtk_label_set_mnemonic_widget(GTK_LABEL(label_second), spinbutton_second);
   }
+
+  // Set the date and optionally the time.
+  set_date ();
 }
 
 DateWidget::~DateWidget()
 {
-  gtk_widget_destroy(datedialog);
+  // Normally an object would destroy the top widget,
+  // but since this widget is going to be part of another parent,
+  // destruction is taken care of by that parent.
+  // gtk_widget_destroy(hbox);
 }
 
-int DateWidget::run()
+void DateWidget::set_date ()
 {
-  return gtk_dialog_run(GTK_DIALOG(datedialog));
+  // Flags.
+  setting_date_time = true;
+  
+  // Set the date.
+  guint year, month, day;
+  date_time_normal_get_year_month_day(date_time_seconds_to_julian(*my_seconds_since_epoch), year, month, day);
+  gtk_calendar_select_month(GTK_CALENDAR(calendar1), month - 1, year);
+  gtk_calendar_select_day(GTK_CALENDAR(calendar1), day);
+
+  // And the time.
+  if (label_time) {
+    unsigned int seconds_in_day = (*my_seconds_since_epoch) % 86400;
+    unsigned int hour = seconds_in_day / 3600;
+    unsigned int remaining_seconds = seconds_in_day - (3600 * hour);
+    unsigned int minute = remaining_seconds / 60;
+    unsigned int second = remaining_seconds % 60;
+    gtk_spin_button_set_value (GTK_SPIN_BUTTON (spinbutton_minute), minute);
+    gtk_spin_button_set_value (GTK_SPIN_BUTTON (spinbutton_second), second);
+    gtk_spin_button_set_value (GTK_SPIN_BUTTON (spinbutton_hour), hour);
+  }
+  
+  // Flags down.
+  setting_date_time = false;
 }
 
-void DateWidget::on_okbutton_clicked(GtkButton * button, gpointer user_data)
+
+void DateWidget::on_spinbutton_changed (GtkEditable *editable, gpointer user_data)
 {
-  ((DateWidget *) user_data)->on_okbutton();
+  ((DateWidget *) user_data)->calculate_date_time();
 }
 
-void DateWidget::on_okbutton()
+
+void DateWidget::on_spinbutton_value_changed (GtkSpinButton *spinbutton, gpointer user_data)
 {
+  ((DateWidget *) user_data)->calculate_date_time();
+}
+
+
+void DateWidget::on_calendar_changed (GtkCalendar *calendar, gpointer user_data)
+{
+  ((DateWidget *) user_data)->calculate_date_time();
+}
+
+
+void DateWidget::calculate_date_time()
+{
+  // There is a flag that indicates we are setting the widgets.
+  // Setting the widgets gives a lot of signals, which disturbs the whole process.
+  // Therefore when setting the widgets, these signals do nothing.
+  if (setting_date_time) 
+    return;
+  // Calculation.
   guint year;
   guint month;
   guint day;
   gtk_calendar_get_date(GTK_CALENDAR(calendar1), &year, &month, &day);
   month++;
   *my_seconds_since_epoch = date_time_julian_to_seconds(date_time_julian_day_get_parse(year, month, day));
-  if (myshowtime) {
+  if (label_time) {
     unsigned int extra_seconds = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(spinbutton_second));
     extra_seconds += (60 * gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(spinbutton_minute)));
     extra_seconds += (3600 * gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(spinbutton_hour)));

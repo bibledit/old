@@ -117,13 +117,13 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	statistics.$(OBJEXT) dialogbackup.$(OBJEXT) backup.$(OBJEXT) \
 	dialogviewgit.$(OBJEXT) dialoggitadd.$(OBJEXT) \
 	dialoggitsetup.$(OBJEXT) projectutilsold.$(OBJEXT) \
-	dialogchanges.$(OBJEXT) dialogrevert.$(OBJEXT) \
-	dialogselectbooks.$(OBJEXT) resource_utils.$(OBJEXT) \
-	html.$(OBJEXT) dialogreviewanchors.$(OBJEXT) \
-	dialogeditnote.$(OBJEXT) biblenotes.$(OBJEXT) \
-	dialogwordlist.$(OBJEXT) wordlist.$(OBJEXT) \
-	dialogfontcolor.$(OBJEXT) dialognewstylesheet.$(OBJEXT) \
-	outline.$(OBJEXT) settings.$(OBJEXT) session.$(OBJEXT) \
+	dialogrevert.$(OBJEXT) dialogselectbooks.$(OBJEXT) \
+	resource_utils.$(OBJEXT) html.$(OBJEXT) \
+	dialogreviewanchors.$(OBJEXT) dialogeditnote.$(OBJEXT) \
+	biblenotes.$(OBJEXT) dialogwordlist.$(OBJEXT) \
+	wordlist.$(OBJEXT) dialogfontcolor.$(OBJEXT) \
+	dialognewstylesheet.$(OBJEXT) outline.$(OBJEXT) \
+	settings.$(OBJEXT) session.$(OBJEXT) \
 	session_highlights.$(OBJEXT) bookdata.$(OBJEXT) ipc.$(OBJEXT) \
 	config.xml.$(OBJEXT) localizedbooks.$(OBJEXT) \
 	versifications.$(OBJEXT) mappings.$(OBJEXT) \
@@ -508,7 +508,6 @@ bibledit_bin_SOURCES = \
         dialoggitadd.cpp \
         dialoggitsetup.cpp \
         projectutilsold.cpp \
-        dialogchanges.cpp \
         dialogrevert.cpp \
         dialogselectbooks.cpp \
         resource_utils.cpp \
@@ -748,7 +747,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogbackup.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogbook.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogbooknames.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogchanges.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogchapternumber.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogcheck.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogcheckbutton.Po@am__quote@

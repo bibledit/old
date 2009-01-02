@@ -23,7 +23,7 @@
 
 
 #include <gtk/gtk.h>
-
+#include "widgetdate.h"
 
 class DateDialog
 {
@@ -34,24 +34,8 @@ public:
 protected:
 private:
   GtkWidget *datedialog;
+  DateWidget datewidget;
   GtkWidget *dialog_vbox1;
-  GtkWidget *hbox1;
-  GtkWidget *vbox2;
-  GtkWidget *label_date;
-  GtkWidget *calendar1;
-  GtkWidget *vseparator1;
-  GtkWidget *vbox1;
-  GtkWidget *label_time;
-  GtkWidget *table1;
-  GtkWidget *label_hour;
-  GtkWidget *label_minute;
-  GtkWidget *label_second;
-  GtkObject *spinbutton_minute_adj;
-  GtkWidget *spinbutton_minute;
-  GtkObject *spinbutton_second_adj;
-  GtkWidget *spinbutton_second;
-  GtkObject *spinbutton_hour_adj;
-  GtkWidget *spinbutton_hour;
   GtkWidget *dialog_action_area1;
   GtkWidget *cancelbutton1;
   GtkWidget *okbutton1;

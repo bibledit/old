@@ -77,6 +77,7 @@ ProjectConfiguration::ProjectConfiguration(ustring project_in, bool save_on_dest
   INITIALIZE(git_remote_repository_conflict_handling);
   INITIALIZE(changes_last_review);
   INITIALIZE(changes_since);
+  INITIALIZE(changes_till);
   INITIALIZE(editor_font_default);
   INITIALIZE(editor_font_name);
   INITIALIZE(editor_default_color);
@@ -132,6 +133,7 @@ void ProjectConfiguration::save()
   SAVE_VALUE(git_remote_repository_conflict_handling);
   SAVE_VALUE(changes_last_review);
   SAVE_VALUE(changes_since);
+  SAVE_VALUE(changes_till);
   SAVE_VALUE(editor_font_default);
   SAVE_VALUE(editor_font_name);
   SAVE_VALUE(editor_default_color);
@@ -283,6 +285,7 @@ IMPLEMENT(int, int_get, git_remote_update_interval, 60)
 IMPLEMENT(int, int_get, git_remote_repository_conflict_handling, 0)
 IMPLEMENT(int, int_get, changes_last_review, 0)
 IMPLEMENT(int, int_get, changes_since, 0)
+IMPLEMENT(int, int_get, changes_till, 0)
 IMPLEMENT(bool, bool_get, editor_font_default, true)
 IMPLEMENT(ustring, string_get, editor_font_name, "Sans 14")
 IMPLEMENT(bool, bool_get, editor_default_color, true)

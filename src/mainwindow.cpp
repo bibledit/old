@@ -92,7 +92,6 @@
 #include "backup.h"
 #include "dialogviewgit.h"
 #include "dialoggitsetup.h"
-#include "dialogchanges.h"
 #include "dialogrevert.h"
 #include "resource_utils.h"
 #include "dialogeditnote.h"
@@ -4690,13 +4689,10 @@ void MainWindow::on_project_changes()
   // The changes checker will generate git tasks. Pause git.
   git_command_pause(true);
   // Do the actual changes dialog. 
-  // It will delete the unwanted git tasks. // Todo ensure that the assistant does this too.
   show_references_window();
-  References references(window_references->liststore, window_references->treeview, window_references->treecolumn); // Todo let this also work in the assistant.
-  ChangesDialog dialog(&references);  // Todo goes out.
-  dialog.run();
+  References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
   // Display the assistant.
-  changes_assistant = new ChangesAssistant (0);
+  changes_assistant = new ChangesAssistant (&references);
   g_signal_connect ((gpointer) changes_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
 }
 

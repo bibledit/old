@@ -23,41 +23,34 @@
 #include <gtk/gtk.h>
 #include "ustring.h"
 #include "assistants.h"
+#include "widgetdate.h"
+#include "references.h"
 
 class ChangesAssistant : public AssistantBase
 {
 public:
-  ChangesAssistant(int dummy);
+  ChangesAssistant(References * references);
   virtual ~ChangesAssistant();
 private:
   GtkWidget *vbox1;
   GtkWidget *radiobutton_since_last_review;
   GtkWidget *radiobutton_since_date;
   GtkWidget *radiobutton_between_dates;
-  unsigned int question_page;
+  int question_page;
 
   GtkWidget *label_last_review;
-  unsigned int last_review_page;
+  int last_review_page;
 
-  GtkWidget *vbox2;
-  GtkWidget *button_from;
-  GtkWidget *alignment2;
-  GtkWidget *hbox5;
-  GtkWidget *image2;
-  GtkWidget *label15;
-  static void on_button_from_clicked (GtkButton *button, gpointer user_data);
-  void on_button_from();
+  unsigned int date_from_seconds;
+  DateWidget * date_from_object;
+  int date_from_page;
 
-  GtkWidget *vbox3;
-  GtkWidget *button_to;
-  GtkWidget *alignment3;
-  GtkWidget *hbox6;
-  GtkWidget *image3;
-  GtkWidget *label17;
-  static void on_button_to_clicked (GtkButton *button, gpointer user_data);
-  void on_button_to();
+  unsigned int date_to_seconds;
+  DateWidget * date_to_object;
+  int date_to_page;
 
   GtkWidget *label_confirm;
+  int confirm_page;
   GtkWidget *label_progress;
   GtkWidget *label_summary;
   unsigned int summary_page_number;
@@ -65,10 +58,11 @@ private:
   void on_assistant_apply ();
   static gint assistant_forward_function (gint current_page, gpointer user_data);
   gint assistant_forward (gint current_page);
-  
-  
-  
-  
+
+  ustring temporal_from_project;
+  ustring temporal_to_project;  
+  References * myreferences;
+  void view_local_changes(bool changes_since_last_review);
 };
 
 #endif

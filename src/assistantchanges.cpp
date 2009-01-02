@@ -24,13 +24,20 @@
 #include "settings.h"
 #include "git.h"
 #include "date_time_utils.h"
+#include "projectutils.h"
+#include "gtkwrappers.h"
+#include "tiny_utilities.h"
+#include "progresswindow.h"
+#include "gwrappers.h"
+#include "compareutils.h"
 
 
-ChangesAssistant::ChangesAssistant(int dummy) :
+ChangesAssistant::ChangesAssistant(References * references) :
 AssistantBase("Changes")
-
 // Assistant for adding keyterms.
 {
+  myreferences = references;
+
   gtk_assistant_set_forward_page_func (GTK_ASSISTANT (assistant), GtkAssistantPageFunc (assistant_forward_function), gpointer(this), NULL);
   
   g_signal_connect (G_OBJECT (assistant), "apply", G_CALLBACK (on_assistant_apply_signal), gpointer(this));
@@ -47,7 +54,7 @@ AssistantBase("Changes")
   gtk_widget_show (vbox1);
   question_page = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox1);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox1, "Which changes in the project would you like to see?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox1, "Which changes would you like to see?");
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox1, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox1, true);
 
@@ -92,106 +99,71 @@ AssistantBase("Changes")
   ustring last_review_label = "Last review was on " + date_time_seconds_human_readable(last_review_seconds, true);
   gtk_label_set_text(GTK_LABEL(label_last_review), last_review_label.c_str());
 
+  // Date from.
+  date_from_seconds = projectconfig->changes_since_get();
+  if (date_from_seconds == 0) {
+    date_from_seconds = git_oldest_commit(settings->genconfig.project_get());
+    if (date_from_seconds == 0)
+      date_from_seconds--;
+    projectconfig->changes_since_set(date_from_seconds);
+  }
+  date_from_object = new DateWidget (&date_from_seconds, true);
+  date_from_page = gtk_assistant_append_page (GTK_ASSISTANT (assistant), date_from_object->hbox);
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), date_from_object->hbox, "");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), date_from_object->hbox, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), date_from_object->hbox, true);
 
+  // Date to.
+  date_to_seconds = projectconfig->changes_till_get();
+  if (date_to_seconds == 0) {
+    date_to_seconds = date_time_seconds_get_current();
+    projectconfig->changes_till_set(date_to_seconds);
+  }
+  date_to_object = new DateWidget (&date_to_seconds, true);
+  date_to_page = gtk_assistant_append_page (GTK_ASSISTANT (assistant), date_to_object->hbox);
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), date_to_object->hbox, "Changes till which date?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), date_to_object->hbox, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), date_to_object->hbox, true);
 
-
-
-  vbox2 = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox2);
-  gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox2);
-
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox2, "Since what date would Information");
-  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox2, GTK_ASSISTANT_PAGE_CONTENT);
-  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox2, true);
-
-  button_from = gtk_button_new ();
-  gtk_widget_show (button_from);
-  gtk_box_pack_start (GTK_BOX (vbox2), button_from, FALSE, FALSE, 0);
-
-  alignment2 = gtk_alignment_new (0.5, 0.5, 0, 0);
-  gtk_widget_show (alignment2);
-  gtk_container_add (GTK_CONTAINER (button_from), alignment2);
-
-  hbox5 = gtk_hbox_new (FALSE, 2);
-  gtk_widget_show (hbox5);
-  gtk_container_add (GTK_CONTAINER (alignment2), hbox5);
-
-  image2 = gtk_image_new_from_stock ("gtk-goto-first", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show (image2);
-  gtk_box_pack_start (GTK_BOX (hbox5), image2, FALSE, FALSE, 0);
-
-  label15 = gtk_label_new_with_mnemonic ("date/time");
-  gtk_widget_show (label15);
-  gtk_box_pack_start (GTK_BOX (hbox5), label15, FALSE, FALSE, 0);
-
-  g_signal_connect ((gpointer) button_from, "clicked", G_CALLBACK (on_button_from_clicked), gpointer (this));
-
-
-  vbox3 = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox3);
-  gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox3);
-
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox3, "Information");
-  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox3, GTK_ASSISTANT_PAGE_CONTENT);
-  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox3, true);
-
-  button_to = gtk_button_new ();
-  gtk_widget_show (button_to);
-  gtk_box_pack_start (GTK_BOX (vbox3), button_to, FALSE, FALSE, 0);
-
-  alignment3 = gtk_alignment_new (0.5, 0.5, 0, 0);
-  gtk_widget_show (alignment3);
-  gtk_container_add (GTK_CONTAINER (button_to), alignment3);
-
-  hbox6 = gtk_hbox_new (FALSE, 2);
-  gtk_widget_show (hbox6);
-  gtk_container_add (GTK_CONTAINER (alignment3), hbox6);
-
-  image3 = gtk_image_new_from_stock ("gtk-goto-last", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show (image3);
-  gtk_box_pack_start (GTK_BOX (hbox6), image3, FALSE, FALSE, 0);
-
-  label17 = gtk_label_new_with_mnemonic ("date/time");
-  gtk_widget_show (label17);
-  gtk_box_pack_start (GTK_BOX (hbox6), label17, FALSE, FALSE, 0);
-
-  g_signal_connect ((gpointer) button_to, "clicked",  G_CALLBACK (on_button_to_clicked), gpointer (this));
-
-
-  label_confirm = gtk_label_new ("Ready for delete");
+  // Confirm.
+  label_confirm = gtk_label_new ("Ready for generating changes");
   gtk_widget_show (label_confirm);
-  gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_confirm);
-
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_confirm, "Ready for delete");
+  confirm_page = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_confirm);
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_confirm, "Ready for generating changes");
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_confirm, GTK_ASSISTANT_PAGE_CONFIRM);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_confirm, true);
 
-  
-  label_progress = gtk_label_new ("Deleting...");
+  // Progress.
+  label_progress = gtk_label_new ("Generating changes..., please wait");
   gtk_widget_show (label_progress);
   gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_progress);
-
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_progress, "Deleting");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_progress, "Generating changes");
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_progress, GTK_ASSISTANT_PAGE_PROGRESS);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_progress, true);
 
-  
-  label_summary = gtk_label_new ("Delete done.");
+  // Summary.
+  label_summary = gtk_label_new ("Done.");
   gtk_widget_show (label_summary);
   summary_page_number = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_summary);
-
   gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_summary, "Ready");
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_summary, GTK_ASSISTANT_PAGE_SUMMARY);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_summary, true);
   
   // Finish assistant.
-  
   gtk_widget_show_all (assistant);
   gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), 0);
 }
 
 ChangesAssistant::~ChangesAssistant()
 {
+  delete date_from_object;
+  delete date_to_object;
+  if (!temporal_from_project.empty()) {
+    project_delete(temporal_from_project);
+  }
+  if (!temporal_to_project.empty()) {
+    project_delete(temporal_to_project);
+  }
 }
 
 void ChangesAssistant::on_assistant_apply_signal (GtkAssistant *assistant, gpointer user_data)
@@ -202,9 +174,33 @@ void ChangesAssistant::on_assistant_apply_signal (GtkAssistant *assistant, gpoin
 
 void ChangesAssistant::on_assistant_apply ()
 {
+  // Configuration.
+  extern Settings *settings;
+  ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
 
+  // Save times.
+  projectconfig->changes_since_set(date_from_seconds);
+  projectconfig->changes_till_set(date_to_seconds);
+  
+  
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_since_last_review))) {
+    view_local_changes(true);
+    projectconfig->changes_last_review_set(date_time_seconds_get_current());
+  }
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_since_date))) {
+    view_local_changes(false);
+  }
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_between_dates))) {
+    gtkw_dialog_error (NULL, "Not yet implemented"); // Todo
+  }
+  
+
+  
+  
+  
   // Show summary.
   gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), summary_page_number);
+  
 }
 
 
@@ -215,31 +211,115 @@ gint ChangesAssistant::assistant_forward_function (gint current_page, gpointer u
 
 gint ChangesAssistant::assistant_forward (gint current_page)
 {
-  //if (question_page) return last_review_page;
+  // Go to the right page from the question what to do, and set the gui.
+  if (current_page == question_page) {
+    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_since_date)))
+      gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), date_from_object->hbox, "Changes since which date?");
+    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_between_dates)))
+      gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), date_from_object->hbox, "Changes from which date?");
+    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_since_last_review)))
+      return last_review_page;
+    else 
+      return date_from_page;
+  }
+  
+  // If reviewing since last change, go straight to the confirmation page.
+  if (current_page == last_review_page) {
+    return confirm_page;
+  }
+
+  // If on the date-from/since, decide whether to ask for the date-to,
+  // and ensure that the date-to is more recent.
+  if (current_page == date_from_page) {
+    if (date_to_seconds < date_from_seconds) {
+      date_to_seconds = date_from_seconds;
+      date_to_object->set_date();
+    }
+    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_since_date)))
+      return confirm_page;
+  }
     
   // Default behaviour is to go to the next page.
   return ++current_page;
 }
 
 
-void ChangesAssistant::on_button_from_clicked (GtkButton *button, gpointer user_data)
+void ChangesAssistant::view_local_changes(bool changes_since_last_review)
 {
-  ((ChangesAssistant *) user_data)->on_button_from ();
-}
+  // Configuration.
+  extern Settings *settings;
+  ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
 
+  // Retrieve the seconds to check the changes since.
+  unsigned int second = projectconfig->changes_since_get();
+  if (changes_since_last_review)
+    second = projectconfig->changes_last_review_get();
 
-void ChangesAssistant::on_button_from()
-{
-}
+  // Copy the current project to the temporal history project.
+  temporal_from_project = settings->genconfig.project_get() + "_as_it_was_at_" + convert_to_string(second);
+  {
+    ProgressWindow progresswindow("Copying project", false);
+    progresswindow.set_fraction(0.5);
+    project_copy(settings->genconfig.project_get(), temporal_from_project);
+  }
 
+  // The data directories to work in.
+  ustring history_project_data_directory = project_data_directory_project(temporal_from_project);
+  ustring project_data_directory = project_data_directory_project(settings->genconfig.project_get());
 
-void ChangesAssistant::on_button_to_clicked (GtkButton *button, gpointer user_data)
-{
-  ((ChangesAssistant *) user_data)->on_button_to ();
-}
+  // Retrieve the name of the first commit since or at the date and time given.
+  vector < ustring > commits;
+  vector < unsigned int >seconds;
+  git_log_read(project_data_directory, commits, seconds, "");
+  // Note if the date and time are older than the project's oldest commit.
+  bool date_time_older_than_project = false;
+  ustring commit;
+  if (!commits.empty()) {
+    unsigned int most_recent_second = seconds[0];
+    // If the date and time are more recent than the most recent commit,
+    // it doesn't pick a commit, as there are no changes recorded.
+    if (second <= most_recent_second) {
+      commit = git_log_pick_commit_at_date_time(commits, seconds, second);
+    }
+    unsigned int oldest_second = seconds[seconds.size() - 1];
+    if (second < oldest_second) {
+      date_time_older_than_project = true;
+      commit = commits[0];
+    }
+  }
+  // If there are no changes recorded since that date and time, give a message and bail out.
+  if (commit.empty()) {
+    gtkw_dialog_info(assistant, "No changes have been recorded since that time");
+  } else {
 
+    // Changes were recorded.
+    // Check the revision out.
 
-void ChangesAssistant::on_button_to()
-{
+    GwSpawn spawn("git-checkout");
+    spawn.workingdirectory(history_project_data_directory);
+    spawn.arg("-b");
+    spawn.arg("bibleditcomparison");
+    spawn.arg(commit);
+    spawn.progress("Retrieving data from history", false);
+    spawn.run();
+    if (spawn.exitstatus != 0) {
+      gtkw_dialog_error(assistant, "Failed to retrieve history");
+    }
+    // If the commit is older than the project, clear the temporal project.
+    if (date_time_older_than_project) {
+      vector < unsigned int >books = project_get_books(temporal_from_project);
+      for (unsigned int i = 0; i < books.size(); i++) {
+        project_remove_book(temporal_from_project, books[i]);
+      }
+    }
+    // Run comparison.
+    compare_with(myreferences, settings->genconfig.project_get(), temporal_from_project, true);
+
+  }
+
+  // If reviewing changes since last review, set the date for the next review.  
+  if (changes_since_last_review) {
+    projectconfig->changes_last_review_set(date_time_seconds_get_current());
+  }
 }
 

@@ -30,12 +30,9 @@ class DateWidget
 public:
   DateWidget (guint32 * seconds_since_epoch, bool showtime = false);
   ~DateWidget ();
-  int run ();
-protected:
+  GtkWidget *hbox;
+  void set_date ();
 private:
-  GtkWidget *datedialog;
-  GtkWidget *dialog_vbox1;
-  GtkWidget *hbox1;
   GtkWidget *vbox2;
   GtkWidget *label_date;
   GtkWidget *calendar1;
@@ -52,13 +49,12 @@ private:
   GtkWidget *spinbutton_second;
   GtkObject *spinbutton_hour_adj;
   GtkWidget *spinbutton_hour;
-  GtkWidget *dialog_action_area1;
-  GtkWidget *cancelbutton1;
-  GtkWidget *okbutton1;
-  static void on_okbutton_clicked (GtkButton * button, gpointer user_data);
-  void on_okbutton ();
   guint * my_seconds_since_epoch;
-  bool myshowtime;
+  static void on_spinbutton_changed (GtkEditable *editable, gpointer user_data);
+  static void on_spinbutton_value_changed (GtkSpinButton *spinbutton, gpointer user_data);
+  static void on_calendar_changed (GtkCalendar *calendar, gpointer user_data);
+  void calculate_date_time ();
+  bool setting_date_time;
 };
 
 

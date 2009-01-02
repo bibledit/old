@@ -76,6 +76,7 @@ public:
   DEFINE_PROJECTCONFIG_H (int, git_remote_repository_conflict_handling);
   DEFINE_PROJECTCONFIG_H (int, changes_last_review);
   DEFINE_PROJECTCONFIG_H (int, changes_since);
+  DEFINE_PROJECTCONFIG_H (int, changes_till);
   DEFINE_PROJECTCONFIG_H (bool, editor_font_default);
   DEFINE_PROJECTCONFIG_H (ustring, editor_font_name);
   DEFINE_PROJECTCONFIG_H (bool, editor_default_color);

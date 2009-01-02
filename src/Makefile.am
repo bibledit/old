@@ -159,7 +159,6 @@ bibledit_bin_SOURCES = \
         dialoggitadd.cpp \
         dialoggitsetup.cpp \
         projectutilsold.cpp \
-        dialogchanges.cpp \
         dialogrevert.cpp \
         dialogselectbooks.cpp \
         resource_utils.cpp \
