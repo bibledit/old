@@ -149,9 +149,10 @@ bool compare_projects(ProjectMemory & originalproject, ProjectMemory & secondpro
 
 void compare_chapter_remove_notes(ustring & text)
 {
-  replace_text_between(text, "\\f ", "\\f*", "");
-  replace_text_between(text, "\\fe ", "\\fe*", "");
-  replace_text_between(text, "\\x ", "\\x*", "");
+  // Rough move: notes are no longer removed (so will mess up the text).
+  //replace_text_between(text, "\\f ", "\\f*", "");
+  //replace_text_between(text, "\\fe ", "\\fe*", "");
+  //replace_text_between(text, "\\x ", "\\x*", "");
 }
 
 void compare_chapter(vector < ustring > &originalchapter, vector < ustring > &secondchapter, vector < ustring > &outputchapter)

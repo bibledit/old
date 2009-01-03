@@ -6928,7 +6928,7 @@ void MainWindow::on_assistant_keyterms_ready ()
     delete assistant_references;
   assistant_references = NULL;
   
-  // Some of the assistants may have switched git operations off. Resume these.
+  // The assistants may have paused git operations. Resume these.
   git_command_pause(false);
 }
 
