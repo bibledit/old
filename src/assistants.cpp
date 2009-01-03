@@ -20,10 +20,21 @@
 #include "assistants.h"
 #include "settings.h"
 #include "gwrappers.h"
+#include "unixwrappers.h"
+#include "tiny_utilities.h"
+#include "screen.h"
 
-AssistantBase::AssistantBase(const ustring& title)
+AssistantBase::AssistantBase(const ustring& title, const gchar * helptopic)
 // Base class for each window.
 {
+  // Variables.
+  process_id = 0;
+  topic = helptopic;  
+
+  // If no help is given, take a default one.
+  if (!topic)
+    topic = "none";
+  
   // Signalling button.
   signal_button = gtk_button_new ();
 
@@ -46,7 +57,29 @@ AssistantBase::AssistantBase(const ustring& title)
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_intro, GTK_ASSISTANT_PAGE_INTRO);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_intro, true);
 
+  // Help button.
+  button_help = gtk_toggle_button_new();
+  gtk_widget_show(button_help);
+  gtk_assistant_add_action_widget (GTK_ASSISTANT (assistant), button_help);
+
+  GtkWidget *alignment = gtk_alignment_new(0.5, 0.5, 0, 0);
+  gtk_widget_show(alignment);
+  gtk_container_add(GTK_CONTAINER(button_help), alignment);
+
+  GtkWidget *hbox = gtk_hbox_new(FALSE, 2);
+  gtk_widget_show(hbox);
+  gtk_container_add(GTK_CONTAINER(alignment), hbox);
+
+  GtkWidget *image = gtk_image_new_from_stock("gtk-help", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_show(image);
+  gtk_box_pack_start(GTK_BOX(hbox), image, FALSE, FALSE, 0);
+
+  GtkWidget *label = gtk_label_new_with_mnemonic("_Help");
+  gtk_widget_show(label);
+  gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
+  
   // Signal handlers.
+  g_signal_connect((gpointer) button_help, "clicked", G_CALLBACK(on_button_help_activated), gpointer(this));
   g_signal_connect (G_OBJECT (assistant), "cancel", G_CALLBACK (on_assistant_cancel_signal), gpointer(this));
   g_signal_connect (G_OBJECT (assistant), "close", G_CALLBACK (on_assistant_close_signal), gpointer(this));
   g_signal_connect (G_OBJECT (assistant), "delete_event", G_CALLBACK(on_assistant_delete_event), gpointer(this));
@@ -56,6 +89,9 @@ AssistantBase::~AssistantBase()
 {
   gtk_widget_destroy (assistant);
   gtk_widget_destroy (signal_button);
+  if (process_id) {
+    unix_kill(process_id);
+  }
 }
 
 
@@ -90,4 +126,52 @@ void AssistantBase::on_assistant_end ()
   gtk_button_clicked (GTK_BUTTON (signal_button));
 }
 
+
+void AssistantBase::on_button_help_activated(GtkButton * button, gpointer user_data)
+{
+  ((AssistantBase *) user_data)->on_button_help();
+}
+
+void AssistantBase::on_button_help()
+{
+  bool button_on = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button_help));
+  if (button_on) {
+
+    // Calculate the position and size for the help viewer.
+    gint width, height, x, y;
+    window_position_get_left_space(assistant, width, height, x, y);
+    
+    // If there is not enough space, make space by moving the assistant.
+    if (width < 200) {
+      width = 200;
+      window_position_make_left_space (assistant, width);
+    }
+
+    // Assemble the url to load.    
+    ustring url = "http://localhost:51516/olh_";
+    url.append(topic);
+    url.append(".html");
+
+    // Start the helpviewer.
+    GwSpawn spawn("bibledit-help");
+    spawn.arg(url);
+    spawn.arg(convert_to_string(width));
+    spawn.arg(convert_to_string(height));
+    spawn.arg(convert_to_string(x));
+    spawn.arg(convert_to_string(y));
+    spawn.async();
+    spawn.run();
+    process_id = spawn.pid;
+
+    // Present the window.
+    g_usleep(500000);
+    gtk_window_present(GTK_WINDOW(assistant));
+
+  } else {
+    if (process_id) {
+      unix_kill(process_id);
+      process_id = 0;
+    }
+  }
+}
 

@@ -29,7 +29,7 @@
 #include "gtkwrappers.h"
 
 ImportKeytermsAssistant::ImportKeytermsAssistant(int dummy) :
-AssistantBase("Keyterms")
+AssistantBase("Keyterms", NULL) // Todo write help / connect help
 
 // Assistant for adding keyterms.
 {

@@ -26,7 +26,7 @@
 class AssistantBase
 {
 public:
-  AssistantBase(const ustring& title);
+  AssistantBase(const ustring& title, const gchar * helptopic);
   virtual ~AssistantBase();
   GtkWidget * signal_button;
   GtkWidget * assistant;
@@ -37,6 +37,11 @@ private:
   static void on_assistant_close_signal (GtkAssistant *assistant, gpointer user_data);
   static bool on_assistant_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);
   void on_assistant_end ();
+  GtkWidget *button_help;
+  static void on_button_help_activated (GtkButton * button, gpointer user_data);
+  void on_button_help ();
+  const gchar * topic;
+  GPid process_id;
 };
 
 #endif

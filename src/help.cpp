@@ -95,7 +95,7 @@ void InDialogHelp::on_helpbutton()
 
     // Calculate the position and size for the help viewer.
     gint width, height, x, y;
-    dialog_position_get_left_space(mydialog, width, height, x, y);
+    window_position_get_left_space(mydialog, width, height, x, y);
 
     // Assemble the url to load.    
     ustring url = "http://localhost:51516/olh_";

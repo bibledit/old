@@ -25,7 +25,7 @@
 #include "combobox.h"
 
 DeleteKeytermsAssistant::DeleteKeytermsAssistant(int dummy) :
-AssistantBase("Keyterms")
+AssistantBase("Keyterms", NULL) // Todo write topic.
 
 // Assistant for adding keyterms.
 {

@@ -33,7 +33,7 @@
 
 
 ChangesAssistant::ChangesAssistant(References * references) :
-AssistantBase("Changes")
+AssistantBase("Changes", "changes") // Todo implement help.
 // Assistant for adding keyterms.
 {
   myreferences = references;

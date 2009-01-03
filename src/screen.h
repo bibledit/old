@@ -32,7 +32,8 @@ void dialog_position_save(DialogPositionType type, GtkWidget * dialog);
 void dialog_position_restore(DialogPositionType type, GtkWidget * dialog);
 void dialog_position_reset_all();
 
-void dialog_position_get_left_space(GtkWidget * dialog, gint& width, gint& height, gint& x, gint& y);
+void window_position_get_left_space(GtkWidget * widget, gint& width, gint& height, gint& x, gint& y);
+void window_position_make_left_space(GtkWidget * widget, gint space);
 
 class DialogPresenter
 {

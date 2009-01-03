@@ -155,25 +155,39 @@ void dialog_position_reset_all()
   settings->genconfig.dialogpositions_y_set(dummy);
 }
 
-void dialog_position_get_left_space(GtkWidget * dialog, gint & width, gint & height, gint & x, gint & y)
-// Get the space on the screen left of the dialog.
+void window_position_get_left_space(GtkWidget * widget, gint & width, gint & height, gint & x, gint & y)
+// Get the space on the screen left of the widget.
 {
   gint screen_width, screen_height;
-  GdkScreen *screen = gtk_window_get_screen(GTK_WINDOW(dialog));
+  GdkScreen *screen = gtk_window_get_screen(GTK_WINDOW(widget));
   screen_width = gdk_screen_get_width(screen);
   screen_height = gdk_screen_get_height(screen);
 
-  gint dialog_width, dialog_height, dialog_x, dialog_y;
-  gtk_window_get_size(GTK_WINDOW(dialog), &dialog_width, &dialog_height);
-  gtk_window_get_position(GTK_WINDOW(dialog), &dialog_x, &dialog_y);
+  gint window_width, window_height, window_x, window_y;
+  gtk_window_get_size(GTK_WINDOW(widget), &window_width, &window_height);
+  gtk_window_get_position(GTK_WINDOW(widget), &window_x, &window_y);
 
-  width = dialog_width;
-  if (width > dialog_x)
-    width = dialog_x;
-  height = dialog_height;
-  x = dialog_x - width;
-  y = dialog_y;
+  width = window_width;
+  if (width > window_x)
+    width = window_x;
+  height = window_height;
+  x = window_x - width;
+  y = window_y;
 }
+
+
+void window_position_make_left_space(GtkWidget * widget, gint space)
+// Tries to create a space of "space" at the left of the window.
+{
+  gint left_width, dummy;
+  window_position_get_left_space(widget, left_width, dummy, dummy, dummy);
+  gint window_x, window_y;
+  gtk_window_get_position(GTK_WINDOW(widget), &window_x, &window_y);
+  if (space > window_x) {
+    gtk_window_move(GTK_WINDOW(widget), space, window_y);
+  }
+}
+
 
 DialogPresenter::DialogPresenter(GtkWidget * widget)
 {
