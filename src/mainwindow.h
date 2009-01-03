@@ -646,7 +646,7 @@ protected:
   static void on_project_backup_flexible_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_project_backup_flexible();
 
-  /* Git */ // Todo
+  /* Git */
   static void on_view_git_tasks_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_git_tasks();
   static void on_preferences_remote_git_repository_activate(GtkMenuItem *menuitem, gpointer user_data);
@@ -836,6 +836,7 @@ protected:
   // Assistants.
   static void on_assistant_ready_signal (GtkButton *button, gpointer user_data);
   void on_assistant_keyterms_ready ();
+  References * assistant_references;
 
 };
 

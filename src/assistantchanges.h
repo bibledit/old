@@ -54,15 +54,16 @@ private:
   GtkWidget *label_progress;
   GtkWidget *label_summary;
   unsigned int summary_page_number;
-  static void on_assistant_apply_signal (GtkAssistant *assistant, gpointer user_data);
-  void on_assistant_apply ();
   static gint assistant_forward_function (gint current_page, gpointer user_data);
   gint assistant_forward (gint current_page);
 
+  static void on_assistant_apply_signal (GtkAssistant *assistant, gpointer user_data);
+  void on_assistant_apply ();
   ustring temporal_from_project;
   ustring temporal_to_project;  
   References * myreferences;
-  void view_local_changes(bool changes_since_last_review);
+  ustring copy_and_checkout_project (const ustring& project, unsigned int second);
+  void view_changes(const ustring& current_stage_project, const ustring& previous_stage_project);
 };
 
 #endif

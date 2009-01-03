@@ -166,44 +166,6 @@ ChangesAssistant::~ChangesAssistant()
   }
 }
 
-void ChangesAssistant::on_assistant_apply_signal (GtkAssistant *assistant, gpointer user_data)
-{
-  ((ChangesAssistant *) user_data)->on_assistant_apply();
-}
-
-
-void ChangesAssistant::on_assistant_apply ()
-{
-  // Configuration.
-  extern Settings *settings;
-  ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
-
-  // Save times.
-  projectconfig->changes_since_set(date_from_seconds);
-  projectconfig->changes_till_set(date_to_seconds);
-  
-  
-  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_since_last_review))) {
-    view_local_changes(true);
-    projectconfig->changes_last_review_set(date_time_seconds_get_current());
-  }
-  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_since_date))) {
-    view_local_changes(false);
-  }
-  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_between_dates))) {
-    gtkw_dialog_error (NULL, "Not yet implemented"); // Todo
-  }
-  
-
-  
-  
-  
-  // Show summary.
-  gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), summary_page_number);
-  
-}
-
-
 gint ChangesAssistant::assistant_forward_function (gint current_page, gpointer user_data)
 {
   return ((ChangesAssistant *) user_data)->assistant_forward (current_page);
@@ -244,33 +206,62 @@ gint ChangesAssistant::assistant_forward (gint current_page)
 }
 
 
-void ChangesAssistant::view_local_changes(bool changes_since_last_review)
+void ChangesAssistant::on_assistant_apply_signal (GtkAssistant *assistant, gpointer user_data)
+{
+  ((ChangesAssistant *) user_data)->on_assistant_apply();
+}
+
+
+void ChangesAssistant::on_assistant_apply ()
 {
   // Configuration.
   extern Settings *settings;
   ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
 
-  // Retrieve the seconds to check the changes since.
-  unsigned int second = projectconfig->changes_since_get();
-  if (changes_since_last_review)
-    second = projectconfig->changes_last_review_get();
+  // Save times.
+  projectconfig->changes_since_set(date_from_seconds);
+  projectconfig->changes_till_set(date_to_seconds);
+  
+  // The actions. 
+  ustring project = settings->genconfig.project_get();
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_since_last_review))) {
+    temporal_from_project = copy_and_checkout_project (project, projectconfig->changes_last_review_get ());
+    view_changes(project, temporal_from_project);
+    // Set the date for the next review.  
+    projectconfig->changes_last_review_set(date_time_seconds_get_current());
+  }
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_since_date))) {
+    temporal_from_project = copy_and_checkout_project (project, date_from_seconds);
+    view_changes(project, temporal_from_project);
+  }
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_between_dates))) {
+    temporal_from_project = copy_and_checkout_project (project, date_from_seconds);
+    temporal_to_project = copy_and_checkout_project (project, date_to_seconds);
+    view_changes(temporal_to_project, temporal_from_project);
+  }
+  
+  // Show summary.
+  gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), summary_page_number);
+}
 
+
+ustring ChangesAssistant::copy_and_checkout_project (const ustring& project, unsigned int second)
+{
   // Copy the current project to the temporal history project.
-  temporal_from_project = settings->genconfig.project_get() + "_as_it_was_at_" + convert_to_string(second);
+  ustring copiedproject = project + " as it was on " + date_time_seconds_human_readable (second, false);
   {
     ProgressWindow progresswindow("Copying project", false);
     progresswindow.set_fraction(0.5);
-    project_copy(settings->genconfig.project_get(), temporal_from_project);
+    project_copy(project, copiedproject);
   }
 
-  // The data directories to work in.
-  ustring history_project_data_directory = project_data_directory_project(temporal_from_project);
-  ustring project_data_directory = project_data_directory_project(settings->genconfig.project_get());
+  // The data directory to work in.
+  ustring history_project_data_directory = project_data_directory_project(copiedproject);
 
   // Retrieve the name of the first commit since or at the date and time given.
-  vector < ustring > commits;
-  vector < unsigned int >seconds;
-  git_log_read(project_data_directory, commits, seconds, "");
+  vector <ustring> commits;
+  vector <unsigned int> seconds;
+  git_log_read(history_project_data_directory, commits, seconds, "");
   // Note if the date and time are older than the project's oldest commit.
   bool date_time_older_than_project = false;
   ustring commit;
@@ -287,14 +278,9 @@ void ChangesAssistant::view_local_changes(bool changes_since_last_review)
       commit = commits[0];
     }
   }
-  // If there are no changes recorded since that date and time, give a message and bail out.
-  if (commit.empty()) {
-    gtkw_dialog_info(assistant, "No changes have been recorded since that time");
-  } else {
-
-    // Changes were recorded.
-    // Check the revision out.
-
+  
+  // Check the revision out if a commit was picked.
+  if (!commit.empty()) {
     GwSpawn spawn("git-checkout");
     spawn.workingdirectory(history_project_data_directory);
     spawn.arg("-b");
@@ -307,19 +293,20 @@ void ChangesAssistant::view_local_changes(bool changes_since_last_review)
     }
     // If the commit is older than the project, clear the temporal project.
     if (date_time_older_than_project) {
-      vector < unsigned int >books = project_get_books(temporal_from_project);
+      vector < unsigned int >books = project_get_books(copiedproject);
       for (unsigned int i = 0; i < books.size(); i++) {
-        project_remove_book(temporal_from_project, books[i]);
+        project_remove_book(copiedproject, books[i]);
       }
     }
-    // Run comparison.
-    compare_with(myreferences, settings->genconfig.project_get(), temporal_from_project, true);
+  }    
 
-  }
+  // Give result.
+  return copiedproject;
+}
 
-  // If reviewing changes since last review, set the date for the next review.  
-  if (changes_since_last_review) {
-    projectconfig->changes_last_review_set(date_time_seconds_get_current());
-  }
+
+void ChangesAssistant::view_changes(const ustring& current_stage_project, const ustring& previous_stage_project)
+{
+  compare_with(myreferences, current_stage_project, previous_stage_project, true);
 }
 

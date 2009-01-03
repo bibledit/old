@@ -148,7 +148,7 @@
  |
  */
 
- MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup * accelerator_group):
+MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup * accelerator_group):
 WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), httpd(0)
 {
   // Set some pointers to NULL.  
@@ -166,7 +166,8 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
   import_keyterms_assistant = NULL;
   delete_keyterms_assistant = NULL;
   changes_assistant = NULL;
-
+  assistant_references = NULL;
+  
   // Initialize some variables.
   git_reopen_project = false;
   windows_startup_pointer = 0;
@@ -4690,9 +4691,9 @@ void MainWindow::on_project_changes()
   git_command_pause(true);
   // Do the actual changes dialog. 
   show_references_window();
-  References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
+  assistant_references = new References (window_references->liststore, window_references->treeview, window_references->treecolumn);
   // Display the assistant.
-  changes_assistant = new ChangesAssistant (&references);
+  changes_assistant = new ChangesAssistant (assistant_references);
   g_signal_connect ((gpointer) changes_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
 }
 
@@ -6921,6 +6922,10 @@ void MainWindow::on_assistant_keyterms_ready ()
   if (changes_assistant)
     delete changes_assistant;
   changes_assistant = NULL;
+  
+  // References for general use.
+  if (assistant_references)
+    delete assistant_references;
   
   // Some of the assistant may have switched git operations off. Resume these.
   git_command_pause(false);
