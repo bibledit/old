@@ -147,14 +147,6 @@ bool compare_projects(ProjectMemory & originalproject, ProjectMemory & secondpro
   return true;
 }
 
-void compare_chapter_remove_notes(ustring & text)
-{
-  // Rough move: notes are no longer removed (so will mess up the text).
-  //replace_text_between(text, "\\f ", "\\f*", "");
-  //replace_text_between(text, "\\fe ", "\\fe*", "");
-  //replace_text_between(text, "\\x ", "\\x*", "");
-}
-
 void compare_chapter(vector < ustring > &originalchapter, vector < ustring > &secondchapter, vector < ustring > &outputchapter)
 /*
 Compares original chapter with second chapter, and outputs the differences
@@ -174,7 +166,6 @@ It is assumed that the chapters differ.
     ustring text;
     split_line_into_usfm_and_text(originalchapter[i], marker, text);
     originalusfms.push_back(marker);
-    compare_chapter_remove_notes(text);
     originaltext.push_back(text);
   }
   vector < ustring > secondusfms;
@@ -184,7 +175,6 @@ It is assumed that the chapters differ.
     ustring text;
     split_line_into_usfm_and_text(secondchapter[i], marker, text);
     secondusfms.push_back(marker);
-    compare_chapter_remove_notes(text);
     secondtext.push_back(text);
   }
   // Find out how many lines the comparison needs to look forward to obtain best results.
