@@ -6926,8 +6926,9 @@ void MainWindow::on_assistant_keyterms_ready ()
   // References for general use.
   if (assistant_references)
     delete assistant_references;
+  assistant_references = NULL;
   
-  // Some of the assistant may have switched git operations off. Resume these.
+  // Some of the assistants may have switched git operations off. Resume these.
   git_command_pause(false);
 }
 
