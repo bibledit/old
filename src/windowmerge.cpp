@@ -253,16 +253,12 @@ void WindowMerge::set_master_project()
     current_master_project.clear();
   }
   // Load available projects.
-  vector < ustring > projects;
-  for (unsigned int i = 0; i < visible_editors.size(); i++) {
-    projects.push_back(visible_editors[i]->project);
-  }
-  combobox_set_strings(combobox_master, projects);
+  combobox_set_strings(combobox_master, open_projects);
 
   // Show previous project, if it is there.
   bool project_found = false;
-  for (unsigned int i = 0; i < projects.size(); i++) {
-    if (previous_master_project == projects[i]) {
+  for (unsigned int i = 0; i < open_projects.size(); i++) {
+    if (previous_master_project == open_projects[i]) {
       combobox_set_index(combobox_master, i);
       project_found = true;
     }
@@ -300,16 +296,12 @@ void WindowMerge::set_edited_project()
     current_edited_project.clear();
   }
   // Load available projects.
-  vector < ustring > projects;
-  for (unsigned int i = 0; i < visible_editors.size(); i++) {
-    projects.push_back(visible_editors[i]->project);
-  }
-  combobox_set_strings(combobox_edited, projects);
+  combobox_set_strings(combobox_edited, open_projects);
 
   // Show previous project, if it is there.
   bool project_found = false;
-  for (unsigned int i = 0; i < projects.size(); i++) {
-    if (previous_edited_project == projects[i]) {
+  for (unsigned int i = 0; i < open_projects.size(); i++) {
+    if (previous_edited_project == open_projects[i]) {
       combobox_set_index(combobox_edited, i);
       project_found = true;
     }
@@ -345,9 +337,9 @@ void WindowMerge::set_focused_editor(Editor * editor)
   load_gui_delayer();
 }
 
-void WindowMerge::set_visible_editors(const vector < Editor * >&editors)
+void WindowMerge::set_open_projects(const vector < ustring>& projects)
 {
-  visible_editors = editors;
+  open_projects = projects;
   load_gui_delayer();
 }
 
@@ -370,7 +362,7 @@ void WindowMerge::load_gui()
   set_edited_project();
 
   // Give info if there are not enough projects.
-  if (visible_editors.size() < 2) {
+  if (open_projects.size() < 2) {
     gtk_label_set_text(GTK_LABEL(label_info), "Not enough projects opened");
     gtk_widget_show(label_info);
   } else {

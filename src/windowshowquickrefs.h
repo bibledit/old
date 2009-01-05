@@ -30,7 +30,7 @@ class WindowShowQuickReferences : public WindowBase
 public:
   WindowShowQuickReferences(GtkAccelGroup *accelerator_group, bool startup);
   virtual ~WindowShowQuickReferences();
-  void go_to(const ustring& project, vector<Reference>& references);
+  void go_to(const ustring& project, vector<Reference> references);
 protected:
   GtkWidget *scrolledwindow1;
   GtkWidget *textview1;

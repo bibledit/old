@@ -52,7 +52,7 @@ WindowShowQuickReferences::~WindowShowQuickReferences()
 {
 }
 
-void WindowShowQuickReferences::go_to(const ustring & project, vector < Reference > &references)
+void WindowShowQuickReferences::go_to(const ustring & project, vector < Reference > references)
 // Show the references.
 {
   extern Settings *settings;

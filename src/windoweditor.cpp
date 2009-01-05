@@ -88,3 +88,111 @@ void WindowEditor::go_to(const Reference & reference)
     editor->go_to_new_reference_highlight = false;
   }
 }
+
+
+void WindowEditor::load_dictionaries()
+{
+  editor->load_dictionaries();
+}
+
+
+void WindowEditor::undo()
+{
+  editor->undo();
+}
+
+
+void WindowEditor::redo()
+{
+  editor->redo();
+}
+
+
+bool WindowEditor::can_undo()
+{
+  return editor->can_undo();
+}
+
+
+bool WindowEditor::can_redo()
+{
+  return editor->can_redo();
+}
+
+
+EditorTextViewType WindowEditor::last_focused_type() // Todo try out.
+{
+  return editor->last_focused_type();
+}
+
+
+vector <Reference> WindowEditor::quick_references() // Todo try out.
+{
+  return editor->quick_references;
+}
+
+
+Reference WindowEditor::current_reference() // Todo try out.
+{
+  return editor->current_reference;
+}
+
+
+ustring WindowEditor::current_verse_number() // Todo try out.
+{
+  return editor->current_verse_number;
+}
+
+
+ustring WindowEditor::project() // Todo try out.
+{
+  return editor->project;
+}
+
+
+ustring WindowEditor::text_get_selection() // Todo try out.
+{
+  return editor->text_get_selection();
+}
+
+
+void WindowEditor::text_erase_selection() // Todo try out.
+{
+  return editor->text_erase_selection();
+}
+
+
+GtkTextBuffer * WindowEditor::last_focused_textbuffer() // Todo try out.
+{
+  return editor->last_focused_textbuffer();
+}
+
+
+void WindowEditor::text_insert(ustring text) // Todo try out.
+{
+  editor->text_insert(text);
+}
+
+
+void WindowEditor::go_to_new_reference_highlight_set() // Todo try out.
+{
+  editor->go_to_new_reference_highlight = true;
+}
+
+
+ustring WindowEditor::word_double_clicked_text() // Todo try out.
+{
+  return editor->word_double_clicked_text;
+}
+
+
+bool WindowEditor::editable() // Todo try out.
+{
+  return editor->editable;
+}
+
+
+void WindowEditor::insert_note(const ustring& marker, const ustring& rawtext, GtkTextIter * iter, bool render) // Todo try out.
+{
+  editor->insert_note (marker, rawtext, iter, render);
+}
