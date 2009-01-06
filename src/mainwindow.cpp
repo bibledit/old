@@ -5291,13 +5291,13 @@ void MainWindow::on_file_project_open(const ustring & project, bool startup)
   extern GtkAccelGroup *accelerator_group;
   WindowEditor *editor_window = new WindowEditor(project, accelerator_group, startup);
   g_signal_connect((gpointer) editor_window->delete_signal_button, "clicked", G_CALLBACK(on_window_editor_delete_button_clicked), gpointer(this));
-  g_signal_connect((gpointer) editor_window->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
-  g_signal_connect((gpointer) editor_window->editor->new_verse_signal, "clicked", G_CALLBACK(on_new_verse_signalled), gpointer(this));
-  g_signal_connect((gpointer) editor_window->editor->new_styles_signal, "clicked", G_CALLBACK(on_editor_style_changed), gpointer(this));
-  g_signal_connect((gpointer) editor_window->editor->quick_references_button, "clicked", G_CALLBACK(on_show_quick_references_signal_button_clicked), gpointer(this));
-  g_signal_connect((gpointer) editor_window->editor->word_double_clicked_signal, "clicked", G_CALLBACK(on_send_word_to_toolbox_signalled), gpointer(this));
-  g_signal_connect((gpointer) editor_window->editor->reload_signal, "clicked", G_CALLBACK(on_editor_reload_clicked), gpointer(this));
-  g_signal_connect((gpointer) editor_window->editor->changed_signal, "clicked", G_CALLBACK(on_editorsgui_changed_clicked), gpointer(this));
+  g_signal_connect((gpointer) editor_window->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this)); // Todo switch signals.
+  g_signal_connect((gpointer) editor_window->new_verse_signal, "clicked", G_CALLBACK(on_new_verse_signalled), gpointer(this));
+  g_signal_connect((gpointer) editor_window->new_styles_signal, "clicked", G_CALLBACK(on_editor_style_changed), gpointer(this));
+  g_signal_connect((gpointer) editor_window->quick_references_button, "clicked", G_CALLBACK(on_show_quick_references_signal_button_clicked), gpointer(this));
+  g_signal_connect((gpointer) editor_window->word_double_clicked_signal, "clicked", G_CALLBACK(on_send_word_to_toolbox_signalled), gpointer(this));
+  g_signal_connect((gpointer) editor_window->reload_signal, "clicked", G_CALLBACK(on_editor_reload_clicked), gpointer(this));
+  g_signal_connect((gpointer) editor_window->changed_signal, "clicked", G_CALLBACK(on_editorsgui_changed_clicked), gpointer(this));
   editor_windows.push_back(editor_window);
 
   // After creation the window should generate a focus signal, 

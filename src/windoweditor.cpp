@@ -28,6 +28,15 @@
 WindowEditor::WindowEditor(const ustring & project_name, GtkAccelGroup * accelerator_group, bool startup):WindowBase(widEditor, project_name, startup, 0)
 // Text editor.
 {
+  // Signalling buttons.
+  new_verse_signal = gtk_button_new();
+  new_styles_signal = gtk_button_new();
+  quick_references_button = gtk_button_new();
+  word_double_clicked_signal = gtk_button_new();
+  reload_signal = gtk_button_new();
+  changed_signal = gtk_button_new();
+
+  // Gui.  
   vbox = gtk_vbox_new(FALSE, 0);
   gtk_widget_show(vbox);
   gtk_container_add(GTK_CONTAINER(window), vbox);
@@ -35,10 +44,22 @@ WindowEditor::WindowEditor(const ustring & project_name, GtkAccelGroup * acceler
   // Create the new editor.
   editor = new Editor(vbox, project_name);
   g_signal_connect((gpointer) editor->textview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
+  g_signal_connect((gpointer) editor->new_verse_signal, "clicked", G_CALLBACK(on_new_verse_signalled), gpointer(this));
+  g_signal_connect((gpointer) editor->new_styles_signal, "clicked", G_CALLBACK(on_new_styles_signalled), gpointer(this));
+  g_signal_connect((gpointer) editor->quick_references_button, "clicked", G_CALLBACK(on_quick_references_signalled), gpointer(this));
+  g_signal_connect((gpointer) editor->word_double_clicked_signal, "clicked", G_CALLBACK(on_word_double_click_signalled), gpointer(this));
+  g_signal_connect((gpointer) editor->reload_signal, "clicked", G_CALLBACK(on_reload_signalled), gpointer(this));
+  g_signal_connect((gpointer) editor->changed_signal, "clicked", G_CALLBACK(on_changed_signalled), gpointer(this));
 }
 
 WindowEditor::~WindowEditor()
 {
+  gtk_widget_destroy (new_verse_signal);
+  gtk_widget_destroy (new_styles_signal);
+  gtk_widget_destroy (quick_references_button);
+  gtk_widget_destroy (word_double_clicked_signal);
+  gtk_widget_destroy (reload_signal);
+  gtk_widget_destroy (changed_signal);
   delete editor;
 }
 
@@ -267,4 +288,77 @@ unsigned int WindowEditor::chapter()
 {
   return editor->chapter;
 }
+
+
+void WindowEditor::on_new_verse_signalled(GtkButton *button, gpointer user_data)
+{
+  ((WindowEditor *) user_data)->on_new_verse();
+}
+
+
+void WindowEditor::on_new_verse()
+{
+  gtk_button_clicked (GTK_BUTTON (new_verse_signal));
+}
+
+
+void WindowEditor::on_new_styles_signalled(GtkButton *button, gpointer user_data)
+{
+  ((WindowEditor *) user_data)->on_new_styles();
+}
+
+
+void WindowEditor::on_new_styles()
+{
+  gtk_button_clicked (GTK_BUTTON (new_styles_signal));
+}
+
+
+void WindowEditor::on_quick_references_signalled(GtkButton *button, gpointer user_data)
+{
+  ((WindowEditor *) user_data)->on_quick_references();
+}
+
+
+void WindowEditor::on_quick_references()
+{
+  gtk_button_clicked (GTK_BUTTON (quick_references_button));
+}
+
+
+void WindowEditor::on_word_double_click_signalled(GtkButton *button, gpointer user_data)
+{
+  ((WindowEditor *) user_data)->on_word_double_click();
+}
+
+
+void WindowEditor::on_word_double_click()
+{
+  gtk_button_clicked (GTK_BUTTON (word_double_clicked_signal));
+}
+
+
+void WindowEditor::on_reload_signalled(GtkButton *button, gpointer user_data)
+{
+  ((WindowEditor *) user_data)->on_reload();
+}
+
+
+void WindowEditor::on_reload()
+{
+  gtk_button_clicked (GTK_BUTTON (reload_signal));
+}
+
+
+void WindowEditor::on_changed_signalled(GtkButton *button, gpointer user_data)
+{
+  ((WindowEditor *) user_data)->on_changed();
+}
+
+
+void WindowEditor::on_changed()
+{
+  gtk_button_clicked (GTK_BUTTON (changed_signal));
+}
+
 

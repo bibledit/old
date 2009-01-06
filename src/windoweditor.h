@@ -30,40 +30,66 @@ class WindowEditor : public WindowBase
 public:
   WindowEditor(const ustring& project_name, GtkAccelGroup *accelerator_group, bool startup);
   virtual ~WindowEditor();
+  
   void go_to(const Reference& reference);
+  Reference current_reference();
+  ustring current_verse_number();
+  vector <Reference> quick_references();
+  void go_to_new_reference_highlight_set();
+  
   void load_dictionaries();
+  
   void undo();
   void redo();
   bool can_undo();
   bool can_redo();
-  EditorTextViewType last_focused_type();
-  vector <Reference> quick_references();
-  Reference current_reference();
-  ustring current_verse_number();
-  ustring project();
   ustring text_get_selection();
   void text_erase_selection();
-  GtkTextBuffer * last_focused_textbuffer();
   void text_insert(ustring text);
-  void go_to_new_reference_highlight_set();
   ustring word_double_clicked_text();
-  bool editable();
   void insert_note(const ustring& marker, const ustring& rawtext, GtkTextIter * iter, bool render);
   ustring get_chapter();
   void insert_table(const ustring& rawtext, GtkTextIter * iter);
   void chapter_load(unsigned int chapter_in, vector <ustring> * lines_in = NULL);
   void chapter_save();
   unsigned int reload_chapter_number();
+  
+  EditorTextViewType last_focused_type();
+  GtkTextBuffer * last_focused_textbuffer();
+
+  ustring project();
+  bool editable();
+  unsigned int book();
+  unsigned int chapter();
+
   void apply_style(const ustring& marker);
   set <ustring> get_styles_at_cursor();
   void create_or_update_formatting_data();
   void set_font();
+
   Editor * editor_get();
-  unsigned int book();
-  unsigned int chapter();
-  Editor * editor; // Todo move this to protected to fix all outside references to it.
+
+  GtkWidget * new_verse_signal;
+  GtkWidget * new_styles_signal;
+  GtkWidget * quick_references_button;
+  GtkWidget * word_double_clicked_signal;
+  GtkWidget * reload_signal;
+  GtkWidget * changed_signal;
 protected:
   GtkWidget *vbox;
+  Editor * editor;
+  static void on_new_verse_signalled(GtkButton *button, gpointer user_data);
+  void on_new_verse();
+  static void on_new_styles_signalled(GtkButton *button, gpointer user_data);
+  void on_new_styles();
+  static void on_quick_references_signalled(GtkButton *button, gpointer user_data);
+  void on_quick_references();
+  static void on_word_double_click_signalled(GtkButton *button, gpointer user_data);
+  void on_word_double_click();
+  static void on_reload_signalled(GtkButton *button, gpointer user_data);
+  void on_reload();
+  static void on_changed_signalled(GtkButton *button, gpointer user_data);
+  void on_changed();
 private:
 };
 
