@@ -49,8 +49,19 @@ public:
   ustring word_double_clicked_text();
   bool editable();
   void insert_note(const ustring& marker, const ustring& rawtext, GtkTextIter * iter, bool render);
+  ustring get_chapter();
+  void insert_table(const ustring& rawtext, GtkTextIter * iter);
+  void chapter_load(unsigned int chapter_in, vector <ustring> * lines_in = NULL);
+  void chapter_save();
+  unsigned int reload_chapter_number();
+  void apply_style(const ustring& marker);
+  set <ustring> get_styles_at_cursor();
+  void create_or_update_formatting_data();
+  void set_font();
+  Editor * editor_get();
+  unsigned int book();
+  unsigned int chapter();
   Editor * editor; // Todo move this to protected to fix all outside references to it.
-
 protected:
   GtkWidget *vbox;
 private:

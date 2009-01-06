@@ -74,14 +74,14 @@ private:
 
   // Editor linking.
 public:
-  void set_focused_editor(Editor * editor);
+  void set_focused_editor();
   void set_open_projects(const vector <ustring>& projects);
   void editors_changed();
   GtkWidget * editors_get_text_button;
   ustring main_project_data;
   ustring edited_project_data;
 private:
-  Editor * focused_editor;
+  bool editor_was_focused;
   vector <ustring> open_projects;
   guint editors_changed_event_id;
   static bool on_editors_changed_timeout(gpointer user_data);

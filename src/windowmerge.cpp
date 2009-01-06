@@ -249,7 +249,7 @@ WindowMerge::~WindowMerge()
 void WindowMerge::set_master_project()
 {
   // If there is no focused editor, clear project.
-  if (!focused_editor) {
+  if (!editor_was_focused) {
     current_master_project.clear();
   }
   // Load available projects.
@@ -292,7 +292,7 @@ void WindowMerge::on_combobox_master()
 void WindowMerge::set_edited_project()
 {
   // If there is no focused editor, clear project.
-  if (!focused_editor) {
+  if (!editor_was_focused) {
     current_edited_project.clear();
   }
   // Load available projects.
@@ -331,9 +331,9 @@ void WindowMerge::on_combobox_edited()
   editors_changed();
 }
 
-void WindowMerge::set_focused_editor(Editor * editor)
+void WindowMerge::set_focused_editor()
 {
-  focused_editor = editor;
+  editor_was_focused = true;
   load_gui_delayer();
 }
 

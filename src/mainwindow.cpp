@@ -4132,12 +4132,11 @@ void MainWindow::on_style_apply()
 
   // Special treatment for a table style.
   {
-    Editor *editor = editor_window->editor;
     if (editor_window->last_focused_type() == etvtBody) {
       if (style.type == stTableElement) {
-        InsertTableDialog dialog(editor->project);
+        InsertTableDialog dialog(editor_window->project());
         if (dialog.run() == GTK_RESPONSE_OK) {
-          editor->insert_table(dialog.rawtext, NULL);
+          editor_window->insert_table(dialog.rawtext, NULL);
         } else {
           style_was_used = false;
         }
@@ -4149,7 +4148,7 @@ void MainWindow::on_style_apply()
   // Normal treatment of the style if it was not handled specially.
   if (!style_was_treated_specially) {
     // Normal treatment of the marker: apply it.
-    editor_window->editor->apply_style(selected_style);
+    editor_window->apply_style(selected_style);
   }
   // Take some actions if the style was used.
   if (style_was_used) {
@@ -4167,8 +4166,7 @@ void MainWindow::editor_style_changed()
   WindowEditor *editor_window = last_focused_editor_window();
   if (!editor_window)
     return;
-  Editor *editor = editor_window->editor;
-  set < ustring > styles = editor->get_styles_at_cursor();
+  set < ustring > styles = editor_window->get_styles_at_cursor();
   vector < ustring > styles2(styles.begin(), styles.end());
   ustring text = "Style ";
   for (unsigned int i = 0; i < styles2.size(); i++) {
@@ -4188,7 +4186,7 @@ void MainWindow::on_style_edited(GtkButton * button, gpointer user_data)
 void MainWindow::reload_styles()
 {
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    editor_windows[i]->editor->create_or_update_formatting_data();
+    editor_windows[i]->create_or_update_formatting_data();
   }
 }
 
@@ -4215,7 +4213,7 @@ void MainWindow::on_edit_bible_note()
 {
   WindowEditor *editor_window = last_focused_editor_window();
   if (editor_window) {
-    EditNoteDialog dialog(editor_window->editor);
+    EditNoteDialog dialog(editor_window->editor_get());
     dialog.run();
   }
 }
@@ -4419,9 +4417,8 @@ void MainWindow::on_view_usfm_code()
   WindowEditor *editor_window = last_focused_editor_window();
   if (!editor_window)
     return;
-  Editor *editor = editor_window->editor;
   save_editors();
-  ustring filename = project_data_filename_chapter(editor->project, editor->book, editor->chapter, false);
+  ustring filename = project_data_filename_chapter(editor_window->project(), editor_window->book(), editor_window->chapter(), false);
   ViewUSFMDialog dialog(filename);
   dialog.run();
   if (dialog.changed) {
@@ -4439,7 +4436,6 @@ void MainWindow::on_insert_special_character()
   WindowEditor *editor_window = last_focused_editor_window();
   if (!editor_window)
     return;
-  Editor *editor = editor_window->editor;
   extern Settings *settings;
   vector < ustring > characters;
   vector < ustring > descriptions;
@@ -4463,7 +4459,7 @@ void MainWindow::on_insert_special_character()
   if (dialog.run() != GTK_RESPONSE_OK)
     return;
   settings->session.special_character_selection = dialog.selection;
-  editor->text_insert(characters[dialog.selection]);
+  editor_window->text_insert(characters[dialog.selection]);
 }
 
 /*
@@ -4782,8 +4778,7 @@ void MainWindow::on_text_font()
   unsigned int selectioncolour = settings->genconfig.text_editor_selection_color_get();
   WindowEditor *editor_window = last_focused_editor_window();
   if (editor_window) {
-    Editor *editor = editor_window->editor;
-    ProjectConfiguration *projectconfig = settings->projectconfig(editor->project);
+    ProjectConfiguration *projectconfig = settings->projectconfig(editor_window->project());
     defaultfont = projectconfig->editor_font_default_get();
     fontname = projectconfig->editor_font_name_get();
     linespacing = projectconfig->text_line_height_get();
@@ -4807,8 +4802,7 @@ void MainWindow::on_text_font()
   settings->genconfig.text_editor_selected_text_color_set(dialog.new_selected_text_color);
   settings->genconfig.text_editor_selection_color_set(dialog.new_selection_color);
   if (editor_window) {
-    Editor *editor = editor_window->editor;
-    ProjectConfiguration *projectconfig = settings->projectconfig(editor->project);
+    ProjectConfiguration *projectconfig = settings->projectconfig(editor_window->project());
     projectconfig->editor_font_default_set(dialog.new_use_default_font);
     projectconfig->editor_font_name_set(dialog.new_font);
     projectconfig->text_line_height_set(dialog.new_line_spacing);
@@ -4825,8 +4819,8 @@ void MainWindow::set_fonts()
 {
   // Set font in the text editors. Set text direction too.
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    editor_windows[i]->editor->set_font();
-    editor_windows[i]->editor->create_or_update_formatting_data();
+    editor_windows[i]->set_font();
+    editor_windows[i]->create_or_update_formatting_data();
   }
 }
 
@@ -4934,9 +4928,9 @@ void MainWindow::on_ipc_method()
           ProjectConfiguration *projectconfig = settings->projectconfig(task_project);
           ustring remote_repository = projectconfig->git_remote_repository_url_get();
           for (unsigned int i = 0; i < editor_windows.size(); i++) {
-            projectconfig = settings->projectconfig(editor_windows[i]->editor->project);
+            projectconfig = settings->projectconfig(editor_windows[i]->project());
             if (remote_repository == projectconfig->git_remote_repository_url_get()) {
-              GitChapterState *gitchapterstate = new GitChapterState(editor_windows[i]->editor->project, navigation.reference.book, navigation.reference.chapter);
+              GitChapterState *gitchapterstate = new GitChapterState(editor_windows[i]->project(), navigation.reference.book, navigation.reference.chapter);
               gitchapterstates.push_back(gitchapterstate);
             }
           }
@@ -5322,13 +5316,12 @@ void MainWindow::on_editor_reload()
   WindowEditor *editor_window = last_focused_editor_window();
   if (!editor_window)
     return;
-  Editor *editor = editor_window->editor;
   // Create the reference where to go to after the project has been reopened.
   // The reference should be obtained before closing the project,
   // so that the chapter number to go to is accessible.
   Reference reference(navigation.reference);
-  reference.chapter = editor->reload_chapter_number;
-  if (editor->reload_chapter_number == 0)
+  reference.chapter = editor_window->reload_chapter_number();
+  if (editor_window->reload_chapter_number() == 0)
     reference.verse = "0";
   // Reopen.
   reload_project();
@@ -5342,7 +5335,7 @@ void MainWindow::handle_editor_focus()
   WindowEditor *editor_window = last_focused_editor_window();
   ustring project;
   if (editor_window)
-    project = editor_window->editor->project;
+    project = editor_window->project();
 
   // Set the focused project in the configuration.
   extern Settings *settings;
@@ -5353,7 +5346,7 @@ void MainWindow::handle_editor_focus()
 
   // Inform the merge window, if it is there, about the editors.
   if (window_merge) {
-    window_merge->set_focused_editor(editor_window->editor);
+    window_merge->set_focused_editor();
     vector <ustring> open_projects;
     for (unsigned int i = 0; i < editor_windows.size(); i++) {
       open_projects.push_back(editor_windows[i]->project());
@@ -5403,7 +5396,7 @@ void MainWindow::save_editors()
 // Save all and any editors.
 {
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    editor_windows[i]->editor->chapter_save();
+    editor_windows[i]->chapter_save();
   }
 }
 
@@ -5469,7 +5462,7 @@ void MainWindow::reload_project()
 
   // Reload all editors.
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    editor_windows[i]->editor->chapter_load(reference.chapter);
+    editor_windows[i]->chapter_load(reference.chapter);
   }
 }
 
@@ -5536,10 +5529,10 @@ void MainWindow::on_merge_window_get_text_button()
   if (window_merge) {
     for (unsigned int i = 0; i < editor_windows.size(); i++) {
       if (editor_windows[i]->window_data == window_merge->current_master_project) {
-        window_merge->main_project_data = editor_windows[i]->editor->get_chapter();
+        window_merge->main_project_data = editor_windows[i]->get_chapter();
       }
       if (editor_windows[i]->window_data == window_merge->current_edited_project) {
-        window_merge->edited_project_data = editor_windows[i]->editor->get_chapter();
+        window_merge->edited_project_data = editor_windows[i]->get_chapter();
       }
     }
     window_merge->book = navigation.reference.book;

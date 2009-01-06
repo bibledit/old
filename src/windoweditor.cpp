@@ -120,79 +120,151 @@ bool WindowEditor::can_redo()
 }
 
 
-EditorTextViewType WindowEditor::last_focused_type() // Todo try out.
+EditorTextViewType WindowEditor::last_focused_type()
 {
   return editor->last_focused_type();
 }
 
 
-vector <Reference> WindowEditor::quick_references() // Todo try out.
+vector <Reference> WindowEditor::quick_references()
 {
   return editor->quick_references;
 }
 
 
-Reference WindowEditor::current_reference() // Todo try out.
+Reference WindowEditor::current_reference()
 {
   return editor->current_reference;
 }
 
 
-ustring WindowEditor::current_verse_number() // Todo try out.
+ustring WindowEditor::current_verse_number()
 {
   return editor->current_verse_number;
 }
 
 
-ustring WindowEditor::project() // Todo try out.
+ustring WindowEditor::project()
 {
   return editor->project;
 }
 
 
-ustring WindowEditor::text_get_selection() // Todo try out.
+ustring WindowEditor::text_get_selection()
 {
   return editor->text_get_selection();
 }
 
 
-void WindowEditor::text_erase_selection() // Todo try out.
+void WindowEditor::text_erase_selection()
 {
   return editor->text_erase_selection();
 }
 
 
-GtkTextBuffer * WindowEditor::last_focused_textbuffer() // Todo try out.
+GtkTextBuffer * WindowEditor::last_focused_textbuffer()
 {
   return editor->last_focused_textbuffer();
 }
 
 
-void WindowEditor::text_insert(ustring text) // Todo try out.
+void WindowEditor::text_insert(ustring text)
 {
   editor->text_insert(text);
 }
 
 
-void WindowEditor::go_to_new_reference_highlight_set() // Todo try out.
+void WindowEditor::go_to_new_reference_highlight_set() 
 {
   editor->go_to_new_reference_highlight = true;
 }
 
 
-ustring WindowEditor::word_double_clicked_text() // Todo try out.
+ustring WindowEditor::word_double_clicked_text()
 {
   return editor->word_double_clicked_text;
 }
 
 
-bool WindowEditor::editable() // Todo try out.
+bool WindowEditor::editable()
 {
   return editor->editable;
 }
 
 
-void WindowEditor::insert_note(const ustring& marker, const ustring& rawtext, GtkTextIter * iter, bool render) // Todo try out.
+void WindowEditor::insert_note(const ustring& marker, const ustring& rawtext, GtkTextIter * iter, bool render)
 {
   editor->insert_note (marker, rawtext, iter, render);
 }
+
+
+ustring WindowEditor::get_chapter()
+{
+  return editor->get_chapter();
+}
+
+
+void WindowEditor::insert_table(const ustring& rawtext, GtkTextIter * iter)
+{
+  editor->insert_table (rawtext, iter);
+}
+
+
+void WindowEditor::chapter_load(unsigned int chapter_in, vector <ustring> * lines_in)
+{
+  editor->chapter_load (chapter_in, lines_in);
+}
+
+
+void WindowEditor::chapter_save()
+{
+  editor->chapter_save();
+}
+
+
+unsigned int WindowEditor::reload_chapter_number()
+{
+  return editor->reload_chapter_number;
+}
+
+
+void WindowEditor::apply_style(const ustring& marker)
+{
+  editor->apply_style (marker);
+}
+
+
+set <ustring> WindowEditor::get_styles_at_cursor()
+{
+  return editor->get_styles_at_cursor();
+}
+
+void WindowEditor::create_or_update_formatting_data()
+{
+  editor->create_or_update_formatting_data();
+}
+
+
+void WindowEditor::set_font()
+{
+  editor->set_font();
+}
+
+
+Editor * WindowEditor::editor_get()
+{
+  return editor;
+}
+
+
+unsigned int WindowEditor::book()
+{
+  return editor->book;
+}
+
+
+unsigned int WindowEditor::chapter()
+{
+  return editor->chapter;
+}
+
