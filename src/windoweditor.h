@@ -77,7 +77,9 @@ public:
   GtkWidget * changed_signal;
 protected:
   GtkWidget *vbox;
+
   Editor * editor;
+
   static void on_new_verse_signalled(GtkButton *button, gpointer user_data);
   void on_new_verse();
   static void on_new_styles_signalled(GtkButton *button, gpointer user_data);

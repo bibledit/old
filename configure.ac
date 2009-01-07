@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(bibledit, 3.5.24, http://www.nongnu.org/bibledit)
+AC_INIT(bibledit, 3.5.25, http://www.nongnu.org/bibledit)
 AC_CANONICAL_SYSTEM
 ac_default_prefix=/usr
 AC_CONFIG_MACRO_DIR([m4])
@@ -193,6 +193,9 @@ LIBCURL_CHECK_CONFIG([yes], 7.0.0,,AC_MSG_ERROR(libcurl3 >= 7.0.0 is needed.))
 AC_SUBST(LIBCURL_CPPFLAGS)
 AC_SUBST(LIBCURL)
 
+PKG_CHECK_MODULES(GTKSOURCEVIEW, gtksourceview-2.0 >= 2.2.0)
+AC_SUBST(GTKSOURCEVIEW_CFLAGS)
+AC_SUBST(GTKSOURCEVIEW_LIBS)
 
 # Checks for header files.
 AC_HEADER_STDC
