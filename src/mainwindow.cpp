@@ -111,7 +111,6 @@
 #include "temporal.h"
 #include "parallel_passages.h"
 #include "dialogpdfviewer.h"
-#include "dialogviewusfm.h"
 #include "dialoginserttable.h"
 #include "tiny_utilities.h"
 #include "hyphenate.h"
@@ -1048,13 +1047,9 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
   gtk_widget_show(parallel_passages1);
   gtk_container_add(GTK_CONTAINER(menuitem_view_menu), parallel_passages1);
 
-  view_usfm_code = gtk_image_menu_item_new_with_mnemonic("USFM _code");
+  view_usfm_code = gtk_check_menu_item_new_with_mnemonic ("_USFM code");
   gtk_widget_show(view_usfm_code);
   gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_usfm_code);
-
-  image25006 = gtk_image_new_from_stock("gtk-properties", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image25006);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(view_usfm_code), image25006);
 
   view_status = gtk_image_menu_item_new_with_mnemonic("S_tatus");
   gtk_widget_show(view_status);
@@ -4407,25 +4402,6 @@ void MainWindow::on_pdf_viewer()
   dialog.run();
 }
 
-void MainWindow::on_view_usfm_code_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_view_usfm_code();
-}
-
-void MainWindow::on_view_usfm_code()
-{
-  WindowEditor *editor_window = last_focused_editor_window();
-  if (!editor_window)
-    return;
-  save_editors();
-  ustring filename = project_data_filename_chapter(editor_window->project(), editor_window->book(), editor_window->chapter(), false);
-  ViewUSFMDialog dialog(filename);
-  dialog.run();
-  if (dialog.changed) {
-    reload_project();
-  }
-}
-
 void MainWindow::on_insert_special_character_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_insert_special_character();
@@ -5236,7 +5212,7 @@ void MainWindow::on_file_resources_delete()
  |
  |
  |
- Text Editors
+ Text Editors Todo
  |
  |
  |
@@ -5291,7 +5267,7 @@ void MainWindow::on_file_project_open(const ustring & project, bool startup)
   extern GtkAccelGroup *accelerator_group;
   WindowEditor *editor_window = new WindowEditor(project, accelerator_group, startup);
   g_signal_connect((gpointer) editor_window->delete_signal_button, "clicked", G_CALLBACK(on_window_editor_delete_button_clicked), gpointer(this));
-  g_signal_connect((gpointer) editor_window->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this)); // Todo switch signals.
+  g_signal_connect((gpointer) editor_window->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
   g_signal_connect((gpointer) editor_window->new_verse_signal, "clicked", G_CALLBACK(on_new_verse_signalled), gpointer(this));
   g_signal_connect((gpointer) editor_window->new_styles_signal, "clicked", G_CALLBACK(on_editor_style_changed), gpointer(this));
   g_signal_connect((gpointer) editor_window->quick_references_button, "clicked", G_CALLBACK(on_show_quick_references_signal_button_clicked), gpointer(this));
@@ -5353,6 +5329,14 @@ void MainWindow::handle_editor_focus()
     }
     window_merge->set_open_projects(open_projects);
   }
+  
+  // Set the toggle item for the USFM view. It depends on the focused text editor.
+  bool viewing_usfm = false;
+  if (editor_window) {
+    viewing_usfm = editor_window->editing_usfm_code_get();
+  }  
+  gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (view_usfm_code), viewing_usfm);
+  
   // If we've no project bail out.
   if (project.empty())
     return;
@@ -5465,6 +5449,21 @@ void MainWindow::reload_project()
     editor_windows[i]->chapter_load(reference.chapter);
   }
 }
+
+
+void MainWindow::on_view_usfm_code_activate(GtkMenuItem * menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_view_usfm_code();
+}
+
+void MainWindow::on_view_usfm_code()
+{
+  WindowEditor *editor_window = last_focused_editor_window();
+  if (editor_window) {
+    editor_window->editing_usfm_code_set (gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (view_usfm_code)));
+  }
+}
+
 
 /*
  |

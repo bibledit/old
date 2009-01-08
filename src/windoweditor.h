@@ -24,6 +24,7 @@
 #include "ustring.h"
 #include "windows.h"
 #include "editor.h"
+#include "usfmview.h"
 
 class WindowEditor : public WindowBase
 {
@@ -75,10 +76,15 @@ public:
   GtkWidget * word_double_clicked_signal;
   GtkWidget * reload_signal;
   GtkWidget * changed_signal;
+  
+  bool editing_usfm_code_get();
+  void editing_usfm_code_set (bool setting);
 protected:
   GtkWidget *vbox;
-
+  void switch_to_view (bool viewusfm);
+  ustring myproject;
   Editor * editor;
+  USFMView * usfmview;
 
   static void on_new_verse_signalled(GtkButton *button, gpointer user_data);
   void on_new_verse();

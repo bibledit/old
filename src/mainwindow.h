@@ -206,7 +206,6 @@ protected:
   GtkWidget *image18685;
   GtkWidget *parallel_passages1;
   GtkWidget *view_usfm_code;
-  GtkWidget *image25006;
   GtkWidget *view_status;
   GtkWidget *image25963;
   GtkWidget *view_planning;
@@ -417,8 +416,6 @@ protected:
   void on_parallel_passages1();
   static void on_pdf_viewer1_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_pdf_viewer();
-  static void on_view_usfm_code_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_view_usfm_code();
   static void on_insert_special_character_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_insert_special_character();
 
@@ -715,7 +712,7 @@ protected:
   static void on_file_resources_delete_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_file_resources_delete();
 
-  /* Text editors */
+  /* Text Editors */ // Todo
   vector <WindowEditor *> editor_windows;
   static void on_window_editor_delete_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_editor_delete_button(GtkButton *button);
@@ -729,6 +726,8 @@ protected:
   static void on_editorsgui_changed_clicked(GtkButton *button, gpointer user_data);
   void on_editorsgui_changed();
   void reload_project();
+  static void on_view_usfm_code_activate(GtkMenuItem *menuitem, gpointer user_data);
+  void on_view_usfm_code();
 
   /* Merge */
   static void on_file_projects_merge_activate(GtkMenuItem *menuitem, gpointer user_data);

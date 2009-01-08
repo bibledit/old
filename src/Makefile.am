@@ -200,7 +200,6 @@ bibledit_bin_SOURCES = \
         displayprojectnotes.cpp \
         styles.cpp \
         editor_aids.cpp \
-        dialogviewusfm.cpp \
         dialoginserttable.cpp \
         git.cpp \
         git-exec.cpp \
@@ -272,7 +271,8 @@ bibledit_bin_SOURCES = \
         assistants.cpp \
         assistantdeletekeyterms.cpp \
         assistantchanges.cpp \
-        widgetdate.cpp
+        widgetdate.cpp \
+        usfmview.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 
