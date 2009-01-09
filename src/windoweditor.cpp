@@ -547,7 +547,8 @@ void WindowEditor::editing_usfm_code_set (bool setting)
   if (setting == (usfmview != NULL))
     return;
     
-  // Todo take action.
+  // Take action.
+  switch_to_view (setting);
 }
 
 
@@ -555,7 +556,7 @@ void WindowEditor::switch_to_view (bool viewusfm)
 // Switch between normal editor, which is the default,
 // or to the USFM editor if argument "usfmview" is true.
 {
-  // Destroy any previous view.
+  // Destroy any previous view. // Todo remember the state of the view before destroying it, so that the new view can switch to the same reference.
   if (editor)
     delete editor;
   editor = NULL;
