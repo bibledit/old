@@ -81,8 +81,7 @@ public:
   void editing_usfm_code_set (bool setting);
 protected:
   GtkWidget *vbox;
-  void switch_to_view (bool viewusfm);
-  ustring myproject;
+  void switch_to_view (bool viewusfm, ustring project);
   Editor * editor;
   USFMView * usfmview;
 

@@ -31,7 +31,6 @@ WindowEditor::WindowEditor(const ustring & project_name, GtkAccelGroup * acceler
   // Initialize variables.
   editor = NULL;
   usfmview = NULL;
-  myproject = project_name;
   
   // Signalling buttons.
   new_verse_signal = gtk_button_new();
@@ -47,7 +46,7 @@ WindowEditor::WindowEditor(const ustring & project_name, GtkAccelGroup * acceler
   gtk_container_add(GTK_CONTAINER(window), vbox);
 
   // Switch to default view.
-  switch_to_view (false);
+  switch_to_view (false, project_name);
 }
 
 WindowEditor::~WindowEditor()
@@ -65,6 +64,52 @@ void WindowEditor::go_to(const Reference & reference)
 // Let the editor go to a reference.
 {
   if (usfmview) { // Todo implement.
+  
+    // Find out what needs to be changed: book, chapter and/or verse.
+    bool new_book = (reference.book != usfmview->current_reference.book);
+    usfmview->current_reference.book = reference.book;
+    bool new_chapter = (reference.chapter != usfmview->current_reference.chapter);
+    usfmview->current_reference.chapter = reference.chapter;
+    bool new_verse = (reference.verse != usfmview->current_reference.verse);
+    usfmview->current_reference.verse = reference.verse;
+
+    // Save the editor if need be.
+    if (new_book || new_chapter) {
+      // Todo usfmview->chapter_save();
+    }
+    // With a new book, also load a new chapter.
+    if (new_book) {
+      new_chapter = true;
+      usfmview->book_set(reference.book);
+    }
+    // Deal with a new chapter.
+    if (new_chapter) {
+      // Load chapter, if need be.
+      usfmview->chapter_load(reference.chapter);
+      // When loading a new chapter, there is also a new verse.
+      new_verse = true;
+    }
+    // New reference handling.  
+    if (new_book || new_chapter || new_verse) {
+      // Position the cursor properly.
+      // The positioning will be done whenever Gtk is idle.
+      // This is because sometimes Gtk is slow in loading a new chapter.
+      // So if the cursor positioning is done straight after loading,
+      // it will not work, as there is no text loaded yet.
+      // But here we deal with that so that a delay is no longer needed. The trick:
+      // Handle all pending events in GTK.
+      while (gtk_events_pending())
+        gtk_main_iteration();
+      // Todo usfmview->position_cursor_at_verse(reference.verse, false);
+    }
+    // Highlighting of searchwords.
+    /* Todo
+    if (usfmview->go_to_new_reference_highlight) {
+      usfmview->highlight_searchwords();
+      usfmview->go_to_new_reference_highlight = false;
+    }
+    */
+
   }
 
   if (editor) {
@@ -224,12 +269,12 @@ ustring WindowEditor::current_verse_number()
 ustring WindowEditor::project()
 {
   if (usfmview) {
-    return myproject; // Todo implement.
+    return usfmview->project;
   }
   if (editor) {
     return editor->project;
   }
-  return myproject;
+  return "";
 }
 
 
@@ -548,27 +593,37 @@ void WindowEditor::editing_usfm_code_set (bool setting)
     return;
     
   // Take action.
-  switch_to_view (setting);
+  switch_to_view (setting, "");
 }
 
 
-void WindowEditor::switch_to_view (bool viewusfm)
+void WindowEditor::switch_to_view (bool viewusfm, ustring project)
 // Switch between normal editor, which is the default,
 // or to the USFM editor if argument "usfmview" is true.
 {
-  // Destroy any previous view. // Todo remember the state of the view before destroying it, so that the new view can switch to the same reference.
-  if (editor)
+  // If no project was given, then we have switched.
+  bool switched = project.empty();
+  
+  // Get state of and destroy any previous view. Todo 
+  Reference reference (0);
+  if (editor) {
+    project = editor->project;
+    reference = editor->current_reference;
     delete editor;
-  editor = NULL;
-  if (usfmview)
+    editor = NULL;
+  }
+  if (usfmview) {
+    project = usfmview->project;
+    reference = usfmview->current_reference;
     delete usfmview;
-  usfmview = NULL;
+    usfmview = NULL;
+  }
 
   // Create new view.
   if (viewusfm) {
-    usfmview = new USFMView (vbox, myproject); // Todo connect signals.
+    usfmview = new USFMView (vbox, project); // Todo connect signals.
   } else {
-    editor = new Editor(vbox, myproject);
+    editor = new Editor (vbox, project);
     g_signal_connect((gpointer) editor->textview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
     g_signal_connect((gpointer) editor->new_verse_signal, "clicked", G_CALLBACK(on_new_verse_signalled), gpointer(this));
     g_signal_connect((gpointer) editor->new_styles_signal, "clicked", G_CALLBACK(on_new_styles_signalled), gpointer(this));
@@ -577,4 +632,9 @@ void WindowEditor::switch_to_view (bool viewusfm)
     g_signal_connect((gpointer) editor->reload_signal, "clicked", G_CALLBACK(on_reload_signalled), gpointer(this));
     g_signal_connect((gpointer) editor->changed_signal, "clicked", G_CALLBACK(on_changed_signalled), gpointer(this));
   }  
+  
+  // If we switched, set the editor to the right place.
+  if (switched) {
+    go_to (reference);
+  }
 }
