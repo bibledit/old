@@ -258,7 +258,7 @@ Reference WindowEditor::current_reference()
 ustring WindowEditor::current_verse_number()
 {
   if (usfmview) {
-    return "0";  // Todo implement.
+    return usfmview->current_verse_number;  // Todo implement.
   }
   if (editor) {
     return editor->current_verse_number;
@@ -605,7 +605,7 @@ void WindowEditor::switch_to_view (bool viewusfm, ustring project)
   // If no project was given, then we have switched.
   bool switched = project.empty();
   
-  // Get state of and destroy any previous view. Todo 
+  // Get state of and destroy any previous view.
   Reference reference (0);
   if (editor) {
     project = editor->project;
@@ -623,10 +623,13 @@ void WindowEditor::switch_to_view (bool viewusfm, ustring project)
   // Create new view.
   if (viewusfm) {
     usfmview = new USFMView (vbox, project); // Todo connect signals.
+    g_signal_connect((gpointer) usfmview->sourceview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
     g_signal_connect((gpointer) usfmview->reload_signal, "clicked", G_CALLBACK(on_reload_signalled), gpointer(this));
+    g_signal_connect((gpointer) usfmview->changed_signal, "clicked", G_CALLBACK(on_changed_signalled), gpointer(this));
+    g_signal_connect((gpointer) usfmview->new_verse_signal, "clicked", G_CALLBACK(on_new_verse_signalled), gpointer(this));
   } else {
     editor = new Editor (vbox, project);
-    g_signal_connect((gpointer) editor->textview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this)); // Todo this signal can go out throughout.
+    g_signal_connect((gpointer) editor->textview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
     g_signal_connect((gpointer) editor->new_verse_signal, "clicked", G_CALLBACK(on_new_verse_signalled), gpointer(this));
     g_signal_connect((gpointer) editor->new_styles_signal, "clicked", G_CALLBACK(on_new_styles_signalled), gpointer(this));
     g_signal_connect((gpointer) editor->quick_references_button, "clicked", G_CALLBACK(on_quick_references_signalled), gpointer(this));

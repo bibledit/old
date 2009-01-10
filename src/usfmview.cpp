@@ -47,6 +47,7 @@ current_reference(0, 1000, "")
   project = project_in;
   book = 0;
   chapter = 0;
+  verse_tracker_event_id = 0;
 
   // The scrolled window that contains the sourceview.
   scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
@@ -67,47 +68,20 @@ current_reference(0, 1000, "")
   gtk_text_view_set_left_margin(GTK_TEXT_VIEW(sourceview), 5);
   gtk_source_view_set_highlight_current_line (GTK_SOURCE_VIEW (sourceview), true);
 
-  /* Todo
-  start_verse_tracker_event_id = 0;
-  verse_tracker_event_id = 0;
-  verse_tracker_on = false;
-
-  // Create data that is needed for any of the possible formatted views.
-  create_or_update_formatting_data();
-
   // The buffer's signal handlers.
-  g_signal_connect(G_OBJECT(textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_before), gpointer(this));
-  g_signal_connect_after(G_OBJECT(textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_after), gpointer(this));
-  g_signal_connect(G_OBJECT(textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_before), gpointer(this));
-  g_signal_connect_after(G_OBJECT(textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_after), gpointer(this));
-  g_signal_connect(G_OBJECT(textbuffer), "apply-tag", G_CALLBACK(on_buffer_apply_tag), gpointer(this));
-  g_signal_connect(G_OBJECT(textbuffer), "remove-tag", G_CALLBACK(on_buffer_remove_tag), gpointer(this));
-  g_signal_connect(G_OBJECT(textbuffer), "insert-child-anchor", G_CALLBACK(on_buffer_insert_child_anchor), gpointer(this));
-  g_signal_connect(G_OBJECT(textbuffer), "insert-pixbuf", G_CALLBACK(on_buffer_insert_pixbuf), gpointer(this));
-  g_signal_connect(G_OBJECT(textbuffer), "changed", G_CALLBACK(on_textbuffer_changed), gpointer(this));
-  g_signal_connect(G_OBJECT(textbuffer), "modified-changed", G_CALLBACK(on_textbuffer_modified_changed), gpointer(this));
-
+  g_signal_connect(G_OBJECT(sourcebuffer), "changed", G_CALLBACK(on_textbuffer_changed), gpointer(this));
+  
   // The view's signal handlers.
-  spellingchecker->attach(textview);
-  g_signal_connect_after((gpointer) textview, "move_cursor", G_CALLBACK(on_textview_move_cursor), gpointer(this));
-  g_signal_connect_after((gpointer) textview, "grab_focus", G_CALLBACK(on_textview_grab_focus), gpointer(this));
-  g_signal_connect((gpointer) textview, "motion-notify-event", G_CALLBACK(on_text_motion_notify_event), gpointer(this));
-  g_signal_connect((gpointer) textview, "event-after", G_CALLBACK(on_text_event_after), gpointer(this));
-  g_signal_connect((gpointer) textview, "key-press-event", G_CALLBACK(text_key_press_event_before), gpointer(this));
-  g_signal_connect_after((gpointer) textview, "key-press-event", G_CALLBACK(text_key_press_event_after), gpointer(this));
-  g_signal_connect((gpointer) textview, "visibility-notify-event", G_CALLBACK(screen_visibility_notify_event), gpointer(this));
-  g_signal_connect((gpointer) textview, "button_press_event", G_CALLBACK(on_textview_button_press_event), gpointer(this));
-  g_signal_connect((gpointer) textview, "size-allocate", G_CALLBACK(on_related_widget_size_allocated), gpointer(this));
-
-  */
+  g_signal_connect_after((gpointer) sourceview, "move_cursor", G_CALLBACK(on_textview_move_cursor), gpointer(this));
+  g_signal_connect_after((gpointer) sourceview, "grab_focus", G_CALLBACK(on_textview_grab_focus), gpointer(this));
 
   // Buttons to give signals.
   reload_signal = gtk_button_new();
-  /*
+  changed_signal = gtk_button_new();
   new_verse_signal = gtk_button_new();
+  /*
   new_styles_signal = gtk_button_new();
   word_double_clicked_signal = gtk_button_new();
-  changed_signal = gtk_button_new();
   quick_references_button = gtk_button_new();
 
   // Initialize a couple of event ids.
@@ -132,6 +106,7 @@ USFMView::~USFMView()
 
   // Destroy a couple of timeout sources.
   gw_destroy_source(save_timeout_event_id);
+  gw_destroy_source(verse_tracker_event_id);
 
   /* Todo
 
@@ -150,14 +125,14 @@ USFMView::~USFMView()
 
   // Destroy the signalling buttons.
   gtk_widget_destroy(reload_signal);
-  
-/*
+  gtk_widget_destroy(changed_signal);
   gtk_widget_destroy(new_verse_signal);
   new_verse_signal = NULL;
+  
+/*
   gtk_widget_destroy(new_styles_signal);
   new_styles_signal = NULL;
   gtk_widget_destroy(word_double_clicked_signal);
-  gtk_widget_destroy(changed_signal);
   gtk_widget_destroy(quick_references_button);
 
   // Destroy the texttag tables.
@@ -412,5 +387,89 @@ bool USFMView::save_timeout()
 {
   chapter_save();
   return true;
+}
+
+void USFMView::on_textbuffer_changed(GtkTextBuffer * textbuffer, gpointer user_data)
+{
+  ((USFMView *) user_data)->textbuffer_changed();
+}
+
+
+void USFMView::textbuffer_changed()
+{
+  gtk_button_clicked(GTK_BUTTON(changed_signal));
+}
+
+
+void USFMView::on_textview_move_cursor(GtkTextView * textview, GtkMovementStep step, gint count, gboolean extend_selection, gpointer user_data)
+{
+  ((USFMView *) user_data)->on_textview_cursor_moved();
+}
+
+void USFMView::on_textview_cursor_moved()
+{
+  restart_verse_tracker();
+}
+
+
+void USFMView::on_textview_grab_focus(GtkWidget * widget, gpointer user_data)
+{
+  ((USFMView *) user_data)->textview_grab_focus();
+}
+
+
+void USFMView::textview_grab_focus()
+{
+  restart_verse_tracker();
+}
+
+
+void USFMView::restart_verse_tracker()
+{
+  gw_destroy_source(verse_tracker_event_id);
+  verse_tracker_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_verse_tracker_timeout), gpointer(this), NULL);
+}
+
+bool USFMView::on_verse_tracker_timeout(gpointer data)
+{
+  return ((USFMView *) data)->on_verse_tracker();
+}
+
+bool USFMView::on_verse_tracker()
+{
+  GtkTextIter startiter;
+  gtk_text_buffer_get_iter_at_mark(GTK_TEXT_BUFFER (sourcebuffer), &startiter, gtk_text_buffer_get_insert(GTK_TEXT_BUFFER (sourcebuffer)));
+  ustring verse = "0";
+  GtkTextIter enditer = startiter;
+  gtk_text_iter_forward_chars (&enditer, 3);
+  gtk_text_iter_backward_chars (&startiter, 3);
+  ustring text_around_cursor = gtk_text_iter_get_text (&startiter, &enditer);
+  size_t pos = text_around_cursor.find ("\\v ");
+  if (pos != string::npos) {
+    gtk_text_iter_forward_chars (&startiter, 3);
+  }
+  gtk_text_iter_forward_chars (&startiter, 3);
+  if (gtk_text_iter_backward_search (&startiter, "\\v ", GtkTextSearchFlags (0), &startiter, NULL, NULL)) {
+    GtkTextIter enditer = startiter;
+    gtk_text_iter_forward_chars (&enditer, 3);
+    enditer = startiter;
+    gtk_text_iter_forward_chars (&enditer, 10);
+    ustring text_at_verse = gtk_text_iter_get_text (&startiter, &enditer);
+    text_at_verse.erase (0, 2);
+    text_at_verse = trim (text_at_verse);
+    if (!number_in_string (text_at_verse.substr (0, 1)).empty()) {
+      size_t pos = text_at_verse.find_first_of (" \n");
+      if (pos != string::npos) {
+        text_at_verse.erase (pos, 1000);
+        verse = text_at_verse;
+      }
+    }
+  }
+  bool new_verse = (current_verse_number != verse);
+  current_verse_number = verse;
+  if (new_verse) {
+    gtk_button_clicked (GTK_BUTTON (new_verse_signal));
+  }
+  return false;
 }
 
