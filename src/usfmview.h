@@ -27,8 +27,6 @@
 #include "style.h"
 #include "types.h"
 #include "editor_aids.h"
-#include "highlight.h"
-#include "spelling.h"
 #include <gtksourceview/gtksourceview.h>
 
 class USFMView
@@ -37,22 +35,28 @@ public:
   USFMView(GtkWidget * vbox, const ustring& project_in);
   ~USFMView();
   Reference current_reference;
-  void chapter_load(unsigned int chapter_in, vector <ustring> * lines_in = NULL);
-  void book_set(unsigned int book_in);
-  void chapter_save();
   ustring project;
+  void book_set(unsigned int book_in);
+  unsigned int book;
+  void chapter_load(unsigned int chapter_in);
+  void chapter_save();
+  unsigned int reload_chapter_number;
   bool can_undo ();
   void undo();
   bool can_redo();
   void redo();
+  bool editable();
+  GtkWidget * reload_signal;
+  void set_font();
 private:
   GtkWidget *scrolledwindow;
   GtkSourceBuffer * sourcebuffer;
   GtkWidget * sourceview;
-  unsigned int book;
   unsigned int chapter;
-  unsigned int reload_chapter_number;
   ustring get_chapter();
+  guint save_timeout_event_id;
+  static bool on_save_timeout(gpointer data);
+  bool save_timeout();
 };
 
 

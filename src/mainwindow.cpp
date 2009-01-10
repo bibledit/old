@@ -5212,7 +5212,7 @@ void MainWindow::on_file_resources_delete()
  |
  |
  |
- Text Editors Todo
+ Text Editors
  |
  |
  |

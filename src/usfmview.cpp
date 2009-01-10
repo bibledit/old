@@ -67,17 +67,7 @@ current_reference(0, 1000, "")
   gtk_text_view_set_left_margin(GTK_TEXT_VIEW(sourceview), 5);
   gtk_source_view_set_highlight_current_line (GTK_SOURCE_VIEW (sourceview), true);
 
-  /*
-  do_not_process_child_anchors_being_deleted = false;
-  textview_allocated_width = 0;
-  texttagtable = NULL;
-  record_undo_level = 0;
-  previous_hand_cursor = false;
-  highlight = NULL;
-  event_id_show_quick_references = 0;
-  texview_to_textview_old = NULL;
-  texview_to_textview_new = NULL;
-  textview_to_textview_offset = 0;
+  /* Todo
   start_verse_tracker_event_id = 0;
   verse_tracker_event_id = 0;
   verse_tracker_on = false;
@@ -109,14 +99,14 @@ current_reference(0, 1000, "")
   g_signal_connect((gpointer) textview, "button_press_event", G_CALLBACK(on_textview_button_press_event), gpointer(this));
   g_signal_connect((gpointer) textview, "size-allocate", G_CALLBACK(on_related_widget_size_allocated), gpointer(this));
 
-  // Initialize the last focused textview to the main textview.
-  last_focused_widget = textview;
+  */
 
   // Buttons to give signals.
+  reload_signal = gtk_button_new();
+  /*
   new_verse_signal = gtk_button_new();
   new_styles_signal = gtk_button_new();
   word_double_clicked_signal = gtk_button_new();
-  reload_signal = gtk_button_new();
   changed_signal = gtk_button_new();
   quick_references_button = gtk_button_new();
 
@@ -124,29 +114,15 @@ current_reference(0, 1000, "")
   textview_cursor_moved_delayer_event_id = 0;
   grab_focus_event_id = 0;
   undo_redo_event_id = 0;
-  save_timeout_event_id = 0;
-  highlight_timeout_event_id = 0;
   spelling_timeout_event_id = 0;
 
-  // Tag for highlighting search words.
-  // Note that for convenience the GtkTextBuffer function is called. 
-  // But this adds the reference to the GtkTextTagTable, so making it available
-  // to any other buffer that uses the same text tag table.
-  reference_tag = gtk_text_buffer_create_tag(textbuffer, NULL, "background", "khaki", NULL);
 
-  // Highlighting searchwords timeout.
-  highlight_timeout_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 500, GSourceFunc(on_highlight_timeout), gpointer(this), NULL);
-
+  */
   // Automatic saving of the file, periodically.
   save_timeout_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 60000, GSourceFunc(on_save_timeout), gpointer(this), NULL);
 
   // Fonts.
   set_font();
-
-  // Grab focus.
-  focus_programmatically_being_grabbed = false;
-  gtk_widget_grab_focus(textview);
-  */
 }
 
 USFMView::~USFMView()
@@ -154,14 +130,14 @@ USFMView::~USFMView()
   // Save the chapter.
   chapter_save();
 
-  /*
-
   // Destroy a couple of timeout sources.
+  gw_destroy_source(save_timeout_event_id);
+
+  /* Todo
+
   gw_destroy_source(textview_cursor_moved_delayer_event_id);
   gw_destroy_source(grab_focus_event_id);
   gw_destroy_source(undo_redo_event_id);
-  gw_destroy_source(save_timeout_event_id);
-  gw_destroy_source(highlight_timeout_event_id);
   gw_destroy_source(spelling_timeout_event_id);
   gw_destroy_source(event_id_show_quick_references);
   gw_destroy_source(start_verse_tracker_event_id);
@@ -170,13 +146,17 @@ USFMView::~USFMView()
   // Clear a few flags.
   verse_tracker_on = false;
 
+*/
+
   // Destroy the signalling buttons.
+  gtk_widget_destroy(reload_signal);
+  
+/*
   gtk_widget_destroy(new_verse_signal);
   new_verse_signal = NULL;
   gtk_widget_destroy(new_styles_signal);
   new_styles_signal = NULL;
   gtk_widget_destroy(word_double_clicked_signal);
-  gtk_widget_destroy(reload_signal);
   gtk_widget_destroy(changed_signal);
   gtk_widget_destroy(quick_references_button);
 
@@ -186,10 +166,6 @@ USFMView::~USFMView()
   */
   // Destroy the sourceview.
   gtk_widget_destroy(scrolledwindow);
-
-  // Destroy possible highlight object.
-  // Todo if (highlight)
-    // Todo delete highlight;
 }
 
 void USFMView::book_set(unsigned int book_in)
@@ -198,9 +174,8 @@ void USFMView::book_set(unsigned int book_in)
 }
 
 
-void USFMView::chapter_load(unsigned int chapter_in, vector < ustring > *lines_in)
+void USFMView::chapter_load(unsigned int chapter_in)
 // Loads a chapter with the number "chapter_in".
-// If "lines_in" exists, it load these instead of getting the chapter.
 {
   // Clear the undo buffer.
   gtk_source_buffer_set_max_undo_levels (sourcebuffer, 0);
@@ -219,11 +194,7 @@ void USFMView::chapter_load(unsigned int chapter_in, vector < ustring > *lines_i
   chapter = chapter_in;
 
   // Load text in memory.
-  vector <ustring> lines;
-  if (lines_in)
-    lines = *lines_in;
-  else
-    lines = project_retrieve_chapter(project, book, chapter);
+  vector <ustring> lines = project_retrieve_chapter(project, book, chapter);
 
   // Settings.
   extern Settings *settings;
@@ -234,8 +205,6 @@ void USFMView::chapter_load(unsigned int chapter_in, vector < ustring > *lines_i
   if (lines.empty())
     editable = false;
   if (!projectconfig->editable_get())
-    editable = false;
-  if (lines_in)
     editable = false;
   gtk_text_view_set_editable(GTK_TEXT_VIEW(sourceview), editable);
 
@@ -272,7 +241,7 @@ void USFMView::chapter_save()
   reload_chapter_number = chapter;
 
   // If the text is not editable, bail out.
-  if (!gtk_text_view_get_editable(GTK_TEXT_VIEW(sourceview)))
+  if (!editable())
     return;
 
   // If the text was not changed, bail out.
@@ -363,7 +332,7 @@ void USFMView::chapter_save()
 
   // Possible reload signal.
   if (reload) {
-    // Todo gtk_button_clicked(GTK_BUTTON(reload_signal));
+    gtk_button_clicked(GTK_BUTTON(reload_signal));
   }
 
 }
@@ -400,4 +369,48 @@ void USFMView::redo()
   gtk_source_buffer_redo (sourcebuffer);
 }
 
+
+bool USFMView::editable()
+{
+  return gtk_text_view_get_editable(GTK_TEXT_VIEW(sourceview));
+}
+
+void USFMView::set_font()
+{
+  // Set font.
+  PangoFontDescription *font_desc = NULL;
+  extern Settings *settings;
+  ProjectConfiguration *projectconfig = settings->projectconfig(project);
+  if (!projectconfig->editor_font_default_get()) {
+    font_desc = pango_font_description_from_string(projectconfig->editor_font_name_get().c_str());
+  }
+  gtk_widget_modify_font(sourceview, font_desc);
+  if (font_desc)
+    pango_font_description_free(font_desc);
+
+  // Set the colours.
+  if (projectconfig->editor_default_color_get()) {
+    color_widget_default(sourceview);
+  } else {
+    color_widget_set(sourceview, projectconfig->editor_normal_text_color_get(), projectconfig->editor_background_color_get(), projectconfig->editor_selected_text_color_get(), projectconfig->editor_selection_color_get());
+  }
+
+  // Set predominant text direction.
+  if (projectconfig->right_to_left_get()) {
+    gtk_widget_set_direction(sourceview, GTK_TEXT_DIR_RTL);
+  } else {
+    gtk_widget_set_direction(sourceview, GTK_TEXT_DIR_LTR);
+  }
+}
+
+bool USFMView::on_save_timeout(gpointer data)
+{
+  return ((USFMView *) data)->save_timeout();
+}
+
+bool USFMView::save_timeout()
+{
+  chapter_save();
+  return true;
+}
 

@@ -712,7 +712,7 @@ protected:
   static void on_file_resources_delete_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_file_resources_delete();
 
-  /* Text Editors */ // Todo
+  /* Text Editors */
   vector <WindowEditor *> editor_windows;
   static void on_window_editor_delete_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_editor_delete_button(GtkButton *button);

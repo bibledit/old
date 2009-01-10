@@ -63,7 +63,7 @@ WindowEditor::~WindowEditor()
 void WindowEditor::go_to(const Reference & reference)
 // Let the editor go to a reference.
 {
-  if (usfmview) { // Todo implement.
+  if (usfmview) {
   
     // Find out what needs to be changed: book, chapter and/or verse.
     bool new_book = (reference.book != usfmview->current_reference.book);
@@ -245,8 +245,7 @@ vector <Reference> WindowEditor::quick_references()
 Reference WindowEditor::current_reference()
 {
   if (usfmview) { 
-    Reference reference (0);
-    return reference; // Todo implement.
+    return usfmview->current_reference;
   }
   if (editor) {
     return editor->current_reference;
@@ -352,7 +351,7 @@ ustring WindowEditor::word_double_clicked_text()
 bool WindowEditor::editable()
 {
   if (usfmview) { 
-    return true; // Todo implement.
+    return usfmview->editable();
   }
   if (editor) {
     return editor->editable;
@@ -397,7 +396,7 @@ void WindowEditor::insert_table(const ustring& rawtext, GtkTextIter * iter)
 void WindowEditor::chapter_load(unsigned int chapter_in, vector <ustring> * lines_in)
 {
   if (usfmview) {
-    // Todo implement.
+    usfmview->chapter_load (chapter_in);
   }
   if (editor) {
     editor->chapter_load (chapter_in, lines_in);
@@ -408,7 +407,7 @@ void WindowEditor::chapter_load(unsigned int chapter_in, vector <ustring> * line
 void WindowEditor::chapter_save()
 {
   if (usfmview) {
-    // Todo implement.
+    usfmview->chapter_save();
   }
   if (editor) {
     editor->chapter_save();
@@ -419,7 +418,7 @@ void WindowEditor::chapter_save()
 unsigned int WindowEditor::reload_chapter_number()
 {
   if (usfmview) { 
-    return 0; // Todo implement.
+    return usfmview->reload_chapter_number;
   }
   if (editor) {
     return editor->reload_chapter_number;
@@ -466,7 +465,7 @@ void WindowEditor::create_or_update_formatting_data()
 void WindowEditor::set_font()
 {
   if (usfmview) { 
-    // Todo implement.
+    usfmview->set_font();
   }
   if (editor) {
     editor->set_font();
@@ -488,8 +487,8 @@ Editor * WindowEditor::editor_get()
 
 unsigned int WindowEditor::book()
 {
-  if (usfmview) { // Todo implement.
-    return 1;
+  if (usfmview) {
+    return usfmview->book;
   }
   if (editor) {
     return editor->book;
@@ -624,9 +623,10 @@ void WindowEditor::switch_to_view (bool viewusfm, ustring project)
   // Create new view.
   if (viewusfm) {
     usfmview = new USFMView (vbox, project); // Todo connect signals.
+    g_signal_connect((gpointer) usfmview->reload_signal, "clicked", G_CALLBACK(on_reload_signalled), gpointer(this));
   } else {
     editor = new Editor (vbox, project);
-    g_signal_connect((gpointer) editor->textview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
+    g_signal_connect((gpointer) editor->textview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this)); // Todo this signal can go out throughout.
     g_signal_connect((gpointer) editor->new_verse_signal, "clicked", G_CALLBACK(on_new_verse_signalled), gpointer(this));
     g_signal_connect((gpointer) editor->new_styles_signal, "clicked", G_CALLBACK(on_new_styles_signalled), gpointer(this));
     g_signal_connect((gpointer) editor->quick_references_button, "clicked", G_CALLBACK(on_quick_references_signalled), gpointer(this));
