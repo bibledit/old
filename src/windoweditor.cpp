@@ -96,19 +96,11 @@ void WindowEditor::go_to(const Reference & reference)
       // This is because sometimes Gtk is slow in loading a new chapter.
       // So if the cursor positioning is done straight after loading,
       // it will not work, as there is no text loaded yet.
-      // But here we deal with that so that a delay is no longer needed. The trick:
-      // Handle all pending events in GTK.
+      // The trick: First handle all pending events in GTK.
       while (gtk_events_pending())
         gtk_main_iteration();
-      // Todo usfmview->position_cursor_at_verse(reference.verse, false);
+      usfmview->position_cursor_at_verse(reference.verse);
     }
-    // Highlighting of searchwords.
-    /* Todo
-    if (usfmview->go_to_new_reference_highlight) {
-      usfmview->highlight_searchwords();
-      usfmview->go_to_new_reference_highlight = false;
-    }
-    */
 
   }
 
@@ -258,7 +250,7 @@ Reference WindowEditor::current_reference()
 ustring WindowEditor::current_verse_number()
 {
   if (usfmview) {
-    return usfmview->current_verse_number;  // Todo implement.
+    return usfmview->current_verse_number;
   }
   if (editor) {
     return editor->current_verse_number;

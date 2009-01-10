@@ -159,9 +159,6 @@ void USFMView::chapter_load(unsigned int chapter_in)
   // No recording of undoable actions.
   gtk_source_buffer_begin_not_undoable_action (sourcebuffer);
 
-  // Restart the verse tracker.
-  // Todo restart_verse_tracker();
-
   // Get rid of possible previous text.
   gtk_text_buffer_set_text(GTK_TEXT_BUFFER (sourcebuffer), "", -1);
 
@@ -471,5 +468,25 @@ bool USFMView::on_verse_tracker()
     gtk_button_clicked (GTK_BUTTON (new_verse_signal));
   }
   return false;
+}
+
+
+void USFMView::position_cursor_at_verse(const ustring & verse)
+// Moves the cursor to the verse
+{
+  // Bail out of the cursor is already on the verse.
+  if (verse == current_verse_number)
+    return;
+
+  // Save the current verse.
+  current_verse_number = verse;
+  
+  // Go to the verse. Verse 0 is at the start of the buffer.
+  GtkTextIter startiter;
+  gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER (sourcebuffer), &startiter);
+  ustring usfmcode = "\\v " + verse;
+  gtk_text_iter_forward_search (&startiter, usfmcode.c_str(), GtkTextSearchFlags (0), &startiter, NULL, NULL);
+  gtk_text_buffer_place_cursor(GTK_TEXT_BUFFER (sourcebuffer), &startiter);
+  screen_scroll_to_iterator(GTK_TEXT_VIEW(sourceview), &startiter);
 }
 

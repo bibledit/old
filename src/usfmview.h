@@ -50,6 +50,7 @@ public:
   GtkWidget * reload_signal;
   GtkWidget * changed_signal;
   void set_font();
+  void position_cursor_at_verse(const ustring& verse);
   ustring current_verse_number;
   GtkWidget * new_verse_signal;
 private:
