@@ -41,6 +41,10 @@ public:
   void book_set(unsigned int book_in);
   void chapter_save();
   ustring project;
+  bool can_undo ();
+  void undo();
+  bool can_redo();
+  void redo();
 private:
   GtkWidget *scrolledwindow;
   GtkSourceBuffer * sourcebuffer;

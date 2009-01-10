@@ -380,3 +380,24 @@ ustring USFMView::get_chapter()
   return chaptertext;
 }
 
+bool USFMView::can_undo ()
+{
+  return gtk_source_buffer_can_undo (sourcebuffer);
+}
+
+void USFMView::undo()
+{
+  gtk_source_buffer_undo (sourcebuffer);
+}
+
+bool USFMView::can_redo()
+{
+  return gtk_source_buffer_can_redo (sourcebuffer);
+}
+
+void USFMView::redo()
+{
+  gtk_source_buffer_redo (sourcebuffer);
+}
+
+

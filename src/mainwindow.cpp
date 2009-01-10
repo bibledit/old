@@ -2284,7 +2284,7 @@ void MainWindow::menu_accelerator_undo(bool called_by_menu)
 
 void MainWindow::on_redo1_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
-  ((MainWindow *) user_data)->menu_accelerator_redo(false);
+  ((MainWindow *) user_data)->menu_accelerator_redo(true);
 }
 
 void MainWindow::menu_accelerator_redo(bool called_by_menu)

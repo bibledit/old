@@ -75,7 +75,7 @@ void WindowEditor::go_to(const Reference & reference)
 
     // Save the editor if need be.
     if (new_book || new_chapter) {
-      // Todo usfmview->chapter_save();
+      usfmview->chapter_save();
     }
     // With a new book, also load a new chapter.
     if (new_book) {
@@ -162,7 +162,7 @@ void WindowEditor::go_to(const Reference & reference)
 
 void WindowEditor::load_dictionaries()
 {
-  if (usfmview) { // Todo implement.
+  if (usfmview) {
   }
   if (editor) {
     editor->load_dictionaries();
@@ -172,7 +172,8 @@ void WindowEditor::load_dictionaries()
 
 void WindowEditor::undo()
 {
-  if (usfmview) { // Todo implement.
+  if (usfmview) {
+    usfmview->undo();  
   }
   if (editor) {
     editor->undo(); 
@@ -182,7 +183,8 @@ void WindowEditor::undo()
 
 void WindowEditor::redo()
 {
-  if (usfmview) { // Todo implement.
+  if (usfmview) {
+    usfmview->redo();  
   }
   if (editor) {
     editor->redo(); 
@@ -193,7 +195,7 @@ void WindowEditor::redo()
 bool WindowEditor::can_undo()
 {
   if (usfmview) {
-    return false; // Todo implement.
+    return usfmview->can_undo();
   }
   if (editor) {
     return editor->can_undo();
@@ -205,7 +207,7 @@ bool WindowEditor::can_undo()
 bool WindowEditor::can_redo()
 {
   if (usfmview) {
-    return false; // Todo implement.
+    return usfmview->can_redo();
   }
   if (editor) {
     return editor->can_redo();
