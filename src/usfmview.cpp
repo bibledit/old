@@ -538,3 +538,6 @@ void USFMView::insert_note(const ustring & marker, const ustring & rawtext)
   gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (sourcebuffer), text.c_str(), -1);  
 }
 
+
+// Todo on bibledit shutdown changes are not saved.
+

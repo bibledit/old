@@ -338,6 +338,8 @@ protected:
   GtkWidget *image26888;
   GtkWidget *preferences_filters;
   GtkWidget *image28360;
+  GtkWidget *preferences_compare;
+  GtkWidget *image32676;
   GtkWidget *menuitem_help;
   GtkWidget *menuitem_help_menu;
   GtkWidget *help_main;
@@ -418,7 +420,9 @@ protected:
   void on_pdf_viewer();
   static void on_insert_special_character_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_insert_special_character();
-
+  static void on_preferences_compare_activate (GtkMenuItem *menuitem, gpointer user_data);
+  void on_preferences_compare ();
+  
   /* Navigation  */
   static void on_navigation_new_reference_clicked(GtkButton *button, gpointer user_data);
   void on_navigation_new_reference();

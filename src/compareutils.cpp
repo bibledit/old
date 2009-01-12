@@ -150,10 +150,13 @@ bool compare_projects(ProjectMemory & originalproject, ProjectMemory & secondpro
 
 void compare_chapter_remove_notes (ustring& text)
 {
-  // return; // Todo Need a setting in the preferences for this one.
-  replace_text_between (text, "\\f ", "\\f*", "");    
-  replace_text_between (text, "\\fe ", "\\fe*", "");    
-  replace_text_between (text, "\\x ", "\\x*", "");
+  extern Settings * settings;
+  bool disregard_notes = settings->genconfig.compare_disregard_notes_get();
+  if (disregard_notes) {
+    replace_text_between (text, "\\f ", "\\f*", "");    
+    replace_text_between (text, "\\fe ", "\\fe*", "");    
+    replace_text_between (text, "\\x ", "\\x*", "");
+  }
 }
 
 

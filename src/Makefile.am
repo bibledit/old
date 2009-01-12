@@ -272,7 +272,8 @@ bibledit_bin_SOURCES = \
         assistantdeletekeyterms.cpp \
         assistantchanges.cpp \
         widgetdate.cpp \
-        usfmview.cpp
+        usfmview.cpp \
+        dialogcompareprefs.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 

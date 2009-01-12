@@ -216,6 +216,7 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE(print_job);
   INITIALIZE(git_health);
   INITIALIZE(projects_displaying_verses);
+  INITIALIZE(compare_disregard_notes);
 }
 
 GeneralConfiguration::~GeneralConfiguration()
@@ -379,6 +380,7 @@ void GeneralConfiguration::save()
   SAVE_VALUE(print_job);
   SAVE_VALUE(git_health);
   SAVE_VALUE(projects_displaying_verses);
+  SAVE_VALUE(compare_disregard_notes);
 
   config_xml_values_set_execute(general_configuration_filename(), values);
 }
@@ -612,10 +614,12 @@ IMPLEMENT(vector < int >, vector_int_get, dialogpositions_y, NULL)
 IMPLEMENT(bool, bool_get, text_replacement, false)
 IMPLEMENT(vector < ustring >, vector_string_get, text_replacement_originals, NULL)
 IMPLEMENT(vector < ustring >, vector_string_get, text_replacement_replacements, NULL)
-IMPLEMENT(bool, bool_get, pdf_viewer_automatic, true) IMPLEMENT(ustring, string_get, pdf_viewer_path, "") 
+IMPLEMENT(bool, bool_get, pdf_viewer_automatic, true)
+IMPLEMENT(ustring, string_get, pdf_viewer_path, "") 
 IMPLEMENT(ustring, string_get, pdf_viewer_arguments, "") 
 IMPLEMENT(vector < ustring >, vector_string_get, project_tasks_names, NULL) 
 IMPLEMENT(vector < double >, vector_double_get, project_tasks_durations, NULL) 
 IMPLEMENT(int, int_get, print_job, 0) 
 IMPLEMENT(int, int_get, git_health, date_time_julian_day_get_current())
 IMPLEMENT(vector < ustring >, vector_string_get, projects_displaying_verses, NULL)
+IMPLEMENT(bool, bool_get, compare_disregard_notes, false)

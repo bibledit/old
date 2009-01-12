@@ -197,6 +197,7 @@ public:
   DEFINE_GENCONFIG_H (int, print_job);
   DEFINE_GENCONFIG_H (int, git_health);
   DEFINE_GENCONFIG_H (vector<ustring>, projects_displaying_verses);
+  DEFINE_GENCONFIG_H (bool, compare_disregard_notes);
 private:
   bool my_save_on_destroy;
   bool bool_get (const gchar * key, bool& store, bool& loaded, bool standard);

@@ -131,7 +131,7 @@
 #include "windows.h"
 #include "unixwrappers.h"
 #include "accelerators.h"
-
+#include "dialogcompareprefs.h"
 
 /*
  |
@@ -1608,6 +1608,7 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
   preferences_reporting = NULL;
   preferences_planning = NULL;
   preferences_filters = NULL;
+  preferences_compare = NULL;
   if (guifeatures.preferences()) {
 
     preferences_password = gtk_image_menu_item_new_with_mnemonic("P_assword");
@@ -1657,6 +1658,14 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
     image28360 = gtk_image_new_from_stock("gtk-convert", GTK_ICON_SIZE_MENU);
     gtk_widget_show(image28360);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(preferences_filters), image28360);
+
+    preferences_compare = gtk_image_menu_item_new_with_mnemonic ("_Compare");
+    gtk_widget_show (preferences_compare);
+    gtk_container_add (GTK_CONTAINER (menuitem_preferences_menu), preferences_compare);
+
+    image32676 = gtk_image_new_from_stock ("gtk-zoom-fit", GTK_ICON_SIZE_MENU);
+    gtk_widget_show (image32676);
+    gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (preferences_compare), image32676);
 
   }
 
@@ -1951,6 +1960,8 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
     g_signal_connect((gpointer) preferences_planning, "activate", G_CALLBACK(on_preferences_planning_activate), gpointer(this));
   if (preferences_filters)
     g_signal_connect((gpointer) preferences_filters, "activate", G_CALLBACK(on_preferences_filters_activate), gpointer(this));
+  if (preferences_compare)
+    g_signal_connect((gpointer) preferences_compare, "activate", G_CALLBACK(on_preferences_compare_activate), gpointer(this));
   if (help_main)
     g_signal_connect((gpointer) help_main, "activate", G_CALLBACK(on_help_main_activate), gpointer(this));
   if (system_log1)
@@ -4425,6 +4436,17 @@ void MainWindow::on_insert_special_character()
     return;
   settings->session.special_character_selection = dialog.selection;
   editor_window->text_insert(characters[dialog.selection]);
+}
+
+void MainWindow::on_preferences_compare_activate(GtkMenuItem * menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_preferences_compare();
+}
+
+void MainWindow::on_preferences_compare()
+{
+  ComparePreferencesDialog dialog (0);
+  dialog.run ();
 }
 
 /*
