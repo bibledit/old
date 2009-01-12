@@ -422,7 +422,6 @@ unsigned int WindowEditor::reload_chapter_number()
 void WindowEditor::apply_style(const ustring& marker)
 {
   if (usfmview) {
-    // Todo implement.
   }
   if (editor) {
     editor->apply_style (marker);
@@ -446,7 +445,6 @@ set <ustring> WindowEditor::get_styles_at_cursor()
 void WindowEditor::create_or_update_formatting_data()
 {
   if (usfmview) { 
-    // Todo implement.
   }
   if (editor) {
     editor->create_or_update_formatting_data();
@@ -468,7 +466,7 @@ void WindowEditor::set_font()
 Editor * WindowEditor::editor_get()
 {
   if (usfmview) {
-    return NULL; // Todo implement.
+    return NULL;
   }
   if (editor) {
     return editor;
@@ -491,8 +489,8 @@ unsigned int WindowEditor::book()
 
 unsigned int WindowEditor::chapter()
 {
-  if (usfmview) { // Todo implement.
-    return 1;
+  if (usfmview) {
+    return usfmview->chapter;
   }
   if (editor) {
     return editor->chapter;
@@ -614,7 +612,7 @@ void WindowEditor::switch_to_view (bool viewusfm, ustring project)
 
   // Create new view.
   if (viewusfm) {
-    usfmview = new USFMView (vbox, project); // Todo connect signals.
+    usfmview = new USFMView (vbox, project);
     g_signal_connect((gpointer) usfmview->sourceview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
     g_signal_connect((gpointer) usfmview->reload_signal, "clicked", G_CALLBACK(on_reload_signalled), gpointer(this));
     g_signal_connect((gpointer) usfmview->changed_signal, "clicked", G_CALLBACK(on_changed_signalled), gpointer(this));

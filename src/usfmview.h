@@ -61,10 +61,10 @@ public:
   ustring word_double_clicked_text;
   void insert_note(const ustring& marker, const ustring& rawtext);
   ustring get_chapter();
+  unsigned int chapter;
 private:
   GtkWidget *scrolledwindow;
   GtkSourceBuffer * sourcebuffer;
-  unsigned int chapter;
   guint save_timeout_event_id;
   static bool on_save_timeout(gpointer data);
   bool save_timeout();

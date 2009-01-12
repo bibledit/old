@@ -4208,24 +4208,13 @@ void MainWindow::on_edit_bible_note()
 {
   WindowEditor *editor_window = last_focused_editor_window();
   if (editor_window) {
-    EditNoteDialog dialog(editor_window->editor_get());
-    dialog.run();
+    Editor * editor = editor_window->editor_get();
+    if (editor) {
+      EditNoteDialog dialog(editor);
+      dialog.run();
+    }
   }
 }
-
-/*
- |
- |
- |
- |
- |
- Formatted view
- |
- |
- |
- |
- |
- */
 
 /*
  |
