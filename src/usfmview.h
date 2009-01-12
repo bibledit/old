@@ -57,11 +57,14 @@ public:
   void text_erase_selection();
   GtkTextBuffer * last_focused_textbuffer();
   void text_insert(ustring text);
+  GtkWidget * word_double_clicked_signal;
+  ustring word_double_clicked_text;
+  void insert_note(const ustring& marker, const ustring& rawtext);
+  ustring get_chapter();
 private:
   GtkWidget *scrolledwindow;
   GtkSourceBuffer * sourcebuffer;
   unsigned int chapter;
-  ustring get_chapter();
   guint save_timeout_event_id;
   static bool on_save_timeout(gpointer data);
   bool save_timeout();
@@ -75,6 +78,8 @@ private:
   guint verse_tracker_event_id;
   static bool on_verse_tracker_timeout(gpointer data);
   bool on_verse_tracker();
+  static gboolean on_textview_button_press_event(GtkWidget *widget, GdkEventButton *event, gpointer user_data);
+  void on_texteditor_click(GtkWidget * widget, GdkEventButton *event);
 
 };
 

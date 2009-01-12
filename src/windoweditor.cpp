@@ -330,7 +330,7 @@ void WindowEditor::go_to_new_reference_highlight_set()
 ustring WindowEditor::word_double_clicked_text()
 {
   if (usfmview) {
-    return ""; // Todo implement.
+    return usfmview->word_double_clicked_text;
   }
   if (editor) {
     return editor->word_double_clicked_text;
@@ -353,7 +353,8 @@ bool WindowEditor::editable()
 
 void WindowEditor::insert_note(const ustring& marker, const ustring& rawtext, GtkTextIter * iter, bool render)
 {
-  if (usfmview) { // Todo implement.
+  if (usfmview) {
+    usfmview->insert_note (marker, rawtext);
   }
   if (editor) {
     editor->insert_note (marker, rawtext, iter, render);
@@ -363,20 +364,20 @@ void WindowEditor::insert_note(const ustring& marker, const ustring& rawtext, Gt
 
 ustring WindowEditor::get_chapter()
 {
-  if (usfmview) { // Todo implement.
-    return "1";
+  if (usfmview) {
+    return usfmview->get_chapter();
   }
   if (editor) {
     return editor->get_chapter();
   }
-  return "1";
+  return "";
 }
 
 
 void WindowEditor::insert_table(const ustring& rawtext, GtkTextIter * iter)
 {
   if (usfmview) {
-    // Todo implement.
+    usfmview->text_insert (rawtext);
   }
   if (editor) {
     editor->insert_table (rawtext, iter);
@@ -618,6 +619,7 @@ void WindowEditor::switch_to_view (bool viewusfm, ustring project)
     g_signal_connect((gpointer) usfmview->reload_signal, "clicked", G_CALLBACK(on_reload_signalled), gpointer(this));
     g_signal_connect((gpointer) usfmview->changed_signal, "clicked", G_CALLBACK(on_changed_signalled), gpointer(this));
     g_signal_connect((gpointer) usfmview->new_verse_signal, "clicked", G_CALLBACK(on_new_verse_signalled), gpointer(this));
+    g_signal_connect((gpointer) usfmview->word_double_clicked_signal, "clicked", G_CALLBACK(on_word_double_click_signalled), gpointer(this));
   } else {
     editor = new Editor (vbox, project);
     g_signal_connect((gpointer) editor->textview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));

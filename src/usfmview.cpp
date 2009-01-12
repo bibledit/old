@@ -74,24 +74,14 @@ current_reference(0, 1000, "")
   // The view's signal handlers.
   g_signal_connect_after((gpointer) sourceview, "move_cursor", G_CALLBACK(on_textview_move_cursor), gpointer(this));
   g_signal_connect_after((gpointer) sourceview, "grab_focus", G_CALLBACK(on_textview_grab_focus), gpointer(this));
+  g_signal_connect((gpointer) sourceview, "button_press_event", G_CALLBACK(on_textview_button_press_event), gpointer(this));
 
   // Buttons to give signals.
   reload_signal = gtk_button_new();
   changed_signal = gtk_button_new();
   new_verse_signal = gtk_button_new();
-  /*
-  new_styles_signal = gtk_button_new();
   word_double_clicked_signal = gtk_button_new();
-  quick_references_button = gtk_button_new();
 
-  // Initialize a couple of event ids.
-  textview_cursor_moved_delayer_event_id = 0;
-  grab_focus_event_id = 0;
-  undo_redo_event_id = 0;
-  spelling_timeout_event_id = 0;
-
-
-  */
   // Automatic saving of the file, periodically.
   save_timeout_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 60000, GSourceFunc(on_save_timeout), gpointer(this), NULL);
 
@@ -108,37 +98,13 @@ USFMView::~USFMView()
   gw_destroy_source(save_timeout_event_id);
   gw_destroy_source(verse_tracker_event_id);
 
-  /* Todo
-
-  gw_destroy_source(textview_cursor_moved_delayer_event_id);
-  gw_destroy_source(grab_focus_event_id);
-  gw_destroy_source(undo_redo_event_id);
-  gw_destroy_source(spelling_timeout_event_id);
-  gw_destroy_source(event_id_show_quick_references);
-  gw_destroy_source(start_verse_tracker_event_id);
-  gw_destroy_source(verse_tracker_event_id);
-
-  // Clear a few flags.
-  verse_tracker_on = false;
-
-*/
-
   // Destroy the signalling buttons.
   gtk_widget_destroy(reload_signal);
   gtk_widget_destroy(changed_signal);
   gtk_widget_destroy(new_verse_signal);
   new_verse_signal = NULL;
-  
-/*
-  gtk_widget_destroy(new_styles_signal);
-  new_styles_signal = NULL;
   gtk_widget_destroy(word_double_clicked_signal);
-  gtk_widget_destroy(quick_references_button);
-
-  // Destroy the texttag tables.
-  g_object_unref(texttagtable);
-
-  */
+  
   // Destroy the sourceview.
   gtk_widget_destroy(scrolledwindow);
 }
@@ -531,5 +497,44 @@ void USFMView::text_insert(ustring text)
   
   // Insert the new text.
   gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (sourcebuffer), text.c_str(), -1);
+}
+
+gboolean USFMView::on_textview_button_press_event(GtkWidget * widget, GdkEventButton * event, gpointer user_data)
+{
+  ((USFMView *) user_data)->on_texteditor_click(widget, event);
+  return false;
+}
+
+void USFMView::on_texteditor_click(GtkWidget * widget, GdkEventButton * event)
+{
+  // Double-clicking sends the word to Toolbox.
+  if (event->type == GDK_2BUTTON_PRESS) {
+
+    // Get the word.
+    GtkTextIter startiter;
+    GtkTextIter enditer;
+    gtk_text_buffer_get_iter_at_mark(GTK_TEXT_BUFFER (sourcebuffer), &enditer, gtk_text_buffer_get_insert(GTK_TEXT_BUFFER (sourcebuffer)));
+    if (!gtk_text_iter_ends_word(&enditer))
+      gtk_text_iter_forward_word_end(&enditer);
+    startiter = enditer;
+    gtk_text_iter_backward_word_start(&startiter);
+    word_double_clicked_text = gtk_text_buffer_get_text(GTK_TEXT_BUFFER (sourcebuffer), &startiter, &enditer, false);
+
+    // Signal to have it sent to Toolbox.
+    gtk_button_clicked(GTK_BUTTON(word_double_clicked_signal));
+  }
+}
+
+void USFMView::insert_note(const ustring & marker, const ustring & rawtext)
+/*
+ Inserts a note in the editor.
+ marker:    The marker that starts the note, e.g. "fe" for an endnote.
+ rawtext:   The raw text of the note, e.g. "+ Mat 1.1.". This excludes the note opener and note closer.
+ */
+{
+  ustring text = usfm_get_full_opening_marker (marker);
+  text.append (rawtext);
+  text.append (usfm_get_full_closing_marker (marker));
+  gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (sourcebuffer), text.c_str(), -1);  
 }
 
