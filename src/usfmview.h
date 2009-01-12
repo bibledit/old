@@ -53,6 +53,10 @@ public:
   void position_cursor_at_verse(const ustring& verse);
   ustring current_verse_number;
   GtkWidget * new_verse_signal;
+  ustring text_get_selection();
+  void text_erase_selection();
+  GtkTextBuffer * last_focused_textbuffer();
+  void text_insert(ustring text);
 private:
   GtkWidget *scrolledwindow;
   GtkSourceBuffer * sourcebuffer;

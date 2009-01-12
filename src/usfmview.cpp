@@ -490,3 +490,46 @@ void USFMView::position_cursor_at_verse(const ustring & verse)
   screen_scroll_to_iterator(GTK_TEXT_VIEW(sourceview), &startiter);
 }
 
+
+ustring USFMView::text_get_selection()
+// Retrieves the selected text from the sourceview.
+{
+  GtkTextIter startiter, enditer;
+  gtk_text_buffer_get_selection_bounds(GTK_TEXT_BUFFER (sourcebuffer), &startiter, &enditer);
+  gchar *text = gtk_text_buffer_get_text(GTK_TEXT_BUFFER (sourcebuffer), &startiter, &enditer, true);
+  ustring selectedtext (text);
+  g_free(text);
+  return selectedtext;
+}
+
+
+void USFMView::text_erase_selection()
+// Erases the selected text from the sourceview.
+{
+  GtkTextIter startiter, enditer;
+  gtk_text_buffer_get_selection_bounds(GTK_TEXT_BUFFER (sourcebuffer), &startiter, &enditer);
+  gtk_text_buffer_delete(GTK_TEXT_BUFFER (sourcebuffer), &startiter, &enditer);
+}
+
+GtkTextBuffer * USFMView::last_focused_textbuffer()
+{
+  GtkTextBuffer * textbuffer = GTK_TEXT_BUFFER (sourcebuffer);
+  return textbuffer;
+}
+
+
+void USFMView::text_insert(ustring text)
+// Inserts text at the cursor location.
+// If text is selected, this is erased first.
+{
+  // If the text is not editable, bail out.
+  if (!editable())
+    return;
+
+  // Erase selected text.
+  gtk_text_buffer_delete_selection(GTK_TEXT_BUFFER (sourcebuffer), true, editable());
+  
+  // Insert the new text.
+  gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (sourcebuffer), text.c_str(), -1);
+}
+

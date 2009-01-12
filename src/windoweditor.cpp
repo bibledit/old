@@ -274,7 +274,7 @@ ustring WindowEditor::project()
 ustring WindowEditor::text_get_selection()
 {
   if (usfmview) {
-    return ""; // Todo implement.
+    return usfmview->text_get_selection();
   }
   if (editor) {
     return editor->text_get_selection();
@@ -286,7 +286,7 @@ ustring WindowEditor::text_get_selection()
 void WindowEditor::text_erase_selection()
 {
   if (usfmview) {
-    // Todo implement.
+    usfmview->text_erase_selection();
   }
   if (editor) {
     editor->text_erase_selection();
@@ -297,7 +297,7 @@ void WindowEditor::text_erase_selection()
 GtkTextBuffer * WindowEditor::last_focused_textbuffer()
 {
   if (usfmview) { 
-    return NULL; // Todo implement.
+    return usfmview->last_focused_textbuffer();
   }
   if (editor) {
     return editor->last_focused_textbuffer();
@@ -309,7 +309,7 @@ GtkTextBuffer * WindowEditor::last_focused_textbuffer()
 void WindowEditor::text_insert(ustring text)
 {
   if (usfmview) {
-    // Todo implement.
+    usfmview->text_insert(text);
   }
   if (editor) {
     editor->text_insert(text);
@@ -320,7 +320,6 @@ void WindowEditor::text_insert(ustring text)
 void WindowEditor::go_to_new_reference_highlight_set() 
 {
   if (usfmview) {
-    // Todo implement.
   }
   if (editor) {
     editor->go_to_new_reference_highlight = true;
