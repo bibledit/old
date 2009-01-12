@@ -48,6 +48,7 @@ current_reference(0, 1000, "")
   book = 0;
   chapter = 0;
   verse_tracker_event_id = 0;
+  editable = false;
 
   // The scrolled window that contains the sourceview.
   scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
@@ -139,7 +140,7 @@ void USFMView::chapter_load(unsigned int chapter_in)
   ProjectConfiguration *projectconfig = settings->projectconfig(project);
 
   // Deal with (non-)editable.
-  bool editable = true;
+  editable = true;
   if (lines.empty())
     editable = false;
   if (!projectconfig->editable_get())
@@ -179,7 +180,7 @@ void USFMView::chapter_save()
   reload_chapter_number = chapter;
 
   // If the text is not editable, bail out.
-  if (!editable())
+  if (!editable)
     return;
 
   // If the text was not changed, bail out.
@@ -307,11 +308,6 @@ void USFMView::redo()
   gtk_source_buffer_redo (sourcebuffer);
 }
 
-
-bool USFMView::editable()
-{
-  return gtk_text_view_get_editable(GTK_TEXT_VIEW(sourceview));
-}
 
 void USFMView::set_font()
 {
@@ -489,11 +485,11 @@ void USFMView::text_insert(ustring text)
 // If text is selected, this is erased first.
 {
   // If the text is not editable, bail out.
-  if (!editable())
+  if (!editable)
     return;
 
   // Erase selected text.
-  gtk_text_buffer_delete_selection(GTK_TEXT_BUFFER (sourcebuffer), true, editable());
+  gtk_text_buffer_delete_selection(GTK_TEXT_BUFFER (sourcebuffer), true, editable);
   
   // Insert the new text.
   gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (sourcebuffer), text.c_str(), -1);
@@ -537,7 +533,4 @@ void USFMView::insert_note(const ustring & marker, const ustring & rawtext)
   text.append (usfm_get_full_closing_marker (marker));
   gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (sourcebuffer), text.c_str(), -1);  
 }
-
-
-// Todo on bibledit shutdown changes are not saved.
 

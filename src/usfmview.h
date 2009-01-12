@@ -46,7 +46,7 @@ public:
   void undo();
   bool can_redo();
   void redo();
-  bool editable();
+  bool editable;
   GtkWidget * reload_signal;
   GtkWidget * changed_signal;
   void set_font();

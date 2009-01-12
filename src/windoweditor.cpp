@@ -57,7 +57,10 @@ WindowEditor::~WindowEditor()
   gtk_widget_destroy (word_double_clicked_signal);
   gtk_widget_destroy (reload_signal);
   gtk_widget_destroy (changed_signal);
-  delete editor;
+  if (editor)
+    delete editor;
+  if (usfmview)
+    delete usfmview;
 }
 
 void WindowEditor::go_to(const Reference & reference)
@@ -342,7 +345,7 @@ ustring WindowEditor::word_double_clicked_text()
 bool WindowEditor::editable()
 {
   if (usfmview) { 
-    return usfmview->editable();
+    return usfmview->editable;
   }
   if (editor) {
     return editor->editable;
