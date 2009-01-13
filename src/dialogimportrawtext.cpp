@@ -46,7 +46,8 @@ ImportRawTextDialog::ImportRawTextDialog(int dummy)
   dialog_vbox1 = GTK_DIALOG(importrawtextdialog)->vbox;
   gtk_widget_show(dialog_vbox1);
 
-  hbox1 = gtk_hbox_new(FALSE, 0);
+  // A bit of space between view and controls, because unexperiences people click the controls if they want to click in the view.
+  hbox1 = gtk_hbox_new(FALSE, 10); 
   gtk_widget_show(hbox1);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), hbox1, TRUE, TRUE, 0);
 
@@ -164,6 +165,12 @@ ImportRawTextDialog::ImportRawTextDialog(int dummy)
   gtk_box_pack_start(GTK_BOX(vbox_controls), checkbutton_okay, FALSE, FALSE, 0);
 
   shortcuts.button(checkbutton_okay);
+
+  checkbutton_verses_at_start = gtk_check_button_new_with_mnemonic ("Verses are at line start");
+  gtk_widget_show (checkbutton_verses_at_start);
+  gtk_box_pack_start (GTK_BOX (vbox_controls), checkbutton_verses_at_start, FALSE, FALSE, 0);
+
+  shortcuts.button(checkbutton_verses_at_start);
 
   scrolledwindow1 = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow1);
@@ -339,7 +346,8 @@ void ImportRawTextDialog::on_button_discover_markup()
       lines[i].clear();
       continue;
     }
-    // Skip line starting with a backslash. The rationale is that this line already has some markup.
+    
+    // Skip line starting with a backslash. The rationale is that this line already has markup.
     if (lines[i].substr(0, 1) == "\\")
       continue;
 
@@ -357,13 +365,15 @@ void ImportRawTextDialog::on_button_discover_markup()
         discoveries_passed = false;
       }
     }
-    // If the line has no number in it at all, then it is considered a section heading.
+    
+    // If the line has no number in it, it is considered a section heading.
     if (discoveries_passed) {
       if (number_in_string(lines[i]).empty()) {
         lines[i].insert(0, "\\s ");
         continue;
       }
     }
+    
     // If a number is found in the line, then this is considered a verse number.
     // The first time a number is found, a \p is prefixed.
     bool paragraph_open = false;
@@ -386,6 +396,10 @@ void ImportRawTextDialog::on_button_discover_markup()
         lines[i].erase(0, number.length());
         lines[i] = trim(lines[i]);
         number = number_in_string(lines[i]);
+        // Setting for discovering only first number in a paragraph.
+        if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_verses_at_start))) {
+          number.clear();
+        }
       }
       output.append(lines[i]);
       lines[i] = output;

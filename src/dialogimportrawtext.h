@@ -59,6 +59,7 @@ protected:
   GtkWidget *label7;
   GtkWidget *hseparator4;
   GtkWidget *checkbutton_okay;
+  GtkWidget *checkbutton_verses_at_start;
   GtkWidget *scrolledwindow1;
   GtkWidget *textview1;
   GtkWidget *hbox3;
