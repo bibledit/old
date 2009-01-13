@@ -39,6 +39,9 @@
 #include "keyboard.h"
 #include "tiny_utilities.h"
 #include "git.h"
+#include <gtksourceview/gtksourcelanguage.h>
+#include <gtksourceview/gtksourcelanguagemanager.h>
+#include <gtksourceview/gtksourcestyleschememanager.h>
 
 USFMView::USFMView(GtkWidget * vbox, const ustring & project_in):
 current_reference(0, 1000, "")
@@ -58,6 +61,11 @@ current_reference(0, 1000, "")
 
   // A sourcebuffer to store all text.
   sourcebuffer = gtk_source_buffer_new (NULL);
+  
+  // Language to use. Ideally we would need to write a language description for the usfm code.
+  GtkSourceLanguageManager *language_manager = gtk_source_language_manager_get_default ();
+	GtkSourceLanguage *language = gtk_source_language_manager_get_language (language_manager, "c");
+	gtk_source_buffer_set_language (sourcebuffer, language);
 
   // A sourceview to display the buffer.
   sourceview = gtk_source_view_new_with_buffer(sourcebuffer);
