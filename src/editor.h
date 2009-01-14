@@ -124,6 +124,7 @@ public:
   GtkWidget * textview;
   GtkTextBuffer * textbuffer;
   void create_or_update_text_style(Style * style, bool paragraph, bool plaintext, double font_multiplier);
+  bool verse_restarts_paragraph;
 
   vector <EditorNote> editornotes;
   vector <EditorTable> editortables;

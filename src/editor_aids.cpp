@@ -1191,11 +1191,10 @@ void table_create_cell(GtkTable * table, GtkTextTagTable * texttagtable, GtkWidg
   gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textview), GTK_WRAP_WORD);
 }
 
-void usfm_get_text(GtkTextBuffer * textbuffer, GtkTextIter startiter, GtkTextIter enditer, vector < EditorNote > *editornotes, vector < EditorTable > *editortables, const ustring & project, ustring & text)
+void usfm_get_text(GtkTextBuffer * textbuffer, GtkTextIter startiter, GtkTextIter enditer, vector < EditorNote > *editornotes, vector < EditorTable > *editortables, const ustring & project, ustring & text, bool verse_restarts_paragraph) // Todo
 /*
  Gets the USFM text from the main textbuffer between the two offsets.
  Calls routines so as to include the text of notes and tables.
- bool add_first_paragraph_style: Whether to include the starting "\p " for example.
  */
 {
   // Initialize the iterator.
@@ -1238,6 +1237,17 @@ void usfm_get_text(GtkTextBuffer * textbuffer, GtkTextIter startiter, GtkTextIte
         new_character.clear();
     }
 
+    // Handle the case where a verse restarts the paragraph. // Todo
+    // cout << "new paragraph style " << new_paragraph_style << ", new character style " << new_character_style << ", line break " << line_break << endl; // Todo
+    if (verse_restarts_paragraph) {
+      StyleType type;
+      int subtype;
+      marker_get_type_and_subtype(project, new_character_style, type, subtype);
+      if (type == stVerseNumber) {
+        // line_break = false;
+      }      
+    }
+    
     // Flags for whether styles are opening or closing.
     bool character_style_closing = false;
     bool paragraph_style_closing = false;
@@ -1577,7 +1587,7 @@ void usfm_get_table_text(const EditorTable & editortable, const ustring & projec
       GtkTextIter startiter, enditer;
       gtk_text_buffer_get_start_iter(textbuffer, &startiter);
       gtk_text_buffer_get_end_iter(textbuffer, &enditer);
-      usfm_get_text(textbuffer, startiter, enditer, NULL, NULL, project, celltext);
+      usfm_get_text(textbuffer, startiter, enditer, NULL, NULL, project, celltext, false);
 
       // Add this USFM code to the main text.
       usfm_internal_add_text(text, celltext);

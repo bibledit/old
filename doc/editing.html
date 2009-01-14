@@ -1,60 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-  <title>Bibledit</title>
-  <!-- 
-  Copyright (©) 2003-2008 Teus Benschop.
-
-  Permission is granted to copy, distribute and/or modify this document
-  under the terms of the GNU Free Documentation License, Version 1.2
-  or any later version published by the Free Software Foundation;
-  with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-  Texts.  A copy of the license is included in the section entitled "GNU
-  Free Documentation License" in the file FDL.
-  -->
-  <link href="bibledit.css" rel="stylesheet" type="text/css" />
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<title>Bibledit</title>
+<!--
+Copyright (©) 2003-2008 Teus Benschop.
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+Texts.  A copy of the license is included in the section entitled "GNU
+Free Documentation License" in the file FDL.
+-->
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
-
 <body>
 <h2><a name="editing"></a>Editing</h2>
 <!-- Table of Contents Start -->
-
 <div id="toc">
 <ul>
-  <li><a href="#project" class="level1">Project</a></li>
-  <li><a href="#save" class="level1">Save</a></li>
-  <li><a href="#text" class="level1">Text</a></li>
-  <li><a href="#data" class="level1">Data</a></li>
-  <li><a href="#undo" class="level1">Undo</a></li>
-  <li><a href="#insertingbiblenotes" class="level1">Inserting Bible
-  notes</a></li>
-  <li><a href="#changingbiblenotes" class="level1">Changing Bible
-  notes</a></li>
-  <li><a href="#pictures" class="level1">Pictures</a></li>
-  <li><a href="#view" class="level1">View</a></li>
+<li>
+<a href="#project" class="level1">Project</a></li>
+<li>
+<a href="#save" class="level1">Save</a></li>
+<li>
+<a href="#text" class="level1">Text</a></li>
+<li>
+<a href="#data" class="level1">Data</a></li>
+<li>
+<a href="#undo" class="level1">Undo</a></li>
+<li>
+<a href="#insertingbiblenotes" class="level1">Inserting Bible notes</a></li>
+<li>
+<a href="#changingbiblenotes" class="level1">Changing Bible notes</a></li>
+<li>
+<a href="#pictures" class="level1">Pictures</a></li>
+<li>
+<a href="#view" class="level1">View</a></li>
 </ul>
 </div>
 <!-- Table of Contents End -->
-
 <h3><a name="project"></a>Project</h3>
-
 <p>Before any editing can be done, create a new <a
 href="project.html">project</a> and add books to it. See also the <a
 href="olh_project_properties.html">Project Properties</a> dialog. Or of there
 is an existing project, open it.</p>
-
 <h3><a name="save"></a>Save</h3>
-
 <p>There is no need to save the text, because Bibledit takes care of that.</p>
-
 <h3><a name="text"></a>Text</h3>
-
 <p>Standard Format Markers are markers that are put in the text to indicate
 the book, where a chapter starts, the verse, titles and so on.</p>
-
 <p>A marker always starts with a backslash (\) at the beginning of a line of
 text in the editor. The most commonly used Standard Format markers are:</p>
 <pre>\id Identifies the book</pre>
@@ -65,7 +62,6 @@ text in the editor. The most commonly used Standard Format markers are:</p>
 <pre>\s section heading</pre>
 <pre>\p paragraph</pre>
 <pre>\v verse</pre>
-
 <p>Here follows a part of the book of John.</p>
 <pre>\id JHN</pre>
 <pre>\mt2 The Gospel according to</pre>
@@ -73,105 +69,74 @@ text in the editor. The most commonly used Standard Format markers are:</p>
 <pre>\c 1</pre>
 <pre>\s The Word became flesh</pre>
 <pre>\v 1 In the beginning was the Word, and the Word was with God, and the Word was God.</pre>
-
 <p>Explanation of markers used.</p>
 <pre>\id JHN</pre>
-
 <p>Identifies the book as John</p>
 <pre>\mt2 The Gospel according to</pre>
-
 <p>A major title, level 2. When printed it will have a font just a bit
 smaller than \mt</p>
 <pre>\mt1 John</pre>
-
 <p>A major title, level 1. When printed it will have a big font suitable for
 such a title.</p>
 <pre>\c 1</pre>
-
 <p>Indicates that chapter one starts here.</p>
 <pre>\s The Word became flesh</pre>
-
 <p>This is a section heading, and will be printed in the text as a heading,
 usually in bold.</p>
 <pre>\v 1 In the beginning was the Word, and the Word was with God, and the Word was God.</pre>
-
 <p>This is the text of verse one.</p>
-
 <p>More information on <a href="usfm.html">USFM</a> is available.</p>
-
 <h3><a name="data"></a>Data</h3>
-
 <p>All project data is stored in the <a href="data_directory.html">data
 directory.</a></p>
-
 <h3><a name="undo"></a>Undo</h3>
-
 <p>As long as you stay in the same chapter, you can undo any changes made.
 See menu Edit / Undo.</p>
-
 <h3><a name="insertingbiblenotes"></a>Inserting Bible notes</h3>
-
 <p>All Bible notes can be inserted by choosing the appropriate style.</p>
-
 <p>A new window will come up, where you can set what will be inserted.</p>
-
 <p>The numbering can be set to automatic, or no numbering at all, or a
 certain character.</p>
-
 <p>Further you can set whether to automatically insert the current reference
 in the footnote. If you do insert it, then you can set whether to include the
 chapter number, and the verse number, and what the separator between them
 will be. A suffix can be entered too. It will show how this is going to look
 in the text.</p>
-
 <p>The size of the text entry or entries can be set using the "Size"
 arrows.</p>
-
 <p>It is possible to save a certain footnote configuration in a template. The
 "New" button will make a new template, and the "Delete" button will delete
 the current one. If no template name is given, the default one will be used.
 Data is saved in a template only on pressing the "Ok" button.</p>
-
 <p>The same things apply to <a href="glossary.html#endnote">endnotes</a> and
 crossreferences.</p>
-
 <h3><a name="changingbiblenotes"></a>Changing Bible notes</h3>
-
 <p>A Bible note can be a footnote, an endnote, or a crossreference. This type
 can be changed. To do that, place the cursor somewhere in the note to be
 changed. Choose menu Edit / Bible note, and set the new type, and then press
 OK.</p>
-
 <p>The numbering of the note can be changed in the same way. One can for
 example change from automatic to manual numbering, and vice versa.</p>
-
 <h3><a name="pictures"></a>Pictures</h3>
-
 <p>Bibledit has good support for the \fig marker. Pictures are inserted
 manually, following the USFM standard.</p>
-
 <p>At printing time, Bibledit looks for the picture file in various ways. If
 an absolute path is given, then it will look for the file there. If a
 relative path is given, it first looks in &lt;<a
 href="data_directory.html">data directory</a>&gt;/pictures, then among
 Bibledit's template files.</p>
-
 <p>According to the USFM standard, the picture size can be set to "col" or to
 "span". In addition to that, if the picture size has not been set, Bibledit
 uses the intrinsic size of the picture. The "span" property is not yet
 supported at this time. All other properties are.</p>
-
 <h3><a name="view"></a>View</h3>
-
 <p>The text is displayed in formatted form. This means that the raw USFM code
 is hidden, and instead the code is formatted and is displayed in that
 form.</p>
-
 <p>If the user wishes to view or edit the raw USFM code, there is a setting
 for this in menu View / USFM code. If this menu entry is ticked, the raw USFM
 code can be edited. If the tick is removed it reverts to the normal formatted
 view.</p>
-
 <p>In the formatted view, the stylesheet will determine what part of the text
 is formatted and what is left unformatted. If the stylesheet contains all the
 styles in the document, then everything will be formatted. If a style is in

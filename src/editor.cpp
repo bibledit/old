@@ -60,6 +60,7 @@ current_reference(0, 1000, "")
   start_verse_tracker_event_id = 0;
   verse_tracker_event_id = 0;
   verse_tracker_on = false;
+  verse_restarts_paragraph = false;
 
   // Create data that is needed for any of the possible formatted views.
   create_or_update_formatting_data();
@@ -444,7 +445,7 @@ ustring Editor::text_get_selection()
   gtk_text_buffer_get_selection_bounds(textbuffer, &startiter, &enditer);
   if (gtk_widget_is_focus(textview)) {
     gtk_text_buffer_get_selection_bounds(textbuffer, &startiter, &enditer);
-    usfm_get_text(textbuffer, startiter, enditer, &editornotes, &editortables, project, text);
+    usfm_get_text(textbuffer, startiter, enditer, &editornotes, &editortables, project, text, verse_restarts_paragraph);
   }
   for (unsigned int i = 0; i < editornotes.size(); i++) {
     if (gtk_widget_is_focus(editornotes[i].textview)) {
@@ -459,7 +460,7 @@ ustring Editor::text_get_selection()
         if (gtk_widget_is_focus(table_cell_get_view(editortables[i], row, column))) {
           GtkTextBuffer *buffer = table_cell_get_buffer(editortables[i], row, column);
           gtk_text_buffer_get_selection_bounds(buffer, &startiter, &enditer);
-          usfm_get_text(buffer, startiter, enditer, NULL, NULL, project, text);
+          usfm_get_text(buffer, startiter, enditer, NULL, NULL, project, text, false);
         }
       }
     }
@@ -1201,8 +1202,9 @@ void Editor::create_or_update_formatting_data()
 // If already there, update it.
 {
   // If there is no text tag table, create a new one.
-  if (!texttagtable)
+  if (!texttagtable) {
     texttagtable = gtk_text_tag_table_new();
+  }
 
   // Get the stylesheet.
   extern Settings *settings;
@@ -1249,6 +1251,13 @@ void Editor::create_or_update_formatting_data()
       create_or_update_text_style(&(usfm->styles[i]), false, plaintext, font_size_multiplier);
   }
 
+  // Special handling for the verse style, whether it restarts the paragraph.
+  for (unsigned int i = 0; i < usfm->styles.size(); i++) {
+    if (usfm->styles[i].type == stVerseNumber) {
+      verse_restarts_paragraph = usfm->styles[i].userbool1;
+    }
+  }
+  
   // Create the styles for insertions and deletions.
   {
     Style style_ins("", INSERTION_MARKER, false);
@@ -1259,11 +1268,8 @@ void Editor::create_or_update_formatting_data()
 }
 
 void Editor::create_or_update_text_style(Style * style, bool paragraph, bool plaintext, double font_multiplier)
-/*
- This creates or updates a GtkTextTag with the data stored in "style".
- The fontsize of the style is calculated by the value as stored in "style", and 
- multiplied by "font_multiplier".
- */
+// This creates or updates a GtkTextTag with the data stored in "style".
+// The fontsize of the style is calculated by the value as stored in "style", and multiplied by "font_multiplier".
 {
   // Take the existing tag, or create a new one and add it to the tagtable.
   GtkTextTag *tag = gtk_text_tag_table_lookup(texttagtable, style->marker.c_str());
@@ -1372,7 +1378,7 @@ void Editor::create_or_update_text_style(Style * style, bool paragraph, bool pla
       g_value_unset(&gvalue);
     }
   }
-  // Styles that only occur in paragraphs, not in character styles.  
+  // Styles that occur in paragraphs only, not in character styles.  
   if (paragraph) {
 
     GtkJustification gtkjustification;
@@ -1381,7 +1387,7 @@ void Editor::create_or_update_text_style(Style * style, bool paragraph, bool pla
     } else if (style->justification == RIGHT) {
       gtkjustification = GTK_JUSTIFY_RIGHT;
     } else if (style->justification == JUSTIFIED) {
-      // Gtk+ supports this as from version 2.12.
+      // Gtk+ supports this from version 2.12.
       gtkjustification = GTK_JUSTIFY_LEFT;
       if (GTK_MAJOR_VERSION >= 2)
         if (GTK_MINOR_VERSION >= 12)
@@ -1603,6 +1609,10 @@ bool Editor::load_text_verse_number(ustring & line, ustring & paragraph_mark, us
           }
           // Remove the markup from the line.
           line.erase(0, marker_length);
+          // Handle the case that the verse restarts the paragraph. // Todo
+          if (verse_restarts_paragraph) {
+            // text_append(textbuffer, "\n", paragraph_mark, "");
+          }
           // Get verse number. Handle combined verses too, e.g. 10-12b, etc.
           size_t position = line.find(" ");
           if (position == string::npos)
@@ -2593,7 +2603,7 @@ void Editor::buffer_delete_range_before(GtkTextBuffer * textbuffer, GtkTextIter 
       // Store change in the undo buffer, if there was a real change.
       EditorUndo editorundo(0);
       editorundo.type = eudDeleteText;
-      usfm_get_text(textbuffer, *start, *end, &editornotes, &editortables, project, editorundo.text);
+      usfm_get_text(textbuffer, *start, *end, &editornotes, &editortables, project, editorundo.text, verse_restarts_paragraph);
       if (!editorundo.text.empty()) {
         editorundo.startoffset = gtk_text_iter_get_offset(start);
         editorundo.endoffset = gtk_text_iter_get_offset(end);
@@ -2760,7 +2770,7 @@ void Editor::process_text_child_anchors_deleted()
   text_child_anchors_being_deleted.clear();
 }
 
-void Editor::text_append(GtkTextBuffer * textbuffer, const ustring & text, const ustring & paragraph_style, const ustring & character_style)
+void Editor::text_append(GtkTextBuffer * textbuffer, const ustring & text, const ustring & paragraph_style, const ustring & character_style) // Todo
 // This function appends text to the textbuffer.
 // It inserts the text at the cursor.
 {
@@ -3335,7 +3345,7 @@ ustring Editor::get_chapter()
   gtk_text_buffer_get_start_iter(textbuffer, &startiter);
   gtk_text_buffer_get_end_iter(textbuffer, &enditer);
   ustring chaptertext;
-  usfm_get_text(textbuffer, startiter, enditer, &editornotes, &editortables, project, chaptertext);
+  usfm_get_text(textbuffer, startiter, enditer, &editornotes, &editortables, project, chaptertext, verse_restarts_paragraph);
   replace_text(chaptertext, "  ", " ");
   return chaptertext;
 }
