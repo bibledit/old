@@ -35,6 +35,7 @@ public:
   ~PrintProject();
   void portion_project(const ustring& project);
   void comment(const ustring& text);
+  void no_bold ();
   void print();
 private:
   ProjectMemory * myproject;
@@ -42,6 +43,7 @@ private:
   ScripturePortions * scriptureportions;
   vector<ustring> xslfo_lines;
   vector <ustring> comments;
+  bool nobold;
 };
 
 #endif

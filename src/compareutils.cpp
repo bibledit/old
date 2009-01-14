@@ -69,11 +69,13 @@ void compare_with(References * referencesgui, const ustring & project, const ust
     view_parallel_references_pdf(comparedprojectmemory, NULL, references, true, &additions_deletions, true);
   } else {
     // Print whole modified project, plus additions / deletions.
+    // No bold, as bold might interfere with the marking of additions, which are in bold too.
     PrintProject printproject(&comparedprojectmemory);
     printproject.portion_project(project);
     for (unsigned int i = 0; i < additions_deletions.size(); i++) {
       printproject.comment(additions_deletions[i]);
     }
+    printproject.no_bold();
     printproject.print();
   }
 }

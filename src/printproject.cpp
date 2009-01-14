@@ -46,6 +46,7 @@ PrintProject::PrintProject(ProjectMemory * project)
 {
   myproject = project;
   scriptureportions = NULL;
+  nobold = false;
 }
 
 PrintProject::~PrintProject()
@@ -63,6 +64,12 @@ void PrintProject::comment(const ustring & text)
 // Adds a comment to be printed with the main text.
 {
   comments.push_back(text);
+}
+
+void PrintProject::no_bold ()
+// No bold printing (except for the changes).
+{
+  nobold = true;
 }
 
 void PrintProject::print()
@@ -121,7 +128,12 @@ void PrintProject::print()
 
   // Language.
   usfm2text.set_language (projectconfig->language_get());
-  
+
+  // No bold.
+  if (nobold) {
+    usfm2text.no_bold();
+  }
+    
   // Start off with inserting any remarks.
   for (unsigned int r = 0; r < comments.size(); r++) {
     text2pdf.open_paragraph();
@@ -153,3 +165,4 @@ void PrintProject::print()
   // Display the pdf file.
   text2pdf.view();
 }
+
