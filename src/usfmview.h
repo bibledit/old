@@ -80,7 +80,6 @@ private:
   bool on_verse_tracker();
   static gboolean on_textview_button_press_event(GtkWidget *widget, GdkEventButton *event, gpointer user_data);
   void on_texteditor_click(GtkWidget * widget, GdkEventButton *event);
-
 };
 
 

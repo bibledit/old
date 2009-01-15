@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(bibledit, 3.5.31, http://www.nongnu.org/bibledit)
+AC_INIT(bibledit, 3.5.32, http://www.nongnu.org/bibledit)
 AC_CANONICAL_SYSTEM
 ac_default_prefix=/usr
 AC_CONFIG_MACRO_DIR([m4])
@@ -327,11 +327,12 @@ AC_OUTPUT( Makefile
 		   scripts/Makefile
 		   templates/Makefile
 		   olpc/Makefile
-                   desktop/Makefile
-                   windows/Makefile
-                   tests/Makefile
-                   eeepc/Makefile
-                   browser/Makefile
+       desktop/Makefile
+       windows/Makefile
+       tests/Makefile
+       eeepc/Makefile
+       browser/Makefile
+       one/Makefile
 		   )
 
 echo "

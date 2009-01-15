@@ -16,24 +16,8 @@
 # By separating those child processes completely from Bibledit's Gtk, these
 # problems disappeared.
 # Another reason for using helper programs is that Bibledit got big and 
-# sometimes got slower because of the many child processed. 
+# sometimes got slower because of the many child processes. 
 # By separating these processed this improved too.
-
-
-
-# Whether to run the Gui or not.
-# Normally the Gui is started when no commandline arguments are present.
-# It also is started when the --xembed argument is given.
-RUNGUI=0
-if [ "$1" = "--xembed" ]
-  then
-    RUNGUI=1
-fi
-if [ $# -eq 0 ]
-  then
-    RUNGUI=1
-fi
-
 
 
 
@@ -42,17 +26,25 @@ mkdir -p ~/.bibledit_temp
 
 
 
+# If bibledit is running already, give a message and then bail out.
+ps ax > ~/.bibledit_temp/processes
+grep -q "bibledit-bin" ~/.bibledit_temp/processes
+if test $? -eq 0
+  then
+	echo Bibledit is already running: bailing out.
+	bibledit-one	
+	exit
+fi
+rm ~/.bibledit_temp/processes
+
+
 # The log file of bibledit.
-# The output of the processes is to be piped to the logfile normally.
-# But when bibledit-bin is called as a script, no such pipes are created.
-# If the logfile is used, the previous logfile should be saved.
+# The output of the processes is piped to the logfile.
+# The previous logfile is be saved.
 
 LOGFILE=~/.bibledit_temp/bibledit.log
-if [ $RUNGUI -eq 1 ]
-  then
-    LOGFILEOLD=${LOGFILE}.old
-    mv -f ${LOGFILE} ${LOGFILEOLD} 2> /dev/null
-fi
+LOGFILEOLD=${LOGFILE}.old
+mv -f ${LOGFILE} ${LOGFILEOLD} 2> /dev/null
 
 
 
@@ -61,22 +53,16 @@ fi
 # logfile of bibledit-bin, then they would overwrite each other.
 
 LOGFILEBIBLETIME=~/.bibledit_temp/bibletime.log
-if [ $RUNGUI -eq 1 ]
-  then
-    LOGFILEOLD=${LOGFILEBIBLETIME}.old
-    mv -f ${LOGFILEBIBLETIME} ${LOGFILEOLD} 2> /dev/null
-fi
+LOGFILEOLD=${LOGFILEBIBLETIME}.old
+mv -f ${LOGFILEBIBLETIME} ${LOGFILEOLD} 2> /dev/null
 
 
 
 # Same story for the log file for bibledit-git.
 
 LOGFILEGIT=~/.bibledit_temp/git.log
-if [ $RUNGUI -eq 1 ]
-  then
-    LOGFILEOLD=${LOGFILEGIT}.old
-    mv -f ${LOGFILEGIT} ${LOGFILEOLD} 2> /dev/null
-fi
+LOGFILEOLD=${LOGFILEGIT}.old
+mv -f ${LOGFILEGIT} ${LOGFILEOLD} 2> /dev/null
 
 
 
@@ -104,14 +90,9 @@ if [ -x ${BIBLEDIT_BIBLETIME_SAME_DIRECTORY} ]
       BIBLEDIT_BIBLETIME=${BIBLEDIT_BIBLETIME_DEVELOPMENT_DIRECTORY}
 fi
 
-# Start bibledit-bibletime only if no arguments were passed to bibledit.
-# If started, kill any previous such process.
-if [ $RUNGUI -eq 1 ]
-  then
-    killall bibledit-bibletime > /dev/null 2>&1
-    ${BIBLEDIT_BIBLETIME} > ${LOGFILEBIBLETIME} 2>&1 &
-fi
-
+# Start bibledit-bibletime, and kill any previous such process.
+killall bibledit-bibletime > /dev/null 2>&1
+${BIBLEDIT_BIBLETIME} > ${LOGFILEBIBLETIME} 2>&1 &
 
 
 # Start bibledit-git.
@@ -133,13 +114,9 @@ if [ -x ${BIBLEDIT_GIT_SAME_DIRECTORY} ]
       BIBLEDIT_GIT=${BIBLEDIT_GIT_DEVELOPMENT_DIRECTORY}
 fi
 
-# Start bibledit-git only if no arguments were passed to bibledit.
-# If started, kill any previous such process.
-if [ $RUNGUI -eq 1 ]
-  then
-    killall bibledit-git > /dev/null 2>&1
-    ${BIBLEDIT_GIT} > ${LOGFILEGIT} 2>&1 &
-fi
+# Start bibledit-git, and kill any previous such process.
+killall bibledit-git > /dev/null 2>&1
+${BIBLEDIT_GIT} > ${LOGFILEGIT} 2>&1 &
 
 
 
@@ -172,11 +149,5 @@ if [ -x ${BIBLEDIT_BIN_SAME_DIRECTORY} ]
       BIBLEDIT_BIN=${BIBLEDIT_BIN_DEVELOPMENT_DIRECTORY}
 fi
 
-if [ $RUNGUI -eq 1 ]
-  then
-    ${BIBLEDIT_BIN} $@ > ${LOGFILE} 2>&1
-  else
-    ${BIBLEDIT_BIN} $@
-fi
-
+${BIBLEDIT_BIN} $@ > ${LOGFILE} 2>&1
 

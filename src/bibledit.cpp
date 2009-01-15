@@ -117,12 +117,6 @@ int main(int argc, char *argv[])
   ipc = &myipc;
   // Initialize GTK
   gtk_init(&argc, &argv);
-  // If Bibledit is already running, ask what to do.
-  if (programs_running_count_basic("bibledit-bin") > 1) {
-    if (gtkw_dialog_question(NULL, "Bibledit is already running.\nWould you like to run another copy?") == GTK_RESPONSE_NO) {
-      return 1;
-    }
-  }
   // Upgrade data.
   upgrade(true);
   // Window icon fallback.

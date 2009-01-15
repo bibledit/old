@@ -16,7 +16,7 @@
 # By separating those child processes completely from Bibledit's Gtk, these
 # problems disappeared.
 # Another reason for using helper programs is that Bibledit got big and 
-# sometimes got slower because of the many child processed. 
+# sometimes got slower because of the many child processes. 
 # By separating these processed this improved too.
 
 
@@ -24,6 +24,18 @@
 # The temporal directory. Create it.
 mkdir -p ~/.bibledit_temp
 
+
+
+# If bibledit is running already, give a message and then bail out.
+ps ax > ~/.bibledit_temp/processes
+grep -q "bibledit-bin" ~/.bibledit_temp/processes
+if test $? -eq 0
+  then
+	echo Bibledit is already running: bailing out.
+	bibledit-one	
+	exit
+fi
+rm ~/.bibledit_temp/processes
 
 
 # The log file of bibledit.
