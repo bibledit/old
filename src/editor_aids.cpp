@@ -1191,7 +1191,7 @@ void table_create_cell(GtkTable * table, GtkTextTagTable * texttagtable, GtkWidg
   gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textview), GTK_WRAP_WORD);
 }
 
-void usfm_get_text(GtkTextBuffer * textbuffer, GtkTextIter startiter, GtkTextIter enditer, vector < EditorNote > *editornotes, vector < EditorTable > *editortables, const ustring & project, ustring & text, bool verse_restarts_paragraph) // Todo
+void usfm_get_text(GtkTextBuffer * textbuffer, GtkTextIter startiter, GtkTextIter enditer, vector < EditorNote > *editornotes, vector < EditorTable > *editortables, const ustring & project, ustring & text, bool verse_restarts_paragraph) // todo
 /*
  Gets the USFM text from the main textbuffer between the two offsets.
  Calls routines so as to include the text of notes and tables.
@@ -1237,8 +1237,8 @@ void usfm_get_text(GtkTextBuffer * textbuffer, GtkTextIter startiter, GtkTextIte
         new_character.clear();
     }
 
-    // Handle the case where a verse restarts the paragraph. // Todo
-    // cout << "new paragraph style " << new_paragraph_style << ", new character style " << new_character_style << ", line break " << line_break << endl; // Todo
+    // Handle the case where a verse restarts the paragraph. // todo
+    // cout << "new paragraph style " << new_paragraph_style << ", new character style " << new_character_style << ", line break " << line_break << endl; // todo
     if (verse_restarts_paragraph) {
       StyleType type;
       int subtype;

@@ -47,6 +47,7 @@
 #include "assistantimportkeyterms.h"
 #include "assistantdeletekeyterms.h"
 #include "assistantchanges.h"
+#include "windowcheckusfm.h"
 
 class MainWindow : public WindowBase
 {
@@ -290,6 +291,7 @@ protected:
   GtkWidget *check_key_terms;
   GtkWidget *my_checks;
   GtkWidget *image15438;
+  GtkWidget *check_usfm;
   GtkWidget *menutools;
   GtkWidget *menutools_menu;
   GtkWidget *line_cutter_for_hebrew_text1;
@@ -841,6 +843,14 @@ protected:
   void on_assistant_keyterms_ready ();
   References * assistant_references;
 
+  // Check USFM
+  static void on_check_usfm_activate (GtkMenuItem *menuitem, gpointer user_data);
+  void on_check_usfm ();
+  WindowCheckUSFM * window_check_usfm;
+  static void on_window_check_usfm_delete_button_clicked(GtkButton *button, gpointer user_data);
+  void on_window_check_usfm_delete_button();
+  //void check_usfm();
+  
 };
 
 #endif

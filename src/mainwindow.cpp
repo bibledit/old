@@ -166,6 +166,7 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
   delete_keyterms_assistant = NULL;
   changes_assistant = NULL;
   assistant_references = NULL;
+  window_check_usfm = NULL;
   
   // Initialize some variables.
   git_reopen_project = false;
@@ -1195,6 +1196,7 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
   parallels_from_the_ot = NULL;
   check_key_terms = NULL;
   my_checks = NULL;
+  check_usfm = NULL;
   if (guifeatures.checks()) {
 
     check1 = gtk_menu_item_new_with_mnemonic("Chec_k");
@@ -1425,6 +1427,10 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
     image15438 = gtk_image_new_from_stock("gtk-home", GTK_ICON_SIZE_MENU);
     gtk_widget_show(image15438);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(my_checks), image15438);
+
+    check_usfm = gtk_check_menu_item_new_with_mnemonic ("_USFM");
+    gtk_widget_show (check_usfm);
+    gtk_container_add (GTK_CONTAINER (check1_menu), check_usfm);
 
   }
 
@@ -1914,6 +1920,8 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
     g_signal_connect((gpointer) check_key_terms, "activate", G_CALLBACK(on_check_key_terms_activate), gpointer(this));
   if (my_checks)
     g_signal_connect((gpointer) my_checks, "activate", G_CALLBACK(on_my_checks_activate), gpointer(this));
+  if (check_usfm)
+    g_signal_connect ((gpointer) check_usfm, "activate", G_CALLBACK (on_check_usfm_activate), gpointer(this));
   if (menutools)
     g_signal_connect((gpointer) menutools, "activate", G_CALLBACK(on_menutools_activate), gpointer(this));
   if (line_cutter_for_hebrew_text1)
@@ -6261,6 +6269,11 @@ bool MainWindow::on_windows_startup()
           gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_verses), true);
           break;
         }
+      case widCheckUSFM:
+        {
+          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(check_usfm), true);
+          break;
+        }
       }
       window_started = true;
     }
@@ -6357,6 +6370,12 @@ void MainWindow::shutdown_windows()
     delete window_show_verses;
     window_show_verses = NULL;
   }
+  // Check USFM.
+  if (window_check_usfm) {
+    window_check_usfm->shutdown();
+    delete window_check_usfm;
+    window_check_usfm = NULL;
+  }
 }
 
 void MainWindow::on_window_focus_button_clicked(GtkButton * button, gpointer user_data)
@@ -6424,6 +6443,8 @@ void MainWindow::present_windows(GtkWidget * widget)
   }
   if (window_show_verses)
     window_show_verses->present(false);
+  if (window_check_usfm)
+    window_check_usfm->present(false);
   present(false);
 }
 
@@ -6714,10 +6735,17 @@ void MainWindow::accelerator_close_window()
     initiate_shutdown();
   }
 
-  // Quick references.
+  // Show verses.
   if (window_show_verses) {
     if (now_focused_window_button == window_show_verses->focus_in_signal_button) {
       on_window_show_verses_delete_button();
+    }
+  }
+
+  // Check USFM.
+  if (window_check_usfm) {
+    if (now_focused_window_button == window_check_usfm->focus_in_signal_button) {
+      on_window_check_usfm_delete_button();
     }
   }
 }
@@ -6927,4 +6955,59 @@ void MainWindow::on_assistant_keyterms_ready ()
   git_command_pause(false);
 }
 
+
+/*
+ |
+ |
+ |
+ |
+ |
+ Check USFM Todo
+ |
+ |
+ |
+ |
+ |
+ */
+
+
+void MainWindow::on_check_usfm_activate(GtkMenuItem * menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_check_usfm();
+}
+
+void MainWindow::on_check_usfm()
+{
+  on_window_check_usfm_delete_button();
+  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(check_usfm))) {
+    extern GtkAccelGroup *accelerator_group;
+    window_check_usfm = new WindowCheckUSFM(accelerator_group, windows_startup_pointer != G_MAXINT);
+    g_signal_connect((gpointer) window_check_usfm->delete_signal_button, "clicked", G_CALLBACK(on_window_check_usfm_delete_button_clicked), gpointer(this));
+    g_signal_connect((gpointer) window_check_usfm->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
+    show_verses();
+  }
+}
+
+void MainWindow::on_window_check_usfm_delete_button_clicked(GtkButton * button, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_window_check_usfm_delete_button();
+}
+
+void MainWindow::on_window_check_usfm_delete_button()
+{
+  if (window_check_usfm) {
+    delete window_check_usfm;
+    window_check_usfm = NULL;
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(check_usfm), false);
+  }
+}
+
+/*
+void MainWindow::check_usfm()
+{
+  if (window_check_usfm) {
+    window_show_verses->go_to (navigation.reference);
+  }
+}
+*/
 

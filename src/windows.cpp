@@ -209,6 +209,7 @@ void WindowBase::display(bool startup)
     case widStyles:
     case widReferences:
     case widShowVerses:
+    case widCheckUSFM:
       {
         area_rectangle.x = settings->genconfig.tools_area_x_position_get();
         area_rectangle.y = settings->genconfig.tools_area_y_position_get();

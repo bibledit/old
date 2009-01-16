@@ -173,7 +173,7 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	assistantimportkeyterms.$(OBJEXT) assistants.$(OBJEXT) \
 	assistantdeletekeyterms.$(OBJEXT) assistantchanges.$(OBJEXT) \
 	widgetdate.$(OBJEXT) usfmview.$(OBJEXT) \
-	dialogcompareprefs.$(OBJEXT)
+	dialogcompareprefs.$(OBJEXT) windowcheckusfm.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -625,7 +625,8 @@ bibledit_bin_SOURCES = \
         assistantchanges.cpp \
         widgetdate.cpp \
         usfmview.cpp \
-        dialogcompareprefs.cpp
+        dialogcompareprefs.cpp \
+        windowcheckusfm.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -951,6 +952,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/versifications.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/widgetdate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowcheckkeyterms.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowcheckusfm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windoweditor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowlayout.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowmerge.Po@am__quote@
