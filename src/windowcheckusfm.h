@@ -30,7 +30,9 @@ class WindowCheckUSFM : public WindowBase
 public:
   WindowCheckUSFM(GtkAccelGroup *accelerator_group, bool startup);
   virtual ~WindowCheckUSFM();
-protected:
+  void editors_changed();
+  void set_textbuffer (GtkTextBuffer * buffer);
+private:
   GtkWidget *vbox;
   GtkWidget *checkbutton_verses_at_start;
   GtkWidget *vbox_filter;
@@ -50,11 +52,15 @@ protected:
   GtkWidget *image5;
   GtkWidget *label_information_ok;
   GtkWidget *label_information_text;
-private:
   static void on_button_discover_markup_clicked (GtkButton *button, gpointer user_data);
   void on_button_discover_markup ();
   static void on_button_filter_clicked (GtkButton *button, gpointer user_data);
   void on_button_filter ();
+  guint editors_changed_event_id;
+  static bool on_editors_changed_timeout(gpointer user_data);
+  void on_editors_changed();
+  GtkTextBuffer * textbuffer;
+  // Todo we need to set project, book and chapter.
 };
 
 #endif

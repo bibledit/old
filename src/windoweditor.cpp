@@ -637,3 +637,15 @@ void WindowEditor::switch_to_view (bool viewusfm, ustring project)
     go_to (reference);
   }
 }
+
+
+GtkTextBuffer * WindowEditor::edit_usfm_textbuffer ()
+{
+  GtkTextBuffer * textbuffer = NULL;
+  if (usfmview) {
+    textbuffer = usfmview->last_focused_textbuffer();
+  }
+  return textbuffer;
+}
+
+

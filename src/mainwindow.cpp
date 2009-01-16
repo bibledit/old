@@ -5356,6 +5356,15 @@ void MainWindow::handle_editor_focus()
   }  
   gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (view_usfm_code), viewing_usfm);
   
+  // Inform the check USFM window about the focused editor.
+  GtkTextBuffer * focused_textbuffer = NULL;
+  if (editor_window) {  
+    focused_textbuffer = editor_window->edit_usfm_textbuffer();
+  }  
+  if (window_check_usfm) {
+    window_check_usfm->set_textbuffer(focused_textbuffer);
+  }
+    
   // If we've no project bail out.
   if (project.empty())
     return;
@@ -5443,6 +5452,9 @@ void MainWindow::on_editorsgui_changed()
   if (window_merge) {
     window_merge->editors_changed();
   }
+  if (window_check_usfm) {
+    window_check_usfm->editors_changed();
+  }
 }
 
 void MainWindow::reload_project()
@@ -5481,6 +5493,9 @@ void MainWindow::on_view_usfm_code()
   if (editor_window) {
     editor_window->editing_usfm_code_set (gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (view_usfm_code)));
   }
+  // There are objects that act on USFM view or formatted view only.
+  // Inform these about a possible change.
+  handle_editor_focus();
 }
 
 

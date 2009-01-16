@@ -23,12 +23,16 @@
 #include "windows.h"
 #include "settings.h"
 #include "shortcuts.h"
+#include "gwrappers.h"
 
 
 WindowCheckUSFM::WindowCheckUSFM(GtkAccelGroup * accelerator_group, bool startup):
 WindowBase(widCheckUSFM, "Check USFM", startup, 0)
 // Window for checking USFM.
 {
+  // Initialize variables.
+  textbuffer = NULL;
+  
   Shortcuts shortcuts (0);
   
   vbox = gtk_vbox_new (FALSE, 6);
@@ -155,6 +159,61 @@ void WindowCheckUSFM::on_button_filter_clicked (GtkButton *button, gpointer user
 
 void WindowCheckUSFM::on_button_filter ()
 {
+}
+
+
+void WindowCheckUSFM::editors_changed()
+// This function is called if any of the editors changed.
+{
+  gw_destroy_source(editors_changed_event_id);
+  editors_changed_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 500, GSourceFunc(on_editors_changed_timeout), gpointer(this), NULL);
+}
+
+bool WindowCheckUSFM::on_editors_changed_timeout(gpointer user_data)
+{
+  ((WindowCheckUSFM *) user_data)->on_editors_changed();
+  return false;
+}
+
+void WindowCheckUSFM::on_editors_changed()
+// This function is called shortly after any of the Editors changed.
+{
+
+  /* Todo
+  // See whether to load new text.
+  bool loadtext = true;
+  if (current_master_project.empty())
+    loadtext = false;;
+  if (current_edited_project.empty())
+    loadtext = false;;
+
+  // Set buttons' sensitivity.
+  gtk_widget_set_sensitive(button_previous, loadtext);
+  gtk_widget_set_sensitive(button_merge, loadtext);
+  gtk_widget_set_sensitive(button_next, loadtext);
+
+  // If no loading, clear text and bail out.
+  if (!loadtext) {
+    gtk_text_buffer_set_text(differencesbuffer, "", -1);
+    return;
+  }
+  // Signal to get the text from the editors.
+  gtk_button_clicked(GTK_BUTTON(editors_get_text_button));
+
+  // Show the comparison.
+  show_comparison();
+  */
+}
+
+void WindowCheckUSFM::set_textbuffer (GtkTextBuffer * buffer)
+{
+  // Bail out if there's no change.
+  if (buffer == textbuffer)
+    return;
+  // Set the new textbuffer;
+  textbuffer = buffer;
+  // New buffer: editors changed.
+  editors_changed();
 }
 
 

@@ -79,6 +79,9 @@ public:
   
   bool editing_usfm_code_get();
   void editing_usfm_code_set (bool setting);
+  
+  GtkTextBuffer * edit_usfm_textbuffer ();
+  
 protected:
   GtkWidget *vbox;
   void switch_to_view (bool viewusfm, ustring project);
