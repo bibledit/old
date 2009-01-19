@@ -849,8 +849,7 @@ protected:
   WindowCheckUSFM * window_check_usfm;
   static void on_window_check_usfm_delete_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_check_usfm_delete_button();
-  //void check_usfm();
-  
+  void check_usfm_window_ping();
 };
 
 #endif

@@ -24,6 +24,10 @@
 #include "settings.h"
 #include "shortcuts.h"
 #include "gwrappers.h"
+#include "gui.h" 
+#include "utilities.h"
+#include "versification.h"
+#include "tiny_utilities.h"
 
 
 WindowCheckUSFM::WindowCheckUSFM(GtkAccelGroup * accelerator_group, bool startup):
@@ -162,12 +166,21 @@ void WindowCheckUSFM::on_button_filter ()
 }
 
 
-void WindowCheckUSFM::editors_changed()
+void WindowCheckUSFM::set_data (GtkTextBuffer * buffer, const ustring& project_in, unsigned int book_in, unsigned int chapter_in)
 // This function is called if any of the editors changed.
 {
+  // Set the new data;
+  textbuffer = buffer;
+  project = project_in;
+  extern Settings *settings;
+  versification = settings->projectconfig(project)->versification_get();
+  book = book_in;
+  chapter = chapter_in;
+  // New buffer: editors changed.
   gw_destroy_source(editors_changed_event_id);
-  editors_changed_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 500, GSourceFunc(on_editors_changed_timeout), gpointer(this), NULL);
+  editors_changed_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_editors_changed_timeout), gpointer(this), NULL);
 }
+
 
 bool WindowCheckUSFM::on_editors_changed_timeout(gpointer user_data)
 {
@@ -178,42 +191,209 @@ bool WindowCheckUSFM::on_editors_changed_timeout(gpointer user_data)
 void WindowCheckUSFM::on_editors_changed()
 // This function is called shortly after any of the Editors changed.
 {
+  // Clear event id.
+  editors_changed_event_id = 0;
 
-  /* Todo
-  // See whether to load new text.
-  bool loadtext = true;
-  if (current_master_project.empty())
-    loadtext = false;;
-  if (current_edited_project.empty())
-    loadtext = false;;
+  // Consecutive checks.
+  bool checks_going = true;
 
-  // Set buttons' sensitivity.
-  gtk_widget_set_sensitive(button_previous, loadtext);
-  gtk_widget_set_sensitive(button_merge, loadtext);
-  gtk_widget_set_sensitive(button_next, loadtext);
-
-  // If no loading, clear text and bail out.
-  if (!loadtext) {
-    gtk_text_buffer_set_text(differencesbuffer, "", -1);
-    return;
+  // See whether a textbuffer is available.
+  if (checks_going) {
+    if (textbuffer == NULL) {
+      gtk_label_set_text(GTK_LABEL(label_information_text), "Inactive. To activate, open or focus a project, and view the USFM code.");
+      checks_going = false;
+    }
   }
-  // Signal to get the text from the editors.
-  gtk_button_clicked(GTK_BUTTON(editors_get_text_button));
+  
+  // See whether text is available.
+  if (checks_going) {
+    GtkTextIter enditer;
+    gtk_text_buffer_get_end_iter(textbuffer, &enditer);
+    if (gtk_text_iter_get_offset(&enditer) < 5) {
+      gtk_label_set_text(GTK_LABEL(label_information_text), "There is no text. Put text into the editor");
+      checks_going = false;
+    }
+  }
+  if (checks_going) {
+    GtkTextIter enditer;
+    gtk_text_buffer_get_end_iter(textbuffer, &enditer);
+    if (gtk_text_iter_get_offset(&enditer) < 10) {
+      gtk_label_set_text(GTK_LABEL(label_information_text), "There isn't much text. Put more text into the editor");
+      checks_going = false;
+    }
+  }
 
-  // Show the comparison.
-  show_comparison();
-  */
+  // Check whether the book seems ok.
+  if (checks_going) {
+    if (book == 0) {
+      gtk_label_set_text(GTK_LABEL(label_information_text), "Unknown book");
+      checks_going = false;
+    }
+  }
+
+  // Check whether the chapter seems ok.
+  if (checks_going) {
+    if (chapter < 0) {
+      gtk_label_set_text(GTK_LABEL(label_information_text), "Unknown chapter");
+      checks_going = false;
+    }
+  }
+
+  // Check whether the verse numbers are right.
+  if (checks_going) {
+
+    // Get the text from the textbuffer.
+    vector < ustring > lines;
+    textbuffer_get_lines(textbuffer, lines, false);
+    
+    // Get the actual verses, and the verses that don't start a line.
+    vector < ustring > non_line_starters;
+    vector < ustring > actual_verses = get_verses(&non_line_starters);
+    set < ustring > actual_verses_set(actual_verses.begin(), actual_verses.end());
+
+    // Get the required verses in the book/chapter.
+    vector < ustring > required_verses;
+    ustring last_verse = versification_get_last_verse(versification, book, chapter);
+    for (unsigned int i = 1; i <= convert_to_int(last_verse); i++) {
+      required_verses.push_back(convert_to_string(i));
+    }
+    set < ustring > required_verses_set(required_verses.begin(), required_verses.end());
+
+    // See whether any verses are missing.
+    ustring missing_verses;
+    for (unsigned int i = 0; i < required_verses.size(); i++) {
+      if (actual_verses_set.find(required_verses[i]) == actual_verses_set.end()) {
+        if (!missing_verses.empty())
+          missing_verses.append(", ");
+        missing_verses.append(required_verses[i]);
+      }
+    }
+    if (!missing_verses.empty()) {
+      missing_verses.insert(0, "Missing verses: ");
+      gtk_label_set_text(GTK_LABEL(label_information_text), missing_verses.c_str());
+      checks_going = false;
+    }
+    // See whether there are extra verses.
+    if (checks_going) {
+      ustring extra_verses;
+      for (unsigned int i = 0; i < actual_verses.size(); i++) {
+        if (required_verses_set.find(actual_verses[i]) == required_verses_set.end()) {
+          if (!extra_verses.empty())
+            extra_verses.append(", ");
+          extra_verses.append(actual_verses[i]);
+        }
+      }
+      if (!extra_verses.empty()) {
+        extra_verses.insert(0, "Extra verses: ");
+        gtk_label_set_text(GTK_LABEL(label_information_text), extra_verses.c_str());
+        checks_going = false;
+      }
+    }
+    // See whether there are double verses.
+    if (checks_going) {
+      ustring double_verses;
+      set < ustring > double_set;
+      for (unsigned int i = 0; i < actual_verses.size(); i++) {
+        if (double_set.find(actual_verses[i]) != double_set.end()) {
+          if (!double_verses.empty())
+            double_verses.append(", ");
+          double_verses.append(actual_verses[i]);
+        }
+        double_set.insert(actual_verses[i]);
+      }
+      if (!double_verses.empty()) {
+        double_verses.insert(0, "Double verses: ");
+        gtk_label_set_text(GTK_LABEL(label_information_text), double_verses.c_str());
+        checks_going = false;
+      }
+    }
+    // See whether there are verses out of sequence.
+    if (checks_going) {
+      for (unsigned int i = 0; i < actual_verses.size() - 1; i++) {
+        unsigned int currentverse = convert_to_int(actual_verses[i]);
+        unsigned int nextverse = convert_to_int(actual_verses[i + 1]);
+        if (nextverse != currentverse + 1) {
+          if (checks_going) {
+            ustring msg("Verse " + actual_verses[i + 1] + " is out of sequence");
+            gtk_label_set_text(GTK_LABEL(label_information_text), msg.c_str());
+            checks_going = false;
+          }
+        }
+      }
+    }
+    // See whether there are verses that don't start a line.
+    if (checks_going) {
+      ustring nostart;
+      for (unsigned int i = 0; i < non_line_starters.size(); i++) {
+        if (!nostart.empty())
+          nostart.append(", ");
+        nostart.append(non_line_starters[i]);
+      }
+      if (!nostart.empty()) {
+        nostart.insert(0, "Verses that are not at the start of a line: ");
+        gtk_label_set_text(GTK_LABEL(label_information_text), nostart.c_str());
+        checks_going = false;
+      }
+    }
+
+  }
+  // Set sensitivity of the Discover button.
+  gtk_widget_set_sensitive(button_discover_markup, (book > 0) && (chapter >= 0));
+
+  // Final okay info in gui.
+  gui_okay(image5, label_information_ok, checks_going);
+  if (checks_going) {
+    gtk_label_set_text(GTK_LABEL(label_information_text), "Everything seems to be fine.");
+  }
 }
 
-void WindowCheckUSFM::set_textbuffer (GtkTextBuffer * buffer)
+
+vector < ustring > WindowCheckUSFM::get_verses(vector < ustring > *non_line_starters)
+// Gets the verse numbers from the textbuffer, and cleans them at the same time.
 {
-  // Bail out if there's no change.
-  if (buffer == textbuffer)
-    return;
-  // Set the new textbuffer;
-  textbuffer = buffer;
-  // New buffer: editors changed.
-  editors_changed();
+  vector < ustring > verses;
+  GtkTextIter iter;
+  ustring marker, verse;
+  bool in_usfm = false;
+  bool in_verse = false;
+  bool last_marker_started_line = false;
+  gtk_text_buffer_get_start_iter(textbuffer, &iter);
+  do {
+    gunichar character = gtk_text_iter_get_char(&iter);
+    gchar buf[7];
+    gint length = g_unichar_to_utf8(character, (gchar *) & buf);
+    buf[length] = '\0';
+    if (in_verse) {
+      verse.append(buf);
+    }
+    if (g_unichar_isspace(character)) {
+      in_usfm = false;
+      in_verse = false;
+      if (!marker.empty()) {
+        if (marker == "v") {
+          in_verse = true;
+        }
+        marker.clear();
+      }
+      if (!verse.empty()) {
+        verses.push_back(trim(verse));
+        if (!last_marker_started_line) {
+          if (non_line_starters)
+            non_line_starters->push_back(verse);
+        }
+        verse.clear();
+      }
+    }
+    if (in_usfm) {
+      marker.append(buf);
+    }
+    if (character == '\\') {
+      in_usfm = true;
+      last_marker_started_line = gtk_text_iter_starts_line(&iter);
+    }
+  } while (gtk_text_iter_forward_char(&iter));
+  return verses;
 }
 
 
+// Todo need to implement and clarify a few controls.

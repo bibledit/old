@@ -233,7 +233,6 @@ bibledit_bin_SOURCES = \
         dialogeditdictionary.cpp \
         check_sentence_structure.cpp \
         dialogcheckbutton.cpp \
-        dialogimportrawtext.cpp \
         gtkhtml3browser.cpp \
         htmlcache.cpp \
         dialogxfernotes2text.cpp \

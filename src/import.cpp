@@ -274,24 +274,6 @@ gchar *unicode_convert(gchar * data, const ustring & encoding)
   return output;
 }
 
-void import_dialog_selector(bool & structured, bool & raw)
-// Shows a dialog asking what type of import to do.
-{
-  structured = false;
-  raw = false;
-  vector < ustring > labels;
-  labels.push_back("USFM and other formatted text");
-  labels.push_back("Raw text");
-  RadiobuttonDialog dialog("Import", "Select what type of text to import", labels, 0);
-  if (dialog.run() == GTK_RESPONSE_OK) {
-    if (dialog.selection == 0)
-      structured = true;
-    if (dialog.selection == 1)
-      raw = true;
-  }
-}
-
-
 ustring import_type_human_readable(ImportType importtype)
 // Makes the import type human readable.
 {

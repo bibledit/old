@@ -124,7 +124,6 @@
 #include "dialogfilters.h"
 #include "dialogradiobutton.h"
 #include "import.h"
-#include "dialogimportrawtext.h"
 #include "dialogxfernotes2text.h"
 #include "htmlcolor.h"
 #include "text2pdf.h"
@@ -2437,18 +2436,9 @@ void MainWindow::on_import1_activate(GtkMenuItem * menuitem, gpointer user_data)
 
 void MainWindow::menu_import()
 {
-  bool structured, raw;
-  import_dialog_selector(structured, raw);
-  if (structured) {
-    ImportTextDialog dialog(0);
-    if (dialog.run() != GTK_RESPONSE_OK)
-      return;
-  }
-  if (raw) {
-    ImportRawTextDialog dialog(0);
-    if (dialog.run() != GTK_RESPONSE_OK)
-      return;
-  }
+  ImportTextDialog dialog(0);
+  if (dialog.run() != GTK_RESPONSE_OK)
+    return;
   reload_project();
 }
 
@@ -5357,12 +5347,18 @@ void MainWindow::handle_editor_focus()
   gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (view_usfm_code), viewing_usfm);
   
   // Inform the check USFM window about the focused editor.
+  check_usfm_window_ping ();
+  
   GtkTextBuffer * focused_textbuffer = NULL;
+  unsigned int book = 0;
+  unsigned int chapter = 0;
   if (editor_window) {  
     focused_textbuffer = editor_window->edit_usfm_textbuffer();
+    book = editor_window->book();
+    chapter = editor_window->chapter();
   }  
   if (window_check_usfm) {
-    window_check_usfm->set_textbuffer(focused_textbuffer);
+    window_check_usfm->set_data(focused_textbuffer, project, book, chapter);
   }
     
   // If we've no project bail out.
@@ -5452,9 +5448,7 @@ void MainWindow::on_editorsgui_changed()
   if (window_merge) {
     window_merge->editors_changed();
   }
-  if (window_check_usfm) {
-    window_check_usfm->editors_changed();
-  }
+  check_usfm_window_ping ();
 }
 
 void MainWindow::reload_project()
@@ -6977,7 +6971,7 @@ void MainWindow::on_assistant_keyterms_ready ()
  |
  |
  |
- Check USFM Todo
+ Check USFM
  |
  |
  |
@@ -6999,7 +6993,8 @@ void MainWindow::on_check_usfm()
     window_check_usfm = new WindowCheckUSFM(accelerator_group, windows_startup_pointer != G_MAXINT);
     g_signal_connect((gpointer) window_check_usfm->delete_signal_button, "clicked", G_CALLBACK(on_window_check_usfm_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_check_usfm->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
-    show_verses();
+    handle_editor_focus();
+    on_editorsgui_changed();
   }
 }
 
@@ -7017,12 +7012,22 @@ void MainWindow::on_window_check_usfm_delete_button()
   }
 }
 
-/*
-void MainWindow::check_usfm()
+void MainWindow::check_usfm_window_ping()
+// Inform the check USFM window about the focused editor.
 {
-  if (window_check_usfm) {
-    window_show_verses->go_to (navigation.reference);
-  }
+  if (!window_check_usfm)
+    return;
+  WindowEditor *editor_window = last_focused_editor_window();
+  ustring project;
+  unsigned int book = 0;
+  unsigned int chapter = 0;
+  GtkTextBuffer * focused_textbuffer = NULL;
+  if (editor_window) {  
+    project = editor_window->project();
+    focused_textbuffer = editor_window->edit_usfm_textbuffer();
+    book = editor_window->book();
+    chapter = editor_window->chapter();
+  }  
+  window_check_usfm->set_data(focused_textbuffer, project, book, chapter);
 }
-*/
 

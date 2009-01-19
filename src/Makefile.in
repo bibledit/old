@@ -153,27 +153,27 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogdictionary.$(OBJEXT) spelling.$(OBJEXT) \
 	dialogeditdictionary.$(OBJEXT) \
 	check_sentence_structure.$(OBJEXT) dialogcheckbutton.$(OBJEXT) \
-	dialogimportrawtext.$(OBJEXT) gtkhtml3browser.$(OBJEXT) \
-	htmlcache.$(OBJEXT) dialogxfernotes2text.$(OBJEXT) \
-	htmlcolor.$(OBJEXT) text2pdf.$(OBJEXT) \
-	text2pdf_utils.$(OBJEXT) text2pdf_area.$(OBJEXT) \
-	text2pdf_ref_area.$(OBJEXT) text2pdf_block.$(OBJEXT) \
-	text2pdf_page.$(OBJEXT) text2pdf_input.$(OBJEXT) \
-	text2pdf_layout.$(OBJEXT) text2pdf_big_block.$(OBJEXT) \
-	text2pdf_intermediate.$(OBJEXT) usfm2text.$(OBJEXT) \
-	dialogtext2pdf.$(OBJEXT) windowlayout.$(OBJEXT) \
-	windowshowkeyterms.$(OBJEXT) windows.$(OBJEXT) \
-	windowshowquickrefs.$(OBJEXT) windowmerge.$(OBJEXT) \
-	windowresource.$(OBJEXT) windowoutline.$(OBJEXT) \
-	windowcheckkeyterms.$(OBJEXT) windowstyles.$(OBJEXT) \
-	windownotes.$(OBJEXT) accelerators.$(OBJEXT) \
-	dialogprojectnote.$(OBJEXT) windowreferences.$(OBJEXT) \
-	windoweditor.$(OBJEXT) compress.$(OBJEXT) \
-	localizednumerals.$(OBJEXT) windowshowverses.$(OBJEXT) \
-	assistantimportkeyterms.$(OBJEXT) assistants.$(OBJEXT) \
-	assistantdeletekeyterms.$(OBJEXT) assistantchanges.$(OBJEXT) \
-	widgetdate.$(OBJEXT) usfmview.$(OBJEXT) \
-	dialogcompareprefs.$(OBJEXT) windowcheckusfm.$(OBJEXT)
+	gtkhtml3browser.$(OBJEXT) htmlcache.$(OBJEXT) \
+	dialogxfernotes2text.$(OBJEXT) htmlcolor.$(OBJEXT) \
+	text2pdf.$(OBJEXT) text2pdf_utils.$(OBJEXT) \
+	text2pdf_area.$(OBJEXT) text2pdf_ref_area.$(OBJEXT) \
+	text2pdf_block.$(OBJEXT) text2pdf_page.$(OBJEXT) \
+	text2pdf_input.$(OBJEXT) text2pdf_layout.$(OBJEXT) \
+	text2pdf_big_block.$(OBJEXT) text2pdf_intermediate.$(OBJEXT) \
+	usfm2text.$(OBJEXT) dialogtext2pdf.$(OBJEXT) \
+	windowlayout.$(OBJEXT) windowshowkeyterms.$(OBJEXT) \
+	windows.$(OBJEXT) windowshowquickrefs.$(OBJEXT) \
+	windowmerge.$(OBJEXT) windowresource.$(OBJEXT) \
+	windowoutline.$(OBJEXT) windowcheckkeyterms.$(OBJEXT) \
+	windowstyles.$(OBJEXT) windownotes.$(OBJEXT) \
+	accelerators.$(OBJEXT) dialogprojectnote.$(OBJEXT) \
+	windowreferences.$(OBJEXT) windoweditor.$(OBJEXT) \
+	compress.$(OBJEXT) localizednumerals.$(OBJEXT) \
+	windowshowverses.$(OBJEXT) assistantimportkeyterms.$(OBJEXT) \
+	assistants.$(OBJEXT) assistantdeletekeyterms.$(OBJEXT) \
+	assistantchanges.$(OBJEXT) widgetdate.$(OBJEXT) \
+	usfmview.$(OBJEXT) dialogcompareprefs.$(OBJEXT) \
+	windowcheckusfm.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -585,7 +585,6 @@ bibledit_bin_SOURCES = \
         dialogeditdictionary.cpp \
         check_sentence_structure.cpp \
         dialogcheckbutton.cpp \
-        dialogimportrawtext.cpp \
         gtkhtml3browser.cpp \
         htmlcache.cpp \
         dialogxfernotes2text.cpp \
@@ -776,7 +775,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoggitsetup.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoggotoreference.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogimportnotes.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogimportrawtext.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogimporttext.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoginsertnote.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoginserttable.Po@am__quote@

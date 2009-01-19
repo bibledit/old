@@ -30,8 +30,7 @@ class WindowCheckUSFM : public WindowBase
 public:
   WindowCheckUSFM(GtkAccelGroup *accelerator_group, bool startup);
   virtual ~WindowCheckUSFM();
-  void editors_changed();
-  void set_textbuffer (GtkTextBuffer * buffer);
+  void set_data (GtkTextBuffer * buffer, const ustring& project_in, unsigned int book_in, unsigned int chapter_in);
 private:
   GtkWidget *vbox;
   GtkWidget *checkbutton_verses_at_start;
@@ -60,7 +59,12 @@ private:
   static bool on_editors_changed_timeout(gpointer user_data);
   void on_editors_changed();
   GtkTextBuffer * textbuffer;
-  // Todo we need to set project, book and chapter.
+  ustring project;
+  ustring versification;
+  unsigned int book;
+  unsigned int chapter;
+  vector <ustring> get_verses(vector <ustring> * non_line_starters);
+
 };
 
 #endif

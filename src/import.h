@@ -45,7 +45,6 @@ private:
 gchar * unicode_convert (gchar *data, const ustring& encoding);
 
 
-void import_dialog_selector (bool& structured, bool& raw);
 ustring import_type_human_readable (ImportType importtype);
 ustring bibleworks_file_get_bookname (const ustring& filename);
 vector<ustring> bibleworks_file_divide (const ustring& inputfile);
