@@ -45,7 +45,7 @@ WindowBase(widCheckUSFM, "Check USFM", startup, 0)
   gtk_widget_show (vbox);
   gtk_container_add (GTK_CONTAINER (window), vbox);
 
-  checkbutton_verses_at_start = gtk_check_button_new_with_mnemonic ("Verses are at line start");
+  checkbutton_verses_at_start = gtk_check_button_new_with_mnemonic ("Verses in raw text are at line start");
   gtk_widget_show (checkbutton_verses_at_start);
   gtk_box_pack_start (GTK_BOX (vbox), checkbutton_verses_at_start, FALSE, FALSE, 0);
   
@@ -319,7 +319,13 @@ void WindowCheckUSFM::set_parameters (GtkTextBuffer * buffer, const ustring& pro
   versification = settings->projectconfig(project)->versification_get();
   book = book_in;
   chapter = chapter_in;
-  // New buffer: editors changed.
+  // Set controls active if there's a textbuffer available.
+  gtk_widget_set_sensitive (checkbutton_verses_at_start, textbuffer != NULL);
+  gtk_widget_set_sensitive (label_filter, textbuffer != NULL);
+  gtk_widget_set_sensitive (combobox_filter, textbuffer != NULL);
+  gtk_widget_set_sensitive (button_filter, textbuffer != NULL);
+  gtk_widget_set_sensitive (button_discover_markup, textbuffer != NULL);
+  // Editors changed.
   gw_destroy_source(editors_changed_event_id);
   editors_changed_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_editors_changed_timeout), gpointer(this), NULL);
 }
@@ -480,8 +486,6 @@ void WindowCheckUSFM::on_editors_changed()
     }
 
   }
-  // Set sensitivity of the Discover button.
-  gtk_widget_set_sensitive(button_discover_markup, (book > 0) && (chapter >= 0));
 
   // Final okay info in gui.
   gui_okay(image5, label_information_ok, checks_going);
@@ -539,6 +543,4 @@ vector < ustring > WindowCheckUSFM::get_verses(vector < ustring > *non_line_star
 }
 
 
-// Todo need to implement and clarify a few controls. Control where verse starts at start of line needs clarified.
 //   new InDialogHelp(importrawtextdialog, &shortcuts, "import_raw_text") Todo how to implement this.
-// If no textbuffer, disable a couple of buttons.
