@@ -28,6 +28,8 @@
 #include "utilities.h"
 #include "versification.h"
 #include "tiny_utilities.h"
+#include "combobox.h"
+#include "scripts.h"
 
 
 WindowCheckUSFM::WindowCheckUSFM(GtkAccelGroup * accelerator_group, bool startup):
@@ -136,6 +138,12 @@ WindowBase(widCheckUSFM, "Check USFM", startup, 0)
   g_signal_connect ((gpointer) button_discover_markup, "clicked", G_CALLBACK (on_button_discover_markup_clicked), gpointer(this));
   
   shortcuts.process();
+  
+  // Load the available filters.  
+  vector < ustring > filters = scripts_get_all();
+  combobox_set_strings(combobox_filter, filters);
+  combobox_set_index(combobox_filter, 0);
+  
 }
 
 
@@ -151,7 +159,118 @@ void WindowCheckUSFM::on_button_discover_markup_clicked (GtkButton *button, gpoi
 
 
 void WindowCheckUSFM::on_button_discover_markup ()
+// Discovers the USFM markup of the text.
 {
+  // Save cursor location.
+  GtkTextIter iter;
+  gtk_text_buffer_get_iter_at_mark(textbuffer, &iter, gtk_text_buffer_get_insert(textbuffer));
+  gint cursoroffset = gtk_text_iter_get_offset(&iter);
+
+  // Consecutive discoveries.
+  bool discoveries_passed = true;
+
+  // Get the text from the buffer.  
+  vector < ustring > lines;
+  textbuffer_get_lines(textbuffer, lines, false);
+
+  // Go through the lines.
+  for (unsigned int i = 0; i < lines.size(); i++) {
+
+    // Skip empty line.
+    if (lines[i].empty())
+      continue;
+
+    // Remove chapter markup.
+    if (lines[i].find("\\c") != string::npos) {
+      lines[i].clear();
+      continue;
+    }
+    
+    // Skip line starting with a backslash. The rationale is that this line already has markup.
+    if (lines[i].substr(0, 1) == "\\")
+      continue;
+
+    // If the line is a number on its own, and the number agrees with the chapter number
+    // that was set, it silently removes this line. But if it differs, an error comes up.
+    if (discoveries_passed) {
+      if (number_in_string(lines[i]) == lines[i]) {
+        unsigned int number = convert_to_int(number_in_string(lines[i]));
+        if (number == chapter) {
+          lines[i].clear();
+          continue;
+        }
+        ustring msg = "The line that contains " + lines[i] + " looks like a chapter number, but the number differs from the chapter that was set";
+        gtk_label_set_text(GTK_LABEL(label_information_text), msg.c_str());
+        discoveries_passed = false;
+      }
+    }
+    
+    // If the line has no number in it, it is considered a section heading.
+    if (discoveries_passed) {
+      if (number_in_string(lines[i]).empty()) {
+        lines[i].insert(0, "\\s ");
+        continue;
+      }
+    }
+    
+    // If a number is found in the line, then this is considered a verse number.
+    // The first time a number is found, a \p is prefixed.
+    bool paragraph_open = false;
+    if (discoveries_passed) {
+      ustring output;
+      ustring number = number_in_string(lines[i]);
+      while (!number.empty()) {
+        if (!paragraph_open) {
+          output.append("\\p");
+          paragraph_open = true;
+        }
+        size_t pos = lines[i].find(number);
+        if (pos > 0) {
+          output.append(" " + lines[i].substr(0, pos));
+          lines[i].erase(0, pos);
+        }
+        output.append("\n\\v ");
+        output.append(number);
+        output.append(" ");
+        lines[i].erase(0, number.length());
+        lines[i] = trim(lines[i]);
+        number = number_in_string(lines[i]);
+        // Setting for discovering only first number in a paragraph.
+        if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_verses_at_start))) {
+          number.clear();
+        }
+      }
+      output.append(lines[i]);
+      lines[i] = output;
+    }
+
+  }
+
+  // Make one block of text.
+  ustring newtext;
+  for (unsigned int i = 0; i < lines.size(); i++) {
+    if (lines[i].empty())
+      continue;
+    replace_text(lines[i], "  ", " ");
+    replace_text(lines[i], " \n", "\n");
+    newtext.append(lines[i]);
+    newtext.append("\n");
+  }
+
+  // If no chapter marker is found, insert it at the top.
+  if (newtext.find("\\c") == string::npos) {
+    newtext.insert(0, "\\c " + convert_to_string(chapter) + "\n");
+  }
+  // Put the optionally modified text back in the buffer.
+  gtk_text_buffer_set_text(textbuffer, newtext.c_str(), -1);
+
+  // Restore cursor position.
+  gtk_text_buffer_get_iter_at_offset(textbuffer, &iter, cursoroffset);
+  gtk_text_buffer_place_cursor(textbuffer, &iter);
+
+  // Update gui if all discoveries passed.
+  if (discoveries_passed)
+    on_editors_changed();
 }
 
   
@@ -162,12 +281,36 @@ void WindowCheckUSFM::on_button_filter_clicked (GtkButton *button, gpointer user
 
 
 void WindowCheckUSFM::on_button_filter ()
+// Filter the text.
 {
+  // Save the text from the buffer to disk.
+  vector < ustring > lines;
+  textbuffer_get_lines(textbuffer, lines, false);
+  write_lines(script_temporal_input_file(), lines);
+
+  // The filter to apply.
+  ustring scriptname = combobox_get_active_string(combobox_filter);
+  bool straightthrough = scriptname == scripts_straight_through();
+
+  // Run filter.
+  ustring error = script_filter(scriptname, straightthrough, script_temporal_input_file(), script_temporal_output_file());
+  if (!error.empty())
+    gw_message(error);
+
+  // Show output in textview.  
+  gchar *outputtext;
+  g_file_get_contents(script_temporal_output_file().c_str(), &outputtext, NULL, NULL);
+  if (outputtext) {
+    gtk_text_buffer_set_text(textbuffer, outputtext, -1);
+    g_free(outputtext);
+  } else {
+    gtk_text_buffer_set_text(textbuffer, "", -1);
+  }
 }
 
 
-void WindowCheckUSFM::set_data (GtkTextBuffer * buffer, const ustring& project_in, unsigned int book_in, unsigned int chapter_in)
-// This function is called if any of the editors changed.
+void WindowCheckUSFM::set_parameters (GtkTextBuffer * buffer, const ustring& project_in, unsigned int book_in, unsigned int chapter_in)
+// This function is called if any of the parameters changed.
 {
   // Set the new data;
   textbuffer = buffer;
@@ -396,4 +539,6 @@ vector < ustring > WindowCheckUSFM::get_verses(vector < ustring > *non_line_star
 }
 
 
-// Todo need to implement and clarify a few controls.
+// Todo need to implement and clarify a few controls. Control where verse starts at start of line needs clarified.
+//   new InDialogHelp(importrawtextdialog, &shortcuts, "import_raw_text") Todo how to implement this.
+// If no textbuffer, disable a couple of buttons.

@@ -5349,18 +5349,6 @@ void MainWindow::handle_editor_focus()
   // Inform the check USFM window about the focused editor.
   check_usfm_window_ping ();
   
-  GtkTextBuffer * focused_textbuffer = NULL;
-  unsigned int book = 0;
-  unsigned int chapter = 0;
-  if (editor_window) {  
-    focused_textbuffer = editor_window->edit_usfm_textbuffer();
-    book = editor_window->book();
-    chapter = editor_window->chapter();
-  }  
-  if (window_check_usfm) {
-    window_check_usfm->set_data(focused_textbuffer, project, book, chapter);
-  }
-    
   // If we've no project bail out.
   if (project.empty())
     return;
@@ -7028,6 +7016,6 @@ void MainWindow::check_usfm_window_ping()
     book = editor_window->book();
     chapter = editor_window->chapter();
   }  
-  window_check_usfm->set_data(focused_textbuffer, project, book, chapter);
+  window_check_usfm->set_parameters(focused_textbuffer, project, book, chapter);
 }
 
