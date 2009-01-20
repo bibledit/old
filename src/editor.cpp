@@ -1609,10 +1609,6 @@ bool Editor::load_text_verse_number(ustring & line, ustring & paragraph_mark, us
           }
           // Remove the markup from the line.
           line.erase(0, marker_length);
-          // Handle the case that the verse restarts the paragraph. // todo
-          if (verse_restarts_paragraph) {
-            // text_append(textbuffer, "\n", paragraph_mark, "");
-          }
           // Get verse number. Handle combined verses too, e.g. 10-12b, etc.
           size_t position = line.find(" ");
           if (position == string::npos)
@@ -2770,7 +2766,7 @@ void Editor::process_text_child_anchors_deleted()
   text_child_anchors_being_deleted.clear();
 }
 
-void Editor::text_append(GtkTextBuffer * textbuffer, const ustring & text, const ustring & paragraph_style, const ustring & character_style) // todo
+void Editor::text_append(GtkTextBuffer * textbuffer, const ustring & text, const ustring & paragraph_style, const ustring & character_style)
 // This function appends text to the textbuffer.
 // It inserts the text at the cursor.
 {
