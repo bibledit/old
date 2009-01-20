@@ -544,3 +544,5 @@ vector < ustring > WindowCheckUSFM::get_verses(vector < ustring > *non_line_star
 
 
 //   new InDialogHelp(importrawtextdialog, &shortcuts, "import_raw_text") Todo how to implement this.
+// Todo we need to test the import dialog with raw text, and see what happens if the chapter is not yet there.
+// Todo then if all works fine, it goes to Trycot's laptop.

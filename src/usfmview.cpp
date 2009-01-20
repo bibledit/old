@@ -232,11 +232,18 @@ void USFMView::chapter_save()
        It would then look as if this is chapter 0.
        In addition to this, the user could have edited the chapter number.
        If a change in the chapter number is detected, ask the user what to do.
+       But if chapter 0 is detected, do nothing, no questions asked.
      */
     unsigned int chapter_in_text = chapter;
     for (unsigned int i = 0; i < ccv.chapter.size(); i++) {
       if (ccv.chapter[i] != chapter) {
         chapter_in_text = ccv.chapter[i];
+      }
+    }
+    if (chapter_in_text == 0) {
+      chapter_in_text = chapter;
+      for (unsigned int i = 0; i < ccv.chapter.size(); i++) {
+        ccv.chapter[i] = chapter;
       }
     }
     // Ask what to do if the chapter number in the text differs from the 
