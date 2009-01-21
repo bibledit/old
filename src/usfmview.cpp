@@ -62,10 +62,8 @@ current_reference(0, 1000, "")
   // A sourcebuffer to store all text.
   sourcebuffer = gtk_source_buffer_new (NULL);
   
-  // Language to use. Ideally we would need to write a language description for the usfm code.
-  GtkSourceLanguageManager *language_manager = gtk_source_language_manager_get_default ();
-	GtkSourceLanguage *language = gtk_source_language_manager_get_language (language_manager, "c");
-	gtk_source_buffer_set_language (sourcebuffer, language);
+  // Tag for highlighting markup.
+  markup_tag = gtk_text_buffer_create_tag(GTK_TEXT_BUFFER (sourcebuffer), NULL, "foreground", "red", NULL);
 
   // A sourceview to display the buffer.
   sourceview = gtk_source_view_new_with_buffer(sourcebuffer);
@@ -372,6 +370,29 @@ void USFMView::on_textbuffer_changed(GtkTextBuffer * textbuffer, gpointer user_d
 void USFMView::textbuffer_changed()
 {
   gtk_button_clicked(GTK_BUTTON(changed_signal));
+  
+  // Colour the usfm code.
+  GtkTextBuffer * textbuffer = GTK_TEXT_BUFFER (sourcebuffer);
+  GtkTextIter iter;
+  gtk_text_buffer_get_start_iter(textbuffer, &iter);
+  bool within_usfm = false;
+  do {
+    gunichar character = gtk_text_iter_get_char(&iter);
+    if (character) {
+      bool digit = g_unichar_isdigit (character);
+      if (character == '\\')
+        within_usfm = true;
+      if (g_unichar_isspace (character))
+        within_usfm = false;
+      if (character == '*')
+        within_usfm = false;
+      if (digit || within_usfm) {
+        GtkTextIter enditer = iter;
+        gtk_text_iter_forward_char (&enditer);
+        gtk_text_buffer_apply_tag(textbuffer, markup_tag, &iter, &enditer);
+      }
+    }
+  } while (gtk_text_iter_forward_char (&iter));
 }
 
 
