@@ -805,12 +805,28 @@ void WindowMerge::merge_edited_into_master(bool approve)
 
 void WindowMerge::copy_master_to_edited_chapter(unsigned int bk, unsigned int ch, bool gui)
 {
-  vector < ustring > lines = project_retrieve_chapter(current_master_project, bk, ch);
-  CategorizeChapterVerse ccv(lines);
-  project_store_chapter(current_edited_project, bk, ccv);
-  if (gui) {
-    ustring message = books_id_to_english(bk) + " " + convert_to_string(ch) + " was copied from project " + current_master_project + " to project " + current_edited_project;
-    gtkw_dialog_info(NULL, message.c_str());
+  // Only copy if the master and edited version differ. This save a lot of git operations.
+  vector < ustring > master_lines = project_retrieve_chapter(current_master_project, bk, ch);
+  vector < ustring > edited_lines = project_retrieve_chapter(current_edited_project, bk, ch);
+  bool master_is_edited = false;
+  if (master_lines.size() == edited_lines.size()) {
+    master_is_edited = true;
+    for (unsigned int i = 0; i < master_lines.size(); i++) {
+      if (master_lines[i] != edited_lines[i]) {
+        master_is_edited = false;
+      }
+    }
+  }
+  CategorizeChapterVerse ccv(master_lines);
+  if (master_is_edited) {
+    if (gui) 
+      gtkw_dialog_info(NULL, "Both chapters are already the same");
+  } else {
+    project_store_chapter(current_edited_project, bk, ccv);
+    if (gui) {
+      ustring message = books_id_to_english(bk) + " " + convert_to_string(ch) + " was copied from project " + current_master_project + " to project " + current_edited_project;
+      gtkw_dialog_info(NULL, message.c_str());
+    }
   }
 }
 
