@@ -824,6 +824,8 @@ protected:
   static void accelerator_replace_callback(gpointer user_data);
   static void accelerator_main_help_callback(gpointer user_data);
   static void accelerator_menu_callback(gpointer user_data);
+  static void accelerator_view_usfm_code(gpointer user_data);
+  void accelerator_view_usfm_code_toggle();
   void accelerator_menu();
   
   // Shutdown.

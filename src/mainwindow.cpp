@@ -231,6 +231,7 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
   }
   gtk_accel_group_connect(accelerator_group, GDK_F1, GdkModifierType(0), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_main_help_callback), gpointer(this), NULL));
   gtk_accel_group_connect(accelerator_group, GDK_M, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_menu_callback), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, GDK_U, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_view_usfm_code), gpointer(this), NULL));
 
   // GUI build.
   vbox = gtk_vbox_new(FALSE, 0);
@@ -6825,6 +6826,17 @@ void MainWindow::accelerator_menu_callback(gpointer user_data)
 void MainWindow::accelerator_menu()
 {
   present(true);
+}
+
+void MainWindow::accelerator_view_usfm_code(gpointer user_data)
+{
+  ((MainWindow *) user_data)->accelerator_view_usfm_code_toggle();
+}
+
+void MainWindow::accelerator_view_usfm_code_toggle()
+{
+  bool active = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (view_usfm_code));
+  gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (view_usfm_code), !active);
 }
 
 /*
