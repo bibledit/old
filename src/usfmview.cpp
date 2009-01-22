@@ -375,6 +375,9 @@ void USFMView::textbuffer_changed()
   GtkTextBuffer * textbuffer = GTK_TEXT_BUFFER (sourcebuffer);
   GtkTextIter iter;
   gtk_text_buffer_get_start_iter(textbuffer, &iter);
+  GtkTextIter iter2;
+  gtk_text_buffer_get_end_iter(textbuffer, &iter2);
+  gtk_text_buffer_remove_tag(textbuffer, markup_tag, &iter, &iter2);
   bool within_usfm = false;
   do {
     gunichar character = gtk_text_iter_get_char(&iter);
