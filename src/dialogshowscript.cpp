@@ -139,7 +139,7 @@ ShowScriptDialog::ShowScriptDialog(int dummy)
   gtk_widget_grab_default(cancelbutton);
 
   // Load the text.
-  load();
+  load(true);
 
   // Keep loading the text repeatedly so as to show recent changes also.
   event_source_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 500, GSourceFunc(show_script_dialog_load), gpointer(this), NULL);
@@ -160,17 +160,31 @@ int ShowScriptDialog::run()
 
 bool ShowScriptDialog::show_script_dialog_load(gpointer data)
 {
-  return ((ShowScriptDialog *) data)->load();
+  ((ShowScriptDialog *) data)->load(false);
+  // Keep going.
+  return true;
 }
 
-bool ShowScriptDialog::load()
+void ShowScriptDialog::load(bool force)
 {
+  // Text buffer. 
+  GtkTextBuffer *textbuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview1));
+
+  // In cases that message keep streaming in, it may happen that the user tries to copy 
+  // the messages. He selects the text, but before he can copy it to the clipboard,
+  // the new text being loaded erases his selection. The result is that he fails
+  // to copy the text to the clipboard. This problem is resolved by introducing the
+  // "force" parameter. If force-loading, it loads regardless of any selection.
+  // But if the "force" parameter is false, then it won't load if a selection
+  // is present.
+  if (!force) {
+    if (gtk_text_buffer_get_has_selection (textbuffer))
+      return;
+  }
+  
   // Read the text from the file.
   gchar *contents;
   g_file_get_contents(logfilename().c_str(), &contents, NULL, NULL);
-
-  // Text buffer. 
-  GtkTextBuffer *textbuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview1));
 
   // Only insert the text if new text is available on disk.
   GtkTextIter begin;
@@ -195,28 +209,26 @@ bool ShowScriptDialog::load()
     gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(textview1), &end, 0, true, 0, 0);
   }
   g_free(contents);
-  // Do it again next time.
-  return true;
 }
 
 void ShowScriptDialog::on_checkbutton1_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
-  ((ShowScriptDialog *) user_data)->load();
+  ((ShowScriptDialog *) user_data)->load(true);
 }
 
 void ShowScriptDialog::on_radiobutton_bibledit_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
-  ((ShowScriptDialog *) user_data)->load();
+  ((ShowScriptDialog *) user_data)->load(true);
 }
 
 void ShowScriptDialog::on_radiobutton_bibletime_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
-  ((ShowScriptDialog *) user_data)->load();
+  ((ShowScriptDialog *) user_data)->load(true);
 }
 
 void ShowScriptDialog::on_radiobutton_git_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
-  ((ShowScriptDialog *) user_data)->load();
+  ((ShowScriptDialog *) user_data)->load(true);
 }
 
 ustring ShowScriptDialog::logfilename()

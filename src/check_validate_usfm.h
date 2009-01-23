@@ -46,7 +46,7 @@ private:
   void check (const ustring& text);
   void deprecated_marker (const ustring& marker);
   ustring usfm_extract_marker_with_forwardslash (ustring & line);
-  void check_on_endmarker (ustring& line, const ustring& marker);
+  void check_on_endmarker (ustring& line, const ustring& marker, bool optional);
   void message (const ustring& message);
   ProgressWindow * progresswindow;
 };

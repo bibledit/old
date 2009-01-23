@@ -121,15 +121,15 @@ void CheckValidateUsfm::check(const ustring & text)
     } else if (marker == "c") {
     } else if (marker == "v") {
     } else if (marker == "add") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
     } else if (marker == "bdit") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
       deprecated_marker(marker);
     } else if (marker == "bd") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
       deprecated_marker(marker);
     } else if (marker == "bk") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
     } else if (marker == "b") {
     } else if (marker == "ca") {
     } else if (marker == "cd") {
@@ -139,29 +139,44 @@ void CheckValidateUsfm::check(const ustring & text)
     } else if (marker == "cov") {
     } else if (marker == "cp") {
     } else if (marker == "dc") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
     } else if (marker == "d") {
     } else if (marker == "em") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
       deprecated_marker(marker);
     } else if (marker == "fdc") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, true);
     } else if (marker == "fe") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
     } else if (marker == "fig") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
     } else if (marker == "fk") {
+      check_on_endmarker(line, marker, true);
     } else if (marker == "fl") {
+      check_on_endmarker(line, marker, true);
     } else if (marker == "fm") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
     } else if (marker == "fp") {
     } else if (marker == "fqa") {
+      check_on_endmarker(line, marker, true);
     } else if (marker == "fq") {
+      check_on_endmarker(line, marker, true);
     } else if (marker == "fr") {
+      check_on_endmarker(line, marker, true);
     } else if (marker == "ft") {
+      check_on_endmarker(line, marker, true);
     } else if (marker == "fv") {
+      check_on_endmarker(line, marker, true);
     } else if (marker == "f") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
+    } else if (marker == "fb") { 
+      // todo rogue fix - this check needs to be based on stylesheet, not hard coded.
+      // A task was opened for this to be done.
+      check_on_endmarker(line, marker, false);
+    } else if (marker == "fx") { 
+      // todo rogue fix - this check needs to be based on stylesheet, not hard coded.
+      // A task was opened for this to be done.
+      check_on_endmarker(line, marker, false);
     } else if (marker == "glo") {
     } else if (marker == "h1") {
     } else if (marker == "h2") {
@@ -187,7 +202,7 @@ void CheckValidateUsfm::check(const ustring & text)
     } else if (marker == "io3") {
     } else if (marker == "io4") {
     } else if (marker == "ior") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
     } else if (marker == "iot") {
     } else if (marker == "io") {
     } else if (marker == "ipi") {
@@ -202,12 +217,12 @@ void CheckValidateUsfm::check(const ustring & text)
     } else if (marker == "is2") {
     } else if (marker == "is") {
     } else if (marker == "it") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
       deprecated_marker(marker);
     } else if (marker == "k1") {
     } else if (marker == "k2") {
     } else if (marker == "k") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
     } else if (marker == "li1") {
     } else if (marker == "li2") {
     } else if (marker == "li3") {
@@ -231,14 +246,14 @@ void CheckValidateUsfm::check(const ustring & text)
     } else if (marker == "m") {
     } else if (marker == "nb") {
     } else if (marker == "nd") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
     } else if (marker == "ndx") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
     } else if (marker == "no") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
       deprecated_marker(marker);
     } else if (marker == "ord") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
     } else if (marker == "p1") {
     } else if (marker == "p2") {
     } else if (marker == "pb") {
@@ -252,10 +267,10 @@ void CheckValidateUsfm::check(const ustring & text)
     } else if (marker == "pmr") {
     } else if (marker == "pm") {
     } else if (marker == "pn") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
     } else if (marker == "pref") {
     } else if (marker == "pro") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
     } else if (marker == "pubinfo") {
     } else if (marker == "pub") {
     } else if (marker == "p") {
@@ -263,7 +278,7 @@ void CheckValidateUsfm::check(const ustring & text)
     } else if (marker == "q2") {
     } else if (marker == "q3") {
     } else if (marker == "qac") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
     } else if (marker == "qa") {
     } else if (marker == "qc") {
     } else if (marker == "qm1") {
@@ -273,7 +288,7 @@ void CheckValidateUsfm::check(const ustring & text)
     } else if (marker == "qr") {
     } else if (marker == "qs") {
     } else if (marker == "qt") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
     } else if (marker == "q") {
     } else if (marker == "rem") {
     } else if (marker == "restore") {
@@ -284,12 +299,12 @@ void CheckValidateUsfm::check(const ustring & text)
     } else if (marker == "s3") {
     } else if (marker == "s4") {
     } else if (marker == "sc") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
       deprecated_marker(marker);
     } else if (marker == "sig") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
     } else if (marker == "sls") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
     } else if (marker == "spine") {
     } else if (marker == "sp") {
     } else if (marker == "sr") {
@@ -311,32 +326,36 @@ void CheckValidateUsfm::check(const ustring & text)
     } else if (marker == "thr3") {
     } else if (marker == "thr4") {
     } else if (marker == "tl") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
     } else if (marker == "toc1") {
     } else if (marker == "toc2") {
     } else if (marker == "toc3") {
     } else if (marker == "toc") {
     } else if (marker == "tr") {
     } else if (marker == "va") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
     } else if (marker == "vp") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
     } else if (marker == "wg") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
     } else if (marker == "wh") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
     } else if (marker == "wj") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
     } else if (marker == "w") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
     } else if (marker == "xdc") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, true);
     } else if (marker == "xk") {
+      check_on_endmarker(line, marker, true);
     } else if (marker == "xo") {
+      check_on_endmarker(line, marker, true);
     } else if (marker == "xq") {
+      check_on_endmarker(line, marker, true);
     } else if (marker == "xt") {
+      check_on_endmarker(line, marker, true);
     } else if (marker == "x") {
-      check_on_endmarker(line, marker);
+      check_on_endmarker(line, marker, false);
     } else if (marker.find("*") != string::npos) {
       message("Unmatched end marker " + marker);
     } else {
@@ -556,10 +575,11 @@ void CheckValidateUsfm::check(const ustring & text)
   }
 }
 
-void CheckValidateUsfm::check_on_endmarker(ustring & line, const ustring & marker)
+void CheckValidateUsfm::check_on_endmarker(ustring & line, const ustring & marker, bool optional)
 // This test is ran by any marker that needs an endmarker.
 // It checks on that, and if found, removes it from the line,
 // and if not found, gives a message.
+// If the endmarker is "optional" no message will be given.
 {
   // Look for the endmarker.
   ustring endmarker;
@@ -571,7 +591,10 @@ void CheckValidateUsfm::check_on_endmarker(ustring & line, const ustring & marke
     line.erase(endmarkerposition, endmarker.length());
   } else {
     // Not found: Error message.
-    message("Endmarker " + endmarker + " not found");
+    // No error message if the endmarker is optional.
+    if (!optional) {
+      message("Endmarker " + endmarker + " not found");
+    }
   }
 }
 

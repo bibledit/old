@@ -50,7 +50,7 @@ protected:
 private:
   guint event_source_id;
   static bool show_script_dialog_load(gpointer data);
-  bool load();
+  void load(bool force);
   ustring logfilename();
   static void on_checkbutton1_toggled(GtkToggleButton *togglebutton, gpointer user_data);
   static void on_radiobutton_bibledit_toggled(GtkToggleButton *togglebutton, gpointer user_data);

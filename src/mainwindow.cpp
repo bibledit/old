@@ -2963,6 +2963,8 @@ void MainWindow::show_references_window()
     g_signal_connect((gpointer) window_references->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_references->general_signal_button, "clicked", G_CALLBACK(on_window_references_general_signal_button_clicked), gpointer(this));
   }
+  // In cases that the window is already there, but hidden, it should present itself.
+  window_references->present (true);
 }
 
 void MainWindow::on_window_references_delete_button_clicked(GtkButton * button, gpointer user_data)
