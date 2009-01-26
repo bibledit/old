@@ -21,12 +21,12 @@
 #include "utilities.h"
 #include <glib.h>
 #include "constants.h"
-#include "xmlfo-utils.h"
 #include "date_time_utils.h"
 #include "gwrappers.h"
 #include "settings.h"
 #include "color.h"
 #include "tiny_utilities.h"
+#include "xmlfo-utils.h"
 
 XmlFoBlock::XmlFoBlock(vector < ustring > *lines, double fontsize, int lineheight, const ustring & italic_in, const ustring & bold_in, const ustring & underline_in, const ustring & smallcaps_in, ustring justification, double spacebefore, double spaceafter, double leftmargin, double rightmargin, double firstlineindent, bool spancolumns, bool keepwithnext)
 {

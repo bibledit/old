@@ -395,7 +395,11 @@ void Text2Pdf::get_next_layout_container(bool intrusion)
     for (unsigned int i = preceding_block_from; i < preceding_block_to; i++) {
       if (input_blocks[i]->type == t2pbtTextIntrusion) {
         // Modify size and position of the block.
-        block->rectangle.x += input_blocks[i]->rectangle.width;
+        // In case of right-to-left text, the x offset is not modified, 
+        // because the intrusion is at the right side of the page.
+        if (!right_to_left) {
+          block->rectangle.x += input_blocks[i]->rectangle.width;
+        }
         block->rectangle.width -= input_blocks[i]->rectangle.width;
         // Block stays with the next one.
         block->keep_with_next = true;

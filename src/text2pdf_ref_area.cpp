@@ -339,47 +339,24 @@ void T2PReferenceArea::fit_columns(deque < T2PBlock * >&input_blocks, int column
   // When text runs from right to left, the columns get swapped, the intrusions flush to the right,
   // The last lines of the paragraphs are flushed to the right.
   // Copy the blocks from the columns into the object.
-  int intrusion_width = 0;
-  int positions_past_intrusion = 100;
   int second_x = rectangle.width - ((rectangle.width - column_spacing_pango_units) / 2);
   int first_column_y = start_stacking_y;
   for (unsigned int i = 0; i < first_column.size(); i++) {
     int column_x = 0;
     if (first_column[i].column_count > 1)
-      if (right_to_left)
+      if (right_to_left) {
         column_x = second_x;
+      }
     first_column[i].set_blocks_x(column_x);
     int column_height = first_column[i].height(first_column_y);
     first_column[i].set_blocks_y(first_column_y);
     first_column_y += column_height;
     for (unsigned int i2 = 0; i2 < first_column[i].blocks.size(); i2++) {
       T2PBlock * block = first_column[i].blocks[i2];
-      // Right-to-left handling.
-      if (right_to_left) {
-        positions_past_intrusion++;
-        // Flush chapter number right, and move the paragraph besides it a bit to the left so as to make space for it.
-        if (block->type == t2pbtTextIntrusion) {
-          intrusion_width = block->rectangle.width;
-          positions_past_intrusion = 0;
-          block->rectangle.x += ((rectangle.width / 2) - column_spacing_pango_units - intrusion_width);
-        }
-        else if ((positions_past_intrusion == 1) || (positions_past_intrusion == 2)) {
-          block->rectangle.x -= intrusion_width;
-        }
-        else {
-          // Flush everything else to the right.
-          int desired_width = (rectangle.width / 2) - column_spacing_pango_units;
-          if (block->rectangle.width < desired_width) {
-            block->rectangle.x += (desired_width - block->rectangle.width);
-          }
-        }
-      }
       // Store the block.
       body_blocks.push_back(block);
     }
   }
-  intrusion_width = 0;
-  positions_past_intrusion = 100;
   int last_column_y = start_stacking_y;
   for (unsigned int i = 0; i < last_column.size(); i++) {
     int column_x = second_x;
@@ -391,26 +368,6 @@ void T2PReferenceArea::fit_columns(deque < T2PBlock * >&input_blocks, int column
     last_column_y += column_height;
     for (unsigned int i2 = 0; i2 < last_column[i].blocks.size(); i2++) {
       T2PBlock * block = last_column[i].blocks[i2];
-      // Right-to-left handling.
-      if (right_to_left) {
-        positions_past_intrusion++;
-        // Flush chapter number right, and move the paragraph besides it a bit to the left so as to make space for it.
-        if (block->type == t2pbtTextIntrusion) {
-          intrusion_width = block->rectangle.width;
-          positions_past_intrusion = 0;
-          block->rectangle.x += ((rectangle.width / 2) - column_spacing_pango_units - intrusion_width);
-        }
-        else if ((positions_past_intrusion == 1) || (positions_past_intrusion == 2)) {
-          block->rectangle.x -= intrusion_width;
-        }
-        else {
-          // Flush everything else to the right.
-          int desired_width = (rectangle.width / 2) - column_spacing_pango_units;
-          if (block->rectangle.width < desired_width) {
-            block->rectangle.x += (desired_width - block->rectangle.width);
-          }
-        }
-      }
       // Store the block.
       body_blocks.push_back(block);
     }

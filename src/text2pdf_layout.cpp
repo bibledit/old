@@ -49,7 +49,7 @@ void T2PLayoutContainer::layout_text(T2PInputParagraph * paragraph, unsigned int
 // This lays text out in the object, one line.
 // The text to be laid out comes in "text".
 // The part of the text that didn't fit is returned through "text". 
-// Be aware that PangoLayout works with byte indexes, therefore we work with "string" instead of with "ustring".
+// PangoLayout works with byte indexes, therefore we work with "string" instead of with "ustring".
 {
   // Store paragraph.
   input_paragraph = paragraph;
@@ -69,7 +69,7 @@ void T2PLayoutContainer::layout_text(T2PInputParagraph * paragraph, unsigned int
 
   set_font(attrs);
   if (paragraph) {
-    indentation_width_margins_alignment(line_number == 0);
+    indentation_width_margins_alignment(line_number == 0, paragraph->right_to_left);
     set_italic(attrs);
     set_bold(attrs);
     set_underline(attrs);
@@ -98,7 +98,7 @@ void T2PLayoutContainer::layout_text(T2PInputParagraph * paragraph, unsigned int
 
   // Get the first line in the layout, and ensure that there's only one in the layout.
   // Store any remnant of the input text.
-  // Very often the last character of the first line in the layout is a space because of the wrapping.
+  // Very often the last character of the relevant line in the layout is a space because of the wrapping.
   // This space is removed to give a better visual justification.
   // PangoLayoutLine->start_index gives the start of line as byte index into layout->text. Note the "byte".
   // PangoLayoutLine->length gives the length of line in bytes. Note the "bytes".
@@ -121,16 +121,18 @@ void T2PLayoutContainer::layout_text(T2PInputParagraph * paragraph, unsigned int
   if (paragraph && paragraph->alignment == t2patJustified) {
     justify(line, last_line_of_paragraph_loaded, attrs);
   }
-  // Store the height of the layout.
+  
+  // Get the height of the layout.
   pango_layout_get_size(layout, NULL, &(rectangle.height));
 
   // Free attributes.
   pango_attr_list_unref(attrs);
 
-  // Line spacing.
+  // Line spacing affects the height of the container.
   if (paragraph && (paragraph->line_spacing != 100)) {
     rectangle.height *= int ((double)(paragraph->line_spacing) / 100);
   }
+
   // Have the parent store the height of the container.
   if (parent)
     ((T2PBlock *) parent)->store_layout_container_height(this);
@@ -152,8 +154,9 @@ void T2PLayoutContainer::layout_text(T2PInputParagraph * paragraph, unsigned int
   } else {
     // Go ahead and set the real size in the layout container.
     pango_layout_get_size(layout, &rectangle.width, NULL);
-    if (parent)
+    if (parent) {
       ((T2PBlock *) parent)->store_layout_container_width(this);
+    }
   }
 }
 
@@ -183,10 +186,11 @@ void T2PLayoutContainer::index_white_space(const string & text, vector < guint >
   }
 }
 
-void T2PLayoutContainer::indentation_width_margins_alignment(bool first_line)
+void T2PLayoutContainer::indentation_width_margins_alignment(bool first_line, bool right_to_left)
 /*
  Handles the indentation, the width, the margins, and the alignment of the paragraph.
  first_line: whether the layout contains the first line of the paragraph.
+ right_to_left: whether text runs from right to left.
  
  Things to test are positive and negative indentation, with any combination of the alignment.
  Also left and right margins.
@@ -216,7 +220,10 @@ void T2PLayoutContainer::indentation_width_margins_alignment(bool first_line)
   // Paragraph alignment.
   switch (input_paragraph->alignment) {
   case t2patLeft:
-    pango_layout_set_alignment(layout, PANGO_ALIGN_LEFT);
+    if (right_to_left) 
+      pango_layout_set_alignment(layout, PANGO_ALIGN_RIGHT);
+    else
+      pango_layout_set_alignment(layout, PANGO_ALIGN_LEFT);
     break;
   case t2patCenter:
     pango_layout_set_alignment(layout, PANGO_ALIGN_CENTER);
@@ -225,8 +232,10 @@ void T2PLayoutContainer::indentation_width_margins_alignment(bool first_line)
     pango_layout_set_alignment(layout, PANGO_ALIGN_RIGHT);
     break;
   case t2patJustified:
-    pango_layout_set_alignment(layout, PANGO_ALIGN_LEFT);
-    // This should be "right" when the text flows from right to left.
+    if (right_to_left)
+      pango_layout_set_alignment(layout, PANGO_ALIGN_RIGHT);
+    else
+      pango_layout_set_alignment(layout, PANGO_ALIGN_LEFT);
     break;
   }
 }
@@ -614,6 +623,16 @@ void T2PLayoutContainer::layout_drop_caps(T2PInputParagraph * paragraph, double 
   // Have the parent store the height of the container.
   if (parent)
     ((T2PBlock *) parent)->store_layout_container_height(this);
+
+  // In right-to-left text the chapter number starts at the right.
+  if (paragraph->right_to_left) {
+    int full_width = rectangle.width;
+    pango_layout_get_size(layout, &rectangle.width, NULL);
+    int difference = full_width - rectangle.width;
+    rectangle.x += difference;
+    if (parent) 
+      ((T2PBlock *) parent)->store_layout_container_x(this);
+  }
 
   // Set the real width in the layout container.
   pango_layout_get_size(layout, &rectangle.width, NULL);

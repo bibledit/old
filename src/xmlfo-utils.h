@@ -27,7 +27,7 @@
 class XmlFoBlock
 {
 public:
-      XmlFoBlock(vector<ustring> * lines, double fontsize, int lineheight, const ustring& italic_in, const ustring& bold_in, const ustring& underline_in, const ustring& smallcaps_in, ustring justification, double spacebefore, double spaceafter, double leftmargin, double rightmargin, double firstlineindent, bool spancolumns, bool keepwithnext);
+  XmlFoBlock(vector<ustring> * lines, double fontsize, int lineheight, const ustring& italic_in, const ustring& bold_in, const ustring& underline_in, const ustring& smallcaps_in, ustring justification, double spacebefore, double spaceafter, double leftmargin, double rightmargin, double firstlineindent, bool spancolumns, bool keepwithnext);
   ~XmlFoBlock();
   bool italic;
   bool bold;

@@ -64,90 +64,11 @@ UsfmInlineMarkers::UsfmInlineMarkers(const Usfm & usfm)
     }
   }
   // One and the same closing marker for everything.
-  closing_xslfo_markup = "</fo:inline>";
   closing_odt_markup = "</text:span>";
 }
 
 UsfmInlineMarkers::~UsfmInlineMarkers()
 {
-}
-
-string UsfmInlineMarkers::opening_xslfo_markup(XmlFoBlock * block, int index)
-// This one generates the opening xslfo markup.
-// It uses 'index' for the index in the opening and closing markers, as there 
-// can be many.
-// If italic/bold/underline of the indexed marker is TOGGLE, it looks at the
-// paragraph 'block' it is in to find out what markup should be given.
-{
-  string opening_xslfo_markup;
-  opening_xslfo_markup = "<fo:inline";
-  // Deal with italics.
-  if (italic[index] == ON)
-    opening_xslfo_markup.append(" font-style=\"italic\"");
-  else if (italic[index] == OFF)
-    opening_xslfo_markup.append(" font-style=\"normal\"");
-  else if (italic[index] == INHERIT)
-    opening_xslfo_markup.append(" font-style=\"inherit\"");
-  else if (italic[index] == TOGGLE) {
-    if (block) {
-      if (block->italic)
-        opening_xslfo_markup.append(" font-style=\"normal\"");
-      else
-        opening_xslfo_markup.append(" font-style=\"italic\"");
-    }
-  }
-  // Deal with bold.
-  if (bold[index] == ON)
-    opening_xslfo_markup.append(" font-weight=\"bold\"");
-  else if (bold[index] == OFF)
-    opening_xslfo_markup.append(" font-weight=\"normal\"");
-  else if (bold[index] == INHERIT)
-    opening_xslfo_markup.append(" font-weight=\"inherit\"");
-  else if (bold[index] == TOGGLE) {
-    if (block) {
-      if (block->bold)
-        opening_xslfo_markup.append(" font-weight=\"normal\"");
-      else
-        opening_xslfo_markup.append(" font-weight=\"bold\"");
-    }
-  }
-  // Deal with underline.
-  if (underline[index] == ON)
-    opening_xslfo_markup.append(" text-decoration=\"underline\"");
-  else if (underline[index] == OFF)
-    opening_xslfo_markup.append(" text-decoration=\"none\"");
-  else if (underline[index] == INHERIT)
-    opening_xslfo_markup.append(" text-decoration=\"inherit\"");
-  else if (underline[index] == TOGGLE) {
-    if (block) {
-      if (block->underline)
-        opening_xslfo_markup.append(" text-decoration=\"none\"");
-      else
-        opening_xslfo_markup.append(" text-decoration=\"underline\"");
-    }
-  }
-  // Deal with smallcaps.
-  if (smallcaps[index] == ON)
-    opening_xslfo_markup.append(" font-variant=\"small-caps\"");
-  else if (smallcaps[index] == OFF)
-    opening_xslfo_markup.append(" font-variant=\"normal\"");
-  else if (smallcaps[index] == INHERIT)
-    opening_xslfo_markup.append(" font-variant=\"inherit\"");
-  else if (smallcaps[index] == TOGGLE) {
-    if (block) {
-      if (block->smallcaps)
-        opening_xslfo_markup.append(" font-variant=\"normal\"");
-      else
-        opening_xslfo_markup.append(" font-variant=\"small-caps\"");
-    }
-  }
-  // Deal with superscript.
-  if (superscript[index])
-    opening_xslfo_markup.append(" vertical-align=\"super\"");
-  // Close tag.
-  opening_xslfo_markup.append(">");
-  // Return markup.
-  return opening_xslfo_markup;
 }
 
 string UsfmInlineMarkers::opening_sword_markup(int index)

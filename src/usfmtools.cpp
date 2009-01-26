@@ -294,7 +294,7 @@ used_styles - the styles actually converted - not always used.
             ustring openingmarkers;
             switch (inlinemarkerstype) {
             case imXslFo:
-              openingmarkers = inline_markers->opening_xslfo_markup(block, i);
+              openingmarkers.clear();
               break;
             case imSword:
               openingmarkers = inline_markers->opening_sword_markup(i);
@@ -307,7 +307,6 @@ used_styles - the styles actually converted - not always used.
             length = inline_markers->closing_markers[i].length();
             switch (inlinemarkerstype) {
             case imXslFo:
-              line.replace(position, length, inline_markers->closing_xslfo_markup);
               break;
             case imSword:
               line.replace(position, length, inline_markers->closing_sword_markup);

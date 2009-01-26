@@ -40,7 +40,7 @@ public:
 private:
   T2PArea * parent;
   PangoLayout * layout;
-  void indentation_width_margins_alignment(bool first_line);
+  void indentation_width_margins_alignment(bool first_line, bool right_to_left);
   void justify(const string& line, bool last_line, PangoAttrList *attrs);
   void index_white_space(const string& text, vector<guint>& offsets);
   void set_font(PangoAttrList *attrs);

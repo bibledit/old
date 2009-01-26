@@ -39,6 +39,7 @@ public:
   T2PLayoutContainer * next_layout_container (cairo_t *cairo);
   void store_layout_container_height (T2PLayoutContainer * layoutcontainer);
   void store_layout_container_width (T2PLayoutContainer * layoutcontainer);
+  void store_layout_container_x (T2PLayoutContainer * layoutcontainer);
   void set_widow_orphan_data (int paragraph_line_number, bool last_line_of_paragraph);
   void print(cairo_t *cairo);
   ustring text();

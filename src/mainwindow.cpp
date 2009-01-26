@@ -5237,7 +5237,7 @@ void MainWindow::on_window_editor_delete_button_clicked(GtkButton * button, gpoi
   ((MainWindow *) user_data)->on_window_editor_delete_button(button);
 }
 
-void MainWindow::on_window_editor_delete_button(GtkButton * button) // Todo 
+void MainWindow::on_window_editor_delete_button(GtkButton * button)
 {
   GtkWidget *widget = GTK_WIDGET(button);
   vector < WindowEditor * >::iterator iterator = editor_windows.begin();
@@ -5249,8 +5249,8 @@ void MainWindow::on_window_editor_delete_button(GtkButton * button) // Todo
     }
     iterator++;
   }
-  // At times when one of two editor windows is closed,
-  // the remaining one does not always focus. Fix that here.
+  // When one of two or more editor windows is closed,
+  // a remaining one does not always focus. Focus one here.
   if (!editor_windows.empty()) {
     editor_windows[0]->present(true);
   }

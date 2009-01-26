@@ -27,7 +27,6 @@
 #include "pdfviewer.h"
 #include "xmlutils.h"
 #include "paper.h"
-#include "xmlfo-utils.h"
 #include "constants.h"
 #include "gwrappers.h"
 #include "gtkwrappers.h"

@@ -24,7 +24,6 @@
 
 #include "libraries.h"
 #include "usfm.h"
-#include "xmlfo-utils.h"
 
 
 class UsfmInlineMarkers
@@ -35,8 +34,6 @@ public:
   vector<ustring> markers;
   vector<ustring> opening_markers;
   vector<ustring> closing_markers;
-  string opening_xslfo_markup (XmlFoBlock * block, int index);
-  string closing_xslfo_markup;
   string opening_sword_markup (int index);
   string closing_sword_markup;
   ustring opening_odt_markup (int index);

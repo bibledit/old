@@ -70,6 +70,12 @@ void T2PBlock::store_layout_container_width(T2PLayoutContainer * layoutcontainer
   rectangle.width = layoutcontainer->rectangle.width;
 }
 
+void T2PBlock::store_layout_container_x(T2PLayoutContainer * layoutcontainer)
+// Stores the layout container's x in the block.
+{
+  rectangle.x = layoutcontainer->rectangle.x;
+}
+
 void T2PBlock::print(cairo_t * cairo)
 // Print the block.
 {

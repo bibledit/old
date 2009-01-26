@@ -24,8 +24,8 @@
 
 #include "libraries.h"
 #include "usfm.h"
-#include "xmlfo-utils.h"
 #include "usfm-inline-markers.h"
+#include "xmlfo-utils.h"
 
 
 enum UsfmCategory {ucIdentificationInformation, 

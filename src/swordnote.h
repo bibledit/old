@@ -24,7 +24,6 @@
 
 #include "libraries.h"
 #include "usfm.h"
-#include "xmlfo-utils.h"
 #include "notecaller.h"
 
 
