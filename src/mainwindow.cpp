@@ -1977,7 +1977,7 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
   if (about1)
     g_signal_connect((gpointer) about1, "activate", G_CALLBACK(on_about1_activate), gpointer(this));
   navigation.build(toolbar1);
-  g_signal_connect((gpointer) navigation.reference_signal_delayed, "clicked", G_CALLBACK(on_navigation_new_reference_clicked), gpointer(this));
+  g_signal_connect((gpointer) navigation.new_reference_signal, "clicked", G_CALLBACK(on_navigation_new_reference_clicked), gpointer(this));
 
   // Pointer to the settings.
   extern Settings *settings;

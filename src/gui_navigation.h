@@ -45,9 +45,7 @@ public:
   void previouschapter ();
   void nextverse ();
   void previousverse ();
-  GtkWidget * reference_signal_immediate;
-  GtkWidget * reference_signal_delayed;
-  GtkWidget * reference_signal_late;
+  GtkWidget * new_reference_signal;
   Reference reference;
   void display_delayed (const ustring& verse);
   void on_back ();
@@ -92,8 +90,6 @@ private:
   void signal (bool track = true);
   static bool signal_delayer (gpointer user_data);
   void signal_delayed ();
-  static bool signal_later (gpointer user_data);
-  void signal_late ();
   static bool signal_track (gpointer user_data);
   void signal_tracking ();
   void crossboundariesverse (bool forward);
@@ -107,7 +103,6 @@ private:
   int spinbutton_chapter_previous_value;
   int spinbutton_verse_previous_value;
   guint delayer_event_id;
-  guint later_event_id;
   guint track_event_id;
   Track track;
   

@@ -38,7 +38,6 @@ reference(0), track(0)
   spinbutton_chapter_previous_value = 0;
   spinbutton_verse_previous_value = 0;
   delayer_event_id = 0;
-  later_event_id = 0;
   track_event_id = 0;
   goto_reference_event_id = 0;
 }
@@ -50,18 +49,10 @@ GuiNavigation::~GuiNavigation()
 void GuiNavigation::build(GtkWidget * toolbar)
 {
   // Signalling buttons, but not visible.
-  GtkToolItem *toolitem_immediate = gtk_tool_item_new();
-  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(toolitem_immediate), -1);
-  reference_signal_immediate = gtk_button_new();
-  gtk_container_add(GTK_CONTAINER(toolitem_immediate), reference_signal_immediate);
   GtkToolItem *toolitem_delayed = gtk_tool_item_new();
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(toolitem_delayed), -1);
-  reference_signal_delayed = gtk_button_new();
-  gtk_container_add(GTK_CONTAINER(toolitem_delayed), reference_signal_delayed);
-  GtkToolItem *toolitem_later = gtk_tool_item_new();
-  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(toolitem_later), -1);
-  reference_signal_late = gtk_button_new();
-  gtk_container_add(GTK_CONTAINER(toolitem_later), reference_signal_late);
+  new_reference_signal = gtk_button_new();
+  gtk_container_add(GTK_CONTAINER(toolitem_delayed), new_reference_signal);
 
   // Gui proper.
   GtkToolItem *toolitem1 = gtk_tool_item_new();
@@ -727,15 +718,10 @@ void GuiNavigation::set_verse(const ustring & verse)
 
 void GuiNavigation::signal(bool track)
 {
-  // Emit the immediate signal.
-  gtk_button_clicked(GTK_BUTTON(reference_signal_immediate));
   // Postpone any active delayed signal.
   gw_destroy_source(delayer_event_id);
   // Start the time out for the delayed signal.
   delayer_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(signal_delayer), gpointer(this), NULL);
-  // Same story for the later signal.
-  gw_destroy_source(later_event_id);
-  later_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 200, GSourceFunc(signal_later), gpointer(this), NULL);
   // Same thing again for the tracker signal.
   // This signal has a delay of some seconds, so that, 
   // if a reference is displaying for some seconds, it will be tracked. 
@@ -756,18 +742,7 @@ bool GuiNavigation::signal_delayer(gpointer user_data)
 
 void GuiNavigation::signal_delayed()
 {
-  gtk_button_clicked(GTK_BUTTON(reference_signal_delayed));
-}
-
-bool GuiNavigation::signal_later(gpointer user_data)
-{
-  ((GuiNavigation *) user_data)->signal_late();
-  return false;
-}
-
-void GuiNavigation::signal_late()
-{
-  gtk_button_clicked(GTK_BUTTON(reference_signal_late));
+  gtk_button_clicked(GTK_BUTTON(new_reference_signal));
 }
 
 bool GuiNavigation::signal_track(gpointer user_data)
