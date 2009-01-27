@@ -728,12 +728,11 @@ protected:
   void save_editors();
   void goto_next_previous_project(bool next);
   static void on_editor_reload_clicked(GtkButton *button, gpointer user_data);
-  void on_editor_reload();
   static void on_editorsgui_changed_clicked(GtkButton *button, gpointer user_data);
   void on_editorsgui_changed();
-  void reload_project();
   static void on_view_usfm_code_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_usfm_code();
+  void reload_all_editors(bool take_chapter_from_focused_editor);
 
   /* Merge */
   static void on_file_projects_merge_activate(GtkMenuItem *menuitem, gpointer user_data);

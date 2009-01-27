@@ -2190,7 +2190,7 @@ void MainWindow::editproject()
       editor_window->load_dictionaries();
     }
     // As anything could have been changed to the project, reopen it.
-    reload_project();
+    reload_all_editors(false);
   }
   git_command_pause(false);
 }
@@ -2403,7 +2403,7 @@ void MainWindow::menu_replace()
   if (results.size()) {
     ReplacingDialog replacedialog(results);
     replacedialog.run();
-    reload_project();
+    reload_all_editors(false);
   } else {
     gtkw_dialog_info(window, "There was nothing to replace");
   }
@@ -2440,7 +2440,7 @@ void MainWindow::menu_import()
   ImportTextDialog dialog(0);
   if (dialog.run() != GTK_RESPONSE_OK)
     return;
-  reload_project();
+  reload_all_editors(false);
 }
 
 void MainWindow::on_insert1_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -2610,7 +2610,7 @@ void MainWindow::on_prefs_books()
   extern Settings *settings;
   BookDialog dialog(settings->genconfig.project_get());
   if (dialog.run() == GTK_RESPONSE_OK) {
-    reload_project();
+    reload_all_editors(false);
   }
 }
 
@@ -4095,7 +4095,7 @@ void MainWindow::on_style_apply()
       save_editors();
       ChapterNumberDialog dialog(true);
       if (dialog.run() == GTK_RESPONSE_OK) {
-        reload_project();
+        reload_all_editors(false);
       } else {
         style_was_used = false;
       }
@@ -4255,7 +4255,7 @@ void MainWindow::on_line_cutter_for_hebrew_text()
 {
   LineCutterDialog dialog(0);
   if (dialog.run() == GTK_RESPONSE_OK) {
-    reload_project();
+    reload_all_editors(false);
   }
 }
 
@@ -4282,7 +4282,7 @@ void MainWindow::on_tool_origin_references_in_bible_notes()
   save_editors();
   OriginReferencesDialog dialog(0);
   if (dialog.run() == GTK_RESPONSE_OK)
-    reload_project();
+    reload_all_editors(false);
 }
 
 void MainWindow::on_tool_project_notes_mass_update1_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -4308,7 +4308,7 @@ void MainWindow::on_tool_generate_word_lists()
   save_editors();
   WordlistDialog dialog(0);
   if (dialog.run() == GTK_RESPONSE_OK)
-    reload_project();
+    reload_all_editors(false);
 }
 
 void MainWindow::on_tool_transfer_project_notes_to_text_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -4323,7 +4323,7 @@ void MainWindow::on_tool_transfer_project_notes_to_text()
   save_editors();
   XferNotes2TextDialog dialog(0);
   if (dialog.run() == GTK_RESPONSE_OK) {
-    reload_project();
+    reload_all_editors(false);
   }
 }
 
@@ -4360,7 +4360,7 @@ void MainWindow::on_tool_simple_text_corrections()
   save_editors();
   FixMarkersDialog dialog(0);
   if (dialog.run() == GTK_RESPONSE_OK)
-    reload_project();
+    reload_all_editors(false);
 }
 
 void MainWindow::on_preferences_text_replacement_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -4643,14 +4643,14 @@ void MainWindow::on_preferences_remote_git_repository()
   save_editors();
   GitSetupDialog dialog(0);
   if (dialog.run() == GTK_RESPONSE_OK)
-    reload_project();
+    reload_all_editors(false);
 }
 
 void MainWindow::on_git_reopen_project()
 {
   if (git_reopen_project) {
     git_reopen_project = false; // Close flag before dialog shows, else the dialogs keep coming.
-    reload_project();
+    reload_all_editors(false);
   }
 }
 
@@ -4683,7 +4683,7 @@ void MainWindow::on_edit_revert()
   save_editors();
   RevertDialog dialog(&navigation.reference);
   if (dialog.run() == GTK_RESPONSE_OK) {
-    reload_project();
+    reload_all_editors(false);
   }
 }
 
@@ -5300,26 +5300,7 @@ void MainWindow::on_file_project_open(const ustring & project, bool startup)
 
 void MainWindow::on_editor_reload_clicked(GtkButton * button, gpointer user_data)
 {
-  ((MainWindow *) user_data)->on_editor_reload();
-}
-
-void MainWindow::on_editor_reload() // Todo its use.
-{
-  // Get the focused editor, if none, bail out.
-  WindowEditor *editor_window = last_focused_editor_window();
-  if (!editor_window)
-    return;
-  // Create the reference where to go to after the project has been reopened.
-  // The reference should be obtained before closing the project,
-  // so that the chapter number to go to is accessible.
-  Reference reference(navigation.reference);
-  reference.chapter = editor_window->reload_chapter_number();
-  if (editor_window->reload_chapter_number() == 0)
-    reference.verse = "0";
-  // Reopen.
-  reload_project();
-  // Go to the right reference.
-  navigation.display(reference);
+  ((MainWindow *) user_data)->reload_all_editors(true);
 }
 
 void MainWindow::handle_editor_focus()
@@ -5447,31 +5428,6 @@ void MainWindow::on_editorsgui_changed()
   check_usfm_window_ping ();
 }
 
-void MainWindow::reload_project() // Todo find out.
-// This function reloads the projects.
-{
-  // Project.
-  extern Settings *settings;
-  ustring project = settings->genconfig.project_get();
-  if (project.empty())
-    return;
-
-  // Store the reference where to go to after the project has been reloaded.
-  Reference reference(navigation.reference);
-
-  // As anything could have happened to the data in the project, force a reload of the navigator.
-  navigation.set_project(project, true);
-
-  // Navigate to the old place.
-  navigation.display(reference);
-
-  // Reload all editors.
-  for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    editor_windows[i]->chapter_load(reference.chapter);
-  }
-}
-
-
 void MainWindow::on_view_usfm_code_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_view_usfm_code();
@@ -5488,6 +5444,38 @@ void MainWindow::on_view_usfm_code()
   handle_editor_focus();
 }
 
+void MainWindow::reload_all_editors(bool take_chapter_from_focused_editor)
+{
+  // Get the focused editor, if none, bail out.
+  WindowEditor *editor_window = last_focused_editor_window();
+  if (!editor_window)
+    return;
+
+  // Store the reference where to go to after the project has been reloaded.
+  Reference reference(navigation.reference);
+
+  // If needed take the chapter number from the currently focused project.
+  if (take_chapter_from_focused_editor) {
+    reference.chapter = editor_window->reload_chapter_number();
+    if (editor_window->reload_chapter_number() == 0) {
+      reference.verse = "0";
+    }
+  }
+  
+  // Get the project.
+  ustring project = editor_window->project();
+
+  // As anything could have happened to the data in the project, force a reload of the navigator.
+  navigation.set_project(project, true);
+
+  // Reload all editors.
+  for (unsigned int i = 0; i < editor_windows.size(); i++) {
+    editor_windows[i]->chapter_load(reference.chapter);
+  }
+  
+  // Go to the right reference.
+  navigation.display(reference);
+}
 
 /*
  |
