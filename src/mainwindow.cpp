@@ -2644,7 +2644,7 @@ void MainWindow::on_navigation_new_reference_clicked(GtkButton * button, gpointe
   ((MainWindow *) user_data)->on_navigation_new_reference();
 }
 
-void MainWindow::on_navigation_new_reference() // Todo called by navigation.
+void MainWindow::on_navigation_new_reference() // Todo this is called by the navigation object.
 {
   extern Settings *settings;
   settings->genconfig.book_set(navigation.reference.book);
@@ -2702,7 +2702,8 @@ void MainWindow::goto_previous_book()
   navigation.previousbook();
 }
 
-void MainWindow::goto_reference_interactive() // Todo to investigate its use.
+void MainWindow::goto_reference_interactive()
+// Opens a dialog to ask the user to which reference to go.
 {
   WindowEditor *editor_window = last_focused_editor_window();
   if (editor_window) {
