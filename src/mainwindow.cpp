@@ -2644,7 +2644,7 @@ void MainWindow::on_navigation_new_reference_clicked(GtkButton * button, gpointe
   ((MainWindow *) user_data)->on_navigation_new_reference();
 }
 
-void MainWindow::on_navigation_new_reference()
+void MainWindow::on_navigation_new_reference() // Todo called by navigation.
 {
   extern Settings *settings;
   settings->genconfig.book_set(navigation.reference.book);
@@ -2702,7 +2702,7 @@ void MainWindow::goto_previous_book()
   navigation.previousbook();
 }
 
-void MainWindow::goto_reference_interactive()
+void MainWindow::goto_reference_interactive() // Todo to investigate its use.
 {
   WindowEditor *editor_window = last_focused_editor_window();
   if (editor_window) {
@@ -2723,7 +2723,7 @@ void MainWindow::goto_reference_interactive()
   }
 }
 
-void MainWindow::go_to_new_reference()
+void MainWindow::go_to_new_reference() // Todo find out its use.
 // This starts the procedure to carries out a requested change of reference.
 {
   // Let the editor(s) show the right reference.
@@ -2755,7 +2755,7 @@ void MainWindow::on_new_verse_signalled(GtkButton * button, gpointer user_data)
   ((MainWindow *) user_data)->on_new_verse();
 }
 
-void MainWindow::on_new_verse()
+void MainWindow::on_new_verse() // Todo
 /*
  When the cursor has moved, the navigation system needs to be updated
  so that it shows the right reference. If the user was, for example
@@ -3139,7 +3139,7 @@ bool MainWindow::mainwindow_on_external_programs_timeout(gpointer data)
   return ((MainWindow *) data)->on_external_programs_timeout();
 }
 
-bool MainWindow::on_external_programs_timeout()
+bool MainWindow::on_external_programs_timeout() // Todo find out its use.
 {
   // Deal with exchanging references between Bibledit and BibleTime.
   // The trick of the trade here is that we look which of the two made a change.
@@ -4500,7 +4500,7 @@ void MainWindow::on_keyterms_new_reference(GtkButton * button, gpointer user_dat
   ((MainWindow *) user_data)->check_move_new_reference();
 }
 
-void MainWindow::check_move_new_reference()
+void MainWindow::check_move_new_reference() // Todo find out its use.
 {
   Reference reference(window_check_keyterms->new_reference_showing->book, window_check_keyterms->new_reference_showing->chapter, window_check_keyterms->new_reference_showing->verse);
   navigation.display(reference);
@@ -5303,7 +5303,7 @@ void MainWindow::on_editor_reload_clicked(GtkButton * button, gpointer user_data
   ((MainWindow *) user_data)->on_editor_reload();
 }
 
-void MainWindow::on_editor_reload()
+void MainWindow::on_editor_reload() // Todo its use.
 {
   // Get the focused editor, if none, bail out.
   WindowEditor *editor_window = last_focused_editor_window();
@@ -5447,7 +5447,7 @@ void MainWindow::on_editorsgui_changed()
   check_usfm_window_ping ();
 }
 
-void MainWindow::reload_project()
+void MainWindow::reload_project() // Todo find out.
 // This function reloads the projects.
 {
   // Project.
