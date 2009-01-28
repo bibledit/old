@@ -2644,32 +2644,61 @@ void MainWindow::on_navigation_new_reference_clicked(GtkButton * button, gpointe
   ((MainWindow *) user_data)->on_navigation_new_reference();
 }
 
-void MainWindow::on_navigation_new_reference() // Todo this is called by the navigation object.
+void MainWindow::on_navigation_new_reference() // Todo
+// This function is called when the navigation object goes to another reference.
 {
+  // Store the new reference in the configuration.
   extern Settings *settings;
   settings->genconfig.book_set(navigation.reference.book);
   settings->genconfig.chapter_set(convert_to_string(navigation.reference.chapter));
   settings->genconfig.verse_set(navigation.reference.verse);
-  go_to_new_reference();
+
+  // Let the editor(s) show the reference.
+  for (unsigned int i = 0; i < editor_windows.size(); i++) {
+    editor_windows[i]->go_to(navigation.reference);
+  }
+
+  // Get last focused editor.
+  WindowEditor *last_focused_editor = last_focused_editor_window();
+
+  // Create a reference for the external programs.
+  // These do not take verses like 10a or 10-12, but only numbers like 10 or 12.
+  Reference goto_reference(navigation.reference.book, navigation.reference.chapter, number_in_string(navigation.reference.verse));
+
+  // Send it to the external programs.
+  if (settings->genconfig.reference_exchange_send_to_bibleworks_get())
+    windowsoutpost->BibleWorksReferenceSet(goto_reference);
+  if (settings->genconfig.reference_exchange_send_to_santafefocus_get())
+    windowsoutpost->SantaFeFocusReferenceSet(goto_reference);
+
+  // Send to resources.
+  for (unsigned int i = 0; i < resource_windows.size(); i++) {
+    resource_windows[i]->go_to(navigation.reference);
+  }
+
+  // Update the notes view.
+  notes_redisplay();
+
+  // Send it to the outline window.  
+  if (window_outline) {
+    if (last_focused_editor) {
+      window_outline->go_to(last_focused_editor->project(), goto_reference);
+    }
+  }
+
+  // Send it to the verses window.
+  show_verses();
+
   // Optionally display the parallel passages in the reference area.
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(parallel_passages1))) {
     show_references_window();
     parallel_passages_display(navigation.reference, window_references->liststore, window_references->treeview, window_references->treecolumn);
   }
+
   // Optional displaying keyterms in verse.
   if (window_show_keyterms) {
     window_show_keyterms->go_to(settings->genconfig.project_get(), navigation.reference);
   }
-  // Optional resource windows.
-  for (unsigned int i = 0; i < resource_windows.size(); i++) {
-    resource_windows[i]->go_to(navigation.reference);
-  }
-  // Optional outline window.
-  if (window_outline) {
-    window_outline->go_to(settings->genconfig.project_get(), navigation.reference);
-  }
-  // Optional verses window.
-  show_verses();
 }
 
 void MainWindow::goto_next_verse()
@@ -2724,57 +2753,18 @@ void MainWindow::goto_reference_interactive()
   }
 }
 
-void MainWindow::go_to_new_reference() // Todo find out its use.
-// This starts the procedure to carries out a requested change of reference.
-{
-  // Let the editor(s) show the right reference.
-  for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    editor_windows[i]->go_to(navigation.reference);
-  }
-
-  // Create a reference for the external programs.
-  // These do not take verses like 10a or 10-12, but only numbers like 10 or 12.
-  Reference goto_reference(navigation.reference.book, navigation.reference.chapter, number_in_string(navigation.reference.verse));
-
-  // Send it to the external programs.
-  extern Settings *settings;
-  if (settings->genconfig.reference_exchange_send_to_bibleworks_get())
-    windowsoutpost->BibleWorksReferenceSet(goto_reference);
-  if (settings->genconfig.reference_exchange_send_to_santafefocus_get())
-    windowsoutpost->SantaFeFocusReferenceSet(goto_reference);
-
-  // Send to resources.
-  for (unsigned int i = 0; i < resource_windows.size(); i++) {
-    resource_windows[i]->go_to(goto_reference);
-  }
-  // Update the notes view.
-  notes_redisplay();
-}
-
 void MainWindow::on_new_verse_signalled(GtkButton * button, gpointer user_data)
 {
-  ((MainWindow *) user_data)->on_new_verse();
+  ((MainWindow *) user_data)->on_editor_another_verse();
 }
 
-void MainWindow::on_new_verse() // Todo
-/*
- When the cursor has moved, the navigation system needs to be updated
- so that it shows the right reference. If the user was, for example
- on Matthew 1:10, and the cursor moves, the move might have brought him
- to another reference, though this is not necessarily so. Therefore, as we 
- don't know where the user is now after the cursor moved, we need to find
- it out. The book is known, the chapter is known, because both stay the same.
- The only thing we don't know is the verse. 
- */
+void MainWindow::on_editor_another_verse()
+// This one is called when an editor signals that the cursor is now on another verse.
 {
-  WindowEditor *editor_window = last_focused_editor_window();
-  if (editor_window) {
-    Reference reference(navigation.reference.book, navigation.reference.chapter, editor_window->current_verse_number());
+  WindowEditor *last_focused_editor = last_focused_editor_window();
+  if (last_focused_editor) {
+    Reference reference(navigation.reference.book, navigation.reference.chapter, last_focused_editor->current_verse_number());
     navigation.display(reference);
-    if (window_outline) {
-      window_outline->go_to(editor_window->project(), navigation.reference);
-    }
-    show_verses();
   }
 }
 
@@ -3140,7 +3130,7 @@ bool MainWindow::mainwindow_on_external_programs_timeout(gpointer data)
   return ((MainWindow *) data)->on_external_programs_timeout();
 }
 
-bool MainWindow::on_external_programs_timeout() // Todo find out its use.
+bool MainWindow::on_external_programs_timeout()
 {
   // Deal with exchanging references between Bibledit and BibleTime.
   // The trick of the trade here is that we look which of the two made a change.
@@ -4498,10 +4488,11 @@ void MainWindow::on_window_check_keyterms_delete_button()
 
 void MainWindow::on_keyterms_new_reference(GtkButton * button, gpointer user_data)
 {
-  ((MainWindow *) user_data)->check_move_new_reference();
+  ((MainWindow *) user_data)->keyterms_check_move_new_reference();
 }
 
-void MainWindow::check_move_new_reference() // Todo find out its use.
+void MainWindow::keyterms_check_move_new_reference()
+// This is called when the keyterm checking window goes to another reference.
 {
   Reference reference(window_check_keyterms->new_reference_showing->book, window_check_keyterms->new_reference_showing->chapter, window_check_keyterms->new_reference_showing->verse);
   navigation.display(reference);

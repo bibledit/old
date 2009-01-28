@@ -435,9 +435,8 @@ protected:
   void goto_next_book();
   void goto_previous_book();
   void goto_reference_interactive();
-  void go_to_new_reference();
   static void on_new_verse_signalled(GtkButton *button, gpointer user_data);
-  void on_new_verse();
+  void on_editor_another_verse();
   void on_text_area_activate();
   void on_tools_area_activate();
   void on_notes_area_activate();
@@ -630,7 +629,7 @@ protected:
   static void on_window_check_keyterms_delete_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_check_keyterms_delete_button();
   static void on_keyterms_new_reference(GtkButton *button, gpointer user_data);
-  void check_move_new_reference();
+  void keyterms_check_move_new_reference();
   static void on_view_keyterms_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_keyterms();
   WindowShowKeyterms * window_show_keyterms;
