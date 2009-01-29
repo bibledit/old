@@ -231,7 +231,12 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
   }
   gtk_accel_group_connect(accelerator_group, GDK_F1, GdkModifierType(0), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_main_help_callback), gpointer(this), NULL));
   gtk_accel_group_connect(accelerator_group, GDK_M, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_menu_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_U, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_view_usfm_code), gpointer(this), NULL));
+  // For USFM view, we first had defined the Ctrl-U for that. The U is the first letter of USFM,
+  // and also in for example Firefox, the Ctrl-U views the source code.
+  // But since the Ctrl-U clashed with the Ctrl-U for underline in the note editor,
+  // the accelerator key for viewing USFM code was changed to Ctrl-\.
+  // The backslash is the first character of the USFM code.
+  gtk_accel_group_connect(accelerator_group, GDK_backslash, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_view_usfm_code), gpointer(this), NULL));
 
   // GUI build.
   vbox = gtk_vbox_new(FALSE, 0);
