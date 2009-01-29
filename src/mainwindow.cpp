@@ -176,8 +176,12 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
   focused_resource_button = NULL;
   shutting_down = false;
 
+  // Application name.
   g_set_application_name("Bibledit");
 
+  // Make the window as small as possible.
+  gtk_window_resize(GTK_WINDOW(window), 10, 10);
+ 
   // Gui Features object.
   GuiFeatures guifeatures(0);
   project_notes_enabled = guifeatures.project_notes();

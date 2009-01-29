@@ -87,9 +87,9 @@ void ScreenLayoutDimensions::verify()
     // Remove stored dialog positions.
     dialog_position_reset_all();
 
-    // Menu area window at 0% from top, at left, width 50%, height 10%.
-    width = real_screen_width * 50 / 100;
-    height = real_screen_height * 10 / 100;
+    // Menu area window sizes.
+    width = real_screen_width * 20 / 100;
+    height = real_screen_height * 5 / 100;
     x = 0;
     y = 0;
     settings->genconfig.menu_area_width_set(width);
@@ -97,17 +97,17 @@ void ScreenLayoutDimensions::verify()
     settings->genconfig.menu_area_x_position_set(x);
     settings->genconfig.menu_area_y_position_set(y);
 
-    // Text area window at 10% from top, at left, width 70%, height 60%.
+    // Text area window sizes.
     width = real_screen_width * 66 / 100;
-    height = real_screen_height * 56 / 100;
+    height = real_screen_height * 50 / 100;
     x = 0;
-    y = real_screen_height * 14 / 100;
+    y = real_screen_height * 16 / 100;
     settings->genconfig.text_area_width_set(width);
     settings->genconfig.text_area_height_set(height);
     settings->genconfig.text_area_x_position_set(x);
     settings->genconfig.text_area_y_position_set(y);
 
-    // Notes area window at 70% from top, at left, width 70%, height 30%.
+    // Notes area window dimensions.
     width = real_screen_width * 66 / 100;
     height = real_screen_height * 16 / 100;
     x = 0;
@@ -117,8 +117,8 @@ void ScreenLayoutDimensions::verify()
     settings->genconfig.notes_area_x_position_set(x);
     settings->genconfig.notes_area_y_position_set(y);
 
-    // Tools area window at top, 70% off left, width 30%, height 100%.
-    width = real_screen_width * 26 / 100;
+    // Tools area window sizes.
+    width = real_screen_width * 30 / 100;
     height = real_screen_height * 90 / 100;
     x = real_screen_width - (real_screen_width * 30 / 100);
     y = 0;
