@@ -347,7 +347,8 @@ vector < ustring > InterprocessCommunication::receive(IPCSocketType name, IPCCal
   // Wait for the reply to come back.
   if (success) {
     while ((method_called_type != method) && (time(0) <= (oldtime + timeout))) {
-      g_usleep(100);
+      // The time was extended so that less CPU time is consumed.
+      g_usleep(10000);
     }
   }
   // Get the answer, whether it was there or not.  
