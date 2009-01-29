@@ -47,7 +47,6 @@ public:
   void previousverse ();
   GtkWidget * new_reference_signal;
   Reference reference;
-  void display_delayed (const ustring& verse);
   void on_back ();
   void on_forward ();
 private:
@@ -105,11 +104,6 @@ private:
   guint delayer_event_id;
   guint track_event_id;
   Track track;
-  
-  guint goto_reference_event_id;
-  static bool on_goto_reference_timeout (gpointer user_data);
-  void on_goto_reference ();
-  ustring goto_reference_verse;
 };
 
 

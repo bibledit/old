@@ -39,7 +39,6 @@ reference(0), track(0)
   spinbutton_verse_previous_value = 0;
   delayer_event_id = 0;
   track_event_id = 0;
-  goto_reference_event_id = 0;
 }
 
 GuiNavigation::~GuiNavigation()
@@ -908,23 +907,3 @@ void GuiNavigation::tracker_sensitivity()
   gtk_widget_set_sensitive(button_forward, track.next_reference_available());
 }
 
-void GuiNavigation::display_delayed(const ustring & verse)
-{
-  if (goto_reference_event_id)
-    gw_destroy_source(goto_reference_event_id);
-  goto_reference_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 500, GSourceFunc(on_goto_reference_timeout), gpointer(this), NULL);
-  goto_reference_verse = verse;
-}
-
-bool GuiNavigation::on_goto_reference_timeout(gpointer user_data)
-{
-  ((GuiNavigation *) user_data)->on_goto_reference();
-  return false;
-}
-
-void GuiNavigation::on_goto_reference()
-{
-  Reference goto_ref(reference.book, reference.chapter, goto_reference_verse);
-  display(goto_ref);
-  goto_reference_verse.clear();
-}

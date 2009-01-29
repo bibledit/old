@@ -2644,7 +2644,7 @@ void MainWindow::on_navigation_new_reference_clicked(GtkButton * button, gpointe
   ((MainWindow *) user_data)->on_navigation_new_reference();
 }
 
-void MainWindow::on_navigation_new_reference() // Todo
+void MainWindow::on_navigation_new_reference()
 // This function is called when the navigation object goes to another reference.
 {
   // Store the new reference in the configuration.
@@ -5351,10 +5351,6 @@ void MainWindow::handle_editor_focus()
   navigation.set_project(project, false);
   Reference reference(settings->genconfig.book_get(), convert_to_int(settings->genconfig.chapter_get()), settings->genconfig.verse_get());
   navigation.display(reference);
-  // Some rumbling internal logic causes the verse to jump to 0 in several cases.
-  // To resolve this in a rough manner, after a delay, that is, after the 
-  // rumbling is over, cause the navigator to go to the desired verse.
-  navigation.display_delayed(reference.verse);
 
   // Set the available books for search/replace functions.
   vector < unsigned int >books = project_get_books(project);
