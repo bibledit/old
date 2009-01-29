@@ -5312,6 +5312,11 @@ void MainWindow::handle_editor_focus()
   if (editor_window)
     project = editor_window->project();
 
+  // Bail out if there's no change in focused project.
+  if (project == previously_focused_project_name)
+    return;
+  previously_focused_project_name = project;
+
   // Set the focused project in the configuration.
   extern Settings *settings;
   settings->genconfig.project_set(project);
@@ -5339,6 +5344,14 @@ void MainWindow::handle_editor_focus()
   // Inform the check USFM window about the focused editor.
   check_usfm_window_ping ();
   
+  // Set the title of the main window to include the project.
+  ustring title = "Bibledit";
+  if (!project.empty()) {
+    title.append (" - ");
+    title.append (project);
+  }
+  gtk_window_set_title(GTK_WINDOW(window), title.c_str());
+
   // If we've no project bail out.
   if (project.empty())
     return;

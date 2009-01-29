@@ -724,6 +724,7 @@ protected:
   WindowEditor * last_focused_editor_window();
   void on_file_project_open(const ustring& project, bool startup);
   void handle_editor_focus();
+  ustring previously_focused_project_name;
   void save_editors();
   void goto_next_previous_project(bool next);
   static void on_editor_reload_clicked(GtkButton *button, gpointer user_data);
