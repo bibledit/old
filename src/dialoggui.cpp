@@ -18,14 +18,14 @@
  */
 
 #include "libraries.h"
-#include "dialogfeatures.h"
+#include "dialoggui.h"
 #include "help.h"
 #include "shortcuts.h"
 #include "settings.h"
 #include "utilities.h"
 #include "gtkwrappers.h"
 
-FeaturesDialog::FeaturesDialog(int dummy)
+GuiDialog::GuiDialog(int dummy)
 {
   Shortcuts shortcuts(0);
 
@@ -139,7 +139,7 @@ FeaturesDialog::FeaturesDialog(int dummy)
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
-  new InDialogHelp(featuresdialog, &shortcuts, "preferences_features");
+  new InDialogHelp(featuresdialog, &shortcuts, "preferences_features"); // Todo
 
   cancelbutton = gtk_button_new_from_stock("gtk-cancel");
   gtk_widget_show(cancelbutton);
@@ -182,22 +182,22 @@ FeaturesDialog::FeaturesDialog(int dummy)
   on_togglebutton();
 }
 
-FeaturesDialog::~FeaturesDialog()
+GuiDialog::~GuiDialog()
 {
   gtk_widget_destroy(featuresdialog);
 }
 
-int FeaturesDialog::run()
+int GuiDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(featuresdialog));
 }
 
-void FeaturesDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
+void GuiDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
 {
-  ((FeaturesDialog *) user_data)->on_okbutton();
+  ((GuiDialog *) user_data)->on_okbutton();
 }
 
-void FeaturesDialog::on_okbutton()
+void GuiDialog::on_okbutton()
 // Store the new features.
 {
   // Settings object.
@@ -219,12 +219,12 @@ void FeaturesDialog::on_okbutton()
   }
 }
 
-void FeaturesDialog::on_togglebutton_toggled(GtkToggleButton * togglebutton, gpointer user_data)
+void GuiDialog::on_togglebutton_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
-  ((FeaturesDialog *) user_data)->on_togglebutton();
+  ((GuiDialog *) user_data)->on_togglebutton();
 }
 
-void FeaturesDialog::on_togglebutton()
+void GuiDialog::on_togglebutton()
 {
   bool usersettings = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_user));
   gtk_widget_set_sensitive(checkbutton_printing, usersettings);
@@ -241,7 +241,7 @@ void FeaturesDialog::on_togglebutton()
   gtk_widget_set_sensitive(checkbutton_preferences, usersettings);
 }
 
-void FeaturesDialog::mode_set(unsigned int mode)
+void GuiDialog::mode_set(unsigned int mode)
 // Sets the mode, e.g. basic, full or user-defined.
 {
   switch (mode) {
@@ -262,7 +262,7 @@ void FeaturesDialog::mode_set(unsigned int mode)
   }
 }
 
-unsigned int FeaturesDialog::mode_get()
+unsigned int GuiDialog::mode_get()
 // Gets the mode, e.g. basic, full, or user-defined.
 {
   if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_basic))) {
@@ -274,7 +274,7 @@ unsigned int FeaturesDialog::mode_get()
   return 2;
 }
 
-void FeaturesDialog::list_set(ustring pattern)
+void GuiDialog::list_set(ustring pattern)
 // Set the list of features.
 {
   // Note: The order of this list must be the same ad in function list_get ().
@@ -292,7 +292,7 @@ void FeaturesDialog::list_set(ustring pattern)
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_preferences), bitpattern_take(pattern));
 }
 
-ustring FeaturesDialog::list_get()
+ustring GuiDialog::list_get()
 // Get the list of features.
 {
   ustring pattern;
@@ -312,12 +312,12 @@ ustring FeaturesDialog::list_get()
   return pattern;
 }
 
-void FeaturesDialog::on_checkbutton_toggled(GtkToggleButton * togglebutton, gpointer user_data)
+void GuiDialog::on_checkbutton_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
-  ((FeaturesDialog *) user_data)->on_checkbutton(togglebutton);
+  ((GuiDialog *) user_data)->on_checkbutton(togglebutton);
 }
 
-void FeaturesDialog::on_checkbutton(GtkToggleButton * togglebutton)
+void GuiDialog::on_checkbutton(GtkToggleButton * togglebutton)
 // Sets interdependent checkboxes.
 {
   bool switches_on = gtk_toggle_button_get_active(togglebutton);
@@ -368,7 +368,11 @@ void FeaturesDialog::on_checkbutton(GtkToggleButton * togglebutton)
   }
 }
 
-void FeaturesDialog::check(GtkWidget * button, bool on)
+void GuiDialog::check(GtkWidget * button, bool on)
 {
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), on);
 }
+
+// Todo
+// Rename the "Features" preferences to "Graphical interface". To add a checkbox for the interface type,
+// and integrate it into the rest. Then to update the helpfiles. Also to rename the Widgets for calling it.

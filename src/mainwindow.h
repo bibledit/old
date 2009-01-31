@@ -326,7 +326,7 @@ protected:
   GtkWidget *image16359;
   GtkWidget *preferences_remote_git_repository;
   GtkWidget *image18977;
-  GtkWidget *preferences_features;
+  GtkWidget *preferences_gui;
   GtkWidget *image20936;
   GtkWidget *preferences_password;
   GtkWidget *image20937;
@@ -408,8 +408,8 @@ protected:
   void on_preferences_tidy_text();
   static void on_tool_generate_word_lists_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_tool_generate_word_lists();
-  static void on_preferences_features_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_preferences_features();
+  static void on_preferences_gui_activate(GtkMenuItem *menuitem, gpointer user_data);
+  void on_preferences_gui();
   static void on_preferences_password_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_preferences_password();
   static void on_tool_simple_text_corrections_activate(GtkMenuItem *menuitem, gpointer user_data);

@@ -127,8 +127,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	session_highlights.$(OBJEXT) bookdata.$(OBJEXT) ipc.$(OBJEXT) \
 	config.xml.$(OBJEXT) localizedbooks.$(OBJEXT) \
 	versifications.$(OBJEXT) mappings.$(OBJEXT) \
-	dialogfeatures.$(OBJEXT) password.$(OBJEXT) \
-	gui_features.$(OBJEXT) dialogprintreferences.$(OBJEXT) \
+	dialoggui.$(OBJEXT) password.$(OBJEXT) gui_features.$(OBJEXT) \
+	dialogprintreferences.$(OBJEXT) \
 	print_parallel_references.$(OBJEXT) dialogfixmarkers.$(OBJEXT) \
 	fixmarkers.$(OBJEXT) check_ref_inventory.$(OBJEXT) \
 	check_validate_refs.$(OBJEXT) dialogtextreplacement.$(OBJEXT) \
@@ -532,7 +532,7 @@ bibledit_bin_SOURCES = \
         localizedbooks.cpp \
         versifications.cpp \
         mappings.cpp \
-        dialogfeatures.cpp \
+        dialoggui.cpp \
         password.cpp \
         gui_features.cpp \
         dialogprintreferences.cpp \
@@ -766,7 +766,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogentry.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogentry3.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogexportnotes.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogfeatures.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogfilters.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogfindnote.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogfixmarkers.Po@am__quote@
@@ -774,6 +773,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoggitadd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoggitsetup.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoggotoreference.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoggui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogimportnotes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogimporttext.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoginsertnote.Po@am__quote@

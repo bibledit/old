@@ -101,7 +101,7 @@
 #include "dialognewstylesheet.h"
 #include "settings.h"
 #include "ipc.h"
-#include "dialogfeatures.h"
+#include "dialoggui.h"
 #include "password.h"
 #include "gui_features.h"
 #include "dialogprintreferences.h"
@@ -1608,13 +1608,13 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
 
   }
 
-  preferences_features = gtk_image_menu_item_new_with_mnemonic("F_eatures");
-  gtk_widget_show(preferences_features);
-  gtk_container_add(GTK_CONTAINER(menuitem_preferences_menu), preferences_features);
+  preferences_gui = gtk_image_menu_item_new_with_mnemonic("Grap_hic interface");
+  gtk_widget_show(preferences_gui);
+  gtk_container_add(GTK_CONTAINER(menuitem_preferences_menu), preferences_gui);
 
   image20936 = gtk_image_new_from_stock("gtk-properties", GTK_ICON_SIZE_MENU);
   gtk_widget_show(image20936);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(preferences_features), image20936);
+  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(preferences_gui), image20936);
 
   preferences_planning = NULL;
   preferences_password = NULL;
@@ -1963,8 +1963,8 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
     g_signal_connect((gpointer) preferences_tidy_text, "activate", G_CALLBACK(on_preferences_tidy_text_activate), gpointer(this));
   if (preferences_remote_git_repository)
     g_signal_connect((gpointer) preferences_remote_git_repository, "activate", G_CALLBACK(on_preferences_remote_git_repository_activate), gpointer(this));
-  if (preferences_features)
-    g_signal_connect((gpointer) preferences_features, "activate", G_CALLBACK(on_preferences_features_activate), gpointer(this));
+  if (preferences_gui)
+    g_signal_connect((gpointer) preferences_gui, "activate", G_CALLBACK(on_preferences_gui_activate), gpointer(this));
   if (preferences_password)
     g_signal_connect((gpointer) preferences_password, "activate", G_CALLBACK(on_preferences_password_activate), gpointer(this));
   if (preferences_text_replacement)
@@ -4327,15 +4327,15 @@ void MainWindow::on_tool_transfer_project_notes_to_text()
   }
 }
 
-void MainWindow::on_preferences_features_activate(GtkMenuItem * menuitem, gpointer user_data)
+void MainWindow::on_preferences_gui_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
-  ((MainWindow *) user_data)->on_preferences_features();
+  ((MainWindow *) user_data)->on_preferences_gui();
 }
 
-void MainWindow::on_preferences_features()
+void MainWindow::on_preferences_gui()
 {
   if (password_pass(window)) {
-    FeaturesDialog dialog(0);
+    GuiDialog dialog(0);
     dialog.run();
   }
 }

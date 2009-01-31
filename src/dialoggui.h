@@ -18,19 +18,19 @@
 */
 
 
-#ifndef INCLUDED_DIALOGFEATURES_H
-#define INCLUDED_DIALOGFEATURES_H
+#ifndef INCLUDED_DIALOGGUI_H
+#define INCLUDED_DIALOGGUI_H
 
 
 #include <gtk/gtk.h>
 #include "ustring.h"
 
 
-class FeaturesDialog
+class GuiDialog
 {
 public:
-  FeaturesDialog (int dummy);
-  ~FeaturesDialog ();
+  GuiDialog (int dummy);
+  ~GuiDialog ();
   int run ();
 protected:
   GtkWidget *featuresdialog;

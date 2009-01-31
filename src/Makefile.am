@@ -180,7 +180,7 @@ bibledit_bin_SOURCES = \
         localizedbooks.cpp \
         versifications.cpp \
         mappings.cpp \
-        dialogfeatures.cpp \
+        dialoggui.cpp \
         password.cpp \
         gui_features.cpp \
         dialogprintreferences.cpp \
