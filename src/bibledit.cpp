@@ -41,6 +41,7 @@
 #include "styles.h"
 #include <curl/curl.h>
 #include "htmlcache.h"
+#include <libxml/xmlreader.h>
 
 Settings *settings;
 InterprocessCommunication *ipc;
@@ -61,6 +62,8 @@ int main(int argc, char *argv[])
   // Do not allow to run as root.
   if (runs_as_root())
     return 1;
+  // Initialize the xml library.
+  xmlInitParser();
   // Check on default data structure.
   directories_check_structure();
   // Settings object. 
@@ -130,6 +133,8 @@ int main(int argc, char *argv[])
   curl_easy_cleanup(curl);
   // Destroy the accelerator group.
   g_object_unref(G_OBJECT(accelerator_group));
+  // Clean xml library up.
+  xmlCleanupParser();
   // Quit.
   return 0;
 }
