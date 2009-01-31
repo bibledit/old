@@ -28,7 +28,8 @@
 #include "settings.h"
 #include "resource_utils.h"
 
-WindowResource::WindowResource(const ustring & resource_name, GtkAccelGroup * accelerator_group, bool startup):WindowBase(widResource, resource_name, startup, 0)
+WindowResource::WindowResource(const ustring & resource_name, GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
+WindowBase(widResource, resource_name, startup, 0, parent_box)
 // Window for showing the quick references.  
 {
   name = resource_name;

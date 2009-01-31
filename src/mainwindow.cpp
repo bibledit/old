@@ -147,9 +147,12 @@
  */
 
 MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup * accelerator_group):
-WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), httpd(0)
+WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(true), httpd(0)
 {
-  // Set some pointers to NULL.  
+  // Pointer to the settings.
+  extern Settings *settings;
+
+  // Set some window pointers to NULL.
   // To save memory, we only create the object when actually needed.
   window_screen_layout = NULL;
   window_show_keyterms = NULL;
@@ -175,6 +178,7 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
   focused_editor_button = NULL;
   focused_resource_button = NULL;
   shutting_down = false;
+  windows_are_detached = settings->genconfig.windows_detached_get();
 
   // Application name.
   g_set_application_name("Bibledit");
@@ -243,13 +247,17 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
   gtk_accel_group_connect(accelerator_group, GDK_backslash, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_view_usfm_code), gpointer(this), NULL));
 
   // GUI build.
-  vbox = gtk_vbox_new(FALSE, 0);
-  gtk_widget_show(vbox);
-  gtk_container_add(GTK_CONTAINER(window), vbox);
+  hbox_main = gtk_hbox_new (FALSE, 0);
+  gtk_widget_show (hbox_main);
+  gtk_container_add (GTK_CONTAINER (window), hbox_main);
+
+  vbox_main = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (vbox_main);
+  gtk_box_pack_start (GTK_BOX (hbox_main), vbox_main, TRUE, TRUE, 0);
 
   menubar1 = gtk_menu_bar_new();
   gtk_widget_show(menubar1);
-  gtk_box_pack_start(GTK_BOX(vbox), menubar1, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox_main), menubar1, FALSE, FALSE, 0);
 
   menuitem_file = gtk_menu_item_new_with_mnemonic("_File");
   gtk_widget_show(menuitem_file);
@@ -1711,18 +1719,34 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
   gtk_widget_show(about1);
   gtk_container_add(GTK_CONTAINER(menuitem_help_menu), about1);
 
-  toolbar1 = gtk_toolbar_new();
-  gtk_widget_show(toolbar1);
-  gtk_box_pack_start(GTK_BOX(vbox), toolbar1, FALSE, FALSE, 0);
-  gtk_toolbar_set_style(GTK_TOOLBAR(toolbar1), GTK_TOOLBAR_BOTH_HORIZ);
+  toolbar = gtk_toolbar_new();
+  gtk_widget_show(toolbar);
+  gtk_box_pack_start(GTK_BOX(vbox_main), toolbar, FALSE, FALSE, 0);
+  gtk_toolbar_set_style(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_BOTH_HORIZ);
 
-  hbox5 = gtk_hbox_new(FALSE, 0);
-  gtk_widget_show(hbox5);
-  gtk_box_pack_start(GTK_BOX(vbox), hbox5, FALSE, FALSE, 0);
+  hbox_editors = gtk_hbox_new (FALSE, 0);
+  gtk_widget_show (hbox_editors);
+  gtk_box_pack_start (GTK_BOX (vbox_main), hbox_editors, TRUE, TRUE, 0);
+
+  /*
+  In attached view, an editor is added so: Todo.
+  editor = gtk_label_new ("");
+  gtk_widget_show (editor);
+  gtk_box_pack_start (GTK_BOX (hbox_editors), editor, FALSE, FALSE, 0);
+
+  And a note editor is added so:
+  note = gtk_label_new ("");
+  gtk_widget_show (note);
+  gtk_box_pack_start (GTK_BOX (vbox_main), note, FALSE, FALSE, 0);
+  */
+
+  hbox_status = gtk_hbox_new(FALSE, 0);
+  gtk_widget_show(hbox_status);
+  gtk_box_pack_start(GTK_BOX(vbox_main), hbox_status, FALSE, FALSE, 0);
 
   hbox7 = gtk_hbox_new(FALSE, 8);
   gtk_widget_show(hbox7);
-  gtk_box_pack_start(GTK_BOX(hbox5), hbox7, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox_status), hbox7, TRUE, TRUE, 0);
 
   statuslabel_style = gtk_label_new("");
   gtk_widget_show(statuslabel_style);
@@ -1737,10 +1761,21 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
   gtk_widget_show(label_git);
   gtk_box_pack_start(GTK_BOX(hbox7), label_git, FALSE, FALSE, 0);
 
-  statusbar1 = gtk_statusbar_new();
-  gtk_widget_show(statusbar1);
-  gtk_box_pack_start(GTK_BOX(hbox5), statusbar1, FALSE, TRUE, 0);
-  gtk_widget_set_size_request(statusbar1, 25, -1);
+  statusbar = gtk_statusbar_new();
+  gtk_widget_show(statusbar);
+  gtk_box_pack_start(GTK_BOX(hbox_status), statusbar, FALSE, TRUE, 0);
+  gtk_widget_set_size_request(statusbar, 25, -1);
+
+  // This vbox will contain the tools in attached view.
+  vbox_tools = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (vbox_tools);
+  gtk_box_pack_start (GTK_BOX (hbox_main), vbox_tools, FALSE, FALSE, 0);
+
+  /* In attached view, a tools is added so: Todo
+  tool = gtk_label_new ("");
+  gtk_widget_show (tool);
+  gtk_box_pack_start (GTK_BOX (vbox_tools), tool, FALSE, FALSE, 0);
+  */
 
   // Menu callbacks.
   if (new1)
@@ -1981,11 +2016,8 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
     g_signal_connect((gpointer) system_log1, "activate", G_CALLBACK(on_system_log1_activate), gpointer(this));
   if (about1)
     g_signal_connect((gpointer) about1, "activate", G_CALLBACK(on_about1_activate), gpointer(this));
-  navigation.build(toolbar1);
+  navigation.build(toolbar);
   g_signal_connect((gpointer) navigation.new_reference_signal, "clicked", G_CALLBACK(on_navigation_new_reference_clicked), gpointer(this));
-
-  // Pointer to the settings.
-  extern Settings *settings;
 
   // Start Outpost.
   windowsoutpost = new WindowsOutpost(true);
@@ -2954,7 +2986,7 @@ void MainWindow::show_references_window()
 {
   if (!window_references) {
     extern GtkAccelGroup *accelerator_group;
-    window_references = new WindowReferences(accelerator_group, windows_startup_pointer != G_MAXINT);
+    window_references = new WindowReferences(accelerator_group, windows_startup_pointer != G_MAXINT, NULL); // Todo implement.
     g_signal_connect((gpointer) window_references->delete_signal_button, "clicked", G_CALLBACK(on_window_references_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_references->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_references->general_signal_button, "clicked", G_CALLBACK(on_window_references_general_signal_button_clicked), gpointer(this));
@@ -3301,7 +3333,7 @@ void MainWindow::view_project_notes()
     window_notes->present(true);
   } else {
     extern GtkAccelGroup *accelerator_group;
-    window_notes = new WindowNotes(accelerator_group, windows_startup_pointer != G_MAXINT);
+    window_notes = new WindowNotes(accelerator_group, windows_startup_pointer != G_MAXINT, NULL); // Todo implement.
     g_signal_connect((gpointer) window_notes->delete_signal_button, "clicked", G_CALLBACK(on_window_notes_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_notes->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_notes->references_available_signal_button, "clicked", G_CALLBACK(on_window_notes_references_available_button_clicked), gpointer(this));
@@ -3966,7 +3998,7 @@ void MainWindow::display_window_styles()
     gtk_widget_show(menu_stylesheet);
     // Open the window.
     extern GtkAccelGroup *accelerator_group;
-    window_styles = new WindowStyles(accelerator_group, windows_startup_pointer != G_MAXINT, style, style_menu, stylesheets_expand_all, stylesheets_collapse_all, style_insert, stylesheet_edit_mode, style_new, style_properties, style_delete, stylesheet_switch, stylesheets_new, stylesheets_delete, stylesheets_rename, stylesheets_import, stylesheets_export);
+    window_styles = new WindowStyles(accelerator_group, windows_startup_pointer != G_MAXINT, style, style_menu, stylesheets_expand_all, stylesheets_collapse_all, style_insert, stylesheet_edit_mode, style_new, style_properties, style_delete, stylesheet_switch, stylesheets_new, stylesheets_delete, stylesheets_rename, stylesheets_import, stylesheets_export, NULL); // Todo implement.
     g_signal_connect((gpointer) window_styles->delete_signal_button, "clicked", G_CALLBACK(on_window_styles_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_styles->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_styles->apply_signal, "clicked", G_CALLBACK(on_style_button_apply_clicked), gpointer(this));
@@ -4450,7 +4482,7 @@ void MainWindow::on_check_key_terms()
   on_window_check_keyterms_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(check_key_terms))) {
     extern GtkAccelGroup *accelerator_group;
-    window_check_keyterms = new WindowCheckKeyterms(accelerator_group, windows_startup_pointer != G_MAXINT);
+    window_check_keyterms = new WindowCheckKeyterms(accelerator_group, windows_startup_pointer != G_MAXINT, NULL); // Todo implement.
     g_signal_connect((gpointer) window_check_keyterms->delete_signal_button, "clicked", G_CALLBACK(on_window_check_keyterms_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_check_keyterms->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_check_keyterms->signal, "clicked", G_CALLBACK(on_keyterms_new_reference), gpointer(this));
@@ -4494,7 +4526,7 @@ void MainWindow::on_view_keyterms()
   on_window_show_keyterms_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_keyterms))) {
     extern GtkAccelGroup *accelerator_group;
-    window_show_keyterms = new WindowShowKeyterms(accelerator_group, windows_startup_pointer != G_MAXINT);
+    window_show_keyterms = new WindowShowKeyterms(accelerator_group, windows_startup_pointer != G_MAXINT, NULL); // Todo implement.
     g_signal_connect((gpointer) window_show_keyterms->delete_signal_button, "clicked", G_CALLBACK(on_window_show_keyterms_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_show_keyterms->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     extern Settings *settings;
@@ -4813,7 +4845,7 @@ void MainWindow::on_view_outline()
   on_window_outline_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_outline))) {
     extern GtkAccelGroup *accelerator_group;
-    window_outline = new WindowOutline(accelerator_group, windows_startup_pointer != G_MAXINT);
+    window_outline = new WindowOutline(accelerator_group, windows_startup_pointer != G_MAXINT, NULL); // Todo implement.
     g_signal_connect((gpointer) window_outline->delete_signal_button, "clicked", G_CALLBACK(on_window_outline_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_outline->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_outline->outline->reference_changed_signal, "clicked", G_CALLBACK(on_button_outline_clicked), gpointer(this));
@@ -5111,7 +5143,7 @@ void MainWindow::on_file_resources_open(ustring resource, bool startup)
 
   // Display a new resource.
   extern GtkAccelGroup *accelerator_group;
-  WindowResource *resource_window = new WindowResource(resource, accelerator_group, startup);
+  WindowResource *resource_window = new WindowResource(resource, accelerator_group, startup, NULL); // Todo implement.
   g_signal_connect((gpointer) resource_window->delete_signal_button, "clicked", G_CALLBACK(on_window_resource_delete_button_clicked), gpointer(this));
   g_signal_connect((gpointer) resource_window->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
   resource_window->go_to(navigation.reference);
@@ -5259,7 +5291,7 @@ void MainWindow::on_file_project_open(const ustring & project, bool startup)
 
   // Display a new editor.
   extern GtkAccelGroup *accelerator_group;
-  WindowEditor *editor_window = new WindowEditor(project, accelerator_group, startup);
+  WindowEditor *editor_window = new WindowEditor(project, accelerator_group, startup, NULL); // Todo implement.
   g_signal_connect((gpointer) editor_window->delete_signal_button, "clicked", G_CALLBACK(on_window_editor_delete_button_clicked), gpointer(this));
   g_signal_connect((gpointer) editor_window->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
   g_signal_connect((gpointer) editor_window->new_verse_signal, "clicked", G_CALLBACK(on_new_verse_signalled), gpointer(this));
@@ -5487,7 +5519,7 @@ void MainWindow::on_file_projects_merge()
   on_window_merge_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(file_projects_merge))) {
     extern GtkAccelGroup *accelerator_group;
-    window_merge = new WindowMerge(accelerator_group, windows_startup_pointer != G_MAXINT);
+    window_merge = new WindowMerge(accelerator_group, windows_startup_pointer != G_MAXINT, NULL); // Todo implement.
     g_signal_connect((gpointer) window_merge->delete_signal_button, "clicked", G_CALLBACK(on_window_merge_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_merge->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_merge->editors_get_text_button, "clicked", G_CALLBACK(on_merge_window_get_text_button_clicked), gpointer(this));
@@ -6137,7 +6169,7 @@ void MainWindow::on_print()
  |
  |
  |
- Windowing system
+ Windowing system Todo
  |
  |
  |
@@ -6451,7 +6483,7 @@ void MainWindow::on_view_quick_references()
   on_window_show_quick_references_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_quick_references))) {
     extern GtkAccelGroup *accelerator_group;
-    window_show_quick_references = new WindowShowQuickReferences(accelerator_group, windows_startup_pointer != G_MAXINT);
+    window_show_quick_references = new WindowShowQuickReferences(accelerator_group, windows_startup_pointer != G_MAXINT, NULL); // Todo implement.
     g_signal_connect((gpointer) window_show_quick_references->delete_signal_button, "clicked", G_CALLBACK(on_window_show_quick_references_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_show_quick_references->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     treeview_references_display_quick_reference();
@@ -6871,7 +6903,7 @@ void MainWindow::on_view_verses()
   on_window_show_verses_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_verses))) {
     extern GtkAccelGroup *accelerator_group;
-    window_show_verses = new WindowShowVerses(accelerator_group, windows_startup_pointer != G_MAXINT);
+    window_show_verses = new WindowShowVerses(accelerator_group, windows_startup_pointer != G_MAXINT, NULL); // Todo implement.
     g_signal_connect((gpointer) window_show_verses->delete_signal_button, "clicked", G_CALLBACK(on_window_show_verses_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_show_verses->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     show_verses();
@@ -6971,7 +7003,7 @@ void MainWindow::on_check_usfm()
   on_window_check_usfm_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(check_usfm))) {
     extern GtkAccelGroup *accelerator_group;
-    window_check_usfm = new WindowCheckUSFM(accelerator_group, windows_startup_pointer != G_MAXINT);
+    window_check_usfm = new WindowCheckUSFM(accelerator_group, windows_startup_pointer != G_MAXINT, NULL); // Todo implement.
     g_signal_connect((gpointer) window_check_usfm->delete_signal_button, "clicked", G_CALLBACK(on_window_check_usfm_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_check_usfm->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     handle_editor_focus();

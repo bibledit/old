@@ -30,7 +30,7 @@ enum WindowReferencesActionType { wratReferenceActivated, wratPopupMenu, wratRef
 class WindowReferences : public WindowBase
 {
 public:
-  WindowReferences(GtkAccelGroup *accelerator_group, bool startup);
+  WindowReferences(GtkAccelGroup *accelerator_group, bool startup, GtkWidget * parent_box);
   virtual ~WindowReferences();
   void display (vector <Reference>& refs);
   GtkWidget *treeview;

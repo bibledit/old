@@ -25,8 +25,8 @@
 #include "keyterms.h"
 #include "tiny_utilities.h"
 
- WindowShowKeyterms::WindowShowKeyterms(GtkAccelGroup * accelerator_group, bool startup):
-WindowBase(widShowKeyterms, "Keyterms in verse", startup, 0), myreference(0)
+WindowShowKeyterms::WindowShowKeyterms(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
+WindowBase(widShowKeyterms, "Keyterms in verse", startup, 0, parent_box), myreference(0)
 // Window showing keyterms.
 {
   scrolledwindow1 = gtk_scrolled_window_new(NULL, NULL);

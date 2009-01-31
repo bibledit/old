@@ -29,7 +29,7 @@
 class WindowEditor : public WindowBase
 {
 public:
-  WindowEditor(const ustring& project_name, GtkAccelGroup *accelerator_group, bool startup);
+  WindowEditor(const ustring& project_name, GtkAccelGroup *accelerator_group, bool startup, GtkWidget * parent_box);
   virtual ~WindowEditor();
   
   void go_to(const Reference& reference);

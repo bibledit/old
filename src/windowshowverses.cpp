@@ -26,8 +26,8 @@
 #include "settings.h"
 #include "listview.h"
 
-WindowShowVerses::WindowShowVerses(GtkAccelGroup * accelerator_group, bool startup):
-WindowBase(widShowVerses, "Verses", startup, 0), myreference(0)
+WindowShowVerses::WindowShowVerses(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
+WindowBase(widShowVerses, "Verses", startup, 0, parent_box), myreference(0)
 // Window for showing the quick references.  
 {
   expander1 = gtk_expander_new (NULL);  vbox = gtk_vbox_new (FALSE, 0);

@@ -29,7 +29,7 @@
 class WindowOutline : public WindowBase
 {
 public:
-  WindowOutline(GtkAccelGroup *accelerator_group, bool startup);
+  WindowOutline(GtkAccelGroup *accelerator_group, bool startup, GtkWidget * parent_box);
   virtual ~WindowOutline();
   void go_to(const ustring& project, Reference& reference);
   Outline * outline;

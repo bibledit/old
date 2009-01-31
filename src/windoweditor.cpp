@@ -25,7 +25,8 @@
 #include "keyterms.h"
 #include "tiny_utilities.h"
 
-WindowEditor::WindowEditor(const ustring & project_name, GtkAccelGroup * accelerator_group, bool startup):WindowBase(widEditor, project_name, startup, 0)
+WindowEditor::WindowEditor(const ustring & project_name, GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
+WindowBase(widEditor, project_name, startup, 0, parent_box)
 // Text editor.
 {
   // Initialize variables.

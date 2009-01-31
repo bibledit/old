@@ -33,7 +33,7 @@ extern "C" {
 class WindowNotes : public WindowBase
 {
 public:
-  WindowNotes(GtkAccelGroup *accelerator_group, bool startup);
+  WindowNotes(GtkAccelGroup *accelerator_group, bool startup, GtkWidget * parent_box);
   virtual ~WindowNotes();
   void go_to(Reference& reference);
   void new_note();

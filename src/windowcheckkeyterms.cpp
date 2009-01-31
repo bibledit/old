@@ -32,8 +32,8 @@
 #include "categorize.h"
 #include "mapping.h"
 
- WindowCheckKeyterms::WindowCheckKeyterms(GtkAccelGroup * accelerator_group, bool startup):
-WindowBase(widCheckKeyterms, "Check keyterms", startup, 0), myreference(0)
+WindowCheckKeyterms::WindowCheckKeyterms(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
+WindowBase(widCheckKeyterms, "Check keyterms", startup, 0, parent_box), myreference(0)
 // Window for checking keyterms.
 {
   // Save / initialize variables.

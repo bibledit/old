@@ -38,8 +38,8 @@
 #include "gtkwrappers.h"
 #include "dialogprojectnote.h"
 
- WindowNotes::WindowNotes(GtkAccelGroup * accelerator_group, bool startup):
-WindowBase(widNotes, "Project notes", startup, 0)
+WindowNotes::WindowNotes(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
+WindowBase(widNotes, "Project notes", startup, 0, parent_box)
 // Project notes window.
 {
   // Initialize variables.

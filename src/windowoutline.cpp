@@ -25,8 +25,8 @@
 #include "keyterms.h"
 #include "tiny_utilities.h"
 
-WindowOutline::WindowOutline(GtkAccelGroup * accelerator_group, bool startup):
-WindowBase(widOutline, "Outline", startup, 0), myreference(0)
+WindowOutline::WindowOutline(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
+WindowBase(widOutline, "Outline", startup, 0, parent_box), myreference(0)
 // Window showing outline.
 {
   vbox = gtk_vbox_new(FALSE, 0);

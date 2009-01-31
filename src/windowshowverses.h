@@ -28,7 +28,7 @@
 class WindowShowVerses : public WindowBase
 {
 public:
-  WindowShowVerses(GtkAccelGroup *accelerator_group, bool startup);
+  WindowShowVerses(GtkAccelGroup *accelerator_group, bool startup, GtkWidget * parent_box);
   virtual ~WindowShowVerses();
   void go_to(Reference& reference);
 protected:

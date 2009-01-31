@@ -28,7 +28,7 @@
 class WindowCheckUSFM : public WindowBase
 {
 public:
-  WindowCheckUSFM(GtkAccelGroup *accelerator_group, bool startup);
+  WindowCheckUSFM(GtkAccelGroup *accelerator_group, bool startup, GtkWidget * parent_box);
   virtual ~WindowCheckUSFM();
   void set_parameters (GtkTextBuffer * buffer, const ustring& project_in, unsigned int book_in, unsigned int chapter_in);
 private:

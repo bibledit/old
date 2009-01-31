@@ -30,7 +30,7 @@
 class WindowMerge : public WindowBase
 {
 public:
-  WindowMerge(GtkAccelGroup *accelerator_group, bool startup);
+  WindowMerge(GtkAccelGroup *accelerator_group, bool startup, GtkWidget * parent_box);
   virtual ~WindowMerge();
 protected:
   GtkWidget *notebook1;

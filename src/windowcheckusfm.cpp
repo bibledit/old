@@ -32,8 +32,8 @@
 #include "scripts.h"
 
 
-WindowCheckUSFM::WindowCheckUSFM(GtkAccelGroup * accelerator_group, bool startup):
-WindowBase(widCheckUSFM, "Check USFM", startup, 0)
+WindowCheckUSFM::WindowCheckUSFM(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
+WindowBase(widCheckUSFM, "Check USFM", startup, 0, parent_box)
 // Window for checking USFM.
 {
   // Initialize variables.

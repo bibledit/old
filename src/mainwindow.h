@@ -57,8 +57,9 @@ public:
   int run();
 protected:
   /* IMPORTANT If more menu items are added see whether they should be made 
-   * in(sensitive) depending on whether a project has been opened. */
-  GtkWidget *vbox;
+   * in(sensitive) depending on the context whether something has been opened. */
+  GtkWidget *hbox_main;
+  GtkWidget *vbox_main;
   GtkWidget *menubar1;
   GtkWidget *menuitem_file;
   GtkWidget *menuitem_file_menu;
@@ -349,12 +350,14 @@ protected:
   GtkWidget *system_log1;
   GtkWidget *image4388;
   GtkWidget *about1;
-  GtkWidget *toolbar1;
-  GtkWidget *hbox5;
+  GtkWidget *toolbar;
+  GtkWidget *hbox_editors;
+  GtkWidget *hbox_status; 
   GtkWidget *hbox7;
   GtkWidget *statuslabel_style;
   GtkWidget *label_git;
-  GtkWidget *statusbar1;
+  GtkWidget *statusbar;
+  GtkWidget *vbox_tools;
 
   // Navigator object.
   GuiNavigation navigation;
@@ -751,7 +754,7 @@ protected:
   static void on_print_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_print();
 
-  /* Windowing system */
+  /* Windowing system */ // Todo
   static void on_view_screen_layout_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_screen_layout();
   WindowLayout * window_screen_layout;
@@ -769,6 +772,8 @@ protected:
   GtkWidget * last_focused_window_button;
   GtkWidget * focused_editor_button;
   GtkWidget * focused_resource_button;
+
+  bool windows_are_detached;
 
   /* Quick references */
   static void on_view_quick_references_activate(GtkMenuItem *menuitem, gpointer user_data);

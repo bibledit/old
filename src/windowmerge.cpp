@@ -43,8 +43,8 @@
 #include "merge_utils.h"
 #include "shell.h"
 
-WindowMerge::WindowMerge(GtkAccelGroup * accelerator_group, bool startup):
-WindowBase(widMerge, "Merge", startup, 0)
+WindowMerge::WindowMerge(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
+WindowBase(widMerge, "Merge", startup, 0, parent_box)
 // Window for merging changes.  
 {
   // Save and initialize variables.

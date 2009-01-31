@@ -47,7 +47,7 @@ private:
 class WindowBase
 {
 public:
-  WindowBase(WindowID id, ustring data_title, bool startup, unsigned long xembed);
+  WindowBase(WindowID id, ustring data_title, bool startup, unsigned long xembed, GtkWidget * parent_box);
   virtual ~WindowBase();
   GtkWidget *window;
   

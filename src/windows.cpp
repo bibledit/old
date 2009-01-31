@@ -89,7 +89,7 @@ void WindowData::debug()
   }
 }
 
-WindowBase::WindowBase(WindowID id, ustring data_title, bool startup, unsigned long xembed)
+WindowBase::WindowBase(WindowID id, ustring data_title, bool startup, unsigned long xembed, GtkWidget * parent_box)
 // Base class for each window.
 {
   // If there's no title/data, then the configuration file gets inconsistent. Therefore put something there.
