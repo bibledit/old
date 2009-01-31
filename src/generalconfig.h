@@ -182,6 +182,7 @@ public:
   DEFINE_GENCONFIG_H (ustring, encoding);
   DEFINE_GENCONFIG_H (int, features_mode);
   DEFINE_GENCONFIG_H (ustring, features_list);
+  DEFINE_GENCONFIG_H (bool, windows_detached);
   DEFINE_GENCONFIG_H (ustring, administration_password);
   DEFINE_GENCONFIG_H (vector<ustring>, print_references_projects);
   DEFINE_GENCONFIG_H (vector<int>, dialogpositions_x);

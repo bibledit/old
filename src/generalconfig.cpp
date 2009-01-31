@@ -201,6 +201,7 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE(encoding);
   INITIALIZE(features_mode);
   INITIALIZE(features_list);
+  INITIALIZE(windows_detached);
   INITIALIZE(administration_password);
   INITIALIZE(print_references_projects);
   INITIALIZE(dialogpositions_x);
@@ -365,6 +366,7 @@ void GeneralConfiguration::save()
   SAVE_VALUE(encoding);
   SAVE_VALUE(features_mode);
   SAVE_VALUE(features_list);
+  SAVE_VALUE(windows_detached);
   SAVE_VALUE(administration_password);
   SAVE_VALUE(print_references_projects);
   SAVE_VALUE(dialogpositions_x);
@@ -607,6 +609,7 @@ IMPLEMENT(int, int_get, text_editor_selection_color, 4294343)
 IMPLEMENT(ustring, string_get, encoding, "WINDOWS-1258")
 IMPLEMENT(int, int_get, features_mode, 1)
 IMPLEMENT(ustring, string_get, features_list, "")
+IMPLEMENT(bool, bool_get, windows_detached, true)
 IMPLEMENT(ustring, string_get, administration_password, "")
 IMPLEMENT(vector < ustring >, vector_string_get, print_references_projects, NULL)
 IMPLEMENT(vector < int >, vector_int_get, dialogpositions_x, NULL)
