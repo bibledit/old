@@ -1608,7 +1608,7 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
 
   }
 
-  preferences_gui = gtk_image_menu_item_new_with_mnemonic("Grap_hic interface");
+  preferences_gui = gtk_image_menu_item_new_with_mnemonic("_User interface");
   gtk_widget_show(preferences_gui);
   gtk_container_add(GTK_CONTAINER(menuitem_preferences_menu), preferences_gui);
 
@@ -1885,10 +1885,6 @@ WindowBase(widMenu, "Bibledit", false, xembed), navigation(0), bibletime(true), 
     g_signal_connect((gpointer) current_reference1, "activate", G_CALLBACK(on_current_reference1_activate), gpointer(this));
   if (insert_special_character)
     g_signal_connect((gpointer) insert_special_character, "activate", G_CALLBACK(on_insert_special_character_activate), gpointer(this));
-  if (check1)
-    g_signal_connect((gpointer) check1, "activate", G_CALLBACK(on_check1_activate), gpointer(this));
-  if (markers1)
-    g_signal_connect((gpointer) markers1, "activate", G_CALLBACK(on_markers1_activate), gpointer(this));
   if (validate_usfms1)
     g_signal_connect((gpointer) validate_usfms1, "activate", G_CALLBACK(on_validate_usfms1_activate), gpointer(this));
   if (count_usfms1)
@@ -3661,26 +3657,6 @@ void MainWindow::on_export_opendocument()
  |
  |
  */
-
-void MainWindow::on_check1_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_menu_check();
-}
-
-void MainWindow::on_menu_check()
-{
-  // Display the references.
-  show_references_window();
-}
-
-void MainWindow::on_markers1_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_menu_check_markers();
-}
-
-void MainWindow::on_menu_check_markers()
-{
-}
 
 void MainWindow::on_validate_usfms1_activate(GtkMenuItem * menuitem, gpointer user_data)
 {

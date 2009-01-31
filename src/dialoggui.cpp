@@ -30,12 +30,16 @@ GuiDialog::GuiDialog(int dummy)
   Shortcuts shortcuts(0);
 
   featuresdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(featuresdialog), "Features setup");
+  gtk_window_set_title(GTK_WINDOW(featuresdialog), "User interface");
   gtk_window_set_position(GTK_WINDOW(featuresdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(featuresdialog), TRUE);
 
   dialog_vbox1 = GTK_DIALOG(featuresdialog)->vbox;
   gtk_widget_show(dialog_vbox1);
+
+  label1 = gtk_label_new ("Features");
+  gtk_widget_show (label1);
+  gtk_box_pack_start (GTK_BOX (dialog_vbox1), label1, FALSE, FALSE, 0);
 
   GSList *radiobutton_basic_group = NULL;
 
@@ -135,11 +139,21 @@ GuiDialog::GuiDialog(int dummy)
 
   shortcuts.button(checkbutton_preferences);
 
+  hseparator1 = gtk_hseparator_new ();
+  gtk_widget_show (hseparator1);
+  gtk_box_pack_start (GTK_BOX (dialog_vbox1), hseparator1, TRUE, TRUE, 0);
+
+  checkbutton_independent_windows = gtk_check_button_new_with_mnemonic ("Detached windows");
+  gtk_widget_show (checkbutton_independent_windows);
+  gtk_box_pack_start (GTK_BOX (dialog_vbox1), checkbutton_independent_windows, FALSE, FALSE, 0);
+
+  shortcuts.button(checkbutton_independent_windows);
+
   dialog_action_area1 = GTK_DIALOG(featuresdialog)->action_area;
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
-  new InDialogHelp(featuresdialog, &shortcuts, "preferences_features"); // Todo
+  new InDialogHelp(featuresdialog, &shortcuts, "preferences_gui");
 
   cancelbutton = gtk_button_new_from_stock("gtk-cancel");
   gtk_widget_show(cancelbutton);
@@ -373,6 +387,3 @@ void GuiDialog::check(GtkWidget * button, bool on)
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), on);
 }
 
-// Todo
-// Rename the "Features" preferences to "Graphical interface". To add a checkbox for the interface type,
-// and integrate it into the rest. Then to update the helpfiles. Also to rename the Widgets for calling it.

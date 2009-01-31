@@ -239,7 +239,7 @@
 #define LIBCURL_FEATURE_LIBZ 1
 
 /* Defined if libcurl supports NTLM */
-#define LIBCURL_FEATURE_NTLM 1
+/* #undef LIBCURL_FEATURE_NTLM */
 
 /* Defined if libcurl supports SSL */
 #define LIBCURL_FEATURE_SSL 1

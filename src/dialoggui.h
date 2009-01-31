@@ -35,6 +35,7 @@ public:
 protected:
   GtkWidget *featuresdialog;
   GtkWidget *dialog_vbox1;
+  GtkWidget *label1;
   GtkWidget *radiobutton_basic;
   GtkWidget *radiobutton_full;
   GtkWidget *radiobutton_user;
@@ -50,6 +51,8 @@ protected:
   GtkWidget *checkbutton_checks;
   GtkWidget *checkbutton_tools;
   GtkWidget *checkbutton_preferences;
+  GtkWidget *hseparator1;
+  GtkWidget *checkbutton_independent_windows;
   GtkWidget *dialog_action_area1;
   GtkWidget *cancelbutton;
   GtkWidget *okbutton;

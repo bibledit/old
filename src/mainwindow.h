@@ -539,10 +539,6 @@ protected:
   void on_export_opendocument();
 
   /* Checks */
-  static void on_check1_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_menu_check();
-  static void on_markers1_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_menu_check_markers();
   static void on_validate_usfms1_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_menu_check_markers_validate();
   static void on_count_usfms1_activate(GtkMenuItem *menuitem, gpointer user_data);
