@@ -414,52 +414,59 @@ void Httpd::send_search(int fd, const ustring & filename, const ustring & comman
   }
 }
 
-void Httpd::send_search_results(int fd, const ustring & searchword)
+void Httpd::send_search_results(int fd, ustring searchword)
 {
-  // Assemble grep command.
-  ustring command = "grep -i -l";
-  command.append(shell_quote_space(searchword));
-  command.append(gw_build_filename(directories_get_package_data(), "*.html"));
-  // Run grep and output results.
-  FILE *stream;
-  stream = popen(command.c_str(), "r");
-  char buf[1024];
-  bool succesfull = false;
-  while (fgets(buf, sizeof(buf), stream)) {
-    // Read a filename from grep.
-    ustring filename = buf;
-    filename = trim(filename);
-    // Extract the heading from the file
-    string title;
-    ReadText rt(filename, true, true);
-    for (unsigned int i = 0; i < rt.lines.size(); i++) {
-      if (title.empty()) {
-        if (rt.lines[i].find("<h2") != string::npos) {
-          title = rt.lines[i];
-          size_t pos = title.find_last_of("<");
-          if (pos != string::npos) {
-            title.erase(pos, 1000);
-          }
-          pos = title.find_last_of(">");
-          if (pos != string::npos) {
-            title.erase(0, ++pos);
+  // Case insensitive search.
+  searchword = lowerCase (searchword);
+  // Variable whether anything turned up.
+  bool succesful = false;
+  // Go through all documentation.
+  ReadFiles rf (directories_get_package_data(), "", ".html");
+  for (unsigned int i = 0; i < rf.files.size(); i++) {
+    ustring filename = gw_build_filename (directories_get_package_data(), rf.files[i]);
+    ReadText rt (filename, true, false);
+    // Search for the text.
+    bool hit = false;
+    for (unsigned int i2 = 0; i2 < rt.lines.size(); i2++) {
+      ustring line = lowerCase (rt.lines[i2]);
+      size_t pos = line.find (searchword);
+      if (pos != string::npos) {
+        hit = true;
+        break;
+      }
+    }
+    if (hit) {
+      // Extract the heading from the file
+      string title;
+      ReadText rt(filename, true, true);
+      for (unsigned int i = 0; i < rt.lines.size(); i++) {
+        if (title.empty()) {
+          if (rt.lines[i].find("<h2") != string::npos) {
+            title = rt.lines[i];
+            size_t pos = title.find_last_of("<");
+            if (pos != string::npos) {
+              title.erase(pos, 1000);
+            }
+            pos = title.find_last_of(">");
+            if (pos != string::npos) {
+              title.erase(0, ++pos);
+            }
           }
         }
       }
-    }
-    if (title.empty())
-      title = "Untitled";
-    // Get basename for html linking.
-    filename = gw_path_get_basename(filename);
-    // Output html code.
-    if (filename != "allpages.html") {
-      sendline(fd, "<h3><a href=\"" + filename + "\">" + title + "</a></h3>");
-      succesfull = true;
+      if (title.empty())
+        title = "Untitled";
+      // Get basename for html linking.
+      filename = gw_path_get_basename(filename);
+      // Output html code.
+      if (filename != "allpages.html") {
+        sendline(fd, "<h3><a href=\"" + filename + "\">" + title + "</a></h3>");
+        succesful = true;
+      }
     }
   }
-  pclose(stream);
   // Indicate if nothing was found.
-  if (!succesfull) {
+  if (!succesful) {
     sendline(fd, "<p>No search results.</p>");
   }
 }
