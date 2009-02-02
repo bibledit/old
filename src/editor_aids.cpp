@@ -102,12 +102,30 @@ PreventEditorUndo::~PreventEditorUndo()
   (*flagpointer)++;
 }
 
-void marker_get_type_and_subtype(const ustring & project, const ustring & marker, StyleType & type, int &subtype)
+void marker_get_type_and_subtype(const ustring & project, const ustring & marker, StyleType & type, int &subtype) // Todo
 /*
  Given a "project", and a "marker", this function gives the "type" and the 
  "subtype" of the style of that marker.
  */
 {
+  // Code for speeding up the lookup process.
+  static ustring speed_project;
+  static ustring speed_marker;
+  static StyleType speed_type = stNotUsedComment;
+  static int speed_subtype = 0;
+  if (project == speed_project) {
+    if (marker == speed_marker) {
+      type = speed_type;
+      subtype = speed_subtype;
+      return;
+    }
+  }
+  
+  // Store both keys in the speedup system.
+  speed_project = project;
+  speed_marker = marker;
+
+  // Lookup the values.  
   extern Settings *settings;
   ustring stylesheet = settings->projectconfig(project)->stylesheet_get();
   extern Styles *styles;
@@ -116,8 +134,12 @@ void marker_get_type_and_subtype(const ustring & project, const ustring & marker
   subtype = itComment;
   for (unsigned int i = 0; i < usfm->styles.size(); i++) {
     if (marker == usfm->styles[i].marker) {
+      // Values found.
       type = usfm->styles[i].type;
       subtype = usfm->styles[i].subtype;
+      // Store values in the speedup system.
+      speed_type = type;
+      speed_subtype = subtype;
       break;
     }
   }
