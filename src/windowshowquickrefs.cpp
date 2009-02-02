@@ -33,7 +33,7 @@ WindowBase(widShowQuickReferences, "Quick references", startup, 0, parent_box)
 {
   scrolledwindow1 = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow1);
-  gtk_container_add(GTK_CONTAINER(window), scrolledwindow1);
+  gtk_container_add(GTK_CONTAINER(window_vbox), scrolledwindow1);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow1), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwindow1), GTK_SHADOW_IN);
 

@@ -102,7 +102,7 @@ PreventEditorUndo::~PreventEditorUndo()
   (*flagpointer)++;
 }
 
-void marker_get_type_and_subtype(const ustring & project, const ustring & marker, StyleType & type, int &subtype) // Todo
+void marker_get_type_and_subtype(const ustring & project, const ustring & marker, StyleType & type, int &subtype)
 /*
  Given a "project", and a "marker", this function gives the "type" and the 
  "subtype" of the style of that marker.

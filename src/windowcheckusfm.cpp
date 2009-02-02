@@ -43,7 +43,7 @@ WindowBase(widCheckUSFM, "Check USFM", startup, 0, parent_box)
   
   vbox = gtk_vbox_new (FALSE, 6);
   gtk_widget_show (vbox);
-  gtk_container_add (GTK_CONTAINER (window), vbox);
+  gtk_container_add (GTK_CONTAINER (window_vbox), vbox);
 
   checkbutton_verses_at_start = gtk_check_button_new_with_mnemonic ("Verses in raw text are at line start");
   gtk_widget_show (checkbutton_verses_at_start);

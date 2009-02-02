@@ -49,10 +49,11 @@ class WindowBase
 public:
   WindowBase(WindowID id, ustring data_title, bool startup, unsigned long xembed, GtkWidget * parent_box);
   virtual ~WindowBase();
-  GtkWidget *window;
+  GtkWidget *window_vbox;
   
   WindowID window_id;
   ustring window_data;
+  GtkWidget * window_parent_box;
   
   void display (bool startup);
   GdkRectangle window_gdk_rectangle;
@@ -80,7 +81,9 @@ public:
   vector <GdkWindow *> visibility_windows;
   vector <GdkVisibilityState> visibility_states;
   GdkVisibilityState visibility_state();
-  
+
+  // Title bar for attached mode.
+  GtkWidget * titlebar;  
 };
 
 #endif

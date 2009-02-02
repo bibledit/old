@@ -100,33 +100,55 @@ WindowBase::WindowBase(WindowID id, ustring data_title, bool startup, unsigned l
   my_shutdown = false;
   window_id = id;
   window_data = data_title;
+  window_parent_box = parent_box;
   resize_window_pointer = NULL;
 
   // Signalling buttons.
   focus_in_signal_button = gtk_button_new();
   delete_signal_button = gtk_button_new();
 
-  // Create the window.
-  if (xembed) {
-    window = gtk_plug_new(GdkNativeWindow(xembed));
+  // Create the window or the vertical box.
+  if (window_parent_box) {
+    // In attached mode, a vertical box should be created. Todo and a close button.
+    window_vbox = gtk_vbox_new (FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (window_parent_box), window_vbox, TRUE, TRUE, 0);
   } else {
-    window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    // In detached mode, a window is created.
+    if (xembed) {
+      window_vbox = gtk_plug_new(GdkNativeWindow(xembed));
+    } else {
+      window_vbox = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    }
   }
-  gtk_window_set_title(GTK_WINDOW(window), data_title.c_str());
+  
+  if (window_parent_box) {
+    // Attached mode: Create a title bar and set the title.
+    titlebar = gtk_progress_bar_new();
+    gtk_box_pack_start (GTK_BOX (window_vbox), titlebar, false, false, 0);
+    gtk_progress_bar_set_text (GTK_PROGRESS_BAR (titlebar), data_title.c_str());
+    gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (titlebar), 1);
+  } else {
+    // Detached mode: Set the title in the window's titlebar.
+    gtk_window_set_title(GTK_WINDOW(window_vbox), data_title.c_str());
+  }
 
-  // Use the same accelerators in each window to make them look and feel the same.
-  extern GtkAccelGroup *accelerator_group;
-  gtk_window_add_accel_group(GTK_WINDOW(window), accelerator_group);
+  // If using detached windows, use the same accelerators in each window to make them look and feel the same.
+  if (window_parent_box == NULL) {
+    extern GtkAccelGroup *accelerator_group;
+    gtk_window_add_accel_group(GTK_WINDOW(window_vbox), accelerator_group);
+  }
 
   // Signal handlers.
-  g_signal_connect ((gpointer) window, "focus_in_event", G_CALLBACK(on_window_focus_in_event), gpointer(this));
-  g_signal_connect ((gpointer) window, "delete_event", G_CALLBACK(on_window_delete_event), gpointer(this));
+  g_signal_connect ((gpointer) window_vbox, "focus_in_event", G_CALLBACK(on_window_focus_in_event), gpointer(this));
+  g_signal_connect ((gpointer) window_vbox, "delete_event", G_CALLBACK(on_window_delete_event), gpointer(this));
 
-  // The window needs to be positioned before it shows.
-  display(startup);
+  // If the window is detached, it needs to be positioned before it shows.
+  if (window_parent_box == NULL) {
+    display(startup);
+  }
 
   // Show it.
-  gtk_widget_show_all(window);
+  gtk_widget_show_all(window_vbox);
 
   // Get the sizes of the frame that the window manager puts around the window.
   /*
@@ -152,13 +174,13 @@ WindowBase::~WindowBase()
 {
   gw_destroy_source(display_event_id);
   undisplay();
-  gtk_widget_destroy(window);
+  gtk_widget_destroy(window_vbox);
   gtk_widget_destroy(focus_in_signal_button);
   gtk_widget_destroy(delete_signal_button);
 }
 
 void WindowBase::display(bool startup)
-// Does the bookkeeping necessary for displaying the window.
+// Does the bookkeeping necessary for displaying the detached window.
 // startup: whether the window is started at program startup.
 {
   extern Settings *settings;
@@ -316,14 +338,14 @@ void WindowBase::display(bool startup)
   }
   // Set the window's position if there's something to be set.
   if (window_gdk_rectangle.width && window_gdk_rectangle.height) {
-    gtk_window_resize(GTK_WINDOW(window), window_gdk_rectangle.width, window_gdk_rectangle.height);
-    gtk_window_move(GTK_WINDOW(window), window_gdk_rectangle.x, window_gdk_rectangle.y);
+    gtk_window_resize(GTK_WINDOW(window_vbox), window_gdk_rectangle.width, window_gdk_rectangle.height);
+    gtk_window_move(GTK_WINDOW(window_vbox), window_gdk_rectangle.x, window_gdk_rectangle.y);
     // It was found that the window's position is not always set properly at the first attempt.
     // Therefore a timeout starts here that does it a second time.
     display_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 300, GSourceFunc(on_display_timeout), gpointer(this), NULL);
   }
   // Store a pointer to this window in the Session.
-  settings->session.open_windows.push_back(GTK_WINDOW(window));
+  settings->session.open_windows.push_back(GTK_WINDOW(window_vbox));
 }
 
 bool WindowBase::on_display_timeout(gpointer data)
@@ -332,9 +354,10 @@ bool WindowBase::on_display_timeout(gpointer data)
 }
 
 bool WindowBase::display_timeout()
+// Repositions the detached window for the second time, as the first time does not always work out.
 {
-  gtk_window_resize(GTK_WINDOW(window), window_gdk_rectangle.width, window_gdk_rectangle.height);
-  gtk_window_move(GTK_WINDOW(window), window_gdk_rectangle.x, window_gdk_rectangle.y);
+  gtk_window_resize(GTK_WINDOW(window_vbox), window_gdk_rectangle.width, window_gdk_rectangle.height);
+  gtk_window_move(GTK_WINDOW(window_vbox), window_gdk_rectangle.x, window_gdk_rectangle.y);
   if (resize_window_pointer) {
     gtk_window_resize(resize_window_pointer, resize_window_rectangle.width, resize_window_rectangle.height);
   }
@@ -353,11 +376,14 @@ void WindowBase::on_window_focus_in(GtkWidget * widget)
 }
 
 void WindowBase::present(bool force)
-// Presents the window.
+// Presents the detached window.
 {
+  // Bail out if window is attached.
+  if (window_parent_box)
+    return;
   // Only act if the window is not fully visible already, or if forced.
   if ((visibility_state() != GDK_VISIBILITY_UNOBSCURED) || force) {
-    gtk_window_present(GTK_WINDOW(window));
+    gtk_window_present(GTK_WINDOW(window_vbox));
   }
 }
 
@@ -383,17 +409,22 @@ void WindowBase::shutdown()
 
 void WindowBase::undisplay()
 // Does the bookkeeping needed for deleting a window.
-// When a window closes, the sizes of other windows are not affected. 
+// When a detached window closes, the sizes of other windows are not affected. 
 // Thus if the same window is opened again, it will go in the same free space as it was in before.
 {
   // If the menu is getting deleted, skip everything else, as this is the main window.
   if (window_id == widMenu)
     return;
 
-  // Window position.
-  gint width, height, x, y;
-  gtk_window_get_size(GTK_WINDOW(window), &width, &height);
-  gtk_window_get_position(GTK_WINDOW(window), &x, &y);
+  // Window position if detached.
+  gint width = 0;
+  gint height = 0;
+  gint x = 0;
+  gint y = 0;
+  if (window_parent_box == NULL) {
+    gtk_window_get_size(GTK_WINDOW(window_vbox), &width, &height);
+    gtk_window_get_position(GTK_WINDOW(window_vbox), &x, &y);
+  }
 
   // Get the parameters of all the windows.
   WindowData window_params(true);
@@ -427,17 +458,19 @@ void WindowBase::undisplay()
     }
   }
 
-  // Remove the pointer to this window from the Session.
-  GtkWindow *current_window = GTK_WINDOW(window);
-  extern Settings *settings;
-  vector < GtkWindow * >old_windows = settings->session.open_windows;
-  vector < GtkWindow * >new_windows;
-  for (unsigned int i = 0; i < old_windows.size(); i++) {
-    if (current_window != old_windows[i]) {
-      new_windows.push_back(old_windows[i]);
+  // Remove the pointer to this window from the Session. Only if detached.
+  if (window_parent_box == NULL) {
+    GtkWindow *current_window = GTK_WINDOW(window_vbox);
+    extern Settings *settings;
+    vector < GtkWindow * >old_windows = settings->session.open_windows;
+    vector < GtkWindow * >new_windows;
+    for (unsigned int i = 0; i < old_windows.size(); i++) {
+      if (current_window != old_windows[i]) {
+        new_windows.push_back(old_windows[i]);
+      }
     }
+    settings->session.open_windows = new_windows;
   }
-  settings->session.open_windows = new_windows;
 }
 
 gboolean WindowBase::on_visibility_notify_event(GtkWidget * widget, GdkEventVisibility * event, gpointer user_data)

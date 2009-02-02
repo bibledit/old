@@ -68,7 +68,7 @@ WindowBase(widStyles, "Stylesheet", startup, 0, parent_box)
   // GUI proper.
   vbox = gtk_vbox_new(FALSE, 0);
   gtk_widget_show(vbox);
-  gtk_container_add(GTK_CONTAINER(window), vbox);
+  gtk_container_add(GTK_CONTAINER(window_vbox), vbox);
 
   scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow);
@@ -204,7 +204,7 @@ void WindowStyles::load(const ustring & stylesheet)
   g_timeout_add(500, GSourceFunc(on_load_timeout), gpointer(this));
   // Set the title.
   ustring title = window_data + " " + stylesheet;
-  gtk_window_set_title(GTK_WINDOW(window), title.c_str());
+  gtk_window_set_title(GTK_WINDOW(window_vbox), title.c_str());
 }
 
 bool WindowStyles::on_load_timeout(gpointer data)

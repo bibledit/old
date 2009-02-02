@@ -42,7 +42,7 @@ WindowBase(widCheckKeyterms, "Check keyterms", startup, 0, parent_box), myrefere
   // Build gui.
   vbox = gtk_vbox_new(FALSE, 0);
   gtk_widget_show(vbox);
-  gtk_container_add(GTK_CONTAINER(window), vbox);
+  gtk_container_add(GTK_CONTAINER(window_vbox), vbox);
 
   label23 = gtk_label_new_with_mnemonic("Ke_yterm");
   gtk_widget_show(label23);

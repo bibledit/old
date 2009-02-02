@@ -184,7 +184,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   g_set_application_name("Bibledit");
 
   // Make the window as small as possible.
-  gtk_window_resize(GTK_WINDOW(window), 10, 10);
+  gtk_window_resize(GTK_WINDOW(window_vbox), 10, 10);
  
   // Gui Features object.
   GuiFeatures guifeatures(0);
@@ -249,7 +249,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   // GUI build.
   hbox_main = gtk_hbox_new (FALSE, 0);
   gtk_widget_show (hbox_main);
-  gtk_container_add (GTK_CONTAINER (window), hbox_main);
+  gtk_container_add (GTK_CONTAINER (window_vbox), hbox_main);
 
   vbox_main = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vbox_main);
@@ -1767,15 +1767,13 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   gtk_widget_set_size_request(statusbar, 25, -1);
 
   // This vbox will contain the tools in attached view.
-  vbox_tools = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox_tools);
-  gtk_box_pack_start (GTK_BOX (hbox_main), vbox_tools, FALSE, FALSE, 0);
-
-  /* In attached view, a tools is added so: Todo
-  tool = gtk_label_new ("");
-  gtk_widget_show (tool);
-  gtk_box_pack_start (GTK_BOX (vbox_tools), tool, FALSE, FALSE, 0);
-  */
+  // Note that in detached view, this vbox is NULL.
+  vbox_tools = NULL;
+  if (!windows_are_detached) {
+    vbox_tools = gtk_vbox_new (FALSE, 0);
+    gtk_widget_show (vbox_tools);
+    gtk_box_pack_start (GTK_BOX (hbox_main), vbox_tools, true, true, 0);
+  }
 
   // Menu callbacks.
   if (new1)
@@ -2032,7 +2030,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
 
   // Size and position of window and screen layout.
   {
-    ScreenLayoutDimensions dimensions(window);
+    ScreenLayoutDimensions dimensions(window_vbox);
     dimensions.verify();
   }
 
@@ -2094,7 +2092,7 @@ MainWindow::~MainWindow()
 
 int MainWindow::run()
 {
-  return gtk_dialog_run(GTK_DIALOG(window));
+  return gtk_dialog_run(GTK_DIALOG(window_vbox));
 }
 
 /*
@@ -2257,9 +2255,9 @@ void MainWindow::deleteproject()
   ListviewDialog dialog("Delete project", projects, "", true, NULL);
   if (dialog.run() == GTK_RESPONSE_OK) {
     int result;
-    result = gtkw_dialog_question(window, "Are you sure you want to delete project " + dialog.focus + "?");
+    result = gtkw_dialog_question(window_vbox, "Are you sure you want to delete project " + dialog.focus + "?");
     if (result == GTK_RESPONSE_YES) {
-      result = gtkw_dialog_question(window, "Are you really sure to delete project " + dialog.focus + ", something worth perhaps years of work?");
+      result = gtkw_dialog_question(window_vbox, "Are you really sure to delete project " + dialog.focus + ", something worth perhaps years of work?");
     }
     if (result == GTK_RESPONSE_YES) {
       project_delete(dialog.focus);
@@ -2300,7 +2298,7 @@ void MainWindow::on_about1_activate(GtkMenuItem * menuitem, gpointer user_data)
 
 void MainWindow::showabout()
 {
-  gtk_show_about_dialog(GTK_WINDOW(window),
+  gtk_show_about_dialog(GTK_WINDOW(window_vbox),
                         "version", PACKAGE_VERSION,
                         "website", PACKAGE_BUGREPORT,
                         "copyright", "Copyright (©) 2003-2009 Teus Benschop",
@@ -2442,7 +2440,7 @@ void MainWindow::menu_replace()
     replacedialog.run();
     reload_all_editors(false);
   } else {
-    gtkw_dialog_info(window, "There was nothing to replace");
+    gtkw_dialog_info(window_vbox, "There was nothing to replace");
   }
 }
 
@@ -2594,7 +2592,7 @@ void MainWindow::on_copy_project_to()
       error.append("\ndelete project ");
       error.append(dialog.entered_value);
       error.append(" first.");
-      gtkw_dialog_error(window, error);
+      gtkw_dialog_error(window_vbox, error);
     } else {
       // Ok, go ahead with the copy.
       project_copy(settings->genconfig.project_get(), dialog.entered_value);
@@ -2604,7 +2602,7 @@ void MainWindow::on_copy_project_to()
       message.append("named ");
       message.append(dialog.entered_value);
       message.append(".");
-      gtkw_dialog_info(window, message);
+      gtkw_dialog_info(window_vbox, message);
     }
   }
 }
@@ -2986,7 +2984,7 @@ void MainWindow::show_references_window()
 {
   if (!window_references) {
     extern GtkAccelGroup *accelerator_group;
-    window_references = new WindowReferences(accelerator_group, windows_startup_pointer != G_MAXINT, NULL); // Todo implement.
+    window_references = new WindowReferences(accelerator_group, windows_startup_pointer != G_MAXINT, vbox_tools); // Todo working here to implement.
     g_signal_connect((gpointer) window_references->delete_signal_button, "clicked", G_CALLBACK(on_window_references_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_references->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_references->general_signal_button, "clicked", G_CALLBACK(on_window_references_general_signal_button_clicked), gpointer(this));
@@ -3370,7 +3368,7 @@ void MainWindow::on_new_note()
 
 void MainWindow::on_delete_note_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
-  gtkw_dialog_info(((MainWindow *) user_data)->window, "A note can be deleted by clicking on the [delete] link in the notes view");
+  gtkw_dialog_info(((MainWindow *) user_data)->window_vbox, "A note can be deleted by clicking on the [delete] link in the notes view");
 }
 
 void MainWindow::on_viewnotes_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3445,7 +3443,7 @@ void MainWindow::on_export_notes()
   }
   if (result == GTK_RESPONSE_OK) {
     vector < unsigned int >ids_to_display;
-    export_translation_notes(filename, format, ids_to_display, save_all_notes, window);
+    export_translation_notes(filename, format, ids_to_display, save_all_notes, window_vbox);
   }
 }
 
@@ -3639,7 +3637,7 @@ void MainWindow::on_export_zipped_unified_standard_format_markers1_activate(GtkM
 void MainWindow::on_export_usfm_files(bool zipped)
 {
   save_editors();
-  export_to_usfm(window, zipped);
+  export_to_usfm(window_vbox, zipped);
 }
 
 void MainWindow::on_to_bibleworks_version_compiler_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3650,7 +3648,7 @@ void MainWindow::on_to_bibleworks_version_compiler_activate(GtkMenuItem * menuit
 void MainWindow::on_to_bibleworks_version_compiler()
 {
   save_editors();
-  export_to_bibleworks(window);
+  export_to_bibleworks(window_vbox);
 }
 
 void MainWindow::on_export_to_sword_module_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3673,7 +3671,7 @@ void MainWindow::on_export_opendocument_activate(GtkMenuItem * menuitem, gpointe
 void MainWindow::on_export_opendocument()
 {
   save_editors();
-  export_to_opendocument(window);
+  export_to_opendocument(window_vbox);
 }
 
 /*
@@ -3830,7 +3828,7 @@ void MainWindow::on_check_httpd()
   // Does the httpd have a request for us?
   if (!httpd.search_whole_word.empty()) {
     // Bibledit presents itself and searches for the word.
-    gtk_window_present(GTK_WINDOW(window));
+    gtk_window_present(GTK_WINDOW(window_vbox));
     extern Settings *settings;
     settings->session.searchword = httpd.search_whole_word;
     httpd.search_whole_word.clear();
@@ -4098,7 +4096,7 @@ void MainWindow::on_style_apply()
   // Special treatment for the chapter style.
   if (style.type == stChapterNumber) {
     // Ask whether the user wishes to insert a new chapter.
-    if (gtkw_dialog_question(window, "Would you like to insert a new chapter?", GTK_RESPONSE_YES) == GTK_RESPONSE_YES) {
+    if (gtkw_dialog_question(window_vbox, "Would you like to insert a new chapter?", GTK_RESPONSE_YES) == GTK_RESPONSE_YES) {
       // Insert a new chapter.
       save_editors();
       ChapterNumberDialog dialog(true);
@@ -4342,7 +4340,7 @@ void MainWindow::on_preferences_gui_activate(GtkMenuItem * menuitem, gpointer us
 
 void MainWindow::on_preferences_gui()
 {
-  if (password_pass(window)) {
+  if (password_pass(window_vbox)) {
     GuiDialog dialog(0);
     dialog.run();
   }
@@ -4355,7 +4353,7 @@ void MainWindow::on_preferences_password_activate(GtkMenuItem * menuitem, gpoint
 
 void MainWindow::on_preferences_password()
 {
-  password_edit(window);
+  password_edit(window_vbox);
 }
 
 void MainWindow::on_tool_simple_text_corrections_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -5358,7 +5356,7 @@ void MainWindow::handle_editor_focus()
     title.append (" - ");
     title.append (project);
   }
-  gtk_window_set_title(GTK_WINDOW(window), title.c_str());
+  gtk_window_set_title(GTK_WINDOW(window_vbox), title.c_str());
 
   // If we've no project bail out.
   if (project.empty())
@@ -5703,7 +5701,7 @@ void MainWindow::on_print()
       vector < Reference > refs;
       references.get_references(refs);
       if (refs.empty()) {
-        gtkw_dialog_info(window, "There are no references to print");
+        gtkw_dialog_info(window_vbox, "There are no references to print");
       } else {
         // Run the function for printing the references.
         extern Settings *settings;

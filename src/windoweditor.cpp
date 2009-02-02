@@ -44,7 +44,7 @@ WindowBase(widEditor, project_name, startup, 0, parent_box)
   // Gui.  
   vbox = gtk_vbox_new(FALSE, 0);
   gtk_widget_show(vbox);
-  gtk_container_add(GTK_CONTAINER(window), vbox);
+  gtk_container_add(GTK_CONTAINER(window_vbox), vbox);
 
   // Switch to default view.
   switch_to_view (false, project_name);

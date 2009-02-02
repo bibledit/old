@@ -38,7 +38,7 @@ WindowBase(widReferences, "References", startup, 0, parent_box), reference(0, 0,
 {
   scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow);
-  gtk_container_add(GTK_CONTAINER(window), scrolledwindow);
+  gtk_container_add(GTK_CONTAINER(window_vbox), scrolledwindow);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
   // Manually added and changed.
@@ -222,7 +222,7 @@ void WindowReferences::open()
   // Settings.
   extern Settings *settings;
   // Ask for a file.
-  ustring filename = gtkw_file_chooser_open(window, "Open File", settings->genconfig.references_file_get());
+  ustring filename = gtkw_file_chooser_open(window_vbox, "Open File", settings->genconfig.references_file_get());
   if (filename.empty())
     return;
   // Allow for up to three words to search for in these references.
@@ -269,7 +269,7 @@ void WindowReferences::save()
 {
   extern Settings *settings;
   try {
-    ustring filename = gtkw_file_chooser_save(window, "", settings->genconfig.references_file_get());
+    ustring filename = gtkw_file_chooser_save(window_vbox, "", settings->genconfig.references_file_get());
     if (filename.empty())
       return;
     settings->genconfig.references_file_set(filename);

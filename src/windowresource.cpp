@@ -33,7 +33,7 @@ WindowBase(widResource, resource_name, startup, 0, parent_box)
 // Window for showing the quick references.  
 {
   name = resource_name;
-  resource = new Resource(window);
+  resource = new Resource(window_vbox);
   g_signal_connect((gpointer) resource->browser->htmlview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
   // It seems that the visibility signal on the htmlview does not work. 
   // Therefore in order to get the focus system work, we pick another visible widget.

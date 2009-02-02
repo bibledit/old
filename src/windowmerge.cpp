@@ -54,7 +54,7 @@ WindowBase(widMerge, "Merge", startup, 0, parent_box)
   // Build GUI.
   notebook1 = gtk_notebook_new();
   gtk_widget_show(notebook1);
-  gtk_container_add(GTK_CONTAINER(window), notebook1);
+  gtk_container_add(GTK_CONTAINER(window_vbox), notebook1);
   gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook1), FALSE);
 
   // Build merge GUI.

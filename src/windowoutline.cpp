@@ -31,7 +31,7 @@ WindowBase(widOutline, "Outline", startup, 0, parent_box), myreference(0)
 {
   vbox = gtk_vbox_new(FALSE, 0);
   gtk_widget_show(vbox);
-  gtk_container_add(GTK_CONTAINER(window), vbox);
+  gtk_container_add(GTK_CONTAINER(window_vbox), vbox);
 
   outline = new Outline(vbox);
   g_signal_connect((gpointer) outline->treeview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));

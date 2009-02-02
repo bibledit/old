@@ -32,7 +32,7 @@ WindowBase(widShowVerses, "Verses", startup, 0, parent_box), myreference(0)
 {
   expander1 = gtk_expander_new (NULL);  vbox = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vbox);
-  gtk_container_add (GTK_CONTAINER (window), vbox);
+  gtk_container_add (GTK_CONTAINER (window_vbox), vbox);
 
   gtk_widget_show (expander1);
   gtk_box_pack_start (GTK_BOX (vbox), expander1, FALSE, TRUE, 0);

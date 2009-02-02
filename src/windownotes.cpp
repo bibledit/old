@@ -52,7 +52,7 @@ WindowBase(widNotes, "Project notes", startup, 0, parent_box)
 
   notebook1 = gtk_notebook_new();
   gtk_widget_show(notebook1);
-  gtk_container_add(GTK_CONTAINER(window), notebook1);
+  gtk_container_add(GTK_CONTAINER(window_vbox), notebook1);
   gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook1), FALSE);
 
   scrolledwindow_notes = gtk_scrolled_window_new(NULL, NULL);
@@ -874,12 +874,12 @@ void WindowNotes::on_notes_button_ok()
           message.append(messages[i]);
           message.append("\n");
         }
-        gtkw_dialog_error(window, message);
+        gtkw_dialog_error(window_vbox, message);
       }
     }
     // See whether any references are left. If not give a message.
     if (encoded_references.empty()) {
-      gtkw_dialog_error(window, "No valid references. Note was not stored");
+      gtkw_dialog_error(window_vbox, "No valid references. Note was not stored");
       return;
     }
     // Connect to database and start transaction.
@@ -1180,7 +1180,7 @@ void WindowNotes::delete_ids(const vector < gint > &ids)
     message.append("these notes");
   message.append("?");
 
-  if (gtkw_dialog_question(window, message) != GTK_RESPONSE_YES)
+  if (gtkw_dialog_question(window_vbox, message) != GTK_RESPONSE_YES)
     return;
   for (unsigned int i = 0; i < ids.size(); i++) {
     notes_delete_one(ids[i]);
@@ -1193,7 +1193,7 @@ void WindowNotes::cut()
 {
   // Cut to clipboard if editing.
   if (note_being_edited()) {
-    GtkWidget *focused_widget = gtk_window_get_focus(GTK_WINDOW(window));
+    GtkWidget *focused_widget = gtk_window_get_focus(GTK_WINDOW(window_vbox));
     if (focused_widget == htmlview_note_editor)
       gtk_html_cut(GTK_HTML(htmlview_note_editor));
     if (focused_widget == textview_note_references) {
@@ -1208,7 +1208,7 @@ void WindowNotes::copy()
   // Copy to clipboard.
   if (note_being_edited()) {
 
-    GtkWidget *focused_widget = gtk_window_get_focus(GTK_WINDOW(window));
+    GtkWidget *focused_widget = gtk_window_get_focus(GTK_WINDOW(window_vbox));
     if (focused_widget == htmlview_note_editor)
       gtk_html_copy(GTK_HTML(htmlview_note_editor));
     if (focused_widget == textview_note_references) {
@@ -1224,7 +1224,7 @@ void WindowNotes::paste()
 {
   // Paste from clipboard if editing.
   if (note_being_edited()) {
-    GtkWidget *focused_widget = gtk_window_get_focus(GTK_WINDOW(window));
+    GtkWidget *focused_widget = gtk_window_get_focus(GTK_WINDOW(window_vbox));
     if (focused_widget == htmlview_note_editor)
       gtk_html_paste(GTK_HTML(htmlview_note_editor), false);
     if (focused_widget == textview_note_references) {
@@ -1262,7 +1262,7 @@ void WindowNotes::on_button_more_clicked(GtkButton * button, gpointer user_data)
 
 void WindowNotes::on_button_more()
 {
-  ProjectNoteDialog dialog(window, projects, project, created_on, created_by, edited_on, logbook);
+  ProjectNoteDialog dialog(window_vbox, projects, project, created_on, created_by, edited_on, logbook);
   if (dialog.run() == GTK_RESPONSE_OK) {
     project = dialog.project;
   }
