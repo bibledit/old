@@ -204,7 +204,11 @@ void WindowStyles::load(const ustring & stylesheet)
   g_timeout_add(500, GSourceFunc(on_load_timeout), gpointer(this));
   // Set the title.
   ustring title = window_data + " " + stylesheet;
-  gtk_window_set_title(GTK_WINDOW(window_vbox), title.c_str());
+  if (hbox_title) {
+    gtk_progress_bar_set_text(GTK_PROGRESS_BAR(progressbar), title.c_str());
+  } else {
+    gtk_window_set_title(GTK_WINDOW(window_vbox), title.c_str());
+  }
 }
 
 bool WindowStyles::on_load_timeout(gpointer data)

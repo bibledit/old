@@ -82,8 +82,15 @@ public:
   vector <GdkVisibilityState> visibility_states;
   GdkVisibilityState visibility_state();
 
-  // Title bar for attached mode.
-  GtkWidget * titlebar;  
+  // Attached mode stuff.
+  GtkWidget *hbox_title;
+  GtkWidget *progressbar;
+  GtkWidget *button_close;
+  GtkWidget *image_close;
+  static void on_button_close_clicked (GtkButton *button, gpointer user_data);
+  void on_button_close();
+  
+ 
 };
 
 #endif

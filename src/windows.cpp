@@ -109,7 +109,7 @@ WindowBase::WindowBase(WindowID id, ustring data_title, bool startup, unsigned l
 
   // Create the window or the vertical box.
   if (window_parent_box) {
-    // In attached mode, a vertical box should be created. Todo and a close button.
+    // In attached mode, a vertical box should be created.
     window_vbox = gtk_vbox_new (FALSE, 0);
     gtk_box_pack_start (GTK_BOX (window_parent_box), window_vbox, TRUE, TRUE, 0);
   } else {
@@ -121,15 +121,40 @@ WindowBase::WindowBase(WindowID id, ustring data_title, bool startup, unsigned l
     }
   }
   
+  // Set extra widgets for attached mode to NULL.  
+  hbox_title = NULL;
+  progressbar = NULL;
+  button_close = NULL;
   if (window_parent_box) {
+    
     // Attached mode: Create a title bar and set the title.
-    titlebar = gtk_progress_bar_new();
-    gtk_box_pack_start (GTK_BOX (window_vbox), titlebar, false, false, 0);
-    gtk_progress_bar_set_text (GTK_PROGRESS_BAR (titlebar), data_title.c_str());
-    gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (titlebar), 1);
+    hbox_title = gtk_hbox_new (FALSE, 0);
+    gtk_widget_show (hbox_title);
+    gtk_box_pack_start (GTK_BOX (window_vbox), hbox_title, FALSE, TRUE, 0);
+
+    progressbar = gtk_progress_bar_new ();
+    gtk_widget_show (progressbar);
+    gtk_box_pack_start (GTK_BOX (hbox_title), progressbar, TRUE, TRUE, 0);
+    gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (progressbar), 1);
+    gtk_progress_bar_set_text (GTK_PROGRESS_BAR (progressbar), data_title.c_str());
+
+    // Attached mode: Create close button too.
+    button_close = gtk_button_new ();
+    gtk_widget_show (button_close);
+    gtk_box_pack_start (GTK_BOX (hbox_title), button_close, FALSE, FALSE, 0);
+    gtk_button_set_focus_on_click (GTK_BUTTON (button_close), FALSE);
+
+    image_close = gtk_image_new_from_stock ("gtk-close", GTK_ICON_SIZE_BUTTON);
+    gtk_widget_show (image_close);
+    gtk_container_add (GTK_CONTAINER (button_close), image_close);
+
+    g_signal_connect ((gpointer) button_close, "clicked",  G_CALLBACK (on_button_close_clicked), gpointer (this));
+
   } else {
+    
     // Detached mode: Set the title in the window's titlebar.
     gtk_window_set_title(GTK_WINDOW(window_vbox), data_title.c_str());
+  
   }
 
   // If using detached windows, use the same accelerators in each window to make them look and feel the same.
@@ -516,3 +541,12 @@ GDK_VISIBILITY_FULLY_OBSCURED the window is not visible at all.
   return visibility;
 }
 
+void WindowBase::on_button_close_clicked (GtkButton *button, gpointer user_data)
+{
+  ((WindowBase *) user_data)->on_button_close();
+}
+
+void WindowBase::on_button_close()
+{
+  gtk_button_clicked(GTK_BUTTON(delete_signal_button));
+}
