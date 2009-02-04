@@ -352,6 +352,7 @@ protected:
   GtkWidget *about1;
   GtkWidget *toolbar;
   GtkWidget *hbox_editors;
+  GtkWidget *hbox_notes;
   GtkWidget *hbox_status; 
   GtkWidget *hbox7;
   GtkWidget *statuslabel_style;
