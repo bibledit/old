@@ -6419,6 +6419,94 @@ void MainWindow::on_window_focus_button(GtkButton * button)
       }
     }
   }
+  
+  // In case of attached windows, focus the right one, and defocus the rest.
+  if (!windows_are_detached) {
+    if (window_show_quick_references) {
+      if (widget == window_show_quick_references->focus_in_signal_button) {
+        window_show_quick_references->present(false);
+      } else {
+        window_show_quick_references->defocus();
+      }
+    }
+    if (window_show_keyterms) {
+      if (widget == window_show_keyterms->focus_in_signal_button) {
+        window_show_keyterms->present(false);
+      } else {
+        window_show_keyterms->defocus();
+      }
+    }
+    if (window_merge) {
+      if (widget == window_merge->focus_in_signal_button) {
+        window_merge->present(false);
+      } else {
+        window_merge->defocus();
+      }
+    }
+    for (unsigned int i = 0; i < resource_windows.size(); i++) {
+      if (widget == resource_windows[i]->focus_in_signal_button) {
+        resource_windows[i]->present(false);
+      } else {
+        resource_windows[i]->defocus();
+      }
+    } 
+    if (window_outline) {
+      if (widget == window_outline->focus_in_signal_button) {
+        window_outline->present(false);
+      } else {
+        window_outline->defocus();
+      }
+    }
+    if (window_check_keyterms) {
+      if (widget == window_check_keyterms->focus_in_signal_button) {
+        window_check_keyterms->present(false);
+      } else {
+        window_check_keyterms->defocus();
+      }
+    }
+    if (window_styles) {
+      if (widget == window_styles->focus_in_signal_button) {
+        window_styles->present(false);
+      } else {
+        window_styles->defocus();
+      }
+    }
+    if (window_notes) {
+      if (widget == window_notes->focus_in_signal_button) {
+        window_notes->present(false);
+      } else {
+        window_notes->defocus();
+      }
+    }
+    if (window_references) {
+      if (widget == window_references->focus_in_signal_button) {
+        window_references->present(false);
+      } else {
+        window_references->defocus();
+      }
+    }
+    for (unsigned int i = 0; i < editor_windows.size(); i++) {
+      if (widget == editor_windows[i]->focus_in_signal_button) {
+        editor_windows[i]->present(false);
+      } else {
+        editor_windows[i]->defocus();
+      }
+    }
+    if (window_show_verses) {
+      if (widget == window_show_verses->focus_in_signal_button) {
+        window_show_verses->present(false);
+      } else {
+        window_show_verses->defocus();
+      }
+    }
+    if (window_check_usfm) {
+      if (widget == window_check_usfm->focus_in_signal_button) {
+        window_check_usfm->present(false);
+      } else {
+        window_check_usfm->defocus();
+      }
+    }
+  }        
 }
 
 void MainWindow::present_windows(GtkWidget * widget)

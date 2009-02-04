@@ -123,20 +123,27 @@ WindowBase::WindowBase(WindowID id, ustring data_title, bool startup, unsigned l
   
   // Set extra widgets for attached mode to NULL.  
   hbox_title = NULL;
-  progressbar = NULL;
+  button_title = NULL;
+  progressbar_title = NULL;
   button_close = NULL;
   if (window_parent_box) {
     
-    // Attached mode: Create a title bar and set the title.
     hbox_title = gtk_hbox_new (FALSE, 0);
     gtk_widget_show (hbox_title);
     gtk_box_pack_start (GTK_BOX (window_vbox), hbox_title, FALSE, TRUE, 0);
 
-    progressbar = gtk_progress_bar_new ();
-    gtk_widget_show (progressbar);
-    gtk_box_pack_start (GTK_BOX (hbox_title), progressbar, TRUE, TRUE, 0);
-    gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (progressbar), 1);
-    gtk_progress_bar_set_text (GTK_PROGRESS_BAR (progressbar), data_title.c_str());
+    // Attached mode: Create a title bar and set the title.
+    button_title = gtk_button_new ();
+    gtk_widget_show (button_title);
+    gtk_box_pack_start (GTK_BOX (hbox_title), button_title, TRUE, TRUE, 0);
+    GTK_WIDGET_UNSET_FLAGS (button_title, GTK_CAN_FOCUS);
+    gtk_button_set_relief (GTK_BUTTON (button_title), GTK_RELIEF_NONE);
+    gtk_button_set_focus_on_click (GTK_BUTTON (button_title), FALSE);
+
+    progressbar_title = gtk_progress_bar_new ();
+    gtk_widget_show (progressbar_title);
+    gtk_container_add (GTK_CONTAINER (button_title), progressbar_title);
+    gtk_progress_bar_set_text (GTK_PROGRESS_BAR (progressbar_title), data_title.c_str());
 
     // Attached mode: Create close button too.
     button_close = gtk_button_new ();
@@ -147,8 +154,6 @@ WindowBase::WindowBase(WindowID id, ustring data_title, bool startup, unsigned l
     image_close = gtk_image_new_from_stock ("gtk-close", GTK_ICON_SIZE_BUTTON);
     gtk_widget_show (image_close);
     gtk_container_add (GTK_CONTAINER (button_close), image_close);
-
-    g_signal_connect ((gpointer) button_close, "clicked",  G_CALLBACK (on_button_close_clicked), gpointer (this));
 
   } else {
     
@@ -167,14 +172,19 @@ WindowBase::WindowBase(WindowID id, ustring data_title, bool startup, unsigned l
   g_signal_connect ((gpointer) window_vbox, "focus_in_event", G_CALLBACK(on_window_focus_in_event), gpointer(this));
   g_signal_connect ((gpointer) window_vbox, "delete_event", G_CALLBACK(on_window_delete_event), gpointer(this));
 
-  // If the window is detached, it needs to be positioned before it shows.
-  if (window_parent_box == NULL) {
-    display(startup);
+  if (window_parent_box) { // Todo
+    // Todo g_signal_connect ((gpointer) window_vbox, "grab_focus", G_CALLBACK(on_widget_grab_focus), gpointer(this));
+    // Todo g_signal_connect ((gpointer) progressbar, "button_press_event", G_CALLBACK (on_widget_button_press_event), gpointer(this));
+    g_signal_connect ((gpointer) button_title, "clicked", G_CALLBACK (on_button_title_clicked), gpointer(this));
+    g_signal_connect ((gpointer) button_close, "clicked",  G_CALLBACK (on_button_close_clicked), gpointer (this));
   }
+
+  // Do the display handling.
+  display(startup);
 
   // Show it.
   gtk_widget_show_all(window_vbox);
-
+  
   // Get the sizes of the frame that the window manager puts around the window.
   /*
      The size of the borders in pixels. There's the top border, the left, the right, and the bottom.
@@ -208,6 +218,16 @@ void WindowBase::display(bool startup)
 // Does the bookkeeping necessary for displaying the detached window.
 // startup: whether the window is started at program startup.
 {
+  // It was found that the window's position is not always set properly at the first attempt.
+  // Therefore a timeout starts here that does it a second time.
+  // In case that the window is attached, the timeout focuses it.
+  display_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 300, GSourceFunc(on_display_timeout), gpointer(this), NULL);
+
+  // If window is attached, there's nothing more to do: Bail out.
+  if (window_parent_box) {
+    return;
+  }
+
   extern Settings *settings;
 
   // The parameters of all the windows.
@@ -365,9 +385,6 @@ void WindowBase::display(bool startup)
   if (window_gdk_rectangle.width && window_gdk_rectangle.height) {
     gtk_window_resize(GTK_WINDOW(window_vbox), window_gdk_rectangle.width, window_gdk_rectangle.height);
     gtk_window_move(GTK_WINDOW(window_vbox), window_gdk_rectangle.x, window_gdk_rectangle.y);
-    // It was found that the window's position is not always set properly at the first attempt.
-    // Therefore a timeout starts here that does it a second time.
-    display_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 300, GSourceFunc(on_display_timeout), gpointer(this), NULL);
   }
   // Store a pointer to this window in the Session.
   settings->session.open_windows.push_back(GTK_WINDOW(window_vbox));
@@ -381,11 +398,20 @@ bool WindowBase::on_display_timeout(gpointer data)
 bool WindowBase::display_timeout()
 // Repositions the detached window for the second time, as the first time does not always work out.
 {
-  gtk_window_resize(GTK_WINDOW(window_vbox), window_gdk_rectangle.width, window_gdk_rectangle.height);
-  gtk_window_move(GTK_WINDOW(window_vbox), window_gdk_rectangle.x, window_gdk_rectangle.y);
-  if (resize_window_pointer) {
-    gtk_window_resize(resize_window_pointer, resize_window_rectangle.width, resize_window_rectangle.height);
-  }
+  if (window_parent_box) {
+    // Attached mode: focus it.
+    gtk_button_clicked(GTK_BUTTON(focus_in_signal_button));
+  } else {
+    // Detached mode: reposition / resize.
+    if (window_gdk_rectangle.width && window_gdk_rectangle.height) {
+      gtk_window_resize(GTK_WINDOW(window_vbox), window_gdk_rectangle.width, window_gdk_rectangle.height);
+      gtk_window_move(GTK_WINDOW(window_vbox), window_gdk_rectangle.x, window_gdk_rectangle.y);
+      if (resize_window_pointer) {
+        gtk_window_resize(resize_window_pointer, resize_window_rectangle.width, resize_window_rectangle.height);
+      }
+    }
+  } 
+  // Done.
   return false;
 }
 
@@ -403,12 +429,15 @@ void WindowBase::on_window_focus_in(GtkWidget * widget)
 void WindowBase::present(bool force)
 // Presents the detached window.
 {
-  // Bail out if window is attached.
-  if (window_parent_box)
-    return;
-  // Only act if the window is not fully visible already, or if forced.
-  if ((visibility_state() != GDK_VISIBILITY_UNOBSCURED) || force) {
-    gtk_window_present(GTK_WINDOW(window_vbox));
+  if (window_parent_box) {
+    // Attached mode.
+    gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (progressbar_title), 1);
+  } else {
+    // Detached mode.
+    // Only act if the window is not fully visible already, or if forced.
+    if ((visibility_state() != GDK_VISIBILITY_UNOBSCURED) || force) {
+      gtk_window_present(GTK_WINDOW(window_vbox));
+    }
   }
 }
 
@@ -549,4 +578,44 @@ void WindowBase::on_button_close_clicked (GtkButton *button, gpointer user_data)
 void WindowBase::on_button_close()
 {
   gtk_button_clicked(GTK_BUTTON(delete_signal_button));
+}
+
+void WindowBase::on_button_title_clicked (GtkButton *button, gpointer user_data)
+{
+  ((WindowBase *) user_data)->on_button_title();
+}
+
+void WindowBase::on_button_title()
+{
+  gtk_button_clicked(GTK_BUTTON(focus_in_signal_button));
+}
+
+void WindowBase::on_widget_grab_focus(GtkWidget * widget, gpointer user_data)
+{
+  ((WindowBase *) user_data)->widget_grab_focus(widget);
+}
+
+void WindowBase::widget_grab_focus(GtkWidget * widget)
+{
+  cout << "widget_grab_focus " << widget << endl; // Todo
+}
+
+gboolean WindowBase::on_widget_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
+{
+  ((WindowBase *) user_data)->widget_button_press_event(widget);
+  return false;
+}
+
+void WindowBase::widget_button_press_event(GtkWidget * widget)
+{
+  cout << "widget_button_press_event " << widget << endl; // Todo
+}
+
+
+void WindowBase::defocus()
+// Makes the window look as being defocused.
+{
+  if (progressbar_title) {
+    gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (progressbar_title), 0);
+  }
 }

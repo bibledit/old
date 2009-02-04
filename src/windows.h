@@ -51,10 +51,12 @@ public:
   virtual ~WindowBase();
   GtkWidget *window_vbox;
   
+  // Data specific for the window.
   WindowID window_id;
   ustring window_data;
   GtkWidget * window_parent_box;
   
+  // Creation and display.
   void display (bool startup);
   GdkRectangle window_gdk_rectangle;
   GtkWindow * resize_window_pointer;
@@ -62,12 +64,19 @@ public:
   guint display_event_id;
   static bool on_display_timeout(gpointer data);
   bool display_timeout();
-  
+
+  // Focus tools.  
   GtkWidget * focus_in_signal_button;
   static gboolean on_window_focus_in_event(GtkWidget *widget, GdkEventFocus *event, gpointer user_data);
   void on_window_focus_in(GtkWidget *widget);
   void present(bool force);
+  static void on_widget_grab_focus(GtkWidget * widget, gpointer user_data);
+  void widget_grab_focus(GtkWidget * widget);
+  static gboolean on_widget_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data);
+  void widget_button_press_event(GtkWidget * widget); 
+  void defocus(); 
   
+  // Window deletion.
   GtkWidget * delete_signal_button;
   static bool on_window_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);
   void on_window_delete();
@@ -82,15 +91,16 @@ public:
   vector <GdkVisibilityState> visibility_states;
   GdkVisibilityState visibility_state();
 
-  // Attached mode stuff.
+  // Logic specific for attached mode.
   GtkWidget *hbox_title;
-  GtkWidget *progressbar;
+  GtkWidget *button_title;
+  GtkWidget *progressbar_title;
   GtkWidget *button_close;
   GtkWidget *image_close;
+  static void on_button_title_clicked (GtkButton *button, gpointer user_data);
+  void on_button_title();
   static void on_button_close_clicked (GtkButton *button, gpointer user_data);
   void on_button_close();
-  
- 
 };
 
 #endif
