@@ -33,7 +33,7 @@
 #include "referenceutils.h"
 
 WindowReferences::WindowReferences(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
-WindowBase(widReferences, "References", startup, 0, parent_box), reference(0, 0, "")
+WindowBase(widReferences, "References", startup, 0, parent_box), reference(0, 0, "") 
 // Window for showing the quick references.  
 {
   scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
@@ -56,6 +56,7 @@ WindowBase(widReferences, "References", startup, 0, parent_box), reference(0, 0,
   gtk_widget_show(treeview);
   gtk_container_add(GTK_CONTAINER(scrolledwindow), treeview);
 
+  // Visibility tracking and focus tracking in attached view.
   g_signal_connect((gpointer) treeview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
 
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(treeview), TRUE);

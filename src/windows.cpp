@@ -102,6 +102,7 @@ WindowBase::WindowBase(WindowID id, ustring data_title, bool startup, unsigned l
   window_data = data_title;
   window_parent_box = parent_box;
   resize_window_pointer = NULL;
+  last_focused_widget = NULL;
 
   // Signalling buttons.
   focus_in_signal_button = gtk_button_new();
@@ -172,9 +173,7 @@ WindowBase::WindowBase(WindowID id, ustring data_title, bool startup, unsigned l
   g_signal_connect ((gpointer) window_vbox, "focus_in_event", G_CALLBACK(on_window_focus_in_event), gpointer(this));
   g_signal_connect ((gpointer) window_vbox, "delete_event", G_CALLBACK(on_window_delete_event), gpointer(this));
 
-  if (window_parent_box) { // Todo
-    // Todo g_signal_connect ((gpointer) window_vbox, "grab_focus", G_CALLBACK(on_widget_grab_focus), gpointer(this));
-    // Todo g_signal_connect ((gpointer) progressbar, "button_press_event", G_CALLBACK (on_widget_button_press_event), gpointer(this));
+  if (window_parent_box) {
     g_signal_connect ((gpointer) button_title, "clicked", G_CALLBACK (on_button_title_clicked), gpointer(this));
     g_signal_connect ((gpointer) button_close, "clicked",  G_CALLBACK (on_button_close_clicked), gpointer (this));
   }
@@ -432,6 +431,10 @@ void WindowBase::present(bool force)
   if (window_parent_box) {
     // Attached mode.
     gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (progressbar_title), 1);
+    // Grab the widget of the object that was focused last.
+    if (last_focused_widget) {
+      gtk_widget_grab_focus (last_focused_widget);
+    }
   } else {
     // Detached mode.
     // Only act if the window is not fully visible already, or if forced.
@@ -590,32 +593,36 @@ void WindowBase::on_button_title()
   gtk_button_clicked(GTK_BUTTON(focus_in_signal_button));
 }
 
-void WindowBase::on_widget_grab_focus(GtkWidget * widget, gpointer user_data)
-{
-  ((WindowBase *) user_data)->widget_grab_focus(widget);
-}
-
-void WindowBase::widget_grab_focus(GtkWidget * widget)
-{
-  cout << "widget_grab_focus " << widget << endl; // Todo
-}
-
-gboolean WindowBase::on_widget_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
-{
-  ((WindowBase *) user_data)->widget_button_press_event(widget);
-  return false;
-}
-
-void WindowBase::widget_button_press_event(GtkWidget * widget)
-{
-  cout << "widget_button_press_event " << widget << endl; // Todo
-}
-
-
 void WindowBase::defocus()
-// Makes the window look as being defocused.
+// Makes the window look like defocused.
 {
   if (progressbar_title) {
     gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (progressbar_title), 0);
+  }
+}
+
+void WindowBase::on_container_tree_callback (GtkWidget *widget, gpointer user_data)
+{
+  ((WindowBase *) user_data)->container_tree_callback(widget, user_data);
+}
+
+void WindowBase::container_tree_callback (GtkWidget *widget, gpointer user_data)
+// Recursive callback that fires the focus signal if the widget belongs to the object.
+{
+  if (widget == focused_widget_to_look_for) {
+    last_focused_widget = widget;
+    gtk_button_clicked(GTK_BUTTON(focus_in_signal_button));
+  }
+  if (GTK_IS_CONTAINER(widget)) {
+    gtk_container_foreach(GTK_CONTAINER(widget), on_container_tree_callback, user_data);
+  }
+}
+
+void WindowBase::focus_if_widget_mine (GtkWidget *widget)
+// It looks through all widgets it has, to find out whether "widget" belongs to the object.
+{
+  focused_widget_to_look_for = widget;
+  if (GTK_IS_CONTAINER(window_vbox)) {
+    gtk_container_foreach(GTK_CONTAINER(window_vbox), on_container_tree_callback, gpointer(this));
   }
 }

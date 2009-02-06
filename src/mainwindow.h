@@ -775,6 +775,8 @@ protected:
   GtkWidget * focused_resource_button;
 
   bool windows_are_detached;
+  static void on_window_set_focus (GtkWindow *window, GtkWidget *widget, gpointer user_data);
+  void window_set_focus (GtkWidget *widget);
 
   /* Quick references */
   static void on_view_quick_references_activate(GtkMenuItem *menuitem, gpointer user_data);

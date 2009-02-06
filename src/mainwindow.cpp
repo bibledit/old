@@ -1772,6 +1772,11 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     gtk_box_pack_start (GTK_BOX (hbox_main), vbox_tools, true, true, 0);
   }
 
+  // Window callbacks.
+  if (!windows_are_detached) {
+    g_signal_connect ((gpointer) window_vbox, "set_focus", G_CALLBACK (on_window_set_focus), gpointer(this));
+  }  
+  
   // Menu callbacks.
   if (new1)
     g_signal_connect((gpointer) new1, "activate", G_CALLBACK(on_new1_activate), gpointer(this));
@@ -6541,6 +6546,47 @@ void MainWindow::present_windows(GtkWidget * widget)
     window_check_usfm->present(false);
   present(false);
 }
+
+
+void MainWindow::on_window_set_focus (GtkWindow *window, GtkWidget *widget, gpointer user_data)
+{
+  ((MainWindow *) user_data)->window_set_focus (widget);
+}
+
+void MainWindow::window_set_focus (GtkWidget *widget)
+{
+  // Bail out on detached windows.
+  if (windows_are_detached) 
+    return;
+  // All widgets will check whether the focused widget is theirs, and act accordingly.
+  if (window_show_quick_references)
+    window_show_quick_references->focus_if_widget_mine(widget);
+  if (window_show_keyterms)
+    window_show_keyterms->focus_if_widget_mine(widget);
+  if (window_merge)
+    window_merge->focus_if_widget_mine(widget);
+  for (unsigned int i = 0; i < resource_windows.size(); i++) {
+    resource_windows[i]->focus_if_widget_mine(widget);
+  }
+  if (window_outline)
+    window_outline->focus_if_widget_mine(widget);
+  if (window_check_keyterms)
+    window_check_keyterms->focus_if_widget_mine(widget);
+  if (window_styles)
+    window_styles->focus_if_widget_mine(widget);
+  if (window_notes)
+    window_notes->focus_if_widget_mine(widget);
+  if (window_references)
+    window_references->focus_if_widget_mine(widget);
+  for (unsigned int i = 0; i < editor_windows.size(); i++) {
+    editor_windows[i]->focus_if_widget_mine(widget);
+  }
+  if (window_show_verses)
+    window_show_verses->focus_if_widget_mine(widget);
+  if (window_check_usfm)
+    window_check_usfm->focus_if_widget_mine(widget);
+}
+
 
 /*
  |

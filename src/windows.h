@@ -70,10 +70,6 @@ public:
   static gboolean on_window_focus_in_event(GtkWidget *widget, GdkEventFocus *event, gpointer user_data);
   void on_window_focus_in(GtkWidget *widget);
   void present(bool force);
-  static void on_widget_grab_focus(GtkWidget * widget, gpointer user_data);
-  void widget_grab_focus(GtkWidget * widget);
-  static gboolean on_widget_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data);
-  void widget_button_press_event(GtkWidget * widget); 
   void defocus(); 
   
   // Window deletion.
@@ -101,6 +97,11 @@ public:
   void on_button_title();
   static void on_button_close_clicked (GtkButton *button, gpointer user_data);
   void on_button_close();
+  static void on_container_tree_callback (GtkWidget *widget, gpointer user_data);
+  void container_tree_callback (GtkWidget *widget, gpointer user_data);
+  void focus_if_widget_mine (GtkWidget *widget);
+  GtkWidget * focused_widget_to_look_for;
+  GtkWidget * last_focused_widget;
 };
 
 #endif
