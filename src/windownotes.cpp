@@ -1180,7 +1180,7 @@ void WindowNotes::delete_ids(const vector < gint > &ids)
     message.append("these notes");
   message.append("?");
 
-  if (gtkw_dialog_question(window_vbox, message) != GTK_RESPONSE_YES)
+  if (gtkw_dialog_question(GTK_IS_WINDOW (window_vbox) ? window_vbox : NULL, message) != GTK_RESPONSE_YES)
     return;
   for (unsigned int i = 0; i < ids.size(); i++) {
     notes_delete_one(ids[i]);
