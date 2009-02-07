@@ -1085,9 +1085,13 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   gtk_widget_show(image26812);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(view_planning), image26812);
 
-  view_screen_layout = gtk_check_menu_item_new_with_mnemonic("_Screen layout");
-  gtk_widget_show(view_screen_layout);
-  gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_screen_layout);
+  // The menu entry is only created when the windows are detached.
+  view_screen_layout = NULL;
+  if (windows_are_detached) {
+    view_screen_layout = gtk_check_menu_item_new_with_mnemonic("_Screen layout");
+    gtk_widget_show(view_screen_layout);
+    gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_screen_layout);
+  }
 
   view_keyterms = gtk_check_menu_item_new_with_mnemonic("_Keyterms in verse");
   gtk_widget_show(view_keyterms);
