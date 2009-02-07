@@ -436,6 +436,7 @@ void WindowBase::present(bool force)
     if (last_focused_widget) {
       gtk_widget_grab_focus (last_focused_widget);
     }
+    gtk_button_clicked(GTK_BUTTON(focus_in_signal_button));
   } else {
     // Detached mode.
     // Only act if the window is not fully visible already, or if forced.
