@@ -217,16 +217,12 @@ void WindowBase::display(bool startup)
 // Does the bookkeeping necessary for displaying the detached window.
 // startup: whether the window is started at program startup.
 {
-  // It was found that the window's position is not always set properly at the first attempt.
-  // Therefore a timeout starts here that does it a second time.
-  // In case that the window is attached, the timeout focuses it.
-  display_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 300, GSourceFunc(on_display_timeout), gpointer(this), NULL);
-
   // If window is attached, there's nothing more to do: Bail out.
   if (window_parent_box) {
     return;
   }
 
+  // Settings.
   extern Settings *settings;
 
   // The parameters of all the windows.
@@ -387,6 +383,11 @@ void WindowBase::display(bool startup)
   }
   // Store a pointer to this window in the Session.
   settings->session.open_windows.push_back(GTK_WINDOW(window_vbox));
+
+  // It was found that the window's position is not always set properly at the first attempt.
+  // Therefore a timeout starts here that does it a second time.
+  // In case that the window is attached, the timeout focuses it.
+  display_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 300, GSourceFunc(on_display_timeout), gpointer(this), NULL);
 }
 
 bool WindowBase::on_display_timeout(gpointer data)

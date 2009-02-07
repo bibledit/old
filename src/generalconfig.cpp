@@ -71,6 +71,11 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE(clear_up_day);
   INITIALIZE(screen_width);
   INITIALIZE(screen_height);
+  INITIALIZE (window_width);
+  INITIALIZE (window_height);
+  INITIALIZE (window_x_position);
+  INITIALIZE (window_y_position);
+  INITIALIZE (window_maximized);
   INITIALIZE(menu_area_width);
   INITIALIZE(menu_area_height);
   INITIALIZE(menu_area_x_position);
@@ -236,6 +241,11 @@ void GeneralConfiguration::save()
   SAVE_VALUE(clear_up_day);
   SAVE_VALUE(screen_width);
   SAVE_VALUE(screen_height);
+  SAVE_VALUE (window_width);
+  SAVE_VALUE (window_height);
+  SAVE_VALUE (window_x_position);
+  SAVE_VALUE (window_y_position);
+  SAVE_VALUE (window_maximized);
   SAVE_VALUE(menu_area_width);
   SAVE_VALUE(menu_area_height);
   SAVE_VALUE(menu_area_x_position);
@@ -476,9 +486,13 @@ void GeneralConfiguration::store##_set (type value) \
 
 // Code to make everything work.
 IMPLEMENT(int, int_get, clear_up_day, 0)
-
 IMPLEMENT(int, int_get, screen_width, 0)
 IMPLEMENT(int, int_get, screen_height, 0)
+IMPLEMENT (int, int_get, window_width, 0)
+IMPLEMENT (int, int_get, window_height, 0)
+IMPLEMENT (int, int_get, window_x_position, 0)
+IMPLEMENT (int, int_get, window_y_position, 0)
+IMPLEMENT (bool, bool_get, window_maximized, true)
 IMPLEMENT(int, int_get, menu_area_width, 0)
 IMPLEMENT(int, int_get, menu_area_height, 0)
 IMPLEMENT(int, int_get, menu_area_x_position, 0)

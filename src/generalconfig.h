@@ -52,6 +52,11 @@ public:
   DEFINE_GENCONFIG_H (int, clear_up_day);
   DEFINE_GENCONFIG_H (int, screen_width);
   DEFINE_GENCONFIG_H (int, screen_height);
+  DEFINE_GENCONFIG_H (int, window_width);
+  DEFINE_GENCONFIG_H (int, window_height);
+  DEFINE_GENCONFIG_H (int, window_x_position);
+  DEFINE_GENCONFIG_H (int, window_y_position);
+  DEFINE_GENCONFIG_H (bool, window_maximized);
   DEFINE_GENCONFIG_H (int, menu_area_width);
   DEFINE_GENCONFIG_H (int, menu_area_height);
   DEFINE_GENCONFIG_H (int, menu_area_x_position);

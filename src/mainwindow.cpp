@@ -2031,9 +2031,15 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   set_fonts();
 
   // Size and position of window and screen layout.
-  {
-    ScreenLayoutDimensions dimensions(window_vbox);
-    dimensions.verify();
+  ScreenLayoutDimensions * dimensions = new ScreenLayoutDimensions (window_vbox);
+  dimensions->verify();
+  if (windows_are_detached) {
+    // If the windows are detached, just delete the object.
+    delete dimensions;
+  } else {
+    // If the windows are attached, apply the dimensions with a delay.
+    // This delay will also take care of object destruction.
+    dimensions->apply();
   }
 
   g_signal_connect((gpointer) delete_signal_button, "clicked", G_CALLBACK(on_window_menu_delete_button_clicked), gpointer(this));
@@ -2076,6 +2082,12 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
 
 MainWindow::~MainWindow()
 {
+  // Store main window dimensions if windows are attached.
+  if (!windows_are_detached) {
+    ScreenLayoutDimensions dimensions(window_vbox);
+    dimensions.save();
+  }
+  
   // Shut down the various windows.
   shutdown_windows();
 

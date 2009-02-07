@@ -28,10 +28,15 @@ class ScreenLayoutDimensions
 {
 public:
   ScreenLayoutDimensions(GtkWidget *window);
+  ~ScreenLayoutDimensions();
   void verify();
+  void apply();
+  void save();
 private:
   GtkWindow * mywindow;
   int counter;
+  static bool on_timeout (gpointer data);
+  void timeout ();
 };
 
 #endif
