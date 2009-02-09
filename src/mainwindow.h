@@ -755,7 +755,7 @@ protected:
   static void on_print_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_print();
 
-  /* Windowing system */ // Todo
+  /* Windowing system */
   static void on_view_screen_layout_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_screen_layout();
   WindowLayout * window_screen_layout;
@@ -773,7 +773,6 @@ protected:
   GtkWidget * last_focused_window_button;
   GtkWidget * focused_editor_button;
   GtkWidget * focused_resource_button;
-
   bool windows_are_detached;
   static void on_window_set_focus (GtkWindow *window, GtkWidget *widget, gpointer user_data);
   void window_set_focus (GtkWidget *widget);

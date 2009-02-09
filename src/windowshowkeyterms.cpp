@@ -44,6 +44,10 @@ WindowBase(widShowKeyterms, "Keyterms in verse", startup, 0, parent_box), myrefe
   gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(textview1), FALSE);
 
   g_signal_connect((gpointer) textview1, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
+
+  // Main focused widget.
+  last_focused_widget = textview1;
+  gtk_widget_grab_focus (last_focused_widget);
 }
 
 WindowShowKeyterms::~WindowShowKeyterms()

@@ -622,6 +622,7 @@ void WindowEditor::switch_to_view (bool viewusfm, ustring project)
     g_signal_connect((gpointer) usfmview->changed_signal, "clicked", G_CALLBACK(on_changed_signalled), gpointer(this));
     g_signal_connect((gpointer) usfmview->new_verse_signal, "clicked", G_CALLBACK(on_new_verse_signalled), gpointer(this));
     g_signal_connect((gpointer) usfmview->word_double_clicked_signal, "clicked", G_CALLBACK(on_word_double_click_signalled), gpointer(this));
+    last_focused_widget = usfmview->sourceview;
   } else {
     editor = new Editor (vbox, project);
     g_signal_connect((gpointer) editor->textview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
@@ -631,8 +632,11 @@ void WindowEditor::switch_to_view (bool viewusfm, ustring project)
     g_signal_connect((gpointer) editor->word_double_clicked_signal, "clicked", G_CALLBACK(on_word_double_click_signalled), gpointer(this));
     g_signal_connect((gpointer) editor->reload_signal, "clicked", G_CALLBACK(on_reload_signalled), gpointer(this));
     g_signal_connect((gpointer) editor->changed_signal, "clicked", G_CALLBACK(on_changed_signalled), gpointer(this));
+    last_focused_widget = editor->last_focused_widget;
   }  
-  
+  // Main widget grabs focus.
+  gtk_widget_grab_focus (last_focused_widget);
+
   // If we switched, set the editor to the right place.
   if (switched) {
     go_to (reference);

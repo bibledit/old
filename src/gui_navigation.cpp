@@ -61,6 +61,7 @@ void GuiNavigation::build(GtkWidget * toolbar)
   button_back = gtk_button_new();
   gtk_widget_show(button_back);
   gtk_container_add(GTK_CONTAINER(toolitem1), button_back);
+  GTK_WIDGET_UNSET_FLAGS (button_back, GTK_CAN_FOCUS);
 
   image1 = gtk_image_new_from_stock("gtk-go-back", GTK_ICON_SIZE_BUTTON);
   gtk_widget_show(image1);
@@ -73,6 +74,7 @@ void GuiNavigation::build(GtkWidget * toolbar)
   button_forward = gtk_button_new();
   gtk_widget_show(button_forward);
   gtk_container_add(GTK_CONTAINER(toolitem2), button_forward);
+  GTK_WIDGET_UNSET_FLAGS (button_forward, GTK_CAN_FOCUS);
 
   image2 = gtk_image_new_from_stock("gtk-go-forward", GTK_ICON_SIZE_BUTTON);
   gtk_widget_show(image2);
@@ -85,6 +87,7 @@ void GuiNavigation::build(GtkWidget * toolbar)
   combo_book = gtk_combo_box_new_text();
   gtk_widget_show(combo_book);
   gtk_container_add(GTK_CONTAINER(toolitem3), combo_book);
+  GTK_WIDGET_UNSET_FLAGS (combo_book, GTK_CAN_FOCUS);
 
   GtkToolItem *toolitem4 = gtk_tool_item_new();
   gtk_widget_show(GTK_WIDGET(toolitem4));
@@ -108,6 +111,7 @@ void GuiNavigation::build(GtkWidget * toolbar)
   combo_chapter = gtk_combo_box_new_text();
   gtk_widget_show(combo_chapter);
   gtk_container_add(GTK_CONTAINER(toolitem6), combo_chapter);
+  GTK_WIDGET_UNSET_FLAGS (combo_chapter, GTK_CAN_FOCUS);
 
   GtkToolItem *toolitem5 = gtk_tool_item_new();
   gtk_widget_show(GTK_WIDGET(toolitem5));
@@ -131,6 +135,7 @@ void GuiNavigation::build(GtkWidget * toolbar)
   combo_verse = gtk_combo_box_new_text();
   gtk_widget_show(combo_verse);
   gtk_container_add(GTK_CONTAINER(toolitem8), combo_verse);
+  GTK_WIDGET_UNSET_FLAGS (combo_verse, GTK_CAN_FOCUS);
 
   GtkToolItem *toolitem7 = gtk_tool_item_new();
   gtk_widget_show(GTK_WIDGET(toolitem7));

@@ -98,6 +98,10 @@ WindowBase(widShowVerses, "Verses", startup, 0, parent_box), myreference(0)
 
   // Load the projects.
   load_tree();
+
+  // Main focused widget.
+  last_focused_widget = textview1;
+  gtk_widget_grab_focus (last_focused_widget);
 }
 
 

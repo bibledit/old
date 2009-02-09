@@ -36,6 +36,9 @@ WindowBase(widOutline, "Outline", startup, 0, parent_box), myreference(0)
   outline = new Outline(vbox);
   g_signal_connect((gpointer) outline->treeview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
 
+  // Main focused widget.
+  last_focused_widget = outline->treeview;
+  gtk_widget_grab_focus (last_focused_widget);
 }
 
 WindowOutline::~WindowOutline()

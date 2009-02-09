@@ -235,6 +235,10 @@ WindowBase(widMerge, "Merge", startup, 0, parent_box)
   // Create tags.
   heavy_weight_tag = gtk_text_buffer_create_tag(differencesbuffer, NULL, "weight", PANGO_WEIGHT_HEAVY, "background", "khaki", NULL);
   strike_through_tag = gtk_text_buffer_create_tag(differencesbuffer, NULL, "strikethrough", TRUE, "background", "khaki", NULL);
+
+  // Main focused widget.
+  last_focused_widget = combobox_master;
+  gtk_widget_grab_focus (last_focused_widget);
 }
 
 WindowMerge::~WindowMerge()

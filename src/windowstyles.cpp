@@ -148,6 +148,10 @@ WindowBase(widStyles, "Stylesheet", startup, 0, parent_box)
     for (unsigned int i = 0; i < add; i++)
       expanded_states.push_back(false);
   }
+  
+  // Main focused widget.
+  last_focused_widget = treeview;
+  gtk_widget_grab_focus (last_focused_widget);
 }
 
 WindowStyles::~WindowStyles()

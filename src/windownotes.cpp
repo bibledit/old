@@ -327,6 +327,10 @@ WindowBase(widNotes, "Project notes", startup, 0, parent_box)
 
   // Signal button.
   references_available_signal_button = gtk_button_new();
+
+  // Main focused widget.
+  last_focused_widget = htmlview_notes;
+  gtk_widget_grab_focus (last_focused_widget);
 }
 
 WindowNotes::~WindowNotes()

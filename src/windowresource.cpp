@@ -39,6 +39,10 @@ WindowBase(widResource, resource_name, startup, 0, parent_box)
   // Therefore in order to get the focus system work, we pick another visible widget.
   g_signal_connect((gpointer) resource->label, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
   resource->open(resourcename_to_filename(name));
+
+  // Main focused widget.
+  last_focused_widget = resource->browser->htmlview;
+  gtk_widget_grab_focus (last_focused_widget);
 }
 
 WindowResource::~WindowResource()

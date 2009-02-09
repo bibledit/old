@@ -186,6 +186,11 @@ WindowBase(widCheckKeyterms, "Check keyterms", startup, 0, parent_box), myrefere
 
   // Load the keyterms.
   on_entry_keyterm_change();
+  
+  // Main focused widget.
+  last_focused_widget = entry_keyterm;
+  gtk_widget_grab_focus (last_focused_widget);
+
 }
 
 WindowCheckKeyterms::~WindowCheckKeyterms()

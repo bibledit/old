@@ -144,6 +144,9 @@ WindowBase(widCheckUSFM, "Check USFM", startup, 0, parent_box)
   combobox_set_strings(combobox_filter, filters);
   combobox_set_index(combobox_filter, 0);
   
+  // Main focused widget.
+  last_focused_widget = button_discover_markup;
+  gtk_widget_grab_focus (last_focused_widget);
 }
 
 

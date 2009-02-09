@@ -6185,7 +6185,7 @@ void MainWindow::on_print()
  |
  |
  |
- Windowing system Todo
+ Windowing system
  |
  |
  |

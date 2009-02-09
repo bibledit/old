@@ -33,7 +33,7 @@
 #include "referenceutils.h"
 
 WindowReferences::WindowReferences(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
-WindowBase(widReferences, "References", startup, 0, parent_box), reference(0, 0, "") 
+WindowBase(widReferences, "References", startup, 0, parent_box), reference(0, 0, "")
 // Window for showing the quick references.  
 {
   scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
@@ -87,6 +87,10 @@ WindowBase(widReferences, "References", startup, 0, parent_box), reference(0, 0,
 
   // Signal button.
   general_signal_button = gtk_button_new();
+
+  // Main focused widget.
+  last_focused_widget = treeview;
+  gtk_widget_grab_focus (last_focused_widget);
 }
 
 WindowReferences::~WindowReferences()
