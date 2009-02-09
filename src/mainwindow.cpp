@@ -6418,6 +6418,14 @@ void MainWindow::on_window_focus_button(GtkButton * button)
   if (widget == now_focused_window_button)
     return;
 
+  // Bail out if windows are attached and the main window fired the focus signal.
+  // This is to prevent all attached windows from loosing their focus when a dialog is opened, and closed.
+  if (!windows_are_detached) {
+    if (widget == focus_in_signal_button) {
+      return;
+    }
+  }  
+
   // Save the new focused window and keep the previous one.
   last_focused_window_button = now_focused_window_button;
   now_focused_window_button = widget;
