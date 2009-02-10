@@ -173,7 +173,7 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	assistants.$(OBJEXT) assistantdeletekeyterms.$(OBJEXT) \
 	assistantchanges.$(OBJEXT) widgetdate.$(OBJEXT) \
 	usfmview.$(OBJEXT) dialogcompareprefs.$(OBJEXT) \
-	windowcheckusfm.$(OBJEXT)
+	windowcheckusfm.$(OBJEXT) usfm2osis.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -625,7 +625,8 @@ bibledit_bin_SOURCES = \
         widgetdate.cpp \
         usfmview.cpp \
         dialogcompareprefs.cpp \
-        windowcheckusfm.cpp
+        windowcheckusfm.cpp \
+        usfm2osis.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -940,6 +941,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/user.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/usfm-inline-markers.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/usfm.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/usfm2osis.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/usfm2text.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/usfm2xslfo_utils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/usfmtools.Po@am__quote@

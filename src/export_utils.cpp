@@ -49,6 +49,7 @@
 #include "tiny_utilities.h"
 #include "clean.h"
 #include "dialogradiobutton.h"
+#include "usfm2osis.h"
 
 void export_to_usfm(GtkWidget * parent, bool zipped)
 // Export the whole project to USFM files.
@@ -218,7 +219,7 @@ void export_to_sword_interactive()
   export_to_sword_script(settings->genconfig.project_get(), "", true);
 }
 
-void export_to_sword_script(const ustring & project, ustring directory, bool gui)
+void export_to_sword_script(const ustring & project, ustring directory, bool gui) // Todo
 /*
 Exports a whole project to a SWORD module.
 At the time of writing this, the information on how to create a module for 
@@ -232,7 +233,7 @@ Here's how we do the conversion
 {
   // Check for converter.
   if (!gw_find_program_in_path("osis2mod")) {
-    ustring message = "The SWORD compiler osis2mod was not found.";
+    ustring message = "The SWORD compiler osis2mod was not found."; // Todo this message comes at the end only.
     if (gui)
       gtkw_dialog_error(NULL, message);
     cerr << message << endl;
@@ -286,16 +287,16 @@ Here's how we do the conversion
   write_lines(gw_build_filename(absolute_conf_directory, lowerCase(settings->genconfig.project_get() + projectconfig->sword_name_get()) + ".conf"), lines);
   lines.clear();
   // Start process of producing the text file.
-  ustring inputfile;
+  ustring osisfile;
   try {
     // Prepare for notes and inline text.
     Usfm usfm(projectconfig->stylesheet_get());
     SwordNote swordnote(usfm, true);
     UsfmInlineMarkers usfm_inline_markers(usfm);
     // Write to inputfile.
-    inputfile = gw_build_filename(directories_get_temp(), "sword_osis_input.txt");
-    unlink(inputfile.c_str());
-    WriteText wt(inputfile);
+    osisfile = gw_build_filename(g_get_home_dir (), "osis-from-usfm.txt");
+    unlink(osisfile.c_str());
+    WriteText wt(osisfile);
     // Write out xml headers.
     OsisRoot osisroot(&wt, settings->genconfig.project_get() + projectconfig->sword_name_get(), settings->genconfig.project_get() + projectconfig->sword_description_get());
     // Get all the books and go through them.
@@ -464,6 +465,10 @@ Here's how we do the conversion
   catch(exception & ex) {
     cerr << "Export: " << ex.what() << endl;
   }
+  // Start conversion from USFM to OSIS.
+  ustring osisfile2 = osisfile + ".v2";
+  Usfm2Osis usfm2osis (osisfile2);
+  
   // Hide progress.
   if (progresswindow)
     delete progresswindow;
@@ -471,7 +476,7 @@ Here's how we do the conversion
   {
     GwSpawn spawn("osis2mod");
     spawn.arg(absolute_text_directory);
-    spawn.arg(inputfile);
+    spawn.arg(osisfile);
     spawn.progress("Compiling", false);
     spawn.run();
   }

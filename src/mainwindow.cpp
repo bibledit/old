@@ -364,7 +364,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     gtk_widget_show(image3299);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(to_bibleworks_version_database_compiler), image3299);
 
-    export_to_sword_module = gtk_image_menu_item_new_with_mnemonic("_SWORD module");
+    export_to_sword_module = gtk_image_menu_item_new_with_mnemonic("_SWORD module and OSIS file");
     gtk_widget_show(export_to_sword_module);
     gtk_container_add(GTK_CONTAINER(export_project_menu), export_to_sword_module);
 
