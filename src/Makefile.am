@@ -95,7 +95,6 @@ bibledit_bin_SOURCES = \
         mapping.cpp \
         swordnote.cpp \
         languages.cpp \
-        osis.cpp \
         dialogselectchapters.cpp \
         portion_utils.cpp \
         scriptureportions.cpp \
@@ -274,7 +273,8 @@ bibledit_bin_SOURCES = \
         usfmview.cpp \
         dialogcompareprefs.cpp \
         windowcheckusfm.cpp \
-        usfm2osis.cpp
+        usfm2osis.cpp \
+        usfmdata.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 

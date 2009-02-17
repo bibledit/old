@@ -36,7 +36,6 @@
 #include "swordnote.h"
 #include "xmlutils.h"
 #include "languages.h"
-#include "osis.h"
 #include "mapping.h"
 #include "projectutils.h"
 #include "books.h"
@@ -219,7 +218,7 @@ void export_to_sword_interactive()
   export_to_sword_script(settings->genconfig.project_get(), "", true);
 }
 
-void export_to_sword_script(const ustring & project, ustring directory, bool gui) // Todo
+void export_to_sword_script(const ustring & project, ustring directory, bool gui)
 /*
 Exports a whole project to a SWORD module.
 At the time of writing this, the information on how to create a module for 
@@ -231,25 +230,21 @@ Here's how we do the conversion
 - The text will be stored in ~/.sword/modules/texts/bibledit/<name>/
 */
 {
-  // Check for converter.
-  if (!gw_find_program_in_path("osis2mod")) {
-    ustring message = "The SWORD compiler osis2mod was not found."; // Todo this message comes at the end only.
-    if (gui)
-      gtkw_dialog_error(NULL, message);
-    cerr << message << endl;
-    return;
-  }
   // Directory to store module.
   if (directory.empty())
     directory = g_get_home_dir();
+
   // Configuration
   extern Settings *settings;
+
   // Progress information.
   ProgressWindow *progresswindow = NULL;
   if (gui)
     progresswindow = new ProgressWindow("Exporting project", true);
+
   // Open the project that contains the data.
   ProjectConfiguration *projectconfig = settings->projectconfig(project);
+
   // The temporal directories for the data.
   ustring base_directory = gw_build_filename(directories_get_temp(), "sword");
   unix_rmdir(base_directory);
@@ -259,6 +254,7 @@ Here's how we do the conversion
   ustring relative_text_directory = gw_build_filename("modules", "texts", "bibledit", lowerCase(settings->genconfig.project_get() + projectconfig->sword_name_get()));
   ustring absolute_text_directory = gw_build_filename(base_directory, relative_text_directory);
   gw_mkdir_with_parents(absolute_text_directory);
+
   // Create the configuration file.
   vector < ustring > lines;
   ustring line;
@@ -286,192 +282,64 @@ Here's how we do the conversion
     lines.push_back("Direction=RtoL");
   write_lines(gw_build_filename(absolute_conf_directory, lowerCase(settings->genconfig.project_get() + projectconfig->sword_name_get()) + ".conf"), lines);
   lines.clear();
-  // Start process of producing the text file.
-  ustring osisfile;
-  try {
-    // Prepare for notes and inline text.
-    Usfm usfm(projectconfig->stylesheet_get());
-    SwordNote swordnote(usfm, true);
-    UsfmInlineMarkers usfm_inline_markers(usfm);
-    // Write to inputfile.
-    osisfile = gw_build_filename(g_get_home_dir (), "osis-from-usfm.txt");
-    unlink(osisfile.c_str());
-    WriteText wt(osisfile);
-    // Write out xml headers.
-    OsisRoot osisroot(&wt, settings->genconfig.project_get() + projectconfig->sword_name_get(), settings->genconfig.project_get() + projectconfig->sword_description_get());
-    // Get all the books and go through them.
-    vector < unsigned int >scripture_books = project_get_books(settings->genconfig.project_get());
-    if (gui)
-      progresswindow->set_iterate(0, 1, scripture_books.size());
-    for (unsigned int bk = 0; bk < scripture_books.size(); bk++) {
-      // Progress information.
-      if (gui) {
-        progresswindow->iterate();
-        if (progresswindow->cancel) {
-          delete progresswindow;
-          return;
-        }
+
+  // Osis file name.
+  ustring osisfile = gw_build_filename(g_get_home_dir (), "osis-from-usfm.txt");
+  unlink(osisfile.c_str());
+  
+  // OSIS to USFM converter.
+  Usfm2Osis usfm2osis (osisfile);
+
+  // Stylesheet.
+  usfm2osis.set_stylesheet (projectconfig->stylesheet_get());
+
+  // Write header.
+  usfm2osis.header (settings->genconfig.project_get() + projectconfig->sword_name_get(), settings->genconfig.project_get() + projectconfig->sword_description_get());
+
+  // Get all the books and go through them.
+  vector <unsigned int> books = project_get_books(settings->genconfig.project_get());
+  if (gui) {
+    progresswindow->set_iterate(0, 1, books.size());
+  }
+  for (unsigned int bk = 0; bk < books.size(); bk++) {
+
+    // Progress information.
+    if (gui) {
+      progresswindow->iterate();
+      if (progresswindow->cancel) {
+        delete progresswindow;
+        return;
       }
-      // Only proceed if book exists in the Osis encoding.
-      if (books_id_to_osis(scripture_books[bk]).empty())
-        continue;
-      // Progress.
-      cout << books_id_to_english(scripture_books[bk]) << endl;
-      // Signal "new book" to notes system.
-      swordnote.new_book();
-      // Open book in osis code.
-      OsisBook osisbook(&wt, books_id_to_english(scripture_books[bk]));
-      // Go through the book and collect verses and other data.
-      vector < unsigned int >chapters;
-      vector < ustring > verses;
-      vector < ustring > lines;
-      {
-        ustring swordverse = "0";
-        int swordchapter = 0;
-        vector < ustring > bookcontents = project_retrieve_book(settings->genconfig.project_get(), scripture_books[bk]);
-        CleanUsfm clean_usfm(bookcontents);
-        text_replacement(clean_usfm.lines);
-        for (unsigned int i2 = 0; i2 < clean_usfm.lines.size(); i2++) {
-          ustring line = clean_usfm.lines[i2];
-          ustring marker = usfm_extract_marker(line);
-          if (usfm.is_chapter_number(marker)) {
-            swordchapter = convert_to_int(number_in_string(line));
-            swordverse = "0";
-          } else if (usfm.is_verse_number(marker)) {
-            // Extract verse number.
-            size_t position = line.find(" ");
-            position = CLAMP(position, 0, line.length());
-            swordverse = line.substr(0, position);
-            // Erase verse number from the line.
-            position++;
-            line.erase(0, position);
-            // Store data.
-            chapters.push_back(swordchapter);
-            verses.push_back(swordverse);
-            lines.push_back(line);
-          } else {
-            // Store data.
-            chapters.push_back(swordchapter);
-            verses.push_back(swordverse);
-            // Store line with marker in it. Needed for formatting.
-            lines.push_back(clean_usfm.lines[i2]);
-          }
-        }
-      }
-      // Default to opening chapter 0 and verse 0.
-      unsigned int current_chapter = 0;
-      ustring current_verse = "0";
-      OsisChapter *osischapter = new OsisChapter(&wt, osisbook.book, current_chapter);
-      OsisVerse *osisverse = new OsisVerse(&wt, osisbook.book, osischapter->chapter, current_verse);
-      OsisParagraph *osisparagraph = NULL;
-      // Go through all the lines of the remapped book.
-      for (unsigned int i2 = 0; i2 < chapters.size(); i2++) {
-        // Deal with a new chapter.
-        if (chapters[i2] != current_chapter) {
-          // Close verse, chapter.
-          delete osisverse;
-          delete osischapter;
-          // Store new chapter.
-          current_chapter = chapters[i2];
-          // Reopen chapter and verse.
-          osischapter = new OsisChapter(&wt, osisbook.book, current_chapter);
-          current_verse = "0";
-          osisverse = new OsisVerse(&wt, osisbook.book, osischapter->chapter, current_verse);
-          // Signal new chapter to notes system.
-          swordnote.new_chapter();
-        }
-        // Handle new verse.
-        bool newverse = false;
-        if (current_verse != verses[i2]) {
-          // Close osis verse.
-          delete osisverse;
-          // Store new verse.
-          current_verse = verses[i2];
-          // Reopen osis verse.
-          osisverse = new OsisVerse(&wt, osisbook.book, osischapter->chapter, current_verse);
-          // Mark a new verse.
-          newverse = true;
-        }
-        // Get the raw line.
-        ustring line = lines[i2];
-        // Change certain characters to xml entities.
-        xml_handle_entities(line, NULL);
-        // Deal with notes.
-        swordnote.transform(line);
-        // Deal with inline text.
-        usfm_handle_inline_text(line, &usfm_inline_markers, NULL, imSword, NULL);
-        // Get the style belonging to the marker.
-        ustring marker = usfm_extract_marker(line);
-        if (usfm.is_identifier(marker)) {
-          // Do nothing with an identifier.
-        } else if (usfm.is_starting_paragraph(marker)) {
-          // Find out what type of paragraph it is.
-          ParagraphType paragraphtype = usfm.paragraph_get_subtype(marker);
-          bool close_paragraph = false;
-          bool new_paragraph = false;
-          ustring title_type;
-          switch (paragraphtype) {
-          case ptMainTitle:
-            close_paragraph = true;
-            title_type = "main";
-            break;
-          case ptSubTitle:
-            close_paragraph = true;
-            title_type = "sub";
-            break;
-          case ptSectionHeading:
-            close_paragraph = true;
-            title_type = "part";
-            break;
-          case ptNormalParagraph:
-            close_paragraph = true;
-            new_paragraph = true;
-            break;
-          }
-          // Close if need be.
-          if (close_paragraph) {
-            if (osisparagraph)
-              delete osisparagraph;
-            osisparagraph = NULL;
-          }
-          // Open new one if needed.
-          if (new_paragraph) {
-            osisparagraph = new OsisParagraph(&wt);
-          }
-          // Handle titles also.
-          if (!title_type.empty()) {
-            wt.text("<title type=\"" + title_type + "\">");
-          }
-          // Output text.
-          wt.text(line);
-          // Close title if need be.
-          if (!title_type.empty()) {
-            wt.text("</title>");
-          }
-        } else {
-          // Fallback for verse marker (removed before), unknown marker, or no marker, or incomplete marker.
-          if (!newverse)
-            wt.text(" ");
-          wt.text(line);
-        }
-      }
-      // Close paragraph, verse and chapter.      
-      if (osisparagraph)
-        delete osisparagraph;
-      delete osisverse;
-      delete osischapter;
     }
+
+    // Skip the book if it is not known in the Osis standard.
+    if (books_id_to_osis(books[bk]).empty())
+      continue;
+
+    // Open book in Osis converter.
+    usfm2osis.open_book (books[bk]);
+
+    // Let the Osis converter transform the book contents.
+    vector <ustring> contents = project_retrieve_book (settings->genconfig.project_get(), books[bk]);
+    usfm2osis.load_book (contents);
+
+    // Close book in the Osis converter.
+    usfm2osis.close_book();
+
   }
-  catch(exception & ex) {
-    cerr << "Export: " << ex.what() << endl;
-  }
-  // Start conversion from USFM to OSIS.
-  ustring osisfile2 = osisfile + ".v2";
-  Usfm2Osis usfm2osis (osisfile2);
   
   // Hide progress.
   if (progresswindow)
     delete progresswindow;
+
+  // Check for converter.
+  if (!gw_find_program_in_path("osis2mod")) {
+    ustring message = "The SWORD compiler osis2mod was not found.";
+    if (gui)
+      gtkw_dialog_error(NULL, message);
+    return;
+  }
+
   // Convert the inputfile using the sword api utility.
   {
     GwSpawn spawn("osis2mod");
@@ -480,9 +348,11 @@ Here's how we do the conversion
     spawn.progress("Compiling", false);
     spawn.run();
   }
+
   // Install it.
   unix_cp_r(gw_build_filename(base_directory, "mods.d"), settings->genconfig.export_to_sword_install_path_get());
   unix_cp_r(gw_build_filename(base_directory, "modules"), settings->genconfig.export_to_sword_install_path_get());
+
   // Compress and save the module.
   ustring command;
   ustring zipfile = temporary_file(settings->genconfig.project_get() + projectconfig->sword_name_get()) + ".zip";

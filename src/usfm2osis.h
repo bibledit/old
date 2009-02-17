@@ -33,9 +33,25 @@ class Usfm2Osis
 public:
   Usfm2Osis(const ustring& file);
   ~Usfm2Osis();
-  void transform();
+  void set_stylesheet (const ustring& name);
+  void header (const ustring& name, const ustring& description);
+  void open_book(unsigned int id);
+  void close_book();
+  void load_book (vector <ustring>& data);
 private:
   ustring osisfile;
+  ustring stylesheet;
+  xmlBufferPtr xmlbuffer;
+  xmlTextWriterPtr xmlwriter;
+  unsigned int book_bibledit_id;
+  ustring book_osis_id;
+  ustring book_usfm_code;
+  void transform_headers_descriptions();
+  bool usfm_is_osis_division (const ustring& marker);
+  void transform();
+  void transform_fallback();
+  void transform_usfm_description (const ustring& marker_text, size_t marker_length);
+  void transform_h_title (size_t marker_length, bool runningheader, const gchar * placement);
 };
 
 #endif

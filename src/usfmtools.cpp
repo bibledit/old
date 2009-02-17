@@ -999,3 +999,5 @@ ustring get_erase_code_till_next_marker(ustring & line, size_t marker_position, 
 
   return code;
 }
+
+

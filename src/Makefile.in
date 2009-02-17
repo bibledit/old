@@ -89,13 +89,12 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	notetemplate.$(OBJEXT) dialogsword.$(OBJEXT) \
 	dialogparallelbible.$(OBJEXT) print_parallel_bible.$(OBJEXT) \
 	mapping.$(OBJEXT) swordnote.$(OBJEXT) languages.$(OBJEXT) \
-	osis.$(OBJEXT) dialogselectchapters.$(OBJEXT) \
-	portion_utils.$(OBJEXT) scriptureportions.$(OBJEXT) \
-	editor.$(OBJEXT) uname.$(OBJEXT) layout.$(OBJEXT) \
-	user.$(OBJEXT) import.$(OBJEXT) clean.$(OBJEXT) \
-	categorize.$(OBJEXT) progresswindow.$(OBJEXT) books.$(OBJEXT) \
-	dialogbook.$(OBJEXT) generalconfig.$(OBJEXT) screen.$(OBJEXT) \
-	projectconfig.$(OBJEXT) gui.$(OBJEXT) \
+	dialogselectchapters.$(OBJEXT) portion_utils.$(OBJEXT) \
+	scriptureportions.$(OBJEXT) editor.$(OBJEXT) uname.$(OBJEXT) \
+	layout.$(OBJEXT) user.$(OBJEXT) import.$(OBJEXT) \
+	clean.$(OBJEXT) categorize.$(OBJEXT) progresswindow.$(OBJEXT) \
+	books.$(OBJEXT) dialogbook.$(OBJEXT) generalconfig.$(OBJEXT) \
+	screen.$(OBJEXT) projectconfig.$(OBJEXT) gui.$(OBJEXT) \
 	check_validate_usfm.$(OBJEXT) checks.$(OBJEXT) \
 	dialoglinecutter.$(OBJEXT) check_count_words.$(OBJEXT) \
 	dialogoutpost.$(OBJEXT) dialognotestransfer.$(OBJEXT) \
@@ -173,7 +172,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	assistants.$(OBJEXT) assistantdeletekeyterms.$(OBJEXT) \
 	assistantchanges.$(OBJEXT) widgetdate.$(OBJEXT) \
 	usfmview.$(OBJEXT) dialogcompareprefs.$(OBJEXT) \
-	windowcheckusfm.$(OBJEXT) usfm2osis.$(OBJEXT)
+	windowcheckusfm.$(OBJEXT) usfm2osis.$(OBJEXT) \
+	usfmdata.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -447,7 +447,6 @@ bibledit_bin_SOURCES = \
         mapping.cpp \
         swordnote.cpp \
         languages.cpp \
-        osis.cpp \
         dialogselectchapters.cpp \
         portion_utils.cpp \
         scriptureportions.cpp \
@@ -626,7 +625,8 @@ bibledit_bin_SOURCES = \
         usfmview.cpp \
         dialogcompareprefs.cpp \
         windowcheckusfm.cpp \
-        usfm2osis.cpp
+        usfm2osis.cpp \
+        usfmdata.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -874,7 +874,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/odtutils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/opendocument.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/originreferences.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/osis.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ot-nt-parallels.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ot-quotations.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/outline.Po@am__quote@
@@ -944,6 +943,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/usfm2osis.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/usfm2text.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/usfm2xslfo_utils.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/usfmdata.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/usfmtools.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/usfmview.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ustring.Po@am__quote@
