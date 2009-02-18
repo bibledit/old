@@ -101,7 +101,7 @@ typeof(usfm_record) usfm_table[] =
   {"d", true, false, 0},
   {"sp", true, false, 0},
   
-
+  // Todo do more.
 
   // The end.
   {"", false, false, 0}

@@ -152,11 +152,38 @@ ustring tiny_directories_get_root()
   static ustring root_directory;
 
   if (!root_directory_initialized) {
-    root_directory = tiny_gw_build_filename(g_get_home_dir(), ".bibledit");
+    // Default root folder.
+    ustring default_root;
+    default_root = tiny_gw_build_filename (g_get_home_dir(), ".bibledit");
+    ustring new_root_pointer_file;
+    new_root_pointer_file = tiny_gw_build_filename (g_get_home_dir(), ".bibledit-datafolder-pointer");
+    if (g_file_test (new_root_pointer_file.c_str(), G_FILE_TEST_IS_REGULAR)) {
+      // File exists: Read the root directory it contains.
+      gchar *contents;
+      g_file_get_contents (new_root_pointer_file.c_str(), &contents, NULL, NULL);
+      root_directory = contents;
+      g_free (contents);
+      root_directory = trim (root_directory);
+      cout << "Using non-standard datafolder " << root_directory << endl;
+      // If it contains nothing, proceed with defaults.
+      if (root_directory.empty()) {
+        root_directory = default_root;
+        cout << "This data folder has no name. Resetting to " << default_root << endl;
+      }
+      // If the new directory is not accessible, defaults.
+      int result = access (root_directory.c_str(), W_OK);
+      if (result != 0) {
+        root_directory = default_root;
+        cout << "There are not enough access permissions for this data folder. Resetting to "<< default_root << endl;
+      }
+    } else {
+      // Ok, default situation.
+      root_directory = default_root;
+    }
+    root_directory_initialized = true;
   }
-  root_directory_initialized = true;
 
-  // Return the root of all data, <home>/.bibledit
+  // Return the root of all data, usually $HOME/.bibledit
   return root_directory;
 }
 
