@@ -4064,13 +4064,9 @@ void MainWindow::on_style_button_open_clicked(GtkButton * button, gpointer user_
 void MainWindow::on_style_button_open()
 {
   if (window_styles) {
-    // Save the name of the stylesheet in two locations.
+    // Save the name of the stylesheet.
     extern Settings *settings;
     settings->genconfig.stylesheet_set(window_styles->get_sheet());
-    if (!settings->genconfig.project_get().empty()) {
-      ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
-      projectconfig->stylesheet_set(window_styles->get_sheet());
-    }
     // Actually open it.  
     stylesheet_open_named(window_styles->get_sheet());
   }
@@ -5405,10 +5401,6 @@ void MainWindow::handle_editor_focus()
 
   // Redisplay the project notes.
   notes_redisplay();
-
-  // Open the right stylesheet.
-  settings->genconfig.stylesheet_set(projectconfig->stylesheet_get());
-  stylesheet_open_named(settings->genconfig.stylesheet_get());
 }
 
 void MainWindow::save_editors()

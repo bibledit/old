@@ -35,6 +35,8 @@
 #include "color.h"
 #include "textreplacement.h"
 #include "tiny_utilities.h"
+#include "stylesheetutils.h"
+
 
 /*
  Some properties of the stylesheet are not implemented for certain reasons.
@@ -51,7 +53,7 @@ OpenDocument::OpenDocument(const ustring & project, const ustring & filename, bo
 // Export a project to OpenDocument format. Allows books selection.
 {
   projectconfig = new ProjectConfiguration(project, false);
-  usfm = new Usfm(projectconfig->stylesheet_get());
+  usfm = new Usfm(stylesheet_get_actual ());
 
   // Check on basic markers.
   if (!usfm_basic_markers_present(*usfm, gui))

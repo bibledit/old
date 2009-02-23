@@ -43,9 +43,7 @@ checksheet: check whether markers are in the stylesheet of the project.
   if (mybooks.empty())
     mybooks = project_get_books(project);
   // Get all styles in the attached stylesheet.
-  extern Settings *settings;
-  ProjectConfiguration *projectconfig = settings->projectconfig(project);
-  vector < ustring > styless = stylesheet_get_markers(projectconfig->stylesheet_get(), NULL);
+  vector < ustring > styless = stylesheet_get_markers(stylesheet_get_actual (), NULL);
   for (unsigned int i = 0; i < styless.size(); i++)
     styles.insert(styless[i]);
   // GUI.

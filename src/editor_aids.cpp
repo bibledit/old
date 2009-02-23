@@ -24,6 +24,8 @@
 #include "usfmtools.h"
 #include "tiny_utilities.h"
 #include "spelling.h"
+#include "stylesheetutils.h"
+
 
 EditorNote::EditorNote(int dummy)
 // This object is for storing data related to the different bits of a Bible note.
@@ -126,8 +128,7 @@ void marker_get_type_and_subtype(const ustring & project, const ustring & marker
   speed_marker = marker;
 
   // Lookup the values.  
-  extern Settings *settings;
-  ustring stylesheet = settings->projectconfig(project)->stylesheet_get();
+  ustring stylesheet = stylesheet_get_actual ();
   extern Styles *styles;
   Usfm *usfm = styles->usfm(stylesheet);
   type = stIdentifier;
@@ -631,8 +632,7 @@ bool style_get_starts_verse_number(StyleType type, int subtype)
 ustring style_get_verse_marker(const ustring & project)
 // Gets the verse marker, normally the "v".
 {
-  extern Settings *settings;
-  ustring stylesheet = settings->projectconfig(project)->stylesheet_get();
+  ustring stylesheet = stylesheet_get_actual ();
   extern Styles *styles;
   Usfm *usfm = styles->usfm(stylesheet);
   ustring style = "v";
@@ -789,8 +789,7 @@ bool style_get_starts_note_content(StyleType type, int subtype)
 
 ustring style_get_default_note_style(const ustring & project, EditorNoteType type)
 {
-  extern Settings *settings;
-  ustring stylesheet = settings->projectconfig(project)->stylesheet_get();
+  ustring stylesheet = stylesheet_get_actual ();
   extern Styles *styles;
   Usfm *usfm = styles->usfm(stylesheet);
   ustring style;
@@ -832,8 +831,7 @@ ustring style_get_default_note_style(const ustring & project, EditorNoteType typ
 ustring style_get_paragraph_note_style(const ustring & project)
 // Gets the style that starts a new paragraph in a footnote or endnote.
 {
-  extern Settings *settings;
-  ustring stylesheet = settings->projectconfig(project)->stylesheet_get();
+  ustring stylesheet = stylesheet_get_actual ();
   extern Styles *styles;
   Usfm *usfm = styles->usfm(stylesheet);
   ustring style("fp");
@@ -881,8 +879,7 @@ bool style_get_starts_table_row(StyleType type, int subtype)
 ustring style_get_table_row_marker(const ustring & project)
 // Get the marker that starts a new row in a table.
 {
-  extern Settings *settings;
-  ustring stylesheet = settings->projectconfig(project)->stylesheet_get();
+  ustring stylesheet = stylesheet_get_actual ();
   extern Styles *styles;
   Usfm *usfm = styles->usfm(stylesheet);
   ustring style = "tr";
@@ -932,8 +929,7 @@ ustring style_get_table_cell_marker(const ustring & project, int column)
 // Get the marker that starts a cell in a table in "column".
 // Column starts with 1 for the first column.
 {
-  extern Settings *settings;
-  ustring stylesheet = settings->projectconfig(project)->stylesheet_get();
+  ustring stylesheet = stylesheet_get_actual ();
   extern Styles *styles;
   Usfm *usfm = styles->usfm(stylesheet);
   ustring style = "tc" + convert_to_string(column);
@@ -1042,8 +1038,7 @@ EditorNoteType note_type_get(const ustring & project, const ustring & marker)
 // Gets the type of the note, e.g. a footnote.
 {
   EditorNoteType notetype = entFootnote;
-  extern Settings *settings;
-  ustring stylesheet = settings->projectconfig(project)->stylesheet_get();
+  ustring stylesheet = stylesheet_get_actual ();
   extern Styles *styles;
   Usfm *usfm = styles->usfm(stylesheet);
   for (unsigned int i = 0; i < usfm->styles.size(); i++) {
@@ -1071,8 +1066,7 @@ NoteNumberingType note_numbering_type_get(const ustring & project, const ustring
  */
 {
   NoteNumberingType numbering = nntNumerical;
-  extern Settings *settings;
-  ustring stylesheet = settings->projectconfig(project)->stylesheet_get();
+  ustring stylesheet = stylesheet_get_actual ();
   extern Styles *styles;
   Usfm *usfm = styles->usfm(stylesheet);
   for (unsigned int i = 0; i < usfm->styles.size(); i++) {
@@ -1087,8 +1081,7 @@ ustring note_numbering_user_sequence_get(const ustring & project, const ustring 
 // Gets the sequence of characters from which the note caller should be taken.
 {
   ustring sequence;
-  extern Settings *settings;
-  ustring stylesheet = settings->projectconfig(project)->stylesheet_get();
+  ustring stylesheet = stylesheet_get_actual ();
   extern Styles *styles;
   Usfm *usfm = styles->usfm(stylesheet);
   for (unsigned int i = 0; i < usfm->styles.size(); i++) {

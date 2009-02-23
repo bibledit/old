@@ -42,6 +42,8 @@
 #include "textreplacement.h"
 #include "tiny_utilities.h"
 #include "usfm2text.h"
+#include "stylesheetutils.h"
+
 
 void view_parallel_references_pdf(ProjectMemory & main_project, vector < ustring > *extra_projects, vector < Reference > references, bool keep_verses_together_within_page, vector < ustring > *remarks, bool highlight)
 /*
@@ -60,7 +62,7 @@ void view_parallel_references_pdf(ProjectMemory & main_project, vector < ustring
   // Configuration
   extern Settings *settings;
   ProjectConfiguration *projectconfig = settings->projectconfig(main_project.name);
-  ustring stylesheet = projectconfig->stylesheet_get();
+  ustring stylesheet = stylesheet_get_actual ();
 
   // Store the additional projects to print.
   vector < ustring > additional_projects;

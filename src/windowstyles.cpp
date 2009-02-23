@@ -713,36 +713,11 @@ void WindowStyles::on_stylesheet_rename()
   if (dialog.run() == GTK_RESPONSE_OK) {
     // Check whether the new name does not already exist.
     if (!stylesheet_exists(dialog.entered_value)) {
-      // Ok, new name is still free.
-      // Check all projects and if they have this stylesheet, rename it.
-      vector < ustring > affected_projects;
-      extern Settings *settings;
-      ustring current_project = settings->genconfig.project_get();
-      vector < ustring > projects = projects_get_all();
-      for (unsigned int i = 0; i < projects.size(); i++) {
-        settings->genconfig.project_set(projects[i]);
-        ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
-        if (projectconfig->stylesheet_get() == mystylesheet) {
-          projectconfig->stylesheet_set(dialog.entered_value);
-          affected_projects.push_back(projects[i]);
-        }
-      }
-      settings->genconfig.project_set(current_project);
-      // Rename the stylesheet itself.
-      // Note: This should be done after checking on which projects have it, 
-      // due to a feature in the project object that it only gives an existing
-      // stylesheet.
+      // Rename the stylesheet.
       stylesheet_copy(mystylesheet, dialog.entered_value);
       stylesheet_delete(mystylesheet);
       // Store new name in configuration.
       stylesheet_open(dialog.entered_value);
-      // If projects were affected, mention that.
-      if (affected_projects.size() > 0) {
-        ustring message = "The stylesheets attached to the following projects were changed along:\n\n";
-        for (unsigned int i = 0; i < affected_projects.size(); i++)
-          message.append(affected_projects[i] + "\n");
-        gtkw_dialog_info(NULL, message.c_str());
-      }
     } else {
       // No, it already exist - give message about that.
       gtkw_dialog_error(NULL, "This name already exists.");

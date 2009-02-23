@@ -92,7 +92,7 @@ void PrintProject::print()
   Usfm2Text usfm2text(&text2pdf, true);
 
   // Styles.
-  usfm2text.add_styles(usfm2xslfo_read_stylesheet(projectconfig->stylesheet_get()));
+  usfm2text.add_styles(usfm2xslfo_read_stylesheet(stylesheet_get_actual ()));
 
   // Page.
   text2pdf.page_size_set(settings->genconfig.paper_width_get(), settings->genconfig.paper_height_get());

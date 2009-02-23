@@ -26,6 +26,8 @@
 #include "bible.h"
 #include "keyboard.h"
 #include "tiny_utilities.h"
+#include "stylesheetutils.h"
+
 
 enum { COLUMN_HEADING,
   COLUMN_CHAPTER_START, COLUMN_VERSE_START,
@@ -315,9 +317,7 @@ void Outline::new_project_handling()
 // Does some operations when there is another project.
 {
   // Create an USFM object of the relevant stylesheet.
-  extern Settings *settings;
-  ProjectConfiguration *projectconfig = settings->projectconfig(myproject);
-  Usfm usfm(projectconfig->stylesheet_get());
+  Usfm usfm(stylesheet_get_actual ());
   // Clear markers of the various levels of the paragraphs.
   paragraphmarkers.clear();
   paragraphlevels.clear();

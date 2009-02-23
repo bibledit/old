@@ -60,6 +60,7 @@ void stylesheet_save_style (const ustring& stylesheet, const Style& style);
 void stylesheet_load_style (const ustring& stylesheet, Style& style);
 void stylesheet_vacuum (const ustring& stylesheet);
 set <ustring> stylesheet_get_styles_of_type (StylesheetType stylesheettype);
+ustring stylesheet_get_actual ();
 
 
 #endif

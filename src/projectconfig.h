@@ -51,7 +51,6 @@ public:
   void save ();
   ustring project;
   // Private and public definitions follow.
-  DEFINE_PROJECTCONFIG_H (ustring, stylesheet);
   DEFINE_PROJECTCONFIG_H (ustring, versification);
   DEFINE_PROJECTCONFIG_H (vector<ustring>, printing_fonts);
   DEFINE_PROJECTCONFIG_H (int, text_line_height);

@@ -25,6 +25,7 @@
 #include "usfmtools.h"
 #include "tiny_utilities.h"
 #include "styles.h"
+#include "stylesheetutils.h"
 
 Wordlist::Wordlist(WordlistType wordlist)
 {
@@ -296,8 +297,7 @@ void Wordlist::message(const ustring & message)
 
 ustring wordlist_get_entry_style(const ustring & project, WordlistType type)
 {
-  extern Settings *settings;
-  ustring stylesheet = settings->projectconfig(project)->stylesheet_get();
+  ustring stylesheet = stylesheet_get_actual ();
   extern Styles *styles;
   Usfm *usfm = styles->usfm(stylesheet);
   ustring style;

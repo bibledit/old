@@ -52,7 +52,6 @@ ProjectConfiguration::ProjectConfiguration(ustring project_in, bool save_on_dest
 #define INITIALIZE(parameter) parameter##_loaded = false
 
   // Initialize variables.
-  INITIALIZE(stylesheet);
   INITIALIZE(versification);
   INITIALIZE(printing_fonts);
   INITIALIZE(text_line_height);
@@ -108,7 +107,6 @@ void ProjectConfiguration::save()
 
 #define SAVE_VALUE(item) if (item##_loaded) config_xml_values_set_assemble (values, item##_key(), item)
 
-  SAVE_VALUE(stylesheet);
   SAVE_VALUE(versification);
   SAVE_VALUE(printing_fonts);
   SAVE_VALUE(text_line_height);
@@ -232,37 +230,8 @@ void ProjectConfiguration::store##_set (type value) \
   store##_loaded = true; \
 }
 
-const char *ProjectConfiguration::stylesheet_key()
-{
-  return "stylesheet";
-}
-
-ustring ProjectConfiguration::stylesheet_get()
-{
-  ustring checked_sheet(string_get(stylesheet_key(), stylesheet, stylesheet_loaded, STANDARDSHEET));
-  // See whether our stylesheet exists.
-  vector < ustring > stylesheets;
-  stylesheet_get_ones_available(stylesheets);
-  set < ustring > sheets(stylesheets.begin(), stylesheets.end());
-  // Sheet is there? Fine.
-  if (sheets.find(checked_sheet) != sheets.end()) ;
-  // Sheets is not there - take Standard, if it's around.
-  else if (sheets.find(STANDARDSHEET) != sheets.end())
-    checked_sheet = STANDARDSHEET;
-  // Else take first sheet in the list.
-  else
-    checked_sheet = stylesheets[0];
-  // Return sheet.
-  return checked_sheet;
-}
-
-void ProjectConfiguration::stylesheet_set(ustring value)
-{
-  stylesheet = value;
-}
-
 IMPLEMENT(ustring, string_get, versification, "English")
-    IMPLEMENT(vector < ustring >, vector_string_get, printing_fonts, NULL)
+IMPLEMENT(vector < ustring >, vector_string_get, printing_fonts, NULL)
 IMPLEMENT(int, int_get, text_line_height, 100)
 IMPLEMENT(ustring, string_get, sword_name, "")
 IMPLEMENT(ustring, string_get, sword_description, " Bibledit project")

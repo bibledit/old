@@ -86,9 +86,7 @@ CheckSentenceStructure::~CheckSentenceStructure()
 void CheckSentenceStructure::classify_styles(const ustring & project)
 // Classifies the markers in the project.
 {
-  extern Settings *settings;
-  ProjectConfiguration *projectconfig = settings->projectconfig(project, false);
-  ustring stylesheet = projectconfig->stylesheet_get();
+  ustring stylesheet = stylesheet_get_actual ();
   Usfm usfm(stylesheet);
   for (unsigned int i = 0; i < usfm.styles.size(); i++) {
     switch (usfm.styles[i].type) {

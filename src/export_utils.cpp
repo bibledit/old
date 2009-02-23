@@ -134,8 +134,7 @@ Yes, this is a bit rough, I know...
     ProgressWindow progresswindow("Export", true);
     // Start process.
     try {
-      ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
-      Usfm usfm(projectconfig->stylesheet_get());
+      Usfm usfm(stylesheet_get_actual ());
       // Write to outputfile.
       WriteText wt(filename);
       // Get all the books and go through them.
@@ -291,7 +290,7 @@ Here's how we do the conversion
   Usfm2Osis usfm2osis (osisfile);
 
   // Stylesheet.
-  usfm2osis.set_stylesheet (projectconfig->stylesheet_get());
+  usfm2osis.set_stylesheet (stylesheet_get_actual ());
 
   // Write header.
   usfm2osis.header (settings->genconfig.project_get() + projectconfig->sword_name_get(), settings->genconfig.project_get() + projectconfig->sword_description_get());

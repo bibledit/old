@@ -1207,13 +1207,13 @@ void Editor::create_or_update_formatting_data()
   }
 
   // Get the stylesheet.
-  extern Settings *settings;
-  ProjectConfiguration *projectconfig = settings->projectconfig(project);
-  ustring stylesheet = projectconfig->stylesheet_get();
+  ustring stylesheet = stylesheet_get_actual ();
 
   // Get the font size multiplication factor.
   double font_size_multiplier = 1;
   PangoFontDescription *font_desc = NULL;
+  extern Settings *settings;
+  ProjectConfiguration *projectconfig = settings->projectconfig(project);
   if (!projectconfig->editor_font_default_get()) {
     font_desc = pango_font_description_from_string(projectconfig->editor_font_name_get().c_str());
     gint fontsize = pango_font_description_get_size(font_desc) / PANGO_SCALE;
@@ -1757,8 +1757,7 @@ bool Editor::load_text_table_starting_cell(ustring & line, EditorTable & editort
         marker_get_type_and_subtype(project, marker, type, subtype);
         if (style_get_starts_table_cell(type, subtype)) {
           // Get the column number of this marker.
-          extern Settings *settings;
-          ustring stylesheet = settings->projectconfig(project)->stylesheet_get();
+          ustring stylesheet = stylesheet_get_actual ();
           extern Styles *styles;
           Usfm *usfm = styles->usfm(stylesheet);
           for (unsigned int i = 0; i < usfm->styles.size(); i++) {
@@ -2205,8 +2204,7 @@ void Editor::display_table(ustring line, GtkTextIter iter)
   vector < ustring > markers = usfm_get_all_markers(line);
   int rowcount = 0;
   int columncount = 0;
-  extern Settings *settings;
-  ustring stylesheet = settings->projectconfig(project)->stylesheet_get();
+  ustring stylesheet = stylesheet_get_actual ();
   extern Styles *styles;
   Usfm *usfm = styles->usfm(stylesheet);
   for (unsigned int i = 0; i < markers.size(); i++) {
@@ -2959,8 +2957,7 @@ void Editor::apply_style(const ustring & marker)
         break;
       }
       // Check that only a style with the right column number is going to be applied.
-      extern Settings *settings;
-      ustring stylesheet = settings->projectconfig(project)->stylesheet_get();
+      ustring stylesheet = stylesheet_get_actual();
       extern Styles *styles;
       Usfm *usfm = styles->usfm(stylesheet);
       for (unsigned int i = 0; i < usfm->styles.size(); i++) {

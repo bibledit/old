@@ -144,8 +144,7 @@ EditNoteDialog::EditNoteDialog(Editor * editor)
 
   // Load the available note markers in the combobox.
   vector < ustring > names;
-  extern Settings *settings;
-  ustring stylesheet = settings->projectconfig(myeditor->project)->stylesheet_get();
+  ustring stylesheet = stylesheet_get_actual ();
   extern Styles *styles;
   Usfm *usfm = styles->usfm(stylesheet);
   for (unsigned int i = 0; i < usfm->styles.size(); i++) {

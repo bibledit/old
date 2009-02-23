@@ -31,6 +31,8 @@
 #include "unixwrappers.h"
 #include "tiny_utilities.h"
 #include "shutdown.h"
+#include "settings.h"
+
 
 #define STYLESHEET_SUFFIX ".sql18"
 const char *RECOGNIZED_SUFFIXES[] = { ".sql11", ".sql12", ".sql13", ".sql14", ".sql15", ".sql16", ".sql17", ".sql18" };
@@ -682,3 +684,36 @@ set < ustring > stylesheet_get_styles_of_type(StylesheetType stylesheettype)
   }
   return markers;
 }
+
+
+ustring stylesheet_get_actual () // Todo to implement.
+// Gets the actual stylesheet.
+{
+  // Get the stylesheet from the configuration, with a fallback.
+  extern Settings * settings;
+  ustring checked_sheet = settings->genconfig.stylesheet_get();
+  if (checked_sheet.empty()) {
+    checked_sheet = STANDARDSHEET;
+  }
+  
+  // See whether it exists.
+  vector < ustring > stylesheets;
+  stylesheet_get_ones_available(stylesheets);
+  set < ustring > sheets(stylesheets.begin(), stylesheets.end());
+
+  // Sheet is there? Fine.
+  if (sheets.find(checked_sheet) != sheets.end()) ;
+
+  // Sheets is not there - take Standard, if it's around.
+  else if (sheets.find(STANDARDSHEET) != sheets.end())
+    checked_sheet = STANDARDSHEET;
+
+  // Else take first sheet in the list.
+  else
+    checked_sheet = stylesheets[0];
+
+  // Return sheet.
+  return checked_sheet;
+}
+
+

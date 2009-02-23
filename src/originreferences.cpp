@@ -31,6 +31,8 @@
 #include "usfm.h"
 #include "books.h"
 #include "tiny_utilities.h"
+#include "stylesheetutils.h"
+
 
 OriginReferences::OriginReferences(const ustring & project, bool affectfootnotes, bool affectendnotes, bool affectxrefs, OriginReferencesActionType action, bool includebook, bool includechapter, const ustring & separator, bool includeverse, const ustring & suffix, bool gui)
 {
@@ -52,7 +54,7 @@ OriginReferences::OriginReferences(const ustring & project, bool affectfootnotes
   errorcount = 0;
   extern Settings *settings;
   ProjectConfiguration *projectconfig = settings->projectconfig(project);
-  stylesheet = projectconfig->stylesheet_get();
+  stylesheet = stylesheet_get_actual ();
   language = projectconfig->language_get();
 
   // Get the relevant markers.
