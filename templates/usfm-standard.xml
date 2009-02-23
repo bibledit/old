@@ -1,0 +1,894 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Identification -->
+
+<entry
+  marker="id"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="ide"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="sts"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="rem"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="h"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="123"
+></entry>
+
+<entry
+  marker="toc1"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="toc2"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="toc3"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<!-- Introductions -->
+
+<entry
+  marker="imt"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="1234"
+></entry>
+
+<entry
+  marker="is"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="1234"
+></entry>
+
+<entry
+  marker="ip"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="ipi"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="im"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="imi"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="ipq"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="imq"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="ipr"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="iq"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="1234"
+></entry>
+
+<entry
+  marker="ib"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="ili"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="iot"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="io"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="1234"
+></entry>
+
+<entry
+  marker="ior"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="iex"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="iqt"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="imte"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="ie"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<!-- Titles, headings, and labels -->
+
+<entry
+  marker="mt"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="1234"
+></entry>
+
+<entry
+  marker="mte"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="1234"
+></entry>
+
+<entry
+  marker="ms"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="1234"
+></entry>
+
+<entry
+  marker="mr"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="s"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="1234"
+></entry>
+
+<entry
+  marker="sr"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="r"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="rq"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="d"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="sp"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<!-- Chapters and Verses -->
+
+<entry
+  marker="c"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="ca"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="cl"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="cp"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="cd"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="v"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="va"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="vp"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<!-- Paragraphs -->
+
+<entry
+  marker="p"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="m"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="pmo"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="pm"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="pmc"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="pmr"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="pi"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="1234"
+></entry>
+
+<entry
+  marker="mi"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="nb"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="cls"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="li"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="1234"
+></entry>
+
+<entry
+  marker="pc"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="pr"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="ph"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="1234"
+></entry>
+
+<entry
+  marker="b"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<!-- Poetry -->
+
+<entry
+  marker="q"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="1234"
+></entry>
+
+<entry
+  marker="qr"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="qc"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="qs"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="qa"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="qac"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="qm"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="1234"
+></entry>
+
+<!-- The b marker defined in the Poetry group has been defined above, in the Paragraphs group -->
+
+<!-- Tables -->
+
+<entry
+  marker="tr"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="th"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="123456"
+></entry>
+
+<entry
+  marker="thr"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="123456"
+></entry>
+
+<entry
+  marker="tc"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="123456"
+></entry>
+
+<entry
+  marker="tcr"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="123456"
+></entry>
+
+<!-- Footnotes -->
+
+<entry
+  marker="f"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="fe"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="fr"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+></entry>
+
+<entry
+  marker="fk"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+></entry>
+
+<entry
+  marker="fq"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+></entry>
+
+<entry
+  marker="fqa"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+></entry>
+
+<entry
+  marker="fl"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+></entry>
+
+<entry
+  marker="fp"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="fv"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+></entry>
+
+<entry
+  marker="ft"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+></entry>
+
+<entry
+  marker="fdc"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+></entry>
+
+<entry
+  marker="fm"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<!-- Cross References -->
+
+<entry
+  marker="x"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="xo"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+></entry>
+
+<entry
+  marker="xk"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+></entry>
+
+<entry
+  marker="xq"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+></entry>
+
+<entry
+  marker="xt"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+></entry>
+
+<entry
+  marker="xot"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+></entry>
+
+<entry
+  marker="xnt"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+></entry>
+
+<entry
+  marker="xdc"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+></entry>
+
+<!-- Special Text and Character Styles -->
+
+<entry
+  marker="add"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="bk"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="dc"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="k"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="lit"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="nd"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="ord"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="pn"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="qt"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="sig"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="sls"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="tl"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="wj"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="em"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="bd"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="it"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="bdit"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="no"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="sc"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="~"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="no"
+  startswithbackslash="no"
+></entry>
+
+<entry
+  marker="//"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="no"
+  startswithbackslash="no"
+></entry>
+
+<entry
+  marker="pb"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+></entry>
+
+<entry
+  marker="fig"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="ndx"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="pro"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="w"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="wg"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<entry
+  marker="wh"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+></entry>
+
+<!-- Peripherals -->
+
+<entry
+  marker="periph"
+  startsline="yes"
+  startsosisdivision="yes"
+  hasendmarker="no"
+></entry>
+
+

@@ -20,14 +20,5 @@
 #ifndef INCLUDED_USFMDATA_H
 #define INCLUDED_USFMDATA_H
 
-typedef struct
-{
-  const char *marker; // The USFM.
-  bool starts_new_line_usfm; // Whether the marker should start a new line in tidy USFM representation.
-  bool starts_division_osis; // Whether the marker should start a new division in OSIS code.
-  int has_end_marker; // Whether the marker has an endmarker. 0: No; 1: Yes; 2: Optional.
-} usfm_record;
-
-unsigned int usfmdata_markers_count();
 
 #endif
