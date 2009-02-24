@@ -274,7 +274,7 @@ bibledit_bin_SOURCES = \
         dialogcompareprefs.cpp \
         windowcheckusfm.cpp \
         usfm2osis.cpp \
-        usfmdata.cpp
+        usfmstandard.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 

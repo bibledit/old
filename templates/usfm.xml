@@ -7,6 +7,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="file"
 ></entry>
 
 <entry
@@ -14,6 +15,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="encoding"
 ></entry>
 
 <entry
@@ -21,6 +23,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="status"
 ></entry>
 
 <entry
@@ -28,6 +31,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="comment"
 ></entry>
 
 <entry
@@ -36,6 +40,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   variants="123"
+  function="running_header"
 ></entry>
 
 <entry
@@ -43,6 +48,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="long_toc"
 ></entry>
 
 <entry
@@ -50,6 +56,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="short_toc"
 ></entry>
 
 <entry
@@ -57,6 +64,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="book_abbr"
 ></entry>
 
 <!-- Introductions -->
@@ -67,6 +75,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   variants="1234"
+  function="title"
 ></entry>
 
 <entry
@@ -75,6 +84,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   variants="1234"
+  function="section"
 ></entry>
 
 <entry
@@ -82,6 +92,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -89,6 +100,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -96,6 +108,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -103,6 +116,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -110,6 +124,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -117,6 +132,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -124,6 +140,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -132,6 +149,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   variants="1234"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -139,6 +157,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -146,6 +165,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="list"
 ></entry>
 
 <entry
@@ -153,6 +173,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="title"
 ></entry>
 
 <entry
@@ -161,6 +182,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   variants="1234"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -168,6 +190,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="text"
 ></entry>
 
 <entry
@@ -175,6 +198,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -182,6 +206,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="text"
 ></entry>
 
 <entry
@@ -189,6 +214,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="title"
 ></entry>
 
 <entry
@@ -196,6 +222,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <!-- Titles, headings, and labels -->
@@ -206,6 +233,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   variants="1234"
+  function="title"
 ></entry>
 
 <entry
@@ -214,6 +242,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   variants="1234"
+  function="title"
 ></entry>
 
 <entry
@@ -222,6 +251,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   variants="1234"
+  function="section"
 ></entry>
 
 <entry
@@ -229,6 +259,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -237,6 +268,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   variants="1234"
+  function="section"
 ></entry>
 
 <entry
@@ -244,6 +276,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -251,6 +284,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -258,6 +292,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="text"
 ></entry>
 
 <entry
@@ -265,6 +300,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="title"
 ></entry>
 
 <entry
@@ -272,6 +308,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <!-- Chapters and Verses -->
@@ -281,6 +318,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="chapter"
 ></entry>
 
 <entry
@@ -288,6 +326,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="text"
 ></entry>
 
 <entry
@@ -295,6 +334,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="chapter_label"
 ></entry>
 
 <entry
@@ -302,6 +342,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="chapter_marker"
 ></entry>
 
 <entry
@@ -309,6 +350,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -316,6 +358,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="verse"
 ></entry>
 
 <entry
@@ -323,6 +366,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="text"
 ></entry>
 
 <entry
@@ -330,6 +374,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="verse_marker"
 ></entry>
 
 <!-- Paragraphs -->
@@ -339,6 +384,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -346,6 +392,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -353,6 +400,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -360,6 +408,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -367,6 +416,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -374,6 +424,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -382,6 +433,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   variants="1234"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -389,6 +441,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -396,6 +449,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="no_break"
 ></entry>
 
 <entry
@@ -403,6 +457,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -411,6 +466,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   variants="1234"
+  function="list"
 ></entry>
 
 <entry
@@ -418,6 +474,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -425,6 +482,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -433,6 +491,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   variants="1234"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -440,6 +499,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <!-- Poetry -->
@@ -450,6 +510,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   variants="1234"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -457,6 +518,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -464,6 +526,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -471,6 +534,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -478,6 +542,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -485,6 +550,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="text"
 ></entry>
 
 <entry
@@ -493,6 +559,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   variants="1234"
+  function="paragraph"
 ></entry>
 
 <!-- The b marker defined in the Poetry group has been defined above, in the Paragraphs group -->
@@ -504,6 +571,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="row"
 ></entry>
 
 <entry
@@ -512,6 +580,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   variants="123456"
+  function="cell"
 ></entry>
 
 <entry
@@ -520,6 +589,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   variants="123456"
+  function="cell"
 ></entry>
 
 <entry
@@ -528,6 +598,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   variants="123456"
+  function="cell"
 ></entry>
 
 <entry
@@ -536,6 +607,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   variants="123456"
+  function="cell"
 ></entry>
 
 <!-- Footnotes -->
@@ -545,6 +617,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="footnote"
 ></entry>
 
 <entry
@@ -552,6 +625,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="endnote"
 ></entry>
 
 <entry
@@ -559,6 +633,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="optional"
+  function="text"
 ></entry>
 
 <entry
@@ -566,6 +641,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="optional"
+  function="text"
 ></entry>
 
 <entry
@@ -573,6 +649,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="optional"
+  function="text"
 ></entry>
 
 <entry
@@ -580,6 +657,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="optional"
+  function="text"
 ></entry>
 
 <entry
@@ -587,6 +665,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="optional"
+  function="text"
 ></entry>
 
 <entry
@@ -594,6 +673,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -601,6 +681,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="optional"
+  function="text"
 ></entry>
 
 <entry
@@ -608,6 +689,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="optional"
+  function="text"
 ></entry>
 
 <entry
@@ -615,6 +697,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="optional"
+  function="text"
 ></entry>
 
 <entry
@@ -622,6 +705,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="note_mark"
 ></entry>
 
 <!-- Cross References -->
@@ -631,6 +715,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="crossreference"
 ></entry>
 
 <entry
@@ -638,6 +723,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="optional"
+  function="text"
 ></entry>
 
 <entry
@@ -645,6 +731,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="optional"
+  function="text"
 ></entry>
 
 <entry
@@ -652,6 +739,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="optional"
+  function="text"
 ></entry>
 
 <entry
@@ -659,6 +747,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="optional"
+  function="text"
 ></entry>
 
 <entry
@@ -666,6 +755,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="optional"
+  function="text"
 ></entry>
 
 <entry
@@ -673,6 +763,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="optional"
+  function="text"
 ></entry>
 
 <entry
@@ -680,6 +771,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="optional"
+  function="text"
 ></entry>
 
 <!-- Special Text and Character Styles -->
@@ -689,6 +781,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="text"
 ></entry>
 
 <entry
@@ -696,6 +789,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="text"
 ></entry>
 
 <entry
@@ -703,6 +797,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="text"
 ></entry>
 
 <entry
@@ -710,6 +805,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="keyword"
 ></entry>
 
 <entry
@@ -717,6 +813,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="paragraph"
 ></entry>
 
 <entry
@@ -724,6 +821,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="text"
 ></entry>
 
 <entry
@@ -731,6 +829,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="text"
 ></entry>
 
 <entry
@@ -738,6 +837,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="text"
 ></entry>
 
 <entry
@@ -745,6 +845,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="text"
 ></entry>
 
 <entry
@@ -759,6 +860,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="text"
 ></entry>
 
 <entry
@@ -766,6 +868,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="text"
 ></entry>
 
 <entry
@@ -773,6 +876,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="text"
 ></entry>
 
 <entry
@@ -780,6 +884,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="text"
 ></entry>
 
 <entry
@@ -787,6 +892,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="text"
 ></entry>
 
 <entry
@@ -794,6 +900,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="text"
 ></entry>
 
 <entry
@@ -801,6 +908,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="text"
 ></entry>
 
 <entry
@@ -808,6 +916,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="text"
 ></entry>
 
 <entry
@@ -815,6 +924,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="text"
 ></entry>
 
 <entry
@@ -823,6 +933,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   startswithbackslash="no"
+  function="space"
 ></entry>
 
 <entry
@@ -831,6 +942,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   startswithbackslash="no"
+  function="break"
 ></entry>
 
 <entry
@@ -838,6 +950,7 @@
   startsline="yes"
   startsosisdivision="no"
   hasendmarker="no"
+  function="page"
 ></entry>
 
 <entry
@@ -845,6 +958,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="figure"
 ></entry>
 
 <entry
@@ -852,6 +966,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="index"
 ></entry>
 
 <entry
@@ -859,6 +974,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="pronunciation"
 ></entry>
 
 <entry
@@ -866,6 +982,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="wordlist"
 ></entry>
 
 <entry
@@ -873,6 +990,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="greek"
 ></entry>
 
 <entry
@@ -880,6 +998,7 @@
   startsline="no"
   startsosisdivision="no"
   hasendmarker="yes"
+  function="hebrew"
 ></entry>
 
 <!-- Peripherals -->
@@ -889,6 +1008,7 @@
   startsline="yes"
   startsosisdivision="yes"
   hasendmarker="no"
+  function="peripheral"
 ></entry>
 
 

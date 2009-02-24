@@ -34,7 +34,6 @@
 #include "referenceutils.h"
 #include "projectutils.h"
 
-
 /*
 
 OSIS information is available at http://www.bibletechnologies.net/.
@@ -73,6 +72,9 @@ Usfm2Osis::Usfm2Osis(const ustring& file)
   // Setup document.  
   xmlTextWriterStartDocument(xmlwriter, NULL, "UTF-8", NULL);
   xmlTextWriterSetIndent(xmlwriter, 1);
+
+
+
   
 }
 
