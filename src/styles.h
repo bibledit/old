@@ -24,6 +24,7 @@
 
 #include "libraries.h"
 #include "usfm.h"
+#include "usfmstandard.h"
 
 
 class Styles
@@ -32,8 +33,10 @@ public:
   Styles (int dummy);
   ~Styles ();
   Usfm * usfm (const ustring& stylesheet);
+  USFMStandard * usfmstandard();
 private:
   vector <Usfm *> usfms;
+  USFMStandard * myusfmstandard;
 };
 
 

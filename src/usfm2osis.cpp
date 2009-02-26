@@ -33,6 +33,7 @@
 #include "settings.h"
 #include "referenceutils.h"
 #include "projectutils.h"
+#include "usfmstandard.h"
 
 /*
 
@@ -73,6 +74,7 @@ Usfm2Osis::Usfm2Osis(const ustring& file)
   xmlTextWriterStartDocument(xmlwriter, NULL, "UTF-8", NULL);
   xmlTextWriterSetIndent(xmlwriter, 1);
 
+  USFMStandard usfm_standard (0); // Todo
 
 
   

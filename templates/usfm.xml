@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<usfm>
+
 <!-- Identification -->
 
 <entry
@@ -8,7 +10,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="file"
-></entry>
+/>
 
 <entry
   marker="ide"
@@ -16,7 +18,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="encoding"
-></entry>
+/>
 
 <entry
   marker="sts"
@@ -24,7 +26,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="status"
-></entry>
+/>
 
 <entry
   marker="rem"
@@ -32,7 +34,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="comment"
-></entry>
+/>
 
 <entry
   marker="h"
@@ -41,7 +43,7 @@
   hasendmarker="no"
   variants="123"
   function="running_header"
-></entry>
+/>
 
 <entry
   marker="toc1"
@@ -49,7 +51,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="long_toc"
-></entry>
+/>
 
 <entry
   marker="toc2"
@@ -57,7 +59,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="short_toc"
-></entry>
+/>
 
 <entry
   marker="toc3"
@@ -65,7 +67,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="book_abbr"
-></entry>
+/>
 
 <!-- Introductions -->
 
@@ -76,7 +78,7 @@
   hasendmarker="no"
   variants="1234"
   function="title"
-></entry>
+/>
 
 <entry
   marker="is"
@@ -85,7 +87,7 @@
   hasendmarker="no"
   variants="1234"
   function="section"
-></entry>
+/>
 
 <entry
   marker="ip"
@@ -93,7 +95,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="ipi"
@@ -101,7 +103,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="im"
@@ -109,7 +111,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="imi"
@@ -117,7 +119,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="ipq"
@@ -125,7 +127,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="imq"
@@ -133,7 +135,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="ipr"
@@ -141,7 +143,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="iq"
@@ -150,7 +152,7 @@
   hasendmarker="no"
   variants="1234"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="ib"
@@ -158,7 +160,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="ili"
@@ -166,7 +168,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="list"
-></entry>
+/>
 
 <entry
   marker="iot"
@@ -174,7 +176,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="title"
-></entry>
+/>
 
 <entry
   marker="io"
@@ -183,7 +185,7 @@
   hasendmarker="no"
   variants="1234"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="ior"
@@ -191,7 +193,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="text"
-></entry>
+/>
 
 <entry
   marker="iex"
@@ -199,7 +201,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="iqt"
@@ -207,7 +209,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="text"
-></entry>
+/>
 
 <entry
   marker="imte"
@@ -215,7 +217,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="title"
-></entry>
+/>
 
 <entry
   marker="ie"
@@ -223,7 +225,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <!-- Titles, headings, and labels -->
 
@@ -234,7 +236,7 @@
   hasendmarker="no"
   variants="1234"
   function="title"
-></entry>
+/>
 
 <entry
   marker="mte"
@@ -243,7 +245,7 @@
   hasendmarker="no"
   variants="1234"
   function="title"
-></entry>
+/>
 
 <entry
   marker="ms"
@@ -252,7 +254,7 @@
   hasendmarker="no"
   variants="1234"
   function="section"
-></entry>
+/>
 
 <entry
   marker="mr"
@@ -260,7 +262,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="s"
@@ -269,7 +271,7 @@
   hasendmarker="no"
   variants="1234"
   function="section"
-></entry>
+/>
 
 <entry
   marker="sr"
@@ -277,7 +279,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="r"
@@ -285,7 +287,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="rq"
@@ -293,7 +295,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="text"
-></entry>
+/>
 
 <entry
   marker="d"
@@ -301,7 +303,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="title"
-></entry>
+/>
 
 <entry
   marker="sp"
@@ -309,7 +311,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <!-- Chapters and Verses -->
 
@@ -319,7 +321,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="chapter"
-></entry>
+/>
 
 <entry
   marker="ca"
@@ -327,7 +329,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="text"
-></entry>
+/>
 
 <entry
   marker="cl"
@@ -335,7 +337,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="chapter_label"
-></entry>
+/>
 
 <entry
   marker="cp"
@@ -343,7 +345,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="chapter_marker"
-></entry>
+/>
 
 <entry
   marker="cd"
@@ -351,7 +353,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="v"
@@ -359,7 +361,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="verse"
-></entry>
+/>
 
 <entry
   marker="va"
@@ -367,7 +369,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="text"
-></entry>
+/>
 
 <entry
   marker="vp"
@@ -375,7 +377,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="verse_marker"
-></entry>
+/>
 
 <!-- Paragraphs -->
 
@@ -385,7 +387,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="m"
@@ -393,7 +395,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="pmo"
@@ -401,7 +403,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="pm"
@@ -409,7 +411,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="pmc"
@@ -417,7 +419,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="pmr"
@@ -425,7 +427,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="pi"
@@ -434,7 +436,7 @@
   hasendmarker="no"
   variants="1234"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="mi"
@@ -442,7 +444,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="nb"
@@ -450,7 +452,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="no_break"
-></entry>
+/>
 
 <entry
   marker="cls"
@@ -458,7 +460,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="li"
@@ -467,7 +469,7 @@
   hasendmarker="no"
   variants="1234"
   function="list"
-></entry>
+/>
 
 <entry
   marker="pc"
@@ -475,7 +477,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="pr"
@@ -483,7 +485,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="ph"
@@ -492,7 +494,7 @@
   hasendmarker="no"
   variants="1234"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="b"
@@ -500,7 +502,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <!-- Poetry -->
 
@@ -511,7 +513,7 @@
   hasendmarker="no"
   variants="1234"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="qr"
@@ -519,7 +521,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="qc"
@@ -527,7 +529,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="qs"
@@ -535,7 +537,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="qa"
@@ -543,7 +545,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="qac"
@@ -551,7 +553,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="text"
-></entry>
+/>
 
 <entry
   marker="qm"
@@ -560,7 +562,7 @@
   hasendmarker="no"
   variants="1234"
   function="paragraph"
-></entry>
+/>
 
 <!-- The b marker defined in the Poetry group has been defined above, in the Paragraphs group -->
 
@@ -572,7 +574,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="row"
-></entry>
+/>
 
 <entry
   marker="th"
@@ -581,7 +583,7 @@
   hasendmarker="no"
   variants="123456"
   function="cell"
-></entry>
+/>
 
 <entry
   marker="thr"
@@ -590,7 +592,7 @@
   hasendmarker="no"
   variants="123456"
   function="cell"
-></entry>
+/>
 
 <entry
   marker="tc"
@@ -599,7 +601,7 @@
   hasendmarker="no"
   variants="123456"
   function="cell"
-></entry>
+/>
 
 <entry
   marker="tcr"
@@ -608,7 +610,7 @@
   hasendmarker="no"
   variants="123456"
   function="cell"
-></entry>
+/>
 
 <!-- Footnotes -->
 
@@ -618,7 +620,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="footnote"
-></entry>
+/>
 
 <entry
   marker="fe"
@@ -626,7 +628,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="endnote"
-></entry>
+/>
 
 <entry
   marker="fr"
@@ -634,7 +636,7 @@
   startsosisdivision="no"
   hasendmarker="optional"
   function="text"
-></entry>
+/>
 
 <entry
   marker="fk"
@@ -642,7 +644,7 @@
   startsosisdivision="no"
   hasendmarker="optional"
   function="text"
-></entry>
+/>
 
 <entry
   marker="fq"
@@ -650,7 +652,7 @@
   startsosisdivision="no"
   hasendmarker="optional"
   function="text"
-></entry>
+/>
 
 <entry
   marker="fqa"
@@ -658,7 +660,7 @@
   startsosisdivision="no"
   hasendmarker="optional"
   function="text"
-></entry>
+/>
 
 <entry
   marker="fl"
@@ -666,7 +668,7 @@
   startsosisdivision="no"
   hasendmarker="optional"
   function="text"
-></entry>
+/>
 
 <entry
   marker="fp"
@@ -674,7 +676,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="fv"
@@ -682,7 +684,7 @@
   startsosisdivision="no"
   hasendmarker="optional"
   function="text"
-></entry>
+/>
 
 <entry
   marker="ft"
@@ -690,7 +692,7 @@
   startsosisdivision="no"
   hasendmarker="optional"
   function="text"
-></entry>
+/>
 
 <entry
   marker="fdc"
@@ -698,7 +700,7 @@
   startsosisdivision="no"
   hasendmarker="optional"
   function="text"
-></entry>
+/>
 
 <entry
   marker="fm"
@@ -706,7 +708,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="note_mark"
-></entry>
+/>
 
 <!-- Cross References -->
 
@@ -716,7 +718,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="crossreference"
-></entry>
+/>
 
 <entry
   marker="xo"
@@ -724,7 +726,7 @@
   startsosisdivision="no"
   hasendmarker="optional"
   function="text"
-></entry>
+/>
 
 <entry
   marker="xk"
@@ -732,7 +734,7 @@
   startsosisdivision="no"
   hasendmarker="optional"
   function="text"
-></entry>
+/>
 
 <entry
   marker="xq"
@@ -740,7 +742,7 @@
   startsosisdivision="no"
   hasendmarker="optional"
   function="text"
-></entry>
+/>
 
 <entry
   marker="xt"
@@ -748,7 +750,7 @@
   startsosisdivision="no"
   hasendmarker="optional"
   function="text"
-></entry>
+/>
 
 <entry
   marker="xot"
@@ -756,7 +758,7 @@
   startsosisdivision="no"
   hasendmarker="optional"
   function="text"
-></entry>
+/>
 
 <entry
   marker="xnt"
@@ -764,7 +766,7 @@
   startsosisdivision="no"
   hasendmarker="optional"
   function="text"
-></entry>
+/>
 
 <entry
   marker="xdc"
@@ -772,7 +774,7 @@
   startsosisdivision="no"
   hasendmarker="optional"
   function="text"
-></entry>
+/>
 
 <!-- Special Text and Character Styles -->
 
@@ -782,7 +784,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="text"
-></entry>
+/>
 
 <entry
   marker="bk"
@@ -790,7 +792,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="text"
-></entry>
+/>
 
 <entry
   marker="dc"
@@ -798,7 +800,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="text"
-></entry>
+/>
 
 <entry
   marker="k"
@@ -806,7 +808,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="keyword"
-></entry>
+/>
 
 <entry
   marker="lit"
@@ -814,7 +816,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="paragraph"
-></entry>
+/>
 
 <entry
   marker="nd"
@@ -822,7 +824,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="text"
-></entry>
+/>
 
 <entry
   marker="ord"
@@ -830,7 +832,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="text"
-></entry>
+/>
 
 <entry
   marker="pn"
@@ -838,7 +840,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="text"
-></entry>
+/>
 
 <entry
   marker="qt"
@@ -846,14 +848,14 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="text"
-></entry>
+/>
 
 <entry
   marker="sig"
   startsline="no"
   startsosisdivision="no"
   hasendmarker="yes"
-></entry>
+/>
 
 <entry
   marker="sls"
@@ -861,7 +863,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="text"
-></entry>
+/>
 
 <entry
   marker="tl"
@@ -869,7 +871,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="text"
-></entry>
+/>
 
 <entry
   marker="wj"
@@ -877,7 +879,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="text"
-></entry>
+/>
 
 <entry
   marker="em"
@@ -885,7 +887,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="text"
-></entry>
+/>
 
 <entry
   marker="bd"
@@ -893,7 +895,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="text"
-></entry>
+/>
 
 <entry
   marker="it"
@@ -901,7 +903,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="text"
-></entry>
+/>
 
 <entry
   marker="bdit"
@@ -909,7 +911,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="text"
-></entry>
+/>
 
 <entry
   marker="no"
@@ -917,7 +919,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="text"
-></entry>
+/>
 
 <entry
   marker="sc"
@@ -925,7 +927,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="text"
-></entry>
+/>
 
 <entry
   marker="~"
@@ -934,7 +936,7 @@
   hasendmarker="no"
   startswithbackslash="no"
   function="space"
-></entry>
+/>
 
 <entry
   marker="//"
@@ -943,7 +945,7 @@
   hasendmarker="no"
   startswithbackslash="no"
   function="break"
-></entry>
+/>
 
 <entry
   marker="pb"
@@ -951,7 +953,7 @@
   startsosisdivision="no"
   hasendmarker="no"
   function="page"
-></entry>
+/>
 
 <entry
   marker="fig"
@@ -959,7 +961,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="figure"
-></entry>
+/>
 
 <entry
   marker="ndx"
@@ -967,7 +969,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="index"
-></entry>
+/>
 
 <entry
   marker="pro"
@@ -975,7 +977,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="pronunciation"
-></entry>
+/>
 
 <entry
   marker="w"
@@ -983,7 +985,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="wordlist"
-></entry>
+/>
 
 <entry
   marker="wg"
@@ -991,7 +993,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="greek"
-></entry>
+/>
 
 <entry
   marker="wh"
@@ -999,7 +1001,7 @@
   startsosisdivision="no"
   hasendmarker="yes"
   function="hebrew"
-></entry>
+/>
 
 <!-- Peripherals -->
 
@@ -1009,6 +1011,6 @@
   startsosisdivision="yes"
   hasendmarker="no"
   function="peripheral"
-></entry>
+/>
 
-
+</usfm>

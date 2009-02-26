@@ -23,6 +23,7 @@
 
 Styles::Styles(int dummy)
 {
+  myusfmstandard = NULL;
 }
 
 Styles::~Styles()
@@ -30,6 +31,8 @@ Styles::~Styles()
   for (unsigned int i = 0; i < usfms.size(); i++) {
     delete usfms[i];
   }
+  if (myusfmstandard)
+    delete myusfmstandard;
 }
 
 Usfm *Styles::usfm(const ustring & stylesheet)
@@ -48,4 +51,15 @@ Usfm *Styles::usfm(const ustring & stylesheet)
   Usfm *usfm = new Usfm(stylesheet);
   usfms.push_back(usfm);
   return usfms[usfms.size() - 1];
+}
+
+
+USFMStandard * Styles::usfmstandard()
+{
+  // Create the object if it does not exist.
+  if (myusfmstandard == NULL) {
+    myusfmstandard = new USFMStandard (0);
+  }
+  // Give the object.
+  return myusfmstandard;
 }
