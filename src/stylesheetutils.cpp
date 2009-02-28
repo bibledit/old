@@ -686,7 +686,7 @@ set < ustring > stylesheet_get_styles_of_type(StylesheetType stylesheettype)
 }
 
 
-ustring stylesheet_get_actual () // Todo to implement.
+ustring stylesheet_get_actual ()
 // Gets the actual stylesheet.
 {
   // Get the stylesheet from the configuration, with a fallback.

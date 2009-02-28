@@ -45,13 +45,13 @@ private:
   xmlTextWriterPtr xmlwriter;
   unsigned int book_bibledit_id;
   ustring book_osis_id;
-  ustring book_usfm_code;
-  void transform_headers_descriptions();
+  void transform_headers_and_descriptions(ustring& usfm_code);
+  void transform_per_osis_division (ustring& usfm_code);
   bool usfm_is_osis_division (const ustring& marker);
-  void transform();
-  void transform_fallback();
-  void transform_usfm_description (const ustring& marker_text, size_t marker_length);
-  void transform_h_title (size_t marker_length, bool runningheader, const gchar * placement);
+  void transform_division(ustring& usfm_code);
+  void transform_fallback(ustring& usfm_code);
+  void transform_usfm_description (ustring& usfm_code, const ustring& marker_text, size_t marker_length);
+  void transform_h_title (ustring& usfm_code, size_t marker_length, bool runningheader, const gchar * placement);
 };
 
 #endif

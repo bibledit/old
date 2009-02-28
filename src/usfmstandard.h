@@ -27,42 +27,43 @@
 enum UsfmHasEndMarkerType {uhemtNo, uhemtYes, uhemtOptional};
 enum UsfmFunctionType
 {
+  uftUnknown,
+  uftFile,
+  uftEncoding,
+  uftStatus,
+  uftComment,
+  uftRunningHeader,
+  uftLongToc,
+  uftShortToc,
   uftBookAbbr,
-  uftBreak,
-  uftCell,
+  uftTitle,
+  uftSection,
+  uftParagraph,
+  uftList,
+  uftText,
   uftChapter,
   uftChapterLabel,
   uftChapterMarker,
-  uftComment,
-  uftCrossreference,
-  uftEncoding,
-  uftEndnote,
-  uftFigure,
-  uftFile,
-  uftFootnote,
-  uftGreek,
-  uftHebrew,
-  uftIndex,
-  uftKeyword,
-  uftList,
-  uftLongToc,
-  uftNoBreak,
-  uftNoteMark,
-  uftPage,
-  uftParagraph,
-  uftPeripheral,
-  uftPronunciation,
-  uftRow,
-  uftRunningHeader,
-  uftSection,
-  uftShortToc,
-  uftSpace,
-  uftStatus,
-  uftText,
-  uftTitle,
   uftVerse,
   uftVerseMarker,
-  uftWordlist
+  uftNoBreak,
+  uftRow,
+  uftCell,
+  uftFootnote,
+  uftEndnote,
+  uftNoteMark,
+  uftCrossreference,
+  uftKeyword,
+  uftSpace,
+  uftBreak,
+  uftPage,
+  uftFigure,
+  uftIndex,
+  uftPronunciation,
+  uftWordlist,
+  uftGreek,
+  uftHebrew,
+  uftPeripheral
 };
 
 class USFMStandard
@@ -71,6 +72,7 @@ public:
   USFMStandard (int dummy);
   ~USFMStandard ();
   bool marker_exists (const ustring& marker);
+  UsfmFunctionType marker_function (const ustring& marker);
 private:
   void load ();
   void store ();
@@ -80,14 +82,11 @@ private:
   map <ustring, bool> startswithbackslash;
   UsfmHasEndMarkerType hasendmarker_v;
   map <ustring, UsfmHasEndMarkerType> hasendmarker;
-  ustring variants_v;
-  map <ustring, ustring> variants;
+  ustring variants;
   bool startsline_v;
   map <ustring, bool> startsline;
   UsfmFunctionType function_v;
   map <ustring, UsfmFunctionType> function;
-  bool startsosisdivision_v;
-  map <ustring, bool> startsosisdivision;
 };
 
 

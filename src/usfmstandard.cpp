@@ -103,10 +103,10 @@ void USFMStandard::load()
 
             // Any variants upon the marker, e.g. \mt has variant \mt1, \mt2, etc.
             // E.g. variants="1234"
-            variants_v.clear();
+            variants.clear();
             attribute = (char *)xmlTextReaderGetAttribute(reader, BAD_CAST "variants");
             if (attribute) {
-              variants_v = attribute;
+              variants = attribute;
               free(attribute);
             }
             
@@ -234,16 +234,6 @@ void USFMStandard::load()
               }
               free(attribute);
             }
-
-            // Whether the marker starts an osis division.
-            startsosisdivision_v = false;
-            attribute = (char *)xmlTextReaderGetAttribute(reader, BAD_CAST "startsosisdivision");
-            if (attribute) {
-              if (!strcmp(attribute, "yes")) {
-                startsosisdivision_v = true;
-              }
-              free(attribute);
-            }
           }
           break;
         }
@@ -278,17 +268,28 @@ void USFMStandard::load()
 }
 
 
-void USFMStandard::store ()
+void USFMStandard::store () // Todo we need to implement the "variant".
 // Stores parameters of one marker into the various maps.
 {
   if (!marker.empty()) {
+    // Marker itself.
     exists[marker] = true;
     startswithbackslash[marker] = startswithbackslash_v;
     hasendmarker[marker] = hasendmarker_v;
-    variants[marker] = variants_v;
     startsline[marker] = startsline_v;
-    function[marker] = function_v;
-    startsosisdivision[marker] = startsosisdivision_v;
+    function[marker] = function_v; 
+    // The variants, if any.
+    if (!variants.empty()) {
+      for (unsigned int i = 0; i < variants.length(); i++) {
+        ustring variant_marker = marker + variants.substr (i, 1);
+        exists[variant_marker] = true;
+        cout << "storing variant marker " <<  variant_marker << endl; // Todo
+        startswithbackslash[variant_marker] = startswithbackslash_v;
+        hasendmarker[variant_marker] = hasendmarker_v;
+        startsline[variant_marker] = startsline_v;
+        function[variant_marker] = function_v; 
+      }
+    }
   }
   marker.clear();
   variants.clear();
@@ -300,3 +301,11 @@ bool USFMStandard::marker_exists (const ustring& marker)
 {
   return exists [marker];
 }
+
+
+UsfmFunctionType USFMStandard::marker_function (const ustring& marker)
+// Returns the function of the marker.
+{
+  return function [marker];
+}
+

@@ -33,7 +33,7 @@
 #include "settings.h"
 #include "referenceutils.h"
 #include "projectutils.h"
-#include "usfmstandard.h"
+#include "styles.h"
 
 /*
 
@@ -73,11 +73,6 @@ Usfm2Osis::Usfm2Osis(const ustring& file)
   // Setup document.  
   xmlTextWriterStartDocument(xmlwriter, NULL, "UTF-8", NULL);
   xmlTextWriterSetIndent(xmlwriter, 1);
-
-  USFMStandard usfm_standard (0); // Todo
-
-
-  
 }
 
 Usfm2Osis::~Usfm2Osis()
@@ -188,22 +183,27 @@ void Usfm2Osis::close_book()
 
 
 void Usfm2Osis::load_book (vector <ustring>& data)
-// Accept the USFM code of a full book and starts the transformation.
+// Accept the USFM code of a full book and does the transformation.
 {
-  book_usfm_code.clear();  
+  // Load code.
+  ustring usfm_code;  
   for (unsigned int i = 0; i < data.size(); i++) {
     if (i > 0) {
-      book_usfm_code.append (" ");
+      usfm_code.append (" ");
     }
-    book_usfm_code.append (data[i]);
+    usfm_code.append (data[i]);
   }
-  replace_text (book_usfm_code, "\n", " ");
+  replace_text (usfm_code, "\n", " ");
   
-  transform_headers_descriptions();
+  // Do headers and descriptions.
+  transform_headers_and_descriptions(usfm_code);
+  
+  // Deal with the code for each division.
+  transform_per_osis_division(usfm_code);  
 }
 
 
-void Usfm2Osis::transform_headers_descriptions() // Todo
+void Usfm2Osis::transform_headers_and_descriptions(ustring& usfm_code)
 // Does the first stage of the transformation.
 // It finds descriptions, and (running) headers for the book.
 {
@@ -216,8 +216,8 @@ void Usfm2Osis::transform_headers_descriptions() // Todo
   size_t marker_length;
   bool marker_is_opener;
   bool marker_found;
-  while (!book_usfm_code.empty()) {
-    marker_found = usfm_search_marker(book_usfm_code, marker_text, marker_position, marker_length, marker_is_opener);
+  while (!usfm_code.empty()) {
+    marker_found = usfm_search_marker(usfm_code, marker_text, marker_position, marker_length, marker_is_opener);
     if (marker_found && (marker_position == 0)) {
       // A marker is right at the start of the line.
       if (false) {
@@ -225,87 +225,1108 @@ void Usfm2Osis::transform_headers_descriptions() // Todo
       // id 
       // description[@type='usfm' and @subType='x-id']
       else if (marker_text == "id") {
-        transform_usfm_description (marker_text, marker_length);
+        transform_usfm_description (usfm_code, marker_text, marker_length);
       } 
       // ide
       // description[@type='usfm' and @subType='x-ide']
       else if (marker_text == "ide") {
-        transform_usfm_description (marker_text, marker_length);
+        transform_usfm_description (usfm_code, marker_text, marker_length);
       } 
       // toc
       // div[@type="tableOfContents"] 
       // There are several toc markers in USFM. This converter transforms it into a "x-toc" description.
       else if (marker_text == "toc") {
-        transform_usfm_description (marker_text, marker_length);
+        transform_usfm_description (usfm_code, marker_text, marker_length);
       } 
       else if (marker_text == "toc1") {
-        transform_usfm_description (marker_text, marker_length);
+        transform_usfm_description (usfm_code, marker_text, marker_length);
       } 
       else if (marker_text == "toc2") {
-        transform_usfm_description (marker_text, marker_length);
+        transform_usfm_description (usfm_code, marker_text, marker_length);
       } 
       else if (marker_text == "toc3") {
-        transform_usfm_description (marker_text, marker_length);
+        transform_usfm_description (usfm_code, marker_text, marker_length);
       }
       // h 
       // div[@type='book']/title[@short='value of h marker']
       else if (marker_text == "h") {
-        transform_h_title (marker_length, false, NULL);
+        transform_h_title (usfm_code, marker_length, false, NULL);
       } 
       // h1 
       // div[@type='book']/title[@short='value of h marker']
       else if (marker_text == "h1") {
-        transform_h_title (marker_length, false, NULL);
+        transform_h_title (usfm_code, marker_length, false, NULL);
       } 
       // h2 
       // title[@type="runningHead" and placement="inside" and @short='value of h2 marker'] 
       else if (marker_text == "h2") {
-        transform_h_title (marker_length, true, "inside");
+        transform_h_title (usfm_code, marker_length, true, "inside");
       } 
       // h3 
       // title[@type="runningHead" and placement="outside" and @short='value of h3 marker'] 
       else if (marker_text == "h3") {
-        transform_h_title (marker_length, true, "outside");
+        transform_h_title (usfm_code, marker_length, true, "outside");
       } 
       else {
         // A marker is at the start, but it has not been handled,
         // so the marker is removed from the input stream, 
         // and added to the unhandled USFM code.
         ustring text;
-        text.append (book_usfm_code.substr (0, marker_length));
+        text.append (usfm_code.substr (0, marker_length));
         unhandled_usfm_code.append (text);
-        book_usfm_code.erase (0, marker_length);
+        usfm_code.erase (0, marker_length);
       }
     } else {
       // There's no marker at the start, but something else.
       // Whatever's there, remove it from the input stream, 
       // and add it to the unhandled USFM code for later processing.
-      ustring text = get_erase_code_till_next_marker (book_usfm_code, 0, 0, false);
+      ustring text = get_erase_code_till_next_marker (usfm_code, 0, 0, false);
       unhandled_usfm_code.append (text);
     }
   }
   // Keep the unhandled USFM code for further processing.
-  book_usfm_code = unhandled_usfm_code;
+  usfm_code = unhandled_usfm_code;
 }
 
-void Usfm2Osis::transform() // Todo
-// Does the transformation.
+void Usfm2Osis::transform_division(ustring& usfm_code) // Todo
+// Does the transformation of a division.
 // An attempt is made to follow the OSIS manual, Appendix F, USFM to OSIS Mapping.
-// If needed improvements have been made.
 {
+  // Bail out if there's nothing.
+  if (usfm_code.empty())
+    return;
+
+  gw_message ("division"); // Todo
+  gw_message (usfm_code); // Todo
+  
   ustring marker_text;
   size_t marker_position;
   size_t marker_length;
   bool marker_is_opener;
   bool marker_found;
 
-  while (!book_usfm_code.empty()) {
-    marker_found = usfm_search_marker(book_usfm_code, marker_text, marker_position, marker_length, marker_is_opener);
+  while (!usfm_code.empty()) {
+    marker_found = usfm_search_marker(usfm_code, marker_text, marker_position, marker_length, marker_is_opener);
     if (marker_found && (marker_position == 0)) {
 
-      if (false) {
+      // Marker id should not occur here, because it has been handled earlier.
+      if (marker_text == "id") { // Todo
       }
 
+      
+/*
+<entry
+  marker="id"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="file"
+/>
+
+<entry
+  marker="ide"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="encoding"
+/>
+
+<entry
+  marker="sts"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="status"
+/>
+
+<entry
+  marker="rem"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="comment"
+/>
+
+<entry
+  marker="h"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="123"
+  function="running_header"
+/>
+
+<entry
+  marker="toc1"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="long_toc"
+/>
+
+<entry
+  marker="toc2"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="short_toc"
+/>
+
+<entry
+  marker="toc3"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="book_abbr"
+/>
+
+<!-- Introductions -->
+
+<entry
+  marker="imt"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="1234"
+  function="title"
+/>
+
+<entry
+  marker="is"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="1234"
+  function="section"
+/>
+
+<entry
+  marker="ip"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<entry
+  marker="ipi"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<entry
+  marker="im"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<entry
+  marker="imi"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<entry
+  marker="ipq"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<entry
+  marker="imq"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<entry
+  marker="ipr"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<entry
+  marker="iq"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="1234"
+  function="paragraph"
+/>
+
+<entry
+  marker="ib"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<entry
+  marker="ili"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="list"
+/>
+
+<entry
+  marker="iot"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="title"
+/>
+
+<entry
+  marker="io"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="1234"
+  function="paragraph"
+/>
+
+<entry
+  marker="ior"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="text"
+/>
+
+<entry
+  marker="iex"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<entry
+  marker="iqt"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="text"
+/>
+
+<entry
+  marker="imte"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="title"
+/>
+
+<entry
+  marker="ie"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<!-- Titles, headings, and labels -->
+
+<entry
+  marker="mt"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="1234"
+  function="title"
+/>
+
+<entry
+  marker="mte"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="1234"
+  function="title"
+/>
+
+<entry
+  marker="ms"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="1234"
+  function="section"
+/>
+
+<entry
+  marker="mr"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<entry
+  marker="s"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="1234"
+  function="section"
+/>
+
+<entry
+  marker="sr"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<entry
+  marker="r"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<entry
+  marker="rq"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="text"
+/>
+
+<entry
+  marker="d"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="title"
+/>
+
+<entry
+  marker="sp"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<!-- Chapters and Verses -->
+
+<entry
+  marker="c"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="chapter"
+/>
+
+<entry
+  marker="ca"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="text"
+/>
+
+<entry
+  marker="cl"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="chapter_label"
+/>
+
+<entry
+  marker="cp"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="chapter_marker"
+/>
+
+<entry
+  marker="cd"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<entry
+  marker="v"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="verse"
+/>
+
+<entry
+  marker="va"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="text"
+/>
+
+<entry
+  marker="vp"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="verse_marker"
+/>
+
+<!-- Paragraphs -->
+
+<entry
+  marker="p"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<entry
+  marker="m"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<entry
+  marker="pmo"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<entry
+  marker="pm"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<entry
+  marker="pmc"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<entry
+  marker="pmr"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<entry
+  marker="pi"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="1234"
+  function="paragraph"
+/>
+
+<entry
+  marker="mi"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<entry
+  marker="nb"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="no_break"
+/>
+
+<entry
+  marker="cls"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<entry
+  marker="li"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="1234"
+  function="list"
+/>
+
+<entry
+  marker="pc"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<entry
+  marker="pr"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<entry
+  marker="ph"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="1234"
+  function="paragraph"
+/>
+
+<entry
+  marker="b"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<!-- Poetry -->
+
+<entry
+  marker="q"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="1234"
+  function="paragraph"
+/>
+
+<entry
+  marker="qr"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<entry
+  marker="qc"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<entry
+  marker="qs"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="paragraph"
+/>
+
+<entry
+  marker="qa"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<entry
+  marker="qac"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="text"
+/>
+
+<entry
+  marker="qm"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="1234"
+  function="paragraph"
+/>
+
+<!-- The b marker defined in the Poetry group has been defined above, in the Paragraphs group -->
+
+<!-- Tables -->
+
+<entry
+  marker="tr"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="row"
+/>
+
+<entry
+  marker="th"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="123456"
+  function="cell"
+/>
+
+<entry
+  marker="thr"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="123456"
+  function="cell"
+/>
+
+<entry
+  marker="tc"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="123456"
+  function="cell"
+/>
+
+<entry
+  marker="tcr"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="no"
+  variants="123456"
+  function="cell"
+/>
+
+<!-- Footnotes -->
+
+<entry
+  marker="f"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="footnote"
+/>
+
+<entry
+  marker="fe"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="endnote"
+/>
+
+<entry
+  marker="fr"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+  function="text"
+/>
+
+<entry
+  marker="fk"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+  function="text"
+/>
+
+<entry
+  marker="fq"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+  function="text"
+/>
+
+<entry
+  marker="fqa"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+  function="text"
+/>
+
+<entry
+  marker="fl"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+  function="text"
+/>
+
+<entry
+  marker="fp"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<entry
+  marker="fv"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+  function="text"
+/>
+
+<entry
+  marker="ft"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+  function="text"
+/>
+
+<entry
+  marker="fdc"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+  function="text"
+/>
+
+<entry
+  marker="fm"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="note_mark"
+/>
+
+<!-- Cross References -->
+
+<entry
+  marker="x"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="crossreference"
+/>
+
+<entry
+  marker="xo"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+  function="text"
+/>
+
+<entry
+  marker="xk"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+  function="text"
+/>
+
+<entry
+  marker="xq"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+  function="text"
+/>
+
+<entry
+  marker="xt"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+  function="text"
+/>
+
+<entry
+  marker="xot"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+  function="text"
+/>
+
+<entry
+  marker="xnt"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+  function="text"
+/>
+
+<entry
+  marker="xdc"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="optional"
+  function="text"
+/>
+
+<!-- Special Text and Character Styles -->
+
+<entry
+  marker="add"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="text"
+/>
+
+<entry
+  marker="bk"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="text"
+/>
+
+<entry
+  marker="dc"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="text"
+/>
+
+<entry
+  marker="k"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="keyword"
+/>
+
+<entry
+  marker="lit"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="paragraph"
+/>
+
+<entry
+  marker="nd"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="text"
+/>
+
+<entry
+  marker="ord"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="text"
+/>
+
+<entry
+  marker="pn"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="text"
+/>
+
+<entry
+  marker="qt"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="text"
+/>
+
+<entry
+  marker="sig"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+/>
+
+<entry
+  marker="sls"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="text"
+/>
+
+<entry
+  marker="tl"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="text"
+/>
+
+<entry
+  marker="wj"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="text"
+/>
+
+<entry
+  marker="em"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="text"
+/>
+
+<entry
+  marker="bd"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="text"
+/>
+
+<entry
+  marker="it"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="text"
+/>
+
+<entry
+  marker="bdit"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="text"
+/>
+
+<entry
+  marker="no"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="text"
+/>
+
+<entry
+  marker="sc"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="text"
+/>
+
+<entry
+  marker="~"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="no"
+  startswithbackslash="no"
+  function="space"
+/>
+
+<entry
+  marker="//"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="no"
+  startswithbackslash="no"
+  function="break"
+/>
+
+<entry
+  marker="pb"
+  startsline="yes"
+  startsosisdivision="no"
+  hasendmarker="no"
+  function="page"
+/>
+
+<entry
+  marker="fig"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="figure"
+/>
+
+<entry
+  marker="ndx"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="index"
+/>
+
+<entry
+  marker="pro"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="pronunciation"
+/>
+
+<entry
+  marker="w"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="wordlist"
+/>
+
+<entry
+  marker="wg"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="greek"
+/>
+
+<entry
+  marker="wh"
+  startsline="no"
+  startsosisdivision="no"
+  hasendmarker="yes"
+  function="hebrew"
+/>
+
+<!-- Peripherals -->
+
+<entry
+  marker="periph"
+  startsline="yes"
+  startsosisdivision="yes"
+  hasendmarker="no"
+  function="peripheral"
+/>
+
+</usfm>
+
+*/
       // add 
       // transChange[@type="added"]
 
@@ -399,49 +1420,9 @@ void Usfm2Osis::transform() // Todo
       // glo 
       // div[@type="glossary"] 
 
-      // h 
-      // div[@type='book']/title[@short='value of h marker']
-      else if (marker_text == "h") {
-        // At this stage the div[@type='book'] will be open, so no further action is needed.
-        transform_h_title (marker_length, false, NULL);
-      } 
-
-      // h1 
-      // div[@type='book']/title[@short='value of h marker']
-      else if (marker_text == "h1") {
-        // At this stage the div[@type='book'] will be open, so no further action is needed.
-        transform_h_title (marker_length, false, NULL);
-      } 
-
-      // h2 
-      // title[@type="runningHead" and placement="inside" and
-      // @short='value of h2 marker'] 
-      else if (marker_text == "h2") {
-        transform_h_title (marker_length, true, "inside");
-      } 
-
-      // h3 
-      // title[@type="runningHead" and placement="outside"
-      // and @short='value of h3 marker'] 
-      else if (marker_text == "h2") {
-        transform_h_title (marker_length, true, "outside");
-      } 
-
       // ib See notes below on \m and \b 
       // (This is a format oriented marker --whitespace, but 
       // needs to be preserved round-trip) 
-
-      // id 
-      // description[@type='usfm' and @subType='x-id']
-      else if (marker_text == "id") {
-        transform_usfm_description (marker_text, marker_length);
-      } 
-      
-      // ide
-      // description[@type='usfm' and @subType='x-ide']
-      else if (marker_text == "ide") {
-        transform_usfm_description (marker_text, marker_length);
-      } 
 
       // idx 
       // div[@type="index"]
@@ -570,7 +1551,7 @@ void Usfm2Osis::transform() // Todo
       // mr 
       // div[@type="majorSection"]/title[@type="scope"]/reference 
 
-      // mt // Todo from here ...
+      // mt
       // div[@type="book"]/title[@type="main"]
       
       // mt1 
@@ -591,7 +1572,7 @@ void Usfm2Osis::transform() // Todo
       // mte1 
       // div[@type="book"]/title[@type="main"]/title[@level="1"]
 
-      // mte2  // Todo ... to here
+      // mte2
       // div[@type="book"]/title[@type="main"]/title[@level="2"]
       
       // ms
@@ -734,13 +1715,13 @@ void Usfm2Osis::transform() // Todo
       // rem
       // description[@type="usfm" and subType="x-rem"]
       else if (marker_text == "rem") {
-        transform_usfm_description (marker_text, marker_length);
+        transform_usfm_description (usfm_code, marker_text, marker_length);
       } 
       
       // restore
       // description[@type="usfm" and subType="x-restore"]
       else if (marker_text == "restore") {
-        transform_usfm_description (marker_text, marker_length);
+        transform_usfm_description (usfm_code, marker_text, marker_length);
       } 
       
       // s
@@ -824,24 +1805,6 @@ void Usfm2Osis::transform() // Todo
       // tl
       // foreign 
 
-      // toc // Todo
-      // div[@type="tableOfContents"] 
-      // There are several toc markers in USFM. This converter transforms it into a "x-toc" description.
-      // This is against the standard, but it was simpler to program.
-      // Somebody might complain though ...
-      else if (marker_text == "toc") {
-        transform_usfm_description (marker_text, marker_length);
-      } 
-      else if (marker_text == "toc1") {
-        transform_usfm_description (marker_text, marker_length);
-      } 
-      else if (marker_text == "toc2") {
-        transform_usfm_description (marker_text, marker_length);
-      } 
-      else if (marker_text == "toc3") {
-        transform_usfm_description (marker_text, marker_length);
-      } 
-
       // tr 
       // table/row 
 
@@ -893,11 +1856,11 @@ void Usfm2Osis::transform() // Todo
       // note[@type='crossReference']/seg[@edition="dc"] 
 
       else {
-        transform_fallback();
+        transform_fallback(usfm_code);
       }
       
     } else {
-      transform_fallback();
+      transform_fallback(usfm_code);
     }
   }
 
@@ -932,11 +1895,11 @@ void Usfm2Osis::transform() // Todo
 }
 
 
-void Usfm2Osis::transform_fallback()
+void Usfm2Osis::transform_fallback(ustring& usfm_code)
 // This transformation is called when no other transformation could be done.
 {
   // Bail out if there's no usfm code available.
-  if (book_usfm_code.empty())
+  if (usfm_code.empty())
     return;
 
   // Get the text till the next marker.
@@ -944,20 +1907,20 @@ void Usfm2Osis::transform_fallback()
   size_t marker_position;
   size_t marker_length;
   bool is_opener;
-  bool marker_found = usfm_search_marker(book_usfm_code, marker, marker_position, marker_length, is_opener);
+  bool marker_found = usfm_search_marker(usfm_code, marker, marker_position, marker_length, is_opener);
   ustring text;
   if (marker_found) {
-    text = book_usfm_code.substr(0, marker_position);
-    book_usfm_code.erase(0, marker_position);
+    text = usfm_code.substr(0, marker_position);
+    usfm_code.erase(0, marker_position);
     // Handle the case that the marker is at the start. 
-    // Should never occur, but it put here for robustness.
+    // Should never occur, but it is put here for robustness.
     if (marker_position == 0) {
-      text = book_usfm_code.substr(0, 1);
-      book_usfm_code.erase(0, 1);
+      text = usfm_code.substr(0, 1);
+      usfm_code.erase(0, 1);
     }
   } else {
-    text = book_usfm_code;
-    book_usfm_code.clear();
+    text = usfm_code;
+    usfm_code.clear();
   }
 
   // Write that text. 
@@ -965,10 +1928,10 @@ void Usfm2Osis::transform_fallback()
 }
 
 
-void Usfm2Osis::transform_usfm_description (const ustring& marker_text, size_t marker_length)
+void Usfm2Osis::transform_usfm_description (ustring& usfm_code, const ustring& marker_text, size_t marker_length)
 // According to the Osis manual, certain USFM codes translate into "description" elements in Osis.
 {
-  ustring text = get_erase_code_till_next_marker (book_usfm_code, 0, marker_length, true);
+  ustring text = get_erase_code_till_next_marker (usfm_code, 0, marker_length, true);
   ustring subtype = "x-" + marker_text;
   xmlTextWriterStartElement(xmlwriter, BAD_CAST "description");
   xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "type", "usfm");
@@ -978,10 +1941,10 @@ void Usfm2Osis::transform_usfm_description (const ustring& marker_text, size_t m
 }
 
 
-void Usfm2Osis::transform_h_title (size_t marker_length, bool runningheader, const gchar * placement)
+void Usfm2Osis::transform_h_title (ustring& usfm_code, size_t marker_length, bool runningheader, const gchar * placement)
 // This transforms the \h into the Osis title element.
 {
-  ustring title = get_erase_code_till_next_marker (book_usfm_code, 0, marker_length, true);
+  ustring title = get_erase_code_till_next_marker (usfm_code, 0, marker_length, true);
   xmlTextWriterStartElement(xmlwriter, BAD_CAST "title");
   if (runningheader) {
     xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "type", "runningHead");
@@ -994,9 +1957,88 @@ void Usfm2Osis::transform_h_title (size_t marker_length, bool runningheader, con
 }
 
 
-bool Usfm2Osis::usfm_is_osis_division (const ustring& marker) // Todo
+void Usfm2Osis::transform_per_osis_division(ustring& usfm_code)
+// Chops the code up into OSIS divisions and initiates the transformation.
+{
+  // Division text
+  ustring division_usfm_code;
+  
+  // Go through all USFM code.
+  ustring marker_text;
+  size_t marker_position;
+  size_t marker_length;
+  bool marker_is_opener;
+  bool marker_found;
+  while (!usfm_code.empty()) {
+    marker_found = usfm_search_marker(usfm_code, marker_text, marker_position, marker_length, marker_is_opener);
+    if (marker_found && (marker_position == 0)) {
+      // A marker is right at the start of the line.
+      if (marker_is_opener && usfm_is_osis_division (marker_text)) {
+        transform_division(division_usfm_code);
+      }
+      // Remove the marker from the input stream, 
+      // and add it to the USFM code of this division.
+      ustring text = usfm_code.substr (0, marker_length);
+      division_usfm_code.append (text);
+      usfm_code.erase (0, marker_length);
+    } else {
+      // There's no marker at the start, but something else.
+      // Remove it from the input stream, and add it to the division. 
+      ustring text = get_erase_code_till_next_marker (usfm_code, 0, 0, false);
+      division_usfm_code.append (text);
+    }
+  }
+
+  // Transform possible remaining division.
+  transform_division(division_usfm_code);
+}
+
+
+bool Usfm2Osis::usfm_is_osis_division (const ustring& marker)
 // Returns true if the marker would result in an osis division.
 {
+  extern Styles * styles;
+  USFMStandard * usfmstandard = styles->usfmstandard();  
+  UsfmFunctionType function = usfmstandard->marker_function (marker);
+  switch (function) {
+    case uftUnknown:        return false;
+    case uftFile:           return true;
+    case uftEncoding:       return false;
+    case uftStatus:         return false;
+    case uftComment:        return false;
+    case uftRunningHeader:  return false;
+    case uftLongToc:        return false;
+    case uftShortToc:       return false;
+    case uftBookAbbr:       return false;
+    case uftTitle:          return true;
+    case uftSection:        return true;
+    case uftParagraph:      return false;
+    case uftList:           return false;
+    case uftText:           return false;
+    case uftChapter:        return false;
+    case uftChapterLabel:   return false;
+    case uftChapterMarker:  return false;
+    case uftVerse:          return false;
+    case uftVerseMarker:    return false;
+    case uftNoBreak:        return false;
+    case uftRow:            return false;
+    case uftCell:           return false;
+    case uftFootnote:       return false;
+    case uftEndnote:        return false;
+    case uftNoteMark:       return false;
+    case uftCrossreference: return false;
+    case uftKeyword:        return false;
+    case uftSpace:          return false;
+    case uftBreak:          return false;
+    case uftPage:           return false;
+    case uftFigure:         return false;
+    case uftIndex:          return false;
+    case uftPronunciation:  return false;
+    case uftWordlist:       return false;
+    case uftGreek:          return false;
+    case uftHebrew:         return false;
+    case uftPeripheral:     return true;
+  }
   return false;
 }
 

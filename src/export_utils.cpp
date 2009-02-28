@@ -287,44 +287,46 @@ Here's how we do the conversion
   unlink(osisfile.c_str());
   
   // OSIS to USFM converter.
-  Usfm2Osis usfm2osis (osisfile);
+  {
+    Usfm2Osis usfm2osis (osisfile);
 
-  // Stylesheet.
-  usfm2osis.set_stylesheet (stylesheet_get_actual ());
+    // Stylesheet.
+    usfm2osis.set_stylesheet (stylesheet_get_actual ());
 
-  // Write header.
-  usfm2osis.header (settings->genconfig.project_get() + projectconfig->sword_name_get(), settings->genconfig.project_get() + projectconfig->sword_description_get());
+    // Write header.
+    usfm2osis.header (settings->genconfig.project_get() + projectconfig->sword_name_get(), settings->genconfig.project_get() + projectconfig->sword_description_get());
 
-  // Get all the books and go through them.
-  vector <unsigned int> books = project_get_books(settings->genconfig.project_get());
-  if (gui) {
-    progresswindow->set_iterate(0, 1, books.size());
-  }
-  for (unsigned int bk = 0; bk < books.size(); bk++) {
-
-    // Progress information.
+    // Get all the books and go through them.
+    vector <unsigned int> books = project_get_books(settings->genconfig.project_get());
     if (gui) {
-      progresswindow->iterate();
-      if (progresswindow->cancel) {
-        delete progresswindow;
-        return;
-      }
+      progresswindow->set_iterate(0, 1, books.size());
     }
+    for (unsigned int bk = 0; bk < books.size(); bk++) {
 
-    // Skip the book if it is not known in the Osis standard.
-    if (books_id_to_osis(books[bk]).empty())
-      continue;
+      // Progress information.
+      if (gui) {
+        progresswindow->iterate();
+        if (progresswindow->cancel) {
+          delete progresswindow;
+          return;
+        }
+      }
 
-    // Open book in Osis converter.
-    usfm2osis.open_book (books[bk]);
+      // Skip the book if it is not known in the Osis standard.
+      if (books_id_to_osis(books[bk]).empty())
+        continue;
 
-    // Let the Osis converter transform the book contents.
-    vector <ustring> contents = project_retrieve_book (settings->genconfig.project_get(), books[bk]);
-    usfm2osis.load_book (contents);
+      // Open book in Osis converter.
+      usfm2osis.open_book (books[bk]);
 
-    // Close book in the Osis converter.
-    usfm2osis.close_book();
+      // Let the Osis converter transform the book contents.
+      vector <ustring> contents = project_retrieve_book (settings->genconfig.project_get(), books[bk]);
+      usfm2osis.load_book (contents);
 
+      // Close book in the Osis converter.
+      usfm2osis.close_book();
+
+    }
   }
   
   // Hide progress.
