@@ -268,7 +268,7 @@ void USFMStandard::load()
 }
 
 
-void USFMStandard::store () // Todo we need to implement the "variant".
+void USFMStandard::store ()
 // Stores parameters of one marker into the various maps.
 {
   if (!marker.empty()) {
@@ -283,7 +283,6 @@ void USFMStandard::store () // Todo we need to implement the "variant".
       for (unsigned int i = 0; i < variants.length(); i++) {
         ustring variant_marker = marker + variants.substr (i, 1);
         exists[variant_marker] = true;
-        cout << "storing variant marker " <<  variant_marker << endl; // Todo
         startswithbackslash[variant_marker] = startswithbackslash_v;
         hasendmarker[variant_marker] = hasendmarker_v;
         startsline[variant_marker] = startsline_v;

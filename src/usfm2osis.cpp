@@ -65,6 +65,8 @@ Usfm2Osis::Usfm2Osis(const ustring& file)
   // Initialize variables.
   osisfile = file;
   book_bibledit_id = 0;
+  division_open = false;
+  paragraph_open = false;
   
   // Create the XML writer.
   xmlbuffer = xmlBufferCreate();
@@ -288,17 +290,15 @@ void Usfm2Osis::transform_headers_and_descriptions(ustring& usfm_code)
   usfm_code = unhandled_usfm_code;
 }
 
-void Usfm2Osis::transform_division(ustring& usfm_code) // Todo
-// Does the transformation of a division.
+void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
+// Does the transformation of a block of USFM code.
 // An attempt is made to follow the OSIS manual, Appendix F, USFM to OSIS Mapping.
 {
   // Bail out if there's nothing.
   if (usfm_code.empty())
     return;
 
-  gw_message ("division"); // Todo
-  gw_message (usfm_code); // Todo
-  
+  // Go through the available code.
   ustring marker_text;
   size_t marker_position;
   size_t marker_length;
@@ -309,320 +309,392 @@ void Usfm2Osis::transform_division(ustring& usfm_code) // Todo
     marker_found = usfm_search_marker(usfm_code, marker_text, marker_position, marker_length, marker_is_opener);
     if (marker_found && (marker_position == 0)) {
 
+      if (false) {
+      }
+      
       // Marker id should not occur here, because it has been handled earlier.
-      if (marker_text == "id") { // Todo
+      // Marker ide should not occur here, because it has been handled earlier.
+
+      // Marker sts goes into osis as usfm code.
+      else if (marker_text == "sts") {
+        transform_usfm_description (usfm_code, marker_text, marker_length);
       }
 
+      // rem
+      // description[@type="usfm" and subType="x-rem"]
+      else if (marker_text == "rem") {
+        transform_usfm_description (usfm_code, marker_text, marker_length);
+      } 
       
-/*
-<entry
-  marker="id"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="file"
-/>
+      // Markers h( 123) should not occur here, because these have been handled earlier.
+      // Markers toc(123) should not occur here, because these have been handled earlier.
 
-<entry
-  marker="ide"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="encoding"
-/>
+      // imt
+      // div[@type="introduction" and @canonical="false"]/title[@type="main"] 
+      else if (marker_text == "imt") {
+        transform_division ("introduction", false);
+        transform_general_title (usfm_code, marker_length, "main", 0);
+      } 
 
-<entry
-  marker="sts"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="status"
-/>
+      // imt1 
+      // div[@type="introduction" and @canonical="false"]/title[@type="main"]/title[@level="1"] 
+      else if (marker_text == "imt1") {
+        transform_division ("introduction", false);
+        transform_general_title (usfm_code, marker_length, "main", 1);
+      } 
 
-<entry
-  marker="rem"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="comment"
-/>
+      // imt2 
+      // div[@type="introduction" and @canonical="false"]/title[@type="main"]/title[@level="2"] 
+      else if (marker_text == "imt2") {
+        transform_division ("introduction", false);
+        transform_general_title (usfm_code, marker_length, "main", 2);
+      }
 
-<entry
-  marker="h"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  variants="123"
-  function="running_header"
-/>
+      // imt3 
+      // div[@type="introduction" and @canonical="false"]/title[@type="main"]/title[@level="3"] 
+      else if (marker_text == "imt3") {
+        transform_division ("introduction", false);
+        transform_general_title (usfm_code, marker_length, "main", 3);
+      }
 
-<entry
-  marker="toc1"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="long_toc"
-/>
+      // imt4 
+      // div[@type="introduction" and @canonical="false"]/title[@type="main"]/title[@level="4"] 
+      else if (marker_text == "imt4") {
+        transform_division ("introduction", false);
+        transform_general_title (usfm_code, marker_length, "main", 4);
+      }
 
-<entry
-  marker="toc2"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="short_toc"
-/>
+      // is (1234)
+      else if (marker_text == "is") {
+        transform_division ("section", false);
+        transform_general_title (usfm_code, marker_length, "section", 0);
+      } 
+      else if (marker_text == "is1") {
+        transform_division ("section", false);
+        transform_general_title (usfm_code, marker_length, "section", 1);
+      } 
+      else if (marker_text == "is2") {
+        transform_division ("section", false);
+        transform_general_title (usfm_code, marker_length, "section", 2);
+      } 
+      else if (marker_text == "is3") {
+        transform_division ("section", false);
+        transform_general_title (usfm_code, marker_length, "section", 3);
+      } 
+      else if (marker_text == "is4") {
+        transform_division ("section", false);
+        transform_general_title (usfm_code, marker_length, "section", 4);
+      } 
 
-<entry
-  marker="toc3"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="book_abbr"
-/>
+      // ip 
+      // div[@type="introduction" and @canonical="false"]//p 
+      else if (marker_text == "ip") {
+        transform_paragraph_start (usfm_code, marker_length);
+      } 
 
-<!-- Introductions -->
+      // ipi 
+      // div[@type="introduction" and @canonical="false"]//list/item/p
+      else if (marker_text == "ipi") {
+        transform_paragraph_start (usfm_code, marker_length);
+      } 
 
-<entry
-  marker="imt"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  variants="1234"
-  function="title"
-/>
+      // im See notes below on \m and \b 
+      else if (marker_text == "im") {
+        transform_paragraph_start (usfm_code, marker_length);
+      } 
 
-<entry
-  marker="is"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  variants="1234"
-  function="section"
-/>
+      // imi 
+      // Continue the div[@type="introduction" and 
+      // @canonical="false"]//list/item/p if interrupted 
+      // otherwise div[@type="introduction" and 
+      // @canonical="false"]//list/item 
+      else if (marker_text == "imi") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
 
-<entry
-  marker="ip"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
+      // ipq
+      // div[@type="introduction" and @canonical="false"]//q/p
+      else if (marker_text == "ipq") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+      
+      // imq 
+      // div[@type="introduction" and @canonical="false"]//q 
+      else if (marker_text == "imq") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
 
-<entry
-  marker="ipi"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
+      // ipr 
+      // div[@type="introduction" and @canonical="false"]//reference 
+      else if (marker_text == "ipr") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+      
+      // iq
+      // div[@type="introduction" and @canonical="false"]//lg/l[@level="1"]
+      else if (marker_text == "iq") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+      
+      // iq1
+      // div[@type="introduction" and @canonical="false"]//lg/l[@level="1"] 
+      else if (marker_text == "iq1") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
 
-<entry
-  marker="im"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
+      // iq2
+      // div[@type="introduction" and @canonical="false"]//lg/l[@level="2"] 
+      else if (marker_text == "iq2") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+      
+      // iq3 
+      // div[@type="introduction" and @canonical="false"]//lg/l[@level="3"] 
+      else if (marker_text == "iq3") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+      else if (marker_text == "iq4") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+      
+      // ib See notes below on \m and \b 
+      // (This is a format oriented marker --whitespace, but needs to be preserved round-trip) 
+      else if (marker_text == "ib") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
 
-<entry
-  marker="imi"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
+      else if (marker_text == "ili") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
 
-<entry
-  marker="ipq"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
+      // iot 
+      // div[@type="introduction" and @canonical="false"]//div[@type="outline"]/title 
+      else if (marker_text == "iot") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
 
-<entry
-  marker="imq"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
+      else if (marker_text == "io") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
 
-<entry
-  marker="ipr"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
+      // io1 
+      // div[@type="introduction" and @canonical="false"]//div[@type="outline"]/list/item 
+      else if (marker_text == "io1") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
 
-<entry
-  marker="iq"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  variants="1234"
-  function="paragraph"
-/>
+      // io2 
+      // div[@type="introduction" and @canonical="false"]//div[@type="outline"]/list/item/list/item 
+      else if (marker_text == "io2") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
 
-<entry
-  marker="ib"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
+      // io3 
+      // div[@type="introduction" and @canonical="false"]//div[@type="outline"]/list/item/list/item/list/item 
+      else if (marker_text == "io3") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
 
-<entry
-  marker="ili"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="list"
-/>
+      // io4 
+      // div[@type="introduction" and @canonical="false"]//div[@type="outline"]/list/item/list/item/list/item/list/item 
+      else if (marker_text == "io4") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
 
-<entry
-  marker="iot"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="title"
-/>
+      // ior 
+      // div[@type="introduction" and @canonical="false"]//div[@type="outline"]/list/item/reference 
+      else if (marker_text == "ior") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
 
-<entry
-  marker="io"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  variants="1234"
-  function="paragraph"
-/>
+      // iex 
+      // div[@type="bridge"] 
+      else if (marker_text == "iex") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
 
-<entry
-  marker="ior"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="text"
-/>
+      else if (marker_text == "iqt") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
 
-<entry
-  marker="iex"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
+      // imte 
+      // div[@type="introduction" and @canonical="false"]/title[@type="main"] 
+      else if (marker_text == "imte") {
+        transform_division ("introduction", false);
+        transform_general_title (usfm_code, marker_length, "main", 0);
+      }
 
-<entry
-  marker="iqt"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="text"
-/>
+      // ie 
+      else if (marker_text == "ie") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
 
-<entry
-  marker="imte"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="title"
-/>
+      // mt
+      // div[@type="book"]/title[@type="main"]
+      else if (marker_text == "mt") {
+        transform_division ("book", true);
+        transform_general_title (usfm_code, marker_length, "main", 0);
+      } 
+      
+      // mt1 
+      // div[@type="book"]/title[@type="main"]/title[@level="1"] 
+      else if (marker_text == "mt1") {
+        transform_division ("book", true);
+        transform_general_title (usfm_code, marker_length, "main", 1);
+      } 
 
-<entry
-  marker="ie"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
+      // mt2 
+      // div[@type="book"]/title[@type="main"]/title[@level="2"] 
+      else if (marker_text == "mt2") {
+        transform_division ("book", true);
+        transform_general_title (usfm_code, marker_length, "main", 2);
+      } 
 
-<!-- Titles, headings, and labels -->
+      // mt3 
+      // div[@type="book"]/title[@type="main"]/title[@level="3"] 
+      else if (marker_text == "mt3") {
+        transform_division ("book", true);
+        transform_general_title (usfm_code, marker_length, "main", 3);
+      } 
+      
+      // mt4 
+      // div[@type="book"]/title[@type="main"]/title[@level="4"] 
+      else if (marker_text == "mt4") {
+        transform_division ("book", true);
+        transform_general_title (usfm_code, marker_length, "main", 4);
+      } 
+      
+      // mte 
+      // div[@type="book"]/title[@type="main"]
+      else if (marker_text == "mte") {
+        transform_division ("book", true);
+        transform_general_title (usfm_code, marker_length, "main", 0);
+      } 
+      
+      // mte1 
+      // div[@type="book"]/title[@type="main"]/title[@level="1"]
+      else if (marker_text == "mte1") {
+        transform_division ("book", true);
+        transform_general_title (usfm_code, marker_length, "main", 1);
+      } 
 
-<entry
-  marker="mt"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  variants="1234"
-  function="title"
-/>
+      // mte2
+      // div[@type="book"]/title[@type="main"]/title[@level="2"]
+      else if (marker_text == "mte2") {
+        transform_division ("book", true);
+        transform_general_title (usfm_code, marker_length, "main", 2);
+      } 
+      
+      else if (marker_text == "mte3") {
+        transform_division ("book", true);
+        transform_general_title (usfm_code, marker_length, "main", 3);
+      } 
+      
+      else if (marker_text == "mte4") {
+        transform_division ("book", true);
+        transform_general_title (usfm_code, marker_length, "main", 4);
+      } 
 
-<entry
-  marker="mte"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  variants="1234"
-  function="title"
-/>
+      // ms
+      // div[@type="majorSection"]/title
+      else if (marker_text == "ms") {
+        transform_division ("majorSection", true);
+        transform_general_title (usfm_code, marker_length, "main", 0);
+      } 
 
-<entry
-  marker="ms"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  variants="1234"
-  function="section"
-/>
+      // ms1 
+      // div[@type="majorSection"]/title
+      else if (marker_text == "ms1") {
+        transform_division ("majorSection", true);
+        transform_general_title (usfm_code, marker_length, "main", 1);
+      } 
+      
+      // ms2 
+      // div[@type="majorSection"]/div[@type="majorSection"]/title
+      else if (marker_text == "ms2") {
+        transform_division ("majorSection", true);
+        transform_general_title (usfm_code, marker_length, "main", 2);
+      } 
+      
+      else if (marker_text == "ms3") {
+        transform_division ("majorSection", true);
+        transform_general_title (usfm_code, marker_length, "main", 3);
+      } 
 
-<entry
-  marker="mr"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
+      else if (marker_text == "ms4") {
+        transform_division ("majorSection", true);
+        transform_general_title (usfm_code, marker_length, "main", 4);
+      } 
 
-<entry
-  marker="s"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  variants="1234"
-  function="section"
-/>
+      // mr 
+      // div[@type="majorSection"]/title[@type="scope"]/reference 
+      else if (marker_text == "mr") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
 
-<entry
-  marker="sr"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
+      // s
+      // div[@type="section"]/title
+      else if (marker_text == "s") {
+        transform_division ("section", true);
+        transform_general_title (usfm_code, marker_length, NULL, 0);
+      } 
+      
+      // s1
+      // div[@type="section"]/title
+      else if (marker_text == "s1") {
+        transform_division ("section", true);
+        transform_general_title (usfm_code, marker_length, NULL, 1);
+      } 
+      
+      // s2
+      // div[@type="subSection"]/title
+      else if (marker_text == "s2") {
+        transform_division ("subSection", true);
+        transform_general_title (usfm_code, marker_length, NULL, 2);
+      } 
+      
+      // s3
+      // div[@type="subSection"]/div[@type="subSection"]/title
+      else if (marker_text == "s3") {
+        transform_division ("subSection", true);
+        transform_general_title (usfm_code, marker_length, NULL, 3);
+      } 
 
-<entry
-  marker="r"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
+      // s4 
+      // div[@type="subSection"]/div[@type="subSection"]/div[@type="subSection"]/title
+      else if (marker_text == "s4") {
+        transform_division ("subSection", true);
+        transform_general_title (usfm_code, marker_length, NULL, 4);
+      } 
 
-<entry
-  marker="rq"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="text"
-/>
+      else if (marker_text == "sr") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
 
-<entry
-  marker="d"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="title"
-/>
+      // r
+      // title[@type='parallel']/reference
+      else if (marker_text == "r") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+      
+      else if (marker_text == "r") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
 
-<entry
-  marker="sp"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
+      // d
+      // title[@type="psalm"] 
+      else if (marker_text == "d") {
+        transform_general_title (usfm_code, marker_length, "psalm", 0);
+      }
+
+      // sp 
+      // speech/speaker 
+      else if (marker_text == "sp") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+
+
+/* Todo
 
 <!-- Chapters and Verses -->
 
@@ -1373,9 +1445,6 @@ void Usfm2Osis::transform_division(ustring& usfm_code) // Todo
       // one or more identifier in the osisID and up to one value 
       // for "n". 
 
-      // d
-      // title[@type="psalm"] 
-
       // dc 
       // transChange[@type="added" and @edition="dc"] 
 
@@ -1420,93 +1489,12 @@ void Usfm2Osis::transform_division(ustring& usfm_code) // Todo
       // glo 
       // div[@type="glossary"] 
 
-      // ib See notes below on \m and \b 
-      // (This is a format oriented marker --whitespace, but 
-      // needs to be preserved round-trip) 
-
       // idx 
       // div[@type="index"]
-
-      // ie 
-
-      // iex 
-      // div[@type="bridge"] 
-
-      // im See notes below on \m and \b 
-
-      // imi 
-      // Continue the div[@type="introduction" and 
-      // @canonical="false"]//list/item/p if interrupted 
-      // otherwise div[@type="introduction" and 
-      // @canonical="false"]//list/item 
-
-      // imq 
-      // div[@type="introduction" and @canonical="false"]//q 
-
-      // imt 
-      // div[@type="introduction" and 
-      // @canonical="false"]/title[@type="main"] 
-
-      // imt1 
-      // div[@type="introduction" and @canonical="false"]/title[@type="main"]/title[@level="1"] 
-
-      // imt2 
-      // div[@type="introduction" and @canonical="false"]/title[@type="main"]/title[@level="2"] 
-
-      // imt3 
-      // div[@type="introduction" and @canonical="false"]/title[@type="main"]/title[@level="3"] 
-
-      // imt4 
-      // div[@type="introduction" and @canonical="false"]/title[@type="main"]/title[@level="4"] 
-
-      // imte 
-      // div[@type="introduction" and @canonical="false"]/title[@type="main"] 
 
       // intro
       // div[@type="introduction"] 
 
-      // iot 
-      // div[@type="introduction" and @canonical="false"]//div[@type="outline"]/title 
-
-      // io1 
-      // div[@type="introduction" and @canonical="false"]//div[@type="outline"]/list/item 
-
-      // io2 
-      // div[@type="introduction" and @canonical="false"]//div[@type="outline"]/list/item/list/item 
-
-      // io3 
-      // div[@type="introduction" and @canonical="false"]//div[@type="outline"]/list/item/list/item/list/item 
-
-      // io4 
-      // div[@type="introduction" and @canonical="false"]//div[@type="outline"]/list/item/list/item/list/item/list/item 
-
-      // ior 
-      // div[@type="introduction" and @canonical="false"]//div[@type="outline"]/list/item/reference 
-
-      // ip 
-      // div[@type="introduction" and @canonical="false"]//p 
-
-      // ipi 
-      // div[@type="introduction" and @canonical="false"]//list/item/p
-
-      // ipq
-      // div[@type="introduction" and @canonical="false"]//q/p
-      
-      // ipr 
-      // div[@type="introduction" and @canonical="false"]//reference 
-      
-      // iq
-      // div[@type="introduction" and @canonical="false"]//lg/l[@level="1"]
-      
-      // iq1
-      // div[@type="introduction" and @canonical="false"]//lg/l[@level="1"] 
-
-      // iq2
-      // div[@type="introduction" and @canonical="false"]//lg/l[@level="2"] 
-      
-      // iq3 
-      // div[@type="introduction" and @canonical="false"]//lg/l[@level="3"] 
-      
       // is
       // div[@type="introduction" and @canonical="false"]/div[@type="section"]/title 
       // is1 
@@ -1551,39 +1539,6 @@ void Usfm2Osis::transform_division(ustring& usfm_code) // Todo
       // mr 
       // div[@type="majorSection"]/title[@type="scope"]/reference 
 
-      // mt
-      // div[@type="book"]/title[@type="main"]
-      
-      // mt1 
-      // div[@type="book"]/title[@type="main"]/title[@level="1"] 
-
-      // mt2 
-      // div[@type="book"]/title[@type="main"]/title[@level="2"] 
-
-      // mt3 
-      // div[@type="book"]/title[@type="main"]/title[@level="3"] 
-      
-      // mt4 
-      // div[@type="book"]/title[@type="main"]/title[@level="4"] 
-      
-      // mte 
-      // div[@type="book"]/title[@type="main"]
-      
-      // mte1 
-      // div[@type="book"]/title[@type="main"]/title[@level="1"]
-
-      // mte2
-      // div[@type="book"]/title[@type="main"]/title[@level="2"]
-      
-      // ms
-      // div[@type="majorSection"]/title
-
-      // ms1 
-      // div[@type="majorSection"]/title
-      
-      // ms2 
-      // div[@type="majorSection"]/div[@type="majorSection"]/title
-      
       // nb 
 
       // nd 
@@ -1712,32 +1667,11 @@ void Usfm2Osis::transform_division(ustring& usfm_code) // Todo
       // r
       // title[@type='parallel']/reference
       
-      // rem
-      // description[@type="usfm" and subType="x-rem"]
-      else if (marker_text == "rem") {
-        transform_usfm_description (usfm_code, marker_text, marker_length);
-      } 
-      
       // restore
       // description[@type="usfm" and subType="x-restore"]
       else if (marker_text == "restore") {
         transform_usfm_description (usfm_code, marker_text, marker_length);
       } 
-      
-      // s
-      // div[@type="section"]/title
-      
-      // s1
-      // div[@type="section"]/title
-      
-      // s2
-      // div[@type="subSection"]/title
-      
-      // s3
-      // div[@type="subSection"]/div[@type="subSection"]/title
-
-      // s4 
-      // div[@type="subSection"]/div[@type="subSection"]/div[@type="subSection"]/title
       
       // sc 
       // hi[@type="small-caps"]
@@ -1747,9 +1681,6 @@ void Usfm2Osis::transform_division(ustring& usfm_code) // Todo
       
       // sls
       // foreign[@type="x-secondaryLanguage"] 
-
-      // sp 
-      // speech/speaker 
 
       // spin 
       // div[@type="spine"] 
@@ -1864,6 +1795,9 @@ void Usfm2Osis::transform_division(ustring& usfm_code) // Todo
     }
   }
 
+  // Be sure that the division is closed.
+  ensure_division_closed ();
+
   // Appendix F.1 Notes on \b, \m, and \mi 
 
   // If \b immediately follows a line group, list, or table and is not immediatelly followed by \s, \s#, \p, \ms, \ms#, 
@@ -1901,6 +1835,9 @@ void Usfm2Osis::transform_fallback(ustring& usfm_code)
   // Bail out if there's no usfm code available.
   if (usfm_code.empty())
     return;
+
+  // Ensure paragraph state.
+  ensure_paragraph_opened();
 
   // Get the text till the next marker.
   ustring marker;
@@ -1974,7 +1911,7 @@ void Usfm2Osis::transform_per_osis_division(ustring& usfm_code)
     if (marker_found && (marker_position == 0)) {
       // A marker is right at the start of the line.
       if (marker_is_opener && usfm_is_osis_division (marker_text)) {
-        transform_division(division_usfm_code);
+        transform_block(division_usfm_code);
       }
       // Remove the marker from the input stream, 
       // and add it to the USFM code of this division.
@@ -1989,8 +1926,8 @@ void Usfm2Osis::transform_per_osis_division(ustring& usfm_code)
     }
   }
 
-  // Transform possible remaining division.
-  transform_division(division_usfm_code);
+  // Transform possible remaining block of USFM code.
+  transform_block(division_usfm_code);
 }
 
 
@@ -2042,4 +1979,108 @@ bool Usfm2Osis::usfm_is_osis_division (const ustring& marker)
   return false;
 }
 
+
+void Usfm2Osis::transform_division (const gchar * type, bool canonical)
+// Opens a new division.
+{
+  // Ensure any previous division or paragraph are closed.
+  ensure_paragraph_closed ();
+
+  // Open a division.
+  ensure_division_opened ();
+  if (type) {
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "type", type);
+  }
+  ustring canonical_text = "false";
+  if (canonical) {
+    canonical_text = "true";
+  }
+  xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "canonical", canonical_text.c_str());
+}
+
+
+void Usfm2Osis::transform_general_title (ustring& usfm_code, size_t marker_length, const gchar * type, unsigned int level)
+// This transforms a general title.
+{
+  ensure_paragraph_closed();
+  ensure_division_opened();
+  xmlTextWriterStartElement(xmlwriter, BAD_CAST "title");
+  if (type) {
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "type", type);
+  }
+  if (level) {
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "level", "%d", level);
+  }
+  ustring title = get_erase_code_till_next_marker (usfm_code, 0, marker_length, true);
+  xmlTextWriterWriteFormatString(xmlwriter, "%s", title.c_str());
+  xmlTextWriterEndElement(xmlwriter);
+}
+
+
+void Usfm2Osis::transform_paragraph_start (ustring& usfm_code, size_t marker_length)
+// Transforms code that starts a paragraph.
+{
+  // Close any previous paragraph.
+  ensure_paragraph_closed ();
+  
+  // Open a paragraph.
+  ensure_paragraph_opened();
+
+  // Remove the marker from the input code.
+  usfm_code.erase (0, marker_length);
+}
+
+
+void Usfm2Osis::ensure_division_opened ()
+{
+  // If the division is not yet open, open it.
+  if (!division_open) {
+    xmlTextWriterStartElement(xmlwriter, BAD_CAST "div");
+    division_open = true;
+  }  
+}
+
+
+void Usfm2Osis::ensure_division_closed ()
+{
+  // First ensure that the paragraph is closed.
+  ensure_paragraph_closed();
+  // If the division is open, close it.
+  if (division_open) {
+    xmlTextWriterEndElement(xmlwriter);
+    division_open = false;
+  }
+}
+
+
+void Usfm2Osis::ensure_paragraph_opened ()
+{
+  // First ensure that a division is open.
+  ensure_division_opened();
+  // If the paragraph is not open, open one.
+  if (!paragraph_open) {
+    xmlTextWriterStartElement(xmlwriter, BAD_CAST "p");
+    paragraph_open = true;
+  }
+}
+
+
+void Usfm2Osis::ensure_paragraph_closed ()
+{
+  // If the paragraph is open, close it.
+  if (paragraph_open) {
+    xmlTextWriterEndElement(xmlwriter);
+    paragraph_open = false;
+  }
+}
+
+
+void Usfm2Osis::transform_remove_marker (ustring& usfm_code, size_t marker_length)
+// This just removes the marker.
+{
+  // Remove the marker from the input code.
+  usfm_code.erase (0, marker_length);
+}
+
+// Todo later we also need ensure character open and close functions.
 
