@@ -104,7 +104,11 @@ void export_to_usfm(const ustring & project, ustring location, bool zip)
     if (!g_str_has_suffix(location.c_str(), ".zip"))
       location.append(".zip");
     unlink(location.c_str());
+#ifdef WIN32
+    ustring command = "cd" + shell_quote_space(tempdir) + " && zip -r zip.zip *.usfm && move zip.zip" + shell_quote_space(location);
+#else
     ustring command = "cd" + shell_quote_space(tempdir) + "; zip -r zip.zip *.usfm; mv zip.zip" + shell_quote_space(location);
+#endif
     if (system(command.c_str())) ;
   }
 }
@@ -358,7 +362,7 @@ Here's how we do the conversion
   ustring command;
   ustring zipfile = temporary_file(settings->genconfig.project_get() + projectconfig->sword_name_get()) + ".zip";
   unlink(zipfile.c_str());
-  command = "cd" + shell_quote_space(base_directory) + "; ";
+  command = "cd" + shell_quote_space(base_directory) + " && ";
   command.append("zip -r" + shell_quote_space(zipfile) + "*");
   if (system(command.c_str())) ;
   unix_mv(zipfile, settings->genconfig.export_to_sword_module_path_get());

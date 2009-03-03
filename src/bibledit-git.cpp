@@ -27,9 +27,11 @@ InterprocessCommunication *ipc;
 
 int main(int argc, char *argv[])
 {
+#ifndef WIN32
   // Do not allow to run as root.
   if (getuid() == 0)
     return 1;
+#endif
 
   // Thread support.
   g_thread_init(NULL);

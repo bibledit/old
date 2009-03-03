@@ -959,7 +959,11 @@ void NewResourceDialog::on_okbutton()
   // Copy all files from the temporal directory to the resource-directory.
   if (directory != workingdirectory) {
     ustring command = "cd" + shell_quote_space(workingdirectory);
+#ifdef WIN32
+    command.append("&& move *" + shell_quote_space(directory));
+#else
     command.append("; mv *" + shell_quote_space(directory));
+#endif
     if (system(command.c_str())) ;
   }
   // Assemble the template.

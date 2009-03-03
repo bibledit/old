@@ -135,7 +135,7 @@ ustring directories_get_package_data()
   ustring directory;
 #ifdef WIN32
   gchar *path;
-  path = g_find_program_in_path("bibledit.exe");
+  path = g_find_program_in_path("bibledit-bin.exe");
   if (path) {
     directory = path;
     g_free(path);
