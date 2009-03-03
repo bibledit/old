@@ -740,201 +740,235 @@ void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
         transform_verse_number (usfm_code, marker_length);
       }
 
+      // va 
+      // If it is desired to have two "n" attribute values then 
+      // encode two verse elements - otherwise simply put one 
+      // or more identifier in the osisID and up to one value for 
+      // "n". 
+      else if (marker_text == "va") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
 
+      // vp 
+      // If it is desired to have two "n" attribute values then 
+      // encode two verse elements - otherwise simply put one 
+      // or more identifier in the osisID and up to one value for 
+      // "n". 
+      else if (marker_text == "vp") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+
+      // p 
+      // p 
+      else if (marker_text == "p") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+
+      // m
+      // See notes below on \m and \b 
+      else if (marker_text == "m") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+      
+      // pmo 
+      // q[@type="embedded"]/salute
+      else if (marker_text == "pmo") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+      
+      // pm 
+      // q[@type="embedded"]/p 
+      else if (marker_text == "pm") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+      
+      // pmc 
+      // q[@type="embedded"]/closer
+      else if (marker_text == "pmc") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+      
+      // pmr 
+      // q[@type="embedded"]/p[@type="x-refrain"]
+      else if (marker_text == "pmr") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+      
+      // pi 
+      // list/item/p 
+      else if (marker_text == "pi") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+
+      // pi1 
+      // list/item/p 
+      else if (marker_text == "pi1") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+
+      // pi2 
+      // list/item/list/item/p 
+      else if (marker_text == "pi2") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+
+      // pi3 
+      // list/item/list/item/list/item/p
+      else if (marker_text == "pi3") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+      
+      else if (marker_text == "pi4") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+
+      // mi 
+      // See notes below on \m and \b
+      else if (marker_text == "mi") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+      
+      // nb 
+      else if (marker_text == "nb") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+
+      // cls
+      // closer
+      else if (marker_text == "cls") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+      
+      // li 
+      // list/item 
+      else if (marker_text == "li") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+
+      // li1 
+      // list/item 
+      else if (marker_text == "li1") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+
+      // li2 
+      // list/item/list/item 
+      else if (marker_text == "li2") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+
+      // li3 
+      // list/item/list/item/list/item 
+      else if (marker_text == "li3") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+
+      // li4 
+      // list/item/list/item/list/item/list/item 
+      else if (marker_text == "li4") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+      
+      // pc 
+      // inscription 
+      else if (marker_text == "pc") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+
+      // pr
+      // p[@type="x-refrain"]
+      else if (marker_text == "pr") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+      
+      // ph 
+      // list/item 
+      else if (marker_text == "ph") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+
+      // ph1 
+      // list/item 
+      else if (marker_text == "ph1") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+
+      // ph2 
+      // list/item/list/item 
+      else if (marker_text == "ph2") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+
+      // ph3 
+      // list/item/list/item/list/item 
+      else if (marker_text == "ph3") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+
+      else if (marker_text == "ph4") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+
+      // b
+      // See notes below on \m and \b 
+      else if (marker_text == "b") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+
+      // q 
+      // lg/l[@level="1"]
+      else if (marker_text == "q") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+      
+      // q1
+      // lg/l[@level="1"]
+      else if (marker_text == "q1") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+      
+      // q2
+      // lg/l[@level="2"] 
+      else if (marker_text == "q2") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+      
+      // q3
+      // lg/l[@level="3"]
+      else if (marker_text == "q3") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+      
+      else if (marker_text == "q4") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+
+      // qr
+      // l[@type="refrain"] and l[@type="attribution"] (choose qr based on context) 
+      else if (marker_text == "qr") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+      
+      // qc 
+      // l[@type="doxology"]
+      else if (marker_text == "qc") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+      
+      // qs
+      // lg/l[@type="selah"]
+      else if (marker_text == "qs") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+      
+      // qa
+      // lg/l[@type="acrostic"]
+      else if (marker_text == "qa") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+      
 
 /* Todo
-<entry
-  marker="v"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="verse"
-/>
-
-<entry
-  marker="va"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="text"
-/>
-
-<entry
-  marker="vp"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="verse_marker"
-/>
-
-<!-- Paragraphs -->
-
-<entry
-  marker="p"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
-
-<entry
-  marker="m"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
-
-<entry
-  marker="pmo"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
-
-<entry
-  marker="pm"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
-
-<entry
-  marker="pmc"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
-
-<entry
-  marker="pmr"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
-
-<entry
-  marker="pi"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  variants="1234"
-  function="paragraph"
-/>
-
-<entry
-  marker="mi"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
-
-<entry
-  marker="nb"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="no_break"
-/>
-
-<entry
-  marker="cls"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
-
-<entry
-  marker="li"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  variants="1234"
-  function="list"
-/>
-
-<entry
-  marker="pc"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
-
-<entry
-  marker="pr"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
-
-<entry
-  marker="ph"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  variants="1234"
-  function="paragraph"
-/>
-
-<entry
-  marker="b"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
-
-<!-- Poetry -->
-
-<entry
-  marker="q"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  variants="1234"
-  function="paragraph"
-/>
-
-<entry
-  marker="qr"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
-
-<entry
-  marker="qc"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
-
-<entry
-  marker="qs"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="paragraph"
-/>
-
-<entry
-  marker="qa"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
-
 <entry
   marker="qac"
   startsline="yes"
@@ -1407,9 +1441,6 @@ void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
       // add 
       // transChange[@type="added"]
 
-      // b
-      // See notes below on \m and \b 
-
       // bd
       // hi[@type="bold"]
 
@@ -1419,9 +1450,6 @@ void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
       // bk
       // reference[@type="x-bookName"]
 
-      // cls
-      // closer
-      
       // conc
       // div[@type="concordance"]
             
@@ -1492,37 +1520,14 @@ void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
       // k 
       // seg[@type="keyword"] 
 
-      // li 
-      // list/item 
-
-      // li1 
-      // list/item 
-
-      // li2 
-      // list/item/list/item 
-
-      // li3 
-      // list/item/list/item/list/item 
-
-      // li4 
-      // list/item/list/item/list/item/list/item 
-      
       // lit 
       // lg[@type='doxology']/l[@type='refrain'] 
 
-      // m
-      // See notes below on \m and \b 
-      
       // map 
       // div[@type="map"]
 
-      // mi 
-      // See notes below on \m and \b
-      
       // mr 
       // div[@type="majorSection"]/title[@type="scope"]/reference 
-
-      // nb 
 
       // nd 
       // divineName 
@@ -1536,59 +1541,14 @@ void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
       // ord 
       // hi[@type="super"] 
 
-      // p 
-      // p 
-
       // pb 
       // milestone[@type="pb"] 
-
-      // pc 
-      // inscription 
-
-      // ph 
-      // list/item 
-
-      // ph1 
-      // list/item 
-
-      // ph2 
-      // list/item/list/item 
-
-      // ph3 
-      // list/item/list/item/list/item 
 
       // phi 
       // treat same as ph 
 
-      // pi 
-      // list/item/p 
-
-      // pi1 
-      // list/item/p 
-
-      // pi2 
-      // list/item/list/item/p 
-
-      // pi3 
-      // list/item/list/item/list/item/p
-      
-      // pmo 
-      // q[@type="embedded"]/salute
-      
-      // pm 
-      // q[@type="embedded"]/p 
-      
-      // pmc 
-      // q[@type="embedded"]/closer
-      
-      // pmr 
-      // q[@type="embedded"]/p[@type="x-refrain"]
-      
       // pn 
       // name
-      
-      // pr
-      // p[@type="x-refrain"]
       
       // pref
       // div[@type="preface"] 
@@ -1606,26 +1566,8 @@ void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
       // Encode in using the Doublin Core elements in work in the header. 
       // If for presentation purposes this may be encoded within div[@type="publicationData"] 
       
-      // q 
-      // lg/l[@level="1"]
-      
-      // q1
-      // lg/l[@level="1"]
-      
-      // q2
-      // lg/l[@level="2"] 
-      
-      // q3
-      // lg/l[@level="3"]
-      
-      // qa
-      // lg/l[@type="acrostic"]
-      
       // qac
       // hl[@type="acrostic"]
-      
-      // qc 
-      // l[@type="doxology"]
       
       // qm
       // q[@type="embedded"]/lg/l[@level="1"] (or leave off the level)
@@ -1637,12 +1579,6 @@ void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
       // q[@type="embedded"]/lg/l[@level="2"]
       
       // qm3 q[@type="embedded"]/lg/l[@level="3"]
-      
-      // qr
-      // l[@type="refrain"] and l[@type="attribution"] (choose qr based on context) 
-      
-      // qs
-      // lg/l[@type="selah"]
       
       // qt
       // seg[@type="otPassage"]
@@ -1727,18 +1663,6 @@ void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
 
       // tr2 
       // treat same as tr 
-
-      // va 
-      // If it is desired to have two "n" attribute values then 
-      // encode two verse elements - otherwise simply put one 
-      // or more identifier in the osisID and up to one value for 
-      // "n". 
-
-      // vp 
-      // If it is desired to have two "n" attribute values then 
-      // encode two verse elements - otherwise simply put one 
-      // or more identifier in the osisID and up to one value for 
-      // "n". 
 
       // w 
       // index[@level1="..."]... 
