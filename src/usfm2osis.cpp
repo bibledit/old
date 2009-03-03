@@ -67,6 +67,7 @@ Usfm2Osis::Usfm2Osis(const ustring& file)
   book_bibledit_id = 0;
   division_open = false;
   paragraph_open = false;
+  chapter_number = 0;
   
   // Create the XML writer.
   xmlbuffer = xmlBufferCreate();
@@ -693,51 +694,55 @@ void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
         transform_paragraph_start (usfm_code, marker_length);
       }
 
+      // c 
+      // Write the chapter number as a milestone.
+      else if (marker_text == "c") {
+        ensure_chapter_closed ();
+        transform_chapter_number (usfm_code, marker_length);
+      }
+
+      // ca
+      // If it is desired to have two "n" attribute values then 
+      // encode two chapter elements - otherwise simply put 
+      // one or more identifier in the osisID and up to one value 
+      // for "n".
+      else if (marker_text == "ca") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+
+      // cl
+      // title type="chapterLabel"
+      else if (marker_text == "cl") {
+        transform_general_title (usfm_code, marker_length, "chapterLabel", 0);
+      }
+
+      // cp
+      // If it is desired to have two "n" attribute values then 
+      // encode two chapter elements - otherwise simply put 
+      // one or more identifier in the osisID and up to one value 
+      // for "n". 
+      else if (marker_text == "cp") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+
+      // cd
+      // div[@type="book"]/div[@type="introduction" and 
+      // preceeding-sibling::chapter] -- e.g. make this an intro 
+      // div which immediately follows a chapter milestone 
+      else if (marker_text == "cd") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+
+      // v 
+      // verse\@osisID and verse\@n 
+      else if (marker_text == "v") {
+        ensure_verse_closed ();
+        transform_verse_number (usfm_code, marker_length);
+      }
+
+
 
 /* Todo
-
-<!-- Chapters and Verses -->
-
-<entry
-  marker="c"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="chapter"
-/>
-
-<entry
-  marker="ca"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="text"
-/>
-
-<entry
-  marker="cl"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="chapter_label"
-/>
-
-<entry
-  marker="cp"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="chapter_marker"
-/>
-
-<entry
-  marker="cd"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
-
 <entry
   marker="v"
   startsline="yes"
@@ -1414,22 +1419,6 @@ void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
       // bk
       // reference[@type="x-bookName"]
 
-      // c 
-
-      // ca
-      // If it is desired to have two "n" attribute values then 
-      // encode two chapter elements - otherwise simply put 
-      // one or more identifier in the osisID and up to one value 
-      // for "n".
-
-      // cd
-      // div[@type="book"]/div[@type="introduction" and 
-      // preceeding-sibling::chapter] -- e.g. make this an intro 
-      // div which immediately follows a chapter milestone 
-
-      // cl
-      // title type="chapterLabel"
-      
       // cls
       // closer
       
@@ -1438,12 +1427,6 @@ void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
             
       // cov
       // div[@type="coverPage"]
-
-      // cp
-      // If it is desired to have two "n" attribute values then 
-      // encode two chapter elements - otherwise simply put 
-      // one or more identifier in the osisID and up to one value 
-      // for "n". 
 
       // dc 
       // transChange[@type="added" and @edition="dc"] 
@@ -1745,9 +1728,6 @@ void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
       // tr2 
       // treat same as tr 
 
-      // v 
-      // verse\@osisID and verse\@n 
-
       // va 
       // If it is desired to have two "n" attribute values then 
       // encode two verse elements - otherwise simply put one 
@@ -1928,6 +1908,9 @@ void Usfm2Osis::transform_per_osis_division(ustring& usfm_code)
 
   // Transform possible remaining block of USFM code.
   transform_block(division_usfm_code);
+  
+  // Be sure that the chapter is closed.
+  ensure_chapter_closed ();
 }
 
 
@@ -2082,5 +2065,63 @@ void Usfm2Osis::transform_remove_marker (ustring& usfm_code, size_t marker_lengt
   usfm_code.erase (0, marker_length);
 }
 
-// Todo later we also need ensure character open and close functions.
 
+void Usfm2Osis::ensure_chapter_closed ()
+// Ensures that the chapter milestone is closed.
+{
+  ensure_verse_closed();
+  if (!chapter_osis_id.empty()) {
+    // Close chapter milestone, e.g.: <chapter eID="Titus.2"/>
+    xmlTextWriterStartElement(xmlwriter, BAD_CAST "chapter");
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "eID", chapter_osis_id.c_str());
+    xmlTextWriterEndElement(xmlwriter);
+    chapter_osis_id.clear();
+  }
+}
+
+
+void Usfm2Osis::transform_chapter_number (ustring& usfm_code, size_t marker_length)
+{
+  // Extract the chapter number from the usfm code.
+  usfm_code.erase (0, marker_length);
+  ustring chapter_number = get_erase_code_till_next_marker (usfm_code, 0, 0, true);
+  // Store the OSIS id.
+  chapter_osis_id = book_osis_id + "." + chapter_number;
+  // Write milestone, e.g.: <chapter sID="Titus.2" osisID="Titus.2" n="2"/> 
+  xmlTextWriterStartElement(xmlwriter, BAD_CAST "chapter");
+  xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "sID", chapter_osis_id.c_str());
+  xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "osisID", chapter_osis_id.c_str());
+  xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "n", chapter_number.c_str());
+  xmlTextWriterEndElement(xmlwriter);
+}
+
+
+void Usfm2Osis::ensure_verse_closed ()
+// Ensures that the verse milestone is closed.
+{
+  if (!verse_osis_id.empty()) {
+    // Close verse milestone, e.g.: <verse eID="Titus.2.1" />
+    xmlTextWriterStartElement(xmlwriter, BAD_CAST "verse");
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "eID", verse_osis_id.c_str());
+    xmlTextWriterEndElement(xmlwriter);
+    verse_osis_id.clear();
+  }
+}
+
+
+void Usfm2Osis::transform_verse_number (ustring& usfm_code, size_t marker_length)
+{
+  // Extract the verse number from the usfm code.
+  usfm_code.erase (0, marker_length);
+  ustring verse_number = usfm_get_verse_number (usfm_code, true, true);
+  // Store the OSIS id.
+  verse_osis_id = chapter_osis_id + "." + verse_number;
+  // Write milestone, e.g.: <verse sID="Titus.2.1" osisID="Titus.2.1"/>
+  xmlTextWriterStartElement(xmlwriter, BAD_CAST "verse");
+  xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "sID", verse_osis_id.c_str());
+  xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "osisID", verse_osis_id.c_str());
+  xmlTextWriterEndElement(xmlwriter);
+}
+
+
+// Todo later we also need ensure character open and close functions.

@@ -62,6 +62,17 @@ private:
   void ensure_division_closed ();
   void ensure_paragraph_opened ();
   void ensure_paragraph_closed ();
+  
+  unsigned int chapter_number;
+  ustring chapter_osis_id;
+  void ensure_chapter_closed ();
+  void transform_chapter_number (ustring& usfm_code, size_t marker_length);
+
+  unsigned int verse_number;
+  ustring verse_osis_id;
+  void ensure_verse_closed ();
+  void transform_verse_number (ustring& usfm_code, size_t marker_length);
+  
 };
 
 #endif

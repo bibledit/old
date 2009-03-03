@@ -1001,3 +1001,28 @@ ustring get_erase_code_till_next_marker(ustring & line, size_t marker_position, 
 }
 
 
+ustring usfm_get_verse_number (ustring& usfmcode, bool clean, bool remove)
+// Gets the verse number from usfm code.
+// clean: cleanup the verse number.
+// remove: remove the verse code from the usfm code.
+{
+  ustring verse;
+  
+  size_t position = usfmcode.find (" ");
+  if (position == string::npos) {
+    verse = usfmcode;
+    if (remove)
+      usfmcode.clear();
+  } else {
+    verse = usfmcode.substr (0, position);
+    if (remove)
+      usfmcode.erase (0, position);
+  }
+
+  if (clean) 
+    verse = trim (verse);
+  
+  return verse;  
+}
+
+
