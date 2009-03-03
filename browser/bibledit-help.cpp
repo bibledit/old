@@ -165,9 +165,11 @@ static gboolean on_html_link_clicked (GtkHTML *html, const gchar * url, gpointer
 
 int main (int argc, char *argv[])
 {
+#ifndef WIN32
   // Do not run as root.
   if (getuid () == 0)
     return 1;
+#endif
 
   // Initialize bits.
   gtk_init (&argc, &argv);
