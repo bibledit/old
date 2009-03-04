@@ -54,12 +54,15 @@ private:
   void transform_fallback(ustring& usfm_code);
   void transform_remove_marker (ustring& usfm_code, size_t marker_length);
   void transform_usfm_description (ustring& usfm_code, const ustring& marker_text, size_t marker_length);
+
   void transform_h_title (ustring& usfm_code, size_t marker_length, bool runningheader, const gchar * placement);
-  void transform_division (const gchar * type, bool canonical);
   void transform_general_title (ustring& usfm_code, size_t marker_length, const gchar * type, unsigned int level);
-  void transform_paragraph_start (ustring& usfm_code, size_t marker_length);
+
+  void transform_division (const gchar * type, bool canonical);
   void ensure_division_opened ();
   void ensure_division_closed ();
+
+  void transform_paragraph_start (ustring& usfm_code, size_t marker_length);
   void ensure_paragraph_opened ();
   void ensure_paragraph_closed ();
   
@@ -72,7 +75,10 @@ private:
   ustring verse_osis_id;
   void ensure_verse_closed ();
   void transform_verse_number (ustring& usfm_code, size_t marker_length);
-  
+
+  void transform_note (ustring& usfm_code, size_t marker_length, bool is_opener, bool endnote, bool xref);
+  bool note_is_open;
+  void ensure_note_closed ();
 };
 
 #endif

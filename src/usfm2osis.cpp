@@ -68,6 +68,7 @@ Usfm2Osis::Usfm2Osis(const ustring& file)
   division_open = false;
   paragraph_open = false;
   chapter_number = 0;
+  note_is_open = false;
   
   // Create the XML writer.
   xmlbuffer = xmlBufferCreate();
@@ -967,90 +968,202 @@ void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
         transform_paragraph_start (usfm_code, marker_length);
       }
       
+      // qac
+      // hl[@type="acrostic"]
+      else if (marker_text == "qac") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+      
+      else if (marker_text == "qm") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+
+      else if (marker_text == "qm1") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+
+      else if (marker_text == "qm2") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+
+      else if (marker_text == "qm3") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+
+      else if (marker_text == "qm4") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+
+      // tr 
+      // table/row 
+      else if (marker_text == "tr") {
+        transform_paragraph_start (usfm_code, marker_length);
+      }
+
+      // tr1 
+      // treat same as tr 
+
+      // tr2 
+      // treat same as tr 
+
+      else if (marker_text == "th") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+
+      // th1
+      // row[@role="label"]/cell
+      else if (marker_text == "th1") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+      
+      // th2
+      // row[@role="label"]/cell
+      else if (marker_text == "th2") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+      
+      // th3
+      // row[@role="label"]/cell
+      else if (marker_text == "th3") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+      
+      // th4
+      // row[@role="label"]/cell
+      else if (marker_text == "th4") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+      
+      else if (marker_text == "th5") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+
+      else if (marker_text == "th6") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+
+      else if (marker_text == "thr") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+
+      // thr1
+      // row[@role="label"]/cell[@align='right']
+      else if (marker_text == "thr1") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+      
+      // thr2
+      // row[@role="label"]/cell[@align='right']
+      else if (marker_text == "thr2") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+
+      // thr3
+      // row[@role="label"]/cell[@align='right']
+      else if (marker_text == "thr3") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+      
+      // thr4
+      // row[@role="label"]/cell[@align='right']
+      else if (marker_text == "thr4") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+      
+      else if (marker_text == "thr5") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+
+      else if (marker_text == "thr6") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+
+      else if (marker_text == "tc") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+
+      // tc1
+      // row/cell
+      else if (marker_text == "tc1") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+      
+      // tc2
+      // row/cell
+      else if (marker_text == "tc2") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+      
+      // tc3
+      // row/cell
+      else if (marker_text == "tc3") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+      
+      // tc4
+      // row/cell
+      else if (marker_text == "tc4") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+      
+      else if (marker_text == "tc5") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+
+      else if (marker_text == "tc6") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+
+      else if (marker_text == "tcr") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+
+      // tcr1
+      // row/cell[@align='right']
+      else if (marker_text == "tcr1") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+      
+      // tcr2
+      // row/cell[@align='right']
+      else if (marker_text == "tcr2") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+      
+      // tcr3
+      // row/cell[@align='right']
+      else if (marker_text == "tcr3") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+      
+      // tcr4
+      // row/cell[@align='right']
+      else if (marker_text == "tcr4") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+      
+      else if (marker_text == "tcr5") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+
+      else if (marker_text == "tcr6") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+
+      // f
+      // note 
+      else if (marker_text == "f") {
+        transform_note (usfm_code, marker_length, marker_is_opener, false, false);
+      }
+
+      // fe
+      // note[@placement="end"] 
+      else if (marker_text == "fe") {
+        transform_note (usfm_code, marker_length, marker_is_opener, true, false);
+      }
+
 
 /* Todo
-<entry
-  marker="qac"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="text"
-/>
-
-<entry
-  marker="qm"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  variants="1234"
-  function="paragraph"
-/>
-
-<!-- The b marker defined in the Poetry group has been defined above, in the Paragraphs group -->
-
-<!-- Tables -->
-
-<entry
-  marker="tr"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="row"
-/>
-
-<entry
-  marker="th"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="no"
-  variants="123456"
-  function="cell"
-/>
-
-<entry
-  marker="thr"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="no"
-  variants="123456"
-  function="cell"
-/>
-
-<entry
-  marker="tc"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="no"
-  variants="123456"
-  function="cell"
-/>
-
-<entry
-  marker="tcr"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="no"
-  variants="123456"
-  function="cell"
-/>
-
-<!-- Footnotes -->
-
-<entry
-  marker="f"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="footnote"
-/>
-
-<entry
-  marker="fe"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="endnote"
-/>
 
 <entry
   marker="fr"
@@ -1462,14 +1575,8 @@ void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
       // em 
       // hi[@type="emphasis"] 
 
-      // f
-      // note 
-
       // fdc 
       // note[not(@type='crossReference')]/seg[@edition="dc"] 
-
-      // fe
-      // note[@placement="end"] 
 
       // fig 
       // figure (map attributes to the "|" separated values) 
@@ -1566,9 +1673,6 @@ void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
       // Encode in using the Doublin Core elements in work in the header. 
       // If for presentation purposes this may be encoded within div[@type="publicationData"] 
       
-      // qac
-      // hl[@type="acrostic"]
-      
       // qm
       // q[@type="embedded"]/lg/l[@level="1"] (or leave off the level)
       
@@ -1604,65 +1708,8 @@ void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
       // spin 
       // div[@type="spine"] 
       
-      // tc1
-      // row/cell
-      
-      // tc2
-      // row/cell
-      
-      // tc3
-      // row/cell
-      
-      // tc4
-      // row/cell
-      
-      // tcr1
-      // row/cell[@align='right']
-      
-      // tcr2
-      // row/cell[@align='right']
-      
-      // tcr3
-      // row/cell[@align='right']
-      
-      // tcr4
-      // row/cell[@align='right']
-      
-      // th1
-      // row[@role="label"]/cell
-      
-      // th2
-      // row[@role="label"]/cell
-      
-      // th3
-      // row[@role="label"]/cell
-      
-      // th4
-      // row[@role="label"]/cell
-      
-      // thr1
-      // row[@role="label"]/cell[@align='right']
-      
-      // thr2
-      // row[@role="label"]/cell[@align='right']
-
-      // thr3
-      // row[@role="label"]/cell[@align='right']
-      
-      // thr4
-      // row[@role="label"]/cell[@align='right']
-      
       // tl
       // foreign 
-
-      // tr 
-      // table/row 
-
-      // tr1 
-      // treat same as tr 
-
-      // tr2 
-      // treat same as tr 
 
       // w 
       // index[@level1="..."]... 
@@ -2045,6 +2092,105 @@ void Usfm2Osis::transform_verse_number (ustring& usfm_code, size_t marker_length
   xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "sID", verse_osis_id.c_str());
   xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "osisID", verse_osis_id.c_str());
   xmlTextWriterEndElement(xmlwriter);
+}
+
+
+void Usfm2Osis::transform_note (ustring& usfm_code, size_t marker_length, bool is_opener, bool endnote, bool xref) // Todo
+{
+  // Remove the marker from the input stream.
+  usfm_code.erase (0, marker_length);
+
+  // Ensure any running note gets closed.
+  ensure_note_closed();
+  
+  // A pararaph should be open where the note can be inserted into.
+  ensure_paragraph_opened();
+  
+  // If the marker ends the note, bail out. The note has been closed already.
+  if (!is_opener) {
+    return;
+  }
+  
+  // Open the note element, and set some attributes.
+  xmlTextWriterStartElement(xmlwriter, BAD_CAST "note");
+  if (endnote) {
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "placement", "end");
+  }
+  if (xref) {
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "type", "crossReference");
+  } else {
+    // From USFM one cannot extract information about the type of the note, 
+    // yet we need to pick a type, so let's call it a "study" note.
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "type", "study");
+  }
+
+  // Write the osisRef.
+  xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "osisRef", verse_osis_id.c_str());
+
+  // Extract the caller from the input stream.
+  ustring caller = "+";
+  if (!usfm_code.empty()) {
+    caller = usfm_code.substr (0, 1);
+    usfm_code.erase (0, 1);
+  }
+
+  // Remove whitespace following the caller.
+  if (!usfm_code.empty()) {
+    if (usfm_code.substr (0, 1) == " ") {
+      usfm_code.erase (0, 1);
+    }
+  }    
+  
+  // Derive the caller as to be put in the OSIS note.
+  if (caller == "+")
+    caller.clear();
+  if (caller == "-");
+    caller.clear();
+  
+  // Write the osisID.
+  ustring note_osis_id = verse_osis_id + "!";
+  if (endnote) {
+    note_osis_id.append ("endnote");
+  }
+  else if (xref) {
+    note_osis_id.append ("crossReference");
+  }
+  else {
+    note_osis_id.append ("footnote");
+  }
+  if (!caller.empty()) {
+    note_osis_id.append ("." + caller);
+  }
+  xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "osisID", note_osis_id.c_str());
+
+  // Write the n attribute, if it's there.
+  if (!caller.empty()) {
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "n", caller.c_str());
+  }    
+
+  // Set a flag that the note is open.
+  note_is_open = true;
+  
+/*
+\f + \fr 3:20 \ft \fk Ê‑va\fk* nghĩa là \fq sự sống.\fq\f*
+
+<note osisRef="Gen.3.20" osisID="Gen.3.20!footnote.2" n="2"><catchWord>Ê-va</catchWord> nghĩa là <q>sự sống.</q></note>
+
+We may have to create a "note" mode, so that the main routine works normally in that mode.
+We have a "ensure_note_off" functions and friends, and each marker outside the notes ensures
+that the note mode is off. Like at the end of a paragraph, the notes goes off too, this
+is "ensured".
+*/
+}
+
+
+void Usfm2Osis::ensure_note_closed ()
+// Ensure that a note is closed.
+{
+  if (note_is_open) {
+    xmlTextWriterEndElement(xmlwriter);
+    note_is_open = false;
+  }
 }
 
 
