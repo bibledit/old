@@ -21,12 +21,13 @@
 #define INCLUDED_WINDOWSOUTPOST_H
 
 #include "libraries.h"
-// #define WIN32
 #ifndef WIN32
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
+#else
+#include <ws2tcpip.h>
 #endif
 #include <stdio.h>
 #include "reference.h"
@@ -45,7 +46,6 @@ public:
   void SantaFeFocusReferenceSet(const Reference& reference);
   void SantaFeFocusWordSet(const ustring& word);
 private:
-#ifndef WIN32
   struct sockaddr_in address;
   struct in_addr inaddr;
   struct hostent *host;
@@ -66,7 +66,6 @@ private:
   ustring bibleworks_reference_set_value;
   ustring santafefocus_reference_set_value;
   ustring santafefocus_word_set_value;
-#endif
 };
 
 void windowsoutpost_open_url(const ustring& url);

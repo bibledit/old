@@ -63,3 +63,4 @@ USFMStandard * Styles::usfmstandard()
   // Give the object.
   return myusfmstandard;
 }
+  

@@ -36,14 +36,11 @@ Httpd::Httpd(bool dummy)
 // This is a very basic webserver tailored to Bibledit's specific needs.
 // It has been written using bits of code from awhttpd.
 {
-#ifndef WIN32
   g_thread_create(GThreadFunc(thread_start), gpointer(this), false, NULL);
-#endif
 }
 
 Httpd::~Httpd()
 {
-#ifndef WIN32
   // When the object is destroyed, a flag is set indicating this. The socket 
   // times out, and the webserver sees the flags, and shuts down.
   thread_stop = true;
@@ -51,12 +48,14 @@ Httpd::~Httpd()
   g_usleep(200000);
   // Just to be sure, and solve a problem of sockets not closed that has been 
   // seen randomly, we close the socket and connection here.
+#ifdef WIN32
+  closesocket(conn);
+  closesocket(sock);
+#else
   close(conn);
   close(sock);
 #endif
 }
-
-#ifndef WIN32
 
 void Httpd::thread_start(gpointer data)
 {
@@ -73,33 +72,63 @@ void Httpd::thread_main()
     return;
   }
   // Get a socket.
+#ifdef WIN32
+  sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
+  if (sock == INVALID_SOCKET)
+#else
   sock = socket(PF_INET, SOCK_STREAM, 0);
-  if (sock < 0) {
+  if (sock < 0)
+#endif
+  {
     log(strerror(errno));
     return;
   }
   // Let the kernel reuse the socket address, allowing us to run twice in a row,
   // without waiting for the (ip, port) tuple to time out.  
-  int i = 1;
+  const char i = 1;
   setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &i, sizeof(i));
   // Initialize IP address and port number.
   struct sockaddr_in address;
   address.sin_family = AF_INET;
+#ifdef WIN32
+  WSAHtons(sock, HTTPD_PORT, &address.sin_port);
+  // Having this bound listening externally seems like a really bad idea.
+  // Changed to use loopback for Windows. 
+  // Yes, not everyone has a loopback, but they can fix this themselves.
+  address.sin_addr.s_addr = inet_addr("127.0.0.1");
+#else
   address.sin_port = htons(HTTPD_PORT);
+  // On Linux even people from outside can consult the helpfile.
   address.sin_addr.s_addr = INADDR_ANY;
+#endif
   memset(&(address.sin_zero), 0, 8);
   // Bind address to socket.
+#ifdef WIN32
+  if (bind(sock, (struct sockaddr *)&address, sizeof(address)) == SOCKET_ERROR) {
+    closesocket(sock);
+#else
   if (bind(sock, (struct sockaddr *)&address, sizeof(address)) == -1) {
     close(sock);
+#endif
     log(strerror(errno));
     return;
   }
   // Set socket to non-blocking mode.
+#ifdef WIN32
+  u_long socketmode = 1; // Set non-blocking
+  ioctlsocket(sock, FIONBIO, &socketmode);
+#else
   fcntl(sock, F_SETFL, fcntl(sock, F_GETFL, 0) | O_NONBLOCK);
+#endif
   // Listen on socket.
+#ifdef WIN32
+  if (listen(sock, 10) == SOCKET_ERROR) {
+    closesocket(sock);
+#else
   if (listen(sock, 10) == -1) {
-    log(strerror(errno));
     close(sock);
+#endif
+    log(strerror(errno));
     return;
   }
   // Handle connections.
@@ -110,18 +139,28 @@ void Httpd::thread_main()
   // comes it, it runs all over again. This way nothing hangs.
   // Another stab at this problem is given in the object destructor: it closes
   // the two sockets by force, regardless of who's communicating or listening on
-  // zit.
+  // it.
   thread_stop = false;
   socklen_t addr_length = sizeof(struct sockaddr_in);
   while (!thread_stop) {
     conn = accept(sock, (struct sockaddr *)&address, &addr_length);
-    if (conn >= 0) {
-      handle_request(conn);
-    } else {
+#ifdef WIN32
+    if (conn == INVALID_SOCKET) {
+      closesocket(conn);
+#else
+    if (conn < 0) {
+      close(conn);
+#endif
       g_usleep(50000);
+    } else { // accept() worked
+      handle_request(conn);
     }
-  }
+  } // end accept loop
+#ifdef WIN32
+  closesocket(sock);
+#else 
   close(sock);
+#endif
 }
 
 void Httpd::handle_request(int fd)
@@ -138,7 +177,11 @@ void Httpd::handle_request(int fd)
   // Connection: keep-alive
   // 
   char buf[1024];
+#ifdef WIN32
+  int amount = recv(fd, buf, sizeof(buf), 0);
+#else
   int amount = read(fd, buf, sizeof(buf));
+#endif
   if (amount > 0) {
     // Put a 0 at the last character, to close the string.
     buf[amount] = '\0';
@@ -184,7 +227,11 @@ void Httpd::handle_request(int fd)
       }
     }
   }
+#ifdef WIN32
+  closesocket(fd);
+#else
   close(fd);
+#endif
 }
 
 void Httpd::log(const ustring & message)
@@ -194,13 +241,18 @@ void Httpd::log(const ustring & message)
 
 void Httpd::sendline(int fd, const ustring & line)
 {
+#ifdef WIN32
+  if (send(fd, line.c_str(), strlen(line.c_str()), 0)) ;
+  if (send(fd, "\n", 1, 0)) ;
+#else
   if (write(fd, line.c_str(), strlen(line.c_str()))) ;
   if (write(fd, "\n", 1)) ;
+#endif
 }
 
 const char *Httpd::getmimetype(char *name)
 {
-
+  // DD: Shouldn't we read this from a system mime.types ?
   struct {
     const char *ext;
     const char *type;
@@ -372,9 +424,15 @@ void Httpd::send_file(int fd, const ustring & filename)
       ustring s(contents);
       size_t pos = s.find("</body>");
       s.insert(pos, "<p>See also the <a href=\"index.html\">general online help.</a></p>\n");
+#ifdef WIN32
+      if (send(fd, s.c_str(), strlen(s.c_str()), 0)) ;
+    } else {
+      if (send(fd, contents, length, 0)) ;
+#else
       if (write(fd, s.c_str(), strlen(s.c_str()))) ;
     } else {
       if (write(fd, contents, length)) ;
+#endif
     }
     g_free(contents);
   } else {
@@ -513,5 +571,3 @@ void Httpd::url_decode(char *buf)
   }
   *w = '\0';
 }
-
-#endif

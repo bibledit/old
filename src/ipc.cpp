@@ -13,7 +13,7 @@
  **  
  ** You should have received a copy of the GNU General Public License
  ** along with this program; if not, write to the Free Software
- ** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  **  
  */
 
@@ -43,7 +43,7 @@ InterprocessCommunication::InterprocessCommunication(IPCSocketType name)
     log("Windows Sockets DLL unusable.", true);
     return;
   }
-  if ((sock = socket(PF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET) {
+  if ((sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) == INVALID_SOCKET) {
 #else
   if ((sock = socket(PF_UNIX, SOCK_STREAM, 0)) < 0) {
 #endif
@@ -106,17 +106,16 @@ InterprocessCommunication::~InterprocessCommunication()
     g_usleep(10000);
 
   // Close the socket.
-  if (sock >= 0) {
 #ifdef WIN32
+  if (sock != INVALID_SOCKET) {
     closesocket(sock);          // sockets aren't files on WIN32
-#else
-    close(sock);
-#endif
   }
-#ifdef WIN32
   // Shutdown Windows Sockets
   WSACleanup();
 #else
+  if (sock > 0) {
+    close(sock);
+  }
   // Remove the socket (or other file)
   unlink(socketname(myname).c_str());
 #endif
@@ -181,19 +180,26 @@ void InterprocessCommunication::listener_main()
     vector < ustring > message;
     // Wait for a connection.
 #ifdef WIN32
-    if ((conn = accept(sock, (struct sockaddr *)&address, &addrLength)) != INVALID_SOCKET) {
+    if ((conn = accept(sock, (struct sockaddr *)&address, &addrLength)) == INVALID_SOCKET) {
+      log("Error accepting connection", true);
+      closesocket(conn);
+    }
 #else
-    if ((conn = accept(sock, (struct sockaddr *)&address, &addrLength)) >= 0) {
+    if ((conn = accept(sock, (struct sockaddr *)&address, &addrLength)) < 0) {
+      log("Error accepting connection", true);
+    }
 #endif
+    else { // Connection is accepted, proceeding
       // Read the message sent.
       ustring buffer;
       char buf[1024];
       int amount;
 #ifdef WIN32
-      while ((amount = recv(conn, buf, sizeof(buf), 0)) != SOCKET_ERROR) {
+      while ((amount = recv(conn, buf, sizeof(buf), 0)) > 0)
 #else
-      while ((amount = read(conn, buf, sizeof(buf))) > 0) {
+      while ((amount = read(conn, buf, sizeof(buf))) > 0)
 #endif
+      { // Top of while-read loop
         buf[amount] = '\0';
         buffer.append(buf);
         size_t newlineposition = buffer.find("\n");
@@ -201,8 +207,8 @@ void InterprocessCommunication::listener_main()
           ustring line = buffer.substr(0, newlineposition);
           message.push_back(line);
           buffer.erase(0, newlineposition + 1);
-        }
-      }
+        } // end while readline
+      } // end while reading data
       if (!buffer.empty()) {
         message.push_back(buffer);
       }
@@ -210,14 +216,14 @@ void InterprocessCommunication::listener_main()
         log("Read error", false);
       }
 #ifdef WIN32
+      if(shutdown(conn, SD_SEND) == SOCKET_ERROR) {
+	log("shutdown failed", false);
+      }
       closesocket(conn);
 #else
       close(conn);
 #endif
-    }
-    if (conn < 0) {
-      log("Error accepting connection", true);
-    }
+    } // end accepted connection
     if (!message.empty()) {
       // Store the message.
       method_called_type = ipcctEnd;
@@ -233,19 +239,54 @@ void InterprocessCommunication::listener_main()
       if (signalling_methods.find(method_called_type) != signalling_methods.end()) {
         gtk_button_clicked(GTK_BUTTON(method_called_signal));
       }
-    }
-  }
+    } // end if !message.empty()
+  } // end while listener_running 
   // Indicate that the thread quitted.
   listener_running = false;
 }
 
+void InterprocessCommunication::log(const IPCCallType type, const ustring & message, bool critical)
+{
+  ostringstream name, method;
+  name << myname;
+  method << type;
+#ifdef WIN32
+  ostringstream err;
+  err << WSAGetLastError();
+  ustring msg = "InterprocessCommunication: " + message +
+    " Winsock error: " + err.str() +
+    " Socket Type: " + name.str() +
+    " Call Type: " + method.str();
+#else
+  ustring msg = "InterprocessCommunication: " + message +
+    " Socket Type: " + name.str() +
+    " Call Type: " + method.str();
+#endif
+  if (critical) {
+    g_critical("%s", msg.c_str());
+  } else {
+    if (write(1, msg.c_str(), strlen(msg.c_str()))) ;   // Suppress compiler warning.                     
+    if (write(1, "\n", 1)) ;
+  }
+}
+
 void InterprocessCommunication::log(const ustring & message, bool critical)
 {
-  ustring msg = "InterprocessCommunication: " + message;
+  ostringstream name;
+  name << myname;
+#ifdef WIN32
+  ostringstream err;
+  err << WSAGetLastError();
+  ustring msg = "InterprocessCommunication: " + message +
+    " Winsock error: " + err.str() +
+    " Socket Type: " + name.str();
+#else
+  ustring msg = "InterprocessCommunication: " + message + " Socket Type: " + name.str();
+#endif
   if (critical) {
-    g_critical("%s", message.c_str());
+    g_critical("%s", msg.c_str());
   } else {
-    if (write(1, message.c_str(), strlen(message.c_str()))) ;   // Suppress compiler warning.
+    if (write(1, msg.c_str(), strlen(msg.c_str()))) ;   // Suppress compiler warning.
     if (write(1, "\n", 1)) ;
   }
 }
@@ -255,36 +296,37 @@ bool InterprocessCommunication::send(IPCSocketType name, IPCCallType method, con
 {
   // Connect to the socket given in "name".
 #ifdef WIN32
-  struct sockaddr_in address;
+  struct sockaddr_in sendaddress;
+  SOCKET sendsock;
 #else
-  struct sockaddr_un address;
+  struct sockaddr_un sendaddress;
+  int sendsock;
 #endif
-  int sock;
-  size_t addrLength;
+  size_t sendaddrLength;
 #ifdef WIN32
-  if ((sock = socket(PF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET) {
+  if ((sendsock = socket(PF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET)
 #else
-  if ((sock = socket(PF_UNIX, SOCK_STREAM, 0)) < 0) {
+  if ((sendsock = socket(PF_UNIX, SOCK_STREAM, 0)) < 0)
 #endif
-    log("Sending: socket error", true);
+  {
+    log(method, "Sending: socket error", true);
     return false;
   }
 #ifdef WIN32
-  address.sin_family = AF_INET;
-  WSAHtons(sock, atoi(socketname(name).c_str()), &address.sin_port);
-  address.sin_addr.s_addr = inet_addr("127.0.0.1");
-  addrLength = sizeof(address);
-  if (connect(sock, (struct sockaddr *)&address, addrLength) == SOCKET_ERROR) {
-    log("Sending: connect error", true);
-    cerr << "WSAGetLastError: " << WSAGetLastError() << endl;
+  sendaddress.sin_family = AF_INET;
+  WSAHtons(sendsock, atoi(socketname(name).c_str()), &sendaddress.sin_port);
+  sendaddress.sin_addr.s_addr = inet_addr("127.0.0.1");
+  sendaddrLength = sizeof(sendaddress);
+  if (connect(sendsock, (struct sockaddr *)&sendaddress, sendaddrLength) == SOCKET_ERROR) {
+    log(method, "Sending: connect error", true);
     return false;
   }
 #else
-  address.sun_family = AF_UNIX;
-  strcpy(address.sun_path, socketname(name).c_str());
-  addrLength = sizeof(address.sun_family) + strlen(address.sun_path);
-  if (connect(sock, (struct sockaddr *)&address, addrLength)) {
-    log("Sending: connect error", true);
+  sendaddress.sun_family = AF_UNIX;
+  strcpy(sendaddress.sun_path, socketname(name).c_str());
+  sendaddrLength = sizeof(sendaddress.sun_family) + strlen(sendaddress.sun_path);
+  if (connect(sendsock, (struct sockaddr *)&sendaddress, sendaddrLength)) {
+    log(method, "Sending: connect error", true);
     return false;
   }
 #endif
@@ -295,36 +337,37 @@ bool InterprocessCommunication::send(IPCSocketType name, IPCCallType method, con
   r << (int)method;
   ustring calltype(r.str());
 #ifdef WIN32
-  if (::send(sock, calltype.c_str(), strlen(calltype.c_str()), 0) == SOCKET_ERROR) {
+  if (::send(sendsock, calltype.c_str(), strlen(calltype.c_str()), 0) == SOCKET_ERROR)
 #else
-  if (write(sock, calltype.c_str(), strlen(calltype.c_str())) < 0) {
+  if (write(sendsock, calltype.c_str(), strlen(calltype.c_str())) < 0)
 #endif
-    log("Writing error", true);
+  {
+    log(method, "Writing error", true);
     success = false;
   }
 #ifdef WIN32
-  ::send(sock, "\n", 1, 0);
+  ::send(sendsock, "\n", 1, 0);
 #else
-  if (write(sock, "\n", 1)) ;   // Suppress compiler warning.
+  if (write(sendsock, "\n", 1)) ;   // Suppress compiler warning.
 #endif
 
   // Send the data.
   if (success) {
     for (unsigned int i = 0; i < payload.size(); i++) {
 #ifdef WIN32
-      ::send(sock, payload[i].c_str(), strlen(payload[i].c_str()), 0);
-      ::send(sock, "\n", 1, 0);
+      ::send(sendsock, payload[i].c_str(), strlen(payload[i].c_str()), 0);
+      ::send(sendsock, "\n", 1, 0);
 #else
-      if (write(sock, payload[i].c_str(), strlen(payload[i].c_str()))) ;        // Suppress compiler warning.
-      if (write(sock, "\n", 1)) ;
+      if (write(sendsock, payload[i].c_str(), strlen(payload[i].c_str()))) ; // Suppress compiler warning.
+      if (write(sendsock, "\n", 1)) ;
 #endif
     }
   }
   // Close the socket.
 #ifdef WIN32
-  closesocket(sock);
+  closesocket(sendsock);
 #else
-  close(sock);
+  close(sendsock);
 #endif
 
   // Return success.

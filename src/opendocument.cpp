@@ -163,11 +163,18 @@ void OpenDocument::unpack_template()
   gw_mkdir_with_parents(workingdirectory);
   // Copy template there.
   // Note: To create the template use zip -r template.odt *
+#ifdef WIN32
+  ustring command = "unzip -o ";
+  command.append(gw_build_filename(directories_get_package_data(), "template.odt"));
+  command.append(" -d ");
+  command.append(shell_quote_space(workingdirectory));
+#else
   ustring command = "cd";
   command.append(shell_quote_space(workingdirectory));
   command.append("; cp ");
   command.append(gw_build_filename(directories_get_package_data(), "template.odt"));
   command.append(" .; unzip *; rm *.odt");
+#endif
   if (system(command.c_str())) ;
 }
 
@@ -405,11 +412,22 @@ void OpenDocument::generate_styles(xmlTextWriterPtr writer)
 
 void OpenDocument::zip(const ustring filename)
 {
-  ustring command = "cd";
+  ustring command = "cd ";
   command.append(shell_quote_space(workingdirectory));
+#ifdef WIN32
+  command.append(" && ");
+  gchar *path;
+  path = g_find_program_in_path("zip.exe");
+  if (path) {
+    command.append(path);
+    g_free(path);
+    command.append(" -r ");
+  }
+#else
   command.append("; zip -r");
+#endif
   command.append(shell_quote_space(filename));
-  command.append("*");
+  command.append(" *");
   if (system(command.c_str())) ;
 }
 

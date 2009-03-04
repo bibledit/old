@@ -63,10 +63,11 @@ private:
 #ifdef WIN32
   // No UNIX sockets on pure Windows
   struct sockaddr_in address;
+  SOCKET sock, conn;
 #else
   struct sockaddr_un address;
-#endif
   int sock, conn;
+#endif
   socklen_t addrLength;
   ustring socketname(IPCSocketType socket);
   IPCSocketType myname;
@@ -74,6 +75,7 @@ private:
   void listener_main();
   bool listener_run;
   bool listener_running;
+  void log(const IPCCallType type, const ustring & message, bool critical);
   void log(const ustring& message, bool critical);
   map<IPCCallType, vector<ustring> > methodcalls;
   set<IPCCallType> signalling_methods;

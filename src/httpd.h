@@ -23,12 +23,13 @@
 
 
 #include "libraries.h"
-// #define WIN32
 #ifndef WIN32
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
+#else
+#include <ws2tcpip.h>
 #endif
 #include <stdio.h>
 
@@ -44,7 +45,6 @@ public:
   ustring search_whole_word;
   ustring difficult_url;
 private:
-#ifndef WIN32
   static void thread_start (gpointer data);
   void thread_main ();
   bool thread_stop;
@@ -61,7 +61,6 @@ private:
   void url_decode (char *buf);
   int sock;
   int conn;
-#endif
 };
 
 

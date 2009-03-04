@@ -37,8 +37,12 @@ int programs_running_count(const ustring & commandline)
 // Returns how many times the program given on "commandline" is running.
 {
   // Run the process status program.
+#ifdef WIN32
+  GwSpawn spawn("tasklist");
+#else
   GwSpawn spawn("ps");
   spawn.arg("ax");
+#endif
   spawn.read();
   spawn.run();
   // Usage count.
@@ -60,8 +64,12 @@ int programs_running_count_basic(const ustring & program)
 // Returns how many times the program given is running.
 {
   // Run the process status program.
+#ifdef WIN32
+  GwSpawn spawn("tasklist");
+#else
   GwSpawn spawn("ps");
   spawn.arg("-e");
+#endif
   spawn.read();
   spawn.run();
   // Usage count.
@@ -117,7 +125,11 @@ void shell_pipe_file_append(const ustring & inputfile, const ustring & outputfil
 // cat inputfile >> outputfile.
 {
   ustring command;
+#ifdef WIN32
+  command.append("type");
+#else
   command.append("cat");
+#endif
   command.append(shell_quote_space(inputfile));
   command.append(">>");
   command.append(shell_quote_space(outputfile));

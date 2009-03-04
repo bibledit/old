@@ -178,8 +178,9 @@ unsigned long git_exec_command(const ustring& cmd, const ustring& dir)
   ustring c = git_exec_change_dir(dir) + cmd;
   retval = system(c.c_str());
 #endif
-  if(retval != 0)
-    cout << "returned error code: " << retval << endl;
+  if(retval != 0) {
+    //cout << "returned error code: " << retval << endl;
+  }
   else {
     //cout << endl;
   }

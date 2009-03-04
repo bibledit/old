@@ -44,16 +44,13 @@ WindowsOutpost::WindowsOutpost(bool dummy)
  and communicating with it.
  */
 {
-#ifndef WIN32
   sock = 0;
   clear();
   thread_running = false;
-#endif
 }
 
 WindowsOutpost::~WindowsOutpost()
 {
-#ifndef WIN32
   // Disconnect.
   disconnect();
   // Indicate to the thread we want to stop.
@@ -61,22 +58,18 @@ WindowsOutpost::~WindowsOutpost()
   // Wait until thread has exited.
   while (thread_running)
     g_usleep(10000);
-#endif
 }
 
 void WindowsOutpost::Start()
 // This effectually starts the whole system.
 {
-#ifndef WIN32
   thread_run = true;
   g_thread_create(GThreadFunc(thread_start), gpointer(this), false, NULL);
-#endif
 }
 
 void WindowsOutpost::BibleWorksReferenceSet(const Reference & reference)
 // Schedules a reference to be sent to BibleWorks.
 {
-#ifndef WIN32
   if (!reference.book)
     return;
   // As it does not respond properly to chapter/verses that are 0, care for that.
@@ -90,31 +83,24 @@ void WindowsOutpost::BibleWorksReferenceSet(const Reference & reference)
   if (bw_book.empty())
     return;
   bibleworks_reference_set_value = "BibleWorksReferenceSet " + bw_book + " " + convert_to_string(goto_ch) + ":" + goto_vs;
-#endif
 }
 
 void WindowsOutpost::SantaFeFocusReferenceSet(const Reference & reference)
 // Schedules a reference to be sent to the santa fe focus system.
 {
-#ifndef WIN32
   if (!reference.book)
     return;
   ustring bk = books_id_to_paratext(reference.book);
   if (bk.empty())
     return;
   santafefocus_reference_set_value = "SantaFeFocusReferenceSet " + bk + " " + convert_to_string(reference.chapter) + ":" + reference.verse;
-#endif
 }
 
 void WindowsOutpost::SantaFeFocusWordSet(const ustring & word)
 // Schedules a word to be sent to the santa fe focus system.
 {
-#ifndef WIN32
   santafefocus_word_set_value = "SantaFeFocusWordSet " + word;
-#endif
 }
-
-#ifndef WIN32
 
 void WindowsOutpost::clear()
 {
@@ -162,7 +148,7 @@ void WindowsOutpost::thread_main()
             if (gw_find_program_in_path(settings->genconfig.wine_path_get())) {
               ustring command = settings->genconfig.outpost_command_get() + " &";
               if (system(command.c_str())) ;
-              // Wait few seconds to give it a change to start.
+              // Wait few seconds to give it a chance to start.
               g_usleep(3000000);
             } else {
               log("Wine not installed");
@@ -251,7 +237,11 @@ void WindowsOutpost::disconnect()
       send_line("show");
     else
       send_line("exit");
+#ifdef WIN32
+    closesocket(sock);
+#else
     close(sock);
+#endif
   }
   sock = 0;
 }
@@ -263,19 +253,39 @@ void WindowsOutpost::telnet(const ustring & hostname)
   host = gethostbyname(hostname.c_str());
   if (host) {
     // We got the host, now get a socket.
-    if ((sock = socket(PF_INET, SOCK_STREAM, 0)) >= 0) {
+#ifdef WIN32
+    if ((sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) != INVALID_SOCKET)
+#else
+    if ((sock = socket(PF_INET, SOCK_STREAM, 0)) >= 0)
+#endif
+    {
       // We've got the socket, now set some variables.
       address.sin_family = AF_INET;
-      address.sin_port = htons(51515);
       // Take the first IP address associated with this hostname.
       memcpy(&address.sin_addr, host->h_addr_list[0], sizeof(address.sin_addr));
       // Now connect.
-      if (connect(sock, (struct sockaddr *)&address, sizeof(address))) {
+#ifdef WIN32
+      WSAHtons(sock, 51515, &address.sin_port);
+      if (connect(sock, (struct sockaddr *)&address, sizeof(address)) == SOCKET_ERROR)
+#else
+      address.sin_port = htons(51515);
+      if (connect(sock, (struct sockaddr *)&address, sizeof(address)))
+#endif
+      {
         log("No connection possible");
+#ifdef WIN32
+      	closesocket(sock);
+#else
         close(sock);
+#endif
       } else {
         // We've a connection. Set the socket to non-blocking mode.
+#ifdef WIN32
+	u_long socketmode = 1; // Set non-blocking
+	ioctlsocket(sock, FIONBIO, &socketmode);
+#else
         fcntl(sock, F_SETFL, fcntl(sock, F_GETFL, 0) | O_NONBLOCK);
+#endif
         log("Connected");
         connected = true;
         // Hide GUI.
@@ -320,15 +330,23 @@ void WindowsOutpost::send_line(const ustring & command)
   if (connected) {
     // Discard any previous reply.
     char buf[1024];
+#ifdef WIN32
+    if (recv(sock, buf, sizeof(buf), 0)) ;
+    if (send(sock, command.c_str(), command.length(), 0)) ;
+    result = send(sock, "\n", 1, 0);
+#else
     if (read(sock, buf, sizeof(buf))) ;
     if (write(sock, command.c_str(), command.length())) ;
     result = write(sock, "\n", 1);
+#endif
     // Give some time to allow the reply to come back.
     g_usleep(1000000);
   }
   if (result < 0) {
     connected = false;
+#ifndef WIN32
     perror(NULL);
+#endif
     log("Error sending data");
     clear();
   }
@@ -345,46 +363,73 @@ ustring WindowsOutpost::Readln()
   if (sock) {
     char buf[1024];
     int len = 0;
+#ifdef WIN32
+    len = recv(sock, buf, sizeof(buf), 0);
+#else
     len = read(sock, buf, sizeof(buf));
+#endif
     if (len > 0) {
       buf[len] = '\0';
       return trim(ustring(buf));
     }
     if (len < 0) {
       connected = false;
+#ifdef WIN32
+      closesocket(sock);
+#else
       perror(NULL);
-      log("Error receiving data");
       close(sock);
+#endif
+      log("Error receiving data");
       clear();
     }
   }
   return "";
 }
 
-#endif
-
 void windowsoutpost_open_url(const ustring & url)
 // This function supposes that the Bibledit Windows Outpost already runs.
 // It commands the outpost to open "url", a .pdf file or .html, etc.
 {
-#ifndef WIN32
   struct sockaddr_in address;
   struct hostent *host;
   int sock;
 
+  // DD: Shouldn't this use the outpost defined by the user?
   host = gethostbyname("localhost");
   if (host) {
-    if ((sock = socket(PF_INET, SOCK_STREAM, 0)) >= 0) {
+#ifdef WIN32
+    if ((sock = socket(PF_INET, SOCK_STREAM, 0)) != SOCKET_ERROR)
+#else
+    if ((sock = socket(PF_INET, SOCK_STREAM, 0)) >= 0)
+#endif
+    {
       address.sin_family = AF_INET;
-      address.sin_port = htons(51515);
       memcpy(&address.sin_addr, host->h_addr_list[0], sizeof(address.sin_addr));
-      if (connect(sock, (struct sockaddr *)&address, sizeof(address))) {
-        cout << "Cannot connect" << endl;
+#ifdef WIN32
+      WSAHtons(sock, 51515, &address.sin_port);
+      if (connect(sock, (struct sockaddr *)&address, sizeof(address)) == SOCKET_ERROR)
+#else
+      address.sin_port = htons(51515);
+      if (connect(sock, (struct sockaddr *)&address, sizeof(address)))
+#endif
+      {
+        cerr << "Cannot connect to Windows Outpost" << endl;
+#ifdef WIN32
+        closesocket(sock);
+#else
         close(sock);
+#endif
       } else {
-        fcntl(sock, F_SETFL, fcntl(sock, F_GETFL, 0) | O_NONBLOCK);
         ustring command = "open " + url + "\n";
+#ifdef WIN32
+        u_long socketmode = 1; // Set non-blocking
+        ioctlsocket(sock, FIONBIO, &socketmode);
+        if (send(sock, command.c_str(), command.length(), 0)) ;
+#else
+        fcntl(sock, F_SETFL, fcntl(sock, F_GETFL, 0) | O_NONBLOCK);
         if (write(sock, command.c_str(), command.length())) ;
+#endif
         cout << "Outpost opens " << url << endl;
       }
     } else {
@@ -393,7 +438,6 @@ void windowsoutpost_open_url(const ustring & url)
   } else {
     cout << "Error looking up hostname" << endl;
   }
-#endif
 }
 
 bool windowsoutpost_telnet(const ustring & hostname)
@@ -401,25 +445,38 @@ bool windowsoutpost_telnet(const ustring & hostname)
 // It returns true if this worked out.
 {
   bool success = false;
-#ifndef WIN32
   struct sockaddr_in address;
   struct hostent *host;
   int sock;
   host = gethostbyname(hostname.c_str());
   if (host) {
-    if ((sock = socket(PF_INET, SOCK_STREAM, 0)) >= 0) {
+#ifdef WIN32
+    if ((sock = socket(PF_INET, SOCK_STREAM, 0)) != SOCKET_ERROR)
+#else
+    if ((sock = socket(PF_INET, SOCK_STREAM, 0)) >= 0)
+#endif
+    {
       address.sin_family = AF_INET;
-      address.sin_port = htons(51515);
       memcpy(&address.sin_addr, host->h_addr_list[0], sizeof(address.sin_addr));
-      if (connect(sock, (struct sockaddr *)&address, sizeof(address))) {
-        close(sock);
+#ifdef WIN32
+      WSAHtons(sock, 51515, &address.sin_port);
+      if (connect(sock, (struct sockaddr *)&address, sizeof(address)) == SOCKET_ERROR)
+#else
+      address.sin_port = htons(51515);
+      if (connect(sock, (struct sockaddr *)&address, sizeof(address)))
+#endif
+      {
+        ; // success = false;
       } else {
         success = true;
-        close(sock);
       }
+#ifdef WIN32
+      closesocket(sock);
+#else
+      close(sock);
+#endif
     }
   }
-#endif
   return success;
 }
 
