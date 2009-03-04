@@ -127,7 +127,7 @@
 #include "dialogxfernotes2text.h"
 #include "htmlcolor.h"
 #include "text2pdf.h"
-#include "windows.h"
+#include "window.h"
 #include "unixwrappers.h"
 #include "accelerators.h"
 #include "dialogcompareprefs.h"

@@ -23,7 +23,7 @@
 #include <gtk/gtk.h>
 #include "ustring.h"
 #include "reference.h"
-#include "windows.h"
+#include "window.h"
 
 class WindowCheckUSFM : public WindowBase
 {

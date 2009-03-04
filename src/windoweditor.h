@@ -22,7 +22,7 @@
 
 #include <gtk/gtk.h>
 #include "ustring.h"
-#include "windows.h"
+#include "window.h"
 #include "editor.h"
 #include "usfmview.h"
 

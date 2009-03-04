@@ -21,7 +21,7 @@
 #include <glib.h>
 #include "windowshowverses.h"
 #include "help.h"
-#include "windows.h"
+#include "window.h"
 #include "projectutils.h"
 #include "settings.h"
 #include "listview.h"

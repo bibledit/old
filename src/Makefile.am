@@ -250,7 +250,7 @@ bibledit_bin_SOURCES = \
         dialogtext2pdf.cpp \
         windowlayout.cpp \
         windowshowkeyterms.cpp \
-        windows.cpp \
+        window.cpp \
         windowshowquickrefs.cpp \
         windowmerge.cpp \
         windowresource.cpp \

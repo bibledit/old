@@ -21,7 +21,7 @@
 #include <glib.h>
 #include "windownotes.h"
 #include "help.h"
-#include "windows.h"
+#include "window.h"
 #include "gui_features.h"
 #include "notes_utils.h"
 #include "books.h"

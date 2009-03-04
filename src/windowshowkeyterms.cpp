@@ -21,7 +21,7 @@
 #include <glib.h>
 #include "windowshowkeyterms.h"
 #include "help.h"
-#include "windows.h"
+#include "window.h"
 #include "keyterms.h"
 #include "tiny_utilities.h"
 

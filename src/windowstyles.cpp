@@ -21,7 +21,7 @@
 #include <glib.h>
 #include "windowstyles.h"
 #include "help.h"
-#include "windows.h"
+#include "window.h"
 #include "tiny_utilities.h"
 #include "utilities.h"
 #include "combobox.h"

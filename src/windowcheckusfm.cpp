@@ -20,7 +20,7 @@
 #include "libraries.h"
 #include <glib.h>
 #include "windowcheckusfm.h"
-#include "windows.h"
+#include "window.h"
 #include "settings.h"
 #include "shortcuts.h"
 #include "gwrappers.h"
