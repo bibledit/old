@@ -367,23 +367,32 @@ void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
         transform_general_title (usfm_code, marker_length, "main", 4);
       }
 
-      // is (1234)
+      // is
+      // div[@type="introduction" and @canonical="false"]/div[@type="section"]/title 
       else if (marker_text == "is") {
         transform_division ("section", false);
         transform_general_title (usfm_code, marker_length, "section", 0);
       } 
+
+      // is1 
+      // div[@type="introduction" and @canonical="false"]/div[@type="section"]/title 
       else if (marker_text == "is1") {
         transform_division ("section", false);
         transform_general_title (usfm_code, marker_length, "section", 1);
       } 
+
+      // is2
+      // div[@type="introduction" and @canonical="false"]/div[@type="section"]/div[@type="subSection"]/title 
       else if (marker_text == "is2") {
         transform_division ("section", false);
         transform_general_title (usfm_code, marker_length, "section", 2);
       } 
+
       else if (marker_text == "is3") {
         transform_division ("section", false);
         transform_general_title (usfm_code, marker_length, "section", 3);
       } 
+
       else if (marker_text == "is4") {
         transform_division ("section", false);
         transform_general_title (usfm_code, marker_length, "section", 4);
@@ -975,18 +984,26 @@ void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
         transform_remove_marker (usfm_code, marker_length);
       }
       
+      // qm
+      // q[@type="embedded"]/lg/l[@level="1"] (or leave off the level)
       else if (marker_text == "qm") {
         transform_paragraph_start (usfm_code, marker_length);
       }
 
+      
+      // qm1
+      // q[@type="embedded"]/lg/l[@level="1"] 
       else if (marker_text == "qm1") {
         transform_paragraph_start (usfm_code, marker_length);
       }
 
+      // qm2
+      // q[@type="embedded"]/lg/l[@level="2"]
       else if (marker_text == "qm2") {
         transform_paragraph_start (usfm_code, marker_length);
       }
 
+      // qm3 q[@type="embedded"]/lg/l[@level="3"]
       else if (marker_text == "qm3") {
         transform_paragraph_start (usfm_code, marker_length);
       }
@@ -1172,23 +1189,23 @@ void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
       // fk 
       // catchWord 
       else if (marker_text == "fk") {
-        transform_character_style (usfm_code, marker_length, marker_is_opener, "catchWord", NULL, NULL);
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "catchWord");
       }
 
       // fq 
       // note/q 
       else if (marker_text == "fq") {
-        transform_character_style (usfm_code, marker_length, marker_is_opener, "q", NULL, NULL);
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "q");
       }
 
       // fqa 
       // note/rdg 
       else if (marker_text == "fqa") {
-        transform_character_style (usfm_code, marker_length, marker_is_opener, "rdg", NULL, NULL);
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "rdg");
       }
 
       else if (marker_text == "fl") {
-        transform_character_style (usfm_code, marker_length, marker_is_opener, "x-label", NULL, NULL);
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "x-label");
       }
 
       else if (marker_text == "fp") {
@@ -1204,7 +1221,7 @@ void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
       // ft 
       // text within the note element, may serve to indicate the 
       // end of text of another format marker 
-      else if (marker_text == "fp") {
+      else if (marker_text == "ft") {
         transform_remove_marker (usfm_code, marker_length);
         ensure_character_style_closed ();
       }
@@ -1219,7 +1236,7 @@ void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
       // This marker should never be found in field texts. It is 
       // for internal use only in publishing centers. 
       else if (marker_text == "fm") {
-        ensure_character_style_closed ();
+        transform_remove_marker (usfm_code, marker_length);
       }
 
       // x note[@type="crossReference"] 
@@ -1227,331 +1244,210 @@ void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
         transform_note (usfm_code, marker_length, marker_is_opener, false, true);
       }
 
+      // xo 
+      else if (marker_text == "xo") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
 
-/* Todo
+      // xk 
+      // catchWord 
+      else if (marker_text == "xk") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "catchWord");
+      }
 
-<entry
-  marker="xo"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="optional"
-  function="text"
-/>
+      // xq 
+      // q 
+      else if (marker_text == "xq") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "q");
+      }
 
-<entry
-  marker="xk"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="optional"
-  function="text"
-/>
+      // xt 
+      // text within the note element, may serve to indicate the 
+      // end of text of another format marker 
+      else if (marker_text == "xt") {
+        transform_remove_marker (usfm_code, marker_length);
+        ensure_character_style_closed ();
+      }
 
-<entry
-  marker="xq"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="optional"
-  function="text"
-/>
+      else if (marker_text == "xot") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "seg", "edition", "x-ot");
+      }
 
-<entry
-  marker="xt"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="optional"
-  function="text"
-/>
+      else if (marker_text == "xnt") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "seg", "edition", "x-nt");
+      }
 
-<entry
-  marker="xot"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="optional"
-  function="text"
-/>
+      // xdc 
+      // note[@type='crossReference']/seg[@edition="dc"] 
+      else if (marker_text == "xdc") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "seg", "edition", "dc");
+      }
 
-<entry
-  marker="xnt"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="optional"
-  function="text"
-/>
-
-<entry
-  marker="xdc"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="optional"
-  function="text"
-/>
-
-<!-- Special Text and Character Styles -->
-
-<entry
-  marker="add"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="text"
-/>
-
-<entry
-  marker="bk"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="text"
-/>
-
-<entry
-  marker="dc"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="text"
-/>
-
-<entry
-  marker="k"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="keyword"
-/>
-
-<entry
-  marker="lit"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
-
-<entry
-  marker="nd"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="text"
-/>
-
-<entry
-  marker="ord"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="text"
-/>
-
-<entry
-  marker="pn"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="text"
-/>
-
-<entry
-  marker="qt"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="text"
-/>
-
-<entry
-  marker="sig"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="yes"
-/>
-
-<entry
-  marker="sls"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="text"
-/>
-
-<entry
-  marker="tl"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="text"
-/>
-
-<entry
-  marker="wj"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="text"
-/>
-
-<entry
-  marker="em"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="text"
-/>
-
-<entry
-  marker="bd"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="text"
-/>
-
-<entry
-  marker="it"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="text"
-/>
-
-<entry
-  marker="bdit"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="text"
-/>
-
-<entry
-  marker="no"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="text"
-/>
-
-<entry
-  marker="sc"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="text"
-/>
-
-<entry
-  marker="~"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="no"
-  startswithbackslash="no"
-  function="space"
-/>
-
-<entry
-  marker="//"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="no"
-  startswithbackslash="no"
-  function="break"
-/>
-
-<entry
-  marker="pb"
-  startsline="yes"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="page"
-/>
-
-<entry
-  marker="fig"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="figure"
-/>
-
-<entry
-  marker="ndx"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="index"
-/>
-
-<entry
-  marker="pro"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="pronunciation"
-/>
-
-<entry
-  marker="w"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="wordlist"
-/>
-
-<entry
-  marker="wg"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="greek"
-/>
-
-<entry
-  marker="wh"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="hebrew"
-/>
-
-<!-- Peripherals -->
-
-<entry
-  marker="periph"
-  startsline="yes"
-  startsosisdivision="yes"
-  hasendmarker="no"
-  function="peripheral"
-/>
-
-</usfm>
-
-*/
       // add 
       // transChange[@type="added"]
-
-      // bd
-      // hi[@type="bold"]
-
-      // bdit
-      // hi[@type="bold"]/hi[@type="italic"]
+      else if (marker_text == "xdc") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "transChange", "type", "added");
+      }
 
       // bk
       // reference[@type="x-bookName"]
+      else if (marker_text == "bk") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "reference", "type", "x-bookName");
+      }
 
+      // dc 
+      // transChange[@type="added" and @edition="dc"] 
+      else if (marker_text == "dc") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "reference", "type", "added", "edition", "dc");
+      }
+
+      // k 
+      // seg[@type="keyword"] 
+      else if (marker_text == "k") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "seg", "type", "keyword");
+      }
+
+      // lit 
+      // lg[@type='doxology']/l[@type='refrain'] 
+      else if (marker_text == "lit") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "lg", "type", "doxology");
+      }
+
+      // nd 
+      // divineName 
+      else if (marker_text == "nd") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "divineName");
+      }
+
+      // ord 
+      // hi[@type="super"] 
+      else if (marker_text == "nd") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "hi", "type", "super");
+      }
+
+      // pn 
+      // name
+      else if (marker_text == "pn") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "name");
+      }
+
+      // qt
+      // seg[@type="otPassage"]
+      else if (marker_text == "qt") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "seg", "type", "otPassage");
+      }
+
+      // sig 
+      // signed
+      else if (marker_text == "sig") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "signed");
+      }
+      
+      // sls
+      // foreign[@type="x-secondaryLanguage"] 
+      else if (marker_text == "sls") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "foreign", "type", "x-secondaryLanguage");
+      }
+
+      // tl
+      // foreign 
+      else if (marker_text == "tl") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "foreign");
+      }
+
+      else if (marker_text == "wj") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "q", "who", "Jesus");
+      }
+      
+      // em 
+      // hi[@type="emphasis"] 
+      else if (marker_text == "em") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "hi", "type", "emphasis");
+      }
+
+      // bd
+      // hi[@type="bold"]
+      else if (marker_text == "bd") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "hi", "type", "bold");
+      }
+
+      // it
+      // hi[@type="italic"] 
+      else if (marker_text == "it") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "hi", "type", "italic");
+      }
+
+      // bdit
+      // hi[@type="bold"]/hi[@type="italic"]
+      else if (marker_text == "bdit") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "hi", "type", "bold", "type", "italic");
+      }
+
+      // no 
+      // hi[@type="normal"] 
+      else if (marker_text == "bdit") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "hi", "type", "normal");
+      }
+
+      // sc 
+      // hi[@type="small-caps"]
+      else if (marker_text == "sc") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "hi", "type", "small-caps");
+      }
+      
+      // marker="~"
+
+      // marker="//"
+
+      // pb 
+      // milestone[@type="pb"] 
+      else if (marker_text == "pb") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+
+      // fig 
+      // figure (map attributes to the "|" separated values) 
+      else if (marker_text == "fig") {
+        transform_figure (usfm_code, marker_text, marker_length);
+      }
+
+      // ndx 
+      // index[@name="subject",@level1="..."] 
+      else if (marker_text == "ndx") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+
+      else if (marker_text == "pro") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+
+      // w 
+      // index[@level1="..."]... 
+      else if (marker_text == "w") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+
+      // wh 
+      // index[@name="hebrew",@level1="..."]... 
+      else if (marker_text == "wh") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+
+      // wg 
+      // index[@name="greek",@level1="..."]... 
+      else if (marker_text == "wg") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+
+      // periph
+
+      // The following markers are no longer part of the USFM standard.
+            
       // conc
       // div[@type="concordance"]
             
       // cov
       // div[@type="coverPage"]
-
-      // dc 
-      // transChange[@type="added" and @edition="dc"] 
-
-      // em 
-      // hi[@type="emphasis"] 
-
-      // fig 
-      // figure (map attributes to the "|" separated values) 
 
       // glo 
       // div[@type="glossary"] 
@@ -1562,50 +1458,12 @@ void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
       // intro
       // div[@type="introduction"] 
 
-      // is
-      // div[@type="introduction" and @canonical="false"]/div[@type="section"]/title 
-      // is1 
-      // div[@type="introduction" and @canonical="false"]/div[@type="section"]/title 
-
-      // is2
-      // div[@type="introduction" and @canonical="false"]/div[@type="section"]/div[@type="subSection"]/title 
-
-      // it
-      // hi[@type="italic"] 
-
-      // k 
-      // seg[@type="keyword"] 
-
-      // lit 
-      // lg[@type='doxology']/l[@type='refrain'] 
-
       // map 
       // div[@type="map"]
-
-      // mr 
-      // div[@type="majorSection"]/title[@type="scope"]/reference 
-
-      // nd 
-      // divineName 
-
-      // ndx 
-      // index[@name="subject",@level1="..."] 
-
-      // no 
-      // hi[@type="normal"] 
-
-      // ord 
-      // hi[@type="super"] 
-
-      // pb 
-      // milestone[@type="pb"] 
 
       // phi 
       // treat same as ph 
 
-      // pn 
-      // name
-      
       // pref
       // div[@type="preface"] 
       
@@ -1622,68 +1480,15 @@ void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
       // Encode in using the Doublin Core elements in work in the header. 
       // If for presentation purposes this may be encoded within div[@type="publicationData"] 
       
-      // qm
-      // q[@type="embedded"]/lg/l[@level="1"] (or leave off the level)
-      
-      // qm1
-      // q[@type="embedded"]/lg/l[@level="1"] 
-      
-      // qm2
-      // q[@type="embedded"]/lg/l[@level="2"]
-      
-      // qm3 q[@type="embedded"]/lg/l[@level="3"]
-      
-      // qt
-      // seg[@type="otPassage"]
-      
-      // r
-      // title[@type='parallel']/reference
-      
       // restore
       // description[@type="usfm" and subType="x-restore"]
       else if (marker_text == "restore") {
         transform_usfm_description (usfm_code, marker_text, marker_length);
       } 
       
-      // sc 
-      // hi[@type="small-caps"]
-      
-      // sig 
-      // signed
-      
-      // sls
-      // foreign[@type="x-secondaryLanguage"] 
-
       // spin 
       // div[@type="spine"] 
       
-      // tl
-      // foreign 
-
-      // w 
-      // index[@level1="..."]... 
-
-      // wh 
-      // index[@name="hebrew",@level1="..."]... 
-
-      // wg 
-      // index[@name="greek",@level1="..."]... 
-
-      // xo 
-
-      // xt 
-      // text within the note element, may serve to indicate the 
-      // end of text of another format marker 
-
-      // xk 
-      // catchWord 
-
-      // xq 
-      // q 
-
-      // xdc 
-      // note[@type='crossReference']/seg[@edition="dc"] 
-
       else {
         transform_fallback(usfm_code);
       }
@@ -2142,7 +1947,19 @@ void Usfm2Osis::ensure_note_closed ()
 }
 
 
-void Usfm2Osis::transform_character_style (ustring& usfm_code, size_t marker_length, bool is_opener, const gchar * element, const gchar * attribute_name, const gchar * attribute_value) // Todo
+void Usfm2Osis::transform_character_style (ustring& usfm_code, size_t marker_length, bool is_opener, const gchar * element)
+{
+  transform_character_style (usfm_code, marker_length, is_opener, element, NULL, NULL);
+}
+
+
+void Usfm2Osis::transform_character_style (ustring& usfm_code, size_t marker_length, bool is_opener, const gchar * element, const gchar * attribute_name, const gchar * attribute_value)
+{
+  transform_character_style (usfm_code, marker_length, is_opener, element, attribute_name, attribute_value, NULL, NULL);
+}
+
+
+void Usfm2Osis::transform_character_style (ustring& usfm_code, size_t marker_length, bool is_opener, const gchar * element, const gchar * attribute1_name, const gchar * attribute1_value, const gchar * attribute2_name, const gchar * attribute2_value)
 {
   // Remove the marker from the input stream.
   usfm_code.erase (0, marker_length);
@@ -2160,9 +1977,14 @@ void Usfm2Osis::transform_character_style (ustring& usfm_code, size_t marker_len
   // Open the element for the character style.
   xmlTextWriterStartElement(xmlwriter, BAD_CAST element);
 
-  // Optionally write the attribute.
-  if (attribute_name) {
-    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST attribute_name, attribute_value);
+  // Optionally write the first attribute.
+  if (attribute1_name) {
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST attribute1_name, attribute1_value);
+  }
+
+  // Optionally write the second attribute.
+  if (attribute2_name) {
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST attribute2_name, attribute2_value);
   }
 
   // Set flag that a character style is open.
@@ -2179,15 +2001,43 @@ void Usfm2Osis::ensure_character_style_closed()
 }
 
   
-/*
+void Usfm2Osis::transform_figure (ustring& usfm_code, const ustring& marker_text, size_t marker_length)
+{
+  // Get the actual bit that describes the picture; erase it from the line.
+  // The picture comes in the form of, e.g. "|biblesociety.gif|col||||"
+  ustring desc;
+  ustring file;
+  ustring size;
+  ustring loc;
+  ustring copy;
+  ustring cap;
+  ustring ref;
+  usfm_dissect_figure (usfm_code, marker_text, marker_length, desc, file, size, loc, copy, cap, ref);
 
-  bool character_style_open;
+  // Transform to osis.
+  xmlTextWriterStartElement(xmlwriter, BAD_CAST "figure");
+  if (!desc.empty()) {
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "desc", desc.c_str());
+  }
+  if (!file.empty()) {
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "file", file.c_str());
+  }
+  if (!size.empty()) {
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "size", size.c_str());
+  }
+  if (!loc.empty()) {
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "loc", loc.c_str());
+  }
+  if (!copy.empty()) {
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "copy", copy.c_str());
+  }
+  if (!cap.empty()) {
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "cap", cap.c_str());
+  }
+  if (!ref.empty()) {
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "ref", ref.c_str());
+  }
+  xmlTextWriterEndElement(xmlwriter);
+}
 
-Todo We may have to create a "note" mode, so that the main routine works normally in that mode.
-We have a "ensure_note_off" functions and friends, and each marker outside the notes ensures
-that the note mode is off. Like at the end of a paragraph, the notes goes off too, this
-is "ensured".
-*/
 
-// Todo later we also need ensure character open and close functions.
-// Todo and a closing note closes character styles, and so does a closing paragraph.

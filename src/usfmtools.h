@@ -71,6 +71,7 @@ bool usfm_basic_markers_present (Usfm& usfm, bool gui);
 ustring usfm_notes_handle_nesting (const ustring& line, const ustring& standardparagraph_opener, const ustring& standardparagraph_closer, const set<ustring>& notemarkers);
 ustring get_erase_code_till_next_marker (ustring& line, size_t marker_position, size_t marker_length, bool trimcode);
 ustring usfm_get_verse_number (ustring& usfmcode, bool clean, bool remove);
+void usfm_dissect_figure (ustring& usfmcode, const ustring& marker_text, size_t marker_length, ustring& desc, ustring& file, ustring& size, ustring& loc, ustring& copy, ustring& cap, ustring& ref);
 
 
 #endif

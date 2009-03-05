@@ -81,8 +81,12 @@ private:
   void ensure_note_closed ();
   
   bool character_style_open;
+  void transform_character_style (ustring& usfm_code, size_t marker_length, bool is_opener, const gchar * element);
   void transform_character_style (ustring& usfm_code, size_t marker_length, bool is_opener, const gchar * element, const gchar * attribute_name, const gchar * attribute_value);
+  void transform_character_style (ustring& usfm_code, size_t marker_length, bool is_opener, const gchar * element, const gchar * attribute1_name, const gchar * attribute1_value, const gchar * attribute2_name, const gchar * attribute2_value);
   void ensure_character_style_closed();
+  
+  void transform_figure (ustring& usfm_code, const ustring& marker_text, size_t marker_length);
 };
 
 #endif

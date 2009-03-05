@@ -1026,3 +1026,51 @@ ustring usfm_get_verse_number (ustring& usfmcode, bool clean, bool remove)
 }
 
 
+void usfm_dissect_figure (ustring& usfmcode, const ustring& marker_text, size_t marker_length, ustring& desc, ustring& file, ustring& size, ustring& loc, ustring& copy, ustring& cap, ustring& ref)
+// Gets the various bits that make up a figure.
+// desc    Picture description in English. Does not get printed.
+// file    Illustration filename. Does not get printed.
+// size    Picture size. Does not get printed. Valid options:
+//         col:  insert picture inline within current text column.
+//         span: insert picture spanning text columns, at top or bottom of page.
+// loc     Picture location/range. Does not get printed.
+// copy    Picture copyright info. Will be used to give the appropriate picture credits.
+// cap     Picture caption. This will be printed with the illustration.
+// ref     Picture reference (e.g. Luke 19.5). This will be printed with the illustration.
+{
+  // The picture comes in the form of, e.g. "|biblesociety.gif|col||||"
+  ustring rawpicture = get_erase_code_till_next_marker(usfmcode, 0, marker_length, true);
+
+  // Remove the ending marker too, normally "fig*".
+  ustring endingmarker = usfm_get_full_closing_marker(marker_text);
+  if (usfmcode.find(endingmarker) == 0) {
+    usfmcode.erase(0, endingmarker.length());
+  }
+
+  // Parse the figure data into its pieces.
+  Parse parse(rawpicture, false, "|");
+  desc.clear();
+  file.clear();
+  size.clear();
+  loc.clear();
+  copy.clear();
+  cap.clear();
+  ref.clear();
+  for (unsigned int i = 0; i < parse.words.size(); i++) {
+    if (i == 0)
+      desc = parse.words[i];
+    if (i == 1)
+      file = parse.words[i];
+    if (i == 2)
+      size = parse.words[i];
+    if (i == 3)
+      loc = parse.words[i];
+    if (i == 4)
+      copy = parse.words[i];
+    if (i == 5)
+      cap = parse.words[i];
+    if (i == 6)
+      ref = parse.words[i];
+  }
+}
+

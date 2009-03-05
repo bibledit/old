@@ -1558,16 +1558,6 @@ void Usfm2Text::output_picture(ustring & line, Usfm2XslFoStyle * stylepointer, U
 {
   // Get the actual bit that describes the picture; erase it from the line.
   // The picture comes in the form of, e.g. "|biblesociety.gif|col||||"
-  ustring rawpicture = get_erase_code_till_next_marker(line, 0,
-                                                       marker_length, true);
-
-  // Remove the ending marker too, normally "fig*".
-  ustring endingmarker = usfm_get_full_closing_marker(stylepointer->marker);
-  if (line.find(endingmarker) == 0) {
-    line.erase(0, endingmarker.length());
-  }
-  // Parse the figure data into its pieces.
-  Parse parse(rawpicture, false, "|");
   ustring desc;                 // Picture description in English. Does not get printed.
   ustring file;                 // Illustration filename. Does not get printed.
   ustring size;                 // Picture size. Does not get printed. Valid options:
@@ -1578,22 +1568,7 @@ void Usfm2Text::output_picture(ustring & line, Usfm2XslFoStyle * stylepointer, U
   ustring copy;                 // Picture copyright info. Will be used to give the appropriate picture credits.
   ustring cap;                  // Picture caption. This will be printed with the illustration.
   ustring ref;                  // Picture reference (e.g. Luke 19.5). This will be printed with the illustration.
-  for (unsigned int i = 0; i < parse.words.size(); i++) {
-    if (i == 0)
-      desc = parse.words[i];
-    if (i == 1)
-      file = parse.words[i];
-    if (i == 2)
-      size = parse.words[i];
-    if (i == 3)
-      loc = parse.words[i];
-    if (i == 4)
-      copy = parse.words[i];    // Copyright is not yet handled.
-    if (i == 5)
-      cap = parse.words[i];
-    if (i == 6)
-      ref = parse.words[i];
-  }
+  usfm_dissect_figure (line, stylepointer->marker, marker_length, desc, file, size, loc, copy, cap, ref);
 
   // Make an existing path to the picture.
   // If a relative path is given, it looks in the pictures data directory, then
