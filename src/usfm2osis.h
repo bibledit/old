@@ -45,8 +45,6 @@ private:
   xmlTextWriterPtr xmlwriter;
   unsigned int book_bibledit_id;
   ustring book_osis_id;
-  bool division_open;
-  bool paragraph_open;
   void transform_headers_and_descriptions(ustring& usfm_code);
   void transform_per_osis_division (ustring& usfm_code);
   bool usfm_is_osis_division (const ustring& marker);
@@ -59,10 +57,12 @@ private:
   void transform_general_title (ustring& usfm_code, size_t marker_length, const gchar * type, unsigned int level);
 
   void transform_division (const gchar * type, bool canonical);
+  bool division_open;
   void ensure_division_opened ();
   void ensure_division_closed ();
 
   void transform_paragraph_start (ustring& usfm_code, size_t marker_length);
+  bool paragraph_open;
   void ensure_paragraph_opened ();
   void ensure_paragraph_closed ();
   
@@ -79,6 +79,10 @@ private:
   void transform_note (ustring& usfm_code, size_t marker_length, bool is_opener, bool endnote, bool xref);
   bool note_is_open;
   void ensure_note_closed ();
+  
+  bool character_style_open;
+  void transform_character_style (ustring& usfm_code, size_t marker_length, bool is_opener, const gchar * element, const gchar * attribute_name, const gchar * attribute_value);
+  void ensure_character_style_closed();
 };
 
 #endif

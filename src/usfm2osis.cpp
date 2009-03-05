@@ -69,6 +69,7 @@ Usfm2Osis::Usfm2Osis(const ustring& file)
   paragraph_open = false;
   chapter_number = 0;
   note_is_open = false;
+  character_style_open = false;
   
   // Create the XML writer.
   xmlbuffer = xmlBufferCreate();
@@ -1162,98 +1163,72 @@ void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
         transform_note (usfm_code, marker_length, marker_is_opener, true, false);
       }
 
+      // fr 
+      // note/reference[@type="source"] 
+      else if (marker_text == "fr") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "reference", "type", "source");
+      }
+
+      // fk 
+      // catchWord 
+      else if (marker_text == "fk") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "catchWord", NULL, NULL);
+      }
+
+      // fq 
+      // note/q 
+      else if (marker_text == "fq") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "q", NULL, NULL);
+      }
+
+      // fqa 
+      // note/rdg 
+      else if (marker_text == "fqa") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "rdg", NULL, NULL);
+      }
+
+      else if (marker_text == "fl") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "x-label", NULL, NULL);
+      }
+
+      else if (marker_text == "fp") {
+        transform_remove_marker (usfm_code, marker_length);
+      }
+
+      // fv 
+      // seg[@type="verseNumber"]
+      else if (marker_text == "fv") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "seg", "type", "verseNumber");
+      }
+
+      // ft 
+      // text within the note element, may serve to indicate the 
+      // end of text of another format marker 
+      else if (marker_text == "fp") {
+        transform_remove_marker (usfm_code, marker_length);
+        ensure_character_style_closed ();
+      }
+
+      // fdc 
+      // note[not(@type='crossReference')]/seg[@edition="dc"] 
+      else if (marker_text == "fdc") {
+        transform_character_style (usfm_code, marker_length, marker_is_opener, "seg", "edition", "dc");
+      }
+
+      // fm 
+      // This marker should never be found in field texts. It is 
+      // for internal use only in publishing centers. 
+      else if (marker_text == "fm") {
+        ensure_character_style_closed ();
+      }
+
+      // x note[@type="crossReference"] 
+      else if (marker_text == "x") {
+        transform_note (usfm_code, marker_length, marker_is_opener, false, true);
+      }
+
 
 /* Todo
-
-<entry
-  marker="fr"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="optional"
-  function="text"
-/>
-
-<entry
-  marker="fk"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="optional"
-  function="text"
-/>
-
-<entry
-  marker="fq"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="optional"
-  function="text"
-/>
-
-<entry
-  marker="fqa"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="optional"
-  function="text"
-/>
-
-<entry
-  marker="fl"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="optional"
-  function="text"
-/>
-
-<entry
-  marker="fp"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="no"
-  function="paragraph"
-/>
-
-<entry
-  marker="fv"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="optional"
-  function="text"
-/>
-
-<entry
-  marker="ft"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="optional"
-  function="text"
-/>
-
-<entry
-  marker="fdc"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="optional"
-  function="text"
-/>
-
-<entry
-  marker="fm"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="note_mark"
-/>
-
-<!-- Cross References -->
-
-<entry
-  marker="x"
-  startsline="no"
-  startsosisdivision="no"
-  hasendmarker="yes"
-  function="crossreference"
-/>
 
 <entry
   marker="xo"
@@ -1575,34 +1550,8 @@ void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
       // em 
       // hi[@type="emphasis"] 
 
-      // fdc 
-      // note[not(@type='crossReference')]/seg[@edition="dc"] 
-
       // fig 
       // figure (map attributes to the "|" separated values) 
-
-      // fk 
-      // catchWord 
-
-      // fm 
-      // This marker should never be found in field texts. It is 
-      // for internal use only in publishing centers. 
-
-      // fq 
-      // note/q 
-
-      // fqa 
-      // note/rdg 
-
-      // fr 
-      // note/reference[@type="source"] 
-
-      // ft 
-      // text within the note element, may serve to indicate the 
-      // end of text of another format marker 
-
-      // fv 
-      // seg[@type="verseNumber"]
 
       // glo 
       // div[@type="glossary"] 
@@ -1719,8 +1668,6 @@ void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
 
       // wg 
       // index[@name="greek",@level1="..."]... 
-
-      // x note[@type="crossReference"] 
 
       // xo 
 
@@ -2023,6 +1970,8 @@ void Usfm2Osis::ensure_paragraph_closed ()
 {
   // If the paragraph is open, close it.
   if (paragraph_open) {
+    ensure_character_style_closed();
+    ensure_note_closed();
     xmlTextWriterEndElement(xmlwriter);
     paragraph_open = false;
   }
@@ -2095,7 +2044,16 @@ void Usfm2Osis::transform_verse_number (ustring& usfm_code, size_t marker_length
 }
 
 
-void Usfm2Osis::transform_note (ustring& usfm_code, size_t marker_length, bool is_opener, bool endnote, bool xref) // Todo
+void Usfm2Osis::transform_note (ustring& usfm_code, size_t marker_length, bool is_opener, bool endnote, bool xref)
+/*
+This procedure only does the start of the note, and the end. All markers in between
+are handled by the main procedure.
+
+Sample transformation for a whole note:
+USFM: \f + \fr 3:20 \ft \fk Ê‑va\fk* nghĩa là \fq sự sống.\fq\f*
+OSIS: <note osisRef="Gen.3.20" osisID="Gen.3.20!footnote.2" n="2"><catchWord>Ê-va</catchWord> nghĩa là <q>sự sống.</q></note>
+
+*/
 {
   // Remove the marker from the input stream.
   usfm_code.erase (0, marker_length);
@@ -2170,17 +2128,6 @@ void Usfm2Osis::transform_note (ustring& usfm_code, size_t marker_length, bool i
 
   // Set a flag that the note is open.
   note_is_open = true;
-  
-/*
-\f + \fr 3:20 \ft \fk Ê‑va\fk* nghĩa là \fq sự sống.\fq\f*
-
-<note osisRef="Gen.3.20" osisID="Gen.3.20!footnote.2" n="2"><catchWord>Ê-va</catchWord> nghĩa là <q>sự sống.</q></note>
-
-We may have to create a "note" mode, so that the main routine works normally in that mode.
-We have a "ensure_note_off" functions and friends, and each marker outside the notes ensures
-that the note mode is off. Like at the end of a paragraph, the notes goes off too, this
-is "ensured".
-*/
 }
 
 
@@ -2188,10 +2135,59 @@ void Usfm2Osis::ensure_note_closed ()
 // Ensure that a note is closed.
 {
   if (note_is_open) {
+    ensure_character_style_closed ();
     xmlTextWriterEndElement(xmlwriter);
     note_is_open = false;
   }
 }
 
 
+void Usfm2Osis::transform_character_style (ustring& usfm_code, size_t marker_length, bool is_opener, const gchar * element, const gchar * attribute_name, const gchar * attribute_value) // Todo
+{
+  // Remove the marker from the input stream.
+  usfm_code.erase (0, marker_length);
+
+  // Ensure that a paragraph is opened.
+  ensure_paragraph_opened();
+
+  // If there's any character style, always ensure that the previous one closes.
+  ensure_character_style_closed ();
+  
+  // If it happened to be a closing marker, we've done all what's needed: bail out.
+  if (!is_opener)
+    return;
+
+  // Open the element for the character style.
+  xmlTextWriterStartElement(xmlwriter, BAD_CAST element);
+
+  // Optionally write the attribute.
+  if (attribute_name) {
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST attribute_name, attribute_value);
+  }
+
+  // Set flag that a character style is open.
+  character_style_open = true;
+}
+
+
+void Usfm2Osis::ensure_character_style_closed()
+{
+  if (character_style_open) {
+    xmlTextWriterEndElement(xmlwriter);
+    character_style_open = false;
+  }
+}
+
+  
+/*
+
+  bool character_style_open;
+
+Todo We may have to create a "note" mode, so that the main routine works normally in that mode.
+We have a "ensure_note_off" functions and friends, and each marker outside the notes ensures
+that the note mode is off. Like at the end of a paragraph, the notes goes off too, this
+is "ensured".
+*/
+
 // Todo later we also need ensure character open and close functions.
+// Todo and a closing note closes character styles, and so does a closing paragraph.
