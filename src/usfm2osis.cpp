@@ -1196,7 +1196,10 @@ void Usfm2Osis::transform_block(ustring& usfm_code)
       }
 
       else if (marker_text == "fl") {
-        transform_character_style (usfm_code, marker_length, marker_is_opener, "x-label");
+        // We would have put it in a character style "x-label", 
+        // but then the resulting OSIS file fails to validate against the schema.
+        // So we just remove the character style.
+        transform_character_style (usfm_code, marker_length, marker_is_opener, NULL);
       }
 
       else if (marker_text == "fp") {
@@ -1564,11 +1567,15 @@ void Usfm2Osis::transform_usfm_description (ustring& usfm_code, const ustring& m
 {
   ustring text = get_erase_code_till_next_marker (usfm_code, 0, marker_length, true);
   ustring subtype = "x-" + marker_text;
+  /*
+  The OSIS file fails to validate if a "description" element is written.
+  So we just get rid of it, without transforming it.  
   xmlTextWriterStartElement(xmlwriter, BAD_CAST "description");
   xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "type", "usfm");
   xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "subType", subtype.c_str());
   xmlTextWriterWriteFormatString(xmlwriter, "%s", text.c_str());
   xmlTextWriterEndElement(xmlwriter);
+  */
 }
 
 
@@ -1964,6 +1971,10 @@ void Usfm2Osis::transform_character_style (ustring& usfm_code, size_t marker_len
   
   // If it happened to be a closing marker, we've done all what's needed: bail out.
   if (!is_opener)
+    return;
+
+  // If there's no element, bail out.
+  if (element == NULL)
     return;
 
   // Open the element for the character style.
