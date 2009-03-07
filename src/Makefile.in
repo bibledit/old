@@ -88,7 +88,7 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	xslfofootnoteparagraph.$(OBJEXT) dialoginsertnote.$(OBJEXT) \
 	notetemplate.$(OBJEXT) dialogsword.$(OBJEXT) \
 	dialogparallelbible.$(OBJEXT) print_parallel_bible.$(OBJEXT) \
-	mapping.$(OBJEXT) swordnote.$(OBJEXT) languages.$(OBJEXT) \
+	mapping.$(OBJEXT) swordnote.$(OBJEXT) \
 	dialogselectchapters.$(OBJEXT) portion_utils.$(OBJEXT) \
 	scriptureportions.$(OBJEXT) editor.$(OBJEXT) uname.$(OBJEXT) \
 	layout.$(OBJEXT) user.$(OBJEXT) import.$(OBJEXT) \
@@ -446,7 +446,6 @@ bibledit_bin_SOURCES = \
         print_parallel_bible.cpp \
         mapping.cpp \
         swordnote.cpp \
-        languages.cpp \
         dialogselectchapters.cpp \
         portion_utils.cpp \
         scriptureportions.cpp \
@@ -857,7 +856,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ipc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/keyboard.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/keyterms.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/languages.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/layout.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/listview.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/localizedbooks.Po@am__quote@

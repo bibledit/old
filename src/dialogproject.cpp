@@ -38,7 +38,6 @@
 #include "settings.h"
 #include "date_time_utils.h"
 #include "help.h"
-#include "languages.h"
 #include "progresswindow.h"
 #include "localizedbooks.h"
 #include "versifications.h"

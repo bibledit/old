@@ -22,7 +22,6 @@
 #include "gwrappers.h"
 #include "utilities.h"
 #include "shell.h"
-#include "languages.h"
 #include "settings.h"
 #include "localizedbooks.h"
 

@@ -62,11 +62,6 @@ protected:
   GtkWidget *entry_version;
   GtkWidget *hbox5;
   GtkWidget *entry_language;
-  GtkWidget *button_language;
-  GtkWidget *alignment3;
-  GtkWidget *hbox6;
-  GtkWidget *image3;
-  GtkWidget *label14;
   GtkWidget *hbox1;
   GtkWidget *entry_installpath;
   GtkWidget *button_installpath;

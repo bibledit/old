@@ -94,7 +94,6 @@ bibledit_bin_SOURCES = \
         print_parallel_bible.cpp \
         mapping.cpp \
         swordnote.cpp \
-        languages.cpp \
         dialogselectchapters.cpp \
         portion_utils.cpp \
         scriptureportions.cpp \

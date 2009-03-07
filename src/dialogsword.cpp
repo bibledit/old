@@ -23,7 +23,6 @@
 #include "utilities.h"
 #include "export_utils.h"
 #include "dialoglistview.h"
-#include "languages.h"
 #include "settings.h"
 #include "help.h"
 
@@ -159,26 +158,6 @@ SwordDialog::SwordDialog(int dummy)
   gtk_widget_show(entry_language);
   gtk_box_pack_start(GTK_BOX(hbox5), entry_language, TRUE, TRUE, 0);
 
-  button_language = gtk_button_new();
-  gtk_widget_show(button_language);
-  gtk_box_pack_start(GTK_BOX(hbox5), button_language, FALSE, FALSE, 0);
-
-  alignment3 = gtk_alignment_new(0.5, 0.5, 0, 0);
-  gtk_widget_show(alignment3);
-  gtk_container_add(GTK_CONTAINER(button_language), alignment3);
-
-  hbox6 = gtk_hbox_new(FALSE, 2);
-  gtk_widget_show(hbox6);
-  gtk_container_add(GTK_CONTAINER(alignment3), hbox6);
-
-  image3 = gtk_image_new_from_stock("gtk-edit", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show(image3);
-  gtk_box_pack_start(GTK_BOX(hbox6), image3, FALSE, FALSE, 0);
-
-  label14 = gtk_label_new_with_mnemonic("Selec_t");
-  gtk_widget_show(label14);
-  gtk_box_pack_start(GTK_BOX(hbox6), label14, FALSE, FALSE, 0);
-
   hbox1 = gtk_hbox_new(FALSE, 0);
   gtk_widget_show(hbox1);
   gtk_table_attach(GTK_TABLE(table1), hbox1, 1, 2, 7, 8, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (GTK_FILL), 0, 0);
@@ -239,7 +218,7 @@ SwordDialog::SwordDialog(int dummy)
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
-  new InDialogHelp(sworddialog, NULL, NULL);
+  new InDialogHelp(sworddialog, NULL, "sword_module");
 
   cancelbutton = gtk_button_new_from_stock("gtk-cancel");
   gtk_widget_show(cancelbutton);
@@ -253,7 +232,6 @@ SwordDialog::SwordDialog(int dummy)
 
   g_signal_connect((gpointer) button_installpath, "clicked", G_CALLBACK(on_button_installpath_clicked), gpointer(this));
   g_signal_connect((gpointer) button_modulepath, "clicked", G_CALLBACK(on_button_modulepath_clicked), gpointer(this));
-  g_signal_connect((gpointer) button_language, "clicked", G_CALLBACK(on_button_language_clicked), gpointer(this));
   g_signal_connect((gpointer) okbutton, "clicked", G_CALLBACK(on_okbutton_clicked), gpointer(this));
 
   gtk_label_set_mnemonic_widget(GTK_LABEL(label1), entry_name);
@@ -351,16 +329,3 @@ void SwordDialog::on_button_modulepath()
   gtk_widget_destroy(dialog);
 }
 
-void SwordDialog::on_button_language_clicked(GtkButton * button, gpointer user_data)
-{
-  ((SwordDialog *) user_data)->on_button_language();
-}
-
-void SwordDialog::on_button_language()
-{
-  vector < ustring > languages = languages_get_sword();
-  ListviewDialog dialog("Select a language", languages, gtk_entry_get_text(GTK_ENTRY(entry_language)), true, NULL);
-  if (dialog.run() == GTK_RESPONSE_OK) {
-    gtk_entry_set_text(GTK_ENTRY(entry_language), dialog.focus.c_str());
-  }
-}

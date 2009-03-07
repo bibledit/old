@@ -35,7 +35,6 @@
 #include "shell.h"
 #include "swordnote.h"
 #include "xmlutils.h"
-#include "languages.h"
 #include "mapping.h"
 #include "projectutils.h"
 #include "books.h"
@@ -286,7 +285,7 @@ Here's how we do the conversion
   lines.push_back("GlobalOptionFilter=OSISHeadings");
   lines.push_back("GlobalOptionFilter=OSISRedLetterWords");
   lines.push_back("MinimumVersion=1.5.6");
-  lines.push_back("Lang=" + language_encode_sword(projectconfig->sword_language_get()));
+  lines.push_back("Lang=" + projectconfig->sword_language_get());
   lines.push_back("Version=" + projectconfig->sword_version_get());
   lines.push_back("Description=" + settings->genconfig.project_get() + projectconfig->sword_description_get());
   lines.push_back("About=" + settings->genconfig.project_get() + projectconfig->sword_about_get());
@@ -554,7 +553,7 @@ Here's how we do the conversion
   lines.push_back("GlobalOptionFilter=OSISHeadings");
   lines.push_back("GlobalOptionFilter=OSISRedLetterWords");
   lines.push_back("MinimumVersion=1.5.6");
-  lines.push_back("Lang=" + language_encode_sword(projectconfig->sword_language_get()));
+  lines.push_back("Lang=" + projectconfig->sword_language_get());
   lines.push_back("Version=" + projectconfig->sword_version_get());
   lines.push_back("Description=" + settings->genconfig.project_get() + projectconfig->sword_description_get());
   lines.push_back("About=" + settings->genconfig.project_get() + projectconfig->sword_about_get());

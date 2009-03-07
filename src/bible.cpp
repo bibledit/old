@@ -24,7 +24,6 @@
 #include "projectutils.h"
 #include "books.h"
 #include "settings.h"
-#include "languages.h"
 #include "settings.h"
 #include "localizedbooks.h"
 #include "tiny_utilities.h"

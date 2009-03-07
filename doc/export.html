@@ -6,14 +6,14 @@
   <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
   <title>Bibledit</title>
   <!--
-  Copyright (©) 2003-2008 Teus Benschop.
-  Permission is granted to copy, distribute and/or modify this document
-  under the terms of the GNU Free Documentation License, Version 1.2
-  or any later version published by the Free Software Foundation;
-  with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-  Texts.  A copy of the license is included in the section entitled "GNU
-  Free Documentation License" in the file FDL.
-  -->
+    Copyright (©) 2003-2008 Teus Benschop.
+    Permission is granted to copy, distribute and/or modify this document
+    under the terms of the GNU Free Documentation License, Version 1.2
+    or any later version published by the Free Software Foundation;
+    with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+    Texts.  A copy of the license is included in the section entitled "GNU
+    Free Documentation License" in the file FDL.
+    -->
   <link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
 
@@ -59,42 +59,8 @@ directory, but this can be changed. Provide a name for the module and export
 it. After restarting BibleTime or Xiphos or another Sword enabled Bible reader,
 the module should be visible in the program.</p>
 
-<p>Normally you can leave the settings in the dialog as they are. Changes can
-be made, however.</p>
-
-<p>Name is the name for the module. The actual name given to the module
-consists of the project name plus the name given here.</p>
-
-<p>Description is a short (1 line) description of the module, such as its
-title. The actual description gets the project name prefixed.</p>
-
-<p>About is a lengthier description and may include copyright, source, etc.
-information. The actual description gets the project name prefixed.</p>
-
-<p>LCSH is the Library of Congress Subject Heading. You may search the Library
-of Congress catalog at <a
-href="http://catalog.loc.gov/">http://catalog.loc.gov/</a> or use it as a guide
-for determining an appropriate LCSH for books that are not in the Library of
-Congress.</p>
-
-<p>License describes the license under which the module is being
-distributed.</p>
-
-<p>Version is the module's revision number of the module. Incrementing it when
-changes are made alerts users of the SWORD Installers to the presence of
-updated modules. Please start with version 1.0 and increment by 0.1 for minor
-updates and by larger values for more major updates such as a new text
-source.</p>
-
-<p>Language is the primary language code of the module. You can select one from
-the list, in which case BibleTime correctly displays the language. Or you can
-enter a language by hand, in which case BibleTime puts it under "Unknown
-language". See the Ethnologue, <a
-href="http://www.ethnologue.com/">http://www.ethnologue.com</a>, to find your
-language, and enter the code or the name.</p>
-
-<p>Install path is where Bibledit will install the module. This is the place
-where BibleTime expects the module to be installed.</p>
+<p>While creating a Sword module, <a href="olh_sword_module.html">there is a
+dialog where settings can be made.</a></p>
 
 <p>Module path is the directory where a zipped module will be stored. This
 module is fit for immediate distribution.</p>
@@ -106,8 +72,12 @@ compiler.</p>
 <p>Currently there are two methods for exporting to an OSIS file and a Sword
 module. There is the "Old method". This divides the text into books, chapters
 and verses. Then there's the "New method". This divides the text into books,
-sections and paragraphs. If one method fails to produce the result that you'd
-like to see, try the other one.</p>
+sections and paragraphs. At the moment of writing the osis2mod compiler is not
+capable of producing a proper Sword module out of the OSIS file created with
+the new method.</p>
+
+<p>If one method fails to produce the result that you'd like to see, try the
+other one.</p>
 
 <h4><a name="opendocument"></a>OpenDocument</h4>
 
