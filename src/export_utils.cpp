@@ -49,6 +49,8 @@
 #include "clean.h"
 #include "dialogradiobutton.h"
 #include "usfm2osis.h"
+#include "osis.h"
+
 
 void export_to_usfm(GtkWidget * parent, bool zipped)
 // Export the whole project to USFM files.
@@ -208,7 +210,7 @@ void export_translation_notes(const ustring & filename, ExportNotesFormat format
   ExportTranslationNotes etn(filename, format, ids_to_display, export_all, parent);
 }
 
-void export_to_sword_interactive()
+void export_to_sword_interactive(bool new_method)
 // Exports a whole project to a SWORD module.
 {
   // Dialog for information entry.
@@ -218,10 +220,287 @@ void export_to_sword_interactive()
       return;
   }
   extern Settings *settings;
-  export_to_sword_script(settings->genconfig.project_get(), "", true);
+  ustring project = settings->genconfig.project_get();
+  if (new_method) {
+    export_to_sword_script_new(project, "", true);
+  } else {
+    export_to_sword_script_old(project, "", true);
+  }
 }
 
-void export_to_sword_script(const ustring & project, ustring directory, bool gui)
+
+void export_to_sword_script_old(const ustring & project, ustring directory, bool gui)
+/*
+Exports a whole project to a SWORD module.
+At the time of writing this, the information on how to create a module for 
+sword was found at http://www.crosswire.org/sword/develop/swordmodule/
+Here's how we do the conversion
+- A .conf file is created and put in ~/.sword/mods.d/
+- We use the "osis" format as this offers most options and seems best supported.
+- Create the module with program osis2mod.
+- The text will be stored in ~/.sword/modules/texts/bibledit/<name>/
+*/
+{
+  // Check for converter.
+  if (!gw_find_program_in_path("osis2mod")) {
+    ustring message = "The SWORD compiler osis2mod was not found.";
+    if (gui)
+      gtkw_dialog_error(NULL, message);
+    cerr << message << endl;
+    return;
+  }
+  // Directory to store module.
+  if (directory.empty())
+    directory = g_get_home_dir();
+  // Configuration
+  extern Settings *settings;
+  // Progress information.
+  ProgressWindow *progresswindow = NULL;
+  if (gui)
+    progresswindow = new ProgressWindow("Exporting project", true);
+  // Open the project that contains the data.
+  ProjectConfiguration *projectconfig = settings->projectconfig(project);
+  // The temporal directories for the data.
+  ustring base_directory = gw_build_filename(directories_get_temp(), "sword");
+  unix_rmdir(base_directory);
+  gw_mkdir_with_parents(base_directory);
+  ustring absolute_conf_directory = gw_build_filename(base_directory, "mods.d");
+  gw_mkdir_with_parents(absolute_conf_directory);
+  ustring relative_text_directory = gw_build_filename("modules", "texts", "bibledit", lowerCase(settings->genconfig.project_get() + projectconfig->sword_name_get()));
+  ustring absolute_text_directory = gw_build_filename(base_directory, relative_text_directory);
+  gw_mkdir_with_parents(absolute_text_directory);
+  // Create the configuration file.
+  vector < ustring > lines;
+  ustring line;
+  lines.push_back("[" + settings->genconfig.project_get() + projectconfig->sword_name_get() + "]");
+  line = "DataPath=.";
+  line.append(G_DIR_SEPARATOR_S + relative_text_directory + G_DIR_SEPARATOR_S);
+  lines.push_back(line);
+  lines.push_back("ModDrv=RawText");
+  lines.push_back("SourceType=OSIS");
+  lines.push_back("Encoding=UTF-8");
+  lines.push_back("BlockType=BOOK");
+  lines.push_back("GlobalOptionFilter=OSISStrongs");
+  lines.push_back("GlobalOptionFilter=OSISMorph");
+  lines.push_back("GlobalOptionFilter=OSISFootnotes");
+  lines.push_back("GlobalOptionFilter=OSISHeadings");
+  lines.push_back("GlobalOptionFilter=OSISRedLetterWords");
+  lines.push_back("MinimumVersion=1.5.6");
+  lines.push_back("Lang=" + language_encode_sword(projectconfig->sword_language_get()));
+  lines.push_back("Version=" + projectconfig->sword_version_get());
+  lines.push_back("Description=" + settings->genconfig.project_get() + projectconfig->sword_description_get());
+  lines.push_back("About=" + settings->genconfig.project_get() + projectconfig->sword_about_get());
+  lines.push_back("LCSH=" + projectconfig->sword_lcsh_get());
+  lines.push_back("DistributionLicense=" + projectconfig->sword_license_get());
+  if (projectconfig->right_to_left_get())
+    lines.push_back("Direction=RtoL");
+  write_lines(gw_build_filename(absolute_conf_directory, lowerCase(settings->genconfig.project_get() + projectconfig->sword_name_get()) + ".conf"), lines);
+  lines.clear();
+  // Start process of producing the text file.
+  ustring inputfile;
+  try {
+    // Prepare for notes and inline text.
+    Usfm usfm(stylesheet_get_actual ());
+    SwordNote swordnote(usfm, true);
+    UsfmInlineMarkers usfm_inline_markers(usfm);
+    // Write to inputfile.
+    inputfile = gw_build_filename(g_get_home_dir (), "osis-from-usfm.xml");
+    unlink(inputfile.c_str());
+    WriteText wt(inputfile);
+    // Write out xml headers.
+    OsisRoot osisroot(&wt, settings->genconfig.project_get() + projectconfig->sword_name_get(), settings->genconfig.project_get() + projectconfig->sword_description_get());
+    // Get all the books and go through them.
+    vector < unsigned int >scripture_books = project_get_books(settings->genconfig.project_get());
+    if (gui)
+      progresswindow->set_iterate(0, 1, scripture_books.size());
+    for (unsigned int bk = 0; bk < scripture_books.size(); bk++) {
+      // Progress information.
+      if (gui) {
+        progresswindow->iterate();
+        if (progresswindow->cancel) {
+          delete progresswindow;
+          return;
+        }
+      }
+      // Only proceed if book exists in the Osis encoding.
+      if (books_id_to_osis(scripture_books[bk]).empty())
+        continue;
+      // Progress.
+      cout << books_id_to_english(scripture_books[bk]) << endl;
+      // Signal "new book" to notes system.
+      swordnote.new_book();
+      // Open book in osis code.
+      OsisBook osisbook(&wt, books_id_to_english(scripture_books[bk]));
+      // Go through the book and collect verses and other data.
+      vector < unsigned int >chapters;
+      vector < ustring > verses;
+      vector < ustring > lines;
+      {
+        ustring swordverse = "0";
+        int swordchapter = 0;
+        vector < ustring > bookcontents = project_retrieve_book(settings->genconfig.project_get(), scripture_books[bk]);
+        CleanUsfm clean_usfm(bookcontents);
+        text_replacement(clean_usfm.lines);
+        for (unsigned int i2 = 0; i2 < clean_usfm.lines.size(); i2++) {
+          ustring line = clean_usfm.lines[i2];
+          ustring marker = usfm_extract_marker(line);
+          if (usfm.is_chapter_number(marker)) {
+            swordchapter = convert_to_int(number_in_string(line));
+            swordverse = "0";
+          } else if (usfm.is_verse_number(marker)) {
+            // Extract verse number.
+            size_t position = line.find(" ");
+            position = CLAMP(position, 0, line.length());
+            swordverse = line.substr(0, position);
+            // Erase verse number from the line.
+            position++;
+            line.erase(0, position);
+            // Store data.
+            chapters.push_back(swordchapter);
+            verses.push_back(swordverse);
+            lines.push_back(line);
+          } else {
+            // Store data.
+            chapters.push_back(swordchapter);
+            verses.push_back(swordverse);
+            // Store line with marker in it. Needed for formatting.
+            lines.push_back(clean_usfm.lines[i2]);
+          }
+        }
+      }
+      // Default to opening chapter 0 and verse 0.
+      unsigned int current_chapter = 0;
+      ustring current_verse = "0";
+      OsisChapter *osischapter = new OsisChapter(&wt, osisbook.book, current_chapter);
+      OsisVerse *osisverse = new OsisVerse(&wt, osisbook.book, osischapter->chapter, current_verse);
+      OsisParagraph *osisparagraph = NULL;
+      // Go through all the lines of the remapped book.
+      for (unsigned int i2 = 0; i2 < chapters.size(); i2++) {
+        // Deal with a new chapter.
+        if (chapters[i2] != current_chapter) {
+          // Close verse, chapter.
+          delete osisverse;
+          delete osischapter;
+          // Store new chapter.
+          current_chapter = chapters[i2];
+          // Reopen chapter and verse.
+          osischapter = new OsisChapter(&wt, osisbook.book, current_chapter);
+          current_verse = "0";
+          osisverse = new OsisVerse(&wt, osisbook.book, osischapter->chapter, current_verse);
+          // Signal new chapter to notes system.
+          swordnote.new_chapter();
+        }
+        // Handle new verse.
+        bool newverse = false;
+        if (current_verse != verses[i2]) {
+          // Close osis verse.
+          delete osisverse;
+          // Store new verse.
+          current_verse = verses[i2];
+          // Reopen osis verse.
+          osisverse = new OsisVerse(&wt, osisbook.book, osischapter->chapter, current_verse);
+          // Mark a new verse.
+          newverse = true;
+        }
+        // Get the raw line.
+        ustring line = lines[i2];
+        // Change certain characters to xml entities.
+        xml_handle_entities(line, NULL);
+        // Deal with notes.
+        swordnote.transform(line);
+        // Deal with inline text.
+        usfm_handle_inline_text(line, &usfm_inline_markers, NULL, imSword, NULL);
+        // Get the style belonging to the marker.
+        ustring marker = usfm_extract_marker(line);
+        if (usfm.is_identifier(marker)) {
+          // Do nothing with an identifier.
+        } else if (usfm.is_starting_paragraph(marker)) {
+          // Find out what type of paragraph it is.
+          ParagraphType paragraphtype = usfm.paragraph_get_subtype(marker);
+          bool close_paragraph = false;
+          bool new_paragraph = false;
+          ustring title_type;
+          switch (paragraphtype) {
+          case ptMainTitle:
+            close_paragraph = true;
+            title_type = "main";
+            break;
+          case ptSubTitle:
+            close_paragraph = true;
+            title_type = "sub";
+            break;
+          case ptSectionHeading:
+            close_paragraph = true;
+            title_type = "part";
+            break;
+          case ptNormalParagraph:
+            close_paragraph = true;
+            new_paragraph = true;
+            break;
+          }
+          // Close if need be.
+          if (close_paragraph) {
+            if (osisparagraph)
+              delete osisparagraph;
+            osisparagraph = NULL;
+          }
+          // Open new one if needed.
+          if (new_paragraph) {
+            osisparagraph = new OsisParagraph(&wt);
+          }
+          // Handle titles also.
+          if (!title_type.empty()) {
+            wt.text("<title type=\"" + title_type + "\">");
+          }
+          // Output text.
+          wt.text(line);
+          // Close title if need be.
+          if (!title_type.empty()) {
+            wt.text("</title>");
+          }
+        } else {
+          // Fallback for verse marker (removed before), unknown marker, or no marker, or incomplete marker.
+          if (!newverse)
+            wt.text(" ");
+          wt.text(line);
+        }
+      }
+      // Close paragraph, verse and chapter.      
+      if (osisparagraph)
+        delete osisparagraph;
+      delete osisverse;
+      delete osischapter;
+    }
+  }
+  catch(exception & ex) {
+    cerr << "Export: " << ex.what() << endl;
+  }
+  // Hide progress.
+  if (progresswindow)
+    delete progresswindow;
+  // Convert the inputfile using the sword api utility.
+  {
+    GwSpawn spawn("osis2mod");
+    spawn.arg(absolute_text_directory);
+    spawn.arg(inputfile);
+    spawn.progress("Compiling", false);
+    spawn.run();
+  }
+  // Install it.
+  unix_cp_r(gw_build_filename(base_directory, "mods.d"), settings->genconfig.export_to_sword_install_path_get());
+  unix_cp_r(gw_build_filename(base_directory, "modules"), settings->genconfig.export_to_sword_install_path_get());
+  // Compress and save the module.
+  ustring command;
+  ustring zipfile = temporary_file(settings->genconfig.project_get() + projectconfig->sword_name_get()) + ".zip";
+  unlink(zipfile.c_str());
+  command = "cd" + shell_quote_space(base_directory) + "; ";
+  command.append("zip -r" + shell_quote_space(zipfile) + "*");
+  if (system(command.c_str())) ;
+  unix_mv(zipfile, settings->genconfig.export_to_sword_module_path_get());
+}
+
+
+void export_to_sword_script_new(const ustring & project, ustring directory, bool gui)
 /*
 Exports a whole project to a SWORD module.
 At the time of writing this, the information on how to create a module for 
@@ -287,7 +566,7 @@ Here's how we do the conversion
   lines.clear();
 
   // Osis file name.
-  ustring osisfile = gw_build_filename(g_get_home_dir (), "osis-from-usfm.txt");
+  ustring osisfile = gw_build_filename(g_get_home_dir (), "osis-from-usfm.xml");
   unlink(osisfile.c_str());
   
   // OSIS to USFM converter.

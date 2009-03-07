@@ -173,7 +173,7 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	assistantchanges.$(OBJEXT) widgetdate.$(OBJEXT) \
 	usfmview.$(OBJEXT) dialogcompareprefs.$(OBJEXT) \
 	windowcheckusfm.$(OBJEXT) usfm2osis.$(OBJEXT) \
-	usfmstandard.$(OBJEXT)
+	usfmstandard.$(OBJEXT) osis.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -626,7 +626,8 @@ bibledit_bin_SOURCES = \
         dialogcompareprefs.cpp \
         windowcheckusfm.cpp \
         usfm2osis.cpp \
-        usfmstandard.cpp
+        usfmstandard.cpp \
+        osis.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -874,6 +875,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/odtutils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/opendocument.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/originreferences.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/osis.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ot-nt-parallels.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ot-quotations.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/outline.Po@am__quote@

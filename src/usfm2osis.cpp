@@ -208,7 +208,7 @@ void Usfm2Osis::load_book (vector <ustring>& data)
 }
 
 
-void Usfm2Osis::transform_headers_and_descriptions(ustring& usfm_code)
+void Usfm2Osis::transform_headers_and_descriptions(ustring& usfmcode)
 // Does the first stage of the transformation.
 // It finds descriptions, and (running) headers for the book.
 {
@@ -216,12 +216,13 @@ void Usfm2Osis::transform_headers_and_descriptions(ustring& usfm_code)
   ustring unhandled_usfm_code;
   
   // Go through all USFM code.
+  ustring usfm_code;
   ustring marker_text;
   size_t marker_position;
   size_t marker_length;
   bool marker_is_opener;
   bool marker_found;
-  while (!usfm_code.empty()) {
+  while (usfm_code_available (usfm_code, usfmcode, 1000)) {
     marker_found = usfm_search_marker(usfm_code, marker_text, marker_position, marker_length, marker_is_opener);
     if (marker_found && (marker_position == 0)) {
       // A marker is right at the start of the line.
@@ -290,10 +291,10 @@ void Usfm2Osis::transform_headers_and_descriptions(ustring& usfm_code)
     }
   }
   // Keep the unhandled USFM code for further processing.
-  usfm_code = unhandled_usfm_code;
+  usfmcode = unhandled_usfm_code;
 }
 
-void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
+void Usfm2Osis::transform_block(ustring& usfm_code)
 // Does the transformation of a block of USFM code.
 // An attempt is made to follow the OSIS manual, Appendix F, USFM to OSIS Mapping.
 {
@@ -544,66 +545,56 @@ void Usfm2Osis::transform_block(ustring& usfm_code) // Todo
       // mt
       // div[@type="book"]/title[@type="main"]
       else if (marker_text == "mt") {
-        transform_division ("book", true);
         transform_general_title (usfm_code, marker_length, "main", 0);
       } 
       
       // mt1 
       // div[@type="book"]/title[@type="main"]/title[@level="1"] 
       else if (marker_text == "mt1") {
-        transform_division ("book", true);
         transform_general_title (usfm_code, marker_length, "main", 1);
       } 
 
       // mt2 
       // div[@type="book"]/title[@type="main"]/title[@level="2"] 
       else if (marker_text == "mt2") {
-        transform_division ("book", true);
         transform_general_title (usfm_code, marker_length, "main", 2);
       } 
 
       // mt3 
       // div[@type="book"]/title[@type="main"]/title[@level="3"] 
       else if (marker_text == "mt3") {
-        transform_division ("book", true);
         transform_general_title (usfm_code, marker_length, "main", 3);
       } 
       
       // mt4 
       // div[@type="book"]/title[@type="main"]/title[@level="4"] 
       else if (marker_text == "mt4") {
-        transform_division ("book", true);
         transform_general_title (usfm_code, marker_length, "main", 4);
       } 
       
       // mte 
       // div[@type="book"]/title[@type="main"]
       else if (marker_text == "mte") {
-        transform_division ("book", true);
         transform_general_title (usfm_code, marker_length, "main", 0);
       } 
       
       // mte1 
       // div[@type="book"]/title[@type="main"]/title[@level="1"]
       else if (marker_text == "mte1") {
-        transform_division ("book", true);
         transform_general_title (usfm_code, marker_length, "main", 1);
       } 
 
       // mte2
       // div[@type="book"]/title[@type="main"]/title[@level="2"]
       else if (marker_text == "mte2") {
-        transform_division ("book", true);
         transform_general_title (usfm_code, marker_length, "main", 2);
       } 
       
       else if (marker_text == "mte3") {
-        transform_division ("book", true);
         transform_general_title (usfm_code, marker_length, "main", 3);
       } 
       
       else if (marker_text == "mte4") {
-        transform_division ("book", true);
         transform_general_title (usfm_code, marker_length, "main", 4);
       } 
 
@@ -1597,19 +1588,20 @@ void Usfm2Osis::transform_h_title (ustring& usfm_code, size_t marker_length, boo
 }
 
 
-void Usfm2Osis::transform_per_osis_division(ustring& usfm_code)
+void Usfm2Osis::transform_per_osis_division(ustring& usfmcode)
 // Chops the code up into OSIS divisions and initiates the transformation.
 {
   // Division text
   ustring division_usfm_code;
   
   // Go through all USFM code.
+  ustring usfm_code;
   ustring marker_text;
   size_t marker_position;
   size_t marker_length;
   bool marker_is_opener;
   bool marker_found;
-  while (!usfm_code.empty()) {
+  while (usfm_code_available (usfm_code, usfmcode, 1000)) {
     marker_found = usfm_search_marker(usfm_code, marker_text, marker_position, marker_length, marker_is_opener);
     if (marker_found && (marker_position == 0)) {
       // A marker is right at the start of the line.

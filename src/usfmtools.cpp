@@ -1074,3 +1074,24 @@ void usfm_dissect_figure (ustring& usfmcode, const ustring& marker_text, size_t 
   }
 }
 
+
+bool usfm_code_available (ustring& small_store, ustring& big_store, size_t store_size)
+/*
+When working with large chunks of USFM code, manipulating this code is slow.
+This function aims to reduce the number operations on the big string,
+so that most operations are done on the small string. And these are fast.
+If the size of the small store falls below the store size, 
+it transfers text from the big store to the small store.
+The function returns true if there's text left in the small store.
+*/
+{
+  if (small_store.length() < store_size) {
+    if (!big_store.empty()) {
+      ustring transfer = big_store.substr (0, store_size);
+      big_store.erase (0, store_size);
+      small_store.append (transfer);
+    }
+  }
+  return !small_store.empty();
+}
+

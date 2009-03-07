@@ -45,8 +45,8 @@ private:
   xmlTextWriterPtr xmlwriter;
   unsigned int book_bibledit_id;
   ustring book_osis_id;
-  void transform_headers_and_descriptions(ustring& usfm_code);
-  void transform_per_osis_division (ustring& usfm_code);
+  void transform_headers_and_descriptions(ustring& usfmcode);
+  void transform_per_osis_division (ustring& usfmcode);
   bool usfm_is_osis_division (const ustring& marker);
   void transform_block(ustring& usfm_code);
   void transform_fallback(ustring& usfm_code);

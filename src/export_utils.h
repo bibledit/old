@@ -33,8 +33,9 @@ void export_to_usfm (GtkWidget * parent, bool zipped);
 void export_to_usfm (const ustring& project, ustring location, bool zip);
 void export_to_bibleworks (GtkWidget * parent);
 void export_translation_notes (const ustring& filename, ExportNotesFormat format, const vector<unsigned int> & ids_to_display, bool export_all, GtkWidget * parent);
-void export_to_sword_interactive ();
-void export_to_sword_script (const ustring& project, ustring directory, bool gui);
+void export_to_sword_interactive (bool new_method);
+void export_to_sword_script_old (const ustring& project, ustring directory, bool gui);
+void export_to_sword_script_new (const ustring& project, ustring directory, bool gui);
 void export_to_opendocument (GtkWidget * parent);
 
 
