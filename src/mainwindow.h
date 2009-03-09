@@ -332,6 +332,10 @@ protected:
   GtkWidget *image16359;
   GtkWidget *preferences_remote_git_repository;
   GtkWidget *image18977;
+
+  GtkWidget *preferences_remote_repository; // Todo
+  GtkWidget *image33654;
+
   GtkWidget *preferences_gui;
   GtkWidget *image20936;
   GtkWidget *preferences_password;
@@ -662,6 +666,10 @@ protected:
   void on_view_git_tasks();
   static void on_preferences_remote_git_repository_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_preferences_remote_git_repository();
+  
+  static void on_preferences_remote_repository_activate (GtkMenuItem *menuitem, gpointer user_data); // Todo
+  void on_preferences_remote_repository();  
+  
   void on_git_reopen_project();
   static void on_project_changes_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_project_changes();

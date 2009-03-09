@@ -1564,7 +1564,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   menuitem_preferences_menu = gtk_menu_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuitem_preferences), menuitem_preferences_menu);
 
-  preferences_remote_git_repository = NULL;
   notes_preferences = NULL;
   printingprefs = NULL;
   reference_exchange1 = NULL;
@@ -1573,6 +1572,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   preferences_windows_outpost = NULL;
   preferences_tidy_text = NULL;
   preferences_remote_git_repository = NULL;
+  preferences_remote_repository = NULL;
   if (guifeatures.preferences()) {
 
     notes_preferences = gtk_image_menu_item_new_with_mnemonic("Project _notes");
@@ -1638,6 +1638,14 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     image18977 = gtk_image_new_from_stock("gtk-connect", GTK_ICON_SIZE_MENU);
     gtk_widget_show(image18977);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(preferences_remote_git_repository), image18977);
+
+    preferences_remote_repository = gtk_image_menu_item_new_with_mnemonic ("R_emote repository");
+    gtk_widget_show (preferences_remote_repository);
+    gtk_container_add (GTK_CONTAINER (menuitem_preferences_menu), preferences_remote_repository);
+
+    image33654 = gtk_image_new_from_stock ("gtk-connect", GTK_ICON_SIZE_MENU);
+    gtk_widget_show (image33654);
+    gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (preferences_remote_repository), image33654);
 
   }
 
@@ -2023,6 +2031,8 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     g_signal_connect((gpointer) preferences_tidy_text, "activate", G_CALLBACK(on_preferences_tidy_text_activate), gpointer(this));
   if (preferences_remote_git_repository)
     g_signal_connect((gpointer) preferences_remote_git_repository, "activate", G_CALLBACK(on_preferences_remote_git_repository_activate), gpointer(this));
+  if (preferences_remote_repository)
+    g_signal_connect((gpointer) preferences_remote_repository, "activate", G_CALLBACK(on_preferences_remote_repository_activate), gpointer(this));
   if (preferences_gui)
     g_signal_connect((gpointer) preferences_gui, "activate", G_CALLBACK(on_preferences_gui_activate), gpointer(this));
   if (preferences_password)
@@ -4711,6 +4721,22 @@ void MainWindow::on_preferences_remote_git_repository()
   GitSetupDialog dialog(0);
   if (dialog.run() == GTK_RESPONSE_OK)
     reload_all_editors(false);
+}
+
+void MainWindow::on_preferences_remote_repository_activate(GtkMenuItem * menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_preferences_remote_repository();
+}
+
+void MainWindow::on_preferences_remote_repository() // Todo
+{
+  save_editors();
+
+/*
+  GitSetupDialog dialog(0);
+  if (dialog.run() == GTK_RESPONSE_OK)
+    reload_all_editors(false);
+*/
 }
 
 void MainWindow::on_git_reopen_project()

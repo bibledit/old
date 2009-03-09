@@ -60,16 +60,27 @@ void git_exec_initialize_project(const ustring & project, bool health)
   command0.append("\"");
   git_exec_command(command0, datadirectory);
 
-  // (Re)initialize the repository. This can be done repeatedly without harm,
-  // and it ensures that anything that was put in by hand will be seen by git,
-  // thus making the system more robust.
-  // At times health-related commands are ran too.
+  // (Re)initialize the repository. This can be done repeatedly without harm.
   ustring command1 = "git-init-db";
   git_exec_command(command1, datadirectory);
+  // At times health-related commands are ran too.
   if (health) {
-    ustring command = "git-gc --prune";
+    ustring command;
+    // Prune all unreachable objects from the object database.
+    command = "git-prune";
+    git_exec_command(command, datadirectory);
+    // Cleanup unnecessary files and optimize the local repository.
+    command = "git-gc --aggressive";
+    git_exec_command(command, datadirectory);
+    // Remove extra objects that are already in pack files.
+    command = "git-prune-packed";
+    git_exec_command(command, datadirectory);
+    // Pack unpacked objects in the repository.
+    command = "git-repack";
     git_exec_command(command, datadirectory);
   }
+  // Ensure that anything that was put in by hand will be seen by git.
+  // This makes the system more robust.
   ustring command2 = "git-add .";
   git_exec_command(command2, datadirectory);
   git_exec_commit_directory(datadirectory);
