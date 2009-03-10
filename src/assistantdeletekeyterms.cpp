@@ -33,7 +33,7 @@ AssistantBase("Keyterms", "deletekeyterms")
   
   g_signal_connect (G_OBJECT (assistant), "apply", G_CALLBACK (on_assistant_apply_signal), gpointer(this));
 
-  introduction ("You can delete categories from tke keyterms database.");
+  introduction ("You can delete categories from the keyterms database.");
   
   vbox1 = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vbox1);

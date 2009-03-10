@@ -274,7 +274,8 @@ bibledit_bin_SOURCES = \
         windowcheckusfm.cpp \
         usfm2osis.cpp \
         usfmstandard.cpp \
-        osis.cpp
+        osis.cpp \
+        assistantremoterepository.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 

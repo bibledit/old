@@ -169,6 +169,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   changes_assistant = NULL;
   assistant_references = NULL;
   window_check_usfm = NULL;
+  remote_repository_assistant = NULL;
   
   // Initialize some variables.
   git_reopen_project = false;
@@ -4728,15 +4729,11 @@ void MainWindow::on_preferences_remote_repository_activate(GtkMenuItem * menuite
   ((MainWindow *) user_data)->on_preferences_remote_repository();
 }
 
-void MainWindow::on_preferences_remote_repository() // Todo
+void MainWindow::on_preferences_remote_repository()
 {
   save_editors();
-
-/*
-  GitSetupDialog dialog(0);
-  if (dialog.run() == GTK_RESPONSE_OK)
-    reload_all_editors(false);
-*/
+  remote_repository_assistant = new RemoteRepositoryAssistant (0);
+  g_signal_connect ((gpointer) remote_repository_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
 }
 
 void MainWindow::on_git_reopen_project()
@@ -7176,10 +7173,12 @@ void MainWindow::on_assistant_keyterms_ready ()
   if (import_keyterms_assistant)
     delete import_keyterms_assistant;
   import_keyterms_assistant = NULL;
+
   // Deleting keyterms.
   if (delete_keyterms_assistant)
     delete delete_keyterms_assistant;
   delete_keyterms_assistant = NULL;
+
   // Changes.
   if (changes_assistant)
     delete changes_assistant;
@@ -7189,7 +7188,14 @@ void MainWindow::on_assistant_keyterms_ready ()
   if (assistant_references)
     delete assistant_references;
   assistant_references = NULL;
-  
+
+  // Remote repository setup.
+  if (remote_repository_assistant) {
+    delete remote_repository_assistant;
+    reload_all_editors(false);
+  }
+  remote_repository_assistant = NULL;
+
   // The assistants may have paused git operations. Resume these.
   git_command_pause(false);
 }
