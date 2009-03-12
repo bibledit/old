@@ -50,7 +50,7 @@ void unix_cp_r(const ustring & from, const ustring & to)
 #ifdef WIN32
   gw_mkdir_with_parents(to);
   GwSpawn spawn("xcopy");
-  spawn.arg("/e");
+  spawn.arg("/E /I /Y");
 #else
   GwSpawn spawn("cp");
   spawn.arg("-r");
