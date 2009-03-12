@@ -130,7 +130,11 @@ void backup_make(const ustring & project, bool full, int timefrom)
       }
     }
     // Zip them.
+#ifdef WIN32
+    ustring command = "cd" + shell_quote_space(workingdirectory) + " && zip -r " + gw_path_get_basename(filename) + " *.usfm && del *.usfm";
+#else
     ustring command = "cd" + shell_quote_space(workingdirectory) + "; zip -r " + gw_path_get_basename(filename) + " *.usfm; rm *.usfm";
+#endif
     if (system(command.c_str())) ;
   }
 
