@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bibledit-localized-books>
+<book>
+<id>1</id>
+<english>Genesis</english>
+<localization>Genesisi</localization>
+<abbreviation>Gen.</abbreviation>
+</book>
+<book>
+<id>2</id>
+<english>Exodus</english>
+<localization>Ekisodho</localization>
+<abbreviation>Eki.</abbreviation>
+</book>
+<book>
+<id>3</id>
+<english>Leviticus</english>
+<localization>Revhitiko</localization>
+<abbreviation>Rev.</abbreviation>
+</book>
+<book>
+<id>4</id>
+<english>Numbers</english>
+<localization>Numeri</localization>
+<abbreviation>Num</abbreviation>
+</book>
+<book>
+<id>5</id>
+<english>Deuteronomy</english>
+<localization>Deteronomio</localization>
+<abbreviation>Det.</abbreviation>
+</book>
+<book>
+<id>6</id>
+<english>Joshua</english>
+<localization>Joshuwa</localization>
+<abbreviation>Josh.</abbreviation>
+</book>
+<book>
+<id>7</id>
+<english>Judges</english>
+<localization>Vatongi</localization>
+<abbreviation>Vato.</abbreviation>
+</book>
+<book>
+<id>8</id>
+<english>Ruth</english>
+<localization>Rute</localization>
+<abbreviation>Rut.</abbreviation>
+</book>
+<book>
+<id>9</id>
+<english>1 Samuel</english>
+<localization>1 Samueri</localization>
+<abbreviation>1 Sam.</abbreviation>
+</book>
+<book>
+<id>10</id>
+<english>2 Samuel</english>
+<localization>2 Samueri</localization>
+<abbreviation>2 Sam.</abbreviation>
+</book>
+<book>
+<id>11</id>
+<english>1 Kings</english>
+<localization>1 Madzimambo</localization>
+<abbreviation>1 Madz.</abbreviation>
+</book>
+<book>
+<id>12</id>
+<english>2 Kings</english>
+<localization>2 Madzimambo</localization>
+<abbreviation>2 Madz.</abbreviation>
+</book>
+<book>
+<id>13</id>
+<english>1 Chronicles</english>
+<localization>1 Makoronike</localization>
+<abbreviation>1 Makor.</abbreviation>
+</book>
+<book>
+<id>14</id>
+<english>2 Chronicles</english>
+<localization>2 Makoronike</localization>
+<abbreviation>2 Makor.</abbreviation>
+</book>
+<book>
+<id>15</id>
+<english>Ezra</english>
+<localization>Ezira</localization>
+<abbreviation>Ezi</abbreviation>
+</book>
+<book>
+<id>16</id>
+<english>Nehemiah</english>
+<localization>Nehemia</localization>
+<abbreviation>Neh.</abbreviation>
+</book>
+<book>
+<id>17</id>
+<english>Esther</english>
+<localization>Esiteri</localization>
+<abbreviation>Esi</abbreviation>
+</book>
+<book>
+<id>18</id>
+<english>Job</english>
+<localization>Jobho</localization>
+<abbreviation>Job.</abbreviation>
+</book>
+<book>
+<id>19</id>
+<english>Psalms</english>
+<localization>Mapisarema</localization>
+<abbreviation>Map.</abbreviation>
+</book>
+<book>
+<id>20</id>
+<english>Proverbs</english>
+<localization>Zvirevo</localization>
+<abbreviation>Zvir.</abbreviation>
+</book>
+<book>
+<id>21</id>
+<english>Ecclesiastes</english>
+<localization>Muparidzi</localization>
+<abbreviation>Mup.</abbreviation>
+</book>
+<book>
+<id>22</id>
+<english>Song of Solomon</english>
+<localization>Rwiyo RwaSoromoni</localization>
+<abbreviation>Rwiyo</abbreviation>
+</book>
+<book>
+<id>23</id>
+<english>Isaiah</english>
+<localization>Isaya</localization>
+<abbreviation>Isa.</abbreviation>
+</book>
+<book>
+<id>24</id>
+<english>Jeremiah</english>
+<localization>Jeremia</localization>
+<abbreviation>Jer.</abbreviation>
+</book>
+<book>
+<id>25</id>
+<english>Lamentations</english>
+<localization>Mariro</localization>
+<abbreviation>Marir.</abbreviation>
+</book>
+<book>
+<id>26</id>
+<english>Ezekiel</english>
+<localization>Ezekieri</localization>
+<abbreviation>Eze.</abbreviation>
+</book>
+<book>
+<id>27</id>
+<english>Daniel</english>
+<localization>Dhanieri</localization>
+<abbreviation>Dhan.</abbreviation>
+</book>
+<book>
+<id>28</id>
+<english>Hosea</english>
+<localization>Hosiya</localization>
+<abbreviation>Hos.</abbreviation>
+</book>
+<book>
+<id>29</id>
+<english>Joel</english>
+<localization>Joweri</localization>
+<abbreviation>Jow.</abbreviation>
+</book>
+<book>
+<id>30</id>
+<english>Amos</english>
+<localization>Amosi</localization>
+<abbreviation>Amo.</abbreviation>
+</book>
+<book>
+<id>31</id>
+<english>Obadiah</english>
+<localization>Obhadhiya</localization>
+<abbreviation>Obh.</abbreviation>
+</book>
+<book>
+<id>32</id>
+<english>Jonah</english>
+<localization>Jona</localization>
+<abbreviation>Jona</abbreviation>
+</book>
+<book>
+<id>33</id>
+<english>Micah</english>
+<localization>Mika</localization>
+<abbreviation>Mik.</abbreviation>
+</book>
+<book>
+<id>34</id>
+<english>Nahum</english>
+<localization>Nahumi</localization>
+<abbreviation>Nah.</abbreviation>
+</book>
+<book>
+<id>35</id>
+<english>Habakkuk</english>
+<localization>Habhakuku</localization>
+<abbreviation>Habh.</abbreviation>
+</book>
+<book>
+<id>36</id>
+<english>Zephaniah</english>
+<localization>Zefania</localization>
+<abbreviation>Zef.</abbreviation>
+</book>
+<book>
+<id>37</id>
+<english>Haggai</english>
+<localization>Hagai</localization>
+<abbreviation>Hag.</abbreviation>
+</book>
+<book>
+<id>38</id>
+<english>Zechariah</english>
+<localization>Zekaria</localization>
+<abbreviation>Zek.</abbreviation>
+</book>
+<book>
+<id>39</id>
+<english>Malachi</english>
+<localization>Maraki</localization>
+<abbreviation>Mara.</abbreviation>
+</book>
+<book>
+<id>40</id>
+<english>Matthew</english>
+<localization>Matewu</localization>
+<abbreviation>Mat.</abbreviation>
+</book>
+<book>
+<id>41</id>
+<english>Mark</english>
+<localization>Mako</localization>
+<abbreviation>Mako</abbreviation>
+</book>
+<book>
+<id>42</id>
+<english>Luke</english>
+<localization>Ruka</localization>
+<abbreviation>Ruk.</abbreviation>
+</book>
+<book>
+<id>43</id>
+<english>John</english>
+<localization>Johwani</localization>
+<abbreviation>Joh.</abbreviation>
+</book>
+<book>
+<id>44</id>
+<english>Acts</english>
+<localization>Mabasa</localization>
+<abbreviation>Mab.</abbreviation>
+</book>
+<book>
+<id>45</id>
+<english>Romans</english>
+<localization>VaRoma</localization>
+<abbreviation>VaRom.</abbreviation>
+</book>
+<book>
+<id>46</id>
+<english>1 Corinthians</english>
+<localization>1 VaKorinde</localization>
+<abbreviation>1 VaKori.</abbreviation>
+</book>
+<book>
+<id>47</id>
+<english>2 Corinthians</english>
+<localization>2 VaKorinde</localization>
+<abbreviation>2 VaKori.</abbreviation>
+</book>
+<book>
+<id>48</id>
+<english>Galatians</english>
+<localization>VaGaratia</localization>
+<abbreviation>VaGar.</abbreviation>
+</book>
+<book>
+<id>49</id>
+<english>Ephesians</english>
+<localization>VaEfeso</localization>
+<abbreviation>VaEfe.</abbreviation>
+</book>
+<book>
+<id>50</id>
+<english>Philippians</english>
+<localization>VaFiripi</localization>
+<abbreviation>VaFir.</abbreviation>
+</book>
+<book>
+<id>51</id>
+<english>Colossians</english>
+<localization>VaKorosi</localization>
+<abbreviation>VaKoro.</abbreviation>
+</book>
+<book>
+<id>52</id>
+<english>1 Thessalonians</english>
+<localization>1 VaTesaronika</localization>
+<abbreviation>1 VaTes.</abbreviation>
+</book>
+<book>
+<id>53</id>
+<english>2 Thessalonians</english>
+<localization>2 VaTesaronika</localization>
+<abbreviation>2 VaTes.</abbreviation>
+</book>
+<book>
+<id>54</id>
+<english>1 Timothy</english>
+<localization>1 Timoti</localization>
+<abbreviation>1 Tim.</abbreviation>
+</book>
+<book>
+<id>55</id>
+<english>2 Timothy</english>
+<localization>2 Timoti</localization>
+<abbreviation>2 Tim.</abbreviation>
+</book>
+<book>
+<id>56</id>
+<english>Titus</english>
+<localization>Titosi</localization>
+<abbreviation>Tit.</abbreviation>
+</book>
+<book>
+<id>57</id>
+<english>Philemon</english>
+<localization>Firimoni</localization>
+<abbreviation>Fir.</abbreviation>
+</book>
+<book>
+<id>58</id>
+<english>Hebrews</english>
+<localization>VaHebheru</localization>
+<abbreviation>VaHeb.</abbreviation>
+</book>
+<book>
+<id>59</id>
+<english>James</english>
+<localization>Jakobho</localization>
+<abbreviation>Jak.</abbreviation>
+</book>
+<book>
+<id>60</id>
+<english>1 Peter</english>
+<localization>1 Peturo</localization>
+<abbreviation>1 Pet.</abbreviation>
+</book>
+<book>
+<id>61</id>
+<english>2 Peter</english>
+<localization>2 Peturo</localization>
+<abbreviation>2 Pet.</abbreviation>
+</book>
+<book>
+<id>62</id>
+<english>1 John</english>
+<localization>1 Johwani</localization>
+<abbreviation>1 Joh.</abbreviation>
+</book>
+<book>
+<id>63</id>
+<english>2 John</english>
+<localization>2 Johwani</localization>
+<abbreviation>2 Joh.</abbreviation>
+</book>
+<book>
+<id>64</id>
+<english>3 John</english>
+<localization>3 Johwani</localization>
+<abbreviation>3 Joh.</abbreviation>
+</book>
+<book>
+<id>65</id>
+<english>Jude</english>
+<localization>Judhasi</localization>
+<abbreviation>Jud.</abbreviation>
+</book>
+<book>
+<id>66</id>
+<english>Revelation</english>
+<localization>Zvakazarurwa</localization>
+<abbreviation>Zvak.</abbreviation>
+</book>
+</bibledit-localized-books>
