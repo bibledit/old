@@ -32,22 +32,69 @@ public:
   RemoteRepositoryAssistant(int dummy);
   virtual ~RemoteRepositoryAssistant();
 private:
+  // Assistant page switching.
+  static void on_assistant_prepare_signal (GtkAssistant *assistant, GtkWidget *page, gpointer user_data);
+  void on_assistant_prepare (GtkWidget *page);
+
   // Use remote repository.
   int page_number_use_repository;
   GtkWidget *vbox_use_repository;
   GtkWidget *checkbutton_use_repository;
 
-  // Git trial.
+  // Git tester.
   int page_number_try_git;
-  GtkWidget *vbox_try_git;
   GtkWidget *label_try_git;
-  GtkWidget *expander_try_git_more;
-  GtkWidget *scrolledwindow_try_git_more;
-  GtkWidget *textview_try_git_more;
-  GtkWidget *label_try_git_more;
+  bool git_tried_and_okay;
+  bool try_git ();
   bool check_git_version ();
-  void textview_try_git_load (const gchar* title, vector <ustring>& lines);
-  bool check_git_version_okay;
+  ustring git_testing_directory (const ustring& name);
+  ustring git_testing_file (const ustring& name);
+  bool try_git_create_repository (const ustring& name, bool remote);
+  bool try_git_store_data_in_repository (const ustring& repository, const gchar* data);
+  bool try_git_check_data_in_repository (const ustring& repository, const gchar* data);
+  bool try_git_fetch_repository (const ustring& remote, const ustring& local);
+  bool try_git_checkout_repository (const ustring& local, const ustring& remote);
+  bool try_git_pull_repository (const ustring& name);
+  bool try_git_push_repository (const ustring& name);
+
+  // Task selection.
+  int page_number_task_selector;
+  GtkWidget *vbox_task_selector;
+  GtkWidget *radiobutton_task_selector_url;
+  GtkWidget *radiobutton_task_selector_sync;
+  GtkWidget *radiobutton_task_selector_settings;
+
+  // Pending tasks.
+  int page_number_pending_tasks;
+  GtkWidget * label_pending_tasks;
+  guint event_id_pending_tasks;
+  static bool on_pending_tasks_timeout(gpointer user_data);
+  bool on_pending_tasks();
+  int project_pending_tasks_count;
+  int previous_project_pending_tasks_count;
+  
+  // Repository path and accessibility check.
+  int page_number_repository;
+  GtkWidget *vbox_repository;
+  GtkWidget *hbox_repository;
+  GtkWidget *label_repository;
+  GtkWidget *entry_repository;
+  GtkWidget *label_repository_accessible;
+  static void on_entry_repository_changed (GtkEditable *editable, gpointer user_data);
+  void on_entry_repository ();
+  guint event_id_entry_repository;
+  static bool on_entry_changed_timeout(gpointer user_data);
+  void entry_changed_timeout();
+  ustring repository_url_get();
+
+  // Repository cloning.
+  int page_number_clone;
+  GtkWidget *vbox_clone;
+  GtkWidget *label_clone;
+  GtkWidget *button_clone;
+  static void on_button_clone_clicked (GtkButton *button, gpointer user_data);
+  void on_button_clone ();
+
 
   // Confirmation stuff.
   int page_number_confirm;

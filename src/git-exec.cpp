@@ -61,7 +61,7 @@ void git_exec_initialize_project(const ustring & project, bool health)
   git_exec_command(command0, datadirectory);
 
   // (Re)initialize the repository. This can be done repeatedly without harm.
-  ustring command1 = "git-init-db";
+  ustring command1 = "git-init";
   git_exec_command(command1, datadirectory);
   // At times health-related commands are ran too.
   if (health) {

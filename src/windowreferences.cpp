@@ -241,7 +241,7 @@ void WindowReferences::open()
     if (i == 2)
       searchword3 = import_references_searchwords[i];
   }
-  Entry3Dialog dialog2("Search for", true, "Optionally enter _1st searchword", searchword1, "Optionally enter _2nd searchword", searchword2, "Optioanlly enter _3rd searchword", searchword3);
+  Entry3Dialog dialog2("Search for", true, "Optionally enter _1st searchword", searchword1, "Optionally enter _2nd searchword", searchword2, "Optionally enter _3rd searchword", searchword3);
   int result = dialog2.run();
   if (result == GTK_RESPONSE_OK) {
     searchword1 = dialog2.entered_value1;
