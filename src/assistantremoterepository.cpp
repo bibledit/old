@@ -49,21 +49,19 @@ AssistantBase("Keyterms", "git_setup")
   project_pending_tasks_count = -1;
   previous_project_pending_tasks_count = -1;
   event_id_entry_repository = 0;
-
+  persistent_clone_directory = git_testing_directory ("clone");
+  write_access_granted = false;
+  
   // Build the GUI for the setting whether to use a remote repository.
-  vbox_use_repository = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox_use_repository);
-  page_number_use_repository = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_use_repository);
-
   checkbutton_use_repository = gtk_check_button_new_with_mnemonic ("_Use remote repository");
   gtk_widget_show (checkbutton_use_repository);
-  gtk_box_pack_start (GTK_BOX (vbox_use_repository), checkbutton_use_repository, FALSE, FALSE, 0);
+  page_number_use_repository = gtk_assistant_append_page (GTK_ASSISTANT (assistant), checkbutton_use_repository);
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_use_repository), projectconfig->git_use_remote_repository_get());
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_use_repository, "Would you like to use a remote repository?");
-  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_use_repository, GTK_ASSISTANT_PAGE_CONTENT);
-  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_use_repository, true);
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), checkbutton_use_repository, "Would you like to use a remote repository?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), checkbutton_use_repository, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), checkbutton_use_repository, true);
 
   // System for trying out git.
   git_tried_and_okay = false;
@@ -153,7 +151,7 @@ AssistantBase("Keyterms", "git_setup")
   gtk_widget_show (vbox_clone);
   page_number_clone = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_clone);
 
-  label_clone = gtk_label_new ("clone");
+  label_clone = gtk_label_new ("");
   gtk_widget_show (label_clone);
   gtk_box_pack_start (GTK_BOX (vbox_clone), label_clone, FALSE, FALSE, 0);
   gtk_misc_set_alignment (GTK_MISC (label_clone), 0, 0.5);
@@ -187,6 +185,43 @@ AssistantBase("Keyterms", "git_setup")
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_clone, false);
 
   g_signal_connect ((gpointer) button_clone, "clicked", G_CALLBACK (on_button_clone_clicked), gpointer (this));
+
+  // Write tester.
+  label_write_test = gtk_label_new ("");
+  gtk_widget_show (label_write_test);
+  page_number_write_test = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_write_test);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_write_test, "Remote repository write test");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_write_test, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_write_test, false);
+  
+  // Synchronization interval.
+  hbox_interval = gtk_hbox_new (FALSE, 5);
+  gtk_widget_show (hbox_interval);
+  page_number_interval = gtk_assistant_append_page (GTK_ASSISTANT (assistant), hbox_interval);
+
+  label_interval1 = gtk_label_new_with_mnemonic ("_Synchronize the local data and the remote repository every");
+  gtk_widget_show (label_interval1);
+  gtk_box_pack_start (GTK_BOX (hbox_interval), label_interval1, FALSE, FALSE, 0);
+
+  spinbutton_interval_adj = gtk_adjustment_new (60, 5, 3600, 1, 10, 0);
+  spinbutton_interval = gtk_spin_button_new (GTK_ADJUSTMENT (spinbutton_interval_adj), 1, 0);
+  gtk_widget_show (spinbutton_interval);
+  gtk_box_pack_start (GTK_BOX (hbox_interval), spinbutton_interval, FALSE, FALSE, 0);
+
+  label_interval2 = gtk_label_new ("seconds");
+  gtk_widget_show (label_interval2);
+  gtk_box_pack_start (GTK_BOX (hbox_interval), label_interval2, FALSE, FALSE, 0);
+
+  gtk_label_set_mnemonic_widget (GTK_LABEL (label_interval1), spinbutton_interval);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), hbox_interval, "Synchronization interval");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), hbox_interval, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), hbox_interval, true);
+
+  // Set the value.
+  gtk_spin_button_set_value(GTK_SPIN_BUTTON(spinbutton_interval), double (projectconfig->git_remote_update_interval_get()));
+
 
   
   
@@ -252,6 +287,26 @@ void RemoteRepositoryAssistant::on_assistant_prepare (GtkWidget *page)
     gtk_widget_grab_focus (entry_repository);
     on_entry_repository();
   }
+
+  if (page == vbox_clone) {
+    // Prepare for the page where the cloning is done.
+    if (repository_url_get() != previously_cloned_url) {
+      repository_unclone();
+    }
+    gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_clone, repository_was_cloned());
+    if (!repository_was_cloned()) {
+      gtk_label_set_text (GTK_LABEL (label_clone), "");
+    }
+  }
+  
+  if (page == label_write_test) {
+    // Prepare for the page for testing write access.
+    if (!write_access_granted) {
+      test_write_access ();
+    }
+  }
+  
+  
 }
 
 
@@ -275,14 +330,14 @@ void RemoteRepositoryAssistant::on_assistant_apply ()
   // The remote repository URL.
   projectconfig->git_remote_repository_url_set(repository_url_get());
 
+  // Remote update interval.
+  gtk_spin_button_update(GTK_SPIN_BUTTON(spinbutton_interval));
+  projectconfig->git_remote_update_interval_set(gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(spinbutton_interval)));
+
 
   /*
   // Todo store settings.
     
-  // Remote update interval.
-  gtk_spin_button_update(GTK_SPIN_BUTTON(spinbutton_update));
-  projectconfig->git_remote_update_interval_set(gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(spinbutton_update)));
-
   // Save conflict handling system.
   GitConflictHandlingType conflicthandling = gchtTakeMe;
   if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_conflict_server)))
@@ -730,8 +785,139 @@ void RemoteRepositoryAssistant::on_button_clone_clicked (GtkButton *button, gpoi
 }
 
 
-void RemoteRepositoryAssistant::on_button_clone () // Todo
+void RemoteRepositoryAssistant::on_button_clone ()
 {
+  // Clear out persistent clone directory.
+  repository_unclone();
+  
+  // Create temporal clone directory.
+  ustring temporal_clone_directory = git_testing_directory ("tempclone");
+  unix_rmdir(temporal_clone_directory);
+  gw_mkdir_with_parents(temporal_clone_directory);
+  
+  // Clone the remote repository
+  GwSpawn spawn("git");
+  spawn.workingdirectory(temporal_clone_directory);
+  spawn.arg ("clone");
+  spawn.arg(repository_url_get());
+  spawn.progress("Cloning repository", false);
+  spawn.run();
+
+  if (spawn.exitstatus == 0) {
+    // Move the cloned directory into place.
+    ReadDirectories rd (temporal_clone_directory, "", "");
+    if (!rd.directories.empty()) {
+      ustring subdirectory = rd.directories[0];
+      subdirectory = gw_build_filename (temporal_clone_directory, subdirectory);
+      unix_mv (subdirectory, persistent_clone_directory);
+    }
+    unix_rmdir(temporal_clone_directory);
+  } else {
+    // Clone failed, clear out any remains.
+    repository_unclone();
+  }  
+  
+  // Update structures.
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_clone, repository_was_cloned());
+  if (repository_was_cloned()) {
+    gtk_label_set_text (GTK_LABEL (label_clone), "The repository has been cloned, you can go forward");
+    previously_cloned_url = repository_url_get();
+  } else {
+    gtk_label_set_text (GTK_LABEL (label_clone), "Cloning the repository failed, please try again");
+    repository_unclone();
+  }
+}
+
+
+bool RemoteRepositoryAssistant::repository_was_cloned ()
+// Check whether the repository was cloned.
+{
+  return g_file_test (persistent_clone_directory.c_str(), G_FILE_TEST_IS_DIR);
+}
+
+
+void RemoteRepositoryAssistant::repository_unclone ()
+// Does the house keeping for indicating that the repository was not cloned.
+{
+  unix_rmdir(persistent_clone_directory);
+  previously_cloned_url.clear();
+  write_access_granted = false;
+}
+
+
+void RemoteRepositoryAssistant::test_write_access ()
+// Checks whether there is write access from the local clone to the remote repository.
+{
+  // GUI update.
+  gtk_label_set_text (GTK_LABEL (label_write_test), "Testing write access to the remote repository");
+
+  // Temporal file for trying write access.
+  ustring filename = "test_repository_writable";
+  g_file_set_contents(gw_build_filename(persistent_clone_directory, filename).c_str(), "", 0, NULL);
+
+  // Add this file and commit it locally.
+  {
+    GwSpawn spawn("git");
+    spawn.workingdirectory(persistent_clone_directory);
+    spawn.arg("add");
+    spawn.arg(".");
+    spawn.run();
+    write_access_granted = (spawn.exitstatus == 0);
+  }
+  if (write_access_granted) {
+    GwSpawn spawn("git");
+    spawn.workingdirectory(persistent_clone_directory);
+    spawn.arg("commit");
+    spawn.arg("-m");
+    spawn.arg("Write test");
+    spawn.arg("-a");
+    spawn.run();
+    write_access_granted = (spawn.exitstatus == 0);
+  }
+
+  // Pull changes. Push them to see if there is write access.
+  if (write_access_granted) {
+    GwSpawn spawn("git");
+    spawn.workingdirectory(persistent_clone_directory);
+    spawn.arg ("pull");
+    spawn.run();
+    write_access_granted = (spawn.exitstatus == 0);
+  }
+  if (write_access_granted) {
+    GwSpawn spawn("git");
+    spawn.workingdirectory(persistent_clone_directory);
+    spawn.arg ("push");
+    spawn.run();
+    write_access_granted = (spawn.exitstatus == 0);
+  }
+
+  // Remove the temporal file again from the remote repository.
+  unlink(gw_build_filename(persistent_clone_directory, filename).c_str());
+  if (write_access_granted) {
+    GwSpawn spawn("git");
+    spawn.workingdirectory(persistent_clone_directory);
+    spawn.arg("commit");
+    spawn.arg("-m");
+    spawn.arg("Write test");
+    spawn.arg("-a");
+    spawn.run();
+    write_access_granted = (spawn.exitstatus == 0);
+  }
+  if (write_access_granted) {
+    GwSpawn spawn("git");
+    spawn.workingdirectory(persistent_clone_directory);
+    spawn.arg ("push");
+    spawn.run();
+    write_access_granted = (spawn.exitstatus == 0);
+  }
+
+  // Set the GUI.
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_write_test, write_access_granted);
+  if (write_access_granted) {
+    gtk_label_set_text (GTK_LABEL (label_write_test), "Write access was granted, you can go forward");
+  } else {
+    gtk_label_set_text (GTK_LABEL (label_write_test), "No write access. Please check the system log for more information");
+  }  
 }
 
 
@@ -744,14 +930,6 @@ Internally the things to be set are following the same order as now in the curre
 * 1. Set the repository URL
 * 2. Synchronize repos.
 * 3. Settings.
-
-If the repository changed, as compared to the previous one,
-it should check out a new working copy.
-Without that the assistant does not proceed.
-When the repository did not change, the checking out of a new working 
-copy is optional.
-A label gives information to the user about that.
-A button let's the user take the action. 
 
 - Whether to synchronize the local and remote repository, 
 * 1. Copy remote to local
@@ -776,203 +954,6 @@ The stock version of git that comes with a distro, should be used.
 It failed when collaboration tasks were asked of these, such push / pull / and merging 
 or conflict management.
 If the test passes, fine, else it recommends to install from source. 
-
-
-
-bool GitSetupDialog::test_write_access(ustring & error)
-// This tests whether there is write-access to the repository.
-{
-  // Writable variable.
-  bool writable = false;
-
-  // Create a temporal workspace.
-  ustring temporal_directory = gw_build_filename(directories_get_temp(), "git_cloned_remote_repository");
-  unix_rmdir(temporal_directory);
-  gw_mkdir_with_parents(temporal_directory);
-
-  // Clone the remote repository to the temporal workspace.
-  {
-    GwSpawn spawn("git-clone");
-    spawn.workingdirectory(temporal_directory);
-    spawn.arg(url_get());
-    spawn.progress("Reading repository", false);
-    spawn.run();
-  }
-
-  // The working directory.
-  ustring working_directory = gw_build_filename(temporal_directory, gw_path_get_basename(url_get()));
-
-  // Temporal file for trying write access.
-  ustring filename = "__git_test_writable__";
-  g_file_set_contents(gw_build_filename(working_directory, filename).c_str(), "", 0, NULL);
-
-  // Add this file and commit it locally.
-  {
-    GwSpawn spawn("git-add");
-    spawn.workingdirectory(working_directory);
-    spawn.arg(".");
-    spawn.run();
-  }
-  {
-    GwSpawn spawn("git-commit");
-    spawn.workingdirectory(working_directory);
-    spawn.arg("-m");
-    spawn.arg("Write test");
-    spawn.arg("-a");
-    spawn.run();
-  }
-
-  // Pull changes. Push them to see if there is write access.
-  {
-    GwSpawn spawn("git-pull");
-    spawn.workingdirectory(working_directory);
-    spawn.arg(url_get());
-    spawn.run();
-  }
-  {
-    GwSpawn spawn("git-push");
-    spawn.workingdirectory(working_directory);
-    spawn.arg(url_get());
-    spawn.read();
-    spawn.run();
-    writable = (spawn.exitstatus == 0);
-    for (unsigned int i = 0; i < spawn.standarderr.size(); i++) {
-      if (writable) {
-        gw_message(spawn.standarderr[i]);
-      } else {
-        if (i > 0)
-          error.append("\n");
-        error.append(spawn.standarderr[i]);
-      }
-    }
-    for (unsigned int i = 0; i < spawn.standardout.size(); i++) {
-      gw_message(spawn.standardout[i]);
-    }
-  }
-
-  // Remove the temporal file again from the remote repository.
-  unlink(gw_build_filename(working_directory, filename).c_str());
-  {
-    GwSpawn spawn("git-commit");
-    spawn.workingdirectory(working_directory);
-    spawn.arg("-m");
-    spawn.arg("Write test");
-    spawn.arg("-a");
-    spawn.run();
-  }
-  {
-    GwSpawn spawn("git-push");
-    spawn.workingdirectory(working_directory);
-    spawn.arg(url_get());
-    spawn.run();
-  }
-
-  // Remove the temporal work space.
-  unix_rmdir(temporal_directory);
-
-  // Return whether writable.
-  return writable;
-}
-
-bool GitSetupDialog::test_pull_changes(ustring & error)
-// This function first tries to pull the data from the remote repository 
-// into a temporal copy of the local project.
-// If that succeeds it does the actual pulling in the real project.
-{
-  // Variable whether the changes were pulled.
-  bool pulled = false;
-
-  // Copy the project to a temporal one.
-  extern Settings *settings;
-  ustring project = settings->genconfig.project_get();
-  ustring temporal_project = "__git__pull__test__";
-  project_copy(project, temporal_project);
-
-  // Try to pull the changes into the temporal project.
-  ustring datadirectory = project_data_directory_project(temporal_project);
-  {
-    GwSpawn spawn("git-pull");
-    spawn.workingdirectory(datadirectory);
-    spawn.arg(url_get());
-    spawn.read();
-    spawn.run();
-    pulled = (spawn.exitstatus == 0);
-    for (unsigned int i = 0; i < spawn.standarderr.size(); i++) {
-      if (pulled) {
-        gw_message(spawn.standarderr[i]);
-      } else {
-        if (i > 0)
-          error.append("\n");
-        error.append(spawn.standarderr[i]);
-      }
-    }
-    for (unsigned int i = 0; i < spawn.standardout.size(); i++) {
-      gw_message(spawn.standardout[i]);
-    }
-  }
-
-  // Remove the temporal project again.
-  project_delete(temporal_project);
-
-  // If success, now pull the changes into the real project.
-  if (pulled) {
-    datadirectory = project_data_directory_project(project);
-    GwSpawn spawn("git-pull");
-    spawn.workingdirectory(datadirectory);
-    spawn.arg(url_get());
-    spawn.read();
-    spawn.run();
-    pulled = (spawn.exitstatus == 0);
-    for (unsigned int i = 0; i < spawn.standarderr.size(); i++) {
-      if (pulled) {
-        gw_message(spawn.standarderr[i]);
-      } else {
-        if (i > 0)
-          error.append("\n");
-        error.append(spawn.standarderr[i]);
-      }
-    }
-    for (unsigned int i = 0; i < spawn.standardout.size(); i++) {
-      gw_message(spawn.standardout[i]);
-    }
-  }
-  // Return success status.
-  return pulled;
-}
-
-bool GitSetupDialog::test_push_changes(ustring & error)
-// This function push the changes into the remote repository.
-{
-  // Variable whether the changes were pushed.
-  bool pushed = false;
-
-  // Try to push the changes to the remote repository.
-  extern Settings *settings;
-  ustring project = settings->genconfig.project_get();
-  ustring datadirectory = project_data_directory_project(project);
-  GwSpawn spawn("git-push");
-  spawn.workingdirectory(datadirectory);
-  spawn.arg(url_get());
-  spawn.read();
-  spawn.run();
-  pushed = (spawn.exitstatus == 0);
-  for (unsigned int i = 0; i < spawn.standarderr.size(); i++) {
-    if (pushed) {
-      gw_message(spawn.standarderr[i]);
-    } else {
-      if (i > 0)
-        error.append("\n");
-      error.append(spawn.standarderr[i]);
-    }
-  }
-  for (unsigned int i = 0; i < spawn.standardout.size(); i++) {
-    gw_message(spawn.standardout[i]);
-  }
-
-  // Return success status.
-  return pushed;
-}
-
 
 
 */

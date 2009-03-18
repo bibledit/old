@@ -38,7 +38,6 @@ private:
 
   // Use remote repository.
   int page_number_use_repository;
-  GtkWidget *vbox_use_repository;
   GtkWidget *checkbutton_use_repository;
 
   // Git tester.
@@ -94,7 +93,26 @@ private:
   GtkWidget *button_clone;
   static void on_button_clone_clicked (GtkButton *button, gpointer user_data);
   void on_button_clone ();
+  ustring persistent_clone_directory;
+  ustring previously_cloned_url;
+  bool repository_was_cloned();
+  void repository_unclone ();
+  
+  // Write test.
+  int page_number_write_test;
+  GtkWidget *label_write_test;
+  bool write_access_granted;
+  void test_write_access();
 
+  // Synchronization interval. Todo
+  int page_number_interval;
+  GtkWidget *hbox_interval;
+  GtkWidget *label_interval1;
+  GtkObject *spinbutton_interval_adj;
+  GtkWidget *spinbutton_interval;
+  GtkWidget *label_interval2;
+
+  
 
   // Confirmation stuff.
   int page_number_confirm;
