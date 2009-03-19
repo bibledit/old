@@ -99,7 +99,6 @@ void GitAddDialog::on_okbutton()
   }
   // Whether to synchronize the local data with the remote repository.
   if (checkbutton_sync && gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_sync))) {
-    ProjectConfiguration *projectconfig = settings->projectconfig(project);
-    git_schedule(gttUpdateProject, project, 0, 0, projectconfig->git_remote_repository_url_get());
+    git_schedule(gttUpdateProject, project, 0, 0, "");
   }
 }

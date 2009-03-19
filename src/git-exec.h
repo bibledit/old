@@ -29,7 +29,7 @@ void git_exec_initialize_project (const ustring& project, bool health);
 void git_exec_store_chapter (const ustring& project, unsigned int book, unsigned int chapter);
 void git_exec_commit_project (const ustring& project);
 void git_exec_commit_directory (const ustring& directory);
-vector <ustring> git_exec_update_project (const ustring& project, const ustring& data);
+vector <ustring> git_exec_update_project (const ustring& project);
 void git_exec_message (const ustring& message, bool eol);
 unsigned long git_exec_command(const ustring& cmd, const ustring& dir);
 

@@ -32,7 +32,7 @@
 
 
 RemoteRepositoryAssistant::RemoteRepositoryAssistant(int dummy) :
-AssistantBase("Keyterms", "git_setup")
+AssistantBase("Remote repository setup", "git_setup")
 // Assistant for managing the remote repository.
 {
   gtk_assistant_set_forward_page_func (GTK_ASSISTANT (assistant), GtkAssistantPageFunc (assistant_forward_function), gpointer(this), NULL);
@@ -82,19 +82,13 @@ AssistantBase("Keyterms", "git_setup")
 
   GSList *radiobutton_task_selector_url_group = NULL;
 
-  radiobutton_task_selector_url = gtk_radio_button_new_with_mnemonic (NULL, "To set which _remote repository to use");
+  radiobutton_task_selector_url = gtk_radio_button_new_with_mnemonic (NULL, "To set or change which the _remote repository to use");
   gtk_widget_show (radiobutton_task_selector_url);
   gtk_box_pack_start (GTK_BOX (vbox_task_selector), radiobutton_task_selector_url, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_task_selector_url), radiobutton_task_selector_url_group);
   radiobutton_task_selector_url_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_task_selector_url));
 
-  radiobutton_task_selector_sync = gtk_radio_button_new_with_mnemonic (NULL, "To _synchronize the local and remote repository");
-  gtk_widget_show (radiobutton_task_selector_sync);
-  gtk_box_pack_start (GTK_BOX (vbox_task_selector), radiobutton_task_selector_sync, FALSE, FALSE, 0);
-  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_task_selector_sync), radiobutton_task_selector_url_group);
-  radiobutton_task_selector_url_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_task_selector_sync));
-
-  radiobutton_task_selector_settings = gtk_radio_button_new_with_mnemonic (NULL, "To change a couple of se_ttings");
+  radiobutton_task_selector_settings = gtk_radio_button_new_with_mnemonic (NULL, "To set or change other se_ttings");
   gtk_widget_show (radiobutton_task_selector_settings);
   gtk_box_pack_start (GTK_BOX (vbox_task_selector), radiobutton_task_selector_settings, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_task_selector_settings), radiobutton_task_selector_url_group);
@@ -401,25 +395,21 @@ gint RemoteRepositoryAssistant::assistant_forward_function (gint current_page, g
 
 gint RemoteRepositoryAssistant::assistant_forward (gint current_page)
 {
-  // New page number variables.
-  gint new_page_number;
-  bool new_page_determined = false;
+  // Default behaviour is to go to the next page.
+  gint new_page_number = current_page + 1;
 
   if (current_page == page_number_use_repository) {
     // If the repository is not used, go straight to the confirmation page.
     if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_use_repository))) {
       new_page_number = page_number_confirm;
-      new_page_determined = true;
     }
   }
 
-  // From here and onwards the remote repository is used.
-  
-
-  // Default behaviour is to go to the next page.
-  if (!new_page_determined) {
-    new_page_number = ++current_page;
-    new_page_determined = true;
+  if (current_page == page_number_task_selector) {
+    // Go to the right page depending on which task is selected.
+    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_task_selector_settings))) {
+      new_page_number = page_number_interval;
+    }
   }
 
   // Return the new page.
@@ -965,47 +955,4 @@ void RemoteRepositoryAssistant::test_write_access ()
 }
 
 
-/*
-
-Todo working on git assistant.
-
-Internally the things to be set are following the same order as now in the current setup dialog:
-
-- Ask what to do:
-* 1. Set the repository URL
-* 2. Synchronize repos.
-* 3. Settings.
-
-- Whether to synchronize the local and remote repository, 
-* 1. Copy remote to local
-* 2. Sync local with remote.
-- Whether to make settings,
-* 1. Update frequency.
-* 2. Conflict resolution method.
-When making settings only, we don't need to wait till the pending tasks are over.
-In all other cases we need to wait.
-Some tasks cannot yet be selected, these are such as when previous taks,
-it depends upon, have not yet been done.
-In such cases that task is greyed out.
-
-Also do conflict resolution, so as to find out whether our resolution works with the git now installed.
-
-And do a log read with our current tools to find out whether these works fine with git.
-
-Run git status to see if that catches a conflict.
- 
-The stock version of git that comes with a distro, should be used.
-It failed when collaboration tasks were asked of these, such push / pull / and merging 
-or conflict management.
-If the test passes, fine, else it recommends to install from source. 
-
-We need to investigate whether git works fine with the standard installation.
- 
-We need to check in git-exec.cpp that the git operations done there are the same
-as the ones used in the git tester.
-
-The helpfile needs to be updated so as to reflect the assistant's setup
-and provide help on each screen.
-
-
-*/
+// Todo try standard git-core on Ubuntu 8.10.

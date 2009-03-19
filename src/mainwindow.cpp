@@ -4789,7 +4789,7 @@ void MainWindow::git_update_timeout()
       int interval = git_update_intervals[projects[i]];
       interval++;
       if (interval >= projectconfig->git_remote_update_interval_get()) {
-        git_schedule(gttUpdateProject, projects[i], 0, 0, projectconfig->git_remote_repository_url_get());
+        git_schedule(gttUpdateProject, projects[i], 0, 0, "");
         interval = 0;
       }
       git_update_intervals[projects[i]] = interval;

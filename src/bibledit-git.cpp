@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
         }
       case gttUpdateProject:
         {
-          error = git_exec_update_project(project, data);
+          error = git_exec_update_project(project);
           break;
         }
       }

@@ -38,17 +38,9 @@ void git_exec_initialize_project(const ustring & project, bool health)
   ustring datadirectory = tiny_project_data_directory_project(project);
   git_exec_message(datadirectory, true);
 
-  // If the .svn subdirectory exists under the data directory remove them all
-  ustring svndirectory = tiny_gw_build_filename(datadirectory, ".svn");
-  if (g_file_test(svndirectory.c_str(), G_FILE_TEST_IS_DIR)) {
-    ustring command = "find . -name .svn -print0 | xargs -0 rm -rf";
-    git_exec_message("All .svn traces were removed", true);
-    git_exec_command(command, datadirectory);
-  }
-
   // On most machines git can determine the user's name from the system services. 
   // But on the XO machine, it can't.
-  // Therefore it is set here manually.
+  // It is set here manually.
   ustring command0 = "git-config user.email \"";
   command0.append(g_get_user_name());
   command0.append("@");
@@ -124,7 +116,7 @@ void git_exec_commit_directory(const ustring & directory)
   git_exec_command(command3, directory);
 }
 
-vector < ustring > git_exec_update_project(const ustring & project, const ustring & data)
+vector < ustring > git_exec_update_project(const ustring & project)
 /*
  Pulls all changes from the remote repository.
  Pushes all changes to the remote repository.
@@ -139,11 +131,11 @@ vector < ustring > git_exec_update_project(const ustring & project, const ustrin
 
   // Pull changes from the remote repository.
   // Some git installations need the source and destination branches as well.
-  ustring command1 = "git-pull '" + data + "'";
+  ustring command1 = "git-pull";
   git_exec_command(command1, datadirectory);
 
   // Push changes to the remote repository.
-  ustring command2 = "git-push '" + data + "'";
+  ustring command2 = "git-push";
   git_exec_command(command2, datadirectory);
 
   // An update can fail in cases that the remote repository is not available 

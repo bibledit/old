@@ -32,7 +32,7 @@ public:
   RemoteRepositoryAssistant(int dummy);
   virtual ~RemoteRepositoryAssistant();
 private:
-  // Assistant page switching.
+  // Assistant page preparation.
   static void on_assistant_prepare_signal (GtkAssistant *assistant, GtkWidget *page, gpointer user_data);
   void on_assistant_prepare (GtkWidget *page);
 
@@ -60,7 +60,6 @@ private:
   int page_number_task_selector;
   GtkWidget *vbox_task_selector;
   GtkWidget *radiobutton_task_selector_url;
-  GtkWidget *radiobutton_task_selector_sync;
   GtkWidget *radiobutton_task_selector_settings;
 
   // Pending tasks.
