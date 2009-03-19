@@ -155,7 +155,6 @@ bibledit_bin_SOURCES = \
         backup.cpp \
         dialogviewgit.cpp \
         dialoggitadd.cpp \
-        dialoggitsetup.cpp \
         projectutilsold.cpp \
         dialogrevert.cpp \
         dialogselectbooks.cpp \

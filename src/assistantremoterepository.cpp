@@ -999,4 +999,13 @@ It failed when collaboration tasks were asked of these, such push / pull / and m
 or conflict management.
 If the test passes, fine, else it recommends to install from source. 
 
+We need to investigate whether git works fine with the standard installation.
+ 
+We need to check in git-exec.cpp that the git operations done there are the same
+as the ones used in the git tester.
+
+The helpfile needs to be updated so as to reflect the assistant's setup
+and provide help on each screen.
+
+
 */

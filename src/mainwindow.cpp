@@ -91,7 +91,6 @@
 #include "dialogbackup.h"
 #include "backup.h"
 #include "dialogviewgit.h"
-#include "dialoggitsetup.h"
 #include "dialogrevert.h"
 #include "resource_utils.h"
 #include "dialogeditnote.h"
@@ -1572,7 +1571,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   prefs_books = NULL;
   preferences_windows_outpost = NULL;
   preferences_tidy_text = NULL;
-  preferences_remote_git_repository = NULL;
   preferences_remote_repository = NULL;
   if (guifeatures.preferences()) {
 
@@ -1631,14 +1629,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     image16359 = gtk_image_new_from_stock("gtk-clear", GTK_ICON_SIZE_MENU);
     gtk_widget_show(image16359);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(preferences_tidy_text), image16359);
-
-    preferences_remote_git_repository = gtk_image_menu_item_new_with_mnemonic("_Git repository");
-    gtk_widget_show(preferences_remote_git_repository);
-    gtk_container_add(GTK_CONTAINER(menuitem_preferences_menu), preferences_remote_git_repository);
-
-    image18977 = gtk_image_new_from_stock("gtk-connect", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image18977);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(preferences_remote_git_repository), image18977);
 
     preferences_remote_repository = gtk_image_menu_item_new_with_mnemonic ("R_emote repository");
     gtk_widget_show (preferences_remote_repository);
@@ -2030,8 +2020,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     g_signal_connect((gpointer) preferences_windows_outpost, "activate", G_CALLBACK(on_preferences_windows_outpost_activate), gpointer(this));
   if (preferences_tidy_text)
     g_signal_connect((gpointer) preferences_tidy_text, "activate", G_CALLBACK(on_preferences_tidy_text_activate), gpointer(this));
-  if (preferences_remote_git_repository)
-    g_signal_connect((gpointer) preferences_remote_git_repository, "activate", G_CALLBACK(on_preferences_remote_git_repository_activate), gpointer(this));
   if (preferences_remote_repository)
     g_signal_connect((gpointer) preferences_remote_repository, "activate", G_CALLBACK(on_preferences_remote_repository_activate), gpointer(this));
   if (preferences_gui)
@@ -2194,8 +2182,8 @@ void MainWindow::enable_or_disable_widgets(bool enable)
     gtk_widget_set_sensitive(check1, enable);
   if (menutools)
     gtk_widget_set_sensitive(menutools, enable);
-  if (preferences_remote_git_repository)
-    gtk_widget_set_sensitive(preferences_remote_git_repository, enable);
+  if (preferences_remote_repository)
+    gtk_widget_set_sensitive(preferences_remote_repository, enable);
   if (preferences_planning)
     gtk_widget_set_sensitive(preferences_planning, enable);
   if (project_backup)
@@ -4709,19 +4697,6 @@ void MainWindow::on_view_git_tasks()
 {
   ViewGitDialog dialog(0);
   dialog.run();
-}
-
-void MainWindow::on_preferences_remote_git_repository_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_preferences_remote_git_repository();
-}
-
-void MainWindow::on_preferences_remote_git_repository()
-{
-  save_editors();
-  GitSetupDialog dialog(0);
-  if (dialog.run() == GTK_RESPONSE_OK)
-    reload_all_editors(false);
 }
 
 void MainWindow::on_preferences_remote_repository_activate(GtkMenuItem * menuitem, gpointer user_data)

@@ -332,8 +332,6 @@ protected:
   GtkWidget *image14287;
   GtkWidget *preferences_tidy_text;
   GtkWidget *image16359;
-  GtkWidget *preferences_remote_git_repository;
-  GtkWidget *image18977;
   GtkWidget *preferences_remote_repository;
   GtkWidget *image33654;
   GtkWidget *preferences_gui;
@@ -664,8 +662,6 @@ protected:
   /* Git */
   static void on_view_git_tasks_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_git_tasks();
-  static void on_preferences_remote_git_repository_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_preferences_remote_git_repository();
   static void on_preferences_remote_repository_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_preferences_remote_repository();  
   RemoteRepositoryAssistant * remote_repository_assistant;
