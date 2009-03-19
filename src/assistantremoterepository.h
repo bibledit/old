@@ -104,7 +104,7 @@ private:
   bool write_access_granted;
   void test_write_access();
 
-  // Synchronization interval. Todo
+  // Synchronization interval.
   int page_number_interval;
   GtkWidget *hbox_interval;
   GtkWidget *label_interval1;
@@ -112,7 +112,12 @@ private:
   GtkWidget *spinbutton_interval;
   GtkWidget *label_interval2;
 
-  
+  // Conflict resolution.
+  int page_number_conflict;
+  GtkWidget *vbox_conflict;
+  GtkWidget *label_conflict;
+  GtkWidget *radiobutton_conflict_local;
+  GtkWidget *radiobutton_conflict_remote;
 
   // Confirmation stuff.
   int page_number_confirm;

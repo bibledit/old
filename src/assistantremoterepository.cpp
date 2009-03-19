@@ -28,6 +28,7 @@
 #include "directories.h"
 #include "unixwrappers.h"
 #include "git.h"
+#include "projectutils.h"
 
 
 RemoteRepositoryAssistant::RemoteRepositoryAssistant(int dummy) :
@@ -222,8 +223,49 @@ AssistantBase("Keyterms", "git_setup")
   // Set the value.
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(spinbutton_interval), double (projectconfig->git_remote_update_interval_get()));
 
+  // Conflict resolution.
+  vbox_conflict = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (vbox_conflict);
+  page_number_conflict = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_conflict);
 
+  label_conflict = gtk_label_new ("When synchronizing, if there is a conflict between the data in the remote repository and the local data, give preference to");
+  gtk_widget_show (label_conflict);
+  gtk_box_pack_start (GTK_BOX (vbox_conflict), label_conflict, FALSE, FALSE, 0);
+  gtk_label_set_line_wrap (GTK_LABEL (label_conflict), TRUE);
+  gtk_misc_set_alignment (GTK_MISC (label_conflict), 0, 0.5);
+
+  GSList *radiobutton_conflict_local_group = NULL;
+
+  radiobutton_conflict_local = gtk_radio_button_new_with_mnemonic (NULL, "the _local data");
+  gtk_widget_show (radiobutton_conflict_local);
+  gtk_box_pack_start (GTK_BOX (vbox_conflict), radiobutton_conflict_local, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_conflict_local), radiobutton_conflict_local_group);
+  radiobutton_conflict_local_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_conflict_local));
+
+  radiobutton_conflict_remote = gtk_radio_button_new_with_mnemonic (NULL, "the data in the _remote repository");
+  gtk_widget_show (radiobutton_conflict_remote);
+  gtk_box_pack_start (GTK_BOX (vbox_conflict), radiobutton_conflict_remote, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_conflict_remote), radiobutton_conflict_local_group);
+  radiobutton_conflict_local_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_conflict_remote));
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_conflict, "Conflict resolution");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_conflict, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_conflict, true);
   
+  // Set conflict handling values.
+  GitConflictHandlingType conflicthandling = (GitConflictHandlingType) projectconfig->git_remote_repository_conflict_handling_get();
+  switch (conflicthandling) {
+  case gchtTakeMe:
+    {
+      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_conflict_local), true);
+      break;
+    }
+  case gchtTakeServer:
+    {
+      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_conflict_remote), true);
+      break;
+    }
+  }
   
   // Build the confirmation stuff.
   label_confirm = gtk_label_new ("Settings are ready to be applied");
@@ -334,17 +376,19 @@ void RemoteRepositoryAssistant::on_assistant_apply ()
   gtk_spin_button_update(GTK_SPIN_BUTTON(spinbutton_interval));
   projectconfig->git_remote_update_interval_set(gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(spinbutton_interval)));
 
-
-  /*
-  // Todo store settings.
-    
   // Save conflict handling system.
   GitConflictHandlingType conflicthandling = gchtTakeMe;
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_conflict_server)))
+  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_conflict_remote)))
     conflicthandling = gchtTakeServer;
   projectconfig->git_remote_repository_conflict_handling_set(conflicthandling);
-  
-  */
+
+  // If the repository was cloned, move it into place.
+  if (repository_was_cloned()) {
+    ustring project_data_directory = project_data_directory_project(project);
+    unix_rmdir(project_data_directory);
+    unix_mv(persistent_clone_directory, project_data_directory);
+  }
+
   // Show summary.
   gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), summary_page_number);
 }
@@ -922,6 +966,7 @@ void RemoteRepositoryAssistant::test_write_access ()
 
 
 /*
+
 Todo working on git assistant.
 
 Internally the things to be set are following the same order as now in the current setup dialog:
@@ -943,7 +988,6 @@ Some tasks cannot yet be selected, these are such as when previous taks,
 it depends upon, have not yet been done.
 In such cases that task is greyed out.
 
- 
 Also do conflict resolution, so as to find out whether our resolution works with the git now installed.
 
 And do a log read with our current tools to find out whether these works fine with git.
@@ -954,6 +998,5 @@ The stock version of git that comes with a distro, should be used.
 It failed when collaboration tasks were asked of these, such push / pull / and merging 
 or conflict management.
 If the test passes, fine, else it recommends to install from source. 
-
 
 */
