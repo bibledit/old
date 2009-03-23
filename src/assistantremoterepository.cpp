@@ -954,5 +954,3 @@ void RemoteRepositoryAssistant::test_write_access ()
   }  
 }
 
-
-// Todo try standard git-core on Ubuntu 8.10.

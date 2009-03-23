@@ -122,6 +122,7 @@ current_reference(0, 1000, "")
   reload_signal = gtk_button_new();
   changed_signal = gtk_button_new();
   quick_references_button = gtk_button_new();
+  spelling_checked_signal = gtk_button_new ();
 
   // Initialize a couple of event ids.
   textview_cursor_moved_delayer_event_id = 0;
@@ -182,6 +183,7 @@ Editor::~Editor()
   gtk_widget_destroy(reload_signal);
   gtk_widget_destroy(changed_signal);
   gtk_widget_destroy(quick_references_button);
+  gtk_widget_destroy (spelling_checked_signal);
 
   // Destroy the texttag tables.
   g_object_unref(texttagtable);
@@ -3383,6 +3385,8 @@ void Editor::spelling_timeout()
   for (unsigned int i = 0; i < editornotes.size(); i++) {
     spellingchecker->check(editornotes[i].textbuffer);
   }
+  // Signal spelling checked.
+  gtk_button_clicked (GTK_BUTTON (spelling_checked_signal));
 }
 
 void Editor::on_button_spelling_recheck_clicked(GtkButton * button, gpointer user_data)
@@ -3603,3 +3607,46 @@ bool Editor::verse_tracker_timeout()
   // Next iteration.
   return true;
 }
+
+
+bool Editor::move_cursor_to_spelling_error (bool next) // Todo
+// Move the cursor to the next (or previous) spelling error.
+// Returns true if it was found, else false.
+{
+
+/*
+  // No recording of undoable actions while this object is alive.
+  // It means that the textbuffer won't be modified if markers for spelling
+  // mistakes are added or removed.
+  PreventEditorUndo preventundo(&record_undo_level);
+  // Check spelling of main textbuffer, ...
+  spellingchecker->check(textbuffer);
+  // ... embedded tables, ...
+  for (unsigned int i = 0; i < editortables.size(); i++) {
+    for (unsigned int row = 0; row < editortables[i].textbuffers.size(); row++) {
+      for (unsigned int column = 0; column < editortables[i].textviews[row].size(); column++) {
+        spellingchecker->check(table_cell_get_buffer(editortables[i], row, column));
+      }
+    }
+  }
+  // ... and notes.
+  for (unsigned int i = 0; i < editornotes.size(); i++) {
+    spellingchecker->check(editornotes[i].textbuffer);
+  }
+*/
+
+// Todo we need to find the new location of the error.
+// If found, we need to position the cursor and scroll the window as normally when going to another verse.
+
+// As the wrong words are underlined, we just need to iterate forwrd (or backward)
+// in order to get to the next words tagged so, if it is found.
+
+// If the check has been done, a signal should be fired so as to inform the mainwindow
+// that a spelling check was done, so that further processing can take place.
+// If we're going to another chapter, the main window should wait for this signal to come.
+// If it's there, it then invokes the searching for spelling mistakes.
+
+
+  return true;
+}
+

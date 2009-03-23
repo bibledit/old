@@ -40,6 +40,7 @@ WindowBase(widEditor, project_name, startup, 0, parent_box)
   word_double_clicked_signal = gtk_button_new();
   reload_signal = gtk_button_new();
   changed_signal = gtk_button_new();
+  spelling_checked_signal = gtk_button_new ();
 
   // Gui.  
   vbox = gtk_vbox_new(FALSE, 0);
@@ -58,6 +59,7 @@ WindowEditor::~WindowEditor()
   gtk_widget_destroy (word_double_clicked_signal);
   gtk_widget_destroy (reload_signal);
   gtk_widget_destroy (changed_signal);
+  gtk_widget_destroy (spelling_checked_signal);
   if (editor)
     delete editor;
   if (usfmview)
@@ -163,6 +165,18 @@ void WindowEditor::load_dictionaries()
   if (editor) {
     editor->load_dictionaries();
   }
+}
+
+
+bool WindowEditor::move_cursor_to_spelling_error (bool next)
+{
+  if (usfmview) {
+    return true;
+  }
+  if (editor) {
+    return editor->move_cursor_to_spelling_error (next);
+  }
+  return true;
 }
 
 
@@ -632,6 +646,7 @@ void WindowEditor::switch_to_view (bool viewusfm, ustring project)
     g_signal_connect((gpointer) editor->word_double_clicked_signal, "clicked", G_CALLBACK(on_word_double_click_signalled), gpointer(this));
     g_signal_connect((gpointer) editor->reload_signal, "clicked", G_CALLBACK(on_reload_signalled), gpointer(this));
     g_signal_connect((gpointer) editor->changed_signal, "clicked", G_CALLBACK(on_changed_signalled), gpointer(this));
+    g_signal_connect((gpointer) editor->spelling_checked_signal, "clicked", G_CALLBACK(on_spelling_checked_signalled), gpointer(this));
     last_focused_widget = editor->last_focused_widget;
   }  
   // Main widget grabs focus.
@@ -651,6 +666,18 @@ GtkTextBuffer * WindowEditor::edit_usfm_textbuffer ()
     textbuffer = usfmview->last_focused_textbuffer();
   }
   return textbuffer;
+}
+
+
+void WindowEditor::on_spelling_checked_signalled(GtkButton *button, gpointer user_data)
+{
+  ((WindowEditor *) user_data)->on_spelling_checked();
+}
+
+
+void WindowEditor::on_spelling_checked()
+{
+  gtk_button_clicked (GTK_BUTTON (spelling_checked_signal));
 }
 
 

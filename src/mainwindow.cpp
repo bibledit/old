@@ -1239,6 +1239,8 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   check_key_terms = NULL;
   my_checks = NULL;
   check_usfm = NULL;
+  check_spelling_error_next = NULL;
+  check_spelling_error_previous = NULL;
   if (guifeatures.checks()) {
 
     check1 = gtk_menu_item_new_with_mnemonic("Chec_k");
@@ -1473,6 +1475,33 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     check_usfm = gtk_check_menu_item_new_with_mnemonic ("_USFM");
     gtk_widget_show (check_usfm);
     gtk_container_add (GTK_CONTAINER (check1_menu), check_usfm);
+
+    check_spelling_error = gtk_image_menu_item_new_with_mnemonic ("_Spelling error");
+    gtk_widget_show (check_spelling_error);
+    gtk_container_add (GTK_CONTAINER (check1_menu), check_spelling_error);
+
+    image34138 = gtk_image_new_from_stock ("gtk-spell-check", GTK_ICON_SIZE_MENU);
+    gtk_widget_show (image34138);
+    gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (check_spelling_error), image34138);
+
+    check_spelling_error_menu = gtk_menu_new ();
+    gtk_menu_item_set_submenu (GTK_MENU_ITEM (check_spelling_error), check_spelling_error_menu);
+
+    check_spelling_error_next = gtk_image_menu_item_new_with_mnemonic ("_Next");
+    gtk_widget_show (check_spelling_error_next);
+    gtk_container_add (GTK_CONTAINER (check_spelling_error_menu), check_spelling_error_next);
+
+    image34139 = gtk_image_new_from_stock ("gtk-spell-check", GTK_ICON_SIZE_MENU);
+    gtk_widget_show (image34139);
+    gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (check_spelling_error_next), image34139);
+
+    check_spelling_error_previous = gtk_image_menu_item_new_with_mnemonic ("_Previous");
+    gtk_widget_show (check_spelling_error_previous);
+    gtk_container_add (GTK_CONTAINER (check_spelling_error_menu), check_spelling_error_previous);
+
+    image34140 = gtk_image_new_from_stock ("gtk-spell-check", GTK_ICON_SIZE_MENU);
+    gtk_widget_show (image34140);
+    gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (check_spelling_error_previous), image34140);
 
   }
 
@@ -1990,6 +2019,10 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     g_signal_connect((gpointer) my_checks, "activate", G_CALLBACK(on_my_checks_activate), gpointer(this));
   if (check_usfm)
     g_signal_connect ((gpointer) check_usfm, "activate", G_CALLBACK (on_check_usfm_activate), gpointer(this));
+  if (check_spelling_error_next)
+    g_signal_connect ((gpointer) check_spelling_error_next, "activate", G_CALLBACK (on_check_spelling_error_next_activate), gpointer(this));
+  if (check_spelling_error_previous)
+    g_signal_connect ((gpointer) check_spelling_error_previous, "activate", G_CALLBACK (on_check_spelling_error_previous_activate), gpointer(this));
   if (menutools)
     g_signal_connect((gpointer) menutools, "activate", G_CALLBACK(on_menutools_activate), gpointer(this));
   if (line_cutter_for_hebrew_text1)
@@ -4009,6 +4042,56 @@ void MainWindow::on_check_sentence_structure()
   scripture_checks_sentence_structure(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
+
+void MainWindow::on_check_spelling_error_next_activate (GtkMenuItem *menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_check_spelling_error(true);
+}
+
+
+void MainWindow::on_check_spelling_error_previous_activate (GtkMenuItem *menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_check_spelling_error(false);
+}
+
+
+void MainWindow::on_check_spelling_error(bool next)
+{
+  // Get the editor window, if not, bail out.
+  WindowEditor *editor_window = last_focused_editor_window();
+  if (!editor_window)
+    return;
+    
+  // If the project has spelling switched off, bail out.
+  ustring project = editor_window->project();
+  extern Settings * settings;
+  ProjectConfiguration * projectconfig = settings->projectconfig (project);
+  if (!projectconfig->spelling_check_get()) {
+    gtkw_dialog_info (window_vbox, "To make this work, enable spelling checking in the project");
+    return;
+  }
+    
+  // Go to the next (or previous) spelling error. If it's there, bail out.
+  if (editor_window->move_cursor_to_spelling_error (next))
+    return;
+    
+  // No next (or previous) error in the current chapter. Go to other chapter. Todo
+  
+}
+
+
+void MainWindow::on_editor_spelling_checked_button_clicked(GtkButton *button, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_editor_spelling_checked_button();
+}
+
+
+void MainWindow::on_editor_spelling_checked_button() // Todo
+{
+  cout << "void MainWindow::on_editor_spelling_checked_button()" << endl; // Todo
+}
+
+
 /*
  |
  |
@@ -5356,6 +5439,7 @@ void MainWindow::on_file_project_open(const ustring & project, bool startup)
   g_signal_connect((gpointer) editor_window->word_double_clicked_signal, "clicked", G_CALLBACK(on_send_word_to_toolbox_signalled), gpointer(this));
   g_signal_connect((gpointer) editor_window->reload_signal, "clicked", G_CALLBACK(on_editor_reload_clicked), gpointer(this));
   g_signal_connect((gpointer) editor_window->changed_signal, "clicked", G_CALLBACK(on_editorsgui_changed_clicked), gpointer(this));
+  g_signal_connect((gpointer) editor_window->spelling_checked_signal, "clicked", G_CALLBACK(on_editor_spelling_checked_button_clicked), gpointer(this));
   editor_windows.push_back(editor_window);
 
   // After creation the window should generate a focus signal, 
@@ -7241,4 +7325,18 @@ void MainWindow::check_usfm_window_ping()
   }  
   window_check_usfm->set_parameters(focused_textbuffer, project, book, chapter);
 }
+
+
+/*
+
+ * Todo Spell check all.
+ * If the spelling is off, the menu entry gives a message that this is the case.
+
+* The editor window needs to have an option to move the cursor to the next (or previous) 
+* spelling error.
+* If this works out, it returns true. If not, it returns false.
+
+*/
+
+
 

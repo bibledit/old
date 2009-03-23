@@ -39,6 +39,8 @@ public:
   void go_to_new_reference_highlight_set();
   
   void load_dictionaries();
+  bool move_cursor_to_spelling_error (bool next);
+  GtkWidget * spelling_checked_signal;
   
   void undo();
   void redo();
@@ -100,6 +102,8 @@ protected:
   void on_reload();
   static void on_changed_signalled(GtkButton *button, gpointer user_data);
   void on_changed();
+  static void on_spelling_checked_signalled(GtkButton *button, gpointer user_data);
+  void on_spelling_checked();
 private:
 };
 

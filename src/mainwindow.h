@@ -300,6 +300,13 @@ protected:
   GtkWidget *my_checks;
   GtkWidget *image15438;
   GtkWidget *check_usfm;
+  GtkWidget *check_spelling_error;
+  GtkWidget *image34138;
+  GtkWidget *check_spelling_error_menu;
+  GtkWidget *check_spelling_error_next;
+  GtkWidget *image34139;
+  GtkWidget *check_spelling_error_previous;
+  GtkWidget *image34140;
   GtkWidget *menutools;
   GtkWidget *menutools_menu;
   GtkWidget *line_cutter_for_hebrew_text1;
@@ -594,6 +601,11 @@ protected:
   void on_parallels_from_the_ot();
   static void on_check_sentence_structure_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_check_sentence_structure();
+  static void on_check_spelling_error_next_activate (GtkMenuItem *menuitem, gpointer user_data);
+  static void on_check_spelling_error_previous_activate (GtkMenuItem *menuitem, gpointer user_data);
+  void on_check_spelling_error(bool next);
+  static void on_editor_spelling_checked_button_clicked(GtkButton *button, gpointer user_data);
+  void on_editor_spelling_checked_button();
 
   /* Styles */
   static void on_stylesheet_open_activate(GtkMenuItem *menuitem, gpointer user_data);

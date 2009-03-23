@@ -59,27 +59,6 @@ vector < ustring > spelling_enchant_dictionaries()
   enchant_broker_list_dicts(broker, enumerate_dicts, &dictionaries);
   enchant_broker_free(broker);
   return dictionaries;
-
-  /* 
-
-     Note: Enchant 1.4.1 gives a segmentation fault
-     Note: The code below can be used if the library call above crashes
-
-     ustring filename = gw_build_filename (directories_get_temp (), "enchant-dictionaries");
-     ustring command = "enchant-lsmod -list-dicts >" + shell_quote_space (filename) + "2>&1";
-     system (command.c_str ());
-     ReadText rt (filename, true, true);
-     for (unsigned int i = 0; i < rt.lines.size (); i++) {
-     rt.lines[i] = trim (rt.lines[i]);
-     Parse parse (rt.lines[i]);
-     if (!parse.words.empty ()) {
-     ustring dictionary = trim (parse.words[0]);
-     if (dictionary.empty ()) continue;
-     if (dictionary == "**") continue;
-     dictionaries.push_back (dictionary);
-     }
-     }
-   */
 }
 
 bool spelling_dictionary_editable(const ustring & dictionary)
@@ -184,7 +163,7 @@ void SpellingChecker::set_dictionaries(const vector < ustring > &dictionaries)
   }
 }
 
-void SpellingChecker::check(GtkTextBuffer * textbuffer)
+void SpellingChecker::check(GtkTextBuffer * textbuffer) // Todo
 {
   // Erase any previous marks for spelling mistakes.
   GtkTextIter startiter, enditer;
