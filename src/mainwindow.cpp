@@ -179,6 +179,8 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   focused_resource_button = NULL;
   shutting_down = false;
   windows_are_detached = settings->genconfig.windows_detached_get();
+  check_spelling_at_start = false;
+  check_spelling_at_end = false;
 
   // Application name.
   g_set_application_name("Bibledit");
@@ -4045,23 +4047,26 @@ void MainWindow::on_check_sentence_structure()
 
 void MainWindow::on_check_spelling_error_next_activate (GtkMenuItem *menuitem, gpointer user_data)
 {
-  ((MainWindow *) user_data)->on_check_spelling_error(true);
+  ((MainWindow *) user_data)->on_check_spelling_error(true, false);
 }
 
 
 void MainWindow::on_check_spelling_error_previous_activate (GtkMenuItem *menuitem, gpointer user_data)
 {
-  ((MainWindow *) user_data)->on_check_spelling_error(false);
+  ((MainWindow *) user_data)->on_check_spelling_error(false, false);
 }
 
 
-void MainWindow::on_check_spelling_error(bool next)
+void MainWindow::on_check_spelling_error(bool next, bool extremity)
+// Moves the cursor to another spelling mistake.
+// next: if true goes to next error, and if false goes to the previous one.
+// extremity: start checking at the extremity of the chapter that is open.
 {
   // Get the editor window, if not, bail out.
   WindowEditor *editor_window = last_focused_editor_window();
   if (!editor_window)
     return;
-    
+
   // If the project has spelling switched off, bail out.
   ustring project = editor_window->project();
   extern Settings * settings;
@@ -4072,11 +4077,17 @@ void MainWindow::on_check_spelling_error(bool next)
   }
     
   // Go to the next (or previous) spelling error. If it's there, bail out.
-  if (editor_window->move_cursor_to_spelling_error (next))
+  if (editor_window->move_cursor_to_spelling_error (next, extremity))
     return;
     
-  // No next (or previous) error in the current chapter. Go to other chapter. Todo
-  
+  // No next (or previous) error in the current chapter. Go to other chapter and set flags.
+  if (next) {
+    navigation.nextchapter();
+    check_spelling_at_start = true;
+  } else {
+    navigation.previouschapter();
+    check_spelling_at_end = true;
+  }
 }
 
 
@@ -4086,9 +4097,18 @@ void MainWindow::on_editor_spelling_checked_button_clicked(GtkButton *button, gp
 }
 
 
-void MainWindow::on_editor_spelling_checked_button() // Todo
+void MainWindow::on_editor_spelling_checked_button()
+// This one is called when the spelling of the document has been checked.
 {
-  cout << "void MainWindow::on_editor_spelling_checked_button()" << endl; // Todo
+  // Handle cases that we're going to another spelling error.
+  if (check_spelling_at_start) {
+    check_spelling_at_start = false;
+    on_check_spelling_error(true, true);
+  }
+  if (check_spelling_at_end) {
+    check_spelling_at_end = false;
+    on_check_spelling_error(false, true);
+  }
 }
 
 
@@ -7325,18 +7345,5 @@ void MainWindow::check_usfm_window_ping()
   }  
   window_check_usfm->set_parameters(focused_textbuffer, project, book, chapter);
 }
-
-
-/*
-
- * Todo Spell check all.
- * If the spelling is off, the menu entry gives a message that this is the case.
-
-* The editor window needs to have an option to move the cursor to the next (or previous) 
-* spelling error.
-* If this works out, it returns true. If not, it returns false.
-
-*/
-
 
 

@@ -94,7 +94,6 @@ const gchar *spelling_tag_name()
   return "misspelling";
 }
 
-// The spelling checker code was written while closely looking at GtkSpell.
 
 SpellingChecker::SpellingChecker(GtkTextTagTable * texttagtable)
 {
@@ -163,7 +162,7 @@ void SpellingChecker::set_dictionaries(const vector < ustring > &dictionaries)
   }
 }
 
-void SpellingChecker::check(GtkTextBuffer * textbuffer) // Todo
+void SpellingChecker::check(GtkTextBuffer * textbuffer)
 {
   // Erase any previous marks for spelling mistakes.
   GtkTextIter startiter, enditer;
@@ -555,4 +554,51 @@ void SpellingChecker::set_checkable_tags(const vector < ustring > &tags)
 // The purpose of this is to prevent the checking of things like \id JHN, etc.
 // Not yet implemented.
 {
+}
+
+
+bool SpellingChecker::move_cursor_to_spelling_error (GtkTextBuffer* textbuffer, bool next, bool extremity)
+// Moves the cursor to the next spelling error in the textbuffer.
+// Returns true if the cursor was moved.
+{
+  // Get current cursor iterator.
+  GtkTextIter iter;
+  gtk_text_buffer_get_iter_at_mark(textbuffer, &iter, gtk_text_buffer_get_insert(textbuffer));
+
+  // Move the iterator if we're working from the extremity of the textbuffer.
+  if (extremity) {
+    if (next) {
+      gtk_text_buffer_get_start_iter (textbuffer, &iter);
+    } else {
+      gtk_text_buffer_get_end_iter (textbuffer, &iter);
+    }
+  }
+  
+  // If the iterator is inside a misspelling, move it out. Bail out if it can't.
+  while (gtk_text_iter_has_tag (&iter, misspelling_tag)) {
+    if (next) {
+      if (!gtk_text_iter_forward_char (&iter))
+        return false;
+    } else {
+      if (!gtk_text_iter_backward_char (&iter))
+        return false;
+    }
+  }
+
+  // Move the cursor to the start or end of a misspelling. Bail out if it can't.
+  while (!gtk_text_iter_has_tag (&iter, misspelling_tag)) {
+    if (next) {
+      if (!gtk_text_iter_forward_char (&iter))
+        return false;
+    } else {
+      if (!gtk_text_iter_backward_char (&iter))
+        return false;
+    }
+  }
+
+  // Place the cursor on the new misspelling.
+  gtk_text_buffer_place_cursor (textbuffer, &iter);
+
+  // New misspelling found.
+  return true;
 }

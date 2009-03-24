@@ -39,7 +39,7 @@ public:
   void go_to_new_reference_highlight_set();
   
   void load_dictionaries();
-  bool move_cursor_to_spelling_error (bool next);
+  bool move_cursor_to_spelling_error (bool next, bool extremity);
   GtkWidget * spelling_checked_signal;
   
   void undo();

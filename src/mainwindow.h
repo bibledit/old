@@ -603,9 +603,11 @@ protected:
   void on_check_sentence_structure();
   static void on_check_spelling_error_next_activate (GtkMenuItem *menuitem, gpointer user_data);
   static void on_check_spelling_error_previous_activate (GtkMenuItem *menuitem, gpointer user_data);
-  void on_check_spelling_error(bool next);
+  void on_check_spelling_error(bool next, bool extremity);
   static void on_editor_spelling_checked_button_clicked(GtkButton *button, gpointer user_data);
   void on_editor_spelling_checked_button();
+  bool check_spelling_at_start;
+  bool check_spelling_at_end;
 
   /* Styles */
   static void on_stylesheet_open_activate(GtkMenuItem *menuitem, gpointer user_data);

@@ -168,13 +168,13 @@ void WindowEditor::load_dictionaries()
 }
 
 
-bool WindowEditor::move_cursor_to_spelling_error (bool next)
+bool WindowEditor::move_cursor_to_spelling_error (bool next, bool extremity)
 {
   if (usfmview) {
     return true;
   }
   if (editor) {
-    return editor->move_cursor_to_spelling_error (next);
+    return editor->move_cursor_to_spelling_error (next, extremity);
   }
   return true;
 }

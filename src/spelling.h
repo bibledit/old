@@ -50,6 +50,7 @@ public:
   GtkWidget * check_signal;
   void set_checkable_tags (const vector <ustring>& tags);
   bool something_was_added_to_dictionary;
+  bool move_cursor_to_spelling_error (GtkTextBuffer* textbuffer, bool next, bool extremity);
 private:
   void collect_words (GtkTextBuffer* textbuffer);
   void check_word (GtkTextBuffer* textbuffer, GtkTextIter *start, GtkTextIter *end);

@@ -230,7 +230,7 @@ private:
   // Spelling check.
 public:
   void load_dictionaries();
-  bool move_cursor_to_spelling_error (bool next);
+  bool move_cursor_to_spelling_error (bool next, bool extremity);
   GtkWidget * spelling_checked_signal;
 private:
   void spelling_trigger();
