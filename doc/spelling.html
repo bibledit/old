@@ -1,47 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-<title>Bibledit</title>
-<!--
-Copyright (©) 2003-2008 Teus Benschop.
-Permission is granted to copy, distribute and/or modify this document
-under the terms of the GNU Free Documentation License, Version 1.2
-or any later version published by the Free Software Foundation;
-with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-Texts.  A copy of the license is included in the section entitled "GNU
-Free Documentation License" in the file FDL.
--->
-<link href="bibledit.css" rel="stylesheet" type="text/css" />
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+  <title>Bibledit</title>
+  <!--
+  Copyright (©) 2003-2008 Teus Benschop.
+  Permission is granted to copy, distribute and/or modify this document
+  under the terms of the GNU Free Documentation License, Version 1.2
+  or any later version published by the Free Software Foundation;
+  with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+  Texts.  A copy of the license is included in the section entitled "GNU
+  Free Documentation License" in the file FDL.
+  -->
+  <link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
+
 <body>
 <h2><a name="spelling"></a>Spelling</h2>
+
 <p>Bibledit includes a spelling checker. If a word is misspelled, it will be
-underlined in red. If the user clicks on that word with the right button of
-the mouse, a menu appears that allows the user to handle this word. </p>
-<p>This is basically all what it involves. A more detailed description
-follows below.</p>
+underlined in red. If the user clicks on that word with the right button of the
+mouse, a menu appears that allows the user to handle this word. </p>
+
+<p>This is basically all what it involves. A more detailed description follows
+below.</p>
+
 <p>Spelling checking is switched on or off in the <a
 href="olh_project_properties.html">Project properties dialog</a>. If "Check
 spelling" is ticked, then the spell checker is switched on, else it is off.
-When switching the spelling checker on, and if there are no dictionaries
-added yet to use, then naturally all words are misspelled. </p>
-<p>Adding dictionaries is done in the same dialog. Button "Dictionaries"
-gives access to all available dictionaries on the system. If that button is
-clicked, then a dialog "Dictionaries" opens. <a
-href="olh_dictionaries.html">More help is available about this</a>.</p>
-<p>If a word is misspelled, and the user clicks on it with the right button
-of the mouse, then a menu with Spelling suggestions opens. These give
-possible corrections for the word. If one such suggestion is chosen, then the
-word will be replaced with that suggestions. It also is possible to add the
-misspelled word to the dictionary. It will be added to the first editable <a
+When switching the spelling checker on, and if there are no dictionaries added
+yet to use, then naturally all words are misspelled. </p>
+
+<p>Adding dictionaries is done in the same dialog. Button "Dictionaries" gives
+access to all available dictionaries on the system. If that button is clicked,
+then a dialog "Dictionaries" opens. <a href="olh_dictionaries.html">More help
+is available about this</a>.</p>
+
+<p>If a word is misspelled, and the user clicks on it with the right button of
+the mouse, then a menu with Spelling suggestions opens. These give possible
+corrections for the word. If one such suggestion is chosen, then the word will
+be replaced with that suggestions. It also is possible to add the misspelled
+word to the dictionary. It will be added to the first editable <a
 href="olh_dictionaries.html">dictionary in the list of dictionaries</a>.
 Another option is to Ignore all. This means that for this session the
 misspelled word is ignored.</p>
-<p>Note. There is some information about how <a
+
+<p>Notes. </p>
+
+<p>1. There is some information about how <a
 href="http://bugzilla.gnome.org/show_bug.cgi?id=97545">apostrophes in e.g.
 "it's" are handled</a>.</p>
+
+<p>2. The Check menu allows the user to go to the next or to the previous
+spelling error. If the user does this, the cursor will move to another spelling
+error. If there are no more spelling errors to go to, it will go to another
+chapter.</p>
 </body>
 </html>
