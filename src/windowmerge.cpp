@@ -890,59 +890,46 @@ ustring WindowMerge::merge_conflicts_2_human_readable_text(const ustring & data)
   return text;
 }
 
-void WindowMerge::show_comparison()
+void WindowMerge::show_comparison() // Todo
 // Shows the comparison.
 {
   // Make comparison.
   ParseLine parseline_main(main_project_data);
   ParseLine parseline_edited(edited_project_data);
   vector < ustring > comparison;
-  compare_chapter(parseline_edited.lines, parseline_main.lines, comparison);
+  compare_usfm_text(parseline_edited.lines, parseline_main.lines, comparison);
 
-  // Temporally removing the view from the buffer speeds things up a huge lot.
+  // Temporally removing the view from the buffer speeds loading text up a huge lot.
   g_object_ref(differencesbuffer);
   gtk_text_view_set_buffer(GTK_TEXT_VIEW(textview1), NULL);
   
   // Clear buffer.
   gtk_text_buffer_set_text(differencesbuffer, "", 0);
 
-  // The markers for the changes.
-  ustring insertion_opener = usfm_get_full_opening_marker(INSERTION_MARKER);
-  ustring insertion_closer = usfm_get_full_closing_marker(INSERTION_MARKER);
-  ustring deletion_opener = usfm_get_full_opening_marker(DELETION_MARKER);
-  ustring deletion_closer = usfm_get_full_closing_marker(DELETION_MARKER);
-
   // Load text.
   for (unsigned int i = 0; i < comparison.size(); i++) {
     GtkTextIter iter;
     GtkTextTag *tag = NULL;
-    while (!comparison[i].empty()) {
-      if (comparison[i].find(insertion_opener) == 0) {
-        // If there's an insertion opener, set the right markup.
+    ustring line = comparison[i];
+    while (!line.empty()) {
+      // Handle insertion or deletion flag for the next character.
+      tag = NULL;
+      ustring character = line.substr (0, 1);
+      if (!strcmp (character.c_str(), INSERTION_FLAG)) {
         tag = heavy_weight_tag;
-        comparison[i].erase(0, insertion_opener.length());
-      } else if (comparison[i].find(insertion_closer) == 0) {
-        // If there's an insertion closer, clear the markup.
-        tag = NULL;
-        comparison[i].erase(0, insertion_closer.length());
-      } else if (comparison[i].find(deletion_opener) == 0) {
-        // If there's an deletion opener, set the right markup.
-        tag = strike_through_tag;
-        comparison[i].erase(0, deletion_opener.length());
-      } else if (comparison[i].find(deletion_closer) == 0) {
-        // If there's an deletion closer, clear the markup.
-        tag = NULL;
-        comparison[i].erase(0, deletion_closer.length());
-      } else {
-        // Print a character with current markup.
-        gtk_text_buffer_get_end_iter(differencesbuffer, &iter);
-        gtk_text_buffer_insert_with_tags(differencesbuffer, &iter, comparison[i].substr(0, 1).c_str(), -1, tag, NULL);
-        comparison[i].erase(0, 1);
       }
+      if (!strcmp (character.c_str(), DELETION_FLAG)) {
+        tag = strike_through_tag;
+      }
+      if (tag)
+        line.erase (0, 1);
+      // Print one character with optional markup.
+      character = line.substr (0, 1);
+      gtk_text_buffer_get_end_iter(differencesbuffer, &iter);
+      gtk_text_buffer_insert_with_tags(differencesbuffer, &iter, character.c_str(), -1, tag, NULL);
+      line.erase(0, 1);
     }
-
     // End of line.
-    tag = NULL;
     gtk_text_buffer_get_end_iter(differencesbuffer, &iter);
     gtk_text_buffer_insert(differencesbuffer, &iter, "\n", 1);
   }

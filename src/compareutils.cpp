@@ -31,6 +31,11 @@
 #include "print_parallel_references.h"
 #include "tiny_utilities.h"
 #include "merge_utils.h"
+#include "directories.h"
+#include "gwrappers.h"
+#include "shell.h"
+#include "constants.h"
+
 
 enum Markup { StrikeThrough, Bold };
 
@@ -582,3 +587,101 @@ deleted. If anything was found, it puts human readable text in "results".
   set < ustring > results_set(results.begin(), results.end());
   results.assign(results_set.begin(), results_set.end());
 }
+
+
+ustring disassemble_usfm_text_for_comparison (vector <ustring>& text)
+// Disassembles USFM text making it ready for comparison.
+{
+  ustring data;
+  for (unsigned int i = 0; i < text.size(); i++) {
+    ustring line = text[i];
+    while (!line.empty()) {
+      // Normally we have one character per line.
+      // Thus the diff command will compare at character level.
+      ustring character = line.substr (0, 1);
+      line.erase (0, 1);
+      data.append (character);
+      // USFM markers go completely on one line, so that the diff command compares complete USFM markers.
+      if (character == "\\") {
+        size_t pos = line.find (" ");
+        if (pos != string::npos) {
+          character = line.substr (0, pos);
+          line.erase (0, pos);
+          data.append (character);
+        } else {
+          data.append (line);
+          line.clear();
+        }
+      }
+      data.append ("\n");
+    }
+    data.append ("linefeed\n");
+  }
+  return data;
+}
+
+
+void compare_usfm_text (vector<ustring>& original, vector<ustring>& edit, vector<ustring>& output) // Todo
+// Compares usfm text. Result goes into "output".
+{
+  // Store the original to disk.
+  ustring original_line = disassemble_usfm_text_for_comparison (original);
+  ustring originalfile = gw_build_filename (directories_get_temp(), "compare-original");
+  g_file_set_contents (originalfile.c_str(), original_line.c_str(), -1, NULL);
+  
+  // Store the edit to disk.
+  ustring edit_line = disassemble_usfm_text_for_comparison (edit);
+  ustring editfile = gw_build_filename (directories_get_temp(), "compare-edit");
+  g_file_set_contents (editfile.c_str(), edit_line.c_str(), -1, NULL);
+  
+  // The output file.
+  ustring outputfile = gw_build_filename (directories_get_temp(), "compare-output");
+
+  // Run diff.  
+  ustring command = "diff -U 1000000" + shell_quote_space(originalfile) + shell_quote_space(editfile) + ">" + shell_quote_space(outputfile);
+  if (system(command.c_str())) ;
+ 
+  // Read the raw output.
+  ReadText rt (outputfile, true, false);
+  
+  // If there's no output, there were no differences. Handle that.
+  if (rt.lines.size() < 2) {
+    output = original;
+  }
+  
+  // Go through the output, skipping the first lines as these are irrelevant.
+  ustring output_line;
+  for (unsigned int i = 3; i < rt.lines.size(); i++) {
+    ustring line = rt.lines[i];
+    if (!line.empty()) {
+      // Two special characters mark insertions and deletions, 
+      // inserted right before the character it applies to. 
+      ustring first_character = line.substr (0, 1);
+      line.erase (0, 1);
+      if (first_character == "+") {
+        output_line.append (INSERTION_FLAG);
+      }
+      if (first_character == "-") {
+        output_line.append (DELETION_FLAG);
+      }
+      if (line == "linefeed") {
+        output.push_back (output_line);
+        output_line.clear();
+      } else {
+        output_line.append (line);
+      }
+    }
+  }
+  if (!output_line.empty()) {
+    output.push_back (output_line);
+    output_line.clear();
+  }
+  
+}
+
+/* Todo better comparison.
+To leave markers in full in one line, e.g. the full "\id ".
+We should use the marker that is inserted for the new markup, 
+and the one that is deleted becomes plain text.
+We may need to indicate "marker change" if that's the case, so that's clear for everybody what happened.
+*/
