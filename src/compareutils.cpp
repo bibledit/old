@@ -589,6 +589,22 @@ deleted. If anything was found, it puts human readable text in "results".
 }
 
 
+void compare_insert_marked_text (ustring& line, const ustring& text, bool addition)
+// Insert marked text into the comparison line.
+// line: where to insert the text into.
+// text: text to insert.
+// addition: whether this is flagged as an addition.
+{
+  for (unsigned int i = 0; i < text.length(); i++) {
+    if (addition)
+      line.append (INSERTION_FLAG);
+    else
+      line.append (DELETION_FLAG);
+    line.append (text.substr (i, 1));
+  }
+}
+
+
 ustring disassemble_usfm_text_for_comparison (vector <ustring>& text)
 // Disassembles USFM text making it ready for comparison.
 {
@@ -621,8 +637,10 @@ ustring disassemble_usfm_text_for_comparison (vector <ustring>& text)
 }
 
 
-void compare_usfm_text (vector<ustring>& original, vector<ustring>& edit, vector<ustring>& output) // Todo
-// Compares usfm text. Result goes into "output".
+void compare_usfm_text (vector<ustring>& original, vector<ustring>& edit, vector<ustring>& output, bool mark_new_line) // Todo
+// Compares the "original" usfm text with the "edit"ed usfm text.
+// Result goes into "output".
+// mark_new_line: whether to mark differences in places where a new line starts.
 {
   // Store the original to disk.
   ustring original_line = disassemble_usfm_text_for_comparison (original);
@@ -640,10 +658,11 @@ void compare_usfm_text (vector<ustring>& original, vector<ustring>& edit, vector
   // Run diff.  
   ustring command = "diff -U 1000000" + shell_quote_space(originalfile) + shell_quote_space(editfile) + ">" + shell_quote_space(outputfile);
   if (system(command.c_str())) ;
+  // GwSpawn cannot be used as it is, because ::standardout trims the text.
  
   // Read the raw output.
   ReadText rt (outputfile, true, false);
-  
+
   // If there's no output, there were no differences. Handle that.
   if (rt.lines.size() < 2) {
     output = original;
@@ -657,19 +676,54 @@ void compare_usfm_text (vector<ustring>& original, vector<ustring>& edit, vector
       // Two special characters mark insertions and deletions, 
       // inserted right before the character it applies to. 
       ustring first_character = line.substr (0, 1);
+      bool is_insertion = (first_character == "+");
+      bool is_deletion = (first_character == "-");
       line.erase (0, 1);
-      if (first_character == "+") {
-        output_line.append (INSERTION_FLAG);
+      bool is_marker = (line.find ("\\") == 0);
+      bool is_new_line = (line == "linefeed");
+      
+      // Deal with a marker.
+      if (is_marker) {
+        // The marker that is inserted becomes the new marker,
+        // and the one deleted is removed and a message about that is inserted.
+        if (!is_deletion)
+          output_line.append (line);
+        if (is_insertion || is_deletion) {
+          output_line.append (" ");
+          line.erase (0, 1);
+          line.insert (0, "Marker ");
+          compare_insert_marked_text (output_line, line, is_insertion);
+        }
+        line.clear();
+      } 
+      
+      // Deal with a new line.
+      else if (is_new_line) {
+        if (is_insertion || is_deletion) {
+          if (mark_new_line) {
+            compare_insert_marked_text (output_line, "New line", is_insertion);
+          }
+        }
+        line.clear();
+      } 
+      
+      // Deal with other cases.
+      else {
+        if (is_insertion) {
+          output_line.append (INSERTION_FLAG);
+        }
+        if (is_deletion) {
+          output_line.append (DELETION_FLAG);
+        }
       }
-      if (first_character == "-") {
-        output_line.append (DELETION_FLAG);
-      }
-      if (line == "linefeed") {
+
+      if (is_new_line) {
         output.push_back (output_line);
         output_line.clear();
       } else {
         output_line.append (line);
       }
+      
     }
   }
   if (!output_line.empty()) {
@@ -680,8 +734,73 @@ void compare_usfm_text (vector<ustring>& original, vector<ustring>& edit, vector
 }
 
 /* Todo better comparison.
-To leave markers in full in one line, e.g. the full "\id ".
-We should use the marker that is inserted for the new markup, 
-and the one that is deleted becomes plain text.
-We may need to indicate "marker change" if that's the case, so that's clear for everybody what happened.
+
+We need to create a standard GUI for viewing changes online.
+Optionally that GUI has a checkbox for what to hide, e.g. to hide notes.
+It replaces whatever comparisons are done anywhere, so it becomes the sole comparison engine.
+
+
+1. If a section heading (and the following verse?) is changed, section
+headings not recognized
+2. If a marker following a section heading is changed, the section heading
+feature got lost.
+P1:
+\s Falsche Lehrer
+\m
+\v 3
+P2:
+\s Falsche Lehrer
+\p
+\v 3 
+
+
+
+1. In the example below the following is displayed:
+Falsche Lehrer \p Lehrer \m (the last 2 both crossed out) 3 (as the verse number).
+
+??? Why does the word 'Lehrer' show up a second time crossed out?
+
+2. If I compare:
+P1:
+\s Falsche Lehrrrrrer
+\m
+\v 3
+P2:
+\s Falsche Lehrer
+\m
+\v 3
+then the result is:
+Falsche Lehrrrrer \m Lehrer \m (the last 2 both crossed out) 3
+(and the whole following paragraph is not in the style \m, but in the style \s from the previous paragraph
+
+??? Why does the marker \m show up twice (once even crossed out) when it has not been changed?
+
+
+
+
+The same effect (with titles) is in File/Project/Changes
+
+
+
+
+This is a technical glitch in the compare routine. 
+The compare routine is not yet fully up to the task, in particular footnotes and crossreferences and endnotes. 
+Room for improvement is there, also for comparing at the character level. 
+And the styles behave a bit funny. 
+All of this is the result of different features not yet having been implemented. 
+If you'd like some of these features in, and some of these fixed, please open as task for this.
+
+
+
+Looking at the problems mentioned below:
+-> Let Compare tool work correctly also with section headings
+
+
+
+The standard GUI that displays the differences, should have a label at the top,
+that gives any information. Very important is how many addditions or deletions there are,
+or at least, if there are any at all.
+
+To apply the comparison function everywhere.
+
 */

@@ -897,7 +897,7 @@ void WindowMerge::show_comparison() // Todo
   ParseLine parseline_main(main_project_data);
   ParseLine parseline_edited(edited_project_data);
   vector < ustring > comparison;
-  compare_usfm_text(parseline_edited.lines, parseline_main.lines, comparison);
+  compare_usfm_text(parseline_edited.lines, parseline_main.lines, comparison, true);
 
   // Temporally removing the view from the buffer speeds loading text up a huge lot.
   g_object_ref(differencesbuffer);

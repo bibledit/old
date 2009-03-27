@@ -34,7 +34,7 @@ bool compare_projects (ProjectMemory& originalproject, ProjectMemory& secondproj
 void compare_chapter (vector<ustring>& originalchapter, vector<ustring>& secondchapter, vector<ustring>& outputchapter);
 void compare_get_changes (ProjectMemory& project, vector <Reference>& changed_references);
 void compare_get_additions_deletions (ProjectMemory& originalproject, ProjectMemory& secondproject, vector<ustring>& results);
-void compare_usfm_text (vector<ustring>& original, vector<ustring>& edit, vector<ustring>& output);
+void compare_usfm_text (vector<ustring>& original, vector<ustring>& edit, vector<ustring>& output, bool mark_new_line);
 
 
 #endif
