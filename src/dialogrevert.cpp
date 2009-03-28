@@ -375,7 +375,7 @@ void RevertDialog::on_revision_activated()
   }
   // Get differences.
   {
-    GwSpawn spawn("diff");
+    GwSpawn spawn("diff"); // Todo use standard routines.
     spawn.arg(current_text_filename);
     spawn.arg(filename_history);
     spawn.read();
@@ -475,3 +475,10 @@ unsigned int RevertDialog::chapter_get()
   unsigned int chapter = convert_to_int(uchapter);
   return chapter;
 }
+
+
+// Todo The revert dialog has only one display, and it can switch between:
+// - current.
+// - new.
+// - changes.
+// This is supposed to save space.

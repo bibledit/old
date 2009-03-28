@@ -85,21 +85,9 @@ WindowBase(widMerge, "Merge", startup, 0, parent_box)
   gtk_box_pack_start(GTK_BOX(vbox1), label_info, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label_info), 0, 0.5);
 
-  scrolledwindow1 = gtk_scrolled_window_new(NULL, NULL);
-  gtk_widget_show(scrolledwindow1);
-  gtk_box_pack_start(GTK_BOX(vbox1), scrolledwindow1, TRUE, TRUE, 0);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow1), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwindow1), GTK_SHADOW_IN);
+  display_changes_gui = new DisplayChangesGui (vbox1, NULL);
 
-  textview1 = gtk_text_view_new();
-  gtk_widget_show(textview1);
-  gtk_container_add(GTK_CONTAINER(scrolledwindow1), textview1);
-  gtk_text_view_set_accepts_tab(GTK_TEXT_VIEW(textview1), FALSE);
-  gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textview1), GTK_WRAP_WORD);
-
-  g_signal_connect((gpointer) textview1, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
-
-  differencesbuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview1));
+  g_signal_connect((gpointer) display_changes_gui->textview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
 
   hbox1 = gtk_hbox_new(FALSE, 0);
   gtk_widget_show(hbox1);
@@ -232,10 +220,6 @@ WindowBase(widMerge, "Merge", startup, 0, parent_box)
   gtk_widget_set_sensitive(button_merge, false);
   gtk_widget_set_sensitive(button_next, false);
 
-  // Create tags.
-  heavy_weight_tag = gtk_text_buffer_create_tag(differencesbuffer, NULL, "weight", PANGO_WEIGHT_HEAVY, "background", "khaki", NULL);
-  strike_through_tag = gtk_text_buffer_create_tag(differencesbuffer, NULL, "strikethrough", TRUE, "background", "khaki", NULL);
-
   // Main focused widget.
   last_focused_widget = combobox_master;
   gtk_widget_grab_focus (last_focused_widget);
@@ -243,6 +227,8 @@ WindowBase(widMerge, "Merge", startup, 0, parent_box)
 
 WindowMerge::~WindowMerge()
 {
+  // Destroy changes GUI.
+  delete display_changes_gui;
   // Destroy signalling buttons.
   gtk_widget_destroy(editors_get_text_button);
   gtk_widget_destroy(new_reference_button);
@@ -407,7 +393,8 @@ void WindowMerge::on_editors_changed()
 
   // If no loading, clear text and bail out.
   if (!loadtext) {
-    gtk_text_buffer_set_text(differencesbuffer, "", -1);
+    vector <ustring> dummy;
+    display_changes_gui->display (dummy);
     return;
   }
   // Signal to get the text from the editors.
@@ -890,53 +877,14 @@ ustring WindowMerge::merge_conflicts_2_human_readable_text(const ustring & data)
   return text;
 }
 
-void WindowMerge::show_comparison() // Todo
+void WindowMerge::show_comparison()
 // Shows the comparison.
 {
-  // Make comparison.
   ParseLine parseline_main(main_project_data);
   ParseLine parseline_edited(edited_project_data);
   vector < ustring > comparison;
-  compare_usfm_text(parseline_edited.lines, parseline_main.lines, comparison, true);
-
-  // Temporally removing the view from the buffer speeds loading text up a huge lot.
-  g_object_ref(differencesbuffer);
-  gtk_text_view_set_buffer(GTK_TEXT_VIEW(textview1), NULL);
-  
-  // Clear buffer.
-  gtk_text_buffer_set_text(differencesbuffer, "", 0);
-
-  // Load text.
-  for (unsigned int i = 0; i < comparison.size(); i++) {
-    GtkTextIter iter;
-    GtkTextTag *tag = NULL;
-    ustring line = comparison[i];
-    while (!line.empty()) {
-      // Handle insertion or deletion flag for the next character.
-      tag = NULL;
-      ustring character = line.substr (0, 1);
-      if (!strcmp (character.c_str(), INSERTION_FLAG)) {
-        tag = heavy_weight_tag;
-      }
-      if (!strcmp (character.c_str(), DELETION_FLAG)) {
-        tag = strike_through_tag;
-      }
-      if (tag)
-        line.erase (0, 1);
-      // Print one character with optional markup.
-      character = line.substr (0, 1);
-      gtk_text_buffer_get_end_iter(differencesbuffer, &iter);
-      gtk_text_buffer_insert_with_tags(differencesbuffer, &iter, character.c_str(), -1, tag, NULL);
-      line.erase(0, 1);
-    }
-    // End of line.
-    gtk_text_buffer_get_end_iter(differencesbuffer, &iter);
-    gtk_text_buffer_insert(differencesbuffer, &iter, "\n", 1);
-  }
-  
-  // Reconnect the view to the buffer.
-  gtk_text_view_set_buffer(GTK_TEXT_VIEW(textview1), differencesbuffer);
-  g_object_unref(differencesbuffer);
+  compare_usfm_text(parseline_main.lines, parseline_edited.lines, comparison, true);
+  display_changes_gui->display (comparison);
 }
 
 void WindowMerge::approval_setup(const ustring & maindata, const ustring & mergedata)

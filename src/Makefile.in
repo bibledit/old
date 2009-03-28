@@ -173,7 +173,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	usfmview.$(OBJEXT) dialogcompareprefs.$(OBJEXT) \
 	windowcheckusfm.$(OBJEXT) usfm2osis.$(OBJEXT) \
 	usfmstandard.$(OBJEXT) osis.$(OBJEXT) \
-	assistantremoterepository.$(OBJEXT)
+	assistantremoterepository.$(OBJEXT) \
+	gui_display_changes.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -626,7 +627,8 @@ bibledit_bin_SOURCES = \
         usfm2osis.cpp \
         usfmstandard.cpp \
         osis.cpp \
-        assistantremoterepository.cpp
+        assistantremoterepository.cpp \
+        gui_display_changes.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -839,6 +841,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gtkhtml3browser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gtkwrappers.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gui.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gui_display_changes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gui_features.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gui_navigation.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/guiselectproject.Po@am__quote@

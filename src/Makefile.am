@@ -274,7 +274,8 @@ bibledit_bin_SOURCES = \
         usfm2osis.cpp \
         usfmstandard.cpp \
         osis.cpp \
-        assistantremoterepository.cpp
+        assistantremoterepository.cpp \
+        gui_display_changes.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 

@@ -17,8 +17,10 @@
  **  
  */
 
+
 #ifndef INCLUDED_WINDOW_MERGE_H
 #define INCLUDED_WINDOW_MERGE_H
+
 
 #include <gtk/gtk.h>
 #include "ustring.h"
@@ -26,6 +28,8 @@
 #include "window.h"
 #include "editor.h"
 #include "merge_utils.h"
+#include "gui_display_changes.h"
+
 
 class WindowMerge : public WindowBase
 {
@@ -41,8 +45,6 @@ protected:
   GtkWidget *label7;
   GtkWidget *combobox_edited;
   GtkWidget *label_info;
-  GtkWidget *scrolledwindow1;
-  GtkWidget *textview1;
   GtkWidget *hbox1;
   GtkWidget *button_previous;
   GtkWidget *alignment2;
@@ -148,9 +150,7 @@ private:
   // Differences view.
 public:
 private:
-  GtkTextBuffer * differencesbuffer;
-  GtkTextTag *heavy_weight_tag;
-  GtkTextTag *strike_through_tag;
+  DisplayChangesGui * display_changes_gui;
   void show_comparison();
 
   // Changes approval.
