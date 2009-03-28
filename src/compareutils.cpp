@@ -611,6 +611,7 @@ ustring disassemble_usfm_text_for_comparison (vector <ustring>& text)
   ustring data;
   for (unsigned int i = 0; i < text.size(); i++) {
     ustring line = text[i];
+    compare_chapter_remove_notes (line);
     while (!line.empty()) {
       // Normally we have one character per line.
       // Thus the diff command will compare at character level.
