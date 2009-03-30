@@ -92,8 +92,7 @@ private:
   vector <int> font_size_percentage_start_indices;
   vector <int> font_size_percentage_end_indices;
   void inline_set_value(vector <int>& values, vector <int>& start_indices, vector <int>& end_indices, T2PMarkupType value, bool cleanup_only);
-  bool
-      inline_get_value(vector <int>& values, vector <int>& start_indices, vector <int>& end_indices, bool& values_completed, bool paragraph_value, unsigned int index, bool& in_range, bool& value, int& start_index, int& end_index);
+  bool inline_get_value(vector <int>& values, vector <int>& start_indices, vector <int>& end_indices, bool& values_completed, bool paragraph_value, unsigned int index, bool& in_range, bool& value, int& start_index, int& end_index);
   vector <int> italic_values;
   vector <int> italic_start_indices;
   vector <int> italic_end_indices;
@@ -123,6 +122,7 @@ private:
   vector <T2PInputParagraph *> note_pointers;
   vector <size_t> note_offsets;
   T2PInputParagraph * intrusion;
+  void add_text_internal(const string& text);
 };
 
 #endif

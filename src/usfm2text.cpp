@@ -69,8 +69,6 @@ Usfm2Text::Usfm2Text(Text2Pdf * text2pdf_in, bool show_progress)
   // Add a couple of extra styles.
   add_style(default_style(), u2xtParagraphNormalParagraph);
   add_style(ELASTIC_MARKER, u2xtElastic);
-  add_style(INSERTION_MARKER, u2xtInsertion);
-  add_style(DELETION_MARKER, u2xtDeletion);
   add_style(font_family_size_line_height_style(), u2xtFontFamilySizeLineHeight);
 }
 
@@ -230,8 +228,6 @@ void Usfm2Text::preprocess()
               case u2xtTableElementCell:
               case u2xtElastic:
               case u2xtDumpEndnotes:
-              case u2xtInsertion:
-              case u2xtDeletion:
               case u2xtLineSpacing:
               case u2xtKeepOnPage:
               case u2xtFontFamilySizeLineHeight:
@@ -510,16 +506,6 @@ void Usfm2Text::convert_from_usfm_to_text()
                 get_erase_code_till_next_marker(usfm_line, 0, marker_length, false);
                 if (endnote_position == eptAtMarker)
                   dump_endnotes(fo_block_style, fo_inline_style);
-                break;
-              }
-            case u2xtInsertion:
-              {
-                output_text_insertion_deletion(usfm_line, stylepointer, fo_block_style, fo_inline_style, marker_length, is_opener);
-                break;
-              }
-            case u2xtDeletion:
-              {
-                output_text_insertion_deletion(usfm_line, stylepointer, fo_block_style, fo_inline_style, marker_length, is_opener);
                 break;
               }
             case u2xtLineSpacing:
@@ -1857,53 +1843,6 @@ void Usfm2Text::buffer_endnote(ustring & line, Usfm2XslFoStyle * stylepointer, s
   // Buffer the note body and style.
   buffered_endnote_texts.push_back(rawnote);
   buffered_endnote_styles.push_back(stylepointer);
-}
-
-void Usfm2Text::output_text_insertion_deletion(ustring & line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * &fo_block_style, Usfm2XslFoStyle * &fo_inline_style, size_t marker_length, bool is_opener)
-// Handle insertion or deletion.
-{
-  // Erase the marker from the text.
-  line.erase(0, marker_length);
-
-  // Bail out if the opener and closer are not there.
-  if (!is_opener)
-    return;
-  ustring endmarker = usfm_get_full_closing_marker(stylepointer->marker);
-  size_t endmarkerpos = line.find(endmarker);
-  if (endmarkerpos == string::npos)
-    return;
-
-  // Get raw bit inserted or deleted and erase it from the input buffer.
-  ustring rawtext(line.substr(0, endmarkerpos));
-  line.erase(0, endmarkerpos + endmarker.length());
-
-  // Bail out if we're not to print this portion.
-  if (!inrange.in_range())
-    return;
-
-  // Bail out if there is no raw text.
-  if (rawtext.empty())
-    return;
-
-  // Close any inline text, keeping it for later.
-  Usfm2XslFoStyle *previous_inline_style = fo_inline_style;
-  close_possible_inline(fo_inline_style);
-
-  // Write the text with markup.
-  if (stylepointer->type == u2xtInsertion) {
-    text2pdf->inline_set_bold(t2pmtOn);
-  } else {
-    text2pdf->inline_set_strike_through();
-  }
-  text2pdf->add_text(rawtext);
-  text2pdf->inline_clear_bold();
-  text2pdf->inline_clear_strike_through();
-
-  // If an inline style was open before, reopen it again.
-  if (previous_inline_style) {
-    fo_inline_style = previous_inline_style;
-    open_inline(fo_inline_style, fo_block_style);
-  }
 }
 
 void Usfm2Text::no_bold()

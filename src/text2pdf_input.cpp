@@ -19,6 +19,8 @@
 
 #include "text2pdf_input.h"
 #include <pango/pangocairo.h>
+#include "constants.h"
+
 
 T2PInput::T2PInput(T2PInputType type_in)
 // This is the base class for any input that drives the formatter.
@@ -76,6 +78,60 @@ T2PInputParagraph::~T2PInputParagraph()
 }
 
 void T2PInputParagraph::add_text(const string & text_in)
+// Adds text to the paragraph.
+// Transforms the addition and deletion markers into bold and strike-through data.
+{
+  ustring input (text_in);
+  while (!input.empty()) {
+
+    // Find whether there is an addition or deletion in the text stream.
+    bool addition = false;
+    size_t position = string::npos;
+    size_t addition_pos = input.find (INSERTION_FLAG);
+    size_t deletion_pos = input.find (DELETION_FLAG);
+    if ((addition_pos != string::npos) && (addition_pos < position)) {
+      addition = true;
+      position = addition_pos;
+    }
+    if ((deletion_pos != string::npos) && (deletion_pos < position)) {
+      addition = false;
+      position = deletion_pos;
+    }
+
+    // Handle addition or deletion marker, if there.
+    if (position != string::npos) {
+      // Add the bit of text before the marker.
+      if (position != 0) {
+        ustring s = input.substr (0, position);
+        add_text_internal (s);
+        input.erase (0, position);
+      }
+      // Delete the markup.
+      input.erase (0, 1);
+      // Set the markup.
+      if (addition)
+        inline_set_bold (t2pmtOn);
+      else
+        inline_set_strike_through (t2pmtOn);
+      // Add the one character this markup applies to.
+      ustring s = input.substr (0, 1);
+      add_text_internal (s);
+      input.erase (0, 1);
+      // Clear the markup.
+      if (addition)
+        inline_set_bold (t2pmtOff);
+      else
+        inline_set_strike_through (t2pmtOff);
+        
+    } else {
+      // Nothing special.
+      add_text_internal (input);
+      input.clear();
+    }
+  }
+}
+
+void T2PInputParagraph::add_text_internal(const string & text_in)
 // Adds text to the paragraph.
 {
   text.append(text_in);

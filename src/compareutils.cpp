@@ -37,13 +37,6 @@
 #include "constants.h"
 
 
-enum Markup { StrikeThrough, Bold };
-
-void compare_chapter_internal(const vector < ustring > &originalusfms, const vector < ustring > &originaltext, const vector < ustring > &secondusfms, const vector < ustring > &secondtext, vector < ustring > &outputchapter, bool optimize, unsigned int look_forward_lines, int &number_of_changes);
-ustring insert_markup_in_line(const ustring & usfm, const ustring & text, Markup markup);
-int compare_word_by_word(const ustring & newline, const ustring & oldline, ustring & outputline);
-void compare_word_by_word_internal(ustring newline, ustring oldline, ustring & outputline, bool optimize, int look_forward_words, unsigned int &number_of_changes);
-
 void compare_with(References * referencesgui, const ustring & project, const ustring & secondproject, bool print_changes_only)
 {
   // Load the project, and the second project.
@@ -146,7 +139,7 @@ bool compare_projects(ProjectMemory & originalproject, ProjectMemory & secondpro
       // At this stage the chapters are different. Compare them more thoroughly.
       ProjectChapter *outputprojectchapter = &outputproject.data[ib].data[ic];
       vector < ustring > outputlines = outputprojectchapter->get_data();
-      compare_chapter(originallines, secondlines, outputlines);
+      compare_usfm_text(originallines, secondlines, outputlines, false);
       outputprojectchapter->set_data(outputlines);
     }
   }
@@ -155,7 +148,7 @@ bool compare_projects(ProjectMemory & originalproject, ProjectMemory & secondpro
 }
 
 
-void compare_chapter_remove_notes (ustring& text)
+void compare_usfm_text_remove_notes (ustring& text)
 {
   extern Settings * settings;
   bool disregard_notes = settings->genconfig.compare_disregard_notes_get();
@@ -166,270 +159,6 @@ void compare_chapter_remove_notes (ustring& text)
   }
 }
 
-
-void compare_chapter(vector < ustring > &originalchapter, vector < ustring > &secondchapter, vector < ustring > &outputchapter)
-/*
-Compares original chapter with second chapter, and outputs the differences
-in output chapter.
-It is assumed that the chapters differ.
-*/
-{
-  // Split all text into usfms and text. Do it once, and speed up things.
-  // E.g. "\v 1 In the beginning ..." is split into:
-  // - \v 1 
-  // - In the beginning ...
-  // At the same time remove the text of the foot- and endnotes and the xrefs.
-  vector < ustring > originalusfms;
-  vector < ustring > originaltext;
-  for (unsigned int i = 0; i < originalchapter.size(); i++) {
-    ustring marker;
-    ustring text;
-    split_line_into_usfm_and_text(originalchapter[i], marker, text);
-    originalusfms.push_back(marker);
-    compare_chapter_remove_notes (text);
-    originaltext.push_back(text);
-  }
-  vector < ustring > secondusfms;
-  vector < ustring > secondtext;
-  for (unsigned int i = 0; i < secondchapter.size(); i++) {
-    ustring marker;
-    ustring text;
-    split_line_into_usfm_and_text(secondchapter[i], marker, text);
-    secondusfms.push_back(marker);
-    compare_chapter_remove_notes (text);
-    secondtext.push_back(text);
-  }
-  // Find out how many lines the comparison needs to look forward to obtain best results.
-  int number_of_changes;
-  int lowest_number_of_changes = INT_MAX;
-  int look_forward_length = 0;
-  for (unsigned int i = 0; i < 6; i++) {
-    compare_chapter_internal(originalusfms, originaltext, secondusfms, secondtext, outputchapter, true, i, number_of_changes);
-    if (number_of_changes < lowest_number_of_changes) {
-      look_forward_length = i;
-      lowest_number_of_changes = number_of_changes;
-    }
-  }
-  // Using the optimised parameter, make the comparison.
-  outputchapter.clear();
-  compare_chapter_internal(originalusfms, originaltext, secondusfms, secondtext, outputchapter, false, look_forward_length, number_of_changes);
-}
-
-void compare_chapter_internal(const vector < ustring > &originalusfms, const vector < ustring > &originaltext, const vector < ustring > &secondusfms, const vector < ustring > &secondtext, vector < ustring > &outputchapter, bool optimize, unsigned int look_forward_lines, int &number_of_changes)
-/*
-This one is used by "compare_chapter", but it is used in the optimization 
-process also, to find out which algorithm detects the lowest number of changes.
-*/
-{
-  // Variables and initialization of them.
-  number_of_changes = 0;
-  // Save the second chapter to a temporal variable.
-  vector < ustring > usfm2(secondusfms.begin(), secondusfms.end());
-  vector < ustring > text2(secondtext.begin(), secondtext.end());
-  // Go through all the original lines.
-  for (unsigned int c1c = 0; c1c < originalusfms.size(); c1c++) {
-    // Still text left in second chapter?
-    if (usfm2.size() > 0) {
-      if (originalusfms[c1c].find(usfm2[0]) != string::npos) {
-        // Usfm found at right position: check this verse word by word.
-        if (!optimize) {
-          ustring outputline;
-          number_of_changes += compare_word_by_word(originaltext[c1c], text2[0], outputline);
-          outputchapter.push_back(originalusfms[c1c] + " " + outputline);
-        }
-        // Remove this line as we're through with it.
-        usfm2.erase(usfm2.begin());
-        text2.erase(text2.begin());
-      } else {
-        bool sfm_found = false;
-        int i = -1;
-        // Check max n lines ahead. This variable is optimized for best results.
-        for (unsigned int fc = 0; fc <= look_forward_lines; fc++) {
-          if ((!sfm_found) && (fc < usfm2.size())) {
-            if (originalusfms[c1c].find(usfm2[fc]) != string::npos) {
-              sfm_found = true;
-              i = fc;
-            }
-          }
-        }
-        if (i >= 0) {
-          // Old text has extra lines, add them with strikeout.
-          for (int fc = 0; fc < i; fc++) {
-            number_of_changes++;
-            if (!optimize) {
-              outputchapter.push_back(insert_markup_in_line(usfm2[0], text2[0], StrikeThrough));
-            }
-            usfm2.erase(usfm2.begin());
-            text2.erase(text2.begin());
-          }
-          // After adding extra lines, add the current in normal text.
-          if (!optimize) {
-            ustring outputline;
-            number_of_changes += compare_word_by_word(originaltext[c1c], text2[0], outputline);
-            outputchapter.push_back(originalusfms[c1c] + " " + outputline);
-          }
-          usfm2.erase(usfm2.begin());
-          text2.erase(text2.begin());
-        } else if (i < 0) {
-          // Usfm not found, add new text with bold.
-          number_of_changes++;
-          if (!optimize) {
-            outputchapter.push_back(insert_markup_in_line(originalusfms[c1c], originaltext[c1c], Bold));
-          }
-        }
-      }
-    } else {
-      // Old text is finished, add remaining line with bold.
-      number_of_changes++;
-      if (!optimize) {
-        outputchapter.push_back(insert_markup_in_line(originalusfms[c1c], originaltext[c1c], Bold));
-      }
-    }
-  }
-  // After comparison, what is left in the old text, add it with strikeout.
-  for (unsigned int i = 0; i < usfm2.size(); i++) {
-    number_of_changes++;
-    if (!optimize) {
-      outputchapter.push_back(insert_markup_in_line(usfm2[i], text2[i], StrikeThrough));
-    }
-  }
-}
-
-ustring insert_markup_in_line(const ustring & usfm, const ustring & text, Markup markup)
-/*
-// The tags to format text to be shown in Strike-Through are <strike> and </strike>.
-// We do not yet insert them here, because the html formatter will 
-// transfer this text converted into the output, so that <strike> shows as
-// <strike> in the browser.
-// Instead placeholders are inserted, which will be converted to the right
-// tags in the printing engine.
-The markup for strike-through or bold cannot just be inserted in a line like
-so:
-MARKUP_BEGIN\v 1 In the beginning ... earth.MARKUP_END
-This would disturb the processing of the USFMs.
-Instead it should be inserted so:
-\v 1 MARKUP_BEGINIn the beginning ... earth.MARKUP_END
-This function cares for that.
-*/
-{
-  string markupbegin;
-  string markupend;
-  if (markup == StrikeThrough) {
-    markupbegin = usfm_get_full_opening_marker(DELETION_MARKER);
-    markupend = usfm_get_full_closing_marker(DELETION_MARKER);
-  } else if (markup == Bold) {
-    markupbegin = usfm_get_full_opening_marker(INSERTION_MARKER);
-    markupend = usfm_get_full_closing_marker(INSERTION_MARKER);
-  }
-  ustring s;
-  if (!text.empty())
-    s = usfm + " " + markupbegin + text + markupend;
-  else
-    s = usfm;
-  return s;
-}
-
-int compare_word_by_word(const ustring & newline, const ustring & oldline, ustring & outputline)
-{
-  // Find out how many words the comparison needs to look forward
-  // to obtain best results.
-  unsigned int lowest_number_of_changes = INT_MAX;
-  unsigned int look_forward_length = 0;
-  unsigned int number_of_changes = 0;
-  for (unsigned int i = 0; i <= 10; i++) {
-    compare_word_by_word_internal(newline, oldline, outputline, true, 3 * i, number_of_changes);
-    if (number_of_changes < lowest_number_of_changes) {
-      look_forward_length = 3 * i;
-      lowest_number_of_changes = number_of_changes;
-    }
-  }
-  // Using the optimised parameter, make the comparison.
-  number_of_changes = 0;
-  compare_word_by_word_internal(newline, oldline, outputline, false, look_forward_length, number_of_changes);
-  return number_of_changes;
-}
-
-void compare_word_by_word_internal(ustring newline, ustring oldline, ustring & outputline, bool optimize, int look_forward_words, unsigned int &number_of_changes)
-{
-  // Initialize.
-  number_of_changes = 0;
-  // Fill "words1" with the words from the new line.
-  // Spaces disturb the comparison process: leave them out.
-  vector < ustring > words1;
-  Parse parse1(newline, false);
-  words1 = parse1.words;
-  // Fill "words2" with the words from the old line.
-  // Spaces disturb the comparison process: leave them out.
-  vector < ustring > words2;
-  Parse parse2(oldline, false);
-  words2 = parse2.words;
-  // Go through all the words, and compare them.
-  for (unsigned int w1c = 0; w1c < words1.size(); w1c++) {
-    ustring newword(words1[w1c]);
-    // Spaces are not dealt with in the comparison, because they only mix it up.
-    // But they are put back here in the output line.
-    if (!outputline.empty())
-      if (!optimize)
-        outputline.append(" ");
-    // See whether a word can be found that is the same, in the second text.
-    if (words2.size() > 0) {
-      // Look for that word. Look forward only "look_forward_words" positions,
-      // or less, depending on how many words are still left in the line.
-      int index = -1;
-      unsigned int highlimit = look_forward_words;
-      highlimit = CLAMP(highlimit, 0, words2.size());
-      for (unsigned int i = 0; i < highlimit; i++) {
-        if (newword == words2[i]) {
-          index = i;
-          break;
-        }
-      }
-      if (index == 0) {
-        // Word found at right position: add it to the output.
-        if (!optimize)
-          outputline.append(newword);
-        words2.erase(words2.begin());
-      } else if (index > 0) {
-        // Equal word is near.
-        // Old sentence has extra words, add them with strikeout.
-        for (int fc = 0; fc < index; fc++) {
-          number_of_changes++;
-          if (!optimize)
-            outputline.append(usfm_get_full_opening_marker(DELETION_MARKER) + words2[0] + usfm_get_full_closing_marker(DELETION_MARKER) + " ");
-          words2.erase(words2.begin());
-        }
-        // After adding extra lines, add the current in normal text.
-        if (!optimize)
-          outputline.append(newword);
-        words2.erase(words2.begin());
-      } else if (index < 0) {
-        // Word not found near current position, add new words with bold.
-        number_of_changes++;
-        if (!optimize)
-          outputline.append(usfm_get_full_opening_marker(INSERTION_MARKER) + newword + usfm_get_full_closing_marker(INSERTION_MARKER));
-      }
-    } else {
-      // Old text is finished, add remaining new words with bold.
-      number_of_changes++;
-      if (!optimize)
-        outputline.append(usfm_get_full_opening_marker(INSERTION_MARKER) + newword + usfm_get_full_closing_marker(INSERTION_MARKER));
-    }
-  }
-  // After comparison, what is left in the old text, add it with strikeout.
-  for (unsigned int i = 0; i < words2.size(); i++) {
-    number_of_changes++;
-    if (!optimize) {
-      ustring s;
-      s.append(" ");
-      s.append(usfm_get_full_opening_marker(DELETION_MARKER));
-      s.append(words2[i]);
-      s.append(usfm_get_full_closing_marker(DELETION_MARKER));
-      outputline.append(s);
-    }
-  }
-  if (!optimize) {
-  }
-}
 
 void compare_get_changes(ProjectMemory & project, vector < Reference > &changed_references)
 // This produces all changed references in a project.
@@ -452,15 +181,10 @@ void compare_get_changes(ProjectMemory & project, vector < Reference > &changed_
         }
         // See if this line contains a change.
         bool add_this_line = false;
-        if (line.find(usfm_get_full_opening_marker(DELETION_MARKER)) != string::npos) {
+        if (line.find(DELETION_FLAG) != string::npos)
           add_this_line = true;
-        } else if (line.find(usfm_get_full_closing_marker(DELETION_MARKER)) != string::npos) {
+        if (line.find(INSERTION_FLAG) != string::npos) // Todo try out.
           add_this_line = true;
-        } else if (line.find(usfm_get_full_opening_marker(INSERTION_MARKER)) != string::npos) {
-          add_this_line = true;
-        } else if (line.find(usfm_get_full_closing_marker(INSERTION_MARKER)) != string::npos) {
-          add_this_line = true;
-        }
         if (add_this_line) {
           Reference ref(scripture_books[i], chapter, currentverse);
           if (!ref.equals(last_reference_stored)) {
@@ -611,7 +335,7 @@ ustring disassemble_usfm_text_for_comparison (vector <ustring>& text)
   ustring data;
   for (unsigned int i = 0; i < text.size(); i++) {
     ustring line = text[i];
-    compare_chapter_remove_notes (line);
+    compare_usfm_text_remove_notes (line);
     while (!line.empty()) {
       // Normally we have one character per line.
       // Thus the diff command will compare at character level.
@@ -638,7 +362,7 @@ ustring disassemble_usfm_text_for_comparison (vector <ustring>& text)
 }
 
 
-void compare_usfm_text (vector<ustring>& original, vector<ustring>& edit, vector<ustring>& output, bool mark_new_line) // Todo
+void compare_usfm_text (vector<ustring>& original, vector<ustring>& edit, vector<ustring>& output, bool mark_new_line)
 // Compares the "original" usfm text with the "edit"ed usfm text.
 // Result goes into "output".
 // mark_new_line: whether to mark differences in places where a new line starts.
@@ -656,10 +380,13 @@ void compare_usfm_text (vector<ustring>& original, vector<ustring>& edit, vector
   // The output file.
   ustring outputfile = gw_build_filename (directories_get_temp(), "compare-output");
 
+  // Clear output.
+  output.clear ();
+  
   // Run diff.  
   ustring command = "diff -U 1000000" + shell_quote_space(originalfile) + shell_quote_space(editfile) + ">" + shell_quote_space(outputfile);
   if (system(command.c_str())) ;
-  // GwSpawn cannot be used as it is, because ::standardout trims the text.
+  // GwSpawn needs a change before it can be used, because ::standardout trims the text.
  
   // Read the raw output.
   ReadText rt (outputfile, true, false);
@@ -736,76 +463,16 @@ void compare_usfm_text (vector<ustring>& original, vector<ustring>& edit, vector
 
 /* Todo better comparison.
 
-We need a small GUI unit that can display changes generated by the comparison engine.
-
-The new engine replaces whatever comparisons are done anywhere, so it becomes the sole comparison engine.
-
 We need a very small GUI unit that can be attached anywhere, and only has a checkbox
 for whether to hide notes.
-
-
-
-1. If a section heading (and the following verse?) is changed, section
-headings not recognized
-2. If a marker following a section heading is changed, the section heading
-feature got lost.
-P1:
-\s Falsche Lehrer
-\m
-\v 3
-P2:
-\s Falsche Lehrer
-\p
-\v 3 
-
-
-
-1. In the example below the following is displayed:
-Falsche Lehrer \p Lehrer \m (the last 2 both crossed out) 3 (as the verse number).
-
-??? Why does the word 'Lehrer' show up a second time crossed out?
-
-2. If I compare:
-P1:
-\s Falsche Lehrrrrrer
-\m
-\v 3
-P2:
-\s Falsche Lehrer
-\m
-\v 3
-then the result is:
-Falsche Lehrrrrer \m Lehrer \m (the last 2 both crossed out) 3
-(and the whole following paragraph is not in the style \m, but in the style \s from the previous paragraph
-
-??? Why does the marker \m show up twice (once even crossed out) when it has not been changed?
-
-
-
-
-The same effect (with titles) is in File/Project/Changes
-
-
-
-
-This is a technical glitch in the compare routine. 
-The compare routine is not yet fully up to the task, in particular footnotes and crossreferences and endnotes. 
-Room for improvement is there, also for comparing at the character level. 
-And the styles behave a bit funny. 
-All of this is the result of different features not yet having been implemented. 
-If you'd like some of these features in, and some of these fixed, please open as task for this.
-
-
-
-Looking at the problems mentioned below:
--> Let Compare tool work correctly also with section headings
-
-
 
 The standard GUI that displays the differences, should have a label at the top,
 that gives any information. Very important is how many addditions or deletions there are,
 or at least, if there are any at all.
 
-To apply the comparison function everywhere.
-
+To test: 
+File / Project / Changes
+File / Project / Compare with.
+Searchword highlighting in pdf output.
+         
 */

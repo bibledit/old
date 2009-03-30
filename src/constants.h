@@ -57,8 +57,6 @@
 
 #define ELASTIC_MARKER "zelastic"
 
-#define INSERTION_MARKER "_insertion_"
-#define DELETION_MARKER "_deletion_"
 #define INSERTION_FLAG "⚑"
 #define DELETION_FLAG "⚐"
 

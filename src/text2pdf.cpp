@@ -215,10 +215,11 @@ void Text2Pdf::run()
   // Generate tables of contents.
   generate_tables_of_contents();
 
-  // If there are no pages, give an empty one. That looks better.
+  // If there are no pages, produce one empty page - looks better.
   if (pages.empty()) {
     next_page();
   }
+
   // Print the pages.
   progresswindow->set_iterate(0, 1, pages.size());
   progresswindow->set_text("Output");

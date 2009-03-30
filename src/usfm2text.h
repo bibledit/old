@@ -169,9 +169,6 @@ private:
   void toc_insert_referent(ustring& line, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length);
   void toc_insert_body(ustring& line, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length);
 
-  // Insertions / deletions
-  void output_text_insertion_deletion(ustring& line, Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length, bool is_opener);
-
   // Verse processing.
   bool output_verse_number(Usfm2XslFoStyle * stylepointer, Usfm2XslFoStyle * & fo_block_style, Usfm2XslFoStyle * & fo_inline_style, size_t marker_length);
   unsigned int verses_in_paragraph_count;

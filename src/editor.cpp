@@ -1259,14 +1259,6 @@ void Editor::create_or_update_formatting_data()
       verse_restarts_paragraph = usfm->styles[i].userbool1;
     }
   }
-  
-  // Create the styles for insertions and deletions.
-  {
-    Style style_ins("", INSERTION_MARKER, false);
-    create_or_update_text_style(&style_ins, false, false, font_size_multiplier);
-    Style style_del("", DELETION_MARKER, false);
-    create_or_update_text_style(&style_del, false, false, font_size_multiplier);
-  }
 }
 
 void Editor::create_or_update_text_style(Style * style, bool paragraph, bool plaintext, double font_multiplier)

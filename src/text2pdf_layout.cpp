@@ -64,6 +64,7 @@ void T2PLayoutContainer::layout_text(T2PInputParagraph * paragraph, unsigned int
       pango_context_set_base_dir(context, PANGO_DIRECTION_LTR);
     }
   }
+
   // Attributes.
   PangoAttrList *attrs = pango_attr_list_new();
 
@@ -639,3 +640,4 @@ void T2PLayoutContainer::layout_drop_caps(T2PInputParagraph * paragraph, double 
   if (parent)
     ((T2PBlock *) parent)->store_layout_container_width(this);
 }
+

@@ -67,8 +67,6 @@ enum Usfm2XslFoStyleType {
   u2xtTableElementCell,
   u2xtElastic,
   u2xtDumpEndnotes,
-  u2xtInsertion,
-  u2xtDeletion,
   u2xtLineSpacing,
   u2xtKeepOnPage,
   u2xtFontFamilySizeLineHeight,
