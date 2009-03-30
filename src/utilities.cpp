@@ -480,6 +480,20 @@ ustring present_working_directory()
   return s;
 }
 
+
+bool vector_strings_equal (const vector <ustring>& vector1, const vector <ustring>& vector2)
+{
+  if (vector1.size() != vector2.size())
+    return false;
+  
+  for (unsigned int i = 0; i < vector1.size(); i++)
+    if (vector1[i] != vector2[i])
+      return false;
+  
+  return true;
+}
+
+
 ReadDirectories::ReadDirectories(const ustring & path, const ustring & prefix, const ustring & suffix)
 {
   // Reads the directories in directory "path" that end on "suffix".

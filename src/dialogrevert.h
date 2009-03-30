@@ -25,6 +25,7 @@
 #include <gtk/gtk.h>
 #include "ustring.h"
 #include "reference.h"
+#include "gui_display_changes.h"
 
 
 class RevertDialog
@@ -49,15 +50,10 @@ protected:
   GtkWidget *treeviewrevisions;
   GtkWidget *vseparator1;
   GtkWidget *vbox2;
-  GtkWidget *labelcurrent;
-  GtkWidget *scrolledwindowcurrent;
-  GtkWidget *textviewcurrent;
-  GtkWidget *labelprevious;
-  GtkWidget *scrolledwindowprevious;
-  GtkWidget *textviewprevious;
-  GtkWidget *labelchanges;
-  GtkWidget *scrolledwindowchanges;
-  GtkWidget *textviewchanges;
+  GtkWidget *radiobutton_current;
+  GtkWidget *radiobutton_previous;
+  GtkWidget *radiobutton_changes;
+  DisplayChangesGui * changes_gui;
   GtkWidget *dialog_action_area1;
   GtkWidget *cancelbutton1;
   GtkWidget *okbutton1;
@@ -68,6 +64,8 @@ private:
   void on_chapter_changed ();
   static void on_treeviewrevisions_row_activated (GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewColumn *column, gpointer user_data);
   void on_revision_activated ();
+  static void on_radiobutton_toggled (GtkToggleButton *togglebutton, gpointer user_data);
+  void on_radiobutton (GtkToggleButton *togglebutton);
   static void on_okbutton1_clicked (GtkButton *button, gpointer user_data);
   void on_okbutton ();
   ustring project;
@@ -80,12 +78,10 @@ private:
   GtkTreeSelection *selection;
   vector <ustring> commits;      // Stores the commits. In sync with the seconds.
   vector <unsigned int> seconds; // Stores the seconds of the dates now loaded in the dialog.
-  GtkTextTag *addedtag;
-  GtkTextTag *deletedtag;
   bool revisionloaded;
   ustring git_clone_project;
   unsigned int branch;
-  ustring current_text_filename;
+  vector <ustring> history_data;
 };
 
 

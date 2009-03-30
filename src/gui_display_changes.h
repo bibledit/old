@@ -29,9 +29,10 @@
 class DisplayChangesGui
 {
 public:
-  DisplayChangesGui (GtkWidget * box, const gchar * text); // Todo
+  DisplayChangesGui (GtkWidget * box, const gchar * text);
   ~DisplayChangesGui ();
   void display (const vector <ustring>& differences);
+  void clear();
   GtkWidget *textview;
 private:
   GtkWidget *hbox;

@@ -393,8 +393,7 @@ void WindowMerge::on_editors_changed()
 
   // If no loading, clear text and bail out.
   if (!loadtext) {
-    vector <ustring> dummy;
-    display_changes_gui->display (dummy);
+    display_changes_gui->clear ();
     return;
   }
   // Signal to get the text from the editors.

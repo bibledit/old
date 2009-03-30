@@ -69,7 +69,7 @@ void DisplayChangesGui::display(const vector <ustring>& differences)
   gtk_text_view_set_buffer(GTK_TEXT_VIEW(textview), NULL);
   
   // Clear buffer.
-  gtk_text_buffer_set_text(textbuffer, "", 0);
+  clear();
 
   // Load text.
   for (unsigned int i = 0; i < differences.size(); i++) {
@@ -102,7 +102,11 @@ void DisplayChangesGui::display(const vector <ustring>& differences)
   // Reconnect the view to the buffer.
   gtk_text_view_set_buffer(GTK_TEXT_VIEW(textview), textbuffer);
   g_object_unref(textbuffer);
+}
 
-  
+
+void DisplayChangesGui::clear()
+{
+  gtk_text_buffer_set_text(textbuffer, "", 0);
 }
 

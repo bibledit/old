@@ -36,6 +36,8 @@
 #include "directories.h"
 #include "unixwrappers.h"
 #include "progresswindow.h"
+#include "compareutils.h"
+
 
 RevertDialog::RevertDialog(Reference * reference)
 {
@@ -143,74 +145,35 @@ RevertDialog::RevertDialog(Reference * reference)
   gtk_widget_show(vbox2);
   gtk_box_pack_start(GTK_BOX(hbox1), vbox2, TRUE, TRUE, 0);
 
-  labelcurrent = gtk_label_new("Current text");
-  gtk_widget_show(labelcurrent);
-  gtk_box_pack_start(GTK_BOX(vbox2), labelcurrent, FALSE, FALSE, 0);
-  gtk_misc_set_alignment(GTK_MISC(labelcurrent), 0, 0.5);
+  GSList *radiobutton_current_group = NULL;
 
-  shortcuts.label(labelcurrent);
+  radiobutton_current = gtk_radio_button_new_with_mnemonic (NULL, "View current version");
+  gtk_widget_show (radiobutton_current);
+  gtk_box_pack_start (GTK_BOX (vbox2), radiobutton_current, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_current), radiobutton_current_group);
+  radiobutton_current_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_current));
 
-  scrolledwindowcurrent = gtk_scrolled_window_new(NULL, NULL);
-  gtk_widget_show(scrolledwindowcurrent);
-  gtk_box_pack_start(GTK_BOX(vbox2), scrolledwindowcurrent, TRUE, TRUE, 0);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindowcurrent), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwindowcurrent), GTK_SHADOW_IN);
+  shortcuts.button(radiobutton_current);
 
-  textviewcurrent = gtk_text_view_new();
-  gtk_widget_show(textviewcurrent);
-  gtk_container_add(GTK_CONTAINER(scrolledwindowcurrent), textviewcurrent);
-  gtk_text_view_set_editable(GTK_TEXT_VIEW(textviewcurrent), FALSE);
-  gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textviewcurrent), GTK_WRAP_WORD);
+  radiobutton_previous = gtk_radio_button_new_with_mnemonic (NULL, "View previous revision");
+  gtk_widget_show (radiobutton_previous);
+  gtk_box_pack_start (GTK_BOX (vbox2), radiobutton_previous, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_previous), radiobutton_current_group);
+  radiobutton_current_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_previous));
 
-  gtk_label_set_mnemonic_widget(GTK_LABEL(labelcurrent), textviewcurrent);
+  shortcuts.button(radiobutton_previous);
 
-  gtk_widget_set_size_request(textviewcurrent, 450, 150);
+  radiobutton_changes = gtk_radio_button_new_with_mnemonic (NULL, "View changes if reverting to previous revision");
+  gtk_widget_show (radiobutton_changes);
+  gtk_box_pack_start (GTK_BOX (vbox2), radiobutton_changes, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_changes), radiobutton_current_group);
+  radiobutton_current_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_changes));
 
-  labelprevious = gtk_label_new("Previous text");
-  gtk_widget_show(labelprevious);
-  gtk_box_pack_start(GTK_BOX(vbox2), labelprevious, FALSE, FALSE, 0);
-  gtk_misc_set_alignment(GTK_MISC(labelprevious), 0, 0.5);
+  shortcuts.button(radiobutton_changes);
+ 
+  changes_gui = new DisplayChangesGui (vbox2, NULL);
 
-  shortcuts.label(labelprevious);
-
-  scrolledwindowprevious = gtk_scrolled_window_new(NULL, NULL);
-  gtk_widget_show(scrolledwindowprevious);
-  gtk_box_pack_start(GTK_BOX(vbox2), scrolledwindowprevious, TRUE, TRUE, 0);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindowprevious), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwindowprevious), GTK_SHADOW_IN);
-
-  textviewprevious = gtk_text_view_new();
-  gtk_widget_show(textviewprevious);
-  gtk_container_add(GTK_CONTAINER(scrolledwindowprevious), textviewprevious);
-  gtk_text_view_set_editable(GTK_TEXT_VIEW(textviewprevious), FALSE);
-  gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textviewprevious), GTK_WRAP_WORD);
-
-  gtk_label_set_mnemonic_widget(GTK_LABEL(labelprevious), textviewprevious);
-
-  gtk_widget_set_size_request(textviewprevious, 450, 150);
-
-  labelchanges = gtk_label_new("Changes");
-  gtk_widget_show(labelchanges);
-  gtk_box_pack_start(GTK_BOX(vbox2), labelchanges, FALSE, FALSE, 0);
-  gtk_misc_set_alignment(GTK_MISC(labelchanges), 0, 0.5);
-
-  shortcuts.label(labelchanges);
-
-  scrolledwindowchanges = gtk_scrolled_window_new(NULL, NULL);
-  gtk_widget_show(scrolledwindowchanges);
-  gtk_box_pack_start(GTK_BOX(vbox2), scrolledwindowchanges, TRUE, TRUE, 0);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindowchanges), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwindowchanges), GTK_SHADOW_IN);
-
-  textviewchanges = gtk_text_view_new();
-  gtk_widget_show(textviewchanges);
-  gtk_container_add(GTK_CONTAINER(scrolledwindowchanges), textviewchanges);
-  gtk_text_view_set_editable(GTK_TEXT_VIEW(textviewchanges), FALSE);
-  gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textviewchanges), GTK_WRAP_WORD);
-
-  gtk_label_set_mnemonic_widget(GTK_LABEL(labelchanges), textviewchanges);
-
-  gtk_widget_set_size_request(textviewchanges, 450, 150);
+  gtk_widget_set_size_request(changes_gui->textview, 450, 500);
 
   dialog_action_area1 = GTK_DIALOG(revertdialog)->action_area;
   gtk_widget_show(dialog_action_area1);
@@ -236,14 +199,12 @@ RevertDialog::RevertDialog(Reference * reference)
   g_signal_connect((gpointer) comboboxchapter, "changed", G_CALLBACK(on_comboboxchapter_changed), gpointer(this));
   g_signal_connect((gpointer) treeviewrevisions, "row_activated", G_CALLBACK(on_treeviewrevisions_row_activated), gpointer(this));
   g_signal_connect((gpointer) okbutton1, "clicked", G_CALLBACK(on_okbutton1_clicked), gpointer(this));
+  g_signal_connect ((gpointer) radiobutton_current, "toggled",  G_CALLBACK (on_radiobutton_toggled), gpointer(this));
+  g_signal_connect ((gpointer) radiobutton_previous, "toggled",  G_CALLBACK (on_radiobutton_toggled), gpointer(this));
+  g_signal_connect ((gpointer) radiobutton_changes, "toggled",  G_CALLBACK (on_radiobutton_toggled), gpointer(this));
 
   gtk_widget_grab_focus(okbutton1);
   gtk_widget_grab_default(okbutton1);
-
-  // Create text tags for additions in bold and deletions in strikethrough.
-  GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textviewchanges));
-  addedtag = gtk_text_buffer_create_tag(buffer, NULL, "weight", PANGO_WEIGHT_HEAVY, NULL);
-  deletedtag = gtk_text_buffer_create_tag(buffer, NULL, "strikethrough", TRUE, NULL);
 
   // Copy the project to the temporal one.
   git_clone_project = "__git__revert__poject";
@@ -257,10 +218,14 @@ RevertDialog::RevertDialog(Reference * reference)
   }
   combobox_set_strings(comboboxbook, localbooks);
   combobox_set_string(comboboxbook, books_id_to_name(language, reference->book));
+  
+  // By default view changes.
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton_changes), true);
 }
 
 RevertDialog::~RevertDialog()
 {
+  delete changes_gui;
   gtk_widget_destroy(revertdialog);
   if (!git_clone_project.empty())
     project_delete(git_clone_project);
@@ -314,21 +279,11 @@ void RevertDialog::on_chapter_changed()
   // Autosize columns.
   gtk_tree_view_columns_autosize(GTK_TREE_VIEW(treeviewrevisions));
 
-  // Load current text in the textview.
-  current_text_filename = project_data_filename_chapter(project, book_get(), chapter_get(), false);
-  gchar *contents;
-  g_file_get_contents(current_text_filename.c_str(), &contents, NULL, NULL);
-  GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textviewcurrent));
-  if (contents) {
-    gtk_text_buffer_set_text(buffer, contents, -1);
-    g_free(contents);
-  }
   // No revision loaded yet.
   revisionloaded = false;
-  buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textviewprevious));
-  gtk_text_buffer_set_text(buffer, "", -1);
-  buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textviewchanges));
-  gtk_text_buffer_set_text(buffer, "", -1);
+  
+  // Take action defined by radio button.
+  on_radiobutton (NULL);
 }
 
 void RevertDialog::on_treeviewrevisions_row_activated(GtkTreeView * treeview, GtkTreePath * path, GtkTreeViewColumn * column, gpointer user_data)
@@ -364,56 +319,16 @@ void RevertDialog::on_revision_activated()
     spawn.run();
   }
 
-  // Load the chapter in the view.
+  // Load the chapter's data.
   ustring filename_history = project_data_filename_chapter(git_clone_project, book_get(), chapter_get(), false);
-  gchar *contents;
-  g_file_get_contents(filename_history.c_str(), &contents, NULL, NULL);
-  GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textviewprevious));
-  if (contents) {
-    gtk_text_buffer_set_text(buffer, contents, -1);
-    g_free(contents);
-  }
-  // Get differences.
-  {
-    GwSpawn spawn("diff"); // Todo use standard routines.
-    spawn.arg(current_text_filename);
-    spawn.arg(filename_history);
-    spawn.read();
-    spawn.run();
-    GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textviewchanges));
-    gtk_text_buffer_set_text(buffer, "", -1);
-    for (unsigned int i = 0; i < spawn.standardout.size(); i++) {
-      ustring line = spawn.standardout[i];
-      if (line == "---")
-        continue;
-      bool added = false;
-      bool deleted = false;
-      if (!line.empty()) {
-        ustring mark = line.substr(0, 1);
-        if (mark == ">")
-          added = true;
-        if (mark == "<")
-          deleted = true;
-        if (added || deleted)
-          line.erase(0, 2);
-        else
-          continue;
-      }
-      line.append("\n");
-      GtkTextIter iter;
-      gtk_text_buffer_get_end_iter(buffer, &iter);
-      if (added) {
-        gtk_text_buffer_insert_with_tags(buffer, &iter, line.c_str(), -1, addedtag, NULL);
-      } else if (deleted) {
-        gtk_text_buffer_insert_with_tags(buffer, &iter, line.c_str(), -1, deletedtag, NULL);
-      } else {
-        gtk_text_buffer_insert(buffer, &iter, line.c_str(), -1);
-      }
-    }
-  }
+  ReadText rt (filename_history, true, false);
+  history_data = rt.lines;
 
   // Revision loaded.
   revisionloaded = true;
+  
+  // Display whatever the radiobutton indicates.
+  on_radiobutton (NULL);
 }
 
 void RevertDialog::on_okbutton1_clicked(GtkButton * button, gpointer user_data)
@@ -423,44 +338,36 @@ void RevertDialog::on_okbutton1_clicked(GtkButton * button, gpointer user_data)
 
 void RevertDialog::on_okbutton()
 // On pressing Ok, if the user has selected a change, give warning we're going
-// to change the data, and if Yes is respondedn, proceed with loading the change.
+// to change the data, and if Yes is responded with, proceed with loading the change.
 {
   // If no revision loaded, bail out.
   if (!revisionloaded)
     return;
 
   // Get current and previous text.
-  GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textviewcurrent));
-  GtkTextIter startiter;
-  GtkTextIter enditer;
-  gtk_text_buffer_get_start_iter(buffer, &startiter);
-  gtk_text_buffer_get_end_iter(buffer, &enditer);
-  ustring currenttext = gtk_text_buffer_get_text(buffer, &startiter, &enditer, false);
-  buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textviewprevious));
-  gtk_text_buffer_get_start_iter(buffer, &startiter);
-  gtk_text_buffer_get_end_iter(buffer, &enditer);
-  ustring previoustext = gtk_text_buffer_get_text(buffer, &startiter, &enditer, false);
+  ustring current_text_filename = project_data_filename_chapter(project, book_get(), chapter_get(), false);
+  ReadText rt (current_text_filename, true, false);
 
   // If no change, bail out.
-  if (currenttext == previoustext)
+  if (vector_strings_equal (rt.lines, history_data)) {
+    gtkw_dialog_info (NULL, "No changes were applied");
     return;
+  }
 
   // Ask the user if he is sure to load the previous text. If not, bail out.
-  int result = gtkw_dialog_question(revertdialog, "Are you sure you wish to go back to the previous revision?");
+  int result = gtkw_dialog_question(revertdialog, "Are you sure you wish to revert this chapter to the previous revision?");
   if (result != GTK_RESPONSE_YES)
     return;
 
   // Go back to previous revision.
-  buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textviewprevious));
-  vector < ustring > lines;
-  textbuffer_get_lines(buffer, lines);
   vector < ustring > lines2;
-  for (unsigned int i = 0; i < lines.size(); i++)
-    if (!lines[i].empty())
-      lines2.push_back(lines[i]);
+  for (unsigned int i = 0; i < history_data.size(); i++)
+    if (!history_data[i].empty())
+      lines2.push_back(history_data[i]);
   CategorizeChapterVerse ccv(lines2);
   project_store_chapter(project, book_get(), ccv);
 }
+
 
 unsigned int RevertDialog::book_get()
 {
@@ -468,6 +375,7 @@ unsigned int RevertDialog::book_get()
   unsigned int book = books_name_to_id(language, localbook);
   return book;
 }
+
 
 unsigned int RevertDialog::chapter_get()
 {
@@ -477,8 +385,46 @@ unsigned int RevertDialog::chapter_get()
 }
 
 
-// Todo The revert dialog has only one display, and it can switch between:
-// - current.
-// - new.
-// - changes.
-// This is supposed to save space.
+void RevertDialog::on_radiobutton_toggled (GtkToggleButton *togglebutton, gpointer user_data)
+{
+  ((RevertDialog *) user_data)->on_radiobutton(togglebutton);
+}
+
+
+void RevertDialog::on_radiobutton (GtkToggleButton *togglebutton)
+{
+  // Bail out if the toggle button gets inactive.
+  if (togglebutton)
+    if (!gtk_toggle_button_get_active (togglebutton))
+      return;
+  
+  // Clear view.
+  changes_gui->clear ();
+  
+  // Load current text.
+  ustring current_text_filename = project_data_filename_chapter(project, book_get(), chapter_get(), false);
+  ReadText rt (current_text_filename, true, false);
+  
+  // View current text?
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_current))) {
+    changes_gui->display (rt.lines);
+    return;
+  }
+
+  // Bail out if no revison has been loaded yet.
+  if (!revisionloaded)
+    return;
+    
+  // View history?
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_previous))) {
+    changes_gui->display (history_data);
+    return;
+  }
+  
+  // View comparison.
+  vector <ustring> comparison;
+  compare_usfm_text (rt.lines, history_data, comparison, true);
+  changes_gui->display (comparison);
+}
+
+
