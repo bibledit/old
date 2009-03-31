@@ -307,6 +307,6 @@ ustring ChangesAssistant::copy_and_checkout_project (const ustring& project, uns
 
 void ChangesAssistant::view_changes(const ustring& current_stage_project, const ustring& previous_stage_project)
 {
-  compare_with(myreferences, current_stage_project, previous_stage_project, true);
+  compare_with(myreferences, previous_stage_project, current_stage_project, true);
 }
 

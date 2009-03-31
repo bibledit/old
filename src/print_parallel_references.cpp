@@ -282,17 +282,10 @@ void view_parallel_references_pdf(ProjectMemory & main_project, vector < ustring
       xml_combine_overlaps(highlight_positions, highlight_lengths);
 
       // Insert the code for highlighting.
-      for (unsigned int i = 0; i < highlight_positions.size(); i++) {
-        /* Todo reimplement.
-        // Text to insert to highlight it.
-        ustring taggedtext = usfm_get_full_opening_marker(INSERTION_MARKER) + line.substr(highlight_positions[i], highlight_lengths[i]) + usfm_get_full_closing_marker(INSERTION_MARKER);
-        // Insert tag.
-        line.replace(highlight_positions[i], highlight_lengths[i], taggedtext);
-        // Push any following positions up.
-        for (unsigned int i2 = i + 1; i2 < highlight_positions.size(); i2++) {
-          highlight_positions[i2] = highlight_positions[i2] + usfm_get_full_opening_marker(INSERTION_MARKER).length() + usfm_get_full_closing_marker(INSERTION_MARKER).length();
+      for (int i = highlight_positions.size () - 1; i >= 0; i--) {
+        for (int i2 = highlight_lengths.size() - 1; i2 >= 0; i2--) {
+          line.insert (highlight_positions[i] + i2, INSERTION_FLAG);
         }
-        */
       }
 
       // Add usfm converter to the layout engine, and set various things.

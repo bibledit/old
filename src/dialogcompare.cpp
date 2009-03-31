@@ -174,7 +174,7 @@ void CompareDialog::on_okbutton_clicked()
   settings->genconfig.project_to_compare_with_set(selectprojectgui->project);
   settings->genconfig.print_changes_only_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton1)));
   // Run comparison.
-  compare_with(myreferences, settings->genconfig.project_get(), settings->genconfig.project_to_compare_with_get(), settings->genconfig.print_changes_only_get());
+  compare_with(myreferences, settings->genconfig.project_to_compare_with_get(), settings->genconfig.project_get(), settings->genconfig.print_changes_only_get());
 }
 
 void CompareDialog::on_button_portion_clicked(GtkButton * button, gpointer user_data)

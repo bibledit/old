@@ -183,7 +183,7 @@ void compare_get_changes(ProjectMemory & project, vector < Reference > &changed_
         bool add_this_line = false;
         if (line.find(DELETION_FLAG) != string::npos)
           add_this_line = true;
-        if (line.find(INSERTION_FLAG) != string::npos) // Todo try out.
+        if (line.find(INSERTION_FLAG) != string::npos)
           add_this_line = true;
         if (add_this_line) {
           Reference ref(scripture_books[i], chapter, currentverse);
@@ -469,10 +469,5 @@ for whether to hide notes.
 The standard GUI that displays the differences, should have a label at the top,
 that gives any information. Very important is how many addditions or deletions there are,
 or at least, if there are any at all.
-
-To test: 
-File / Project / Changes
-File / Project / Compare with.
-Searchword highlighting in pdf output.
          
 */
