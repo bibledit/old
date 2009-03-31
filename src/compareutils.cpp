@@ -461,13 +461,3 @@ void compare_usfm_text (vector<ustring>& original, vector<ustring>& edit, vector
   
 }
 
-/* Todo better comparison.
-
-We need a very small GUI unit that can be attached anywhere, and only has a checkbox
-for whether to hide notes.
-
-The standard GUI that displays the differences, should have a label at the top,
-that gives any information. Very important is how many addditions or deletions there are,
-or at least, if there are any at all.
-         
-*/

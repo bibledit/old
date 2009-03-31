@@ -171,7 +171,7 @@ RevertDialog::RevertDialog(Reference * reference)
 
   shortcuts.button(radiobutton_changes);
  
-  changes_gui = new DisplayChangesGui (vbox2, NULL);
+  changes_gui = new DisplayChangesGui (vbox2);
 
   gtk_widget_set_size_request(changes_gui->textview, 450, 500);
 

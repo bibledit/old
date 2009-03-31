@@ -20,26 +20,24 @@
 #include "libraries.h"
 #include "gui_display_changes.h"
 #include "constants.h"
+#include "tiny_utilities.h"
 
 
-DisplayChangesGui::DisplayChangesGui(GtkWidget * box, const gchar * text)
+DisplayChangesGui::DisplayChangesGui(GtkWidget * box)
 // Creates a GUI that displays changes on the screen.
 // box: the parent box where it goes in.
-// text: the text to put in the label above the differences.
 {
-  hbox = gtk_hbox_new(FALSE, 0);
-  gtk_widget_show(hbox);
-  gtk_box_pack_start(GTK_BOX(box), hbox, TRUE, TRUE, 0);
+  vbox = gtk_vbox_new(FALSE, 0);
+  gtk_widget_show(vbox);
+  gtk_box_pack_start(GTK_BOX(box), vbox, TRUE, TRUE, 0);
 
-  if (text) {
-    label_user = gtk_label_new_with_mnemonic(text);
-    gtk_widget_show(label_user);
-    gtk_box_pack_start(GTK_BOX(hbox), label_user, FALSE, FALSE, 0);
-  }
+  label = gtk_label_new_with_mnemonic("");
+  gtk_widget_show(label);
+  gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
 
   scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow);
-  gtk_box_pack_start(GTK_BOX(hbox), scrolledwindow, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), scrolledwindow, TRUE, TRUE, 0);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_SHADOW_IN);
 
@@ -58,12 +56,15 @@ DisplayChangesGui::DisplayChangesGui(GtkWidget * box, const gchar * text)
 
 DisplayChangesGui::~DisplayChangesGui()
 {
-  gtk_widget_destroy (hbox);
+  gtk_widget_destroy (vbox);
 }
 
 
 void DisplayChangesGui::display(const vector <ustring>& differences)
 {
+  // Variable for holding the number of modifications.
+  unsigned int modification_count = 0;
+
   // Temporally removing the view from the buffer speeds loading text up a huge lot.
   g_object_ref(textbuffer);
   gtk_text_view_set_buffer(GTK_TEXT_VIEW(textview), NULL);
@@ -86,8 +87,11 @@ void DisplayChangesGui::display(const vector <ustring>& differences)
       if (!strcmp (character.c_str(), DELETION_FLAG)) {
         tag = strike_through_tag;
       }
-      if (tag)
+      if (tag) {
         line.erase (0, 1);
+        // Another modification.
+        modification_count++;
+      }
       // Print one character with optional markup.
       character = line.substr (0, 1);
       gtk_text_buffer_get_end_iter(textbuffer, &iter);
@@ -102,6 +106,11 @@ void DisplayChangesGui::display(const vector <ustring>& differences)
   // Reconnect the view to the buffer.
   gtk_text_view_set_buffer(GTK_TEXT_VIEW(textview), textbuffer);
   g_object_unref(textbuffer);
+  
+  // Show modification count.
+  ustring message = "Number of modifications: ";
+  message.append (convert_to_string (modification_count));
+  gtk_label_set_text (GTK_LABEL (label), message.c_str());
 }
 
 

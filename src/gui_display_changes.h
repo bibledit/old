@@ -29,14 +29,14 @@
 class DisplayChangesGui
 {
 public:
-  DisplayChangesGui (GtkWidget * box, const gchar * text);
+  DisplayChangesGui (GtkWidget * box);
   ~DisplayChangesGui ();
   void display (const vector <ustring>& differences);
   void clear();
   GtkWidget *textview;
 private:
-  GtkWidget *hbox;
-  GtkWidget *label_user;
+  GtkWidget *vbox;
+  GtkWidget *label;
   GtkWidget *scrolledwindow;
   GtkTextBuffer *textbuffer;
   GtkTextTag *heavy_weight_tag;

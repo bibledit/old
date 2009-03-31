@@ -85,7 +85,7 @@ WindowBase(widMerge, "Merge", startup, 0, parent_box)
   gtk_box_pack_start(GTK_BOX(vbox1), label_info, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label_info), 0, 0.5);
 
-  display_changes_gui = new DisplayChangesGui (vbox1, NULL);
+  display_changes_gui = new DisplayChangesGui (vbox1);
 
   g_signal_connect((gpointer) display_changes_gui->textview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
 
