@@ -33,29 +33,43 @@
 #include "shutdown.h"
 #include "settings.h"
 #include <libxml/xmlwriter.h>
+#include <libxml/xmlreader.h>
 
 
-#define STYLESHEET_SUFFIX ".sql18"
-const char *RECOGNIZED_SUFFIXES[] = { ".sql11", ".sql12", ".sql13", ".sql14", ".sql15", ".sql16", ".sql17", ".sql18" };
+#define STYLESHEET_SQL_SUFFIX ".sql18" // Todo be changed to ".sql" later. Verify current usage.
+#define STYLESHEET_XML_SUFFIX ".xml1"
+const char *RECOGNIZED_SUFFIXES[] = { ".sql17", ".sql18", ".xml1" };
 
-ustring stylesheet_filename(const ustring & name)
+ustring stylesheet_sql_filename(const ustring & name) // Todo verify wherever it is used.
 // This returns the database's filename for a named stylesheet.
 {
-  return gw_build_filename(directories_get_stylesheets(), name + STYLESHEET_SUFFIX);
+  return gw_build_filename(directories_get_stylesheets(), name + STYLESHEET_SQL_SUFFIX);
 }
 
-ustring stylesheet_template_filename()
+ustring stylesheet_xml_filename(const ustring & name)
+// This returns the xml file's name for a named stylesheet.
+{
+  return gw_build_filename(directories_get_stylesheets(), name + STYLESHEET_XML_SUFFIX);
+}
+
+ustring stylesheet_template_filename() // Todo to go out later.
 // This returns the database's filename of the template.
 {
   return gw_build_filename(directories_get_package_data(), "stylesheet.sql");
 }
 
+ustring stylesheet_xml_template_filename()
+// This returns the database's filename of the template.
+{
+  return gw_build_filename(directories_get_package_data(), "stylesheet.xmll");
+}
+
 void stylesheet_get_ones_available(vector < ustring > &names)
 // Gets the names of the stylesheets that are there.
 {
-  ReadFiles rf(directories_get_stylesheets(), "", STYLESHEET_SUFFIX);
+  ReadFiles rf(directories_get_stylesheets(), "", STYLESHEET_SQL_SUFFIX);
   for (unsigned int i = 0; i < rf.files.size(); i++)
-    rf.files[i].erase(rf.files[i].length() - strlen(STYLESHEET_SUFFIX), strlen(STYLESHEET_SUFFIX));
+    rf.files[i].erase(rf.files[i].length() - strlen(STYLESHEET_SQL_SUFFIX), strlen(STYLESHEET_SQL_SUFFIX));
   names.assign(rf.files.begin(), rf.files.end());
 }
 
@@ -74,7 +88,7 @@ void stylesheet_create_new(const ustring & name, StylesheetType stylesheettype)
 {
   // Copy the template database.
   ustring templatefile = stylesheet_template_filename();
-  ustring stylefile = gw_build_filename(directories_get_stylesheets(), name + STYLESHEET_SUFFIX);
+  ustring stylefile = gw_build_filename(directories_get_stylesheets(), name + STYLESHEET_SQL_SUFFIX);
   unix_cp(templatefile, stylefile);
   // Take action depending on the type of stylesheet we're making.
   if (stylesheettype == stFull)
@@ -95,13 +109,13 @@ void stylesheet_create_new(const ustring & name, StylesheetType stylesheettype)
 void stylesheet_delete(const ustring & name)
 // Deletes a stylesheet.
 {
-  unlink(stylesheet_filename(name).c_str());
+  unlink(stylesheet_sql_filename(name).c_str()); // Todo delete the other one too.
 }
 
 void stylesheet_copy(const ustring & from_name, const ustring & to_name)
 // Copies one stylesheet to another.
 {
-  unix_cp(stylesheet_filename(from_name), stylesheet_filename(to_name));
+  unix_cp(stylesheet_sql_filename(from_name), stylesheet_sql_filename(to_name)); // Todo use both files.
 }
 
 ustring stylesheet_import(const ustring & filename)
@@ -127,7 +141,7 @@ ustring stylesheet_import(const ustring & filename)
     return "";
   }
   // Get the path of the new stylesheet.
-  ustring path = stylesheet_filename(name);
+  ustring path = stylesheet_sql_filename(name);
   // Copy the database.
   unix_cp(filename, path);
   // Upgrade the stylesheet.
@@ -139,9 +153,9 @@ ustring stylesheet_import(const ustring & filename)
 void stylesheet_export(const ustring & name, const ustring & filename)
 // Exports a stylesheet.
 {
-  ustring originalfile = stylesheet_filename(name);
+  ustring originalfile = stylesheet_sql_filename(name);
   ustring destinationfile(filename);
-  destinationfile.append(STYLESHEET_SUFFIX);
+  destinationfile.append(STYLESHEET_SQL_SUFFIX);
   unix_cp(originalfile, destinationfile);
 }
 
@@ -153,6 +167,7 @@ bool stylesheet_exists(const ustring & name)
   set < ustring > existing_sheets(sheets.begin(), sheets.end());
   return (existing_sheets.find(name) != existing_sheets.end());
 }
+
 
 void stylesheet_get_styles(const ustring & stylesheet, vector < Style > &styles)
 // Get all data of all stylesheets.
@@ -166,49 +181,89 @@ void stylesheet_get_styles(const ustring & stylesheet, vector < Style > &styles)
   }
 }
 
+
 vector < ustring > stylesheet_get_markers(const ustring & stylesheet, vector < ustring > *names)
 /*
- This function only gets the markers and the names of the styles of the stylesheet,
- and is therefore faster than the similar function that gets the whole style.
- It is intended to be used in such situation that only the markers and/or the
- name of a style is needed, such as in the styletree.
+This function only gets the markers and the names of the styles of the stylesheet,
+and is therefore faster than the similar function that gets the whole style.
+It is intended to be used in such situations that only the markers and/or the
+names of the styles are needed, such as in the styletree.
  */
 {
-  // Store styles
-  vector < ustring > markers;
-  // Some variables.  
-  sqlite3 *db;
-  int rc;
-  char *error = NULL;
-  try {
-    // Connect to the database.
-    rc = sqlite3_open(stylesheet_filename(stylesheet).c_str(), &db);
-    if (rc)
-      throw runtime_error(sqlite3_errmsg(db));
-    sqlite3_busy_timeout(db, 1000);
-    // Read the available markers.
-    SqliteReader reader(0);
-    char *sql;
-    sql = g_strdup_printf("select marker, name from styles;");
-    rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
-    g_free(sql);
-    if (rc != SQLITE_OK) {
-      throw runtime_error(sqlite3_errmsg(db));
-    }
-    markers.assign(reader.ustring0.begin(), reader.ustring0.end());
-    if (names)
-      names->assign(reader.ustring1.begin(), reader.ustring1.end());
+  // The markers.
+  vector <ustring> markers;
+
+  // Clear names.
+	if (names)
+	  names->clear();
+		
+  // Read the stylesheet, bail out on failure.
+  gchar *contents;
+  g_file_get_contents(stylesheet_xml_filename(stylesheet).c_str(), &contents, NULL, NULL);
+  if (contents == NULL) {
+    gw_critical("Failure reading stylesheet " + stylesheet);
+		return markers;
   }
-  catch(exception & ex) {
-    gw_critical(ex.what());
-  }
-  // Close connection.
-  sqlite3_close(db);
+
+  // Parse the stylesheet.  
+  xmlParserInputBufferPtr inputbuffer;
+  inputbuffer = xmlParserInputBufferCreateMem(contents, strlen(contents), XML_CHAR_ENCODING_NONE);
+  xmlTextReaderPtr reader = xmlNewTextReader(inputbuffer, NULL);
+
+  ustring marker;
+	ustring name;
+	ustring value;
+
+	if (reader) {
+		while ((xmlTextReaderRead(reader) == 1)) {
+			switch (xmlTextReaderNodeType(reader)) {
+			case XML_READER_TYPE_ELEMENT:
+				{
+					break;
+				}
+			case XML_READER_TYPE_TEXT:
+				{
+  				xmlChar *text = xmlTextReaderValue(reader);
+					if (text) {
+					  value = (gchar *) text;
+						xmlFree(text);
+					}	
+					break;
+				}
+			case XML_READER_TYPE_END_ELEMENT:
+				{
+					xmlChar *element_name = xmlTextReaderName(reader);
+					if (!xmlStrcmp(element_name, BAD_CAST "marker"))
+						marker = value;
+					if (!xmlStrcmp(element_name, BAD_CAST "name"))
+						name = value;
+					value.clear();
+					if (!xmlStrcmp(element_name, BAD_CAST "style")) {
+						if (!marker.empty()) {
+							markers.push_back (marker);
+							if (names)
+							  names->push_back (name);
+						}
+					}
+					break;
+				}
+			}
+		}
+	}
+
+  // Free memory.
+	if (reader)
+		xmlFreeTextReader(reader);
+	if (inputbuffer)
+		xmlFreeParserInputBuffer(inputbuffer);
+	if (contents)
+		g_free(contents);
+
   // Return result.
   return markers;
 }
 
-void stylesheet_delete_style(const ustring & stylesheet, const ustring & marker)
+void stylesheet_delete_style(const ustring & stylesheet, const ustring & marker) // Todo needs update.
 // Deletes a style.
 {
   // Some variables.  
@@ -217,7 +272,7 @@ void stylesheet_delete_style(const ustring & stylesheet, const ustring & marker)
   char *error = NULL;
   try {
     // Connect to the database.
-    rc = sqlite3_open(stylesheet_filename(stylesheet).c_str(), &db);
+    rc = sqlite3_open(stylesheet_sql_filename(stylesheet).c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
@@ -241,7 +296,7 @@ void stylesheet_new_style(const ustring & stylesheet, const ustring & marker)
 // Adds a new style. Searches template for data.
 {
   Style style(stylesheet, marker, true);
-  style.read_template();
+  style.read_template(); // Todo this may need update.
 }
 
 void stylesheet_save_style(const ustring & stylesheet, const ustring & marker, const ustring & name, const ustring & info, StyleType type, int subtype, double fontsize, const ustring & italic, const ustring & bold, const ustring & underline, const ustring & smallcaps, bool superscript, const ustring & justification, double spacebefore, double spaceafter, double leftmargin, double rightmargin, double firstlineindent, bool spancolumns, unsigned int color, bool print, bool userbool1,
@@ -313,9 +368,7 @@ void stylesheets_upgrade()
     }
   }
 
-  // Note: The stylesheet.sql template has been updated thus far. Everything below this still needs to be done.
-
-  // Convert the stylesheet from the sqlite database to xml format. Todo
+  // Convert the stylesheet from the sqlite database to xml format.
   {
     ReadFiles rf(directories_get_stylesheets(), "", ".sql18");
     for (unsigned int i = 0; i < rf.files.size(); i++) {
@@ -362,6 +415,14 @@ void stylesheets_upgrade()
         xmlTextWriterWriteFormatString(writer, "%s", reader.ustring1[i].c_str());
         xmlTextWriterEndElement(writer);
 
+        xmlTextWriterStartElement(writer, BAD_CAST "type");
+        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring16[i].c_str());
+        xmlTextWriterEndElement(writer);
+
+        xmlTextWriterStartElement(writer, BAD_CAST "subtype");
+        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring17[i].c_str());
+        xmlTextWriterEndElement(writer);
+
         xmlTextWriterStartElement(writer, BAD_CAST "fontsize");
         xmlTextWriterWriteFormatString(writer, "%s", reader.ustring2[i].c_str());
         xmlTextWriterEndElement(writer);
@@ -370,59 +431,96 @@ void stylesheets_upgrade()
         xmlTextWriterWriteFormatString(writer, "%s", reader.ustring4[i].c_str());
         xmlTextWriterEndElement(writer);
 
-// Todo working here on transferring the styles.
+        xmlTextWriterStartElement(writer, BAD_CAST "bold");
+        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring5[i].c_str());
+        xmlTextWriterEndElement(writer);
+
+        xmlTextWriterStartElement(writer, BAD_CAST "underline");
+        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring6[i].c_str());
+        xmlTextWriterEndElement(writer);
+
+        xmlTextWriterStartElement(writer, BAD_CAST "smallcaps");
+        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring7[i].c_str());
+        xmlTextWriterEndElement(writer);
+
+        xmlTextWriterStartElement(writer, BAD_CAST "superscript");
+        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring8[i].c_str());
+        xmlTextWriterEndElement(writer);
+
+        xmlTextWriterStartElement(writer, BAD_CAST "justification");
+        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring9[i].c_str());
+        xmlTextWriterEndElement(writer);
+
+        xmlTextWriterStartElement(writer, BAD_CAST "spacebefore");
+        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring10[i].c_str());
+        xmlTextWriterEndElement(writer);
+
+        xmlTextWriterStartElement(writer, BAD_CAST "spaceafter");
+        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring11[i].c_str());
+        xmlTextWriterEndElement(writer);
+
+        xmlTextWriterStartElement(writer, BAD_CAST "leftmargin");
+        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring12[i].c_str());
+        xmlTextWriterEndElement(writer);
+
+        xmlTextWriterStartElement(writer, BAD_CAST "rightmargin");
+        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring13[i].c_str());
+        xmlTextWriterEndElement(writer);
+
+        xmlTextWriterStartElement(writer, BAD_CAST "firstlineindent");
+        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring14[i].c_str());
+        xmlTextWriterEndElement(writer);
+
+        xmlTextWriterStartElement(writer, BAD_CAST "spancolumns");
+        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring15[i].c_str());
+        xmlTextWriterEndElement(writer);
+
+        xmlTextWriterStartElement(writer, BAD_CAST "color");
+        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring27[i].c_str());
+        xmlTextWriterEndElement(writer);
+
+        xmlTextWriterStartElement(writer, BAD_CAST "print");
+        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring28[i].c_str());
+        xmlTextWriterEndElement(writer);
+
+        xmlTextWriterStartElement(writer, BAD_CAST "userbool1");
+        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring18[i].c_str());
+        xmlTextWriterEndElement(writer);
+
+        xmlTextWriterStartElement(writer, BAD_CAST "userbool2");
+        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring19[i].c_str());
+        xmlTextWriterEndElement(writer);
+
+        xmlTextWriterStartElement(writer, BAD_CAST "userbool3");
+        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring20[i].c_str());
+        xmlTextWriterEndElement(writer);
+
+        xmlTextWriterStartElement(writer, BAD_CAST "userint1");
+        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring21[i].c_str());
+        xmlTextWriterEndElement(writer);
+
+        xmlTextWriterStartElement(writer, BAD_CAST "userint2");
+        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring22[i].c_str());
+        xmlTextWriterEndElement(writer);
+
+        xmlTextWriterStartElement(writer, BAD_CAST "userint3");
+        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring23[i].c_str());
+        xmlTextWriterEndElement(writer);
+
+        xmlTextWriterStartElement(writer, BAD_CAST "userstring1");
+        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring24[i].c_str());
+        xmlTextWriterEndElement(writer);
+
+        xmlTextWriterStartElement(writer, BAD_CAST "userstring2");
+        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring25[i].c_str());
+        xmlTextWriterEndElement(writer);
+
+        xmlTextWriterStartElement(writer, BAD_CAST "userstring3");
+        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring26[i].c_str());
+        xmlTextWriterEndElement(writer);
 
         // Close the style.
         xmlTextWriterEndElement(writer);
-
-        /*
-style.bold.c_str(), style.underline.c_str(), style.smallcaps.c_str(), style.superscript, style.justification.c_str(),
-                          style.spacebefore, style.spaceafter, style.leftmargin, style.rightmargin, style.firstlineindent, style.spancolumns, style.type, style.subtype, style.userbool1, style.userbool2, style.userbool3, style.userint1, style.userint2, style.userint3, style.userstring1.c_str(), style.userstring2.c_str(), style.userstring3.c_str(), style.color, style.print);
-
-        style.bold = reader.ustring5[i];
-        style.underline = reader.ustring6[i];
-        style.smallcaps = reader.ustring7[i];
-        style.superscript = convert_to_bool(reader.ustring8[i]);
-        style.justification = reader.ustring9[i];
-        style.spacebefore = convert_to_double(reader.ustring10[i]);
-        style.spaceafter = convert_to_double(reader.ustring11[i]);
-        style.leftmargin = convert_to_double(reader.ustring12[i]);
-        style.rightmargin = convert_to_double(reader.ustring13[i]);
-        style.firstlineindent = convert_to_double(reader.ustring14[i]);
-        style.spancolumns = convert_to_bool(reader.ustring15[i]);
-        style.type = (StyleType) convert_to_int(reader.ustring16[i]);
-        style.subtype = convert_to_int(reader.ustring17[i]);
-        style.userbool1 = convert_to_bool(reader.ustring18[i]);
-        style.userbool2 = convert_to_bool(reader.ustring19[i]);
-        style.userbool3 = convert_to_bool(reader.ustring20[i]);
-        style.userint1 = convert_to_int(reader.ustring21[i]);
-        style.userint2 = convert_to_int(reader.ustring22[i]);
-        style.userint3 = convert_to_int(reader.ustring23[i]);
-        style.userstring1 = reader.ustring24[i];
-        style.userstring2 = reader.ustring25[i];
-        style.userstring3 = reader.ustring26[i];
-        style.color = convert_to_int(reader.ustring27[i]);
-        style.print = convert_to_int(reader.ustring28[i]);
-        */
-/*
-  // Get the combined information, and write it to the document.
-  for (unsigned int i = 0; i < existingpairs.size(); i++) {
-    // Do not write empty elements. This resolves a bug that occurred 
-    // if elements like "<resources-viewer-urls/>" were written.
-    // Next time the file was read, it took contextual information.
-    // In that case rogue resources were created that didn't exist.
-    if (existingpairs[i].value.empty())
-      continue;
-    xmlTextWriterStartElement(writer, BAD_CAST existingpairs[i].key.c_str());
-    for (unsigned int i2 = 0; i2 < existingpairs[i].value.size(); i2++) {
-      xmlTextWriterStartElement(writer, BAD_CAST "value");
-      xmlTextWriterWriteFormatString(writer, "%s", existingpairs[i].value[i2].c_str());
-      xmlTextWriterEndElement(writer);
-    }
-    xmlTextWriterEndElement(writer);
-  }
-
-*/
       }
 
       // Close input.
@@ -440,10 +538,13 @@ style.bold.c_str(), style.underline.c_str(), style.smallcaps.c_str(), style.supe
         xmlFreeTextWriter(writer);
       if (buffer)
         xmlBufferFree(buffer);
-
-
+		
+      // Remove the database from disk.
+	  //unlink (sql_filename.c_str()); // Todo temporally switched off - we also need to remove stylesheet.sql from the templates.
     }
   }
+
+  // Note: The stylesheet.xml template has been updated thus far. Everything below this still needs to be done.
 
   // At the end of everything, check that we have at least one stylesheet.  
   {
@@ -455,7 +556,7 @@ style.bold.c_str(), style.underline.c_str(), style.smallcaps.c_str(), style.supe
   }
 }
 
-void stylesheet_get_recently_used(const ustring & stylesheet, vector < ustring > &markers, vector < unsigned int >&count)
+void stylesheet_get_recently_used(const ustring & stylesheet, vector < ustring > &markers, vector < unsigned int >&count) // Todo think of another mechanism for this.
 // Read the recently used data: markers and usage count.
 {
   // Some variables.  
@@ -464,7 +565,7 @@ void stylesheet_get_recently_used(const ustring & stylesheet, vector < ustring >
   char *error = NULL;
   try {
     // Connect to the database.
-    rc = sqlite3_open(stylesheet_filename(stylesheet).c_str(), &db);
+    rc = sqlite3_open(stylesheet_sql_filename(stylesheet).c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
@@ -489,7 +590,7 @@ void stylesheet_get_recently_used(const ustring & stylesheet, vector < ustring >
   sqlite3_close(db);
 }
 
-void stylesheet_set_recently_used(const ustring & stylesheet, vector < ustring > &styles, vector < unsigned int >&counts)
+void stylesheet_set_recently_used(const ustring & stylesheet, vector < ustring > &styles, vector < unsigned int >&counts) // Todo use another mechanism for this.
 {
   // Some variables.
   sqlite3 *db;
@@ -497,7 +598,7 @@ void stylesheet_set_recently_used(const ustring & stylesheet, vector < ustring >
   char *error = NULL;
   try {
     // Connect to the database.
-    rc = sqlite3_open(stylesheet_filename(stylesheet).c_str(), &db);
+    rc = sqlite3_open(stylesheet_sql_filename(stylesheet).c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
@@ -527,7 +628,7 @@ void stylesheet_set_recently_used(const ustring & stylesheet, vector < ustring >
   sqlite3_close(db);
 }
 
-void stylesheet_save_style(const ustring & stylesheet, const Style & style) // Todo
+void stylesheet_save_style(const ustring & stylesheet, const Style & style) // Todo update for .xml files.
 {
   // Some variables.  
   sqlite3 *db;
@@ -535,7 +636,7 @@ void stylesheet_save_style(const ustring & stylesheet, const Style & style) // T
   char *error = NULL;
   try {
     // Connect to the database.
-    rc = sqlite3_open(stylesheet_filename(stylesheet).c_str(), &db);
+    rc = sqlite3_open(stylesheet_sql_filename(stylesheet).c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
@@ -565,73 +666,239 @@ void stylesheet_save_style(const ustring & stylesheet, const Style & style) // T
   sqlite3_close(db);
 }
 
-void stylesheet_load_style(const ustring & stylesheet, Style & style) // Todo
+
+void stylesheet_load_style(const ustring & stylesheet, Style & style)
+/*
+Reads one Style.
+stylesheet: which stylesheet to read from. If no stylesheet is given, it reads from the template.
+style: the Style object to read. The marker is already given in the object.
+*/
 {
-  // Some variables.  
-  sqlite3 *db;
-  int rc;
-  char *error = NULL;
-  try {
-    // If the stylesheet is not given, we read from the template.
-    ustring filename = stylesheet_filename(stylesheet);
-    if (stylesheet.empty())
-      filename = stylesheet_template_filename();
-    // Connect to the database.
-    rc = sqlite3_open(filename.c_str(), &db);
-    if (rc)
-      throw runtime_error(sqlite3_errmsg(db));
-    sqlite3_busy_timeout(db, 1000);
-    // Read the style.
-    SqliteReader reader(0);
-    char *sql;
-    sql = g_strdup_printf("select name, info, fontsize, fontpercentage, " "italic, bold, underline, smallcaps, superscript, justification, " "spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, spancolumns, " "type, subtype, userbool1, userbool2, userbool3, " "userint1, userint2, userint3, userstring1, userstring2, userstring3, " "color, print " "from styles where marker = '%s';", style.marker.c_str());
-    rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
-    g_free(sql);
-    if (rc != SQLITE_OK) {
-      throw runtime_error(sqlite3_errmsg(db));
-    }
-    if (reader.ustring0.size() > 0) {
-      style.name = reader.ustring0[0];
-      style.info = reader.ustring1[0];
-      style.fontsize = convert_to_double(reader.ustring2[0]);
-      // Font percentage no longer used.
-      style.italic = reader.ustring4[0];
-      style.bold = reader.ustring5[0];
-      style.underline = reader.ustring6[0];
-      style.smallcaps = reader.ustring7[0];
-      style.superscript = convert_to_bool(reader.ustring8[0]);
-      style.justification = reader.ustring9[0];
-      style.spacebefore = convert_to_double(reader.ustring10[0]);
-      style.spaceafter = convert_to_double(reader.ustring11[0]);
-      style.leftmargin = convert_to_double(reader.ustring12[0]);
-      style.rightmargin = convert_to_double(reader.ustring13[0]);
-      style.firstlineindent = convert_to_double(reader.ustring14[0]);
-      style.spancolumns = convert_to_bool(reader.ustring15[0]);
-      style.type = (StyleType) convert_to_int(reader.ustring16[0]);
-      style.subtype = convert_to_int(reader.ustring17[0]);
-      style.userbool1 = convert_to_bool(reader.ustring18[0]);
-      style.userbool2 = convert_to_bool(reader.ustring19[0]);
-      style.userbool3 = convert_to_bool(reader.ustring20[0]);
-      style.userint1 = convert_to_int(reader.ustring21[0]);
-      style.userint2 = convert_to_int(reader.ustring22[0]);
-      style.userint3 = convert_to_int(reader.ustring23[0]);
-      style.userstring1 = reader.ustring24[0];
-      style.userstring2 = reader.ustring25[0];
-      style.userstring3 = reader.ustring26[0];
-      style.color = convert_to_int(reader.ustring27[0]);
-      style.print = convert_to_int(reader.ustring28[0]);
-    }
+  // If the stylesheet is not given, we read from the template.
+  ustring filename = stylesheet_xml_filename(stylesheet);
+  if (stylesheet.empty())
+    filename = stylesheet_xml_template_filename();
+
+  // Read the stylesheet, bail out on failure.
+  gchar *contents;
+  g_file_get_contents(filename.c_str(), &contents, NULL, NULL);
+  if (contents == NULL) {
+    gw_critical("Failure reading stylesheet " + stylesheet);
+		return;
   }
-  catch(exception & ex) {
-    gw_critical(ex.what());
-  }
-  // Close connection.
-  sqlite3_close(db);
+
+  // Variables to hold what we read.
+  ustring marker;
+	ustring name;
+	ustring info;
+	ustring type;
+	ustring subtype;
+	ustring fontsize;
+	ustring italic;
+	ustring bold;
+	ustring underline;
+	ustring smallcaps;
+	ustring superscript;
+	ustring justification;
+	ustring spacebefore;
+	ustring spaceafter;
+	ustring leftmargin;
+	ustring rightmargin;
+	ustring firstlineindent;
+	ustring spancolumns;
+  ustring color;
+	ustring print;
+  ustring userbool1;
+  ustring userbool2;
+  ustring userbool3;
+  ustring userint1;
+  ustring userint2;
+  ustring userint3;
+  ustring userstring1;
+  ustring userstring2;
+  ustring userstring3;
+
+  // Parse the stylesheet.  
+  xmlParserInputBufferPtr inputbuffer;
+  inputbuffer = xmlParserInputBufferCreateMem(contents, strlen(contents), XML_CHAR_ENCODING_NONE);
+  xmlTextReaderPtr reader = xmlNewTextReader(inputbuffer, NULL);
+	bool reading_is_relevant = false;
+	bool reading_is_done = false;
+	bool reading_marker_now = false;
+	ustring value;
+	if (reader) {
+		while ((xmlTextReaderRead(reader) == 1)) {
+			if (reading_is_done)
+			  break;
+			switch (xmlTextReaderNodeType(reader)) {
+			case XML_READER_TYPE_ELEMENT:
+				{
+					xmlChar *element_name = xmlTextReaderName(reader);
+					if (!xmlStrcmp(element_name, BAD_CAST "style")) {
+            marker.clear();
+	          name.clear();
+	          info.clear();
+	          type.clear();
+	          subtype.clear();
+	          fontsize.clear();
+	          italic.clear();
+	          bold.clear();
+	          underline.clear();
+	          smallcaps.clear();
+	          superscript.clear();
+	          justification.clear();
+	          spacebefore.clear();
+	          spaceafter.clear();
+	          leftmargin.clear();
+	          rightmargin.clear();
+	          firstlineindent.clear();
+	          spancolumns.clear();
+            color.clear();
+	          print.clear();
+            userbool1.clear();
+            userbool2.clear();
+            userbool3.clear();
+            userint1.clear();
+            userint2.clear();
+            userint3.clear();
+            userstring1.clear();
+            userstring2.clear();
+            userstring3.clear();
+						reading_is_relevant = true;
+					}
+					if (!xmlStrcmp(element_name, BAD_CAST "marker")) {
+						reading_marker_now = true;
+					}
+					break;
+				}
+			case XML_READER_TYPE_TEXT:
+				{
+  				xmlChar *text = xmlTextReaderValue(reader);
+					if (text) {
+					  value = (gchar *) text;
+						xmlFree(text);
+					}	
+					if (reading_marker_now) {
+						reading_is_relevant = (style.marker == value);
+						reading_marker_now = false;
+					}
+					break;
+				}
+			case XML_READER_TYPE_END_ELEMENT:
+				{
+					xmlChar *element_name = xmlTextReaderName(reader);
+					if (reading_is_relevant) {
+  					if (!xmlStrcmp(element_name, BAD_CAST "marker"))
+	  					marker = value;
+		  			if (!xmlStrcmp(element_name, BAD_CAST "name"))
+			  			name = value;
+				  	if (!xmlStrcmp(element_name, BAD_CAST "info"))
+					  	info = value;
+  					if (!xmlStrcmp(element_name, BAD_CAST "type"))
+	  					type = value;
+		  			if (!xmlStrcmp(element_name, BAD_CAST "subtype"))
+			  			subtype = value;
+				  	if (!xmlStrcmp(element_name, BAD_CAST "fontsize"))
+					  	fontsize = value;
+  					if (!xmlStrcmp(element_name, BAD_CAST "italic"))
+	  					italic = value;
+		  			if (!xmlStrcmp(element_name, BAD_CAST "bold"))
+			  			bold = value;
+				  	if (!xmlStrcmp(element_name, BAD_CAST "underline"))
+					  	underline = value;
+  					if (!xmlStrcmp(element_name, BAD_CAST "smallcaps"))
+	  					smallcaps = value;
+		  			if (!xmlStrcmp(element_name, BAD_CAST "superscript"))
+			  			superscript = value;
+				  	if (!xmlStrcmp(element_name, BAD_CAST "justification"))
+					  	justification = value;
+  					if (!xmlStrcmp(element_name, BAD_CAST "spacebefore"))
+	  					spacebefore = value;
+		  			if (!xmlStrcmp(element_name, BAD_CAST "spaceafter"))
+			  			spaceafter = value;
+				  	if (!xmlStrcmp(element_name, BAD_CAST "leftmargin"))
+					  	leftmargin = value;
+  					if (!xmlStrcmp(element_name, BAD_CAST "rightmargin"))
+	  					rightmargin = value;
+		  			if (!xmlStrcmp(element_name, BAD_CAST "firstlineindent"))
+			  			firstlineindent = value;
+				  	if (!xmlStrcmp(element_name, BAD_CAST "spancolumns"))
+					  	spancolumns = value;
+  					if (!xmlStrcmp(element_name, BAD_CAST "color"))
+	  					color = value;
+		  			if (!xmlStrcmp(element_name, BAD_CAST "print"))
+			  			print = value;
+				  	if (!xmlStrcmp(element_name, BAD_CAST "userbool1"))
+					  	userbool1 = value;
+  					if (!xmlStrcmp(element_name, BAD_CAST "userbool2"))
+	  					userbool2 = value;
+		  			if (!xmlStrcmp(element_name, BAD_CAST "userbool3"))
+			  			userbool3 = value;
+				  	if (!xmlStrcmp(element_name, BAD_CAST "userint1"))
+					  	userint1 = value;
+  					if (!xmlStrcmp(element_name, BAD_CAST "userint2"))
+	  					userint2 = value;
+		  			if (!xmlStrcmp(element_name, BAD_CAST "userint3"))
+			  			userint3 = value;
+				  	if (!xmlStrcmp(element_name, BAD_CAST "userstring1"))
+					  	userstring1 = value;
+  					if (!xmlStrcmp(element_name, BAD_CAST "userstring2"))
+	  					userstring2 = value;
+		  			if (!xmlStrcmp(element_name, BAD_CAST "userstring3"))
+			  			userstring3 = value;
+					}
+					value.clear();
+					if (!xmlStrcmp(element_name, BAD_CAST "style")) {
+						if (marker == style.marker) {
+              style.name = name;
+              style.info = info;
+              style.type = (StyleType) convert_to_int(type);
+              style.subtype = convert_to_int(subtype);
+              style.fontsize = convert_to_double(fontsize);
+              style.italic = italic;
+              style.bold = bold;
+              style.underline = underline;
+              style.smallcaps = smallcaps;
+              style.superscript = convert_to_bool(superscript);
+              style.justification = justification;
+              style.spacebefore = convert_to_double(spacebefore);
+              style.spaceafter = convert_to_double(spaceafter);
+              style.leftmargin = convert_to_double(leftmargin);
+              style.rightmargin = convert_to_double(rightmargin);
+              style.firstlineindent = convert_to_double(firstlineindent);
+              style.spancolumns = convert_to_bool(spancolumns);
+              style.color = convert_to_int(color);
+              style.print = convert_to_bool(print);
+              style.userbool1 = convert_to_bool(userbool1);
+              style.userbool2 = convert_to_bool(userbool2);
+              style.userbool3 = convert_to_bool(userbool3);
+              style.userint1 = convert_to_int(userint1);
+              style.userint2 = convert_to_int(userint2);
+              style.userint3 = convert_to_int(userint3);
+              style.userstring1 = userstring1;
+              style.userstring2 = userstring2;
+              style.userstring3 = userstring3;
+							reading_is_done = true;
+						}
+					}
+					break;
+				}
+			}
+		}
+	}
+
+  // Free memory.
+	if (reader)
+		xmlFreeTextReader(reader);
+	if (inputbuffer)
+		xmlFreeParserInputBuffer(inputbuffer);
+	if (contents)
+		g_free(contents);
 }
 
 void stylesheet_vacuum(const ustring & stylesheet)
 {
-  vacuum_database(stylesheet_filename(stylesheet));
+  vacuum_database(stylesheet_sql_filename(stylesheet));
 }
 
 set < ustring > stylesheet_get_styles_of_type(StylesheetType stylesheettype)
@@ -670,7 +937,7 @@ set < ustring > stylesheet_get_styles_of_type(StylesheetType stylesheettype)
     }
   case stFull:
     {
-      // Full stylesheet: take all styles from the stylesheet template.
+      // Full stylesheet: take all styles from the stylesheet template. Todo needs update to read from the template.
       sqlite3 *db;
       int rc;
       char *error = NULL;
@@ -733,4 +1000,7 @@ ustring stylesheet_get_actual ()
 }
 
 
-// Todo to store the stylesheet in xml format.
+// Todo to convert this in a certain order: First all reading of styles, then editing of them, then creation.
+// Todo the new mechanism for the recently used ones is that on saving them, a new db may be created and then saved - reading remains as now.
+// Todo reading the stylesheet is very slow. Make a new system where the whole sheet is read at once, and where the individual values 
+// are read from a map<ustring, value>. This should speed it up greatly. Thus all the stylesheet are kept in memory and accessed from there.
