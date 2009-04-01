@@ -303,7 +303,7 @@ void config_xml_values_set_execute(const ustring & file, const vector < ConfigXm
   for (unsigned int i = 0; i < existingpairs.size(); i++) {
     // Do not write empty elements. This resolves a bug that occurred 
     // if elements like "<resources-viewer-urls/>" were written.
-    // Next time the file was ready, it took contextual information.
+    // Next time the file was read, it took contextual information.
     // In that case rogue resources were created that didn't exist.
     if (existingpairs[i].value.empty())
       continue;

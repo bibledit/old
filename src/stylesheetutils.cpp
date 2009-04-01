@@ -32,6 +32,7 @@
 #include "tiny_utilities.h"
 #include "shutdown.h"
 #include "settings.h"
+#include <libxml/xmlwriter.h>
 
 
 #define STYLESHEET_SUFFIX ".sql18"
@@ -293,121 +294,6 @@ int stylesheet_style_get_pointer(const vector < Style > &styles, const ustring &
 void stylesheets_upgrade()
 // Upgrade older stylesheets to the currently used format.
 {
-  // Upgrade from *.sql11 -> *.sql12: All font percentages are set to 100.
-  {
-    ReadFiles rf(directories_get_stylesheets(), "", ".sql11");
-    for (unsigned int i = 0; i < rf.files.size(); i++) {
-      ustring filename = gw_build_filename(directories_get_stylesheets(), rf.files[i]);
-      gw_message("Updating stylesheet " + filename);
-      sqlite3 *db;
-      char *error = NULL;
-      sqlite3_open(filename.c_str(), &db);
-      sqlite3_busy_timeout(db, 1000);
-      sqlite3_exec(db, "update styles set fontpercentage = 100;", NULL, NULL, &error);
-      sqlite3_close(db);
-      ustring newfilename(filename);
-      newfilename.replace(newfilename.length() - 2, 2, "12");
-      unix_mv(filename, newfilename);
-    }
-  }
-
-  // Upgrade from *.sql12 -> *.sql13: Superscript is removed from the Bible notes.
-  {
-    ReadFiles rf(directories_get_stylesheets(), "", ".sql12");
-    for (unsigned int i = 0; i < rf.files.size(); i++) {
-      ustring filename = gw_build_filename(directories_get_stylesheets(), rf.files[i]);
-      gw_message("Updating stylesheet " + filename);
-      sqlite3 *db;
-      char *error = NULL;
-      sqlite3_open(filename.c_str(), &db);
-      sqlite3_busy_timeout(db, 1000);
-      sqlite3_exec(db, "update styles set superscript = 0 where marker = 'fe';", NULL, NULL, &error);
-      sqlite3_exec(db, "update styles set superscript = 0 where marker = 'f';", NULL, NULL, &error);
-      sqlite3_exec(db, "update styles set superscript = 0 where marker = 'x';", NULL, NULL, &error);
-      sqlite3_close(db);
-      ustring newfilename(filename);
-      newfilename.replace(newfilename.length() - 2, 2, "13");
-      unix_mv(filename, newfilename);
-    }
-  }
-
-  // Upgrade from *.sql13 -> *.sql14: Default paragraph for Bible notes modified.
-  {
-    ReadFiles rf(directories_get_stylesheets(), "", ".sql13");
-    for (unsigned int i = 0; i < rf.files.size(); i++) {
-      ustring filename = gw_build_filename(directories_get_stylesheets(), rf.files[i]);
-      gw_message("Updating stylesheet " + filename);
-      sqlite3 *db;
-      char *error = NULL;
-      sqlite3_open(filename.c_str(), &db);
-      sqlite3_busy_timeout(db, 1000);
-      sqlite3_exec(db, "update styles set leftmargin = 0 where marker = 'ft';", NULL, NULL, &error);
-      sqlite3_exec(db, "update styles set leftmargin = 0 where marker = 'xt';", NULL, NULL, &error);
-      sqlite3_close(db);
-      ustring newfilename(filename);
-      newfilename.replace(newfilename.length() - 2, 2, "14");
-      unix_mv(filename, newfilename);
-    }
-  }
-
-  // Upgrade from *.sql14 -> *.sql15: Style of note caller in note modified.
-  {
-    ReadFiles rf(directories_get_stylesheets(), "", ".sql14");
-    for (unsigned int i = 0; i < rf.files.size(); i++) {
-      ustring filename = gw_build_filename(directories_get_stylesheets(), rf.files[i]);
-      gw_message("Updating stylesheet " + filename);
-      sqlite3 *db;
-      char *error = NULL;
-      sqlite3_open(filename.c_str(), &db);
-      sqlite3_busy_timeout(db, 1000);
-      sqlite3_exec(db, "update styles set italic = 'toggle' where marker = 'f';", NULL, NULL, &error);
-      sqlite3_exec(db, "update styles set italic = 'toggle' where marker = 'fe';", NULL, NULL, &error);
-      sqlite3_exec(db, "update styles set italic = 'toggle' where marker = 'x';", NULL, NULL, &error);
-      sqlite3_close(db);
-      ustring newfilename(filename);
-      newfilename.replace(newfilename.length() - 2, 2, "15");
-      unix_mv(filename, newfilename);
-    }
-  }
-
-  // Upgrade from *.sql15 -> *.sql16: Default paragraph for Bible notes modified.
-  {
-    ReadFiles rf(directories_get_stylesheets(), "", ".sql15");
-    for (unsigned int i = 0; i < rf.files.size(); i++) {
-      ustring filename = gw_build_filename(directories_get_stylesheets(), rf.files[i]);
-      gw_message("Updating stylesheet " + filename);
-      sqlite3 *db;
-      char *error = NULL;
-      sqlite3_open(filename.c_str(), &db);
-      sqlite3_busy_timeout(db, 1000);
-      sqlite3_exec(db, "update styles set justification = 'left' where marker = 'ft';", NULL, NULL, &error);
-      sqlite3_exec(db, "update styles set justification = 'left' where marker = 'xt';", NULL, NULL, &error);
-      sqlite3_close(db);
-      ustring newfilename(filename);
-      newfilename.replace(newfilename.length() - 2, 2, "16");
-      unix_mv(filename, newfilename);
-    }
-  }
-
-  // Upgrade from *.sql16 -> *.sql17: Style for \c changed.
-  {
-    ReadFiles rf(directories_get_stylesheets(), "", ".sql16");
-    for (unsigned int i = 0; i < rf.files.size(); i++) {
-      ustring filename = gw_build_filename(directories_get_stylesheets(), rf.files[i]);
-      gw_message("Updating stylesheet " + filename);
-      sqlite3 *db;
-      char *error = NULL;
-      sqlite3_open(filename.c_str(), &db);
-      sqlite3_busy_timeout(db, 1000);
-      sqlite3_exec(db, "update styles set fontsize = 30 where marker = 'c';", NULL, NULL, &error);
-      sqlite3_exec(db, "update styles set spacebefore = 0 where marker = 'xt';", NULL, NULL, &error);
-      sqlite3_close(db);
-      ustring newfilename(filename);
-      newfilename.replace(newfilename.length() - 2, 2, "17");
-      unix_mv(filename, newfilename);
-    }
-  }
-
   // Upgrade from *.sql17 -> *.sql18: Footnote and crossreferences no longer renumber per page.
   {
     ReadFiles rf(directories_get_stylesheets(), "", ".sql17");
@@ -428,6 +314,136 @@ void stylesheets_upgrade()
   }
 
   // Note: The stylesheet.sql template has been updated thus far. Everything below this still needs to be done.
+
+  // Convert the stylesheet from the sqlite database to xml format. Todo
+  {
+    ReadFiles rf(directories_get_stylesheets(), "", ".sql18");
+    for (unsigned int i = 0; i < rf.files.size(); i++) {
+
+      gw_message("Converting stylesheet " + rf.files[i] + " to xml format");
+
+      // Open the sqlite3 database.
+      ustring sql_filename = gw_build_filename(directories_get_stylesheets(), rf.files[i]);
+      sqlite3 *db;
+      sqlite3_open(sql_filename.c_str(), &db);
+      sqlite3_busy_timeout(db, 1000);
+
+      // The output xml stylesheet.
+      xmlBufferPtr buffer = xmlBufferCreate();
+      xmlTextWriterPtr writer = xmlNewTextWriterMemory(buffer, 0);
+      xmlTextWriterStartDocument(writer, NULL, "UTF-8", NULL);
+      xmlTextWriterSetIndent(writer, 1);
+      xmlTextWriterStartElement(writer, BAD_CAST "stylesheet");
+
+      // Read data from database.
+      SqliteReader reader(0);
+      char *sql;
+      sql = g_strdup_printf("select name, info, fontsize, marker, italic, bold, underline, smallcaps, superscript, justification, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, spancolumns, type, subtype, userbool1, userbool2, userbool3, userint1, userint2, userint3, userstring1, userstring2, userstring3, color, print from styles;");
+      sqlite3_exec(db, sql, reader.callback, &reader, NULL);
+      g_free(sql);
+      
+      // Convert data.
+      for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
+
+        // Open a style.
+        xmlTextWriterStartElement(writer, BAD_CAST "style");
+
+        // Write values.
+        
+        xmlTextWriterStartElement(writer, BAD_CAST "marker");
+        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring3[i].c_str());
+        xmlTextWriterEndElement(writer);
+
+        xmlTextWriterStartElement(writer, BAD_CAST "name");
+        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring0[i].c_str());
+        xmlTextWriterEndElement(writer);
+
+        xmlTextWriterStartElement(writer, BAD_CAST "info");
+        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring1[i].c_str());
+        xmlTextWriterEndElement(writer);
+
+        xmlTextWriterStartElement(writer, BAD_CAST "fontsize");
+        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring2[i].c_str());
+        xmlTextWriterEndElement(writer);
+
+        xmlTextWriterStartElement(writer, BAD_CAST "italic");
+        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring4[i].c_str());
+        xmlTextWriterEndElement(writer);
+
+// Todo working here on transferring the styles.
+
+        // Close the style.
+        xmlTextWriterEndElement(writer);
+
+        /*
+style.bold.c_str(), style.underline.c_str(), style.smallcaps.c_str(), style.superscript, style.justification.c_str(),
+                          style.spacebefore, style.spaceafter, style.leftmargin, style.rightmargin, style.firstlineindent, style.spancolumns, style.type, style.subtype, style.userbool1, style.userbool2, style.userbool3, style.userint1, style.userint2, style.userint3, style.userstring1.c_str(), style.userstring2.c_str(), style.userstring3.c_str(), style.color, style.print);
+
+        style.bold = reader.ustring5[i];
+        style.underline = reader.ustring6[i];
+        style.smallcaps = reader.ustring7[i];
+        style.superscript = convert_to_bool(reader.ustring8[i]);
+        style.justification = reader.ustring9[i];
+        style.spacebefore = convert_to_double(reader.ustring10[i]);
+        style.spaceafter = convert_to_double(reader.ustring11[i]);
+        style.leftmargin = convert_to_double(reader.ustring12[i]);
+        style.rightmargin = convert_to_double(reader.ustring13[i]);
+        style.firstlineindent = convert_to_double(reader.ustring14[i]);
+        style.spancolumns = convert_to_bool(reader.ustring15[i]);
+        style.type = (StyleType) convert_to_int(reader.ustring16[i]);
+        style.subtype = convert_to_int(reader.ustring17[i]);
+        style.userbool1 = convert_to_bool(reader.ustring18[i]);
+        style.userbool2 = convert_to_bool(reader.ustring19[i]);
+        style.userbool3 = convert_to_bool(reader.ustring20[i]);
+        style.userint1 = convert_to_int(reader.ustring21[i]);
+        style.userint2 = convert_to_int(reader.ustring22[i]);
+        style.userint3 = convert_to_int(reader.ustring23[i]);
+        style.userstring1 = reader.ustring24[i];
+        style.userstring2 = reader.ustring25[i];
+        style.userstring3 = reader.ustring26[i];
+        style.color = convert_to_int(reader.ustring27[i]);
+        style.print = convert_to_int(reader.ustring28[i]);
+        */
+/*
+  // Get the combined information, and write it to the document.
+  for (unsigned int i = 0; i < existingpairs.size(); i++) {
+    // Do not write empty elements. This resolves a bug that occurred 
+    // if elements like "<resources-viewer-urls/>" were written.
+    // Next time the file was read, it took contextual information.
+    // In that case rogue resources were created that didn't exist.
+    if (existingpairs[i].value.empty())
+      continue;
+    xmlTextWriterStartElement(writer, BAD_CAST existingpairs[i].key.c_str());
+    for (unsigned int i2 = 0; i2 < existingpairs[i].value.size(); i2++) {
+      xmlTextWriterStartElement(writer, BAD_CAST "value");
+      xmlTextWriterWriteFormatString(writer, "%s", existingpairs[i].value[i2].c_str());
+      xmlTextWriterEndElement(writer);
+    }
+    xmlTextWriterEndElement(writer);
+  }
+
+*/
+      }
+
+      // Close input.
+      sqlite3_close(db);
+      
+      // Close document and write it to disk.
+      xmlTextWriterEndDocument(writer);
+      xmlTextWriterFlush(writer);
+      ustring xml_filename (sql_filename);
+      replace_text (xml_filename, ".sql18", ".xml1");
+      g_file_set_contents(xml_filename.c_str(), (const gchar *)buffer->content, -1, NULL);
+
+      // Free memory.
+      if (writer)
+        xmlFreeTextWriter(writer);
+      if (buffer)
+        xmlBufferFree(buffer);
+
+
+    }
+  }
 
   // At the end of everything, check that we have at least one stylesheet.  
   {
@@ -511,7 +527,7 @@ void stylesheet_set_recently_used(const ustring & stylesheet, vector < ustring >
   sqlite3_close(db);
 }
 
-void stylesheet_save_style(const ustring & stylesheet, const Style & style)
+void stylesheet_save_style(const ustring & stylesheet, const Style & style) // Todo
 {
   // Some variables.  
   sqlite3 *db;
@@ -549,7 +565,7 @@ void stylesheet_save_style(const ustring & stylesheet, const Style & style)
   sqlite3_close(db);
 }
 
-void stylesheet_load_style(const ustring & stylesheet, Style & style)
+void stylesheet_load_style(const ustring & stylesheet, Style & style) // Todo
 {
   // Some variables.  
   sqlite3 *db;
@@ -691,9 +707,9 @@ ustring stylesheet_get_actual ()
 {
   // Get the stylesheet from the configuration, with a fallback.
   extern Settings * settings;
-  ustring checked_sheet = settings->genconfig.stylesheet_get();
-  if (checked_sheet.empty()) {
-    checked_sheet = STANDARDSHEET;
+  ustring sheet = settings->genconfig.stylesheet_get();
+  if (sheet.empty()) {
+    sheet = STANDARDSHEET;
   }
   
   // See whether it exists.
@@ -702,18 +718,19 @@ ustring stylesheet_get_actual ()
   set < ustring > sheets(stylesheets.begin(), stylesheets.end());
 
   // Sheet is there? Fine.
-  if (sheets.find(checked_sheet) != sheets.end()) ;
+  if (sheets.find(sheet) != sheets.end()) ;
 
   // Sheets is not there - take Standard, if it's around.
   else if (sheets.find(STANDARDSHEET) != sheets.end())
-    checked_sheet = STANDARDSHEET;
+    sheet = STANDARDSHEET;
 
   // Else take first sheet in the list.
   else
-    checked_sheet = stylesheets[0];
+    sheet = stylesheets[0];
 
   // Return sheet.
-  return checked_sheet;
+  return sheet;
 }
 
 
+// Todo to store the stylesheet in xml format.
