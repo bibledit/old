@@ -183,76 +183,33 @@ void stylesheet_get_styles(const ustring & stylesheet, vector < Style > &styles)
 }
 
 
-vector < ustring > stylesheet_get_markers(const ustring & stylesheet, vector < ustring > *names) // Todo needs update.
-/*
-This function only gets the markers and the names of the styles of the stylesheet,
-and is therefore faster than the similar function that gets the whole style.
-It is intended to be used in such situations that only the markers and/or the
-names of the styles are needed, such as in the styletree.
- */
+vector <ustring> stylesheet_get_markers(const ustring & stylesheet, vector <ustring> *names)
+// This function only gets the markers from the stylesheet.
+// Hence it is faster than the similar function that gets the full styles.
+// If "names" is non-NULL it gets the names from the stylesheet too.
 {
-  // Store styles
+  extern Styles * styles;
+  Stylesheet * sheet = styles->stylesheet (stylesheet);
   vector < ustring > markers;
-  // Some variables.  
-  sqlite3 *db;
-  int rc;
-  char *error = NULL;
-  try {
-    // Connect to the database.
-    rc = sqlite3_open(stylesheet_sql_filename(stylesheet).c_str(), &db);
-    if (rc)
-      throw runtime_error(sqlite3_errmsg(db));
-    sqlite3_busy_timeout(db, 1000);
-    // Read the available markers.
-    SqliteReader reader(0);
-    char *sql;
-    sql = g_strdup_printf("select marker, name from styles;");
-    rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
-    g_free(sql);
-    if (rc != SQLITE_OK) {
-      throw runtime_error(sqlite3_errmsg(db));
+  for (unsigned int i = 0; i < sheet->styles.size(); i++) {
+    markers.push_back (sheet->styles[i]->marker);
+    if (names) {
+      names->push_back (sheet->styles[i]->name);
     }
-    markers.assign(reader.ustring0.begin(), reader.ustring0.end());
-    if (names)
-      names->assign(reader.ustring1.begin(), reader.ustring1.end());
   }
-  catch(exception & ex) {
-    gw_critical(ex.what());
-  }
-  // Close connection.
-  sqlite3_close(db);
-  // Return result.
   return markers;
 }
 
-void stylesheet_delete_style(const ustring & stylesheet, const ustring & marker) // Todo needs update.
+
+void stylesheet_delete_style(const ustring & stylesheet, const ustring & marker)
 // Deletes a style.
 {
-  // Some variables.  
-  sqlite3 *db;
-  int rc;
-  char *error = NULL;
-  try {
-    // Connect to the database.
-    rc = sqlite3_open(stylesheet_sql_filename(stylesheet).c_str(), &db);
-    if (rc)
-      throw runtime_error(sqlite3_errmsg(db));
-    sqlite3_busy_timeout(db, 1000);
-    // Delete style.
-    char *sql;
-    sql = g_strdup_printf("delete from styles where marker = '%s';", marker.c_str());
-    rc = sqlite3_exec(db, sql, NULL, NULL, &error);
-    if (rc) {
-      throw runtime_error(sqlite3_errmsg(db));
-    }
-    g_free(sql);
-  }
-  catch(exception & ex) {
-    gw_critical(ex.what());
-  }
-  // Close connection.
-  sqlite3_close(db);
+  extern Styles * styles;
+  Stylesheet * sheet = styles->stylesheet (stylesheet);
+  sheet->erase (marker);
+  sheet->save();
 }
+
 
 void stylesheet_new_style(const ustring & stylesheet, const ustring & marker)
 // Adds a new style. Searches template for data.
@@ -260,6 +217,7 @@ void stylesheet_new_style(const ustring & stylesheet, const ustring & marker)
   Style style(stylesheet, marker, true);
   style.read_template(); // Todo this may need update.
 }
+
 
 void stylesheet_save_style(const ustring & stylesheet, const ustring & marker, const ustring & name, const ustring & info, StyleType type, int subtype, double fontsize, const ustring & italic, const ustring & bold, const ustring & underline, const ustring & smallcaps, bool superscript, const ustring & justification, double spacebefore, double spaceafter, double leftmargin, double rightmargin, double firstlineindent, bool spancolumns, unsigned int color, bool print, bool userbool1,
                            bool userbool2, bool userbool3, int userint1, int userint2, int userint3, ustring userstring1, ustring userstring2, ustring userstring3)
@@ -296,6 +254,7 @@ void stylesheet_save_style(const ustring & stylesheet, const ustring & marker, c
   style.userstring3 = userstring3;
 }
 
+
 int stylesheet_style_get_pointer(const vector < Style > &styles, const ustring & marker)
 // Returns a pointer to "styles" which describes "marker".
 // Or -1 if not found.
@@ -307,6 +266,7 @@ int stylesheet_style_get_pointer(const vector < Style > &styles, const ustring &
   // Ok, marker not found.
   return -1;
 }
+
 
 void stylesheets_upgrade()
 // Upgrade older stylesheets to the currently used format.
@@ -513,15 +473,8 @@ void stylesheets_upgrade()
       stylesheet_create_new(STANDARDSHEET, stFull);
     }
   }
-  /*
-		extern Styles * styles;
-    Stylesheet * stylesheet = styles->stylesheet ("Standard"); // Todo temporal
-    StyleV2 * style = stylesheet->style ("id");
-    cout << style->name << endl; // Todo
-    style->name = "This is the ID marker --------------------";
-    stylesheet->save();
-  */
 }
+
 
 void stylesheet_get_recently_used(const ustring & stylesheet, vector < ustring > &markers, vector < unsigned int >&count) // Todo think of another mechanism for this.
 // Read the recently used data: markers and usage count.
@@ -556,6 +509,7 @@ void stylesheet_get_recently_used(const ustring & stylesheet, vector < ustring >
   // Close connection.
   sqlite3_close(db);
 }
+
 
 void stylesheet_set_recently_used(const ustring & stylesheet, vector < ustring > &styles, vector < unsigned int >&counts) // Todo use another mechanism for this.
 {
@@ -594,6 +548,7 @@ void stylesheet_set_recently_used(const ustring & stylesheet, vector < ustring >
   // Close connection.
   sqlite3_close(db);
 }
+
 
 void stylesheet_save_style(const ustring & stylesheet, const Style & style) // Todo update for .xml files.
 {
@@ -703,10 +658,12 @@ style: the Style object to read. The marker is already given in the object.
   sqlite3_close(db);
 }
 
+
 void stylesheet_vacuum(const ustring & stylesheet)
 {
   vacuum_database(stylesheet_sql_filename(stylesheet));
 }
+
 
 set < ustring > stylesheet_get_styles_of_type(StylesheetType stylesheettype)
 {

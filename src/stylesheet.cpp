@@ -142,8 +142,8 @@ Stylesheet::Stylesheet(const ustring & name_in)
 					value.clear();
 					if (!xmlStrcmp(element_name, BAD_CAST "style")) {
             if (style) {
-              loaded.push_back (style);
-              styles[style->marker] = style;
+              styles.push_back (style);
+              styles_map[style->marker] = style;
               style = NULL;
             }
 					}
@@ -165,8 +165,8 @@ Stylesheet::Stylesheet(const ustring & name_in)
 
 Stylesheet::~Stylesheet()
 {
-  for (unsigned int i = 0; i < loaded.size(); i++) {
-    delete loaded[i];
+  for (unsigned int i = 0; i < styles.size(); i++) {
+    delete styles[i];
   }
 }
 
@@ -182,9 +182,9 @@ void Stylesheet::save ()
   xmlTextWriterStartElement(writer, BAD_CAST "bibledit-configuration");
 
   // Get the combined information, and write it to the document.
-  for (unsigned int i = 0; i < loaded.size(); i++) {
+  for (unsigned int i = 0; i < styles.size(); i++) {
 
-    StyleV2 * style = loaded[i];
+    StyleV2 * style = styles[i];
 
     // Open a style for the marker
     xmlTextWriterStartElement(writer, BAD_CAST "style");
@@ -330,8 +330,26 @@ StyleV2 * Stylesheet::style (const ustring& marker)
 // This returns the style for "marker" if the marker is in the stylesheet.
 // Else it returns NULL..
 {
-  StyleV2 * style = styles[marker];
+  StyleV2 * style = styles_map[marker];
   return style;
 }
 
+
+void Stylesheet::erase (const ustring& marker)
+// Erases the Style for "marker".
+{
+  StyleV2 * style_to_erase = style (marker);
+  if (style_to_erase == NULL)
+    return;
+  
+  vector <StyleV2 *> styles2 = styles;
+  styles.clear();
+  for (unsigned int i = 0; i < styles2.size(); i++) {
+    if (styles2[i] != style_to_erase) {
+      styles.push_back (styles2[i]);
+    }
+  } 
+  delete style_to_erase;
+  styles_map[marker] = NULL;  
+}
 

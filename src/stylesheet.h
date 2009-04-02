@@ -34,9 +34,10 @@ public:
   void save ();
   ustring name;
   StyleV2 * style (const ustring& marker);
+  vector <StyleV2 *> styles;
+  void erase (const ustring& marker);
 private:
-  map <ustring, StyleV2 *> styles;
-  vector <StyleV2 *> loaded;
+  map <ustring, StyleV2 *> styles_map;
 };
 
 
