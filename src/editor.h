@@ -75,8 +75,6 @@ public:
   vector <Reference> quick_references;
   GtkWidget * quick_references_button;
 
-  GtkWidget *scrolledwindow;
-
   GtkWidget * new_verse_signal;
   GtkWidget * new_styles_signal;
   GtkWidget * reload_signal;
@@ -118,10 +116,13 @@ public:
   guint undo_redo_event_id;
   guint save_timeout_event_id;
 
-  // The formatted view.
+  // The formatted view. // Todo
+  GtkWidget *scrolledwindow;
+  GtkWidget *viewport;
+  GtkWidget *vbox1;
+  GtkWidget *textview;
   GtkTextTagTable * texttagtable;
   void create_or_update_formatting_data();
-  GtkWidget * textview;
   GtkTextBuffer * textbuffer;
   void create_or_update_text_style(Style * style, bool paragraph, bool plaintext, double font_multiplier);
   bool verse_restarts_paragraph;
