@@ -47,7 +47,7 @@ int main (int argc, char *argv[])
   // Look for current version number.
   size_t pos;
   string versionpluscomma = VERSION;
-  versionpluscomma.append (",");
+  versionpluscomma.append ("],");
   pos = text.find (versionpluscomma);
   if (pos == string::npos) {
     g_warning ("%s %s", "Can't find current version", VERSION);
@@ -55,7 +55,7 @@ int main (int argc, char *argv[])
   }    
 
   // Example of a version line:
-  // AC_INIT(bibledit, 3.1.25, http://www.nongnu.org/bibledit)  
+  // AC_INIT(bibledit, [3.6.54], http://www.nongnu.org/bibledit)  
   
   // Get the bit of text before the version number.
   string textbefore = text.substr (0, pos);
