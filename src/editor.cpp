@@ -76,15 +76,6 @@ current_reference(0, 1000, "")
   gtk_box_pack_start(GTK_BOX(vbox), scrolledwindow, true, true, 0);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-  // The mechanism to add the remaining widgets.
-  viewport = gtk_viewport_new (NULL, NULL);
-  gtk_widget_show (viewport);
-  gtk_container_add (GTK_CONTAINER (scrolledwindow), viewport);
-
-  vbox1 = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox1);
-  gtk_container_add (GTK_CONTAINER (viewport), vbox1);
-
   // A textbuffer to store all text.
   textbuffer = gtk_text_buffer_new(texttagtable);
 
@@ -103,7 +94,7 @@ current_reference(0, 1000, "")
   // A text view to display the buffer.
   textview = gtk_text_view_new_with_buffer(textbuffer);
   gtk_widget_show(textview);
-  gtk_box_pack_start (GTK_BOX (vbox1), textview, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(scrolledwindow), textview);
   gtk_text_view_set_accepts_tab(GTK_TEXT_VIEW(textview), FALSE);
   gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textview), GTK_WRAP_WORD);
   gtk_text_view_set_editable(GTK_TEXT_VIEW(textview), FALSE);
@@ -119,17 +110,10 @@ current_reference(0, 1000, "")
   g_signal_connect_after((gpointer) textview, "key-press-event", G_CALLBACK(text_key_press_event_after), gpointer(this));
   g_signal_connect((gpointer) textview, "visibility-notify-event", G_CALLBACK(screen_visibility_notify_event), gpointer(this));
   g_signal_connect((gpointer) textview, "button_press_event", G_CALLBACK(on_textview_button_press_event), gpointer(this));
-  g_signal_connect((gpointer) textview, "size-allocate", G_CALLBACK(on_related_widget_size_allocated), gpointer(this)); // Todo this one probably to go out.
+  g_signal_connect((gpointer) textview, "size-allocate", G_CALLBACK(on_related_widget_size_allocated), gpointer(this));
 
   // Initialize the last focused textview to the main textview.
   last_focused_widget = textview;
-
-  // Example of how to add a note view. Todo
-  GtkWidget *textview1;
-  textview1 = gtk_text_view_new ();
-  gtk_widget_show (textview1);
-  gtk_box_pack_start (GTK_BOX (vbox1), textview1, FALSE, TRUE, 0);
-  gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview1)), "note1", -1);
 
   // Buttons to give signals.
   new_verse_signal = gtk_button_new();
@@ -228,8 +212,9 @@ void Editor::chapter_load(unsigned int chapter_in, vector < ustring > *lines_in)
   restart_verse_tracker();
 
   // Temporally removing the view from the buffer speeds operations up a huge lot.
-  // Todo g_object_ref(textbuffer);
-  // Todo gtk_text_view_set_buffer(GTK_TEXT_VIEW(textview), NULL);
+  // But with newer Gtk versions this caused a crash.
+  // g_object_ref(textbuffer);
+  // gtk_text_view_set_buffer(GTK_TEXT_VIEW(textview), NULL);
   
   // Get rid of possible previous text.
   gtk_text_buffer_set_text(textbuffer, "", -1);
@@ -300,9 +285,9 @@ void Editor::chapter_load(unsigned int chapter_in, vector < ustring > *lines_in)
   display_notes_remainder(false);
   renumber_and_clean_notes_callers();
 
-  // Reconnect the view to the buffer.
-  // Todo gtk_text_view_set_buffer(GTK_TEXT_VIEW(textview), textbuffer);
-  // Todo g_object_unref(textbuffer);
+  // Reconnect the view to the buffer. See before why this is no longer done.
+  // gtk_text_view_set_buffer(GTK_TEXT_VIEW(textview), textbuffer);
+  // g_object_unref(textbuffer);
   
   // Clear undo buffer.
   editorundoes.clear();
@@ -1635,7 +1620,7 @@ bool Editor::load_text_verse_number(ustring & line, ustring & paragraph_mark, us
   return false;
 }
 
-bool Editor::load_text_note_raw(ustring & line, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found) // Todo
+bool Editor::load_text_note_raw(ustring & line, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
 /*
  This function loads the raw text of a footnote, an endnote, or a 
  crossreference.
@@ -1952,7 +1937,7 @@ void Editor::erase_related_note_bits()
   renumber_and_clean_notes_callers();
 }
 
-void Editor::display_notes_remainder(bool focus_rendered_textview) // Todo
+void Editor::display_notes_remainder(bool focus_rendered_textview)
 /*
  Once the text has been loaded in the editor, any notes have been partially 
  loaded. The note caller in the text has been placed already, but the note caller
@@ -2109,7 +2094,7 @@ void Editor::display_notes_remainder(bool focus_rendered_textview) // Todo
   set_font();
 }
 
-void Editor::renumber_and_clean_notes_callers() // Todo
+void Editor::renumber_and_clean_notes_callers()
 // Renumbers the note callers.
 // At the same time clear up unwanted stuff.
 {
@@ -3629,12 +3614,3 @@ bool Editor::move_cursor_to_spelling_error (bool next, bool extremity)
   return moved;
 }
 
-/*
-
-Todo bug in newer Gtk versions when displaying notes in formatted view.
-Solution is to display the notes no longer as we do it now, but differently:
-- Notes go in their own textview below the main textview.
-- For footnote markers, we use a normal character, no child anchor, and this character is tagged such that it looks like a footnote caller.
-
-
-*/

@@ -116,10 +116,8 @@ public:
   guint undo_redo_event_id;
   guint save_timeout_event_id;
 
-  // The formatted view. // Todo
+  // The formatted view.
   GtkWidget *scrolledwindow;
-  GtkWidget *viewport;
-  GtkWidget *vbox1;
   GtkWidget *textview;
   GtkTextTagTable * texttagtable;
   void create_or_update_formatting_data();

@@ -48,16 +48,7 @@ WindowBase(widEditor, project_name, startup, 0, parent_box)
   gtk_container_add(GTK_CONTAINER(window_vbox), vbox);
 
   // Switch to default view.
-  switch_to_view (true, project_name); 
-  /*
-  Todo crash in formatted view.
-  The bug is that when switching to formatted view, bibledit crashes.
-  We may have to change the editor, e.g. by removing the textview while loading the buffer.
-  And also by moving the notes to separate textviews and textbuffers in the hbox.
-  We need to find out with gdb what the cause is.
-  gdb says that it has to do with the child anchor when loading a note.
-  When there are no notes, the probem does not occur.
-  */
+  switch_to_view (false, project_name); 
 }
 
 WindowEditor::~WindowEditor()
