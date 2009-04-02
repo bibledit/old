@@ -3614,3 +3614,12 @@ bool Editor::move_cursor_to_spelling_error (bool next, bool extremity)
   return moved;
 }
 
+/*
+
+Todo bug in newer Gtk versions when displaying notes in formatted view.
+Solution is to display the notes no longer as we do it now, but differently:
+- Notes go in their own textview below the main textview.
+- We may have to use a clickable label in the main text view to indicate the place of a footnote.
+
+
+*/

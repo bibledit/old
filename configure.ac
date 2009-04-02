@@ -138,19 +138,19 @@ fi
 
 # Checks for libraries.
 
-PKG_CHECK_MODULES(GLIB, glib-2.0 >= 2.8.0,,AC_MSG_ERROR(glib development version >= 2.8.0 is needed.))
+PKG_CHECK_MODULES(GLIB, glib-2.0 >= 2.16.0,,AC_MSG_ERROR(glib development version >= 2.16.0 is needed.))
 AC_SUBST(GLIB_CFLAGS)
 AC_SUBST(GLIB_LIBS)
 
-PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.10.0,,AC_MSG_ERROR(gtk+ development version >= 2.10.0 is needed.))
+PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.12.0,,AC_MSG_ERROR(gtk+ development version >= 2.12.0 is needed.))
 AC_SUBST(GTK_CFLAGS)
 AC_SUBST(GTK_LIBS)
 
-PKG_CHECK_MODULES(GTHREAD, gthread-2.0 >= 2.4.0,,AC_MSG_ERROR(gthread development version >= 2.4.0 is needed.))
+PKG_CHECK_MODULES(GTHREAD, gthread-2.0 >= 2.16.0,,AC_MSG_ERROR(gthread development version >= 2.16.0 is needed.))
 AC_SUBST(GTHREAD_CFLAGS)
 AC_SUBST(GTHREAD_LIBS)
 
-PKG_CHECK_MODULES(GOBJECT, gobject-2.0 >= 2.4.0,,AC_MSG_ERROR(gobject development version >= 2.4.0 is needed.))
+PKG_CHECK_MODULES(GOBJECT, gobject-2.0 >= 2.16.0,,AC_MSG_ERROR(gobject development version >= 2.16.0 is needed.))
 AC_SUBST(GOBJECT_CFLAGS)
 AC_SUBST(GOBJECT_LIBS)
 

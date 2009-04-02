@@ -55,6 +55,8 @@ WindowBase(widEditor, project_name, startup, 0, parent_box)
   We may have to change the editor, e.g. by removing the textview while loading the buffer.
   And also by moving the notes to separate textviews and textbuffers in the hbox.
   We need to find out with gdb what the cause is.
+  gdb says that it has to do with the child anchor when loading a note.
+  When there are no notes, the probem does not occur.
   */
 }
 
