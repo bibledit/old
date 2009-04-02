@@ -32,10 +32,10 @@ public:
   Stylesheet (const ustring& name_in);
   ~Stylesheet ();
   void save ();
-  ustring myname;
+  ustring name;
   StyleV2 * style (const ustring& marker);
 private:
-  map <ustring, StyleV2 *> styles; // We have to try out what the map gives if we ask for a style that doesn't exist, whether NULL.
+  map <ustring, StyleV2 *> styles;
   vector <StyleV2 *> loaded;
 };
 

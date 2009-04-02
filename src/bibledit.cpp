@@ -82,10 +82,6 @@ int main(int argc, char *argv[])
   // Styles object.
   Styles mystyles(0);
   styles = &mystyles;
-  {
-    Stylesheet * stylesheet = styles->stylesheet ("Standard"); // Todo temporal
-    cout << "stylesheet Standard points to " << stylesheet <<  " and the style for one marker points to " << stylesheet->style ("id") << endl; // Todo
-  }
   // Curl initialization.
   curl_global_init(CURL_GLOBAL_ALL);
   curl = curl_easy_init();

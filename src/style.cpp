@@ -81,7 +81,6 @@ void Style::read_template()
 StyleV2::StyleV2(int dummy) // Todo this one for new code.
 // Contains the values for the style of one marker.
 {
-  cout << "creating default StyleV2 object" << endl; // Todo
   // Set default values.
   name = "Marker";
   info = "Unified Standard Format Marker";
@@ -113,15 +112,6 @@ StyleV2::StyleV2(int dummy) // Todo this one for new code.
 
 StyleV2::~StyleV2()
 {
-  cout << "destroying StyleV2 object for marker " << marker << endl; // Todo
-  cout << "name was " << name << endl; // Todo
 }
 
 
-// Todo we need to fix the bumpversion software as there are now [] used around the version number.
-
-// Todo we better revert the system of reading the stylesheets to using the db directly, till such time that the new system works well.
-
-// Todo printing parallel references hangs.
-
-// Todo if bibledit-bin crashes, then bibledit-git goes to 100% CPU usage. To fix this.

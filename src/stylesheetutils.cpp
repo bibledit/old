@@ -34,9 +34,10 @@
 #include "settings.h"
 #include <libxml/xmlwriter.h>
 #include <libxml/xmlreader.h>
+#include "styles.h"
 
 
-#define STYLESHEET_SQL_SUFFIX ".sql18" // Todo be changed to ".sql" later. Verify current usage.
+#define STYLESHEET_SQL_SUFFIX ".sql18" // Todo can go out later.
 #define STYLESHEET_XML_SUFFIX ".xml1"
 const char *RECOGNIZED_SUFFIXES[] = { ".sql17", ".sql18", ".xml1" };
 
@@ -365,10 +366,6 @@ void stylesheets_upgrade()
 
         // Write values.
         
-        xmlTextWriterStartElement(writer, BAD_CAST "marker"); // Todo at the end this one goes out.
-        xmlTextWriterWriteFormatString(writer, "%s", reader.ustring3[i].c_str());
-        xmlTextWriterEndElement(writer);
-
         xmlTextWriterStartElement(writer, BAD_CAST "name");
         xmlTextWriterWriteFormatString(writer, "%s", reader.ustring0[i].c_str());
         xmlTextWriterEndElement(writer);
@@ -516,6 +513,14 @@ void stylesheets_upgrade()
       stylesheet_create_new(STANDARDSHEET, stFull);
     }
   }
+  /*
+		extern Styles * styles;
+    Stylesheet * stylesheet = styles->stylesheet ("Standard"); // Todo temporal
+    StyleV2 * style = stylesheet->style ("id");
+    cout << style->name << endl; // Todo
+    style->name = "This is the ID marker --------------------";
+    stylesheet->save();
+  */
 }
 
 void stylesheet_get_recently_used(const ustring & stylesheet, vector < ustring > &markers, vector < unsigned int >&count) // Todo think of another mechanism for this.

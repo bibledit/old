@@ -30,13 +30,12 @@
 Stylesheet::Stylesheet(const ustring & name_in)
 {
   // Save the sheet's name.
-  myname = name_in;
+  name = name_in;
 
   // If the name is empty, read from the template.
-  ustring filename = stylesheet_xml_filename(myname);
-  if (myname.empty())
+  ustring filename = stylesheet_xml_filename(name);
+  if (name.empty())
     filename = stylesheet_xml_template_filename();
-  cout << "creating and reading stylesheet " << filename << endl; // Todo
 
   // Read the xml data, bail out on failure.
   gchar *contents;
@@ -63,7 +62,6 @@ Stylesheet::Stylesheet(const ustring & name_in)
             if (attribute) {
               style = new StyleV2 (0);
               style->marker = attribute;
-              cout << "style marker is " << style->marker << endl; // Todo
               free(attribute);
             }
 					}
@@ -167,21 +165,173 @@ Stylesheet::Stylesheet(const ustring & name_in)
 
 Stylesheet::~Stylesheet()
 {
-  cout << "destroying stylesheet " << myname << endl; // Todo
   for (unsigned int i = 0; i < loaded.size(); i++) {
     delete loaded[i];
   }
 }
 
 
-StyleV2 * Stylesheet::style (const ustring& marker) // Todo
-// This returns the style for "marker", or NULL.
+void Stylesheet::save ()
+// Saves the stylesheet to its native xml format.
 {
-  return NULL;
+  // Start the new xml document.
+  xmlBufferPtr buffer = xmlBufferCreate();
+  xmlTextWriterPtr writer = xmlNewTextWriterMemory(buffer, 0);
+  xmlTextWriterStartDocument(writer, NULL, "UTF-8", NULL);
+  xmlTextWriterSetIndent(writer, 1);
+  xmlTextWriterStartElement(writer, BAD_CAST "bibledit-configuration");
+
+  // Get the combined information, and write it to the document.
+  for (unsigned int i = 0; i < loaded.size(); i++) {
+
+    StyleV2 * style = loaded[i];
+
+    // Open a style for the marker
+    xmlTextWriterStartElement(writer, BAD_CAST "style");
+    xmlTextWriterWriteFormatAttribute (writer, BAD_CAST "marker", "%s", style->marker.c_str());
+
+    // Write values.
+
+    if (!style->name.empty()) {
+      xmlTextWriterStartElement(writer, BAD_CAST "name");
+      xmlTextWriterWriteFormatString(writer, "%s", style->name.c_str());
+      xmlTextWriterEndElement(writer);
+    }        
+
+    if (!style->info.empty()) {
+      xmlTextWriterStartElement(writer, BAD_CAST "info");
+      xmlTextWriterWriteFormatString(writer, "%s", style->info.c_str());
+      xmlTextWriterEndElement(writer);
+    }
+
+    xmlTextWriterStartElement(writer, BAD_CAST "type");
+    xmlTextWriterWriteFormatString(writer, "%d", style->type);
+    xmlTextWriterEndElement(writer);
+
+    xmlTextWriterStartElement(writer, BAD_CAST "subtype");
+    xmlTextWriterWriteFormatString(writer, "%d", style->subtype);
+    xmlTextWriterEndElement(writer);
+
+    xmlTextWriterStartElement(writer, BAD_CAST "fontsize");
+    xmlTextWriterWriteFormatString(writer, "%s", convert_to_string (style->fontsize).c_str());
+    xmlTextWriterEndElement(writer);
+
+    xmlTextWriterStartElement(writer, BAD_CAST "italic");
+    xmlTextWriterWriteFormatString(writer, "%s", style->italic.c_str());
+    xmlTextWriterEndElement(writer);
+
+    xmlTextWriterStartElement(writer, BAD_CAST "bold");
+    xmlTextWriterWriteFormatString(writer, "%s", style->bold.c_str());
+    xmlTextWriterEndElement(writer);
+
+    xmlTextWriterStartElement(writer, BAD_CAST "underline");
+    xmlTextWriterWriteFormatString(writer, "%s", style->underline.c_str());
+    xmlTextWriterEndElement(writer);
+
+    xmlTextWriterStartElement(writer, BAD_CAST "smallcaps");
+    xmlTextWriterWriteFormatString(writer, "%s", style->smallcaps.c_str());
+    xmlTextWriterEndElement(writer);
+
+    xmlTextWriterStartElement(writer, BAD_CAST "superscript");
+    xmlTextWriterWriteFormatString(writer, "%s", convert_to_string (style->superscript).c_str());
+    xmlTextWriterEndElement(writer);
+
+    xmlTextWriterStartElement(writer, BAD_CAST "justification");
+    xmlTextWriterWriteFormatString(writer, "%s", style->justification.c_str());
+    xmlTextWriterEndElement(writer);
+
+    xmlTextWriterStartElement(writer, BAD_CAST "spacebefore");
+    xmlTextWriterWriteFormatString(writer, "%s", convert_to_string (style->spacebefore).c_str());
+    xmlTextWriterEndElement(writer);
+
+    xmlTextWriterStartElement(writer, BAD_CAST "spaceafter");
+    xmlTextWriterWriteFormatString(writer, "%s", convert_to_string (style->spaceafter).c_str());
+    xmlTextWriterEndElement(writer);
+
+    xmlTextWriterStartElement(writer, BAD_CAST "leftmargin");
+    xmlTextWriterWriteFormatString(writer, "%s", convert_to_string (style->leftmargin).c_str());
+    xmlTextWriterEndElement(writer);
+
+    xmlTextWriterStartElement(writer, BAD_CAST "rightmargin");
+    xmlTextWriterWriteFormatString(writer, "%s", convert_to_string (style->rightmargin).c_str());
+    xmlTextWriterEndElement(writer);
+
+    xmlTextWriterStartElement(writer, BAD_CAST "firstlineindent");
+    xmlTextWriterWriteFormatString(writer, "%s", convert_to_string (style->firstlineindent).c_str());
+    xmlTextWriterEndElement(writer);
+
+    xmlTextWriterStartElement(writer, BAD_CAST "spancolumns");
+    xmlTextWriterWriteFormatString(writer, "%s", convert_to_string (style->spancolumns).c_str());
+    xmlTextWriterEndElement(writer);
+
+    xmlTextWriterStartElement(writer, BAD_CAST "color");
+    xmlTextWriterWriteFormatString(writer, "%d", style->color);
+    xmlTextWriterEndElement(writer);
+
+    xmlTextWriterStartElement(writer, BAD_CAST "print");
+    xmlTextWriterWriteFormatString(writer, "%s", convert_to_string (style->print).c_str());
+    xmlTextWriterEndElement(writer);
+
+    xmlTextWriterStartElement(writer, BAD_CAST "userbool1");
+    xmlTextWriterWriteFormatString(writer, "%s", convert_to_string (style->userbool1).c_str());
+    xmlTextWriterEndElement(writer);
+
+    xmlTextWriterStartElement(writer, BAD_CAST "userbool2");
+    xmlTextWriterWriteFormatString(writer, "%s", convert_to_string (style->userbool2).c_str());
+    xmlTextWriterEndElement(writer);
+
+    xmlTextWriterStartElement(writer, BAD_CAST "userbool3");
+    xmlTextWriterWriteFormatString(writer, "%s", convert_to_string (style->userbool3).c_str());
+    xmlTextWriterEndElement(writer);
+
+    xmlTextWriterStartElement(writer, BAD_CAST "userint1");
+    xmlTextWriterWriteFormatString(writer, "%d", style->userint1);
+    xmlTextWriterEndElement(writer);
+
+    xmlTextWriterStartElement(writer, BAD_CAST "userint2");
+    xmlTextWriterWriteFormatString(writer, "%d", style->userint2);
+    xmlTextWriterEndElement(writer);
+
+    xmlTextWriterStartElement(writer, BAD_CAST "userint3");
+    xmlTextWriterWriteFormatString(writer, "%d", style->userint3);
+    xmlTextWriterEndElement(writer);
+
+    xmlTextWriterStartElement(writer, BAD_CAST "userstring1");
+    xmlTextWriterWriteFormatString(writer, "%s", style->userstring1.c_str());
+    xmlTextWriterEndElement(writer);
+
+    xmlTextWriterStartElement(writer, BAD_CAST "userstring2");
+    xmlTextWriterWriteFormatString(writer, "%s", style->userstring2.c_str());
+    xmlTextWriterEndElement(writer);
+
+    xmlTextWriterStartElement(writer, BAD_CAST "userstring3");
+    xmlTextWriterWriteFormatString(writer, "%s", style->userstring3.c_str());
+    xmlTextWriterEndElement(writer);
+
+    // Close the style.
+    xmlTextWriterEndElement(writer);
+  }
+
+  // Close document and write it to disk.
+  xmlTextWriterEndDocument(writer);
+  xmlTextWriterFlush(writer);
+  ustring filename = stylesheet_xml_filename (name);
+  g_file_set_contents(filename.c_str(), (const gchar *)buffer->content, -1, NULL);
+
+  // Free memory.
+  if (writer)
+    xmlFreeTextWriter(writer);
+  if (buffer)
+    xmlBufferFree(buffer);
 }
 
 
-// Todo to implement this one.
+StyleV2 * Stylesheet::style (const ustring& marker)
+// This returns the style for "marker" if the marker is in the stylesheet.
+// Else it returns NULL..
+{
+  StyleV2 * style = styles[marker];
+  return style;
+}
 
-// Todo we need to have a <style marker="x"> style of doing things, so as to speed it up a lot.
-// Todo In the mean time we leave the <marker>x</marker> style in till we've moved completely.
+

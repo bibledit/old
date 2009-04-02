@@ -72,7 +72,7 @@ Stylesheet * Styles::stylesheet (const ustring& name)
 {
   // If this stylesheet has been loaded already, return a pointer to it.
   for (unsigned int i = 0; i < stylesheets.size(); i++) {
-    if (name == stylesheets[i]->myname) {
+    if (name == stylesheets[i]->name) {
       return stylesheets[i];
     }
   }
