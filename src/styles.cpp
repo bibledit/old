@@ -33,6 +33,9 @@ Styles::~Styles()
   }
   if (myusfmstandard)
     delete myusfmstandard;
+  for (unsigned int i = 0; i < stylesheets.size(); i++) {
+    delete stylesheets[i];
+  }
 }
 
 Usfm *Styles::usfm(const ustring & stylesheet)
@@ -64,3 +67,21 @@ USFMStandard * Styles::usfmstandard()
   return myusfmstandard;
 }
   
+
+Stylesheet * Styles::stylesheet (const ustring& name)
+{
+  // If this stylesheet has been loaded already, return a pointer to it.
+  for (unsigned int i = 0; i < stylesheets.size(); i++) {
+    if (name == stylesheets[i]->myname) {
+      return stylesheets[i];
+    }
+  }
+  // If this stylesheet does not exist, create it.
+  if (!stylesheet_exists(name)) {
+    stylesheet_create_new(name, stFull);
+  }
+  // The stylesheet was not loaded yet. Return a pointer to a new one.
+  Stylesheet *stylesheet = new Stylesheet(name);
+  stylesheets.push_back(stylesheet);
+  return stylesheets[stylesheets.size() - 1];
+}

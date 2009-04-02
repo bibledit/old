@@ -68,7 +68,7 @@ enum WordListElementType {
 
 
 class Style
-// Manages settings for one style.
+// Manages settings for one style. DEPRECATED - Use StyleV2 instead for new code.
 {
 public:
   Style (const ustring& stylesheet, const ustring& style, bool write);
@@ -76,6 +76,8 @@ public:
   ustring marker;
   ustring name;
   ustring info;
+  StyleType type;
+  int subtype;
   double fontsize;
   ustring italic;
   ustring bold;
@@ -89,8 +91,6 @@ public:
   double rightmargin;
   double firstlineindent;
   bool spancolumns;
-  StyleType type;
-  int subtype;
   unsigned int color;
   bool print;
   bool userbool1;
@@ -106,6 +106,44 @@ public:
 private:
   ustring mystylesheet;
   bool mywrite;
+};
+
+
+class StyleV2
+// Manages settings for one style.
+{
+public:
+  StyleV2 (int dummy);
+  ~StyleV2 ();
+  ustring marker;
+  ustring name;
+  ustring info;
+  StyleType type;
+  int subtype;
+  double fontsize;
+  ustring italic;
+  ustring bold;
+  ustring underline;
+  ustring smallcaps;
+  bool superscript;
+  ustring justification;
+  double spacebefore;
+  double spaceafter;
+  double leftmargin;
+  double rightmargin;
+  double firstlineindent;
+  bool spancolumns;
+  unsigned int color;
+  bool print;
+  bool userbool1;
+  bool userbool2;
+  bool userbool3;
+  int userint1;
+  int userint2;
+  int userint3;
+  ustring userstring1;
+  ustring userstring2;
+  ustring userstring3;
 };
 
 

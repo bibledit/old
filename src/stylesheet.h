@@ -18,28 +18,25 @@
 */
 
 
-#ifndef INCLUDED_STYLES_H
-#define INCLUDED_STYLES_H
+#ifndef INCLUDED_STYLESHEET_H
+#define INCLUDED_STYLESHEET_H
 
 
 #include "libraries.h"
-#include "usfm.h"
-#include "usfmstandard.h"
-#include "stylesheet.h"
+#include "style.h"
 
 
-class Styles
+class Stylesheet
 {
 public:
-  Styles (int dummy);
-  ~Styles ();
-  Usfm * usfm (const ustring& stylesheet);
-  USFMStandard * usfmstandard();
-  Stylesheet * stylesheet (const ustring& name);
+  Stylesheet (const ustring& name_in);
+  ~Stylesheet ();
+  void save ();
+  ustring myname;
+  StyleV2 * style (const ustring& marker);
 private:
-  vector <Usfm *> usfms;
-  USFMStandard * myusfmstandard;
-  vector <Stylesheet *> stylesheets;
+  map <ustring, StyleV2 *> styles; // We have to try out what the map gives if we ask for a style that doesn't exist, whether NULL.
+  vector <StyleV2 *> loaded;
 };
 
 

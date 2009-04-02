@@ -27,6 +27,8 @@
 #include "types.h"
 
 
+ustring stylesheet_xml_filename(const ustring & name);
+ustring stylesheet_xml_template_filename();
 void stylesheet_get_ones_available (vector<ustring>& names);
 void stylesheet_create_new (const ustring& name, StylesheetType stylesheettype);
 void stylesheet_delete (const ustring& name);

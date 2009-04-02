@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <stylesheet>
- <style>
+ <style marker="imt2">
   <marker>imt2</marker>
   <name>Major Title Level 2</name>
   <info>Introduction major title, level 2</info>
@@ -31,7 +31,7 @@
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="m">
   <marker>m</marker>
   <name>Margin, No First Line Indent</name>
   <info>Paragraph text, with no first line indent (may occur after poetry)</info>
@@ -62,7 +62,7 @@
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="sls">
   <marker>sls</marker>
   <name>* Secondary Language or Text Source</name>
   <info>To represent where the original text is in a secondary language or from an alternate text source</info>
@@ -93,7 +93,7 @@
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="fe">
   <marker>fe</marker>
   <name>* Endnote</name>
   <info>An Endnote text item.</info>
@@ -124,7 +124,7 @@
   <userstring2>zendnotes</userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="toc">
   <marker>toc</marker>
   <name>Table of Contents</name>
   <info>Front matter table of contents.</info>
@@ -155,7 +155,7 @@
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="io2">
   <marker>io2</marker>
   <name>Outline Level 2</name>
   <info>Introduction outline text, level 2</info>
@@ -186,7 +186,7 @@
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="cls">
   <marker>cls</marker>
   <name>Closure of an Epistle</name>
   <info>Closure of an Epistle</info>
@@ -217,7 +217,7 @@
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="sc">
   <marker>sc</marker>
   <name>* Small Caps</name>
   <info>A character style, for small capitalization text</info>
@@ -248,7 +248,7 @@
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="fp">
   <marker>fp</marker>
   <name>Paragraph Mark</name>
   <info>(*) A Footnote additional paragraph marker.</info>
@@ -279,7 +279,7 @@
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="em">
   <marker>em</marker>
   <name>* Emphasized Text</name>
   <info>A character style, use emphasized text style</info>
@@ -310,7 +310,7 @@
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="fm">
   <marker>fm</marker>
   <name>* Footnote Mark</name>
   <info>An additional footnote marker location for a previous footnote.</info>
@@ -341,7 +341,7 @@
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="iq">
   <marker>iq</marker>
   <name>Poetry Level 1</name>
   <info>Introduction poetry text, level 1 (if single level)</info>
@@ -372,7 +372,7 @@
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="bd">
   <marker>bd</marker>
   <name>* Bold Text</name>
   <info>A character style, use bold text</info>
@@ -403,7 +403,7 @@
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="b">
   <marker>b</marker>
   <name>Blank Line</name>
   <info>May be used to explicitely indicate additional white space between paragraphs.
@@ -435,7 +435,7 @@ Poetry text stanza break (e.g. stanza break)</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="pub">
   <marker>pub</marker>
   <name>Publication Data</name>
   <info>Front matter publication data.</info>
@@ -466,7 +466,7 @@ Poetry text stanza break (e.g. stanza break)</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="ip">
   <marker>ip</marker>
   <name>Paragraph</name>
   <info>Introduction prose paragraph</info>
@@ -497,7 +497,7 @@ Poetry text stanza break (e.g. stanza break)</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="pi">
   <marker>pi</marker>
   <name>Indented, Level 1, First Line Indent</name>
   <info>Paragraph text, level 1 indent (if sinlge level), with first line indent; often used for discourse</info>
@@ -528,7 +528,7 @@ Poetry text stanza break (e.g. stanza break)</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="pref">
   <marker>pref</marker>
   <name>Preface</name>
   <info>Front matter preface.</info>
@@ -559,7 +559,7 @@ Poetry text stanza break (e.g. stanza break)</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="spine">
   <marker>spine</marker>
   <name>Spine</name>
   <info>Other peripheral materials - spine.</info>
@@ -590,7 +590,7 @@ Poetry text stanza break (e.g. stanza break)</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="is2">
   <marker>is2</marker>
   <name>Section Heading Level 2</name>
   <info>Introduction section heading, level 2</info>
@@ -621,7 +621,7 @@ Poetry text stanza break (e.g. stanza break)</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="ipq">
   <marker>ipq</marker>
   <name>Paragraph, quote from text</name>
   <info>Introduction prose paragraph, quote from the body text</info>
@@ -652,7 +652,7 @@ Poetry text stanza break (e.g. stanza break)</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="cov">
   <marker>cov</marker>
   <name>Cover</name>
   <info>Other peripheral materials - cover.</info>
@@ -683,7 +683,7 @@ Poetry text stanza break (e.g. stanza break)</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="p2">
   <marker>p2</marker>
   <name>Front/Back Matter Paragraph Level 2</name>
   <info>Front or back matter text paragraph, level 2 (if multiple levels)</info>
@@ -714,7 +714,7 @@ Poetry text stanza break (e.g. stanza break)</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="ipi">
   <marker>ipi</marker>
   <name>Indented Paragraph, first line indent</name>
   <info>Introduction prose paragraph, indented, with first line indent</info>
@@ -745,7 +745,7 @@ Poetry text stanza break (e.g. stanza break)</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="pi3">
   <marker>pi3</marker>
   <name>Indented, Level 3, First Line Indent</name>
   <info>Paragraph text, level 3 indent, with first line indent; often used for discourse</info>
@@ -776,7 +776,7 @@ Poetry text stanza break (e.g. stanza break)</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="s4">
   <marker>s4</marker>
   <name>Section Heading Level 4</name>
   <info>A section heading, level 4</info>
@@ -807,7 +807,7 @@ Poetry text stanza break (e.g. stanza break)</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="mte2">
   <marker>mte2</marker>
   <name>[Uncommon] Major Title Ending Level 2</name>
   <info>A secondary title occurring before or after the 'ending' main title</info>
@@ -838,7 +838,7 @@ Poetry text stanza break (e.g. stanza break)</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="ms1">
   <marker>ms1</marker>
   <name>Major Section Level 1</name>
   <info>A major section division heading, level 1 (if multiple levels)</info>
@@ -869,7 +869,7 @@ Poetry text stanza break (e.g. stanza break)</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="h3">
   <marker>h3</marker>
   <name>Right Running Header</name>
   <info>Running header text, right side of page</info>
@@ -900,7 +900,7 @@ Poetry text stanza break (e.g. stanza break)</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="io">
   <marker>io</marker>
   <name>Outline Level 1</name>
   <info>Introduction outline text, level 1 (if single level)</info>
@@ -931,7 +931,7 @@ Poetry text stanza break (e.g. stanza break)</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="ior">
   <marker>ior</marker>
   <name>Outline References Range</name>
   <info>Introduction references range for outline entry; for marking references separately</info>
@@ -962,7 +962,7 @@ Poetry text stanza break (e.g. stanza break)</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="ib">
   <marker>ib</marker>
   <name>Blank Line</name>
   <info>Introduction blank line</info>
@@ -993,7 +993,7 @@ Poetry text stanza break (e.g. stanza break)</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="xdc">
   <marker>xdc</marker>
   <name>* DC Target Refs</name>
   <info>Cross-reference target reference(s), Apocrypha only.</info>
@@ -1024,7 +1024,7 @@ Poetry text stanza break (e.g. stanza break)</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="c">
   <marker>c</marker>
   <name>Chapter Number</name>
   <info>Chapter number</info>
@@ -1055,7 +1055,7 @@ Poetry text stanza break (e.g. stanza break)</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="im">
   <marker>im</marker>
   <name>Paragraph, no first line indent</name>
   <info>Introduction prose paragraph, with no first line indent (may occur after poetry)</info>
@@ -1086,7 +1086,7 @@ Poetry text stanza break (e.g. stanza break)</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="li2">
   <marker>li2</marker>
   <name>List Entry Level 2</name>
   <info>A list entry, level 2</info>
@@ -1117,7 +1117,7 @@ Poetry text stanza break (e.g. stanza break)</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="li4">
   <marker>li4</marker>
   <name>List Entry Level 4</name>
   <info>A list entry, level 4</info>
@@ -1148,7 +1148,7 @@ Poetry text stanza break (e.g. stanza break)</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="mt2">
   <marker>mt2</marker>
   <name>Major Title Level 2</name>
   <info>A secondary title with less important information than the main title.</info>
@@ -1179,7 +1179,7 @@ Poetry text stanza break (e.g. stanza break)</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="pubinfo">
   <marker>pubinfo</marker>
   <name>Publication Information</name>
   <info>Publication information - Lang,Credit,Version,Copies,Publisher,Id,Logo
@@ -1211,7 +1211,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="sr">
   <marker>sr</marker>
   <name>Section Heading Range References</name>
   <info>A section division references range heading</info>
@@ -1242,7 +1242,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="iot">
   <marker>iot</marker>
   <name>Outline Title</name>
   <info>Introduction outline title</info>
@@ -1273,7 +1273,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="x">
   <marker>x</marker>
   <name>* Cross Reference</name>
   <info>A list of cross references.</info>
@@ -1304,7 +1304,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="qa">
   <marker>qa</marker>
   <name>Acrostic Heading/Marker</name>
   <info>Poetry text, Acrostic marker/heading</info>
@@ -1335,7 +1335,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="is">
   <marker>is</marker>
   <name>Section Heading Level 1</name>
   <info>Introduction section heading, level 1 (if single level)</info>
@@ -1366,7 +1366,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="qr">
   <marker>qr</marker>
   <name>Right Aligned</name>
   <info>Poetry text, Right Aligned</info>
@@ -1397,7 +1397,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="imt3">
   <marker>imt3</marker>
   <name>Major Title Level 3</name>
   <info>Introduction major title, level 3</info>
@@ -1428,7 +1428,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="add">
   <marker>add</marker>
   <name>* Translational Addition</name>
   <info>For a translational addition to the text</info>
@@ -1459,7 +1459,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="f">
   <marker>f</marker>
   <name>* Footnote</name>
   <info>A Footnote text item.</info>
@@ -1490,7 +1490,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="cd">
   <marker>cd</marker>
   <name>Chapter Description</name>
   <info>Chapter Description (Publishing option D, e.g. in Russian Bibles)</info>
@@ -1521,7 +1521,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="fv">
   <marker>fv</marker>
   <name>Embedded Verse Number</name>
   <info>(*) A verse number within the footnote text.</info>
@@ -1552,7 +1552,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="io1">
   <marker>io1</marker>
   <name>Outline Level 1</name>
   <info>Introduction outline text, level 1 (if multiple levels)</info>
@@ -1583,7 +1583,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="qm2">
   <marker>qm2</marker>
   <name>Embedded Text, Indent Level 2</name>
   <info>Poetry text, embedded, level 2 indent</info>
@@ -1614,7 +1614,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="ms2">
   <marker>ms2</marker>
   <name>Major Section Level 2</name>
   <info>A major section division heading, level 2</info>
@@ -1645,7 +1645,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="mi">
   <marker>mi</marker>
   <name>Indented, No First Line Indent</name>
   <info>Paragraph text, indented, with no first line indent; often used for discourse</info>
@@ -1676,7 +1676,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="io3">
   <marker>io3</marker>
   <name>Outline Level 3</name>
   <info>Introduction outline text, level 3</info>
@@ -1707,7 +1707,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="k">
   <marker>k</marker>
   <name>* Keyword</name>
   <info>For a keyword</info>
@@ -1738,7 +1738,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="h">
   <marker>h</marker>
   <name>Running Header</name>
   <info>Running header text for a book</info>
@@ -1769,7 +1769,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="qs">
   <marker>qs</marker>
   <name>* Selah</name>
   <info>Poetry text, Selah</info>
@@ -1800,7 +1800,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="qm">
   <marker>qm</marker>
   <name>Embedded Text, Indent Level 1, Single Level Only</name>
   <info>Poetry text, embedded, level 1 indent (if single level)</info>
@@ -1831,7 +1831,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="dc">
   <marker>dc</marker>
   <name>* Deuterocanonical/LXX Additions</name>
   <info>Deuterocanonical/LXX additions or insertions in the Protocanonical text</info>
@@ -1862,7 +1862,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="pi1">
   <marker>pi1</marker>
   <name>Indented, Level 1, First Line Indent</name>
   <info>Paragraph text, level 1 indent (if multiple levels), with first line indent; often used for discourse</info>
@@ -1893,7 +1893,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="ms">
   <marker>ms</marker>
   <name>Major Section Level 1</name>
   <info>A major section division heading, level 1 (if single level)</info>
@@ -1924,7 +1924,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="fig">
   <marker>fig</marker>
   <name>* Figure/Illustration/Map</name>
   <info>Illustration [Columns to span, height, filename, caption text]</info>
@@ -1955,7 +1955,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="io4">
   <marker>io4</marker>
   <name>Outline Level 4</name>
   <info>Introduction outline text, level 4</info>
@@ -1986,7 +1986,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="p1">
   <marker>p1</marker>
   <name>Front/Back Matter Paragraph Level 1</name>
   <info>Front or back matter text paragraph, level 1 (if multiple levels)</info>
@@ -2017,7 +2017,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="it">
   <marker>it</marker>
   <name>* Italic Text</name>
   <info>A character style, use italic text</info>
@@ -2048,7 +2048,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="xq">
   <marker>xq</marker>
   <name>Quotation</name>
   <info>(*) A cross-reference quotation from the scripture text.</info>
@@ -2079,7 +2079,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="qac">
   <marker>qac</marker>
   <name>* Acrostic Letter</name>
   <info>Poetry text, Acrostic markup of the first character of a line of acrostic poetry</info>
@@ -2110,7 +2110,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="iq1">
   <marker>iq1</marker>
   <name>Poetry Level 1</name>
   <info>Introduction poetry text, level 1 (if multiple levels)</info>
@@ -2141,7 +2141,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="xo">
   <marker>xo</marker>
   <name>Origin Reference</name>
   <info>(*) The cross reference origin reference.</info>
@@ -2172,7 +2172,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="pn">
   <marker>pn</marker>
   <name>* Proper Name</name>
   <info>For a proper name</info>
@@ -2203,7 +2203,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="fr">
   <marker>fr</marker>
   <name>Reference</name>
   <info>(*) The origin reference for the footnote.</info>
@@ -2234,7 +2234,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="ord">
   <marker>ord</marker>
   <name>* Ordinal number text portion</name>
   <info>For the text portion of an ordinal number</info>
@@ -2265,7 +2265,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="ft">
   <marker>ft</marker>
   <name>Text</name>
   <info>(*) Footnote text.</info>
@@ -2296,7 +2296,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="fq">
   <marker>fq</marker>
   <name>Quotation or Alternate Rendering</name>
   <info>(*) A footnote scripture quote.</info>
@@ -2327,7 +2327,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="imi">
   <marker>imi</marker>
   <name>Indented Paragraph, no first line indent</name>
   <info>Introduction prose paragraph text, indented, with no first line indent</info>
@@ -2358,7 +2358,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="mt4">
   <marker>mt4</marker>
   <name>Major Title level 4</name>
   <info>A small secondary title sometimes occuring within parentheses</info>
@@ -2389,7 +2389,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="mr">
   <marker>mr</marker>
   <name>Major Section Range References</name>
   <info>A major section division references range heading</info>
@@ -2420,7 +2420,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="mt3">
   <marker>mt3</marker>
   <name>Major Title Level 3</name>
   <info>A secondary title, less important than the main title</info>
@@ -2451,7 +2451,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="no">
   <marker>no</marker>
   <name>* Normal Text</name>
   <info>A character style, use normal text</info>
@@ -2482,7 +2482,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="is1">
   <marker>is1</marker>
   <name>Section Heading Level 1</name>
   <info>Introduction section heading, level 1 (if multiple levels)</info>
@@ -2513,7 +2513,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="qt">
   <marker>qt</marker>
   <name>* Quoted Text, OT in NT</name>
   <info>For Old Testament quoted text appearing in the New Testament</info>
@@ -2544,7 +2544,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="s2">
   <marker>s2</marker>
   <name>Section Heading Level 2</name>
   <info>A section heading, level 2 (e.g. Proverbs 22-24)</info>
@@ -2575,7 +2575,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="li3">
   <marker>li3</marker>
   <name>List Entry Level 3</name>
   <info>A list entry, level 3</info>
@@ -2606,7 +2606,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="xt">
   <marker>xt</marker>
   <name>Target References</name>
   <info>(*) The cross reference target reference(s).</info>
@@ -2637,7 +2637,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="qm1">
   <marker>qm1</marker>
   <name>Embedded Text, Indent Level 1</name>
   <info>Poetry text, embedded, level 1 indent (if multiple levels)</info>
@@ -2668,7 +2668,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="h1">
   <marker>h1</marker>
   <name>Running Header</name>
   <info>Running header text</info>
@@ -2699,7 +2699,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="pmr">
   <marker>pmr</marker>
   <name>Embedded Text Refrain</name>
   <info>Embedded text refrain (e.g. Then all the people shall say, &quot;Amen!&quot;)</info>
@@ -2730,7 +2730,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="pi2">
   <marker>pi2</marker>
   <name>Indented, Level 2, First Line Indent</name>
   <info>Paragraph text, level 2 indent, with first line indent; often used for discourse</info>
@@ -2761,7 +2761,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="vp">
   <marker>vp</marker>
   <name>* Publishing alternate verse</name>
   <info>Published verse marker - this is a verse marking that would be used in the published text.</info>
@@ -2792,7 +2792,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="li">
   <marker>li</marker>
   <name>List Entry Level 1</name>
   <info>A list entry, level 1 (if single level)</info>
@@ -2823,7 +2823,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="ipr">
   <marker>ipr</marker>
   <name>Paragraph, right aligned</name>
   <info>Introduction prose paragraph, right aligned</info>
@@ -2854,7 +2854,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="rem">
   <marker>rem</marker>
   <name>Remark</name>
   <info>Comments and remarks</info>
@@ -2885,7 +2885,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="imt">
   <marker>imt</marker>
   <name>Major Title Level 1</name>
   <info>Introduction major title, level 1 (if single level)</info>
@@ -2916,7 +2916,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="imt4">
   <marker>imt4</marker>
   <name>Major Title Level 4</name>
   <info>Introduction major title, level 4 (usually within parenthesis)</info>
@@ -2947,7 +2947,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="q">
   <marker>q</marker>
   <name>Indent Level 1, Single Level Only</name>
   <info>Poetry text, level 1 indent (if single level)</info>
@@ -2978,7 +2978,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="q2">
   <marker>q2</marker>
   <name>Indent Level 2</name>
   <info>Poetry text, level 2 indent</info>
@@ -3009,7 +3009,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="iex">
   <marker>iex</marker>
   <name>Explanatory or Bridge Text</name>
   <info>Introduction explanatory or bridge text (e.g. explanation of missing book in Short Old Testament)</info>
@@ -3040,7 +3040,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="iq3">
   <marker>iq3</marker>
   <name>Poetry Level 3</name>
   <info>Introduction poetry text, level 3</info>
@@ -3071,7 +3071,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="qc">
   <marker>qc</marker>
   <name>Centered</name>
   <info>Poetry text, centered</info>
@@ -3102,7 +3102,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="q3">
   <marker>q3</marker>
   <name>Indent Level 3</name>
   <info>Poetry text, level 3 indent</info>
@@ -3133,7 +3133,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="fl">
   <marker>fl</marker>
   <name>Label Text</name>
   <info>(*) A footnote label text item, for marking or &quot;labelling&quot; the type or alternate translation being provided in the note.</info>
@@ -3164,7 +3164,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="conc">
   <marker>conc</marker>
   <name>Concordance</name>
   <info>Back matter concordance.</info>
@@ -3195,7 +3195,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="bk">
   <marker>bk</marker>
   <name>* Quoted book title</name>
   <info>For the quoted name of a book</info>
@@ -3226,7 +3226,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="pm">
   <marker>pm</marker>
   <name>Embedded Text</name>
   <info>Embedded text paragraph</info>
@@ -3257,7 +3257,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="d">
   <marker>d</marker>
   <name>Descriptive Title, Hebrew Subtitle</name>
   <info>A Hebrew text heading, to provide description (e.g. Psalms)</info>
@@ -3288,7 +3288,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="lit">
   <marker>lit</marker>
   <name>* Liturgical note</name>
   <info>For a comment or note inserted for liturgical use</info>
@@ -3319,7 +3319,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="imq">
   <marker>imq</marker>
   <name>Paragraph, quote from text, no first line indent</name>
   <info>Introduction prose paragraph, quote from the body text, with no first line indent</info>
@@ -3350,7 +3350,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="mte1">
   <marker>mte1</marker>
   <name>[Uncommon] Major Title Ending Level 1</name>
   <info>The main title of the book repeated at the end of the book (if multiple levels)</info>
@@ -3381,7 +3381,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="ie">
   <marker>ie</marker>
   <name>End Marker</name>
   <info>Introduction ending marker</info>
@@ -3412,7 +3412,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="pb">
   <marker>pb</marker>
   <name>Page Break</name>
   <info>Page Break used for new reader portions and children's bibles where content is controlled by the page</info>
@@ -3443,7 +3443,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="fqa">
   <marker>fqa</marker>
   <name>Alternate Rendering</name>
   <info>(*) A footnote alternate rendering for a portion of scripture text.</info>
@@ -3474,7 +3474,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="s3">
   <marker>s3</marker>
   <name>Section Heading Level 3</name>
   <info>A section heading, level 3 (e.g. Genesis &quot;The First Day&quot;)</info>
@@ -3505,7 +3505,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="toc2">
   <marker>toc2</marker>
   <name>Short Table of Contents Text</name>
   <info>Short table of contents text</info>
@@ -3536,7 +3536,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="qm3">
   <marker>qm3</marker>
   <name>Embedded Text, Indent Level 3</name>
   <info>Poetry text, embedded, level 3 indent</info>
@@ -3567,7 +3567,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="tl">
   <marker>tl</marker>
   <name>* Transliterated Word</name>
   <info>For transliterated words</info>
@@ -3598,7 +3598,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="imt1">
   <marker>imt1</marker>
   <name>Major Title Level 1</name>
   <info>Introduction major title, level 1 (if multiple levels)</info>
@@ -3629,7 +3629,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="pmc">
   <marker>pmc</marker>
   <name>Embedded Text Closing</name>
   <info>Embedded text closing</info>
@@ -3660,7 +3660,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="glo">
   <marker>glo</marker>
   <name>Glossary</name>
   <info>Back matter glossary.</info>
@@ -3691,7 +3691,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="idx">
   <marker>idx</marker>
   <name>Index</name>
   <info>Back matter index.</info>
@@ -3722,7 +3722,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="k2">
   <marker>k2</marker>
   <name>Concordance Keyword Level 2</name>
   <info>Concordance main entry text or keyword, level 2</info>
@@ -3753,7 +3753,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="toc1">
   <marker>toc1</marker>
   <name>Long Table of Contents Text</name>
   <info>Long table of contents text</info>
@@ -3784,7 +3784,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="pmo">
   <marker>pmo</marker>
   <name>Embedded Text Opening</name>
   <info>Embedded text opening</info>
@@ -3815,7 +3815,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="p">
   <marker>p</marker>
   <name>Normal, First Line Indent</name>
   <info>Paragraph text, with first line indent</info>
@@ -3846,7 +3846,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="h2">
   <marker>h2</marker>
   <name>Left Running Header</name>
   <info>Running header text, left side of page</info>
@@ -3877,7 +3877,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="nd">
   <marker>nd</marker>
   <name>* Name of Deity</name>
   <info>For name of diety</info>
@@ -3908,7 +3908,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="sp">
   <marker>sp</marker>
   <name>Speaker</name>
   <info>A heading, to identify the speaker (e.g. Job)</info>
@@ -3939,7 +3939,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="fdc">
   <marker>fdc</marker>
   <name>* DC text</name>
   <info>Footnote text, applies to Apocrypha only.</info>
@@ -3970,7 +3970,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="xk">
   <marker>xk</marker>
   <name>Keyword</name>
   <info>(*) A cross reference keyword.</info>
@@ -4001,7 +4001,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="maps">
   <marker>maps</marker>
   <name>Map Index</name>
   <info>Back matter map index.</info>
@@ -4032,7 +4032,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="li1">
   <marker>li1</marker>
   <name>List Entry Level 1</name>
   <info>A list entry, level 1 (if multiple levels)</info>
@@ -4063,7 +4063,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="q1">
   <marker>q1</marker>
   <name>Indent Level 1</name>
   <info>Poetry text, level 1 indent (if multiple levels)</info>
@@ -4094,7 +4094,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="sig">
   <marker>sig</marker>
   <name>* Author's Signature (Epistles)</name>
   <info>For the signature of the author of an Epistle</info>
@@ -4125,7 +4125,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="mt1">
   <marker>mt1</marker>
   <name>Major Title Level 1</name>
   <info>The main title of the book (if multiple levels)</info>
@@ -4156,7 +4156,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="va">
   <marker>va</marker>
   <name>* Alternate verse number</name>
   <info>Second (alternate) verse number (for coding dual numeration in Psalms; see also NRSV Exo 22.1-4)</info>
@@ -4187,7 +4187,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="pc">
   <marker>pc</marker>
   <name>Centered (for Inscription)</name>
   <info>Paragraph text, centered (for Inscription)</info>
@@ -4218,7 +4218,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="s1">
   <marker>s1</marker>
   <name>Section Heading Level 1</name>
   <info>A section heading, level 1 (if multiple levels)</info>
@@ -4249,7 +4249,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="mte">
   <marker>mte</marker>
   <name>[Uncommon] Major Title Ending Level 1</name>
   <info>The main title of the book repeated at the end of the book (if single level)</info>
@@ -4280,7 +4280,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="mt">
   <marker>mt</marker>
   <name>Major Title Level 1</name>
   <info>The main title of the book (if single level)</info>
@@ -4311,7 +4311,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="s">
   <marker>s</marker>
   <name>Section Heading Level 1</name>
   <info>A section heading, level 1 (if single level)</info>
@@ -4342,7 +4342,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="intro">
   <marker>intro</marker>
   <name>Introduction</name>
   <info>Front matter introduction.</info>
@@ -4373,7 +4373,7 @@ Not yet supported in Bibledit.</info>
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="ide">
   <marker>ide</marker>
   <name>Encoding</name>
   <info>File encoding information
@@ -4405,7 +4405,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="fk">
   <marker>fk</marker>
   <name>Keyword</name>
   <info>(*) A footnote keyword.</info>
@@ -4436,7 +4436,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="bdit">
   <marker>bdit</marker>
   <name>* BoldItalic Text</name>
   <info>A character style, use bold + italic text</info>
@@ -4467,7 +4467,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="iq2">
   <marker>iq2</marker>
   <name>Poetry Level 2</name>
   <info>Introduction poetry text, level 2</info>
@@ -4498,7 +4498,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="nb">
   <marker>nb</marker>
   <name>No Break with Previous Paragraph</name>
   <info>Paragraph text, with no break from previous paragraph text (at chapter boundary)</info>
@@ -4529,7 +4529,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="k1">
   <marker>k1</marker>
   <name>Concordance Keyword Level 1</name>
   <info>Concordance main entry text or keyword, level 1</info>
@@ -4560,7 +4560,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="imte">
   <marker>imte</marker>
   <name>[Uncommon] Major Title at Introduction End</name>
   <info>Introduction major title at introduction end</info>
@@ -4591,7 +4591,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="id">
   <marker>id</marker>
   <name>Identification</name>
   <info>File identification information (BOOKID, FILENAME, EDITOR, MODIFICATION DATE)</info>
@@ -4622,7 +4622,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="v">
   <marker>v</marker>
   <name>Verse Number</name>
   <info>A verse number (Necessary for normal Bibledit operation)</info>
@@ -4653,7 +4653,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="wj">
   <marker>wj</marker>
   <name>* Words of Jesus</name>
   <info>For marking the words of Jesus</info>
@@ -4684,7 +4684,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="toc3">
   <marker>toc3</marker>
   <name>Book Abbreviation</name>
   <info>Book Abbreviation (not yet supported by Bibledit).</info>
@@ -4715,7 +4715,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="rq">
   <marker>rq</marker>
   <name>Inline Quotation References</name>
   <info>A cross-reference indicating the source text for the preceding quotation.</info>
@@ -4746,7 +4746,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="tr">
   <marker>tr</marker>
   <name>Row</name>
   <info>A new table row.</info>
@@ -4777,7 +4777,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="th1">
   <marker>th1</marker>
   <name>Column 1 Heading</name>
   <info>A table heading, column 1.</info>
@@ -4808,7 +4808,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="th2">
   <marker>th2</marker>
   <name>Column 2 Heading</name>
   <info>A table heading, column 2.</info>
@@ -4839,7 +4839,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="th3">
   <marker>th3</marker>
   <name>Column 3 Heading</name>
   <info>A table heading, column 3.</info>
@@ -4870,7 +4870,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="th4">
   <marker>th4</marker>
   <name>Column 4 Heading</name>
   <info>A table heading, column 4.</info>
@@ -4901,7 +4901,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="thr1">
   <marker>thr1</marker>
   <name>Column 1 Heading, Right Aligned</name>
   <info>A table heading, column 1, right aligned.</info>
@@ -4932,7 +4932,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="thr2">
   <marker>thr2</marker>
   <name>Column 2 Heading, Right Aligned</name>
   <info>A table heading, column 2, right aligned.</info>
@@ -4963,7 +4963,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="thr3">
   <marker>thr3</marker>
   <name>Column 3 Heading, Right Aligned</name>
   <info>A table heading, column 3, right aligned.</info>
@@ -4994,7 +4994,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="thr4">
   <marker>thr4</marker>
   <name>Column 4 Heading, Right Aligned</name>
   <info>A table heading, column 4, right aligned.</info>
@@ -5025,7 +5025,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="tc1">
   <marker>tc1</marker>
   <name>Column 1 Cell</name>
   <info>A table cell item, column 1.</info>
@@ -5056,7 +5056,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="tc2">
   <marker>tc2</marker>
   <name>Column 2 Cell</name>
   <info>A table cell item, column 2.</info>
@@ -5087,7 +5087,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="tc3">
   <marker>tc3</marker>
   <name>Column 3 Cell</name>
   <info>A table cell item, column 3.</info>
@@ -5118,7 +5118,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="tc4">
   <marker>tc4</marker>
   <name>Column 4 Cell</name>
   <info>A table cell item, column 4.</info>
@@ -5149,7 +5149,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="tcr1">
   <marker>tcr1</marker>
   <name>Column 1 Cell, Right Aligned</name>
   <info>A table cell item, column 1, right aligned.</info>
@@ -5180,7 +5180,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="tcr2">
   <marker>tcr2</marker>
   <name>Column 2 Cell, Right Aligned</name>
   <info>A table cell item, column 2, right aligned.</info>
@@ -5211,7 +5211,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="tcr3">
   <marker>tcr3</marker>
   <name>Column 3 Cell, Right Aligned</name>
   <info>A table cell item, column 3, right aligned.</info>
@@ -5242,7 +5242,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="tcr4">
   <marker>tcr4</marker>
   <name>Column 4 Cell, Right Aligned</name>
   <info>A table cell item, column 4, right aligned.</info>
@@ -5273,7 +5273,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="ca">
   <marker>ca</marker>
   <name>Alternate Chapter Number</name>
   <info>Second (alternate) chapter number (for coding dual versification; useful for places where different traditions of chapter breaks need to be supported in the same translation). Bibledit does nothing with this marker yet.</info>
@@ -5304,7 +5304,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="cl">
   <marker>cl</marker>
   <name>Chapter Publishing Label</name>
   <info>Chapter label used for translations that add a word such as &quot;Chapter&quot; before chapter numbers (e.g. Psalms).</info>
@@ -5335,7 +5335,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="cp">
   <marker>cp</marker>
   <name>Publishing Alternate Chapter Number</name>
   <info>Published chapter number (this is a chapter marking that would be used in the published text).</info>
@@ -5366,7 +5366,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="pro">
   <marker>pro</marker>
   <name>* CJK Prounciation</name>
   <info>For indicating pronunciation in CJK texts</info>
@@ -5397,7 +5397,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="wh">
   <marker>wh</marker>
   <name>* Hebrew Wordlist Entry</name>
   <info>A Hebrew wordlist text item.</info>
@@ -5428,7 +5428,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="wg">
   <marker>wg</marker>
   <name>* Greek Wordlist Entry</name>
   <info>A Greek Wordlist text item.</info>
@@ -5459,7 +5459,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="ndx">
   <marker>ndx</marker>
   <name>* Subject Index Entry</name>
   <info>A subject index text item.</info>
@@ -5490,7 +5490,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="w">
   <marker>w</marker>
   <name>* Wordlist Entry</name>
   <info>A wordlist text item.</info>
@@ -5521,7 +5521,7 @@ Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.<
   <userstring2></userstring2>
   <userstring3></userstring3>
  </style>
- <style>
+ <style marker="r">
   <marker>r</marker>
   <name>Parallel References</name>
   <info>Parallel reference(s)</info>

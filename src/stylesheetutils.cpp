@@ -182,7 +182,7 @@ void stylesheet_get_styles(const ustring & stylesheet, vector < Style > &styles)
 }
 
 
-vector < ustring > stylesheet_get_markers(const ustring & stylesheet, vector < ustring > *names)
+vector < ustring > stylesheet_get_markers(const ustring & stylesheet, vector < ustring > *names) // Todo needs update.
 /*
 This function only gets the markers and the names of the styles of the stylesheet,
 and is therefore faster than the similar function that gets the whole style.
@@ -190,75 +190,36 @@ It is intended to be used in such situations that only the markers and/or the
 names of the styles are needed, such as in the styletree.
  */
 {
-  // The markers.
-  vector <ustring> markers;
-
-  // Clear names.
-	if (names)
-	  names->clear();
-		
-  // Read the stylesheet, bail out on failure.
-  gchar *contents;
-  g_file_get_contents(stylesheet_xml_filename(stylesheet).c_str(), &contents, NULL, NULL);
-  if (contents == NULL) {
-    gw_critical("Failure reading stylesheet " + stylesheet);
-		return markers;
+  // Store styles
+  vector < ustring > markers;
+  // Some variables.  
+  sqlite3 *db;
+  int rc;
+  char *error = NULL;
+  try {
+    // Connect to the database.
+    rc = sqlite3_open(stylesheet_sql_filename(stylesheet).c_str(), &db);
+    if (rc)
+      throw runtime_error(sqlite3_errmsg(db));
+    sqlite3_busy_timeout(db, 1000);
+    // Read the available markers.
+    SqliteReader reader(0);
+    char *sql;
+    sql = g_strdup_printf("select marker, name from styles;");
+    rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
+    g_free(sql);
+    if (rc != SQLITE_OK) {
+      throw runtime_error(sqlite3_errmsg(db));
+    }
+    markers.assign(reader.ustring0.begin(), reader.ustring0.end());
+    if (names)
+      names->assign(reader.ustring1.begin(), reader.ustring1.end());
   }
-
-  // Parse the stylesheet.  
-  xmlParserInputBufferPtr inputbuffer;
-  inputbuffer = xmlParserInputBufferCreateMem(contents, strlen(contents), XML_CHAR_ENCODING_NONE);
-  xmlTextReaderPtr reader = xmlNewTextReader(inputbuffer, NULL);
-
-  ustring marker;
-	ustring name;
-	ustring value;
-
-	if (reader) {
-		while ((xmlTextReaderRead(reader) == 1)) {
-			switch (xmlTextReaderNodeType(reader)) {
-			case XML_READER_TYPE_ELEMENT:
-				{
-					break;
-				}
-			case XML_READER_TYPE_TEXT:
-				{
-  				xmlChar *text = xmlTextReaderValue(reader);
-					if (text) {
-					  value = (gchar *) text;
-						xmlFree(text);
-					}	
-					break;
-				}
-			case XML_READER_TYPE_END_ELEMENT:
-				{
-					xmlChar *element_name = xmlTextReaderName(reader);
-					if (!xmlStrcmp(element_name, BAD_CAST "marker"))
-						marker = value;
-					if (!xmlStrcmp(element_name, BAD_CAST "name"))
-						name = value;
-					value.clear();
-					if (!xmlStrcmp(element_name, BAD_CAST "style")) {
-						if (!marker.empty()) {
-							markers.push_back (marker);
-							if (names)
-							  names->push_back (name);
-						}
-					}
-					break;
-				}
-			}
-		}
-	}
-
-  // Free memory.
-	if (reader)
-		xmlFreeTextReader(reader);
-	if (inputbuffer)
-		xmlFreeParserInputBuffer(inputbuffer);
-	if (contents)
-		g_free(contents);
-
+  catch(exception & ex) {
+    gw_critical(ex.what());
+  }
+  // Close connection.
+  sqlite3_close(db);
   // Return result.
   return markers;
 }
@@ -398,12 +359,13 @@ void stylesheets_upgrade()
       // Convert data.
       for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
 
-        // Open a style.
+        // Open a style for the marker
         xmlTextWriterStartElement(writer, BAD_CAST "style");
+				xmlTextWriterWriteFormatAttribute (writer, BAD_CAST "marker", "%s", reader.ustring3[i].c_str());
 
         // Write values.
         
-        xmlTextWriterStartElement(writer, BAD_CAST "marker");
+        xmlTextWriterStartElement(writer, BAD_CAST "marker"); // Todo at the end this one goes out.
         xmlTextWriterWriteFormatString(writer, "%s", reader.ustring3[i].c_str());
         xmlTextWriterEndElement(writer);
 
@@ -674,226 +636,66 @@ stylesheet: which stylesheet to read from. If no stylesheet is given, it reads f
 style: the Style object to read. The marker is already given in the object.
 */
 {
-  // If the stylesheet is not given, we read from the template.
-  ustring filename = stylesheet_xml_filename(stylesheet);
-  if (stylesheet.empty())
-    filename = stylesheet_xml_template_filename();
-
-  // Read the stylesheet, bail out on failure.
-  gchar *contents;
-  g_file_get_contents(filename.c_str(), &contents, NULL, NULL);
-  if (contents == NULL) {
-    gw_critical("Failure reading stylesheet " + stylesheet);
-		return;
+  // Some variables.  
+  sqlite3 *db;
+  int rc;
+  char *error = NULL;
+  try {
+    // If the stylesheet is not given, we read from the template.
+    ustring filename = stylesheet_sql_filename(stylesheet);
+    if (stylesheet.empty())
+      filename = stylesheet_template_filename();
+    // Connect to the database.
+    rc = sqlite3_open(filename.c_str(), &db);
+    if (rc)
+      throw runtime_error(sqlite3_errmsg(db));
+    sqlite3_busy_timeout(db, 1000);
+    // Read the style.
+    SqliteReader reader(0);
+    char *sql;
+    sql = g_strdup_printf("select name, info, fontsize, fontpercentage, " "italic, bold, underline, smallcaps, superscript, justification, " "spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, spancolumns, " "type, subtype, userbool1, userbool2, userbool3, " "userint1, userint2, userint3, userstring1, userstring2, userstring3, " "color, print " "from styles where marker = '%s';", style.marker.c_str());
+    rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
+    g_free(sql);
+    if (rc != SQLITE_OK) {
+      throw runtime_error(sqlite3_errmsg(db));
+    }
+    if (reader.ustring0.size() > 0) {
+      style.name = reader.ustring0[0];
+      style.info = reader.ustring1[0];
+      style.fontsize = convert_to_double(reader.ustring2[0]);
+      // Font percentage no longer used.
+      style.italic = reader.ustring4[0];
+      style.bold = reader.ustring5[0];
+      style.underline = reader.ustring6[0];
+      style.smallcaps = reader.ustring7[0];
+      style.superscript = convert_to_bool(reader.ustring8[0]);
+      style.justification = reader.ustring9[0];
+      style.spacebefore = convert_to_double(reader.ustring10[0]);
+      style.spaceafter = convert_to_double(reader.ustring11[0]);
+      style.leftmargin = convert_to_double(reader.ustring12[0]);
+      style.rightmargin = convert_to_double(reader.ustring13[0]);
+      style.firstlineindent = convert_to_double(reader.ustring14[0]);
+      style.spancolumns = convert_to_bool(reader.ustring15[0]);
+      style.type = (StyleType) convert_to_int(reader.ustring16[0]);
+      style.subtype = convert_to_int(reader.ustring17[0]);
+      style.userbool1 = convert_to_bool(reader.ustring18[0]);
+      style.userbool2 = convert_to_bool(reader.ustring19[0]);
+      style.userbool3 = convert_to_bool(reader.ustring20[0]);
+      style.userint1 = convert_to_int(reader.ustring21[0]);
+      style.userint2 = convert_to_int(reader.ustring22[0]);
+      style.userint3 = convert_to_int(reader.ustring23[0]);
+      style.userstring1 = reader.ustring24[0];
+      style.userstring2 = reader.ustring25[0];
+      style.userstring3 = reader.ustring26[0];
+      style.color = convert_to_int(reader.ustring27[0]);
+      style.print = convert_to_int(reader.ustring28[0]);
+    }
   }
-
-  // Variables to hold what we read.
-  ustring marker;
-	ustring name;
-	ustring info;
-	ustring type;
-	ustring subtype;
-	ustring fontsize;
-	ustring italic;
-	ustring bold;
-	ustring underline;
-	ustring smallcaps;
-	ustring superscript;
-	ustring justification;
-	ustring spacebefore;
-	ustring spaceafter;
-	ustring leftmargin;
-	ustring rightmargin;
-	ustring firstlineindent;
-	ustring spancolumns;
-  ustring color;
-	ustring print;
-  ustring userbool1;
-  ustring userbool2;
-  ustring userbool3;
-  ustring userint1;
-  ustring userint2;
-  ustring userint3;
-  ustring userstring1;
-  ustring userstring2;
-  ustring userstring3;
-
-  // Parse the stylesheet.  
-  xmlParserInputBufferPtr inputbuffer;
-  inputbuffer = xmlParserInputBufferCreateMem(contents, strlen(contents), XML_CHAR_ENCODING_NONE);
-  xmlTextReaderPtr reader = xmlNewTextReader(inputbuffer, NULL);
-	bool reading_is_relevant = false;
-	bool reading_is_done = false;
-	bool reading_marker_now = false;
-	ustring value;
-	if (reader) {
-		while ((xmlTextReaderRead(reader) == 1)) {
-			if (reading_is_done)
-			  break;
-			switch (xmlTextReaderNodeType(reader)) {
-			case XML_READER_TYPE_ELEMENT:
-				{
-					xmlChar *element_name = xmlTextReaderName(reader);
-					if (!xmlStrcmp(element_name, BAD_CAST "style")) {
-            marker.clear();
-	          name.clear();
-	          info.clear();
-	          type.clear();
-	          subtype.clear();
-	          fontsize.clear();
-	          italic.clear();
-	          bold.clear();
-	          underline.clear();
-	          smallcaps.clear();
-	          superscript.clear();
-	          justification.clear();
-	          spacebefore.clear();
-	          spaceafter.clear();
-	          leftmargin.clear();
-	          rightmargin.clear();
-	          firstlineindent.clear();
-	          spancolumns.clear();
-            color.clear();
-	          print.clear();
-            userbool1.clear();
-            userbool2.clear();
-            userbool3.clear();
-            userint1.clear();
-            userint2.clear();
-            userint3.clear();
-            userstring1.clear();
-            userstring2.clear();
-            userstring3.clear();
-						reading_is_relevant = true;
-					}
-					if (!xmlStrcmp(element_name, BAD_CAST "marker")) {
-						reading_marker_now = true;
-					}
-					break;
-				}
-			case XML_READER_TYPE_TEXT:
-				{
-  				xmlChar *text = xmlTextReaderValue(reader);
-					if (text) {
-					  value = (gchar *) text;
-						xmlFree(text);
-					}	
-					if (reading_marker_now) {
-						reading_is_relevant = (style.marker == value);
-						reading_marker_now = false;
-					}
-					break;
-				}
-			case XML_READER_TYPE_END_ELEMENT:
-				{
-					xmlChar *element_name = xmlTextReaderName(reader);
-					if (reading_is_relevant) {
-  					if (!xmlStrcmp(element_name, BAD_CAST "marker"))
-	  					marker = value;
-		  			if (!xmlStrcmp(element_name, BAD_CAST "name"))
-			  			name = value;
-				  	if (!xmlStrcmp(element_name, BAD_CAST "info"))
-					  	info = value;
-  					if (!xmlStrcmp(element_name, BAD_CAST "type"))
-	  					type = value;
-		  			if (!xmlStrcmp(element_name, BAD_CAST "subtype"))
-			  			subtype = value;
-				  	if (!xmlStrcmp(element_name, BAD_CAST "fontsize"))
-					  	fontsize = value;
-  					if (!xmlStrcmp(element_name, BAD_CAST "italic"))
-	  					italic = value;
-		  			if (!xmlStrcmp(element_name, BAD_CAST "bold"))
-			  			bold = value;
-				  	if (!xmlStrcmp(element_name, BAD_CAST "underline"))
-					  	underline = value;
-  					if (!xmlStrcmp(element_name, BAD_CAST "smallcaps"))
-	  					smallcaps = value;
-		  			if (!xmlStrcmp(element_name, BAD_CAST "superscript"))
-			  			superscript = value;
-				  	if (!xmlStrcmp(element_name, BAD_CAST "justification"))
-					  	justification = value;
-  					if (!xmlStrcmp(element_name, BAD_CAST "spacebefore"))
-	  					spacebefore = value;
-		  			if (!xmlStrcmp(element_name, BAD_CAST "spaceafter"))
-			  			spaceafter = value;
-				  	if (!xmlStrcmp(element_name, BAD_CAST "leftmargin"))
-					  	leftmargin = value;
-  					if (!xmlStrcmp(element_name, BAD_CAST "rightmargin"))
-	  					rightmargin = value;
-		  			if (!xmlStrcmp(element_name, BAD_CAST "firstlineindent"))
-			  			firstlineindent = value;
-				  	if (!xmlStrcmp(element_name, BAD_CAST "spancolumns"))
-					  	spancolumns = value;
-  					if (!xmlStrcmp(element_name, BAD_CAST "color"))
-	  					color = value;
-		  			if (!xmlStrcmp(element_name, BAD_CAST "print"))
-			  			print = value;
-				  	if (!xmlStrcmp(element_name, BAD_CAST "userbool1"))
-					  	userbool1 = value;
-  					if (!xmlStrcmp(element_name, BAD_CAST "userbool2"))
-	  					userbool2 = value;
-		  			if (!xmlStrcmp(element_name, BAD_CAST "userbool3"))
-			  			userbool3 = value;
-				  	if (!xmlStrcmp(element_name, BAD_CAST "userint1"))
-					  	userint1 = value;
-  					if (!xmlStrcmp(element_name, BAD_CAST "userint2"))
-	  					userint2 = value;
-		  			if (!xmlStrcmp(element_name, BAD_CAST "userint3"))
-			  			userint3 = value;
-				  	if (!xmlStrcmp(element_name, BAD_CAST "userstring1"))
-					  	userstring1 = value;
-  					if (!xmlStrcmp(element_name, BAD_CAST "userstring2"))
-	  					userstring2 = value;
-		  			if (!xmlStrcmp(element_name, BAD_CAST "userstring3"))
-			  			userstring3 = value;
-					}
-					value.clear();
-					if (!xmlStrcmp(element_name, BAD_CAST "style")) {
-						if (marker == style.marker) {
-              style.name = name;
-              style.info = info;
-              style.type = (StyleType) convert_to_int(type);
-              style.subtype = convert_to_int(subtype);
-              style.fontsize = convert_to_double(fontsize);
-              style.italic = italic;
-              style.bold = bold;
-              style.underline = underline;
-              style.smallcaps = smallcaps;
-              style.superscript = convert_to_bool(superscript);
-              style.justification = justification;
-              style.spacebefore = convert_to_double(spacebefore);
-              style.spaceafter = convert_to_double(spaceafter);
-              style.leftmargin = convert_to_double(leftmargin);
-              style.rightmargin = convert_to_double(rightmargin);
-              style.firstlineindent = convert_to_double(firstlineindent);
-              style.spancolumns = convert_to_bool(spancolumns);
-              style.color = convert_to_int(color);
-              style.print = convert_to_bool(print);
-              style.userbool1 = convert_to_bool(userbool1);
-              style.userbool2 = convert_to_bool(userbool2);
-              style.userbool3 = convert_to_bool(userbool3);
-              style.userint1 = convert_to_int(userint1);
-              style.userint2 = convert_to_int(userint2);
-              style.userint3 = convert_to_int(userint3);
-              style.userstring1 = userstring1;
-              style.userstring2 = userstring2;
-              style.userstring3 = userstring3;
-							reading_is_done = true;
-						}
-					}
-					break;
-				}
-			}
-		}
-	}
-
-  // Free memory.
-	if (reader)
-		xmlFreeTextReader(reader);
-	if (inputbuffer)
-		xmlFreeParserInputBuffer(inputbuffer);
-	if (contents)
-		g_free(contents);
+  catch(exception & ex) {
+    gw_critical(ex.what());
+  }
+  // Close connection.
+  sqlite3_close(db);
 }
 
 void stylesheet_vacuum(const ustring & stylesheet)
@@ -1004,3 +806,5 @@ ustring stylesheet_get_actual ()
 // Todo the new mechanism for the recently used ones is that on saving them, a new db may be created and then saved - reading remains as now.
 // Todo reading the stylesheet is very slow. Make a new system where the whole sheet is read at once, and where the individual values 
 // are read from a map<ustring, value>. This should speed it up greatly. Thus all the stylesheet are kept in memory and accessed from there.
+
+// Todo at the end of all, generate a proper stylesheet.xml template.

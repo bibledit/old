@@ -1,18 +1,25 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ(2.59)
-AC_INIT(bibledit, 3.6.54, http://www.nongnu.org/bibledit)
-AC_CANONICAL_SYSTEM
+AC_PREREQ(2.63)
+AC_INIT([bibledit],[3.6.54],[http://www.nongnu.org/bibledit])
+AC_CANONICAL_TARGET
 ac_default_prefix=/usr
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([src])
 AM_INIT_AUTOMAKE
-AM_CONFIG_HEADER([config.h])
+AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.
-AC_ISC_POSIX
-AM_PROG_CC_STDC
+AC_SEARCH_LIBS([strerror],[cposix])
+AC_PROG_CC
+AC_DIAGNOSE([obsolete],[AM_PROG_CC_STDC:
+	your code should no longer depend upon `am_cv_prog_cc_stdc', but upon
+	`ac_cv_prog_cc_stdc'.  Remove this warning and the assignment when
+	you adjust the code.  You can also remove the above call to
+	AC_PROG_CC if you already called it elsewhere.])
+am_cv_prog_cc_stdc=$ac_cv_prog_cc_stdc
+
 AC_PROG_RANLIB
 AC_PROG_CPP
 AC_PROG_CXX
@@ -224,15 +231,12 @@ AC_TYPE_SIZE_T
 AC_HEADER_TIME
 AC_C_VOLATILE
 
-AC_SUBST(src doc bin util lib)
-
 # Checks for library functions.
 AC_CHECK_FUNCS([strdup strstr])
 AC_FUNC_CLOSEDIR_VOID
 AC_FUNC_FORK
 AC_FUNC_REALLOC
 AC_FUNC_SELECT_ARGTYPES
-AC_TYPE_SIGNAL
 AC_FUNC_STAT
 AC_FUNC_STRTOD
 AC_CHECK_FUNCS([atexit dup2 ftruncate inet_ntoa memchr memmove memset mkdir rint select setlocale socket strchr strcspn strpbrk strrchr strstr strtol])
@@ -319,7 +323,7 @@ else
 fi 
 
 # Create all the Makefiles.
-AC_OUTPUT( Makefile 
+AC_CONFIG_FILES([Makefile 
 		   man/Makefile 
 		   pix/Makefile 
 		   doc/Makefile 
@@ -333,7 +337,8 @@ AC_OUTPUT( Makefile
        eeepc/Makefile
        browser/Makefile
        one/Makefile
-		   )
+		   ])
+AC_OUTPUT
 
 echo "
 Bibledit $VERSION configuration summary:

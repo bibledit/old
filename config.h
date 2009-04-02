@@ -299,9 +299,6 @@
 /* Define to the version of this package. */
 #define PACKAGE_VERSION "3.6.54"
 
-/* Define as the return type of signal handlers (`int' or `void'). */
-#define RETSIGTYPE void
-
 /* Define to the type of arg 1 for `select'. */
 #define SELECT_TYPE_ARG1 int
 
