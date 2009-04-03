@@ -36,6 +36,7 @@ public:
   StyleV2 * style (const ustring& marker);
   vector <StyleV2 *> styles;
   void erase (const ustring& marker);
+  void insert (StyleV2 * style);
 private:
   map <ustring, StyleV2 *> styles_map;
 };

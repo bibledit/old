@@ -72,13 +72,8 @@ Style::~Style()
   }
 }
 
-void Style::read_template()
-{
-  stylesheet_load_style("", *this);
-}
 
-
-StyleV2::StyleV2(int dummy) // Todo this one for new code.
+StyleV2::StyleV2(int dummy)
 // Contains the values for the style of one marker.
 {
   // Set default values.

@@ -37,15 +37,14 @@
 #include "styles.h"
 
 
-#define STYLESHEET_SQL_SUFFIX ".sql18" // Todo can go out later.
 #define STYLESHEET_XML_SUFFIX ".xml1"
 const char *RECOGNIZED_SUFFIXES[] = { ".sql17", ".sql18", ".xml1" };
 
 
-ustring stylesheet_sql_filename(const ustring & name) // Todo verify wherever it is used.
-// This returns the database's filename for a named stylesheet.
+ustring stylesheet_recent_filename()
+// This returns the name of the database that contains data for recently used styles.
 {
-  return gw_build_filename(directories_get_stylesheets(), name + STYLESHEET_SQL_SUFFIX);
+  return gw_build_filename(directories_get_stylesheets(), "recent.sql");
 }
 
 
@@ -56,13 +55,6 @@ ustring stylesheet_xml_filename(const ustring & name)
 }
 
 
-ustring stylesheet_template_filename() // Todo to go out later.
-// This returns the database's filename of the template.
-{
-  return gw_build_filename(directories_get_package_data(), "stylesheet.sql");
-}
-
-
 ustring stylesheet_xml_template_filename()
 // This returns the database's filename of the template.
 {
@@ -70,13 +62,18 @@ ustring stylesheet_xml_template_filename()
 }
 
 
-void stylesheet_get_ones_available(vector < ustring > &names) // Todo try out.
+void stylesheet_get_ones_available(vector <ustring>& names)
 // Gets the names of the stylesheets that are there.
 {
+  names.clear();
   ReadFiles rf(directories_get_stylesheets(), "", STYLESHEET_XML_SUFFIX);
-  for (unsigned int i = 0; i < rf.files.size(); i++)
-    rf.files[i].erase(rf.files[i].length() - strlen(STYLESHEET_XML_SUFFIX), strlen(STYLESHEET_XML_SUFFIX));
-  names.assign(rf.files.begin(), rf.files.end());
+  for (unsigned int i = 0; i < rf.files.size(); i++) {
+    ustring name = rf.files[i];
+    name.erase(name.length() - strlen(STYLESHEET_XML_SUFFIX), strlen(STYLESHEET_XML_SUFFIX));
+    if (!name.empty()) {
+      names.push_back (name);
+    }
+  }
 }
 
 
@@ -91,7 +88,7 @@ const char *stylesheet_sil_best_practice[] = { "c", "p", "r", "s", "v", "f", "fk
 };
 
 
-void stylesheet_create_new(const ustring & name, StylesheetType stylesheettype) // Todo try it out.
+void stylesheet_create_new(const ustring & name, StylesheetType stylesheettype)
 // Create a new stylesheet, named "name", from the template.
 {
   // Copy the template database.
@@ -116,21 +113,22 @@ void stylesheet_create_new(const ustring & name, StylesheetType stylesheettype) 
 }
 
 
-void stylesheet_delete(const ustring & name) // Todo try it out.
+void stylesheet_delete(const ustring & name)
 // Deletes a stylesheet from disk.
+// Note that it continues to live in memory once it's there, till after restart.
 {
   unlink(stylesheet_xml_filename(name).c_str());
 }
 
 
-void stylesheet_copy(const ustring & from_name, const ustring & to_name) // Todo try out.
+void stylesheet_copy(const ustring & from_name, const ustring & to_name)
 // Copies one stylesheet to another.
 {
   unix_cp(stylesheet_xml_filename(from_name), stylesheet_xml_filename(to_name));
 }
 
 
-ustring stylesheet_import(const ustring & filename) // Todo try out.
+ustring stylesheet_import(const ustring & filename)
 // Imports a new stylesheet from "filename".
 // It expects a file in the format as it is given in the export function.
 {
@@ -163,7 +161,7 @@ ustring stylesheet_import(const ustring & filename) // Todo try out.
 }
 
 
-void stylesheet_export(const ustring & name, const ustring & filename) // Todo try out.
+void stylesheet_export(const ustring & name, const ustring & filename)
 // Exports a stylesheet.
 {
   ustring originalfile = stylesheet_xml_filename(name);
@@ -173,7 +171,7 @@ void stylesheet_export(const ustring & name, const ustring & filename) // Todo t
 }
 
 
-bool stylesheet_exists(const ustring & name) // Todo try out.
+bool stylesheet_exists(const ustring & name)
 // Returns whether this stylesheet exists.
 {
   vector < ustring > sheets;
@@ -183,7 +181,7 @@ bool stylesheet_exists(const ustring & name) // Todo try out.
 }
 
 
-void stylesheet_get_styles(const ustring & stylesheet, vector <Style>& styles) // Todo try out.
+void stylesheet_get_styles(const ustring & stylesheet, vector <Style>& styles)
 // Get all data of all stylesheets.
 {
   // Get available markers.
@@ -196,7 +194,7 @@ void stylesheet_get_styles(const ustring & stylesheet, vector <Style>& styles) /
 }
 
 
-vector <ustring> stylesheet_get_markers(const ustring & stylesheet, vector <ustring> *names) // Todo try out.
+vector <ustring> stylesheet_get_markers(const ustring & stylesheet, vector <ustring> *names)
 // This function only gets the markers from the stylesheet.
 // Hence it is faster than the similar function that gets the full styles.
 // If "names" is non-NULL it gets the names from the stylesheet too.
@@ -214,7 +212,7 @@ vector <ustring> stylesheet_get_markers(const ustring & stylesheet, vector <ustr
 }
 
 
-void stylesheet_delete_style(const ustring & stylesheet, const ustring & marker) // Todo try out.
+void stylesheet_delete_style(const ustring & stylesheet, const ustring & marker)
 // Deletes a style.
 {
   extern Styles * styles;
@@ -224,47 +222,71 @@ void stylesheet_delete_style(const ustring & stylesheet, const ustring & marker)
 }
 
 
-void stylesheet_new_style(const ustring & stylesheet, const ustring & marker) // Todo to implement.
+void stylesheet_new_style(const ustring & stylesheet, const ustring & marker)
 // Adds a new style. Searches template for data.
 {
-  Style style(stylesheet, marker, true);
-  style.read_template(); // Todo this may need update.
+  // Pointer to the styles object.
+  extern Styles * styles;
+  
+  // The stylesheet to which to add data.
+  Stylesheet * sheet = styles->stylesheet (stylesheet);
+  
+  // If the style is in the standard template, copy it over into the stylesheet.
+  Stylesheet * standard = styles->stylesheet ("");
+  for (unsigned int i = 0; i < standard->styles.size(); i++) {
+    StyleV2 * style = standard->styles[i];
+    if (style->marker == marker) {
+      // Make deep copy and store it into the stylesheet.
+      StyleV2 * newstyle = new StyleV2 (*style);
+      sheet->insert (newstyle);
+      sheet->save();
+      return;
+    }
+  }
+
+  // Create a default new style for the marker.
+  StyleV2 * style = new StyleV2 (0);
+  style->marker = marker;
+  sheet->insert (style);
+  sheet->save();  
 }
 
 
-void stylesheet_save_style(const ustring & stylesheet, const ustring & marker, const ustring & name, const ustring & info, StyleType type, int subtype, double fontsize, const ustring & italic, const ustring & bold, const ustring & underline, const ustring & smallcaps, bool superscript, const ustring & justification, double spacebefore, double spaceafter, double leftmargin, double rightmargin, double firstlineindent, bool spancolumns, unsigned int color, bool print, bool userbool1,
-                           bool userbool2, bool userbool3, int userint1, int userint2, int userint3, ustring userstring1, ustring userstring2, ustring userstring3) // Todo to implement.
+void stylesheet_save_style(const ustring & stylesheet, const ustring & marker, const ustring & name, const ustring & info, StyleType type, int subtype, double fontsize, const ustring & italic, const ustring & bold, const ustring & underline, const ustring & smallcaps, bool superscript, const ustring & justification, double spacebefore, double spaceafter, double leftmargin, double rightmargin, double firstlineindent, bool spancolumns, unsigned int color, bool print, bool userbool1, bool userbool2, bool userbool3, int userint1, int userint2, int userint3, ustring userstring1, ustring userstring2, ustring userstring3)
 // Saves style information.
 {
-  Style style(stylesheet, marker, true);
-  style.name = name;
-  style.info = info;
-  style.type = type;
-  style.subtype = subtype;
-  style.fontsize = fontsize;
-  style.italic = italic;
-  style.bold = bold;
-  style.underline = underline;
-  style.smallcaps = smallcaps;
-  style.superscript = superscript;
-  style.justification = justification;
-  style.spacebefore = spacebefore;
-  style.spaceafter = spaceafter;
-  style.leftmargin = leftmargin;
-  style.rightmargin = rightmargin;
-  style.firstlineindent = firstlineindent;
-  style.spancolumns = spancolumns;
-  style.color = color;
-  style.print = print;
-  style.userbool1 = userbool1;
-  style.userbool2 = userbool2;
-  style.userbool3 = userbool3;
-  style.userint1 = userint1;
-  style.userint2 = userint2;
-  style.userint3 = userint3;
-  style.userstring1 = userstring1;
-  style.userstring2 = userstring2;
-  style.userstring3 = userstring3;
+  extern Styles * styles;
+  Stylesheet * sheet = styles->stylesheet (stylesheet);
+  StyleV2 * style = sheet->style(marker);
+  style->name = name;
+  style->info = info;
+  style->type = type;
+  style->subtype = subtype;
+  style->fontsize = fontsize;
+  style->italic = italic;
+  style->bold = bold;
+  style->underline = underline;
+  style->smallcaps = smallcaps;
+  style->superscript = superscript;
+  style->justification = justification;
+  style->spacebefore = spacebefore;
+  style->spaceafter = spaceafter;
+  style->leftmargin = leftmargin;
+  style->rightmargin = rightmargin;
+  style->firstlineindent = firstlineindent;
+  style->spancolumns = spancolumns;
+  style->color = color;
+  style->print = print;
+  style->userbool1 = userbool1;
+  style->userbool2 = userbool2;
+  style->userbool3 = userbool3;
+  style->userint1 = userint1;
+  style->userint2 = userint2;
+  style->userint3 = userint3;
+  style->userstring1 = userstring1;
+  style->userstring2 = userstring2;
+  style->userstring3 = userstring3;
+  sheet->save();  
 }
 
 
@@ -472,11 +494,12 @@ void stylesheets_upgrade()
         xmlBufferFree(buffer);
 		
       // Remove the database from disk.
-	    unlink (sql_filename.c_str()); // Todo we also need to remove stylesheet.sql from the templates.
+	    unlink (sql_filename.c_str());
     }
   }
 
-  // Note: The stylesheet.xml template has been updated thus far. Everything below this still needs to be done.
+  // Note: The stylesheet.xml template has been updated thus far. 
+  // Every update listed below still needs to be entered into the template.
 
   // At the end of everything, check that we have at least one stylesheet.  
   {
@@ -489,83 +512,57 @@ void stylesheets_upgrade()
 }
 
 
-void stylesheet_get_recently_used(const ustring & stylesheet, vector < ustring > &markers, vector < unsigned int >&count)
+void stylesheet_get_recently_used(const ustring & stylesheet, vector <ustring>& markers, vector <unsigned int>& count)
 // Read the recently used data: markers and usage count.
 {
-  return; // Todo  another mechanism is needed: one db called recent.sql and tables for each sheet..
-  // Some variables.  
+  // Bail out if the database doesn't exist.
+  ustring filename = stylesheet_recent_filename();
+  if (!g_file_test (filename.c_str(), G_FILE_TEST_IS_REGULAR))
+    return;
+  // Connect to the database.
   sqlite3 *db;
-  int rc;
-  char *error = NULL;
-  try {
-    // Connect to the database.
-    rc = sqlite3_open(stylesheet_sql_filename(stylesheet).c_str(), &db);
-    if (rc)
-      throw runtime_error(sqlite3_errmsg(db));
-    sqlite3_busy_timeout(db, 1000);
-    // Read the styles.
-    SqliteReader reader(0);
-    char *sql;
-    sql = g_strdup_printf("select marker, count from recent;");
-    rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
-    g_free(sql);
-    if (rc != SQLITE_OK) {
-      throw runtime_error(sqlite3_errmsg(db));
-    }
-    markers.assign(reader.ustring0.begin(), reader.ustring0.end());
-    for (unsigned int i = 0; i < reader.ustring1.size(); i++) {
-      count.push_back(convert_to_int(reader.ustring1[i]));
-    }
+  sqlite3_open(stylesheet_recent_filename().c_str(), &db);
+  sqlite3_busy_timeout(db, 1000);
+  // Read the styles.
+  SqliteReader reader(0);
+  char *sql;
+  sql = g_strdup_printf("select marker, count from '%s';", double_apostrophy (stylesheet).c_str());
+  sqlite3_exec(db, sql, reader.callback, &reader, NULL);
+  g_free(sql);
+  markers.assign(reader.ustring0.begin(), reader.ustring0.end());
+  for (unsigned int i = 0; i < reader.ustring1.size(); i++) {
+    count.push_back(convert_to_int(reader.ustring1[i]));
   }
-  catch(exception & ex) {
-    gw_critical(ex.what());
-  }
-  // Close connection.
-  sqlite3_close(db);
 }
 
 
-void stylesheet_set_recently_used(const ustring & stylesheet, vector < ustring > &styles, vector < unsigned int >&counts)
+void stylesheet_set_recently_used(const ustring & stylesheet, vector <ustring>& styles, vector <unsigned int>& counts)
 {
-  return; // Todo  another mechanism is needed: one db called recent.sql and tables for each sheet..
-  // Some variables.
+  // Connect to db.
+  ustring filename = stylesheet_recent_filename();
   sqlite3 *db;
-  int rc;
-  char *error = NULL;
-  try {
-    // Connect to the database.
-    rc = sqlite3_open(stylesheet_sql_filename(stylesheet).c_str(), &db);
-    if (rc)
-      throw runtime_error(sqlite3_errmsg(db));
-    sqlite3_busy_timeout(db, 1000);
-    // Variable.
-    char *sql;
-    // Delete all existing markers.
-    sql = g_strdup_printf("delete from recent;");
-    rc = sqlite3_exec(db, sql, NULL, NULL, &error);
-    if (rc) {
-      throw runtime_error(sqlite3_errmsg(db));
-    }
-    // Insert all new markers.
-    for (unsigned int i = 0; i < styles.size(); i++) {
-      sql = g_strdup_printf("insert into recent values ('%s', %d);", styles[i].c_str(), counts[i]);
-      rc = sqlite3_exec(db, sql, NULL, NULL, &error);
-      if (rc) {
-        throw runtime_error(sqlite3_errmsg(db));
-      }
-    }
-    // Free memory.
+  sqlite3_open(filename.c_str(), &db);
+  char *sql;
+  // Delete all existing markers.
+  sql = g_strdup_printf("delete from '%s';", double_apostrophy (stylesheet).c_str());
+  int rc = sqlite3_exec(db, sql, NULL, NULL, NULL);
+  g_free(sql);
+  // If deleting the markers failed, create the table for the stylesheet.
+  if (rc != SQLITE_OK) {
+    sql = g_strdup_printf("create table '%s' (marker string, count integer);", double_apostrophy (stylesheet).c_str());
+    sqlite3_exec(db, sql, NULL, NULL, NULL);
     g_free(sql);
   }
-  catch(exception & ex) {
-    gw_critical(ex.what());
+  // Insert all new markers.
+  for (unsigned int i = 0; i < styles.size(); i++) {
+    sql = g_strdup_printf("insert into '%s' values ('%s', %d);", double_apostrophy (stylesheet).c_str(), styles[i].c_str(), counts[i]);
+    sqlite3_exec(db, sql, NULL, NULL, NULL);
+    g_free(sql);
   }
-  // Close connection.
-  sqlite3_close(db);
 }
 
 
-void stylesheet_save_style(const ustring & stylesheet, const Style & style) // Todo try out.
+void stylesheet_save_style(const ustring & stylesheet, const Style & style)
 {
   extern Styles * styles;
   Stylesheet * sheet = styles->stylesheet (stylesheet);
@@ -605,7 +602,7 @@ void stylesheet_save_style(const ustring & stylesheet, const Style & style) // T
 }
 
 
-void stylesheet_load_style(const ustring & stylesheet, Style& style) // Todo try out..
+void stylesheet_load_style(const ustring & stylesheet, Style& style)
 /*
 Reads one Style.
 stylesheet: which stylesheet to read from. If no stylesheet is given, it reads from the template.
@@ -649,15 +646,15 @@ style: the Style object to read. The marker is already given in the object.
 }
 
 
-void stylesheet_vacuum(const ustring & stylesheet) // Todo later we're going to vacuum the recently used db.
+void stylesheet_vacuum()
 {
-  //vacuum_database(stylesheet_sql_filename(stylesheet));
+  vacuum_database(stylesheet_recent_filename());
 }
 
 
-set < ustring > stylesheet_get_styles_of_type(StylesheetType stylesheettype)
+set <ustring> stylesheet_get_styles_of_type(StylesheetType stylesheettype)
 {
-  set < ustring > markers;
+  set <ustring> markers;
   switch (stylesheettype) {
   case stBasicParagraphWordNote:
     {
@@ -691,32 +688,12 @@ set < ustring > stylesheet_get_styles_of_type(StylesheetType stylesheettype)
     }
   case stFull:
     {
-      // Full stylesheet: take all styles from the stylesheet template. Todo needs update to read from the template.
-      sqlite3 *db;
-      int rc;
-      char *error = NULL;
-      try {
-        rc = sqlite3_open(stylesheet_template_filename().c_str(), &db);
-        if (rc)
-          throw runtime_error(sqlite3_errmsg(db));
-        sqlite3_busy_timeout(db, 1000);
-        SqliteReader reader(0);
-        char *sql;
-        sql = g_strdup_printf("select marker from styles;");
-        rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
-        g_free(sql);
-        if (rc != SQLITE_OK) {
-          throw runtime_error(sqlite3_errmsg(db));
-        }
-        for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
-          markers.insert(reader.ustring0[i]);
-        }
+      // Full stylesheet: take all styles from the stylesheet template.
+      extern Styles * styles;
+      Stylesheet * sheet = styles->stylesheet("");
+      for (unsigned int i = 0; i < sheet->styles.size(); i++) {
+        markers.insert(sheet->styles[i]->marker);
       }
-      catch(exception & ex) {
-        gw_critical(ex.what());
-      }
-      sqlite3_close(db);
-      break;
     }
   }
   return markers;
@@ -754,9 +731,3 @@ ustring stylesheet_get_actual ()
 }
 
 
-// Todo to convert this in a certain order: First all reading of styles, then editing of them, then creation.
-// Todo the new mechanism for the recently used ones is that on saving them, a new db may be created and then saved - reading remains as now.
-// Todo reading the stylesheet is very slow. Make a new system where the whole sheet is read at once, and where the individual values 
-// are read from a map<ustring, value>. This should speed it up greatly. Thus all the stylesheet are kept in memory and accessed from there.
-
-// Todo at the end of all, generate a proper stylesheet.xml template.

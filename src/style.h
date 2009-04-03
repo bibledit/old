@@ -102,7 +102,6 @@ public:
   ustring userstring1;
   ustring userstring2;
   ustring userstring3;
-  void read_template ();
 private:
   ustring mystylesheet;
   bool mywrite;

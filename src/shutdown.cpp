@@ -50,12 +50,8 @@ void shutdown_actions()
     unlink(gw_build_filename(directories_get_projects(), projects[i], "data.sql2").c_str());
   }
 
-  // Stylesheets: vacuum the sqlite databases.
-  vector < ustring > stylesheets;
-  stylesheet_get_ones_available(stylesheets);
-  for (unsigned int i = 0; i < stylesheets.size(); i++) {
-    stylesheet_vacuum(stylesheets[i]);
-  }
+  // Stylesheets: vacuum the sqlite database.
+  stylesheet_vacuum();
 
   // Notes: vacuum the sqlite databases.
   notes_vacuum();

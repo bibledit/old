@@ -142,8 +142,7 @@ Stylesheet::Stylesheet(const ustring & name_in)
 					value.clear();
 					if (!xmlStrcmp(element_name, BAD_CAST "style")) {
             if (style) {
-              styles.push_back (style);
-              styles_map[style->marker] = style;
+              insert (style);
               style = NULL;
             }
 					}
@@ -357,3 +356,10 @@ void Stylesheet::erase (const ustring& marker)
   styles_map[marker] = NULL;  
 }
 
+
+void Stylesheet::insert (StyleV2 * style)
+// Inserts "style" into the stylesheet.
+{
+  styles.push_back (style);
+  styles_map[style->marker] = style;
+}
