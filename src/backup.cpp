@@ -77,11 +77,15 @@ void backup_make(const ustring & project, bool full, int timefrom)
   }
   filename.append("-of-project-");
   filename.append(project);
+  ustring username = g_get_real_name ();
+  replace_text (username, " ", "-");
+  filename.append ("-backed-up-by-");
+  filename.append (username);
   extern Settings * settings;
   ProjectConfiguration * projectconfig = settings->projectconfig (project);
   ustring comment = projectconfig->backup_comment_get();
   if (!comment.empty()) {
-    filename.append("-");
+    filename.append("-comment-");
     replace_text (comment, " ", "-");
     filename.append (comment);
   }
