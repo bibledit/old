@@ -174,6 +174,10 @@ Stylesheet::~Stylesheet()
 void Stylesheet::save ()
 // Saves the stylesheet to its native xml format.
 {
+  // If no name is given, we work with the template. It can't be saved.
+  if (name.empty())
+    return;
+
   // Start the new xml document.
   xmlBufferPtr buffer = xmlBufferCreate();
   xmlTextWriterPtr writer = xmlNewTextWriterMemory(buffer, 0);

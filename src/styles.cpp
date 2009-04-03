@@ -85,3 +85,5 @@ Stylesheet * Styles::stylesheet (const ustring& name)
   stylesheets.push_back(stylesheet);
   return stylesheets[stylesheets.size() - 1];
 }
+
+
