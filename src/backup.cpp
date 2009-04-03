@@ -75,8 +75,16 @@ void backup_make(const ustring & project, bool full, int timefrom)
     ustring fromsuffix = "-from-" + convert_to_string(fromyear) + "-" + convert_to_string(frommonth) + "-" + convert_to_string(fromday) + "-" + convert_to_string(fromhour) + "-" + convert_to_string(fromminute) + "-" + convert_to_string(fromsecond);
     filename = "incremental-backup" + fromsuffix + "-to" + currentsuffix;
   }
-  filename.append("-");
+  filename.append("-of-project-");
   filename.append(project);
+  extern Settings * settings;
+  ProjectConfiguration * projectconfig = settings->projectconfig (project);
+  ustring comment = projectconfig->backup_comment_get();
+  if (!comment.empty()) {
+    filename.append("-");
+    replace_text (comment, " ", "-");
+    filename.append (comment);
+  }
   filename.append(".zip");
   replace_text(filename, " ", "_");
   filename = gw_build_filename(workingdirectory, filename);

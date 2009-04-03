@@ -69,6 +69,7 @@ public:
   DEFINE_PROJECTCONFIG_H (bool, editable);
   DEFINE_PROJECTCONFIG_H (int, backup_incremental_last_time);
   DEFINE_PROJECTCONFIG_H (bool, backup_full);
+  DEFINE_PROJECTCONFIG_H (ustring, backup_comment);
   DEFINE_PROJECTCONFIG_H (bool, git_use_remote_repository);
   DEFINE_PROJECTCONFIG_H (ustring, git_remote_repository_url);
   DEFINE_PROJECTCONFIG_H (int, git_remote_update_interval);

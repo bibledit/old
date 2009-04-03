@@ -45,6 +45,8 @@ protected:
   GtkWidget *image1;
   GtkWidget *label2;
   GtkWidget *radiobutton_full;
+  GtkWidget *label_comment;
+  GtkWidget *entry_comment;
   GtkWidget *dialog_action_area1;
   GtkWidget *cancelbutton1;
   GtkWidget *okbutton1;

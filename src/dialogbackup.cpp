@@ -92,6 +92,20 @@ BackupDialog::BackupDialog(int dummy)
 
   shortcuts.button(radiobutton_full);
 
+  label_comment = gtk_label_new ("Comment");
+  gtk_widget_show (label_comment);
+  gtk_box_pack_start (GTK_BOX (vbox1), label_comment, FALSE, FALSE, 0);
+  gtk_misc_set_alignment (GTK_MISC (label_comment), 0, 0.5);
+
+  shortcuts.label(label_comment);
+
+  entry_comment = gtk_entry_new ();
+  gtk_widget_show (entry_comment);
+  gtk_box_pack_start (GTK_BOX (vbox1), entry_comment, FALSE, FALSE, 0);
+  gtk_entry_set_invisible_char (GTK_ENTRY (entry_comment), 9679);
+
+  gtk_label_set_mnemonic_widget (GTK_LABEL (label_comment), entry_comment);
+  
   dialog_action_area1 = GTK_DIALOG(backupdialog)->action_area;
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
@@ -117,6 +131,7 @@ BackupDialog::BackupDialog(int dummy)
   extern Settings *settings;
   ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_full), projectconfig->backup_full_get());
+  gtk_entry_set_text (GTK_ENTRY (entry_comment), projectconfig->backup_comment_get().c_str());
 
   g_signal_connect((gpointer) radiobutton_incremental, "toggled", G_CALLBACK(on_radiobutton_incremental_toggled), gpointer(this));
   g_signal_connect((gpointer) okbutton1, "clicked", G_CALLBACK(on_okbutton1_clicked), gpointer(this));
@@ -184,4 +199,6 @@ void BackupDialog::on_okbutton()
   extern Settings *settings;
   ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
   projectconfig->backup_full_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_full)));
+  projectconfig->backup_comment_set(gtk_entry_get_text (GTK_ENTRY (entry_comment)));
 }
+

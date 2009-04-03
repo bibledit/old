@@ -70,6 +70,7 @@ ProjectConfiguration::ProjectConfiguration(ustring project_in, bool save_on_dest
   INITIALIZE(editable);
   INITIALIZE(backup_incremental_last_time);
   INITIALIZE(backup_full);
+  INITIALIZE(backup_comment);
   INITIALIZE(git_use_remote_repository);
   INITIALIZE(git_remote_repository_url);
   INITIALIZE(git_remote_update_interval);
@@ -125,6 +126,7 @@ void ProjectConfiguration::save()
   SAVE_VALUE(editable);
   SAVE_VALUE(backup_incremental_last_time);
   SAVE_VALUE(backup_full);
+  SAVE_VALUE(backup_comment);
   SAVE_VALUE(git_use_remote_repository);
   SAVE_VALUE(git_remote_repository_url);
   SAVE_VALUE(git_remote_update_interval);
@@ -248,6 +250,7 @@ IMPLEMENT(vector < int >, vector_int_get, book_order, NULL)
 IMPLEMENT(bool, bool_get, editable, true)
 IMPLEMENT(int, int_get, backup_incremental_last_time, 0)
 IMPLEMENT(bool, bool_get, backup_full, false)
+IMPLEMENT(ustring, string_get, backup_comment, "")
 IMPLEMENT(bool, bool_get, git_use_remote_repository, false)
 IMPLEMENT(ustring, string_get, git_remote_repository_url, "")
 IMPLEMENT(int, int_get, git_remote_update_interval, 60)
