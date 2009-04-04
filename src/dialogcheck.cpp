@@ -1293,21 +1293,19 @@ void CheckDialog::set_relevant_books ()
 
 
 /*
-  dialog.selection_set(settings->session.selected_books);
 
-  vector < unsigned int >ids = 
-  myselection.clear();
-  for (unsigned int i = 0; i < ids.size(); i++) {
-    myselection.insert(ids[i]);
-  }
+Todo
 
-  vector < unsigned int >ids = 
-  myselection.clear();
-  for (unsigned int i = 0; i < ids.size(); i++) {
-    myselection.insert(ids[i]);
-  }
+At the moment there is only the active project displayed as Check/Passages result
+
+-> add option: Display more than one project
+
+This should be implemented so that the references that come out of this check  
+go into the references area. But these should not be sorted. If the user prints
+the references, he can include more versions for printing.
 
 
+To add info along these lines to any help that might exist on this topic.
 
 
 */

@@ -4007,7 +4007,8 @@ void MainWindow::on_check_nt_quotations_from_the_ot_activate(GtkMenuItem * menui
 void MainWindow::on_check_nt_quotations_from_the_ot()
 {
   save_editors();
-  scripture_checks_nt_quotations_from_ot(true);
+  show_references_window();
+  scripture_checks_nt_quotations_from_ot(window_references->liststore, window_references->treeview, window_references->treecolumn);
 }
 
 void MainWindow::on_synoptic_parallel_passages_from_the_nt_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -4018,7 +4019,8 @@ void MainWindow::on_synoptic_parallel_passages_from_the_nt_activate(GtkMenuItem 
 void MainWindow::on_synoptic_parallel_passages_from_the_nt()
 {
   save_editors();
-  scripture_checks_synoptic_parallels_from_nt(true);
+  show_references_window();
+  scripture_checks_synoptic_parallels_from_nt(window_references->liststore, window_references->treeview, window_references->treecolumn);
 }
 
 void MainWindow::on_parallels_from_the_ot_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -4029,7 +4031,8 @@ void MainWindow::on_parallels_from_the_ot_activate(GtkMenuItem * menuitem, gpoin
 void MainWindow::on_parallels_from_the_ot()
 {
   save_editors();
-  scripture_checks_parallels_from_ot(true);
+  show_references_window();
+  scripture_checks_parallels_from_ot(window_references->liststore, window_references->treeview, window_references->treecolumn);
 }
 
 void MainWindow::on_check_sentence_structure_activate(GtkMenuItem * menuitem, gpointer user_data)

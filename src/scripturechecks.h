@@ -49,9 +49,9 @@ ustring checks_unwanted_patterns_get_filename (const ustring& project);
 ustring checks_unwanted_words_get_filename (const ustring& project);
 bool scripture_checks_references_inventory (bool gui);
 bool scripture_checks_validate_references (GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn, CollectCheckingResults * results);
-void scripture_checks_nt_quotations_from_ot (bool gui);
-void scripture_checks_synoptic_parallels_from_nt (bool gui);
-void scripture_checks_parallels_from_ot (bool gui);
+void scripture_checks_nt_quotations_from_ot (GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn);
+void scripture_checks_synoptic_parallels_from_nt (GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn);
+void scripture_checks_parallels_from_ot (GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn);
 bool scripture_checks_sentence_structure (GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn, CollectCheckingResults * results);
 
 

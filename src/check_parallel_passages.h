@@ -38,6 +38,8 @@ public:
   ~CheckNTQuotationsFromOT ();
   vector <ustring> nt;
   vector <VectorUstring> ot;
+  vector <ustring> references;
+  vector <ustring> comments;
 private:
   ProgressWindow * progresswindow;
 };
@@ -53,6 +55,8 @@ public:
                          bool gui);
   ~CheckParallelPassages ();
   vector <OtNtParallelDataSection> data;
+  vector <ustring> references;
+  vector <ustring> comments;
 private:
   ProgressWindow * progresswindow;
 };

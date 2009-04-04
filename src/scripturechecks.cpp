@@ -355,43 +355,40 @@ bool scripture_checks_validate_references(GtkListStore * liststore, GtkWidget * 
   return true;
 }
 
-void scripture_checks_nt_quotations_from_ot(bool gui)
+void scripture_checks_nt_quotations_from_ot(GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn)
 {
-  if (gui) {
-    CheckDialog dialog(cdtNTQuotationsFromOT);
-    if (dialog.run() != GTK_RESPONSE_OK)
-      return;
-  }
+  CheckDialog dialog(cdtNTQuotationsFromOT);
+  if (dialog.run() != GTK_RESPONSE_OK)
+    return;
   extern Settings *settings;
   CheckNTQuotationsFromOT check(settings->genconfig.project_get(), checks_generate_booknames(), settings->session.check_include_verse_text, true);
+  checks_display_references_comments(check.references, check.comments, liststore, treeview, treecolumn);
   const gchar *main_heading = "New Testament quotations from the Old Testament";
   DisplayCheckingResults display(main_heading);
   display.nt_quotations_from_ot(check.nt, check.ot, main_heading);
 }
 
-void scripture_checks_synoptic_parallels_from_nt(bool gui)
+void scripture_checks_synoptic_parallels_from_nt(GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn)
 {
-  if (gui) {
-    CheckDialog dialog(cdtSynopticParallelsNT);
-    if (dialog.run() != GTK_RESPONSE_OK)
-      return;
-  }
+  CheckDialog dialog(cdtSynopticParallelsNT);
+  if (dialog.run() != GTK_RESPONSE_OK)
+    return;
   extern Settings *settings;
   CheckParallelPassages check(true, settings->genconfig.project_get(), checks_generate_booknames(), settings->session.check_include_verse_text, true);
+  checks_display_references_comments(check.references, check.comments, liststore, treeview, treecolumn);
   const gchar *main_heading = "Synoptic parallel passages of the New Testament";
   DisplayCheckingResults display(main_heading);
   display.parallel_passages(check.data, main_heading);
 }
 
-void scripture_checks_parallels_from_ot(bool gui)
+void scripture_checks_parallels_from_ot(GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn)
 {
-  if (gui) {
-    CheckDialog dialog(cdtParallelsOT);
-    if (dialog.run() != GTK_RESPONSE_OK)
-      return;
-  }
+  CheckDialog dialog(cdtParallelsOT);
+  if (dialog.run() != GTK_RESPONSE_OK)
+    return;
   extern Settings *settings;
   CheckParallelPassages check(false, settings->genconfig.project_get(), checks_generate_booknames(), settings->session.check_include_verse_text, true);
+  checks_display_references_comments(check.references, check.comments, liststore, treeview, treecolumn);
   const gchar *main_heading = "Parallel passages of the Old Testament";
   DisplayCheckingResults display(main_heading);
   display.parallel_passages(check.data, main_heading);

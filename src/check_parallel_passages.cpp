@@ -24,6 +24,8 @@
 #include "ot-quotations.h"
 #include "ot-nt-parallels.h"
 #include "tiny_utilities.h"
+#include "books.h"
+
 
 CheckNTQuotationsFromOT::CheckNTQuotationsFromOT(const ustring & project, const vector < unsigned int >&books, bool includetext, bool gui)
 {
@@ -64,6 +66,8 @@ CheckNTQuotationsFromOT::CheckNTQuotationsFromOT(const ustring & project, const 
       verse.append(project_retrieve_verse(project, otquotations.quotations[i].nt.book, otquotations.quotations[i].nt.chapter, otquotations.quotations[i].nt.verse));
     }
     nt.push_back(verse);
+    references.push_back(books_id_to_english(otquotations.quotations[i].nt.book) + " " + convert_to_string(otquotations.quotations[i].nt.chapter) + ":" + otquotations.quotations[i].nt.verse);
+    comments.push_back("New Testament quotation");
     // Go through the OT quotations processing them.
     vector < ustring > store;
     for (unsigned i2 = 0; i2 < otquotations.quotations[i].ot.size(); i2++) {
@@ -75,6 +79,8 @@ CheckNTQuotationsFromOT::CheckNTQuotationsFromOT(const ustring & project, const 
         verse.append(project_retrieve_verse(project, otquotations.quotations[i].ot[i2].book, otquotations.quotations[i].ot[i2].chapter, otquotations.quotations[i].ot[i2].verse));
       }
       store.push_back(verse);
+      references.push_back(books_id_to_english(otquotations.quotations[i].ot[i2].book) + " " + convert_to_string(otquotations.quotations[i].ot[i2].chapter) + ":" + otquotations.quotations[i].ot[i2].verse);
+      comments.push_back("Old Testament verse quoted from");
     }
     // Save data.
     ot.push_back(store);
@@ -145,6 +151,8 @@ CheckParallelPassages::CheckParallelPassages(bool nt, const ustring & project, c
           verse.append(project_retrieve_verse(project, mapped_reference.book, mapped_reference.chapter, mapped_reference.verse));
         }
         dataset.data.push_back(verse);
+        references.push_back(books_id_to_english(mapped_reference.book) + " " + convert_to_string(mapped_reference.chapter) + ":" + mapped_reference.verse);
+        comments.push_back("Parallel");
       }
       datasection.sets.push_back(dataset);
     }
