@@ -33,10 +33,12 @@
 #include "gtkwrappers.h"
 #include "settings.h"
 #include "gui.h"
+#include "books.h"
+
 
 CheckDialog::CheckDialog(CheckDialogType checkdialogtype)
 {
-  // Save variables.
+  // Save and initialize variables.
   mycheckdialogtype = checkdialogtype;
 
   checkdialog = gtk_dialog_new();
@@ -175,7 +177,10 @@ CheckDialog::CheckDialog(CheckDialogType checkdialogtype)
   // Default / focus on OK.  
   gtk_widget_grab_default(okbutton);
   gtk_widget_grab_focus(okbutton);
-
+ 
+  // Set relevant books.
+  set_relevant_books ();
+  
   // Set gui elements.
   set_gui();
 }
@@ -1244,3 +1249,65 @@ void CheckDialog::on_okbutton()
     settings->session.check_include_verse_text = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_include_verse_text));
   }
 }
+
+
+void CheckDialog::set_relevant_books ()
+{
+  // Create a list of relevant books.
+  vector <unsigned int> relevant_list;
+  if (mycheckdialogtype == cdtNTQuotationsFromOT) {
+    relevant_list = books_type_to_ids(btNewTestament);
+  }
+  else if (mycheckdialogtype == cdtSynopticParallelsNT) {
+    vector <unsigned int> ntbooks = books_type_to_ids(btNewTestament);
+    for (unsigned int i = 0; i < 4; i++) {
+      relevant_list.push_back (ntbooks[i]);
+    }  
+  }
+  else if (mycheckdialogtype == cdtParallelsOT) {
+    relevant_list = books_type_to_ids(btOldTestament);
+  }
+  else {
+    // No relevant books to set: bail out.
+    return;
+  }
+  set <unsigned int> relevant_set (relevant_list.begin(), relevant_list.end());
+
+  // If the books in the current selection are all within the relevant list, bail out.
+  extern Settings *settings;
+  vector <unsigned int> current_selection (settings->session.selected_books.begin(), settings->session.selected_books.end());
+  bool all_books_are_relevant = true;
+  for (unsigned int i = 0; i < current_selection.size(); i++) {
+    if (relevant_set.find (current_selection[i]) == relevant_set.end())
+      all_books_are_relevant = false;
+  }
+  if (all_books_are_relevant)
+    return;
+ 
+  // Set the relevant list.
+  settings->session.selected_books = relevant_set;
+  
+  // Update the GUI.
+  set_gui_books();
+}
+
+
+/*
+  dialog.selection_set(settings->session.selected_books);
+
+  vector < unsigned int >ids = 
+  myselection.clear();
+  for (unsigned int i = 0; i < ids.size(); i++) {
+    myselection.insert(ids[i]);
+  }
+
+  vector < unsigned int >ids = 
+  myselection.clear();
+  for (unsigned int i = 0; i < ids.size(); i++) {
+    myselection.insert(ids[i]);
+  }
+
+
+
+
+*/

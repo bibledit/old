@@ -33,12 +33,14 @@
 #include <gdk/gdkkeysyms.h>
 #include "gwrappers.h"
 
+
 SelectBooksDialog::SelectBooksDialog(bool showportions)
 /*
 This dialog selects books.
 This function takes the book from the project that is now open, and
 the language of that project.
 It then loads the books.
+bookset: Indicator for the caller's relevant books.
 */
 {
   // Initialize variables.
@@ -653,3 +655,5 @@ void SelectBooksDialog::update_gui()
     gtk_tree_view_scroll_to_point(GTK_TREE_VIEW(treeviewbooks), -1, gdk_rectangle.y);
   }
 }
+
+

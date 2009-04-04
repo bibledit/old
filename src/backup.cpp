@@ -163,3 +163,4 @@ void backup_make(const ustring & project, bool full, int timefrom)
   unix_cp(gw_build_filename(directories_get_package_data(), "bibledit.css"), gw_build_filename(workingdirectory, "bibledit.css"));
   htmlbrowser(htmlfile, false);
 }
+

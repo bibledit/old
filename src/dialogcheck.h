@@ -72,7 +72,8 @@ protected:
   static void on_button_books_clicked (GtkButton *button, gpointer user_data);
   void on_booksbutton ();
   void set_gui_books ();
-
+  void set_relevant_books();
+  
   // Area selection.
   GtkWidget *hbox15;
   GtkWidget *button_area;
