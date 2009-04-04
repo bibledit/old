@@ -363,9 +363,9 @@ void scripture_checks_nt_quotations_from_ot(GtkListStore * liststore, GtkWidget 
   extern Settings *settings;
   CheckNTQuotationsFromOT check(settings->genconfig.project_get(), checks_generate_booknames(), settings->session.check_include_verse_text, true);
   checks_display_references_comments(check.references, check.comments, liststore, treeview, treecolumn);
-  const gchar *main_heading = "New Testament quotations from the Old Testament";
-  DisplayCheckingResults display(main_heading);
-  display.nt_quotations_from_ot(check.nt, check.ot, main_heading);
+  ustring main_heading = "New Testament quotations from the Old Testament, project " + settings->genconfig.project_get();
+  DisplayCheckingResults display(main_heading.c_str());
+  display.nt_quotations_from_ot(check.nt, check.ot, main_heading.c_str());
 }
 
 void scripture_checks_synoptic_parallels_from_nt(GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn)
@@ -376,9 +376,9 @@ void scripture_checks_synoptic_parallels_from_nt(GtkListStore * liststore, GtkWi
   extern Settings *settings;
   CheckParallelPassages check(true, settings->genconfig.project_get(), checks_generate_booknames(), settings->session.check_include_verse_text, true);
   checks_display_references_comments(check.references, check.comments, liststore, treeview, treecolumn);
-  const gchar *main_heading = "Synoptic parallel passages of the New Testament";
-  DisplayCheckingResults display(main_heading);
-  display.parallel_passages(check.data, main_heading);
+  ustring main_heading = "Synoptic parallel passages of the New Testament, project " + settings->genconfig.project_get();
+  DisplayCheckingResults display(main_heading.c_str());
+  display.parallel_passages(check.data, main_heading.c_str());
 }
 
 void scripture_checks_parallels_from_ot(GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn)
@@ -389,9 +389,9 @@ void scripture_checks_parallels_from_ot(GtkListStore * liststore, GtkWidget * tr
   extern Settings *settings;
   CheckParallelPassages check(false, settings->genconfig.project_get(), checks_generate_booknames(), settings->session.check_include_verse_text, true);
   checks_display_references_comments(check.references, check.comments, liststore, treeview, treecolumn);
-  const gchar *main_heading = "Parallel passages of the Old Testament";
-  DisplayCheckingResults display(main_heading);
-  display.parallel_passages(check.data, main_heading);
+  ustring main_heading = "Parallel passages of the Old Testament, project " + settings->genconfig.project_get();
+  DisplayCheckingResults display(main_heading.c_str());
+  display.parallel_passages(check.data, main_heading.c_str());
 }
 
 bool scripture_checks_sentence_structure(GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn, CollectCheckingResults * results)

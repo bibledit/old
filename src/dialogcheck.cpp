@@ -1292,20 +1292,3 @@ void CheckDialog::set_relevant_books ()
 }
 
 
-/*
-
-Todo
-
-At the moment there is only the active project displayed as Check/Passages result
-
--> add option: Display more than one project
-
-This should be implemented so that the references that come out of this check  
-go into the references area. But these should not be sorted. If the user prints
-the references, he can include more versions for printing.
-
-
-To add info along these lines to any help that might exist on this topic.
-
-
-*/
