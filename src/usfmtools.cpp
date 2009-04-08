@@ -23,6 +23,8 @@
 #include "usfmtools.h"
 #include "gtkwrappers.h"
 #include "tiny_utilities.h"
+#include "categorize.h"
+
 
 ustring usfm_extract(ustring & line)
 // This returns the usfm from the line, e.g. \id.
@@ -1095,3 +1097,22 @@ The function returns true if there's text left in the small store.
   return !small_store.empty();
 }
 
+
+ustring usfm_get_verse_text_only (const ustring& line)
+// Takes a line of USFM code, and returns the text of the verse only,
+// that is, without notes or what.
+{
+  ustring text (line);
+  size_t pos = line.find ("\\v ");
+  if (pos == 0) {
+    text.erase (0, 3);
+    usfm_get_verse_number (text, false, true);
+  }
+  if (text.empty()) {
+    text = "<empty>";
+  } else {
+    CategorizeLine cl(text);
+    text = cl.verse;
+  }
+  return text;
+}

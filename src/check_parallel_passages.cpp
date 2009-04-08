@@ -25,6 +25,7 @@
 #include "ot-nt-parallels.h"
 #include "tiny_utilities.h"
 #include "books.h"
+#include "usfmtools.h"
 
 
 CheckOTQuotationsInNT::CheckOTQuotationsInNT(const ustring& project, const vector <unsigned int>& books, bool includetext)
@@ -79,7 +80,9 @@ CheckOTQuotationsInNT::CheckOTQuotationsInNT(const ustring& project, const vecto
     ustring reference_verse_text = use_ot_order ? otquotations.quotations_ot_order[i].reference.human_readable (language) : otquotations.quotations_nt_order[i].reference.human_readable(language);
     if (includetext) {
       reference_verse_text.append(" ");
-      reference_verse_text.append(project_retrieve_verse(project, reference_book, reference_chapter, reference_verse));
+      ustring verse = project_retrieve_verse(project, reference_book, reference_chapter, reference_verse);
+      verse = usfm_get_verse_text_only (verse);
+      reference_verse_text.append(verse);
     }
     
     // Store reference data.
@@ -101,10 +104,11 @@ CheckOTQuotationsInNT::CheckOTQuotationsInNT(const ustring& project, const vecto
       ustring verse = use_ot_order ? otquotations.quotations_ot_order[i].referents[i2].human_readable(language) : otquotations.quotations_nt_order[i].referents[i2].human_readable(language);
       if (includetext) {
         verse.append(" ");
-        verse.append(project_retrieve_verse(project, 
-                                            use_ot_order ? otquotations.quotations_ot_order[i].referents[i2].book : otquotations.quotations_nt_order[i].referents[i2].book, 
-                                            use_ot_order ? otquotations.quotations_ot_order[i].referents[i2].chapter : otquotations.quotations_nt_order[i].referents[i2].chapter, 
-                                            use_ot_order ? otquotations.quotations_ot_order[i].referents[i2].verse : otquotations.quotations_nt_order[i].referents[i2].verse));
+        ustring text = project_retrieve_verse(project,
+                                              use_ot_order ? otquotations.quotations_ot_order[i].referents[i2].book : otquotations.quotations_nt_order[i].referents[i2].book, 
+                                              use_ot_order ? otquotations.quotations_ot_order[i].referents[i2].chapter : otquotations.quotations_nt_order[i].referents[i2].chapter, 
+                                              use_ot_order ? otquotations.quotations_ot_order[i].referents[i2].verse : otquotations.quotations_nt_order[i].referents[i2].verse);
+        verse.append(usfm_get_verse_text_only(text));
       }
       store.push_back(verse);
       Reference reference ((use_ot_order ? otquotations.quotations_ot_order[i].referents[i2].book : otquotations.quotations_nt_order[i].referents[i2].book),

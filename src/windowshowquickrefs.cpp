@@ -26,6 +26,8 @@
 #include "tiny_utilities.h"
 #include "projectutils.h"
 #include "settings.h"
+#include "usfmtools.h"
+
 
 WindowShowQuickReferences::WindowShowQuickReferences(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
 WindowBase(widShowQuickReferences, "Quick references", startup, 0, parent_box)
@@ -67,12 +69,8 @@ void WindowShowQuickReferences::go_to(const ustring & project, vector < Referenc
     quickreferences.append(references[i].human_readable(language));
     quickreferences.append(" ");
     ustring text = project_retrieve_verse(project, references[i].book, references[i].chapter, references[i].verse);
-    if (text.empty()) {
-      quickreferences.append("<empty>");
-    } else {
-      CategorizeLine cl(text);
-      quickreferences.append(cl.verse);
-    }
+    text = usfm_get_verse_text_only (text);
+    quickreferences.append(text);
     quickreferences.append("\n");
   }
   GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview1));
