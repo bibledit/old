@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "ot-quotations.h"
 #include "utilities.h"
 #include "directories.h"
@@ -25,80 +26,20 @@
 #include "books.h"
 #include "settings.h"
 #include "tiny_utilities.h"
+#include "bible.h"
 
-OTQuotation::OTQuotation(int dummy):nt(0)
+
+OTQuotation::OTQuotation(int dummy)
+:reference(0)
 {
   lxx = false;
 }
+
 
 OTQuotations::OTQuotations(int dummy)
 {
 }
 
-void OTQuotations::get(Reference & reference, vector < Reference > &references, vector < ustring > &comments)
-/*
-Retrieves an Old Testament quotation of a New Testament reference.
-This function does a bit more too. If an OT reference is passed, it also looks 
-up the place in the NT where this is quoted.
-reference: The input reference.
-references: The output reference: contains the related references.
-*/
-{
-  // Read data if we've nothing yet.
-  if (quotations.empty())
-    read();
-
-  // Store the original reference.
-  references.push_back(reference);
-  comments.push_back("Current one");
-
-  // Remap the references.
-  extern Settings *settings;
-  ustring project = settings->genconfig.project_get();
-  ProjectConfiguration *projectconfig = settings->projectconfig(project, false);
-  Mapping mapping(projectconfig->versification_get(), reference.book);
-  for (unsigned int i = 0; i < quotations.size(); i++) {
-    mapping.book_change(quotations[i].nt.book);
-    mapping.original_to_me(quotations[i].nt);
-    for (unsigned int i2 = 0; i2 < quotations[i].ot.size(); i2++) {
-      mapping.book_change(quotations[i].ot[i2].book);
-      mapping.original_to_me(quotations[i].ot[i2]);
-    }
-  }
-
-  // Go through the quotations looking for matching ones.
-  bool lxx = false;
-  for (unsigned int i = 0; i < quotations.size(); i++) {
-    // If this is a NT reference, look for the corresponding OT quotations.
-    if (reference.equals(quotations[i].nt)) {
-      for (unsigned int i2 = 0; i2 < quotations[i].ot.size(); i2++) {
-        references.push_back(quotations[i].ot[i2]);
-        comments.push_back(comment("Quotation", lxx));
-      }
-    }
-    // If this is an OT reference, look for possible other ones in the OT, and the NT place that quotes it.
-    for (unsigned int i2 = 0; i2 < quotations[i].ot.size(); i2++) {
-      if (reference.equals(quotations[i].ot[i2])) {
-        references.push_back(quotations[i].nt);
-        comments.push_back("Quoted here");
-        for (unsigned int i3 = 0; i3 < quotations[i].ot.size(); i3++) {
-          if (i3 != i2) {
-            references.push_back(quotations[i].ot[i3]);
-            comments.push_back(comment("Parallel passage", lxx));
-          }
-        }
-      }
-    }
-  }
-
-  // If there is only one reference found, that will be the original one.
-  // That means that no parallel or corresponding references were found.
-  // Erase that single one in such cases.
-  if (references.size() == 1) {
-    references.clear();
-    comments.clear();
-  }
-}
 
 void OTQuotations::read()
 {
@@ -130,10 +71,10 @@ void OTQuotations::read()
         {
           opening_element = (char *)xmlTextReaderName(reader);
           if (!strcmp(opening_element, "set")) {
-            quotation.nt.book = 0;
-            quotation.nt.chapter = 0;
-            quotation.nt.verse.clear();
-            quotation.ot.clear();
+            quotation.reference.book = 0;
+            quotation.reference.chapter = 0;
+            quotation.reference.verse.clear();
+            quotation.referents.clear();
             quotation.lxx = false;
           }
           if (!strcmp(opening_element, "nt") || !strcmp(opening_element, "ot")) {
@@ -155,12 +96,12 @@ void OTQuotations::read()
               free(attribute);
             }
             if (!strcmp(opening_element, "nt")) {
-              quotation.nt.book = ref.book;
-              quotation.nt.chapter = ref.chapter;
-              quotation.nt.verse = ref.verse;
+              quotation.reference.book = ref.book;
+              quotation.reference.chapter = ref.chapter;
+              quotation.reference.verse = ref.verse;
             }
             if (!strcmp(opening_element, "ot")) {
-              quotation.ot.push_back(ref);
+              quotation.referents.push_back(ref);
             }
           }
           break;
@@ -180,7 +121,7 @@ void OTQuotations::read()
         {
           char *closing_element = (char *)xmlTextReaderName(reader);
           if (!strcmp(closing_element, "set")) {
-            quotations.push_back(quotation);
+            quotations_nt_order.push_back(quotation);
           }
           break;
         }
@@ -196,10 +137,115 @@ void OTQuotations::read()
     g_free(contents);
 }
 
+
+void OTQuotations::get(Reference & reference, vector < Reference > &references, vector < ustring > &comments)
+/*
+Retrieves an Old Testament quotation of a New Testament reference.
+This function does a bit more too. If an OT reference is passed, it also looks 
+up the place in the NT where this is quoted.
+reference: The input reference.
+references: The output reference: contains the related references.
+*/
+{
+  // Read data if we've nothing yet.
+  if (quotations_nt_order.empty())
+    read();
+
+  // Store the original reference.
+  references.push_back(reference);
+  comments.push_back("Current one");
+
+  // Remap the references.
+  extern Settings *settings;
+  ustring project = settings->genconfig.project_get();
+  ProjectConfiguration *projectconfig = settings->projectconfig(project, false);
+  Mapping mapping(projectconfig->versification_get(), reference.book);
+  for (unsigned int i = 0; i < quotations_nt_order.size(); i++) {
+    mapping.book_change(quotations_nt_order[i].reference.book);
+    mapping.original_to_me(quotations_nt_order[i].reference);
+    for (unsigned int i2 = 0; i2 < quotations_nt_order[i].referents.size(); i2++) {
+      mapping.book_change(quotations_nt_order[i].referents[i2].book);
+      mapping.original_to_me(quotations_nt_order[i].referents[i2]);
+    }
+  }
+
+  // Go through the quotations looking for matching ones.
+  bool lxx = false;
+  for (unsigned int i = 0; i < quotations_nt_order.size(); i++) {
+    // If this is a NT reference, look for the corresponding OT quotations.
+    if (reference.equals(quotations_nt_order[i].reference)) {
+      for (unsigned int i2 = 0; i2 < quotations_nt_order[i].referents.size(); i2++) {
+        references.push_back(quotations_nt_order[i].referents[i2]);
+        comments.push_back(comment("Quotation", lxx));
+      }
+    }
+    // If this is an OT reference, look for possible other ones in the OT, and the NT place that quotes it.
+    for (unsigned int i2 = 0; i2 < quotations_nt_order[i].referents.size(); i2++) {
+      if (reference.equals(quotations_nt_order[i].referents[i2])) {
+        references.push_back(quotations_nt_order[i].reference);
+        comments.push_back("Quoted here");
+        for (unsigned int i3 = 0; i3 < quotations_nt_order[i].referents.size(); i3++) {
+          if (i3 != i2) {
+            references.push_back(quotations_nt_order[i].referents[i3]);
+            comments.push_back(comment("Parallel passage", lxx));
+          }
+        }
+      }
+    }
+  }
+
+  // If there is only one reference found, that will be the original one.
+  // That means that no parallel or corresponding references were found.
+  // Erase that single one in such cases.
+  if (references.size() == 1) {
+    references.clear();
+    comments.clear();
+  }
+}
+
+
 ustring OTQuotations::comment(const gchar * text, bool lxx)
 {
   ustring s(text);
   if (lxx)
     s.append(" from Septuagint");
   return s;
+}
+
+
+void OTQuotations::produce_in_ot_order()
+// This produces the quotations in the Old Testament order.
+{
+  // Produce a sorted list of all references that point to something in the Old Testament.
+  vector <Reference> old_testament_refs;
+  {
+    for (unsigned int i = 0; i < quotations_nt_order.size(); i++) {
+      for (unsigned int i2 = 0; i2 < quotations_nt_order[i].referents.size(); i2++) {
+        old_testament_refs.push_back (quotations_nt_order[i].referents[i2]);
+      }
+    }
+    sort_references (old_testament_refs);
+  }
+  
+  // Go through the OT places, and attach their NT referents.
+  Reference previous_reference (0);
+  for (unsigned int i = 0; i < old_testament_refs.size(); i++) {
+    // Skip double references.
+    if (previous_reference.equals (old_testament_refs[i])) {
+      continue;
+    }
+    previous_reference.assign (old_testament_refs[i]);
+    // Assemble new quotation.
+    OTQuotation quotation (0);
+    quotation.reference.assign (old_testament_refs[i]);
+    // Harvest the NT referents that belong to that OT quotation.
+    for (unsigned int i2 = 0; i2 < quotations_nt_order.size(); i2++) {
+      for (unsigned int i3 = 0; i3 < quotations_nt_order[i2].referents.size(); i3++) {
+        if (old_testament_refs[i].equals (quotations_nt_order[i2].referents[i3])) {
+          quotation.referents.push_back (quotations_nt_order[i2].reference);
+        }
+      }
+    }
+    quotations_ot_order.push_back (quotation);
+  }
 }

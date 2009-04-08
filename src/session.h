@@ -60,6 +60,7 @@ public:
   // Checks.
   CheckSortType checksorttype;
   bool check_include_verse_text;
+  bool check_output_in_ot_order;
   // Area selection.
   AreaType area_type;
   bool area_id;

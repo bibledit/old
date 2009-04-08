@@ -361,9 +361,9 @@ void scripture_checks_nt_quotations_from_ot(GtkListStore * liststore, GtkWidget 
   if (dialog.run() != GTK_RESPONSE_OK)
     return;
   extern Settings *settings;
-  CheckNTQuotationsFromOT check(settings->genconfig.project_get(), checks_generate_booknames(), settings->session.check_include_verse_text, true);
+  CheckOTQuotationsInNT check(settings->genconfig.project_get(), checks_generate_booknames(), settings->session.check_include_verse_text);
   checks_display_references_comments(check.references, check.comments, liststore, treeview, treecolumn);
-  ustring main_heading = "New Testament quotations from the Old Testament, project " + settings->genconfig.project_get();
+  ustring main_heading = "Old Testament quotations in the New Testament, project " + settings->genconfig.project_get();
   DisplayCheckingResults display(main_heading.c_str());
   display.nt_quotations_from_ot(check.nt, check.ot, main_heading.c_str());
 }
@@ -411,3 +411,5 @@ bool scripture_checks_sentence_structure(GtkListStore * liststore, GtkWidget * t
     checks_display_references_comments(check.references, check.comments, liststore, treeview, treecolumn);
   return true;
 }
+
+

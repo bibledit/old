@@ -66,6 +66,7 @@ CheckDialog::CheckDialog(CheckDialogType checkdialogtype)
   wordcount_checkbutton1 = NULL;
   usfm_spacing_entry1 = NULL;
   checkbutton_include_verse_text = NULL;
+  checkbutton_output_in_ot_order = NULL;
 
   // Build the gui for this check.
   switch (checkdialogtype) {
@@ -144,6 +145,7 @@ CheckDialog::CheckDialog(CheckDialogType checkdialogtype)
   case cdtNTQuotationsFromOT:
     information_setup("Shows the places where the New Testament quotes the Old Testament.");
     include_verse_text_setup();
+    output_in_ot_order_setup();
     book_selection_setup();
     break;
   case cdtSynopticParallelsNT:
@@ -1188,6 +1190,16 @@ void CheckDialog::include_verse_text_setup()
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_include_verse_text), settings->session.check_include_verse_text);
 }
 
+void CheckDialog::output_in_ot_order_setup()
+{
+  checkbutton_output_in_ot_order = gtk_check_button_new_with_mnemonic("O_utput in Old Testament order");
+  gtk_widget_show(checkbutton_output_in_ot_order);
+  gtk_box_pack_start(GTK_BOX(vbox1), checkbutton_output_in_ot_order, TRUE, TRUE, 0);
+
+  extern Settings *settings;
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_output_in_ot_order), settings->session.check_output_in_ot_order);
+}
+
 void CheckDialog::on_okbutton()
 {
   // Save sorting mechanism.
@@ -1244,9 +1256,13 @@ void CheckDialog::on_okbutton()
   if (usfm_spacing_entry1) {
     settings->genconfig.check_markers_spacing_include_set(gtk_entry_get_text(GTK_ENTRY(usfm_spacing_entry1)));
   }
-  // References - Inventory.
+  // Include verse text.
   if (checkbutton_include_verse_text) {
     settings->session.check_include_verse_text = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_include_verse_text));
+  }
+  // Output in OT order.
+  if (checkbutton_output_in_ot_order) {
+    settings->session.check_output_in_ot_order = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_output_in_ot_order));
   }
 }
 
@@ -1255,10 +1271,7 @@ void CheckDialog::set_relevant_books ()
 {
   // Create a list of relevant books.
   vector <unsigned int> relevant_list;
-  if (mycheckdialogtype == cdtNTQuotationsFromOT) {
-    relevant_list = books_type_to_ids(btNewTestament);
-  }
-  else if (mycheckdialogtype == cdtSynopticParallelsNT) {
+  if (mycheckdialogtype == cdtSynopticParallelsNT) {
     vector <unsigned int> ntbooks = books_type_to_ids(btNewTestament);
     for (unsigned int i = 0; i < 4; i++) {
       relevant_list.push_back (ntbooks[i]);

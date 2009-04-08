@@ -228,9 +228,17 @@ void DisplayCheckingResults::nt_quotations_from_ot(const vector < ustring > nt, 
   heading(2, mainheading);
   open_table();
 
+  ustring column_references = "New Testament";
+  ustring column_referents = "Old Testament";
   open_table_column();
-  add_table_cell("New Testament", true, false);
-  add_table_cell("Old Testament", true, false);
+  extern Settings * settings;
+  if (settings->session.check_output_in_ot_order) {
+    add_table_cell(column_referents, true, false);
+    add_table_cell(column_references, true, false);
+  } else {
+    add_table_cell(column_references, true, false);
+    add_table_cell(column_referents, true, false);
+  }
   close_table_column();
 
   for (unsigned int i = 0; i < nt.size(); i++) {

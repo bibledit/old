@@ -1424,7 +1424,11 @@
  </set>
  <set>
   <nt book="Hebrews" chapter="4" verse="3"/>
-  <ot book="Hebrews" chapter="4" verse="5"/>
+  <ot book="Psalms" chapter="95" verse="11"/>
+  <lxx>0</lxx>
+ </set>
+ <set>
+  <nt book="Hebrews" chapter="4" verse="5"/>
   <ot book="Psalms" chapter="95" verse="11"/>
   <lxx>0</lxx>
  </set>
@@ -1460,7 +1464,11 @@
  </set>
  <set>
   <nt book="Hebrews" chapter="7" verse="17"/>
-  <ot book="Hebrews" chapter="7" verse="21"/>
+  <ot book="Psalms" chapter="110" verse="4"/>
+  <lxx>0</lxx>
+ </set>
+ <set>
+  <nt book="Hebrews" chapter="7" verse="21"/>
   <ot book="Psalms" chapter="110" verse="4"/>
   <lxx>0</lxx>
  </set>

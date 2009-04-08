@@ -28,14 +28,13 @@
 #include "ot-nt-parallels.h"
 
 
-class CheckNTQuotationsFromOT
+class CheckOTQuotationsInNT
 {
 public:
-  CheckNTQuotationsFromOT (const ustring& project, 
+  CheckOTQuotationsInNT (const ustring& project, 
                            const vector<unsigned int>& books,  
-                           bool includetext, 
-                           bool gui);
-  ~CheckNTQuotationsFromOT ();
+                           bool includetext);
+  ~CheckOTQuotationsInNT ();
   vector <ustring> nt;
   vector <VectorUstring> ot;
   vector <ustring> references;

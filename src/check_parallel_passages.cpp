@@ -27,59 +27,90 @@
 #include "books.h"
 
 
-CheckNTQuotationsFromOT::CheckNTQuotationsFromOT(const ustring & project, const vector < unsigned int >&books, bool includetext, bool gui)
+CheckOTQuotationsInNT::CheckOTQuotationsInNT(const ustring& project, const vector <unsigned int>& books, bool includetext)
 {
-  // Language and versification.
+  // Language and versification system.
   extern Settings *settings;
   ustring language = settings->projectconfig(project, false)->language_get();
   ustring versification = settings->projectconfig(project, false)->versification_get();
   Mapping mapping(versification, 0);
+
   // Get a list of the books to check. If no books were given, take them all.
   vector < unsigned int >mybooks(books.begin(), books.end());
   if (mybooks.empty())
     mybooks = project_get_books(project);
   set < unsigned int >bookset(mybooks.begin(), mybooks.end());
-  // Get all quotations.
+
+  // Get all quotations in New Testament order, optionally also in OT order.
   OTQuotations otquotations(0);
   otquotations.read();
-  // GUI.
-  progresswindow = NULL;
-  if (gui) {
-    progresswindow = new ProgressWindow("Producing passages", true);
-    progresswindow->set_iterate(0, 1, otquotations.quotations.size());
+  bool use_ot_order = settings->session.check_output_in_ot_order;
+  if (use_ot_order) {
+    otquotations.produce_in_ot_order();
   }
-  // Go through each quotations.
-  for (unsigned int i = 0; i < otquotations.quotations.size(); i++) {
-    if (gui) {
-      progresswindow->iterate();
-      if (progresswindow->cancel)
-        return;
-    }
-    // Skip if NT book is not to be included.
-    if (bookset.find(otquotations.quotations[i].nt.book) == bookset.end())
+  
+  // GUI.
+  progresswindow = new ProgressWindow("Producing passages", true);
+  progresswindow->set_iterate(0, 1, use_ot_order ? otquotations.quotations_ot_order.size() : otquotations.quotations_nt_order.size());
+  
+  // Go through the quotations.
+  for (unsigned int i = 0; i < (use_ot_order ? otquotations.quotations_ot_order.size() : otquotations.quotations_nt_order.size()); i++) {
+    progresswindow->iterate();
+    if (progresswindow->cancel)
+      return;
+
+    // Skip if the reference book is not to be included.
+    unsigned int reference_book = use_ot_order ? otquotations.quotations_ot_order[i].reference.book : otquotations.quotations_nt_order[i].reference.book;
+    if (bookset.find(reference_book) == bookset.end())
       continue;
-    mapping.book_change(otquotations.quotations[i].nt.book);
-    mapping.original_to_me(otquotations.quotations[i].nt);
-    ustring verse = otquotations.quotations[i].nt.human_readable(language);
+
+    // Optionally remapping of verses.
+    mapping.book_change(reference_book);
+    if (use_ot_order)
+      mapping.original_to_me(otquotations.quotations_ot_order[i].reference);
+    else
+      mapping.original_to_me(otquotations.quotations_nt_order[i].reference);
+
+    // Reference chapter and verse.
+    unsigned int reference_chapter = use_ot_order ? otquotations.quotations_ot_order[i].reference.chapter : otquotations.quotations_nt_order[i].reference.chapter;
+    ustring reference_verse = use_ot_order ? otquotations.quotations_ot_order[i].reference.verse : otquotations.quotations_nt_order[i].reference.verse;
+    
+    // Reference verse text.
+    ustring reference_verse_text = use_ot_order ? otquotations.quotations_ot_order[i].reference.human_readable (language) : otquotations.quotations_nt_order[i].reference.human_readable(language);
     if (includetext) {
-      verse.append(" ");
-      verse.append(project_retrieve_verse(project, otquotations.quotations[i].nt.book, otquotations.quotations[i].nt.chapter, otquotations.quotations[i].nt.verse));
+      reference_verse_text.append(" ");
+      reference_verse_text.append(project_retrieve_verse(project, reference_book, reference_chapter, reference_verse));
     }
-    nt.push_back(verse);
-    references.push_back(books_id_to_english(otquotations.quotations[i].nt.book) + " " + convert_to_string(otquotations.quotations[i].nt.chapter) + ":" + otquotations.quotations[i].nt.verse);
-    comments.push_back("New Testament quotation");
+    
+    // Store reference data.
+    nt.push_back(reference_verse_text);
+    references.push_back(books_id_to_english(reference_book) + " " + convert_to_string(reference_chapter) + ":" + reference_verse);
+    comments.push_back("Quoted in New Testament");
+    
     // Go through the OT quotations processing them.
-    vector < ustring > store;
-    for (unsigned i2 = 0; i2 < otquotations.quotations[i].ot.size(); i2++) {
-      mapping.book_change(otquotations.quotations[i].ot[i2].book);
-      mapping.original_to_me(otquotations.quotations[i].ot[i2]);
-      ustring verse = otquotations.quotations[i].ot[i2].human_readable(language);
+    vector <ustring> store;
+    unsigned int i2_limit = use_ot_order ? otquotations.quotations_ot_order[i].referents.size() : otquotations.quotations_nt_order[i].referents.size();
+    for (unsigned i2 = 0; i2 < i2_limit; i2++) {
+      if (use_ot_order) {
+        mapping.book_change(otquotations.quotations_ot_order[i].referents[i2].book);
+        mapping.original_to_me(otquotations.quotations_ot_order[i].referents[i2]);
+      } else {
+        mapping.book_change(otquotations.quotations_nt_order[i].referents[i2].book);
+        mapping.original_to_me(otquotations.quotations_nt_order[i].referents[i2]);
+      }
+      ustring verse = use_ot_order ? otquotations.quotations_ot_order[i].referents[i2].human_readable(language) : otquotations.quotations_nt_order[i].referents[i2].human_readable(language);
       if (includetext) {
         verse.append(" ");
-        verse.append(project_retrieve_verse(project, otquotations.quotations[i].ot[i2].book, otquotations.quotations[i].ot[i2].chapter, otquotations.quotations[i].ot[i2].verse));
+        verse.append(project_retrieve_verse(project, 
+                                            use_ot_order ? otquotations.quotations_ot_order[i].referents[i2].book : otquotations.quotations_nt_order[i].referents[i2].book, 
+                                            use_ot_order ? otquotations.quotations_ot_order[i].referents[i2].chapter : otquotations.quotations_nt_order[i].referents[i2].chapter, 
+                                            use_ot_order ? otquotations.quotations_ot_order[i].referents[i2].verse : otquotations.quotations_nt_order[i].referents[i2].verse));
       }
       store.push_back(verse);
-      references.push_back(books_id_to_english(otquotations.quotations[i].ot[i2].book) + " " + convert_to_string(otquotations.quotations[i].ot[i2].chapter) + ":" + otquotations.quotations[i].ot[i2].verse);
+      Reference reference ((use_ot_order ? otquotations.quotations_ot_order[i].referents[i2].book : otquotations.quotations_nt_order[i].referents[i2].book),
+                           (use_ot_order ? otquotations.quotations_ot_order[i].referents[i2].chapter : otquotations.quotations_nt_order[i].referents[i2].chapter),
+                           (use_ot_order ? otquotations.quotations_ot_order[i].referents[i2].verse : otquotations.quotations_nt_order[i].referents[i2].verse));
+      references.push_back(reference.human_readable (""));
       comments.push_back("Old Testament verse quoted from");
     }
     // Save data.
@@ -87,7 +118,7 @@ CheckNTQuotationsFromOT::CheckNTQuotationsFromOT(const ustring & project, const 
   }
 }
 
-CheckNTQuotationsFromOT::~CheckNTQuotationsFromOT()
+CheckOTQuotationsInNT::~CheckOTQuotationsInNT()
 {
   if (progresswindow)
     delete progresswindow;

@@ -31,8 +31,8 @@ class OTQuotation
 {
 public:
   OTQuotation (int dummy);
-  Reference nt;
-  vector <Reference> ot;
+  Reference reference;
+  vector <Reference> referents;
   bool lxx;
 private:
 };
@@ -42,9 +42,11 @@ class OTQuotations
 {
 public:
   OTQuotations (int dummy);
-  void get (Reference& reference, vector <Reference>& references, vector <ustring>& comments);
   void read ();
-  vector <OTQuotation> quotations;
+  void get (Reference& reference, vector <Reference>& references, vector <ustring>& comments);
+  vector <OTQuotation> quotations_nt_order;
+  void produce_in_ot_order();
+  vector <OTQuotation> quotations_ot_order;
 private:
   ustring comment (const gchar * text, bool lxx);
 };

@@ -1438,7 +1438,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     checks_passages_menu = gtk_menu_new();
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(checks_passages), checks_passages_menu);
 
-    check_nt_quotations_from_the_ot = gtk_image_menu_item_new_with_mnemonic("_NT quotations from the OT");
+    check_nt_quotations_from_the_ot = gtk_image_menu_item_new_with_mnemonic("_OT quotations in the NT");
     gtk_widget_show(check_nt_quotations_from_the_ot);
     gtk_container_add(GTK_CONTAINER(checks_passages_menu), check_nt_quotations_from_the_ot);
 
@@ -1446,7 +1446,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     gtk_widget_show(image24104);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(check_nt_quotations_from_the_ot), image24104);
 
-    synoptic_parallel_passages_from_the_nt = gtk_image_menu_item_new_with_mnemonic("_Synoptic parallels from the NT");
+    synoptic_parallel_passages_from_the_nt = gtk_image_menu_item_new_with_mnemonic("_Synoptic parallels in the NT");
     gtk_widget_show(synoptic_parallel_passages_from_the_nt);
     gtk_container_add(GTK_CONTAINER(checks_passages_menu), synoptic_parallel_passages_from_the_nt);
 
@@ -1454,7 +1454,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     gtk_widget_show(image24105);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(synoptic_parallel_passages_from_the_nt), image24105);
 
-    parallels_from_the_ot = gtk_image_menu_item_new_with_mnemonic("_Parallels from the OT");
+    parallels_from_the_ot = gtk_image_menu_item_new_with_mnemonic("_Parallels in the OT");
     gtk_widget_show(parallels_from_the_ot);
     gtk_container_add(GTK_CONTAINER(checks_passages_menu), parallels_from_the_ot);
 

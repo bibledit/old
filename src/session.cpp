@@ -41,6 +41,7 @@ Session::Session(int dummy)
   searchbibletimetype = sbttOpenModules;
   checksorttype = cstSort0;
   check_include_verse_text = false;
+  check_output_in_ot_order = false;
   area_type = atRaw;
   area_id = false;
   area_intro = false;

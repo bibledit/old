@@ -257,6 +257,10 @@ protected:
   GtkWidget *checkbutton_include_verse_text;
   void include_verse_text_setup ();
 
+  // Output in Old Testament order.
+  GtkWidget *checkbutton_output_in_ot_order;
+  void output_in_ot_order_setup ();
+
   // Dialog actions. 
   GtkWidget *dialog_action_area1;
   GtkWidget *cancelbutton;
