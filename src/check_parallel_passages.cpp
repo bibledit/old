@@ -78,7 +78,7 @@ CheckOTQuotationsInNT::CheckOTQuotationsInNT(const ustring& project, const vecto
     
     // Store reference, optionally verse text, and comment.
     ustring reference = use_ot_order ? otquotations.quotations_ot_order[i].reference.human_readable (language) : otquotations.quotations_nt_order[i].reference.human_readable(language);
-    nt_refs.push_back(reference); // Todo
+    nt_refs.push_back(reference);
     ustring reference_verse_text;
     if (includetext) {
       reference_verse_text = project_retrieve_verse(project, reference_book, reference_chapter, reference_verse);
@@ -109,7 +109,7 @@ CheckOTQuotationsInNT::CheckOTQuotationsInNT(const ustring& project, const vecto
                                             use_ot_order ? otquotations.quotations_ot_order[i].referents[i2].verse : otquotations.quotations_nt_order[i].referents[i2].verse);
         verse_text = usfm_get_verse_text_only(verse_text);
       }
-      refs_store.push_back(reference); // Todo
+      refs_store.push_back(reference);
       text_store.push_back(verse_text);
       Reference ref ((use_ot_order ? otquotations.quotations_ot_order[i].referents[i2].book : otquotations.quotations_nt_order[i].referents[i2].book),
                      (use_ot_order ? otquotations.quotations_ot_order[i].referents[i2].chapter : otquotations.quotations_nt_order[i].referents[i2].chapter),
@@ -118,7 +118,7 @@ CheckOTQuotationsInNT::CheckOTQuotationsInNT(const ustring& project, const vecto
       comments.push_back("Old Testament verse quoted from");
     }
     // Save data.
-    ot_refs.push_back(refs_store); // Todo
+    ot_refs.push_back(refs_store);
     ot_texts.push_back(text_store);
   }
 }

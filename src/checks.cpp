@@ -223,7 +223,7 @@ void DisplayCheckingResults::references_inventory(const vector < ustring > &vers
   htmlbrowser(outputfilename);
 }
 
-void DisplayCheckingResults::ot_quotations_in_nt(const vector <ustring> nt_refs, const vector <ustring> nt_texts, const vector <VectorUstring>& ot_refs, const vector <VectorUstring>& ot_texts, const gchar * mainheading) // Todo
+void DisplayCheckingResults::ot_quotations_in_nt(const vector <ustring> nt_refs, const vector <ustring> nt_texts, const vector <VectorUstring>& ot_refs, const vector <VectorUstring>& ot_texts, const gchar * mainheading)
 {
   heading(2, mainheading);
   open_table();
@@ -247,7 +247,7 @@ void DisplayCheckingResults::ot_quotations_in_nt(const vector <ustring> nt_refs,
 
   for (unsigned int i = 0; i < nt_refs.size(); i++) {
     open_table_column();
-    add_table_cell(nt_refs[i], false, true); // Todo
+    add_table_cell(nt_refs[i], false, true);
     add_table_cell(nt_texts[i], false, false);
     for (unsigned int i2 = 0; i2 < ot_refs[i].size(); i2++) {
       if (i2) {

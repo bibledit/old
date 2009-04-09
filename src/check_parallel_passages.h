@@ -36,9 +36,9 @@ public:
                            bool includetext);
   ~CheckOTQuotationsInNT ();
   vector <ustring> nt_refs;
-  vector <ustring> nt_texts; // Todo
+  vector <ustring> nt_texts;
   vector <VectorUstring> ot_refs;
-  vector <VectorUstring> ot_texts; // Todo
+  vector <VectorUstring> ot_texts;
   vector <ustring> references;
   vector <ustring> comments;
 private:

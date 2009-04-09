@@ -365,7 +365,7 @@ void scripture_checks_nt_quotations_from_ot(GtkListStore * liststore, GtkWidget 
   checks_display_references_comments(check.references, check.comments, liststore, treeview, treecolumn);
   ustring main_heading = "Old Testament quotations in the New Testament, project " + settings->genconfig.project_get();
   DisplayCheckingResults display(main_heading.c_str());
-  display.ot_quotations_in_nt(check.nt_refs, check.nt_texts, check.ot_refs, check.ot_texts, main_heading.c_str()); // Todo
+  display.ot_quotations_in_nt(check.nt_refs, check.nt_texts, check.ot_refs, check.ot_texts, main_heading.c_str());
 }
 
 void scripture_checks_synoptic_parallels_from_nt(GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn)
