@@ -47,7 +47,7 @@ public:
   void usfm_count (const vector<ustring>& usfms, const vector<unsigned int>& count, const ustring& stylesheet);
   void character_count (const vector<ustring>& chars, const vector<unsigned int>& count);
   void references_inventory (const vector <ustring>& verses, const vector <ustring>& references);
-  void nt_quotations_from_ot (const vector <ustring> nt, const vector <VectorUstring>& ot, const gchar * mainheading);
+  void ot_quotations_in_nt (const vector <ustring> nt_refs, const vector <ustring> nt_texts, const vector <VectorUstring>& ot_refs, const vector <VectorUstring>& ot_texts, const gchar * mainheading); // Todo
   void parallel_passages (const vector <OtNtParallelDataSection>& data, const gchar * mainheading);
 private:
   vector <ustring> html;

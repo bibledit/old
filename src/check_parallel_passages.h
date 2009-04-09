@@ -35,8 +35,10 @@ public:
                            const vector<unsigned int>& books,  
                            bool includetext);
   ~CheckOTQuotationsInNT ();
-  vector <ustring> nt;
-  vector <VectorUstring> ot;
+  vector <ustring> nt_refs;
+  vector <ustring> nt_texts; // Todo
+  vector <VectorUstring> ot_refs;
+  vector <VectorUstring> ot_texts; // Todo
   vector <ustring> references;
   vector <ustring> comments;
 private:
