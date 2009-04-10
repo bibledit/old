@@ -128,13 +128,3 @@ void ProjectNoteDialog::on_okbutton1()
 }
 
 
-/*
-
-// Todo button to set the currently chosen category as the default one from now on.
-I often work with one type of project note category for a time, then I work with another. 
-* It would be handy to change the default category from "No Issue" to "Checking Feedback," for instance. 
-* I often find myself forgetting to set the category, and this is important as certain of our project notes go to another agency.
-
-We should try to use Glade-3 and GtkBuilder on this new dialog.
-
-*/
