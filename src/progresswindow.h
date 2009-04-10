@@ -39,11 +39,10 @@ public:
   void hide ();
   bool cancel;
 private:
+  GtkBuilder * gtkbuilder;
   GtkWidget *progresswindow;
-  GtkWidget *vbox3;
-  GtkWidget *infolabel;
+  GtkWidget *label;
   GtkWidget *progressbar;
-  GtkWidget *hbox6;
   GtkWidget *cancelbutton;
   static void on_cancelbutton_clicked (GtkButton *button, gpointer user_data);
   void on_cancel ();

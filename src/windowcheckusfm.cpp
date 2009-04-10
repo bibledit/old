@@ -545,3 +545,42 @@ vector < ustring > WindowCheckUSFM::get_verses(vector < ustring > *non_line_star
   return verses;
 }
 
+
+/*
+
+Todo Raw text/Discover markup/Heading-Paragraph
+
+In Import/Unstructured text/Discover markup:
+short new paragraphs between verses are (often) interpreted as headings, e.g. (JUD 1,1-3):
+
+1 From Jude, a servant of Jesus Christ and the brother of James.
+To all who are chosen and loved by God the Father and are kept safe by Jesus Christ.
+2 I pray that God will greatly bless you with kindness, peace, and love!
+Defending the faith against false teachers
+3 My dear friends, I really wanted to write to you ... 4 Some
+godless people have (+ 20 words) ...
+5 Don't forget ...
+
+The markup becomes:
+\p
+\v 1 From Jude, a servant of Jesus Christ and the brother of James.
+\s To all who are chosen and loved by God the Father and are kept safe by
+Jesus Christ.
+\p
+\v 2 I pray that God will greatly bless you with kindness, peace, and love!
+\s Defending the faith against false teachers
+\p
+\v 3 My dear friends, I really wanted to write to you ...
+\v 4 Some godless people have (+ 20 words) ...
+\p
+\v 5 Don't forget ...
+
+- where the first one (To all who are chosen ..) should only be a paragraph and
+- the second one (Defending the faith ...) is OK
+- between 4/5 no \s was inserted (\v 4 is too long)
+
+-> Let only those lines which do not close with any kind of punctuation marks be made to headings (e.g. \s Defending the faith against false teachers),
+the other ones only as simple paragraphs
+
+
+*/

@@ -23,45 +23,24 @@
 
 ProgressWindow::ProgressWindow(const ustring & info, bool showcancel)
 {
-  progresswindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title(GTK_WINDOW(progresswindow), "Bibledit");
-  gtk_window_set_position(GTK_WINDOW(progresswindow), GTK_WIN_POS_CENTER_ALWAYS);
-  gtk_window_set_default_size(GTK_WINDOW(progresswindow), 300, -1);
-  gtk_window_set_default_icon_from_file(gw_build_filename(directories_get_package_data(), "bibledit.xpm").c_str(), NULL);
-  gtk_window_set_type_hint(GTK_WINDOW(progresswindow), GDK_WINDOW_TYPE_HINT_DIALOG);
-
   // The window is set modal to turn off any responses to the parent window.
   // That means that clicking "Cancel" will get handled properly.
-  gtk_window_set_modal(GTK_WINDOW(progresswindow), true);
+  gtkbuilder = gtk_builder_new ();
+  ustring builder_file = gw_build_filename (directories_get_package_data(), "gtkbuilder.progressdialog.xml");
+  gtk_builder_add_from_file (gtkbuilder, builder_file.c_str(), NULL);
+  progresswindow = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "progressdialog"));
+  label = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "label"));
+  progressbar = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "progressbar"));
+  cancelbutton = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "cancelbutton"));
 
-  vbox3 = gtk_vbox_new(FALSE, 10);
-  gtk_widget_show(vbox3);
-  gtk_container_add(GTK_CONTAINER(progresswindow), vbox3);
-  gtk_container_set_border_width(GTK_CONTAINER(vbox3), 10);
-
-  infolabel = gtk_label_new(info.c_str());
-  gtk_widget_show(infolabel);
-  gtk_box_pack_start(GTK_BOX(vbox3), infolabel, FALSE, FALSE, 0);
-
-  progressbar = gtk_progress_bar_new();
-  gtk_widget_show(progressbar);
-  gtk_box_pack_start(GTK_BOX(vbox3), progressbar, FALSE, FALSE, 0);
-
-  hbox6 = gtk_hbox_new(FALSE, 0);
-  gtk_widget_show(hbox6);
-  gtk_box_pack_start(GTK_BOX(vbox3), hbox6, FALSE, FALSE, 0);
-
+  gtk_label_set_text (GTK_LABEL (label), info.c_str());
+  
   if (showcancel) {
-
-    cancelbutton = gtk_button_new_from_stock("gtk-cancel");
-    gtk_widget_show(cancelbutton);
-    gtk_box_pack_start(GTK_BOX(hbox6), cancelbutton, FALSE, FALSE, 0);
-    GTK_WIDGET_SET_FLAGS(cancelbutton, GTK_CAN_DEFAULT);
-
     g_signal_connect((gpointer) cancelbutton, "clicked", G_CALLBACK(on_cancelbutton_clicked), gpointer(this));
     gtk_widget_grab_focus(cancelbutton);
     gtk_widget_grab_default(cancelbutton);
-
+  } else {
+    gtk_widget_hide (cancelbutton);
   }
 
   g_signal_connect((gpointer) progresswindow, "delete_event", G_CALLBACK(on_delete_event), gpointer(this));
@@ -76,6 +55,7 @@ ProgressWindow::ProgressWindow(const ustring & info, bool showcancel)
 
 ProgressWindow::~ProgressWindow()
 {
+  g_object_unref (gtkbuilder);
   gtk_widget_destroy(progresswindow);
 }
 
@@ -166,3 +146,5 @@ void ProgressWindow::hide()
   gtk_widget_hide_all(progresswindow);
   gui();
 }
+
+
