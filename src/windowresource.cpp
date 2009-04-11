@@ -68,3 +68,4 @@ ustring WindowResource::resourcename_to_filename(const ustring & resourcename)
   }
   return filename;
 }
+

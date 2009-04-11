@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "utilities.h"
 #include <glib.h>
 #include "gtkhtml3browser.h"
@@ -27,6 +28,7 @@
 #include "books.h"
 #include "resource_utils.h"
 #include "htmlcache.h"
+
 
 GtkHtml3Browser::GtkHtml3Browser(GtkWidget * vbox)
 {
@@ -55,6 +57,7 @@ GtkHtml3Browser::GtkHtml3Browser(GtkWidget * vbox)
   g_signal_connect(G_OBJECT(htmlview), "grab_focus", G_CALLBACK(on_htmlview_grab_focus), gpointer(this));
 }
 
+
 GtkHtml3Browser::~GtkHtml3Browser()
 {
   gw_destroy_source(event_id);
@@ -62,15 +65,18 @@ GtkHtml3Browser::~GtkHtml3Browser()
   gtk_widget_destroy(scrolledwindow);
 }
 
+
 void GtkHtml3Browser::focus()
 {
   gtk_widget_grab_focus(htmlview);
 }
 
+
 bool GtkHtml3Browser::focused()
 {
   return GTK_WIDGET_HAS_FOCUS(htmlview);
 }
+
 
 void GtkHtml3Browser::copy()
 {
@@ -78,10 +84,12 @@ void GtkHtml3Browser::copy()
     gtk_html_copy(GTK_HTML(htmlview));
 }
 
+
 void GtkHtml3Browser::go_to(const ustring & url)
 {
   html_link_clicked(GTK_HTML(htmlview), url.c_str());
 }
+
 
 bool GtkHtml3Browser::on_timeout(gpointer user_data)
 {
@@ -89,11 +97,13 @@ bool GtkHtml3Browser::on_timeout(gpointer user_data)
   return false;
 }
 
+
 void GtkHtml3Browser::timeout()
 {
   go_to(attempt_url);
   event_id = 0;
 }
+
 
 gboolean GtkHtml3Browser::on_html_url_requested(GtkHTML * html, const gchar * url, GtkHTMLStream * handle, gpointer user_data)
 {
@@ -101,10 +111,10 @@ gboolean GtkHtml3Browser::on_html_url_requested(GtkHTML * html, const gchar * ur
   return true;
 }
 
+
 void GtkHtml3Browser::html_url_requested(GtkHTML * html, const gchar * url, GtkHTMLStream * handle)
 // Callback for fetching url within the page.
 {
-
   // Form the full url.
   ustring myurl(url);
   myurl = gw_build_filename(loading_dir, myurl);
@@ -129,11 +139,13 @@ void GtkHtml3Browser::html_url_requested(GtkHTML * html, const gchar * url, GtkH
   gtk_html_end(html, handle, GTK_HTML_STREAM_OK);
 }
 
+
 gboolean GtkHtml3Browser::on_html_link_clicked(GtkHTML * html, const gchar * url, gpointer user_data)
 {
   ((GtkHtml3Browser *) user_data)->html_link_clicked(html, url);
   return true;
 }
+
 
 void GtkHtml3Browser::html_link_clicked(GtkHTML * html, const gchar * url)
 // Callback for loading a new page in the browser.
@@ -149,10 +161,16 @@ void GtkHtml3Browser::html_link_clicked(GtkHTML * html, const gchar * url)
   // Optionally let the second browser intercept URLs.
   if (browser2 && !url_filter.empty()) {
     if (myurl.find(url_filter) != string::npos) {
+      ustring dir = gw_path_get_dirname (myurl);
+      if (dir.length () <= 2) {
+        dir = gw_path_get_dirname (loaded_url);
+        myurl = gw_build_filename (dir, myurl);
+      }
       browser2->go_to(myurl);
       return;
     }
   }
+  
   // Handle a single anchor.
   if (myurl.substr(0, 1) == "#") {
     myurl.erase(0, 1);
@@ -160,6 +178,7 @@ void GtkHtml3Browser::html_link_clicked(GtkHTML * html, const gchar * url)
     adjust_scroller();
     return;
   }
+
   // Parse the url into the url and the anchor.  
   Parse parse(myurl, false, "#");
   if (parse.words.size() > 0)
@@ -188,6 +207,7 @@ void GtkHtml3Browser::html_link_clicked(GtkHTML * html, const gchar * url)
   if (assemble_full_url) {
     myurl = gw_build_filename(loaded_path, myurl);
   }
+
   // Only load a new url if it differs from the one currently loaded.
   if ((myurl != loaded_url) && !myurl.empty()) {
 
@@ -229,6 +249,7 @@ void GtkHtml3Browser::html_link_clicked(GtkHTML * html, const gchar * url)
     if (!try_again)
       loaded_url = myurl;
   }
+
   // Optionally jump to an anchor.
   if (!myanchor.empty()) {
     gtk_html_jump_to_anchor(html, myanchor.c_str());
@@ -236,16 +257,19 @@ void GtkHtml3Browser::html_link_clicked(GtkHTML * html, const gchar * url)
   }
 }
 
+
 void GtkHtml3Browser::on_htmlview_grab_focus(GtkWidget * widget, gpointer user_data)
 {
   ((GtkHtml3Browser *) user_data)->htmlview_grab_focus();
 }
+
 
 void GtkHtml3Browser::htmlview_grab_focus()
 // This function records the most recent time that the browser received focus.
 {
   last_focused_time = time(0);
 }
+
 
 void GtkHtml3Browser::set_second_browser(const ustring & filter, GtkHtml3Browser * browser)
 // Instead of doing frames properly, a second browser is used. This browser should intercept URLs clicked.
@@ -254,17 +278,20 @@ void GtkHtml3Browser::set_second_browser(const ustring & filter, GtkHtml3Browser
   browser2 = browser;
 }
 
+
 void GtkHtml3Browser::adjust_scroller()
 {
   gw_destroy_source(scroll_event_id);
   scroll_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 200, GSourceFunc(on_scroll_timeout), gpointer(this), NULL);
 }
 
+
 bool GtkHtml3Browser::on_scroll_timeout(gpointer user_data)
 {
   ((GtkHtml3Browser *) user_data)->scroll_timeout();
   return false;
 }
+
 
 void GtkHtml3Browser::scroll_timeout()
 // Work around a scrolling bug in gtkhtml.
@@ -277,9 +304,17 @@ void GtkHtml3Browser::scroll_timeout()
   gtk_adjustment_set_value(adjustment, value - 30);
 }
 
+
 void GtkHtml3Browser::invalid_utf8_at_url(const gchar * url)
 {
   ustring msg = "Resource tried to load invalid UTF-8 Unicode from ";
   msg.append(url);
   gw_critical(msg);
 }
+
+/*
+
+Todo When the NET Bible is open as a resource, trying to edit the resource, it hangs.
+
+*/
+

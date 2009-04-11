@@ -26,8 +26,9 @@
 #include "reference.h"
 #include "types.h"
 extern "C" {
-#include <gtkhtml/gtkhtml.h>
+  #include <gtkhtml/gtkhtml.h>
 }
+
 
 class GtkHtml3Browser
 {

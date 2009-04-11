@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "utilities.h"
 #include <glib.h>
 #include "resource.h"
@@ -27,8 +28,11 @@
 #include "books.h"
 #include "resource_utils.h"
 extern "C" {
-#include <gtkhtml/gtkhtml.h>
-} Resource::Resource(GtkWidget * window)
+  #include <gtkhtml/gtkhtml.h>
+}
+
+
+Resource::Resource(GtkWidget * window)
 {
   // Save and initialize varables.
   resource_type = rtEnd;
@@ -64,6 +68,7 @@ extern "C" {
   g_signal_connect((gpointer) homebutton, "clicked", G_CALLBACK(on_homebutton_clicked), gpointer(this));
 }
 
+
 Resource::~Resource()
 {
   delete browser;
@@ -72,10 +77,12 @@ Resource::~Resource()
   gtk_widget_destroy(vbox);
 }
 
+
 void Resource::focus()
 {
   browser->focus();
 }
+
 
 bool Resource::focused()
 {
@@ -88,12 +95,14 @@ bool Resource::focused()
   return focus;
 }
 
+
 void Resource::copy()
 {
   browser->copy();
   if (browser2)
     browser2->copy();
 }
+
 
 void Resource::go_to(const Reference & reference)
 {
@@ -120,6 +129,7 @@ void Resource::go_to(const Reference & reference)
   }
 }
 
+
 void Resource::open(const ustring & filename)
 {
   mytemplatefile = filename;
@@ -142,15 +152,18 @@ void Resource::open(const ustring & filename)
   focus();
 }
 
+
 ustring Resource::template_get()
 {
   return mytemplatefile;
 }
 
+
 void Resource::on_homebutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((Resource *) user_data)->homebutton_clicked();
 }
+
 
 void Resource::homebutton_clicked()
 {
@@ -159,7 +172,10 @@ void Resource::homebutton_clicked()
     browser2->go_to(homepage2);
 }
 
+
 time_t Resource::last_focused_time()
 {
   return browser->last_focused_time;
 }
+
+
