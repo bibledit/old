@@ -3925,8 +3925,12 @@ void MainWindow::on_check_httpd()
 {
   // Does the httpd have a request for us?
   if (!httpd.search_whole_word.empty()) {
-    // Bibledit presents itself and searches for the word.
+    // Bibledit presents itself and any detached editors.
     gtk_window_present(GTK_WINDOW(window_vbox));
+    for (unsigned int i = 0; i < editor_windows.size(); i++) {
+      editor_windows[i]->present (false);
+    }    
+    // Bibledit searches for the word.
     extern Settings *settings;
     settings->session.searchword = httpd.search_whole_word;
     httpd.search_whole_word.clear();
