@@ -716,15 +716,18 @@ ustring stylesheet_get_actual ()
   set < ustring > sheets(stylesheets.begin(), stylesheets.end());
 
   // Sheet is there? Fine.
-  if (sheets.find(sheet) != sheets.end()) ;
+  if (sheets.find(sheet) != sheets.end()) {
+  }
 
   // Sheets is not there - take Standard, if it's around.
-  else if (sheets.find(STANDARDSHEET) != sheets.end())
+  else if (sheets.find(STANDARDSHEET) != sheets.end()) {
     sheet = STANDARDSHEET;
+  }
 
   // Else take first sheet in the list.
-  else
+  else {
     sheet = stylesheets[0];
+  }
 
   // Return sheet.
   return sheet;

@@ -4175,9 +4175,7 @@ void MainWindow::display_window_styles()
     g_signal_connect((gpointer) window_styles->apply_signal, "clicked", G_CALLBACK(on_style_button_apply_clicked), gpointer(this));
     g_signal_connect((gpointer) window_styles->open_signal, "clicked", G_CALLBACK(on_style_button_open_clicked), gpointer(this));
     g_signal_connect((gpointer) window_styles->edited_signal, "clicked", G_CALLBACK(on_style_edited), gpointer(this));
-    extern Settings *settings;
-    ustring stylesheet = settings->genconfig.stylesheet_get();
-    stylesheet_open_named(stylesheet);
+    stylesheet_open_named(stylesheet_get_actual());
   }
 }
 

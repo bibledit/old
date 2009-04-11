@@ -3614,3 +3614,4 @@ bool Editor::move_cursor_to_spelling_error (bool next, bool extremity)
   return moved;
 }
 
+
