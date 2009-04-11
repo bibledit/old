@@ -312,9 +312,3 @@ void GtkHtml3Browser::invalid_utf8_at_url(const gchar * url)
   gw_critical(msg);
 }
 
-/*
-
-Todo When the NET Bible is open as a resource, trying to edit the resource, it hangs.
-
-*/
-
