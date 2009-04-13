@@ -175,7 +175,7 @@ protected:
   GtkWidget *menuitem_edit_menu;
   GtkWidget *cut1;
   GtkWidget *copy1;
-  GtkWidget *copy_without_formatting;
+  GtkWidget *copy_with_formatting;
   GtkWidget *image18220;
   GtkWidget *paste1;
   GtkWidget *separator2;
@@ -464,8 +464,8 @@ protected:
   void on_cut(bool called_by_menu);
   static void on_copy1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_copy(bool called_by_menu);
-  static void on_copy_without_formatting_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_copy_without_formatting(bool called_by_menu);
+  static void on_copy_with_formatting_activate(GtkMenuItem *menuitem, gpointer user_data);
+  void on_copy_with_formatting(bool called_by_menu);
   static void on_paste1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_paste(bool called_by_menu);
 

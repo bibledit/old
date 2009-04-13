@@ -904,13 +904,13 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   gtk_widget_show(copy1);
   gtk_container_add(GTK_CONTAINER(menuitem_edit_menu), copy1);
 
-  copy_without_formatting = gtk_image_menu_item_new_with_mnemonic("Copy _without formatting");
-  gtk_widget_show(copy_without_formatting);
-  gtk_container_add(GTK_CONTAINER(menuitem_edit_menu), copy_without_formatting);
+  copy_with_formatting = gtk_image_menu_item_new_with_mnemonic("Copy _with formatting");
+  gtk_widget_show(copy_with_formatting);
+  gtk_container_add(GTK_CONTAINER(menuitem_edit_menu), copy_with_formatting);
 
   image18220 = gtk_image_new_from_stock("gtk-copy", GTK_ICON_SIZE_MENU);
   gtk_widget_show(image18220);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(copy_without_formatting), image18220);
+  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(copy_with_formatting), image18220);
 
   paste1 = gtk_image_menu_item_new_from_stock("gtk-paste", NULL);
   gtk_widget_show(paste1);
@@ -1915,8 +1915,8 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     g_signal_connect((gpointer) cut1, "activate", G_CALLBACK(on_cut1_activate), gpointer(this));
   if (copy1)
     g_signal_connect((gpointer) copy1, "activate", G_CALLBACK(on_copy1_activate), gpointer(this));
-  if (copy_without_formatting)
-    g_signal_connect((gpointer) copy_without_formatting, "activate", G_CALLBACK(on_copy_without_formatting_activate), gpointer(this));
+  if (copy_with_formatting)
+    g_signal_connect((gpointer) copy_with_formatting, "activate", G_CALLBACK(on_copy_with_formatting_activate), gpointer(this));
   if (paste1)
     g_signal_connect((gpointer) paste1, "activate", G_CALLBACK(on_paste1_activate), gpointer(this));
   if (undo1)
@@ -2449,17 +2449,14 @@ void MainWindow::menu_edit()
   // Set the sensitivity of some items in the Edit menu.
   WindowEditor *editor_window = last_focused_editor_window();
 
-  bool copy_wo_formatting = false;
   bool undo = true;
   bool redo = true;
   if (editor_window) {
     if (last_focused_window_button == editor_window->focus_in_signal_button) {
-      copy_wo_formatting = true;
       undo = editor_window->can_undo();
       redo = editor_window->can_redo();
     }
   }
-  gtk_widget_set_sensitive(copy_without_formatting, copy_wo_formatting);
   gtk_widget_set_sensitive(undo1, undo);
   gtk_widget_set_sensitive(redo1, redo);
 
@@ -2471,6 +2468,7 @@ void MainWindow::menu_edit()
   bool paste = true;
   gtk_widget_set_sensitive(cut1, cut);
   gtk_widget_set_sensitive(copy1, copy);
+  gtk_widget_set_sensitive(copy_with_formatting, copy);
   gtk_widget_set_sensitive(paste1, paste);
 
   // Enable/disable based on whether we're editing a note.
@@ -2917,10 +2915,12 @@ void MainWindow::on_notes_area_activate()
  |
  */
 
+
 void MainWindow::on_cut1_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_cut(true);
 }
+
 
 void MainWindow::on_cut(bool called_by_menu)
 {
@@ -2946,10 +2946,12 @@ void MainWindow::on_cut(bool called_by_menu)
   }
 }
 
+
 void MainWindow::on_copy1_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_copy(true);
 }
+
 
 void MainWindow::on_copy(bool called_by_menu)
 {
@@ -2963,8 +2965,8 @@ void MainWindow::on_copy(bool called_by_menu)
   GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
     if (focused_window_button == editor_windows[i]->focus_in_signal_button) {
-      // In case of the text editor, the USFM code is copied, not the plain text. 
-      gtk_clipboard_set_text(clipboard, editor_windows[i]->text_get_selection().c_str(), -1);
+      // Copy plain text, not the USFM code. 
+      gtk_text_buffer_copy_clipboard(editor_windows[i]->last_focused_textbuffer(), clipboard);
     }
   }
 
@@ -2981,12 +2983,14 @@ void MainWindow::on_copy(bool called_by_menu)
   }
 }
 
-void MainWindow::on_copy_without_formatting_activate(GtkMenuItem * menuitem, gpointer user_data)
+
+void MainWindow::on_copy_with_formatting_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
-  ((MainWindow *) user_data)->on_copy_without_formatting(true);
+  ((MainWindow *) user_data)->on_copy_with_formatting(true);
 }
 
-void MainWindow::on_copy_without_formatting(bool called_by_menu)
+
+void MainWindow::on_copy_with_formatting(bool called_by_menu)
 {
   GtkWidget *focused_window_button = NULL;
   if (called_by_menu) {
@@ -2999,16 +3003,19 @@ void MainWindow::on_copy_without_formatting(bool called_by_menu)
   WindowEditor *editor_window = last_focused_editor_window();
   if (editor_window) {
     if (focused_window_button == editor_window->focus_in_signal_button) {
+      // In case of the text editor, the USFM code is copied, not the plain text. 
       GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
-      gtk_text_buffer_copy_clipboard(editor_window->last_focused_textbuffer(), clipboard);
+      gtk_clipboard_set_text(clipboard, editor_window->text_get_selection().c_str(), -1);
     }
   }
 }
+
 
 void MainWindow::on_paste1_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_paste(true);
 }
+
 
 void MainWindow::on_paste(bool called_by_menu)
 {
@@ -3042,6 +3049,7 @@ void MainWindow::on_paste(bool called_by_menu)
     }
   }
 }
+
 
 /*
  |
