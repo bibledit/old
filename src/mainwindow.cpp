@@ -3424,7 +3424,8 @@ void MainWindow::view_project_notes()
   } else {
     extern GtkAccelGroup *accelerator_group;
     // By default the text area take the whole height of the main window. Here we set it to evenly share with the notes window.
-    gtk_box_set_child_packing (GTK_BOX (vbox_main), hbox_notes, true, true, 0, GTK_PACK_START);
+    if (hbox_notes)
+      gtk_box_set_child_packing (GTK_BOX (vbox_main), hbox_notes, true, true, 0, GTK_PACK_START);
     // New notes window.
     window_notes = new WindowNotes(accelerator_group, windows_startup_pointer != G_MAXINT, hbox_notes);
     g_signal_connect((gpointer) window_notes->delete_signal_button, "clicked", G_CALLBACK(on_window_notes_delete_button_clicked), gpointer(this));
@@ -3445,7 +3446,8 @@ void MainWindow::on_window_notes_delete_button()
     delete window_notes;
     window_notes = NULL;
     // Give the text area the whole height of the main window again.
-    gtk_box_set_child_packing (GTK_BOX (vbox_main), hbox_notes, false, false, 0, GTK_PACK_START);
+    if (hbox_notes)
+      gtk_box_set_child_packing (GTK_BOX (vbox_main), hbox_notes, false, false, 0, GTK_PACK_START);
   }
 }
 
@@ -6791,13 +6793,15 @@ void MainWindow::window_set_focus (GtkWidget *widget)
 
 void MainWindow::resize_text_area_if_tools_area_is_empty()
 {
-  GList * children = gtk_container_get_children (GTK_CONTAINER (vbox_tools));
-  guint tools_count = g_list_length (children);
-  g_list_free (children);
-  if (tools_count) {
-    gtk_box_set_child_packing (GTK_BOX (hbox_main), vbox_tools, true, true, 0, GTK_PACK_START);
-  } else {
-    gtk_box_set_child_packing (GTK_BOX (hbox_main), vbox_tools, false, false, 0, GTK_PACK_START);
+  if (vbox_tools) {
+    GList * children = gtk_container_get_children (GTK_CONTAINER (vbox_tools));
+    guint tools_count = g_list_length (children);
+    g_list_free (children);
+    if (tools_count) {
+      gtk_box_set_child_packing (GTK_BOX (hbox_main), vbox_tools, true, true, 0, GTK_PACK_START);
+    } else {
+      gtk_box_set_child_packing (GTK_BOX (hbox_main), vbox_tools, false, false, 0, GTK_PACK_START);
+    }
   }
 }
 
