@@ -1779,7 +1779,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   gtk_box_pack_start(GTK_BOX(vbox_main), toolbar, FALSE, FALSE, 0);
   gtk_toolbar_set_style(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_BOTH_HORIZ);
 
-  // The following boxes are only created in attached view, else these are NULL. // Todo
+  // The following boxes are only created in attached view, else these are NULL.
   hbox_editors = NULL;
   hbox_notes = NULL;
   if (!windows_are_detached) {
@@ -1791,7 +1791,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     gtk_widget_show (hbox_notes);
     gtk_box_pack_start (GTK_BOX (vbox_main), hbox_notes, TRUE, TRUE, 0);
 
-    gtk_box_set_child_packing (GTK_BOX (vbox_main), hbox_notes, false, false, 0, GTK_PACK_START); // Todo
+    gtk_box_set_child_packing (GTK_BOX (vbox_main), hbox_notes, false, false, 0, GTK_PACK_START);
   }
 
   hbox_status = gtk_hbox_new(FALSE, 0);
@@ -1824,9 +1824,12 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   // Note that in detached view, this vbox is NULL.
   vbox_tools = NULL;
   if (!windows_are_detached) {
+
     vbox_tools = gtk_vbox_new (FALSE, 0);
     gtk_widget_show (vbox_tools);
     gtk_box_pack_start (GTK_BOX (hbox_main), vbox_tools, true, true, 0);
+    
+    resize_text_area_if_tools_area_is_empty ();
   }
 
   // Window callbacks.
@@ -3072,6 +3075,7 @@ void MainWindow::show_references_window()
   if (!window_references) {
     extern GtkAccelGroup *accelerator_group;
     window_references = new WindowReferences(accelerator_group, windows_startup_pointer != G_MAXINT, vbox_tools);
+    resize_text_area_if_tools_area_is_empty ();
     g_signal_connect((gpointer) window_references->delete_signal_button, "clicked", G_CALLBACK(on_window_references_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_references->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_references->general_signal_button, "clicked", G_CALLBACK(on_window_references_general_signal_button_clicked), gpointer(this));
@@ -3090,6 +3094,7 @@ void MainWindow::on_window_references_delete_button()
   if (window_references) {
     delete window_references;
     window_references = NULL;
+    resize_text_area_if_tools_area_is_empty ();
   }
 }
 
@@ -3409,7 +3414,7 @@ void MainWindow::on_gui()
  |
  */
 
-void MainWindow::view_project_notes() // Todo
+void MainWindow::view_project_notes()
 {
   if (!project_notes_enabled)
     return;
@@ -3419,7 +3424,7 @@ void MainWindow::view_project_notes() // Todo
   } else {
     extern GtkAccelGroup *accelerator_group;
     // By default the text area take the whole height of the main window. Here we set it to evenly share with the notes window.
-    gtk_box_set_child_packing (GTK_BOX (vbox_main), hbox_notes, true, true, 0, GTK_PACK_START); // Todo
+    gtk_box_set_child_packing (GTK_BOX (vbox_main), hbox_notes, true, true, 0, GTK_PACK_START);
     // New notes window.
     window_notes = new WindowNotes(accelerator_group, windows_startup_pointer != G_MAXINT, hbox_notes);
     g_signal_connect((gpointer) window_notes->delete_signal_button, "clicked", G_CALLBACK(on_window_notes_delete_button_clicked), gpointer(this));
@@ -3434,13 +3439,13 @@ void MainWindow::on_window_notes_delete_button_clicked(GtkButton * button, gpoin
   ((MainWindow *) user_data)->on_window_notes_delete_button();
 }
 
-void MainWindow::on_window_notes_delete_button() // Todo
+void MainWindow::on_window_notes_delete_button()
 {
   if (window_notes) {
     delete window_notes;
     window_notes = NULL;
     // Give the text area the whole height of the main window again.
-    gtk_box_set_child_packing (GTK_BOX (vbox_main), hbox_notes, false, false, 0, GTK_PACK_START); // Todo
+    gtk_box_set_child_packing (GTK_BOX (vbox_main), hbox_notes, false, false, 0, GTK_PACK_START);
   }
 }
 
@@ -4185,6 +4190,7 @@ void MainWindow::display_window_styles()
     // Open the window.
     extern GtkAccelGroup *accelerator_group;
     window_styles = new WindowStyles(accelerator_group, windows_startup_pointer != G_MAXINT, style, style_menu, stylesheets_expand_all, stylesheets_collapse_all, style_insert, stylesheet_edit_mode, style_new, style_properties, style_delete, stylesheet_switch, stylesheets_new, stylesheets_delete, stylesheets_rename, stylesheets_import, stylesheets_export, vbox_tools);
+    resize_text_area_if_tools_area_is_empty ();
     g_signal_connect((gpointer) window_styles->delete_signal_button, "clicked", G_CALLBACK(on_window_styles_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_styles->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_styles->apply_signal, "clicked", G_CALLBACK(on_style_button_apply_clicked), gpointer(this));
@@ -4204,6 +4210,7 @@ void MainWindow::on_window_styles_delete_button()
   if (window_styles) {
     delete window_styles;
     window_styles = NULL;
+    resize_text_area_if_tools_area_is_empty ();
   }
   gtk_widget_show(stylesheet_open);
   gtk_widget_hide(stylesheets_expand_all);
@@ -4663,6 +4670,7 @@ void MainWindow::on_check_key_terms()
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(check_key_terms))) {
     extern GtkAccelGroup *accelerator_group;
     window_check_keyterms = new WindowCheckKeyterms(accelerator_group, windows_startup_pointer != G_MAXINT, vbox_tools);
+    resize_text_area_if_tools_area_is_empty ();
     g_signal_connect((gpointer) window_check_keyterms->delete_signal_button, "clicked", G_CALLBACK(on_window_check_keyterms_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_check_keyterms->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_check_keyterms->signal, "clicked", G_CALLBACK(on_keyterms_new_reference), gpointer(this));
@@ -4679,6 +4687,7 @@ void MainWindow::on_window_check_keyterms_delete_button()
   if (window_check_keyterms) {
     delete window_check_keyterms;
     window_check_keyterms = NULL;
+    resize_text_area_if_tools_area_is_empty ();
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(check_key_terms), false);
   }
 }
@@ -4707,6 +4716,7 @@ void MainWindow::on_view_keyterms()
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_keyterms))) {
     extern GtkAccelGroup *accelerator_group;
     window_show_keyterms = new WindowShowKeyterms(accelerator_group, windows_startup_pointer != G_MAXINT, vbox_tools);
+    resize_text_area_if_tools_area_is_empty ();
     g_signal_connect((gpointer) window_show_keyterms->delete_signal_button, "clicked", G_CALLBACK(on_window_show_keyterms_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_show_keyterms->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     extern Settings *settings;
@@ -4724,6 +4734,7 @@ void MainWindow::on_window_show_keyterms_delete_button()
   if (window_show_keyterms) {
     delete window_show_keyterms;
     window_show_keyterms = NULL;
+    resize_text_area_if_tools_area_is_empty ();
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_keyterms), false);
   }
 }
@@ -5025,6 +5036,7 @@ void MainWindow::on_view_outline()
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_outline))) {
     extern GtkAccelGroup *accelerator_group;
     window_outline = new WindowOutline(accelerator_group, windows_startup_pointer != G_MAXINT, vbox_tools);
+    resize_text_area_if_tools_area_is_empty ();
     g_signal_connect((gpointer) window_outline->delete_signal_button, "clicked", G_CALLBACK(on_window_outline_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_outline->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_outline->outline->reference_changed_signal, "clicked", G_CALLBACK(on_button_outline_clicked), gpointer(this));
@@ -5043,6 +5055,7 @@ void MainWindow::on_window_outline_delete_button()
   if (window_outline) {
     delete window_outline;
     window_outline = NULL;
+    resize_text_area_if_tools_area_is_empty ();
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_outline), false);
   }
 }
@@ -5323,6 +5336,7 @@ void MainWindow::on_file_resources_open(ustring resource, bool startup)
   // Display a new resource.
   extern GtkAccelGroup *accelerator_group;
   WindowResource *resource_window = new WindowResource(resource, accelerator_group, startup, vbox_tools);
+  resize_text_area_if_tools_area_is_empty ();
   g_signal_connect((gpointer) resource_window->delete_signal_button, "clicked", G_CALLBACK(on_window_resource_delete_button_clicked), gpointer(this));
   g_signal_connect((gpointer) resource_window->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
   resource_window->go_to(navigation.reference);
@@ -5340,6 +5354,7 @@ void MainWindow::on_file_resources_close()
   WindowResource *focused_window = last_focused_resource_window();
   if (focused_window) {
     on_window_resource_delete_button(GTK_BUTTON(focused_window->delete_signal_button));
+    resize_text_area_if_tools_area_is_empty ();
   }
 }
 
@@ -5696,6 +5711,7 @@ void MainWindow::on_file_projects_merge()
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(file_projects_merge))) {
     extern GtkAccelGroup *accelerator_group;
     window_merge = new WindowMerge(accelerator_group, windows_startup_pointer != G_MAXINT, vbox_tools);
+    resize_text_area_if_tools_area_is_empty ();
     g_signal_connect((gpointer) window_merge->delete_signal_button, "clicked", G_CALLBACK(on_window_merge_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_merge->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_merge->editors_get_text_button, "clicked", G_CALLBACK(on_merge_window_get_text_button_clicked), gpointer(this));
@@ -5720,6 +5736,7 @@ void MainWindow::on_window_merge_delete_button()
   if (window_merge) {
     delete window_merge;
     window_merge = NULL;
+    resize_text_area_if_tools_area_is_empty ();
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(file_projects_merge), false);
   }
 }
@@ -6772,6 +6789,19 @@ void MainWindow::window_set_focus (GtkWidget *widget)
 }
 
 
+void MainWindow::resize_text_area_if_tools_area_is_empty()
+{
+  GList * children = gtk_container_get_children (GTK_CONTAINER (vbox_tools));
+  guint tools_count = g_list_length (children);
+  g_list_free (children);
+  if (tools_count) {
+    gtk_box_set_child_packing (GTK_BOX (hbox_main), vbox_tools, true, true, 0, GTK_PACK_START);
+  } else {
+    gtk_box_set_child_packing (GTK_BOX (hbox_main), vbox_tools, false, false, 0, GTK_PACK_START);
+  }
+}
+
+
 /*
  |
  |
@@ -6797,6 +6827,7 @@ void MainWindow::on_view_quick_references()
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_quick_references))) {
     extern GtkAccelGroup *accelerator_group;
     window_show_quick_references = new WindowShowQuickReferences(accelerator_group, windows_startup_pointer != G_MAXINT, vbox_tools);
+    resize_text_area_if_tools_area_is_empty ();
     g_signal_connect((gpointer) window_show_quick_references->delete_signal_button, "clicked", G_CALLBACK(on_window_show_quick_references_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_show_quick_references->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     treeview_references_display_quick_reference();
@@ -6813,6 +6844,7 @@ void MainWindow::on_window_show_quick_references_delete_button()
   if (window_show_quick_references) {
     delete window_show_quick_references;
     window_show_quick_references = NULL;
+    resize_text_area_if_tools_area_is_empty ();
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_quick_references), false);
   }
 }
@@ -7217,6 +7249,7 @@ void MainWindow::on_view_verses()
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_verses))) {
     extern GtkAccelGroup *accelerator_group;
     window_show_verses = new WindowShowVerses(accelerator_group, windows_startup_pointer != G_MAXINT, vbox_tools);
+    resize_text_area_if_tools_area_is_empty ();
     g_signal_connect((gpointer) window_show_verses->delete_signal_button, "clicked", G_CALLBACK(on_window_show_verses_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_show_verses->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     show_verses();
@@ -7233,6 +7266,7 @@ void MainWindow::on_window_show_verses_delete_button()
   if (window_show_verses) {
     delete window_show_verses;
     window_show_verses = NULL;
+    resize_text_area_if_tools_area_is_empty ();
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_verses), false);
   }
 }
@@ -7326,6 +7360,7 @@ void MainWindow::on_check_usfm()
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(check_usfm))) {
     extern GtkAccelGroup *accelerator_group;
     window_check_usfm = new WindowCheckUSFM(accelerator_group, windows_startup_pointer != G_MAXINT, vbox_tools);
+    resize_text_area_if_tools_area_is_empty ();
     g_signal_connect((gpointer) window_check_usfm->delete_signal_button, "clicked", G_CALLBACK(on_window_check_usfm_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_check_usfm->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     handle_editor_focus();
@@ -7343,6 +7378,7 @@ void MainWindow::on_window_check_usfm_delete_button()
   if (window_check_usfm) {
     delete window_check_usfm;
     window_check_usfm = NULL;
+    resize_text_area_if_tools_area_is_empty ();
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(check_usfm), false);
   }
 }
@@ -7367,11 +7403,3 @@ void MainWindow::check_usfm_window_ping()
 }
 
 
-/*
-
-Todo Text area open only -> let it fill whole screen.
-
-Let the text area fill the whole program area of BE (without having an empty grey area bellow and on the right) if no additional areas are opened. 
-
-
-*/
