@@ -301,11 +301,11 @@ void Editor::chapter_load(unsigned int chapter_in, vector < ustring > *lines_in)
   // Trigger a spelling check.
   spelling_trigger();
 
-  // Place cursor at start of buffer and scroll to it.
+  // Place cursor at the start and scroll it onto the screen.
   GtkTextIter iter;
   gtk_text_buffer_get_start_iter(textbuffer, &iter);
   gtk_text_buffer_place_cursor(textbuffer, &iter);
-  screen_scroll_to_iterator(GTK_TEXT_VIEW(textview), &iter);
+  scroll_cursor_on_screen (true);
 }
 
 void Editor::chapter_save()
@@ -655,7 +655,7 @@ void Editor::show_quick_references_execute()
   gtk_button_clicked(GTK_BUTTON(quick_references_button));
 }
 
-void Editor::on_textview_move_cursor(GtkTextView * textview, GtkMovementStep step, gint count, gboolean extend_selection, gpointer user_data)
+void Editor::on_textview_move_cursor(GtkTextView * textview, GtkMovementStep step, gint count, gboolean extend_selection, gpointer user_data) // Todo
 {
   ((Editor *) user_data)->on_textview_cursor_moved_delayer(textview, step, count);
 }
@@ -664,8 +664,7 @@ void Editor::on_textview_cursor_moved_delayer(GtkTextView * textview, GtkMovemen
 {
   // Clear the character style that was going to be applied when the user starts typing.
   character_style_on_start_typing.clear();
-  // Keep postponing the actual handler if a new cursor movement was detected
-  // before the previous one was processed: destroy the GSource.
+  // Keep postponing the actual handler if a new cursor movement was detected before the previous one was processed.
   gw_destroy_source(textview_cursor_moved_delayer_event_id);
   textview_cursor_moved_delayer_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_textview_cursor_moved_delayer_handler), gpointer(this), NULL);
   // Store data about the move for finding out whether to move to another textview.
@@ -720,7 +719,7 @@ ustring Editor::verse_number_get()
   return get_verse_number_at_iterator(iter, verse_marker, project);
 }
 
-void Editor::on_textview_grab_focus(GtkWidget * widget, gpointer user_data)
+void Editor::on_textview_grab_focus(GtkWidget * widget, gpointer user_data) // Todo
 {
   ((Editor *) user_data)->textview_grab_focus(widget);
 }
@@ -769,14 +768,15 @@ void Editor::on_grab_focus_delayed_handler()
         gtk_text_buffer_get_start_iter(editornotes[i].textbuffer, &iter);
         gtk_text_buffer_place_cursor(editornotes[i].textbuffer, &iter);
         gtk_text_buffer_get_iter_at_child_anchor(textbuffer, &iter, editornotes[i].childanchor_caller_note);
-        screen_scroll_to_iterator(GTK_TEXT_VIEW(textview), &iter);
+        gtk_text_buffer_place_cursor(textbuffer, &iter);
+        scroll_cursor_on_screen (true);
       }
       if (child_anchor_clicked == editornotes[i].childanchor_caller_note) {
         gtk_widget_grab_focus(textview);
         GtkTextIter iter;
         gtk_text_buffer_get_iter_at_child_anchor(textbuffer, &iter, editornotes[i].childanchor_caller_text);
         gtk_text_buffer_place_cursor(textbuffer, &iter);
-        screen_scroll_to_iterator(GTK_TEXT_VIEW(textview), &iter);
+        scroll_cursor_on_screen (true);
       }
     }
     child_anchor_clicked = NULL;
@@ -816,7 +816,7 @@ void Editor::undo()
       gtk_text_buffer_delete(textbuffer, &startiter, &enditer);
       // Place the cursor.
       gtk_text_buffer_place_cursor(textbuffer, &startiter);
-      screen_scroll_to_iterator(GTK_TEXT_VIEW(textview), &startiter);
+      scroll_cursor_on_screen (true);
       break;
     }
   case eudDeleteText:
@@ -902,7 +902,7 @@ void Editor::undo()
       gtk_text_buffer_remove_tag_by_name(textbuffer, editorundo.text.c_str(), &startiter, &enditer);
       // Place the cursor.
       gtk_text_buffer_place_cursor(textbuffer, &startiter);
-      screen_scroll_to_iterator(GTK_TEXT_VIEW(textview), &startiter);
+      scroll_cursor_on_screen (true);
       break;
     }
   case eudRemoveTag:
@@ -914,7 +914,7 @@ void Editor::undo()
       textbuffer_apply_named_tag(textbuffer, editorundo.text, &startiter, &enditer);
       // Place the cursor.
       gtk_text_buffer_place_cursor(textbuffer, &startiter);
-      screen_scroll_to_iterator(GTK_TEXT_VIEW(textview), &startiter);
+      scroll_cursor_on_screen (true);
       break;
     }
   }
@@ -1123,7 +1123,7 @@ gboolean Editor::on_text_key_press_event_before(GtkWidget * widget, GdkEventKey 
           GtkTextIter iter;
           gtk_text_buffer_get_iter_at_child_anchor(textbuffer, &iter, editornotes[i].childanchor_caller_text);
           gtk_text_buffer_place_cursor(textbuffer, &iter);
-          screen_scroll_to_iterator(GTK_TEXT_VIEW(textview), &iter);
+          scroll_cursor_on_screen (true);
           break;
         }
       }
@@ -2086,7 +2086,7 @@ void Editor::display_notes_remainder(bool focus_rendered_textview)
       programmatically_grab_focus(editornotes[i].textview);
       GtkTextIter iter;
       gtk_text_buffer_get_iter_at_child_anchor(textbuffer, &iter, editornotes[i].childanchor_textview);
-      screen_scroll_to_iterator(GTK_TEXT_VIEW(textview), &iter);
+      scroll_cursor_on_screen (true);
     }
   }
 
@@ -3461,7 +3461,7 @@ void Editor::check_move_textview_to_textview()
 
 }
 
-void Editor::position_cursor_at_verse(const ustring & cursorposition, bool focus)
+void Editor::position_cursor_at_verse(const ustring & cursorposition, bool focus) // Todo working here.
 // This function starts the procedure to move the cursor of the editor to the 
 // verse given.
 {
@@ -3479,8 +3479,8 @@ void Editor::position_cursor_at_verse(const ustring & cursorposition, bool focus
   // Do the repositioning if needed.
   if (reposition) {
 
-    // Grab focus here to get the scrolling done properly, and the user can type 
-    // in the editor. But this is only done if requested.
+    // If requested, grab focus to get the scrolling done properly, and the user can type in the editor.
+    // Todo this confuses textview and textbuffer: textbuffer should be set straigth, and textview follows later.
     if (focus) {
       programmatically_grab_focus(textview);
     }
@@ -3489,9 +3489,7 @@ void Editor::position_cursor_at_verse(const ustring & cursorposition, bool focus
       GtkTextIter iter;
       gtk_text_buffer_get_start_iter(textbuffer, &iter);
       gtk_text_buffer_place_cursor(textbuffer, &iter);
-      screen_scroll_to_iterator(GTK_TEXT_VIEW(textview), &iter);
-      while (gtk_events_pending())
-        gtk_main_iteration();
+      scroll_cursor_on_screen (true);
     } else {
       // The verse marker.
       ustring verse_marker = style_get_verse_marker(project);
@@ -3523,13 +3521,9 @@ void Editor::position_cursor_at_verse(const ustring & cursorposition, bool focus
             // Move it to the beginning of the text, if there is any.
             gtk_text_iter_forward_chars(&iter, verse.length() + 1);
             gtk_text_buffer_place_cursor(textbuffer, &iter);
-            while (gtk_events_pending())
-              gtk_main_iteration();
             // Scroll also to it. It will scroll to the beginning of the text after the verse marker.
-            // Alignment is needed to put the line being edited near the top of the window.
-            screen_scroll_to_iterator(GTK_TEXT_VIEW(textview), &iter);
-            while (gtk_events_pending())
-              gtk_main_iteration();
+            // Exact scrolling is needed to put the line being edited near the top of the window.
+            scroll_cursor_on_screen (true);
             // Bail out.
             break;
           }
@@ -3607,11 +3601,62 @@ bool Editor::move_cursor_to_spelling_error (bool next, bool extremity)
 {
   bool moved = spellingchecker->move_cursor_to_spelling_error (textbuffer, next, extremity);
   if (moved) {
-    GtkTextIter iter;
-    gtk_text_buffer_get_iter_at_mark(textbuffer, &iter, gtk_text_buffer_get_insert(textbuffer));
-    screen_scroll_to_iterator(GTK_TEXT_VIEW (textview), &iter);
+    scroll_cursor_on_screen (true);
   }
   return moved;
 }
 
 
+void Editor::scroll_cursor_on_screen (bool exact)
+{
+  GtkTextMark * mark = gtk_text_buffer_get_insert(textbuffer);
+  textview_scroll_to_mark (GTK_TEXT_VIEW (textview), mark, exact);
+}
+
+
+/*
+
+Todo BE STILL not updating windows when moving cursor position
+
+This is still happening. I will attach a screen shot.
+
+One way to make this happen is related to another minor annoyance, which I will explain here.
+
+I do a lot of copy and pasting from BE to web pages. 
+To do this, I often want to grab a verse at a time. If I click right in front of the verse number, BE will switch to that verse. 
+Then if I click one space to the left (right after a period at the end of a verse, for instance), 
+then BE will forget to revert to that verse, and all the other windows will stay focused on the next verse. 
+BE will stay stuck like this for a fairly long time, usually until some movement wakes it up.
+
+It would be helpful if BE would not switch to the next verse when the cursor is right in front of the next verse. 
+In other words, it would be better if a shift to the next verse would only occur when clicking past the first digit of the verse number.
+
+In the attached screen shot, I clicked right to the left of verse 21. 
+All the windows changed to verse 21. But I was really wanting to copy from the end of 20. 
+So when I clicked one space to the left, BE did not update the windows back to v20. 
+I had long enough to activate my screen capture program to grab a screen shot of the region. 
+* After coming back from saving the screen shot, then BE finally figured out that the curson was in verse 20.
+
+This problem doesn't just happen when using the mouse to click in a different verse (second screen shot), 
+but also happens when first clicking before a verse number then moving left with the arrow key. (third screen shot)
+
+
+
+
+Todo Steps to implement better verse tracking:
+
+When text is selected, the verse tracker should not update, but remain at the last verse it was on.
+
+Whe Editor that initiated a verse change should signal this to the other editors, and update the navigation.
+
+Editors that receive a command to go to a new verse should not signal any verse change, because it was not initiated by them.
+
+We probably need to use less delays and timeouts, because this gets messy.
+The verse position can be retrieved from the textbuffer, there does not need to be any reason why delays are needed,
+except for scrolling the window.
+
+We can place the cursor at the right position straight after loading the text, no delays needed.
+Then we can have a regular running mechanism that tracks the cursor position, and if need be it scrolls  the scrolled window to the right place.
+
+
+*/

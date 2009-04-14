@@ -17,13 +17,17 @@
  **  
  */
 
+
 #ifndef INCLUDED_SCREEN_H
 #define INCLUDED_SCREEN_H
+
 
 #include "libraries.h"
 #include <gtk/gtk.h>
 
+
 void screen_scroll_to_iterator(GtkTextView *text_view, GtkTextIter *iter);
+void textview_scroll_to_mark (GtkTextView * textview, GtkTextMark * mark, bool exact);
 void screen_set_cursor_hand_or_regular(GtkTextView *text_view, gint x, gint y);
 gboolean screen_visibility_notify_event(GtkWidget *text_view, GdkEventVisibility *event, gpointer user_data);
 
@@ -46,5 +50,6 @@ private:
   static bool on_timeout(gpointer data);
   void timeout();
 };
+
 
 #endif

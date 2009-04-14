@@ -17,16 +17,31 @@
  **  
  */
 
+
 #include "libraries.h"
 #include "screen.h"
 #include "settings.h"
 #include "gwrappers.h"
+
 
 void screen_scroll_to_iterator(GtkTextView * text_view, GtkTextIter * iter)
 // Used for the editor, to get a position near the top of the screen.
 {
   gtk_text_view_scroll_to_iter(text_view, iter, 0.1, true, 0, 0.3);
 }
+
+
+void textview_scroll_to_mark (GtkTextView * textview, GtkTextMark * mark, bool exact)
+// Scrolls a "textview" so that the "mark" becomes visible on the screen.
+// The advantage of this one as compared to the counterpart that scrolls to a GtkTextIter
+// is that the scrolling to the mark can be called immediately after the textbuffer
+// is filled, without any need to wait till the height of the lines has 
+// been calculated.
+// exact: scroll to the exact location - if false it scrolls as little as possible to get the mark visible.
+{
+  gtk_text_view_scroll_to_mark(textview, mark, 0.1, exact, 0, 0.3);
+}
+
 
 void screen_set_cursor_hand_or_regular(GtkTextView * text_view, gint x, gint y)
 // Looks at all tags covering the position (x, y) in the textview,
