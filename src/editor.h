@@ -36,7 +36,7 @@ public:
   Editor(GtkWidget * vbox, const ustring& project_in);
   ~Editor();
 
-  // Focus handling. Todo
+  // Focus handling.
 public:
   static void on_textview_grab_focus(GtkWidget * widget, gpointer user_data);
   void textview_grab_focus(GtkWidget * widget);
@@ -52,7 +52,7 @@ public:
   unsigned int last_focused_column();
   GtkTextChildAnchor * child_anchor_clicked;
 
-  // Cursor movement handling. Todo
+  // Cursor movement handling.
   static void on_textview_move_cursor(GtkTextView * textview, GtkMovementStep step, gint count, gboolean extend_selection, gpointer user_data);
   void on_textview_cursor_moved_delayer(GtkTextView * textview, GtkMovementStep step, gint count);
   guint textview_cursor_moved_delayer_event_id;
@@ -249,7 +249,7 @@ private:
   gint textview_to_textview_stepcount;
   void check_move_textview_to_textview();
 
-  // Verse tracking and positioning. Todo
+  // Verse tracking and positioning.
   // The mechanism only starts shortly after loading a chapter.
   // Before it starts, all tracking and positioning is simulated in memory.
 public:
@@ -265,6 +265,7 @@ private:
   bool verse_tracker_timeout();
   bool verse_tracker_on;
   ustring verse_number_get();
+  GtkTextIter previous_insert_iter;
   
   // Scrolling control.
 public:

@@ -655,7 +655,7 @@ void Editor::show_quick_references_execute()
   gtk_button_clicked(GTK_BUTTON(quick_references_button));
 }
 
-void Editor::on_textview_move_cursor(GtkTextView * textview, GtkMovementStep step, gint count, gboolean extend_selection, gpointer user_data) // Todo
+void Editor::on_textview_move_cursor(GtkTextView * textview, GtkMovementStep step, gint count, gboolean extend_selection, gpointer user_data)
 {
   ((Editor *) user_data)->on_textview_cursor_moved_delayer(textview, step, count);
 }
@@ -719,7 +719,7 @@ ustring Editor::verse_number_get()
   return get_verse_number_at_iterator(iter, verse_marker, project);
 }
 
-void Editor::on_textview_grab_focus(GtkWidget * widget, gpointer user_data) // Todo
+void Editor::on_textview_grab_focus(GtkWidget * widget, gpointer user_data)
 {
   ((Editor *) user_data)->textview_grab_focus(widget);
 }
@@ -2774,7 +2774,7 @@ void Editor::signal_if_styles_changed()
   set < ustring > styles = get_styles_at_cursor();
   if (styles != styles_at_cursor) {
     styles_at_cursor = styles;
-    if (new_verse_signal)
+    if (new_styles_signal)
       gtk_button_clicked(GTK_BUTTON(new_styles_signal));
   }
 }
@@ -3461,7 +3461,7 @@ void Editor::check_move_textview_to_textview()
 
 }
 
-void Editor::position_cursor_at_verse(const ustring & cursorposition, bool focus) // Todo working here.
+void Editor::position_cursor_at_verse(const ustring & cursorposition, bool focus)
 // This function starts the procedure to move the cursor of the editor to the 
 // verse given.
 {
@@ -3480,7 +3480,6 @@ void Editor::position_cursor_at_verse(const ustring & cursorposition, bool focus
   if (reposition) {
 
     // If requested, grab focus to get the scrolling done properly, and the user can type in the editor.
-    // Todo this confuses textview and textbuffer: textbuffer should be set straigth, and textview follows later.
     if (focus) {
       programmatically_grab_focus(textview);
     }
@@ -3573,23 +3572,29 @@ bool Editor::on_verse_tracker_timeout(gpointer data)
 bool Editor::verse_tracker_timeout()
 // Regular verse tracker.
 {
-  // Only track the verse if no gtk events are pending.
-  if (!gtk_events_pending()) {
-
-    if (!verse_tracker_on) {
-      verse_tracker_on = true;
-      position_cursor_at_verse(current_verse_number, true);
-    }
-    // If the verse number of the cursor changed emit a signal.
-    ustring versenumber = verse_number_get();
-    if (versenumber != current_verse_number) {
-      current_verse_number = versenumber;
-      if (new_verse_signal) {
-        gtk_button_clicked(GTK_BUTTON(new_verse_signal));
-      }
-    }
-
+  if (!verse_tracker_on) {
+    verse_tracker_on = true;
+    position_cursor_at_verse(current_verse_number, true);
   }
+
+  // Speed up: Only proceed if the cursor changed.
+  GtkTextIter iter;
+  gtk_text_buffer_get_iter_at_mark(textbuffer, &iter, gtk_text_buffer_get_insert(textbuffer));
+  if (!gtk_text_iter_equal  (&iter, &previous_insert_iter)) {
+    previous_insert_iter = iter;
+    // Only proceed if no text was selected.
+    if (!gtk_text_buffer_get_has_selection (textbuffer)) {
+      // Emit a signal if the verse number at the cursor changed.
+      ustring versenumber = verse_number_get();
+      if (versenumber != current_verse_number) {
+        current_verse_number = versenumber;
+        if (new_verse_signal) {
+          gtk_button_clicked(GTK_BUTTON(new_verse_signal));
+        }
+      }
+    }    
+  }
+
   // Next iteration.
   return true;
 }
@@ -3614,49 +3619,3 @@ void Editor::scroll_cursor_on_screen (bool exact)
 }
 
 
-/*
-
-Todo BE STILL not updating windows when moving cursor position
-
-This is still happening. I will attach a screen shot.
-
-One way to make this happen is related to another minor annoyance, which I will explain here.
-
-I do a lot of copy and pasting from BE to web pages. 
-To do this, I often want to grab a verse at a time. If I click right in front of the verse number, BE will switch to that verse. 
-Then if I click one space to the left (right after a period at the end of a verse, for instance), 
-then BE will forget to revert to that verse, and all the other windows will stay focused on the next verse. 
-BE will stay stuck like this for a fairly long time, usually until some movement wakes it up.
-
-It would be helpful if BE would not switch to the next verse when the cursor is right in front of the next verse. 
-In other words, it would be better if a shift to the next verse would only occur when clicking past the first digit of the verse number.
-
-In the attached screen shot, I clicked right to the left of verse 21. 
-All the windows changed to verse 21. But I was really wanting to copy from the end of 20. 
-So when I clicked one space to the left, BE did not update the windows back to v20. 
-I had long enough to activate my screen capture program to grab a screen shot of the region. 
-* After coming back from saving the screen shot, then BE finally figured out that the curson was in verse 20.
-
-This problem doesn't just happen when using the mouse to click in a different verse (second screen shot), 
-but also happens when first clicking before a verse number then moving left with the arrow key. (third screen shot)
-
-
-
-
-Todo Steps to implement better verse tracking:
-
-When text is selected, the verse tracker should not update, but remain at the last verse it was on.
-
-Whe Editor that initiated a verse change should signal this to the other editors, and update the navigation.
-
-Editors that receive a command to go to a new verse should not signal any verse change, because it was not initiated by them.
-
-We probably need to use less delays and timeouts, because this gets messy.
-The verse position can be retrieved from the textbuffer, there does not need to be any reason why delays are needed,
-except for scrolling the window.
-
-We can place the cursor at the right position straight after loading the text, no delays needed.
-Then we can have a regular running mechanism that tracks the cursor position, and if need be it scrolls  the scrolled window to the right place.
-
-
-*/
