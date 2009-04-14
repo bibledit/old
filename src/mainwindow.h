@@ -365,7 +365,7 @@ protected:
   GtkWidget *image4388;
   GtkWidget *about1;
   GtkWidget *toolbar;
-  GtkWidget *hbox_editors;
+  GtkWidget *hbox_editors; // Todo
   GtkWidget *hbox_notes;
   GtkWidget *hbox_status; 
   GtkWidget *hbox7;

@@ -1779,7 +1779,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   gtk_box_pack_start(GTK_BOX(vbox_main), toolbar, FALSE, FALSE, 0);
   gtk_toolbar_set_style(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_BOTH_HORIZ);
 
-  // The following boxes are only created in attached view, else these are NULL.
+  // The following boxes are only created in attached view, else these are NULL. // Todo
   hbox_editors = NULL;
   hbox_notes = NULL;
   if (!windows_are_detached) {
@@ -1790,6 +1790,8 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     hbox_notes = gtk_hbox_new (FALSE, 0);
     gtk_widget_show (hbox_notes);
     gtk_box_pack_start (GTK_BOX (vbox_main), hbox_notes, TRUE, TRUE, 0);
+
+    gtk_box_set_child_packing (GTK_BOX (vbox_main), hbox_notes, false, false, 0, GTK_PACK_START); // Todo
   }
 
   hbox_status = gtk_hbox_new(FALSE, 0);
@@ -3407,7 +3409,7 @@ void MainWindow::on_gui()
  |
  */
 
-void MainWindow::view_project_notes()
+void MainWindow::view_project_notes() // Todo
 {
   if (!project_notes_enabled)
     return;
@@ -3416,6 +3418,9 @@ void MainWindow::view_project_notes()
     window_notes->present(true);
   } else {
     extern GtkAccelGroup *accelerator_group;
+    // By default the text area take the whole height of the main window. Here we set it to evenly share with the notes window.
+    gtk_box_set_child_packing (GTK_BOX (vbox_main), hbox_notes, true, true, 0, GTK_PACK_START); // Todo
+    // New notes window.
     window_notes = new WindowNotes(accelerator_group, windows_startup_pointer != G_MAXINT, hbox_notes);
     g_signal_connect((gpointer) window_notes->delete_signal_button, "clicked", G_CALLBACK(on_window_notes_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_notes->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
@@ -3429,11 +3434,13 @@ void MainWindow::on_window_notes_delete_button_clicked(GtkButton * button, gpoin
   ((MainWindow *) user_data)->on_window_notes_delete_button();
 }
 
-void MainWindow::on_window_notes_delete_button()
+void MainWindow::on_window_notes_delete_button() // Todo
 {
   if (window_notes) {
     delete window_notes;
     window_notes = NULL;
+    // Give the text area the whole height of the main window again.
+    gtk_box_set_child_packing (GTK_BOX (vbox_main), hbox_notes, false, false, 0, GTK_PACK_START); // Todo
   }
 }
 
@@ -7360,3 +7367,11 @@ void MainWindow::check_usfm_window_ping()
 }
 
 
+/*
+
+Todo Text area open only -> let it fill whole screen.
+
+Let the text area fill the whole program area of BE (without having an empty grey area bellow and on the right) if no additional areas are opened. 
+
+
+*/
