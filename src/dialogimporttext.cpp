@@ -603,7 +603,7 @@ void ImportTextDialog::set_gui()
   if (directory.empty())
     directory = g_get_home_dir();
   // Read the directory, without the subdirectories.
-  vector < ustring > all_files;
+  vector <ustring> all_files;
   ReadFiles rd(directory, "", "");
   for (unsigned int i = 0; i < rd.files.size(); i++) {
     // Skip empty filenames.
@@ -626,9 +626,9 @@ void ImportTextDialog::set_gui()
   }
   // See which files seem proper text files. Try all import types.
   bool tried_everything = false;
-  vector < ustring > proper_text_files;
+  vector <ustring> proper_text_files;
   importtype = itUsfm;
-  while (!tried_everything && proper_text_files.empty()) {
+  while (!tried_everything && proper_text_files.empty() && !all_files.empty()) {
     progresswindow.set_iterate(0, 0.5, all_files.size());
     for (unsigned int i = 0; i < all_files.size(); i++) {
       progresswindow.iterate();

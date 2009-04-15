@@ -903,3 +903,11 @@ unsigned int git_oldest_commit (const ustring& project)
   }
   return second;
 }
+
+
+/*
+
+Todo does not work with the version of git that comes with ubuntu 9.04
+
+
+*/
