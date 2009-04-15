@@ -66,94 +66,68 @@ WindowEditor::~WindowEditor()
     delete usfmview;
 }
 
+
 void WindowEditor::go_to(const Reference & reference)
 // Let the editor go to a reference.
 {
-  if (usfmview) {
-  
+  if (editor || usfmview) {
+
     // Find out what needs to be changed: book, chapter and/or verse.
-    bool new_book = (reference.book != usfmview->current_reference.book);
-    usfmview->current_reference.book = reference.book;
-    bool new_chapter = (reference.chapter != usfmview->current_reference.chapter);
-    usfmview->current_reference.chapter = reference.chapter;
-    bool new_verse = (reference.verse != usfmview->current_reference.verse);
-    usfmview->current_reference.verse = reference.verse;
+    bool new_book = false;
+    bool new_chapter = false;
+    bool new_verse = false;
+    if (editor) {
+      new_book = (reference.book != editor->current_reference.book);
+      editor->current_reference.book = reference.book;
+      new_chapter = (reference.chapter != editor->current_reference.chapter);
+      editor->current_reference.chapter = reference.chapter;
+      new_verse = (reference.verse != editor->current_reference.verse);
+      editor->current_reference.verse = reference.verse;
+    }
+    if (usfmview) {
+      new_book = (reference.book != usfmview->current_reference.book);
+      usfmview->current_reference.book = reference.book;
+      new_chapter = (reference.chapter != usfmview->current_reference.chapter);
+      usfmview->current_reference.chapter = reference.chapter;
+      new_verse = (reference.verse != usfmview->current_reference.verse);
+      usfmview->current_reference.verse = reference.verse;
+    }
 
     // Save the editor if need be.
     if (new_book || new_chapter) {
-      usfmview->chapter_save();
+      if (editor) editor->chapter_save();
+      if (usfmview) usfmview->chapter_save();
     }
+    
     // With a new book, also load a new chapter.
     if (new_book) {
       new_chapter = true;
-      usfmview->book_set(reference.book);
+      if (editor) editor->book_set(reference.book);
+      if (usfmview) usfmview->book_set(reference.book);
     }
+
     // Deal with a new chapter.
     if (new_chapter) {
       // Load chapter, if need be.
-      usfmview->chapter_load(reference.chapter);
+      if (editor) editor->chapter_load(reference.chapter);
+      if (usfmview) usfmview->chapter_load(reference.chapter);
       // When loading a new chapter, there is also a new verse.
       new_verse = true;
     }
+
     // New reference handling.  
     if (new_book || new_chapter || new_verse) {
-      // Position the cursor properly.
-      // The positioning will be done whenever Gtk is idle.
-      // This is because sometimes Gtk is slow in loading a new chapter.
-      // So if the cursor positioning is done straight after loading,
-      // it will not work, as there is no text loaded yet.
-      // The trick: First handle all pending events in GTK.
-      while (gtk_events_pending())
-        gtk_main_iteration();
-      usfmview->position_cursor_at_verse(reference.verse);
+      if (editor) editor->position_cursor_at_verse(reference.verse, false);
+      if (usfmview) usfmview->position_cursor_at_verse(reference.verse);
     }
 
-  }
-
-  if (editor) {
-    // Find out what needs to be changed: book, chapter and/or verse.
-    bool new_book = (reference.book != editor->current_reference.book);
-    editor->current_reference.book = reference.book;
-    bool new_chapter = (reference.chapter != editor->current_reference.chapter);
-    editor->current_reference.chapter = reference.chapter;
-    bool new_verse = (reference.verse != editor->current_reference.verse);
-    editor->current_reference.verse = reference.verse;
-
-    // Save the editor if need be.
-    if (new_book || new_chapter) {
-      editor->chapter_save();
-    }
-    // With a new book, also load a new chapter.
-    if (new_book) {
-      new_chapter = true;
-      editor->book_set(reference.book);
-    }
-    // Deal with a new chapter.
-    if (new_chapter) {
-      // Load chapter in Editor, if need be.
-      editor->chapter_load(reference.chapter);
-      // When loading a new chapter, there is also a new verse.
-      new_verse = true;
-    }
-    // New reference handling.  
-    if (new_book || new_chapter || new_verse) {
-      // Position the cursor properly.
-      // The positioning will be done whenever Gtk is idle.
-      // This is because sometimes Gtk is slow in loading a new chapter.
-      // So if the cursor positioning is done straight after loading,
-      // it will not work, as there is no text loaded yet.
-      // But here we deal with that so that a delay is no longer needed. The trick:
-      // Handle all pending events in GTK.
-      while (gtk_events_pending())
-        gtk_main_iteration();
-      editor->position_cursor_at_verse(reference.verse, false);
-    }
     // Highlighting of searchwords.
-    if (editor->go_to_new_reference_highlight) {
-      editor->highlight_searchwords();
-      editor->go_to_new_reference_highlight = false;
+    if (editor) {
+      if (editor->go_to_new_reference_highlight) {
+        editor->highlight_searchwords();
+        editor->go_to_new_reference_highlight = false;
+      }
     }
-    
   }
 }
 
