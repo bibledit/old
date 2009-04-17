@@ -54,45 +54,21 @@ EditorTable::~EditorTable()
 EditorUndo::EditorUndo(int dummy)
 // This object stores undo related data.
 {
-  type = eudInsertText;
-  startoffset = 0;
-  endoffset = 0;
-  flag = false;
+  insert = 0;
 }
 
 EditorUndo::~EditorUndo()
 {
 }
 
-ustring EditorUndo::type2text()
-{
-  switch (type) {
-  case eudInsertText:
-    return "InsertText";
-  case eudDeleteText:
-    return "DeleteText";
-  case eudApplyTag:
-    return "ApplyTag";
-  case eudRemoveTag:
-    return "RemoveTag";
-  }
-  return "";
-}
-
 PreventEditorUndo::PreventEditorUndo(int *flag)
 /*
- Preventing recording of undo-able actions could be made simpler.
- This implementation is more complex, using an object.
+ Preventing recording of undo-able actions.
  This approach has been chosen so that, if a function creates this object to
  prevent undo-able action from being recorded, there is no need to enable
  these actions again in the code. As soon as this object goes out of scope,
  it enables the recording again. 
- Cases have been seen where the recording was disabled, then a "return" 
- statement was executed in the middle of the function, thus leaving
- the recording disabled.
- This object prevents such problems.
-
- Note that embedded objects are allowed.
+ Embedded calls to this object are allowed.
  */
 {
   flagpointer = flag;

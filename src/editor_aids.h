@@ -66,12 +66,8 @@ class EditorUndo
 public:
   EditorUndo(int dummy);
   ~EditorUndo();
-  EditorUndoType type;
   ustring text;
-  unsigned int startoffset;
-  unsigned int endoffset;
-  bool flag;
-  ustring type2text();
+  gint insert;
 private:
 };
 

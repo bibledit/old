@@ -61,6 +61,7 @@ current_reference(0, 1000, "")
   verse_tracker_event_id = 0;
   verse_tracker_on = false;
   verse_restarts_paragraph = false;
+  textbuffer_changed_event_id = 0;
 
   // Create data that is needed for any of the possible formatted views.
   create_or_update_formatting_data();
@@ -88,8 +89,7 @@ current_reference(0, 1000, "")
   g_signal_connect(G_OBJECT(textbuffer), "remove-tag", G_CALLBACK(on_buffer_remove_tag), gpointer(this));
   g_signal_connect(G_OBJECT(textbuffer), "insert-child-anchor", G_CALLBACK(on_buffer_insert_child_anchor), gpointer(this));
   g_signal_connect(G_OBJECT(textbuffer), "insert-pixbuf", G_CALLBACK(on_buffer_insert_pixbuf), gpointer(this));
-  g_signal_connect(G_OBJECT(textbuffer), "changed", G_CALLBACK(on_textbuffer_changed), gpointer(this));
-  g_signal_connect(G_OBJECT(textbuffer), "modified-changed", G_CALLBACK(on_textbuffer_modified_changed), gpointer(this));
+  g_signal_connect(G_OBJECT(textbuffer), "changed", G_CALLBACK(on_textbuffer_changed), gpointer(this)); // Todo this one should be connected to tables and notes too.
 
   // A text view to display the buffer.
   textview = gtk_text_view_new_with_buffer(textbuffer);
@@ -167,6 +167,7 @@ Editor::~Editor()
   gw_destroy_source(event_id_show_quick_references);
   gw_destroy_source(start_verse_tracker_event_id);
   gw_destroy_source(verse_tracker_event_id);
+  gw_destroy_source(textbuffer_changed_event_id);
 
   // Clear a few flags.
   verse_tracker_on = false;
@@ -753,7 +754,7 @@ void Editor::on_grab_focus_delayed_handler()
  */
 {
   signal_if_styles_changed();
-  if (record_undo_actions()) {
+  if (recording_undo_actions()) {
     show_quick_references();
   }
   // If the user clicks on a note caller, then the focus will move to or from 
@@ -790,8 +791,9 @@ void Editor::programmatically_grab_focus(GtkWidget * widget)
   focus_programmatically_being_grabbed = false;
 }
 
-void Editor::undo()
+void Editor::undo() // Todo
 {
+  /*
   // Bail out if nothing to undo.
   if (editorundoes.empty())
     return;
@@ -918,9 +920,10 @@ void Editor::undo()
       break;
     }
   }
+  */
 }
 
-void Editor::redo()
+void Editor::redo() // Todo
 {
 }
 
@@ -1151,7 +1154,7 @@ void Editor::on_textbuffer_footnotes_changed(GtkEditable * editable, gpointer us
 
 void Editor::on_textbuffer_footnotes()
 {
-  if (record_undo_actions()) {
+  if (recording_undo_actions()) {
     show_quick_references();
   }
 }
@@ -2417,20 +2420,6 @@ void Editor::on_buffer_insert_text_before(GtkTextBuffer * textbuffer, GtkTextIte
 
 void Editor::buffer_insert_text_before(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, gchar * text, gint length)
 {
-  // Only proceed if undo-able actions are to be recorded.
-  if (record_undo_actions()) {
-
-    // At present "undo" only works on the main textbuffer.
-    if (textbuffer == this->textbuffer) {
-
-      // Store change in the undo buffer.
-      EditorUndo editorundo(0);
-      editorundo.type = eudInsertText;
-      editorundo.startoffset = gtk_text_iter_get_offset(pos_iter);
-      editorundo.endoffset = editorundo.startoffset + length;
-      store_undo_action(editorundo);
-    }
-  }
 }
 
 void Editor::on_buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, gchar * text, gint length, gpointer user_data)
@@ -2441,7 +2430,7 @@ void Editor::on_buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter
 void Editor::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, gchar * text, gint length)
 {
   // Bail out if no undoes are to be recorded.
-  if (!record_undo_actions())
+  if (!recording_undo_actions())
     return;
 
   // Signal that the editor changed.
@@ -2581,26 +2570,6 @@ void Editor::buffer_delete_range_before(GtkTextBuffer * textbuffer, GtkTextIter 
 {
   // Handle deleting footnotes.
   collect_text_child_anchors_being_deleted(start, end);
-
-  // Only proceed if undo-able actions are to be recorded.
-  if (record_undo_actions()) {
-
-    // At present "undo" only works on the main textbuffer.
-    if (textbuffer == this->textbuffer) {
-
-      // Store change in the undo buffer, if there was a real change.
-      EditorUndo editorundo(0);
-      editorundo.type = eudDeleteText;
-      usfm_get_text(textbuffer, *start, *end, &editornotes, &editortables, project, editorundo.text, verse_restarts_paragraph);
-      if (!editorundo.text.empty()) {
-        editorundo.startoffset = gtk_text_iter_get_offset(start);
-        editorundo.endoffset = gtk_text_iter_get_offset(end);
-        // Also store whether this text started a new line. Needed for undo.
-        editorundo.flag = gtk_text_iter_starts_line(start);
-        store_undo_action(editorundo);
-      }
-    }
-  }
 }
 
 void Editor::on_buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end, gpointer user_data)
@@ -2622,37 +2591,10 @@ void Editor::on_buffer_apply_tag(GtkTextBuffer * textbuffer, GtkTextTag * tag, G
 void Editor::buffer_apply_tag(GtkTextBuffer * textbuffer, GtkTextTag * tag, GtkTextIter * startiter, GtkTextIter * enditer)
 {
   // Only proceed if undo-able actions are to be recorded.
-  if (record_undo_actions()) {
-
-    // Signal that the editor changed.
+  if (recording_undo_actions()) {
     signal_editor_changed();
-
-    // Set the textbuffer modified.
     gtk_text_buffer_set_modified(textbuffer, true);
-
-    // At present "undo" only works on the main textbuffer.
-    if (textbuffer == this->textbuffer) {
-
-      // Get the name of the tag.
-      ustring tagname;
-      gchar *strval;
-      g_object_get(G_OBJECT(tag), "name", &strval, NULL);
-      if (strval) {
-        if (strlen(strval)) {
-          tagname = strval;
-        }
-        g_free(strval);
-      }
-      // If there was a named tag, store the change in the undo buffer.
-      if (!tagname.empty()) {
-        EditorUndo editorundo(0);
-        editorundo.type = eudApplyTag;
-        editorundo.text = tagname;
-        editorundo.startoffset = gtk_text_iter_get_offset(startiter);
-        editorundo.endoffset = gtk_text_iter_get_offset(enditer);
-        store_undo_action(editorundo);
-      }
-    }
+    trigger_undo_redo_recording ();
   }
 }
 
@@ -2664,37 +2606,10 @@ void Editor::on_buffer_remove_tag(GtkTextBuffer * textbuffer, GtkTextTag * tag, 
 void Editor::buffer_remove_tag(GtkTextBuffer * textbuffer, GtkTextTag * tag, GtkTextIter * startiter, GtkTextIter * enditer)
 {
   // Only proceed if undo-able actions are to be recorded.
-  if (record_undo_actions()) {
-
-    // Signal that the editor changed.
+  if (recording_undo_actions()) {
     signal_editor_changed();
-
-    // Set the textbuffer modified.
     gtk_text_buffer_set_modified(textbuffer, true);
-
-    // At present "undo" only works on the main textbuffer.
-    if (textbuffer == this->textbuffer) {
-
-      // Get the name of the tag.
-      ustring tagname;
-      gchar *strval;
-      g_object_get(G_OBJECT(tag), "name", &strval, NULL);
-      if (strval) {
-        if (strlen(strval)) {
-          tagname = strval;
-        }
-        g_free(strval);
-      }
-      // If there was a named tag, store the change in the undo buffer.
-      if (!tagname.empty()) {
-        EditorUndo editorundo(0);
-        editorundo.type = eudRemoveTag;
-        editorundo.text = tagname;
-        editorundo.startoffset = gtk_text_iter_get_offset(startiter);
-        editorundo.endoffset = gtk_text_iter_get_offset(enditer);
-        store_undo_action(editorundo);
-      }
-    }
+    trigger_undo_redo_recording ();
   }
 }
 
@@ -2706,18 +2621,9 @@ void Editor::on_buffer_insert_child_anchor(GtkTextBuffer * textbuffer, GtkTextIt
 void Editor::buffer_insert_child_anchor(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, GtkTextChildAnchor * childanchor)
 {
   // Only proceed if undo-able actions are to be recorded.
-  if (record_undo_actions()) {
-    // Signal that the editor changed.
+  if (recording_undo_actions()) {
     signal_editor_changed();
-    // At present "undo" only works on the main textbuffer.
-    if (textbuffer == this->textbuffer) {
-      // Store change in the undo buffer.
-      EditorUndo editorundo(0);
-      editorundo.type = eudInsertText;
-      editorundo.startoffset = gtk_text_iter_get_offset(pos_iter);
-      editorundo.endoffset = editorundo.startoffset + 1;
-      store_undo_action(editorundo);
-    }
+    trigger_undo_redo_recording ();
   }
 }
 
@@ -2730,6 +2636,7 @@ void Editor::buffer_insert_pixbuf(GtkTextBuffer * textbuffer, GtkTextIter * pos_
 {
   // Signal that the editor changed.
   signal_editor_changed();
+  trigger_undo_redo_recording ();
 }
 
 void Editor::collect_text_child_anchors_being_deleted(GtkTextIter * startiter, GtkTextIter * enditer)
@@ -3207,43 +3114,7 @@ void Editor::list_undo_buffer()
    */
 }
 
-void Editor::store_undo_action(const EditorUndo & editorundo)
-/*
- The purpose of this function is to store an undo action sensibly.
- To do that properly it either adds this undo action to the end of the container,
- or else if that is more sensible it joins this action to the one already at the
- end of the container.
- */
-{
-  // Variable whether it got stored.
-  bool stored = false;
-
-  // Joining only possible when there is already something in the buffer.
-  if (!editorundoes.empty()) {
-
-    // Get the most recent undo action.
-    EditorUndo recent_undo = editorundoes[editorundoes.size() - 1];
-
-    // See whether we can join an action that a tag was removed to the previous one.
-    if (!stored) {
-      if (editorundo.type == eudRemoveTag) {
-        if (editorundo.text == recent_undo.text) {
-          if (editorundo.startoffset == recent_undo.endoffset) {
-            editorundoes[editorundoes.size() - 1].endoffset = editorundo.endoffset;
-            stored = true;
-          }
-        }
-      }
-    }
-
-  }
-  // If not stored yet, store it now.
-  if (!stored) {
-    editorundoes.push_back(editorundo);
-  }
-}
-
-bool Editor::record_undo_actions()
+bool Editor::recording_undo_actions()
 // Returns whether to record undo-able actions.
 {
   return (record_undo_level == 0);
@@ -3254,14 +3125,33 @@ void Editor::on_textbuffer_changed(GtkTextBuffer * textbuffer, gpointer user_dat
   ((Editor *) user_data)->textbuffer_changed(textbuffer);
 }
 
-void Editor::textbuffer_changed(GtkTextBuffer * textbuffer)
+void Editor::textbuffer_changed(GtkTextBuffer * textbuffer) // Todo
 {
   spelling_trigger();
+  trigger_undo_redo_recording ();
 }
 
-void Editor::on_textbuffer_modified_changed(GtkTextBuffer * textbuffer, gpointer user_data)
+void Editor::trigger_undo_redo_recording()
 {
+  if (recording_undo_actions()) {
+    gw_destroy_source(textbuffer_changed_event_id);
+    textbuffer_changed_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_textbuffer_changed_timeout), gpointer(this), NULL);
+  }
 }
+
+bool Editor::on_textbuffer_changed_timeout (gpointer user_data)
+{
+  ((Editor *) user_data)->textbuffer_changed_timeout();
+  return false;
+}
+
+void Editor::textbuffer_changed_timeout() // Todo
+{
+  // Clear the event id.
+  textbuffer_changed_event_id = 0;
+  cout << "textbuffer_changed_timeout" << endl; // Todo
+}
+
 
 void Editor::test()
 {
@@ -3619,3 +3509,28 @@ void Editor::scroll_cursor_on_screen (bool exact)
 }
 
 
+/*
+
+Todo Undo broken!
+
+Phil:
+Undo really should work in footnote text as well.
+
+Birch:
+Text doesn't reformat after undoing a paragraph style
+Open a project
+click in a paragraph
+Change to a different paragraph style like poetry/quote
+undo ( a bunch of times)
+After the final undo, the paragraph is all in verse number style
+Changing to a different chapter and back will correct the display.
+
+The solution is going to be a rough and solid one.
+- When there's a change in the buffer, a delay starts.
+- The delay restarts after another change.
+- If the delay times out, it makes a full copy of the buffer in USFM format, and stores this.
+- When undoing or redoing this buffer with copies is gone through, and applied, one by one.
+This should care for anything that now misbehaves, and should care for redo functionality too.
+
+
+*/

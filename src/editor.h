@@ -17,8 +17,10 @@
  **  
  */
 
+
 #ifndef INCLUDED_EDITOR_H
 #define INCLUDED_EDITOR_H
+
 
 #include "libraries.h"
 #include <glib.h>
@@ -29,6 +31,7 @@
 #include "editor_aids.h"
 #include "highlight.h"
 #include "spelling.h"
+
 
 class Editor
 {
@@ -193,20 +196,23 @@ public:
 
   void insert_table(const ustring& rawtext, GtkTextIter * iter);
 
-  // Undo/redo
+  // Undo/redo // Todo
   int record_undo_level;
-  bool record_undo_actions();
+  bool recording_undo_actions();
   vector <EditorUndo> editorundoes;
   void undo();
   void redo();
   bool can_undo();
   bool can_redo();
   void list_undo_buffer();
-  void store_undo_action(const EditorUndo& editorundo);
   static void on_textbuffer_changed(GtkTextBuffer * textbuffer, gpointer user_data);
   void textbuffer_changed(GtkTextBuffer * textbuffer);
-  static void on_textbuffer_modified_changed(GtkTextBuffer * textbuffer, gpointer user_data);
+  void trigger_undo_redo_recording();
+  guint textbuffer_changed_event_id;
+  static bool on_textbuffer_changed_timeout (gpointer user_data);
+  void textbuffer_changed_timeout();
 
+  // Testing.
   void test();
   void test(ustring message);
 
@@ -273,5 +279,6 @@ private:
   void scroll_cursor_on_screen (bool exact);
   
 };
+
 
 #endif
