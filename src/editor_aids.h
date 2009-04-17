@@ -26,7 +26,6 @@
 
 enum EditorNoteType {entFootnote, entEndnote, entCrossreference};
 enum EditorTextViewType {etvtBody, etvtNote, etvtTable};
-enum EditorUndoType {eudInsertText, eudDeleteText, eudApplyTag, eudRemoveTag};
 enum EditorMovementType {emtForward, emtBack, emtUp, emtDown};
 
 class EditorNote
@@ -61,13 +60,14 @@ public:
 private:
 };
 
-class EditorUndo
+class EditorSnapshot
 {
 public:
-  EditorUndo(int dummy);
-  ~EditorUndo();
+  EditorSnapshot(int dummy);
+  ~EditorSnapshot();
   ustring text;
   gint insert;
+  gdouble scroll;
 private:
 };
 

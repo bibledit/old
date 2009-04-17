@@ -51,13 +51,14 @@ EditorTable::~EditorTable()
 {
 }
 
-EditorUndo::EditorUndo(int dummy)
-// This object stores undo related data.
+EditorSnapshot::EditorSnapshot(int dummy)
+// This object stores a snapshot of the editor.
 {
   insert = 0;
+  scroll = 0;
 }
 
-EditorUndo::~EditorUndo()
+EditorSnapshot::~EditorSnapshot()
 {
 }
 

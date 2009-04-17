@@ -53,7 +53,7 @@ public:
   void insert_note(const ustring& marker, const ustring& rawtext, GtkTextIter * iter, bool render);
   ustring get_chapter();
   void insert_table(const ustring& rawtext, GtkTextIter * iter);
-  void chapter_load(unsigned int chapter_in, vector <ustring> * lines_in = NULL);
+  void chapter_load(unsigned int chapter_in);
   void chapter_save();
   unsigned int reload_chapter_number();
   

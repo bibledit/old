@@ -62,7 +62,8 @@ current_reference(0, 1000, "")
   verse_tracker_on = false;
   verse_restarts_paragraph = false;
   textbuffer_changed_event_id = 0;
-
+  snapshot_offset = 0;
+  
   // Create data that is needed for any of the possible formatted views.
   create_or_update_formatting_data();
 
@@ -89,7 +90,7 @@ current_reference(0, 1000, "")
   g_signal_connect(G_OBJECT(textbuffer), "remove-tag", G_CALLBACK(on_buffer_remove_tag), gpointer(this));
   g_signal_connect(G_OBJECT(textbuffer), "insert-child-anchor", G_CALLBACK(on_buffer_insert_child_anchor), gpointer(this));
   g_signal_connect(G_OBJECT(textbuffer), "insert-pixbuf", G_CALLBACK(on_buffer_insert_pixbuf), gpointer(this));
-  g_signal_connect(G_OBJECT(textbuffer), "changed", G_CALLBACK(on_textbuffer_changed), gpointer(this)); // Todo this one should be connected to tables and notes too.
+  g_signal_connect(G_OBJECT(textbuffer), "changed", G_CALLBACK(on_textbuffer_changed), gpointer(this));
 
   // A text view to display the buffer.
   textview = gtk_text_view_new_with_buffer(textbuffer);
@@ -202,7 +203,7 @@ void Editor::book_set(unsigned int book_in)
   book = book_in;
 }
 
-void Editor::chapter_load(unsigned int chapter_in, vector < ustring > *lines_in)
+void Editor::chapter_load(unsigned int chapter_in)
 // Loads a chapter with the number "chapter_in".
 // If "lines_in" exists, it load these instead of getting the chapter.
 {
@@ -212,14 +213,6 @@ void Editor::chapter_load(unsigned int chapter_in, vector < ustring > *lines_in)
   // Restart the verse tracker.
   restart_verse_tracker();
 
-  // Temporally removing the view from the buffer speeds operations up a huge lot.
-  // But with newer Gtk versions this caused a crash.
-  // g_object_ref(textbuffer);
-  // gtk_text_view_set_buffer(GTK_TEXT_VIEW(textview), NULL);
-  
-  // Get rid of possible previous text.
-  gtk_text_buffer_set_text(textbuffer, "", -1);
-
   // Save chapter number.
   chapter = chapter_in;
 
@@ -228,19 +221,13 @@ void Editor::chapter_load(unsigned int chapter_in, vector < ustring > *lines_in)
   ProjectConfiguration *projectconfig = settings->projectconfig(project);
 
   // Load text in memory.
-  vector < ustring > lines;
-  if (lines_in)
-    lines = *lines_in;
-  else
-    lines = project_retrieve_chapter(project, book, chapter);
+  vector <ustring> lines = project_retrieve_chapter(project, book, chapter);
 
   // Deal with editable / non-editable.
   editable = true;
   if (lines.empty())
     editable = false;
   if (!projectconfig->editable_get())
-    editable = false;
-  if (lines_in)
     editable = false;
   gtk_text_view_set_editable(GTK_TEXT_VIEW(textview), editable);
 
@@ -258,6 +245,34 @@ void Editor::chapter_load(unsigned int chapter_in, vector < ustring > *lines_in)
   }
   line.append(" ");
 
+  // Load in editor.
+  text_load (line);
+
+  // Clear undo buffer.
+  snapshots.clear();
+
+  // Set the buffer(s) non-modified.
+  textbuffers_set_unmodified(textbuffer, editornotes, editortables);
+
+  // Place cursor at the start and scroll it onto the screen.
+  GtkTextIter iter;
+  gtk_text_buffer_get_start_iter(textbuffer, &iter);
+  gtk_text_buffer_place_cursor(textbuffer, &iter);
+  scroll_cursor_on_screen (true);
+}
+
+
+void Editor::text_load (ustring text) // Todo
+{
+  // No recording of undoable actions while this object is alive.
+  PreventEditorUndo preventundo(&record_undo_level);
+
+  // Get rid of possible previous text.
+  gtk_text_buffer_set_text(textbuffer, "", -1);
+
+  // Clean away possible new lines.
+  replace_text (text, "\n", " ");
+
   // Load text in the view.
   // Load it at the position of the text insertion point marker.
   // Because the buffer has just been cleared, this marker will always be at the end.
@@ -270,44 +285,29 @@ void Editor::chapter_load(unsigned int chapter_in, vector < ustring > *lines_in)
   size_t marker_length;
   bool is_opener;
   bool marker_found;
-  while (!line.empty()) {
-    marker_found = usfm_search_marker(line, marker, marker_pos, marker_length, is_opener);
-    if (load_text_not_starting_with_marker(textbuffer, line, paragraph_mark, character_mark, marker_pos, marker_length, marker_found)) ;
-    else if (load_text_table_raw(line, paragraph_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else if (load_text_starting_new_paragraph(textbuffer, line, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else if (load_text_starting_character_style(textbuffer, line, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else if (load_text_ending_character_style(textbuffer, line, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else if (load_text_verse_number(line, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else if (load_text_note_raw(line, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else load_text_with_unknown_markup(textbuffer, line, paragraph_mark, character_mark);
+  while (!text.empty()) {
+    marker_found = usfm_search_marker(text, marker, marker_pos, marker_length, is_opener);
+    if (load_text_not_starting_with_marker(textbuffer, text, paragraph_mark, character_mark, marker_pos, marker_length, marker_found)) ;
+    else if (load_text_table_raw(text, paragraph_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
+    else if (load_text_starting_new_paragraph(textbuffer, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
+    else if (load_text_starting_character_style(textbuffer, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
+    else if (load_text_ending_character_style(textbuffer, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
+    else if (load_text_verse_number(text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
+    else if (load_text_note_raw(text, marker, marker_pos, marker_length, is_opener, marker_found)) ;
+    else load_text_with_unknown_markup(textbuffer, text, paragraph_mark, character_mark);
   }
 
   // Finalize displaying any notes.
   display_notes_remainder(false);
   renumber_and_clean_notes_callers();
 
-  // Reconnect the view to the buffer. See before why this is no longer done.
-  // gtk_text_view_set_buffer(GTK_TEXT_VIEW(textview), textbuffer);
-  // g_object_unref(textbuffer);
-  
-  // Clear undo buffer.
-  editorundoes.clear();
-
   // Update gui for styles.
   signal_if_styles_changed();
 
-  // Set the buffer(s) non-modified.
-  textbuffers_set_unmodified(textbuffer, editornotes, editortables);
-
   // Trigger a spelling check.
   spelling_trigger();
-
-  // Place cursor at the start and scroll it onto the screen.
-  GtkTextIter iter;
-  gtk_text_buffer_get_start_iter(textbuffer, &iter);
-  gtk_text_buffer_place_cursor(textbuffer, &iter);
-  scroll_cursor_on_screen (true);
 }
+
 
 void Editor::chapter_save()
 // Handles saving the chapters.
@@ -793,148 +793,37 @@ void Editor::programmatically_grab_focus(GtkWidget * widget)
 
 void Editor::undo() // Todo
 {
-  /*
   // Bail out if nothing to undo.
-  if (editorundoes.empty())
+  if (snapshots.empty())
     return;
 
   // No recording of undoable actions while this object is alive.
   PreventEditorUndo preventundo(&record_undo_level);
 
-  // For debugging purposes.  
-  list_undo_buffer();
-
-  // Get the Undo object and remove it from the container..
-  EditorUndo editorundo = editorundoes[editorundoes.size() - 1];
-  editorundoes.pop_back();
-
-  switch (editorundo.type) {
-  case eudInsertText:
-    {
-      // The change was to insert text. To undo it, remove this text again.
-      GtkTextIter startiter, enditer;
-      gtk_text_buffer_get_iter_at_offset(textbuffer, &startiter, editorundo.startoffset);
-      gtk_text_buffer_get_iter_at_offset(textbuffer, &enditer, editorundo.endoffset);
-      gtk_text_buffer_delete(textbuffer, &startiter, &enditer);
-      // Place the cursor.
-      gtk_text_buffer_place_cursor(textbuffer, &startiter);
-      scroll_cursor_on_screen (true);
-      break;
-    }
-  case eudDeleteText:
-    {
-      // The change was to delete text. To undo it insert this text again.
-
-      // Replace newlines with spaces in the text to be inserted.
-      // This is done because the usfm formatting routines have been built 
-      // to accept one such line, the original idea being to exclude any 
-      // possibility that the editor does not properly load text that has 
-      // line-breaks at unexpected places.
-      replace_text(editorundo.text, "\n", " ");
-
-      // Place the cursor at the insert position.
-      GtkTextIter insert_iter;
-      gtk_text_buffer_get_iter_at_offset(textbuffer, &insert_iter, editorundo.startoffset);
-      gtk_text_buffer_place_cursor(textbuffer, &insert_iter);
-
-      // Initialize paragraph and character styles to the ones prevalent at the insert location.
-      ustring paragraph_mark;
-      ustring character_mark;
-      get_styles_at_iterator(insert_iter, paragraph_mark, character_mark);
-
-      // If the text at the time it was deleted did not start a new line,
-      // and the code that is now inserted again would start a new line,
-      // remove that first usfm marker that causes the new line.
-      if (!editorundo.flag) {
-        ustring marker;
-        size_t marker_pos;
-        size_t marker_length;
-        bool is_opener;
-        bool marker_found;
-        marker_found = usfm_search_marker(editorundo.text, marker, marker_pos, marker_length, is_opener);
-        if (marker_found) {
-          if (marker_pos == 0) {
-            if (is_opener) {
-              StyleType type;
-              int subtype;
-              marker_get_type_and_subtype(project, marker, type, subtype);
-              if (style_get_starts_new_line_in_editor(type, subtype)) {
-                editorundo.text.erase(0, marker_length);
-              }
-            }
-          }
-        }
-      }
-      // Insert the text in the view at the position of the text insertion point marker.
-      ustring marker;
-      size_t marker_pos;
-      size_t marker_length;
-      bool is_opener;
-      bool marker_found;
-      while (!editorundo.text.empty()) {
-        marker_found = usfm_search_marker(editorundo.text, marker, marker_pos, marker_length, is_opener);
-        if (load_text_not_starting_with_marker(textbuffer, editorundo.text, paragraph_mark, character_mark, marker_pos, marker_length, marker_found)) ;
-        else if (load_text_table_raw(editorundo.text, paragraph_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-        else if (load_text_starting_new_paragraph(textbuffer, editorundo.text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-        else if (load_text_starting_character_style(textbuffer, editorundo.text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-        else if (load_text_ending_character_style(textbuffer, editorundo.text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-        else if (load_text_verse_number(editorundo.text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-        else if (load_text_note_raw(editorundo.text, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-        else
-          load_text_with_unknown_markup(textbuffer, editorundo.text, paragraph_mark, character_mark);
-      }
-
-      // Finalize displaying any notes.
-      display_notes_remainder(false);
-      renumber_and_clean_notes_callers();
-
-      // Place the cursor after the restored text.
-      GtkTextIter cursor_iter;
-      gtk_text_buffer_get_iter_at_offset(textbuffer, &cursor_iter, editorundo.endoffset);
-
-      // Done.
-      break;
-    }
-  case eudApplyTag:
-    {
-      // The change was to apply a tag. To undo it, remove it again.
-      GtkTextIter startiter, enditer;
-      gtk_text_buffer_get_iter_at_offset(textbuffer, &startiter, editorundo.startoffset);
-      gtk_text_buffer_get_iter_at_offset(textbuffer, &enditer, editorundo.endoffset);
-      gtk_text_buffer_remove_tag_by_name(textbuffer, editorundo.text.c_str(), &startiter, &enditer);
-      // Place the cursor.
-      gtk_text_buffer_place_cursor(textbuffer, &startiter);
-      scroll_cursor_on_screen (true);
-      break;
-    }
-  case eudRemoveTag:
-    {
-      // The change was to remove a tag. To undo it, apply it again.
-      GtkTextIter startiter, enditer;
-      gtk_text_buffer_get_iter_at_offset(textbuffer, &startiter, editorundo.startoffset);
-      gtk_text_buffer_get_iter_at_offset(textbuffer, &enditer, editorundo.endoffset);
-      textbuffer_apply_named_tag(textbuffer, editorundo.text, &startiter, &enditer);
-      // Place the cursor.
-      gtk_text_buffer_place_cursor(textbuffer, &startiter);
-      scroll_cursor_on_screen (true);
-      break;
-    }
+  // Restore the previous snapshot.
+  EditorSnapshot snapshot = snapshots[snapshots.size() -1];
+  text_load (snapshot.text);
+  
+  // Remove the snapshot, except the last one.
+  if (snapshots.size() > 1) {
+    snapshots.pop_back();
   }
-  */
 }
 
 void Editor::redo() // Todo
 {
 }
 
-bool Editor::can_undo()
+bool Editor::can_undo() // Todo also take the offset in account.
 {
-  return !editorundoes.empty();
+  cout << "Editor::can_undo " << !snapshots.empty() << endl; // Todo
+  return !snapshots.empty();
 }
 
 bool Editor::can_redo()
 {
-  return false;
+  cout << "Editor::can_redo " << snapshot_offset << endl; // Todo
+  return snapshot_offset;
 }
 
 void Editor::set_font()
@@ -2031,6 +1920,7 @@ void Editor::display_notes_remainder(bool focus_rendered_textview)
     g_signal_connect(G_OBJECT(editornotes[i].textbuffer), "apply-tag", G_CALLBACK(on_buffer_apply_tag), gpointer(this));
     g_signal_connect(G_OBJECT(editornotes[i].textbuffer), "remove-tag", G_CALLBACK(on_buffer_remove_tag), gpointer(this));
     g_signal_connect(G_OBJECT(editornotes[i].textbuffer), "changed", G_CALLBACK(on_textbuffer_footnotes_changed), gpointer(this));
+    g_signal_connect(G_OBJECT(editornotes[i].textbuffer), "changed", G_CALLBACK(on_textbuffer_changed), gpointer(this));
 
     // A text view to display the buffer.
     editornotes[i].textview = gtk_text_view_new_with_buffer(editornotes[i].textbuffer);
@@ -2257,6 +2147,7 @@ void Editor::display_table(ustring line, GtkTextIter iter)
       g_signal_connect_after(G_OBJECT(textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_after), gpointer(this));
       g_signal_connect(G_OBJECT(textbuffer), "apply-tag", G_CALLBACK(on_buffer_apply_tag), gpointer(this));
       g_signal_connect(G_OBJECT(textbuffer), "remove-tag", G_CALLBACK(on_buffer_remove_tag), gpointer(this));
+      g_signal_connect(G_OBJECT(textbuffer), "changed", G_CALLBACK(on_textbuffer_changed), gpointer(this));
     }
   }
 
@@ -3125,7 +3016,7 @@ void Editor::on_textbuffer_changed(GtkTextBuffer * textbuffer, gpointer user_dat
   ((Editor *) user_data)->textbuffer_changed(textbuffer);
 }
 
-void Editor::textbuffer_changed(GtkTextBuffer * textbuffer) // Todo
+void Editor::textbuffer_changed(GtkTextBuffer * textbuffer)
 {
   spelling_trigger();
   trigger_undo_redo_recording ();
@@ -3147,9 +3038,37 @@ bool Editor::on_textbuffer_changed_timeout (gpointer user_data)
 
 void Editor::textbuffer_changed_timeout() // Todo
 {
+  cout << "textbuffer_changed_timeout" << endl; // Todo
+
+  // If we're not at the end of the snapshot buffer, throw away that last bit.
+  if (snapshot_offset) {
+    for (unsigned int i = 0; i < snapshot_offset; i++) {
+      cout << "throwing a snapshot away" << endl; // Todo
+      snapshots.pop_back();
+    }
+    snapshot_offset = 0;
+  }
+
+  // Create a new Snapshot object.
+  EditorSnapshot snapshot (0);
+
+  // Store chapter text.
+  snapshot.text = get_chapter();
+
+  // Store insert offset.
+  GtkTextIter iter;
+  gtk_text_buffer_get_iter_at_mark (textbuffer, &iter, gtk_text_buffer_get_insert (textbuffer));
+  snapshot.insert = gtk_text_iter_get_offset (&iter);
+
+  // Store scrollled window's position.
+  GtkAdjustment * adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolledwindow));
+  snapshot.scroll = gtk_adjustment_get_value (adjustment);
+
+  // Store the snapshot.
+  snapshots.push_back (snapshot);
+  
   // Clear the event id.
   textbuffer_changed_event_id = 0;
-  cout << "textbuffer_changed_timeout" << endl; // Todo
 }
 
 
@@ -3532,5 +3451,6 @@ The solution is going to be a rough and solid one.
 - When undoing or redoing this buffer with copies is gone through, and applied, one by one.
 This should care for anything that now misbehaves, and should care for redo functionality too.
 
+Try it works in tables as well.
 
 */

@@ -2457,10 +2457,8 @@ void MainWindow::menu_edit()
   bool undo = true;
   bool redo = true;
   if (editor_window) {
-    if (last_focused_window_button == editor_window->focus_in_signal_button) {
-      undo = editor_window->can_undo();
-      redo = editor_window->can_redo();
-    }
+    undo = editor_window->can_undo();
+    redo = editor_window->can_redo();
   }
   gtk_widget_set_sensitive(undo1, undo);
   gtk_widget_set_sensitive(redo1, redo);

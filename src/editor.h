@@ -65,7 +65,8 @@ public:
   ustring character_style_on_start_typing;
 
   void book_set(unsigned int book_in);
-  void chapter_load(unsigned int chapter_in, vector <ustring> * lines_in = NULL);
+  void chapter_load(unsigned int chapter_in);
+  void text_load (ustring text);
   void chapter_save();
   ustring text_get_selection();
   void text_erase_selection();
@@ -199,7 +200,8 @@ public:
   // Undo/redo // Todo
   int record_undo_level;
   bool recording_undo_actions();
-  vector <EditorUndo> editorundoes;
+  vector <EditorSnapshot> snapshots;
+  unsigned int snapshot_offset;
   void undo();
   void redo();
   bool can_undo();

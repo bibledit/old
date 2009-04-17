@@ -377,13 +377,13 @@ void WindowEditor::insert_table(const ustring& rawtext, GtkTextIter * iter)
 }
 
 
-void WindowEditor::chapter_load(unsigned int chapter_in, vector <ustring> * lines_in)
+void WindowEditor::chapter_load(unsigned int chapter_in)
 {
   if (usfmview) {
     usfmview->chapter_load (chapter_in);
   }
   if (editor) {
-    editor->chapter_load (chapter_in, lines_in);
+    editor->chapter_load (chapter_in);
   }
 }
 
