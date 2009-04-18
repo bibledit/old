@@ -62,7 +62,7 @@ current_reference(0, 1000, "")
   verse_tracker_on = false;
   verse_restarts_paragraph = false;
   textbuffer_changed_event_id = 0;
-  snapshot_offset = 0;
+  redo_counter = 0;
   
   // Create data that is needed for any of the possible formatted views.
   create_or_update_formatting_data();
@@ -262,7 +262,7 @@ void Editor::chapter_load(unsigned int chapter_in)
 }
 
 
-void Editor::text_load (ustring text) // Todo
+void Editor::text_load (ustring text)
 {
   // No recording of undoable actions while this object is alive.
   PreventEditorUndo preventundo(&record_undo_level);
@@ -791,39 +791,52 @@ void Editor::programmatically_grab_focus(GtkWidget * widget)
   focus_programmatically_being_grabbed = false;
 }
 
-void Editor::undo() // Todo
+void Editor::undo()
 {
+  // Calculate snapshot to revert to.
+  // The last snapshot always has the current state.
+  // So it needs to revert to the last but one snapshot.
+  int snapshot_pointer = snapshots.size() - 2 -  redo_counter;
+
   // Bail out if nothing to undo.
-  if (snapshots.empty())
+  if (snapshot_pointer < 0)
     return;
 
-  // No recording of undoable actions while this object is alive.
-  PreventEditorUndo preventundo(&record_undo_level);
+  // Restore the snapshot.
+  restore_snapshot (snapshot_pointer);
 
-  // Restore the previous snapshot.
-  EditorSnapshot snapshot = snapshots[snapshots.size() -1];
-  text_load (snapshot.text);
+  // It undid one snapshot, so the user can redo it again if needed.
+  redo_counter++;  
+}
+
+void Editor::redo()
+{
+  // It's going to redo one snapshot.
+  if (redo_counter)
+    redo_counter--;
   
-  // Remove the snapshot, except the last one.
-  if (snapshots.size() > 1) {
-    snapshots.pop_back();
-  }
+  // Calculate snapshot to re-apply.
+  int snapshot_pointer = snapshots.size() - 1 - redo_counter;
+  
+  // Bail out if nothing to redo.
+  if (snapshot_pointer < 0)
+    return;
+  if ((unsigned int) snapshot_pointer >= snapshots.size())
+    return;
+    
+  // Restore the snapshot.
+  restore_snapshot (snapshot_pointer);
 }
 
-void Editor::redo() // Todo
+bool Editor::can_undo()
 {
-}
-
-bool Editor::can_undo() // Todo also take the offset in account.
-{
-  cout << "Editor::can_undo " << !snapshots.empty() << endl; // Todo
-  return !snapshots.empty();
+  int snapshot_pointer = snapshots.size() - 2 -  redo_counter;
+  return (snapshot_pointer >= 0);
 }
 
 bool Editor::can_redo()
 {
-  cout << "Editor::can_redo " << snapshot_offset << endl; // Todo
-  return snapshot_offset;
+  return redo_counter;
 }
 
 void Editor::set_font()
@@ -2994,15 +3007,24 @@ void Editor::insert_table(const ustring & rawtext, GtkTextIter * iter)
 
 }
 
-void Editor::list_undo_buffer()
+void Editor::restore_snapshot(int pointer)
+// Restores a snapshot into the text buffer.
 {
-  /*
-     cout << "Start listing the undo buffer" << endl;
-     for (unsigned int i = 0; i < editorundoes.size (); i++) {
-     cout << editorundoes[i].type2text () << " " << editorundoes[i].text << " " << editorundoes[i].startoffset << " " << editorundoes[i].endoffset << endl;
-     }
-     cout << "Ready listing the undo buffer" << endl;
-   */
+  // No recording of undoable actions while this object is alive.
+  PreventEditorUndo preventundo(&record_undo_level);
+
+  // Restore the previous snapshot.
+  EditorSnapshot snapshot = snapshots[pointer];
+  text_load (snapshot.text);
+
+  // Restore cursor position.
+  GtkTextIter iter;
+  gtk_text_buffer_get_iter_at_offset (textbuffer, &iter, snapshot.insert);
+  gtk_text_buffer_place_cursor (textbuffer, &iter);
+
+  // Restore scrollled window's position.
+  GtkAdjustment * adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolledwindow));
+  gtk_adjustment_set_value (adjustment, snapshot.scroll);
 }
 
 bool Editor::recording_undo_actions()
@@ -3036,19 +3058,8 @@ bool Editor::on_textbuffer_changed_timeout (gpointer user_data)
   return false;
 }
 
-void Editor::textbuffer_changed_timeout() // Todo
+void Editor::textbuffer_changed_timeout()
 {
-  cout << "textbuffer_changed_timeout" << endl; // Todo
-
-  // If we're not at the end of the snapshot buffer, throw away that last bit.
-  if (snapshot_offset) {
-    for (unsigned int i = 0; i < snapshot_offset; i++) {
-      cout << "throwing a snapshot away" << endl; // Todo
-      snapshots.pop_back();
-    }
-    snapshot_offset = 0;
-  }
-
   // Create a new Snapshot object.
   EditorSnapshot snapshot (0);
 
@@ -3064,8 +3075,24 @@ void Editor::textbuffer_changed_timeout() // Todo
   GtkAdjustment * adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolledwindow));
   snapshot.scroll = gtk_adjustment_get_value (adjustment);
 
-  // Store the snapshot.
-  snapshots.push_back (snapshot);
+  // Store the snapshot, but only when it differs from the most recent one.
+  bool store = true;
+  if (!snapshots.empty()) {
+    if (snapshot.text == snapshots[snapshots.size() -1].text) {
+      store = false;
+    }
+  }
+  if (store) {
+    snapshots.push_back (snapshot);
+  }
+
+  // If there are too many snapshots, throw away the oldest.
+  if (snapshots.size() > 100) {
+    snapshots.pop_front();
+  }  
+ 
+  // Reset the redo counter.
+  redo_counter = 0;
   
   // Clear the event id.
   textbuffer_changed_event_id = 0;
@@ -3430,27 +3457,6 @@ void Editor::scroll_cursor_on_screen (bool exact)
 
 /*
 
-Todo Undo broken!
-
-Phil:
-Undo really should work in footnote text as well.
-
-Birch:
-Text doesn't reformat after undoing a paragraph style
-Open a project
-click in a paragraph
-Change to a different paragraph style like poetry/quote
-undo ( a bunch of times)
-After the final undo, the paragraph is all in verse number style
-Changing to a different chapter and back will correct the display.
-
-The solution is going to be a rough and solid one.
-- When there's a change in the buffer, a delay starts.
-- The delay restarts after another change.
-- If the delay times out, it makes a full copy of the buffer in USFM format, and stores this.
-- When undoing or redoing this buffer with copies is gone through, and applied, one by one.
-This should care for anything that now misbehaves, and should care for redo functionality too.
-
-Try it works in tables as well.
+Todo Undo / redo only works with the shortcuts, not with the menu.
 
 */

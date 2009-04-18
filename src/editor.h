@@ -197,16 +197,16 @@ public:
 
   void insert_table(const ustring& rawtext, GtkTextIter * iter);
 
-  // Undo/redo // Todo
+  // Undo/redo
   int record_undo_level;
   bool recording_undo_actions();
-  vector <EditorSnapshot> snapshots;
-  unsigned int snapshot_offset;
+  deque <EditorSnapshot> snapshots;
+  unsigned int redo_counter;
   void undo();
   void redo();
   bool can_undo();
   bool can_redo();
-  void list_undo_buffer();
+  void restore_snapshot(int pointer);
   static void on_textbuffer_changed(GtkTextBuffer * textbuffer, gpointer user_data);
   void textbuffer_changed(GtkTextBuffer * textbuffer);
   void trigger_undo_redo_recording();
