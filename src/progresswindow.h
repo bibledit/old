@@ -39,7 +39,7 @@ public:
   void hide ();
   bool cancel;
 private:
-  GtkBuilder * gtkbuilder;
+  GtkBuilder *gtkbuilder;
   GtkWidget *progresswindow;
   GtkWidget *label;
   GtkWidget *progressbar;

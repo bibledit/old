@@ -33,9 +33,8 @@ public:
   ~GuiDialog ();
   int run ();
 protected:
+  GtkBuilder *gtkbuilder;
   GtkWidget *featuresdialog;
-  GtkWidget *dialog_vbox1;
-  GtkWidget *label1;
   GtkWidget *radiobutton_basic;
   GtkWidget *radiobutton_full;
   GtkWidget *radiobutton_user;

@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "libraries.h"
 #include "dialoggui.h"
 #include "help.h"
@@ -24,48 +25,25 @@
 #include "settings.h"
 #include "utilities.h"
 #include "gtkwrappers.h"
+#include "directories.h"
+#include "gwrappers.h"
+
 
 GuiDialog::GuiDialog(int dummy)
 {
   Shortcuts shortcuts(0);
-
-  featuresdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(featuresdialog), "User interface");
-  gtk_window_set_position(GTK_WINDOW(featuresdialog), GTK_WIN_POS_CENTER_ON_PARENT);
-  gtk_window_set_modal(GTK_WINDOW(featuresdialog), TRUE);
-
-  dialog_vbox1 = GTK_DIALOG(featuresdialog)->vbox;
-  gtk_widget_show(dialog_vbox1);
-
-  label1 = gtk_label_new ("Features");
-  gtk_widget_show (label1);
-  gtk_box_pack_start (GTK_BOX (dialog_vbox1), label1, FALSE, FALSE, 0);
-
-  GSList *radiobutton_basic_group = NULL;
-
-  radiobutton_basic = gtk_radio_button_new_with_mnemonic(NULL, "Only the basics are available");
-  gtk_widget_show(radiobutton_basic);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), radiobutton_basic, FALSE, FALSE, 0);
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_basic), radiobutton_basic_group);
-  radiobutton_basic_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_basic));
-
+  gtkbuilder = gtk_builder_new ();
+  gtk_builder_add_from_file (gtkbuilder, gw_build_filename (directories_get_package_data(), "gtkbuilder.guidialog.xml").c_str(), NULL);
+  featuresdialog = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "guidialog"));
+  radiobutton_basic = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_basic"));
   shortcuts.button(radiobutton_basic);
-
-  radiobutton_full = gtk_radio_button_new_with_mnemonic(NULL, "Full features are available");
-  gtk_widget_show(radiobutton_full);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), radiobutton_full, FALSE, FALSE, 0);
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_full), radiobutton_basic_group);
-  radiobutton_basic_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_full));
-
+  radiobutton_full = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_full"));
   shortcuts.button(radiobutton_full);
-
-  radiobutton_user = gtk_radio_button_new_with_mnemonic(NULL, "User defined features");
-  gtk_widget_show(radiobutton_user);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), radiobutton_user, FALSE, FALSE, 0);
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_user), radiobutton_basic_group);
-  radiobutton_basic_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_user));
-
+  radiobutton_user = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_user"));
   shortcuts.button(radiobutton_user);
+
+
+  /* Todo
 
   checkbutton_printing = gtk_check_button_new_with_mnemonic("Printing");
   gtk_widget_show(checkbutton_printing);
@@ -167,8 +145,10 @@ GuiDialog::GuiDialog(int dummy)
 
   shortcuts.stockbutton(cancelbutton);
   shortcuts.stockbutton(okbutton);
-  shortcuts.process();
+*/
 
+  shortcuts.process();
+/*
   g_signal_connect((gpointer) radiobutton_basic, "toggled", G_CALLBACK(on_togglebutton_toggled), gpointer(this));
   g_signal_connect((gpointer) radiobutton_full, "toggled", G_CALLBACK(on_togglebutton_toggled), gpointer(this));
   g_signal_connect((gpointer) radiobutton_user, "toggled", G_CALLBACK(on_togglebutton_toggled), gpointer(this));
@@ -195,10 +175,12 @@ GuiDialog::GuiDialog(int dummy)
   list_set(settings->genconfig.features_list_get());
   on_togglebutton();
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_independent_windows), settings->genconfig.windows_detached_get());
+  */
 }
 
 GuiDialog::~GuiDialog()
 {
+  g_object_unref (gtkbuilder);
   gtk_widget_destroy(featuresdialog);
 }
 
