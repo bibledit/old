@@ -33,8 +33,10 @@ void help_open (GtkButton * button, gpointer user_data);
 class InDialogHelp
 {
 public:
-  InDialogHelp (GtkWidget * dialog, Shortcuts * shortcuts, const gchar * topic);
+  InDialogHelp (GtkWidget * dialog, GtkBuilder * builder, Shortcuts * shortcuts, const gchar * topic);
   ~InDialogHelp ();
+  GtkWidget * okbutton;
+  GtkWidget * cancelbutton;
 private:
   GtkWidget *helpbutton;
   GtkWidget *alignment;

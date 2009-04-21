@@ -132,7 +132,7 @@ ReplacingDialog::ReplacingDialog(const vector < Reference > &references_in)
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
-  new InDialogHelp(replacedialog, NULL, NULL);
+  new InDialogHelp(replacedialog, NULL, NULL, NULL);
 
   gtk_widget_grab_focus(yesbutton);
   gtk_widget_grab_default(yesbutton);

@@ -266,7 +266,7 @@ bookset: Indicator for the caller's relevant books.
   } else {
     helpfile = "selectbooks";
   }
-  new InDialogHelp(selectbooksdialog, &shortcuts, helpfile);
+  new InDialogHelp(selectbooksdialog, NULL, &shortcuts, helpfile);
 
   cancelbutton = gtk_button_new_from_stock("gtk-cancel");
   gtk_widget_show(cancelbutton);

@@ -41,114 +41,39 @@ GuiDialog::GuiDialog(int dummy)
   shortcuts.button(radiobutton_full);
   radiobutton_user = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_user"));
   shortcuts.button(radiobutton_user);
-
-
-  /* Todo
-
-  checkbutton_printing = gtk_check_button_new_with_mnemonic("Printing");
-  gtk_widget_show(checkbutton_printing);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), checkbutton_printing, FALSE, FALSE, 0);
-
+  checkbutton_printing = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_printing"));
   shortcuts.button(checkbutton_printing);
-
-  checkbutton_project_management = gtk_check_button_new_with_mnemonic("Project management");
-  gtk_widget_show(checkbutton_project_management);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), checkbutton_project_management, FALSE, FALSE, 0);
-
+  checkbutton_project_management = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_project_management"));
   shortcuts.button(checkbutton_project_management);
-
-  checkbutton_references_management = gtk_check_button_new_with_mnemonic("References management");
-  gtk_widget_show(checkbutton_references_management);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), checkbutton_references_management, FALSE, FALSE, 0);
-
+  checkbutton_references_management = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_references_management"));
   shortcuts.button(checkbutton_references_management);
-
-  checkbutton_styles = gtk_check_button_new_with_mnemonic("Styles");
-  gtk_widget_show(checkbutton_styles);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), checkbutton_styles, FALSE, FALSE, 0);
-
+  checkbutton_styles = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_styles"));
   shortcuts.button(checkbutton_styles);
-
-  checkbutton_styles_management = gtk_check_button_new_with_mnemonic("Styles management");
-  gtk_widget_show(checkbutton_styles_management);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), checkbutton_styles_management, FALSE, FALSE, 0);
-
+  checkbutton_styles_management = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_styles_management"));
   shortcuts.button(checkbutton_styles_management);
-
-  checkbutton_project_notes = gtk_check_button_new_with_mnemonic("Project notes");
-  gtk_widget_show(checkbutton_project_notes);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), checkbutton_project_notes, FALSE, FALSE, 0);
-
+  checkbutton_project_notes = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_project_notes"));
   shortcuts.button(checkbutton_project_notes);
-
-  checkbutton_project_notes_management = gtk_check_button_new_with_mnemonic("Project notes management");
-  gtk_widget_show(checkbutton_project_notes_management);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), checkbutton_project_notes_management, FALSE, FALSE, 0);
-
+  checkbutton_project_notes_management = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_project_notes_management"));
   shortcuts.button(checkbutton_project_notes_management);
-
-  checkbutton_references_and_find = gtk_check_button_new_with_mnemonic("References and find");
-  gtk_widget_show(checkbutton_references_and_find);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), checkbutton_references_and_find, FALSE, FALSE, 0);
-
+  checkbutton_references_and_find = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_references_find"));
   shortcuts.button(checkbutton_references_and_find);
-
-  checkbutton_replace = gtk_check_button_new_with_mnemonic("Replace");
-  gtk_widget_show(checkbutton_replace);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), checkbutton_replace, FALSE, FALSE, 0);
-
+  checkbutton_replace = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_replace"));
   shortcuts.button(checkbutton_replace);
-
-  checkbutton_checks = gtk_check_button_new_with_mnemonic("Checks");
-  gtk_widget_show(checkbutton_checks);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), checkbutton_checks, FALSE, FALSE, 0);
-
+  checkbutton_checks = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_checks"));
   shortcuts.button(checkbutton_checks);
-
-  checkbutton_tools = gtk_check_button_new_with_mnemonic("Tools");
-  gtk_widget_show(checkbutton_tools);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), checkbutton_tools, FALSE, FALSE, 0);
-
+  checkbutton_tools = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_tools"));
   shortcuts.button(checkbutton_tools);
-
-  checkbutton_preferences = gtk_check_button_new_with_mnemonic("Preferences");
-  gtk_widget_show(checkbutton_preferences);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), checkbutton_preferences, FALSE, FALSE, 0);
-
+  checkbutton_preferences = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_preferences"));
   shortcuts.button(checkbutton_preferences);
-
-  hseparator1 = gtk_hseparator_new ();
-  gtk_widget_show (hseparator1);
-  gtk_box_pack_start (GTK_BOX (dialog_vbox1), hseparator1, TRUE, TRUE, 0);
-
-  checkbutton_independent_windows = gtk_check_button_new_with_mnemonic ("Detached windows");
-  gtk_widget_show (checkbutton_independent_windows);
-  gtk_box_pack_start (GTK_BOX (dialog_vbox1), checkbutton_independent_windows, FALSE, FALSE, 0);
-
+  checkbutton_independent_windows = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_independent_windows"));
   shortcuts.button(checkbutton_independent_windows);
-
-  dialog_action_area1 = GTK_DIALOG(featuresdialog)->action_area;
-  gtk_widget_show(dialog_action_area1);
-  gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
-
-  new InDialogHelp(featuresdialog, &shortcuts, "preferences_gui");
-
-  cancelbutton = gtk_button_new_from_stock("gtk-cancel");
-  gtk_widget_show(cancelbutton);
-  gtk_dialog_add_action_widget(GTK_DIALOG(featuresdialog), cancelbutton, GTK_RESPONSE_CANCEL);
-  GTK_WIDGET_SET_FLAGS(cancelbutton, GTK_CAN_DEFAULT);
-
-  okbutton = gtk_button_new_from_stock("gtk-ok");
-  gtk_widget_show(okbutton);
-  gtk_dialog_add_action_widget(GTK_DIALOG(featuresdialog), okbutton, GTK_RESPONSE_OK);
-  GTK_WIDGET_SET_FLAGS(okbutton, GTK_CAN_DEFAULT);
-
-  shortcuts.stockbutton(cancelbutton);
-  shortcuts.stockbutton(okbutton);
-*/
-
+  checkbutton_remember_verse_chapter = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_remember_verse_chapter"));
+  shortcuts.button(checkbutton_remember_verse_chapter);
+  InDialogHelp * indialoghelp = new InDialogHelp(featuresdialog, gtkbuilder, &shortcuts, "preferences_gui");
+  cancelbutton = indialoghelp->cancelbutton;
+  okbutton = indialoghelp->okbutton;
   shortcuts.process();
-/*
+
   g_signal_connect((gpointer) radiobutton_basic, "toggled", G_CALLBACK(on_togglebutton_toggled), gpointer(this));
   g_signal_connect((gpointer) radiobutton_full, "toggled", G_CALLBACK(on_togglebutton_toggled), gpointer(this));
   g_signal_connect((gpointer) radiobutton_user, "toggled", G_CALLBACK(on_togglebutton_toggled), gpointer(this));
@@ -175,7 +100,7 @@ GuiDialog::GuiDialog(int dummy)
   list_set(settings->genconfig.features_list_get());
   on_togglebutton();
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_independent_windows), settings->genconfig.windows_detached_get());
-  */
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_remember_verse_chapter), settings->genconfig.remember_verse_per_chapter_get());
 }
 
 GuiDialog::~GuiDialog()
@@ -212,6 +137,7 @@ void GuiDialog::on_okbutton()
   settings->genconfig.features_mode_set(new_mode);
   settings->genconfig.features_list_set(new_list);
   settings->genconfig.windows_detached_set(new_windows);
+  settings->genconfig.remember_verse_per_chapter_set(gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_remember_verse_chapter))); 
 
   // Restart needed if there was a change in the features.
   if ((old_mode != new_mode) || (old_list != new_list) || (old_windows != new_windows)) {

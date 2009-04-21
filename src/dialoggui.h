@@ -50,9 +50,8 @@ protected:
   GtkWidget *checkbutton_checks;
   GtkWidget *checkbutton_tools;
   GtkWidget *checkbutton_preferences;
-  GtkWidget *hseparator1;
   GtkWidget *checkbutton_independent_windows;
-  GtkWidget *dialog_action_area1;
+  GtkWidget *checkbutton_remember_verse_chapter;
   GtkWidget *cancelbutton;
   GtkWidget *okbutton;
 private:

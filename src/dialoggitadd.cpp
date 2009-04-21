@@ -55,7 +55,7 @@ GitAddDialog::GitAddDialog(int dummy)
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
-  new InDialogHelp(gitadddialog, NULL, NULL);
+  new InDialogHelp(gitadddialog, NULL, NULL, NULL);
 
   cancelbutton = gtk_button_new_from_stock("gtk-cancel");
   gtk_widget_show(cancelbutton);

@@ -74,7 +74,7 @@ Entry3Dialog::Entry3Dialog(const string & title, bool allow_empty_values, const 
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
-  new InDialogHelp(entry3dialog, NULL, NULL);
+  new InDialogHelp(entry3dialog, NULL, NULL, NULL);
 
   cancelbutton = gtk_button_new_from_stock("gtk-cancel");
   gtk_widget_show(cancelbutton);

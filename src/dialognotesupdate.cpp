@@ -136,7 +136,7 @@ NotesUpdateDialog::NotesUpdateDialog(int dummy)
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
-  new InDialogHelp(notesupdatedialog, &shortcuts1, NULL);
+  new InDialogHelp(notesupdatedialog, NULL, &shortcuts1, NULL);
   shortcuts2.stockbutton(shortcuts1.lastwidget);
 
   cancelbutton1 = gtk_button_new_from_stock("gtk-cancel");

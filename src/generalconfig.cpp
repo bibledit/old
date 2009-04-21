@@ -207,6 +207,7 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE(features_mode);
   INITIALIZE(features_list);
   INITIALIZE(windows_detached);
+  INITIALIZE(remember_verse_per_chapter); // Todo
   INITIALIZE(administration_password);
   INITIALIZE(print_references_projects);
   INITIALIZE(dialogpositions_x);
@@ -377,6 +378,7 @@ void GeneralConfiguration::save()
   SAVE_VALUE(features_mode);
   SAVE_VALUE(features_list);
   SAVE_VALUE(windows_detached);
+  SAVE_VALUE(remember_verse_per_chapter); 
   SAVE_VALUE(administration_password);
   SAVE_VALUE(print_references_projects);
   SAVE_VALUE(dialogpositions_x);
@@ -624,6 +626,7 @@ IMPLEMENT(ustring, string_get, encoding, "WINDOWS-1258")
 IMPLEMENT(int, int_get, features_mode, 1)
 IMPLEMENT(ustring, string_get, features_list, "")
 IMPLEMENT(bool, bool_get, windows_detached, false)
+IMPLEMENT(bool, bool_get, remember_verse_per_chapter, false) 
 IMPLEMENT(ustring, string_get, administration_password, "")
 IMPLEMENT(vector < ustring >, vector_string_get, print_references_projects, NULL)
 IMPLEMENT(vector < int >, vector_int_get, dialogpositions_x, NULL)

@@ -917,26 +917,18 @@ void GuiNavigation::tracker_sensitivity()
 
 Todo Remember last verse in each chapter.
 
-It would be nice, actually, if BE would remember the last position chapter and verse. 
-So if I was working on John 15:2 the last time in John, a change of book would go to the last location. 
-
-About going to a verse different from 1, it seems to me that people expect to go to verse one when changing book. 
-But if this behaviour that you describe is needed, then it could be made optional.
-
-The navigator remembers for each chapter the last verse it pointed at.
-The GUI has an option that if going to another chapter, it goes to the last active verse in that chapter.
-
-When rebuilding the GUI window, we might as well switch to GtkBuilder for it.
+1. If going to book, go to the last chapter and verse in that book.
+2. If going to a chapter, to the the last verse in that chapter.
 
 Steps:
-
-- Move the current GUI settings to GtkBuilder.
-- Add the setting for remembering focused verses.
 - Create or check a database on startup.
-- Save to database any change in verse.
+- Save to database any change in chapter and verse per book.
+- Save to db most recent chapter per book.
 - When going to another chapter, consult that database. 
+- When going to another boo, consult the db.
  
- 
- 
+Our Ctrl-G navigator needs to indicate whether the verse was not set, so that the function can be called. 
+Same applies to whether the book was set in that dialog.
+
 
 */

@@ -38,17 +38,19 @@ void help_open(GtkButton * button, gpointer user_data)
   htmlbrowser(url, true);
 }
 
-InDialogHelp::InDialogHelp(GtkWidget * dialog, Shortcuts * shortcuts, const gchar * topic)
+InDialogHelp::InDialogHelp(GtkWidget * dialog, GtkBuilder * builder, Shortcuts * shortcuts, const gchar * topic)
 {
   // Save and initialize variables.
   mydialog = dialog;
   mytopic = topic;
   process_id = 0;
+  okbutton = NULL;
+  cancelbutton = NULL;
 
   // If no help is given, take a default one.
   if (!mytopic)
     mytopic = "none";
-
+  
   helpbutton = gtk_toggle_button_new();
   gtk_widget_show(helpbutton);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), helpbutton, FALSE, FALSE, 0);
@@ -70,8 +72,28 @@ InDialogHelp::InDialogHelp(GtkWidget * dialog, Shortcuts * shortcuts, const gcha
   gtk_widget_show(label);
   gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
-  if (shortcuts)
+  if (shortcuts) {
     shortcuts->label(label);
+  }
+
+  if (builder) {
+
+    cancelbutton = gtk_button_new_from_stock("gtk-cancel");
+    gtk_widget_show(cancelbutton);
+    gtk_dialog_add_action_widget(GTK_DIALOG(dialog), cancelbutton, GTK_RESPONSE_CANCEL);
+    GTK_WIDGET_SET_FLAGS(cancelbutton, GTK_CAN_DEFAULT);
+
+    okbutton = gtk_button_new_from_stock("gtk-ok");
+    gtk_widget_show(okbutton);
+    gtk_dialog_add_action_widget(GTK_DIALOG(dialog), okbutton, GTK_RESPONSE_OK);
+    GTK_WIDGET_SET_FLAGS(okbutton, GTK_CAN_DEFAULT);
+    
+    if (shortcuts) {
+      shortcuts->stockbutton(cancelbutton);
+      shortcuts->stockbutton(okbutton);
+    }
+
+  }
 
   g_signal_connect((gpointer) helpbutton, "clicked", G_CALLBACK(on_helpbutton_activated), gpointer(this));
   g_signal_connect((gpointer) dialog, "delete_event", G_CALLBACK(on_dialog_delete_event), gpointer(this));

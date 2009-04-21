@@ -3455,8 +3455,3 @@ void Editor::scroll_cursor_on_screen (bool exact)
 }
 
 
-/*
-
-Todo Undo / redo only works with the shortcuts, not with the menu.
-
-*/

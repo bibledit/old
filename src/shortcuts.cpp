@@ -35,6 +35,8 @@ are unique within the set given.
 
 void Shortcuts::stockbutton(GtkWidget * widget)
 {
+  if (widget == NULL)
+    return;
   GtkStockItem stockitem;
   if (gtk_stock_lookup(gtk_button_get_label(GTK_BUTTON(widget)), &stockitem)) {
     ustring s(stockitem.label);
@@ -48,6 +50,8 @@ void Shortcuts::stockbutton(GtkWidget * widget)
 
 void Shortcuts::button(GtkWidget * widget)
 {
+  if (widget == NULL)
+    return;
   widgets.push_back(widget);
   is_button.push_back(true);
   lastwidget = widget;
@@ -55,6 +59,8 @@ void Shortcuts::button(GtkWidget * widget)
 
 void Shortcuts::label(GtkWidget * widget)
 {
+  if (widget == NULL)
+    return;
   widgets.push_back(widget);
   is_button.push_back(false);
   lastwidget = widget;

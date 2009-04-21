@@ -150,7 +150,7 @@ GotoReferenceDialog::GotoReferenceDialog(unsigned int currentbook, unsigned int 
   gtk_widget_show(dialog_action_area1);
   gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
-  new InDialogHelp(gotoreferencedialog, NULL, NULL);
+  new InDialogHelp(gotoreferencedialog, NULL, NULL, NULL);
 
   cancelbutton1 = gtk_button_new_from_stock("gtk-cancel");
   gtk_widget_show(cancelbutton1);
