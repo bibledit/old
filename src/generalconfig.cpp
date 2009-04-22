@@ -207,7 +207,7 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE(features_mode);
   INITIALIZE(features_list);
   INITIALIZE(windows_detached);
-  INITIALIZE(remember_verse_per_chapter); // Todo
+  INITIALIZE(remember_verse_per_chapter);
   INITIALIZE(administration_password);
   INITIALIZE(print_references_projects);
   INITIALIZE(dialogpositions_x);

@@ -1,0 +1,658 @@
+/*
+ ** Copyright (©) 2003-2009 Teus Benschop.
+ **  
+ ** This program is free software; you can redistribute it and/or modify
+ ** it under the terms of the GNU General Public License as published by
+ ** the Free Software Foundation; either version 3 of the License, or
+ ** (at your option) any later version.
+ **  
+ ** This program is distributed in the hope that it will be useful,
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ ** GNU General Public License for more details.
+ **  
+ ** You should have received a copy of the GNU General Public License
+ ** along with this program; if not, write to the Free Software
+ ** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ **  
+ */
+
+
+#include "libraries.h"
+#include "utilities.h"
+#include <glib.h>
+#include "referencememory.h"
+#include "directories.h"
+#include <sqlite3.h>
+#include "sqlite_reader.h"
+#include "bible.h"
+#include "date_time_utils.h"
+#include "gwrappers.h"
+#include "shell.h"
+#include "progresswindow.h"
+#include "settings.h"
+#include "projectutils.h"
+#include "books.h"
+#include "settings.h"
+#include "versification.h"
+#include "unixwrappers.h"
+#include "tiny_utilities.h"
+#include "shutdown.h"
+
+
+ustring references_memory_database_filename()
+// Returns the filename of the database.
+{
+  return gw_build_filename(directories_get_configuration(), "referencememory.sql1");
+}
+
+
+void references_memory_database_verify()
+// Verifies or creates the database.
+{
+  ustring filename = references_memory_database_filename();
+  if (!g_file_test(filename.c_str(), G_FILE_TEST_IS_REGULAR)) {
+    sqlite3 *db;
+    sqlite3_open(filename.c_str(), &db);
+    sqlite3_busy_timeout(db, 1000);
+    sqlite3_exec(db, "create table chapters (book integer, chapter integer);", NULL, NULL, NULL);
+    sqlite3_exec(db, "create table verses (book integer, chapter integer, verse text);", NULL, NULL, NULL);
+    sqlite3_close(db);
+  }
+}
+
+
+void references_memory_store (const Reference& reference)
+// Stores a reference into the database.
+{
+  // Open database.
+  sqlite3 *db;
+  sqlite3_open(references_memory_database_filename().c_str(), &db);
+  sqlite3_busy_timeout(db, 1000);
+  char *sql;
+
+  // Store the most recent chapter per book.
+  sql = g_strdup_printf("delete from chapters where book = %d;", reference.book);
+  sqlite3_exec(db, sql, NULL, NULL, NULL);
+  g_free(sql);
+  sql = g_strdup_printf("insert into chapters values (%d, %d);", reference.book, reference.chapter);
+  sqlite3_exec(db, sql, NULL, NULL, NULL);
+  g_free(sql);
+
+  // Store the most recent verse per chapter.
+  sql = g_strdup_printf("delete from verses where book = %d and chapter = %d;", reference.book, reference.chapter);
+  sqlite3_exec(db, sql, NULL, NULL, NULL);
+  g_free(sql);
+  sql = g_strdup_printf("insert into verses values (%d, %d, '%s');", reference.book, reference.chapter, reference.verse.c_str());
+  sqlite3_exec(db, sql, NULL, NULL, NULL);
+  g_free(sql);
+  
+  // Close database.
+  sqlite3_close(db);
+}
+
+
+
+/*
+gint notes_database_get_unique_id()
+// This generates a unique id, one that is not yet used in the notes database.
+{
+  gint32 result = 0;
+  sqlite3 *db;
+  int rc;
+  char *error = NULL;
+  try {
+    rc = sqlite3_open(references_memory_database_filename().c_str(), &db);
+    if (rc)
+      throw runtime_error(sqlite3_errmsg(db));
+    sqlite3_busy_timeout(db, 1000);
+    bool found = false;
+    while (!found) {
+      result = g_random_int_range(1, 100000000);
+      SqliteReader reader(0);
+      char *sql;
+      sql = g_strdup_printf("select count(*) from '%s' where id=%i;", TABLE_NOTES, result);
+      rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
+      g_free(sql);
+      if (rc != SQLITE_OK) {
+        throw runtime_error(error);
+      }
+      gint count = convert_to_int(reader.ustring0[0]);
+      if (count == 0) {
+        found = true;
+      }
+    }
+  }
+  catch(exception & ex) {
+    gw_critical(ex.what());
+  }
+  sqlite3_close(db);
+  return result;
+}
+
+void notes_display(ustring & note_buffer, vector < unsigned int >ids, unsigned int cursor_id, unsigned int &cursor_offset, bool & stop)
+
+ This collect html data for displaying the notes.
+ It collects data for all the notes that have an id given in ids.
+ It inserts a html anchor at the start of the note whose id is "cursor_id".
+
+{
+  extern Settings *settings;
+  ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
+  ustring language = projectconfig->language_get();
+  sqlite3 *db;
+  int rc;
+  char *error = NULL;
+  try {
+    // Connect to database.
+    rc = sqlite3_open(references_memory_database_filename().c_str(), &db);
+    if (rc)
+      throw runtime_error(sqlite3_errmsg(db));
+    sqlite3_busy_timeout(db, 1000);
+
+    // Whether to show the text of the reference(s).
+    bool show_reference_text = settings->genconfig.notes_display_reference_text_get();
+
+    // Whether to show the summary only.
+    bool show_summary = settings->genconfig.notes_display_summary_get();
+
+    // Go through all the notes.
+    for (unsigned int c = 0; c < ids.size(); c++) {
+
+      // Handle possible stop command.
+      if (stop)
+        continue;
+
+      // Get from the database.
+      SqliteReader reader(0);
+      char *sql;
+      sql = g_strdup_printf("select id, ref_osis, note, project, category, created, user from '%s' where id = %d;", TABLE_NOTES, ids[c]);
+      rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
+      g_free(sql);
+      if (rc != SQLITE_OK) {
+        throw runtime_error(error);
+      }
+      // Go through the results (there should be only one anyway).
+      for (unsigned int r = 0; r < reader.ustring0.size(); r++) {
+
+        // Get the reference(s).
+        ustring reference = reader.ustring1[r];
+
+        // Parse the string into its possible several references.
+        Parse parse(reference, false);
+        reference.clear();
+
+        // Keep list of references.
+        vector < Reference > references;
+
+        // Go through each reference.
+        for (unsigned int i2 = 0; i2 < parse.words.size(); i2++) {
+          // Make it human readable.
+          Reference ref(0);
+          reference_discover(0, 0, "", parse.words[i2], ref.book, ref.chapter, ref.verse);
+          if (!reference.empty())
+            reference.append(", ");
+          reference.append(ref.human_readable(language));
+          references.push_back(ref);
+        }
+
+        // Get project.
+        ustring project = reader.ustring3[r];
+
+        // Start creating the heading with links.
+        ustring linkheading;
+        // If this note is to be focused, then insert a special anchor for that: <a name="cursoranchor"></a>
+        if (ids[c] == cursor_id) {
+          linkheading.append("<a name=\"");
+          linkheading.append(notes_cursor_anchor());
+          linkheading.append("\"></a>");
+        }
+        if (settings->session.project_notes_show_title) {
+          // Insert a link with this heading, e.g.: <a href="10">Genesis 1.1</a>
+          linkheading.append("<a href=\"" + convert_to_string(ids[c]) + "\">");
+          linkheading.append(reference);
+          if (settings->genconfig.notes_display_project_get())
+            linkheading.append(" " + project);
+          if (settings->genconfig.notes_display_category_get())
+            linkheading.append(" " + reader.ustring4[r]);
+          if (settings->genconfig.notes_display_date_created_get())
+            linkheading.append(" " + date_time_julian_human_readable(convert_to_int(reader.ustring5[r]), true));
+          if (settings->genconfig.notes_display_created_by_get())
+            linkheading.append(" " + reader.ustring6[r]);
+          linkheading.append("</a>");
+          // Append a [delete] link too, e.g.: <a href="d10">[delete]</a>
+          linkheading.append(" <a href=\"d" + convert_to_string(ids[c]) + "\">");
+          linkheading.append("[delete]");
+          linkheading.append("</a>");
+          // Append a [references] link too, e.g.: <a href="r10">[references]</a>
+          linkheading.append(" <a href=\"r" + convert_to_string(ids[c]) + "\">");
+          linkheading.append("[references]");
+          linkheading.append("</a>");
+        }
+        // Add the heading to the note data.
+        note_buffer.append(linkheading);
+
+        // Handle summary. Show only the first few words.
+        if (show_summary) {
+          ustring summary = reader.ustring2[r];
+          replace_text(summary, "\n", " ");
+          replace_text(summary, "<BR>", " ");
+          Parse parse(summary, false);
+          unsigned int maximum = 5;
+          maximum = CLAMP(maximum, 0, parse.words.size());
+          summary.clear();
+          for (unsigned int w = 0; w < maximum; w++) {
+            summary.append(" ");
+            summary.append(parse.words[w]);
+          }
+          if (!summary.empty())
+            summary.append(" ...");
+          note_buffer.append(summary);
+        }
+        // Append a new line.
+        note_buffer.append("<BR>\n");
+
+        // Insert text of the references, if requested.
+        if (show_reference_text) {
+          for (unsigned int r = 0; r < references.size(); r++) {
+            vector < unsigned int >simple_verses = verse_range_sequence(references[r].verse);
+            for (unsigned int sv = 0; sv < simple_verses.size(); sv++) {
+              Reference ref(references[r]);
+              ref.verse = convert_to_string(simple_verses[sv]);
+              note_buffer.append(ref.human_readable(language));
+              note_buffer.append(" ");
+              ustring text = project_retrieve_verse(project, ref.book, ref.chapter, ref.verse);
+              if (!text.empty()) {
+                CategorizeLine cl(text);
+                text = cl.verse;
+              }
+              note_buffer.append(text);
+              note_buffer.append("<BR>\n");
+            }
+          }
+        }
+        // Get the text of the note.
+        if (!show_summary) {
+          ustring note = reader.ustring2[r];
+          notes_update_old_one(note);
+          note_buffer.append(note);
+          note_buffer.append("<BR>\n");
+        }
+
+      }
+    }
+  }
+  catch(exception & ex) {
+    gw_critical(ex.what());
+  }
+  // Close connection.  
+  sqlite3_close(db);
+}
+
+void notes_get_references_from_editor(GtkTextBuffer * textbuffer, vector < Reference > &references, vector < ustring > &messages)
+
+ Gets all references from the notes editor.
+ Normalizes them.
+ Produces messages on trouble.
+ Handles notes that span more than one chapter.
+
+{
+  // Get all lines from the textbuffer.
+  vector < ustring > lines;
+  textbuffer_get_lines(textbuffer, lines);
+  // When discovering a reference from a user's entry, use previous values,
+  // so that it becomes quicker for a user to enter new references.
+  // If Leviticus 10:11 is already there, and the user wishes to add verse
+  // 12 also, he just enters 12 on a line, and that' it.
+  Reference previousreference(0);
+  for (unsigned int i = 0; i < lines.size(); i++) {
+    if (!lines[i].empty()) {
+      // Normalize reference.
+      Reference reference(0);
+      if (reference_discover(previousreference.book, previousreference.chapter, previousreference.verse, lines[i], reference.book, reference.chapter, reference.verse)) {
+        ustring ch1, vs1, ch2, vs2;
+        if (chapter_span_discover(lines[i], ch1, vs1, ch2, vs2)) {
+          // We cross the chapter boundaries. 
+          // Store as two or more references, 
+          // the first one going up to the end of the chapter, 
+          // and the second one starting at the next chapter verse 1,
+          // and any chapter in-between.
+          extern Settings *settings;
+          ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
+          Reference ref(reference.book, convert_to_int(ch1), vs1);
+          ustring lastverse = versification_get_last_verse(projectconfig->versification_get(), reference.book, convert_to_int(ch1));
+          ref.verse.append("-" + lastverse);
+          references.push_back(ref);
+          for (unsigned int ch = convert_to_int(ch1) + 1; ch < convert_to_int(ch2); ch++) {
+            Reference ref(reference.book, ch, "1");
+            ustring lastverse = versification_get_last_verse(projectconfig->versification_get(), reference.book, ch);
+            ref.verse.append("-" + lastverse);
+            references.push_back(ref);
+          }
+          ref.chapter = convert_to_int(ch2);
+          ref.verse = "1-" + vs2;
+          references.push_back(ref);
+          // Store values to discover next reference.
+          previousreference.book = reference.book;
+          previousreference.chapter = convert_to_int(ch2);
+          previousreference.verse = vs2;
+        } else {
+          // We've a normal reference.
+          // Store reference.
+          references.push_back(reference);
+          // Store values to discover next reference.
+          previousreference.book = reference.book;
+          previousreference.chapter = reference.chapter;
+          previousreference.verse = reference.verse;
+        }
+      } else {
+        messages.push_back("Reference " + lines[i] + " is not valid and has been removed.");
+      }
+    }
+  }
+}
+
+ustring notes_categories_filename()
+// Returns the filename of the notes database.
+{
+  return gw_build_filename(directories_get_notes(), "categories");
+}
+
+void notes_categories_check()
+// Check categories are there - if not, create default set.
+{
+  if (!g_file_test(notes_categories_filename().c_str(), G_FILE_TEST_IS_REGULAR)) {
+    vector < ustring > categories;
+    categories.push_back("No issue");
+    categories.push_back("For myself");
+    categories.push_back("For subteam");
+    categories.push_back("For team");
+    categories.push_back("For scholar");
+    categories.push_back("For panel");
+    categories.push_back("For church");
+    categories.push_back("For consultant");
+    categories.push_back("For Bible society");
+    write_lines(notes_categories_filename(), categories);
+  }
+}
+
+void notes_categories_add_from_database(vector < ustring > &categories)
+// Takes the existing notes categories, if there are any, and adds any
+// extra categories found in the database.
+{
+  sqlite3 *db;
+  int rc;
+  char *error = NULL;
+  try {
+    // Get the unique categories.
+    set < ustring > database_categories;
+    rc = sqlite3_open(references_memory_database_filename().c_str(), &db);
+    if (rc)
+      throw runtime_error(sqlite3_errmsg(db));
+    sqlite3_busy_timeout(db, 1000);
+    SqliteReader reader(0);
+    char *sql;
+    sql = g_strdup_printf("select category from '%s';", TABLE_NOTES);
+    rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
+    g_free(sql);
+    if (rc != SQLITE_OK) {
+      throw runtime_error(error);
+    }
+    for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
+      database_categories.insert(reader.ustring0[i]);
+    }
+    // Add any new categories to the container.
+    set < ustring > localcategories(categories.begin(), categories.end());
+    vector < ustring > db_categories(database_categories.begin(), database_categories.end());
+    for (unsigned int i = 0; i < db_categories.size(); i++) {
+      if (localcategories.find(db_categories[i]) == localcategories.end()) {
+        categories.push_back(db_categories[i]);
+      }
+    }
+  }
+  catch(exception & ex) {
+    gw_critical(ex.what());
+  }
+  sqlite3_close(db);
+}
+
+void notes_projects_add_from_database(vector < ustring > &projects)
+// Takes the existing projects, if there are any, and adds any
+// extra projects found in the database.
+{
+  sqlite3 *db;
+  int rc;
+  char *error = NULL;
+  try {
+    // Get the unique categories.
+    set < ustring > database_projects;
+    rc = sqlite3_open(references_memory_database_filename().c_str(), &db);
+    if (rc)
+      throw runtime_error(sqlite3_errmsg(db));
+    sqlite3_busy_timeout(db, 1000);
+    SqliteReader reader(0);
+    char *sql;
+    sql = g_strdup_printf("select project from '%s';", TABLE_NOTES);
+    rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
+    g_free(sql);
+    if (rc != SQLITE_OK) {
+      throw runtime_error(error);
+    }
+    for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
+      database_projects.insert(reader.ustring0[i]);
+    }
+    // Add any new categories to the container.
+    set < ustring > localprojects(projects.begin(), projects.end());
+    vector < ustring > db_projects(database_projects.begin(), database_projects.end());
+    for (unsigned int i = 0; i < db_projects.size(); i++) {
+      if (localprojects.find(db_projects[i]) == localprojects.end()) {
+        projects.push_back(db_projects[i]);
+      }
+    }
+  }
+  catch(exception & ex) {
+    gw_critical(ex.what());
+  }
+  sqlite3_close(db);
+}
+
+void notes_vacuum()
+// Vacuum the database.
+{
+  vacuum_database(references_memory_database_filename());
+}
+
+void notes_store_one(int id, ustring & note, const ustring & project, vector < Reference > &references, const ustring & category, int date_created, const ustring & user_created, ustring & logbook)
+{
+  sqlite3 *db;
+  int rc;
+  char *error = NULL;
+  try {
+
+       Validate and normalize the references.
+       Bad ones are removed and a message will be given.
+       If no valid references remain, stop the whole transaction and give a message.
+
+
+    ustring encoded_references;
+    ustring osis_references;
+    // Get and validate all references from the textview.
+    {
+      // Sort the references so they appear tidy in the editor.
+      sort_references(references);
+      // Encode all references.
+      for (unsigned int i = 0; i < references.size(); i++) {
+        // Encode the reference.
+        ustring book = books_id_to_english(references[i].book);
+        ustring chapter = convert_to_string(references[i].chapter);
+        vector < int >verses = verses_encode(references[i].verse);
+        int book_chapter = reference_to_numerical_equivalent(book, chapter, "0");
+        for (unsigned int i2 = 0; i2 < verses.size(); i2++) {
+          encoded_references.append(" ");
+          encoded_references.append(convert_to_string(int (book_chapter + verses[i2])));
+        }
+        // Store the references in OSIS format too.
+        ustring osis_book = books_id_to_osis(references[i].book);
+        ustring osis_reference = osis_book + "." + chapter + "." + references[i].verse;
+        if (!osis_references.empty())
+          osis_references.append(" ");
+        osis_references.append(osis_reference);
+      }
+      encoded_references.append(" ");
+    }
+    // Connect to database and start transaction.
+    rc = sqlite3_open(references_memory_database_filename().c_str(), &db);
+    if (rc)
+      throw runtime_error(sqlite3_errmsg(db));
+    sqlite3_busy_timeout(db, 1000);
+    rc = sqlite3_exec(db, "begin;", NULL, NULL, &error);
+    if (rc != SQLITE_OK) {
+      throw runtime_error(error);
+    }
+    // Delete previous data with "id".
+    gchar *sql;
+    sql = g_strdup_printf("delete from %s where id = %d;", TABLE_NOTES, id);
+    rc = sqlite3_exec(db, sql, NULL, NULL, &error);
+    g_free(sql);
+    if (rc != SQLITE_OK) {
+      throw runtime_error(error);
+    }
+    // Put new data in the database.
+    // ID (integer), we take variable "id".
+    // References (text), we take variable "encoded_references".
+    // Project (text), we take variable "project".
+    // Status (integer) This field is not used, and could be reused.
+    // Category (text), we take variable "category".
+    // Note (text), we take variable "note".
+    // Trim off extra newlines at the end, and ensure it always has one.
+    note = trim(note);
+    note.append("\n");
+    // Apostrophies need to be doubled before storing them.
+    note = double_apostrophy(note);
+    // Casefolded (text)
+    ustring casefolded = note.casefold();
+    // Date created. Variabele "date_created".
+    // Date modified.
+    int date_modified = date_time_julian_day_get_current();
+    // Username. Use: user_created
+    // Logbook (text), take variable logbook.
+    // Apostrophies need to be doubled before storing them.
+    logbook = double_apostrophy(logbook);
+    // Insert data in database.
+    sql = g_strdup_printf("insert into %s values (%d, '%s', '%s', '%s', '%s', '%s', '%s', %d, %d, '%s', '%s');", TABLE_NOTES, id, encoded_references.c_str(), osis_references.c_str(), project.c_str(), category.c_str(), note.c_str(), casefolded.c_str(), date_created, date_modified, user_created.c_str(), logbook.c_str());
+    rc = sqlite3_exec(db, sql, NULL, NULL, &error);
+    g_free(sql);
+    if (rc != SQLITE_OK) {
+      throw runtime_error(error);
+    }
+    // Commit the transaction.
+    rc = sqlite3_exec(db, "commit;", NULL, NULL, &error);
+    if (rc != SQLITE_OK) {
+      throw runtime_error(error);
+    }
+  }
+  catch(exception & ex) {
+    gw_critical(ex.what());
+  }
+  // Close connection.  
+  sqlite3_close(db);
+}
+
+void notes_change_category(const ustring & from, const ustring & to)
+// Changes all notes in category "from" to category "to".
+{
+  sqlite3 *db;
+  int rc;
+  char *error = NULL;
+  try {
+    rc = sqlite3_open(references_memory_database_filename().c_str(), &db);
+    if (rc)
+      throw runtime_error(sqlite3_errmsg(db));
+    sqlite3_busy_timeout(db, 1000);
+    char *sql;
+    sql = g_strdup_printf("update '%s' set category = '%s' where category = '%s';", TABLE_NOTES, to.c_str(), from.c_str());
+    rc = sqlite3_exec(db, sql, NULL, NULL, &error);
+    g_free(sql);
+    if (rc)
+      throw runtime_error(error);
+  }
+  catch(exception & ex) {
+    gw_critical(ex.what());
+  }
+  sqlite3_close(db);
+}
+
+void notes_change_project(const ustring & from, const ustring & to)
+// Changes all notes in project "from" to project "to".
+{
+  sqlite3 *db;
+  int rc;
+  char *error = NULL;
+  try {
+    rc = sqlite3_open(references_memory_database_filename().c_str(), &db);
+    if (rc)
+      throw runtime_error(sqlite3_errmsg(db));
+    sqlite3_busy_timeout(db, 1000);
+    char *sql;
+    sql = g_strdup_printf("update '%s' set project = '%s' where project = '%s';", TABLE_NOTES, to.c_str(), from.c_str());
+    rc = sqlite3_exec(db, sql, NULL, NULL, &error);
+    g_free(sql);
+    if (rc)
+      throw runtime_error(error);
+  }
+  catch(exception & ex) {
+    gw_critical(ex.what());
+  }
+  sqlite3_close(db);
+}
+
+void notes_read(vector < unsigned int >ids, vector < ustring > &data)
+// Reads notes.
+{
+  sqlite3 *db;
+  int rc;
+  char *error = NULL;
+  try {
+    data.clear();
+    rc = sqlite3_open(references_memory_database_filename().c_str(), &db);
+    if (rc)
+      throw runtime_error(sqlite3_errmsg(db));
+    sqlite3_busy_timeout(db, 1000);
+    for (unsigned int c = 0; c < ids.size(); c++) {
+      SqliteReader reader(0);
+      char *sql;
+      sql = g_strdup_printf("select note from '%s' where id = %d;", TABLE_NOTES, ids[c]);
+      rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
+      g_free(sql);
+      if (rc != SQLITE_OK) {
+        throw runtime_error(error);
+      }
+      data.push_back(reader.ustring0[0]);
+    }
+  }
+  catch(exception & ex) {
+    gw_critical(ex.what());
+  }
+  sqlite3_close(db);
+}
+
+void notes_update_old_one(ustring & note)
+ If there are newlines, and no <BR>, then this is an old note, 
+ and the <BR>'s need to be added for proper display of the newlines
+ in the GtkHtml viewer.
+{
+  size_t pos = note.find("\n");
+  if (pos == string::npos)
+    return;
+  pos = note.find("<BR>");
+  if (pos != string::npos)
+    return;
+  replace_text(note, "\n", "<BR>\n");
+}
+
+const gchar *notes_cursor_anchor()
+// Gives the name of the anchor where the cursor has to jump to.
+{
+  return "cursoranchor";
+}
+*/

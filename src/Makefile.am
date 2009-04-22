@@ -276,7 +276,8 @@ bibledit_bin_SOURCES = \
         osis.cpp \
         assistantremoterepository.cpp \
         gui_display_changes.cpp \
-				stylesheet.cpp
+				stylesheet.cpp \
+				referencememory.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 

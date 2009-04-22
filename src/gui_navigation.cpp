@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "utilities.h"
 #include <glib.h>
 #include "gui_navigation.h"
@@ -28,8 +29,10 @@
 #include "bible.h"
 #include "gwrappers.h"
 #include "tiny_utilities.h"
+#include "referencememory.h"
 
- GuiNavigation::GuiNavigation(int dummy):
+
+GuiNavigation::GuiNavigation(int dummy):
 reference(0), track(0)
 {
   // Initialize variables.
@@ -41,9 +44,11 @@ reference(0), track(0)
   track_event_id = 0;
 }
 
+
 GuiNavigation::~GuiNavigation()
 {
 }
+
 
 void GuiNavigation::build(GtkWidget * toolbar)
 {
@@ -171,6 +176,7 @@ void GuiNavigation::build(GtkWidget * toolbar)
   g_signal_connect((gpointer) spinbutton_verse, "value_changed", G_CALLBACK(on_spinbutton_verse_value_changed), gpointer(this));
 }
 
+
 void GuiNavigation::sensitive(bool sensitive)
 {
   // Tracker.
@@ -196,6 +202,7 @@ void GuiNavigation::sensitive(bool sensitive)
   }
 }
 
+
 void GuiNavigation::set_project(const ustring & value, bool force)
 // Sets the project of the object, and loads the books.
 {
@@ -214,6 +221,7 @@ void GuiNavigation::set_project(const ustring & value, bool force)
   // Load books.
   load_books();
 }
+
 
 void GuiNavigation::clamp(Reference & reference)
 // This clamps the reference, that is, it brings it within the limits of 
@@ -249,6 +257,7 @@ void GuiNavigation::clamp(Reference & reference)
       reference.verse = verses[0];
   }
 }
+
 
 void GuiNavigation::display(const Reference & ref)
 // This has the reference displayed.
@@ -302,6 +311,7 @@ void GuiNavigation::display(const Reference & ref)
   }
 }
 
+
 void GuiNavigation::nextbook()
 {
   vector < ustring > strings = combobox_get_strings(combo_book);
@@ -336,6 +346,7 @@ void GuiNavigation::nextbook()
   set_verse(reference.verse);
   signal();
 }
+
 
 void GuiNavigation::previousbook()
 {
@@ -372,6 +383,7 @@ void GuiNavigation::previousbook()
   signal();
 }
 
+
 void GuiNavigation::nextchapter()
 {
   unsigned int chapter = convert_to_int(combobox_get_active_string(combo_chapter));
@@ -403,6 +415,7 @@ void GuiNavigation::nextchapter()
   reference.chapter = chapter;
   signal();
 }
+
 
 void GuiNavigation::previouschapter()
 {
@@ -436,6 +449,7 @@ void GuiNavigation::previouschapter()
   signal();
 }
 
+
 void GuiNavigation::nextverse()
 {
   ustring verse = combobox_get_active_string(combo_verse);
@@ -456,6 +470,7 @@ void GuiNavigation::nextverse()
   reference.verse = verse;
   signal();
 }
+
 
 void GuiNavigation::previousverse()
 {
@@ -478,45 +493,54 @@ void GuiNavigation::previousverse()
   signal();
 }
 
+
 void GuiNavigation::on_button_back_clicked(GtkButton * button, gpointer user_data)
 {
   ((GuiNavigation *) user_data)->on_back();
 }
+
 
 void GuiNavigation::on_button_forward_clicked(GtkButton * button, gpointer user_data)
 {
   ((GuiNavigation *) user_data)->on_forward();
 }
 
+
 void GuiNavigation::on_combo_book_changed(GtkComboBox * combobox, gpointer user_data)
 {
   ((GuiNavigation *) user_data)->on_combo_book();
 }
+
 
 void GuiNavigation::on_combo_chapter_changed(GtkComboBox * combobox, gpointer user_data)
 {
   ((GuiNavigation *) user_data)->on_combo_chapter();
 }
 
+
 void GuiNavigation::on_combo_verse_changed(GtkComboBox * combobox, gpointer user_data)
 {
   ((GuiNavigation *) user_data)->on_combo_verse();
 }
+
 
 void GuiNavigation::on_spinbutton_book_value_changed(GtkSpinButton * spinbutton, gpointer user_data)
 {
   ((GuiNavigation *) user_data)->on_spinbutton_book();
 }
 
+
 void GuiNavigation::on_spinbutton_chapter_value_changed(GtkSpinButton * spinbutton, gpointer user_data)
 {
   ((GuiNavigation *) user_data)->on_spinbutton_chapter();
 }
 
+
 void GuiNavigation::on_spinbutton_verse_value_changed(GtkSpinButton * spinbutton, gpointer user_data)
 {
   ((GuiNavigation *) user_data)->on_spinbutton_verse();
 }
+
 
 void GuiNavigation::on_back()
 {
@@ -528,6 +552,7 @@ void GuiNavigation::on_back()
   }
 }
 
+
 void GuiNavigation::on_forward()
 {
   if (track.next_reference_available()) {
@@ -537,6 +562,7 @@ void GuiNavigation::on_forward()
     signal(false);
   }
 }
+
 
 void GuiNavigation::on_combo_book()
 {
@@ -553,6 +579,7 @@ void GuiNavigation::on_combo_book()
   signal();
 }
 
+
 void GuiNavigation::on_combo_chapter()
 {
   if (settingcombos)
@@ -565,6 +592,7 @@ void GuiNavigation::on_combo_chapter()
   signal();
 }
 
+
 void GuiNavigation::on_combo_verse()
 {
   if (settingcombos)
@@ -572,6 +600,7 @@ void GuiNavigation::on_combo_verse()
   reference.verse = combobox_get_active_string(combo_verse);
   signal();
 }
+
 
 void GuiNavigation::on_spinbutton_book()
 {
@@ -589,6 +618,7 @@ void GuiNavigation::on_spinbutton_book()
   spinbutton_book_previous_value = value;
 }
 
+
 void GuiNavigation::on_spinbutton_chapter()
 {
   if (settingcombos)
@@ -605,6 +635,7 @@ void GuiNavigation::on_spinbutton_chapter()
   spinbutton_chapter_previous_value = value;
 }
 
+
 void GuiNavigation::on_spinbutton_verse()
 {
   if (settingcombos)
@@ -620,6 +651,7 @@ void GuiNavigation::on_spinbutton_verse()
   }
   spinbutton_verse_previous_value = value;
 }
+
 
 bool GuiNavigation::reference_exists(Reference & reference)
 // Returns true if the reference exists.
@@ -642,6 +674,7 @@ bool GuiNavigation::reference_exists(Reference & reference)
   return exists;
 }
 
+
 void GuiNavigation::load_books()
 {
   settingcombos = true;
@@ -655,6 +688,7 @@ void GuiNavigation::load_books()
   settingcombos = false;
 }
 
+
 void GuiNavigation::set_book(unsigned int book)
 {
   settingcombos = true;
@@ -662,6 +696,7 @@ void GuiNavigation::set_book(unsigned int book)
   combobox_set_string(combo_book, localizedbook);
   settingcombos = false;
 }
+
 
 void GuiNavigation::load_chapters(unsigned int book)
 {
@@ -671,12 +706,14 @@ void GuiNavigation::load_chapters(unsigned int book)
   settingcombos = false;
 }
 
+
 void GuiNavigation::set_chapter(unsigned int chapter)
 {
   settingcombos = true;
   combobox_set_string(combo_chapter, chapter);
   settingcombos = false;
 }
+
 
 void GuiNavigation::load_verses(unsigned int book, unsigned int chapter)
 {
@@ -685,6 +722,7 @@ void GuiNavigation::load_verses(unsigned int book, unsigned int chapter)
   combobox_set_strings(combo_verse, verses);
   settingcombos = false;
 }
+
 
 void GuiNavigation::set_verse(const ustring & verse)
 // Sets the requested verse in the combobox. 
@@ -720,6 +758,7 @@ void GuiNavigation::set_verse(const ustring & verse)
   settingcombos = false;
 }
 
+
 void GuiNavigation::signal(bool track)
 {
   // Postpone any active delayed signal.
@@ -736,7 +775,13 @@ void GuiNavigation::signal(bool track)
   }
   // Sensitivity of tracker controls.
   tracker_sensitivity();
+  // Store the reference in the references memory, if enabled. Todo
+  extern Settings * settings;
+  if (settings->genconfig.remember_verse_per_chapter_get()) {
+    references_memory_store (reference);
+  }
 }
+
 
 bool GuiNavigation::signal_delayer(gpointer user_data)
 {
@@ -744,10 +789,12 @@ bool GuiNavigation::signal_delayer(gpointer user_data)
   return false;
 }
 
+
 void GuiNavigation::signal_delayed()
 {
   gtk_button_clicked(GTK_BUTTON(new_reference_signal));
 }
+
 
 bool GuiNavigation::signal_track(gpointer user_data)
 {
@@ -755,10 +802,12 @@ bool GuiNavigation::signal_track(gpointer user_data)
   return false;
 }
 
+
 void GuiNavigation::signal_tracking()
 {
   track.store(reference);
 }
+
 
 void GuiNavigation::crossboundariesverse(bool forward)
 // Handles the situation where a requested change in a verse needs to cross
@@ -831,6 +880,7 @@ void GuiNavigation::crossboundariesverse(bool forward)
   set_verse(reference.verse);
   signal();
 }
+
 
 void GuiNavigation::crossboundarieschapter(bool forward)
 {
@@ -905,6 +955,7 @@ void GuiNavigation::crossboundarieschapter(bool forward)
   signal();
 }
 
+
 void GuiNavigation::tracker_sensitivity()
 {
   // Buttons.
@@ -930,5 +981,6 @@ Steps:
 Our Ctrl-G navigator needs to indicate whether the verse was not set, so that the function can be called. 
 Same applies to whether the book was set in that dialog.
 
+The database needs to be vacuumed at regular times.
 
 */

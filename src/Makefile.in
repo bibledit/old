@@ -174,7 +174,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	windowcheckusfm.$(OBJEXT) usfm2osis.$(OBJEXT) \
 	usfmstandard.$(OBJEXT) osis.$(OBJEXT) \
 	assistantremoterepository.$(OBJEXT) \
-	gui_display_changes.$(OBJEXT) stylesheet.$(OBJEXT)
+	gui_display_changes.$(OBJEXT) stylesheet.$(OBJEXT) \
+	referencememory.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -630,7 +631,8 @@ bibledit_bin_SOURCES = \
         osis.cpp \
         assistantremoterepository.cpp \
         gui_display_changes.cpp \
-				stylesheet.cpp
+				stylesheet.cpp \
+				referencememory.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -898,6 +900,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/projectutilsold.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rc4.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/reference.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/referencememory.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/references.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/referenceutils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/reporting.Po@am__quote@

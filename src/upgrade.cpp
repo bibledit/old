@@ -26,6 +26,7 @@
 #include "settings.h"
 #include "statistics.h"
 #include "git.h"
+#include "referencememory.h"
 
 void upgrade(bool gui)
 {
@@ -41,4 +42,5 @@ void upgrade(bool gui)
   }
   statistics_initial_check_all(gui);
   git_initial_check_all(gui);
+  references_memory_database_verify();
 }
