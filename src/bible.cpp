@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "libraries.h"
 #include "bible.h"
 #include "utilities.h"
@@ -27,6 +28,8 @@
 #include "settings.h"
 #include "localizedbooks.h"
 #include "tiny_utilities.h"
+#include "referencememory.h"
+
 
 void quick_swap2(unsigned int &a, unsigned int &b)
 {
@@ -120,22 +123,21 @@ void decode_reference(const ustring & reference, ustring & book, ustring & chapt
   }
 }
 
-bool reference_discover_internal(unsigned int oldbook, unsigned int oldchapter, const ustring & oldverse, const ustring & reference, unsigned int &newbook, unsigned int &newchapter, ustring & newverse)
+bool reference_discover_internal(unsigned int oldbook, unsigned int oldchapter, const ustring & oldverse, const ustring & reference, unsigned int &newbook, unsigned int &newchapter, ustring & newverse, bool consult_memory)
 /*
- This interprets "reference" as a valid reference.
- If needed it will use information of the current reference to complete the info.
- For example, when "reference" is "1", it is interpreted as verse 1 of the current
- chapter of the current book. If "reference" is "21 10" it is interpreted as the current
- book, chapter 21 verse 10. And so forth.
+  This interprets "reference" as a valid reference.
+  If needed it will use information of the current reference to complete the info.
+  For example, when "reference" is "1", it is interpreted as verse 1 of the current
+  chapter of the current book. If "reference" is "21 10" it is interpreted as the current
+  book, chapter 21 verse 10. And so forth.
 
- If any changes are made to the discovery routine, then it is recommended to run the tests specified below.
- It should be able to successfully discover the following references:
+  If any changes are made to the discovery routine, then it is recommended to run the tests specified below.
+  It should be able to successfully discover the following references:
 
- Language          Reference
- English           Song of Solomon 1:1,2
- Indonesian        Kisa Rasul-rasul 2:1a-3b
- English           2 Corinthians 3:3-4
-
+  Language          Reference
+  English           Song of Solomon 1:1,2
+  Indonesian        Kisa Rasul-rasul 2:1a-3b
+  English           2 Corinthians 3:3-4
  */
 {
   // Filter the response.
@@ -224,10 +226,18 @@ bool reference_discover_internal(unsigned int oldbook, unsigned int oldchapter, 
   // From here and down we can be sure of having a proper book.
   // Only chapter and/or verse remain to be dealt with, if they're there.
 
-  // Handle a situation where only the book was given, e.g. "Genesis". 
+  // Handle a situation where only the book was given, e.g. "Genesis".
   if (!bookpart.empty() && numbers.empty()) {
     newchapter = 1;
     newverse = "1";
+    // Optionally retrieve information from the references memory.
+    if (consult_memory) {
+      Reference reference (newbook, newchapter, newverse);
+      if (references_memory_retrieve (reference, false)) {
+        newchapter = reference.chapter;
+        newverse = reference.verse;
+      }
+    }
   }
   // Handle a situation where only one number is given, e.g. "10". This is interpreted as the verse.
   if (bookpart.empty() && numbers.size() == 1) {
@@ -243,6 +253,13 @@ bool reference_discover_internal(unsigned int oldbook, unsigned int oldchapter, 
   if (!bookpart.empty() && numbers.size() == 1) {
     newchapter = convert_to_int(numbers[0]);
     newverse = "1";
+    // Optionally retrieve information from the references memory.
+    if (consult_memory) {
+      Reference reference (newbook, newchapter, newverse);
+      if (references_memory_retrieve (reference, true)) {
+        newverse = reference.verse;
+      }
+    }
   }
   // Handle situation where book and two numbers are given, e.g. "Song of Solomon 2 3".
   if (!bookpart.empty() && numbers.size() == 2) {
@@ -253,12 +270,12 @@ bool reference_discover_internal(unsigned int oldbook, unsigned int oldchapter, 
   return true;
 }
 
-bool reference_discover(unsigned int oldbook, unsigned int oldchapter, const ustring & oldverse, const ustring & reference, unsigned int &newbook, unsigned int &newchapter, ustring & newverse)
+bool reference_discover(unsigned int oldbook, unsigned int oldchapter, const ustring & oldverse, const ustring & reference, unsigned int &newbook, unsigned int &newchapter, ustring & newverse, bool consult_memory)
 {
   /* 
      This is the new function "reference_discover". It uses the previous one which
      has now been renamed "reference_discover_internal".
-     This new function iterates even more over a references, and is able to cut
+     This new function iterates even more over a referencereference_discover, and is able to cut
      off bits at the beginning that would not be a references. This occurs when 
      loading a file with references saved by BibleWorks. It has a format as 
      shown here:
@@ -270,15 +287,17 @@ bool reference_discover(unsigned int oldbook, unsigned int oldchapter, const ust
 
      In this example the "KJV" needs to be taken out and then the reference will 
      appear cleanly.
+     
+     If "consult_memory" is true, it tries to find out from the verses memory where to go.
    */
   // Do the discovery.
   bool result;
-  result = reference_discover_internal(oldbook, oldchapter, oldverse, reference, newbook, newchapter, newverse);
+  result = reference_discover_internal(oldbook, oldchapter, oldverse, reference, newbook, newchapter, newverse, consult_memory);
   if (!result) {
     if (reference.length() >= 11) {
       ustring adaptedreference(reference);
       adaptedreference.erase(0, 4);
-      result = reference_discover_internal(oldbook, oldchapter, oldverse, adaptedreference, newbook, newchapter, newverse);
+      result = reference_discover_internal(oldbook, oldchapter, oldverse, adaptedreference, newbook, newchapter, newverse, consult_memory);
     }
   }
   return result;

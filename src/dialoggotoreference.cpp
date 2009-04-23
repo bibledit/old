@@ -229,18 +229,20 @@ int GotoReferenceDialog::run()
 }
 
 void GotoReferenceDialog::on_jump()
+/*
+  This interprets the text the user has typed in the entry as a valid reference.
+  If needed it will use information of the current reference to complete the info.
+  For example, when the user types "1", it is interpreted as verse one of the current
+  chapter of the current book. If he types "21 10" it is interpreted as the current
+  book, chapter 21 verse 10. And so forth.
+  If enabled it consults the verses memory database for finding out where to go
+  in case only a book or only book and chapter is given.
+*/
 {
-  /*
-     This interprets the text the user has typed in the entry as a valid reference.
-     If needed it will use information of the current reference to complete the info.
-     For example, when the user types "1", it is interpreted as verse one of the current
-     chapter of the current book. If he types "21 10" it is interpreted as the current
-     book, chapter 21 verse 10. And so forth.
-   */
   newreference = true;
   int page = gtk_notebook_get_current_page(GTK_NOTEBOOK(notebook1));
   if (page == 0) {
-    if (reference_discover(oldbook, oldchapter, oldverse, gtk_entry_get_text(GTK_ENTRY(entry1)), reference.book, reference.chapter, reference.verse)) {
+    if (reference_discover(oldbook, oldchapter, oldverse, gtk_entry_get_text(GTK_ENTRY(entry1)), reference.book, reference.chapter, reference.verse, true)) {
       completion_finish(entry1, cpGoto);
     } else {
       newreference = false;

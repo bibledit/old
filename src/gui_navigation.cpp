@@ -314,7 +314,7 @@ void GuiNavigation::display(const Reference & ref)
 
 void GuiNavigation::nextbook()
 {
-  vector < ustring > strings = combobox_get_strings(combo_book);
+  vector <ustring> strings = combobox_get_strings(combo_book);
   if (strings.size() == 0)
     return;
   ustring ubook = combobox_get_active_string(combo_book);
@@ -327,17 +327,19 @@ void GuiNavigation::nextbook()
     return;
   }
   reference.book = books_name_to_id(language, strings[++index]);
-  reference.chapter = 1;
-  // Find the first verse.
-  vector < ustring > verses = project_get_verses(project, reference.book, reference.chapter);
-  if (verses.size() > 1)
-    // Get the first verse of the chapter which is not "0".
-    if (verses[0] == "0")
-      reference.verse = verses[1];
+  // Consult database for most recent verse and chapter.
+  if (!references_memory_retrieve (reference, false)) {
+    reference.chapter = 1;
+    // Try to get to verse one.
+    vector <ustring> verses = project_get_verses(project, reference.book, reference.chapter);
+    if (verses.size() > 1)
+      if (verses[0] == "0")
+        reference.verse = verses[1];
+      else
+        reference.verse = verses[0];
     else
-      reference.verse = verses[0];
-  else
-    reference.verse = "0";
+      reference.verse = "0";
+  }
   clamp(reference);
   set_book(reference.book);
   load_chapters(reference.book);
@@ -363,17 +365,18 @@ void GuiNavigation::previousbook()
     return;
   }
   reference.book = books_name_to_id(language, strings[--index]);
-  reference.chapter = 1;
-  // Find proper first verse.
-  vector < ustring > verses = project_get_verses(project, reference.book, reference.chapter);
-  if (verses.size() > 1)
+  if (!references_memory_retrieve (reference, false)) {
+    reference.chapter = 1;
     // Get the first verse of the chapter which is not "0".
-    if (verses[0] == "0")
-      reference.verse = verses[1];
+    vector <ustring> verses = project_get_verses(project, reference.book, reference.chapter);
+    if (verses.size() > 1)
+      if (verses[0] == "0")
+        reference.verse = verses[1];
+      else
+        reference.verse = verses[0];
     else
-      reference.verse = verses[0];
-  else
-    reference.verse = "0";
+      reference.verse = "0";
+  }
   clamp(reference);
   set_book(reference.book);
   load_chapters(reference.book);
@@ -386,66 +389,64 @@ void GuiNavigation::previousbook()
 
 void GuiNavigation::nextchapter()
 {
-  unsigned int chapter = convert_to_int(combobox_get_active_string(combo_chapter));
-  vector < ustring > strings = combobox_get_strings(combo_chapter);
+  reference.chapter = convert_to_int(combobox_get_active_string(combo_chapter));
+  vector <ustring> strings = combobox_get_strings(combo_chapter);
   if (strings.size() == 0)
     return;
   unsigned int index = 0;
   for (unsigned int i = 0; i < strings.size(); i++) {
-    if (chapter == convert_to_int(strings[i]))
+    if (reference.chapter == convert_to_int(strings[i]))
       index = i;
   }
   if (index == (strings.size() - 1)) {
     crossboundarieschapter(true);
     return;
   }
-  chapter = convert_to_int(strings[++index]);
-  // Find proper first verse.
-  ustring verse;
-  vector < ustring > verses = project_get_verses(project, reference.book, chapter);
-  if (verses.size() > 1)
-    verse = verses[1];
-  else
-    verse = "0";
+  reference.chapter = convert_to_int(strings[++index]);
+  if (!references_memory_retrieve (reference, true)) {
+    // Find proper first verse.
+    vector <ustring> verses = project_get_verses(project, reference.book, reference.chapter);
+    if (verses.size() > 1)
+      reference.verse = verses[1];
+    else
+      reference.verse = "0";
+  }
   clamp(reference);
-  load_verses(reference.book, chapter);
-  set_verse(verse);
-  set_chapter(chapter);
-  reference.verse = verse;
-  reference.chapter = chapter;
+  load_verses(reference.book, reference.chapter);
+  set_verse(reference.verse);
+  set_chapter(reference.chapter);
   signal();
 }
 
 
 void GuiNavigation::previouschapter()
 {
-  unsigned int chapter = convert_to_int(combobox_get_active_string(combo_chapter));
-  vector < ustring > strings = combobox_get_strings(combo_chapter);
+  reference.chapter = convert_to_int(combobox_get_active_string(combo_chapter));
+  vector <ustring> strings = combobox_get_strings(combo_chapter);
   if (strings.size() == 0)
     return;
   unsigned int index = 0;
   for (unsigned int i = 0; i < strings.size(); i++) {
-    if (chapter == convert_to_int(strings[i]))
+    if (reference.chapter == convert_to_int(strings[i]))
       index = i;
   }
   if (index == 0) {
     crossboundarieschapter(false);
     return;
   }
-  chapter = convert_to_int(strings[--index]);
-  // Find proper first verse.
-  ustring verse;
-  vector < ustring > verses = project_get_verses(project, reference.book, chapter);
-  if (verses.size() > 1)
-    verse = verses[1];
-  else
-    verse = "0";
+  reference.chapter = convert_to_int(strings[--index]);
+  if (!references_memory_retrieve (reference, true)) {
+    // Find proper first verse.
+    vector <ustring> verses = project_get_verses(project, reference.book, reference.chapter);
+    if (verses.size() > 1)
+      reference.verse = verses[1];
+    else
+      reference.verse = "0";
+  }
   clamp(reference);
-  load_verses(reference.book, chapter);
-  set_verse(verse);
-  set_chapter(chapter);
-  reference.verse = verse;
-  reference.chapter = chapter;
+  load_verses(reference.book, reference.chapter);
+  set_verse(reference.verse);
+  set_chapter(reference.chapter);
   signal();
 }
 
@@ -569,8 +570,10 @@ void GuiNavigation::on_combo_book()
   if (settingcombos)
     return;
   reference.book = books_name_to_id(language, combobox_get_active_string(combo_book));
-  reference.chapter = 1;
-  reference.verse = "1";
+  if (!references_memory_retrieve (reference, false)) {
+    reference.chapter = 1;
+    reference.verse = "1";
+  }
   clamp(reference);
   load_chapters(reference.book);
   set_chapter(reference.chapter);
@@ -585,7 +588,9 @@ void GuiNavigation::on_combo_chapter()
   if (settingcombos)
     return;
   reference.chapter = convert_to_int(combobox_get_active_string(combo_chapter));
-  reference.verse = "1";
+  if (!references_memory_retrieve (reference, true)) {
+    reference.verse = "1";
+  }
   clamp(reference);
   load_verses(reference.book, reference.chapter);
   set_verse(reference.verse);
@@ -775,7 +780,7 @@ void GuiNavigation::signal(bool track)
   }
   // Sensitivity of tracker controls.
   tracker_sensitivity();
-  // Store the reference in the references memory, if enabled. Todo
+  // Store the reference in the references memory, if enabled.
   extern Settings * settings;
   if (settings->genconfig.remember_verse_per_chapter_get()) {
     references_memory_store (reference);
@@ -972,15 +977,11 @@ Todo Remember last verse in each chapter.
 2. If going to a chapter, to the the last verse in that chapter.
 
 Steps:
-- Create or check a database on startup.
-- Save to database any change in chapter and verse per book.
-- Save to db most recent chapter per book.
-- When going to another chapter, consult that database. 
-- When going to another boo, consult the db.
+- When going to another chapter, consult that database. Through goto dialog.
+- When going to another book, consult the db. Through goto dialog.
  
-Our Ctrl-G navigator needs to indicate whether the verse was not set, so that the function can be called. 
-Same applies to whether the book was set in that dialog.
-
 The database needs to be vacuumed at regular times.
+
+Add help about it to the files.
 
 */

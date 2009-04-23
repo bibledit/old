@@ -30,31 +30,7 @@
 ustring references_memory_database_filename();
 void references_memory_database_verify();
 void references_memory_store (const Reference& reference);
-
-
-/*
-#define TABLE_NOTES "notes"
-
-
-void notes_database_verify(bool gui);
-gint notes_database_get_unique_id();
-void notes_delete_one(int id);
-void notes_sort(vector<unsigned int>& ids, const vector<ustring>& refs, const vector<ustring>& allrefs, const vector<int>& dates);
-void notes_select(vector<unsigned int>& ids, unsigned int& id_cursor, const ustring& currentreference);
-void notes_display(ustring& note_buffer, vector <unsigned int> ids, unsigned int cursor_id, unsigned int& cursor_offset, bool& stop);
-void notes_get_references_from_editor(GtkTextBuffer *textbuffer, vector<Reference>& references, vector<ustring>& messages);
-ustring notes_categories_filename();
-void notes_categories_check();
-void notes_categories_add_from_database(vector<ustring>& categories);
-void notes_projects_add_from_database(vector<ustring>& projects);
-void notes_vacuum();
-void notes_store_one(int id, ustring& note, const ustring& project, vector<Reference>& references, const ustring& category, int date_created, const ustring& user_created, ustring& logbook);
-void notes_change_category(const ustring& from, const ustring& to);
-void notes_change_project(const ustring& from, const ustring& to);
-void notes_read(vector <unsigned int> ids, vector <ustring>& data);
-void notes_update_old_one(ustring& note);
-const gchar * notes_cursor_anchor ();
-*/
+bool references_memory_retrieve (Reference& reference, bool chapter_switch);
 
 
 #endif

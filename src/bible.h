@@ -31,7 +31,8 @@ void decode_reference (const ustring & reference, ustring & book,
                        ustring & chapter, ustring & verse);
 bool reference_discover (unsigned int oldbook, unsigned int oldchapter, 
                          const ustring& oldverse, const ustring& reference,
-                         unsigned int& newbook, unsigned int& newchapter, ustring& newverse);
+                         unsigned int& newbook, unsigned int& newchapter, ustring& newverse,
+                         bool consult_memory = false);
 unsigned int book_find_valid (const ustring & rawbook);
 unsigned int reference_to_numerical_equivalent (const ustring& book, const ustring& chapter, const ustring& verse);
 unsigned int reference_to_numerical_equivalent (const Reference& reference);
