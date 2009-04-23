@@ -1,63 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-<title>Bibledit</title>
-<!-- 
-Copyright (©) 2003-2008 Teus Benschop.
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+  <title>Bibledit</title>
+  <!-- 
+  Copyright (©) 2003-2008 Teus Benschop.
 
-Permission is granted to copy, distribute and/or modify this document
-under the terms of the GNU Free Documentation License, Version 1.2
-or any later version published by the Free Software Foundation;
-with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-Texts.  A copy of the license is included in the section entitled "GNU
-Free Documentation License" in the file FDL.
--->
-<link href="bibledit.css" rel="stylesheet" type="text/css" />
+  Permission is granted to copy, distribute and/or modify this document
+  under the terms of the GNU Free Documentation License, Version 1.2
+  or any later version published by the Free Software Foundation;
+  with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+  Texts.  A copy of the license is included in the section entitled "GNU
+  Free Documentation License" in the file FDL.
+  -->
+  <link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
+
 <body>
 <h2><a name="navigation"></a>Navigation</h2>
+
 <h3><a name="internal"></a>Internal</h3>
-<p>There are keyboard shortcuts for moving to the next or previous verse,
-chapter or book. These shortcuts can be found in menu Goto. There is also a
-toolbar with controls for the same purpose.</p>
+
+<p>There are <a href="accelerators.html">keyboard accelerators</a> for moving
+to the next or previous verse, chapter or book. There is also a toolbar with
+controls for the same purpose.</p>
+
 <p>If going to a next verse, but Bibledit is already at the last verse of a
 chapter, it will then go to the first verse of the next chapter. Same for the
-next chapter, if Bibledit is at the last one of a book, it will go to the
-first one of the next book.</p>
+next chapter, if Bibledit is at the last one of a book, it will go to the first
+one of the next book.</p>
+
 <p>Left on the toolbar there are two arrows. The left arrow takes you to the
-place in the Bible that you have recently viewed. The right arrow will take
-you back to where you came from. You can click an arrow several times, if you
-have viewed enough places.</p>
-<p>There is also a shortcut for going to any Bible reference. See the menu.
-It accepts many different forms of a Bible reference. If the editor displays
-Matthew 1:10, for example, and the user enters "11", it will go to the next
-verse. If "2:3" is entered, or "2 3", then the editor will go to Matthew 2:3.
-If "Gen 1:10" is entered, it will go to Genesis 1:10. And so forth.</p>
-<p>To move the keyboard focus to the <a href="areas.html">Text Area</a>,
-press F5.</p>
+place in the Bible that you have recently viewed. The right arrow will take you
+back to where you came from. You can click an arrow several times, if you have
+viewed enough places.</p>
+
+<p>There is also a keyboard accelerator for going to any Bible reference. This
+is Ctrl-G. The "G" stands for "Go to". It accepts many different forms of a
+Bible reference. If the editor displays Matthew 1:10, for example, and the user
+enters "11", it will go to the next verse. If "2:3" is entered, or "2 3", then
+the editor will go to Matthew 2:3. If "Gen 1:10" is entered, it will go to
+Genesis 1:10. And so forth.</p>
+
+<p>Bibledit can remember the most recent verse per chapter, and the most recent
+chapter per book. This is supposed to assist with the navigation through the
+Bible and make it faster. It should be enabled <a
+href="olh_preferences_gui.html">in the User interface options</a>.</p>
+
+<p>To move the keyboard focus to the <a href="areas.html">Text Area</a>, press
+F5.</p>
+
 <p>Shift+Ctrl+F5 goes to the <a href="areas.html">Bible Notes Area.</a></p>
+
 <p>Shift+F5 takes you to the <a href="areas.html">Tools Area</a>. This also
 toggles between the areas contained in the Tools Area.</p>
+
 <p>* Shift+F5 (first time) activates the visible area.</p>
+
 <p>* Shift+F5 (a second time) switches to the next one.</p>
+
 <p>Ctrl+F5 goes to the <a href="areas.html">Project Notes Area.</a></p>
+
 <p>Repeatedly pressing the Tab key moves between all areas counter-clockwise,
 and Shift+Tab moves the focus between the areas clockwise, with the exception
-when moving from text area to references area. In this case Shift+Tab has to
-be used twice, as using it once goes to the verse box of the toolbar.</p>
+when moving from text area to references area. In this case Shift+Tab has to be
+used twice, as using it once goes to the verse box of the toolbar.</p>
+
 <p>Moving with the Up/Down arrow key to a certain verse and then use Alt-Left
 arrow key jumps back to the verse you started to move from. If you use the
-Up/Down arrow key several time you can use the Alt-Left arrow key also
-several times. The Alt-Right arrow key works too. It goes in the history to
-the next in a whole series of moves.</p>
+Up/Down arrow key several time you can use the Alt-Left arrow key also several
+times. The Alt-Right arrow key works too. It goes in the history to the next in
+a whole series of moves.</p>
+
 <h3><a name="external"></a>External</h3>
+
 <p>Bibledit shares references with other programs: <a
 href="bart.html">BART</a>, <a href="translators_workplace.html">Translator's
 Workplace</a>, <a href="bibletime.html">BibleTime</a>, <a
 href="bibleworks.html">BibleWorks</a>.</p>
+
 <p>It also shares word references with <a href="toolbox.html">Toolbox</a>.</p>
 </body>
 </html>

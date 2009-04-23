@@ -969,19 +969,4 @@ void GuiNavigation::tracker_sensitivity()
 }
 
 
-/*
-
-Todo Remember last verse in each chapter.
-
-1. If going to book, go to the last chapter and verse in that book.
-2. If going to a chapter, to the the last verse in that chapter.
-
-Steps:
-- When going to another chapter, consult that database. Through goto dialog.
-- When going to another book, consult the db. Through goto dialog.
- 
-The database needs to be vacuumed at regular times.
-
-Add help about it to the files.
-
-*/
+// Todo Remember last verse in each chapter. The database needs to be vacuumed at regular times.
