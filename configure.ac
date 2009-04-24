@@ -204,6 +204,10 @@ PKG_CHECK_MODULES(GTKSOURCEVIEW, gtksourceview-2.0 >= 2.2.0)
 AC_SUBST(GTKSOURCEVIEW_CFLAGS)
 AC_SUBST(GTKSOURCEVIEW_LIBS)
 
+PKG_CHECK_MODULES(WEBKIT, webkit-1.0 >= 1.0.0,,AC_MSG_ERROR(libwebkit development version >= 1.0.0 is needed.))
+AC_SUBST(WEBKIT_CFLAGS)
+AC_SUBST(WEBKIT_LIBS)
+
 # Checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS(fcntl.h unistd.h sys/uio.h)

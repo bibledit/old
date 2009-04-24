@@ -145,3 +145,25 @@ bool references_memory_retrieve (Reference& reference, bool chapter_switch)
 }
 
 
+/*
+
+Todo Please make two sample resources with verse anchors
+
+Need to move to libwebkit for better display. 
+
+Update all relevant installation helps: needs libwebkit-dev. 
+ 
+Try all current resources, whether they work well.
+
+libcurl may be dropped, together with the pages cache.
+
+Need to remove the double header display in a Resource.
+
+The NextBible site, so please create a similar sample resource for
+http://net.bible.org/bible.php?book=Pro&chapter=1
+
+Related to this, BE will need to be able to log in to GoogleDocs if I am going to be able to access pages we have created like the Sabda pages. 
+I tried basing a new resource on the Sabda.org resource, using the GoogleDoc address. GoogleDocs that are "published" do show up, 
+but private pages are password protected.
+
+*/
