@@ -28,6 +28,8 @@
 #include "gwrappers.h"
 #include <sqlite3.h>
 #include "date_time_utils.h"
+#include "referencememory.h"
+
 
 void shutdown_actions()
 // Takes certain actions when Bibledit shuts down.
@@ -55,7 +57,11 @@ void shutdown_actions()
 
   // Notes: vacuum the sqlite databases.
   notes_vacuum();
+  
+  // References memory: vacuum the sqlite database.
+  vacuum_database (references_memory_database_filename());
 }
+
 
 void vacuum_database(const ustring & filename)
 // Vacuums the database given by "filename". 

@@ -969,4 +969,3 @@ void GuiNavigation::tracker_sensitivity()
 }
 
 
-// Todo Remember last verse in each chapter. The database needs to be vacuumed at regular times.

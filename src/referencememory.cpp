@@ -144,3 +144,4 @@ bool references_memory_retrieve (Reference& reference, bool chapter_switch)
   return result;  
 }
 
+
