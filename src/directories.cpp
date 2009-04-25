@@ -40,15 +40,17 @@ void directories_check_structure()
   gw_mkdir_with_parents(directories_get_pictures());
   gw_mkdir_with_parents(directories_get_resources());
   gw_mkdir_with_parents(directories_get_scripts());
-  gw_mkdir_with_parents(directories_get_htmlcache());
+  // Clean out old directories.
+  {
+    ustring htmlcache = gw_build_filename(directories_get_root(), "htmlcache");
+    if (g_file_test(htmlcache.c_str(), G_FILE_TEST_IS_DIR)) {
+      unix_rmdir (htmlcache);
+    }
+  }
   // Create temporal directory and so on.
   gw_mkdir_with_parents(directories_get_temp());
   gw_mkdir_with_parents(directories_get_templates());
   gw_mkdir_with_parents(directories_get_templates_user());
-  // Give info about old subversion directory.
-  if (g_file_test(directories_get_subversion().c_str(), G_FILE_TEST_IS_DIR)) {
-    gw_message("Directory " + directories_get_subversion() + ", containing subversion history, can be deleted if no longer used");
-  }
 }
 
 ustring directories_get_root()
@@ -87,12 +89,6 @@ ustring directories_get_pictures()
   return gw_build_filename(directories_get_root(), "pictures");
 }
 
-ustring directories_get_subversion()
-{
-  // This returns the directory with the subversion repositories.
-  return gw_build_filename(directories_get_root(), "subversion");
-}
-
 ustring directories_get_resources()
 {
   // This returns the directory with the resources.
@@ -103,12 +99,6 @@ ustring directories_get_scripts()
 {
   // This returns the directory with the scripts.
   return gw_build_filename(directories_get_root(), "scripts");
-}
-
-ustring directories_get_htmlcache()
-{
-  // This returns the directory for the html cache.
-  return gw_build_filename(directories_get_root(), "htmlcache");
 }
 
 ustring directories_get_temp()
