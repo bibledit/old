@@ -277,7 +277,8 @@ bibledit_bin_SOURCES = \
         assistantremoterepository.cpp \
         gui_display_changes.cpp \
 				stylesheet.cpp \
-				referencememory.cpp
+				referencememory.cpp \
+				webkitbrowser.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 
@@ -293,6 +294,7 @@ AM_CXXFLAGS += $(GTKHTML38_CFLAGS)
 AM_CXXFLAGS += $(GTKHTML314_CFLAGS)
 AM_CXXFLAGS += $(LIBCURL_CPPFLAGS)
 AM_CXXFLAGS += $(GTKSOURCEVIEW_CFLAGS)
+AM_CXXFLAGS += $(WEBKIT_CFLAGS)
 
 LIBS = -Wall 
 LIBS += `xml2-config --libs`
@@ -306,6 +308,7 @@ LIBS += $(GTKHTML38_LIBS)
 LIBS += $(GTKHTML314_LIBS)
 LIBS += $(LIBCURL)
 LIBS += $(GTKSOURCEVIEW_LIBS)
+LIBS += $(WEBKIT_LIBS)
 
 if LINUX
 endif

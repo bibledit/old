@@ -63,7 +63,7 @@ Resource::Resource(GtkWidget * window)
   gtk_widget_show(image);
   gtk_container_add(GTK_CONTAINER(homebutton), image);
 
-  browser = new GtkHtml3Browser(vbox);
+  browser = new WebkitBrowser(vbox);
 
   g_signal_connect((gpointer) homebutton, "clicked", G_CALLBACK(on_homebutton_clicked), gpointer(this));
 }
@@ -142,13 +142,8 @@ void Resource::open(const ustring & filename)
   homepage = resource_url_modifier(resource_get_home_page(filename), resource_type, filename);
   homepage2 = resource_url_modifier(resource_get_lower_home_page(filename), resource_type, filename);
   url_filter = resource_get_lower_url_filter(filename);
-  if (resource_type == rtURLForEachVerseAboveURLFilterBelowWithDifferentAnchors) {
-    if (browser2 == NULL) {
-      browser2 = new GtkHtml3Browser(vbox);
-      browser->set_second_browser(url_filter, browser2);
-    }
-  }
-  homebutton_clicked();
+  browser->set_home_page (homepage);
+  browser->go_to(homepage);
   focus();
 }
 
@@ -179,3 +174,55 @@ time_t Resource::last_focused_time()
 }
 
 
+/*
+
+Todo Please make two sample resources with verse anchors
+
+Need to move to libwebkit for better display. 
+
+Try all current resources, whether they work well.
+
+libcurl may be dropped, together with the pages cache.
+
+Need to remove the double header display in a Resource.
+
+The NextBible site, so please create a similar sample resource for
+http://net.bible.org/bible.php?book=Pro&chapter=1
+
+Related to this, BE will need to be able to log in to GoogleDocs if I am going to be able to access pages we have created like the Sabda pages. 
+I tried basing a new resource on the Sabda.org resource, using the GoogleDoc address. GoogleDocs that are "published" do show up, 
+but private pages are password protected.
+
+Imaging editing the GoogleDoc from Bibledit's browser!
+
+We may need an easier Resource Editor, because the current one seems to be too difficult.
+Probably something with tabs, and the editor at the left, and direct testing of the effects right in the editor.
+
+We may need an option to download all verses and store these locally.
+So Bibledit goes to a website, downloads all verses, stores them under the URL's, so these can be kept for later use offline.
+
+rtURLForEachVerseAboveURLFilterBelowWithDifferentAnchors This option no longer valid, because there's no second browser.
+ 
+*/
+
+/*
+
+Todo switching to libwebkit.
+
+Bibledit may use httrack to download sites to local files for offline viewing. But httrack may produce huge files, so a warning may have to be given
+to the user. Else Bibledit can manually download the page for each verse, using htmltrack one level deep and store that info, then 
+retrieve it later for each verse.
+
+To remove the home button from the Resource, and transfer it to the Browser, so the Browser needs to be informed what the home page is.
+
+We may have to use the WebKitFrame (or so) to control the various frames in the NET Bible.
+
+The users has to manually edit a text file, and there are controls that automatically test the result of any change.
+Whether to test the home page, various verses, and so on.
+Or an automated test of all possible chapters. Or verses per chapter, or indeed, everything.
+Or we have a dialog that does the testing, then applies this test to the currently open Resource,
+so the user can press the hOme button, can go to certain places in the text, or indeed let it automatically run all things.
+
+Entry of the home url or verse url goes so that it is general, and the user can for local things, can enter "<local>".
+
+*/

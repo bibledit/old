@@ -25,7 +25,8 @@
 #include <gtk/gtk.h>
 #include "reference.h"
 #include "types.h"
-#include "gtkhtml3browser.h"
+#include "webkitbrowser.h"
+
 
 class Resource
 {
@@ -47,9 +48,9 @@ public:
 private:
   GtkWidget *homebutton;
 public:
-  GtkHtml3Browser * browser;
+  WebkitBrowser * browser;
 private:
-  GtkHtml3Browser * browser2;
+  WebkitBrowser * browser2;
 
   // Resource loader.
   ustring mytemplatefile;
