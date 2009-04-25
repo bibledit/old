@@ -36,44 +36,19 @@ Resource::Resource(GtkWidget * window)
 {
   // Save and initialize varables.
   resource_type = rtEnd;
-  browser2 = NULL;
 
   // Build GUI.
   vbox = gtk_vbox_new(FALSE, 0);
   gtk_widget_show(vbox);
   gtk_container_add(GTK_CONTAINER(window), vbox);
 
-  GtkWidget *hbox;
-  hbox = gtk_hbox_new(FALSE, 0);
-  gtk_widget_show(hbox);
-  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
-
-  label = gtk_label_new("");
-  gtk_widget_show(label);
-  gtk_box_pack_start(GTK_BOX(hbox), label, true, true, 0);
-  gtk_label_set_ellipsize(GTK_LABEL(label), PANGO_ELLIPSIZE_MIDDLE);
-
-  homebutton = gtk_button_new();
-  gtk_widget_show(homebutton);
-  gtk_box_pack_start(GTK_BOX(hbox), homebutton, false, false, 0);
-  gtk_button_set_focus_on_click(GTK_BUTTON(homebutton), FALSE);
-
-  GtkWidget *image;
-  image = gtk_image_new_from_stock("gtk-home", GTK_ICON_SIZE_SMALL_TOOLBAR);
-  gtk_widget_show(image);
-  gtk_container_add(GTK_CONTAINER(homebutton), image);
-
   browser = new WebkitBrowser(vbox);
-
-  g_signal_connect((gpointer) homebutton, "clicked", G_CALLBACK(on_homebutton_clicked), gpointer(this));
 }
 
 
 Resource::~Resource()
 {
   delete browser;
-  if (browser2)
-    delete browser2;
   gtk_widget_destroy(vbox);
 }
 
@@ -86,21 +61,13 @@ void Resource::focus()
 
 bool Resource::focused()
 {
-  bool focus = false;
-  if (browser->focused())
-    focus = true;
-  if (browser2)
-    if (browser2->focused())
-      focus = true;
-  return focus;
+  return browser->focused();
 }
 
 
 void Resource::copy()
 {
   browser->copy();
-  if (browser2)
-    browser2->copy();
 }
 
 
@@ -138,10 +105,7 @@ void Resource::open(const ustring & filename)
   index_file_structure = resource_get_index_file_constructor(filename);
   book_renderer = resource_get_books(filename);
   anchor_renderer = resource_get_anchors(filename);
-  gtk_label_set_text(GTK_LABEL(label), resource_get_title(filename).c_str());
-  homepage = resource_url_modifier(resource_get_home_page(filename), resource_type, filename);
-  homepage2 = resource_url_modifier(resource_get_lower_home_page(filename), resource_type, filename);
-  url_filter = resource_get_lower_url_filter(filename);
+  ustring homepage = resource_url_modifier(resource_get_home_page(filename), resource_type, filename);
   browser->set_home_page (homepage);
   browser->go_to(homepage);
   focus();
@@ -154,20 +118,6 @@ ustring Resource::template_get()
 }
 
 
-void Resource::on_homebutton_clicked(GtkButton * button, gpointer user_data)
-{
-  ((Resource *) user_data)->homebutton_clicked();
-}
-
-
-void Resource::homebutton_clicked()
-{
-  browser->go_to(homepage);
-  if (browser2)
-    browser2->go_to(homepage2);
-}
-
-
 time_t Resource::last_focused_time()
 {
   return browser->last_focused_time;
@@ -177,8 +127,6 @@ time_t Resource::last_focused_time()
 /*
 
 Todo Please make two sample resources with verse anchors
-
-libcurl may be dropped, together with the pages cache.
 
 Try all current resources, whether they work well.
 

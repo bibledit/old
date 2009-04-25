@@ -44,13 +44,8 @@ private:
   // Widgets.
   GtkWidget *vbox;
 public:
-  GtkWidget *label;
-private:
-  GtkWidget *homebutton;
-public:
   WebkitBrowser * browser;
 private:
-  WebkitBrowser * browser2;
 
   // Resource loader.
   ustring mytemplatefile;
@@ -61,13 +56,6 @@ private:
   ustring index_file_structure;
   map <unsigned int, ustring> book_renderer;
   map <unsigned int, ustring> anchor_renderer;
-  ustring url_filter;
-
-  // Home.
-  static void on_homebutton_clicked(GtkButton *button, gpointer user_data);
-  void homebutton_clicked();
-  ustring homepage;
-  ustring homepage2;
 };
 
 #endif
