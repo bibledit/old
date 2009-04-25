@@ -230,8 +230,6 @@ bibledit_bin_SOURCES = \
         dialogeditdictionary.cpp \
         check_sentence_structure.cpp \
         dialogcheckbutton.cpp \
-        gtkhtml3browser.cpp \
-        htmlcache.cpp \
         dialogxfernotes2text.cpp \
         htmlcolor.cpp \
         text2pdf.cpp \
@@ -292,7 +290,6 @@ AM_CXXFLAGS += $(SQLITE_CFLAGS)
 AM_CXXFLAGS += $(ENCHANT_CFLAGS)
 AM_CXXFLAGS += $(GTKHTML38_CFLAGS)
 AM_CXXFLAGS += $(GTKHTML314_CFLAGS)
-AM_CXXFLAGS += $(LIBCURL_CPPFLAGS)
 AM_CXXFLAGS += $(GTKSOURCEVIEW_CFLAGS)
 AM_CXXFLAGS += $(WEBKIT_CFLAGS)
 
@@ -306,7 +303,6 @@ LIBS += $(SQLITE_LIBS)
 LIBS += $(ENCHANT_LIBS)
 LIBS += $(GTKHTML38_LIBS)
 LIBS += $(GTKHTML314_LIBS)
-LIBS += $(LIBCURL)
 LIBS += $(GTKSOURCEVIEW_LIBS)
 LIBS += $(WEBKIT_LIBS)
 

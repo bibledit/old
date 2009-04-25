@@ -39,8 +39,6 @@
 #include "mappings.h"
 #include "ot-quotations.h"
 #include "styles.h"
-#include <curl/curl.h>
-#include "htmlcache.h"
 #include <libxml/xmlreader.h>
 
 Settings *settings;
@@ -49,8 +47,6 @@ BookLocalizations *booklocalizations;
 Versifications *versifications;
 Mappings *mappings;
 Styles *styles;
-CURL *curl;
-HtmlCache *htmlcache;
 GtkAccelGroup *accelerator_group;
 
 int main(int argc, char *argv[])
@@ -82,11 +78,6 @@ int main(int argc, char *argv[])
   // Styles object.
   Styles mystyles(0);
   styles = &mystyles;
-  // Curl initialization.
-  curl_global_init(CURL_GLOBAL_ALL);
-  curl = curl_easy_init();
-  // Html cache.
-  htmlcache = new HtmlCache(0);
   /*
      We used a trick to get Bibledit to operate as a true activity on OLPC. 
      The problem is that any regular X11 program that is started, 
@@ -127,10 +118,6 @@ int main(int argc, char *argv[])
   // Start the gui.
   MainWindow mainwindow(xembed, accelerator_group);
   gtk_main();
-  // Cleanup http fetching. Note: the html cache must be deleted before curl is cleaned up. 
-  // If this is done in the wrong order, and a fetch is going on at this moment, then bibledit crashes on shutdown.
-  delete htmlcache;
-  curl_easy_cleanup(curl);
   // Destroy the accelerator group.
   g_object_unref(G_OBJECT(accelerator_group));
   // Clean xml library up.

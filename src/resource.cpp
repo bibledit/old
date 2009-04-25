@@ -178,11 +178,9 @@ time_t Resource::last_focused_time()
 
 Todo Please make two sample resources with verse anchors
 
-Need to move to libwebkit for better display. 
+libcurl may be dropped, together with the pages cache.
 
 Try all current resources, whether they work well.
-
-libcurl may be dropped, together with the pages cache.
 
 Need to remove the double header display in a Resource.
 

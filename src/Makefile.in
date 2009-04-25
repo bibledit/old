@@ -151,7 +151,6 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogdictionary.$(OBJEXT) spelling.$(OBJEXT) \
 	dialogeditdictionary.$(OBJEXT) \
 	check_sentence_structure.$(OBJEXT) dialogcheckbutton.$(OBJEXT) \
-	gtkhtml3browser.$(OBJEXT) htmlcache.$(OBJEXT) \
 	dialogxfernotes2text.$(OBJEXT) htmlcolor.$(OBJEXT) \
 	text2pdf.$(OBJEXT) text2pdf_utils.$(OBJEXT) \
 	text2pdf_area.$(OBJEXT) text2pdf_ref_area.$(OBJEXT) \
@@ -261,13 +260,11 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LDFLAGS = @LDFLAGS@
-LIBCURL = @LIBCURL@
-LIBCURL_CPPFLAGS = @LIBCURL_CPPFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = -Wall `xml2-config --libs` $(GOBJECT_LIBS) $(GTHREAD_LIBS) \
 	$(GLIB_LIBS) $(GTK_LIBS) $(SQLITE_LIBS) $(ENCHANT_LIBS) \
-	$(GTKHTML38_LIBS) $(GTKHTML314_LIBS) $(LIBCURL) \
-	$(GTKSOURCEVIEW_LIBS) $(WEBKIT_LIBS) $(am__append_1)
+	$(GTKHTML38_LIBS) $(GTKHTML314_LIBS) $(GTKSOURCEVIEW_LIBS) \
+	$(WEBKIT_LIBS) $(am__append_1)
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MAKE_PATH = @MAKE_PATH@
@@ -301,7 +298,6 @@ WEBKIT_LIBS = @WEBKIT_LIBS@
 XML2_CONFIG = @XML2_CONFIG@
 XML_CPPFLAGS = @XML_CPPFLAGS@
 XML_LIBS = @XML_LIBS@
-_libcurl_config = @_libcurl_config@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -587,8 +583,6 @@ bibledit_bin_SOURCES = \
         dialogeditdictionary.cpp \
         check_sentence_structure.cpp \
         dialogcheckbutton.cpp \
-        gtkhtml3browser.cpp \
-        htmlcache.cpp \
         dialogxfernotes2text.cpp \
         htmlcolor.cpp \
         text2pdf.cpp \
@@ -641,8 +635,7 @@ EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
 	$(GTHREAD_CFLAGS) $(GLIB_CFLAGS) $(GTK_CFLAGS) \
 	$(SQLITE_CFLAGS) $(ENCHANT_CFLAGS) $(GTKHTML38_CFLAGS) \
-	$(GTKHTML314_CFLAGS) $(LIBCURL_CPPFLAGS) \
-	$(GTKSOURCEVIEW_CFLAGS) $(WEBKIT_CFLAGS)
+	$(GTKHTML314_CFLAGS) $(GTKSOURCEVIEW_CFLAGS) $(WEBKIT_CFLAGS)
 CLEANFILES = *~
 all: all-am
 
@@ -845,7 +838,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/generalconfig.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/git-exec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/git.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gtkhtml3browser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gtkwrappers.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gui_display_changes.Po@am__quote@
@@ -857,7 +849,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/highlight.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/html.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/htmlbrowser.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/htmlcache.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/htmlcolor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/htmlwriter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/httpd.Po@am__quote@
