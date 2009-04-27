@@ -126,11 +126,11 @@ time_t Resource::last_focused_time()
 
 /*
 
-Todo Please make two sample resources with verse anchors
+Todo switching to libwebkit.
+
+Please make two sample resources with verse anchors
 
 Try all current resources, whether they work well.
-
-Need to remove the double header display in a Resource.
 
 The NextBible site, so please create a similar sample resource for
 http://net.bible.org/bible.php?book=Pro&chapter=1
@@ -149,17 +149,9 @@ So Bibledit goes to a website, downloads all verses, stores them under the URL's
 
 rtURLForEachVerseAboveURLFilterBelowWithDifferentAnchors This option no longer valid, because there's no second browser.
  
-*/
-
-/*
-
-Todo switching to libwebkit.
-
 Bibledit may use httrack to download sites to local files for offline viewing. But httrack may produce huge files, so a warning may have to be given
 to the user. Else Bibledit can manually download the page for each verse, using htmltrack one level deep and store that info, then 
 retrieve it later for each verse.
-
-To remove the home button from the Resource, and transfer it to the Browser, so the Browser needs to be informed what the home page is.
 
 We may have to use the WebKitFrame (or so) to control the various frames in the NET Bible.
 
@@ -170,5 +162,8 @@ Or we have a dialog that does the testing, then applies this test to the current
 so the user can press the hOme button, can go to certain places in the text, or indeed let it automatically run all things.
 
 Entry of the home url or verse url goes so that it is general, and the user can for local things, can enter "<local>".
+
+Files and directories can be added to the local storage.
+This is regardless of the resource type.
 
 */
