@@ -125,8 +125,7 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
-LIBS = -Wall $(GLIB_LIBS) $(GTK_LIBS) $(GTKHTML38_LIBS) \
-	$(GTKHTML314_LIBS) $(LIBCURL) $(am__append_1)
+LIBS = -Wall $(GLIB_LIBS) $(GTK_LIBS) $(WEBKIT_LIBS) $(am__append_1)
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MAKE_PATH = @MAKE_PATH@
@@ -216,8 +215,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 bibledit_help_SOURCES = bibledit-help.cpp
-AM_CXXFLAGS = -Wall $(GLIB_CFLAGS) $(GTK_CFLAGS) $(GTKHTML38_CFLAGS) \
-	$(GTKHTML314_CFLAGS) $(LIBCURL_CPPFLAGS)
+AM_CXXFLAGS = -Wall $(GLIB_CFLAGS) $(GTK_CFLAGS) $(WEBKIT_CFLAGS)
 CLEANFILES = *~
 EXTRA_DIST = *.h
 all: all-am

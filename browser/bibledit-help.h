@@ -27,10 +27,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <gtk/gtk.h>
-extern "C" {
-  #include <gtkhtml/gtkhtml.h>
-}
-#include <curl/curl.h>
+#include <webkit/webkit.h>
 
 
 using namespace std;
@@ -38,18 +35,10 @@ using namespace std;
 
 GtkWidget *helpwindow;
 GtkWidget *scrolledwindow;
-GtkWidget *htmlview;
-CURL *curl;
-
-struct MemoryStruct {
-  char *memory;
-  size_t size;
-};
+GtkWidget *webview;
 
 
 int main (int argc, char *argv[]);
-static gboolean on_html_url_requested (GtkHTML *html, const gchar *url, GtkHTMLStream *handle, gpointer user_data);
-static gboolean on_html_link_clicked (GtkHTML *html, const gchar * url, gpointer user_data);
 
 
 #endif
