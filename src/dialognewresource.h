@@ -30,72 +30,7 @@ class NewResourceDialog
 public:
   NewResourceDialog(const ustring& templatefile);
   ~NewResourceDialog();
-  int run();
-  ustring edited_template_file;
 private:
-  // Dialog.
-  GtkWidget *newresourcedialog;
-  GtkWidget *dialog_vbox1;
-  GtkWidget *label1;
-  GtkWidget *table1;
-  void build_table_and_type(Shortcuts& shortcuts);
-  unsigned int table_attachment_offset;
-
-  // Entry.
-  void build_entry(GtkWidget *& image_ok, GtkWidget *& label_ok, GtkWidget *& label, const gchar * label_text, GtkWidget *& entry, const ustring& entry_text, GCallback handler);
-
-  // Button.
-  void build_button(GtkWidget *& image_ok, GtkWidget *& label_ok, GtkWidget *& label_short, GtkWidget *& button, const gchar * button_text, Shortcuts& shortcuts, GCallback handler, GtkWidget *& label_long);
-
-  // Checkbutton and button.
-  void build_checkbutton_button(GtkWidget *& image_ok, GtkWidget *& label_ok, GtkWidget *& checkbutton, const gchar * checkbutton_text, GCallback checkbutton_handler, GtkWidget *& button, const gchar * button_text, GCallback button_handler, Shortcuts& shortcuts, GtkWidget *& label);
-
-  // Textview.
-  void build_textview(GtkWidget *& image_ok, GtkWidget *& label_ok, GtkWidget *& label, GtkWidget *& textview, gchar * text, GCallback handler);
-
-  // Dialog action.
-  GtkWidget *dialog_action_area1;
-  GtkWidget *helpbutton;
-  GtkWidget *cancelbutton;
-  GtkWidget *okbutton;
-
-  // Template and working directory.
-  ustring mytemplatefile;
-  void create_working_directory(const ustring& templatefile);
-  ustring workingdirectory;
-
-  // Resource type.
-  GtkWidget *image_type_ok;
-  GtkWidget *label_type_ok;
-  GtkWidget *label_type_short;
-  GtkWidget *button_type;
-  GtkWidget *label_type_long;
-  static void on_type_button_clicked(GtkButton *button, gpointer user_data);
-  void on_type_button();
-  bool type_gui();
-  ResourceType resource_type;
-  ustring based_upon();
-
-  // Title.
-  GtkWidget *image_title_ok;
-  GtkWidget *label_title_ok;
-  GtkWidget *label_title;
-  GtkWidget *entry_title;
-  static void on_entry_title_changed(GtkEditable *editable, gpointer user_data);
-  void on_entry_title();
-  bool title_gui();
-  ustring title;
-
-  // Home page.
-  GtkWidget *image_home_page_ok;
-  GtkWidget *label_home_page_ok;
-  GtkWidget *label_home_page;
-  GtkWidget *entry_home_page;
-  static void on_entry_home_page_changed(GtkEditable *editable, gpointer user_data);
-  void on_entry_home_page();
-  bool home_page_gui();
-  ustring home_page;
-
   // URL constructor.
   GtkWidget *image_url_constructor_ok;
   GtkWidget *label_url_constructor_ok;
@@ -115,37 +50,6 @@ private:
   void on_entry_index_constructor();
   bool index_constructor_gui();
   ustring index_constructor;
-
-  // Book names.
-  GtkWidget *image_books_ok;
-  GtkWidget *label_books_ok;
-  GtkWidget *label_books_short;
-  GtkWidget *button_books;
-  GtkWidget *label_books_long;
-  static void on_books_button_clicked(GtkButton *button, gpointer user_data);
-  void on_books_button();
-  bool books_gui();
-  map <unsigned int, ustring> books;
-
-  // Add files.
-  GtkWidget *image_add_files_ok;
-  GtkWidget *label_add_files_ok;
-  GtkWidget *label_add_files_short;
-  GtkWidget *button_add_files;
-  GtkWidget *label_add_files_long;
-  static void on_add_files_button_clicked(GtkButton *button, gpointer user_data);
-  void on_add_files_button();
-  bool add_files_gui();
-
-  // Add directories.
-  GtkWidget *image_add_directories_ok;
-  GtkWidget *label_add_directories_ok;
-  GtkWidget *label_add_directories_short;
-  GtkWidget *button_add_directories;
-  GtkWidget *label_add_directories_long;
-  static void on_add_directories_button_clicked(GtkButton *button, gpointer user_data);
-  void on_add_directories_button();
-  bool add_directories_gui();
 
   // Anchor names.
   GtkWidget *image_anchors_ok;
@@ -190,14 +94,8 @@ private:
   void on_entry_lower_url_filter();
   bool lower_url_filter_gui();
   ustring lower_url_filter;
-
-  // General gui.
-  void gui();
-  void build_gui_from_resource_type(Shortcuts& shortcuts, const ustring& filename_based_upon);
-
-  // Ok button.
-  static void on_okbutton_clicked(GtkButton *button, gpointer user_data);
-  void on_okbutton();
 };
 
 #endif
+
+// Todo goes out once all code has been moved to the assistant.

@@ -49,6 +49,7 @@
 #include "assistantchanges.h"
 #include "windowcheckusfm.h"
 #include "assistantremoterepository.h"
+#include "assistantresource.h"
 
 
 class MainWindow : public WindowBase
@@ -742,6 +743,7 @@ protected:
   void on_file_resources_edit();
   static void on_file_resources_delete_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_file_resources_delete();
+  ResourceAssistant * resource_assistant;
 
   /* Text Editors */
   vector <WindowEditor *> editor_windows;

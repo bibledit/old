@@ -560,7 +560,7 @@ void git_log_read(const ustring & directory, vector <ustring>& commits, vector <
   // GwSpawn would choke on the large log file. We now read through the shell.
   // This is lightning fast as compared to GwSpawn.
   ustring command("cd" + shell_quote_space(directory) + " && ");
-  command.append("git-log --pretty=raw");
+  command.append("git log --pretty=raw");
   if (!path.empty())
     command.append(shell_quote_space(path));
   ustring logfile = gw_build_filename(directories_get_temp(), ".git_log_read");

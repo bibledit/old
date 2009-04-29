@@ -55,8 +55,8 @@ void WindowResource::go_to(Reference & reference)
 
 ustring WindowResource::resourcename_to_filename(const ustring & resourcename)
 {
-  vector < ustring > filenames;
-  vector < ustring > resources = resource_get_resources(filenames, false);
+  vector <ustring> filenames;
+  vector <ustring> resources = resource_get_resources(filenames, false);
   ustring filename;
   for (unsigned int i = 0; i < resources.size(); i++) {
     if (resourcename == resources[i]) {

@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "resource_utils.h"
 #include "directories.h"
 #include "gwrappers.h"
@@ -29,6 +30,7 @@
 #include "tiny_utilities.h"
 #include "dialoglistview.h"
 #include "gtkwrappers.h"
+
 
 ustring resource_viewer_directory()
 {
@@ -54,6 +56,11 @@ ustring resource_viewer_main_html_filename()
 {
   ustring filename("bibledit_resource_viewer_main.html");
   return filename;
+}
+
+ustring resource_template_ini ()
+{
+  return "resource-template.ini";
 }
 
 ustring resource_viewer_produce_anchor(unsigned int book, unsigned int chapter, unsigned int verse)
@@ -91,7 +98,7 @@ vector < ustring > resource_get_resources(vector < ustring > &filenames, bool li
   // Read the user's templates.
   ReadDirectories rd(directories_get_resources(), "", "");
   for (unsigned int i = 0; i < rd.directories.size(); i++) {
-    ustring filename = gw_build_filename(directories_get_resources(), rd.directories[i], "resource-template.ini");
+    ustring filename = gw_build_filename(directories_get_resources(), rd.directories[i], resource_template_ini ());
     if (g_file_test(filename.c_str(), G_FILE_TEST_IS_REGULAR)) {
       filenames.push_back(filename);
       resources.push_back(resource_get_title(filename));

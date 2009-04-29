@@ -118,7 +118,6 @@
 #include "dialogviewstatus.h"
 #include "planning.h"
 #include "dialogplanningsetup.h"
-#include "dialognewresource.h"
 #include "shutdown.h"
 #include "dialogfilters.h"
 #include "dialogradiobutton.h"
@@ -130,6 +129,7 @@
 #include "unixwrappers.h"
 #include "accelerators.h"
 #include "dialogcompareprefs.h"
+
 
 /*
  |
@@ -169,6 +169,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   assistant_references = NULL;
   window_check_usfm = NULL;
   remote_repository_assistant = NULL;
+  resource_assistant = NULL;
   
   // Initialize some variables.
   git_reopen_project = false;
@@ -5365,8 +5366,9 @@ void MainWindow::on_file_resources_new_activate(GtkMenuItem * menuitem, gpointer
 
 void MainWindow::on_file_resources_new()
 {
-  NewResourceDialog dialog("");
-  dialog.run();
+  // Start the assistant.
+  resource_assistant = new ResourceAssistant (true);
+  g_signal_connect ((gpointer) resource_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
 }
 
 void MainWindow::on_file_resources_edit_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -5379,10 +5381,12 @@ void MainWindow::on_file_resources_edit()
   WindowResource *focused_resource_window = last_focused_resource_window();
   if (focused_resource_window) {
     ustring templatefile = focused_resource_window->resource->template_get();
+    /*
     NewResourceDialog dialog(templatefile);
     if (dialog.run() == GTK_RESPONSE_OK) {
       focused_resource_window->resource->open(dialog.edited_template_file);
     }
+    */
   }
 }
 
@@ -7305,31 +7309,41 @@ void MainWindow::on_assistant_keyterms_ready ()
 // This handles the situation that any assistant is ready.
 {
   // Importing keyterms.
-  if (import_keyterms_assistant)
+  if (import_keyterms_assistant) {
     delete import_keyterms_assistant;
-  import_keyterms_assistant = NULL;
+    import_keyterms_assistant = NULL;
+  }
 
   // Deleting keyterms.
-  if (delete_keyterms_assistant)
+  if (delete_keyterms_assistant) {
     delete delete_keyterms_assistant;
-  delete_keyterms_assistant = NULL;
+    delete_keyterms_assistant = NULL;
+  }
 
   // Changes.
-  if (changes_assistant)
+  if (changes_assistant) {
     delete changes_assistant;
-  changes_assistant = NULL;
+    changes_assistant = NULL;
+  }
   
   // References for general use.
-  if (assistant_references)
+  if (assistant_references) {
     delete assistant_references;
-  assistant_references = NULL;
+    assistant_references = NULL;
+  }
 
   // Remote repository setup.
   if (remote_repository_assistant) {
     delete remote_repository_assistant;
     reload_all_editors(false);
+    remote_repository_assistant = NULL;
   }
-  remote_repository_assistant = NULL;
+
+  // Resource editor. Todo open the resource when it was created. Or close and reopen if it was edited.
+  if (resource_assistant) {
+    delete resource_assistant;
+    resource_assistant = NULL;
+  }
 
   // The assistants may have paused git operations. Resume these.
   git_command_pause(false);
@@ -7405,3 +7419,50 @@ void MainWindow::check_usfm_window_ping()
 }
 
 
+/*
+
+Todo Introduce Snapshots.
+
+Bibledit becomes too slow as regards git. Following changes needed.
+
+It gets “Snapshots”, a sqlite database with snapshots of any chapter that has changed. 
+When Bibledit starts, it creates this database. 
+If it notices that the git system has not yet been transferred into this database, 
+it starts an external program with GUI, that does the transfer from git to Snapshots. 
+Only for a couple of releases, after that it disappears. 
+Once the transfer has been completed, it sets a flag in the database that the transfer has been made.
+Only for a few releases, after that it no longer does it. 
+Every time Bibledit saves, it saves a snapshot as well. 
+On regular days it trims the database, using defaults, which can be changed by the user. 
+The defaults are for the first month keep all, then every first and last of each day, 
+then after a some time it only keeps the first in the day, then the first in each month. 
+This keeps the database small. Vacuum at times.
+The data from Snapshots is used in Merge and in Revert, and in Changes.
+
+An Assistant for Snapshots maintenance allows to maintain these for the current project,
+and a checkbox allows to do it for all projects. There is a "Maintain now" button too,
+and the user can set the maintenance schedule.
+
+Send/receive scriptures. Works on git only. Normally only once in so many minutes, can be set. 
+Default every hour or so. The git system is only used when remote git is used as well, apart from that it is not used. 
+This prevents a lot of disk churning on startup.
+
+Moving from Git to Snapshots could take very long. Bibledit could do it itself. 
+It might be very helpful if the number of snapshots is reduced already, so that only a couple of snapshots is stored. 
+The standard routine for this could be applied to the conversion unit too, so that only a list of “seconds” is transferred from git into Snapshots. 
+Bibledit might launch bibledit-help to inform the user about what's going on. 
+Git itself could just continue to exist, since a copy is going to be made of that.
+When a remote update is used for the first time in Bibledit, in a Session, it is initialized first, once, and then to do the remote update. 
+This way a lot of disk churning is avoided at startup.
+
+We need to think of a system so that a common ancestor is always found when merging. 
+If snapshots are removed over time, then we may also remove the point where it had a common ancestor. 
+The solution is to mark some snapshots as permanent, such as the ones made on copy, and on merge. The permanent ones will never be deleted.
+
+It may be faster to just switch over, leave the old the old, and start with the snapshots, without doing any conversion at all. 
+Much faster, no hassle at all.
+In the Snapshot Assistant, however, if there's a .git directory, it offers to import Snapshots from the Git repository.
+That way we could have whatever history we have now.
+
+
+*/

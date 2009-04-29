@@ -17,14 +17,17 @@
  **  
  */
 
+
 #ifndef INCLUDED_RESOURCE_UTILS_H
 #define INCLUDED_RESOURCE_UTILS_H
 
+
 #include "libraries.h"
 #include <glib.h>
-
 #include "reference.h"
 #include "types.h"
+
+ustring resource_template_ini ();
 
 ustring resource_viewer_produce_anchor(unsigned int book, unsigned int chapter, unsigned int verse);
 

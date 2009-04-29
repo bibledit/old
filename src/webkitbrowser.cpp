@@ -261,6 +261,7 @@ void WebkitBrowser::on_button_stop_clicked (GtkButton *button, gpointer user_dat
 void WebkitBrowser::on_button_stop ()
 {
   webkit_web_view_stop_loading (WEBKIT_WEB_VIEW(webview));
+  load_finished (NULL, NULL);
 }
 
 
@@ -347,7 +348,7 @@ void WebkitBrowser::load_started_cb (WebKitWebView *page, WebKitWebFrame *frame,
 }
 
 
-void WebkitBrowser::load_started (WebKitWebView *page, WebKitWebFrame *frame) // Todo
+void WebkitBrowser::load_started (WebKitWebView *page, WebKitWebFrame *frame)
 {
   gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 1);
   gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (progressbar), 0);

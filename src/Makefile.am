@@ -276,7 +276,8 @@ bibledit_bin_SOURCES = \
         gui_display_changes.cpp \
 				stylesheet.cpp \
 				referencememory.cpp \
-				webkitbrowser.cpp
+				webkitbrowser.cpp \
+				assistantresource.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 

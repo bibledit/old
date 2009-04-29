@@ -29,7 +29,7 @@
 
 enum { COLUMN_BIBLEDIT, COLUMN_EDITABLE, COLUMN_URL, NUM_COLUMNS };
 
-BooknamesDialog::BooknamesDialog(map < unsigned int, ustring >& books, const gchar * info, const gchar * heading2)
+BooknamesDialog::BooknamesDialog(const map <unsigned int, ustring>& books, const gchar * info, const gchar * heading2)
 {
   // Shortcuts.
   Shortcuts shortcuts(0);
@@ -109,11 +109,12 @@ BooknamesDialog::BooknamesDialog(map < unsigned int, ustring >& books, const gch
 
   // Load texts.
   vector < unsigned int >ids = books_type_to_ids(btUnknown);
+  map <unsigned int, ustring> books_copy = books;
   for (unsigned int i = 0; i < ids.size(); i++) {
     GtkTreeIter iter;
     gtk_list_store_append(model, &iter);
     unsigned int id = ids[i];
-    ustring text = books[id];
+    ustring text = books_copy[id];
     gtk_list_store_set(model, &iter, COLUMN_BIBLEDIT, books_id_to_english(ids[i]).c_str(), COLUMN_EDITABLE, 1, COLUMN_URL, text.c_str(), -1);
   }
 }
@@ -149,6 +150,7 @@ void BooknamesDialog::on_okbutton()
     if (strcmp(str_text, "") != 0) {
       unsigned int id = books_english_to_id(str_abbrev);
       ustring text = str_text;
+cout << str_abbrev << " " << str_text << endl; // Todo
       if (!text.empty()) {
         newbooks[id] = text;
       }
