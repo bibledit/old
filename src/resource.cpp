@@ -34,10 +34,6 @@ extern "C" {
 
 Resource::Resource(GtkWidget * window)
 {
-  // Save and initialize varables.
-  resource_type = rtEnd;
-
-  // Build GUI.
   vbox = gtk_vbox_new(FALSE, 0);
   gtk_widget_show(vbox);
   gtk_container_add(GTK_CONTAINER(window), vbox);
@@ -73,39 +69,19 @@ void Resource::copy()
 
 void Resource::go_to(const Reference & reference)
 {
-  ustring url;
-  switch (resource_type) {
-  case rtForeignDataURLForEachVerse:
-  case rtURLForEachVerse:
-    {
-      url = resource_construct_url(url_structure, book_renderer, reference);
-      break;
-    }
-  case rtURLForEachVerseAboveURLFilterBelowWithDifferentAnchors:
-    {
-      url = resource_construct_url(url_structure, book_renderer, anchor_renderer, reference);
-      break;
-    }
-  case rtEnd:
-    {
-      break;
-    }
-  }
-  if (!url.empty()) {
-    browser->go_to(url);
-  }
+  ustring url = url_structure;
+  url = resource_url_enter_reference(url, book_renderer, book_renderer2, reference);
+  browser->go_to(url);
 }
 
 
-void Resource::open(const ustring & filename)
+void Resource::open(const ustring & filename) // Todo
 {
   mytemplatefile = filename;
-  resource_type = resource_get_type(filename);
-  url_structure = resource_url_modifier(resource_get_url_constructor(filename), resource_type, filename);
-  index_file_structure = resource_get_index_file_constructor(filename);
+  url_structure = resource_url_get (resource_get_url_constructor(filename), mytemplatefile);
   book_renderer = resource_get_books(filename);
-  anchor_renderer = resource_get_anchors(filename);
-  ustring homepage = resource_url_modifier(resource_get_home_page(filename), resource_type, filename);
+  book_renderer2 = resource_get_books2(filename);
+  ustring homepage = resource_url_get(resource_get_home_page(filename), mytemplatefile);
   browser->set_home_page (homepage);
   browser->go_to(homepage);
   focus();

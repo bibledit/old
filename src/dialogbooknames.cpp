@@ -150,7 +150,6 @@ void BooknamesDialog::on_okbutton()
     if (strcmp(str_text, "") != 0) {
       unsigned int id = books_english_to_id(str_abbrev);
       ustring text = str_text;
-cout << str_abbrev << " " << str_text << endl; // Todo
       if (!text.empty()) {
         newbooks[id] = text;
       }

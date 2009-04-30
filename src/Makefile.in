@@ -141,9 +141,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogreportingsetup.$(OBJEXT) dialogeditstatus.$(OBJEXT) \
 	dialogtaskduration.$(OBJEXT) htmlwriter.$(OBJEXT) \
 	dialogviewstatus.$(OBJEXT) dialogplanningsetup.$(OBJEXT) \
-	resource.$(OBJEXT) dialognewresource.$(OBJEXT) \
-	dialogbooknames.$(OBJEXT) dialogradiobutton.$(OBJEXT) \
-	dialogresourceconverter2.$(OBJEXT) \
+	resource.$(OBJEXT) dialogbooknames.$(OBJEXT) \
+	dialogradiobutton.$(OBJEXT) dialogresourceconverter2.$(OBJEXT) \
 	resource_conversion_utils.$(OBJEXT) convert.$(OBJEXT) \
 	textviewer.$(OBJEXT) roman.$(OBJEXT) project_memory.$(OBJEXT) \
 	dialogmerge.$(OBJEXT) merge_utils.$(OBJEXT) shutdown.$(OBJEXT) \
@@ -565,7 +564,6 @@ bibledit_bin_SOURCES = \
         dialogviewstatus.cpp \
         dialogplanningsetup.cpp \
         resource.cpp \
-        dialognewresource.cpp \
         dialogbooknames.cpp \
         dialogradiobutton.cpp \
         dialogresourceconverter2.cpp \
@@ -788,7 +786,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoglistview.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogmerge.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogmychecks.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialognewresource.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialognewstylesheet.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialognotes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialognotestransfer.Po@am__quote@

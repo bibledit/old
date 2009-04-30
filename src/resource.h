@@ -17,8 +17,10 @@
  **  
  */
 
+
 #ifndef INCLUDED_RESOURCE_H
 #define INCLUDED_RESOURCE_H
+
 
 #include "libraries.h"
 #include <glib.h>
@@ -41,21 +43,14 @@ public:
   void open(const ustring& filename);
   time_t last_focused_time();
 private:
-  // Widgets.
   GtkWidget *vbox;
 public:
   WebkitBrowser * browser;
 private:
-
-  // Resource loader.
   ustring mytemplatefile;
-  ResourceType resource_type;
-
-  // Reference logic.
   ustring url_structure;
-  ustring index_file_structure;
   map <unsigned int, ustring> book_renderer;
-  map <unsigned int, ustring> anchor_renderer;
+  map <unsigned int, ustring> book_renderer2;
 };
 
 #endif

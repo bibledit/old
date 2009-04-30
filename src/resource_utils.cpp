@@ -146,17 +146,6 @@ vector < ustring > resource_get_resources(vector < ustring > &filenames, bool li
   return resources;
 }
 
-ResourceType resource_get_type(const ustring & templatefile)
-{
-  ResourceType type = rtEnd;
-  GKeyFile *keyfile = g_key_file_new();
-  if (g_key_file_load_from_file(keyfile, templatefile.c_str(), G_KEY_FILE_NONE, NULL)) {
-    type = (ResourceType) g_key_file_get_integer(keyfile, resource_template_general_group(), resource_template_type_key(), NULL);
-    g_key_file_free(keyfile);
-  }
-  return type;
-}
-
 ustring resource_get_title(const ustring & templatefile)
 {
   ustring title;
@@ -237,38 +226,14 @@ ustring resource_get_lower_url_filter(const ustring & templatefile)
   return lower_url_filter;
 }
 
-const gchar *resource_type_to_text(ResourceType type)
-{
-  switch (type) {
-  case rtForeignDataURLForEachVerse:
-    return "Data lives somewhere else, retrieve a different URL for each verse";
-  case rtURLForEachVerseAboveURLFilterBelowWithDifferentAnchors:
-    return "Retrieve a different URL for each chapter, above, and use a filter for below, and use different anchors";
-  case rtURLForEachVerse:
-    return "Retrieve a different URL for each verse";
-  case rtEnd:
-    return "";
-  }
-  return "";
-}
-
-ResourceType resource_text_to_type(const ustring & text)
-{
-  for (unsigned int i = 0; i < rtEnd; i++) {
-    if (text == resource_type_to_text(ResourceType(i)))
-      return (ResourceType) i;
-  }
-  return rtEnd;
-}
-
 const gchar *resource_url_constructor_book()
 {
   return "<book>";
 }
 
-const gchar *resource_url_constructor_book_anchor()
+const gchar *resource_url_constructor_book2()
 {
-  return "<bookanchor>";
+  return "<book2>";
 }
 
 const gchar *resource_url_constructor_chapter()
@@ -291,9 +256,9 @@ const gchar *resource_template_books_group()
   return "books";
 }
 
-const gchar *resource_template_type_key()
+const gchar *resource_template_books2_group()
 {
-  return "type";
+  return "books2";
 }
 
 const gchar *resource_template_title_key()
@@ -341,139 +306,24 @@ map < unsigned int, ustring > resource_get_books(const ustring & templatefile)
   return books;
 }
 
-ustring resource_construct_url(const ustring & constructor, map < unsigned int, ustring > &books, const Reference & reference)
+map < unsigned int, ustring > resource_get_books2(const ustring & templatefile)
 {
-  return resource_construct_url(constructor, books, reference, "");
-}
-
-ustring resource_construct_url(const ustring & constructor, map < unsigned int, ustring > &books, const Reference & reference, const ustring & workingdirectory)
-{
-  unsigned int book = reference.book;
-  unsigned int chapter = reference.chapter;
-  if (chapter == 0)
-    chapter = 1;
-  ustring verse = number_in_string(reference.verse);
-  if (verse == "0")
-    verse = "1";
-  ustring url(constructor);
-  replace_text(url, resource_url_constructor_book(), books[book]);
-  replace_text(url, resource_url_constructor_chapter(), convert_to_string(chapter));
-  replace_text(url, resource_url_constructor_verse(), verse);
-  if (!workingdirectory.empty())
-    url = gw_build_filename(workingdirectory, url);
-  return url;
-}
-
-ustring resource_construct_url(const ustring & constructor, map < unsigned int, ustring > &books, map < unsigned int, ustring > &anchors, const Reference & reference)
-{
-  return resource_construct_url(constructor, books, anchors, reference, "");
-}
-
-ustring resource_construct_url(const ustring & constructor, map < unsigned int, ustring > &books, map < unsigned int, ustring > &anchors, const Reference & reference, const ustring & workingdirectory)
-{
-  unsigned int book = reference.book;
-  unsigned int chapter = reference.chapter;
-  if (chapter == 0)
-    chapter = 1;
-  ustring verse = number_in_string(reference.verse);
-  if (verse == "0")
-    verse = "1";
-  ustring url(constructor);
-  replace_text(url, resource_url_constructor_book(), books[book]);
-  replace_text(url, resource_url_constructor_book_anchor(), anchors[book]);
-  replace_text(url, resource_url_constructor_chapter(), convert_to_string(chapter));
-  replace_text(url, resource_url_constructor_verse(), verse);
-  if (!workingdirectory.empty())
-    url = gw_build_filename(workingdirectory, url);
-  return url;
-}
-
-ustring resource_construct_index_file(const ustring & workingdirectory, ustring constructor, map < unsigned int, ustring > &books, const Reference & reference, bool vary_filename)
-{
-  ustring filename("bibledit-index-on-fly.html");
-  if (vary_filename) {
-    Reference ref(reference);
-    ustring prefix = ref.human_readable("");
-    filename.insert(0, prefix);
-  }
-  filename = gw_build_filename(workingdirectory, filename);
-  unsigned int book = reference.book;
-  unsigned int chapter = reference.chapter;
-  if (chapter == 0)
-    chapter = 1;
-  ustring verse = number_in_string(reference.verse);
-  if (verse == "0")
-    verse = "1";
-  replace_text(constructor, resource_url_constructor_book(), books[book]);
-  replace_text(constructor, resource_url_constructor_chapter(), convert_to_string(chapter));
-  replace_text(constructor, resource_url_constructor_verse(), verse);
-  g_file_set_contents(filename.c_str(), constructor.c_str(), -1, NULL);
-  return filename;
-}
-
-ustring resource_construct_index_file(const ustring & workingdirectory, ustring constructor, map < unsigned int, ustring > &books, map < unsigned int, ustring > &anchors, const Reference & reference, bool vary_filename)
-{
-  ustring filename("bibledit-index-on-fly.html");
-  if (vary_filename) {
-    Reference ref(reference);
-    ustring prefix = ref.human_readable("");
-    filename.insert(0, prefix);
-  }
-  filename = gw_build_filename(workingdirectory, filename);
-  unsigned int book = reference.book;
-  unsigned int chapter = reference.chapter;
-  if (chapter == 0)
-    chapter = 1;
-  ustring verse = number_in_string(reference.verse);
-  if (verse == "0")
-    verse = "1";
-  replace_text(constructor, resource_url_constructor_book(), books[book]);
-  replace_text(constructor, resource_url_constructor_book_anchor(), anchors[book]);
-  replace_text(constructor, resource_url_constructor_chapter(), convert_to_string(chapter));
-  replace_text(constructor, resource_url_constructor_verse(), verse);
-  g_file_set_contents(filename.c_str(), constructor.c_str(), -1, NULL);
-  return filename;
-}
-
-const gchar *resource_template_index_file_constructor_key()
-{
-  return "index file constructor";
-}
-
-ustring resource_get_index_file_constructor(const ustring & templatefile)
-{
-  ustring index_file_constructor;
-  GKeyFile *keyfile = g_key_file_new();
-  if (g_key_file_load_from_file(keyfile, templatefile.c_str(), G_KEY_FILE_NONE, NULL)) {
-    gchar *value;
-    value = g_key_file_get_string(keyfile, resource_template_general_group(), resource_template_index_file_constructor_key(), NULL);
-    if (value) {
-      index_file_constructor = value;
-      g_free(value);
-    }
-    g_key_file_free(keyfile);
-  }
-  return index_file_constructor;
-}
-
-map < unsigned int, ustring > resource_get_anchors(const ustring & templatefile)
-{
-  map < unsigned int, ustring > anchors;
+  map < unsigned int, ustring > books2;
   GKeyFile *keyfile = g_key_file_new();
   if (g_key_file_load_from_file(keyfile, templatefile.c_str(), G_KEY_FILE_NONE, NULL)) {
     vector < unsigned int >ids = books_type_to_ids(btUnknown);
     for (unsigned int i = 0; i < ids.size(); i++) {
       ustring english_name = books_id_to_english(ids[i]);
       gchar *value;
-      value = g_key_file_get_string(keyfile, resource_template_anchors_group(), english_name.c_str(), NULL);
+      value = g_key_file_get_string(keyfile, resource_template_books2_group(), english_name.c_str(), NULL);
       if (value) {
-        anchors[i] = value;
+        books2[i] = value;
         g_free(value);
       }
     }
     g_key_file_free(keyfile);
   }
-  return anchors;
+  return books2;
 }
 
 const gchar *resource_template_anchors_group()
@@ -516,3 +366,34 @@ ustring resource_url_modifier(const ustring & url, ResourceType resource_type, c
   }
   return modified_url;
 }
+
+
+ustring resource_url_get(const ustring& url, const ustring& templatefile)
+/*
+ Some urls are given as full ones, e.g. http://bibledit.org.
+ These don't need any modification.
+ Other urls are given as plain filenames only. It is assumed for these that 
+ they are given relative to the resource directory where these reside. 
+ These need to be modified so as to include the full path and the file:// prefix.
+ */
+{
+  ustring modified_url(url);
+  if (url.find ("http") != 0) {
+    ustring path = gw_path_get_dirname(templatefile);
+    modified_url = resource_file_prefix();
+    modified_url.append(gw_build_filename(path, url));
+  }
+  return modified_url;
+}
+
+
+ustring resource_url_enter_reference(const ustring& constructor, map <unsigned int, ustring>& books, map <unsigned int, ustring>& books2, const Reference& reference)
+{
+  ustring url (constructor);
+  replace_text(url, resource_url_constructor_book(), books[reference.book]);
+  replace_text(url, resource_url_constructor_book2(), books2[reference.book]);
+  replace_text(url, resource_url_constructor_chapter(), convert_to_string(reference.chapter));
+  replace_text(url, resource_url_constructor_verse(), number_in_string(reference.verse));
+  return url;
+}
+

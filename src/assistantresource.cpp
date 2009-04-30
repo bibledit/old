@@ -33,9 +33,10 @@
 #include "dialogbooknames.h"
 #include "books.h"
 #include "combobox.h"
+#include "shell.h"
 
 
-ResourceAssistant::ResourceAssistant(bool new_resource) :
+ResourceAssistant::ResourceAssistant(const ustring& resource_template) :
 AssistantBase("Resource editor", "resource_editor")
 // Assistant for editing or creating a resource.
 {
@@ -47,20 +48,37 @@ AssistantBase("Resource editor", "resource_editor")
   g_signal_connect (G_OBJECT (assistant), "apply", G_CALLBACK (on_assistant_apply_signal), gpointer(this));
   g_signal_connect (G_OBJECT (assistant), "prepare", G_CALLBACK (on_assistant_prepare_signal), gpointer(this));
 
-  // Working directory;
+  // Configuration and initialization.
+  edited_resource_template = resource_template;
+
+  // Working directory.
   unix_rmdir(working_directory());
   gw_mkdir_with_parents(working_directory());
 
+  // If a Resource is being edited, copy it into the working directory. 
+  {
+    ustring resource_directory = gw_path_get_dirname (edited_resource_template);
+    if (resource_directory == directories_get_package_data()) {
+      // It's a template, copy the template only.
+      unix_cp (edited_resource_template, working_configuration_file ());
+    } else {
+      ustring command = "cd" + shell_quote_space(resource_directory);
+      command.append("; cp -r *" + shell_quote_space(working_directory()));
+      if (system(command.c_str()));
+    }
+  }
+
+  // Introduction.
   ustring intro_message = "Step by step you will be ";
-  if (new_resource) 
+  if (edited_resource_template.empty()) 
     intro_message.append ("creating a new Resource");
   else
-    intro_message.append ("editing the existing Resource");
-  intro_message.append (".\nAny changes you make show up immediately.");
+    intro_message.append ("editing the Resource");
+  intro_message.append (".\nAny changes you make show up immediately.\n"
+                        "\n"
+                        "The online help provides more information for each step."
+                       );
   introduction (intro_message);
-
-  // Configuration and initialization.
-  is_new_resource = new_resource;
 
   // Title.
   vbox_title = gtk_vbox_new (FALSE, 0);
@@ -73,6 +91,8 @@ AssistantBase("Resource editor", "resource_editor")
   entry_title = gtk_entry_new ();
   gtk_widget_show (entry_title);
   gtk_box_pack_start (GTK_BOX (vbox_title), entry_title, FALSE, FALSE, 0);
+
+  gtk_entry_set_text (GTK_ENTRY (entry_title), resource_get_title(working_configuration_file ()).c_str());
 
   g_signal_connect((gpointer) entry_title, "changed", G_CALLBACK(on_entry_title_changed), gpointer(this));
 
@@ -172,8 +192,9 @@ AssistantBase("Resource editor", "resource_editor")
   entry_home_page = gtk_entry_new ();
   gtk_widget_show (entry_home_page);
   gtk_box_pack_start (GTK_BOX (vbox_home_page), entry_home_page, FALSE, FALSE, 0);
-  gtk_entry_set_invisible_char (GTK_ENTRY (entry_home_page), 9679);
 
+  gtk_entry_set_text (GTK_ENTRY (entry_home_page), resource_get_home_page(working_configuration_file ()).c_str());
+  
   vbox_home_page_resource = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vbox_home_page_resource);
   gtk_box_pack_start (GTK_BOX (vbox_home_page), vbox_home_page_resource, TRUE, TRUE, 0);
@@ -193,17 +214,6 @@ AssistantBase("Resource editor", "resource_editor")
   gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_bookset, "What are the abbreviations for the books of the Resource?");
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_bookset, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_bookset, true);
-
-  label_bookset_info = gtk_label_new (
-    "The Resource browser retrieves pages to display the resource. See the following example:\n"
-    "\n"
-    "http://www.bible.org/mat2.html\n"
-    "\n"
-    "The example retrieves Matthew chapter 2 into the browser. The abbreviation for the book of Matthew is \"mat\". Each book has its own abbreviation. You have the opportunity to enter these abbrevitions here."
-    );
-  gtk_widget_show (label_bookset_info);
-  gtk_box_pack_start (GTK_BOX (vbox_bookset), label_bookset_info, FALSE, FALSE, 0);
-  gtk_label_set_line_wrap (GTK_LABEL (label_bookset_info), TRUE);
 
   hbox_bookset = gtk_hbox_new (FALSE, 10);
   gtk_widget_show (hbox_bookset);
@@ -234,61 +244,79 @@ AssistantBase("Resource editor", "resource_editor")
   gtk_widget_show (label12);
   gtk_box_pack_start (GTK_BOX (hbox5), label12, FALSE, FALSE, 0);
 
-  label_bookset_count = gtk_label_new ("");
-  gtk_widget_show (label_bookset_count);
-  gtk_box_pack_start (GTK_BOX (hbox_bookset), label_bookset_count, FALSE, FALSE, 0);
+  label_bookset = gtk_label_new ("");
+  gtk_widget_show (label_bookset);
+  gtk_box_pack_start (GTK_BOX (hbox_bookset), label_bookset, FALSE, FALSE, 0);
 
   g_signal_connect ((gpointer) button_bookset, "clicked", G_CALLBACK (on_button_bookset_clicked), gpointer (this));
-  
+
+  books = resource_get_books(working_configuration_file());
+
   on_button_bookset (true);
+  
+  // Book set 2.
+  vbox_bookset2 = gtk_vbox_new (FALSE, 10);
+  gtk_widget_show (vbox_bookset2);
+  gtk_container_set_border_width (GTK_CONTAINER (vbox_bookset2), 10);
+  gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_bookset2);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_bookset2, "What are the second abbreviations for the books of the Resource?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_bookset2, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_bookset2, true);
+
+  hbox_bookset2 = gtk_hbox_new (FALSE, 10);
+  gtk_widget_show (hbox_bookset2);
+  gtk_box_pack_start (GTK_BOX (vbox_bookset2), hbox_bookset2, FALSE, FALSE, 0);
+
+  button_bookset2 = gtk_button_new ();
+  gtk_widget_show (button_bookset2);
+  gtk_box_pack_start (GTK_BOX (hbox_bookset2), button_bookset2, FALSE, FALSE, 0);
+
+  alignment3 = gtk_alignment_new (0.5, 0.5, 0, 0);
+  gtk_widget_show (alignment3);
+  gtk_container_add (GTK_CONTAINER (button_bookset2), alignment3);
+
+  hbox5 = gtk_hbox_new (FALSE, 2);
+  gtk_widget_show (hbox5);
+  gtk_container_add (GTK_CONTAINER (alignment3), hbox5);
+
+  image3 = gtk_image_new_from_stock ("gtk-info", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_show (image3);
+  gtk_box_pack_start (GTK_BOX (hbox5), image3, FALSE, FALSE, 0);
+
+  label12 = gtk_label_new_with_mnemonic ("_Abbreviations");
+  gtk_widget_show (label12);
+  gtk_box_pack_start (GTK_BOX (hbox5), label12, FALSE, FALSE, 0);
+
+  label_bookset2 = gtk_label_new ("");
+  gtk_widget_show (label_bookset2);
+  gtk_box_pack_start (GTK_BOX (hbox_bookset2), label_bookset2, FALSE, FALSE, 0);
+
+  g_signal_connect ((gpointer) button_bookset2, "clicked", G_CALLBACK (on_button_bookset2_clicked), gpointer (this));
+
+  books2 = resource_get_books2(working_configuration_file());
+
+  on_button_bookset2 (true);
   
   // URL.
   vbox_url = gtk_vbox_new (FALSE, 10);
   gtk_widget_show (vbox_url);
   gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_url);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_url, "What is the URL construction for the Resource?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_url, "What is the URL constructor for the Resource?");
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_url, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_url, true);
-
-  label_url = gtk_label_new (
-    "A Resource uses a URL (Uniform Resource Locator) to retrieve the information for each verse.\n"
-    "On this page you will be constructing a URL that enables the Resource to retrieve the right information.\n"
-    "See the following URL:\n"
-    "\n"
-    "http://www.bible.org/mat5.html#vs6\n"
-    "\n"
-    "The right URL construction for this is:\n"
-    "\n"
-    "http://www.bible.org/<book><chapter>.html#vs<verse>\n"
-    "\n"
-    "Where it says <book>, the Resource will put the abbreviation for that book.\n"
-    "You entered this information in one of the preceding pages.\n"
-    "And where it says <chapter>, the Resource will put the chapter number.\n"
-    "The same applies to <verse>.\n"
-    "\n"
-    "You can test the URL construction on the next page."    
-    );
-  gtk_widget_show (label_url);
-  gtk_box_pack_start (GTK_BOX (vbox_url), label_url, FALSE, FALSE, 0);
 
   entry_url = gtk_entry_new ();
   gtk_widget_show (entry_url);
   gtk_box_pack_start (GTK_BOX (vbox_url), entry_url, FALSE, FALSE, 0);
   gtk_entry_set_invisible_char (GTK_ENTRY (entry_url), 9679);
 
-  // Tester.
-  vbox_tester = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox_tester);
-  gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_tester);
-
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_tester, "Would you like to try the URL construction?");
-  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_tester, GTK_ASSISTANT_PAGE_CONTENT);
-  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_tester, true);
+  gtk_entry_set_text (GTK_ENTRY (entry_url), resource_get_url_constructor(working_configuration_file()).c_str());
 
   hbox_tester = gtk_hbox_new (FALSE, 0);
   gtk_widget_show (hbox_tester);
-  gtk_box_pack_start (GTK_BOX (vbox_tester), hbox_tester, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox_url), hbox_tester, FALSE, FALSE, 0);
 
   combobox_test_book = gtk_combo_box_new_text ();
   gtk_widget_show (combobox_test_book);
@@ -325,19 +353,14 @@ AssistantBase("Resource editor", "resource_editor")
   combobox_set_strings (combobox_test_verse, verses);
   combobox_set_index (combobox_test_verse, 0);
 
+  g_signal_connect ((gpointer) entry_url, "changed", G_CALLBACK (on_entry_url_changed), gpointer (this));
   g_signal_connect ((gpointer) combobox_test_book, "changed", G_CALLBACK (on_combobox_test_changed), gpointer (this));
   g_signal_connect ((gpointer) combobox_test_chapter, "changed", G_CALLBACK (on_combobox_test_changed), gpointer (this));
   g_signal_connect ((gpointer) combobox_test_verse, "changed", G_CALLBACK (on_combobox_test_changed), gpointer (this));
 
-  browser_tester = new WebkitBrowser (vbox_tester);
-  
-  
-  
+  browser_tester = new WebkitBrowser (vbox_url);
 
-
-
-  // Todo
-
+  on_url ();
 
   // Build the confirmation stuff.
   label_confirm = gtk_label_new ("Settings are ready to be applied");
@@ -386,9 +409,6 @@ void ResourceAssistant::on_assistant_prepare (GtkWidget *page)
   if (page == vbox_title) {
     on_entry_title();
   }
-  if (page == vbox_tester) {
-    on_combobox_test ();
-  }
 }
 
 
@@ -398,7 +418,7 @@ void ResourceAssistant::on_assistant_apply_signal (GtkAssistant *assistant, gpoi
 }
 
 
-void ResourceAssistant::on_assistant_apply () // Todo
+void ResourceAssistant::on_assistant_apply ()
 {
   // Assemble the template.
   GKeyFile *keyfile = g_key_file_new();
@@ -411,16 +431,29 @@ void ResourceAssistant::on_assistant_apply () // Todo
   g_key_file_set_string(keyfile, resource_template_general_group(), resource_template_home_page_key(), home_page().c_str());
 
   // Book set.
-  vector < unsigned int >ids = books_type_to_ids(btUnknown);
-  for (unsigned int i = 0; i < ids.size(); i++) {
-    ustring book = books[ids[i]];
-    if (!book.empty()) {
-      g_key_file_set_string(keyfile, resource_template_books_group(), books_id_to_english(ids[i]).c_str(), book.c_str());
+  {
+    vector <unsigned int> ids = books_type_to_ids(btUnknown);
+    for (unsigned int i = 0; i < ids.size(); i++) {
+      ustring book = books[ids[i]];
+      if (!book.empty()) {
+        g_key_file_set_string(keyfile, resource_template_books_group(), books_id_to_english(ids[i]).c_str(), book.c_str());
+      }
     }
   }
 
-  // URL construction.
-  g_key_file_set_string(keyfile, resource_template_general_group(), resource_template_url_constructor_key(), url_construction ().c_str());
+  // Book set 2.
+  {
+    vector <unsigned int> ids = books_type_to_ids(btUnknown);
+    for (unsigned int i = 0; i < ids.size(); i++) {
+      ustring book = books2[ids[i]];
+      if (!book.empty()) {
+        g_key_file_set_string(keyfile, resource_template_books2_group(), books_id_to_english(ids[i]).c_str(), book.c_str());
+      }
+    }
+  }
+
+  // URL constructor.
+  g_key_file_set_string(keyfile, resource_template_general_group(), resource_template_url_constructor_key(), url_constructor ().c_str());
   
   // Write the template.
   gchar *data = g_key_file_to_data(keyfile, NULL, NULL);
@@ -430,36 +463,12 @@ void ResourceAssistant::on_assistant_apply () // Todo
   }
   g_key_file_free(keyfile);
 
-  
-
-
-  /*
-  // Get a non-existing directory, or if editing an editable resource, take that directory.
-  ustring directory = shell_clean_filename(title);
+  // Move the Resource into place.
+  ustring directory = shell_clean_filename(title());
   directory = gw_build_filename(directories_get_resources(), directory);
-  if (mytemplatefile.empty()) {
-    while (g_file_test(directory.c_str(), G_FILE_TEST_EXISTS)) {
-      directory.append("1");
-    }
-  }
-  gw_mkdir_with_parents(directory);
+  unix_rmdir (directory);
+  unix_mv (working_directory (), directory);
 
-  // Copy all files from the temporal directory to the resource-directory.
-  if (directory != workingdirectory) {
-    ustring command = "cd" + shell_quote_space(workingdirectory);
-#ifdef WIN32
-    command.append("&& move *" + shell_quote_space(directory));
-#else
-    command.append("; mv *" + shell_quote_space(directory));
-#endif
-    if (system(command.c_str())) ;
-  }
-
-  */
-
-
-
-  
   // Show summary.
   gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), summary_page_number);
 }
@@ -498,15 +507,20 @@ void ResourceAssistant::on_entry_title_changed (GtkEditable *editable, gpointer 
 void ResourceAssistant::on_entry_title ()
 {
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_title, false);
+  // Handle situation that no title is given.
   if (title().empty()) {
     gtk_label_set_text (GTK_LABEL (label_title), "Enter the title");
     return;
   }
+  // Check that the title is available.
+  // If the title is the same as the one of the Resource being edited, that's fine.
   vector < ustring > resources;
   vector < ustring > filenames;
   resources = resource_get_resources(filenames, false);
   set <ustring> resource_set(resources.begin(), resources.end());
   bool title_is_available = (resource_set.find(title()) == resource_set.end());
+  if (title() == resource_get_title(working_configuration_file ()))
+    title_is_available = true;
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_title, title_is_available);
   ustring message;
   if (!title_is_available)
@@ -595,8 +609,9 @@ void ResourceAssistant::on_entry_home_page_changed (GtkEditable *editable, gpoin
 
 void ResourceAssistant::on_entry_home_page ()
 {
-  browser_home_page->set_home_page (home_page ());
-  browser_home_page->go_to(home_page ());
+  ustring homepage = resource_url_get(home_page (), working_configuration_file ());
+  browser_home_page->set_home_page (homepage);
+  browser_home_page->go_to(homepage);
 }
 
 
@@ -625,12 +640,32 @@ void ResourceAssistant::on_button_bookset (bool update_gui_only)
   }  
   ustring text = "Abbreviations entered: ";
   text.append(convert_to_string(books.size()));
-  gtk_label_set_text(GTK_LABEL(label_bookset_count), text.c_str());
+  gtk_label_set_text(GTK_LABEL(label_bookset), text.c_str());
 }
 
 
-ustring ResourceAssistant::url_construction ()
-// Retrieves the URL construction from the gui.
+void ResourceAssistant::on_button_bookset2_clicked (GtkButton *button, gpointer user_data)
+{
+  ((ResourceAssistant *) user_data)->on_button_bookset2(false);
+}
+
+
+void ResourceAssistant::on_button_bookset2 (bool update_gui_only)
+{
+  if (!update_gui_only) {
+    BooknamesDialog dialog(books2, "Enter the second abbreviations for the books", "Abbreviations");
+    if (dialog.run() == GTK_RESPONSE_OK) {
+      books2 = dialog.newbooks;
+    }
+  }  
+  ustring text = "Abbreviations entered: ";
+  text.append(convert_to_string(books2.size()));
+  gtk_label_set_text(GTK_LABEL(label_bookset2), text.c_str());
+}
+
+
+ustring ResourceAssistant::url_constructor ()
+// Retrieves the URL constructor from the gui.
 {
   ustring url = gtk_entry_get_text (GTK_ENTRY (entry_url));
   url = trim (url);
@@ -638,25 +673,32 @@ ustring ResourceAssistant::url_construction ()
 }
 
 
-void ResourceAssistant::on_combobox_test_changed (GtkComboBox *combobox, gpointer user_data)
+void ResourceAssistant::on_entry_url_changed (GtkEditable *editable, gpointer user_data)
 {
-  ((ResourceAssistant *) user_data)->on_combobox_test();
+  ((ResourceAssistant *) user_data)->on_url();
 }
 
 
-void ResourceAssistant::on_combobox_test ()
+void ResourceAssistant::on_combobox_test_changed (GtkComboBox *combobox, gpointer user_data)
 {
-  
+  ((ResourceAssistant *) user_data)->on_url();
+}
+
+
+void ResourceAssistant::on_url ()
+{
+  ustring url = resource_url_get(url_constructor (), working_configuration_file ());
+  unsigned int book = books_english_to_id (combobox_get_active_string (combobox_test_book));
+  unsigned int chapter = convert_to_int (combobox_get_active_string (combobox_test_chapter));
+  ustring verse = combobox_get_active_string (combobox_test_verse);
+  Reference reference (book, chapter, verse);
+  url = resource_url_enter_reference(url, books, books2, reference);
+  browser_tester->go_to (url);
 }
 
 
 
 /*
-
-
-
-
-
 
 Todo redo resources.
 
@@ -693,7 +735,8 @@ Bibledit may use httrack to download sites to local files for offline viewing. B
 to the user. Else Bibledit can manually download the page for each verse, using htmltrack one level deep and store that info, then 
 retrieve it later for each verse.
 
-We may have to use the WebKitFrame (or so) to control the various frames in the NET Bible.
+We may have to use the WebKitFrame (or so) to control the various frames in the NET Bible. Or better: to make an engine in bibledit that downloads 
+the online version. Frames are no longer of these times. We may have to implement this one later and first do the snapshots.
 
 The users has to manually edit a text file, and there are controls that automatically test the result of any change.
 Whether to test the home page, various verses, and so on.
@@ -701,7 +744,7 @@ Or an automated test of all possible chapters. Or verses per chapter, or indeed,
 Or we have a dialog that does the testing, then applies this test to the currently open Resource,
 so the user can press the hOme button, can go to certain places in the text, or indeed let it automatically run all things.
 
-Entry of the home url or verse url goes so that it is general, and the user can for local things, can enter "<local>".
+Entry of the home url or verse url goes so that it is general, and the user can for local things. Enter into the helpfile how this goes.
 
 Files and directories can be added to the local storage.
 This is regardless of the resource type.
@@ -709,5 +752,39 @@ This is regardless of the resource type.
   new InDialogHelp(newresourcedialog, NULL, &shortcuts, "resource_new"); This one should move to the Assistant's help.
 
 If no books are given as abbreviations, we take the full book in English.
+
+If a resource is edited from the standard templates, it comes then in the resources directory. Let that work.
+
+The routines no longer needed in resource_utils*, these can go out.
+
+In the assistant, we need a button to copy the book set from any resource. It opens that resource, visibly, then gets the books from it.
+Or the "books2".
+
+
+
+// Write anchors.
+
+void NewResourceDialog::on_checkbutton_write_anchors_toggled(GtkToggleButton * togglebutton, gpointer user_data)
+{
+  ((NewResourceDialog *) user_data)->on_checkbutton_write_anchors();
+}
+
+void NewResourceDialog::on_checkbutton_write_anchors()
+{
+}
+
+void NewResourceDialog::on_button_write_anchors_clicked(GtkButton * button, gpointer user_data)
+{
+  ((NewResourceDialog *) user_data)->on_button_write_anchors();
+}
+
+void NewResourceDialog::on_button_write_anchors()
+{
+  ResourceConverter2Dialog dialog(workingdirectory);
+  if (dialog.run() == GTK_RESPONSE_OK) {
+    write_anchors_gui();
+  }
+}
+
 
 */

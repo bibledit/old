@@ -5367,7 +5367,7 @@ void MainWindow::on_file_resources_new_activate(GtkMenuItem * menuitem, gpointer
 void MainWindow::on_file_resources_new()
 {
   // Start the assistant.
-  resource_assistant = new ResourceAssistant (true);
+  resource_assistant = new ResourceAssistant ("");
   g_signal_connect ((gpointer) resource_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
 }
 
@@ -5381,12 +5381,8 @@ void MainWindow::on_file_resources_edit()
   WindowResource *focused_resource_window = last_focused_resource_window();
   if (focused_resource_window) {
     ustring templatefile = focused_resource_window->resource->template_get();
-    /*
-    NewResourceDialog dialog(templatefile);
-    if (dialog.run() == GTK_RESPONSE_OK) {
-      focused_resource_window->resource->open(dialog.edited_template_file);
-    }
-    */
+    resource_assistant = new ResourceAssistant (templatefile);
+    g_signal_connect ((gpointer) resource_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
   }
 }
 
@@ -7344,6 +7340,24 @@ void MainWindow::on_assistant_keyterms_ready ()
     delete resource_assistant;
     resource_assistant = NULL;
   }
+  /*
+  WindowResource *focused_resource_window = last_focused_resource_window();
+  if (focused_resource_window) {
+    ustring templatefile = focused_resource_window->resource->template_get();
+    resource_assistant = new ResourceAssistant (ustring templatefile);
+    g_signal_connect ((gpointer) resource_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
+
+
+    NewResourceDialog dialog(templatefile);
+    if (dialog.run() == GTK_RESPONSE_OK) {
+      focused_resource_window->resource->open(dialog.edited_template_file);
+    }
+
+  }
+  */  
+
+
+
 
   // The assistants may have paused git operations. Resume these.
   git_command_pause(false);

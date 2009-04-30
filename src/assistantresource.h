@@ -30,7 +30,7 @@
 class ResourceAssistant : public AssistantBase
 {
 public:
-  ResourceAssistant(bool new_resource);
+  ResourceAssistant(const ustring& resource_template);
   virtual ~ResourceAssistant();
 private:
   // Assistant page preparation.
@@ -38,7 +38,7 @@ private:
   void on_assistant_prepare (GtkWidget *page);
 
   // General variables.
-  bool is_new_resource;
+  ustring edited_resource_template;
 
   // Working data.
   ustring working_directory ();
@@ -82,29 +82,34 @@ private:
 
   // Book set.
   GtkWidget *vbox_bookset;
-  GtkWidget *label_bookset_info;
   GtkWidget *hbox_bookset;
   GtkWidget *button_bookset;
-  GtkWidget *label_bookset_count;
+  GtkWidget *label_bookset;
   static void on_button_bookset_clicked (GtkButton *button, gpointer user_data);
   void on_button_bookset (bool update_gui_only);
   map <unsigned int, ustring> books;
   
+  // Book set 2.
+  GtkWidget *vbox_bookset2;
+  GtkWidget *hbox_bookset2;
+  GtkWidget *button_bookset2;
+  GtkWidget *label_bookset2;
+  static void on_button_bookset2_clicked (GtkButton *button, gpointer user_data);
+  void on_button_bookset2 (bool update_gui_only);
+  map <unsigned int, ustring> books2;
+  
   // URL.
   GtkWidget *vbox_url;
-  GtkWidget *label_url;
   GtkWidget *entry_url;
-  ustring url_construction ();
-
-  // Tester.
-  GtkWidget *vbox_tester;
+  static void on_entry_url_changed (GtkEditable *editable, gpointer user_data);
+  ustring url_constructor ();
   GtkWidget *hbox_tester;
   GtkWidget *combobox_test_book;
   GtkWidget *combobox_test_chapter;
   GtkWidget *combobox_test_verse;
   WebkitBrowser *browser_tester;
   static void on_combobox_test_changed (GtkComboBox *combobox, gpointer user_data);
-  void on_combobox_test ();  
+  void on_url ();
 
   // Confirmation stuff.
   int page_number_confirm;
