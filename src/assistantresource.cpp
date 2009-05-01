@@ -904,10 +904,8 @@ Bibledit may use httrack to download sites to local files for offline viewing. B
 to the user. Else Bibledit can manually download the page for each verse, using htmltrack one level deep and store that info, then 
 retrieve it later for each verse.
 To make an engine in bibledit that downloads the online version. 
-We may have to implement this one later and first do the snapshots.
 
-If no books are given as abbreviations, we take the full book in English.
-
+httrack 'http://net.bible.org/verse.php?book=Mat&chapter=1&verse=7' -O "/home/teus/test" -%v -r2 --can-go-down -c8
 
 
 */
