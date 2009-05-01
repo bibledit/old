@@ -1,82 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-<title>Bibledit</title>
-<!--
-Copyright (©) 2003-2008 Teus Benschop.
-Permission is granted to copy, distribute and/or modify this document
-under the terms of the GNU Free Documentation License, Version 1.2
-or any later version published by the Free Software Foundation;
-with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-Texts.  A copy of the license is included in the section entitled "GNU
-Free Documentation License" in the file FDL.
--->
-<link href="bibledit.css" rel="stylesheet" type="text/css" />
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+  <title>Bibledit</title>
+  <!--
+  Copyright (©) 2003-2008 Teus Benschop.
+  Permission is granted to copy, distribute and/or modify this document
+  under the terms of the GNU Free Documentation License, Version 1.2
+  or any later version published by the Free Software Foundation;
+  with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+  Texts.  A copy of the license is included in the section entitled "GNU
+  Free Documentation License" in the file FDL.
+  -->
+  <link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
+
 <body>
 <h2><a name="resources"></a>Resources</h2>
 <!-- Table of Contents Start -->
+
 <div id="toc">
 <ul>
-<li>
-<a href="#introduction" class="level1">Introduction</a></li>
-<li>
-<a href="#operation" class="level1">Operation</a></li>
-<li>
-<a href="#templates" class="level1">Templates</a></li>
-<li>
-<a href="#cache" class="level1">Cache</a></li>
-<li>
-<a href="#notes" class="level1">Notes</a></li>
+  <li><a href="#introduction" class="level1">Introduction</a></li>
+  <li><a href="#operation" class="level1">Operation</a></li>
+  <li><a href="#templates" class="level1">Templates</a></li>
+  <li><a href="#cache" class="level1">Cache</a></li>
+  <li><a href="#notes" class="level1">Notes</a></li>
 </ul>
 </div>
 <!-- Table of Contents End -->
+
 <h3><a name="introduction"></a>Introduction</h3>
-<p>Bibledit allows you to view Resources that scroll in sync with
-Bibledit.</p>
-<p>If Bibledit shows a certain verse, the Resource will show the same
-verse.</p>
+
+<p>Bibledit allows you to view Resources that scroll in sync with Bibledit.</p>
+
+<p>If Bibledit shows a certain verse, the Resource will show the same verse.</p>
+
 <h3><a name="operation"></a>Operation</h3>
-<p>A new Resource can be opened through File / Resource / Open.</p>
-<p>A Resource that has the focus can be closed through File / Resource /
-Close. </p>
-<p>A new Resource can be created through <a href="olh_resource_new.html">File
-/ Resource / New</a>.</p>
+
+<p>A Resource can be opened through File / Resource / Open.</p>
+
+<p>A Resource that has the focus can be closed through File / Resource / Close.
+</p>
+
+<p>A new Resource can be created through <a
+href="olh_resource_editor.html">File / Resource / New</a>.</p>
+
 <p>A Resource that has the focus can be edited through <a
-href="olh_resource_new.html">File / Resource / Edit</a>.</p>
+href="olh_resource_editor.html">File / Resource / Edit</a>.</p>
+
 <p>A Resource can be deleted through File / Resource / Delete.</p>
-<p>To let the Resource scroll together with Bibledit, tick the appropriate
-box in menu Preferences / Reference exchange.</p>
-<h3><a name="templates"></a>Templates</h3>
-<p>Bibledit uses templates to display resources. Each resource has its own
-template. There are some templates that come with Bibledit. These can be
-edited. The user can also create and edit his own templates.</p>
-<h3><a name="cache"></a>Cache</h3>
-<p>Any web page that has ever been displayed as a resource will be stored in
-the cache. This means that any web page that is available externally will be
-fetched only once. After that any subsequent calls for the same page will
-retrieve it from the cache. </p>
-<p>There are advantages and disadvantages to this approach. </p>
-<p>To start with the advantages, it means that any web page that has been
-displayed as a resource automatically becomes available for off-line viewing
-too. This allows for taking the software to remote areas and have full access
-to resources even without an internet connection. To make a web page
-available off-line it must have been viewed at least once. No provision has
-yet been made for automatically viewing every single reference, from Genesis
-to Revelation, so that the whole resource would become available off-line.</p>
-<p>Another advantage is that the web page is available immediately, no matter
-how slow the internet connection. </p>
-<p>A disadvantage is that it thus uses more space on disk. Another
-disadvantage is that once a web page has been retrieved, and subsequently the
-web page changes on the internet, the change will not be seen by the user.
-This can be resolved by manually emptying the cache. The cache is available
-at /home/joe/.bibledit/htmlcache.</p>
-<h3><a name="notes"></a>Notes</h3>
-<p>- Data that is displayed as a Resource should be encoded in valid UTF-8
-unicode. If this is not the case, the browser will try to display the text
-but may fail to do so correctly.</p>
+
+<p>To let the Resource scroll together with Bibledit, tick the appropriate box
+in menu Preferences / Reference exchange.</p>
 </body>
 </html>

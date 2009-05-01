@@ -75,7 +75,7 @@ void Resource::go_to(const Reference & reference)
 }
 
 
-void Resource::open(const ustring & filename) // Todo
+void Resource::open(const ustring & filename)
 {
   mytemplatefile = filename;
   url_structure = resource_url_get (resource_get_url_constructor(filename), mytemplatefile);

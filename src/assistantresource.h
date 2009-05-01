@@ -32,6 +32,8 @@ class ResourceAssistant : public AssistantBase
 public:
   ResourceAssistant(const ustring& resource_template);
   virtual ~ResourceAssistant();
+  ustring new_resource_get ();
+  ustring edited_resource_get ();
 private:
   // Assistant page preparation.
   static void on_assistant_prepare_signal (GtkAssistant *assistant, GtkWidget *page, gpointer user_data);
@@ -39,6 +41,7 @@ private:
 
   // General variables.
   ustring edited_resource_template;
+  ustring created_resource_template;
 
   // Working data.
   ustring working_directory ();
@@ -85,18 +88,26 @@ private:
   GtkWidget *hbox_bookset;
   GtkWidget *button_bookset;
   GtkWidget *label_bookset;
+  GtkWidget *hbox_books_import;
+  GtkWidget *button_books_import;
+  map <unsigned int, ustring> books;
   static void on_button_bookset_clicked (GtkButton *button, gpointer user_data);
   void on_button_bookset (bool update_gui_only);
-  map <unsigned int, ustring> books;
+  static void on_button_books_import_clicked (GtkButton *button, gpointer user_data);
+  void on_button_books_import ();
   
   // Book set 2.
   GtkWidget *vbox_bookset2;
   GtkWidget *hbox_bookset2;
   GtkWidget *button_bookset2;
   GtkWidget *label_bookset2;
+  GtkWidget *hbox_books2_import;
+  GtkWidget *button_books2_import;
+  map <unsigned int, ustring> books2;
   static void on_button_bookset2_clicked (GtkButton *button, gpointer user_data);
   void on_button_bookset2 (bool update_gui_only);
-  map <unsigned int, ustring> books2;
+  static void on_button_books2_import_clicked (GtkButton *button, gpointer user_data);
+  void on_button_books2_import ();
   
   // URL.
   GtkWidget *vbox_url;

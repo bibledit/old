@@ -34,6 +34,7 @@
 #include "books.h"
 #include "combobox.h"
 #include "shell.h"
+#include "dialoglistview.h"
 
 
 ResourceAssistant::ResourceAssistant(const ustring& resource_template) :
@@ -57,14 +58,17 @@ AssistantBase("Resource editor", "resource_editor")
 
   // If a Resource is being edited, copy it into the working directory. 
   {
-    ustring resource_directory = gw_path_get_dirname (edited_resource_template);
-    if (resource_directory == directories_get_package_data()) {
-      // It's a template, copy the template only.
-      unix_cp (edited_resource_template, working_configuration_file ());
-    } else {
-      ustring command = "cd" + shell_quote_space(resource_directory);
-      command.append("; cp -r *" + shell_quote_space(working_directory()));
-      if (system(command.c_str()));
+    if (!edited_resource_template.empty()) {
+      ustring resource_directory = gw_path_get_dirname (edited_resource_template);
+      if (resource_directory == directories_get_package_data()) {
+        // It's a template, copy the template only.
+        unix_cp (edited_resource_template, working_configuration_file ());
+      } else {
+        // It's an existing editable resource, copy the whole thing.
+        ustring command = "cd" + shell_quote_space(resource_directory);
+        command.append("; cp -r *" + shell_quote_space(working_directory()));
+        if (system(command.c_str()));
+      }
     }
   }
 
@@ -250,6 +254,37 @@ AssistantBase("Resource editor", "resource_editor")
 
   g_signal_connect ((gpointer) button_bookset, "clicked", G_CALLBACK (on_button_bookset_clicked), gpointer (this));
 
+  hbox_books_import = gtk_hbox_new (FALSE, 0);
+  gtk_widget_show (hbox_books_import);
+  gtk_box_pack_start (GTK_BOX (vbox_bookset), hbox_books_import, FALSE, FALSE, 0);
+
+  button_books_import = gtk_button_new ();
+  gtk_widget_show (button_books_import);
+  gtk_box_pack_start (GTK_BOX (hbox_books_import), button_books_import, FALSE, FALSE, 0);
+
+  GtkWidget *alignment4;
+  GtkWidget *hbox7;
+  GtkWidget *image4;
+  GtkWidget *label23;
+
+  alignment4 = gtk_alignment_new (0.5, 0.5, 0, 0);
+  gtk_widget_show (alignment4);
+  gtk_container_add (GTK_CONTAINER (button_books_import), alignment4);
+
+  hbox7 = gtk_hbox_new (FALSE, 2);
+  gtk_widget_show (hbox7);
+  gtk_container_add (GTK_CONTAINER (alignment4), hbox7);
+
+  image4 = gtk_image_new_from_stock ("gtk-add", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_show (image4);
+  gtk_box_pack_start (GTK_BOX (hbox7), image4, FALSE, FALSE, 0);
+
+  label23 = gtk_label_new_with_mnemonic ("_Import");
+  gtk_widget_show (label23);
+  gtk_box_pack_start (GTK_BOX (hbox7), label23, FALSE, FALSE, 0);
+
+  g_signal_connect ((gpointer) button_books_import, "clicked", G_CALLBACK (on_button_books_import_clicked), gpointer (this));
+
   books = resource_get_books(working_configuration_file());
 
   on_button_bookset (true);
@@ -293,6 +328,32 @@ AssistantBase("Resource editor", "resource_editor")
   gtk_box_pack_start (GTK_BOX (hbox_bookset2), label_bookset2, FALSE, FALSE, 0);
 
   g_signal_connect ((gpointer) button_bookset2, "clicked", G_CALLBACK (on_button_bookset2_clicked), gpointer (this));
+
+  hbox_books2_import = gtk_hbox_new (FALSE, 0);
+  gtk_widget_show (hbox_books2_import);
+  gtk_box_pack_start (GTK_BOX (vbox_bookset2), hbox_books2_import, FALSE, FALSE, 0);
+
+  button_books2_import = gtk_button_new ();
+  gtk_widget_show (button_books2_import);
+  gtk_box_pack_start (GTK_BOX (hbox_books2_import), button_books2_import, FALSE, FALSE, 0);
+
+  alignment4 = gtk_alignment_new (0.5, 0.5, 0, 0);
+  gtk_widget_show (alignment4);
+  gtk_container_add (GTK_CONTAINER (button_books2_import), alignment4);
+
+  hbox7 = gtk_hbox_new (FALSE, 2);
+  gtk_widget_show (hbox7);
+  gtk_container_add (GTK_CONTAINER (alignment4), hbox7);
+
+  image4 = gtk_image_new_from_stock ("gtk-add", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_show (image4);
+  gtk_box_pack_start (GTK_BOX (hbox7), image4, FALSE, FALSE, 0);
+
+  label23 = gtk_label_new_with_mnemonic ("_Import");
+  gtk_widget_show (label23);
+  gtk_box_pack_start (GTK_BOX (hbox7), label23, FALSE, FALSE, 0);
+
+  g_signal_connect ((gpointer) button_books2_import, "clicked", G_CALLBACK (on_button_books2_import_clicked), gpointer (this));
 
   books2 = resource_get_books2(working_configuration_file());
 
@@ -469,6 +530,9 @@ void ResourceAssistant::on_assistant_apply ()
   unix_rmdir (directory);
   unix_mv (working_directory (), directory);
 
+  // Store where the resource was put.
+  created_resource_template = gw_build_filename (directory, resource_template_ini());
+
   // Show summary.
   gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), summary_page_number);
 }
@@ -644,6 +708,35 @@ void ResourceAssistant::on_button_bookset (bool update_gui_only)
 }
 
 
+void ResourceAssistant::on_button_books_import_clicked (GtkButton *button, gpointer user_data)
+{
+  ((ResourceAssistant *) user_data)->on_button_books_import();
+}
+
+
+void ResourceAssistant::on_button_books_import ()
+// Import the books from another resource.
+{
+  vector < ustring > filenames;
+  vector < ustring > resources = resource_get_resources(filenames, false);
+  quick_sort(resources, filenames, 0, resources.size());
+  ListviewDialog dialog("Import from resource", resources, "", false, NULL);
+  if (dialog.run() == GTK_RESPONSE_OK) {
+    ustring resource = dialog.focus;
+    ustring filename;
+    for (unsigned int i = 0; i < resources.size(); i++) {
+      if (resource == resources[i]) {
+        filename = filenames[i];
+      }
+    }
+    if (!filename.empty()) {
+      books = resource_get_books (filename);
+      on_button_bookset (true);
+    }
+  }
+}
+
+
 void ResourceAssistant::on_button_bookset2_clicked (GtkButton *button, gpointer user_data)
 {
   ((ResourceAssistant *) user_data)->on_button_bookset2(false);
@@ -661,6 +754,35 @@ void ResourceAssistant::on_button_bookset2 (bool update_gui_only)
   ustring text = "Abbreviations entered: ";
   text.append(convert_to_string(books2.size()));
   gtk_label_set_text(GTK_LABEL(label_bookset2), text.c_str());
+}
+
+
+void ResourceAssistant::on_button_books2_import_clicked (GtkButton *button, gpointer user_data)
+{
+  ((ResourceAssistant *) user_data)->on_button_books2_import();
+}
+
+
+void ResourceAssistant::on_button_books2_import ()
+// Import the second lot of books from another resource.
+{
+  vector < ustring > filenames;
+  vector < ustring > resources = resource_get_resources(filenames, false);
+  quick_sort(resources, filenames, 0, resources.size());
+  ListviewDialog dialog("Import from resource", resources, "", false, NULL);
+  if (dialog.run() == GTK_RESPONSE_OK) {
+    ustring resource = dialog.focus;
+    ustring filename;
+    for (unsigned int i = 0; i < resources.size(); i++) {
+      if (resource == resources[i]) {
+        filename = filenames[i];
+      }
+    }
+    if (!filename.empty()) {
+      books2 = resource_get_books2 (filename);
+      on_button_bookset2 (true);
+    }
+  }
 }
 
 
@@ -697,18 +819,32 @@ void ResourceAssistant::on_url ()
 }
 
 
+ustring ResourceAssistant::new_resource_get ()
+// If there's a new resource, returns its name.
+{
+  if (edited_resource_template.empty()) {
+    return title ();
+  }
+  return "";
+}
+
+
+ustring ResourceAssistant::edited_resource_get ()
+// If there's an edited resource, return its name.
+{
+  if (!edited_resource_template.empty()) {
+    return title ();
+  }
+  return "";
+}
+
+
 
 /*
 
 Todo redo resources.
 
-We need to make an Assistant that does the generation of resources.
-Each page of the assistant also has a browser object that immediately shows the effect of any change.
-Home page: Any change in url reflects in the browser.
-Verse retrieval: Any change in url reflects in browser, and the user can set the book, chapter, and verse.
-Anything else: Immediate showing.
-Each page should have a "Copy from" option, so it copies the things from any other resource, to be selected upon copy.
-
+Write help, step by step.
 
 Please make two sample resources with verse anchors
 

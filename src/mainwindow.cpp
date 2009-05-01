@@ -7335,29 +7335,22 @@ void MainWindow::on_assistant_keyterms_ready ()
     remote_repository_assistant = NULL;
   }
 
-  // Resource editor. Todo open the resource when it was created. Or close and reopen if it was edited.
+  // Resource editor.
   if (resource_assistant) {
+    ustring new_resource = resource_assistant->new_resource_get();
+    if (!new_resource.empty()) {
+      // The resource was created: open it.
+      on_file_resources_open (new_resource, false);
+    } else {
+      // The resource was edited: refresh ito
+      WindowResource *focused_resource_window = last_focused_resource_window();
+      if (focused_resource_window) {
+        focused_resource_window->resource->open(resource_assistant->edited_resource_get());
+      }
+    }
     delete resource_assistant;
     resource_assistant = NULL;
   }
-  /*
-  WindowResource *focused_resource_window = last_focused_resource_window();
-  if (focused_resource_window) {
-    ustring templatefile = focused_resource_window->resource->template_get();
-    resource_assistant = new ResourceAssistant (ustring templatefile);
-    g_signal_connect ((gpointer) resource_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
-
-
-    NewResourceDialog dialog(templatefile);
-    if (dialog.run() == GTK_RESPONSE_OK) {
-      focused_resource_window->resource->open(dialog.edited_template_file);
-    }
-
-  }
-  */  
-
-
-
 
   // The assistants may have paused git operations. Resume these.
   git_command_pause(false);
