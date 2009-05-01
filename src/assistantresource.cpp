@@ -897,15 +897,49 @@ Todo resources.
 
 For having a Resource open a Google Doc, it needs to produce URL's based on the combined book and chapter, which then
 produces one combined URL. If this URL cannot be formed, it gives the home page instead.
+https://docs.google.com/Doc?docid=dd8j5c9_16cv8z35&hl=en
+https://docs.google.com/Doc?docid=dd8j5c9_17g55m9h&hl=en
+This requires that the Versification for the Resource be set as well. Yet another step.
 
 We may need an option to download all verses and store these locally.
 So Bibledit goes to a website, downloads all verses, stores them under the URL's, so these can be kept for later use offline.
 Bibledit may use httrack to download sites to local files for offline viewing. But httrack may produce huge files, so a warning may have to be given
-to the user. Else Bibledit can manually download the page for each verse, using htmltrack one level deep and store that info, then 
+to the user. Else Bibledit can manually download the page for each verse, using htmltrack 2 levels deep and store that info, then 
 retrieve it later for each verse.
 To make an engine in bibledit that downloads the online version. 
 
-httrack 'http://net.bible.org/verse.php?book=Mat&chapter=1&verse=7' -O "/home/teus/test" -%v -r2 --can-go-down -c8
+
+This requires the Versification for the Resource to be set.
+
+We need predictable locations for this resource, so that if this location is found, the URL is not used.
+When found, the local copy is used.
+
+The page for this needs a button that downloads all verses,
+and another one that removes all locally cached information.
+
+As wget is more common, we better use that utility.
+
+The maximum depth to which the retrieval may descend is specified with the ‘-l’ option. The default maximum depth is five layers. 
+When downloading from Internet servers, consider using the ‘-w’ option to introduce a delay between accesses to the server.
+If you want to download only one page, use ‘--page-requisites’ without any additional recursion.
+
+wget --recursive --no-clobber --page-requisites --convert-links --domains net.bible.org --user-agent=Mozilla --level=1 "http://net.bible.org/bible.php?book=Mat&chapter=1"
+
+--quiet 
+--wait=10 
+
+http://net.bible.org/bible.php?book=Mat&chapter=1
+http://net.bible.org/verse.php?book=Mat&chapter=1&verse=1
+
+We may need to have an option to --wait some time, as optional, so by default it speeds on.
+
+If using the --no-clobber option, and downloading everything to the same directory, we 
+are going to do a lot of saving the more we download, because no file will be downloaded twice.
+E.g. the strong's numbers are downloaded only once, and be re-used by all pages.
+
+Some recommend httrack as if that beats wget.
+
+httrack 'http://net.bible.org/bible.php?book=Mat&chapter=1' -O "." -%v -r2 --can-go-down -c8
 
 
 */
