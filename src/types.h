@@ -49,13 +49,6 @@ enum StylesheetType {stBasic, stBasicParagraph, stBasicParagraphWordNote,
 enum NotesSelectionReferenceType {nsrtCurrentVerse, nsrtCurrentChapter, nsrtCurrentBook, nsrtAny};
 enum NotesSelectionEditedType {nsetToday, nsetDateRange, nsetAny};
                               
-enum ResourceType {
-  rtForeignDataURLForEachVerse,
-  rtURLForEachVerseAboveURLFilterBelowWithDifferentAnchors,
-  rtURLForEachVerse,
-  rtEnd
-};
-
 enum ResourceConversionType {
   rctChapterStartsAtPatternVerseOneStartsAtChapterVerseStartsAtPattern,
   rctEnd

@@ -50,10 +50,6 @@ const gchar * resource_template_home_page_key();
 ustring resource_get_home_page(const ustring& templatefile);
 const gchar * resource_template_url_constructor_key();
 ustring resource_get_url_constructor(const ustring& templatefile);
-const gchar * resource_template_lower_home_page_key();
-ustring resource_get_lower_home_page(const ustring& templatefile);
-const gchar * resource_template_lower_url_filter_key();
-ustring resource_get_lower_url_filter(const ustring& templatefile);
 
 const gchar * resource_template_books_group();
 map <unsigned int, ustring> resource_get_books(const ustring& templatefile);

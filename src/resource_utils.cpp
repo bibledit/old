@@ -194,38 +194,6 @@ ustring resource_get_url_constructor(const ustring & templatefile)
   return url_constructor;
 }
 
-ustring resource_get_lower_home_page(const ustring & templatefile)
-{
-  ustring lower_home_page;
-  GKeyFile *keyfile = g_key_file_new();
-  if (g_key_file_load_from_file(keyfile, templatefile.c_str(), G_KEY_FILE_NONE, NULL)) {
-    gchar *value;
-    value = g_key_file_get_string(keyfile, resource_template_general_group(), resource_template_lower_home_page_key(), NULL);
-    if (value) {
-      lower_home_page = value;
-      g_free(value);
-    }
-    g_key_file_free(keyfile);
-  }
-  return lower_home_page;
-}
-
-ustring resource_get_lower_url_filter(const ustring & templatefile)
-{
-  ustring lower_url_filter;
-  GKeyFile *keyfile = g_key_file_new();
-  if (g_key_file_load_from_file(keyfile, templatefile.c_str(), G_KEY_FILE_NONE, NULL)) {
-    gchar *value;
-    value = g_key_file_get_string(keyfile, resource_template_general_group(), resource_template_lower_url_filter_key(), NULL);
-    if (value) {
-      lower_url_filter = value;
-      g_free(value);
-    }
-    g_key_file_free(keyfile);
-  }
-  return lower_url_filter;
-}
-
 const gchar *resource_url_constructor_book()
 {
   return "<book>";
@@ -276,16 +244,6 @@ const gchar *resource_template_url_constructor_key()
   return "url constructor";
 }
 
-const gchar *resource_template_lower_home_page_key()
-{
-  return "lower home page";
-}
-
-const gchar *resource_template_lower_url_filter_key()
-{
-  return "lower url filter";
-}
-
 map < unsigned int, ustring > resource_get_books(const ustring & templatefile)
 {
   map < unsigned int, ustring > books;
@@ -334,37 +292,6 @@ const gchar *resource_template_anchors_group()
 const gchar *resource_file_prefix()
 {
   return "file://";
-}
-
-ustring resource_url_modifier(const ustring & url, ResourceType resource_type, const ustring & templatefile)
-/*
- Some urls are given as full ones, e.g. http://somesite.org.
- These don't need any modification.
- Other urls are given as plain filenames only. It is assumed for these that 
- they are given relative to the resource directory where these reside. 
- These need to be modified so as to include the full path and the file:// prefix.
- */
-{
-  ustring modified_url(url);
-  switch (resource_type) {
-  case rtForeignDataURLForEachVerse:
-    {
-      break;
-    }
-  case rtURLForEachVerseAboveURLFilterBelowWithDifferentAnchors:
-  case rtURLForEachVerse:
-    {
-      ustring path = gw_path_get_dirname(templatefile);
-      modified_url = resource_file_prefix();
-      modified_url.append(gw_build_filename(path, url));
-      break;
-    }
-  case rtEnd:
-    {
-      break;
-    }
-  }
-  return modified_url;
 }
 
 

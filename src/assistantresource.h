@@ -108,7 +108,14 @@ private:
   void on_button_bookset2 (bool update_gui_only);
   static void on_button_books2_import_clicked (GtkButton *button, gpointer user_data);
   void on_button_books2_import ();
-  
+
+  // Anchors.
+  GtkWidget *vbox_anchors;
+  GtkWidget *hbox_anchors;
+  GtkWidget *button_anchors;
+  static void on_button_anchors_clicked (GtkButton *button, gpointer user_data);
+  void on_button_anchors ();
+    
   // URL.
   GtkWidget *vbox_url;
   GtkWidget *entry_url;

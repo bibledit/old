@@ -35,6 +35,7 @@
 #include "combobox.h"
 #include "shell.h"
 #include "dialoglistview.h"
+#include "dialogresourceconverter2.h"
 
 
 ResourceAssistant::ResourceAssistant(const ustring& resource_template) :
@@ -358,7 +359,43 @@ AssistantBase("Resource editor", "resource_editor")
   books2 = resource_get_books2(working_configuration_file());
 
   on_button_bookset2 (true);
-  
+
+  // Anchors.
+  vbox_anchors = gtk_vbox_new (FALSE, 10);
+  gtk_widget_show (vbox_anchors);
+  gtk_container_set_border_width (GTK_CONTAINER (vbox_anchors), 10);
+  gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_anchors);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_anchors, "Would you like to write the anchors in the pages of the Resource?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_anchors, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_anchors, true);
+
+  hbox_anchors = gtk_hbox_new (FALSE, 10);
+  gtk_widget_show (hbox_anchors);
+  gtk_box_pack_start (GTK_BOX (vbox_anchors), hbox_anchors, FALSE, FALSE, 0);
+
+  button_anchors = gtk_button_new ();
+  gtk_widget_show (button_anchors);
+  gtk_box_pack_start (GTK_BOX (hbox_anchors), button_anchors, FALSE, FALSE, 0);
+
+  alignment3 = gtk_alignment_new (0.5, 0.5, 0, 0);
+  gtk_widget_show (alignment3);
+  gtk_container_add (GTK_CONTAINER (button_anchors), alignment3);
+
+  hbox5 = gtk_hbox_new (FALSE, 2);
+  gtk_widget_show (hbox5);
+  gtk_container_add (GTK_CONTAINER (alignment3), hbox5);
+
+  image3 = gtk_image_new_from_stock ("gtk-info", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_show (image3);
+  gtk_box_pack_start (GTK_BOX (hbox5), image3, FALSE, FALSE, 0);
+
+  label12 = gtk_label_new_with_mnemonic ("_Anchors");
+  gtk_widget_show (label12);
+  gtk_box_pack_start (GTK_BOX (hbox5), label12, FALSE, FALSE, 0);
+
+  g_signal_connect ((gpointer) button_anchors, "clicked", G_CALLBACK (on_button_anchors_clicked), gpointer (this));
+
   // URL.
   vbox_url = gtk_vbox_new (FALSE, 10);
   gtk_widget_show (vbox_url);
@@ -786,6 +823,20 @@ void ResourceAssistant::on_button_books2_import ()
 }
 
 
+void ResourceAssistant::on_button_anchors_clicked (GtkButton *button, gpointer user_data)
+{
+  ((ResourceAssistant *) user_data)->on_button_anchors();
+}
+
+
+void ResourceAssistant::on_button_anchors ()
+{
+  ResourceConverter2Dialog dialog(working_directory ());
+  if (dialog.run() == GTK_RESPONSE_OK) {
+  }
+}
+
+
 ustring ResourceAssistant::url_constructor ()
 // Retrieves the URL constructor from the gui.
 {
@@ -842,85 +893,21 @@ ustring ResourceAssistant::edited_resource_get ()
 
 /*
 
-Todo redo resources.
+Todo resources.
 
-Write help, step by step.
-
-Please make two sample resources with verse anchors
-
-Try all current resources, whether they work well.
-
-The NextBible site, so please create a similar sample resource for
-http://net.bible.org/bible.php?book=Pro&chapter=1
-
-Related to this, BE will need to be able to log in to GoogleDocs if I am going to be able to access pages we have created like the Sabda pages. 
-I tried basing a new resource on the Sabda.org resource, using the GoogleDoc address. GoogleDocs that are "published" do show up, 
-but private pages are password protected.
-
-Imaging editing the GoogleDoc from Bibledit's browser!
-
-We may need an easier Resource Editor, because the current one seems to be too difficult.
-Probably something with tabs, and the editor at the left, and direct testing of the effects right in the editor.
+For having a Resource open a Google Doc, it needs to produce URL's based on the combined book and chapter, which then
+produces one combined URL. If this URL cannot be formed, it gives the home page instead.
 
 We may need an option to download all verses and store these locally.
 So Bibledit goes to a website, downloads all verses, stores them under the URL's, so these can be kept for later use offline.
-
-rtURLForEachVerseAboveURLFilterBelowWithDifferentAnchors This option no longer valid, because there's no second browser.
- 
 Bibledit may use httrack to download sites to local files for offline viewing. But httrack may produce huge files, so a warning may have to be given
 to the user. Else Bibledit can manually download the page for each verse, using htmltrack one level deep and store that info, then 
 retrieve it later for each verse.
-
-We may have to use the WebKitFrame (or so) to control the various frames in the NET Bible. Or better: to make an engine in bibledit that downloads 
-the online version. Frames are no longer of these times. We may have to implement this one later and first do the snapshots.
-
-The users has to manually edit a text file, and there are controls that automatically test the result of any change.
-Whether to test the home page, various verses, and so on.
-Or an automated test of all possible chapters. Or verses per chapter, or indeed, everything.
-Or we have a dialog that does the testing, then applies this test to the currently open Resource,
-so the user can press the hOme button, can go to certain places in the text, or indeed let it automatically run all things.
-
-Entry of the home url or verse url goes so that it is general, and the user can for local things. Enter into the helpfile how this goes.
-
-Files and directories can be added to the local storage.
-This is regardless of the resource type.
-
-  new InDialogHelp(newresourcedialog, NULL, &shortcuts, "resource_new"); This one should move to the Assistant's help.
+To make an engine in bibledit that downloads the online version. 
+We may have to implement this one later and first do the snapshots.
 
 If no books are given as abbreviations, we take the full book in English.
 
-If a resource is edited from the standard templates, it comes then in the resources directory. Let that work.
-
-The routines no longer needed in resource_utils*, these can go out.
-
-In the assistant, we need a button to copy the book set from any resource. It opens that resource, visibly, then gets the books from it.
-Or the "books2".
-
-
-
-// Write anchors.
-
-void NewResourceDialog::on_checkbutton_write_anchors_toggled(GtkToggleButton * togglebutton, gpointer user_data)
-{
-  ((NewResourceDialog *) user_data)->on_checkbutton_write_anchors();
-}
-
-void NewResourceDialog::on_checkbutton_write_anchors()
-{
-}
-
-void NewResourceDialog::on_button_write_anchors_clicked(GtkButton * button, gpointer user_data)
-{
-  ((NewResourceDialog *) user_data)->on_button_write_anchors();
-}
-
-void NewResourceDialog::on_button_write_anchors()
-{
-  ResourceConverter2Dialog dialog(workingdirectory);
-  if (dialog.run() == GTK_RESPONSE_OK) {
-    write_anchors_gui();
-  }
-}
 
 
 */
