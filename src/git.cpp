@@ -674,7 +674,7 @@ bool git_log_extract_date_time(const ustring & line, int &year, int &month, int 
   return success;
 }
 
-void git_get_chapters_changed_since(const ustring & project, int second, vector < unsigned int >&books, vector < unsigned int >&chapters)
+void git_get_chapters_changed_since(const ustring & project, int second, vector < unsigned int >&books, vector < unsigned int >&chapters) // Todo
 // This gives the books and chapters changed since "second".
 {
   // Copy the project to the project that is going to contain the previous state.

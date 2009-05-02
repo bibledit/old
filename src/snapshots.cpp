@@ -162,9 +162,8 @@ ustring snapshots_get_chapter (const ustring& project, unsigned int book, unsign
 
 Todo Snapshots
 
-Bibledit becomes too slow as regards git.
 
-It also needs to be applied to "Changes".
+It also needs to be applied to "Changes". And to Merge.
 
 On regular days it trims the database, using defaults, which can be changed by the user. 
 The defaults are for the first month keep all, then every first and last of each day, 

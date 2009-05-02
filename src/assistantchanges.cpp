@@ -261,7 +261,7 @@ ustring ChangesAssistant::copy_and_checkout_project (const ustring& project, uns
   // Retrieve the name of the first commit since or at the date and time given.
   vector <ustring> commits;
   vector <unsigned int> seconds;
-  git_log_read(history_project_data_directory, commits, seconds, "");
+  git_log_read(history_project_data_directory, commits, seconds, ""); // Todo
   // Note if the date and time are older than the project's oldest commit.
   bool date_time_older_than_project = false;
   ustring commit;

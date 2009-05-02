@@ -296,6 +296,39 @@ void quick_sort(vector < unsigned int >&one, vector < unsigned int >&two, unsign
   }
 }
 
+
+void quick_sort (vector<unsigned int>& one, vector<bool>& two, unsigned int beg, unsigned int end)
+{
+  if (end > beg + 1) {
+    unsigned int piv = one[beg];
+    unsigned int l = beg + 1;
+    unsigned int r = end;
+    while (l < r) {
+      if (one[l] <= piv) {
+        l++;
+      } else {
+        --r;
+        quick_swap(one[l], one[r]);
+        bool two_l = two[l];
+        bool two_r = two[r];
+        quick_swap(two_l, two_r);
+        two[l] = two_l;
+        two[r] = two_r;
+      }
+    }
+    --l;
+    quick_swap(one[l], one[beg]);
+    bool two_l = two[l];
+    bool two_beg = two[beg];
+    quick_swap(two_l, two_beg);
+    two[l] = two_l;
+    two[beg] = two_beg;
+    quick_sort(one, two, beg, l);
+    quick_sort(one, two, r, end);
+  }
+}
+
+
 void quick_sort(vector < int >&one, vector < unsigned int >&two, unsigned int beg, unsigned int end)
 {
   if (end > beg + 1) {

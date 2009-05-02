@@ -42,6 +42,8 @@
 #include "dialogmerge.h"
 #include "merge_utils.h"
 #include "shell.h"
+#include "snapshots.h"
+
 
 WindowMerge::WindowMerge(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
 WindowBase(widMerge, "Merge", startup, 0, parent_box)
@@ -541,9 +543,6 @@ void WindowMerge::on_button_merge_clicked(GtkButton * button, gpointer user_data
 
 void WindowMerge::on_button_merge()
 {
-  // Stop git tasks.
-  git_command_pause(true);
-
   // Save all editors.
   gtk_button_clicked(GTK_BUTTON(save_editors_button));
 
@@ -583,9 +582,6 @@ void WindowMerge::on_button_merge()
 
   // Reload the editors.
   gtk_button_clicked(GTK_BUTTON(reload_editors_button));
-
-  // Start git tasks.
-  git_command_pause(false);
 }
 
 void WindowMerge::merge_edited_into_master(bool approve)
@@ -596,85 +592,50 @@ void WindowMerge::merge_edited_into_master(bool approve)
     gtkw_dialog_info(NULL, "Both the chapters already are the same");
     return;
   }
-  // Progress.
-  ProgressWindow progresswindow("Merging...", false);
 
-  // Get the commits of the master project.
-  progresswindow.set_fraction(0.3);
-  progresswindow.set_text("reading log");
-  ustring masterchapterdirectory = project_data_directory_chapter(current_master_project, book, chapter);
-  ustring masterpath = project_data_filename_chapter(current_master_project, book, chapter, false);
-  masterpath = gw_path_get_basename(masterpath);
-  vector <ustring> mastercommits;
-  vector <unsigned int> masterseconds;
-  git_log_read (masterchapterdirectory, mastercommits, masterseconds, masterpath);
+  // Get the available snapshots of the master and edited projects.
+  vector <unsigned int> masterseconds = snapshots_get_seconds (current_master_project, book, chapter);
+  vector <unsigned int> editedseconds = snapshots_get_seconds (current_edited_project, book, chapter);
 
-  // Get the commits of the edited project.
-  progresswindow.set_fraction(0.6);
-  ustring editedchapterdirectory = project_data_directory_chapter(current_edited_project, book, chapter);
-  ustring editedpath = project_data_filename_chapter(current_edited_project, book, chapter, false);
-  editedpath = gw_path_get_basename(editedpath);
-  vector <ustring> editedcommits;
-  vector <unsigned int> editedseconds;
-  git_log_read(editedchapterdirectory, editedcommits, editedseconds, editedpath);
+  // We need to look for the common ancestor.
+  // It needs a fast routine that goes through the history as little as possible.
 
-  // We are now due to look for the common ancestor.
-  // It needs a fast and clever routine that goes through the history as little as possible.
-  // Going through history takes time. So if we go as little as possible through that,
-  // it makes the process of looking for the common ancestor fast.
-  
-  // Make a combined set of commits and their times, 
-  // differentiating between the two sets using a prefix.
-  vector <ustring> combinedcommits;
+  // Make a combined set of the times and flags.
+  vector <bool> combinedflags;
   vector <unsigned int> combinedseconds;
-  for (unsigned int i = 0; i < mastercommits.size(); i++) {
-    combinedcommits.push_back ("m" + mastercommits[i]);
+  for (unsigned int i = 0; i < masterseconds.size(); i++) {
+    combinedflags.push_back (true);
     combinedseconds.push_back (masterseconds[i]);    
   }
-  for (unsigned int i = 0; i < editedcommits.size(); i++) {
-    combinedcommits.push_back ("e" + editedcommits[i]);
+  for (unsigned int i = 0; i < editedseconds.size(); i++) {
+    combinedflags.push_back (false);
     combinedseconds.push_back (editedseconds[i]);    
   }
   // Sort the combined set on the time, most recent ones first.
-  quick_sort (combinedseconds, combinedcommits, 0, combinedseconds.size());
+  quick_sort (combinedseconds, combinedflags, 0, combinedseconds.size());
   {
-    vector <ustring> commits = combinedcommits;
+    vector <bool> flags = combinedflags;
     vector <unsigned int> seconds = combinedseconds;
-    combinedcommits.clear();
+    combinedflags.clear();
     combinedseconds.clear();
-    for (int i = commits.size() - 1; i >= 0; i--) {
-      combinedcommits.push_back (commits[i]);
+    for (int i = flags.size() - 1; i >= 0; i--) {
+      combinedflags.push_back (flags[i]);
       combinedseconds.push_back (seconds[i]);
     }
   }
-  
+
   // Go through the history of both projects, extract the state in history,
   // and compare them in order to find the common ancestor.
-  progresswindow.set_iterate(0, 1, combinedcommits.size());
-  progresswindow.set_text("looking for common ancestor");
   vector <ustring> mastertexts;
   vector <ustring> editedtexts;
   ustring common_ancestor;
-  for (unsigned int i = 0; i < combinedcommits.size(); i++) {
-    progresswindow.iterate();
-    ustring commit = combinedcommits[i];
-    bool master = commit.substr (0, 1) == "m";
-    commit.erase (0, 1);
-    vector <ustring> lines;
+  for (unsigned int i = 0; i < combinedseconds.size(); i++) {
+    unsigned int second = combinedseconds[i];
+    bool master = combinedflags[i];
     if (master) {
-      lines = git_retrieve_chapter_commit(current_master_project, book, chapter, commit);
+      mastertexts.push_back(snapshots_get_chapter(current_master_project, book, chapter, second));
     } else {
-      lines = git_retrieve_chapter_commit(current_edited_project, book, chapter, commit);
-    }
-    ustring line;
-    for (unsigned int i = 0; i < lines.size(); i++) {
-      line.append(lines[i]);
-      line.append("\n");
-    }
-    if (master) {
-      mastertexts.push_back(line);
-    } else {
-      editedtexts.push_back(line);
+      editedtexts.push_back(snapshots_get_chapter(current_edited_project, book, chapter, second));
     }
     for (unsigned int m = 0; m < mastertexts.size(); m++) {
       for (unsigned int e = 0; e < editedtexts.size(); e++) {
@@ -785,19 +746,21 @@ void WindowMerge::merge_edited_into_master(bool approve)
     CategorizeChapterVerse ccv(parseline.lines);
     project_store_chapter(current_master_project, book, ccv);
     project_store_chapter(current_edited_project, book, ccv);
+    // A normal snapshot may be removed over time, so we need a persistent one to enable future merges.
+    snapshots_shoot_chapter (current_master_project, book, chapter, 0, true);
+    snapshots_shoot_chapter (current_edited_project, book, chapter, 0, true);
 
     // Message ok.
     gtkw_dialog_info(NULL, "The chapters were successfully merged");
 
   }
-
 }
 
 void WindowMerge::copy_master_to_edited_chapter(unsigned int bk, unsigned int ch, bool gui)
 {
-  // Only copy if the master and edited version differ. This save a lot of git operations.
-  vector < ustring > master_lines = project_retrieve_chapter(current_master_project, bk, ch);
-  vector < ustring > edited_lines = project_retrieve_chapter(current_edited_project, bk, ch);
+  // Only copy if the master and edited version differ. This saves a lot of git operations.
+  vector <ustring> master_lines = project_retrieve_chapter(current_master_project, bk, ch);
+  vector <ustring> edited_lines = project_retrieve_chapter(current_edited_project, bk, ch);
   bool master_is_edited = false;
   if (master_lines.size() == edited_lines.size()) {
     master_is_edited = true;
@@ -813,6 +776,9 @@ void WindowMerge::copy_master_to_edited_chapter(unsigned int bk, unsigned int ch
       gtkw_dialog_info(NULL, "Both chapters are already the same");
   } else {
     project_store_chapter(current_edited_project, bk, ccv);
+    // A normal snapshot may be removed over time, so we need a persistent one to enable future merges.
+    snapshots_shoot_chapter (current_master_project, bk, ch, 0, true);
+    snapshots_shoot_chapter (current_edited_project, bk, ch, 0, true);
     if (gui) {
       ustring message = books_id_to_english(bk) + " " + convert_to_string(ch) + " was copied from project " + current_master_project + " to project " + current_edited_project;
       gtkw_dialog_info(NULL, message.c_str());
@@ -823,7 +789,7 @@ void WindowMerge::copy_master_to_edited_chapter(unsigned int bk, unsigned int ch
 void WindowMerge::copy_master_to_edited_all()
 {
   {
-    vector < unsigned int >books = project_get_books(current_master_project);
+    vector <unsigned int> books = project_get_books(current_master_project);
     ProgressWindow progresswindow("Copying...", false);
     progresswindow.set_iterate(0, 1, books.size());
     for (unsigned int bk = 0; bk < books.size(); bk++) {
@@ -1062,6 +1028,10 @@ void WindowMerge::button_ready_clicked()
   ParseLine parseline(text);
   CategorizeChapterVerse ccv(parseline.lines);
   project_store_chapter(approve_master_project, approve_book, ccv);
+
+  // Store persistent snapshots to enable future merges.
+  snapshots_shoot_chapter (approve_master_project, approve_book, approve_chapter, 0, true);
+  snapshots_shoot_chapter (approve_edited_project, approve_book, approve_chapter, 0, true);
 
   // GUI.
   gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook1), 0);
