@@ -52,7 +52,6 @@ ustring statistics_database(const ustring & project, const gchar * suffix)
 void statistics_initial_check_all(bool gui)
 // Does initial checks on the statistics systems.
 {
-  return;
   // Do all projects.
   vector < ustring > projects = projects_get_all();
   for (unsigned int i = 0; i < projects.size(); i++) {
@@ -64,9 +63,17 @@ void statistics_initial_check_project(const ustring & project, bool gui)
 // Does initial checks on the statistics system of a project.
 // Upgrades if needed.
 {
-  return;
-  // Skip if database exists.
+  // Name of the database.
   ustring filename = statistics_database(project);
+
+  // Since the system is out of order, remove any old database.
+  if (g_file_test(filename.c_str(), G_FILE_TEST_IS_REGULAR)) {
+    gw_message ("Removing Statistics Database for project " + project);
+    unlink (filename.c_str());
+  }
+  return;
+
+  // Skip if database exists.
   if (g_file_test(filename.c_str(), G_FILE_TEST_IS_REGULAR))
     return;
 
@@ -255,6 +262,8 @@ void StatisticsRecord::edit(const Reference & reference)
   edits.push_back(reference);
 }
 
-// Statistics is now out of order because we retrieve these things from git.
-// In the future we will use it to track administrative changes per verse, 
-// e.g. in which stage a particular verse is.
+// Statistics is now out of order because we retrieve these things from
+// the Snapshots.
+// In the future we could use it to track administrative changes 
+// per verse, e.g. in which stage a particular verse is.
+

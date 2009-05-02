@@ -163,6 +163,11 @@ Git itself could just continue to exist, since a copy is going to be made of tha
 When a remote update is used for the first time in Bibledit, in a Session, it is initialized first, once, and then to do the remote update. 
 This way a lot of disk churning is avoided at startup.
 
+We need to think of a special program, bibledit-shutdown, with a splash screen, that is activated on shutdown.
+It checks whether there are any cleaning tasks to be performed on shutdown, and shows the progress of these if it does it.
+
 
 
 */
+
+
