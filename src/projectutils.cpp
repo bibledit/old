@@ -39,6 +39,9 @@
 #include "tiny_utilities.h"
 #include "notes_utils.h"
 #include "scripts.h"
+#include "statistics.h"
+#include "snapshots.h"
+
 
 void project_store_sanitize_line(ustring & line)
 /* 
@@ -91,6 +94,9 @@ void project_store_chapter_internal(const ustring & project, unsigned int book, 
 
   // Git.
   git_store_chapter(project, book, chapter);
+  
+  // Store a snapshot of this chapter.
+  snapshots_shoot_chapter (project, book, chapter, 0, false);
 }
 
 void projects_initial_check(bool gui)
@@ -155,6 +161,8 @@ void project_create(const ustring & project)
   statistics_initial_check_project(project, false);
   // Create git repository.
   git_initial_check_project(project, false);
+  // Initialize snapshots.
+  snapshots_initialize_project (project);
 }
 
 void project_delete(const ustring & project)
@@ -163,9 +171,9 @@ void project_delete(const ustring & project)
   // No project: bail out.
   if (project.empty())
     return;
-  // Remove repositories.
+  // Remove pending data for git operations.
   git_remove_project(project);
-  // Delete the whole project, including the statistics database.
+  // Delete the whole project, including all databases and the repository.
   ustring directory = gw_build_filename(directories_get_projects(), project);
   unix_rmdir(directory);
 }
@@ -180,13 +188,14 @@ void project_copy(const ustring & project, const ustring & newproject)
   statistics_initial_check_project(newproject, false);
   // Use of a remote repository is switched off so as not to mess with our server.
   git_revert_to_internal_repository(newproject);
+  // Statistics database will have been copied already.
 }
 
 void project_move(const ustring & project, const ustring & newproject)
 {
   // Move git project.
   git_move_project(project, newproject);
-  // This moves the whole project, including the statistics database.
+  // This moves the whole project, including the databases.
   ustring oldname = (gw_build_filename(directories_get_projects(), project));
   ustring newname = (gw_build_filename(directories_get_projects(), newproject));
   unix_mv(oldname, newname);

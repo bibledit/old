@@ -76,10 +76,8 @@ private:
   GtkListStore *store;
   GtkTreeViewColumn *column;
   GtkTreeSelection *selection;
-  vector <ustring> commits;      // Stores the commits. In sync with the seconds.
   vector <unsigned int> seconds; // Stores the seconds of the dates now loaded in the dialog.
   bool revisionloaded;
-  ustring git_clone_project;
   unsigned int branch;
   vector <ustring> history_data;
 };

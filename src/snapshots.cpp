@@ -24,9 +24,9 @@
 #include "gwrappers.h"
 #include <sqlite3.h>
 #include "date_time_utils.h"
-#include "reference.h"
 #include "progresswindow.h"
 #include "utilities.h"
+#include "tiny_utilities.h"
 
 
 ustring snapshots_database (const ustring& project)
@@ -98,25 +98,64 @@ void snapshots_initialize_project (const ustring& project)
 }
 
 
-void snapshots_store_chapter (const ustring& project, unsigned int book, unsigned int chapter, const vector <ustring>& content, unsigned int seconds, bool persistent)
+void snapshots_shoot_chapter (const ustring& project, unsigned int book, unsigned int chapter, unsigned int seconds, bool persistent)
 // Stores a snapshot of the chapter in the database.
 // seconds: the time. If 0, it makes its own time.
 // persistent: whether this snapshots is persistent, that is, should never be removed.
 {
-  sqlite3 *db;
-  sqlite3_open(snapshots_database (project).c_str(), &db);
   if (seconds == 0)  
     seconds = date_time_seconds_get_current();
-  ustring content2;
-  for (unsigned int i = 0; i < content.size(); i++) {
-    if (i) content2.append ("\n");
-    content2.append (content[i]);
+  gchar *contents;
+  ustring datafile = project_data_filename_chapter (project, book, chapter, false);
+  g_file_get_contents(datafile.c_str(), &contents, NULL, NULL);
+  if (contents) {
+    sqlite3 *db;
+    sqlite3_open(snapshots_database (project).c_str(), &db);
+    char *sql;
+    sql = g_strdup_printf("insert into snapshots values (%d, %d, '%s', %d, %d)", book, chapter, double_apostrophy (contents).c_str(), seconds, persistent);
+    sqlite3_exec(db, sql, NULL, NULL, NULL);
+    g_free(sql);
+    sqlite3_close(db);
+    g_free (contents);
   }
+}
+
+
+vector <unsigned int> snapshots_get_seconds (const ustring& project, unsigned int book, unsigned int chapter)
+// Retrieves a list of seconds from the database, given a project, book, and chapter.
+{
+  vector <unsigned int> seconds;
+  sqlite3 *db;
+  sqlite3_open(snapshots_database (project).c_str(), &db);
+  SqliteReader reader(0);
   char *sql;
-  sql = g_strdup_printf("insert into snapshots values (%d, %d, '%s', %d, %d)", book, chapter, double_apostrophy (content2).c_str(), seconds, persistent);
-  sqlite3_exec(db, sql, NULL, NULL, NULL);
+  sql = g_strdup_printf("select seconds from snapshots where book = %d and chapter = %d order by seconds desc;", book, chapter);
+  sqlite3_exec(db, sql, reader.callback, &reader, NULL);
   g_free(sql);
+  for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
+    seconds.push_back (convert_to_int (reader.ustring0[i]));
+  }
   sqlite3_close(db);
+  return seconds;
+}
+
+
+ustring snapshots_get_chapter (const ustring& project, unsigned int book, unsigned int chapter, unsigned int seconds)
+// Retrieves a chapter's data from the database, given a project, book, chapter number, and the seconds.
+{
+  ustring data;
+  sqlite3 *db;
+  sqlite3_open(snapshots_database (project).c_str(), &db);
+  SqliteReader reader(0);
+  char *sql;
+  sql = g_strdup_printf("select content from snapshots where book = %d and chapter = %d and seconds = %d;", book, chapter, seconds);
+  sqlite3_exec(db, sql, reader.callback, &reader, NULL);
+  g_free(sql);
+  if (!reader.ustring0.empty()) {
+    data = reader.ustring0[0];
+  }
+  sqlite3_close(db);
+  return data;
 }
 
 /*
@@ -124,16 +163,9 @@ void snapshots_store_chapter (const ustring& project, unsigned int book, unsigne
 Todo Snapshots
 
 Bibledit becomes too slow as regards git.
-When Bibledit starts, it creates a database snapshots.sql for each project.
-It has these fields:
-* book
-* chapter
-* text
-* persistent
-The database holds snapshots of each chapter.
-When there's a change in a chapter, a snapshot is stored.
-When creating the database, it is filled with the current state of the chapters.
- 
+
+It also needs to be applied to "Changes".
+
 On regular days it trims the database, using defaults, which can be changed by the user. 
 The defaults are for the first month keep all, then every first and last of each day, 
 then after a some time it only keeps the first in the day, then the first in each month. 
@@ -151,6 +183,8 @@ This prevents a lot of disk churning on startup.
 We need to think of a system so that a common ancestor is always found when merging. 
 If snapshots are removed over time, then we may also remove the point where it had a common ancestor. 
 The solution is to mark some snapshots as permanent, such as the ones made on copy, and on merge. The permanent ones will never be deleted.
+So if these are done we need to specifically instruct the software to make it permanent. Probably just calling another shoot.
+On copy and merge, we need to take the snapshots for both projects, and for all the chapters that could have been affected.
 
 In the Snapshot Assistant, however, if there's a .git directory, it offers to import Snapshots from the Git repository.
 That way we could have whatever history we have now.
@@ -160,7 +194,7 @@ It might be very helpful if the number of snapshots is reduced already, so that 
 The standard routine for this could be applied to the conversion unit too, so that only a list of “seconds” is transferred from git into Snapshots. 
 Git itself could just continue to exist, since a copy is going to be made of that.
 
-When a remote update is used for the first time in Bibledit, in a Session, it is initialized first, once, and then to do the remote update. 
+When a remote update is used for the first time in Bibledit, in a Session, git is initialized first, once, and then to do the remote update. 
 This way a lot of disk churning is avoided at startup.
 
 We need to think of a special program, bibledit-shutdown, with a splash screen, that is activated on shutdown.

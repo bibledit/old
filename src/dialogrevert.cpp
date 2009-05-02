@@ -32,11 +32,10 @@
 #include "listview.h"
 #include "date_time_utils.h"
 #include "tiny_utilities.h"
-#include "git.h"
 #include "directories.h"
 #include "unixwrappers.h"
-#include "progresswindow.h"
 #include "compareutils.h"
+#include "snapshots.h"
 
 
 RevertDialog::RevertDialog(Reference * reference)
@@ -49,10 +48,6 @@ RevertDialog::RevertDialog(Reference * reference)
   reference_chapter = reference->chapter;
   revisionloaded = false;
   branch = 0;
-
-  // Progress dialog
-  ProgressWindow progresswindow("Working...", false);
-  progresswindow.set_fraction(0.5);
 
   // Build dialog.
   Shortcuts shortcuts(0);
@@ -206,10 +201,6 @@ RevertDialog::RevertDialog(Reference * reference)
   gtk_widget_grab_focus(okbutton1);
   gtk_widget_grab_default(okbutton1);
 
-  // Copy the project to the temporal one.
-  git_clone_project = "__git__revert__poject";
-  project_copy(project, git_clone_project);
-
   // Load books. This also loads the chapters through the callback.
   vector < unsigned int >books = project_get_books(project);
   vector < ustring > localbooks;
@@ -227,8 +218,6 @@ RevertDialog::~RevertDialog()
 {
   delete changes_gui;
   gtk_widget_destroy(revertdialog);
-  if (!git_clone_project.empty())
-    project_delete(git_clone_project);
 }
 
 int RevertDialog::run()
@@ -267,10 +256,8 @@ void RevertDialog::on_chapter_changed()
   ustring chapterdirectory = project_data_directory_chapter(project, book_get(), chapter_get());
   ustring path = project_data_filename_chapter(project, book_get(), chapter_get(), false);
   path = gw_path_get_basename(path);
-  commits.clear();
-  seconds.clear();
-  git_log_read(chapterdirectory, commits, seconds, path);
-  vector < ustring > lines;
+  seconds = snapshots_get_seconds (project, book_get(), chapter_get());
+  vector <ustring> lines;
   for (unsigned int i = 0; i < seconds.size(); i++) {
     lines.push_back(date_time_seconds_human_readable(seconds[i], false));
   }
@@ -293,36 +280,22 @@ void RevertDialog::on_treeviewrevisions_row_activated(GtkTreeView * treeview, Gt
 
 void RevertDialog::on_revision_activated()
 {
-  // Get the commit's name.
-  ustring commit;
+  // Get the second when the snapshot was taken.
+  unsigned int second = 0;
   {
     ustring row = listview_get_active_string(treeviewrevisions);
     for (unsigned int i = 0; i < seconds.size(); i++) {
       if (row == date_time_seconds_human_readable(seconds[i], false)) {
-        commit = commits[i];
+        second = seconds[i];
         break;
       }
     }
   }
 
-  // Get the data directory.
-  ustring datadirectory = project_data_directory_project(git_clone_project);
-
-  // Check the revision out.
-  {
-    GwSpawn spawn("git-checkout");
-    spawn.workingdirectory(datadirectory);
-    spawn.arg("-b");
-    branch++;
-    spawn.arg("branch" + convert_to_string(branch));
-    spawn.arg(commit);
-    spawn.run();
-  }
-
   // Load the chapter's data.
-  ustring filename_history = project_data_filename_chapter(git_clone_project, book_get(), chapter_get(), false);
-  ReadText rt (filename_history, true, false);
-  history_data = rt.lines;
+  ustring data = snapshots_get_chapter (project, book_get(), chapter_get(), second);
+  ParseLine parse (data);
+  history_data = parse.lines;
 
   // Revision loaded.
   revisionloaded = true;
