@@ -864,7 +864,7 @@ vector < ustring > git_retrieve_chapter_commit(const ustring & project, unsigned
   ReadText rt(chapterfilename, true, false);
 
   // The branch just checked out can have removed data and directories.
-  // So to be sure, check on that, and if needed work from manother directory.
+  // So to be sure, check on that, and if needed work from another directory.
   ustring workingdirectory(chapterdirectory);
   if (!g_file_test(chapterdirectory.c_str(), G_FILE_TEST_IS_DIR)) {
     workingdirectory = projectdirectory;

@@ -182,7 +182,10 @@ unsigned int snapshots_oldest_second (const ustring& project)
 Todo Snapshots
 
 
-It also needs to be applied to "Changes".
+It also needs to be applied to "Changes". And to "Backup".
+
+When a chapter, or anything, is deleted, it needs to store an empty shapshot, so that 
+it is remembered that this chapter, or anything, is now empty.
 
 On regular days it trims the database, using defaults, which can be changed by the user. 
 The defaults are for the first month keep all, then every first and last of each day, 

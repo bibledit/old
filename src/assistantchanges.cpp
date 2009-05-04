@@ -22,7 +22,6 @@
 #include "assistantchanges.h"
 #include "help.h"
 #include "settings.h"
-#include "git.h"
 #include "date_time_utils.h"
 #include "projectutils.h"
 #include "gtkwrappers.h"
@@ -247,7 +246,7 @@ void ChangesAssistant::on_assistant_apply ()
 }
 
 
-ustring ChangesAssistant::copy_project_and_move_back_in_history (const ustring& project, unsigned int second) // Todo try out.
+ustring ChangesAssistant::copy_project_and_move_back_in_history (const ustring& project, unsigned int second)
 {
   // Progress.
   ProgressWindow progresswindow("Going back in history", false);
@@ -270,8 +269,10 @@ ustring ChangesAssistant::copy_project_and_move_back_in_history (const ustring& 
       unsigned int second_to_restore_to = 0;
       vector <unsigned int> seconds = snapshots_get_seconds (project, book, chapter);
       for (unsigned int s = 0; s < seconds.size(); s++) {
-        if (second < seconds[s]) {
-          second_to_restore_to = seconds[s];
+        if (second_to_restore_to == 0) {
+          if (second >= seconds[s]) {
+            second_to_restore_to = seconds[s];
+          }
         }
       }
       if (second_to_restore_to) {
@@ -294,8 +295,3 @@ void ChangesAssistant::view_changes(const ustring& current_stage_project, const 
 }
 
 
-/*
-
-Todo we need to try out Changes display. So that it works properly. Right now it fails to work fine.
-
-*/
