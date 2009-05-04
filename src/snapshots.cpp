@@ -158,12 +158,31 @@ ustring snapshots_get_chapter (const ustring& project, unsigned int book, unsign
   return data;
 }
 
+
+unsigned int snapshots_oldest_second (const ustring& project)
+{
+  unsigned int oldest_second = 0;
+  sqlite3 *db;
+  sqlite3_open(snapshots_database (project).c_str(), &db);
+  SqliteReader reader(0);
+  char *sql;
+  sql = g_strdup_printf("select seconds from snapshots order by seconds asc;");
+  sqlite3_exec(db, sql, reader.callback, &reader, NULL);
+  g_free(sql);
+  if (!reader.ustring0.empty()) {
+    oldest_second = convert_to_int (reader.ustring0[0]);
+  }
+  sqlite3_close(db);
+  return oldest_second;
+}
+
+
 /*
 
 Todo Snapshots
 
 
-It also needs to be applied to "Changes". And to Merge.
+It also needs to be applied to "Changes".
 
 On regular days it trims the database, using defaults, which can be changed by the user. 
 The defaults are for the first month keep all, then every first and last of each day, 

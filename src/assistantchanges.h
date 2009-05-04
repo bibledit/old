@@ -62,7 +62,7 @@ private:
   ustring temporal_from_project;
   ustring temporal_to_project;  
   References * myreferences;
-  ustring copy_and_checkout_project (const ustring& project, unsigned int second);
+  ustring copy_project_and_move_back_in_history (const ustring& project, unsigned int second);
   void view_changes(const ustring& current_stage_project, const ustring& previous_stage_project);
 };
 

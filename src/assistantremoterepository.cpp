@@ -579,7 +579,7 @@ bool RemoteRepositoryAssistant::try_git_create_repository (const ustring& name, 
   spawn.run();
   bool okay = (spawn.exitstatus == 0);
   if (!okay) {
-    gtk_label_set_text(GTK_LABEL(label_try_git), "git-init fails to create a repository");
+    gtk_label_set_text(GTK_LABEL(label_try_git), "git init fails to create a repository");
   }
   return okay;
 }
@@ -600,7 +600,7 @@ bool RemoteRepositoryAssistant::try_git_store_data_in_repository (const ustring&
   bool okay = (spawn.exitstatus == 0);
   
   if (!okay) {
-    gtk_label_set_text(GTK_LABEL(label_try_git), "git-add fails to add data to the repository");
+    gtk_label_set_text(GTK_LABEL(label_try_git), "git add fails to add data to the repository");
   }
 
   if (okay) {
@@ -614,7 +614,7 @@ bool RemoteRepositoryAssistant::try_git_store_data_in_repository (const ustring&
     okay = (spawn.exitstatus == 0);
   }
   if (!okay) {
-    gtk_label_set_text(GTK_LABEL(label_try_git), "git-commit fails to commit data to the repository");
+    gtk_label_set_text(GTK_LABEL(label_try_git), "git commit fails to commit data to the repository");
   }
 
   return okay;
@@ -672,7 +672,7 @@ bool RemoteRepositoryAssistant::try_git_checkout_repository (const ustring& loca
   gw_mkdir_with_parents(cloning_directory);
 
   // Clone the remote repository.
-  GwSpawn spawn("git-clone");
+  GwSpawn spawn("git clone");
   spawn.workingdirectory(cloning_directory);
   spawn.arg(git_testing_directory (remote));
   spawn.run();
@@ -680,7 +680,7 @@ bool RemoteRepositoryAssistant::try_git_checkout_repository (const ustring& loca
 
   // Message if things didn't work out.
   if (!okay) {
-    gtk_label_set_text(GTK_LABEL(label_try_git), "git-clone fails to clone the repository");
+    gtk_label_set_text(GTK_LABEL(label_try_git), "git clone fails to clone the repository");
   }
   
   // Move the repository into place.
@@ -781,7 +781,7 @@ void RemoteRepositoryAssistant::entry_changed_timeout()
   event_id_entry_repository = 0;
 
   // Test read access to the repository.
-  GwSpawn spawn("git-ls-remote");
+  GwSpawn spawn("git ls-remote");
   spawn.arg(repository_url_get());
   spawn.read();
   spawn.run();

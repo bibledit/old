@@ -30,6 +30,8 @@
 #include "progresswindow.h"
 #include "gwrappers.h"
 #include "compareutils.h"
+#include "snapshots.h"
+#include "utilities.h"
 
 
 ChangesAssistant::ChangesAssistant(References * references) :
@@ -88,10 +90,10 @@ AssistantBase("Changes", "changes")
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_last_review, true);
 
   // Show the date and time of last review. 
-  // If that is uninitialized, take the date/time from the oldest revision in the git repository.
+  // If that is uninitialized, take the date/time from the oldest revision in the Snapshots.
   unsigned int last_review_seconds = projectconfig->changes_last_review_get();
   if (last_review_seconds == 0) {
-    last_review_seconds = git_oldest_commit(settings->genconfig.project_get());
+    last_review_seconds = snapshots_oldest_second (settings->genconfig.project_get());
     if (last_review_seconds == 0)
       last_review_seconds--;
     projectconfig->changes_last_review_set(last_review_seconds);
@@ -102,7 +104,7 @@ AssistantBase("Changes", "changes")
   // Date from.
   date_from_seconds = projectconfig->changes_since_get();
   if (date_from_seconds == 0) {
-    date_from_seconds = git_oldest_commit(settings->genconfig.project_get());
+    date_from_seconds = snapshots_oldest_second (settings->genconfig.project_get());
     if (date_from_seconds == 0)
       date_from_seconds--;
     projectconfig->changes_since_set(date_from_seconds);
@@ -225,18 +227,18 @@ void ChangesAssistant::on_assistant_apply ()
   // The actions. 
   ustring project = settings->genconfig.project_get();
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_since_last_review))) {
-    temporal_from_project = copy_and_checkout_project (project, projectconfig->changes_last_review_get ());
+    temporal_from_project = copy_project_and_move_back_in_history (project, projectconfig->changes_last_review_get ());
     view_changes(project, temporal_from_project);
     // Set the date for the next review.  
     projectconfig->changes_last_review_set(date_time_seconds_get_current());
   }
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_since_date))) {
-    temporal_from_project = copy_and_checkout_project (project, date_from_seconds);
+    temporal_from_project = copy_project_and_move_back_in_history (project, date_from_seconds);
     view_changes(project, temporal_from_project);
   }
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_between_dates))) {
-    temporal_from_project = copy_and_checkout_project (project, date_from_seconds);
-    temporal_to_project = copy_and_checkout_project (project, date_to_seconds);
+    temporal_from_project = copy_project_and_move_back_in_history (project, date_from_seconds);
+    temporal_to_project = copy_project_and_move_back_in_history (project, date_to_seconds);
     view_changes(temporal_to_project, temporal_from_project);
   }
   
@@ -245,60 +247,41 @@ void ChangesAssistant::on_assistant_apply ()
 }
 
 
-ustring ChangesAssistant::copy_and_checkout_project (const ustring& project, unsigned int second)
+ustring ChangesAssistant::copy_project_and_move_back_in_history (const ustring& project, unsigned int second) // Todo try out.
 {
-  // Copy the current project to the temporal history project.
+  // Progress.
+  ProgressWindow progresswindow("Going back in history", false);
+
+  // Create a temporal history project.
   ustring copiedproject = project + " as it was on " + date_time_seconds_human_readable (second, false);
-  {
-    ProgressWindow progresswindow("Copying project", false);
-    progresswindow.set_fraction(0.5);
-    project_copy(project, copiedproject);
-  }
+  project_create (copiedproject);
 
-  // The data directory to work in.
-  ustring history_project_data_directory = project_data_directory_project(copiedproject);
-
-  // Retrieve the name of the first commit since or at the date and time given.
-  vector <ustring> commits;
-  vector <unsigned int> seconds;
-  git_log_read(history_project_data_directory, commits, seconds, ""); // Todo
-  // Note if the date and time are older than the project's oldest commit.
-  bool date_time_older_than_project = false;
-  ustring commit;
-  if (!commits.empty()) {
-    unsigned int most_recent_second = seconds[0];
-    // If the date and time are more recent than the most recent commit,
-    // it doesn't pick a commit, as there are no changes recorded.
-    if (second <= most_recent_second) {
-      commit = git_log_pick_commit_at_date_time(commits, seconds, second);
-    }
-    unsigned int oldest_second = seconds[seconds.size() - 1];
-    if (second < oldest_second) {
-      date_time_older_than_project = true;
-      commit = commits[0];
-    }
-  }
-  
-  // Check the revision out if a commit was picked.
-  if (!commit.empty()) {
-    GwSpawn spawn("git-checkout");
-    spawn.workingdirectory(history_project_data_directory);
-    spawn.arg("-b");
-    spawn.arg("bibleditcomparison");
-    spawn.arg(commit);
-    spawn.progress("Retrieving data from history", false);
-    spawn.run();
-    if (spawn.exitstatus != 0) {
-      gtkw_dialog_error(assistant, "Failed to retrieve history");
-    }
-    // If the commit is older than the project, clear the temporal project.
-    if (date_time_older_than_project) {
-      vector < unsigned int >books = project_get_books(copiedproject);
-      for (unsigned int i = 0; i < books.size(); i++) {
-        project_remove_book(copiedproject, books[i]);
+  // Go through all the books of the original project.
+  vector <unsigned int> books = project_get_books (project);
+  progresswindow.set_iterate (0, 1, books.size());
+  for (unsigned int bk = 0; bk < books.size(); bk++) {
+    progresswindow.iterate ();
+    unsigned int book = books[bk];
+    // Go through all the chapters of the book.
+    vector <unsigned int> chapters = project_get_chapters (project, book);
+    for (unsigned int ch = 0; ch < chapters.size(); ch++) {
+      unsigned int chapter = chapters[ch];
+      // Store the chapter in the state as it was on the second given.
+      unsigned int second_to_restore_to = 0;
+      vector <unsigned int> seconds = snapshots_get_seconds (project, book, chapter);
+      for (unsigned int s = 0; s < seconds.size(); s++) {
+        if (second < seconds[s]) {
+          second_to_restore_to = seconds[s];
+        }
+      }
+      if (second_to_restore_to) {
+        ustring data = snapshots_get_chapter (project, book, chapter, second_to_restore_to);
+        ParseLine parseline (data);
+        CategorizeChapterVerse ccv(parseline.lines);
+        project_store_chapter(copiedproject, book, ccv);
       }
     }
-  }    
+  }
 
   // Give result.
   return copiedproject;
@@ -310,3 +293,9 @@ void ChangesAssistant::view_changes(const ustring& current_stage_project, const 
   compare_with(myreferences, previous_stage_project, current_stage_project, true);
 }
 
+
+/*
+
+Todo we need to try out Changes display. So that it works properly. Right now it fails to work fine.
+
+*/

@@ -52,7 +52,7 @@ void backup_make_flexible()
     projectconfig->backup_incremental_last_time_set(date_time_seconds_get_current());
 }
 
-void backup_make(const ustring & project, bool full, int timefrom)
+void backup_make(const ustring & project, bool full, int timefrom) // Todo use Snapshots.
 {
   // Working directory and zipped filename.
   ustring workingdirectory = gw_build_filename(directories_get_temp(), "backup");

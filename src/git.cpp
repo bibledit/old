@@ -695,7 +695,7 @@ void git_get_chapters_changed_since(const ustring & project, int second, vector 
     return;
   }
   // Check the revision out.
-  GwSpawn spawn("git-checkout");
+  GwSpawn spawn("git checkout");
   spawn.workingdirectory(history_project_data_directory);
   spawn.arg("-b");
   spawn.arg("bibleditbackup");
@@ -789,7 +789,7 @@ void git_resolve_conflicts(const ustring & project, const vector < ustring > &er
   // Run a "git status" to find the books and chapters that have a merge conflict.
   vector < Reference > conflicted_chapters;
   {
-    GwSpawn spawn("git-status");
+    GwSpawn spawn("git status");
     spawn.workingdirectory(directory);
     spawn.read();
     spawn.run();
@@ -819,7 +819,7 @@ void git_resolve_conflicts(const ustring & project, const vector < ustring > &er
 
   // Commit the changes.
   {
-    GwSpawn spawn("git-commit");
+    GwSpawn spawn("git commit");
     spawn.workingdirectory(directory);
     spawn.arg("-m");
     spawn.arg("Resolved conflict");
@@ -841,7 +841,7 @@ vector < ustring > git_retrieve_chapter_commit(const ustring & project, unsigned
 
   // Just to be sure, commit anything that might be outstanding.
   {
-    GwSpawn spawn("git-commit");
+    GwSpawn spawn("git commit");
     spawn.workingdirectory(chapterdirectory);
     spawn.arg("-a");
     spawn.arg("-m");
@@ -851,7 +851,7 @@ vector < ustring > git_retrieve_chapter_commit(const ustring & project, unsigned
 
   // Check the desired commit out in a new branch.
   {
-    GwSpawn spawn("git-checkout");
+    GwSpawn spawn("git checkout");
     spawn.workingdirectory(chapterdirectory);
     spawn.arg("-b");
     spawn.arg("git_retrieve_chapter_commit");
@@ -871,7 +871,7 @@ vector < ustring > git_retrieve_chapter_commit(const ustring & project, unsigned
   }
   // Switch back to the master branch.
   {
-    GwSpawn spawn("git-checkout");
+    GwSpawn spawn("git checkout");
     spawn.workingdirectory(workingdirectory);
     spawn.arg("master");
     spawn.run();
@@ -879,7 +879,7 @@ vector < ustring > git_retrieve_chapter_commit(const ustring & project, unsigned
 
   // Remove the temporal branch.  
   {
-    GwSpawn spawn("git-branch");
+    GwSpawn spawn("git branch");
     spawn.workingdirectory(workingdirectory);
     spawn.arg("-d");
     spawn.arg("git_retrieve_chapter_commit");
@@ -888,20 +888,6 @@ vector < ustring > git_retrieve_chapter_commit(const ustring & project, unsigned
 
   // Give results.  
   return rt.lines;
-}
-
-
-unsigned int git_oldest_commit (const ustring& project)
-// Reads the oldest commit in the git repository of "project".
-{
-  unsigned int second = 0;
-  vector <ustring> commits;
-  vector <unsigned int>seconds;
-  git_log_read(project, commits, seconds, "");
-  if (!seconds.empty()) {
-    second = seconds[seconds.size() - 1];
-  }
-  return second;
 }
 
 

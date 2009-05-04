@@ -41,39 +41,39 @@ void git_exec_initialize_project(const ustring & project, bool health)
   // On most machines git can determine the user's name from the system services. 
   // But on the XO machine, it can't.
   // It is set here manually.
-  ustring command0 = "git-config user.email \"";
+  ustring command0 = "git config user.email \"";
   command0.append(g_get_user_name());
   command0.append("@");
   command0.append(g_get_host_name());
   command0.append("\"");
   git_exec_command(command0, datadirectory);
-  command0 = "git-config user.name \"";
+  command0 = "git config user.name \"";
   command0.append(g_get_real_name());
   command0.append("\"");
   git_exec_command(command0, datadirectory);
 
   // (Re)initialize the repository. This can be done repeatedly without harm.
-  ustring command1 = "git-init";
+  ustring command1 = "git init";
   git_exec_command(command1, datadirectory);
   // At times health-related commands are ran too.
   if (health) {
     ustring command;
     // Prune all unreachable objects from the object database.
-    command = "git-prune";
+    command = "git prune";
     git_exec_command(command, datadirectory);
     // Cleanup unnecessary files and optimize the local repository.
-    command = "git-gc --aggressive";
+    command = "git gc --aggressive";
     git_exec_command(command, datadirectory);
     // Remove extra objects that are already in pack files.
-    command = "git-prune-packed";
+    command = "git prune-packed";
     git_exec_command(command, datadirectory);
     // Pack unpacked objects in the repository.
-    command = "git-repack";
+    command = "git repack";
     git_exec_command(command, datadirectory);
   }
   // Ensure that anything that was put in by hand will be seen by git.
   // This makes the system more robust.
-  ustring command2 = "git-add .";
+  ustring command2 = "git add .";
   git_exec_command(command2, datadirectory);
   git_exec_commit_directory(datadirectory);
 }
@@ -89,7 +89,7 @@ void git_exec_store_chapter(const ustring & project, unsigned int book, unsigned
 
   // The chapter may have been added when it wasn't there before.
   // Just to be sure, add anything under the data directory.  
-  ustring command = "git-add .";
+  ustring command = "git add .";
   git_exec_command(command, datadirectory);
 
   // Show status, and commit changes.
@@ -106,13 +106,13 @@ void git_exec_commit_project(const ustring & project)
 void git_exec_commit_directory(const ustring & directory)
 {
   // Show status, and commit changes.
-  ustring command1 = "git-status -a";
+  ustring command1 = "git status -a";
   git_exec_command(command1, directory);
 
-  ustring command2 = "git-add .";
+  ustring command2 = "git add .";
   git_exec_command(command2, directory);
 
-  ustring command3 = "git-commit -m Commit -a";
+  ustring command3 = "git commit -m Commit -a";
   git_exec_command(command3, directory);
 }
 
@@ -131,11 +131,11 @@ vector < ustring > git_exec_update_project(const ustring & project)
 
   // Pull changes from the remote repository.
   // Some git installations need the source and destination branches as well.
-  ustring command1 = "git-pull";
+  ustring command1 = "git pull";
   git_exec_command(command1, datadirectory);
 
   // Push changes to the remote repository.
-  ustring command2 = "git-push";
+  ustring command2 = "git push";
   git_exec_command(command2, datadirectory);
 
   // An update can fail in cases that the remote repository is not available 
