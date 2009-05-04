@@ -236,12 +236,18 @@ void project_store_book(const ustring & project, unsigned int book, CategorizeCh
 
 void project_remove_book(const ustring & project, unsigned int book)
 {
+  // Collect the chapter numbers in this book.
+  vector <unsigned int> chapters = project_get_chapters (project, book);
   // Store statistics.
   statistics_record_remove_book(project, book);
   // Repository update
   git_remove_book(project, book);
   // Remove book directory.
   unix_rmdir(project_data_directory_book(project, book));
+  // Store snapshots for the chapters we collected earlier.
+  for (unsigned int i = 0; i < chapters.size(); i++) {
+    snapshots_shoot_chapter (project, book, chapters[i], 0, false);
+  }
 }
 
 void project_store_chapter(const ustring & project, unsigned int book, CategorizeChapterVerse & ccv)
@@ -264,6 +270,8 @@ void project_remove_chapter(const ustring & project, unsigned int book, unsigned
   unix_rmdir(directory);
   // Update book.
   git_remove_chapter(project, book, chapter);
+  // Store empty snapshot.
+  snapshots_shoot_chapter (project, book, chapter, 0, false);
 }
 
 void project_store_verse(const ustring & project, unsigned int book, unsigned int chapter, const ustring & verse, const ustring & data)

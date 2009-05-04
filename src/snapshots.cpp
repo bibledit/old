@@ -108,16 +108,17 @@ void snapshots_shoot_chapter (const ustring& project, unsigned int book, unsigne
   gchar *contents;
   ustring datafile = project_data_filename_chapter (project, book, chapter, false);
   g_file_get_contents(datafile.c_str(), &contents, NULL, NULL);
-  if (contents) {
-    sqlite3 *db;
-    sqlite3_open(snapshots_database (project).c_str(), &db);
-    char *sql;
+  sqlite3 *db;
+  sqlite3_open(snapshots_database (project).c_str(), &db);
+  char *sql;
+  if (contents)
     sql = g_strdup_printf("insert into snapshots values (%d, %d, '%s', %d, %d)", book, chapter, double_apostrophy (contents).c_str(), seconds, persistent);
-    sqlite3_exec(db, sql, NULL, NULL, NULL);
-    g_free(sql);
-    sqlite3_close(db);
-    g_free (contents);
-  }
+  else
+    sql = g_strdup_printf("insert into snapshots values (%d, %d, '""', %d, %d)", book, chapter, seconds, persistent);
+  sqlite3_exec(db, sql, NULL, NULL, NULL);
+  g_free(sql);
+  sqlite3_close(db);
+  g_free (contents);
 }
 
 
@@ -204,42 +205,24 @@ void snapshots_get_chapters_changed_since(const ustring & project, unsigned int 
 
 Todo Snapshots
 
-When a chapter, or anything, is deleted, it needs to store an empty shapshot, so that 
-it is remembered that this chapter, or anything, is now empty.
+We need to think of a special program, bibledit-shutdown, with a splash screen, that is activated on shutdown.
+It checks whether there are any cleaning tasks to be performed on shutdown, and shows the progress of these if it does it.
+There is a database with cleaning tasks. Bibledit creates it. 
+If bibledit-shutdown is through, it removes the database completely.
+All shutdown operations now in the main executable move there.
 
-On regular days it trims the database, using defaults, which can be changed by the user. 
+Every day on shutdown it trims the database. 
 The defaults are for the first month keep all, then every first and last of each day, 
 then after a some time it only keeps the first in the day, then the first in each month. 
 This keeps the database small. Vacuum at times.
-The data from Snapshots is used in Merge and in Revert, and in Changes.
-
-An Assistant for Snapshots maintenance allows to maintain these for the current project,
-and a checkbox allows to do it for all projects. There is a "Maintain now" button too,
-and the user can set the maintenance schedule.
+Persistent snapshots are not removed.
 
 Send/receive scriptures. Works on git only. Normally only once in so many minutes, can be set. 
 Default every hour or so. The git system is only used when remote git is used as well, apart from that it is not used. 
 This prevents a lot of disk churning on startup.
 
-We need to think of a system so that a common ancestor is always found when merging. 
-If snapshots are removed over time, then we may also remove the point where it had a common ancestor. 
-The solution is to mark some snapshots as permanent, such as the ones made on copy, and on merge. The permanent ones will never be deleted.
-So if these are done we need to specifically instruct the software to make it permanent. Probably just calling another shoot.
-On copy and merge, we need to take the snapshots for both projects, and for all the chapters that could have been affected.
-
-In the Snapshot Assistant, however, if there's a .git directory, it offers to import Snapshots from the Git repository.
-That way we could have whatever history we have now.
-it starts an external program with GUI, that does the transfer from git to Snapshots. 
-Moving from Git to Snapshots could take very long. Bibledit could do it itself. 
-It might be very helpful if the number of snapshots is reduced already, so that only a couple of snapshots is stored. 
-The standard routine for this could be applied to the conversion unit too, so that only a list of “seconds” is transferred from git into Snapshots. 
-Git itself could just continue to exist, since a copy is going to be made of that.
-
 When a remote update is used for the first time in Bibledit, in a Session, git is initialized first, once, and then to do the remote update. 
 This way a lot of disk churning is avoided at startup.
-
-We need to think of a special program, bibledit-shutdown, with a splash screen, that is activated on shutdown.
-It checks whether there are any cleaning tasks to be performed on shutdown, and shows the progress of these if it does it.
 
 
 
