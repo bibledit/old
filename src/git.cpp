@@ -674,66 +674,6 @@ bool git_log_extract_date_time(const ustring & line, int &year, int &month, int 
   return success;
 }
 
-void git_get_chapters_changed_since(const ustring & project, int second, vector < unsigned int >&books, vector < unsigned int >&chapters) // Todo
-// This gives the books and chapters changed since "second".
-{
-  // Copy the project to the project that is going to contain the previous state.
-  ustring history_project = "__git_get_chapters_changed_since__";
-  project_copy(project, history_project);
-
-  // The data directory to work in.
-  ustring history_project_data_directory = project_data_directory_project(history_project);
-
-  // Retrieve the name of the first commit since or at the date and time given.  
-  vector < ustring > commits;
-  vector < unsigned int >seconds;
-  git_log_read(history_project_data_directory, commits, seconds, "");
-  ustring commit = git_log_pick_commit_at_date_time(commits, seconds, second);
-
-  // If there are no changes recorded since that date and time, bail out.
-  if (commit.empty()) {
-    return;
-  }
-  // Check the revision out.
-  GwSpawn spawn("git checkout");
-  spawn.workingdirectory(history_project_data_directory);
-  spawn.arg("-b");
-  spawn.arg("bibleditbackup");
-  spawn.arg(commit);
-  spawn.progress("Retrieving data from history", false);
-  spawn.run();
-
-  // Go through all books of the project.
-  vector < unsigned int >projectbooks = project_get_books(project);
-  for (unsigned int bk = 0; bk < projectbooks.size(); bk++) {
-    // Go through all chapters.
-    vector < unsigned int >projectchapters = project_get_chapters(project, projectbooks[bk]);
-    for (unsigned int ch = 0; ch < projectchapters.size(); ch++) {
-      // Get chapter data and compare it.
-      // Add differing books/chapters to the list.
-      ustring line_now;
-      {
-        vector < ustring > chapterdata = project_retrieve_chapter(project, projectbooks[bk], projectchapters[ch]);
-        for (unsigned int i = 0; i < chapterdata.size(); i++)
-          line_now.append(chapterdata[i]);
-      }
-      ustring line_history;
-      {
-        vector < ustring > chapterdata = project_retrieve_chapter(history_project, projectbooks[bk], projectchapters[ch]);
-        for (unsigned int i = 0; i < chapterdata.size(); i++)
-          line_history.append(chapterdata[i]);
-      }
-      if (line_now != line_history) {
-        books.push_back(projectbooks[bk]);
-        chapters.push_back(projectchapters[ch]);
-      }
-    }
-  }
-
-  // Clean up.  
-  project_delete(history_project);
-}
-
 Reference git_execute_retrieve_reference()
 // Retrieves the editor's reference from the database.
 {

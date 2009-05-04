@@ -32,7 +32,7 @@
 #include "gtkwrappers.h"
 #include "htmlbrowser.h"
 #include "tiny_utilities.h"
-#include "git.h"
+#include "snapshots.h"
 #include "export_utils.h"
 
 void backup_make_incremental()
@@ -52,7 +52,7 @@ void backup_make_flexible()
     projectconfig->backup_incremental_last_time_set(date_time_seconds_get_current());
 }
 
-void backup_make(const ustring & project, bool full, int timefrom) // Todo use Snapshots.
+void backup_make(const ustring & project, bool full, int timefrom)
 {
   // Working directory and zipped filename.
   ustring workingdirectory = gw_build_filename(directories_get_temp(), "backup");
@@ -104,7 +104,7 @@ void backup_make(const ustring & project, bool full, int timefrom) // Todo use S
     // provide that information.
     vector < unsigned int >books;
     vector < unsigned int >chapters;
-    git_get_chapters_changed_since(project, timefrom, books, chapters);
+    snapshots_get_chapters_changed_since(project, timefrom, books, chapters);
     if (books.empty()) {
       gtkw_dialog_info(NULL, "There was nothing to backup");
       return;

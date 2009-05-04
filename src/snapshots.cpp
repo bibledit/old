@@ -176,13 +176,33 @@ unsigned int snapshots_oldest_second (const ustring& project)
   return oldest_second;
 }
 
+void snapshots_get_chapters_changed_since(const ustring & project, unsigned int second, vector <unsigned int>& books, vector <unsigned int>& chapters)
+// This gives the books and chapters changed since the second given.
+{
+  books.clear();
+  chapters.clear();
+  vector <unsigned int> projectbooks = project_get_books(project);
+  for (unsigned int bk = 0; bk < projectbooks.size(); bk++) {
+    vector <unsigned int> projectchapters = project_get_chapters(project, projectbooks[bk]);
+    for (unsigned int ch = 0; ch < projectchapters.size(); ch++) {
+      unsigned int book = projectbooks[bk];
+      unsigned int chapter = projectchapters[ch];
+      vector <unsigned int> seconds = snapshots_get_seconds (project, book, chapter);
+      if (!seconds.empty()) {
+        if (seconds[0] > second) {
+          books.push_back (book);
+          chapters.push_back (chapter);
+        }
+      }
+    }
+  }
+}
+
+
 
 /*
 
 Todo Snapshots
-
-
-It also needs to be applied to "Changes". And to "Backup".
 
 When a chapter, or anything, is deleted, it needs to store an empty shapshot, so that 
 it is remembered that this chapter, or anything, is now empty.

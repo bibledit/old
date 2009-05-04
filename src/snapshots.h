@@ -32,6 +32,7 @@ void snapshots_shoot_chapter (const ustring& project, unsigned int book, unsigne
 vector <unsigned int> snapshots_get_seconds (const ustring& project, unsigned int book, unsigned int chapter);
 ustring snapshots_get_chapter (const ustring& project, unsigned int book, unsigned int chapter, unsigned int seconds);
 unsigned int snapshots_oldest_second (const ustring& project);
+void snapshots_get_chapters_changed_since(const ustring & project, unsigned int second, vector <unsigned int>& books, vector <unsigned int>& chapters);
 
 
 #endif
