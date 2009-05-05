@@ -26,8 +26,7 @@
 #include "session_highlights.h"
 
 class Session
-// Stores settings valid only during one session. If the program stops, this
-// information is lost - and that is what is wanted.
+// Stores settings valid only during one session.
   {
 public:
   Session(int dummy);
@@ -95,6 +94,8 @@ public:
   bool project_notes_show_title;
   // Styles.
   ustring selected_style;
+  // Vacuum.
+  vector <ustring> vacuum_files;
 private:
   };
 

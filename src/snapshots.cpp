@@ -27,6 +27,7 @@
 #include "progresswindow.h"
 #include "utilities.h"
 #include "tiny_utilities.h"
+#include "shutdown.h"
 
 
 ustring snapshots_database (const ustring& project)
@@ -200,21 +201,25 @@ void snapshots_get_chapters_changed_since(const ustring & project, unsigned int 
 }
 
 
+void snapshots_clean_up ()
+// Clean up the snapshots.
+{
+  vector <ustring> projects = projects_get_all ();
+  for (unsigned int i = 0; i < projects.size(); i++) {
+    vacuum_database (snapshots_database (projects[i]));
+  }
+}
+
+
 
 /*
 
 Todo Snapshots
 
-We need to think of a special program, bibledit-shutdown, with a splash screen, that is activated on shutdown.
-It checks whether there are any cleaning tasks to be performed on shutdown, and shows the progress of these if it does it.
-There is a database with cleaning tasks. Bibledit creates it. 
-If bibledit-shutdown is through, it removes the database completely.
-All shutdown operations now in the main executable move there.
-
-Every day on shutdown it trims the database. 
+Every day on shutdown it trims the databases. 
 The defaults are for the first month keep all, then every first and last of each day, 
 then after a some time it only keeps the first in the day, then the first in each month. 
-This keeps the database small. Vacuum at times.
+This keeps the database small.
 Persistent snapshots are not removed.
 
 Send/receive scriptures. Works on git only. Normally only once in so many minutes, can be set. 

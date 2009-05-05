@@ -29,7 +29,14 @@
 #include <sqlite3.h>
 #include "date_time_utils.h"
 #include "referencememory.h"
+#include "snapshots.h"
+#include "utilities.h"
 
+
+ustring shutdown_command_file ()
+{
+  return gw_build_filename (directories_get_temp (), "shutdown-actions");
+}
 
 void shutdown_actions()
 // Takes certain actions when Bibledit shuts down.
@@ -37,20 +44,13 @@ void shutdown_actions()
   // Open a configuration.
   extern Settings *settings;
 
-  // The actions are not always taken, but only once in so many days.
+  // The actions are not always taken, but only once a day.
   int clear_up_day = settings->genconfig.clear_up_day_get();
   int current_day = date_time_julian_day_get_current();
-  if (current_day < (clear_up_day + 30))
+  if (current_day < (clear_up_day + 1)) {
     return;
-  settings->genconfig.clear_up_day_set(current_day);
-
-  // Project related databases.
-  // Delete these, as they are old. This is temporal, 
-  // after some versions it can go away. Introduced in version 3.2. todo
-  vector < ustring > projects = projects_get_all();
-  for (unsigned int i = 0; i < projects.size(); i++) {
-    unlink(gw_build_filename(directories_get_projects(), projects[i], "data.sql2").c_str());
   }
+  settings->genconfig.clear_up_day_set(current_day);
 
   // Stylesheets: vacuum the sqlite database.
   stylesheet_vacuum();
@@ -60,30 +60,26 @@ void shutdown_actions()
   
   // References memory: vacuum the sqlite database.
   vacuum_database (references_memory_database_filename());
+  
+  // Clean up Snapshots.
+  snapshots_clean_up ();
+
+  // Write shutdown actions.
+  unlink (shutdown_command_file().c_str());
+  extern Settings *settings;
+  write_lines (shutdown_command_file(), settings->session.vacuum_files);
+  GwSpawn spawn ("bibledit-shutdown");
+  spawn.arg (shutdown_command_file());
+  spawn.async ();
+  spawn.run ();
 }
 
 
 void vacuum_database(const ustring & filename)
-// Vacuums the database given by "filename". 
+// Schedules the database given by "filename" for vacuuming.
 {
   if (filename.empty())
     return;
-  sqlite3 *db;
-  int rc;
-  char *error = NULL;
-  try {
-    rc = sqlite3_open(filename.c_str(), &db);
-    if (rc)
-      throw runtime_error(sqlite3_errmsg(db));
-    sqlite3_busy_timeout(db, 2000);
-    rc = sqlite3_exec(db, "vacuum;", NULL, NULL, &error);
-    if (rc != SQLITE_OK) {
-      throw runtime_error(error);
-    }
-  }
-  catch(exception & ex) {
-    ustring message(ex.what());
-    g_critical("%s", message.c_str());
-  }
-  sqlite3_close(db);
+  extern Settings *settings;
+  settings->session.vacuum_files.push_back (filename);
 }
