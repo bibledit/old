@@ -37,7 +37,7 @@
 #include "versification.h"
 #include "unixwrappers.h"
 #include "tiny_utilities.h"
-#include "shutdown.h"
+#include "maintenance.h"
 
 
 ustring references_memory_database_filename()

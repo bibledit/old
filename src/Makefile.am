@@ -221,7 +221,7 @@ bibledit_bin_SOURCES = \
         project_memory.cpp \
         dialogmerge.cpp \
         merge_utils.cpp \
-        shutdown.cpp \
+        maintenance.cpp \
         scripts.cpp \
         dialogfilters.cpp \
         dialogdictionary.cpp \

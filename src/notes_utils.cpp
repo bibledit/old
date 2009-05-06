@@ -36,7 +36,7 @@
 #include "versification.h"
 #include "unixwrappers.h"
 #include "tiny_utilities.h"
-#include "shutdown.h"
+#include "maintenance.h"
 
 void notes_database_verify(bool gui)
 /*

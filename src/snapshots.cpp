@@ -27,19 +27,20 @@
 #include "progresswindow.h"
 #include "utilities.h"
 #include "tiny_utilities.h"
-#include "shutdown.h"
+#include "maintenance.h"
 
 
-ustring snapshots_database (const ustring& project)
-// Gives the snapshots database for a given project.
+ustring snapshots_content_database (const ustring& project)
+// Gives the snapshots content database for a given project.
 {
   return gw_build_filename(directories_get_projects(), project, "snapshots.sql");
 }
 
 
 void snapshots_initialize_all ()
-// Initializes the snapshots system for all projects.
+// Initializes the snapshots system.
 {
+  // Initialize contents database for all projects.
   vector <ustring> projects = projects_get_all();
   for (unsigned int i = 0; i < projects.size(); i++) {
     snapshots_initialize_project(projects[i]);
@@ -51,7 +52,7 @@ void snapshots_initialize_project (const ustring& project)
 // Initializes the snapshots system for a given project.
 {
   // Skip if database exists.
-  ustring filename = snapshots_database (project);
+  ustring filename = snapshots_content_database (project);
   if (g_file_test(filename.c_str(), G_FILE_TEST_IS_REGULAR))
     return;
 
@@ -104,22 +105,27 @@ void snapshots_shoot_chapter (const ustring& project, unsigned int book, unsigne
 // seconds: the time. If 0, it makes its own time.
 // persistent: whether this snapshots is persistent, that is, should never be removed.
 {
-  if (seconds == 0)  
-    seconds = date_time_seconds_get_current();
-  gchar *contents;
-  ustring datafile = project_data_filename_chapter (project, book, chapter, false);
-  g_file_get_contents(datafile.c_str(), &contents, NULL, NULL);
-  sqlite3 *db;
-  sqlite3_open(snapshots_database (project).c_str(), &db);
-  char *sql;
-  if (contents)
-    sql = g_strdup_printf("insert into snapshots values (%d, %d, '%s', %d, %d)", book, chapter, double_apostrophy (contents).c_str(), seconds, persistent);
-  else
-    sql = g_strdup_printf("insert into snapshots values (%d, %d, '""', %d, %d)", book, chapter, seconds, persistent);
-  sqlite3_exec(db, sql, NULL, NULL, NULL);
-  g_free(sql);
-  sqlite3_close(db);
-  g_free (contents);
+  // Store snapshot content.
+  {
+    if (seconds == 0)  
+      seconds = date_time_seconds_get_current();
+    gchar *contents;
+    ustring datafile = project_data_filename_chapter (project, book, chapter, false);
+    g_file_get_contents(datafile.c_str(), &contents, NULL, NULL);
+    sqlite3 *db;
+    sqlite3_open(snapshots_content_database (project).c_str(), &db);
+    char *sql;
+    if (contents)
+      sql = g_strdup_printf("insert into snapshots values (%d, %d, '%s', %d, %d)", book, chapter, double_apostrophy (contents).c_str(), seconds, persistent);
+    else
+      sql = g_strdup_printf("insert into snapshots values (%d, %d, '""', %d, %d)", book, chapter, seconds, persistent);
+    sqlite3_exec(db, sql, NULL, NULL, NULL);
+    g_free(sql);
+    sqlite3_close(db);
+    g_free (contents);
+  }
+  // Register project for maintenance on shutdown.
+  maintenance_register_database (project, snapshots_content_database (project).c_str());
 }
 
 
@@ -128,7 +134,7 @@ vector <unsigned int> snapshots_get_seconds (const ustring& project, unsigned in
 {
   vector <unsigned int> seconds;
   sqlite3 *db;
-  sqlite3_open(snapshots_database (project).c_str(), &db);
+  sqlite3_open(snapshots_content_database (project).c_str(), &db);
   SqliteReader reader(0);
   char *sql;
   sql = g_strdup_printf("select seconds from snapshots where book = %d and chapter = %d order by seconds desc;", book, chapter);
@@ -147,7 +153,7 @@ ustring snapshots_get_chapter (const ustring& project, unsigned int book, unsign
 {
   ustring data;
   sqlite3 *db;
-  sqlite3_open(snapshots_database (project).c_str(), &db);
+  sqlite3_open(snapshots_content_database (project).c_str(), &db);
   SqliteReader reader(0);
   char *sql;
   sql = g_strdup_printf("select content from snapshots where book = %d and chapter = %d and seconds = %d;", book, chapter, seconds);
@@ -165,7 +171,7 @@ unsigned int snapshots_oldest_second (const ustring& project)
 {
   unsigned int oldest_second = 0;
   sqlite3 *db;
-  sqlite3_open(snapshots_database (project).c_str(), &db);
+  sqlite3_open(snapshots_content_database (project).c_str(), &db);
   SqliteReader reader(0);
   char *sql;
   sql = g_strdup_printf("select seconds from snapshots order by seconds asc;");
@@ -201,12 +207,65 @@ void snapshots_get_chapters_changed_since(const ustring & project, unsigned int 
 }
 
 
-void snapshots_clean_up ()
-// Clean up the snapshots.
+void snapshots_clean_up () // Todo
+// Trim the snapshots.
 {
   vector <ustring> projects = projects_get_all ();
   for (unsigned int i = 0; i < projects.size(); i++) {
-    vacuum_database (snapshots_database (projects[i]));
+    
+    /*
+    // Project
+    ustring project = projects[i];
+    
+    // Filename for the database.
+    ustring filename = snapshots_content_database (project);
+
+    // Current time.
+    //int current_seconds = date_time_seconds_get_current();
+    
+    // Open database.
+    sqlite3 *db;
+    sqlite3_open(filename.c_str(), &db);
+    char *sql;
+
+    // We're going to write a lot, therefore write fast.  
+    sql = g_strdup_printf("PRAGMA synchronous=OFF;");
+    sqlite3_exec(db, sql, NULL, NULL, NULL);
+    g_free(sql);
+
+    // Go through each chapter.
+    vector <unsigned int> books = project_get_books(project);
+    for (unsigned int bk = 0; bk < books.size(); bk++) {
+      unsigned int book = books[bk];
+      vector <unsigned int> chapters = project_get_chapters(project, book);
+      for (unsigned int ch = 0; ch < chapters.size(); ch++) {
+        unsigned int chapter = chapters[ch];
+
+        // Read persistent snapshots, and remove double non-persistent ones.
+        {
+          vector <unsigned int> persistent_seconds;
+          SqliteReader reader(0);
+          sql = g_strdup_printf("select seconds from snapshots where book = %d and chapter = %d and persistent = 1;", book, chapter);
+          sqlite3_exec(db, sql, reader.callback, &reader, NULL);
+          g_free(sql);
+          for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
+            persistent_seconds.push_back (convert_to_int (reader.ustring0[i]));
+          }
+          for (unsigned int i = 0; i < persistent_seconds.size(); i++) {
+            sql = g_strdup_printf("delete  from snapshots where book = %d and chapter = %d and seconds = %d and persistent = 0;", book, chapter, persistent_seconds[i]);
+            sqlite3_exec(db, sql, reader.callback, &reader, NULL);
+            cout << project << " "  << sql << endl; // Todo
+            g_free(sql);
+          }
+        }
+      }
+    }
+
+    // Close the database.
+    sqlite3_close(db);
+    */
+
+
   }
 }
 
@@ -214,19 +273,33 @@ void snapshots_clean_up ()
 
 /*
 
+Todo The Parallel Bible needs a better interface, so that all available Bibles show up in a listview, and can be ticked and reordered.
+
 Todo Snapshots
 
+A maintenance database is created on startup.
+It records which projects / books / chapters have their snapshots made.
+On shutdown it also records any other information that is of importance to do proper maintenance.
+
+We need a database in the configuration that acts as a journal for the snapshots. Done.
+We need a routine that extracts the projects / books / chapters affected.
+We need to only compress the databases that had been affected since last time. As most databases won't, this speeds up the thing a lot.
+So it only trims those chapters that have been affected.
 Every day on shutdown it trims the databases. 
-The defaults are for the first month keep all, then every first and last of each day, 
-then after a some time it only keeps the first in the day, then the first in each month. 
-This keeps the database small.
-Persistent snapshots are not removed.
+Read all persistent snapshots and remove any doubles.
+All following reads leave the persistent ones out.
+Keep everything till 2 days old.
+2 days to 1 week: keep one every hour.
+1 week to 1 month: keep one every day.
+1 month to 6 months: keep one every week.
+older: keep one every month.
+
 
 Send/receive scriptures. Works on git only. Normally only once in so many minutes, can be set. 
 Default every hour or so. The git system is only used when remote git is used as well, apart from that it is not used. 
 This prevents a lot of disk churning on startup.
 
-When a remote update is used for the first time in Bibledit, in a Session, git is initialized first, once, and then to do the remote update. 
+When a remote update is used for the first time in Bibledit, in a session, git is initialized first, once, and then to do the remote update. 
 This way a lot of disk churning is avoided at startup.
 
 

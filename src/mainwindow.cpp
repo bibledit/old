@@ -118,7 +118,7 @@
 #include "dialogviewstatus.h"
 #include "planning.h"
 #include "dialogplanningsetup.h"
-#include "shutdown.h"
+#include "maintenance.h"
 #include "dialogfilters.h"
 #include "dialogradiobutton.h"
 #include "import.h"

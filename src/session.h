@@ -94,8 +94,6 @@ public:
   bool project_notes_show_title;
   // Styles.
   ustring selected_style;
-  // Vacuum.
-  vector <ustring> vacuum_files;
 private:
   };
 

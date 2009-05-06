@@ -1,4 +1,4 @@
-SUBDIRS = man pix doc src scripts templates olpc desktop windows tests eeepc browser one
+SUBDIRS = man pix doc src scripts templates olpc desktop windows tests eeepc browser one shutdown
 # ACLOCAL_AMFLAGS = -I m4
 CLEANFILES = bibledit*.gz *~
 # EXTRA_DIST = m4/*

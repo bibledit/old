@@ -18,13 +18,15 @@
 */
 
 
-#ifndef INCLUDED_SHUTDOWN_H
-#define INCLUDED_SHUTDOWN_H
+#ifndef INCLUDED_MAINTENANCE_H
+#define INCLUDED_MAINTENANCE_H
 
 
 #include "libraries.h"
 
 
+void maintenance_initialize ();
+void maintenance_register_database (const ustring& project, const ustring& database);
 void shutdown_actions ();
 void vacuum_database (const ustring& filename);
 

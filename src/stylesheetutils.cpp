@@ -30,7 +30,7 @@
 #include "sqlite_reader.h"
 #include "unixwrappers.h"
 #include "tiny_utilities.h"
-#include "shutdown.h"
+#include "maintenance.h"
 #include "settings.h"
 #include <libxml/xmlwriter.h>
 #include <libxml/xmlreader.h>

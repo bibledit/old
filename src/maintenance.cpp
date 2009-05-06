@@ -17,7 +17,7 @@
 **  
 */
 
-#include "shutdown.h"
+#include "maintenance.h"
 #include "directories.h"
 #include "stylesheetutils.h"
 #include "projectutils.h"
@@ -33,10 +33,39 @@
 #include "utilities.h"
 
 
-ustring shutdown_command_file ()
+ustring maintenance_database_filename ()
 {
-  return gw_build_filename (directories_get_temp (), "shutdown-actions");
+  return gw_build_filename (directories_get_temp (), "maintenance.sql");
 }
+
+
+void maintenance_initialize ()
+// Initializes the maintenance register.
+{
+  // Create database.
+  unlink (maintenance_database_filename().c_str());
+  sqlite3 *db;
+  sqlite3_open(maintenance_database_filename().c_str(), &db);
+  sqlite3_exec(db, "create table snapshots (project text, database text);", NULL, NULL, NULL);
+  sqlite3_exec(db, "create table vacuum (filename text);", NULL, NULL, NULL);
+  sqlite3_close(db);
+}
+
+
+void maintenance_register_database (const ustring& project, const ustring& database) // Todo
+{
+  sqlite3 *db;
+  sqlite3_open(maintenance_database_filename().c_str(), &db);
+  char *sql;
+  sql = g_strdup_printf("delete from snapshots where project = '%s';", double_apostrophy (project).c_str());
+  sqlite3_exec(db, sql, NULL, NULL, NULL);
+  g_free(sql);
+  sql = g_strdup_printf("insert into snapshots values ('%s', '%s');", double_apostrophy (project).c_str(), double_apostrophy (database).c_str());
+  sqlite3_exec(db, sql, NULL, NULL, NULL);
+  g_free(sql);
+  sqlite3_close(db);
+}
+
 
 void shutdown_actions()
 // Takes certain actions when Bibledit shuts down.
@@ -48,7 +77,7 @@ void shutdown_actions()
   int clear_up_day = settings->genconfig.clear_up_day_get();
   int current_day = date_time_julian_day_get_current();
   if (current_day < (clear_up_day + 1)) {
-    return;
+    // Todo return;
   }
   settings->genconfig.clear_up_day_set(current_day);
 
@@ -64,22 +93,24 @@ void shutdown_actions()
   // Clean up Snapshots.
   snapshots_clean_up ();
 
-  // Write shutdown actions.
-  unlink (shutdown_command_file().c_str());
-  extern Settings *settings;
-  write_lines (shutdown_command_file(), settings->session.vacuum_files);
+  // Start maintenance on shutdown.
   GwSpawn spawn ("bibledit-shutdown");
-  spawn.arg (shutdown_command_file());
+  spawn.arg (maintenance_database_filename());
   spawn.async ();
   spawn.run ();
 }
 
 
-void vacuum_database(const ustring & filename)
+void vacuum_database(const ustring & filename) // Todo
 // Schedules the database given by "filename" for vacuuming.
 {
   if (filename.empty())
     return;
-  extern Settings *settings;
-  settings->session.vacuum_files.push_back (filename);
+  sqlite3 *db;
+  sqlite3_open(maintenance_database_filename ().c_str(), &db);
+  char *sql;
+  sql = g_strdup_printf("insert into vacuum values ('%s')", double_apostrophy (filename).c_str());
+  sqlite3_exec(db, sql, NULL, NULL, NULL);
+  g_free(sql);
+  sqlite3_close(db);
 }

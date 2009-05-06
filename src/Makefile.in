@@ -145,10 +145,10 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogradiobutton.$(OBJEXT) dialogresourceconverter2.$(OBJEXT) \
 	resource_conversion_utils.$(OBJEXT) convert.$(OBJEXT) \
 	textviewer.$(OBJEXT) roman.$(OBJEXT) project_memory.$(OBJEXT) \
-	dialogmerge.$(OBJEXT) merge_utils.$(OBJEXT) shutdown.$(OBJEXT) \
-	scripts.$(OBJEXT) dialogfilters.$(OBJEXT) \
-	dialogdictionary.$(OBJEXT) spelling.$(OBJEXT) \
-	dialogeditdictionary.$(OBJEXT) \
+	dialogmerge.$(OBJEXT) merge_utils.$(OBJEXT) \
+	maintenance.$(OBJEXT) scripts.$(OBJEXT) \
+	dialogfilters.$(OBJEXT) dialogdictionary.$(OBJEXT) \
+	spelling.$(OBJEXT) dialogeditdictionary.$(OBJEXT) \
 	check_sentence_structure.$(OBJEXT) dialogcheckbutton.$(OBJEXT) \
 	dialogxfernotes2text.$(OBJEXT) htmlcolor.$(OBJEXT) \
 	text2pdf.$(OBJEXT) text2pdf_utils.$(OBJEXT) \
@@ -574,7 +574,7 @@ bibledit_bin_SOURCES = \
         project_memory.cpp \
         dialogmerge.cpp \
         merge_utils.cpp \
-        shutdown.cpp \
+        maintenance.cpp \
         scripts.cpp \
         dialogfilters.cpp \
         dialogdictionary.cpp \
@@ -862,6 +862,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/listview.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/localizedbooks.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/localizednumerals.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/maintenance.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mainwindow.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mapping.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mappings.Po@am__quote@
@@ -913,7 +914,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/settings.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shell.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shortcuts.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shutdown.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/snapshots.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/spelling.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sqlite_reader.Po@am__quote@

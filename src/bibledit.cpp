@@ -27,7 +27,7 @@
 #include "dialogshowscript.h"
 #include "shell.h"
 #include "user.h"
-#include "shutdown.h"
+#include "maintenance.h"
 #include "gtkwrappers.h"
 #include "upgrade.h"
 #include "unixwrappers.h"
@@ -62,6 +62,8 @@ int main(int argc, char *argv[])
   xmlInitParser();
   // Check on default data structure.
   directories_check_structure();
+  // Maintenance system.
+  maintenance_initialize ();
   // Settings object. 
   // Only save the settings on exit if there is no scripting.
   Settings mysettings(argc == 1);

@@ -23,10 +23,17 @@
 
 
 #include <cstdlib>
-#include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <gtk/gtk.h>
+#include <string>
+#include <iostream>
+#include <vector>
+#include <sqlite3.h>
+#include <fstream>
+#include <sstream>
+#include <exception>
+#include <stdexcept>
 
 
 using namespace std;
@@ -34,6 +41,22 @@ using namespace std;
 
 GtkWidget *splashscreen;
 GtkWidget *progressbar;
+
+
+class SqliteReader
+{
+public:
+  SqliteReader (int dummy);
+  ~SqliteReader ();
+  static int callback (void *userdata, int argc, char **argv, char **column_names);
+  vector<string> string0;
+  vector<string> string1;
+  vector<string> string2;
+  vector<string> string3;
+private:
+};
+
+
 
 
 int main (int argc, char *argv[]);

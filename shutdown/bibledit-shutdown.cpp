@@ -19,14 +19,33 @@
 
 
 #include "bibledit-shutdown.h"
-#include <string>
-#include <iostream>
-#include <vector>
-#include <sqlite3.h>
-#include <fstream>
-#include <sstream>
-#include <exception>
-#include <stdexcept>
+
+
+SqliteReader::SqliteReader(int dummy)
+{
+}
+
+SqliteReader::~SqliteReader()
+{
+}
+
+int SqliteReader::callback(void *userdata, int argc, char **argv, char **column_names)
+{
+  ((SqliteReader *) userdata)->string0.push_back(argv[0]);
+  if (argc == 1)
+    return 0;
+  ((SqliteReader *) userdata)->string1.push_back(argv[1]);
+  if (argc == 2)
+    return 0;
+  ((SqliteReader *) userdata)->string2.push_back(argv[2]);
+  if (argc == 3)
+    return 0;
+  ((SqliteReader *) userdata)->string3.push_back(argv[3]);
+  if (argc == 4)
+    return 0;
+  return 0;
+}
+
 
 
 int main (int argc, char *argv[])
@@ -74,27 +93,28 @@ int main (int argc, char *argv[])
     
   g_signal_connect ((gpointer) splashscreen, "delete_event", G_CALLBACK (gtk_main_quit), NULL);
 
-  while (gtk_events_pending())
+  while (gtk_events_pending()) {
     gtk_main_iteration();
+  }
 
-  // Read databases to vacuum.
-  ifstream in(filename);
-  if (!in) {
-    return 1;
-  }
-  vector <string> files;
-  {
-    string file;
-    while (getline(in, file)) {
-      files.push_back(file);
-    }
-  }
-  for (unsigned int i = 0; i < files.size(); i++) {
-    double fraction = ((double) i) / ((double) files.size());
+  vector <string> databases;
+  sqlite3 *cmddb;
+  sqlite3_open(filename, &cmddb);
+  sqlite3_busy_timeout(cmddb, 2000);
+  SqliteReader reader(0);
+  char *sql;
+  sql = g_strdup_printf("select filename from vacuum;");
+  sqlite3_exec(cmddb, sql, reader.callback, &reader, NULL);
+  g_free(sql);
+  databases = reader.string0;
+  sqlite3_close(cmddb);
+
+  for (unsigned int i = 0; i < databases.size(); i++) {
+    double fraction = ((double) i) / ((double) databases.size());
     gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (progressbar), fraction);
     while (gtk_events_pending())
       gtk_main_iteration();
-    string filename = files[i];
+    string filename = databases[i];
     if (filename.empty())
       continue;
     sqlite3 *db;
@@ -115,8 +135,6 @@ int main (int argc, char *argv[])
     }
     sqlite3_close(db);
   }
-
-  //gtk_main ();
 
   return 0;
 }
