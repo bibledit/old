@@ -52,7 +52,7 @@ void maintenance_initialize ()
 }
 
 
-void maintenance_register_database (const ustring& project, const ustring& database) // Todo
+void maintenance_register_database (const ustring& project, const ustring& database)
 {
   sqlite3 *db;
   sqlite3_open(maintenance_database_filename().c_str(), &db);
@@ -90,9 +90,6 @@ void shutdown_actions()
   // References memory: vacuum the sqlite database.
   vacuum_database (references_memory_database_filename());
   
-  // Clean up Snapshots.
-  snapshots_clean_up ();
-
   // Start maintenance on shutdown.
   GwSpawn spawn ("bibledit-shutdown");
   spawn.arg (maintenance_database_filename());
@@ -101,7 +98,7 @@ void shutdown_actions()
 }
 
 
-void vacuum_database(const ustring & filename) // Todo
+void vacuum_database(const ustring & filename)
 // Schedules the database given by "filename" for vacuuming.
 {
   if (filename.empty())

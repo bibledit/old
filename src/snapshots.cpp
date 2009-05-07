@@ -207,93 +207,11 @@ void snapshots_get_chapters_changed_since(const ustring & project, unsigned int 
 }
 
 
-void snapshots_clean_up () // Todo
-// Trim the snapshots.
-{
-  vector <ustring> projects = projects_get_all ();
-  for (unsigned int i = 0; i < projects.size(); i++) {
-    
-    /*
-    // Project
-    ustring project = projects[i];
-    
-    // Filename for the database.
-    ustring filename = snapshots_content_database (project);
-
-    // Current time.
-    //int current_seconds = date_time_seconds_get_current();
-    
-    // Open database.
-    sqlite3 *db;
-    sqlite3_open(filename.c_str(), &db);
-    char *sql;
-
-    // We're going to write a lot, therefore write fast.  
-    sql = g_strdup_printf("PRAGMA synchronous=OFF;");
-    sqlite3_exec(db, sql, NULL, NULL, NULL);
-    g_free(sql);
-
-    // Go through each chapter.
-    vector <unsigned int> books = project_get_books(project);
-    for (unsigned int bk = 0; bk < books.size(); bk++) {
-      unsigned int book = books[bk];
-      vector <unsigned int> chapters = project_get_chapters(project, book);
-      for (unsigned int ch = 0; ch < chapters.size(); ch++) {
-        unsigned int chapter = chapters[ch];
-
-        // Read persistent snapshots, and remove double non-persistent ones.
-        {
-          vector <unsigned int> persistent_seconds;
-          SqliteReader reader(0);
-          sql = g_strdup_printf("select seconds from snapshots where book = %d and chapter = %d and persistent = 1;", book, chapter);
-          sqlite3_exec(db, sql, reader.callback, &reader, NULL);
-          g_free(sql);
-          for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
-            persistent_seconds.push_back (convert_to_int (reader.ustring0[i]));
-          }
-          for (unsigned int i = 0; i < persistent_seconds.size(); i++) {
-            sql = g_strdup_printf("delete  from snapshots where book = %d and chapter = %d and seconds = %d and persistent = 0;", book, chapter, persistent_seconds[i]);
-            sqlite3_exec(db, sql, reader.callback, &reader, NULL);
-            cout << project << " "  << sql << endl; // Todo
-            g_free(sql);
-          }
-        }
-      }
-    }
-
-    // Close the database.
-    sqlite3_close(db);
-    */
-
-
-  }
-}
-
-
-
 /*
 
 Todo The Parallel Bible needs a better interface, so that all available Bibles show up in a listview, and can be ticked and reordered.
 
 Todo Snapshots
-
-A maintenance database is created on startup.
-It records which projects / books / chapters have their snapshots made.
-On shutdown it also records any other information that is of importance to do proper maintenance.
-
-We need a database in the configuration that acts as a journal for the snapshots. Done.
-We need a routine that extracts the projects / books / chapters affected.
-We need to only compress the databases that had been affected since last time. As most databases won't, this speeds up the thing a lot.
-So it only trims those chapters that have been affected.
-Every day on shutdown it trims the databases. 
-Read all persistent snapshots and remove any doubles.
-All following reads leave the persistent ones out.
-Keep everything till 2 days old.
-2 days to 1 week: keep one every hour.
-1 week to 1 month: keep one every day.
-1 month to 6 months: keep one every week.
-older: keep one every month.
-
 
 Send/receive scriptures. Works on git only. Normally only once in so many minutes, can be set. 
 Default every hour or so. The git system is only used when remote git is used as well, apart from that it is not used. 
