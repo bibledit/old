@@ -42,7 +42,6 @@ void upgrade(bool gui)
     upgrade_project_configuration(projects[i]);
   }
   statistics_initial_check_all(gui);
-  git_initial_check_all(gui);
   references_memory_database_verify();
   snapshots_initialize_all ();
 }

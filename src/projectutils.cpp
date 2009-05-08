@@ -159,8 +159,6 @@ void project_create(const ustring & project)
   gw_mkdir_with_parents(project_data_directory_project(project));
   // Create statistics system.
   statistics_initial_check_project(project, false);
-  // Create git repository.
-  git_initial_check_project(project, false);
   // Initialize snapshots.
   snapshots_initialize_project (project);
 }

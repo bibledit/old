@@ -73,7 +73,7 @@ void shutdown_actions()
   // Open a configuration.
   extern Settings *settings;
 
-  // The actions are taken once a day only.
+  // The actions are scheduled once a day only.
   int clear_up_day = settings->genconfig.clear_up_day_get();
   int current_day = date_time_julian_day_get_current();
   if (current_day < (clear_up_day + 1)) {
@@ -89,6 +89,19 @@ void shutdown_actions()
   
   // References memory: vacuum the sqlite database.
   vacuum_database (references_memory_database_filename());
+
+  // Determine whether to run the health programs on the git repositories. // Todo
+  int githealth = settings->genconfig.git_health_get();
+  int currentday = date_time_julian_day_get_current();
+  bool run_githealth = false;
+  if (ABS(currentday - githealth) >= 30) {
+    run_githealth = true;
+    settings->genconfig.git_health_set(currentday);
+  }
+  /*
+
+  */
+
   
   // Start maintenance on shutdown.
   GwSpawn spawn ("bibledit-shutdown");

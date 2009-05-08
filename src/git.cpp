@@ -226,37 +226,6 @@ void git_finalize_subsystem()
   }
 }
 
-void git_initial_check_all(bool gui)
-// Does initial checks on the local git repositories.
-{
-  extern Settings *settings;
-
-  // Determine whether to run the health programs on the git repository.
-  int githealth = settings->genconfig.git_health_get();
-  int currentday = date_time_julian_day_get_current();
-  bool run_githealth = false;
-  if (ABS(currentday - githealth) >= 30) {
-    run_githealth = true;
-    settings->genconfig.git_health_set(currentday);
-  }
-  // Do all editable projects.
-  vector < ustring > projects = projects_get_all();
-  for (unsigned int i = 0; i < projects.size(); i++) {
-    ProjectConfiguration *projectconfig = settings->projectconfig(projects[i]);
-    if (projectconfig->editable_get()) {
-      git_initial_check_project(projects[i], run_githealth);
-    }
-  }
-}
-
-void git_initial_check_project(const ustring & project, bool health)
-// Does initial checks on the git repository.
-// Upgrades if needed.
-{
-  // Schedule project initialization through git.
-  git_schedule(gttInitializeProject, project, health, 0, "");
-}
-
 void git_task_human_readable(unsigned int task, const ustring & project, unsigned int book, unsigned int chapter, unsigned int fail, gchar * &human_readable_task, ustring & human_readable_description, ustring & human_readable_status)
 {
   // Describe the task.
@@ -833,7 +802,15 @@ vector < ustring > git_retrieve_chapter_commit(const ustring & project, unsigned
 
 /*
 
-Todo git update
+Todo new git
+
+* On startup the git repositories are no longer initialized.
+* On save chapter, the git repos are no longer.
+* When a remote update is done, the git repo is initialized, only once per session. No, only by the assistant.
+* On startup, when the project does not use a remote git repository, it removes the .git folder.
+* Help file needs to be updated about how to create a local git repository before doing a remote one.
+* To move the git health commands to the maintenance routines.
+* The initialization of the git repositories can be donw in the maintenance routines.
 
 Send/receive scriptures. Works on git only. Normally only once in so many minutes, can be set. 
 Default every hour or so. The git system is only used when remote git is used as well, apart from that it is not used. 
@@ -846,6 +823,9 @@ When a remote update results in files locally changed, we need to make a snapsho
 How to we know that local files were changed? We might need to roam through the snapshots and compare these with the actual 
 state of the files so as to see where there was a change. This method might be more reliable than relying on git's output, we don't know yet.
 
+Maintenance database. As we can shut down withoout maintenance being done, 
+we need to preserve the info in that database. The shutdown program cleans the db out after doing all stuff,
+and then vacuums it.
 
 
 */

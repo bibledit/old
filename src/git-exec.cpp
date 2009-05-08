@@ -32,7 +32,7 @@ ustring git_exec_change_dir(const ustring& dir) {
 #endif
 }
 
-void git_exec_initialize_project(const ustring & project, bool health)
+void git_exec_initialize_project(const ustring & project, bool health) // Todo
 {
   // Get the data directory for this project
   ustring datadirectory = tiny_project_data_directory_project(project);
