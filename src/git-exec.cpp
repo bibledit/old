@@ -78,7 +78,7 @@ void git_exec_initialize_project(const ustring & project, bool health) // Todo
   git_exec_commit_directory(datadirectory);
 }
 
-void git_exec_store_chapter(const ustring & project, unsigned int book, unsigned int chapter)
+void git_exec_store_chapter(const ustring & project, unsigned int book, unsigned int chapter) // Todo this code still needed?
 // Stores a chapter. Returns whether things worked out.
 {
   // Log message

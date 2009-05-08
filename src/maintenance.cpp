@@ -98,11 +98,7 @@ void shutdown_actions()
     run_githealth = true;
     settings->genconfig.git_health_set(currentday);
   }
-  /*
 
-  */
-
-  
   // Start maintenance on shutdown.
   GwSpawn spawn ("bibledit-shutdown");
   spawn.arg (maintenance_database_filename());

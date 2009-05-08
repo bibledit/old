@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
   // Initialize GTK
   gtk_init(&argc, &argv);
   // Upgrade data.
-  upgrade(true);
+  upgrade();
   // Window icon fallback.
   gtk_window_set_default_icon_from_file(gw_build_filename(directories_get_package_data(), "bibledit.xpm").c_str(), NULL);
   // Start the gui.

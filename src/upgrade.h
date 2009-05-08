@@ -29,7 +29,7 @@
 #include "progresswindow.h"
 
 
-void upgrade (bool gui);
+void upgrade ();
 
 
 #endif

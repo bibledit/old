@@ -226,6 +226,26 @@ void git_finalize_subsystem()
   }
 }
 
+void git_upgrade ()
+// Upgrades the git system.
+{
+  extern Settings * settings;
+  vector <ustring> projects = projects_get_all ();
+  for (unsigned int i = 0; i < projects.size(); i++) {
+    ProjectConfiguration * projectconfig = settings->projectconfig (projects[i]);
+    if (!projectconfig->git_use_remote_repository_get()) {
+      ustring git_directory = gw_build_filename (project_data_directory_project (projects[i]), ".git");
+      if (g_file_test (git_directory.c_str(), G_FILE_TEST_IS_DIR)) {
+        gw_message ("Cleaning out folder " + git_directory);
+        ProgressWindow progresswindow ("Tidying up project " + projects[i], false);
+        progresswindow.set_fraction (0.5);
+        unix_rmdir (git_directory);
+      }
+    }
+  }
+}
+
+
 void git_task_human_readable(unsigned int task, const ustring & project, unsigned int book, unsigned int chapter, unsigned int fail, gchar * &human_readable_task, ustring & human_readable_description, ustring & human_readable_status)
 {
   // Describe the task.
@@ -344,11 +364,6 @@ void git_erase_task(GitTaskType task, const ustring & project, unsigned int book
   gittasks = newtasks;
 }
 
-void git_store_chapter(const ustring & project, unsigned int book, unsigned int chapter)
-{
-  git_schedule(gttStoreChapter, project, book, chapter, "");
-}
-
 void git_move_project(const ustring & project, const ustring & newproject)
 {
   // Update all pending operations for this project.
@@ -356,34 +371,6 @@ void git_move_project(const ustring & project, const ustring & newproject)
     if (gittasks[i].project == project)
       gittasks[i].project = newproject;
   }
-}
-
-void git_remove_book(const ustring & project, unsigned int book)
-{
-  // Remove all pending operations for this project/book.
-  vector < GitTask > newtasks;
-  for (unsigned int i = 0; i < gittasks.size(); i++) {
-    if ((gittasks[i].project != project) || (gittasks[i].book != book))
-      newtasks.push_back(gittasks[i]);
-  }
-  gittasks = newtasks;
-  // Schedule project commit.
-  // The way we commit data, git will remove the book on its own.
-  git_schedule(gttCommitProject, project, 0, 0, "");
-}
-
-void git_remove_chapter(const ustring & project, unsigned int book, unsigned int chapter)
-{
-  // Remove all pending operations for this project/book/chapter.
-  vector < GitTask > newtasks;
-  for (unsigned int i = 0; i < gittasks.size(); i++) {
-    if ((gittasks[i].project != project) || (gittasks[i].book != book) || (gittasks[i].chapter != chapter))
-      newtasks.push_back(gittasks[i]);
-  }
-  gittasks = newtasks;
-  // Schedule a project commit.
-  // The way we commit data, git will remove the chapter on its own.
-  git_schedule(gttCommitProject, project, 0, 0, "");
 }
 
 void git_remove_project(const ustring & project)
@@ -507,142 +494,6 @@ ustring git_mine_conflict_marker()
   return "<<<<<<< HEAD";
 }
 
-void git_log_read(const ustring & directory, vector <ustring>& commits, vector <unsigned int>& seconds, const ustring& path)
-/*
- Reads git's log, and retrieves the commits and the date/time from it.
- Date/time expressed in seconds.
- If a path is given, it only reads the commits to this path.
- git-log gives the most recent commit first and the older ones following.
-
- Example:
-
- commit a3e9fe9b43521007c81a2145b5e8bc5a37fdd7fd
- tree 0eb4be44c2d42cd219c3a1d14df385392d126f29
- parent 55aea5bdc961dfc043001546fa9e95ca16fd24b2
- author joe <joe@nw9440.(none)> 1193934787 +0200
- committer joe <joe@nw9440.(none)> 1193934787 +0200
-
- */
-{
-  // Read the log, using the raw format so as to easily extract the seconds since Epoch.
-  // At first we read the log through GwSpawn, but as the logs became larger,
-  // GwSpawn would choke on the large log file. We now read through the shell.
-  // This is lightning fast as compared to GwSpawn.
-  ustring command("cd" + shell_quote_space(directory) + " && ");
-  command.append("git log --pretty=raw");
-  if (!path.empty())
-    command.append(shell_quote_space(path));
-  ustring logfile = gw_build_filename(directories_get_temp(), ".git_log_read");
-  command.append(" > " + logfile);
-  if (system(command.c_str())) ;
-
-  // Process the log.
-  ustring commit;
-  ustring second;
-  unsigned int offset = 0;
-  ReadText rt(logfile, true, false);
-  for (unsigned int i = 0; i < rt.lines.size(); i++) {
-    if (rt.lines[i].find("commit ") == 0) {
-      commit = rt.lines[i];
-      commit.erase(0, 6);
-      commit = trim(commit);
-    }
-    if (rt.lines[i].find("committer") == 0) {
-      Parse parse(rt.lines[i]);
-      if (parse.words.size() >= 5) {
-        second = parse.words[parse.words.size() - 2];
-        ustring timezone = parse.words[parse.words.size() - 1];
-        bool add = timezone.find("+") == 0;
-        timezone = number_in_string(timezone);
-        if (timezone.length() == 4) {
-          unsigned int hours = convert_to_int(timezone.substr(0, 2));
-          unsigned int minutes = convert_to_int(timezone.substr(2, 2));
-          offset = 60 * minutes + 3600 * hours;
-          if (!add)
-            offset = 0 - offset;
-        }
-      } else
-        commit.clear();
-    }
-    if (!commit.empty() && !second.empty()) {
-      commits.push_back(commit);
-      commit.clear();
-      seconds.push_back(convert_to_int(second) + offset);
-      second.clear();
-    }
-  }
-}
-
-ustring git_log_pick_commit_at_date_time(const vector < ustring > &commits, vector < unsigned int >&seconds, unsigned int second)
-/*
- Picks the commit that was made at or before a certain date and time.
-
- Input:
- commits: The list of commits.
- seconds: The list of seconds. 
- It is assumed that the most recent time is a the top of the list.
- The above two are lists of the same size.
- second: The date/time at which to pick the commit.
- It can happen that under the constraints passed no commit is found.
-
- It is assumed that the list of commits is sorted on time, that the most recent
- commit is given first, and the older ones following, for example:
- Tuesday, 22 April 2008, 17:30:22 dbb65805e613a5ba7034f2ad08d26a8439f54f4a
- Tuesday, 22 April 2008, 17:26:22 21ffbc7a17aa3bd193f35c70ce772ea9fce47c7a
- Tuesday, 22 April 2008, 17:25:28 f4a3893c5184566c7a8dd3546cef4b6f1455e570
- Tuesday, 22 April 2008, 17:23:57 f203cf815885c748a53461d4fd6446a9263c81cc
- */
-{
-  ustring commit;
-  for (int i = commits.size() - 1; i >= 0; i--) {
-    if (second >= seconds[i]) {
-      commit = commits[i];
-    }
-  }
-  return commit;
-}
-
-bool git_log_extract_date_time(const ustring & line, int &year, int &month, int &day, int &hour, int &minute, int &second)
-/* 
- Reads a line of "svn log" and extract the date and time from it.
- Typical lines:
-
- ------------------------------------------------------------------------
- r1 | joe | 2006-12-25 07:47:15 +0200 (Mon, 25 Dec 2006) | 1 line
-
- store book
- ------------------------------------------------------------------------
-
- */
-{
-  bool success = false;
-  if (line.length() > 20) {
-    if (line.substr(0, 1) == "r") {
-      if (line.find("|") != string::npos) {
-        Parse parse(line, false, "|");
-        if (parse.words.size() == 4) {
-          ustring datetime = parse.words[2];
-          if (datetime.length() > 20) {
-            replace_text(datetime, "-", " ");
-            replace_text(datetime, ":", " ");
-            Parse parse2(datetime);
-            if (parse2.words.size() > 6) {
-              year = convert_to_int(parse2.words[0]);
-              month = convert_to_int(parse2.words[1]);
-              day = convert_to_int(parse2.words[2]);
-              hour = convert_to_int(parse2.words[3]);
-              minute = convert_to_int(parse2.words[4]);
-              second = convert_to_int(parse2.words[5]);
-              success = true;
-            }
-          }
-        }
-      }
-    }
-  }
-  return success;
-}
-
 Reference git_execute_retrieve_reference()
 // Retrieves the editor's reference from the database.
 {
@@ -737,80 +588,14 @@ void git_resolve_conflicts(const ustring & project, const vector < ustring > &er
   }
 }
 
-vector < ustring > git_retrieve_chapter_commit(const ustring & project, unsigned int book, unsigned int chapter, const ustring & commit)
-// Retrieves chapter text from history.
-// project: project to retrieve from.
-// book: book to retrieve from.
-// chapter: chapter text to retrieve.
-// commit: named commit to retrieve text from.
-{
-  // Get the directory of the chapter and the project.
-  ustring chapterdirectory = project_data_directory_chapter(project, book, chapter);
-  ustring projectdirectory = project_data_directory_project(project);
-
-  // Just to be sure, commit anything that might be outstanding.
-  {
-    GwSpawn spawn("git commit");
-    spawn.workingdirectory(chapterdirectory);
-    spawn.arg("-a");
-    spawn.arg("-m");
-    spawn.arg("Commit");
-    spawn.run();
-  }
-
-  // Check the desired commit out in a new branch.
-  {
-    GwSpawn spawn("git checkout");
-    spawn.workingdirectory(chapterdirectory);
-    spawn.arg("-b");
-    spawn.arg("git_retrieve_chapter_commit");
-    spawn.arg(commit);
-    spawn.run();
-  }
-
-  // Load the chapter data.
-  ustring chapterfilename = project_data_filename_chapter(project, book, chapter, false);
-  ReadText rt(chapterfilename, true, false);
-
-  // The branch just checked out can have removed data and directories.
-  // So to be sure, check on that, and if needed work from another directory.
-  ustring workingdirectory(chapterdirectory);
-  if (!g_file_test(chapterdirectory.c_str(), G_FILE_TEST_IS_DIR)) {
-    workingdirectory = projectdirectory;
-  }
-  // Switch back to the master branch.
-  {
-    GwSpawn spawn("git checkout");
-    spawn.workingdirectory(workingdirectory);
-    spawn.arg("master");
-    spawn.run();
-  }
-
-  // Remove the temporal branch.  
-  {
-    GwSpawn spawn("git branch");
-    spawn.workingdirectory(workingdirectory);
-    spawn.arg("-d");
-    spawn.arg("git_retrieve_chapter_commit");
-    spawn.run();
-  }
-
-  // Give results.  
-  return rt.lines;
-}
-
-
 /*
 
 Todo new git
 
-* On startup the git repositories are no longer initialized.
-* On save chapter, the git repos are no longer.
-* When a remote update is done, the git repo is initialized, only once per session. No, only by the assistant.
 * On startup, when the project does not use a remote git repository, it removes the .git folder.
 * Help file needs to be updated about how to create a local git repository before doing a remote one.
 * To move the git health commands to the maintenance routines.
-* The initialization of the git repositories can be donw in the maintenance routines.
+* The initialization of the git repositories to be done in the maintenance routines. It also cleans out the index.lock, if it ever exists.
 
 Send/receive scriptures. Works on git only. Normally only once in so many minutes, can be set. 
 Default every hour or so. The git system is only used when remote git is used as well, apart from that it is not used. 

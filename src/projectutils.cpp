@@ -92,9 +92,6 @@ void project_store_chapter_internal(const ustring & project, unsigned int book, 
     gw_critical(ex.what());
   }
 
-  // Git.
-  git_store_chapter(project, book, chapter);
-  
   // Store a snapshot of this chapter.
   snapshots_shoot_chapter (project, book, chapter, 0, false);
 }
@@ -238,8 +235,6 @@ void project_remove_book(const ustring & project, unsigned int book)
   vector <unsigned int> chapters = project_get_chapters (project, book);
   // Store statistics.
   statistics_record_remove_book(project, book);
-  // Repository update
-  git_remove_book(project, book);
   // Remove book directory.
   unix_rmdir(project_data_directory_book(project, book));
   // Store snapshots for the chapters we collected earlier.
@@ -266,8 +261,6 @@ void project_remove_chapter(const ustring & project, unsigned int book, unsigned
   // Actual removal.
   ustring directory = project_data_directory_chapter(project, book, chapter);
   unix_rmdir(directory);
-  // Update book.
-  git_remove_chapter(project, book, chapter);
   // Store empty snapshot.
   snapshots_shoot_chapter (project, book, chapter, 0, false);
 }
@@ -291,8 +284,6 @@ void project_store_verse(const ustring & project, unsigned int book, unsigned in
   }
   unsigned int timestamp = time(0);
   project_store_chapter_internal(project, book, chapter, ccv, 0, ccv.chapter.size(), timestamp);
-  // Update book.
-  git_store_chapter(project, book, chapter);
 }
 
 ustring project_retrieve_verse_extended(const ustring & project, unsigned int book, unsigned int chapter, const ustring & verse)

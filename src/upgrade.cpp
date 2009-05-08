@@ -21,7 +21,6 @@
 #include "upgrade.h"
 #include "stylesheetutils.h"
 #include "projectutils.h"
-#include "projectutilsold.h"
 #include "notes_utils.h"
 #include "settings.h"
 #include "statistics.h"
@@ -29,19 +28,19 @@
 #include "referencememory.h"
 #include "snapshots.h"
 
-void upgrade(bool gui)
+void upgrade()
 {
   stylesheets_upgrade();
-  projects_initial_check_old(gui);
-  projects_initial_check(gui);
-  notes_database_verify(gui);
+  projects_initial_check(true);
+  notes_database_verify(true);
   notes_categories_check();
   upgrade_configuration();
   vector < ustring > projects = projects_get_all();
   for (unsigned int i = 0; i < projects.size(); i++) {
     upgrade_project_configuration(projects[i]);
   }
-  statistics_initial_check_all(gui);
+  statistics_initial_check_all(true);
   references_memory_database_verify();
   snapshots_initialize_all ();
+  git_upgrade ();
 }
