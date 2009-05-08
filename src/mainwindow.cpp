@@ -7426,3 +7426,5 @@ void MainWindow::check_usfm_window_ping()
 }
 
 
+// Todo The Parallel Bible needs a better interface, so that all available Bibles show up in a listview, and can be ticked and reordered.
+

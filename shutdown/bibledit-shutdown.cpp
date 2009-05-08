@@ -191,7 +191,7 @@ vector <string> get_snapshot_databases (const char * filename)
 }
 
 
-void trim_snapshots (string filename) // Todo implement trimming.
+void trim_snapshots (string filename)
 {
   // Bail out if the database (no longer) exists.
   if (!g_file_test (filename.c_str(), G_FILE_TEST_IS_REGULAR)) {
@@ -322,7 +322,7 @@ unsigned int convert_to_int(const string& str)
 }
 
 
-void trim_snapshots_by_group (sqlite3 *db, const vector <unsigned int>& group, unsigned int book, unsigned int chapter, int spacing) // Todo
+void trim_snapshots_by_group (sqlite3 *db, const vector <unsigned int>& group, unsigned int book, unsigned int chapter, int spacing)
 // Trims a group of snapshots.
 // db: the database.
 // group: the group to trim.

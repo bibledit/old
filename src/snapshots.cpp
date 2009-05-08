@@ -207,21 +207,3 @@ void snapshots_get_chapters_changed_since(const ustring & project, unsigned int 
 }
 
 
-/*
-
-Todo The Parallel Bible needs a better interface, so that all available Bibles show up in a listview, and can be ticked and reordered.
-
-Todo Snapshots
-
-Send/receive scriptures. Works on git only. Normally only once in so many minutes, can be set. 
-Default every hour or so. The git system is only used when remote git is used as well, apart from that it is not used. 
-This prevents a lot of disk churning on startup.
-
-When a remote update is used for the first time in Bibledit, in a session, git is initialized first, once, and then to do the remote update. 
-This way a lot of disk churning is avoided at startup.
-
-
-
-*/
-
-

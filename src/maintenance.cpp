@@ -73,11 +73,11 @@ void shutdown_actions()
   // Open a configuration.
   extern Settings *settings;
 
-  // The actions are not always taken, but only once a day.
+  // The actions are taken once a day only.
   int clear_up_day = settings->genconfig.clear_up_day_get();
   int current_day = date_time_julian_day_get_current();
   if (current_day < (clear_up_day + 1)) {
-    // Todo return;
+    return;
   }
   settings->genconfig.clear_up_day_set(current_day);
 
