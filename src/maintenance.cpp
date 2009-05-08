@@ -42,13 +42,14 @@ ustring maintenance_database_filename ()
 void maintenance_initialize ()
 // Initializes the maintenance register.
 {
-  // Create database.
-  unlink (maintenance_database_filename().c_str());
-  sqlite3 *db;
-  sqlite3_open(maintenance_database_filename().c_str(), &db);
-  sqlite3_exec(db, "create table snapshots (project text, database text);", NULL, NULL, NULL);
-  sqlite3_exec(db, "create table vacuum (filename text);", NULL, NULL, NULL);
-  sqlite3_close(db);
+  // Create database if it doesn't exist.
+  if (!g_file_test (maintenance_database_filename ().c_str(), G_FILE_TEST_IS_REGULAR)) {
+    sqlite3 *db;
+    sqlite3_open(maintenance_database_filename().c_str(), &db);
+    sqlite3_exec(db, "create table snapshots (project text, database text);", NULL, NULL, NULL);
+    sqlite3_exec(db, "create table vacuum (filename text);", NULL, NULL, NULL);
+    sqlite3_close(db);
+  }
 }
 
 

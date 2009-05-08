@@ -117,6 +117,9 @@ int main (int argc, char *argv[])
     vacuum_database (vacuum_databases[i]);
   }
 
+  // Remove the command database.
+  unlink (filename);
+  
   return 0;
 }
 

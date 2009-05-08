@@ -609,8 +609,8 @@ How to we know that local files were changed? We might need to roam through the 
 state of the files so as to see where there was a change. This method might be more reliable than relying on git's output, we don't know yet.
 
 Maintenance database. As we can shut down withoout maintenance being done, 
-we need to preserve the info in that database. The shutdown program cleans the db out after doing all stuff,
-and then vacuums it.
+we need to preserve the info in that database. The shutdown program deletes it.
+It is only created when it is not there. This preserves the data.
 
 
 */
