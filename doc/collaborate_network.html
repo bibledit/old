@@ -1,101 +1,133 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-<title>Network collaboration</title>
-<!--
-Copyright (©) 2003-2008 Teus Benschop.
-Permission is granted to copy, distribute and/or modify this document
-under the terms of the GNU Free Documentation License, Version 1.2
-or any later version published by the Free Software Foundation;
-with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-Texts.  A copy of the license is included in the section entitled "GNU
-Free Documentation License" in the file FDL.
--->
-<link href="bibledit.css" rel="stylesheet" type="text/css" />
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+  <title>Network collaboration</title>
+  <!--
+  Copyright (©) 2003-2008 Teus Benschop.
+  Permission is granted to copy, distribute and/or modify this document
+  under the terms of the GNU Free Documentation License, Version 1.2
+  or any later version published by the Free Software Foundation;
+  with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+  Texts.  A copy of the license is included in the section entitled "GNU
+  Free Documentation License" in the file FDL.
+  -->
+  <link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
+
 <body>
 <h2><a name="networkcollaboration"></a>Network collaboration</h2>
 <!-- Table of Contents Start -->
+
 <div id="toc">
 <ul>
-<li>
-<a href="#introduction" class="level1">Introduction</a></li>
-<li>
-<a href="#server" class="level1">Server</a></li>
-<li>
-<a href="#firstuser" class="level1">First user</a></li>
-<li>
-<a href="#seconduser" class="level1">Second user</a></li>
-<li>
-<a href="#moreusers" class="level1">More users</a></li>
+  <li><a href="#introduction" class="level1">Introduction</a></li>
+  <li><a href="#server" class="level1">Server</a></li>
+  <li><a href="#firstuser" class="level1">First user</a></li>
+  <li><a href="#seconduser" class="level1">Second user</a></li>
+  <li><a href="#moreusers" class="level1">More users</a></li>
 </ul>
 </div>
 <!-- Table of Contents End -->
+
 <h3><a name="introduction"></a>Introduction</h3>
+
 <p>In the example below we will setup a basic system using one server that has
 the data repository, and two users.</p>
+
 <h3><a name="server"></a>Server</h3>
+
 <p>Collaboration using Git needs one computer that will be the server. This can
 be a separate computer, or the computer of one of the users. In this example we
 will use the computer of one of the users. By doing so we only need two
 computers to demonstrate everything. We will use Jim's computer to serve the
 repository. </p>
+
 <p>On this computer, do the following to setup the server.</p>
+
 <p>Login as user jim.</p>
+
 <p>Open a terminal</p>
+
 <p>We will create an shared repository in /home/jim/git/repository, and fetch
 the data of Jim's project "Ndebele" into it. To do that, type</p>
 <pre>mkdir -p /home/jim/git/repository
 cd /home/jim/git/repository
 git --bare init --shared
 git --bare fetch /home/jim/.bibledit/projects/Ndebele/data master:master</pre>
+
 <p>To make the repository available to the network, type</p>
 <pre>git-daemon --export-all --base-path=/home/jim/git --detach --enable=receive-pack</pre>
+
 <p>It is recommended to put the command that starts the daemon in the boot
 script.</p>
+
 <p>To test access to the new repository, type</p>
 <pre>git-ls-remote git://localhost/repository</pre>
+
 <p>If everthing is fine, no errors will occur and a few commits will be
 listed.</p>
+
 <h3><a name="firstuser"></a>First user</h3>
+
 <p>We are now going to setup the first user. This will be Jim in our example.
 His computer already is used as a server, but Jim also works on it using
 Bibledit.</p>
-<p>Jim starts Bibledit, and opens the project he wishes to share with
-others.</p>
+
+<p>In Bibledit, Jim opens the project he wishes to share with others.</p>
+
 <p>He goes to menu <a href="olh_git_setup.html">Preferences / Git
 repository</a>.</p>
+
 <p>In that dialog, he ticks "Use remote repository".</p>
+
 <p>Under "Repository", he enters git://localhost/repository</p>
+
 <p>In the dialog he verifies that write access has been granted.</p>
+
 <p>He then ticks "Synchronize local data with repository".</p>
+
 <p>He then clicks OK.</p>
+
 <p>This finishes the setup of the first user. Jim can now work on Bibledit as
 before, and his data will be automatically updated in the repository.</p>
+
 <h3><a name="seconduser"></a>Second user</h3>
+
 <p>We are now going to setup the second user. This will be John in our example.
 He uses another workstation, is connected to the network, and can access Jim's
 computer through that network.</p>
+
 <p>John starts Bibledit, and creates a new empty project, named after the
 project that Jim put in the repository.</p>
+
 <p>He goes to menu <a href="olh_git_setup.html">Preferences / Git
 repository</a>.</p>
+
 <p>In that dialog, he ticks "Use remote repository".</p>
+
 <p>Under "Repository", he needs to enter the name of Jim's server.</p>
+
 <p>He asks Jim for the IP address of his computer. Jim logs in as root, and
 types ifconfig, notices under "eth0" that his computer has IP address
 192.168.0.6. He passes this number on to John.</p>
+
 <p>Under "Repository", John enters git://192.168.0.6/repository</p>
+
 <p>In the dialog he verifies that write access has been granted.</p>
+
 <p>He then ticks "Copy repository to local data". This is to import all data
 from the repository into his own project.</p>
+
 <p>He then clicks OK.</p>
+
 <p>This finishes the setup of the second user. John can now work on Bibledit as
 before, and his data will be automatically updated in the repository.</p>
+
 <h3><a name="moreusers"></a>More users</h3>
+
 <p>Setting up a third user, a fourth, and so on, goes the same as setting up
 the second user.</p>
 </body>
