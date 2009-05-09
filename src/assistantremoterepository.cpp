@@ -672,7 +672,8 @@ bool RemoteRepositoryAssistant::try_git_checkout_repository (const ustring& loca
   gw_mkdir_with_parents(cloning_directory);
 
   // Clone the remote repository.
-  GwSpawn spawn("git clone");
+  GwSpawn spawn("git");
+  spawn.arg("clone");
   spawn.workingdirectory(cloning_directory);
   spawn.arg(git_testing_directory (remote));
   spawn.run();
@@ -781,7 +782,8 @@ void RemoteRepositoryAssistant::entry_changed_timeout()
   event_id_entry_repository = 0;
 
   // Test read access to the repository.
-  GwSpawn spawn("git ls-remote");
+  GwSpawn spawn("git");
+  spawn.arg("ls-remote");
   spawn.arg(repository_url_get());
   spawn.read();
   spawn.run();

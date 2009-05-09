@@ -4908,7 +4908,7 @@ bool MainWindow::on_git_update_timeout(gpointer user_data)
   return true;
 }
 
-void MainWindow::git_update_timeout() // Todo
+void MainWindow::git_update_timeout()
 // Schedule project update tasks.
 {
   // Bail out if git tasks are paused.
@@ -4919,7 +4919,7 @@ void MainWindow::git_update_timeout() // Todo
   // Save all open editors.
   save_editors();
   
-  // Schedule a task for each relevant project.
+  // Schedule a push and pull task for each relevant project.
   vector < ustring > projects = projects_get_all();
   for (unsigned int i = 0; i < projects.size(); i++) {
     ProjectConfiguration *projectconfig = settings->projectconfig(projects[i]);
@@ -4927,7 +4927,7 @@ void MainWindow::git_update_timeout() // Todo
       int interval = git_update_intervals[projects[i]];
       interval++;
       if (interval >= projectconfig->git_remote_update_interval_get()) {
-        git_schedule(gttUpdateProject, projects[i], 0, 0, "");
+        git_schedule(gttPushPull, projects[i], 0, 0, "");
         interval = 0;
       }
       git_update_intervals[projects[i]] = interval;
@@ -5116,7 +5116,7 @@ void MainWindow::on_ipc_method()
         // now opened while we pull changes from the remote repository.
         // As there can be more than one editor that points to the same remote repository,
         // we need to include any editor that has this particular remote repository.
-        if (convert_to_int(task[0]) == gttUpdateProject) {
+        if (convert_to_int(task[0]) == gttPushPull) {
           ustring task_project = task[1];
           ProjectConfiguration *projectconfig = settings->projectconfig(task_project);
           ustring remote_repository = projectconfig->git_remote_repository_url_get();

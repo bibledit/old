@@ -312,11 +312,6 @@ void Editor::text_load (ustring text)
 void Editor::chapter_save()
 // Handles saving the chapters.
 {
-  // Handle situation where a word was added to the dictionary. It needs to be put in the git repository.
-  if (spellingchecker->something_was_added_to_dictionary) {
-    git_schedule(gttCommitProject, project, 0, 0, "");
-    spellingchecker->something_was_added_to_dictionary = false;
-  }
   // Set variables.
   reload_chapter_number = chapter;
 

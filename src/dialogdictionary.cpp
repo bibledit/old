@@ -228,6 +228,4 @@ void DictionaryDialog::on_button_edit()
   // Edit dictionary.
   EditDictionaryDialog dialog(listview_get_active_string(treeview_dictionaries));
   dialog.run();
-  // Commit any changes to the repository. Dictionaries are shared, so that's needed.
-  git_schedule(gttCommitProject, myproject, 0, 0, "");
 }

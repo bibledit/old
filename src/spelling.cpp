@@ -107,7 +107,6 @@ SpellingChecker::SpellingChecker(GtkTextTagTable * texttagtable)
   g_value_unset(&gvalue);
   broker = NULL;
   check_signal = gtk_button_new();
-  something_was_added_to_dictionary = false;
 }
 
 SpellingChecker::~SpellingChecker()
@@ -442,9 +441,6 @@ void SpellingChecker::add_to_dictionary(GtkWidget * menuitem)
 
   enchant_dict_add_to_pwl(personal_wordlist, word, strlen(word));
   correct_words.insert(word);
-
-  // Set a flag that something was added.
-  something_was_added_to_dictionary = true;
 
   g_free(word);
 

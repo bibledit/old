@@ -484,3 +484,5 @@ void DBus::methodcall_remove_all_signals()
 {
   signalling_methods.clear();
 }
+
+// Once Xiphos uses dbus, we may consider using it also as the qualilty may have improved. But to try load it heavily for a long time to see whether it lasts.

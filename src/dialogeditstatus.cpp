@@ -24,7 +24,7 @@
 #include "tiny_utilities.h"
 #include "progresswindow.h"
 #include "listview.h"
-#include "git.h"
+
 
 EditStatusDialog::EditStatusDialog(const ustring & project_in, unsigned int book, unsigned int chapter)
 {
@@ -542,6 +542,4 @@ void EditStatusDialog::on_okbutton()
 {
   // Save status.
   projectstatus->save();
-  // Commit any changes.
-  git_schedule(gttCommitProject, project, 0, 0, "");
 }

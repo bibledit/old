@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
     ustring data;
 
     // Get the next available task.
-    vector < ustring > available_task;
+    vector <ustring> available_task;
     available_task = ipc->receive(ipcstBibleditBin, ipcctGitJobDescription, available_task);
     if (available_task.size() == 5) {
 
@@ -73,36 +73,15 @@ int main(int argc, char *argv[])
 
       // Execute the right task.    
       switch (task) {
-      case gttInitializeProject:
+      case gttPushPull:
         {
-          git_exec_initialize_project(project, book); // Todo
-          break;
-        }
-      case gttCommitProject:
-        {
-          git_exec_commit_project(project);
-          break;
-        }
-      case gttStoreChapter:
-        {
-          git_exec_store_chapter(project, book, chapter);
-          break;
-        }
-      case gttUpdateProject:
-        {
-          error = git_exec_update_project(project);
+          git_exec_update_project(project);
           break;
         }
       }
 
       // Send done or fail.
       ipc->send(ipcstBibleditBin, ipcctGitTaskDone, error);
-
-      // There are cases that one task hangs, and nearly blocks the program.
-      // Introduce a delay to solve this.
-      if (!error.empty()) {
-        g_usleep(1000000);
-      }
 
     }
 

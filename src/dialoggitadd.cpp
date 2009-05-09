@@ -89,16 +89,8 @@ void GitAddDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
 
 void GitAddDialog::on_okbutton()
 {
-  // Project.
-  extern Settings *settings;
-  ustring project = settings->genconfig.project_get();
-
-  // Whether to commit the local data.
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_commit))) {
-    git_schedule(gttCommitProject, project, 0, 0, "");
-  }
-  // Whether to synchronize the local data with the remote repository.
-  if (checkbutton_sync && gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_sync))) {
-    git_schedule(gttUpdateProject, project, 0, 0, "");
-  }
 }
+
+
+// Todo this whole thing can go out, including viewing the git tasks. Instead the log does all, i.e. it shows the git tasks being done.
+// And the send/receive scriptures menu entry adds git tasks.

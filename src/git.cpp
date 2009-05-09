@@ -79,151 +79,17 @@ bool GitChapterState::changed()
   return filechanged;
 }
 
-ustring git_job_filename()
-// Returns the filename of the xml files with the git jobs
-{
-  return gw_build_filename(directories_get_temp(), "gitjobs.xml");
-}
-
 void git_initialize_subsystem()
 {
-  // Load any tasks that were left undone at the previous shutdown.
-  if (g_file_test(git_job_filename().c_str(), G_FILE_TEST_IS_REGULAR)) {
-
-    // Load file in memory and create the input buffer.
-    gchar *contents;
-    g_file_get_contents(git_job_filename().c_str(), &contents, NULL, NULL);
-    xmlParserInputBufferPtr inputbuffer;
-    inputbuffer = xmlParserInputBufferCreateMem(contents, strlen(contents), XML_CHAR_ENCODING_NONE);
-
-    // Create a reader.    
-    xmlTextReaderPtr reader = xmlNewTextReader(inputbuffer, NULL);
-
-    // Iterate through the nodes in streaming mode, loading tasks.
-    if (reader) {
-      int read;
-      GitTask task(gttUpdateProject, "", 0, 0, 0, "");
-      ustring text;
-      while ((read = xmlTextReaderRead(reader) == 1)) {
-        switch (xmlTextReaderNodeType(reader)) {
-        case XML_READER_TYPE_ELEMENT:
-          {
-            break;
-          }
-        case XML_READER_TYPE_TEXT:
-          {
-            xmlChar *value = xmlTextReaderValue(reader);
-            if (value) {
-              text = (const char *)value;
-              xmlFree(value);
-            }
-            break;
-          }
-        case XML_READER_TYPE_END_ELEMENT:
-          {
-            // Retrieve the name of the element and process it.
-            xmlChar *element_name = xmlTextReaderName(reader);
-            if (!xmlStrcmp(element_name, BAD_CAST "job")) {
-              gittasks.push_back(task);
-            } else if (!xmlStrcmp(element_name, BAD_CAST "task")) {
-              task.task = (GitTaskType) convert_to_int(text);
-            } else if (!xmlStrcmp(element_name, BAD_CAST "project")) {
-              task.project = text;
-            } else if (!xmlStrcmp(element_name, BAD_CAST "book")) {
-              task.book = convert_to_int(text);
-            } else if (!xmlStrcmp(element_name, BAD_CAST "chapter")) {
-              task.chapter = convert_to_int(text);
-            } else if (!xmlStrcmp(element_name, BAD_CAST "failures")) {
-              task.failures = convert_to_int(text);
-            } else if (!xmlStrcmp(element_name, BAD_CAST "data")) {
-              task.data = text;
-            }
-            break;
-          }
-        }
-      }
-    }
-    // Free memory.
-    if (reader)
-      xmlFreeTextReader(reader);
-    if (inputbuffer)
-      xmlFreeParserInputBuffer(inputbuffer);
-    if (contents)
-      free(contents);
-
-    // Remove the file.
-    unlink(git_job_filename().c_str());
-  }
-
 }
 
 void git_finalize_subsystem()
 {
   // Send the shutdown command to bibledit-git.
-  vector < ustring > payload;
+  vector <ustring> payload;
   payload.push_back(" ");
   extern InterprocessCommunication *ipc;
   ipc->send(ipcstBibleditGit, ipcctGitShutdown, payload);
-
-  // If there are still any git jobs left, save them to file
-  // for loading and execution during the next run.
-  if (!gittasks.empty()) {
-
-    // Create a new XML buffer, to which the document will be written
-    xmlBufferPtr buffer = xmlBufferCreate();
-
-    // Create a new XmlWriter for memory, with no compression.
-    xmlTextWriterPtr writer = xmlNewTextWriterMemory(buffer, 0);
-
-    // Create first bit of the document.
-    xmlTextWriterStartDocument(writer, NULL, "UTF-8", NULL);
-
-    // Indent the output.
-    xmlTextWriterSetIndent(writer, 1);
-
-    // Write the main element.
-    xmlTextWriterStartElement(writer, BAD_CAST "git-tasks");
-
-    // Go through all available tasks and write them out.
-    for (unsigned int i = 0; i < gittasks.size(); i++) {
-      xmlTextWriterStartElement(writer, BAD_CAST "job");
-      xmlTextWriterStartElement(writer, BAD_CAST "task");
-      xmlTextWriterWriteFormatString(writer, "%d", gittasks[i].task);
-      xmlTextWriterEndElement(writer);
-      xmlTextWriterStartElement(writer, BAD_CAST "project");
-      xmlTextWriterWriteFormatString(writer, "%s", gittasks[i].project.c_str());
-      xmlTextWriterEndElement(writer);
-      xmlTextWriterStartElement(writer, BAD_CAST "book");
-      xmlTextWriterWriteFormatString(writer, "%d", gittasks[i].book);
-      xmlTextWriterEndElement(writer);
-      xmlTextWriterStartElement(writer, BAD_CAST "chapter");
-      xmlTextWriterWriteFormatString(writer, "%d", gittasks[i].chapter);
-      xmlTextWriterEndElement(writer);
-      xmlTextWriterStartElement(writer, BAD_CAST "failures");
-      xmlTextWriterWriteFormatString(writer, "%d", gittasks[i].failures);
-      xmlTextWriterEndElement(writer);
-      xmlTextWriterStartElement(writer, BAD_CAST "data");
-      xmlTextWriterWriteFormatString(writer, "%s", gittasks[i].data.c_str());
-      xmlTextWriterEndElement(writer);
-      xmlTextWriterEndElement(writer);
-    }
-
-    // We could close any open elements by hand, but closing the document does it all.
-    xmlTextWriterEndDocument(writer);
-
-    // Flush the writer, else nothing gets transferred to the buffer.
-    xmlTextWriterFlush(writer);
-
-    // Write the lines to disk.
-    ParseLine parseline((const char *)buffer->content);
-    write_lines(git_job_filename(), parseline.lines);
-
-    // Free memory.
-    if (writer)
-      xmlFreeTextWriter(writer);
-    if (buffer)
-      xmlBufferFree(buffer);
-  }
 }
 
 void git_upgrade ()
@@ -245,53 +111,6 @@ void git_upgrade ()
   }
 }
 
-
-void git_task_human_readable(unsigned int task, const ustring & project, unsigned int book, unsigned int chapter, unsigned int fail, gchar * &human_readable_task, ustring & human_readable_description, ustring & human_readable_status)
-{
-  // Describe the task.
-  switch ((GitTaskType) task) {
-  case gttInitializeProject:
-    {
-      human_readable_task = (gchar *) "Initialize project";
-      break;
-    }
-  case gttCommitProject:
-    {
-      human_readable_task = (gchar *) "Commit project";
-      break;
-    }
-  case gttStoreChapter:
-    {
-      human_readable_task = (gchar *) "Store chapter";
-      break;
-    }
-  case gttUpdateProject:
-    {
-      human_readable_task = (gchar *) "Update project";
-      break;
-    }
-  }
-  // Give description of task.
-  switch ((GitTaskType) task) {
-  case gttStoreChapter:
-    {
-      human_readable_description = books_id_to_english(book) + " " + convert_to_string(chapter);
-      break;
-    }
-  case gttUpdateProject:
-  case gttInitializeProject:
-  case gttCommitProject:
-    {
-      break;
-    }
-  }
-  // Describe status.  
-  if (fail == 0) {
-    human_readable_status = "Pending";
-  } else {
-    human_readable_status = "Failed " + convert_to_string(fail) + " times, will retry";
-  }
-}
 
 void git_schedule(GitTaskType task, const ustring & project, unsigned int book, unsigned int chapter, const ustring & data)
 // This schedules a git task.
@@ -476,7 +295,7 @@ void git_resolve_conflict_chapter(const ustring & project, unsigned int book, un
   write_lines(datafile, newdata);
 
   // To inform git that the conflict has been resolved.
-  git_exec_store_chapter(project, book, chapter);
+  git_exec_update_project(project);
 }
 
 ustring git_mine_conflict_marker()

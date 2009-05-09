@@ -134,65 +134,6 @@ bool ViewGitDialog::reload_timeout(gpointer data)
 
 void ViewGitDialog::reload()
 {
-  // Retrieve the values to load in the listview.
-  vector < unsigned int >tasks;
-  vector < ustring > projects;
-  vector < unsigned int >books;
-  vector < unsigned int >chapters;
-  vector < unsigned int >fails;
-  git_get_tasks(tasks, projects, books, chapters, fails);
-
-  // Variables for iterating through the liststore. Point to first row.
-  GtkTreeModel *model = gtk_tree_view_get_model(GTK_TREE_VIEW(treeview1));
-  GtkTreeIter iter;
-  bool valid = gtk_tree_model_get_iter_first(model, &iter);
-
-  // Go through all the values in the database.
-  for (unsigned int i = 0; i < tasks.size(); i++) {
-
-    // Describe task fully.
-    gchar *task = NULL;
-    ustring description;
-    ustring status;
-    git_task_human_readable(tasks[i], projects[i], books[i], chapters[i], fails[i], task, description, status);
-
-    // Calculate the id of the values in the database.
-    ustring db_id = make_id(task, projects[i], description, status);
-
-    // If we have a valid row in the liststore, see whether to delete it or leave it in.
-    bool deleted = true;
-    while (valid && deleted) {
-      // If the id of the row is different from the id of the database, delete it.
-      ustring row_id = row_get_id(model, &iter);
-      if (db_id != row_id) {
-        deleted = true;
-        valid = gtk_list_store_remove(store, &iter);
-      } else {
-        deleted = false;
-      }
-    }
-
-    // If we're at the end of the liststore, add the values to it.
-    if (!valid) {
-      gtk_list_store_append(store, &iter);
-      gchar *task = NULL;
-      ustring description;
-      ustring status;
-      git_task_human_readable(tasks[i], projects[i], books[i], chapters[i], fails[i], task, description, status);
-      gtk_list_store_set(store, &iter, COLUMN_TASK, task, COLUMN_PROJECT, projects[i].c_str(), COLUMN_DESCRIPTION, description.c_str(), COLUMN_STATUS, status.c_str(), -1);
-    }
-    // Get validity of next iterator.
-    valid = gtk_tree_model_iter_next(model, &iter);
-
-  }
-
-  // Autosize columns because data may have been changed.
-  gtk_tree_view_columns_autosize(GTK_TREE_VIEW(treeview1));
-
-  // If there were no tasks, clear the store.
-  if (tasks.empty()) {
-    gtk_list_store_clear(store);
-  }
 }
 
 void ViewGitDialog::collect_iters(GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data)
@@ -228,41 +169,6 @@ void ViewGitDialog::on_buttondelete_clicked(GtkButton * button, gpointer user_da
 
 void ViewGitDialog::on_deletebutton()
 {
-  // Get focused tasks.
-  GtkTreeModel *model = gtk_tree_view_get_model(GTK_TREE_VIEW(treeview1));
-  vector < ustring > focused;
-  vector < GtkTreeIter > iters;
-  gtk_tree_selection_selected_foreach(select, ViewGitDialog::collect_iters, gpointer(&iters));
-  for (unsigned int i = 0; i < iters.size(); i++) {
-    GtkTreeIter iter = iters[i];
-    ustring id = row_get_id(model, &iter);
-    focused.push_back(id);
-  }
-  set < ustring > focused_set(focused.begin(), focused.end());
-  // Get all tasks.
-  vector < unsigned int >tasks;
-  vector < ustring > projects;
-  vector < unsigned int >books;
-  vector < unsigned int >chapters;
-  vector < unsigned int >fails;
-  git_get_tasks(tasks, projects, books, chapters, fails);
-  // Erase the ones focused.
-  ProgressWindow progresswindow("", false);
-  progresswindow.set_iterate(0, 1, tasks.size());
-  for (unsigned int i = 0; i < tasks.size(); i++) {
-    progresswindow.iterate();
-    gchar *hrtask;
-    ustring hrdesc;
-    ustring hrstatus;
-    git_task_human_readable(tasks[i], projects[i], books[i], chapters[i], fails[i], hrtask, hrdesc, hrstatus);
-    ustring id = make_id(hrtask, projects[i], hrdesc, hrstatus);
-    if (focused_set.find(id) != focused_set.end()) {
-      git_erase_task((GitTaskType) tasks[i], projects[i], books[i], chapters[i]);
-    }
-  }
-  // Clear store, load new values.  
-  gtk_list_store_clear(store);
-  reload();
 }
 
 ustring ViewGitDialog::row_get_id(GtkTreeModel * model, GtkTreeIter * iter)
@@ -290,3 +196,5 @@ ustring ViewGitDialog::make_id(const ustring & task, const ustring & project, co
   id.append(status);
   return id;
 }
+
+// Todo this dialog goes out.

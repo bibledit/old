@@ -32,7 +32,7 @@ ustring git_exec_change_dir(const ustring& dir) {
 #endif
 }
 
-void git_exec_initialize_project(const ustring & project, bool health) // Todo
+void git_exec_initialize_project(const ustring & project, bool health) // Todo reuse code
 {
   // Get the data directory for this project
   ustring datadirectory = tiny_project_data_directory_project(project);
@@ -71,53 +71,12 @@ void git_exec_initialize_project(const ustring & project, bool health) // Todo
     command = "git repack";
     git_exec_command(command, datadirectory);
   }
-  // Ensure that anything that was put in by hand will be seen by git.
-  // This makes the system more robust.
-  ustring command2 = "git add .";
-  git_exec_command(command2, datadirectory);
-  git_exec_commit_directory(datadirectory);
 }
 
-void git_exec_store_chapter(const ustring & project, unsigned int book, unsigned int chapter) // Todo this code still needed?
-// Stores a chapter. Returns whether things worked out.
-{
-  // Log message
-  git_exec_message("Storing book " + convert_to_string(book) + " chapter " + convert_to_string(chapter), true);
 
-  // Get the data directory for this project
-  ustring datadirectory = tiny_project_data_directory_project(project);
-
-  // The chapter may have been added when it wasn't there before.
-  // Just to be sure, add anything under the data directory.  
-  ustring command = "git add .";
-  git_exec_command(command, datadirectory);
-
-  // Show status, and commit changes.
-  git_exec_commit_directory(datadirectory);
-}
-
-void git_exec_commit_project(const ustring & project)
-// Commits a project.
-{
-  ustring datadirectory = tiny_project_data_directory_project(project);
-  git_exec_commit_directory(datadirectory);
-}
-
-void git_exec_commit_directory(const ustring & directory)
-{
-  // Show status, and commit changes.
-  ustring command1 = "git status -a";
-  git_exec_command(command1, directory);
-
-  ustring command2 = "git add .";
-  git_exec_command(command2, directory);
-
-  ustring command3 = "git commit -m Commit -a";
-  git_exec_command(command3, directory);
-}
-
-vector < ustring > git_exec_update_project(const ustring & project)
+void git_exec_update_project(const ustring & project) // Todo implement.
 /*
+ Commits local changes.
  Pulls all changes from the remote repository.
  Pushes all changes to the remote repository.
  It disregards errors, because at times a remote repository can be offline.
@@ -128,22 +87,28 @@ vector < ustring > git_exec_update_project(const ustring & project)
 
   // The data directory for this project
   ustring datadirectory = tiny_project_data_directory_project(project);
+  ustring command;
+
+  // Add everything because things could have been added or changed.
+  command = "git add .";
+  git_exec_command(command, datadirectory);
+
+  // Show status.
+  command = "git status -a";
+  git_exec_command(command, datadirectory);
+
+  // Commit changes locally.
+  command = "git commit -a -m commit";
+  git_exec_command(command, datadirectory);
 
   // Pull changes from the remote repository.
   // Some git installations need the source and destination branches as well.
-  ustring command1 = "git pull";
-  git_exec_command(command1, datadirectory);
+  command = "git pull";
+  git_exec_command(command, datadirectory);
 
   // Push changes to the remote repository.
-  ustring command2 = "git push";
-  git_exec_command(command2, datadirectory);
-
-  // An update can fail in cases that the remote repository is not available 
-  // at this time. In case of failure it would keep trying too often.
-  // Therefore it is better to simulate that it worked out, rather than
-  // returning the error.
-  vector < ustring > lines;
-  return lines;
+  command = "git push";
+  git_exec_command(command, datadirectory);
 }
 
 void git_exec_message(const ustring & message, bool eol)
