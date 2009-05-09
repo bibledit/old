@@ -4908,7 +4908,7 @@ bool MainWindow::on_git_update_timeout(gpointer user_data)
   return true;
 }
 
-void MainWindow::git_update_timeout()
+void MainWindow::git_update_timeout() // Todo
 // Schedule project update tasks.
 {
   // Bail out if git tasks are paused.
@@ -4916,6 +4916,9 @@ void MainWindow::git_update_timeout()
   if (settings->session.git_pause)
     return;
 
+  // Save all open editors.
+  save_editors();
+  
   // Schedule a task for each relevant project.
   vector < ustring > projects = projects_get_all();
   for (unsigned int i = 0; i < projects.size(); i++) {

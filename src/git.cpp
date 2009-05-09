@@ -592,10 +592,9 @@ void git_resolve_conflicts(const ustring & project, const vector < ustring > &er
 
 Todo new git
 
-* Help file needs to be updated about how to create a local git repository before doing a remote one.
+* To let the remote update work well. It saves all the editors first, the does the update.
 * To move the git health commands to the maintenance routines.
 * The initialization of the git repositories to be done in the maintenance routines. It also cleans out the index.lock, if it ever exists.
-* To let the remote update work well. It saves all the editors first, the does the update.
 
 The database gets a table that shows the maintenance routines to be done. It has a field "working directory", and a field "command".
 The shutdown routine reads all the commands, and executes them in order. It also stores what has been done already, so one command is not done twice.
