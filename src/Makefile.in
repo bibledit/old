@@ -114,7 +114,6 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	guiselectproject.$(OBJEXT) check_markers_spacing.$(OBJEXT) \
 	gui_navigation.$(OBJEXT) myfnmatch.$(OBJEXT) \
 	statistics.$(OBJEXT) dialogbackup.$(OBJEXT) backup.$(OBJEXT) \
-	dialogviewgit.$(OBJEXT) dialoggitadd.$(OBJEXT) \
 	dialogrevert.$(OBJEXT) dialogselectbooks.$(OBJEXT) \
 	resource_utils.$(OBJEXT) html.$(OBJEXT) \
 	dialogreviewanchors.$(OBJEXT) dialogeditnote.$(OBJEXT) \
@@ -506,8 +505,6 @@ bibledit_bin_SOURCES = \
         statistics.cpp \
         dialogbackup.cpp \
         backup.cpp \
-        dialogviewgit.cpp \
-        dialoggitadd.cpp \
         dialogrevert.cpp \
         dialogselectbooks.cpp \
         resource_utils.cpp \
@@ -775,7 +772,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogfindnote.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogfixmarkers.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogfontcolor.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoggitadd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoggotoreference.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoggui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogimportnotes.Po@am__quote@
@@ -822,7 +818,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogtextview.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogtidy.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogunicode.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogviewgit.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogviewstatus.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogwait.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogwordlist.Po@am__quote@

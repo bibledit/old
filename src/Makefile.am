@@ -153,8 +153,6 @@ bibledit_bin_SOURCES = \
         statistics.cpp \
         dialogbackup.cpp \
         backup.cpp \
-        dialogviewgit.cpp \
-        dialoggitadd.cpp \
         dialogrevert.cpp \
         dialogselectbooks.cpp \
         resource_utils.cpp \

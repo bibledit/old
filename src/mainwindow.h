@@ -212,8 +212,6 @@ protected:
   GtkWidget *image20235;
   GtkWidget *viewnotes;
   GtkWidget *image2627;
-  GtkWidget *view_git_tasks;
-  GtkWidget *image18685;
   GtkWidget *parallel_passages1;
   GtkWidget *view_usfm_code;
   GtkWidget *view_status;
@@ -675,8 +673,6 @@ protected:
   void on_project_backup_flexible();
 
   /* Git */
-  static void on_view_git_tasks_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_view_git_tasks();
   static void on_preferences_remote_repository_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_preferences_remote_repository();  
   RemoteRepositoryAssistant * remote_repository_assistant;

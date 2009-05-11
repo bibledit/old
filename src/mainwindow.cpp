@@ -90,7 +90,6 @@
 #include "dialognotesupdate.h"
 #include "dialogbackup.h"
 #include "backup.h"
-#include "dialogviewgit.h"
 #include "dialogrevert.h"
 #include "resource_utils.h"
 #include "dialogeditnote.h"
@@ -1077,14 +1076,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
 
   }
 
-  view_git_tasks = gtk_image_menu_item_new_with_mnemonic("_Git tasks");
-  gtk_widget_show(view_git_tasks);
-  gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_git_tasks);
-
-  image18685 = gtk_image_new_from_stock("gtk-connect", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image18685);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(view_git_tasks), image18685);
-
   parallel_passages1 = gtk_check_menu_item_new_with_mnemonic("_Parallel passages");
   gtk_widget_show(parallel_passages1);
   gtk_container_add(GTK_CONTAINER(menuitem_view_menu), parallel_passages1);
@@ -1951,8 +1942,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     g_signal_connect((gpointer) view_text_font, "activate", G_CALLBACK(on_view_text_font_activate), gpointer(this));
   if (viewnotes)
     g_signal_connect((gpointer) viewnotes, "activate", G_CALLBACK(on_viewnotes_activate), gpointer(this));
-  if (view_git_tasks)
-    g_signal_connect((gpointer) view_git_tasks, "activate", G_CALLBACK(on_view_git_tasks_activate), gpointer(this));
   if (parallel_passages1)
     g_signal_connect((gpointer) parallel_passages1, "activate", G_CALLBACK(on_parallel_passages1_activate), gpointer(this));
   if (view_usfm_code)
@@ -4823,17 +4812,6 @@ void MainWindow::on_project_backup_flexible()
  |
  */
 
-void MainWindow::on_view_git_tasks_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_view_git_tasks();
-}
-
-void MainWindow::on_view_git_tasks()
-{
-  ViewGitDialog dialog(0);
-  dialog.run();
-}
-
 void MainWindow::on_preferences_remote_repository_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_preferences_remote_repository();
@@ -4849,7 +4827,7 @@ void MainWindow::on_preferences_remote_repository()
 void MainWindow::on_git_reopen_project()
 {
   if (git_reopen_project) {
-    git_reopen_project = false; // Close flag before dialog shows, else the dialogs keep coming.
+    git_reopen_project = false;
     reload_all_editors(false);
   }
 }

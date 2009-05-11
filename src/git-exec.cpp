@@ -74,7 +74,7 @@ void git_exec_initialize_project(const ustring & project, bool health) // Todo r
 }
 
 
-void git_exec_update_project(const ustring & project) // Todo implement.
+void git_exec_update_project(const ustring & project)
 /*
  Commits local changes.
  Pulls all changes from the remote repository.

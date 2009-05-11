@@ -411,7 +411,6 @@ void git_resolve_conflicts(const ustring & project, const vector < ustring > &er
 
 Todo new git
 
-* To let the remote update work well. It saves all the editors first, the does the update.
 * To move the git health commands to the maintenance routines.
 * The initialization of the git repositories to be done in the maintenance routines. It also cleans out the index.lock, if it ever exists.
 
