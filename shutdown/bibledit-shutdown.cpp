@@ -131,7 +131,7 @@ int main (int argc, char *argv[])
   }
   
   // Remove the command database.
-  //unlink (filename);
+  unlink (filename);
   
   return 0;
 }

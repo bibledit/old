@@ -79,7 +79,7 @@ void shutdown_actions()
   int clear_up_day = settings->genconfig.clear_up_day_get();
   int current_day = date_time_julian_day_get_current();
   if (current_day < (clear_up_day + 1)) {
-    // Todo return;
+    return;
   }
   settings->genconfig.clear_up_day_set(current_day);
 
@@ -92,7 +92,7 @@ void shutdown_actions()
   // References memory: vacuum the sqlite database.
   vacuum_database (references_memory_database_filename());
 
-  // Git shutdown actions, optionally with the health flag. // Todo
+  // Git shutdown actions, optionally with the health flag.
   int githealth = settings->genconfig.git_health_get();
   int currentday = date_time_julian_day_get_current();
   bool run_githealth = false;

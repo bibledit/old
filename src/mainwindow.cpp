@@ -465,6 +465,14 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   gtk_widget_show(file_projects_merge);
   gtk_container_add(GTK_CONTAINER(file_project_menu), file_projects_merge);
 
+  projects_send_receive1 = gtk_image_menu_item_new_with_mnemonic ("_Send / receive");
+  gtk_widget_show (projects_send_receive1);
+  gtk_container_add (GTK_CONTAINER (file_project_menu), projects_send_receive1);
+
+  image34440 = gtk_image_new_from_stock ("gtk-network", GTK_ICON_SIZE_MENU);
+  gtk_widget_show (image34440);
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (projects_send_receive1), image34440);
+
   file_references = NULL;
   if (guifeatures.references_management() || guifeatures.printing()) {
 
@@ -1866,6 +1874,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     g_signal_connect((gpointer) project_changes, "activate", G_CALLBACK(on_project_changes_activate), gpointer(this));
   if (file_projects_merge)
     g_signal_connect((gpointer) file_projects_merge, "activate", G_CALLBACK(on_file_projects_merge_activate), gpointer(this));
+  g_signal_connect ((gpointer) projects_send_receive1, "activate", G_CALLBACK (on_projects_send_receive1_activate), gpointer(this));
   if (open_references1)
     g_signal_connect((gpointer) open_references1, "activate", G_CALLBACK(on_open_references1_activate), gpointer(this));
   if (references_save_as)
@@ -4882,11 +4891,11 @@ void MainWindow::git_update_intervals_initialize()
 
 bool MainWindow::on_git_update_timeout(gpointer user_data)
 {
-  ((MainWindow *) user_data)->git_update_timeout();
+  ((MainWindow *) user_data)->git_update_timeout(false);
   return true;
 }
 
-void MainWindow::git_update_timeout()
+void MainWindow::git_update_timeout(bool force)
 // Schedule project update tasks.
 {
   // Bail out if git tasks are paused.
@@ -4904,13 +4913,23 @@ void MainWindow::git_update_timeout()
     if (projectconfig->git_use_remote_repository_get()) {
       int interval = git_update_intervals[projects[i]];
       interval++;
-      if (interval >= projectconfig->git_remote_update_interval_get()) {
+      if ((interval >= projectconfig->git_remote_update_interval_get()) || force) {
         git_schedule(gttPushPull, projects[i], 0, 0, "");
         interval = 0;
       }
       git_update_intervals[projects[i]] = interval;
     }
   }
+}
+
+void MainWindow::on_projects_send_receive1_activate (GtkMenuItem *menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_projects_send_receive();
+}
+
+void MainWindow::on_projects_send_receive () // Todo implement. Write help on it. Probably more places. Timed notifier.
+{
+  git_update_timeout(true);
 }
 
 /*

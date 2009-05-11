@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<interface>
+  <!-- interface-requires gtk+ 2.12 -->
+  <!-- interface-naming-policy project-wide -->
+  <object class="GtkWindow" id="window">
+    <property name="title" translatable="yes">Notification</property>
+    <property name="resizable">False</property>
+    <property name="window_position">center-always</property>
+    <child>
+      <object class="GtkLabel" id="label">
+        <property name="visible">True</property>
+        <property name="xpad">30</property>
+        <property name="ypad">30</property>
+      </object>
+    </child>
+  </object>
+</interface>

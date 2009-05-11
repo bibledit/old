@@ -109,6 +109,8 @@ protected:
   GtkWidget *project_changes;
   GtkWidget *image19115;
   GtkWidget *file_projects_merge;
+  GtkWidget *projects_send_receive1; // Todo
+  GtkWidget *image34440;
   GtkWidget *file_references;
   GtkWidget *image465;
   GtkWidget *file_references_menu;
@@ -672,7 +674,7 @@ protected:
   static void on_project_backup_flexible_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_project_backup_flexible();
 
-  /* Git */
+  /* Git */ // Todo
   static void on_preferences_remote_repository_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_preferences_remote_repository();  
   RemoteRepositoryAssistant * remote_repository_assistant;
@@ -686,9 +688,11 @@ protected:
   map <ustring, unsigned int> git_update_intervals;
   unsigned int git_update_interval_event_id;
   static bool on_git_update_timeout(gpointer user_data);
-  void git_update_timeout();
+  void git_update_timeout(bool force);
   vector <GitChapterState *> gitchapterstates;
   bool git_reopen_project;
+  static void on_projects_send_receive1_activate (GtkMenuItem *menuitem, gpointer user_data); // Todo
+  void on_projects_send_receive ();
 
   /* Fonts */
   static void on_view_text_font_activate(GtkMenuItem * menuitem, gpointer user_data);
