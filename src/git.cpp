@@ -35,6 +35,7 @@
 #include "gtkwrappers.h"
 #include "generalconfig.h"
 #include "git-exec.h"
+#include "maintenance.h"
 
 vector < GitTask > gittasks;
 
@@ -406,6 +407,44 @@ void git_resolve_conflicts(const ustring & project, const vector < ustring > &er
     spawn.run();
   }
 }
+
+
+void git_shutdown (const ustring& project, bool health) // Todo
+{
+  // Get the data directory for the project
+  ustring datadirectory = tiny_project_data_directory_project(project);
+
+  ustring command;
+
+  // On most machines git can determine the user's name from the system services. 
+  // But on the XO machine, it can't. It is set here manually.
+  command = "git config user.email \"";
+  command.append(g_get_user_name());
+  command.append("@");
+  command.append(g_get_host_name());
+  command.append("\"");
+  maintenance_register_command (datadirectory, command);
+  command = "git config user.name \"";
+  command.append(g_get_real_name());
+  command.append("\"");
+  maintenance_register_command (datadirectory, command);
+
+  // (Re)initialize the repository. This can be done repeatedly without harm.
+  maintenance_register_command (datadirectory, "git init");
+
+  // At times health-related commands are ran too.
+  if (health) {
+    // Prune all unreachable objects from the object database.
+    maintenance_register_command (datadirectory, "git prune");
+    // Cleanup unnecessary files and optimize the local repository.
+    maintenance_register_command (datadirectory, "git gc --aggressive");
+    // Remove extra objects that are already in pack files.
+    maintenance_register_command (datadirectory, "git prune-packed");
+    // Pack unpacked objects in the repository.
+    maintenance_register_command (datadirectory, "git repack");
+  }
+}
+
 
 /*
 

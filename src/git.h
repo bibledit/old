@@ -80,6 +80,7 @@ void git_command_pause (bool pause);
 void git_command_set_update_frequency (unsigned int frequency);
 void git_resolve_conflicts (const ustring& project, const vector <ustring>& errors);
 vector<ustring> git_retrieve_chapter_commit (const ustring& project, unsigned int book, unsigned int chapter, const ustring& commit);
+void git_shutdown (const ustring& project, bool health);
 
 
 #endif

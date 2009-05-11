@@ -29,6 +29,7 @@ void maintenance_initialize ();
 void maintenance_register_database (const ustring& project, const ustring& database);
 void shutdown_actions ();
 void vacuum_database (const ustring& filename);
+void maintenance_register_command (const ustring& path, const ustring& command);
 
 
 #endif

@@ -48,6 +48,7 @@ void maintenance_initialize ()
     sqlite3_open(maintenance_database_filename().c_str(), &db);
     sqlite3_exec(db, "create table snapshots (project text, database text);", NULL, NULL, NULL);
     sqlite3_exec(db, "create table vacuum (filename text);", NULL, NULL, NULL);
+    sqlite3_exec(db, "create table commands (directory text, command text);", NULL, NULL, NULL);
     sqlite3_close(db);
   }
 }
@@ -78,7 +79,7 @@ void shutdown_actions()
   int clear_up_day = settings->genconfig.clear_up_day_get();
   int current_day = date_time_julian_day_get_current();
   if (current_day < (clear_up_day + 1)) {
-    return;
+    // Todo return;
   }
   settings->genconfig.clear_up_day_set(current_day);
 
@@ -91,13 +92,20 @@ void shutdown_actions()
   // References memory: vacuum the sqlite database.
   vacuum_database (references_memory_database_filename());
 
-  // Determine whether to run the health programs on the git repositories. // Todo
+  // Git shutdown actions, optionally with the health flag. // Todo
   int githealth = settings->genconfig.git_health_get();
   int currentday = date_time_julian_day_get_current();
   bool run_githealth = false;
   if (ABS(currentday - githealth) >= 30) {
     run_githealth = true;
     settings->genconfig.git_health_set(currentday);
+  }
+  vector <ustring> projects = projects_get_all ();
+  for (unsigned int i = 0; i < projects.size(); i++) {
+    ProjectConfiguration * projectconfig = settings->projectconfig (projects[i]);
+    if (projectconfig->git_use_remote_repository_get()) {
+      git_shutdown (projects[i], run_githealth);
+    }
   }
 
   // Start maintenance on shutdown.
@@ -121,3 +129,17 @@ void vacuum_database(const ustring & filename)
   g_free(sql);
   sqlite3_close(db);
 }
+
+
+void maintenance_register_command (const ustring& path, const ustring& command)
+// Registers a command to be run during maintenance at shutdown.
+{
+  sqlite3 *db;
+  sqlite3_open(maintenance_database_filename ().c_str(), &db);
+  char *sql;
+  sql = g_strdup_printf("insert into commands values ('%s', '%s')", double_apostrophy (path).c_str(), double_apostrophy (command).c_str());
+  sqlite3_exec(db, sql, NULL, NULL, NULL);
+  g_free(sql);
+  sqlite3_close(db);
+}
+

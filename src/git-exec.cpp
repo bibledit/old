@@ -24,53 +24,13 @@
 #include <windows.h> // CreateProcess
 #endif
 
+
 ustring git_exec_change_dir(const ustring& dir) {
 #ifdef WIN32
   return("cd \"" + dir + "\" && ");
 #else
   return("cd '" + dir + "' ; ");
 #endif
-}
-
-void git_exec_initialize_project(const ustring & project, bool health) // Todo reuse code
-{
-  // Get the data directory for this project
-  ustring datadirectory = tiny_project_data_directory_project(project);
-  git_exec_message(datadirectory, true);
-
-  // On most machines git can determine the user's name from the system services. 
-  // But on the XO machine, it can't.
-  // It is set here manually.
-  ustring command0 = "git config user.email \"";
-  command0.append(g_get_user_name());
-  command0.append("@");
-  command0.append(g_get_host_name());
-  command0.append("\"");
-  git_exec_command(command0, datadirectory);
-  command0 = "git config user.name \"";
-  command0.append(g_get_real_name());
-  command0.append("\"");
-  git_exec_command(command0, datadirectory);
-
-  // (Re)initialize the repository. This can be done repeatedly without harm.
-  ustring command1 = "git init";
-  git_exec_command(command1, datadirectory);
-  // At times health-related commands are ran too.
-  if (health) {
-    ustring command;
-    // Prune all unreachable objects from the object database.
-    command = "git prune";
-    git_exec_command(command, datadirectory);
-    // Cleanup unnecessary files and optimize the local repository.
-    command = "git gc --aggressive";
-    git_exec_command(command, datadirectory);
-    // Remove extra objects that are already in pack files.
-    command = "git prune-packed";
-    git_exec_command(command, datadirectory);
-    // Pack unpacked objects in the repository.
-    command = "git repack";
-    git_exec_command(command, datadirectory);
-  }
 }
 
 
@@ -111,12 +71,14 @@ void git_exec_update_project(const ustring & project)
   git_exec_command(command, datadirectory);
 }
 
+
 void git_exec_message(const ustring & message, bool eol)
 {
   if (write(1, message.c_str(), strlen(message.c_str()))) ;
   if (eol)
     if (write(1, "\n", 1)) ;
 }
+
 
 unsigned long git_exec_command(const ustring& cmd, const ustring& dir)
 {
