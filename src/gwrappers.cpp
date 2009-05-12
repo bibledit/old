@@ -32,6 +32,7 @@
 #include "shell.h"
 #include "tiny_utilities.h"
 
+
 ustring gw_build_filename(const ustring & part1, const ustring & part2)
 // Wrapper for g_build_filename, to make programming easier.
 {
@@ -272,7 +273,7 @@ void GwSpawn::run()
     result = g_spawn_async_with_pipes(workingdirectory, argv, NULL, (GSpawnFlags) flags, NULL, NULL, &pid, standard_input_filedescriptor_pointer, standard_output_filedescriptor_pointer, standard_error_filedescriptor_pointer, NULL);
     // Handle writing to stdin.
     if (standard_input_filedescriptor) {
-      gw_spawn_write(standard_input_filedescriptor, mywrite);
+      tiny_spawn_write(standard_input_filedescriptor, mywrite);
       close(standard_input_filedescriptor);
     }
   } else {
@@ -478,9 +479,9 @@ These calls allow one to hide the console window.
       }
     } else {
       if (standard_output)
-        gw_spawn_write(1, standard_output);
+        tiny_spawn_write(1, standard_output);
       if (standard_error)
-        gw_spawn_write(2, standard_error);
+        tiny_spawn_write(2, standard_error);
     }
     // Free data.
     if (standard_output)
@@ -491,7 +492,3 @@ These calls allow one to hide the console window.
 }
 #endif
 
-void gw_spawn_write(int fd, const ustring & text)
-{
-  if (write(fd, text.c_str(), strlen(text.c_str()))) ;
-}

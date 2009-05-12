@@ -17,11 +17,14 @@
  **  
  */
 
+
 #include "tiny_utilities.h"
 #include <glib.h>
 
+
 // The tiny utilities as listed below are mainly intended to be linked with 
-// small executables, such as for example bibledit-git.
+// small executables
+
 
 unsigned int convert_to_int(const ustring & str)
 {
@@ -31,6 +34,7 @@ unsigned int convert_to_int(const ustring & str)
   return i;
 }
 
+
 ustring convert_to_string(int i)
 {
   ostringstream r;
@@ -38,12 +42,14 @@ ustring convert_to_string(int i)
   return r.str();
 }
 
+
 ustring convert_to_string(unsigned int i)
 {
   ostringstream r;
   r << i;
   return r.str();
 }
+
 
 ustring convert_to_string(bool b)
 {
@@ -53,6 +59,7 @@ ustring convert_to_string(bool b)
     return "0";
 }
 
+
 ustring convert_to_string(double d)
 {
   ostringstream r;
@@ -60,12 +67,14 @@ ustring convert_to_string(double d)
   return r.str();
 }
 
+
 ustring convert_to_string(long unsigned int i)
 {
   ostringstream r;
   r << i;
   return r.str();
 }
+
 
 bool convert_to_bool(const ustring & s)
 {
@@ -79,6 +88,7 @@ bool convert_to_bool(const ustring & s)
     return true;
 }
 
+
 double convert_to_double(const ustring & s)
 {
   double result;
@@ -87,6 +97,7 @@ double convert_to_double(const ustring & s)
   return result;
 }
 
+
 ustring convert_bool_to_yes_no(bool b)
 {
   if (b)
@@ -94,6 +105,7 @@ ustring convert_bool_to_yes_no(bool b)
   else
     return "no";
 }
+
 
 ustring trim(const ustring & s)
 {
@@ -108,6 +120,7 @@ ustring trim(const ustring & s)
   return ustring(s, beg, end - beg + 1);
 }
 
+
 string trim(const string & s)
 {
   if (s.length() == 0)
@@ -121,6 +134,7 @@ string trim(const string & s)
   return string(s, beg, end - beg + 1);
 }
 
+
 ustring tiny_gw_build_filename(const ustring & part1, const ustring & part2)
 // Wrapper for g_build_filename, to make programming easier.
 {
@@ -132,6 +146,7 @@ ustring tiny_gw_build_filename(const ustring & part1, const ustring & part2)
   return filename;
 }
 
+
 ustring tiny_gw_build_filename(const ustring & part1, const ustring & part2, const ustring & part3)
 {
   ustring filename;
@@ -141,6 +156,7 @@ ustring tiny_gw_build_filename(const ustring & part1, const ustring & part2, con
   g_free(name);
   return filename;
 }
+
 
 ustring tiny_directories_get_root()
 /*
@@ -187,16 +203,19 @@ ustring tiny_directories_get_root()
   return root_directory;
 }
 
+
 ustring tiny_directories_get_projects()
 {
   // This returns the directory with all the projects.
   return tiny_gw_build_filename(tiny_directories_get_root(), "projects");
 }
 
+
 ustring tiny_project_data_directory_part()
 {
   return "data";
 }
+
 
 ustring tiny_project_data_directory_project(const ustring & project)
 // Returns the data directory for the project, e.g.:
@@ -204,4 +223,10 @@ ustring tiny_project_data_directory_project(const ustring & project)
 {
   ustring directory = tiny_gw_build_filename(tiny_directories_get_projects(), project, tiny_project_data_directory_part());
   return directory;
+}
+
+
+void tiny_spawn_write(int fd, const ustring & text)
+{
+  if (write(fd, text.c_str(), strlen(text.c_str()))) ;
 }

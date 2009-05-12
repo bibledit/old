@@ -274,7 +274,8 @@ bibledit_bin_SOURCES = \
 				referencememory.cpp \
 				webkitbrowser.cpp \
 				assistantresource.cpp \
-				snapshots.cpp
+				snapshots.cpp \
+				windowtimednotifier.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 

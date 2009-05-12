@@ -109,7 +109,7 @@ protected:
   GtkWidget *project_changes;
   GtkWidget *image19115;
   GtkWidget *file_projects_merge;
-  GtkWidget *projects_send_receive1; // Todo
+  GtkWidget *projects_send_receive1;
   GtkWidget *image34440;
   GtkWidget *file_references;
   GtkWidget *image465;
@@ -674,7 +674,7 @@ protected:
   static void on_project_backup_flexible_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_project_backup_flexible();
 
-  /* Git */ // Todo
+  /* Git */
   static void on_preferences_remote_repository_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_preferences_remote_repository();  
   RemoteRepositoryAssistant * remote_repository_assistant;
@@ -691,7 +691,7 @@ protected:
   void git_update_timeout(bool force);
   vector <GitChapterState *> gitchapterstates;
   bool git_reopen_project;
-  static void on_projects_send_receive1_activate (GtkMenuItem *menuitem, gpointer user_data); // Todo
+  static void on_projects_send_receive1_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_projects_send_receive ();
 
   /* Fonts */

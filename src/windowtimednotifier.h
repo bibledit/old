@@ -29,30 +29,15 @@
 class TimedNotifierWindow
 {
 public:
-  TimedNotifierWindow (const ustring& info, bool showcancel);
+  TimedNotifierWindow (const gchar * notification);
   ~TimedNotifierWindow ();
-  void set_text (const ustring& text);
-  void set_fraction (double fraction);
-  void set_iterate (double minimum, double maximum, unsigned int max_iteration);
-  void iterate ();
-  void pulse ();
-  void hide ();
-  bool cancel;
 private:
   GtkBuilder *gtkbuilder;
-  GtkWidget *progresswindow;
+  GtkWidget *window;
   GtkWidget *label;
-  GtkWidget *progressbar;
-  GtkWidget *cancelbutton;
-  static void on_cancelbutton_clicked (GtkButton *button, gpointer user_data);
-  void on_cancel ();
   static gboolean on_delete_event (GtkWidget *widget, GdkEvent *event, gpointer user_data);
-  void gui ();
-  double my_minimum;
-  double my_maximum;
-  unsigned int my_max_iterations;
-  unsigned int iteration_counter;
-  unsigned int modulus;
+  static gboolean on_timeout(gpointer data);
+  bool timeout();
 };
 
 

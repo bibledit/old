@@ -39,5 +39,7 @@ ustring tiny_directories_get_root();
 ustring tiny_directories_get_projects();
 ustring tiny_project_data_directory_part();
 ustring tiny_project_data_directory_project(const ustring& project);
+void tiny_spawn_write (int fd, const ustring& text);
+
 
 #endif

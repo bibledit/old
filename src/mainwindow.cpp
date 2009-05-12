@@ -128,6 +128,7 @@
 #include "unixwrappers.h"
 #include "accelerators.h"
 #include "dialogcompareprefs.h"
+#include "windowtimednotifier.h"
 
 
 /*
@@ -4927,9 +4928,10 @@ void MainWindow::on_projects_send_receive1_activate (GtkMenuItem *menuitem, gpoi
   ((MainWindow *) user_data)->on_projects_send_receive();
 }
 
-void MainWindow::on_projects_send_receive () // Todo implement. Write help on it. Probably more places. Timed notifier.
+void MainWindow::on_projects_send_receive ()
 {
   git_update_timeout(true);
+  new TimedNotifierWindow ("Sending and receiving Bibles");
 }
 
 /*

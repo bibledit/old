@@ -893,7 +893,7 @@ ustring ResourceAssistant::edited_resource_get ()
 
 /*
 
-Todo resources.
+todo resources.
 
 For having a Resource open a Google Doc, it needs to produce URL's based on the combined book and chapter, which then
 produces one combined URL. If this URL cannot be formed, it gives the home page instead.

@@ -450,13 +450,11 @@ void git_shutdown (const ustring& project, bool health)
 
 Todo new git
 
-Send/receive scriptures. Works on git only. Normally only once in so many minutes, can be set. 
-Default every hour or so. The git system is only used when remote git is used as well, apart from that it is not used. 
-This prevents a lot of disk churning on startup since nothing is initialized if git is not used.
-
 When a remote update results in files locally changed, we need to make a snapshot of each of the changed chapters.
 How to we know that local files were changed? We might need to roam through the snapshots and compare these with the actual 
 state of the files so as to see where there was a change. This method might be more reliable than relying on git's output, we don't know yet.
+
+When a checkout is created to start collaboration, we need to make a snapshot of all chapters.
 
 We need to try detection and resolution of conflicts in git.
 

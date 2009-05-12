@@ -21,50 +21,27 @@
 #include "gwrappers.h"
 #include "directories.h"
 
-TimedNotifierWindow::TimedNotifierWindow(const ustring & info, bool showcancel)
+TimedNotifierWindow::TimedNotifierWindow(const gchar * notification)
 {
   gtkbuilder = gtk_builder_new ();
-  gtk_builder_add_from_file (gtkbuilder, gw_build_filename (directories_get_package_data(), "gtkbuilder.progressdialog.xml").c_str(), NULL);
-  progresswindow = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "progressdialog"));
+  gtk_builder_add_from_file (gtkbuilder, gw_build_filename (directories_get_package_data(), "gtkbuilder.timednotifywindow.xml").c_str(), NULL);
+  window = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "window"));
   label = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "label"));
-  progressbar = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "progressbar"));
-  cancelbutton = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "cancelbutton"));
 
-  gtk_label_set_text (GTK_LABEL (label), info.c_str());
+  gtk_label_set_text (GTK_LABEL (label), notification);
   
-  if (showcancel) {
-    g_signal_connect((gpointer) cancelbutton, "clicked", G_CALLBACK(on_cancelbutton_clicked), gpointer(this));
-    gtk_widget_grab_focus(cancelbutton);
-    gtk_widget_grab_default(cancelbutton);
-  } else {
-    gtk_widget_hide (cancelbutton);
-  }
+  g_signal_connect((gpointer) window, "delete_event", G_CALLBACK(on_delete_event), gpointer(this));
 
-  g_signal_connect((gpointer) progresswindow, "delete_event", G_CALLBACK(on_delete_event), gpointer(this));
+  gtk_widget_show(window);
+  gtk_window_present(GTK_WINDOW(window));
 
-  gtk_widget_show(progresswindow);
-  gtk_window_present(GTK_WINDOW(progresswindow));
-
-  cancel = false;
-
-  gui();
+  g_timeout_add(1000, GSourceFunc(on_timeout), gpointer(this));
 }
 
 TimedNotifierWindow::~TimedNotifierWindow()
 {
   g_object_unref (gtkbuilder);
-  gtk_widget_destroy(progresswindow);
-}
-
-void TimedNotifierWindow::on_cancelbutton_clicked(GtkButton * button, gpointer user_data)
-{
-  ((TimedNotifierWindow *) user_data)->on_cancel();
-}
-
-void TimedNotifierWindow::on_cancel()
-{
-  cancel = true;
-  gui();
+  gtk_widget_destroy(window);
 }
 
 gboolean TimedNotifierWindow::on_delete_event(GtkWidget * widget, GdkEvent * event, gpointer user_data)
@@ -73,75 +50,13 @@ gboolean TimedNotifierWindow::on_delete_event(GtkWidget * widget, GdkEvent * eve
   return true;
 }
 
-void TimedNotifierWindow::gui()
+gboolean TimedNotifierWindow::on_timeout(gpointer data)
 {
-  // Update the GUI.
-  while (gtk_events_pending()) {
-    gtk_main_iteration();
-  }
+  return ((TimedNotifierWindow *) data)->timeout();
 }
 
-void TimedNotifierWindow::set_text(const ustring & text)
+bool TimedNotifierWindow::timeout()
 {
-  gtk_progress_bar_set_text(GTK_PROGRESS_BAR(progressbar), text.c_str());
-  gui();
+  delete this;
+  return false;
 }
-
-void TimedNotifierWindow::set_fraction(double fraction)
-{
-  gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(progressbar), fraction);
-  gui();
-}
-
-void TimedNotifierWindow::set_iterate(double minimum, double maximum, unsigned int max_iteration)
-{
-  my_minimum = minimum;
-  my_maximum = maximum;
-  modulus = 0;
-  if (max_iteration > 300)
-    modulus = max_iteration / 100;
-  my_max_iterations = max_iteration;
-  iteration_counter = 0;
-  gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(progressbar), my_minimum);
-  gui();
-}
-
-void TimedNotifierWindow::iterate()
-{
-  iteration_counter++;
-  // It appears that if there are many steps to take, and so we have many 
-  // iterations in the process, the whole process is slowed down mostly by the
-  // update of the graphical user interface. As this is not desirable,
-  // measures have been taken in the TimedNotifierWindow object to automatically reduce
-  // the number of iterations depending on how many there are going to be
-  // in the process. This can result in something going more than ten (!) 
-  // times faster.
-  if (modulus != 0) {
-    if ((iteration_counter % modulus) != 0)
-      return;
-  }
-  double percentage;
-  percentage = double (iteration_counter) / double (my_max_iterations);
-  percentage *= (my_maximum - my_minimum);
-  percentage += my_minimum;
-  // If percentage gets too high, reset the bar.
-  if (percentage > 1)
-    iteration_counter = 0;
-  percentage = CLAMP(percentage, 0, 1);
-  gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(progressbar), percentage);
-  gui();
-}
-
-void TimedNotifierWindow::pulse()
-{
-  gtk_progress_bar_pulse(GTK_PROGRESS_BAR(progressbar));
-  gui();
-}
-
-void TimedNotifierWindow::hide()
-{
-  gtk_widget_hide_all(progresswindow);
-  gui();
-}
-
-

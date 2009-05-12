@@ -75,7 +75,4 @@ private:
 };
 
 
-void gw_spawn_write (int fd, const ustring& text);
-
-
 #endif
