@@ -42,4 +42,25 @@ ustring tiny_project_data_directory_project(const ustring& project);
 void tiny_spawn_write (int fd, const ustring& text);
 
 
+class TinySpawn
+{
+public:
+  TinySpawn (const char * program);
+  ~TinySpawn ();
+  void workingdirectory (ustring directory);
+  void arg (ustring value);
+  void read ();
+  void run ();
+  bool result;
+  gint exitstatus;
+  string standardout;
+  string standarderr;
+private:
+  const char * myprogram;
+  ustring myworkingdirectory;
+  bool myread;
+  vector <string> arguments;
+};
+
+
 #endif

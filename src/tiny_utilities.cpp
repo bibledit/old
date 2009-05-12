@@ -230,3 +230,254 @@ void tiny_spawn_write(int fd, const ustring & text)
 {
   if (write(fd, text.c_str(), strlen(text.c_str()))) ;
 }
+
+
+TinySpawn::TinySpawn(const char *program)
+{
+  myprogram = program;
+  myread = false;
+  exitstatus = 0;
+}
+
+
+TinySpawn::~TinySpawn()
+{
+}
+
+
+void TinySpawn::workingdirectory(ustring directory)
+// The process' working directory.
+{
+  myworkingdirectory = directory;
+}
+
+
+void TinySpawn::arg(ustring value)
+// Add one arguments to the arguments for running the program.
+// This function can be repeated as many times as desired.
+{
+#ifdef WIN32
+  // Quote the argument.
+  value = shell_quote_space(value);
+#else
+  // Escape the '.
+  size_t offposition = value.find("'");
+  while (offposition != string::npos) {
+    value.replace(offposition, 1, "\\'");
+    offposition = value.find("'", offposition + 2);
+  }
+#endif
+  // Save argument.
+  arguments.push_back(value);
+}
+
+
+void TinySpawn::read()
+// Make cout and cerr of the program available for later reading.
+{
+  myread = true;
+}
+
+
+#ifndef WIN32
+void TinySpawn::run()
+{
+  // Working directory.
+  const gchar *workingdirectory = NULL;
+  if (!myworkingdirectory.empty())
+    workingdirectory = myworkingdirectory.c_str();
+  // Store arguments in argv.
+  char *argv[arguments.size() + 2];
+  argv[0] = (char *)myprogram;
+  for (unsigned int i = 0; i < arguments.size(); i++) {
+    argv[i + 1] = (char *)arguments[i].c_str();
+  }
+  // Terminate argv.
+  argv[arguments.size() + 1] = NULL;
+  // Spawn flags.
+  int flags = G_SPAWN_SEARCH_PATH;
+  // Possible pipes.
+  gint standard_output_filedescriptor;
+  gint standard_error_filedescriptor;
+  gint *standard_output_filedescriptor_pointer = NULL;
+  gint *standard_error_filedescriptor_pointer = NULL;
+  gchar *standard_output = NULL;
+  gchar *standard_error = NULL;
+  gchar **standard_output_pointer = NULL;
+  gchar **standard_error_pointer = NULL;
+  if (myread) {
+    standard_output_filedescriptor_pointer = &standard_output_filedescriptor;
+    standard_error_filedescriptor_pointer = &standard_error_filedescriptor;
+    standard_output_pointer = &standard_output;
+    standard_error_pointer = &standard_error;
+  }
+  // Spawn process.
+  result = g_spawn_sync(workingdirectory, argv, NULL, (GSpawnFlags) flags, NULL, NULL, standard_output_pointer, standard_error_pointer, &exitstatus, NULL);
+  // Handle case we didn't spawn the process.
+  if (!result) {
+    exitstatus = -1;
+    ustring message = myprogram;
+    message.append(" didn't spawn");
+    g_critical("%s", message.c_str());
+    return;
+  }
+  // Handle reading the output.
+  if (myread) {
+    // In sync mode we have gchar * output.
+    standardout = standard_output;
+    standarderr = standard_error;
+    // Free data.
+    if (standard_output)
+      g_free(standard_output);
+    if (standard_error)
+      g_free(standard_error);
+  }
+}
+#endif
+
+#ifdef WIN32
+void TinySpawn::run()
+/*
+On Windows the normal routines of glib cannot be used well, because they show
+a console window when running certain commands like mkdir, ping, etc.
+Therefore this version of run() uses Windows specific system calls.
+These calls allow one to hide the console window.
+*/
+{
+  // Working directory.
+  const gchar *workingdirectory = NULL;
+  if (!myworkingdirectory.empty())
+    workingdirectory = myworkingdirectory.c_str();
+    /* 
+     The trick to running a console window silent is in the STARTUPINFO 
+     structure that we pass into the CreateProcess function. 
+     STARTUPINFO specifies the main window properties. 
+     There are many items in the STARTUPINFO structure that we don't care about. 
+     The ones that are of interest are:
+     * DWORD cb
+     * DWORD dwFlags
+     * WORD wShowWindow
+   */
+  // The STARTUPINFO is instantiated.
+  STARTUPINFO StartupInfo;
+  PROCESS_INFORMATION ProcessInfo;
+  // The memory is cleared for the length of the structure.
+  memset(&StartupInfo, 0, sizeof(StartupInfo));
+  // Fill the structure with the relevant code 
+  // that will tell the console window to start up without showing itself.
+  StartupInfo.cb = sizeof(STARTUPINFO);
+  StartupInfo.dwFlags = STARTF_USESHOWWINDOW;
+  StartupInfo.wShowWindow = SW_HIDE;
+
+  // Arguments to the program.
+  char Args[4096];
+  Args[0] = 0;
+
+  // Environment.
+  char *pEnvCMD = NULL;
+  char *pDefaultCMD = "CMD.EXE";
+  pEnvCMD = getenv("COMSPEC");
+
+  if (pEnvCMD) {
+    strcpy(Args, pEnvCMD);
+  } else {
+    strcpy(Args, pDefaultCMD);
+  }
+
+  // The "/c" option - Do the command then terminate the command window.
+  strcat(Args, " /c ");
+  // The application you would like to run from the command window.
+  strcat(Args, myprogram);
+  // The parameters passed to the application being run from the command window.
+  // The arguments have been quoted and spaced already.
+  for (unsigned int i = 0; i < myarguments.size(); i++) {
+    strcat(Args, myarguments[i].c_str());
+  }
+
+  // Get the suffix for the files to be piped. It has the seconds and 
+  // microseconds in them, to allow for parallel usage of these pipes.
+  ustring pipe_suffix;
+  if ((!mydevnull) || (!mywrite.empty())) {
+    GTimeVal gtimeval;
+    g_get_current_time(&gtimeval);
+    pipe_suffix = convert_to_string((long unsigned int)gtimeval.tv_sec) + convert_to_string((long unsigned int)gtimeval.tv_usec);
+  }
+  // If there is standard input, create the file to be piped.
+  // Write the text into that file. Add the file to the arguments.
+  if (!mywrite.empty()) {
+    ustring pipe_in = gw_build_filename(directories_get_temp(), "stdin" + pipe_suffix);
+    WriteText wt(pipe_in);
+    wt.text(mywrite);
+    strcat(Args, " <");
+    strcat(Args, shell_quote_space(pipe_in).c_str());
+  }
+  // If the output is not sent to "nul", then create piped files.
+  ustring pipe_out;
+  ustring pipe_err;
+  if (!mydevnull) {
+    pipe_out = gw_build_filename(directories_get_temp(), "stdout" + pipe_suffix);
+    pipe_err = gw_build_filename(directories_get_temp(), "stderr" + pipe_suffix);
+    ustring pout = shell_quote_space(pipe_out);
+    ustring perr = shell_quote_space(pipe_err);
+    strcat(Args, " >");
+    strcat(Args, pout.c_str());
+    strcat(Args, " 2>");
+    strcat(Args, perr.c_str());
+  }
+  // Start the process.
+  result = CreateProcess(NULL, Args, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, workingdirectory, &StartupInfo, &ProcessInfo);
+  if (!result) {
+    exitstatus = GetLastError();
+    ustring message = myprogram;
+    message.append(" didn't spawn");
+    gw_critical(message);
+    return;
+  }
+  // Handle sync mode.
+  if (!myasync) {
+    // Wait for it to finish.
+    WaitForSingleObject(ProcessInfo.hProcess, INFINITE);
+    WaitForSingleObject(ProcessInfo.hThread, INFINITE);
+  }
+  // Get the exit code.
+  ULONG rc;
+  if (!GetExitCodeProcess(ProcessInfo.hProcess, &rc))
+    rc = 0;
+  exitstatus = rc;
+
+  // Close handles.
+  CloseHandle(ProcessInfo.hThread);
+  CloseHandle(ProcessInfo.hProcess);
+
+  // Read the pipe files if we don't sent the output to "nul".
+  if (!mydevnull) {
+    gchar *standard_output;
+    g_file_get_contents(pipe_out.c_str(), &standard_output, NULL, NULL);
+    gchar *standard_error;
+    g_file_get_contents(pipe_err.c_str(), &standard_error, NULL, NULL);
+    // Handle case we read the output. Else dump it to stdout/err.
+    if (myread) {
+      if (standard_output) {
+        ParseLine parse_out(standard_output);
+        standardout = parse_out.lines;
+      }
+      if (standard_error) {
+        ParseLine parse_err(standard_error);
+        standarderr = parse_err.lines;
+      }
+    } else {
+      if (standard_output)
+        tiny_spawn_write(1, standard_output);
+      if (standard_error)
+        tiny_spawn_write(2, standard_error);
+    }
+    // Free data.
+    if (standard_output)
+      g_free(standard_output);
+    if (standard_error)
+      g_free(standard_error);
+  }
+}
+#endif
+
+
