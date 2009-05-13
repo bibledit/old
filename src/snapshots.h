@@ -28,6 +28,7 @@
 ustring snapshots_content_database (const ustring& project);
 void snapshots_initialize_all ();
 void snapshots_initialize_project (const ustring& project);
+void snapshots_shoot_project (const ustring& project);
 void snapshots_shoot_chapter (const ustring& project, unsigned int book, unsigned int chapter, unsigned int seconds, bool persistent);
 vector <unsigned int> snapshots_get_seconds (const ustring& project, unsigned int book, unsigned int chapter);
 ustring snapshots_get_chapter (const ustring& project, unsigned int book, unsigned int chapter, unsigned int seconds);

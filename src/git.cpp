@@ -477,13 +477,3 @@ void git_process_feedback (const ustring& project, const vector <ustring>& feedb
   }
 }
 
-
-/*
-
-Todo new git
-
-When a checkout is created to start collaboration, we need to make a snapshot of all chapters.
-
-*/
-
-

@@ -56,9 +56,6 @@ void snapshots_initialize_project (const ustring& project)
   if (g_file_test(filename.c_str(), G_FILE_TEST_IS_REGULAR))
     return;
 
-  // Feedback.
-  ProgressWindow progresswindow ("Creating Snapshots Database for Project " + project, false);
-
   // Create database.
   sqlite3 *db;
   sqlite3_open(filename.c_str(), &db);
@@ -66,15 +63,27 @@ void snapshots_initialize_project (const ustring& project)
   sql = g_strdup_printf("create table snapshots (book integer, chapter integer, content text, seconds integer, persistent integer);");
   sqlite3_exec(db, sql, NULL, NULL, NULL);
   g_free(sql);
-  
+  sqlite3_close(db);
+
+  // Take a snapshot of the whole project
+  snapshots_shoot_project (project);
+}
+
+
+void snapshots_shoot_project (const ustring& project)
+// Takes a snapshot of the whole project.
+{
+  ProgressWindow progresswindow ("Updating Snapshots for Project " + project, false);
+  ustring filename = snapshots_content_database (project);
+  sqlite3 *db;
+  sqlite3_open(filename.c_str(), &db);
+  char *sql;
   // We're going to write a lot, therefore write fast.  
   sql = g_strdup_printf("PRAGMA synchronous=OFF;");
   sqlite3_exec(db, sql, NULL, NULL, NULL);
   g_free(sql);
-
   // Current time.
   int seconds = date_time_seconds_get_current();
-
   // Store snapshots of all the chapters in the project.
   vector <unsigned int> books = project_get_books(project);
   progresswindow.set_iterate(0, 1, books.size());
@@ -94,8 +103,7 @@ void snapshots_initialize_project (const ustring& project)
       g_free(sql);
     }
   }
-
-  // Close the database.
+  // Close db.
   sqlite3_close(db);
 }
 

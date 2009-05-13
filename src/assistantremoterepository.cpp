@@ -29,6 +29,7 @@
 #include "unixwrappers.h"
 #include "git.h"
 #include "projectutils.h"
+#include "snapshots.h"
 
 
 RemoteRepositoryAssistant::RemoteRepositoryAssistant(int dummy) :
@@ -382,6 +383,9 @@ void RemoteRepositoryAssistant::on_assistant_apply ()
     unix_rmdir(project_data_directory);
     unix_mv(persistent_clone_directory, project_data_directory);
   }
+
+  // Take a snapshot of the whole project.
+  snapshots_shoot_project (project);
 
   // Show summary.
   gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), summary_page_number);
