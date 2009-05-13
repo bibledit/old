@@ -20,55 +20,80 @@
 #include "git-exec.h"
 #include "tiny_utilities.h"
 #include <glib.h>
-#ifdef WIN32
-#include <windows.h> // CreateProcess
-#endif
 
 
-ustring git_exec_change_dir(const ustring& dir) {
-#ifdef WIN32
-  return("cd \"" + dir + "\" && ");
-#else
-  return("cd '" + dir + "' ; ");
-#endif
-}
-
-
-void git_exec_update_project(const ustring & project)
+vector <ustring> git_exec_update_project(const ustring & project)
 /*
  Commits local changes.
  Pulls all changes from the remote repository.
  Pushes all changes to the remote repository.
- It disregards errors, because at times a remote repository can be offline.
  */
 {
-  // Log.
-  git_exec_message("Updating project " + project, true);
+  git_exec_message("Updating Bible " + project, true);
 
-  // The data directory for this project
+  vector <ustring> feedback;
+
   ustring datadirectory = tiny_project_data_directory_project(project);
   ustring command;
 
   // Add everything because things could have been added or changed.
-  command = "git add .";
-  git_exec_command(command, datadirectory);
+  {
+    TinySpawn spawn ("git");
+    spawn.arg ("add");
+    spawn.arg (".");
+    spawn.workingdirectory (datadirectory);
+    spawn.run ();
+  }
 
   // Show status.
-  command = "git status -a";
-  git_exec_command(command, datadirectory);
+  {
+    TinySpawn spawn ("git");
+    spawn.arg ("status");
+    spawn.arg ("-a");
+    spawn.workingdirectory (datadirectory);
+    spawn.run ();
+  }
 
   // Commit changes locally.
-  command = "git commit -a -m commit";
-  git_exec_command(command, datadirectory);
+  {
+    TinySpawn spawn ("git");
+    spawn.arg ("commit");
+    spawn.arg ("-a");
+    spawn.arg ("-m");
+    spawn.arg ("commit");
+    spawn.workingdirectory (datadirectory);
+    spawn.run ();
+  }
 
   // Pull changes from the remote repository.
-  // Some git installations need the source and destination branches as well.
-  command = "git pull";
-  git_exec_command(command, datadirectory);
+  bool pulled_ok = false;
+  {
+    TinySpawn spawn ("git");
+    spawn.arg ("pull");
+    spawn.workingdirectory (datadirectory);
+    spawn.read ();
+    spawn.run ();
+    pulled_ok = spawn.exitstatus == 0;
+    feedback.push_back (convert_to_string (spawn.exitstatus));
+    for (unsigned int i = 0; i < spawn.standardout.size(); i++) {
+      git_exec_message (spawn.standardout[i], true);
+      feedback.push_back (spawn.standardout[i]);
+    }
+    for (unsigned int i = 0; i < spawn.standarderr.size(); i++) {
+      git_exec_message (spawn.standarderr[i], true);
+      feedback.push_back (spawn.standarderr[i]);
+    }
+  }
 
   // Push changes to the remote repository.
-  command = "git push";
-  git_exec_command(command, datadirectory);
+  if (pulled_ok) {
+    TinySpawn spawn ("git");
+    spawn.arg ("push");
+    spawn.workingdirectory (datadirectory);
+    spawn.run ();
+  }
+  
+  return feedback;
 }
 
 
@@ -77,44 +102,5 @@ void git_exec_message(const ustring & message, bool eol)
   if (write(1, message.c_str(), strlen(message.c_str()))) ;
   if (eol)
     if (write(1, "\n", 1)) ;
-}
-
-
-unsigned long git_exec_command(const ustring& cmd, const ustring& dir)
-{
-  unsigned long retval = -1; // assume failure
-
-  //cout << "git_exec_command: " << cmd << " wd: " << dir << " ";
-
-#ifdef WIN32
-  // If you don't use CreateProcess(), you get one window for every system() call
-  // ...tends to slow down the git process and produce flashing windows... :(
-  STARTUPINFO si;
-  PROCESS_INFORMATION pi;
-  memset(&si, 0, sizeof(si));
-  memset(&pi, 0, sizeof(pi));
-  char* c = (char*)calloc(cmd.length() + 1, sizeof(char));
-  cmd.copy(c, cmd.length());
-  if(!CreateProcess(NULL, c, NULL, NULL, FALSE, DETACHED_PROCESS, NULL, dir.c_str(), &si, &pi)) {
-    cerr << "CreateProcess failed: " << GetLastError() << endl;
-    return(retval);
-  }
-  free(c);
-  WaitForSingleObject(pi.hProcess, INFINITE);
-  GetExitCodeProcess(pi.hProcess, &retval);
-  CloseHandle(pi.hThread);
-  CloseHandle(pi.hProcess);
-#else
-  ustring c = git_exec_change_dir(dir) + cmd;
-  retval = system(c.c_str());
-#endif
-  if(retval != 0) {
-    //cout << "returned error code: " << retval << endl;
-  }
-  else {
-    //cout << endl;
-  }
-
-  return(retval);
 }
 

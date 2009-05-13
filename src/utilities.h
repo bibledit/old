@@ -114,13 +114,4 @@ public:
 private:
 };
 
-class ParseLine
-{
-public:
-  ParseLine (const ustring & text);
-  ~ParseLine ();
-  vector <ustring> lines;
-private:
-};
-
 #endif

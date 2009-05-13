@@ -324,8 +324,10 @@ void TinySpawn::run()
   // Handle reading the output.
   if (myread) {
     // In sync mode we have gchar * output.
-    standardout = standard_output;
-    standarderr = standard_error;
+    ParseLine parse_output (standard_output);
+    standardout = parse_output.lines;
+    ParseLine parse_error (standard_error);
+    standarderr = parse_error.lines;
     // Free data.
     if (standard_output)
       g_free(standard_output);
@@ -481,3 +483,25 @@ These calls allow one to hide the console window.
 #endif
 
 
+ParseLine::ParseLine(const ustring & text)
+// Parses text in its separate lines.
+{
+  ustring processed_line;
+  processed_line = trim(text);
+  size_t newlineposition;
+  newlineposition = processed_line.find("\n");
+  while (newlineposition != string::npos) {
+    ustring word = processed_line.substr(0, newlineposition);
+    lines.push_back(trim(word));
+    processed_line.erase(0, newlineposition + 1);
+    processed_line = trim(processed_line);
+    newlineposition = processed_line.find("\n");
+  }
+  if (!processed_line.empty())
+    lines.push_back(trim(processed_line));
+}
+
+
+ParseLine::~ParseLine()
+{
+}

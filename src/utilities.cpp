@@ -684,24 +684,3 @@ ParseWords::ParseWords(const ustring & text)
   g_object_unref(textbuffer);
 }
 
-ParseLine::ParseLine(const ustring & text)
-// Parses text in its separate lines.
-{
-  ustring processed_line;
-  processed_line = trim(text);
-  size_t newlineposition;
-  newlineposition = processed_line.find("\n");
-  while (newlineposition != string::npos) {
-    ustring word = processed_line.substr(0, newlineposition);
-    lines.push_back(trim(word));
-    processed_line.erase(0, newlineposition + 1);
-    processed_line = trim(processed_line);
-    newlineposition = processed_line.find("\n");
-  }
-  if (!processed_line.empty())
-    lines.push_back(trim(processed_line));
-}
-
-ParseLine::~ParseLine()
-{
-}

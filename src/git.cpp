@@ -36,6 +36,8 @@
 #include "generalconfig.h"
 #include "git-exec.h"
 #include "maintenance.h"
+#include "snapshots.h"
+
 
 vector < GitTask > gittasks;
 
@@ -446,17 +448,41 @@ void git_shutdown (const ustring& project, bool health)
 }
 
 
+void git_process_feedback (const ustring& project, const vector <ustring>& feedback)
+{
+  // Bail out if there's not enough feedback.
+  if (feedback.size() < 3) {
+    return;
+  }
+
+  // Examine the output and take appropriate actions.
+  // A normal action is when a chapter is updated as a result of a git pull. 
+  // Example:
+  // Updating 4807e84..0afa0e3
+  // Fast forward
+  // 3 John/1/data |    2 +-
+  // 1 files changed, 1 insertions(+), 1 deletions(-)
+  for (unsigned int i = 0; i < feedback.size(); i++) {
+    ustring line = feedback[i];
+    if (line.length() > 5) {
+      Parse parse(line, false, G_DIR_SEPARATOR_S);
+      if (parse.words.size() >= 2) {
+        unsigned int book = books_english_to_id(parse.words[0]);
+        if (book) {
+          unsigned int chapter = convert_to_int(parse.words[1]);
+          snapshots_shoot_chapter (project, book, chapter, 0, false);
+        }
+      }
+    }
+  }
+}
+
+
 /*
 
 Todo new git
 
-When a remote update results in files locally changed, we need to make a snapshot of each of the changed chapters.
-How to we know that local files were changed? We might need to roam through the snapshots and compare these with the actual 
-state of the files so as to see where there was a change. This method might be more reliable than relying on git's output, we don't know yet.
-
 When a checkout is created to start collaboration, we need to make a snapshot of all chapters.
-
-We need to try detection and resolution of conflicts in git.
 
 */
 

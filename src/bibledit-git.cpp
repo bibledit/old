@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
   while (ipc->get_payload(ipcctGitShutdown).empty()) {
 
     // Variables.
-    vector < ustring > error;
+    vector <ustring> feedback;
     GitTaskType task;
     ustring project;
     unsigned int book, chapter;
@@ -69,19 +69,19 @@ int main(int argc, char *argv[])
       data = available_task[4];
 
       // Clear any previous error.
-      error.clear();
+      feedback.clear();
 
       // Execute the right task.    
       switch (task) {
       case gttPushPull:
         {
-          git_exec_update_project(project);
+          feedback = git_exec_update_project(project);
           break;
         }
       }
 
-      // Send done or fail.
-      ipc->send(ipcstBibleditBin, ipcctGitTaskDone, error);
+      // Send feedback.
+      ipc->send(ipcstBibleditBin, ipcctGitTaskDone, feedback);
 
     }
 

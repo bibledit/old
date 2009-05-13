@@ -25,9 +25,8 @@
 #include "libraries.h"
 
 
-void git_exec_update_project (const ustring& project);
+vector <ustring> git_exec_update_project (const ustring& project);
 void git_exec_message (const ustring& message, bool eol);
-unsigned long git_exec_command(const ustring& cmd, const ustring& dir);
 
 
 #endif

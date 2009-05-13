@@ -5132,23 +5132,15 @@ void MainWindow::on_ipc_method()
   }
   // Handle a job done.
   else if (ipc->method_called_type == ipcctGitTaskDone) {
-    // Get the errors given by this task.
-    vector < ustring > error = ipc->get_payload(ipcctGitTaskDone);
-    if (error.empty()) {
-      // No errors: erase the task.
-      git_erase_task_done();
-    } else {
-      // Errors: Resolve any conflicts in the project the latest task refers to.  
-      vector < ustring > task = git_get_next_task();
-      if (!task.empty()) {
-        git_resolve_conflicts(task[1], error);
-      }
-      // Task failed: re-queue it.
-      git_fail_task_done();
-    }
+    // Process the feedback of this task.
+    vector <ustring> feedback = ipc->get_payload(ipcctGitTaskDone);
+    vector <ustring> task = git_get_next_task();
+    git_process_feedback(task[1], feedback);
+    // Erase the task.
+    git_erase_task_done();
     // Set a flag if the state of any of the currently opened chapters changed.
-    // (This must be done after conflicting merges have been resolved, as that
-    //  could affect the chapter now opened).
+    // This must be done after conflicting merges have been resolved,
+    // as that could affect the chapter now opened.
     if (!gitchapterstates.empty()) {
       for (unsigned int i = 0; i < gitchapterstates.size(); i++) {
         if (gitchapterstates[i]->changed()) {

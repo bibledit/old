@@ -53,13 +53,23 @@ public:
   void run ();
   bool result;
   gint exitstatus;
-  string standardout;
-  string standarderr;
+  vector <ustring> standardout;
+  vector <ustring> standarderr;
 private:
   const char * myprogram;
   ustring myworkingdirectory;
   bool myread;
-  vector <string> arguments;
+  vector <ustring> arguments;
+};
+
+
+class ParseLine
+{
+public:
+  ParseLine (const ustring & text);
+  ~ParseLine ();
+  vector <ustring> lines;
+private:
 };
 
 
