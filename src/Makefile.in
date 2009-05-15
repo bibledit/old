@@ -174,7 +174,7 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	gui_display_changes.$(OBJEXT) stylesheet.$(OBJEXT) \
 	referencememory.$(OBJEXT) webkitbrowser.$(OBJEXT) \
 	assistantresource.$(OBJEXT) snapshots.$(OBJEXT) \
-	windowtimednotifier.$(OBJEXT)
+	windowtimednotifier.$(OBJEXT) assistantbackup.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
@@ -233,6 +233,7 @@ FIND_MERGE = @FIND_MERGE@
 FIND_PATCH = @FIND_PATCH@
 FIND_PATH = @FIND_PATH@
 FIND_PING = @FIND_PING@
+FIND_TAR = @FIND_TAR@
 FIND_XARGS = @FIND_XARGS@
 GLIB_CFLAGS = @GLIB_CFLAGS@
 GLIB_LIBS = @GLIB_LIBS@
@@ -628,7 +629,8 @@ bibledit_bin_SOURCES = \
 				webkitbrowser.cpp \
 				assistantresource.cpp \
 				snapshots.cpp \
-				windowtimednotifier.cpp
+				windowtimednotifier.cpp \
+				assistantbackup.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -709,6 +711,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/accelerators.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/assistantbackup.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/assistantchanges.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/assistantdeletekeyterms.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/assistantimportkeyterms.Po@am__quote@

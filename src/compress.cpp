@@ -117,3 +117,12 @@ bool uncompress(const ustring & archive, const ustring & directory)
   // Return whether things were ok.  
   return (result == 0);
 }
+
+
+void compress_ensure_tar_gz_suffix (ustring& filename)
+// Ensure that "filename" has the ".tar.gz" suffix.
+{
+  if (!g_str_has_suffix (filename.c_str(), ".tar.gz")) {
+    filename.append (".tar.gz");
+  }
+}

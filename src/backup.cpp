@@ -34,6 +34,8 @@
 #include "tiny_utilities.h"
 #include "snapshots.h"
 #include "export_utils.h"
+#include "notes_utils.h"
+
 
 void backup_make_incremental()
 {
@@ -162,5 +164,45 @@ void backup_make(const ustring & project, bool full, int timefrom)
   write_lines(htmlfile, rt.lines);
   unix_cp(gw_build_filename(directories_get_package_data(), "bibledit.css"), gw_build_filename(workingdirectory, "bibledit.css"));
   htmlbrowser(htmlfile, false);
+}
+
+
+void backup_bible (const ustring& bible, const ustring& filename)
+// Backs up a complete bible.
+{
+  unlink (filename.c_str());
+  GwSpawn spawn ("tar");
+  spawn.arg ("-czf");
+  spawn.arg (filename);
+  spawn.arg (".");
+  spawn.workingdirectory (tiny_project_directory (bible));
+  spawn.progress ("Backing up Bible " + bible, false);
+  spawn.run ();
+}
+
+
+void backup_notes (const ustring& filename)
+{
+  unlink (filename.c_str());
+  GwSpawn spawn ("tar");
+  spawn.arg ("-czf");
+  spawn.arg (filename);
+  spawn.arg (".");
+  spawn.workingdirectory (directories_get_notes ());
+  spawn.progress ("Backing up notes", false);
+  spawn.run ();
+}
+
+
+void backup_all (const ustring& filename)
+{
+  unlink (filename.c_str());
+  GwSpawn spawn ("tar");
+  spawn.arg ("-czf");
+  spawn.arg (filename);
+  spawn.arg (".");
+  spawn.workingdirectory (directories_get_root ());
+  spawn.progress ("Backing up everything", false);
+  spawn.run ();
 }
 

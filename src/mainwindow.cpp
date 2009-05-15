@@ -170,6 +170,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   window_check_usfm = NULL;
   remote_repository_assistant = NULL;
   resource_assistant = NULL;
+  backup_assistant = NULL;
   
   // Initialize some variables.
   git_reopen_project = false;
@@ -893,6 +894,14 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     gtk_container_add(GTK_CONTAINER(menuitem_file_menu), print);
 
   }
+
+  file_backup = gtk_image_menu_item_new_with_mnemonic ("_Backup");
+  gtk_widget_show (file_backup);
+  gtk_container_add (GTK_CONTAINER (menuitem_file_menu), file_backup);
+
+  image34724 = gtk_image_new_from_stock ("gtk-copy", GTK_ICON_SIZE_MENU);
+  gtk_widget_show (image34724);
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (file_backup), image34724);
 
   quit1 = gtk_image_menu_item_new_from_stock("gtk-quit", NULL);
   gtk_widget_show(quit1);
@@ -1914,6 +1923,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     g_signal_connect((gpointer) keyterms_delete, "activate", G_CALLBACK(on_keyterms_delete_activate), gpointer(this));
   if (print)
     g_signal_connect((gpointer) print, "activate", G_CALLBACK(on_print_activate), gpointer(this));
+  g_signal_connect ((gpointer) file_backup, "activate", G_CALLBACK (on_file_backup_activate), gpointer(this));
   if (quit1)
     g_signal_connect((gpointer) quit1, "activate", G_CALLBACK(on_quit1_activate), gpointer(this));
   if (menuitem_edit)
@@ -4808,6 +4818,20 @@ void MainWindow::on_project_backup_flexible()
   git_command_pause(false);
 }
 
+void MainWindow::on_file_backup_activate(GtkMenuItem * menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_file_backup();
+}
+
+void MainWindow::on_file_backup()
+{
+  save_editors();
+  git_command_pause(true);
+  backup_assistant = new BackupAssistant (0);
+  g_signal_connect ((gpointer) backup_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
+}
+
+
 /*
  |
  |
@@ -7346,6 +7370,12 @@ void MainWindow::on_assistant_keyterms_ready ()
     resource_assistant = NULL;
   }
 
+  // Backup.
+  if (backup_assistant) {
+    delete backup_assistant;
+    backup_assistant = NULL;
+  }
+
   // The assistants may have paused git operations. Resume these.
   git_command_pause(false);
 }
@@ -7419,6 +7449,4 @@ void MainWindow::check_usfm_window_ping()
   window_check_usfm->set_parameters(focused_textbuffer, project, book, chapter);
 }
 
-
-// Todo The Parallel Bible needs a better interface, so that all available Bibles show up in a listview, and can be ticked and reordered.
 

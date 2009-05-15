@@ -27,9 +27,16 @@
 #include <gtk/gtk.h>
 
 
+enum BackupType {btBible, btNotes, btAll};
+
+
 void backup_make_incremental ();
 void backup_make_flexible ();
 void backup_make (const ustring& project, bool full, int timefrom);
+
+void backup_bible (const ustring& bible, const ustring& filename);
+void backup_notes (const ustring& filename);
+void backup_all (const ustring& filename);
 
 
 #endif

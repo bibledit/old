@@ -37,6 +37,7 @@ ustring tiny_gw_build_filename(const ustring& part1, const ustring& part2);
 ustring tiny_gw_build_filename(const ustring& part1, const ustring& part2, const ustring& part3);
 ustring tiny_directories_get_root();
 ustring tiny_directories_get_projects();
+ustring tiny_project_directory(const ustring& project);
 ustring tiny_project_data_directory_part();
 ustring tiny_project_data_directory_project(const ustring& project);
 void tiny_spawn_write (int fd, const ustring& text);

@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.63)
-AC_INIT([bibledit],[3.7.24],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit],[3.7.26],[http://www.nongnu.org/bibledit])
 AC_CANONICAL_TARGET
 ac_default_prefix=/usr
 AC_CONFIG_MACRO_DIR([m4])
@@ -133,7 +133,12 @@ fi
 
 AC_PATH_PROG(FIND_MERGE, merge, no)
 if test x$FIND_MERGE = xno; then
-  AC_MSG_ERROR(Program "merge" (found in package rcs) is needed. Install this first.)
+  AC_MSG_ERROR(Program "merge" (in package rcs) is needed. Install this first.)
+fi
+
+AC_PATH_PROG(FIND_TAR, tar, no)
+if test x$FIND_TAR = xno; then
+  AC_MSG_ERROR(Program "tar" is needed. Install this first.)
 fi
 
 # Checks for libraries.

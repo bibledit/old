@@ -17,8 +17,10 @@
 **  
 */
 
+
 #include "utilities.h"
 #include "shortcuts.h"
+
 
 Shortcuts::Shortcuts(int dummy)
 /*
@@ -32,6 +34,15 @@ are unique within the set given.
   // Can't make a shortcut out of a space.
   unavailables.insert(" ");
 }
+
+
+Shortcuts::~Shortcuts()
+{
+  for (unsigned int i = 0; i < created_widgets.size(); i++) {
+    gtk_widget_destroy (created_widgets[i]);
+  }
+}
+
 
 void Shortcuts::stockbutton(GtkWidget * widget)
 {
@@ -48,6 +59,7 @@ void Shortcuts::stockbutton(GtkWidget * widget)
   lastwidget = widget;
 }
 
+
 void Shortcuts::button(GtkWidget * widget)
 {
   if (widget == NULL)
@@ -57,6 +69,7 @@ void Shortcuts::button(GtkWidget * widget)
   lastwidget = widget;
 }
 
+
 void Shortcuts::label(GtkWidget * widget)
 {
   if (widget == NULL)
@@ -65,6 +78,7 @@ void Shortcuts::label(GtkWidget * widget)
   is_button.push_back(false);
   lastwidget = widget;
 }
+
 
 void Shortcuts::process()
 // Removes any existing shortcuts, and insert new ones.
@@ -119,3 +133,24 @@ void Shortcuts::process()
     }
   }
 }
+
+
+void Shortcuts::consider_assistant ()
+// Considers the shortcuts normally used in an assistant in addition to the content of the page.
+{
+  create_widget (GTK_STOCK_HELP);
+  create_widget (GTK_STOCK_CANCEL);
+  create_widget (GTK_STOCK_GO_BACK);
+  create_widget (GTK_STOCK_GO_FORWARD);
+  create_widget (GTK_STOCK_GOTO_LAST);
+}
+
+
+void Shortcuts::create_widget (const gchar * stock)
+{
+  GtkWidget * widget;
+  widget = gtk_button_new_from_stock (stock);
+  stockbutton (widget);
+  created_widgets.push_back (widget);
+}
+

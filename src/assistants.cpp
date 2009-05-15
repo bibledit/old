@@ -25,7 +25,7 @@
 #include "screen.h"
 
 AssistantBase::AssistantBase(const ustring& title, const gchar * helptopic)
-// Base class for each window.
+// Base class for each assistant.
 {
   // Variables.
   process_id = 0;

@@ -169,11 +169,12 @@ ustring gtkw_file_chooser_save(GtkWidget * parent, const ustring & title, const 
   if (mytitle.empty())
     mytitle = "Save to file";
   ustring myfile(file);
-  if (myfile.empty())
-    myfile = g_get_home_dir();
   GtkWidget *dialog;
   dialog = gtk_file_chooser_dialog_new(mytitle.c_str(), GTK_WINDOW(parent), GTK_FILE_CHOOSER_ACTION_SAVE, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT, NULL);
   gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), myfile.c_str());
+  if (myfile.empty()) {
+    gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), g_get_home_dir());
+  }
   if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT) {
     selection = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
   }

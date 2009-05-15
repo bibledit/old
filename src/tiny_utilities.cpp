@@ -211,6 +211,13 @@ ustring tiny_directories_get_projects()
 }
 
 
+ustring tiny_project_directory(const ustring& project)
+// Returns the project directory.
+{
+  return tiny_gw_build_filename (tiny_directories_get_projects(), project);
+}
+
+
 ustring tiny_project_data_directory_part()
 {
   return "data";

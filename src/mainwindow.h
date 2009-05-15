@@ -50,6 +50,7 @@
 #include "windowcheckusfm.h"
 #include "assistantremoterepository.h"
 #include "assistantresource.h"
+#include "assistantbackup.h"
 
 
 class MainWindow : public WindowBase
@@ -173,6 +174,8 @@ protected:
   GtkWidget *image32232;
   GtkWidget *keyterms_delete;
   GtkWidget *print;
+  GtkWidget *file_backup;
+  GtkWidget *image34724;
   GtkWidget *quit1;
   GtkWidget *menuitem_edit;
   GtkWidget *menuitem_edit_menu;
@@ -673,6 +676,9 @@ protected:
   void on_project_backup_incremental();
   static void on_project_backup_flexible_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_project_backup_flexible();
+  static void on_file_backup_activate (GtkMenuItem *menuitem, gpointer user_data);
+  void on_file_backup ();
+  BackupAssistant * backup_assistant;
 
   /* Git */
   static void on_preferences_remote_repository_activate (GtkMenuItem *menuitem, gpointer user_data);

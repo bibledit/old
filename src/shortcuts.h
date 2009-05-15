@@ -30,15 +30,19 @@ class Shortcuts
 {
 public:
   Shortcuts (int dummy);
+  ~Shortcuts ();
   void stockbutton (GtkWidget * widget);
   void button (GtkWidget * widget);
   void label (GtkWidget * widget);
   void process ();
   GtkWidget * lastwidget;
+  void consider_assistant ();
 private:
   vector <GtkWidget *> widgets;
   vector <bool> is_button;
   set <ustring> unavailables;
+  vector <GtkWidget *> created_widgets;
+  void create_widget (const gchar * stock);
 };
 
 
