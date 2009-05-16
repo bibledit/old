@@ -344,11 +344,9 @@ BackupType BackupAssistant::get_type ()
 
 Todo backup.
 
-We need to write a helpfile.
-
 We need to save configurations before making the backup.
 
-We need an assistant that asks what sort or restore to make.
+We need an assistant that asks what sort of restore to make.
 On startup, if there's no data directory, it only offers the whole thing restore option.
 When importing project notes, it may give a warning if it finds any existing notes. It will say that the new notes 
 will be merged with the existing ones.
