@@ -244,10 +244,9 @@ void BackupAssistant::on_assistant_apply_signal (GtkAssistant *assistant, gpoint
 
 void BackupAssistant::on_assistant_apply ()
 {
-  // Configurations.
+  // Save all configurations.
   extern Settings *settings;
-  ustring project = settings->genconfig.project_get();
-  //ProjectConfiguration *projectconfig = settings->projectconfig(project);
+  settings->save();
 
   // Make the backup.
   switch (get_type()) {
@@ -344,14 +343,12 @@ BackupType BackupAssistant::get_type ()
 
 Todo backup.
 
-We need to save configurations before making the backup.
-
 We need an assistant that asks what sort of restore to make.
 On startup, if there's no data directory, it only offers the whole thing restore option.
 When importing project notes, it may give a warning if it finds any existing notes. It will say that the new notes 
 will be merged with the existing ones.
 
-We need to differentiate between a backup and an export.
+Differentiate between a backup and an export.
 A backup backups everything that belongs to some item, e.g. a whole project or everything.
 An export exports part of the data we wish to see, and in a certain format.
 

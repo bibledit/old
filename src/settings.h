@@ -37,6 +37,7 @@ public:
   Session session;
   GeneralConfiguration genconfig;
   ProjectConfiguration * projectconfig (ustring project, bool save_on_destroy = true);
+  void save ();
 private:
   vector <ProjectConfiguration *> projectconfigurations;
 };

@@ -17,10 +17,12 @@
 **  
 */
 
+
 #include "libraries.h"
 #include "settings.h"
 
- Settings::Settings(bool save_on_destroy):
+
+Settings::Settings(bool save_on_destroy):
 session(0), genconfig(save_on_destroy)
 /*
 Before this we used to retrieve every setting from the databases, 
@@ -41,7 +43,8 @@ Settings::~Settings()
   }
 }
 
-ProjectConfiguration *Settings::projectconfig(ustring project, bool save_on_destroy)
+
+ProjectConfiguration * Settings::projectconfig(ustring project, bool save_on_destroy)
 // Returns the ProjectConfiguration object for "project".
 {
   // Accomodate an empty project: Take the one currently opened.
@@ -58,4 +61,14 @@ ProjectConfiguration *Settings::projectconfig(ustring project, bool save_on_dest
   ProjectConfiguration *projectconfiguration = new ProjectConfiguration(project, save_on_destroy);
   projectconfigurations.push_back(projectconfiguration);
   return projectconfigurations[projectconfigurations.size() - 1];
+}
+
+
+void Settings::save ()
+// Saves the configurations to disk.
+{
+  genconfig.save();
+  for (unsigned int i = 0; i < projectconfigurations.size(); i++) {
+    projectconfigurations[i]->save();
+  }
 }
