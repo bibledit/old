@@ -56,7 +56,7 @@ ProjectDialog::ProjectDialog(bool newproject)
   // Save variables.
   if (newproject) {
     // Make "New Project".
-    project_create(NEW_PROJECT);
+    project_create(NEW_PROJECT, "");
     currentprojectname = NEW_PROJECT;
   } else {
     currentprojectname = settings->genconfig.project_get();

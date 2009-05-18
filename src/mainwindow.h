@@ -51,6 +51,7 @@
 #include "assistantremoterepository.h"
 #include "assistantresource.h"
 #include "assistantbackup.h"
+#include "assistantrestore.h"
 
 
 class MainWindow : public WindowBase
@@ -176,6 +177,8 @@ protected:
   GtkWidget *print;
   GtkWidget *file_backup;
   GtkWidget *image34724;
+  GtkWidget *file_restore;
+  GtkWidget *image34980;
   GtkWidget *quit1;
   GtkWidget *menuitem_edit;
   GtkWidget *menuitem_edit_menu;
@@ -671,7 +674,7 @@ protected:
   void on_keyterms_delete ();
   DeleteKeytermsAssistant * delete_keyterms_assistant;
 
-  /* Backups */
+  /* Backup and restore */
   static void on_project_backup_incremental_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_project_backup_incremental();
   static void on_project_backup_flexible_activate(GtkMenuItem *menuitem, gpointer user_data);
@@ -679,6 +682,9 @@ protected:
   static void on_file_backup_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_file_backup ();
   BackupAssistant * backup_assistant;
+  static void on_file_restore_activate (GtkMenuItem *menuitem, gpointer user_data);
+  void on_file_restore ();
+  RestoreAssistant * restore_assistant;
 
   /* Git */
   static void on_preferences_remote_repository_activate (GtkMenuItem *menuitem, gpointer user_data);

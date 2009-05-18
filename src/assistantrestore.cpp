@@ -20,7 +20,7 @@
 
 #include "libraries.h"
 #include <glib.h>
-#include "assistantbackup.h"
+#include "assistantrestore.h"
 #include "help.h"
 #include "settings.h"
 #include "utilities.h"
@@ -33,18 +33,19 @@
 #include "snapshots.h"
 #include "gtkwrappers.h"
 #include "compress.h"
+#include "restore.h"
 
 
-BackupAssistant::BackupAssistant(int dummy) :
-AssistantBase("Backup", "")
-// Backup assistant.
+RestoreAssistant::RestoreAssistant(int dummy) :
+AssistantBase("Restore", "")
+// Restore assistant.
 {
   gtk_assistant_set_forward_page_func (GTK_ASSISTANT (assistant), GtkAssistantPageFunc (assistant_forward_function), gpointer(this), NULL);
   
   g_signal_connect (G_OBJECT (assistant), "apply", G_CALLBACK (on_assistant_apply_signal), gpointer(this));
   g_signal_connect (G_OBJECT (assistant), "prepare", G_CALLBACK (on_assistant_prepare_signal), gpointer(this));
 
-  introduction ("A backup helps keeping your data safe");
+  introduction ("This assists you with restoring a backup");
 
   // Configuration and initialization.
   extern Settings *settings;
@@ -56,7 +57,7 @@ AssistantBase("Backup", "")
   page_number_select_type = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_select_type);
   gtk_container_set_border_width (GTK_CONTAINER (vbox_select_type), 10);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_select_type, "What would you like to backup?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_select_type, "What would you like to restore?");
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_select_type, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_select_type, true);
 
@@ -93,53 +94,27 @@ AssistantBase("Backup", "")
   page_number_bible_name = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_bible_name);
   gtk_container_set_border_width (GTK_CONTAINER (vbox_bible_name), 10);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_bible_name, "Is this the right Bible?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_bible_name, "What will be the name of the Bible?");
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_bible_name, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_bible_name, true);
 
-  label_project_name = gtk_label_new ("Bible name");
-  gtk_widget_show (label_project_name);
-  gtk_box_pack_start (GTK_BOX (vbox_bible_name), label_project_name, FALSE, FALSE, 0);
+  entry_bible_name = gtk_entry_new ();
+  gtk_widget_show (entry_bible_name);
+  gtk_box_pack_start (GTK_BOX (vbox_bible_name), entry_bible_name, FALSE, FALSE, 0);
 
-  button_bible_name = gtk_button_new ();
-  gtk_widget_show (button_bible_name);
-  gtk_box_pack_start (GTK_BOX (vbox_bible_name), button_bible_name, FALSE, FALSE, 0);
+  label_bible_name = gtk_label_new ("");
+  gtk_widget_show (label_bible_name);
+  gtk_box_pack_start (GTK_BOX (vbox_bible_name), label_bible_name, FALSE, FALSE, 0);
 
-  g_signal_connect ((gpointer) button_bible_name, "clicked", G_CALLBACK (on_button_bible_name_clicked), gpointer (this));
+  g_signal_connect_after ((gpointer) entry_bible_name, "changed", G_CALLBACK (on_entry_bible_name_changed), gpointer (this));
 
-  GtkWidget *alignment1;
-  GtkWidget *hbox1;
-  GtkWidget *image1;
-  GtkWidget *label12;
-
-  alignment1 = gtk_alignment_new (0.5, 0.5, 0, 0);
-  gtk_widget_show (alignment1);
-  gtk_container_add (GTK_CONTAINER (button_bible_name), alignment1);
-
-  hbox1 = gtk_hbox_new (FALSE, 2);
-  gtk_widget_show (hbox1);
-  gtk_container_add (GTK_CONTAINER (alignment1), hbox1);
-
-  image1 = gtk_image_new_from_stock ("gtk-open", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show (image1);
-  gtk_box_pack_start (GTK_BOX (hbox1), image1, FALSE, FALSE, 0);
-
-  label12 = gtk_label_new_with_mnemonic ("Choose another one");
-  gtk_widget_show (label12);
-  gtk_box_pack_start (GTK_BOX (hbox1), label12, FALSE, FALSE, 0);
-
-  Shortcuts shortcuts_bible_name (0);
-  shortcuts_bible_name.label (label12);
-  shortcuts_bible_name.consider_assistant();
-  shortcuts_bible_name.process();
-
-  // Select file where to save to.
+  // Select file.
   vbox_file = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vbox_file);
   page_number_file = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_file);
   gtk_container_set_border_width (GTK_CONTAINER (vbox_file), 10);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_file, "Where would you like to save it?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_file, "What is the file to restore?");
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_file, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_file, false);
 
@@ -170,11 +145,11 @@ AssistantBase("Backup", "")
   g_signal_connect ((gpointer) button_file, "clicked", G_CALLBACK (on_button_file_clicked), gpointer(this));
 
   // Build the confirmation stuff.
-  label_confirm = gtk_label_new ("Backup is about to be made");
+  label_confirm = gtk_label_new ("Restore is about to be done");
   gtk_widget_show (label_confirm);
   page_number_confirm = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_confirm);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_confirm, "Backup is about to be made");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_confirm, "Restore is about to be done");
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_confirm, GTK_ASSISTANT_PAGE_CONFIRM);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_confirm, true);
   
@@ -186,7 +161,7 @@ AssistantBase("Backup", "")
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_progress, GTK_ASSISTANT_PAGE_PROGRESS);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_progress, true);
   
-  label_summary = gtk_label_new ("Backup was made");
+  label_summary = gtk_label_new ("");
   gtk_widget_show (label_summary);
   summary_page_number = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_summary);
 
@@ -199,30 +174,33 @@ AssistantBase("Backup", "")
   gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), 0);
 }
 
-BackupAssistant::~BackupAssistant()
+RestoreAssistant::~RestoreAssistant()
 {
 }
 
-void BackupAssistant::on_assistant_prepare_signal (GtkAssistant *assistant, GtkWidget *page, gpointer user_data)
+void RestoreAssistant::on_assistant_prepare_signal (GtkAssistant *assistant, GtkWidget *page, gpointer user_data)
 {
-  ((BackupAssistant *) user_data)->on_assistant_prepare(page);
+  ((RestoreAssistant *) user_data)->on_assistant_prepare(page);
 }
 
 
-void BackupAssistant::on_assistant_prepare (GtkWidget *page)
+void RestoreAssistant::on_assistant_prepare (GtkWidget *page)
 {
-  extern Settings *settings;
-
   if (page == vbox_bible_name) {
-    // Prepare for the page to confirm or change the Bible.
-    if (bible_name.empty()) {
-      bible_name = settings->genconfig.project_get();
+    bool bible_name_is_ok = !bible_name.empty();
+    ustring message = "Will restore to Bible " + bible_name;
+    vector <ustring> available_bibles = projects_get_all ();
+    set <ustring> bible_set (available_bibles.begin (), available_bibles.end());
+    if (bible_set.find (bible_name) != bible_set.end ()) {
+      bible_name_is_ok = false;
+      message = "This Bible already exists";
     }
-    gtk_label_set_text (GTK_LABEL (label_project_name), bible_name.c_str());
     if (bible_name.empty()) {
-      gtk_label_set_text (GTK_LABEL (label_project_name), "No Bible selected");
+      message = "Please enter a name for the Bible to restore to";
     }
-    gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_bible_name, !bible_name.empty());
+    gtk_label_set_text (GTK_LABEL (label_bible_name), message.c_str());
+    gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_bible_name, bible_name_is_ok);
+
   }
 
   if (page == vbox_file) {
@@ -232,51 +210,67 @@ void BackupAssistant::on_assistant_prepare (GtkWidget *page)
     }
     gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_file, !filename.empty());
   }
-}
-
-
-void BackupAssistant::on_assistant_apply_signal (GtkAssistant *assistant, gpointer user_data)
-{
-  ((BackupAssistant *) user_data)->on_assistant_apply();
-}
-
-
-void BackupAssistant::on_assistant_apply ()
-{
-  // Save all configurations.
-  extern Settings *settings;
-  settings->save();
-
-  // Make the backup.
-  switch (get_type()) {
-    case btBible:
-    {
-      backup_bible (bible_name, filename);
-      break;
+  
+  if (page == label_summary) {
+    ustring summary;
+    for (unsigned int i = 0; i < restore_feedback.size(); i++) {
+      if (i)
+        summary.append ("\n");
+      summary.append (restore_feedback[i]);
     }
-    case btNotes:
-    {
-      backup_notes (filename);
-      break;
-    }
-    case btAll:
-    {
-      backup_all (filename);
-      break;
-    }
+    gtk_label_set_text (GTK_LABEL (label_summary), summary.c_str());
   }
+}
 
+
+void RestoreAssistant::on_assistant_apply_signal (GtkAssistant *assistant, gpointer user_data)
+{
+  ((RestoreAssistant *) user_data)->on_assistant_apply();
+}
+
+
+void RestoreAssistant::on_assistant_apply () // Todo
+{
+  // Unpack the tarball.
+  ustring unpack_directory = gw_build_filename (directories_get_temp (), "restore");
+  unix_rmdir (unpack_directory);
+  gw_mkdir_with_parents (unpack_directory);
+  if (uncompress (filename, unpack_directory)) {
+
+    // Do specialized operations on the unpacked data.
+    switch (get_type()) {
+      case btBible:
+      {
+        project_create (bible_name, unpack_directory);
+        restore_feedback.push_back ("The file was restored to Bible " + bible_name);
+        break;
+      }
+      case btNotes:
+      {
+        restore_notes (filename, restore_feedback);
+        break;
+      }
+      case btAll:
+      {
+        restore_all (filename, restore_feedback);
+        break;
+      }
+    }
+  } else {
+    restore_feedback.push_back ("Failed to unpack file " + filename);
+  }
+ 
   // Show summary.
   gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), summary_page_number);
 }
 
 
-gint BackupAssistant::assistant_forward_function (gint current_page, gpointer user_data)
+gint RestoreAssistant::assistant_forward_function (gint current_page, gpointer user_data)
 {
-  return ((BackupAssistant *) user_data)->assistant_forward (current_page);
+  return ((RestoreAssistant *) user_data)->assistant_forward (current_page);
 }
 
-gint BackupAssistant::assistant_forward (gint current_page)
+gint RestoreAssistant::assistant_forward (gint current_page)
 {
   // Default behaviour is to go to the next page.
   gint new_page_number = current_page + 1;
@@ -292,28 +286,28 @@ gint BackupAssistant::assistant_forward (gint current_page)
 }
 
 
-void BackupAssistant::on_button_bible_name_clicked (GtkButton *button, gpointer user_data)
+void RestoreAssistant::on_entry_bible_name_changed (GtkEditable *editable, gpointer user_data)
 {
-  ((BackupAssistant *) user_data)->on_button_bible_name ();
+  ((RestoreAssistant *) user_data)->on_entry_bible_name ();
 }
 
 
-void BackupAssistant::on_button_bible_name ()
+void RestoreAssistant::on_entry_bible_name ()
 {
-  project_select(bible_name);
+  bible_name = gtk_entry_get_text (GTK_ENTRY (entry_bible_name));
   on_assistant_prepare (vbox_bible_name);
 }
 
 
-void BackupAssistant::on_button_file_clicked (GtkButton *button, gpointer user_data)
+void RestoreAssistant::on_button_file_clicked (GtkButton *button, gpointer user_data)
 {
-  ((BackupAssistant *) user_data)->on_button_file ();
+  ((RestoreAssistant *) user_data)->on_button_file ();
 }
 
 
-void BackupAssistant::on_button_file ()
+void RestoreAssistant::on_button_file ()
 {
-  ustring file = gtkw_file_chooser_save (assistant, "", filename);
+  ustring file = gtkw_file_chooser_open (assistant, "", filename);
   if (!file.empty()) {
     filename = file;
     compress_ensure_tar_gz_suffix (filename);
@@ -322,7 +316,7 @@ void BackupAssistant::on_button_file ()
 }
 
 
-BackupType BackupAssistant::get_type ()
+BackupType RestoreAssistant::get_type ()
 {
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_select_type_bible))) {
     return btBible;
@@ -336,3 +330,20 @@ BackupType BackupAssistant::get_type ()
   return btAll;
 }
 
+
+
+/*
+
+Todo Restore Assistant.
+
+Restoring notes. The notes will be merged with the existing ones, and duplicates won't be restored.
+Information about this is given at the end of the process.
+
+Restoring everything. The file is unpacked and put in a special directory. After restarting this directory is consulted,
+and moved into place. Information about the process is given.
+
+Restoring checks a few files that should be there in the tarball, so as to be sure that the right thing is restored.
+
+Write a helpfile.
+
+*/

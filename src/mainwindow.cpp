@@ -171,6 +171,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   remote_repository_assistant = NULL;
   resource_assistant = NULL;
   backup_assistant = NULL;
+  restore_assistant = NULL;
   
   // Initialize some variables.
   git_reopen_project = false;
@@ -902,6 +903,14 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   image34724 = gtk_image_new_from_stock ("gtk-copy", GTK_ICON_SIZE_MENU);
   gtk_widget_show (image34724);
   gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (file_backup), image34724);
+
+  file_restore = gtk_image_menu_item_new_with_mnemonic ("Res_tore");
+  gtk_widget_show (file_restore);
+  gtk_container_add (GTK_CONTAINER (menuitem_file_menu), file_restore);
+
+  image34980 = gtk_image_new_from_stock ("gtk-home", GTK_ICON_SIZE_MENU);
+  gtk_widget_show (image34980);
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (file_restore), image34980);
 
   quit1 = gtk_image_menu_item_new_from_stock("gtk-quit", NULL);
   gtk_widget_show(quit1);
@@ -1924,6 +1933,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   if (print)
     g_signal_connect((gpointer) print, "activate", G_CALLBACK(on_print_activate), gpointer(this));
   g_signal_connect ((gpointer) file_backup, "activate", G_CALLBACK (on_file_backup_activate), gpointer(this));
+  g_signal_connect ((gpointer) file_restore, "activate", G_CALLBACK (on_file_restore_activate), gpointer(this));
   if (quit1)
     g_signal_connect((gpointer) quit1, "activate", G_CALLBACK(on_quit1_activate), gpointer(this));
   if (menuitem_edit)
@@ -4781,7 +4791,7 @@ void MainWindow::on_keyterms_delete()
  |
  |
  |
- Backup
+ Backup and restore
  |
  |
  |
@@ -4830,6 +4840,18 @@ void MainWindow::on_file_backup()
   backup_assistant = new BackupAssistant (0);
   g_signal_connect ((gpointer) backup_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
 }
+
+void MainWindow::on_file_restore_activate(GtkMenuItem * menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_file_restore();
+}
+
+void MainWindow::on_file_restore()
+{
+  restore_assistant = new RestoreAssistant (0);
+  g_signal_connect ((gpointer) restore_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
+}
+
 
 
 /*
@@ -7374,6 +7396,12 @@ void MainWindow::on_assistant_keyterms_ready ()
   if (backup_assistant) {
     delete backup_assistant;
     backup_assistant = NULL;
+  }
+
+  // Restore.
+  if (restore_assistant) {
+    delete restore_assistant;
+    restore_assistant = NULL;
   }
 
   // The assistants may have paused git operations. Resume these.

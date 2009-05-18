@@ -253,7 +253,7 @@ ustring ChangesAssistant::copy_project_and_move_back_in_history (const ustring& 
 
   // Create a temporal history project.
   ustring copiedproject = project + " as it was on " + date_time_seconds_human_readable (second, false);
-  project_create (copiedproject);
+  project_create (copiedproject, "");
 
   // Go through all the books of the original project.
   vector <unsigned int> books = project_get_books (project);

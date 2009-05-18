@@ -100,9 +100,10 @@ void projects_initial_check(bool gui)
 // Does some initial checks on the projects we have.
 // Upgrades projects of an older version to the current version.
 {
+  // Ensure that we create separate routines for each Bible, as this routine will need to be called upon restore as well.
 }
 
-vector < ustring > projects_get_all()
+vector <ustring> projects_get_all()
 // Gets sorted list of all projects.
 {
   ReadDirectories rd(directories_get_projects(), "", "");
@@ -150,15 +151,23 @@ bool project_exists(const ustring & project)
   return g_file_test(gw_build_filename(directories_get_projects(), project).c_str(), G_FILE_TEST_IS_DIR);
 }
 
-void project_create(const ustring & project)
+
+void project_create(const ustring& project, const ustring& restore_from)
 {
-  // Create project directory, and directory for folded data.
-  gw_mkdir_with_parents(project_data_directory_project(project));
+  if (restore_from.empty()) {
+    // Create project directory, and directory for data.
+    gw_mkdir_with_parents(project_data_directory_project(project));
+  } else {
+    // Restore project.
+    ustring project_directory = tiny_project_directory (project);
+    unix_mv (restore_from, project_directory);
+  }
   // Create statistics system.
   statistics_initial_check_project(project, false);
   // Initialize snapshots.
   snapshots_initialize_project (project);
 }
+
 
 void project_delete(const ustring & project)
 // Deletes a project and associated data.

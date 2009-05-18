@@ -276,7 +276,9 @@ bibledit_bin_SOURCES = \
 				assistantresource.cpp \
 				snapshots.cpp \
 				windowtimednotifier.cpp \
-				assistantbackup.cpp
+				assistantbackup.cpp \
+				assistantrestore.cpp \
+				restore.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 

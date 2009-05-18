@@ -47,14 +47,14 @@ unsigned int uncompression_identifier_get(const ustring & filename);
 
 typeof(compression_record_data) compression_table[] =
 {
-  {
-  ".tar.gz", 0, 0}, {
-  ".tgz", 0, 0}, {
-  ".tar.bz", 0, 0}, {
-  ".tbz", 0, 0}, {
-  ".tar.bz2", 0, 0}, {
-  ".tbz2", 0, 0}, {
-".zip", 0, 1},};
+  { ".tar.gz",   0, 2}, 
+  { ".tgz",      0, 2}, 
+  { ".tar.bz",   0, 0}, 
+  { ".tbz",      0, 0}, 
+  { ".tar.bz2",  0, 0}, 
+  { ".tbz2",     0, 0}, 
+  { ".zip",      0, 1},
+};
 
 unsigned int compression_record_count()
 {
@@ -108,8 +108,22 @@ bool uncompress(const ustring & archive, const ustring & directory)
         spawn.arg(directory);
       }
       spawn.arg(archive);
+      spawn.progress("Unpacking", false);
       spawn.run();
       result = 0;
+      break;
+    }
+  case 2:
+    {
+      GwSpawn spawn("tar");
+      spawn.arg("-zxf");
+      if (!directory.empty()) {
+        spawn.workingdirectory(directory);
+      }
+      spawn.arg(archive);
+      spawn.progress("Unpacking", false);
+      spawn.run();
+      result = spawn.exitstatus;
       break;
     }
   }
