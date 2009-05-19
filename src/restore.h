@@ -28,7 +28,8 @@
 
 
 void restore_notes (const ustring& unpack_directory, vector <ustring>& feedback);
-void restore_all (const ustring& unpack_directory, vector <ustring>& feedback);
+void restore_all_stage_one (const ustring& unpack_directory, vector <ustring>& feedback);
+void restore_all_stage_two ();
 
 
 #endif

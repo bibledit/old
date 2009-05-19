@@ -38,6 +38,7 @@ ustring directories_get_temp ();
 ustring directories_get_templates ();
 ustring directories_get_templates_user ();
 ustring directories_get_package_data ();
+ustring directories_get_restore ();
 
 
 #endif

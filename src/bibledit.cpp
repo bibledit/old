@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "libraries.h"
 #include "exception.h"
 #include "mainwindow.h"
@@ -41,6 +42,7 @@
 #include "styles.h"
 #include <libxml/xmlreader.h>
 
+
 Settings *settings;
 InterprocessCommunication *ipc;
 BookLocalizations *booklocalizations;
@@ -48,6 +50,7 @@ Versifications *versifications;
 Mappings *mappings;
 Styles *styles;
 GtkAccelGroup *accelerator_group;
+
 
 int main(int argc, char *argv[])
 {

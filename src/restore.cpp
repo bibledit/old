@@ -35,7 +35,7 @@
 #include "notes_utils.h"
 
 
-void restore_notes (const ustring& unpack_directory, vector <ustring>& feedback) // Todo
+void restore_notes (const ustring& unpack_directory, vector <ustring>& feedback)
 {
   // Run an upgrade on the unpacked directory.
   notes_database_verify(unpack_directory);
@@ -61,17 +61,34 @@ void restore_notes (const ustring& unpack_directory, vector <ustring>& feedback)
     }
   }
   
-  // If so, move everything into place. Todo
+  // If so, move everything into place.
   unix_rmdir (directories_get_notes ());
   unix_mv (unpack_directory, directories_get_notes ());
   
-  // Give feedback about what has happened. Todo
+  // Give feedback about what has happened.
   feedback.push_back ("Notes were restored");
 }
 
 
-void restore_all (const ustring& unpack_directory, vector <ustring>& feedback) // Todo
+void restore_all_stage_one (const ustring& unpack_directory, vector <ustring>& feedback) // Todo
+// Restore everything: stage one.
 {
+  // Move the directory to the temporal place.
+  unix_rmdir (directories_get_restore ());
+  unix_mv (unpack_directory, directories_get_restore ());
+  
+  // Give feedback about what has transpired.
+  feedback.push_back ("Everything was restored");
+  feedback.push_back ("Changes will only take effect after restart");
+}
 
+
+void restore_all_stage_two () // Todo
+{
+  if (g_file_test (directories_get_restore ().c_str(), G_FILE_TEST_IS_DIR)) {
+    gw_message ("Restoring everything");
+    unix_rmdir (directories_get_root ());
+    unix_mv (directories_get_restore (), directories_get_root ());
+  }
 }
 

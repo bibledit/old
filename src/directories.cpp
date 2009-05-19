@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "libraries.h"
 #include "directories.h"
 #include <glib.h>
@@ -27,9 +28,13 @@
 #include "shell.h"
 #include "unixwrappers.h"
 #include "tiny_utilities.h"
+#include "restore.h"
+
 
 void directories_check_structure()
 {
+  // Check restore.
+  restore_all_stage_two ();
   // Check and/or create the root directory of all data.
   gw_mkdir_with_parents(directories_get_root());
   // Check and/or create the projects directory, and so on.
@@ -53,11 +58,13 @@ void directories_check_structure()
   gw_mkdir_with_parents(directories_get_templates_user());
 }
 
+
 ustring directories_get_root()
 // Returns the root directory of all data.
 {
   return tiny_directories_get_root();
 }
+
 
 ustring directories_get_projects()
 {
@@ -65,11 +72,13 @@ ustring directories_get_projects()
   return tiny_directories_get_projects();
 }
 
+
 ustring directories_get_notes()
 {
   // This returns the directory with the notes
   return gw_build_filename(directories_get_root(), "notes");
 }
+
 
 ustring directories_get_stylesheets()
 {
@@ -77,11 +86,13 @@ ustring directories_get_stylesheets()
   return gw_build_filename(directories_get_root(), "stylesheets");
 }
 
+
 ustring directories_get_configuration()
 {
   // This returns the directory with the configuration
   return gw_build_filename(directories_get_root(), "configuration");
 }
+
 
 ustring directories_get_pictures()
 {
@@ -89,11 +100,13 @@ ustring directories_get_pictures()
   return gw_build_filename(directories_get_root(), "pictures");
 }
 
+
 ustring directories_get_resources()
 {
   // This returns the directory with the resources.
   return gw_build_filename(directories_get_root(), "resources");
 }
+
 
 ustring directories_get_scripts()
 {
@@ -101,11 +114,13 @@ ustring directories_get_scripts()
   return gw_build_filename(directories_get_root(), "scripts");
 }
 
+
 ustring directories_get_temp()
 {
   // Returns the temporal directory bibledit uses
   return gw_build_filename(g_get_home_dir(), ".bibledit_temp");
 }
+
 
 ustring directories_get_templates()
 {
@@ -113,11 +128,13 @@ ustring directories_get_templates()
   return gw_build_filename(directories_get_temp(), "templates");
 }
 
+
 ustring directories_get_templates_user()
 {
   // This returns the directory with the User's custom raw templates
   return gw_build_filename(directories_get_root(), "templates");
 }
+
 
 ustring directories_get_package_data()
 // Gives the package data directory, cross platform.
@@ -138,3 +155,13 @@ ustring directories_get_package_data()
 #endif
   return directory;
 }
+
+
+ustring directories_get_restore () // Todo
+// The directory, if found, to restore from.
+{
+  ustring directory;
+  directory = directories_get_root() + ".restored";
+  return directory;
+}
+

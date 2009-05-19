@@ -252,7 +252,7 @@ void RestoreAssistant::on_assistant_apply ()
       }
       case btAll:
       {
-        restore_all (unpack_directory, restore_feedback);
+        restore_all_stage_one (unpack_directory, restore_feedback);
         break;
       }
     }
@@ -338,6 +338,8 @@ Todo Restore Assistant.
 Restoring everything. The file is unpacked and put in a special directory. 
 After restarting this directory is consulted,
 and moved into place. Information about the process is given.
+After moving the things in place, we need to run an upgrade on the unpacked directory.
+Information is given again about it, after restart, so the user knows that he is now working in a restored installation.
 
 Restoring checks a few files that should be there in the tarball, so as to be sure that the right thing is restored.
 
