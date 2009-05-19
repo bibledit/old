@@ -35,32 +35,43 @@
 #include "notes_utils.h"
 
 
-void restore_notes (const ustring& filename, vector <ustring>& feedback)
+void restore_notes (const ustring& unpack_directory, vector <ustring>& feedback) // Todo
 {
-  /*
-  unlink (filename.c_str());
-  GwSpawn spawn ("tar");
-  spawn.arg ("-czf");
-  spawn.arg (filename);
-  spawn.arg (".");
-  spawn.workingdirectory (directories_get_notes ());
-  spawn.progress ("Backing up notes", false);
-  spawn.run ();
-  */
+  // Run an upgrade on the unpacked directory.
+  notes_database_verify(unpack_directory);
+  
+  // Bail out if there's nothing to import.
+  unsigned int restore_count = notes_count (unpack_directory);
+  feedback.push_back ("Notes to restore: " + convert_to_string (restore_count));
+  if (restore_count == 0) {
+    feedback.push_back ("Nothing to restore");
+    return;
+  }
+
+  // If there are notes in the current database, ask whether these should be overwritten.
+  unsigned int current_count = notes_count ();
+  feedback.push_back ("Notes available before restore: " + convert_to_string (current_count));
+  if (current_count > 0) {
+    ustring question = "Currently Bibledit has " + convert_to_string (current_count) + " notes. Would you like to overwrite these?";
+    if (gtkw_dialog_question(NULL, question, GTK_RESPONSE_NO) == GTK_RESPONSE_YES) {
+      feedback.push_back ("Restore has overwritten the existing notes");
+    } else {
+      feedback.push_back ("Restore was cancelled");
+      return;
+    }
+  }
+  
+  // If so, move everything into place. Todo
+  unix_rmdir (directories_get_notes ());
+  unix_mv (unpack_directory, directories_get_notes ());
+  
+  // Give feedback about what has happened. Todo
+  feedback.push_back ("Notes were restored");
 }
 
 
-void restore_all (const ustring& filename, vector <ustring>& feedback)
+void restore_all (const ustring& unpack_directory, vector <ustring>& feedback) // Todo
 {
-  /*
-  unlink (filename.c_str());
-  GwSpawn spawn ("tar");
-  spawn.arg ("-czf");
-  spawn.arg (filename);
-  spawn.arg (".");
-  spawn.workingdirectory (directories_get_root ());
-  spawn.progress ("Backing up everything", false);
-  spawn.run ();
-  */
+
 }
 

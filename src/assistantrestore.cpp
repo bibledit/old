@@ -229,7 +229,7 @@ void RestoreAssistant::on_assistant_apply_signal (GtkAssistant *assistant, gpoin
 }
 
 
-void RestoreAssistant::on_assistant_apply () // Todo
+void RestoreAssistant::on_assistant_apply ()
 {
   // Unpack the tarball.
   ustring unpack_directory = gw_build_filename (directories_get_temp (), "restore");
@@ -241,18 +241,18 @@ void RestoreAssistant::on_assistant_apply () // Todo
     switch (get_type()) {
       case btBible:
       {
-        project_create (bible_name, unpack_directory);
+        project_create_restore (bible_name, unpack_directory);
         restore_feedback.push_back ("The file was restored to Bible " + bible_name);
         break;
       }
       case btNotes:
       {
-        restore_notes (filename, restore_feedback);
+        restore_notes (unpack_directory, restore_feedback);
         break;
       }
       case btAll:
       {
-        restore_all (filename, restore_feedback);
+        restore_all (unpack_directory, restore_feedback);
         break;
       }
     }
@@ -310,7 +310,6 @@ void RestoreAssistant::on_button_file ()
   ustring file = gtkw_file_chooser_open (assistant, "", filename);
   if (!file.empty()) {
     filename = file;
-    compress_ensure_tar_gz_suffix (filename);
     on_assistant_prepare (vbox_file);
   }
 }
@@ -336,10 +335,8 @@ BackupType RestoreAssistant::get_type ()
 
 Todo Restore Assistant.
 
-Restoring notes. The notes will be merged with the existing ones, and duplicates won't be restored.
-Information about this is given at the end of the process.
-
-Restoring everything. The file is unpacked and put in a special directory. After restarting this directory is consulted,
+Restoring everything. The file is unpacked and put in a special directory. 
+After restarting this directory is consulted,
 and moved into place. Information about the process is given.
 
 Restoring checks a few files that should be there in the tarball, so as to be sure that the right thing is restored.

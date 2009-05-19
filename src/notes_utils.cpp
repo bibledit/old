@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "libraries.h"
 #include "utilities.h"
 #include <glib.h>
@@ -38,109 +39,22 @@
 #include "tiny_utilities.h"
 #include "maintenance.h"
 
-void notes_database_verify(bool gui)
+
+void notes_database_verify(const ustring& alternate_directory)
 /*
- This verifies the notes database is fine.
+ This verifies that the notes database is fine.
  If it's not there, it creates one.
- It upgrades older databases.
+ At times it upgrades older databases.
  */
 {
   // Filename of database.
   ustring oldfilename;
-  ustring filename = notes_database_filename();
+  ustring filename = notes_database_filename(alternate_directory);
 
   // If the newest database is already there, bail out.
   if (g_file_test(filename.c_str(), G_FILE_TEST_IS_REGULAR))
     return;
 
-  // Update: the field "reference" will be upgraded.
-  oldfilename = gw_build_filename(directories_get_notes(), "database");
-  filename = gw_build_filename(directories_get_notes(), "notes.sql1");
-  if (g_file_test(oldfilename.c_str(), G_FILE_TEST_IS_REGULAR)) {
-    unix_cp(oldfilename, filename);
-    sqlite3 *db;
-    int rc;
-    char *error = NULL;
-    ProgressWindow *progresswindow = NULL;
-    if (gui)
-      progresswindow = new ProgressWindow("Upgrading projectnotes", false);
-    try {
-      // Connect to the database.
-      rc = sqlite3_open(filename.c_str(), &db);
-      if (rc)
-        throw runtime_error(sqlite3_errmsg(db));
-      sqlite3_busy_timeout(db, 1000);
-      // Read relevant selection of the data.
-      SqliteReader reader(0);
-      char *sql;
-      sql = g_strdup_printf("select id, reference, ref_osis from notes;");
-      rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
-      g_free(sql);
-      if (rc)
-        throw runtime_error(sqlite3_errmsg(db));
-      // Go through it all and upgrade it.
-      if (gui)
-        progresswindow->set_iterate(0, 1, reader.ustring0.size());
-      for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
-        if (gui)
-          progresswindow->iterate();
-        ustring id = reader.ustring0[i];
-        ustring reference = reader.ustring1[i];
-        ustring newreference = " ";
-        Parse parse(reference);
-        for (unsigned int i2 = 0; i2 < parse.words.size(); i2++) {
-          int numerical_reference = convert_to_int(parse.words[i2]);
-          int book = numerical_reference / 1000000;
-          int chapter_verse = numerical_reference % 1000000;
-          book++;               // Here's the trick.
-          int newref = (1000000 * book) + chapter_verse;
-          newreference.append(convert_to_string(newref) + " ");
-        }
-        sql = g_strdup_printf("update notes set reference = '%s' where id = '%s';", newreference.c_str(), id.c_str());
-        rc = sqlite3_exec(db, sql, NULL, NULL, &error);
-        g_free(sql);
-        if (rc)
-          throw runtime_error(sqlite3_errmsg(db));
-      }
-      // Remove old database.
-      unlink(oldfilename.c_str());
-    }
-    catch(exception & ex) {
-      gw_critical(ex.what());
-    }
-    sqlite3_close(db);
-    if (progresswindow)
-      delete progresswindow;
-  }
-  // Update: Any project "None" will be renamed to "All",
-  // and the version table will be dropped.
-  oldfilename = gw_build_filename(directories_get_notes(), "notes.sql1");
-  filename = gw_build_filename(directories_get_notes(), "notes.sql2");
-  if (g_file_test(oldfilename.c_str(), G_FILE_TEST_IS_REGULAR)) {
-    g_message("Upgrading notes");
-    unix_mv(oldfilename, filename);
-    sqlite3 *db;
-    int rc;
-    char *error = NULL;
-    try {
-      // Connect to the database.
-      rc = sqlite3_open(filename.c_str(), &db);
-      if (rc)
-        throw runtime_error(sqlite3_errmsg(db));
-      sqlite3_busy_timeout(db, 1000);
-      // Do the upgrade.
-      rc = sqlite3_exec(db, "update notes set project = 'All' where project = 'None';", NULL, NULL, &error);
-      if (rc)
-        throw runtime_error(sqlite3_errmsg(db));
-      rc = sqlite3_exec(db, "drop table version;", NULL, NULL, &error);
-      if (rc)
-        throw runtime_error(sqlite3_errmsg(db));
-    }
-    catch(exception & ex) {
-      gw_critical(ex.what());
-    }
-    sqlite3_close(db);
-  }
   // Last thing: make new database if there is no db.
   filename = notes_database_filename();
   if (!g_file_test(filename.c_str(), G_FILE_TEST_IS_REGULAR)) {
@@ -167,11 +81,24 @@ void notes_database_verify(bool gui)
   }
 }
 
-ustring notes_database_filename()
-// Returns the filename of the notes database.
+
+const gchar * notes_database_basename ()
 {
-  return gw_build_filename(directories_get_notes(), "notes.sql2");
+  return "notes.sql2";
 }
+
+
+ustring notes_database_filename(const ustring& alternate_directory)
+// Returns the filename of the notes database.
+{ 
+  ustring filename;
+  filename = gw_build_filename(directories_get_notes(), notes_database_basename ());
+  if (!alternate_directory.empty()) {
+    filename = gw_build_filename(alternate_directory, notes_database_basename ());
+  }
+  return filename;
+}
+
 
 gint notes_database_get_unique_id()
 // This generates a unique id, one that is not yet used in the notes database.
@@ -209,6 +136,7 @@ gint notes_database_get_unique_id()
   return result;
 }
 
+
 void notes_delete_one(int id)
 // Deletes the note with id.
 {
@@ -235,6 +163,7 @@ void notes_delete_one(int id)
   }
   sqlite3_close(db);
 }
+
 
 void notes_sort(vector < unsigned int >&ids, const vector < ustring > &refs, const vector < ustring > &allrefs, const vector < int >&dates)
 /*
@@ -288,6 +217,7 @@ void notes_sort(vector < unsigned int >&ids, const vector < ustring > &refs, con
   // Sort the data.
   quick_sort(strings_to_sort, ids, 0, strings_to_sort.size());
 }
+
 
 void notes_select(vector < unsigned int >&ids, unsigned int &id_cursor, const ustring & currentreference)
 /*
@@ -500,6 +430,7 @@ void notes_select(vector < unsigned int >&ids, unsigned int &id_cursor, const us
   sqlite3_close(db);
 }
 
+
 void notes_display(ustring & note_buffer, vector < unsigned int >ids, unsigned int cursor_id, unsigned int &cursor_offset, bool & stop)
 /*
  This collect html data for displaying the notes.
@@ -659,6 +590,7 @@ void notes_display(ustring & note_buffer, vector < unsigned int >ids, unsigned i
   sqlite3_close(db);
 }
 
+
 void notes_get_references_from_editor(GtkTextBuffer * textbuffer, vector < Reference > &references, vector < ustring > &messages)
 /*
  Gets all references from the notes editor.
@@ -722,11 +654,13 @@ void notes_get_references_from_editor(GtkTextBuffer * textbuffer, vector < Refer
   }
 }
 
+
 ustring notes_categories_filename()
 // Returns the filename of the notes database.
 {
   return gw_build_filename(directories_get_notes(), "categories");
 }
+
 
 void notes_categories_check()
 // Check categories are there - if not, create default set.
@@ -745,6 +679,7 @@ void notes_categories_check()
     write_lines(notes_categories_filename(), categories);
   }
 }
+
 
 void notes_categories_add_from_database(vector < ustring > &categories)
 // Takes the existing notes categories, if there are any, and adds any
@@ -786,6 +721,7 @@ void notes_categories_add_from_database(vector < ustring > &categories)
   sqlite3_close(db);
 }
 
+
 void notes_projects_add_from_database(vector < ustring > &projects)
 // Takes the existing projects, if there are any, and adds any
 // extra projects found in the database.
@@ -826,11 +762,13 @@ void notes_projects_add_from_database(vector < ustring > &projects)
   sqlite3_close(db);
 }
 
+
 void notes_vacuum()
 // Vacuum the database.
 {
   vacuum_database(notes_database_filename());
 }
+
 
 void notes_store_one(int id, ustring & note, const ustring & project, vector < Reference > &references, const ustring & category, int date_created, const ustring & user_created, ustring & logbook)
 {
@@ -927,6 +865,7 @@ void notes_store_one(int id, ustring & note, const ustring & project, vector < R
   sqlite3_close(db);
 }
 
+
 void notes_change_category(const ustring & from, const ustring & to)
 // Changes all notes in category "from" to category "to".
 {
@@ -951,6 +890,7 @@ void notes_change_category(const ustring & from, const ustring & to)
   sqlite3_close(db);
 }
 
+
 void notes_change_project(const ustring & from, const ustring & to)
 // Changes all notes in project "from" to project "to".
 {
@@ -974,6 +914,7 @@ void notes_change_project(const ustring & from, const ustring & to)
   }
   sqlite3_close(db);
 }
+
 
 void notes_read(vector < unsigned int >ids, vector < ustring > &data)
 // Reads notes.
@@ -1005,6 +946,7 @@ void notes_read(vector < unsigned int >ids, vector < ustring > &data)
   sqlite3_close(db);
 }
 
+
 void notes_update_old_one(ustring & note)
 /*
  If there are newlines, and no <BR>, then this is an old note, 
@@ -1021,8 +963,29 @@ void notes_update_old_one(ustring & note)
   replace_text(note, "\n", "<BR>\n");
 }
 
+
 const gchar *notes_cursor_anchor()
 // Gives the name of the anchor where the cursor has to jump to.
 {
   return "cursoranchor";
 }
+
+
+unsigned int notes_count (const ustring& alternate_directory) // Todo
+{
+  sqlite3 *db;
+  sqlite3_open(notes_database_filename(alternate_directory).c_str(), &db);
+  sqlite3_busy_timeout(db, 1000);
+  SqliteReader reader(0);
+  char *sql;
+  sql = g_strdup_printf("select count(*) from '%s';", TABLE_NOTES);
+  sqlite3_exec(db, sql, reader.callback, &reader, NULL);
+  g_free(sql);
+  gint count = 0;
+  if (!reader.ustring0.empty()) {
+    count = convert_to_int(reader.ustring0[0]);
+  }
+  sqlite3_close(db);
+  return count;
+}
+

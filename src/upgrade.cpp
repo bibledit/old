@@ -32,7 +32,7 @@ void upgrade()
 {
   stylesheets_upgrade();
   projects_initial_check(true);
-  notes_database_verify(true);
+  notes_database_verify();
   notes_categories_check();
   upgrade_configuration();
   vector < ustring > projects = projects_get_all();

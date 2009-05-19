@@ -17,17 +17,21 @@
  **  
  */
 
+
 #ifndef INCLUDED_NOTES_UTILS_H
 #define INCLUDED_NOTES_UTILS_H
+
 
 #include "libraries.h"
 #include <gtk/gtk.h>
 #include "reference.h"
 
+
 #define TABLE_NOTES "notes"
 
-void notes_database_verify(bool gui);
-ustring notes_database_filename();
+
+void notes_database_verify(const ustring& alternate_directory = "");
+ustring notes_database_filename(const ustring& alternate_directory = "");
 gint notes_database_get_unique_id();
 void notes_delete_one(int id);
 void notes_sort(vector<unsigned int>& ids, const vector<ustring>& refs, const vector<ustring>& allrefs, const vector<int>& dates);
@@ -45,5 +49,7 @@ void notes_change_project(const ustring& from, const ustring& to);
 void notes_read(vector <unsigned int> ids, vector <ustring>& data);
 void notes_update_old_one(ustring& note);
 const gchar * notes_cursor_anchor ();
+unsigned int notes_count (const ustring& alternate_directory = "");
+
 
 #endif

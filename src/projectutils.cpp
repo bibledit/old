@@ -152,7 +152,7 @@ bool project_exists(const ustring & project)
 }
 
 
-void project_create(const ustring& project, const ustring& restore_from)
+void project_create_restore (const ustring& project, const ustring& restore_from)
 {
   if (restore_from.empty()) {
     // Create project directory, and directory for data.

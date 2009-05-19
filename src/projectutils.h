@@ -34,7 +34,7 @@ ustring project_data_directory_book (const ustring& project, unsigned int book);
 ustring project_data_directory_chapter (const ustring& project, unsigned int book, unsigned int chapter);
 ustring project_data_filename_chapter (const ustring& project, unsigned int book, unsigned int chapter, bool checkexists);
 bool project_exists (const ustring& project);
-void project_create (const ustring& project, const ustring& restore_from);
+void project_create_restore (const ustring& project, const ustring& restore_from);
 void project_delete (const ustring& project);
 void project_copy (const ustring& project, const ustring& newproject);
 void project_move (const ustring& project, const ustring& newproject);

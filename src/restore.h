@@ -27,8 +27,8 @@
 #include <gtk/gtk.h>
 
 
-void restore_notes (const ustring& filename, vector <ustring>& feedback);
-void restore_all (const ustring& filename, vector <ustring>& feedback);
+void restore_notes (const ustring& unpack_directory, vector <ustring>& feedback);
+void restore_all (const ustring& unpack_directory, vector <ustring>& feedback);
 
 
 #endif
