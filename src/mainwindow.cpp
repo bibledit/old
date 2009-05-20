@@ -7478,3 +7478,159 @@ void MainWindow::check_usfm_window_ping()
 }
 
 
+/*
+
+Todo Clarify how to enter books in resource browser
+
+
+Thanks for the resource exported from TW/folio.
+
+Let's work together in order to see whether this resource can be made to browse in bibledit.
+
+For bibledit to browse resources, it will work if every verse has one file. 
+In other cases, e.g. when the resource is one book per file, it needs what are called "anchors". 
+To start with, every resource that Bibledit uses should be in html format.
+
+The resource that you have attached is in RTF format.
+
+Would it be possible for you to save this RTF file into a .html file, and to look whether the anchors are there? 
+If these anchors are there, most likely browsing will work.
+
+An anchor will look like this - example:
+
+<a name="1john.1.2"></a>
+
+Or more general:
+
+<a name="book.chapter.verse"></a>
+or
+<a name="chapter.verse"></a>
+
+Any of those types of anchors will do.
+
+Lets' take it step by step, and you'll learn a lot from it how to create resources.
+
+If you were to have the time to make the conversion to html and look whether anchors are there, then we take it from there.
+
+Anchors can't normally be seen on web pages if the page is viewed in the browser. 
+But the anchors become visible when the html file is opened in a text editor. 
+
+
+
+Thanks for this step-by-step procedure to learn how to create resources for BE.
+I will answer this also by a stype-by-step discription, how I do this (could be helpful for BE/Help).
+
+Here are the steps I took.
+- Opened TRHB4_1JN.RTF (export of TW/folio) in Open Office Writer
+- Saved it as HTML document (Open Office Writer)
+- yes (for the warning that some formatting may be lost
+- opened TRHB4_1JN.html with Firefox
+- Firefox/View/Page Source: The Kompozer displays TRHB4_1JN.html
+- Checking at 1 John 1.1a: There is a named anchor: TRHB 1JN 1.1 ( 1.1 1 John 1.1c)
+- Kompozer/View/HTML source: Checking at 1 John 1.1a shows:
+
+<p
+style="margin-top: 0in; font-style: normal; line-height: 100%; text-decoration: none;"
+align="left">
+<font color="#ffffff"><font
+face="Times New Roman, serif"><font
+style="font-size: 2pt;" size="1">1
+John 1.1a</font></font></font></p>
+
+<p
+style="margin-top: 0.17in; font-style: normal; line-height: 100%; text-decoration: none;"
+align="left"><a name="TRHB 1JN 1.1"></a>
+<font face="Arial, sans-serif"><font size="2"><b><font
+color="#ffffff"><font style="font-size: 2pt;"
+size="1">1.1</font></font><font
+color="#000000"><font size="2">
+1 John 1.1a</font></font></b></font></font></p>
+
+So the anchor is there (I underlined it). Even the resource name is there (which could be helpful for linking between resources is envisioned).
+What is also there is a quite 'elaborated' html built: Is there a way to 'slim it down'? or does BE do this automatically, when importing the material?
+
+
+
+
+Thanks for the work that you did on discovering the named anchors. Yes, it appears that the proper anchors are there, then.
+
+The procedure for making a resource for this one will then be very similar to the one for creating the resource of last week.
+
+Here's the anchor that you found:
+
+<a name="TRHB 1JN 1.1">
+
+It is supposed that each of the verses have such an anchor, with different chapter and verse number.
+
+Homepage: Name of any file, or this file specifically.
+URL constructor: TRHB4_<book>.html#TRHB <book> <chapter>.<verse>
+
+Note the spaces in the above URL constructor, there are two of them.
+
+The name to put for the book of 1 John is "1JN".
+
+
+
+
+TranslHandbook: for TRHB4_1JN.html#TRHB 1JN 1.1.2 : URL constructor: TRHB4_<book>.html#TRHB <book> <chapter>.<verse>
+
+TransNoteDisplay: for TN2JND4.html#TND 2JN 1.1B : URL constructor: TN<book>D4.html#TND <book> <chapter>.<verse>
+TransNoteNotes: for TN2JNN4.html#TNN 2JN 1.1B : URL constructor: TN<book>N4.html#TNN <book> <chapter>.<verse>
+
+This worked to import TH, TND and TNN into BE/Resource Browser
+
+
+
+
+URL construct (for BE resources import) for material from
+- TW: (TH, TN) and
+- other html resource (TH and CM)
+
+Translator's Handbooks (TH):
+- from TW: for TRHB4_XXX.html#TRHB XXX 1.1.2 : URL constructor: TRHB4_<book>.html#TRHB <book> <chapter>.<verse>,
+-- with XXX or <book> = JAARS/UBS code (GEN ... REV): encoding problems: non-UTF8 with Greek/Hebrew (transliteration) fonts, e.g. GEN, MRK
+- other html resource: URL constructor: ubshbk<book>.html#bible.<book>.<chapter>.<verse>
+-- with XXX or <book> = numbering system (1,2 ..., 87), e.g. COL=72, 1TI=75, 2TI=76, TIT=77, 2PE=86,
+
+Translator's Notes (TN):
+all from TW (encoding is no problem, as there is only English text used = UTF8)
+- Display (TND): for TNXXXD4.html#TND XXX 1.1B : URL constructor: TN<book>D4.html#TND <book> <chapter>.<verse>
+- Notes (TNN): for TNXXXN4.html#TNN XXX 1.1B : URL constructor: TN<book>N4.html#TNN <book> <chapter>.<verse>
+-- with XXX or <book> = JAARS/UBS code (GEN ... REV) , e.g.: COL, 1TI, 2TI, TIT, 2PE,
+
+Commentaries (CM) which are not TH and TN:
+- other html resource: URL constructor: ubshbk<book>.html#bible.<book>.<chapter>.<verse>
+-- with XXX or <book> = numbering system (1,2 ..., 87), e.g. COL=72, 1TI=75, 2TI=76, TIT=77, 2PE=86,
+
+
+
+
+
+Another useful thing to know is what this information is stored on the disk, at the resource.
+
+teus@nw9440:~/.bibledit/resources/UBS-1JH$ ls
+resource-template.ini ubshbk83.css ubshbk83.html
+
+As visible above, there are three files in the UBS-1JH resource. Here's the content of the .ini file:
+
+teus@nw9440:~/.bibledit/resources/UBS-1JH$ cat resource-template.ini
+
+[general]
+type=2
+title=UBS-1JH
+home page=ubshbk83.html
+url constructor=ubshbk<book>.html#bible.<book>.<chapter>.<verse>
+
+[books]
+1 John=83
+
+
+
+Wrong info, please change:
+2PE=82 (instead of 86)
+
+
+
+
+
+*/
