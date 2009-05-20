@@ -232,7 +232,7 @@ void RestoreAssistant::on_assistant_apply_signal (GtkAssistant *assistant, gpoin
 void RestoreAssistant::on_assistant_apply ()
 {
   // Unpack the tarball.
-  ustring unpack_directory = gw_build_filename (directories_get_temp (), "restore"); // Todo
+  ustring unpack_directory = gw_build_filename (directories_get_temp (), "restore");
   unix_rmdir (unpack_directory);
   gw_mkdir_with_parents (unpack_directory);
   if (uncompress (filename, unpack_directory)) {
@@ -329,13 +329,3 @@ BackupType RestoreAssistant::get_type ()
 }
 
 
-
-/*
-
-Todo Restore Assistant.
-
-Restoring checks a few files that should be there in the tarball, so as to be sure that the right thing is restored.
-
-Write a helpfile.
-
-*/

@@ -49,7 +49,7 @@ void restore_project (const ustring& unpack_directory, const ustring& bible, vec
 }
 
 
-void restore_notes (const ustring& unpack_directory, vector <ustring>& feedback) // Todo
+void restore_notes (const ustring& unpack_directory, vector <ustring>& feedback)
 {
   // Check file signature.
   if (!restore_file_present (unpack_directory, "categories", feedback)) {
@@ -89,7 +89,7 @@ void restore_notes (const ustring& unpack_directory, vector <ustring>& feedback)
 }
 
 
-void restore_all_stage_one (const ustring& unpack_directory, vector <ustring>& feedback) // Todo
+void restore_all_stage_one (const ustring& unpack_directory, vector <ustring>& feedback)
 // Restore everything: stage one.
 {
   // Check file signature.
