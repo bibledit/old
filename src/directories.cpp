@@ -157,7 +157,7 @@ ustring directories_get_package_data()
 }
 
 
-ustring directories_get_restore () // Todo
+ustring directories_get_restore ()
 // The directory, if found, to restore from.
 {
   ustring directory;

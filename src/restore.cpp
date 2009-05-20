@@ -35,8 +35,27 @@
 #include "notes_utils.h"
 
 
-void restore_notes (const ustring& unpack_directory, vector <ustring>& feedback)
+void restore_project (const ustring& unpack_directory, const ustring& bible, vector <ustring>& feedback)
+// Restores a project.
 {
+  // Check file signature.
+  if (!restore_file_present (unpack_directory, "data", feedback)) {
+    return;
+  }
+  // Restore.
+  project_create_restore (bible, unpack_directory);
+  // Feedback to user.
+  feedback.push_back ("The file was restored to Bible " + bible);
+}
+
+
+void restore_notes (const ustring& unpack_directory, vector <ustring>& feedback) // Todo
+{
+  // Check file signature.
+  if (!restore_file_present (unpack_directory, "categories", feedback)) {
+    return;
+  }
+
   // Run an upgrade on the unpacked directory.
   notes_database_verify(unpack_directory);
   
@@ -73,6 +92,11 @@ void restore_notes (const ustring& unpack_directory, vector <ustring>& feedback)
 void restore_all_stage_one (const ustring& unpack_directory, vector <ustring>& feedback) // Todo
 // Restore everything: stage one.
 {
+  // Check file signature.
+  if (!restore_file_present (unpack_directory, "projects", feedback)) {
+    return;
+  }
+  
   // Move the directory to the temporal place.
   unix_rmdir (directories_get_restore ());
   unix_mv (unpack_directory, directories_get_restore ());
@@ -83,7 +107,8 @@ void restore_all_stage_one (const ustring& unpack_directory, vector <ustring>& f
 }
 
 
-void restore_all_stage_two () // Todo
+void restore_all_stage_two ()
+// Restore everything: second and last stage.
 {
   if (g_file_test (directories_get_restore ().c_str(), G_FILE_TEST_IS_DIR)) {
     gw_message ("Restoring everything");
@@ -91,4 +116,18 @@ void restore_all_stage_two () // Todo
     unix_mv (directories_get_restore (), directories_get_root ());
   }
 }
+
+
+bool restore_file_present (const ustring& directory, const gchar * filename, vector <ustring>& feedback)
+// Returns true if a file or directory exists.
+{
+  ustring file = gw_build_filename (directory, filename);
+  bool present = g_file_test (file.c_str(), G_FILE_TEST_EXISTS);
+  if (!present) {
+    feedback.push_back ("The file to restore does not contain valid data");
+    feedback.push_back ("Nothing was restored");
+  }
+  return present;
+}
+
 

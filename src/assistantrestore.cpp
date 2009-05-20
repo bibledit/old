@@ -232,7 +232,7 @@ void RestoreAssistant::on_assistant_apply_signal (GtkAssistant *assistant, gpoin
 void RestoreAssistant::on_assistant_apply ()
 {
   // Unpack the tarball.
-  ustring unpack_directory = gw_build_filename (directories_get_temp (), "restore");
+  ustring unpack_directory = gw_build_filename (directories_get_temp (), "restore"); // Todo
   unix_rmdir (unpack_directory);
   gw_mkdir_with_parents (unpack_directory);
   if (uncompress (filename, unpack_directory)) {
@@ -241,8 +241,7 @@ void RestoreAssistant::on_assistant_apply ()
     switch (get_type()) {
       case btBible:
       {
-        project_create_restore (bible_name, unpack_directory);
-        restore_feedback.push_back ("The file was restored to Bible " + bible_name);
+        restore_project (unpack_directory, bible_name, restore_feedback);
         break;
       }
       case btNotes:
@@ -334,12 +333,6 @@ BackupType RestoreAssistant::get_type ()
 /*
 
 Todo Restore Assistant.
-
-Restoring everything. The file is unpacked and put in a special directory. 
-After restarting this directory is consulted,
-and moved into place. Information about the process is given.
-After moving the things in place, we need to run an upgrade on the unpacked directory.
-Information is given again about it, after restart, so the user knows that he is now working in a restored installation.
 
 Restoring checks a few files that should be there in the tarball, so as to be sure that the right thing is restored.
 

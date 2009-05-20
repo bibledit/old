@@ -971,7 +971,7 @@ const gchar *notes_cursor_anchor()
 }
 
 
-unsigned int notes_count (const ustring& alternate_directory) // Todo
+unsigned int notes_count (const ustring& alternate_directory)
 {
   sqlite3 *db;
   sqlite3_open(notes_database_filename(alternate_directory).c_str(), &db);
