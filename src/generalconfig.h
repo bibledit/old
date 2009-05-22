@@ -149,6 +149,7 @@ public:
   DEFINE_GENCONFIG_H (bool, parallel_bible_include_verse_zero);
   DEFINE_GENCONFIG_H (vector<ustring>, printing_fonts);
   DEFINE_GENCONFIG_H (vector<ustring>, parallel_bible_projects);
+  DEFINE_GENCONFIG_H (vector<bool>, parallel_bible_enabled);
   DEFINE_GENCONFIG_H (bool, use_outpost);
   DEFINE_GENCONFIG_H (bool, outpost_networked);
   DEFINE_GENCONFIG_H (ustring, outpost_host);

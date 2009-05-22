@@ -278,7 +278,8 @@ bibledit_bin_SOURCES = \
 				windowtimednotifier.cpp \
 				assistantbackup.cpp \
 				assistantrestore.cpp \
-				restore.cpp
+				restore.cpp \
+				guiselectbibles.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 

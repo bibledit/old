@@ -26,6 +26,7 @@
 #include "ustring.h"
 #include "settings.h"
 #include "guiselectproject.h"
+#include "guiselectbibles.h"
 
 
 class ParallelBibleDialog
@@ -35,53 +36,28 @@ public:
   ~ParallelBibleDialog ();
   int run ();
 protected:
-  GtkWidget *parallelbibledialog;
-  GtkWidget *dialog_vbox1;
-  GtkWidget *vbox1;
-  GtkWidget *label12;
-  GtkWidget *hseparator1;
-  GtkWidget *hbox3;
-  GtkWidget *label13;
+  GtkBuilder *gtkbuilder;
+  GtkWidget *dialog;
   GtkWidget *label_main_project;
-  GtkWidget *hbox4;
-  GtkWidget *label16;
   GtkWidget *label_book;
-  GtkWidget *hbox10;
-  GtkWidget *label19;
   GtkWidget *label_chapters;
   GtkWidget *button_chapters;
-  GtkWidget *alignment3;
-  GtkWidget *hbox11;
-  GtkWidget *image3;
-  GtkWidget *label20;
-  GtkWidget *hseparator2;
-  GtkWidget *label15;
+  GtkWidget *label_button_chapters;
+  GtkWidget *hbox_select_bibles_gui;
+  SelectBiblesGui * select_bibles_gui;
+  GtkWidget *checkbutton_keep_together;
+  GtkWidget *checkbutton_include_verse0;
+  GtkWidget *cancelbutton;
+  GtkWidget *okbutton;
 
   // Additional project.
   vector<GtkWidget *> hboxes;
   vector<SelectProjectGui *> selectprojectguis;
   vector<GtkWidget *> buttons;
   
-  GtkWidget *hseparator4;
-  GtkWidget *hbox7;
-  GtkWidget *button_add;
-  GtkWidget *alignment2;
-  GtkWidget *hbox8;
-  GtkWidget *image2;
-  GtkWidget *label18;
-  GtkWidget *hseparator5;
-  GtkWidget *checkbutton_keep_together;
-  GtkWidget *checkbutton_include_verse0;
-  GtkWidget *dialog_action_area1;
-  GtkWidget *cancelbutton;
-  GtkWidget *okbutton;
 private:
   static void on_okbutton_clicked (GtkButton *button, gpointer user_data);
   void on_okbutton ();
-  static void on_button_additional_project_clicked (GtkButton *button, gpointer user_data);
-  void on_button_additional_project (GtkButton *button);
-  static void on_button_add_clicked (GtkButton *button, gpointer user_data);
-  void on_button_add (const ustring& project);
   void vector_remove_content (vector<GtkWidget *>& container, int offset);
   void vector_remove_content (vector<SelectProjectGui *>& container, int offset);
   void rewrite_button_labels ();

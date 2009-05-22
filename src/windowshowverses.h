@@ -17,13 +17,16 @@
  **  
  */
 
+
 #ifndef INCLUDED_WINDOW_SHOW_VERSES_H
 #define INCLUDED_WINDOW_SHOW_VERSES_H
+
 
 #include <gtk/gtk.h>
 #include "ustring.h"
 #include "reference.h"
 #include "window.h"
+
 
 class WindowShowVerses : public WindowBase
 {
@@ -56,5 +59,6 @@ private:
   void load_verses();
   Reference myreference;
 };
+
 
 #endif

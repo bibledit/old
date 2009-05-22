@@ -168,6 +168,7 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE(parallel_bible_include_verse_zero);
   INITIALIZE(printing_fonts);
   INITIALIZE(parallel_bible_projects);
+  INITIALIZE(parallel_bible_enabled);
   INITIALIZE(use_outpost);
   INITIALIZE(outpost_networked);
   INITIALIZE(outpost_host);
@@ -339,6 +340,7 @@ void GeneralConfiguration::save()
   SAVE_VALUE(parallel_bible_include_verse_zero);
   SAVE_VALUE(printing_fonts);
   SAVE_VALUE(parallel_bible_projects);
+  SAVE_VALUE(parallel_bible_enabled);
   SAVE_VALUE(use_outpost);
   SAVE_VALUE(outpost_networked);
   SAVE_VALUE(outpost_host);
@@ -587,6 +589,7 @@ IMPLEMENT(ustring, string_get, parallel_bible_chapters_verses, "")
 IMPLEMENT(bool, bool_get, parallel_bible_include_verse_zero, false)
 IMPLEMENT(vector < ustring >, vector_string_get, printing_fonts, NULL)
 IMPLEMENT(vector < ustring >, vector_string_get, parallel_bible_projects, NULL)
+IMPLEMENT(vector < bool >, vector_bool_get, parallel_bible_enabled, NULL)
 IMPLEMENT(bool, bool_get, use_outpost, false)
 IMPLEMENT(bool, bool_get, outpost_networked, false)
 IMPLEMENT(ustring, string_get, outpost_host, "")
