@@ -278,7 +278,9 @@ private:
   // Scrolling control.
 public:
 private:
-  void scroll_cursor_on_screen (bool exact);
+  void scroll_cursor_on_screen ();
+  static bool on_scroll_cursor_on_screen_timeout(gpointer data);
+  void scroll_cursor_on_screen_timeout();
   
 };
 

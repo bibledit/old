@@ -258,7 +258,7 @@ void Editor::chapter_load(unsigned int chapter_in)
   GtkTextIter iter;
   gtk_text_buffer_get_start_iter(textbuffer, &iter);
   gtk_text_buffer_place_cursor(textbuffer, &iter);
-  scroll_cursor_on_screen (true);
+  scroll_cursor_on_screen ();
 }
 
 
@@ -765,14 +765,14 @@ void Editor::on_grab_focus_delayed_handler()
         gtk_text_buffer_place_cursor(editornotes[i].textbuffer, &iter);
         gtk_text_buffer_get_iter_at_child_anchor(textbuffer, &iter, editornotes[i].childanchor_caller_note);
         gtk_text_buffer_place_cursor(textbuffer, &iter);
-        scroll_cursor_on_screen (true);
+        scroll_cursor_on_screen ();
       }
       if (child_anchor_clicked == editornotes[i].childanchor_caller_note) {
         gtk_widget_grab_focus(textview);
         GtkTextIter iter;
         gtk_text_buffer_get_iter_at_child_anchor(textbuffer, &iter, editornotes[i].childanchor_caller_text);
         gtk_text_buffer_place_cursor(textbuffer, &iter);
-        scroll_cursor_on_screen (true);
+        scroll_cursor_on_screen ();
       }
     }
     child_anchor_clicked = NULL;
@@ -1023,7 +1023,7 @@ gboolean Editor::on_text_key_press_event_before(GtkWidget * widget, GdkEventKey 
           GtkTextIter iter;
           gtk_text_buffer_get_iter_at_child_anchor(textbuffer, &iter, editornotes[i].childanchor_caller_text);
           gtk_text_buffer_place_cursor(textbuffer, &iter);
-          scroll_cursor_on_screen (true);
+          scroll_cursor_on_screen ();
           break;
         }
       }
@@ -1987,7 +1987,7 @@ void Editor::display_notes_remainder(bool focus_rendered_textview)
       programmatically_grab_focus(editornotes[i].textview);
       GtkTextIter iter;
       gtk_text_buffer_get_iter_at_child_anchor(textbuffer, &iter, editornotes[i].childanchor_textview);
-      scroll_cursor_on_screen (true);
+      scroll_cursor_on_screen ();
     }
   }
 
@@ -3319,7 +3319,7 @@ void Editor::position_cursor_at_verse(const ustring & cursorposition, bool focus
       GtkTextIter iter;
       gtk_text_buffer_get_start_iter(textbuffer, &iter);
       gtk_text_buffer_place_cursor(textbuffer, &iter);
-      scroll_cursor_on_screen (true);
+      scroll_cursor_on_screen ();
     } else {
       // The verse marker.
       ustring verse_marker = style_get_verse_marker(project);
@@ -3353,7 +3353,7 @@ void Editor::position_cursor_at_verse(const ustring & cursorposition, bool focus
             gtk_text_buffer_place_cursor(textbuffer, &iter);
             // Scroll also to it. It will scroll to the beginning of the text after the verse marker.
             // Exact scrolling is needed to put the line being edited near the top of the window.
-            scroll_cursor_on_screen (true);
+            scroll_cursor_on_screen ();
             // Bail out.
             break;
           }
@@ -3437,16 +3437,34 @@ bool Editor::move_cursor_to_spelling_error (bool next, bool extremity)
 {
   bool moved = spellingchecker->move_cursor_to_spelling_error (textbuffer, next, extremity);
   if (moved) {
-    scroll_cursor_on_screen (true);
+    scroll_cursor_on_screen ();
   }
   return moved;
 }
 
 
-void Editor::scroll_cursor_on_screen (bool exact)
+void Editor::scroll_cursor_on_screen ()
+{
+  scroll_cursor_on_screen_timeout ();
+  // At times scrolling once does not suffice.
+  // It happens when the project notes window is open, and the user pressed F6 so as to go to a reference,
+  // and this references is down in a chapter. In such cases the first scrolling is not enough,
+  // and it needs a second one.
+  g_timeout_add(300, GSourceFunc(on_scroll_cursor_on_screen_timeout), gpointer(this));
+}
+
+
+bool Editor::on_scroll_cursor_on_screen_timeout(gpointer data)
+{
+  ((Editor *) data)->scroll_cursor_on_screen_timeout();
+  return false;
+}
+
+
+void Editor::scroll_cursor_on_screen_timeout()
 {
   GtkTextMark * mark = gtk_text_buffer_get_insert(textbuffer);
-  textview_scroll_to_mark (GTK_TEXT_VIEW (textview), mark, exact);
+  textview_scroll_to_mark (GTK_TEXT_VIEW (textview), mark, true);
 }
 
 
