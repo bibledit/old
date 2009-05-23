@@ -7487,4 +7487,14 @@ deal at all, and I left them alone, but long term it might be good to
 automatically generate them at build time with a current version number
 and build date in the top line of each (the lines that start with .TH). 
 
+
+Todo Verse number registered for headings followed by references
+
+I am really happy that BE now will consider a section heading as belonging to the next verse.
+
+However if the section heading is followed by a \r reference line as in the Gospels, 
+then BE still acts like this heading and reference are part of the previous verse. 
+
+
+
 */

@@ -37,8 +37,8 @@
 #include "styles.h"
 
 
-#define STYLESHEET_XML_SUFFIX ".xml1"
-const char *RECOGNIZED_SUFFIXES[] = { ".sql17", ".sql18", ".xml1" };
+#define STYLESHEET_XML_SUFFIX ".xml2"
+const char *RECOGNIZED_SUFFIXES[] = { ".sql17", ".sql18", ".xml1", ".xml2" };
 
 
 ustring stylesheet_recent_filename()
@@ -303,6 +303,37 @@ int stylesheet_style_get_pointer(const vector < Style > &styles, const ustring &
 }
 
 
+void stylesheet_upgrade_value (vector <ustring>& sheet, const ustring& marker, const ustring& element, const ustring& value)
+// Updates the value of a marker in the stylesheet.
+{
+  ustring toggle_on_string = "marker=\"" + marker + "\"";
+  ustring toggle_off_string = "marker=\"";
+  bool within_marker = false;
+  ustring element_opener = "<" + element + ">";
+  ustring element_closer = "</" + element + ">";
+  for (unsigned int i = 0; i < sheet.size(); i++) {
+    ustring line = sheet[i];
+    if (line.find (toggle_off_string) != string::npos) {
+      within_marker = false;
+    }
+    if (line.find (toggle_on_string) != string::npos) {
+      within_marker = true;
+    }
+    if (within_marker) {
+      size_t startpos = line.find (element_opener);
+      if (startpos != string::npos) {
+        size_t endpos = line.find (element_closer);
+        if (endpos != string::npos) {
+          line.erase (startpos + element_opener.length(), endpos - startpos - element_opener.length());
+          line.insert (startpos + element_opener.length(), value);
+          sheet[i] = line;
+        }
+      }
+    }
+  }
+}
+
+
 void stylesheets_upgrade()
 // Upgrade older stylesheets to the currently used format.
 {
@@ -498,7 +529,22 @@ void stylesheets_upgrade()
     }
   }
 
-  // Note: The stylesheet.xml template has been updated thus far. 
+  // Make the \r marker a section heading instead of a normal paragraph.
+  {
+    ReadFiles rf(directories_get_stylesheets(), "", ".xml1");
+    for (unsigned int i = 0; i < rf.files.size(); i++) {
+      ustring filename = gw_build_filename(directories_get_stylesheets(), rf.files[i]);
+      gw_message("Updating stylesheet " + filename);
+      ReadText rt (filename, true, false);
+      stylesheet_upgrade_value (rt.lines, "r", "subtype", "2");
+      unlink (filename.c_str());
+      ustring newfilename(filename);
+      newfilename.replace(newfilename.length() - 1, 1, "2");
+      write_lines (newfilename, rt.lines);
+    }
+  }
+
+  // Note: The stylesheet.xml template has been updated thus far.
   // Every update listed below still needs to be entered into the template.
 
   // At the end of everything, check that we have at least one stylesheet.  
