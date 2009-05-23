@@ -129,37 +129,6 @@ void ParallelBibleDialog::on_okbutton()
 }
 
 
-void ParallelBibleDialog::vector_remove_content(vector < GtkWidget * >&container, int offset)
-{
-  vector < GtkWidget * >::iterator iter;
-  iter = container.begin();
-  for (int i = 0; i < offset; i++)
-    iter++;
-  container.erase(iter);
-}
-
-
-void ParallelBibleDialog::vector_remove_content(vector < SelectProjectGui * >&container, int offset)
-{
-  delete container[offset];
-  vector < SelectProjectGui * >::iterator iter;
-  iter = container.begin();
-  for (int i = 0; i < offset; i++)
-    iter++;
-  container.erase(iter);
-}
-
-
-void ParallelBibleDialog::rewrite_button_labels()
-// Rewrites the accelerators on the buttons, , so that it goes from 1 till x.
-{
-  for (unsigned int i = 0; i < selectprojectguis.size(); i++) {
-    ustring label = "_" + convert_to_string(i + 1);
-    selectprojectguis[i]->set_label(label);
-  }
-}
-
-
 void ParallelBibleDialog::on_button_chapters_clicked(GtkButton * button, gpointer user_data)
 {
   ((ParallelBibleDialog *) user_data)->on_button_chapters();
@@ -175,16 +144,4 @@ void ParallelBibleDialog::on_button_chapters()
   }
 }
 
-
-/*
-
-Todo A new GUI for selecting Bibles.
-
-We need to adapt places where parallel_bible_projects is called, so it only gets the enabled ones.
-A routine may have to do this, because it might be called several times at different place.
-
-First of all, apply it to the parallel Bible Bibles selector.
-Then to other areas, find out which, e.g. "verses", these may have to go through the Preferences so as to save screen space.
-
-*/
 

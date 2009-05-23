@@ -49,18 +49,9 @@ protected:
   GtkWidget *checkbutton_include_verse0;
   GtkWidget *cancelbutton;
   GtkWidget *okbutton;
-
-  // Additional project.
-  vector<GtkWidget *> hboxes;
-  vector<SelectProjectGui *> selectprojectguis;
-  vector<GtkWidget *> buttons;
-  
 private:
   static void on_okbutton_clicked (GtkButton *button, gpointer user_data);
   void on_okbutton ();
-  void vector_remove_content (vector<GtkWidget *>& container, int offset);
-  void vector_remove_content (vector<SelectProjectGui *>& container, int offset);
-  void rewrite_button_labels ();
   static void on_button_chapters_clicked (GtkButton *button, gpointer user_data);
   void on_button_chapters ();
 };

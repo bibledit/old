@@ -52,7 +52,18 @@ void view_parallel_bible_pdf()
 
   // All the projects to be put in this parallel Bible.
   // If the book exists in the project, add it, else give message.
-  vector < ustring > project_s_raw = settings->genconfig.parallel_bible_projects_get();
+  vector <ustring> project_s_raw;
+  {
+    vector <ustring> bibles = settings->genconfig.parallel_bible_projects_get();
+    vector <bool> enabled = settings->genconfig.parallel_bible_enabled_get();
+    if (bibles.size () == enabled.size()) {
+      for (unsigned int i = 0; i < enabled.size(); i++) {
+        if (enabled[i]) {
+          project_s_raw.push_back (bibles[i]);
+        }
+      }
+    }
+  }
   vector < ustring > project_names;
   for (unsigned int i = 0; i < project_s_raw.size(); i++) {
     if (project_book_exists(project_s_raw[i], settings->genconfig.book_get())) {
