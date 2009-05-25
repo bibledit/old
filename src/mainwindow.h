@@ -17,8 +17,10 @@
  **  
  */
 
+
 #ifndef INCLUDED_MAINWINDOW_H
 #define INCLUDED_MAINWINDOW_H
+
 
 #include <gtk/gtk.h>
 #include "windowsoutpost.h"
@@ -52,6 +54,7 @@
 #include "assistantresource.h"
 #include "assistantbackup.h"
 #include "assistantrestore.h"
+#include "assistantexport.h"
 
 
 class MainWindow : public WindowBase
@@ -175,6 +178,8 @@ protected:
   GtkWidget *image32232;
   GtkWidget *keyterms_delete;
   GtkWidget *print;
+  GtkWidget *file_export;
+  GtkWidget *image35236;
   GtkWidget *file_backup;
   GtkWidget *image34724;
   GtkWidget *file_restore;
@@ -552,7 +557,7 @@ protected:
   static void on_window_notes_references_available_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_notes_references_available_button();
 
-  /* Export */
+  /* Export */ // Todo
   static void on_export_usfm_files_activate(GtkMenuItem *menuitem, gpointer user_data);
   static void on_export_zipped_unified_standard_format_markers1_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_export_usfm_files(bool zipped);
@@ -566,6 +571,9 @@ protected:
   void on_export_to_sword_new_method();
   static void on_export_opendocument_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_export_opendocument();
+  static void on_file_export_activate (GtkMenuItem *menuitem, gpointer user_data);
+  void on_file_export ();
+  ExportAssistant * export_assistant;
 
   /* Checks */
   static void on_validate_usfms1_activate(GtkMenuItem *menuitem, gpointer user_data);

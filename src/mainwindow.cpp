@@ -172,6 +172,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   resource_assistant = NULL;
   backup_assistant = NULL;
   restore_assistant = NULL;
+  export_assistant = NULL;
   
   // Initialize some variables.
   git_reopen_project = false;
@@ -895,6 +896,14 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     gtk_container_add(GTK_CONTAINER(menuitem_file_menu), print);
 
   }
+
+  file_export = gtk_image_menu_item_new_with_mnemonic ("E_xport");
+  gtk_widget_show (file_export);
+  gtk_container_add (GTK_CONTAINER (menuitem_file_menu), file_export);
+
+  image35236 = gtk_image_new_from_stock ("gtk-convert", GTK_ICON_SIZE_MENU);
+  gtk_widget_show (image35236);
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (file_export), image35236);
 
   file_backup = gtk_image_menu_item_new_with_mnemonic ("_Backup");
   gtk_widget_show (file_backup);
@@ -1932,6 +1941,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     g_signal_connect((gpointer) keyterms_delete, "activate", G_CALLBACK(on_keyterms_delete_activate), gpointer(this));
   if (print)
     g_signal_connect((gpointer) print, "activate", G_CALLBACK(on_print_activate), gpointer(this));
+  g_signal_connect ((gpointer) file_export, "activate", G_CALLBACK (on_file_export_activate), gpointer(this));
   g_signal_connect ((gpointer) file_backup, "activate", G_CALLBACK (on_file_backup_activate), gpointer(this));
   g_signal_connect ((gpointer) file_restore, "activate", G_CALLBACK (on_file_restore_activate), gpointer(this));
   if (quit1)
@@ -3811,6 +3821,18 @@ void MainWindow::on_export_opendocument()
   save_editors();
   export_to_opendocument(window_vbox);
 }
+
+void MainWindow::on_file_export_activate (GtkMenuItem *menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_file_export();
+}
+
+void MainWindow::on_file_export () // Todo
+{
+  export_assistant = new ExportAssistant (0);
+  g_signal_connect ((gpointer) export_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
+}
+
 
 /*
  |
@@ -7404,6 +7426,12 @@ void MainWindow::on_assistant_keyterms_ready ()
     restore_assistant = NULL;
   }
 
+  // Export.
+  if (export_assistant) {
+    delete export_assistant;
+    export_assistant = NULL;
+  }
+
   // The assistants may have paused git operations. Resume these.
   git_command_pause(false);
 }
@@ -7488,12 +7516,70 @@ automatically generate them at build time with a current version number
 and build date in the top line of each (the lines that start with .TH). 
 
 
-Todo Verse number registered for headings followed by references
 
-I am really happy that BE now will consider a section heading as belonging to the next verse.
 
-However if the section heading is followed by a \r reference line as in the Gospels, 
-then BE still acts like this heading and reference are part of the previous verse. 
+
+Todo OSIS file troubles
+
+
+To create an Export Assistant, and move all export functions into that one.
+
+
+
+
+
+
+
+
+I'm a newcomer to all this, but I took a quick look at the Shona one. I
+used bibledit 3.7 (and SWORD 1.6.0RC3) to export it as a "SWORD module
+and OSIS file". Using the "old method" mostly worked, although based on
+some of the output from osis2mod, I suspect I am (or bibledit is) using
+an incorrect versification... what versification system do these Shona
+and Ndebele bibles use? If that info is encoded in the *.usfm files
+somehow, forgive me, but I didn't see it when I looked at them.
+
+Once I found the XML file (see below), I discovered that the OSIS XML
+file does not validate, according to the command:
+
+xmllint --noout --schema
+http://www.bibletechnologies.net/osisCore.2.1.1.xsd ~/osis-from-usfm.xml
+
+It generates over 1800 lines of error messages. I think that Bibledit
+should be careful to generate 100% valid OSIS XML. In fact, perhaps if
+xmllint is available at run time, bibledit could use it to validate the
+OSIS export file, before running it through osis2mod? Maybe this use of
+xmllint can be a checkbox option in the export dialog, or something like
+that?
+
+I don't know exactly what you sent to modules@crosswire.org, but ideally
+you would provide an OSIS file which (a) is valid OSIS XML and (b)
+osis2mod can use without generating much (or even any!) warning or
+informational text. If you also provide a workable .conf file for the
+module with appropriate translator and copyright info etc. in it, I
+think that is all that is needed :)
+
+Incidentally, thinking ahead a little, now that osis2mod has a -v for
+versification switch you may want to add the ability for bibledit to use
+that switch to select the appropriate versification for the project
+being exported. The current code in bibledit (in src/export_utils.cpp )
+does not seem to do this (probably because the -v switch is very new!).
+
+Lastly, before I forget: the way the OSIS XML file ends up at a fixed
+(but undocumented?) filename in the user's home directory feels a bit
+unhelpful. I ended up searching for all XML files on my machine that
+were less than a day old, in order to discover it :)
+
+Maybe the OSIS XML file name (and path) could be a field that is given
+defaults during the export dialog, but which the user can change if
+desired, so they can choose (and will know!) where they put the file?
+Failing that, or in addition to that, perhaps you could consider
+including the full osis2mod command line in the system log, so that
+looking in there will help novice users (like me!) find the XML file
+more easily.
+
+Jonathan 
+
 
 
 
