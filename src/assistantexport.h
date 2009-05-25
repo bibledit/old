@@ -26,6 +26,7 @@
 #include "ustring.h"
 #include "assistants.h"
 #include "backup.h"
+#include "export_utils.h"
 
 
 class ExportAssistant : public AssistantBase
@@ -42,9 +43,10 @@ private:
   int page_number_select_type;
   GtkWidget *vbox_select_type;
   GtkWidget *radiobutton_select_type_bible;
+  GtkWidget *radiobutton_select_type_references;
+  GtkWidget *radiobutton_select_type_stylesheet;
   GtkWidget *radiobutton_select_type_notes;
-  GtkWidget *radiobutton_select_type_everything;
-  BackupType get_type ();
+  ExportType get_type ();
 
   // Confirm or change Bible.
   int page_number_bible_name;
@@ -58,6 +60,15 @@ private:
   static void on_button_bible_name_clicked (GtkButton *button, gpointer user_data);
   void on_button_bible_name ();
   ustring bible_name;
+
+  // Bible export type.
+  int page_number_bible_type;
+  GtkWidget *vbox_bible_type;
+  GtkWidget *radiobutton_bible_usfm;
+  GtkWidget *radiobutton_bible_bibleworks;
+  GtkWidget *radiobutton_bible_osis;
+  GtkWidget *radiobutton_bible_sword;
+  GtkWidget *radiobutton_bible_opendocument;
 
   // Select file.
   int page_number_file;

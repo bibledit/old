@@ -44,7 +44,7 @@ AssistantBase("Export", "")
   g_signal_connect (G_OBJECT (assistant), "apply", G_CALLBACK (on_assistant_apply_signal), gpointer(this));
   g_signal_connect (G_OBJECT (assistant), "prepare", G_CALLBACK (on_assistant_prepare_signal), gpointer(this));
 
-  introduction ("A backup helps keeping your data safe");
+  introduction ("This helps you exporting your data");
 
   // Configuration and initialization.
   extern Settings *settings;
@@ -56,7 +56,7 @@ AssistantBase("Export", "")
   page_number_select_type = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_select_type);
   gtk_container_set_border_width (GTK_CONTAINER (vbox_select_type), 10);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_select_type, "What would you like to backup?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_select_type, "What would you like to export?");
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_select_type, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_select_type, true);
 
@@ -68,22 +68,29 @@ AssistantBase("Export", "")
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_bible), radiobutton_select_type_group);
   radiobutton_select_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_select_type_bible));
 
+  radiobutton_select_type_references = gtk_radio_button_new_with_mnemonic (NULL, "References");
+  gtk_widget_show (radiobutton_select_type_references);
+  gtk_box_pack_start (GTK_BOX (vbox_select_type), radiobutton_select_type_references, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_references), radiobutton_select_type_group);
+  radiobutton_select_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_select_type_references));
+
+  radiobutton_select_type_stylesheet = gtk_radio_button_new_with_mnemonic (NULL, "Stylesheet");
+  gtk_widget_show (radiobutton_select_type_stylesheet);
+  gtk_box_pack_start (GTK_BOX (vbox_select_type), radiobutton_select_type_stylesheet, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_stylesheet), radiobutton_select_type_group);
+  radiobutton_select_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_select_type_stylesheet));
+
   radiobutton_select_type_notes = gtk_radio_button_new_with_mnemonic (NULL, "Notes");
   gtk_widget_show (radiobutton_select_type_notes);
   gtk_box_pack_start (GTK_BOX (vbox_select_type), radiobutton_select_type_notes, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_notes), radiobutton_select_type_group);
   radiobutton_select_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_select_type_notes));
 
-  radiobutton_select_type_everything = gtk_radio_button_new_with_mnemonic (NULL, "Everything");
-  gtk_widget_show (radiobutton_select_type_everything);
-  gtk_box_pack_start (GTK_BOX (vbox_select_type), radiobutton_select_type_everything, FALSE, FALSE, 0);
-  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_everything), radiobutton_select_type_group);
-  radiobutton_select_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_select_type_everything));
-
   Shortcuts shortcuts_select_type (0);
   shortcuts_select_type.button (radiobutton_select_type_bible);
+  shortcuts_select_type.button (radiobutton_select_type_references);
+  shortcuts_select_type.button (radiobutton_select_type_stylesheet);
   shortcuts_select_type.button (radiobutton_select_type_notes);
-  shortcuts_select_type.button (radiobutton_select_type_everything);
   shortcuts_select_type.consider_assistant();
   shortcuts_select_type.process();
 
@@ -132,6 +139,57 @@ AssistantBase("Export", "")
   shortcuts_bible_name.label (label12);
   shortcuts_bible_name.consider_assistant();
   shortcuts_bible_name.process();
+
+  // Select what type to export a Bible to.
+  vbox_bible_type = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (vbox_bible_type);
+  page_number_bible_type = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_bible_type);
+  gtk_container_set_border_width (GTK_CONTAINER (vbox_bible_type), 10);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_bible_type, "What would you like to export it to?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_bible_type, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_bible_type, true);
+
+  GSList *radiobutton_bible_type_group = NULL;
+
+  radiobutton_bible_usfm = gtk_radio_button_new_with_mnemonic (NULL, "Unified Standard Format Marker (USFM)");
+  gtk_widget_show (radiobutton_bible_usfm);
+  gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_usfm, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_usfm), radiobutton_bible_type_group);
+  radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_usfm));
+
+  radiobutton_bible_bibleworks = gtk_radio_button_new_with_mnemonic (NULL, "BibleWorks Version Database Compiler");
+  gtk_widget_show (radiobutton_bible_bibleworks);
+  gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_bibleworks, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_bibleworks), radiobutton_bible_type_group);
+  radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_bibleworks));
+
+  radiobutton_bible_osis = gtk_radio_button_new_with_mnemonic (NULL, "Open Scripture Information Standard (OSIS)");
+  gtk_widget_show (radiobutton_bible_osis);
+  gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_osis, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_osis), radiobutton_bible_type_group);
+  radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_osis));
+
+  radiobutton_bible_sword = gtk_radio_button_new_with_mnemonic (NULL, "CrossWire SWORD");
+  gtk_widget_show (radiobutton_bible_sword);
+  gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_sword, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_sword), radiobutton_bible_type_group);
+  radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_sword));
+
+  radiobutton_bible_opendocument = gtk_radio_button_new_with_mnemonic (NULL, "OpenDocument");
+  gtk_widget_show (radiobutton_bible_opendocument);
+  gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_opendocument, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_opendocument), radiobutton_bible_type_group);
+  radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_opendocument));
+
+  Shortcuts shortcuts_select_bible_type (0);
+  shortcuts_select_bible_type.button (radiobutton_bible_usfm);
+  shortcuts_select_bible_type.button (radiobutton_bible_bibleworks);
+  shortcuts_select_bible_type.button (radiobutton_bible_osis);
+  shortcuts_select_bible_type.button (radiobutton_bible_sword);
+  shortcuts_select_bible_type.button (radiobutton_bible_opendocument);
+  shortcuts_select_bible_type.consider_assistant();
+  shortcuts_select_bible_type.process();
 
   // Select file where to save to.
   vbox_file = gtk_vbox_new (FALSE, 0);
@@ -284,7 +342,7 @@ gint ExportAssistant::assistant_forward (gint current_page)
   gint new_page_number = current_page + 1;
 
   if (current_page == page_number_select_type) {
-    if (get_type () != btBible) {
+    if (get_type () != etBible) {
       new_page_number = page_number_file;
     }
   }
@@ -324,17 +382,111 @@ void ExportAssistant::on_button_file ()
 }
 
 
-BackupType ExportAssistant::get_type ()
+ExportType ExportAssistant::get_type ()
 {
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_select_type_bible))) {
-    return btBible;
+    return etBible;
+  }
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_select_type_references))) {
+    return etReferences;
+  }
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_select_type_stylesheet))) {
+    return etStylesheet;
   }
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_select_type_notes))) {
-    return btNotes;
+    return etNotes;
   }
-  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_select_type_everything))) {
-    return btAll;
-  }
-  return btAll;
+  return etBible;
 }
 
+
+/*
+
+Todo version number in the man pages not updated
+
+(2) The man pages all still say they are version 3.6. This is not a big
+deal at all, and I left them alone, but long term it might be good to
+automatically generate them at build time with a current version number
+and build date in the top line of each (the lines that start with .TH). 
+
+
+
+
+
+Todo OSIS file troubles
+
+
+To create an Export Assistant, and move all export functions into that one.
+
+Bible
+  Unified Standard Format Marker (USFM) files
+  * zipped?
+  BibleWorks Version Database Compiler
+  OSIS file
+  * Recommended USFM to OSIS transformation
+  * Stripped down for the Go Bible
+  SWORD module
+  OpenDocument
+References
+Stylesheet
+Project notes
+
+
+
+
+
+
+
+I'm a newcomer to all this, but I took a quick look at the Shona one. I
+used bibledit 3.7 (and SWORD 1.6.0RC3) to export it as a "SWORD module
+and OSIS file". Using the "old method" mostly worked, although based on
+some of the output from osis2mod, I suspect I am (or bibledit is) using
+an incorrect versification... what versification system do these Shona
+and Ndebele bibles use? If that info is encoded in the *.usfm files
+somehow, forgive me, but I didn't see it when I looked at them.
+
+Once I found the XML file (see below), I discovered that the OSIS XML
+file does not validate, according to the command:
+
+xmllint --noout --schema
+http://www.bibletechnologies.net/osisCore.2.1.1.xsd ~/osis-from-usfm.xml
+
+It generates over 1800 lines of error messages. I think that Bibledit
+should be careful to generate 100% valid OSIS XML. In fact, perhaps if
+xmllint is available at run time, bibledit could use it to validate the
+OSIS export file, before running it through osis2mod? Maybe this use of
+xmllint can be a checkbox option in the export dialog, or something like
+that?
+
+I don't know exactly what you sent to modules@crosswire.org, but ideally
+you would provide an OSIS file which (a) is valid OSIS XML and (b)
+osis2mod can use without generating much (or even any!) warning or
+informational text. If you also provide a workable .conf file for the
+module with appropriate translator and copyright info etc. in it, I
+think that is all that is needed :)
+
+Incidentally, thinking ahead a little, now that osis2mod has a -v for
+versification switch you may want to add the ability for bibledit to use
+that switch to select the appropriate versification for the project
+being exported. The current code in bibledit (in src/export_utils.cpp )
+does not seem to do this (probably because the -v switch is very new!).
+
+Lastly, before I forget: the way the OSIS XML file ends up at a fixed
+(but undocumented?) filename in the user's home directory feels a bit
+unhelpful. I ended up searching for all XML files on my machine that
+were less than a day old, in order to discover it :)
+
+Maybe the OSIS XML file name (and path) could be a field that is given
+defaults during the export dialog, but which the user can change if
+desired, so they can choose (and will know!) where they put the file?
+Failing that, or in addition to that, perhaps you could consider
+including the full osis2mod command line in the system log, so that
+looking in there will help novice users (like me!) find the XML file
+more easily.
+
+Jonathan 
+
+
+
+
+*/

@@ -26,6 +26,7 @@
 #include <gtk/gtk.h>
 
 
+enum ExportType {etBible, etReferences, etStylesheet, etNotes};
 enum ExportNotesFormat {BibleditVersion3, ScriptureNotesVersion20};
 
 
