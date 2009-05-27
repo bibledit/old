@@ -51,9 +51,8 @@
 #include "osis.h"
 
 
-void export_to_usfm(const ustring & project, ustring location, bool zip) // Todo
+void export_to_usfm(const ustring & project, ustring location, bool zip)
 {
-  cout << "Export project " << project << " to location " << location << ", zipped: " << zip << endl; // Todo
   // (Temporal) output directory.
   ustring tempdir = gw_build_filename(directories_get_temp(), "usfm-export");
   unix_rmdir(tempdir);

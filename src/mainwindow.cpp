@@ -3789,7 +3789,7 @@ void MainWindow::on_file_export_activate (GtkMenuItem *menuitem, gpointer user_d
   ((MainWindow *) user_data)->on_file_export();
 }
 
-void MainWindow::on_file_export () // Todo
+void MainWindow::on_file_export ()
 {
   save_editors();
   export_assistant = new ExportAssistant (0);
