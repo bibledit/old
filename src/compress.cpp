@@ -140,3 +140,13 @@ void compress_ensure_tar_gz_suffix (ustring& filename)
     filename.append (".tar.gz");
   }
 }
+
+
+void compress_ensure_zip_suffix (ustring& filename)
+// Ensure that "filename" has the ".zip" suffix.
+{
+  if (!g_str_has_suffix (filename.c_str(), ".zip")) {
+    filename.append (".zip");
+  }
+}
+

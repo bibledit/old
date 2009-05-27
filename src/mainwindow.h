@@ -85,10 +85,6 @@ protected:
   GtkWidget *export_project;
   GtkWidget *image3298;
   GtkWidget *export_project_menu;
-  GtkWidget *export_usfm_files;
-  GtkWidget *image12814;
-  GtkWidget *export_zipped_unified_standard_format_markers1;
-  GtkWidget *image17639;
   GtkWidget *to_bibleworks_version_database_compiler;
   GtkWidget *image3299;
   GtkWidget *export_to_sword_module;
@@ -558,9 +554,6 @@ protected:
   void on_window_notes_references_available_button();
 
   /* Export */ // Todo
-  static void on_export_usfm_files_activate(GtkMenuItem *menuitem, gpointer user_data);
-  static void on_export_zipped_unified_standard_format_markers1_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_export_usfm_files(bool zipped);
   static void on_to_bibleworks_version_compiler_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_to_bibleworks_version_compiler();
   static void on_export_to_sword_module_activate(GtkMenuItem *menuitem, gpointer user_data);

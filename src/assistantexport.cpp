@@ -191,6 +191,21 @@ AssistantBase("Export", "")
   shortcuts_select_bible_type.consider_assistant();
   shortcuts_select_bible_type.process();
 
+  // Compress it?
+  checkbutton_zip = gtk_check_button_new_with_mnemonic ("Compress it");
+  gtk_widget_show (checkbutton_zip);
+  page_number_zip = gtk_assistant_append_page (GTK_ASSISTANT (assistant), checkbutton_zip);
+  gtk_container_set_border_width (GTK_CONTAINER (checkbutton_zip), 10);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), checkbutton_zip, "What would you like to compress it?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), checkbutton_zip, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), checkbutton_zip, true);
+
+  Shortcuts shortcuts_compress (0);
+  shortcuts_compress.button (checkbutton_zip);
+  shortcuts_compress.consider_assistant();
+  shortcuts_compress.process();
+  
   // Select file where to save to.
   vbox_file = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vbox_file);
@@ -227,12 +242,44 @@ AssistantBase("Export", "")
 
   g_signal_connect ((gpointer) button_file, "clicked", G_CALLBACK (on_button_file_clicked), gpointer(this));
 
+  // Select folder where to save to.
+  vbox_folder = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (vbox_folder);
+  page_number_folder = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_folder);
+  gtk_container_set_border_width (GTK_CONTAINER (vbox_folder), 10);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_folder, "Where would you like to save it?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_folder, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_folder, false);
+
+  button_folder = gtk_button_new ();
+  gtk_widget_show (button_folder);
+  gtk_box_pack_start (GTK_BOX (vbox_folder), button_folder, FALSE, FALSE, 0);
+
+  alignment2 = gtk_alignment_new (0.5, 0.5, 0, 0);
+  gtk_widget_show (alignment2);
+  gtk_container_add (GTK_CONTAINER (button_folder), alignment2);
+
+  hbox2 = gtk_hbox_new (FALSE, 2);
+  gtk_widget_show (hbox2);
+  gtk_container_add (GTK_CONTAINER (alignment2), hbox2);
+
+  image2 = gtk_image_new_from_stock ("gtk-open", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_show (image2);
+  gtk_box_pack_start (GTK_BOX (hbox2), image2, FALSE, FALSE, 0);
+
+  label_folder = gtk_label_new_with_mnemonic ("");
+  gtk_widget_show (label_folder);
+  gtk_box_pack_start (GTK_BOX (hbox2), label_folder, FALSE, FALSE, 0);
+
+  g_signal_connect ((gpointer) button_folder, "clicked", G_CALLBACK (on_button_folder_clicked), gpointer(this));
+
   // Build the confirmation stuff.
-  label_confirm = gtk_label_new ("Backup is about to be made");
+  label_confirm = gtk_label_new ("Export about to be done");
   gtk_widget_show (label_confirm);
   page_number_confirm = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_confirm);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_confirm, "Backup is about to be made");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_confirm, "The export is about to be done");
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_confirm, GTK_ASSISTANT_PAGE_CONFIRM);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_confirm, true);
   
@@ -244,7 +291,7 @@ AssistantBase("Export", "")
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_progress, GTK_ASSISTANT_PAGE_PROGRESS);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_progress, true);
   
-  label_summary = gtk_label_new ("Backup was made");
+  label_summary = gtk_label_new ("Export done");
   gtk_widget_show (label_summary);
   summary_page_number = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_summary);
 
@@ -290,6 +337,14 @@ void ExportAssistant::on_assistant_prepare (GtkWidget *page)
     }
     gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_file, !filename.empty());
   }
+
+  if (page == vbox_folder) {
+    gtk_label_set_text (GTK_LABEL (label_folder), foldername.c_str());
+    if (foldername.empty()) {
+      gtk_label_set_text (GTK_LABEL (label_folder), "(None)");
+    }
+    gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_folder, !foldername.empty());
+  }
 }
 
 
@@ -299,33 +354,54 @@ void ExportAssistant::on_assistant_apply_signal (GtkAssistant *assistant, gpoint
 }
 
 
-void ExportAssistant::on_assistant_apply ()
+void ExportAssistant::on_assistant_apply () // Todo
 {
-  /*
-  // Save all configurations.
-  extern Settings *settings;
-  settings->save();
-
-  // Make the backup.
+  // Take action depending on the type of export.
   switch (get_type()) {
-    case btBible:
+    case etBible:
     {
-      backup_bible (bible_name, filename);
+      switch (get_bible_type()) {
+        case ebtUSFM:
+        {
+          if (get_compressed ()) {
+            export_to_usfm(bible_name, filename, true);
+          } else {
+            export_to_usfm(bible_name, foldername, false);
+          }
+          break;
+        }
+        case ebtBibleWorks:
+        {
+          break;
+        }
+        case ebtOSIS:
+        {
+          break;
+        }
+        case ebtSWORD:
+        {
+          break;
+        }
+        case ebtOpenDocument:
+        {
+          break;
+        }
+      }
       break;
     }
-    case btNotes:
+    case etReferences:
     {
-      backup_notes (filename);
       break;
     }
-    case btAll:
+    case etStylesheet:
     {
-      backup_all (filename);
+      break;
+    }
+    case etNotes:
+    {
       break;
     }
   }
-  */
-  
   // Show summary.
   gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), summary_page_number);
 }
@@ -336,17 +412,60 @@ gint ExportAssistant::assistant_forward_function (gint current_page, gpointer us
   return ((ExportAssistant *) user_data)->assistant_forward (current_page);
 }
 
-gint ExportAssistant::assistant_forward (gint current_page)
+
+gint ExportAssistant::assistant_forward (gint current_page) // Todo
 {
   // Default behaviour is to go to the next page.
   gint new_page_number = current_page + 1;
 
-  if (current_page == page_number_select_type) {
-    if (get_type () != etBible) {
-      new_page_number = page_number_file;
+  // Where to go after the page to select what type to export the Bible to.
+  if (current_page == page_number_bible_type) {
+    switch (get_bible_type ()) {
+      case ebtUSFM:
+      {
+        new_page_number = page_number_zip;
+        break;
+      }
+      case ebtBibleWorks:
+      {
+        new_page_number = page_number_file;
+        break;
+      }
+      case ebtOSIS:
+      {
+        new_page_number = page_number_file;
+        break;
+      }
+      case ebtSWORD:
+      {
+        break;
+      }
+      case ebtOpenDocument:
+      {
+        new_page_number = page_number_file;
+        break;
+      }
     }
   }
 
+  // Where to go after the page that asks whether to compress.
+  if (current_page == page_number_zip) {
+    if (get_type () == etBible) {
+      if (get_bible_type () == ebtUSFM) {
+        if (get_compressed ()) {
+          new_page_number = page_number_file;
+        } else {
+          new_page_number = page_number_folder;
+        }
+      }
+    }
+  }
+
+  // If we're asking for a filename, skip asking for a foldername.
+  if (current_page == page_number_file) {
+    new_page_number++;
+  }
+    
   // Return the new page.
   return new_page_number;
 }
@@ -376,8 +495,24 @@ void ExportAssistant::on_button_file ()
   ustring file = gtkw_file_chooser_save (assistant, "", filename);
   if (!file.empty()) {
     filename = file;
-    compress_ensure_tar_gz_suffix (filename);
+    compress_ensure_zip_suffix (filename);
     on_assistant_prepare (vbox_file);
+  }
+}
+
+
+void ExportAssistant::on_button_folder_clicked (GtkButton *button, gpointer user_data)
+{
+  ((ExportAssistant *) user_data)->on_button_folder ();
+}
+
+
+void ExportAssistant::on_button_folder ()
+{
+  ustring folder = gtkw_file_chooser_select_folder (assistant, "", foldername);
+  if (!folder.empty()) {
+    foldername = folder;
+    on_assistant_prepare (vbox_folder);
   }
 }
 
@@ -400,6 +535,33 @@ ExportType ExportAssistant::get_type ()
 }
 
 
+ExportBibleType ExportAssistant::get_bible_type ()
+{
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_bible_usfm))) {
+    return ebtUSFM;
+  }
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_bible_bibleworks))) {
+    return ebtBibleWorks;
+  }
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_bible_osis))) {
+    return ebtOSIS;
+  }
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_bible_sword))) {
+    return ebtSWORD;
+  }
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_bible_opendocument))) {
+    return ebtOpenDocument;
+  }
+  return ebtUSFM;
+}
+
+
+bool ExportAssistant::get_compressed ()
+{
+  return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_zip));
+}
+
+
 /*
 
 Todo version number in the man pages not updated
@@ -409,6 +571,12 @@ deal at all, and I left them alone, but long term it might be good to
 automatically generate them at build time with a current version number
 and build date in the top line of each (the lines that start with .TH). 
 
+
+Todo we need to import Scrivener Bible and lexicons into Bibledit, importing from a file, or downloading a site from the web,
+or data from BibleWorks. This might requires a fresh approach to the parallel Bible printing.
+Because this time we need to include Resources too. We may have to put everything in html first, then print from html,
+using more standard tools.
+The blueletterbible.org does have Thayer's lexicon online, and Bibledit should have access to that as a Lexicon.
 
 
 

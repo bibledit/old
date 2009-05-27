@@ -51,7 +51,6 @@ public:
   vector<SessionHighlights> highlights;
   // Import / export.
   vector <ustring> import_references_searchwords;
-  ustring export_usfm_location;
   // Entry completion.
   vector<ustring> completion_search;
   vector<ustring> completion_replace;

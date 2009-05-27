@@ -29,6 +29,7 @@
 bool compressed_archive_recognized (const ustring& archive);
 bool uncompress (const ustring& archive, const ustring& directory);
 void compress_ensure_tar_gz_suffix (ustring& filename);
+void compress_ensure_zip_suffix (ustring& filename);
 
 
 #endif

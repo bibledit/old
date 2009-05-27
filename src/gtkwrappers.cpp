@@ -81,6 +81,9 @@ ustring gtkw_file_chooser_select_folder(GtkWidget * parent, const ustring & titl
   GtkWidget *dialog;
   dialog = gtk_file_chooser_dialog_new(mytitle.c_str(), GTK_WINDOW(parent), GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
   gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), mydirectory.c_str());
+  if (directory.empty()) {
+    gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), g_get_home_dir());
+  }
   // Run dialog.
   if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT) {
     selection = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));

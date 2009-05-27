@@ -69,7 +69,13 @@ private:
   GtkWidget *radiobutton_bible_osis;
   GtkWidget *radiobutton_bible_sword;
   GtkWidget *radiobutton_bible_opendocument;
+  ExportBibleType get_bible_type ();
 
+  // Compress it?
+  int page_number_zip;
+  GtkWidget *checkbutton_zip;
+  bool get_compressed ();
+  
   // Select file.
   int page_number_file;
   GtkWidget *vbox_file;
@@ -78,6 +84,15 @@ private:
   static void on_button_file_clicked (GtkButton *button, gpointer user_data);
   void on_button_file ();
   ustring filename;
+  
+  // Select folder.
+  int page_number_folder;
+  GtkWidget *vbox_folder;
+  GtkWidget *button_folder;
+  GtkWidget *label_folder;
+  static void on_button_folder_clicked (GtkButton *button, gpointer user_data);
+  void on_button_folder ();
+  ustring foldername;
   
   // Confirmation stuff.
   int page_number_confirm;

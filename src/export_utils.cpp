@@ -51,28 +51,9 @@
 #include "osis.h"
 
 
-void export_to_usfm(GtkWidget * parent, bool zipped)
-// Export the whole project to USFM files.
+void export_to_usfm(const ustring & project, ustring location, bool zip) // Todo
 {
-  extern Settings *settings;
-  ustring location = settings->session.export_usfm_location;
-  if (location.empty())
-    location = g_get_home_dir();
-  // Get zipped output in the right directory, and not in its parent.
-  if (zipped)
-    location = gw_build_filename(location, "dummy");
-  if (zipped)
-    location = gtkw_file_chooser_save(parent, "", location);
-  else
-    location = gtkw_file_chooser_select_folder(parent, "", location);
-  if (!location.empty()) {
-    settings->session.export_usfm_location = location;
-    export_to_usfm(settings->genconfig.project_get(), location, zipped);
-  }
-}
-
-void export_to_usfm(const ustring & project, ustring location, bool zip)
-{
+  cout << "Export project " << project << " to location " << location << ", zipped: " << zip << endl; // Todo
   // (Temporal) output directory.
   ustring tempdir = gw_build_filename(directories_get_temp(), "usfm-export");
   unix_rmdir(tempdir);

@@ -310,8 +310,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   import1 = NULL;
   export_project = NULL;
   export_project_menu = NULL;
-  export_usfm_files = NULL;
-  export_zipped_unified_standard_format_markers1 = NULL;
   to_bibleworks_version_database_compiler = NULL;
   export_to_sword_module = NULL;
   export_to_sword_old_method = NULL;
@@ -347,22 +345,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
 
     export_project_menu = gtk_menu_new();
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(export_project), export_project_menu);
-
-    export_usfm_files = gtk_image_menu_item_new_with_mnemonic("_Unified Standard Format Markers files");
-    gtk_widget_show(export_usfm_files);
-    gtk_container_add(GTK_CONTAINER(export_project_menu), export_usfm_files);
-
-    image12814 = gtk_image_new_from_stock("gtk-convert", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image12814);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(export_usfm_files), image12814);
-
-    export_zipped_unified_standard_format_markers1 = gtk_image_menu_item_new_with_mnemonic("_Zipped Unified Standard Format Markers");
-    gtk_widget_show(export_zipped_unified_standard_format_markers1);
-    gtk_container_add(GTK_CONTAINER(export_project_menu), export_zipped_unified_standard_format_markers1);
-
-    image17639 = gtk_image_new_from_stock("gtk-convert", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image17639);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(export_zipped_unified_standard_format_markers1), image17639);
 
     to_bibleworks_version_database_compiler = gtk_image_menu_item_new_with_mnemonic("_BibleWorks Version Database Compiler");
     gtk_widget_show(to_bibleworks_version_database_compiler);
@@ -1876,10 +1858,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     g_signal_connect((gpointer) properties1, "activate", G_CALLBACK(on_properties1_activate), gpointer(this));
   if (import1)
     g_signal_connect((gpointer) import1, "activate", G_CALLBACK(on_import1_activate), gpointer(this));
-  if (export_usfm_files)
-    g_signal_connect((gpointer) export_usfm_files, "activate", G_CALLBACK(on_export_usfm_files_activate), gpointer(this));
-  if (export_zipped_unified_standard_format_markers1)
-    g_signal_connect((gpointer) export_zipped_unified_standard_format_markers1, "activate", G_CALLBACK(on_export_zipped_unified_standard_format_markers1_activate), gpointer(this));
   if (to_bibleworks_version_database_compiler)
     g_signal_connect((gpointer) to_bibleworks_version_database_compiler, "activate", G_CALLBACK(on_to_bibleworks_version_compiler_activate), gpointer(this));
   if (export_to_sword_module)
@@ -3751,22 +3729,6 @@ void MainWindow::on_window_notes_references_available_button()
  |
  */
 
-void MainWindow::on_export_usfm_files_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_export_usfm_files(false);
-}
-
-void MainWindow::on_export_zipped_unified_standard_format_markers1_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_export_usfm_files(true);
-}
-
-void MainWindow::on_export_usfm_files(bool zipped)
-{
-  save_editors();
-  export_to_usfm(window_vbox, zipped);
-}
-
 void MainWindow::on_to_bibleworks_version_compiler_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_to_bibleworks_version_compiler();
@@ -3829,6 +3791,7 @@ void MainWindow::on_file_export_activate (GtkMenuItem *menuitem, gpointer user_d
 
 void MainWindow::on_file_export () // Todo
 {
+  save_editors();
   export_assistant = new ExportAssistant (0);
   g_signal_connect ((gpointer) export_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
 }
