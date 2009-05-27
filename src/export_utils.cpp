@@ -94,7 +94,7 @@ void export_to_usfm(const ustring & project, ustring location, bool zip)
   }
 }
 
-void export_to_bibleworks(GtkWidget * parent)
+void export_to_bibleworks(const ustring& project, const ustring& filename)
 /*
 Exports a whole project to a file that is fit for being imported by the 
 BibleWorks Version Database Compiler.
@@ -108,13 +108,7 @@ This done in this manner:
 Yes, this is a bit rough, I know...
 */
 {
-  // Configuration
-  extern Settings *settings;
-  // Get the filename to which the data is to be saved.
-  ustring filename = gtkw_file_chooser_save(parent, "", settings->genconfig.export_to_bibleworks_filename_get());
   if (!filename.empty()) {
-    // Store (new) filename.
-    settings->genconfig.export_to_bibleworks_filename_set(filename);
     // Progress bar.
     ProgressWindow progresswindow("Export", true);
     // Start process.
@@ -123,7 +117,7 @@ Yes, this is a bit rough, I know...
       // Write to outputfile.
       WriteText wt(filename);
       // Get all the books and go through them.
-      vector < unsigned int >scripture_books = project_get_books(settings->genconfig.project_get());
+      vector < unsigned int >scripture_books = project_get_books(project);
       progresswindow.set_iterate(0, 1, scripture_books.size());
       progresswindow.set_text("Exporting");
       for (unsigned int bk = 0; bk < scripture_books.size(); bk++) {
@@ -137,14 +131,14 @@ Yes, this is a bit rough, I know...
         if (abbreviation.empty())
           continue;
         // Handle each chapter in the book.
-        vector < unsigned int >chapters = project_get_chapters(settings->genconfig.project_get(), scripture_books[bk]);
+        vector < unsigned int >chapters = project_get_chapters(project, scripture_books[bk]);
         for (unsigned int ch = 0; ch < chapters.size(); ch++) {
           // Do not export chapter 0.
           if (chapters[ch] == 0)
             continue;
           // Get the chapter and handle it.
           vector < ustring > lines;
-          lines = project_retrieve_chapter(settings->genconfig.project_get(), scripture_books[bk], chapters[ch]);
+          lines = project_retrieve_chapter(project, scripture_books[bk], chapters[ch]);
           text_replacement(lines);
           CategorizeChapterVerse ccv(lines);
           for (unsigned int vs = 0; vs < ccv.verse.size(); vs++) {

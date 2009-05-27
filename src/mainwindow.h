@@ -85,8 +85,6 @@ protected:
   GtkWidget *export_project;
   GtkWidget *image3298;
   GtkWidget *export_project_menu;
-  GtkWidget *to_bibleworks_version_database_compiler;
-  GtkWidget *image3299;
   GtkWidget *export_to_sword_module;
   GtkWidget *image11392;
   GtkWidget *export_to_sword_module_menu;
@@ -554,8 +552,6 @@ protected:
   void on_window_notes_references_available_button();
 
   /* Export */ // Todo
-  static void on_to_bibleworks_version_compiler_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_to_bibleworks_version_compiler();
   static void on_export_to_sword_module_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_export_to_sword_module();
   static void on_export_to_sword_old_method_activate (GtkMenuItem *menuitem, gpointer user_data);

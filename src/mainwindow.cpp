@@ -310,7 +310,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   import1 = NULL;
   export_project = NULL;
   export_project_menu = NULL;
-  to_bibleworks_version_database_compiler = NULL;
   export_to_sword_module = NULL;
   export_to_sword_old_method = NULL;
   export_to_sword_new_method = NULL;
@@ -345,14 +344,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
 
     export_project_menu = gtk_menu_new();
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(export_project), export_project_menu);
-
-    to_bibleworks_version_database_compiler = gtk_image_menu_item_new_with_mnemonic("_BibleWorks Version Database Compiler");
-    gtk_widget_show(to_bibleworks_version_database_compiler);
-    gtk_container_add(GTK_CONTAINER(export_project_menu), to_bibleworks_version_database_compiler);
-
-    image3299 = gtk_image_new_from_stock("gtk-convert", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image3299);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(to_bibleworks_version_database_compiler), image3299);
 
     export_to_sword_module = gtk_image_menu_item_new_with_mnemonic("_SWORD module and OSIS file");
     gtk_widget_show(export_to_sword_module);
@@ -1858,8 +1849,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     g_signal_connect((gpointer) properties1, "activate", G_CALLBACK(on_properties1_activate), gpointer(this));
   if (import1)
     g_signal_connect((gpointer) import1, "activate", G_CALLBACK(on_import1_activate), gpointer(this));
-  if (to_bibleworks_version_database_compiler)
-    g_signal_connect((gpointer) to_bibleworks_version_database_compiler, "activate", G_CALLBACK(on_to_bibleworks_version_compiler_activate), gpointer(this));
   if (export_to_sword_module)
     g_signal_connect((gpointer) export_to_sword_module, "activate", G_CALLBACK(on_export_to_sword_module_activate), gpointer(this));
   if (export_to_sword_old_method)
@@ -3728,17 +3717,6 @@ void MainWindow::on_window_notes_references_available_button()
  |
  |
  */
-
-void MainWindow::on_to_bibleworks_version_compiler_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_to_bibleworks_version_compiler();
-}
-
-void MainWindow::on_to_bibleworks_version_compiler()
-{
-  save_editors();
-  export_to_bibleworks(window_vbox);
-}
 
 void MainWindow::on_export_to_sword_module_activate(GtkMenuItem * menuitem, gpointer user_data)
 {

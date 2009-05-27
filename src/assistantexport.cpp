@@ -314,12 +314,12 @@ void ExportAssistant::on_assistant_prepare_signal (GtkAssistant *assistant, GtkW
 }
 
 
-void ExportAssistant::on_assistant_prepare (GtkWidget *page)
+void ExportAssistant::on_assistant_prepare (GtkWidget *page) // Todo
 {
   extern Settings *settings;
 
+  // Page to confirm or change the name of the Bible.
   if (page == vbox_bible_name) {
-    // Prepare for the page to confirm or change the Bible.
     if (bible_name.empty()) {
       bible_name = settings->genconfig.project_get();
     }
@@ -330,7 +330,16 @@ void ExportAssistant::on_assistant_prepare (GtkWidget *page)
     gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_bible_name, !bible_name.empty());
   }
 
+  // Page for filename to save to.
   if (page == vbox_file) {
+    // We may have to retrieve the name to save the file to for BibleWorks export.
+    if (get_type () == etBible) {
+      if (get_bible_type () == ebtBibleWorks) {
+        if (filename.empty()) {
+          filename = settings->genconfig.export_to_bibleworks_filename_get();
+        }
+      }
+    }
     gtk_label_set_text (GTK_LABEL (label_file), filename.c_str());
     if (filename.empty()) {
       gtk_label_set_text (GTK_LABEL (label_file), "(None)");
@@ -372,6 +381,7 @@ void ExportAssistant::on_assistant_apply () // Todo
         }
         case ebtBibleWorks:
         {
+          export_to_bibleworks(bible_name, filename);
           break;
         }
         case ebtOSIS:
@@ -404,6 +414,14 @@ void ExportAssistant::on_assistant_apply () // Todo
   }
   // Show summary.
   gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), summary_page_number);
+  
+  // Save values.
+  extern Settings * settings;
+  if (get_type () == etBible) {
+    if (get_bible_type () == ebtBibleWorks) {
+      settings->genconfig.export_to_bibleworks_filename_set(filename);
+    }
+  }
 }
 
 
@@ -495,7 +513,9 @@ void ExportAssistant::on_button_file ()
   ustring file = gtkw_file_chooser_save (assistant, "", filename);
   if (!file.empty()) {
     filename = file;
-    compress_ensure_zip_suffix (filename);
+    if ((get_type() == etBible) && (get_bible_type() == ebtUSFM)) {
+      compress_ensure_zip_suffix (filename);
+    }
     on_assistant_prepare (vbox_file);
   }
 }
@@ -598,7 +618,6 @@ Bible
 References
 Stylesheet
 Project notes
-
 
 
 
