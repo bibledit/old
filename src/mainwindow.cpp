@@ -55,7 +55,6 @@
 #include "dialogprintproject.h"
 #include "printproject.h"
 #include "compareutils.h"
-#include "dialogexportnotes.h"
 #include "dialogshownotes.h"
 #include "dialogentry3.h"
 #include "gwrappers.h"
@@ -671,7 +670,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   new_note = NULL;
   delete_note = NULL;
   import_notes = NULL;
-  export_notes = NULL;
   if (guifeatures.project_notes_management()) {
 
     notes2 = gtk_image_menu_item_new_with_mnemonic("Project _notes");
@@ -704,14 +702,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     image1455 = gtk_image_new_from_stock("gtk-convert", GTK_ICON_SIZE_MENU);
     gtk_widget_show(image1455);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(import_notes), image1455);
-
-    export_notes = gtk_image_menu_item_new_with_mnemonic("_Export");
-    gtk_widget_show(export_notes);
-    gtk_container_add(GTK_CONTAINER(notes2_menu), export_notes);
-
-    image4068 = gtk_image_new_from_stock("gtk-convert", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image4068);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(export_notes), image4068);
 
   }
 
@@ -1807,8 +1797,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     g_signal_connect((gpointer) delete_note, "activate", G_CALLBACK(on_delete_note_activate), gpointer(this));
   if (import_notes)
     g_signal_connect((gpointer) import_notes, "activate", G_CALLBACK(on_import_notes_activate), gpointer(this));
-  if (export_notes)
-    g_signal_connect((gpointer) export_notes, "activate", G_CALLBACK(on_export_notes_activate), gpointer(this));
   if (file_resources)
     g_signal_connect((gpointer) file_resources, "activate", G_CALLBACK(on_file_resources_activate), gpointer(this));
   if (file_resources_open)
@@ -3419,31 +3407,6 @@ void MainWindow::on_import_notes()
   if (dialog.run() == GTK_RESPONSE_APPLY) {
     view_project_notes();
     notes_redisplay();
-  }
-}
-
-void MainWindow::on_export_notes_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_export_notes();
-}
-
-void MainWindow::on_export_notes()
-{
-  view_project_notes();
-  int result;
-  ustring filename;
-  ExportNotesFormat format;
-  bool save_all_notes;
-  {
-    ExportNotesDialog dialog(0);
-    result = dialog.run();
-    filename = dialog.filename;
-    format = dialog.exportnotesformat;
-    save_all_notes = dialog.save_all_notes;
-  }
-  if (result == GTK_RESPONSE_OK) {
-    vector < unsigned int >ids_to_display;
-    export_translation_notes(filename, format, ids_to_display, save_all_notes, window_vbox);
   }
 }
 

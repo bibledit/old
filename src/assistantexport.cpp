@@ -563,15 +563,17 @@ void ExportAssistant::on_assistant_apply ()
       }
       break;
     }
-    case etStylesheet: // Todo
+    case etStylesheet:
     {
       if (my_styles_window) {
         my_styles_window->export_sheet(filename);
       }
       break;
     }
-    case etNotes: // Todo
+    case etNotes:
     {
+      vector <unsigned int> ids_to_display;
+      export_translation_notes(filename, ids_to_display, true);
       break;
     }
   }
@@ -867,7 +869,6 @@ To create an Export Assistant, and move all export functions into that one. Also
 
 Bible
   OSIS file - Stripped down for the Go Bible
-Stylesheet
 Project notes
 
 

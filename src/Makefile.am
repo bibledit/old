@@ -62,7 +62,6 @@ bibledit_bin_SOURCES = \
         printproject.cpp \
         xmlfo-utils.cpp \
         search_utils.cpp \
-        dialogexportnotes.cpp \
         dialogshownotes.cpp \
         dialogdate.cpp \
         gwrappers.cpp \

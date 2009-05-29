@@ -136,8 +136,6 @@ protected:
   GtkWidget *image963;
   GtkWidget *import_notes;
   GtkWidget *image1455;
-  GtkWidget *export_notes;
-  GtkWidget *image4068;
   GtkWidget *file_resources;
   GtkWidget *image27365;
   GtkWidget *file_resources_menu;
@@ -519,8 +517,6 @@ protected:
   void find_in_notes();
   static void on_import_notes_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_import_notes();
-  static void on_export_notes_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_export_notes();
   static void on_standard_text_1_activate(GtkMenuItem *menuitem, gpointer user_data);
   static void on_standard_text_2_activate(GtkMenuItem *menuitem, gpointer user_data);
   static void on_standard_text_3_activate(GtkMenuItem *menuitem, gpointer user_data);

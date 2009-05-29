@@ -74,8 +74,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	stylesheetutils.$(OBJEXT) dialogstylesheet.$(OBJEXT) \
 	style.$(OBJEXT) dialogentry3.$(OBJEXT) printproject.$(OBJEXT) \
 	xmlfo-utils.$(OBJEXT) search_utils.$(OBJEXT) \
-	dialogexportnotes.$(OBJEXT) dialogshownotes.$(OBJEXT) \
-	dialogdate.$(OBJEXT) gwrappers.$(OBJEXT) gtkwrappers.$(OBJEXT) \
+	dialogshownotes.$(OBJEXT) dialogdate.$(OBJEXT) \
+	gwrappers.$(OBJEXT) gtkwrappers.$(OBJEXT) \
 	usfm-inline-markers.$(OBJEXT) completion.$(OBJEXT) \
 	combobox.$(OBJEXT) keyboard.$(OBJEXT) listview.$(OBJEXT) \
 	scripturechecks.$(OBJEXT) versification.$(OBJEXT) \
@@ -418,7 +418,6 @@ bibledit_bin_SOURCES = \
         printproject.cpp \
         xmlfo-utils.cpp \
         search_utils.cpp \
-        dialogexportnotes.cpp \
         dialogshownotes.cpp \
         dialogdate.cpp \
         gwrappers.cpp \
@@ -779,7 +778,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogeditstatus.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogentry.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogentry3.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogexportnotes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogfilters.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogfindnote.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogfixmarkers.Po@am__quote@

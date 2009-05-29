@@ -177,9 +177,9 @@ Yes, this is a bit rough, I know...
   }
 }
 
-void export_translation_notes(const ustring & filename, ExportNotesFormat format, const vector < unsigned int >&ids_to_display, bool export_all, GtkWidget * parent)
+void export_translation_notes(const ustring & filename, const vector < unsigned int >&ids_to_display, bool export_all)
 {
-  ExportTranslationNotes etn(filename, format, ids_to_display, export_all, parent);
+  ExportTranslationNotes etn(filename, ids_to_display, export_all);
 }
 
 

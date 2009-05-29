@@ -30,7 +30,8 @@
 #include "gtkwrappers.h"
 #include "tiny_utilities.h"
 
-ExportTranslationNotes::ExportTranslationNotes(const ustring & filename, ExportNotesFormat format, const vector < unsigned int >&ids_to_display, bool export_all, GtkWidget * parent)
+
+ExportTranslationNotes::ExportTranslationNotes(const ustring & filename, const vector < unsigned int >&ids_to_display, bool export_all)
 // Exports the notes from the database.
 /*
 The exported xml file will look so:
@@ -61,7 +62,6 @@ This is subject to change as bibledit's notes system develop.
 {
   // Save variables.
   my_export_all = export_all;
-  myformat = format;
 
   // Start process.
   try {
@@ -71,20 +71,8 @@ This is subject to change as bibledit's notes system develop.
     my_wt = &wt;
 
     // Opening lines.
-    switch (format) {
-    case BibleditVersion3:
-      {
-        wt.text("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-        wt.text("<bibledit-notes version=\"3\">\n");
-        break;
-      }
-    case ScriptureNotesVersion20:
-      {
-        wt.text("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-        wt.text("<ScriptureNotes Version=\"2.0\">\n");
-        break;
-      }
-    }
+    wt.text("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+    wt.text("<bibledit-notes version=\"3\">\n");
 
     // Connect to database.
     error = NULL;
@@ -118,23 +106,12 @@ This is subject to change as bibledit's notes system develop.
       throw runtime_error(error);
     }
     // Closing lines.
-    switch (format) {
-    case BibleditVersion3:
-      {
-        wt.text("</bibledit-notes>\n");
-        break;
-      }
-    case ScriptureNotesVersion20:
-      {
-        wt.text("</ScriptureNotes>\n");
-        break;
-      }
-    }
+    wt.text("</bibledit-notes>\n");
 
   }
   catch(exception & ex) {
     if (!progresswindow.cancel) {
-      gtkw_dialog_error(parent, ex.what());
+      gtkw_dialog_error(NULL, ex.what());
       gw_critical(ex.what());
     }
   }
@@ -178,18 +155,7 @@ int ExportTranslationNotes::on_data(int argc, char **argv)
       return 0;
   }
   // Start note.
-  switch (myformat) {
-  case BibleditVersion3:
-    {
-      my_wt->text("  <note>\n");
-      break;
-    }
-  case ScriptureNotesVersion20:
-    {
-      my_wt->text("  <Note>\n");
-      break;
-    }
-  }
+  my_wt->text("  <note>\n");
 
   // Deal with the references.
   ustring reference;
@@ -197,158 +163,51 @@ int ExportTranslationNotes::on_data(int argc, char **argv)
   // Parse the string into its possible several references.
   Parse parse(reference, false);
   reference.clear();
-  switch (myformat) {
-  case BibleditVersion3:
-    {
-      // Go through each reference and store it.
-      for (unsigned int i = 0; i < parse.words.size(); i++) {
-        if (!reference.empty())
-          reference.append("\n");
-        reference.append(parse.words[i]);
-      }
-      my_wt->text("    <references>");
-      my_wt->text(reference);
-      my_wt->text("</references>\n");
-      break;
-    }
-  case ScriptureNotesVersion20:
-    {
-      // Go through each reference and store it.
-      for (unsigned int i = 0; i < parse.words.size(); i++) {
-        if (!reference.empty())
-          reference.append("\n");
-        reference.append(parse.words[i]);
-      }
-      my_wt->text("    <References>");
-      my_wt->text(reference);
-      my_wt->text("</References>\n");
-      break;
-    }
+  // Go through each reference and store it.
+  for (unsigned int i = 0; i < parse.words.size(); i++) {
+    if (!reference.empty())
+      reference.append("\n");
+    reference.append(parse.words[i]);
   }
+  my_wt->text("    <references>");
+  my_wt->text(reference);
+  my_wt->text("</references>\n");
 
   // Deal with the project name.
   ustring project;
   project = argv[1];
-  switch (myformat) {
-  case BibleditVersion3:
-    {
-      my_wt->text("    <project>" + project + "</project>\n");
-      break;
-    }
-  case ScriptureNotesVersion20:
-    {
-      my_wt->text("    <Project>" + project + "</Project>\n");
-      break;
-    }
-  }
+  my_wt->text("    <project>" + project + "</project>\n");
 
   // Deal with the status of the note.
   ustring category;
   category = argv[2];
-  switch (myformat) {
-  case BibleditVersion3:
-    {
-      ustring referred_to;
-      my_wt->text("    <category>" + category + "</category>\n");
-      break;
-    }
-  case ScriptureNotesVersion20:
-    {
-      ustring tne_status;
-      ustring category_lowercase = lowerCase(category);
-      if (category_lowercase == "no issue")
-        tne_status = "No Issue";
-      else if (category_lowercase == "unresolved")
-        tne_status = "Unresolved";
-      else if (category_lowercase == "resolved")
-        tne_status = "Resolved";
-      else
-        tne_status = "Unresolved";
-      my_wt->text("    <Status>" + tne_status + "</Status>\n");
-      break;
-    }
-  }
+  my_wt->text("    <category>" + category + "</category>\n");
 
   // The note text.
   ustring note;
   note = argv[3];
-  switch (myformat) {
-  case BibleditVersion3:
-    {
-      my_wt->text("    <text>" + note + "</text>\n");
-      break;
-    }
-  case ScriptureNotesVersion20:
-    {
-      my_wt->text("    <Contents><P>" + note + "</P></Contents>\n");
-      break;
-    }
-  }
+  my_wt->text("    <text>" + note + "</text>\n");
 
   // The date it was created.
   int created;
   created = convert_to_int(argv[4]);
   ustring date;
   date = trim(date_time_julian_human_readable(created, false));
-  switch (myformat) {
-  case BibleditVersion3:
-    {
-      my_wt->text("    <date-created>" + date + "</date-created>\n");
-      break;
-    }
-  case ScriptureNotesVersion20:
-    {
-      my_wt->text("    <CreationDate>" + date + "</CreationDate>\n");
-      break;
-    }
-  }
+  my_wt->text("    <date-created>" + date + "</date-created>\n");
 
   // Deal with the modification date.
   int modified;
   modified = convert_to_int(argv[5]);
   date = trim(date_time_julian_human_readable(modified, false));
-  switch (myformat) {
-  case BibleditVersion3:
-    {
-      my_wt->text("    <date-modified>" + date + "</date-modified>\n");
-      break;
-    }
-  case ScriptureNotesVersion20:
-    {
-      my_wt->text("    <ModificationDate>" + date + "</ModificationDate>\n");
-      break;
-    }
-  }
+  my_wt->text("    <date-modified>" + date + "</date-modified>\n");
 
   // Mention the one who created the note.
   ustring user;
   user = argv[6];
-  switch (myformat) {
-  case BibleditVersion3:
-    {
-      my_wt->text("    <created-by>" + user + "</created-by>\n");
-      break;
-    }
-  case ScriptureNotesVersion20:
-    {
-      my_wt->text("    <CreatedBy>" + user + "</CreatedBy>\n");
-      break;
-    }
-  }
+  my_wt->text("    <created-by>" + user + "</created-by>\n");
 
   // Finish note.
-  switch (myformat) {
-  case BibleditVersion3:
-    {
-      my_wt->text("  </note>\n");
-      break;
-    }
-  case ScriptureNotesVersion20:
-    {
-      my_wt->text("  </Note>\n");
-      break;
-    }
-  }
+  my_wt->text("  </note>\n");
 
   return 0;
 }

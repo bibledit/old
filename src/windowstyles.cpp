@@ -733,7 +733,7 @@ void WindowStyles::on_stylesheet_import()
   }
 }
 
-void WindowStyles::export_sheet(const ustring& filename) // Todo
+void WindowStyles::export_sheet(const ustring& filename)
 {
   if (filename.empty())
     return;

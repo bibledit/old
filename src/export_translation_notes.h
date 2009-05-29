@@ -32,7 +32,7 @@
 class ExportTranslationNotes
 {
 public:
-  ExportTranslationNotes (const ustring& filename, ExportNotesFormat format, const vector<unsigned int> & ids_to_display, bool export_all, GtkWidget * parent);
+  ExportTranslationNotes (const ustring& filename, const vector<unsigned int> & ids_to_display, bool export_all);
   ~ExportTranslationNotes ();
 private:
   sqlite3 *db;
@@ -43,7 +43,6 @@ private:
   bool my_export_all;
   set<gint> * my_ids;
   WriteText * my_wt;
-  ExportNotesFormat myformat;
   ProgressWindow progresswindow;
   static int count_callback (void *userdata, int argc, char **argv, char **column_names);
   void on_count (int argc, char **argv);
