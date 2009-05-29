@@ -308,8 +308,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
 
   properties1 = NULL;
   import1 = NULL;
-  export_project = NULL;
-  export_project_menu = NULL;
   copy_project_to = NULL;
   compare_with1 = NULL;
   if (guifeatures.project_management()) {
@@ -329,17 +327,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     image464 = gtk_image_new_from_stock("gtk-convert", GTK_ICON_SIZE_MENU);
     gtk_widget_show(image464);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(import1), image464);
-
-    export_project = gtk_image_menu_item_new_with_mnemonic("_Export");
-    gtk_widget_show(export_project);
-    gtk_container_add(GTK_CONTAINER(file_project_menu), export_project);
-
-    image3298 = gtk_image_new_from_stock("gtk-convert", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image3298);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(export_project), image3298);
-
-    export_project_menu = gtk_menu_new();
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM(export_project), export_project_menu);
 
     copy_project_to = gtk_image_menu_item_new_with_mnemonic("Cop_y to");
     gtk_widget_show(copy_project_to);
@@ -2154,8 +2141,6 @@ void MainWindow::enable_or_disable_widgets(bool enable)
     gtk_widget_set_sensitive(menuitem_edit, enable);
   if (file_references)
     gtk_widget_set_sensitive(file_references, enable);
-  if (export_project)
-    gtk_widget_set_sensitive(export_project, enable);
   if (print)
     gtk_widget_set_sensitive(print, enable);
   if (project_changes)

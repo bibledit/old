@@ -82,9 +82,6 @@ protected:
   GtkWidget *image4995;
   GtkWidget *import1;
   GtkWidget *image464;
-  GtkWidget *export_project;
-  GtkWidget *image3298;
-  GtkWidget *export_project_menu;
   GtkWidget *copy_project_to;
   GtkWidget *image2688;
   GtkWidget *compare_with1;
