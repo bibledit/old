@@ -57,7 +57,6 @@ public:
   DEFINE_PROJECTCONFIG_H (ustring, sword_name);
   DEFINE_PROJECTCONFIG_H (ustring, sword_description);
   DEFINE_PROJECTCONFIG_H (ustring, sword_about);
-  DEFINE_PROJECTCONFIG_H (ustring, sword_lcsh);
   DEFINE_PROJECTCONFIG_H (ustring, sword_license);
   DEFINE_PROJECTCONFIG_H (ustring, sword_version);
   DEFINE_PROJECTCONFIG_H (ustring, sword_language);

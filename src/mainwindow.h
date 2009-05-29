@@ -85,15 +85,6 @@ protected:
   GtkWidget *export_project;
   GtkWidget *image3298;
   GtkWidget *export_project_menu;
-  GtkWidget *export_to_sword_module;
-  GtkWidget *image11392;
-  GtkWidget *export_to_sword_module_menu;
-  GtkWidget *export_to_sword_old_method;
-  GtkWidget *image33303;
-  GtkWidget *export_to_sword_new_method;
-  GtkWidget *image33304;
-  GtkWidget *export_opendocument;
-  GtkWidget *image15162;
   GtkWidget *copy_project_to;
   GtkWidget *image2688;
   GtkWidget *compare_with1;
@@ -551,15 +542,7 @@ protected:
   static void on_window_notes_references_available_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_notes_references_available_button();
 
-  /* Export */ // Todo
-  static void on_export_to_sword_module_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_export_to_sword_module();
-  static void on_export_to_sword_old_method_activate (GtkMenuItem *menuitem, gpointer user_data);
-  void on_export_to_sword_old_method();
-  static void on_export_to_sword_new_method_activate (GtkMenuItem *menuitem, gpointer user_data);
-  void on_export_to_sword_new_method();
-  static void on_export_opendocument_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_export_opendocument();
+  /* Export */
   static void on_file_export_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_file_export ();
   ExportAssistant * export_assistant;

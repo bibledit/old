@@ -86,15 +86,15 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	highlight.$(OBJEXT) dialogopenstylesheet.$(OBJEXT) \
 	note_editor.$(OBJEXT) notecaller.$(OBJEXT) \
 	xslfofootnoteparagraph.$(OBJEXT) dialoginsertnote.$(OBJEXT) \
-	notetemplate.$(OBJEXT) dialogsword.$(OBJEXT) \
-	dialogparallelbible.$(OBJEXT) print_parallel_bible.$(OBJEXT) \
-	mapping.$(OBJEXT) swordnote.$(OBJEXT) \
-	dialogselectchapters.$(OBJEXT) portion_utils.$(OBJEXT) \
-	scriptureportions.$(OBJEXT) editor.$(OBJEXT) uname.$(OBJEXT) \
-	layout.$(OBJEXT) user.$(OBJEXT) import.$(OBJEXT) \
-	clean.$(OBJEXT) categorize.$(OBJEXT) progresswindow.$(OBJEXT) \
-	books.$(OBJEXT) dialogbook.$(OBJEXT) generalconfig.$(OBJEXT) \
-	screen.$(OBJEXT) projectconfig.$(OBJEXT) gui.$(OBJEXT) \
+	notetemplate.$(OBJEXT) dialogparallelbible.$(OBJEXT) \
+	print_parallel_bible.$(OBJEXT) mapping.$(OBJEXT) \
+	swordnote.$(OBJEXT) dialogselectchapters.$(OBJEXT) \
+	portion_utils.$(OBJEXT) scriptureportions.$(OBJEXT) \
+	editor.$(OBJEXT) uname.$(OBJEXT) layout.$(OBJEXT) \
+	user.$(OBJEXT) import.$(OBJEXT) clean.$(OBJEXT) \
+	categorize.$(OBJEXT) progresswindow.$(OBJEXT) books.$(OBJEXT) \
+	dialogbook.$(OBJEXT) generalconfig.$(OBJEXT) screen.$(OBJEXT) \
+	projectconfig.$(OBJEXT) gui.$(OBJEXT) \
 	check_validate_usfm.$(OBJEXT) checks.$(OBJEXT) \
 	dialoglinecutter.$(OBJEXT) check_count_words.$(OBJEXT) \
 	dialogoutpost.$(OBJEXT) dialognotestransfer.$(OBJEXT) \
@@ -445,7 +445,6 @@ bibledit_bin_SOURCES = \
         xslfofootnoteparagraph.cpp \
         dialoginsertnote.cpp \
         notetemplate.cpp \
-        dialogsword.cpp \
         dialogparallelbible.cpp \
         print_parallel_bible.cpp \
         mapping.cpp \
@@ -824,7 +823,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogshownotes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogshowscript.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogstylesheet.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogsword.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogtaskduration.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogtext2pdf.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogtextreplacement.Po@am__quote@

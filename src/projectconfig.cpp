@@ -58,7 +58,6 @@ ProjectConfiguration::ProjectConfiguration(ustring project_in, bool save_on_dest
   INITIALIZE(sword_name);
   INITIALIZE(sword_description);
   INITIALIZE(sword_about);
-  INITIALIZE(sword_lcsh);
   INITIALIZE(sword_license);
   INITIALIZE(sword_version);
   INITIALIZE(sword_language);
@@ -114,7 +113,6 @@ void ProjectConfiguration::save()
   SAVE_VALUE(sword_name);
   SAVE_VALUE(sword_description);
   SAVE_VALUE(sword_about);
-  SAVE_VALUE(sword_lcsh);
   SAVE_VALUE(sword_license);
   SAVE_VALUE(sword_version);
   SAVE_VALUE(sword_language);
@@ -238,7 +236,6 @@ IMPLEMENT(int, int_get, text_line_height, 100)
 IMPLEMENT(ustring, string_get, sword_name, "")
 IMPLEMENT(ustring, string_get, sword_description, " Bibledit project")
 IMPLEMENT(ustring, string_get, sword_about, " Bibledit project")
-IMPLEMENT(ustring, string_get, sword_lcsh, "Bible--Translation")
 IMPLEMENT(ustring, string_get, sword_license, "GNU General Public License")
 IMPLEMENT(ustring, string_get, sword_version, "1.0")
 IMPLEMENT(ustring, string_get, sword_language, "en")

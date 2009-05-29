@@ -310,10 +310,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   import1 = NULL;
   export_project = NULL;
   export_project_menu = NULL;
-  export_to_sword_module = NULL;
-  export_to_sword_old_method = NULL;
-  export_to_sword_new_method = NULL;
-  export_opendocument = NULL;
   copy_project_to = NULL;
   compare_with1 = NULL;
   if (guifeatures.project_management()) {
@@ -344,41 +340,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
 
     export_project_menu = gtk_menu_new();
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(export_project), export_project_menu);
-
-    export_to_sword_module = gtk_image_menu_item_new_with_mnemonic("_SWORD module and OSIS file");
-    gtk_widget_show(export_to_sword_module);
-    gtk_container_add(GTK_CONTAINER(export_project_menu), export_to_sword_module);
-
-    image11392 = gtk_image_new_from_stock("gtk-convert", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image11392);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(export_to_sword_module), image11392);
-
-    export_to_sword_module_menu = gtk_menu_new ();
-    gtk_menu_item_set_submenu (GTK_MENU_ITEM (export_to_sword_module), export_to_sword_module_menu);
-
-    export_to_sword_old_method = gtk_image_menu_item_new_with_mnemonic ("_Old method");
-    gtk_widget_show (export_to_sword_old_method);
-    gtk_container_add (GTK_CONTAINER (export_to_sword_module_menu), export_to_sword_old_method);
-
-    image33303 = gtk_image_new_from_stock ("gtk-go-back", GTK_ICON_SIZE_MENU);
-    gtk_widget_show (image33303);
-    gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (export_to_sword_old_method), image33303);
-
-    export_to_sword_new_method = gtk_image_menu_item_new_with_mnemonic ("_New method");
-    gtk_widget_show (export_to_sword_new_method);
-    gtk_container_add (GTK_CONTAINER (export_to_sword_module_menu), export_to_sword_new_method);
-
-    image33304 = gtk_image_new_from_stock ("gtk-go-forward", GTK_ICON_SIZE_MENU);
-    gtk_widget_show (image33304);
-    gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (export_to_sword_new_method), image33304);
-
-    export_opendocument = gtk_image_menu_item_new_with_mnemonic("_OpenDocument");
-    gtk_widget_show(export_opendocument);
-    gtk_container_add(GTK_CONTAINER(export_project_menu), export_opendocument);
-
-    image15162 = gtk_image_new_from_stock("gtk-edit", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image15162);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(export_opendocument), image15162);
 
     copy_project_to = gtk_image_menu_item_new_with_mnemonic("Cop_y to");
     gtk_widget_show(copy_project_to);
@@ -1849,14 +1810,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     g_signal_connect((gpointer) properties1, "activate", G_CALLBACK(on_properties1_activate), gpointer(this));
   if (import1)
     g_signal_connect((gpointer) import1, "activate", G_CALLBACK(on_import1_activate), gpointer(this));
-  if (export_to_sword_module)
-    g_signal_connect((gpointer) export_to_sword_module, "activate", G_CALLBACK(on_export_to_sword_module_activate), gpointer(this));
-  if (export_to_sword_old_method)
-    g_signal_connect((gpointer) export_to_sword_old_method, "activate", G_CALLBACK(on_export_to_sword_old_method_activate), gpointer(this));
-  if (export_to_sword_new_method)
-    g_signal_connect((gpointer) export_to_sword_new_method, "activate", G_CALLBACK(on_export_to_sword_new_method_activate), gpointer(this));
-  if (export_opendocument)
-    g_signal_connect((gpointer) export_opendocument, "activate", G_CALLBACK(on_export_opendocument_activate), gpointer(this));
   if (copy_project_to)
     g_signal_connect((gpointer) copy_project_to, "activate", G_CALLBACK(on_copy_project_to_activate), gpointer(this));
   if (compare_with1)
@@ -3717,50 +3670,6 @@ void MainWindow::on_window_notes_references_available_button()
  |
  |
  */
-
-void MainWindow::on_export_to_sword_module_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_export_to_sword_module();
-}
-
-void MainWindow::on_export_to_sword_module()
-{
-}
-
-void MainWindow::on_export_to_sword_old_method_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_export_to_sword_old_method();
-}
-
-void MainWindow::on_export_to_sword_old_method()
-{
-  save_editors();
-  export_to_sword_interactive(false);
-  bibletime.reloadmodules();
-}
-
-void MainWindow::on_export_to_sword_new_method_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_export_to_sword_new_method();
-}
-
-void MainWindow::on_export_to_sword_new_method()
-{
-  save_editors();
-  export_to_sword_interactive(true);
-  bibletime.reloadmodules();
-}
-
-void MainWindow::on_export_opendocument_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_export_opendocument();
-}
-
-void MainWindow::on_export_opendocument()
-{
-  save_editors();
-  export_to_opendocument(window_vbox);
-}
 
 void MainWindow::on_file_export_activate (GtkMenuItem *menuitem, gpointer user_data)
 {
@@ -7369,6 +7278,9 @@ void MainWindow::on_assistant_keyterms_ready ()
 
   // Export.
   if (export_assistant) {
+    if (export_assistant->sword_module_created) {
+      bibletime.reloadmodules();
+    }
     delete export_assistant;
     export_assistant = NULL;
   }

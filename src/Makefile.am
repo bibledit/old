@@ -89,7 +89,6 @@ bibledit_bin_SOURCES = \
         xslfofootnoteparagraph.cpp \
         dialoginsertnote.cpp \
         notetemplate.cpp \
-        dialogsword.cpp \
         dialogparallelbible.cpp \
         print_parallel_bible.cpp \
         mapping.cpp \

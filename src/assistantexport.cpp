@@ -49,6 +49,7 @@ AssistantBase("Export", "")
   // Configuration and initialization.
   extern Settings *settings;
   ustring project = settings->genconfig.project_get();
+  sword_module_created = false;
 
   // Build the GUI for the task selector.
   vbox_select_type = gtk_vbox_new (FALSE, 0);
@@ -191,13 +192,116 @@ AssistantBase("Export", "")
   shortcuts_select_bible_type.consider_assistant();
   shortcuts_select_bible_type.process();
 
+  // Select what type of OSIS file to create.
+  vbox_osis_type = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (vbox_osis_type);
+  page_number_osis_type = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_osis_type);
+  gtk_container_set_border_width (GTK_CONTAINER (vbox_osis_type), 10);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_osis_type, "What type of OSIS file would you prefer?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_osis_type, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_osis_type, true);
+  
+  GSList *radiobutton_osis_type_group = NULL;
+
+  radiobutton_osis_recommended = gtk_radio_button_new_with_mnemonic (NULL, "Recommended transformation");
+  gtk_widget_show (radiobutton_osis_recommended);
+  gtk_box_pack_start (GTK_BOX (vbox_osis_type), radiobutton_osis_recommended, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_osis_recommended), radiobutton_osis_type_group);
+  radiobutton_osis_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_osis_recommended));
+
+  radiobutton_osis_go_bible = gtk_radio_button_new_with_mnemonic (NULL, "For Go Bible Creator (not yet implemented)");
+  gtk_widget_show (radiobutton_osis_go_bible);
+  gtk_box_pack_start (GTK_BOX (vbox_osis_type), radiobutton_osis_go_bible, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_osis_go_bible), radiobutton_osis_type_group);
+  radiobutton_osis_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_osis_go_bible));
+
+  radiobutton_osis_old = gtk_radio_button_new_with_mnemonic (NULL, "Old method");
+  gtk_widget_show (radiobutton_osis_old);
+  gtk_box_pack_start (GTK_BOX (vbox_osis_type), radiobutton_osis_old, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_osis_old), radiobutton_osis_type_group);
+  radiobutton_osis_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_osis_old));
+
+  Shortcuts shortcuts_select_osis_type (0);
+  shortcuts_select_osis_type.button (radiobutton_osis_recommended);
+  shortcuts_select_osis_type.button (radiobutton_osis_go_bible);
+  shortcuts_select_osis_type.button (radiobutton_osis_old);
+  shortcuts_select_osis_type.consider_assistant();
+  shortcuts_select_osis_type.process();
+
+  // SWORD module variables.
+  entry_sword_name = gtk_entry_new ();
+  gtk_widget_show (entry_sword_name);
+  page_number_sword_name = gtk_assistant_append_page (GTK_ASSISTANT (assistant), entry_sword_name);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), entry_sword_name, "What is the name for the module?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), entry_sword_name, GTK_ASSISTANT_PAGE_CONTENT);
+
+  g_signal_connect((gpointer) entry_sword_name, "changed", G_CALLBACK(on_entry_sword_changed), gpointer(this));
+  
+  entry_sword_description = gtk_entry_new ();
+  gtk_widget_show (entry_sword_description);
+  page_number_sword_description = gtk_assistant_append_page (GTK_ASSISTANT (assistant), entry_sword_description);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), entry_sword_description, "What is the description for the module?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), entry_sword_description, GTK_ASSISTANT_PAGE_CONTENT);
+
+  g_signal_connect((gpointer) entry_sword_description, "changed", G_CALLBACK(on_entry_sword_changed), gpointer(this));
+
+  entry_sword_about = gtk_entry_new ();
+  gtk_widget_show (entry_sword_about);
+  page_number_sword_about = gtk_assistant_append_page (GTK_ASSISTANT (assistant), entry_sword_about);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), entry_sword_about, "What can you say about the module?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), entry_sword_about, GTK_ASSISTANT_PAGE_CONTENT);
+
+  g_signal_connect((gpointer) entry_sword_about, "changed", G_CALLBACK(on_entry_sword_changed), gpointer(this));
+
+  entry_sword_license = gtk_entry_new ();
+  gtk_widget_show (entry_sword_license);
+  page_number_sword_license = gtk_assistant_append_page (GTK_ASSISTANT (assistant), entry_sword_license);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), entry_sword_license, "What is the license of the module?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), entry_sword_license, GTK_ASSISTANT_PAGE_CONTENT);
+
+  g_signal_connect((gpointer) entry_sword_license, "changed", G_CALLBACK(on_entry_sword_changed), gpointer(this));
+
+  entry_sword_version = gtk_entry_new ();
+  gtk_widget_show (entry_sword_version);
+  page_number_sword_version = gtk_assistant_append_page (GTK_ASSISTANT (assistant), entry_sword_version);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), entry_sword_version, "What is the version of the module?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), entry_sword_version, GTK_ASSISTANT_PAGE_CONTENT);
+
+  g_signal_connect((gpointer) entry_sword_version, "changed", G_CALLBACK(on_entry_sword_changed), gpointer(this));
+
+  entry_sword_language = gtk_entry_new ();
+  gtk_widget_show (entry_sword_language);
+  page_number_sword_language = gtk_assistant_append_page (GTK_ASSISTANT (assistant), entry_sword_language);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), entry_sword_language, "What is the language of the module?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), entry_sword_language, GTK_ASSISTANT_PAGE_CONTENT);
+
+  g_signal_connect((gpointer) entry_sword_language, "changed", G_CALLBACK(on_entry_sword_changed), gpointer(this));
+
+  entry_sword_install_path = gtk_entry_new ();
+  gtk_widget_show (entry_sword_install_path);
+  page_number_sword_install_path = gtk_assistant_append_page (GTK_ASSISTANT (assistant), entry_sword_install_path);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), entry_sword_install_path, "Where is the module to be installed?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), entry_sword_install_path, GTK_ASSISTANT_PAGE_CONTENT);
+
+  g_signal_connect((gpointer) entry_sword_install_path, "changed", G_CALLBACK(on_entry_sword_changed), gpointer(this));
+
+  sword_values_set ();
+
   // Compress it?
   checkbutton_zip = gtk_check_button_new_with_mnemonic ("Compress it");
   gtk_widget_show (checkbutton_zip);
   page_number_zip = gtk_assistant_append_page (GTK_ASSISTANT (assistant), checkbutton_zip);
   gtk_container_set_border_width (GTK_CONTAINER (checkbutton_zip), 10);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), checkbutton_zip, "What would you like to compress it?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), checkbutton_zip, "Would you like to compress it?");
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), checkbutton_zip, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), checkbutton_zip, true);
 
@@ -346,8 +450,17 @@ void ExportAssistant::on_assistant_prepare (GtkWidget *page) // Todo
     }
     gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_file, !filename.empty());
   }
-
+  
+  // Page for foldername where to save to.
   if (page == vbox_folder) {
+    // Optionally retrieve the folder where to save the Sword module to.
+    if (get_type () == etBible) {
+      if (get_bible_type () == ebtSWORD) {
+        if (filename.empty()) {
+          foldername = settings->genconfig.export_to_sword_module_path_get().c_str();
+        }
+      }
+    }
     gtk_label_set_text (GTK_LABEL (label_folder), foldername.c_str());
     if (foldername.empty()) {
       gtk_label_set_text (GTK_LABEL (label_folder), "(None)");
@@ -386,28 +499,59 @@ void ExportAssistant::on_assistant_apply () // Todo
         }
         case ebtOSIS:
         {
+          switch (get_osis_type ()) {
+            case eotRecommended:
+            {
+              export_to_osis_recommended (bible_name, filename);
+              break;
+            }
+            case eotGoBibleCreator:
+            {
+              break;
+            }
+            case eotOld:
+            {
+              export_to_osis_old (bible_name, filename);
+              break;
+            }
+          }
           break;
         }
         case ebtSWORD:
         {
+          extern Settings *settings;
+          ProjectConfiguration *projectconfig = settings->projectconfig(bible_name);
+          ustring name = gtk_entry_get_text(GTK_ENTRY(entry_sword_name));
+          replace_text(name, " ", "_");
+          projectconfig->sword_name_set(name);
+          projectconfig->sword_description_set(gtk_entry_get_text(GTK_ENTRY(entry_sword_description)));
+          projectconfig->sword_about_set(gtk_entry_get_text(GTK_ENTRY(entry_sword_about)));
+          projectconfig->sword_license_set(gtk_entry_get_text(GTK_ENTRY(entry_sword_license)));
+          projectconfig->sword_version_set(gtk_entry_get_text(GTK_ENTRY(entry_sword_version)));
+          projectconfig->sword_language_set(gtk_entry_get_text(GTK_ENTRY(entry_sword_language)));
+          settings->genconfig.export_to_sword_install_path_set(gtk_entry_get_text(GTK_ENTRY(entry_sword_install_path)));
+          settings->genconfig.export_to_sword_module_path_set(foldername);
+          export_to_sword (bible_name, foldername);
+          sword_module_created = true;
           break;
         }
         case ebtOpenDocument:
         {
+          export_to_opendocument(bible_name, filename);
           break;
         }
       }
       break;
     }
-    case etReferences:
+    case etReferences: // Todo
     {
       break;
     }
-    case etStylesheet:
+    case etStylesheet: // Todo
     {
       break;
     }
-    case etNotes:
+    case etNotes: // Todo
     {
       break;
     }
@@ -451,11 +595,12 @@ gint ExportAssistant::assistant_forward (gint current_page) // Todo
       }
       case ebtOSIS:
       {
-        new_page_number = page_number_file;
+        new_page_number = page_number_osis_type;
         break;
       }
       case ebtSWORD:
       {
+        new_page_number = page_number_sword_name;
         break;
       }
       case ebtOpenDocument:
@@ -466,6 +611,16 @@ gint ExportAssistant::assistant_forward (gint current_page) // Todo
     }
   }
 
+  // Next page where to go after selection of the type of OSIS.
+  if (current_page == page_number_osis_type) {
+    new_page_number = page_number_file;
+  }
+
+  // Where to move after the last page of the Sword settings.
+  if (current_page == page_number_sword_install_path) {
+    new_page_number = page_number_folder;
+  }
+    
   // Where to go after the page that asks whether to compress.
   if (current_page == page_number_zip) {
     if (get_type () == etBible) {
@@ -499,6 +654,7 @@ void ExportAssistant::on_button_bible_name ()
 {
   project_select(bible_name);
   on_assistant_prepare (vbox_bible_name);
+  sword_values_set ();
 }
 
 
@@ -582,6 +738,48 @@ bool ExportAssistant::get_compressed ()
 }
 
 
+ExportOsisType ExportAssistant::get_osis_type ()
+{
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_osis_recommended))) {
+    return eotRecommended;
+  }
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_osis_go_bible))) {
+    return eotGoBibleCreator;
+  }
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_osis_old))) {
+    return eotOld;
+  }
+  return eotRecommended;
+}
+
+
+void ExportAssistant::on_entry_sword_changed(GtkEditable * editable, gpointer user_data)
+{
+  ((ExportAssistant *) user_data)->on_entry_sword(editable);
+}
+
+
+void ExportAssistant::on_entry_sword(GtkEditable *editable)
+{
+  ustring value = gtk_entry_get_text(GTK_ENTRY(editable));
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), GTK_WIDGET (editable), !value.empty());
+}
+
+
+void ExportAssistant::sword_values_set ()
+{
+  extern Settings * settings;
+  ProjectConfiguration * projectconfig = settings->projectconfig (bible_name);
+  gtk_entry_set_text(GTK_ENTRY(entry_sword_name), projectconfig->sword_name_get().c_str());
+  gtk_entry_set_text(GTK_ENTRY(entry_sword_description), projectconfig->sword_description_get().c_str());
+  gtk_entry_set_text(GTK_ENTRY(entry_sword_about), projectconfig->sword_about_get().c_str());
+  gtk_entry_set_text(GTK_ENTRY(entry_sword_license), projectconfig->sword_license_get().c_str());
+  gtk_entry_set_text(GTK_ENTRY(entry_sword_version), projectconfig->sword_version_get().c_str());
+  gtk_entry_set_text(GTK_ENTRY(entry_sword_language), projectconfig->sword_language_get().c_str());
+  gtk_entry_set_text(GTK_ENTRY(entry_sword_install_path), settings->genconfig.export_to_sword_install_path_get().c_str());
+}
+
+
 /*
 
 Todo version number in the man pages not updated
@@ -604,20 +802,22 @@ The blueletterbible.org does have Thayer's lexicon online, and Bibledit should h
 Todo OSIS file troubles
 
 
-To create an Export Assistant, and move all export functions into that one.
+To create an Export Assistant, and move all export functions into that one. Also the one on the File menu.
 
 Bible
-  Unified Standard Format Marker (USFM) files
-  * zipped?
-  BibleWorks Version Database Compiler
   OSIS file
-  * Recommended USFM to OSIS transformation
+  * Recommended transformation
   * Stripped down for the Go Bible
-  SWORD module
   OpenDocument
 References
 Stylesheet
 Project notes
+
+
+
+Now that the Backup routine can back up Everything, or just one project, or just the notes— all via the File menu,
+that means the backup entry under File / Project will be removed— I assume.
+
 
 
 
@@ -672,6 +872,16 @@ looking in there will help novice users (like me!) find the XML file
 more easily.
 
 Jonathan 
+
+
+The sword module needs to have the lcsh set. Always take default fixed value,
+and remove the value from the projectconfiguration.
+
+  new InDialogHelp(sworddialog, NULL, NULL, "sword_module");
+To implement or rewrite this help.
+
+
+}
 
 
 

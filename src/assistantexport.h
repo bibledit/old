@@ -34,6 +34,7 @@ class ExportAssistant : public AssistantBase
 public:
   ExportAssistant(int dummy);
   virtual ~ExportAssistant();
+  bool sword_module_created;
 private:
   // Assistant page preparation.
   static void on_assistant_prepare_signal (GtkAssistant *assistant, GtkWidget *page, gpointer user_data);
@@ -71,6 +72,33 @@ private:
   GtkWidget *radiobutton_bible_opendocument;
   ExportBibleType get_bible_type ();
 
+  // OSIS export type.
+  int page_number_osis_type;
+  GtkWidget *vbox_osis_type;
+  GtkWidget *radiobutton_osis_recommended;
+  GtkWidget *radiobutton_osis_go_bible;
+  GtkWidget *radiobutton_osis_old;
+  ExportOsisType get_osis_type ();
+
+  // Sword module variables.
+  int page_number_sword_name;
+  GtkWidget * entry_sword_name;
+  int page_number_sword_description;
+  GtkWidget * entry_sword_description;
+  int page_number_sword_about;
+  GtkWidget * entry_sword_about;
+  int page_number_sword_license;
+  GtkWidget * entry_sword_license;
+  int page_number_sword_version;
+  GtkWidget * entry_sword_version;
+  int page_number_sword_language;
+  GtkWidget * entry_sword_language;
+  int page_number_sword_install_path;
+  GtkWidget * entry_sword_install_path;
+  static void on_entry_sword_changed (GtkEditable *editable, gpointer user_data);
+  void on_entry_sword (GtkEditable *editable);
+  void sword_values_set ();
+  
   // Compress it?
   int page_number_zip;
   GtkWidget *checkbutton_zip;
