@@ -36,7 +36,7 @@
 
 
 ExportAssistant::ExportAssistant(int dummy) :
-AssistantBase("Export", "")
+AssistantBase("Export", "export")
 // Export assistant.
 {
   gtk_assistant_set_forward_page_func (GTK_ASSISTANT (assistant), GtkAssistantPageFunc (assistant_forward_function), gpointer(this), NULL);

@@ -29,7 +29,7 @@ AssistantBase::AssistantBase(const ustring& title, const gchar * helptopic)
 {
   // Variables.
   process_id = 0;
-  topic = helptopic;  
+  topic = helptopic;
 
   // If no help is given, take a default one.
   if (!topic)
