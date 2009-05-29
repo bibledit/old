@@ -35,7 +35,7 @@
 #include "compress.h"
 
 
-ExportAssistant::ExportAssistant(int dummy) :
+ExportAssistant::ExportAssistant(WindowReferences * references_window) :
 AssistantBase("Export", "export")
 // Export assistant.
 {
@@ -50,6 +50,7 @@ AssistantBase("Export", "export")
   extern Settings *settings;
   ustring project = settings->genconfig.project_get();
   sword_module_created = false;
+  my_references_window = references_window;
 
   // Build the GUI for the task selector.
   vbox_select_type = gtk_vbox_new (FALSE, 0);
@@ -75,6 +76,9 @@ AssistantBase("Export", "export")
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_references), radiobutton_select_type_group);
   radiobutton_select_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_select_type_references));
 
+  // Exporting references only works when the references window shows.
+  gtk_widget_set_sensitive (radiobutton_select_type_references, references_window != NULL);
+  
   radiobutton_select_type_stylesheet = gtk_radio_button_new_with_mnemonic (NULL, "Stylesheet");
   gtk_widget_show (radiobutton_select_type_stylesheet);
   gtk_box_pack_start (GTK_BOX (vbox_select_type), radiobutton_select_type_stylesheet, FALSE, FALSE, 0);
@@ -436,12 +440,15 @@ void ExportAssistant::on_assistant_prepare (GtkWidget *page) // Todo
 
   // Page for filename to save to.
   if (page == vbox_file) {
-    // We may have to retrieve the name to save the file to for BibleWorks export.
-    if (get_type () == etBible) {
-      if (get_bible_type () == ebtBibleWorks) {
-        if (filename.empty()) {
+    // We may have to retrieve the filename from the configuration under certain circumstances.
+    if (filename.empty ()) {
+      if (get_type () == etBible) {
+        if (get_bible_type () == ebtBibleWorks) {
           filename = settings->genconfig.export_to_bibleworks_filename_get();
         }
+      }
+      if (get_type () == etReferences) {
+        filename = settings->genconfig.references_file_get();
       }
     }
     gtk_label_set_text (GTK_LABEL (label_file), filename.c_str());
@@ -537,6 +544,8 @@ void ExportAssistant::on_assistant_apply () // Todo
         }
         case ebtOpenDocument:
         {
+          extern Settings *settings;
+          settings->genconfig.references_file_set(filename);
           export_to_opendocument(bible_name, filename);
           break;
         }
@@ -545,6 +554,9 @@ void ExportAssistant::on_assistant_apply () // Todo
     }
     case etReferences: // Todo
     {
+      if (my_references_window) {
+        my_references_window->save(filename);
+      }
       break;
     }
     case etStylesheet: // Todo
@@ -577,70 +589,112 @@ gint ExportAssistant::assistant_forward_function (gint current_page, gpointer us
 
 gint ExportAssistant::assistant_forward (gint current_page) // Todo
 {
-  // Default behaviour is to go to the next page.
-  gint new_page_number = current_page + 1;
-
-  // Where to go after the page to select what type to export the Bible to.
-  if (current_page == page_number_bible_type) {
-    switch (get_bible_type ()) {
-      case ebtUSFM:
-      {
-        new_page_number = page_number_zip;
-        break;
-      }
-      case ebtBibleWorks:
-      {
-        new_page_number = page_number_file;
-        break;
-      }
-      case ebtOSIS:
-      {
-        new_page_number = page_number_osis_type;
-        break;
-      }
-      case ebtSWORD:
-      {
-        new_page_number = page_number_sword_name;
-        break;
-      }
-      case ebtOpenDocument:
-      {
-        new_page_number = page_number_file;
-        break;
-      }
-    }
-  }
-
-  // Next page where to go after selection of the type of OSIS.
-  if (current_page == page_number_osis_type) {
-    new_page_number = page_number_file;
-  }
-
-  // Where to move after the last page of the Sword settings.
-  if (current_page == page_number_sword_install_path) {
-    new_page_number = page_number_folder;
-  }
-    
-  // Where to go after the page that asks whether to compress.
-  if (current_page == page_number_zip) {
-    if (get_type () == etBible) {
-      if (get_bible_type () == ebtUSFM) {
-        if (get_compressed ()) {
-          new_page_number = page_number_file;
-        } else {
-          new_page_number = page_number_folder;
+  // Create forward sequence.
+  forward_sequence.clear();
+  switch (get_type()) {
+    case etBible:
+    {
+      switch (get_bible_type()) {
+        case ebtUSFM:
+        {
+          forward_sequence.insert (page_number_select_type);
+          forward_sequence.insert (page_number_bible_name);
+          forward_sequence.insert (page_number_bible_type);
+          forward_sequence.insert (page_number_zip);
+          if (get_compressed ()) {
+            forward_sequence.insert (page_number_file);
+          } else {
+            forward_sequence.insert (page_number_folder);
+          }
+          break;
+        }
+        case ebtBibleWorks:
+        {
+          forward_sequence.insert (page_number_select_type);
+          forward_sequence.insert (page_number_bible_name);
+          forward_sequence.insert (page_number_bible_type);
+          forward_sequence.insert (page_number_file);
+          break;
+        }
+        case ebtOSIS:
+        {
+          forward_sequence.insert (page_number_select_type);
+          forward_sequence.insert (page_number_bible_name);
+          forward_sequence.insert (page_number_bible_type);
+          forward_sequence.insert (page_number_osis_type);
+          forward_sequence.insert (page_number_file);
+          switch (get_osis_type ()) {
+            case eotRecommended:
+            {
+              break;
+            }
+            case eotGoBibleCreator:
+            {
+              break;
+            }
+            case eotOld:
+            {
+              break;
+            }
+          }
+          break;
+        }
+        case ebtSWORD:
+        {
+          forward_sequence.insert (page_number_select_type);
+          forward_sequence.insert (page_number_bible_name);
+          forward_sequence.insert (page_number_bible_type);
+          forward_sequence.insert (page_number_osis_type);
+          forward_sequence.insert (page_number_sword_name);
+          forward_sequence.insert (page_number_sword_description);
+          forward_sequence.insert (page_number_sword_about);
+          forward_sequence.insert (page_number_sword_license);
+          forward_sequence.insert (page_number_sword_version);
+          forward_sequence.insert (page_number_sword_language);
+          forward_sequence.insert (page_number_sword_install_path);
+          forward_sequence.insert (page_number_folder);
+          break;
+        }
+        case ebtOpenDocument:
+        {
+          forward_sequence.insert (page_number_select_type);
+          forward_sequence.insert (page_number_bible_name);
+          forward_sequence.insert (page_number_bible_type);
+          forward_sequence.insert (page_number_file);
+          break;
         }
       }
+      break;
+    }
+    case etReferences:
+    {
+      forward_sequence.insert (page_number_select_type);
+      forward_sequence.insert (page_number_file);
+      break;
+    }
+    case etStylesheet:
+    {
+      forward_sequence.insert (page_number_select_type);
+      forward_sequence.insert (page_number_file);
+      break;
+    }
+    case etNotes:
+    {
+      forward_sequence.insert (page_number_select_type);
+      forward_sequence.insert (page_number_file);
+      break;
     }
   }
 
-  // If we're asking for a filename, skip asking for a foldername.
-  if (current_page == page_number_file) {
-    new_page_number++;
-  }
-    
-  // Return the new page.
-  return new_page_number;
+  // Always end up goint to the confirmation and summary pages.
+  forward_sequence.insert (page_number_confirm);
+  forward_sequence.insert (summary_page_number);
+  
+  // Take the next page in the forward sequence.
+  do {
+    current_page++;
+  } while (forward_sequence.find (current_page) == forward_sequence.end());
+  return current_page;
 }
 
 
@@ -871,17 +925,10 @@ including the full osis2mod command line in the system log, so that
 looking in there will help novice users (like me!) find the XML file
 more easily.
 
-Jonathan 
 
 
-The sword module needs to have the lcsh set. Always take default fixed value,
-and remove the value from the projectconfiguration.
-
-  new InDialogHelp(sworddialog, NULL, NULL, "sword_module");
-To implement or rewrite this help.
 
 
-}
 
 
 

@@ -103,7 +103,6 @@ protected:
   GtkWidget *file_references_menu;
   GtkWidget *open_references1;
   GtkWidget *image466;
-  GtkWidget *references_save_as;
   GtkWidget *close_references;
   GtkWidget *image468;
   GtkWidget *delete_references;
@@ -473,8 +472,6 @@ protected:
   void on_list_goto();
   static void on_open_references1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_open_references();
-  static void on_references_save_as_activate(GtkMenuItem * menuitem, gpointer user_data);
-  void on_save_references();
   static void on_close_references_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_clear_references();
   static void on_delete_references_activate(GtkMenuItem * menuitem, gpointer user_data);

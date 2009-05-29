@@ -17,15 +17,19 @@
  **  
  */
 
+
 #ifndef INCLUDED_WINDOW_REFERENCES_H
 #define INCLUDED_WINDOW_REFERENCES_H
+
 
 #include <gtk/gtk.h>
 #include "ustring.h"
 #include "reference.h"
 #include "window.h"
 
+
 enum WindowReferencesActionType { wratReferenceActivated, wratPopupMenu, wratReferencesSelected };
+
 
 class WindowReferences : public WindowBase
 {
@@ -43,7 +47,7 @@ public:
   int popup_button;
   int popup_event_time;
   void open();
-  void save();
+  void save(const ustring& filename);
   void clear();
   void dismiss();
   void hide();
@@ -67,5 +71,6 @@ private:
   void treeview_references_display_quick_reference();
 
 };
+
 
 #endif

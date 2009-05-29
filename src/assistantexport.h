@@ -27,15 +27,19 @@
 #include "assistants.h"
 #include "backup.h"
 #include "export_utils.h"
+#include "windowreferences.h"
 
 
 class ExportAssistant : public AssistantBase
 {
 public:
-  ExportAssistant(int dummy);
+  ExportAssistant(WindowReferences * references_window);
   virtual ~ExportAssistant();
   bool sword_module_created;
 private:
+  // Local variables.
+  WindowReferences * my_references_window;
+
   // Assistant page preparation.
   static void on_assistant_prepare_signal (GtkAssistant *assistant, GtkWidget *page, gpointer user_data);
   void on_assistant_prepare (GtkWidget *page);
@@ -127,11 +131,12 @@ private:
   GtkWidget *label_confirm;
   GtkWidget *label_progress;
   GtkWidget *label_summary;
-  unsigned int summary_page_number;
+  int summary_page_number;
   static void on_assistant_apply_signal (GtkAssistant *assistant, gpointer user_data);
   void on_assistant_apply ();
   static gint assistant_forward_function (gint current_page, gpointer user_data);
   gint assistant_forward (gint current_page);
+  set <int> forward_sequence;
 };
 
 

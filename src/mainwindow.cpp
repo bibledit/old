@@ -415,7 +415,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   }
 
   open_references1 = NULL;
-  references_save_as = NULL;
   if (guifeatures.references_management()) {
 
     open_references1 = gtk_image_menu_item_new_with_mnemonic("_Open");
@@ -425,10 +424,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     image466 = gtk_image_new_from_stock("gtk-open", GTK_ICON_SIZE_MENU);
     gtk_widget_show(image466);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(open_references1), image466);
-
-    references_save_as = gtk_image_menu_item_new_from_stock("gtk-save-as", NULL);
-    gtk_widget_show(references_save_as);
-    gtk_container_add(GTK_CONTAINER(file_references_menu), references_save_as);
 
   }
 
@@ -1812,8 +1807,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   g_signal_connect ((gpointer) projects_send_receive1, "activate", G_CALLBACK (on_projects_send_receive1_activate), gpointer(this));
   if (open_references1)
     g_signal_connect((gpointer) open_references1, "activate", G_CALLBACK(on_open_references1_activate), gpointer(this));
-  if (references_save_as)
-    g_signal_connect((gpointer) references_save_as, "activate", G_CALLBACK(on_references_save_as_activate), gpointer(this));
   if (close_references)
     g_signal_connect((gpointer) close_references, "activate", G_CALLBACK(on_close_references_activate), gpointer(this));
   if (delete_references)
@@ -3086,17 +3079,6 @@ void MainWindow::on_open_references()
   window_references->open();
 }
 
-void MainWindow::on_references_save_as_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_save_references();
-}
-
-void MainWindow::on_save_references()
-{
-  show_references_window();
-  window_references->save();
-}
-
 void MainWindow::on_close_references_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_clear_references();
@@ -3664,7 +3646,7 @@ void MainWindow::on_file_export_activate (GtkMenuItem *menuitem, gpointer user_d
 void MainWindow::on_file_export ()
 {
   save_editors();
-  export_assistant = new ExportAssistant (0);
+  export_assistant = new ExportAssistant (window_references);
   g_signal_connect ((gpointer) export_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
 }
 

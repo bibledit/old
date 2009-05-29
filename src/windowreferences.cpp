@@ -282,17 +282,14 @@ void WindowReferences::open()
   }
 }
 
-void WindowReferences::save()
+void WindowReferences::save(const ustring& filename)
 {
-  extern Settings *settings;
   try {
-    ustring filename = gtkw_file_chooser_save(window_vbox, "", settings->genconfig.references_file_get());
     if (filename.empty())
       return;
-    settings->genconfig.references_file_set(filename);
     References references(liststore, treeview, treecolumn);
-    // Hack: set references with a dummy, then load the real ones from the editor.
-    vector < Reference > dummy;
+    // Hack: Set references with a dummy, then load the real ones from the editor.
+    vector <Reference> dummy;
     references.set_references(dummy);
     references.get_loaded();
     references.save(filename);
