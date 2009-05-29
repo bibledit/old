@@ -128,7 +128,6 @@ protected:
   GtkWidget *stylesheets_delete;
   GtkWidget *stylesheets_rename;
   GtkWidget *stylesheets_import;
-  GtkWidget *stylesheets_export;
   GtkWidget *notes2;
   GtkWidget *image936;
   GtkWidget *notes2_menu;

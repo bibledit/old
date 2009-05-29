@@ -39,7 +39,7 @@
 #include "gwrappers.h"
 #include "styles.h"
 
-WindowStyles::WindowStyles(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * stl, GtkWidget * stl_menu, GtkWidget * stl_expand_all, GtkWidget * stl_collapse_all, GtkWidget * stl_insert, GtkWidget * stl_edit_mode, GtkWidget * stl_new, GtkWidget * stl_properties, GtkWidget * stl_delete, GtkWidget * stlsheet_switch, GtkWidget * stlsheet_new, GtkWidget * stlsheet_delete, GtkWidget * stlsheet_rename, GtkWidget * stlsheet_import, GtkWidget * stlsheet_export, GtkWidget * parent_box):
+WindowStyles::WindowStyles(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * stl, GtkWidget * stl_menu, GtkWidget * stl_expand_all, GtkWidget * stl_collapse_all, GtkWidget * stl_insert, GtkWidget * stl_edit_mode, GtkWidget * stl_new, GtkWidget * stl_properties, GtkWidget * stl_delete, GtkWidget * stlsheet_switch, GtkWidget * stlsheet_new, GtkWidget * stlsheet_delete, GtkWidget * stlsheet_rename, GtkWidget * stlsheet_import, GtkWidget * parent_box):
 WindowBase(widStyles, "Stylesheet", startup, 0, parent_box)
 // Styles window.
 {
@@ -58,7 +58,6 @@ WindowBase(widStyles, "Stylesheet", startup, 0, parent_box)
   stylesheet_remove = stlsheet_delete;
   stylesheet_rename = stlsheet_rename;
   stylesheet_import1 = stlsheet_import;
-  stylesheet_export1 = stlsheet_export;
 
   // Signalling buttons.
   apply_signal = gtk_button_new();
@@ -104,7 +103,6 @@ WindowBase(widStyles, "Stylesheet", startup, 0, parent_box)
   delete_stylesheet_handler_id = 0;
   rename_stylesheet_handler_id = 0;
   import_stylesheet_handler_id = 0;
-  export_stylesheet_handler_id = 0;
   if (style)
     styles_menu_handler_id = g_signal_connect((gpointer) style, "activate", G_CALLBACK(on_style_menu_activate), gpointer(this));
   if (style_expand_all)
@@ -129,8 +127,6 @@ WindowBase(widStyles, "Stylesheet", startup, 0, parent_box)
     rename_stylesheet_handler_id = g_signal_connect((gpointer) stylesheet_rename, "activate", G_CALLBACK(on_stylesheet_rename_activate), gpointer(this));
   if (stylesheet_import1)
     import_stylesheet_handler_id = g_signal_connect((gpointer) stylesheet_import1, "activate", G_CALLBACK(on_stylesheet_import_activate), gpointer(this));
-  if (stylesheet_export1)
-    export_stylesheet_handler_id = g_signal_connect((gpointer) stylesheet_export1, "activate", G_CALLBACK(on_stylesheet_export_activate), gpointer(this));
 
   g_signal_connect((gpointer) treeview, "key_press_event", G_CALLBACK(on_key_press_event), gpointer(this));
   g_signal_connect((gpointer) treeview, "button_press_event", G_CALLBACK(on_button_press_event), gpointer(this));
@@ -190,8 +186,6 @@ WindowStyles::~WindowStyles()
     g_signal_handler_disconnect((gpointer) stylesheet_rename, rename_stylesheet_handler_id);
   if (import_stylesheet_handler_id)
     g_signal_handler_disconnect((gpointer) stylesheet_import1, import_stylesheet_handler_id);
-  if (export_stylesheet_handler_id)
-    g_signal_handler_disconnect((gpointer) stylesheet_export1, export_stylesheet_handler_id);
 }
 
 void WindowStyles::load(const ustring & stylesheet)
@@ -519,8 +513,6 @@ void WindowStyles::on_style_menu()
     gtk_widget_set_sensitive(stylesheet_remove, !mystylesheet.empty());
   if (stylesheet_rename)
     gtk_widget_set_sensitive(stylesheet_rename, !mystylesheet.empty());
-  if (stylesheet_export1)
-    gtk_widget_set_sensitive(stylesheet_export1, !mystylesheet.empty());
 }
 
 void WindowStyles::on_expand_all_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -741,14 +733,8 @@ void WindowStyles::on_stylesheet_import()
   }
 }
 
-void WindowStyles::on_stylesheet_export_activate(GtkMenuItem * menuitem, gpointer user_data)
+void WindowStyles::export_sheet(const ustring& filename) // Todo
 {
-  ((WindowStyles *) user_data)->on_stylesheet_export();
-}
-
-void WindowStyles::on_stylesheet_export()
-{
-  ustring filename = gtkw_file_chooser_save(NULL, "", mystylesheet);
   if (filename.empty())
     return;
   stylesheet_export(mystylesheet, filename);

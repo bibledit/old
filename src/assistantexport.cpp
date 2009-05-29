@@ -35,7 +35,7 @@
 #include "compress.h"
 
 
-ExportAssistant::ExportAssistant(WindowReferences * references_window) :
+ExportAssistant::ExportAssistant(WindowReferences * references_window, WindowStyles * styles_window) :
 AssistantBase("Export", "export")
 // Export assistant.
 {
@@ -51,6 +51,7 @@ AssistantBase("Export", "export")
   ustring project = settings->genconfig.project_get();
   sword_module_created = false;
   my_references_window = references_window;
+  my_styles_window = styles_window;
 
   // Build the GUI for the task selector.
   vbox_select_type = gtk_vbox_new (FALSE, 0);
@@ -84,6 +85,9 @@ AssistantBase("Export", "export")
   gtk_box_pack_start (GTK_BOX (vbox_select_type), radiobutton_select_type_stylesheet, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_stylesheet), radiobutton_select_type_group);
   radiobutton_select_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_select_type_stylesheet));
+
+  // Exporting references only works when the styles window shows.
+  gtk_widget_set_sensitive (radiobutton_select_type_stylesheet, my_styles_window != NULL);
 
   radiobutton_select_type_notes = gtk_radio_button_new_with_mnemonic (NULL, "Notes");
   gtk_widget_show (radiobutton_select_type_notes);
@@ -483,7 +487,7 @@ void ExportAssistant::on_assistant_apply_signal (GtkAssistant *assistant, gpoint
 }
 
 
-void ExportAssistant::on_assistant_apply () // Todo
+void ExportAssistant::on_assistant_apply ()
 {
   // Take action depending on the type of export.
   switch (get_type()) {
@@ -552,7 +556,7 @@ void ExportAssistant::on_assistant_apply () // Todo
       }
       break;
     }
-    case etReferences: // Todo
+    case etReferences:
     {
       if (my_references_window) {
         my_references_window->save(filename);
@@ -561,6 +565,9 @@ void ExportAssistant::on_assistant_apply () // Todo
     }
     case etStylesheet: // Todo
     {
+      if (my_styles_window) {
+        my_styles_window->export_sheet(filename);
+      }
       break;
     }
     case etNotes: // Todo
@@ -859,11 +866,7 @@ Todo OSIS file troubles
 To create an Export Assistant, and move all export functions into that one. Also the one on the File menu.
 
 Bible
-  OSIS file
-  * Recommended transformation
-  * Stripped down for the Go Bible
-  OpenDocument
-References
+  OSIS file - Stripped down for the Go Bible
 Stylesheet
 Project notes
 

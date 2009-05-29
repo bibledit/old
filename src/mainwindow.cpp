@@ -667,20 +667,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
 
   }
 
-  stylesheets_export = NULL;
-  if (guifeatures.styles_management()) {
-
-    stylesheets_export = gtk_image_menu_item_new_with_mnemonic("_Export");
-    gtk_widget_show(stylesheets_export);
-    gtk_container_add(GTK_CONTAINER(menu_stylesheet_menu), stylesheets_export);
-
-    GtkWidget *image10746;
-    image10746 = gtk_image_new_from_stock("gtk-network", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image10746);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(stylesheets_export), image10746);
-
-  }
-
   notes2 = NULL;
   new_note = NULL;
   delete_note = NULL;
@@ -3646,7 +3632,7 @@ void MainWindow::on_file_export_activate (GtkMenuItem *menuitem, gpointer user_d
 void MainWindow::on_file_export ()
 {
   save_editors();
-  export_assistant = new ExportAssistant (window_references);
+  export_assistant = new ExportAssistant (window_references, window_styles);
   g_signal_connect ((gpointer) export_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
 }
 
@@ -4048,7 +4034,7 @@ void MainWindow::display_window_styles()
     gtk_widget_show(menu_stylesheet);
     // Open the window.
     extern GtkAccelGroup *accelerator_group;
-    window_styles = new WindowStyles(accelerator_group, windows_startup_pointer != G_MAXINT, style, style_menu, stylesheets_expand_all, stylesheets_collapse_all, style_insert, stylesheet_edit_mode, style_new, style_properties, style_delete, stylesheet_switch, stylesheets_new, stylesheets_delete, stylesheets_rename, stylesheets_import, stylesheets_export, vbox_tools);
+    window_styles = new WindowStyles(accelerator_group, windows_startup_pointer != G_MAXINT, style, style_menu, stylesheets_expand_all, stylesheets_collapse_all, style_insert, stylesheet_edit_mode, style_new, style_properties, style_delete, stylesheet_switch, stylesheets_new, stylesheets_delete, stylesheets_rename, stylesheets_import, vbox_tools);
     resize_text_area_if_tools_area_is_empty ();
     g_signal_connect((gpointer) window_styles->delete_signal_button, "clicked", G_CALLBACK(on_window_styles_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_styles->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));

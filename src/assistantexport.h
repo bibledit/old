@@ -28,17 +28,19 @@
 #include "backup.h"
 #include "export_utils.h"
 #include "windowreferences.h"
+#include "windowstyles.h"
 
 
 class ExportAssistant : public AssistantBase
 {
 public:
-  ExportAssistant(WindowReferences * references_window);
+  ExportAssistant(WindowReferences * references_window, WindowStyles * styles_window);
   virtual ~ExportAssistant();
   bool sword_module_created;
 private:
   // Local variables.
   WindowReferences * my_references_window;
+  WindowStyles * my_styles_window;
 
   // Assistant page preparation.
   static void on_assistant_prepare_signal (GtkAssistant *assistant, GtkWidget *page, gpointer user_data);
