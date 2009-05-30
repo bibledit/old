@@ -48,6 +48,8 @@
 #include "dialogradiobutton.h"
 #include "usfm2osis.h"
 #include "osis.h"
+#include <libxml/xmlwriter.h>
+#include "categorize.h"
 
 
 void export_to_usfm(const ustring & project, ustring location, bool zip)
@@ -401,6 +403,99 @@ void export_to_osis_old (const ustring& project, const ustring& filename)
   catch(exception & ex) {
     cerr << "Export: " << ex.what() << endl;
   }
+}
+
+
+void export_to_go_bible_creator (const ustring& project, const ustring& filename)
+// Exports a Bible to a striped down OSIS file fit for the Go Bible Creator.
+{
+  // Progress.
+  ProgressWindow progresswindow ("Exporting", false);
+
+  // XML writer.
+  xmlBufferPtr xmlbuffer = xmlBufferCreate();
+  xmlTextWriterPtr xmlwriter = xmlNewTextWriterMemory(xmlbuffer, 0);
+
+  // Setup and open document.
+  xmlTextWriterStartDocument(xmlwriter, NULL, "UTF-8", NULL);
+  xmlTextWriterSetIndent(xmlwriter, 1);
+  xmlTextWriterStartElement(xmlwriter, BAD_CAST "osis");
+  xmlTextWriterStartElement(xmlwriter, BAD_CAST "osisText");
+  xmlTextWriterStartElement(xmlwriter, BAD_CAST "div");
+
+  // Go through the books.
+  vector <unsigned int> books = project_get_books (project);
+  progresswindow.set_iterate (0, 1, books.size());
+  for (unsigned int bk = 0; bk < books.size(); bk++) {
+    progresswindow.iterate ();
+
+    // Get and write book.
+    unsigned int book = books[bk];
+    ustring osis_book_id = books_id_to_osis (book);
+    if (osis_book_id.empty()) {
+      continue;
+    }
+    xmlTextWriterStartElement(xmlwriter, BAD_CAST "div");
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "type", "book");
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "osisID", osis_book_id.c_str());
+
+    // Go through the chapters.
+    vector <unsigned int> chapters = project_get_chapters (project, book);
+    for (unsigned int ch = 0; ch < chapters.size(); ch++) {
+
+      // Get and write chapter.
+      unsigned int chapter = chapters[ch];
+      if (chapter == 0) {
+        continue;
+      }
+      ustring chapter_osis_id = osis_book_id + "." + convert_to_string (chapter);
+      xmlTextWriterStartElement(xmlwriter, BAD_CAST "chapter");
+      xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "osisID", chapter_osis_id.c_str());
+
+      // Go through the verses.
+      vector <ustring> verses = project_get_verses (project, book, chapter);
+      for (unsigned int vs = 0; vs < verses.size(); vs++) {
+
+        // Get verse, and skip 0.
+        ustring verse = verses[vs];
+        if (verse == "0") {
+          continue;
+        }
+
+        // Write the verse number.
+        ustring verse_osis_id = chapter_osis_id + "." + verse;
+        xmlTextWriterStartElement(xmlwriter, BAD_CAST "verse");
+        xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "sID", verse_osis_id.c_str());
+        xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "osisID", verse_osis_id.c_str());
+ 
+        // Get verse text, remove verse number, and write it.
+        ustring line = project_retrieve_verse (project, book, chapter, verse);
+        line = usfm_get_verse_text_only (line);
+        xmlTextWriterWriteFormatString(xmlwriter, "%s", line.c_str());
+
+        // Close verse.
+        xmlTextWriterEndElement(xmlwriter);
+      }
+
+      // Close chapter.
+      xmlTextWriterEndElement(xmlwriter);
+    }
+    
+    // Close book.
+    xmlTextWriterEndElement(xmlwriter);
+    
+  }
+
+  // Close document and write it to disk.
+  xmlTextWriterEndDocument(xmlwriter);
+  xmlTextWriterFlush(xmlwriter);
+  g_file_set_contents(filename.c_str(), (const gchar *)xmlbuffer->content, -1, NULL);
+
+  // Free memory.
+  if (xmlwriter)
+    xmlFreeTextWriter(xmlwriter);
+  if (xmlbuffer)
+    xmlBufferFree(xmlbuffer);
 }
 
 

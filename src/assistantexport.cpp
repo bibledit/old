@@ -218,7 +218,7 @@ AssistantBase("Export", "export")
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_osis_recommended), radiobutton_osis_type_group);
   radiobutton_osis_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_osis_recommended));
 
-  radiobutton_osis_go_bible = gtk_radio_button_new_with_mnemonic (NULL, "For Go Bible Creator (not yet implemented)");
+  radiobutton_osis_go_bible = gtk_radio_button_new_with_mnemonic (NULL, "For Go Bible Creator");
   gtk_widget_show (radiobutton_osis_go_bible);
   gtk_box_pack_start (GTK_BOX (vbox_osis_type), radiobutton_osis_go_bible, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_osis_go_bible), radiobutton_osis_type_group);
@@ -426,7 +426,7 @@ void ExportAssistant::on_assistant_prepare_signal (GtkAssistant *assistant, GtkW
 }
 
 
-void ExportAssistant::on_assistant_prepare (GtkWidget *page) // Todo
+void ExportAssistant::on_assistant_prepare (GtkWidget *page)
 {
   extern Settings *settings;
 
@@ -518,6 +518,7 @@ void ExportAssistant::on_assistant_apply ()
             }
             case eotGoBibleCreator:
             {
+              export_to_go_bible_creator (bible_name, filename);
               break;
             }
             case eotOld:
@@ -596,7 +597,7 @@ gint ExportAssistant::assistant_forward_function (gint current_page, gpointer us
 }
 
 
-gint ExportAssistant::assistant_forward (gint current_page) // Todo
+gint ExportAssistant::assistant_forward (gint current_page)
 {
   // Create forward sequence.
   forward_sequence.clear();
@@ -653,7 +654,6 @@ gint ExportAssistant::assistant_forward (gint current_page) // Todo
           forward_sequence.insert (page_number_select_type);
           forward_sequence.insert (page_number_bible_name);
           forward_sequence.insert (page_number_bible_type);
-          forward_sequence.insert (page_number_osis_type);
           forward_sequence.insert (page_number_sword_name);
           forward_sequence.insert (page_number_sword_description);
           forward_sequence.insert (page_number_sword_about);
@@ -845,6 +845,21 @@ void ExportAssistant::sword_values_set ()
 
 /*
 
+To create an Export Assistant, and move all export functions into that one. Also the one on the File menu.
+
+Bible
+  OSIS file - Stripped down for the Go Bible
+Project notes
+
+Now that the Backup routine can back up Everything, or just one project, or just the notes— all via the File menu,
+that means the backup entry under File / Project will be removed— I assume.
+
+
+
+
+
+
+
 Todo version number in the man pages not updated
 
 (2) The man pages all still say they are version 3.6. This is not a big
@@ -862,24 +877,8 @@ The blueletterbible.org does have Thayer's lexicon online, and Bibledit should h
 
 
 
+
 Todo OSIS file troubles
-
-
-To create an Export Assistant, and move all export functions into that one. Also the one on the File menu.
-
-Bible
-  OSIS file - Stripped down for the Go Bible
-Project notes
-
-
-
-Now that the Backup routine can back up Everything, or just one project, or just the notes— all via the File menu,
-that means the backup entry under File / Project will be removed— I assume.
-
-
-
-
-
 
 
 I'm a newcomer to all this, but I took a quick look at the Shona one. I
