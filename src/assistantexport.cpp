@@ -845,11 +845,6 @@ void ExportAssistant::sword_values_set ()
 
 /*
 
-To create an Export Assistant, and move all export functions into that one. Also the one on the File menu.
-
-Bible
-  OSIS file - Stripped down for the Go Bible
-Project notes
 
 Now that the Backup routine can back up Everything, or just one project, or just the notes— all via the File menu,
 that means the backup entry under File / Project will be removed— I assume.
