@@ -56,7 +56,7 @@ converts usfm to its interpretation of OSIS for Java apps which run on MIDP
 
 The object below transforms USFM code into OSIS code.
 The validity of the resulting osis file can be checked:
-xmllint --schema osisCore.2.1.1.xsd osis-from-usfm.txt 
+xmllint --noout --schema osisCore.2.1.1.xsd osis.xml 
 
 */
 

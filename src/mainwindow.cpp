@@ -7217,18 +7217,6 @@ void MainWindow::check_usfm_window_ping()
 Todo various.
 
 
-We need to import Scrivener Bible and lexicons into Bibledit, importing from a file, or downloading a site from the web,
-or data from BibleWorks. This might requires a fresh approach to the parallel Bible printing.
-Because this time we need to include Resources too. We may have to put everything in html first, then print from html,
-using more standard tools.
-The blueletterbible.org does have Thayer's lexicon online, and Bibledit should have access to that as a Lexicon.
-
-
-
-
-
-
-
 OSIS file troubles
 
 I took a quick look at the Shona one. I
@@ -7263,8 +7251,20 @@ more easily.
 
 
 
-We might have to consider switching to bazaar so that dump web servers can be
-used for version control. Or does mercurial this too? No, it doesn't.
+We need to import Scrivener Bible and lexicons into Bibledit, importing from a file, or downloading a site from the web,
+or data from BibleWorks. This might requires a fresh approach to the parallel Bible printing.
+Because this time we need to include Resources too. We may have to put everything in html first, then print from html,
+using more standard tools.
+The blueletterbible.org does have Thayer's lexicon online, and Bibledit should have access to that as a Lexicon.
+
+
+
+
+
+
+
+
+
 
 
 */
