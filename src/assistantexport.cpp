@@ -54,6 +54,7 @@ AssistantBase("Export", "export")
   sword_module_created = false;
   my_references_window = references_window;
   my_styles_window = styles_window;
+  date_time = 0;
 
   // Build the GUI for the task selector.
   vbox_select_type = gtk_vbox_new (FALSE, 0);
@@ -193,16 +194,23 @@ AssistantBase("Export", "export")
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_opendocument), radiobutton_bible_type_group);
   radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_opendocument));
 
+  radiobutton_bible_gobible = gtk_radio_button_new_with_mnemonic (NULL, "Go Bible (see OSIS, for just now)");
+  gtk_widget_show (radiobutton_bible_gobible);
+  gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_gobible, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_gobible), radiobutton_bible_type_group);
+  radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_gobible));
+
   Shortcuts shortcuts_select_bible_type (0);
   shortcuts_select_bible_type.button (radiobutton_bible_usfm);
   shortcuts_select_bible_type.button (radiobutton_bible_bibleworks);
   shortcuts_select_bible_type.button (radiobutton_bible_osis);
   shortcuts_select_bible_type.button (radiobutton_bible_sword);
   shortcuts_select_bible_type.button (radiobutton_bible_opendocument);
+  shortcuts_select_bible_type.button (radiobutton_bible_gobible);
   shortcuts_select_bible_type.consider_assistant();
   shortcuts_select_bible_type.process();
 
-  // Select what type of USFM export to make. Todo
+  // Select what type of USFM export to make.
   vbox_usfm_type = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vbox_usfm_type);
   page_number_usfm_type = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_usfm_type);
@@ -232,7 +240,7 @@ AssistantBase("Export", "export")
   shortcuts_select_usfm_type.consider_assistant();
   shortcuts_select_usfm_type.process();
 
-  // Select what changes of USFM to export. Todo
+  // Select what changes of USFM to export.
   vbox_usfm_changes_type = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vbox_usfm_changes_type);
   page_number_usfm_changes_type = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_usfm_changes_type);
@@ -244,7 +252,7 @@ AssistantBase("Export", "export")
 
   GSList *radiobutton_usfm_changes_type_group = NULL;
 
-  radiobutton_usfm_changes_since_last = gtk_radio_button_new_with_mnemonic (NULL, "The ones introduced since last time I did this");
+  radiobutton_usfm_changes_since_last = gtk_radio_button_new_with_mnemonic (NULL, "The ones introduced since last time that the changes were exported");
   gtk_widget_show (radiobutton_usfm_changes_since_last);
   gtk_box_pack_start (GTK_BOX (vbox_usfm_changes_type), radiobutton_usfm_changes_since_last, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_usfm_changes_since_last), radiobutton_usfm_changes_type_group);
@@ -416,7 +424,7 @@ AssistantBase("Export", "export")
 
   g_signal_connect ((gpointer) button_date_time, "clicked", G_CALLBACK (on_button_date_time_clicked), gpointer(this));
 
-  // Comment entry. Todo
+  // Comment entry.
   entry_comment = gtk_entry_new ();
   gtk_widget_show (entry_comment);
   page_number_comment = gtk_assistant_append_page (GTK_ASSISTANT (assistant), entry_comment);
@@ -529,7 +537,7 @@ void ExportAssistant::on_assistant_prepare_signal (GtkAssistant *assistant, GtkW
 }
 
 
-void ExportAssistant::on_assistant_prepare (GtkWidget *page) // Todo
+void ExportAssistant::on_assistant_prepare (GtkWidget *page)
 {
   extern Settings *settings;
 
@@ -545,6 +553,15 @@ void ExportAssistant::on_assistant_prepare (GtkWidget *page) // Todo
     gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_bible_name, !bible_name.empty());
   }
 
+  // Page for date / time.
+  if (page == vbox_date_time) {
+    if (date_time == 0) {
+      ProjectConfiguration * projectconfig = settings->projectconfig (bible_name);
+      date_time = projectconfig->backup_incremental_last_time_get();
+    }
+    gtk_label_set_text (GTK_LABEL (label_date_time), date_time_seconds_human_readable (date_time, true).c_str());
+  }
+  
   // Page for comment.
   if (page == entry_comment) {
     ustring comment = gtk_entry_get_text (GTK_ENTRY (entry_comment));
@@ -605,7 +622,7 @@ void ExportAssistant::on_assistant_apply ()
   switch (get_type()) {
     case etBible:
     {
-      switch (get_bible_type()) { // Todo take action, save date / time since.
+      switch (get_bible_type()) {
         case ebtUSFM:
         {
           switch (get_usfm_type ()) {
@@ -618,20 +635,24 @@ void ExportAssistant::on_assistant_apply ()
               }
               break;
             }
-            case eutChangesOnly: //  Todo
+            case eutChangesOnly:
             {
               extern Settings * settings;
               ProjectConfiguration * projectconfig = settings->projectconfig (bible_name);
               ustring comment = gtk_entry_get_text (GTK_ENTRY (entry_comment));
               projectconfig->backup_comment_set (comment);
               switch (get_usfm_changes_type ()) {
-                case euctSinceLast:   // Todo
+                case euctSinceLast:
                 {
-                  
+                  guint32 last_time = projectconfig->backup_incremental_last_time_get();
+                  export_to_usfm_changes (bible_name, last_time, comment);                  
+                  projectconfig->backup_incremental_last_time_set(date_time_seconds_get_current());
                   break;
                 }
-                case euctSinceDateTime:  // Todo
+                case euctSinceDateTime:
                 {
+                  export_to_usfm_changes (bible_name, date_time, comment);
+                  projectconfig->backup_incremental_last_time_set(date_time);
                   break;
                 }
               }
@@ -691,6 +712,10 @@ void ExportAssistant::on_assistant_apply ()
           export_to_opendocument(bible_name, filename);
           break;
         }
+        case ebtGoBible: // Todo
+        {
+          break;
+        }
       }
       break;
     }
@@ -745,7 +770,7 @@ gint ExportAssistant::assistant_forward (gint current_page)
         case ebtUSFM:
         {
           switch (get_usfm_type ()) {
-            case eutEverything:  // Todo
+            case eutEverything:
             {
               forward_sequence.insert (page_number_select_type);
               forward_sequence.insert (page_number_bible_name);
@@ -759,7 +784,7 @@ gint ExportAssistant::assistant_forward (gint current_page)
               }
               break;
             }
-            case eutChangesOnly: //  Todo
+            case eutChangesOnly:
             {
               forward_sequence.insert (page_number_select_type);
               forward_sequence.insert (page_number_bible_name);
@@ -837,6 +862,14 @@ gint ExportAssistant::assistant_forward (gint current_page)
           forward_sequence.insert (page_number_file);
           break;
         }
+        case ebtGoBible:
+        {
+          forward_sequence.insert (page_number_select_type);
+          forward_sequence.insert (page_number_bible_name);
+          forward_sequence.insert (page_number_bible_type);
+          forward_sequence.insert (page_number_folder);
+          break;
+        }
       }
       break;
     }
@@ -892,18 +925,11 @@ void ExportAssistant::on_button_date_time_clicked (GtkButton *button, gpointer u
 }
 
 
-void ExportAssistant::on_button_date_time () // Todo
+void ExportAssistant::on_button_date_time ()
 {
-  /*
-  ustring file = gtkw_file_chooser_save (assistant, "", filename);
-  if (!file.empty()) {
-    filename = file;
-    if ((get_type() == etBible) && (get_bible_type() == ebtUSFM)) {
-      compress_ensure_zip_suffix (filename);
-    }
-    on_assistant_prepare (vbox_file);
-  }
-  */
+  DateDialog dialog(&date_time, true);
+  dialog.run();
+  on_assistant_prepare (vbox_date_time);
 }
 
 
@@ -993,7 +1019,7 @@ ExportUsfmType ExportAssistant::get_usfm_type ()
 }
 
 
-ExportUsfmChangesType ExportAssistant::get_usfm_changes_type () // Todo
+ExportUsfmChangesType ExportAssistant::get_usfm_changes_type ()
 {
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_usfm_changes_since_last))) {
     return euctSinceLast;
@@ -1056,50 +1082,16 @@ void ExportAssistant::sword_values_set ()
 /*
 
 
-Todo Now that the Backup routine can back up Everything, or just one project, or just the notes— all via the File menu,
-that means the backup entry under File / Project will be removed— I assume.
-Help needs to be updated as well. 
-We get:
-- Everything.
-  * Can be zipped (and asks where to store). 
-- Only changes
-  * Since last export.
-  * Since a certain date.
-A comment can be made for the last two of them.
 
 Transfer help:  new InDialogHelp(backupdialog, NULL, &shortcuts, "backup");
 
-Goes out:  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_full), projectconfig->backup_full_get());
-
-void MainWindow::on_project_backup_incremental()
-{
-  backup_make_incremental();
-}
-
-void MainWindow::on_project_backup_flexible()
-{
-  BackupDialog dialog(0);
-  if (dialog.run() == GTK_RESPONSE_OK) {
-    backup_make_flexible();
-  }
-}
-
-
-void BackupDialog::on_sincebutton()
-{
-  extern Settings *settings;
-  ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
-  guint32 seconds = projectconfig->backup_incremental_last_time_get();
-  DateDialog dialog(&seconds, true);
-  if (dialog.run() == GTK_RESPONSE_OK) {
-    projectconfig->backup_incremental_last_time_set(seconds);
-  }
-}
 
 
 
 
-Todo we need to "adopt" the Go Bible Creator, so that if Bibledit wishes to export, 
+
+
+We need to "adopt" the Go Bible Creator, so that if Bibledit wishes to export, 
 and finds this package in the home directory, or in Desktop, it install it, and then offers the
 option to create a complete module. If the Creator is already installed, it does not need it in home,
 because it uses the existing installation. But if it finds it, it will intall a fresh copy each time.
@@ -1107,7 +1099,11 @@ It gives little help in the Assistant, just a bit, and refers to othe online hel
 create the Collections.txt file on its own.
 
 
-Todo version number in the man pages not updated
+
+
+
+
+version number in the man pages not updated
 
 (2) The man pages all still say they are version 3.6. This is not a big
 deal at all, and I left them alone, but long term it might be good to
@@ -1120,7 +1116,7 @@ and build date in the top line of each (the lines that start with .TH).
 
 
 
-Todo we need to import Scrivener Bible and lexicons into Bibledit, importing from a file, or downloading a site from the web,
+We need to import Scrivener Bible and lexicons into Bibledit, importing from a file, or downloading a site from the web,
 or data from BibleWorks. This might requires a fresh approach to the parallel Bible printing.
 Because this time we need to include Resources too. We may have to put everything in html first, then print from html,
 using more standard tools.
@@ -1130,7 +1126,9 @@ The blueletterbible.org does have Thayer's lexicon online, and Bibledit should h
 
 
 
-Todo OSIS file troubles
+
+
+OSIS file troubles
 
 I took a quick look at the Shona one. I
 used bibledit 3.7 (and SWORD 1.6.0RC3) to export it as a "SWORD module

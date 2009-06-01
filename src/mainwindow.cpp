@@ -344,14 +344,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
 
   }
 
-  project_backup = gtk_image_menu_item_new_with_mnemonic("_Backup");
-  gtk_widget_show(project_backup);
-  gtk_container_add(GTK_CONTAINER(file_project_menu), project_backup);
-
-  image18535 = gtk_image_new_from_stock("gtk-floppy", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image18535);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(project_backup), image18535);
-
   project_changes = NULL;
   if (guifeatures.project_management()) {
 
@@ -2104,8 +2096,6 @@ void MainWindow::enable_or_disable_widgets(bool enable)
     gtk_widget_set_sensitive(preferences_remote_repository, enable);
   if (preferences_planning)
     gtk_widget_set_sensitive(preferences_planning, enable);
-  if (project_backup)
-    gtk_widget_set_sensitive(project_backup, enable);
   if (file_projects_merge)
     gtk_widget_set_sensitive(file_projects_merge, enable);
   navigation.sensitive(enable);

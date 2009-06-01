@@ -86,8 +86,6 @@ protected:
   GtkWidget *image2688;
   GtkWidget *compare_with1;
   GtkWidget *image2764;
-  GtkWidget *project_backup;
-  GtkWidget *image18535;
   GtkWidget *project_changes;
   GtkWidget *image19115;
   GtkWidget *file_projects_merge;

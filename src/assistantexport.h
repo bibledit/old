@@ -76,6 +76,7 @@ private:
   GtkWidget *radiobutton_bible_osis;
   GtkWidget *radiobutton_bible_sword;
   GtkWidget *radiobutton_bible_opendocument;
+  GtkWidget *radiobutton_bible_gobible;
   ExportBibleType get_bible_type ();
 
   // USFM export type.
@@ -85,7 +86,7 @@ private:
   GtkWidget *radiobutton_usfm_changes_only;
   ExportUsfmType get_usfm_type ();
   
-  // Changed USFM export type. Todo
+  // Changed USFM export type.
   int page_number_usfm_changes_type;
   GtkWidget *vbox_usfm_changes_type;
   GtkWidget *radiobutton_usfm_changes_since_last;
@@ -124,7 +125,7 @@ private:
   GtkWidget *checkbutton_zip;
   bool get_compressed ();
   
-  // Select date and time. Todo
+  // Select date and time.
   int page_number_date_time;
   GtkWidget *vbox_date_time;
   GtkWidget *button_date_time;

@@ -27,13 +27,14 @@
 
 
 enum ExportType {etBible, etReferences, etStylesheet, etNotes};
-enum ExportBibleType {ebtUSFM, ebtBibleWorks, ebtOSIS, ebtSWORD, ebtOpenDocument};
+enum ExportBibleType {ebtUSFM, ebtBibleWorks, ebtOSIS, ebtSWORD, ebtOpenDocument, ebtGoBible};
 enum ExportOsisType {eotRecommended, eotGoBibleCreator, eotOld};
 enum ExportUsfmType {eutEverything, eutChangesOnly};
 enum ExportUsfmChangesType {euctSinceLast, euctSinceDateTime};
 
 
 void export_to_usfm (const ustring& project, ustring location, bool zip);
+void export_to_usfm_changes (const ustring& project, int time_from, ustring comment);
 void export_to_bibleworks (const ustring& project, const ustring& filename);
 void export_translation_notes (const ustring& filename, const vector<unsigned int> & ids_to_display, bool export_all);
 void export_to_osis_recommended (const ustring& project, const ustring& filename);
@@ -41,6 +42,7 @@ void export_to_osis_old (const ustring& project, const ustring& filename);
 void export_to_go_bible_creator (const ustring& project, const ustring& filename);
 void export_to_sword (const ustring& project, ustring directory);
 void export_to_opendocument (const ustring& project, const ustring& filename);
+
 
 
 #endif
