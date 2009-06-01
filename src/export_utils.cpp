@@ -888,9 +888,5 @@ void export_to_go_bible (const ustring& project, const ustring& foldername)
   }  
 }
 
-/*
 
-Give help about how to obtain the Go Bible Creator and where to put it.
-Todo 
 
-*/
