@@ -7216,18 +7216,6 @@ void MainWindow::check_usfm_window_ping()
 
 Todo various.
 
-version number in the man pages not updated
-
-(2) The man pages all still say they are version 3.6. This is not a big
-deal at all, and I left them alone, but long term it might be good to
-automatically generate them at build time with a current version number
-and build date in the top line of each (the lines that start with .TH). 
-
-
-
-
-
-
 
 We need to import Scrivener Bible and lexicons into Bibledit, importing from a file, or downloading a site from the web,
 or data from BibleWorks. This might requires a fresh approach to the parallel Bible printing.
