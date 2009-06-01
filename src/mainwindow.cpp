@@ -87,7 +87,6 @@
 #include "dialogoriginreferences.h"
 #include "dialogtidy.h"
 #include "dialognotesupdate.h"
-#include "dialogbackup.h"
 #include "backup.h"
 #include "dialogrevert.h"
 #include "resource_utils.h"
@@ -352,25 +351,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   image18535 = gtk_image_new_from_stock("gtk-floppy", GTK_ICON_SIZE_MENU);
   gtk_widget_show(image18535);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(project_backup), image18535);
-
-  project_backup_menu = gtk_menu_new();
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM(project_backup), project_backup_menu);
-
-  project_backup_incremental = gtk_image_menu_item_new_with_mnemonic("_Incremental");
-  gtk_widget_show(project_backup_incremental);
-  gtk_container_add(GTK_CONTAINER(project_backup_menu), project_backup_incremental);
-
-  image18536 = gtk_image_new_from_stock("gtk-floppy", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image18536);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(project_backup_incremental), image18536);
-
-  project_backup_flexible = gtk_image_menu_item_new_with_mnemonic("_Flexible");
-  gtk_widget_show(project_backup_flexible);
-  gtk_container_add(GTK_CONTAINER(project_backup_menu), project_backup_flexible);
-
-  image18537 = gtk_image_new_from_stock("gtk-cdrom", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image18537);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(project_backup_flexible), image18537);
 
   project_changes = NULL;
   if (guifeatures.project_management()) {
@@ -1772,10 +1752,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     g_signal_connect((gpointer) copy_project_to, "activate", G_CALLBACK(on_copy_project_to_activate), gpointer(this));
   if (compare_with1)
     g_signal_connect((gpointer) compare_with1, "activate", G_CALLBACK(on_compare_with1_activate), gpointer(this));
-  if (project_backup_incremental)
-    g_signal_connect((gpointer) project_backup_incremental, "activate", G_CALLBACK(on_project_backup_incremental_activate), gpointer(this));
-  if (project_backup_flexible)
-    g_signal_connect((gpointer) project_backup_flexible, "activate", G_CALLBACK(on_project_backup_flexible_activate), gpointer(this));
   if (project_changes)
     g_signal_connect((gpointer) project_changes, "activate", G_CALLBACK(on_project_changes_activate), gpointer(this));
   if (file_projects_merge)
@@ -4586,35 +4562,6 @@ void MainWindow::on_keyterms_delete()
  |
  |
  */
-
-void MainWindow::on_project_backup_incremental_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_project_backup_incremental();
-}
-
-void MainWindow::on_project_backup_incremental()
-{
-  save_editors();
-  git_command_pause(true);
-  backup_make_incremental();
-  git_command_pause(false);
-}
-
-void MainWindow::on_project_backup_flexible_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_project_backup_flexible();
-}
-
-void MainWindow::on_project_backup_flexible()
-{
-  save_editors();
-  git_command_pause(true);
-  BackupDialog dialog(0);
-  if (dialog.run() == GTK_RESPONSE_OK) {
-    backup_make_flexible();
-  }
-  git_command_pause(false);
-}
 
 void MainWindow::on_file_backup_activate(GtkMenuItem * menuitem, gpointer user_data)
 {

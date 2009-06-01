@@ -78,6 +78,20 @@ private:
   GtkWidget *radiobutton_bible_opendocument;
   ExportBibleType get_bible_type ();
 
+  // USFM export type.
+  int page_number_usfm_type;
+  GtkWidget *vbox_usfm_type;
+  GtkWidget *radiobutton_usfm_everything;
+  GtkWidget *radiobutton_usfm_changes_only;
+  ExportUsfmType get_usfm_type ();
+  
+  // Changed USFM export type. Todo
+  int page_number_usfm_changes_type;
+  GtkWidget *vbox_usfm_changes_type;
+  GtkWidget *radiobutton_usfm_changes_since_last;
+  GtkWidget *radiobutton_usfm_changes_since_date;
+  ExportUsfmChangesType get_usfm_changes_type ();
+  
   // OSIS export type.
   int page_number_osis_type;
   GtkWidget *vbox_osis_type;
@@ -110,6 +124,19 @@ private:
   GtkWidget *checkbutton_zip;
   bool get_compressed ();
   
+  // Select date and time. Todo
+  int page_number_date_time;
+  GtkWidget *vbox_date_time;
+  GtkWidget *button_date_time;
+  GtkWidget *label_date_time;
+  static void on_button_date_time_clicked (GtkButton *button, gpointer user_data);
+  void on_button_date_time ();
+  unsigned int date_time;
+
+  // Comment entry.  
+  int page_number_comment;
+  GtkWidget * entry_comment;
+
   // Select file.
   int page_number_file;
   GtkWidget *vbox_file;

@@ -37,7 +37,7 @@
 #include "notes_utils.h"
 
 
-void backup_make_incremental()
+void backup_make_incremental() // Todo to move
 {
   extern Settings *settings;
   ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
@@ -45,16 +45,18 @@ void backup_make_incremental()
   projectconfig->backup_incremental_last_time_set(date_time_seconds_get_current());
 }
 
-void backup_make_flexible()
+void backup_make_flexible() // Todo to move
 {
+  /* Todo
   extern Settings *settings;
   ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
   backup_make(settings->genconfig.project_get(), projectconfig->backup_full_get(), projectconfig->backup_incremental_last_time_get());
   if (!projectconfig->backup_full_get())
     projectconfig->backup_incremental_last_time_set(date_time_seconds_get_current());
+  */
 }
 
-void backup_make(const ustring & project, bool full, int timefrom)
+void backup_make(const ustring & project, bool full, int timefrom) // Todo to move
 {
   // Working directory and zipped filename.
   ustring workingdirectory = gw_build_filename(directories_get_temp(), "backup");

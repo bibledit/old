@@ -33,6 +33,8 @@
 #include "snapshots.h"
 #include "gtkwrappers.h"
 #include "compress.h"
+#include "dialogdate.h"
+#include "date_time_utils.h"
 
 
 ExportAssistant::ExportAssistant(WindowReferences * references_window, WindowStyles * styles_window) :
@@ -200,6 +202,66 @@ AssistantBase("Export", "export")
   shortcuts_select_bible_type.consider_assistant();
   shortcuts_select_bible_type.process();
 
+  // Select what type of USFM export to make. Todo
+  vbox_usfm_type = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (vbox_usfm_type);
+  page_number_usfm_type = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_usfm_type);
+  gtk_container_set_border_width (GTK_CONTAINER (vbox_usfm_type), 10);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_usfm_type, "What type of USFM export will you make?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_usfm_type, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_usfm_type, true);
+
+  GSList *radiobutton_usfm_type_group = NULL;
+
+  radiobutton_usfm_everything = gtk_radio_button_new_with_mnemonic (NULL, "Everything");
+  gtk_widget_show (radiobutton_usfm_everything);
+  gtk_box_pack_start (GTK_BOX (vbox_usfm_type), radiobutton_usfm_everything, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_usfm_everything), radiobutton_usfm_type_group);
+  radiobutton_usfm_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_usfm_everything));
+
+  radiobutton_usfm_changes_only = gtk_radio_button_new_with_mnemonic (NULL, "Changes only");
+  gtk_widget_show (radiobutton_usfm_changes_only);
+  gtk_box_pack_start (GTK_BOX (vbox_usfm_type), radiobutton_usfm_changes_only, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_usfm_changes_only), radiobutton_usfm_type_group);
+  radiobutton_usfm_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_usfm_changes_only));
+
+  Shortcuts shortcuts_select_usfm_type (0);
+  shortcuts_select_usfm_type.button (radiobutton_usfm_everything);
+  shortcuts_select_usfm_type.button (radiobutton_usfm_changes_only);
+  shortcuts_select_usfm_type.consider_assistant();
+  shortcuts_select_usfm_type.process();
+
+  // Select what changes of USFM to export. Todo
+  vbox_usfm_changes_type = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (vbox_usfm_changes_type);
+  page_number_usfm_changes_type = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_usfm_changes_type);
+  gtk_container_set_border_width (GTK_CONTAINER (vbox_usfm_changes_type), 10);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_usfm_changes_type, "Which changes will you export?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_usfm_changes_type, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_usfm_changes_type, true);
+
+  GSList *radiobutton_usfm_changes_type_group = NULL;
+
+  radiobutton_usfm_changes_since_last = gtk_radio_button_new_with_mnemonic (NULL, "The ones introduced since last time I did this");
+  gtk_widget_show (radiobutton_usfm_changes_since_last);
+  gtk_box_pack_start (GTK_BOX (vbox_usfm_changes_type), radiobutton_usfm_changes_since_last, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_usfm_changes_since_last), radiobutton_usfm_changes_type_group);
+  radiobutton_usfm_changes_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_usfm_changes_since_last));
+
+  radiobutton_usfm_changes_since_date = gtk_radio_button_new_with_mnemonic (NULL, "The ones introduces since a certain date and time I'll give");
+  gtk_widget_show (radiobutton_usfm_changes_since_date);
+  gtk_box_pack_start (GTK_BOX (vbox_usfm_changes_type), radiobutton_usfm_changes_since_date, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_usfm_changes_since_date), radiobutton_usfm_changes_type_group);
+  radiobutton_usfm_changes_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_usfm_changes_since_date));
+
+  Shortcuts shortcuts_select_usfm_changes_type (0);
+  shortcuts_select_usfm_changes_type.button (radiobutton_usfm_changes_since_last);
+  shortcuts_select_usfm_changes_type.button (radiobutton_usfm_changes_since_date);
+  shortcuts_select_usfm_changes_type.consider_assistant();
+  shortcuts_select_usfm_changes_type.process();
+
   // Select what type of OSIS file to create.
   vbox_osis_type = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vbox_osis_type);
@@ -318,6 +380,51 @@ AssistantBase("Export", "export")
   shortcuts_compress.consider_assistant();
   shortcuts_compress.process();
   
+  // Select date and time.
+  vbox_date_time = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (vbox_date_time);
+  page_number_date_time = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_date_time);
+  gtk_container_set_border_width (GTK_CONTAINER (vbox_date_time), 10);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_date_time, "Please enter the date and time?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_date_time, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_date_time, true);
+
+  button_date_time = gtk_button_new ();
+  gtk_widget_show (button_date_time);
+  gtk_box_pack_start (GTK_BOX (vbox_date_time), button_date_time, FALSE, FALSE, 0);
+
+  GtkWidget *alignment2;
+  GtkWidget *hbox2;
+  GtkWidget *image2;
+
+  alignment2 = gtk_alignment_new (0.5, 0.5, 0, 0);
+  gtk_widget_show (alignment2);
+  gtk_container_add (GTK_CONTAINER (button_date_time), alignment2);
+
+  hbox2 = gtk_hbox_new (FALSE, 2);
+  gtk_widget_show (hbox2);
+  gtk_container_add (GTK_CONTAINER (alignment2), hbox2);
+
+  image2 = gtk_image_new_from_stock ("gtk-open", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_show (image2);
+  gtk_box_pack_start (GTK_BOX (hbox2), image2, FALSE, FALSE, 0);
+
+  label_date_time = gtk_label_new_with_mnemonic ("");
+  gtk_widget_show (label_date_time);
+  gtk_box_pack_start (GTK_BOX (hbox2), label_date_time, FALSE, FALSE, 0);
+
+  g_signal_connect ((gpointer) button_date_time, "clicked", G_CALLBACK (on_button_date_time_clicked), gpointer(this));
+
+  // Comment entry. Todo
+  entry_comment = gtk_entry_new ();
+  gtk_widget_show (entry_comment);
+  page_number_comment = gtk_assistant_append_page (GTK_ASSISTANT (assistant), entry_comment);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), entry_comment, "Any comments on this export?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), entry_comment, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), entry_comment, true);
+  
   // Select file where to save to.
   vbox_file = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vbox_file);
@@ -331,10 +438,6 @@ AssistantBase("Export", "export")
   button_file = gtk_button_new ();
   gtk_widget_show (button_file);
   gtk_box_pack_start (GTK_BOX (vbox_file), button_file, FALSE, FALSE, 0);
-
-  GtkWidget *alignment2;
-  GtkWidget *hbox2;
-  GtkWidget *image2;
 
   alignment2 = gtk_alignment_new (0.5, 0.5, 0, 0);
   gtk_widget_show (alignment2);
@@ -426,7 +529,7 @@ void ExportAssistant::on_assistant_prepare_signal (GtkAssistant *assistant, GtkW
 }
 
 
-void ExportAssistant::on_assistant_prepare (GtkWidget *page)
+void ExportAssistant::on_assistant_prepare (GtkWidget *page) // Todo
 {
   extern Settings *settings;
 
@@ -442,6 +545,15 @@ void ExportAssistant::on_assistant_prepare (GtkWidget *page)
     gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_bible_name, !bible_name.empty());
   }
 
+  // Page for comment.
+  if (page == entry_comment) {
+    ustring comment = gtk_entry_get_text (GTK_ENTRY (entry_comment));
+    if (comment.empty()) {
+      ProjectConfiguration * projectconfig = settings->projectconfig (bible_name);
+      gtk_entry_set_text (GTK_ENTRY (entry_comment), projectconfig->backup_comment_get().c_str());
+    }    
+  }
+  
   // Page for filename to save to.
   if (page == vbox_file) {
     // We may have to retrieve the filename from the configuration under certain circumstances.
@@ -493,13 +605,38 @@ void ExportAssistant::on_assistant_apply ()
   switch (get_type()) {
     case etBible:
     {
-      switch (get_bible_type()) {
+      switch (get_bible_type()) { // Todo take action, save date / time since.
         case ebtUSFM:
         {
-          if (get_compressed ()) {
-            export_to_usfm(bible_name, filename, true);
-          } else {
-            export_to_usfm(bible_name, foldername, false);
+          switch (get_usfm_type ()) {
+            case eutEverything:
+            {
+              if (get_compressed ()) {
+                export_to_usfm(bible_name, filename, true);
+              } else {
+                export_to_usfm(bible_name, foldername, false);
+              }
+              break;
+            }
+            case eutChangesOnly: //  Todo
+            {
+              extern Settings * settings;
+              ProjectConfiguration * projectconfig = settings->projectconfig (bible_name);
+              ustring comment = gtk_entry_get_text (GTK_ENTRY (entry_comment));
+              projectconfig->backup_comment_set (comment);
+              switch (get_usfm_changes_type ()) {
+                case euctSinceLast:   // Todo
+                {
+                  
+                  break;
+                }
+                case euctSinceDateTime:  // Todo
+                {
+                  break;
+                }
+              }
+              break;
+            }
           }
           break;
         }
@@ -607,14 +744,42 @@ gint ExportAssistant::assistant_forward (gint current_page)
       switch (get_bible_type()) {
         case ebtUSFM:
         {
-          forward_sequence.insert (page_number_select_type);
-          forward_sequence.insert (page_number_bible_name);
-          forward_sequence.insert (page_number_bible_type);
-          forward_sequence.insert (page_number_zip);
-          if (get_compressed ()) {
-            forward_sequence.insert (page_number_file);
-          } else {
-            forward_sequence.insert (page_number_folder);
+          switch (get_usfm_type ()) {
+            case eutEverything:  // Todo
+            {
+              forward_sequence.insert (page_number_select_type);
+              forward_sequence.insert (page_number_bible_name);
+              forward_sequence.insert (page_number_bible_type);
+              forward_sequence.insert (page_number_usfm_type);
+              forward_sequence.insert (page_number_zip);
+              if (get_compressed ()) {
+                forward_sequence.insert (page_number_file);
+              } else {
+                forward_sequence.insert (page_number_folder);
+              }
+              break;
+            }
+            case eutChangesOnly: //  Todo
+            {
+              forward_sequence.insert (page_number_select_type);
+              forward_sequence.insert (page_number_bible_name);
+              forward_sequence.insert (page_number_bible_type);
+              forward_sequence.insert (page_number_usfm_type);
+              forward_sequence.insert (page_number_usfm_changes_type);
+              switch (get_usfm_changes_type ()) {
+                case euctSinceLast:
+                {
+                  break;
+                }
+                case euctSinceDateTime:
+                {
+                  forward_sequence.insert (page_number_date_time);
+                  break;
+                }
+              }
+              forward_sequence.insert (page_number_comment);
+              break;
+            }
           }
           break;
         }
@@ -721,6 +886,27 @@ void ExportAssistant::on_button_bible_name ()
 }
 
 
+void ExportAssistant::on_button_date_time_clicked (GtkButton *button, gpointer user_data)
+{
+  ((ExportAssistant *) user_data)->on_button_date_time ();
+}
+
+
+void ExportAssistant::on_button_date_time () // Todo
+{
+  /*
+  ustring file = gtkw_file_chooser_save (assistant, "", filename);
+  if (!file.empty()) {
+    filename = file;
+    if ((get_type() == etBible) && (get_bible_type() == ebtUSFM)) {
+      compress_ensure_zip_suffix (filename);
+    }
+    on_assistant_prepare (vbox_file);
+  }
+  */
+}
+
+
 void ExportAssistant::on_button_file_clicked (GtkButton *button, gpointer user_data)
 {
   ((ExportAssistant *) user_data)->on_button_file ();
@@ -795,6 +981,30 @@ ExportBibleType ExportAssistant::get_bible_type ()
 }
 
 
+ExportUsfmType ExportAssistant::get_usfm_type ()
+{
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_usfm_everything))) {
+    return eutEverything;
+  }
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_usfm_changes_only))) {
+    return eutChangesOnly;
+  }
+  return eutEverything;
+}
+
+
+ExportUsfmChangesType ExportAssistant::get_usfm_changes_type () // Todo
+{
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_usfm_changes_since_last))) {
+    return euctSinceLast;
+  }
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_usfm_changes_since_date))) {
+    return euctSinceDateTime;
+  }
+  return euctSinceLast;
+}
+
+
 bool ExportAssistant::get_compressed ()
 {
   return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_zip));
@@ -846,13 +1056,55 @@ void ExportAssistant::sword_values_set ()
 /*
 
 
-Now that the Backup routine can back up Everything, or just one project, or just the notes— all via the File menu,
+Todo Now that the Backup routine can back up Everything, or just one project, or just the notes— all via the File menu,
 that means the backup entry under File / Project will be removed— I assume.
+Help needs to be updated as well. 
+We get:
+- Everything.
+  * Can be zipped (and asks where to store). 
+- Only changes
+  * Since last export.
+  * Since a certain date.
+A comment can be made for the last two of them.
+
+Transfer help:  new InDialogHelp(backupdialog, NULL, &shortcuts, "backup");
+
+Goes out:  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_full), projectconfig->backup_full_get());
+
+void MainWindow::on_project_backup_incremental()
+{
+  backup_make_incremental();
+}
+
+void MainWindow::on_project_backup_flexible()
+{
+  BackupDialog dialog(0);
+  if (dialog.run() == GTK_RESPONSE_OK) {
+    backup_make_flexible();
+  }
+}
+
+
+void BackupDialog::on_sincebutton()
+{
+  extern Settings *settings;
+  ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
+  guint32 seconds = projectconfig->backup_incremental_last_time_get();
+  DateDialog dialog(&seconds, true);
+  if (dialog.run() == GTK_RESPONSE_OK) {
+    projectconfig->backup_incremental_last_time_set(seconds);
+  }
+}
 
 
 
 
-
+Todo we need to "adopt" the Go Bible Creator, so that if Bibledit wishes to export, 
+and finds this package in the home directory, or in Desktop, it install it, and then offers the
+option to create a complete module. If the Creator is already installed, it does not need it in home,
+because it uses the existing installation. But if it finds it, it will intall a fresh copy each time.
+It gives little help in the Assistant, just a bit, and refers to othe online help. It would
+create the Collections.txt file on its own.
 
 
 Todo version number in the man pages not updated
@@ -861,6 +1113,11 @@ Todo version number in the man pages not updated
 deal at all, and I left them alone, but long term it might be good to
 automatically generate them at build time with a current version number
 and build date in the top line of each (the lines that start with .TH). 
+
+
+
+
+
 
 
 Todo we need to import Scrivener Bible and lexicons into Bibledit, importing from a file, or downloading a site from the web,
@@ -875,50 +1132,30 @@ The blueletterbible.org does have Thayer's lexicon online, and Bibledit should h
 
 Todo OSIS file troubles
 
-
-I'm a newcomer to all this, but I took a quick look at the Shona one. I
+I took a quick look at the Shona one. I
 used bibledit 3.7 (and SWORD 1.6.0RC3) to export it as a "SWORD module
 and OSIS file". Using the "old method" mostly worked, although based on
 some of the output from osis2mod, I suspect I am (or bibledit is) using
-an incorrect versification... what versification system do these Shona
-and Ndebele bibles use? If that info is encoded in the *.usfm files
-somehow, forgive me, but I didn't see it when I looked at them.
+an incorrect versification.
 
-Once I found the XML file (see below), I discovered that the OSIS XML
+I discovered that the OSIS XML
 file does not validate, according to the command:
 
 xmllint --noout --schema
 http://www.bibletechnologies.net/osisCore.2.1.1.xsd ~/osis-from-usfm.xml
 
-It generates over 1800 lines of error messages. I think that Bibledit
-should be careful to generate 100% valid OSIS XML. In fact, perhaps if
+In fact, perhaps if
 xmllint is available at run time, bibledit could use it to validate the
 OSIS export file, before running it through osis2mod? Maybe this use of
 xmllint can be a checkbox option in the export dialog, or something like
 that?
 
-I don't know exactly what you sent to modules@crosswire.org, but ideally
-you would provide an OSIS file which (a) is valid OSIS XML and (b)
-osis2mod can use without generating much (or even any!) warning or
-informational text. If you also provide a workable .conf file for the
-module with appropriate translator and copyright info etc. in it, I
-think that is all that is needed :)
-
-Incidentally, thinking ahead a little, now that osis2mod has a -v for
+Thinking ahead a little, now that osis2mod has a -v for
 versification switch you may want to add the ability for bibledit to use
 that switch to select the appropriate versification for the project
-being exported. The current code in bibledit (in src/export_utils.cpp )
-does not seem to do this (probably because the -v switch is very new!).
+being exported.
 
-Lastly, before I forget: the way the OSIS XML file ends up at a fixed
-(but undocumented?) filename in the user's home directory feels a bit
-unhelpful. I ended up searching for all XML files on my machine that
-were less than a day old, in order to discover it :)
-
-Maybe the OSIS XML file name (and path) could be a field that is given
-defaults during the export dialog, but which the user can change if
-desired, so they can choose (and will know!) where they put the file?
-Failing that, or in addition to that, perhaps you could consider
+Perhaps you could consider
 including the full osis2mod command line in the system log, so that
 looking in there will help novice users (like me!) find the XML file
 more easily.
@@ -927,8 +1164,8 @@ more easily.
 
 
 
-
-
+We might have to consider switching to bazaar so that dump web servers can be
+used for version control. Or does mercurial this too? No, it doesn't.
 
 
 */

@@ -88,11 +88,6 @@ protected:
   GtkWidget *image2764;
   GtkWidget *project_backup;
   GtkWidget *image18535;
-  GtkWidget *project_backup_menu;
-  GtkWidget *project_backup_incremental;
-  GtkWidget *image18536;
-  GtkWidget *project_backup_flexible;
-  GtkWidget *image18537;
   GtkWidget *project_changes;
   GtkWidget *image19115;
   GtkWidget *file_projects_merge;
@@ -644,10 +639,6 @@ protected:
   DeleteKeytermsAssistant * delete_keyterms_assistant;
 
   /* Backup and restore */
-  static void on_project_backup_incremental_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_project_backup_incremental();
-  static void on_project_backup_flexible_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_project_backup_flexible();
   static void on_file_backup_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_file_backup ();
   BackupAssistant * backup_assistant;

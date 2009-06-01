@@ -149,7 +149,6 @@ bibledit_bin_SOURCES = \
         gui_navigation.cpp \
         myfnmatch.c \
         statistics.cpp \
-        dialogbackup.cpp \
         backup.cpp \
         dialogrevert.cpp \
         dialogselectbooks.cpp \

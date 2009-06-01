@@ -29,6 +29,8 @@
 enum ExportType {etBible, etReferences, etStylesheet, etNotes};
 enum ExportBibleType {ebtUSFM, ebtBibleWorks, ebtOSIS, ebtSWORD, ebtOpenDocument};
 enum ExportOsisType {eotRecommended, eotGoBibleCreator, eotOld};
+enum ExportUsfmType {eutEverything, eutChangesOnly};
+enum ExportUsfmChangesType {euctSinceLast, euctSinceDateTime};
 
 
 void export_to_usfm (const ustring& project, ustring location, bool zip);
