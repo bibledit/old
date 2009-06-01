@@ -1,9 +1,5 @@
-exit
-
-
-
 for i in *.1 ;
- do
- sed -i -e 's/Month Day Year/January 31 2009/' -e s/x.x/3.6/ -e s/8/1/ $i ;
+  do
+  sed -i -e 's/January 31 2009/June 1 2009/' -e s/3.6/3.8/ $i ;
 done
 
