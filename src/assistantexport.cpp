@@ -1081,11 +1081,7 @@ void ExportAssistant::sword_values_set ()
 
 /*
 
-
-
-Transfer help:  new InDialogHelp(backupdialog, NULL, &shortcuts, "backup");
-
-
+Todo various.
 
 
 
@@ -1097,6 +1093,8 @@ option to create a complete module. If the Creator is already installed, it does
 because it uses the existing installation. But if it finds it, it will intall a fresh copy each time.
 It gives little help in the Assistant, just a bit, and refers to othe online help. It would
 create the Collections.txt file on its own.
+
+
 
 
 
