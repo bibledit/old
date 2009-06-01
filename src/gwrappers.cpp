@@ -229,6 +229,25 @@ void GwSpawn::progress(ustring text, bool allow_cancel)
   myasync = true;
 }
 
+
+void GwSpawn::describe ()
+// Describes the command if it would run from a shell.
+{
+  ustring description;
+  if (!myworkingdirectory.empty()) {
+    description.append ("cd ");
+    description.append (myworkingdirectory);
+    description.append ("; ");
+  }
+  description.append (myprogram);
+  for (unsigned int i = 0; i < myarguments.size(); i++) {
+    description.append (" ");
+    description.append (myarguments[i]);
+  }
+  gw_message (description);
+}
+
+
 #ifndef WIN32
 void GwSpawn::run()
 {

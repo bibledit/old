@@ -53,6 +53,7 @@ public:
   void write (ustring text);
   void read ();
   void progress (ustring text, bool allow_cancel);
+  void describe ();
   void run ();
   bool cancelled;
   bool result;

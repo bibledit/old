@@ -53,6 +53,7 @@
 #include "categorize.h"
 #include "snapshots.h"
 #include "htmlbrowser.h"
+#include "java.h"
 
 
 void export_to_usfm(const ustring & project, ustring location, bool zip)
@@ -409,8 +410,8 @@ void export_to_osis_old (const ustring& project, const ustring& filename)
 }
 
 
-void export_to_go_bible_creator (const ustring& project, const ustring& filename)
-// Exports a Bible to a striped down OSIS file fit for the Go Bible Creator.
+void export_to_osis_for_go_bible_creator (const ustring& project, const ustring& filename)
+// Exports a Bible to a stripped down OSIS file fit for the Go Bible Creator.
 {
   // Progress.
   ProgressWindow progresswindow ("Exporting", false);
@@ -794,3 +795,102 @@ void export_to_usfm_changes (const ustring& project, int time_from, ustring comm
 }
 
 
+void export_to_go_bible (const ustring& project, const ustring& foldername)
+// Export the project to a full GoBible.
+{
+  // Working area directory.
+  ustring workingdirectory = gw_build_filename (directories_get_temp(), "gobible");
+  gw_mkdir_with_parents (workingdirectory);
+  
+  // Check whether Java is installed. If not, bail out.
+  if (!java_runtime_present (true)) {
+    return;
+  }
+  
+  // Check whether the Go Bible Creator package is available.
+  ustring go_bible_creator_package_file_name;
+  {
+    ReadFiles rf (g_get_home_dir(), "GoBibleCreator", ".zip");
+    if (!rf.files.empty()) {
+      go_bible_creator_package_file_name = gw_build_filename (g_get_home_dir(), rf.files[0]);
+    }
+  }
+
+  // If the package is there, install it.
+  if (!go_bible_creator_package_file_name.empty()) {
+    unix_rmdir (workingdirectory);
+    gw_mkdir_with_parents (workingdirectory);
+    GwSpawn spawn ("unzip");
+    spawn.workingdirectory (workingdirectory);
+    spawn.arg (go_bible_creator_package_file_name);
+    spawn.describe();
+    spawn.run ();
+  }
+
+  // Check whether the Go Bible Creator is there. Bail out if not.
+  ustring go_bible_creator_jar_name;
+  {
+    ReadDirectories rd (workingdirectory, "GoBibleCreator", "");
+    if (!rd.directories.empty()) {
+      go_bible_creator_jar_name = gw_build_filename (workingdirectory, rd.directories[0], "GoBibleCreator.jar");
+      if (!g_file_test (go_bible_creator_jar_name.c_str(), G_FILE_TEST_IS_REGULAR)) {
+        gtkw_dialog_error (NULL, "Could not find a Go Bible Creator.\nPlease download one at your convenience,\nput it in your home folder, and try again.");
+        return;
+      }
+    }
+  }
+  gw_message ("Using Go Bible Creator " + go_bible_creator_jar_name);
+  
+  // Create a temporary OSIS file fit for the Go Bible Creator.
+  ustring xmlfile = gw_build_filename (workingdirectory, project + ".xml");
+  export_to_osis_for_go_bible_creator (project, xmlfile);
+
+  // Create a Collections.txt file.
+  ustring collections_txt_file = gw_build_filename (workingdirectory, "Collections.txt");
+  {
+    GwSpawn spawn ("java");
+    spawn.workingdirectory (workingdirectory);
+    spawn.arg ("-jar");
+    spawn.arg (go_bible_creator_jar_name);
+    spawn.arg (xmlfile);
+    spawn.describe();
+    spawn.run ();
+    ReadText rt (collections_txt_file, true, false);
+    vector <ustring> lines;
+    lines.push_back ("Source-Text: " + project + ".xml");
+    for (unsigned int i = 0; i < rt.lines.size(); i++) {
+      lines.push_back (rt.lines[i]);
+    }
+    write_lines (collections_txt_file, lines);
+  }
+
+  // Create the Go Bible.
+  {
+    GwSpawn spawn ("java");
+    spawn.workingdirectory (workingdirectory);
+    spawn.arg ("-jar");
+    spawn.arg (go_bible_creator_jar_name);
+    spawn.arg (collections_txt_file);
+    spawn.describe ();
+    spawn.run ();  
+  }
+
+  // Check whether the Go Bible is there.
+  ustring jarfile = gw_build_filename (workingdirectory, project + ".jar");
+  ustring jadfile = gw_build_filename (workingdirectory, project + ".jad");
+  bool jarpresent = g_file_test (jarfile.c_str(), G_FILE_TEST_IS_REGULAR);
+  bool jadpresent = g_file_test (jarfile.c_str(), G_FILE_TEST_IS_REGULAR);
+  if (jarpresent && jadpresent) {
+    unix_mv (jarfile, foldername);
+    unix_mv (jadfile, foldername);
+  } else {
+    gtkw_dialog_error (NULL, "There was an error producing the Go Bible.\nPLease check the system log for more information.");
+  }  
+}
+
+/*
+
+Give help about how to obtain the Go Bible Creator and where to put it.
+Todo 
+
+*/

@@ -277,7 +277,8 @@ bibledit_bin_SOURCES = \
 				assistantrestore.cpp \
 				restore.cpp \
 				guiselectbibles.cpp \
-				assistantexport.cpp
+				assistantexport.cpp \
+				java.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 

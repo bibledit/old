@@ -194,7 +194,7 @@ AssistantBase("Export", "export")
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_opendocument), radiobutton_bible_type_group);
   radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_opendocument));
 
-  radiobutton_bible_gobible = gtk_radio_button_new_with_mnemonic (NULL, "Go Bible (see OSIS, for just now)");
+  radiobutton_bible_gobible = gtk_radio_button_new_with_mnemonic (NULL, "Go Bible");
   gtk_widget_show (radiobutton_bible_gobible);
   gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_gobible, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_gobible), radiobutton_bible_type_group);
@@ -594,12 +594,16 @@ void ExportAssistant::on_assistant_prepare (GtkWidget *page)
   // Page for foldername where to save to.
   if (page == vbox_folder) {
     // Optionally retrieve the folder where to save the Sword module to.
-    if (get_type () == etBible) {
-      if (get_bible_type () == ebtSWORD) {
-        if (filename.empty()) {
+    if (foldername.empty ()) {
+      if (get_type () == etBible) {
+        if (get_bible_type () == ebtSWORD) {
           foldername = settings->genconfig.export_to_sword_module_path_get().c_str();
         }
       }
+    }
+    // By default save to the home directory.
+    if (foldername.empty ()) {
+      foldername = g_get_home_dir ();
     }
     gtk_label_set_text (GTK_LABEL (label_folder), foldername.c_str());
     if (foldername.empty()) {
@@ -676,7 +680,7 @@ void ExportAssistant::on_assistant_apply ()
             }
             case eotGoBibleCreator:
             {
-              export_to_go_bible_creator (bible_name, filename);
+              export_to_osis_for_go_bible_creator (bible_name, filename);
               break;
             }
             case eotOld:
@@ -712,8 +716,9 @@ void ExportAssistant::on_assistant_apply ()
           export_to_opendocument(bible_name, filename);
           break;
         }
-        case ebtGoBible: // Todo
+        case ebtGoBible:
         {
+          export_to_go_bible (bible_name, foldername);
           break;
         }
       }
@@ -1003,6 +1008,9 @@ ExportBibleType ExportAssistant::get_bible_type ()
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_bible_opendocument))) {
     return ebtOpenDocument;
   }
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_bible_gobible))) {
+    return ebtGoBible;
+  }
   return ebtUSFM;
 }
 
@@ -1082,24 +1090,6 @@ void ExportAssistant::sword_values_set ()
 /*
 
 Todo various.
-
-
-
-
-
-We need to "adopt" the Go Bible Creator, so that if Bibledit wishes to export, 
-and finds this package in the home directory, or in Desktop, it install it, and then offers the
-option to create a complete module. If the Creator is already installed, it does not need it in home,
-because it uses the existing installation. But if it finds it, it will intall a fresh copy each time.
-It gives little help in the Assistant, just a bit, and refers to othe online help. It would
-create the Collections.txt file on its own.
-
-
-
-
-
-
-
 
 version number in the man pages not updated
 
