@@ -40,6 +40,10 @@ void main_loop()
   switch (stage) {
   case STAGE_ZERO:
     {
+      // As of BibleTime 2.0, it does not seem to work with dcop anymore.
+      // BibleTime communications is disabled here.
+      stage = STAGE_WAIT_RETRY;
+      break;
       // Check if BibleTime is running.
       if (!program_is_running(BIBLETIME)) {
         log("BibleTime is not running");
