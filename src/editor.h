@@ -148,7 +148,7 @@ public:
   void erase_related_note_bits();
   void display_notes_remainder(bool focus_rendered_textview);
   void renumber_and_clean_notes_callers();
-  void insert_note(const ustring& marker, const ustring& rawtext, GtkTextIter * iter, bool render);
+  void insert_note(const ustring& marker, const ustring& rawtext, bool render);
 
   void display_table(ustring line, GtkTextIter iter);
   void erase_tables();
@@ -213,10 +213,6 @@ public:
   guint textbuffer_changed_event_id;
   static bool on_textbuffer_changed_timeout (gpointer user_data);
   void textbuffer_changed_timeout();
-
-  // Testing.
-  void test();
-  void test(ustring message);
 
   // Highlighting.
   void highlight_searchwords();

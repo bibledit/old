@@ -343,13 +343,13 @@ bool WindowEditor::editable()
 }
 
 
-void WindowEditor::insert_note(const ustring& marker, const ustring& rawtext, GtkTextIter * iter, bool render)
+void WindowEditor::insert_note(const ustring& marker, const ustring& rawtext, bool render)
 {
   if (usfmview) {
     usfmview->insert_note (marker, rawtext);
   }
   if (editor) {
-    editor->insert_note (marker, rawtext, iter, render);
+    editor->insert_note (marker, rawtext, render);
   }
 }
 

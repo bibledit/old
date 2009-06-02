@@ -264,9 +264,6 @@ void Editor::chapter_load(unsigned int chapter_in)
 
 void Editor::text_load (ustring text)
 {
-  // No recording of undoable actions while this object is alive.
-  PreventEditorUndo preventundo(&record_undo_level);
-
   // Get rid of possible previous text.
   gtk_text_buffer_set_text(textbuffer, "", -1);
 
@@ -499,6 +496,7 @@ void Editor::text_erase_selection()
   }
 }
 
+
 void Editor::text_insert(ustring text)
 /*
  This inserts plain or USFM text at the cursor location 
@@ -554,56 +552,25 @@ void Editor::text_insert(ustring text)
       text.erase(marker_pos, marker_length);
     }
   }
-  // Initialize paragraph and character styles to the ones prevalent at the insert location.
-  ustring paragraph_mark;
-  ustring character_mark;
-  /*
-     It seems to be more natural to initialize the markers according to the 
-     character that the cursor is after: move the iterator backward.
-     This addresses the following bug:
-     "When text is pasted just before a verse number, it gets it wrong.
-     "It puts the text in the verse style.
-     "It does not happen with just typing, but only with pasting text.
-     "The same thing happens when pasting before any character style."
-     But there's another bug, that when a header is inserted straight after a chapter number,
-     it gets it wrong. So if there's an empty line, it should not move the iterator backward.
-   */
-  bool cursor_on_empty_line = gtk_text_iter_starts_line(&insert_iter) && gtk_text_iter_ends_line(&insert_iter);
-  if (!cursor_on_empty_line) {
-    gtk_text_iter_backward_char(&insert_iter);
-  }
-  get_styles_at_iterator(insert_iter, paragraph_mark, character_mark);
-  // When inserting text at the end of the buffer, no paragraph mark will be found.
-  // In that case iterate back till there is one.
-  while ((paragraph_mark.empty()) && gtk_text_iter_backward_char(&insert_iter)) {
-    get_styles_at_iterator(insert_iter, paragraph_mark, character_mark);
-  }
-  // In the unlikely case that the paragraph style still was not found, use a default.
-  if (paragraph_mark.empty())
-    paragraph_mark = "p";
 
-  // Insert the text in the view at the position of the text insertion point marker.
-  ustring marker;
-  size_t marker_pos;
-  size_t marker_length;
-  bool is_opener;
-  bool marker_found;
-  while (!text.empty()) {
-    marker_found = usfm_search_marker(text, marker, marker_pos, marker_length, is_opener);
-    if (load_text_not_starting_with_marker(buffer, text, paragraph_mark, character_mark, marker_pos, marker_length, marker_found)) ;
-    else if (load_text_table_raw(text, paragraph_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else if (load_text_starting_new_paragraph(buffer, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else if (load_text_starting_character_style(buffer, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else if (load_text_ending_character_style(buffer, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else if (load_text_verse_number(text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else if (load_text_note_raw(text, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else
-      load_text_with_unknown_markup(buffer, text, paragraph_mark, character_mark);
-  }
 
-  // Finalize displaying any notes.
-  display_notes_remainder(false);
-  renumber_and_clean_notes_callers();
+  character_style_on_start_typing.clear ();
+  style_to_be_applied_at_cursor.clear ();
+  PreventEditorUndo * preventundo = new PreventEditorUndo (&record_undo_level); // Todo
+  #define ANCHOR "_ANCHOR_"
+  gtk_text_buffer_insert_at_cursor (buffer, ANCHOR, -1);
+  ustring text2 = get_chapter();
+  size_t pos = text2.find (ANCHOR);
+  if (pos != string::npos) {
+    text2.erase (pos, strlen (ANCHOR));
+    text2.insert (pos, text);
+  }
+  #undef ANCHOR
+  text_load (text2);
+  delete preventundo;
+  trigger_undo_redo_recording ();
+  
+  // Todo we need to reposition the cursor, borrow from undo how to do that properly.
 }
 
 void Editor::show_quick_references()
@@ -1540,11 +1507,8 @@ bool Editor::load_text_note_raw(ustring & line, const ustring & marker, size_t m
             // Get raw note text and erase it from the input buffer.
             ustring rawnote(line.substr(marker_length, endmarkerpos - endmarker.length()));
             line.erase(0, endmarkerpos + endmarker.length());
-            // Get the position where to insert the note caller in the text.
-            GtkTextIter iter;
-            gtk_text_buffer_get_iter_at_mark(textbuffer, &iter, gtk_text_buffer_get_insert(textbuffer));
             // Insert the note.
-            insert_note(marker, rawnote, &iter, false);
+            insert_note(marker, rawnote, false);
             // The information was processed: return true.
             return true;
           }
@@ -2906,14 +2870,13 @@ void Editor::apply_style_at_cursor_handler()
   apply_style(style_to_be_applied_at_cursor);
 }
 
-void Editor::insert_note(const ustring & marker, const ustring & rawtext, GtkTextIter * iter, bool render)
+void Editor::insert_note(const ustring & marker, const ustring & rawtext, bool render)
 /*
  Inserts a note in the editor.
  marker:    The marker that starts the note, e.g. "fe" for an endnote.
  rawtext:   The raw text of the note, e.g. "+ Mat 1.1.". Note that this excludes
  the note opener and note closer. It has only the caller and the
  USFM code of the note body.
- iter:      Where to insert the note. If NULL, it inserts the note at the cursor.
  render:    Whether to render the notes straightaway.
  */
 {
@@ -2928,10 +2891,7 @@ void Editor::insert_note(const ustring & marker, const ustring & rawtext, GtkTex
 
   // Get the iterator where to insert the note caller.
   GtkTextIter insertiter;
-  if (iter)
-    insertiter = *iter;
-  else
-    gtk_text_buffer_get_iter_at_mark(textbuffer, &insertiter, gtk_text_buffer_get_insert(textbuffer));
+  gtk_text_buffer_get_iter_at_mark(textbuffer, &insertiter, gtk_text_buffer_get_insert(textbuffer));
 
   // Create the anchor for the note caller in the text.
   editornote.childanchor_caller_text = gtk_text_buffer_create_child_anchor(textbuffer, &insertiter);
@@ -3093,14 +3053,6 @@ void Editor::textbuffer_changed_timeout()
   textbuffer_changed_event_id = 0;
 }
 
-
-void Editor::test()
-{
-}
-
-void Editor::test(ustring message)
-{
-}
 
 void Editor::highlight_searchwords()
 // Highlights all the search words.
@@ -3468,3 +3420,28 @@ void Editor::scroll_cursor_on_screen_timeout()
 }
 
 
+/*
+
+
+Todo pasting with usfm codes
+
+
+I needed to copy from one BE project to another. So I used "copy with formatting." The result was a mess, perhaps caused by the \r. The resulting paste had lots of bogus end of string markers, like \r*.
+
+The string I copied was this:
+
+\v 39 Mereka suka mendapat tempat terpenting di rumah pertemuan.\fe + \fk Rumah pertemuan\fk* Tempat orang Yahudi berdoa, belajar Kitab Suci, dan tempat pertemuan umum. Inilah yang disebut sinagoge.\fe* Mereka senang mendapat tempat terpenting pada jamuan makan.
+\v 40 Mereka bermaksud mencuri di rumah janda-janda dan berpura-pura berdoa panjang-lebar. Mereka pasti akan mendapat hukuman yang sangat berat.”
+\s Persembahan Seorang Janda
+\r (Luk. 21:1-4)
+\p
+\v 41 Yesus duduk di hadapan kotak persembahan dan mengamati bagaimana orang memasukkan uang ke dalam kotak itu. Banyak orang kaya memasukkan banyak uang.
+\v 42 Kemudian seorang janda miskin memasukkan dua keping uang logam yang harganya kira-kira lima rupiah.
+\p
+\v 43 Ia memanggil murid-murid-Nya dan mengatakan, “Yakinlah, janda miskin itu hanya memberikan dua keping uang logam, tetapi ia memberikan lebih banyak daripada semua orang itu.
+\v 44 Mereka semua memberi yang tidak dibutuhkannya, tetapi janda itu dalam kemiskinannya memberi semua yang dimilikinya. Hanya itu yang dimilikinya untuk kebutuhan hidupnya.” 
+
+The solution: To revert to raw text, then to add the things to paste, then to reformat it.
+Now the difficulty here is where to insert it. The secret is to insert anchors which can be found also in the usfm code easily, e.g. "######".
+
+*/

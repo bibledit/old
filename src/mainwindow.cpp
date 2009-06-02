@@ -4078,7 +4078,7 @@ void MainWindow::on_style_apply()
         if (style.subtype == fentFootnote) {
           InsertNoteDialog dialog(indtFootnote);
           if (dialog.run() == GTK_RESPONSE_OK) {
-            editor_window->insert_note(style.marker, dialog.rawtext, NULL, true);
+            editor_window->insert_note(style.marker, dialog.rawtext, true);
           } else {
             style_was_used = false;
           }
@@ -4087,7 +4087,7 @@ void MainWindow::on_style_apply()
         if (style.subtype == fentEndnote) {
           InsertNoteDialog dialog(indtEndnote);
           if (dialog.run() == GTK_RESPONSE_OK) {
-            editor_window->insert_note(style.marker, dialog.rawtext, NULL, true);
+            editor_window->insert_note(style.marker, dialog.rawtext, true);
           } else {
             style_was_used = false;
           }
@@ -4097,7 +4097,7 @@ void MainWindow::on_style_apply()
       if (style.type == stCrossreference) {
         InsertNoteDialog dialog(indtCrossreference);
         if (dialog.run() == GTK_RESPONSE_OK) {
-          editor_window->insert_note(style.marker, dialog.rawtext, NULL, true);
+          editor_window->insert_note(style.marker, dialog.rawtext, true);
         } else {
           style_was_used = false;
         }

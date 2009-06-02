@@ -50,7 +50,7 @@ public:
   void text_erase_selection();
   void text_insert(ustring text);
   ustring word_double_clicked_text();
-  void insert_note(const ustring& marker, const ustring& rawtext, GtkTextIter * iter, bool render);
+  void insert_note(const ustring& marker, const ustring& rawtext, bool render);
   ustring get_chapter();
   void insert_table(const ustring& rawtext, GtkTextIter * iter);
   void chapter_load(unsigned int chapter_in);
