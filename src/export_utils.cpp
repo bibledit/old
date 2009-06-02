@@ -624,6 +624,7 @@ directory: Where to put the module.
     spawn.arg(absolute_text_directory);
     spawn.arg(osisfile);
     spawn.progress("Compiling", false);
+    spawn.describe ();
     spawn.run();
   }
 
