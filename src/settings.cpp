@@ -84,7 +84,6 @@ bool Settings::on_timeout(gpointer user_data)
 
 void Settings::timeout ()
 {
-  cout << "save settings" << endl; // Todo
   save ();
 }
 
