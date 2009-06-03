@@ -27,6 +27,7 @@
 #include "reference.h"
 #include "types.h"
 
+
 ustring resource_template_ini ();
 
 ustring resource_viewer_produce_anchor(unsigned int book, unsigned int chapter, unsigned int verse);
@@ -56,5 +57,8 @@ map <unsigned int, ustring> resource_get_books(const ustring& templatefile);
 
 const gchar * resource_template_books2_group();
 map <unsigned int, ustring> resource_get_books2(const ustring& templatefile);
+
+ustring resource_select (ustring * filename);
+
 
 #endif

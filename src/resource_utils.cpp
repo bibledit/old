@@ -324,3 +324,26 @@ ustring resource_url_enter_reference(const ustring& constructor, map <unsigned i
   return url;
 }
 
+
+ustring resource_select (ustring * filename)
+// This allows the user to select a resource.
+// It returns the name of the resource that was selected.
+// filename: If a pointer is passed, it give the filename of the selected resource.
+{
+  ustring resource;
+  vector <ustring> filenames;
+  vector <ustring> resources = resource_get_resources(filenames, false);
+  quick_sort(resources, filenames, 0, resources.size());
+  ListviewDialog dialog("Open resource", resources, "", false, NULL);
+  if (dialog.run() == GTK_RESPONSE_OK) {
+    resource = dialog.focus;
+  }
+  if (filename) {
+    for (unsigned int i = 0; i < resources.size(); i++) {
+      if (resource == resources[i]) {
+        * filename = filenames[i];
+      }
+    }
+  }
+  return resource;
+}

@@ -754,8 +754,8 @@ void ResourceAssistant::on_button_books_import_clicked (GtkButton *button, gpoin
 void ResourceAssistant::on_button_books_import ()
 // Import the books from another resource.
 {
-  vector < ustring > filenames;
-  vector < ustring > resources = resource_get_resources(filenames, false);
+  vector <ustring> filenames;
+  vector <ustring> resources = resource_get_resources(filenames, false);
   quick_sort(resources, filenames, 0, resources.size());
   ListviewDialog dialog("Import from resource", resources, "", false, NULL);
   if (dialog.run() == GTK_RESPONSE_OK) {

@@ -43,6 +43,7 @@ private:
   GtkWidget *vbox_select_type;
   GtkWidget *radiobutton_select_type_bible;
   GtkWidget *radiobutton_select_type_notes;
+  GtkWidget *radiobutton_select_type_resource;
   GtkWidget *radiobutton_select_type_everything;
   BackupType get_type ();
 

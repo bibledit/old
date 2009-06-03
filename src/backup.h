@@ -27,11 +27,12 @@
 #include <gtk/gtk.h>
 
 
-enum BackupType {btBible, btNotes, btAll};
+enum BackupType {btBible, btNotes, btResource, btAll};
 
 
 void backup_bible (const ustring& bible, const ustring& filename);
 void backup_notes (const ustring& filename);
+void backup_resource (const ustring& resource, const ustring& filename);
 void backup_all (const ustring& filename);
 
 

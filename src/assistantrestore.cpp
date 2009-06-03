@@ -81,9 +81,16 @@ AssistantBase("Restore", "")
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_everything), radiobutton_select_type_group);
   radiobutton_select_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_select_type_everything));
 
+  radiobutton_select_type_resource = gtk_radio_button_new_with_mnemonic (NULL, "Resource");
+  gtk_widget_show (radiobutton_select_type_resource);
+  gtk_box_pack_start (GTK_BOX (vbox_select_type), radiobutton_select_type_resource, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_resource), radiobutton_select_type_group);
+  radiobutton_select_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_select_type_resource));
+
   Shortcuts shortcuts_select_type (0);
   shortcuts_select_type.button (radiobutton_select_type_bible);
   shortcuts_select_type.button (radiobutton_select_type_notes);
+  shortcuts_select_type.button (radiobutton_select_type_resource);
   shortcuts_select_type.button (radiobutton_select_type_everything);
   shortcuts_select_type.consider_assistant();
   shortcuts_select_type.process();
@@ -249,6 +256,11 @@ void RestoreAssistant::on_assistant_apply ()
         restore_notes (unpack_directory, restore_feedback);
         break;
       }
+      case btResource:
+      {
+        // Todo restore_notes (unpack_directory, restore_feedback);
+        break;
+      }
       case btAll:
       {
         restore_all_stage_one (unpack_directory, restore_feedback);
@@ -314,13 +326,16 @@ void RestoreAssistant::on_button_file ()
 }
 
 
-BackupType RestoreAssistant::get_type ()
+BackupType RestoreAssistant::get_type () // Todo
 {
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_select_type_bible))) {
     return btBible;
   }
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_select_type_notes))) {
     return btNotes;
+  }
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_select_type_resource))) {
+    return btResource;
   }
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_select_type_everything))) {
     return btAll;

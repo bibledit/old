@@ -33,6 +33,7 @@
 #include "snapshots.h"
 #include "gtkwrappers.h"
 #include "compress.h"
+#include "resource_utils.h"
 
 
 BackupAssistant::BackupAssistant(int dummy) :
@@ -74,6 +75,12 @@ AssistantBase("Backup", "")
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_notes), radiobutton_select_type_group);
   radiobutton_select_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_select_type_notes));
 
+  radiobutton_select_type_resource = gtk_radio_button_new_with_mnemonic (NULL, "Resource");
+  gtk_widget_show (radiobutton_select_type_resource);
+  gtk_box_pack_start (GTK_BOX (vbox_select_type), radiobutton_select_type_resource, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_resource), radiobutton_select_type_group);
+  radiobutton_select_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_select_type_resource));
+
   radiobutton_select_type_everything = gtk_radio_button_new_with_mnemonic (NULL, "Everything");
   gtk_widget_show (radiobutton_select_type_everything);
   gtk_box_pack_start (GTK_BOX (vbox_select_type), radiobutton_select_type_everything, FALSE, FALSE, 0);
@@ -83,6 +90,7 @@ AssistantBase("Backup", "")
   Shortcuts shortcuts_select_type (0);
   shortcuts_select_type.button (radiobutton_select_type_bible);
   shortcuts_select_type.button (radiobutton_select_type_notes);
+  shortcuts_select_type.button (radiobutton_select_type_resource);
   shortcuts_select_type.button (radiobutton_select_type_everything);
   shortcuts_select_type.consider_assistant();
   shortcuts_select_type.process();
@@ -97,9 +105,9 @@ AssistantBase("Backup", "")
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_bible_name, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_bible_name, true);
 
-  label_project_name = gtk_label_new ("Bible name");
-  gtk_widget_show (label_project_name);
-  gtk_box_pack_start (GTK_BOX (vbox_bible_name), label_project_name, FALSE, FALSE, 0);
+  label_bible_name = gtk_label_new ("Bible name");
+  gtk_widget_show (label_bible_name);
+  gtk_box_pack_start (GTK_BOX (vbox_bible_name), label_bible_name, FALSE, FALSE, 0);
 
   button_bible_name = gtk_button_new ();
   gtk_widget_show (button_bible_name);
@@ -110,7 +118,7 @@ AssistantBase("Backup", "")
   GtkWidget *alignment1;
   GtkWidget *hbox1;
   GtkWidget *image1;
-  GtkWidget *label12;
+  GtkWidget *label1;
 
   alignment1 = gtk_alignment_new (0.5, 0.5, 0, 0);
   gtk_widget_show (alignment1);
@@ -124,14 +132,55 @@ AssistantBase("Backup", "")
   gtk_widget_show (image1);
   gtk_box_pack_start (GTK_BOX (hbox1), image1, FALSE, FALSE, 0);
 
-  label12 = gtk_label_new_with_mnemonic ("Choose another one");
-  gtk_widget_show (label12);
-  gtk_box_pack_start (GTK_BOX (hbox1), label12, FALSE, FALSE, 0);
+  label1 = gtk_label_new_with_mnemonic ("Choose another one");
+  gtk_widget_show (label1);
+  gtk_box_pack_start (GTK_BOX (hbox1), label1, FALSE, FALSE, 0);
 
   Shortcuts shortcuts_bible_name (0);
-  shortcuts_bible_name.label (label12);
+  shortcuts_bible_name.label (label1);
   shortcuts_bible_name.consider_assistant();
   shortcuts_bible_name.process();
+
+  // Confirm or change Resource.
+  vbox_resource_name = gtk_vbox_new (FALSE, 5);
+  gtk_widget_show (vbox_resource_name);
+  page_number_resource_name = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_resource_name);
+  gtk_container_set_border_width (GTK_CONTAINER (vbox_resource_name), 10);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_resource_name, "Is this the right Resource?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_resource_name, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_resource_name, true);
+
+  label_resource_name = gtk_label_new ("Resource name");
+  gtk_widget_show (label_resource_name);
+  gtk_box_pack_start (GTK_BOX (vbox_resource_name), label_resource_name, FALSE, FALSE, 0);
+
+  button_resource_name = gtk_button_new ();
+  gtk_widget_show (button_resource_name);
+  gtk_box_pack_start (GTK_BOX (vbox_resource_name), button_resource_name, FALSE, FALSE, 0);
+
+  g_signal_connect ((gpointer) button_resource_name, "clicked", G_CALLBACK (on_button_resource_name_clicked), gpointer (this));
+
+  alignment1 = gtk_alignment_new (0.5, 0.5, 0, 0);
+  gtk_widget_show (alignment1);
+  gtk_container_add (GTK_CONTAINER (button_resource_name), alignment1);
+
+  hbox1 = gtk_hbox_new (FALSE, 2);
+  gtk_widget_show (hbox1);
+  gtk_container_add (GTK_CONTAINER (alignment1), hbox1);
+
+  image1 = gtk_image_new_from_stock ("gtk-open", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_show (image1);
+  gtk_box_pack_start (GTK_BOX (hbox1), image1, FALSE, FALSE, 0);
+
+  label1 = gtk_label_new_with_mnemonic ("Choose another one");
+  gtk_widget_show (label1);
+  gtk_box_pack_start (GTK_BOX (hbox1), label1, FALSE, FALSE, 0);
+
+  Shortcuts shortcuts_resource_name (0);
+  shortcuts_resource_name.label (label1);
+  shortcuts_resource_name.consider_assistant();
+  shortcuts_resource_name.process();
 
   // Select file where to save to.
   vbox_file = gtk_vbox_new (FALSE, 0);
@@ -218,11 +267,20 @@ void BackupAssistant::on_assistant_prepare (GtkWidget *page)
     if (bible_name.empty()) {
       bible_name = settings->genconfig.project_get();
     }
-    gtk_label_set_text (GTK_LABEL (label_project_name), bible_name.c_str());
+    gtk_label_set_text (GTK_LABEL (label_bible_name), bible_name.c_str());
     if (bible_name.empty()) {
-      gtk_label_set_text (GTK_LABEL (label_project_name), "No Bible selected");
+      gtk_label_set_text (GTK_LABEL (label_bible_name), "No Bible selected");
     }
     gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_bible_name, !bible_name.empty());
+  }
+
+  if (page == vbox_resource_name) {
+    // Prepare for the page to confirm or change the Bible.
+    gtk_label_set_text (GTK_LABEL (label_resource_name), resource_name.c_str());
+    if (resource_name.empty()) {
+      gtk_label_set_text (GTK_LABEL (label_resource_name), "No Resource selected");
+    }
+    gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_resource_name, !resource_name.empty());
   }
 
   if (page == vbox_file) {
@@ -259,6 +317,11 @@ void BackupAssistant::on_assistant_apply ()
       backup_notes (filename);
       break;
     }
+    case btResource:
+    {
+      backup_resource (resource_name, filename);
+      break;
+    }
     case btAll:
     {
       backup_all (filename);
@@ -282,7 +345,11 @@ gint BackupAssistant::assistant_forward (gint current_page)
   gint new_page_number = current_page + 1;
 
   if (current_page == page_number_select_type) {
-    if (get_type () != btBible) {
+    if (get_type () == btBible) {
+      new_page_number = page_number_bible_name;
+    } else if (get_type () == btResource) {
+      new_page_number = page_number_resource_name;
+    } else {
       new_page_number = page_number_file;
     }
   }
@@ -302,6 +369,22 @@ void BackupAssistant::on_button_bible_name ()
 {
   project_select(bible_name);
   on_assistant_prepare (vbox_bible_name);
+}
+
+
+void BackupAssistant::on_button_resource_name_clicked (GtkButton *button, gpointer user_data)
+{
+  ((BackupAssistant *) user_data)->on_button_resource_name ();
+}
+
+
+void BackupAssistant::on_button_resource_name ()
+{
+  ustring name = resource_select (NULL);
+  if (!name.empty()) {
+    resource_name = name;
+  }
+  on_assistant_prepare (vbox_resource_name);
 }
 
 
@@ -329,6 +412,9 @@ BackupType BackupAssistant::get_type ()
   }
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_select_type_notes))) {
     return btNotes;
+  }
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_select_type_resource))) {
+    return btResource;
   }
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_select_type_everything))) {
     return btAll;

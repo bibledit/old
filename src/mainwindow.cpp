@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include <config.h>
 #include "mainwindow.h"
 #include "libraries.h"
@@ -5072,18 +5073,17 @@ void MainWindow::on_file_resources_open_activate(GtkMenuItem * menuitem, gpointe
 void MainWindow::on_file_resources_open(ustring resource, bool startup)
 // Opens a resource.
 {
-  // Find data about the resource, and whether it exists.
-  vector < ustring > filenames;
-  vector < ustring > resources = resource_get_resources(filenames, false);
-  quick_sort(resources, filenames, 0, resources.size());
-  if (resource.empty()) {
-    ListviewDialog dialog("Open resource", resources, "", false, NULL);
-    if (dialog.run() == GTK_RESPONSE_OK) {
-      resource = dialog.focus;
-    }
+  // If no resource is given, select a new one.
+  if (resource.empty ()) {
+    resource = resource_select (NULL);
   }
   if (resource.empty())
     return;
+
+  // Find data about the resource, and whether it exists.
+  vector <ustring> filenames;
+  vector <ustring> resources = resource_get_resources(filenames, false);
+  quick_sort(resources, filenames, 0, resources.size());
   ustring filename;
   for (unsigned int i = 0; i < resources.size(); i++) {
     if (resource == resources[i]) {

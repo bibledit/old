@@ -17,6 +17,7 @@
  **  
  */
 
+
 #ifndef INCLUDED_ASSISTANT_BACKUP_H
 #define INCLUDED_ASSISTANT_BACKUP_H
 
@@ -42,21 +43,27 @@ private:
   GtkWidget *vbox_select_type;
   GtkWidget *radiobutton_select_type_bible;
   GtkWidget *radiobutton_select_type_notes;
+  GtkWidget *radiobutton_select_type_resource;
   GtkWidget *radiobutton_select_type_everything;
   BackupType get_type ();
 
   // Confirm or change Bible.
   int page_number_bible_name;
   GtkWidget *vbox_bible_name;
-  GtkWidget *label_project_name;
+  GtkWidget *label_bible_name;
   GtkWidget *button_bible_name;
-  GtkWidget *alignment1;
-  GtkWidget *hbox1;
-  GtkWidget *image1;
-  GtkWidget *label12;
   static void on_button_bible_name_clicked (GtkButton *button, gpointer user_data);
   void on_button_bible_name ();
   ustring bible_name;
+
+  // Confirm or change Resource.
+  int page_number_resource_name;
+  GtkWidget *vbox_resource_name;
+  GtkWidget *label_resource_name;
+  GtkWidget *button_resource_name;
+  static void on_button_resource_name_clicked (GtkButton *button, gpointer user_data);
+  void on_button_resource_name ();
+  ustring resource_name;
 
   // Select file.
   int page_number_file;
