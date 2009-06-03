@@ -541,6 +541,9 @@ void Editor::text_insert(ustring text)
   gtk_text_buffer_get_iter_at_mark(buffer, &insert_iter, gtk_text_buffer_get_insert(buffer));
   gtk_text_buffer_place_cursor(buffer, &insert_iter);
 
+  // Get the offset of the cursor in the editor.
+  gint cursor_offset = gtk_text_iter_get_offset (&insert_iter);  
+
   // If not pasting in the main text body, but in a table or note, 
   // remove all markers to prevent trouble.
   if (buffer != textbuffer) {
@@ -553,7 +556,7 @@ void Editor::text_insert(ustring text)
     }
   }
 
-
+  // Join the inserted text with the existing text.
   character_style_on_start_typing.clear ();
   style_to_be_applied_at_cursor.clear ();
   PreventEditorUndo * preventundo = new PreventEditorUndo (&record_undo_level);
@@ -569,8 +572,11 @@ void Editor::text_insert(ustring text)
   text_load (text2);
   delete preventundo;
   trigger_undo_redo_recording ();
-  
-  // Todo we need to reposition the cursor, borrow from undo how to do that properly.
+ 
+  // Restore cursor position.
+  GtkTextIter iter;
+  gtk_text_buffer_get_iter_at_offset (textbuffer, &iter, cursor_offset);
+  gtk_text_buffer_place_cursor (textbuffer, &iter);
 }
 
 void Editor::show_quick_references()
@@ -3420,28 +3426,3 @@ void Editor::scroll_cursor_on_screen_timeout()
 }
 
 
-/*
-
-
-Todo pasting with usfm codes
-
-
-I needed to copy from one BE project to another. So I used "copy with formatting." The result was a mess, perhaps caused by the \r. The resulting paste had lots of bogus end of string markers, like \r*.
-
-The string I copied was this:
-
-\v 39 Mereka suka mendapat tempat terpenting di rumah pertemuan.\fe + \fk Rumah pertemuan\fk* Tempat orang Yahudi berdoa, belajar Kitab Suci, dan tempat pertemuan umum. Inilah yang disebut sinagoge.\fe* Mereka senang mendapat tempat terpenting pada jamuan makan.
-\v 40 Mereka bermaksud mencuri di rumah janda-janda dan berpura-pura berdoa panjang-lebar. Mereka pasti akan mendapat hukuman yang sangat berat.”
-\s Persembahan Seorang Janda
-\r (Luk. 21:1-4)
-\p
-\v 41 Yesus duduk di hadapan kotak persembahan dan mengamati bagaimana orang memasukkan uang ke dalam kotak itu. Banyak orang kaya memasukkan banyak uang.
-\v 42 Kemudian seorang janda miskin memasukkan dua keping uang logam yang harganya kira-kira lima rupiah.
-\p
-\v 43 Ia memanggil murid-murid-Nya dan mengatakan, “Yakinlah, janda miskin itu hanya memberikan dua keping uang logam, tetapi ia memberikan lebih banyak daripada semua orang itu.
-\v 44 Mereka semua memberi yang tidak dibutuhkannya, tetapi janda itu dalam kemiskinannya memberi semua yang dimilikinya. Hanya itu yang dimilikinya untuk kebutuhan hidupnya.” 
-
-The solution: To revert to raw text, then to add the things to paste, then to reformat it.
-Now the difficulty here is where to insert it. The secret is to insert anchors which can be found also in the usfm code easily, e.g. "######".
-
-*/

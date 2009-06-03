@@ -34,6 +34,7 @@ and then keeps it in memory for the rest of the time.
 It will write the values back to disk on object destruction.
 */
 {
+  event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 300000, GSourceFunc(on_timeout), gpointer(this), NULL);
 }
 
 Settings::~Settings()
@@ -72,3 +73,18 @@ void Settings::save ()
     projectconfigurations[i]->save();
   }
 }
+
+
+bool Settings::on_timeout(gpointer user_data)
+{
+  ((Settings *) user_data)->timeout();
+  return true;
+}
+
+
+void Settings::timeout ()
+{
+  cout << "save settings" << endl; // Todo
+  save ();
+}
+

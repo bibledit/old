@@ -40,6 +40,9 @@ public:
   void save ();
 private:
   vector <ProjectConfiguration *> projectconfigurations;
+  unsigned int event_id;
+  static bool on_timeout(gpointer user_data);
+  void timeout();
 };
 
 

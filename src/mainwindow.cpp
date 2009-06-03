@@ -7213,3 +7213,11 @@ void MainWindow::check_usfm_window_ping()
 }
 
 
+/*
+
+Normally when Bibledit shuts down, it is supposed to save all its settings. But this does not always happen. 
+This bug can be seen when working for some time in Bibledit, making changes in the settings, screen layout and so on, then shutting down. 
+After restart the settings were not saved. 
+Solution might be to look into where the crash occurs, or, better probably, to periodically save the settings.
+
+*/
