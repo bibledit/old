@@ -5033,6 +5033,7 @@ void MainWindow::on_window_resource_delete_button(GtkButton * button)
     if (widget == resource_windows[i]->delete_signal_button) {
       delete resource_windows[i];
       resource_windows.erase(iterator);
+      resize_text_area_if_tools_area_is_empty ();
       break;
     }
     iterator++;

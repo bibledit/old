@@ -556,7 +556,7 @@ void Editor::text_insert(ustring text)
 
   character_style_on_start_typing.clear ();
   style_to_be_applied_at_cursor.clear ();
-  PreventEditorUndo * preventundo = new PreventEditorUndo (&record_undo_level); // Todo
+  PreventEditorUndo * preventundo = new PreventEditorUndo (&record_undo_level);
   #define ANCHOR "_ANCHOR_"
   gtk_text_buffer_insert_at_cursor (buffer, ANCHOR, -1);
   ustring text2 = get_chapter();

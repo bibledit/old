@@ -58,6 +58,14 @@ The object below transforms USFM code into OSIS code.
 The validity of the resulting osis file can be checked:
 xmllint --noout --schema osisCore.2.1.1.xsd osis.xml 
 
+At times it may be necessary to use the sword api that is in svn:
+cd
+svn co https://crosswire.org/svn/sword/trunk swordtest
+cd swordtest
+./autogen.sh
+./usrinst.sh
+make
+
 */
 
 Usfm2Osis::Usfm2Osis(const ustring& file)
