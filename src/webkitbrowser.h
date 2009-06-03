@@ -17,8 +17,10 @@
  **  
  */
 
+
 #ifndef INCLUDED_WEBKIT_BROWSER_H
 #define INCLUDED_WEBKIT_BROWSER_H
+
 
 #include "libraries.h"
 #include <glib.h>
@@ -56,7 +58,9 @@ private:
   GtkWidget *button_stop;
   GtkWidget *image_stop;
   GtkWidget *toolitem_home;
+public:
   GtkWidget *button_home;
+private:
   GtkWidget *image_home;
   GtkWidget *toolitem_url;
   GtkWidget *entry_url;
@@ -105,5 +109,6 @@ private:
   void load_finished (WebKitWebView *page, WebKitWebFrame *frame);
   
 };
+
 
 #endif

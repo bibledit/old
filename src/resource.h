@@ -51,6 +51,10 @@ private:
   ustring url_structure;
   map <unsigned int, ustring> book_renderer;
   map <unsigned int, ustring> book_renderer2;
+  Reference myreference;
+  static void on_button_home_clicked (GtkButton *button, gpointer user_data);
+  void on_button_home ();
+  ustring homepage;
 };
 
 #endif

@@ -273,7 +273,9 @@ void WebkitBrowser::on_button_home_clicked (GtkButton *button, gpointer user_dat
 
 void WebkitBrowser::on_button_home ()
 {
-  go_to (homepage);
+  if (!homepage.empty()) {
+    go_to (homepage);
+  }
 }
 
 

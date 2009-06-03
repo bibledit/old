@@ -27,18 +27,17 @@
 #include "directories.h"
 #include "books.h"
 #include "resource_utils.h"
-extern "C" {
-  #include <gtkhtml/gtkhtml.h>
-}
 
 
-Resource::Resource(GtkWidget * window)
+Resource::Resource(GtkWidget * window) :
+myreference (0)
 {
   vbox = gtk_vbox_new(FALSE, 0);
   gtk_widget_show(vbox);
   gtk_container_add(GTK_CONTAINER(window), vbox);
 
   browser = new WebkitBrowser(vbox);
+  g_signal_connect ((gpointer) browser->button_home, "clicked", G_CALLBACK (on_button_home_clicked), gpointer (this));
 }
 
 
@@ -72,6 +71,7 @@ void Resource::go_to(const Reference & reference)
   ustring url = url_structure;
   url = resource_url_enter_reference(url, book_renderer, book_renderer2, reference);
   browser->go_to(url);
+  myreference.assign (reference);
 }
 
 
@@ -81,9 +81,7 @@ void Resource::open(const ustring & filename)
   url_structure = resource_url_get (resource_get_url_constructor(filename), mytemplatefile);
   book_renderer = resource_get_books(filename);
   book_renderer2 = resource_get_books2(filename);
-  ustring homepage = resource_url_get(resource_get_home_page(filename), mytemplatefile);
-  browser->set_home_page (homepage);
-  browser->go_to(homepage);
+  homepage = resource_url_get(resource_get_home_page(filename), mytemplatefile);
   focus();
 }
 
@@ -97,6 +95,19 @@ ustring Resource::template_get()
 time_t Resource::last_focused_time()
 {
   return browser->last_focused_time;
+}
+
+
+void Resource::on_button_home_clicked (GtkButton *button, gpointer user_data)
+{
+  ((Resource *) user_data)->on_button_home();
+}
+
+
+void Resource::on_button_home ()
+{
+  ustring url = resource_url_enter_reference(homepage, book_renderer, book_renderer2, myreference);
+  browser->go_to(url);
 }
 
 

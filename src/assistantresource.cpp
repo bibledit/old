@@ -895,19 +895,12 @@ ustring ResourceAssistant::edited_resource_get ()
 
 todo resources.
 
-For having a Resource open a Google Doc, it needs to produce URL's based on the combined book and chapter, which then
-produces one combined URL. If this URL cannot be formed, it gives the home page instead.
-https://docs.google.com/Doc?docid=dd8j5c9_16cv8z35&hl=en
-https://docs.google.com/Doc?docid=dd8j5c9_17g55m9h&hl=en
-This requires that the Versification for the Resource be set as well. Yet another step.
-
 We may need an option to download all verses and store these locally.
 So Bibledit goes to a website, downloads all verses, stores them under the URL's, so these can be kept for later use offline.
 Bibledit may use httrack to download sites to local files for offline viewing. But httrack may produce huge files, so a warning may have to be given
 to the user. Else Bibledit can manually download the page for each verse, using htmltrack 2 levels deep and store that info, then 
 retrieve it later for each verse.
 To make an engine in bibledit that downloads the online version. 
-
 
 This requires the Versification for the Resource to be set.
 
@@ -933,7 +926,7 @@ http://net.bible.org/verse.php?book=Mat&chapter=1&verse=1
 
 We may need to have an option to --wait some time, as optional, so by default it speeds on.
 
-If using the --no-clobber option, and downloading everything to the same directory, we 
+If using the --no-clobber option, and downloading everything to the same directory, we st
 are going to do a lot of saving the more we download, because no file will be downloaded twice.
 E.g. the strong's numbers are downloaded only once, and be re-used by all pages.
 
@@ -943,3 +936,5 @@ httrack 'http://net.bible.org/bible.php?book=Mat&chapter=1' -O "." -%v -r2 --can
 
 
 */
+
+
