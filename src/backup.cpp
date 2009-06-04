@@ -90,22 +90,4 @@ void backup_all (const ustring& filename)
   spawn.run ();
 }
 
-/*
 
-Todo backup  / restore Resource.
-
-In order to 'transport' a resource xxx from computer 1 to computer 2 (or mail it) you have to
-- navigate to .bibledit/resources,
-- chose the folder and
-- create a zipped archive out of it.
-
-The same would be to install a resource from computer 2 on computer 1:
-- copy the zipped file to .bibledit/resources
-- unzip it there
-and (I suppose) that BE will recognize this as a loaded resource.
-
--> it would be nice to have tool (like the PT backup tool) to
-- create a zipped form of a resource ready to pass on
-- install a zipped form of a new resource 
-
-*/

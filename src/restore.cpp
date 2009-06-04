@@ -33,6 +33,7 @@
 #include "snapshots.h"
 #include "export_utils.h"
 #include "notes_utils.h"
+#include "resource_utils.h"
 
 
 void restore_project (const ustring& unpack_directory, const ustring& bible, vector <ustring>& feedback)
@@ -86,6 +87,47 @@ void restore_notes (const ustring& unpack_directory, vector <ustring>& feedback)
   
   // Give feedback about what has happened.
   feedback.push_back ("Notes were restored");
+}
+
+
+void restore_resource (const ustring& unpack_directory, vector <ustring>& feedback) 
+{
+  cout << "restore the notes from folder " << unpack_directory << endl; // Todo
+  // Check file signature.
+  if (!restore_file_present (unpack_directory, "resource-template.ini", feedback)) {
+    return;
+  }
+ 
+  // Get the Resource's template filename.
+  ustring filename = gw_build_filename (unpack_directory, resource_template_ini ());
+  
+  // Get the Resource's name.
+  ustring resource = resource_get_title (filename);
+  if (resource.empty ()) {
+    feedback.push_back ("No resource found");
+    return;
+  }
+  
+  // Does this resource already exist?
+  vector <ustring> filenames;
+  vector <ustring> resources = resource_get_resources (filenames, false);
+  set <ustring> resource_set (resources.begin (), resources.end ());
+  if (resource_set.find (resource) != resource_set.end ()) {
+    feedback.push_back ("This resource already exists");
+    return;
+  }
+
+  // Find a non-existing directory where to restore the resource to.
+  ustring restore_directory = gw_build_filename (directories_get_resources (), resource);
+  while (g_file_test (restore_directory.c_str(), G_FILE_TEST_EXISTS)) {
+    restore_directory.append ("1");
+  }
+  
+  // Move the resource in place.
+  unix_mv (unpack_directory, restore_directory);
+  
+  // Give feedback about what has happened.
+  feedback.push_back ("Resource was restored");
 }
 
 

@@ -29,6 +29,7 @@
 
 void restore_project (const ustring& unpack_directory, const ustring& bible, vector <ustring>& feedback);
 void restore_notes (const ustring& unpack_directory, vector <ustring>& feedback);
+void restore_resource (const ustring& unpack_directory, vector <ustring>& feedback);
 void restore_all_stage_one (const ustring& unpack_directory, vector <ustring>& feedback);
 void restore_all_stage_two ();
 bool restore_file_present (const ustring& directory, const gchar * filename, vector <ustring>& feedback);

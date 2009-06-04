@@ -75,17 +75,17 @@ AssistantBase("Restore", "")
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_notes), radiobutton_select_type_group);
   radiobutton_select_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_select_type_notes));
 
-  radiobutton_select_type_everything = gtk_radio_button_new_with_mnemonic (NULL, "Everything");
-  gtk_widget_show (radiobutton_select_type_everything);
-  gtk_box_pack_start (GTK_BOX (vbox_select_type), radiobutton_select_type_everything, FALSE, FALSE, 0);
-  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_everything), radiobutton_select_type_group);
-  radiobutton_select_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_select_type_everything));
-
   radiobutton_select_type_resource = gtk_radio_button_new_with_mnemonic (NULL, "Resource");
   gtk_widget_show (radiobutton_select_type_resource);
   gtk_box_pack_start (GTK_BOX (vbox_select_type), radiobutton_select_type_resource, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_resource), radiobutton_select_type_group);
   radiobutton_select_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_select_type_resource));
+
+  radiobutton_select_type_everything = gtk_radio_button_new_with_mnemonic (NULL, "Everything");
+  gtk_widget_show (radiobutton_select_type_everything);
+  gtk_box_pack_start (GTK_BOX (vbox_select_type), radiobutton_select_type_everything, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_everything), radiobutton_select_type_group);
+  radiobutton_select_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_select_type_everything));
 
   Shortcuts shortcuts_select_type (0);
   shortcuts_select_type.button (radiobutton_select_type_bible);
@@ -258,7 +258,7 @@ void RestoreAssistant::on_assistant_apply ()
       }
       case btResource:
       {
-        // Todo restore_notes (unpack_directory, restore_feedback);
+        restore_resource (unpack_directory, restore_feedback);
         break;
       }
       case btAll:
@@ -326,7 +326,7 @@ void RestoreAssistant::on_button_file ()
 }
 
 
-BackupType RestoreAssistant::get_type () // Todo
+BackupType RestoreAssistant::get_type ()
 {
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_select_type_bible))) {
     return btBible;
