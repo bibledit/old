@@ -380,8 +380,8 @@ GtkWidget *SpellingChecker::build_suggestion_menu(GtkTextBuffer * buffer, const 
 
   // + Add to Dictionary
   char *label;
-  label = g_strdup_printf("Add \"%s\" to Dictionary", word);
-  mi = gtk_image_menu_item_new_with_label(label);
+  label = g_strdup_printf("_Add \"%s\" to Dictionary", word);
+  mi = gtk_image_menu_item_new_with_mnemonic(label);
   g_free(label);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(mi), gtk_image_new_from_stock(GTK_STOCK_ADD, GTK_ICON_SIZE_MENU));
   g_signal_connect(G_OBJECT(mi), "activate", G_CALLBACK(on_add_to_dictionary), gpointer(this));
@@ -389,7 +389,7 @@ GtkWidget *SpellingChecker::build_suggestion_menu(GtkTextBuffer * buffer, const 
   gtk_menu_shell_append(GTK_MENU_SHELL(topmenu), mi);
 
   // - Ignore All
-  mi = gtk_image_menu_item_new_with_label("Ignore All");
+  mi = gtk_image_menu_item_new_with_mnemonic("_Ignore All");
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(mi), gtk_image_new_from_stock(GTK_STOCK_REMOVE, GTK_ICON_SIZE_MENU));
   g_signal_connect(G_OBJECT(mi), "activate", G_CALLBACK(on_ignore_all), gpointer(this));
   gtk_widget_show_all(mi);
