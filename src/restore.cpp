@@ -92,7 +92,6 @@ void restore_notes (const ustring& unpack_directory, vector <ustring>& feedback)
 
 void restore_resource (const ustring& unpack_directory, vector <ustring>& feedback) 
 {
-  cout << "restore the notes from folder " << unpack_directory << endl; // Todo
   // Check file signature.
   if (!restore_file_present (unpack_directory, "resource-template.ini", feedback)) {
     return;
