@@ -16,6 +16,7 @@
  **  
  */
 
+
 #include "utilities.h"
 #include <glib.h>
 #include "editor.h"
@@ -39,6 +40,7 @@
 #include "keyboard.h"
 #include "tiny_utilities.h"
 #include "git.h"
+
 
 Editor::Editor(GtkWidget * vbox, const ustring & project_in):
 current_reference(0, 1000, "")

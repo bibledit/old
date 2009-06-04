@@ -1183,6 +1183,7 @@ void table_create_cell(GtkTable * table, GtkTextTagTable * texttagtable, GtkWidg
   gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textview), GTK_WRAP_WORD);
 }
 
+
 void usfm_get_text(GtkTextBuffer * textbuffer, GtkTextIter startiter, GtkTextIter enditer, vector < EditorNote > *editornotes, vector < EditorTable > *editortables, const ustring & project, ustring & text, bool verse_restarts_paragraph)
 /*
  Gets the USFM text from the main textbuffer between the two offsets.
@@ -1195,6 +1196,9 @@ void usfm_get_text(GtkTextBuffer * textbuffer, GtkTextIter startiter, GtkTextIte
   // Paragraph and character styles.
   ustring previous_paragraph_style;
   ustring previous_character_style;
+
+  // Store any note text.
+  ustring note_text;
 
   // Iterate through the text.
   unsigned int iterations = 0;
@@ -1215,6 +1219,7 @@ void usfm_get_text(GtkTextBuffer * textbuffer, GtkTextIter startiter, GtkTextIte
         previous_paragraph_style = new_paragraph_style;
       }
     }
+
     // Get the text at the iterator, and whether this is a linebreak.
     ustring new_character;
     bool line_break;
@@ -1244,10 +1249,14 @@ void usfm_get_text(GtkTextBuffer * textbuffer, GtkTextIter startiter, GtkTextIte
         for (unsigned int i = 0; i < editornotes->size(); i++) {
           EditorNote editornote = editornotes->at(i);
           if (childanchor == editornote.childanchor_caller_text) {
+            // A note should not have a character style. 
+            // This fixes a few bugs related to character styles applied to a note.
+            new_character_style.clear();
+            // Extract note text.
             GtkTextIter startiter, enditer;
             gtk_text_buffer_get_start_iter(editornote.textbuffer, &startiter);
             gtk_text_buffer_get_end_iter(editornote.textbuffer, &enditer);
-            usfm_get_note_text(editornote, startiter, enditer, project, text);
+            usfm_get_note_text(editornote, startiter, enditer, project, note_text);
           }
         }
       }
@@ -1354,6 +1363,10 @@ void usfm_get_text(GtkTextBuffer * textbuffer, GtkTextIter startiter, GtkTextIte
       if (character_style_closing)
         previous_character_style.clear();
 
+      // Store any note text that we may have collected.
+      text.append (note_text);
+      note_text.clear();
+
       // Store this character.
       usfm_internal_add_text(text, new_character);
 
@@ -1372,8 +1385,8 @@ void usfm_get_text(GtkTextBuffer * textbuffer, GtkTextIter startiter, GtkTextIte
   if (!previous_character_style.empty()) {
     usfm_internal_get_text_close_character_style(text, project, previous_character_style);
   }
-
 }
+
 
 void usfm_internal_add_text(ustring & text, const ustring & addition)
 // This is an internal function that adds an addition to already existing
