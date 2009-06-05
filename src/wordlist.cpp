@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "wordlist.h"
 #include "settings.h"
 #include "projectutils.h"
@@ -26,6 +27,7 @@
 #include "tiny_utilities.h"
 #include "styles.h"
 #include "stylesheetutils.h"
+
 
 Wordlist::Wordlist(WordlistType wordlist)
 {
@@ -76,6 +78,18 @@ Wordlist::Wordlist(WordlistType wordlist)
     }
   }
 
+  // Get markers that indicate a section.
+  extern Styles * styles;
+  Stylesheet * stylesheet = styles->stylesheet (stylesheet_get_actual ());
+  for (unsigned int i = 0; i < stylesheet->styles.size(); i++) {
+    StyleV2 * style = stylesheet->styles[i];
+    if (style->type == stStartsParagraph) {
+      if (style->subtype != ptNormalParagraph) {
+        section_markers.insert (style->marker);
+      }
+    }
+  }
+
   progresswindow = new ProgressWindow(wordlistname, false);
 
   wordcount = 0;
@@ -106,18 +120,18 @@ void Wordlist::run(vector < ustring > &allmessages)
     for (unsigned int ch = 0; ch < chapters.size(); ch++) {
 
       // Go through the lines of the chapter, and process them.
-      vector < ustring > lines = project_retrieve_chapter(project, books[bk], chapters[ch]);
-      set < ustring > chapterentries;
-      bool chapter_was_changed = false;
+      vector <ustring> lines = project_retrieve_chapter(project, books[bk], chapters[ch]);
+      set <ustring> section_entries;
+      bool chapter_content_was_changed = false;
       for (unsigned int i = 0; i < lines.size(); i++) {
         ustring line(lines[i]);
-        process_line(line, chapterentries);
+        process_line(line, section_entries);
         if (line != lines[i]) {
-          chapter_was_changed = true;
+          chapter_content_was_changed = true;
           lines[i] = line;
         }
       }
-      if (chapter_was_changed) {
+      if (chapter_content_was_changed) {
         CategorizeChapterVerse ccv(lines);
         project_store_chapter(project, books[bk], ccv);
       }
@@ -182,11 +196,21 @@ void Wordlist::run(vector < ustring > &allmessages)
   }
 }
 
-void Wordlist::process_line(ustring & line, set < ustring > &chapterentries)
+
+void Wordlist::process_line(ustring & line, set <ustring> &section_entries)
 // Processes one line of text:
 // - deals with entries.
 // - deals with asterisks.
+// section_entries - has the entries already made in this section.
 {
+  // Handle section restart.
+  {
+    ustring s (line);
+    ustring marker = usfm_extract_marker (s);
+    if (section_markers.find (marker) != section_markers.end()) {
+      section_entries.clear();
+    }
+  }
   // Remove the asterisk before and the asterisk after the closer, e.g.:
   // \w entry*\w* -> \w entry\w*
   // \w entry\w** -> \w entry\w*
@@ -209,17 +233,18 @@ void Wordlist::process_line(ustring & line, set < ustring > &chapterentries)
       if (use_asterisk) {
         bool insert_asterisk = true;
         if (first_in_chapter)
-          if (chapterentries.find(word) != chapterentries.end())
+          if (section_entries.find(word) != section_entries.end())
             insert_asterisk = false;
         if (insert_asterisk) {
           line.insert(endpos + entry_closer.length(), "*");
         }
-        chapterentries.insert(word);
+        section_entries.insert(word);
       }
     }
     startpos = line.find(entry_opener, endpos);
   }
 }
+
 
 void Wordlist::insert_list(vector < ustring > &lines, unsigned int startlist, unsigned int endlist)
 {
@@ -288,12 +313,14 @@ void Wordlist::insert_list(vector < ustring > &lines, unsigned int startlist, un
     lines.push_back(linesafter[i]);
 }
 
+
 void Wordlist::message(const ustring & message)
 {
   if (messages.empty())
     messages.push_back(wordlistname + ":");
   messages.push_back("- " + message);
 }
+
 
 ustring wordlist_get_entry_style(const ustring & project, WordlistType type)
 {
@@ -339,3 +366,5 @@ ustring wordlist_get_entry_style(const ustring & project, WordlistType type)
   }
   return style;
 }
+
+

@@ -7213,11 +7213,3 @@ void MainWindow::check_usfm_window_ping()
 }
 
 
-/*
-
-Todo
-
-
-
-
-*/

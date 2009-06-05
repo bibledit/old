@@ -43,10 +43,11 @@ private:
   bool use_asterisk, first_in_chapter;
   ustring project;
   ustring wordlistname;
+  set <ustring> section_markers;
   ProgressWindow * progresswindow;
   unsigned int wordcount;
   set<ustring> words;
-  void process_line (ustring& line, set<ustring>& chapterentries);
+  void process_line (ustring& line, set<ustring>& section_entries);
   void insert_list (vector <ustring>& lines, unsigned int startlist, unsigned int endlist);
   void message (const ustring& message);
   vector <ustring> messages;

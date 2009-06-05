@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "dialogwordlist.h"
@@ -25,6 +26,7 @@
 #include "settings.h"
 #include "wordlist.h"
 #include "gtkwrappers.h"
+
 
 WordlistDialog::WordlistDialog(int dummy)
 {
@@ -78,7 +80,7 @@ WordlistDialog::WordlistDialog(int dummy)
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_asterisk_general), settings->genconfig.wordlist_general_asterisk_get());
 
-  checkbutton_general_first_time = gtk_check_button_new_with_mnemonic("the first time it occurs in a chapter");
+  checkbutton_general_first_time = gtk_check_button_new_with_mnemonic("the first time it occurs in a section");
   gtk_widget_show(checkbutton_general_first_time);
   gtk_box_pack_start(GTK_BOX(hbox1), checkbutton_general_first_time, FALSE, FALSE, 0);
 
@@ -119,7 +121,7 @@ WordlistDialog::WordlistDialog(int dummy)
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_asterisk_hebrew), settings->genconfig.wordlist_hebrew_asterisk_get());
 
-  checkbutton_hebrew_firsttime = gtk_check_button_new_with_mnemonic("the first time it occurs in a chapter");
+  checkbutton_hebrew_firsttime = gtk_check_button_new_with_mnemonic("the first time it occurs in a section");
   gtk_widget_show(checkbutton_hebrew_firsttime);
   gtk_box_pack_start(GTK_BOX(hbox2), checkbutton_hebrew_firsttime, FALSE, FALSE, 0);
 
@@ -160,7 +162,7 @@ WordlistDialog::WordlistDialog(int dummy)
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_asterisk_greek), settings->genconfig.wordlist_greek_asterisk_get());
 
-  checkbutton_greek_first_time = gtk_check_button_new_with_mnemonic("the first time it occurs in a chapter");
+  checkbutton_greek_first_time = gtk_check_button_new_with_mnemonic("the first time it occurs in a section");
   gtk_widget_show(checkbutton_greek_first_time);
   gtk_box_pack_start(GTK_BOX(hbox3), checkbutton_greek_first_time, FALSE, FALSE, 0);
 
@@ -336,3 +338,5 @@ void WordlistDialog::gui()
   gtk_widget_set_sensitive(checkbutton_greek_first_time, greek_asterisk);
   gtk_widget_set_sensitive(checkbutton_index_first_time, index_asterisk);
 }
+
+
