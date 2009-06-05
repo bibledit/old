@@ -938,3 +938,26 @@ httrack 'http://net.bible.org/bible.php?book=Mat&chapter=1' -O "." -%v -r2 --can
 */
 
 
+/*
+
+Todo Resources: Editor/Converter: which files to convert
+
+When you build a resource of files without anchors:
+- Resource Editor dialog box: Add files to resources (all)
+- Resource Converter dialog box: Open file for conversion (single)
+
+I do not know if this is done by purpose, that 'importing' files to a resource has to be done twice:
+- add
+- open and convert
+because it could be the case that files have to be converted differently
+As the normal case is that files/books to imported to a single resource have the same chapter/verse pattern:
+
+-> 2 options:
+- convert all files, which have been added in the resource editor dialog box automatically
+- give an choice to convert:
+-- one by one (as it is actually the case)
+-- all together
+
+
+
+*/
