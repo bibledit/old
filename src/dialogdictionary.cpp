@@ -65,11 +65,11 @@ DictionaryDialog::DictionaryDialog(const ustring & project)
   gtk_widget_show(hbox_buttons);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), hbox_buttons, TRUE, TRUE, 0);
 
-  button_add = gtk_button_new_from_stock("gtk-add");
+  button_add = gtk_button_new_from_stock("gtk-connect");
   gtk_widget_show(button_add);
   gtk_box_pack_start(GTK_BOX(hbox_buttons), button_add, FALSE, FALSE, 0);
 
-  button_delete = gtk_button_new_from_stock("gtk-delete");
+  button_delete = gtk_button_new_from_stock("gtk-disconnect");
   gtk_widget_show(button_delete);
   gtk_box_pack_start(GTK_BOX(hbox_buttons), button_delete, FALSE, FALSE, 0);
 
