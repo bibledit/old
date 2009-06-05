@@ -17,9 +17,10 @@
 **  
 */
 
+
 #include "libraries.h"
 #include <glib.h>
-#include "dialogresourceconverter2.h"
+#include "dialogresourceconverter.h"
 #include "help.h"
 #include "gtkwrappers.h"
 #include "utilities.h"
@@ -41,7 +42,8 @@
 #include "roman.h"
 #include "combobox.h"
 
-ResourceConverter2Dialog::ResourceConverter2Dialog(const ustring & working_directory)
+
+ResourceConverterDialog::ResourceConverterDialog(const ustring & working_directory)
 {
   // Initialize variables.
   workingdirectory = working_directory;
@@ -108,17 +110,17 @@ ResourceConverter2Dialog::ResourceConverter2Dialog(const ustring & working_direc
   }
 }
 
-ResourceConverter2Dialog::~ResourceConverter2Dialog()
+ResourceConverterDialog::~ResourceConverterDialog()
 {
   gtk_widget_destroy(resourceconverterdialog);
 }
 
-int ResourceConverter2Dialog::run()
+int ResourceConverterDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(resourceconverterdialog));
 }
 
-void ResourceConverter2Dialog::build_table_and_type(Shortcuts & shortcuts)
+void ResourceConverterDialog::build_table_and_type(Shortcuts & shortcuts)
 {
   // Destroy anything old.
   if (table1)
@@ -135,7 +137,7 @@ void ResourceConverter2Dialog::build_table_and_type(Shortcuts & shortcuts)
   build_button(image_type_ok, label_type_ok, label_type_short, button_type, "Type", shortcuts, G_CALLBACK(on_type_button_clicked), label_type_long);
 }
 
-void ResourceConverter2Dialog::build_entry(GtkWidget * &image_ok, GtkWidget * &label_ok, GtkWidget * &label, const gchar * label_text, GtkWidget * &entry, const ustring & entry_text, GCallback handler)
+void ResourceConverterDialog::build_entry(GtkWidget * &image_ok, GtkWidget * &label_ok, GtkWidget * &label, const gchar * label_text, GtkWidget * &entry, const ustring & entry_text, GCallback handler)
 {
   GtkWidget *hseparator;
   hseparator = gtk_hseparator_new();
@@ -168,7 +170,7 @@ void ResourceConverter2Dialog::build_entry(GtkWidget * &image_ok, GtkWidget * &l
   g_signal_connect((gpointer) entry, "changed", handler, gpointer(this));
 }
 
-void ResourceConverter2Dialog::build_button(GtkWidget * &image_ok, GtkWidget * &label_ok, GtkWidget * &label_short, GtkWidget * &button, const gchar * button_text, Shortcuts & shortcuts, GCallback handler, GtkWidget * &label_long)
+void ResourceConverterDialog::build_button(GtkWidget * &image_ok, GtkWidget * &label_ok, GtkWidget * &label_short, GtkWidget * &button, const gchar * button_text, Shortcuts & shortcuts, GCallback handler, GtkWidget * &label_long)
 {
   GtkWidget *hseparator;
   hseparator = gtk_hseparator_new();
@@ -226,7 +228,7 @@ void ResourceConverter2Dialog::build_button(GtkWidget * &image_ok, GtkWidget * &
   g_signal_connect((gpointer) button, "clicked", handler, gpointer(this));
 }
 
-void ResourceConverter2Dialog::build_checkbutton_button(GtkWidget * &image_ok, GtkWidget * &label_ok, GtkWidget * &checkbutton, const gchar * checkbutton_text, GCallback checkbutton_handler, GtkWidget * &button, const gchar * button_text, GCallback button_handler, Shortcuts & shortcuts, GtkWidget * &label)
+void ResourceConverterDialog::build_checkbutton_button(GtkWidget * &image_ok, GtkWidget * &label_ok, GtkWidget * &checkbutton, const gchar * checkbutton_text, GCallback checkbutton_handler, GtkWidget * &button, const gchar * button_text, GCallback button_handler, Shortcuts & shortcuts, GtkWidget * &label)
 {
   GtkWidget *hseparator = gtk_hseparator_new();
   gtk_widget_show(hseparator);
@@ -281,7 +283,7 @@ void ResourceConverter2Dialog::build_checkbutton_button(GtkWidget * &image_ok, G
   g_signal_connect((gpointer) button, "clicked", button_handler, gpointer(this));
 }
 
-void ResourceConverter2Dialog::build_textview(GtkWidget * &image_ok, GtkWidget * &label_ok, GtkWidget * &label, GtkWidget * &textview, gchar * text, GCallback handler)
+void ResourceConverterDialog::build_textview(GtkWidget * &image_ok, GtkWidget * &label_ok, GtkWidget * &label, GtkWidget * &textview, gchar * text, GCallback handler)
 {
   GtkWidget *hseparator;
   hseparator = gtk_hseparator_new();
@@ -325,7 +327,7 @@ void ResourceConverter2Dialog::build_textview(GtkWidget * &image_ok, GtkWidget *
 }
 
 // Entry, combo, entry.
-void ResourceConverter2Dialog::build_entry_combo_entry(GtkWidget * &image_ok, GtkWidget * &label_ok, GtkWidget * &label, GtkWidget * &label_entry_1, GtkWidget * &entry_1, GtkWidget * &label_combo, GtkWidget * &combo, GtkWidget * &label_entry_2, GtkWidget * &entry_2, GCallback entry_handler, Shortcuts & shortcuts)
+void ResourceConverterDialog::build_entry_combo_entry(GtkWidget * &image_ok, GtkWidget * &label_ok, GtkWidget * &label, GtkWidget * &label_entry_1, GtkWidget * &entry_1, GtkWidget * &label_combo, GtkWidget * &combo, GtkWidget * &label_entry_2, GtkWidget * &entry_2, GCallback entry_handler, Shortcuts & shortcuts)
 {
   GtkWidget *hseparator;
   hseparator = gtk_hseparator_new();
@@ -396,12 +398,12 @@ void ResourceConverter2Dialog::build_entry_combo_entry(GtkWidget * &image_ok, Gt
 
 // Resource conversion type.
 
-void ResourceConverter2Dialog::on_type_button_clicked(GtkButton * button, gpointer user_data)
+void ResourceConverterDialog::on_type_button_clicked(GtkButton * button, gpointer user_data)
 {
-  ((ResourceConverter2Dialog *) user_data)->on_type_button(false);
+  ((ResourceConverterDialog *) user_data)->on_type_button(false);
 }
 
-void ResourceConverter2Dialog::on_type_button(bool no_ask)
+void ResourceConverterDialog::on_type_button(bool no_ask)
 {
   bool dialog_ok = false;
   if (!no_ask) {
@@ -429,7 +431,7 @@ void ResourceConverter2Dialog::on_type_button(bool no_ask)
   }
 }
 
-bool ResourceConverter2Dialog::type_gui()
+bool ResourceConverterDialog::type_gui()
 {
   ustring type = resource_conversion_type_to_text(resource_conversion_type);
   bool ok = !type.empty();
@@ -439,7 +441,7 @@ bool ResourceConverter2Dialog::type_gui()
   return ok;
 }
 
-void ResourceConverter2Dialog::build_gui(Shortcuts & shortcuts)
+void ResourceConverterDialog::build_gui(Shortcuts & shortcuts)
 {
   switch (resource_conversion_type) {
   case rctChapterStartsAtPatternVerseOneStartsAtChapterVerseStartsAtPattern:
@@ -485,17 +487,17 @@ void ResourceConverter2Dialog::build_gui(Shortcuts & shortcuts)
   }
 }
 
-void ResourceConverter2Dialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
+void ResourceConverterDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
 {
-  ((ResourceConverter2Dialog *) user_data)->on_okbutton();
+  ((ResourceConverterDialog *) user_data)->on_okbutton();
 }
 
-void ResourceConverter2Dialog::on_okbutton()
+void ResourceConverterDialog::on_okbutton()
 {
   chapter_pattern_gui();
 }
 
-void ResourceConverter2Dialog::gui()
+void ResourceConverterDialog::gui()
 {
   bool ok = true;
   if (!type_gui())
@@ -525,12 +527,12 @@ void ResourceConverter2Dialog::gui()
 
 // Open file.
 
-void ResourceConverter2Dialog::on_open_file_button_clicked(GtkButton * button, gpointer user_data)
+void ResourceConverterDialog::on_open_file_button_clicked(GtkButton * button, gpointer user_data)
 {
-  ((ResourceConverter2Dialog *) user_data)->on_open_file_button();
+  ((ResourceConverterDialog *) user_data)->on_open_file_button();
 }
 
-void ResourceConverter2Dialog::on_open_file_button()
+void ResourceConverterDialog::on_open_file_button()
 {
   // List all files in the working directory.
   ReadFiles rf(workingdirectory, "", "");
@@ -548,7 +550,7 @@ void ResourceConverter2Dialog::on_open_file_button()
   }
 }
 
-bool ResourceConverter2Dialog::open_file_gui()
+bool ResourceConverterDialog::open_file_gui()
 {
   bool ok = !filename.empty();
   ustring s(filename);
@@ -565,19 +567,19 @@ bool ResourceConverter2Dialog::open_file_gui()
 
 // View file.
 
-void ResourceConverter2Dialog::on_view_file_button_clicked(GtkButton * button, gpointer user_data)
+void ResourceConverterDialog::on_view_file_button_clicked(GtkButton * button, gpointer user_data)
 {
-  ((ResourceConverter2Dialog *) user_data)->on_view_file_button();
+  ((ResourceConverterDialog *) user_data)->on_view_file_button();
 }
 
-void ResourceConverter2Dialog::on_view_file_button()
+void ResourceConverterDialog::on_view_file_button()
 {
   ustring tempfile = gw_build_filename(directories_get_temp(), "resource-converter-view-file");
   write_lines(tempfile, lines);
   htmlbrowser(tempfile, false);
 }
 
-bool ResourceConverter2Dialog::view_file_gui()
+bool ResourceConverterDialog::view_file_gui()
 {
   bool ok = !filename.empty();
   gtk_label_set_text(GTK_LABEL(label_view_file_short), "View the file");
@@ -587,18 +589,18 @@ bool ResourceConverter2Dialog::view_file_gui()
 
 // Chapter detection pattern.
 
-void ResourceConverter2Dialog::on_chapter_pattern_entry_changed(GtkEditable * editable, gpointer user_data)
+void ResourceConverterDialog::on_chapter_pattern_entry_changed(GtkEditable * editable, gpointer user_data)
 {
-  ((ResourceConverter2Dialog *) user_data)->on_chapter_pattern_entry();
+  ((ResourceConverterDialog *) user_data)->on_chapter_pattern_entry();
 }
 
-void ResourceConverter2Dialog::on_chapter_pattern_entry()
+void ResourceConverterDialog::on_chapter_pattern_entry()
 {
   if (chapter_pattern_gui())
     gui();
 }
 
-bool ResourceConverter2Dialog::chapter_pattern_gui()
+bool ResourceConverterDialog::chapter_pattern_gui()
 {
   bool ok = true;
   chapter_pattern_prefix = gtk_entry_get_text(GTK_ENTRY(entry_chapter_pattern_1));
@@ -612,18 +614,18 @@ bool ResourceConverter2Dialog::chapter_pattern_gui()
 
 // Verse detection pattern.
 
-void ResourceConverter2Dialog::on_verse_pattern_entry_changed(GtkEditable * editable, gpointer user_data)
+void ResourceConverterDialog::on_verse_pattern_entry_changed(GtkEditable * editable, gpointer user_data)
 {
-  ((ResourceConverter2Dialog *) user_data)->on_verse_pattern_entry();
+  ((ResourceConverterDialog *) user_data)->on_verse_pattern_entry();
 }
 
-void ResourceConverter2Dialog::on_verse_pattern_entry()
+void ResourceConverterDialog::on_verse_pattern_entry()
 {
   if (verse_pattern_gui())
     gui();
 }
 
-bool ResourceConverter2Dialog::verse_pattern_gui()
+bool ResourceConverterDialog::verse_pattern_gui()
 {
   bool ok = true;
   verse_pattern_prefix = gtk_entry_get_text(GTK_ENTRY(entry_verse_pattern_1));
@@ -637,12 +639,12 @@ bool ResourceConverter2Dialog::verse_pattern_gui()
 
 // Write anchors.
 
-void ResourceConverter2Dialog::on_write_anchors_button_clicked(GtkButton * button, gpointer user_data)
+void ResourceConverterDialog::on_write_anchors_button_clicked(GtkButton * button, gpointer user_data)
 {
-  ((ResourceConverter2Dialog *) user_data)->on_write_anchors_button();
+  ((ResourceConverterDialog *) user_data)->on_write_anchors_button();
 }
 
-void ResourceConverter2Dialog::on_write_anchors_button()
+void ResourceConverterDialog::on_write_anchors_button()
 {
   // Remove old anchors.
   resource_conversion_remove_anchors(lines);
@@ -672,7 +674,7 @@ void ResourceConverter2Dialog::on_write_anchors_button()
   }
 }
 
-bool ResourceConverter2Dialog::write_anchors_gui()
+bool ResourceConverterDialog::write_anchors_gui()
 {
   bool ok = true;
   if (!anchors_written)
@@ -699,176 +701,4 @@ bool ResourceConverter2Dialog::write_anchors_gui()
   return ok;
 }
 
-/*
-Code from the previous resource converter:
 
-void ResourceConverterDialog::on_examinebutton ()
-{
-  // Clear any previous anchors.
-  anchors_books.clear();
-  anchors_chapters.clear();
-  anchors_verses.clear();
-  anchors_positions.clear ();
-  currentbook = 0;
-  currentchapter = 0;
-  
-  // Go through all the lines
-  // Show progress. Allow cancel.
-  ProgressWindow progress ("Examining data", true);
-  progress.set_iterate (0, 1, lines.size());
-  for (unsigned int i = 0; i < lines.size(); i++) {
-    progress.iterate ();
-    if (progress.cancel) return;
-      
-    // Produce a line to work on.
-    // If the next line does not start with a "<", add it to the main one.
-    // This is because at times the html editor may cut a signature in the middle.
-    // Making one clean line also greatly reduces the amount of spurious 
-    // anchors that would otherwise be found.
-    ustring line (lines[i]);
-    while (   (i + 1 != lines.size()) 
-           && (!lines[i + 1].empty()) 
-           && (lines[i + 1].substr (0, 1) != "<")) {
-      i++;
-      progress.iterate ();
-      line.append (" ");
-      line.append (lines[i]);
-    }
-    
-    // Produce a clean line, without the html code, just the pure text only.
-    line = html_remove_code_between_less_than_and_greater_than_signs (line);
-    // Replace the long with the short hyphen. Important when recognizing
-    // ranges of verses.
-    replace_text (line, "–", "-");    
-
-    // If there is no text, skip rest.
-    if (line.empty ()) continue;
-    
-    // Do the appropriate examination.
-    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_signature_book_space_chapter_colon_verse_line_start)))
-      examine_book_space_chapter_colon_verse_line_start (i, line);
-    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_signature_book_and_chapter_on_a_line_verses_follow)))
-      examine_book_and_chapter_on_a_line_verses_follow (i, line);
-  }
-
-  // Set gui.
-  ustring label ("Possible locations for anchors found: " + convert_to_string (anchors_books.size()));
-  gtk_label_set_text (GTK_LABEL (label_examine_results), label.c_str());
-  examined = true;  
-  reviewed = false;
-  gui ();
-  gtk_widget_grab_focus (button_review);
-}
-
-void ResourceConverterDialog::on_reviewbutton ()
-{
-  ReviewAnchorsDialog dialog (&anchors_books, &anchors_chapters, &anchors_verses, &anchors_positions);
-  if (dialog.run () == GTK_RESPONSE_OK) {
-    ustring label ("Anchors that will be placed: " + convert_to_string (anchors_books.size()));
-    gtk_label_set_text (GTK_LABEL (label_review_result), label.c_str());
-    reviewed = true;
-    written = false;
-    gui ();
-    gtk_widget_grab_focus (button_write);
-  }
-}
-
-void ResourceConverterDialog::on_writebutton ()
-{
-  // Ask whether to write the new data. If not, bail out.
-  ustring question;
-  question.append ("Would you like to write the anchors to the file?");
-  question.append ("\nWarning: This will overwrite the original file.");
-  if (gtkw_dialog_question (resourceconverterdialog, question) != GTK_RESPONSE_YES) return;
-
-  // Insert the anchors.
-  for (unsigned int i = 0; i < anchors_positions.size(); i++) {
-    insert_anchor (lines[anchors_positions[i]], html_create_anchor (resource_viewer_produce_anchor (anchors_books[i], anchors_chapters[i], anchors_verses[i]), ""));
-  }
-
-  // Write the data.
-  write_lines (filename, lines);
-  
-  // GUI.
-  gtk_label_set_text (GTK_LABEL (label_write_result), "The anchors were written");
-  written = true;
-  gui ();
-  gtk_widget_grab_focus (okbutton);
-  
-}
-
-void ResourceConverterDialog::examine_book_space_chapter_colon_verse_line_start (unsigned int linenumber, const ustring& line)
-{
-  // Parse the line into words separated by spaces,
-  // and go through the second, third, and fourth word.
-  Parse parse (line, false);
-  unsigned int fourth_word = CLAMP (4, 0, parse.words.size());
-  for (unsigned int i = 1; i < fourth_word; i++) {
-    // Look for the "<chapter>:<verse>".
-    if (unix_fnmatch ("*[0-9][:.][0-9]*", parse.words[i])) {
-
-      // Find the position of this chapter:verse in the line.
-      size_t chapter_verse_pos = line.find (parse.words[i]);
-      
-      // See if a sensible reference can be found in the raw text, from the
-      // beginning of the line.
-      ustring rawbook = line.substr (0, chapter_verse_pos - 1);
-      unsigned int book = book_find_valid (rawbook);
-      if (book) {
-        unsigned int chapter;
-        ustring verse;
-        if (reference_discover (book, 0, "", parse.words[i], book, chapter, verse)) {
-          // Store the anchor(s).
-          // We put "anchors" in a possible plural, because ranges and sequences
-          // are covered too.
-          vector <unsigned int> verses = verse_range_sequence (verse);
-          for (unsigned int i2 = 0; i2 < verses.size(); i2++) {
-            anchors_books.push_back (book);
-            anchors_chapters.push_back (chapter);
-            anchors_verses.push_back (verses[i2]);
-            anchors_positions.push_back (linenumber);
-          }
-          break;
-        }
-      }
-    }    
-  }
-}
-
-void ResourceConverterDialog::examine_book_and_chapter_on_a_line_verses_follow (unsigned int linenumber, const ustring& line)
-{
-  // See if the whole line is a book/chapter.
-  // If so, store them, and bail out.
-  unsigned int book;
-  unsigned int chapter;
-  ustring verse;
-  if (line.length() < 25) {
-    if (!number_in_string (line).empty()) {
-      if (reference_discover (0, 0, "", line, book, chapter, verse)) {
-        if (book && chapter) {
-          currentbook = book;
-          currentchapter = chapter;
-          return;
-        } 
-      }
-    }
-  }
-
-  // If there is no book or chapter yet, bail out.
-  if (!currentbook) return;
-  if (!currentchapter) return;
-  
-  // Check if a line starts with a verse number. If not, bail out.
-  verse = number_in_string (line);
-  if (verse.empty()) return;
-  if (line.find (verse) != 0) return;
-  
-  // Store the anchor.
-  anchors_books.push_back (currentbook);
-  anchors_chapters.push_back (currentchapter);
-  anchors_verses.push_back (convert_to_int (verse));
-  anchors_positions.push_back (linenumber);
-}
-
-
-*/

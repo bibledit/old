@@ -207,7 +207,7 @@ bibledit_bin_SOURCES = \
         resource.cpp \
         dialogbooknames.cpp \
         dialogradiobutton.cpp \
-        dialogresourceconverter2.cpp \
+        dialogresourceconverter.cpp \
         resource_conversion_utils.cpp \
         convert.cpp \
         textviewer.cpp \

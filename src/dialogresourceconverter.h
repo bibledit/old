@@ -18,8 +18,8 @@
 */
 
 
-#ifndef INCLUDED_DIALOGRESOURCECONVERTER2_H
-#define INCLUDED_DIALOGRESOURCECONVERTER2_H
+#ifndef INCLUDED_DIALOGRESOURCECONVERTER_H
+#define INCLUDED_DIALOGRESOURCECONVERTER_H
 
 
 #include <gtk/gtk.h>
@@ -28,11 +28,11 @@
 #include "shortcuts.h"
 
 
-class ResourceConverter2Dialog
+class ResourceConverterDialog
 {
 public:
-  ResourceConverter2Dialog (const ustring& working_directory);
-  ~ResourceConverter2Dialog ();
+  ResourceConverterDialog (const ustring& working_directory);
+  ~ResourceConverterDialog ();
   int run ();
   ResourceConversionType resource_conversion_type;
   ustring chapter_pattern_prefix;
