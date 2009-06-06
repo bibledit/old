@@ -17,13 +17,16 @@
  **  
  */
 
+
 #ifndef INCLUDED_WINDOW_CHECK_KEYTERMS_H
 #define INCLUDED_WINDOW_CHECK_KEYTERMS_H
+
 
 #include <gtk/gtk.h>
 #include "ustring.h"
 #include "reference.h"
 #include "window.h"
+
 
 class WindowCheckKeyterms : public WindowBase
 {
@@ -94,6 +97,7 @@ private:
   void check_text();
   gboolean on_textview_keyterm_text_button_press(GdkEventButton *event);
   gboolean on_textview_keyterm_text_button_release(GdkEventButton *event);
+  vector <ustring> keyterm_text_selection;
   gboolean on_textview_keyterm_text_key_press(GdkEventKey *event);
   void check_move_new_reference();
 
@@ -115,5 +119,6 @@ private:
   guint previous_reference_id; // The previous id of the reference that shows.
   guint signal_id;
 };
+
 
 #endif

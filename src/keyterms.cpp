@@ -1296,3 +1296,18 @@ deque < ustring > keyterms_rendering_retrieve_terms(const ustring & project, con
   sqlite3_close(db);
   return keyterms;
 }
+
+
+/* 
+
+Todo Keyterms: Filter for references without fitting keyterms
+
+When a rendering provided for a keyterm is not found in verse, this verse is marked by a red background.
+On the other side: When a rendering provided for a keyterm is found in verse, the background becomes white and the rendering is marked in yellow.
+In order to see, which verses do not have renderings provided, you have to scroll down the list to find those.
+
+-> Build in a filter, which allows to see only those verses, which do not have renderings provided (and filter out the ones, 
+which do have such a rendering) 
+ 
+ 
+*/

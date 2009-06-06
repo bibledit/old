@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "windowcheckkeyterms.h"
@@ -31,6 +32,7 @@
 #include "projectutils.h"
 #include "categorize.h"
 #include "mapping.h"
+
 
 WindowCheckKeyterms::WindowCheckKeyterms(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
 WindowBase(widCheckKeyterms, "Check keyterms", startup, 0, parent_box), myreference(0)
@@ -193,9 +195,11 @@ WindowBase(widCheckKeyterms, "Check keyterms", startup, 0, parent_box), myrefere
 
 }
 
+
 WindowCheckKeyterms::~WindowCheckKeyterms()
 {
 }
+
 
 void WindowCheckKeyterms::go_to(const ustring & project, Reference & reference)
 {
@@ -206,6 +210,7 @@ void WindowCheckKeyterms::go_to(const ustring & project, Reference & reference)
   // Store the new reference in the object.
   myreference.assign(reference);
 }
+
 
 void WindowCheckKeyterms::copy_clipboard()
 {
@@ -225,20 +230,24 @@ void WindowCheckKeyterms::copy_clipboard()
   }
 }
 
+
 void WindowCheckKeyterms::on_entry_keyterm_changed(GtkEditable * editable, gpointer user_data)
 {
   ((WindowCheckKeyterms *) user_data)->on_entry_keyterm_change();
 }
+
 
 void WindowCheckKeyterms::on_entry_keyterm_activate(GtkEntry * entry, gpointer user_data)
 {
   ((WindowCheckKeyterms *) user_data)->on_entry_keyterm_activated();
 }
 
+
 void WindowCheckKeyterms::on_combobox_keyterm_collection_changed(GtkComboBox * combobox, gpointer user_data)
 {
   ((WindowCheckKeyterms *) user_data)->on_combobox_keyterm_collection();
 }
+
 
 gboolean WindowCheckKeyterms::on_treeview_keyterm_button_press_event(GtkWidget * widget, GdkEventButton * event, gpointer user_data)
 {
@@ -246,46 +255,55 @@ gboolean WindowCheckKeyterms::on_treeview_keyterm_button_press_event(GtkWidget *
   return false;
 }
 
+
 gboolean WindowCheckKeyterms::on_treeview_keyterm_key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer user_data)
 {
   ((WindowCheckKeyterms *) user_data)->on_treeview_keyterm_key_press();
   return false;
 }
 
+
 void WindowCheckKeyterms::on_treeview_keyterm_row_activated(GtkTreeView * treeview, GtkTreePath * path, GtkTreeViewColumn * column, gpointer user_data)
 {
   ((WindowCheckKeyterms *) user_data)->on_treeview_keyterm_activated();
 }
+
 
 void WindowCheckKeyterms::keyterm_whole_word_toggled(GtkCellRendererToggle * cell, gchar * path_str, gpointer data)
 {
   ((WindowCheckKeyterms *) data)->on_rendering_toggle(cell, path_str, true);
 }
 
+
 void WindowCheckKeyterms::keyterm_case_sensitive_toggled(GtkCellRendererToggle * cell, gchar * path_str, gpointer data)
 {
   ((WindowCheckKeyterms *) data)->on_rendering_toggle(cell, path_str, false);
 }
+
 
 void WindowCheckKeyterms::cell_edited(GtkCellRendererText * cell, const gchar * path_string, const gchar * new_text, gpointer data)
 {
   ((WindowCheckKeyterms *) data)->on_cell_edited(cell, path_string, new_text);
 }
 
+
 gboolean WindowCheckKeyterms::on_textview_keyterm_text_button_press_event(GtkWidget * widget, GdkEventButton * event, gpointer user_data)
 {
   return ((WindowCheckKeyterms *) user_data)->on_textview_keyterm_text_button_press(event);
 }
+
 
 gboolean WindowCheckKeyterms::on_textview_keyterm_text_button_release_event(GtkWidget * widget, GdkEventButton * event, gpointer user_data)
 {
   return ((WindowCheckKeyterms *) user_data)->on_textview_keyterm_text_button_release(event);
 }
 
+
 gboolean WindowCheckKeyterms::on_textview_keyterm_text_key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer user_data)
 {
   return ((WindowCheckKeyterms *) user_data)->on_textview_keyterm_text_key_press(event);
 }
+
 
 void WindowCheckKeyterms::on_entry_keyterm_change()
 {
@@ -452,26 +470,31 @@ void WindowCheckKeyterms::on_entry_keyterm_change()
   }
 }
 
+
 void WindowCheckKeyterms::on_entry_keyterm_activated()
 {
   gtk_widget_grab_focus(treeview_keyterm);
   show_information();
 }
 
+
 void WindowCheckKeyterms::on_combobox_keyterm_collection()
 {
   on_entry_keyterm_change();
 }
+
 
 void WindowCheckKeyterms::on_treeview_keyterm_button_press()
 {
   //  on_treeview_change ();
 }
 
+
 void WindowCheckKeyterms::on_treeview_keyterm_key_press()
 {
   //  on_treeview_change ();
 }
+
 
 void WindowCheckKeyterms::on_treeview_keyterm_activated()
 {
@@ -483,16 +506,19 @@ void WindowCheckKeyterms::on_treeview_keyterm_activated()
   check_text();
 }
 
+
 void WindowCheckKeyterms::on_treeview_change()
 {
   g_timeout_add(1, GSourceFunc(treeview_changed_timeout), gpointer(this));
 }
+
 
 bool WindowCheckKeyterms::treeview_changed_timeout(gpointer data)
 {
   ((WindowCheckKeyterms *) data)->show_information();
   return false;
 }
+
 
 void WindowCheckKeyterms::show_information()
 // Show all data for the selected keyword. Most important data at the top.
@@ -513,6 +539,7 @@ void WindowCheckKeyterms::show_information()
   GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview_comments));
   gtk_text_buffer_set_text(buffer, information1.c_str(), -1);
 }
+
 
 void WindowCheckKeyterms::load_renderings()
 {
@@ -546,6 +573,7 @@ void WindowCheckKeyterms::load_renderings()
   gtk_tree_store_set(treestore_renderings, &iter, 0, false, 1, true, 2, enter_new_rendering_here().c_str(), 3, 1, -1);
 }
 
+
 void WindowCheckKeyterms::save_renderings()
 {
   vector < ustring > renderings;
@@ -567,6 +595,7 @@ void WindowCheckKeyterms::save_renderings()
   check_text();
 }
 
+
 void WindowCheckKeyterms::on_rendering_toggle(GtkCellRendererToggle * cell, gchar * path_str, bool first_toggle)
 {
   unsigned int column = 1;
@@ -584,6 +613,7 @@ void WindowCheckKeyterms::on_rendering_toggle(GtkCellRendererToggle * cell, gcha
   save_renderings();
 }
 
+
 void WindowCheckKeyterms::on_cell_edited(GtkCellRendererText * cell, const gchar * path_string, const gchar * new_text)
 {
   GtkTreeModel *model = (GtkTreeModel *) treestore_renderings;
@@ -597,6 +627,7 @@ void WindowCheckKeyterms::on_cell_edited(GtkCellRendererText * cell, const gchar
   gtk_tree_path_free(path);
   save_renderings();
 }
+
 
 void WindowCheckKeyterms::add_to_renderings(const ustring & rendering, bool wholeword)
 // Adds "rendering" to renderings. If it contains any capitals, the 
@@ -613,6 +644,7 @@ void WindowCheckKeyterms::add_to_renderings(const ustring & rendering, bool whol
   gtk_tree_store_set(treestore_renderings, &iter, 0, wholeword, 1, casesensitive, 2, rendering.c_str(), 3, 1, -1);
   save_renderings();
 }
+
 
 void WindowCheckKeyterms::show_text()
 // Loads the text into the textview.
@@ -703,6 +735,7 @@ void WindowCheckKeyterms::show_text()
   previous_reference_id = G_MAXINT;
 }
 
+
 void WindowCheckKeyterms::check_text()
 // Modifies the buttons, images, and tags the text, depending on whether the 
 // text contains the renderings.
@@ -786,25 +819,49 @@ void WindowCheckKeyterms::check_text()
   }
 }
 
-gboolean WindowCheckKeyterms::on_textview_keyterm_text_button_press(GdkEventButton * event)
+
+gboolean WindowCheckKeyterms::on_textview_keyterm_text_button_press(GdkEventButton * event) // Todo
 {
+  // Get the textbuffer.
+  GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview_check_text));
+
+  // Store selected text.
+  {
+    GtkTextIter start, end;
+    ustring selection_text;
+    if (gtk_text_buffer_get_selection_bounds (buffer, &start, &end)) {
+      gchar * text = gtk_text_buffer_get_text (buffer, &start, &end, false);
+      selection_text = text;
+      g_free (text);
+    }
+    keyterm_text_selection.push_back (selection_text);
+  }
+
   // Double-clicking adds the word to the renderings.
   if (event->type == GDK_2BUTTON_PRESS) {
-    // Get the textbuffer.
-    GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview_check_text));
-    // Get the word.
-    GtkTextIter enditer;
-    GtkTextIter startiter;
-    gtk_text_buffer_get_iter_at_mark(buffer, &enditer, gtk_text_buffer_get_insert(buffer));
-    if (!gtk_text_iter_ends_word(&enditer))
-      gtk_text_iter_forward_word_end(&enditer);
-    startiter = enditer;
-    gtk_text_iter_backward_word_start(&startiter);
-    ustring word = gtk_text_buffer_get_text(buffer, &startiter, &enditer, false);
-    add_to_renderings(word, true);
+
+    // Get the word that was selected before the clicking started.
+    ustring selection_text;
+    if (keyterm_text_selection.size() >= 3) {
+      selection_text = keyterm_text_selection[keyterm_text_selection.size() - 3];
+    }
+
+    // Get the full word if no text was selected before.
+    if (selection_text.empty ()) {
+      GtkTextIter enditer;
+      GtkTextIter startiter;
+      gtk_text_buffer_get_iter_at_mark(buffer, &enditer, gtk_text_buffer_get_insert(buffer));
+      if (!gtk_text_iter_ends_word(&enditer))
+        gtk_text_iter_forward_word_end(&enditer);
+      startiter = enditer;
+      gtk_text_iter_backward_word_start(&startiter);
+      selection_text = gtk_text_buffer_get_text(buffer, &startiter, &enditer, false);
+    }
+    add_to_renderings(selection_text, true);
   }
   return false;
 }
+
 
 gboolean WindowCheckKeyterms::on_textview_keyterm_text_button_release(GdkEventButton * event)
 {
@@ -812,11 +869,13 @@ gboolean WindowCheckKeyterms::on_textview_keyterm_text_button_release(GdkEventBu
   return false;
 }
 
+
 gboolean WindowCheckKeyterms::on_textview_keyterm_text_key_press(GdkEventKey * event)
 {
   check_move_new_reference();
   return false;
 }
+
 
 void WindowCheckKeyterms::check_move_new_reference()
 {
@@ -848,6 +907,7 @@ void WindowCheckKeyterms::check_move_new_reference()
   }
 }
 
+
 unsigned int WindowCheckKeyterms::selected_id()
 {
   // Selected id.
@@ -875,15 +935,18 @@ unsigned int WindowCheckKeyterms::selected_id()
   return id;
 }
 
+
 ustring WindowCheckKeyterms::all_categories()
 {
   return "All collections";
 }
 
+
 ustring WindowCheckKeyterms::enter_new_rendering_here()
 {
   return "<Enter new rendering here>";
 }
+
 
 void WindowCheckKeyterms::get_renderings(vector < ustring > &renderings, vector < bool > &wholewords, vector < bool > &casesensitives)
 {
