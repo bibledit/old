@@ -3151,7 +3151,7 @@ bool Editor::on_spelling_timeout(gpointer data)
 }
 
 
-void Editor::spelling_timeout() // Todo
+void Editor::spelling_timeout()
 {
   // No recording of undoable actions while this object is alive.
   // It means that the textbuffer won't be modified if markers for spelling
@@ -3192,7 +3192,7 @@ void Editor::load_dictionaries()
 }
 
 
-vector <ustring> Editor::spelling_get_misspelled () // Todo
+vector <ustring> Editor::spelling_get_misspelled ()
 {
   // Collect the misspelled words.
   vector <ustring> words;
@@ -3222,7 +3222,7 @@ vector <ustring> Editor::spelling_get_misspelled () // Todo
 }
 
 
-void Editor::spelling_approve (const vector <ustring>& words) // Todo
+void Editor::spelling_approve (const vector <ustring>& words)
 {
   for (unsigned int i = 0; i < words.size(); i++)  {
     spellingchecker->add_to_dictionary (words[i].c_str());

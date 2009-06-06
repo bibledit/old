@@ -259,7 +259,7 @@ void SpellingChecker::attach(GtkWidget * textview)
 }
 
 
-vector <ustring> SpellingChecker::get_misspellings (GtkTextBuffer * textbuffer) // Todo
+vector <ustring> SpellingChecker::get_misspellings (GtkTextBuffer * textbuffer)
 {
   misspellings.clear();
   collect_words (textbuffer);
@@ -453,7 +453,7 @@ void SpellingChecker::on_add_to_dictionary(GtkWidget * menuitem, gpointer user_d
 }
 
 
-void SpellingChecker::add_to_dictionary(GtkWidget * menuitem) // Todo make separate add-to dicto function.
+void SpellingChecker::add_to_dictionary(GtkWidget * menuitem)
 {
   GtkTextBuffer *buffer = gtk_text_iter_get_buffer(&right_clicked_iter);
 
@@ -468,7 +468,7 @@ void SpellingChecker::add_to_dictionary(GtkWidget * menuitem) // Todo make separ
 }
 
 
-void SpellingChecker::add_to_dictionary(const gchar * word) // Todo make separate add-to dicto function.
+void SpellingChecker::add_to_dictionary(const gchar * word)
 {
   // Get a personal wordlist.
   EnchantDict *personal_wordlist = NULL;

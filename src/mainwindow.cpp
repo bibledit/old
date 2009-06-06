@@ -3932,7 +3932,7 @@ void MainWindow::on_check_spelling_bulk_activate(GtkMenuItem *menuitem, gpointer
 }
 
 
-void MainWindow::on_check_spelling_bulk() // Todo
+void MainWindow::on_check_spelling_bulk()
 {
   WindowEditor *editor_window = last_focused_editor_window();
   if (!editor_window) {
@@ -7249,13 +7249,3 @@ void MainWindow::check_usfm_window_ping()
 }
 
 
-/*
-
-Todo  #8482 Spellchecking: Bulk adding of words to a dictionary: 
-
-We need to add a menu entry Check / Spelling / Bulk
-This opens a dialog and this dialog has all misspelled words in this chapter.
-All misspelled words come up in buttons, and then a button is clicked, it disappears from the list.
-On pressing OK, the words are added to the list.
-
-*/

@@ -100,20 +100,9 @@ void BulkSpellingDialog::on_spellbutton_clicked(GtkButton * button, gpointer use
 }
 
 
-void BulkSpellingDialog::on_spellbutton(GtkButton *button) // Todo
+void BulkSpellingDialog::on_spellbutton(GtkButton *button)
 {
   approved.push_back (gtk_button_get_label (button));
   gtk_widget_destroy (GTK_WIDGET (button));
 }
 
-
-/*
-
-Todo Bulk Speller
-
-Request the misspelled words from the focused editor.
-Check these in the dialog.
-At the end, on Ok, pass the approved list to the focused editor again.
-Trigger a spelling check in the editors.
-
-*/
