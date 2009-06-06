@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "spelling.h"
 #include <enchant-provider.h>
 #include "gwrappers.h"
@@ -27,30 +28,36 @@
 #include "projectutils.h"
 #include "editor_aids.h"
 
+
 ustring spelling_global_dictionary()
 {
   return "Global Dictionary";
 }
+
 
 const gchar *spelling_project_dictionary_prefix()
 {
   return "Project ";
 }
 
+
 const gchar *spelling_project_dictionary_suffix()
 {
   return " Shared Dictionary";
 }
+
 
 ustring spelling_project_dictionary(const ustring & project)
 {
   return spelling_project_dictionary_prefix() + project + spelling_project_dictionary_suffix();
 }
 
+
 static void enumerate_dicts(const char *const lang_tag, const char *const provider_name, const char *const provider_desc, const char *const provider_file, void *user_data)
 {
   ((vector < ustring > *)user_data)->push_back(lang_tag);
 }
+
 
 vector < ustring > spelling_enchant_dictionaries()
 {
@@ -61,6 +68,7 @@ vector < ustring > spelling_enchant_dictionaries()
   return dictionaries;
 }
 
+
 bool spelling_dictionary_editable(const ustring & dictionary)
 {
   if (dictionary == spelling_global_dictionary())
@@ -70,6 +78,7 @@ bool spelling_dictionary_editable(const ustring & dictionary)
       return true;
   return false;
 }
+
 
 ustring spelling_dictionary_filename(ustring dictionary)
 {
@@ -88,6 +97,7 @@ ustring spelling_dictionary_filename(ustring dictionary)
   }
   return "";
 }
+
 
 const gchar *spelling_tag_name()
 {
@@ -109,11 +119,13 @@ SpellingChecker::SpellingChecker(GtkTextTagTable * texttagtable)
   check_signal = gtk_button_new();
 }
 
+
 SpellingChecker::~SpellingChecker()
 {
   gtk_widget_destroy(check_signal);
   free_enchant();
 }
+
 
 void SpellingChecker::free_enchant()
 {
@@ -135,6 +147,7 @@ void SpellingChecker::free_enchant()
   correct_words.clear();
   incorrect_words.clear();
 }
+
 
 void SpellingChecker::set_dictionaries(const vector < ustring > &dictionaries)
 // Sets the dictionaries to be used for the spelling checker.
@@ -161,6 +174,7 @@ void SpellingChecker::set_dictionaries(const vector < ustring > &dictionaries)
   }
 }
 
+
 void SpellingChecker::check(GtkTextBuffer * textbuffer)
 {
   // Erase any previous marks for spelling mistakes.
@@ -172,6 +186,7 @@ void SpellingChecker::check(GtkTextBuffer * textbuffer)
   // Proceed with next step of speller.
   collect_words(textbuffer);
 }
+
 
 void SpellingChecker::collect_words(GtkTextBuffer * textbuffer)
 // Collects words to be spelling checked.
@@ -188,6 +203,7 @@ void SpellingChecker::collect_words(GtkTextBuffer * textbuffer)
     check_word(textbuffer, &startiter, &enditer);
   }
 }
+
 
 void SpellingChecker::check_word(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end)
 {
@@ -228,7 +244,11 @@ void SpellingChecker::check_word(GtkTextBuffer * textbuffer, GtkTextIter * start
 
   // Mark the word as being a spelling mistake. 
   gtk_text_buffer_apply_tag(textbuffer, misspelling_tag, start, end);
+  
+  // Store it as an incorrect word.
+  misspellings.push_back (word);
 }
+
 
 void SpellingChecker::attach(GtkWidget * textview)
 // This routine attaches the spelling checker to a textview.
@@ -237,6 +257,15 @@ void SpellingChecker::attach(GtkWidget * textview)
   g_signal_connect(G_OBJECT(textview), "populate-popup", G_CALLBACK(on_populate_popup), gpointer(this));
   g_signal_connect(G_OBJECT(textview), "popup-menu", G_CALLBACK(on_popup_menu_event), gpointer(this));
 }
+
+
+vector <ustring> SpellingChecker::get_misspellings (GtkTextBuffer * textbuffer) // Todo
+{
+  misspellings.clear();
+  collect_words (textbuffer);
+  return misspellings;
+}
+
 
 gboolean SpellingChecker::on_button_press_event(GtkWidget * widget, GdkEventButton * event, gpointer user_data)
 // When the user right-clicks on a word, they want to check that word.
@@ -247,6 +276,7 @@ gboolean SpellingChecker::on_button_press_event(GtkWidget * widget, GdkEventButt
   return false;
 }
 
+
 void SpellingChecker::button_press_event(GtkWidget * widget, GdkEventButton * event)
 {
   if (event->button == 3) {
@@ -256,10 +286,12 @@ void SpellingChecker::button_press_event(GtkWidget * widget, GdkEventButton * ev
   }
 }
 
+
 void SpellingChecker::on_populate_popup(GtkTextView * textview, GtkMenu * menu, gpointer user_data)
 {
   ((SpellingChecker *) user_data)->populate_popup(textview, menu);
 }
+
 
 void SpellingChecker::populate_popup(GtkTextView * textview, GtkMenu * menu)
 {
@@ -294,6 +326,7 @@ void SpellingChecker::populate_popup(GtkTextView * textview, GtkMenu * menu)
   gtk_menu_shell_prepend(GTK_MENU_SHELL(menu), mi);
 }
 
+
 gboolean SpellingChecker::on_popup_menu_event(GtkTextView * view, gpointer user_data)
 // This event occurs when the popup menu is requested through a key-binding,
 // the Menu Key or <shift>+F10 by default.  
@@ -302,12 +335,14 @@ gboolean SpellingChecker::on_popup_menu_event(GtkTextView * view, gpointer user_
   return FALSE;
 }
 
+
 void SpellingChecker::popup_menu_event(GtkTextView * view)
 {
   GtkTextBuffer *textbuffer = gtk_text_view_get_buffer(view);
   GtkTextMark *textmark = gtk_text_buffer_get_insert(textbuffer);
   gtk_text_buffer_get_iter_at_mark(textbuffer, &right_clicked_iter, textmark);
 }
+
 
 GtkWidget *SpellingChecker::build_suggestion_menu(GtkTextBuffer * buffer, const char *word)
 {
@@ -399,6 +434,7 @@ GtkWidget *SpellingChecker::build_suggestion_menu(GtkTextBuffer * buffer, const 
   return topmenu;
 }
 
+
 void SpellingChecker::right_clicked_word_get_extends(GtkTextIter * start, GtkTextIter * end)
 // Get the word boundaries for the word the user right-clicked.
 {
@@ -410,12 +446,29 @@ void SpellingChecker::right_clicked_word_get_extends(GtkTextIter * start, GtkTex
     gtk_text_iter_forward_word_end(end);
 }
 
+
 void SpellingChecker::on_add_to_dictionary(GtkWidget * menuitem, gpointer user_data)
 {
   ((SpellingChecker *) user_data)->add_to_dictionary(menuitem);
 }
 
-void SpellingChecker::add_to_dictionary(GtkWidget * menuitem)
+
+void SpellingChecker::add_to_dictionary(GtkWidget * menuitem) // Todo make separate add-to dicto function.
+{
+  GtkTextBuffer *buffer = gtk_text_iter_get_buffer(&right_clicked_iter);
+
+  GtkTextIter start, end;
+  right_clicked_word_get_extends(&start, &end);
+
+  char *word = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
+  add_to_dictionary (word);
+  g_free(word);
+
+  gtk_button_clicked(GTK_BUTTON(check_signal));
+}
+
+
+void SpellingChecker::add_to_dictionary(const gchar * word) // Todo make separate add-to dicto function.
 {
   // Get a personal wordlist.
   EnchantDict *personal_wordlist = NULL;
@@ -432,25 +485,17 @@ void SpellingChecker::add_to_dictionary(GtkWidget * menuitem)
     return;
   }
 
-  GtkTextBuffer *buffer = gtk_text_iter_get_buffer(&right_clicked_iter);
-
-  GtkTextIter start, end;
-  right_clicked_word_get_extends(&start, &end);
-
-  char *word = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
-
+  // Add it.
   enchant_dict_add_to_pwl(personal_wordlist, word, strlen(word));
   correct_words.insert(word);
-
-  g_free(word);
-
-  gtk_button_clicked(GTK_BUTTON(check_signal));
 }
+
 
 void SpellingChecker::on_ignore_all(GtkWidget * menuitem, gpointer user_data)
 {
   ((SpellingChecker *) user_data)->ignore_all(menuitem);
 }
+
 
 void SpellingChecker::ignore_all(GtkWidget * menuitem)
 {
@@ -468,10 +513,12 @@ void SpellingChecker::ignore_all(GtkWidget * menuitem)
   gtk_button_clicked(GTK_BUTTON(check_signal));
 }
 
+
 void SpellingChecker::on_replace_word(GtkWidget * menuitem, gpointer user_data)
 {
   ((SpellingChecker *) user_data)->replace_word(menuitem);
 }
+
 
 void SpellingChecker::replace_word(GtkWidget * menuitem)
 /*
@@ -544,6 +591,7 @@ An algorithm is used that gives the replacement the same styles as the original.
   }
 }
 
+
 void SpellingChecker::set_checkable_tags(const vector < ustring > &tags)
 // Sets the tags that can be checked. This implies that text that has any tags, 
 // that is, any styles, that are not listed here, is not checked.
@@ -598,3 +646,4 @@ bool SpellingChecker::move_cursor_to_spelling_error (GtkTextBuffer* textbuffer, 
   // New misspelling found.
   return true;
 }
+

@@ -1,85 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-  <title>Bibledit</title>
-  <!--
-    Copyright (©) 2003-2008 Teus Benschop.
-    Permission is granted to copy, distribute and/or modify this document
-    under the terms of the GNU Free Documentation License, Version 1.2
-    or any later version published by the Free Software Foundation;
-    with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-    Texts.  A copy of the license is included in the section entitled "GNU
-    Free Documentation License" in the file FDL.
-    -->
-  <link href="bibledit.css" rel="stylesheet" type="text/css" />
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<title>Bibledit</title>
+<!--
+Copyright (©) 2003-2008 Teus Benschop.
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+Texts.  A copy of the license is included in the section entitled "GNU
+Free Documentation License" in the file FDL.
+-->
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
-
 <body>
 <h2><a name="dictionaries"></a>Dictionaries</h2>
 <!-- Table of Contents Start -->
-
 <div id="toc">
 <ul>
-  <li><a href="#adding" class="level1">Adding</a></li>
-  <li><a href="#deleting" class="level1">Deleting</a></li>
-  <li><a href="#editing" class="level1">Editing</a></li>
-  <li><a href="#order" class="level1">Order</a></li>
-  <li><a href="#systemdictionaries" class="level1">System dictionaries</a></li>
+<li>
+<a href="#connecting" class="level1">Connecting</a></li>
+<li>
+<a href="#disconnecting" class="level1">Disconnecting</a></li>
+<li>
+<a href="#editing" class="level1">Editing</a></li>
+<li>
+<a href="#order" class="level1">Order</a></li>
+<li>
+<a href="#systemdictionaries" class="level1">System dictionaries</a></li>
 </ul>
 </div>
 <!-- Table of Contents End -->
-
 <p>This dialog is accessed through menu File / Project / Properties, then
 button Dictionaries.</p>
-
 <p>The dialog lists the dictionaries that are used for checking the spelling of
 the text of the project.</p>
-
-<h3><a name="adding"></a>Connecting</h3>
-
+<h3><a name="connecting"></a>Connecting</h3>
 <p>Press button "Connect" to connect to a dictionary and add it to the list.</p>
-
 <p>There are various types of dictionaries that can be added.</p>
-
 <p>- "Project &lt;project name&gt; Shared Dictionary. This dictionary belongs
 to a project. It is called "shared", because if <a
 href="collaboration.html">collaboration</a> is used, the dictionary is shared
 with other workstations.</p>
-
 <p>- Dictionaries that have two-letter names, such as "en", "he", "en_ZW", and
 so forth. These are dictionaries that are installed on your system. Bibledit
 does not know what these abbreviations mean. Some of them can be guessed. It
 depends entirely on which dictionaries you have installed on your system.</p>
-
 <p>- "Global Dictionary". This is one global dictionary provided by
 Bibledit.</p>
-
-<h3><a name="deleting"></a>Disconnecting</h3>
-
+<h3><a name="disconnecting"></a>Disconnecting</h3>
 <p>To disconnect a dictionary, select it, and press the Disconnect button.</p>
-
 <p>If a dictionary is "disconnected", it remains on disk. This dictionary is no
 longer used to check the text of the project.</p>
-
 <h3><a name="editing"></a>Editing</h3>
-
 <p>Some <a href="olh_editdictionary.html">dictionaries can be edited</a>, and
 others cannot. If a dictionary can be edited, then the "Edit" button is
 sensitive. If this button is clicked, all the words in the dictionary become
 visible. These can be edited, and if Ok is pressed, these are saved to disk.</p>
-
 <h3><a name="order"></a>Order</h3>
-
 <p>If spelling of text is to be checked, Bibledit consults all the dictionaries
 that are in the list. It starts from the top one, and works to the bottom, in
 order to find the word. If you wish to use another order, you can drag a
 dictionary to another position.</p>
-
 <h3><a name="systemdictionaries"></a>System dictionaries</h3>
-
 <p>Bibledit accesses the dictionaries through Enchant. Enchant supports a
 variety of spelling check programs. It supports Aspell, Hspell, Ispell,
 MySpell, and so forth. Any dictionaries installed on your system for these

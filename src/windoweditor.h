@@ -17,14 +17,17 @@
  **  
  */
 
+
 #ifndef INCLUDED_WINDOW_EDITOR_H
 #define INCLUDED_WINDOW_EDITOR_H
+
 
 #include <gtk/gtk.h>
 #include "ustring.h"
 #include "window.h"
 #include "editor.h"
 #include "usfmview.h"
+
 
 class WindowEditor : public WindowBase
 {
@@ -83,7 +86,9 @@ public:
   void editing_usfm_code_set (bool setting);
   
   GtkTextBuffer * edit_usfm_textbuffer ();
-  
+
+  void spelling_trigger ();
+    
 protected:
   GtkWidget *vbox;
   void switch_to_view (bool viewusfm, ustring project);

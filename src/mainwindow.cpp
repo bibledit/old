@@ -128,6 +128,7 @@
 #include "accelerators.h"
 #include "dialogcompareprefs.h"
 #include "windowtimednotifier.h"
+#include "dialogbulkspelling.h"
 
 
 /*
@@ -1136,6 +1137,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   check_usfm = NULL;
   check_spelling_error_next = NULL;
   check_spelling_error_previous = NULL;
+  check_spelling_bulk = NULL;
   if (guifeatures.checks()) {
 
     check1 = gtk_menu_item_new_with_mnemonic("Chec_k");
@@ -1397,6 +1399,14 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     image34140 = gtk_image_new_from_stock ("gtk-spell-check", GTK_ICON_SIZE_MENU);
     gtk_widget_show (image34140);
     gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (check_spelling_error_previous), image34140);
+
+    check_spelling_bulk = gtk_image_menu_item_new_with_mnemonic ("_Bulk");
+    gtk_widget_show (check_spelling_bulk);
+    gtk_container_add (GTK_CONTAINER (check_spelling_error_menu), check_spelling_bulk);
+
+    image35887 = gtk_image_new_from_stock ("gtk-spell-check", GTK_ICON_SIZE_MENU);
+    gtk_widget_show (image35887);
+    gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (check_spelling_bulk), image35887);
 
   }
 
@@ -1903,6 +1913,8 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     g_signal_connect ((gpointer) check_spelling_error_next, "activate", G_CALLBACK (on_check_spelling_error_next_activate), gpointer(this));
   if (check_spelling_error_previous)
     g_signal_connect ((gpointer) check_spelling_error_previous, "activate", G_CALLBACK (on_check_spelling_error_previous_activate), gpointer(this));
+  if (check_spelling_bulk)
+    g_signal_connect ((gpointer) check_spelling_bulk, "activate", G_CALLBACK (on_check_spelling_bulk_activate), gpointer(this));
   if (menutools)
     g_signal_connect((gpointer) menutools, "activate", G_CALLBACK(on_menutools_activate), gpointer(this));
   if (line_cutter_for_hebrew_text1)
@@ -3911,6 +3923,30 @@ void MainWindow::on_editor_spelling_checked_button()
     check_spelling_at_end = false;
     on_check_spelling_error(false, true);
   }
+}
+
+
+void MainWindow::on_check_spelling_bulk_activate(GtkMenuItem *menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_check_spelling_bulk();
+}
+
+
+void MainWindow::on_check_spelling_bulk() // Todo
+{
+  WindowEditor *editor_window = last_focused_editor_window();
+  if (!editor_window) {
+    gtkw_dialog_info (NULL, "There is nothing to be checked");
+    return;
+  }
+  Editor * editor = editor_window->editor_get ();
+  if (!editor) {
+    gtkw_dialog_info (NULL, "Please switch viewing USFM code off so as to enable spelling checking");
+    return;
+  }
+  BulkSpellingDialog dialog (editor->spelling_get_misspelled());
+  dialog.run ();
+  editor->spelling_approve (dialog.approved);
 }
 
 
@@ -7213,3 +7249,13 @@ void MainWindow::check_usfm_window_ping()
 }
 
 
+/*
+
+Todo  #8482 Spellchecking: Bulk adding of words to a dictionary: 
+
+We need to add a menu entry Check / Spelling / Bulk
+This opens a dialog and this dialog has all misspelled words in this chapter.
+All misspelled words come up in buttons, and then a button is clicked, it disappears from the list.
+On pressing OK, the words are added to the list.
+
+*/

@@ -655,3 +655,10 @@ void WindowEditor::on_spelling_checked()
 }
 
 
+void WindowEditor::spelling_trigger ()
+{
+  if (editor) {
+    editor->spelling_trigger ();
+  }
+}
+

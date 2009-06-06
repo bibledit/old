@@ -50,6 +50,8 @@ public:
   GtkWidget * check_signal;
   void set_checkable_tags (const vector <ustring>& tags);
   bool move_cursor_to_spelling_error (GtkTextBuffer* textbuffer, bool next, bool extremity);
+  vector <ustring> get_misspellings (GtkTextBuffer * textbuffer);
+  void add_to_dictionary (const gchar * word);
 private:
   void collect_words (GtkTextBuffer* textbuffer);
   void check_word (GtkTextBuffer* textbuffer, GtkTextIter *start, GtkTextIter *end);
@@ -75,6 +77,7 @@ private:
   static void on_replace_word (GtkWidget *menuitem, gpointer user_data);
   void replace_word (GtkWidget *menuitem);
   set <ustring> checkable_tags;
+  vector <ustring> misspellings;
 };
 
 

@@ -290,6 +290,8 @@ protected:
   GtkWidget *image34139;
   GtkWidget *check_spelling_error_previous;
   GtkWidget *image34140;
+  GtkWidget *check_spelling_bulk; // Todo
+  GtkWidget *image35887;
   GtkWidget *menutools;
   GtkWidget *menutools_menu;
   GtkWidget *line_cutter_for_hebrew_text1;
@@ -577,6 +579,8 @@ protected:
   void on_editor_spelling_checked_button();
   bool check_spelling_at_start;
   bool check_spelling_at_end;
+  static void on_check_spelling_bulk_activate (GtkMenuItem *menuitem, gpointer user_data); // Todo
+  void on_check_spelling_bulk ();
 
   /* Styles */
   static void on_stylesheet_open_activate(GtkMenuItem *menuitem, gpointer user_data);

@@ -949,9 +949,3 @@ httrack 'http://net.bible.org/bible.php?book=Mat&chapter=1' -O "." -%v -r2 --can
 */
 
 
-/*
-
-Todo
-
-
-*/

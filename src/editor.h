@@ -235,8 +235,10 @@ public:
   void load_dictionaries();
   bool move_cursor_to_spelling_error (bool next, bool extremity);
   GtkWidget * spelling_checked_signal;
+  void spelling_trigger(); // Todo
+  vector <ustring> spelling_get_misspelled ();
+  void spelling_approve (const vector <ustring>& words);
 private:
-  void spelling_trigger();
   guint spelling_timeout_event_id;
   static bool on_spelling_timeout(gpointer data);
   void spelling_timeout();

@@ -3128,6 +3128,7 @@ ustring Editor::get_chapter()
   return chaptertext;
 }
 
+
 void Editor::spelling_trigger()
 {
   if (project.empty())
@@ -3142,13 +3143,15 @@ void Editor::spelling_trigger()
   spelling_timeout_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 1000, GSourceFunc(on_spelling_timeout), gpointer(this), NULL);
 }
 
+
 bool Editor::on_spelling_timeout(gpointer data)
 {
   ((Editor *) data)->spelling_timeout();
   return false;
 }
 
-void Editor::spelling_timeout()
+
+void Editor::spelling_timeout() // Todo
 {
   // No recording of undoable actions while this object is alive.
   // It means that the textbuffer won't be modified if markers for spelling
@@ -3172,10 +3175,12 @@ void Editor::spelling_timeout()
   gtk_button_clicked (GTK_BUTTON (spelling_checked_signal));
 }
 
+
 void Editor::on_button_spelling_recheck_clicked(GtkButton * button, gpointer user_data)
 {
   ((Editor *) user_data)->spelling_timeout();
 }
+
 
 void Editor::load_dictionaries()
 {
@@ -3185,6 +3190,46 @@ void Editor::load_dictionaries()
     spellingchecker->set_dictionaries(projectconfig->spelling_dictionaries_get());
   }
 }
+
+
+vector <ustring> Editor::spelling_get_misspelled () // Todo
+{
+  // Collect the misspelled words.
+  vector <ustring> words;
+  words = spellingchecker->get_misspellings(textbuffer);
+  for (unsigned int i = 0; i < editortables.size(); i++) {
+    for (unsigned int row = 0; row < editortables[i].textbuffers.size(); row++) {
+      for (unsigned int column = 0; column < editortables[i].textviews[row].size(); column++) {
+        vector <ustring> words2 = spellingchecker->get_misspellings(table_cell_get_buffer(editortables[i], row, column));
+        for (unsigned int i2 = 0; i2 < words2.size(); i2++) {
+          words.push_back (words2[i2]);
+        }
+      }
+    }
+  }
+  for (unsigned int i = 0; i < editornotes.size(); i++) {
+    vector <ustring> words2 = spellingchecker->get_misspellings(editornotes[i].textbuffer);
+    for (unsigned int i2 = 0; i2 < words2.size(); i2++) {
+      words.push_back (words2[i2]);
+    }
+  }
+  // Remove double ones.
+  set <ustring> wordset (words.begin (), words.end());
+  words.clear();
+  words.assign (wordset.begin (), wordset.end());
+  // Give words.
+  return words;  
+}
+
+
+void Editor::spelling_approve (const vector <ustring>& words) // Todo
+{
+  for (unsigned int i = 0; i < words.size(); i++)  {
+    spellingchecker->add_to_dictionary (words[i].c_str());
+  }
+  spelling_trigger();
+}
+
 
 void Editor::check_move_textview_to_textview()
 {

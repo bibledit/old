@@ -1,79 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-  <title>Bibledit</title>
-  <!--
-  Copyright (©) 2003-2008 Teus Benschop.
-  Permission is granted to copy, distribute and/or modify this document
-  under the terms of the GNU Free Documentation License, Version 1.2
-  or any later version published by the Free Software Foundation;
-  with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-  Texts.  A copy of the license is included in the section entitled "GNU
-  Free Documentation License" in the file FDL.
-  -->
-  <link href="bibledit.css" rel="stylesheet" type="text/css" />
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<title>Bibledit</title>
+<!--
+Copyright (©) 2003-2008 Teus Benschop.
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+Texts.  A copy of the license is included in the section entitled "GNU
+Free Documentation License" in the file FDL.
+-->
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
-
 <body>
 <h2><a name="generatewordlists"></a>Generate Word Lists</h2>
 <!-- Table of Contents Start -->
-
 <div id="toc">
 <ul>
-  <li><a href="#introduction" class="level1">Introduction</a></li>
-  <li><a href="#settings" class="level1">Settings</a></li>
-  <li><a href="#operation" class="level1">Operation</a></li>
-  <li><a href="#entries" class="level1">Entries</a></li>
-  <li><a href="#lists" class="level1">Lists</a></li>
-  <li><a href="#example" class="level1">Example</a></li>
+<li>
+<a href="#introduction" class="level1">Introduction</a></li>
+<li>
+<a href="#settings" class="level1">Settings</a></li>
+<li>
+<a href="#operation" class="level1">Operation</a></li>
+<li>
+<a href="#entries" class="level1">Entries</a></li>
+<li>
+<a href="#lists" class="level1">Lists</a></li>
+<li>
+<a href="#example" class="level1">Example</a></li>
 </ul>
 </div>
 <!-- Table of Contents End -->
-
 <h3><a name="introduction"></a>Introduction</h3>
-
 <p>The dialog to generate the word lists is available through the menu, Tools,
 Generate word lists.</p>
-
 <p>It generates a general word list, a list of Hebrew words, and one of Greek
 words.</p>
-
 <p>It goes through all the data in the project, collects the entries which have
 been marked, and then inserts the lists at a location defined by the user. Thus
 it can generate a glossary or topical index.</p>
-
 <h3><a name="settings"></a>Settings</h3>
-
 <p>There are three possible lists: a general word list, a Hebrew word lists,
 and a Greek word list.</p>
-
 <p>For each of these lists there are some options that the user can set:</p>
-
 <p>- Process word list: whether to process this particular word list.</p>
-
 <p>- Add an asterisk to each entry, see below.</p>
-
 <p>- Add the asterisk only to the first time this particular entry occurs in
 the section, see below.</p>
-
 <h3><a name="operation"></a>Operation</h3>
-
 <p>Generating word lists is simple assuming that the right markers are already
 in the data: Just set the options, click button OK, and wait till it is
 through.</p>
-
 <h3><a name="entries"></a>Entries</h3>
-
 <p>The word list generator uses the entries that are in the data to collect the
 words to insert in the list.</p>
-
 <p>An entry for the general word list is inserted between the \w and the \w*
 markers. The Hebrew and Greek word lists use similar markers. See the <a
 href="usfm.html">USFM</a> documentation for full details</p>
-
 <p>When the word list generator runs, it will remove any asterisks (*) that
 were appended to the word. When the option "Add an asterisk to each word entry"
 has been selected, it will then add an asterisk after the word. If the option
@@ -83,20 +71,16 @@ section. In this case, if for example the word "talent" occurs several times in
 a section, it will be given as "talent*" the first time, with the asterisk, and
 as "talent" the other times, without an asterisk. The section headings define
 the size of a section.</p>
-
 <h3><a name="lists"></a>Lists</h3>
-
 <p>The lists of words can be inserted once or more than once in the data. The
 general word list will be inserted between the markers \zopenwordlist and
 \zclosewordlist. These markers ought to be on a separate line. If this couple
 of markers occurs in several places, the word lists will be inserted in several
 places too. If it occurs once, only one list will be generated, and if it does
 not occur at all, no list will be generated.</p>
-
 <p>Any entries that are already between those markers will be preserved. If
 there are entries between those markers, and there is no corresponding entry in
 the text, this entry will be commented out.</p>
-
 <p>List of usfm markers that indicate the position of a word list:</p>
 <pre>\zopenwordlist
 \zclosewordlist
@@ -104,17 +88,12 @@ the text, this entry will be commented out.</p>
 \zclosegreekwordlist
 \zopenhebrewwordlist
 \zclosehebrewwordlist</pre>
-
 <p>The markers that open and close a word list will need to be manually typed
 in the text at the right location. They are not part of the stylesheet.</p>
-
 <h3><a name="example"></a>Example</h3>
-
 <p>Consider the following situation:</p>
-
 <p>The text contains the following general word list entries: Hallelujah, Rabi,
 Pentecost.</p>
-
 <p>At some place of the data, the list should be inserted, but it already
 contains some entries:</p>
 <pre>\zopenwordlist
@@ -122,7 +101,6 @@ contains some entries:</p>
 \p Rabi: Teacher
 \p Mamon
 \zclosewordlist</pre>
-
 <p>After running the word list generator, it will look so:</p>
 <pre>\zopenwordlist
 \p Hallelujah: Praise the Lord
@@ -130,11 +108,9 @@ contains some entries:</p>
 \p Pentecost
 \p Rabi: Teacher
 \zclosewordlist</pre>
-
 <p>Note the following: (1) the existing entries have been preserved, (2) a new
 one has been added, (3) one has been commented out, and (4) the entries have
 been sorted alphabetically.</p>
-
 <p>Note also that any text before the first colon (:) is considered to be the
 actual entry. If there is no colon, then the whole text will be considered the
 entry.</p>
