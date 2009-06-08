@@ -503,7 +503,6 @@ void WindowCheckKeyterms::on_treeview_keyterm_activated()
   myid = selected_id();
   load_renderings();
   show_text();
-  check_text();
 }
 
 
@@ -592,7 +591,7 @@ void WindowCheckKeyterms::save_renderings()
   }
   keyterms_store_renderings(myproject, keyterm, category, renderings, wholewords, casesensitives);
   load_renderings();
-  check_text();
+  show_text();
 }
 
 
@@ -661,9 +660,17 @@ void WindowCheckKeyterms::show_text()
   gtk_text_buffer_get_end_iter(buffer, &enditer);
   gtk_text_buffer_remove_all_tags(buffer, &startiter, &enditer);
 
+  // Create the text tag for marking renderings, if it's not yet there.
+  if (!approved_rendering_tag) {
+    approved_rendering_tag = gtk_text_buffer_create_tag(buffer, NULL, "background", "khaki", NULL);
+  }
+  if (!disapproved_rendering_tag) {
+    disapproved_rendering_tag = gtk_text_buffer_create_tag(buffer, NULL, "background", "red", NULL);
+  }
+
   // Get all the references.
   ustring dummy1;
-  vector < ustring > dummy2;
+  vector <ustring> dummy2;
   myreferences.clear();
   mytextstarts.clear();
   mytextends.clear();
@@ -671,11 +678,11 @@ void WindowCheckKeyterms::show_text()
 
   // Remap references.
   {
-    vector < Reference > references_temp;
+    vector <Reference> references_temp;
     for (unsigned int i = 0; i < myreferences.size(); i++) {
       Mapping mapping(myversification, myreferences[i].book);
-      vector < int >chapters;
-      vector < int >verses;
+      vector <int> chapters;
+      vector <int> verses;
       mapping.original_to_me(myreferences[i].chapter, myreferences[i].verse, chapters, verses);
       for (unsigned int i2 = 0; i2 < chapters.size(); i2++) {
         Reference reference(myreferences[i].book, chapters[i2], convert_to_string(verses[i2]));
@@ -685,9 +692,39 @@ void WindowCheckKeyterms::show_text()
     myreferences = references_temp;
   }
 
+  // Retrieve the renderings.
+  vector <ustring> renderings;
+  vector <bool> wholewords;
+  vector <bool> casesensitives;
+  get_renderings(renderings, wholewords, casesensitives);
+
+  // Reorder the references, moving the ones that are approved last.
+  {
+    vector <Reference> disapproved_references;
+    vector <Reference> approved_references;
+    for (unsigned int i = 0; i < myreferences.size(); i++) {
+      ustring verse = project_retrieve_verse(settings->genconfig.project_get(), myreferences[i].book, myreferences[i].chapter, myreferences[i].verse);
+      if (!verse.empty()) {
+        CategorizeLine cl(verse);
+        cl.remove_verse_number(myreferences[i].verse);
+        verse = cl.verse;
+      }
+      if (find_renderings (verse, renderings, wholewords, casesensitives, NULL, NULL)) {
+        approved_references.push_back (myreferences[i]);
+      } else {
+        disapproved_references.push_back (myreferences[i]);
+      }
+    }
+    myreferences = disapproved_references;
+    for (unsigned int i = 0; i < approved_references.size(); i++) {
+      myreferences.push_back (approved_references[i]);
+    }
+  }
+
   // Display text of the references.
-  ustring text;
   for (unsigned int i = 0; i < myreferences.size(); i++) {
+
+    ustring text;
 
     // Get the starting offset.
     gint start_reference_offset;
@@ -719,8 +756,8 @@ void WindowCheckKeyterms::show_text()
     mytextends.push_back(offset);
 
     // Tag the whole area with an id equal to the reference offset + 1.
-    // This is for later, that we can find to which reference the cursorlocation
-    // belongs.
+    // This is for later, that we can find which reference the cursor location
+    // belongs to.
     GtkTextTag *tag;
     tag = gtk_text_buffer_create_tag(buffer, NULL, NULL);
     g_object_set_data(G_OBJECT(tag), "id", GINT_TO_POINTER(i + 1));
@@ -733,37 +770,8 @@ void WindowCheckKeyterms::show_text()
   gtk_text_buffer_place_cursor(buffer, &startiter);
   // Initialize previous reference's id.
   previous_reference_id = G_MAXINT;
-}
 
-
-void WindowCheckKeyterms::check_text()
-// Modifies the buttons, images, and tags the text, depending on whether the 
-// text contains the renderings.
-{
-  // Retrieve the renderings.
-  vector < ustring > renderings;
-  vector < bool > wholewords;
-  vector < bool > casesensitives;
-  get_renderings(renderings, wholewords, casesensitives);
-
-  // Get the textbuffer.
-  GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview_check_text));
-
-  // Create the text tag for marking renderings, if it's not yet there.
-  if (!approved_rendering_tag) {
-    approved_rendering_tag = gtk_text_buffer_create_tag(buffer, NULL, "background", "khaki", NULL);
-  }
-  if (!disapproved_rendering_tag) {
-    disapproved_rendering_tag = gtk_text_buffer_create_tag(buffer, NULL, "background", "red", NULL);
-  }
-  // Remove all occurrences of this tag.
-  GtkTextIter startiter, enditer;
-  gtk_text_buffer_get_start_iter(buffer, &startiter);
-  gtk_text_buffer_get_end_iter(buffer, &enditer);
-  gtk_text_buffer_remove_tag(buffer, approved_rendering_tag, &startiter, &enditer);
-  gtk_text_buffer_remove_tag(buffer, disapproved_rendering_tag, &startiter, &enditer);
-
-  // Go through all text we have.
+  // Go through all text we have to mark the renderings.
   for (unsigned int i = 0; i < mytextstarts.size(); i++) {
 
     // Get iterators of these offsets.
@@ -775,52 +783,92 @@ void WindowCheckKeyterms::check_text()
 
     // If at least one of the renderings is found, then the text will be approved.
     // Visibly mark the correct locations.
-    bool approved = false;
-    for (unsigned int i2 = 0; i2 < renderings.size(); i2++) {
-
-      ustring rendering = renderings[i2];
-      bool wholeword = wholewords[i2];
-      bool casesensitive = casesensitives[i2];
-
-      ustring mytext;
-      ustring myrendering;
-      if (casesensitive) {
-        mytext = text;
-        myrendering = rendering;
-      } else {
-        mytext = text.casefold();
-        myrendering = rendering.casefold();
-      }
-      size_t position = mytext.find(myrendering);
-      while (position != string::npos) {
-        bool myapproved = true;
+    vector <size_t> startpositions;
+    vector <size_t> lengths;
+    if (find_renderings (text, renderings, wholewords, casesensitives, &startpositions, &lengths)) {
+      for (unsigned int i2 = 0; i2 < startpositions.size(); i2++) {
         GtkTextIter approvedstart = startiter;
         GtkTextIter approvedend;
-        gtk_text_iter_forward_chars(&approvedstart, position);
+        gtk_text_iter_forward_chars(&approvedstart, startpositions[i2]);
         approvedend = approvedstart;
-        gtk_text_iter_forward_chars(&approvedend, rendering.length());
-        if (wholeword) {
-          if (!gtk_text_iter_starts_word(&approvedstart))
-            myapproved = false;
-          if (!gtk_text_iter_ends_word(&approvedend))
-            myapproved = false;
-        }
-        if (myapproved) {
-          approved = true;
-          gtk_text_buffer_apply_tag(buffer, approved_rendering_tag, &approvedstart, &approvedend);
-        }
-        position = mytext.find(myrendering, ++position);
+        gtk_text_iter_forward_chars(&approvedend, lengths[i2]);
+        gtk_text_buffer_apply_tag(buffer, approved_rendering_tag, &approvedstart, &approvedend);
       }
-    }
-    // Mark text as disapproved.
-    if (!approved) {
+    } else {
       gtk_text_buffer_apply_tag(buffer, disapproved_rendering_tag, &startiter, &enditer);
     }
   }
 }
 
 
-gboolean WindowCheckKeyterms::on_textview_keyterm_text_button_press(GdkEventButton * event) // Todo
+bool WindowCheckKeyterms::find_renderings (const ustring& text, const vector <ustring>& renderings, const vector <bool>& wholewords, const vector <bool>& casesensitives, vector <size_t> * startpositions, vector <size_t> * lengths)
+// Finds renderings in the text.
+// text: Text to be looked into.
+// renderings: Renderings to look for.
+// wholewords / casesensitives: Attributes of the renderings.
+// startpositions: If non-NULL, will be filled with the positions that each rendering starts at.
+// lengths: If non-NULL, will be filled with the lengths of the renderings found.
+// Returns whether one or more renderings were found in the verse.
+{
+  if (startpositions)
+    startpositions->clear();
+  if (lengths)
+    lengths->clear();
+
+  GtkTextBuffer * textbuffer = gtk_text_buffer_new (NULL);
+  gtk_text_buffer_set_text (textbuffer, text.c_str(), -1);
+  GtkTextIter startiter;
+  gtk_text_buffer_get_start_iter(textbuffer, &startiter);
+
+  bool found = false;
+
+  for (unsigned int i2 = 0; i2 < renderings.size(); i2++) {
+
+    ustring rendering = renderings[i2];
+    bool wholeword = wholewords[i2];
+    bool casesensitive = casesensitives[i2];
+
+    ustring mytext;
+    ustring myrendering;
+    if (casesensitive) {
+      mytext = text;
+      myrendering = rendering;
+    } else {
+      mytext = text.casefold();
+      myrendering = rendering.casefold();
+    }
+    size_t position = mytext.find(myrendering);
+    while (position != string::npos) {
+      bool temporally_approved = true;
+      GtkTextIter approvedstart = startiter;
+      GtkTextIter approvedend;
+      gtk_text_iter_forward_chars(&approvedstart, position);
+      approvedend = approvedstart;
+      gtk_text_iter_forward_chars(&approvedend, rendering.length());
+      if (wholeword) {
+        if (!gtk_text_iter_starts_word(&approvedstart))
+          temporally_approved = false;
+        if (!gtk_text_iter_ends_word(&approvedend))
+          temporally_approved = false;
+      }
+      if (temporally_approved) {
+        found = true;
+        if (startpositions)
+          startpositions->push_back (position);
+        if (lengths)
+          lengths->push_back (rendering.length());
+      }
+      position = mytext.find(myrendering, ++position);
+    }
+  }
+
+  g_object_unref (textbuffer);  
+  
+  return found;
+}
+
+
+gboolean WindowCheckKeyterms::on_textview_keyterm_text_button_press(GdkEventButton * event)
 {
   // Get the textbuffer.
   GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview_check_text));
@@ -948,7 +996,7 @@ ustring WindowCheckKeyterms::enter_new_rendering_here()
 }
 
 
-void WindowCheckKeyterms::get_renderings(vector < ustring > &renderings, vector < bool > &wholewords, vector < bool > &casesensitives)
+void WindowCheckKeyterms::get_renderings(vector <ustring> &renderings, vector <bool> &wholewords, vector <bool> &casesensitives)
 {
   GtkTreeModel *model = (GtkTreeModel *) treestore_renderings;
   GtkTreeIter iter;
@@ -970,3 +1018,5 @@ void WindowCheckKeyterms::get_renderings(vector < ustring > &renderings, vector 
     valid = gtk_tree_model_iter_next(model, &iter);
   }
 }
+
+

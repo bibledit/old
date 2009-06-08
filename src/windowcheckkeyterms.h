@@ -94,7 +94,7 @@ private:
   void on_cell_edited(GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text);
   void add_to_renderings(const ustring& rendering, bool wholeword);
   void show_text();
-  void check_text();
+  bool find_renderings (const ustring& text, const vector <ustring>& renderings, const vector <bool>& wholewords, const vector <bool>& casesensitives, vector <size_t> * startpositions, vector <size_t> * lengths);
   gboolean on_textview_keyterm_text_button_press(GdkEventButton *event);
   gboolean on_textview_keyterm_text_button_release(GdkEventButton *event);
   vector <ustring> keyterm_text_selection;
