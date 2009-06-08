@@ -236,6 +236,3 @@ void ImportKeytermsAssistant::on_entry_category ()
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_category, (!category.empty()) && (!exists)); 
 }
 
-// Todo keyterms.
-// try out the new database.
-// update help if needed.
