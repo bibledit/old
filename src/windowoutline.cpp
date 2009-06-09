@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "windowoutline.h"
@@ -24,6 +25,7 @@
 #include "window.h"
 #include "keyterms.h"
 #include "tiny_utilities.h"
+
 
 WindowOutline::WindowOutline(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
 WindowBase(widOutline, "Outline", startup, 0, parent_box), myreference(0)
@@ -59,3 +61,5 @@ void WindowOutline::go_to(const ustring & project, Reference & reference)
   // Store the new reference in the object.
   myreference.assign(reference);
 }
+
+

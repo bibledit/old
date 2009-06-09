@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "utilities.h"
 #include "dialogshownotes.h"
 #include <glib.h>
@@ -27,6 +28,7 @@
 #include "settings.h"
 #include "help.h"
 #include "shortcuts.h"
+
 
 ShowNotesDialog::ShowNotesDialog(int dummy)
 {
@@ -174,28 +176,6 @@ ShowNotesDialog::ShowNotesDialog(int dummy)
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), label9, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label9), 0, 0.5);
 
-  hbox11 = gtk_hbox_new(FALSE, 6);
-  gtk_widget_show(hbox11);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), hbox11, TRUE, TRUE, 0);
-
-  label10 = gtk_label_new("Order");
-  gtk_widget_show(label10);
-  gtk_box_pack_start(GTK_BOX(hbox11), label10, FALSE, FALSE, 0);
-
-  GSList *radiobutton_order_sort_group = NULL;
-
-  radiobutton_order_sort = gtk_radio_button_new_with_mnemonic(NULL, "sort on reference");
-  gtk_widget_show(radiobutton_order_sort);
-  gtk_box_pack_start(GTK_BOX(hbox11), radiobutton_order_sort, FALSE, FALSE, 0);
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_order_sort), radiobutton_order_sort_group);
-  radiobutton_order_sort_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_order_sort));
-
-  radiobutton_center = gtk_radio_button_new_with_mnemonic(NULL, "center around current reference");
-  gtk_widget_show(radiobutton_center);
-  gtk_box_pack_start(GTK_BOX(hbox11), radiobutton_center, FALSE, FALSE, 0);
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_center), radiobutton_order_sort_group);
-  radiobutton_order_sort_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_center));
-
   hbox12 = gtk_hbox_new(FALSE, 6);
   gtk_widget_show(hbox12);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), hbox12, TRUE, TRUE, 0);
@@ -270,9 +250,6 @@ ShowNotesDialog::ShowNotesDialog(int dummy)
   // Project selection.
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_project_any), !settings->genconfig.notes_selection_current_project_get());
 
-  // Display order.
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_center), settings->genconfig.notes_display_center_around_reference_get());
-
   // Title and inclusions.
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_show_title), settings->session.project_notes_show_title);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_showproject), settings->genconfig.notes_display_project_get());
@@ -312,30 +289,36 @@ ShowNotesDialog::ShowNotesDialog(int dummy)
   set_gui();
 }
 
+
 ShowNotesDialog::~ShowNotesDialog()
 {
   gtk_widget_destroy(shownotesdialog);
 }
+
 
 int ShowNotesDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(shownotesdialog));
 }
 
+
 void ShowNotesDialog::on_fromdatebutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((ShowNotesDialog *) user_data)->on_from_date();
 }
+
 
 void ShowNotesDialog::on_todatebutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((ShowNotesDialog *) user_data)->on_to_date();
 }
 
+
 void ShowNotesDialog::on_okbutton1_clicked(GtkButton * button, gpointer user_data)
 {
   ((ShowNotesDialog *) user_data)->on_ok();
 }
+
 
 void ShowNotesDialog::on_from_date()
 {
@@ -347,6 +330,7 @@ void ShowNotesDialog::on_from_date()
   }
 }
 
+
 void ShowNotesDialog::on_to_date()
 {
   guint seconds = date_time_julian_to_seconds(to_day);
@@ -356,6 +340,7 @@ void ShowNotesDialog::on_to_date()
     set_gui();
   }
 }
+
 
 void ShowNotesDialog::on_ok()
 {
@@ -393,9 +378,6 @@ void ShowNotesDialog::on_ok()
   // Project selection.
   settings->genconfig.notes_selection_current_project_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_project_current)));
 
-  // Display order.  
-  settings->genconfig.notes_display_center_around_reference_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_center)));
-
   // Title and inclusions.
   settings->session.project_notes_show_title = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_show_title));
   settings->genconfig.notes_display_project_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_showproject)));
@@ -407,6 +389,7 @@ void ShowNotesDialog::on_ok()
   settings->genconfig.notes_display_summary_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_text_summary)));
   settings->genconfig.notes_display_reference_text_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_show_versetext)));
 }
+
 
 void ShowNotesDialog::set_gui()
 {
@@ -428,8 +411,6 @@ void ShowNotesDialog::set_gui()
   shortcuts.label(label7);
   shortcuts.button(radiobutton_project_current);
   shortcuts.button(radiobutton_project_any);
-  shortcuts.button(radiobutton_order_sort);
-  shortcuts.button(radiobutton_center);
   shortcuts.button(checkbutton_show_title);
   shortcuts.button(checkbutton_showproject);
   shortcuts.button(checkbutton_show_category);
@@ -448,10 +429,12 @@ void ShowNotesDialog::set_gui()
   on_checkbutton_show_title();
 }
 
+
 ustring ShowNotesDialog::all_categories()
 {
   return "All categories";
 }
+
 
 GtkToggleButton *ShowNotesDialog::reference_get_button(int selector)
 {
@@ -482,6 +465,7 @@ GtkToggleButton *ShowNotesDialog::reference_get_button(int selector)
   return button;
 }
 
+
 GtkToggleButton *ShowNotesDialog::edited_get_button(int selector)
 {
   GtkToggleButton *button = NULL;
@@ -506,10 +490,12 @@ GtkToggleButton *ShowNotesDialog::edited_get_button(int selector)
   return button;
 }
 
+
 void ShowNotesDialog::on_checkbutton_show_title_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((ShowNotesDialog *) user_data)->on_checkbutton_show_title();
 }
+
 
 void ShowNotesDialog::on_checkbutton_show_title()
 // Whether to show the title.
@@ -520,3 +506,37 @@ void ShowNotesDialog::on_checkbutton_show_title()
   gtk_widget_set_sensitive(checkbutton_date_created, active);
   gtk_widget_set_sensitive(checkbutton_show_created_by, active);
 }
+
+
+/*
+
+
+Todo notes display optimizations
+
+1. The reference sorting mechanism should not only take account of the initial reference, but also sort on the final reference. 
+E.g. if references are 10-11,, and 10-12,, and 10,, then it should sort them like:
+
+10
+10-11
+10-12,
+
+and not like:
+
+10-12
+10-11...
+
+2. Once this sorting works, then the cursor in the notes should always be placed at the first reference that the editor has. 
+If the editor has verse 11, then in the above example, the cursor should be placed on the note that has reference 10-11.
+
+
+
+
+
+
+
+
+
+
+
+*/
+

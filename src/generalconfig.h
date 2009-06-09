@@ -111,7 +111,6 @@ public:
   DEFINE_GENCONFIG_H (int, notes_selection_date_to);
   DEFINE_GENCONFIG_H (ustring, notes_selection_category);
   DEFINE_GENCONFIG_H (bool, notes_selection_current_project);
-  DEFINE_GENCONFIG_H (bool, notes_display_center_around_reference);
   DEFINE_GENCONFIG_H (bool, notes_display_project);
   DEFINE_GENCONFIG_H (bool, notes_display_category);
   DEFINE_GENCONFIG_H (bool, notes_display_date_created);

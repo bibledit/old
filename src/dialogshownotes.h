@@ -61,10 +61,6 @@ protected:
   GtkWidget *radiobutton_project_any;
   GtkWidget *hseparator1;
   GtkWidget *label9;
-  GtkWidget *hbox11;
-  GtkWidget *label10;
-  GtkWidget *radiobutton_order_sort;
-  GtkWidget *radiobutton_center;
   GtkWidget *hbox12;
   GtkWidget *checkbutton_show_title;
   GtkWidget *checkbutton_showproject;

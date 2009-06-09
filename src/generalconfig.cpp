@@ -130,7 +130,6 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE(notes_selection_date_to);
   INITIALIZE(notes_selection_category);
   INITIALIZE(notes_selection_current_project);
-  INITIALIZE(notes_display_center_around_reference);
   INITIALIZE(notes_display_project);
   INITIALIZE(notes_display_category);
   INITIALIZE(notes_display_date_created);
@@ -302,7 +301,6 @@ void GeneralConfiguration::save()
   SAVE_VALUE(notes_selection_date_to);
   SAVE_VALUE(notes_selection_category);
   SAVE_VALUE(notes_selection_current_project);
-  SAVE_VALUE(notes_display_center_around_reference);
   SAVE_VALUE(notes_display_project);
   SAVE_VALUE(notes_display_category);
   SAVE_VALUE(notes_display_date_created);
@@ -551,7 +549,6 @@ IMPLEMENT(int, int_get, notes_selection_date_from, date_time_julian_day_get_curr
 IMPLEMENT(int, int_get, notes_selection_date_to, date_time_julian_day_get_current())
 IMPLEMENT(ustring, string_get, notes_selection_category, "")
 IMPLEMENT(bool, bool_get, notes_selection_current_project, false)
-IMPLEMENT(bool, bool_get, notes_display_center_around_reference, false)
 IMPLEMENT(bool, bool_get, notes_display_project, false)
 IMPLEMENT(bool, bool_get, notes_display_category, false)
 IMPLEMENT(bool, bool_get, notes_display_date_created, false)

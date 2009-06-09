@@ -330,12 +330,12 @@ void notes_select(vector < unsigned int >&ids, unsigned int &id_cursor, const us
       }
     }
     // Storage for sorting purposes.
-    vector < ustring > references;
-    vector < ustring > allreferences;
-    vector < int >dates;
-    vector < int >distances;
-    set < gint32 > already_stored_ids;
-    // Read all resulting data from the db. Make further selections.
+    vector <ustring> references;
+    vector <ustring> allreferences;
+    vector <int> dates;
+    vector <int> distances;
+    set <gint32> already_stored_ids;
+    // Read all resulting data from the database. Make further selections.
     for (unsigned int rc = 0; rc < sqlitereader.ustring0.size(); rc++) {
       // Selection based on the date.
       int modified_date = convert_to_int(sqlitereader.ustring2[rc]);
@@ -416,12 +416,8 @@ void notes_select(vector < unsigned int >&ids, unsigned int &id_cursor, const us
         distances.push_back(smallest_distance);
       }
     }
-    // Sort the notes.
-    if (settings->genconfig.notes_display_center_around_reference_get()) {
-      quick_sort(distances, ids, 0, distances.size());
-    } else {
-      notes_sort(ids, references, allreferences, dates);
-    }
+    // Sort the notes. Base the sorting mechanism on the distance of each notes to the active reference.
+    quick_sort(distances, ids, 0, distances.size());
   }
   catch(exception & ex) {
     gw_critical(ex.what());
