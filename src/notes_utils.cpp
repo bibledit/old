@@ -38,6 +38,7 @@
 #include "unixwrappers.h"
 #include "tiny_utilities.h"
 #include "maintenance.h"
+#include "usfmtools.h"
 
 
 void notes_database_verify(const ustring& alternate_directory)
@@ -543,7 +544,7 @@ void notes_display(ustring & note_buffer, vector < unsigned int >ids, unsigned i
         // Insert text of the references, if requested.
         if (show_reference_text) {
           for (unsigned int r = 0; r < references.size(); r++) {
-            vector < unsigned int >simple_verses = verse_range_sequence(references[r].verse);
+            vector <unsigned int> simple_verses = verse_range_sequence(references[r].verse);
             for (unsigned int sv = 0; sv < simple_verses.size(); sv++) {
               Reference ref(references[r]);
               ref.verse = convert_to_string(simple_verses[sv]);
@@ -551,8 +552,7 @@ void notes_display(ustring & note_buffer, vector < unsigned int >ids, unsigned i
               note_buffer.append(" ");
               ustring text = project_retrieve_verse(project, ref.book, ref.chapter, ref.verse);
               if (!text.empty()) {
-                CategorizeLine cl(text);
-                text = cl.verse;
+                text = usfm_get_verse_text_only (text);
               }
               note_buffer.append(text);
               note_buffer.append("<BR>\n");
