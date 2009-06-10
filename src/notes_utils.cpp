@@ -231,15 +231,18 @@ void notes_select(vector < unsigned int >&ids, unsigned int &id_cursor, const us
   extern Settings *settings;
   // Clear ids.
   ids.clear();
-  // Numerical equivalent of current reference.
-  int numerical_currentreference;
+  // The average numerical equivalent of current reference.
+  int numerical_currentreference = 0;
   {
     ustring book, chapter, verse;
     decode_reference(currentreference, book, chapter, verse);
-    numerical_currentreference = reference_to_numerical_equivalent(book, chapter, "0");
-    vector < int >verses = verses_encode(verse);
+    vector <int>verses = verses_encode(verse);
+    for (unsigned int i = 0; i < verses.size(); i++) {
+      numerical_currentreference += verses[i];
+    }
     if (!verses.empty())
-      numerical_currentreference += verses[0];
+      numerical_currentreference /= verses.size();
+    numerical_currentreference += reference_to_numerical_equivalent(book, chapter, "0");
   }
   // Date selection.
   int currentdate = date_time_julian_day_get_current();
@@ -257,7 +260,6 @@ void notes_select(vector < unsigned int >&ids, unsigned int &id_cursor, const us
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
-    // Read from database, and sort the results.
     SqliteReader sqlitereader(0);
     // See which notes to select.
     switch ((NotesSelectionReferenceType) settings->genconfig.notes_selection_reference_get()) {
@@ -331,8 +333,6 @@ void notes_select(vector < unsigned int >&ids, unsigned int &id_cursor, const us
     }
     // Storage for sorting purposes.
     vector <ustring> references;
-    vector <ustring> allreferences;
-    vector <int> dates;
     vector <int> distances;
     set <gint32> already_stored_ids;
     // Read all resulting data from the database. Make further selections.
@@ -359,7 +359,7 @@ void notes_select(vector < unsigned int >&ids, unsigned int &id_cursor, const us
           break;
         }
       }
-      // Selection based on the category.
+      // Selection based on the category of the note.
       if (!category.empty()) {
         if (category != sqlitereader.ustring4[rc])
           continue;
@@ -377,46 +377,37 @@ void notes_select(vector < unsigned int >&ids, unsigned int &id_cursor, const us
         if (!project_ok)
           continue;
       }
-      // Get id.
+      // Get note id.
       gint32 id = convert_to_int(sqlitereader.ustring0[rc]);
-      // Parse the string into its possible several references.
-      Parse parse(sqlitereader.ustring1[rc]);
-      // Get the first numerical equivalent of the reference.
-      ustring reference;
-      if (parse.words.size() > 0)
-        reference = parse.words[0];
-      // Calculate the smallest distance between note and reference.
-      // Also see if the cursor must be positioned here.
-      int smallest_distance = G_MAXINT;
-      int smallest_absolute_distance = G_MAXINT;
-      for (unsigned int p = 0; p < parse.words.size(); p++) {
-        int distance = convert_to_int(parse.words[p]) - numerical_currentreference;
-        int absolute_distance = ABS(distance);
-        if (absolute_distance < smallest_absolute_distance) {
-          smallest_distance = distance;
-          smallest_absolute_distance = absolute_distance;
-        }
-        if (absolute_distance < minimum_cursor_distance) {
-          minimum_cursor_distance = absolute_distance;
-          id_cursor = id;
+      // Sorting on the references that the note refers to.
+      unsigned int average_note_reference = 0;
+      {
+        Parse parse(sqlitereader.ustring1[rc]);
+        if (!parse.words.empty()) {
+          for (unsigned int i = 0; i < parse.words.size(); i++) {
+            average_note_reference += convert_to_int (parse.words[i]);
+          }
+          average_note_reference /= parse.words.size();
         }
       }
-      // Get date modified.
-      int date = convert_to_int(sqlitereader.ustring2[rc]);
+      // Calculate the distance between note and reference.
+      // Also see if the cursor must be positioned here.
+      int distance = average_note_reference - numerical_currentreference;
+      int absolute_distance = ABS (distance);
+      if (absolute_distance < minimum_cursor_distance) {
+        minimum_cursor_distance = absolute_distance;
+        id_cursor = id;
+      }
       // Store data. 
       // As we now work with half-verses (10a, 10b), because of the way we select 
       // notes we might have repeating ids. Filter these out.
       if (already_stored_ids.find(id) == already_stored_ids.end()) {
         ids.push_back(id);
         already_stored_ids.insert(id);
-        references.push_back(reference);
-        // Sort not only on the first reference, but on the other ones as well.
-        allreferences.push_back(sqlitereader.ustring1[rc]);
-        dates.push_back(date);
-        distances.push_back(smallest_distance);
+        distances.push_back(distance);
       }
     }
-    // Sort the notes. Base the sorting mechanism on the distance of each notes to the active reference.
+    // Sort the notes, based on the distances of the notes to the active reference.
     quick_sort(distances, ids, 0, distances.size());
   }
   catch(exception & ex) {

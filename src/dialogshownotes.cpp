@@ -508,35 +508,3 @@ void ShowNotesDialog::on_checkbutton_show_title()
 }
 
 
-/*
-
-
-Todo notes display optimizations
-
-1. The reference sorting mechanism should not only take account of the initial reference, but also sort on the final reference. 
-E.g. if references are 10-11,, and 10-12,, and 10,, then it should sort them like:
-
-10
-10-11
-10-12,
-
-and not like:
-
-10-12
-10-11...
-
-2. Once this sorting works, then the cursor in the notes should always be placed at the first reference that the editor has. 
-If the editor has verse 11, then in the above example, the cursor should be placed on the note that has reference 10-11.
-
-
-
-
-
-
-
-
-
-
-
-*/
-
