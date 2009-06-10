@@ -36,7 +36,7 @@ ShowScriptDialog::ShowScriptDialog(int dummy)
   Shortcuts shortcuts(0);
 
   showscriptdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(showscriptdialog), "Logfile");
+  gtk_window_set_title(GTK_WINDOW(showscriptdialog), "System log");
   gtk_window_set_position(GTK_WINDOW(showscriptdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(showscriptdialog), TRUE);
   gtk_window_set_default_size(GTK_WINDOW(showscriptdialog), 640, 480);

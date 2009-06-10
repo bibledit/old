@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include "htmlbrowser.h"
 #include "help.h"
@@ -29,6 +30,7 @@
 #include "tiny_utilities.h"
 #include "screen.h"
 
+
 void help_open(GtkButton * button, gpointer user_data)
 {
   gchar *file = (gchar *) user_data;
@@ -37,6 +39,7 @@ void help_open(GtkButton * button, gpointer user_data)
   url.append(".html");
   htmlbrowser(url, true);
 }
+
 
 InDialogHelp::InDialogHelp(GtkWidget * dialog, GtkBuilder * builder, Shortcuts * shortcuts, const gchar * topic)
 {
@@ -99,16 +102,19 @@ InDialogHelp::InDialogHelp(GtkWidget * dialog, GtkBuilder * builder, Shortcuts *
   g_signal_connect((gpointer) dialog, "delete_event", G_CALLBACK(on_dialog_delete_event), gpointer(this));
 }
 
+
 InDialogHelp::~InDialogHelp()
 {
   if (process_id)
     unix_kill(process_id);
 }
 
+
 void InDialogHelp::on_helpbutton_activated(GtkButton * button, gpointer user_data)
 {
   ((InDialogHelp *) user_data)->on_helpbutton();
 }
+
 
 void InDialogHelp::on_helpbutton()
 {
@@ -146,6 +152,7 @@ void InDialogHelp::on_helpbutton()
     }
   }
 }
+
 
 gboolean InDialogHelp::on_dialog_delete_event(GtkWidget * widget, GdkEvent * event, gpointer user_data)
 {
