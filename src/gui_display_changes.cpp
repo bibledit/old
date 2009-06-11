@@ -131,4 +131,3 @@ void DisplayChangesGui::clear()
 }
 
 
-// Todo add information that feedback is needed on the ktbh database. Send to my email.
