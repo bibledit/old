@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "windowmerge.h"
@@ -227,6 +228,7 @@ WindowBase(widMerge, "Merge", startup, 0, parent_box)
   gtk_widget_grab_focus (last_focused_widget);
 }
 
+
 WindowMerge::~WindowMerge()
 {
   // Destroy changes GUI.
@@ -237,6 +239,7 @@ WindowMerge::~WindowMerge()
   gtk_widget_destroy(save_editors_button);
   gtk_widget_destroy(reload_editors_button);
 }
+
 
 void WindowMerge::set_master_project()
 {
@@ -262,10 +265,12 @@ void WindowMerge::set_master_project()
   editors_changed();
 }
 
+
 void WindowMerge::on_combobox_master_changed(GtkComboBox * combobox, gpointer user_data)
 {
   ((WindowMerge *) user_data)->on_combobox_master();
 }
+
 
 void WindowMerge::on_combobox_master()
 {
@@ -280,6 +285,7 @@ void WindowMerge::on_combobox_master()
   // Simulate editors changed, so it would load the differences.
   editors_changed();
 }
+
 
 void WindowMerge::set_edited_project()
 {
@@ -305,10 +311,12 @@ void WindowMerge::set_edited_project()
   editors_changed();
 }
 
+
 void WindowMerge::on_combobox_edited_changed(GtkComboBox * combobox, gpointer user_data)
 {
   ((WindowMerge *) user_data)->on_combobox_edited();
 }
+
 
 void WindowMerge::on_combobox_edited()
 {
@@ -323,11 +331,13 @@ void WindowMerge::on_combobox_edited()
   editors_changed();
 }
 
+
 void WindowMerge::set_focused_editor()
 {
   editor_was_focused = true;
   load_gui_delayer();
 }
+
 
 void WindowMerge::set_open_projects(const vector < ustring>& projects)
 {
@@ -335,17 +345,20 @@ void WindowMerge::set_open_projects(const vector < ustring>& projects)
   load_gui_delayer();
 }
 
+
 void WindowMerge::load_gui_delayer()
 {
   gw_destroy_source(load_gui_event_id);
   load_gui_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 10, GSourceFunc(on_load_gui_timeout), gpointer(this), NULL);
 }
 
+
 bool WindowMerge::on_load_gui_timeout(gpointer user_data)
 {
   ((WindowMerge *) user_data)->load_gui();
   return false;
 }
+
 
 void WindowMerge::load_gui()
 {
@@ -365,6 +378,7 @@ void WindowMerge::load_gui()
   editors_changed();
 }
 
+
 void WindowMerge::editors_changed()
 // This function is called if any of the Editors changed.
 {
@@ -372,11 +386,13 @@ void WindowMerge::editors_changed()
   editors_changed_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 500, GSourceFunc(on_editors_changed_timeout), gpointer(this), NULL);
 }
 
+
 bool WindowMerge::on_editors_changed_timeout(gpointer user_data)
 {
   ((WindowMerge *) user_data)->on_editors_changed();
   return false;
 }
+
 
 void WindowMerge::on_editors_changed()
 // This function is called shortly after any of the Editors changed.
@@ -405,15 +421,18 @@ void WindowMerge::on_editors_changed()
   show_comparison();
 }
 
+
 void WindowMerge::on_button_previous_clicked(GtkButton * button, gpointer user_data)
 {
   ((WindowMerge *) user_data)->on_button_next_previous(false);
 }
 
+
 void WindowMerge::on_button_next_clicked(GtkButton * button, gpointer user_data)
 {
   ((WindowMerge *) user_data)->on_button_next_previous(true);
 }
+
 
 void WindowMerge::on_button_next_previous(bool next)
 // This function looks for the next (or previous) chapter that differs
@@ -472,6 +491,7 @@ void WindowMerge::on_button_next_previous(bool next)
     gtkw_dialog_info(NULL, "No more differing chapters found");
   }
 }
+
 
 bool WindowMerge::cross_book_boundaries(bool next, unsigned int &cross_book, unsigned int &cross_chapter)
 // This function looks for the next (or previous) chapter,
@@ -536,10 +556,12 @@ bool WindowMerge::cross_book_boundaries(bool next, unsigned int &cross_book, uns
   return true;
 }
 
+
 void WindowMerge::on_button_merge_clicked(GtkButton * button, gpointer user_data)
 {
   ((WindowMerge *) user_data)->on_button_merge();
 }
+
 
 void WindowMerge::on_button_merge()
 {
@@ -583,6 +605,7 @@ void WindowMerge::on_button_merge()
   // Reload the editors.
   gtk_button_clicked(GTK_BUTTON(reload_editors_button));
 }
+
 
 void WindowMerge::merge_edited_into_master(bool approve)
 // This merges the edited data into the master data, and does error checking.
@@ -756,6 +779,7 @@ void WindowMerge::merge_edited_into_master(bool approve)
   }
 }
 
+
 void WindowMerge::copy_master_to_edited_chapter(unsigned int bk, unsigned int ch, bool gui)
 {
   // Only copy if the master and edited version differ. This saves a lot of git operations.
@@ -786,6 +810,7 @@ void WindowMerge::copy_master_to_edited_chapter(unsigned int bk, unsigned int ch
   }
 }
 
+
 void WindowMerge::copy_master_to_edited_all()
 {
   {
@@ -803,6 +828,7 @@ void WindowMerge::copy_master_to_edited_all()
   ustring message = "All chapters of project " + current_master_project + " were copied to project " + current_edited_project;
   gtkw_dialog_info(NULL, message.c_str());
 }
+
 
 ustring WindowMerge::merge_conflicts_2_human_readable_text(const ustring & data)
 /*
@@ -842,6 +868,7 @@ ustring WindowMerge::merge_conflicts_2_human_readable_text(const ustring & data)
   return text;
 }
 
+
 void WindowMerge::show_comparison()
 // Shows the comparison.
 {
@@ -851,6 +878,7 @@ void WindowMerge::show_comparison()
   compare_usfm_text(parseline_main.lines, parseline_edited.lines, comparison, true);
   display_changes_gui->display (comparison);
 }
+
 
 void WindowMerge::approval_setup(const ustring & maindata, const ustring & mergedata)
 {
@@ -875,6 +903,7 @@ void WindowMerge::approval_setup(const ustring & maindata, const ustring & merge
   // Info for user.
   gtkw_dialog_info(NULL, "The chapters are ready for approving the individual changes");
 }
+
 
 void WindowMerge::approval_show_diff()
 // Looks for the differences and shows them in the GUI.
@@ -969,11 +998,13 @@ void WindowMerge::approval_show_diff()
   }
 }
 
+
 void WindowMerge::on_button_approve_clicked(GtkButton * button, gpointer user_data)
 // Called when the user clicks one of the approval button.
 {
   ((WindowMerge *) user_data)->approval_approve(button);
 }
+
 
 void WindowMerge::approval_approve(GtkButton * button)
 // Handles the user's approval of a change.
@@ -1010,11 +1041,13 @@ void WindowMerge::approval_approve(GtkButton * button)
   }
 }
 
+
 void WindowMerge::on_button_ready_clicked(GtkButton * button, gpointer user_data)
 // Called when ready approving.
 {
   ((WindowMerge *) user_data)->button_ready_clicked();
 }
+
 
 void WindowMerge::button_ready_clicked()
 // Called when ready approving.
@@ -1039,3 +1072,5 @@ void WindowMerge::button_ready_clicked()
   // Reload the editors.
   gtk_button_clicked(GTK_BUTTON(reload_editors_button));
 }
+
+

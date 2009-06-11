@@ -62,6 +62,10 @@ DisplayChangesGui::~DisplayChangesGui()
 
 void DisplayChangesGui::display(const vector <ustring>& differences)
 {
+  // Store position of scrollled window.
+  GtkAdjustment * adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolledwindow));
+  int scrollbar_position = gtk_adjustment_get_value (adjustment);
+
   // Variable for holding the number of modifications.
   unsigned int modification_count = 0;
 
@@ -111,6 +115,13 @@ void DisplayChangesGui::display(const vector <ustring>& differences)
   ustring message = "Number of modifications: ";
   message.append (convert_to_string (modification_count));
   gtk_label_set_text (GTK_LABEL (label), message.c_str());
+  
+  // Restore scrollled window's position.
+  // The window will then show the same block of text as before loading. This makes editing the text easier.
+  while (gtk_events_pending())
+    gtk_main_iteration();
+  gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolledwindow));
+  gtk_adjustment_set_value (adjustment, scrollbar_position);
 }
 
 
@@ -119,3 +130,5 @@ void DisplayChangesGui::clear()
   gtk_text_buffer_set_text(textbuffer, "", 0);
 }
 
+
+// Todo add information that feedback is needed on the ktbh database. Send to my email.
