@@ -17,12 +17,14 @@
 **  
 */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "dialogtaskduration.h"
 #include "help.h"
 #include "reporting.h"
 #include "shortcuts.h"
+
 
 TaskDurationDialog::TaskDurationDialog(vector < ustring > *tasks, vector < double >*durations)
 {
@@ -37,6 +39,7 @@ TaskDurationDialog::TaskDurationDialog(vector < ustring > *tasks, vector < doubl
   gtk_window_set_title(GTK_WINDOW(taskdurationdialog), "Task Duration Setup");
   gtk_window_set_position(GTK_WINDOW(taskdurationdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_type_hint(GTK_WINDOW(taskdurationdialog), GDK_WINDOW_TYPE_HINT_DIALOG);
+  gtk_window_set_default_size (GTK_WINDOW (taskdurationdialog), -1, 400);
 
   dialog_vbox1 = GTK_DIALOG(taskdurationdialog)->vbox;
   gtk_widget_show(dialog_vbox1);
@@ -46,9 +49,19 @@ TaskDurationDialog::TaskDurationDialog(vector < ustring > *tasks, vector < doubl
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), label4, FALSE, FALSE, 0);
   gtk_misc_set_padding(GTK_MISC(label4), 5, 5);
 
+  scrolledwindow = gtk_scrolled_window_new (NULL, NULL);
+  gtk_widget_show (scrolledwindow);
+  gtk_box_pack_start (GTK_BOX (dialog_vbox1), scrolledwindow, TRUE, TRUE, 0);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow), GTK_SHADOW_IN);
+
+  viewport = gtk_viewport_new (NULL, NULL);
+  gtk_widget_show (viewport);
+  gtk_container_add (GTK_CONTAINER (scrolledwindow), viewport);
+
   table1 = gtk_table_new(2, 2, FALSE);
   gtk_widget_show(table1);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), table1, TRUE, TRUE, 0);
+  gtk_container_add (GTK_CONTAINER (viewport), table1);
   gtk_container_set_border_width(GTK_CONTAINER(table1), 5);
   gtk_table_set_col_spacings(GTK_TABLE(table1), 5);
 

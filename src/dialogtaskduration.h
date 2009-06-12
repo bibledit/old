@@ -36,6 +36,8 @@ protected:
   GtkWidget *taskdurationdialog;
   GtkWidget *dialog_vbox1;
   GtkWidget *label4;
+  GtkWidget *scrolledwindow;
+  GtkWidget *viewport;
   GtkWidget *table1;
   GtkWidget *label5;
   GtkWidget *label6;

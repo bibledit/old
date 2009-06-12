@@ -552,9 +552,6 @@ Todo Planning/Reporting/Status: Simplify it
 
 Tools in the menu for this tasks are:
 
-Preferences:
-- Reporting
-- Planning
 Edit:
 - Status
 - Planning
