@@ -45,11 +45,13 @@ and two different commands, occurring at the same time, will not disturb each
 other.
 */
 {
+  return;
   getmodules();
 }
 
 BibleTime::~BibleTime()
 {
+  return;
   // Shut down bibledit-bibletime.
   vector < ustring > payload;
   payload.push_back(" ");
@@ -60,6 +62,7 @@ BibleTime::~BibleTime()
 bool BibleTime::connected()
 // Whether BibleTime is connected.
 {
+  return false;
   // Get the methodcall.
   extern InterprocessCommunication *ipc;
   vector < ustring > payload;
@@ -77,6 +80,7 @@ void BibleTime::sendreference(const Reference & reference)
 // Sends the reference for BibleTime.
 // Bibledit-bibletime will pass it on shortly after.
 {
+  return;
   // BibleTime does not accept verses like "2-6a", etc.
   // So we take the whole verse that can be extracted from the verse.
   // That would be "2" in this example. 
@@ -114,6 +118,7 @@ bool BibleTime::getreference(Reference & reference)
 // Read the current reference.
 // This was sent by bibledit-bibletime.
 {
+  return false;
   extern InterprocessCommunication *ipc;
   vector < ustring > payload;
   payload = ipc->get_payload(ipcctBibleTimeReference);
@@ -133,8 +138,9 @@ bool BibleTime::getreference(Reference & reference)
 vector < ustring > BibleTime::getbibles()
 {
   // Get the Bibles.
-  extern InterprocessCommunication *ipc;
   vector < ustring > bibles;
+  return bibles;
+  extern InterprocessCommunication *ipc;
   bibles = ipc->get_payload(ipcctBibleTimeBibles);
 
   // Signal the helper to again get the modules.
@@ -147,8 +153,9 @@ vector < ustring > BibleTime::getbibles()
 vector < ustring > BibleTime::getcommentaries()
 {
   // Get the commentaries.
-  extern InterprocessCommunication *ipc;
   vector < ustring > commentaries;
+  return commentaries;
+  extern InterprocessCommunication *ipc;
   commentaries = ipc->get_payload(ipcctBibleTimeCommentaries);
 
   // Signal the helper to again get the modules.
@@ -175,6 +182,9 @@ vector < ustring > BibleTime::search_in_module(const ustring & modulename, const
 
 vector < ustring > BibleTime::search(const ustring & modulename, const ustring & searchtext, int selector)
 {
+  vector < ustring > dummy;
+  return dummy;
+
   // Pointers to IPC.
   extern InterprocessCommunication *ipc;
 
@@ -206,6 +216,7 @@ vector < ustring > BibleTime::search(const ustring & modulename, const ustring &
 
 void BibleTime::reloadmodules()
 {
+  return;
   vector < ustring > payload;
   payload.push_back(" ");
   extern InterprocessCommunication *ipc;
@@ -221,6 +232,7 @@ ustring BibleTime::database()
 void BibleTime::getmodules()
 // Sends that the available modules should be fetched.
 {
+  return;
   vector < ustring > payload;
   payload.push_back(" ");
   extern InterprocessCommunication *ipc;

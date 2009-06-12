@@ -6,10 +6,9 @@
 
 # The first reasons that made this script necessary was that Gtk got mixed up
 # when a child process was repeatedly run.
-# Bibledit communicates with BibleTime by very often calling some child 
+# Bibledit collaborates by very often calling git child 
 # processes. It has been noticed in practise that after much use during a day
 # of work with Bibledit, the Gtk based graphical functions cease to work.
-# Later on git was integrated, and called often.
 # Messages have been seen saying that there were too many open files.
 # Both the Gtk based graphical functions ceased to work and the child processed 
 # failed to be spawned.
@@ -48,16 +47,6 @@ mv -f ${LOGFILE} ${LOGFILEOLD} 2> /dev/null
 
 
 
-# Same story for the log file for bibledit-bibletime
-# Bibledit-bibletime needs its own logfile, because if it would write to the
-# logfile of bibledit-bin, then they would overwrite each other.
-
-LOGFILEBIBLETIME=~/.bibledit_temp/bibletime.log
-LOGFILEOLD=${LOGFILEBIBLETIME}.old
-mv -f ${LOGFILEBIBLETIME} ${LOGFILEOLD} 2> /dev/null
-
-
-
 # Same story for the log file for bibledit-git.
 
 LOGFILEGIT=~/.bibledit_temp/git.log
@@ -65,34 +54,6 @@ LOGFILEOLD=${LOGFILEGIT}.old
 mv -f ${LOGFILEGIT} ${LOGFILEOLD} 2> /dev/null
 
 
-
-# Start bibledit-bibletime.
-# The choice of the actual binary that will run is done so as to facilitate
-# programming. This process is explained below, see with bibledit-bin.
-# Do not start it if bibledit-bin is used for scripting.
-# At first we used the += operator, e.g.
-# BIBLEDIT_BIBLETIME_SAME_DIRECTORY+=/${BIBLEDIT_BIBLETIME}
-# This works fine on Linux, but not on BSD as in Mac OSX.
-# Therefore we use
-# BIBLEDIT_BIBLETIME_SAME_DIRECTORY=`dirname $0`/${BIBLEDIT_BIBLETIME}
-
-BIBLEDIT_BIBLETIME=bibledit-bibletime
-
-BIBLEDIT_BIBLETIME_SAME_DIRECTORY=`dirname $0`/${BIBLEDIT_BIBLETIME}
-
-BIBLEDIT_BIBLETIME_DEVELOPMENT_DIRECTORY=`dirname $0`/../src/${BIBLEDIT_BIBLETIME}
-
-if [ -x ${BIBLEDIT_BIBLETIME_SAME_DIRECTORY} ]
-  then
-    BIBLEDIT_BIBLETIME=${BIBLEDIT_BIBLETIME_SAME_DIRECTORY}
-  elif [ -x ${BIBLEDIT_BIBLETIME_DEVELOPMENT_DIRECTORY} ]
-    then
-      BIBLEDIT_BIBLETIME=${BIBLEDIT_BIBLETIME_DEVELOPMENT_DIRECTORY}
-fi
-
-# Start bibledit-bibletime, and kill any previous such process.
-killall bibledit-bibletime > /dev/null 2>&1
-${BIBLEDIT_BIBLETIME} > ${LOGFILEBIBLETIME} 2>&1 &
 
 
 # Start bibledit-git.

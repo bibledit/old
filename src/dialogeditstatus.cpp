@@ -561,8 +561,6 @@ View:
 
 A simplification is suggested for one tool (Planning) in those three menus. For details see attached file.
 
-
-
 Suggestions:
 As three names for similar actions are difficult to remember. I suggest to use one name: Planning
 As the menu in Bibledit is based mainly on actions (to edit, view and 'what is preferred) 
