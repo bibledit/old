@@ -111,7 +111,6 @@
 #include "dialoginserttable.h"
 #include "tiny_utilities.h"
 #include "hyphenate.h"
-#include "dialogreportingsetup.h"
 #include "dialogeditstatus.h"
 #include "dialogviewstatus.h"
 #include "planning.h"
@@ -1586,7 +1585,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   preferences_password = NULL;
   preferences_text_replacement = NULL;
   pdf_viewer1 = NULL;
-  preferences_reporting = NULL;
   preferences_planning = NULL;
   preferences_filters = NULL;
   preferences_compare = NULL;
@@ -1615,14 +1613,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     image24540 = gtk_image_new_from_stock("gtk-zoom-fit", GTK_ICON_SIZE_MENU);
     gtk_widget_show(image24540);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(pdf_viewer1), image24540);
-
-    preferences_reporting = gtk_image_menu_item_new_with_mnemonic("Rep_orting");
-    gtk_widget_show(preferences_reporting);
-    gtk_container_add(GTK_CONTAINER(menuitem_preferences_menu), preferences_reporting);
-
-    image25623 = gtk_image_new_from_stock("gtk-sort-ascending", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image25623);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(preferences_reporting), image25623);
 
     preferences_planning = gtk_image_menu_item_new_with_mnemonic("P_lanning");
     gtk_widget_show(preferences_planning);
@@ -1955,8 +1945,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     g_signal_connect((gpointer) preferences_text_replacement, "activate", G_CALLBACK(on_preferences_text_replacement_activate), gpointer(this));
   if (pdf_viewer1)
     g_signal_connect((gpointer) pdf_viewer1, "activate", G_CALLBACK(on_pdf_viewer1_activate), gpointer(this));
-  if (preferences_reporting)
-    g_signal_connect((gpointer) preferences_reporting, "activate", G_CALLBACK(on_preferences_reporting_activate), gpointer(this));
   if (preferences_planning)
     g_signal_connect((gpointer) preferences_planning, "activate", G_CALLBACK(on_preferences_planning_activate), gpointer(this));
   if (preferences_filters)
@@ -4967,24 +4955,13 @@ void MainWindow::on_ipc_method()
  |
  |
  |
- Reporting and Planning
+ Planning
  |
  |
  |
  |
  |
  */
-
-void MainWindow::on_preferences_reporting_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_preferences_reporting();
-}
-
-void MainWindow::on_preferences_reporting()
-{
-  ReportingSetupDialog dialog(0);
-  dialog.run();
-}
 
 void MainWindow::on_editstatus_activate(GtkMenuItem * menuitem, gpointer user_data)
 {

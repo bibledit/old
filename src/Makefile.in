@@ -136,11 +136,11 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialoginserttable.$(OBJEXT) git.$(OBJEXT) git-exec.$(OBJEXT) \
 	usfm2xslfo_utils.$(OBJEXT) hyphenate.$(OBJEXT) \
 	reporting.$(OBJEXT) planning.$(OBJEXT) \
-	dialogreportingsetup.$(OBJEXT) dialogeditstatus.$(OBJEXT) \
-	dialogtaskduration.$(OBJEXT) htmlwriter.$(OBJEXT) \
-	dialogviewstatus.$(OBJEXT) dialogplanningsetup.$(OBJEXT) \
-	resource.$(OBJEXT) dialogbooknames.$(OBJEXT) \
-	dialogradiobutton.$(OBJEXT) dialogresourceconverter.$(OBJEXT) \
+	dialogeditstatus.$(OBJEXT) dialogtaskduration.$(OBJEXT) \
+	htmlwriter.$(OBJEXT) dialogviewstatus.$(OBJEXT) \
+	dialogplanningsetup.$(OBJEXT) resource.$(OBJEXT) \
+	dialogbooknames.$(OBJEXT) dialogradiobutton.$(OBJEXT) \
+	dialogresourceconverter.$(OBJEXT) \
 	resource_conversion_utils.$(OBJEXT) convert.$(OBJEXT) \
 	textviewer.$(OBJEXT) roman.$(OBJEXT) project_memory.$(OBJEXT) \
 	dialogmerge.$(OBJEXT) merge_utils.$(OBJEXT) \
@@ -554,7 +554,6 @@ bibledit_bin_SOURCES = \
         hyphenate.cpp \
         reporting.cpp \
         planning.cpp \
-        dialogreportingsetup.cpp \
         dialogeditstatus.cpp \
         dialogtaskduration.cpp \
         htmlwriter.cpp \
@@ -812,7 +811,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogrefexchange.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogreplace.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogreplacing.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogreportingsetup.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogresourceconverter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogrevert.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogreviewanchors.Po@am__quote@

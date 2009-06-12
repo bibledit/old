@@ -33,25 +33,31 @@ public:
   ~PlanningSetupDialog ();
   int run ();
 protected:
-  GtkWidget *planningsetupdialog;
-  GtkWidget *dialog_vbox1;
-  GtkWidget *vbox1;
-  GtkWidget *table1;
-  GtkWidget *label3;
+  GtkBuilder *gtkbuilder;
+  GtkWidget *dialog;
   GtkWidget *button_start;
-  GtkWidget *alignment1;
-  GtkWidget *hbox2;
-  GtkWidget *image1;
-  GtkWidget *label2;
-  GtkWidget *dialog_action_area1;
-  GtkWidget *cancelbutton1;
-  GtkWidget *okbutton1;
+  GtkWidget *button_tasks;
+  GtkWidget *button_time;
+  GtkWidget *cancelbutton;
+  GtkWidget *okbutton;
 private:
   static void on_button_start_clicked (GtkButton *button, gpointer user_data);
   void on_button_start ();
+  int startdate;
+
+  static void on_button_tasks_clicked (GtkButton *button, gpointer user_data);
+  void on_button_tasks ();
+  vector <ustring> tasks;
+  vector <ustring> tasks_ever;
+
+  static void on_button_time_clicked (GtkButton *button, gpointer user_data);
+  void on_button_time ();
+  vector <double> durations;
+  vector <double> durations_ever;
+
   static void on_okbutton_clicked (GtkButton *button, gpointer user_data);
   void on_okbutton ();
-  int startdate;
+
   void gui ();
 };
 

@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "dialogeditstatus.h"
 #include "help.h"
 #include "settings.h"
@@ -543,3 +544,48 @@ void EditStatusDialog::on_okbutton()
   // Save status.
   projectstatus->save();
 }
+
+
+/*
+
+Todo Planning/Reporting/Status: Simplify it
+
+Tools in the menu for this tasks are:
+
+Preferences:
+- Reporting
+- Planning
+Edit:
+- Status
+- Planning
+View:
+- Status
+- Planning
+
+A simplification is suggested for one tool (Planning) in those three menus. For details see attached file.
+
+
+
+Suggestions:
+As three names for similar actions are difficult to remember. I suggest to use one name: Planning
+As the menu in Bibledit is based mainly on actions (to edit, view and 'what is preferred) 
+this classification should be kept Preferences/Edit/View and the tool show up in all three menu items:
+
+Table 2 gives an overview of the Planning tasks in its three 'manifestations' shown in 3 lines.
+Here again (B) and (P) stands for: in Features: Basics (B) and in Features: Preferences (P)
+
+Remarks:
+1. The term: Edit/Planning/Done is not very fitting. Perhaps: Accomplished/Finished/Achieved or something similar would be better.
+2. The tasks: Edit/Planning/Done and View/Planning/Results are the main ones. The other two ones (planned, choice) will probablby be used much less. 
+   So it would be good, if this could be put into the dialog box in some way, to 'subordinate' them to the major ones (done, results).
+   I bolded them, but I do not know if this is the way, the program could do it.
+3. Swtiching between Features: Basics/Planning would add/remove submenus (planned, choice) of the Planning task. I do not know, if this could be done.
+
+
+
+
+
+
+
+*/
+

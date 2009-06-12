@@ -198,7 +198,6 @@ bibledit_bin_SOURCES = \
         hyphenate.cpp \
         reporting.cpp \
         planning.cpp \
-        dialogreportingsetup.cpp \
         dialogeditstatus.cpp \
         dialogtaskduration.cpp \
         htmlwriter.cpp \

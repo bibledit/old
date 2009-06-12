@@ -334,8 +334,6 @@ protected:
   GtkWidget *image23181;
   GtkWidget *pdf_viewer1;
   GtkWidget *image24540;
-  GtkWidget *preferences_reporting;
-  GtkWidget *image25623;
   GtkWidget *preferences_planning;
   GtkWidget *image26888;
   GtkWidget *preferences_filters;
@@ -686,9 +684,7 @@ protected:
   static void on_ipc_method_called(GtkButton *button, gpointer user_data);
   void on_ipc_method();
 
-  /* Reporting and Planning */
-  static void on_preferences_reporting_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_preferences_reporting();
+  /* Planning */
   static void on_editstatus_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_editstatus();
   static void on_view_status_activate(GtkMenuItem *menuitem, gpointer user_data);
