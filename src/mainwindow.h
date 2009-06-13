@@ -196,8 +196,6 @@ protected:
   GtkWidget *image2627;
   GtkWidget *parallel_passages1;
   GtkWidget *view_usfm_code;
-  GtkWidget *view_status;
-  GtkWidget *image25963;
   GtkWidget *view_planning;
   GtkWidget *image26812;
   GtkWidget *view_screen_layout;
@@ -683,8 +681,6 @@ protected:
   void on_ipc_method();
 
   /* Planning */
-  static void on_view_status_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_view_status();
   static void on_edit_planning_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_edit_planning();
   static void on_view_planning_activate(GtkMenuItem *menuitem, gpointer user_data);

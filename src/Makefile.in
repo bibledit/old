@@ -137,7 +137,7 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	usfm2xslfo_utils.$(OBJEXT) hyphenate.$(OBJEXT) \
 	reporting.$(OBJEXT) planning.$(OBJEXT) \
 	dialogeditstatus.$(OBJEXT) dialogtaskduration.$(OBJEXT) \
-	htmlwriter.$(OBJEXT) dialogviewstatus.$(OBJEXT) \
+	htmlwriter.$(OBJEXT) dialogviewplanning.$(OBJEXT) \
 	dialogplanningsetup.$(OBJEXT) resource.$(OBJEXT) \
 	dialogbooknames.$(OBJEXT) dialogradiobutton.$(OBJEXT) \
 	dialogresourceconverter.$(OBJEXT) \
@@ -558,7 +558,7 @@ bibledit_bin_SOURCES = \
         dialogeditstatus.cpp \
         dialogtaskduration.cpp \
         htmlwriter.cpp \
-        dialogviewstatus.cpp \
+        dialogviewplanning.cpp \
         dialogplanningsetup.cpp \
         resource.cpp \
         dialogbooknames.cpp \
@@ -829,7 +829,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogtextview.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogtidy.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogunicode.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogviewstatus.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogviewplanning.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogwait.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogwordlist.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogxfernotes2text.Po@am__quote@

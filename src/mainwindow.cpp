@@ -111,7 +111,7 @@
 #include "dialoginserttable.h"
 #include "tiny_utilities.h"
 #include "hyphenate.h"
-#include "dialogviewstatus.h"
+#include "dialogviewplanning.h"
 #include "planning.h"
 #include "dialogplanningsetup.h"
 #include "maintenance.h"
@@ -977,14 +977,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   gtk_widget_show(view_usfm_code);
   gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_usfm_code);
 
-  view_status = gtk_image_menu_item_new_with_mnemonic("S_tatus");
-  gtk_widget_show(view_status);
-  gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_status);
-
-  image25963 = gtk_image_new_from_stock("gtk-apply", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image25963);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(view_status), image25963);
-
   view_planning = gtk_image_menu_item_new_with_mnemonic("Pl_anning");
   gtk_widget_show(view_planning);
   gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_planning);
@@ -1819,8 +1811,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     g_signal_connect((gpointer) parallel_passages1, "activate", G_CALLBACK(on_parallel_passages1_activate), gpointer(this));
   if (view_usfm_code)
     g_signal_connect((gpointer) view_usfm_code, "activate", G_CALLBACK(on_view_usfm_code_activate), gpointer(this));
-  if (view_status)
-    g_signal_connect((gpointer) view_status, "activate", G_CALLBACK(on_view_status_activate), gpointer(this));
   if (view_planning)
     g_signal_connect((gpointer) view_planning, "activate", G_CALLBACK(on_view_planning_activate), gpointer(this));
   if (view_screen_layout)
@@ -4953,17 +4943,6 @@ void MainWindow::on_ipc_method()
  |
  */
 
-void MainWindow::on_view_status_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_view_status();
-}
-
-void MainWindow::on_view_status()
-{
-  ViewStatusDialog dialog(0);
-  dialog.run();
-}
-
 void MainWindow::on_edit_planning_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_edit_planning();
@@ -4982,8 +4961,8 @@ void MainWindow::on_view_planning_activate(GtkMenuItem * menuitem, gpointer user
 
 void MainWindow::on_view_planning()
 {
-  extern Settings *settings;
-  planning_produce_report(settings->genconfig.project_get());
+  ViewPlanningDialog dialog(0);
+  dialog.run();
 }
 
 void MainWindow::on_preferences_planning_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -7202,4 +7181,37 @@ void MainWindow::check_usfm_window_ping()
   window_check_usfm->set_parameters(focused_textbuffer, project, book, chapter);
 }
 
+
+/*
+
+Todo Planning/Reporting/Status: Simplify it
+
+Tools in the menu for this tasks are:
+
+View:
+- Status
+- Planning
+
+A simplification is suggested for one tool (Planning) in those three menus. For details see attached file.
+
+Suggestions:
+As three names for similar actions are difficult to remember. I suggest to use one name: Planning
+As the menu in Bibledit is based mainly on actions (to edit, view and 'what is preferred) 
+this classification should be kept Preferences/Edit/View and the tool show up in all three menu items:
+
+Table 2 gives an overview of the Planning tasks in its three 'manifestations' shown in 3 lines.
+Here again (B) and (P) stands for: in Features: Basics (B) and in Features: Preferences (P)
+
+Remarks:
+1. The term: Edit/Planning/Done is not very fitting. Perhaps: Accomplished/Finished/Achieved or something similar would be better.
+2. The tasks: Edit/Planning/Done and View/Planning/Results are the main ones. The other two ones (planned, choice) will probablby be used much less. 
+   So it would be good, if this could be put into the dialog box in some way, to 'subordinate' them to the major ones (done, results).
+   I bolded them, but I do not know if this is the way, the program could do it.
+3. Swtiching between Features: Basics/Planning would add/remove submenus (planned, choice) of the Planning task. I do not know, if this could be done.
+
+
+Update helpfiles, call it all "planning".
+
+
+*/
 

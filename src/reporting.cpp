@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "reporting.h"
 #include "projectutils.h"
 #include "gwrappers.h"
@@ -30,6 +31,8 @@
 #include "books.h"
 #include "directories.h"
 #include "utilities.h"
+#include "planning.h"
+
 
 const gchar *reporting_status_filename()
 // Gives the base filename of the status file.
@@ -746,7 +749,8 @@ void reporting_get_tasks_done_per_chapter(ProjectStatusBook * projectstatusbook,
   }
 }
 
-void reporting_produce_status_report(const ustring & project, bool perc_done_project, bool perc_done_book, bool tasks_book, bool tasks_chapter, bool csv_export)
+
+void reporting_produce_status_report(const ustring & project, bool planning, bool perc_done_project, bool perc_done_book, bool tasks_book, bool tasks_chapter, bool csv_export) // Todo
 // This produces a status report.
 {
   // Bail out if there's no project.
@@ -763,6 +767,11 @@ void reporting_produce_status_report(const ustring & project, bool perc_done_pro
 
   // Current date.
   htmlwriter.paragraph("Produced on " + date_time_julian_human_readable(date_time_julian_day_get_current(), true) + ".");
+
+  // Planning.
+  if (planning) {
+    planning_produce_report(project, htmlwriter); // Todo to unify this into the ViewPlanningDialog.
+  }
 
   // Load status data.
   extern Settings *settings;

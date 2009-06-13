@@ -73,19 +73,14 @@ void planning_disassemble_task(ustring assembled_task, unsigned int &book, ustri
 }
 
 
-void planning_produce_report(const ustring & project)
+void planning_produce_report(const ustring & project, HtmlWriter & htmlwriter) // Todo
 // This produces a planning report.
 {
   // Bail out if there's no project.
   if (project.empty())
     return;
 
-  // Progress window.
-  ProgressWindow progresswindow("Creating report", false);
-  progresswindow.set_fraction(0.2);
-
-  // Title and heading.
-  HtmlWriter htmlwriter("Planning", false, false, true);
+  // Heading.
   htmlwriter.heading(1, "Planning " + project);
 
   // Current date.
@@ -98,9 +93,6 @@ void planning_produce_report(const ustring & project)
   vector < double >durations;
   reporting_check_tasks_and_durations(alltasks, &durations);
   ProjectStatus projectstatus(project, alltasks, true);
-
-  // Progress.
-  progresswindow.set_fraction(0.4);
 
   // Date project finishes based on starting date and work completed.
   {

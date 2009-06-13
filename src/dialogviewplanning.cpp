@@ -17,17 +17,19 @@
 **  
 */
 
-#include "dialogviewstatus.h"
+
+#include "dialogviewplanning.h"
 #include "help.h"
 #include "settings.h"
 #include "shortcuts.h"
 
-ViewStatusDialog::ViewStatusDialog(int dummy)
+
+ViewPlanningDialog::ViewPlanningDialog(int dummy)
 {
   Shortcuts shortcuts(0);
 
   viewstatusdialog = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(viewstatusdialog), "View Status");
+  gtk_window_set_title(GTK_WINDOW(viewstatusdialog), "View Planning");
   gtk_window_set_position(GTK_WINDOW(viewstatusdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(viewstatusdialog), TRUE);
 
@@ -41,6 +43,13 @@ ViewStatusDialog::ViewStatusDialog(int dummy)
   label1 = gtk_label_new("Include the ticked items in the report");
   gtk_widget_show(label1);
   gtk_box_pack_start(GTK_BOX(vbox4), label1, FALSE, FALSE, 0);
+
+  checkbutton_planning = gtk_check_button_new_with_mnemonic("Planning");
+  gtk_widget_show(checkbutton_planning);
+  gtk_box_pack_start(GTK_BOX(vbox4), checkbutton_planning, FALSE, FALSE, 0);
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_planning), TRUE);
+
+  shortcuts.button(checkbutton_planning);
 
   checkbutton_perc_done_project = gtk_check_button_new_with_mnemonic("Percentage complete whole project");
   gtk_widget_show(checkbutton_perc_done_project);
@@ -101,23 +110,29 @@ ViewStatusDialog::ViewStatusDialog(int dummy)
   gtk_widget_grab_default(okbutton);
 }
 
-ViewStatusDialog::~ViewStatusDialog()
+ViewPlanningDialog::~ViewPlanningDialog()
 {
   gtk_widget_destroy(viewstatusdialog);
 }
 
-int ViewStatusDialog::run()
+int ViewPlanningDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(viewstatusdialog));
 }
 
-void ViewStatusDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
+void ViewPlanningDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
 {
-  ((ViewStatusDialog *) user_data)->on_okbutton();
+  ((ViewPlanningDialog *) user_data)->on_okbutton();
 }
 
-void ViewStatusDialog::on_okbutton()
+void ViewPlanningDialog::on_okbutton()
 {
   extern Settings *settings;
-  reporting_produce_status_report(settings->genconfig.project_get(), gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_perc_done_project)), gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_perc_done_book)), gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_tasks_book)), gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_tasks_chapter)), gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_csv_export)));
+  reporting_produce_status_report(settings->genconfig.project_get(), 
+                                  gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_planning)),
+                                  gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_perc_done_project)), 
+                                  gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_perc_done_book)), 
+                                  gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_tasks_book)), 
+                                  gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_tasks_chapter)), 
+                                  gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_csv_export)));
 }

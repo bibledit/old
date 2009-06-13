@@ -97,7 +97,7 @@ unsigned int reporting_get_percentage_ready_book(ProjectStatusBook * projectstat
 ustring reporting_get_task_done_sign(int state);
 void reporting_get_tasks_done_per_book(ProjectStatus * projectstatus, vector <ustring>& headers, vector <VectorUstring>& texts);
 void reporting_get_tasks_done_per_chapter(ProjectStatusBook * projectstatusbook, vector <ustring>& headers, vector <VectorUstring>& texts);
-void reporting_produce_status_report(const ustring& project, bool perc_done_project, bool perc_done_book, bool tasks_book, bool tasks_chapter, bool csv_export);
+void reporting_produce_status_report(const ustring& project, bool planning, bool perc_done_project, bool perc_done_book, bool tasks_book, bool tasks_chapter, bool csv_export);
 void reporting_get_tasks_undone(ProjectStatus * projectstatus, vector <unsigned int>& books, vector <ustring>& tasks);
 unsigned int reporting_get_task_percentage_complete(ProjectStatus * projectstatus, unsigned int book, const ustring& task);
 

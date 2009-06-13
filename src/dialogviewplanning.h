@@ -18,8 +18,8 @@
 */
 
 
-#ifndef INCLUDED_DIALOGVIEWSTATUS_H
-#define INCLUDED_DIALOGVIEWSTATUS_H
+#ifndef INCLUDED_DIALOGVIEWPLANNING_H
+#define INCLUDED_DIALOGVIEWPLANNING_H
 
 
 #include <gtk/gtk.h>
@@ -28,17 +28,18 @@
 #include "reporting.h"
 
 
-class ViewStatusDialog
+class ViewPlanningDialog
 {
 public:
-  ViewStatusDialog (int dummy);
-  ~ViewStatusDialog ();
+  ViewPlanningDialog (int dummy);
+  ~ViewPlanningDialog ();
   int run ();
 protected:
   GtkWidget *viewstatusdialog;
   GtkWidget *dialog_vbox1;
   GtkWidget *vbox4;
   GtkWidget *label1;
+  GtkWidget *checkbutton_planning;
   GtkWidget *checkbutton_perc_done_project;
   GtkWidget *checkbutton_perc_done_book;
   GtkWidget *checkbutton_tasks_book;
