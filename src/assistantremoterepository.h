@@ -17,6 +17,7 @@
  **  
  */
 
+
 #ifndef INCLUDED_ASSISTANT_REMOTE_REPOSITORY_H
 #define INCLUDED_ASSISTANT_REMOTE_REPOSITORY_H
 
@@ -85,10 +86,10 @@ private:
   void entry_changed_timeout();
   ustring repository_url_get();
 
-  // Repository cloning.
+  // Repository copying.
   int page_number_clone;
-  GtkWidget *vbox_clone;
-  GtkWidget *label_clone;
+  GtkWidget *vbox_copy;
+  GtkWidget *label_copy;
   GtkWidget *button_clone;
   static void on_button_clone_clicked (GtkButton *button, gpointer user_data);
   void on_button_clone ();
@@ -96,6 +97,9 @@ private:
   ustring previously_cloned_url;
   bool repository_was_cloned();
   void repository_unclone ();
+  GtkWidget *button_push;
+  static void on_button_push_clicked (GtkButton *button, gpointer user_data);
+  void on_button_push ();
   
   // Write test.
   int page_number_write_test;
@@ -129,5 +133,6 @@ private:
   static gint assistant_forward_function (gint current_page, gpointer user_data);
   gint assistant_forward (gint current_page);
 };
+
 
 #endif

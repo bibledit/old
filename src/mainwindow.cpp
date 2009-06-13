@@ -7182,3 +7182,17 @@ void MainWindow::check_usfm_window_ping()
 }
 
 
+/*
+
+Todo easier collaboration.
+
+It may be helpful to make a tool that can setup USB sticks used for collaboration. 
+This tool would need to ask for root privileges, then do the whole setup.
+But this may be too dangerous, rather leave the root bits out.
+
+To initialize the remote repository, it may be helpful to use the git --mirror switch.
+
+Access to secure repositories. Provide username and password.
+
+
+*/

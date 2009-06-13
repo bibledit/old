@@ -142,45 +142,67 @@ AssistantBase("Remote repository setup", "git_setup")
   
   g_signal_connect ((gpointer) entry_repository, "changed", G_CALLBACK (on_entry_repository_changed), gpointer (this));
 
-  // GUI for cloning the repository.
-  vbox_clone = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox_clone);
-  page_number_clone = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_clone);
+  // GUI for copying the repository. // Todo
+  vbox_copy = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (vbox_copy);
+  page_number_clone = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_copy);
 
-  label_clone = gtk_label_new ("");
-  gtk_widget_show (label_clone);
-  gtk_box_pack_start (GTK_BOX (vbox_clone), label_clone, FALSE, FALSE, 0);
-  gtk_misc_set_alignment (GTK_MISC (label_clone), 0, 0.5);
+  label_copy = gtk_label_new ("");
+  gtk_widget_show (label_copy);
+  gtk_box_pack_start (GTK_BOX (vbox_copy), label_copy, FALSE, FALSE, 0);
+  gtk_misc_set_alignment (GTK_MISC (label_copy), 0, 0.5);
 
   button_clone = gtk_button_new ();
   gtk_widget_show (button_clone);
-  gtk_box_pack_start (GTK_BOX (vbox_clone), button_clone, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox_copy), button_clone, FALSE, FALSE, 0);
   
   GtkWidget *alignment1;
+  GtkWidget *hbox1;
+  GtkWidget *image1;
+  GtkWidget *label1;
+
   alignment1 = gtk_alignment_new (0.5, 0.5, 0, 0);
   gtk_widget_show (alignment1);
   gtk_container_add (GTK_CONTAINER (button_clone), alignment1);
 
-  GtkWidget *hbox1;
   hbox1 = gtk_hbox_new (FALSE, 2);
   gtk_widget_show (hbox1);
   gtk_container_add (GTK_CONTAINER (alignment1), hbox1);
 
-  GtkWidget *image1;
   image1 = gtk_image_new_from_stock ("gtk-copy", GTK_ICON_SIZE_BUTTON);
   gtk_widget_show (image1);
   gtk_box_pack_start (GTK_BOX (hbox1), image1, FALSE, FALSE, 0);
 
-  GtkWidget *label11;
-  label11 = gtk_label_new_with_mnemonic ("C_opy remote repository to local data");
-  gtk_widget_show (label11);
-  gtk_box_pack_start (GTK_BOX (hbox1), label11, FALSE, FALSE, 0);
+  label1 = gtk_label_new_with_mnemonic ("C_opy the remote repository to me");
+  gtk_widget_show (label1);
+  gtk_box_pack_start (GTK_BOX (hbox1), label1, FALSE, FALSE, 0);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_clone, "Copying the remote repository");
-  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_clone, GTK_ASSISTANT_PAGE_CONTENT);
-  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_clone, false);
+  button_push = gtk_button_new ();
+  gtk_widget_show (button_push);
+  gtk_box_pack_start (GTK_BOX (vbox_copy), button_push, FALSE, FALSE, 0);
+  
+  alignment1 = gtk_alignment_new (0.5, 0.5, 0, 0);
+  gtk_widget_show (alignment1);
+  gtk_container_add (GTK_CONTAINER (button_push), alignment1);
+
+  hbox1 = gtk_hbox_new (FALSE, 2);
+  gtk_widget_show (hbox1);
+  gtk_container_add (GTK_CONTAINER (alignment1), hbox1);
+
+  image1 = gtk_image_new_from_stock ("gtk-copy", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_show (image1);
+  gtk_box_pack_start (GTK_BOX (hbox1), image1, FALSE, FALSE, 0);
+
+  label1 = gtk_label_new_with_mnemonic ("_Push my data to the remote repository");
+  gtk_widget_show (label1);
+  gtk_box_pack_start (GTK_BOX (hbox1), label1, FALSE, FALSE, 0);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_copy, "Copying data");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_copy, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_copy, false);
 
   g_signal_connect ((gpointer) button_clone, "clicked", G_CALLBACK (on_button_clone_clicked), gpointer (this));
+  g_signal_connect ((gpointer) button_push, "clicked", G_CALLBACK (on_button_push_clicked), gpointer (this));
 
   // Write tester.
   label_write_test = gtk_label_new ("");
@@ -325,14 +347,14 @@ void RemoteRepositoryAssistant::on_assistant_prepare (GtkWidget *page)
     on_entry_repository();
   }
 
-  if (page == vbox_clone) {
+  if (page == vbox_copy) {
     // Prepare for the page where the cloning is done.
     if (repository_url_get() != previously_cloned_url) {
       repository_unclone();
     }
-    gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_clone, repository_was_cloned());
+    gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_copy, repository_was_cloned());
     if (!repository_was_cloned()) {
-      gtk_label_set_text (GTK_LABEL (label_clone), "");
+      gtk_label_set_text (GTK_LABEL (label_copy), "");
     }
   }
   
@@ -412,6 +434,13 @@ gint RemoteRepositoryAssistant::assistant_forward (gint current_page)
   if (current_page == page_number_task_selector) {
     // Go to the right page depending on which task is selected.
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_task_selector_settings))) {
+      new_page_number = page_number_interval;
+    }
+  }
+
+  if (current_page == page_number_clone) {
+    if (!repository_was_cloned()) {
+      // If we pushed data to the repository, skip the write access test is needed.
       new_page_number = page_number_interval;
     }
   }
@@ -858,12 +887,12 @@ void RemoteRepositoryAssistant::on_button_clone ()
   }  
   
   // Update structures.
-  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_clone, repository_was_cloned());
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_copy, repository_was_cloned());
   if (repository_was_cloned()) {
-    gtk_label_set_text (GTK_LABEL (label_clone), "The repository has been cloned, you can go forward");
+    gtk_label_set_text (GTK_LABEL (label_copy), "The data has been copied, you can go forward");
     previously_cloned_url = repository_url_get();
   } else {
-    gtk_label_set_text (GTK_LABEL (label_clone), "Cloning the repository failed, please try again");
+    gtk_label_set_text (GTK_LABEL (label_copy), "Copying the data failed, please try again");
     repository_unclone();
   }
 }
@@ -882,6 +911,68 @@ void RemoteRepositoryAssistant::repository_unclone ()
   unix_rmdir(persistent_clone_directory);
   previously_cloned_url.clear();
   write_access_granted = false;
+}
+
+
+void RemoteRepositoryAssistant::on_button_push_clicked (GtkButton *button, gpointer user_data)
+{
+  ((RemoteRepositoryAssistant *) user_data)->on_button_push();
+}
+
+
+void RemoteRepositoryAssistant::on_button_push () // Todo
+{
+  // Clear out persistent clone directory.
+  repository_unclone();
+
+  // Project, directory.
+  extern Settings *settings;
+  ustring project = settings->genconfig.project_get();
+  ustring datadirectory = tiny_project_data_directory_project(project);
+
+  // Create local repository, and commit everthing.
+  {
+    GwSpawn spawn ("git");
+    spawn.arg ("init");
+    spawn.workingdirectory (datadirectory);
+    spawn.run ();
+  }
+  {
+    GwSpawn spawn ("git");
+    spawn.arg ("add");
+    spawn.arg (".");
+    spawn.workingdirectory (datadirectory);
+    spawn.run ();
+  }
+  {
+    GwSpawn spawn ("git");
+    spawn.arg ("commit");
+    spawn.arg ("-a");
+    spawn.arg ("-m");
+    spawn.arg ("init");
+    spawn.workingdirectory (datadirectory);
+    spawn.run ();
+  }
+
+  // Push our data to the remote repository.
+  GwSpawn spawn("git");
+  spawn.workingdirectory(datadirectory);
+  spawn.arg ("push");
+  spawn.arg ("--mirror");
+  spawn.arg(repository_url_get());
+  spawn.progress("Pushing data into repository", false);
+  spawn.run();
+
+  // Whether the pushing worked out.
+  bool pushed = (spawn.exitstatus == 0);
+  
+  // Update structures.
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_copy, pushed);
+  if (pushed) {
+    gtk_label_set_text (GTK_LABEL (label_copy), "The data has been copied, you can go forward");
+  } else {
+    gtk_label_set_text (GTK_LABEL (label_copy), "Copying the data failed, please try again");
+  }
 }
 
 

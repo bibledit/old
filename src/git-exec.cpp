@@ -34,7 +34,6 @@ vector <ustring> git_exec_update_project(const ustring & project)
   vector <ustring> feedback;
 
   ustring datadirectory = tiny_project_data_directory_project(project);
-  ustring command;
 
   // Add everything because things could have been added or changed.
   {
