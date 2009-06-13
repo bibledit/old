@@ -30,6 +30,7 @@
 #include "utilities.h"
 #include "versification.h"
 
+
 void planning_edit(const ustring & project)
 // Edits the planning.
 {
@@ -53,10 +54,12 @@ void planning_edit(const ustring & project)
   }
 }
 
+
 ustring planning_assemble_task(unsigned int book, const ustring & task)
 {
   return books_id_to_english(book) + " | " + task;
 }
+
 
 void planning_disassemble_task(ustring assembled_task, unsigned int &book, ustring & task)
 {
@@ -68,6 +71,7 @@ void planning_disassemble_task(ustring assembled_task, unsigned int &book, ustri
     task = trim(parse.words[1]);
   }
 }
+
 
 void planning_produce_report(const ustring & project)
 // This produces a planning report.

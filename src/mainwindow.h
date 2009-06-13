@@ -183,8 +183,6 @@ protected:
   GtkWidget *edit_bible_note;
   GtkWidget *image20483;
   GtkWidget *separator21;
-  GtkWidget *editstatus;
-  GtkWidget *image25815;
   GtkWidget *edit_planning;
   GtkWidget *image26801;
   GtkWidget *menuitem_view;
@@ -685,8 +683,6 @@ protected:
   void on_ipc_method();
 
   /* Planning */
-  static void on_editstatus_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_editstatus();
   static void on_view_status_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_status();
   static void on_edit_planning_activate(GtkMenuItem *menuitem, gpointer user_data);

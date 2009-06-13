@@ -111,7 +111,6 @@
 #include "dialoginserttable.h"
 #include "tiny_utilities.h"
 #include "hyphenate.h"
-#include "dialogeditstatus.h"
 #include "dialogviewstatus.h"
 #include "planning.h"
 #include "dialogplanningsetup.h"
@@ -128,6 +127,7 @@
 #include "dialogcompareprefs.h"
 #include "windowtimednotifier.h"
 #include "dialogbulkspelling.h"
+#include "dialogplanningedit.h"
 
 
 /*
@@ -921,14 +921,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   gtk_widget_show(separator21);
   gtk_container_add(GTK_CONTAINER(menuitem_edit_menu), separator21);
   gtk_widget_set_sensitive(separator21, FALSE);
-
-  editstatus = gtk_image_menu_item_new_with_mnemonic("St_atus");
-  gtk_widget_show(editstatus);
-  gtk_container_add(GTK_CONTAINER(menuitem_edit_menu), editstatus);
-
-  image25815 = gtk_image_new_from_stock("gtk-about", GTK_ICON_SIZE_MENU);
-  gtk_widget_show(image25815);
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(editstatus), image25815);
 
   edit_planning = gtk_image_menu_item_new_with_mnemonic("P_lanning");
   gtk_widget_show(edit_planning);
@@ -1815,8 +1807,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     g_signal_connect((gpointer) edit_revert, "activate", G_CALLBACK(on_edit_revert_activate), gpointer(this));
   if (edit_bible_note)
     g_signal_connect((gpointer) edit_bible_note, "activate", G_CALLBACK(on_edit_bible_note_activate), gpointer(this));
-  if (editstatus)
-    g_signal_connect((gpointer) editstatus, "activate", G_CALLBACK(on_editstatus_activate), gpointer(this));
   if (edit_planning)
     g_signal_connect((gpointer) edit_planning, "activate", G_CALLBACK(on_edit_planning_activate), gpointer(this));
   if (menuitem_view)
@@ -4963,19 +4953,6 @@ void MainWindow::on_ipc_method()
  |
  */
 
-void MainWindow::on_editstatus_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_editstatus();
-}
-
-void MainWindow::on_editstatus()
-// Edits the project's status.
-{
-  extern Settings *settings;
-  EditStatusDialog dialog(settings->genconfig.project_get(), navigation.reference.book, navigation.reference.chapter);
-  dialog.run();
-}
-
 void MainWindow::on_view_status_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_view_status();
@@ -4994,8 +4971,8 @@ void MainWindow::on_edit_planning_activate(GtkMenuItem * menuitem, gpointer user
 
 void MainWindow::on_edit_planning()
 {
-  extern Settings *settings;
-  planning_edit(settings->genconfig.project_get());
+  PlanningEditDialog dialog (navigation.reference.book, navigation.reference.chapter);
+  dialog.run ();
 }
 
 void MainWindow::on_view_planning_activate(GtkMenuItem * menuitem, gpointer user_data)

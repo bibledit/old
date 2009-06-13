@@ -552,9 +552,6 @@ Todo Planning/Reporting/Status: Simplify it
 
 Tools in the menu for this tasks are:
 
-Edit:
-- Status
-- Planning
 View:
 - Status
 - Planning
@@ -577,9 +574,7 @@ Remarks:
 3. Swtiching between Features: Basics/Planning would add/remove submenus (planned, choice) of the Planning task. I do not know, if this could be done.
 
 
-
-
-
+Update helpfiles, call it all "planning".
 
 
 */

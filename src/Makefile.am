@@ -278,7 +278,8 @@ bibledit_bin_SOURCES = \
 				guiselectbibles.cpp \
 				assistantexport.cpp \
 				java.cpp \
-				dialogbulkspelling.cpp
+				dialogbulkspelling.cpp \
+				dialogplanningedit.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 
