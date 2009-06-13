@@ -142,7 +142,7 @@ AssistantBase("Remote repository setup", "git_setup")
   
   g_signal_connect ((gpointer) entry_repository, "changed", G_CALLBACK (on_entry_repository_changed), gpointer (this));
 
-  // GUI for copying the repository. // Todo
+  // GUI for copying the repository.
   vbox_copy = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vbox_copy);
   page_number_clone = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_copy);
@@ -920,7 +920,7 @@ void RemoteRepositoryAssistant::on_button_push_clicked (GtkButton *button, gpoin
 }
 
 
-void RemoteRepositoryAssistant::on_button_push () // Todo
+void RemoteRepositoryAssistant::on_button_push ()
 {
   // Clear out persistent clone directory.
   repository_unclone();
