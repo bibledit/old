@@ -73,7 +73,7 @@ void planning_disassemble_task(ustring assembled_task, unsigned int &book, ustri
 }
 
 
-void planning_produce_report(const ustring & project, HtmlWriter & htmlwriter) // Todo
+void planning_produce_report(const ustring & project, HtmlWriter & htmlwriter)
 // This produces a planning report.
 {
   // Bail out if there's no project.

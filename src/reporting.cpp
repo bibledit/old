@@ -750,7 +750,7 @@ void reporting_get_tasks_done_per_chapter(ProjectStatusBook * projectstatusbook,
 }
 
 
-void reporting_produce_status_report(const ustring & project, bool planning, bool perc_done_project, bool perc_done_book, bool tasks_book, bool tasks_chapter, bool csv_export) // Todo
+void reporting_produce_status_report(const ustring & project, bool planning, bool perc_done_project, bool perc_done_book, bool tasks_book, bool tasks_chapter, bool csv_export)
 // This produces a status report.
 {
   // Bail out if there's no project.
@@ -770,7 +770,7 @@ void reporting_produce_status_report(const ustring & project, bool planning, boo
 
   // Planning.
   if (planning) {
-    planning_produce_report(project, htmlwriter); // Todo to unify this into the ViewPlanningDialog.
+    planning_produce_report(project, htmlwriter);
   }
 
   // Load status data.
