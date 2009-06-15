@@ -7182,38 +7182,3 @@ void MainWindow::check_usfm_window_ping()
 }
 
 
-/*
-
-Todo Unify collaboration (or fusion/teaming-up, bonding, liaison ...)
-
-The task collaboration shows up under different topics in BE:
-git/repository/collaboration.
-
-In order to make it easier to use and learn:
-
--> use a simple (to understand) and short (for menus) term for
-collaboration:, e.g.'to team/teaming-up'or 'to bond/bonding' or 'to fuse/fusion' or '..../liaison or .../... .
-
--> use the same expression in all the menu and help tools/tasks
-(I use fuse/fusion at the moment, but to collaborate/collabortation would be fine too):
-
-Menu:
-File/Project/Fusion: to turn fusion (of actual project) on/off
-View/Fusion: to see pending fusions
-Preferences/Fusion: to set up the fusion for actual project
-
-Help:
-Help/Tools:
-File/Project/Fusion:
-View/Fusion:
-Preferences/Fusion:
-
-Help/Tasks:
-Fusion
-
-I would not mention git and repository under tasks and tools, but only mentioning it, when setting fusions/collaborations up.
-This would help to use another system for this task (as e.g. in printing XEP has been abandoned). 
-
-
-
-*/
