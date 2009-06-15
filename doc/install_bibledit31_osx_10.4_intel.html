@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
 <title>Bibledit</title>
@@ -36,35 +36,33 @@ Free Documentation License" in the file FDL.
 <li>
 <a href="#run" class="level1">Run</a></li>
 <li>
-<a href="#xep" class="level1">XEP</a></li>
-<li>
 <a href="#tip" class="level1">Tip</a></li>
 </ul>
 </div>
 <!-- Table of Contents End -->
 <p>These instructions assume Bibledit is being installed on a standard
-installation of OSX. Because Bibledit needs more than that, these
-instructions also explain how to install the additional libraries and tools
-that Bibledit depends on.</p>
-<p>If you know that your system already has some of these components
-installed, you may skip those steps.</p>
+installation of OSX. Because Bibledit needs more than that, these instructions
+also explain how to install the additional libraries and tools that Bibledit
+depends on.</p>
+<p>If you know that your system already has some of these components installed,
+you may skip those steps.</p>
 <h3><a name="x11"></a>X11</h3>
 <p><a href="glossary.html#x11">X11</a> is on the installation DVD that came
 with your OSX software. This DVD is marked "Mac OS X Install Disc 1". Insert
 this DVD into the drive. A window will open on the screen. In this window,
 double-click "Xcode Tools". A new window opens, and here double-click
-"Packages". Another window opens again, and here double-click "X11SDK.pkg".
-The installer will open, and follow the instructions on the screen to install
-it. In the same way, install Mac OS X Install Disc 1 / System / Installation
-/ Packages / X11User.pkg.</p>
+"Packages". Another window opens again, and here double-click "X11SDK.pkg". The
+installer will open, and follow the instructions on the screen to install it.
+In the same way, install Mac OS X Install Disc 1 / System / Installation /
+Packages / X11User.pkg.</p>
 <h3><a name="xcodetools"></a>Xcode Tools</h3>
 <p>Using the same DVD that was inserted above, double-click "Xcode Tools". A
 new window opens. Here double-click "XcodeTools.mpkg". Go through the whole
 installation procedure and let it finish.</p>
 <h3><a name="x11terminal"></a>X11 terminal</h3>
-<p>Click the left icon at the bottom, called Finder. Click Applications. At
-the right side, scroll down and double-click Utilities. Scroll down again,
-and double-click X11. The terminal, called xterm, will open.</p>
+<p>Click the left icon at the bottom, called Finder. Click Applications. At the
+right side, scroll down and double-click Utilities. Scroll down again, and
+double-click X11. The terminal, called xterm, will open.</p>
 <p>Update the search path, so that programs, still to be installed, can be
 found. In the terminal, type</p>
 <pre>cd</pre>
@@ -99,9 +97,8 @@ href="http://www.macports.org/">www.macports.org</a>.</p>
 <pre>cd /opt/local/lib/pkgconfig</pre>
 <pre>sudo nano firefox-xpcom.pc</pre>
 <p>There is a line that says "Requires: nspr &gt;= ...". Change the "nspr" in
-that line to "firefox-nspr", and write the file by pressing Ctrl-O, then
-quite by presssing Ctrl-X. If the change has been done already, then that's
-fine.</p>
+that line to "firefox-nspr", and write the file by pressing Ctrl-O, then quite
+by presssing Ctrl-X. If the change has been done already, then that's fine.</p>
 <h3><a name="bibledit"></a>Bibledit</h3>
 <p>Download package <a
 href="http://download.savannah.nongnu.org/releases/bibledit/source/">bibledit-x.x.tar.gz</a>
@@ -135,15 +132,13 @@ href="http://download.savannah.nongnu.org/releases/bibledit/source/">bibledit-x.
 terminal.</p>
 <p>Start bibledit: Type</p>
 <pre>bibledit</pre>
-<p>If you do not start Bibledit this way, it will run with errors, and it
-will not be fully functional.</p>
-<h3><a name="xep"></a>XEP</h3>
-<p><a href="xep_install.html">Install XEP</a>.</p>
+<p>If you do not start Bibledit this way, it will run with errors, and it will
+not be fully functional.</p>
 <h3><a name="tip"></a>Tip</h3>
 <p>You can create an Applescript that will open X11 and BIbledit in one
-operation from within Finder. This will give you an easy way to start
-Bibledit in one click. In Finder, click Applications, then double-click
-AppleScript and then double-click Script Editor. In Script Editor type:</p>
+operation from within Finder. This will give you an easy way to start Bibledit
+in one click. In Finder, click Applications, then double-click AppleScript and
+then double-click Script Editor. In Script Editor type:</p>
 <pre>do shell script "/usr/bin/open-x11 /opt/local/bin/bibledit"</pre>
 <p>Then click the Compile button, and in the menu click File, then Save. Call
 it Bibledit, and save it in Applications, and set the file format to
