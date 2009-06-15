@@ -17,13 +17,16 @@
  **  
  */
 
+
 #ifndef INCLUDED_SESSION_H
 #define INCLUDED_SESSION_H
+
 
 #include "libraries.h"
 #include <gtk/gtk.h>
 #include "types.h"
 #include "session_highlights.h"
+
 
 class Session
 // Stores settings valid only during one session.
@@ -93,7 +96,10 @@ public:
   bool project_notes_show_title;
   // Styles.
   ustring selected_style;
+  // Merge.
+  unsigned int merge_action;
 private:
-  };
+};
+
 
 #endif

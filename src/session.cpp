@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "libraries.h"
 #include "session.h"
 #include "constants.h"
@@ -24,6 +25,7 @@
 #include "directories.h"
 #include "gwrappers.h"
 #include "utilities.h"
+
 
 Session::Session(int dummy)
 // Stores settings valid only during one session. If the program stops, this
@@ -63,7 +65,9 @@ Session::Session(int dummy)
   import_raw_text_book = -1;
   import_raw_text_chapter = -1;
   project_notes_show_title = true;
+  merge_action = 0;
 }
+
 
 Session::~Session()
 {

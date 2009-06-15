@@ -565,6 +565,9 @@ void WindowMerge::on_button_merge_clicked(GtkButton * button, gpointer user_data
 
 void WindowMerge::on_button_merge()
 {
+  // Settings.
+  extern Settings * settings;
+  
   // Save all editors.
   gtk_button_clicked(GTK_BUTTON(save_editors_button));
 
@@ -575,9 +578,11 @@ void WindowMerge::on_button_merge()
   labels.push_back("Merge " + book_chapter + " of project " + current_edited_project + " and " + current_master_project + ",\n" "and approve of each change as compared to project " + current_master_project);
   labels.push_back("Copy " + book_chapter + " of project " + current_master_project + " to project " + current_edited_project);
   labels.push_back("Copy everything of project " + current_master_project + " to project " + current_edited_project);
-  RadiobuttonDialog dialog("Select action", "Select the type of merge or copy to be done", labels, 0);
+  RadiobuttonDialog dialog("Select action", "Select the type of merge or copy to be done", labels, settings->session.merge_action); // Todo
   if (dialog.run() != GTK_RESPONSE_OK)
     return;
+  // Store action taken.
+  settings->session.merge_action = dialog.selection;
   // Take the selected action.
   switch (dialog.selection) {
   case 0:
