@@ -7184,14 +7184,12 @@ void MainWindow::check_usfm_window_ping()
 
 /*
 
-Todo Keep last merge options as default when changing chapters
+Todo 
 
-When merging and having changes in several chapters of a bible book, 
-the choice of the merge action in the Select action dialog box has to be done for each chapter.
 
--> It would be great if BE would remember the last choice which has been done and chooses this as default if 
-one of the buttons Previous/Next is chosen in order to change chapters.
-At the moment the first option is always default (merge xxx y of project XXX and YYY).
+
+
+
 
 
 
