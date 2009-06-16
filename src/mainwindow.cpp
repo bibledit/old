@@ -180,6 +180,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   last_focused_window_button = NULL;
   focused_editor_button = NULL;
   focused_resource_button = NULL;
+  focused_tool_button = NULL;
   shutting_down = false;
   windows_are_detached = settings->genconfig.windows_detached_get();
   check_spelling_at_start = false;
@@ -2601,10 +2602,12 @@ void MainWindow::on_preferences_tidy_text()
  |
  */
 
+
 void MainWindow::on_navigation_new_reference_clicked(GtkButton * button, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_navigation_new_reference();
 }
+
 
 void MainWindow::on_navigation_new_reference()
 // This function is called when the navigation object goes to another reference.
@@ -2663,35 +2666,42 @@ void MainWindow::on_navigation_new_reference()
   }
 }
 
+
 void MainWindow::goto_next_verse()
 {
   navigation.nextverse();
 }
+
 
 void MainWindow::goto_previous_verse()
 {
   navigation.previousverse();
 }
 
+
 void MainWindow::goto_next_chapter()
 {
   navigation.nextchapter();
 }
+
 
 void MainWindow::goto_previous_chapter()
 {
   navigation.previouschapter();
 }
 
+
 void MainWindow::goto_next_book()
 {
   navigation.nextbook();
 }
 
+
 void MainWindow::goto_previous_book()
 {
   navigation.previousbook();
 }
+
 
 void MainWindow::goto_reference_interactive()
 // Opens a dialog to ask the user to which reference to go.
@@ -2715,10 +2725,12 @@ void MainWindow::goto_reference_interactive()
   }
 }
 
+
 void MainWindow::on_new_verse_signalled(GtkButton * button, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_editor_another_verse();
 }
+
 
 void MainWindow::on_editor_another_verse()
 // This one is called when an editor signals that the cursor is now on another verse.
@@ -2729,6 +2741,7 @@ void MainWindow::on_editor_another_verse()
     navigation.display(reference);
   }
 }
+
 
 void MainWindow::on_text_area_activate()
 {
@@ -2743,15 +2756,70 @@ void MainWindow::on_text_area_activate()
   }
 }
 
+
 void MainWindow::on_tools_area_activate()
 {
+  if (window_show_quick_references) {
+    if (focused_tool_button == window_show_quick_references->focus_in_signal_button) {
+      window_show_quick_references->present (true);
+    }
+  }
+  if (window_show_keyterms) {
+    if (focused_tool_button == window_show_keyterms->focus_in_signal_button) {
+      window_show_keyterms->present (true);
+    }
+  }
+  if (window_merge) {
+    if (focused_tool_button == window_merge->focus_in_signal_button) {
+      window_merge->present (true);
+    }
+  }
+  for (unsigned int i = 0; i < resource_windows.size(); i++) {
+    if (focused_tool_button == resource_windows[i]->focus_in_signal_button) {
+      resource_windows[i]->present (true);
+    }
+  } 
+  if (window_outline) {
+    if (focused_tool_button == window_outline->focus_in_signal_button) {
+      window_outline->present (true);
+    }
+  }
+  if (window_check_keyterms) {
+    if (focused_tool_button == window_check_keyterms->focus_in_signal_button) {
+      window_check_keyterms->present (true);
+    }
+  }
+  if (window_styles) {
+    if (focused_tool_button == window_styles->focus_in_signal_button) {
+      window_styles->present (true);
+    }
+  }
+  // Skip project notes window.
+  if (window_references) {
+    if (focused_tool_button == window_references->focus_in_signal_button) {
+      window_references->present (true);
+    }
+  }
+  // Skip editor windows.
+  if (window_show_verses) {
+    if (focused_tool_button == window_show_verses->focus_in_signal_button) {
+      window_show_verses->present (true);
+    }
+  }
+  if (window_check_usfm) {
+    if (focused_tool_button == window_check_usfm->focus_in_signal_button) {
+      window_check_usfm->present (true);
+    }
+  }
 }
+
 
 void MainWindow::on_notes_area_activate()
 {
   view_project_notes();
   notes_redisplay();
 }
+
 
 /*
  |
@@ -6360,6 +6428,9 @@ void MainWindow::on_window_focus_button(GtkButton * button)
       }
     }
   }
+
+  // Save possible new focused tool.
+  store_last_focused_tool_button (button);
   
   // In case of attached windows, focus the right one, and defocus the rest.
   if (!windows_are_detached) {
@@ -6534,6 +6605,64 @@ void MainWindow::resize_text_area_if_tools_area_is_empty()
       gtk_box_set_child_packing (GTK_BOX (hbox_main), vbox_tools, true, true, 0, GTK_PACK_START);
     } else {
       gtk_box_set_child_packing (GTK_BOX (hbox_main), vbox_tools, false, false, 0, GTK_PACK_START);
+    }
+  }
+}
+
+
+void MainWindow::store_last_focused_tool_button (GtkButton * button)
+{
+  GtkWidget * widget = GTK_WIDGET (button);
+  if (window_show_quick_references) {
+    if (widget == window_show_quick_references->focus_in_signal_button) {
+      focused_tool_button = widget;
+    }
+  }
+  if (window_show_keyterms) {
+    if (widget == window_show_keyterms->focus_in_signal_button) {
+      focused_tool_button = widget;
+    }
+  }
+  if (window_merge) {
+    if (widget == window_merge->focus_in_signal_button) {
+      focused_tool_button = widget;
+    }
+  }
+  for (unsigned int i = 0; i < resource_windows.size(); i++) {
+    if (widget == resource_windows[i]->focus_in_signal_button) {
+      focused_tool_button = widget;
+    }
+  } 
+  if (window_outline) {
+    if (widget == window_outline->focus_in_signal_button) {
+      focused_tool_button = widget;
+    }
+  }
+  if (window_check_keyterms) {
+    if (widget == window_check_keyterms->focus_in_signal_button) {
+      focused_tool_button = widget;
+    }
+  }
+  if (window_styles) {
+    if (widget == window_styles->focus_in_signal_button) {
+      focused_tool_button = widget;
+    }
+  }
+  // Skip project notes window.
+  if (window_references) {
+    if (widget == window_references->focus_in_signal_button) {
+      focused_tool_button = widget;
+    }
+  }
+  // Skip editor windows.
+  if (window_show_verses) {
+    if (widget == window_show_verses->focus_in_signal_button) {
+      focused_tool_button = widget;
+    }
+  }
+  if (window_check_usfm) {
+    if (widget == window_check_usfm->focus_in_signal_button) {
+      focused_tool_button = widget;
     }
   }
 }
@@ -7185,6 +7314,8 @@ void MainWindow::check_usfm_window_ping()
 /*
 
 Todo 
+
+
 
 
 

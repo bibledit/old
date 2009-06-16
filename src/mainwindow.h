@@ -763,10 +763,12 @@ protected:
   GtkWidget * last_focused_window_button;
   GtkWidget * focused_editor_button;
   GtkWidget * focused_resource_button;
+  GtkWidget * focused_tool_button;
   bool windows_are_detached;
   static void on_window_set_focus (GtkWindow *window, GtkWidget *widget, gpointer user_data);
   void window_set_focus (GtkWidget *widget);
   void resize_text_area_if_tools_area_is_empty();
+  void store_last_focused_tool_button (GtkButton * button);
 
   /* Quick references */
   static void on_view_quick_references_activate(GtkMenuItem *menuitem, gpointer user_data);
