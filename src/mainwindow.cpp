@@ -1698,7 +1698,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   gtk_box_pack_start(GTK_BOX(hbox_status), statusbar, FALSE, TRUE, 0);
   gtk_widget_set_size_request(statusbar, 25, -1);
 
-  // This vbox will contain the tools in attached view.
+  // This vbox will contain the tools in attached view. Todo
   // Note that in detached view, this vbox is NULL.
   vbox_tools = NULL;
   if (!windows_are_detached) {
@@ -7313,15 +7313,16 @@ void MainWindow::check_usfm_window_ping()
 
 /*
 
-Todo
+Todo Make right side attached windows narrower or adjustable
 
+The right hand side windows like keyterms and styles seem too wide to me. 
+It would be nice if they could be adjusted with the layout tool or splitters.
 
+Going to bump this bug a little. Being able to resize the attached windows would be awesome.
 
-
-
-
-
-
-
+We need a splitter that separates the tools and the rest at the left side.
+When a tool is loaded, on shutdown the state of the splitter is saved.
+When no tool is loaded, the state of the splitter is not saved on shutdown.
+On startup the state of the splitter is loaded.
 
 */
