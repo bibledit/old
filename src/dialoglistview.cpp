@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include "dialoglistview.h"
 #include "projectutils.h"
@@ -26,7 +27,8 @@
 #include "help.h"
 #include <gdk/gdkkeysyms.h>
 
-ListviewDialog::ListviewDialog(const ustring & title, vector < ustring > &list, const ustring & focus, bool sortlist, gchar * help)
+
+ListviewDialog::ListviewDialog(const ustring & title, vector < ustring > &list, const ustring & focus, bool sortlist, gchar * help) // Todo
 // This dialog shows "list".
 // If the user selects one out of that, it returns it in "focus".
 {
@@ -157,10 +159,12 @@ ListviewDialog::ListviewDialog(const ustring & title, vector < ustring > &list, 
   on_switch_page();
 }
 
+
 ListviewDialog::~ListviewDialog()
 {
   gtk_widget_destroy(listviewdialog);
 }
+
 
 void ListviewDialog::two_pages(const gchar * tab1, const gchar * tab2, vector < ustring > &list, bool sortlist)
 {
@@ -190,6 +194,7 @@ void ListviewDialog::two_pages(const gchar * tab1, const gchar * tab2, vector < 
   }
 }
 
+
 void ListviewDialog::tab_switcher(guint accel_key, GdkModifierType accel_mods, const gchar * acceleratortext, const gchar * actiontext1, const gchar * actiontext2)
 {
   // Integrate the accelerator.
@@ -209,15 +214,18 @@ void ListviewDialog::tab_switcher(guint accel_key, GdkModifierType accel_mods, c
   on_switch_page();
 }
 
+
 int ListviewDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(listviewdialog));
 }
 
+
 void ListviewDialog::on_treeview1_row_activated(GtkTreeView * treeview, GtkTreePath * path, GtkTreeViewColumn * column, gpointer user_data)
 {
   ((ListviewDialog *) user_data)->on_treeview();
 }
+
 
 void ListviewDialog::on_treeview()
 {
@@ -225,25 +233,32 @@ void ListviewDialog::on_treeview()
   gtk_dialog_response(GTK_DIALOG(listviewdialog), GTK_RESPONSE_OK);
 }
 
+
 void ListviewDialog::static_on_okbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((ListviewDialog *) user_data)->on_okbutton_clicked();
 }
 
-void ListviewDialog::on_okbutton_clicked()
+
+void ListviewDialog::on_okbutton_clicked() // Todo
 {
   int page = gtk_notebook_get_current_page(GTK_NOTEBOOK(notebook1));
   if (page == 0) {
-    focus = listview_get_active_string(treeview1);
+    foci = listview_get_strings (treeview1);
   } else {
-    focus = listview_get_active_string(treeview2);
+    foci = listview_get_strings (treeview2);
+  }
+  if (!foci.empty ()) {
+    focus = foci[0];
   }
 }
+
 
 void ListviewDialog::on_activate_focus(GtkWindow * window, gpointer user_data)
 {
   ((ListviewDialog *) user_data)->on_focus();
 }
+
 
 void ListviewDialog::on_focus()
 {
@@ -251,10 +266,12 @@ void ListviewDialog::on_focus()
   gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook1), 1 - page);
 }
 
+
 void ListviewDialog::on_notebook1_switch_page(GtkNotebook * notebook, GtkNotebookPage * page, guint page_num, gpointer user_data)
 {
   ((ListviewDialog *) user_data)->on_switch_page();
 }
+
 
 void ListviewDialog::on_switch_page()
 {
@@ -277,3 +294,11 @@ void ListviewDialog::on_switch_page()
   if (actiontext)
     gtk_label_set_text(GTK_LABEL(label_action), actiontext);
 }
+
+
+void ListviewDialog::allow_multiple()
+// Allows multiple selections.
+{
+  gtk_tree_selection_set_mode(gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview1)), GTK_SELECTION_MULTIPLE);
+}
+

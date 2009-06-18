@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "dialogeditlist.h"
@@ -29,7 +30,8 @@
 #include "tiny_utilities.h"
 #include "dialoglistview.h"
 
-EditListDialog::EditListDialog(vector < ustring > *lines, const ustring & title, const ustring & info, bool remove, bool add, bool sort, bool import, bool exprt, bool duplicates, bool reorderable, vector < ustring > *addables)
+
+EditListDialog::EditListDialog(vector <ustring> * lines, const ustring & title, const ustring & info, bool remove, bool add, bool sort, bool import, bool exprt, bool duplicates, bool reorderable, vector <ustring> * addables)
 {
   // Save variables.
   mylines = lines;
@@ -242,7 +244,7 @@ EditListDialog::EditListDialog(vector < ustring > *lines, const ustring & title,
   gtk_widget_grab_focus(treeview1);
   gtk_widget_grab_default(okbutton);
 
-  // Show hidden references for the current project.
+  // Storage.
   liststore = gtk_list_store_new(1, G_TYPE_STRING);
   gtk_tree_view_set_model(GTK_TREE_VIEW(treeview1), GTK_TREE_MODEL(liststore));
   g_object_unref(liststore);
@@ -255,20 +257,24 @@ EditListDialog::EditListDialog(vector < ustring > *lines, const ustring & title,
   gtk_tree_selection_set_mode(select, GTK_SELECTION_MULTIPLE);
 }
 
+
 EditListDialog::~EditListDialog()
 {
   gtk_widget_destroy(editlistdialog);
 }
+
 
 int EditListDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(editlistdialog));
 }
 
+
 void EditListDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((EditListDialog *) user_data)->on_okbutton();
 }
+
 
 void EditListDialog::on_okbutton()
 {
@@ -276,10 +282,12 @@ void EditListDialog::on_okbutton()
   mylines->assign(strings.begin(), strings.end());
 }
 
+
 void EditListDialog::on_removebutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((EditListDialog *) user_data)->on_remove();
 }
+
 
 void EditListDialog::on_remove()
 {
@@ -293,24 +301,31 @@ void EditListDialog::on_remove()
   on_cursor();
 }
 
+
 void EditListDialog::on_collect_iters(GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data)
 {
   ((vector < GtkTreeIter > *)data)->push_back(*iter);
 }
+
 
 void EditListDialog::on_button_add_clicked(GtkButton * button, gpointer user_data)
 {
   ((EditListDialog *) user_data)->on_add();
 }
 
-void EditListDialog::on_add()
+
+void EditListDialog::on_add() // Todo
+// Adds tasks.
 {
   if (myaddables) {
     ListviewDialog dialog("Select a task to add", *myaddables, "", false, NULL);
+    dialog.allow_multiple ();
     if (dialog.run() == GTK_RESPONSE_OK) {
-      GtkTreeIter iter;
-      gtk_list_store_append(liststore, &iter);
-      gtk_list_store_set(liststore, &iter, 0, dialog.focus.c_str(), -1);
+      for (unsigned int i = 0; i < dialog.foci.size(); i++) {
+        GtkTreeIter iter;
+        gtk_list_store_append(liststore, &iter);
+        gtk_list_store_set(liststore, &iter, 0, dialog.foci[i].c_str(), -1);
+      }
     }
   } else {
     EntryDialog dialog("New value", "Enter a new value", "");
@@ -322,10 +337,12 @@ void EditListDialog::on_add()
   }
 }
 
+
 void EditListDialog::on_button_sort_clicked(GtkButton * button, gpointer user_data)
 {
   ((EditListDialog *) user_data)->on_sort();
 }
+
 
 void EditListDialog::on_sort()
 {
@@ -335,10 +352,12 @@ void EditListDialog::on_sort()
   listview_set_strings(treeview1, liststore, lines);
 }
 
+
 void EditListDialog::on_button_import_clicked(GtkButton * button, gpointer user_data)
 {
   ((EditListDialog *) user_data)->on_import();
 }
+
 
 void EditListDialog::on_import()
 {
@@ -353,10 +372,12 @@ void EditListDialog::on_import()
   listview_set_strings(treeview1, liststore, lines);
 }
 
+
 void EditListDialog::on_button_export_clicked(GtkButton * button, gpointer user_data)
 {
   ((EditListDialog *) user_data)->on_export();
 }
+
 
 void EditListDialog::on_export()
 {
@@ -367,10 +388,12 @@ void EditListDialog::on_export()
   write_lines(filename, lines);
 }
 
+
 void EditListDialog::on_button_doubles_clicked(GtkButton * button, gpointer user_data)
 {
   ((EditListDialog *) user_data)->on_duplicates();
 }
+
 
 void EditListDialog::on_duplicates()
 {
@@ -395,10 +418,12 @@ void EditListDialog::on_duplicates()
   }
 }
 
+
 void EditListDialog::on_treeview1_cursor_changed(GtkTreeView * treeview, gpointer user_data)
 {
   ((EditListDialog *) user_data)->on_cursor();
 }
+
 
 void EditListDialog::on_cursor()
 {
@@ -409,10 +434,12 @@ void EditListDialog::on_cursor()
   }
 }
 
+
 gboolean EditListDialog::on_treeview1_move_cursor(GtkTreeView * treeview, GtkMovementStep step, gint count, gpointer user_data)
 {
   return FALSE;
 }
+
 
 gboolean EditListDialog::on_treeview1_select_all(GtkTreeView * treeview, gpointer user_data)
 {
@@ -420,23 +447,29 @@ gboolean EditListDialog::on_treeview1_select_all(GtkTreeView * treeview, gpointe
   return FALSE;
 }
 
+
 gboolean EditListDialog::on_treeview1_select_cursor_parent(GtkTreeView * treeview, gpointer user_data)
 {
   return FALSE;
 }
+
 
 gboolean EditListDialog::on_treeview1_select_cursor_row(GtkTreeView * treeview, gboolean start_editing, gpointer user_data)
 {
   return FALSE;
 }
 
+
 gboolean EditListDialog::on_treeview1_toggle_cursor_row(GtkTreeView * treeview, gpointer user_data)
 {
   return FALSE;
 }
+
 
 gboolean EditListDialog::on_treeview1_unselect_all(GtkTreeView * treeview, gpointer user_data)
 {
   ((EditListDialog *) user_data)->on_cursor();
   return FALSE;
 }
+
+
