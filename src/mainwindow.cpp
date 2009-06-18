@@ -7360,7 +7360,19 @@ This was done at the end of 18 June. To check the outcome of that.
 
 
 
+The Go popup should have a menu entry
 
+When I was looking for a hot key to suggest for Copy Without Formatting, I was thinking of Ctrl-g for Grab Text Only. 
+Low and behold, there is a Go Menu popup that allows the user to go anywhere quickly. Wow! Just what I have been needing!
+
+But I don't find a menu item for this. 
+I suggest this be added to the Edit menu and that the hot key be listed there, so that users will be reminded of this useful feature:
+
+Go Menu (Ctrl-g)
+
+This menu would be the ideal place to put in a pull-down history list of the last 12 locations that have been edited, 
+and a good place to put a list of user definable bookmarks. 
+The first of these is one of my other feature requests. I was thinking of the location history list as being in the main BE index window.
 
 
 
