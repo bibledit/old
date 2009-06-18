@@ -117,8 +117,8 @@ ustring directories_get_scripts()
 
 ustring directories_get_temp()
 {
-  // Returns the temporal directory bibledit uses
-  return gw_build_filename(g_get_home_dir(), ".bibledit_temp");
+  // Returns the temporal directory bibledit uses.
+  return gw_build_filename(g_get_tmp_dir(), "bibledit");
 }
 
 

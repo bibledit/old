@@ -7325,4 +7325,21 @@ When a tool is loaded, on shutdown the state of the splitter is saved.
 When no tool is loaded, the state of the splitter is not saved on shutdown.
 On startup the state of the splitter is loaded.
 
+
+
+
+
+Todo Generalize invocation of subprocesses
+
+Bibledit has numerous occurrences of one-off command line strings. This makes porting especially challenging.
+
+Add utility functions to tiny_utilities to handle CLI creation and execution. Make more complete use of Glib's APIs for this.
+
+First thing to be done is to call git processes very often to see if that blocks the Gtk GUI as it did before.
+
+
+
+
+Todo move temporal filesystem to /tmp.
+
 */

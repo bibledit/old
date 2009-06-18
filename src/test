@@ -21,27 +21,27 @@
 
 
 # The temporal directory. Create it.
-mkdir -p ~/.bibledit_temp
+mkdir -p /tmp/bibledit
 
 
 
 # If bibledit is running already, give a message and then bail out.
-ps ax > ~/.bibledit_temp/processes
-grep -q "bibledit-bin" ~/.bibledit_temp/processes
+ps ax > /tmp/bibledit/processes
+grep -q "bibledit-bin" /tmp/bibledit/processes
 if test $? -eq 0
   then
 	echo Bibledit is already running: bailing out.
 	bibledit-one	
 	exit
 fi
-rm ~/.bibledit_temp/processes
+rm /tmp/bibledit/processes
 
 
 # The log file of bibledit.
 # The output of the processes is piped to the logfile.
 # The previous logfile is be saved.
 
-LOGFILE=~/.bibledit_temp/bibledit.log
+LOGFILE=/tmp/bibledit/bibledit.log
 LOGFILEOLD=${LOGFILE}.old
 mv -f ${LOGFILE} ${LOGFILEOLD} 2> /dev/null
 
@@ -49,7 +49,7 @@ mv -f ${LOGFILE} ${LOGFILEOLD} 2> /dev/null
 
 # Same story for the log file for bibledit-git.
 
-LOGFILEGIT=~/.bibledit_temp/git.log
+LOGFILEGIT=/tmp/bibledit/git.log
 LOGFILEOLD=${LOGFILEGIT}.old
 mv -f ${LOGFILEGIT} ${LOGFILEOLD} 2> /dev/null
 
