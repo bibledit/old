@@ -1698,7 +1698,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   gtk_box_pack_start(GTK_BOX(hbox_status), statusbar, FALSE, TRUE, 0);
   gtk_widget_set_size_request(statusbar, 25, -1);
 
-  // This vbox will contain the tools in attached view. Todo
+  // This vbox will contain the tools in attached view.
   // Note that in detached view, this vbox is NULL.
   vbox_tools = NULL;
   if (!windows_are_detached) {
@@ -3766,6 +3766,16 @@ bool MainWindow::on_check_httpd_timeout(gpointer data)
 
 void MainWindow::on_check_httpd()
 {
+  // Todo temporal test whether git disturbes Gtk.
+  {
+    GwSpawn spawn ("git");
+    spawn.workingdirectory (directories_get_temp ());
+    spawn.arg ("status");
+    spawn.devnull ();
+    spawn.run ();
+  }
+  
+  
   // Does the httpd have a request for us?
   if (!httpd.search_whole_word.empty()) {
     // Bibledit presents itself and any detached editors.
@@ -7336,10 +7346,13 @@ Bibledit has numerous occurrences of one-off command line strings. This makes po
 Add utility functions to tiny_utilities to handle CLI creation and execution. Make more complete use of Glib's APIs for this.
 
 First thing to be done is to call git processes very often to see if that blocks the Gtk GUI as it did before.
+This was done at the end of 18 June. To check the outcome of that.
 
 
 
 
-Todo move temporal filesystem to /tmp.
+
+
+
 
 */

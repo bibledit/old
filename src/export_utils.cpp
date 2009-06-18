@@ -65,8 +65,22 @@ void export_to_usfm(const ustring & project, ustring location, bool zip)
   if (!zip)
     gw_mkdir_with_parents(location);
 
-  // Get books.
-  vector < unsigned int >books = project_get_books(project);
+  // Configuration.
+  extern Settings *settings;
+  ProjectConfiguration *projectconfig = settings->projectconfig(project);
+
+  // Book selection.
+  vector <unsigned int> books = project_get_books(project);
+  {
+    set <unsigned int> selectedbooks (books.begin(), books.end());
+    SelectBooksDialog dialog(false);
+    dialog.language(projectconfig->language_get());
+    dialog.selection_set(selectedbooks);
+    if (dialog.run() != GTK_RESPONSE_OK)
+      return;
+    selectedbooks = dialog.selectionset;
+    books.assign (selectedbooks.begin(), selectedbooks.end());
+  }
 
   // Progress information.
   ProgressWindow progresswindow("Exporting project", false);
@@ -76,7 +90,7 @@ void export_to_usfm(const ustring & project, ustring location, bool zip)
   for (unsigned int i = 0; i < books.size(); i++) {
     // Progress info.
     progresswindow.iterate();
-    vector < ustring > lines = project_retrieve_book(project, books[i]);
+    vector <ustring> lines = project_retrieve_book(project, books[i]);
     ustring filename = books_id_to_english(books[i]) + ".usfm";
     if (zip)
       filename = gw_build_filename(tempdir, filename);
