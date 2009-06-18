@@ -314,7 +314,7 @@ void EditListDialog::on_button_add_clicked(GtkButton * button, gpointer user_dat
 }
 
 
-void EditListDialog::on_add() // Todo
+void EditListDialog::on_add()
 // Adds tasks.
 {
   if (myaddables) {

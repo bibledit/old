@@ -28,7 +28,7 @@
 #include <gdk/gdkkeysyms.h>
 
 
-ListviewDialog::ListviewDialog(const ustring & title, vector < ustring > &list, const ustring & focus, bool sortlist, gchar * help) // Todo
+ListviewDialog::ListviewDialog(const ustring & title, vector < ustring > &list, const ustring & focus, bool sortlist, gchar * help)
 // This dialog shows "list".
 // If the user selects one out of that, it returns it in "focus".
 {
@@ -240,7 +240,7 @@ void ListviewDialog::static_on_okbutton_clicked(GtkButton * button, gpointer use
 }
 
 
-void ListviewDialog::on_okbutton_clicked() // Todo
+void ListviewDialog::on_okbutton_clicked()
 {
   int page = gtk_notebook_get_current_page(GTK_NOTEBOOK(notebook1));
   if (page == 0) {

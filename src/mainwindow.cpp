@@ -7323,7 +7323,14 @@ void MainWindow::check_usfm_window_ping()
 
 /*
 
-Todo Make right side attached windows narrower or adjustable
+Todo various tasks.
+
+
+
+
+
+
+Make right side attached windows narrower or adjustable
 
 The right hand side windows like keyterms and styles seem too wide to me. 
 It would be nice if they could be adjusted with the layout tool or splitters.
@@ -7353,10 +7360,12 @@ This was done at the end of 18 June. To check the outcome of that.
 
 
 
-Todo Allow multiple tasks to be added under planning
 
-When you go to Edit->Planning and click Add, you can only add 1 task at a time. This gets very tedious. 
-If you could select multiple items using Ctrl+click and shift+click it would be much faster.
+
+
+
+
+
 
 
 
