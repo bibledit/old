@@ -1394,8 +1394,13 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
 
   }
 
-  menutools = NULL;
-  menutools_menu = NULL;
+  menutools = gtk_menu_item_new_with_mnemonic("_Tools");
+  gtk_widget_show(menutools);
+  gtk_container_add(GTK_CONTAINER(menubar1), menutools);
+
+  menutools_menu = gtk_menu_new();
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(menutools), menutools_menu);
+
   line_cutter_for_hebrew_text1 = NULL;
   notes_transfer = NULL;
   tool_origin_references_in_bible_notes = NULL;
@@ -1404,13 +1409,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   tool_simple_text_corrections = NULL;
   tool_transfer_project_notes_to_text = NULL;
   if (guifeatures.tools()) {
-
-    menutools = gtk_menu_item_new_with_mnemonic("_Tools");
-    gtk_widget_show(menutools);
-    gtk_container_add(GTK_CONTAINER(menubar1), menutools);
-
-    menutools_menu = gtk_menu_new();
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM(menutools), menutools_menu);
 
     line_cutter_for_hebrew_text1 = gtk_image_menu_item_new_with_mnemonic("_Line cutter for Hebrew text");
     gtk_widget_show(line_cutter_for_hebrew_text1);
@@ -1469,6 +1467,14 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(tool_transfer_project_notes_to_text), image29089);
 
   }
+
+  tool_go_to_reference = gtk_image_menu_item_new_with_mnemonic ("G_o to reference (Ctrl-G)");
+  gtk_widget_show (tool_go_to_reference);
+  gtk_container_add (GTK_CONTAINER (menutools_menu), tool_go_to_reference);
+
+  image36137 = gtk_image_new_from_stock ("gtk-jump-to", GTK_ICON_SIZE_MENU);
+  gtk_widget_show (image36137);
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (tool_go_to_reference), image36137);
 
   menuitem_preferences = gtk_menu_item_new_with_mnemonic("P_references");
   // At first the Alt-P was the accelerator. On the XO machine, this key is 
@@ -1902,6 +1908,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     g_signal_connect((gpointer) tool_simple_text_corrections, "activate", G_CALLBACK(on_tool_simple_text_corrections_activate), gpointer(this));
   if (tool_transfer_project_notes_to_text)
     g_signal_connect((gpointer) tool_transfer_project_notes_to_text, "activate", G_CALLBACK(on_tool_transfer_project_notes_to_text_activate), gpointer(this));
+  g_signal_connect ((gpointer) tool_go_to_reference, "activate", G_CALLBACK (on_tool_go_to_reference_activate), gpointer (this));
   if (notes_preferences)
     g_signal_connect((gpointer) notes_preferences, "activate", G_CALLBACK(on_notes_preferences_activate), gpointer(this));
   if (printingprefs)
@@ -2818,6 +2825,12 @@ void MainWindow::on_notes_area_activate()
 {
   view_project_notes();
   notes_redisplay();
+}
+
+
+void MainWindow::on_tool_go_to_reference_activate(GtkMenuItem *menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->goto_reference_interactive();
 }
 
 
@@ -7362,19 +7375,6 @@ This was done at the end of 18 June. To check the outcome of that.
 
 
 
-The Go popup should have a menu entry
-
-When I was looking for a hot key to suggest for Copy Without Formatting, I was thinking of Ctrl-g for Grab Text Only. 
-Low and behold, there is a Go Menu popup that allows the user to go anywhere quickly. Wow! Just what I have been needing!
-
-But I don't find a menu item for this. 
-I suggest this be added to the Edit menu and that the hot key be listed there, so that users will be reminded of this useful feature:
-
-Go Menu (Ctrl-g)
-
-This menu would be the ideal place to put in a pull-down history list of the last 12 locations that have been edited, 
-and a good place to put a list of user definable bookmarks. 
-The first of these is one of my other feature requests. I was thinking of the location history list as being in the main BE index window.
 
 
 

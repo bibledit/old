@@ -304,6 +304,8 @@ protected:
   GtkWidget *image21054;
   GtkWidget *tool_transfer_project_notes_to_text;
   GtkWidget *image29089;
+  GtkWidget *tool_go_to_reference;
+  GtkWidget *image36137;
   GtkWidget *menuitem_preferences;
   GtkWidget *menuitem_preferences_menu;
   GtkWidget *notes_preferences;
@@ -422,7 +424,7 @@ protected:
   static void on_preferences_compare_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_preferences_compare ();
   
-  /* Navigation  */
+  // Navigation
   static void on_navigation_new_reference_clicked(GtkButton *button, gpointer user_data);
   void on_navigation_new_reference();
   void goto_next_verse();
@@ -437,6 +439,7 @@ protected:
   void on_text_area_activate();
   void on_tools_area_activate();
   void on_notes_area_activate();
+  static void on_tool_go_to_reference_activate (GtkMenuItem *menuitem, gpointer user_data);
 
   /* Clipboard */
   static void on_cut1_activate(GtkMenuItem * menuitem, gpointer user_data);
