@@ -240,16 +240,19 @@ void ListviewDialog::static_on_okbutton_clicked(GtkButton * button, gpointer use
 }
 
 
-void ListviewDialog::on_okbutton_clicked()
+void ListviewDialog::on_okbutton_clicked() // Todo Fix mass adding taks, check we remain able to select the right project
 {
   int page = gtk_notebook_get_current_page(GTK_NOTEBOOK(notebook1));
   if (page == 0) {
+    if (gtk_tree_selection_get_mode (select1) == GTK_SELECTION_SINGLE) {
+      focus = listview_get_active_string(treeview1);
+    }
     foci = listview_get_strings (treeview1);
   } else {
+    if (gtk_tree_selection_get_mode (select2) == GTK_SELECTION_SINGLE) {
+      focus = listview_get_active_string(treeview2);
+    }
     foci = listview_get_strings (treeview2);
-  }
-  if (!foci.empty ()) {
-    focus = foci[0];
   }
 }
 
