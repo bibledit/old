@@ -3768,11 +3768,13 @@ void MainWindow::on_check_httpd()
 {
   // Todo temporal test whether git disturbes Gtk.
   {
+    /*
     GwSpawn spawn ("git");
     spawn.workingdirectory (directories_get_temp ());
     spawn.arg ("status");
     spawn.devnull ();
     spawn.run ();
+    */
   }
   
   
