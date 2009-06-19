@@ -3781,7 +3781,7 @@ void MainWindow::on_check_httpd()
 {
   // Todo temporal test whether git disturbes Gtk.
   {
-    /*
+    /*    
     GwSpawn spawn ("git");
     spawn.workingdirectory (directories_get_temp ());
     spawn.arg ("status");
@@ -7369,7 +7369,6 @@ Add utility functions to tiny_utilities to handle CLI creation and execution. Ma
 
 First thing to be done is to call git processes very often to see if that blocks the Gtk GUI as it did before.
 This was done at the end of 18 June. To check the outcome of that.
-
 
 
 

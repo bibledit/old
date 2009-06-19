@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
       switch (task) {
       case gttPushPull:
         {
-          feedback = git_exec_update_project(project);
+          git_exec_update_project(project);
           break;
         }
       }
