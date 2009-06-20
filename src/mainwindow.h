@@ -55,6 +55,7 @@
 #include "assistantbackup.h"
 #include "assistantrestore.h"
 #include "assistantexport.h"
+#include "vcs.h"
 
 
 class MainWindow : public WindowBase
@@ -351,7 +352,6 @@ protected:
   GtkWidget *hbox_status; 
   GtkWidget *hbox7;
   GtkWidget *statuslabel_style;
-  GtkWidget *label_git;
   GtkWidget *statusbar;
   GtkWidget *vbox_tools;
 
@@ -664,6 +664,7 @@ protected:
   bool git_reopen_project;
   static void on_projects_send_receive1_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_projects_send_receive ();
+  VCS * vcs;
 
   /* Fonts */
   static void on_view_text_font_activate(GtkMenuItem * menuitem, gpointer user_data);

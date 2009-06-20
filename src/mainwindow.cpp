@@ -1695,10 +1695,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   gtk_label_set_ellipsize(GTK_LABEL(statuslabel_style), PANGO_ELLIPSIZE_MIDDLE);
   gtk_label_set_max_width_chars(GTK_LABEL(statuslabel_style), 50);
 
-  label_git = gtk_label_new("");
-  gtk_widget_show(label_git);
-  gtk_box_pack_start(GTK_BOX(hbox7), label_git, FALSE, FALSE, 0);
-
   statusbar = gtk_statusbar_new();
   gtk_widget_show(statusbar);
   gtk_box_pack_start(GTK_BOX(hbox_status), statusbar, FALSE, TRUE, 0);
@@ -1996,7 +1992,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   g_timeout_add(300, GSourceFunc(on_check_httpd_timeout), gpointer(this));
 
   // Initialize content manager subsystem.
-  git_initialize_subsystem();
+  vcs = new VCS (0);
   git_update_intervals_initialize();
 
   // Interprocess communications.
@@ -2027,10 +2023,11 @@ MainWindow::~MainWindow()
   // Destroy the Outpost
   delete windowsoutpost;
   // Finalize content manager subsystem.
-  git_finalize_subsystem();
+  delete vcs;
+  git_finalize_subsystem(); // Todo can go out.
   // Do shutdown actions.
   shutdown_actions();
-  // Destroying the window is done by gtk itself.
+  // Destroying the window is done by Gtk itself.
 }
 
 int MainWindow::run()
@@ -3302,17 +3299,6 @@ bool MainWindow::on_gui_timeout(gpointer data)
 void MainWindow::on_gui()
 // Tasks related to the GUI.
 {
-  // Display information about the number of Git tasks to be done if there are many of them.
-  {
-    ustring git;
-    if (git_tasks_count() >= 100)
-      git = "Git tasks pending: " + convert_to_string(git_tasks_count());
-    ustring currenttext = gtk_label_get_text(GTK_LABEL(label_git));
-    if (git != currenttext) {
-      gtk_label_set_text(GTK_LABEL(label_git), git.c_str());
-    }
-  }
-
   // Check whether to reopen the project.
   on_git_reopen_project();
 }
@@ -4776,7 +4762,8 @@ void MainWindow::git_update_timeout(bool force)
           }
         }
         // Schedule an update.
-        git_schedule(gttPushPull, projects[i], 0, 0, "");
+        // Todo off for just now. git_schedule(gttPushPull, projects[i], 0, 0, "");
+        vcs->schedule(gttPushPull, projects[i], 0, 0, "");
         interval = 0;
       }
       git_update_intervals[projects[i]] = interval;
@@ -7343,9 +7330,6 @@ Generalize invocation of subprocesses
 Bibledit has numerous occurrences of one-off command line strings. This makes porting especially challenging.
 
 Add utility functions to tiny_utilities to handle CLI creation and execution. Make more complete use of Glib's APIs for this.
-
-First thing to be done is to call git processes very often to see if that blocks the Gtk GUI as it did before.
-This was done at the end of 18 June. To check the outcome of that.
 
 
 

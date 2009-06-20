@@ -79,14 +79,6 @@ ShowScriptDialog::ShowScriptDialog(int dummy)
 
   shortcuts.button(radiobutton_bibledit);
 
-  radiobutton_bibletime = gtk_radio_button_new_with_mnemonic(NULL, "BibleTime");
-  gtk_widget_show(radiobutton_bibletime);
-  gtk_box_pack_start(GTK_BOX(hbox1), radiobutton_bibletime, FALSE, FALSE, 0);
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_bibletime), radiobutton_bibledit_group);
-  radiobutton_bibledit_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_bibletime));
-
-  shortcuts.button(radiobutton_bibletime);
-
   radiobutton_git = gtk_radio_button_new_with_mnemonic(NULL, "Git");
   gtk_widget_show(radiobutton_git);
   gtk_box_pack_start(GTK_BOX(hbox1), radiobutton_git, FALSE, FALSE, 0);
@@ -221,11 +213,6 @@ void ShowScriptDialog::on_radiobutton_bibledit_toggled(GtkToggleButton * toggleb
   ((ShowScriptDialog *) user_data)->load(true);
 }
 
-void ShowScriptDialog::on_radiobutton_bibletime_toggled(GtkToggleButton * togglebutton, gpointer user_data)
-{
-  ((ShowScriptDialog *) user_data)->load(true);
-}
-
 void ShowScriptDialog::on_radiobutton_git_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((ShowScriptDialog *) user_data)->load(true);
@@ -236,8 +223,6 @@ ustring ShowScriptDialog::logfilename()
   ustring filename;
   if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_bibledit))) {
     filename = "bibledit.log";
-  } else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_bibletime))) {
-    filename = "bibletime.log";
   } else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_git))) {
     filename = "git.log";
   }

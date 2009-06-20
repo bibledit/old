@@ -82,10 +82,6 @@ bool GitChapterState::changed()
   return filechanged;
 }
 
-void git_initialize_subsystem()
-{
-}
-
 void git_finalize_subsystem()
 {
   // Send the shutdown command to bibledit-git.
@@ -120,22 +116,6 @@ void git_schedule(GitTaskType task, const ustring & project, unsigned int book, 
 {
   GitTask gittask(task, project, book, chapter, 0, data);
   gittasks.push_back(gittask);
-}
-
-unsigned int git_tasks_count()
-{
-  return gittasks.size();
-}
-
-void git_get_tasks(vector < unsigned int >&tasks, vector < ustring > &projects, vector < unsigned int >&books, vector < unsigned int >&chapters, vector < unsigned int >&fails)
-{
-  for (unsigned int i = 0; i < gittasks.size(); i++) {
-    tasks.push_back(gittasks[i].task);
-    projects.push_back(gittasks[i].project);
-    books.push_back(gittasks[i].book);
-    chapters.push_back(gittasks[i].chapter);
-    fails.push_back(gittasks[i].failures);
-  }
 }
 
 vector < ustring > git_get_next_task()

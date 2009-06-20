@@ -59,12 +59,9 @@ enum GitUpdateType {gutOk, gutUpdated, gutAdded, gutDeleted, gutReplaced, gutMer
 enum GitConflictHandlingType {gchtTakeMe, gchtTakeServer};
 
 
-void git_initialize_subsystem ();
 void git_finalize_subsystem ();
 void git_upgrade ();
 void git_schedule (GitTaskType task, const ustring& project, unsigned int book, unsigned int chapter, const ustring& data);
-unsigned int git_tasks_count ();
-void git_get_tasks (vector <unsigned int>& tasks, vector <ustring>& projects, vector <unsigned int>& books, vector <unsigned int>& chapters, vector <unsigned int>& fails);
 vector <ustring> git_get_next_task ();
 void git_erase_task_done ();
 void git_fail_task_done ();
