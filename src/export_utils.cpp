@@ -91,7 +91,8 @@ void export_to_usfm(const ustring & project, ustring location, bool zip)
     // Progress info.
     progresswindow.iterate();
     vector <ustring> lines = project_retrieve_book(project, books[i]);
-    ustring filename = books_id_to_english(books[i]) + ".usfm";
+    ustring filename = convert_to_string (books[i]) + " " + books_id_to_english(books[i]) + ".usfm";
+    replace_text (filename, " ", "_");
     if (zip)
       filename = gw_build_filename(tempdir, filename);
     else

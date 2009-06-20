@@ -7323,13 +7323,20 @@ Todo various tasks.
 
 
 
+To number USFM files.
 
 
-Generalize invocation of subprocesses
+A possibly useful change to bibledit (not sure if requested somewhere
+else) would be if it complied with its filenames to Paratext conventions
 
-Bibledit has numerous occurrences of one-off command line strings. This makes porting especially challenging.
+In particular, given the absence of other information within the usfm
+text, it would be useful if the files are numbered in the intended order
+- as Paratext does. We are dealing with an increasing number of
+variations of versifications, canons and book order so we do require
+from somewhere the order in which books should appear in a module.
 
-Add utility functions to tiny_utilities to handle CLI creation and execution. Make more complete use of Glib's APIs for this.
+Peter 
+
 
 
 
