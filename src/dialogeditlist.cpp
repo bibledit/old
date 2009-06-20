@@ -28,7 +28,7 @@
 #include "utilities.h"
 #include "help.h"
 #include "tiny_utilities.h"
-#include "dialoglistview.h"
+#include "dialoglistviewm.h"
 
 
 EditListDialog::EditListDialog(vector <ustring> * lines, const ustring & title, const ustring & info, bool remove, bool add, bool sort, bool import, bool exprt, bool duplicates, bool reorderable, vector <ustring> * addables)
@@ -318,8 +318,7 @@ void EditListDialog::on_add()
 // Adds tasks.
 {
   if (myaddables) {
-    ListviewDialog dialog("Select a task to add", *myaddables, "", false, NULL);
-    dialog.allow_multiple ();
+    ListviewMDialog dialog("Select a task to add", *myaddables, false, NULL);
     if (dialog.run() == GTK_RESPONSE_OK) {
       for (unsigned int i = 0; i < dialog.foci.size(); i++) {
         GtkTreeIter iter;

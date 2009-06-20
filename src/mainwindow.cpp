@@ -7349,7 +7349,7 @@ On startup the state of the splitter is loaded.
 
 
 
-Todo Generalize invocation of subprocesses
+Generalize invocation of subprocesses
 
 Bibledit has numerous occurrences of one-off command line strings. This makes porting especially challenging.
 
@@ -7362,7 +7362,8 @@ This was done at the end of 18 June. To check the outcome of that.
 
 
 
-
+Let several tasks be added at once.
+Needs a new dialoglistview, with multiple selector.
 
 
 

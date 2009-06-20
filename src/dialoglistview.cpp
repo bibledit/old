@@ -91,21 +91,18 @@ ListviewDialog::ListviewDialog(const ustring & title, vector <ustring> &list, co
   column1 = gtk_tree_view_column_new_with_attributes("", renderer, "text", 0, NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(treeview1), column1);
   select1 = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview1));
-  // Todo gtk_tree_selection_set_mode(select1, GTK_SELECTION_SINGLE);
-  gtk_tree_selection_set_mode(select1, GTK_SELECTION_MULTIPLE);
+  gtk_tree_selection_set_mode(select1, GTK_SELECTION_SINGLE);
 
   // Fill the treeview with the items, sorted optionally
   if (sortlist)
     sort(list.begin(), list.end());
   listview_set_strings(treeview1, store1, list);
 
-  // Focus an item.
-  /* Todo
+  // Focus item.
   if (list.size() > 0) {
     listview_focus_string(treeview1, list[0]);
   }
   listview_focus_string(treeview1, focus);
-  */ 
 
   label_tab_1 = gtk_label_new("");
   gtk_widget_show(label_tab_1);
@@ -244,21 +241,13 @@ void ListviewDialog::static_on_okbutton_clicked(GtkButton * button, gpointer use
 }
 
 
-void ListviewDialog::on_okbutton_clicked() // Todo Fix mass adding taks, check we remain able to select the right project
+void ListviewDialog::on_okbutton_clicked()
 {
   int page = gtk_notebook_get_current_page(GTK_NOTEBOOK(notebook1));
   if (page == 0) {
-    if (gtk_tree_selection_get_mode (select1) == GTK_SELECTION_SINGLE) {
-      focus = listview_get_active_string(treeview1);
-    } else {
-      foci = listview_get_active_strings (treeview1);
-    }
+    focus = listview_get_active_string(treeview1);
   } else {
-    if (gtk_tree_selection_get_mode (select2) == GTK_SELECTION_SINGLE) {
-      focus = listview_get_active_string(treeview2);
-    } else {
-      foci = listview_get_active_strings (treeview2);
-    }
+    focus = listview_get_active_string(treeview2);
   }
 }
 
@@ -304,10 +293,4 @@ void ListviewDialog::on_switch_page()
     gtk_label_set_text(GTK_LABEL(label_action), actiontext);
 }
 
-
-void ListviewDialog::allow_multiple()
-// Allows multiple selections.
-{
-  gtk_tree_selection_set_mode(gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview1)), GTK_SELECTION_MULTIPLE);
-}
 

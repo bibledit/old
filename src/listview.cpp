@@ -118,10 +118,8 @@ vector <int> listview_get_active_offsets(GtkWidget * listview)
 }
 
 
-vector <ustring> listview_get_active_strings(GtkWidget * listview) // Todo
+vector <ustring> listview_get_active_strings(GtkWidget * listview)
 {
-  cout << "listview_get_active_strings" << endl; // Todo
-
   // Storage for result.
   vector <ustring> strings;
 
@@ -136,7 +134,6 @@ vector <ustring> listview_get_active_strings(GtkWidget * listview) // Todo
     gchar *str_data;
     gtk_tree_model_get(model, &selected_iterators[i], 0, &str_data, -1);
     strings.push_back(str_data);
-    cout << str_data << endl; // Todo
     g_free(str_data);
   }
 

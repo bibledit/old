@@ -279,7 +279,8 @@ bibledit_bin_SOURCES = \
 				assistantexport.cpp \
 				java.cpp \
 				dialogbulkspelling.cpp \
-				dialogplanningedit.cpp
+				dialogplanningedit.cpp \
+				dialoglistviewm.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 
