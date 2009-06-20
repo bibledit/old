@@ -67,7 +67,6 @@ Makes changes in-place.
 
 void project_store_chapter_internal(const ustring & project, unsigned int book, unsigned int chapter, CategorizeChapterVerse & ccv, unsigned int first, unsigned int last, unsigned int timestamp)
 {
-  cout << "project_store_chapter_internal" << endl; // Todo
   // Bail out if the project does not exist.
   if (!project_exists(project))
     return;
@@ -94,7 +93,7 @@ void project_store_chapter_internal(const ustring & project, unsigned int book, 
   }
 
   // Store a snapshot of this chapter.
-  snapshots_shoot_chapter (project, book, chapter, 0, false); // Todo
+  snapshots_shoot_chapter (project, book, chapter, 0, false);
 }
 
 void projects_initial_check(bool gui)
@@ -255,7 +254,6 @@ void project_remove_book(const ustring & project, unsigned int book)
 
 void project_store_chapter(const ustring & project, unsigned int book, CategorizeChapterVerse & ccv)
 {
-  cout << "project_store_chapter" << endl; // Todo
   // If there's nothing to save, bail out.
   if (ccv.chapter.size() == 0)
     return;

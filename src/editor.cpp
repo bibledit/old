@@ -311,7 +311,6 @@ void Editor::text_load (ustring text)
 void Editor::chapter_save()
 // Handles saving the chapters.
 {
-  cout << "chapter_save" << endl; // Todo
   // Set variables.
   reload_chapter_number = chapter;
 
