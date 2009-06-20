@@ -28,7 +28,7 @@
 #include <gdk/gdkkeysyms.h>
 
 
-ListviewDialog::ListviewDialog(const ustring & title, vector < ustring > &list, const ustring & focus, bool sortlist, gchar * help)
+ListviewDialog::ListviewDialog(const ustring & title, vector <ustring> &list, const ustring & focus, bool sortlist, gchar * help)
 // This dialog shows "list".
 // If the user selects one out of that, it returns it in "focus".
 {
@@ -91,7 +91,8 @@ ListviewDialog::ListviewDialog(const ustring & title, vector < ustring > &list, 
   column1 = gtk_tree_view_column_new_with_attributes("", renderer, "text", 0, NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(treeview1), column1);
   select1 = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview1));
-  gtk_tree_selection_set_mode(select1, GTK_SELECTION_SINGLE);
+  // Todo gtk_tree_selection_set_mode(select1, GTK_SELECTION_SINGLE);
+  gtk_tree_selection_set_mode(select1, GTK_SELECTION_MULTIPLE);
 
   // Fill the treeview with the items, sorted optionally
   if (sortlist)
@@ -99,9 +100,12 @@ ListviewDialog::ListviewDialog(const ustring & title, vector < ustring > &list, 
   listview_set_strings(treeview1, store1, list);
 
   // Focus an item.
-  if (list.size() > 0)
+  /* Todo
+  if (list.size() > 0) {
     listview_focus_string(treeview1, list[0]);
+  }
   listview_focus_string(treeview1, focus);
+  */ 
 
   label_tab_1 = gtk_label_new("");
   gtk_widget_show(label_tab_1);
@@ -246,13 +250,15 @@ void ListviewDialog::on_okbutton_clicked() // Todo Fix mass adding taks, check w
   if (page == 0) {
     if (gtk_tree_selection_get_mode (select1) == GTK_SELECTION_SINGLE) {
       focus = listview_get_active_string(treeview1);
+    } else {
+      foci = listview_get_active_strings (treeview1);
     }
-    foci = listview_get_strings (treeview1);
   } else {
     if (gtk_tree_selection_get_mode (select2) == GTK_SELECTION_SINGLE) {
       focus = listview_get_active_string(treeview2);
+    } else {
+      foci = listview_get_active_strings (treeview2);
     }
-    foci = listview_get_strings (treeview2);
   }
 }
 

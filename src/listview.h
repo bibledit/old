@@ -17,16 +17,20 @@
  **  
  */
 
+
 #ifndef INCLUDED_LISTVIEW_H
 #define INCLUDED_LISTVIEW_H
+
 
 #include "libraries.h"
 #include <glib.h>
 #include <gtk/gtk.h>
 
+
 ustring listview_get_active_string(GtkWidget * listview);
 int listview_get_active_offset(GtkWidget * listview);
 vector <int> listview_get_active_offsets(GtkWidget * listview);
+vector <ustring> listview_get_active_strings(GtkWidget * listview);
 void listview_clear_strings(GtkWidget * listview, GtkListStore * store);
 void listview_set_strings(GtkWidget * listview, GtkListStore * store, const vector<ustring>& strings);
 void listview_set_strings(GtkWidget * listview, GtkListStore * store, const vector<unsigned int>& strings);
@@ -35,5 +39,6 @@ void listview_focus_string(GtkWidget * listview, unsigned int string, bool grabf
 vector <ustring> listview_get_strings(GtkWidget * listview);
 void list_view_erase_selection(GtkWidget * listview);
 void listview_set_row(GtkWidget * listview, GtkListStore * store, unsigned int offset, const ustring row);
+
 
 #endif

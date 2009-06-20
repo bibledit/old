@@ -17,9 +17,11 @@
  **  
  */
 
+
 #include "listview.h"
 #include "utilities.h"
 #include "tiny_utilities.h"
+
 
 ustring listview_get_active_string(GtkWidget * listview)
 // Gets the currently active string in a combobox.
@@ -45,6 +47,7 @@ ustring listview_get_active_string(GtkWidget * listview)
   // Return result.
   return active_string;
 }
+
 
 int listview_get_active_offset(GtkWidget * listview)
 // Gets the offset of the item now selected.
@@ -77,12 +80,14 @@ int listview_get_active_offset(GtkWidget * listview)
   return result;
 }
 
+
 static void listview_collect_iterators(GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data)
 {
   ((vector < GtkTreeIter > *)data)->push_back(*iter);
 }
 
-vector < int >listview_get_active_offsets(GtkWidget * listview)
+
+vector <int> listview_get_active_offsets(GtkWidget * listview)
 // Gets the offsets of the items now selected.
 {
   // Container with offsets.
@@ -91,12 +96,8 @@ vector < int >listview_get_active_offsets(GtkWidget * listview)
   // Get model and selected iterators.
   GtkTreeModel *model = gtk_tree_view_get_model(GTK_TREE_VIEW(listview));
   GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(listview));
-  vector < GtkTreeIter > iters;
+  vector <GtkTreeIter> iters;
   gtk_tree_selection_selected_foreach(selection, listview_collect_iterators, gpointer(&iters));
-  for (unsigned int i = 0; i < iters.size(); i++) {
-    GtkTreeIter iter = iters[i];
-    // gtk_list_store_remove(liststore_references, &iter);
-  }
 
   // Iterate through the model. Compare iterators to find offset.
   int offset = 0;
@@ -116,11 +117,40 @@ vector < int >listview_get_active_offsets(GtkWidget * listview)
   return offsets;
 }
 
+
+vector <ustring> listview_get_active_strings(GtkWidget * listview) // Todo
+{
+  cout << "listview_get_active_strings" << endl; // Todo
+
+  // Storage for result.
+  vector <ustring> strings;
+
+  // Get model and selected iterators.
+  GtkTreeSelection *selection =  gtk_tree_view_get_selection(GTK_TREE_VIEW(listview));
+  vector <GtkTreeIter> selected_iterators;
+  gtk_tree_selection_selected_foreach(selection, listview_collect_iterators, gpointer(&selected_iterators));
+
+  // Get selected strings.
+  GtkTreeModel *model = gtk_tree_view_get_model(GTK_TREE_VIEW(listview));
+  for (unsigned int i = 0; i < selected_iterators.size(); i++) {
+    gchar *str_data;
+    gtk_tree_model_get(model, &selected_iterators[i], 0, &str_data, -1);
+    strings.push_back(str_data);
+    cout << str_data << endl; // Todo
+    g_free(str_data);
+  }
+
+  // Return the results.
+  return strings;
+}
+
+
 void listview_clear_strings(GtkWidget * listview, GtkListStore * store)
 // Clear the strings loaded in the combobox.
 {
   gtk_list_store_clear(store);
 }
+
 
 void listview_set_strings(GtkWidget * listview, GtkListStore * store, const vector < ustring > &strings)
 {
@@ -132,6 +162,7 @@ void listview_set_strings(GtkWidget * listview, GtkListStore * store, const vect
   }
 }
 
+
 void listview_set_strings(GtkWidget * listview, GtkListStore * store, const vector < unsigned int >&strings)
 {
   vector < ustring > strings2;
@@ -139,6 +170,7 @@ void listview_set_strings(GtkWidget * listview, GtkListStore * store, const vect
     strings2.push_back(convert_to_string(strings[i]));
   listview_set_strings(listview, store, strings2);
 }
+
 
 void listview_focus_string(GtkWidget * listview, const ustring & string, bool grabfocus)
 // Sets the string that is focused and scrolls to it.
@@ -181,10 +213,12 @@ void listview_focus_string(GtkWidget * listview, const ustring & string, bool gr
   }
 }
 
+
 void listview_focus_string(GtkWidget * listview, unsigned int string, bool grabfocus)
 {
   listview_focus_string(listview, convert_to_string(string), grabfocus);
 }
+
 
 vector < ustring > listview_get_strings(GtkWidget * listview)
 // Gets the strings loaded in the listview.
@@ -214,6 +248,7 @@ vector < ustring > listview_get_strings(GtkWidget * listview)
   return strings;
 }
 
+
 void list_view_erase_selection(GtkWidget * listview)
 // Erase the current selected string.
 {
@@ -224,6 +259,7 @@ void list_view_erase_selection(GtkWidget * listview)
     gtk_list_store_remove(GTK_LIST_STORE(model), &iter);
   }
 }
+
 
 void listview_set_row(GtkWidget * listview, GtkListStore * store, unsigned int offset, const ustring row)
 {

@@ -3779,18 +3779,6 @@ bool MainWindow::on_check_httpd_timeout(gpointer data)
 
 void MainWindow::on_check_httpd()
 {
-  // Todo temporal test whether git disturbes Gtk.
-  {
-    /*    
-    GwSpawn spawn ("git");
-    spawn.workingdirectory (directories_get_temp ());
-    spawn.arg ("status");
-    spawn.devnull ();
-    spawn.run ();
-    */
-  }
-  
-  
   // Does the httpd have a request for us?
   if (!httpd.search_whole_word.empty()) {
     // Bibledit presents itself and any detached editors.
