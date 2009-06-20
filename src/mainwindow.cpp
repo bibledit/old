@@ -7333,21 +7333,6 @@ Todo various tasks.
 
 
 
-Make right side attached windows narrower or adjustable
-
-The right hand side windows like keyterms and styles seem too wide to me. 
-It would be nice if they could be adjusted with the layout tool or splitters.
-
-Going to bump this bug a little. Being able to resize the attached windows would be awesome.
-
-We need a splitter that separates the tools and the rest at the left side.
-When a tool is loaded, on shutdown the state of the splitter is saved.
-When no tool is loaded, the state of the splitter is not saved on shutdown.
-On startup the state of the splitter is loaded.
-
-
-
-
 
 Generalize invocation of subprocesses
 
@@ -7362,8 +7347,7 @@ This was done at the end of 18 June. To check the outcome of that.
 
 
 
-Let several tasks be added at once.
-Needs a new dialoglistview, with multiple selector.
+
 
 
 
