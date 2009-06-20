@@ -311,6 +311,7 @@ void Editor::text_load (ustring text)
 void Editor::chapter_save()
 // Handles saving the chapters.
 {
+  cout << "chapter_save" << endl; // Todo
   // Set variables.
   reload_chapter_number = chapter;
 
@@ -415,7 +416,7 @@ void Editor::chapter_save()
         }
       }
     }
-    // Store chapter in database.
+    // Store chapter.
     if (!save_action_is_over)
       project_store_chapter(project, book, ccv);
     save_action_is_over = true;

@@ -4744,7 +4744,7 @@ void MainWindow::git_update_intervals_initialize()
     }
   }
   // Start the timer.
-  git_update_interval_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 1000, GSourceFunc(on_git_update_timeout), gpointer(this), NULL);
+  git_update_interval_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 1000, GSourceFunc(on_git_update_timeout), gpointer(this), NULL); // Todo
 }
 
 bool MainWindow::on_git_update_timeout(gpointer user_data)
@@ -4753,7 +4753,7 @@ bool MainWindow::on_git_update_timeout(gpointer user_data)
   return true;
 }
 
-void MainWindow::git_update_timeout(bool force)
+void MainWindow::git_update_timeout(bool force) // Todo
 // Schedule project update tasks.
 {
   // Bail out if git tasks are paused.
@@ -4762,7 +4762,7 @@ void MainWindow::git_update_timeout(bool force)
     return;
 
   // Save all open editors.
-  save_editors();
+  // Todo save_editors();
   
   // Schedule a push and pull task for each relevant project.
   vector < ustring > projects = projects_get_all();
@@ -4772,6 +4772,13 @@ void MainWindow::git_update_timeout(bool force)
       int interval = git_update_intervals[projects[i]];
       interval++;
       if ((interval >= projectconfig->git_remote_update_interval_get()) || force) {
+        // Save chapter. Todo
+        for (unsigned int i2 = 0; i2 < editor_windows.size(); i2++) {
+          if (editor_windows[i2]->project() == projects[i]) {
+            editor_windows[i2]->chapter_save ();
+          }
+        }
+        // Schedule an update.
         git_schedule(gttPushPull, projects[i], 0, 0, "");
         interval = 0;
       }
@@ -5405,6 +5412,7 @@ void MainWindow::handle_editor_focus()
 void MainWindow::save_editors()
 // Save all and any editors.
 {
+  cout << "save_editors" << endl; // Todo
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
     editor_windows[i]->chapter_save();
   }
@@ -7348,7 +7356,7 @@ This was done at the end of 18 June. To check the outcome of that.
 
 
 
-
+It creates too many snapshots.
 
 
 

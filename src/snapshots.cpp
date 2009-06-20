@@ -113,6 +113,7 @@ void snapshots_shoot_chapter (const ustring& project, unsigned int book, unsigne
 // seconds: the time. If 0, it makes its own time.
 // persistent: whether this snapshots is persistent, that is, should never be removed.
 {
+  cout << "snapshots_shoot_chapter" << endl; // Todo
   // Store snapshot content.
   {
     if (seconds == 0)  
