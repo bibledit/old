@@ -7333,14 +7333,6 @@ kcachegrind
 
 
 
-Export Keyterms with Renderings
-
-A menu option to export all of the keyterms with their renderings. Include a checkbox to only export keyterms that have renderings.
-Export into html format.
-Make this part of the export assistant.
-
-
-
 
 
 

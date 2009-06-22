@@ -66,7 +66,8 @@ void VCS::thread_main()
       switch (tasks[0].task) {
       case gttPushPull:
         {
-          git_exec_update_project(tasks[0].project);
+          vector <ustring> feedback = git_exec_update_project(tasks[0].project);
+          git_process_feedback (tasks[0].project, feedback);
           break;
         }
       }

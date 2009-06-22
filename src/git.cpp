@@ -398,7 +398,7 @@ void git_shutdown (const ustring& project, bool health)
 }
 
 
-void git_process_feedback (const ustring& project, const vector <ustring>& feedback) // Todo to re-enable this again.
+void git_process_feedback (const ustring& project, const vector <ustring>& feedback)
 {
   // Bail out if there's not enough feedback.
   if (feedback.size() < 3) {
