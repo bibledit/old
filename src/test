@@ -61,23 +61,24 @@ mv -f ${LOGFILEGIT} ${LOGFILEOLD} 2> /dev/null
 # programming. This process is explained below, see with bibledit-bin.
 # Do not start it if bibledit-bin is used for scripting.
 
-BIBLEDIT_GIT=bibledit-git
+# BIBLEDIT_GIT=bibledit-git
 
-BIBLEDIT_GIT_SAME_DIRECTORY=`dirname $0`/${BIBLEDIT_GIT}
+# BIBLEDIT_GIT_SAME_DIRECTORY=`dirname $0`/${BIBLEDIT_GIT}
 
-BIBLEDIT_GIT_DEVELOPMENT_DIRECTORY=`dirname $0`/../src/${BIBLEDIT_GIT}
+# BIBLEDIT_GIT_DEVELOPMENT_DIRECTORY=`dirname $0`/../src/${BIBLEDIT_GIT}
 
-if [ -x ${BIBLEDIT_GIT_SAME_DIRECTORY} ]
-  then
-    BIBLEDIT_GIT=${BIBLEDIT_GIT_SAME_DIRECTORY}
-  elif [ -x ${BIBLEDIT_GIT_DEVELOPMENT_DIRECTORY} ]
-    then
-      BIBLEDIT_GIT=${BIBLEDIT_GIT_DEVELOPMENT_DIRECTORY}
-fi
+# if [ -x ${BIBLEDIT_GIT_SAME_DIRECTORY} ]
+#   then
+#     BIBLEDIT_GIT=${BIBLEDIT_GIT_SAME_DIRECTORY}
+#   elif [ -x ${BIBLEDIT_GIT_DEVELOPMENT_DIRECTORY} ]
+#     then
+#       BIBLEDIT_GIT=${BIBLEDIT_GIT_DEVELOPMENT_DIRECTORY}
+# fi
 
 # Start bibledit-git, and kill any previous such process.
-killall bibledit-git > /dev/null 2>&1
-${BIBLEDIT_GIT} > ${LOGFILEGIT} 2>&1 &
+# killall bibledit-git > /dev/null 2>&1
+# ${BIBLEDIT_GIT} > ${LOGFILEGIT} 2>&1 &
+
 
 
 
@@ -110,5 +111,5 @@ if [ -x ${BIBLEDIT_BIN_SAME_DIRECTORY} ]
       BIBLEDIT_BIN=${BIBLEDIT_BIN_DEVELOPMENT_DIRECTORY}
 fi
 
-${BIBLEDIT_BIN} $@ > ${LOGFILE} 2>&1
+${BIBLEDIT_BIN} $@ > ${LOGFILE} 2>&1 &
 

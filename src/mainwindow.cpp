@@ -4762,7 +4762,7 @@ void MainWindow::git_update_timeout(bool force)
           }
         }
         // Schedule an update.
-        // Todo off for just now. git_schedule(gttPushPull, projects[i], 0, 0, "");
+        // Todo off for just now.         git_schedule(gttPushPull, projects[i], 0, 0, "");
         vcs->schedule(gttPushPull, projects[i], 0, 0, "");
         interval = 0;
       }
@@ -7322,7 +7322,14 @@ Todo various tasks.
 
 
 
-
+git calls.
+With the new system bibledit seems to use more cpu resources.
+Can this be related to the process copying in memory?
+If so then it would be better to keep these calls separate.
+We could try dbus for communications, then.
+Why does bibledit-bin take 10% cpu time? Try switching git off. Try switching git ipc off.
+Or does the VCS take much cpu time? No, it was disabled and there was no difference.
+Run it through callgrind to see where the hungry process is.
 
 
 
