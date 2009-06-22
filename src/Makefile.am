@@ -3,13 +3,11 @@ bin_PROGRAMS = bibledit-bin bibledit-bibletime bibledit-git
 bibledit_bibletime_SOURCES = \
         bibledit-bibletime.cpp \
         ustring.cpp \
-        bookdata.cpp \
-        ipc.cpp
+        bookdata.cpp
 
 bibledit_git_SOURCES = \
         bibledit-git.cpp \
         ustring.cpp \
-        ipc.cpp \
         git-exec.cpp \
         tiny_utilities.cpp
 
@@ -166,7 +164,6 @@ bibledit_bin_SOURCES = \
         session.cpp \
         session_highlights.cpp \
         bookdata.cpp \
-        ipc.cpp \
         config.xml.cpp \
         localizedbooks.cpp \
         versifications.cpp \

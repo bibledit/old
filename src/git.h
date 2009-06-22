@@ -59,9 +59,7 @@ enum GitUpdateType {gutOk, gutUpdated, gutAdded, gutDeleted, gutReplaced, gutMer
 enum GitConflictHandlingType {gchtTakeMe, gchtTakeServer};
 
 
-void git_finalize_subsystem ();
 void git_upgrade ();
-void git_schedule (GitTaskType task, const ustring& project, unsigned int book, unsigned int chapter, const ustring& data);
 vector <ustring> git_get_next_task ();
 void git_erase_task_done ();
 void git_fail_task_done ();
@@ -72,7 +70,6 @@ int git_count_tasks_project (const ustring& project);
 void git_revert_to_internal_repository (const ustring& project);
 void git_resolve_conflict_chapter (const ustring& project, unsigned int book, unsigned int chapter);
 ustring git_mine_conflict_marker ();
-Reference git_execute_retrieve_reference ();
 void git_command_pause (bool pause);
 void git_command_set_update_frequency (unsigned int frequency);
 void git_resolve_conflicts (const ustring& project, const vector <ustring>& errors);

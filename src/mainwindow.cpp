@@ -97,7 +97,6 @@
 #include "color.h"
 #include "dialognewstylesheet.h"
 #include "settings.h"
-#include "ipc.h"
 #include "dialoggui.h"
 #include "password.h"
 #include "gui_features.h"
@@ -1995,12 +1994,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   vcs = new VCS (0);
   git_update_intervals_initialize();
 
-  // Interprocess communications.
-  extern InterprocessCommunication *ipc;
-  ipc->methodcall_add_signal(ipcctGitJobDescription);
-  ipc->methodcall_add_signal(ipcctGitTaskDone);
-  g_signal_connect((gpointer) ipc->method_called_signal, "clicked", G_CALLBACK(on_ipc_method_called), gpointer(this));
-
   // Show open windows.
   g_timeout_add(300, GSourceFunc(on_windows_startup_timeout), gpointer(this));
 }
@@ -2016,15 +2009,12 @@ MainWindow::~MainWindow()
   // Shut down the various windows.
   shutdown_windows();
 
-  // No ipc signals anymore.
-  extern InterprocessCommunication *ipc;
-  ipc->methodcall_remove_all_signals();
-
   // Destroy the Outpost
   delete windowsoutpost;
+
   // Finalize content manager subsystem.
   delete vcs;
-  git_finalize_subsystem(); // Todo can go out.
+
   // Do shutdown actions.
   shutdown_actions();
   // Destroying the window is done by Gtk itself.
@@ -4762,7 +4752,6 @@ void MainWindow::git_update_timeout(bool force)
           }
         }
         // Schedule an update.
-        // Todo off for just now.         git_schedule(gttPushPull, projects[i], 0, 0, "");
         vcs->schedule(gttPushPull, projects[i], 0, 0, "");
         interval = 0;
       }
@@ -4947,18 +4936,16 @@ void MainWindow::on_ipc_method_called(GtkButton * button, gpointer user_data)
 
 void MainWindow::on_ipc_method()
 {
-  // Interprocess Communication pointer.
-  extern InterprocessCommunication *ipc;
-
   // Settings pointer.
   extern Settings *settings;
 
   // Handle call for a new git job.
-  if (ipc->method_called_type == ipcctGitJobDescription) {
+  if (false) {
+  // Todo enable again. if (ipc->method_called_type == ipcctGitJobDescription) {
     if (!settings->session.git_pause) {
       vector < ustring > task = git_get_next_task();
       if (!task.empty()) {
-        ipc->send(ipcstBibleditGit, ipcctGitJobDescription, task);
+        // Todo ipc->send(ipcstBibleditGit, ipcctGitJobDescription, task);
         // The chapter state looks whether something changed in the chapter 
         // now opened while we pull changes from the remote repository.
         // As there can be more than one editor that points to the same remote repository,
@@ -4979,9 +4966,10 @@ void MainWindow::on_ipc_method()
     }
   }
   // Handle a job done.
-  else if (ipc->method_called_type == ipcctGitTaskDone) {
+  // Todo enable again else if (ipc->method_called_type == ipcctGitTaskDone) {
+  else if (false) {
     // Process the feedback of this task.
-    vector <ustring> feedback = ipc->get_payload(ipcctGitTaskDone);
+    vector <ustring> feedback;
     vector <ustring> task = git_get_next_task();
     git_process_feedback(task[1], feedback);
     // Erase the task.
@@ -7330,6 +7318,14 @@ We could try dbus for communications, then.
 Why does bibledit-bin take 10% cpu time? Try switching git off. Try switching git ipc off.
 Or does the VCS take much cpu time? No, it was disabled and there was no difference.
 Run it through callgrind to see where the hungry process is.
+If no git updates are done, and if the projects are all closed, the cpu usage drops to near-zero.
+
+
+
+Profilers.
+valgrind --tool=callgrind in order to find details of all the function calls.
+alleyoop
+kcachegrind
 
 
 
@@ -7337,7 +7333,11 @@ Run it through callgrind to see where the hungry process is.
 
 
 
+Export Keyterms with Renderings
 
+A menu option to export all of the keyterms with their renderings. Include a checkbox to only export keyterms that have renderings.
+Export into html format.
+Make this part of the export assistant.
 
 
 

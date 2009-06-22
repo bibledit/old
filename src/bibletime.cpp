@@ -27,7 +27,6 @@
 #include "directories.h"
 #include "sqlite_reader.h"
 #include <sqlite3.h>
-#include "ipc.h"
 #include "tiny_utilities.h"
 
 #define STAGE_ZERO 0
@@ -51,29 +50,12 @@ other.
 
 BibleTime::~BibleTime()
 {
-  return;
-  // Shut down bibledit-bibletime.
-  vector < ustring > payload;
-  payload.push_back(" ");
-  extern InterprocessCommunication *ipc;
-  ipc->send(ipcstBibleditBibletime, ipcctBibleTimeShutdown, payload);
 }
 
 bool BibleTime::connected()
 // Whether BibleTime is connected.
 {
   return false;
-  // Get the methodcall.
-  extern InterprocessCommunication *ipc;
-  vector < ustring > payload;
-  payload = ipc->get_payload(ipcctBibleTimeConnected);
-
-  // If there is no data yet, that means Bibletime is still regarded as disconnected.
-  if (payload.empty())
-    return false;
-
-  // If there is data, the flag indicates whether BibleTime is connected.
-  return convert_to_bool(payload[0]);
 }
 
 void BibleTime::sendreference(const Reference & reference)
@@ -110,8 +92,7 @@ void BibleTime::sendreference(const Reference & reference)
   // Send the reference.
   vector < ustring > payload;
   payload.push_back(books_id_to_osis(reference.book) + "." + convert_to_string(chapter) + "." + verse);
-  extern InterprocessCommunication *ipc;
-  ipc->send(ipcstBibleditBibletime, ipcctBibleTimeReference, payload);
+  //ipc->send(ipcstBibleditBibletime, ipcctBibleTimeReference, payload);
 }
 
 bool BibleTime::getreference(Reference & reference)
@@ -119,10 +100,10 @@ bool BibleTime::getreference(Reference & reference)
 // This was sent by bibledit-bibletime.
 {
   return false;
-  extern InterprocessCommunication *ipc;
+  //extern InterprocessCommunication *ipc;
   vector < ustring > payload;
-  payload = ipc->get_payload(ipcctBibleTimeReference);
-  ipc->erase_payload(ipcctBibleTimeReference);
+  //payload = ipc->get_payload(ipcctBibleTimeReference);
+  //ipc->erase_payload(ipcctBibleTimeReference);
 
   // Return false if there was no valid reference received.
   if (payload.empty())
@@ -139,9 +120,6 @@ vector < ustring > BibleTime::getbibles()
 {
   // Get the Bibles.
   vector < ustring > bibles;
-  return bibles;
-  extern InterprocessCommunication *ipc;
-  bibles = ipc->get_payload(ipcctBibleTimeBibles);
 
   // Signal the helper to again get the modules.
   getmodules();
@@ -153,10 +131,7 @@ vector < ustring > BibleTime::getbibles()
 vector < ustring > BibleTime::getcommentaries()
 {
   // Get the commentaries.
-  vector < ustring > commentaries;
-  return commentaries;
-  extern InterprocessCommunication *ipc;
-  commentaries = ipc->get_payload(ipcctBibleTimeCommentaries);
+  vector <ustring> commentaries;
 
   // Signal the helper to again get the modules.
   getmodules();
@@ -182,45 +157,26 @@ vector < ustring > BibleTime::search_in_module(const ustring & modulename, const
 
 vector < ustring > BibleTime::search(const ustring & modulename, const ustring & searchtext, int selector)
 {
-  vector < ustring > dummy;
-  return dummy;
-
-  // Pointers to IPC.
-  extern InterprocessCommunication *ipc;
-
   // Write search commands.
   vector < ustring > searchcommand;
   searchcommand.push_back(modulename);
   searchcommand.push_back(searchtext);
   searchcommand.push_back(convert_to_string(selector));
-  ipc->send(ipcstBibleditBibletime, ipcctBibleTimeSearchCommand, searchcommand);
 
   // Wait till the bibledit-bibletime has done the search.
   bool searching = true;
   while (searching) {
-    vector < ustring > searchdone;
-    searchdone = ipc->get_payload(ipcctBibleTimeSearchDone);
-    searching = searchdone.empty();
+    searching = false;
     g_usleep(100000);
   }
 
-  // Search done: erase that flag.
-  ipc->erase_payload(ipcctBibleTimeSearchDone);
-
   // Obtain the search results.
   vector < ustring > searchresults;
-  searchresults = ipc->get_payload(ipcctBibleTimeSearchResults);
-  ipc->erase_payload(ipcctBibleTimeSearchResults);
   return searchresults;
 }
 
 void BibleTime::reloadmodules()
 {
-  return;
-  vector < ustring > payload;
-  payload.push_back(" ");
-  extern InterprocessCommunication *ipc;
-  ipc->send(ipcstBibleditBibletime, ipcctBibleTimeReloadModules, payload);
 }
 
 ustring BibleTime::database()
@@ -233,8 +189,4 @@ void BibleTime::getmodules()
 // Sends that the available modules should be fetched.
 {
   return;
-  vector < ustring > payload;
-  payload.push_back(" ");
-  extern InterprocessCommunication *ipc;
-  ipc->send(ipcstBibleditBibletime, ipcctBibleTimeGetModules, payload);
 }

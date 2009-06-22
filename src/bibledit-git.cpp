@@ -18,12 +18,11 @@
 */
 
 #include "bibledit-git.h"
-#include "ipc.h"
 #include "types.h"
 #include "git-exec.h"
 #include "tiny_utilities.h"
+#include <glib.h>
 
-InterprocessCommunication *ipc;
 
 int main(int argc, char *argv[])
 {
@@ -36,10 +35,6 @@ int main(int argc, char *argv[])
   // Thread support.
   g_thread_init(NULL);
 
-  // IPC sytstem.
-  InterprocessCommunication myipc(ipcstBibleditGit);
-  ipc = &myipc;
-
   // Wait a reasonably long time before git activity starts.
   // This is because Bibledit itself is starting, and if git activity
   // were starting at the same time too, that would postpone
@@ -47,7 +42,7 @@ int main(int argc, char *argv[])
   g_usleep(5000000);
 
   // While the flag indicates that we ought to run, we keep going.
-  while (ipc->get_payload(ipcctGitShutdown).empty()) {
+  while (false) {
 
     // Variables.
     vector <ustring> feedback;
@@ -58,7 +53,6 @@ int main(int argc, char *argv[])
 
     // Get the next available task.
     vector <ustring> available_task;
-    available_task = ipc->receive(ipcstBibleditBin, ipcctGitJobDescription, available_task);
     if (available_task.size() == 5) {
 
       // Okay, there is something to be done. Pop the job description.
@@ -81,7 +75,7 @@ int main(int argc, char *argv[])
       }
 
       // Send feedback.
-      ipc->send(ipcstBibleditBin, ipcctGitTaskDone, feedback);
+
 
     }
 

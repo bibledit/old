@@ -50,7 +50,7 @@ am__installdirs = "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
 am_bibledit_bibletime_OBJECTS = bibledit-bibletime.$(OBJEXT) \
-	ustring.$(OBJEXT) bookdata.$(OBJEXT) ipc.$(OBJEXT)
+	ustring.$(OBJEXT) bookdata.$(OBJEXT)
 bibledit_bibletime_OBJECTS = $(am_bibledit_bibletime_OBJECTS)
 bibledit_bibletime_LDADD = $(LDADD)
 am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
@@ -120,7 +120,7 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogwordlist.$(OBJEXT) wordlist.$(OBJEXT) \
 	dialogfontcolor.$(OBJEXT) dialognewstylesheet.$(OBJEXT) \
 	outline.$(OBJEXT) settings.$(OBJEXT) session.$(OBJEXT) \
-	session_highlights.$(OBJEXT) bookdata.$(OBJEXT) ipc.$(OBJEXT) \
+	session_highlights.$(OBJEXT) bookdata.$(OBJEXT) \
 	config.xml.$(OBJEXT) localizedbooks.$(OBJEXT) \
 	versifications.$(OBJEXT) mappings.$(OBJEXT) \
 	dialoggui.$(OBJEXT) password.$(OBJEXT) gui_features.$(OBJEXT) \
@@ -182,7 +182,7 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 am_bibledit_git_OBJECTS = bibledit-git.$(OBJEXT) ustring.$(OBJEXT) \
-	ipc.$(OBJEXT) git-exec.$(OBJEXT) tiny_utilities.$(OBJEXT)
+	git-exec.$(OBJEXT) tiny_utilities.$(OBJEXT)
 bibledit_git_OBJECTS = $(am_bibledit_git_OBJECTS)
 bibledit_git_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
@@ -361,13 +361,11 @@ top_srcdir = @top_srcdir@
 bibledit_bibletime_SOURCES = \
         bibledit-bibletime.cpp \
         ustring.cpp \
-        bookdata.cpp \
-        ipc.cpp
+        bookdata.cpp
 
 bibledit_git_SOURCES = \
         bibledit-git.cpp \
         ustring.cpp \
-        ipc.cpp \
         git-exec.cpp \
         tiny_utilities.cpp
 
@@ -524,7 +522,6 @@ bibledit_bin_SOURCES = \
         session.cpp \
         session_highlights.cpp \
         bookdata.cpp \
-        ipc.cpp \
         config.xml.cpp \
         localizedbooks.cpp \
         versifications.cpp \
@@ -865,7 +862,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/httpd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hyphenate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/import.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ipc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/java.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/keyboard.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/keyterms.Po@am__quote@

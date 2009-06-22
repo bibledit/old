@@ -22,7 +22,6 @@
 #include "directories.h"
 #include <libxml/xmlwriter.h>
 #include <libxml/xmlreader.h>
-#include "ipc.h"
 #include "utilities.h"
 #include "projectutils.h"
 #include "shell.h"
@@ -82,15 +81,6 @@ bool GitChapterState::changed()
   return filechanged;
 }
 
-void git_finalize_subsystem()
-{
-  // Send the shutdown command to bibledit-git.
-  vector <ustring> payload;
-  payload.push_back(" ");
-  extern InterprocessCommunication *ipc;
-  ipc->send(ipcstBibleditGit, ipcctGitShutdown, payload);
-}
-
 void git_upgrade ()
 // Upgrades the git system.
 {
@@ -110,13 +100,6 @@ void git_upgrade ()
   }
 }
 
-
-void git_schedule(GitTaskType task, const ustring & project, unsigned int book, unsigned int chapter, const ustring & data)
-// This schedules a git task.
-{
-  GitTask gittask(task, project, book, chapter, 0, data);
-  gittasks.push_back(gittask);
-}
 
 vector < ustring > git_get_next_task()
 {
@@ -296,19 +279,6 @@ ustring git_mine_conflict_marker()
   return "<<<<<<< HEAD";
 }
 
-Reference git_execute_retrieve_reference()
-// Retrieves the editor's reference from the database.
-{
-  Reference reference(0);
-  extern InterprocessCommunication *ipc;
-  vector < ustring > payload = ipc->get_payload(ipcctGitJobDescription);
-  if (payload.size() == 2) {
-    reference.book = convert_to_int(payload[0]);
-    reference.chapter = convert_to_int(payload[1]);
-  }
-  return reference;
-}
-
 void git_command_pause(bool pause)
 // Sets a flag whether the git subsystem has to pause or resume.
 {
@@ -428,7 +398,7 @@ void git_shutdown (const ustring& project, bool health)
 }
 
 
-void git_process_feedback (const ustring& project, const vector <ustring>& feedback)
+void git_process_feedback (const ustring& project, const vector <ustring>& feedback) // Todo to re-enable this again.
 {
   // Bail out if there's not enough feedback.
   if (feedback.size() < 3) {

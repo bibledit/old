@@ -19,7 +19,6 @@
 
 #include "bibledit-bibletime.h"
 #include <glib.h>
-#include "ipc.h"
 #include "user.h"
 
 #define STAGE_ZERO 0
@@ -33,7 +32,6 @@ ustring previous_message;
 ustring bibledit_dcop_name;
 bool connected = false;
 ustring reply;
-InterprocessCommunication *ipc;
 
 void main_loop()
 {
@@ -164,7 +162,6 @@ void getreference()
         result = trimstring(result);
         vector < ustring > payload;
         payload.push_back(result);
-        ipc->send(ipcstBibleditBin, ipcctBibleTimeReference, payload);
       }
     }
   }
@@ -175,8 +172,6 @@ void setreference()
 {
   // Get possible reference to be sent.
   vector < ustring > reference;
-  reference = ipc->get_payload(ipcctBibleTimeReference);
-  ipc->erase_payload(ipcctBibleTimeReference);
 
   // Bail out if there is no valid reference to be sent.
   if (reference.empty())
@@ -224,8 +219,6 @@ void getmodules()
 
   // Look whether the modules are to be fetched. If not, bail out.
   vector < ustring > flag;
-  flag = ipc->get_payload(ipcctBibleTimeGetModules);
-  ipc->erase_payload(ipcctBibleTimeGetModules);
   if (flag.empty())
     return;
 
@@ -251,7 +244,6 @@ void getmodules()
     }
     pclose(stream);
     log(message);
-    ipc->send(ipcstBibleditBin, ipcctBibleTimeBibles, bibles);
   }
 
   // Get the Commentaries from BibleTime. Send them.
@@ -276,7 +268,6 @@ void getmodules()
     }
     pclose(stream);
     log(message);
-    ipc->send(ipcstBibleditBin, ipcctBibleTimeCommentaries, commentaries);
   }
 }
 
@@ -289,8 +280,6 @@ void reloadmodules()
 
   // Look whether the modules are to be reloaded. If not, bail out.
   vector < ustring > flag;
-  flag = ipc->get_payload(ipcctBibleTimeReloadModules);
-  ipc->erase_payload(ipcctBibleTimeGetModules);
   if (flag.empty())
     return;
 
@@ -308,7 +297,6 @@ void set_connected(bool connect)
   connected = connect;
   vector < ustring > payload;
   payload.push_back(convert_unsigned_int_to_string(connect));
-  ipc->send(ipcstBibleditBin, ipcctBibleTimeConnected, payload);
 }
 
 void search()
@@ -320,12 +308,10 @@ void search()
   // Look in the database whether a search has to be made. 
   // If not, bail out.
   vector < ustring > searchcommand;
-  searchcommand = ipc->get_payload(ipcctBibleTimeSearchCommand);
   if (searchcommand.empty())
     return;
 
   // Delete the search commands.
-  ipc->erase_payload(ipcctBibleTimeSearchCommand);
 
   // Assemble the search variables.
   ustring module = searchcommand[0];
@@ -372,12 +358,10 @@ void search()
   pclose(stream);
 
   // Write these results to the database.
-  ipc->send(ipcstBibleditBin, ipcctBibleTimeSearchResults, search_results);
 
   // Set the flag that the search has been done.
   vector < ustring > searchdone;
   searchdone.push_back(" ");
-  ipc->send(ipcstBibleditBin, ipcctBibleTimeSearchDone, searchdone);
 
   // Log  
   log("Search for " + text + ": " + convert_unsigned_int_to_string(search_results.size()) + " results");
@@ -431,15 +415,11 @@ int main(int argc, char *argv[])
   // Thread support.
   g_thread_init(NULL);
 
-  // IPC system.
-  InterprocessCommunication myipc(ipcstBibleditBibletime);
-  ipc = &myipc;
-
   // Delay a bit to allow the main binary to settle.
   g_usleep(1000000);
 
   // Keep going if we ought to run.
-  while (ipc->get_payload(ipcctBibleTimeShutdown).empty()) {
+  while (false) {
     main_loop();
   }
 

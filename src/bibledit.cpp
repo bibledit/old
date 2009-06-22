@@ -34,7 +34,6 @@
 #include "unixwrappers.h"
 #include "settings.h"
 #include "constants.h"
-#include "ipc.h"
 #include "localizedbooks.h"
 #include "versifications.h"
 #include "mappings.h"
@@ -44,7 +43,6 @@
 
 
 Settings *settings;
-InterprocessCommunication *ipc;
 BookLocalizations *booklocalizations;
 Versifications *versifications;
 Mappings *mappings;
@@ -111,9 +109,6 @@ int main(int argc, char *argv[])
   }
   // We need thread support.
   g_thread_init(NULL);
-  // Interprocess Communication object.
-  InterprocessCommunication myipc(ipcstBibleditBin);
-  ipc = &myipc;
   // Initialize GTK
   gtk_init(&argc, &argv);
   // Upgrade data.
