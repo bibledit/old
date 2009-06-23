@@ -77,8 +77,6 @@ public:
   bool print_references_in_notes_in_full;
   // Tools
   int line_cutter_for_hebrew_text_characters;
-  // Git 
-  bool git_pause;
   // Insert special character.
   int special_character_selection;
   // Bible notes mass update.

@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include "utilities.h"
 #include <glib.h>
@@ -41,6 +42,7 @@
 #include "scripts.h"
 #include "statistics.h"
 #include "snapshots.h"
+#include "vcs.h"
 
 
 void project_store_sanitize_line(ustring & line)
@@ -176,7 +178,8 @@ void project_delete(const ustring & project)
   if (project.empty())
     return;
   // Remove pending data for git operations.
-  git_remove_project(project);
+  extern VCS * vcs;
+  vcs->remove_bible (project);
   // Delete the whole project, including all databases and the repository.
   ustring directory = gw_build_filename(directories_get_projects(), project);
   unix_rmdir(directory);
@@ -197,8 +200,9 @@ void project_copy(const ustring & project, const ustring & newproject)
 
 void project_move(const ustring & project, const ustring & newproject)
 {
-  // Move git project.
-  git_move_project(project, newproject);
+  // Move version control project.
+  extern VCS * vcs;
+  vcs->move_bible (project, newproject);
   // This moves the whole project, including the databases.
   ustring oldname = (gw_build_filename(directories_get_projects(), project));
   ustring newname = (gw_build_filename(directories_get_projects(), newproject));

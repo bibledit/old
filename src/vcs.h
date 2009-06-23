@@ -32,7 +32,12 @@ class VCS
 public:
   VCS(bool dummy);
   ~VCS();
-  void schedule (GitTaskType task, const ustring& project, unsigned int book, unsigned int chapter, const ustring& data);
+  void schedule (GitTaskType task, const ustring& project);
+  void move_bible (const ustring& old, const ustring& nw);
+  unsigned int tasks_for_bible(const ustring& name);
+  void remove_bible (const ustring & name);
+  void pause (bool value);
+  bool paused ();
 private:
   static void thread_start(gpointer data);
   void thread_main();
@@ -40,6 +45,7 @@ private:
   bool thread_running;
   vector <GitTask> tasks;
   void erase (const GitTask& task);
+  bool mypause;
 };
 
 

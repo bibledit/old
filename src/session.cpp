@@ -54,7 +54,6 @@ Session::Session(int dummy)
   area_xref = false;
   area_verse = false;
   line_cutter_for_hebrew_text_characters = 80;
-  git_pause = false;
   special_character_selection = 0;
   print_references_in_notes_in_full = false;
   bnmu_add_book = false;

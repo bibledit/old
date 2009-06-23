@@ -127,6 +127,7 @@
 #include "windowtimednotifier.h"
 #include "dialogbulkspelling.h"
 #include "dialogplanningedit.h"
+#include "vcs.h"
 
 
 /*
@@ -1991,7 +1992,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   g_timeout_add(300, GSourceFunc(on_check_httpd_timeout), gpointer(this));
 
   // Initialize content manager subsystem.
-  vcs = new VCS (0);
   git_update_intervals_initialize();
 
   // Show open windows.
@@ -2011,9 +2011,6 @@ MainWindow::~MainWindow()
 
   // Destroy the Outpost
   delete windowsoutpost;
-
-  // Finalize content manager subsystem.
-  delete vcs;
 
   // Do shutdown actions.
   shutdown_actions();
@@ -2124,12 +2121,13 @@ void MainWindow::on_new1_activate(GtkMenuItem * menuitem, gpointer user_data)
 
 void MainWindow::newproject()
 {
-  git_command_pause(true);
+  extern VCS * vcs;
+  vcs->pause(true);
   ProjectDialog projectdialog(true);
   if (projectdialog.run() == GTK_RESPONSE_OK) {
     on_file_project_open(projectdialog.newprojectname, false);
   }
-  git_command_pause(false);
+  vcs->pause(false);
 }
 
 void MainWindow::on_properties1_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -2139,7 +2137,8 @@ void MainWindow::on_properties1_activate(GtkMenuItem * menuitem, gpointer user_d
 
 void MainWindow::editproject()
 {
-  git_command_pause(true);
+  extern VCS * vcs;
+  vcs->pause(true);
   save_editors();
   // Show project dialog.
   ProjectDialog projectdialog(false);
@@ -2153,7 +2152,7 @@ void MainWindow::editproject()
     // As anything could have been changed to the project, reopen it.
     reload_all_editors(false);
   }
-  git_command_pause(false);
+  vcs->pause(false);
 }
 
 void MainWindow::on_delete1_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -2539,11 +2538,12 @@ void MainWindow::on_compare_with()
 {
   save_editors();
   show_references_window();
-  git_command_pause(true);
+  extern VCS * vcs;
+  vcs->pause(true);
   References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
   CompareDialog dialog(&references);
   dialog.run();
-  git_command_pause(false);
+  vcs->pause(false);
 }
 
 void MainWindow::on_printingprefs_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -4623,7 +4623,8 @@ void MainWindow::on_file_backup_activate(GtkMenuItem * menuitem, gpointer user_d
 void MainWindow::on_file_backup()
 {
   save_editors();
-  git_command_pause(true);
+  extern VCS * vcs;
+  vcs->pause(true);
   backup_assistant = new BackupAssistant (0);
   g_signal_connect ((gpointer) backup_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
 }
@@ -4685,7 +4686,8 @@ void MainWindow::on_project_changes()
   // Save even the very latest changes.
   save_editors();
   // The changes checker will generate git tasks. Pause git.
-  git_command_pause(true);
+  extern VCS * vcs;
+  vcs->pause(true);
   // Do the actual changes dialog. 
   show_references_window();
   assistant_references = new References (window_references->liststore, window_references->treeview, window_references->treecolumn);
@@ -4733,11 +4735,13 @@ void MainWindow::git_update_timeout(bool force)
 // Schedule project update tasks.
 {
   // Bail out if git tasks are paused.
-  extern Settings *settings;
-  if (settings->session.git_pause)
+  extern VCS * vcs;
+  if (vcs->paused()) {
     return;
+  }
 
   // Schedule a push and pull task for each relevant project.
+  extern Settings *settings;
   vector < ustring > projects = projects_get_all();
   for (unsigned int i = 0; i < projects.size(); i++) {
     ProjectConfiguration *projectconfig = settings->projectconfig(projects[i]);
@@ -4752,7 +4756,8 @@ void MainWindow::git_update_timeout(bool force)
           }
         }
         // Schedule an update.
-        vcs->schedule(gttPushPull, projects[i], 0, 0, "");
+        extern VCS * vcs;
+        vcs->schedule(gttPushPull, projects[i]);
         interval = 0;
       }
       git_update_intervals[projects[i]] = interval;
@@ -4942,8 +4947,9 @@ void MainWindow::on_ipc_method()
   // Handle call for a new git job.
   if (false) {
   // Todo enable again. if (ipc->method_called_type == ipcctGitJobDescription) {
-    if (!settings->session.git_pause) {
-      vector < ustring > task = git_get_next_task();
+    // if (!settings->session.git_pause) {
+    if (false) {
+      vector < ustring > task;
       if (!task.empty()) {
         // Todo ipc->send(ipcstBibleditGit, ipcctGitJobDescription, task);
         // The chapter state looks whether something changed in the chapter 
@@ -4969,11 +4975,6 @@ void MainWindow::on_ipc_method()
   // Todo enable again else if (ipc->method_called_type == ipcctGitTaskDone) {
   else if (false) {
     // Process the feedback of this task.
-    vector <ustring> feedback;
-    vector <ustring> task = git_get_next_task();
-    git_process_feedback(task[1], feedback);
-    // Erase the task.
-    git_erase_task_done();
     // Set a flag if the state of any of the currently opened chapters changed.
     // This must be done after conflicting merges have been resolved,
     // as that could affect the chapter now opened.
@@ -7229,8 +7230,9 @@ void MainWindow::on_assistant_keyterms_ready ()
     export_assistant = NULL;
   }
 
-  // The assistants may have paused git operations. Resume these.
-  git_command_pause(false);
+  // The assistants may have paused version control operations. Resume these.
+  extern VCS * vcs;
+  vcs->pause(false);
 }
 
 
@@ -7307,6 +7309,11 @@ void MainWindow::check_usfm_window_ping()
 
 Todo various tasks.
 
+
+
+
+
+Moveable windows, the table needs to be set to homogenous, so that it becomes a more stiffy grid where to move windows on.
 
 
 

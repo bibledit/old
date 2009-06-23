@@ -30,13 +30,9 @@
 class GitTask
 {
 public:
-  GitTask (GitTaskType task_in, const ustring& project_in, unsigned int book_in, unsigned int chapter_in, unsigned int failures_in, const ustring& data_in);
+  GitTask (GitTaskType task_in, const ustring& project_in);
   GitTaskType task;
   ustring project;
-  unsigned int book;
-  unsigned int chapter;
-  unsigned int failures;
-  ustring data;
 };
 
 
@@ -60,20 +56,10 @@ enum GitConflictHandlingType {gchtTakeMe, gchtTakeServer};
 
 
 void git_upgrade ();
-vector <ustring> git_get_next_task ();
-void git_erase_task_done ();
-void git_fail_task_done ();
-void git_erase_task (GitTaskType task, const ustring& project, unsigned int book, unsigned int chapter);
-void git_move_project (const ustring& project, const ustring& newproject);
-void git_remove_project (const ustring& project);
-int git_count_tasks_project (const ustring& project);
 void git_revert_to_internal_repository (const ustring& project);
 void git_resolve_conflict_chapter (const ustring& project, unsigned int book, unsigned int chapter);
 ustring git_mine_conflict_marker ();
-void git_command_pause (bool pause);
-void git_command_set_update_frequency (unsigned int frequency);
 void git_resolve_conflicts (const ustring& project, const vector <ustring>& errors);
-vector<ustring> git_retrieve_chapter_commit (const ustring& project, unsigned int book, unsigned int chapter, const ustring& commit);
 void git_shutdown (const ustring& project, bool health);
 void git_process_feedback (const ustring& project, const vector <ustring>& feedback);
 

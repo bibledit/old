@@ -38,16 +38,10 @@
 #include "snapshots.h"
 
 
-vector < GitTask > gittasks;
-
-GitTask::GitTask(GitTaskType task_in, const ustring & project_in, unsigned int book_in, unsigned int chapter_in, unsigned int failures_in, const ustring & data_in)
+GitTask::GitTask(GitTaskType task_in, const ustring & project_in)
 {
   task = task_in;
   project = project_in;
-  book = book_in;
-  chapter = chapter_in;
-  failures = failures_in;
-  data = data_in;
 }
 
 GitChapterState::GitChapterState(const ustring & project, unsigned int book, unsigned int chapter)
@@ -100,84 +94,6 @@ void git_upgrade ()
   }
 }
 
-
-vector < ustring > git_get_next_task()
-{
-  vector < ustring > task;
-  if (!gittasks.empty()) {
-    task.push_back(convert_to_string(gittasks[0].task));
-    task.push_back(gittasks[0].project);
-    task.push_back(convert_to_string(gittasks[0].book));
-    task.push_back(convert_to_string(gittasks[0].chapter));
-    task.push_back(gittasks[0].data);
-  }
-  return task;
-}
-
-void git_erase_task_done()
-{
-  // Erase the task on top of the stack, but also all other equal tasks.
-  if (!gittasks.empty()) {
-    GitTask task = gittasks[0];
-    vector < GitTask > newtasks;
-    for (unsigned int i = 0; i < gittasks.size(); i++) {
-      if (task.task != gittasks[i].task || task.project != gittasks[i].project || task.book != gittasks[i].book || task.chapter != gittasks[i].chapter)
-        newtasks.push_back(gittasks[i]);
-    }
-    gittasks = newtasks;
-  }
-}
-
-void git_fail_task_done()
-{
-  if (!gittasks.empty()) {
-    GitTask task = gittasks[0];
-    git_erase_task_done();
-    task.failures++;
-    gittasks.push_back(task);
-
-  }
-}
-
-void git_erase_task(GitTaskType task, const ustring & project, unsigned int book, unsigned int chapter)
-{
-  vector < GitTask > newtasks;
-  for (unsigned int i = 0; i < gittasks.size(); i++) {
-    if (task != gittasks[i].task || project != gittasks[i].project || book != gittasks[i].book || chapter != gittasks[i].chapter)
-      newtasks.push_back(gittasks[i]);
-  }
-  gittasks = newtasks;
-}
-
-void git_move_project(const ustring & project, const ustring & newproject)
-{
-  // Update all pending operations for this project.
-  for (unsigned int i = 0; i < gittasks.size(); i++) {
-    if (gittasks[i].project == project)
-      gittasks[i].project = newproject;
-  }
-}
-
-void git_remove_project(const ustring & project)
-{
-  // Remove all pending operations for this project.
-  vector < GitTask > newtasks;
-  for (unsigned int i = 0; i < gittasks.size(); i++) {
-    if (gittasks[i].project != project)
-      newtasks.push_back(gittasks[i]);
-  }
-  gittasks = newtasks;
-}
-
-int git_count_tasks_project(const ustring & project)
-{
-  int count = 0;
-  for (unsigned int i = 0; i < gittasks.size(); i++) {
-    if (gittasks[i].project == project)
-      count++;
-  }
-  return count;
-}
 
 void git_revert_to_internal_repository(const ustring & project)
 // This reverts the repository to the internal one, if that is not yet the case.
@@ -277,13 +193,6 @@ ustring git_mine_conflict_marker()
  */
 {
   return "<<<<<<< HEAD";
-}
-
-void git_command_pause(bool pause)
-// Sets a flag whether the git subsystem has to pause or resume.
-{
-  extern Settings *settings;
-  settings->session.git_pause = pause;
 }
 
 void git_resolve_conflicts(const ustring & project, const vector < ustring > &errors)

@@ -40,6 +40,7 @@
 #include "ot-quotations.h"
 #include "styles.h"
 #include <libxml/xmlreader.h>
+#include "vcs.h"
 
 
 Settings *settings;
@@ -48,6 +49,7 @@ Versifications *versifications;
 Mappings *mappings;
 Styles *styles;
 GtkAccelGroup *accelerator_group;
+VCS *vcs;
 
 
 int main(int argc, char *argv[])
@@ -81,6 +83,12 @@ int main(int argc, char *argv[])
   // Styles object.
   Styles mystyles(0);
   styles = &mystyles;
+  // Initialize bits of the glib system.
+  g_type_init();
+  g_thread_init(NULL);
+  // Version control object.
+  VCS myvcs (0);
+  vcs = &myvcs;
   /*
      We used a trick to get Bibledit to operate as a true activity on OLPC. 
      The problem is that any regular X11 program that is started, 
@@ -96,7 +104,6 @@ int main(int argc, char *argv[])
      It that argument is present, it then creates a plug for its main window instead of a normal top-level window.   
    */
   // Accelerators.
-  g_type_init();
   accelerator_group = gtk_accel_group_new();
   // Window.
   unsigned long xembed = 0;
@@ -107,8 +114,6 @@ int main(int argc, char *argv[])
       return 1;
     }
   }
-  // We need thread support.
-  g_thread_init(NULL);
   // Initialize GTK
   gtk_init(&argc, &argv);
   // Upgrade data.
