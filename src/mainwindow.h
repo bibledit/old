@@ -659,7 +659,6 @@ protected:
   unsigned int git_update_interval_event_id;
   static bool on_git_update_timeout(gpointer user_data);
   void git_update_timeout(bool force);
-  vector <GitChapterState *> gitchapterstates;
   bool git_reopen_project;
   static void on_projects_send_receive1_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_projects_send_receive ();
@@ -677,10 +676,6 @@ protected:
   void on_window_outline_delete_button();
   static void on_button_outline_clicked(GtkButton *button, gpointer user_data);
   void on_button_outline();
-
-  /* Interprocess communications */
-  static void on_ipc_method_called(GtkButton *button, gpointer user_data);
-  void on_ipc_method();
 
   /* Planning */
   static void on_edit_planning_activate(GtkMenuItem *menuitem, gpointer user_data);

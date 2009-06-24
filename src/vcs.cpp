@@ -37,6 +37,9 @@ VCS::VCS(bool dummy)
 // This controls the git calls.
 {
   mypause = false;
+  watched_book = 0;
+  watched_chapter = 0;
+  watch_updated = false;
   thread_running = false;
   thread_run = true;
   g_thread_create(GThreadFunc(thread_start), gpointer(this), false, NULL);
@@ -65,14 +68,8 @@ void VCS::thread_main()
   while (thread_run) {
     if (!mypause) {
       if (!tasks.empty()) {
-        switch (tasks[0].task) {
-        case gttPushPull:
-          {
-            vector <ustring> feedback = git_exec_update_project(tasks[0].project);
-            git_process_feedback (tasks[0].project, feedback);
-            break;
-          }
-        }
+        vector <ustring> feedback = git_exec_update_project(tasks[0]);
+        git_process_feedback (tasks[0], feedback, watched_book, watched_chapter, watch_updated);
         erase (tasks[0]);
       }
     }
@@ -82,19 +79,18 @@ void VCS::thread_main()
 }
 
 
-void VCS::schedule(GitTaskType task, const ustring & project)
+void VCS::schedule(const ustring & project)
 // This schedules a git task.
 {
-  GitTask gittask(task, project);
-  tasks.push_back(gittask);
+  tasks.push_back(project);
 }
 
 
-void VCS::erase (const GitTask& task)
+void VCS::erase (const ustring& task)
 {
-  vector <GitTask> newtasks;
+  vector <ustring> newtasks;
   for (unsigned int i = 0; i < tasks.size(); i++) {
-    if (task.task != tasks[i].task || task.project != tasks[i].project)
+    if (task != tasks[i])
       newtasks.push_back(tasks[i]);
   }
   tasks = newtasks;
@@ -105,8 +101,8 @@ void VCS::move_bible (const ustring& old, const ustring& nw)
 // Moves any pending tasks that refer to the old Bible to the new one.
 {
   for (unsigned int i = 0; i < tasks.size(); i++) {
-    if (tasks[i].project == old) {
-      tasks[i].project = nw;
+    if (tasks[i] == old) {
+      tasks[i] = nw;
     }
   }
 }
@@ -117,8 +113,9 @@ unsigned int VCS::tasks_for_bible(const ustring& name)
 {
   unsigned int count = 0;
   for (unsigned int i = 0; i < tasks.size(); i++) {
-    if (tasks[i].project == name)
+    if (tasks[i] == name) {
       count++;
+    }
   }
   return count;
 }
@@ -127,9 +124,9 @@ unsigned int VCS::tasks_for_bible(const ustring& name)
 void VCS::remove_bible (const ustring & name)
 // Remove all pending operations for this Bible.
 {
-  vector <GitTask> newtasks;
+  vector <ustring> newtasks;
   for (unsigned int i = 0; i < tasks.size(); i++) {
-    if (tasks[i].project != name)
+    if (tasks[i] != name)
       newtasks.push_back(tasks[i]);
   }
   tasks = newtasks;
@@ -149,4 +146,22 @@ bool VCS::paused ()
   return mypause;
 }
 
+
+void VCS::watch_for_updates (unsigned int book, unsigned int chapter) // Todo use.
+// This watches for updates of a given chapter in a given book.
+{
+  watched_book = book;
+  watched_chapter = chapter;
+}
+
+
+bool VCS::updated () // Todo use.
+// This returns true if the watched chapter and book have been updated through the remote repository.
+{
+  if (watch_updated) {
+    watch_updated = false;
+    return true;
+  }
+  return false;
+}
 

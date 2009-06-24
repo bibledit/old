@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "git.h"
 #include "gwrappers.h"
 #include "directories.h"
@@ -37,43 +38,6 @@
 #include "maintenance.h"
 #include "snapshots.h"
 
-
-GitTask::GitTask(GitTaskType task_in, const ustring & project_in)
-{
-  task = task_in;
-  project = project_in;
-}
-
-GitChapterState::GitChapterState(const ustring & project, unsigned int book, unsigned int chapter)
-{
-  // Store variables.
-  myproject = project;
-  mybook = book;
-  mychapter = chapter;
-  // Read and store the current state of the file.
-  ustring filename = project_data_filename_chapter(project, book, chapter, false);
-  gchar *contents;
-  g_file_get_contents(filename.c_str(), &contents, NULL, NULL);
-  if (contents) {
-    state = contents;
-    g_free(contents);
-  }
-}
-
-bool GitChapterState::changed()
-{
-  // Compare the current state of the file with the previous one,
-  // and see whether it differs.
-  ustring filename = project_data_filename_chapter(myproject, mybook, mychapter, false);
-  gchar *contents;
-  g_file_get_contents(filename.c_str(), &contents, NULL, NULL);
-  bool filechanged = false;
-  if (contents) {
-    filechanged = state != contents;
-    g_free(contents);
-  }
-  return filechanged;
-}
 
 void git_upgrade ()
 // Upgrades the git system.
@@ -307,7 +271,7 @@ void git_shutdown (const ustring& project, bool health)
 }
 
 
-void git_process_feedback (const ustring& project, const vector <ustring>& feedback)
+void git_process_feedback (const ustring& project, const vector <ustring>& feedback, unsigned int watched_book, unsigned int watched_chapter, bool& watch_updated) // Todo
 {
   // Bail out if there's not enough feedback.
   if (feedback.size() < 3) {
@@ -330,6 +294,12 @@ void git_process_feedback (const ustring& project, const vector <ustring>& feedb
         if (book) {
           unsigned int chapter = convert_to_int(parse.words[1]);
           snapshots_shoot_chapter (project, book, chapter, 0, false);
+          // Update the watch.
+          if (book == watched_book) {
+            if (chapter == watched_chapter) {
+              watch_updated = true;
+            }
+          }
         }
       }
     }

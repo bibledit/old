@@ -27,28 +27,6 @@
 #include "reference.h"
 
 
-class GitTask
-{
-public:
-  GitTask (GitTaskType task_in, const ustring& project_in);
-  GitTaskType task;
-  ustring project;
-};
-
-
-class GitChapterState
-{
-public:
-  GitChapterState (const ustring& project, unsigned int book, unsigned int chapter);
-  bool changed ();
-private:
-  ustring state;
-  ustring myproject;
-  unsigned int mybook;
-  unsigned int mychapter;
-};
-
-
 // Possible results of running git update.
 enum GitUpdateType {gutOk, gutUpdated, gutAdded, gutDeleted, gutReplaced, gutMerged, gutConflict, gutError};
 // Conflict handling.
@@ -61,7 +39,7 @@ void git_resolve_conflict_chapter (const ustring& project, unsigned int book, un
 ustring git_mine_conflict_marker ();
 void git_resolve_conflicts (const ustring& project, const vector <ustring>& errors);
 void git_shutdown (const ustring& project, bool health);
-void git_process_feedback (const ustring& project, const vector <ustring>& feedback);
+void git_process_feedback (const ustring& project, const vector <ustring>& feedback, unsigned int watched_book, unsigned int watched_chapter, bool& watch_updated);
 
 
 #endif

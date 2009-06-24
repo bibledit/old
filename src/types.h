@@ -41,8 +41,6 @@ enum WineType {wtWine, wtCxoffice, wtUnknown};
 
 enum OriginReferencesActionType {oratNothing, oratRemoveReferences, oratAddReference, oratTextLabels };
 
-enum GitTaskType {gttPushPull};
-
 enum StylesheetType {stBasic, stBasicParagraph, stBasicParagraphWordNote, 
                      stSilBestPractice, stFull};
 

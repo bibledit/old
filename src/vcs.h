@@ -32,20 +32,25 @@ class VCS
 public:
   VCS(bool dummy);
   ~VCS();
-  void schedule (GitTaskType task, const ustring& project);
+  void schedule (const ustring& project);
   void move_bible (const ustring& old, const ustring& nw);
   unsigned int tasks_for_bible(const ustring& name);
   void remove_bible (const ustring & name);
   void pause (bool value);
   bool paused ();
+  void watch_for_updates (unsigned int book, unsigned int chapter);
+  bool updated ();
 private:
   static void thread_start(gpointer data);
   void thread_main();
   bool thread_run;
   bool thread_running;
-  vector <GitTask> tasks;
-  void erase (const GitTask& task);
+  vector <ustring> tasks;
+  void erase (const ustring& task);
   bool mypause;
+  unsigned int watched_book;
+  unsigned int watched_chapter;
+  bool watch_updated;
 };
 
 

@@ -4731,8 +4731,8 @@ bool MainWindow::on_git_update_timeout(gpointer user_data)
   return true;
 }
 
-void MainWindow::git_update_timeout(bool force)
-// Schedule project update tasks.
+void MainWindow::git_update_timeout(bool force) // Todo
+// Schedule project update tasks. Called every second.
 {
   // Bail out if git tasks are paused.
   extern VCS * vcs;
@@ -4757,11 +4757,17 @@ void MainWindow::git_update_timeout(bool force)
         }
         // Schedule an update.
         extern VCS * vcs;
-        vcs->schedule(gttPushPull, projects[i]);
+        vcs->schedule(projects[i]);
         interval = 0;
       }
       git_update_intervals[projects[i]] = interval;
     }
+  }
+
+  // If the current book and chapter have been updated through the remote repository, reopen the Bibles. // Todo try it out
+  vcs->watch_for_updates (navigation.reference.book, navigation.reference.chapter);
+  if (vcs->updated ()) {
+    git_reopen_project = true;
   }
 }
 
@@ -4920,75 +4926,6 @@ void MainWindow::on_button_outline()
   }
 }
 
-/*
- |
- |
- |
- |
- |
- Interprocess communications
- |
- |
- |
- |
- |
- */
-
-void MainWindow::on_ipc_method_called(GtkButton * button, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_ipc_method();
-}
-
-void MainWindow::on_ipc_method()
-{
-  // Settings pointer.
-  extern Settings *settings;
-
-  // Handle call for a new git job.
-  if (false) {
-  // Todo enable again. if (ipc->method_called_type == ipcctGitJobDescription) {
-    // if (!settings->session.git_pause) {
-    if (false) {
-      vector < ustring > task;
-      if (!task.empty()) {
-        // Todo ipc->send(ipcstBibleditGit, ipcctGitJobDescription, task);
-        // The chapter state looks whether something changed in the chapter 
-        // now opened while we pull changes from the remote repository.
-        // As there can be more than one editor that points to the same remote repository,
-        // we need to include any editor that has this particular remote repository.
-        if (convert_to_int(task[0]) == gttPushPull) {
-          ustring task_project = task[1];
-          ProjectConfiguration *projectconfig = settings->projectconfig(task_project);
-          ustring remote_repository = projectconfig->git_remote_repository_url_get();
-          for (unsigned int i = 0; i < editor_windows.size(); i++) {
-            projectconfig = settings->projectconfig(editor_windows[i]->project());
-            if (remote_repository == projectconfig->git_remote_repository_url_get()) {
-              GitChapterState *gitchapterstate = new GitChapterState(editor_windows[i]->project(), navigation.reference.book, navigation.reference.chapter);
-              gitchapterstates.push_back(gitchapterstate);
-            }
-          }
-        }
-      }
-    }
-  }
-  // Handle a job done.
-  // Todo enable again else if (ipc->method_called_type == ipcctGitTaskDone) {
-  else if (false) {
-    // Process the feedback of this task.
-    // Set a flag if the state of any of the currently opened chapters changed.
-    // This must be done after conflicting merges have been resolved,
-    // as that could affect the chapter now opened.
-    if (!gitchapterstates.empty()) {
-      for (unsigned int i = 0; i < gitchapterstates.size(); i++) {
-        if (gitchapterstates[i]->changed()) {
-          git_reopen_project = true;
-        }
-        delete gitchapterstates[i];
-      }
-      gitchapterstates.clear();
-    }
-  }
-}
 
 /*
  |
@@ -7313,18 +7250,9 @@ Todo various tasks.
 
 
 
-Moveable windows, the table needs to be set to homogenous, so that it becomes a more stiffy grid where to move windows on.
 
 
-
-git calls.
-With the new system bibledit seems to use more cpu resources.
-Can this be related to the process copying in memory?
-If so then it would be better to keep these calls separate.
-We could try dbus for communications, then.
-Why does bibledit-bin take 10% cpu time? Try switching git off. Try switching git ipc off.
-Or does the VCS take much cpu time? No, it was disabled and there was no difference.
-Run it through callgrind to see where the hungry process is.
+Why does bibledit-bin take 10% cpu time? 
 If no git updates are done, and if the projects are all closed, the cpu usage drops to near-zero.
 
 
