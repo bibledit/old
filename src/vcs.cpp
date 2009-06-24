@@ -147,7 +147,7 @@ bool VCS::paused ()
 }
 
 
-void VCS::watch_for_updates (unsigned int book, unsigned int chapter) // Todo use.
+void VCS::watch_for_updates (unsigned int book, unsigned int chapter)
 // This watches for updates of a given chapter in a given book.
 {
   watched_book = book;
@@ -155,7 +155,7 @@ void VCS::watch_for_updates (unsigned int book, unsigned int chapter) // Todo us
 }
 
 
-bool VCS::updated () // Todo use.
+bool VCS::updated ()
 // This returns true if the watched chapter and book have been updated through the remote repository.
 {
   if (watch_updated) {

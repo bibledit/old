@@ -4710,6 +4710,7 @@ void MainWindow::on_edit_revert()
   }
 }
 
+
 void MainWindow::git_update_intervals_initialize()
 {
   // Make containers with all projects to be updated, and their intervals.
@@ -4725,11 +4726,13 @@ void MainWindow::git_update_intervals_initialize()
   git_update_interval_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 1000, GSourceFunc(on_git_update_timeout), gpointer(this), NULL);
 }
 
+
 bool MainWindow::on_git_update_timeout(gpointer user_data)
 {
   ((MainWindow *) user_data)->git_update_timeout(false);
   return true;
 }
+
 
 void MainWindow::git_update_timeout(bool force) // Todo
 // Schedule project update tasks. Called every second.
@@ -4764,7 +4767,7 @@ void MainWindow::git_update_timeout(bool force) // Todo
     }
   }
 
-  // If the current book and chapter have been updated through the remote repository, reopen the Bibles. // Todo try it out
+  // If the current book and chapter have been updated through the remote repository, reopen the Bibles.
   vcs->watch_for_updates (navigation.reference.book, navigation.reference.chapter);
   if (vcs->updated ()) {
     git_reopen_project = true;
@@ -7254,7 +7257,8 @@ Todo various tasks.
 
 Why does bibledit-bin take 10% cpu time? 
 If no git updates are done, and if the projects are all closed, the cpu usage drops to near-zero.
-
+But this only occurs after a restart. If the last editor is closed, then the cpu usage remains high.
+Does this mean that some timers in the Editor do not get killed?
 
 
 Profilers.

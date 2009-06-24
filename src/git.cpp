@@ -271,7 +271,7 @@ void git_shutdown (const ustring& project, bool health)
 }
 
 
-void git_process_feedback (const ustring& project, const vector <ustring>& feedback, unsigned int watched_book, unsigned int watched_chapter, bool& watch_updated) // Todo
+void git_process_feedback (const ustring& project, const vector <ustring>& feedback, unsigned int watched_book, unsigned int watched_chapter, bool& watch_updated)
 {
   // Bail out if there's not enough feedback.
   if (feedback.size() < 3) {
