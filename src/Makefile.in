@@ -177,7 +177,7 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	guiselectbibles.$(OBJEXT) assistantexport.$(OBJEXT) \
 	java.$(OBJEXT) dialogbulkspelling.$(OBJEXT) \
 	dialogplanningedit.$(OBJEXT) dialoglistviewm.$(OBJEXT) \
-	vcs.$(OBJEXT)
+	vcs.$(OBJEXT) d_bus.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
@@ -214,6 +214,8 @@ CXXDEPMODE = @CXXDEPMODE@
 CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
 DATE_PATH = @DATE_PATH@
+DBUS_CFLAGS = @DBUS_CFLAGS@
+DBUS_LIBS = @DBUS_LIBS@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
 ECHO_C = @ECHO_C@
@@ -262,7 +264,7 @@ LIBOBJS = @LIBOBJS@
 LIBS = -Wall `xml2-config --libs` $(GOBJECT_LIBS) $(GTHREAD_LIBS) \
 	$(GLIB_LIBS) $(GTK_LIBS) $(SQLITE_LIBS) $(ENCHANT_LIBS) \
 	$(GTKHTML38_LIBS) $(GTKHTML314_LIBS) $(GTKSOURCEVIEW_LIBS) \
-	$(WEBKIT_LIBS) $(am__append_1)
+	$(WEBKIT_LIBS) $(DBUS_LIBS) $(am__append_1)
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MAKE_PATH = @MAKE_PATH@
@@ -623,13 +625,15 @@ bibledit_bin_SOURCES = \
 				dialogbulkspelling.cpp \
 				dialogplanningedit.cpp \
 				dialoglistviewm.cpp \
-				vcs.cpp
+				vcs.cpp \
+				d_bus.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
 	$(GTHREAD_CFLAGS) $(GLIB_CFLAGS) $(GTK_CFLAGS) \
 	$(SQLITE_CFLAGS) $(ENCHANT_CFLAGS) $(GTKHTML38_CFLAGS) \
-	$(GTKHTML314_CFLAGS) $(GTKSOURCEVIEW_CFLAGS) $(WEBKIT_CFLAGS)
+	$(GTKHTML314_CFLAGS) $(GTKSOURCEVIEW_CFLAGS) $(WEBKIT_CFLAGS) \
+	$(DBUS_CFLAGS)
 CLEANFILES = *~
 all: all-am
 
@@ -744,6 +748,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/compress.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/config.xml.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/convert.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/d_bus.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/date_time_utils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogarea.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogassignbooks.Po@am__quote@

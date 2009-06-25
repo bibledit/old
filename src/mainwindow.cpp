@@ -7272,7 +7272,8 @@ Store this information.
 
 
 See if we can get rid of the script bibledit, and have all file handling done by the main binary only, no extra bits anymore.
-
+But first of all we need to enable dbus again, so it can see whether a similar instance already runs, and then that other 
+applications can present itself.
 
 
 

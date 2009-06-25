@@ -23,15 +23,13 @@
 
 
 #include "libraries.h"
-#define DBUS_API_SUBJECT_TO_CHANGE
 #include <dbus/dbus.h>
 #include <gtk/gtkbutton.h>
 
 
-enum DBusNameType {dbntNone, dbntOrgBibleditBin, dbntOrgBibleditBibletime, dbntOrgBibleditGit};
+enum DBusNameType {dbntNone, dbntOrgBibleditMain};
 
-enum DBusMethodType {dbmtHello,
-                     dbmtEnd};
+enum DBusMethodType {dbmtHello, dbmtEnd};
 
 
 class DBus
@@ -45,13 +43,13 @@ public:
   void methodcall_add_signal (DBusMethodType method);
   GtkWidget * method_called_signal;
   void methodcall_remove_all_signals ();
+  bool name_in_use (DBusNameType dbname);
 private:
   DBusConnection * connection;
-  gchar * dbusname (DBusNameType dbname);
-  bool name_in_use (DBusNameType dbname);
-  gchar * dbuspath ();
-  gchar * dbusinterface ();
-  gchar * dbusmethod (DBusMethodType dbmethod);
+  const gchar * dbusname (DBusNameType dbname);
+  const gchar * dbuspath ();
+  const gchar * dbusinterface ();
+  const gchar * dbusmethod (DBusMethodType dbmethod);
   DBusMethodType dbusmethod (const char * dbmethod);
   void retrieve_message (DBusMessage *message);
   void retrieve_iter (DBusMessageIter *iter);

@@ -209,6 +209,10 @@ PKG_CHECK_MODULES(WEBKIT, webkit-1.0 >= 1.0.0,,AC_MSG_ERROR(libwebkit developmen
 AC_SUBST(WEBKIT_CFLAGS)
 AC_SUBST(WEBKIT_LIBS)
 
+PKG_CHECK_MODULES(DBUS, dbus-1 >= 1.0.0,,AC_MSG_ERROR(libdbus-1 development version >= 1.0.0 is needed.))
+AC_SUBST(DBUS_CFLAGS)
+AC_SUBST(DBUS_LIBS)
+
 # Checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS(fcntl.h unistd.h sys/uio.h)

@@ -272,7 +272,8 @@ bibledit_bin_SOURCES = \
 				dialogbulkspelling.cpp \
 				dialogplanningedit.cpp \
 				dialoglistviewm.cpp \
-				vcs.cpp
+				vcs.cpp \
+				d_bus.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 
@@ -288,6 +289,7 @@ AM_CXXFLAGS += $(GTKHTML38_CFLAGS)
 AM_CXXFLAGS += $(GTKHTML314_CFLAGS)
 AM_CXXFLAGS += $(GTKSOURCEVIEW_CFLAGS)
 AM_CXXFLAGS += $(WEBKIT_CFLAGS)
+AM_CXXFLAGS += $(DBUS_CFLAGS)
 
 LIBS = -Wall 
 LIBS += `xml2-config --libs`
@@ -301,6 +303,7 @@ LIBS += $(GTKHTML38_LIBS)
 LIBS += $(GTKHTML314_LIBS)
 LIBS += $(GTKSOURCEVIEW_LIBS)
 LIBS += $(WEBKIT_LIBS)
+LIBS += $(DBUS_LIBS)
 
 if LINUX
 endif

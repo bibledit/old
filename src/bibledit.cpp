@@ -41,8 +41,10 @@
 #include "styles.h"
 #include <libxml/xmlreader.h>
 #include "vcs.h"
+#include "d_bus.h"
 
 
+DBus * dbus;
 Settings *settings;
 BookLocalizations *booklocalizations;
 Versifications *versifications;
@@ -61,6 +63,12 @@ int main(int argc, char *argv[])
   // Do not allow to run as root.
   if (runs_as_root())
     return 1;
+  // Initialize g threads.
+  g_thread_init(NULL);
+  // Initialize the dbus.
+  DBus mydbus (dbntOrgBibleditMain);
+  dbus = &mydbus;
+  // todo Check through the dbus whether bibledit is already running.
   // Initialize the xml library.
   xmlInitParser();
   // Check on default data structure.
@@ -83,9 +91,8 @@ int main(int argc, char *argv[])
   // Styles object.
   Styles mystyles(0);
   styles = &mystyles;
-  // Initialize bits of the glib system.
+  // Initialize g types.
   g_type_init();
-  g_thread_init(NULL);
   // Version control object.
   VCS myvcs (0);
   vcs = &myvcs;

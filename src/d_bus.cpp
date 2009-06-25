@@ -17,16 +17,18 @@
 **  
 */
 
+
 #include "libraries.h"
 #include "d_bus.h"
 #include <glib.h>
+
 
 DBus::DBus(DBusNameType name)
 {
   // Initialize variables.
   listener_running = false;
   method_called_signal = NULL;
-
+  
   // Connect to the session bus.
   DBusError error;
   dbus_error_init(&error);
@@ -40,9 +42,7 @@ DBus::DBus(DBusNameType name)
     return;
   }
   // Request a name on the bus, if the name is not in use.
-  // Typicall the name will be in use when bibledit is already running.
-  // If then a script is called, it will be in use, so the script should not
-  // request the name on the bus.
+  // Typically the name will be in use when bibledit is already running.
   if (dbusname(name)) {
     if (!name_in_use(name)) {
       int ret = dbus_bus_request_name(connection, dbusname(name), 0, &error);
@@ -58,6 +58,7 @@ DBus::DBus(DBusNameType name)
   listener_run = true;
   g_thread_create(GThreadFunc(listener_start), gpointer(this), false, NULL);
 }
+
 
 DBus::~DBus()
 {
@@ -77,20 +78,18 @@ DBus::~DBus()
     gtk_widget_destroy(method_called_signal);
 }
 
-gchar *DBus::dbusname(DBusNameType dbname)
+
+const gchar *DBus::dbusname(DBusNameType dbname)
 {
   switch (dbname) {
   case dbntNone:
     return NULL;
-  case dbntOrgBibleditBin:
-    return "org.bibledit.bin";
-  case dbntOrgBibleditBibletime:
-    return "org.bibledit.bibletime";
-  case dbntOrgBibleditGit:
-    return "org.bibledit.git";
+  case dbntOrgBibleditMain:
+    return "org.bibledit.main";
   }
   return NULL;
 }
+
 
 bool DBus::name_in_use(DBusNameType dbname)
 /*
@@ -111,7 +110,7 @@ dbus-send --print-reply --dest=org.freedesktop.DBus /org/freedesktop/DBus org.fr
   // Send message, handle the reply.  
   DBusError error;
   dbus_error_init(&error);
-  int timeout = -1;             // Default timeout.
+  int timeout = -1; // Default timeout.
   DBusMessage *reply;
   reply = dbus_connection_send_with_reply_and_block(connection, message, timeout, &error);
   if (dbus_error_is_set(&error)) {
@@ -123,8 +122,11 @@ dbus-send --print-reply --dest=org.freedesktop.DBus /org/freedesktop/DBus org.fr
   if (reply) {
     retrieve_message(reply);
     dbus_message_unref(reply);
-    set < ustring > names(string_reply.begin(), string_reply.end());
+    set <ustring> names(string_reply.begin(), string_reply.end());
     in_use = names.find(dbusname(dbname)) != names.end();
+    for (unsigned int i = 0; i < string_reply.size(); i++) {
+      cout << string_reply[i] << endl; // Todo&
+    }
   }
   // Clear memory.
   dbus_message_unref(message);
@@ -133,17 +135,20 @@ dbus-send --print-reply --dest=org.freedesktop.DBus /org/freedesktop/DBus org.fr
   return in_use;
 }
 
-gchar *DBus::dbuspath()
+
+const gchar *DBus::dbuspath()
 {
   return "/org/bibledit/dbus";
 }
 
-gchar *DBus::dbusinterface()
+
+const gchar *DBus::dbusinterface()
 {
   return "org.bibledit.dbus";
 }
 
-gchar *DBus::dbusmethod(DBusMethodType dbmethod)
+
+const gchar *DBus::dbusmethod(DBusMethodType dbmethod)
 {
   switch (dbmethod) {
   case dbmtHello:
@@ -153,6 +158,7 @@ gchar *DBus::dbusmethod(DBusMethodType dbmethod)
   }
   return NULL;
 }
+
 
 DBusMethodType DBus::dbusmethod(const char *dbmethod)
 {
@@ -164,6 +170,7 @@ DBusMethodType DBus::dbusmethod(const char *dbmethod)
   return dbmtEnd;
 }
 
+
 void DBus::retrieve_message(DBusMessage * message)
 // Retrieve the payload of the message.
 {
@@ -172,6 +179,7 @@ void DBus::retrieve_message(DBusMessage * message)
   message_type = dbus_message_iter_get_arg_type(&iter);
   retrieve_iter(&iter);
 }
+
 
 void DBus::retrieve_iter(DBusMessageIter * iter)
 // Retrieve the payload of one iterator of the message.
@@ -315,10 +323,12 @@ void DBus::retrieve_iter(DBusMessageIter * iter)
   } while (dbus_message_iter_next(iter));
 }
 
+
 void DBus::listener_start(gpointer data)
 {
   ((DBus *) data)->listener_main();
 }
+
 
 void DBus::listener_main()
 /*
@@ -384,16 +394,18 @@ dbus-send --print-reply --dest=org.bibledit.bin /org/bibledit/settings org.bible
   listener_running = false;
 }
 
+
 void DBus::log(const ustring & message, bool critical)
 {
   ustring msg = "DBus: " + message;
   if (critical) {
     g_critical("%s", message.c_str());
   } else {
-    write(1, message.c_str(), strlen(message.c_str()));
-    write(1, "\n", 1);
+    if (write(1, message.c_str(), strlen(message.c_str())));
+    if (write(1, "\n", 1));
   }
 }
+
 
 void DBus::respond(DBusMessage * msg, const ustring & response)
 // Responds to "message".
@@ -430,6 +442,7 @@ void DBus::respond(DBusMessage * msg, const ustring & response)
 
 }
 
+
 void DBus::send(DBusNameType destination, DBusMethodType method, const vector < ustring > &payload)
 {
   // Assemble the method call.
@@ -456,6 +469,7 @@ void DBus::send(DBusNameType destination, DBusMethodType method, const vector < 
   dbus_message_unref(message);
 }
 
+
 vector < ustring > DBus::get_payload(DBusMethodType method)
 {
   vector < ustring > payload;
@@ -463,10 +477,12 @@ vector < ustring > DBus::get_payload(DBusMethodType method)
   return payload;
 }
 
+
 void DBus::erase_payload(DBusMethodType method)
 {
   methodcalls[method].clear();
 }
+
 
 void DBus::methodcall_add_signal(DBusMethodType method)
 // Add a signal to the method call "method".
@@ -479,10 +495,11 @@ void DBus::methodcall_add_signal(DBusMethodType method)
   signalling_methods.insert(method);
 }
 
+
 void DBus::methodcall_remove_all_signals()
 // Remove all signals from the methodcalls.
 {
   signalling_methods.clear();
 }
 
-// Once Xiphos uses dbus, we may consider using it also as the qualilty may have improved. But to try load it heavily for a long time to see whether it lasts.
+
