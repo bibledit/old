@@ -40,6 +40,7 @@
 #include "keyboard.h"
 #include "tiny_utilities.h"
 #include "git.h"
+#include "progresswindow.h"
 
 
 Editor::Editor(GtkWidget * vbox, const ustring & project_in):
@@ -3224,9 +3225,15 @@ vector <ustring> Editor::spelling_get_misspelled ()
 
 void Editor::spelling_approve (const vector <ustring>& words)
 {
+  // Approve all the words in the list.
+  // Since this may take time, a windows will show the progress.
+  ProgressWindow progresswindow ("Adding words to dictionary", false);
+  progresswindow.set_iterate (0, 1, words.size());
   for (unsigned int i = 0; i < words.size(); i++)  {
+    progresswindow.iterate ();
     spellingchecker->add_to_dictionary (words[i].c_str());
   }
+  // Trigger a new spelling check.
   spelling_trigger();
 }
 

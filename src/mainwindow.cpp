@@ -7265,7 +7265,13 @@ Profilers.
 valgrind --tool=callgrind in order to find details of all the function calls.
 alleyoop
 kcachegrind
+Store this information.
 
+
+
+
+
+See if we can get rid of the script bibledit, and have all file handling done by the main binary only, no extra bits anymore.
 
 
 
