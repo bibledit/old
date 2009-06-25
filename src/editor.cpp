@@ -3421,9 +3421,6 @@ bool Editor::on_verse_tracker_timeout(gpointer data)
 bool Editor::verse_tracker_timeout()
 // Regular verse tracker.
 {
-  // Clear event id.
-  verse_tracker_event_id = 0;
-  
   if (!verse_tracker_on) {
     verse_tracker_on = true;
     position_cursor_at_verse(current_verse_number, true);
