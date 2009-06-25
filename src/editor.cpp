@@ -132,8 +132,6 @@ current_reference(0, 1000, "")
   textview_cursor_moved_delayer_event_id = 0;
   grab_focus_event_id = 0;
   undo_redo_event_id = 0;
-  save_timeout_event_id = 0;
-  highlight_timeout_event_id = 0;
   spelling_timeout_event_id = 0;
 
   // Tag for highlighting search words.
@@ -603,6 +601,9 @@ void Editor::show_quick_references_execute()
 // Takes the text of the references in the note that has the cursor,
 // and shows that text in the quick reference area.
 {
+  // Clear the event id.
+  event_id_show_quick_references = 0;
+  
   // If we're not in a note, bail out.
   if (last_focused_type() != etvtNote)
     return;
@@ -654,6 +655,7 @@ bool Editor::on_textview_cursor_moved_delayer_handler(gpointer user_data)
 void Editor::on_textview_cursor_moved()
 // Handle the administration if the cursor moved.
 {
+  textview_cursor_moved_delayer_event_id = 0;
   signal_if_styles_changed();
   check_move_textview_to_textview();
 }
@@ -724,6 +726,7 @@ void Editor::on_grab_focus_delayed_handler()
  This delayed handler solves that.
  */
 {
+  grab_focus_event_id = 0;
   signal_if_styles_changed();
   if (recording_undo_actions()) {
     show_quick_references();
@@ -3024,6 +3027,9 @@ bool Editor::on_textbuffer_changed_timeout (gpointer user_data)
 
 void Editor::textbuffer_changed_timeout()
 {
+  // Clear the event id.
+  textbuffer_changed_event_id = 0;
+
   // Create a new Snapshot object.
   EditorSnapshot snapshot (0);
 
@@ -3057,9 +3063,6 @@ void Editor::textbuffer_changed_timeout()
  
   // Reset the redo counter.
   redo_counter = 0;
-  
-  // Clear the event id.
-  textbuffer_changed_event_id = 0;
 }
 
 
@@ -3154,6 +3157,9 @@ bool Editor::on_spelling_timeout(gpointer data)
 
 void Editor::spelling_timeout()
 {
+  // Clear event id.
+  spelling_timeout_event_id = 0;
+    
   // No recording of undoable actions while this object is alive.
   // It means that the textbuffer won't be modified if markers for spelling
   // mistakes are added or removed.
@@ -3401,8 +3407,8 @@ bool Editor::on_restart_verse_tracker()
     return true;
   }
   // Start the regular cursor tracker.
-  gw_destroy_source(start_verse_tracker_event_id);
-  start_verse_tracker_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 300, GSourceFunc(on_verse_tracker_timeout), gpointer(this), NULL);
+  gw_destroy_source(verse_tracker_event_id);
+  verse_tracker_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 300, GSourceFunc(on_verse_tracker_timeout), gpointer(this), NULL);
   return false;
 }
 
@@ -3415,6 +3421,9 @@ bool Editor::on_verse_tracker_timeout(gpointer data)
 bool Editor::verse_tracker_timeout()
 // Regular verse tracker.
 {
+  // Clear event id.
+  verse_tracker_event_id = 0;
+  
   if (!verse_tracker_on) {
     verse_tracker_on = true;
     position_cursor_at_verse(current_verse_number, true);

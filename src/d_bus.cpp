@@ -124,9 +124,6 @@ dbus-send --print-reply --dest=org.freedesktop.DBus /org/freedesktop/DBus org.fr
     dbus_message_unref(reply);
     set <ustring> names(string_reply.begin(), string_reply.end());
     in_use = names.find(dbusname(dbname)) != names.end();
-    for (unsigned int i = 0; i < string_reply.size(); i++) {
-      cout << string_reply[i] << endl; // Todo&
-    }
   }
   // Clear memory.
   dbus_message_unref(message);

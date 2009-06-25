@@ -7258,7 +7258,9 @@ Todo various tasks.
 Why does bibledit-bin take 10% cpu time? 
 If no git updates are done, and if the projects are all closed, the cpu usage drops to near-zero.
 But this only occurs after a restart. If the last editor is closed, then the cpu usage remains high.
-Does this mean that some timers in the Editor do not get killed?
+Does this mean that some timers in the Editor do not get killed? Checking for these.
+
+
 
 
 Profilers.
@@ -7271,9 +7273,6 @@ Store this information.
 
 
 
-See if we can get rid of the script bibledit, and have all file handling done by the main binary only, no extra bits anymore.
-But first of all we need to enable dbus again, so it can see whether a similar instance already runs, and then that other 
-applications can present itself.
 
 
 
