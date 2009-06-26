@@ -4734,7 +4734,7 @@ bool MainWindow::on_git_update_timeout(gpointer user_data)
 }
 
 
-void MainWindow::git_update_timeout(bool force) // Todo
+void MainWindow::git_update_timeout(bool force)
 // Schedule project update tasks. Called every second.
 {
   // Bail out if git tasks are paused.
@@ -7255,19 +7255,8 @@ Todo various tasks.
 
 
 
-Why does bibledit-bin take 10% cpu time? 
-If no git updates are done, and if the projects are all closed, the cpu usage drops to near-zero.
-But this only occurs after a restart. If the last editor is closed, then the cpu usage remains high.
-Does this mean that some timers in the Editor do not get killed? Checking for these.
 
 
-
-
-Profilers.
-valgrind --tool=callgrind in order to find details of all the function calls.
-alleyoop
-kcachegrind
-Store this information.
 
 
 

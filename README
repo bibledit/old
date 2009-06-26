@@ -26,3 +26,12 @@ as possible. This is the reason that the Gnome libraries are not used.
 It is also good to not use the very newest Gtk+ libraries, but wait a 
 while until most newer distributions have them in their stock distribution.
 
+
+
+A tool to measure cpu usage of the various functions.
+valgrind --tool=callgrind bibledit-bin
+Graphical tools to display the information that was collected:
+- alleyoop
+- kcachegrind
+
+
