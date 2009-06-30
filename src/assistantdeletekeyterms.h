@@ -17,12 +17,15 @@
  **  
  */
 
+
 #ifndef INCLUDED_ASSISTANT_DELETE_KEYTERMS_H
 #define INCLUDED_ASSISTANT_DELETE_KEYTERMS_H
+
 
 #include <gtk/gtk.h>
 #include "ustring.h"
 #include "assistants.h"
+
 
 class DeleteKeytermsAssistant : public AssistantBase
 {
@@ -41,5 +44,6 @@ private:
   static gint assistant_forward_function (gint current_page, gpointer user_data);
   gint assistant_forward (gint current_page);
 };
+
 
 #endif

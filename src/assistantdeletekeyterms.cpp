@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "assistantdeletekeyterms.h"
@@ -24,10 +25,10 @@
 #include "keyterms.h"
 #include "combobox.h"
 
+
 DeleteKeytermsAssistant::DeleteKeytermsAssistant(int dummy) :
 AssistantBase("Keyterms", "deletekeyterms")
-
-// Assistant for adding keyterms.
+// Assistant for deleting keyterms.
 {
   gtk_assistant_set_forward_page_func (GTK_ASSISTANT (assistant), GtkAssistantPageFunc (assistant_forward_function), gpointer(this), NULL);
   
@@ -81,9 +82,11 @@ AssistantBase("Keyterms", "deletekeyterms")
   gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), 0);
 }
 
+
 DeleteKeytermsAssistant::~DeleteKeytermsAssistant()
 {
 }
+
 
 void DeleteKeytermsAssistant::on_assistant_apply_signal (GtkAssistant *assistant, gpointer user_data)
 {
@@ -105,6 +108,7 @@ gint DeleteKeytermsAssistant::assistant_forward_function (gint current_page, gpo
 {
   return ((DeleteKeytermsAssistant *) user_data)->assistant_forward (current_page);
 }
+
 
 gint DeleteKeytermsAssistant::assistant_forward (gint current_page)
 {

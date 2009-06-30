@@ -177,7 +177,7 @@ WindowBase(widCheckKeyterms, "Check keyterms", startup, 0, parent_box), myrefere
   gtk_label_set_mnemonic_widget(GTK_LABEL(label25), treeview_keyterm);
 
   // Load the categories.
-  vector < ustring > categories = keyterms_get_categories();
+  vector <ustring> categories = keyterms_get_categories();
   categories.push_back(all_categories());
   combobox_set_strings(combobox_collection, categories);
   combobox_set_string(combobox_collection, all_categories());
@@ -307,11 +307,8 @@ gboolean WindowCheckKeyterms::on_textview_keyterm_text_key_press_event(GtkWidget
 
 void WindowCheckKeyterms::on_entry_keyterm_change()
 {
-  // Get the keyterm and collection.
+  // Get the keyterm.
   ustring keyterm = gtk_entry_get_text(GTK_ENTRY(entry_keyterm));
-  ustring collection = combobox_get_active_string(combobox_collection);
-  if (collection == all_categories())
-    collection.clear();
 
   // Clear the store.
   gtk_tree_store_clear(treestore_keywords);
@@ -322,97 +319,24 @@ void WindowCheckKeyterms::on_entry_keyterm_change()
 
   // If the keyterm entered is viewed as a rendering, then get the keyterms that
   // have this rendering.
-  deque < ustring > keyterms;
+  deque <ustring> keyterms;
   if (keyterm.length() >= 3) {
     keyterms = keyterms_rendering_retrieve_terms(myproject, keyterm);
   }
   keyterms.push_front(keyterm);
 
-  // Get the keyterms and devide them into four levels.
-  vector < ustring > terms1, terms2, terms3, terms4;
-  vector < unsigned int >parents2, parents3, parents4;
-  vector < unsigned int >ids1, ids2, ids3, ids4;
-  set < unsigned int >id_set;
+  // Get the keyterms.
+  vector <ustring> terms1;
+  vector <unsigned int> ids1;
+  set <unsigned int> id_set;
   for (unsigned int i = 0; i < keyterms.size(); i++) {
     keyterm = keyterms[i];
-
-    vector < ustring > terms;
-    vector < unsigned int >levels;
-    vector < unsigned int >parents;
-    vector < unsigned int >ids;
-
-    keyterms_get_terms(keyterm, collection, terms, levels, parents, ids);
+    vector <ustring> terms;
+    vector <unsigned int> ids;
+    keyterms_get_terms(keyterm, collection(), terms, ids);
     for (unsigned int i = 0; i < terms.size(); i++) {
-      switch (levels[i]) {
-      case 1:
-        {
-          terms1.push_back(terms[i]);
-          ids1.push_back(ids[i]);
-          break;
-        }
-      case 2:
-        {
-          terms2.push_back(terms[i]);
-          parents2.push_back(parents[i]);
-          ids2.push_back(ids[i]);
-          break;
-        }
-      case 3:
-        {
-          terms3.push_back(terms[i]);
-          parents3.push_back(parents[i]);
-          ids3.push_back(ids[i]);
-          break;
-        }
-      default:                 // Level 4 and higher.
-        {
-          terms4.push_back(terms[i]);
-          parents4.push_back(parents[i]);
-          ids4.push_back(ids[i]);
-          break;
-        }
-      }
-    }
-  }
-
-  // Going through the higher levels to the lower ones, if a lower level does
-  // not have an id, specified as parent in a higher level, add that id and term.
-  set < unsigned int >ids3set(ids3.begin(), ids3.end());
-  for (unsigned int i = 0; i < parents4.size(); i++) {
-    if (ids3set.find(parents4[i]) == ids3set.end()) {
-      ustring term;
-      unsigned int parent;
-      if (keyterms_get_term(parents4[i], term, parent)) {
-        terms3.push_back(term);
-        ids3.push_back(parents4[i]);
-        parents3.push_back(parent);
-        ids3set.insert(parents4[i]);
-      }
-    }
-  }
-  set < unsigned int >ids2set(ids2.begin(), ids2.end());
-  for (unsigned int i = 0; i < parents3.size(); i++) {
-    if (ids2set.find(parents3[i]) == ids2set.end()) {
-      ustring term;
-      unsigned int parent;
-      if (keyterms_get_term(parents3[i], term, parent)) {
-        terms2.push_back(term);
-        ids2.push_back(parents3[i]);
-        parents2.push_back(parent);
-        ids2set.insert(parents3[i]);
-      }
-    }
-  }
-  set < unsigned int >ids1set(ids1.begin(), ids1.end());
-  for (unsigned int i = 0; i < parents2.size(); i++) {
-    if (ids1set.find(parents2[i]) == ids1set.end()) {
-      ustring term;
-      unsigned int parent;
-      if (keyterms_get_term(parents2[i], term, parent)) {
-        terms1.push_back(term);
-        ids1.push_back(parents2[i]);
-        ids1set.insert(parents2[i]);
-      }
+      terms1.push_back(terms[i]);
+      ids1.push_back(ids[i]);
     }
   }
 
@@ -431,42 +355,6 @@ void WindowCheckKeyterms::on_entry_keyterm_change()
     gtk_tree_path_free(path1);
     if (i1 == 0)
       gtk_tree_selection_select_iter(treeselect_keywords, &iter1);
-    // Add possible terms at level 2.
-    for (unsigned int i2 = 0; i2 < parents2.size(); i2++) {
-      if (parents2[i2] == ids1[i1]) {
-        GtkTreeIter iter2;
-        gtk_tree_store_append(treestore_keywords, &iter2, &iter1);
-        gtk_tree_store_set(treestore_keywords, &iter2, 0, terms2[i2].c_str(), 1, ids2[i2], -1);
-        GtkTreePath *path2;
-        path2 = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore_keywords), &iter2);
-        gtk_tree_view_expand_to_path(GTK_TREE_VIEW(treeview_keyterm), path2);
-        gtk_tree_path_free(path2);
-        // Add possible terms at level 3.
-        for (unsigned int i3 = 0; i3 < parents3.size(); i3++) {
-          if (parents3[i3] == ids2[i2]) {
-            GtkTreeIter iter3;
-            gtk_tree_store_append(treestore_keywords, &iter3, &iter2);
-            gtk_tree_store_set(treestore_keywords, &iter3, 0, terms3[i3].c_str(), 1, ids3[i3], -1);
-            GtkTreePath *path3;
-            path3 = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore_keywords), &iter3);
-            gtk_tree_view_expand_to_path(GTK_TREE_VIEW(treeview_keyterm), path3);
-            gtk_tree_path_free(path3);
-            // Add possible terms at level 4.
-            for (unsigned int i4 = 0; i4 < parents4.size(); i4++) {
-              if (parents4[i4] == ids3[i3]) {
-                GtkTreeIter iter4;
-                gtk_tree_store_append(treestore_keywords, &iter4, &iter3);
-                gtk_tree_store_set(treestore_keywords, &iter4, 0, terms4[i4].c_str(), 1, ids4[i4], -1);
-                GtkTreePath *path4;
-                path4 = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore_keywords), &iter4);
-                gtk_tree_view_expand_to_path(GTK_TREE_VIEW(treeview_keyterm), path4);
-                gtk_tree_path_free(path4);
-              }
-            }
-          }
-        }
-      }
-    }
   }
 }
 
@@ -486,13 +374,13 @@ void WindowCheckKeyterms::on_combobox_keyterm_collection()
 
 void WindowCheckKeyterms::on_treeview_keyterm_button_press()
 {
-  //  on_treeview_change ();
+  // on_treeview_change ();
 }
 
 
 void WindowCheckKeyterms::on_treeview_keyterm_key_press()
 {
-  //  on_treeview_change ();
+  // on_treeview_change ();
 }
 
 
@@ -525,15 +413,12 @@ void WindowCheckKeyterms::show_information()
   unsigned int id = selected_id();
   ustring category;
   ustring information;
-  vector < Reference > references;
-  vector < ustring > related;
-  keyterms_get_data(id, category, information, references, related);
+  vector <Reference> references;
+  keyterms_get_data(id, category, information, references);
   ustring information1;
   string_append_line(information1, "Category: " + category);
-  for (unsigned int i = 0; i < related.size(); i++)
-    string_append_line(information1, "Related to: " + related[i]);
   if (references.size() == 0)
-    string_append_line(information1, "This one has no references of its own. Select one of its descendants.");
+    string_append_line(information1, "This one has no references.");
   string_append_line(information1, information);
   GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview_comments));
   gtk_text_buffer_set_text(buffer, information1.c_str(), -1);
@@ -547,8 +432,7 @@ void WindowCheckKeyterms::load_renderings()
   ProjectConfiguration *projectconfig = settings->projectconfig(myproject);
   myversification = projectconfig->versification_get();
   ustring keyterm;
-  unsigned int dummy;
-  keyterms_get_term(myid, keyterm, dummy);
+  keyterms_get_term(myid, keyterm);
   vector < ustring > renderings;
   vector < bool > wholewords;
   vector < bool > casesensitives;
@@ -556,8 +440,7 @@ void WindowCheckKeyterms::load_renderings()
   {
     ustring dummy1;
     vector < Reference > dummy2;
-    vector < ustring > dummy3;
-    keyterms_get_data(myid, category, dummy1, dummy2, dummy3);
+    keyterms_get_data(myid, category, dummy1, dummy2);
   }
   keyterms_retrieve_renderings(myproject, keyterm, category, renderings, wholewords, casesensitives);
   gtk_tree_store_clear(treestore_renderings);
@@ -580,14 +463,12 @@ void WindowCheckKeyterms::save_renderings()
   vector < bool > casesensitives;
   get_renderings(renderings, wholewords, casesensitives);
   ustring keyterm;
-  unsigned int dummy;
-  keyterms_get_term(myid, keyterm, dummy);
+  keyterms_get_term(myid, keyterm);
   ustring category;
   {
     ustring dummy1;
     vector < Reference > dummy2;
-    vector < ustring > dummy3;
-    keyterms_get_data(myid, category, dummy1, dummy2, dummy3);
+    keyterms_get_data(myid, category, dummy1, dummy2);
   }
   keyterms_store_renderings(myproject, keyterm, category, renderings, wholewords, casesensitives);
   load_renderings();
@@ -635,8 +516,7 @@ void WindowCheckKeyterms::add_to_renderings(const ustring & rendering, bool whol
   extern Settings *settings;
   myproject = settings->genconfig.project_get();
   ustring keyterm;
-  unsigned int dummy;
-  keyterms_get_term(myid, keyterm, dummy);
+  keyterms_get_term(myid, keyterm);
   GtkTreeIter iter;
   gtk_tree_store_append(treestore_renderings, &iter, NULL);
   bool casesensitive = rendering != rendering.casefold();
@@ -670,11 +550,10 @@ void WindowCheckKeyterms::show_text()
 
   // Get all the references.
   ustring dummy1;
-  vector <ustring> dummy2;
   myreferences.clear();
   mytextstarts.clear();
   mytextends.clear();
-  keyterms_get_data(myid, dummy1, dummy1, myreferences, dummy2);
+  keyterms_get_data(myid, dummy1, dummy1, myreferences);
 
   // Remap references.
   {
@@ -1020,3 +899,11 @@ void WindowCheckKeyterms::get_renderings(vector <ustring> &renderings, vector <b
 }
 
 
+ustring WindowCheckKeyterms::collection ()
+{
+  ustring collection;
+  collection = combobox_get_active_string(combobox_collection);
+  if (collection == all_categories())
+    collection.clear();
+  return collection;
+}

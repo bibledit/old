@@ -3,7 +3,7 @@ Flora and Fauna of the Old Testament
 [keyterm]
 acacia
 [comments]
-Transliterated Hebrew: shittah
+Transliteration: shittah
 [references]
 EXO 25:5
 EXO 25:10
@@ -37,14 +37,14 @@ ISA 41:19
 [keyterm]
 addax
 [comments]
-Transliterated Hebrew: dishon
+Transliteration: dishon
 [references]
 DEU 14:5
 
 [keyterm]
 almond
 [comments]
-Transliterated Hebrew: shaqed
+Transliteration: shaqed
 [references]
 GEN 43:11
 EXO 25:33
@@ -59,14 +59,14 @@ JER 1:11
 [keyterm]
 almond tree/wood
 [comments]
-Transliterated Hebrew: luz
+Transliteration: luz
 [references]
 GEN 30:37
 
 [keyterm]
 ant
 [comments]
-Transliterated Hebrew: nemalah
+Transliteration: nemalah
 [references]
 PRO 6:6
 PRO 30:25
@@ -74,14 +74,14 @@ PRO 30:25
 [keyterm]
 aoudad or mouflon
 [comments]
-Transliterated Hebrew: zemer
+Transliteration: zemer
 [references]
 DEU 14:5
 
 [keyterm]
 apple
 [comments]
-Transliterated Hebrew: tappuach
+Transliteration: tappuach
 [references]
 PRO 25:11
 SNG 2:3
@@ -93,7 +93,7 @@ JOL 1:12
 [keyterm]
 aurochs or bison
 [comments]
-Transliterated Hebrew: re'em
+Transliteration: re'em
 [references]
 NUM 23:22
 NUM 24:8
@@ -108,7 +108,7 @@ ISA 34:7
 [keyterm]
 balm
 [comments]
-Transliterated Hebrew: tseri
+Transliteration: tseri
 [references]
 GEN 37:25
 GEN 43:11
@@ -120,7 +120,7 @@ EZK 27:17
 [keyterm]
 balsam poplar
 [comments]
-Transliterated Hebrew: baka'
+Transliteration: baka'
 [references]
 2SA 5:23
 2SA 5:24
@@ -131,7 +131,7 @@ PSA 84:7
 [keyterm]
 barley
 [comments]
-Transliterated Hebrew: se'orah
+Transliteration: se'orah
 [references]
 EXO 9:31
 EXO 9:31
@@ -171,7 +171,7 @@ JOL 1:11
 [keyterm]
 barn owl
 [comments]
-Transliterated Hebrew: yanshuph
+Transliteration: yanshuph
 [references]
 LEV 11:17
 DEU 14:16
@@ -180,7 +180,7 @@ ISA 34:11
 [keyterm]
 bat
 [comments]
-Transliterated Hebrew: 'atalleph
+Transliteration: 'atalleph
 [references]
 LEV 11:19
 DEU 14:18
@@ -189,7 +189,7 @@ ISA 2:20
 [keyterm]
 bean
 [comments]
-Transliterated Hebrew: pol
+Transliteration: pol
 [references]
 2SA 17:28
 EZK 4:9
@@ -197,7 +197,7 @@ EZK 4:9
 [keyterm]
 bearded vulture = lammergeier
 [comments]
-Transliterated Hebrew: peres
+Transliteration: peres
 [references]
 LEV 11:13
 DEU 14:12
@@ -205,7 +205,7 @@ DEU 14:12
 [keyterm]
 beast, animal, cattle
 [comments]
-Transliterated Hebrew: behemah
+Transliteration: behemah
 [references]
 GEN 1:24
 GEN 1:25
@@ -400,7 +400,7 @@ ZEC 14:15
 [keyterm]
 beasts, cattle
 [comments]
-Transliterated Hebrew: be'iyr
+Transliteration: be'iyr
 [references]
 GEN 45:17
 EXO 22:4
@@ -412,7 +412,7 @@ PSA 78:48
 [keyterm]
 bee
 [comments]
-Transliterated Hebrew: deborah
+Transliteration: deborah
 [references]
 DEU 1:44
 JDG 14:8
@@ -422,7 +422,7 @@ ISA 7:18
 [keyterm]
 billy goat
 [comments]
-Transliterated Hebrew: tsapir
+Transliteration: tsapir
 [references]
 2CH 29:21
 EZR 8:35
@@ -434,7 +434,7 @@ DAN 8:21
 [keyterm]
 bird of prey
 [comments]
-Transliterated Hebrew: 'ayit
+Transliteration: 'ayit
 [references]
 GEN 15:11
 JOB 28:7
@@ -448,7 +448,7 @@ EZK 39:4
 [keyterm]
 black cummin
 [comments]
-Transliterated Hebrew: ketzach
+Transliteration: ketzach
 [references]
 ISA 28:25
 ISA 28:27
@@ -457,7 +457,7 @@ ISA 28:27
 [keyterm]
 blossom of grape
 [comments]
-Transliterated Hebrew: semader
+Transliteration: semader
 [references]
 SNG 2:13
 SNG 2:15
@@ -466,7 +466,7 @@ SNG 7:13
 [keyterm]
 bramble, buck-thorn
 [comments]
-Transliterated Hebrew: 'atad
+Transliteration: 'atad
 [references]
 JDG 9:14
 JDG 9:15
@@ -476,7 +476,7 @@ PSA 58:10
 [keyterm]
 bubal
 [comments]
-Transliterated Hebrew: yachmur
+Transliteration: yachmur
 [references]
 DEU 14:5
 1KI 5:3
@@ -484,7 +484,7 @@ DEU 14:5
 [keyterm]
 calf, bullcalf
 [comments]
-Transliterated Hebrew: 'egel
+Transliteration: 'egel
 [references]
 EXO 32:4
 EXO 32:8
@@ -525,7 +525,7 @@ MAL 3:20
 [keyterm]
 camel
 [comments]
-Transliterated Hebrew: gamal
+Transliteration: gamal
 [references]
 GEN 12:16
 GEN 24:10
@@ -585,7 +585,7 @@ ZEC 14:15
 [keyterm]
 camel thorn
 [comments]
-Transliterated Hebrew: na'atsuts
+Transliteration: na'atsuts
 [references]
 ISA 7:19
 ISA 55:13
@@ -593,7 +593,7 @@ ISA 55:13
 [keyterm]
 carpet viper
 [comments]
-Transliterated Hebrew: 'akshub
+Transliteration: 'akshub
 [references]
 PSA 140:4
 
@@ -605,7 +605,7 @@ cassia 1
 [level]
 2
 [comments]
-Transliterated Hebrew: qetshiy'ah
+Transliteration: qetshiy'ah
 [references]
 PSA 45:9
 
@@ -614,7 +614,7 @@ cassia 2
 [level]
 2
 [comments]
-Transliterated Hebrew: qiddah
+Transliteration: qiddah
 [references]
 EXO 30:24
 EZK 27:19
@@ -622,7 +622,7 @@ EZK 27:19
 [keyterm]
 caterpillar
 [comments]
-Transliterated Hebrew: chasil
+Transliteration: chasil
 [references]
 1KI 8:37
 2CH 6:28
@@ -634,7 +634,7 @@ JOL 2:25
 [keyterm]
 cattail, water plant
 [comments]
-Transliterated Hebrew: suf
+Transliteration: suf
 [references]
 EXO 2:3
 EXO 2:5
@@ -644,7 +644,7 @@ JON 2:6
 [keyterm]
 cattle
 [comments]
-Transliterated Hebrew: miqneh
+Transliteration: miqneh
 [references]
 GEN 4:20
 GEN 13:2
@@ -722,7 +722,7 @@ EZK 38:13
 [keyterm]
 cattle, herd, ox
 [comments]
-Transliterated Hebrew: baqar
+Transliteration: baqar
 [references]
 GEN 12:16
 GEN 13:5
@@ -909,7 +909,7 @@ HAB 3:17
 [keyterm]
 cattle, oxen
 [comments]
-Transliterated Hebrew: 'elef
+Transliteration: 'elef
 [references]
 DEU 7:13
 DEU 28:4
@@ -922,7 +922,7 @@ ISA 30:24
 [keyterm]
 cedar
 [comments]
-Transliterated Hebrew: 'erez
+Transliteration: 'erez
 [references]
 LEV 14:4
 LEV 14:6
@@ -1001,7 +1001,7 @@ ZEC 11:2
 [keyterm]
 cheylon cinnamon
 [comments]
-Transliterated Hebrew: qinnamon
+Transliteration: qinnamon
 [references]
 EXO 30:23
 PRO 7:17
@@ -1010,13 +1010,13 @@ SNG 4:14
 [keyterm]
 chick pea
 [comments]
-Transliterated Hebrew: chamitz
+Transliteration: chamitz
 [references]
 
 [keyterm]
 choice vine
 [comments]
-Transliterated Hebrew: soreq
+Transliteration: soreq
 [references]
 GEN 49:11
 ISA 5:2
@@ -1025,7 +1025,7 @@ JER 2:21
 [keyterm]
 clothes moth
 [comments]
-Transliterated Hebrew: ash
+Transliteration: ash
 [references]
 JOB 4:19
 JOB 9:9
@@ -1039,7 +1039,7 @@ HOS 5:12
 [keyterm]
 coral
 [comments]
-Transliterated Hebrew: ra'mah
+Transliteration: ra'mah
 [references]
 JOB 28:18
 EZK 27:16
@@ -1047,7 +1047,7 @@ EZK 27:16
 [keyterm]
 coriander
 [comments]
-Transliterated Hebrew: gad
+Transliteration: gad
 [references]
 EXO 16:31
 NUM 11:7
@@ -1055,7 +1055,7 @@ NUM 11:7
 [keyterm]
 cormorant
 [comments]
-Transliterated Hebrew: shalak
+Transliteration: shalak
 [references]
 LEV 11:17
 DEU 14:17
@@ -1063,14 +1063,14 @@ DEU 14:17
 [keyterm]
 cotton
 [comments]
-Transliterated Hebrew: karpas
+Transliteration: karpas
 [references]
 EST 1:6
 
 [keyterm]
 crane
 [comments]
-Transliterated Hebrew: soos
+Transliteration: soos
 [references]
 ISA 38:14
 JER 8:7
@@ -1078,14 +1078,14 @@ JER 8:7
 [keyterm]
 cricket
 [comments]
-Transliterated Hebrew: tselatsal
+Transliteration: tselatsal
 [references]
 DEU 28:42
 
 [keyterm]
 crocodile
 [comments]
-Transliterated Hebrew: liwyathan
+Transliteration: liwyathan
 [references]
 JOB 40:25
 PSA 74:14
@@ -1096,7 +1096,7 @@ ISA 27:1
 [keyterm]
 cuckoo
 [comments]
-Transliterated Hebrew: shachaph
+Transliteration: shachaph
 [references]
 LEV 11:16
 DEU 14:15
@@ -1104,7 +1104,7 @@ DEU 14:15
 [keyterm]
 cummin
 [comments]
-Transliterated Hebrew: camon
+Transliteration: camon
 [references]
 ISA 28:25
 ISA 28:27
@@ -1113,7 +1113,7 @@ ISA 28:27
 [keyterm]
 desert locust
 [comments]
-Transliterated Hebrew: 'arbeh
+Transliteration: 'arbeh
 [references]
 EXO 10:4
 EXO 10:12
@@ -1143,7 +1143,7 @@ NAM 3:17
 [keyterm]
 doe
 [comments]
-Transliterated Hebrew: 'ayyalah
+Transliteration: 'ayyalah
 [references]
 GEN 49:21
 2SA 22:34
@@ -1160,7 +1160,7 @@ HAB 3:19
 [keyterm]
 dog
 [comments]
-Transliterated Hebrew: keleb
+Transliteration: keleb
 [references]
 EXO 11:7
 EXO 22:30
@@ -1198,7 +1198,7 @@ JER 15:3
 [keyterm]
 dove, pigeon
 [comments]
-Transliterated Hebrew: yonah
+Transliteration: yonah
 [references]
 GEN 8:8
 GEN 8:9
@@ -1237,7 +1237,7 @@ NAM 2:8
 [keyterm]
 dugong = sea cow
 [comments]
-Transliterated Hebrew: tachash
+Transliteration: tachash
 [references]
 EXO 25:5
 EXO 26:14
@@ -1257,7 +1257,7 @@ EZK 16:10
 [keyterm]
 dutum wheat
 [comments]
-Transliterated Hebrew: chittah
+Transliteration: chittah
 [references]
 GEN 30:14
 EXO 9:32
@@ -1293,14 +1293,14 @@ JOL 1:11
 [keyterm]
 eagle/great owl
 [comments]
-Transliterated Hebrew: qippoz
+Transliteration: qippoz
 [references]
 ISA 34:15
 
 [keyterm]
 eaglewood tree
 [comments]
-Transliterated Hebrew: 'ahalim
+Transliteration: 'ahalim
 [references]
 NUM 24:6
 PSA 45:9
@@ -1310,14 +1310,14 @@ SNG 4:14
 [keyterm]
 ebony
 [comments]
-Transliterated Hebrew: hovanim
+Transliteration: hovanim
 [references]
 EZK 27:15
 
 [keyterm]
 egyptian cobra
 [comments]
-Transliterated Hebrew: peten
+Transliteration: peten
 [references]
 DEU 32:33
 JOB 20:14
@@ -1329,7 +1329,7 @@ ISA 11:8
 [keyterm]
 egyptian vulture
 [comments]
-Transliterated Hebrew: racham
+Transliteration: racham
 [references]
 LEV 11:18
 DEU 14:17
@@ -1337,7 +1337,7 @@ DEU 14:17
 [keyterm]
 emmer wheat
 [comments]
-Transliterated Hebrew: kussemeth
+Transliteration: kussemeth
 [references]
 EXO 9:32
 ISA 28:25
@@ -1346,7 +1346,7 @@ EZK 4:9
 [keyterm]
 ewe
 [comments]
-Transliterated Hebrew: rachel
+Transliteration: rachel
 [references]
 GEN 31:38
 GEN 32:15
@@ -1356,7 +1356,7 @@ ISA 53:7
 [keyterm]
 ewe lamb
 [comments]
-Transliterated Hebrew: kibsah
+Transliteration: kibsah
 [references]
 GEN 21:28
 GEN 21:29
@@ -1370,14 +1370,14 @@ NUM 6:14
 [keyterm]
 falcon, buzzard hawk
 [comments]
-Transliterated Hebrew: ra'ah
+Transliteration: ra'ah
 [references]
 DEU 14:13
 
 [keyterm]
 fast camel
 [comments]
-Transliterated Hebrew: rekesh
+Transliteration: rekesh
 [references]
 1KI 5:8
 EST 8:10
@@ -1387,7 +1387,7 @@ MIC 1:13
 [keyterm]
 female donkey
 [comments]
-Transliterated Hebrew: 'athon
+Transliteration: 'athon
 [references]
 GEN 12:16
 GEN 32:16
@@ -1426,7 +1426,7 @@ ZEC 9:9
 [keyterm]
 fig
 [comments]
-Transliterated Hebrew: te'en
+Transliteration: te'en
 [references]
 GEN 3:7
 NUM 13:23
@@ -1476,7 +1476,7 @@ fish (1)
 [level]
 2
 [comments]
-Transliterated Hebrew: dag
+Transliteration: dag
 [references]
 GEN 9:2
 NUM 11:22
@@ -1503,7 +1503,7 @@ fish (2)
 [level]
 2
 [comments]
-Transliterated Hebrew: dagah
+Transliteration: dagah
 [references]
 GEN 1:26
 GEN 1:28
@@ -1524,7 +1524,7 @@ JON 2:2
 [keyterm]
 flax
 [comments]
-Transliterated Hebrew: pishtah
+Transliteration: pishtah
 [references]
 EXO 9:31
 EXO 9:31
@@ -1534,7 +1534,7 @@ ISA 43:17
 [keyterm]
 flax, linen
 [comments]
-Transliterated Hebrew: pishteh
+Transliteration: pishteh
 [references]
 LEV 13:47
 LEV 13:48
@@ -1556,7 +1556,7 @@ HOS 2:11
 [keyterm]
 flea
 [comments]
-Transliterated Hebrew: par'osh
+Transliteration: par'osh
 [references]
 1SA 24:15
 1SA 26:20
@@ -1564,7 +1564,7 @@ Transliterated Hebrew: par'osh
 [keyterm]
 flock
 [comments]
-Transliterated Hebrew: 'asterah
+Transliteration: 'asterah
 [references]
 DEU 7:13
 DEU 28:4
@@ -1574,7 +1574,7 @@ DEU 28:51
 [keyterm]
 flock, herd
 [comments]
-Transliterated Hebrew: 'eder
+Transliteration: 'eder
 [references]
 GEN 29:2
 GEN 29:2
@@ -1624,7 +1624,7 @@ flock, sheep (1)
 [level]
 2
 [comments]
-Transliterated Hebrew: tson
+Transliteration: tson
 [references]
 GEN 4:2
 GEN 4:4
@@ -1904,7 +1904,7 @@ flock, sheep (2)
 [level]
 2
 [comments]
-Transliterated Hebrew: tsoneh
+Transliteration: tsoneh
 [references]
 NUM 32:24
 PSA 8:8
@@ -1912,7 +1912,7 @@ PSA 8:8
 [keyterm]
 fox or jackal
 [comments]
-Transliterated Hebrew: shual
+Transliteration: shual
 [references]
 JDG 15:4
 NEH 3:35
@@ -1925,7 +1925,7 @@ EZK 13:4
 [keyterm]
 frog
 [comments]
-Transliterated Hebrew: sephardea
+Transliteration: sephardea
 [references]
 EXO 7:27
 EXO 7:28
@@ -1944,21 +1944,21 @@ PSA 105:30
 [keyterm]
 galbanum
 [comments]
-Transliterated Hebrew: chelbenah
+Transliteration: chelbenah
 [references]
 EXO 30:34
 
 [keyterm]
 garlic
 [comments]
-Transliterated Hebrew: shumim
+Transliteration: shumim
 [references]
 NUM 11:5
 
 [keyterm]
 gazelle
 [comments]
-Transliterated Hebrew: tsebiy
+Transliteration: tsebiy
 [references]
 DEU 12:15
 DEU 12:22
@@ -1980,7 +1980,7 @@ ISA 13:14
 [keyterm]
 globe thistle
 [comments]
-Transliterated Hebrew: choach
+Transliteration: choach
 [references]
 2KI 14:9
 2KI 14:9
@@ -1997,7 +1997,7 @@ HOS 9:6
 [keyterm]
 gourd
 [comments]
-Transliterated Hebrew: paquoth
+Transliteration: paquoth
 [references]
 2KI 4:39
 
@@ -2009,7 +2009,7 @@ grain (2)
 [level]
 2
 [comments]
-Transliterated Hebrew: bar
+Transliteration: bar
 [references]
 GEN 41:35
 GEN 41:49
@@ -2031,7 +2031,7 @@ grain (2)
 [level]
 2
 [comments]
-Transliterated Hebrew: dagan
+Transliteration: dagan
 [references]
 GEN 27:28
 GEN 27:37
@@ -2079,7 +2079,7 @@ grain (3)
 [level]
 2
 [comments]
-Transliterated Hebrew: shever
+Transliteration: shever
 [references]
 GEN 42:1
 GEN 42:2
@@ -2094,7 +2094,7 @@ AMO 8:5
 [keyterm]
 grape
 [comments]
-Transliterated Hebrew: 'enav
+Transliteration: 'enav
 [references]
 GEN 40:10
 GEN 40:11
@@ -2119,7 +2119,7 @@ AMO 9:13
 [keyterm]
 grass, herb
 [comments]
-Transliterated Hebrew: 'eseb
+Transliteration: 'eseb
 [references]
 GEN 1:11
 GEN 1:12
@@ -2158,7 +2158,7 @@ ZEC 10:1
 [keyterm]
 grass, leek
 [comments]
-Transliterated Hebrew: chatsir
+Transliteration: chatsir
 [references]
 NUM 11:5
 1KI 18:5
@@ -2185,7 +2185,7 @@ ISA 51:12
 [keyterm]
 greenness, green plant
 [comments]
-Transliterated Hebrew: yereq
+Transliteration: yereq
 [references]
 GEN 1:30
 GEN 9:3
@@ -2202,7 +2202,7 @@ ISA 37:27
 [keyterm]
 hare
 [comments]
-Transliterated Hebrew: arnebeth
+Transliteration: arnebeth
 [references]
 LEV 11:6
 DEU 14:7
@@ -2210,7 +2210,7 @@ DEU 14:7
 [keyterm]
 hawk
 [comments]
-Transliterated Hebrew: nes
+Transliteration: nes
 [references]
 LEV 11:16
 DEU 14:15
@@ -2219,7 +2219,7 @@ JOB 39:26
 [keyterm]
 head of grain
 [comments]
-Transliterated Hebrew: shibbol
+Transliteration: shibbol
 [references]
 GEN 41:5
 GEN 41:6
@@ -2239,7 +2239,7 @@ ISA 17:5
 [keyterm]
 he-goat, buck
 [comments]
-Transliterated Hebrew: sa'ir
+Transliteration: sa'ir
 [references]
 GEN 37:31
 LEV 4:23
@@ -2302,7 +2302,7 @@ DAN 8:21
 [keyterm]
 he-goat
 [comments]
-Transliterated Hebrew: tayish
+Transliteration: tayish
 [references]
 GEN 30:35
 GEN 32:15
@@ -2312,7 +2312,7 @@ PRO 30:31
 [keyterm]
 he-goat, ram
 [comments]
-Transliterated Hebrew: 'atud
+Transliteration: 'atud
 [references]
 GEN 31:10
 GEN 31:12
@@ -2352,7 +2352,7 @@ heifer, cow 1
 [level]
 2
 [comments]
-Transliterated Hebrew: 'eglah
+Transliteration: 'eglah
 [references]
 GEN 15:9
 DEU 21:3
@@ -2371,7 +2371,7 @@ heifer, cow 2
 [level]
 2
 [comments]
-Transliterated Hebrew: parah
+Transliteration: parah
 [references]
 GEN 32:16
 GEN 41:2
@@ -2402,7 +2402,7 @@ AMO 4:1
 [keyterm]
 henna
 [comments]
-Transliterated Hebrew: kopher
+Transliteration: kopher
 [references]
 SNG 1:14
 SNG 4:13
@@ -2410,7 +2410,7 @@ SNG 4:13
 [keyterm]
 heron
 [comments]
-Transliterated Hebrew: anaphah
+Transliteration: anaphah
 [references]
 LEV 11:19
 DEU 14:18
@@ -2418,14 +2418,14 @@ DEU 14:18
 [keyterm]
 hippopotamus
 [comments]
-Transliterated Hebrew: behemoth
+Transliteration: behemoth
 [references]
 JOB 40:15
 
 [keyterm]
 hoopoe
 [comments]
-Transliterated Hebrew: dukipha
+Transliteration: dukipha
 [references]
 LEV 11:19
 DEU 14:18
@@ -2433,14 +2433,14 @@ DEU 14:18
 [keyterm]
 horned viper
 [comments]
-Transliterated Hebrew: shephiphon
+Transliteration: shephiphon
 [references]
 GEN 49:17
 
 [keyterm]
 hornet
 [comments]
-Transliterated Hebrew: tsir'ah
+Transliteration: tsir'ah
 [references]
 EXO 23:28
 DEU 7:20
@@ -2449,7 +2449,7 @@ JOS 24:12
 [keyterm]
 horse
 [comments]
-Transliterated Hebrew: sus
+Transliteration: sus
 [references]
 GEN 47:17
 GEN 49:17
@@ -2592,7 +2592,7 @@ ZEC 14:20
 [keyterm]
 house fly
 [comments]
-Transliterated Hebrew: zebub
+Transliteration: zebub
 [references]
 ECC 10:1
 ISA 7:18
@@ -2600,7 +2600,7 @@ ISA 7:18
 [keyterm]
 hyrax
 [comments]
-Transliterated Hebrew: shaphan
+Transliteration: shaphan
 [references]
 LEV 11:5
 DEU 14:7
@@ -2610,7 +2610,7 @@ PRO 30:26
 [keyterm]
 ibex
 [comments]
-Transliterated Hebrew: ya'el
+Transliteration: ya'el
 [references]
 1SA 24:3
 JOB 39:1
@@ -2619,7 +2619,7 @@ PSA 104:18
 [keyterm]
 juniper
 [comments]
-Transliterated Hebrew: berosh
+Transliteration: berosh
 [references]
 2SA 6:5
 1KI 5:22
@@ -2645,7 +2645,7 @@ ZEC 11:2
 [keyterm]
 kid
 [comments]
-Transliterated Hebrew: gediy
+Transliteration: gediy
 [references]
 GEN 27:9
 GEN 27:16
@@ -2672,7 +2672,7 @@ kind of owl 1
 [level]
 2
 [comments]
-Transliterated Hebrew: kos
+Transliteration: kos
 [references]
 LEV 11:17
 DEU 14:16
@@ -2683,7 +2683,7 @@ kind of owl 2
 [level]
 2
 [comments]
-Transliterated Hebrew: qa'a
+Transliteration: qa'a
 [references]
 LEV 11:18
 DEU 14:17
@@ -2694,7 +2694,7 @@ ZEP 2:14
 [keyterm]
 kite
 [comments]
-Transliterated Hebrew: 'ayah
+Transliteration: 'ayah
 [references]
 LEV 11:14
 DEU 14:13
@@ -2703,7 +2703,7 @@ JOB 28:7
 [keyterm]
 ladanum
 [comments]
-Transliterated Hebrew: lot
+Transliteration: lot
 [references]
 GEN 37:25
 GEN 43:11
@@ -2716,7 +2716,7 @@ lamb (1)
 [level]
 2
 [comments]
-Transliterated Hebrew: 'immar
+Transliteration: 'immar
 [references]
 EZR 6:9
 EZR 6:17
@@ -2727,7 +2727,7 @@ lamb (2)
 [level]
 2
 [comments]
-Transliterated Hebrew: kar
+Transliteration: kar
 [references]
 DEU 32:14
 1SA 15:9
@@ -2746,7 +2746,7 @@ lamb 3
 [level]
 2
 [comments]
-Transliterated Hebrew: taleh
+Transliteration: taleh
 [references]
 1SA 7:9
 ISA 40:11
@@ -2760,7 +2760,7 @@ lamb, sheep (1)
 [level]
 2
 [comments]
-Transliterated Hebrew: kesev
+Transliteration: kesev
 [references]
 GEN 30:32
 GEN 30:33
@@ -2781,7 +2781,7 @@ lamb, sheep (2)
 [level]
 2
 [comments]
-Transliterated Hebrew: keves
+Transliteration: keves
 [references]
 EXO 12:5
 EXO 29:38
@@ -2894,7 +2894,7 @@ HOS 4:16
 [keyterm]
 laurestinus = nannyberry
 [comments]
-Transliterated Hebrew: tidhar
+Transliteration: tidhar
 [references]
 ISA 41:19
 ISA 60:13
@@ -2902,14 +2902,14 @@ ISA 60:13
 [keyterm]
 leech
 [comments]
-Transliterated Hebrew: aluqah
+Transliteration: aluqah
 [references]
 PRO 30:15
 
 [keyterm]
 lentil
 [comments]
-Transliterated Hebrew: adashah
+Transliteration: adashah
 [references]
 GEN 25:34
 2SA 17:28
@@ -2919,7 +2919,7 @@ EZK 4:9
 [keyterm]
 leopard or cheetah
 [comments]
-Transliterated Hebrew: namer
+Transliteration: namer
 [references]
 SNG 4:8
 ISA 11:6
@@ -2931,7 +2931,7 @@ HAB 1:8
 [keyterm]
 lily
 [comments]
-Transliterated Hebrew: shushan
+Transliteration: shushan
 [references]
 1KI 7:19
 1KI 7:22
@@ -2959,7 +2959,7 @@ lion 1
 [level]
 2
 [comments]
-Transliterated Hebrew: 'ari
+Transliteration: 'ari
 [references]
 NUM 23:24
 NUM 24:9
@@ -3000,7 +3000,7 @@ lion 2
 [level]
 2
 [comments]
-Transliterated Hebrew: 'aryeh
+Transliteration: 'aryeh
 [references]
 GEN 49:9
 GEN 49:9
@@ -3064,7 +3064,7 @@ lion 3
 [level]
 2
 [comments]
-Transliterated Hebrew: labiy'
+Transliteration: labiy'
 [references]
 GEN 49:9
 NUM 23:24
@@ -3086,7 +3086,7 @@ lion 4
 [level]
 2
 [comments]
-Transliterated Hebrew: layish
+Transliteration: layish
 [references]
 JOB 4:11
 PRO 30:30
@@ -3097,7 +3097,7 @@ lion 5
 [level]
 2
 [comments]
-Transliterated Hebrew: shachal
+Transliteration: shachal
 [references]
 JOB 4:10
 JOB 10:16
@@ -3110,7 +3110,7 @@ HOS 13:7
 [keyterm]
 louse
 [comments]
-Transliterated Hebrew: ken
+Transliteration: ken
 [references]
 EXO 8:12
 EXO 8:13
@@ -3122,7 +3122,7 @@ PSA 105:31
 [keyterm]
 maggot
 [comments]
-Transliterated Hebrew: rimmah
+Transliteration: rimmah
 [references]
 EXO 16:24
 JOB 7:5
@@ -3135,7 +3135,7 @@ ISA 14:11
 [keyterm]
 male ass
 [comments]
-Transliterated Hebrew: 'ayir
+Transliteration: 'ayir
 [references]
 GEN 32:16
 GEN 49:11
@@ -3150,7 +3150,7 @@ ZEC 9:9
 [keyterm]
 male donkey
 [comments]
-Transliterated Hebrew: chamor
+Transliteration: chamor
 [references]
 GEN 12:16
 GEN 22:3
@@ -3252,14 +3252,14 @@ ZEC 14:15
 [keyterm]
 mallow
 [comments]
-Transliterated Hebrew: chalamuth
+Transliteration: chalamuth
 [references]
 JOB 6:6
 
 [keyterm]
 mandrake
 [comments]
-Transliterated Hebrew: dudaim
+Transliteration: dudaim
 [references]
 GEN 30:14
 GEN 30:14
@@ -3271,28 +3271,28 @@ SNG 7:14
 [keyterm]
 migratory locust
 [comments]
-Transliterated Hebrew: geb
+Transliteration: geb
 [references]
 ISA 33:4
 
 [keyterm]
 millet
 [comments]
-Transliterated Hebrew: dochan
+Transliteration: dochan
 [references]
 EZK 4:9
 
 [keyterm]
 mole rat
 [comments]
-Transliterated Hebrew: chephar-parath
+Transliteration: chephar-parath
 [references]
 ISA 2:20
 
 [keyterm]
 monkey
 [comments]
-Transliterated Hebrew: qoph
+Transliteration: qoph
 [references]
 1KI 10:22
 2CH 9:21
@@ -3300,7 +3300,7 @@ Transliterated Hebrew: qoph
 [keyterm]
 moorhen, ibis
 [comments]
-Transliterated Hebrew: tinsheme
+Transliteration: tinsheme
 [references]
 LEV 11:18
 LEV 11:30
@@ -3309,7 +3309,7 @@ DEU 14:16
 [keyterm]
 moroccan locust = grasshopper
 [comments]
-Transliterated Hebrew: chagab
+Transliteration: chagab
 [references]
 LEV 11:22
 NUM 13:33
@@ -3320,7 +3320,7 @@ ISA 40:22
 [keyterm]
 mouse or rat
 [comments]
-Transliterated Hebrew: 'akbar
+Transliteration: 'akbar
 [references]
 LEV 11:29
 1SA 6:4
@@ -3332,7 +3332,7 @@ ISA 66:17
 [keyterm]
 mule
 [comments]
-Transliterated Hebrew: pered
+Transliteration: pered
 [references]
 2SA 13:29
 2SA 18:9
@@ -3353,7 +3353,7 @@ ZEC 14:15
 [keyterm]
 muskmelon
 [comments]
-Transliterated Hebrew: qishu'ah
+Transliteration: qishu'ah
 [references]
 NUM 11:5
 ISA 1:8
@@ -3361,7 +3361,7 @@ ISA 1:8
 [keyterm]
 myrtle
 [comments]
-Transliterated Hebrew: hadas
+Transliteration: hadas
 [references]
 NEH 8:15
 ISA 41:19
@@ -3378,7 +3378,7 @@ nettle 1
 [level]
 2
 [comments]
-Transliterated Hebrew: charul
+Transliteration: charul
 [references]
 JOB 30:7
 PRO 24:31
@@ -3389,7 +3389,7 @@ nettle 2
 [level]
 2
 [comments]
-Transliterated Hebrew: qimmosh
+Transliteration: qimmosh
 [references]
 PRO 24:31
 ISA 34:13
@@ -3398,7 +3398,7 @@ HOS 9:6
 [keyterm]
 nightjar/hawk
 [comments]
-Transliterated Hebrew: tachmas
+Transliteration: tachmas
 [references]
 LEV 11:16
 DEU 14:15
@@ -3406,7 +3406,7 @@ DEU 14:15
 [keyterm]
 oak
 [comments]
-Transliterated Hebrew: 'allon
+Transliteration: 'allon
 [references]
 GEN 35:8
 GEN 35:8
@@ -3425,7 +3425,7 @@ ZEC 11:2
 [keyterm]
 olive
 [comments]
-Transliterated Hebrew: zayit
+Transliteration: zayit
 [references]
 GEN 8:11
 EXO 23:11
@@ -3473,7 +3473,7 @@ onager = wild ass (1)
 [level]
 2
 [comments]
-Transliterated Hebrew: 'arod
+Transliteration: 'arod
 [references]
 JOB 39:5
 
@@ -3482,7 +3482,7 @@ onager = wild ass (2)
 [level]
 2
 [comments]
-Transliterated Hebrew: pere'
+Transliteration: pere'
 [references]
 GEN 16:12
 JOB 6:5
@@ -3498,21 +3498,21 @@ HOS 8:9
 [keyterm]
 onion
 [comments]
-Transliterated Hebrew: batzal
+Transliteration: batzal
 [references]
 NUM 11:5
 
 [keyterm]
 onycha
 [comments]
-Transliterated Hebrew: shechelet
+Transliteration: shechelet
 [references]
 EXO 30:34
 
 [keyterm]
 oriental plane tree
 [comments]
-Transliterated Hebrew: armon
+Transliteration: armon
 [references]
 GEN 30:37
 EZK 31:8
@@ -3520,7 +3520,7 @@ EZK 31:8
 [keyterm]
 oryx = large antelope
 [comments]
-Transliterated Hebrew: te'o
+Transliteration: te'o
 [references]
 DEU 14:5
 ISA 51:20
@@ -3528,7 +3528,7 @@ ISA 51:20
 [keyterm]
 osprey
 [comments]
-Transliterated Hebrew: azniyah
+Transliteration: azniyah
 [references]
 LEV 11:13
 DEU 14:12
@@ -3536,7 +3536,7 @@ DEU 14:12
 [keyterm]
 ostrich, barn owl
 [comments]
-Transliterated Hebrew: ya'anah
+Transliteration: ya'anah
 [references]
 LEV 11:16
 DEU 14:15
@@ -3550,7 +3550,7 @@ MIC 1:8
 [keyterm]
 ostrich
 [comments]
-Transliterated Hebrew: renanah
+Transliteration: renanah
 [references]
 JOB 39:13
 
@@ -3562,7 +3562,7 @@ ox, bull (1)
 [level]
 2
 [comments]
-Transliterated Hebrew: shor
+Transliteration: shor
 [references]
 GEN 32:6
 EXO 20:17
@@ -3648,7 +3648,7 @@ ox, bull (2)
 [level]
 2
 [comments]
-Transliterated Hebrew: towr
+Transliteration: towr
 [references]
 EZR 6:9
 EZR 6:17
@@ -3666,7 +3666,7 @@ palm, date palm (1)
 [level]
 2
 [comments]
-Transliterated Hebrew: tamar
+Transliteration: tamar
 [references]
 EXO 15:27
 LEV 23:40
@@ -3688,7 +3688,7 @@ palm, date palm (2)
 [level]
 2
 [comments]
-Transliterated Hebrew: timmorah
+Transliteration: timmorah
 [references]
 1KI 6:29
 1KI 6:32
@@ -3713,7 +3713,7 @@ EZK 41:26
 [keyterm]
 papyrus, rush
 [comments]
-Transliterated Hebrew: gome'
+Transliteration: gome'
 [references]
 EXO 2:3
 JOB 8:11
@@ -3723,7 +3723,7 @@ ISA 35:7
 [keyterm]
 partridge
 [comments]
-Transliterated Hebrew: qore
+Transliteration: qore
 [references]
 1SA 26:20
 JER 17:11
@@ -3731,7 +3731,7 @@ JER 17:11
 [keyterm]
 peacock, guinea fowl
 [comments]
-Transliterated Hebrew: tukkiy
+Transliteration: tukkiy
 [references]
 1KI 10:22
 2CH 9:21
@@ -3739,28 +3739,28 @@ Transliterated Hebrew: tukkiy
 [keyterm]
 pearl
 [comments]
-Transliterated Hebrew: gabish
+Transliteration: gabish
 [references]
 JOB 28:18
 
 [keyterm]
 persian walnut
 [comments]
-Transliterated Hebrew: 'egoz
+Transliteration: 'egoz
 [references]
 SNG 6:11
 
 [keyterm]
 pistachio nut
 [comments]
-Transliterated Hebrew: botnim
+Transliteration: botnim
 [references]
 GEN 43:11
 
 [keyterm]
 plant
 [comments]
-Transliterated Hebrew: qiyqayon
+Transliteration: qiyqayon
 [references]
 JON 4:6
 JON 4:7
@@ -3770,7 +3770,7 @@ JON 4:10
 [keyterm]
 poisonous snake
 [comments]
-Transliterated Hebrew: tsepha'
+Transliteration: tsepha'
 [references]
 PRO 23:32
 ISA 11:8
@@ -3781,7 +3781,7 @@ JER 8:17
 [keyterm]
 pomegranate
 [comments]
-Transliterated Hebrew: rimmon
+Transliteration: rimmon
 [references]
 EXO 28:33
 EXO 28:34
@@ -3819,7 +3819,7 @@ HAG 2:19
 [keyterm]
 quail
 [comments]
-Transliterated Hebrew: selaw
+Transliteration: selaw
 [references]
 EXO 16:13
 NUM 11:31
@@ -3834,7 +3834,7 @@ ram (1)
 [level]
 2
 [comments]
-Transliterated Hebrew: 'ayil
+Transliteration: 'ayil
 [references]
 GEN 15:9
 GEN 22:13
@@ -3998,7 +3998,7 @@ ram (2)
 [level]
 2
 [comments]
-Transliterated Hebrew: dekar
+Transliteration: dekar
 [references]
 EZR 6:9
 EZR 6:17
@@ -4007,7 +4007,7 @@ EZR 7:17
 [keyterm]
 raven
 [comments]
-Transliterated Hebrew: oreb
+Transliteration: oreb
 [references]
 GEN 8:7
 LEV 11:15
@@ -4023,7 +4023,7 @@ ISA 34:11
 [keyterm]
 red saunders
 [comments]
-Transliterated Hebrew: almuggim/algummim
+Transliteration: almuggim/algummim
 [references]
 1KI 10:11
 1KI 10:12
@@ -4035,7 +4035,7 @@ Transliterated Hebrew: almuggim/algummim
 [keyterm]
 reeds, rushes
 [comments]
-Transliterated Hebrew: 'acho
+Transliteration: 'acho
 [references]
 GEN 41:2
 GEN 41:18
@@ -4044,7 +4044,7 @@ JOB 8:11
 [keyterm]
 rush, bulrush
 [comments]
-Transliterated Hebrew: 'agmon
+Transliteration: 'agmon
 [references]
 ISA 9:13
 ISA 19:15
@@ -4053,14 +4053,14 @@ ISA 58:5
 [keyterm]
 scops owl
 [comments]
-Transliterated Hebrew: lilith
+Transliteration: lilith
 [references]
 ISA 34:14
 
 [keyterm]
 scorpion
 [comments]
-Transliterated Hebrew: 'aqrab
+Transliteration: 'aqrab
 [references]
 DEU 8:15
 1KI 12:11
@@ -4072,7 +4072,7 @@ EZK 2:6
 [keyterm]
 senna bush
 [comments]
-Transliterated Hebrew: seneh
+Transliteration: seneh
 [references]
 EXO 3:2
 EXO 3:2
@@ -4084,7 +4084,7 @@ DEU 33:16
 [keyterm]
 she-mule
 [comments]
-Transliterated Hebrew: pirdah
+Transliteration: pirdah
 [references]
 1KI 1:33
 1KI 1:38
@@ -4093,14 +4093,14 @@ Transliterated Hebrew: pirdah
 [keyterm]
 snail
 [comments]
-Transliterated Hebrew: shabbelul
+Transliteration: shabbelul
 [references]
 PSA 58:9
 
 [keyterm]
 spider
 [comments]
-Transliterated Hebrew: 'akkabish
+Transliteration: 'akkabish
 [references]
 JOB 8:14
 ISA 59:5
@@ -4108,7 +4108,7 @@ ISA 59:5
 [keyterm]
 spikenard
 [comments]
-Transliterated Hebrew: nerd
+Transliteration: nerd
 [references]
 SNG 1:12
 SNG 4:13
@@ -4122,7 +4122,7 @@ spiny zilla, brier (1)
 [level]
 2
 [comments]
-Transliterated Hebrew: barqan
+Transliteration: barqan
 [references]
 JDG 8:7
 JDG 8:16
@@ -4132,7 +4132,7 @@ spiny zilla, brier (2)
 [level]
 2
 [comments]
-Transliterated Hebrew: chedeq
+Transliteration: chedeq
 [references]
 PRO 15:19
 MIC 7:4
@@ -4142,7 +4142,7 @@ spiny zilla, brier (3)
 [level]
 2
 [comments]
-Transliterated Hebrew: shamir
+Transliteration: shamir
 [references]
 ISA 5:6
 ISA 7:23
@@ -4158,7 +4158,7 @@ spiny zilla, brier (4)
 [level]
 2
 [comments]
-Transliterated Hebrew: sillon
+Transliteration: sillon
 [references]
 EZK 2:6
 EZK 28:24
@@ -4166,7 +4166,7 @@ EZK 28:24
 [keyterm]
 stag
 [comments]
-Transliterated Hebrew: 'ayyal
+Transliteration: 'ayyal
 [references]
 DEU 12:15
 DEU 12:22
@@ -4182,7 +4182,7 @@ LAM 1:6
 [keyterm]
 standing grain
 [comments]
-Transliterated Hebrew: qamah
+Transliteration: qamah
 [references]
 EXO 22:5
 DEU 16:9
@@ -4198,7 +4198,7 @@ HOS 8:7
 [keyterm]
 star thistle
 [comments]
-Transliterated Hebrew: dardar
+Transliteration: dardar
 [references]
 GEN 3:18
 HOS 10:8
@@ -4206,14 +4206,14 @@ HOS 10:8
 [keyterm]
 stone pine
 [comments]
-Transliterated Hebrew: tirzah
+Transliteration: tirzah
 [references]
 ISA 44:14
 
 [keyterm]
 stork
 [comments]
-Transliterated Hebrew: chasidah
+Transliteration: chasidah
 [references]
 LEV 11:19
 DEU 14:18
@@ -4225,7 +4225,7 @@ ZEC 5:9
 [keyterm]
 swallow
 [comments]
-Transliterated Hebrew: deror
+Transliteration: deror
 [references]
 PSA 84:4
 PRO 26:2
@@ -4233,7 +4233,7 @@ PRO 26:2
 [keyterm]
 swine, boar
 [comments]
-Transliterated Hebrew: chazir
+Transliteration: chazir
 [references]
 LEV 11:7
 DEU 14:8
@@ -4246,7 +4246,7 @@ ISA 66:17
 [keyterm]
 sycamore fig
 [comments]
-Transliterated Hebrew: shiqmah
+Transliteration: shiqmah
 [references]
 1KI 10:27
 1CH 27:28
@@ -4259,7 +4259,7 @@ AMO 7:14
 [keyterm]
 syrian brown bear
 [comments]
-Transliterated Hebrew: dob
+Transliteration: dob
 [references]
 1SA 17:34
 1SA 17:36
@@ -4277,7 +4277,7 @@ AMO 5:19
 [keyterm]
 syrian hyssop
 [comments]
-Transliterated Hebrew: 'ezob
+Transliteration: 'ezob
 [references]
 EXO 12:22
 LEV 14:4
@@ -4293,7 +4293,7 @@ PSA 51:9
 [keyterm]
 tamarisk
 [comments]
-Transliterated Hebrew: 'eshel
+Transliteration: 'eshel
 [references]
 GEN 21:33
 1SA 22:6
@@ -4302,7 +4302,7 @@ GEN 21:33
 [keyterm]
 terebinth
 [comments]
-Transliterated Hebrew: elah
+Transliteration: elah
 [references]
 GEN 35:4
 JOS 24:26
@@ -4322,7 +4322,7 @@ HOS 4:13
 [keyterm]
 thorn bushes
 [comments]
-Transliterated Hebrew: shayit
+Transliteration: shayit
 [references]
 ISA 5:6
 ISA 7:23
@@ -4335,7 +4335,7 @@ ISA 27:4
 [keyterm]
 thorn, thornbush
 [comments]
-Transliterated Hebrew: qots
+Transliteration: qots
 [references]
 GEN 3:18
 EXO 22:5
@@ -4353,7 +4353,7 @@ HOS 10:8
 [keyterm]
 thorny burnet
 [comments]
-Transliterated Hebrew: sir
+Transliteration: sir
 [references]
 ECC 7:6
 ISA 34:13
@@ -4363,7 +4363,7 @@ NAM 1:10
 [keyterm]
 thorny lotus
 [comments]
-Transliterated Hebrew: tse'el
+Transliteration: tse'el
 [references]
 JOB 40:21
 JOB 40:22
@@ -4371,7 +4371,7 @@ JOB 40:22
 [keyterm]
 thrush or swallow
 [comments]
-Transliterated Hebrew: agor
+Transliteration: agor
 [references]
 ISA 38:14
 JER 8:7
@@ -4379,7 +4379,7 @@ JER 8:7
 [keyterm]
 turtle dove
 [comments]
-Transliterated Hebrew: tor
+Transliteration: tor
 [references]
 GEN 15:9
 LEV 1:14
@@ -4399,14 +4399,14 @@ JER 8:7
 [keyterm]
 unidentified tree
 [comments]
-Transliterated Hebrew: gopher
+Transliteration: gopher
 [references]
 GEN 6:14
 
 [keyterm]
 vine, vine tree
 [comments]
-Transliterated Hebrew: gephen
+Transliteration: gephen
 [references]
 GEN 40:9
 GEN 40:10
@@ -4467,7 +4467,7 @@ MAL 3:11
 [keyterm]
 vineyard
 [comments]
-Transliterated Hebrew: kerem
+Transliteration: kerem
 [references]
 GEN 9:20
 EXO 22:4
@@ -4570,7 +4570,7 @@ ZEP 1:13
 [keyterm]
 white broom
 [comments]
-Transliterated Hebrew: rothem
+Transliteration: rothem
 [references]
 1KI 19:4
 1KI 19:5
@@ -4580,7 +4580,7 @@ PSA 120:4
 [keyterm]
 white willow
 [comments]
-Transliterated Hebrew: 'arab
+Transliteration: 'arab
 [references]
 LEV 23:40
 JOB 40:22
@@ -4591,7 +4591,7 @@ ISA 44:4
 [keyterm]
 wolf
 [comments]
-Transliterated Hebrew: ze'eb
+Transliteration: ze'eb
 [references]
 GEN 49:27
 ISA 11:6
@@ -4604,7 +4604,7 @@ ZEP 3:3
 [keyterm]
 worm
 [comments]
-Transliterated Hebrew: tola'ah
+Transliteration: tola'ah
 [references]
 JOB 25:6
 ISA 14:11
@@ -4612,7 +4612,7 @@ ISA 14:11
 [keyterm]
 worm, maggot
 [comments]
-Transliterated Hebrew: tola'a
+Transliteration: tola'a
 [references]
 EXO 16:20
 DEU 28:39
@@ -4624,7 +4624,7 @@ JON 4:7
 [keyterm]
 wormwood
 [comments]
-Transliterated Hebrew: la'anah
+Transliteration: la'anah
 [references]
 DEU 29:17
 PRO 5:4
@@ -4638,7 +4638,7 @@ AMO 6:12
 [keyterm]
 young bull, bullock
 [comments]
-Transliterated Hebrew: par
+Transliteration: par
 [references]
 GEN 32:16
 EXO 24:5
@@ -4777,7 +4777,7 @@ HOS 14:3
 [keyterm]
 young hart, stag
 [comments]
-Transliterated Hebrew: 'ofer
+Transliteration: 'ofer
 [references]
 SNG 2:9
 SNG 2:17
@@ -4788,7 +4788,7 @@ SNG 8:14
 [keyterm]
 young lion
 [comments]
-Transliterated Hebrew: kephir
+Transliteration: kephir
 [references]
 JDG 14:5
 JOB 4:10

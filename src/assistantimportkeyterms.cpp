@@ -38,6 +38,7 @@ AssistantBase("Keyterms", "importkeyterms")
   g_signal_connect (G_OBJECT (assistant), "apply", G_CALLBACK (on_assistant_apply_signal), gpointer(this));
 
   introduction ("Text files that contain keyterms can be imported into the keyterms database.");
+
   // File to import.
 
   vbox_select_file = gtk_vbox_new (FALSE, 0);
@@ -149,9 +150,11 @@ AssistantBase("Keyterms", "importkeyterms")
   gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), 0);
 }
 
+
 ImportKeytermsAssistant::~ImportKeytermsAssistant()
 {
 }
+
 
 void ImportKeytermsAssistant::on_assistant_apply_signal (GtkAssistant *assistant, gpointer user_data)
 {

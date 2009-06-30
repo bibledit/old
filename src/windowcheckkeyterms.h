@@ -37,6 +37,7 @@ public:
   void copy_clipboard();
   Reference * new_reference_showing;
   GtkWidget *signal;
+  ustring collection ();
 protected:
   GtkWidget *vbox;
 private:

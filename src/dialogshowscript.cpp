@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "utilities.h"
 #include "dialogshowscript.h"
 #include <glib.h>
@@ -30,6 +31,7 @@
 #include "projectutils.h"
 #include "generalconfig.h"
 #include "settings.h"
+
 
 ShowScriptDialog::ShowScriptDialog(int dummy)
 {
@@ -59,37 +61,19 @@ ShowScriptDialog::ShowScriptDialog(int dummy)
   gtk_container_add(GTK_CONTAINER(scrolledwindow1), textview1);
   gtk_text_view_set_editable(GTK_TEXT_VIEW(textview1), FALSE);
 
-  checkbutton1 = gtk_check_button_new_with_mnemonic("Previous session");
-  gtk_widget_show(checkbutton1);
-  gtk_box_pack_start(GTK_BOX(vbox1), checkbutton1, FALSE, FALSE, 0);
+  hbox1 = gtk_hbox_new (FALSE, 10);
+  gtk_widget_show (hbox1);
+  gtk_box_pack_start (GTK_BOX (vbox1), hbox1, FALSE, FALSE, 0);
+
+  checkbutton1 = gtk_check_button_new_with_mnemonic ("Show previous session");
+  gtk_widget_show (checkbutton1);
+  gtk_box_pack_start (GTK_BOX (hbox1), checkbutton1, FALSE, FALSE, 0);
 
   shortcuts.button(checkbutton1);
 
-  hbox1 = gtk_hbox_new(FALSE, 0);
-  gtk_widget_show(hbox1);
-  gtk_box_pack_start(GTK_BOX(vbox1), hbox1, FALSE, FALSE, 0);
-
-  GSList *radiobutton_bibledit_group = NULL;
-
-  radiobutton_bibledit = gtk_radio_button_new_with_mnemonic(NULL, "General");
-  gtk_widget_show(radiobutton_bibledit);
-  gtk_box_pack_start(GTK_BOX(hbox1), radiobutton_bibledit, FALSE, FALSE, 0);
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_bibledit), radiobutton_bibledit_group);
-  radiobutton_bibledit_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_bibledit));
-
-  shortcuts.button(radiobutton_bibledit);
-
-  radiobutton_git = gtk_radio_button_new_with_mnemonic(NULL, "Git");
-  gtk_widget_show(radiobutton_git);
-  gtk_box_pack_start(GTK_BOX(hbox1), radiobutton_git, FALSE, FALSE, 0);
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_git), radiobutton_bibledit_group);
-  radiobutton_bibledit_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_git));
-
-  shortcuts.button(radiobutton_git);
-
-  button_diagnostics = gtk_button_new();
-  gtk_widget_show(button_diagnostics);
-  gtk_box_pack_start(GTK_BOX(hbox1), button_diagnostics, FALSE, FALSE, 0);
+  button_diagnostics = gtk_button_new ();
+  gtk_widget_show (button_diagnostics);
+  gtk_box_pack_start (GTK_BOX (hbox1), button_diagnostics, FALSE, FALSE, 0);
 
   alignment1 = gtk_alignment_new(0.5, 0.5, 0, 0);
   gtk_widget_show(alignment1);
@@ -208,26 +192,11 @@ void ShowScriptDialog::on_checkbutton1_toggled(GtkToggleButton * togglebutton, g
   ((ShowScriptDialog *) user_data)->load(true);
 }
 
-void ShowScriptDialog::on_radiobutton_bibledit_toggled(GtkToggleButton * togglebutton, gpointer user_data)
-{
-  ((ShowScriptDialog *) user_data)->load(true);
-}
-
-void ShowScriptDialog::on_radiobutton_git_toggled(GtkToggleButton * togglebutton, gpointer user_data)
-{
-  ((ShowScriptDialog *) user_data)->load(true);
-}
-
 ustring ShowScriptDialog::logfilename()
 {
-  ustring filename;
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_bibledit))) {
-    filename = "bibledit.log";
-  } else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_git))) {
-    filename = "git.log";
-  }
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton1))) {
-    filename.append(".old");
+  ustring filename = "bibledit.log";
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton1))) {
+    filename.append (".old");
   }
   return gw_build_filename(directories_get_temp(), filename);
 }

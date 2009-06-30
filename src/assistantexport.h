@@ -29,18 +29,20 @@
 #include "export_utils.h"
 #include "windowreferences.h"
 #include "windowstyles.h"
+#include "windowcheckkeyterms.h"
 
 
 class ExportAssistant : public AssistantBase
 {
 public:
-  ExportAssistant(WindowReferences * references_window, WindowStyles * styles_window);
+  ExportAssistant(WindowReferences * references_window, WindowStyles * styles_window, WindowCheckKeyterms * check_keyterms_window);
   virtual ~ExportAssistant();
   bool sword_module_created;
 private:
   // Local variables.
   WindowReferences * my_references_window;
   WindowStyles * my_styles_window;
+  WindowCheckKeyterms * my_check_keyterms_window;
 
   // Assistant page preparation.
   static void on_assistant_prepare_signal (GtkAssistant *assistant, GtkWidget *page, gpointer user_data);
@@ -53,6 +55,7 @@ private:
   GtkWidget *radiobutton_select_type_references;
   GtkWidget *radiobutton_select_type_stylesheet;
   GtkWidget *radiobutton_select_type_notes;
+  GtkWidget *radiobutton_select_type_keyterms;
   ExportType get_type ();
 
   // Confirm or change Bible.
@@ -119,6 +122,11 @@ private:
   static void on_entry_sword_changed (GtkEditable *editable, gpointer user_data);
   void on_entry_sword (GtkEditable *editable);
   void sword_values_set ();
+  
+  // Include keyterms without rendering?
+  int page_number_keyterms_without_rendering;
+  GtkWidget *checkbutton_keyterms_without_rendering;
+  bool get_include_keyterms_without_rendering ();
   
   // Compress it?
   int page_number_zip;

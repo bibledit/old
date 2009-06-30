@@ -35,9 +35,10 @@
 #include "compress.h"
 #include "dialogdate.h"
 #include "date_time_utils.h"
+#include "keyterms.h"
 
 
-ExportAssistant::ExportAssistant(WindowReferences * references_window, WindowStyles * styles_window) :
+ExportAssistant::ExportAssistant(WindowReferences * references_window, WindowStyles * styles_window, WindowCheckKeyterms * check_keyterms_window) :
 AssistantBase("Export", "export")
 // Export assistant.
 {
@@ -54,6 +55,7 @@ AssistantBase("Export", "export")
   sword_module_created = false;
   my_references_window = references_window;
   my_styles_window = styles_window;
+  my_check_keyterms_window = check_keyterms_window;
   date_time = 0;
 
   // Build the GUI for the task selector.
@@ -98,11 +100,21 @@ AssistantBase("Export", "export")
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_notes), radiobutton_select_type_group);
   radiobutton_select_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_select_type_notes));
 
+  radiobutton_select_type_keyterms = gtk_radio_button_new_with_mnemonic (NULL, "Keyterms");
+  gtk_widget_show (radiobutton_select_type_keyterms);
+  gtk_box_pack_start (GTK_BOX (vbox_select_type), radiobutton_select_type_keyterms, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_keyterms), radiobutton_select_type_group);
+  radiobutton_select_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_select_type_keyterms));
+
+  // Exporting keyterms only works when the check keyterms window shows.
+  gtk_widget_set_sensitive (radiobutton_select_type_keyterms, my_check_keyterms_window != NULL);
+  
   Shortcuts shortcuts_select_type (0);
   shortcuts_select_type.button (radiobutton_select_type_bible);
   shortcuts_select_type.button (radiobutton_select_type_references);
   shortcuts_select_type.button (radiobutton_select_type_stylesheet);
   shortcuts_select_type.button (radiobutton_select_type_notes);
+  shortcuts_select_type.button (radiobutton_select_type_keyterms);
   shortcuts_select_type.consider_assistant();
   shortcuts_select_type.process();
 
@@ -373,6 +385,21 @@ AssistantBase("Export", "export")
 
   sword_values_set ();
 
+  // Include keyterms without a rendering?
+  checkbutton_keyterms_without_rendering = gtk_check_button_new_with_mnemonic ("Include keyterms without a rendering");
+  gtk_widget_show (checkbutton_keyterms_without_rendering);
+  page_number_keyterms_without_rendering = gtk_assistant_append_page (GTK_ASSISTANT (assistant), checkbutton_keyterms_without_rendering);
+  gtk_container_set_border_width (GTK_CONTAINER (checkbutton_keyterms_without_rendering), 10);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), checkbutton_keyterms_without_rendering, "Include keyterms without a rendering?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), checkbutton_keyterms_without_rendering, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), checkbutton_keyterms_without_rendering, true);
+
+  Shortcuts shortcuts_keyterms_wo_rendering (0);
+  shortcuts_keyterms_wo_rendering.button (checkbutton_keyterms_without_rendering);
+  shortcuts_keyterms_wo_rendering.consider_assistant();
+  shortcuts_keyterms_wo_rendering.process();
+  
   // Compress it?
   checkbutton_zip = gtk_check_button_new_with_mnemonic ("Compress it");
   gtk_widget_show (checkbutton_zip);
@@ -744,6 +771,11 @@ void ExportAssistant::on_assistant_apply ()
       export_translation_notes(filename, ids_to_display, true);
       break;
     }
+    case etKeyterms:
+    {
+      keyterms_export_renderings (my_check_keyterms_window->collection(), get_include_keyterms_without_rendering ());
+      break;
+    }
   }
   // Show summary.
   gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), summary_page_number);
@@ -896,6 +928,11 @@ gint ExportAssistant::assistant_forward (gint current_page)
       forward_sequence.insert (page_number_file);
       break;
     }
+    case etKeyterms:
+    {
+      forward_sequence.insert (page_number_keyterms_without_rendering);
+      break;
+    }
   }
 
   // Always end up goint to the confirmation and summary pages.
@@ -986,6 +1023,9 @@ ExportType ExportAssistant::get_type ()
   }
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_select_type_notes))) {
     return etNotes;
+  }
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_select_type_keyterms))) {
+    return etKeyterms;
   }
   return etBible;
 }
@@ -1086,4 +1126,9 @@ void ExportAssistant::sword_values_set ()
   gtk_entry_set_text(GTK_ENTRY(entry_sword_install_path), settings->genconfig.export_to_sword_install_path_get().c_str());
 }
 
+
+bool ExportAssistant::get_include_keyterms_without_rendering ()
+{
+  return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_keyterms_without_rendering));
+}
 

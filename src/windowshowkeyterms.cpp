@@ -68,8 +68,7 @@ void WindowShowKeyterms::go_to(const ustring & project, const Reference & refere
 
     // Display the keyterm.
     ustring term;
-    unsigned int dummy;
-    keyterms_get_term(keyterms[i], term, dummy);
+    keyterms_get_term(keyterms[i], term);
     gtk_text_buffer_insert_at_cursor(buffer, "* ", -1);
     gtk_text_buffer_insert_at_cursor(buffer, term.c_str(), -1);
     gtk_text_buffer_insert_at_cursor(buffer, ": ", -1);
@@ -82,8 +81,7 @@ void WindowShowKeyterms::go_to(const ustring & project, const Reference & refere
     {
       ustring dummy1;
       vector < Reference > dummy2;
-      vector < ustring > dummy3;
-      keyterms_get_data(keyterms[i], category, dummy1, dummy2, dummy3);
+      keyterms_get_data(keyterms[i], category, dummy1, dummy2);
     }
     keyterms_retrieve_renderings(project, term, category, renderings, wholewords, casesensitives);
     for (unsigned int i2 = 0; i2 < renderings.size(); i2++) {

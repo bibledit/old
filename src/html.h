@@ -17,14 +17,18 @@
  **  
  */
 
+
 #ifndef INCLUDED_HTML_H
 #define INCLUDED_HTML_H
 
+
 #include "libraries.h"
+
 
 ustring html_remove_code_between_less_than_and_greater_than_signs(const ustring& text);
 ustring html_create_anchor(const ustring& anchor, const ustring& text);
 ustring html_extract_title(const ustring& filename);
 void html_entities_to_utf8(ustring& code);
+
 
 #endif

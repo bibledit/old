@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "keyterms.h"
 #include "utilities.h"
 #include "gwrappers.h"
@@ -30,6 +31,9 @@
 #include "unixwrappers.h"
 #include <glib.h>
 #include "tiny_utilities.h"
+#include "settings.h"
+#include "htmlwriter.h"
+
 
 ustring keyterms_get_user_filename()
 // Gives the filename for the user-created keyterms database.
@@ -37,11 +41,13 @@ ustring keyterms_get_user_filename()
   return gw_build_filename(directories_get_templates_user(), "keyterms.sql");
 }
 
+
 ustring keyterms_get_package_filename()
 // Gives the filename for the keyterms database that comes with bibledit.
 {
   return gw_build_filename(directories_get_package_data(), "keyterms.sql");
 }
+
 
 ustring keyterms_get_filename ()
 // Gives the standard filename, or the user file if it's there.
@@ -53,6 +59,7 @@ ustring keyterms_get_filename ()
   return filename;
 }
 
+
 void keyterms_ensure_user_database()
 {
   // Bail out if the user database exists.
@@ -63,69 +70,24 @@ void keyterms_ensure_user_database()
   // Copy the package database to the user one.
   unix_cp (keyterms_get_package_filename(), keyterms_get_user_filename());
   chmod(keyterms_get_user_filename().c_str(), 00666);
-  
-  // Ready.
-  return;
-
-  /*  
-  // The code below is left there in case a new database needs to be created from scratch.
-  // New database.
-  sqlite3 *db;
-  int rc;
-  char *error = NULL;
-  try {
-    // Get the database template, create the database.
-    unix_cp(gw_build_filename(directories_get_package_data(), "sqlite-empty.sql"), keyterms_get_user_filename());
-    chmod(keyterms_get_user_filename().c_str(), 00666);
-    rc = sqlite3_open(keyterms_get_user_filename().c_str(), &db);
-    if (rc)
-      throw runtime_error(sqlite3_errmsg(db));
-    sqlite3_busy_timeout(db, 1000);
-    char *sql;
-    sql = g_strdup_printf("create table categories (name string);");
-    rc = sqlite3_exec(db, sql, NULL, NULL, &error);
-    g_free(sql);
-    if (rc)
-      throw runtime_error(sqlite3_errmsg(db));
-    sql = g_strdup_printf("create table keyterms (name string, namecf, category integer, level integer, parent integer, comments string);");
-    rc = sqlite3_exec(db, sql, NULL, NULL, &error);
-    g_free(sql);
-    if (rc)
-      throw runtime_error(sqlite3_errmsg(db));
-    sql = g_strdup_printf("create table refs (keyword integer, book integer, chapter integer, verse string);");
-    rc = sqlite3_exec(db, sql, NULL, NULL, &error);
-    g_free(sql);
-    if (rc)
-      throw runtime_error(sqlite3_errmsg(db));
-    sql = g_strdup_printf("create table related (myterm integer, relatedterm string);");
-    rc = sqlite3_exec(db, sql, NULL, NULL, &error);
-    g_free(sql);
-    if (rc)
-      throw runtime_error(sqlite3_errmsg(db));
-  }
-  catch(exception & ex) {
-    unlink(keyterms_get_user_filename().c_str());
-    gw_critical(ex.what());
-  }
-  sqlite3_close(db);
-  */
 }
 
-void keyterms_import_textfile_flush(sqlite3 * db, unsigned int category_id, ustring & keyterm, unsigned int &level, unsigned int &previous_level, vector < unsigned int >&parents, vector < ustring > &comments, vector < Reference > &references, vector < ustring > &related)
+
+void keyterms_import_textfile_flush(sqlite3 * db, unsigned int category_id, ustring& keyterm, vector <ustring>& comments, vector <Reference>& references)
 {
   // Only store if there is enough data.
-  if (!keyterm.empty()) {
+  if (!keyterm.empty() && !references.empty()) {
+
+    int keyterm_id = keyterms_retrieve_highest_id ("keyterm") + 1;
+
     // Variables needed to access the database.
     int rc;
     char *error = NULL;
     char *sql;
+
     // Clean keyterm.
     keyterm = double_apostrophy(keyterm);
-    // Clean level.
-    if (level < 1)
-      level = 1;
-    if (level > 4)
-      level = 4;
+
     // Clean comment.
     ustring comment;
     for (unsigned int i = 0; i < comments.size(); i++) {
@@ -134,50 +96,17 @@ void keyterms_import_textfile_flush(sqlite3 * db, unsigned int category_id, ustr
       comment.append(comments[i]);
     }
     comment = double_apostrophy(comment);
-    // Glue the levels. At times the input data makes a jump from level 1 
-    // straight to 3, without going through 2.
-    for (unsigned int i = previous_level + 1; i < level; i++) {
-      sql = g_strdup_printf("insert into keyterms values ('%s', '%s', %d, %d, %d, '%s');", "missing", "", category_id, i, parents[i - 1], "");
-      rc = sqlite3_exec(db, sql, NULL, NULL, &error);
-      g_free(sql);
-      if (rc)
-        throw runtime_error(sqlite3_errmsg(db));
-      parents[i] = parents[i - 1] + 1;
-    }
-    previous_level = level;
-    // Store the data, except the reference and the related terms.
-    unsigned int parent = 0;
-    if (level > 1)
-      parent = parents[level - 1];
-    sql = g_strdup_printf("insert into keyterms values ('%s', '%s', %d, %d, %d, '%s');", keyterm.c_str(), keyterm.casefold().c_str(), category_id, level, parent, comment.c_str());
+
+    // Store the keyterm.
+    sql = g_strdup_printf("insert into keyterm values (%d, %d, '%s', '%s', '%s');", keyterm_id, category_id, keyterm.c_str(), keyterm.casefold().c_str(), comment.c_str());
     rc = sqlite3_exec(db, sql, NULL, NULL, &error);
     g_free(sql);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
-    // Read the id of the keyterm just stored.
-    SqliteReader reader(0);
-    sql = g_strdup_printf("select ROWID from keyterms where name = '%s';", keyterm.c_str());
-    rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
-    g_free(sql);
-    if (rc)
-      throw runtime_error(sqlite3_errmsg(db));
-    unsigned int keyterm_id = 0;
-    if (reader.ustring0.size() > 0)
-      keyterm_id = convert_to_int(reader.ustring0[reader.ustring0.size() - 1]);
-    // Store keyword's id as parent.
-    parents[level] = keyterm_id;
+
     // Store the references belonging to the keyword.
     for (unsigned int i = 0; i < references.size(); i++) {
-      sql = g_strdup_printf("insert into refs values (%d, %d, %d, '%s');", keyterm_id, references[i].book, references[i].chapter, references[i].verse.c_str());
-      rc = sqlite3_exec(db, sql, NULL, NULL, &error);
-      g_free(sql);
-      if (rc)
-        throw runtime_error(sqlite3_errmsg(db));
-    }
-    // Store related keywords.
-    for (unsigned int i = 0; i < related.size(); i++) {
-      ustring rel(double_apostrophy(related[i]));
-      sql = g_strdup_printf("insert into related values (%d, '%s');", keyterm_id, rel.c_str());
+      sql = g_strdup_printf("insert into reference values (%d, %d, %d, %d);", keyterm_id, references[i].book, references[i].chapter, convert_to_int (references[i].verse));
       rc = sqlite3_exec(db, sql, NULL, NULL, &error);
       g_free(sql);
       if (rc)
@@ -186,31 +115,34 @@ void keyterms_import_textfile_flush(sqlite3 * db, unsigned int category_id, ustr
 
   }
   keyterm.clear();
-  level = 0;
   comments.clear();
   references.clear();
-  related.clear();
 }
 
-void keyterms_import_textfile_flags_down(bool & flag1, bool & flag2, bool & flag3, bool & flag4, bool & flag5)
+
+void keyterms_import_textfile_flags_down(bool & flag1, bool & flag2, bool & flag3)
 {
   flag1 = false;
   flag2 = false;
   flag3 = false;
-  flag4 = false;
-  flag5 = false;
 }
+
 
 void keyterms_import_textfile(const ustring & textfile, ustring category)
 // Imports a keyterms textfile.
 {
   // Ensure the db is there.
   keyterms_ensure_user_database();
+
   // Variables.
   sqlite3 *db;
   int rc;
   char *error = NULL;
   try {
+
+    // The id to use for the category.
+    int category_id = keyterms_retrieve_highest_id ("category") + 1;
+    
     // Read the text.
     ReadText rt(textfile);
 
@@ -221,47 +153,28 @@ void keyterms_import_textfile(const ustring & textfile, ustring category)
     sqlite3_busy_timeout(db, 1000);
     char *sql;
     sql = g_strdup_printf("PRAGMA synchronous=OFF;");
-    rc = sqlite3_exec(db, sql, NULL, NULL, &error);
+    rc = sqlite3_exec(db, sql, NULL, NULL, &error); 
     g_free(sql);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
 
-    // The category of these keyterms.
+    // Store the category of these keyterms.
     category = double_apostrophy(category);
-    // Store the category.
-    sql = g_strdup_printf("insert into categories values ('%s');", category.c_str());
+    sql = g_strdup_printf("insert into category values (%d, '%s');", category_id, category.c_str());
     rc = sqlite3_exec(db, sql, NULL, NULL, &error);
     g_free(sql);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
-    // Retrieve the id for this category.
-    SqliteReader reader(0);
-    sql = g_strdup_printf("select ROWID from categories where name = '%s';", category.c_str());
-    rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
-    g_free(sql);
-    if (rc)
-      throw runtime_error(sqlite3_errmsg(db));
-    unsigned int category_id = 0;
-    if (reader.ustring0.size() > 0)
-      category_id = convert_to_int(reader.ustring0[0]);
 
     // Storage for our data.
     ustring keyterm;
-    unsigned int level = 0;
-    unsigned int previous_level = 0;
-    vector < unsigned int >parents;
-    for (unsigned int i = 0; i < 10; i++)
-      parents.push_back(1);
-    vector < ustring > comments;
-    vector < Reference > references;
-    vector < ustring > related;
+    vector <ustring> comments;
+    vector <Reference> references;
 
     // Flags for reading our data.
     bool readkeyterm = false;
-    bool readlevel = false;
     bool readcomments = false;
     bool readreferences = false;
-    bool readrelated = false;
 
     unsigned int previousbook = 0;
     unsigned int previouschapter = 0;
@@ -270,7 +183,6 @@ void keyterms_import_textfile(const ustring & textfile, ustring category)
     for (unsigned int i = 1; i < rt.lines.size(); i++) {
       try {
         ustring line(rt.lines[i]);
-        //printf ("%s\n", line.c_str());
         // Skip comments and empty lines.
         if (line.empty())
           continue;
@@ -279,33 +191,46 @@ void keyterms_import_textfile(const ustring & textfile, ustring category)
         if (line.find("//") != string::npos)
           continue;
         if (line.substr(0, 1) == "[") {
-          keyterms_import_textfile_flags_down(readkeyterm, readlevel, readcomments, readreferences, readrelated);
+          keyterms_import_textfile_flags_down(readkeyterm, readcomments, readreferences);
         }
         if (readkeyterm) {
           keyterm = line;
-          keyterms_import_textfile_flags_down(readkeyterm, readlevel, readcomments, readreferences, readrelated);
-        }
-        if (readlevel) {
-          level = convert_to_int(line);
-          keyterms_import_textfile_flags_down(readkeyterm, readlevel, readcomments, readreferences, readrelated);
+          keyterms_import_textfile_flags_down(readkeyterm, readcomments, readreferences);
         }
         if (readcomments) {
           comments.push_back(line);
         }
         if (readreferences) {
+          /*
+            The file with general keyterms of the Old Testament may have references that are specially formed. Examples:
+            Exo 08:22(E26)
+            Gen 08:20ab
+            Gen 22:09 (2x)
+            These should be handled as well.
+          */
+          line = trim (line);
+          size_t pos = line.find ("(");
+          if (pos != string::npos) {
+            line.erase (pos, 10);
+            line = trim (line);
+          }
+          for (unsigned int i = 0; i < 3; i++) {
+            pos = line.find_last_of ("abc");
+            if (pos != string::npos) {
+              if (pos > 5) {
+                line.erase (pos, 10);
+                line = trim (line);
+              }
+            }
+          }
+          // Store the reference.
           Reference reference(0);
           if (reference_discover(previousbook, previouschapter, "0", line, reference.book, reference.chapter, reference.verse))
             references.push_back(reference);
         }
-        if (readrelated) {
-          related.push_back(line);
-        }
         if (line == "[keyterm]") {
-          keyterms_import_textfile_flush(db, category_id, keyterm, level, previous_level, parents, comments, references, related);
+          keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
           readkeyterm = true;
-        }
-        if (line == "[level]") {
-          readlevel = true;
         }
         if (line == "[comments]") {
           readcomments = true;
@@ -313,26 +238,23 @@ void keyterms_import_textfile(const ustring & textfile, ustring category)
         if (line == "[references]") {
           readreferences = true;
         }
-        if (line == "[related]") {
-          readrelated = true;
-        }
       }
       catch(exception & ex) {
         ustring msg = "Skipping: ";
         msg.append(ex.what());
-        if (write(1, msg.c_str(), strlen(msg.c_str()))) ;
-        cout << endl;
+        gw_critical (msg);
       }
 
     }
     // Flush possible remaining keyterm.
-    keyterms_import_textfile_flush(db, category_id, keyterm, level, previous_level, parents, comments, references, related);
+    keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
   }
   catch(exception & ex) {
     gw_critical(ex.what());
   }
   sqlite3_close(db);
 }
+
 
 void keyterms_import_otkey_db(const ustring& textfile, ustring category)
 {
@@ -359,14 +281,14 @@ void keyterms_import_otkey_db(const ustring& textfile, ustring category)
 
     // Store the category of these keyterms.
     category = double_apostrophy(category);
-    sql = g_strdup_printf("insert into categories values ('%s');", category.c_str());
+    sql = g_strdup_printf("insert into category values ('%s');", category.c_str());
     rc = sqlite3_exec(db, sql, NULL, NULL, &error);
     g_free(sql);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     // Retrieve the id for this category.
     SqliteReader reader(0);
-    sql = g_strdup_printf("select ROWID from categories where name = '%s';", category.c_str());
+    sql = g_strdup_printf("select ROWID from category where name = '%s';", category.c_str());
     rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
     g_free(sql);
     if (rc)
@@ -378,7 +300,6 @@ void keyterms_import_otkey_db(const ustring& textfile, ustring category)
     // Storage for our data.
     ustring keyterm;
     unsigned int level = 0;
-    unsigned int previous_level = 0;
     vector < unsigned int >parents;
     for (unsigned int i = 0; i < 10; i++)
       parents.push_back(1);
@@ -400,12 +321,12 @@ void keyterms_import_otkey_db(const ustring& textfile, ustring category)
 
         // Keyterm: store; give progress.
         if (line.find("\\key") == 0) {
-          keyterms_import_textfile_flush(db, category_id, keyterm, level, previous_level, parents, comments, references, related);
+          keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
           keyterm = trim(line.substr(4, 1000));
         }
         // English description: flush, new keyterm with level 2.
         if (line.find("\\cme") == 0) {
-          keyterms_import_textfile_flush(db, category_id, keyterm, level, previous_level, parents, comments, references, related);
+          keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
           keyterm = trim(line.substr(4, 1000));
           level = 2;
         }
@@ -434,7 +355,7 @@ void keyterms_import_otkey_db(const ustring& textfile, ustring category)
 
     }
     // Flush remaining data.
-    keyterms_import_textfile_flush(db, category_id, keyterm, level, previous_level, parents, comments, references, related);
+    keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
 
   }
   catch(exception & ex) {
@@ -482,14 +403,14 @@ void keyterms_import_ktref_db(const ustring& textfile, ustring category)
 
     // Store the category of these keyterms.
     category = double_apostrophy(category);
-    sql = g_strdup_printf("insert into categories values ('%s');", category.c_str());
+    sql = g_strdup_printf("insert into category values ('%s');", category.c_str());
     rc = sqlite3_exec(db, sql, NULL, NULL, &error);
     g_free(sql);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     // Retrieve the id for this category.
     SqliteReader reader(0);
-    sql = g_strdup_printf("select ROWID from categories where name = '%s';", category.c_str());
+    sql = g_strdup_printf("select ROWID from category where name = '%s';", category.c_str());
     rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
     g_free(sql);
     if (rc)
@@ -501,8 +422,7 @@ void keyterms_import_ktref_db(const ustring& textfile, ustring category)
     // Storage for our data.
     ustring keyterm;
     unsigned int level = 0;
-    unsigned int previous_level = 0;
-    vector < unsigned int >parents;
+    vector <unsigned int> parents;
     for (unsigned int i = 0; i < 10; i++)
       parents.push_back(1);
     vector < ustring > comments;
@@ -530,24 +450,24 @@ void keyterms_import_ktref_db(const ustring& textfile, ustring category)
 
         // Keyterm: store; give progress.
         if (line.find("\\en ") == 0) {
-          keyterms_import_textfile_flush(db, category_id, keyterm, level, previous_level, parents, comments, references, related);
+          keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
           keyterm = trim(line.substr(4, 1000));
         }
         // English description: flush, new keyterm with level 2.
         if (line.find("\\en2 ") == 0) {
-          keyterms_import_textfile_flush(db, category_id, keyterm, level, previous_level, parents, comments, references, related);
+          keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
           keyterm = trim(line.substr(5, 1000));
           level = 2;
         }
         // English description: flush, new keyterm with level 3.
         if (line.find("\\en3 ") == 0) {
-          keyterms_import_textfile_flush(db, category_id, keyterm, level, previous_level, parents, comments, references, related);
+          keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
           keyterm = trim(line.substr(5, 1000));
           level = 3;
         }
         // English description: flush, new keyterm with level 3.
         if (line.find("\\en4 ") == 0) {
-          keyterms_import_textfile_flush(db, category_id, keyterm, level, previous_level, parents, comments, references, related);
+          keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
           keyterm = trim(line.substr(5, 1000));
           level = 4;
         }
@@ -627,7 +547,7 @@ void keyterms_import_ktref_db(const ustring& textfile, ustring category)
 
     }
     // Flush remaining data.
-    keyterms_import_textfile_flush(db, category_id, keyterm, level, previous_level, parents, comments, references, related);
+    keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
 
   }
   catch(exception & ex) {
@@ -746,14 +666,14 @@ void keyterms_import_ktbh_txt(const ustring& textfile, ustring category)
       throw runtime_error(sqlite3_errmsg(db));
 
     // Store the category of these keyterms.
-    sql = g_strdup_printf("insert into categories values ('%s');", category.c_str());
+    sql = g_strdup_printf("insert into category values ('%s');", category.c_str());
     rc = sqlite3_exec(db, sql, NULL, NULL, &error);
     g_free(sql);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     // Retrieve the id for this category.
     SqliteReader reader(0);
-    sql = g_strdup_printf("select ROWID from categories where name = '%s';", category.c_str());
+    sql = g_strdup_printf("select ROWID from category where name = '%s';", category.c_str());
     rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
     g_free(sql);
     if (rc)
@@ -766,7 +686,6 @@ void keyterms_import_ktbh_txt(const ustring& textfile, ustring category)
     ustring keyterm;
     ustring gloss, meaning, context;
     unsigned int level = 0;
-    unsigned int previous_level = 0;
     vector < unsigned int >parents;
     for (unsigned int i = 0; i < 10; i++)
       parents.push_back(1);
@@ -782,7 +701,7 @@ void keyterms_import_ktbh_txt(const ustring& textfile, ustring category)
 
         // Hebrew keyterm: store.
         if (line.find("\\heb ") == 0) {
-          keyterms_import_textfile_flush(db, category_id, keyterm, level, previous_level, parents, comments, references, related);
+          keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
           keyterm = line.substr(5, 1000);
         }
         // Gloss: store and add to keyterm.
@@ -792,7 +711,7 @@ void keyterms_import_ktbh_txt(const ustring& textfile, ustring category)
         }
         // Level 2.
         if (line.find("\\level2 ") == 0) {
-          keyterms_import_textfile_flush(db, category_id, keyterm, level, previous_level, parents, comments, references, related);
+          keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
           keyterm = line.substr(8, 1000);
           level = 2;
         }
@@ -805,7 +724,7 @@ void keyterms_import_ktbh_txt(const ustring& textfile, ustring category)
         }
         // Level 3.
         if (line.find("\\level3 ") == 0) {
-          keyterms_import_textfile_flush(db, category_id, keyterm, level, previous_level, parents, comments, references, related);
+          keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
           keyterm = line.substr(8, 1000);
           level = 3;
         }
@@ -888,7 +807,7 @@ void keyterms_import_ktbh_txt(const ustring& textfile, ustring category)
 
     }
     // Flush remaining data.
-    keyterms_import_textfile_flush(db, category_id, keyterm, level, previous_level, parents, comments, references, related);
+    keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
 
   }
   catch(exception & ex) {
@@ -910,7 +829,7 @@ vector <ustring> keyterms_get_categories()
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
     char *sql;
-    sql = g_strdup_printf("select name from categories;");
+    sql = g_strdup_printf("select name from category;");
     rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
     g_free(sql);
     if (rc) {
@@ -924,30 +843,59 @@ vector <ustring> keyterms_get_categories()
   return reader.ustring0;
 }
 
+
 void keyterms_delete_collection (const ustring& collection)
-// Delete the collection from the database. If all collections have been deleted, it reverts to the original database of the package.
+// Delete the collection from the database. 
+// If all collections have been deleted, it reverts to the original database of the package.
 {
   // Ensure we work with the user database.
   keyterms_ensure_user_database ();
 
-  // Delete the collection.
   sqlite3 *db;
   sqlite3_open(keyterms_get_filename().c_str(), &db);
   sqlite3_busy_timeout(db, 1000);
-  SqliteReader reader(0);
   char *sql;
-  sql = g_strdup_printf("select ROWID from categories where name = '%s';", double_apostrophy(collection).c_str());
-  sqlite3_exec(db, sql, reader.callback, &reader, NULL);
-  g_free(sql);
-  unsigned int collection_id = 0;
-  if (!reader.ustring0.empty())
-    collection_id = convert_to_int(reader.ustring0[0]);
-  sql = g_strdup_printf("delete from keyterms where ROWID = '%d';", collection_id);
+
+  // Retrieve the id of the collection to delete.
+  int collection_id = 0;
+  {
+    SqliteReader reader(0);
+    sql = g_strdup_printf("select id from category where name = '%s';", double_apostrophy(collection).c_str());
+    sqlite3_exec(db, sql, reader.callback, &reader, NULL);
+    g_free(sql);
+    if (!reader.ustring0.empty())
+      collection_id = convert_to_int(reader.ustring0[0]);
+  }
+
+  // Retrieve a list of keyterm ids to be deleted.
+  vector <int> keyterm_ids;
+  {
+    SqliteReader reader(0);
+    sql = g_strdup_printf("select id from keyterm where category = %d;", collection_id);
+    sqlite3_exec(db, sql, reader.callback, &reader, NULL);
+    g_free(sql);
+    for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
+      keyterm_ids.push_back (convert_to_int (reader.ustring0[i]));
+    }
+  }  
+
+  // Delete the category.
+  sql = g_strdup_printf("delete from category where name = '%s';", double_apostrophy(collection).c_str());
   sqlite3_exec(db, sql, NULL, NULL, NULL);
   g_free(sql);
-  sql = g_strdup_printf("delete from categories where name = '%s';", double_apostrophy(collection).c_str());
+
+  // Delete the keyterms.
+  sql = g_strdup_printf("delete from keyterm where category = %d;", collection_id);
   sqlite3_exec(db, sql, NULL, NULL, NULL);
   g_free(sql);
+  
+  // Delete the relevant references.
+  for (unsigned int i = 0; i < keyterm_ids.size(); i++) {
+    sql = g_strdup_printf("delete from reference where id = %d;", keyterm_ids[i]);
+    sqlite3_exec(db, sql, NULL, NULL, NULL);
+    g_free(sql);
+  }
+
   sqlite3_close(db);
   
   // If there are no categories left, revert to the package database.
@@ -956,7 +904,8 @@ void keyterms_delete_collection (const ustring& collection)
   }
 }
 
-void keyterms_get_terms(const ustring & searchterm, const ustring & collection, vector < ustring > &terms, vector < unsigned int >&levels, vector < unsigned int >&parents, vector < unsigned int >&ids)
+
+void keyterms_get_terms(const ustring& searchterm, const ustring& collection, vector <ustring>& terms, vector <unsigned int>& ids)
 // Depending on the searchterm and collection, get the keyterms, together with 
 // their levels, parents, and ids. If the searchterm is empty, give them all.
 // If the collection is empty, get them from all collections.
@@ -977,7 +926,7 @@ void keyterms_get_terms(const ustring & searchterm, const ustring & collection, 
     unsigned int collection_id = 0;
     if (!collection.empty()) {
       char *sql;
-      sql = g_strdup_printf("select ROWID from categories where name = '%s';", double_apostrophy(collection).c_str());
+      sql = g_strdup_printf("select id from category where name = '%s';", double_apostrophy(collection).c_str());
       rc = sqlite3_exec(db, sql, readercollection.callback, &readercollection, &error);
       g_free(sql);
       if (rc)
@@ -985,13 +934,13 @@ void keyterms_get_terms(const ustring & searchterm, const ustring & collection, 
       if (!readercollection.ustring0.empty())
         collection_id = convert_to_int(readercollection.ustring0[0]);
     }
-    // Assemble query expression;
-    ustring sql("select name, level, parent, ROWID from keyterms");
+    // Assemble query expression.
+    ustring sql("select id, name from keyterm");
     if (!searchterm.empty() || collection_id)
       sql.append(" where");
     if (!searchterm.empty()) {
       sql.append(" (namecf glob ('*" + searchterm.casefold() + "*')");
-      sql.append(" or comments glob ('*" + searchterm.casefold() + "*'))");
+      sql.append(" or comment glob ('*" + searchterm.casefold() + "*'))");
     }
     if (!searchterm.empty() && collection_id)
       sql.append(" and");
@@ -1005,10 +954,8 @@ void keyterms_get_terms(const ustring & searchterm, const ustring & collection, 
       throw runtime_error(sqlite3_errmsg(db));
     // Return results.
     for (unsigned int i = 0; i < readerterms.ustring0.size(); i++) {
-      terms.push_back(readerterms.ustring0[i]);
-      levels.push_back(convert_to_int(readerterms.ustring1[i]));
-      parents.push_back(convert_to_int(readerterms.ustring2[i]));
-      ids.push_back(convert_to_int(readerterms.ustring3[i]));
+      terms.push_back(readerterms.ustring1[i]);
+      ids.push_back(convert_to_int(readerterms.ustring0[i]));
     }
   }
   catch(exception & ex) {
@@ -1017,7 +964,8 @@ void keyterms_get_terms(const ustring & searchterm, const ustring & collection, 
   sqlite3_close(db);
 }
 
-bool keyterms_get_term(unsigned int id, ustring & term, unsigned int &parent)
+
+bool keyterms_get_term(unsigned int id, ustring & term)
 {
   bool result = false;
   sqlite3 *db;
@@ -1030,14 +978,13 @@ bool keyterms_get_term(unsigned int id, ustring & term, unsigned int &parent)
     sqlite3_busy_timeout(db, 1000);
     SqliteReader reader(0);
     char *sql;
-    sql = g_strdup_printf("select name, parent from keyterms where ROWID = %d;", id);
+    sql = g_strdup_printf("select name from keyterm where id = %d;", id);
     rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
     g_free(sql);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     if (!reader.ustring0.empty()) {
       term = reader.ustring0[0];
-      parent = convert_to_int(reader.ustring1[0]);
       result = true;
     }
   }
@@ -1048,7 +995,8 @@ bool keyterms_get_term(unsigned int id, ustring & term, unsigned int &parent)
   return result;
 }
 
-bool keyterms_get_data(unsigned int id, ustring & category, ustring & comments, vector < Reference > &references, vector < ustring > &related)
+
+bool keyterms_get_data(unsigned int id, ustring & category, ustring & comments, vector < Reference > &references)
 {
   bool result = false;
   sqlite3 *db;
@@ -1061,7 +1009,7 @@ bool keyterms_get_data(unsigned int id, ustring & category, ustring & comments, 
     sqlite3_busy_timeout(db, 1000);
     char *sql;
     SqliteReader reader1(0);
-    sql = g_strdup_printf("select category, comments from keyterms where ROWID = %d;", id);
+    sql = g_strdup_printf("select category, comment from keyterm where id = %d;", id);
     rc = sqlite3_exec(db, sql, reader1.callback, &reader1, &error);
     g_free(sql);
     if (rc)
@@ -1071,7 +1019,7 @@ bool keyterms_get_data(unsigned int id, ustring & category, ustring & comments, 
       result = true;
     }
     SqliteReader reader2(0);
-    sql = g_strdup_printf("select name from categories where ROWID = %d;", convert_to_int(reader1.ustring0[0]));
+    sql = g_strdup_printf("select name from category where id = %d;", convert_to_int(reader1.ustring0[0]));
     rc = sqlite3_exec(db, sql, reader2.callback, &reader2, &error);
     g_free(sql);
     if (rc)
@@ -1080,7 +1028,7 @@ bool keyterms_get_data(unsigned int id, ustring & category, ustring & comments, 
       category = reader2.ustring0[0];
     }
     SqliteReader reader3(0);
-    sql = g_strdup_printf("select book, chapter, verse from refs where keyword = %d;", id);
+    sql = g_strdup_printf("select book, chapter, verse from reference where id = %d;", id);
     rc = sqlite3_exec(db, sql, reader3.callback, &reader3, &error);
     g_free(sql);
     if (rc)
@@ -1089,13 +1037,6 @@ bool keyterms_get_data(unsigned int id, ustring & category, ustring & comments, 
       Reference reference(convert_to_int(reader3.ustring0[i]), convert_to_int(reader3.ustring1[i]), reader3.ustring2[i]);
       references.push_back(reference);
     }
-    SqliteReader reader4(0);
-    sql = g_strdup_printf("select relatedterm from related where myterm = %d;", id);
-    rc = sqlite3_exec(db, sql, reader4.callback, &reader4, &error);
-    g_free(sql);
-    if (rc)
-      throw runtime_error(sqlite3_errmsg(db));
-    related = reader4.ustring0;
   }
   catch(exception & ex) {
     gw_critical(ex.what());
@@ -1190,7 +1131,7 @@ void keyterms_store_renderings(const ustring & project, const ustring & keyterm,
   sqlite3_close(db);
 }
 
-void keyterms_export(const ustring & directory, bool gui)
+void keyterms_export(const ustring & directory, bool gui) // Todo check where this one is used.
 {
   return;
   
@@ -1210,10 +1151,8 @@ void keyterms_export(const ustring & directory, bool gui)
     vector < ustring > paratext_lines;
     // Get all data for the category.
     vector < ustring > terms;
-    vector < unsigned int >levels;
-    vector < unsigned int >parents;
     vector < unsigned int >ids;
-    keyterms_get_terms("", categories[cat], terms, levels, parents, ids);
+    keyterms_get_terms("", categories[cat], terms, ids);
     // GUI.
     if (gui) {
       progresswindow->set_iterate(0, 1, ids.size());
@@ -1227,15 +1166,8 @@ void keyterms_export(const ustring & directory, bool gui)
       // Process the full data of the keyterm.
       ustring comments;
       vector < Reference > references;
-      vector < ustring > related;
-      keyterms_get_data(ids[id], categories[cat], comments, references, related);
+      keyterms_get_data(ids[id], categories[cat], comments, references);
       ustring key("\\key ");
-      if (parents[id]) {
-        ustring parent_term;
-        unsigned int parent_parent;
-        keyterms_get_term(parents[id], parent_term, parent_parent);
-        key.append(parent_term + " ");
-      }
       key.append(terms[id]);
       paratext_lines.push_back(key);
       paratext_lines.push_back("\\keynote ");
@@ -1277,7 +1209,8 @@ vector < int >keyterms_get_terms_in_verse(const Reference & reference)
   return terms;
 }
 
-deque < ustring > keyterms_rendering_retrieve_terms(const ustring & project, const ustring & rendering)
+
+deque <ustring> keyterms_rendering_retrieve_terms(const ustring & project, const ustring & rendering)
 // This retrieves the keyterms that have the given rendering in them.
 {
   deque < ustring > keyterms;
@@ -1295,6 +1228,102 @@ deque < ustring > keyterms_rendering_retrieve_terms(const ustring & project, con
     keyterms.push_back(reader.ustring0[i]);
   sqlite3_close(db);
   return keyterms;
+}
+
+
+int keyterms_retrieve_highest_id (const gchar * table)
+// This retrieves the highest id from "table".
+{
+  int id = 0;
+  sqlite3 *db;
+  sqlite3_open(keyterms_get_filename().c_str(), &db);
+  sqlite3_busy_timeout(db, 1000);
+  SqliteReader reader(0);
+  char *sql;
+  sql = g_strdup_printf("select id from '%s' order by id desc;", table);
+  sqlite3_exec(db, sql, reader.callback, &reader, NULL);
+  g_free(sql);
+  if (reader.ustring0.size() > 0)
+    id = convert_to_int(reader.ustring0[0]);
+  sqlite3_close(db);
+  return id;
+}
+
+
+void keyterms_export_renderings (const ustring& collection, bool include_terms_wo_renderings) // Todo
+// Exports keyterms and their renderings to html.
+// collection: May restrict the export to one collection.
+// include_terms_wo_rendering: Whether to include the keyterms that have no renderings.
+{
+  // The project.
+  extern Settings * settings;
+  ustring project = settings->genconfig.project_get();
+
+  // Storage for the keyterms and their renderings.
+  vector <ustring> all_keyterms;
+  vector <VectorUstring> all_renderings;
+
+  // Get keyterms and renderings.
+  {
+    vector <ustring> collections = keyterms_get_categories();
+    for (unsigned int i = 0; i < collections.size(); i++) {
+      if (!collection.empty()) {
+        if (collection != collections[i]) {
+          continue;
+        }
+      }
+      vector <unsigned int> ids;
+      vector <ustring> keyterms;
+      vector <VectorUstring> renderings;
+      keyterms_get_terms ("", collections[i], keyterms, ids);
+      for (unsigned int i2 = 0; i2 < keyterms.size(); i2++) {
+        vector <ustring> rendering;
+        vector <bool> dummy;
+        keyterms_retrieve_renderings(project, keyterms[i2], collections[i], rendering, dummy, dummy);
+        renderings.push_back (rendering);
+      }
+      for (unsigned int i2 = 0; i2 < ids.size(); i2++) {
+        all_keyterms.push_back (keyterms[i2]);
+        all_renderings.push_back (renderings[i2]);
+      }
+    }
+  }
+
+  // Start the document.
+  HtmlWriter htmlwriter ("Keywords", false, true, false);
+  htmlwriter.heading (1, "Keywords");
+  
+  // Column headers.
+  vector <ustring> column_headers;
+  column_headers.push_back ("Keyword");
+  column_headers.push_back ("Renderings");
+  
+  // Cell content.
+  vector <VectorUstring> cell_content;
+  for (unsigned int i = 0; i < all_keyterms.size(); i++) {
+    vector <ustring> row;
+    vector <ustring> renderings = all_renderings[i];
+    if (renderings.empty ()) {
+      if (include_terms_wo_renderings) {
+        row.push_back (all_keyterms[i]);
+      }
+    } else {
+      for (unsigned int i2 = 0; i2 < renderings.size(); i2++) {
+        ustring keyterm;
+        if (i2 == 0) {
+          keyterm = all_keyterms[i];
+        }
+        row.push_back (keyterm);
+        row.push_back (renderings[i2]);
+      }
+    }
+    if (!row.empty()) {
+      cell_content.push_back (row);
+    }
+  }
+  
+  // Write the table.
+  htmlwriter.table ("Keywords",  column_headers, cell_content, "", NULL, 12);
 }
 
 

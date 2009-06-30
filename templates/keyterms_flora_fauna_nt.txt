@@ -3,14 +3,14 @@ Flora and Fauna of the New Testament
 [keyterm]
 aloe
 [comments]
-Transliterated Hebrew: aloe
+Transliteration: aloe
 [references]
 JHN 19:39
 
 [keyterm]
 anemone or lily
 [comments]
-Transliterated Hebrew: krinon
+Transliteration: krinon
 [references]
 MAT 6:28
 LUK 12:27
@@ -18,7 +18,7 @@ LUK 12:27
 [keyterm]
 barley
 [comments]
-Transliterated Hebrew: krithe
+Transliteration: krithe
 [references]
 JHN 6:9
 JHN 6:13
@@ -27,7 +27,7 @@ REV 6:6
 [keyterm]
 bearded darnel
 [comments]
-Transliterated Greek: zizanion
+Transliteration: zizanion
 [references]
 MAT 13:25
 MAT 13:26
@@ -39,14 +39,9 @@ MAT 13:38
 MAT 13:40
 
 [keyterm]
-bird
-
-[keyterm]
 bird (1)
-[level]
-2
 [comments]
-Transliterated Hebrew: orneon
+Transliteration: orneon
 [references]
 REV 18:2
 REV 19:17
@@ -54,10 +49,8 @@ REV 19:21
 
 [keyterm]
 bird (2)
-[level]
-2
 [comments]
-Transliterated Hebrew: peteinos
+Transliteration: peteinos
 [references]
 MAT 6:26
 MAT 8:20
@@ -77,7 +70,7 @@ JAS 3:7
 [keyterm]
 black mustard
 [comments]
-Transliterated Greek: sinapi
+Transliteration: sinapi
 [references]
 MAT 13:31
 MAT 17:20
@@ -88,7 +81,7 @@ LUK 17:6
 [keyterm]
 bull, cow, cattle
 [comments]
-Transliterated Hebrew: bous
+Transliteration: bous
 [references]
 LUK 13:15
 LUK 14:5
@@ -102,7 +95,7 @@ JHN 2:15
 [keyterm]
 bull, ox
 [comments]
-Transliterated Greek: tauros
+Transliteration: tauros
 [references]
 MAT 22:4
 ACT 14:13
@@ -112,7 +105,7 @@ HEB 10:4
 [keyterm]
 bunch of graphes
 [comments]
-Transliterated Greek: staphulen
+Transliteration: staphulen
 [references]
 MAT 7:16
 LUK 6:44
@@ -121,7 +114,7 @@ REV 14:18
 [keyterm]
 calf
 [comments]
-Transliterated Hebrew: moschos
+Transliteration: moschos
 [references]
 LUK 15:23
 LUK 15:27
@@ -133,7 +126,7 @@ REV 4:7
 [keyterm]
 camel
 [comments]
-Transliterated Hebrew: kamelos
+Transliteration: kamelos
 [references]
 MAT 3:4
 MAT 19:24
@@ -145,7 +138,7 @@ LUK 18:25
 [keyterm]
 chaff
 [comments]
-Transliterated Hebrew: achuron
+Transliteration: achuron
 [references]
 MAT 3:12
 LUK 3:17
@@ -153,14 +146,14 @@ LUK 3:17
 [keyterm]
 cheylon cinnamon
 [comments]
-Transliterated Hebrew: kinnamomon
+Transliteration: kinnamomon
 [references]
 REV 18:13
 
 [keyterm]
 clothes moth
 [comments]
-Transliterated Greek: ses
+Transliteration: ses
 [references]
 MAT 6:19
 MAT 6:20
@@ -169,7 +162,7 @@ LUK 12:33
 [keyterm]
 cock
 [comments]
-Transliterated Hebrew: alektor
+Transliteration: alektor
 [references]
 MAT 26:34
 MAT 26:74
@@ -187,28 +180,28 @@ JHN 18:27
 [keyterm]
 cultivated olive
 [comments]
-Transliterated Hebrew: kallielaios
+Transliteration: kallielaios
 [references]
 ROM 11:24
 
 [keyterm]
 cummin
 [comments]
-Transliterated Hebrew: kuminon
+Transliteration: kuminon
 [references]
 MAT 23:23
 
 [keyterm]
 dill
 [comments]
-Transliterated Hebrew: anethon
+Transliteration: anethon
 [references]
 MAT 23:23
 
 [keyterm]
 dog
 [comments]
-Transliterated Hebrew: kuoon
+Transliteration: kuoon
 [references]
 MAT 7:6
 LUK 16:21
@@ -219,7 +212,7 @@ REV 22:15
 [keyterm]
 donkey
 [comments]
-Transliterated Hebrew: onos
+Transliteration: onos
 [references]
 MAT 21:2
 MAT 21:5
@@ -231,7 +224,7 @@ JHN 12:15
 [keyterm]
 donkey's colt
 [comments]
-Transliterated Greek: polos
+Transliteration: polos
 [references]
 MAT 21:2
 MAT 21:5
@@ -249,7 +242,7 @@ JHN 12:15
 [keyterm]
 dove, pigeon
 [comments]
-Transliterated Hebrew: peristera
+Transliteration: peristera
 [references]
 MAT 3:16
 MAT 10:16
@@ -265,7 +258,7 @@ JHN 2:16
 [keyterm]
 dragon
 [comments]
-Transliterated Hebrew: drakon
+Transliteration: drakon
 [references]
 REV 12:3
 REV 12:4
@@ -284,14 +277,14 @@ REV 20:2
 [keyterm]
 egyptian cobra
 [comments]
-Transliterated Hebrew: aspis
+Transliteration: aspis
 [references]
 ROM 3:13
 
 [keyterm]
 fig
 [comments]
-Transliterated Greek: sukon
+Transliteration: sukon
 [references]
 MAT 7:16
 MRK 11:13
@@ -301,7 +294,7 @@ JAS 3:12
 [keyterm]
 fig tree
 [comments]
-Transliterated Greek: suke
+Transliteration: suke
 [references]
 MAT 21:19
 MAT 21:19
@@ -323,7 +316,7 @@ REV 6:13
 [keyterm]
 fish
 [comments]
-Transliterated Hebrew: ichthus
+Transliteration: ichthus
 [references]
 MAT 7:10
 MAT 14:17
@@ -348,7 +341,7 @@ JHN 21:11
 [keyterm]
 flax, linen
 [comments]
-Transliterated Hebrew: linon
+Transliteration: linon
 [references]
 MAT 12:20
 REV 15:6
@@ -356,7 +349,7 @@ REV 15:6
 [keyterm]
 flock
 [comments]
-Transliterated Greek: poimne
+Transliteration: poimne
 [references]
 MAT 26:31
 LUK 2:8
@@ -367,7 +360,7 @@ JHN 10:16
 [keyterm]
 fox
 [comments]
-Transliterated Hebrew: alopex
+Transliteration: alopex
 [references]
 MAT 8:20
 LUK 9:58
@@ -376,14 +369,14 @@ LUK 13:32
 [keyterm]
 frog
 [comments]
-Transliterated Hebrew: batrachos
+Transliteration: batrachos
 [references]
 REV 16:13
 
 [keyterm]
 fruit
 [comments]
-Transliterated Hebrew: karpos
+Transliteration: karpos
 [references]
 MAT 3:8
 MAT 3:10
@@ -455,7 +448,7 @@ REV 22:2
 [keyterm]
 garden herb, vegetable
 [comments]
-Transliterated Hebrew: lachanon
+Transliteration: lachanon
 [references]
 MAT 13:32
 MRK 4:32
@@ -465,21 +458,21 @@ ROM 14:2
 [keyterm]
 gnat, mosquito
 [comments]
-Transliterated Hebrew: konops
+Transliteration: konops
 [references]
 MAT 23:24
 
 [keyterm]
 goat
 [comments]
-Transliterated Hebrew: eriphion
+Transliteration: eriphion
 [references]
 MAT 25:33
 
 [keyterm]
 horse
 [comments]
-Transliterated Hebrew: hippos
+Transliteration: hippos
 [references]
 JAS 3:3
 REV 6:2
@@ -499,14 +492,9 @@ REV 19:19
 REV 19:21
 
 [keyterm]
-lamb
-
-[keyterm]
 lamb (1)
-[level]
-2
 [comments]
-Transliterated Hebrew: amnos
+Transliteration: amnos
 [references]
 JHN 1:29
 JHN 1:36
@@ -515,17 +503,15 @@ ACT 8:32
 
 [keyterm]
 lamb (2)
-[level]
-2
 [comments]
-Transliterated Hebrew: arne
+Transliteration: arne
 [references]
 LUK 10:3
 
 [keyterm]
 lion
 [comments]
-Transliterated Hebrew: leon
+Transliteration: leon
 [references]
 2TI 4:17
 HEB 11:33
@@ -540,7 +526,7 @@ REV 13:2
 [keyterm]
 little dog
 [comments]
-Transliterated Hebrew: kunarion
+Transliteration: kunarion
 [references]
 MAT 15:26
 MAT 15:27
@@ -550,7 +536,7 @@ MRK 7:28
 [keyterm]
 locust
 [comments]
-Transliterated Hebrew: akris
+Transliteration: akris
 [references]
 MAT 3:4
 MRK 1:6
@@ -560,7 +546,7 @@ REV 9:7
 [keyterm]
 male goat
 [comments]
-Transliterated Greek: tragos
+Transliteration: tragos
 [references]
 HEB 9:12
 HEB 9:13
@@ -570,7 +556,7 @@ HEB 10:4
 [keyterm]
 mint
 [comments]
-Transliterated Hebrew: heduosmon
+Transliteration: heduosmon
 [references]
 MAT 23:23
 LUK 11:42
@@ -578,7 +564,7 @@ LUK 11:42
 [keyterm]
 olive
 [comments]
-Transliterated Hebrew: elaia
+Transliteration: elaia
 [references]
 MAT 21:1
 MAT 24:3
@@ -599,7 +585,7 @@ REV 11:4
 [keyterm]
 palestinian viper
 [comments]
-Transliterated Hebrew: echidna
+Transliteration: echidna
 [references]
 MAT 3:7
 MAT 12:34
@@ -610,7 +596,7 @@ ACT 28:3
 [keyterm]
 palm
 [comments]
-Transliterated Greek: phoinix
+Transliteration: phoinix
 [references]
 JHN 12:13
 REV 7:9
@@ -618,14 +604,14 @@ REV 7:9
 [keyterm]
 panther
 [comments]
-Transliterated Hebrew: pardalis
+Transliteration: pardalis
 [references]
 REV 13:2
 
 [keyterm]
 pearl
 [comments]
-Transliterated Hebrew: margarites
+Transliteration: margarites
 [references]
 MAT 7:6
 MAT 13:45
@@ -640,7 +626,7 @@ REV 21:21
 [keyterm]
 possession, beast, animal
 [comments]
-Transliterated Hebrew: ktenos
+Transliteration: ktenos
 [references]
 LUK 10:34
 ACT 23:24
@@ -650,14 +636,14 @@ REV 18:13
 [keyterm]
 raven
 [comments]
-Transliterated Hebrew: korax
+Transliteration: korax
 [references]
 LUK 12:24
 
 [keyterm]
 reed
 [comments]
-Transliterated Hebrew: kalamos
+Transliteration: kalamos
 [references]
 MAT 11:7
 MAT 12:20
@@ -674,14 +660,14 @@ REV 21:16
 [keyterm]
 rue
 [comments]
-Transliterated Hebrew: peganon
+Transliteration: peganon
 [references]
 LUK 11:42
 
 [keyterm]
 scarlet, crimson, red
 [comments]
-Transliterated Hebrew: kokkinos
+Transliteration: kokkinos
 [references]
 MAT 27:28
 HEB 9:19
@@ -693,7 +679,7 @@ REV 18:16
 [keyterm]
 scorpion
 [comments]
-Transliterated Greek: skorpios
+Transliteration: skorpios
 [references]
 LUK 10:19
 LUK 11:12
@@ -704,7 +690,7 @@ REV 9:10
 [keyterm]
 sheep
 [comments]
-Transliterated Greek: probaton
+Transliteration: probaton
 [references]
 MAT 7:15
 MAT 9:36
@@ -751,7 +737,7 @@ REV 18:13
 [keyterm]
 small fish
 [comments]
-Transliterated Hebrew: opsarion
+Transliteration: opsarion
 [references]
 JHN 6:9
 JHN 6:11
@@ -762,7 +748,7 @@ JHN 21:13
 [keyterm]
 snake
 [comments]
-Transliterated Hebrew: ophis
+Transliteration: ophis
 [references]
 MAT 7:10
 MAT 10:16
@@ -782,14 +768,14 @@ REV 20:2
 [keyterm]
 sow = pig
 [comments]
-Transliterated Hebrew: hus
+Transliteration: hus
 [references]
 2PE 2:22
 
 [keyterm]
 sparrow
 [comments]
-Transliterated Greek: strouthion
+Transliteration: strouthion
 [references]
 MAT 10:29
 MAT 10:31
@@ -799,7 +785,7 @@ LUK 12:7
 [keyterm]
 spikenard
 [comments]
-Transliterated Hebrew: nardos
+Transliteration: nardos
 [references]
 MRK 14:3
 JHN 12:3
@@ -807,7 +793,7 @@ JHN 12:3
 [keyterm]
 sponge
 [comments]
-Transliterated Greek: spoggos
+Transliteration: spoggos
 [references]
 MAT 27:48
 MRK 15:36
@@ -816,7 +802,7 @@ JHN 19:29
 [keyterm]
 swine
 [comments]
-Transliterated Hebrew: choros
+Transliteration: choros
 [references]
 MAT 7:6
 MAT 8:30
@@ -836,28 +822,28 @@ LUK 15:16
 [keyterm]
 sycamina or mulberry
 [comments]
-Transliterated Greek: sukaminos
+Transliteration: sukaminos
 [references]
 LUK 17:6
 
 [keyterm]
 sycamore fig
 [comments]
-Transliterated Greek: sukomorea
+Transliteration: sukomorea
 [references]
 LUK 19:4
 
 [keyterm]
 syrian brown bear
 [comments]
-Transliterated Hebrew: arktos
+Transliteration: arktos
 [references]
 REV 13:2
 
 [keyterm]
 syrian hyssop
 [comments]
-Transliterated Hebrew: hussopos
+Transliteration: hussopos
 [references]
 JHN 19:29
 HEB 9:19
@@ -865,7 +851,7 @@ HEB 9:19
 [keyterm]
 thistle, briar, thorn
 [comments]
-Transliterated Greek: tribolous
+Transliteration: tribolous
 [references]
 MAT 7:16
 HEB 6:8
@@ -873,7 +859,7 @@ HEB 6:8
 [keyterm]
 thorn, globe thistle
 [comments]
-Transliterated Hebrew: akantha
+Transliteration: akantha
 [references]
 MAT 7:16
 MAT 13:7
@@ -893,7 +879,7 @@ HEB 6:8
 [keyterm]
 tree
 [comments]
-Transliterated Hebrew: dendron
+Transliteration: dendron
 [references]
 MAT 3:10
 MAT 3:10
@@ -925,14 +911,14 @@ REV 9:4
 [keyterm]
 turtle dove
 [comments]
-Transliterated Greek: trugon
+Transliteration: trugon
 [references]
 LUK 2:24
 
 [keyterm]
 vine
 [comments]
-Transliterated Hebrew: ampelos
+Transliteration: ampelos
 [references]
 MAT 26:29
 MRK 14:25
@@ -947,14 +933,14 @@ REV 14:19
 [keyterm]
 vineyard dressser
 [comments]
-Transliterated Hebrew: ampelourgos
+Transliteration: ampelourgos
 [references]
 LUK 13:7
 
 [keyterm]
 vineyard
 [comments]
-Transliterated Hebrew: ampelon
+Transliteration: ampelon
 [references]
 MAT 20:1
 MAT 20:2
@@ -983,7 +969,7 @@ LUK 20:16
 [keyterm]
 wheat
 [comments]
-Transliterated Greek: sitos
+Transliteration: sitos
 [references]
 MAT 3:12
 MAT 13:25
@@ -1003,7 +989,7 @@ REV 18:13
 [keyterm]
 wild beast, animal
 [comments]
-Transliterated Greek: therion
+Transliteration: therion
 [references]
 MRK 1:13
 ACT 10:12
@@ -1055,7 +1041,7 @@ REV 20:10
 [keyterm]
 wild olive
 [comments]
-Transliterated Hebrew: agrielaios
+Transliteration: agrielaios
 [references]
 ROM 11:17
 ROM 11:24
@@ -1063,7 +1049,7 @@ ROM 11:24
 [keyterm]
 wolf
 [comments]
-Transliterated Hebrew: lukos
+Transliteration: lukos
 [references]
 MAT 7:15
 MAT 10:16
@@ -1075,7 +1061,7 @@ ACT 20:29
 [keyterm]
 wormwood
 [comments]
-Transliterated Hebrew: apsinthos
+Transliteration: apsinthos
 [references]
 REV 8:11
 REV 8:11

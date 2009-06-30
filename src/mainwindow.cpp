@@ -3599,7 +3599,7 @@ void MainWindow::on_file_export_activate (GtkMenuItem *menuitem, gpointer user_d
 void MainWindow::on_file_export ()
 {
   save_editors();
-  export_assistant = new ExportAssistant (window_references, window_styles);
+  export_assistant = new ExportAssistant (window_references, window_styles, window_check_keyterms);
   g_signal_connect ((gpointer) export_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
 }
 
@@ -7253,19 +7253,80 @@ Todo various tasks.
 
 
 
+It is recommended to redo the ktbh database import, because right now it is very confusing.
+We need to go through the references that we have, and take each word from there.
+To take the gloss that is before this reference, and anything before that right from \heb goes into the comment section.
+So that we only have simple keywords.
+The new database has a table with categories, and an id for connecting it to this category.
+It also has a table with keyterms, and an integer linking to the categories, and another int linking to references in another table.
+Finally it has a table with a field "id" and a field "book" and a field "chapter" and a field "verse".
+
+
+
+
+
+keyterms_flora_fauna_nt.txt    works
+keyterms_flora_fauna_ot.txt   works
+keyterms_general_ot.txt  -- works
+keyterms_non_greek_nt.txt
+OTKEY.DB
+KTBH.pbu
+KTREF.DB  
+
+
+Could you put in somewhere a disclaimer something like:
+"Key Terms in Biblical Hebrew: the entries are an experimental sample 
+set, not yet fully reviewed and approved. The KTBH team would welcome 
+feed-back to christopher_samuel@sil.org"
+This can go in the comments area of the keyterm if it comes from this source.
+
+
+
+
+At the end of testing importing everything, we need to put a full keyterms.sql into the templates.
+
+
+Need to make an export function that exports everything into standard files.
+The original text files are no longer distributed with bibledit, but these are uploaded separately.
+Probably a link to these from the help files.
+
+
+
+It seems to crash the first time after startup of the machine.
+But not consistently, and it does this also in other cases.
+It started when the dbus started to be used. Should we perhaps use the glib bindings instead?
 
 
 
 
 
 
+On Tue, Jun 30, 2009 at 01:57:16PM +0200, Teus Benschop wrote:
+> operations. Space was offered on bibledit.org for that purpose. Once
+> bibledit supports secure git operations, any public git repository can
+> be used. But that is something still to come.
+> 
+Hi Teus,
+ I know it seems odd for a user to correct the programmer, but.. you're not
+right there!
 
+We've got several computers colaborating together quite happily, using a
+SSH based connection. 
 
+Prerequisite is for certificate based logins (no password needed when you
+try to "ssh hostname"), and all users having write access to the direcory.
 
+Basicly I went through the GIT repository set up on the server as described
+somewhere, but when it came to specifying the remote repo I entered 
+hostname:/path/to/directory (since the "server" also runs BE I put the
+"remote dir" on that machine to be just /path/to/server).
 
+I've not tried it, but someone might like to try
+"user@hostname:/path/to/directory"  as a repo address... I think it should
+work and it would obviously solve the permissions issue, if all connections
+to the repo were as the same userid.
 
-
-
+David
 
 
 

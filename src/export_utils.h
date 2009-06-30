@@ -26,7 +26,7 @@
 #include <gtk/gtk.h>
 
 
-enum ExportType {etBible, etReferences, etStylesheet, etNotes};
+enum ExportType {etBible, etReferences, etStylesheet, etNotes, etKeyterms};
 enum ExportBibleType {ebtUSFM, ebtBibleWorks, ebtOSIS, ebtSWORD, ebtOpenDocument, ebtGoBible};
 enum ExportOsisType {eotRecommended, eotGoBibleCreator, eotOld};
 enum ExportUsfmType {eutEverything, eutChangesOnly};

@@ -17,11 +17,14 @@
  **  
  */
 
+
 #ifndef INCLUDED_DIALOGSHOWSCRIPT
 #define INCLUDED_DIALOGSHOWSCRIPT
 
+
 #include <gtk/gtk.h>
 #include "libraries.h"
+
 
 class ShowScriptDialog
 {
@@ -35,10 +38,8 @@ protected:
   GtkWidget *vbox1;
   GtkWidget *scrolledwindow1;
   GtkWidget *textview1;
-  GtkWidget *checkbutton1;
   GtkWidget *hbox1;
-  GtkWidget *radiobutton_bibledit;
-  GtkWidget *radiobutton_git;
+  GtkWidget *checkbutton1;
   GtkWidget *button_diagnostics;
   GtkWidget *alignment1;
   GtkWidget *hbox2;
@@ -52,10 +53,9 @@ private:
   void load(bool force);
   ustring logfilename();
   static void on_checkbutton1_toggled(GtkToggleButton *togglebutton, gpointer user_data);
-  static void on_radiobutton_bibledit_toggled(GtkToggleButton *togglebutton, gpointer user_data);
-  static void on_radiobutton_git_toggled(GtkToggleButton *togglebutton, gpointer user_data);
   static void on_button_diagnostics_clicked(GtkButton *button, gpointer user_data);
   void on_button_diagnostics();
 };
+
 
 #endif
