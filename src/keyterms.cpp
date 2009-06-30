@@ -1250,7 +1250,7 @@ int keyterms_retrieve_highest_id (const gchar * table)
 }
 
 
-void keyterms_export_renderings (const ustring& collection, bool include_terms_wo_renderings) // Todo
+void keyterms_export_renderings (const ustring& collection, bool include_terms_wo_renderings)
 // Exports keyterms and their renderings to html.
 // collection: May restrict the export to one collection.
 // include_terms_wo_rendering: Whether to include the keyterms that have no renderings.
