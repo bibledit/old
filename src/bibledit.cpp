@@ -44,7 +44,7 @@
 #include "d_bus.h"
 
 
-DBus * dbus;
+// DBus * dbus;
 Settings *settings;
 BookLocalizations *booklocalizations;
 Versifications *versifications;
@@ -66,8 +66,8 @@ int main(int argc, char *argv[])
   // Initialize g threads.
   g_thread_init(NULL);
   // Initialize the dbus.
-  DBus mydbus (dbntOrgBibleditMain);
-  dbus = &mydbus;
+  //DBus mydbus (dbntOrgBibleditMain);
+  //dbus = &mydbus;
   // todo Check through the dbus whether bibledit is already running.
   // Initialize the xml library.
   xmlInitParser();

@@ -7265,10 +7265,10 @@ Finally it has a table with a field "id" and a field "book" and a field "chapter
 
 
 
-keyterms_flora_fauna_nt.txt    works
-keyterms_flora_fauna_ot.txt   works
-keyterms_general_ot.txt  -- works
-keyterms_non_greek_nt.txt
+keyterms_flora_fauna_nt.txt      works
+keyterms_flora_fauna_ot.txt      works
+keyterms_general_ot.txt          works
+keyterms_non_greek_nt.txt        works
 OTKEY.DB
 KTBH.pbu
 KTREF.DB  
