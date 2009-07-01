@@ -7291,6 +7291,8 @@ Probably a link to these from the help files.
 
 
 
+
+
 It seems to crash the first time after startup of the machine.
 But not consistently, and it does this also in other cases.
 It started when the dbus started to be used. Should we perhaps use the glib bindings instead?
