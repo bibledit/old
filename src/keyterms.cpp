@@ -73,10 +73,46 @@ void keyterms_ensure_user_database()
 }
 
 
-void keyterms_import_textfile_flush(sqlite3 * db, unsigned int category_id, ustring& keyterm, vector <ustring>& comments, vector <Reference>& references)
+void keyterms_clean_reference_line (ustring& line)
+// Cleans common clutter from a line that has a reference.
+{
+  /*
+    Some files may have references that are specially formed. Examples:
+    Exo 08:22(E26)
+    Gen 08:20ab
+    Gen 22:09 (2x)
+    These specialties are removed as being clutter.
+  */
+  line = trim (line);
+  size_t pos = line.find ("(");
+  if (pos != string::npos) {
+    line.erase (pos, 10);
+    line = trim (line);
+  }
+  for (unsigned int i = 0; i < 3; i++) {
+    pos = line.find_last_of ("abc");
+    if (pos != string::npos) {
+      if (pos > 5) {
+        line.erase (pos, 10);
+        line = trim (line);
+      }
+    }
+  }
+}
+
+
+void keyterms_import_textfile_flush(sqlite3 * db, unsigned int category_id, ustring& keyterm, vector <ustring>& comments, vector <Reference>& references) // Todo temporarily disabled.
 {
   // Only store if there is enough data.
   if (!keyterm.empty() && !references.empty()) {
+
+    gw_message ("Storing key term " + keyterm); // Todo
+    for (unsigned int i = 0; i < comments.size(); i++) {
+      gw_message ("Comment " + comments[i]); // Todo
+    }
+    for (unsigned int i = 0; i < references.size(); i++) {
+      gw_message ("Reference " + references[i].human_readable ("")); // Todo
+    }
 
     int keyterm_id = keyterms_retrieve_highest_id ("keyterm") + 1;
 
@@ -201,28 +237,8 @@ void keyterms_import_textfile(const ustring & textfile, ustring category)
           comments.push_back(line);
         }
         if (readreferences) {
-          /*
-            The file with general keyterms of the Old Testament may have references that are specially formed. Examples:
-            Exo 08:22(E26)
-            Gen 08:20ab
-            Gen 22:09 (2x)
-            These should be handled as well.
-          */
-          line = trim (line);
-          size_t pos = line.find ("(");
-          if (pos != string::npos) {
-            line.erase (pos, 10);
-            line = trim (line);
-          }
-          for (unsigned int i = 0; i < 3; i++) {
-            pos = line.find_last_of ("abc");
-            if (pos != string::npos) {
-              if (pos > 5) {
-                line.erase (pos, 10);
-                line = trim (line);
-              }
-            }
-          }
+          // Clean line.
+          keyterms_clean_reference_line (line);
           // Store the reference.
           Reference reference(0);
           if (reference_discover(previousbook, previouschapter, "0", line, reference.book, reference.chapter, reference.verse))
@@ -258,13 +274,19 @@ void keyterms_import_textfile(const ustring & textfile, ustring category)
 
 void keyterms_import_otkey_db(const ustring& textfile, ustring category)
 {
+  // Ensure the db is there.
+  keyterms_ensure_user_database();
+
   // Some variables we need.
   sqlite3 *db;
   int rc;
   char *error = NULL;
   try {
+
+    // The id to use for the category.
+    int category_id = keyterms_retrieve_highest_id ("category") + 1;
+    
     // Read the text.
-    cout << "Trying to process OTKEY.DB" << endl;
     ReadText rt(textfile);
 
     // Open the database.
@@ -281,33 +303,19 @@ void keyterms_import_otkey_db(const ustring& textfile, ustring category)
 
     // Store the category of these keyterms.
     category = double_apostrophy(category);
-    sql = g_strdup_printf("insert into category values ('%s');", category.c_str());
+    sql = g_strdup_printf("insert into category values (%d, '%s');", category_id, category.c_str());
     rc = sqlite3_exec(db, sql, NULL, NULL, &error);
     g_free(sql);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
-    // Retrieve the id for this category.
-    SqliteReader reader(0);
-    sql = g_strdup_printf("select ROWID from category where name = '%s';", category.c_str());
-    rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
-    g_free(sql);
-    if (rc)
-      throw runtime_error(sqlite3_errmsg(db));
-    unsigned int category_id = 0;
-    if (reader.ustring0.size() > 0)
-      category_id = convert_to_int(reader.ustring0[0]);
-
+ 
     // Storage for our data.
-    ustring keyterm;
-    unsigned int level = 0;
-    vector < unsigned int >parents;
-    for (unsigned int i = 0; i < 10; i++)
-      parents.push_back(1);
-    vector < ustring > comments;
-    vector < Reference > references;
-    vector < ustring > related;
+    vector <ustring> key_h_f_data;
+    ustring cme_data;    
+    ustring cmf_data;
+    vector <Reference> references;
 
-    // Reference discovery variables.
+    // Reference discovery variables. Todo working here.
     unsigned int previousbook = 0;
     unsigned int previouschapter = 0;
 
@@ -319,43 +327,71 @@ void keyterms_import_otkey_db(const ustring& textfile, ustring category)
         if (line.empty())
           continue;
 
-        // Keyterm: store; give progress.
-        if (line.find("\\key") == 0) {
-          keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
-          keyterm = trim(line.substr(4, 1000));
-        }
-        // English description: flush, new keyterm with level 2.
-        if (line.find("\\cme") == 0) {
-          keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
-          keyterm = trim(line.substr(4, 1000));
-          level = 2;
-        }
-        // Reference: store.
-        if (line.find("\\ref") == 0) {
-          ustring ref = line.substr(4, 1000);
-          size_t pos = ref.find("(");
-          if (pos != string::npos) {
-            comments.push_back(trim(ref));
-            ref.erase(pos, ref.length() - pos);
+        // The kind of information that the line contains.
+        bool key_line = (line.find("\\key") == 0);
+        bool h_f_line = (line.find("\\h") == 0) || (line.find("\\f") == 0);
+        bool cme_line = (line.find("\\cme") == 0);
+        bool cmf_line = (line.find("\\cmf") == 0);
+        bool ref_line = (line.find("\\ref") == 0);
+        
+        // Keyterm.
+        if (key_line) {
+          vector <ustring> comments = key_h_f_data;
+          if (!cmf_data.empty()) {
+            comments.push_back (cmf_data);
+            cmf_data.clear();
           }
-          ref = trim(ref);
+          keyterms_import_textfile_flush(db, category_id, cme_data, comments, references);
+          key_h_f_data.clear();
+          key_h_f_data.push_back (trim(line.substr(4, 1000)));
+        }
+
+        // A few bit are comments.
+        else if (h_f_line) {
+          key_h_f_data.push_back (trim(line.substr(2, 1000)));
+        }
+        
+        // English description: flush.
+        else if (cme_line) {
+          vector <ustring> comments = key_h_f_data;
+          comments.push_back (cmf_data);
+          cmf_data.clear();
+          keyterms_import_textfile_flush(db, category_id, cme_data, comments, references);
+          cme_data = trim(line.substr(4, 1000));
+        }
+
+        // French translation.
+        else if (cmf_line) {
+          cmf_data = trim(line.substr(4, 1000));
+        }
+
+        // Reference: store.
+        else if (ref_line) {
+          ustring ref = line.substr(4, 1000);
+          keyterms_clean_reference_line (ref);
           Reference reference(0);
           if (reference_discover(previousbook, previouschapter, "0", ref, reference.book, reference.chapter, reference.verse)) {
             reference.verse = number_in_string(reference.verse);
             references.push_back(reference);
           }
         }
+        
+        // Whatever else.
+        else {
+          gw_warning ("Skipping " + line);
+        }
       }
       catch(exception & ex) {
         ustring msg = "Skipping: ";
         msg.append(ex.what());
-        if (write(1, msg.c_str(), strlen(msg.c_str()))) ;
-        cout << endl;
+        gw_critical (msg);
       }
 
     }
     // Flush remaining data.
-    keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
+    vector <ustring> comments = key_h_f_data;
+    comments.push_back (cmf_data);
+    keyterms_import_textfile_flush(db, category_id, cme_data, comments, references);
 
   }
   catch(exception & ex) {
@@ -363,6 +399,7 @@ void keyterms_import_otkey_db(const ustring& textfile, ustring category)
   }
   sqlite3_close(db);
 }
+
 
 void keyterms_import_ktref_db(const ustring& textfile, ustring category)
 {
@@ -1130,6 +1167,7 @@ void keyterms_store_renderings(const ustring & project, const ustring & keyterm,
   }
   sqlite3_close(db);
 }
+
 
 void keyterms_export(const ustring & directory, bool gui) // Todo check where this one is used.
 {

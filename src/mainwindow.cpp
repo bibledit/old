@@ -7249,9 +7249,14 @@ void MainWindow::check_usfm_window_ping()
 
 Todo various tasks.
 
+KTREF.DB  
 
 
 
+
+
+
+KTBH.pbu
 
 It is recommended to redo the ktbh database import, because right now it is very confusing.
 We need to go through the references that we have, and take each word from there.
@@ -7264,14 +7269,8 @@ Finally it has a table with a field "id" and a field "book" and a field "chapter
 
 
 
-
-keyterms_flora_fauna_nt.txt      works
-keyterms_flora_fauna_ot.txt      works
-keyterms_general_ot.txt          works
-keyterms_non_greek_nt.txt        works
-OTKEY.DB
-KTBH.pbu
-KTREF.DB  
+At the end to import all keyterms we have. From the storage area on the site.
+ 
 
 
 Could you put in somewhere a disclaimer something like:
