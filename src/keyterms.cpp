@@ -101,19 +101,21 @@ void keyterms_clean_reference_line (ustring& line)
 }
 
 
-void keyterms_import_textfile_flush(sqlite3 * db, unsigned int category_id, ustring& keyterm, vector <ustring>& comments, vector <Reference>& references) // Todo temporarily disabled.
+void keyterms_import_textfile_flush(sqlite3 * db, unsigned int category_id, ustring& keyterm, vector <ustring>& comments, vector <Reference>& references)
 {
   // Only store if there is enough data.
   if (!keyterm.empty() && !references.empty()) {
-
-    gw_message ("Storing key term " + keyterm); // Todo
+    
+    /* Todo next lot can go out.
+    gw_message ("Storing key term " + keyterm);
     for (unsigned int i = 0; i < comments.size(); i++) {
-      gw_message ("Comment " + comments[i]); // Todo
+      gw_message ("Comment " + comments[i]);
     }
     for (unsigned int i = 0; i < references.size(); i++) {
-      gw_message ("Reference " + references[i].human_readable ("")); // Todo
+      gw_message ("Reference " + references[i].human_readable (""));
     }
-
+    */
+    
     int keyterm_id = keyterms_retrieve_highest_id ("keyterm") + 1;
 
     // Variables needed to access the database.
@@ -315,7 +317,7 @@ void keyterms_import_otkey_db(const ustring& textfile, ustring category)
     ustring cmf_data;
     vector <Reference> references;
 
-    // Reference discovery variables. Todo working here.
+    // Reference discovery variables.
     unsigned int previousbook = 0;
     unsigned int previouschapter = 0;
 
@@ -401,31 +403,39 @@ void keyterms_import_otkey_db(const ustring& textfile, ustring category)
 }
 
 
+enum ktrefdbType { ktrefdbtEn, ktrefdbtEn2, ktrefdbtEn3, ktrefdbtEn4, ktrefdbtOther };
+
+
+class KtrefdbUnit
+{
+public:
+  KtrefdbUnit (ktrefdbType type_in);
+  ktrefdbType type;
+  ustring key;
+  deque <ustring> data;
+};
+
+
+KtrefdbUnit::KtrefdbUnit (ktrefdbType type_in)
+{
+  type = type_in;
+}
+
+
 void keyterms_import_ktref_db(const ustring& textfile, ustring category)
 {
+  // Ensure the db is there.
+  keyterms_ensure_user_database();
+
   // Some variables we need.
   sqlite3 *db;
   int rc;
   char *error = NULL;
   try {
-    // Read the text. 
-    // Any lines not starting with \ should be joined to the previous one.
-    // Clear empty ones out.
-    cout << "Trying to process KTREF.DB" << endl;
-    vector < ustring > lines;
-    {
-      ReadText rt(textfile);
-      for (unsigned int i = 0; i < rt.lines.size(); i++) {
-        if (rt.lines[i].empty())
-          continue;
-        if (rt.lines[i].find("\\") == 0) {
-          lines.push_back(rt.lines[i]);
-        } else {
-          lines[lines.size() - 1].append(" " + rt.lines[i]);
-        }
-      }
-    }
 
+    // The id to use for the category.
+    int category_id = keyterms_retrieve_highest_id ("category") + 1;
+    
     // Open the database.
     rc = sqlite3_open(keyterms_get_filename().c_str(), &db);
     if (rc)
@@ -440,75 +450,186 @@ void keyterms_import_ktref_db(const ustring& textfile, ustring category)
 
     // Store the category of these keyterms.
     category = double_apostrophy(category);
-    sql = g_strdup_printf("insert into category values ('%s');", category.c_str());
+    sql = g_strdup_printf("insert into category values (%d, '%s');", category_id, category.c_str());
     rc = sqlite3_exec(db, sql, NULL, NULL, &error);
     g_free(sql);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
-    // Retrieve the id for this category.
-    SqliteReader reader(0);
-    sql = g_strdup_printf("select ROWID from category where name = '%s';", category.c_str());
-    rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
-    g_free(sql);
-    if (rc)
-      throw runtime_error(sqlite3_errmsg(db));
-    unsigned int category_id = 0;
-    if (reader.ustring0.size() > 0)
-      category_id = convert_to_int(reader.ustring0[0]);
 
-    // Storage for our data.
-    ustring keyterm;
-    unsigned int level = 0;
-    vector <unsigned int> parents;
-    for (unsigned int i = 0; i < 10; i++)
-      parents.push_back(1);
-    vector < ustring > comments;
-    vector < Reference > references;
-    vector < ustring > related;
+    // Read and clean the input text. 
+    // Lines containing text that does not start with a backslash should be joined to the previous one.
+    vector <ustring> lines;
+    {
+      ReadText rt(textfile);
+      for (unsigned int i = 0; i < rt.lines.size(); i++) {
+        ustring line = rt.lines[i];
+        line = trim (line);
+        if ((line.find("\\") == 0) || (line.empty())) {
+          lines.push_back(line);
+        } else {
+          lines[lines.size() - 1].append(" " + line);
+        }
+      }
+    }
 
-    // Reference discovery variables.
-    unsigned int previousbook = 0;
-    unsigned int previouschapter = 0;
-
-    // Go through all the lines.
-    bool process_lines = false;
-    for (unsigned int i = 1; i < lines.size(); i++) {
-      try {
-        // Get the line.
+    // Sort the input into blocks of text.
+    vector <VectorUstring> blocks;
+    {
+      bool process = false;
+      vector <ustring> lines2;
+      for (unsigned int i = 1; i < lines.size(); i++) {
         ustring line(lines[i]);
-
-        // Only start processing the lines at the first real keyword.
+        // Start processing the lines at the first real keyword.
         if (line.find("\\en ") != string::npos)
-          process_lines = true;
+          process = true;
         if (line.find("en AAA") != string::npos)
-          process_lines = false;
-        if (!process_lines)
+          process = false;
+        if (!process)
           continue;
+        // Store data.
+        if (line.empty()) {
+          if (!lines2.empty()) {
+            blocks.push_back (lines2);
+            lines2.clear();
+          }
+        } else {
+          lines2.push_back (line);
+        }
+      }
+      if (!lines2.empty()) {
+        blocks.push_back (lines2);
+      }
+    }
 
-        // Keyterm: store; give progress.
+    // Sort the input into meaningful units.
+    vector <KtrefdbUnit> units;
+    for (unsigned int i = 0; i < blocks.size(); i++) {
+      try {
+        vector <ustring> block = blocks[i];
+        ktrefdbType type = ktrefdbtOther;
+        ustring line = block[0];
         if (line.find("\\en ") == 0) {
-          keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
-          keyterm = trim(line.substr(4, 1000));
+          type = ktrefdbtEn;
+          line = trim(line.substr(4, 1000));
         }
-        // English description: flush, new keyterm with level 2.
-        if (line.find("\\en2 ") == 0) {
-          keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
-          keyterm = trim(line.substr(5, 1000));
-          level = 2;
+        else if (line.find("\\en2 ") == 0) {
+          type = ktrefdbtEn2;
+          line = trim(line.substr(5, 1000));
         }
-        // English description: flush, new keyterm with level 3.
-        if (line.find("\\en3 ") == 0) {
-          keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
-          keyterm = trim(line.substr(5, 1000));
-          level = 3;
+        else if (line.find("\\en3 ") == 0) {
+          type = ktrefdbtEn3;
+          line = trim(line.substr(5, 1000));
         }
-        // English description: flush, new keyterm with level 3.
-        if (line.find("\\en4 ") == 0) {
-          keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
-          keyterm = trim(line.substr(5, 1000));
-          level = 4;
+        else if (line.find("\\en4 ") == 0) {
+          type = ktrefdbtEn4;
+          line = trim(line.substr(5, 1000));
         }
-        // Reference: store.
+        KtrefdbUnit unit (type);
+        unit.key = line;
+        for (unsigned int i = 1; i < block.size(); i++) {
+          unit.data.push_back (block[i]);
+        }
+        units.push_back (unit);
+      }
+      catch(exception & ex) {
+        gw_critical(ex.what());
+      }
+    }
+
+    /*
+      There are units which are not so meaningful, such as the ones that start with a line we didn't recognize.
+      E.g. consider the following unit:     \gtrm moiceuw
+                                            \trnl moicheuõ
+                                            \ref REV 2:22
+      This unit starts with a Greek word. But since we work in English, by default, this becomes meaningless to many.
+      The units without much meaning will be joined to the previous unit.
+    */
+    {
+      vector <KtrefdbUnit> meaningful_units;
+      for (unsigned int i = 0; i < units.size(); i++) {
+        KtrefdbUnit unit = units[i];
+        if (unit.type != ktrefdbtOther) {
+          // The unit is meaningful: add it to the list.
+          meaningful_units.push_back (unit);
+        } else {
+          // The unit is meaningless: add it to the previous one.
+          if (!meaningful_units.empty()) {
+            KtrefdbUnit meaningful_unit = meaningful_units[meaningful_units.size()-1];
+            meaningful_unit.data.push_back (unit.key);
+            for (unsigned int i = 0; i < unit.data.size(); i++) {
+              meaningful_unit.data.push_back (unit.data[i]);
+            }
+            meaningful_units[meaningful_units.size()-1] = meaningful_unit;
+          }
+        }
+      }
+      units = meaningful_units;
+    }
+
+    /*
+      The database has a hierarchy. This hierarchy is not visible by the mere keyterm itself.
+      For that reason the hierarchy is added as comments to the unit, that is, to the keyterm.
+    */
+    {
+      for (unsigned int i = 0; i < units.size(); i++) {
+        int unit_pointer = i;
+        switch (units[i].type) {
+          case ktrefdbtEn:
+          case ktrefdbtOther:
+          {
+            break;
+          }
+          case ktrefdbtEn4:
+          {
+            while (unit_pointer) {
+              unit_pointer--;
+              if (units[unit_pointer].type == ktrefdbtEn3) {
+                units[i].data.push_front (units[unit_pointer].key);
+                break;
+              }
+            }
+          }
+          case ktrefdbtEn3:
+          {
+            while (unit_pointer) {
+              unit_pointer--;
+              if (units[unit_pointer].type == ktrefdbtEn2) {
+                units[i].data.push_front (units[unit_pointer].key);
+                break;
+              }
+            }
+          }
+          case ktrefdbtEn2:
+          {
+            while (unit_pointer) {
+              unit_pointer--;
+              if (units[unit_pointer].type == ktrefdbtEn) {
+                units[i].data.push_front (units[unit_pointer].key);
+                break;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Store the keyterms, and their additions, into the database.
+    for (unsigned int i = 0; i < units.size(); i++) {
+
+      // Storage for our data.
+      KtrefdbUnit unit = units[i];
+      vector <ustring> comments;
+      vector <Reference> references;
+
+      // Reference discovery variables.
+      unsigned int previousbook = 0;
+      unsigned int previouschapter = 0;
+
+      // Go through the data of the unit.
+      for (unsigned int i2 = 0; i2 < unit.data.size(); i2++) {
+        ustring line = unit.data[i2];
+
+        // Reference.
         if (line.find("\\ref ") == 0) {
           ustring ref = line.substr(5, 10000);
           size_t pos = ref.find("(");
@@ -541,51 +662,17 @@ void keyterms_import_ktref_db(const ustring& textfile, ustring category)
             }
           }
         }
-        // Comments: store.
-        if (line.find("\\o1 ") == 0) {
-          line.erase(0, 4);
-          comments.push_back(line);
+        
+        // Comment.
+        else {
+          comments.push_back (line);
         }
-        if (line.find("\\o2 ") == 0) {
-          line.erase(0, 4);
-          comments.push_back(line);
-        }
-        if (line.find("\\o3 ") == 0) {
-          line.erase(0, 4);
-          comments.push_back(line);
-        }
-        if (line.find("\\gtrm ") == 0) {
-          line.erase(0, 6);
-          comments.push_back("Greek: " + line);
-        }
-        if (line.find("\\trnl ") == 0) {
-          line.erase(0, 6);
-          comments.push_back("Transliteration: " + line);
-        }
-        if (line.find("\\xref ") == 0) {
-          line.erase(0, 6);
-          comments.push_back("Reference: " + line);
-        }
-        if (line.find("\\def ") == 0) {
-          line.erase(0, 5);
-          comments.push_back("Definition: " + line);
-        }
-        if (line.find("\\see ") == 0) {
-          line.erase(0, 5);
-          comments.push_back(line);
-        }
-      }
-      catch(exception & ex) {
-        ustring msg = "Skipping: ";
-        msg.append(ex.what());
-        if (write(1, msg.c_str(), strlen(msg.c_str()))) ;
-        cout << endl;
       }
 
+      // Store the keyterm.
+      keyterms_import_textfile_flush(db, category_id, unit.key, comments, references);
+ 
     }
-    // Flush remaining data.
-    keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
-
   }
   catch(exception & ex) {
     gw_critical(ex.what());

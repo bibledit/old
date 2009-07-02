@@ -7247,7 +7247,9 @@ void MainWindow::check_usfm_window_ping()
 
 /*
 
+
 Todo various tasks.
+
 
 KTREF.DB  
 
@@ -7283,6 +7285,13 @@ This can go in the comments area of the keyterm if it comes from this source.
 
 
 At the end of testing importing everything, we need to put a full keyterms.sql into the templates.
+
+
+
+After importing new keyterms, or removing categories, we should refresh the check keyterms window.
+It would then show the changed data.
+
+
 
 
 Need to make an export function that exports everything into standard files.
