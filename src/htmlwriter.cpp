@@ -114,6 +114,10 @@ HtmlWriter::~HtmlWriter()
 {
   xmlTextWriterEndDocument(writer);
   xmlTextWriterFlush(writer);
+  if (writer)
+    xmlFreeTextWriter(writer);
+  if (buffer)
+    xmlBufferFree(buffer);
   ustring filename = gw_build_filename(directories_get_temp(), "document.html");
   g_file_set_contents(filename.c_str(), (const gchar *)buffer->content, -1, NULL);
   htmlbrowser(filename, false);

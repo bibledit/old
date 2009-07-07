@@ -26,6 +26,10 @@
 #include "ustring.h"
 #include "reference.h"
 #include "window.h"
+extern "C" {
+#include <gtkhtml/gtkhtml.h>
+}
+#include "htmlwriter2.h"
 
 
 class WindowCheckKeyterms : public WindowBase
@@ -44,34 +48,25 @@ private:
   Reference myreference;
   
   // Widgets.
-  GtkWidget *label23;
-  GtkWidget *entry_keyterm;
-  GtkWidget *label24;
+  GtkWidget *hbox_collection;
+  GtkWidget *label_collection;
   GtkWidget *combobox_collection;
-  GtkWidget *label25;
-  GtkWidget *scrolledwindow_keyterm;
-  GtkWidget *treeview_keyterm;
-  GtkWidget *scrolledwindow_comments;
-  GtkWidget *textview_comments;
+  GtkWidget *label_list;
+  GtkWidget *scrolledwindow_terms;
+  GtkWidget *htmlview_terms;
   GtkWidget *scrolledwindow_renderings;
   GtkWidget *treeview_renderings;
-  GtkWidget *scrolledwindow_check_text;
-  GtkWidget *textview_check_text;
 
   // Underlying constructions.
-  GtkTreeStore *treestore_keywords;
-  GtkTreeViewColumn *treecolumn_keywords;
-  GtkTreeSelection *treeselect_keywords;
   GtkTreeStore *treestore_renderings;
   GtkTreeSelection *treeselect_renderings;
 
   // Callbacks.
+  static gboolean on_html_link_clicked(GtkHTML *html, const gchar * url, gpointer user_data);
+  void html_link_clicked(const gchar * url);
   static void on_entry_keyterm_changed(GtkEditable *editable, gpointer user_data);
   static void on_entry_keyterm_activate(GtkEntry *entry, gpointer user_data);
   static void on_combobox_keyterm_collection_changed(GtkComboBox *combobox, gpointer user_data);
-  static gboolean on_treeview_keyterm_button_press_event(GtkWidget *widget, GdkEventButton *event, gpointer user_data);
-  static gboolean on_treeview_keyterm_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
-  static void on_treeview_keyterm_row_activated(GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewColumn *column, gpointer user_data);
   static void keyterm_whole_word_toggled(GtkCellRendererToggle *cell, gchar *path_str, gpointer data);
   static void keyterm_case_sensitive_toggled(GtkCellRendererToggle *cell, gchar *path_str, gpointer data);
   static void cell_edited(GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text, gpointer data);
@@ -80,15 +75,7 @@ private:
   static gboolean on_textview_keyterm_text_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
 
   // Action routines.
-  void on_entry_keyterm_change();
-  void on_entry_keyterm_activated();
   void on_combobox_keyterm_collection();
-  void on_treeview_keyterm_button_press();
-  void on_treeview_keyterm_key_press();
-  void on_treeview_keyterm_activated();
-  void on_treeview_change();
-  static bool treeview_changed_timeout(gpointer data);
-  void show_information();
   void load_renderings();
   void save_renderings();
   void on_rendering_toggle(GtkCellRendererToggle *cell, gchar *path_str, bool first_toggle);
@@ -100,13 +87,12 @@ private:
   gboolean on_textview_keyterm_text_button_release(GdkEventButton *event);
   vector <ustring> keyterm_text_selection;
   gboolean on_textview_keyterm_text_key_press(GdkEventKey *event);
-  void check_move_new_reference();
 
   // Data routines.
   unsigned int selected_id();
-  ustring all_categories();
   ustring enter_new_rendering_here();
   void get_renderings(vector <ustring>& renderings, vector<bool>& wholewords, vector<bool>& casesensitives);
+  Reference get_reference (const ustring& text);
 
   // Variables.
   GtkTextTag *approved_rendering_tag; // Tag for showing approved renderings.
@@ -119,6 +105,12 @@ private:
   ustring myversification; // Versification of project now being checked.
   guint previous_reference_id; // The previous id of the reference that shows.
   guint signal_id;
+  
+  // Html work.
+  ustring active_url;
+  map <ustring, unsigned int> scrolling_position;
+  void html_write_extras (HtmlWriter2& htmlwriter, unsigned int keyword_id);
+  
 };
 
 

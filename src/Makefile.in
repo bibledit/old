@@ -177,7 +177,7 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	guiselectbibles.$(OBJEXT) assistantexport.$(OBJEXT) \
 	java.$(OBJEXT) dialogbulkspelling.$(OBJEXT) \
 	dialogplanningedit.$(OBJEXT) dialoglistviewm.$(OBJEXT) \
-	vcs.$(OBJEXT) d_bus.$(OBJEXT)
+	vcs.$(OBJEXT) d_bus.$(OBJEXT) htmlwriter2.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
@@ -626,7 +626,8 @@ bibledit_bin_SOURCES = \
 				dialogplanningedit.cpp \
 				dialoglistviewm.cpp \
 				vcs.cpp \
-				d_bus.cpp
+				d_bus.cpp \
+				htmlwriter2.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -847,6 +848,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/htmlbrowser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/htmlcolor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/htmlwriter.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/htmlwriter2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/httpd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hyphenate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/import.Po@am__quote@

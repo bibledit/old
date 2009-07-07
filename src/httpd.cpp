@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include "utilities.h"
 #include "httpd.h"
@@ -32,9 +33,9 @@
 #include "directories.h"
 #include "tiny_utilities.h"
 
+
 Httpd::Httpd(bool dummy)
-// This is a very basic webserver tailored to Bibledit's specific needs.
-// It has been written using bits of code from awhttpd.
+// This is a basic webserver tailored to Bibledit's specific needs.
 {
   g_thread_create(GThreadFunc(thread_start), gpointer(this), false, NULL);
 }
@@ -46,7 +47,7 @@ Httpd::~Httpd()
   thread_stop = true;
   // Wait a bit longer than the server's timeout on the non blocking port.
   g_usleep(200000);
-  // Just to be sure, and solve a problem of sockets not closed that has been 
+  // Just to be sure, and solve a problem of sockets not being closed, which has been 
   // seen randomly, we close the socket and connection here.
 #ifdef WIN32
   closesocket(conn);
@@ -185,7 +186,6 @@ void Httpd::handle_request(int fd)
   if (amount > 0) {
     // Put a 0 at the last character, to close the string.
     buf[amount] = '\0';
-    // write (1, buf, amount); // For testing purposes.
     // Divide the request into its parts.
     Parse parse(buf, false);
     if (parse.words.size() >= 2) {
@@ -210,20 +210,22 @@ void Httpd::handle_request(int fd)
         command = command2;
         free(command2);
       }
-      // No intrusions: take filename, strip path off, Bibledit's data path.
-      filename = gw_build_filename(directories_get_package_data(), gw_path_get_basename(filename));
-      // Decide what action to take.
-      if ((gw_path_get_basename(filename) == "search.html") && (!command.empty())) {
-        send_search(fd, filename, command);
-      } else if ((gw_path_get_basename(filename) == "bibledit_loads_references.html") && (!command.empty())) {
-        // E.g.: http://localhost:51516/bibledit_loads_references.html?search-whole-word=word
-        if (command.length() >= 18) {
-          command.erase(0, 18);
-          search_whole_word = command;
+      {
+        // No intrusions: take filename, strip path off, Bibledit's data path.
+        filename = gw_build_filename(directories_get_package_data(), gw_path_get_basename(filename));
+        // Decide what action to take.
+        if ((gw_path_get_basename(filename) == "search.html") && (!command.empty())) {
+          send_search(fd, filename, command);
+        } else if ((gw_path_get_basename(filename) == "bibledit_loads_references.html") && (!command.empty())) {
+          // E.g.: http://localhost:51516/bibledit_loads_references.html?search-whole-word=word
+          if (command.length() >= 18) {
+            command.erase(0, 18);
+            search_whole_word = command;
+          }
+          send_file(fd, filename);
+        } else {
+          send_file(fd, filename);
         }
-        send_file(fd, filename);
-      } else {
-        send_file(fd, filename);
       }
     }
   }
@@ -447,6 +449,18 @@ void Httpd::send_404(int fd)
   sendline(fd, "");
   sendline(fd, "<HTML><BODY><TITLE></TITLE><H2>Not found</H2></BODY></HTML>");
 }
+
+
+void Httpd::send_lines (int fd, const vector <ustring>& lines)
+{
+  sendline(fd, "HTTP/1.1 200 OK");
+  send_content_type(fd, "x.htm");
+  sendline(fd, "");
+  for (unsigned int i = 0; i < lines.size(); i++) {
+    sendline (fd, lines[i]);
+  }
+}
+
 
 void Httpd::send_search(int fd, const ustring & filename, const ustring & command)
 // Searches for a word in Bibledit's helpfiles.

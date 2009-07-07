@@ -273,7 +273,8 @@ bibledit_bin_SOURCES = \
 				dialogplanningedit.cpp \
 				dialoglistviewm.cpp \
 				vcs.cpp \
-				d_bus.cpp
+				d_bus.cpp \
+				htmlwriter2.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 

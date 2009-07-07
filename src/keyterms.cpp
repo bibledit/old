@@ -106,16 +106,6 @@ void keyterms_import_textfile_flush(sqlite3 * db, unsigned int category_id, ustr
   // Only store if there is enough data.
   if (!keyterm.empty() && !references.empty()) {
     
-    /* Todo next lot can go out.
-    gw_message ("Storing key term " + keyterm);
-    for (unsigned int i = 0; i < comments.size(); i++) {
-      gw_message ("Comment " + comments[i]);
-    }
-    for (unsigned int i = 0; i < references.size(); i++) {
-      gw_message ("Reference " + references[i].human_readable (""));
-    }
-    */
-    
     int keyterm_id = keyterms_retrieve_highest_id ("keyterm") + 1;
 
     // Variables needed to access the database.
@@ -163,6 +153,18 @@ void keyterms_import_textfile_flags_down(bool & flag1, bool & flag2, bool & flag
   flag1 = false;
   flag2 = false;
   flag3 = false;
+}
+
+
+ustring keyterms_reference_start_markup ()
+{
+  return "_reference_start_";
+}
+
+
+ustring keyterms_reference_end_markup ()
+{
+  return "_reference_end_";
 }
 
 
@@ -243,8 +245,10 @@ void keyterms_import_textfile(const ustring & textfile, ustring category)
           keyterms_clean_reference_line (line);
           // Store the reference.
           Reference reference(0);
-          if (reference_discover(previousbook, previouschapter, "0", line, reference.book, reference.chapter, reference.verse))
+          if (reference_discover(previousbook, previouschapter, "0", line, reference.book, reference.chapter, reference.verse)) {
             references.push_back(reference);
+            comments.push_back (keyterms_reference_start_markup () + reference.human_readable ("") + keyterms_reference_end_markup ());
+          }
         }
         if (line == "[keyterm]") {
           keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
@@ -703,19 +707,16 @@ void keyterms_import_ktbh_txt_comments(ustring key, const ustring & label, ustri
     comments.push_back(label + " " + line.substr(length, 10000));
 }
 
+
 void keyterms_import_ktbh_txt_references(ustring line, vector < Reference > &references)
 /*
  The references in the KTBH database are stored in a special way.
  Reinier de Blois gave the code to extract a reference:
  digit 1: calculate the ansi code and subtract 32 from it (e.g. ! = 1 = Genesis).
  digit 2: if " store number 90.
- digit 3: calculate the ansi code and subtract 32 from it;
- add the stored number of digit 2 to it
- (e.g. !! = chapter 1; "! = chapter 91).
+ digit 3: calculate the ansi code and subtract 32 from it; add the stored number of digit 2 to it (e.g. !! = chapter 1; "! = chapter 91).
  digit 4: if " store number 90.
- digit 5: calculate the ansi code and subtract 32 from it;
- add the stored number of digit 4 to it
- (e.g. !! = verse 1; "! = verse 91).
+ digit 5: calculate the ansi code and subtract 32 from it; add the stored number of digit 4 to it (e.g. !! = verse 1; "! = verse 91).
  digit 6: calculate the ansi code and subtract 32 from it (position of word within verse).
  digit 7: calculate the ansi code and subtract 32 from it (position of morpheme within word).
  */
@@ -746,6 +747,7 @@ void keyterms_import_ktbh_txt_references(ustring line, vector < Reference > &ref
     g_free(digit5);
   }
 }
+
 
 void keyterms_import_ktbh_txt(const ustring& textfile, ustring category)
 {
@@ -939,6 +941,7 @@ void keyterms_import_ktbh_txt(const ustring& textfile, ustring category)
   }
   sqlite3_close(db);
 }
+
 
 vector <ustring> keyterms_get_categories()
 // Retrieves the different categories from the database.
@@ -1169,6 +1172,7 @@ bool keyterms_get_data(unsigned int id, ustring & category, ustring & comments, 
   return result;
 }
 
+
 ustring keyterms_renderings_filename(const ustring & project)
 // Returns the filename for the database to store user data.
 // If the database is not there, it will be created on the fly.
@@ -1199,6 +1203,7 @@ ustring keyterms_renderings_filename(const ustring & project)
   return filename;
 }
 
+
 void keyterms_retrieve_renderings(const ustring & project, const ustring & keyterm, const ustring & collection, vector < ustring > &renderings, vector < bool > &wholewords, vector < bool > &casesensitives)
 {
   sqlite3 *db;
@@ -1228,6 +1233,7 @@ void keyterms_retrieve_renderings(const ustring & project, const ustring & keyte
   sqlite3_close(db);
 }
 
+
 void keyterms_store_renderings(const ustring & project, const ustring & keyterm, const ustring & collection, const vector < ustring > &renderings, const vector < bool > &wholewords, const vector < bool > &casesensitives)
 {
   sqlite3 *db;
@@ -1256,7 +1262,7 @@ void keyterms_store_renderings(const ustring & project, const ustring & keyterm,
 }
 
 
-void keyterms_export(const ustring & directory, bool gui) // Todo check where this one is used.
+void keyterms_export(const ustring & directory, bool gui)
 {
   return;
   
@@ -1316,6 +1322,7 @@ void keyterms_export(const ustring & directory, bool gui) // Todo check where th
   if (progresswindow)
     delete progresswindow;
 }
+
 
 vector < int >keyterms_get_terms_in_verse(const Reference & reference)
 {

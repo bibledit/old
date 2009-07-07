@@ -27,6 +27,8 @@
 #include "progresswindow.h"
 
 
+ustring keyterms_reference_start_markup ();
+ustring keyterms_reference_end_markup ();
 void keyterms_import_textfile(const ustring& textfile, ustring category);
 void keyterms_import_otkey_db(const ustring& textfile, ustring category);
 void keyterms_import_ktref_db(const ustring& textfile, ustring category);

@@ -55,6 +55,7 @@ private:
   void send_content_type (int fd, const ustring& filename);
   void send_file (int fd, const ustring& filename);
   void send_404 (int fd);
+  void send_lines (int fd, const vector <ustring>& lines);
   void send_search (int fd, const ustring& filename, const ustring& command);
   void send_search_results (int fd, ustring searchword);
   int hexit(char c);

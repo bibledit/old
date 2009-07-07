@@ -4533,12 +4533,14 @@ void MainWindow::on_keyterms_new_reference(GtkButton * button, gpointer user_dat
   ((MainWindow *) user_data)->keyterms_check_move_new_reference();
 }
 
+
 void MainWindow::keyterms_check_move_new_reference()
 // This is called when the keyterm checking window goes to another reference.
 {
   Reference reference(window_check_keyterms->new_reference_showing->book, window_check_keyterms->new_reference_showing->chapter, window_check_keyterms->new_reference_showing->verse);
   navigation.display(reference);
 }
+
 
 void MainWindow::on_view_keyterms_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
@@ -7251,14 +7253,40 @@ void MainWindow::check_usfm_window_ping()
 Todo various tasks.
 
 
-KTREF.DB  
+The checking window will be html, and links for everything, and it will show one term expanded with references at a time.
+When adding a rendering, this also goes into the screen.
+Renderings can be deleted as well, with links.
+
+
+The window for checking keyterms is too crowded.
+On import, it translates the headword's references to full English names, with chapter and verse.
+It keeps storing the references separately, as now, for use with the other window that shows the keywords in the verse.
+The list becomes a GtkHtmlView, with all information straight in it, and clickable references.
+On checking, then, these are parsed and underlined. If the rendering is found, a green tick is given, else a red cross is given for that reference.
+The renderings are stored by head word and by collection.
+Finally there's the text window, as it is now. But this goes out, as we use the normal editor when clicking on a reference.
+
+
+Key terms to be done in a textview window, with more options to click on references.
+
+
+Redo the existing keyerms too, all of them, regardless of origin.
+
+The layout of keyterms is equal to the layout of the source file, e.g. KTBH.pbu.
+
+Units need to be marked, which one keyterm consists of.
+
+
+There are several different pages or possible clicks.
+- A starting page. This has a search entry, and an update button. 
+* It shows the collections as well
+* It also lists all the keyterms that match the search term.
 
 
 
 
 
 
-KTBH.pbu
 
 It is recommended to redo the ktbh database import, because right now it is very confusing.
 We need to go through the references that we have, and take each word from there.
@@ -7267,13 +7295,6 @@ So that we only have simple keywords.
 The new database has a table with categories, and an id for connecting it to this category.
 It also has a table with keyterms, and an integer linking to the categories, and another int linking to references in another table.
 Finally it has a table with a field "id" and a field "book" and a field "chapter" and a field "verse".
-
-
-
-
-At the end to import all keyterms we have. From the storage area on the site.
- 
-
 
 Could you put in somewhere a disclaimer something like:
 "Key Terms in Biblical Hebrew: the entries are an experimental sample 
@@ -7284,7 +7305,14 @@ This can go in the comments area of the keyterm if it comes from this source.
 
 
 
+At the end to import all keyterms we have. From the storage area on the site.
+ 
+
+
+
+
 At the end of testing importing everything, we need to put a full keyterms.sql into the templates.
+
 
 
 
@@ -7305,7 +7333,7 @@ Probably a link to these from the help files.
 It seems to crash the first time after startup of the machine.
 But not consistently, and it does this also in other cases.
 It started when the dbus started to be used. Should we perhaps use the glib bindings instead?
-
+When dbus was removed, the crashes stopped also.
 
 
 
@@ -7338,6 +7366,9 @@ to the repo were as the same userid.
 
 David
 
+
+
+The window that shows the keyterm per verse does no longer work, it shows nothing.
 
 
 

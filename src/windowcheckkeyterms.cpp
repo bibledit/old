@@ -32,6 +32,8 @@
 #include "projectutils.h"
 #include "categorize.h"
 #include "mapping.h"
+#include "bible.h"
+#include "books.h"
 
 
 WindowCheckKeyterms::WindowCheckKeyterms(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
@@ -46,75 +48,38 @@ WindowBase(widCheckKeyterms, "Check keyterms", startup, 0, parent_box), myrefere
   gtk_widget_show(vbox);
   gtk_container_add(GTK_CONTAINER(window_vbox), vbox);
 
-  label23 = gtk_label_new_with_mnemonic("Ke_yterm");
-  gtk_widget_show(label23);
-  gtk_box_pack_start(GTK_BOX(vbox), label23, FALSE, FALSE, 0);
-  gtk_misc_set_alignment(GTK_MISC(label23), 0, 0.5);
-
-  entry_keyterm = gtk_entry_new();
-  gtk_widget_show(entry_keyterm);
-  gtk_box_pack_start(GTK_BOX(vbox), entry_keyterm, FALSE, FALSE, 0);
-  gtk_entry_set_invisible_char(GTK_ENTRY(entry_keyterm), 8226);
-
-  g_signal_connect((gpointer) entry_keyterm, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
-
   // Produce the signal to be given on a new reference.
   signal = gtk_button_new();
   gtk_box_pack_start(GTK_BOX(vbox), signal, FALSE, FALSE, 0);
 
-  label24 = gtk_label_new_with_mnemonic("_Collection");
-  gtk_widget_show(label24);
-  gtk_box_pack_start(GTK_BOX(vbox), label24, FALSE, FALSE, 0);
-  gtk_misc_set_alignment(GTK_MISC(label24), 0, 0.5);
+  hbox_collection = gtk_hbox_new (FALSE, 5);
+  gtk_widget_show (hbox_collection);
+  gtk_box_pack_start (GTK_BOX (vbox), hbox_collection, FALSE, FALSE, 0);
 
-  combobox_collection = gtk_combo_box_new_text();
-  gtk_widget_show(combobox_collection);
-  gtk_box_pack_start(GTK_BOX(vbox), combobox_collection, FALSE, TRUE, 0);
+  label_collection = gtk_label_new_with_mnemonic ("_Collection");
+  gtk_widget_show (label_collection);
+  gtk_box_pack_start (GTK_BOX (hbox_collection), label_collection, FALSE, FALSE, 0);
+  gtk_misc_set_alignment (GTK_MISC (label_collection), 0, 0.5);
 
-  g_signal_connect((gpointer) combobox_collection, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
+  combobox_collection = gtk_combo_box_new_text ();
+  gtk_widget_show (combobox_collection);
+  gtk_box_pack_start (GTK_BOX (hbox_collection), combobox_collection, TRUE, TRUE, 0);
 
-  label25 = gtk_label_new_with_mnemonic("_List");
-  gtk_widget_show(label25);
-  gtk_box_pack_start(GTK_BOX(vbox), label25, FALSE, FALSE, 0);
-  gtk_misc_set_alignment(GTK_MISC(label25), 0, 0.5);
+  label_list = gtk_label_new_with_mnemonic ("_List");
+  gtk_widget_show (label_list);
+  gtk_box_pack_start (GTK_BOX (vbox), label_list, FALSE, FALSE, 0);
+  gtk_misc_set_alignment (GTK_MISC (label_list), 0, 0.5);
 
-  scrolledwindow_keyterm = gtk_scrolled_window_new(NULL, NULL);
-  gtk_widget_show(scrolledwindow_keyterm);
-  gtk_box_pack_start(GTK_BOX(vbox), scrolledwindow_keyterm, TRUE, TRUE, 0);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow_keyterm), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwindow_keyterm), GTK_SHADOW_IN);
+  scrolledwindow_terms = gtk_scrolled_window_new (NULL, NULL);
+  gtk_widget_show (scrolledwindow_terms);
+  gtk_box_pack_start (GTK_BOX (vbox), scrolledwindow_terms, TRUE, TRUE, 0);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow_terms), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow_terms), GTK_SHADOW_IN);
 
-  // Store and view for the keywords.
-  treestore_keywords = gtk_tree_store_new(2, G_TYPE_STRING, G_TYPE_INT);
-  treeview_keyterm = gtk_tree_view_new_with_model(GTK_TREE_MODEL(treestore_keywords));
-  gtk_widget_show(treeview_keyterm);
-  gtk_container_add(GTK_CONTAINER(scrolledwindow_keyterm), treeview_keyterm);
-  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(treeview_keyterm), FALSE);
-
-  g_signal_connect((gpointer) treeview_keyterm, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
-
-  // Renderer, column and selection.
-  GtkCellRenderer *renderer_keywords = gtk_cell_renderer_text_new();
-  treecolumn_keywords = gtk_tree_view_column_new_with_attributes("", renderer_keywords, "text", 0, NULL);
-  gtk_tree_view_append_column(GTK_TREE_VIEW(treeview_keyterm), treecolumn_keywords);
-  treeselect_keywords = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview_keyterm));
-  gtk_tree_selection_set_mode(treeselect_keywords, GTK_SELECTION_SINGLE);
-
-  scrolledwindow_comments = gtk_scrolled_window_new(NULL, NULL);
-  gtk_widget_show(scrolledwindow_comments);
-  gtk_box_pack_start(GTK_BOX(vbox), scrolledwindow_comments, TRUE, TRUE, 0);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow_comments), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwindow_comments), GTK_SHADOW_IN);
-
-  textview_comments = gtk_text_view_new();
-  gtk_widget_show(textview_comments);
-  gtk_container_add(GTK_CONTAINER(scrolledwindow_comments), textview_comments);
-  gtk_text_view_set_editable(GTK_TEXT_VIEW(textview_comments), FALSE);
-  gtk_text_view_set_accepts_tab(GTK_TEXT_VIEW(textview_comments), FALSE);
-  gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textview_comments), GTK_WRAP_WORD);
-  gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(textview_comments), FALSE);
-
-  g_signal_connect((gpointer) textview_comments, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
+  htmlview_terms = gtk_html_new();
+  gtk_widget_show(htmlview_terms);
+  gtk_container_add(GTK_CONTAINER(scrolledwindow_terms), htmlview_terms);
+  gtk_html_allow_selection(GTK_HTML(htmlview_terms), true);
 
   scrolledwindow_renderings = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow_renderings);
@@ -147,52 +112,32 @@ WindowBase(widCheckKeyterms, "Check keyterms", startup, 0, parent_box), myrefere
   treeselect_renderings = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview_renderings));
   gtk_tree_selection_set_mode(treeselect_renderings, GTK_SELECTION_SINGLE);
 
-  // Textview for the text to be checked.
-  scrolledwindow_check_text = gtk_scrolled_window_new(NULL, NULL);
-  gtk_widget_show(scrolledwindow_check_text);
-  gtk_box_pack_start(GTK_BOX(vbox), scrolledwindow_check_text, TRUE, TRUE, 0);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow_check_text), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwindow_check_text), GTK_SHADOW_IN);
-
-  textview_check_text = gtk_text_view_new();
-  gtk_widget_show(textview_check_text);
-  gtk_container_add(GTK_CONTAINER(scrolledwindow_check_text), textview_check_text);
-  gtk_text_view_set_editable(GTK_TEXT_VIEW(textview_check_text), FALSE);
-  gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textview_check_text), GTK_WRAP_WORD);
-
-  g_signal_connect((gpointer) textview_check_text, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
-
-  g_signal_connect((gpointer) entry_keyterm, "changed", G_CALLBACK(on_entry_keyterm_changed), gpointer(this));
-  g_signal_connect((gpointer) entry_keyterm, "activate", G_CALLBACK(on_entry_keyterm_activate), gpointer(this));
+  g_signal_connect((gpointer) htmlview_terms, "link-clicked", G_CALLBACK(on_html_link_clicked), gpointer(this));
   g_signal_connect((gpointer) combobox_collection, "changed", G_CALLBACK(on_combobox_keyterm_collection_changed), gpointer(this));
-  g_signal_connect((gpointer) treeview_keyterm, "button_press_event", G_CALLBACK(on_treeview_keyterm_button_press_event), gpointer(this));
-  g_signal_connect((gpointer) treeview_keyterm, "key_press_event", G_CALLBACK(on_treeview_keyterm_key_press_event), gpointer(this));
-  g_signal_connect((gpointer) treeview_keyterm, "row_activated", G_CALLBACK(on_treeview_keyterm_row_activated), gpointer(this));
-  g_signal_connect((gpointer) textview_check_text, "button_press_event", G_CALLBACK(on_textview_keyterm_text_button_press_event), gpointer(this));
-  g_signal_connect((gpointer) textview_check_text, "button_release_event", G_CALLBACK(on_textview_keyterm_text_button_release_event), gpointer(this));
-  g_signal_connect((gpointer) textview_check_text, "key_press_event", G_CALLBACK(on_textview_keyterm_text_key_press_event), gpointer(this));
+// Todo  g_signal_connect((gpointer) textview_check_text, "button_press_event", G_CALLBACK(on_textview_keyterm_text_button_press_event), gpointer(this));
+// Todo  g_signal_connect((gpointer) textview_check_text, "button_release_event", G_CALLBACK(on_textview_keyterm_text_button_release_event), gpointer(this));
+// Todo  g_signal_connect((gpointer) textview_check_text, "key_press_event", G_CALLBACK(on_textview_keyterm_text_key_press_event), gpointer(this));
 
-  gtk_label_set_mnemonic_widget(GTK_LABEL(label23), entry_keyterm);
-  gtk_label_set_mnemonic_widget(GTK_LABEL(label24), combobox_collection);
-  gtk_label_set_mnemonic_widget(GTK_LABEL(label25), treeview_keyterm);
+  gtk_label_set_mnemonic_widget(GTK_LABEL(label_collection), combobox_collection);
+  gtk_label_set_mnemonic_widget(GTK_LABEL(label_list), htmlview_terms);
 
   // Load the categories.
   vector <ustring> categories = keyterms_get_categories();
-  categories.push_back(all_categories());
   combobox_set_strings(combobox_collection, categories);
-  combobox_set_string(combobox_collection, all_categories());
+  if (!categories.empty()) {
+    combobox_set_index(combobox_collection, 0);
+  }
 
   // Zero the text tag for marking renderings.
   approved_rendering_tag = NULL;
   disapproved_rendering_tag = NULL;
 
   // Load the keyterms.
-  on_entry_keyterm_change();
+  on_combobox_keyterm_collection ();
   
   // Main focused widget.
-  last_focused_widget = entry_keyterm;
+  last_focused_widget = combobox_collection;
   gtk_widget_grab_focus (last_focused_widget);
-
 }
 
 
@@ -212,8 +157,9 @@ void WindowCheckKeyterms::go_to(const ustring & project, Reference & reference)
 }
 
 
-void WindowCheckKeyterms::copy_clipboard()
+void WindowCheckKeyterms::copy_clipboard() // Todo
 {
+  /*
   if (GTK_WIDGET_HAS_FOCUS(textview_check_text)) {
     // Clipboard.
     GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
@@ -228,44 +174,13 @@ void WindowCheckKeyterms::copy_clipboard()
     ustring word = gtk_text_buffer_get_text(buffer, &startiter, &enditer, false);
     add_to_renderings(word, false);
   }
-}
-
-
-void WindowCheckKeyterms::on_entry_keyterm_changed(GtkEditable * editable, gpointer user_data)
-{
-  ((WindowCheckKeyterms *) user_data)->on_entry_keyterm_change();
-}
-
-
-void WindowCheckKeyterms::on_entry_keyterm_activate(GtkEntry * entry, gpointer user_data)
-{
-  ((WindowCheckKeyterms *) user_data)->on_entry_keyterm_activated();
+  */
 }
 
 
 void WindowCheckKeyterms::on_combobox_keyterm_collection_changed(GtkComboBox * combobox, gpointer user_data)
 {
   ((WindowCheckKeyterms *) user_data)->on_combobox_keyterm_collection();
-}
-
-
-gboolean WindowCheckKeyterms::on_treeview_keyterm_button_press_event(GtkWidget * widget, GdkEventButton * event, gpointer user_data)
-{
-  ((WindowCheckKeyterms *) user_data)->on_treeview_keyterm_button_press();
-  return false;
-}
-
-
-gboolean WindowCheckKeyterms::on_treeview_keyterm_key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer user_data)
-{
-  ((WindowCheckKeyterms *) user_data)->on_treeview_keyterm_key_press();
-  return false;
-}
-
-
-void WindowCheckKeyterms::on_treeview_keyterm_row_activated(GtkTreeView * treeview, GtkTreePath * path, GtkTreeViewColumn * column, gpointer user_data)
-{
-  ((WindowCheckKeyterms *) user_data)->on_treeview_keyterm_activated();
 }
 
 
@@ -305,124 +220,13 @@ gboolean WindowCheckKeyterms::on_textview_keyterm_text_key_press_event(GtkWidget
 }
 
 
-void WindowCheckKeyterms::on_entry_keyterm_change()
-{
-  // Get the keyterm.
-  ustring keyterm = gtk_entry_get_text(GTK_ENTRY(entry_keyterm));
-
-  // Clear the store.
-  gtk_tree_store_clear(treestore_keywords);
-
-  // Project
-  extern Settings *settings;
-  myproject = settings->genconfig.project_get();
-
-  // If the keyterm entered is viewed as a rendering, then get the keyterms that
-  // have this rendering.
-  deque <ustring> keyterms;
-  if (keyterm.length() >= 3) {
-    keyterms = keyterms_rendering_retrieve_terms(myproject, keyterm);
-  }
-  keyterms.push_front(keyterm);
-
-  // Get the keyterms.
-  vector <ustring> terms1;
-  vector <unsigned int> ids1;
-  set <unsigned int> id_set;
-  for (unsigned int i = 0; i < keyterms.size(); i++) {
-    keyterm = keyterms[i];
-    vector <ustring> terms;
-    vector <unsigned int> ids;
-    keyterms_get_terms(keyterm, collection(), terms, ids);
-    for (unsigned int i = 0; i < terms.size(); i++) {
-      terms1.push_back(terms[i]);
-      ids1.push_back(ids[i]);
-    }
-  }
-
-  // Sort the terms.
-  quick_sort(terms1, ids1, 0, terms1.size());
-
-  // Display all the terms.  
-  // First display them for level 1.
-  for (unsigned int i1 = 0; i1 < terms1.size(); i1++) {
-    GtkTreeIter iter1;
-    gtk_tree_store_append(treestore_keywords, &iter1, NULL);
-    gtk_tree_store_set(treestore_keywords, &iter1, 0, terms1[i1].c_str(), 1, ids1[i1], -1);
-    GtkTreePath *path1;
-    path1 = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore_keywords), &iter1);
-    gtk_tree_view_expand_row(GTK_TREE_VIEW(treeview_keyterm), path1, false);
-    gtk_tree_path_free(path1);
-    if (i1 == 0)
-      gtk_tree_selection_select_iter(treeselect_keywords, &iter1);
-  }
-}
-
-
-void WindowCheckKeyterms::on_entry_keyterm_activated()
-{
-  gtk_widget_grab_focus(treeview_keyterm);
-  show_information();
-}
-
-
 void WindowCheckKeyterms::on_combobox_keyterm_collection()
 {
-  on_entry_keyterm_change();
+  html_link_clicked("");
 }
 
 
-void WindowCheckKeyterms::on_treeview_keyterm_button_press()
-{
-  // on_treeview_change ();
-}
-
-
-void WindowCheckKeyterms::on_treeview_keyterm_key_press()
-{
-  // on_treeview_change ();
-}
-
-
-void WindowCheckKeyterms::on_treeview_keyterm_activated()
-{
-  show_information();
-  gtk_widget_grab_focus(textview_check_text);
-  myid = selected_id();
-  load_renderings();
-  show_text();
-}
-
-
-void WindowCheckKeyterms::on_treeview_change()
-{
-  g_timeout_add(1, GSourceFunc(treeview_changed_timeout), gpointer(this));
-}
-
-
-bool WindowCheckKeyterms::treeview_changed_timeout(gpointer data)
-{
-  ((WindowCheckKeyterms *) data)->show_information();
-  return false;
-}
-
-
-void WindowCheckKeyterms::show_information()
-// Show all data for the selected keyword. Most important data at the top.
-{
-  unsigned int id = selected_id();
-  ustring category;
-  ustring information;
-  vector <Reference> references;
-  keyterms_get_data(id, category, information, references);
-  ustring information1;
-  string_append_line(information1, "Category: " + category);
-  if (references.size() == 0)
-    string_append_line(information1, "This one has no references.");
-  string_append_line(information1, information);
-  GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview_comments));
-  gtk_text_buffer_set_text(buffer, information1.c_str(), -1);
-}
+// Todo  myid = selected_id();
 
 
 void WindowCheckKeyterms::load_renderings()
@@ -525,9 +329,10 @@ void WindowCheckKeyterms::add_to_renderings(const ustring & rendering, bool whol
 }
 
 
-void WindowCheckKeyterms::show_text()
+void WindowCheckKeyterms::show_text() // Todo
 // Loads the text into the textview.
 {
+  /*
   // Get data about the project.
   extern Settings *settings;
   ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
@@ -576,29 +381,6 @@ void WindowCheckKeyterms::show_text()
   vector <bool> wholewords;
   vector <bool> casesensitives;
   get_renderings(renderings, wholewords, casesensitives);
-
-  // Reorder the references, moving the ones that are approved last.
-  {
-    vector <Reference> disapproved_references;
-    vector <Reference> approved_references;
-    for (unsigned int i = 0; i < myreferences.size(); i++) {
-      ustring verse = project_retrieve_verse(settings->genconfig.project_get(), myreferences[i].book, myreferences[i].chapter, myreferences[i].verse);
-      if (!verse.empty()) {
-        CategorizeLine cl(verse);
-        cl.remove_verse_number(myreferences[i].verse);
-        verse = cl.verse;
-      }
-      if (find_renderings (verse, renderings, wholewords, casesensitives, NULL, NULL)) {
-        approved_references.push_back (myreferences[i]);
-      } else {
-        disapproved_references.push_back (myreferences[i]);
-      }
-    }
-    myreferences = disapproved_references;
-    for (unsigned int i = 0; i < approved_references.size(); i++) {
-      myreferences.push_back (approved_references[i]);
-    }
-  }
 
   // Display text of the references.
   for (unsigned int i = 0; i < myreferences.size(); i++) {
@@ -677,6 +459,7 @@ void WindowCheckKeyterms::show_text()
       gtk_text_buffer_apply_tag(buffer, disapproved_rendering_tag, &startiter, &enditer);
     }
   }
+  */
 }
 
 
@@ -747,8 +530,9 @@ bool WindowCheckKeyterms::find_renderings (const ustring& text, const vector <us
 }
 
 
-gboolean WindowCheckKeyterms::on_textview_keyterm_text_button_press(GdkEventButton * event)
+gboolean WindowCheckKeyterms::on_textview_keyterm_text_button_press(GdkEventButton * event) // Todo
 {
+  /*
   // Get the textbuffer.
   GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview_check_text));
 
@@ -786,86 +570,27 @@ gboolean WindowCheckKeyterms::on_textview_keyterm_text_button_press(GdkEventButt
     }
     add_to_renderings(selection_text, true);
   }
+  */
   return false;
 }
 
 
-gboolean WindowCheckKeyterms::on_textview_keyterm_text_button_release(GdkEventButton * event)
+gboolean WindowCheckKeyterms::on_textview_keyterm_text_button_release(GdkEventButton * event) // Todo out?
 {
-  check_move_new_reference();
   return false;
 }
 
 
-gboolean WindowCheckKeyterms::on_textview_keyterm_text_key_press(GdkEventKey * event)
+gboolean WindowCheckKeyterms::on_textview_keyterm_text_key_press(GdkEventKey * event) // Todo out?
 {
-  check_move_new_reference();
   return false;
-}
-
-
-void WindowCheckKeyterms::check_move_new_reference()
-{
-  // Get the textbuffer.
-  GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview_check_text));
-  // Get iterator at insertion point.
-  GtkTextIter iter;
-  gtk_text_buffer_get_iter_at_mark(buffer, &iter, gtk_text_buffer_get_insert(buffer));
-  // Get tags at that iterator.
-  GSList *tags = NULL, *tagp = NULL;
-  tags = gtk_text_iter_get_tags(&iter);
-  for (tagp = tags; tagp != NULL; tagp = tagp->next) {
-    GtkTextTag *tag = (GtkTextTag *) tagp->data;
-    guint id = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(tag), "id"));
-    if (id) {
-      id--;
-      if (id < myreferences.size()) {
-        if (id != previous_reference_id) {
-          new_reference_showing = &myreferences[id];
-          gtk_button_clicked(GTK_BUTTON(signal));
-          previous_reference_id = id;
-        }
-      }
-    }
-  }
-  // Free tags list if tags were found.
-  if (tags) {
-    g_slist_free(tags);
-  }
 }
 
 
 unsigned int WindowCheckKeyterms::selected_id()
 {
-  // Selected id.
   unsigned int id = 0;
-  // Get the model
-  GtkTreeModel *model = gtk_tree_view_get_model(GTK_TREE_VIEW(treeview_keyterm));
-  // Get the selected paths.
-  GList *sellist = NULL;
-  sellist = gtk_tree_selection_get_selected_rows(treeselect_keywords, &model);
-  // Get selected one.
-  if (sellist) {
-    // Get the path.
-    GtkTreePath *path = (GtkTreePath *) sellist->data;
-    // Get iterator to the id.
-    GtkTreeIter iter;
-    gtk_tree_model_get_iter(model, &iter, path);
-    // Get the data.
-    gtk_tree_model_get(model, &iter, 1, &id, -1);
-    // Free memory.
-    gtk_tree_path_free(path);
-  }
-  // Free memory for list.
-  g_list_free(sellist);
-  // Return result.
   return id;
-}
-
-
-ustring WindowCheckKeyterms::all_categories()
-{
-  return "All collections";
 }
 
 
@@ -901,9 +626,146 @@ void WindowCheckKeyterms::get_renderings(vector <ustring> &renderings, vector <b
 
 ustring WindowCheckKeyterms::collection ()
 {
-  ustring collection;
-  collection = combobox_get_active_string(combobox_collection);
-  if (collection == all_categories())
-    collection.clear();
-  return collection;
+  return combobox_get_active_string(combobox_collection);
 }
+
+
+gboolean WindowCheckKeyterms::on_html_link_clicked(GtkHTML * html, const gchar * url, gpointer user_data)
+{
+  ((WindowCheckKeyterms *) user_data)->html_link_clicked(url);
+  return true;
+}
+
+
+void WindowCheckKeyterms::html_link_clicked (const gchar * url)
+// Callback for clicking a link.
+{
+  // Store scrolling position for the now active url.
+  GtkAdjustment * adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolledwindow_terms));
+  scrolling_position[active_url] = gtk_adjustment_get_value (adjustment);
+
+  // New url.
+  active_url = url;
+
+  // Start writing a html page.
+  HtmlWriter2 htmlwriter ("");
+  bool display_another_page = false;
+
+  //extern Settings *settings;
+  //myproject = settings->genconfig.project_get();
+
+  if (active_url.find ("keyterm ") == 0) {
+    // Display a keyterm and all its data.
+    ustring url = active_url;
+    url.erase (0, 8);
+    unsigned int keyword_id = convert_to_int (url);
+    html_write_extras (htmlwriter, keyword_id);
+    display_another_page = true;
+  }
+
+  else if (active_url.find ("goto ") == 0) {
+    // Signal the editor to go to a reference.
+    ustring url = active_url;
+    url.erase (0, 5);
+    myreference.assign (get_reference (url));
+    new_reference_showing = &myreference;
+    gtk_button_clicked(GTK_BUTTON(signal));
+  }
+  
+  else {
+    // Give the starting page with all keyterms of the active selection.
+    vector <ustring> terms;
+    vector <unsigned int> ids;
+    keyterms_get_terms("", collection(), terms, ids);
+    for (unsigned int i = 0; i < terms.size(); i++) {
+      htmlwriter.paragraph_open();
+      htmlwriter.hyperlink_add ("keyterm " + convert_to_string (ids[i]), terms[i]);
+      htmlwriter.paragraph_close();
+    }
+    display_another_page = true;
+  }
+  
+  htmlwriter.finish();
+  if (display_another_page) {
+    // Load the page.
+    GtkHTMLStream *stream = gtk_html_begin(GTK_HTML(htmlview_terms));
+    gtk_html_write(GTK_HTML(htmlview_terms), stream, htmlwriter.html.c_str(), -1);
+    gtk_html_end(GTK_HTML(htmlview_terms), stream, GTK_HTML_STREAM_OK);
+    // Scroll to the position that possibly was stored while this url was last active.
+    gtk_adjustment_set_value (adjustment, scrolling_position[active_url]);
+  }
+}
+
+
+void WindowCheckKeyterms::html_write_extras (HtmlWriter2& htmlwriter, unsigned int keyword_id) // Todo
+{
+  htmlwriter.paragraph_open ();
+  htmlwriter.hyperlink_add ("", "Index");
+  htmlwriter.paragraph_close ();
+  ustring dummy;
+  ustring information;
+  vector <Reference> references;
+  keyterms_get_data(keyword_id, dummy, information, references);
+  htmlwriter.paragraph_open ();
+  size_t pos = information.find (keyterms_reference_start_markup ());
+  while (pos != string::npos) {
+    htmlwriter.text_add (information.substr (0, pos));
+    information.erase (0, pos + keyterms_reference_start_markup ().length());
+    pos = information.find (keyterms_reference_end_markup ());
+    if (pos != string::npos) {
+      // Add a clickable reference.
+      htmlwriter.paragraph_close ();
+      ustring reference_text = information.substr (0, pos);
+      Reference reference = get_reference (reference_text);
+      htmlwriter.hyperlink_add ("goto " + reference_text, reference_text);
+      information.erase (0, pos + keyterms_reference_end_markup ().length());
+      // Todo add the reference's text. Todo
+      extern Settings * settings;
+      ustring verse = project_retrieve_verse(settings->genconfig.project_get(), reference.book, reference.chapter, reference.verse);
+      if (verse.empty()) {
+        verse.append("<empty>");
+      } else {
+        CategorizeLine cl(verse);
+        cl.remove_verse_number(reference.verse);
+        verse = cl.verse;
+      }
+      htmlwriter.text_add (" ");
+      htmlwriter.text_add (verse);
+      // Proceed to next.
+      htmlwriter.paragraph_open ();
+      pos = information.find (keyterms_reference_start_markup ());
+    }    
+  }
+  htmlwriter.text_add (information);
+  htmlwriter.paragraph_close ();
+}
+
+
+Reference WindowCheckKeyterms::get_reference (const ustring& text)
+// Generates a reference out of the text.
+{
+  Reference ref (0);
+  ustring book, chapter;
+  decode_reference(text, book, chapter, ref.verse);
+  ref.book = books_english_to_id (book);
+  ref.chapter = convert_to_int (chapter);
+  return ref;
+}
+
+
+
+
+
+/*
+
+Todo various
+
+The elaborate page has all comments, all renderings, everthing one can think of.
+References should be displayed one line below the other, and the text following it.
+There should be some indication on the page of whether the keyterms have been approved.
+Each verse can be approved individually, even if there's no rendering that matches the verse.
+The whole keyterm can be approved as well.
+There should be a database called "keyterms.sql" per project, that stores the whole state of each keyterm, 
+including renderings.
+
+*/
