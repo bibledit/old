@@ -78,6 +78,7 @@ private:
   void on_combobox_keyterm_collection();
   void load_renderings();
   void save_renderings();
+  void clear_renderings();
   void on_rendering_toggle(GtkCellRendererToggle *cell, gchar *path_str, bool first_toggle);
   void on_cell_edited(GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text);
   void add_to_renderings(const ustring& rendering, bool wholeword);
@@ -89,7 +90,6 @@ private:
   gboolean on_textview_keyterm_text_key_press(GdkEventKey *event);
 
   // Data routines.
-  unsigned int selected_id();
   ustring enter_new_rendering_here();
   void get_renderings(vector <ustring>& renderings, vector<bool>& wholewords, vector<bool>& casesensitives);
   Reference get_reference (const ustring& text);
@@ -100,9 +100,7 @@ private:
   vector<Reference> myreferences; // The references in the textview.
   vector<gint> mytextstarts; // Marks the start location of verse text in the textview.
   vector<gint> mytextends; // Marks the end location of verse text in the textview.
-  unsigned int myid; // The id of the keyword now being checked.
-  ustring myproject; // The project now being checked.
-  ustring myversification; // Versification of project now being checked.
+  unsigned int keyword_id; // The id of the keyword now being checked.
   guint previous_reference_id; // The previous id of the reference that shows.
   guint signal_id;
   

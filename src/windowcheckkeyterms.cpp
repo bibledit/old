@@ -42,6 +42,7 @@ WindowBase(widCheckKeyterms, "Check keyterms", startup, 0, parent_box), myrefere
 {
   // Save / initialize variables.
   previous_reference_id = 0;
+  keyword_id = 0;
 
   // Build gui.
   vbox = gtk_vbox_new(FALSE, 0);
@@ -226,28 +227,25 @@ void WindowCheckKeyterms::on_combobox_keyterm_collection()
 }
 
 
-// Todo  myid = selected_id();
-
-
 void WindowCheckKeyterms::load_renderings()
 {
   extern Settings *settings;
-  myproject = settings->genconfig.project_get();
-  ProjectConfiguration *projectconfig = settings->projectconfig(myproject);
-  myversification = projectconfig->versification_get();
+  ustring project = settings->genconfig.project_get();
+  ProjectConfiguration *projectconfig = settings->projectconfig(project);
+  ustring versification = projectconfig->versification_get();
   ustring keyterm;
-  keyterms_get_term(myid, keyterm);
-  vector < ustring > renderings;
-  vector < bool > wholewords;
-  vector < bool > casesensitives;
+  keyterms_get_term(keyword_id, keyterm);
+  vector <ustring> renderings;
+  vector <bool> wholewords;
+  vector <bool> casesensitives;
   ustring category;
   {
     ustring dummy1;
     vector < Reference > dummy2;
-    keyterms_get_data(myid, category, dummy1, dummy2);
+    keyterms_get_data(keyword_id, category, dummy1, dummy2);
   }
-  keyterms_retrieve_renderings(myproject, keyterm, category, renderings, wholewords, casesensitives);
-  gtk_tree_store_clear(treestore_renderings);
+  keyterms_retrieve_renderings(project, keyterm, category, renderings, wholewords, casesensitives);
+  clear_renderings();
   GtkTreeIter iter;
   for (unsigned int i = 0; i < renderings.size(); i++) {
     gtk_tree_store_append(treestore_renderings, &iter, NULL);
@@ -262,21 +260,29 @@ void WindowCheckKeyterms::load_renderings()
 
 void WindowCheckKeyterms::save_renderings()
 {
-  vector < ustring > renderings;
-  vector < bool > wholewords;
-  vector < bool > casesensitives;
+  vector <ustring> renderings;
+  vector <bool> wholewords;
+  vector <bool> casesensitives;
   get_renderings(renderings, wholewords, casesensitives);
   ustring keyterm;
-  keyterms_get_term(myid, keyterm);
+  keyterms_get_term(keyword_id, keyterm);
   ustring category;
   {
     ustring dummy1;
     vector < Reference > dummy2;
-    keyterms_get_data(myid, category, dummy1, dummy2);
+    keyterms_get_data(keyword_id, category, dummy1, dummy2);
   }
-  keyterms_store_renderings(myproject, keyterm, category, renderings, wholewords, casesensitives);
+  extern Settings *settings;
+  ustring project = settings->genconfig.project_get();
+  keyterms_store_renderings(project, keyterm, category, renderings, wholewords, casesensitives);
   load_renderings();
-  show_text();
+  html_link_clicked (active_url.c_str());
+}
+
+
+void WindowCheckKeyterms::clear_renderings()
+{
+  gtk_tree_store_clear(treestore_renderings);
 }
 
 
@@ -317,10 +323,8 @@ void WindowCheckKeyterms::add_to_renderings(const ustring & rendering, bool whol
 // Adds "rendering" to renderings. If it contains any capitals, the 
 // casesensitive is set too.
 {
-  extern Settings *settings;
-  myproject = settings->genconfig.project_get();
   ustring keyterm;
-  keyterms_get_term(myid, keyterm);
+  keyterms_get_term(keyword_id, keyterm);
   GtkTreeIter iter;
   gtk_tree_store_append(treestore_renderings, &iter, NULL);
   bool casesensitive = rendering != rendering.casefold();
@@ -358,7 +362,7 @@ void WindowCheckKeyterms::show_text() // Todo
   myreferences.clear();
   mytextstarts.clear();
   mytextends.clear();
-  keyterms_get_data(myid, dummy1, dummy1, myreferences);
+  keyterms_get_data(keyword_id, dummy1, dummy1, myreferences);
 
   // Remap references.
   {
@@ -587,13 +591,6 @@ gboolean WindowCheckKeyterms::on_textview_keyterm_text_key_press(GdkEventKey * e
 }
 
 
-unsigned int WindowCheckKeyterms::selected_id()
-{
-  unsigned int id = 0;
-  return id;
-}
-
-
 ustring WindowCheckKeyterms::enter_new_rendering_here()
 {
   return "<Enter new rendering here>";
@@ -647,6 +644,8 @@ void WindowCheckKeyterms::html_link_clicked (const gchar * url)
   // New url.
   active_url = url;
 
+cout << active_url << endl; // Todo
+
   // Start writing a html page.
   HtmlWriter2 htmlwriter ("");
   bool display_another_page = false;
@@ -658,13 +657,15 @@ void WindowCheckKeyterms::html_link_clicked (const gchar * url)
     // Display a keyterm and all its data.
     ustring url = active_url;
     url.erase (0, 8);
-    unsigned int keyword_id = convert_to_int (url);
+    keyword_id = convert_to_int (url);
     html_write_extras (htmlwriter, keyword_id);
     display_another_page = true;
+    // Show the renderings.
+    load_renderings ();
   }
 
   else if (active_url.find ("goto ") == 0) {
-    // Signal the editor to go to a reference.
+    // Signal the editors to go to a reference.
     ustring url = active_url;
     url.erase (0, 5);
     myreference.assign (get_reference (url));
@@ -683,6 +684,8 @@ void WindowCheckKeyterms::html_link_clicked (const gchar * url)
       htmlwriter.paragraph_close();
     }
     display_another_page = true;
+    // No renderings.
+    clear_renderings ();
   }
   
   htmlwriter.finish();
@@ -719,7 +722,7 @@ void WindowCheckKeyterms::html_write_extras (HtmlWriter2& htmlwriter, unsigned i
       Reference reference = get_reference (reference_text);
       htmlwriter.hyperlink_add ("goto " + reference_text, reference_text);
       information.erase (0, pos + keyterms_reference_end_markup ().length());
-      // Todo add the reference's text. Todo
+      // Add the reference's text.
       extern Settings * settings;
       ustring verse = project_retrieve_verse(settings->genconfig.project_get(), reference.book, reference.chapter, reference.verse);
       if (verse.empty()) {
