@@ -7254,7 +7254,6 @@ Todo various tasks.
 
 
 Redo the existing keyerms:
-keyterms_general_ot.txt
 KTBH.pbu
 OTKEY.DB
 KTREF.DB

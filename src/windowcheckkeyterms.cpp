@@ -553,9 +553,8 @@ void WindowCheckKeyterms::html_write_extras (HtmlWriter2& htmlwriter, unsigned i
           verse.erase (0, startpositions[i] - processposition + lengths[i]);
           processposition = startpositions[i] + lengths[i];
         }
-      } else {
       }
-      // Add whatever is left over of the verse. This could also be the full verse in case it wasn't processed.
+      // Add whatever is left over of the verse. This could be the full verse in case it wasn't processed.
       htmlwriter.text_add (verse);
 
       // Proceed to next.
