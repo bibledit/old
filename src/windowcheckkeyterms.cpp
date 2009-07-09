@@ -544,6 +544,7 @@ void WindowCheckKeyterms::html_write_extras (HtmlWriter2& htmlwriter, unsigned i
       vector <size_t> lengths;
       size_t processposition = 0;
       if (find_renderings (verse, renderings, wholewords, casesensitives, &startpositions, &lengths)) {
+        quick_sort (startpositions, lengths, 0, startpositions.size());
         for (unsigned int i = 0; i < startpositions.size(); i++) {
           htmlwriter.text_add (verse.substr (0, startpositions[i] - processposition));
           htmlwriter.bold_open();

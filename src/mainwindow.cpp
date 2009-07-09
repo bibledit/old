@@ -7253,11 +7253,18 @@ void MainWindow::check_usfm_window_ping()
 Todo various tasks.
 
 
-Redo the existing keyerms too, all of them, regardless of origin.
+Redo the existing keyerms:
+keyterms_general_ot.txt
+KTBH.pbu
+OTKEY.DB
+KTREF.DB
+
 
 The layout of keyterms is equal to the layout of the source file, e.g. KTBH.pbu.
 
+
 Units need to be marked, which one keyterm consists of.
+
 
 
 
