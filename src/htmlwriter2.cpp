@@ -29,6 +29,7 @@ HtmlWriter2::HtmlWriter2(const ustring & title)
 {
   heading_opened = false;
   paragraph_opened = false;
+  bold_level = 0;
 
   buffer = xmlBufferCreate();
   writer = xmlNewTextWriterMemory(buffer, 0);
@@ -120,6 +121,22 @@ void HtmlWriter2::hyperlink_add (const ustring& url, const ustring& text)
   xmlTextWriterWriteAttribute(writer, BAD_CAST "href", BAD_CAST url.c_str());
   xmlTextWriterWriteFormatString(writer, text.c_str());
   xmlTextWriterEndElement(writer);
+}
+
+
+void HtmlWriter2::bold_open()
+{
+  xmlTextWriterStartElement(writer, BAD_CAST "b");
+  bold_level++;
+}
+
+
+void HtmlWriter2::bold_close()
+{
+  if (bold_level) {
+    xmlTextWriterEndElement(writer);
+    bold_level--;
+  }
 }
 
 

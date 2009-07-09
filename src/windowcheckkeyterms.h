@@ -54,7 +54,6 @@ private:
   GtkWidget *label_list;
   GtkWidget *scrolledwindow_terms;
   GtkWidget *htmlview_terms;
-  GtkWidget *scrolledwindow_renderings;
   GtkWidget *treeview_renderings;
 
   // Underlying constructions.
@@ -70,9 +69,6 @@ private:
   static void keyterm_whole_word_toggled(GtkCellRendererToggle *cell, gchar *path_str, gpointer data);
   static void keyterm_case_sensitive_toggled(GtkCellRendererToggle *cell, gchar *path_str, gpointer data);
   static void cell_edited(GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text, gpointer data);
-  static gboolean on_textview_keyterm_text_button_press_event(GtkWidget *widget, GdkEventButton *event, gpointer user_data);
-  static gboolean on_textview_keyterm_text_button_release_event(GtkWidget *widget, GdkEventButton*event, gpointer user_data);
-  static gboolean on_textview_keyterm_text_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
 
   // Action routines.
   void on_combobox_keyterm_collection();
@@ -82,7 +78,6 @@ private:
   void on_rendering_toggle(GtkCellRendererToggle *cell, gchar *path_str, bool first_toggle);
   void on_cell_edited(GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text);
   void add_to_renderings(const ustring& rendering, bool wholeword);
-  void show_text();
   bool find_renderings (const ustring& text, const vector <ustring>& renderings, const vector <bool>& wholewords, const vector <bool>& casesensitives, vector <size_t> * startpositions, vector <size_t> * lengths);
   gboolean on_textview_keyterm_text_button_press(GdkEventButton *event);
   gboolean on_textview_keyterm_text_button_release(GdkEventButton *event);
@@ -95,14 +90,7 @@ private:
   Reference get_reference (const ustring& text);
 
   // Variables.
-  GtkTextTag *approved_rendering_tag; // Tag for showing approved renderings.
-  GtkTextTag *disapproved_rendering_tag; // Tag for showing disapproved rendeirngs.
-  vector<Reference> myreferences; // The references in the textview.
-  vector<gint> mytextstarts; // Marks the start location of verse text in the textview.
-  vector<gint> mytextends; // Marks the end location of verse text in the textview.
-  unsigned int keyword_id; // The id of the keyword now being checked.
-  guint previous_reference_id; // The previous id of the reference that shows.
-  guint signal_id;
+  unsigned int keyword_id;
   
   // Html work.
   ustring active_url;

@@ -38,6 +38,8 @@ public:
   void paragraph_close ();
   void text_add (const ustring& text);
   void hyperlink_add (const ustring& url, const ustring& text);
+  void bold_open();
+  void bold_close();
   void finish ();
   ustring html;
 private:
@@ -45,6 +47,7 @@ private:
   xmlTextWriterPtr writer;
   bool heading_opened;
   bool paragraph_opened;
+  int bold_level;
 };
 
 

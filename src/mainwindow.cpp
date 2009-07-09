@@ -7253,34 +7253,11 @@ void MainWindow::check_usfm_window_ping()
 Todo various tasks.
 
 
-The checking window will be html, and links for everything, and it will show one term expanded with references at a time.
-When adding a rendering, this also goes into the screen.
-Renderings can be deleted as well, with links.
-
-
-The window for checking keyterms is too crowded.
-On import, it translates the headword's references to full English names, with chapter and verse.
-It keeps storing the references separately, as now, for use with the other window that shows the keywords in the verse.
-The list becomes a GtkHtmlView, with all information straight in it, and clickable references.
-On checking, then, these are parsed and underlined. If the rendering is found, a green tick is given, else a red cross is given for that reference.
-The renderings are stored by head word and by collection.
-Finally there's the text window, as it is now. But this goes out, as we use the normal editor when clicking on a reference.
-
-
-Key terms to be done in a textview window, with more options to click on references.
-
-
 Redo the existing keyerms too, all of them, regardless of origin.
 
 The layout of keyterms is equal to the layout of the source file, e.g. KTBH.pbu.
 
 Units need to be marked, which one keyterm consists of.
-
-
-There are several different pages or possible clicks.
-- A starting page. This has a search entry, and an update button. 
-* It shows the collections as well
-* It also lists all the keyterms that match the search term.
 
 
 
