@@ -7259,16 +7259,7 @@ OTKEY.DB
 KTREF.DB
 
 
-The layout of keyterms is equal to the layout of the source file, e.g. KTBH.pbu.
-
-
-Units need to be marked, which one keyterm consists of.
-
-
-
-
-
-
+Units need to be marked, which one keyterm consists of. Applies to some files.
 
 
 It is recommended to redo the ktbh database import, because right now it is very confusing.

@@ -482,6 +482,13 @@ void WindowCheckKeyterms::html_write_extras (HtmlWriter2& htmlwriter, unsigned i
   htmlwriter.paragraph_open ();
   htmlwriter.hyperlink_add ("", "Index");
   htmlwriter.paragraph_close ();
+
+  // Add the keyterm itself.
+  ustring keyterm;
+  keyterms_get_term(keyword_id, keyterm);
+  htmlwriter.paragraph_open ();
+  htmlwriter.text_add (keyterm);
+  htmlwriter.paragraph_close();
   
   // Retrieve the renderings.
   vector <ustring> renderings;
@@ -495,75 +502,84 @@ void WindowCheckKeyterms::html_write_extras (HtmlWriter2& htmlwriter, unsigned i
   vector <Reference> references;
   keyterms_get_data(keyword_id, dummy, information, references);
 
-  // Write the extra information.
-  htmlwriter.paragraph_open ();
-  size_t pos = information.find (keyterms_reference_start_markup ());
-  while (pos != string::npos) {
-    htmlwriter.text_add (information.substr (0, pos));
-    information.erase (0, pos + keyterms_reference_start_markup ().length());
-    pos = information.find (keyterms_reference_end_markup ());
-    if (pos != string::npos) {
-      // Extract the reference.
-      htmlwriter.paragraph_close ();
-      ustring original_reference_text = information.substr (0, pos);
-      Reference reference = get_reference (original_reference_text);
-      // Remap the reference.
-      {
-        Mapping mapping(versification, reference.book);
-        vector <int> chapters;
-        vector <int> verses;
-        mapping.original_to_me(reference.chapter, reference.verse, chapters, verses);
-        if (!chapters.empty()) {
-          reference.chapter = chapters[0];
-          reference.verse = convert_to_string (verses[0]);
+  // Divide the information into lines.
+  ParseLine parseline (information);
+  
+  // Write the information.
+  for (unsigned int i = 0; i < parseline.lines.size(); i++) {
+ 
+    information = parseline.lines[i];
+    htmlwriter.paragraph_open ();
+    size_t pos = information.find (keyterms_reference_start_markup ());
+    while (pos != string::npos) {
+      htmlwriter.text_add (information.substr (0, pos));
+      information.erase (0, pos + keyterms_reference_start_markup ().length());
+      pos = information.find (keyterms_reference_end_markup ());
+      if (pos != string::npos) {
+        // Extract the reference.
+        htmlwriter.paragraph_close ();
+        ustring original_reference_text = information.substr (0, pos);
+        Reference reference = get_reference (original_reference_text);
+        // Remap the reference.
+        {
+          Mapping mapping(versification, reference.book);
+          vector <int> chapters;
+          vector <int> verses;
+          mapping.original_to_me(reference.chapter, reference.verse, chapters, verses);
+          if (!chapters.empty()) {
+            reference.chapter = chapters[0];
+            reference.verse = convert_to_string (verses[0]);
+          }
         }
-      }
-      ustring remapped_reference_text = reference.human_readable ("");
-      ustring displayed_reference_text (remapped_reference_text);
-      if (remapped_reference_text != original_reference_text) {
-        displayed_reference_text.append (" (");
-        displayed_reference_text.append (original_reference_text);
-        displayed_reference_text.append (")");
-      }
-      // Add the reference with hyperlink.
-      htmlwriter.hyperlink_add ("goto " + remapped_reference_text, remapped_reference_text);
-      information.erase (0, pos + keyterms_reference_end_markup ().length());
-      // Add the reference's text.
-      ustring verse = project_retrieve_verse(project, reference.book, reference.chapter, reference.verse);
-      if (verse.empty()) {
-        verse.append("<empty>");
-      } else {
-        CategorizeLine cl(verse);
-        cl.remove_verse_number(reference.verse);
-        verse = cl.verse;
-      }
-      htmlwriter.text_add (" ");
-
-      // Add the verse plus markup for approved text.
-      vector <size_t> startpositions;
-      vector <size_t> lengths;
-      size_t processposition = 0;
-      if (find_renderings (verse, renderings, wholewords, casesensitives, &startpositions, &lengths)) {
-        quick_sort (startpositions, lengths, 0, startpositions.size());
-        for (unsigned int i = 0; i < startpositions.size(); i++) {
-          htmlwriter.text_add (verse.substr (0, startpositions[i] - processposition));
-          htmlwriter.bold_open();
-          htmlwriter.text_add (verse.substr (startpositions[i] - processposition, lengths[i]));
-          htmlwriter.bold_close();
-          verse.erase (0, startpositions[i] - processposition + lengths[i]);
-          processposition = startpositions[i] + lengths[i];
+        ustring remapped_reference_text = reference.human_readable ("");
+        ustring displayed_reference_text (remapped_reference_text);
+        if (remapped_reference_text != original_reference_text) {
+          displayed_reference_text.append (" (");
+          displayed_reference_text.append (original_reference_text);
+          displayed_reference_text.append (")");
         }
-      }
-      // Add whatever is left over of the verse. This could be the full verse in case it wasn't processed.
-      htmlwriter.text_add (verse);
+        // Add the reference with hyperlink.
+        htmlwriter.hyperlink_add ("goto " + remapped_reference_text, remapped_reference_text);
+        information.erase (0, pos + keyterms_reference_end_markup ().length());
+        // Add the reference's text.
+        ustring verse = project_retrieve_verse(project, reference.book, reference.chapter, reference.verse);
+        if (verse.empty()) {
+          verse.append("<empty>");
+        } else {
+          CategorizeLine cl(verse);
+          cl.remove_verse_number(reference.verse);
+          verse = cl.verse;
+        }
+        htmlwriter.text_add (" ");
 
-      // Proceed to next.
-      htmlwriter.paragraph_open ();
-      pos = information.find (keyterms_reference_start_markup ());
-    }    
+        // Add the verse plus markup for approved text.
+        vector <size_t> startpositions;
+        vector <size_t> lengths;
+        size_t processposition = 0;
+        if (find_renderings (verse, renderings, wholewords, casesensitives, &startpositions, &lengths)) {
+          quick_sort (startpositions, lengths, 0, startpositions.size());
+          for (unsigned int i = 0; i < startpositions.size(); i++) {
+            htmlwriter.text_add (verse.substr (0, startpositions[i] - processposition));
+            htmlwriter.bold_open();
+            htmlwriter.text_add (verse.substr (startpositions[i] - processposition, lengths[i]));
+            htmlwriter.bold_close();
+            verse.erase (0, startpositions[i] - processposition + lengths[i]);
+            processposition = startpositions[i] + lengths[i];
+          }
+        }
+        // Add whatever is left over of the verse. This could be the full verse in case it wasn't processed.
+        htmlwriter.text_add (verse);
+
+        // Proceed to next.
+        htmlwriter.paragraph_open ();
+        pos = information.find (keyterms_reference_start_markup ());
+      }    
+    }
+    htmlwriter.text_add (information);
+    htmlwriter.paragraph_close ();
+
+
   }
-  htmlwriter.text_add (information);
-  htmlwriter.paragraph_close ();
 }
 
 
