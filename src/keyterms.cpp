@@ -168,7 +168,7 @@ ustring keyterms_reference_end_markup ()
 }
 
 
-void keyterms_import_textfile(const ustring & textfile, ustring category)
+void keyterms_import_textfile(const ustring & textfile, ustring category) // Todo
 // Imports a keyterms textfile.
 {
   // Ensure the db is there.
@@ -278,7 +278,7 @@ void keyterms_import_textfile(const ustring & textfile, ustring category)
 }
 
 
-void keyterms_import_otkey_db(const ustring& textfile, ustring category)
+void keyterms_import_otkey_db(const ustring& textfile, ustring category) // Todo
 {
   // Ensure the db is there.
   keyterms_ensure_user_database();
@@ -316,9 +316,8 @@ void keyterms_import_otkey_db(const ustring& textfile, ustring category)
       throw runtime_error(sqlite3_errmsg(db));
  
     // Storage for our data.
-    vector <ustring> key_h_f_data;
-    ustring cme_data;    
-    ustring cmf_data;
+    ustring keyterm;
+    vector <ustring> comments;
     vector <Reference> references;
 
     // Reference discovery variables.
@@ -335,43 +334,16 @@ void keyterms_import_otkey_db(const ustring& textfile, ustring category)
 
         // The kind of information that the line contains.
         bool key_line = (line.find("\\key") == 0);
-        bool h_f_line = (line.find("\\h") == 0) || (line.find("\\f") == 0);
-        bool cme_line = (line.find("\\cme") == 0);
-        bool cmf_line = (line.find("\\cmf") == 0);
         bool ref_line = (line.find("\\ref") == 0);
         
         // Keyterm.
         if (key_line) {
-          vector <ustring> comments = key_h_f_data;
-          if (!cmf_data.empty()) {
-            comments.push_back (cmf_data);
-            cmf_data.clear();
-          }
-          keyterms_import_textfile_flush(db, category_id, cme_data, comments, references);
-          key_h_f_data.clear();
-          key_h_f_data.push_back (trim(line.substr(4, 1000)));
+          keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
+          keyterm.clear();
+          keyterm = trim(line.substr(4, 1000));
         }
 
-        // A few bit are comments.
-        else if (h_f_line) {
-          key_h_f_data.push_back (trim(line.substr(2, 1000)));
-        }
-        
-        // English description: flush.
-        else if (cme_line) {
-          vector <ustring> comments = key_h_f_data;
-          comments.push_back (cmf_data);
-          cmf_data.clear();
-          keyterms_import_textfile_flush(db, category_id, cme_data, comments, references);
-          cme_data = trim(line.substr(4, 1000));
-        }
-
-        // French translation.
-        else if (cmf_line) {
-          cmf_data = trim(line.substr(4, 1000));
-        }
-
-        // Reference: store.
+        // Reference.
         else if (ref_line) {
           ustring ref = line.substr(4, 1000);
           keyterms_clean_reference_line (ref);
@@ -379,12 +351,13 @@ void keyterms_import_otkey_db(const ustring& textfile, ustring category)
           if (reference_discover(previousbook, previouschapter, "0", ref, reference.book, reference.chapter, reference.verse)) {
             reference.verse = number_in_string(reference.verse);
             references.push_back(reference);
+            comments.push_back (keyterms_reference_start_markup () + reference.human_readable ("") + keyterms_reference_end_markup ());
           }
         }
         
-        // Whatever else.
+        // Anything else is treated as a comment.
         else {
-          gw_warning ("Skipping " + line);
+          comments.push_back (line);
         }
       }
       catch(exception & ex) {
@@ -395,9 +368,7 @@ void keyterms_import_otkey_db(const ustring& textfile, ustring category)
 
     }
     // Flush remaining data.
-    vector <ustring> comments = key_h_f_data;
-    comments.push_back (cmf_data);
-    keyterms_import_textfile_flush(db, category_id, cme_data, comments, references);
+    keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
 
   }
   catch(exception & ex) {

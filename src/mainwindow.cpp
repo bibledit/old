@@ -7254,9 +7254,8 @@ Todo various tasks.
 
 
 Redo the existing keyerms:
-KTBH.pbu
-OTKEY.DB
 KTREF.DB
+KTBH.pbu
 
 
 Units need to be marked, which one keyterm consists of. Applies to some files.
