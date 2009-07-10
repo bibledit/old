@@ -7253,14 +7253,7 @@ void MainWindow::check_usfm_window_ping()
 Todo various tasks.
 
 
-Redo the existing keyerms:
-KTREF.DB
 KTBH.pbu
-
-
-Units need to be marked, which one keyterm consists of. Applies to some files.
-
-
 It is recommended to redo the ktbh database import, because right now it is very confusing.
 We need to go through the references that we have, and take each word from there.
 To take the gloss that is before this reference, and anything before that right from \heb goes into the comment section.

@@ -486,9 +486,9 @@ void WindowCheckKeyterms::html_write_extras (HtmlWriter2& htmlwriter, unsigned i
   // Add the keyterm itself.
   ustring keyterm;
   keyterms_get_term(keyword_id, keyterm);
-  htmlwriter.paragraph_open ();
+  htmlwriter.heading_open (3);
   htmlwriter.text_add (keyterm);
-  htmlwriter.paragraph_close();
+  htmlwriter.heading_close();
   
   // Retrieve the renderings.
   vector <ustring> renderings;
