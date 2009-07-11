@@ -7261,5 +7261,6 @@ void MainWindow::check_usfm_window_ping()
 Todo various tasks.
 
 
+Pasting text in a footnote takes you to almost the top of the chapter.
 
 */

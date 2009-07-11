@@ -498,17 +498,9 @@ void Editor::text_erase_selection()
 }
 
 
-void Editor::text_insert(ustring text)
-/*
- This inserts plain or USFM text at the cursor location 
- of the focused textview.
-
- If plain text is pasted, the style(s) now applied at the cursor continue in the 
- pasted text.
- If usfm text is pasted, normal formatting rules apply.
-
- If text is selected, this is erased first.
- */
+void Editor::text_insert(ustring text) // Todo
+// This inserts plain or USFM text at the cursor location of the focused textview.
+// If text is selected, this is erased first.
 {
   // If the text is not editable, bail out.
   if (!editable)
@@ -546,45 +538,61 @@ void Editor::text_insert(ustring text)
   gtk_text_buffer_get_iter_at_mark(buffer, &insert_iter, gtk_text_buffer_get_insert(buffer));
   gtk_text_buffer_place_cursor(buffer, &insert_iter);
 
-  // Get the offset of the cursor in the editor.
-  gint cursor_offset = gtk_text_iter_get_offset (&insert_iter);  
+  // If makes a difference if pasting into the main textbuffer, or into a table or note. Todo
+  if (buffer == textbuffer) {
+    
+    // Inserting text into the main text buffer.
+    // Formatting can be complex. For that reason the raw USFM code is processed and reloaded.
+    
+    // Get the offset of the cursor in the editor.
+    gint cursor_offset = gtk_text_iter_get_offset (&insert_iter);  
 
-  // If not pasting in the main text body, but in a table or note, 
-  // remove all markers to prevent trouble.
-  if (buffer != textbuffer) {
-    ustring marker;
-    size_t marker_pos;
-    size_t marker_length;
-    bool is_opener;
-    while (usfm_search_marker(text, marker, marker_pos, marker_length, is_opener)) {
-      text.erase(marker_pos, marker_length);
+    // Join the inserted text with the existing text.
+    character_style_on_start_typing.clear ();
+    style_to_be_applied_at_cursor.clear ();
+    PreventEditorUndo * preventundo = new PreventEditorUndo (&record_undo_level);
+    #define ANCHOR "_ANCHOR_"
+    gtk_text_buffer_insert_at_cursor (buffer, ANCHOR, -1);
+    ustring text2 = get_chapter();
+    size_t pos = text2.find (ANCHOR);
+    if (pos != string::npos) {
+      text2.erase (pos, strlen (ANCHOR));
+      text2.insert (pos, text);
     }
-  }
+    #undef ANCHOR
+    text_load (text2);
+    delete preventundo;
+    trigger_undo_redo_recording ();
+   
+    // Restore cursor position.
+    GtkTextIter iter;
+    gtk_text_buffer_get_iter_at_offset (textbuffer, &iter, cursor_offset);
+    gtk_text_buffer_place_cursor (textbuffer, &iter);
 
-  // Join the inserted text with the existing text.
-  character_style_on_start_typing.clear ();
-  style_to_be_applied_at_cursor.clear ();
-  PreventEditorUndo * preventundo = new PreventEditorUndo (&record_undo_level);
-  #define ANCHOR "_ANCHOR_"
-  gtk_text_buffer_insert_at_cursor (buffer, ANCHOR, -1);
-  ustring text2 = get_chapter();
-  size_t pos = text2.find (ANCHOR);
-  if (pos != string::npos) {
-    text2.erase (pos, strlen (ANCHOR));
-    text2.insert (pos, text);
+    // Restore scrolled window's position.
+    gtk_adjustment_set_value (adjustment, scroll_position);
+    
+  } else {
+    
+    // Inserting text into a table or note.
+    // This one simply inserts the plain text at the cursor. No formatting used.
+    // This prevents scrolling and cursor positioning problems that would otherwise occur.
+    
+    // Remove all markers to prevent trouble with markup.
+    if (buffer != textbuffer) {
+      ustring marker;
+      size_t marker_pos;
+      size_t marker_length;
+      bool is_opener;
+      while (usfm_search_marker(text, marker, marker_pos, marker_length, is_opener)) {
+        text.erase(marker_pos, marker_length);
+      }
+    }
+    
+    // Insert the text.
+    gtk_text_buffer_insert_at_cursor (buffer, text.c_str(), -1);
+    
   }
-  #undef ANCHOR
-  text_load (text2);
-  delete preventundo;
-  trigger_undo_redo_recording ();
- 
-  // Restore cursor position.
-  GtkTextIter iter;
-  gtk_text_buffer_get_iter_at_offset (textbuffer, &iter, cursor_offset);
-  gtk_text_buffer_place_cursor (textbuffer, &iter);
-
-  // Restore scrolled window's scrolling position.
-  gtk_adjustment_set_value (adjustment, scroll_position);
 }
 
 void Editor::show_quick_references()
