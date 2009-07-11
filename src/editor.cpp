@@ -498,7 +498,7 @@ void Editor::text_erase_selection()
 }
 
 
-void Editor::text_insert(ustring text) // Todo
+void Editor::text_insert(ustring text)
 // This inserts plain or USFM text at the cursor location of the focused textview.
 // If text is selected, this is erased first.
 {
@@ -538,7 +538,7 @@ void Editor::text_insert(ustring text) // Todo
   gtk_text_buffer_get_iter_at_mark(buffer, &insert_iter, gtk_text_buffer_get_insert(buffer));
   gtk_text_buffer_place_cursor(buffer, &insert_iter);
 
-  // If makes a difference if pasting into the main textbuffer, or into a table or note. Todo
+  // If makes a difference if pasting into the main textbuffer, or into a table or note.
   if (buffer == textbuffer) {
     
     // Inserting text into the main text buffer.
