@@ -514,6 +514,10 @@ void Editor::text_insert(ustring text)
   if (!editable)
     return;
 
+  // Store scrollled window's position.
+  GtkAdjustment * adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolledwindow));
+  unsigned int scroll_position = gtk_adjustment_get_value (adjustment);
+
   // Get the textbuffer that is focused.
   GtkTextBuffer *buffer = textbuffer;
   if (gtk_widget_is_focus(textview)) {
@@ -578,6 +582,9 @@ void Editor::text_insert(ustring text)
   GtkTextIter iter;
   gtk_text_buffer_get_iter_at_offset (textbuffer, &iter, cursor_offset);
   gtk_text_buffer_place_cursor (textbuffer, &iter);
+
+  // Restore scrolled window's scrolling position.
+  gtk_adjustment_set_value (adjustment, scroll_position);
 }
 
 void Editor::show_quick_references()
