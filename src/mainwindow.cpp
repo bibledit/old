@@ -7261,5 +7261,52 @@ void MainWindow::check_usfm_window_ping()
 Todo various tasks.
 
 
+Bible notes showing up in short lines
+
+Correcting a problem in CEV-UK JHN 1 (using View/USFM):
+
+\q1
+\v 5 The light keeps shining
+\q2 in the dark,
+\q1 and darkness has never
+\q2 put it out.\fe * \fr 1.5 \fq put it out: \ft Or understood it.\fe*
+\q1\x - \xo 1.6: \xt Mt 3.1; Mk 1.4; Lk 3.1,2.\x*
+\v 6 God sent a man named John,
+
+where BE 3.7.42 showed the \q1 marker in the text to:
+
+\q1
+\v 5 The light keeps shining
+\q2 in the dark,
+\q1 and darkness has never
+\q2 put it out.\fe * \fr 1.5 \fq put it out: \ft Or understood it.\fe*
+\q1
+\v 6\x - \xo 1.6: \xt Mt 3.1; Mk 1.4; Lk 3.1,2.\x*God sent a man named John,
+
+and unchecking View/USFM shows the footnotes and crossreferences at the end of the text in short lines (about 15 characters).
+
+Correcting this back to the original form does not change the line-lenght of the Bible notes.
+
+This does not happen in BE 3.7.1.
+
+
+Now opening up a second project, there are suddenly 5 lines between each Bible note, and the line lenght becomes about 5 times as long as before 
+(not the full page).
+
+Opening and closing the second project several times, let the addtional empty lines disappear, 
+but the line-lenght stays about half of the line-length of the bible text.
+
+
+
+
+Possible solution is to use one scrolled window, and that one window has the main textview.
+Under that main textview we stack the textviews that form the notes. Each notes has one textview.
+This makes superfluous all the logic that calculates the width of each note.
+Extra logic is then needed to get the scrolling done properly.
+Each footnote / xref would then consist of a button at the very left, and then the textview besides that.
+We can build in steps, the first steps being that the footnotes are displayed as extras only, but do nothing.
+Then to take it from there.
+
+
 
 */
