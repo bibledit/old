@@ -42,6 +42,7 @@ public:
   Reference * new_reference_showing;
   GtkWidget *signal;
   ustring collection ();
+  void reload_collections ();
 protected:
   GtkWidget *vbox;
 private:

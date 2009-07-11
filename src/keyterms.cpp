@@ -378,7 +378,7 @@ void keyterms_import_otkey_db(const ustring& textfile, ustring category)
 }
 
 
-void keyterms_import_ktref_db(const ustring& textfile, ustring category) // Todo
+void keyterms_import_ktref_db(const ustring& textfile, ustring category)
 {
   // Ensure the db is there.
   keyterms_ensure_user_database();
@@ -530,11 +530,60 @@ void keyterms_import_ktref_db(const ustring& textfile, ustring category) // Todo
   sqlite3_close(db);
 }
 
-void keyterms_import_ktbh_txt_comments(ustring key, const ustring & label, ustring line, vector < ustring > &comments)
+
+void keyterms_import_ktbh_txt_comments(ustring line, vector < ustring > &comments) // Todo
+// Make standard modifications to the comment, and store it.
 {
-  key.insert(0, "\\");
-  key.append(" ");
-  size_t length = key.length();
+  if (line.find( "\\notfr ") == 0)
+    return;
+  if (line.find( "\\notsp ") == 0)
+    return;
+  if (line.find( "\\notpt ") == 0)
+    return;
+  if (line.find( "\\notxx ") == 0)
+    return;
+  replace_text(line, "\\strong", "Strong's number:");
+  replace_text(line, "\\pos", "Part of speech:");
+  replace_text(line, "\\incpos", "Part of speech (inc):");
+  replace_text(line, "\\freq", "Frequency:");
+  replace_text(line, "\\sub", "Cognate(s):");
+  replace_text(line, "\\alt", "Variant Spelling(s):");
+  replace_text(line, "\\see", "See entry:");
+  replace_text(line, "\\intro", "Abstract for Busy Translators:");
+  replace_text(line, "\\tnotes", "Notes for Translators:");
+  replace_text(line, "\\hebraist", "Hebraists' Comments:");
+  replace_text(line, "\\altint", "Alternative interpretations:");
+  replace_text(line, "\\evalev", "Evaluating Evidence:");
+  replace_text(line, "\\qumran", "Qumran:");
+  replace_text(line, "\\nt", "New Testament Evidence:");
+  replace_text(line, "\\comp", "Comparison of Meanings and Uses:");
+  replace_text(line, "\\dfnotes", "Domain and Frame Notes:");
+  replace_text(line, "\\addinfo", "Additional Information:");
+  replace_text(line, "\\not ", "Note: ");
+  replace_text(line, "\\frame", "Frame for Meaning:");
+  replace_text(line, "\\domain", "Intrinsic Domains for Meaning:");
+  replace_text(line, "\\stem", "Verb Stem:");
+  replace_text(line, "\\gram", "Grammar Notes:");
+  replace_text(line, "\\eventfr", "Participant Roles for Meaning:");
+  replace_text(line, "\\syntagc", "Meaning Comments:");
+  replace_text(line, "\\framec", "Frame for Use:");
+  replace_text(line, "\\domainc", "Contextual Domains for Use:");
+  replace_text(line, "\\eventfrc", "Participant Roles for Use:");
+  replace_text(line, "\\syntagcc", "Use Comments:");
+  replace_text(line, "\\keyverse", "Key Verse:");
+  replace_text(line, "\\eval", "Evaluation of Translations:");
+  replace_text(line, "\\lxx", "Key Septuagint:");
+  replace_text(line, "\\trans", "Translation:");
+  replace_text(line, "\\paradigc", "Keyword:");
+  replace_text(line, "\\colc", "Collocating Term:");
+  replace_text(line, "\\pgloss", "Gloss:");
+  replace_text(line, "\\ver ", "Version: ");
+  replace_text(line, "\\dat ", "Date: ");
+  replace_text(line, "\\level2", "Level 2:");
+  replace_text(line, "\\level3", "Level 3:");
+  replace_text(line, "\\level4", "Level 4:");
+  replace_text(line, "\\meaning", "Meaning:");
+  replace_text(line, "\\context", "Context:");
   replace_text(line, "|h", "");
   replace_text(line, "|h*", "");
   replace_text(line, "|g", "");
@@ -549,12 +598,12 @@ void keyterms_import_ktbh_txt_comments(ustring key, const ustring & label, ustri
   replace_text(line, "|t*", "");
   replace_text(line, "|s", "");
   replace_text(line, "|s*", "");
-  if (line.find(key) == 0)
-    comments.push_back(label + " " + line.substr(length, 10000));
+  replace_text(line, "", "");
+  comments.push_back(line);
 }
 
 
-void keyterms_import_ktbh_txt_references(ustring line, vector < Reference > &references)
+void keyterms_import_ktbh_txt_references(ustring line, vector <Reference> &references, vector <ustring>& comments) // Todo
 /*
  The references in the KTBH database are stored in a special way.
  Reinier de Blois gave the code to extract a reference:
@@ -588,6 +637,7 @@ void keyterms_import_ktbh_txt_references(ustring line, vector < Reference > &ref
     *digit5 -= 32;
     Reference reference(*digit1, digit2 + *digit3, convert_to_string(digit4 + *digit5));
     references.push_back(reference);
+    comments.push_back (keyterms_reference_start_markup () + reference.human_readable ("") + keyterms_reference_end_markup ());
     g_free(digit1);
     g_free(digit3);
     g_free(digit5);
@@ -595,12 +645,15 @@ void keyterms_import_ktbh_txt_references(ustring line, vector < Reference > &ref
 }
 
 
-void keyterms_import_ktbh_txt(const ustring& textfile, ustring category)
+void keyterms_import_ktbh_standard_disclaimer (vector <ustring>& comments)
 {
-  // If KTBH file's not there, bail out.
-  cout << "Trying to process KTBH-U.txt" << endl;
-  if (!g_file_test(textfile.c_str(), G_FILE_TEST_IS_REGULAR))
-    return;
+  comments.push_back ("Disclaimer: Key Terms in Biblical Hebrew: The entries are an experimental sample set, not yet fully reviewed and approved. The KTBH team would welcome feed-back to christopher_samuel@sil.org.");
+}
+
+void keyterms_import_ktbh_txt(const ustring& textfile, ustring category) // Todo
+{
+  // Ensure the db is there.
+  keyterms_ensure_user_database();
 
   // Some variables we need.
   sqlite3 *db;
@@ -608,23 +661,9 @@ void keyterms_import_ktbh_txt(const ustring& textfile, ustring category)
   char *error = NULL;
   try {
 
-    // Read the text. 
-    // Any lines not starting with \ should be joined to the previous one.
-    // Clear empty ones out.
-    vector < ustring > lines;
-    {
-      ReadText rt(textfile, true);
-      for (unsigned int i = 0; i < rt.lines.size(); i++) {
-        if (rt.lines[i].empty())
-          continue;
-        if (rt.lines[i].find("\\") == 0) {
-          lines.push_back(rt.lines[i]);
-        } else {
-          lines[lines.size() - 1].append(" " + rt.lines[i]);
-        }
-      }
-    }
-
+    // The id to use for the category.
+    int category_id = keyterms_retrieve_highest_id ("category") + 1;
+    
     // Open the database.
     rc = sqlite3_open(keyterms_get_filename().c_str(), &db);
     if (rc)
@@ -638,136 +677,80 @@ void keyterms_import_ktbh_txt(const ustring& textfile, ustring category)
       throw runtime_error(sqlite3_errmsg(db));
 
     // Store the category of these keyterms.
-    sql = g_strdup_printf("insert into category values ('%s');", category.c_str());
+    category = double_apostrophy(category);
+    sql = g_strdup_printf("insert into category values (%d, '%s');", category_id, category.c_str());
     rc = sqlite3_exec(db, sql, NULL, NULL, &error);
     g_free(sql);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
-    // Retrieve the id for this category.
-    SqliteReader reader(0);
-    sql = g_strdup_printf("select ROWID from category where name = '%s';", category.c_str());
-    rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
-    g_free(sql);
-    if (rc)
-      throw runtime_error(sqlite3_errmsg(db));
-    unsigned int category_id = 0;
-    if (reader.ustring0.size() > 0)
-      category_id = convert_to_int(reader.ustring0[0]);
+
+    // Read the text. Any lines not starting with \ should be joined to the previous one.
+    vector <ustring> lines;
+    {
+      ReadText rt(textfile, true);
+      for (unsigned int i = 0; i < rt.lines.size(); i++) {
+        ustring line = rt.lines[i];
+        if (!line.empty()) {
+          if (rt.lines[i].find("\\") == 0) {
+            lines.push_back(rt.lines[i]);
+          } else {
+            lines[lines.size() - 1].append(" " + rt.lines[i]);
+          }
+        }
+      }
+    }
 
     // Storage for our data.
     ustring keyterm;
-    ustring gloss, meaning, context;
-    unsigned int level = 0;
-    vector < unsigned int >parents;
-    for (unsigned int i = 0; i < 10; i++)
-      parents.push_back(1);
-    vector < ustring > comments;
-    vector < Reference > references;
-    vector < ustring > related;
+    vector <ustring> comments;
+    vector <Reference> references;
 
     // Go through all the lines.
-    for (unsigned int i = 1; i < lines.size(); i++) {
+    ProgressWindow progresswindow ("Importing", false);
+    progresswindow.set_iterate (0, 1, lines.size());
+    for (unsigned int i = 0; i < lines.size(); i++) {
+      progresswindow.iterate();
       try {
+
         // Get the line.
         ustring line(lines[i]);
 
         // Hebrew keyterm: store.
         if (line.find("\\heb ") == 0) {
+          keyterms_import_ktbh_standard_disclaimer (comments);
           keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
-          keyterm = line.substr(5, 1000);
+          keyterm = "(" + line.substr(5, 1000) + ")";
         }
+        
         // Gloss: store and add to keyterm.
-        if (line.find("\\gloss ") == 0) {
-          gloss = line.substr(7, 1000);
-          keyterm.append(" " + gloss);
+        else if (line.find("\\gloss ") == 0) {
+          ustring gloss = line.substr(7, 1000);
+          keyterm.insert(0, gloss + " ");
         }
-        // Level 2.
-        if (line.find("\\level2 ") == 0) {
-          keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
-          keyterm = line.substr(8, 1000);
-          level = 2;
-        }
-        // Meaning: store and add to level2.
-        if (line.find("\\meaning ") == 0) {
-          meaning = line.substr(9, 1000);
-          keyterm.append(" " + meaning.substr(0, 25) + " ...");
-          comments.push_back("Gloss: " + gloss);
-          comments.push_back("Meaning: " + meaning);
-        }
-        // Level 3.
-        if (line.find("\\level3 ") == 0) {
-          keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
-          keyterm = line.substr(8, 1000);
-          level = 3;
-        }
-        // Context: store and add to level2.
-        if (line.find("\\context ") == 0) {
-          context = line.substr(9, 1000);
-          keyterm.append(" " + context.substr(0, 25) + " ...");
-          comments.push_back("Gloss: " + gloss);
-          comments.push_back("Meaning: " + meaning);
-          comments.push_back("Contextual use: " + context);
-        }
+
         // Reference: store.
-        if (line.find("\\ref ") == 0) {
+        else if (line.find("\\ref ") == 0) {
           ustring ref = line.substr(5, 10000);
-          keyterms_import_ktbh_txt_references(ref, references);
+          keyterms_import_ktbh_txt_references(ref, references, comments);
         }
-        // Comments: store.
-        keyterms_import_ktbh_txt_comments("strong", "Strong's number:", line, comments);
-        keyterms_import_ktbh_txt_comments("pos", "Part of speech:", line, comments);
-        keyterms_import_ktbh_txt_comments("incpos", "Part of speech (inc):", line, comments);
-        keyterms_import_ktbh_txt_comments("freq", "Frequency:", line, comments);
-        keyterms_import_ktbh_txt_comments("sub", "Cognate(s):", line, comments);
-        keyterms_import_ktbh_txt_comments("alt", "Variant Spelling(s):", line, comments);
-        keyterms_import_ktbh_txt_comments("see", "See entry", line, comments);
-        keyterms_import_ktbh_txt_comments("intro", "Abstract for Busy Translators:", line, comments);
-        keyterms_import_ktbh_txt_comments("tnotes", "Notes for Translators:", line, comments);
-        keyterms_import_ktbh_txt_comments("hebraist", "Hebraists' Comments:", line, comments);
-        keyterms_import_ktbh_txt_comments("altint", "Alternative interpretations:", line, comments);
-        keyterms_import_ktbh_txt_comments("evalev", "Evaluating Evidence:", line, comments);
-        keyterms_import_ktbh_txt_comments("qumran", "Qumran:", line, comments);
-        keyterms_import_ktbh_txt_comments("nt", "New Testament Evidence:", line, comments);
-        keyterms_import_ktbh_txt_comments("comp", "Comparison of Meanings and Uses:", line, comments);
-        keyterms_import_ktbh_txt_comments("dfnotes", "Domain and Frame Notes:", line, comments);
-        keyterms_import_ktbh_txt_comments("addinfo", "Additional Information:", line, comments);
-        keyterms_import_ktbh_txt_comments("not", "Note on references etc.:", line, comments);
-        keyterms_import_ktbh_txt_comments("frame", "Frame for Meaning:", line, comments);
-        keyterms_import_ktbh_txt_comments("domain", "Intrinsic Domains for Meaning", line, comments);
-        keyterms_import_ktbh_txt_comments("stem", "Verb Stem", line, comments);
-        keyterms_import_ktbh_txt_comments("gram", "Grammar Notes", line, comments);
-        keyterms_import_ktbh_txt_comments("eventfr", "Participant Roles for Meaning", line, comments);
-        keyterms_import_ktbh_txt_comments("syntagc", "Meaning Comments", line, comments);
-        keyterms_import_ktbh_txt_comments("framec", "Frame for Use", line, comments);
-        keyterms_import_ktbh_txt_comments("domainc", "Contextual Domains for Use", line, comments);
-        keyterms_import_ktbh_txt_comments("eventfrc", "Participant Roles for Use", line, comments);
-        keyterms_import_ktbh_txt_comments("syntagcc", "Use Comments", line, comments);
-        keyterms_import_ktbh_txt_comments("keyverse", "Key Verse", line, comments);
-        keyterms_import_ktbh_txt_comments("eval", "Evaluation of Translations", line, comments);
-        keyterms_import_ktbh_txt_comments("lxx", "Key Septuagint", line, comments);
-        keyterms_import_ktbh_txt_comments("trans", "Translation", line, comments);
-        keyterms_import_ktbh_txt_comments("paradigc", "Keyword", line, comments);
-        keyterms_import_ktbh_txt_comments("colc", "Collocating Term", line, comments);
-        keyterms_import_ktbh_txt_comments("pgloss", "Gloss", line, comments);
-        if (line.find("\\keyref ") == 0) {
+
+        // Key reference.
+        else if (line.find("\\keyref ") == 0) {
           ustring ref = line.substr(8, 10000);
-          vector < Reference > references;
-          keyterms_import_ktbh_txt_references(ref, references);
-          ustring comment = "Key Reference:";
-          for (unsigned int i2 = 0; i2 < references.size(); i2++) {
-            comment.append(" " + references[i2].human_readable(""));
-          }
-          comments.push_back(comment);
+          comments.push_back ("Key Reference:");
+          keyterms_import_ktbh_txt_references(ref, references, comments);
         }
-        if (line.find("\\refsc ") == 0) {
+        
+        // References.
+        else if (line.find("\\refsc ") == 0) {
+          comments.push_back ("References:");
           ustring ref = line.substr(7, 10000);
-          vector < Reference > references;
-          keyterms_import_ktbh_txt_references(ref, references);
-          ustring comment = "References:";
-          for (unsigned int i2 = 0; i2 < references.size(); i2++) {
-            comment.append(" " + references[i2].human_readable(""));
-          }
-          comments.push_back(comment);
+          keyterms_import_ktbh_txt_references(ref, references, comments);
+        }
+        
+        // Anything else is treated as a comment.
+        else {
+          keyterms_import_ktbh_txt_comments(line, comments);
         }
       }
       catch(exception & ex) {
@@ -779,6 +762,7 @@ void keyterms_import_ktbh_txt(const ustring& textfile, ustring category)
 
     }
     // Flush remaining data.
+    keyterms_import_ktbh_standard_disclaimer (comments);
     keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
 
   }

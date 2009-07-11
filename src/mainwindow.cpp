@@ -7107,12 +7107,20 @@ void MainWindow::on_assistant_keyterms_ready ()
   if (import_keyterms_assistant) {
     delete import_keyterms_assistant;
     import_keyterms_assistant = NULL;
+    // Refresh window for checking keyterms.
+    if (window_check_keyterms) {
+      window_check_keyterms->reload_collections();
+    }
   }
 
   // Deleting keyterms.
   if (delete_keyterms_assistant) {
     delete delete_keyterms_assistant;
     delete_keyterms_assistant = NULL;
+    // Refresh window for checking keyterms.
+    if (window_check_keyterms) {
+      window_check_keyterms->reload_collections();
+    }
   }
 
   // Changes.
@@ -7253,39 +7261,12 @@ void MainWindow::check_usfm_window_ping()
 Todo various tasks.
 
 
-KTBH.pbu
-It is recommended to redo the ktbh database import, because right now it is very confusing.
-We need to go through the references that we have, and take each word from there.
-To take the gloss that is before this reference, and anything before that right from \heb goes into the comment section.
-So that we only have simple keywords.
-The new database has a table with categories, and an id for connecting it to this category.
-It also has a table with keyterms, and an integer linking to the categories, and another int linking to references in another table.
-Finally it has a table with a field "id" and a field "book" and a field "chapter" and a field "verse".
-
-Could you put in somewhere a disclaimer something like:
-"Key Terms in Biblical Hebrew: the entries are an experimental sample 
-set, not yet fully reviewed and approved. The KTBH team would welcome 
-feed-back to christopher_samuel@sil.org"
-This can go in the comments area of the keyterm if it comes from this source.
+When importing keyterms from text, we need to show keyterms without comments or references too. This makes the \see work too.
+So we need to import again all files.
 
 
 
-
-At the end to import all keyterms we have. From the storage area on the site.
- 
-
-
-
-
-At the end of testing importing everything, we need to put a full keyterms.sql into the templates.
-
-
-
-
-After importing new keyterms, or removing categories, we should refresh the check keyterms window.
-It would then show the changed data.
-
-
+Show samuel christopher about how it was used.
 
 
 Need to make an export function that exports everything into standard files.

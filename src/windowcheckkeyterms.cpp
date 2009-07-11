@@ -113,11 +113,7 @@ WindowBase(widCheckKeyterms, "Check keyterms", startup, 0, parent_box), myrefere
   gtk_label_set_mnemonic_widget(GTK_LABEL(label_list), htmlview_terms);
 
   // Load the categories.
-  vector <ustring> categories = keyterms_get_categories();
-  combobox_set_strings(combobox_collection, categories);
-  if (!categories.empty()) {
-    combobox_set_index(combobox_collection, 0);
-  }
+  reload_collections ();
 
   // Load the keyterms.
   on_combobox_keyterm_collection ();
@@ -595,3 +591,11 @@ Reference WindowCheckKeyterms::get_reference (const ustring& text)
 }
 
 
+void WindowCheckKeyterms::reload_collections ()
+{
+  vector <ustring> categories = keyterms_get_categories();
+  combobox_set_strings(combobox_collection, categories);
+  if (!categories.empty()) {
+    combobox_set_index(combobox_collection, 0);
+  }
+}
