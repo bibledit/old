@@ -7261,10 +7261,6 @@ void MainWindow::check_usfm_window_ping()
 Todo various tasks.
 
 
-When importing keyterms from text, we need to show keyterms without comments or references too. This makes the \see work too.
-So we need to import again all files.
-
-
 
 Show samuel christopher about how it was used.
 

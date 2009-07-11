@@ -103,8 +103,8 @@ void keyterms_clean_reference_line (ustring& line)
 
 void keyterms_import_textfile_flush(sqlite3 * db, unsigned int category_id, ustring& keyterm, vector <ustring>& comments, vector <Reference>& references)
 {
-  // Only store if there is enough data.
-  if (!keyterm.empty() && !references.empty()) {
+  // Only store if there's a keyterm..
+  if (!keyterm.empty()) {
     
     int keyterm_id = keyterms_retrieve_highest_id ("keyterm") + 1;
 
@@ -531,7 +531,7 @@ void keyterms_import_ktref_db(const ustring& textfile, ustring category)
 }
 
 
-void keyterms_import_ktbh_txt_comments(ustring line, vector < ustring > &comments) // Todo
+void keyterms_import_ktbh_txt_comments(ustring line, vector < ustring > &comments)
 // Make standard modifications to the comment, and store it.
 {
   if (line.find( "\\notfr ") == 0)
@@ -603,7 +603,7 @@ void keyterms_import_ktbh_txt_comments(ustring line, vector < ustring > &comment
 }
 
 
-void keyterms_import_ktbh_txt_references(ustring line, vector <Reference> &references, vector <ustring>& comments) // Todo
+void keyterms_import_ktbh_txt_references(ustring line, vector <Reference> &references, vector <ustring>& comments)
 /*
  The references in the KTBH database are stored in a special way.
  Reinier de Blois gave the code to extract a reference:
@@ -650,7 +650,7 @@ void keyterms_import_ktbh_standard_disclaimer (vector <ustring>& comments)
   comments.push_back ("Disclaimer: Key Terms in Biblical Hebrew: The entries are an experimental sample set, not yet fully reviewed and approved. The KTBH team would welcome feed-back to christopher_samuel@sil.org.");
 }
 
-void keyterms_import_ktbh_txt(const ustring& textfile, ustring category) // Todo
+void keyterms_import_ktbh_txt(const ustring& textfile, ustring category)
 {
   // Ensure the db is there.
   keyterms_ensure_user_database();
