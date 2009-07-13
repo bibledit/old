@@ -6344,6 +6344,10 @@ void MainWindow::on_window_focus_button(GtkButton * button)
   // Save the new focused window and keep the previous one.
   last_focused_window_button = now_focused_window_button;
   now_focused_window_button = widget;
+  // Initialize the last focused identifier if needed.
+  // This resolves a bug where Redo only worked from the accelerators, not from the menu.
+  if (last_focused_window_button == NULL)
+    last_focused_window_button = widget;
 
   // Save possible new focused resource.
   for (unsigned int i = 0; i < resource_windows.size(); i++) {
@@ -7262,36 +7266,21 @@ Todo various tasks.
 
 
 
-We may have to integrate the keyterms checking into one and the same window.
-The index file has a link that switches the mode, e.g. keyterms mode, or show keyterms per verse mode.
-On keyterms per verse mode, all keyterms in that verse are given in the index file.
-Clicking on one goes to the elaborated page where all verses are given as well.
-
-
-About importing Paratext's keyterms, this is not needed in full, only partial, such as realia, flora, fauna.
-We may integrate our own flora and fauna of the nt and ot into one and the same.
-We really need to import the KJV with Strong's encodings, which can then be used as a base for keyterm checking,
-where the user sees all lthe words in the verse, and can click on any of them to see how it was rendered in other verses.
-
-
-Merging changes can be changed in the following way:
-- It becomes a web page, with all controls on one page.
-- At the top it can select the projects.
-- The a line with the differences
-* Then the text. If there's no differences, it says so, and does not display the text.
-* At the bottom are the action buttons: previous, next, four merge options, the ones relevant.
 
 
 
 
-We think of a Tools / Maintenance option, where all kinds of imports and exports are put in web pages.
-* These are the ones that occur infrequentlyu, such as the ones for keyterms import and so on.
-* The web page makes building the interface easy, and it givess a place to provide elaborate information the user.
 
 
 
-Submit tasks for lots of harvesting from the internet so we can have lexicons, hebrew text, greek text, king james with strong's.
-All these should be interlinked and searchable.
+
+
+
+
+
+
+
+
 
 
 */
