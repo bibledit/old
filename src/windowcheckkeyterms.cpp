@@ -415,9 +415,6 @@ void WindowCheckKeyterms::html_link_clicked (const gchar * url)
   HtmlWriter2 htmlwriter ("");
   bool display_another_page = false;
 
-  //extern Settings *settings;
-  //myproject = settings->genconfig.project_get();
-
   if (active_url.find ("keyterm ") == 0) {
     // Get the keyterm identifier.
     ustring url = active_url;
@@ -441,6 +438,13 @@ void WindowCheckKeyterms::html_link_clicked (const gchar * url)
   
   else {
     // Give the starting page with all keyterms of the active selection.
+    if (collection().find ("Biblical") != string::npos) {
+      if (collection().find ("Hebrew") != string::npos) {
+        htmlwriter.paragraph_open ();
+        htmlwriter.text_add ("Key Terms in Biblical Hebrew: The entries are an experimental sample set, not yet fully reviewed and approved. The KTBH team would welcome feed-back to christopher_samuel@sil.org.");
+        htmlwriter.paragraph_close ();
+      }
+    }
     vector <ustring> terms;
     vector <unsigned int> ids;
     keyterms_get_terms("", collection(), terms, ids);

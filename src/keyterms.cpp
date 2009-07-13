@@ -645,11 +645,6 @@ void keyterms_import_ktbh_txt_references(ustring line, vector <Reference> &refer
 }
 
 
-void keyterms_import_ktbh_standard_disclaimer (vector <ustring>& comments)
-{
-  comments.push_back ("Disclaimer: Key Terms in Biblical Hebrew: The entries are an experimental sample set, not yet fully reviewed and approved. The KTBH team would welcome feed-back to christopher_samuel@sil.org.");
-}
-
 void keyterms_import_ktbh_txt(const ustring& textfile, ustring category)
 {
   // Ensure the db is there.
@@ -717,7 +712,6 @@ void keyterms_import_ktbh_txt(const ustring& textfile, ustring category)
 
         // Hebrew keyterm: store.
         if (line.find("\\heb ") == 0) {
-          keyterms_import_ktbh_standard_disclaimer (comments);
           keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
           keyterm = "(" + line.substr(5, 1000) + ")";
         }
@@ -762,7 +756,6 @@ void keyterms_import_ktbh_txt(const ustring& textfile, ustring category)
 
     }
     // Flush remaining data.
-    keyterms_import_ktbh_standard_disclaimer (comments);
     keyterms_import_textfile_flush(db, category_id, keyterm, comments, references);
 
   }
