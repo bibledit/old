@@ -155,8 +155,10 @@ public:
 
   static void on_related_widget_size_allocated(GtkWidget *widget, GtkAllocation *allocation, gpointer user_data);
   void related_widget_size_allocated(GtkWidget *widget, GtkAllocation *allocation);
+  guint related_widget_size_allocated_event_id;
+  static bool on_related_widget_size_allocated_timeout(gpointer user_data);
+  void related_widget_size_allocated_timeout();
   gint textview_allocated_width;
-
   void set_embedded_note_textview_width(unsigned int notenumber);
   void set_embedded_note_caller_height(unsigned int notenumber);
   void set_embedded_table_textviews_width(unsigned int tablenumber);

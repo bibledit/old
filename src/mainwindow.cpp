@@ -7261,52 +7261,37 @@ void MainWindow::check_usfm_window_ping()
 Todo various tasks.
 
 
-Bible notes showing up in short lines
 
-Correcting a problem in CEV-UK JHN 1 (using View/USFM):
-
-\q1
-\v 5 The light keeps shining
-\q2 in the dark,
-\q1 and darkness has never
-\q2 put it out.\fe * \fr 1.5 \fq put it out: \ft Or understood it.\fe*
-\q1\x - \xo 1.6: \xt Mt 3.1; Mk 1.4; Lk 3.1,2.\x*
-\v 6 God sent a man named John,
-
-where BE 3.7.42 showed the \q1 marker in the text to:
-
-\q1
-\v 5 The light keeps shining
-\q2 in the dark,
-\q1 and darkness has never
-\q2 put it out.\fe * \fr 1.5 \fq put it out: \ft Or understood it.\fe*
-\q1
-\v 6\x - \xo 1.6: \xt Mt 3.1; Mk 1.4; Lk 3.1,2.\x*God sent a man named John,
-
-and unchecking View/USFM shows the footnotes and crossreferences at the end of the text in short lines (about 15 characters).
-
-Correcting this back to the original form does not change the line-lenght of the Bible notes.
-
-This does not happen in BE 3.7.1.
+We may have to integrate the keyterms checking into one and the same window.
+The index file has a link that switches the mode, e.g. keyterms mode, or show keyterms per verse mode.
+On keyterms per verse mode, all keyterms in that verse are given in the index file.
+Clicking on one goes to the elaborated page where all verses are given as well.
 
 
-Now opening up a second project, there are suddenly 5 lines between each Bible note, and the line lenght becomes about 5 times as long as before 
-(not the full page).
+About importing Paratext's keyterms, this is not needed in full, only partial, such as realia, flora, fauna.
+We may integrate our own flora and fauna of the nt and ot into one and the same.
+We really need to import the KJV with Strong's encodings, which can then be used as a base for keyterm checking,
+where the user sees all lthe words in the verse, and can click on any of them to see how it was rendered in other verses.
 
-Opening and closing the second project several times, let the addtional empty lines disappear, 
-but the line-lenght stays about half of the line-length of the bible text.
+
+Merging changes can be changed in the following way:
+- It becomes a web page, with all controls on one page.
+- At the top it can select the projects.
+- The a line with the differences
+* Then the text. If there's no differences, it says so, and does not display the text.
+* At the bottom are the action buttons: previous, next, four merge options, the ones relevant.
 
 
 
 
-Possible solution is to use one scrolled window, and that one window has the main textview.
-Under that main textview we stack the textviews that form the notes. Each notes has one textview.
-This makes superfluous all the logic that calculates the width of each note.
-Extra logic is then needed to get the scrolling done properly.
-Each footnote / xref would then consist of a button at the very left, and then the textview besides that.
-We can build in steps, the first steps being that the footnotes are displayed as extras only, but do nothing.
-Then to take it from there.
+We think of a Tools / Maintenance option, where all kinds of imports and exports are put in web pages.
+* These are the ones that occur infrequentlyu, such as the ones for keyterms import and so on.
+* The web page makes building the interface easy, and it givess a place to provide elaborate information the user.
 
+
+
+Submit tasks for lots of harvesting from the internet so we can have lexicons, hebrew text, greek text, king james with strong's.
+All these should be interlinked and searchable.
 
 
 */

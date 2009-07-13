@@ -66,6 +66,7 @@ current_reference(0, 1000, "")
   verse_restarts_paragraph = false;
   textbuffer_changed_event_id = 0;
   redo_counter = 0;
+  related_widget_size_allocated_event_id = 0;
   
   // Create data that is needed for any of the possible formatted views.
   create_or_update_formatting_data();
@@ -170,6 +171,7 @@ Editor::~Editor()
   gw_destroy_source(start_verse_tracker_event_id);
   gw_destroy_source(verse_tracker_event_id);
   gw_destroy_source(textbuffer_changed_event_id);
+  gw_destroy_source(related_widget_size_allocated_event_id);
 
   // Clear a few flags.
   verse_tracker_on = false;
@@ -2212,46 +2214,76 @@ void Editor::on_related_widget_size_allocated(GtkWidget * widget, GtkAllocation 
 }
 
 void Editor::related_widget_size_allocated(GtkWidget * widget, GtkAllocation * allocation)
-/*
- There are a couple of widget whose size depends upon other widgets, and which
- do not naturally take their right size, so need some human intervention to get
- them to display properly. This function deals with these various widgets.
- */
+// There are a couple of widget whose size depends upon other widgets, and which
+// do not naturally take their right size. These need some intervention to get
+// them to display properly. This function deals with these various widgets.
 {
-  if (widget == textview) {
-    if (allocation->width != textview_allocated_width) {
-      textview_allocated_width = allocation->width;
-      if (textview_allocated_width > 1) {
-        for (unsigned int i = 0; i < editornotes.size(); i++) {
-          set_embedded_note_textview_width(i);
-        }
-        for (unsigned int i = 0; i < editortables.size(); i++) {
-          set_embedded_table_textviews_width(i);
-        }
-      }
+  gw_destroy_source(related_widget_size_allocated_event_id);
+  related_widget_size_allocated_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_related_widget_size_allocated_timeout), gpointer(this), NULL);
+}
+
+
+bool Editor::on_related_widget_size_allocated_timeout(gpointer user_data)
+{
+  ((Editor *) user_data)->related_widget_size_allocated_timeout();
+  return false;
+}
+
+
+void Editor::related_widget_size_allocated_timeout()
+{
+  related_widget_size_allocated_event_id = 0;
+
+  bool set_notes_width = false;
+  bool set_notes_height = false;
+  bool set_cells_width = false;
+
+  if (textview->allocation.width != textview_allocated_width) {
+    textview_allocated_width = textview->allocation.width;
+    if (textview_allocated_width > 1) {
+      set_notes_width = true;
+      set_cells_width = true;
     }
   }
 
   for (unsigned int i = 0; i < editornotes.size(); i++) {
-    if (widget == editornotes[i].label_caller_note) {
-      if (allocation->width != editornotes[i].label_caller_note_allocated_width) {
-        editornotes[i].label_caller_note_allocated_width = allocation->width;
-        if (editornotes[i].label_caller_note_allocated_width > 1) {
-          set_embedded_note_textview_width(i);
-        }
+    GtkWidget * widget = editornotes[i].label_caller_note;
+    if (widget->allocation.width != editornotes[i].label_caller_note_allocated_width) {
+      editornotes[i].label_caller_note_allocated_width = widget->allocation.width;
+      if (editornotes[i].label_caller_note_allocated_width > 1) {
+        set_notes_width = true;
       }
     }
-
-    if (widget == editornotes[i].textview) {
-      if (allocation->height != editornotes[i].textview_allocated_height) {
-        editornotes[i].textview_allocated_height = allocation->height;
-        if (editornotes[i].textview_allocated_height) {
-          set_embedded_note_caller_height(i);
-        }
+    widget = editornotes[i].textview;
+    if (widget->allocation.height != editornotes[i].textview_allocated_height) {
+      editornotes[i].textview_allocated_height = widget->allocation.height;
+      if (editornotes[i].textview_allocated_height) {
+        set_notes_height = true;
       }
     }
   }
+
+  if (set_notes_width) {
+    for (unsigned int i = 0; i < editornotes.size(); i++) {
+      set_embedded_note_textview_width(i);
+    }
+  }
+  
+  if (set_notes_height) {
+    for (unsigned int i = 0; i < editornotes.size(); i++) {
+      if (editornotes[i].textview_allocated_height) {
+        set_embedded_note_caller_height(i);
+      }
+    }
+  }
+  
+  if (set_cells_width) {
+    for (unsigned int i = 0; i < editortables.size(); i++) {
+      set_embedded_table_textviews_width(i);
+    }
+  }
 }
+
 
 void Editor::set_embedded_note_textview_width(unsigned int notenumber)
 // This sets the width of the textview that contains the text of a note.
@@ -2260,11 +2292,11 @@ void Editor::set_embedded_note_textview_width(unsigned int notenumber)
   if (width < 1)
     return;
   extern Settings *settings;
-  if (width > settings->genconfig.screen_width_get() - 200) {
-    return;
+  if (width > settings->genconfig.screen_width_get()) {
   }
   gtk_widget_set_size_request(editornotes[notenumber].textview, width, -1);
 }
+
 
 void Editor::set_embedded_note_caller_height(unsigned int notenumber)
 // Sets the height of the note caller.
@@ -2274,6 +2306,7 @@ void Editor::set_embedded_note_caller_height(unsigned int notenumber)
     return;
   gtk_widget_set_size_request(editornotes[notenumber].label_caller_note, -1, height);
 }
+
 
 void Editor::set_embedded_table_textviews_width(unsigned int tablenumber)
 // This sets the width of the textview that contains the text of a note.
@@ -2302,6 +2335,7 @@ void Editor::set_embedded_table_textviews_width(unsigned int tablenumber)
     }
   }
 }
+
 
 void Editor::on_buffer_insert_text_before(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, gchar * text, gint length, gpointer user_data)
 {
