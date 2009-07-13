@@ -17,16 +17,20 @@
  **  
  */
 
+
 #ifndef INCLUDED_EDITOR_AIDS_H
 #define INCLUDED_EDITOR_AIDS_H
+
 
 #include "libraries.h"
 #include <gtk/gtk.h>
 #include "style.h"
 
+
 enum EditorNoteType {entFootnote, entEndnote, entCrossreference};
 enum EditorTextViewType {etvtBody, etvtNote, etvtTable};
 enum EditorMovementType {emtForward, emtBack, emtUp, emtDown};
+
 
 class EditorNote
 {
@@ -48,6 +52,7 @@ public:
 private:
 };
 
+
 class EditorTable
 {
 public:
@@ -60,6 +65,7 @@ public:
 private:
 };
 
+
 class EditorSnapshot
 {
 public:
@@ -71,6 +77,7 @@ public:
 private:
 };
 
+
 class PreventEditorUndo
 {
 public:
@@ -79,6 +86,7 @@ public:
 private:
   int * flagpointer;
 };
+
 
 void marker_get_type_and_subtype(const ustring& project, const ustring& marker, StyleType& type, int& subtype);
 

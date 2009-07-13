@@ -132,7 +132,6 @@ current_reference(0, 1000, "")
   // Initialize a couple of event ids.
   textview_cursor_moved_delayer_event_id = 0;
   grab_focus_event_id = 0;
-  undo_redo_event_id = 0;
   spelling_timeout_event_id = 0;
 
   // Tag for highlighting search words.
@@ -163,7 +162,6 @@ Editor::~Editor()
   // Destroy a couple of timeout sources.
   gw_destroy_source(textview_cursor_moved_delayer_event_id);
   gw_destroy_source(grab_focus_event_id);
-  gw_destroy_source(undo_redo_event_id);
   gw_destroy_source(save_timeout_event_id);
   gw_destroy_source(highlight_timeout_event_id);
   gw_destroy_source(spelling_timeout_event_id);
@@ -775,12 +773,14 @@ void Editor::on_grab_focus_delayed_handler()
   }
 }
 
+
 void Editor::programmatically_grab_focus(GtkWidget * widget)
 {
   focus_programmatically_being_grabbed = true;
   gtk_widget_grab_focus(widget);
   focus_programmatically_being_grabbed = false;
 }
+
 
 void Editor::undo()
 {
@@ -794,11 +794,12 @@ void Editor::undo()
     return;
 
   // Restore the snapshot.
-  restore_snapshot (snapshot_pointer);
+  restore_snapshot (snapshot_pointer, true);
 
   // It undid one snapshot, so the user can redo it again if needed.
   redo_counter++;  
 }
+
 
 void Editor::redo()
 {
@@ -816,8 +817,9 @@ void Editor::redo()
     return;
     
   // Restore the snapshot.
-  restore_snapshot (snapshot_pointer);
+  restore_snapshot (snapshot_pointer, false);
 }
+
 
 bool Editor::can_undo()
 {
@@ -825,10 +827,12 @@ bool Editor::can_undo()
   return (snapshot_pointer >= 0);
 }
 
+
 bool Editor::can_redo()
 {
   return redo_counter;
 }
+
 
 void Editor::set_font()
 {
@@ -880,10 +884,12 @@ void Editor::set_font()
   }
 }
 
+
 bool Editor::on_save_timeout(gpointer data)
 {
   return ((Editor *) data)->save_timeout();
 }
+
 
 bool Editor::save_timeout()
 {
@@ -891,10 +897,12 @@ bool Editor::save_timeout()
   return true;
 }
 
+
 gboolean Editor::on_text_motion_notify_event(GtkWidget * textview, GdkEventMotion * event, gpointer user_data)
 {
   return ((Editor *) user_data)->text_motion_notify_event(textview, event);
 }
+
 
 gboolean Editor::text_motion_notify_event(GtkWidget * textview, GdkEventMotion * event)
 // Update the cursor image if the pointer moved. 
@@ -3004,6 +3012,7 @@ void Editor::insert_note(const ustring & marker, const ustring & rawtext, bool r
   }
 }
 
+
 void Editor::insert_table(const ustring & rawtext, GtkTextIter * iter)
 /*
  Inserts a table in the editor.
@@ -3023,8 +3032,10 @@ void Editor::insert_table(const ustring & rawtext, GtkTextIter * iter)
 
 }
 
-void Editor::restore_snapshot(int pointer)
+
+void Editor::restore_snapshot(int pointer, bool undo)
 // Restores a snapshot into the text buffer.
+// undo: whether this is called from an undo routine.
 {
   // No recording of undoable actions while this object is alive.
   PreventEditorUndo preventundo(&record_undo_level);
@@ -3033,15 +3044,24 @@ void Editor::restore_snapshot(int pointer)
   EditorSnapshot snapshot = snapshots[pointer];
   text_load (snapshot.text);
 
-  // Restore cursor position.
+  // Restoring the position of the cursor and the scrolled window.
+  // This depends on whether the routine is called for undoing or redoing.
+  // For undoing we need to restore the position of the next snapshot after this.
+  // For redoing we take the snapshot as it is.
+  if (undo) {
+    pointer++;
+    if ((unsigned int) pointer < snapshots.size()) {
+      snapshot = snapshots[pointer];
+    }
+  }
   GtkTextIter iter;
   gtk_text_buffer_get_iter_at_offset (textbuffer, &iter, snapshot.insert);
   gtk_text_buffer_place_cursor (textbuffer, &iter);
-
-  // Restore scrollled window's position.
   GtkAdjustment * adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolledwindow));
   gtk_adjustment_set_value (adjustment, snapshot.scroll);
+  scroll_cursor_on_screen ();
 }
+
 
 bool Editor::recording_undo_actions()
 // Returns whether to record undo-able actions.
@@ -3049,16 +3069,19 @@ bool Editor::recording_undo_actions()
   return (record_undo_level == 0);
 }
 
+
 void Editor::on_textbuffer_changed(GtkTextBuffer * textbuffer, gpointer user_data)
 {
   ((Editor *) user_data)->textbuffer_changed(textbuffer);
 }
+
 
 void Editor::textbuffer_changed(GtkTextBuffer * textbuffer)
 {
   spelling_trigger();
   trigger_undo_redo_recording ();
 }
+
 
 void Editor::trigger_undo_redo_recording()
 {
@@ -3068,11 +3091,13 @@ void Editor::trigger_undo_redo_recording()
   }
 }
 
+
 bool Editor::on_textbuffer_changed_timeout (gpointer user_data)
 {
   ((Editor *) user_data)->textbuffer_changed_timeout();
   return false;
 }
+
 
 void Editor::textbuffer_changed_timeout()
 {

@@ -37,9 +37,11 @@ EditorNote::EditorNote(int dummy)
   textview = NULL;
 }
 
+
 EditorNote::~EditorNote()
 {
 }
+
 
 EditorTable::EditorTable(int dummy)
 // This object is for storing data related to the different bits of a table.
@@ -47,9 +49,11 @@ EditorTable::EditorTable(int dummy)
 {
 }
 
+
 EditorTable::~EditorTable()
 {
 }
+
 
 EditorSnapshot::EditorSnapshot(int dummy)
 // This object stores a snapshot of the editor.
@@ -58,9 +62,11 @@ EditorSnapshot::EditorSnapshot(int dummy)
   scroll = 0;
 }
 
+
 EditorSnapshot::~EditorSnapshot()
 {
 }
+
 
 PreventEditorUndo::PreventEditorUndo(int *flag)
 /*
@@ -76,10 +82,12 @@ PreventEditorUndo::PreventEditorUndo(int *flag)
   (*flagpointer)--;
 }
 
+
 PreventEditorUndo::~PreventEditorUndo()
 {
   (*flagpointer)++;
 }
+
 
 void marker_get_type_and_subtype(const ustring & project, const ustring & marker, StyleType & type, int &subtype)
 /*
@@ -122,6 +130,7 @@ void marker_get_type_and_subtype(const ustring & project, const ustring & marker
     }
   }
 }
+
 
 bool style_get_plaintext(StyleType type, int subtype)
 /*
@@ -184,6 +193,7 @@ bool style_get_plaintext(StyleType type, int subtype)
   // Return the value.
   return plaintext;
 }
+
 
 bool style_get_paragraph(StyleType type, int subtype)
 /*
@@ -267,6 +277,7 @@ bool style_get_paragraph(StyleType type, int subtype)
   return paragraph_style;
 }
 
+
 bool style_get_starts_new_line_in_editor(StyleType type, int subtype)
 // Returns true if the combination of the "type" and the"subtype" starts
 // a new line in the formatted view.
@@ -342,6 +353,7 @@ bool style_get_starts_new_line_in_editor(StyleType type, int subtype)
   return starts_new_line;
 }
 
+
 bool style_get_starts_new_line_in_usfm(StyleType type, int subtype)
 // Returns true if the combination of the "type" and the"subtype" starts
 // a new line in the usfm code.
@@ -414,6 +426,7 @@ bool style_get_starts_new_line_in_usfm(StyleType type, int subtype)
   // Return the outcome.
   return starts_new_line;
 }
+
 
 bool style_get_displays_marker(StyleType type, int subtype)
 // Returns true if the combination of the "type" and the"subtype" should display

@@ -117,7 +117,6 @@ public:
   void on_texteditor_click(GtkWidget * widget, GdkEventButton *event);
 
   // Some event ids.
-  guint undo_redo_event_id;
   guint save_timeout_event_id;
 
   // The formatted view.
@@ -208,7 +207,7 @@ public:
   void redo();
   bool can_undo();
   bool can_redo();
-  void restore_snapshot(int pointer);
+  void restore_snapshot(int pointer, bool undo);
   static void on_textbuffer_changed(GtkTextBuffer * textbuffer, gpointer user_data);
   void textbuffer_changed(GtkTextBuffer * textbuffer);
   void trigger_undo_redo_recording();
