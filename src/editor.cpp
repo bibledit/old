@@ -67,6 +67,7 @@ current_reference(0, 1000, "")
   textbuffer_changed_event_id = 0;
   redo_counter = 0;
   related_widget_size_allocated_event_id = 0;
+  related_widget_size_allocation_allow = true;
   
   // Create data that is needed for any of the possible formatted views.
   create_or_update_formatting_data();
@@ -173,6 +174,7 @@ Editor::~Editor()
 
   // Clear a few flags.
   verse_tracker_on = false;
+  related_widget_size_allocation_allow = false;
 
   // Delete speller.
   delete spellingchecker;
@@ -2216,10 +2218,12 @@ void Editor::erase_tables()
   }
 }
 
+
 void Editor::on_related_widget_size_allocated(GtkWidget * widget, GtkAllocation * allocation, gpointer user_data)
 {
   ((Editor *) user_data)->related_widget_size_allocated(widget, allocation);
 }
+
 
 void Editor::related_widget_size_allocated(GtkWidget * widget, GtkAllocation * allocation)
 // There are a couple of widget whose size depends upon other widgets, and which
@@ -2227,7 +2231,9 @@ void Editor::related_widget_size_allocated(GtkWidget * widget, GtkAllocation * a
 // them to display properly. This function deals with these various widgets.
 {
   gw_destroy_source(related_widget_size_allocated_event_id);
-  related_widget_size_allocated_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_related_widget_size_allocated_timeout), gpointer(this), NULL);
+  if (related_widget_size_allocation_allow) {
+    related_widget_size_allocated_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_related_widget_size_allocated_timeout), gpointer(this), NULL);
+  }
 }
 
 

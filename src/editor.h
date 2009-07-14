@@ -154,6 +154,7 @@ public:
 
   static void on_related_widget_size_allocated(GtkWidget *widget, GtkAllocation *allocation, gpointer user_data);
   void related_widget_size_allocated(GtkWidget *widget, GtkAllocation *allocation);
+  bool related_widget_size_allocation_allow;
   guint related_widget_size_allocated_event_id;
   static bool on_related_widget_size_allocated_timeout(gpointer user_data);
   void related_widget_size_allocated_timeout();
