@@ -183,6 +183,9 @@ void WindowCheckUSFM::on_button_discover_markup ()
     if (lines[i].empty())
       continue;
 
+    // Trim the line.
+    lines[i] = trim (lines[i]);
+    
     // Remove chapter markup.
     if (lines[i].find("\\c") != string::npos) {
       lines[i].clear();
@@ -231,27 +234,46 @@ void WindowCheckUSFM::on_button_discover_markup ()
     if (discoveries_passed) {
       ustring output;
       ustring number = number_in_string(lines[i]);
-      while (!number.empty()) {
-        if (!paragraph_open) {
-          output.append("\\p");
-          paragraph_open = true;
-        }
-        size_t pos = lines[i].find(number);
-        if (pos > 0) {
-          output.append(" " + lines[i].substr(0, pos));
-          lines[i].erase(0, pos);
-        }
-        output.append("\n\\v ");
-        output.append(number);
-        output.append(" ");
-        lines[i].erase(0, number.length());
-        lines[i] = trim(lines[i]);
-        number = number_in_string(lines[i]);
-        // Setting for discovering only first number in a paragraph.
-        if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_verses_at_start))) {
+      // Setting for having the number only at the start of the line.
+      bool treat_as_normal_paragraph = false;
+      if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_verses_at_start))) {
+        if (lines[i].find (number) != 0) {
           number.clear();
+          treat_as_normal_paragraph = true;
         }
       }
+      if (treat_as_normal_paragraph) {
+
+        // Normal paragraph.
+        lines[i].insert(0, "\\p ");
+
+      } else {
+
+        // Find all verse numbers.   
+        while (!number.empty()) {
+          if (!paragraph_open) {
+            output.append("\\p");
+            paragraph_open = true;
+          }
+          size_t pos = lines[i].find(number);
+          if (pos > 0) {
+            output.append(" " + lines[i].substr(0, pos));
+            lines[i].erase(0, pos);
+          }
+          output.append("\n\\v ");
+          output.append(number);
+          output.append(" ");
+          lines[i].erase(0, number.length());
+          lines[i] = trim(lines[i]);
+          number = number_in_string(lines[i]);
+          // Setting for discovering only first number in a paragraph.
+          if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_verses_at_start))) {
+            number.clear();
+          }
+        }
+
+      }
+      // Store line.
       output.append(lines[i]);
       lines[i] = output;
     }

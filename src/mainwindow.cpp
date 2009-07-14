@@ -7266,19 +7266,7 @@ Todo various tasks.
 
 
 
-When a project is closed, it crashes. May have to do with a timeout that now runs.
 
-
-
-2nd version becomes inactive at next/previous chapter
-
-Having a second version open (at the right) and active.
-Switching to the next/previous chapter (sometimes 2 times needed to show this) the first version (on the left) becomes active.
-
-This is independent if the hotkey or the reference toolbar is used.
-Using the Ctrl/G tool (twice) and switching to the next/previous chapter does not have this problem.
-
--> Let the next/previous tools keep the active version
 
 
 
