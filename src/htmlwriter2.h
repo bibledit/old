@@ -36,6 +36,10 @@ public:
   void heading_close ();
   void paragraph_open ();
   void paragraph_close ();
+  void form_open (const gchar * name, const gchar * action, const gchar * method);
+  void form_close ();
+  void input_open (const gchar * name, const gchar * type, unsigned int size, const gchar * value);
+  void input_close ();
   void text_add (const ustring& text);
   void hyperlink_add (const ustring& url, const ustring& text);
   void bold_open();

@@ -102,6 +102,44 @@ void HtmlWriter2::paragraph_close()
 }
 
 
+void HtmlWriter2::form_open (const gchar * name, const gchar * action, const gchar * method)
+{
+  xmlTextWriterStartElement(writer, BAD_CAST "form");
+  if (name)
+    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "name", name);
+  if (action)
+    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "action", action);
+  if (method)
+    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "method", method);
+}
+
+
+void HtmlWriter2::form_close ()
+{
+  xmlTextWriterEndElement(writer);
+}
+
+
+void HtmlWriter2::input_open (const gchar * name, const gchar * type, unsigned int size, const gchar * value)
+{
+  xmlTextWriterStartElement(writer, BAD_CAST "input");
+  if (name)
+    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "name", name);
+  if (type)
+    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "type", type);
+  if (size)
+    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "size", "%d", size);
+  if (value)
+    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "value", value);
+}
+
+
+void HtmlWriter2::input_close ()
+{
+  xmlTextWriterEndElement(writer);
+}
+
+
 void HtmlWriter2::text_add(const ustring& text)
 {
   if (!(heading_opened || paragraph_opened)) {

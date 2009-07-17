@@ -32,6 +32,7 @@
 #include <errno.h>
 #include "directories.h"
 #include "tiny_utilities.h"
+#include "html.h"
 
 
 Httpd::Httpd(bool dummy)
@@ -206,7 +207,7 @@ void Httpd::handle_request(int fd)
         command = filename.substr(question_pos + 1, 1000);
         filename.erase(question_pos, filename.length() - question_pos);
         char *command2 = strdup(command.c_str());
-        url_decode(command2);
+        html_url_decode(command2);
         command = command2;
         free(command2);
       }
@@ -543,45 +544,3 @@ void Httpd::send_search_results(int fd, ustring searchword)
   }
 }
 
-int Httpd::hexit(char c)
-{
-  if (c >= '0' && c <= '9')
-    return c - '0';
-  if (c >= 'a' && c <= 'f')
-    return c - 'a' + 10;
-  if (c >= 'A' && c <= 'F')
-    return c - 'A' + 10;
-  return 0;
-}
-
-void Httpd::url_decode(char *buf)
-// Decode string %xx -> char (in place)
-{
-  int v;
-  char *p, *s, *w;
-
-  w = p = buf;
-  while (*p) {
-    v = 0;
-
-    if (*p == '%') {
-      s = p;
-      s++;
-
-      if (isxdigit((int)s[0]) && isxdigit((int)s[1])) {
-        v = hexit(s[0]) * 16 + hexit(s[1]);
-        if (v) {                /* do not decode %00 to null char */
-          *w = (char)v;
-          p = &s[1];
-        }
-      }
-
-    }
-
-    if (!v)
-      *w = *p;
-    p++;
-    w++;
-  }
-  *w = '\0';
-}

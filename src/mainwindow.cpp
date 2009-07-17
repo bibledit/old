@@ -128,6 +128,7 @@
 #include "dialogbulkspelling.h"
 #include "dialogplanningedit.h"
 #include "vcs.h"
+#include "dialogmaintenance.h"
 
 
 /*
@@ -1476,6 +1477,14 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   gtk_widget_show (image36137);
   gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (tool_go_to_reference), image36137);
 
+  tools_maintenance = gtk_image_menu_item_new_with_mnemonic ("_Maintenance");
+  gtk_widget_show (tools_maintenance);
+  gtk_container_add (GTK_CONTAINER (menutools_menu), tools_maintenance);
+
+  image36259 = gtk_image_new_from_stock ("gtk-preferences", GTK_ICON_SIZE_MENU);
+  gtk_widget_show (image36259);
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (tools_maintenance), image36259);
+
   menuitem_preferences = gtk_menu_item_new_with_mnemonic("P_references");
   // At first the Alt-P was the accelerator. On the XO machine, this key is 
   // in use already: 
@@ -1905,6 +1914,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   if (tool_transfer_project_notes_to_text)
     g_signal_connect((gpointer) tool_transfer_project_notes_to_text, "activate", G_CALLBACK(on_tool_transfer_project_notes_to_text_activate), gpointer(this));
   g_signal_connect ((gpointer) tool_go_to_reference, "activate", G_CALLBACK (on_tool_go_to_reference_activate), gpointer (this));
+  g_signal_connect ((gpointer) tools_maintenance, "activate", G_CALLBACK (on_tools_maintenance_activate), gpointer (this));
   if (notes_preferences)
     g_signal_connect((gpointer) notes_preferences, "activate", G_CALLBACK(on_notes_preferences_activate), gpointer(this));
   if (printingprefs)
@@ -4273,14 +4283,17 @@ void MainWindow::on_edit_bible_note()
  |
  */
 
+
 void MainWindow::on_menutools_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
 }
+
 
 void MainWindow::on_line_cutter_for_hebrew_text1_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_line_cutter_for_hebrew_text();
 }
+
 
 void MainWindow::on_line_cutter_for_hebrew_text()
 {
@@ -4290,10 +4303,12 @@ void MainWindow::on_line_cutter_for_hebrew_text()
   }
 }
 
+
 void MainWindow::on_notes_transfer_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_notes_transfer();
 }
+
 
 void MainWindow::on_notes_transfer()
 {
@@ -4303,10 +4318,12 @@ void MainWindow::on_notes_transfer()
     notes_redisplay();
 }
 
+
 void MainWindow::on_tool_origin_references_in_bible_notes_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_tool_origin_references_in_bible_notes();
 }
+
 
 void MainWindow::on_tool_origin_references_in_bible_notes()
 {
@@ -4316,10 +4333,12 @@ void MainWindow::on_tool_origin_references_in_bible_notes()
     reload_all_editors(false);
 }
 
+
 void MainWindow::on_tool_project_notes_mass_update1_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_tool_project_notes_mass_update();
 }
+
 
 void MainWindow::on_tool_project_notes_mass_update()
 {
@@ -4329,10 +4348,12 @@ void MainWindow::on_tool_project_notes_mass_update()
   }
 }
 
+
 void MainWindow::on_tool_generate_word_lists_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_tool_generate_word_lists();
 }
+
 
 void MainWindow::on_tool_generate_word_lists()
 {
@@ -4342,10 +4363,12 @@ void MainWindow::on_tool_generate_word_lists()
     reload_all_editors(false);
 }
 
+
 void MainWindow::on_tool_transfer_project_notes_to_text_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_tool_transfer_project_notes_to_text();
 }
+
 
 void MainWindow::on_tool_transfer_project_notes_to_text()
 // This transfers the currently visible project notes to the currently active project, 
@@ -4357,6 +4380,20 @@ void MainWindow::on_tool_transfer_project_notes_to_text()
     reload_all_editors(false);
   }
 }
+
+
+void MainWindow::on_tools_maintenance_activate (GtkMenuItem *menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_tools_maintenance();
+}
+
+
+void MainWindow::on_tools_maintenance ()
+{
+  MaintenanceDialog dialog (0);
+  dialog.run();
+}
+
 
 void MainWindow::on_preferences_gui_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
@@ -7266,12 +7303,40 @@ Todo various tasks.
 
 
 
+To make a "Maintenance" entry, that has a web page built in.
 
 
 
 
 
+keyterms per verse don't show
 
+
+The window that shows the keyterm per verse does no longer work, it shows nothing.
+
+
+We may have to integrate the keyterms checking into one and the same window.
+The index file has a link that switches the mode, e.g. keyterms mode, or show keyterms per verse mode.
+On keyterms per verse mode, all keyterms in that verse are given in the index file.
+Clicking on one goes to the elaborated page where all verses are given as well. 
+
+
+
+
+For better keyterms checking, we do the following:
+
+To import a KJV text with Strong's numbers, and other morphology.
+* It becomes a standard part of Bibledit.
+
+To consult that text by strong's number, and in the keyterms window, to list these.
+
+* If the user clicks on a word in the listing, the other verses show up that have been rendered the same.
+* Very useful. 
+* The listing might go so: "beginning" "to create" "God" "earth" "heaven", and so on. Each of these is clickable and then shows other verses that
+* have the same strong's encoding. If there's a verb that has the same morphology, it would come first, then the remaining ones.
+
+* KJV needs to be stored in a database for fast retrieval.
+* Can export this text to USFM code from the database.
 
 
 

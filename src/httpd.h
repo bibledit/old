@@ -58,8 +58,6 @@ private:
   void send_lines (int fd, const vector <ustring>& lines);
   void send_search (int fd, const ustring& filename, const ustring& command);
   void send_search_results (int fd, ustring searchword);
-  int hexit(char c);
-  void url_decode (char *buf);
   int sock;
   int conn;
 };

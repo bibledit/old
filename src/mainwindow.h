@@ -306,6 +306,8 @@ protected:
   GtkWidget *image29089;
   GtkWidget *tool_go_to_reference;
   GtkWidget *image36137;
+  GtkWidget *tools_maintenance;
+  GtkWidget *image36259;
   GtkWidget *menuitem_preferences;
   GtkWidget *menuitem_preferences_menu;
   GtkWidget *notes_preferences;
@@ -612,6 +614,8 @@ protected:
   void on_tool_project_notes_mass_update();
   static void on_tool_transfer_project_notes_to_text_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_tool_transfer_project_notes_to_text();
+  static void on_tools_maintenance_activate (GtkMenuItem *menuitem, gpointer user_data);
+  void on_tools_maintenance ();
 
   /* Webserver */
   Httpd httpd;

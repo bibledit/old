@@ -29,6 +29,8 @@ ustring html_remove_code_between_less_than_and_greater_than_signs(const ustring&
 ustring html_create_anchor(const ustring& anchor, const ustring& text);
 ustring html_extract_title(const ustring& filename);
 void html_entities_to_utf8(ustring& code);
+int html_hexit(char c);
+void html_url_decode(char *buf);
 
 
 #endif

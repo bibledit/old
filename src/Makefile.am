@@ -274,7 +274,9 @@ bibledit_bin_SOURCES = \
 				dialoglistviewm.cpp \
 				vcs.cpp \
 				d_bus.cpp \
-				htmlwriter2.cpp
+				htmlwriter2.cpp \
+				dialogmaintenance.cpp \
+				swordkjv.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 
