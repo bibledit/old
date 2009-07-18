@@ -24,6 +24,51 @@
 #include "progresswindow.h"
 #include <libxml/xmlreader.h>
 #include "reference.h"
+#include "utilities.h"
+#include "books.h"
+#include "tiny_utilities.h"
+#include "directories.h"
+#include "unixwrappers.h"
+#include <sqlite3.h>
+
+
+ustring sword_kjv_get_user_filename()
+// Gives the filename for the user-created Sword KJV database.
+{
+  return gw_build_filename(directories_get_templates_user(), "swordkjv.sql");
+}
+
+
+ustring sword_kjv_get_package_filename()
+// Gives the filename for the Sword KJV database that comes with bibledit.
+{
+  return gw_build_filename(directories_get_package_data(), "swordkjv.sql");
+}
+
+
+ustring sword_kjv_get_filename ()
+// Gives the package filename, or the user file if it's there.
+{
+  ustring filename = sword_kjv_get_user_filename();
+  if (!g_file_test (filename.c_str(), G_FILE_TEST_IS_REGULAR)) {
+    filename = sword_kjv_get_package_filename();
+  }
+  return filename;
+}
+
+
+void sword_kjv_ensure_user_database()
+{
+  // Remove any previous one.
+  unlink (sword_kjv_get_user_filename().c_str());
+
+  // Create a new database.
+  sqlite3 *db;
+  sqlite3_open(sword_kjv_get_user_filename().c_str(), &db);
+  sqlite3_exec(db, "create table baretext (book integer, chapter integer, verse integer, text text);", NULL, NULL, NULL);
+  sqlite3_exec(db, "create table richtext (book integer, chapter integer, verse integer, text text);", NULL, NULL, NULL);
+  sqlite3_close(db);
+}
 
 
 ustring sword_kjv_html_entry_url ()
@@ -32,16 +77,22 @@ ustring sword_kjv_html_entry_url ()
 }
 
 
-ustring sword_kjv_action_url ()
+ustring sword_kjv_import_url ()
 {
-  return "sword_kjv_action";
+  return "sword_kjv_import";
+}
+
+
+ustring sword_kjv_delete_url ()
+{
+  return "sword_kjv_delete";
 }
 
 
 void import_sword_kjv_home_entry (HtmlWriter2& htmlwriter)
 {
   htmlwriter.paragraph_open ();
-  htmlwriter.hyperlink_add (sword_kjv_html_entry_url (), "Import the KJV Bible from the Sword library");
+  htmlwriter.hyperlink_add (sword_kjv_html_entry_url (), "KJV Bible from the Sword library");
   htmlwriter.paragraph_close ();
 }
 
@@ -49,18 +100,21 @@ void import_sword_kjv_home_entry (HtmlWriter2& htmlwriter)
 void import_sword_kjv_detailed_page (HtmlWriter2& htmlwriter)
 {
   htmlwriter.heading_open (3);
-  htmlwriter.text_add ("Import KJV Bible from Sword library");
+  htmlwriter.text_add ("KJV Bible from Sword library");
   htmlwriter.heading_close ();
   htmlwriter.paragraph_open();
   htmlwriter.text_add ("The King James version from the Sword library has parsings and other information that is used to assist the translator. Bibledit comes with this data already loaded. If a new version is available in the Sword library, it can be imported here and used subsequently.");
   htmlwriter.paragraph_close();
   htmlwriter.paragraph_open();
-  htmlwriter.hyperlink_add (sword_kjv_action_url (), "Import");
+  htmlwriter.hyperlink_add (sword_kjv_import_url (), "Import it from the library");
+  htmlwriter.paragraph_close();
+  htmlwriter.paragraph_open();
+  htmlwriter.hyperlink_add (sword_kjv_delete_url (), "Revert to the one that came with Bibledit");
   htmlwriter.paragraph_close();
 }
 
 
-vector <ustring> import_sword_kjv_action () // Todo
+vector <ustring> sword_kjv_import ()
 {
   vector <ustring> messages;
   
@@ -70,12 +124,12 @@ vector <ustring> import_sword_kjv_action () // Todo
     return messages;
   }
 
-  
-  
-  /*
-  // Read the KJV Sword module.
-  ProgressWindow progresswindow ("Reading", false);
+  // Progress reporting.
+  ProgressWindow progresswindow ("Import", false);
+  progresswindow.set_text ("Reading");
   progresswindow.set_iterate (0, 1, 65000);
+  
+  // Read the KJV Sword module.
   ustring osis;
   FILE *stream = popen("mod2osis KJV", "r");
   char buf[8192];
@@ -88,51 +142,87 @@ vector <ustring> import_sword_kjv_action () // Todo
     messages.push_back ("Something didn't work out during import. The system log will give more information. Is the KJV module available in the Sword library?");
     return messages;
   }
-  */
 
-  gchar *contents;
-  g_file_get_contents("/home/teus/kjv.txt", &contents, NULL, NULL);
-  if (!contents) {
-    messages.push_back ("Testing only");
-    return messages;
-  }
+  // Progress. KJV has 31102 verses.
+  progresswindow.set_text ("Writing");
+  progresswindow.set_iterate (0, 1, 31102);
+  
+  // Open the user database.
+  sword_kjv_ensure_user_database();
+  sqlite3 *db;
+  sqlite3_open(sword_kjv_get_filename().c_str(), &db);
+  sqlite3_exec(db, "PRAGMA synchronous=OFF;", NULL, NULL, NULL);
 
   // Parse input.
   xmlParserInputBufferPtr inputbuffer;
-//  inputbuffer = xmlParserInputBufferCreateMem(osis.c_str(), osis.length(), XML_CHAR_ENCODING_NONE);
-  inputbuffer = xmlParserInputBufferCreateMem(contents, strlen(contents), XML_CHAR_ENCODING_NONE);
+  inputbuffer = xmlParserInputBufferCreateMem(osis.c_str(), osis.length(), XML_CHAR_ENCODING_NONE);
   xmlTextReaderPtr reader = xmlNewTextReader(inputbuffer, NULL);
   if (reader) {
-    bool reading_relevant_content = false;
+    bool within_verse_element = false;
+    bool within_w_element = false;
+    ustring bare_verse_text;
+    ustring rich_verse_text;
+    vector <ustring> strongs;
     Reference reference (0, 0, "0");
     while ((xmlTextReaderRead(reader) == 1)) {
       switch (xmlTextReaderNodeType(reader)) {
       case XML_READER_TYPE_ELEMENT:
         {
           xmlChar *element_name = xmlTextReaderName(reader);
+          // Deal with a verse element.
           if (!xmlStrcmp(element_name, BAD_CAST "verse")) {
-            reading_relevant_content = true;
-          }
-          if (reading_relevant_content) 
-            cout << element_name << endl; // Todo
-            /*
+            within_verse_element = true;
             char *attribute;
-            attribute = (char *)xmlTextReaderGetAttribute(reader, BAD_CAST "title");
+            attribute = (char *)xmlTextReaderGetAttribute(reader, BAD_CAST "osisID");
             if (attribute) {
-              parallelsection.title = attribute;
+              Parse parse (attribute, false, ".");
+              if (parse.words.size() == 3) {
+                reference.book = books_osis_to_id (parse.words[0]);
+                reference.chapter = convert_to_int (parse.words[1]);
+                reference.verse = parse.words[2];
+              } else {
+                gw_critical (attribute);
+              }
               free(attribute);
             }
-             
-             */
+          }
+          // Deal with a w element.
+          if (!xmlStrcmp(element_name, BAD_CAST "w")) {
+            within_w_element = true;
+            char *attribute;
+            attribute = (char *)xmlTextReaderGetAttribute(reader, BAD_CAST "lemma");
+            if (attribute) {
+              Parse parse (attribute, false);
+              for (unsigned int i = 0; i < parse.words.size(); i++) {
+                ustring strong = parse.words[i];
+                if (strong.find ("strong:") == 0) {
+                  strong.erase (0, 8);
+                  strongs.push_back (strong);
+                }
+              }
+              free(attribute);
+            }
+          }
           break;
         }
       case XML_READER_TYPE_TEXT:
         {
           xmlChar *text = xmlTextReaderValue(reader);
           if (text) {
-            if (reading_relevant_content) 
-              cout << text << endl; // Todo
-            //value.push_back((const char *)text);
+            if (within_verse_element) {
+              if (!g_ascii_ispunct (*text)) {
+                if (!bare_verse_text.empty())
+                  bare_verse_text.append (" ");
+                bare_verse_text.append ((const char *)text);
+                if (!rich_verse_text.empty()) 
+                  rich_verse_text.append (" ");
+              }
+              for (unsigned int i = 0; i < strongs.size(); i++) {
+                rich_verse_text.append ("(" + strongs[i] + ")");
+              }
+              strongs.clear();
+              rich_verse_text.append ((const char *)text);
+            }
             xmlFree(text);
           }
           break;
@@ -140,10 +230,27 @@ vector <ustring> import_sword_kjv_action () // Todo
       case XML_READER_TYPE_END_ELEMENT:
         {
           xmlChar *element_name = xmlTextReaderName(reader);
-          if (reading_relevant_content)
-            cout << element_name << endl; // Todo
           if (!xmlStrcmp(element_name, BAD_CAST "verse")) {
-            reading_relevant_content = false;
+            within_verse_element = false;
+            // Store the verse texts in the database.
+            progresswindow.iterate();
+            char *sql;
+            bare_verse_text = bare_verse_text.casefold();
+            bare_verse_text = trim (bare_verse_text);
+            replace_text (bare_verse_text, "  ", " ");
+            sql = g_strdup_printf("insert into baretext values (%d, %d, %d, '%s');", reference.book, reference.chapter, convert_to_int (reference.verse), double_apostrophy (bare_verse_text).c_str());
+            sqlite3_exec(db, sql, NULL, NULL, NULL);
+            g_free(sql);
+            bare_verse_text.clear();
+            replace_text (rich_verse_text, "  ", " ");
+            rich_verse_text = trim (rich_verse_text);
+            sql = g_strdup_printf("insert into richtext values (%d, %d, %d, '%s');", reference.book, reference.chapter, convert_to_int (reference.verse), double_apostrophy (rich_verse_text).c_str());
+            sqlite3_exec(db, sql, NULL, NULL, NULL);
+            g_free(sql);
+            rich_verse_text.clear();
+          }
+          if (!xmlStrcmp(element_name, BAD_CAST "w")) {
+            within_w_element = false;
           }
           break;
         }
@@ -154,16 +261,26 @@ vector <ustring> import_sword_kjv_action () // Todo
     xmlFreeTextReader(reader);
   if (inputbuffer)
     xmlFreeParserInputBuffer(inputbuffer);
-  if (contents)
-    g_free(contents);
 
+  // Close database.
+  sqlite3_close(db);
+  
   // Give the okay message.  
   messages.push_back ("The KJV Bible was successfully imported. Full changes take effect after reboot.");
   return messages;
 }
 
 
-void import_sword_kjv_result_page (const vector <ustring>& messages, HtmlWriter2& htmlwriter)
+vector <ustring> sword_kjv_delete ()
+{
+  unlink (sword_kjv_get_user_filename().c_str());
+  vector <ustring> messages;
+  messages.push_back ("The system has now reverted to using the KJV Bible as it came with Bibledit.");
+  return messages;
+}
+
+
+void sword_kjv_action_result_page (const vector <ustring>& messages, HtmlWriter2& htmlwriter)
 {
   for (unsigned int i = 0; i < messages.size(); i++) {
     htmlwriter.paragraph_open();

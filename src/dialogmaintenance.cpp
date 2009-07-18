@@ -92,7 +92,7 @@ gboolean MaintenanceDialog::on_html_link_clicked(GtkHTML * html, const gchar * u
 }
 
 
-void MaintenanceDialog::html_link_clicked (const gchar * url) // Todo
+void MaintenanceDialog::html_link_clicked (const gchar * url)
 // Callback for clicking a link.
 {
   // Store scrolling position for the now active url.
@@ -111,9 +111,14 @@ void MaintenanceDialog::html_link_clicked (const gchar * url) // Todo
     import_sword_kjv_detailed_page (htmlwriter);
   }
 
-  else if (active_url == sword_kjv_action_url ()) {
+  else if (active_url == sword_kjv_import_url ()) {
     html_add_home (htmlwriter);
-    import_sword_kjv_result_page (import_sword_kjv_action (), htmlwriter);
+    sword_kjv_action_result_page (sword_kjv_import (), htmlwriter);
+  }
+  
+  else if (active_url == sword_kjv_delete_url ()) {
+    html_add_home (htmlwriter);
+    sword_kjv_action_result_page (sword_kjv_delete (), htmlwriter);
   }
   
   else {

@@ -7302,9 +7302,12 @@ void MainWindow::check_usfm_window_ping()
 Todo various tasks.
 
 
+We need to have an "original languages" window, where the original languages can be used to facilitate translation work.
 
-To make a "Maintenance" entry, that has a web page built in.
 
+
+When the user clicks on a verse so as to go to the definition, and if two strong's numbers are attached, it gives both definitions,
+and if needed it asks which of the two to choose. Or it just gives two informative paragraphs, one for the one word, and the other for the other word.
 
 
 

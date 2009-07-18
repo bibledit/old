@@ -27,11 +27,13 @@
 
 
 ustring sword_kjv_html_entry_url ();
-ustring sword_kjv_action_url ();
+ustring sword_kjv_import_url ();
+ustring sword_kjv_delete_url ();
 void import_sword_kjv_home_entry (HtmlWriter2& htmlwriter);
 void import_sword_kjv_detailed_page (HtmlWriter2& htmlwriter);
-vector <ustring> import_sword_kjv_action ();
-void import_sword_kjv_result_page (const vector <ustring>& messages, HtmlWriter2& htmlwriter);
+vector <ustring> sword_kjv_import ();
+vector <ustring> sword_kjv_delete ();
+void sword_kjv_action_result_page (const vector <ustring>& messages, HtmlWriter2& htmlwriter);
 
 
 #endif
