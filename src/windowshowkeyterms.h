@@ -26,6 +26,10 @@
 #include "ustring.h"
 #include "reference.h"
 #include "window.h"
+extern "C" {
+#include <gtkhtml/gtkhtml.h>
+}
+#include "htmlwriter2.h"
 
 
 class WindowShowKeyterms : public WindowBase
@@ -34,11 +38,18 @@ public:
   WindowShowKeyterms(GtkAccelGroup *accelerator_group, bool startup, GtkWidget * parent_box);
   virtual ~WindowShowKeyterms();
   void go_to(const ustring& project, const Reference& reference);
+  GtkWidget *buttonkeyterm;
+  unsigned int keyterm_id;
 protected:
-  GtkWidget *scrolledwindow1;
-  GtkWidget *textview1;
+  GtkWidget *scrolledwindow;
+  GtkWidget *htmlview;
 private:
   Reference myreference;
+  ustring myproject;
+  static gboolean on_html_link_clicked(GtkHTML *html, const gchar * url, gpointer user_data);
+  void html_link_clicked(const gchar * url);
+  ustring active_url;
+  map <ustring, unsigned int> scrolling_position;
 };
 
 

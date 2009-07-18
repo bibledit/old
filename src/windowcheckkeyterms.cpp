@@ -129,14 +129,10 @@ WindowCheckKeyterms::~WindowCheckKeyterms()
 }
 
 
-void WindowCheckKeyterms::go_to(const ustring & project, Reference & reference)
+void WindowCheckKeyterms::go_to_term(unsigned int id)
 {
-  // Bail out if there's no change in the reference.
-  if (myreference.equals(reference))
-    return;
-
-  // Store the new reference in the object.
-  myreference.assign(reference);
+  ustring url = "keyterm " + convert_to_string (id);
+  html_link_clicked (url.c_str());
 }
 
 
@@ -520,7 +516,7 @@ void WindowCheckKeyterms::html_write_extras (HtmlWriter2& htmlwriter, unsigned i
         htmlwriter.paragraph_close ();
         ustring original_reference_text = information.substr (0, pos);
         Reference reference = get_reference (original_reference_text);
-        // Remap the reference.
+        // Remap the reference. // Todo
         {
           Mapping mapping(versification, reference.book);
           vector <int> chapters;

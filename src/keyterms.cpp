@@ -1147,14 +1147,14 @@ void keyterms_export(const ustring & directory, bool gui)
 }
 
 
-vector < int >keyterms_get_terms_in_verse(const Reference & reference)
+vector <int> keyterms_get_terms_in_verse(const Reference & reference)
 {
   vector < int >terms;
   sqlite3 *db;
   sqlite3_open(keyterms_get_filename().c_str(), &db);
   sqlite3_busy_timeout(db, 1000);
   SqliteReader reader(0);
-  char *sql = g_strdup_printf("select keyword from refs where book = %d and chapter = %d and verse = '%s';", reference.book, reference.chapter, reference.verse.c_str());
+  char *sql = g_strdup_printf("select id from reference where book = %d and chapter = %d and verse = '%s';", reference.book, reference.chapter, reference.verse.c_str());
   sqlite3_exec(db, sql, reader.callback, &reader, NULL);
   g_free(sql);
   for (unsigned int i = 0; i < reader.ustring0.size(); i++) {

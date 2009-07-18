@@ -4594,15 +4594,18 @@ void MainWindow::on_view_keyterms()
     resize_text_area_if_tools_area_is_empty ();
     g_signal_connect((gpointer) window_show_keyterms->delete_signal_button, "clicked", G_CALLBACK(on_window_show_keyterms_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_show_keyterms->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
+    g_signal_connect((gpointer) window_show_keyterms->buttonkeyterm, "clicked", G_CALLBACK(on_window_show_keyterms_keyterm_button_clicked), gpointer(this));
     extern Settings *settings;
     window_show_keyterms->go_to(settings->genconfig.project_get(), navigation.reference);
   }
 }
 
+
 void MainWindow::on_window_show_keyterms_delete_button_clicked(GtkButton * button, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_window_show_keyterms_delete_button();
 }
+
 
 void MainWindow::on_window_show_keyterms_delete_button()
 {
@@ -4615,10 +4618,24 @@ void MainWindow::on_window_show_keyterms_delete_button()
 }
 
 
+void MainWindow::on_window_show_keyterms_keyterm_button_clicked(GtkButton * button, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_window_show_keyterms_keyterm_button();
+}
+
+
+void MainWindow::on_window_show_keyterms_keyterm_button()
+{
+  gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(check_key_terms), true);
+  window_check_keyterms->go_to_term (window_show_keyterms->keyterm_id);
+}
+
+
 void MainWindow::on_keyterms_import_activate(GtkMenuItem *menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_keyterms_import();
 }
+
 
 void MainWindow::on_keyterms_import()
 {
@@ -7301,30 +7318,11 @@ void MainWindow::check_usfm_window_ping()
 
 Todo various tasks.
 
-
-
-
-The window that shows the keyterm per verse does no longer work, it shows nothing.
-
-
-We may have to integrate the keyterms checking into one and the same window.
-The index file has a link that switches the mode, e.g. keyterms mode, or show keyterms per verse mode.
-On keyterms per verse mode, all keyterms in that verse are given in the index file.
-Clicking on one goes to the elaborated page where all verses are given as well. 
+Also show the Strong's terms.
 
 
 
 
-For better keyterms checking, we do the following:
-
-To consult that text by strong's number, and in the keyterms window, to list these.
-
-* If the user clicks on a word in the listing, the other verses show up that have been rendered the same.
-* Very useful. 
-* The listing might go so: "beginning" "to create" "God" "earth" "heaven", and so on. Each of these is clickable and then shows other verses that
-* have the same strong's encoding. If there's a verb that has the same morphology, it would come first, then the remaining ones.
-
-* Can export this text to USFM code from the database.
 
 
 

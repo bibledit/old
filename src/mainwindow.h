@@ -633,6 +633,8 @@ protected:
   WindowShowKeyterms * window_show_keyterms;
   static void on_window_show_keyterms_delete_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_show_keyterms_delete_button();
+  static void on_window_show_keyterms_keyterm_button_clicked(GtkButton *button, gpointer user_data);
+  void on_window_show_keyterms_keyterm_button();
   static void on_keyterms_import_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_keyterms_import ();
   ImportKeytermsAssistant * import_keyterms_assistant;
