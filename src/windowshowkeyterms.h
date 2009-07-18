@@ -17,13 +17,16 @@
  **  
  */
 
+
 #ifndef INCLUDED_WINDOW_SHOW_KEYTERMS_H
 #define INCLUDED_WINDOW_SHOW_KEYTERMS_H
+
 
 #include <gtk/gtk.h>
 #include "ustring.h"
 #include "reference.h"
 #include "window.h"
+
 
 class WindowShowKeyterms : public WindowBase
 {
@@ -37,5 +40,6 @@ protected:
 private:
   Reference myreference;
 };
+
 
 #endif

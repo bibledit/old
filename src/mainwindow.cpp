@@ -7302,17 +7302,6 @@ void MainWindow::check_usfm_window_ping()
 Todo various tasks.
 
 
-We need to have an "original languages" window, where the original languages can be used to facilitate translation work.
-
-
-
-When the user clicks on a verse so as to go to the definition, and if two strong's numbers are attached, it gives both definitions,
-and if needed it asks which of the two to choose. Or it just gives two informative paragraphs, one for the one word, and the other for the other word.
-
-
-
-
-keyterms per verse don't show
 
 
 The window that shows the keyterm per verse does no longer work, it shows nothing.
@@ -7328,9 +7317,6 @@ Clicking on one goes to the elaborated page where all verses are given as well.
 
 For better keyterms checking, we do the following:
 
-To import a KJV text with Strong's numbers, and other morphology.
-* It becomes a standard part of Bibledit.
-
 To consult that text by strong's number, and in the keyterms window, to list these.
 
 * If the user clicks on a word in the listing, the other verses show up that have been rendered the same.
@@ -7338,7 +7324,6 @@ To consult that text by strong's number, and in the keyterms window, to list the
 * The listing might go so: "beginning" "to create" "God" "earth" "heaven", and so on. Each of these is clickable and then shows other verses that
 * have the same strong's encoding. If there's a verb that has the same morphology, it would come first, then the remaining ones.
 
-* KJV needs to be stored in a database for fast retrieval.
 * Can export this text to USFM code from the database.
 
 

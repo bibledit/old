@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "windowshowkeyterms.h"
@@ -24,6 +25,7 @@
 #include "window.h"
 #include "keyterms.h"
 #include "tiny_utilities.h"
+
 
 WindowShowKeyterms::WindowShowKeyterms(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
 WindowBase(widShowKeyterms, "Keyterms in verse", startup, 0, parent_box), myreference(0)
@@ -50,9 +52,11 @@ WindowBase(widShowKeyterms, "Keyterms in verse", startup, 0, parent_box), myrefe
   gtk_widget_grab_focus (last_focused_widget);
 }
 
+
 WindowShowKeyterms::~WindowShowKeyterms()
 {
 }
+
 
 void WindowShowKeyterms::go_to(const ustring & project, const Reference & reference)
 {
@@ -98,3 +102,4 @@ void WindowShowKeyterms::go_to(const ustring & project, const Reference & refere
   // Store the new reference in the object.
   myreference.assign(reference);
 }
+
