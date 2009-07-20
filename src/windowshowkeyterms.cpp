@@ -162,19 +162,21 @@ void WindowShowKeyterms::html_link_clicked (const gchar * url)
     sword_kjv_get_strongs_data (myreference, strongs, phrases);
 
     // Display the data.
-    htmlwriter.paragraph_open ();
+    vector <unsigned int> pending_strongs;
     for (unsigned int i = 0; i < strongs.size(); i++) {
-      ustring phrase = phrases[i];
-      if (!phrase.empty()) {
-        htmlwriter.paragraph_close ();
+      pending_strongs.push_back (strongs[i]);
+      if (!phrases[i].empty()) {
         htmlwriter.paragraph_open ();
+        htmlwriter.text_add (phrases[i]);
+        for (unsigned int i2 = 0; i2 < pending_strongs.size(); i2++) {
+          htmlwriter.text_add (" ");
+          ustring url = "strong " + convert_to_string (pending_strongs[i2]);
+          htmlwriter.hyperlink_add (url, convert_to_string (pending_strongs[i2]));
+        }
+        pending_strongs.clear();
       }
-      htmlwriter.text_add (phrase);
-      htmlwriter.text_add (" ");
-      ustring url = "strong " + convert_to_string (strongs[i]);
-      htmlwriter.hyperlink_add (url, convert_to_string (strongs[i]));
+      htmlwriter.paragraph_close ();
     }
-    htmlwriter.paragraph_close ();
 
   }
   
