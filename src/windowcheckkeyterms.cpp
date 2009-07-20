@@ -404,7 +404,7 @@ gboolean WindowCheckKeyterms::on_html_link_clicked(GtkHTML * html, const gchar *
 }
 
 
-void WindowCheckKeyterms::html_link_clicked (const gchar * url)
+void WindowCheckKeyterms::html_link_clicked (const gchar * url) // Todo
 // Callback for clicking a link.
 {
   // Store scrolling position for the now active url.
@@ -414,6 +414,9 @@ void WindowCheckKeyterms::html_link_clicked (const gchar * url)
   // New url.
   active_url = url;
 
+  // Whether to show the collections widget.
+  bool show_collections = false;
+    
   // Start writing a html page.
   HtmlWriter2 htmlwriter ("");
   bool display_another_page = false;
@@ -441,6 +444,7 @@ void WindowCheckKeyterms::html_link_clicked (const gchar * url)
   
   else {
     // Give the starting page with all keyterms of the active selection.
+    show_collections = true;
     if (collection().find ("Biblical") != string::npos) {
       if (collection().find ("Hebrew") != string::npos) {
         htmlwriter.paragraph_open ();
@@ -469,6 +473,11 @@ void WindowCheckKeyterms::html_link_clicked (const gchar * url)
     gtk_html_end(GTK_HTML(htmlview_terms), stream, GTK_HTML_STREAM_OK);
     // Scroll to the position that possibly was stored while this url was last active.
     gtk_adjustment_set_value (adjustment, scrolling_position[active_url]);
+    // Whether to show collections.
+    if (show_collections)
+      gtk_widget_show (hbox_collection);
+    else
+      gtk_widget_hide (hbox_collection);
   }
 }
 

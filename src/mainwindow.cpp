@@ -7339,11 +7339,7 @@ When importing the KJV Bible we need to remap the references.
 And when consulting it, we need to map back again to the actual Bible's versification schema.
 
 
-If the window for checking keyterms shows a keyterm, it should hide the collection, or show this in the html if applicable.
-When it then returns to the index, it will again show the collection widget.
-
-
-When the renderings are not important, these should be hidden as well.
+When the renderings are not important, the relevant widgets should be hidden.
 
 
 
