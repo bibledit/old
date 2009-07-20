@@ -25,6 +25,7 @@
 #include "window.h"
 #include "keyterms.h"
 #include "tiny_utilities.h"
+#include "swordkjv.h"
 
 
 WindowShowKeyterms::WindowShowKeyterms(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
@@ -90,6 +91,14 @@ void WindowShowKeyterms::html_link_clicked (const gchar * url)
 
   if (active_url.find ("keyterm ") == 0) {
     keyterm_id = convert_to_int (active_url.substr (8, 100));
+    strong_id = 0;
+    gtk_button_clicked (GTK_BUTTON (buttonkeyterm));
+    display_another_page = false;
+  }
+
+  else if (active_url.find ("strong ") == 0) {
+    strong_id = convert_to_int (active_url.substr (7, 100));
+    keyterm_id = 0;
     gtk_button_clicked (GTK_BUTTON (buttonkeyterm));
     display_another_page = false;
   }
@@ -101,7 +110,7 @@ void WindowShowKeyterms::html_link_clicked (const gchar * url)
 
     // Display the keyterms in the verse, and their renderings.
     htmlwriter.heading_open (3);
-    htmlwriter.text_add ("Keyterms in verse " + myreference.verse + ", with their renderings");
+    htmlwriter.text_add ("Keyterms in verse " + myreference.verse);
     htmlwriter.heading_close ();
     for (unsigned int i = 0; i < keyterms.size(); i++) {
 
@@ -112,7 +121,7 @@ void WindowShowKeyterms::html_link_clicked (const gchar * url)
       keyterms_get_term(keyterms[i], term);
       htmlwriter.text_add ("* ");
       ustring url = "keyterm " + convert_to_string (keyterms[i]);
-      htmlwriter.hyperlink_add (url, term); // Todo make the thing clickable, which would then open the check keyterms window.
+      htmlwriter.hyperlink_add (url, term);
       htmlwriter.text_add (": ");
 
       // Display the renderings.
@@ -134,6 +143,39 @@ void WindowShowKeyterms::html_link_clicked (const gchar * url)
 
       htmlwriter.paragraph_close();
     }
+    
+    // If there are no keyterms, mention this.
+    if (keyterms.empty()) {
+      htmlwriter.paragraph_open ();
+      htmlwriter.text_add ("none");
+      htmlwriter.paragraph_close ();
+    }
+
+    // Terms derived from the Strong's numbers in this verse. // Todo
+    htmlwriter.heading_open (3);
+    htmlwriter.text_add ("Simliar words in other verses");
+    htmlwriter.heading_close ();
+
+    // Get the data.
+    vector <unsigned int> strongs;
+    vector <ustring> phrases;
+    sword_kjv_get_strongs_data (myreference, strongs, phrases);
+
+    // Display the data.
+    htmlwriter.paragraph_open ();
+    for (unsigned int i = 0; i < strongs.size(); i++) {
+      ustring phrase = phrases[i];
+      if (!phrase.empty()) {
+        htmlwriter.paragraph_close ();
+        htmlwriter.paragraph_open ();
+      }
+      htmlwriter.text_add (phrase);
+      htmlwriter.text_add (" ");
+      ustring url = "strong " + convert_to_string (strongs[i]);
+      htmlwriter.hyperlink_add (url, convert_to_string (strongs[i]));
+    }
+    htmlwriter.paragraph_close ();
+
   }
   
   htmlwriter.finish();

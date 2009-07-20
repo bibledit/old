@@ -23,13 +23,13 @@
 #include "gwrappers.h"
 #include "progresswindow.h"
 #include <libxml/xmlreader.h>
-#include "reference.h"
 #include "utilities.h"
 #include "books.h"
 #include "tiny_utilities.h"
 #include "directories.h"
 #include "unixwrappers.h"
 #include <sqlite3.h>
+#include "sqlite_reader.h"
 
 
 ustring sword_kjv_get_user_filename()
@@ -290,3 +290,73 @@ void sword_kjv_action_result_page (const vector <ustring>& messages, HtmlWriter2
 }
 
 
+void sword_kjv_internal_dissect_text (ustring text, vector <unsigned int>& strongs, vector <ustring>& phrases)
+// Extracts the phrases and strong's numbers from a verse text.
+// A raw verse would look like this:
+// (07225)In the beginning (0430)God (0853)(01254)created (08064)the heaven (0853)and (0776)the earth.
+{
+  phrases.clear();
+  strongs.clear();
+  size_t pos = text.find ("(");
+  while (pos != string::npos) {
+    // Handle the unlikely case that the text does not start with a Strong's number.
+    if (pos > 0) {
+      gw_warning (text);
+      ustring phrase = text.substr (0, pos);
+      text.erase (0, pos);
+      phrases.push_back (phrase);
+      strongs.push_back (0);
+    }
+    // Look for the Strong's number.
+    unsigned int strong = 0;
+    pos = text.find (")");
+    if (pos != string::npos) {
+      ustring number = text.substr (1, pos - 1);
+      strong = convert_to_int (number);
+      text.erase (0, pos + 1);
+    }
+    // Look for the phrase.
+    pos = text.find ("(");
+    ustring phrase (text);
+    if (pos != string::npos) {
+      phrase = text.substr (0, pos);
+      phrase = trim (phrase);
+      text.erase (0, pos);
+    }
+    // Store the data found.
+    phrases.push_back (phrase);
+    strongs.push_back (strong);
+    // Next iteration.
+    pos = text.find ("(");
+  }
+}
+
+
+void sword_kjv_get_strongs_data (const Reference& reference, vector <unsigned int>& strongs, vector <ustring>& phrases)
+// This gets the phrases and the strong's numbers for a verse.
+{
+  sqlite3 *db;
+  int rc;
+  char *error = NULL;
+  try {
+    SqliteReader reader(0);
+    rc = sqlite3_open(sword_kjv_get_filename().c_str(), &db);
+    if (rc)
+      throw runtime_error(sqlite3_errmsg(db));
+    sqlite3_busy_timeout(db, 1000);
+    char *sql;
+    sql = g_strdup_printf("select text from richtext where book = %d and chapter = %d and verse = %d;", reference.book, reference.chapter, convert_to_int (reference.verse));
+    rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
+    g_free(sql);
+    if (rc) {
+      throw runtime_error(sqlite3_errmsg(db));
+    }
+    if (!reader.ustring0.empty()) {
+      sword_kjv_internal_dissect_text (reader.ustring0[0], strongs, phrases);
+    }
+  }
+  catch(exception & ex) {
+    gw_critical(ex.what());
+  }
+  sqlite3_close(db);
+}

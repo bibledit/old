@@ -38,6 +38,7 @@ public:
   WindowCheckKeyterms(GtkAccelGroup *accelerator_group, bool startup, GtkWidget * parent_box);
   virtual ~WindowCheckKeyterms();
   void go_to_term(unsigned int id);
+  void go_to_strong (unsigned int id);
   void copy_clipboard();
   Reference * new_reference_showing;
   GtkWidget *signal;

@@ -40,6 +40,7 @@ public:
   void go_to(const ustring& project, const Reference& reference);
   GtkWidget *buttonkeyterm;
   unsigned int keyterm_id;
+  unsigned int strong_id;
 protected:
   GtkWidget *scrolledwindow;
   GtkWidget *htmlview;

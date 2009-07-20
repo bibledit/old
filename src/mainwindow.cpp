@@ -4624,10 +4624,15 @@ void MainWindow::on_window_show_keyterms_keyterm_button_clicked(GtkButton * butt
 }
 
 
-void MainWindow::on_window_show_keyterms_keyterm_button()
+void MainWindow::on_window_show_keyterms_keyterm_button() // Todo
 {
   gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(check_key_terms), true);
-  window_check_keyterms->go_to_term (window_show_keyterms->keyterm_id);
+  if (window_show_keyterms->keyterm_id) {
+    window_check_keyterms->go_to_term (window_show_keyterms->keyterm_id);
+  }
+  if (window_show_keyterms->strong_id) {
+    window_check_keyterms->go_to_strong (window_show_keyterms->strong_id);
+  }
 }
 
 
@@ -7318,14 +7323,27 @@ void MainWindow::check_usfm_window_ping()
 
 Todo various tasks.
 
+
 Also show the Strong's terms.
 
 
+Crash keyterms inja zinja, check out. Jeremiah 15:3.
 
 
+At times it may give keyterms from the ktbh database twice or even thrice.
+It needs a limit on keyterms for the same reference with the same ID. 
+If an id is already there, we can't add it again.
 
 
+When importing the KJV Bible we need to remap the references.
+And when consulting it, we need to map back again to the actual Bible's versification schema.
 
+
+If the window for checking keyterms shows a keyterm, it should hide the collection, or show this in the html if applicable.
+When it then returns to the index, it will again show the collection widget.
+
+
+When the renderings are not important, these should be hidden as well.
 
 
 

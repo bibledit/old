@@ -136,6 +136,13 @@ void WindowCheckKeyterms::go_to_term(unsigned int id)
 }
 
 
+void WindowCheckKeyterms::go_to_strong(unsigned int id)
+{
+  ustring url = "strong " + convert_to_string (id);
+  html_link_clicked (url.c_str());
+}
+
+
 void WindowCheckKeyterms::copy_clipboard()
 {
   if (GTK_WIDGET_HAS_FOCUS(htmlview_terms)) {

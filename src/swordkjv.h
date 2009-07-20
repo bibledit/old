@@ -24,6 +24,7 @@
 
 #include "libraries.h"
 #include "htmlwriter2.h"
+#include "reference.h"
 
 
 ustring sword_kjv_html_entry_url ();
@@ -34,6 +35,7 @@ void import_sword_kjv_detailed_page (HtmlWriter2& htmlwriter);
 vector <ustring> sword_kjv_import ();
 vector <ustring> sword_kjv_delete ();
 void sword_kjv_action_result_page (const vector <ustring>& messages, HtmlWriter2& htmlwriter);
+void sword_kjv_get_strongs_data (const Reference& reference, vector <unsigned int>& strongs, vector <ustring>& phrases);
 
 
 #endif
