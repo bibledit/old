@@ -4624,14 +4624,14 @@ void MainWindow::on_window_show_keyterms_keyterm_button_clicked(GtkButton * butt
 }
 
 
-void MainWindow::on_window_show_keyterms_keyterm_button() // Todo
+void MainWindow::on_window_show_keyterms_keyterm_button()
 {
-  gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(check_key_terms), true);
   if (window_show_keyterms->keyterm_id) {
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(check_key_terms), true);
     window_check_keyterms->go_to_term (window_show_keyterms->keyterm_id);
   }
   if (window_show_keyterms->strong_id) {
-    window_check_keyterms->go_to_strong (window_show_keyterms->strong_id);
+    // Todo use reference area instead. window_check_keyterms->go_to_strong (window_show_keyterms->strong_id);
   }
 }
 
@@ -7325,6 +7325,7 @@ Todo various tasks.
 
 
 Also show the Strong's terms.
+These can be transferred to the reference area.
 
 
 Crash keyterms inja zinja, check out. Jeremiah 15:3.
@@ -7339,11 +7340,28 @@ When importing the KJV Bible we need to remap the references.
 And when consulting it, we need to map back again to the actual Bible's versification schema.
 
 
-When the renderings are not important, the relevant widgets should be hidden.
+When spelling checking and looking for the next or previous one, and it is not in the chapter,
+it should offer to go to the other chaptesr as well. This should be offered, not done automatically.
 
 
+When deleting notes, we may have a tick box in the yes/no dialog that allows to always say "yes" for the duration of one minute.
 
 
+We could need a new references window, where text becomes better visible, e.g. it shows the original language (KJV in this case),
+and the target language, all in one html file. That would be helpful. We only need to remember how to delete entries easily.
+We may have to introduce <next 100> or <previous 100> hyperlinks. This would keep the system fast in case that many references will be loaded.
+If we use 25 entries per page, then we also can have a [delete page] / [delete entries] hyperlink. This should do, I think.
+
+
+The keyterm checking window has a button that sends all references to the reference area.
+
+
+The reference area has a link for settings, and one can set there how many references appear on one page, and which versions are included
+in the display.
+
+
+F6 and so on still work in the new references window. It the F6 reaches the end of the list, it automatically goes to the next lot of references,
+and displays these.
 
 
 */

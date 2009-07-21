@@ -136,13 +136,6 @@ void WindowCheckKeyterms::go_to_term(unsigned int id)
 }
 
 
-void WindowCheckKeyterms::go_to_strong(unsigned int id)
-{
-  ustring url = "strong " + convert_to_string (id);
-  html_link_clicked (url.c_str());
-}
-
-
 void WindowCheckKeyterms::copy_clipboard()
 {
   if (GTK_WIDGET_HAS_FOCUS(htmlview_terms)) {
@@ -416,6 +409,7 @@ void WindowCheckKeyterms::html_link_clicked (const gchar * url) // Todo
 
   // Whether to show the collections widget.
   bool show_collections = false;
+  bool show_renderings = false;
     
   // Start writing a html page.
   HtmlWriter2 htmlwriter ("");
@@ -430,6 +424,7 @@ void WindowCheckKeyterms::html_link_clicked (const gchar * url) // Todo
     load_renderings ();
     // Write extra bits.
     html_write_extras (htmlwriter, keyword_id);
+    show_renderings = true;
     display_another_page = true;
   }
 
@@ -478,6 +473,10 @@ void WindowCheckKeyterms::html_link_clicked (const gchar * url) // Todo
       gtk_widget_show (hbox_collection);
     else
       gtk_widget_hide (hbox_collection);
+    if (show_renderings)
+      gtk_widget_show (treeview_renderings);
+    else
+      gtk_widget_hide (treeview_renderings);
   }
 }
 
