@@ -49,6 +49,7 @@ void quick_sort (vector<int>& one, vector<unsigned int>& two, unsigned int beg, 
 void quick_sort (vector<ustring>& one, vector<ustring>& two, unsigned int beg, unsigned int end);
 void quick_sort (vector<ustring>& one, vector<bool>& two, unsigned int beg, unsigned int end);
 void quick_sort (vector<ustring>& one, unsigned int beg, unsigned int end);
+void quick_sort (vector<long unsigned int>& one, vector<long unsigned int>& two, unsigned int beg, unsigned int end);
 gchar * de_windows_notepad (gchar * contents);
 ustring spaces (unsigned int count);
 void bitpattern_add (ustring& pattern, bool setting);
