@@ -104,14 +104,6 @@ WindowBase(widReferences, "References", startup, 0, parent_box), reference(0, 0,
   last_focused_widget = htmlview;
   gtk_widget_grab_focus (last_focused_widget);
 
-  // Todo temporal testing code.
-  for (unsigned int i = 1; i <= 66; i++) {
-    Reference reference (i, i, convert_to_string (i));
-    all_localized_refs.push_back (reference.human_readable (""));
-    all_comments.push_back ("Comment #" + convert_to_string (i));
-    all_references.push_back (reference);    
-  }  
-  
   // Load references.
   html_link_clicked ("");
 }
@@ -125,6 +117,32 @@ WindowReferences::~WindowReferences()
   references.save();
   // Destroy signal button.
   gtk_widget_destroy(general_signal_button);
+}
+
+
+void WindowReferences::set (vector <Reference>& refs, const ustring& language)
+// Sets the references in the window.
+// refs: the references to be loaded.
+// language: the language in which to display the references.
+{
+  all_localized_refs.clear();
+  all_comments.clear();
+  all_references.clear();    
+  for (unsigned int i = 0; i < refs.size(); i++) {
+    Reference reference (0);
+    reference.assign (refs[i]);
+    all_localized_refs.push_back (reference.human_readable (language));
+    all_comments.push_back ("Test comment");
+    all_references.push_back (reference);    
+  }  
+  html_link_clicked ("");
+}
+
+
+vector <Reference> WindowReferences::get ()
+// Gets the references from the window.
+{
+  return all_references;
 }
 
 
@@ -417,7 +435,13 @@ void WindowReferences::html_link_clicked (const gchar * url)
   bool display_another_page = true;
 
   if (active_url.find ("goto ") == 0) {
+    // Signal that a reference was clicked.
     display_another_page = false;
+    ustring ref (active_url);
+    ref.erase (0, 5);
+    reference.assign (all_references[convert_to_int (ref)]);
+    action = wratReferenceActivated;
+    gtk_button_clicked(GTK_BUTTON(general_signal_button));
   }
 
   else if (active_url.find ("prev") == 0) {
@@ -462,7 +486,7 @@ void WindowReferences::html_write_references (HtmlWriter2& htmlwriter)
   // References page.
   for (unsigned int i = lower_boundary; i < upper_boundary; i++) {
     htmlwriter.paragraph_open();
-    ustring url = "goto " + all_localized_refs[i];
+    ustring url = "goto " + convert_to_string (i);
     htmlwriter.hyperlink_add (url, all_localized_refs[i]);
     htmlwriter.text_add (" ");
     htmlwriter.paragraph_close();
@@ -471,7 +495,7 @@ void WindowReferences::html_write_references (HtmlWriter2& htmlwriter)
   // If there are no references, mention this.
   if (all_localized_refs.empty()) {
     htmlwriter.paragraph_open ();
-    htmlwriter.text_add ("none");
+    htmlwriter.text_add ("no references");
     htmlwriter.paragraph_close ();
   }
 
@@ -482,17 +506,19 @@ void WindowReferences::html_write_references (HtmlWriter2& htmlwriter)
 
 void WindowReferences::html_write_action_bar (HtmlWriter2& htmlwriter)
 {
-  htmlwriter.paragraph_open ();
-  if (lower_boundary) {
-    htmlwriter.hyperlink_add ("prev", "prev");
-    htmlwriter.text_add (" | ");
+  if (!all_references.empty()) {
+    htmlwriter.paragraph_open ();
+    if (lower_boundary) {
+      htmlwriter.hyperlink_add ("prev", "prev");
+      htmlwriter.text_add (" | ");
+    }
+    htmlwriter.text_add ("Items " + convert_to_string (lower_boundary + 1) + " - " + convert_to_string (upper_boundary) + " of " + convert_to_string (all_localized_refs.size()));
+    if (upper_boundary < all_localized_refs.size()) {
+      htmlwriter.text_add (" | ");
+      htmlwriter.hyperlink_add ("next", "next");
+    }
+    htmlwriter.paragraph_close ();
   }
-  htmlwriter.text_add ("Items " + convert_to_string (lower_boundary + 1) + " - " + convert_to_string (upper_boundary) + " of " + convert_to_string (all_localized_refs.size()));
-  if (upper_boundary < all_localized_refs.size()) {
-    htmlwriter.text_add (" | ");
-    htmlwriter.hyperlink_add ("next", "next");
-  }
-  htmlwriter.paragraph_close ();
 }
 
 
@@ -525,6 +551,10 @@ Each time references are loaded, the lower boundary needs to be reset to zero.
 
 There is a link to delete the page. If the user clicks on the link at the top, it attempt to load the previous lot, if available.
 If the user clicks at the link at the bottom, it attempts to load the next lot, if available.
+
+
+Once we have moved all to the new system, all old methods can go out.
+
 
 
 */

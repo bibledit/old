@@ -25,11 +25,11 @@
 #include "libraries.h"
 #include "bibletime.h"
 #include "referenceutils.h"
+#include "windowreferences.h"
 
 
 void search_string_basic (const ustring& project, bool use_book_selection, unsigned int currentchapter, vector<Reference>& results);
-void search_string (GtkListStore * liststore, GtkWidget * listview, GtkTreeViewColumn * treeviewcolumn, 
-                    BibleTime * bibletime);
+void search_string (WindowReferences * references_window, BibleTime * bibletime);
 
 
 #endif

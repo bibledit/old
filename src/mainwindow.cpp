@@ -2393,7 +2393,7 @@ void MainWindow::menu_findspecial()
       return;
   }
   // Carry out the search. 
-  search_string(window_references->liststore, window_references->treeview, window_references->treecolumn, &bibletime); // Todo
+  search_string(window_references, &bibletime);
 }
 
 void MainWindow::on_import1_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3788,7 +3788,7 @@ void MainWindow::on_check_httpd()
     SessionHighlights sessionhighlights(settings->session.searchword, settings->session.search_case_sensitive, settings->session.search_globbing, settings->session.search_start_word_match, settings->session.search_end_word_match, atRaw, false, false, false, false, false, false, false, false);
     settings->session.highlights.push_back(sessionhighlights);
     show_references_window();
-    search_string(window_references->liststore, window_references->treeview, window_references->treecolumn, &bibletime); // Todo
+    search_string(window_references, &bibletime);
   }
   // Did the browser request a url too difficult for it to handle?
   if (!httpd.difficult_url.empty()) {

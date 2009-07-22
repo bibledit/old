@@ -40,6 +40,8 @@ class WindowReferences : public WindowBase
 public:
   WindowReferences(GtkAccelGroup *accelerator_group, bool startup, GtkWidget * parent_box);
   virtual ~WindowReferences();
+  void set (vector <Reference>& refs, const ustring& language);
+  vector <Reference> get ();
   void display (vector <Reference>& refs);
   GtkWidget *treeview;
   GtkListStore *liststore;

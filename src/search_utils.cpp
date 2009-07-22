@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "utilities.h"
 #include "search_utils.h"
 #include "bible.h"
@@ -35,6 +36,7 @@
 #include "directories.h"
 #include "settings.h"
 #include "tiny_utilities.h"
+
 
 void search_string_basic(const ustring & project, bool use_book_selection, unsigned int currentchapter, vector < Reference > &results)
 /*
@@ -119,6 +121,7 @@ grep --recursive --line-number --include data '10' .
   }
 }
 
+
 ustring search_in_bibledit_assemble_line(const ustring & input, AreaType areatype, bool area_id, bool area_intro, bool area_heading, bool area_chapter, bool area_study, bool area_notes, bool area_xref, bool area_verse)
 // Assembles the line of text we have to search through, depending on the area
 // selection.
@@ -187,6 +190,7 @@ ustring search_in_bibledit_assemble_line(const ustring & input, AreaType areatyp
   }
   return line;
 }
+
 
 bool search_in_bibledit_word_boundaries_match(const ustring & text, const ustring & searchword, bool matchbeginning, bool matchending, bool globbing)
 // Does the word boundary matching.
@@ -323,6 +327,7 @@ bool search_in_bibledit_word_boundaries_match(const ustring & text, const ustrin
   return match;
 }
 
+
 vector < Reference > search_in_bibledit()
 // Advanced searching in Bibledit.
 {
@@ -436,6 +441,7 @@ vector < Reference > search_in_bibledit()
   return results;
 }
 
+
 vector < Reference > search_in_bibletime(BibleTime * bibletime)
 /*
 This handles the bibletime search functions.
@@ -490,7 +496,7 @@ This handles the bibletime search functions.
 }
 
 
-void search_load_references(vector < Reference > &searchresults, GtkListStore * liststore, GtkWidget * listview, GtkTreeViewColumn * treeviewcolumn)
+void search_load_references(WindowReferences * references_window, vector <Reference>& searchresults)
 /*
 This function takes the searchresults from a search, and depending on information
 entered in the search dialog, loads this in the reference area, or merges it 
@@ -515,18 +521,13 @@ with the references that are already there.
     {
       // Sort and load the references.
       sort_references(searchresults);
-      References references(liststore, listview, treeviewcolumn);
-      references.set_references(searchresults);
-      references.fill_store(projectconfig->language_get());
+      references_window->set (searchresults, projectconfig->language_get());
       break;
     }
   case sstAdd:
     {
       // Add the references to the ones already in the editor
-      vector < Reference > loaded_references;
-      References references(liststore, listview, treeviewcolumn);
-      references.get_loaded();
-      references.get_references(loaded_references);
+      vector <Reference> loaded_references = references_window->get();
       for (unsigned int i = 0; i < searchresults.size(); i++) {
         bool add = true;
         for (unsigned int i2 = 0; i2 < loaded_references.size(); i2++) {
@@ -540,17 +541,13 @@ with the references that are already there.
       }
       searchresults = loaded_references;
       sort_references(searchresults);
-      references.set_references(searchresults);
-      references.fill_store(projectconfig->language_get());
+      references_window->set (searchresults, projectconfig->language_get());
       break;
     }
   case sstSubtract:
     {
       // Subtract the references from the ones already in the editor.
-      vector < Reference > loaded_references;
-      References references(liststore, listview, treeviewcolumn);
-      references.get_loaded();
-      references.get_references(loaded_references);
+      vector <Reference> loaded_references = references_window->get();
       for (unsigned int i = 0; i < searchresults.size(); i++) {
         vector < Reference >::iterator iter(loaded_references.begin());
         for (unsigned int i2 = 0; i2 < loaded_references.size(); i2++) {
@@ -563,8 +560,7 @@ with the references that are already there.
       }
       searchresults = loaded_references;
       sort_references(searchresults);
-      references.set_references(searchresults);
-      references.fill_store(projectconfig->language_get());
+      references_window->set (searchresults, projectconfig->language_get());
       break;
     }
   case sstShare:
@@ -574,11 +570,8 @@ with the references that are already there.
       // and the ones that are the result of this search, will be loaded,
       // provided they are the same.
       // All other ones will be discarded.
-      vector < Reference > loaded_references;
-      References references(liststore, listview, treeviewcolumn);
-      references.get_loaded();
-      references.get_references(loaded_references);
-      vector < Reference > shared_references;
+      vector <Reference> loaded_references = references_window->get();
+      vector <Reference> shared_references;
       for (unsigned int i = 0; i < searchresults.size(); i++) {
         for (unsigned int i2 = 0; i2 < loaded_references.size(); i2++) {
           if (searchresults[i].equals(loaded_references[i2])) {
@@ -589,18 +582,17 @@ with the references that are already there.
       }
       searchresults = shared_references;
       sort_references(searchresults);
-      references.set_references(searchresults);
-      references.fill_store(projectconfig->language_get());
+      references_window->set (searchresults, projectconfig->language_get());
       break;
     }
   }
 }
 
 
-void search_string(GtkListStore * liststore, GtkWidget * listview, GtkTreeViewColumn * treeviewcolumn, BibleTime * bibletime) // Todo
+void search_string(WindowReferences * references_window, BibleTime * bibletime)
 {
   // Storage for results;
-  vector < Reference > searchresults;
+  vector <Reference> searchresults;
 
   // Configuration & session.
   extern Settings *settings;
@@ -609,9 +601,9 @@ void search_string(GtkListStore * liststore, GtkWidget * listview, GtkTreeViewCo
   case 0:
     {
       // Basic search.
-      vector < unsigned int >mybooks;
+      vector <unsigned int> mybooks;
       {
-        set < unsigned int >selected_books = settings->session.selected_books;
+        set <unsigned int> selected_books = settings->session.selected_books;
         mybooks.assign(selected_books.begin(), selected_books.end());
       }
       set < unsigned int >selected_books;
@@ -639,6 +631,6 @@ void search_string(GtkListStore * liststore, GtkWidget * listview, GtkTreeViewCo
     }
   }
   // Load the references in the editor.
-  search_load_references(searchresults, liststore, listview, treeviewcolumn);
+  search_load_references(references_window, searchresults);
 }
 
