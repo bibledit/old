@@ -36,6 +36,7 @@
 #include "gwrappers.h"
 #include "directories.h"
 #include "utilities.h"
+#include "bible.h"
 
 
 WindowReferences::WindowReferences(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
@@ -56,43 +57,26 @@ WindowBase(widReferences, "References", startup, 0, parent_box), reference(0, 0,
 
   g_signal_connect((gpointer) htmlview, "link-clicked", G_CALLBACK(on_html_link_clicked), gpointer(this));
 
-  // Manually added and changed.
-  // 1. localized human readable reference
-  // 2. comment
-  // 3. book id
-  // 4. chapter
-  // 5. verse
   liststore = gtk_list_store_new(5, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT, G_TYPE_INT, G_TYPE_STRING);
-
-  // Text cell renderer.
   GtkCellRenderer *renderer;
   renderer = gtk_cell_renderer_text_new();
-
   treeview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(liststore));
   gtk_widget_show(treeview);
-  // Todo goes out. gtk_container_add(GTK_CONTAINER(scrolledwindow), treeview);
-
-  // Visibility tracking and focus tracking in attached view.
-  g_signal_connect((gpointer) treeview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
-
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(treeview), TRUE);
-  // Unreference the store once, so it gets destroyed with the treeview.
   g_object_unref(liststore);
-  // Add reference column.
   treecolumn = gtk_tree_view_column_new_with_attributes("", renderer, "text", 0, NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), treecolumn);
-  // Add comments column
   GtkTreeViewColumn *treecolumn2;
   treecolumn2 = gtk_tree_view_column_new_with_attributes("Comment", renderer, "text", 1, NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), treecolumn2);
   treeselect = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
   gtk_tree_selection_set_mode(treeselect, GTK_SELECTION_MULTIPLE);
 
-  g_signal_connect((gpointer) treeview, "key_press_event", G_CALLBACK(on_treeview_key_press_event), gpointer(this));
-  g_signal_connect((gpointer) treeview, "button_press_event", G_CALLBACK(on_treeview_button_press_event), gpointer(this));
-  g_signal_connect((gpointer) treeview, "popup_menu", G_CALLBACK(on_treeview_popup_menu), gpointer(this));
-  g_signal_connect((gpointer) treeview, "move_cursor", G_CALLBACK(on_treeview_move_cursor), gpointer(this));
-  g_signal_connect((gpointer) treeview, "cursor_changed", G_CALLBACK(on_treeview_cursor_changed), gpointer(this));
+  //g_signal_connect((gpointer) htmlview, "key_press_event", G_CALLBACK(on_treeview_key_press_event), gpointer(this)); // Todo working here, check these.
+  //g_signal_connect((gpointer) htmlview, "button_press_event", G_CALLBACK(on_treeview_button_press_event), gpointer(this)); // Todo working here, check these.
+  //g_signal_connect((gpointer) htmlview, "popup_menu", G_CALLBACK(on_treeview_popup_menu), gpointer(this)); // Todo working here, check these.
+  //g_signal_connect((gpointer) htmlview, "move_cursor", G_CALLBACK(on_treeview_move_cursor), gpointer(this)); // Todo working here, check these.
+  //g_signal_connect((gpointer) htmlview, "cursor_changed", G_CALLBACK(on_treeview_cursor_changed), gpointer(this)); // Todo working here, check these.
 
   // Signal button.
   general_signal_button = gtk_button_new();
@@ -293,10 +277,7 @@ void WindowReferences::open()
       import_references_searchwords.push_back(searchword3);
     settings->session.import_references_searchwords = import_references_searchwords;
     settings->genconfig.references_file_set(filename);
-    References references(liststore, treeview, treecolumn);
-    references.load(settings->genconfig.references_file_get());
-    ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
-    references.fill_store(projectconfig->language_get());
+    load(settings->genconfig.references_file_get());
     if (import_references_searchwords.size() > 0) {
       settings->session.highlights.clear();
       for (unsigned int i = 0; i < import_references_searchwords.size(); i++) {
@@ -376,8 +357,32 @@ void WindowReferences::load ()
 }
 
 
-void WindowReferences::load (const ustring & filename) // Todo working here.
+void WindowReferences::load (const ustring & filename)
+// Loads references from a file.
 {
+  all_localized_refs.clear();
+  all_comments.clear();
+  all_references.clear();
+  try {
+    ReadText rt(filename, true);
+    // Pick out the references and leave the rest.
+    for (unsigned int i = 0; i < rt.lines.size(); i++) {
+      unsigned int book, chapter;
+      ustring verse;
+      if (reference_discover(0, 0, "", rt.lines[i], book, chapter, verse)) {
+        Reference reference(book, chapter, verse);
+        all_localized_refs.push_back (reference.human_readable (""));
+        all_comments.push_back ("");
+        all_references.push_back(reference);
+      }
+    }
+    sort_references(references);
+  }
+  catch(exception & ex) {
+    cerr << "Loading references: " << ex.what() << endl;
+  }
+  // Load these.
+  html_link_clicked ("");
 }
 
 
@@ -450,17 +455,14 @@ void WindowReferences::save ()
 }
 
 
-void WindowReferences::save(const ustring& filename) // Todo working here.
+void WindowReferences::save(const ustring& filename)
 {
+  vector <ustring> lines;
+  for (unsigned int i = 0; i < all_references.size(); i++) {
+    lines.push_back(all_references[i].human_readable(""));
+  }
   try {
-    if (filename.empty())
-      return;
-    References references(liststore, treeview, treecolumn);
-    // Hack: Set references with a dummy, then load the real ones from the editor.
-    vector <Reference> dummy;
-    references.set_references(dummy);
-    references.get_loaded();
-    references.save(filename);
+    write_lines(filename, lines);
   }
   catch(exception & ex) {
     cerr << "Saving references: " << ex.what() << endl;

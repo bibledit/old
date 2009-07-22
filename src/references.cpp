@@ -40,30 +40,6 @@ References::~References()
 {
 }
 
-void References::load(const ustring & filename)
-// Loads references from a file.
-{
-  try {
-    ReadText rt(filename, true);
-    // Pick out the references and leave the rest.
-    for (unsigned int i = 0; i < rt.lines.size(); i++) {
-      unsigned int book, chapter;
-      ustring verse;
-      if (reference_discover(0, 0, "", rt.lines[i], book, chapter, verse)) {
-        Reference reference(book, chapter, verse);
-        references.push_back(reference);
-      }
-    }
-    sort_references(references);
-  }
-  catch(exception & ex) {
-    cerr << "Loading references: " << ex.what() << endl;
-  }
-  comments.clear();
-  for (unsigned int i = 0; i < references.size(); i++)
-    comments.push_back("Loaded from file");
-}
-
 void References::fill_store(const ustring & language)
 // Fill the list store with the data.
 {
@@ -86,24 +62,6 @@ void References::set_header()
   s.append(" - ");
   s.append(convert_to_string(int (references.size())));
   gtk_tree_view_column_set_title(mytreecolumn, s.c_str());
-}
-
-void References::save(const ustring & filename)
-// Saves the references to a file.
-{
-  extern Settings *settings;
-  ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
-  ustring language = projectconfig->language_get();
-  vector < ustring > lines;
-  for (unsigned int i = 0; i < references.size(); i++) {
-    lines.push_back(references[i].human_readable(language));
-  }
-  try {
-    write_lines(filename, lines);
-  }
-  catch(exception & ex) {
-    cerr << "Saving references: " << ex.what() << endl;
-  }
 }
 
 

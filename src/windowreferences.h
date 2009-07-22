@@ -52,8 +52,8 @@ public:
   int popup_button;
   int popup_event_time;
   void open();
-  void load (const ustring & filename); // Todo working here.
-  void save(const ustring& filename); // Todo working here.
+  void load (const ustring & filename);
+  void save(const ustring& filename);
   void clear();
   void dismiss();
   void hide();
