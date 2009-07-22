@@ -42,7 +42,6 @@ public:
   virtual ~WindowReferences();
   void set (vector <Reference>& refs, const ustring& language);
   vector <Reference> get ();
-  void display (vector <Reference>& refs);
   GtkWidget *treeview;
   GtkListStore *liststore;
   GtkTreeViewColumn *treecolumn;
@@ -53,7 +52,8 @@ public:
   int popup_button;
   int popup_event_time;
   void open();
-  void save(const ustring& filename);
+  void load (const ustring & filename); // Todo working here.
+  void save(const ustring& filename); // Todo working here.
   void clear();
   void dismiss();
   void hide();
@@ -84,13 +84,17 @@ private:
   void html_write_references (HtmlWriter2& htmlwriter);
   void html_write_action_bar (HtmlWriter2& htmlwriter);
 
-  // Content.
   vector <ustring> all_localized_refs;
   vector <ustring> all_comments;
   vector <Reference> all_references;
   unsigned int lower_boundary;
   unsigned int upper_boundary;
-   
+
+  ustring references_database_filename ();
+
+  void load ();
+  void save ();
+
 };
 
 

@@ -32,6 +32,10 @@
 #include "dialogentry3.h"
 #include "gtkwrappers.h"
 #include "referenceutils.h"
+#include <sqlite3.h>
+#include "gwrappers.h"
+#include "directories.h"
+#include "utilities.h"
 
 
 WindowReferences::WindowReferences(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
@@ -90,13 +94,6 @@ WindowBase(widReferences, "References", startup, 0, parent_box), reference(0, 0,
   g_signal_connect((gpointer) treeview, "move_cursor", G_CALLBACK(on_treeview_move_cursor), gpointer(this));
   g_signal_connect((gpointer) treeview, "cursor_changed", G_CALLBACK(on_treeview_cursor_changed), gpointer(this));
 
-  // Load previously saved references.
-  References references(liststore, treeview, treecolumn);
-  references.load();
-  extern Settings *settings;
-  ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
-  references.fill_store(projectconfig->language_get());
-
   // Signal button.
   general_signal_button = gtk_button_new();
 
@@ -104,7 +101,8 @@ WindowBase(widReferences, "References", startup, 0, parent_box), reference(0, 0,
   last_focused_widget = htmlview;
   gtk_widget_grab_focus (last_focused_widget);
 
-  // Load references.
+  // Load previously saved references.
+  load ();
   html_link_clicked ("");
 }
 
@@ -112,9 +110,7 @@ WindowBase(widReferences, "References", startup, 0, parent_box), reference(0, 0,
 WindowReferences::~WindowReferences()
 {
   // Save references.
-  References references(liststore, treeview, treecolumn);
-  references.get_loaded();
-  references.save();
+  save ();
   // Destroy signal button.
   gtk_widget_destroy(general_signal_button);
 }
@@ -143,16 +139,6 @@ vector <Reference> WindowReferences::get ()
 // Gets the references from the window.
 {
   return all_references;
-}
-
-
-void WindowReferences::display(vector < Reference > &refs)
-{
-  References references(liststore, treeview, treecolumn);
-  references.set_references(refs);
-  extern Settings *settings;
-  ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
-  references.fill_store(projectconfig->language_get());
 }
 
 
@@ -321,7 +307,150 @@ void WindowReferences::open()
   }
 }
 
-void WindowReferences::save(const ustring& filename)
+
+void WindowReferences::load ()
+// Loads references from database.
+{
+  // Bail out if there are no references.
+  if (!g_file_test(references_database_filename().c_str(), G_FILE_TEST_IS_REGULAR))
+    return;
+    
+  // Language.
+  extern Settings *settings;
+  ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
+  ustring language = projectconfig->language_get();
+  
+  // Database variables.  
+  sqlite3 *db;
+  int rc;
+  char *error = NULL;
+  try {
+    // Open database.
+    rc = sqlite3_open(references_database_filename().c_str(), &db);
+    if (rc)
+      throw runtime_error(sqlite3_errmsg(db));
+    sqlite3_busy_timeout(db, 1000);
+    // Read the references.
+    {
+      SqliteReader sqlitereader(0);
+      char *sql;
+      sql = g_strdup_printf("select book, chapter, verse, comment from refs;");
+      rc = sqlite3_exec(db, sql, sqlitereader.callback, &sqlitereader, &error);
+      g_free(sql);
+      if (rc != SQLITE_OK) {
+        throw runtime_error(error);
+      }
+      for (unsigned int i = 0; i < sqlitereader.ustring0.size(); i++) {
+        Reference reference(convert_to_int(sqlitereader.ustring0[i]), convert_to_int(sqlitereader.ustring1[i]), sqlitereader.ustring2[i]);
+        all_localized_refs.push_back (reference.human_readable (language));
+        all_comments.push_back(sqlitereader.ustring3[i]);
+        all_references.push_back(reference);
+      }
+    }
+    // Read the searchwords.
+    {
+      SqliteReader sqlitereader(0);
+      char *sql;
+      sql = g_strdup_printf("select word, casesensitive, glob, matchbegin, matchend, areatype, areaid, areaintro, areaheading, areachapter, areastudy, areanotes, areaxref, areaverse from highlights;");
+      rc = sqlite3_exec(db, sql, sqlitereader.callback, &sqlitereader, &error);
+      g_free(sql);
+      if (rc != SQLITE_OK) {
+        throw runtime_error(error);
+      }
+      extern Settings *settings;
+      for (unsigned int i = 0; i < sqlitereader.ustring0.size(); i++) {
+        SessionHighlights sessionhighlights(sqlitereader.ustring0[i],
+                                            convert_to_bool(sqlitereader.ustring1[i]),
+                                            convert_to_bool(sqlitereader.ustring2[i]),
+                                            convert_to_bool(sqlitereader.ustring3[i]),
+                                            convert_to_bool(sqlitereader.ustring4[i]), (AreaType) convert_to_int(sqlitereader.ustring5[i]), convert_to_bool(sqlitereader.ustring6[i]), convert_to_bool(sqlitereader.ustring7[i]), convert_to_bool(sqlitereader.ustring8[i]), convert_to_bool(sqlitereader.ustring9[i]), convert_to_bool(sqlitereader.ustring10[i]), convert_to_bool(sqlitereader.ustring11[i]), convert_to_bool(sqlitereader.ustring12[i]), convert_to_bool(sqlitereader.ustring13[i]));
+        settings->session.highlights.push_back(sessionhighlights);
+      }
+    }
+  }
+  catch(exception & ex) {
+    gw_critical(ex.what());
+  }
+  // Close connection.  
+  sqlite3_close(db);
+}
+
+
+void WindowReferences::load (const ustring & filename) // Todo working here.
+{
+}
+
+
+void WindowReferences::save ()
+{
+  // Remove existing database.
+  unlink(references_database_filename().c_str());
+  // Some database variables.
+  sqlite3 *db;
+  int rc;
+  char *error = NULL;
+  try {
+    // Open the database.
+    rc = sqlite3_open(references_database_filename().c_str(), &db);
+    if (rc)
+      throw runtime_error(sqlite3_errmsg(db));
+    sqlite3_busy_timeout(db, 1000);
+    // Create table for the references.
+    char *sql;
+    sql = g_strdup_printf("create table refs (book integer, chapter integer, verse text, comment text);");
+    rc = sqlite3_exec(db, sql, NULL, NULL, &error);
+    g_free(sql);
+    if (rc) {
+      throw runtime_error(sqlite3_errmsg(db));
+    }
+    // Set it to store references fast.
+    sql = g_strdup_printf("PRAGMA synchronous=OFF;");
+    rc = sqlite3_exec(db, sql, NULL, NULL, &error);
+    g_free(sql);
+    if (rc) {
+      throw runtime_error(sqlite3_errmsg(db));
+    }
+    // Store the references and the comments.
+    for (unsigned int i = 0; i < all_references.size(); i++) {
+      sql = g_strdup_printf("insert into refs values (%d, %d, '%s', '%s')", all_references[i].book, all_references[i].chapter, all_references[i].verse.c_str(), double_apostrophy(all_comments[i]).c_str());
+      rc = sqlite3_exec(db, sql, NULL, NULL, &error);
+      g_free(sql);
+      if (rc) {
+        throw runtime_error(sqlite3_errmsg(db));
+      }
+    }
+    // Create table for the searchwords.
+    sql = g_strdup_printf("create table highlights (word text, casesensitive integer, glob integer, matchbegin integer, matchend integer, areatype integer, areaid integer, areaintro integer, areaheading integer, areachapter integer, areastudy integer, areanotes integer, areaxref integer, areaverse integer);");
+    rc = sqlite3_exec(db, sql, NULL, NULL, &error);
+    g_free(sql);
+    if (rc) {
+      throw runtime_error(sqlite3_errmsg(db));
+    }
+    // Store the searchwords and related data.
+    extern Settings *settings;
+    for (unsigned int i = 0; i < settings->session.highlights.size(); i++) {
+      sql = g_strdup_printf("insert into highlights values ('%s', %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d)",
+                            double_apostrophy(settings->session.highlights[i].word).c_str(),
+                            (int)settings->session.highlights[i].casesensitive,
+                            (int)settings->session.highlights[i].globbing,
+                            (int)settings->session.highlights[i].matchbegin,
+                            (int)settings->session.highlights[i].matchend, (int)settings->session.highlights[i].areatype, (int)settings->session.highlights[i].id, (int)settings->session.highlights[i].intro, (int)settings->session.highlights[i].heading, (int)settings->session.highlights[i].chapter, (int)settings->session.highlights[i].study, (int)settings->session.highlights[i].notes, (int)settings->session.highlights[i].xref, (int)settings->session.highlights[i].verse);
+      rc = sqlite3_exec(db, sql, NULL, NULL, &error);
+      g_free(sql);
+      if (rc) {
+        throw runtime_error(sqlite3_errmsg(db));
+      }
+    }
+  }
+  catch(exception & ex) {
+    gw_critical(ex.what());
+  }
+  // Close db.
+  sqlite3_close(db);
+}
+
+
+void WindowReferences::save(const ustring& filename) // Todo working here.
 {
   try {
     if (filename.empty())
@@ -436,15 +565,16 @@ void WindowReferences::html_link_clicked (const gchar * url)
 
   if (active_url.find ("goto ") == 0) {
     // Signal that a reference was clicked.
-    display_another_page = false;
     ustring ref (active_url);
     ref.erase (0, 5);
     reference.assign (all_references[convert_to_int (ref)]);
     action = wratReferenceActivated;
     gtk_button_clicked(GTK_BUTTON(general_signal_button));
+    display_another_page = false;
   }
 
   else if (active_url.find ("prev") == 0) {
+    // Go to the previous page.
     if (lower_boundary) {
       lower_boundary -= 25;
     }
@@ -452,6 +582,7 @@ void WindowReferences::html_link_clicked (const gchar * url)
   }
 
   else if (active_url.find ("next") == 0) {
+    // Go to the next page.
     if (lower_boundary < all_localized_refs.size() - 25) {
       lower_boundary += 25;
     }
@@ -459,6 +590,7 @@ void WindowReferences::html_link_clicked (const gchar * url)
   }
 
   else {
+    // Load the references.
     html_write_references (htmlwriter);
   }
   
@@ -519,6 +651,13 @@ void WindowReferences::html_write_action_bar (HtmlWriter2& htmlwriter)
     }
     htmlwriter.paragraph_close ();
   }
+}
+
+
+ustring WindowReferences::references_database_filename()
+// Gives the filename of the database to save the references to.
+{
+  return gw_build_filename(directories_get_temp(), "references.sqlite3");
 }
 
 

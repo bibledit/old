@@ -2359,7 +2359,9 @@ void MainWindow::menu_replace()
     if (replacedialog.run() == GTK_RESPONSE_OK) {
       results.assign(replacedialog.results.begin(), replacedialog.results.end());
       if (window_references) {
-        window_references->display(replacedialog.results);
+        extern Settings *settings;
+        ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
+        window_references->set(replacedialog.results, projectconfig->language_get());
       }
     } else {
       return;
