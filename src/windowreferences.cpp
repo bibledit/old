@@ -38,10 +38,19 @@ WindowReferences::WindowReferences(GtkAccelGroup * accelerator_group, bool start
 WindowBase(widReferences, "References", startup, 0, parent_box), reference(0, 0, "")
 // Window for showing the quick references.  
 {
+  lower_boundary = 0;
+  
   scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow);
   gtk_container_add(GTK_CONTAINER(window_vbox), scrolledwindow);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+
+  htmlview = gtk_html_new();
+  gtk_widget_show(htmlview);
+  gtk_container_add(GTK_CONTAINER(scrolledwindow), htmlview);
+  gtk_html_allow_selection(GTK_HTML(htmlview), true);
+
+  g_signal_connect((gpointer) htmlview, "link-clicked", G_CALLBACK(on_html_link_clicked), gpointer(this));
 
   // Manually added and changed.
   // 1. localized human readable reference
@@ -50,13 +59,14 @@ WindowBase(widReferences, "References", startup, 0, parent_box), reference(0, 0,
   // 4. chapter
   // 5. verse
   liststore = gtk_list_store_new(5, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT, G_TYPE_INT, G_TYPE_STRING);
+
   // Text cell renderer.
   GtkCellRenderer *renderer;
   renderer = gtk_cell_renderer_text_new();
 
   treeview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(liststore));
   gtk_widget_show(treeview);
-  gtk_container_add(GTK_CONTAINER(scrolledwindow), treeview);
+  // Todo goes out. gtk_container_add(GTK_CONTAINER(scrolledwindow), treeview);
 
   // Visibility tracking and focus tracking in attached view.
   g_signal_connect((gpointer) treeview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
@@ -91,8 +101,19 @@ WindowBase(widReferences, "References", startup, 0, parent_box), reference(0, 0,
   general_signal_button = gtk_button_new();
 
   // Main focused widget.
-  last_focused_widget = treeview;
+  last_focused_widget = htmlview;
   gtk_widget_grab_focus (last_focused_widget);
+
+  // Todo temporal testing code.
+  for (unsigned int i = 1; i <= 66; i++) {
+    Reference reference (i, i, convert_to_string (i));
+    all_localized_refs.push_back (reference.human_readable (""));
+    all_comments.push_back ("Comment #" + convert_to_string (i));
+    all_references.push_back (reference);    
+  }  
+  
+  // Load references.
+  html_link_clicked ("");
 }
 
 
@@ -372,3 +393,138 @@ void WindowReferences::treeview_references_display_quick_reference()
   action = wratReferencesSelected;
   gtk_button_clicked(GTK_BUTTON(general_signal_button));
 }
+
+
+gboolean WindowReferences::on_html_link_clicked(GtkHTML * html, const gchar * url, gpointer user_data)
+{
+  ((WindowReferences *) user_data)->html_link_clicked(url);
+  return true;
+}
+
+
+void WindowReferences::html_link_clicked (const gchar * url)
+// Callback for clicking a link.
+{
+  // Store scrolling position for the now active url.
+  GtkAdjustment * adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolledwindow));
+  scrolling_position[active_url] = gtk_adjustment_get_value (adjustment);
+
+  // New url.
+  active_url = url;
+
+  // Start writing a html page.
+  HtmlWriter2 htmlwriter ("");
+  bool display_another_page = true;
+
+  if (active_url.find ("goto ") == 0) {
+    display_another_page = false;
+  }
+
+  else if (active_url.find ("prev") == 0) {
+    if (lower_boundary) {
+      lower_boundary -= 25;
+    }
+    html_write_references (htmlwriter);
+  }
+
+  else if (active_url.find ("next") == 0) {
+    if (lower_boundary < all_localized_refs.size() - 25) {
+      lower_boundary += 25;
+    }
+    html_write_references (htmlwriter);
+  }
+
+  else {
+    html_write_references (htmlwriter);
+  }
+  
+  htmlwriter.finish();
+  if (display_another_page) {
+    // Load the page.
+    GtkHTMLStream *stream = gtk_html_begin(GTK_HTML(htmlview));
+    gtk_html_write(GTK_HTML(htmlview), stream, htmlwriter.html.c_str(), -1);
+    gtk_html_end(GTK_HTML(htmlview), stream, GTK_HTML_STREAM_OK);
+    // Scroll to the position that possibly was stored while this url was last active.
+    gtk_adjustment_set_value (adjustment, scrolling_position[active_url]);
+  }
+}
+
+
+void WindowReferences::html_write_references (HtmlWriter2& htmlwriter)
+{
+  // Retrieve the reference boundaries, as we're only displaying a selection.
+  upper_boundary = lower_boundary + 25;
+  upper_boundary = CLAMP (upper_boundary, 0, all_localized_refs.size());
+
+  // Write action bar.
+  html_write_action_bar (htmlwriter);
+
+  // References page.
+  for (unsigned int i = lower_boundary; i < upper_boundary; i++) {
+    htmlwriter.paragraph_open();
+    ustring url = "goto " + all_localized_refs[i];
+    htmlwriter.hyperlink_add (url, all_localized_refs[i]);
+    htmlwriter.text_add (" ");
+    htmlwriter.paragraph_close();
+  }
+  
+  // If there are no references, mention this.
+  if (all_localized_refs.empty()) {
+    htmlwriter.paragraph_open ();
+    htmlwriter.text_add ("none");
+    htmlwriter.paragraph_close ();
+  }
+
+  // Write action bar.
+  html_write_action_bar (htmlwriter);
+}
+
+
+void WindowReferences::html_write_action_bar (HtmlWriter2& htmlwriter)
+{
+  htmlwriter.paragraph_open ();
+  if (lower_boundary) {
+    htmlwriter.hyperlink_add ("prev", "prev");
+    htmlwriter.text_add (" | ");
+  }
+  htmlwriter.text_add ("Items " + convert_to_string (lower_boundary + 1) + " - " + convert_to_string (upper_boundary) + " of " + convert_to_string (all_localized_refs.size()));
+  if (upper_boundary < all_localized_refs.size()) {
+    htmlwriter.text_add (" | ");
+    htmlwriter.hyperlink_add ("next", "next");
+  }
+  htmlwriter.paragraph_close ();
+}
+
+
+/*
+
+
+Todo various tasks.
+
+
+New references window, where text becomes better visible, e.g. it shows the original language (KJV in this case),
+and the target language, all in one html file. 
+
+
+We may have to introduce <next 25> or <previous 25> hyperlinks. This would keep the system fast in case that many references will be loaded.
+Also to have a link [delete page] / [delete entries].
+
+
+The reference area has a link for settings, and one can set there how many references appear on one page, and which versions are included
+in the display.
+
+
+All actions related to references can be removed from the menu, and put into the html page itself as links.
+
+
+We should highlight the currently selected reference, so it is easily visible.
+
+
+Each time references are loaded, the lower boundary needs to be reset to zero.
+
+
+There is a link to delete the page. If the user clicks on the link at the top, it attempt to load the previous lot, if available.
+If the user clicks at the link at the bottom, it attempts to load the next lot, if available.
+
+
+*/

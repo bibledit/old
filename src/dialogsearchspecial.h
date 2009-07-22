@@ -17,12 +17,15 @@
  **  
  */
 
+
 #ifndef INCLUDED_DIALOGSEARCHSPECIAL_H
 #define INCLUDED_DIALOGSEARCHSPECIAL_H
+
 
 #include <gtk/gtk.h>
 #include "bibletime.h"
 #include "screen.h"
+
 
 class SearchSpecialDialog
 {
@@ -123,5 +126,6 @@ private:
   void focus_commentary();
   DialogPresenter * dialogpresenter;
 };
+
 
 #endif

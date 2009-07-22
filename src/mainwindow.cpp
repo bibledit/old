@@ -2393,7 +2393,7 @@ void MainWindow::menu_findspecial()
       return;
   }
   // Carry out the search. 
-  search_string(window_references->liststore, window_references->treeview, window_references->treecolumn, &bibletime);
+  search_string(window_references->liststore, window_references->treeview, window_references->treecolumn, &bibletime); // Todo
 }
 
 void MainWindow::on_import1_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3788,7 +3788,7 @@ void MainWindow::on_check_httpd()
     SessionHighlights sessionhighlights(settings->session.searchword, settings->session.search_case_sensitive, settings->session.search_globbing, settings->session.search_start_word_match, settings->session.search_end_word_match, atRaw, false, false, false, false, false, false, false, false);
     settings->session.highlights.push_back(sessionhighlights);
     show_references_window();
-    search_string(window_references->liststore, window_references->treeview, window_references->treecolumn, &bibletime);
+    search_string(window_references->liststore, window_references->treeview, window_references->treecolumn, &bibletime); // Todo
   }
   // Did the browser request a url too difficult for it to handle?
   if (!httpd.difficult_url.empty()) {
@@ -7324,7 +7324,22 @@ void MainWindow::check_usfm_window_ping()
 Todo various tasks.
 
 
-Also show the Strong's terms.
+The quick references are no longer relevant. It probably can go out altogether.
+
+
+
+Whatever function used to call the quick references, these references can now be sent to the reference area, if that area is visible.
+
+
+
+The keyterm checking window has a button that sends all references to the reference area.
+
+
+F6 and so on still work in the new references window. It the F6 reaches the end of the list, it automatically goes to the next lot of references,
+and displays these.
+
+
+The keyterms in the verse also shows the Strong's terms.
 These can be transferred to the reference area.
 
 
@@ -7345,23 +7360,6 @@ it should offer to go to the other chaptesr as well. This should be offered, not
 
 
 When deleting notes, we may have a tick box in the yes/no dialog that allows to always say "yes" for the duration of one minute.
-
-
-We could need a new references window, where text becomes better visible, e.g. it shows the original language (KJV in this case),
-and the target language, all in one html file. That would be helpful. We only need to remember how to delete entries easily.
-We may have to introduce <next 100> or <previous 100> hyperlinks. This would keep the system fast in case that many references will be loaded.
-If we use 25 entries per page, then we also can have a [delete page] / [delete entries] hyperlink. This should do, I think.
-
-
-The keyterm checking window has a button that sends all references to the reference area.
-
-
-The reference area has a link for settings, and one can set there how many references appear on one page, and which versions are included
-in the display.
-
-
-F6 and so on still work in the new references window. It the F6 reaches the end of the list, it automatically goes to the next lot of references,
-and displays these.
 
 
 */

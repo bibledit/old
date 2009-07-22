@@ -489,6 +489,7 @@ This handles the bibletime search functions.
   return searchresults2;
 }
 
+
 void search_load_references(vector < Reference > &searchresults, GtkListStore * liststore, GtkWidget * listview, GtkTreeViewColumn * treeviewcolumn)
 /*
 This function takes the searchresults from a search, and depending on information
@@ -595,7 +596,8 @@ with the references that are already there.
   }
 }
 
-void search_string(GtkListStore * liststore, GtkWidget * listview, GtkTreeViewColumn * treeviewcolumn, BibleTime * bibletime)
+
+void search_string(GtkListStore * liststore, GtkWidget * listview, GtkTreeViewColumn * treeviewcolumn, BibleTime * bibletime) // Todo
 {
   // Storage for results;
   vector < Reference > searchresults;
@@ -639,3 +641,4 @@ void search_string(GtkListStore * liststore, GtkWidget * listview, GtkTreeViewCo
   // Load the references in the editor.
   search_load_references(searchresults, liststore, listview, treeviewcolumn);
 }
+

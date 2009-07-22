@@ -397,7 +397,7 @@ gboolean WindowCheckKeyterms::on_html_link_clicked(GtkHTML * html, const gchar *
 }
 
 
-void WindowCheckKeyterms::html_link_clicked (const gchar * url) // Todo
+void WindowCheckKeyterms::html_link_clicked (const gchar * url)
 // Callback for clicking a link.
 {
   // Store scrolling position for the now active url.

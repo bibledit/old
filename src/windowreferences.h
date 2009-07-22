@@ -26,6 +26,10 @@
 #include "ustring.h"
 #include "reference.h"
 #include "window.h"
+extern "C" {
+#include <gtkhtml/gtkhtml.h>
+}
+#include "htmlwriter2.h"
 
 
 enum WindowReferencesActionType { wratReferenceActivated, wratPopupMenu, wratReferencesSelected };
@@ -54,6 +58,7 @@ public:
   void activate();
 protected:
   GtkWidget *scrolledwindow;
+  GtkWidget *htmlview;
   GtkTreeSelection *treeselect;
 private:
 
@@ -70,6 +75,20 @@ private:
   void treeview_references_popup_menu(GtkWidget *widget);
   void treeview_references_display_quick_reference();
 
+  static gboolean on_html_link_clicked(GtkHTML *html, const gchar * url, gpointer user_data);
+  void html_link_clicked(const gchar * url);
+  ustring active_url;
+  map <ustring, unsigned int> scrolling_position;
+  void html_write_references (HtmlWriter2& htmlwriter);
+  void html_write_action_bar (HtmlWriter2& htmlwriter);
+
+  // Content.
+  vector <ustring> all_localized_refs;
+  vector <ustring> all_comments;
+  vector <Reference> all_references;
+  unsigned int lower_boundary;
+  unsigned int upper_boundary;
+   
 };
 
 
