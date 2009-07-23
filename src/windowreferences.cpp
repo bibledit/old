@@ -44,7 +44,8 @@ WindowBase(widReferences, "References", startup, 0, parent_box), reference(0, 0,
 // Window for showing the quick references.  
 {
   lower_boundary = 0;
-  
+  active_entry = -1;
+    
   scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow);
   gtk_container_add(GTK_CONTAINER(window_vbox), scrolledwindow);
@@ -57,29 +58,8 @@ WindowBase(widReferences, "References", startup, 0, parent_box), reference(0, 0,
 
   g_signal_connect((gpointer) htmlview, "link-clicked", G_CALLBACK(on_html_link_clicked), gpointer(this));
 
-  liststore = gtk_list_store_new(5, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT, G_TYPE_INT, G_TYPE_STRING);
-  GtkCellRenderer *renderer;
-  renderer = gtk_cell_renderer_text_new();
-  treeview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(liststore));
-  gtk_widget_show(treeview);
-  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(treeview), TRUE);
-  g_object_unref(liststore);
-  treecolumn = gtk_tree_view_column_new_with_attributes("", renderer, "text", 0, NULL);
-  gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), treecolumn);
-  GtkTreeViewColumn *treecolumn2;
-  treecolumn2 = gtk_tree_view_column_new_with_attributes("Comment", renderer, "text", 1, NULL);
-  gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), treecolumn2);
-  treeselect = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
-  gtk_tree_selection_set_mode(treeselect, GTK_SELECTION_MULTIPLE);
-
-  //g_signal_connect((gpointer) htmlview, "key_press_event", G_CALLBACK(on_treeview_key_press_event), gpointer(this)); // Todo working here, check these.
-  //g_signal_connect((gpointer) htmlview, "button_press_event", G_CALLBACK(on_treeview_button_press_event), gpointer(this)); // Todo working here, check these.
-  //g_signal_connect((gpointer) htmlview, "popup_menu", G_CALLBACK(on_treeview_popup_menu), gpointer(this)); // Todo working here, check these.
-  //g_signal_connect((gpointer) htmlview, "move_cursor", G_CALLBACK(on_treeview_move_cursor), gpointer(this)); // Todo working here, check these.
-  //g_signal_connect((gpointer) htmlview, "cursor_changed", G_CALLBACK(on_treeview_cursor_changed), gpointer(this)); // Todo working here, check these.
-
   // Signal button.
-  general_signal_button = gtk_button_new();
+  signal_button = gtk_button_new();
 
   // Main focused widget.
   last_focused_widget = htmlview;
@@ -96,7 +76,7 @@ WindowReferences::~WindowReferences()
   // Save references.
   save ();
   // Destroy signal button.
-  gtk_widget_destroy(general_signal_button);
+  gtk_widget_destroy(signal_button);
 }
 
 
@@ -105,15 +85,13 @@ void WindowReferences::set (vector <Reference>& refs, const ustring& language)
 // refs: the references to be loaded.
 // language: the language in which to display the references.
 {
-  all_localized_refs.clear();
-  all_comments.clear();
-  all_references.clear();    
+  mylanguage = language;
+  references.clear();    
+  comments.clear();
+  active_entry = -1;
   for (unsigned int i = 0; i < refs.size(); i++) {
-    Reference reference (0);
-    reference.assign (refs[i]);
-    all_localized_refs.push_back (reference.human_readable (language));
-    all_comments.push_back ("Test comment");
-    all_references.push_back (reference);    
+    references.push_back (refs[i]);    
+    comments.push_back ("");
   }  
   html_link_clicked ("");
 }
@@ -122,126 +100,9 @@ void WindowReferences::set (vector <Reference>& refs, const ustring& language)
 vector <Reference> WindowReferences::get ()
 // Gets the references from the window.
 {
-  return all_references;
+  return references;
 }
 
-
-gboolean WindowReferences::on_treeview_key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer user_data)
-{
-  // Pressing Return on the keyboard, or Enter on the numerical keypad make us go to the reference.
-  if (keyboard_enter_pressed(event)) {
-    ((WindowReferences *) user_data)->activate();
-  }
-  // Pressing Delete takes the reference(s) out that have been selected.
-  if (keyboard_delete_pressed(event)) {
-    ((WindowReferences *) user_data)->dismiss();
-  }
-  return FALSE;
-}
-
-
-gboolean WindowReferences::on_treeview_button_press_event(GtkWidget * widget, GdkEventButton * event, gpointer user_data)
-{
-  // Double-clicking a references makes us go to the reference.
-  if (event->type == GDK_2BUTTON_PRESS) {
-    ((WindowReferences *) user_data)->activate();
-    return true;
-  }
-  // Popup menu handler.
-  if (event->button == 3 && event->type == GDK_BUTTON_PRESS) {
-    ((WindowReferences *) user_data)->show_popup_menu(widget, event);
-    return true;
-  }
-  return false;
-}
-
-
-gboolean WindowReferences::on_treeview_popup_menu(GtkWidget * widget, gpointer user_data)
-{
-  ((WindowReferences *) user_data)->treeview_references_popup_menu(widget);
-  return true;                  // Do not call the original handler.
-}
-
-
-gboolean WindowReferences::on_treeview_move_cursor(GtkTreeView * treeview, GtkMovementStep step, gint count, gpointer user_data)
-{
-  return false;
-}
-
-
-void WindowReferences::on_treeview_cursor_changed(GtkTreeView * treeview, gpointer user_data)
-{
-  ((WindowReferences *) user_data)->treeview_references_display_quick_reference();
-}
-
-
-void WindowReferences::activate()
-{
-  // Get the reference the user selected.
-  GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
-  gtk_tree_selection_selected_foreach(selection, references_window_selection_foreach_function, gpointer(this));
-  // Signal the action.
-  action = wratReferenceActivated;
-  gtk_button_clicked(GTK_BUTTON(general_signal_button));
-}
-
-
-void WindowReferences::references_window_selection_foreach_function(GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data)
-{
-  unsigned int book, chapter;
-  gchar *verse;
-  gtk_tree_model_get(model, iter, 2, &book, 3, &chapter, 4, &verse, -1);
-  ((WindowReferences *) data)->reference.book = book;
-  ((WindowReferences *) data)->reference.chapter = chapter;
-  ((WindowReferences *) data)->reference.verse = verse;
-  g_free(verse);
-}
-
-
-void WindowReferences::dismiss()
-{
-  // Delete each selected row.
-  GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
-  vector < GtkTreeIter > iters;
-  gtk_tree_selection_selected_foreach(selection, WindowReferences::on_collect_iters, gpointer(&iters));
-  for (unsigned int i = 0; i < iters.size(); i++) {
-    GtkTreeIter iter = iters[i];
-    gtk_list_store_remove(liststore, &iter);
-  }
-  // Update heading.
-  References references(liststore, treeview, treecolumn);
-  references.get_loaded();
-  references.set_header();
-}
-
-void WindowReferences::on_collect_iters(GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data)
-{
-  ((vector < GtkTreeIter > *)data)->push_back(*iter);
-}
-
-void WindowReferences::show_popup_menu(GtkWidget * my_widget, GdkEventButton * event)
-{
-  if (event) {
-    popup_button = event->button;
-    popup_event_time = event->time;
-  } else {
-    popup_button = 0;
-    popup_event_time = gtk_get_current_event_time();
-  }
-  action = wratPopupMenu;
-  gtk_button_clicked(GTK_BUTTON(general_signal_button));
-}
-
-gboolean WindowReferences::on_treeview_references_popup_menu(GtkWidget * widget, gpointer user_data)
-{
-  ((WindowReferences *) user_data)->treeview_references_popup_menu(widget);
-  return true;                  // Do not call the original handler.
-}
-
-void WindowReferences::treeview_references_popup_menu(GtkWidget * widget)
-{
-  show_popup_menu(widget, NULL);
-}
 
 void WindowReferences::open()
 {
@@ -323,9 +184,8 @@ void WindowReferences::load ()
       }
       for (unsigned int i = 0; i < sqlitereader.ustring0.size(); i++) {
         Reference reference(convert_to_int(sqlitereader.ustring0[i]), convert_to_int(sqlitereader.ustring1[i]), sqlitereader.ustring2[i]);
-        all_localized_refs.push_back (reference.human_readable (language));
-        all_comments.push_back(sqlitereader.ustring3[i]);
-        all_references.push_back(reference);
+        references.push_back(reference);
+        comments.push_back(sqlitereader.ustring3[i]);
       }
     }
     // Read the searchwords.
@@ -360,9 +220,8 @@ void WindowReferences::load ()
 void WindowReferences::load (const ustring & filename)
 // Loads references from a file.
 {
-  all_localized_refs.clear();
-  all_comments.clear();
-  all_references.clear();
+  references.clear();
+  comments.clear();
   try {
     ReadText rt(filename, true);
     // Pick out the references and leave the rest.
@@ -371,9 +230,8 @@ void WindowReferences::load (const ustring & filename)
       ustring verse;
       if (reference_discover(0, 0, "", rt.lines[i], book, chapter, verse)) {
         Reference reference(book, chapter, verse);
-        all_localized_refs.push_back (reference.human_readable (""));
-        all_comments.push_back ("");
-        all_references.push_back(reference);
+        references.push_back(reference);
+        comments.push_back ("");
       }
     }
     sort_references(references);
@@ -416,8 +274,8 @@ void WindowReferences::save ()
       throw runtime_error(sqlite3_errmsg(db));
     }
     // Store the references and the comments.
-    for (unsigned int i = 0; i < all_references.size(); i++) {
-      sql = g_strdup_printf("insert into refs values (%d, %d, '%s', '%s')", all_references[i].book, all_references[i].chapter, all_references[i].verse.c_str(), double_apostrophy(all_comments[i]).c_str());
+    for (unsigned int i = 0; i < references.size(); i++) {
+      sql = g_strdup_printf("insert into refs values (%d, %d, '%s', '%s')", references[i].book, references[i].chapter, references[i].verse.c_str(), double_apostrophy(comments[i]).c_str());
       rc = sqlite3_exec(db, sql, NULL, NULL, &error);
       g_free(sql);
       if (rc) {
@@ -458,8 +316,8 @@ void WindowReferences::save ()
 void WindowReferences::save(const ustring& filename)
 {
   vector <ustring> lines;
-  for (unsigned int i = 0; i < all_references.size(); i++) {
-    lines.push_back(all_references[i].human_readable(""));
+  for (unsigned int i = 0; i < references.size(); i++) {
+    lines.push_back(references[i].human_readable(""));
   }
   try {
     write_lines(filename, lines);
@@ -469,16 +327,17 @@ void WindowReferences::save(const ustring& filename)
   }
 }
 
-void WindowReferences::clear()
+
+void WindowReferences::clear() // Todo
 {
-  References references(liststore, treeview, treecolumn);
-  references.fill_store("");
-  extern Settings *settings;
-  settings->session.highlights.clear();
+  dismiss (false, true);
+  html_link_clicked ("");
 }
+
 
 void WindowReferences::hide()
 {
+  /*// Todo 
   // Load currently hidden references.
   vector < ustring > hidden_references = references_hidden_ones_load();
   // Get the model.
@@ -508,39 +367,7 @@ void WindowReferences::hide()
   references_hidden_ones_save(hidden_references);
   // Actually delete them from the window, for user feedback.
   dismiss();
-}
-
-void WindowReferences::treeview_references_display_quick_reference()
-// Display the quick references.
-{
-  // Get the model.
-  GtkTreeModel *model = gtk_tree_view_get_model(GTK_TREE_VIEW(treeview));
-
-  // Get all selected iterators.
-  GtkTreeSelection *selection;
-  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
-  vector < GtkTreeIter > iters;
-  gtk_tree_selection_selected_foreach(selection, WindowReferences::on_collect_iters, gpointer(&iters));
-
-  // Bail out if none was selected.
-  if (iters.size() == 0)
-    return;
-
-  // Go through all the selected iterators and get their references.
-  references.clear();
-  for (unsigned int i = 0; i < iters.size(); i++) {
-    gint book, chapter;
-    gchar *verse;
-    gtk_tree_model_get(model, &iters[i], 2, &book, 3, &chapter, 4, &verse, -1);
-    Reference reference(book, chapter, verse);
-    references.push_back(reference);
-    // Free memory.
-    g_free(verse);
-  }
-
-  // Give a signal that quick references can be viewed.
-  action = wratReferencesSelected;
-  gtk_button_clicked(GTK_BUTTON(general_signal_button));
+  */
 }
 
 
@@ -560,6 +387,7 @@ void WindowReferences::html_link_clicked (const gchar * url)
 
   // New url.
   active_url = url;
+  cout << active_url << endl; // Todo
 
   // Start writing a html page.
   HtmlWriter2 htmlwriter ("");
@@ -569,9 +397,9 @@ void WindowReferences::html_link_clicked (const gchar * url)
     // Signal that a reference was clicked.
     ustring ref (active_url);
     ref.erase (0, 5);
-    reference.assign (all_references[convert_to_int (ref)]);
-    action = wratReferenceActivated;
-    gtk_button_clicked(GTK_BUTTON(general_signal_button));
+    active_entry = convert_to_int (ref);
+    reference.assign (references[active_entry]);
+    gtk_button_clicked(GTK_BUTTON(signal_button));
     display_another_page = false;
   }
 
@@ -585,9 +413,22 @@ void WindowReferences::html_link_clicked (const gchar * url)
 
   else if (active_url.find ("next") == 0) {
     // Go to the next page.
-    if (lower_boundary < all_localized_refs.size() - 25) {
+    if (lower_boundary < references.size() - 25) {
       lower_boundary += 25;
     }
+    html_write_references (htmlwriter);
+  }
+
+  else if (active_url.find ("action") == 0) {
+    // Go to the action page.
+    html_write_action_page (htmlwriter);
+  }
+
+  else if (active_url.find ("dismiss") == 0) {
+    // Dismiss one reference or a page full of them.
+    bool cursor = active_url.find ("cursor") != string::npos;
+    bool all = active_url.find ("all") != string::npos;
+    dismiss (cursor, all);
     html_write_references (htmlwriter);
   }
 
@@ -612,47 +453,83 @@ void WindowReferences::html_write_references (HtmlWriter2& htmlwriter)
 {
   // Retrieve the reference boundaries, as we're only displaying a selection.
   upper_boundary = lower_boundary + 25;
-  upper_boundary = CLAMP (upper_boundary, 0, all_localized_refs.size());
+  upper_boundary = CLAMP (upper_boundary, 0, references.size());
 
   // Write action bar.
-  html_write_action_bar (htmlwriter);
+  html_write_action_bar (htmlwriter, true);
 
   // References page.
   for (unsigned int i = lower_boundary; i < upper_boundary; i++) {
     htmlwriter.paragraph_open();
     ustring url = "goto " + convert_to_string (i);
-    htmlwriter.hyperlink_add (url, all_localized_refs[i]);
+    htmlwriter.hyperlink_add (url, references[i].human_readable (mylanguage));
     htmlwriter.text_add (" ");
     htmlwriter.paragraph_close();
   }
   
-  // If there are no references, mention this.
-  if (all_localized_refs.empty()) {
-    htmlwriter.paragraph_open ();
-    htmlwriter.text_add ("no references");
-    htmlwriter.paragraph_close ();
-  }
-
   // Write action bar.
-  html_write_action_bar (htmlwriter);
+  html_write_action_bar (htmlwriter, false);
 }
 
 
-void WindowReferences::html_write_action_bar (HtmlWriter2& htmlwriter)
+void WindowReferences::html_write_action_bar (HtmlWriter2& htmlwriter, bool topbar) // Todo
 {
-  if (!all_references.empty()) {
-    htmlwriter.paragraph_open ();
+  // If there are no references, don't write an action bar at the bottom, only at the top.
+  if (!topbar) {
+    if (references.empty()) {
+      return;
+    }
+  }
+
+  htmlwriter.paragraph_open ();
+
+  if (references.empty()) {
+    htmlwriter.text_add ("no references");
+  }
+
+  if (!references.empty()) {
     if (lower_boundary) {
-      htmlwriter.hyperlink_add ("prev", "prev");
-      htmlwriter.text_add (" | ");
+      htmlwriter.hyperlink_add ("prev", "[prev]");
+      htmlwriter.text_add (" ");
     }
-    htmlwriter.text_add ("Items " + convert_to_string (lower_boundary + 1) + " - " + convert_to_string (upper_boundary) + " of " + convert_to_string (all_localized_refs.size()));
-    if (upper_boundary < all_localized_refs.size()) {
-      htmlwriter.text_add (" | ");
-      htmlwriter.hyperlink_add ("next", "next");
+    htmlwriter.text_add ("Items " + convert_to_string (lower_boundary + 1) + " - " + convert_to_string (upper_boundary) + " of " + convert_to_string (references.size()));
+    if (upper_boundary < references.size()) {
+      htmlwriter.text_add (" ");
+      htmlwriter.hyperlink_add ("next", "[next]");
     }
+  }
+
+  htmlwriter.text_add (" ");
+  htmlwriter.hyperlink_add ("actions", "[actions]");
+
+  htmlwriter.paragraph_close ();
+}
+
+
+void WindowReferences::html_write_action_page (HtmlWriter2& htmlwriter)
+{
+  // Write the link for going back to the references.
+  htmlwriter.paragraph_open ();
+  htmlwriter.hyperlink_add ("", "[back]");
+  htmlwriter.paragraph_close ();
+  // If any references has been clicked, offer the option to dismiss it.
+  if (active_entry >= 0) {
+    htmlwriter.paragraph_open ();
+    htmlwriter.hyperlink_add ("dismiss cursor", "Dismiss " + references[active_entry].human_readable (mylanguage));
     htmlwriter.paragraph_close ();
   }
+  // If the page has any references, offer the option to dismiss the whole page.
+  if (upper_boundary > lower_boundary) {
+    htmlwriter.paragraph_open ();
+    htmlwriter.hyperlink_add ("dismiss page", "Dismiss the whole page of " + convert_to_string (upper_boundary - lower_boundary) + " references");
+    htmlwriter.paragraph_close ();
+  }  
+  // If there are any references at all, offer the option to dismiss the whole lot.
+  if (!references.empty()) {
+    htmlwriter.paragraph_open ();
+    htmlwriter.hyperlink_add ("dismiss all", "Dismiss the whole lot of " + convert_to_string (references.size()) + " references");
+    htmlwriter.paragraph_close ();
+  }  
 }
 
 
@@ -660,6 +537,39 @@ ustring WindowReferences::references_database_filename()
 // Gives the filename of the database to save the references to.
 {
   return gw_build_filename(directories_get_temp(), "references.sqlite3");
+}
+
+
+void WindowReferences::dismiss (bool cursor, bool all)
+// Dismiss the reference that was selected last (if cursor = true),
+// or the whole page of them,
+// or the whole lot (if all = true).
+{
+  unsigned int low = lower_boundary;
+  unsigned int high = upper_boundary;
+  if (cursor) {
+    low = active_entry;
+    high = low + 1;
+  }
+  if (all) {
+    low = 0;
+    high = references.size();
+  }
+  vector <Reference> temporal_references = references;
+  vector <ustring> temporal_comments = comments;
+  references.clear();
+  comments.clear();
+  for (unsigned int i = 0; i < temporal_references.size(); i++) {
+    if ((i < low) || (i >= high)) {
+      references.push_back (temporal_references[i]);
+      comments.push_back (temporal_comments[i]);
+    }
+  }
+  active_entry = -1;
+  if (all) {
+    extern Settings *settings;
+    settings->session.highlights.clear();
+  }
 }
 
 
@@ -695,6 +605,24 @@ If the user clicks at the link at the bottom, it attempts to load the next lot, 
 
 
 Once we have moved all to the new system, all old methods can go out.
+
+
+There's no File / References menu anymore, but all settings and actions are done in the html window itself,
+also preferences if there are any. We need to think of export and import / open, these should go there as well.
+Also "Dismiss all references before the current one", and the referenes hiding management, so as to unhide these.
+All of that goes into a html page.
+
+
+To remove all menu items under File / References, and to create a new one under the View menu.
+
+
+Remove all of the references.h/cpp data at the end.
+
+
+
+Dismiss page:
+- If the user came to action page through the top bar, it shows the previous page after dismissing a page.
+- If the user came to the action page through the bottom bar, it shows the next page after dismissing a page.
 
 
 

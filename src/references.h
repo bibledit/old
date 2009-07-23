@@ -32,8 +32,6 @@ class References
 public:
   References (GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn);
   ~References ();
-  void fill_store (const ustring& language);
-  void set_header ();
   void goto_next ();
   void goto_previous ();
   void get_loaded ();

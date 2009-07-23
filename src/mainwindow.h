@@ -96,10 +96,6 @@ protected:
   GtkWidget *file_references_menu;
   GtkWidget *open_references1;
   GtkWidget *image466;
-  GtkWidget *close_references;
-  GtkWidget *image468;
-  GtkWidget *delete_references;
-  GtkWidget *image469;
   GtkWidget *reference_hide;
   GtkWidget *image6483;
   GtkWidget *style;
@@ -457,15 +453,11 @@ protected:
   WindowReferences * window_references;
   static void on_window_references_delete_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_references_delete_button();
-  static void on_window_references_general_signal_button_clicked(GtkButton *button, gpointer user_data);
-  void on_window_references_general_signal_button();
+  static void on_window_references_signal_button_clicked(GtkButton *button, gpointer user_data);
+  void on_window_references_signal_button();
   void on_list_goto();
   static void on_open_references1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_open_references();
-  static void on_close_references_activate(GtkMenuItem * menuitem, gpointer user_data);
-  void on_clear_references();
-  static void on_delete_references_activate(GtkMenuItem * menuitem, gpointer user_data);
-  void on_delete_references();
   void on_next_reference();
   void on_previous_reference();
   static void on_ignored_references1_activate(GtkMenuItem *menuitem, gpointer user_data);

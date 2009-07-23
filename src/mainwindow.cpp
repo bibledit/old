@@ -401,26 +401,8 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
 
   }
 
-  close_references = NULL;
-  delete_references = NULL;
   reference_hide = NULL;
   if (guifeatures.references_management()) {
-
-    close_references = gtk_image_menu_item_new_with_mnemonic("D_ismiss all");
-    gtk_widget_show(close_references);
-    gtk_container_add(GTK_CONTAINER(file_references_menu), close_references);
-
-    image468 = gtk_image_new_from_stock("gtk-close", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image468);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(close_references), image468);
-
-    delete_references = gtk_image_menu_item_new_with_mnemonic("_Dismiss");
-    gtk_widget_show(delete_references);
-    gtk_container_add(GTK_CONTAINER(file_references_menu), delete_references);
-
-    image469 = gtk_image_new_from_stock("gtk-delete", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image469);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(delete_references), image469);
 
     reference_hide = gtk_image_menu_item_new_with_mnemonic("_Hide from now on");
     gtk_widget_show(reference_hide);
@@ -1748,10 +1730,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   g_signal_connect ((gpointer) projects_send_receive1, "activate", G_CALLBACK (on_projects_send_receive1_activate), gpointer(this));
   if (open_references1)
     g_signal_connect((gpointer) open_references1, "activate", G_CALLBACK(on_open_references1_activate), gpointer(this));
-  if (close_references)
-    g_signal_connect((gpointer) close_references, "activate", G_CALLBACK(on_close_references_activate), gpointer(this));
-  if (delete_references)
-    g_signal_connect((gpointer) delete_references, "activate", G_CALLBACK(on_delete_references_activate), gpointer(this));
   if (reference_hide)
     g_signal_connect((gpointer) reference_hide, "activate", G_CALLBACK(on_reference_hide_activate), gpointer(this));
   if (stylesheet_open)
@@ -2552,9 +2530,9 @@ void MainWindow::on_compare_with()
   show_references_window();
   extern VCS * vcs;
   vcs->pause(true);
-  References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
-  CompareDialog dialog(&references);
-  dialog.run();
+  // Todo References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
+  // Todo CompareDialog dialog(&references);
+  // Todo dialog.run();
   vcs->pause(false);
 }
 
@@ -2663,7 +2641,7 @@ void MainWindow::on_navigation_new_reference()
   // Optionally display the parallel passages in the reference area.
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(parallel_passages1))) {
     show_references_window();
-    parallel_passages_display(navigation.reference, window_references->liststore, window_references->treeview, window_references->treecolumn);
+    // Todo parallel_passages_display(navigation.reference, window_references->liststore, window_references->treeview, window_references->treecolumn);
   }
 
   // Optional displaying keyterms in verse.
@@ -3005,7 +2983,7 @@ void MainWindow::show_references_window()
     resize_text_area_if_tools_area_is_empty ();
     g_signal_connect((gpointer) window_references->delete_signal_button, "clicked", G_CALLBACK(on_window_references_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_references->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
-    g_signal_connect((gpointer) window_references->general_signal_button, "clicked", G_CALLBACK(on_window_references_general_signal_button_clicked), gpointer(this));
+    g_signal_connect((gpointer) window_references->signal_button, "clicked", G_CALLBACK(on_window_references_signal_button_clicked), gpointer(this));
   }
   // In cases that the window is already there, but hidden, it should present itself.
   window_references->present (true);
@@ -3025,35 +3003,19 @@ void MainWindow::on_window_references_delete_button()
   }
 }
 
-void MainWindow::on_window_references_general_signal_button_clicked(GtkButton * button, gpointer user_data)
+void MainWindow::on_window_references_signal_button_clicked(GtkButton * button, gpointer user_data)
 {
-  ((MainWindow *) user_data)->on_window_references_general_signal_button();
+  ((MainWindow *) user_data)->on_window_references_signal_button();
 }
 
-void MainWindow::on_window_references_general_signal_button()
+void MainWindow::on_window_references_signal_button()
 // This routine is called when the reference window fires a signal that something has happened.
 {
-  switch (window_references->action) {
-  case wratReferenceActivated:
-    {
-      on_list_goto();
-      break;
-    }
-  case wratPopupMenu:
-    {
-      gtk_menu_popup(GTK_MENU(file_references_menu), NULL, NULL, NULL, NULL, window_references->popup_button, window_references->popup_event_time);
-      break;
-    }
-  case wratReferencesSelected:
-    {
-      treeview_references_display_quick_reference();
-      break;
-    }
-  }
+  on_list_goto();
 }
 
 void MainWindow::on_list_goto()
-// Handler for when the user pressed Enter in the list and wants to go to a reference.
+// Handler for when the user clicked a reference in the list so as to go to a reference.
 {
   // Get the editor window. If none, bail out.
   WindowEditor *editor_window = last_focused_editor_window();
@@ -3074,33 +3036,13 @@ void MainWindow::on_open_references1_activate(GtkMenuItem * menuitem, gpointer u
   ((MainWindow *) user_data)->on_open_references();
 }
 
+
 void MainWindow::on_open_references()
 {
   show_references_window();
   window_references->open();
 }
 
-void MainWindow::on_close_references_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_clear_references();
-}
-
-void MainWindow::on_clear_references()
-{
-  show_references_window();
-  window_references->clear();
-}
-
-void MainWindow::on_delete_references_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_delete_references();
-}
-
-void MainWindow::on_delete_references()
-{
-  show_references_window();
-  window_references->dismiss();
-}
 
 void MainWindow::on_next_reference()
 // This goes to the next reference, if there is any.
@@ -3109,11 +3051,12 @@ void MainWindow::on_next_reference()
   // Display references.
   show_references_window();
   // Select next reference in the list.
-  References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
-  references.goto_next();
+  // Todo References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
+  // Todo references.goto_next();
   // Actually open the reference in the editor.
-  window_references->activate();
+  // Todo window_references->activate();
 }
+
 
 void MainWindow::on_previous_reference()
 // This goes to the previous reference, if there is any.
@@ -3122,16 +3065,18 @@ void MainWindow::on_previous_reference()
   // Show references.
   show_references_window();
   // Select previous reference in the list.
-  References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
-  references.goto_previous();
+  // Todo References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
+  // Todo references.goto_previous();
   // Actually open the reference in the editor.
-  window_references->activate();
+  // Todo window_references->activate();
 }
+
 
 void MainWindow::on_ignored_references1_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_ignored_references();
 }
+
 
 void MainWindow::on_ignored_references()
 {
@@ -3141,10 +3086,12 @@ void MainWindow::on_ignored_references()
     references_hidden_ones_save(hidden_references);
 }
 
+
 void MainWindow::on_reference_hide_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_reference_hide();
 }
+
 
 void MainWindow::on_reference_hide()
 // Deals with hiding references.
@@ -3152,6 +3099,7 @@ void MainWindow::on_reference_hide()
   show_references_window();
   window_references->hide();
 }
+
 
 /*
  |
@@ -3494,17 +3442,19 @@ void MainWindow::on_current_reference1_activate(GtkMenuItem * menuitem, gpointer
   ((MainWindow *) user_data)->on_insert_standard_text(menuitem);
 }
 
+
 void MainWindow::on_get_references_from_note_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_get_references_from_note();
 }
 
-void MainWindow::on_get_references_from_note()
+
+void MainWindow::on_get_references_from_note() // Todo working on try out.
 {
   // Store references.
-  vector < Reference > references;
+  vector <Reference> references;
   // Store possible messages here, but they will be dumped.
-  vector < ustring > messages;
+  vector <ustring> messages;
   // Get all references from the editor.
   if (window_notes)
     window_notes->get_references_from_note(references, messages);
@@ -3516,13 +3466,12 @@ void MainWindow::on_get_references_from_note()
   // Display the References
   show_references_window();
   // Set references.
-  References references2(window_references->liststore, window_references->treeview, window_references->treecolumn);
-  references2.set_references(references);
   ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
-  references2.fill_store(projectconfig->language_get());
+  window_references->set (references, projectconfig->language_get());
 }
 
-void MainWindow::notes_get_references_from_id(gint id)
+
+void MainWindow::notes_get_references_from_id(gint id) // Todo working here, try out.
 // Get the references from the note id
 {
   // Store references we get.
@@ -3564,30 +3513,29 @@ void MainWindow::notes_get_references_from_id(gint id)
 
   // Display the References
   show_references_window();
-  // Set references.
-  References references2(window_references->liststore, window_references->treeview, window_references->treecolumn);
-  references2.set_references(references);
+  // Set references. Todo , try out.
   extern Settings *settings;
   ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
-  references2.fill_store(projectconfig->language_get());
+  window_references->set (references, projectconfig->language_get());
 }
+
 
 void MainWindow::on_window_notes_references_available_button_clicked(GtkButton * button, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_window_notes_references_available_button();
 }
 
-void MainWindow::on_window_notes_references_available_button()
+
+void MainWindow::on_window_notes_references_available_button() // Todo working here, try out.
 {
   show_references_window();
   if (window_notes) {
-    References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
-    references.set_references(window_notes->available_references);
     extern Settings *settings;
     ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
-    references.fill_store(projectconfig->language_get());
+    window_references->set (window_notes->available_references, projectconfig->language_get());
   }
 }
+
 
 /*
  |
@@ -3639,7 +3587,7 @@ void MainWindow::on_menu_check_markers_validate()
 {
   save_editors();
   show_references_window();
-  scripture_checks_validate_usfms(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  // Todo scripture_checks_validate_usfms(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 void MainWindow::on_count_usfms1_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3662,7 +3610,7 @@ void MainWindow::on_menu_check_markers_compare()
 {
   save_editors();
   show_references_window();
-  scripture_checks_compare_usfms(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  // Todo scripture_checks_compare_usfms(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 void MainWindow::on_chapters_and_verses1_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3674,7 +3622,7 @@ void MainWindow::on_menu_check_chapters_and_verses()
 {
   save_editors();
   show_references_window();
-  scripture_checks_chapters_verses(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  // Todo scripture_checks_chapters_verses(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 void MainWindow::on_count_characters_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3697,7 +3645,7 @@ void MainWindow::on_unwanted_patterns()
 {
   save_editors();
   show_references_window();
-  scripture_checks_unwanted_patterns(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  // Todo scripture_checks_unwanted_patterns(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 void MainWindow::on_check_capitalization_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3709,7 +3657,7 @@ void MainWindow::on_check_capitalization()
 {
   save_editors();
   show_references_window();
-  scripture_checks_capitalization(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  // Todo scripture_checks_capitalization(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 void MainWindow::on_check_repetition_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3721,7 +3669,7 @@ void MainWindow::on_check_repetition()
 {
   save_editors();
   show_references_window();
-  scripture_checks_repetition(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  // Todo scripture_checks_repetition(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 void MainWindow::on_check_matching_pairs_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3733,7 +3681,7 @@ void MainWindow::on_check_matching_pairs()
 {
   save_editors();
   show_references_window();
-  scripture_checks_matching_pairs(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  // Todo scripture_checks_matching_pairs(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 void MainWindow::on_unwanted_words_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3745,7 +3693,7 @@ void MainWindow::on_unwanted_words()
 {
   save_editors();
   show_references_window();
-  scripture_checks_unwanted_words(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  // Todo scripture_checks_unwanted_words(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 void MainWindow::on_word_count_inventory_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3808,8 +3756,8 @@ void MainWindow::on_my_checks()
 {
   save_editors();
   show_references_window();
-  MyChecksDialog dialog(window_references->liststore, window_references->treeview, window_references->treecolumn);
-  dialog.run();
+  // Todo MyChecksDialog dialog(window_references->liststore, window_references->treeview, window_references->treecolumn);
+  // Todo dialog.run();
 }
 
 void MainWindow::on_check_markers_spacing_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3821,7 +3769,7 @@ void MainWindow::on_check_markers_spacing()
 {
   save_editors();
   show_references_window();
-  scripture_checks_usfm_spacing(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  // Todo scripture_checks_usfm_spacing(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 void MainWindow::on_check_references_inventory_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3844,7 +3792,7 @@ void MainWindow::on_check_references_validate()
 {
   save_editors();
   show_references_window();
-  scripture_checks_validate_references(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  // Todo scripture_checks_validate_references(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 void MainWindow::on_check_nt_quotations_from_the_ot_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3856,7 +3804,7 @@ void MainWindow::on_check_nt_quotations_from_the_ot()
 {
   save_editors();
   show_references_window();
-  scripture_checks_nt_quotations_from_ot(window_references->liststore, window_references->treeview, window_references->treecolumn);
+  // Todo scripture_checks_nt_quotations_from_ot(window_references->liststore, window_references->treeview, window_references->treecolumn);
 }
 
 void MainWindow::on_synoptic_parallel_passages_from_the_nt_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3868,7 +3816,7 @@ void MainWindow::on_synoptic_parallel_passages_from_the_nt()
 {
   save_editors();
   show_references_window();
-  scripture_checks_synoptic_parallels_from_nt(window_references->liststore, window_references->treeview, window_references->treecolumn);
+  // Todo scripture_checks_synoptic_parallels_from_nt(window_references->liststore, window_references->treeview, window_references->treecolumn);
 }
 
 void MainWindow::on_parallels_from_the_ot_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3880,7 +3828,7 @@ void MainWindow::on_parallels_from_the_ot()
 {
   save_editors();
   show_references_window();
-  scripture_checks_parallels_from_ot(window_references->liststore, window_references->treeview, window_references->treecolumn);
+  // Todo scripture_checks_parallels_from_ot(window_references->liststore, window_references->treeview, window_references->treecolumn);
 }
 
 void MainWindow::on_check_sentence_structure_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3892,7 +3840,7 @@ void MainWindow::on_check_sentence_structure()
 {
   save_editors();
   show_references_window();
-  scripture_checks_sentence_structure(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  // Todo scripture_checks_sentence_structure(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
 }
 
 
@@ -4455,10 +4403,10 @@ void MainWindow::on_parallel_passages1()
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(parallel_passages1))) {
     // View them: show references tab, view passages.
     show_references_window();
-    parallel_passages_display(navigation.reference, window_references->liststore, window_references->treeview, window_references->treecolumn);
+    // Todo parallel_passages_display(navigation.reference, window_references->liststore, window_references->treeview, window_references->treecolumn);
   } else {
     // Don't view them: clear store.
-    on_clear_references();
+    // Todo on_clear_references();
   }
 }
 
@@ -4753,10 +4701,10 @@ void MainWindow::on_project_changes()
   vcs->pause(true);
   // Do the actual changes dialog. 
   show_references_window();
-  assistant_references = new References (window_references->liststore, window_references->treeview, window_references->treecolumn);
+  // Todo assistant_references = new References (window_references->liststore, window_references->treeview, window_references->treecolumn);
   // Display the assistant.
-  changes_assistant = new ChangesAssistant (assistant_references);
-  g_signal_connect ((gpointer) changes_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
+  // Todo changes_assistant = new ChangesAssistant (assistant_references);
+  // Todo g_signal_connect ((gpointer) changes_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
 }
 
 void MainWindow::on_edit_revert_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -5690,10 +5638,10 @@ void MainWindow::on_print()
       }
       // Load refs from the editor.
       show_references_window();
-      References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
-      references.get_loaded();
+      // Todo References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
+      // Todo references.get_loaded();
       vector < Reference > refs;
-      references.get_references(refs);
+      // Todo references.get_references(refs);
       if (refs.empty()) {
         gtkw_dialog_info(window_vbox, "There are no references to print");
       } else {
@@ -6744,7 +6692,7 @@ void MainWindow::treeview_references_display_quick_reference()
   // Display the verses.
   extern Settings *settings;
   ustring project = settings->genconfig.project_get();
-  window_show_quick_references->go_to(project, window_references->references);
+  // Todo window_show_quick_references->go_to(project, window_references->references);
 }
 
 /*

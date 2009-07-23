@@ -17,11 +17,13 @@
 **  
 */
 
+
 #include "parallel_passages.h"
 #include "ot-quotations.h"
 #include "references.h"
 #include "settings.h"
 #include "ot-nt-parallels.h"
+
 
 void parallel_passages_display(Reference & reference, GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn)
 {
@@ -40,10 +42,12 @@ void parallel_passages_display(Reference & reference, GtkListStore * liststore, 
     comments1.push_back(comments2[i]);
   }
 
+  /* Todo  here.
   References references(liststore, treeview, treecolumn);
   references.set_references(parallels1, comments1);
   extern Settings *settings;
   ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
   references.fill_store(projectconfig->language_get());
+  */
 
 }

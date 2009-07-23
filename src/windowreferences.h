@@ -32,9 +32,6 @@ extern "C" {
 #include "htmlwriter2.h"
 
 
-enum WindowReferencesActionType { wratReferenceActivated, wratPopupMenu, wratReferencesSelected };
-
-
 class WindowReferences : public WindowBase
 {
 public:
@@ -42,59 +39,35 @@ public:
   virtual ~WindowReferences();
   void set (vector <Reference>& refs, const ustring& language);
   vector <Reference> get ();
-  GtkWidget *treeview;
-  GtkListStore *liststore;
-  GtkTreeViewColumn *treecolumn;
-  GtkWidget * general_signal_button;
-  WindowReferencesActionType action;
+  GtkWidget * signal_button;
   Reference reference;
-  vector <Reference> references;
-  int popup_button;
-  int popup_event_time;
   void open();
   void load (const ustring & filename);
   void save(const ustring& filename);
   void clear();
-  void dismiss();
   void hide();
   void activate();
 protected:
   GtkWidget *scrolledwindow;
   GtkWidget *htmlview;
-  GtkTreeSelection *treeselect;
 private:
-
-  static gboolean on_treeview_key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer user_data);
-  static gboolean on_treeview_button_press_event(GtkWidget * widget, GdkEventButton * event, gpointer user_data);
-  static gboolean on_treeview_popup_menu(GtkWidget *widget, gpointer user_data);
-  static gboolean on_treeview_move_cursor(GtkTreeView *treeview, GtkMovementStep step, gint count, gpointer user_data);
-  static void on_treeview_cursor_changed(GtkTreeView *treeview, gpointer user_data);
-
-  static void references_window_selection_foreach_function(GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data);
-  static void on_collect_iters(GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data);
-  void show_popup_menu(GtkWidget *my_widget, GdkEventButton *event);
-  static gboolean on_treeview_references_popup_menu(GtkWidget *widget, gpointer user_data);
-  void treeview_references_popup_menu(GtkWidget *widget);
-  void treeview_references_display_quick_reference();
-
   static gboolean on_html_link_clicked(GtkHTML *html, const gchar * url, gpointer user_data);
   void html_link_clicked(const gchar * url);
   ustring active_url;
   map <ustring, unsigned int> scrolling_position;
   void html_write_references (HtmlWriter2& htmlwriter);
-  void html_write_action_bar (HtmlWriter2& htmlwriter);
-
-  vector <ustring> all_localized_refs;
-  vector <ustring> all_comments;
-  vector <Reference> all_references;
+  void html_write_action_bar (HtmlWriter2& htmlwriter, bool topbar);
+  void html_write_action_page (HtmlWriter2& htmlwriter);
+  vector <Reference> references;
+  vector <ustring> comments;
+  ustring mylanguage;
   unsigned int lower_boundary;
   unsigned int upper_boundary;
-
+  int active_entry;
   ustring references_database_filename ();
-
   void load ();
   void save ();
-
+  void dismiss (bool cursor, bool all);
 };
 
 

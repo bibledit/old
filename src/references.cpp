@@ -40,31 +40,6 @@ References::~References()
 {
 }
 
-void References::fill_store(const ustring & language)
-// Fill the list store with the data.
-{
-  // Clear the store first.
-  gtk_list_store_clear(myliststore);
-  // Now add new data.
-  GtkTreeIter iter;
-  for (unsigned int i = 0; i < references.size(); i++) {
-    gtk_list_store_append(myliststore, &iter);
-    gtk_list_store_set(myliststore, &iter, 0, references[i].human_readable(language).c_str(), 1, comments[i].c_str(), 2, references[i].book, 3, references[i].chapter, 4, references[i].verse.c_str(), -1);
-  }
-  // Show number of references in the title of the column
-  set_header();
-}
-
-void References::set_header()
-{
-  // Sets the header in the treeview to the number of references.
-  string s = TEXT_REFERENCES;
-  s.append(" - ");
-  s.append(convert_to_string(int (references.size())));
-  gtk_tree_view_column_set_title(mytreecolumn, s.c_str());
-}
-
-
 void References::goto_next()
 /* 
 This selects the next reference, if there is any.

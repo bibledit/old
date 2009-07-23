@@ -37,7 +37,7 @@
 #include "constants.h"
 
 
-void compare_with(References * referencesgui, const ustring & project, const ustring & secondproject, bool print_changes_only)
+void compare_with(References * referencesgui, const ustring & project, const ustring & secondproject, bool print_changes_only) // Todo, try out whether references show.
 {
   // Load the project, and the second project.
   ProjectMemory projectmemory(project, true);
@@ -53,16 +53,16 @@ void compare_with(References * referencesgui, const ustring & project, const ust
   if (!compare_projects(projectmemory, secondprojectmemory, comparedprojectmemory))
     return;
   // Look for added or deleted books / chapters / verses.
-  vector < ustring > additions_deletions;
+  vector <ustring> additions_deletions;
   compare_get_additions_deletions(projectmemory, secondprojectmemory, additions_deletions);
   // See what to print.
   if (print_changes_only) {
     // Print changes only, and load them in the references.
-    vector < Reference > references;
+    vector <Reference> references;
     compare_get_changes(comparedprojectmemory, references);
     referencesgui->set_references(references);
-    extern Settings *settings;
-    referencesgui->fill_store(settings->projectconfig(project)->language_get());
+    // Todo extern Settings *settings;
+    // Todo . referencesgui->fill_store(settings->projectconfig(project)->language_get());
     comparedprojectmemory.name = project;
     view_parallel_references_pdf(comparedprojectmemory, NULL, references, true, &additions_deletions, true);
   } else {
