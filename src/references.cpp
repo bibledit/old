@@ -31,9 +31,6 @@
 
 References::References(GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn)
 {
-  myliststore = liststore;
-  mytreeview = treeview;
-  mytreecolumn = treecolumn;
 }
 
 References::~References()
@@ -60,6 +57,7 @@ If no item has been selected it chooses the first, if it's there.
 
 void References::goto_next_previous_internal(bool next)
 {
+  /*
   // Continue only when references are available.
   if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(myliststore), &iterator)) {
     // See which is selected.
@@ -100,67 +98,6 @@ void References::goto_next_previous_internal(bool next)
       gtk_tree_path_free(path);
     }
   }
+  */
 }
 
-void References::goto_foreach_function(GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data)
-{
-  GtkTreeIter *iterator;
-  iterator = (GtkTreeIter *) data;
-  *iterator = *iter;
-}
-
-void References::get_loaded()
-// Gets the references and comments that are loaded in the editor.
-{
-  references.clear();
-  gtk_tree_model_foreach(GTK_TREE_MODEL(myliststore), GtkTreeModelForeachFunc(loaded_get_reference_foreach_function), gpointer(&references));
-  comments.clear();
-  gtk_tree_model_foreach(GTK_TREE_MODEL(myliststore), GtkTreeModelForeachFunc(loaded_get_comment_foreach_function), gpointer(&comments));
-}
-
-gboolean References::loaded_get_reference_foreach_function(GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data)
-{
-  gint book;
-  gint chapter;
-  gchar *verse;
-  gtk_tree_model_get(model, iter, 2, &book, 3, &chapter, 4, &verse, -1);
-  Reference reference(book, chapter, verse);
-  ((vector < Reference > *)data)->push_back(reference);
-  g_free(verse);
-  return false;
-}
-
-gboolean References::loaded_get_comment_foreach_function(GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data)
-{
-  gchar *comment;
-  gtk_tree_model_get(model, iter, 1, &comment, -1);
-  ((vector < string > *)data)->push_back(comment);
-  g_free(comment);
-  return false;
-}
-
-void References::get_references(vector < Reference > &refs)
-{
-  refs.assign(references.begin(), references.end());
-}
-
-void References::set_references(vector < Reference > &refs)
-{
-  vector < ustring > comments;
-  for (unsigned int i = 0; i < refs.size(); i++)
-    comments.push_back("Search result");
-  set_references(refs, comments);
-}
-
-void References::set_references(vector < Reference > &references_in, vector < ustring > &comments_in)
-{
-  references_hidden_ones_filter(references_in, comments_in);
-  references.assign(references_in.begin(), references_in.end());
-  comments.assign(comments_in.begin(), comments_in.end());
-}
-
-ustring References::references_database_filename()
-// Gives the filename of the database to save the references to.
-{
-  return gw_build_filename(directories_get_temp(), "references.sqlite3");
-}

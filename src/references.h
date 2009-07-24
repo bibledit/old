@@ -34,22 +34,10 @@ public:
   ~References ();
   void goto_next ();
   void goto_previous ();
-  void get_loaded ();
-  void get_references (vector <Reference> &refs);
-  void set_references (vector <Reference> &refs);
-  void set_references (vector <Reference>& references_in, vector<ustring>& comments_in);
 private:
   vector <Reference> references;
   vector <ustring> comments;
-  GtkListStore *myliststore;
-  GtkWidget *mytreeview;
-  GtkTreeViewColumn *mytreecolumn;
-  GtkTreeIter iterator;
   void goto_next_previous_internal (bool next);
-  static void goto_foreach_function (GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data);
-  static gboolean loaded_get_reference_foreach_function (GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data);
-  static gboolean loaded_get_comment_foreach_function (GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data);
-  ustring references_database_filename ();
 };
 
 

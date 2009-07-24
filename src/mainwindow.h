@@ -96,8 +96,6 @@ protected:
   GtkWidget *file_references_menu;
   GtkWidget *open_references1;
   GtkWidget *image466;
-  GtkWidget *reference_hide;
-  GtkWidget *image6483;
   GtkWidget *style;
   GtkWidget *image10735;
   GtkWidget *style_menu;
@@ -462,8 +460,6 @@ protected:
   void on_previous_reference();
   static void on_ignored_references1_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_ignored_references();
-  static void on_reference_hide_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_reference_hide();
   void treeview_references_display_quick_reference();
 
   // Bibledit Windows Outpost
@@ -512,7 +508,6 @@ protected:
   void on_menuitem_view();
   static void on_get_references_from_note_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_get_references_from_note();
-  void notes_get_references_from_id(gint id);
   static void on_window_notes_references_available_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_notes_references_available_button();
 

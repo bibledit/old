@@ -328,46 +328,10 @@ void WindowReferences::save(const ustring& filename)
 }
 
 
-void WindowReferences::clear() // Todo
+void WindowReferences::clear()
 {
   dismiss (false, true);
   html_link_clicked ("");
-}
-
-
-void WindowReferences::hide()
-{
-  /*// Todo 
-  // Load currently hidden references.
-  vector < ustring > hidden_references = references_hidden_ones_load();
-  // Get the model.
-  GtkTreeModel *model;
-  model = gtk_tree_view_get_model(GTK_TREE_VIEW(treeview));
-  // Get all selected iterators.
-  GtkTreeSelection *selection;
-  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
-  vector < GtkTreeIter > iters;
-  gtk_tree_selection_selected_foreach(selection, WindowReferences::on_collect_iters, gpointer(&iters));
-  // Get the strings describing the references, and add them to the ones already loaded.
-  for (unsigned int i = 0; i < iters.size(); i++) {
-    ustring hidden_reference;
-    gint book, chapter;
-    gchar *verse;
-    gchar *comment;
-    gtk_tree_model_get(model, &iters[i], 1, &comment, 2, &book, 3, &chapter, 4, &verse, -1);
-    Reference reference(book, chapter, verse);
-    hidden_reference = reference.human_readable("");
-    hidden_reference.append(" ");
-    hidden_reference.append(comment);
-    g_free(verse);
-    g_free(comment);
-    hidden_references.push_back(hidden_reference);
-  }
-  // Save new list of hidden refs.
-  references_hidden_ones_save(hidden_references);
-  // Actually delete them from the window, for user feedback.
-  dismiss();
-  */
 }
 
 
@@ -387,7 +351,6 @@ void WindowReferences::html_link_clicked (const gchar * url)
 
   // New url.
   active_url = url;
-  cout << active_url << endl; // Todo
 
   // Start writing a html page.
   HtmlWriter2 htmlwriter ("");
@@ -432,6 +395,15 @@ void WindowReferences::html_link_clicked (const gchar * url)
     html_write_references (htmlwriter);
   }
 
+  else if (active_url.find ("hide") == 0) {
+    // Hide the active reference from now on.
+    vector <ustring> hidden_references = references_hidden_ones_load();
+    hidden_references.push_back (hide_string (active_entry));
+    references_hidden_ones_save(hidden_references);
+    dismiss (true, false);
+    html_write_references (htmlwriter);
+  }
+
   else {
     // Load the references.
     html_write_references (htmlwriter);
@@ -472,7 +444,7 @@ void WindowReferences::html_write_references (HtmlWriter2& htmlwriter)
 }
 
 
-void WindowReferences::html_write_action_bar (HtmlWriter2& htmlwriter, bool topbar) // Todo
+void WindowReferences::html_write_action_bar (HtmlWriter2& htmlwriter, bool topbar)
 {
   // If there are no references, don't write an action bar at the bottom, only at the top.
   if (!topbar) {
@@ -530,6 +502,12 @@ void WindowReferences::html_write_action_page (HtmlWriter2& htmlwriter)
     htmlwriter.hyperlink_add ("dismiss all", "Dismiss the whole lot of " + convert_to_string (references.size()) + " references");
     htmlwriter.paragraph_close ();
   }  
+  // If a reference has been clicked, offer the option to hide it from now on.
+  if (active_entry >= 0) {
+    htmlwriter.paragraph_open ();
+    htmlwriter.hyperlink_add ("hide", "Hide \"" + hide_string (active_entry) + "\" from now on");
+    htmlwriter.paragraph_close ();
+  }
 }
 
 
@@ -570,6 +548,19 @@ void WindowReferences::dismiss (bool cursor, bool all)
     extern Settings *settings;
     settings->session.highlights.clear();
   }
+}
+
+
+ustring WindowReferences::hide_string (unsigned int index)
+// Generates the string that is used in the hiding mechanisms.
+{
+  ustring hs;
+  hs.append (references[index].human_readable (mylanguage));
+  if (!comments[index].empty()) {
+    hs.append (" ");
+    hs.append (comments[index]);
+  }
+  return hs; 
 }
 
 
@@ -623,6 +614,20 @@ Remove all of the references.h/cpp data at the end.
 Dismiss page:
 - If the user came to action page through the top bar, it shows the previous page after dismissing a page.
 - If the user came to the action page through the bottom bar, it shows the next page after dismissing a page.
+
+
+  if (guifeatures.references_management()) {
+Implement the above.
+
+
+When references are hidden, we should check upon loading these, that the hidden ones are removed, and not displayed,
+even if these are offered.
+
+The preferences where the hidden references are managed should also be made accessible from the html page.
+
+
+The references management gui should be implemented, so that no management is available if this feature has been disabled.
+
 
 
 

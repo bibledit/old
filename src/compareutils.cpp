@@ -60,7 +60,7 @@ void compare_with(References * referencesgui, const ustring & project, const ust
     // Print changes only, and load them in the references.
     vector <Reference> references;
     compare_get_changes(comparedprojectmemory, references);
-    referencesgui->set_references(references);
+    // Todo referencesgui->set_references(references);
     // Todo extern Settings *settings;
     // Todo . referencesgui->fill_store(settings->projectconfig(project)->language_get());
     comparedprojectmemory.name = project;

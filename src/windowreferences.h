@@ -45,7 +45,6 @@ public:
   void load (const ustring & filename);
   void save(const ustring& filename);
   void clear();
-  void hide();
   void activate();
 protected:
   GtkWidget *scrolledwindow;
@@ -68,6 +67,7 @@ private:
   void load ();
   void save ();
   void dismiss (bool cursor, bool all);
+  ustring hide_string (unsigned int index);
 };
 
 

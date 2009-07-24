@@ -401,19 +401,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
 
   }
 
-  reference_hide = NULL;
-  if (guifeatures.references_management()) {
-
-    reference_hide = gtk_image_menu_item_new_with_mnemonic("_Hide from now on");
-    gtk_widget_show(reference_hide);
-    gtk_container_add(GTK_CONTAINER(file_references_menu), reference_hide);
-
-    image6483 = gtk_image_new_from_stock("gtk-remove", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image6483);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(reference_hide), image6483);
-
-  }
-
   style = NULL;
   if (guifeatures.styles()) {
 
@@ -1730,8 +1717,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   g_signal_connect ((gpointer) projects_send_receive1, "activate", G_CALLBACK (on_projects_send_receive1_activate), gpointer(this));
   if (open_references1)
     g_signal_connect((gpointer) open_references1, "activate", G_CALLBACK(on_open_references1_activate), gpointer(this));
-  if (reference_hide)
-    g_signal_connect((gpointer) reference_hide, "activate", G_CALLBACK(on_reference_hide_activate), gpointer(this));
   if (stylesheet_open)
     g_signal_connect((gpointer) stylesheet_open, "activate", G_CALLBACK(on_stylesheet_open_activate), gpointer(this));
   if (new_note)
@@ -3087,20 +3072,6 @@ void MainWindow::on_ignored_references()
 }
 
 
-void MainWindow::on_reference_hide_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_reference_hide();
-}
-
-
-void MainWindow::on_reference_hide()
-// Deals with hiding references.
-{
-  show_references_window();
-  window_references->hide();
-}
-
-
 /*
  |
  |
@@ -3449,73 +3420,25 @@ void MainWindow::on_get_references_from_note_activate(GtkMenuItem * menuitem, gp
 }
 
 
-void MainWindow::on_get_references_from_note() // Todo working on try out.
+void MainWindow::on_get_references_from_note()
+// This one is called through the Edit menu.
 {
-  // Store references.
-  vector <Reference> references;
-  // Store possible messages here, but they will be dumped.
-  vector <ustring> messages;
+  // Clear the searchwords.
+  extern Settings * settings;
+  settings->session.highlights.clear();
+
   // Get all references from the editor.
+  vector <Reference> references;
+  vector <ustring> dummy;
   if (window_notes)
-    window_notes->get_references_from_note(references, messages);
+    window_notes->get_references_from_note(references, dummy);
+
   // Sort the references so they appear nicely in the editor.
   sort_references(references);
-  // Set none searchwords.
-  extern Settings *settings;
-  settings->session.highlights.clear();
-  // Display the References
+
+  // Load the references in the window
   show_references_window();
-  // Set references.
-  ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
-  window_references->set (references, projectconfig->language_get());
-}
-
-
-void MainWindow::notes_get_references_from_id(gint id) // Todo working here, try out.
-// Get the references from the note id
-{
-  // Store references we get.
-  vector < Reference > references;
-
-  // Fetch the references for the note from the database.
-  sqlite3 *db;
-  int rc;
-  char *error = NULL;
-  try {
-    rc = sqlite3_open(notes_database_filename().c_str(), &db);
-    if (rc)
-      throw runtime_error(sqlite3_errmsg(db));
-    sqlite3_busy_timeout(db, 1000);
-    SqliteReader sqlitereader(0);
-    char *sql;
-    sql = g_strdup_printf("select ref_osis from %s where id = %d;", TABLE_NOTES, id);
-    rc = sqlite3_exec(db, sql, sqlitereader.callback, &sqlitereader, &error);
-    g_free(sql);
-    if (rc != SQLITE_OK)
-      throw runtime_error(error);
-    if ((sqlitereader.ustring0.size() > 0)) {
-      ustring reference;
-      reference = sqlitereader.ustring0[0];
-      // Read the reference(s).
-      Parse parse(reference, false);
-      for (unsigned int i = 0; i < parse.words.size(); i++) {
-        Reference ref(0);
-        reference_discover(0, 0, "", parse.words[i], ref.book, ref.chapter, ref.verse);
-        references.push_back(ref);
-      }
-    }
-  }
-  catch(exception & ex) {
-    gw_critical(ex.what());
-  }
-  // Close connection.  
-  sqlite3_close(db);
-
-  // Display the References
-  show_references_window();
-  // Set references. Todo , try out.
-  extern Settings *settings;
-  ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
+  ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
   window_references->set (references, projectconfig->language_get());
 }
 
@@ -3526,13 +3449,15 @@ void MainWindow::on_window_notes_references_available_button_clicked(GtkButton *
 }
 
 
-void MainWindow::on_window_notes_references_available_button() // Todo working here, try out.
+void MainWindow::on_window_notes_references_available_button()
 {
   show_references_window();
   if (window_notes) {
     extern Settings *settings;
     ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
-    window_references->set (window_notes->available_references, projectconfig->language_get());
+    vector <Reference> references = window_notes->available_references;
+    sort_references(references);
+    window_references->set (references, projectconfig->language_get());
   }
 }
 
