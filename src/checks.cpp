@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "checks.h"
 #include "references.h"
 #include "utilities.h"
@@ -29,6 +30,7 @@
 #include "style.h"
 #include "tiny_utilities.h"
 
+
 void checks_output_references_comments(const vector < ustring > &references, const vector < ustring > &comments)
 // Outputs the results of check to stdout.
 {
@@ -39,7 +41,7 @@ void checks_output_references_comments(const vector < ustring > &references, con
 }
 
 
-void checks_display_references_comments(vector < ustring > &references, vector < ustring > &comments, GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn)
+void checks_display_references_comments(vector < ustring > &references, vector < ustring > &comments, WindowReferences * references_window)
 // Displays the results of the checks to the user.
 {
   vector < Reference > refs;
@@ -48,14 +50,11 @@ void checks_display_references_comments(vector < ustring > &references, vector <
     reference_discover(0, 0, "", references[i], ref.book, ref.chapter, ref.verse);
     refs.push_back(ref);
   }
-  /* Todo make it work again.
-  References references2(liststore, treeview, treecolumn);
-  references2.set_references(refs, comments);
   extern Settings *settings;
   ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
-  references2.fill_store(projectconfig->language_get());
-  */
+  references_window->set (refs, projectconfig->language_get(), &comments);
 }
+
 
 void checks_output_two_columns(const vector < ustring > &column1, const vector < unsigned int >&column2)
 // Outputs the results of check to stdout.

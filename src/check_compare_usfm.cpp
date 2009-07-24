@@ -85,7 +85,6 @@ gui: show graphical progressbar.
         return;
       }
     }
-    cout << books_id_to_english(scripture_books[i]) << endl;
     // See whether this book is included in the ones to check.
     if (selected_books.find(scripture_books[i]) != selected_books.end()) {
       // Get pointer to same book in second scripture, if it exists.

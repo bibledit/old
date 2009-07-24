@@ -67,8 +67,6 @@ gui: show graphical progressbar.
         cancelled = true;
         return;
       }
-    } else {
-      cout << books_id_to_english(mybooks[bk]) << endl;
     }
     // Get text of the book and go through each line.
     vector < ustring > lines = project_retrieve_book(project, mybooks[bk]);

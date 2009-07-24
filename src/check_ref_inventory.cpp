@@ -57,8 +57,6 @@ gui: show graphical progressbar.
         cancelled = true;
         return;
       }
-    } else {
-      cout << books_id_to_english(mybooks[bk]) << endl;
     }
     // Check each chapter.
     vector < unsigned int >chapters = project_get_chapters(project, mybooks[bk]);

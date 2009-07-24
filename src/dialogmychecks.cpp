@@ -26,12 +26,11 @@
 #include "scripturechecks.h"
 #include "shortcuts.h"
 
-MyChecksDialog::MyChecksDialog(GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn)
+
+MyChecksDialog::MyChecksDialog(WindowReferences * references_window)
 {
   // Save variables.
-  myliststore = liststore;
-  mytreeview = treeview;
-  mytreecolumn = treecolumn;
+  my_references_window = references_window;
 
   // Shortcuts.
   Shortcuts shortcuts(0);
@@ -236,20 +235,24 @@ MyChecksDialog::MyChecksDialog(GtkListStore * liststore, GtkWidget * treeview, G
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_punctuation_sentence_structure), bitpattern_take(pattern));
 }
 
+
 MyChecksDialog::~MyChecksDialog()
 {
   gtk_widget_destroy(mychecksdialog);
 }
+
 
 int MyChecksDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(mychecksdialog));
 }
 
+
 void MyChecksDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((MyChecksDialog *) user_data)->on_okbutton();
 }
+
 
 void MyChecksDialog::on_okbutton()
 {
@@ -280,50 +283,50 @@ void MyChecksDialog::on_okbutton()
   bool keep_going = true;
   if (bitpattern_take(pattern))
     if (keep_going)
-      keep_going = scripture_checks_chapters_verses(NULL, NULL, NULL, &results);
+      keep_going = scripture_checks_chapters_verses(NULL, &results);
   if (bitpattern_take(pattern))
     if (keep_going)
-      keep_going = scripture_checks_validate_usfms(NULL, NULL, NULL, &results);
+      keep_going = scripture_checks_validate_usfms(NULL, &results);
   if (bitpattern_take(pattern))
     if (keep_going)
       keep_going = scripture_checks_count_usfms(false);
   if (bitpattern_take(pattern))
     if (keep_going)
-      keep_going = scripture_checks_compare_usfms(NULL, NULL, NULL, &results);
+      keep_going = scripture_checks_compare_usfms(NULL, &results);
   if (bitpattern_take(pattern))
     if (keep_going)
       keep_going = scripture_checks_count_characters(false);
   if (bitpattern_take(pattern))
     if (keep_going)
-      keep_going = scripture_checks_unwanted_patterns(NULL, NULL, NULL, &results);
+      keep_going = scripture_checks_unwanted_patterns(NULL, &results);
   if (bitpattern_take(pattern))
     if (keep_going)
-      keep_going = scripture_checks_capitalization(NULL, NULL, NULL, &results);
+      keep_going = scripture_checks_capitalization(NULL, &results);
   if (bitpattern_take(pattern))
     if (keep_going)
-      keep_going = scripture_checks_repetition(NULL, NULL, NULL, &results);
+      keep_going = scripture_checks_repetition(NULL, &results);
   if (bitpattern_take(pattern))
     if (keep_going)
-      keep_going = scripture_checks_unwanted_words(NULL, NULL, NULL, &results);
+      keep_going = scripture_checks_unwanted_words(NULL, &results);
   if (bitpattern_take(pattern))
     if (keep_going)
       keep_going = scripture_checks_word_inventory(false);
   if (bitpattern_take(pattern))
     if (keep_going)
-      keep_going = scripture_checks_matching_pairs(NULL, NULL, NULL, &results);
+      keep_going = scripture_checks_matching_pairs(NULL, &results);
   if (bitpattern_take(pattern))
     if (keep_going)
-      keep_going = scripture_checks_usfm_spacing(NULL, NULL, NULL, &results);
+      keep_going = scripture_checks_usfm_spacing(NULL, &results);
   if (bitpattern_take(pattern))
     if (keep_going)
       keep_going = scripture_checks_references_inventory(false);
   if (bitpattern_take(pattern))
     if (keep_going)
-      keep_going = scripture_checks_validate_references(NULL, NULL, NULL, &results);
+      keep_going = scripture_checks_validate_references(NULL, &results);
   if (bitpattern_take(pattern))
     if (keep_going)
-      keep_going = scripture_checks_sentence_structure(NULL, NULL, NULL, &results);
+      keep_going = scripture_checks_sentence_structure(NULL, &results);
   // Display checking results.
   if (keep_going)
-    checks_display_references_comments(results.references, results.comments, myliststore, mytreeview, mytreecolumn);
+    checks_display_references_comments(results.references, results.comments, my_references_window);
 }

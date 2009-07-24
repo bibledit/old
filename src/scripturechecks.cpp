@@ -51,6 +51,7 @@
 #include "check_parallel_passages.h"
 #include "check_sentence_structure.h"
 
+
 vector < unsigned int >checks_generate_booknames()
 {
   vector < unsigned int >book_ids;
@@ -64,7 +65,8 @@ vector < unsigned int >checks_generate_booknames()
   return book_ids;
 }
 
-bool scripture_checks_chapters_verses(GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn, CollectCheckingResults * results)
+
+bool scripture_checks_chapters_verses(WindowReferences * references_window, CollectCheckingResults * results)
 {
   if (results == NULL) {
     CheckDialog dialog(cdtChaptersVerses);
@@ -79,9 +81,10 @@ bool scripture_checks_chapters_verses(GtkListStore * liststore, GtkWidget * tree
   if (results)
     results->add(check.references, check.comments);
   else
-    checks_display_references_comments(check.references, check.comments, liststore, treeview, treecolumn);
+    checks_display_references_comments(check.references, check.comments, references_window);
   return true;
 }
+
 
 bool scripture_checks_count_usfms(bool gui)
 {
@@ -100,7 +103,8 @@ bool scripture_checks_count_usfms(bool gui)
   return true;
 }
 
-bool scripture_checks_validate_usfms(GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn, CollectCheckingResults * results)
+
+bool scripture_checks_validate_usfms(WindowReferences * references_window, CollectCheckingResults * results)
 {
   if (!results) {
     CheckDialog dialog(cdtMarkersValidate);
@@ -114,11 +118,12 @@ bool scripture_checks_validate_usfms(GtkListStore * liststore, GtkWidget * treev
   if (results)
     results->add(check.references, check.comments);
   else
-    checks_display_references_comments(check.references, check.comments, liststore, treeview, treecolumn);
+    checks_display_references_comments(check.references, check.comments, references_window);
   return true;
 }
 
-bool scripture_checks_compare_usfms(GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn, CollectCheckingResults * results)
+
+bool scripture_checks_compare_usfms(WindowReferences * references_window, CollectCheckingResults * results)
 {
   if (!results) {
     CheckDialog dialog(cdtMarkersCompare);
@@ -132,7 +137,7 @@ bool scripture_checks_compare_usfms(GtkListStore * liststore, GtkWidget * treevi
   if (results)
     results->add(check.references, check.comments);
   else
-    checks_display_references_comments(check.references, check.comments, liststore, treeview, treecolumn);
+    checks_display_references_comments(check.references, check.comments, references_window);
   return true;
 }
 
@@ -155,7 +160,8 @@ bool scripture_checks_count_characters(bool gui)
   return true;
 }
 
-bool scripture_checks_unwanted_patterns(GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn, CollectCheckingResults * results)
+
+bool scripture_checks_unwanted_patterns(WindowReferences * references_window, CollectCheckingResults * results)
 {
   if (!results) {
     CheckDialog dialog(cdtUnwantedPatterns);
@@ -169,11 +175,12 @@ bool scripture_checks_unwanted_patterns(GtkListStore * liststore, GtkWidget * tr
   if (results)
     results->add(check.references, check.comments);
   else
-    checks_display_references_comments(check.references, check.comments, liststore, treeview, treecolumn);
+    checks_display_references_comments(check.references, check.comments, references_window);
   return true;
 }
 
-bool scripture_checks_capitalization(GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn, CollectCheckingResults * results)
+
+bool scripture_checks_capitalization(WindowReferences * references_window, CollectCheckingResults * results)
 {
   if (!results) {
     CheckDialog dialog(cdtWordsCapitalization);
@@ -188,11 +195,12 @@ bool scripture_checks_capitalization(GtkListStore * liststore, GtkWidget * treev
   if (results)
     results->add(check.references, check.comments);
   else
-    checks_display_references_comments(check.references, check.comments, liststore, treeview, treecolumn);
+    checks_display_references_comments(check.references, check.comments, references_window);
   return true;
 }
 
-bool scripture_checks_repetition(GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn, CollectCheckingResults * results)
+
+bool scripture_checks_repetition(WindowReferences * references_window, CollectCheckingResults * results)
 {
   if (!results) {
     CheckDialog dialog(cdtWordsRepetition);
@@ -212,11 +220,12 @@ bool scripture_checks_repetition(GtkListStore * liststore, GtkWidget * treeview,
   if (results)
     results->add(check.references, check.comments);
   else
-    checks_display_references_comments(check.references, check.comments, liststore, treeview, treecolumn);
+    checks_display_references_comments(check.references, check.comments, references_window);
   return true;
 }
 
-bool scripture_checks_matching_pairs(GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn, CollectCheckingResults * results)
+
+bool scripture_checks_matching_pairs(WindowReferences * references_window, CollectCheckingResults * results)
 {
   if (!results) {
     CheckDialog dialog(cdtMatchingPairs);
@@ -230,11 +239,12 @@ bool scripture_checks_matching_pairs(GtkListStore * liststore, GtkWidget * treev
   if (results)
     results->add(check.references, check.comments);
   else
-    checks_display_references_comments(check.references, check.comments, liststore, treeview, treecolumn);
+    checks_display_references_comments(check.references, check.comments, references_window);
   return true;
 }
 
-bool scripture_checks_unwanted_words(GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn, CollectCheckingResults * results)
+
+bool scripture_checks_unwanted_words(WindowReferences * references_window, CollectCheckingResults * results)
 {
   if (!results) {
     CheckDialog dialog(cdtWordsUnwanted);
@@ -248,9 +258,10 @@ bool scripture_checks_unwanted_words(GtkListStore * liststore, GtkWidget * treev
   if (results)
     results->add(check.references, check.comments);
   else
-    checks_display_references_comments(check.references, check.comments, liststore, treeview, treecolumn);
+    checks_display_references_comments(check.references, check.comments, references_window);
   return true;
 }
+
 
 bool scripture_checks_word_inventory(bool gui)
 {
@@ -268,7 +279,8 @@ bool scripture_checks_word_inventory(bool gui)
   return true;
 }
 
-bool scripture_checks_usfm_spacing(GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn, CollectCheckingResults * results)
+
+bool scripture_checks_usfm_spacing(WindowReferences * references_window, CollectCheckingResults * results)
 {
   if (!results) {
     CheckDialog dialog(cdtMarkersSpacing);
@@ -282,9 +294,10 @@ bool scripture_checks_usfm_spacing(GtkListStore * liststore, GtkWidget * treevie
   if (results)
     results->add(check.references, check.comments);
   else
-    checks_display_references_comments(check.references, check.comments, liststore, treeview, treecolumn);
+    checks_display_references_comments(check.references, check.comments, references_window);
   return true;
 }
+
 
 ustring checks_abbreviations_get_filename(const ustring & project)
 {
@@ -321,6 +334,7 @@ ustring checks_unwanted_words_get_filename(const ustring & project)
   return gw_build_filename(directories_get_projects(), project, "unwanted_words");
 }
 
+
 bool scripture_checks_references_inventory(bool gui)
 {
   if (gui) {
@@ -337,7 +351,8 @@ bool scripture_checks_references_inventory(bool gui)
   return true;
 }
 
-bool scripture_checks_validate_references(GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn, CollectCheckingResults * results)
+
+bool scripture_checks_validate_references(WindowReferences * references_window, CollectCheckingResults * results)
 {
   if (!results) {
     CheckDialog dialog(cdtReferencesValidate);
@@ -351,50 +366,54 @@ bool scripture_checks_validate_references(GtkListStore * liststore, GtkWidget * 
   if (results)
     results->add(check.references, check.comments);
   else
-    checks_display_references_comments(check.references, check.comments, liststore, treeview, treecolumn);
+    checks_display_references_comments(check.references, check.comments, references_window);
   return true;
 }
 
-void scripture_checks_nt_quotations_from_ot(GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn)
+
+void scripture_checks_nt_quotations_from_ot(WindowReferences * references_window)
 {
   CheckDialog dialog(cdtNTQuotationsFromOT);
   if (dialog.run() != GTK_RESPONSE_OK)
     return;
   extern Settings *settings;
   CheckOTQuotationsInNT check(settings->genconfig.project_get(), checks_generate_booknames(), settings->session.check_include_verse_text);
-  checks_display_references_comments(check.references, check.comments, liststore, treeview, treecolumn);
+  checks_display_references_comments(check.references, check.comments, references_window);
   ustring main_heading = "Old Testament quotations in the New Testament, project " + settings->genconfig.project_get();
   DisplayCheckingResults display(main_heading.c_str());
   display.ot_quotations_in_nt(check.nt_refs, check.nt_texts, check.ot_refs, check.ot_texts, main_heading.c_str());
 }
 
-void scripture_checks_synoptic_parallels_from_nt(GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn)
+
+void scripture_checks_synoptic_parallels_from_nt(WindowReferences * references_window)
 {
   CheckDialog dialog(cdtSynopticParallelsNT);
   if (dialog.run() != GTK_RESPONSE_OK)
     return;
   extern Settings *settings;
   CheckParallelPassages check(true, settings->genconfig.project_get(), checks_generate_booknames(), settings->session.check_include_verse_text, true);
-  checks_display_references_comments(check.references, check.comments, liststore, treeview, treecolumn);
+  checks_display_references_comments(check.references, check.comments, references_window);
   ustring main_heading = "Synoptic parallel passages of the New Testament, project " + settings->genconfig.project_get();
   DisplayCheckingResults display(main_heading.c_str());
   display.parallel_passages(check.data, main_heading.c_str());
 }
 
-void scripture_checks_parallels_from_ot(GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn)
+
+void scripture_checks_parallels_from_ot(WindowReferences * references_window)
 {
   CheckDialog dialog(cdtParallelsOT);
   if (dialog.run() != GTK_RESPONSE_OK)
     return;
   extern Settings *settings;
   CheckParallelPassages check(false, settings->genconfig.project_get(), checks_generate_booknames(), settings->session.check_include_verse_text, true);
-  checks_display_references_comments(check.references, check.comments, liststore, treeview, treecolumn);
+  checks_display_references_comments(check.references, check.comments, references_window);
   ustring main_heading = "Parallel passages of the Old Testament, project " + settings->genconfig.project_get();
   DisplayCheckingResults display(main_heading.c_str());
   display.parallel_passages(check.data, main_heading.c_str());
 }
 
-bool scripture_checks_sentence_structure(GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn, CollectCheckingResults * results)
+
+bool scripture_checks_sentence_structure(WindowReferences * references_window, CollectCheckingResults * results)
 {
   if (!results) {
     CheckDialog dialog(cdtSentenceStructure);
@@ -408,7 +427,7 @@ bool scripture_checks_sentence_structure(GtkListStore * liststore, GtkWidget * t
   if (results)
     results->add(check.references, check.comments);
   else
-    checks_display_references_comments(check.references, check.comments, liststore, treeview, treecolumn);
+    checks_display_references_comments(check.references, check.comments, references_window);
   return true;
 }
 

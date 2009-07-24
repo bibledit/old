@@ -37,7 +37,7 @@ class WindowReferences : public WindowBase
 public:
   WindowReferences(GtkAccelGroup *accelerator_group, bool startup, GtkWidget * parent_box);
   virtual ~WindowReferences();
-  void set (vector <Reference>& refs, const ustring& language);
+  void set (vector <Reference>& refs, const ustring& language, vector <ustring> * comments_in);
   vector <Reference> get ();
   GtkWidget * signal_button;
   Reference reference;

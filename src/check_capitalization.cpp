@@ -93,7 +93,6 @@ gui: whether to show graphical progressbar.
         return;
       }
     }
-    cout << books_id_to_english(book) << endl;
 
     vector < unsigned int >chapters = project_get_chapters(project, book);
     for (unsigned int ch = 0; ch < chapters.size(); ch++) {

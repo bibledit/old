@@ -521,7 +521,7 @@ with the references that are already there.
     {
       // Sort and load the references.
       sort_references(searchresults);
-      references_window->set (searchresults, projectconfig->language_get());
+      references_window->set (searchresults, projectconfig->language_get(), NULL);
       break;
     }
   case sstAdd:
@@ -541,7 +541,7 @@ with the references that are already there.
       }
       searchresults = loaded_references;
       sort_references(searchresults);
-      references_window->set (searchresults, projectconfig->language_get());
+      references_window->set (searchresults, projectconfig->language_get(), NULL);
       break;
     }
   case sstSubtract:
@@ -560,7 +560,7 @@ with the references that are already there.
       }
       searchresults = loaded_references;
       sort_references(searchresults);
-      references_window->set (searchresults, projectconfig->language_get());
+      references_window->set (searchresults, projectconfig->language_get(), NULL);
       break;
     }
   case sstShare:
@@ -582,7 +582,7 @@ with the references that are already there.
       }
       searchresults = shared_references;
       sort_references(searchresults);
-      references_window->set (searchresults, projectconfig->language_get());
+      references_window->set (searchresults, projectconfig->language_get(), NULL);
       break;
     }
   }

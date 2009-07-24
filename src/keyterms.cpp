@@ -1097,7 +1097,6 @@ void keyterms_export(const ustring & directory, bool gui)
   // Go through the categories.  
   vector < ustring > categories = keyterms_get_categories();
   for (unsigned int cat = 0; cat < categories.size(); cat++) {
-    cout << categories[cat] << endl;
     // Output data.
     ustring paratext_filename = gw_build_filename(directory, categories[cat] + ".lex");
     replace_text(paratext_filename, " ", "_");

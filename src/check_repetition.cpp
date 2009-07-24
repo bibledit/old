@@ -81,7 +81,6 @@ gui: whether to show graphical progressbar.
         return;
       }
     }
-    cout << books_id_to_english(mybooks[bk]) << endl;
     // Check each chapter in the book.
     vector < unsigned int >chapters = project_get_chapters(project, mybooks[bk]);
     for (unsigned int ch = 0; ch < chapters.size(); ch++) {

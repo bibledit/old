@@ -2324,7 +2324,7 @@ void MainWindow::menu_replace()
       if (window_references) {
         extern Settings *settings;
         ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
-        window_references->set(replacedialog.results, projectconfig->language_get());
+        window_references->set(replacedialog.results, projectconfig->language_get(), NULL);
       }
     } else {
       return;
@@ -3439,7 +3439,7 @@ void MainWindow::on_get_references_from_note()
   // Load the references in the window
   show_references_window();
   ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
-  window_references->set (references, projectconfig->language_get());
+  window_references->set (references, projectconfig->language_get(), NULL);
 }
 
 
@@ -3457,7 +3457,7 @@ void MainWindow::on_window_notes_references_available_button()
     ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
     vector <Reference> references = window_notes->available_references;
     sort_references(references);
-    window_references->set (references, projectconfig->language_get());
+    window_references->set (references, projectconfig->language_get(), NULL);
   }
 }
 
@@ -3512,7 +3512,7 @@ void MainWindow::on_menu_check_markers_validate()
 {
   save_editors();
   show_references_window();
-  // Todo scripture_checks_validate_usfms(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  scripture_checks_validate_usfms(window_references, NULL);
 }
 
 void MainWindow::on_count_usfms1_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3535,7 +3535,7 @@ void MainWindow::on_menu_check_markers_compare()
 {
   save_editors();
   show_references_window();
-  // Todo scripture_checks_compare_usfms(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  scripture_checks_compare_usfms(window_references, NULL);
 }
 
 void MainWindow::on_chapters_and_verses1_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3547,7 +3547,7 @@ void MainWindow::on_menu_check_chapters_and_verses()
 {
   save_editors();
   show_references_window();
-  // Todo scripture_checks_chapters_verses(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  scripture_checks_chapters_verses(window_references, NULL);
 }
 
 void MainWindow::on_count_characters_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3570,7 +3570,7 @@ void MainWindow::on_unwanted_patterns()
 {
   save_editors();
   show_references_window();
-  // Todo scripture_checks_unwanted_patterns(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  scripture_checks_unwanted_patterns(window_references, NULL);
 }
 
 void MainWindow::on_check_capitalization_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3582,7 +3582,7 @@ void MainWindow::on_check_capitalization()
 {
   save_editors();
   show_references_window();
-  // Todo scripture_checks_capitalization(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  scripture_checks_capitalization(window_references, NULL);
 }
 
 void MainWindow::on_check_repetition_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3594,7 +3594,7 @@ void MainWindow::on_check_repetition()
 {
   save_editors();
   show_references_window();
-  // Todo scripture_checks_repetition(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  scripture_checks_repetition(window_references, NULL);
 }
 
 void MainWindow::on_check_matching_pairs_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3606,7 +3606,7 @@ void MainWindow::on_check_matching_pairs()
 {
   save_editors();
   show_references_window();
-  // Todo scripture_checks_matching_pairs(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  scripture_checks_matching_pairs(window_references, NULL);
 }
 
 void MainWindow::on_unwanted_words_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3618,7 +3618,7 @@ void MainWindow::on_unwanted_words()
 {
   save_editors();
   show_references_window();
-  // Todo scripture_checks_unwanted_words(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  scripture_checks_unwanted_words(window_references, NULL);
 }
 
 void MainWindow::on_word_count_inventory_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3694,7 +3694,7 @@ void MainWindow::on_check_markers_spacing()
 {
   save_editors();
   show_references_window();
-  // Todo scripture_checks_usfm_spacing(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  scripture_checks_usfm_spacing(window_references, NULL);
 }
 
 void MainWindow::on_check_references_inventory_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3717,7 +3717,7 @@ void MainWindow::on_check_references_validate()
 {
   save_editors();
   show_references_window();
-  // Todo scripture_checks_validate_references(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  scripture_checks_validate_references(window_references, NULL);
 }
 
 void MainWindow::on_check_nt_quotations_from_the_ot_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3729,7 +3729,7 @@ void MainWindow::on_check_nt_quotations_from_the_ot()
 {
   save_editors();
   show_references_window();
-  // Todo scripture_checks_nt_quotations_from_ot(window_references->liststore, window_references->treeview, window_references->treecolumn);
+  scripture_checks_nt_quotations_from_ot(window_references);
 }
 
 void MainWindow::on_synoptic_parallel_passages_from_the_nt_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3741,7 +3741,7 @@ void MainWindow::on_synoptic_parallel_passages_from_the_nt()
 {
   save_editors();
   show_references_window();
-  // Todo scripture_checks_synoptic_parallels_from_nt(window_references->liststore, window_references->treeview, window_references->treecolumn);
+  scripture_checks_synoptic_parallels_from_nt(window_references);
 }
 
 void MainWindow::on_parallels_from_the_ot_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3753,7 +3753,7 @@ void MainWindow::on_parallels_from_the_ot()
 {
   save_editors();
   show_references_window();
-  // Todo scripture_checks_parallels_from_ot(window_references->liststore, window_references->treeview, window_references->treecolumn);
+  scripture_checks_parallels_from_ot(window_references);
 }
 
 void MainWindow::on_check_sentence_structure_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3765,7 +3765,7 @@ void MainWindow::on_check_sentence_structure()
 {
   save_editors();
   show_references_window();
-  // Todo scripture_checks_sentence_structure(window_references->liststore, window_references->treeview, window_references->treecolumn, NULL);
+  scripture_checks_sentence_structure(window_references, NULL);
 }
 
 

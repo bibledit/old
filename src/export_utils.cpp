@@ -269,9 +269,6 @@ void export_to_osis_old (const ustring& project, const ustring& filename)
       if (books_id_to_osis(scripture_books[bk]).empty())
         continue;
 
-      // Progress.
-      cout << books_id_to_english(scripture_books[bk]) << endl;
-
       // Signal "new book" to notes system.
       swordnote.new_book();
 

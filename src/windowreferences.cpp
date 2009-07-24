@@ -80,7 +80,7 @@ WindowReferences::~WindowReferences()
 }
 
 
-void WindowReferences::set (vector <Reference>& refs, const ustring& language)
+void WindowReferences::set (vector <Reference>& refs, const ustring& language, vector <ustring> * comments_in)
 // Sets the references in the window.
 // refs: the references to be loaded.
 // language: the language in which to display the references.
@@ -90,8 +90,11 @@ void WindowReferences::set (vector <Reference>& refs, const ustring& language)
   comments.clear();
   active_entry = -1;
   for (unsigned int i = 0; i < refs.size(); i++) {
-    references.push_back (refs[i]);    
-    comments.push_back ("");
+    references.push_back (refs[i]);
+    if (comments_in)
+      comments.push_back (comments_in->at (i));
+    else
+      comments.push_back ("");
   }  
   html_link_clicked ("");
 }
@@ -435,7 +438,10 @@ void WindowReferences::html_write_references (HtmlWriter2& htmlwriter)
     htmlwriter.paragraph_open();
     ustring url = "goto " + convert_to_string (i);
     htmlwriter.hyperlink_add (url, references[i].human_readable (mylanguage));
-    htmlwriter.text_add (" ");
+    if (!comments[i].empty()) {
+      htmlwriter.text_add (" ");
+      htmlwriter.text_add (comments[i]);
+    }
     htmlwriter.paragraph_close();
   }
   

@@ -28,6 +28,7 @@
 #include "versification.h"
 #include "tiny_utilities.h"
 
+
 CheckChaptersVerses::CheckChaptersVerses(const ustring & project, const vector < unsigned int >&books, bool gui)
 /*
 It checks the number of chapters per book and the number of verses per chapter.
@@ -54,13 +55,10 @@ gui: show graphical progressbar.
     if (gui) {
       progresswindow->iterate();
       progresswindow->set_text(books_id_to_english(mybooks[bk]));
-      cout << (progresswindow->cancel) << endl;
       if (progresswindow->cancel) {
         cancelled = true;
         return;
       }
-    } else {
-      cout << books_id_to_english(mybooks[bk]) << endl;
     }
     first_chapter_found = false;
     vector < unsigned int >chapters = project_get_chapters(project, mybooks[bk]);

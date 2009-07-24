@@ -24,12 +24,13 @@
 
 #include <gtk/gtk.h>
 #include "ustring.h"
+#include "windowreferences.h"
 
 
 class MyChecksDialog
 {
 public:
-  MyChecksDialog (GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn);
+  MyChecksDialog (WindowReferences * references_window);
   ~MyChecksDialog ();
   int run ();
 protected:
@@ -68,9 +69,7 @@ protected:
 private:
   static void on_okbutton_clicked (GtkButton *button, gpointer user_data);
   void on_okbutton ();
-  GtkListStore * myliststore;
-  GtkWidget * mytreeview;
-  GtkTreeViewColumn * mytreecolumn;
+  WindowReferences * my_references_window;
 };
 
 

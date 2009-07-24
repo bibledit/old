@@ -26,15 +26,12 @@
 #include <gtk/gtk.h>
 #include "types.h"
 #include "ot-nt-parallels.h"
+#include "windowreferences.h"
 
 
-void checks_output_references_comments
-     (const vector<ustring>& references, const vector<ustring>& comments);
-void checks_display_references_comments
-     (vector<ustring>& references, vector<ustring>& comments,
-      GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn);
-void checks_output_two_columns
-     (const vector<ustring>& column1, const vector<unsigned int>& column2);
+void checks_output_references_comments (const vector<ustring>& references, const vector<ustring>& comments);
+void checks_display_references_comments (vector<ustring>& references, vector<ustring>& comments, WindowReferences * references_window);
+void checks_output_two_columns (const vector<ustring>& column1, const vector<unsigned int>& column2);
 
 
 class DisplayCheckingResults
