@@ -89,6 +89,7 @@ void WindowReferences::set (vector <Reference>& refs, const ustring& language, v
   references.clear();    
   comments.clear();
   active_entry = -1;
+  lower_boundary = 0;
   for (unsigned int i = 0; i < refs.size(); i++) {
     references.push_back (refs[i]);
     if (comments_in)

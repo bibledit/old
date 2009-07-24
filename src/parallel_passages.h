@@ -25,9 +25,10 @@
 #include "libraries.h"
 #include "reference.h"
 #include <gtk/gtk.h>
+#include "windowreferences.h"
 
 
-void parallel_passages_display (Reference& reference, GtkListStore * liststore, GtkWidget * treeview, GtkTreeViewColumn * treecolumn);
+void parallel_passages_display (Reference& reference, WindowReferences * window_references);
 
 
 #endif

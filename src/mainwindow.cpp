@@ -2628,7 +2628,7 @@ void MainWindow::on_navigation_new_reference()
   // Optionally display the parallel passages in the reference area.
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(parallel_passages1))) {
     show_references_window();
-    // Todo parallel_passages_display(navigation.reference, window_references->liststore, window_references->treeview, window_references->treecolumn);
+    parallel_passages_display(navigation.reference, window_references);
   }
 
   // Optional displaying keyterms in verse.
@@ -4277,6 +4277,7 @@ void MainWindow::on_preferences_gui_activate(GtkMenuItem * menuitem, gpointer us
   ((MainWindow *) user_data)->on_preferences_gui();
 }
 
+
 void MainWindow::on_preferences_gui()
 {
   if (password_pass(window_vbox)) {
@@ -4285,20 +4286,24 @@ void MainWindow::on_preferences_gui()
   }
 }
 
+
 void MainWindow::on_preferences_password_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_preferences_password();
 }
+
 
 void MainWindow::on_preferences_password()
 {
   password_edit(window_vbox);
 }
 
+
 void MainWindow::on_tool_simple_text_corrections_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_tool_simple_text_corrections();
 }
+
 
 void MainWindow::on_tool_simple_text_corrections()
 {
@@ -4308,10 +4313,12 @@ void MainWindow::on_tool_simple_text_corrections()
     reload_all_editors(false);
 }
 
+
 void MainWindow::on_preferences_text_replacement_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_preferences_text_replacement();
 }
+
 
 void MainWindow::on_preferences_text_replacement()
 {
@@ -4319,10 +4326,12 @@ void MainWindow::on_preferences_text_replacement()
   dialog.run();
 }
 
+
 void MainWindow::on_parallel_passages1_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_parallel_passages1();
 }
+
 
 void MainWindow::on_parallel_passages1()
 {
@@ -4330,17 +4339,16 @@ void MainWindow::on_parallel_passages1()
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(parallel_passages1))) {
     // View them: show references tab, view passages.
     show_references_window();
-    // Todo parallel_passages_display(navigation.reference, window_references->liststore, window_references->treeview, window_references->treecolumn);
-  } else {
-    // Don't view them: clear store.
-    // Todo on_clear_references();
+    parallel_passages_display(navigation.reference, window_references);
   }
 }
+
 
 void MainWindow::on_pdf_viewer1_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_pdf_viewer();
 }
+
 
 void MainWindow::on_pdf_viewer()
 {
@@ -4348,10 +4356,12 @@ void MainWindow::on_pdf_viewer()
   dialog.run();
 }
 
+
 void MainWindow::on_insert_special_character_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_insert_special_character();
 }
+
 
 void MainWindow::on_insert_special_character()
 {
@@ -4384,16 +4394,19 @@ void MainWindow::on_insert_special_character()
   editor_window->text_insert(characters[dialog.selection]);
 }
 
+
 void MainWindow::on_preferences_compare_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_preferences_compare();
 }
+
 
 void MainWindow::on_preferences_compare()
 {
   ComparePreferencesDialog dialog (0);
   dialog.run ();
 }
+
 
 /*
  |
@@ -7237,6 +7250,11 @@ it should offer to go to the other chaptesr as well. This should be offered, not
 
 
 When deleting notes, we may have a tick box in the yes/no dialog that allows to always say "yes" for the duration of one minute.
+
+
+We could look into whether the displaying of the parallel passages can not go into the window that shows keyterms.
+Then we call it "related verses", or similar, so it shows more generally related verses, whether keyterms, or through Strong's numbers,
+or, as here, parallel passages. It would really clean up the thing a lot.
 
 
 */
