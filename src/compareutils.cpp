@@ -37,7 +37,7 @@
 #include "constants.h"
 
 
-void compare_with(References * referencesgui, const ustring & project, const ustring & secondproject, bool print_changes_only) // Todo, try out whether references show.
+void compare_with(WindowReferences * references_window, const ustring & project, const ustring & secondproject, bool print_changes_only)
 {
   // Load the project, and the second project.
   ProjectMemory projectmemory(project, true);
@@ -60,9 +60,8 @@ void compare_with(References * referencesgui, const ustring & project, const ust
     // Print changes only, and load them in the references.
     vector <Reference> references;
     compare_get_changes(comparedprojectmemory, references);
-    // Todo referencesgui->set_references(references);
-    // Todo extern Settings *settings;
-    // Todo . referencesgui->fill_store(settings->projectconfig(project)->language_get());
+    extern Settings *settings;
+    references_window->set (references, settings->projectconfig(project)->language_get(), NULL);
     comparedprojectmemory.name = project;
     view_parallel_references_pdf(comparedprojectmemory, NULL, references, true, &additions_deletions, true);
   } else {
@@ -77,6 +76,7 @@ void compare_with(References * referencesgui, const ustring & project, const ust
     printproject.print();
   }
 }
+
 
 bool compare_projects(ProjectMemory & originalproject, ProjectMemory & secondproject, ProjectMemory & outputproject)
 // Compares originalproject with secondproject. Differences go in outputproject.
@@ -197,6 +197,7 @@ void compare_get_changes(ProjectMemory & project, vector < Reference > &changed_
   }
 }
 
+
 void compare_get_additions_deletions_verses(ProjectMemory & originalproject, ProjectMemory & secondproject, unsigned int book, unsigned int chapter, vector < ustring > &results)
 {
   // Get the verses of the chapter of the book of the two projects.
@@ -234,6 +235,7 @@ void compare_get_additions_deletions_verses(ProjectMemory & originalproject, Pro
   }
 }
 
+
 void compare_get_additions_deletions_chapters(ProjectMemory & originalproject, ProjectMemory & secondproject, unsigned int book, vector < ustring > &results)
 {
   // Get the chapters of the book of the two projects.
@@ -268,6 +270,7 @@ void compare_get_additions_deletions_chapters(ProjectMemory & originalproject, P
     }
   }
 }
+
 
 void compare_get_additions_deletions(ProjectMemory & originalproject, ProjectMemory & secondproject, vector < ustring > &results)
 /*

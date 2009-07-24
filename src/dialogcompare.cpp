@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "libraries.h"
 #include "dialogcompare.h"
 #include "projectutils.h"
@@ -31,10 +32,11 @@
 #include "scriptureportions.h"
 #include "shortcuts.h"
 
-CompareDialog::CompareDialog(References * references)
+
+CompareDialog::CompareDialog(WindowReferences * references_window)
 {
   // Store variables
-  myreferences = references;
+  my_references_window = references_window;
   extern Settings *settings;
 
   Shortcuts shortcuts(0);
@@ -174,7 +176,7 @@ void CompareDialog::on_okbutton_clicked()
   settings->genconfig.project_to_compare_with_set(selectprojectgui->project);
   settings->genconfig.print_changes_only_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton1)));
   // Run comparison.
-  compare_with(myreferences, settings->genconfig.project_to_compare_with_get(), settings->genconfig.project_get(), settings->genconfig.print_changes_only_get());
+  compare_with(my_references_window, settings->genconfig.project_to_compare_with_get(), settings->genconfig.project_get(), settings->genconfig.print_changes_only_get());
 }
 
 void CompareDialog::on_button_portion_clicked(GtkButton * button, gpointer user_data)

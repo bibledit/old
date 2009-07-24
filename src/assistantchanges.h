@@ -17,19 +17,23 @@
  **  
  */
 
+
 #ifndef INCLUDED_ASSISTANT_CHANGES_H
 #define INCLUDED_ASSISTANT_CHANGES_H
+
 
 #include <gtk/gtk.h>
 #include "ustring.h"
 #include "assistants.h"
 #include "widgetdate.h"
 #include "references.h"
+#include "windowreferences.h"
+
 
 class ChangesAssistant : public AssistantBase
 {
 public:
-  ChangesAssistant(References * references);
+  ChangesAssistant(WindowReferences * references_window);
   virtual ~ChangesAssistant();
 private:
   GtkWidget *vbox1;
@@ -61,7 +65,7 @@ private:
   void on_assistant_apply ();
   ustring temporal_from_project;
   ustring temporal_to_project;  
-  References * myreferences;
+  WindowReferences * my_references_window;
   ustring copy_project_and_move_back_in_history (const ustring& project, unsigned int second);
   void view_changes(const ustring& current_stage_project, const ustring& previous_stage_project);
 };

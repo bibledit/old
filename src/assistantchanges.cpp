@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "assistantchanges.h"
@@ -33,11 +34,11 @@
 #include "utilities.h"
 
 
-ChangesAssistant::ChangesAssistant(References * references) :
+ChangesAssistant::ChangesAssistant(WindowReferences * references_window) :
 AssistantBase("Changes", "changes")
 // Assistant for adding keyterms.
 {
-  myreferences = references;
+  my_references_window = references_window;
 
   gtk_assistant_set_forward_page_func (GTK_ASSISTANT (assistant), GtkAssistantPageFunc (assistant_forward_function), gpointer(this), NULL);
   
@@ -291,7 +292,7 @@ ustring ChangesAssistant::copy_project_and_move_back_in_history (const ustring& 
 
 void ChangesAssistant::view_changes(const ustring& current_stage_project, const ustring& previous_stage_project)
 {
-  compare_with(myreferences, previous_stage_project, current_stage_project, true);
+  compare_with(my_references_window, previous_stage_project, current_stage_project, true);
 }
 
 

@@ -2503,10 +2503,12 @@ void MainWindow::on_copy_project_to()
   }
 }
 
+
 void MainWindow::on_compare_with1_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_compare_with();
 }
+
 
 void MainWindow::on_compare_with()
 // Compare the current project with another one.
@@ -2515,11 +2517,11 @@ void MainWindow::on_compare_with()
   show_references_window();
   extern VCS * vcs;
   vcs->pause(true);
-  // Todo References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
-  // Todo CompareDialog dialog(&references);
-  // Todo dialog.run();
+  CompareDialog dialog(window_references);
+  dialog.run();
   vcs->pause(false);
 }
+
 
 void MainWindow::on_printingprefs_activate(GtkMenuItem * menuitem, gpointer user_data)
 {

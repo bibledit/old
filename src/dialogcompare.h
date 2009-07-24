@@ -24,11 +24,13 @@
 #include "ustring.h"
 #include "guiselectproject.h"
 #include "references.h"
+#include "windowreferences.h"
+
 
 class CompareDialog
 {
 public:
-  CompareDialog(References * references);
+  CompareDialog(WindowReferences * references_window);
   ~CompareDialog();
   int run();
 protected:
@@ -57,7 +59,7 @@ protected:
   static void on_button_portion_clicked(GtkButton *button, gpointer user_data);
   void on_button_portion();
   void gui_reorder_include();
-  References * myreferences;
+  WindowReferences * my_references_window;
 };
 
 #endif
