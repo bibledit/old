@@ -45,7 +45,8 @@ public:
   void load (const ustring & filename);
   void save(const ustring& filename);
   void clear();
-  void activate();
+  void goto_next ();
+  void goto_previous ();
 protected:
   GtkWidget *scrolledwindow;
   GtkWidget *htmlview;
@@ -68,6 +69,7 @@ private:
   void save ();
   void dismiss (bool cursor, bool all);
   ustring hide_string (unsigned int index);
+  void goto_next_previous_internal (bool next);
 };
 
 

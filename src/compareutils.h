@@ -24,8 +24,6 @@
 
 #include "libraries.h"
 #include "progresswindow.h"
-#include "references.h"
-#include "reference.h"
 #include "project_memory.h"
 #include "windowreferences.h"
 

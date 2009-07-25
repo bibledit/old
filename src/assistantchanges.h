@@ -26,7 +26,6 @@
 #include "ustring.h"
 #include "assistants.h"
 #include "widgetdate.h"
-#include "references.h"
 #include "windowreferences.h"
 
 

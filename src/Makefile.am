@@ -31,7 +31,6 @@ bibledit_bin_SOURCES = \
 	    ustring.cpp \
 	    dialogsearchspecial.cpp \
 	    referenceutils.cpp \
-	    references.cpp \
 	    pdfviewer.cpp \
         notes_utils.cpp \
         date_time_utils.cpp \

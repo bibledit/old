@@ -19,8 +19,6 @@
 
 
 #include "checks.h"
-#include "references.h"
-#include "utilities.h"
 #include "directories.h"
 #include "gwrappers.h"
 #include "htmlbrowser.h"
@@ -29,6 +27,7 @@
 #include "bible.h"
 #include "style.h"
 #include "tiny_utilities.h"
+#include "utilities.h"
 
 
 void checks_output_references_comments(const vector < ustring > &references, const vector < ustring > &comments)
@@ -56,28 +55,12 @@ void checks_display_references_comments(vector < ustring > &references, vector <
 }
 
 
-void checks_output_two_columns(const vector < ustring > &column1, const vector < unsigned int >&column2)
-// Outputs the results of check to stdout.
-{
-  // Find longest word in first column.
-  unsigned int longestword = 0;
-  for (unsigned int i = 0; i < column1.size(); i++) {
-    if (column1[i].length() > longestword)
-      longestword = column1[i].length();
-  }
-  longestword++;
-  // Output the data.
-  for (unsigned int i = 0; i < column1.size(); i++) {
-    ustring line = column1[i] + spaces(longestword - column1[i].length()) + convert_to_string(column2[i]) + "\n";
-    if (write(1, line.c_str(), strlen(line.c_str()))) ;
-  }
-}
-
 DisplayCheckingResults::DisplayCheckingResults(const ustring & title)
 {
   // Opening html code.
   start(title);
 }
+
 
 void DisplayCheckingResults::word_inventory(const vector < ustring > &words, const vector < unsigned int >&count, int total, int unique, int filteredtotal, int filteredunique, int excludelimit)
 {

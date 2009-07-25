@@ -27,7 +27,6 @@
 #include "tiny_utilities.h"
 #include "projectutils.h"
 #include "settings.h"
-#include "references.h"
 #include "keyboard.h"
 #include "dialogentry3.h"
 #include "gtkwrappers.h"
@@ -569,6 +568,70 @@ ustring WindowReferences::hide_string (unsigned int index)
   }
   return hs; 
 }
+
+
+void WindowReferences::goto_next()
+// This selects the next reference, if there is any.
+// If no item has been selected it selects the first, if it's there.
+{
+  goto_next_previous_internal(true);
+}
+
+
+void WindowReferences::goto_previous()
+// This goes to the previous reference, if there is any.
+// If no item has been selected it chooses the first, if it's there.
+{
+  goto_next_previous_internal(false);
+}
+
+
+void WindowReferences::goto_next_previous_internal(bool next)
+{
+  // Bail out if there are no references.
+  if (references.empty ())
+    return;
+
+  // Get the one that was selected last. If none was selected, it is negative.
+  int selection = active_entry;
+  
+  // Get the one to be selected.
+  if (selection < 0) {
+    if (next) {
+      selection = 0;
+    }
+  } else {
+    if (next)
+      selection++;
+    else
+      selection--;
+  }
+
+  // Bail out if before the start of the list.
+  if (selection < 0) {
+    return;
+  }
+  
+  // Bail out if after the end of the list.
+  if (selection >= (int)references.size()) {
+    return;
+  }
+
+  // Switch pages back till the reference to be selected is within the visible bounds.
+  while (selection < (int)lower_boundary) {
+    html_link_clicked ("prev");
+  }
+
+  // Switch pages forward till the references to be selected is within the visible bounds.
+  while (selection >= (int)upper_boundary) {
+    html_link_clicked ("next");
+  }
+
+  // Go to the selected references.
+  ustring url = "goto " + convert_to_string (selection);
+  html_link_clicked (url.c_str());
+}
+
 
 
 /*

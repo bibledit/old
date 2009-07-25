@@ -23,7 +23,6 @@
 #include <gtk/gtk.h>
 #include "ustring.h"
 #include "guiselectproject.h"
-#include "references.h"
 #include "windowreferences.h"
 
 

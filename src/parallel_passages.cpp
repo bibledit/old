@@ -20,7 +20,6 @@
 
 #include "parallel_passages.h"
 #include "ot-quotations.h"
-#include "references.h"
 #include "settings.h"
 #include "ot-nt-parallels.h"
 

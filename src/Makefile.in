@@ -63,7 +63,7 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogimporttext.$(OBJEXT) dialogwait.$(OBJEXT) \
 	directories.$(OBJEXT) ustring.$(OBJEXT) \
 	dialogsearchspecial.$(OBJEXT) referenceutils.$(OBJEXT) \
-	references.$(OBJEXT) pdfviewer.$(OBJEXT) notes_utils.$(OBJEXT) \
+	pdfviewer.$(OBJEXT) notes_utils.$(OBJEXT) \
 	date_time_utils.$(OBJEXT) dialogfindnote.$(OBJEXT) \
 	dialogimportnotes.$(OBJEXT) dialognotes.$(OBJEXT) \
 	dialogentry.$(OBJEXT) dialogcompare.$(OBJEXT) \
@@ -385,7 +385,6 @@ bibledit_bin_SOURCES = \
 	    ustring.cpp \
 	    dialogsearchspecial.cpp \
 	    referenceutils.cpp \
-	    references.cpp \
 	    pdfviewer.cpp \
         notes_utils.cpp \
         date_time_utils.cpp \
@@ -897,7 +896,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rc4.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/reference.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/referencememory.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/references.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/referenceutils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/reporting.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/resource.Po@am__quote@

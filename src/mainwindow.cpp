@@ -40,7 +40,6 @@
 #include <glib.h>
 #include "dialogsearchspecial.h"
 #include "referenceutils.h"
-#include "references.h"
 #include "pdfviewer.h"
 #include "notes_utils.h"
 #include "dialogfindnote.h"
@@ -166,7 +165,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   import_keyterms_assistant = NULL;
   delete_keyterms_assistant = NULL;
   changes_assistant = NULL;
-  assistant_references = NULL;
+  // Todo assistant_references = NULL;
   window_check_usfm = NULL;
   remote_repository_assistant = NULL;
   resource_assistant = NULL;
@@ -3032,30 +3031,18 @@ void MainWindow::on_open_references()
 
 
 void MainWindow::on_next_reference()
-// This goes to the next reference, if there is any.
-// If no item has been selected it chooses the first, if it's there.
+// Go to the next reference in the references window.
 {
-  // Display references.
   show_references_window();
-  // Select next reference in the list.
-  // Todo References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
-  // Todo references.goto_next();
-  // Actually open the reference in the editor.
-  // Todo window_references->activate();
+  window_references->goto_next();
 }
 
 
 void MainWindow::on_previous_reference()
-// This goes to the previous reference, if there is any.
-// If no item has been selected it chooses the first, if it's there.
+// Go to the previous reference in the references window.
 {
-  // Show references.
   show_references_window();
-  // Select previous reference in the list.
-  // Todo References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
-  // Todo references.goto_previous();
-  // Actually open the reference in the editor.
-  // Todo window_references->activate();
+  window_references->goto_previous();
 }
 
 
@@ -7083,10 +7070,10 @@ void MainWindow::on_assistant_keyterms_ready ()
   }
   
   // References for general use.
-  if (assistant_references) {
-    delete assistant_references;
-    assistant_references = NULL;
-  }
+  // Todo if (assistant_references) {
+    // Todo delete assistant_references;
+    // Todo assistant_references = NULL;
+  // Todo }
 
   // Remote repository setup.
   if (remote_repository_assistant) {

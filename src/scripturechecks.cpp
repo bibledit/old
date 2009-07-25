@@ -24,7 +24,6 @@
 #include "gtkwrappers.h"
 #include "scripturechecks.h"
 #include "directories.h"
-#include "references.h"
 #include "dialogcheck.h"
 #include "style.h"
 #include "stylesheetutils.h"

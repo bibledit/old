@@ -22,7 +22,6 @@
 #include "search_utils.h"
 #include "bible.h"
 #include "gtkwrappers.h"
-#include "references.h"
 #include "bibletime.h"
 #include <sqlite3.h>
 #include "sqlite_reader.h"
