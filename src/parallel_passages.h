@@ -28,7 +28,7 @@
 #include "windowreferences.h"
 
 
-void parallel_passages_display (Reference& reference, WindowReferences * window_references);
+void parallel_passages_retrieve (Reference& reference, vector <Reference>& references, vector <ustring>& comments);
 
 
 #endif

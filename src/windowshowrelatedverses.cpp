@@ -26,6 +26,8 @@
 #include "keyterms.h"
 #include "tiny_utilities.h"
 #include "swordkjv.h"
+#include "parallel_passages.h"
+#include "settings.h"
 
 
 WindowShowRelatedVerses::WindowShowRelatedVerses(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
@@ -105,15 +107,19 @@ void WindowShowRelatedVerses::html_link_clicked (const gchar * url)
     display_another_page = false;
   }
 
-  else {
+  else if (active_url.find ("parallels") == 0) {
+    item_type = ritParallels;
+    gtk_button_clicked (GTK_BUTTON (button_item));
+    display_another_page = false;
+  }
 
-    // Get the keyterms in the verse.
-    vector <int> keyterms = keyterms_get_terms_in_verse(myreference);
+  else {
 
     // Display the keyterms in the verse, and their renderings.
     htmlwriter.heading_open (3);
     htmlwriter.text_add ("Keyterms in verse " + myreference.verse);
     htmlwriter.heading_close ();
+    vector <int> keyterms = keyterms_get_terms_in_verse(myreference);
     for (unsigned int i = 0; i < keyterms.size(); i++) {
 
       htmlwriter.paragraph_open();
@@ -179,6 +185,27 @@ void WindowShowRelatedVerses::html_link_clicked (const gchar * url)
       }
       htmlwriter.paragraph_close ();
     }
+    
+    // Parallel passages.
+    vector <Reference> parallel_references;
+    vector <ustring> parallel_comments;
+    parallel_passages_retrieve (myreference, parallel_references, parallel_comments);
+    if (!parallel_references.empty()) {
+      extern Settings *settings;
+      ProjectConfiguration *projectconfig = settings->projectconfig(myproject);
+      ustring language = projectconfig->language_get();
+      htmlwriter.heading_open (3);
+      htmlwriter.text_add ("Parallel passages");
+      htmlwriter.heading_close ();
+      for (unsigned int i = 0; i < parallel_references.size(); i++) {
+        htmlwriter.paragraph_open ();
+        htmlwriter.text_add (parallel_references[i].human_readable (language) + " " + parallel_comments[i]);
+        htmlwriter.paragraph_close ();
+      }
+      htmlwriter.paragraph_open ();
+      htmlwriter.hyperlink_add ("parallels", "Send to references window");
+      htmlwriter.paragraph_close ();
+    }    
 
   }
   

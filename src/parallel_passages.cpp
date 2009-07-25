@@ -24,24 +24,18 @@
 #include "ot-nt-parallels.h"
 
 
-void parallel_passages_display(Reference & reference, WindowReferences * window_references)
+void parallel_passages_retrieve(Reference& reference, vector <Reference>& references, vector <ustring>& comments)
 {
-  vector < Reference > parallels1;
-  vector < ustring > comments1;
   OTQuotations otquotations(0);
-  otquotations.get(reference, parallels1, comments1);
+  otquotations.get(reference, references, comments);
 
-  vector < Reference > parallels2;
-  vector < ustring > comments2;
+  vector <Reference> references2;
+  vector <ustring > comments2;
   OtNtParallels otntparallels(0);
-  otntparallels.get(reference, parallels2, comments2);
+  otntparallels.get(reference, references2, comments2);
 
-  for (unsigned int i = 0; i < parallels2.size(); i++) {
-    parallels1.push_back(parallels2[i]);
-    comments1.push_back(comments2[i]);
+  for (unsigned int i = 0; i < references2.size(); i++) {
+    references.push_back(references2[i]);
+    comments.push_back(comments2[i]);
   }
-
-  extern Settings *settings;
-  ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
-  window_references->set (parallels1, projectconfig->language_get(), &comments1);
 }

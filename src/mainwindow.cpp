@@ -2618,14 +2618,6 @@ void MainWindow::on_navigation_new_reference()
   // Send it to the verses window.
   show_verses();
 
-  // Optionally display the parallel passages in the reference area.
-  /* Todo working here.
-  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(parallel_passages1))) {
-    show_references_window();
-    parallel_passages_display(navigation.reference, window_references);
-  }
-  */
-
   // Optional displaying related verses.
   if (window_show_related_verses) {
     window_show_related_verses->go_to(settings->genconfig.project_get(), navigation.reference);
@@ -4502,7 +4494,7 @@ void MainWindow::on_window_show_related_verses_item_button_clicked(GtkButton * b
 }
 
 
-void MainWindow::on_window_show_related_verses_item_button() // Todo working here.
+void MainWindow::on_window_show_related_verses_item_button()
 {
   switch (window_show_related_verses->item_type) {
     case ritNone:
@@ -4522,6 +4514,17 @@ void MainWindow::on_window_show_related_verses_item_button() // Todo working her
       extern Settings * settings;
       ProjectConfiguration * projectconfig = settings->projectconfig (settings->genconfig.project_get());
       window_references->set (references, projectconfig->language_get(), NULL);
+      break;
+    }
+    case ritParallels:
+    {
+      vector <Reference> references;
+      vector <ustring> comments;
+      parallel_passages_retrieve (navigation.reference, references, comments);
+      show_references_window();
+      extern Settings * settings;
+      ProjectConfiguration * projectconfig = settings->projectconfig (settings->genconfig.project_get());
+      window_references->set (references, projectconfig->language_get(), &comments);
       break;
     }
   }

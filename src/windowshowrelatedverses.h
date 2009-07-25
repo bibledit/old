@@ -32,7 +32,7 @@ extern "C" {
 #include "htmlwriter2.h"
 
 
-enum RelatedItemType {ritNone, ritKeytermId, ritStrongNumber};
+enum RelatedItemType {ritNone, ritKeytermId, ritStrongNumber, ritParallels};
 
 
 class WindowShowRelatedVerses : public WindowBase
