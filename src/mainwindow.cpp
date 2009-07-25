@@ -3532,6 +3532,7 @@ void MainWindow::on_chapters_and_verses1_activate(GtkMenuItem * menuitem, gpoint
   ((MainWindow *) user_data)->on_menu_check_chapters_and_verses();
 }
 
+
 void MainWindow::on_menu_check_chapters_and_verses()
 {
   save_editors();
@@ -3539,10 +3540,12 @@ void MainWindow::on_menu_check_chapters_and_verses()
   scripture_checks_chapters_verses(window_references, NULL);
 }
 
+
 void MainWindow::on_count_characters_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_count_characters();
 }
+
 
 void MainWindow::on_count_characters()
 {
@@ -3550,10 +3553,12 @@ void MainWindow::on_count_characters()
   scripture_checks_count_characters(true);
 }
 
+
 void MainWindow::on_unwanted_patterns_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_unwanted_patterns();
 }
+
 
 void MainWindow::on_unwanted_patterns()
 {
@@ -3562,10 +3567,12 @@ void MainWindow::on_unwanted_patterns()
   scripture_checks_unwanted_patterns(window_references, NULL);
 }
 
+
 void MainWindow::on_check_capitalization_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_check_capitalization();
 }
+
 
 void MainWindow::on_check_capitalization()
 {
@@ -3574,10 +3581,12 @@ void MainWindow::on_check_capitalization()
   scripture_checks_capitalization(window_references, NULL);
 }
 
+
 void MainWindow::on_check_repetition_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_check_repetition();
 }
+
 
 void MainWindow::on_check_repetition()
 {
@@ -3586,10 +3595,12 @@ void MainWindow::on_check_repetition()
   scripture_checks_repetition(window_references, NULL);
 }
 
+
 void MainWindow::on_check_matching_pairs_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_check_matching_pairs();
 }
+
 
 void MainWindow::on_check_matching_pairs()
 {
@@ -3598,10 +3609,12 @@ void MainWindow::on_check_matching_pairs()
   scripture_checks_matching_pairs(window_references, NULL);
 }
 
+
 void MainWindow::on_unwanted_words_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_unwanted_words();
 }
+
 
 void MainWindow::on_unwanted_words()
 {
@@ -3610,10 +3623,12 @@ void MainWindow::on_unwanted_words()
   scripture_checks_unwanted_words(window_references, NULL);
 }
 
+
 void MainWindow::on_word_count_inventory_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_word_count_inventory();
 }
+
 
 void MainWindow::on_word_count_inventory()
 {
@@ -3621,11 +3636,13 @@ void MainWindow::on_word_count_inventory()
   scripture_checks_word_inventory(true);
 }
 
+
 bool MainWindow::on_check_httpd_timeout(gpointer data)
 {
   ((MainWindow *) data)->on_check_httpd();
   return true;
 }
+
 
 void MainWindow::on_check_httpd()
 {
@@ -3661,23 +3678,27 @@ void MainWindow::on_check_httpd()
   }
 }
 
+
 void MainWindow::on_my_checks_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_my_checks();
 }
 
+
 void MainWindow::on_my_checks()
 {
   save_editors();
   show_references_window();
-  // Todo MyChecksDialog dialog(window_references->liststore, window_references->treeview, window_references->treecolumn);
-  // Todo dialog.run();
+  MyChecksDialog dialog(window_references);
+  dialog.run();
 }
+
 
 void MainWindow::on_check_markers_spacing_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_check_markers_spacing();
 }
+
 
 void MainWindow::on_check_markers_spacing()
 {
@@ -3685,6 +3706,7 @@ void MainWindow::on_check_markers_spacing()
   show_references_window();
   scripture_checks_usfm_spacing(window_references, NULL);
 }
+
 
 void MainWindow::on_check_references_inventory_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
