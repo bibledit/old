@@ -165,7 +165,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   import_keyterms_assistant = NULL;
   delete_keyterms_assistant = NULL;
   changes_assistant = NULL;
-  // Todo assistant_references = NULL;
   window_check_usfm = NULL;
   remote_repository_assistant = NULL;
   resource_assistant = NULL;
@@ -4650,10 +4649,8 @@ void MainWindow::on_project_changes()
   vcs->pause(true);
   // Do the actual changes dialog. 
   show_references_window();
-  // Todo assistant_references = new References (window_references->liststore, window_references->treeview, window_references->treecolumn);
-  // Display the assistant.
-  // Todo changes_assistant = new ChangesAssistant (assistant_references);
-  // Todo g_signal_connect ((gpointer) changes_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
+  changes_assistant = new ChangesAssistant (window_references);
+  g_signal_connect ((gpointer) changes_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
 }
 
 void MainWindow::on_edit_revert_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -7091,12 +7088,6 @@ void MainWindow::on_assistant_keyterms_ready ()
     changes_assistant = NULL;
   }
   
-  // References for general use.
-  // Todo if (assistant_references) {
-    // Todo delete assistant_references;
-    // Todo assistant_references = NULL;
-  // Todo }
-
   // Remote repository setup.
   if (remote_repository_assistant) {
     delete remote_repository_assistant;
