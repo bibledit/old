@@ -5582,12 +5582,9 @@ void MainWindow::on_print()
         if (dialog.run() != GTK_RESPONSE_OK)
           return;
       }
-      // Load refs from the editor.
+      // Load refs from the references window.
       show_references_window();
-      // Todo References references(window_references->liststore, window_references->treeview, window_references->treecolumn);
-      // Todo references.get_loaded();
-      vector < Reference > refs;
-      // Todo references.get_references(refs);
+      vector <Reference> refs = window_references->get();
       if (refs.empty()) {
         gtkw_dialog_info(window_vbox, "There are no references to print");
       } else {
