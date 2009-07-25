@@ -35,7 +35,7 @@
 #include "displayprojectnotes.h"
 #include "git.h"
 #include "windowlayout.h"
-#include "windowshowkeyterms.h"
+#include "windowshowrelatedverses.h"
 #include "windowshowquickrefs.h"
 #include "windowmerge.h"
 #include "windowresource.h"
@@ -188,12 +188,11 @@ protected:
   GtkWidget *image20235;
   GtkWidget *viewnotes;
   GtkWidget *image2627;
-  GtkWidget *parallel_passages1;
   GtkWidget *view_usfm_code;
   GtkWidget *view_planning;
   GtkWidget *image26812;
   GtkWidget *view_screen_layout;
-  GtkWidget *view_keyterms;
+  GtkWidget *view_related_verses;
   GtkWidget *view_quick_references;
   GtkWidget *view_outline;
   GtkWidget *view_verses;
@@ -410,8 +409,6 @@ protected:
   void on_tool_simple_text_corrections();
   static void on_preferences_text_replacement_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_preferences_text_replacement();
-  static void on_parallel_passages1_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_parallel_passages1();
   static void on_pdf_viewer1_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_pdf_viewer();
   static void on_insert_special_character_activate(GtkMenuItem *menuitem, gpointer user_data);
@@ -615,13 +612,13 @@ protected:
   void on_window_check_keyterms_delete_button();
   static void on_keyterms_new_reference(GtkButton *button, gpointer user_data);
   void keyterms_check_move_new_reference();
-  static void on_view_keyterms_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_view_keyterms();
-  WindowShowKeyterms * window_show_keyterms;
-  static void on_window_show_keyterms_delete_button_clicked(GtkButton *button, gpointer user_data);
-  void on_window_show_keyterms_delete_button();
-  static void on_window_show_keyterms_keyterm_button_clicked(GtkButton *button, gpointer user_data);
-  void on_window_show_keyterms_keyterm_button();
+  static void on_view_related_verses_activate(GtkMenuItem *menuitem, gpointer user_data);
+  void on_view_related_verses();
+  WindowShowRelatedVerses * window_show_related_verses;
+  static void on_window_show_related_verses_delete_button_clicked(GtkButton *button, gpointer user_data);
+  void on_window_show_related_verses_delete_button();
+  static void on_window_show_related_verses_item_button_clicked(GtkButton *button, gpointer user_data);
+  void on_window_show_related_verses_item_button();
   static void on_keyterms_import_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_keyterms_import ();
   ImportKeytermsAssistant * import_keyterms_assistant;

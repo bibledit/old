@@ -227,7 +227,7 @@ bibledit_bin_SOURCES = \
         usfm2text.cpp \
         dialogtext2pdf.cpp \
         windowlayout.cpp \
-        windowshowkeyterms.cpp \
+        windowshowrelatedverses.cpp \
         window.cpp \
         windowshowquickrefs.cpp \
         windowmerge.cpp \

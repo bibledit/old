@@ -154,7 +154,7 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	text2pdf_input.$(OBJEXT) text2pdf_layout.$(OBJEXT) \
 	text2pdf_big_block.$(OBJEXT) text2pdf_intermediate.$(OBJEXT) \
 	usfm2text.$(OBJEXT) dialogtext2pdf.$(OBJEXT) \
-	windowlayout.$(OBJEXT) windowshowkeyterms.$(OBJEXT) \
+	windowlayout.$(OBJEXT) windowshowrelatedverses.$(OBJEXT) \
 	window.$(OBJEXT) windowshowquickrefs.$(OBJEXT) \
 	windowmerge.$(OBJEXT) windowresource.$(OBJEXT) \
 	windowoutline.$(OBJEXT) windowcheckkeyterms.$(OBJEXT) \
@@ -581,7 +581,7 @@ bibledit_bin_SOURCES = \
         usfm2text.cpp \
         dialogtext2pdf.cpp \
         windowlayout.cpp \
-        windowshowkeyterms.cpp \
+        windowshowrelatedverses.cpp \
         window.cpp \
         windowshowquickrefs.cpp \
         windowmerge.cpp \
@@ -968,8 +968,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowoutline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowreferences.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowresource.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowshowkeyterms.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowshowquickrefs.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowshowrelatedverses.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowshowverses.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowsoutpost.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowstyles.Po@am__quote@

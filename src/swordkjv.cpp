@@ -360,3 +360,50 @@ void sword_kjv_get_strongs_data (const Reference& reference, vector <unsigned in
   }
   sqlite3_close(db);
 }
+
+
+vector <Reference> sword_kjv_get_strongs_verses (const Reference& reference, unsigned int strongs)
+// Passing a Strong's number, and a Reference, this returns all the verses that contain this Strong's number.
+// The Reference solely is used to find out whether to look for this Strong's number in the Old or New Testament.
+{
+  // Get the type of the book, e.g. whether Old or New Testament.
+  BookType booktype = books_id_to_type (reference.book);
+
+  // Store the references.
+  vector <Reference> references;
+  
+  // Mine the data from the database.
+  sqlite3 *db;
+  int rc;
+  char *error = NULL;
+  try {
+    SqliteReader reader(0);
+    rc = sqlite3_open(sword_kjv_get_filename().c_str(), &db);
+    if (rc)
+      throw runtime_error(sqlite3_errmsg(db));
+    sqlite3_busy_timeout(db, 1000);
+    char *sql;
+    sql = g_strdup_printf("select book, chapter, verse from richtext where text glob ('*(%d)*');", strongs);
+    rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
+    g_free(sql);
+    if (rc) {
+      throw runtime_error(sqlite3_errmsg(db));
+    }
+    for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
+      // Get the references, and store it only if it comes from the same Testament we need.
+      Reference ref (convert_to_int (reader.ustring0[i]), convert_to_int (reader.ustring1[i]), reader.ustring2[i]);
+      if (books_id_to_type (ref.book) == booktype) {
+        references.push_back (ref);
+      }
+    }
+  }
+  catch(exception & ex) {
+    gw_critical(ex.what());
+  }
+  sqlite3_close(db);
+
+  // Result.
+  return references;
+}
+
+

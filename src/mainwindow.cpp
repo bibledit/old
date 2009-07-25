@@ -128,6 +128,7 @@
 #include "dialogplanningedit.h"
 #include "vcs.h"
 #include "dialogmaintenance.h"
+#include "swordkjv.h"
 
 
 /*
@@ -153,7 +154,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   // Set some window pointers to NULL.
   // To save memory, we only create the object when actually needed.
   window_screen_layout = NULL;
-  window_show_keyterms = NULL;
+  window_show_related_verses = NULL;
   window_show_quick_references = NULL;
   window_merge = NULL;
   window_outline = NULL;
@@ -938,10 +939,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
 
   }
 
-  parallel_passages1 = gtk_check_menu_item_new_with_mnemonic("_Parallel passages");
-  gtk_widget_show(parallel_passages1);
-  gtk_container_add(GTK_CONTAINER(menuitem_view_menu), parallel_passages1);
-
   view_usfm_code = gtk_check_menu_item_new_with_mnemonic ("_USFM code");
   gtk_widget_show(view_usfm_code);
   gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_usfm_code);
@@ -962,9 +959,9 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_screen_layout);
   }
 
-  view_keyterms = gtk_check_menu_item_new_with_mnemonic("_Keyterms in verse");
-  gtk_widget_show(view_keyterms);
-  gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_keyterms);
+  view_related_verses = gtk_check_menu_item_new_with_mnemonic("_Related verses");
+  gtk_widget_show(view_related_verses);
+  gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_related_verses);
 
   view_quick_references = gtk_check_menu_item_new_with_mnemonic("_Quick references");
   gtk_widget_show(view_quick_references);
@@ -1780,16 +1777,14 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     g_signal_connect((gpointer) view_text_font, "activate", G_CALLBACK(on_view_text_font_activate), gpointer(this));
   if (viewnotes)
     g_signal_connect((gpointer) viewnotes, "activate", G_CALLBACK(on_viewnotes_activate), gpointer(this));
-  if (parallel_passages1)
-    g_signal_connect((gpointer) parallel_passages1, "activate", G_CALLBACK(on_parallel_passages1_activate), gpointer(this));
   if (view_usfm_code)
     g_signal_connect((gpointer) view_usfm_code, "activate", G_CALLBACK(on_view_usfm_code_activate), gpointer(this));
   if (view_planning)
     g_signal_connect((gpointer) view_planning, "activate", G_CALLBACK(on_view_planning_activate), gpointer(this));
   if (view_screen_layout)
     g_signal_connect((gpointer) view_screen_layout, "activate", G_CALLBACK(on_view_screen_layout_activate), gpointer(this));
-  if (view_keyterms)
-    g_signal_connect((gpointer) view_keyterms, "activate", G_CALLBACK(on_view_keyterms_activate), gpointer(this));
+  if (view_related_verses)
+    g_signal_connect((gpointer) view_related_verses, "activate", G_CALLBACK(on_view_related_verses_activate), gpointer(this));
   if (view_quick_references)
     g_signal_connect((gpointer) view_quick_references, "activate", G_CALLBACK(on_view_quick_references_activate), gpointer(this));
   if (view_outline)
@@ -2624,14 +2619,16 @@ void MainWindow::on_navigation_new_reference()
   show_verses();
 
   // Optionally display the parallel passages in the reference area.
+  /* Todo working here.
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(parallel_passages1))) {
     show_references_window();
     parallel_passages_display(navigation.reference, window_references);
   }
+  */
 
-  // Optional displaying keyterms in verse.
-  if (window_show_keyterms) {
-    window_show_keyterms->go_to(settings->genconfig.project_get(), navigation.reference);
+  // Optional displaying related verses.
+  if (window_show_related_verses) {
+    window_show_related_verses->go_to(settings->genconfig.project_get(), navigation.reference);
   }
 }
 
@@ -2733,9 +2730,9 @@ void MainWindow::on_tools_area_activate()
       window_show_quick_references->present (true);
     }
   }
-  if (window_show_keyterms) {
-    if (focused_tool_button == window_show_keyterms->focus_in_signal_button) {
-      window_show_keyterms->present (true);
+  if (window_show_related_verses) {
+    if (focused_tool_button == window_show_related_verses->focus_in_signal_button) {
+      window_show_related_verses->present (true);
     }
   }
   if (window_merge) {
@@ -4335,23 +4332,6 @@ void MainWindow::on_preferences_text_replacement()
 }
 
 
-void MainWindow::on_parallel_passages1_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_parallel_passages1();
-}
-
-
-void MainWindow::on_parallel_passages1()
-{
-  // Act depending on whether to view the parallel passages.
-  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(parallel_passages1))) {
-    // View them: show references tab, view passages.
-    show_references_window();
-    parallel_passages_display(navigation.reference, window_references);
-  }
-}
-
-
 void MainWindow::on_pdf_viewer1_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_pdf_viewer();
@@ -4477,59 +4457,73 @@ void MainWindow::keyterms_check_move_new_reference()
 }
 
 
-void MainWindow::on_view_keyterms_activate(GtkMenuItem * menuitem, gpointer user_data)
+void MainWindow::on_view_related_verses_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
-  ((MainWindow *) user_data)->on_view_keyterms();
-
+  ((MainWindow *) user_data)->on_view_related_verses();
 }
 
-void MainWindow::on_view_keyterms()
+
+void MainWindow::on_view_related_verses()
 {
-  on_window_show_keyterms_delete_button();
-  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_keyterms))) {
+  on_window_show_related_verses_delete_button();
+  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_related_verses))) {
     extern GtkAccelGroup *accelerator_group;
-    window_show_keyterms = new WindowShowKeyterms(accelerator_group, windows_startup_pointer != G_MAXINT, vbox_tools);
+    window_show_related_verses = new WindowShowRelatedVerses(accelerator_group, windows_startup_pointer != G_MAXINT, vbox_tools);
     resize_text_area_if_tools_area_is_empty ();
-    g_signal_connect((gpointer) window_show_keyterms->delete_signal_button, "clicked", G_CALLBACK(on_window_show_keyterms_delete_button_clicked), gpointer(this));
-    g_signal_connect((gpointer) window_show_keyterms->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
-    g_signal_connect((gpointer) window_show_keyterms->buttonkeyterm, "clicked", G_CALLBACK(on_window_show_keyterms_keyterm_button_clicked), gpointer(this));
+    g_signal_connect((gpointer) window_show_related_verses->delete_signal_button, "clicked", G_CALLBACK(on_window_show_related_verses_delete_button_clicked), gpointer(this));
+    g_signal_connect((gpointer) window_show_related_verses->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
+    g_signal_connect((gpointer) window_show_related_verses->button_item, "clicked", G_CALLBACK(on_window_show_related_verses_item_button_clicked), gpointer(this));
     extern Settings *settings;
-    window_show_keyterms->go_to(settings->genconfig.project_get(), navigation.reference);
+    window_show_related_verses->go_to(settings->genconfig.project_get(), navigation.reference);
   }
 }
 
 
-void MainWindow::on_window_show_keyterms_delete_button_clicked(GtkButton * button, gpointer user_data)
+void MainWindow::on_window_show_related_verses_delete_button_clicked(GtkButton * button, gpointer user_data)
 {
-  ((MainWindow *) user_data)->on_window_show_keyterms_delete_button();
+  ((MainWindow *) user_data)->on_window_show_related_verses_delete_button();
 }
 
 
-void MainWindow::on_window_show_keyterms_delete_button()
+void MainWindow::on_window_show_related_verses_delete_button()
 {
-  if (window_show_keyterms) {
-    delete window_show_keyterms;
-    window_show_keyterms = NULL;
+  if (window_show_related_verses) {
+    delete window_show_related_verses;
+    window_show_related_verses = NULL;
     resize_text_area_if_tools_area_is_empty ();
-    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_keyterms), false);
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_related_verses), false);
   }
 }
 
 
-void MainWindow::on_window_show_keyterms_keyterm_button_clicked(GtkButton * button, gpointer user_data)
+void MainWindow::on_window_show_related_verses_item_button_clicked(GtkButton * button, gpointer user_data)
 {
-  ((MainWindow *) user_data)->on_window_show_keyterms_keyterm_button();
+  ((MainWindow *) user_data)->on_window_show_related_verses_item_button();
 }
 
 
-void MainWindow::on_window_show_keyterms_keyterm_button()
+void MainWindow::on_window_show_related_verses_item_button() // Todo working here.
 {
-  if (window_show_keyterms->keyterm_id) {
-    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(check_key_terms), true);
-    window_check_keyterms->go_to_term (window_show_keyterms->keyterm_id);
-  }
-  if (window_show_keyterms->strong_id) {
-    // Todo use reference area instead. window_check_keyterms->go_to_strong (window_show_keyterms->strong_id);
+  switch (window_show_related_verses->item_type) {
+    case ritNone:
+    {
+      break;
+    }
+    case ritKeytermId:
+    {
+      gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(check_key_terms), true);
+      window_check_keyterms->go_to_term (window_show_related_verses->item_id);
+      break;
+    }
+    case ritStrongNumber:
+    {
+      vector <Reference> references = sword_kjv_get_strongs_verses (navigation.reference, window_show_related_verses->item_id);
+      show_references_window();
+      extern Settings * settings;
+      ProjectConfiguration * projectconfig = settings->projectconfig (settings->genconfig.project_get());
+      window_references->set (references, projectconfig->language_get(), NULL);
+      break;
+    }
   }
 }
 
@@ -6104,9 +6098,9 @@ bool MainWindow::on_windows_startup()
       WindowID id = WindowID(window_data.ids[windows_startup_pointer]);
       ustring data = window_data.datas[windows_startup_pointer];
       switch (id) {
-      case widShowKeyterms:
+      case widShowRelatedVerses:
         {
-          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_keyterms), true);
+          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_related_verses), true);
           break;
         }
       case widShowQuickReferences:
@@ -6195,11 +6189,11 @@ bool MainWindow::on_windows_startup()
 void MainWindow::shutdown_windows()
 // Shut any open windows down.
 {
-  // Keyterms in verse. 
-  if (window_show_keyterms) {
-    window_show_keyterms->shutdown();
-    delete window_show_keyterms;
-    window_show_keyterms = NULL;
+  // Related verses. 
+  if (window_show_related_verses) {
+    window_show_related_verses->shutdown();
+    delete window_show_related_verses;
+    window_show_related_verses = NULL;
   }
   // Quick references.
   if (window_show_quick_references) {
@@ -6332,11 +6326,11 @@ void MainWindow::on_window_focus_button(GtkButton * button)
         window_show_quick_references->defocus();
       }
     }
-    if (window_show_keyterms) {
-      if (widget == window_show_keyterms->focus_in_signal_button) {
-        window_show_keyterms->present(false);
+    if (window_show_related_verses) {
+      if (widget == window_show_related_verses->focus_in_signal_button) {
+        window_show_related_verses->present(false);
       } else {
-        window_show_keyterms->defocus();
+        window_show_related_verses->defocus();
       }
     }
     if (window_merge) {
@@ -6418,8 +6412,8 @@ void MainWindow::present_windows(GtkWidget * widget)
   // Present all windows.
   if (window_show_quick_references)
     window_show_quick_references->present(false);
-  if (window_show_keyterms)
-    window_show_keyterms->present(false);
+  if (window_show_related_verses)
+    window_show_related_verses->present(false);
   if (window_merge)
     window_merge->present(false);
   for (unsigned int i = 0; i < resource_windows.size(); i++) {
@@ -6459,8 +6453,8 @@ void MainWindow::window_set_focus (GtkWidget *widget)
   // All widgets will check whether the focused widget is theirs, and act accordingly.
   if (window_show_quick_references)
     window_show_quick_references->focus_if_widget_mine(widget);
-  if (window_show_keyterms)
-    window_show_keyterms->focus_if_widget_mine(widget);
+  if (window_show_related_verses)
+    window_show_related_verses->focus_if_widget_mine(widget);
   if (window_merge)
     window_merge->focus_if_widget_mine(widget);
   for (unsigned int i = 0; i < resource_windows.size(); i++) {
@@ -6509,8 +6503,8 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
       focused_tool_button = widget;
     }
   }
-  if (window_show_keyterms) {
-    if (widget == window_show_keyterms->focus_in_signal_button) {
+  if (window_show_related_verses) {
+    if (widget == window_show_related_verses->focus_in_signal_button) {
       focused_tool_button = widget;
     }
   }
@@ -6777,9 +6771,9 @@ void MainWindow::accelerator_close_window()
 // Closes the focused window.
 {
   // Keyterms in verse. 
-  if (window_show_keyterms) {
-    if (now_focused_window_button == window_show_keyterms->focus_in_signal_button) {
-      on_window_show_keyterms_delete_button();
+  if (window_show_related_verses) {
+    if (now_focused_window_button == window_show_related_verses->focus_in_signal_button) {
+      on_window_show_related_verses_delete_button();
     }
   }
   // Quick references.
@@ -7252,6 +7246,11 @@ When deleting notes, we may have a tick box in the yes/no dialog that allows to 
 We could look into whether the displaying of the parallel passages can not go into the window that shows keyterms.
 Then we call it "related verses", or similar, so it shows more generally related verses, whether keyterms, or through Strong's numbers,
 or, as here, parallel passages. It would really clean up the thing a lot.
+
+
+To write help on the window that has gone out, the keyterms in the verse, ,and the other setting that went out,
+the parallel verses, and to introduce the new feature of related verses. Also to mention the keyterms in it,
+the Strong's numbers, and the parallel passages.
 
 
 */

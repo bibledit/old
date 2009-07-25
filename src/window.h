@@ -23,7 +23,7 @@
 #include "libraries.h"
 #include <gtk/gtk.h>
 
-enum WindowID { widShowKeyterms, widShowQuickReferences, widMerge, widResource, 
+enum WindowID { widShowRelatedVerses, widShowQuickReferences, widMerge, widResource, 
                 widOutline, widCheckKeyterms, widStyles, widNotes, widReferences, 
                 widEditor, widMenu, widShowVerses, widCheckUSFM };
 

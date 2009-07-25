@@ -17,10 +17,13 @@
  **  
  */
 
+
 #ifndef INCLUDED_BOOKDATA_H
 #define INCLUDED_BOOKDATA_H
 
+
 enum BookType {btOldTestament, btNewTestament, btFrontBackMatter, btOtherMaterial, btUnknown, btApocrypha};
+
 
 typedef struct
 {
@@ -33,6 +36,8 @@ typedef struct
   bool onechapter; // The book has one chapter.
 } book_record;
 
+
 unsigned int bookdata_books_count();
+
 
 #endif

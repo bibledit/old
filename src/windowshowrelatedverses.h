@@ -18,8 +18,8 @@
  */
 
 
-#ifndef INCLUDED_WINDOW_SHOW_KEYTERMS_H
-#define INCLUDED_WINDOW_SHOW_KEYTERMS_H
+#ifndef INCLUDED_WINDOW_SHOW_RELATED_VERSES_H
+#define INCLUDED_WINDOW_SHOW_RELATED_VERSES_H
 
 
 #include <gtk/gtk.h>
@@ -32,15 +32,18 @@ extern "C" {
 #include "htmlwriter2.h"
 
 
-class WindowShowKeyterms : public WindowBase
+enum RelatedItemType {ritNone, ritKeytermId, ritStrongNumber};
+
+
+class WindowShowRelatedVerses : public WindowBase
 {
 public:
-  WindowShowKeyterms(GtkAccelGroup *accelerator_group, bool startup, GtkWidget * parent_box);
-  virtual ~WindowShowKeyterms();
+  WindowShowRelatedVerses(GtkAccelGroup *accelerator_group, bool startup, GtkWidget * parent_box);
+  virtual ~WindowShowRelatedVerses();
   void go_to(const ustring& project, const Reference& reference);
-  GtkWidget *buttonkeyterm;
-  unsigned int keyterm_id;
-  unsigned int strong_id;
+  GtkWidget *button_item;
+  RelatedItemType item_type;
+  unsigned int item_id;
 protected:
   GtkWidget *scrolledwindow;
   GtkWidget *htmlview;

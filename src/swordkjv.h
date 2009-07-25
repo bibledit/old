@@ -36,6 +36,7 @@ vector <ustring> sword_kjv_import ();
 vector <ustring> sword_kjv_delete ();
 void sword_kjv_action_result_page (const vector <ustring>& messages, HtmlWriter2& htmlwriter);
 void sword_kjv_get_strongs_data (const Reference& reference, vector <unsigned int>& strongs, vector <ustring>& phrases);
+vector <Reference> sword_kjv_get_strongs_verses (const Reference& reference, unsigned int strongs);
 
 
 #endif

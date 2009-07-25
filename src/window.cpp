@@ -262,7 +262,7 @@ void WindowBase::display(bool startup)
     area_rectangle.height = 0;
     extern Settings *settings;
     switch (window_id) {
-    case widShowKeyterms:
+    case widShowRelatedVerses:
     case widShowQuickReferences:
     case widMerge:
     case widResource:

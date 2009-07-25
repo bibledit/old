@@ -644,18 +644,11 @@ New references window, where text becomes better visible, e.g. it shows the orig
 and the target language, all in one html file. 
 
 
-We may have to introduce <next 25> or <previous 25> hyperlinks. This would keep the system fast in case that many references will be loaded.
-Also to have a link [delete page] / [delete entries].
-
-
 The reference area has a link for settings, and one can set there how many references appear on one page, and which versions are included
 in the display.
 
 
 All actions related to references can be removed from the menu, and put into the html page itself as links.
-
-
-We should highlight the currently selected reference, so it is easily visible.
 
 
 Each time references are loaded, the lower boundary needs to be reset to zero.

@@ -20,7 +20,7 @@
 
 #include "libraries.h"
 #include <glib.h>
-#include "windowshowkeyterms.h"
+#include "windowshowrelatedverses.h"
 #include "help.h"
 #include "window.h"
 #include "keyterms.h"
@@ -28,10 +28,12 @@
 #include "swordkjv.h"
 
 
-WindowShowKeyterms::WindowShowKeyterms(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
-WindowBase(widShowKeyterms, "Keyterms in verse", startup, 0, parent_box), myreference(0)
-// Window showing keyterms.
+WindowShowRelatedVerses::WindowShowRelatedVerses(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
+WindowBase(widShowRelatedVerses, "Related verses", startup, 0, parent_box), myreference(0)
+// Window showing related verses.
 {
+  item_type = ritNone;
+
   scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow);
   gtk_container_add(GTK_CONTAINER(window_vbox), scrolledwindow);
@@ -48,17 +50,17 @@ WindowBase(widShowKeyterms, "Keyterms in verse", startup, 0, parent_box), myrefe
   last_focused_widget = htmlview;
   gtk_widget_grab_focus (last_focused_widget);
   
-  buttonkeyterm = gtk_button_new ();
+  button_item = gtk_button_new ();
 }
 
 
-WindowShowKeyterms::~WindowShowKeyterms()
+WindowShowRelatedVerses::~WindowShowRelatedVerses()
 {
-  gtk_widget_destroy (buttonkeyterm);
+  gtk_widget_destroy (button_item);
 }
 
 
-void WindowShowKeyterms::go_to(const ustring & project, const Reference & reference)
+void WindowShowRelatedVerses::go_to(const ustring & project, const Reference & reference)
 {
   if (!myreference.equals(reference)) {
     myreference.assign(reference);
@@ -68,14 +70,14 @@ void WindowShowKeyterms::go_to(const ustring & project, const Reference & refere
 }
 
 
-gboolean WindowShowKeyterms::on_html_link_clicked(GtkHTML * html, const gchar * url, gpointer user_data)
+gboolean WindowShowRelatedVerses::on_html_link_clicked(GtkHTML * html, const gchar * url, gpointer user_data)
 {
-  ((WindowShowKeyterms *) user_data)->html_link_clicked(url);
+  ((WindowShowRelatedVerses *) user_data)->html_link_clicked(url);
   return true;
 }
 
 
-void WindowShowKeyterms::html_link_clicked (const gchar * url)
+void WindowShowRelatedVerses::html_link_clicked (const gchar * url)
 // Callback for clicking a link.
 {
   // Store scrolling position for the now active url.
@@ -90,16 +92,16 @@ void WindowShowKeyterms::html_link_clicked (const gchar * url)
   bool display_another_page = true;
 
   if (active_url.find ("keyterm ") == 0) {
-    keyterm_id = convert_to_int (active_url.substr (8, 100));
-    strong_id = 0;
-    gtk_button_clicked (GTK_BUTTON (buttonkeyterm));
+    item_type = ritKeytermId;
+    item_id = convert_to_int (active_url.substr (8, 100));
+    gtk_button_clicked (GTK_BUTTON (button_item));
     display_another_page = false;
   }
 
   else if (active_url.find ("strong ") == 0) {
-    strong_id = convert_to_int (active_url.substr (7, 100));
-    keyterm_id = 0;
-    gtk_button_clicked (GTK_BUTTON (buttonkeyterm));
+    item_type = ritStrongNumber;
+    item_id = convert_to_int (active_url.substr (7, 100));
+    gtk_button_clicked (GTK_BUTTON (button_item));
     display_another_page = false;
   }
 
@@ -151,9 +153,9 @@ void WindowShowKeyterms::html_link_clicked (const gchar * url)
       htmlwriter.paragraph_close ();
     }
 
-    // Terms derived from the Strong's numbers in this verse. // Todo
+    // Terms derived from the Strong's numbers in this verse.
     htmlwriter.heading_open (3);
-    htmlwriter.text_add ("Simliar words in other verses");
+    htmlwriter.text_add ("Similiar words in other verses");
     htmlwriter.heading_close ();
 
     // Get the data.
