@@ -26,9 +26,8 @@
 #include "reference.h"
 
 
-vector<ustring> references_hidden_ones_load ();
-void references_hidden_ones_save (vector <ustring>& references);
-void references_hidden_ones_filter (vector <Reference>& references, vector <ustring>& comments);
+vector<ustring> references_hidden_ones_load (const ustring& project);
+void references_hidden_ones_save (const ustring& project, vector <ustring>& references);
 bool text_contains_reference (const ustring& text);
 bool text_starts_chapter_verse (const ustring& text);
 

@@ -229,7 +229,6 @@ bibledit_bin_SOURCES = \
         windowlayout.cpp \
         windowshowrelatedverses.cpp \
         window.cpp \
-        windowshowquickrefs.cpp \
         windowmerge.cpp \
         windowresource.cpp \
         windowoutline.cpp \

@@ -263,7 +263,6 @@ void WindowBase::display(bool startup)
     extern Settings *settings;
     switch (window_id) {
     case widShowRelatedVerses:
-    case widShowQuickReferences:
     case widMerge:
     case widResource:
     case widOutline:

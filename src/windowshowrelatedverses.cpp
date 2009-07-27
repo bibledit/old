@@ -221,4 +221,4 @@ void WindowShowRelatedVerses::html_link_clicked (const gchar * url)
 }
 
 
-// Todo the references need to be remapped.
+

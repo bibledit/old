@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include "utilities.h"
 #include "referenceutils.h"
@@ -31,47 +32,27 @@
 #include <glib.h>
 #include "bible.h"
 
+
 ustring references_hidden_ones_get_filename(const ustring & project)
 {
   return gw_build_filename(directories_get_projects(), project, "hidden-references");
 }
 
-vector < ustring > references_hidden_ones_load()
+
+vector < ustring > references_hidden_ones_load(const ustring& project)
 // Loads the references that are hidden in this project.
 {
-  extern Settings *settings;
-  ReadText rt(references_hidden_ones_get_filename(settings->genconfig.project_get()), true, false);
+  ReadText rt(references_hidden_ones_get_filename(project), true, false);
   return rt.lines;
 }
 
-void references_hidden_ones_save(vector < ustring > &references)
+
+void references_hidden_ones_save(const ustring& project, vector < ustring > &references)
 // Saves the references that are hidden in this project.
 {
-  extern Settings *settings;
-  write_lines(references_hidden_ones_get_filename(settings->genconfig.project_get()), references);
+  write_lines(references_hidden_ones_get_filename(project), references);
 }
 
-void references_hidden_ones_filter(vector < Reference > &references, vector < ustring > &comments)
-// Takes "references" as input, and removes from them the ons that are supposed
-// to be hidden.
-{
-  // Load the hidden ones in a set for quicker search.
-  vector < ustring > hidden_ones;
-  hidden_ones = references_hidden_ones_load();
-  set < ustring > hidden_set(hidden_ones.begin(), hidden_ones.end());
-  // Put the references in a temporary container, and copy them back to the 
-  // original container, one by one, if they are not hidden.
-  vector < Reference > temp_references(references.begin(), references.end());
-  vector < ustring > temp_comments(comments.begin(), comments.end());
-  references.clear();
-  comments.clear();
-  for (unsigned int i = 0; i < temp_references.size(); i++) {
-    if (hidden_set.find(temp_references[i].human_readable("") + " " + temp_comments[i]) == hidden_set.end()) {
-      references.push_back(temp_references[i]);
-      comments.push_back(temp_comments[i]);
-    }
-  }
-}
 
 bool text_contains_reference(const ustring & text)
 /*
@@ -85,6 +66,7 @@ Patterns:
 {
   return unix_fnmatch("*[0-9][:,.][0-9]*", text);
 }
+
 
 bool text_starts_chapter_verse(const ustring & text)
 /*
@@ -104,6 +86,7 @@ It looks for these patterns:
     return true;
   return false;
 }
+
 
 ReferencesScanner::ReferencesScanner(const ustring & language, int book, const ustring & text)
 /*

@@ -531,7 +531,7 @@ void WindowCheckKeyterms::html_write_extras (HtmlWriter2& htmlwriter, unsigned i
         htmlwriter.paragraph_close ();
         ustring original_reference_text = information.substr (0, pos);
         Reference reference = get_reference (original_reference_text);
-        // Remap the reference. // Todo
+        // Remap the reference.
         {
           Mapping mapping(versification, reference.book);
           vector <int> chapters;

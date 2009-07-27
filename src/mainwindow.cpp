@@ -155,7 +155,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   // To save memory, we only create the object when actually needed.
   window_screen_layout = NULL;
   window_show_related_verses = NULL;
-  window_show_quick_references = NULL;
   window_merge = NULL;
   window_outline = NULL;
   window_check_keyterms = NULL;
@@ -963,10 +962,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   gtk_widget_show(view_related_verses);
   gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_related_verses);
 
-  view_quick_references = gtk_check_menu_item_new_with_mnemonic("_Quick references");
-  gtk_widget_show(view_quick_references);
-  gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_quick_references);
-
   view_outline = gtk_check_menu_item_new_with_mnemonic("_Outline");
   gtk_widget_show(view_outline);
   gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_outline);
@@ -1464,7 +1459,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   notes_preferences = NULL;
   printingprefs = NULL;
   reference_exchange1 = NULL;
-  ignored_references1 = NULL;
   prefs_books = NULL;
   preferences_windows_outpost = NULL;
   preferences_tidy_text = NULL;
@@ -1494,14 +1488,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     image5972 = gtk_image_new_from_stock("gtk-network", GTK_ICON_SIZE_MENU);
     gtk_widget_show(image5972);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(reference_exchange1), image5972);
-
-    ignored_references1 = gtk_image_menu_item_new_with_mnemonic("_Ignored references");
-    gtk_widget_show(ignored_references1);
-    gtk_container_add(GTK_CONTAINER(menuitem_preferences_menu), ignored_references1);
-
-    image6467 = gtk_image_new_from_stock("gtk-remove", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image6467);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(ignored_references1), image6467);
 
     prefs_books = gtk_image_menu_item_new_with_mnemonic("_Books");
     gtk_widget_show(prefs_books);
@@ -1785,8 +1771,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     g_signal_connect((gpointer) view_screen_layout, "activate", G_CALLBACK(on_view_screen_layout_activate), gpointer(this));
   if (view_related_verses)
     g_signal_connect((gpointer) view_related_verses, "activate", G_CALLBACK(on_view_related_verses_activate), gpointer(this));
-  if (view_quick_references)
-    g_signal_connect((gpointer) view_quick_references, "activate", G_CALLBACK(on_view_quick_references_activate), gpointer(this));
   if (view_outline)
     g_signal_connect((gpointer) view_outline, "activate", G_CALLBACK(on_view_outline_activate), gpointer(this));
   if (view_verses)
@@ -1877,8 +1861,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     g_signal_connect((gpointer) printingprefs, "activate", G_CALLBACK(on_printingprefs_activate), gpointer(this));
   if (reference_exchange1)
     g_signal_connect((gpointer) reference_exchange1, "activate", G_CALLBACK(on_reference_exchange1_activate), gpointer(this));
-  if (ignored_references1)
-    g_signal_connect((gpointer) ignored_references1, "activate", G_CALLBACK(on_ignored_references1_activate), gpointer(this));
   if (prefs_books)
     g_signal_connect((gpointer) prefs_books, "activate", G_CALLBACK(on_prefs_books_activate), gpointer(this));
   if (preferences_windows_outpost)
@@ -2316,8 +2298,7 @@ void MainWindow::menu_replace()
       results.assign(replacedialog.results.begin(), replacedialog.results.end());
       if (window_references) {
         extern Settings *settings;
-        ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
-        window_references->set(replacedialog.results, projectconfig->language_get(), NULL);
+        window_references->set(replacedialog.results, settings->genconfig.project_get(), NULL);
       }
     } else {
       return;
@@ -2717,11 +2698,6 @@ void MainWindow::on_text_area_activate()
 
 void MainWindow::on_tools_area_activate()
 {
-  if (window_show_quick_references) {
-    if (focused_tool_button == window_show_quick_references->focus_in_signal_button) {
-      window_show_quick_references->present (true);
-    }
-  }
   if (window_show_related_verses) {
     if (focused_tool_button == window_show_related_verses->focus_in_signal_button) {
       window_show_related_verses->present (true);
@@ -2949,6 +2925,7 @@ void MainWindow::on_paste(bool called_by_menu)
  |
  */
 
+
 void MainWindow::show_references_window()
 {
   if (!window_references) {
@@ -2963,10 +2940,12 @@ void MainWindow::show_references_window()
   window_references->present (true);
 }
 
+
 void MainWindow::on_window_references_delete_button_clicked(GtkButton * button, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_window_references_delete_button();
 }
+
 
 void MainWindow::on_window_references_delete_button()
 {
@@ -2977,16 +2956,19 @@ void MainWindow::on_window_references_delete_button()
   }
 }
 
+
 void MainWindow::on_window_references_signal_button_clicked(GtkButton * button, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_window_references_signal_button();
 }
+
 
 void MainWindow::on_window_references_signal_button()
 // This routine is called when the reference window fires a signal that something has happened.
 {
   on_list_goto();
 }
+
 
 void MainWindow::on_list_goto()
 // Handler for when the user clicked a reference in the list so as to go to a reference.
@@ -3004,6 +2986,7 @@ void MainWindow::on_list_goto()
   navigation.display(window_references->reference);
   editor_window->go_to_new_reference_highlight_set();
 }
+
 
 void MainWindow::on_open_references1_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
@@ -3034,18 +3017,22 @@ void MainWindow::on_previous_reference()
 }
 
 
-void MainWindow::on_ignored_references1_activate(GtkMenuItem * menuitem, gpointer user_data)
+void MainWindow::on_show_quick_references_signal_button_clicked(GtkButton * button, gpointer user_data)
 {
-  ((MainWindow *) user_data)->on_ignored_references();
+  ((MainWindow *) user_data)->on_show_quick_references_signal_button(button);
 }
 
 
-void MainWindow::on_ignored_references()
+void MainWindow::on_show_quick_references_signal_button(GtkButton * button)
 {
-  vector < ustring > hidden_references = references_hidden_ones_load();
-  EditListDialog dialog(&hidden_references, "Hidden references", "of references and comments that will never be shown in the reference area.", true, false, true, false, false, false, false, NULL);
-  if (dialog.run() == GTK_RESPONSE_OK)
-    references_hidden_ones_save(hidden_references);
+  if (!window_references)
+    return;
+  WindowEditor *editor_window = last_focused_editor_window();
+  if (!editor_window)
+    return;
+  vector <Reference> references = editor_window->quick_references();
+  window_references->set(references, editor_window->project(), NULL);
+
 }
 
 
@@ -3232,7 +3219,6 @@ void MainWindow::view_project_notes()
     g_signal_connect((gpointer) window_notes->delete_signal_button, "clicked", G_CALLBACK(on_window_notes_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_notes->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_notes->references_available_signal_button, "clicked", G_CALLBACK(on_window_notes_references_available_button_clicked), gpointer(this));
-    treeview_references_display_quick_reference();
   }
 }
 
@@ -3415,8 +3401,7 @@ void MainWindow::on_get_references_from_note()
 
   // Load the references in the window
   show_references_window();
-  ProjectConfiguration * projectconfig = settings->projectconfig(settings->genconfig.project_get());
-  window_references->set (references, projectconfig->language_get(), NULL);
+  window_references->set (references, settings->genconfig.project_get(), NULL);
 }
 
 
@@ -3430,11 +3415,10 @@ void MainWindow::on_window_notes_references_available_button()
 {
   show_references_window();
   if (window_notes) {
-    extern Settings *settings;
-    ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
     vector <Reference> references = window_notes->available_references;
     sort_references(references);
-    window_references->set (references, projectconfig->language_get(), NULL);
+    extern Settings *settings;
+    window_references->set (references, settings->genconfig.project_get(), NULL);
   }
 }
 
@@ -4512,8 +4496,7 @@ void MainWindow::on_window_show_related_verses_item_button()
       vector <Reference> references = sword_kjv_get_strongs_verses (navigation.reference, window_show_related_verses->item_id);
       show_references_window();
       extern Settings * settings;
-      ProjectConfiguration * projectconfig = settings->projectconfig (settings->genconfig.project_get());
-      window_references->set (references, projectconfig->language_get(), NULL);
+      window_references->set (references, settings->genconfig.project_get(), NULL);
       break;
     }
     case ritParallels:
@@ -4523,8 +4506,7 @@ void MainWindow::on_window_show_related_verses_item_button()
       parallel_passages_retrieve (navigation.reference, references, comments);
       show_references_window();
       extern Settings * settings;
-      ProjectConfiguration * projectconfig = settings->projectconfig (settings->genconfig.project_get());
-      window_references->set (references, projectconfig->language_get(), &comments);
+      window_references->set (references, settings->genconfig.project_get(), &comments);
       break;
     }
   }
@@ -6106,11 +6088,6 @@ bool MainWindow::on_windows_startup()
           gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_related_verses), true);
           break;
         }
-      case widShowQuickReferences:
-        {
-          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_quick_references), true);
-          break;
-        }
       case widMerge:
         {
           gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(file_projects_merge), true);
@@ -6197,12 +6174,6 @@ void MainWindow::shutdown_windows()
     window_show_related_verses->shutdown();
     delete window_show_related_verses;
     window_show_related_verses = NULL;
-  }
-  // Quick references.
-  if (window_show_quick_references) {
-    window_show_quick_references->shutdown();
-    delete window_show_quick_references;
-    window_show_quick_references = NULL;
   }
   // Merge
   if (window_merge) {
@@ -6322,13 +6293,6 @@ void MainWindow::on_window_focus_button(GtkButton * button)
   
   // In case of attached windows, focus the right one, and defocus the rest.
   if (!windows_are_detached) {
-    if (window_show_quick_references) {
-      if (widget == window_show_quick_references->focus_in_signal_button) {
-        window_show_quick_references->present(false);
-      } else {
-        window_show_quick_references->defocus();
-      }
-    }
     if (window_show_related_verses) {
       if (widget == window_show_related_verses->focus_in_signal_button) {
         window_show_related_verses->present(false);
@@ -6413,8 +6377,6 @@ void MainWindow::present_windows(GtkWidget * widget)
 // Focus all windows.
 {
   // Present all windows.
-  if (window_show_quick_references)
-    window_show_quick_references->present(false);
   if (window_show_related_verses)
     window_show_related_verses->present(false);
   if (window_merge)
@@ -6454,8 +6416,6 @@ void MainWindow::window_set_focus (GtkWidget *widget)
   if (windows_are_detached) 
     return;
   // All widgets will check whether the focused widget is theirs, and act accordingly.
-  if (window_show_quick_references)
-    window_show_quick_references->focus_if_widget_mine(widget);
   if (window_show_related_verses)
     window_show_related_verses->focus_if_widget_mine(widget);
   if (window_merge)
@@ -6501,11 +6461,6 @@ void MainWindow::resize_text_area_if_tools_area_is_empty()
 void MainWindow::store_last_focused_tool_button (GtkButton * button)
 {
   GtkWidget * widget = GTK_WIDGET (button);
-  if (window_show_quick_references) {
-    if (widget == window_show_quick_references->focus_in_signal_button) {
-      focused_tool_button = widget;
-    }
-  }
   if (window_show_related_verses) {
     if (widget == window_show_related_verses->focus_in_signal_button) {
       focused_tool_button = widget;
@@ -6555,85 +6510,6 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
   }
 }
 
-
-/*
- |
- |
- |
- |
- |
- Quick references
- |
- |
- |
- |
- |
- */
-
-void MainWindow::on_view_quick_references_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_view_quick_references();
-}
-
-void MainWindow::on_view_quick_references()
-{
-  on_window_show_quick_references_delete_button();
-  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_quick_references))) {
-    extern GtkAccelGroup *accelerator_group;
-    window_show_quick_references = new WindowShowQuickReferences(accelerator_group, windows_startup_pointer != G_MAXINT, vbox_tools);
-    resize_text_area_if_tools_area_is_empty ();
-    g_signal_connect((gpointer) window_show_quick_references->delete_signal_button, "clicked", G_CALLBACK(on_window_show_quick_references_delete_button_clicked), gpointer(this));
-    g_signal_connect((gpointer) window_show_quick_references->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
-    treeview_references_display_quick_reference();
-  }
-}
-
-void MainWindow::on_window_show_quick_references_delete_button_clicked(GtkButton * button, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_window_show_quick_references_delete_button();
-}
-
-void MainWindow::on_window_show_quick_references_delete_button()
-{
-  if (window_show_quick_references) {
-    delete window_show_quick_references;
-    window_show_quick_references = NULL;
-    resize_text_area_if_tools_area_is_empty ();
-    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_quick_references), false);
-  }
-}
-
-void MainWindow::on_show_quick_references_signal_button_clicked(GtkButton * button, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_show_quick_references_signal_button(button);
-}
-
-void MainWindow::on_show_quick_references_signal_button(GtkButton * button)
-{
-  if (!window_show_quick_references)
-    return;
-  WindowEditor *editor_window = last_focused_editor_window();
-  if (!editor_window)
-    return;
-  extern Settings *settings;
-  ustring project = settings->genconfig.project_get();
-  window_show_quick_references->go_to(project, editor_window->quick_references());
-}
-
-void MainWindow::treeview_references_display_quick_reference()
-// Display the quick references.
-{
-  // Bail out if there's no quick references window or references window..
-  if (window_show_quick_references == NULL)
-    return;
-  if (window_references == NULL)
-    return;
-
-  // Display the verses.
-  extern Settings *settings;
-  ustring project = settings->genconfig.project_get();
-  // Todo window_show_quick_references->go_to(project, window_references->references);
-}
 
 /*
  |
@@ -6777,12 +6653,6 @@ void MainWindow::accelerator_close_window()
   if (window_show_related_verses) {
     if (now_focused_window_button == window_show_related_verses->focus_in_signal_button) {
       on_window_show_related_verses_delete_button();
-    }
-  }
-  // Quick references.
-  if (window_show_quick_references) {
-    if (now_focused_window_button == window_show_quick_references->focus_in_signal_button) {
-      on_window_show_quick_references_delete_button();
     }
   }
   // Merge
@@ -7208,8 +7078,11 @@ void MainWindow::check_usfm_window_ping()
 Todo various tasks.
 
 
-The quick references are no longer relevant. It probably can go out altogether.
+The quick references are no longer relevant. It probably can go out altogether. 
 
+
+We probably send text files with the program, but once the program initializes, it would need to check upon the text files,
+and decide whether databases are created out of that. These can e.g. store the mapping data for faster retrieval.
 
 
 Whatever function used to call the quick references, these references can now be sent to the reference area, if that area is visible.

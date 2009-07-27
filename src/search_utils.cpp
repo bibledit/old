@@ -505,9 +505,6 @@ with the references that are already there.
   // Session data.  
   extern Settings *settings;
 
-  // Project data.
-  ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
-
   // Deal with how the current search results interact with the ones in the editor.
   SearchResultsType searchresultstype = settings->session.searchresultstype;
   // If the search page is zero, that means we are on basic search. And that 
@@ -520,7 +517,7 @@ with the references that are already there.
     {
       // Sort and load the references.
       sort_references(searchresults);
-      references_window->set (searchresults, projectconfig->language_get(), NULL);
+      references_window->set (searchresults, settings->genconfig.project_get(), NULL);
       break;
     }
   case sstAdd:
@@ -540,7 +537,7 @@ with the references that are already there.
       }
       searchresults = loaded_references;
       sort_references(searchresults);
-      references_window->set (searchresults, projectconfig->language_get(), NULL);
+      references_window->set (searchresults, settings->genconfig.project_get(), NULL);
       break;
     }
   case sstSubtract:
@@ -559,7 +556,7 @@ with the references that are already there.
       }
       searchresults = loaded_references;
       sort_references(searchresults);
-      references_window->set (searchresults, projectconfig->language_get(), NULL);
+      references_window->set (searchresults, settings->genconfig.project_get(), NULL);
       break;
     }
   case sstShare:
@@ -581,7 +578,7 @@ with the references that are already there.
       }
       searchresults = shared_references;
       sort_references(searchresults);
-      references_window->set (searchresults, projectconfig->language_get(), NULL);
+      references_window->set (searchresults, settings->genconfig.project_get(), NULL);
       break;
     }
   }

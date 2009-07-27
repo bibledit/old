@@ -50,8 +50,7 @@ void checks_display_references_comments(vector < ustring > &references, vector <
     refs.push_back(ref);
   }
   extern Settings *settings;
-  ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
-  references_window->set (refs, projectconfig->language_get(), &comments);
+  references_window->set (refs, settings->genconfig.project_get(), &comments);
 }
 
 

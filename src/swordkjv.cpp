@@ -332,6 +332,22 @@ void sword_kjv_internal_dissect_text (ustring text, vector <unsigned int>& stron
 }
 
 
+void sword_kjv_internal_clean_text (ustring& text)
+// Clens the Strong's numbers of of the text.
+// A raw verse would look like this:
+// (07225)In the beginning (0430)God (0853)(01254)created (08064)the heaven (0853)and (0776)the earth.
+{
+  size_t pos1 = text.find ("(");
+  while (pos1 != string::npos) {
+    size_t pos2 = text.find (")");
+    if (pos2 != string::npos) {
+      text.erase (pos1, pos2 - pos1 + 1);
+    }
+    pos1 = text.find ("(");
+  }
+}
+
+
 void sword_kjv_get_strongs_data (const Reference& reference, vector <unsigned int>& strongs, vector <ustring>& phrases)
 // This gets the phrases and the strong's numbers for a verse.
 {
@@ -407,3 +423,34 @@ vector <Reference> sword_kjv_get_strongs_verses (const Reference& reference, uns
 }
 
 
+ustring sword_kjv_get_verse (const Reference& reference)
+// Get the verse text from the Sword KJV Bible.
+{
+  ustring text;
+  sqlite3 *db;
+  int rc;
+  char *error = NULL;
+  try {
+    SqliteReader reader(0);
+    rc = sqlite3_open(sword_kjv_get_filename().c_str(), &db);
+    if (rc)
+      throw runtime_error(sqlite3_errmsg(db));
+    sqlite3_busy_timeout(db, 1000);
+    char *sql;
+    sql = g_strdup_printf("select text from richtext where book = %d and chapter = %d and verse = %d;", reference.book, reference.chapter, convert_to_int (reference.verse));
+    rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
+    g_free(sql);
+    if (rc) {
+      throw runtime_error(sqlite3_errmsg(db));
+    }
+    if (!reader.ustring0.empty()) {
+      text = reader.ustring0[0];
+      sword_kjv_internal_clean_text (text);
+    }
+  }
+  catch(exception & ex) {
+    gw_critical(ex.what());
+  }
+  sqlite3_close(db);
+  return text;
+}

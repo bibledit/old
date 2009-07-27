@@ -36,7 +36,6 @@
 #include "git.h"
 #include "windowlayout.h"
 #include "windowshowrelatedverses.h"
-#include "windowshowquickrefs.h"
 #include "windowmerge.h"
 #include "windowresource.h"
 #include "windowoutline.h"
@@ -193,7 +192,6 @@ protected:
   GtkWidget *image26812;
   GtkWidget *view_screen_layout;
   GtkWidget *view_related_verses;
-  GtkWidget *view_quick_references;
   GtkWidget *view_outline;
   GtkWidget *view_verses;
   GtkWidget *insert1;
@@ -309,8 +307,6 @@ protected:
   GtkWidget *image3493;
   GtkWidget *reference_exchange1;
   GtkWidget *image5972;
-  GtkWidget *ignored_references1;
-  GtkWidget *image6467;
   GtkWidget *prefs_books;
   GtkWidget *image12167;
   GtkWidget *preferences_windows_outpost;
@@ -455,9 +451,8 @@ protected:
   void on_open_references();
   void on_next_reference();
   void on_previous_reference();
-  static void on_ignored_references1_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_ignored_references();
-  void treeview_references_display_quick_reference();
+  static void on_show_quick_references_signal_button_clicked(GtkButton * button, gpointer user_data);
+  void on_show_quick_references_signal_button(GtkButton * button);
 
   // Bibledit Windows Outpost
   // BibleTime
@@ -756,15 +751,6 @@ protected:
   void window_set_focus (GtkWidget *widget);
   void resize_text_area_if_tools_area_is_empty();
   void store_last_focused_tool_button (GtkButton * button);
-
-  /* Quick references */
-  static void on_view_quick_references_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_view_quick_references();
-  WindowShowQuickReferences * window_show_quick_references;
-  static void on_window_show_quick_references_delete_button_clicked(GtkButton *button, gpointer user_data);
-  void on_window_show_quick_references_delete_button();
-  static void on_show_quick_references_signal_button_clicked(GtkButton *button, gpointer user_data);
-  void on_show_quick_references_signal_button(GtkButton *button);
 
   // Accelerators.
   static void accelerator_undo_callback(gpointer user_data);

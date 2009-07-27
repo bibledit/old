@@ -60,8 +60,7 @@ void compare_with(WindowReferences * references_window, const ustring & project,
     // Print changes only, and load them in the references.
     vector <Reference> references;
     compare_get_changes(comparedprojectmemory, references);
-    extern Settings *settings;
-    references_window->set (references, settings->projectconfig(project)->language_get(), NULL);
+    references_window->set (references, project, NULL);
     comparedprojectmemory.name = project;
     view_parallel_references_pdf(comparedprojectmemory, NULL, references, true, &additions_deletions, true);
   } else {

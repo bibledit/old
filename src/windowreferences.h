@@ -37,7 +37,7 @@ class WindowReferences : public WindowBase
 public:
   WindowReferences(GtkAccelGroup *accelerator_group, bool startup, GtkWidget * parent_box);
   virtual ~WindowReferences();
-  void set (vector <Reference>& refs, const ustring& language, vector <ustring> * comments_in);
+  void set (vector <Reference>& refs, const ustring& project_in, vector <ustring> * comments_in);
   vector <Reference> get ();
   GtkWidget * signal_button;
   Reference reference;
@@ -60,7 +60,8 @@ private:
   void html_write_action_page (HtmlWriter2& htmlwriter);
   vector <Reference> references;
   vector <ustring> comments;
-  ustring mylanguage;
+  ustring project;
+  ustring language;
   unsigned int lower_boundary;
   unsigned int upper_boundary;
   int active_entry;
@@ -69,6 +70,7 @@ private:
   void save ();
   void dismiss (bool cursor, bool all);
   ustring hide_string (unsigned int index);
+  ustring hide_string (Reference& reference, ustring& comment);
   void goto_next_previous_internal (bool next);
 };
 

@@ -36,6 +36,9 @@
 #include "directories.h"
 #include "utilities.h"
 #include "bible.h"
+#include "usfmtools.h"
+#include "dialogeditlist.h"
+#include "swordkjv.h"
 
 
 WindowReferences::WindowReferences(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
@@ -79,22 +82,30 @@ WindowReferences::~WindowReferences()
 }
 
 
-void WindowReferences::set (vector <Reference>& refs, const ustring& language, vector <ustring> * comments_in)
+void WindowReferences::set (vector <Reference>& refs, const ustring& project_in, vector <ustring> * comments_in)
 // Sets the references in the window.
 // refs: the references to be loaded.
-// language: the language in which to display the references.
+// project: project and language for the references.
 {
-  mylanguage = language;
+  project = project_in;
+  extern Settings * settings;
+  ProjectConfiguration * projectconfig = settings->projectconfig (settings->genconfig.project_get());
+  language = projectconfig->language_get();
   references.clear();    
   comments.clear();
   active_entry = -1;
   lower_boundary = 0;
+  vector <ustring> hidden_references = references_hidden_ones_load (project);
+  std::set <ustring> hidden_references_set (hidden_references.begin(), hidden_references.end());
   for (unsigned int i = 0; i < refs.size(); i++) {
-    references.push_back (refs[i]);
-    if (comments_in)
-      comments.push_back (comments_in->at (i));
-    else
-      comments.push_back ("");
+    ustring signature = hide_string (refs[i], comments_in->at (i));
+    if (hidden_references_set.find (signature) == hidden_references_set.end()) {
+      references.push_back (refs[i]);
+      if (comments_in)
+        comments.push_back (comments_in->at (i));
+      else
+        comments.push_back ("");
+    }
   }  
   html_link_clicked ("");
 }
@@ -162,8 +173,9 @@ void WindowReferences::load ()
     
   // Language.
   extern Settings *settings;
-  ProjectConfiguration *projectconfig = settings->projectconfig(settings->genconfig.project_get());
-  ustring language = projectconfig->language_get();
+  project = settings->genconfig.project_get();
+  ProjectConfiguration *projectconfig = settings->projectconfig(project);
+  language = projectconfig->language_get();
   
   // Database variables.  
   sqlite3 *db;
@@ -400,10 +412,20 @@ void WindowReferences::html_link_clicked (const gchar * url)
 
   else if (active_url.find ("hide") == 0) {
     // Hide the active reference from now on.
-    vector <ustring> hidden_references = references_hidden_ones_load();
+    vector <ustring> hidden_references = references_hidden_ones_load(project);
     hidden_references.push_back (hide_string (active_entry));
-    references_hidden_ones_save(hidden_references);
+    references_hidden_ones_save(project, hidden_references);
     dismiss (true, false);
+    html_write_references (htmlwriter);
+  }
+
+  else if (active_url.find ("hidden") == 0) {
+    // Manage the hidden references.
+    vector < ustring > hidden_references = references_hidden_ones_load(project);
+    EditListDialog dialog(&hidden_references, "Hidden references", "of references and comments that will never be shown in the reference area.", true, false, true, false, false, false, false, NULL);
+    if (dialog.run() == GTK_RESPONSE_OK) {
+      references_hidden_ones_save(project, hidden_references);
+    }
     html_write_references (htmlwriter);
   }
 
@@ -433,15 +455,24 @@ void WindowReferences::html_write_references (HtmlWriter2& htmlwriter)
   // Write action bar.
   html_write_action_bar (htmlwriter, true);
 
-  // References page.
+  // The references.
   for (unsigned int i = lower_boundary; i < upper_boundary; i++) {
     htmlwriter.paragraph_open();
     ustring url = "goto " + convert_to_string (i);
-    htmlwriter.hyperlink_add (url, references[i].human_readable (mylanguage));
+    htmlwriter.hyperlink_add (url, references[i].human_readable (language));
     if (!comments[i].empty()) {
       htmlwriter.text_add (" ");
       htmlwriter.text_add (comments[i]);
     }
+    htmlwriter.paragraph_close();
+    htmlwriter.paragraph_open ();
+    ustring text = project_retrieve_verse(project, references[i].book, references[i].chapter, references[i].verse);
+    text = usfm_get_verse_text_only (text);
+    htmlwriter.text_add (text);
+    htmlwriter.paragraph_close();
+    htmlwriter.paragraph_open ();
+    text = sword_kjv_get_verse (references[i]);
+    htmlwriter.text_add (text);
     htmlwriter.paragraph_close();
   }
   
@@ -493,7 +524,7 @@ void WindowReferences::html_write_action_page (HtmlWriter2& htmlwriter)
   // If any references has been clicked, offer the option to dismiss it.
   if (active_entry >= 0) {
     htmlwriter.paragraph_open ();
-    htmlwriter.hyperlink_add ("dismiss cursor", "Dismiss " + references[active_entry].human_readable (mylanguage));
+    htmlwriter.hyperlink_add ("dismiss cursor", "Dismiss " + references[active_entry].human_readable (language));
     htmlwriter.paragraph_close ();
   }
   // If the page has any references, offer the option to dismiss the whole page.
@@ -514,6 +545,10 @@ void WindowReferences::html_write_action_page (HtmlWriter2& htmlwriter)
     htmlwriter.hyperlink_add ("hide", "Hide \"" + hide_string (active_entry) + "\" from now on");
     htmlwriter.paragraph_close ();
   }
+  // Manage the hidden references.
+  htmlwriter.paragraph_open ();
+  htmlwriter.hyperlink_add ("hidden", "Manage the hidden references");
+  htmlwriter.paragraph_close ();
 }
 
 
@@ -561,10 +596,19 @@ ustring WindowReferences::hide_string (unsigned int index)
 // Generates the string that is used in the hiding mechanisms.
 {
   ustring hs;
-  hs.append (references[index].human_readable (mylanguage));
-  if (!comments[index].empty()) {
+  hs =  hide_string (references[index], comments[index]);
+  return hs;
+}
+
+
+ustring WindowReferences::hide_string (Reference& reference, ustring& comment)
+// Generates the string that is used in the hiding mechanisms.
+{
+  ustring hs;
+  hs.append (reference.human_readable (language));
+  if (!comment.empty()) {
     hs.append (" ");
-    hs.append (comments[index]);
+    hs.append (comment);
   }
   return hs; 
 }
@@ -640,14 +684,6 @@ void WindowReferences::goto_next_previous_internal(bool next)
 Todo various tasks.
 
 
-New references window, where text becomes better visible, e.g. it shows the original language (KJV in this case),
-and the target language, all in one html file. 
-
-
-The reference area has a link for settings, and one can set there how many references appear on one page, and which versions are included
-in the display.
-
-
 All actions related to references can be removed from the menu, and put into the html page itself as links.
 
 
@@ -690,6 +726,16 @@ The preferences where the hidden references are managed should also be made acce
 
 
 The references management gui should be implemented, so that no management is available if this feature has been disabled.
+
+
+We may start the Scrivener Greek text into Bibledit as follows. 
+* To create the capability to import from BibleWorks, and from Logos. 
+* Then we have texts for the people. 
+* Later, if time permits, we can then have a project to start our own Greek text. 
+* See http://plowsharemission.com/WebApps/PlowShare/. 
+* We may have to write different routines that do the harvesting from the internet for us. 
+  These routines are in Bibledit itself, but not normally accessible, only when clicking e.g. thrice the relevant links in the maintenance window.
+* Bibledit itself has a few import routines that users need to do, such as import from BibleWorks, or Logos.
 
 
 
