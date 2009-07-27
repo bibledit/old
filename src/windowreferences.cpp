@@ -98,13 +98,14 @@ void WindowReferences::set (vector <Reference>& refs, const ustring& project_in,
   vector <ustring> hidden_references = references_hidden_ones_load (project);
   std::set <ustring> hidden_references_set (hidden_references.begin(), hidden_references.end());
   for (unsigned int i = 0; i < refs.size(); i++) {
-    ustring signature = hide_string (refs[i], comments_in->at (i));
+    ustring comment;
+    if (comments_in) {
+      comment = comments_in->at (i);
+    }
+    ustring signature = hide_string (refs[i], comment);
     if (hidden_references_set.find (signature) == hidden_references_set.end()) {
       references.push_back (refs[i]);
-      if (comments_in)
-        comments.push_back (comments_in->at (i));
-      else
-        comments.push_back ("");
+      comments.push_back (comment);
     }
   }  
   html_link_clicked ("");
@@ -429,6 +430,12 @@ void WindowReferences::html_link_clicked (const gchar * url)
     html_write_references (htmlwriter);
   }
 
+  else if (active_url.find ("open") == 0) {
+    // Import a list of references.
+    open ();
+    html_write_references (htmlwriter);
+  }
+
   else {
     // Load the references.
     html_write_references (htmlwriter);
@@ -548,6 +555,10 @@ void WindowReferences::html_write_action_page (HtmlWriter2& htmlwriter)
   // Manage the hidden references.
   htmlwriter.paragraph_open ();
   htmlwriter.hyperlink_add ("hidden", "Manage the hidden references");
+  htmlwriter.paragraph_close ();
+  // Offer to open a list of references.
+  htmlwriter.paragraph_open ();
+  htmlwriter.hyperlink_add ("open", "Import a list of references");
   htmlwriter.paragraph_close ();
 }
 
@@ -682,9 +693,6 @@ void WindowReferences::goto_next_previous_internal(bool next)
 
 
 Todo various tasks.
-
-
-All actions related to references can be removed from the menu, and put into the html page itself as links.
 
 
 Each time references are loaded, the lower boundary needs to be reset to zero.

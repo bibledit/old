@@ -90,11 +90,6 @@ protected:
   GtkWidget *file_projects_merge;
   GtkWidget *projects_send_receive1;
   GtkWidget *image34440;
-  GtkWidget *file_references;
-  GtkWidget *image465;
-  GtkWidget *file_references_menu;
-  GtkWidget *open_references1;
-  GtkWidget *image466;
   GtkWidget *style;
   GtkWidget *image10735;
   GtkWidget *style_menu;
@@ -191,6 +186,7 @@ protected:
   GtkWidget *view_planning;
   GtkWidget *image26812;
   GtkWidget *view_screen_layout;
+  GtkWidget *view_references;
   GtkWidget *view_related_verses;
   GtkWidget *view_outline;
   GtkWidget *view_verses;
@@ -440,6 +436,8 @@ protected:
   void on_paste(bool called_by_menu);
 
   /* References */
+  static void on_view_references_activate (GtkMenuItem *menuitem, gpointer user_data);
+  void on_view_references ();
   void show_references_window();
   WindowReferences * window_references;
   static void on_window_references_delete_button_clicked(GtkButton *button, gpointer user_data);
@@ -447,8 +445,6 @@ protected:
   static void on_window_references_signal_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_references_signal_button();
   void on_list_goto();
-  static void on_open_references1_activate(GtkMenuItem * menuitem, gpointer user_data);
-  void on_open_references();
   void on_next_reference();
   void on_previous_reference();
   static void on_show_quick_references_signal_button_clicked(GtkButton * button, gpointer user_data);
