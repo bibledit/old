@@ -194,6 +194,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   // Gui Features object.
   GuiFeatures guifeatures(0);
   project_notes_enabled = guifeatures.project_notes();
+  references_management_enabled = guifeatures.references_management();
 
   // Accelerators.
   extern GtkAccelGroup *accelerator_group;
@@ -2909,7 +2910,7 @@ void MainWindow::on_view_references ()
   on_window_references_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_references))) {
     extern GtkAccelGroup *accelerator_group;
-    window_references = new WindowReferences(accelerator_group, windows_startup_pointer != G_MAXINT, vbox_tools);
+    window_references = new WindowReferences(accelerator_group, windows_startup_pointer != G_MAXINT, vbox_tools, references_management_enabled);
     resize_text_area_if_tools_area_is_empty ();
     g_signal_connect((gpointer) window_references->delete_signal_button, "clicked", G_CALLBACK(on_window_references_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_references->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
@@ -7096,6 +7097,18 @@ or, as here, parallel passages. It would really clean up the thing a lot.
 To write help on the window that has gone out, the keyterms in the verse, ,and the other setting that went out,
 the parallel verses, and to introduce the new feature of related verses. Also to mention the keyterms in it,
 the Strong's numbers, and the parallel passages.
+
+
+We may start the Scrivener Greek text into Bibledit as follows. 
+* To create the capability to import from BibleWorks, and from Logos. 
+* Then we have texts for the people. 
+* Later, if time permits, we can then have a project to start our own Greek text. 
+* See http://plowsharemission.com/WebApps/PlowShare/. 
+* We may have to write different routines that do the harvesting from the internet for us. 
+  These routines are in Bibledit itself, but not normally accessible, only when clicking e.g. thrice the relevant links in the maintenance window.
+* Bibledit itself has a few import routines that users need to do, such as import from BibleWorks, or Logos.
+
+
 
 
 */

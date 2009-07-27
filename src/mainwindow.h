@@ -436,6 +436,7 @@ protected:
   void on_paste(bool called_by_menu);
 
   /* References */
+  bool references_management_enabled;
   static void on_view_references_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_view_references ();
   void show_references_window();

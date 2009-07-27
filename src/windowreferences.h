@@ -35,7 +35,7 @@ extern "C" {
 class WindowReferences : public WindowBase
 {
 public:
-  WindowReferences(GtkAccelGroup *accelerator_group, bool startup, GtkWidget * parent_box);
+  WindowReferences(GtkAccelGroup *accelerator_group, bool startup, GtkWidget * parent_box, bool reference_management_enabled);
   virtual ~WindowReferences();
   void set (vector <Reference>& refs, const ustring& project_in, vector <ustring> * comments_in);
   vector <Reference> get ();
@@ -72,6 +72,7 @@ private:
   ustring hide_string (unsigned int index);
   ustring hide_string (Reference& reference, ustring& comment);
   void goto_next_previous_internal (bool next);
+  bool references_management_on;
 };
 
 

@@ -41,13 +41,14 @@
 #include "swordkjv.h"
 
 
-WindowReferences::WindowReferences(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
+WindowReferences::WindowReferences(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box, bool reference_management_enabled):
 WindowBase(widReferences, "References", startup, 0, parent_box), reference(0, 0, "")
 // Window for showing the quick references.  
 {
   lower_boundary = 0;
   active_entry = -1;
-    
+  references_management_on = reference_management_enabled;
+  
   scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow);
   gtk_container_add(GTK_CONTAINER(window_vbox), scrolledwindow);
@@ -554,19 +555,23 @@ void WindowReferences::html_write_action_page (HtmlWriter2& htmlwriter)
     htmlwriter.paragraph_close ();
   }  
   // If a reference has been clicked, offer the option to hide it from now on.
-  if (active_entry >= 0) {
+  if ((active_entry >= 0) && references_management_on) {
     htmlwriter.paragraph_open ();
     htmlwriter.hyperlink_add ("hide", "Hide \"" + hide_string (active_entry) + "\" from now on");
     htmlwriter.paragraph_close ();
   }
   // Manage the hidden references.
-  htmlwriter.paragraph_open ();
-  htmlwriter.hyperlink_add ("hidden", "Manage the hidden references");
-  htmlwriter.paragraph_close ();
+  if (references_management_on) {
+    htmlwriter.paragraph_open ();
+    htmlwriter.hyperlink_add ("hidden", "Manage the hidden references");
+    htmlwriter.paragraph_close ();
+  }
   // Offer to open a list of references.
-  htmlwriter.paragraph_open ();
-  htmlwriter.hyperlink_add ("open", "Import a list of references");
-  htmlwriter.paragraph_close ();
+  if (references_management_on) {
+    htmlwriter.paragraph_open ();
+    htmlwriter.hyperlink_add ("open", "Import a list of references");
+    htmlwriter.paragraph_close ();
+  }
 }
 
 
@@ -695,36 +700,3 @@ void WindowReferences::goto_next_previous_internal(bool next)
 }
 
 
-
-/*
-
-
-Todo various tasks.
-
-
-  if (guifeatures.references_management()) {
-Implement the above.
-
-
-When references are hidden, we should check upon loading these, that the hidden ones are removed, and not displayed,
-even if these are offered.
-
-The preferences where the hidden references are managed should also be made accessible from the html page.
-
-
-The references management gui should be implemented, so that no management is available if this feature has been disabled.
-
-
-We may start the Scrivener Greek text into Bibledit as follows. 
-* To create the capability to import from BibleWorks, and from Logos. 
-* Then we have texts for the people. 
-* Later, if time permits, we can then have a project to start our own Greek text. 
-* See http://plowsharemission.com/WebApps/PlowShare/. 
-* We may have to write different routines that do the harvesting from the internet for us. 
-  These routines are in Bibledit itself, but not normally accessible, only when clicking e.g. thrice the relevant links in the maintenance window.
-* Bibledit itself has a few import routines that users need to do, such as import from BibleWorks, or Logos.
-
-
-
-
-*/
