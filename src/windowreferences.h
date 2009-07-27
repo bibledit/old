@@ -41,16 +41,16 @@ public:
   vector <Reference> get ();
   GtkWidget * signal_button;
   Reference reference;
-  void open();
-  void load (const ustring & filename);
   void save(const ustring& filename);
-  void clear();
   void goto_next ();
   void goto_previous ();
 protected:
   GtkWidget *scrolledwindow;
   GtkWidget *htmlview;
 private:
+  void open();
+  void load (const ustring & filename);
+  void clear();
   static gboolean on_html_link_clicked(GtkHTML *html, const gchar * url, gpointer user_data);
   void html_link_clicked(const gchar * url);
   ustring active_url;

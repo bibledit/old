@@ -455,6 +455,13 @@ void WindowReferences::html_link_clicked (const gchar * url)
 
 void WindowReferences::html_write_references (HtmlWriter2& htmlwriter)
 {
+  // If the upper boundary is too high, put it a page lower, if possible.
+  if (upper_boundary > references.size()) {
+    if (lower_boundary) {
+      lower_boundary -= 25;
+    }
+  }
+
   // Retrieve the reference boundaries, as we're only displaying a selection.
   upper_boundary = lower_boundary + 25;
   upper_boundary = CLAMP (upper_boundary, 0, references.size());
@@ -693,34 +700,6 @@ void WindowReferences::goto_next_previous_internal(bool next)
 
 
 Todo various tasks.
-
-
-Each time references are loaded, the lower boundary needs to be reset to zero.
-
-
-There is a link to delete the page. If the user clicks on the link at the top, it attempt to load the previous lot, if available.
-If the user clicks at the link at the bottom, it attempts to load the next lot, if available.
-
-
-Once we have moved all to the new system, all old methods can go out.
-
-
-There's no File / References menu anymore, but all settings and actions are done in the html window itself,
-also preferences if there are any. We need to think of export and import / open, these should go there as well.
-Also "Dismiss all references before the current one", and the referenes hiding management, so as to unhide these.
-All of that goes into a html page.
-
-
-To remove all menu items under File / References, and to create a new one under the View menu.
-
-
-Remove all of the references.h/cpp data at the end.
-
-
-
-Dismiss page:
-- If the user came to action page through the top bar, it shows the previous page after dismissing a page.
-- If the user came to the action page through the bottom bar, it shows the next page after dismissing a page.
 
 
   if (guifeatures.references_management()) {
