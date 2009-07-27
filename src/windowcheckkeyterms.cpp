@@ -407,7 +407,7 @@ void WindowCheckKeyterms::html_link_clicked (const gchar * url)
   // New url.
   active_url = url;
 
-  // Whether to show the collections widget.
+  // Whether to show some widgets.
   bool show_collections = false;
   bool show_renderings = false;
     
@@ -420,10 +420,11 @@ void WindowCheckKeyterms::html_link_clicked (const gchar * url)
     ustring url = active_url;
     url.erase (0, 8);
     keyword_id = convert_to_int (url);
-    // Show the renderings (to be done before displaying the verses themselves).
+    // Load the renderings. 
+    // To be done before displaying the verses themselves since the latter depends on the former.
     load_renderings ();
     // Write extra bits.
-    html_write_extras (htmlwriter, keyword_id);
+    html_write_keyterms (htmlwriter, keyword_id);
     show_renderings = true;
     display_another_page = true;
   }
@@ -434,6 +435,13 @@ void WindowCheckKeyterms::html_link_clicked (const gchar * url)
     url.erase (0, 5);
     myreference.assign (get_reference (url));
     new_reference_showing = &myreference;
+    gtk_button_clicked(GTK_BUTTON(signal));
+  }
+  
+  else if (active_url.find ("send") == 0) {
+    // Send the references to the references window.
+    ustring url = active_url;
+    new_reference_showing = NULL;
     gtk_button_clicked(GTK_BUTTON(signal));
   }
   
@@ -481,7 +489,7 @@ void WindowCheckKeyterms::html_link_clicked (const gchar * url)
 }
 
 
-void WindowCheckKeyterms::html_write_extras (HtmlWriter2& htmlwriter, unsigned int keyword_id)
+void WindowCheckKeyterms::html_write_keyterms (HtmlWriter2& htmlwriter, unsigned int keyword_id)
 {
   // Get data about the project.
   extern Settings *settings;
@@ -489,9 +497,11 @@ void WindowCheckKeyterms::html_write_extras (HtmlWriter2& htmlwriter, unsigned i
   ProjectConfiguration *projectconfig = settings->projectconfig(project);
   ustring versification = projectconfig->versification_get();
 
-  // Add a link for the index.
+  // Add action links.
   htmlwriter.paragraph_open ();
-  htmlwriter.hyperlink_add ("", "Index");
+  htmlwriter.hyperlink_add ("", "[Index]");
+  htmlwriter.text_add (" ");
+  htmlwriter.hyperlink_add ("send", "[Send to references window]");
   htmlwriter.paragraph_close ();
 
   // Add the keyterm itself.
@@ -510,7 +520,6 @@ void WindowCheckKeyterms::html_write_extras (HtmlWriter2& htmlwriter, unsigned i
   // Get the data for the keyword identifier.
   ustring dummy;
   ustring information;
-  vector <Reference> references;
   keyterms_get_data(keyword_id, dummy, information, references);
 
   // Divide the information into lines.

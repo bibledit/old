@@ -4373,7 +4373,7 @@ void MainWindow::on_check_key_terms()
     resize_text_area_if_tools_area_is_empty ();
     g_signal_connect((gpointer) window_check_keyterms->delete_signal_button, "clicked", G_CALLBACK(on_window_check_keyterms_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_check_keyterms->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
-    g_signal_connect((gpointer) window_check_keyterms->signal, "clicked", G_CALLBACK(on_keyterms_new_reference), gpointer(this));
+    g_signal_connect((gpointer) window_check_keyterms->signal, "clicked", G_CALLBACK(on_keyterms_signal_button_clicked), gpointer(this));
   }
 }
 
@@ -4392,17 +4392,26 @@ void MainWindow::on_window_check_keyterms_delete_button()
   }
 }
 
-void MainWindow::on_keyterms_new_reference(GtkButton * button, gpointer user_data)
+
+void MainWindow::on_keyterms_signal_button_clicked(GtkButton * button, gpointer user_data)
 {
-  ((MainWindow *) user_data)->keyterms_check_move_new_reference();
+  ((MainWindow *) user_data)->keyterms_check_action();
 }
 
 
-void MainWindow::keyterms_check_move_new_reference()
-// This is called when the keyterm checking window goes to another reference.
+void MainWindow::keyterms_check_action()
+// This is called when the keyterms checking window requests action to be taken.
 {
-  Reference reference(window_check_keyterms->new_reference_showing->book, window_check_keyterms->new_reference_showing->chapter, window_check_keyterms->new_reference_showing->verse);
-  navigation.display(reference);
+  if (window_check_keyterms->new_reference_showing) {
+    // Go to another reference.
+    Reference reference(window_check_keyterms->new_reference_showing->book, window_check_keyterms->new_reference_showing->chapter, window_check_keyterms->new_reference_showing->verse);
+    navigation.display(reference);
+  } else {
+    // Transfer references to the references window.
+    show_references_window();
+    extern Settings * settings;
+    window_references->set (window_check_keyterms->references, settings->genconfig.project_get(), NULL);
+  }
 }
 
 
@@ -7051,24 +7060,6 @@ void MainWindow::check_usfm_window_ping()
 Todo various tasks.
 
 
-We probably send text files with the program, but once the program initializes, it would need to check upon the text files,
-and decide whether databases are created out of that. These can e.g. store the mapping data for faster retrieval.
-
-
-Whatever function used to call the quick references, these references can now be sent to the reference area, if that area is visible.
-
-
-
-The keyterm checking window has a button that sends all references to the reference area.
-
-
-F6 and so on still work in the new references window. It the F6 reaches the end of the list, it automatically goes to the next lot of references,
-and displays these.
-
-
-The keyterms in the verse also shows the Strong's terms.
-These can be transferred to the reference area.
-
 
 Crash keyterms inja zinja, check out. Jeremiah 15:3.
 
@@ -7087,28 +7078,23 @@ it should offer to go to the other chaptesr as well. This should be offered, not
 
 
 When deleting notes, we may have a tick box in the yes/no dialog that allows to always say "yes" for the duration of one minute.
+Or better would be to have a link at the bottom that deletes all visible ones.
 
 
-We could look into whether the displaying of the parallel passages can not go into the window that shows keyterms.
-Then we call it "related verses", or similar, so it shows more generally related verses, whether keyterms, or through Strong's numbers,
-or, as here, parallel passages. It would really clean up the thing a lot.
-
-
-To write help on the window that has gone out, the keyterms in the verse, ,and the other setting that went out,
+To write help on the window that has gone out, the keyterms in the verse, and the other setting that went out,
 the parallel verses, and to introduce the new feature of related verses. Also to mention the keyterms in it,
-the Strong's numbers, and the parallel passages.
+the Strong's numbers, and the parallel passages. 
+And that the keyterm checking window has a button that sends all references to the reference area.
 
 
-We may start the Scrivener Greek text into Bibledit as follows. 
+
+
+We may start the Scrivener Greek text into Bibledit, and other texts as well, as follows. 
 * To create the capability to import from BibleWorks, and from Logos. 
 * Then we have texts for the people. 
-* Later, if time permits, we can then have a project to start our own Greek text. 
 * See http://plowsharemission.com/WebApps/PlowShare/. 
 * We may have to write different routines that do the harvesting from the internet for us. 
   These routines are in Bibledit itself, but not normally accessible, only when clicking e.g. thrice the relevant links in the maintenance window.
-* Bibledit itself has a few import routines that users need to do, such as import from BibleWorks, or Logos.
-
-
 
 
 */

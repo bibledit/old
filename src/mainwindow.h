@@ -602,8 +602,8 @@ protected:
   WindowCheckKeyterms * window_check_keyterms;
   static void on_window_check_keyterms_delete_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_check_keyterms_delete_button();
-  static void on_keyterms_new_reference(GtkButton *button, gpointer user_data);
-  void keyterms_check_move_new_reference();
+  static void on_keyterms_signal_button_clicked(GtkButton *button, gpointer user_data);
+  void keyterms_check_action();
   static void on_view_related_verses_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_related_verses();
   WindowShowRelatedVerses * window_show_related_verses;

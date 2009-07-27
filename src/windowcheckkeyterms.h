@@ -43,6 +43,7 @@ public:
   GtkWidget *signal;
   ustring collection ();
   void reload_collections ();
+  vector <Reference> references;
 protected:
   GtkWidget *vbox;
 private:
@@ -96,7 +97,7 @@ private:
   // Html work.
   ustring active_url;
   map <ustring, unsigned int> scrolling_position;
-  void html_write_extras (HtmlWriter2& htmlwriter, unsigned int keyword_id);
+  void html_write_keyterms (HtmlWriter2& htmlwriter, unsigned int keyword_id);
   
 };
 
