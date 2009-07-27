@@ -7061,9 +7061,6 @@ Todo various tasks.
 
 
 
-Crash keyterms inja zinja, check out. Jeremiah 15:3.
-
-
 At times it may give keyterms from the ktbh database twice or even thrice.
 It needs a limit on keyterms for the same reference with the same ID. 
 If an id is already there, we can't add it again.

@@ -47,6 +47,7 @@ void xml_sort_positions(vector < size_t > &positions, vector < size_t > &lengths
   }
 }
 
+
 void xml_combine_overlaps(vector < size_t > &positions, vector < size_t > &lengths)
 /*
   If there are words in a line that are to be highlighted, and some of 

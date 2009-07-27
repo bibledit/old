@@ -34,6 +34,7 @@
 #include "mapping.h"
 #include "bible.h"
 #include "books.h"
+#include "xmlutils.h"
 
 
 WindowCheckKeyterms::WindowCheckKeyterms(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
@@ -578,6 +579,8 @@ void WindowCheckKeyterms::html_write_keyterms (HtmlWriter2& htmlwriter, unsigned
         size_t processposition = 0;
         if (find_renderings (verse, renderings, wholewords, casesensitives, &startpositions, &lengths)) {
           quick_sort (startpositions, lengths, 0, startpositions.size());
+          // Overlapping items need to be combined to avoid crashes.
+          xml_combine_overlaps (startpositions, lengths);
           for (unsigned int i = 0; i < startpositions.size(); i++) {
             htmlwriter.text_add (verse.substr (0, startpositions[i] - processposition));
             htmlwriter.bold_open();
