@@ -7061,27 +7061,13 @@ Todo various tasks.
 
 
 
-At times it may give keyterms from the ktbh database twice or even thrice.
-It needs a limit on keyterms for the same reference with the same ID. 
-If an id is already there, we can't add it again.
-
-
-When importing the KJV Bible we need to remap the references.
-And when consulting it, we need to map back again to the actual Bible's versification schema.
-
-
 When spelling checking and looking for the next or previous one, and it is not in the chapter,
 it should offer to go to the other chaptesr as well. This should be offered, not done automatically.
 
 
+
 When deleting notes, we may have a tick box in the yes/no dialog that allows to always say "yes" for the duration of one minute.
 Or better would be to have a link at the bottom that deletes all visible ones.
-
-
-To write help on the window that has gone out, the keyterms in the verse, and the other setting that went out,
-the parallel verses, and to introduce the new feature of related verses. Also to mention the keyterms in it,
-the Strong's numbers, and the parallel passages. 
-And that the keyterm checking window has a button that sends all references to the reference area.
 
 
 
