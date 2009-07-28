@@ -30,6 +30,7 @@
 #include "gwrappers.h"
 #include "tiny_utilities.h"
 #include "referencememory.h"
+#include "dialogradiobutton.h"
 
 
 GuiNavigation::GuiNavigation(int dummy):
@@ -59,6 +60,19 @@ void GuiNavigation::build(GtkWidget * toolbar)
   gtk_container_add(GTK_CONTAINER(toolitem_delayed), new_reference_signal);
 
   // Gui proper.
+  GtkToolItem *toolitem_list_back = gtk_tool_item_new ();
+  gtk_widget_show (GTK_WIDGET(toolitem_list_back));
+  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(toolitem_list_back), -1);
+
+  button_list_back = gtk_button_new ();
+  gtk_widget_show (button_list_back);
+  gtk_container_add (GTK_CONTAINER (toolitem_list_back), button_list_back);
+  GTK_WIDGET_UNSET_FLAGS (button_list_back, GTK_CAN_FOCUS);
+
+  image_list_back = gtk_image_new_from_stock ("gtk-go-down", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_show (image_list_back);
+  gtk_container_add (GTK_CONTAINER (button_list_back), image_list_back);
+
   GtkToolItem *toolitem1 = gtk_tool_item_new();
   gtk_widget_show(GTK_WIDGET(toolitem1));
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(toolitem1), -1);
@@ -84,6 +98,19 @@ void GuiNavigation::build(GtkWidget * toolbar)
   image2 = gtk_image_new_from_stock("gtk-go-forward", GTK_ICON_SIZE_BUTTON);
   gtk_widget_show(image2);
   gtk_container_add(GTK_CONTAINER(button_forward), image2);
+
+  GtkToolItem *toolitem_list_forward = gtk_tool_item_new ();
+  gtk_widget_show (GTK_WIDGET(toolitem_list_forward));
+  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(toolitem_list_forward), -1);
+
+  button_list_forward = gtk_button_new ();
+  gtk_widget_show (button_list_forward);
+  gtk_container_add (GTK_CONTAINER (toolitem_list_forward), button_list_forward);
+  GTK_WIDGET_UNSET_FLAGS (button_list_forward, GTK_CAN_FOCUS);
+
+  image_list_forward = gtk_image_new_from_stock ("gtk-go-down", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_show (image_list_forward);
+  gtk_container_add (GTK_CONTAINER (button_list_forward), image_list_forward);
 
   GtkToolItem *toolitem3 = gtk_tool_item_new();
   gtk_widget_show(GTK_WIDGET(toolitem3));
@@ -166,8 +193,10 @@ void GuiNavigation::build(GtkWidget * toolbar)
   gtk_widget_set_size_request(spinbutton_chapter, int (defaultheight * 0.7), -1);
   gtk_widget_set_size_request(spinbutton_verse, int (defaultheight * 0.7), -1);
 
+  g_signal_connect((gpointer) button_list_back, "clicked", G_CALLBACK(on_button_list_back_clicked), gpointer(this));
   g_signal_connect((gpointer) button_back, "clicked", G_CALLBACK(on_button_back_clicked), gpointer(this));
   g_signal_connect((gpointer) button_forward, "clicked", G_CALLBACK(on_button_forward_clicked), gpointer(this));
+  g_signal_connect((gpointer) button_list_forward, "clicked", G_CALLBACK(on_button_list_forward_clicked), gpointer(this));
   g_signal_connect((gpointer) combo_book, "changed", G_CALLBACK(on_combo_book_changed), gpointer(this));
   g_signal_connect((gpointer) spinbutton_book, "value_changed", G_CALLBACK(on_spinbutton_book_value_changed), gpointer(this));
   g_signal_connect((gpointer) combo_chapter, "changed", G_CALLBACK(on_combo_chapter_changed), gpointer(this));
@@ -495,6 +524,12 @@ void GuiNavigation::previousverse()
 }
 
 
+void GuiNavigation::on_button_list_back_clicked(GtkButton * button, gpointer user_data)
+{
+  ((GuiNavigation *) user_data)->on_list_back();
+}
+
+
 void GuiNavigation::on_button_back_clicked(GtkButton * button, gpointer user_data)
 {
   ((GuiNavigation *) user_data)->on_back();
@@ -504,6 +539,12 @@ void GuiNavigation::on_button_back_clicked(GtkButton * button, gpointer user_dat
 void GuiNavigation::on_button_forward_clicked(GtkButton * button, gpointer user_data)
 {
   ((GuiNavigation *) user_data)->on_forward();
+}
+
+
+void GuiNavigation::on_button_list_forward_clicked(GtkButton * button, gpointer user_data)
+{
+  ((GuiNavigation *) user_data)->on_list_forward();
 }
 
 
@@ -964,8 +1005,43 @@ void GuiNavigation::crossboundarieschapter(bool forward)
 void GuiNavigation::tracker_sensitivity()
 {
   // Buttons.
+  gtk_widget_set_sensitive(button_list_back, track.previous_reference_available());
   gtk_widget_set_sensitive(button_back, track.previous_reference_available());
   gtk_widget_set_sensitive(button_forward, track.next_reference_available());
+  gtk_widget_set_sensitive(button_list_forward, track.next_reference_available());
 }
 
+
+void GuiNavigation::on_list_back ()
+{
+  vector <Reference> references;
+  track.get_previous_references (references);
+  vector <ustring> labels;
+  for (unsigned int i = 0; i < references.size(); i++) {
+    labels.push_back (references[i].human_readable (language));
+  }
+  RadiobuttonDialog dialog ("Go back", "Where would you like to go back to?", labels, 0);
+  if (dialog.run () == GTK_RESPONSE_OK) {
+    for (unsigned int i = 0; i <= dialog.selection; i++) {
+      on_back();
+    }
+  }
+}
+
+
+void GuiNavigation::on_list_forward ()
+{
+  vector <Reference> references;
+  track.get_next_references (references);
+  vector <ustring> labels;
+  for (unsigned int i = 0; i < references.size(); i++) {
+    labels.push_back (references[i].human_readable (language));
+  }
+  RadiobuttonDialog dialog ("Go forward", "Where would you like to go forward to?", labels, 0);
+  if (dialog.run () == GTK_RESPONSE_OK) {
+    for (unsigned int i = 0; i <= dialog.selection; i++) {
+      on_forward();
+    }
+  }
+}
 

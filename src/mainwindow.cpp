@@ -7070,6 +7070,27 @@ Todo various tasks.
 
 
 
+editing icons sometimes not available in Project Notes
+
+if the project notes window is too narrow, editing icons disappear. 
+* It would be nice if there was a pull-down box for the icons that are no longer available. 
+Which key accelerators do you suggest for indent and for unindent?
+How about Ctrl-< and Ctrl->
+or Ctrl-[ and Ctrl-] 
+
+
+
+
+
+
+Generalize invocation of subprocesses
+
+No longer to use commandline calls, but to have them all use GwSpawn if possible.
+Some can't use GwSpawn for reasons of speed or size or other.
+
+
+
+
 
 
 */

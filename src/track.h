@@ -32,10 +32,12 @@ public:
   Track (unsigned int dummy);
   ~Track ();
   void store (const Reference& reference);
-  void get_next_reference (Reference& reference);
-  void get_previous_reference (Reference& reference);
-  bool next_reference_available ();
+  void get_previous_references (vector <Reference>& references);
   bool previous_reference_available ();
+  void get_previous_reference (Reference& reference);
+  void get_next_reference (Reference& reference);
+  bool next_reference_available ();
+  void get_next_references (vector <Reference>& references);
   void clear ();
 private:
   vector <Reference> recorded_references;

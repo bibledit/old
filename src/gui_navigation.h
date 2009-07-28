@@ -50,10 +50,14 @@ public:
   void on_back ();
   void on_forward ();
 private:
+  GtkWidget *button_list_back;
+  GtkWidget *image_list_back;
   GtkWidget *button_back;
   GtkWidget *image1;
   GtkWidget *button_forward;
   GtkWidget *image2;
+  GtkWidget *button_list_forward;
+  GtkWidget *image_list_forward;
   GtkWidget *combo_book;
   GtkObject *spinbutton_book_adj;
   GtkWidget *spinbutton_book;
@@ -64,8 +68,10 @@ private:
   GtkObject *spinbutton_verse_adj;
   GtkWidget *spinbutton_verse;
 
+  static void on_button_list_back_clicked (GtkButton *button, gpointer user_data);
   static void on_button_back_clicked (GtkButton *button, gpointer user_data);
   static void on_button_forward_clicked (GtkButton *button, gpointer user_data);
+  static void on_button_list_forward_clicked (GtkButton *button, gpointer user_data);
   static void on_combo_book_changed (GtkComboBox *combobox, gpointer user_data);
   static void on_combo_chapter_changed (GtkComboBox *combobox, gpointer user_data);
   static void on_combo_verse_changed (GtkComboBox *combobox, gpointer user_data);
@@ -104,6 +110,9 @@ private:
   guint delayer_event_id;
   guint track_event_id;
   Track track;
+  
+  void on_list_back ();
+  void on_list_forward ();
 };
 
 
