@@ -3760,7 +3760,16 @@ void MainWindow::on_check_spelling_error(bool next, bool extremity)
   if (editor_window->move_cursor_to_spelling_error (next, extremity))
     return;
     
-  // No next (or previous) error in the current chapter. Go to other chapter and set flags.
+  // No next (or previous) error in the current chapter. Ask whether the user wishes to go to other chapter.
+  ustring msg = "There are no more spelling errors in this chapter"
+                "\nWould you like to go to the ";
+  if (next)
+    msg.append ("next");
+  else
+    msg.append ("previous");
+  msg.append (" chapter or chapters?");
+  if (gtkw_dialog_question (NULL, msg) != GTK_RESPONSE_YES)
+    return;
   if (next) {
     navigation.nextchapter();
     check_spelling_at_start = true;
@@ -7061,13 +7070,7 @@ Todo various tasks.
 
 
 
-When spelling checking and looking for the next or previous one, and it is not in the chapter,
-it should offer to go to the other chaptesr as well. This should be offered, not done automatically.
-
-
-
-When deleting notes, we may have a tick box in the yes/no dialog that allows to always say "yes" for the duration of one minute.
-Or better would be to have a link at the bottom that deletes all visible ones.
+When deleting notes, we may have a link at the bottom that deletes all visible ones.
 
 
 
