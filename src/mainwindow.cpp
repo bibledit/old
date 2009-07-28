@@ -7070,17 +7070,6 @@ Todo various tasks.
 
 
 
-When deleting notes, we may have a link at the bottom that deletes all visible ones.
-
-
-
-
-We may start the Scrivener Greek text into Bibledit, and other texts as well, as follows. 
-* To create the capability to import from BibleWorks, and from Logos. 
-* Then we have texts for the people. 
-* See http://plowsharemission.com/WebApps/PlowShare/. 
-* We may have to write different routines that do the harvesting from the internet for us. 
-  These routines are in Bibledit itself, but not normally accessible, only when clicking e.g. thrice the relevant links in the maintenance window.
 
 
 */
