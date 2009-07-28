@@ -17,8 +17,10 @@
  **  
  */
 
+
 #ifndef INCLUDED_WINDOW_NOTES_H
 #define INCLUDED_WINDOW_NOTES_H
+
 
 #include <gtk/gtk.h>
 #include "ustring.h"
@@ -29,6 +31,7 @@ extern "C" {
 }
 #include "note_editor.h"
 #include "displayprojectnotes.h"
+
 
 class WindowNotes : public WindowBase
 {
@@ -46,6 +49,8 @@ public:
   void paste();
   void undo();
   void redo();
+  void decrease_indent();
+  void increase_indent();
   bool note_being_edited();
   GtkWidget * references_available_signal_button;
   vector<Reference> available_references;
@@ -138,9 +143,7 @@ private:
   static void on_current_paragraph_alignment_changed(GtkHTML *html, GtkHTMLParagraphAlignment new_alignment, gpointer user_data);
   void current_paragraph_alignment_changed(GtkHTMLParagraphAlignment new_alignment);
   static void on_button_note_edit_decrease_indent_clicked(GtkButton *button, gpointer user_data);
-  void button_note_edit_decrease_indent_clicked();
   static void on_button_note_edit_increase_indent_clicked(GtkButton *button, gpointer user_data);
-  void button_note_edit_increase_indent_clicked();
   static void on_current_paragraph_indentation_changed(GtkHTML *html, guint new_indentation, gpointer user_data);
   void current_paragraph_indentation_changed(guint new_indentation);
   static void on_colorbutton_note_edit_color_set(GtkColorButton *colorbutton, gpointer user_data);

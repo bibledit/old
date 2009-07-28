@@ -158,15 +158,15 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	window.$(OBJEXT) windowmerge.$(OBJEXT) \
 	windowresource.$(OBJEXT) windowoutline.$(OBJEXT) \
 	windowcheckkeyterms.$(OBJEXT) windowstyles.$(OBJEXT) \
-	windownotes.$(OBJEXT) accelerators.$(OBJEXT) \
-	dialogprojectnote.$(OBJEXT) windowreferences.$(OBJEXT) \
-	windoweditor.$(OBJEXT) compress.$(OBJEXT) \
-	localizednumerals.$(OBJEXT) windowshowverses.$(OBJEXT) \
-	assistantimportkeyterms.$(OBJEXT) assistants.$(OBJEXT) \
-	assistantdeletekeyterms.$(OBJEXT) assistantchanges.$(OBJEXT) \
-	widgetdate.$(OBJEXT) usfmview.$(OBJEXT) \
-	dialogcompareprefs.$(OBJEXT) windowcheckusfm.$(OBJEXT) \
-	usfm2osis.$(OBJEXT) usfmstandard.$(OBJEXT) osis.$(OBJEXT) \
+	windownotes.$(OBJEXT) dialogprojectnote.$(OBJEXT) \
+	windowreferences.$(OBJEXT) windoweditor.$(OBJEXT) \
+	compress.$(OBJEXT) localizednumerals.$(OBJEXT) \
+	windowshowverses.$(OBJEXT) assistantimportkeyterms.$(OBJEXT) \
+	assistants.$(OBJEXT) assistantdeletekeyterms.$(OBJEXT) \
+	assistantchanges.$(OBJEXT) widgetdate.$(OBJEXT) \
+	usfmview.$(OBJEXT) dialogcompareprefs.$(OBJEXT) \
+	windowcheckusfm.$(OBJEXT) usfm2osis.$(OBJEXT) \
+	usfmstandard.$(OBJEXT) osis.$(OBJEXT) \
 	assistantremoterepository.$(OBJEXT) \
 	gui_display_changes.$(OBJEXT) stylesheet.$(OBJEXT) \
 	referencememory.$(OBJEXT) webkitbrowser.$(OBJEXT) \
@@ -588,7 +588,6 @@ bibledit_bin_SOURCES = \
         windowcheckkeyterms.cpp \
         windowstyles.cpp \
         windownotes.cpp \
-        accelerators.cpp \
         dialogprojectnote.cpp \
         windowreferences.cpp \
         windoweditor.cpp \
@@ -705,7 +704,6 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/accelerators.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/assistantbackup.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/assistantchanges.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/assistantdeletekeyterms.Po@am__quote@

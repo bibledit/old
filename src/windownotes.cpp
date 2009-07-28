@@ -687,24 +687,29 @@ void WindowNotes::current_paragraph_alignment_changed(GtkHTMLParagraphAlignment 
 
 void WindowNotes::on_button_note_edit_decrease_indent_clicked(GtkButton * button, gpointer user_data)
 {
-  ((WindowNotes *) user_data)->button_note_edit_decrease_indent_clicked();
+  ((WindowNotes *) user_data)->decrease_indent();
 }
 
-void WindowNotes::button_note_edit_decrease_indent_clicked()
+
+void WindowNotes::decrease_indent()
 {
-  //guint indentation = gtk_html_get_paragraph_indentation (GTK_HTML (htmlview_note_editor));
-  //if (indentation > 0)
-  gtk_html_indent_pop_level(GTK_HTML(htmlview_note_editor));
+  if (note_being_edited()) {
+    gtk_html_indent_pop_level(GTK_HTML(htmlview_note_editor));
+  }
 }
+
 
 void WindowNotes::on_button_note_edit_increase_indent_clicked(GtkButton * button, gpointer user_data)
 {
-  ((WindowNotes *) user_data)->button_note_edit_increase_indent_clicked();
+  ((WindowNotes *) user_data)->increase_indent();
 }
 
-void WindowNotes::button_note_edit_increase_indent_clicked()
+
+void WindowNotes::increase_indent()
 {
-  gtk_html_indent_push_level(GTK_HTML(htmlview_note_editor), HTML_LIST_TYPE_BLOCKQUOTE);
+  if (note_being_edited()) {
+    gtk_html_indent_push_level(GTK_HTML(htmlview_note_editor), HTML_LIST_TYPE_BLOCKQUOTE);
+  }
 }
 
 void WindowNotes::on_current_paragraph_indentation_changed(GtkHTML * html, guint new_indentation, gpointer user_data)
@@ -1253,11 +1258,13 @@ void WindowNotes::redo()
   }
 }
 
+
 bool WindowNotes::note_being_edited()
 // Returns whether a note is now being edited.
 {
   return (gtk_notebook_get_current_page(GTK_NOTEBOOK(notebook1)) > 0);
 }
+
 
 void WindowNotes::on_button_more_clicked(GtkButton * button, gpointer user_data)
 {

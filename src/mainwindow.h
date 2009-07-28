@@ -792,6 +792,10 @@ protected:
   static void accelerator_view_usfm_code(gpointer user_data);
   void accelerator_view_usfm_code_toggle();
   void accelerator_menu();
+  static void accelerator_left_square_bracket(gpointer user_data);
+  void left_square_bracket ();
+  static void accelerator_right_square_bracket(gpointer user_data);  
+  void right_square_bracket ();
   
   // Shutdown.
   bool shutting_down;

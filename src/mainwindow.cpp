@@ -121,7 +121,6 @@
 #include "text2pdf.h"
 #include "window.h"
 #include "unixwrappers.h"
-#include "accelerators.h"
 #include "dialogcompareprefs.h"
 #include "windowtimednotifier.h"
 #include "dialogbulkspelling.h"
@@ -251,6 +250,10 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   // the accelerator key for viewing USFM code was changed to Ctrl-\.
   // The backslash is the first character of the USFM code.
   gtk_accel_group_connect(accelerator_group, GDK_backslash, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_view_usfm_code), gpointer(this), NULL));
+  // For notes editor.
+  gtk_accel_group_connect(accelerator_group, '[', GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_left_square_bracket), gpointer(this), NULL));
+  gtk_accel_group_connect(accelerator_group, ']', GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_right_square_bracket), gpointer(this), NULL));
+
 
   // GUI build.
   hbox_main = gtk_hbox_new (FALSE, 0);
@@ -6812,6 +6815,41 @@ void MainWindow::accelerator_view_usfm_code_toggle()
   gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (view_usfm_code), !active);
 }
 
+
+void MainWindow::accelerator_left_square_bracket(gpointer user_data)
+{
+  ((MainWindow *) user_data)->left_square_bracket();
+}
+
+
+void MainWindow::left_square_bracket()
+{
+  GtkWidget *focused_window_button = now_focused_window_button;
+  if (window_notes) {
+    if (focused_window_button == window_notes->focus_in_signal_button) {
+      window_notes->increase_indent();
+    }
+  }
+}
+
+
+void MainWindow::accelerator_right_square_bracket(gpointer user_data)
+{
+  ((MainWindow *) user_data)->right_square_bracket();
+}
+
+
+void MainWindow::right_square_bracket()
+{
+  GtkWidget *focused_window_button = now_focused_window_button;
+  if (window_notes) {
+    if (focused_window_button == window_notes->focus_in_signal_button) {
+      window_notes->decrease_indent();
+    }
+  }
+}
+
+
 /*
  |
  |
@@ -7067,16 +7105,6 @@ void MainWindow::check_usfm_window_ping()
 
 
 Todo various tasks.
-
-
-
-editing icons sometimes not available in Project Notes
-
-if the project notes window is too narrow, editing icons disappear. 
-* It would be nice if there was a pull-down box for the icons that are no longer available. 
-Which key accelerators do you suggest for indent and for unindent?
-How about Ctrl-< and Ctrl->
-or Ctrl-[ and Ctrl-] 
 
 
 

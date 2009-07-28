@@ -235,7 +235,6 @@ bibledit_bin_SOURCES = \
         windowcheckkeyterms.cpp \
         windowstyles.cpp \
         windownotes.cpp \
-        accelerators.cpp \
         dialogprojectnote.cpp \
         windowreferences.cpp \
         windoweditor.cpp \
