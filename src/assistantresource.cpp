@@ -69,7 +69,7 @@ AssistantBase("Resource editor", "resource_editor")
         // It's an existing editable resource, copy the whole thing.
         ustring command = "cd" + shell_quote_space(resource_directory);
         command.append("; cp -r *" + shell_quote_space(working_directory()));
-        if (system(command.c_str()));
+        if (system(command.c_str())); // This one does not work with GwSpawn.
       }
     }
   }

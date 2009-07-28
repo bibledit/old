@@ -175,7 +175,7 @@ void OpenDocument::unpack_template()
   command.append(gw_build_filename(directories_get_package_data(), "template.odt"));
   command.append(" .; unzip *; rm *.odt");
 #endif
-  if (system(command.c_str())) ;
+  if (system(command.c_str())) ; // This one does not work with GwSpawn because of the wildcards used.
 }
 
 void OpenDocument::cover()
@@ -428,7 +428,7 @@ void OpenDocument::zip(const ustring filename)
 #endif
   command.append(shell_quote_space(filename));
   command.append(" *");
-  if (system(command.c_str())) ;
+  if (system(command.c_str())) ; // This one does not work with GwSpawn because of the wildcards used.
 }
 
 void OpenDocument::generate_styles_xml(bool right_to_left)

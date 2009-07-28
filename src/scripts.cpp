@@ -226,7 +226,7 @@ ustring script_filter(const ustring & scriptname, bool straightthrough, const us
   // Add the error file to the command, and run it.
   command.append(" 2> ");
   command.append(script_temporal_error_file());
-  int result = system(command.c_str());
+  int result = system(command.c_str()); // This one is too unpredictable to be used with GwSpawn.
 
   // The filters are so much beyond any control that we never can be sure that 
   // their output is in the UTF-8 encoding.

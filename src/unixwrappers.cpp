@@ -24,12 +24,14 @@
 #include "utilities.h"
 #include "tiny_utilities.h"
 
+
 bool unix_fnmatch(const char *pattern, const ustring & text)
 // This is a wrapper for the fnmatch function on Unix, as this is not available
 // on Windows and some versions of Mac OSX.
 {
   return (myfnmatch(pattern, text.c_str(), 0) == 0);
 }
+
 
 void unix_cp(const ustring & from, const ustring & to)
 // This is a wrapper for the cp function on Unix, as Windows uses another one.
@@ -43,6 +45,7 @@ void unix_cp(const ustring & from, const ustring & to)
   spawn.arg(to);
   spawn.run();
 }
+
 
 void unix_cp_r(const ustring & from, const ustring & to)
 // This is a wrapper for the cp function on Unix, as Windows uses another one.
@@ -60,6 +63,7 @@ void unix_cp_r(const ustring & from, const ustring & to)
   spawn.run();
 }
 
+
 void unix_mv(const ustring & from, const ustring & to)
 // This is a wrapper for the mv function on Unix, which is move on Windows.
 {
@@ -72,6 +76,7 @@ void unix_mv(const ustring & from, const ustring & to)
   spawn.arg(to);
   spawn.run();
 }
+
 
 void unix_rmdir(const ustring & dir)
 {
@@ -86,6 +91,7 @@ void unix_rmdir(const ustring & dir)
   spawn.arg(dir);
   spawn.run();
 }
+
 
 void unix_kill(GPid pid)
 {

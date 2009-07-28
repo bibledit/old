@@ -110,7 +110,7 @@ void export_to_usfm(const ustring & project, ustring location, bool zip)
 #else
     ustring command = "cd" + shell_quote_space(tempdir) + "; zip -r zip.zip *.usfm; mv zip.zip" + shell_quote_space(location);
 #endif
-    if (system(command.c_str())) ;
+    if (system(command.c_str())) ; // This one does not work with GwSpawn because of the wildcards used.
   }
 }
 
@@ -650,7 +650,7 @@ directory: Where to put the module.
   unlink(zipfile.c_str());
   command = "cd" + shell_quote_space(base_directory) + " && ";
   command.append("zip -r" + shell_quote_space(zipfile) + "*");
-  if (system(command.c_str())) ;
+  if (system(command.c_str())) ; // This one does not work with GwSpawn because of the wildcards used.
   unix_mv(zipfile, directory);
 }
 
@@ -790,7 +790,7 @@ void export_to_usfm_changes (const ustring& project, int time_from, ustring comm
 #else
     ustring command = "cd" + shell_quote_space(workingdirectory) + "; zip -r " + gw_path_get_basename(filename) + " *.usfm; rm *.usfm";
 #endif
-    if (system(command.c_str())) ;
+    if (system(command.c_str())) ; // This one does not work with GwSpawn because of the wildcards used.
   }
 
   // Open web page with information: backup_is_ready.html.

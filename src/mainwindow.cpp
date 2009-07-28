@@ -7111,16 +7111,6 @@ Todo various tasks.
 
 
 
-Generalize invocation of subprocesses
-
-No longer to use commandline calls, but to have them all use GwSpawn if possible.
-Some can't use GwSpawn for reasons of speed or size or other.
-
-
-
-
-
-
 Export Assistant and Import Assistant
 
 We need an assistant that helps in Export.
@@ -7146,6 +7136,27 @@ It requires mutt. It can send a test email, just with text, and the user can the
 I just wanted to give my support for this. 
 One of the things I noticed in training is that during import and export the new users didn't know what button/dialog to click on.
 An assistant that would hold their hand through that process would be very helpful to them.
+
+
+
+
+
+
+
+Add a definition or notes column to the keyterms
+
+While doing keyterm checks, sometimes a language is more specific than the Hebrew/Aramaic/Greek. 
+When this happens, it would be nice to have a description/notes/definition field next to the word, 
+so the translator and consultant can be reminded of the specific meaning of the word in the target language.
+
+
+Is toolbox a better fit for this? It seems that having a notes
+column in the keyterms window would be very helpful. Perhaps a document
+discussing the reasons to use Toolbox with BE would be nice. 
+
+
+
+I am not sure whether Bibledit should rely on Toolbox. If these notes are useful, then these could be made in Bibledit. 
 
 
 

@@ -147,7 +147,7 @@ void WindowsOutpost::thread_main()
             // Is wine there?
             if (gw_find_program_in_path(settings->genconfig.wine_path_get())) {
               ustring command = settings->genconfig.outpost_command_get() + " &";
-              if (system(command.c_str())) ;
+              if (system(command.c_str())) ; // This one is too unpredictable to use GwSpawn.
               // Wait few seconds to give it a chance to start.
               g_usleep(3000000);
             } else {

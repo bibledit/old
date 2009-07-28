@@ -133,5 +133,5 @@ void shell_pipe_file_append(const ustring & inputfile, const ustring & outputfil
   command.append(shell_quote_space(inputfile));
   command.append(">>");
   command.append(shell_quote_space(outputfile));
-  if (system(command.c_str())) ;
+  if (system(command.c_str())) ; // This one does not work with GwSpawn because pipes used.
 }
