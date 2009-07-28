@@ -7093,4 +7093,35 @@ Some can't use GwSpawn for reasons of speed or size or other.
 
 
 
+Export Assistant and Import Assistant
+
+We need an assistant that helps in Export.
+
+And another assistant for Import.
+
+The help file needs to make a very clear distinction between a backup and an export.
+
+A backup backups everything that belongs to some item, e.g. a whole project or everything.
+
+An export exports part of the data we wish to see, and in a certain format.
+
+A restore is the opposite of a backup.
+Assistants for both are already there.
+
+An import is the opposite of an export.
+
+One possible export is to email the data of a project to an email address. 
+It could do this at regular times, or let's say on shutdown a day after previous time it did that. 
+It requires mutt. It can send a test email, just with text, and the user can then decide whether the mailer works well. 
+
+
+I just wanted to give my support for this. 
+One of the things I noticed in training is that during import and export the new users didn't know what button/dialog to click on.
+An assistant that would hold their hand through that process would be very helpful to them.
+
+
+
+
+
+
 */
