@@ -722,7 +722,7 @@ gint ImportAssistant::assistant_forward (gint current_page)
           forward_sequence.insert (page_number_files);
           break;
         }
-        case ibtBibleWorks:
+        case ibtBibleWorks: // Todo
         {
           forward_sequence.insert (page_number_select_type);
           forward_sequence.insert (page_number_bible_name);
@@ -931,7 +931,7 @@ void ImportAssistant::on_button_files ()
       switch (get_bible_type()) {
       case ibtUsfm:
         {
-          files_checks_bible_usfm ();
+          import_check_usfm_files (files_names, files_book_ids, bible_name, files_messages);
           break;
         }
       case ibtBibleWorks: // Todo working here.
@@ -1105,35 +1105,6 @@ void ImportAssistant::sword_values_set ()
 bool ImportAssistant::get_include_keyterms_without_rendering ()
 {
   return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_keyterms_without_rendering));
-}
-
-
-void ImportAssistant::files_checks_bible_usfm ()
-{
-  // Check whether all the USFM files have proper \id data.
-  if (files_messages.empty()) {
-    vector <ustring> files_names_temp;
-    for (unsigned int i = 0; i < files_names.size(); i++) {
-      unsigned int book_id = books_paratext_to_id(get_usfm_id_from_file(files_names[i]));
-      if (book_id) {
-        files_names_temp.push_back (files_names[i]);
-        files_book_ids.push_back (book_id);
-      } else {
-        files_messages.push_back ("Unknown book in file " + files_names[i]);
-      }
-    }
-    files_names = files_names_temp;
-  }
-  // Check whether none of the books to be imported is already in the project.
-  if (files_messages.empty()) {
-    vector <unsigned int> books_in_project = project_get_books (bible_name);
-    set <unsigned int> books_in_project_set (books_in_project.begin(), books_in_project.end());
-    for (unsigned int i = 0; i < files_book_ids.size(); i++) {
-      if (books_in_project_set.find (files_book_ids[i]) != books_in_project_set.end()) {
-        files_messages.push_back ("File " + files_names[i] + " has book " + books_id_to_english (files_book_ids[i]) + ", but this one is already in the project");
-      }
-    }
-  }
 }
 
 

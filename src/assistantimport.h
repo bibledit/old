@@ -156,7 +156,6 @@ private:
   vector <ustring> files_names;
   vector <unsigned int> files_book_ids;
   vector <ustring> files_messages;
-  void files_checks_bible_usfm ();
   
   // Unicode information.
   int page_number_unicode;
