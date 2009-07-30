@@ -36,7 +36,6 @@ class ImportBookRead
 {
 public:
   ImportBookRead (const ustring& filename, const ustring& encoding);
-  void bibleworks ();
   void mechonmamre ();
   void onlinebible (map <ustring, unsigned int> bookmap);
   vector<ustring> lines;
@@ -49,9 +48,7 @@ private:
 gchar * unicode_convert (gchar *data, const ustring& encoding);
 
 
-ustring import_type_human_readable (ImportBibleType importtype);
 ustring bibleworks_file_get_bookname (const ustring& filename);
-vector<ustring> bibleworks_file_divide (const ustring& inputfile);
 bool mechon_mamre_copyright (const ustring& inputfile);
 vector<ustring> mechon_mamre_produce_master_files (const vector<ustring>& inputfiles);
 bool online_bible_file (const ustring& filename);
@@ -59,6 +56,8 @@ bool online_bible_parse_reference (ustring line, unsigned int& book, unsigned in
 vector <ustring> online_bible_file_divide (const ustring& inputfile, map <ustring, unsigned int> bookmap);
 void import_check_usfm_files (vector <ustring>& filenames, vector <unsigned int>& bookids, const ustring& bible, vector <ustring>& messages);
 void import_usfm_file (const ustring& file, unsigned int book, const ustring& project, vector <ustring>& messages);
+void import_check_bibleworks_file (vector <ustring>& filenames, vector <unsigned int>& bookids, const ustring& bible, vector <ustring>& messages);
+void import_bibleworks_file (const ustring& file, const ustring& bible, vector <ustring>& messages);
 
 
 #endif

@@ -655,11 +655,12 @@ void ImportAssistant::on_assistant_apply ()
           }
           break;
         }
-        case ibtBibleWorks: // Todo work here.
+        case ibtBibleWorks:
         {
+          import_bibleworks_file (files_names[0], bible_name, summary_messages);
           break;
         }
-        case ibtMechonMamre:
+        case ibtMechonMamre: // Todo work here.
         {
           break;
         }
@@ -697,6 +698,7 @@ void ImportAssistant::on_assistant_apply ()
   }
   // Show summary.
   gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), summary_page_number);
+  on_assistant_prepare (label_summary);
 }
 
 
@@ -722,7 +724,7 @@ gint ImportAssistant::assistant_forward (gint current_page)
           forward_sequence.insert (page_number_files);
           break;
         }
-        case ibtBibleWorks: // Todo
+        case ibtBibleWorks:
         {
           forward_sequence.insert (page_number_select_type);
           forward_sequence.insert (page_number_bible_name);
@@ -730,7 +732,7 @@ gint ImportAssistant::assistant_forward (gint current_page)
           forward_sequence.insert (page_number_files);
           break;
         }
-        case ibtMechonMamre:
+        case ibtMechonMamre: // Todo
         {
           forward_sequence.insert (page_number_select_type);
           forward_sequence.insert (page_number_bible_name);
@@ -924,6 +926,13 @@ void ImportAssistant::on_button_files ()
     }
   }
 
+  // Check that at least one file was selected.
+  if (files_messages.empty()) {
+    if (files_names.empty()) {
+      files_messages.push_back ("No files were selected");
+    }
+  }
+
   // Specific checks for each import type. 
   switch (get_type ()) {
   case itBible:
@@ -934,11 +943,12 @@ void ImportAssistant::on_button_files ()
           import_check_usfm_files (files_names, files_book_ids, bible_name, files_messages);
           break;
         }
-      case ibtBibleWorks: // Todo working here.
+      case ibtBibleWorks:
         {
+          import_check_bibleworks_file (files_names, files_book_ids, bible_name, files_messages);
           break;
         }
-      case ibtMechonMamre:
+      case ibtMechonMamre: // Todo working here.
         {
           break;
         }
@@ -1115,7 +1125,6 @@ Todo Import Assistant
 
 
 The following paths are to be implemented:
-Bible / BibleWorks
 Bible / MechonMamre
 Bible / OnlineBible
 Bible / RawText
@@ -1260,19 +1269,8 @@ void set_gui()
   // Handle book type.
 
   switch (importtype) {
-  case ibtBibleWorks:
-    {
-      // Importing BibleWorks files: divide the files per book.
-      vector < ustring > bibleworks_text_files(proper_text_files);
-      proper_text_files.clear();
-      for (unsigned int i = 0; i < bibleworks_text_files.size(); i++) {
-        vector < ustring > filenames = bibleworks_file_divide(bibleworks_text_files[i]);
-        for (unsigned int i2 = 0; i2 < filenames.size(); i2++) {
-          proper_text_files.push_back(filenames[i2]);
-        }
-      }
-      break;
-    }
+
+
   case ibtMechonMamre:
     {
       // Importing Mechon Mamre Hebrew files: make one master file per book.

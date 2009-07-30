@@ -33,6 +33,7 @@
 #include "localizedbooks.h"
 #include "categorize.h"
 #include "projectutils.h"
+#include "progresswindow.h"
 
 
 ImportBookRead::ImportBookRead(const ustring & filename, const ustring & encoding)
@@ -69,48 +70,6 @@ ImportBookRead::ImportBookRead(const ustring & filename, const ustring & encodin
   rawlines = parseline.lines;
 }
 
-
-void ImportBookRead::bibleworks()
-{
-  // If there's nothing to import, bail out.
-  if (rawlines.empty())
-    return;
-
-  try {
-
-    // Get the name of the book.
-    ustring bookabbreviation = rawlines[0].substr(0, 3);
-    unsigned int id = books_bibleworks_to_id(bookabbreviation);
-    if (id)
-      bookname = books_id_to_english(id);
-    else
-      return;
-
-    // Store USFM id.
-    ustring usfmid = books_id_to_paratext(id);
-    lines.push_back("\\id " + usfmid);
-
-    // Convert the BibleWorks lines to USFM code.
-    ustring previouschapter = "0";
-    for (unsigned int i = 0; i < rawlines.size(); i++) {
-      // Convert chapter information.
-      ustring line = rawlines[i];
-      line.erase(0, 4);
-      ustring currentchapter = number_in_string(line);
-      line.erase(0, currentchapter.length() + 1);
-      if (currentchapter != previouschapter) {
-        lines.push_back("\\c " + currentchapter);
-        lines.push_back("\\p");
-        previouschapter = currentchapter;
-      }
-      // Convert verse data.
-      lines.push_back("\\v " + line);
-    }
-  }
-  catch(exception & ex) {
-    gw_critical(ex.what());
-  }
-}
 
 void ImportBookRead::mechonmamre()
 {
@@ -261,25 +220,6 @@ gchar *unicode_convert(gchar * data, const ustring & encoding)
 }
 
 
-ustring import_type_human_readable(ImportBibleType importtype)
-// Makes the import type human readable.
-{
-  switch (importtype) {
-  case ibtUsfm:
-    return "USFM";
-  case ibtBibleWorks:
-    return "BibleWorks";
-  case ibtMechonMamre:
-    return "Mechon Mamre";
-  case ibtOnlineBible:
-    return "Online Bible";
-  case ibtRawText:
-    return "Raw Text";
-  }
-  return "";
-}
-
-
 ustring bibleworks_file_get_bookname(const ustring & filename)
 // Retrieves the bookname from a file exported by BibleWorks. Though there can
 // be several books in such a file, this functions retrieves only the name
@@ -334,44 +274,6 @@ void bibleworks_save_book_internal(const ustring & directory, const ustring & in
   files.push_back(filename);
 }
 
-vector < ustring > bibleworks_file_divide(const ustring & inputfile)
-// This function takes one textfile exported by BibleWorks, and divides it into
-// several files, each containing only one book.
-// It puts them all in the temporal directory, 
-// and returns the list of filenames so produced.
-{
-  // Clean temporal directory.
-  ustring directory = gw_build_filename(directories_get_temp(), "bw-import");
-  unix_rmdir(directory);
-  gw_mkdir_with_parents(directory);
-
-  // Storage for the divided files.
-  vector < ustring > divided_files;
-
-  // Read the inputfile and go though it.
-  ReadText rt(inputfile, true, false);
-  try {
-    ustring previousbook;
-    vector < ustring > booklines;
-    for (unsigned int i = 0; i < rt.lines.size(); i++) {
-      ustring currentbook = rt.lines[i].substr(0, 3);
-      if (i == 0)
-        previousbook = currentbook;
-      if (currentbook != previousbook) {
-        bibleworks_save_book_internal(directory, inputfile, booklines, divided_files);
-        booklines.clear();
-        previousbook = currentbook;
-      }
-      booklines.push_back(rt.lines[i]);
-    }
-    bibleworks_save_book_internal(directory, inputfile, booklines, divided_files);
-  }
-  catch(exception & ex) {
-    gw_critical(ex.what());
-  }
-  // Return result.
-  return divided_files;
-}
 
 bool mechon_mamre_copyright(const ustring & inputfile)
 // Returns true is a file has "Copyright" and "Mechon Mamre" in it.
@@ -743,7 +645,7 @@ vector <ustring> online_bible_file_divide (const ustring& inputfile, map <ustrin
 }
 
 
-void import_check_usfm_files (vector <ustring>& filenames, vector <unsigned int>& bookids, const ustring& bible, vector <ustring>& messages) // Todo
+void import_check_usfm_files (vector <ustring>& filenames, vector <unsigned int>& bookids, const ustring& bible, vector <ustring>& messages)
 {
   // Check whether all the USFM files have proper \id data.
   if (messages.empty()) {
@@ -800,5 +702,124 @@ void import_usfm_file (const ustring& file, unsigned int book, const ustring& pr
 
   // Store in project.
   project_store_book(project, book, ccv);
+}
+
+
+void import_check_bibleworks_file (vector <ustring>& filenames, vector <unsigned int>& bookids, const ustring& bible, vector <ustring>& messages)
+// Checks the file exported from BibleWorks and meant to be imported as a Bible.
+{
+  // Check whether there's only one file selected.
+  if (messages.empty()) {
+    if (filenames.size() > 1) {
+      messages.push_back ("You have selected more than one file");
+    }
+  }
+
+  // Check that the BibleWorks file is a valid one.
+  if (messages.empty()) {
+    ustring english_name = bibleworks_file_get_bookname(filenames[0]);
+    unsigned int id = books_english_to_id (english_name);
+    if (id == 0) {
+      messages.push_back ("The file cannot be recognized as coming from BibleWorks");
+    }
+  }
+
+  // Check that the Bible to import the file into is empty.
+  if (messages.empty()) {
+    vector <unsigned int> books = project_get_books (bible);
+    if (!books.empty()) {
+      messages.push_back ("You try to import data into a Bible that is not empty");
+    }
+  }
+}
+
+
+void import_bibleworks_file (const ustring& file, const ustring& bible, vector <ustring>& messages)
+// Imports a bibleworks file.
+{
+  // Read the file.
+  ReadText rt (file, true, false);
+
+  // If there's nothing to import, bail out.
+  if (rt.lines.empty()) {
+    messages.push_back ("The file is empty");
+  }
+
+  // Divide the input into separate bits for each book.
+  vector <VectorUstring> bookdata;
+  if (messages.empty()) {
+    try {
+      ustring previousbook;
+      vector < ustring > booklines;
+      for (unsigned int i = 0; i < rt.lines.size(); i++) {
+        ustring currentbook = rt.lines[i].substr(0, 3);
+        if (i == 0) {
+          previousbook = currentbook;
+        }
+        if (currentbook != previousbook) {
+          bookdata.push_back (booklines);
+          booklines.clear();
+          previousbook = currentbook;
+        }
+        booklines.push_back(rt.lines[i]);
+      }
+      bookdata.push_back (booklines);
+    }
+    catch(exception & ex) {
+      messages.push_back(ex.what());
+    }
+  }
+
+  // Import each book.
+  if (messages.empty ()) {
+    ProgressWindow progresswindow ("Importing", false);
+    progresswindow.set_iterate (0, 1, bookdata.size());
+    for (unsigned int i = 0; i < bookdata.size(); i++) {
+      progresswindow.iterate ();
+      try {
+
+        // Input and output data.
+        vector <ustring> rawlines = bookdata[i];
+        vector <ustring> usfmlines;
+
+        // Get the name of the book.
+        unsigned int book_id = books_bibleworks_to_id(rawlines[0].substr(0, 3));
+        if (book_id == 0) {
+          messages.push_back ("Unknown book: " + rawlines[0]);
+          return;
+        }
+
+        // Store USFM id.
+        ustring usfmid = books_id_to_paratext (book_id);
+        usfmlines.push_back("\\id " + usfmid);
+
+        // Convert the BibleWorks lines to USFM code.
+        ustring previouschapter = "0";
+        for (unsigned int i = 0; i < rawlines.size(); i++) {
+          // Convert chapter information.
+          ustring line = rawlines[i];
+          line.erase(0, 4);
+          ustring currentchapter = number_in_string(line);
+          line.erase(0, currentchapter.length() + 1);
+          if (currentchapter != previouschapter) {
+            usfmlines.push_back("\\c " + currentchapter);
+            usfmlines.push_back("\\p");
+            previouschapter = currentchapter;
+          }
+          // Convert verse data.
+          usfmlines.push_back("\\v " + line);
+        }
+
+        // Store into the Bible. // Todo
+        CategorizeChapterVerse ccv(usfmlines);
+        project_store_book(bible, book_id, ccv);
+        
+      }
+      catch(exception & ex) {
+        messages.push_back(ex.what());
+      }
+    }
+  }
+
 }
 
