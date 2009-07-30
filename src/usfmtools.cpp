@@ -192,7 +192,7 @@ void split_line_on_marker(ustring marker, ustring & line)
 
 ustring get_usfm_id_from_file(const ustring & filename)
 // Gets the Paratext ID from a file.
-// Deals with Windows "feature" to put \xEF\xBB\xBF at the start of a textfile.
+// Deals with an awkward Windows habit to put \xEF\xBB\xBF at the start of some textfiles.
 {
   // If the file is too short, probably no USfM file.
   if (file_get_size(filename) < 20)

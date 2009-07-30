@@ -17,14 +17,17 @@
 **  
 */
 
+
 #include "convert.h"
 #include "tiny_utilities.h"
+
 
 gchar *unicode_convert(gchar * data, gchar * encoding)
 {
   gchar *output;
   output = g_convert(data, -1, "UTF-8", encoding, NULL, NULL, NULL);
   return output;
+
 }
 
 gchar *unicode_convert_automatic(gchar * data)
@@ -53,6 +56,7 @@ gchar *unicode_convert_automatic(gchar * data)
   // None found.
   return NULL;
 }
+
 
 vector < ustring > encodings_get()
 // Get the available character encodings.

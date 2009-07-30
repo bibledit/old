@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include "import.h"
 #include "utilities.h"
@@ -30,6 +31,9 @@
 #include "tiny_utilities.h"
 #include "dialogradiobutton.h"
 #include "localizedbooks.h"
+#include "categorize.h"
+#include "projectutils.h"
+
 
 ImportBookRead::ImportBookRead(const ustring & filename, const ustring & encoding)
 {
@@ -65,24 +69,6 @@ ImportBookRead::ImportBookRead(const ustring & filename, const ustring & encodin
   rawlines = parseline.lines;
 }
 
-void ImportBookRead::usfm()
-{
-  // Clean up following USFM standard.
-  CleanUsfm cleanusfm(rawlines);
-  lines.assign(cleanusfm.lines.begin(), cleanusfm.lines.end());
-
-  // Get bookname.
-  for (unsigned int i = 0; i < lines.size(); i++) {
-    ustring line = lines[i];
-    ustring marker = usfm_extract_marker(line);
-    if (marker == "id") {
-      ustring idp = line.substr(0, 3);
-      unsigned int id = books_paratext_to_id(idp);
-      bookname = books_id_to_english(id);
-      break;
-    }
-  }
-}
 
 void ImportBookRead::bibleworks()
 {
@@ -274,18 +260,21 @@ gchar *unicode_convert(gchar * data, const ustring & encoding)
   return output;
 }
 
-ustring import_type_human_readable(ImportType importtype)
+
+ustring import_type_human_readable(ImportBibleType importtype)
 // Makes the import type human readable.
 {
   switch (importtype) {
-  case itUsfm:
+  case ibtUsfm:
     return "USFM";
-  case itBibleWorks:
+  case ibtBibleWorks:
     return "BibleWorks";
-  case itMechonMamre:
+  case ibtMechonMamre:
     return "Mechon Mamre";
-  case itOnlineBible:
+  case ibtOnlineBible:
     return "Online Bible";
+  case ibtRawText:
+    return "Raw Text";
   }
   return "";
 }
@@ -753,4 +742,34 @@ vector <ustring> online_bible_file_divide (const ustring& inputfile, map <ustrin
   return divided_files;
 }
 
+
+void import_usfm_file (const ustring& file, unsigned int book, const ustring& project, vector <ustring>& messages)
+{
+  // Read the file.
+  gchar *contents;
+  gsize length;
+  GError *error = NULL;
+  if (!g_file_get_contents(file.c_str(), &contents, &length, &error)) {
+    messages.push_back (error->message);
+    g_error_free(error);
+    return;
+  }
+
+  // Handle files created with Windows Notepad.
+  contents = de_windows_notepad(contents);
+
+  // Divide text into separate lines.
+  ParseLine parseline(contents);
+  g_free(contents);
+
+  // Clean up according to the USFM standard.
+  CleanUsfm cleanusfm(parseline.lines);
+  parseline.lines.assign(cleanusfm.lines.begin(), cleanusfm.lines.end());
+
+  // Categorize the lines.
+  CategorizeChapterVerse ccv(parseline.lines);
+
+  // Store in project.
+  project_store_book(project, book, ccv);
+}
 

@@ -17,9 +17,11 @@
 **  
 */
 
+
 #include "compress.h"
 #include "utilities.h"
 #include "gwrappers.h"
+
 
 /*
 
@@ -36,14 +38,17 @@
 
 */
 
+
 typedef struct {
   const char *suffix;           // Suffix of the archive.
   unsigned int compress;        // Compression identifier.
   unsigned int uncompress;      // Uncompression identifier.
 } compression_record_data;
 
+
 unsigned int compression_record_count();
 unsigned int uncompression_identifier_get(const ustring & filename);
+
 
 typeof(compression_record_data) compression_table[] =
 {
@@ -56,11 +61,13 @@ typeof(compression_record_data) compression_table[] =
   { ".zip",      0, 1},
 };
 
+
 unsigned int compression_record_count()
 {
   unsigned int count = sizeof(compression_table) / sizeof(*compression_table);
   return count;
 }
+
 
 unsigned int uncompression_identifier_get(const ustring & filename)
 // Gets the identifier for uncompressing "filename".
@@ -75,11 +82,13 @@ unsigned int uncompression_identifier_get(const ustring & filename)
   return 0;
 }
 
+
 bool compressed_archive_recognized(const ustring & archive)
 // Returns true if the file is recognized as a compressed archive.
 {
   return uncompression_identifier_get(archive);
 }
+
 
 bool uncompress(const ustring & archive, const ustring & directory)
 // Uncompresses "archive" into "directory".

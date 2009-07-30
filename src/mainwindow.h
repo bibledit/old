@@ -54,6 +54,7 @@
 #include "assistantbackup.h"
 #include "assistantrestore.h"
 #include "assistantexport.h"
+#include "assistantimport.h"
 
 
 class MainWindow : public WindowBase
@@ -79,8 +80,6 @@ protected:
   GtkWidget *delete1;
   GtkWidget *properties1;
   GtkWidget *image4995;
-  GtkWidget *import1;
-  GtkWidget *image464;
   GtkWidget *copy_project_to;
   GtkWidget *image2688;
   GtkWidget *compare_with1;
@@ -137,6 +136,8 @@ protected:
   GtkWidget *image32232;
   GtkWidget *keyterms_delete;
   GtkWidget *print;
+  GtkWidget *file_import;
+  GtkWidget *image36797;
   GtkWidget *file_export;
   GtkWidget *image35236;
   GtkWidget *file_backup;
@@ -375,8 +376,6 @@ protected:
   void menu_replace();
   static void on_findspecial1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void menu_findspecial();
-  static void on_import1_activate(GtkMenuItem * menuitem, gpointer user_data);
-  void menu_import();
   static void on_insert1_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_menu_insert();
   static void on_notes_preferences_activate(GtkMenuItem *menuitem, gpointer user_data);
@@ -820,6 +819,13 @@ protected:
   static void on_window_check_usfm_delete_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_check_usfm_delete_button();
   void check_usfm_window_ping();
+
+  /* Import */
+  static void on_file_import_activate (GtkMenuItem *menuitem, gpointer user_data);
+  void on_file_import ();
+  ImportAssistant * import_assistant;
+
 };
+
 
 #endif

@@ -126,11 +126,12 @@ ustring gtkw_file_chooser_open(GtkWidget * parent, const ustring & title, const 
   return selection;
 }
 
-vector < ustring > gtkw_file_chooser_open_multiple(GtkWidget * parent, const ustring & title, const ustring & file)
+
+vector < ustring > gtkw_file_chooser_open_multiple(GtkWidget * parent, const ustring & title, ustring directory)
 // Allows the user to select multiple files.
 // parent: window will be centered on parent, or NULL.
 // title: If given, will be title for the dialog.
-// file: If given, will be file selected by default.
+// directory: If given, will be the directory to look in.
 // Returns the files that were selected, or is empty if no selection was made.
 {
   // Initialize variables.
@@ -138,13 +139,12 @@ vector < ustring > gtkw_file_chooser_open_multiple(GtkWidget * parent, const ust
   ustring mytitle(title);
   if (mytitle.empty())
     mytitle = "Select a file";
-  ustring myfile(file);
-  if (myfile.empty())
-    myfile = g_get_home_dir();
   // Create dialog.
   GtkWidget *dialog;
   dialog = gtk_file_chooser_dialog_new(mytitle.c_str(), GTK_WINDOW(parent), GTK_FILE_CHOOSER_ACTION_OPEN, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
-  gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), myfile.c_str());
+  if (directory.empty())
+    directory = g_get_home_dir();
+  gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), directory.c_str());
   gtk_file_chooser_set_select_multiple(GTK_FILE_CHOOSER(dialog), true);
   // Run dialog.
   if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT) {

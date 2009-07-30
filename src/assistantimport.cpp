@@ -20,7 +20,7 @@
 
 #include "libraries.h"
 #include <glib.h>
-#include "assistantexport.h"
+#include "assistantimport.h"
 #include "help.h"
 #include "settings.h"
 #include "utilities.h"
@@ -36,18 +36,20 @@
 #include "dialogdate.h"
 #include "date_time_utils.h"
 #include "keyterms.h"
+#include "usfmtools.h"
+#include "books.h"
 
 
-ExportAssistant::ExportAssistant(WindowReferences * references_window, WindowStyles * styles_window, WindowCheckKeyterms * check_keyterms_window) :
-AssistantBase("Export", "export")
-// Export assistant.
+ImportAssistant::ImportAssistant(WindowReferences * references_window, WindowStyles * styles_window, WindowCheckKeyterms * check_keyterms_window) :
+AssistantBase("Import", "import")
+// Import assistant.
 {
   gtk_assistant_set_forward_page_func (GTK_ASSISTANT (assistant), GtkAssistantPageFunc (assistant_forward_function), gpointer(this), NULL);
   
   g_signal_connect (G_OBJECT (assistant), "apply", G_CALLBACK (on_assistant_apply_signal), gpointer(this));
   g_signal_connect (G_OBJECT (assistant), "prepare", G_CALLBACK (on_assistant_prepare_signal), gpointer(this));
 
-  introduction ("This helps you exporting your data");
+  introduction ("This helps you importing data");
 
   // Configuration and initialization.
   extern Settings *settings;
@@ -57,6 +59,7 @@ AssistantBase("Export", "export")
   my_styles_window = styles_window;
   my_check_keyterms_window = check_keyterms_window;
   date_time = 0;
+  unicode_okay = false;
 
   // Build the GUI for the task selector.
   vbox_select_type = gtk_vbox_new (FALSE, 0);
@@ -64,7 +67,7 @@ AssistantBase("Export", "export")
   page_number_select_type = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_select_type);
   gtk_container_set_border_width (GTK_CONTAINER (vbox_select_type), 10);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_select_type, "What would you like to export?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_select_type, "What would you like to import?");
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_select_type, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_select_type, true);
 
@@ -82,7 +85,7 @@ AssistantBase("Export", "export")
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_references), radiobutton_select_type_group);
   radiobutton_select_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_select_type_references));
 
-  // Exporting references only works when the references window shows.
+  // Importing references only works when the references window shows.
   gtk_widget_set_sensitive (radiobutton_select_type_references, references_window != NULL);
   
   radiobutton_select_type_stylesheet = gtk_radio_button_new_with_mnemonic (NULL, "Stylesheet");
@@ -91,7 +94,7 @@ AssistantBase("Export", "export")
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_stylesheet), radiobutton_select_type_group);
   radiobutton_select_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_select_type_stylesheet));
 
-  // Exporting references only works when the styles window shows.
+  // Importing styles only works when the styles window shows.
   gtk_widget_set_sensitive (radiobutton_select_type_stylesheet, my_styles_window != NULL);
 
   radiobutton_select_type_notes = gtk_radio_button_new_with_mnemonic (NULL, "Notes");
@@ -106,7 +109,7 @@ AssistantBase("Export", "export")
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_keyterms), radiobutton_select_type_group);
   radiobutton_select_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_select_type_keyterms));
 
-  // Exporting keyterms only works when the check keyterms window shows.
+  // Importing keyterms only works when the check keyterms window shows.
   gtk_widget_set_sensitive (radiobutton_select_type_keyterms, my_check_keyterms_window != NULL);
   
   Shortcuts shortcuts_select_type (0);
@@ -118,13 +121,13 @@ AssistantBase("Export", "export")
   shortcuts_select_type.consider_assistant();
   shortcuts_select_type.process();
 
-  // Confirm or change Bible.
+  // Confirm or change Bible to import into.
   vbox_bible_name = gtk_vbox_new (FALSE, 5);
   gtk_widget_show (vbox_bible_name);
   page_number_bible_name = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_bible_name);
   gtk_container_set_border_width (GTK_CONTAINER (vbox_bible_name), 10);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_bible_name, "Is this the right Bible?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_bible_name, "Is this the right Bible to import into?");
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_bible_name, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_bible_name, true);
 
@@ -164,13 +167,13 @@ AssistantBase("Export", "export")
   shortcuts_bible_name.consider_assistant();
   shortcuts_bible_name.process();
 
-  // Select what type to export a Bible to.
+  // Select what type of Bible data to import.
   vbox_bible_type = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vbox_bible_type);
   page_number_bible_type = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_bible_type);
   gtk_container_set_border_width (GTK_CONTAINER (vbox_bible_type), 10);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_bible_type, "What would you like to export it to?");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_bible_type, "What type of data would you like to import?");
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_bible_type, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_bible_type, true);
 
@@ -182,43 +185,36 @@ AssistantBase("Export", "export")
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_usfm), radiobutton_bible_type_group);
   radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_usfm));
 
-  radiobutton_bible_bibleworks = gtk_radio_button_new_with_mnemonic (NULL, "BibleWorks Version Database Compiler");
+  radiobutton_bible_bibleworks = gtk_radio_button_new_with_mnemonic (NULL, "BibleWorks Exported Database");
   gtk_widget_show (radiobutton_bible_bibleworks);
   gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_bibleworks, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_bibleworks), radiobutton_bible_type_group);
   radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_bibleworks));
 
-  radiobutton_bible_osis = gtk_radio_button_new_with_mnemonic (NULL, "Open Scripture Information Standard (OSIS)");
-  gtk_widget_show (radiobutton_bible_osis);
-  gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_osis, FALSE, FALSE, 0);
-  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_osis), radiobutton_bible_type_group);
-  radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_osis));
+  radiobutton_bible_mechon_mamre = gtk_radio_button_new_with_mnemonic (NULL, "Mechon Mamre Hebrew Tanach");
+  gtk_widget_show (radiobutton_bible_mechon_mamre);
+  gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_mechon_mamre, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_mechon_mamre), radiobutton_bible_type_group);
+  radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_mechon_mamre));
 
-  radiobutton_bible_sword = gtk_radio_button_new_with_mnemonic (NULL, "CrossWire SWORD");
-  gtk_widget_show (radiobutton_bible_sword);
-  gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_sword, FALSE, FALSE, 0);
-  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_sword), radiobutton_bible_type_group);
-  radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_sword));
+  radiobutton_bible_online_bible = gtk_radio_button_new_with_mnemonic (NULL, "Online Bible Exported Text");
+  gtk_widget_show (radiobutton_bible_online_bible);
+  gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_online_bible, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_online_bible), radiobutton_bible_type_group);
+  radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_online_bible));
 
-  radiobutton_bible_opendocument = gtk_radio_button_new_with_mnemonic (NULL, "OpenDocument");
-  gtk_widget_show (radiobutton_bible_opendocument);
-  gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_opendocument, FALSE, FALSE, 0);
-  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_opendocument), radiobutton_bible_type_group);
-  radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_opendocument));
-
-  radiobutton_bible_gobible = gtk_radio_button_new_with_mnemonic (NULL, "Go Bible");
-  gtk_widget_show (radiobutton_bible_gobible);
-  gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_gobible, FALSE, FALSE, 0);
-  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_gobible), radiobutton_bible_type_group);
-  radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_gobible));
+  radiobutton_bible_raw_text = gtk_radio_button_new_with_mnemonic (NULL, "Raw Text");
+  gtk_widget_show (radiobutton_bible_raw_text);
+  gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_raw_text, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_raw_text), radiobutton_bible_type_group);
+  radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_raw_text));
 
   Shortcuts shortcuts_select_bible_type (0);
   shortcuts_select_bible_type.button (radiobutton_bible_usfm);
   shortcuts_select_bible_type.button (radiobutton_bible_bibleworks);
-  shortcuts_select_bible_type.button (radiobutton_bible_osis);
-  shortcuts_select_bible_type.button (radiobutton_bible_sword);
-  shortcuts_select_bible_type.button (radiobutton_bible_opendocument);
-  shortcuts_select_bible_type.button (radiobutton_bible_gobible);
+  shortcuts_select_bible_type.button (radiobutton_bible_mechon_mamre);
+  shortcuts_select_bible_type.button (radiobutton_bible_online_bible);
+  shortcuts_select_bible_type.button (radiobutton_bible_raw_text);
   shortcuts_select_bible_type.consider_assistant();
   shortcuts_select_bible_type.process();
 
@@ -460,23 +456,23 @@ AssistantBase("Export", "export")
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), entry_comment, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), entry_comment, true);
   
-  // Select file where to save to.
-  vbox_file = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox_file);
-  page_number_file = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_file);
-  gtk_container_set_border_width (GTK_CONTAINER (vbox_file), 10);
+  // Select files to import from.
+  vbox_files = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (vbox_files);
+  page_number_files = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_files);
+  gtk_container_set_border_width (GTK_CONTAINER (vbox_files), 10);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_file, "Where would you like to save it?");
-  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_file, GTK_ASSISTANT_PAGE_CONTENT);
-  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_file, false);
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_files, "Which file or files would you like to import?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_files, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_files, false);
 
-  button_file = gtk_button_new ();
-  gtk_widget_show (button_file);
-  gtk_box_pack_start (GTK_BOX (vbox_file), button_file, FALSE, FALSE, 0);
+  button_files = gtk_button_new ();
+  gtk_widget_show (button_files);
+  gtk_box_pack_start (GTK_BOX (vbox_files), button_files, FALSE, FALSE, 0);
 
   alignment2 = gtk_alignment_new (0.5, 0.5, 0, 0);
   gtk_widget_show (alignment2);
-  gtk_container_add (GTK_CONTAINER (button_file), alignment2);
+  gtk_container_add (GTK_CONTAINER (button_files), alignment2);
 
   hbox2 = gtk_hbox_new (FALSE, 2);
   gtk_widget_show (hbox2);
@@ -486,29 +482,35 @@ AssistantBase("Export", "export")
   gtk_widget_show (image2);
   gtk_box_pack_start (GTK_BOX (hbox2), image2, FALSE, FALSE, 0);
 
-  label_file = gtk_label_new_with_mnemonic ("");
-  gtk_widget_show (label_file);
-  gtk_box_pack_start (GTK_BOX (hbox2), label_file, FALSE, FALSE, 0);
+  GtkWidget * label = gtk_label_new_with_mnemonic ("Select files");
+  gtk_widget_show (label);
+  gtk_box_pack_start (GTK_BOX (hbox2), label, FALSE, FALSE, 0);
 
-  g_signal_connect ((gpointer) button_file, "clicked", G_CALLBACK (on_button_file_clicked), gpointer(this));
+  g_signal_connect ((gpointer) button_files, "clicked", G_CALLBACK (on_button_files_clicked), gpointer(this));
 
-  // Select folder where to save to.
-  vbox_folder = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox_folder);
-  page_number_folder = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_folder);
-  gtk_container_set_border_width (GTK_CONTAINER (vbox_folder), 10);
+  label_files = gtk_label_new ("");
+  gtk_widget_show (label_files);
+  gtk_box_pack_start (GTK_BOX (vbox_files), label_files, FALSE, FALSE, 0);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_folder, "Where would you like to save it?");
-  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_folder, GTK_ASSISTANT_PAGE_CONTENT);
-  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_folder, false);
+  // Unicode check.
+  vbox_unicode = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (vbox_unicode);
+  page_number_unicode = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_unicode);
+  gtk_container_set_border_width (GTK_CONTAINER (vbox_unicode), 10);
 
-  button_folder = gtk_button_new ();
-  gtk_widget_show (button_folder);
-  gtk_box_pack_start (GTK_BOX (vbox_folder), button_folder, FALSE, FALSE, 0);
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_unicode, "Unicode check");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_unicode, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_unicode, false);
+
+  button_unicode = gtk_button_new ();
+  gtk_widget_show (button_unicode);
+  gtk_box_pack_start (GTK_BOX (vbox_unicode), button_unicode, FALSE, FALSE, 0);
+
+  g_signal_connect ((gpointer) button_unicode, "clicked", G_CALLBACK (on_button_unicode_clicked), gpointer(this));
 
   alignment2 = gtk_alignment_new (0.5, 0.5, 0, 0);
   gtk_widget_show (alignment2);
-  gtk_container_add (GTK_CONTAINER (button_folder), alignment2);
+  gtk_container_add (GTK_CONTAINER (button_unicode), alignment2);
 
   hbox2 = gtk_hbox_new (FALSE, 2);
   gtk_widget_show (hbox2);
@@ -518,18 +520,16 @@ AssistantBase("Export", "export")
   gtk_widget_show (image2);
   gtk_box_pack_start (GTK_BOX (hbox2), image2, FALSE, FALSE, 0);
 
-  label_folder = gtk_label_new_with_mnemonic ("");
-  gtk_widget_show (label_folder);
-  gtk_box_pack_start (GTK_BOX (hbox2), label_folder, FALSE, FALSE, 0);
-
-  g_signal_connect ((gpointer) button_folder, "clicked", G_CALLBACK (on_button_folder_clicked), gpointer(this));
+  label_unicode = gtk_label_new_with_mnemonic ("");
+  gtk_widget_show (label_unicode);
+  gtk_box_pack_start (GTK_BOX (hbox2), label_unicode, FALSE, FALSE, 0);
 
   // Build the confirmation stuff.
-  label_confirm = gtk_label_new ("Export about to be done");
+  label_confirm = gtk_label_new ("Import about to be done");
   gtk_widget_show (label_confirm);
   page_number_confirm = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_confirm);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_confirm, "The export is about to be done");
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_confirm, "The import is about to be done");
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_confirm, GTK_ASSISTANT_PAGE_CONFIRM);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_confirm, true);
   
@@ -541,7 +541,7 @@ AssistantBase("Export", "export")
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_progress, GTK_ASSISTANT_PAGE_PROGRESS);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_progress, true);
   
-  label_summary = gtk_label_new ("Export done");
+  label_summary = gtk_label_new ("Import done");
   gtk_widget_show (label_summary);
   summary_page_number = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_summary);
 
@@ -554,19 +554,19 @@ AssistantBase("Export", "export")
   gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), 0);
 }
 
-ExportAssistant::~ExportAssistant()
+ImportAssistant::~ImportAssistant()
 {
 }
 
-void ExportAssistant::on_assistant_prepare_signal (GtkAssistant *assistant, GtkWidget *page, gpointer user_data)
+void ImportAssistant::on_assistant_prepare_signal (GtkAssistant *assistant, GtkWidget *page, gpointer user_data)
 {
-  ((ExportAssistant *) user_data)->on_assistant_prepare(page);
+  ((ImportAssistant *) user_data)->on_assistant_prepare(page);
 }
 
 
-void ExportAssistant::on_assistant_prepare (GtkWidget *page)
+void ImportAssistant::on_assistant_prepare (GtkWidget *page)
 {
-  extern Settings *settings;
+ extern Settings *settings;
 
   // Page to confirm or change the name of the Bible.
   if (page == vbox_bible_name) {
@@ -598,154 +598,77 @@ void ExportAssistant::on_assistant_prepare (GtkWidget *page)
     }    
   }
   
-  // Page for filename to save to.
-  if (page == vbox_file) {
-    // We may have to retrieve the filename from the configuration under certain circumstances.
-    if (filename.empty ()) {
-      if (get_type () == etBible) {
-        if (get_bible_type () == ebtBibleWorks) {
-          filename = settings->genconfig.export_to_bibleworks_filename_get();
-        }
-      }
-      if (get_type () == etReferences) {
-        filename = settings->genconfig.references_file_get();
-      }
+  // Page for filenames to import.
+  if (page == vbox_files) {
+    if (files_names.empty()) {
+      files_messages.push_back ("No files selected");
     }
-    gtk_label_set_text (GTK_LABEL (label_file), filename.c_str());
-    if (filename.empty()) {
-      gtk_label_set_text (GTK_LABEL (label_file), "(None)");
+    ustring label;
+    label.append ("Files count: ");
+    label.append (convert_to_string (files_names.size()));
+    label.append ("\n");
+    for (unsigned int i = 0; i < files_messages.size(); i++) {
+      label.append ("\n");
+      label.append (files_messages[i]);
     }
-    gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_file, !filename.empty());
+    gtk_label_set_text (GTK_LABEL (label_files), label.c_str());
+    gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_files, files_messages.empty());
   }
   
-  // Page for foldername where to save to.
-  if (page == vbox_folder) {
-    // Optionally retrieve the folder where to save the Sword module to.
-    if (foldername.empty ()) {
-      if (get_type () == etBible) {
-        if (get_bible_type () == ebtSWORD) {
-          foldername = settings->genconfig.export_to_sword_module_path_get().c_str();
-        }
-      }
+  // Page for the unicode check.
+  if (page == vbox_unicode) {
+    gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_unicode, unicode_okay);
+  }
+  
+  // Page for summary.
+  if (page == label_summary) {
+    ustring label;
+    for (unsigned int i = 0; i < summary_messages.size(); i++) {
+      if (i)
+        label.append ("\n");
+      label.append (summary_messages[i]);
     }
-    // By default save to the home directory.
-    if (foldername.empty ()) {
-      foldername = g_get_home_dir ();
-    }
-    gtk_label_set_text (GTK_LABEL (label_folder), foldername.c_str());
-    if (foldername.empty()) {
-      gtk_label_set_text (GTK_LABEL (label_folder), "(None)");
-    }
-    gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_folder, !foldername.empty());
+    if (!label.empty())
+      gtk_label_set_text (GTK_LABEL (label_summary), label.c_str());
+    gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_files, summary_messages.empty());
   }
 }
 
 
-void ExportAssistant::on_assistant_apply_signal (GtkAssistant *assistant, gpointer user_data)
+void ImportAssistant::on_assistant_apply_signal (GtkAssistant *assistant, gpointer user_data)
 {
-  ((ExportAssistant *) user_data)->on_assistant_apply();
+  ((ImportAssistant *) user_data)->on_assistant_apply();
 }
 
 
-void ExportAssistant::on_assistant_apply ()
+void ImportAssistant::on_assistant_apply ()
 {
-  // Take action depending on the type of export.
+  // Take action depending on the type of import.
   switch (get_type()) {
     case etBible:
     {
       switch (get_bible_type()) {
-        case ebtUSFM:
+        case ibtUsfm:
         {
-          switch (get_usfm_type ()) {
-            case eutEverything:
-            {
-              if (get_compressed ()) {
-                export_to_usfm(bible_name, filename, true);
-              } else {
-                export_to_usfm(bible_name, foldername, false);
-              }
-              break;
-            }
-            case eutChangesOnly:
-            {
-              extern Settings * settings;
-              ProjectConfiguration * projectconfig = settings->projectconfig (bible_name);
-              ustring comment = gtk_entry_get_text (GTK_ENTRY (entry_comment));
-              projectconfig->backup_comment_set (comment);
-              switch (get_usfm_changes_type ()) {
-                case euctSinceLast:
-                {
-                  guint32 last_time = projectconfig->backup_incremental_last_time_get();
-                  export_to_usfm_changes (bible_name, last_time, comment);                  
-                  projectconfig->backup_incremental_last_time_set(date_time_seconds_get_current());
-                  break;
-                }
-                case euctSinceDateTime:
-                {
-                  export_to_usfm_changes (bible_name, date_time, comment);
-                  projectconfig->backup_incremental_last_time_set(date_time);
-                  break;
-                }
-              }
-              break;
-            }
+          for (unsigned int i = 0; i < files_names.size(); i++) {
+            import_usfm_file (files_names[i], files_book_ids[i], bible_name, summary_messages);
           }
           break;
         }
-        case ebtBibleWorks:
+        case ibtBibleWorks: // Todo work here.
         {
-          export_to_bibleworks(bible_name, filename);
           break;
         }
-        case ebtOSIS:
+        case ibtMechonMamre:
         {
-          switch (get_osis_type ()) {
-            case eotRecommended:
-            {
-              export_to_osis_recommended (bible_name, filename);
-              break;
-            }
-            case eotGoBibleCreator:
-            {
-              export_to_osis_for_go_bible_creator (bible_name, filename);
-              break;
-            }
-            case eotOld:
-            {
-              export_to_osis_old (bible_name, filename);
-              break;
-            }
-          }
           break;
         }
-        case ebtSWORD:
+        case ibtOnlineBible:
         {
-          extern Settings *settings;
-          ProjectConfiguration *projectconfig = settings->projectconfig(bible_name);
-          ustring name = gtk_entry_get_text(GTK_ENTRY(entry_sword_name));
-          replace_text(name, " ", "_");
-          projectconfig->sword_name_set(name);
-          projectconfig->sword_description_set(gtk_entry_get_text(GTK_ENTRY(entry_sword_description)));
-          projectconfig->sword_about_set(gtk_entry_get_text(GTK_ENTRY(entry_sword_about)));
-          projectconfig->sword_license_set(gtk_entry_get_text(GTK_ENTRY(entry_sword_license)));
-          projectconfig->sword_version_set(gtk_entry_get_text(GTK_ENTRY(entry_sword_version)));
-          projectconfig->sword_language_set(gtk_entry_get_text(GTK_ENTRY(entry_sword_language)));
-          settings->genconfig.export_to_sword_install_path_set(gtk_entry_get_text(GTK_ENTRY(entry_sword_install_path)));
-          settings->genconfig.export_to_sword_module_path_set(foldername);
-          export_to_sword (bible_name, foldername);
-          sword_module_created = true;
           break;
         }
-        case ebtOpenDocument:
+        case ibtRawText:
         {
-          extern Settings *settings;
-          settings->genconfig.references_file_set(filename);
-          export_to_opendocument(bible_name, filename);
-          break;
-        }
-        case ebtGoBible:
-        {
-          export_to_go_bible (bible_name, foldername);
           break;
         }
       }
@@ -754,49 +677,36 @@ void ExportAssistant::on_assistant_apply ()
     case etReferences:
     {
       if (my_references_window) {
-        my_references_window->save(filename);
       }
       break;
     }
     case etStylesheet:
     {
       if (my_styles_window) {
-        my_styles_window->export_sheet(filename);
       }
       break;
     }
     case etNotes:
     {
-      vector <unsigned int> ids_to_display;
-      export_translation_notes(filename, ids_to_display, true);
       break;
     }
     case etKeyterms:
     {
-      keyterms_export_renderings (my_check_keyterms_window->collection(), get_include_keyterms_without_rendering ());
       break;
     }
   }
   // Show summary.
   gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), summary_page_number);
-  
-  // Save values.
-  extern Settings * settings;
-  if (get_type () == etBible) {
-    if (get_bible_type () == ebtBibleWorks) {
-      settings->genconfig.export_to_bibleworks_filename_set(filename);
-    }
-  }
 }
 
 
-gint ExportAssistant::assistant_forward_function (gint current_page, gpointer user_data)
+gint ImportAssistant::assistant_forward_function (gint current_page, gpointer user_data)
 {
-  return ((ExportAssistant *) user_data)->assistant_forward (current_page);
+  return ((ImportAssistant *) user_data)->assistant_forward (current_page);
 }
 
 
-gint ExportAssistant::assistant_forward (gint current_page)
+gint ImportAssistant::assistant_forward (gint current_page)
 {
   // Create forward sequence.
   forward_sequence.clear();
@@ -804,62 +714,29 @@ gint ExportAssistant::assistant_forward (gint current_page)
     case etBible:
     {
       switch (get_bible_type()) {
-        case ebtUSFM:
-        {
-          switch (get_usfm_type ()) {
-            case eutEverything:
-            {
-              forward_sequence.insert (page_number_select_type);
-              forward_sequence.insert (page_number_bible_name);
-              forward_sequence.insert (page_number_bible_type);
-              forward_sequence.insert (page_number_usfm_type);
-              forward_sequence.insert (page_number_zip);
-              if (get_compressed ()) {
-                forward_sequence.insert (page_number_file);
-              } else {
-                forward_sequence.insert (page_number_folder);
-              }
-              break;
-            }
-            case eutChangesOnly:
-            {
-              forward_sequence.insert (page_number_select_type);
-              forward_sequence.insert (page_number_bible_name);
-              forward_sequence.insert (page_number_bible_type);
-              forward_sequence.insert (page_number_usfm_type);
-              forward_sequence.insert (page_number_usfm_changes_type);
-              switch (get_usfm_changes_type ()) {
-                case euctSinceLast:
-                {
-                  break;
-                }
-                case euctSinceDateTime:
-                {
-                  forward_sequence.insert (page_number_date_time);
-                  break;
-                }
-              }
-              forward_sequence.insert (page_number_comment);
-              break;
-            }
-          }
-          break;
-        }
-        case ebtBibleWorks:
+        case ibtUsfm:
         {
           forward_sequence.insert (page_number_select_type);
           forward_sequence.insert (page_number_bible_name);
           forward_sequence.insert (page_number_bible_type);
-          forward_sequence.insert (page_number_file);
+          forward_sequence.insert (page_number_files);
           break;
         }
-        case ebtOSIS:
+        case ibtBibleWorks:
+        {
+          forward_sequence.insert (page_number_select_type);
+          forward_sequence.insert (page_number_bible_name);
+          forward_sequence.insert (page_number_bible_type);
+          forward_sequence.insert (page_number_files);
+          break;
+        }
+        case ibtMechonMamre:
         {
           forward_sequence.insert (page_number_select_type);
           forward_sequence.insert (page_number_bible_name);
           forward_sequence.insert (page_number_bible_type);
           forward_sequence.insert (page_number_osis_type);
-          forward_sequence.insert (page_number_file);
+          forward_sequence.insert (page_number_files);
           switch (get_osis_type ()) {
             case eotRecommended:
             {
@@ -876,7 +753,7 @@ gint ExportAssistant::assistant_forward (gint current_page)
           }
           break;
         }
-        case ebtSWORD:
+        case ibtOnlineBible:
         {
           forward_sequence.insert (page_number_select_type);
           forward_sequence.insert (page_number_bible_name);
@@ -888,23 +765,14 @@ gint ExportAssistant::assistant_forward (gint current_page)
           forward_sequence.insert (page_number_sword_version);
           forward_sequence.insert (page_number_sword_language);
           forward_sequence.insert (page_number_sword_install_path);
-          forward_sequence.insert (page_number_folder);
           break;
         }
-        case ebtOpenDocument:
+        case ibtRawText:
         {
           forward_sequence.insert (page_number_select_type);
           forward_sequence.insert (page_number_bible_name);
           forward_sequence.insert (page_number_bible_type);
-          forward_sequence.insert (page_number_file);
-          break;
-        }
-        case ebtGoBible:
-        {
-          forward_sequence.insert (page_number_select_type);
-          forward_sequence.insert (page_number_bible_name);
-          forward_sequence.insert (page_number_bible_type);
-          forward_sequence.insert (page_number_folder);
+          forward_sequence.insert (page_number_files);
           break;
         }
       }
@@ -913,19 +781,19 @@ gint ExportAssistant::assistant_forward (gint current_page)
     case etReferences:
     {
       forward_sequence.insert (page_number_select_type);
-      forward_sequence.insert (page_number_file);
+      forward_sequence.insert (page_number_files);
       break;
     }
     case etStylesheet:
     {
       forward_sequence.insert (page_number_select_type);
-      forward_sequence.insert (page_number_file);
+      forward_sequence.insert (page_number_files);
       break;
     }
     case etNotes:
     {
       forward_sequence.insert (page_number_select_type);
-      forward_sequence.insert (page_number_file);
+      forward_sequence.insert (page_number_files);
       break;
     }
     case etKeyterms:
@@ -935,7 +803,7 @@ gint ExportAssistant::assistant_forward (gint current_page)
     }
   }
 
-  // Always end up goint to the confirmation and summary pages.
+  // Always end up going to the confirmation and summary pages.
   forward_sequence.insert (page_number_confirm);
   forward_sequence.insert (summary_page_number);
   
@@ -947,13 +815,13 @@ gint ExportAssistant::assistant_forward (gint current_page)
 }
 
 
-void ExportAssistant::on_button_bible_name_clicked (GtkButton *button, gpointer user_data)
+void ImportAssistant::on_button_bible_name_clicked (GtkButton *button, gpointer user_data)
 {
-  ((ExportAssistant *) user_data)->on_button_bible_name ();
+  ((ImportAssistant *) user_data)->on_button_bible_name ();
 }
 
 
-void ExportAssistant::on_button_bible_name ()
+void ImportAssistant::on_button_bible_name ()
 {
   project_select(bible_name);
   on_assistant_prepare (vbox_bible_name);
@@ -961,13 +829,13 @@ void ExportAssistant::on_button_bible_name ()
 }
 
 
-void ExportAssistant::on_button_date_time_clicked (GtkButton *button, gpointer user_data)
+void ImportAssistant::on_button_date_time_clicked (GtkButton *button, gpointer user_data)
 {
-  ((ExportAssistant *) user_data)->on_button_date_time ();
+  ((ImportAssistant *) user_data)->on_button_date_time ();
 }
 
 
-void ExportAssistant::on_button_date_time ()
+void ImportAssistant::on_button_date_time ()
 {
   DateDialog dialog(&date_time, true);
   dialog.run();
@@ -975,87 +843,194 @@ void ExportAssistant::on_button_date_time ()
 }
 
 
-void ExportAssistant::on_button_file_clicked (GtkButton *button, gpointer user_data)
+void ImportAssistant::on_button_files_clicked (GtkButton *button, gpointer user_data)
 {
-  ((ExportAssistant *) user_data)->on_button_file ();
+  ((ImportAssistant *) user_data)->on_button_files ();
 }
 
 
-void ExportAssistant::on_button_file ()
+void ImportAssistant::on_button_files ()
+// Selection and processing of the files to import.
 {
-  ustring file = gtkw_file_chooser_save (assistant, "", filename);
-  if (!file.empty()) {
-    filename = file;
-    if ((get_type() == etBible) && (get_bible_type() == ebtUSFM)) {
-      compress_ensure_zip_suffix (filename);
+  // Set directory.
+  ustring directory;
+  if (!files_names.empty()) {
+    directory = gw_path_get_dirname (files_names[0]);
+  }
+
+  // Processing variables.
+  files_messages.clear();
+  files_book_ids.clear();
+  
+  // Select files.
+  {
+    vector <ustring> files = gtkw_file_chooser_open_multiple (assistant, "", directory);
+    if (!files.empty()) {
+      files_names = files;
     }
-    on_assistant_prepare (vbox_file);
   }
-}
 
-
-void ExportAssistant::on_button_folder_clicked (GtkButton *button, gpointer user_data)
-{
-  ((ExportAssistant *) user_data)->on_button_folder ();
-}
-
-
-void ExportAssistant::on_button_folder ()
-{
-  ustring folder = gtkw_file_chooser_select_folder (assistant, "", foldername);
-  if (!folder.empty()) {
-    foldername = folder;
-    on_assistant_prepare (vbox_folder);
+  // Ensure that there are only uncompressed files, or only one compressed file.
+  vector <ustring> compressed_files;
+  for (unsigned int i = 0; i < files_names.size(); i++) {
+    if (compressed_archive_recognized (files_names[i]))
+      compressed_files.push_back (files_names[i]);
   }
+  if (!compressed_files.empty()) {
+    if (compressed_files.size() > 1) {
+      files_messages.push_back ("You have selected more than one compressed file");
+    }
+    if (compressed_files.size() == 1) {
+      if (files_names.size() != 1) {
+        files_messages.push_back ("You have selected a mixture of normal and compressed files");
+      }
+    }
+  }
+
+  // Optionally uncompress the archive and let the user select files from within it.
+  if (files_messages.empty()) {
+    if (compressed_files.size() == 1) {
+      ustring unpack_directory = gw_build_filename (directories_get_temp (), "uncompress");
+      unix_rmdir (unpack_directory);
+      uncompress (compressed_files[0], unpack_directory);
+      gtkw_dialog_info (assistant, "You will now be asked to select files from within the compressed archive");
+      files_names = gtkw_file_chooser_open_multiple (assistant, "", unpack_directory);
+    }
+  }
+
+  // Check that all files are in Unicode.
+  if (files_messages.empty()) {
+    vector <ustring> unicode_files;
+    vector <ustring> non_unicode_files;
+    for (unsigned int i = 0; i < files_names.size(); i++) {
+      ustring contents;
+      gchar *s;
+      g_file_get_contents(files_names[i].c_str(), &s, NULL, NULL);
+      contents = s;
+      g_free(s);
+      if (contents.validate()) {
+        unicode_files.push_back (files_names[i]);
+      } else {
+        non_unicode_files.push_back (files_names[i]);
+      }
+    }
+    files_names = unicode_files;
+    if (!non_unicode_files.empty()) {
+      files_messages.push_back ("The following files are not in the right Unicode format and are therefore not fit for import:");
+      for (unsigned int i = 0; i < non_unicode_files.size(); i++) {
+        files_messages.push_back (non_unicode_files[i]);
+      }
+      files_messages.push_back ("The online help provides more information about how to make these fit for use.");
+    }
+  }
+
+  // Specific checks for each import type. 
+  switch (get_type ()) {
+  case itBible:
+    {
+      switch (get_bible_type()) {
+      case ibtUsfm:
+        {
+          files_checks_bible_usfm ();
+          break;
+        }
+      case ibtBibleWorks: // Todo working here.
+        {
+          break;
+        }
+      case ibtMechonMamre:
+        {
+          break;
+        }
+      case ibtOnlineBible:
+        {
+          break;
+        }
+      case ibtRawText:
+        {
+          break;
+        }
+      }
+      break;
+    }
+  case itReferences:
+    {
+      break;
+    }
+  case itStylesheet:
+    {
+      break;
+    }
+  case itNotes:
+    {
+      break;
+    }
+  case itKeyterms:
+    {
+      break;
+    }
+  }
+
+  // Gui update.
+  on_assistant_prepare (vbox_files);
 }
 
 
-ExportType ExportAssistant::get_type ()
+void ImportAssistant::on_button_unicode_clicked (GtkButton *button, gpointer user_data)
+{
+  ((ImportAssistant *) user_data)->on_button_unicode ();
+}
+
+
+void ImportAssistant::on_button_unicode ()
+{
+  on_assistant_prepare (vbox_unicode);
+}
+
+
+ImportType ImportAssistant::get_type ()
 {
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_select_type_bible))) {
-    return etBible;
+    return itBible;
   }
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_select_type_references))) {
-    return etReferences;
+    return itReferences;
   }
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_select_type_stylesheet))) {
-    return etStylesheet;
+    return itStylesheet;
   }
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_select_type_notes))) {
-    return etNotes;
+    return itNotes;
   }
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_select_type_keyterms))) {
-    return etKeyterms;
+    return itKeyterms;
   }
-  return etBible;
+  return itBible;
 }
 
 
-ExportBibleType ExportAssistant::get_bible_type ()
+ImportBibleType ImportAssistant::get_bible_type ()
 {
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_bible_usfm))) {
-    return ebtUSFM;
+    return ibtUsfm;
   }
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_bible_bibleworks))) {
-    return ebtBibleWorks;
+    return ibtBibleWorks;
   }
-  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_bible_osis))) {
-    return ebtOSIS;
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_bible_mechon_mamre))) {
+    return ibtMechonMamre;
   }
-  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_bible_sword))) {
-    return ebtSWORD;
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_bible_online_bible))) {
+    return ibtOnlineBible;
   }
-  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_bible_opendocument))) {
-    return ebtOpenDocument;
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_bible_raw_text))) {
+    return ibtRawText;
   }
-  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_bible_gobible))) {
-    return ebtGoBible;
-  }
-  return ebtUSFM;
+  return ibtUsfm;
 }
 
 
-ExportUsfmType ExportAssistant::get_usfm_type ()
+ExportUsfmType ImportAssistant::get_usfm_type ()
 {
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_usfm_everything))) {
     return eutEverything;
@@ -1067,7 +1042,7 @@ ExportUsfmType ExportAssistant::get_usfm_type ()
 }
 
 
-ExportUsfmChangesType ExportAssistant::get_usfm_changes_type ()
+ExportUsfmChangesType ImportAssistant::get_usfm_changes_type ()
 {
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_usfm_changes_since_last))) {
     return euctSinceLast;
@@ -1079,13 +1054,13 @@ ExportUsfmChangesType ExportAssistant::get_usfm_changes_type ()
 }
 
 
-bool ExportAssistant::get_compressed ()
+bool ImportAssistant::get_compressed ()
 {
   return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_zip));
 }
 
 
-ExportOsisType ExportAssistant::get_osis_type ()
+ExportOsisType ImportAssistant::get_osis_type ()
 {
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_osis_recommended))) {
     return eotRecommended;
@@ -1100,20 +1075,20 @@ ExportOsisType ExportAssistant::get_osis_type ()
 }
 
 
-void ExportAssistant::on_entry_sword_changed(GtkEditable * editable, gpointer user_data)
+void ImportAssistant::on_entry_sword_changed(GtkEditable * editable, gpointer user_data)
 {
-  ((ExportAssistant *) user_data)->on_entry_sword(editable);
+  ((ImportAssistant *) user_data)->on_entry_sword(editable);
 }
 
 
-void ExportAssistant::on_entry_sword(GtkEditable *editable)
+void ImportAssistant::on_entry_sword(GtkEditable *editable)
 {
   ustring value = gtk_entry_get_text(GTK_ENTRY(editable));
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), GTK_WIDGET (editable), !value.empty());
 }
 
 
-void ExportAssistant::sword_values_set ()
+void ImportAssistant::sword_values_set ()
 {
   extern Settings * settings;
   ProjectConfiguration * projectconfig = settings->projectconfig (bible_name);
@@ -1127,8 +1102,86 @@ void ExportAssistant::sword_values_set ()
 }
 
 
-bool ExportAssistant::get_include_keyterms_without_rendering ()
+bool ImportAssistant::get_include_keyterms_without_rendering ()
 {
   return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_keyterms_without_rendering));
 }
+
+
+void ImportAssistant::files_checks_bible_usfm ()
+{
+  // Check whether all the USFM files have proper \id data.
+  if (files_messages.empty()) {
+    vector <ustring> files_names_temp;
+    for (unsigned int i = 0; i < files_names.size(); i++) {
+      unsigned int book_id = books_paratext_to_id(get_usfm_id_from_file(files_names[i]));
+      if (book_id) {
+        files_names_temp.push_back (files_names[i]);
+        files_book_ids.push_back (book_id);
+      } else {
+        files_messages.push_back ("Unknown book in file " + files_names[i]);
+      }
+    }
+    files_names = files_names_temp;
+  }
+  // Check whether none of the books to be imported is already in the project.
+  if (files_messages.empty()) {
+    vector <unsigned int> books_in_project = project_get_books (bible_name);
+    set <unsigned int> books_in_project_set (books_in_project.begin(), books_in_project.end());
+    for (unsigned int i = 0; i < files_book_ids.size(); i++) {
+      if (books_in_project_set.find (files_book_ids[i]) != books_in_project_set.end()) {
+        files_messages.push_back ("File " + files_names[i] + " has book " + books_id_to_english (files_book_ids[i]) + ", but this one is already in the project");
+      }
+    }
+  }
+}
+
+
+/*
+
+
+Todo Import Assistant
+
+
+The following paths are to be implemented:
+Bible / BibleWorks
+Bible / MechonMamre
+Bible / OnlineBible
+Bible / RawText
+References
+Stylesheet
+Notes
+Keyterms
+
+
+
+
+
+
+
+
+
+
+
+Complete the helpfile, consolidating all imports and exports into one file, and to work from there.
+The help file needs to make a very clear distinction between a backup and an export.
+A backup backups everything that belongs to some item, e.g. a whole project or everything.
+An export exports part of the data we wish to see, and in a certain format.
+A restore is the opposite of a backup.
+An import is the opposite of an export.
+Write a section about how to convert files into Unicode, using gedit. Refer to this section from the dialog where it checks on Unicode.
+  new InDialogHelp(importsfmdialog, NULL, &shortcuts, "import_text");
+
+
+
+From dialogproject, the import button goes out.
+
+
+
+
+
+
+
+*/
+
 

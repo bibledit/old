@@ -25,7 +25,6 @@ bibledit_bin_SOURCES = \
 	    projectutils.cpp \
 	    dialogproject.cpp \
 	    usfm.cpp \
-	    dialogimporttext.cpp \
 	    dialogwait.cpp \
 	    directories.cpp \
 	    ustring.cpp \
@@ -106,7 +105,6 @@ bibledit_bin_SOURCES = \
         check_count_words.cpp \
         dialogoutpost.cpp \
         dialognotestransfer.cpp \
-        dialogassignbooks.cpp \
         dialogtextview.cpp \
         dialogchapternumber.cpp \
         httpd.cpp \
@@ -273,7 +271,8 @@ bibledit_bin_SOURCES = \
 				d_bus.cpp \
 				htmlwriter2.cpp \
 				dialogmaintenance.cpp \
-				swordkjv.cpp
+				swordkjv.cpp \
+				assistantimport.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 

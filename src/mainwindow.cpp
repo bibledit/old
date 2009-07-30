@@ -34,7 +34,6 @@
 #include "projectutils.h"
 #include "dialogproject.h"
 #include "usfm.h"
-#include "dialogimporttext.h"
 #include "dialogreplacing.h"
 #include <gdk/gdkkeysyms.h>
 #include <glib.h>
@@ -170,6 +169,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   backup_assistant = NULL;
   restore_assistant = NULL;
   export_assistant = NULL;
+  import_assistant = NULL;
   
   // Initialize some variables.
   git_reopen_project = false;
@@ -310,7 +310,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   }
 
   properties1 = NULL;
-  import1 = NULL;
   copy_project_to = NULL;
   compare_with1 = NULL;
   if (guifeatures.project_management()) {
@@ -322,14 +321,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     image4995 = gtk_image_new_from_stock("gtk-properties", GTK_ICON_SIZE_MENU);
     gtk_widget_show(image4995);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(properties1), image4995);
-
-    import1 = gtk_image_menu_item_new_with_mnemonic("_Import");
-    gtk_widget_show(import1);
-    gtk_container_add(GTK_CONTAINER(file_project_menu), import1);
-
-    image464 = gtk_image_new_from_stock("gtk-convert", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image464);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(import1), image464);
 
     copy_project_to = gtk_image_menu_item_new_with_mnemonic("Cop_y to");
     gtk_widget_show(copy_project_to);
@@ -705,6 +696,14 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     gtk_container_add(GTK_CONTAINER(menuitem_file_menu), print);
 
   }
+
+  file_import = gtk_image_menu_item_new_with_mnemonic ("_Import");
+  gtk_widget_show (file_import);
+  gtk_container_add (GTK_CONTAINER (menuitem_file_menu), file_import);
+
+  image36797 = gtk_image_new_from_stock ("gtk-add", GTK_ICON_SIZE_MENU);
+  gtk_widget_show (image36797);
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (file_import), image36797);
 
   file_export = gtk_image_menu_item_new_with_mnemonic ("E_xport");
   gtk_widget_show (file_export);
@@ -1664,8 +1663,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     g_signal_connect((gpointer) delete1, "activate", G_CALLBACK(on_delete1_activate), gpointer(this));
   if (properties1)
     g_signal_connect((gpointer) properties1, "activate", G_CALLBACK(on_properties1_activate), gpointer(this));
-  if (import1)
-    g_signal_connect((gpointer) import1, "activate", G_CALLBACK(on_import1_activate), gpointer(this));
   if (copy_project_to)
     g_signal_connect((gpointer) copy_project_to, "activate", G_CALLBACK(on_copy_project_to_activate), gpointer(this));
   if (compare_with1)
@@ -1701,6 +1698,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     g_signal_connect((gpointer) keyterms_delete, "activate", G_CALLBACK(on_keyterms_delete_activate), gpointer(this));
   if (print)
     g_signal_connect((gpointer) print, "activate", G_CALLBACK(on_print_activate), gpointer(this));
+  g_signal_connect ((gpointer) file_import, "activate", G_CALLBACK (on_file_import_activate), gpointer(this));
   g_signal_connect ((gpointer) file_export, "activate", G_CALLBACK (on_file_export_activate), gpointer(this));
   g_signal_connect ((gpointer) file_backup, "activate", G_CALLBACK (on_file_backup_activate), gpointer(this));
   g_signal_connect ((gpointer) file_restore, "activate", G_CALLBACK (on_file_restore_activate), gpointer(this));
@@ -1967,8 +1965,6 @@ void MainWindow::enable_or_disable_widgets(bool enable)
   // Set some widgets (in)sensitive depending on whether a project is open.
   if (properties1)
     gtk_widget_set_sensitive(properties1, enable);
-  if (import1)
-    gtk_widget_set_sensitive(import1, enable);
   if (notes2)
     gtk_widget_set_sensitive(notes2, enable);
   if (menuitem_edit)
@@ -2311,18 +2307,6 @@ void MainWindow::menu_findspecial()
   search_string(window_references, &bibletime);
 }
 
-void MainWindow::on_import1_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->menu_import();
-}
-
-void MainWindow::menu_import()
-{
-  ImportTextDialog dialog(0);
-  if (dialog.run() != GTK_RESPONSE_OK)
-    return;
-  reload_all_editors(false);
-}
 
 void MainWindow::on_insert1_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
@@ -7026,6 +7010,13 @@ void MainWindow::on_assistant_keyterms_ready ()
     export_assistant = NULL;
   }
 
+  // Import.
+  if (import_assistant) {
+    reload_all_editors(false);
+    delete import_assistant;
+    import_assistant = NULL;
+  }
+
   // The assistants may have paused version control operations. Resume these.
   extern VCS * vcs;
   vcs->pause(false);
@@ -7102,6 +7093,37 @@ void MainWindow::check_usfm_window_ping()
 
 
 /*
+ |
+ |
+ |
+ |
+ |
+ Import
+ |
+ |
+ |
+ |
+ |
+ */
+
+
+void MainWindow::on_file_import_activate (GtkMenuItem *menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_file_import();
+}
+
+
+void MainWindow::on_file_import ()
+{
+  save_editors();
+  import_assistant = new ImportAssistant (window_references, window_styles, window_check_keyterms);
+  g_signal_connect ((gpointer) import_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
+}
+
+
+
+
+/*
 
 
 Todo various tasks.
@@ -7109,33 +7131,6 @@ Todo various tasks.
 
 
 
-
-
-Export Assistant and Import Assistant
-
-We need an assistant that helps in Export.
-
-And another assistant for Import.
-
-The help file needs to make a very clear distinction between a backup and an export.
-
-A backup backups everything that belongs to some item, e.g. a whole project or everything.
-
-An export exports part of the data we wish to see, and in a certain format.
-
-A restore is the opposite of a backup.
-Assistants for both are already there.
-
-An import is the opposite of an export.
-
-One possible export is to email the data of a project to an email address. 
-It could do this at regular times, or let's say on shutdown a day after previous time it did that. 
-It requires mutt. It can send a test email, just with text, and the user can then decide whether the mailer works well. 
-
-
-I just wanted to give my support for this. 
-One of the things I noticed in training is that during import and export the new users didn't know what button/dialog to click on.
-An assistant that would hold their hand through that process would be very helpful to them.
 
 
 
@@ -7161,6 +7156,26 @@ I am not sure whether Bibledit should rely on Toolbox. If these notes are useful
 
 
 
+
+
+
+
+
+Central Documentation Hub for all USFM codes
+
+I know USFM is documented elsewhere on the Internet, and I know the Bibledit docs have some discussion of USFM codes, 
+but it would be wonderful if an alphabetized directory of all USFM codes was included with Bibledit, 
+so that the end-user without Internet access can understand what each code is used for, including an example of the proper usage.
+
+
+Even better would be to have the USFM codes click-able in the USFM editing view. Maybe right-click to go to the documentation or usage page.
+
+
+Easiest at this stage is probably to download the pdf file and use it in Bibledit's documentation.
+
+
+chmsee
+libchm-dev
 
 
 */

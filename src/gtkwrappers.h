@@ -32,7 +32,7 @@ void gtkw_dialog_error (GtkWidget * parent, const ustring& error);
 void gtkw_dialog_warning (GtkWidget * parent, const ustring& warning);
 ustring gtkw_file_chooser_select_folder (GtkWidget * parent, const ustring& title, const ustring& directory);
 ustring gtkw_file_chooser_open (GtkWidget * parent, const ustring& title, const ustring& file);
-vector <ustring> gtkw_file_chooser_open_multiple (GtkWidget * parent, const ustring& title, const ustring& file);
+vector <ustring> gtkw_file_chooser_open_multiple (GtkWidget * parent, const ustring& title, ustring directory);
 ustring gtkw_file_chooser_save (GtkWidget * parent, const ustring& title, const ustring& file);
 
 

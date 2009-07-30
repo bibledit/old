@@ -28,7 +28,6 @@
 #include <glib.h>
 #include "stylesheetutils.h"
 #include "constants.h"
-#include "dialogimporttext.h"
 #include "gwrappers.h"
 #include "gtkwrappers.h"
 #include "combobox.h"
@@ -623,13 +622,6 @@ void ProjectDialog::on_book_delete()
 
 void ProjectDialog::on_import()
 {
-  extern Settings *settings;
-  ustring project = settings->genconfig.project_get();
-  settings->genconfig.project_set(currentprojectname);
-  ImportTextDialog dialog(0);
-  dialog.run();
-  settings->genconfig.project_set(project);
-  set_gui();
 }
 
 void ProjectDialog::projectdialog_on_nameentry_changed(GtkEditable * editable, gpointer user_data)

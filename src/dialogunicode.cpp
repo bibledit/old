@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include <gtk/gtk.h>
 #include "dialogunicode.h"
@@ -29,6 +30,7 @@
 #include "gwrappers.h"
 #include "settings.h"
 #include "tiny_utilities.h"
+
 
 UnicodeDialog::UnicodeDialog(const ustring & filetoconvert)
 {
@@ -114,15 +116,18 @@ UnicodeDialog::UnicodeDialog(const ustring & filetoconvert)
 
 }
 
+
 UnicodeDialog::~UnicodeDialog()
 {
   gtk_widget_destroy(unicodedialog);
 }
 
+
 int UnicodeDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(unicodedialog));
 }
+
 
 void UnicodeDialog::set_gui()
 // If the user selects an encoding, this will show the example as well.
@@ -142,10 +147,12 @@ void UnicodeDialog::set_gui()
   g_free(contents);
 }
 
+
 void UnicodeDialog::on_button1_clicked(GtkButton * button, gpointer user_data)
 {
   ((UnicodeDialog *) user_data)->on_button1();
 }
+
 
 void UnicodeDialog::on_button1()
 {

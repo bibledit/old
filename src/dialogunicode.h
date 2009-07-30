@@ -17,6 +17,7 @@
 **  
 */
 
+
 #ifndef INCLUDED_DIALOGUNICODE_H
 #define INCLUDED_DIALOGUNICODE_H
 
