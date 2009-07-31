@@ -177,7 +177,7 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogplanningedit.$(OBJEXT) dialoglistviewm.$(OBJEXT) \
 	vcs.$(OBJEXT) d_bus.$(OBJEXT) htmlwriter2.$(OBJEXT) \
 	dialogmaintenance.$(OBJEXT) swordkjv.$(OBJEXT) \
-	assistantimport.$(OBJEXT)
+	assistantimport.$(OBJEXT) mechonmamre.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
@@ -625,7 +625,8 @@ bibledit_bin_SOURCES = \
 				htmlwriter2.cpp \
 				dialogmaintenance.cpp \
 				swordkjv.cpp \
-				assistantimport.cpp
+				assistantimport.cpp \
+				mechonmamre.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -860,6 +861,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mainwindow.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mapping.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mappings.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mechonmamre.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/merge_utils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/myfnmatch.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/note_editor.Po@am__quote@

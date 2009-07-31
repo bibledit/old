@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include "htmlbrowser.h"
 #include <gtk/gtk.h>
@@ -82,6 +83,7 @@ const gchar *helpcommand(int index)
   }
   return command;
 }
+
 
 void htmlbrowser(const ustring & filename, bool network, bool no_tamper)
 // Get the name of an existing browser, and view the file through it.

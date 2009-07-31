@@ -28,7 +28,7 @@
 
 
 enum ImportType {itBible, itReferences, itStylesheet, itNotes, itKeyterms};
-enum ImportBibleType {ibtUsfm, ibtBibleWorks, ibtMechonMamre, ibtOnlineBible, ibtRawText};
+enum ImportBibleType {ibtUsfm, ibtBibleWorks, ibtOnlineBible, ibtRawText};
 
 
 
@@ -36,7 +36,6 @@ class ImportBookRead
 {
 public:
   ImportBookRead (const ustring& filename, const ustring& encoding);
-  void mechonmamre ();
   void onlinebible (map <ustring, unsigned int> bookmap);
   vector<ustring> lines;
   ustring bookname;
@@ -49,8 +48,6 @@ gchar * unicode_convert (gchar *data, const ustring& encoding);
 
 
 ustring bibleworks_file_get_bookname (const ustring& filename);
-bool mechon_mamre_copyright (const ustring& inputfile);
-vector<ustring> mechon_mamre_produce_master_files (const vector<ustring>& inputfiles);
 bool online_bible_file (const ustring& filename);
 bool online_bible_parse_reference (ustring line, unsigned int& book, unsigned int& chapter, unsigned int& verse, map <ustring, unsigned int>& bookmap);
 vector <ustring> online_bible_file_divide (const ustring& inputfile, map <ustring, unsigned int> bookmap);

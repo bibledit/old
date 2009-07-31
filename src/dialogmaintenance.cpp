@@ -22,6 +22,8 @@
 #include "help.h"
 #include "html.h"
 #include "swordkjv.h"
+#include "mechonmamre.h"
+#include "htmlbrowser.h"
 
 
 MaintenanceDialog::MaintenanceDialog(int dummy)
@@ -108,7 +110,7 @@ void MaintenanceDialog::html_link_clicked (const gchar * url)
 
   if (active_url == sword_kjv_html_entry_url ()) {
     html_add_home (htmlwriter);
-    import_sword_kjv_detailed_page (htmlwriter);
+    sword_kjv_detailed_page (htmlwriter);
   }
 
   else if (active_url == sword_kjv_import_url ()) {
@@ -121,6 +123,20 @@ void MaintenanceDialog::html_link_clicked (const gchar * url)
     sword_kjv_action_result_page (sword_kjv_delete (), htmlwriter);
   }
   
+  else if (active_url == mechon_mamre_html_entry_url ()) {
+    html_add_home (htmlwriter);
+    mechon_mamre_detailed_page (htmlwriter);
+  }
+
+  else if (active_url == mechon_mamre_download_url ()) {
+    display_another_page = false;
+    htmlbrowser ("http://www.mechon-mamre.org/dlct.htm", false, true);
+  }
+
+  else if (active_url == mechon_mamre_import_url ()) {
+    mechon_mamre_action_page (htmlwriter);
+  }
+
   else {
     // The home page.
     htmlwriter.heading_open (3);
@@ -130,8 +146,11 @@ void MaintenanceDialog::html_link_clicked (const gchar * url)
     htmlwriter.text_add ("Some actions may have great impact on Bibledit. Use with care.");
     htmlwriter.paragraph_close();
 
-    // Import Sword KJV Bible link.
-    import_sword_kjv_home_entry (htmlwriter);
+    // Sword KJV Bible link.
+    sword_kjv_home_entry (htmlwriter);
+
+    // Mechon Mamre Hebrew text link.
+    mechon_mamre_home_entry (htmlwriter);
 
     /*    
     htmlwriter.paragraph_open();

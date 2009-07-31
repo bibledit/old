@@ -77,7 +77,6 @@ private:
   GtkWidget *vbox_bible_type;
   GtkWidget *radiobutton_bible_usfm;
   GtkWidget *radiobutton_bible_bibleworks;
-  GtkWidget *radiobutton_bible_mechon_mamre;
   GtkWidget *radiobutton_bible_online_bible;
   GtkWidget *radiobutton_bible_raw_text;
   ImportBibleType get_bible_type ();

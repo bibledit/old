@@ -18,8 +18,8 @@
 */
 
 
-#ifndef INCLUDED_SWORD_KJV_H
-#define INCLUDED_SWORD_KJV_H
+#ifndef INCLUDED_MECHON_MAMRE_H
+#define INCLUDED_MECHON_MAMRE_H
 
 
 #include "libraries.h"
@@ -27,17 +27,15 @@
 #include "reference.h"
 
 
-ustring sword_kjv_html_entry_url ();
-ustring sword_kjv_import_url ();
-ustring sword_kjv_delete_url ();
-void sword_kjv_home_entry (HtmlWriter2& htmlwriter);
-void sword_kjv_detailed_page (HtmlWriter2& htmlwriter);
-vector <ustring> sword_kjv_import ();
-vector <ustring> sword_kjv_delete ();
-void sword_kjv_action_result_page (const vector <ustring>& messages, HtmlWriter2& htmlwriter);
-void sword_kjv_get_strongs_data (const Reference& reference, vector <unsigned int>& strongs, vector <ustring>& phrases);
-vector <Reference> sword_kjv_get_strongs_verses (const Reference& reference, unsigned int strongs);
-ustring sword_kjv_get_verse (const Reference& reference);
+ustring mechon_mamre_html_entry_url ();
+ustring mechon_mamre_download_url ();
+ustring mechon_mamre_import_url ();
+void mechon_mamre_home_entry (HtmlWriter2& htmlwriter);
+void mechon_mamre_detailed_page (HtmlWriter2& htmlwriter);
+void mechon_mamre_action_page (HtmlWriter2& htmlwriter);
+bool mechon_mamre_copyright (const ustring& inputfile);
+void mechon_mamre_extract_book_chapter (const ustring& file, unsigned int& book, unsigned int& chapter);
+vector <ustring> mechon_mamre_extract_contents (const ustring& file, unsigned int chapter);
 
 
 #endif

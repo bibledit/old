@@ -272,7 +272,8 @@ bibledit_bin_SOURCES = \
 				htmlwriter2.cpp \
 				dialogmaintenance.cpp \
 				swordkjv.cpp \
-				assistantimport.cpp
+				assistantimport.cpp \
+				mechonmamre.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 

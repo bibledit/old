@@ -89,7 +89,7 @@ ustring sword_kjv_delete_url ()
 }
 
 
-void import_sword_kjv_home_entry (HtmlWriter2& htmlwriter)
+void sword_kjv_home_entry (HtmlWriter2& htmlwriter)
 {
   htmlwriter.paragraph_open ();
   htmlwriter.hyperlink_add (sword_kjv_html_entry_url (), "KJV Bible from the Sword library");
@@ -97,7 +97,7 @@ void import_sword_kjv_home_entry (HtmlWriter2& htmlwriter)
 }
 
 
-void import_sword_kjv_detailed_page (HtmlWriter2& htmlwriter)
+void sword_kjv_detailed_page (HtmlWriter2& htmlwriter)
 {
   htmlwriter.heading_open (3);
   htmlwriter.text_add ("KJV Bible from Sword library");

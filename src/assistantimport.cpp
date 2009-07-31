@@ -191,12 +191,6 @@ AssistantBase("Import", "import")
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_bibleworks), radiobutton_bible_type_group);
   radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_bibleworks));
 
-  radiobutton_bible_mechon_mamre = gtk_radio_button_new_with_mnemonic (NULL, "Mechon Mamre Hebrew Tanach");
-  gtk_widget_show (radiobutton_bible_mechon_mamre);
-  gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_mechon_mamre, FALSE, FALSE, 0);
-  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_mechon_mamre), radiobutton_bible_type_group);
-  radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_mechon_mamre));
-
   radiobutton_bible_online_bible = gtk_radio_button_new_with_mnemonic (NULL, "Online Bible Exported Text");
   gtk_widget_show (radiobutton_bible_online_bible);
   gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_online_bible, FALSE, FALSE, 0);
@@ -212,7 +206,6 @@ AssistantBase("Import", "import")
   Shortcuts shortcuts_select_bible_type (0);
   shortcuts_select_bible_type.button (radiobutton_bible_usfm);
   shortcuts_select_bible_type.button (radiobutton_bible_bibleworks);
-  shortcuts_select_bible_type.button (radiobutton_bible_mechon_mamre);
   shortcuts_select_bible_type.button (radiobutton_bible_online_bible);
   shortcuts_select_bible_type.button (radiobutton_bible_raw_text);
   shortcuts_select_bible_type.consider_assistant();
@@ -660,11 +653,7 @@ void ImportAssistant::on_assistant_apply ()
           import_bibleworks_file (files_names[0], bible_name, summary_messages);
           break;
         }
-        case ibtMechonMamre: // Todo work here.
-        {
-          break;
-        }
-        case ibtOnlineBible:
+        case ibtOnlineBible: // Todo work here.
         {
           break;
         }
@@ -732,30 +721,7 @@ gint ImportAssistant::assistant_forward (gint current_page)
           forward_sequence.insert (page_number_files);
           break;
         }
-        case ibtMechonMamre: // Todo
-        {
-          forward_sequence.insert (page_number_select_type);
-          forward_sequence.insert (page_number_bible_name);
-          forward_sequence.insert (page_number_bible_type);
-          forward_sequence.insert (page_number_osis_type);
-          forward_sequence.insert (page_number_files);
-          switch (get_osis_type ()) {
-            case eotRecommended:
-            {
-              break;
-            }
-            case eotGoBibleCreator:
-            {
-              break;
-            }
-            case eotOld:
-            {
-              break;
-            }
-          }
-          break;
-        }
-        case ibtOnlineBible:
+        case ibtOnlineBible: // Todo
         {
           forward_sequence.insert (page_number_select_type);
           forward_sequence.insert (page_number_bible_name);
@@ -948,11 +914,7 @@ void ImportAssistant::on_button_files ()
           import_check_bibleworks_file (files_names, files_book_ids, bible_name, files_messages);
           break;
         }
-      case ibtMechonMamre: // Todo working here.
-        {
-          break;
-        }
-      case ibtOnlineBible:
+      case ibtOnlineBible: // Todo working here.
         {
           break;
         }
@@ -1026,9 +988,6 @@ ImportBibleType ImportAssistant::get_bible_type ()
   }
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_bible_bibleworks))) {
     return ibtBibleWorks;
-  }
-  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_bible_mechon_mamre))) {
-    return ibtMechonMamre;
   }
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_bible_online_bible))) {
     return ibtOnlineBible;
@@ -1125,7 +1084,6 @@ Todo Import Assistant
 
 
 The following paths are to be implemented:
-Bible / MechonMamre
 Bible / OnlineBible
 Bible / RawText
 References
@@ -1191,11 +1149,6 @@ void on_okbutton()
           ibr.bibleworks();
           break;
         }
-      case ibtMechonMamre:
-        {
-          ibr.mechonmamre();
-          break;
-        }
       case ibtOnlineBible:
         {
           ibr.onlinebible(general_adapted_booknames_fill_up(unusual_book_names));
@@ -1231,24 +1184,6 @@ void on_okbutton()
 void set_gui()
 {
 
-      switch (importtype) {
-      case ibtBibleWorks:
-        {
-          if (!bibleworks_file_get_bookname(all_files[i]).empty()) {
-            proper_text_files.push_back(all_files[i]);
-          }
-          break;
-        }
-      case ibtMechonMamre:
-        {
-          if (mechon_mamre_copyright(all_files[i])) {
-            unsigned int digitcount = digit_count_in_string(all_files[i]);
-            if (digitcount == 3 || digitcount == 4) {
-              proper_text_files.push_back(all_files[i]);
-            }
-          }
-          break;
-        }
       case ibtOnlineBible:
       {
         if (online_bible_file(all_files[i])) {
@@ -1256,27 +1191,12 @@ void set_gui()
         }
         break;
       }
-      }
-    }
-
-  }
-
 
   // When importing files from the Online Bible, we can use unusual book names.
   gtk_widget_set_sensitive (hbox_book_names, (importtype == ibtOnlineBible));
 
 
-  // Handle book type.
 
-  switch (importtype) {
-
-
-  case ibtMechonMamre:
-    {
-      // Importing Mechon Mamre Hebrew files: make one master file per book.
-      proper_text_files = mechon_mamre_produce_master_files(proper_text_files);
-      break;
-    }
   case ibtOnlineBible:
     {
       // Divide the files per book as we don't know how many books the user put in one file.
