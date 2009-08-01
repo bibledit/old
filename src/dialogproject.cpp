@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include "dialogproject.h"
 #include "utilities.h"
@@ -171,28 +172,6 @@ ProjectDialog::ProjectDialog(bool newproject)
 
   shortcuts.label(label6);
 
-  importbutton = gtk_button_new();
-  gtk_widget_show(importbutton);
-  gtk_table_attach(GTK_TABLE(table1), importbutton, 0, 1, 2, 3, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
-
-  alignment3 = gtk_alignment_new(0.5, 0.5, 0, 0);
-  gtk_widget_show(alignment3);
-  gtk_container_add(GTK_CONTAINER(importbutton), alignment3);
-
-  hbox5 = gtk_hbox_new(FALSE, 2);
-  gtk_widget_show(hbox5);
-  gtk_container_add(GTK_CONTAINER(alignment3), hbox5);
-
-  image3 = gtk_image_new_from_stock("gtk-add", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show(image3);
-  gtk_box_pack_start(GTK_BOX(hbox5), image3, FALSE, FALSE, 0);
-
-  label10 = gtk_label_new_with_mnemonic("Import");
-  gtk_widget_show(label10);
-  gtk_box_pack_start(GTK_BOX(hbox5), label10, FALSE, FALSE, 0);
-
-  shortcuts.label(label10);
-
   hseparator1 = gtk_hseparator_new();
   gtk_widget_show(hseparator1);
   gtk_box_pack_start(GTK_BOX(vbox1), hseparator1, TRUE, TRUE, 2);
@@ -324,7 +303,6 @@ ProjectDialog::ProjectDialog(bool newproject)
   g_signal_connect((gpointer) checkbutton_editable, "toggled", G_CALLBACK(on_checkbutton_editable_toggled), gpointer(this));
   g_signal_connect((gpointer) addbutton, "clicked", G_CALLBACK(projectdialog_on_addbutton_clicked), gpointer(this));
   g_signal_connect((gpointer) deletebutton, "clicked", G_CALLBACK(projectdialog_on_deletebutton_clicked), gpointer(this));
-  g_signal_connect((gpointer) importbutton, "clicked", G_CALLBACK(on_importbutton_clicked), gpointer(this));
   g_signal_connect((gpointer) cancelbutton1, "clicked", G_CALLBACK(projectdialog_on_cancelbutton1_clicked), gpointer(this));
   g_signal_connect((gpointer) okbutton1, "clicked", G_CALLBACK(projectdialog_on_okbutton1_clicked), gpointer(this));
   g_signal_connect((gpointer) checkbutton_dependent, "toggled", G_CALLBACK(on_checkbutton_dependent_toggled), gpointer(this));
@@ -394,7 +372,6 @@ void ProjectDialog::set_gui()
   gtk_widget_set_sensitive(messagelabel, editable);
   gtk_widget_set_sensitive(addbutton, editable);
   gtk_widget_set_sensitive(deletebutton, editable && project_get_books(currentprojectname).size() > 0);
-  gtk_widget_set_sensitive(importbutton, editable);
   gtk_widget_set_sensitive(combobox_versification, editable);
   gtk_widget_set_sensitive(combobox_language, editable);
   gtk_widget_set_sensitive(label1, editable);
@@ -620,9 +597,6 @@ void ProjectDialog::on_book_delete()
   set_gui();
 }
 
-void ProjectDialog::on_import()
-{
-}
 
 void ProjectDialog::projectdialog_on_nameentry_changed(GtkEditable * editable, gpointer user_data)
 {
@@ -647,11 +621,6 @@ void ProjectDialog::projectdialog_on_deletebutton_clicked(GtkButton * button, gp
 void ProjectDialog::projectdialog_on_cancelbutton1_clicked(GtkButton * button, gpointer user_data)
 {
   ((ProjectDialog *) user_data)->on_cancel();
-}
-
-void ProjectDialog::on_importbutton_clicked(GtkButton * button, gpointer user_data)
-{
-  ((ProjectDialog *) user_data)->on_import();
 }
 
 void ProjectDialog::on_checkbutton_editable_toggled(GtkToggleButton * togglebutton, gpointer user_data)

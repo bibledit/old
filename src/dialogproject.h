@@ -55,11 +55,6 @@ protected:
   GtkWidget *hbox3;
   GtkWidget *image2;
   GtkWidget *label6;
-  GtkWidget *importbutton;
-  GtkWidget *alignment3;
-  GtkWidget *hbox5;
-  GtkWidget *image3;
-  GtkWidget *label10;
   GtkWidget *hseparator1;
   GtkWidget *table2;
   GtkWidget *label11;
@@ -83,7 +78,6 @@ private:
   void set_gui ();
   void on_book_add ();
   void on_book_delete ();
-  void on_import ();
   void on_ok ();
   void on_cancel ();
   static void projectdialog_on_nameentry_changed (GtkEditable * editable, gpointer user_data);
@@ -91,7 +85,6 @@ private:
   static void projectdialog_on_addbutton_clicked (GtkButton * button, gpointer user_data);
   static void projectdialog_on_deletebutton_clicked (GtkButton * button, gpointer user_data);
   static void projectdialog_on_cancelbutton1_clicked (GtkButton * button, gpointer user_data);
-  static void on_importbutton_clicked (GtkButton *button, gpointer user_data);
   static void on_checkbutton_editable_toggled (GtkToggleButton *togglebutton, gpointer user_data);
   static void on_checkbutton_dependent_toggled (GtkToggleButton *togglebutton, gpointer user_data);
   void on_checkbutton_dependent ();
