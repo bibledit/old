@@ -560,19 +560,8 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
 
   }
 
-  stylesheets_import = NULL;
-  if (guifeatures.styles_management()) {
-
-    stylesheets_import = gtk_image_menu_item_new_with_mnemonic("_Import");
-    gtk_widget_show(stylesheets_import);
-    gtk_container_add(GTK_CONTAINER(menu_stylesheet_menu), stylesheets_import);
-
-    GtkWidget *image10745;
-    image10745 = gtk_image_new_from_stock("gtk-network", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image10745);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(stylesheets_import), image10745);
-
-  }
+  // Whether style management is enabled.
+  style_management_enabled = guifeatures.styles_management();
 
   notes2 = NULL;
   new_note = NULL;
@@ -3862,7 +3851,7 @@ void MainWindow::display_window_styles()
     gtk_widget_show(menu_stylesheet);
     // Open the window.
     extern GtkAccelGroup *accelerator_group;
-    window_styles = new WindowStyles(accelerator_group, windows_startup_pointer != G_MAXINT, style, style_menu, stylesheets_expand_all, stylesheets_collapse_all, style_insert, stylesheet_edit_mode, style_new, style_properties, style_delete, stylesheet_switch, stylesheets_new, stylesheets_delete, stylesheets_rename, stylesheets_import, vbox_tools);
+    window_styles = new WindowStyles(accelerator_group, windows_startup_pointer != G_MAXINT, style, style_menu, stylesheets_expand_all, stylesheets_collapse_all, style_insert, stylesheet_edit_mode, style_new, style_properties, style_delete, stylesheet_switch, stylesheets_new, stylesheets_delete, stylesheets_rename, vbox_tools);
     resize_text_area_if_tools_area_is_empty ();
     g_signal_connect((gpointer) window_styles->delete_signal_button, "clicked", G_CALLBACK(on_window_styles_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_styles->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
@@ -7116,7 +7105,10 @@ void MainWindow::on_file_import_activate (GtkMenuItem *menuitem, gpointer user_d
 void MainWindow::on_file_import ()
 {
   save_editors();
-  import_assistant = new ImportAssistant (window_references, window_styles, window_check_keyterms);
+  WindowStyles * styles_window = window_styles;
+  if (!style_management_enabled) 
+    styles_window = NULL;
+  import_assistant = new ImportAssistant (window_references, styles_window, window_check_keyterms);
   g_signal_connect ((gpointer) import_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
 }
 

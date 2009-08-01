@@ -39,7 +39,7 @@
 #include "gwrappers.h"
 #include "styles.h"
 
-WindowStyles::WindowStyles(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * stl, GtkWidget * stl_menu, GtkWidget * stl_expand_all, GtkWidget * stl_collapse_all, GtkWidget * stl_insert, GtkWidget * stl_edit_mode, GtkWidget * stl_new, GtkWidget * stl_properties, GtkWidget * stl_delete, GtkWidget * stlsheet_switch, GtkWidget * stlsheet_new, GtkWidget * stlsheet_delete, GtkWidget * stlsheet_rename, GtkWidget * stlsheet_import, GtkWidget * parent_box):
+WindowStyles::WindowStyles(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * stl, GtkWidget * stl_menu, GtkWidget * stl_expand_all, GtkWidget * stl_collapse_all, GtkWidget * stl_insert, GtkWidget * stl_edit_mode, GtkWidget * stl_new, GtkWidget * stl_properties, GtkWidget * stl_delete, GtkWidget * stlsheet_switch, GtkWidget * stlsheet_new, GtkWidget * stlsheet_delete, GtkWidget * stlsheet_rename, GtkWidget * parent_box):
 WindowBase(widStyles, "Stylesheet", startup, 0, parent_box)
 // Styles window.
 {
@@ -57,7 +57,6 @@ WindowBase(widStyles, "Stylesheet", startup, 0, parent_box)
   stylesheet_new = stlsheet_new;
   stylesheet_remove = stlsheet_delete;
   stylesheet_rename = stlsheet_rename;
-  stylesheet_import1 = stlsheet_import;
 
   // Signalling buttons.
   apply_signal = gtk_button_new();
@@ -102,7 +101,6 @@ WindowBase(widStyles, "Stylesheet", startup, 0, parent_box)
   new_stylesheet_handler_id = 0;
   delete_stylesheet_handler_id = 0;
   rename_stylesheet_handler_id = 0;
-  import_stylesheet_handler_id = 0;
   if (style)
     styles_menu_handler_id = g_signal_connect((gpointer) style, "activate", G_CALLBACK(on_style_menu_activate), gpointer(this));
   if (style_expand_all)
@@ -125,8 +123,6 @@ WindowBase(widStyles, "Stylesheet", startup, 0, parent_box)
     delete_stylesheet_handler_id = g_signal_connect((gpointer) stylesheet_remove, "activate", G_CALLBACK(on_stylesheet_delete_activate), gpointer(this));
   if (stylesheet_rename)
     rename_stylesheet_handler_id = g_signal_connect((gpointer) stylesheet_rename, "activate", G_CALLBACK(on_stylesheet_rename_activate), gpointer(this));
-  if (stylesheet_import1)
-    import_stylesheet_handler_id = g_signal_connect((gpointer) stylesheet_import1, "activate", G_CALLBACK(on_stylesheet_import_activate), gpointer(this));
 
   g_signal_connect((gpointer) treeview, "key_press_event", G_CALLBACK(on_key_press_event), gpointer(this));
   g_signal_connect((gpointer) treeview, "button_press_event", G_CALLBACK(on_button_press_event), gpointer(this));
@@ -184,8 +180,6 @@ WindowStyles::~WindowStyles()
     g_signal_handler_disconnect((gpointer) stylesheet_remove, delete_stylesheet_handler_id);
   if (rename_stylesheet_handler_id)
     g_signal_handler_disconnect((gpointer) stylesheet_rename, rename_stylesheet_handler_id);
-  if (import_stylesheet_handler_id)
-    g_signal_handler_disconnect((gpointer) stylesheet_import1, import_stylesheet_handler_id);
 }
 
 void WindowStyles::load(const ustring & stylesheet)
@@ -715,11 +709,6 @@ void WindowStyles::on_stylesheet_rename()
       gtkw_dialog_error(NULL, "This name already exists.");
     }
   }
-}
-
-void WindowStyles::on_stylesheet_import_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((WindowStyles *) user_data)->on_stylesheet_import();
 }
 
 void WindowStyles::on_stylesheet_import()

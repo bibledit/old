@@ -673,13 +673,14 @@ void ImportAssistant::on_assistant_apply ()
       summary_messages.push_back ("In that window, click on [actions], then click on \"Import a list of references\".");
       break;
     }
-    case etStylesheet: // Todo work here.
+    case etStylesheet:
     {
       if (my_styles_window) {
+        my_styles_window->on_stylesheet_import();
       }
       break;
     }
-    case etNotes:
+    case etNotes: // Todo
     {
       break;
     }
@@ -742,12 +743,11 @@ gint ImportAssistant::assistant_forward (gint current_page)
     {
       break;
     }
-    case etStylesheet: // Todo
+    case etStylesheet:
     {
-      forward_sequence.insert (page_number_files);
       break;
     }
-    case etNotes:
+    case etNotes: // Todo
     {
       forward_sequence.insert (page_number_files);
       break;
@@ -917,11 +917,11 @@ void ImportAssistant::on_button_files ()
     {
       break;
     }
-  case itStylesheet: // Todo working here.
+  case itStylesheet:
     {
       break;
     }
-  case itNotes:
+  case itNotes: // Todo
     {
       break;
     }
@@ -1073,9 +1073,6 @@ Todo Import Assistant
 
 The following import paths are to be implemented:
 Bible / OnlineBible
-Bible / RawText
-References
-Stylesheet
 Notes
 Keyterms
 

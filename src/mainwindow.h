@@ -107,7 +107,6 @@ protected:
   GtkWidget *stylesheets_new;
   GtkWidget *stylesheets_delete;
   GtkWidget *stylesheets_rename;
-  GtkWidget *stylesheets_import;
   GtkWidget *notes2;
   GtkWidget *image936;
   GtkWidget *notes2_menu;
@@ -572,6 +571,7 @@ protected:
   void editor_style_changed();
   static void on_style_edited(GtkButton *button, gpointer user_data);
   void reload_styles();
+  bool style_management_enabled;
 
   /* Footnotes, endnotes, crossreferences */
   static void on_edit_bible_note_activate(GtkMenuItem *menuitem, gpointer user_data);

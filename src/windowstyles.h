@@ -28,7 +28,7 @@
 class WindowStyles : public WindowBase
 {
 public:
-  WindowStyles(GtkAccelGroup *accelerator_group, bool startup, GtkWidget *stl, GtkWidget *stl_menu, GtkWidget *stl_expand_all, GtkWidget *stl_collapse_all, GtkWidget *stl_insert, GtkWidget *stl_edit_mode, GtkWidget *stl_new, GtkWidget *stl_properties, GtkWidget *stl_delete, GtkWidget *stlsheet_switch, GtkWidget *stlsheet_new, GtkWidget *stlsheet_delete, GtkWidget *stlsheet_rename, GtkWidget *stlsheet_import, GtkWidget * parent_box);
+  WindowStyles(GtkAccelGroup *accelerator_group, bool startup, GtkWidget *stl, GtkWidget *stl_menu, GtkWidget *stl_expand_all, GtkWidget *stl_collapse_all, GtkWidget *stl_insert, GtkWidget *stl_edit_mode, GtkWidget *stl_new, GtkWidget *stl_properties, GtkWidget *stl_delete, GtkWidget *stlsheet_switch, GtkWidget *stlsheet_new, GtkWidget *stlsheet_delete, GtkWidget *stlsheet_rename, GtkWidget * parent_box);
   virtual ~WindowStyles();
   void load(const ustring& stylesheet);
   GtkWidget *apply_signal;
@@ -39,6 +39,7 @@ public:
   void use(const ustring& marker);
   ustring get_sheet();
   void export_sheet(const ustring& filename);
+  void on_stylesheet_import();
 private:
   GtkWidget *vbox;
 
@@ -56,7 +57,6 @@ private:
   GtkWidget *stylesheet_new;
   GtkWidget *stylesheet_remove;
   GtkWidget *stylesheet_rename;
-  GtkWidget *stylesheet_import1;
 
   GtkWidget *scrolledwindow;
 
@@ -109,9 +109,6 @@ private:
   guint rename_stylesheet_handler_id;
   static void on_stylesheet_rename_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_stylesheet_rename();
-  guint import_stylesheet_handler_id;
-  static void on_stylesheet_import_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_stylesheet_import();
 
   // Menu popup.
   static gboolean on_popup_menu(GtkWidget *widget, gpointer user_data);
