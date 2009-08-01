@@ -61,6 +61,8 @@ AssistantBase("Import", "import")
   my_check_keyterms_window = check_keyterms_window;
   date_time = 0;
   unicode_okay = false;
+  import_notes = false;
+  import_keyterms = false;
 
   // Build the GUI for the task selector.
   vbox_select_type = gtk_vbox_new (FALSE, 0);

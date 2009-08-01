@@ -340,7 +340,7 @@ gint BackupAssistant::assistant_forward_function (gint current_page, gpointer us
 }
 
 
-gint BackupAssistant::assistant_forward (gint current_page) // Todo
+gint BackupAssistant::assistant_forward (gint current_page)
 {
   // Create forward sequence.
   forward_sequence.clear();

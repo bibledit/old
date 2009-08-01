@@ -1,58 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-  <title>Bibledit</title>
-  <!-- 
-  Copyright (©) 2003-2008 Teus Benschop.
-
-  Permission is granted to copy, distribute and/or modify this document
-  under the terms of the GNU Free Documentation License, Version 1.2
-  or any later version published by the Free Software Foundation;
-  with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-  Texts.  A copy of the license is included in the section entitled "GNU
-  Free Documentation License" in the file FDL.
-  -->
-  <link href="bibledit.css" rel="stylesheet" type="text/css" />
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<title>Bibledit</title>
+<!--
+Copyright (©) 2003-2008 Teus Benschop.
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+Texts.  A copy of the license is included in the section entitled "GNU
+Free Documentation License" in the file FDL.
+-->
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
-
 <body>
-<h2><a name="backupdialog"></a>Backup Assistant</h2>
-
+<h2><a name="backupassistant"></a>Backup Assistant</h2>
+<!-- Table of Contents Start -->
+<div id="toc">
+<ul>
+<li>
+<a href="#bible" class="level1">Bible</a></li>
+<li>
+<a href="#notes" class="level1">Notes</a></li>
+<li>
+<a href="#resource" class="level1">Resource</a></li>
+<li>
+<a href="#everything" class="level1">Everything</a></li>
+<li>
+<a href="#notes1" class="level1">Notes</a></li>
+</ul>
+</div>
+<!-- Table of Contents End -->
 <p>This assistant is accessible through menu File / Backup.</p>
-
 <p>A variety of data can be backed up through this assistant.</p>
-
-<h3>Bible</h3>
-
-<p></p>
-
-<p></p>
-
-<p>In this dialog you can make an incremental backup of your project, or a full
-backup.</p>
-
-<p>A full backup just backs up everything in the project.</p>
-
-<p>An incremental backup only backs up the changes since a certain date and
-time. Use the "Since" button to select that date or time. If no selection is
-made here, then changes since the last incremental backup will be backed up.</p>
-
-<p>To automatically backup the changes since the last backup, no worries and no
-bother, you can use menu File / Project / Backup / Incremental.</p>
-
-<p></p>
-
-<h3>Notes</h3>
-
-<h3>Resource</h3>
-
-<h3>Everything</h3>
-
-<p></p>
-
+<h3><a name="bible"></a>Bible</h3>
+<p>When backing up up a Bible, normally the Bible now focused in the editor
+will be backed up. You can choose another one.</p>
+<h3><a name="notes"></a>Notes</h3>
+<p>When backing up Notes, all the available notes will be backed up.</p>
+<h3><a name="resource"></a>Resource</h3>
+<p>When backing up a Resource, normally the Resource now focused will be backed
+up. You can choose another one.</p>
+<h3><a name="everything"></a>Everything</h3>
+<p>This backs up really everything Bibledit knows about. </p>
+<p>Depending on the amount of data that you have , it may take a good while to
+create this backup.</p>
+<p>This type of backup is recommended for safekeeping all your data, and when
+you'd like to transfer all your data from one computer to the other.</p>
+<p>If Bibledit starts, and notices that it has no data, it will ask for a
+complete backup. A complete backup is one that was made with the "Everything"
+option.</p>
+<h3><a name="notes1"></a>Notes</h3>
 <p>See also: <a href="data.html">Data</a>, <a href="backup.html">backup</a>, <a
 href="restore.html">restore</a>, <a href="import.html">import</a>, <a
 href="export.html">export</a>.</p>
