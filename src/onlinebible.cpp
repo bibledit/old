@@ -36,7 +36,7 @@
 #include "progresswindow.h"
 
 
-void online_bible_check_file (vector <ustring>& filenames, vector <unsigned int>& bookids, const ustring& bible, vector <ustring>& messages) // Todo
+void online_bible_check_file (vector <ustring>& filenames, vector <unsigned int>& bookids, const ustring& bible, vector <ustring>& messages)
 // Checks the file exported from the Online Bible and meant to be imported as a Bible.
 {
   // Check whether there's only one file selected.

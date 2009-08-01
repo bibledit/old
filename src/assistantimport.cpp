@@ -659,7 +659,7 @@ void ImportAssistant::on_assistant_apply ()
           summary_messages.push_back ("This is out of order right now");
           break;
         }
-        case ibtRawText: // Todo work here.
+        case ibtRawText:
         {
           summary_messages.push_back ("Importing raw text is a manual process. The online help provides more information on that.");
           break;
@@ -667,10 +667,10 @@ void ImportAssistant::on_assistant_apply ()
       }
       break;
     }
-    case etReferences:
+    case etReferences: // Todo work here.
     {
-      if (my_references_window) {
-      }
+      summary_messages.push_back ("Importing references is done in the references window.");
+      summary_messages.push_back ("In that window, click on [actions], then click on \"Import a list of references\".");
       break;
     }
     case etStylesheet:
@@ -731,7 +731,7 @@ gint ImportAssistant::assistant_forward (gint current_page)
           forward_sequence.insert (page_number_bible_type);
           break;
         }
-        case ibtRawText: // Todo
+        case ibtRawText:
         {
           forward_sequence.insert (page_number_select_type);
           forward_sequence.insert (page_number_bible_name);
@@ -741,10 +741,10 @@ gint ImportAssistant::assistant_forward (gint current_page)
       }
       break;
     }
-    case etReferences:
+    case etReferences: // Todo
     {
+      cout << "forward sequence" << endl; // Todo
       forward_sequence.insert (page_number_select_type);
-      forward_sequence.insert (page_number_files);
       break;
     }
     case etStylesheet:
@@ -914,14 +914,14 @@ void ImportAssistant::on_button_files ()
           //online_bible_check_file (files_names, files_book_ids, bible_name, files_messages);
           break;
         }
-      case ibtRawText: // Todo working here.
+      case ibtRawText:
         {
           break;
         }
       }
       break;
     }
-  case itReferences:
+  case itReferences: // Todo working here.
     {
       break;
     }
