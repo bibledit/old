@@ -38,6 +38,8 @@
 #include "keyterms.h"
 #include "usfmtools.h"
 #include "books.h"
+#include "bibleworks.h"
+#include "onlinebible.h"
 
 
 ImportAssistant::ImportAssistant(WindowReferences * references_window, WindowStyles * styles_window, WindowCheckKeyterms * check_keyterms_window) :
@@ -54,7 +56,6 @@ AssistantBase("Import", "import")
   // Configuration and initialization.
   extern Settings *settings;
   ustring project = settings->genconfig.project_get();
-  sword_module_created = false;
   my_references_window = references_window;
   my_styles_window = styles_window;
   my_check_keyterms_window = check_keyterms_window;
@@ -191,7 +192,7 @@ AssistantBase("Import", "import")
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_bibleworks), radiobutton_bible_type_group);
   radiobutton_bible_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bible_bibleworks));
 
-  radiobutton_bible_online_bible = gtk_radio_button_new_with_mnemonic (NULL, "Online Bible Exported Text");
+  radiobutton_bible_online_bible = gtk_radio_button_new_with_mnemonic (NULL, "Online Bible Exported Text - out of order");
   gtk_widget_show (radiobutton_bible_online_bible);
   gtk_box_pack_start (GTK_BOX (vbox_bible_type), radiobutton_bible_online_bible, FALSE, FALSE, 0);
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bible_online_bible), radiobutton_bible_type_group);
@@ -653,12 +654,14 @@ void ImportAssistant::on_assistant_apply ()
           import_bibleworks_file (files_names[0], bible_name, summary_messages);
           break;
         }
-        case ibtOnlineBible: // Todo work here.
+        case ibtOnlineBible:
         {
+          summary_messages.push_back ("This is out of order right now");
           break;
         }
-        case ibtRawText:
+        case ibtRawText: // Todo work here.
         {
+          summary_messages.push_back ("Importing raw text is a manual process. The online help provides more information on that.");
           break;
         }
       }
@@ -721,26 +724,18 @@ gint ImportAssistant::assistant_forward (gint current_page)
           forward_sequence.insert (page_number_files);
           break;
         }
-        case ibtOnlineBible: // Todo
+        case ibtOnlineBible:
         {
           forward_sequence.insert (page_number_select_type);
           forward_sequence.insert (page_number_bible_name);
           forward_sequence.insert (page_number_bible_type);
-          forward_sequence.insert (page_number_sword_name);
-          forward_sequence.insert (page_number_sword_description);
-          forward_sequence.insert (page_number_sword_about);
-          forward_sequence.insert (page_number_sword_license);
-          forward_sequence.insert (page_number_sword_version);
-          forward_sequence.insert (page_number_sword_language);
-          forward_sequence.insert (page_number_sword_install_path);
           break;
         }
-        case ibtRawText:
+        case ibtRawText: // Todo
         {
           forward_sequence.insert (page_number_select_type);
           forward_sequence.insert (page_number_bible_name);
           forward_sequence.insert (page_number_bible_type);
-          forward_sequence.insert (page_number_files);
           break;
         }
       }
@@ -914,11 +909,12 @@ void ImportAssistant::on_button_files ()
           import_check_bibleworks_file (files_names, files_book_ids, bible_name, files_messages);
           break;
         }
-      case ibtOnlineBible: // Todo working here.
+      case ibtOnlineBible:
         {
+          //online_bible_check_file (files_names, files_book_ids, bible_name, files_messages);
           break;
         }
-      case ibtRawText:
+      case ibtRawText: // Todo working here.
         {
           break;
         }
@@ -1083,7 +1079,7 @@ bool ImportAssistant::get_include_keyterms_without_rendering ()
 Todo Import Assistant
 
 
-The following paths are to be implemented:
+The following import paths are to be implemented:
 Bible / OnlineBible
 Bible / RawText
 References
@@ -1120,10 +1116,97 @@ From dialogproject, the import button goes out.
 
 
 
-*/
 
 
-/*
+void set_gui()
+{
+
+
+
+  // When importing files from the Online Bible, we can use unusual book names.
+  // But we should know the book names that are used in e.g. the Dutch books, so these are known by Bibledit.
+
+
+
+  case ibtOnlineBible:
+    {
+      // Divide the files per book as we don't know how many books the user put in one file.
+      vector < ustring > olb_text_files(proper_text_files);
+      proper_text_files.clear();
+      for (unsigned int i = 0; i < olb_text_files.size(); i++) {
+        vector < ustring > filenames = online_bible_file_divide(olb_text_files[i], general_adapted_booknames_fill_up(unusual_book_names));
+        for (unsigned int i2 = 0; i2 < filenames.size(); i2++) {
+          proper_text_files.push_back(filenames[i2]);
+        }
+      }
+      break;
+    }
+  }
+
+  // Handle Book Assignment.
+
+  // Vector contains all English names of the proper text files.
+  vector < ustring > textfiles_names;
+  for (unsigned int i = 0; i < proper_text_files.size(); i++) {
+    ustring english_name;
+    switch (importtype) {
+    case ibtOnlineBible:
+      {
+        unsigned int book, chapter, verse;
+        ReadText rt (proper_text_files[i], true, false);
+        map <ustring, unsigned int> bookmap = general_adapted_booknames_fill_up(unusual_book_names);
+        online_bible_parse_reference (rt.lines[0], book, chapter, verse, bookmap);
+        english_name = books_id_to_english(book);
+        break;
+      }
+    case ibtRawText:
+      {
+        break;
+      }
+    }
+    textfiles_names.push_back(english_name);
+  }
+  // See if we have booknames for all our textfiles. If not try to get them.
+  unknown_filenames.clear();
+  for (unsigned int i = 0; i < textfiles_names.size(); i++) {
+    if (textfiles_names[i].empty()) {
+      textfiles_names[i] = filename_bookname_map[proper_text_files[i]];
+      if (textfiles_names[i].empty())
+        unknown_filenames.push_back(proper_text_files[i]);
+    }
+  }
+  // If the user has assigned names to unknwon books, even if some books were 
+  // left unassigned, it still will be regarded as done.
+  if (assigning_done)
+    unknown_filenames.clear();
+  // Set gui and button depending on whether booknames are fine.  
+  gui_okay(image_assign_ok, label_assign_ok, unknown_filenames.empty());
+  gtk_widget_set_sensitive(button_assign, !unknown_filenames.empty());
+  ustring assign_information;
+  if (unknown_filenames.empty()) {
+    assign_information = "The names of all books are known";
+  } else {
+    assign_information = "There are unknown books: " + convert_to_string(unknown_filenames.size());
+  }
+  gtk_label_set_text(GTK_LABEL(label_assign_info), assign_information.c_str());
+
+  // Clear initialization flag.
+  select_all_books = false;
+  // Set whether anything was selected.
+  gui_okay(image_books, label_books_gui, selected_books.size() > 0);
+  // Information for user.
+  info = "Books selected: " + convert_to_string((unsigned int)selected_books.size()) + " out of " + convert_to_string((unsigned int)selectable_booknames.size());
+  if (!books_already_in_project.empty()) {
+    info.append("\nBooks that could not be imported\nbecause they are already in the project: " + convert_to_string((unsigned int)books_already_in_project.size()));
+  }
+  gtk_label_set_text(GTK_LABEL(label_books), info.c_str());
+
+
+
+
+}
+
+
 void on_okbutton()
 // Does the actual import
 {
@@ -1179,129 +1262,4 @@ void on_okbutton()
   }
 }
 */
-
-/*
-void set_gui()
-{
-
-      case ibtOnlineBible:
-      {
-        if (online_bible_file(all_files[i])) {
-          proper_text_files.push_back (all_files[i]);
-        }
-        break;
-      }
-
-  // When importing files from the Online Bible, we can use unusual book names.
-  gtk_widget_set_sensitive (hbox_book_names, (importtype == ibtOnlineBible));
-
-
-
-  case ibtOnlineBible:
-    {
-      // Divide the files per book as we don't know how many books the user put in one file.
-      vector < ustring > olb_text_files(proper_text_files);
-      proper_text_files.clear();
-      for (unsigned int i = 0; i < olb_text_files.size(); i++) {
-        vector < ustring > filenames = online_bible_file_divide(olb_text_files[i], general_adapted_booknames_fill_up(unusual_book_names));
-        for (unsigned int i2 = 0; i2 < filenames.size(); i2++) {
-          proper_text_files.push_back(filenames[i2]);
-        }
-      }
-      break;
-    }
-  }
-
-  // Handle Book Assignment.
-
-  // Vector contains all English names of the proper text files.
-  vector < ustring > textfiles_names;
-  for (unsigned int i = 0; i < proper_text_files.size(); i++) {
-    ustring english_name;
-    switch (importtype) {
-    case ibtBibleWorks:
-      {
-        english_name = bibleworks_file_get_bookname(proper_text_files[i]);
-        break;
-      }
-    case ibtMechonMamre:
-      {
-        english_name = gw_path_get_basename(proper_text_files[i]);
-        break;
-      }
-    case ibtOnlineBible:
-      {
-        unsigned int book, chapter, verse;
-        ReadText rt (proper_text_files[i], true, false);
-        map <ustring, unsigned int> bookmap = general_adapted_booknames_fill_up(unusual_book_names);
-        online_bible_parse_reference (rt.lines[0], book, chapter, verse, bookmap);
-        english_name = books_id_to_english(book);
-        break;
-      }
-    case ibtRawText:
-      {
-        break;
-      }
-    }
-    textfiles_names.push_back(english_name);
-  }
-  // See if we have booknames for all our textfiles. If not try to get them.
-  unknown_filenames.clear();
-  for (unsigned int i = 0; i < textfiles_names.size(); i++) {
-    if (textfiles_names[i].empty()) {
-      textfiles_names[i] = filename_bookname_map[proper_text_files[i]];
-      if (textfiles_names[i].empty())
-        unknown_filenames.push_back(proper_text_files[i]);
-    }
-  }
-  // If the user has assigned names to unknwon books, even if some books were 
-  // left unassigned, it still will be regarded as done.
-  if (assigning_done)
-    unknown_filenames.clear();
-  // Set gui and button depending on whether booknames are fine.  
-  gui_okay(image_assign_ok, label_assign_ok, unknown_filenames.empty());
-  gtk_widget_set_sensitive(button_assign, !unknown_filenames.empty());
-  ustring assign_information;
-  if (unknown_filenames.empty()) {
-    assign_information = "The names of all books are known";
-  } else {
-    assign_information = "There are unknown books: " + convert_to_string(unknown_filenames.size());
-  }
-  gtk_label_set_text(GTK_LABEL(label_assign_info), assign_information.c_str());
-
-  // Clear initialization flag.
-  select_all_books = false;
-  // Set whether anything was selected.
-  gui_okay(image_books, label_books_gui, selected_books.size() > 0);
-  // Information for user.
-  info = "Books selected: " + convert_to_string((unsigned int)selected_books.size()) + " out of " + convert_to_string((unsigned int)selectable_booknames.size());
-  if (!books_already_in_project.empty()) {
-    info.append("\nBooks that could not be imported\nbecause they are already in the project: " + convert_to_string((unsigned int)books_already_in_project.size()));
-  }
-  gtk_label_set_text(GTK_LABEL(label_books), info.c_str());
-
-
-
-  // Set whether linking and importing per chapter is possible.
-  switch (importtype) {
-    // Usfm: possible.
-  case ibtUsfm:
-    {
-      gtk_widget_set_sensitive(checkbutton_overwrite, true);
-      break;
-    }
-    // BibleWorks, etc.: not possible.
-  case ibtBibleWorks:
-  case ibtMechonMamre:
-  case ibtOnlineBible:
-  case ibtRawText:
-    {
-      gtk_widget_set_sensitive(checkbutton_overwrite, false);
-      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_overwrite), false);
-      break;
-    }
-  }
-}
-*/
-
 

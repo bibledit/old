@@ -38,7 +38,6 @@ class ImportAssistant : public AssistantBase
 public:
   ImportAssistant(WindowReferences * references_window, WindowStyles * styles_window, WindowCheckKeyterms * check_keyterms_window);
   virtual ~ImportAssistant();
-  bool sword_module_created;
 private:
   // Local variables.
   WindowReferences * my_references_window;

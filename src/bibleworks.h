@@ -18,8 +18,8 @@
 */
 
 
-#ifndef INCLUDED_IMPORT_H
-#define INCLUDED_IMPORT_H
+#ifndef INCLUDED_BIBLEWORKS_H
+#define INCLUDED_BIBLEWORKS_H
 
 
 #include "libraries.h"
@@ -27,25 +27,9 @@
 #include "types.h"
 
 
-enum ImportType {itBible, itReferences, itStylesheet, itNotes, itKeyterms};
-enum ImportBibleType {ibtUsfm, ibtBibleWorks, ibtOnlineBible, ibtRawText};
-
-
-
-class ImportBookRead
-{
-public:
-  ImportBookRead (const ustring& filename, const ustring& encoding);
-  vector<ustring> lines;
-  ustring bookname;
-private:
-  vector<ustring> rawlines;
-};
-
-
-gchar * unicode_convert (gchar *data, const ustring& encoding);
-void import_check_usfm_files (vector <ustring>& filenames, vector <unsigned int>& bookids, const ustring& bible, vector <ustring>& messages);
-void import_usfm_file (const ustring& file, unsigned int book, const ustring& project, vector <ustring>& messages);
+ustring bibleworks_file_get_bookname (const ustring& filename);
+void import_check_bibleworks_file (vector <ustring>& filenames, vector <unsigned int>& bookids, const ustring& bible, vector <ustring>& messages);
+void import_bibleworks_file (const ustring& file, const ustring& bible, vector <ustring>& messages);
 
 
 #endif

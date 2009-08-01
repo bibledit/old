@@ -177,7 +177,8 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogplanningedit.$(OBJEXT) dialoglistviewm.$(OBJEXT) \
 	vcs.$(OBJEXT) d_bus.$(OBJEXT) htmlwriter2.$(OBJEXT) \
 	dialogmaintenance.$(OBJEXT) swordkjv.$(OBJEXT) \
-	assistantimport.$(OBJEXT) mechonmamre.$(OBJEXT)
+	assistantimport.$(OBJEXT) mechonmamre.$(OBJEXT) \
+	bibleworks.$(OBJEXT) onlinebible.$(OBJEXT)
 bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
 bibledit_bin_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
@@ -626,7 +627,9 @@ bibledit_bin_SOURCES = \
 				dialogmaintenance.cpp \
 				swordkjv.cpp \
 				assistantimport.cpp \
-				mechonmamre.cpp
+				mechonmamre.cpp \
+				bibleworks.cpp \
+				onlinebible.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -720,6 +723,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bibledit.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/biblenotes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bibletime.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bibleworks.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bookdata.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/books.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/categorize.Po@am__quote@
@@ -870,6 +874,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/notetemplate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/odtnotes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/odtutils.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/onlinebible.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/opendocument.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/originreferences.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/osis.Po@am__quote@

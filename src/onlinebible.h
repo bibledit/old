@@ -18,8 +18,8 @@
 */
 
 
-#ifndef INCLUDED_IMPORT_H
-#define INCLUDED_IMPORT_H
+#ifndef INCLUDED_ONLINE_BIBLE_H
+#define INCLUDED_ONLINE_BIBLE_H
 
 
 #include "libraries.h"
@@ -27,25 +27,11 @@
 #include "types.h"
 
 
-enum ImportType {itBible, itReferences, itStylesheet, itNotes, itKeyterms};
-enum ImportBibleType {ibtUsfm, ibtBibleWorks, ibtOnlineBible, ibtRawText};
-
-
-
-class ImportBookRead
-{
-public:
-  ImportBookRead (const ustring& filename, const ustring& encoding);
-  vector<ustring> lines;
-  ustring bookname;
-private:
-  vector<ustring> rawlines;
-};
-
-
-gchar * unicode_convert (gchar *data, const ustring& encoding);
-void import_check_usfm_files (vector <ustring>& filenames, vector <unsigned int>& bookids, const ustring& bible, vector <ustring>& messages);
-void import_usfm_file (const ustring& file, unsigned int book, const ustring& project, vector <ustring>& messages);
+void online_bible_check_file (vector <ustring>& filenames, vector <unsigned int>& bookids, const ustring& bible, vector <ustring>& messages);
+bool online_bible_file_looks_good (const ustring& filename);
+void onlinebible (map <ustring, unsigned int> bookmap);
+bool online_bible_parse_reference (ustring line, unsigned int& book, unsigned int& chapter, unsigned int& verse, map <ustring, unsigned int>& bookmap);
+vector <ustring> online_bible_file_divide (const ustring& inputfile, map <ustring, unsigned int> bookmap);
 
 
 #endif
