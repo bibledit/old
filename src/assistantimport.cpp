@@ -667,13 +667,13 @@ void ImportAssistant::on_assistant_apply ()
       }
       break;
     }
-    case etReferences: // Todo work here.
+    case etReferences:
     {
       summary_messages.push_back ("Importing references is done in the references window.");
       summary_messages.push_back ("In that window, click on [actions], then click on \"Import a list of references\".");
       break;
     }
-    case etStylesheet:
+    case etStylesheet: // Todo work here.
     {
       if (my_styles_window) {
       }
@@ -704,13 +704,13 @@ gint ImportAssistant::assistant_forward (gint current_page)
 {
   // Create forward sequence.
   forward_sequence.clear();
+  forward_sequence.insert (page_number_select_type);
   switch (get_type()) {
     case etBible:
     {
       switch (get_bible_type()) {
         case ibtUsfm:
         {
-          forward_sequence.insert (page_number_select_type);
           forward_sequence.insert (page_number_bible_name);
           forward_sequence.insert (page_number_bible_type);
           forward_sequence.insert (page_number_files);
@@ -718,7 +718,6 @@ gint ImportAssistant::assistant_forward (gint current_page)
         }
         case ibtBibleWorks:
         {
-          forward_sequence.insert (page_number_select_type);
           forward_sequence.insert (page_number_bible_name);
           forward_sequence.insert (page_number_bible_type);
           forward_sequence.insert (page_number_files);
@@ -726,14 +725,12 @@ gint ImportAssistant::assistant_forward (gint current_page)
         }
         case ibtOnlineBible:
         {
-          forward_sequence.insert (page_number_select_type);
           forward_sequence.insert (page_number_bible_name);
           forward_sequence.insert (page_number_bible_type);
           break;
         }
         case ibtRawText:
         {
-          forward_sequence.insert (page_number_select_type);
           forward_sequence.insert (page_number_bible_name);
           forward_sequence.insert (page_number_bible_type);
           break;
@@ -741,27 +738,22 @@ gint ImportAssistant::assistant_forward (gint current_page)
       }
       break;
     }
-    case etReferences: // Todo
+    case etReferences:
     {
-      cout << "forward sequence" << endl; // Todo
-      forward_sequence.insert (page_number_select_type);
       break;
     }
-    case etStylesheet:
+    case etStylesheet: // Todo
     {
-      forward_sequence.insert (page_number_select_type);
       forward_sequence.insert (page_number_files);
       break;
     }
     case etNotes:
     {
-      forward_sequence.insert (page_number_select_type);
       forward_sequence.insert (page_number_files);
       break;
     }
     case etKeyterms:
     {
-      forward_sequence.insert (page_number_keyterms_without_rendering);
       break;
     }
   }
@@ -921,11 +913,11 @@ void ImportAssistant::on_button_files ()
       }
       break;
     }
-  case itReferences: // Todo working here.
+  case itReferences:
     {
       break;
     }
-  case itStylesheet:
+  case itStylesheet: // Todo working here.
     {
       break;
     }
