@@ -17,11 +17,14 @@
  **  
  */
 
+
 #ifndef INCLUDED_ASSISTANTS_H
 #define INCLUDED_ASSISTANTS_H
 
+
 #include "libraries.h"
 #include <gtk/gtk.h>
+
 
 class AssistantBase
 {
@@ -43,5 +46,6 @@ private:
   const gchar * topic;
   GPid process_id;
 };
+
 
 #endif

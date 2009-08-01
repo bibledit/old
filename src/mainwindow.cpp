@@ -7104,6 +7104,48 @@ Todo various tasks.
 
 
 
+Todo Import Assistant
+
+
+The following import paths are to be implemented: Bible / OnlineBible
+
+
+
+De backup assistant can't backup a Bible.
+
+
+
+check the following files:
+* data_directory.html
+olh_export.html
+<p><a href="task_import.html" target="text">Import</a></p>
+<p><a href="olh_export.html" target="text">Export</a></p>
+<p><a href="backup.html" target="text">Backup</a></p>
+
+
+
+
+Complete the helpfile, consolidating all imports and exports into one file, and to work from there.
+The help file needs to make a very clear distinction between a backup and an export.
+A backup backups everything that belongs to some item, e.g. a whole project or everything.
+An export exports part of the data we wish to see, and in a certain format.
+A restore is the opposite of a backup.
+An import is the opposite of an export.
+Write a section about how to convert files into Unicode, using gedit. Refer to this section from the dialog where it checks on Unicode.
+  new InDialogHelp(importsfmdialog, NULL, &shortcuts, "import_text");
+
+
+
+From dialogproject, the import button goes out.
+
+
+
+
+
+
+
+
+
 
 
 

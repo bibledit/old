@@ -84,6 +84,7 @@ private:
   void on_assistant_apply ();
   static gint assistant_forward_function (gint current_page, gpointer user_data);
   gint assistant_forward (gint current_page);
+  set <int> forward_sequence;
 };
 
 

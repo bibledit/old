@@ -37,7 +37,7 @@
 
 
 BackupAssistant::BackupAssistant(int dummy) :
-AssistantBase("Backup", "")
+AssistantBase("Backup", "backup")
 // Backup assistant.
 {
   gtk_assistant_set_forward_page_func (GTK_ASSISTANT (assistant), GtkAssistantPageFunc (assistant_forward_function), gpointer(this), NULL);
@@ -339,23 +339,46 @@ gint BackupAssistant::assistant_forward_function (gint current_page, gpointer us
   return ((BackupAssistant *) user_data)->assistant_forward (current_page);
 }
 
-gint BackupAssistant::assistant_forward (gint current_page)
-{
-  // Default behaviour is to go to the next page.
-  gint new_page_number = current_page + 1;
 
-  if (current_page == page_number_select_type) {
-    if (get_type () == btBible) {
-      new_page_number = page_number_bible_name;
-    } else if (get_type () == btResource) {
-      new_page_number = page_number_resource_name;
-    } else {
-      new_page_number = page_number_file;
+gint BackupAssistant::assistant_forward (gint current_page) // Todo
+{
+  // Create forward sequence.
+  forward_sequence.clear();
+  forward_sequence.insert (page_number_select_type);
+  switch (get_type()) {
+    case btBible:
+    {
+      forward_sequence.insert (page_number_bible_name);
+      forward_sequence.insert (page_number_file);
+      break;
+    }
+    case btNotes:
+    {
+      forward_sequence.insert (page_number_file);
+      break;
+    }
+    case btResource:
+    {
+      forward_sequence.insert (page_number_resource_name);
+      forward_sequence.insert (page_number_file);
+      break;
+    }
+    case btAll:
+    {
+      forward_sequence.insert (page_number_file);
+      break;
     }
   }
 
-  // Return the new page.
-  return new_page_number;
+  // Always end up going to the confirmation and summary pages.
+  forward_sequence.insert (page_number_confirm);
+  forward_sequence.insert (summary_page_number);
+  
+  // Take the next page in the forward sequence.
+  do {
+    current_page++;
+  } while (forward_sequence.find (current_page) == forward_sequence.end());
+  return current_page;
 }
 
 

@@ -17,12 +17,14 @@
  **  
  */
 
+
 #include "assistants.h"
 #include "settings.h"
 #include "gwrappers.h"
 #include "unixwrappers.h"
 #include "tiny_utilities.h"
 #include "screen.h"
+
 
 AssistantBase::AssistantBase(const ustring& title, const gchar * helptopic)
 // Base class for each assistant.

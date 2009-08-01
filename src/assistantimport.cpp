@@ -1071,35 +1071,7 @@ bool ImportAssistant::get_include_keyterms_without_rendering ()
 /*
 
 
-Todo Import Assistant
-
-
-The following import paths are to be implemented: Bible / OnlineBible
-
-
-
-
-
-
-
-Complete the helpfile, consolidating all imports and exports into one file, and to work from there.
-The help file needs to make a very clear distinction between a backup and an export.
-A backup backups everything that belongs to some item, e.g. a whole project or everything.
-An export exports part of the data we wish to see, and in a certain format.
-A restore is the opposite of a backup.
-An import is the opposite of an export.
-Write a section about how to convert files into Unicode, using gedit. Refer to this section from the dialog where it checks on Unicode.
-  new InDialogHelp(importsfmdialog, NULL, &shortcuts, "import_text");
-
-
-
-From dialogproject, the import button goes out.
-
-
-
-
-
-
+Code that describes how data from the Online Bible was imported.
 
 
 
