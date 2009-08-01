@@ -680,11 +680,13 @@ void ImportAssistant::on_assistant_apply ()
       }
       break;
     }
-    case etNotes: // Todo
+    case etNotes:
     {
+      summary_messages.push_back ("As soon as you close this window, an opportunity will be offered to import notes.");
+      import_notes = true;
       break;
     }
-    case etKeyterms:
+    case etKeyterms: // Todo
     {
       break;
     }
@@ -747,12 +749,11 @@ gint ImportAssistant::assistant_forward (gint current_page)
     {
       break;
     }
-    case etNotes: // Todo
+    case etNotes:
     {
-      forward_sequence.insert (page_number_files);
       break;
     }
-    case etKeyterms:
+    case etKeyterms: // Todo
     {
       break;
     }
@@ -921,11 +922,11 @@ void ImportAssistant::on_button_files ()
     {
       break;
     }
-  case itNotes: // Todo
+  case itNotes:
     {
       break;
     }
-  case itKeyterms:
+  case itKeyterms: // Todo
     {
       break;
     }
@@ -1073,7 +1074,6 @@ Todo Import Assistant
 
 The following import paths are to be implemented:
 Bible / OnlineBible
-Notes
 Keyterms
 
 

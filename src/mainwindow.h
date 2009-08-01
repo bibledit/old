@@ -113,8 +113,6 @@ protected:
   GtkWidget *new_note;
   GtkWidget *delete_note;
   GtkWidget *image963;
-  GtkWidget *import_notes;
-  GtkWidget *image1455;
   GtkWidget *file_resources;
   GtkWidget *image27365;
   GtkWidget *file_resources_menu;
@@ -471,6 +469,7 @@ protected:
 
   /* Project notes */
   bool project_notes_enabled;
+  bool project_notes_management_enabled;
   void view_project_notes();
   WindowNotes * window_notes;
   static void on_window_notes_delete_button_clicked(GtkButton *button, gpointer user_data);
@@ -483,8 +482,7 @@ protected:
   void notes_redisplay();
   static void on_find_in_notes1_activate(GtkMenuItem *menuitem, gpointer user_data);
   void find_in_notes();
-  static void on_import_notes_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_import_notes();
+  void on_import_notes(); // Todo
   static void on_standard_text_1_activate(GtkMenuItem *menuitem, gpointer user_data);
   static void on_standard_text_2_activate(GtkMenuItem *menuitem, gpointer user_data);
   static void on_standard_text_3_activate(GtkMenuItem *menuitem, gpointer user_data);

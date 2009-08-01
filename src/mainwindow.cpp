@@ -193,6 +193,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   // Gui Features object.
   GuiFeatures guifeatures(0);
   project_notes_enabled = guifeatures.project_notes();
+  project_notes_management_enabled = guifeatures.project_notes_management();
   references_management_enabled = guifeatures.references_management();
 
   // Accelerators.
@@ -566,7 +567,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   notes2 = NULL;
   new_note = NULL;
   delete_note = NULL;
-  import_notes = NULL;
   if (guifeatures.project_notes_management()) {
 
     notes2 = gtk_image_menu_item_new_with_mnemonic("Project _notes");
@@ -591,14 +591,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     image963 = gtk_image_new_from_stock("gtk-delete", GTK_ICON_SIZE_MENU);
     gtk_widget_show(image963);
     gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(delete_note), image963);
-
-    import_notes = gtk_image_menu_item_new_with_mnemonic("_Import");
-    gtk_widget_show(import_notes);
-    gtk_container_add(GTK_CONTAINER(notes2_menu), import_notes);
-
-    image1455 = gtk_image_new_from_stock("gtk-convert", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image1455);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(import_notes), image1455);
 
   }
 
@@ -1667,8 +1659,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     g_signal_connect((gpointer) new_note, "activate", G_CALLBACK(on_new_note_activate), gpointer(this));
   if (delete_note)
     g_signal_connect((gpointer) delete_note, "activate", G_CALLBACK(on_delete_note_activate), gpointer(this));
-  if (import_notes)
-    g_signal_connect((gpointer) import_notes, "activate", G_CALLBACK(on_import_notes_activate), gpointer(this));
   if (file_resources)
     g_signal_connect((gpointer) file_resources, "activate", G_CALLBACK(on_file_resources_activate), gpointer(this));
   if (file_resources_open)
@@ -3241,11 +3231,6 @@ void MainWindow::find_in_notes()
       window_notes->display(findnotedialog.ids);
     }
   }
-}
-
-void MainWindow::on_import_notes_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_import_notes();
 }
 
 void MainWindow::on_import_notes()
@@ -7002,8 +6987,12 @@ void MainWindow::on_assistant_keyterms_ready ()
   // Import.
   if (import_assistant) {
     reload_all_editors(false);
+    bool import_notes = import_assistant->import_notes;
     delete import_assistant;
     import_assistant = NULL;
+    if (import_notes) {
+      on_import_notes ();
+    }
   }
 
   // The assistants may have paused version control operations. Resume these.
@@ -7108,7 +7097,10 @@ void MainWindow::on_file_import ()
   WindowStyles * styles_window = window_styles;
   if (!style_management_enabled) 
     styles_window = NULL;
-  import_assistant = new ImportAssistant (window_references, styles_window, window_check_keyterms);
+  WindowReferences * references_window = window_references;
+  if (!project_notes_management_enabled)
+    references_window = NULL;
+  import_assistant = new ImportAssistant (references_window, styles_window, window_check_keyterms);
   g_signal_connect ((gpointer) import_assistant->signal_button, "clicked", G_CALLBACK (on_assistant_ready_signal), gpointer (this));
 }
 
