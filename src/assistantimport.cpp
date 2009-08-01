@@ -682,12 +682,14 @@ void ImportAssistant::on_assistant_apply ()
     }
     case etNotes:
     {
-      summary_messages.push_back ("As soon as you close this window, an opportunity will be offered to import notes.");
+      summary_messages.push_back ("After this window closes an opportunity will be offered to import notes.");
       import_notes = true;
       break;
     }
-    case etKeyterms: // Todo
+    case etKeyterms:
     {
+      summary_messages.push_back ("After this window closes an opportunity will be offered to import keyterms.");
+      import_keyterms = true;
       break;
     }
   }
@@ -753,7 +755,7 @@ gint ImportAssistant::assistant_forward (gint current_page)
     {
       break;
     }
-    case etKeyterms: // Todo
+    case etKeyterms:
     {
       break;
     }
@@ -926,7 +928,7 @@ void ImportAssistant::on_button_files ()
     {
       break;
     }
-  case itKeyterms: // Todo
+  case itKeyterms:
     {
       break;
     }
@@ -1072,13 +1074,7 @@ bool ImportAssistant::get_include_keyterms_without_rendering ()
 Todo Import Assistant
 
 
-The following import paths are to be implemented:
-Bible / OnlineBible
-Keyterms
-
-
-
-
+The following import paths are to be implemented: Bible / OnlineBible
 
 
 

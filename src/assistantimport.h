@@ -39,6 +39,7 @@ public:
   ImportAssistant(WindowReferences * references_window, WindowStyles * styles_window, WindowCheckKeyterms * check_keyterms_window);
   virtual ~ImportAssistant();
   bool import_notes;
+  bool import_keyterms;
 private:
   // Local variables.
   WindowReferences * my_references_window;

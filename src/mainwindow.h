@@ -129,8 +129,6 @@ protected:
   GtkWidget *file_keyterms;
   GtkWidget *image32231;
   GtkWidget *file_keyterms_menu;
-  GtkWidget *keyterms_import;
-  GtkWidget *image32232;
   GtkWidget *keyterms_delete;
   GtkWidget *print;
   GtkWidget *file_import;
@@ -482,7 +480,7 @@ protected:
   void notes_redisplay();
   static void on_find_in_notes1_activate(GtkMenuItem *menuitem, gpointer user_data);
   void find_in_notes();
-  void on_import_notes(); // Todo
+  void on_import_notes();
   static void on_standard_text_1_activate(GtkMenuItem *menuitem, gpointer user_data);
   static void on_standard_text_2_activate(GtkMenuItem *menuitem, gpointer user_data);
   static void on_standard_text_3_activate(GtkMenuItem *menuitem, gpointer user_data);
@@ -608,7 +606,6 @@ protected:
   void on_window_show_related_verses_delete_button();
   static void on_window_show_related_verses_item_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_show_related_verses_item_button();
-  static void on_keyterms_import_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_keyterms_import ();
   ImportKeytermsAssistant * import_keyterms_assistant;
   static void on_keyterms_delete_activate (GtkMenuItem *menuitem, gpointer user_data);

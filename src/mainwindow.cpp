@@ -656,14 +656,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   file_keyterms_menu = gtk_menu_new ();
   gtk_menu_item_set_submenu (GTK_MENU_ITEM (file_keyterms), file_keyterms_menu);
 
-  keyterms_import = gtk_image_menu_item_new_with_mnemonic ("_Import");
-  gtk_widget_show (keyterms_import);
-  gtk_container_add (GTK_CONTAINER (file_keyterms_menu), keyterms_import);
-
-  image32232 = gtk_image_new_from_stock ("gtk-open", GTK_ICON_SIZE_MENU);
-  gtk_widget_show (image32232);
-  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (keyterms_import), image32232);
-
   keyterms_delete = gtk_image_menu_item_new_from_stock ("gtk-delete", NULL);
   gtk_widget_show (keyterms_delete);
   gtk_container_add (GTK_CONTAINER (file_keyterms_menu), keyterms_delete);
@@ -1671,8 +1663,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     g_signal_connect((gpointer) file_resources_edit, "activate", G_CALLBACK(on_file_resources_edit_activate), gpointer(this));
   if (file_resources_delete)
     g_signal_connect((gpointer) file_resources_delete, "activate", G_CALLBACK(on_file_resources_delete_activate), gpointer(this));
-  if (keyterms_import)
-    g_signal_connect((gpointer) keyterms_import, "activate", G_CALLBACK(on_keyterms_import_activate), gpointer(this));
   if (keyterms_delete)
     g_signal_connect((gpointer) keyterms_delete, "activate", G_CALLBACK(on_keyterms_delete_activate), gpointer(this));
   if (print)
@@ -4465,12 +4455,6 @@ void MainWindow::on_window_show_related_verses_item_button()
 }
 
 
-void MainWindow::on_keyterms_import_activate(GtkMenuItem *menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_keyterms_import();
-}
-
-
 void MainWindow::on_keyterms_import()
 {
   import_keyterms_assistant = new ImportKeytermsAssistant (0);
@@ -6988,10 +6972,14 @@ void MainWindow::on_assistant_keyterms_ready ()
   if (import_assistant) {
     reload_all_editors(false);
     bool import_notes = import_assistant->import_notes;
+    bool import_keyterms = import_assistant->import_keyterms;
     delete import_assistant;
     import_assistant = NULL;
     if (import_notes) {
       on_import_notes ();
+    }
+    if (import_keyterms) {
+      on_keyterms_import();
     }
   }
 
