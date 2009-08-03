@@ -291,6 +291,10 @@ protected:
   GtkWidget *image36137;
   GtkWidget *tools_maintenance;
   GtkWidget *image36259;
+
+  GtkWidget *tool_send_reference;
+  GtkWidget *image37446;
+
   GtkWidget *menuitem_preferences;
   GtkWidget *menuitem_preferences_menu;
   GtkWidget *notes_preferences;
@@ -464,10 +468,16 @@ protected:
   void send_word_to_toolbox();
   static void on_preferences_windows_outpost_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_preferences_windows_outpost();
+  static void on_tool_send_reference_activate (GtkMenuItem *menuitem, gpointer user_data);
+  void on_tool_send_reference ();
+  void send_reference_to_bibletime (const Reference& reference, bool force);
+  void send_reference_to_bibleworks (const Reference& reference);
+  void send_reference_to_santa_fe (const Reference& reference);
 
   /* Title bar and status bar, GUI */
   static bool on_gui_timeout(gpointer data);
   void on_gui();
+
 
   /* Project notes */
   bool project_notes_enabled;

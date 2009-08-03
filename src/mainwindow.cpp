@@ -1395,6 +1395,14 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   gtk_widget_show (image36259);
   gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (tools_maintenance), image36259);
 
+  tool_send_reference = gtk_image_menu_item_new_with_mnemonic ("Send _reference");
+  gtk_widget_show (tool_send_reference);
+  gtk_container_add (GTK_CONTAINER (menutools_menu), tool_send_reference);
+
+  image37446 = gtk_image_new_from_stock ("gtk-connect", GTK_ICON_SIZE_MENU);
+  gtk_widget_show (image37446);
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (tool_send_reference), image37446);
+
   menuitem_preferences = gtk_menu_item_new_with_mnemonic("P_references");
   // At first the Alt-P was the accelerator. On the XO machine, this key is 
   // in use already: 
@@ -1808,6 +1816,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     g_signal_connect((gpointer) tool_transfer_project_notes_to_text, "activate", G_CALLBACK(on_tool_transfer_project_notes_to_text_activate), gpointer(this));
   g_signal_connect ((gpointer) tool_go_to_reference, "activate", G_CALLBACK (on_tool_go_to_reference_activate), gpointer (this));
   g_signal_connect ((gpointer) tools_maintenance, "activate", G_CALLBACK (on_tools_maintenance_activate), gpointer (this));
+  g_signal_connect ((gpointer) tool_send_reference, "activate", G_CALLBACK (on_tool_send_reference_activate), gpointer (this));
   if (notes_preferences)
     g_signal_connect((gpointer) notes_preferences, "activate", G_CALLBACK(on_notes_preferences_activate), gpointer(this));
   if (printingprefs)
@@ -2525,15 +2534,13 @@ void MainWindow::on_navigation_new_reference()
   // Get last focused editor.
   WindowEditor *last_focused_editor = last_focused_editor_window();
 
-  // Create a reference for the external programs.
-  // These do not take verses like 10a or 10-12, but only numbers like 10 or 12.
-  Reference goto_reference(navigation.reference.book, navigation.reference.chapter, number_in_string(navigation.reference.verse));
-
   // Send it to the external programs.
-  if (settings->genconfig.reference_exchange_send_to_bibleworks_get())
-    windowsoutpost->BibleWorksReferenceSet(goto_reference);
-  if (settings->genconfig.reference_exchange_send_to_santafefocus_get())
-    windowsoutpost->SantaFeFocusReferenceSet(goto_reference);
+  if (settings->genconfig.reference_exchange_send_to_bibleworks_get()) {
+    send_reference_to_bibleworks (navigation.reference);
+  }
+  if (settings->genconfig.reference_exchange_send_to_santafefocus_get()) {
+    send_reference_to_santa_fe (navigation.reference);
+  }
 
   // Send to resources.
   for (unsigned int i = 0; i < resource_windows.size(); i++) {
@@ -2542,6 +2549,10 @@ void MainWindow::on_navigation_new_reference()
 
   // Update the notes view.
   notes_redisplay();
+
+  // Create a reference for the related windows.
+  // These may not take verses like 10a or 10-12, but only numbers like 10 or 12.
+  Reference goto_reference(navigation.reference.book, navigation.reference.chapter, number_in_string(navigation.reference.verse));
 
   // Send it to the outline window.  
   if (window_outline) {
@@ -3005,10 +3016,12 @@ void MainWindow::on_show_quick_references_signal_button(GtkButton * button)
  |
  */
 
+
 bool MainWindow::mainwindow_on_external_programs_timeout(gpointer data)
 {
   return ((MainWindow *) data)->on_external_programs_timeout();
 }
+
 
 bool MainWindow::on_external_programs_timeout()
 {
@@ -3051,11 +3064,7 @@ bool MainWindow::on_external_programs_timeout()
     WindowEditor *editor_window = last_focused_editor_window();
     if (editor_window) {
       if (settings->genconfig.reference_exchange_send_to_bibletime_get()) {
-        ustring bibledit_bt_new_reference = convert_to_string(editor_window->current_reference().book) + convert_to_string(editor_window->current_reference().chapter) + editor_window->current_reference().verse;
-        if (bibledit_bt_new_reference != bibledit_bt_previous_reference) {
-          bibledit_bt_previous_reference = bibledit_bt_new_reference;
-          bibletime.sendreference(editor_window->current_reference());
-        }
+        send_reference_to_bibletime (editor_window->current_reference(), false);
       }
     }
   }
@@ -3063,10 +3072,12 @@ bool MainWindow::on_external_programs_timeout()
   return true;
 }
 
+
 void MainWindow::on_reference_exchange1_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_reference_exchange();
 }
+
 
 void MainWindow::on_reference_exchange()
 {
@@ -3074,10 +3085,12 @@ void MainWindow::on_reference_exchange()
   dialog.run();
 }
 
+
 void MainWindow::on_send_word_to_toolbox_signalled(GtkButton * button, gpointer user_data)
 {
   ((MainWindow *) user_data)->send_word_to_toolbox();
 }
+
 
 void MainWindow::send_word_to_toolbox()
 {
@@ -3091,10 +3104,12 @@ void MainWindow::send_word_to_toolbox()
   windowsoutpost->SantaFeFocusWordSet(word);
 }
 
+
 void MainWindow::on_preferences_windows_outpost_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_preferences_windows_outpost();
 }
+
 
 void MainWindow::on_preferences_windows_outpost()
 {
@@ -3114,6 +3129,49 @@ void MainWindow::on_preferences_windows_outpost()
     }
   }
 }
+
+
+void MainWindow::on_tool_send_reference_activate (GtkMenuItem *menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_tool_send_reference();
+}
+
+
+void MainWindow::on_tool_send_reference ()
+{
+  send_reference_to_bibletime (navigation.reference, true);
+  send_reference_to_bibleworks (navigation.reference);
+  send_reference_to_santa_fe (navigation.reference);
+}
+
+
+void MainWindow::send_reference_to_bibletime (const Reference& reference, bool force)
+{
+  ustring bibledit_bt_new_reference = convert_to_string(reference.book) + convert_to_string(reference.chapter) + reference.verse;
+  if ((bibledit_bt_new_reference != bibledit_bt_previous_reference) || force) {
+    bibledit_bt_previous_reference = bibledit_bt_new_reference;
+    bibletime.sendreference(reference);
+  }
+}
+
+
+void MainWindow::send_reference_to_bibleworks (const Reference& reference)
+{
+  // Create a reference for BibleWorks.
+  // It does not take verses like 10a or 10-12, but only numbers like 10 or 12.
+  Reference goto_reference(reference.book, reference.chapter, number_in_string(reference.verse));
+  windowsoutpost->BibleWorksReferenceSet(goto_reference);
+}
+
+
+void MainWindow::send_reference_to_santa_fe (const Reference& reference)
+{
+  // Create a reference for SantaFe.
+  // It probably does not take verses like 10a or 10-12, but only numbers like 10 or 12.
+  Reference goto_reference(reference.book, reference.chapter, number_in_string(reference.verse));
+  windowsoutpost->SantaFeFocusReferenceSet(goto_reference);
+}
+
 
 /*
  |
@@ -7127,6 +7185,32 @@ Todo various tasks.
 
 
 
+Bibledit subprocess removal, or better IPC mechanisms
+We need to remove probably the script also, so that only the bibledit binary remains.
+
+
+  // Save logfile from previous session.
+  if (g_file_test (logfile_get_filename().c_str(), G_FILE_TEST_IS_REGULAR)) {
+    ustring command;
+    command = "mv -f ";
+    command.append (logfile_get_filename());
+    command.append (" ");
+    command.append (logfile_get_filename() + ".old");
+    system (command.c_str());
+  }
+  // Redirect stdout and stderr to file.
+  {
+    // When a file is opened it is always allocated the lowest available file 
+    // descriptor. Therefore the following commands cause stdout to be 
+    // redirected to the logfile.
+    close(1);
+    creat (logfile_get_filename().c_str(), 0666); 
+    // The dup() routine makes a duplicate file descriptor for an already opened 
+    // file using the first available file descriptor. Therefore the following 
+    // commands cause stderr to be redirected to the file stdout writes to.
+    close(2);
+    dup(1);
+  }    
 
 
 
@@ -7136,43 +7220,6 @@ Todo various tasks.
 
 
 
-
-Central Documentation Hub for all USFM codes
-
-I know USFM is documented elsewhere on the Internet, and I know the Bibledit docs have some discussion of USFM codes, 
-but it would be wonderful if an alphabetized directory of all USFM codes was included with Bibledit, 
-so that the end-user without Internet access can understand what each code is used for, including an example of the proper usage.
-
-
-Even better would be to have the USFM codes click-able in the USFM editing view. Maybe right-click to go to the documentation or usage page.
-
-
-Easiest at this stage is probably to download the pdf file and use it in Bibledit's documentation.
-A menu entry should be made in the help menu that brings up the proper documentation.
-
-
-chmsee
-libchm-dev
-
-
-Jeff Klassen was asked whether this file can be shipped with Bibledit.
-
-
-If it ships or is we get it downloadable, all usfm information should be removed from the helpfile, apart from references to the online help.
-
-
-
-
-
-
-Permanent/On-demand reference sharing
-
-Translator's Workplace (in Folio) has the option to
-- permanently send/receive references and
-- only at demand.
-There are buttons for this on the toolbar.
-
--> Add this feature also to Bibledit to share references with BibleTime/Xiphos. 
 
 
 
@@ -7216,31 +7263,53 @@ Asked whether the "renderings" system can be abused for this.
 
 
 
-Add customization details to the printing documentation
+Central Documentation Hub for all USFM codes
+
+I know USFM is documented elsewhere on the Internet, and I know the Bibledit docs have some discussion of USFM codes, 
+but it would be wonderful if an alphabetized directory of all USFM codes was included with Bibledit, 
+so that the end-user without Internet access can understand what each code is used for, including an example of the proper usage.
+
+Even better would be to have the USFM codes click-able in the USFM editing view. Maybe right-click to go to the documentation or usage page.
+
+Easiest at this stage is probably to download the pdf file and use it in Bibledit's documentation.
+A menu entry should be made in the help menu that brings up the proper documentation.
+
+chmsee
+
+Jeff Klassen was asked whether this file can be shipped with Bibledit.
+
+If it ships or is we get it downloadable, all usfm information should be removed from the helpfile, apart from references to the online help.
 
 
 
-When Bibledit prints, it uses a template pdf file, and then seems to add the printed pages to it.
-I work on Bibledit now, so it's easy for me to find the PDF file and customize it for use, 
-but it might be nice to add to the help file a blurb about how to customize this.
-
-If this is already in help, and I've missed it, please let me know.
-
-Sorry I confused this with the OpenDocument export feature, where there is a template file.
-
-As far as I can remember now Bibledit does have indeed that OpenDocument template file, but does not seem to use it, 
-* but instead writes a fresh copy from its own code. 
-* However, you write that you managed to customize it, so that would seem to imply that Bibledit somehow does use this template. 
-* It's a long time ago I coded the OpenDocument export feature, and I don't have the details all clear.
 
 
 
+Ordered alpha/symbol sequences for foot/endnotes.
+
+To update the documentation on the USFM editor about this footnote symbol.
+
+Where it gives the possibility of Automatic, None, and Character, that is the following the USFM standard.
+
+But Bibledit has made its own extension in the stylesheet. 
+* This extension can be seen when editing the f style in the stylesheet. 
+* Press Ctrl-S, navigate to the f style, switch edit mode on, then edit it. 
+* There is an option numbering 1,2,3,... and of a,b,c,.., and of "User defined". 
+* When choosing User defined, one can enter a sequence of characters. 
+* Bibledit will run through this sequence when creating footnote callers. 
+* When through with the sequence, it restarts, and so on.
+
+But this needs to be documented.
 
 
 
 
-Bibledit subprocess removal, or better IPC mechanisms
-We need to remove probably the script also, so that only the bibledit binary remains.
+
+
+
+
+
+Update docs on all distros and remove obsolete ones
 
 
 
