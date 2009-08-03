@@ -33,7 +33,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-bin_PROGRAMS = bibledit-bin$(EXEEXT) bibledit-bibletime$(EXEEXT)
+bin_PROGRAMS = bibledit$(EXEEXT) bibledit-bibletime$(EXEEXT)
 @WIN32_TRUE@am__append_1 = -mwindows -lws2_32
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -48,11 +48,7 @@ CONFIG_CLEAN_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
-am_bibledit_bibletime_OBJECTS = bibledit-bibletime.$(OBJEXT) \
-	ustring.$(OBJEXT) bookdata.$(OBJEXT)
-bibledit_bibletime_OBJECTS = $(am_bibledit_bibletime_OBJECTS)
-bibledit_bibletime_LDADD = $(LDADD)
-am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
+am_bibledit_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	tiny_utilities.$(OBJEXT) bible.$(OBJEXT) usfmtools.$(OBJEXT) \
 	exception.$(OBJEXT) mainwindow.$(OBJEXT) \
 	dialoglistview.$(OBJEXT) dialogshowscript.$(OBJEXT) \
@@ -179,8 +175,12 @@ am_bibledit_bin_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogmaintenance.$(OBJEXT) swordkjv.$(OBJEXT) \
 	assistantimport.$(OBJEXT) mechonmamre.$(OBJEXT) \
 	bibleworks.$(OBJEXT) onlinebible.$(OBJEXT)
-bibledit_bin_OBJECTS = $(am_bibledit_bin_OBJECTS)
-bibledit_bin_LDADD = $(LDADD)
+bibledit_OBJECTS = $(am_bibledit_OBJECTS)
+bibledit_LDADD = $(LDADD)
+am_bibledit_bibletime_OBJECTS = bibledit-bibletime.$(OBJEXT) \
+	ustring.$(OBJEXT) bookdata.$(OBJEXT)
+bibledit_bibletime_OBJECTS = $(am_bibledit_bibletime_OBJECTS)
+bibledit_bibletime_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -193,8 +193,8 @@ CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 CXXLD = $(CXX)
 CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
-SOURCES = $(bibledit_bibletime_SOURCES) $(bibledit_bin_SOURCES)
-DIST_SOURCES = $(bibledit_bibletime_SOURCES) $(bibledit_bin_SOURCES)
+SOURCES = $(bibledit_SOURCES) $(bibledit_bibletime_SOURCES)
+DIST_SOURCES = $(bibledit_SOURCES) $(bibledit_bibletime_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -360,7 +360,7 @@ bibledit_bibletime_SOURCES = \
         ustring.cpp \
         bookdata.cpp
 
-bibledit_bin_SOURCES = \
+bibledit_SOURCES = \
 		bibledit.cpp \
 		utilities.cpp \
     	tiny_utilities.cpp \
@@ -695,12 +695,12 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+bibledit$(EXEEXT): $(bibledit_OBJECTS) $(bibledit_DEPENDENCIES) 
+	@rm -f bibledit$(EXEEXT)
+	$(CXXLINK) $(bibledit_OBJECTS) $(bibledit_LDADD) $(LIBS)
 bibledit-bibletime$(EXEEXT): $(bibledit_bibletime_OBJECTS) $(bibledit_bibletime_DEPENDENCIES) 
 	@rm -f bibledit-bibletime$(EXEEXT)
 	$(CXXLINK) $(bibledit_bibletime_OBJECTS) $(bibledit_bibletime_LDADD) $(LIBS)
-bibledit-bin$(EXEEXT): $(bibledit_bin_OBJECTS) $(bibledit_bin_DEPENDENCIES) 
-	@rm -f bibledit-bin$(EXEEXT)
-	$(CXXLINK) $(bibledit_bin_OBJECTS) $(bibledit_bin_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)

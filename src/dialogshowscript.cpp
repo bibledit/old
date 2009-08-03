@@ -33,6 +33,16 @@
 #include "settings.h"
 
 
+ustring log_file_name(bool previous)
+{
+  ustring filename = "bibledit.log";
+  if (previous) {
+    filename.append (".old");
+  }
+  return gw_build_filename(directories_get_temp(), filename);
+}
+
+
 ShowScriptDialog::ShowScriptDialog(int dummy)
 {
   Shortcuts shortcuts(0);
@@ -194,11 +204,7 @@ void ShowScriptDialog::on_checkbutton1_toggled(GtkToggleButton * togglebutton, g
 
 ustring ShowScriptDialog::logfilename()
 {
-  ustring filename = "bibledit.log";
-  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton1))) {
-    filename.append (".old");
-  }
-  return gw_build_filename(directories_get_temp(), filename);
+  return log_file_name (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton1)));
 }
 
 void ShowScriptDialog::on_button_diagnostics_clicked(GtkButton * button, gpointer user_data)

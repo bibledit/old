@@ -7185,35 +7185,6 @@ Todo various tasks.
 
 
 
-Bibledit subprocess removal, or better IPC mechanisms
-We need to remove probably the script also, so that only the bibledit binary remains.
-
-
-  // Save logfile from previous session.
-  if (g_file_test (logfile_get_filename().c_str(), G_FILE_TEST_IS_REGULAR)) {
-    ustring command;
-    command = "mv -f ";
-    command.append (logfile_get_filename());
-    command.append (" ");
-    command.append (logfile_get_filename() + ".old");
-    system (command.c_str());
-  }
-  // Redirect stdout and stderr to file.
-  {
-    // When a file is opened it is always allocated the lowest available file 
-    // descriptor. Therefore the following commands cause stdout to be 
-    // redirected to the logfile.
-    close(1);
-    creat (logfile_get_filename().c_str(), 0666); 
-    // The dup() routine makes a duplicate file descriptor for an already opened 
-    // file using the first available file descriptor. Therefore the following 
-    // commands cause stderr to be redirected to the file stdout writes to.
-    close(2);
-    dup(1);
-  }    
-
-
-
 
 
 

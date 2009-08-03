@@ -26,6 +26,9 @@
 #include "libraries.h"
 
 
+ustring log_file_name(bool previous);
+
+
 class ShowScriptDialog
 {
 public:
