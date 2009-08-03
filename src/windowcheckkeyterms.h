@@ -65,6 +65,8 @@ private:
   // Callbacks.
   static gboolean on_html_link_clicked(GtkHTML *html, const gchar * url, gpointer user_data);
   void html_link_clicked(const gchar * url);
+  static void on_html_submit (GtkHTML *html, const gchar *method, const gchar *url, const gchar *encoding, gpointer user_data);
+  void html_submit (const gchar *method, const gchar *url, const gchar *encoding);
   static void on_entry_keyterm_changed(GtkEditable *editable, gpointer user_data);
   static void on_entry_keyterm_activate(GtkEntry *entry, gpointer user_data);
   static void on_combobox_keyterm_collection_changed(GtkComboBox *combobox, gpointer user_data);

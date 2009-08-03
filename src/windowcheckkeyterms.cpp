@@ -108,6 +108,7 @@ WindowBase(widCheckKeyterms, "Check keyterms", startup, 0, parent_box), myrefere
   gtk_tree_selection_set_mode(treeselect_renderings, GTK_SELECTION_SINGLE);
 
   g_signal_connect((gpointer) htmlview_terms, "link-clicked", G_CALLBACK(on_html_link_clicked), gpointer(this));
+  g_signal_connect((gpointer) htmlview_terms, "submit", G_CALLBACK(on_html_submit), gpointer(this));
   g_signal_connect((gpointer) combobox_collection, "changed", G_CALLBACK(on_combobox_keyterm_collection_changed), gpointer(this));
 
   gtk_label_set_mnemonic_widget(GTK_LABEL(label_collection), combobox_collection);
@@ -487,6 +488,17 @@ void WindowCheckKeyterms::html_link_clicked (const gchar * url)
     else
       gtk_widget_hide (treeview_renderings);
   }
+}
+
+
+void WindowCheckKeyterms::on_html_submit (GtkHTML *html, const gchar *method, const gchar *url, const gchar *encoding, gpointer user_data)
+{
+  ((WindowCheckKeyterms *) user_data)->html_submit(method, url, encoding);
+}
+
+
+void WindowCheckKeyterms::html_submit (const gchar *method, const gchar *url, const gchar *encoding)
+{
 }
 
 

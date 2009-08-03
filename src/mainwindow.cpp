@@ -1556,6 +1556,14 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   gtk_widget_show(image17520);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(help_main), image17520);
 
+  helpusfm = gtk_image_menu_item_new_with_mnemonic ("_USFM");
+  gtk_widget_show (helpusfm);
+  gtk_container_add (GTK_CONTAINER (menuitem_help_menu), helpusfm);
+
+  image37230 = gtk_image_new_from_stock ("gtk-help", GTK_ICON_SIZE_MENU);
+  gtk_widget_show (image37230);
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (helpusfm), image37230);
+
   system_log1 = gtk_image_menu_item_new_with_mnemonic("_System log");
   gtk_widget_show(system_log1);
   gtk_container_add(GTK_CONTAINER(menuitem_help_menu), system_log1);
@@ -1830,6 +1838,8 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     g_signal_connect((gpointer) preferences_compare, "activate", G_CALLBACK(on_preferences_compare_activate), gpointer(this));
   if (help_main)
     g_signal_connect((gpointer) help_main, "activate", G_CALLBACK(on_help_main_activate), gpointer(this));
+  if (helpusfm)
+    g_signal_connect((gpointer) helpusfm, "activate", G_CALLBACK(on_helpusfm_activate), gpointer(this));
   if (system_log1)
     g_signal_connect((gpointer) system_log1, "activate", G_CALLBACK(on_system_log1_activate), gpointer(this));
   if (about1)
@@ -2095,6 +2105,7 @@ void MainWindow::viewlog()
   showscript.run();
 }
 
+
 void MainWindow::on_help_main_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_help_main();
@@ -2104,6 +2115,20 @@ void MainWindow::on_help_main()
 {
   htmlbrowser("localhost:51516", true);
 }
+
+
+void MainWindow::on_helpusfm_activate(GtkMenuItem * menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_helpusfm();
+}
+
+void MainWindow::on_helpusfm() // Todo
+{
+  GwSpawn spawn ("chmsee");
+  spawn.async ();
+  spawn.run ();
+}
+
 
 void MainWindow::on_about1_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
@@ -7104,25 +7129,6 @@ Todo various tasks.
 
 
 
-Add a definition or notes column to the keyterms
-
-While doing keyterm checks, sometimes a language is more specific than the Hebrew/Aramaic/Greek. 
-When this happens, it would be nice to have a description/notes/definition field next to the word, 
-so the translator and consultant can be reminded of the specific meaning of the word in the target language.
-
-Is toolbox a better fit for this? It seems that having a notes
-column in the keyterms window would be very helpful. Perhaps a document
-discussing the reasons to use Toolbox with BE would be nice. 
-
-I am not sure whether Bibledit should rely on Toolbox. If these notes are useful, then these could be made in Bibledit. 
-
-What we can implement is the following:
-- A database with keyterms as the key, and a field "notes". Stored per project.
-* The keyterms window has a setting for the user to enter these notes.
-* A submit system should be used so as to submit the right string of information here.
-* The submission system uses the ID of the keyterm, but in the database it stores the text belonging to that ID.
-* On submit it stores the data into the database.
-
 
 
 
@@ -7142,12 +7148,17 @@ Even better would be to have the USFM codes click-able in the USFM editing view.
 
 
 Easiest at this stage is probably to download the pdf file and use it in Bibledit's documentation.
+A menu entry should be made in the help menu that brings up the proper documentation.
 
 
 chmsee
 libchm-dev
 
 
+Jeff Klassen was asked whether this file can be shipped with Bibledit.
+
+
+If it ships or is we get it downloadable, all usfm information should be removed from the helpfile, apart from references to the online help.
 
 
 
@@ -7183,11 +7194,44 @@ The Online Bible was asked for the interface to connect to it.
 
 
 
+Add a definition or notes column to the keyterms
+
+While doing keyterm checks, sometimes a language is more specific than the Hebrew/Aramaic/Greek. 
+When this happens, it would be nice to have a description/notes/definition field next to the word, 
+so the translator and consultant can be reminded of the specific meaning of the word in the target language.
+
+What we can implement is the following:
+- A database with keyterms as the key, and a field "notes". Stored per project.
+* The keyterms window has a setting for the user to enter these notes.
+* A submit system should be used so as to submit the right string of information here.
+* The submission system uses the ID of the keyterm, but in the database it stores the text belonging to that ID.
+* On submit it stores the data into the database.
+
+Asked whether the "renderings" system can be abused for this.
 
 
 
 
 
+
+
+
+Add customization details to the printing documentation
+
+
+
+When Bibledit prints, it uses a template pdf file, and then seems to add the printed pages to it.
+I work on Bibledit now, so it's easy for me to find the PDF file and customize it for use, 
+but it might be nice to add to the help file a blurb about how to customize this.
+
+If this is already in help, and I've missed it, please let me know.
+
+Sorry I confused this with the OpenDocument export feature, where there is a template file.
+
+As far as I can remember now Bibledit does have indeed that OpenDocument template file, but does not seem to use it, 
+* but instead writes a fresh copy from its own code. 
+* However, you write that you managed to customize it, so that would seem to imply that Bibledit somehow does use this template. 
+* It's a long time ago I coded the OpenDocument export feature, and I don't have the details all clear.
 
 
 
