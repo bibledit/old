@@ -7192,7 +7192,7 @@ Todo various tasks.
 
 
 
-Update docs on all distros and remove obsolete ones
+Update docs on all distros.
 While in the Netherlands, we can download Linux images, and then update the documentation for installing Bibledit.
 
 
