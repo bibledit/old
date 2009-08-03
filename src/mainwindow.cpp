@@ -7192,6 +7192,13 @@ Todo various tasks.
 
 
 
+Update docs on all distros and remove obsolete ones
+While in the Netherlands, we can download Linux images, and then update the documentation for installing Bibledit.
+
+
+
+
+
 
 
 
@@ -7256,31 +7263,139 @@ If it ships or is we get it downloadable, all usfm information should be removed
 
 
 
-Ordered alpha/symbol sequences for foot/endnotes.
-
-To update the documentation on the USFM editor about this footnote symbol.
-
-Where it gives the possibility of Automatic, None, and Character, that is the following the USFM standard.
-
-But Bibledit has made its own extension in the stylesheet. 
-* This extension can be seen when editing the f style in the stylesheet. 
-* Press Ctrl-S, navigate to the f style, switch edit mode on, then edit it. 
-* There is an option numbering 1,2,3,... and of a,b,c,.., and of "User defined". 
-* When choosing User defined, one can enter a sequence of characters. 
-* Bibledit will run through this sequence when creating footnote callers. 
-* When through with the sequence, it restarts, and so on.
-
-But this needs to be documented.
 
 
 
 
+help file updates
+
+DocBook XML might be the way to go - it offers a way of providing structured information. Right now there's too much confusion in bibledit's helpfiles.
+
+> Yes, I prefer a one similar to the ubuntu one for debian. Html right now
+> is preferred, because we don't use DocBook XML yet for creating the
+> documentation. Thanks for your offer to create that information.
+
+
+OK. Tell me whether the page at
+http://computeroptions.net/sword/bibledit_debian.html meets your needs.
+It ended up longer than the Ubuntu one, mostly because it does not
+refer people to an external page for instructions on adding a repository.
+
+Now we have a GUI/command line example. How can a user extract from the
+GUI-oriented description of how to add a repo on that help page I just
+wrote, that the quick way to do it is something like:
+
+su -c "echo 'deb http://ftp.debian.org/debian/ testing main' \
+>/etc/apt/sources.list.d/testing.list && \
+apt-get update && apt-get install bibledit"
+
+I don't think many people, even those who have fairly decent command
+line skills, would be able to extract this command from the GUI info.
+Yet it is much shorter and simpler to cut and paste this one command
+line from a web page window into a shell window, than to do all the GUI
+steps ... you just select the command text, ctrl-c, middle-click on the
+shell window, and press Enter.
+
+If we need to avoid typing even just the password into the shell window,
+because people really don't like using the shell, we could even use:
+
+gksu "bash -c 'echo \'deb http://ftp.debian.org/debian/ testing main\'
+>/etc/apt/sources.list.d/testing.list &&
+apt-get update && apt-get install bibledit ' "
+
+so the users get a pretty GUI password dialog, not a shell one :)
+
+One last variation: no terminal window need even be opened... The user
+hits Alt-F2, types gksu into the dialog box that opens and clicks OK.
+Then the user selects the command, ctrl-c, and then middle clicks to
+paste it into the Run: field and clicks the OK button. That's fast,
+truly minimal typing, and the user never even sees a command shell
+this way.
+
+Nevertheless, my proposed help page follows your advice to specify only
+the GUI approach, and does not include any shell commands to use :)
+
+> Yes, it would be faster, but some users are new to Linux, or even those
+> not very new to it, and they prefer the information to be given to them
+> step by step and use the GUI. It is only that compiling from source must
+> have the command line, so the new users cannot escape from that.
+
+
+I somewhat disagree with this last sentence.
+
+Idea #1: You could put a small script on the web site and have users
+click on a link to it; appropriately set up, I think this could be made
+to untar and compile the app with no user typing at a command line.
+
+Idea #2: Worst case, they'd have to download and save the script file,
+and then use their GUI file manager (Nautilus or whatever they use) to
+make it executable and then double click on it to execute it. No
+command line use at all would be needed, and stuff still gets compiled!
+I just tested this approach here... it works fine.
+
+Idea #3: Using the Alt-F2 gksu idea from earlier to copy and paste the
+command text to do the untar and compile and install -- users could
+compile and install the tarball sources without even seeing a shell
+window ... although if it fails, troubleshooting without such a window
+could be awkward :)
+
+But the whole idea of novices who are uncomfortable at the command-line
+compiling anything from a source tarball seems rather strange; it should
+not, generally speaking, be necessary for end users to do this.
+
+> It would be a great help if packages were described for them how to
+> use that. This would keep them all in the GUI, so they would never
+> have the command line in front of them.
+
+
+See above for (a) using packages and (b) compiling the source tarball,
+both without a command line (shell window) in front of them :)
+
+Using existing packages is better for end users, of course, for all of
+the Linux distributions that have packages available. That's why I'm
+doing this packaging work! But realistically, you probably won't get
+up-to-date Bibledit packages for many less popular Linux distributions,
+without doing a lot of packaging yourself.
+
+Incidentally, speaking of easily installing packages: we can now embed
+apt-urls into web pages. So, once we have the packages in the official
+repositories for current Debian and Ubuntu versions, the install
+instructions become very close to just "click on this link; when asked
+what to do with it, select "Use Gdebi Package Installer" (which is the
+default) and click OK". apt:bibledit?refresh=yes is an example of such
+a URL.
+
+Until then, we need to have info on adding a PPA or the Debian testing
+repository first.
+
+I suspect using apt-url's could be a better (cleaner, shorter) approach
+than describing use of Synaptic or gnome-app-install; if I get inspired
+I'll test my theory! I hope webkit handles apt-urls in basically the
+same way Firefox does... 
 
 
 
 
 
-Update docs on all distros and remove obsolete ones
+
+Access to secured git repositories
+
+Bibledit now is only capable of pushing to git repositories that provide anonymous access. 
+But all of the public git hosting facilities that I know of only allow push access if credentials are provided. 
+Bibledit is not yet capable of providing these. It would be helpful if this were possible.
+
+We've got several computers colaborating together quite happily, using a SSH based connection.
+
+Prerequisite is for certificate based logins (no password needed when you try to "ssh hostname"), and all users having write access to the direcory.
+
+Basicly I went through the GIT repository set up on the server as described somewhere, 
+but when it came to specifying the remote repo I entered hostname:/path/to/directory
+(since the "server" also runs BE I put the "remote dir" on that machine to be just /path/to/server).
+
+I've not tried it, but someone might like to try "user@hostname:/path/to/directory" as a repo address... 
+I think it should work and it would obviously solve the permissions issue, if all connections to the repo were as the same userid. 
+
+
 
 
 
