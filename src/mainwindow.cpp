@@ -7102,24 +7102,6 @@ Todo various tasks.
 
 
 
-The following import path is still to be implemented: Bible / OnlineBible
-
-
-
-From dialogproject, the import button goes out.
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 Add a definition or notes column to the keyterms
@@ -7128,14 +7110,18 @@ While doing keyterm checks, sometimes a language is more specific than the Hebre
 When this happens, it would be nice to have a description/notes/definition field next to the word, 
 so the translator and consultant can be reminded of the specific meaning of the word in the target language.
 
-
 Is toolbox a better fit for this? It seems that having a notes
 column in the keyterms window would be very helpful. Perhaps a document
 discussing the reasons to use Toolbox with BE would be nice. 
 
-
-
 I am not sure whether Bibledit should rely on Toolbox. If these notes are useful, then these could be made in Bibledit. 
+
+What we can implement is the following:
+- A database with keyterms as the key, and a field "notes". Stored per project.
+* The keyterms window has a setting for the user to enter these notes.
+* A submit system should be used so as to submit the right string of information here.
+* The submission system uses the ID of the keyterm, but in the database it stores the text belonging to that ID.
+* On submit it stores the data into the database.
 
 
 
@@ -7160,6 +7146,53 @@ Easiest at this stage is probably to download the pdf file and use it in Bibledi
 
 chmsee
 libchm-dev
+
+
+
+
+
+
+
+
+Permanent/On-demand reference sharing
+
+Translator's Workplace (in Folio) has the option to
+- permanently send/receive references and
+- only at demand.
+There are buttons for this on the toolbar.
+
+-> Add this feature also to Bibledit to share references with BibleTime/Xiphos. 
+
+
+
+
+
+
+
+
+
+
+The following import path is still to be implemented: Bible / OnlineBible
+The Online Bible was asked for the interface to connect to it.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 */
