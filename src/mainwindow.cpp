@@ -2122,7 +2122,7 @@ void MainWindow::on_helpusfm_activate(GtkMenuItem * menuitem, gpointer user_data
   ((MainWindow *) user_data)->on_helpusfm();
 }
 
-void MainWindow::on_helpusfm() // Todo
+void MainWindow::on_helpusfm()
 {
   GwSpawn spawn ("chmsee");
   spawn.async ();
@@ -7234,6 +7234,13 @@ As far as I can remember now Bibledit does have indeed that OpenDocument templat
 * It's a long time ago I coded the OpenDocument export feature, and I don't have the details all clear.
 
 
+
+
+
+
+
+Bibledit subprocess removal, or better IPC mechanisms
+We need to remove probably the script also, so that only the bibledit binary remains.
 
 
 

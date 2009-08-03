@@ -325,7 +325,7 @@ protected:
   GtkWidget *menuitem_help_menu;
   GtkWidget *help_main;
   GtkWidget *image17520;
-  GtkWidget *helpusfm; // Todo
+  GtkWidget *helpusfm;
   GtkWidget *image37230;
   GtkWidget *system_log1;
   GtkWidget *image4388;
@@ -361,7 +361,7 @@ protected:
   void viewlog();
   static void on_help_main_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_help_main();
-  static void on_helpusfm_activate (GtkMenuItem *menuitem, gpointer user_data); // Todo
+  static void on_helpusfm_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_helpusfm ();
   static void on_about1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void showabout();
