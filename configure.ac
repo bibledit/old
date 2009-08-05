@@ -352,6 +352,7 @@ AC_CONFIG_FILES([Makefile
        browser/Makefile
        one/Makefile
        shutdown/Makefile
+       usfm/Makefile
 		   ])
 AC_OUTPUT
 

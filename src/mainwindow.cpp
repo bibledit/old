@@ -2139,6 +2139,7 @@ void MainWindow::on_helpusfm_activate(GtkMenuItem * menuitem, gpointer user_data
 void MainWindow::on_helpusfm()
 {
   GwSpawn spawn ("chmsee");
+  spawn.arg (gw_build_filename (directories_get_package_data(), "usfmReference.chm"));
   spawn.async ();
   spawn.run ();
 }
@@ -7216,6 +7217,21 @@ Todo various tasks.
 
 
 
+
+
+Central Documentation Hub for all USFM codes
+
+To update the html documents, so that it only has one usfm.html file, which refers to the online help.
+
+
+
+
+
+
+
+
+
+
 Resources into Bibledit
 
 There's one window that has the original language resources. Such resources are all tagged with Strong's number and the noun
@@ -7298,7 +7314,6 @@ The Strong's Real Hebrew and Greek modules in the .sword directory give some inf
 
 Update docs on all distros.
 To download the newest Linux images, and then update the documentation for installing Bibledit.
-Debian
 Fedora
 Knoppix
 OpenSUSE
@@ -7350,24 +7365,6 @@ Asked whether the "renderings" system can be abused for this.
 
 
 
-Central Documentation Hub for all USFM codes
-
-I know USFM is documented elsewhere on the Internet, and I know the Bibledit docs have some discussion of USFM codes, 
-but it would be wonderful if an alphabetized directory of all USFM codes was included with Bibledit, 
-so that the end-user without Internet access can understand what each code is used for, including an example of the proper usage.
-
-Even better would be to have the USFM codes click-able in the USFM editing view. Maybe right-click to go to the documentation or usage page.
-
-Easiest at this stage is probably to download the pdf file and use it in Bibledit's documentation.
-A menu entry should be made in the help menu that brings up the proper documentation.
-
-chmsee
-
-Jeff Klassen was asked whether this file can be shipped with Bibledit.
-
-If it ships or is we get it downloadable, all usfm information should be removed from the helpfile, apart from references to the online help.
-
-
 
 
 
@@ -7393,6 +7390,7 @@ but when it came to specifying the remote repo I entered hostname:/path/to/direc
 I've not tried it, but someone might like to try "user@hostname:/path/to/directory" as a repo address... 
 I think it should work and it would obviously solve the permissions issue, if all connections to the repo were as the same userid. 
 
+We probably need to open a sourceforge git repository.
 
 
 
@@ -7401,33 +7399,11 @@ I think it should work and it would obviously solve the permissions issue, if al
 
 
 
-webkit for bibledit-help
-
-the WebKit Resource Browser really kicks. Make bibledit-help also use WebKit!
-We could then drop the "difficult url" option, which would, when invoked, start a standard browser.
-We could then remain in the help browser all the time.
-
-This can be closed, since it uses webkit already,.
 
 
 
 
 
-
-
-osis2mod -v
-
-The osis2mod program got the -v switch for versification control. Support for this may improve standards.
-
-Still too early to implement this, it seems, since it is not yet well supported (the Wiki says). To close this task.
-
-
-
-
-
-
-
-Related verses, Ezekiel 1:1, it shows duplicate entries for Lord.
 
 
 
