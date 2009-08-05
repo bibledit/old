@@ -632,7 +632,7 @@ bibledit_SOURCES = \
 				bibleworks.cpp \
 				onlinebible.cpp
 
-EXTRA_DIST = *.h .indent.pro d_bus.cpp test update-copyright
+EXTRA_DIST = *.h .indent.pro d_bus.cpp update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
 	$(GTHREAD_CFLAGS) $(GLIB_CFLAGS) $(GTK_CFLAGS) \
 	$(SQLITE_CFLAGS) $(ENCHANT_CFLAGS) $(GTKHTML38_CFLAGS) \

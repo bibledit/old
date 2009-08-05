@@ -186,6 +186,7 @@ protected:
   GtkWidget *view_related_verses;
   GtkWidget *view_outline;
   GtkWidget *view_verses;
+  GtkWidget *view_source_languages;
   GtkWidget *insert1;
   GtkWidget *insert1_menu;
   GtkWidget *standard_text_1;
@@ -477,7 +478,6 @@ protected:
   /* Title bar and status bar, GUI */
   static bool on_gui_timeout(gpointer data);
   void on_gui();
-
 
   /* Project notes */
   bool project_notes_enabled;
@@ -833,6 +833,11 @@ protected:
   static void on_file_import_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_file_import ();
   ImportAssistant * import_assistant;
+
+  /* Source languages */ // Todo
+  static void on_view_source_languages_activate (GtkMenuItem *menuitem, gpointer user_data);
+  void on_view_source_languages ();
+  
 
 };
 
