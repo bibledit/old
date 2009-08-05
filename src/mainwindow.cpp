@@ -7289,7 +7289,8 @@ Some are accessible only when clicking e.g. thrice on the relevant links in the 
 An interlinear Bible is available on the internet, where one clicks on the Hebrew, and then the English is highlighted.
 The Strong's Real Hebrew and Greek modules in the .sword directory give some information as to the source used to create these.
 
-
+http://files.morphgnt.org/
+http://files.morphgnt.org/strongs-dictionary/ - This Greek dictionary is the better one.
 
 
 
