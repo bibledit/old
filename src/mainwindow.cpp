@@ -7219,11 +7219,6 @@ Todo various tasks.
 
 
 
-Central Documentation Hub for all USFM codes
-
-To update the html documents, so that it only has one usfm.html file, which refers to the online help.
-
-
 
 
 
