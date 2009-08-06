@@ -1,0 +1,16 @@
+King James Bible
+
+How to create it:
+
+If the SWORD api is installed on Linux, install the KJV Bible.
+Then, give the following command:
+
+mod2osis KJV > swordkjv.xml
+
+This produces the file. 
+
+It is important for Bibledit that this name is kept. 
+It looks for it on startup, and creates a database out of it.
+
+Teus Benschop
+5 August 2009

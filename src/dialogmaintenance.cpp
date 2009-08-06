@@ -108,22 +108,7 @@ void MaintenanceDialog::html_link_clicked (const gchar * url)
   HtmlWriter2 htmlwriter ("");
   bool display_another_page = true;
 
-  if (active_url == sword_kjv_html_entry_url ()) {
-    html_add_home (htmlwriter);
-    sword_kjv_detailed_page (htmlwriter);
-  }
-
-  else if (active_url == sword_kjv_import_url ()) {
-    html_add_home (htmlwriter);
-    sword_kjv_action_result_page (sword_kjv_import (), htmlwriter);
-  }
-  
-  else if (active_url == sword_kjv_delete_url ()) {
-    html_add_home (htmlwriter);
-    sword_kjv_action_result_page (sword_kjv_delete (), htmlwriter);
-  }
-  
-  else if (active_url == mechon_mamre_html_entry_url ()) {
+  if (active_url == mechon_mamre_html_entry_url ()) {
     html_add_home (htmlwriter);
     mechon_mamre_detailed_page (htmlwriter);
   }
@@ -145,9 +130,6 @@ void MaintenanceDialog::html_link_clicked (const gchar * url)
     htmlwriter.paragraph_open();
     htmlwriter.text_add ("Some actions may have great impact on Bibledit. Use with care.");
     htmlwriter.paragraph_close();
-
-    // Sword KJV Bible link.
-    sword_kjv_home_entry (htmlwriter);
 
     // Mechon Mamre Hebrew text link.
     mechon_mamre_home_entry (htmlwriter);

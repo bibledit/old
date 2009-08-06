@@ -275,7 +275,8 @@ bibledit_SOURCES = \
 				assistantimport.cpp \
 				mechonmamre.cpp \
 				bibleworks.cpp \
-				onlinebible.cpp
+				onlinebible.cpp \
+				windowsourcelanguages.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp update-copyright
 

@@ -55,6 +55,7 @@
 #include "assistantrestore.h"
 #include "assistantexport.h"
 #include "assistantimport.h"
+#include "windowsourcelanguages.h"
 
 
 class MainWindow : public WindowBase
@@ -837,6 +838,9 @@ protected:
   /* Source languages */ // Todo
   static void on_view_source_languages_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_view_source_languages ();
+  WindowSourceLanguages * window_source_languages;
+  static void on_window_source_languages_delete_button_clicked(GtkButton *button, gpointer user_data);
+  void on_window_source_languages_delete_button();
   
 
 };

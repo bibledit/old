@@ -49,13 +49,13 @@ ustring statistics_database(const ustring & project, const gchar * suffix)
   return filename;
 }
 
-void statistics_initial_check_all(bool gui)
+void statistics_initial_check_all()
 // Does initial checks on the statistics systems.
 {
   // Do all projects.
   vector < ustring > projects = projects_get_all();
   for (unsigned int i = 0; i < projects.size(); i++) {
-    statistics_initial_check_project(projects[i], gui);
+    statistics_initial_check_project(projects[i], true);
   }
 }
 

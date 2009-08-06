@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include "upgrade.h"
 #include "stylesheetutils.h"
@@ -27,11 +28,15 @@
 #include "git.h"
 #include "referencememory.h"
 #include "snapshots.h"
+#include "directories.h"
+#include "gwrappers.h"
+#include "swordkjv.h"
+
 
 void upgrade()
 {
   stylesheets_upgrade();
-  projects_initial_check(true);
+  projects_initial_check();
   notes_database_verify();
   notes_categories_check();
   upgrade_configuration();
@@ -39,8 +44,22 @@ void upgrade()
   for (unsigned int i = 0; i < projects.size(); i++) {
     upgrade_project_configuration(projects[i]);
   }
-  statistics_initial_check_all(true);
+  statistics_initial_check_all();
   references_memory_database_verify();
   snapshots_initialize_all ();
   git_upgrade ();
+  
+  // Databases to create.
+  ustring databases_ini = gw_build_filename (directories_get_databases(), "databases.ini");
+  GKeyFile *keyfile = g_key_file_new();
+  g_key_file_load_from_file(keyfile, databases_ini.c_str(), G_KEY_FILE_NONE, NULL);
+  sword_kjv_import (keyfile);
+  gchar *data = g_key_file_to_data(keyfile, NULL, NULL);
+  if (data) {
+    g_file_set_contents(databases_ini.c_str(), data, -1, NULL);
+    g_free(data);
+  }
+  g_key_file_free(keyfile);
 }
+
+

@@ -24,8 +24,8 @@
 #include <gtk/gtk.h>
 
 enum WindowID { widShowRelatedVerses, widMerge, widResource, 
-                widOutline, widCheckKeyterms, widStyles, widNotes, widReferences, 
-                widEditor, widMenu, widShowVerses, widCheckUSFM };
+                widOutline, widCheckKeyterms, widStyles, widNotes, widReferences,
+                widEditor, widMenu, widShowVerses, widCheckUSFM, widSourceLanguages };
 
 class WindowData
 {

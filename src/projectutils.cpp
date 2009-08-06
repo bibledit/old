@@ -98,7 +98,7 @@ void project_store_chapter_internal(const ustring & project, unsigned int book, 
   snapshots_shoot_chapter (project, book, chapter, 0, false);
 }
 
-void projects_initial_check(bool gui)
+void projects_initial_check()
 // Does some initial checks on the projects we have.
 // Upgrades projects of an older version to the current version.
 {

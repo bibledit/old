@@ -170,6 +170,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   restore_assistant = NULL;
   export_assistant = NULL;
   import_assistant = NULL;
+  window_source_languages = NULL;
   
   // Initialize some variables.
   git_reopen_project = false;
@@ -2574,7 +2575,12 @@ void MainWindow::on_navigation_new_reference()
   if (window_show_related_verses) {
     window_show_related_verses->go_to(settings->genconfig.project_get(), navigation.reference);
   }
-}
+  
+  // Optionally the source languages.
+  if (window_source_languages) {
+    window_source_languages->go_to(navigation.reference, settings->genconfig.project_get());
+  }
+  }
 
 
 void MainWindow::goto_next_verse()
@@ -2714,6 +2720,11 @@ void MainWindow::on_tools_area_activate()
   if (window_check_usfm) {
     if (focused_tool_button == window_check_usfm->focus_in_signal_button) {
       window_check_usfm->present (true);
+    }
+  }
+  if (window_source_languages) {
+    if (focused_tool_button == window_source_languages->focus_in_signal_button) {
+      window_source_languages->present (true);
     }
   }
 }
@@ -6167,6 +6178,11 @@ bool MainWindow::on_windows_startup()
           gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(check_usfm), true);
           break;
         }
+      case widSourceLanguages:
+        {
+          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_source_languages), true);
+          break;
+        }
       }
       window_started = true;
     }
@@ -6262,6 +6278,12 @@ void MainWindow::shutdown_windows()
     window_check_usfm->shutdown();
     delete window_check_usfm;
     window_check_usfm = NULL;
+  }
+  // Source languages.
+  if (window_source_languages) {
+    window_source_languages->shutdown();
+    delete window_source_languages;
+    window_source_languages = NULL;
   }
 }
 
@@ -6395,8 +6417,16 @@ void MainWindow::on_window_focus_button(GtkButton * button)
         window_check_usfm->defocus();
       }
     }
+    if (window_source_languages) {
+      if (widget == window_source_languages->focus_in_signal_button) {
+        window_source_languages->present(false);
+      } else {
+        window_source_languages->defocus();
+      }
+    }
   }        
 }
+
 
 void MainWindow::present_windows(GtkWidget * widget)
 // Focus all windows.
@@ -6426,6 +6456,8 @@ void MainWindow::present_windows(GtkWidget * widget)
     window_show_verses->present(false);
   if (window_check_usfm)
     window_check_usfm->present(false);
+  if (window_source_languages)
+    window_source_languages->present(false);
   present(false);
 }
 
@@ -6465,6 +6497,8 @@ void MainWindow::window_set_focus (GtkWidget *widget)
     window_show_verses->focus_if_widget_mine(widget);
   if (window_check_usfm)
     window_check_usfm->focus_if_widget_mine(widget);
+  if (window_source_languages)
+    window_source_languages->focus_if_widget_mine(widget);
 }
 
 
@@ -6530,6 +6564,11 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
   }
   if (window_check_usfm) {
     if (widget == window_check_usfm->focus_in_signal_button) {
+      focused_tool_button = widget;
+    }
+  }
+  if (window_source_languages) {
+    if (widget == window_source_languages->focus_in_signal_button) {
       focused_tool_button = widget;
     }
   }
@@ -7205,8 +7244,35 @@ void MainWindow::on_view_source_languages_activate (GtkMenuItem *menuitem, gpoin
 
 void MainWindow::on_view_source_languages ()
 {
+  on_window_source_languages_delete_button();
+  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_source_languages))) {
+    extern GtkAccelGroup *accelerator_group;
+    window_source_languages = new WindowSourceLanguages(accelerator_group, windows_startup_pointer != G_MAXINT, vbox_tools);
+    resize_text_area_if_tools_area_is_empty ();
+    g_signal_connect((gpointer) window_source_languages->delete_signal_button, "clicked", G_CALLBACK(on_window_source_languages_delete_button_clicked), gpointer(this));
+    g_signal_connect((gpointer) window_source_languages->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
+    g_signal_connect((gpointer) window_source_languages->signal_button, "clicked", G_CALLBACK(on_window_references_signal_button_clicked), gpointer(this));
+    extern Settings *settings;
+    window_source_languages->go_to(navigation.reference, settings->genconfig.project_get());
+  }
 }
 
+
+void MainWindow::on_window_source_languages_delete_button_clicked(GtkButton *button, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_window_source_languages_delete_button();
+}
+
+
+void MainWindow::on_window_source_languages_delete_button()
+{
+  if (window_source_languages) {
+    delete window_source_languages;
+    window_source_languages = NULL;
+    resize_text_area_if_tools_area_is_empty ();
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_source_languages), false);
+  }
+}
 
 
 
@@ -7214,10 +7280,6 @@ void MainWindow::on_view_source_languages ()
 
 
 Todo various tasks.
-
-
-
-
 
 
 
@@ -7292,7 +7354,7 @@ The Strong's Real Hebrew and Greek modules in the .sword directory give some inf
 http://files.morphgnt.org/
 http://files.morphgnt.org/strongs-dictionary/ - This Greek dictionary is the better one.
 
-
+http://www.freebiblesoftware.com
 
 
 

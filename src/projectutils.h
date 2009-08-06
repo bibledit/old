@@ -27,7 +27,7 @@
 #include "sqlite_reader.h"
 
 
-void projects_initial_check (bool gui);
+void projects_initial_check ();
 vector<ustring> projects_get_all ();
 ustring project_data_directory_project (const ustring& project);
 ustring project_data_directory_book (const ustring& project, unsigned int book);

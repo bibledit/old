@@ -174,7 +174,8 @@ am_bibledit_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	vcs.$(OBJEXT) d_bus.$(OBJEXT) htmlwriter2.$(OBJEXT) \
 	dialogmaintenance.$(OBJEXT) swordkjv.$(OBJEXT) \
 	assistantimport.$(OBJEXT) mechonmamre.$(OBJEXT) \
-	bibleworks.$(OBJEXT) onlinebible.$(OBJEXT)
+	bibleworks.$(OBJEXT) onlinebible.$(OBJEXT) \
+	windowsourcelanguages.$(OBJEXT)
 bibledit_OBJECTS = $(am_bibledit_OBJECTS)
 bibledit_LDADD = $(LDADD)
 am_bibledit_bibletime_OBJECTS = bibledit-bibletime.$(OBJEXT) \
@@ -630,7 +631,8 @@ bibledit_SOURCES = \
 				assistantimport.cpp \
 				mechonmamre.cpp \
 				bibleworks.cpp \
-				onlinebible.cpp
+				onlinebible.cpp \
+				windowsourcelanguages.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -972,6 +974,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowresource.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowshowrelatedverses.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowshowverses.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowsourcelanguages.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowsoutpost.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowstyles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowtimednotifier.Po@am__quote@

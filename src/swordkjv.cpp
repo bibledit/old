@@ -32,137 +32,84 @@
 #include "sqlite_reader.h"
 
 
-ustring sword_kjv_get_user_filename()
-// Gives the filename for the user-created Sword KJV database.
+ustring sword_kjv_get_xml_filename()
+// Gives the filename for the Sword KJV xml file that comes with bibledit.
 {
-  return gw_build_filename(directories_get_templates_user(), "swordkjv.sql");
+  return gw_build_filename(directories_get_package_data(), "swordkjv.xml");
 }
 
 
-ustring sword_kjv_get_package_filename()
-// Gives the filename for the Sword KJV database that comes with bibledit.
+ustring sword_kjv_get_sql_filename()
+// Gives the filename for the created Sword KJV database.
 {
-  return gw_build_filename(directories_get_package_data(), "swordkjv.sql");
+  return gw_build_filename(directories_get_databases(), "swordkjv.sql");
 }
 
 
-ustring sword_kjv_get_filename ()
-// Gives the package filename, or the user file if it's there.
+const gchar* database_group_name ()
 {
-  ustring filename = sword_kjv_get_user_filename();
-  if (!g_file_test (filename.c_str(), G_FILE_TEST_IS_REGULAR)) {
-    filename = sword_kjv_get_package_filename();
+  return "swordkjv";
+}
+
+
+const gchar * sword_kjv_xml ()
+{
+  return "xml";
+}
+
+
+const gchar * sword_kjv_sql ()
+{
+  return "sql";
+}
+
+
+void sword_kjv_import (GKeyFile *keyfile) // Todo
+{
+  // See whether to import the xml file into the database.
+  // Normally this happens once upon installation.
+  // If it has been done already, and everything seems fine, bail out.
+  bool import = false;
+  unsigned int value;
+  value = g_key_file_get_integer(keyfile, database_group_name (), sword_kjv_xml(), NULL);
+  if (value != file_get_size (sword_kjv_get_xml_filename())) {
+    import = true;
   }
-  return filename;
-}
+  value = g_key_file_get_integer(keyfile, database_group_name (), sword_kjv_sql(), NULL);
+  if (value != file_get_modification_time (sword_kjv_get_sql_filename())) {
+    import = true;
+  }
+  if (!import)
+    return;
 
+  // Show the progress. KJV has 31102 verses.
+  ProgressWindow progresswindow ("Importing Sword KJV", false);
+  progresswindow.set_iterate (0, 1, 31102);
+  gchar * contents;
+  g_file_get_contents(sword_kjv_get_xml_filename().c_str(), &contents, NULL, NULL);
+  if (!contents)
+    return;
 
-void sword_kjv_ensure_user_database()
-{
-  // Remove any previous one.
-  unlink (sword_kjv_get_user_filename().c_str());
+  // Remove any previous database.
+  unlink (sword_kjv_get_sql_filename().c_str());
 
-  // Create a new database.
+  // Create the user database.
   sqlite3 *db;
-  sqlite3_open(sword_kjv_get_user_filename().c_str(), &db);
+  sqlite3_open(sword_kjv_get_sql_filename().c_str(), &db);
+  sqlite3_exec(db, "PRAGMA synchronous=OFF;", NULL, NULL, NULL);
   sqlite3_exec(db, "create table baretext (book integer, chapter integer, verse integer, text text);", NULL, NULL, NULL);
   sqlite3_exec(db, "create table richtext (book integer, chapter integer, verse integer, text text);", NULL, NULL, NULL);
-  sqlite3_close(db);
-}
-
-
-ustring sword_kjv_html_entry_url ()
-{
-  return "sword_kjv_entry";
-}
-
-
-ustring sword_kjv_import_url ()
-{
-  return "sword_kjv_import";
-}
-
-
-ustring sword_kjv_delete_url ()
-{
-  return "sword_kjv_delete";
-}
-
-
-void sword_kjv_home_entry (HtmlWriter2& htmlwriter)
-{
-  htmlwriter.paragraph_open ();
-  htmlwriter.hyperlink_add (sword_kjv_html_entry_url (), "KJV Bible from the Sword library");
-  htmlwriter.paragraph_close ();
-}
-
-
-void sword_kjv_detailed_page (HtmlWriter2& htmlwriter)
-{
-  htmlwriter.heading_open (3);
-  htmlwriter.text_add ("KJV Bible from Sword library");
-  htmlwriter.heading_close ();
-  htmlwriter.paragraph_open();
-  htmlwriter.text_add ("The King James version from the Sword library has parsings and other information that is used to assist the translator. Bibledit comes with this data already loaded. If a new version is available in the Sword library, it can be imported here and used subsequently.");
-  htmlwriter.paragraph_close();
-  htmlwriter.paragraph_open();
-  htmlwriter.hyperlink_add (sword_kjv_import_url (), "Import it from the library");
-  htmlwriter.paragraph_close();
-  htmlwriter.paragraph_open();
-  htmlwriter.hyperlink_add (sword_kjv_delete_url (), "Revert to the one that came with Bibledit");
-  htmlwriter.paragraph_close();
-}
-
-
-vector <ustring> sword_kjv_import ()
-{
-  vector <ustring> messages;
-  
-  // Check whether program mod2osis is available.
-  if (!gw_find_program_in_path ("mod2osis")) {
-    messages.push_back ("Program mod2osis is needed to do the import, but it is not available on this system. It would normally be available in a packaged called libsword-dev or similar.");
-    return messages;
-  }
-
-  // Progress reporting.
-  ProgressWindow progresswindow ("Import", false);
-  progresswindow.set_text ("Reading");
-  progresswindow.set_iterate (0, 1, 65000);
-  
-  // Read the KJV Sword module.
-  ustring osis;
-  FILE *stream = popen("mod2osis KJV", "r");
-  char buf[8192];
-  while (fgets(buf, sizeof(buf), stream)) {
-    osis.append(buf);
-    progresswindow.iterate ();
-  }
-  int result = pclose(stream);
-  if (result != 0) {
-    messages.push_back ("Something didn't work out during import. The system log will give more information. Is the KJV module available in the Sword library?");
-    return messages;
-  }
-
-  // Progress. KJV has 31102 verses.
-  progresswindow.set_text ("Writing");
-  progresswindow.set_iterate (0, 1, 31102);
-  
-  // Open the user database.
-  sword_kjv_ensure_user_database();
-  sqlite3 *db;
-  sqlite3_open(sword_kjv_get_filename().c_str(), &db);
-  sqlite3_exec(db, "PRAGMA synchronous=OFF;", NULL, NULL, NULL);
 
   // Parse input.
   xmlParserInputBufferPtr inputbuffer;
-  inputbuffer = xmlParserInputBufferCreateMem(osis.c_str(), osis.length(), XML_CHAR_ENCODING_NONE);
+  inputbuffer = xmlParserInputBufferCreateMem(contents, strlen (contents), XML_CHAR_ENCODING_NONE);
   xmlTextReaderPtr reader = xmlNewTextReader(inputbuffer, NULL);
   if (reader) {
     bool within_verse_element = false;
     bool within_w_element = false;
     ustring bare_verse_text;
     ustring rich_verse_text;
-    vector <ustring> strongs;
+    vector <unsigned int> strongs;
     Reference reference (0, 0, "0");
     while ((xmlTextReaderRead(reader) == 1)) {
       switch (xmlTextReaderNodeType(reader)) {
@@ -197,7 +144,8 @@ vector <ustring> sword_kjv_import ()
                 ustring strong = parse.words[i];
                 if (strong.find ("strong:") == 0) {
                   strong.erase (0, 8);
-                  strongs.push_back (strong);
+                  unsigned int strong_n = convert_to_int (strong);
+                  strongs.push_back (strong_n);
                 }
               }
               free(attribute);
@@ -218,7 +166,7 @@ vector <ustring> sword_kjv_import ()
                   rich_verse_text.append (" ");
               }
               for (unsigned int i = 0; i < strongs.size(); i++) {
-                rich_verse_text.append ("(" + strongs[i] + ")");
+                rich_verse_text.append ("(" + convert_to_string (strongs[i]) + ")");
               }
               strongs.clear();
               rich_verse_text.append ((const char *)text);
@@ -265,28 +213,13 @@ vector <ustring> sword_kjv_import ()
   // Close database.
   sqlite3_close(db);
   
-  // Give the okay message.  
-  messages.push_back ("The KJV Bible was successfully imported. Full changes take effect after reboot.");
-  return messages;
-}
+  // Free xml data.    
+  g_free(contents);
 
-
-vector <ustring> sword_kjv_delete ()
-{
-  unlink (sword_kjv_get_user_filename().c_str());
-  vector <ustring> messages;
-  messages.push_back ("The system has now reverted to using the KJV Bible as it came with Bibledit.");
-  return messages;
-}
-
-
-void sword_kjv_action_result_page (const vector <ustring>& messages, HtmlWriter2& htmlwriter)
-{
-  for (unsigned int i = 0; i < messages.size(); i++) {
-    htmlwriter.paragraph_open();
-    htmlwriter.text_add (messages[i]);
-    htmlwriter.paragraph_close();
-  } 
+  // Store the signatures.
+  // If these signatures match next time, it won't create the database again.
+  g_key_file_set_integer (keyfile, database_group_name (), sword_kjv_xml(), file_get_size (sword_kjv_get_xml_filename()));
+  g_key_file_set_integer (keyfile, database_group_name (), sword_kjv_sql(), file_get_modification_time (sword_kjv_get_sql_filename()));  
 }
 
 
@@ -356,7 +289,7 @@ void sword_kjv_get_strongs_data (const Reference& reference, vector <unsigned in
   char *error = NULL;
   try {
     SqliteReader reader(0);
-    rc = sqlite3_open(sword_kjv_get_filename().c_str(), &db);
+    rc = sqlite3_open(sword_kjv_get_sql_filename().c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
@@ -394,7 +327,7 @@ vector <Reference> sword_kjv_get_strongs_verses (const Reference& reference, uns
   char *error = NULL;
   try {
     SqliteReader reader(0);
-    rc = sqlite3_open(sword_kjv_get_filename().c_str(), &db);
+    rc = sqlite3_open(sword_kjv_get_sql_filename().c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
@@ -432,7 +365,7 @@ ustring sword_kjv_get_verse (const Reference& reference)
   char *error = NULL;
   try {
     SqliteReader reader(0);
-    rc = sqlite3_open(sword_kjv_get_filename().c_str(), &db);
+    rc = sqlite3_open(sword_kjv_get_sql_filename().c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
@@ -454,3 +387,24 @@ ustring sword_kjv_get_verse (const Reference& reference)
   sqlite3_close(db);
   return text;
 }
+
+
+/*
+
+Todo SwordKJV.
+
+
+The related verses do not work when clicking on the sword number so as to send this to the references window.
+This does not work in the Old Testament, only in the New.
+
+
+
+The quality of the Sword tagging seems poor as compared to the other source.
+Could we combine resources to have the best of breed of both?
+One source would provide Strong's tagging, and the Sword source would provide the morphology.
+Or have no morphology at all.
+
+
+To create three packages: bibledit, bibledit-data, bibledit-extra
+
+*/

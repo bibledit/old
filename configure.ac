@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.63)
-AC_INIT([bibledit],[3.8.24],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit],[3.8.25],[http://www.nongnu.org/bibledit])
 AC_CANONICAL_TARGET
 ac_default_prefix=/usr
 AC_CONFIG_MACRO_DIR([m4])
@@ -353,6 +353,7 @@ AC_CONFIG_FILES([Makefile
        one/Makefile
        shutdown/Makefile
        usfm/Makefile
+       kjv/Makefile
 		   ])
 AC_OUTPUT
 

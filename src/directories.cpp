@@ -33,11 +33,8 @@
 
 void directories_check_structure()
 {
-  // Check restore.
   restore_all_stage_two ();
-  // Check and/or create the root directory of all data.
   gw_mkdir_with_parents(directories_get_root());
-  // Check and/or create the projects directory, and so on.
   gw_mkdir_with_parents(directories_get_projects());
   gw_mkdir_with_parents(directories_get_notes());
   gw_mkdir_with_parents(directories_get_stylesheets());
@@ -45,14 +42,7 @@ void directories_check_structure()
   gw_mkdir_with_parents(directories_get_pictures());
   gw_mkdir_with_parents(directories_get_resources());
   gw_mkdir_with_parents(directories_get_scripts());
-  // Clean out old directories.
-  {
-    ustring htmlcache = gw_build_filename(directories_get_root(), "htmlcache");
-    if (g_file_test(htmlcache.c_str(), G_FILE_TEST_IS_DIR)) {
-      unix_rmdir (htmlcache);
-    }
-  }
-  // Create temporal directory and so on.
+  gw_mkdir_with_parents(directories_get_databases());
   gw_mkdir_with_parents(directories_get_temp());
   gw_mkdir_with_parents(directories_get_templates());
   gw_mkdir_with_parents(directories_get_templates_user());
@@ -112,6 +102,13 @@ ustring directories_get_scripts()
 {
   // This returns the directory with the scripts.
   return gw_build_filename(directories_get_root(), "scripts");
+}
+
+
+ustring directories_get_databases()
+{
+  // This returns the directory with the databases.
+  return gw_build_filename(directories_get_root(), "databases");
 }
 
 

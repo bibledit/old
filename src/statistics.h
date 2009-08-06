@@ -28,7 +28,7 @@
 
 
 ustring statistics_database (const ustring& project, const gchar * suffix = NULL);
-void statistics_initial_check_all (bool gui);
+void statistics_initial_check_all ();
 void statistics_initial_check_project (const ustring& project, bool gui);
 void statistics_record_store_chapter (const ustring& project, unsigned int book, unsigned int chapter, 
                                       CategorizeChapterVerse& ccv, unsigned int first, unsigned int last);
