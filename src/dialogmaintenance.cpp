@@ -21,7 +21,7 @@
 #include "dialogmaintenance.h"
 #include "help.h"
 #include "html.h"
-#include "swordkjv.h"
+#include "kjv.h"
 #include "mechonmamre.h"
 #include "htmlbrowser.h"
 

@@ -172,7 +172,7 @@ am_bibledit_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	java.$(OBJEXT) dialogbulkspelling.$(OBJEXT) \
 	dialogplanningedit.$(OBJEXT) dialoglistviewm.$(OBJEXT) \
 	vcs.$(OBJEXT) d_bus.$(OBJEXT) htmlwriter2.$(OBJEXT) \
-	dialogmaintenance.$(OBJEXT) swordkjv.$(OBJEXT) \
+	dialogmaintenance.$(OBJEXT) kjv.$(OBJEXT) \
 	assistantimport.$(OBJEXT) mechonmamre.$(OBJEXT) \
 	bibleworks.$(OBJEXT) onlinebible.$(OBJEXT) \
 	windowsourcelanguages.$(OBJEXT)
@@ -627,7 +627,7 @@ bibledit_SOURCES = \
 				d_bus.cpp \
 				htmlwriter2.cpp \
 				dialogmaintenance.cpp \
-				swordkjv.cpp \
+				kjv.cpp \
 				assistantimport.cpp \
 				mechonmamre.cpp \
 				bibleworks.cpp \
@@ -860,6 +860,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/java.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/keyboard.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/keyterms.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kjv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/layout.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/listview.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/localizedbooks.Po@am__quote@
@@ -925,7 +926,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/styles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/stylesheet.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/stylesheetutils.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/swordkjv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/swordnote.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/temporal.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/text2pdf.Po@am__quote@

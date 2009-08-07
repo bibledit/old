@@ -38,7 +38,7 @@
 #include "bible.h"
 #include "usfmtools.h"
 #include "dialogeditlist.h"
-#include "swordkjv.h"
+#include "kjv.h"
 
 
 WindowSourceLanguages::WindowSourceLanguages(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
@@ -124,7 +124,7 @@ void WindowSourceLanguages::html_link_clicked (const gchar * url)
     ustring ref (active_url);
     ref.erase (0, 5);
     //reference.assign (references[active_entry]);
-    gtk_button_clicked(GTK_BUTTON(signal_button));
+    //gtk_button_clicked(GTK_BUTTON(signal_button));
     display_another_page = false;
   }
 
@@ -133,9 +133,15 @@ void WindowSourceLanguages::html_link_clicked (const gchar * url)
     html_write_action_page (htmlwriter);
   }
 
+  else if (active_url.find ("strong ") == 0) {
+    html_write_references (htmlwriter);
+    unsigned int strongs_number = convert_to_int (active_url.substr (7, 100));
+    html_write_strong_definitions (htmlwriter, strongs_number);
+  }
+
   else {
-    // Load the references.
-    html_write_home_page (htmlwriter);
+    // Load the text.
+    html_write_references (htmlwriter);
   }
   
   htmlwriter.finish();
@@ -154,12 +160,21 @@ void WindowSourceLanguages::html_link_clicked (const gchar * url)
 }
 
 
-void WindowSourceLanguages::html_write_home_page (HtmlWriter2& htmlwriter)
+void WindowSourceLanguages::html_write_references (HtmlWriter2& htmlwriter)
 {
   // Write action bar.
   html_write_action_bar (htmlwriter, true);
+
+  // Get the verse with taggings.
+  vector <unsigned int> strongs;
+  vector <ustring> phrases;  
+  kjv_get_strongs_data (reference, strongs, phrases);
+
+  // Write the verse with hyperlinks for the tags.
   htmlwriter.paragraph_open ();
-  htmlwriter.text_add (reference.human_readable (language));
+  for (unsigned int i = 0; i < phrases.size(); i++) {
+    htmlwriter.hyperlink_add ("strong " + convert_to_string (strongs[i]), phrases[i]);
+  }  
   htmlwriter.paragraph_close ();
 }
 
@@ -182,6 +197,13 @@ void WindowSourceLanguages::html_write_action_page (HtmlWriter2& htmlwriter)
   htmlwriter.paragraph_close ();
 }
 
+
+void WindowSourceLanguages::html_write_strong_definitions (HtmlWriter2& htmlwriter, unsigned int strongs_number)
+{
+  htmlwriter.paragraph_open ();
+  htmlwriter.text_add (convert_to_string (strongs_number) + " definition");
+  htmlwriter.paragraph_close ();
+}
 
 
 /*

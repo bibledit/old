@@ -126,7 +126,7 @@
 #include "dialogplanningedit.h"
 #include "vcs.h"
 #include "dialogmaintenance.h"
-#include "swordkjv.h"
+#include "kjv.h"
 
 
 /*
@@ -4535,7 +4535,7 @@ void MainWindow::on_window_show_related_verses_item_button()
     }
     case ritStrongNumber:
     {
-      vector <Reference> references = sword_kjv_get_strongs_verses (navigation.reference, window_show_related_verses->item_id);
+      vector <Reference> references = kjv_get_strongs_verses (navigation.reference, window_show_related_verses->item_id);
       show_references_window();
       extern Settings * settings;
       window_references->set (references, settings->genconfig.project_get(), NULL);

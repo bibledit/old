@@ -271,7 +271,7 @@ bibledit_SOURCES = \
 				d_bus.cpp \
 				htmlwriter2.cpp \
 				dialogmaintenance.cpp \
-				swordkjv.cpp \
+				kjv.cpp \
 				assistantimport.cpp \
 				mechonmamre.cpp \
 				bibleworks.cpp \

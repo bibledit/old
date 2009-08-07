@@ -1,4 +1,8 @@
-King James Bible
+Source Language King James Bible
+
+We use two sources and create a combination that combines the best elements of the two.
+
+Source: SWORD library
 
 How to create it:
 
@@ -9,8 +13,19 @@ mod2osis KJV > swordkjv.xml
 
 This produces the file. 
 
-It is important for Bibledit that this name is kept. 
+
+Source: Zefania XML Bible Markup Language
+http://sourceforge.net/projects/zefania-sharp/files/
+KJV+ Strongs
+
+Download the files, and unpack it to sf_kjv_strongs_rev1b.xm,
+then rename this to zefaniakjv.xml.
+
+
+It is important for Bibledit that both these names are used. 
 It looks for it on startup, and creates a database out of it.
 
+
+
 Teus Benschop
-5 August 2009
+August 2009

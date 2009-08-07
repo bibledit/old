@@ -49,9 +49,10 @@ private:
   ustring active_url;
   map <ustring, unsigned int> scrolling_position;
   deque <ustring> url_stack;
-  void html_write_home_page (HtmlWriter2& htmlwriter);
+  void html_write_references (HtmlWriter2& htmlwriter);
   void html_write_action_bar (HtmlWriter2& htmlwriter, bool topbar);
   void html_write_action_page (HtmlWriter2& htmlwriter);
+  void html_write_strong_definitions (HtmlWriter2& htmlwriter, unsigned int strongs_number);
   ustring project;
   ustring language;
 };

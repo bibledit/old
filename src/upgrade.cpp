@@ -30,7 +30,7 @@
 #include "snapshots.h"
 #include "directories.h"
 #include "gwrappers.h"
-#include "swordkjv.h"
+#include "kjv.h"
 
 
 void upgrade()
@@ -53,7 +53,7 @@ void upgrade()
   ustring databases_ini = gw_build_filename (directories_get_databases(), "databases.ini");
   GKeyFile *keyfile = g_key_file_new();
   g_key_file_load_from_file(keyfile, databases_ini.c_str(), G_KEY_FILE_NONE, NULL);
-  sword_kjv_import (keyfile);
+  kjv_import (keyfile);
   gchar *data = g_key_file_to_data(keyfile, NULL, NULL);
   if (data) {
     g_file_set_contents(databases_ini.c_str(), data, -1, NULL);

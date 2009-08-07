@@ -38,7 +38,7 @@
 #include "bible.h"
 #include "usfmtools.h"
 #include "dialogeditlist.h"
-#include "swordkjv.h"
+#include "kjv.h"
 
 
 WindowReferences::WindowReferences(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box, bool reference_management_enabled):
@@ -486,7 +486,7 @@ void WindowReferences::html_write_references (HtmlWriter2& htmlwriter)
     htmlwriter.text_add (text);
     htmlwriter.paragraph_close();
     htmlwriter.paragraph_open ();
-    text = sword_kjv_get_verse (references[i]);
+    text = kjv_get_verse (references[i]);
     htmlwriter.text_add (text);
     htmlwriter.paragraph_close();
   }

@@ -25,7 +25,7 @@
 #include "window.h"
 #include "keyterms.h"
 #include "tiny_utilities.h"
-#include "swordkjv.h"
+#include "kjv.h"
 #include "parallel_passages.h"
 #include "settings.h"
 
@@ -167,7 +167,7 @@ void WindowShowRelatedVerses::html_link_clicked (const gchar * url)
     // Get the data.
     vector <unsigned int> strongs;
     vector <ustring> phrases;
-    sword_kjv_get_strongs_data (myreference, strongs, phrases);
+    kjv_get_strongs_data (myreference, strongs, phrases);
 
     // Display the data.
     vector <unsigned int> pending_strongs;
