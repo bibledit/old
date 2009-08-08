@@ -7372,7 +7372,6 @@ http://www.freebiblesoftware.com
 
 Update docs on all distros.
 To download the newest Linux images, and then update the documentation for installing Bibledit.
-Fedora
 Knoppix
 OpenSUSE
 
