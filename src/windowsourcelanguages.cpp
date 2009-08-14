@@ -168,12 +168,15 @@ void WindowSourceLanguages::html_write_references (HtmlWriter2& htmlwriter)
   // Get the verse with taggings.
   vector <unsigned int> strongs;
   vector <ustring> phrases;  
-  kjv_get_strongs_data (reference, strongs, phrases);
+  kjv_get_strongs_data (reference, strongs, phrases, true);
 
   // Write the verse with hyperlinks for the tags.
   htmlwriter.paragraph_open ();
   for (unsigned int i = 0; i < phrases.size(); i++) {
-    htmlwriter.hyperlink_add ("strong " + convert_to_string (strongs[i]), phrases[i]);
+    if (strongs[i]) 
+      htmlwriter.hyperlink_add ("strong " + convert_to_string (strongs[i]), phrases[i]);
+    else
+      htmlwriter.text_add (phrases[i]);
   }  
   htmlwriter.paragraph_close ();
 }
@@ -206,23 +209,3 @@ void WindowSourceLanguages::html_write_strong_definitions (HtmlWriter2& htmlwrit
 }
 
 
-/*
-
-
-Todo original language resource.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/

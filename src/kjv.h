@@ -25,10 +25,13 @@
 #include "libraries.h"
 #include "reference.h"
 #include <glib.h>
+#include <sqlite3.h>
 
 
 void kjv_import (GKeyFile *keyfile);
-void kjv_get_strongs_data (const Reference& reference, vector <unsigned int>& strongs, vector <ustring>& phrases);
+void kjv_import_sword ();
+void kjv_import_zefania ();
+void kjv_get_strongs_data (const Reference& reference, vector <unsigned int>& strongs, vector <ustring>& phrases, bool include_unmarked);
 vector <Reference> kjv_get_strongs_verses (const Reference& reference, unsigned int strongs);
 ustring kjv_get_verse (const Reference& reference);
 

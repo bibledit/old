@@ -167,7 +167,7 @@ void WindowShowRelatedVerses::html_link_clicked (const gchar * url)
     // Get the data.
     vector <unsigned int> strongs;
     vector <ustring> phrases;
-    kjv_get_strongs_data (myreference, strongs, phrases);
+    kjv_get_strongs_data (myreference, strongs, phrases, false);
 
     // Display the data.
     vector <unsigned int> pending_strongs;

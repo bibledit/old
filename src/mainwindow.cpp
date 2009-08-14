@@ -7227,7 +7227,7 @@ void MainWindow::on_file_import ()
  |
  |
  |
- Source languages Todo
+ Source languages
  |
  |
  |
@@ -7293,8 +7293,8 @@ Resources into Bibledit
 
 There's one window that has the original language resources. Such resources are all tagged with Strong's number and the noun
 and verb forms.
-It has one fast entry box, and one web pages for the aided actions.
-Under that is the text, with tags. Each tag is underlined, if clicked on it, it gives more information.
+It has one fast entry box, and a web page with links for the aided actions.
+Below that is the text, with tags. Each tag is underlined, if clicked on it, it gives more information.
 Search results go to the references window.
 
 
@@ -7356,6 +7356,14 @@ http://files.morphgnt.org/strongs-dictionary/ - This Greek dictionary is the bet
 
 http://www.freebiblesoftware.com
 
+The quality of the Sword tagging seems poor as compared to the other source.
+But BibleWorks also uses this tagging system, probably it is good enough for them.
+Could we combine resources to have the best of breed of both?
+One source would provide Strong's tagging, and the Sword source would provide the morphology.
+We combine the two sources into one on import.
+We look whether the text can be combined into one if they are them same, and if not we use a slash, e.g. "heaven/heavens".
+
+How to we insert the italics? Probabaly read these from the xml files, and then store these as brackets.
 
 
 
@@ -7370,10 +7378,7 @@ http://www.freebiblesoftware.com
 
 
 
-Update docs on all distros.
-To download the newest Linux images, and then update the documentation for installing Bibledit.
-Knoppix
-OpenSUSE
+
 
 
 
@@ -7458,11 +7463,17 @@ We probably need to open a sourceforge git repository.
 
 
 
+If the GoBibleCreator...zip is not found in the home directory, it fails, even if it was there next time.
+But the problem may have been that when exporting the "Staten Bible", that there's a space. Without the space it works.
 
 
 
 
 
+
+
+
+To create two packages: bibledit, bibledit-data
 
 
 */

@@ -835,7 +835,7 @@ protected:
   void on_file_import ();
   ImportAssistant * import_assistant;
 
-  /* Source languages */ // Todo
+  /* Source languages */
   static void on_view_source_languages_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_view_source_languages ();
   WindowSourceLanguages * window_source_languages;
