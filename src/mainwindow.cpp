@@ -7288,11 +7288,9 @@ Todo various tasks.
 
 
 
-
 Resources into Bibledit
 
-There's one window that has the original language resources. Such resources are all tagged with Strong's number and the noun
-and verb forms.
+We need to put the verb forms in the original languages window.
 It has one fast entry box, and a web page with links for the aided actions.
 Below that is the text, with tags. Each tag is underlined, if clicked on it, it gives more information.
 Search results go to the references window.
@@ -7300,41 +7298,42 @@ Search results go to the references window.
 
 http://www.walljm.com/misc/heb_strongs.zip
 Also the site itself has good information.
-http://sourceforge.net/projects/zefania-sharp/files/
 
 
 Scrivener Greek New Testament
 
 Lexicons.
 
-Importing from a file, or downloading a site from the web, or data from BibleWorks. We could wait for bw800.exe, perhaps that
-exports the Greek and Hebrew texts in UTF-8, which would make import much simpler.
+Importing from a file, or downloading a site from the web, or data from BibleWorks.
 
 
 The resources need to be available in usfm code, so that it can be included with the parallel bible.
 Such available resources, not yet opened in a project, are visible when doing Ctrl-O, under the "Dormant" tab.
 When a dormant resource is opened, it converts it into usfm, if needed, and then opens it in a new project.
 
-We may have to put everything in html first, then print from html,
-using more standard tools.
 
 The blueletterbible.org does have Thayer's lexicon online, and Bibledit should have access to that as a Lexicon. 
 
+
 Also Old Testament resources are available.
+
 
 About importing Paratext's keyterms, this is not needed in full, only partial, such as realia, flora, fauna.
 We may integrate our own flora and fauna of the nt and ot into one and the same.
 We really need to import the KJV with Strong's encodings, which can then be used as a base for keyterm checking,
 where the user sees all lthe words in the verse, and can click on any of them to see how it was rendered in other verses.
 
+
 Lots of harvesting from the internet so we can have lexicons, hebrew text, greek text, king james with strong's.
 All these should be interlinked and searchable. 
+
 
 There is need for an "Original languages" window, where lexicons are available at the tip of the finger, 
 and this therefore requires that lexicons are imported. 
 It would make use of the KJV with Strong's encodings. These are already available in Bibledit. 
 One would have to make it easy by providing standard tasks, such as "how many occurs this ... in the Bible", 
 and "search for all verses that contain this ...", or "search for phrases", or "search on Strong's lemma", and so on.
+
 
 We may start the Scrivener Greek Greek text into Bibledit, and other original language texts as well, as follows.
 

@@ -175,7 +175,7 @@ am_bibledit_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogmaintenance.$(OBJEXT) kjv.$(OBJEXT) \
 	assistantimport.$(OBJEXT) mechonmamre.$(OBJEXT) \
 	bibleworks.$(OBJEXT) onlinebible.$(OBJEXT) \
-	windowsourcelanguages.$(OBJEXT)
+	windowsourcelanguages.$(OBJEXT) lexicons.$(OBJEXT)
 bibledit_OBJECTS = $(am_bibledit_OBJECTS)
 bibledit_LDADD = $(LDADD)
 am_bibledit_bibletime_OBJECTS = bibledit-bibletime.$(OBJEXT) \
@@ -632,7 +632,8 @@ bibledit_SOURCES = \
 				mechonmamre.cpp \
 				bibleworks.cpp \
 				onlinebible.cpp \
-				windowsourcelanguages.cpp
+				windowsourcelanguages.cpp \
+				lexicons.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -862,6 +863,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/keyterms.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kjv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/layout.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lexicons.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/listview.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/localizedbooks.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/localizednumerals.Po@am__quote@

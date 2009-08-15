@@ -52,7 +52,7 @@ ustring kjv_get_sql_filename()
 }
 
 
-const gchar* database_group_name ()
+const gchar* kjv_database_group_name ()
 {
   return "kjv";
 }
@@ -83,15 +83,15 @@ void kjv_import (GKeyFile *keyfile)
   // If it has been done already, and everything seems fine, bail out.
   bool import = false;
   unsigned int value;
-  value = g_key_file_get_integer(keyfile, database_group_name (), sword_kjv_xml(), NULL);
+  value = g_key_file_get_integer(keyfile, kjv_database_group_name (), sword_kjv_xml(), NULL);
   if (value != file_get_size (kjv_get_sword_xml_filename())) {
     import = true;
   }
-  value = g_key_file_get_integer(keyfile, database_group_name (), zefania_kjv_xml(), NULL);
+  value = g_key_file_get_integer(keyfile, kjv_database_group_name (), zefania_kjv_xml(), NULL);
   if (value != file_get_size (kjv_get_zefania_xml_filename())) {
     import = true;
   }
-  value = g_key_file_get_integer(keyfile, database_group_name (), sword_kjv_sql(), NULL);
+  value = g_key_file_get_integer(keyfile, kjv_database_group_name (), sword_kjv_sql(), NULL);
   if (value != file_get_modification_time (kjv_get_sql_filename())) {
     import = true;
   }
@@ -115,9 +115,9 @@ void kjv_import (GKeyFile *keyfile)
 
   // Store the signatures.
   // If these signatures match next time, it won't create the database again.
-  g_key_file_set_integer (keyfile, database_group_name (), sword_kjv_xml(), file_get_size (kjv_get_sword_xml_filename()));
-  g_key_file_set_integer (keyfile, database_group_name (), zefania_kjv_xml(), file_get_size (kjv_get_zefania_xml_filename()));
-  g_key_file_set_integer (keyfile, database_group_name (), sword_kjv_sql(), file_get_modification_time (kjv_get_sql_filename()));  
+  g_key_file_set_integer (keyfile, kjv_database_group_name (), sword_kjv_xml(), file_get_size (kjv_get_sword_xml_filename()));
+  g_key_file_set_integer (keyfile, kjv_database_group_name (), zefania_kjv_xml(), file_get_size (kjv_get_zefania_xml_filename()));
+  g_key_file_set_integer (keyfile, kjv_database_group_name (), sword_kjv_sql(), file_get_modification_time (kjv_get_sql_filename()));  
 }
 
 
