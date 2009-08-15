@@ -29,12 +29,20 @@
 #include "directories.h"
 #include "unixwrappers.h"
 #include "sqlite_reader.h"
+#include "compress.h"
 
 
 ustring lexicons_get_strongs_greek_xml_filename()
 // Gives the filename for the Strong's Greek lexicon XML file that comes with bibledit.
 {
   return gw_build_filename(directories_get_package_data(), "strongsgreek.xml");
+}
+
+
+ustring lexicons_get_strongs_hebrew_zip_filename()
+// Gives the filename for the Strong's Hebrew zipped lexicon that comes with bibledit.
+{
+  return gw_build_filename(directories_get_package_data(), "heb_strongs.zip");
 }
 
 
@@ -57,6 +65,12 @@ const gchar * lexicon_strongs_greek_xml ()
 }
 
 
+const gchar * lexicon_strongs_hebrew_zip ()
+{
+  return "hebstrongszip";
+}
+
+
 const gchar * lexicons_sql ()
 {
   return "sql";
@@ -74,6 +88,10 @@ void lexicons_import (GKeyFile *keyfile)
   if (value != file_get_size (lexicons_get_strongs_greek_xml_filename())) {
     import = true;
   }
+  value = g_key_file_get_integer(keyfile, lexicons_database_group_name (), lexicon_strongs_hebrew_zip(), NULL);
+  if (value != file_get_size (lexicons_get_strongs_hebrew_zip_filename())) {
+    import = true;
+  }
   value = g_key_file_get_integer(keyfile, lexicons_database_group_name (), lexicons_sql(), NULL);
   if (value != file_get_modification_time (lexicons_get_sql_filename())) {
     import = true;
@@ -89,14 +107,17 @@ void lexicons_import (GKeyFile *keyfile)
   sqlite3 *db;
   sqlite3_open(lexicons_get_sql_filename().c_str(), &db);
   sqlite3_exec(db, "create table strongsgreek (strongs integer, entry text);", NULL, NULL, NULL);
+  sqlite3_exec(db, "create table strongshebrew (strongs integer, entry text);", NULL, NULL, NULL);
   sqlite3_close(db);
 
   // Import the lexicons into the database.
   lexicons_import_strongs_greek ();
+  lexicons_import_strongs_hebrew ();
 
   // Store the signatures.
   // If these signatures match next time, it won't create the database again.
   g_key_file_set_integer (keyfile, lexicons_database_group_name (), lexicon_strongs_greek_xml(), file_get_size (lexicons_get_strongs_greek_xml_filename()));
+  g_key_file_set_integer (keyfile, lexicons_database_group_name (), lexicon_strongs_hebrew_zip(), file_get_size (lexicons_get_strongs_hebrew_zip_filename()));
   g_key_file_set_integer (keyfile, lexicons_database_group_name (), lexicons_sql(), file_get_modification_time (lexicons_get_sql_filename()));  
 }
 
@@ -129,19 +150,27 @@ void lexicons_add_text_to_definition (ustring& definition, const ustring& text)
 }
 
 
+void lexicons_add_strongs_tag_to_definition (const ustring& link, ustring& definition)
+// This adds a Strong's reference tag to the definition.
+{
+  ustring tag = "STRONGS" + link;
+  lexicons_add_text_to_definition (definition, tag);
+}
+
+
 void lexicons_add_strongs_tag_to_definition (xmlTextReaderPtr reader, ustring& definition)
 // This reads a Strong's reference tag and adds it to the definition.
 {
   char *language = (char *)xmlTextReaderGetAttribute(reader, BAD_CAST "language");
   char *strongs = (char *)xmlTextReaderGetAttribute(reader, BAD_CAST "strongs");
   if ((language) && (strongs)) {
-    ustring tag = "STRONGS";
+    ustring tag;
     if (!strcmp(language, "GREEK"))
       tag.append ("G");
     else
       tag.append ("H");
     tag.append (strongs);
-    lexicons_add_text_to_definition (definition, tag);
+    lexicons_add_strongs_tag_to_definition (tag, definition);
   }
   if (language) free (language);
   if (strongs) free (strongs);
@@ -267,6 +296,161 @@ void lexicons_import_strongs_greek ()
   
   // Free xml data.    
   g_free(contents);
+}
+
+
+void lexicons_import_strongs_hebrew ()
+{
+  // Open the database in fast mode.
+  sqlite3 *db;
+  sqlite3_open(lexicons_get_sql_filename().c_str(), &db);
+  sqlite3_exec(db, "PRAGMA synchronous=OFF;", NULL, NULL, NULL);
+  
+  // Unpack the zipped archive.
+  ustring lexicon_directory = gw_build_filename (directories_get_temp (), "lexicon");
+  gw_mkdir_with_parents (lexicon_directory);
+  uncompress (lexicons_get_strongs_hebrew_zip_filename (), lexicon_directory);
+
+  // Show the progress. The lexicon consists of 87 separate files.
+  ProgressWindow progresswindow ("Importing Strong's Hebrew Lexicon", false);
+  progresswindow.set_iterate (0, 1, 87);
+
+  // Go through each file.
+  for (unsigned int i = 0; i < 87; i++) {
+    progresswindow.iterate ();
+    ustring filename = gw_build_filename (lexicon_directory, "heb" + convert_to_string (i) + ".xml");
+    gw_message ("Processing file " + filename);
+
+    // File number 63 has an xml error, and this is corrected here.
+    if (i == 63) {
+      ReadText rt (filename, true, false);
+      for (unsigned int i = 0; i < rt.lines.size(); i++) {
+        if (rt.lines[i].find ("H6401") != string::npos)
+          rt.lines[i].clear();
+      }
+      write_lines (filename, rt.lines);
+    }
+
+    // Read the file.
+    gchar * contents;
+    g_file_get_contents(filename.c_str(), &contents, NULL, NULL);
+    if (!contents)
+      return;
+
+    // Parse input.
+    xmlParserInputBufferPtr inputbuffer;
+    inputbuffer = xmlParserInputBufferCreateMem(contents, strlen (contents), XML_CHAR_ENCODING_NONE);
+    xmlTextReaderPtr reader = xmlNewTextReader(inputbuffer, NULL);
+    if (reader) {
+      bool within_item = false;
+      bool within_strong_id = false;
+      bool within_link = false;
+      unsigned int strongs_number = 0;
+      ustring strongs_definition;
+      while ((xmlTextReaderRead(reader) == 1)) {
+        switch (xmlTextReaderNodeType(reader)) {
+        case XML_READER_TYPE_ELEMENT:
+          {
+            xmlChar *element_name = xmlTextReaderName(reader);
+            // Deal with an item.
+            if (!xmlStrcmp(element_name, BAD_CAST "item")) {
+              within_item = true;
+              char *attribute;
+              attribute = (char *)xmlTextReaderGetAttribute(reader, BAD_CAST "id");
+              if (attribute) {
+                strongs_number = convert_to_int (number_in_string (attribute));
+                free(attribute);
+              }
+            }
+            if (!xmlStrcmp(element_name, BAD_CAST "strong_id")) {
+              within_strong_id = true;
+              lexicons_add_text_to_definition (strongs_definition, "Strong's number");
+            }
+            if (!xmlStrcmp(element_name, BAD_CAST "title")) {
+              lexicons_add_text_to_definition (strongs_definition, "Hebrew");
+            }
+            if (!xmlStrcmp(element_name, BAD_CAST "transliteration")) {
+              lexicons_add_text_to_definition (strongs_definition, "transliteration ");
+            }
+            if (!xmlStrcmp(element_name, BAD_CAST "pronunciation")) {
+              lexicons_add_text_to_definition (strongs_definition, "pronunciation ");
+            }
+            if (!xmlStrcmp(element_name, BAD_CAST "link")) {
+              within_link = true;
+              char *attribute;
+              attribute = (char *)xmlTextReaderGetAttribute(reader, BAD_CAST "target");
+              if (attribute) {
+                lexicons_add_strongs_tag_to_definition (attribute, strongs_definition);
+                free(attribute);
+              }
+            }
+            break;
+          }
+        case XML_READER_TYPE_TEXT:
+          {
+            if (within_link)
+              break;
+            if (within_item) {
+              xmlChar *text = xmlTextReaderValue(reader);
+              if (text) {
+                ustring text2 ((const gchar *) text);
+                if (within_strong_id) {
+                  text2 = number_in_string (text2);
+                }
+                lexicons_add_text_to_definition (strongs_definition, text2);
+                xmlFree(text);
+              }
+            }
+            break;
+          }
+        case XML_READER_TYPE_END_ELEMENT:
+          {
+            xmlChar *element_name = xmlTextReaderName(reader);
+            if (!xmlStrcmp(element_name, BAD_CAST "item")) {
+              within_item = false;
+              char *sql;
+              replace_text (strongs_definition, "\n", " ");
+              replace_text (strongs_definition, "  ", " ");
+              sql = g_strdup_printf("insert into strongshebrew values (%d, '%s');", strongs_number, double_apostrophy (strongs_definition).c_str());
+              sqlite3_exec(db, sql, NULL, NULL, NULL);
+              g_free(sql);
+              strongs_definition.clear();
+            }
+            if (!xmlStrcmp(element_name, BAD_CAST "strong_id")) {
+              within_strong_id = false;
+              lexicons_add_text_to_definition (strongs_definition, ";");
+            }
+            if (!xmlStrcmp(element_name, BAD_CAST "title")) {
+              lexicons_add_text_to_definition (strongs_definition, ";");
+            }
+            if (!xmlStrcmp(element_name, BAD_CAST "transliteration")) {
+              lexicons_add_text_to_definition (strongs_definition, ";");
+            }
+            if (!xmlStrcmp(element_name, BAD_CAST "pronunciation")) {
+              lexicons_add_text_to_definition (strongs_definition, ". ");
+            }
+            if (!xmlStrcmp(element_name, BAD_CAST "link")) {
+              within_link = false;
+            }
+            break;
+          }
+        }
+      }
+    }
+    if (reader)
+      xmlFreeTextReader(reader);
+    if (inputbuffer)
+      xmlFreeParserInputBuffer(inputbuffer);
+
+    // Free xml data.    
+    g_free(contents);
+  }
+
+  // Close database.
+  sqlite3_close(db);
+    
+  // Clean out the temporal data.
+  unix_rmdir (lexicon_directory);
 }
 
 
