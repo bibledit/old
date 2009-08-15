@@ -7296,15 +7296,10 @@ Below that is the text, with tags. Each tag is underlined, if clicked on it, it 
 Search results go to the references window.
 
 
-http://www.walljm.com/misc/heb_strongs.zip
-Also the site itself has good information.
-
-
 Scrivener Greek New Testament
 
-Lexicons.
 
-Importing from a file, or downloading a site from the web, or data from BibleWorks.
+Lexicons: downloading a site from the web.
 
 
 The resources need to be available in usfm code, so that it can be included with the parallel bible.
@@ -7313,9 +7308,6 @@ When a dormant resource is opened, it converts it into usfm, if needed, and then
 
 
 The blueletterbible.org does have Thayer's lexicon online, and Bibledit should have access to that as a Lexicon. 
-
-
-Also Old Testament resources are available.
 
 
 About importing Paratext's keyterms, this is not needed in full, only partial, such as realia, flora, fauna.
@@ -7350,19 +7342,16 @@ Some are accessible only when clicking e.g. thrice on the relevant links in the 
 An interlinear Bible is available on the internet, where one clicks on the Hebrew, and then the English is highlighted.
 The Strong's Real Hebrew and Greek modules in the .sword directory give some information as to the source used to create these.
 
-http://files.morphgnt.org/
-http://files.morphgnt.org/strongs-dictionary/ - This Greek dictionary is the better one.
 
 http://www.freebiblesoftware.com
 
-The quality of the Sword tagging seems poor as compared to the other source.
-But BibleWorks also uses this tagging system, probably it is good enough for them.
-Could we combine resources to have the best of breed of both?
-One source would provide Strong's tagging, and the Sword source would provide the morphology.
+
+The Sword source would provide the morphology.
 We combine the two sources into one on import.
 We look whether the text can be combined into one if they are them same, and if not we use a slash, e.g. "heaven/heavens".
 
-How to we insert the italics? Probabaly read these from the xml files, and then store these as brackets.
+
+King James Version: How to we insert the italics? Probabaly read these from the xml files, and then store these as brackets.
 
 
 

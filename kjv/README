@@ -22,6 +22,8 @@ Download the files, and unpack it to sf_kjv_strongs_rev1b.xm,
 then rename this to zefaniakjv.xml.
 
 
+The Strong's tags of the Zefania files are better than the ones of the SWORD library.
+
 It is important for Bibledit that both these names are used. 
 It looks for it on startup, and creates a database out of it.
 

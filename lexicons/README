@@ -2,7 +2,7 @@ Source Language Lexicons
 
 
 It has a file called "strongsgreek.xml". 
-It has the Strong's Greek dictionary.
+This provides a Strong's Greek dictionary.
 It was downloaded from http://files.morphgnt.org/, more specifically from
 http://files.morphgnt.org/strongs-dictionary/
 The above file seems to have essentially the same data with the Greek lexicon
@@ -10,10 +10,14 @@ available from http://ulrikp.dk/strongsgreek/. But the above file was preferred
 since it has better markup.
 
 
+There is a file called "heb_strongs.zip".
+It provides a Strong's Hebrew dictionary.
+It was downloaded from http://www.walljm.com/misc/heb_strongs.zip.
+(The site itself has useful information as well).
+
 
 It is important for Bibledit that the above names are kept. 
-This is because Bibledit looks for these on startup, and creates a database out of them.
-
+This is because Bibledit looks for these on startup, and creates a combined lexicon database out of them.
 
 
 Teus Benschop
