@@ -361,9 +361,6 @@ void kjv_import_zefania ()
               if (g_str_has_suffix (verse_text.c_str(), " ")) {
                 strongs_end_position--;
               }
-            } else if (strongs_end_position == strongs_start_position) {
-              verse_text.append ("-");
-              strongs_end_position++;
             }
             char *sql;
             sql = g_strdup_printf("insert into strong values (%d, %d, %d, %d, %d, %d);", reference.book, reference.chapter, convert_to_int (reference.verse), strongs_start_position, strongs_end_position, strongs_number);
@@ -388,7 +385,7 @@ void kjv_import_zefania ()
 }
 
 
-void kjv_get_strongs_data (const Reference& reference, vector <unsigned int>& strongs, vector <ustring>& phrases, bool include_unmarked)
+void kjv_get_strongs_data (const Reference& reference, vector <unsigned int>& strongs, vector <ustring>& phrases, bool include_unmarked) // Todo
 // This gets the phrases and the strong's numbers for a verse.
 // If to "include unmarked" data, this gets included too. Else it give the marked phrases only.
 {

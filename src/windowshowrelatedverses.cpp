@@ -170,19 +170,12 @@ void WindowShowRelatedVerses::html_link_clicked (const gchar * url)
     kjv_get_strongs_data (myreference, strongs, phrases, false);
 
     // Display the data.
-    vector <unsigned int> pending_strongs;
     for (unsigned int i = 0; i < strongs.size(); i++) {
-      pending_strongs.push_back (strongs[i]);
-      if (!phrases[i].empty()) {
-        htmlwriter.paragraph_open ();
-        htmlwriter.text_add (phrases[i]);
-        for (unsigned int i2 = 0; i2 < pending_strongs.size(); i2++) {
-          htmlwriter.text_add (" ");
-          ustring url = "strong " + convert_to_string (pending_strongs[i2]);
-          htmlwriter.hyperlink_add (url, convert_to_string (pending_strongs[i2]));
-        }
-        pending_strongs.clear();
-      }
+      htmlwriter.paragraph_open ();
+      htmlwriter.text_add (phrases[i]);
+      htmlwriter.text_add (" ");
+      ustring url = "strong " + convert_to_string (strongs[i]);
+      htmlwriter.hyperlink_add (url, convert_to_string (strongs[i]));
       htmlwriter.paragraph_close ();
     }
     
