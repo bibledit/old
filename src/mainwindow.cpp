@@ -7302,6 +7302,9 @@ Scrivener Greek New Testament
 Lexicons: downloading a site from the web.
 
 
+http://www.byztxt.com/downloads.html
+
+
 The resources need to be available in usfm code, so that it can be included with the parallel bible.
 Such available resources, not yet opened in a project, are visible when doing Ctrl-O, under the "Dormant" tab.
 When a dormant resource is opened, it converts it into usfm, if needed, and then opens it in a new project.

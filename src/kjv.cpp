@@ -124,7 +124,7 @@ void kjv_import (GKeyFile *keyfile)
 void kjv_import_sword ()
 {
   // Show the progress. KJV has 31102 verses.
-  ProgressWindow progresswindow ("Importing KJV", false);
+  ProgressWindow progresswindow ("Importing SWORD tagged King James Bible", false);
   progresswindow.set_iterate (0, 1, 31102);
   gchar * contents;
   g_file_get_contents(kjv_get_sword_xml_filename().c_str(), &contents, NULL, NULL);
@@ -249,7 +249,7 @@ void kjv_import_sword ()
 void kjv_import_zefania ()
 {
   // Show the progress. KJV has 31102 verses.
-  ProgressWindow progresswindow ("Importing KJV", false);
+  ProgressWindow progresswindow ("Importing Zefania tagged King James Bible", false);
   progresswindow.set_iterate (0, 1, 31102);
   gchar * contents;
   g_file_get_contents(kjv_get_zefania_xml_filename().c_str(), &contents, NULL, NULL);
