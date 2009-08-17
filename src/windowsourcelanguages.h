@@ -52,9 +52,11 @@ private:
   void html_write_references (HtmlWriter2& htmlwriter);
   void html_write_action_bar (HtmlWriter2& htmlwriter, bool topbar);
   void html_write_action_page (HtmlWriter2& htmlwriter);
-  void html_write_strong_definitions (HtmlWriter2& htmlwriter, unsigned int strongs_number);
   ustring project;
   ustring language;
+  unsigned int main_strongs_number;
+  vector <ustring> extra_strongs_numbers;
+  void html_write_strongs_definitions (HtmlWriter2& htmlwriter);
 };
 
 

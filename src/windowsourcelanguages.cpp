@@ -39,6 +39,8 @@
 #include "usfmtools.h"
 #include "dialogeditlist.h"
 #include "kjv.h"
+#include "books.h"
+#include "lexicons.h"
 
 
 WindowSourceLanguages::WindowSourceLanguages(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
@@ -133,10 +135,17 @@ void WindowSourceLanguages::html_link_clicked (const gchar * url)
     html_write_action_page (htmlwriter);
   }
 
-  else if (active_url.find ("strong ") == 0) {
+  else if (active_url.find ("mainstrong ") == 0) {
     html_write_references (htmlwriter);
-    unsigned int strongs_number = convert_to_int (active_url.substr (7, 100));
-    html_write_strong_definitions (htmlwriter, strongs_number);
+    extra_strongs_numbers.clear();
+    main_strongs_number = convert_to_int (active_url.substr (11, 100));
+    html_write_strongs_definitions (htmlwriter);
+  }
+
+  else if (active_url.find ("extrastrong ") == 0) {
+    html_write_references (htmlwriter);
+    extra_strongs_numbers.push_back (active_url.substr (12, 100));
+    html_write_strongs_definitions (htmlwriter);
   }
 
   else {
@@ -174,7 +183,7 @@ void WindowSourceLanguages::html_write_references (HtmlWriter2& htmlwriter)
   htmlwriter.paragraph_open ();
   for (unsigned int i = 0; i < phrases.size(); i++) {
     if (strongs[i]) 
-      htmlwriter.hyperlink_add ("strong " + convert_to_string (strongs[i]), phrases[i]);
+      htmlwriter.hyperlink_add ("mainstrong " + convert_to_string (strongs[i]), phrases[i]);
     else
       htmlwriter.text_add (phrases[i]);
   }  
@@ -201,11 +210,48 @@ void WindowSourceLanguages::html_write_action_page (HtmlWriter2& htmlwriter)
 }
 
 
-void WindowSourceLanguages::html_write_strong_definitions (HtmlWriter2& htmlwriter, unsigned int strongs_number)
+void WindowSourceLanguages::html_write_strongs_definitions (HtmlWriter2& htmlwriter)
 {
-  htmlwriter.paragraph_open ();
-  htmlwriter.text_add (convert_to_string (strongs_number) + " definition");
-  htmlwriter.paragraph_close ();
+  // Store the definitions.
+  vector <ustring> definitions;
+  
+  // Main definition.
+  ustring main_definition = lexicons_get_definition (books_id_to_type (reference.book) == btNewTestament, main_strongs_number);
+  definitions.push_back (main_definition);
+
+  // Extra definitions.
+  for (unsigned int i = 0; i < extra_strongs_numbers.size(); i++) {
+    bool greek_lexicon = extra_strongs_numbers[i].substr (0, 1) == "G";
+    ustring definition = lexicons_get_definition (greek_lexicon, convert_to_int (number_in_string (extra_strongs_numbers[i])));
+    definitions.push_back (definition);
+  }  
+  
+  // Display the definitions.
+  for (unsigned int i = 0; i < definitions.size(); i++) {
+    htmlwriter.paragraph_open ();
+    ustring definition = definitions[i];
+    while (!definition.empty()) {
+      size_t strongs_link_position = definition.find ("STRONGS");
+      if (strongs_link_position == string::npos) {
+        htmlwriter.text_add (definition);
+        definition.clear();
+      } else if (strongs_link_position == 0) {
+        definition.erase (0, 7);
+        ustring greek_or_hebrew = definition.substr (0, 1);
+        definition.erase (0, 1);
+        ustring strongs_number = number_in_string (definition);
+        size_t pos = definition.find (strongs_number);
+        if (pos != string::npos) {
+          definition.erase (0, pos + strongs_number.length());
+        }
+        htmlwriter.hyperlink_add ("extrastrong " + greek_or_hebrew + strongs_number, strongs_number);
+      } else {
+        htmlwriter.text_add (definition.substr (0, strongs_link_position));
+        definition.erase (0, strongs_link_position);
+      }
+    }
+    htmlwriter.paragraph_close ();
+  }  
 }
 
 

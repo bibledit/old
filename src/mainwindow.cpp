@@ -7323,24 +7323,26 @@ Lots of harvesting from the internet so we can have lexicons, hebrew text, greek
 All these should be interlinked and searchable. 
 
 
-There is need for an "Original languages" window, where lexicons are available at the tip of the finger, 
-and this therefore requires that lexicons are imported. 
-It would make use of the KJV with Strong's encodings. These are already available in Bibledit. 
-One would have to make it easy by providing standard tasks, such as "how many occurs this ... in the Bible", 
+One would have to make the original languages access easy by providing standard tasks, such as "how many occurs this ... in the Bible", 
 and "search for all verses that contain this ...", or "search for phrases", or "search on Strong's lemma", and so on.
 
 
 We may start the Scrivener Greek Greek text into Bibledit, and other original language texts as well, as follows.
 
+
 To create the capability to import tagged text from BibleWorks and Logos.
 
+
 A good source: http://plowsharemission.com/WebApps/PlowShare/.
+
 
 Different routines needed that do the harvesting from the internet for us. Writing and having these routines is legal. 
 Whether using these routines is always legal, I don't know. Perhaps for personal use only.
 
+
 All the harvesting routines are in Bibledit itself, but not all are easily accessible. 
 Some are accessible only when clicking e.g. thrice on the relevant links in the maintenance window. 
+
 
 An interlinear Bible is available on the internet, where one clicks on the Hebrew, and then the English is highlighted.
 The Strong's Real Hebrew and Greek modules in the .sword directory give some information as to the source used to create these.
@@ -7354,7 +7356,7 @@ We combine the two sources into one on import.
 We look whether the text can be combined into one if they are them same, and if not we use a slash, e.g. "heaven/heavens".
 
 
-King James Version: How to we insert the italics? Probabaly read these from the xml files, and then store these as brackets.
+King James Version: How to show the italics? Probably read these from the xml files, and then store these as brackets.
 
 
 

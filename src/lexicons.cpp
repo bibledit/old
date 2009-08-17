@@ -454,154 +454,42 @@ void lexicons_import_strongs_hebrew ()
 }
 
 
-/*
-void lexicons_get_strongs_data (const Reference& reference, vector <unsigned int>& strongs, vector <ustring>& phrases, bool include_unmarked)
-// This gets the phrases and the strong's numbers for a verse.
-// If to "include unmarked" data, this gets included too. Else it give the marked phrases only.
+ustring lexicons_get_definition (bool greek_lexicon, unsigned int strongs_number)
+// Get the definition from the lexicons.
+// greek_lexicon: If true take the definition from the Greek lexicon, else from the Hebrew one.
+// strongs_number: Strong's number.
 {
-  sqlite3 *db;
-  int rc;
-  char *error = NULL;
-  try {
-    // Open the database.
-    rc = sqlite3_open(kjv_get_sql_filename().c_str(), &db);
-    if (rc)
-      throw runtime_error(sqlite3_errmsg(db));
-    sqlite3_busy_timeout(db, 1000);
-    // Retrieve the full text.
-    ustring text;
-    {
-      SqliteReader reader(0);
-      char *sql;
-      sql = g_strdup_printf("select text from text where book = %d and chapter = %d and verse = %d;", reference.book, reference.chapter, convert_to_int (reference.verse));
-      rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
-      g_free(sql);
-      if (rc) {
-        throw runtime_error(sqlite3_errmsg(db));
-      }
-      if (!reader.ustring0.empty()) {
-        text = reader.ustring0[0];
-      }
-    }
-    // Retrieve the Strong's data.
-    if (!text.empty ()) {
-      SqliteReader reader(0);
-      char *sql;
-      sql = g_strdup_printf("select start, end, number from strong where book = %d and chapter = %d and verse = %d order by start asc;", reference.book, reference.chapter, convert_to_int (reference.verse));
-      rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
-      g_free(sql);
-      if (rc) {
-        throw runtime_error(sqlite3_errmsg(db));
-      }
-      vector <size_t> start_positions;
-      vector <size_t> end_positions;
-      vector <unsigned int> numbers;
-      for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
-        start_positions.push_back (convert_to_int (reader.ustring0[i]));
-        end_positions.push_back (convert_to_int (reader.ustring1[i]));
-        numbers.push_back (convert_to_int (reader.ustring2[i]));
-      }
-      size_t last_end_position = 0;
-      for (unsigned int i = 0; i < numbers.size(); i++) {
-        if (include_unmarked) {
-          if (start_positions[i] > last_end_position) {
-            strongs.push_back (0);
-            phrases.push_back (text.substr (last_end_position, start_positions[i] - last_end_position));
-          }
-        }
-        strongs.push_back (numbers[i]);
-        phrases.push_back (text.substr (start_positions[i], end_positions[i] - start_positions[i]));
-        last_end_position = end_positions[i];
-      }      
-      if (include_unmarked) {
-        if (text.length() > last_end_position) {
-          strongs.push_back (0);
-          phrases.push_back (text.substr (last_end_position, 1000));
-        }
-      }
-    }
-  }
-  catch(exception & ex) {
-    gw_critical(ex.what());
-  }
-  sqlite3_close(db);
-}
-
-
-vector <Reference> lexicons_get_strongs_verses (const Reference& reference, unsigned int strongs)
-// Passing a Strong's number, and a Reference, this returns all the verses that contain this Strong's number.
-// The Reference is used to find out whether to look for this Strong's number in the Old or New Testament.
-{
-  // Get the type of the book, e.g. whether Old or New Testament.
-  BookType booktype = books_id_to_type (reference.book);
-
-  // Store the references.
-  vector <Reference> references;
-  
-  // Mine the data from the database.
+  ustring definition;
   sqlite3 *db;
   int rc;
   char *error = NULL;
   try {
     SqliteReader reader(0);
-    rc = sqlite3_open(kjv_get_sql_filename().c_str(), &db);
+    rc = sqlite3_open(lexicons_get_sql_filename().c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
     char *sql;
-    sql = g_strdup_printf("select distinct book, chapter, verse from strong where number = %d;", strongs);
-    rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
-    g_free(sql);
-    if (rc) {
-      throw runtime_error(sqlite3_errmsg(db));
-    }
-    for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
-      // Get the references, and store it only if it comes from the same Testament we need.
-      Reference ref (convert_to_int (reader.ustring0[i]), convert_to_int (reader.ustring1[i]), reader.ustring2[i]);
-      if (books_id_to_type (ref.book) == booktype) {
-        references.push_back (ref);
-      }
-    }
-  }
-  catch(exception & ex) {
-    gw_critical(ex.what());
-  }
-  sqlite3_close(db);
-
-  // Result.
-  return references;
-}
-
-
-ustring lexicons_get_verse (const Reference& reference)
-// Get the verse text from the KJV Bible.
-{
-  ustring text;
-  sqlite3 *db;
-  int rc;
-  char *error = NULL;
-  try {
-    SqliteReader reader(0);
-    rc = sqlite3_open(kjv_get_sql_filename().c_str(), &db);
-    if (rc)
-      throw runtime_error(sqlite3_errmsg(db));
-    sqlite3_busy_timeout(db, 1000);
-    char *sql;
-    sql = g_strdup_printf("select text from text where book = %d and chapter = %d and verse = %d;", reference.book, reference.chapter, convert_to_int (reference.verse));
+    const gchar* table = NULL;
+    if (greek_lexicon)
+      table = "strongsgreek";
+    else
+      table = "strongshebrew";
+    sql = g_strdup_printf("select entry from '%s' where strongs = %d;", table, strongs_number);
     rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
     g_free(sql);
     if (rc) {
       throw runtime_error(sqlite3_errmsg(db));
     }
     if (!reader.ustring0.empty()) {
-      text = reader.ustring0[0];
+      definition = reader.ustring0[0];
     }
   }
   catch(exception & ex) {
     gw_critical(ex.what());
   }
   sqlite3_close(db);
-  return text;
+  return definition;
 }
 
-*/
+

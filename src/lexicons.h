@@ -31,9 +31,7 @@
 void lexicons_import (GKeyFile *keyfile);
 void lexicons_import_strongs_greek ();
 void lexicons_import_strongs_hebrew ();
-void lexicons_get_strongs_data (const Reference& reference, vector <unsigned int>& strongs, vector <ustring>& phrases, bool include_unmarked);
-vector <Reference> lexicons_get_strongs_verses (const Reference& reference, unsigned int strongs);
-ustring lexicons_get_verse (const Reference& reference);
+ustring lexicons_get_definition (bool greek_lexicon, unsigned int strongs_number);
 
 
 #endif
