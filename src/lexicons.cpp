@@ -247,9 +247,7 @@ void lexicons_import_strongs_greek ()
             lexicons_add_strongs_tag_to_definition (reader, strongs_definition);
           }
           if (!xmlStrcmp(element_name, BAD_CAST "see")) {
-            lexicons_add_text_to_definition (strongs_definition, "See also entry");
-            lexicons_add_strongs_tag_to_definition (reader, strongs_definition);
-            lexicons_add_text_to_definition (strongs_definition, ".");
+            // The "see" element can be safely skipped, since it does not add any new information.
           }
           break;
         }
