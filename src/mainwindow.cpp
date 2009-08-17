@@ -7290,6 +7290,8 @@ Todo various tasks.
 
 Resources into Bibledit
 
+
+
 We need to put the verb forms in the original languages window.
 It has one fast entry box, and a web page with links for the aided actions.
 Below that is the text, with tags. Each tag is underlined, if clicked on it, it gives more information.

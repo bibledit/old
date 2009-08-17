@@ -41,6 +41,7 @@
 #include "kjv.h"
 #include "books.h"
 #include "lexicons.h"
+#include "dialogentry.h"
 
 
 WindowSourceLanguages::WindowSourceLanguages(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
@@ -148,6 +149,21 @@ void WindowSourceLanguages::html_link_clicked (const gchar * url)
     html_write_strongs_definitions (htmlwriter);
   }
 
+  else if (active_url.find ("definition") == 0) {
+    html_write_references (htmlwriter);
+    EntryDialog dialog ("Strong's number", "Please enter a Strong's number,\n"
+                                           "for example \"G5547\" for number 5547 in the Greek lexicon,\n"
+                                           "or \"H430\" for number 430 in the Hebrew lexicon", "");
+    if (dialog.run() == GTK_RESPONSE_OK) {
+      main_strongs_number = 0;
+      extra_strongs_numbers.clear();
+      extra_strongs_numbers.push_back (dialog.entered_value);
+    } else {
+      display_another_page = false;
+    }
+    html_write_strongs_definitions (htmlwriter);
+  }
+
   else {
     // Load the text.
     html_write_references (htmlwriter);
@@ -207,6 +223,9 @@ void WindowSourceLanguages::html_write_action_page (HtmlWriter2& htmlwriter)
   htmlwriter.text_add (" ");
   htmlwriter.hyperlink_add ("", "[home]");
   htmlwriter.paragraph_close ();
+  htmlwriter.paragraph_open ();
+  htmlwriter.hyperlink_add ("definition", "Enter a Strong's number and view its definition");
+  htmlwriter.paragraph_close ();
 }
 
 
@@ -216,8 +235,10 @@ void WindowSourceLanguages::html_write_strongs_definitions (HtmlWriter2& htmlwri
   vector <ustring> definitions;
   
   // Main definition.
-  ustring main_definition = lexicons_get_definition (books_id_to_type (reference.book) == btNewTestament, main_strongs_number);
-  definitions.push_back (main_definition);
+  if (main_strongs_number) {
+    ustring main_definition = lexicons_get_definition (books_id_to_type (reference.book) == btNewTestament, main_strongs_number);
+    definitions.push_back (main_definition);
+  }
 
   // Extra definitions.
   for (unsigned int i = 0; i < extra_strongs_numbers.size(); i++) {

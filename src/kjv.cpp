@@ -385,7 +385,7 @@ void kjv_import_zefania ()
 }
 
 
-void kjv_get_strongs_data (const Reference& reference, vector <unsigned int>& strongs, vector <ustring>& phrases, bool include_unmarked) // Todo
+void kjv_get_strongs_data (const Reference& reference, vector <unsigned int>& strongs, vector <ustring>& phrases, bool include_unmarked)
 // This gets the phrases and the strong's numbers for a verse.
 // If to "include unmarked" data, this gets included too. Else it give the marked phrases only.
 {
