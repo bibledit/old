@@ -277,7 +277,8 @@ bibledit_SOURCES = \
 				bibleworks.cpp \
 				onlinebible.cpp \
 				windowsourcelanguages.cpp \
-				lexicons.cpp
+				lexicons.cpp \
+				robinson.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp update-copyright
 

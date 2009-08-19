@@ -42,6 +42,7 @@
 #include "books.h"
 #include "lexicons.h"
 #include "dialogentry.h"
+#include "robinson.h"
 
 
 WindowSourceLanguages::WindowSourceLanguages(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
@@ -269,7 +270,12 @@ void WindowSourceLanguages::html_write_morphology_and_strongs_definitions (HtmlW
   
   // Main morphologies.
   for (unsigned int i = 0; i < main_morphologies.size(); i++) {
-    definitions.push_back (main_morphologies[i]);
+    bool in_new_testament = books_id_to_type (reference.book) == btNewTestament;
+    if (in_new_testament) {
+      definitions.push_back (robinson_define_parsing (main_morphologies[i]));
+    } else {
+      definitions.push_back (main_morphologies[i]);
+    }
   }
   
   // Main Strong's definitions.
