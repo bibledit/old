@@ -54,9 +54,10 @@ private:
   void html_write_action_page (HtmlWriter2& htmlwriter);
   ustring project;
   ustring language;
-  unsigned int main_strongs_number;
+  vector <ustring> main_morphologies;
+  vector <unsigned int> main_strongs_numbers;
   vector <ustring> extra_strongs_numbers;
-  void html_write_strongs_definitions (HtmlWriter2& htmlwriter);
+  void html_write_morphology_and_strongs_definitions (HtmlWriter2& htmlwriter);
 };
 
 

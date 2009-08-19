@@ -107,11 +107,12 @@ void kjv_import (GKeyFile *keyfile)
   sqlite3_open(kjv_get_sql_filename().c_str(), &db);
   sqlite3_exec(db, "create table text (book integer, chapter integer, verse integer, text text);", NULL, NULL, NULL);
   sqlite3_exec(db, "create table strong (book integer, chapter integer, verse integer, start integer, end integer, number integer);", NULL, NULL, NULL);
+  sqlite3_exec(db, "create table morphology (book integer, chapter integer, verse integer, item integer, value text);", NULL, NULL, NULL);
   sqlite3_close(db);
 
   // Import text into the database.
   kjv_import_zefania ();  
-  // kjv_import_sword ();
+  kjv_import_sword ();
 
   // Store the signatures.
   // If these signatures match next time, it won't create the database again.
@@ -124,7 +125,7 @@ void kjv_import (GKeyFile *keyfile)
 void kjv_import_sword ()
 {
   // Show the progress. KJV has 31102 verses.
-  ProgressWindow progresswindow ("Importing SWORD tagged King James Bible", false);
+  ProgressWindow progresswindow ("Importing morphology into the King James Bible", false);
   progresswindow.set_iterate (0, 1, 31102);
   gchar * contents;
   g_file_get_contents(kjv_get_sword_xml_filename().c_str(), &contents, NULL, NULL);
@@ -141,11 +142,11 @@ void kjv_import_sword ()
   inputbuffer = xmlParserInputBufferCreateMem(contents, strlen (contents), XML_CHAR_ENCODING_NONE);
   xmlTextReaderPtr reader = xmlNewTextReader(inputbuffer, NULL);
   if (reader) {
-    bool within_verse_element = false;
-    bool within_w_element = false;
-    ustring rich_verse_text;
-    vector <unsigned int> strongs;
+    bool within_relevant_element = false;
     Reference reference (0, 0, "0");
+    unsigned int total_items_count = 0;
+    unsigned int current_items_count = 0;
+    ustring raw_data;
     while ((xmlTextReaderRead(reader) == 1)) {
       switch (xmlTextReaderNodeType(reader)) {
       case XML_READER_TYPE_ELEMENT:
@@ -153,7 +154,7 @@ void kjv_import_sword ()
           xmlChar *element_name = xmlTextReaderName(reader);
           // Deal with a verse element.
           if (!xmlStrcmp(element_name, BAD_CAST "verse")) {
-            within_verse_element = true;
+            progresswindow.iterate();
             char *attribute;
             attribute = (char *)xmlTextReaderGetAttribute(reader, BAD_CAST "osisID");
             if (attribute) {
@@ -167,66 +168,61 @@ void kjv_import_sword ()
               }
               free(attribute);
             }
+            total_items_count = 0;
           }
           // Deal with a w element.
           if (!xmlStrcmp(element_name, BAD_CAST "w")) {
-            within_w_element = true;
+            within_relevant_element = true;
+            current_items_count = 0;
+            raw_data.clear();
             char *attribute;
-            attribute = (char *)xmlTextReaderGetAttribute(reader, BAD_CAST "lemma");
+            attribute = (char *)xmlTextReaderGetAttribute(reader, BAD_CAST "morph");
             if (attribute) {
-              Parse parse (attribute, false);
-              for (unsigned int i = 0; i < parse.words.size(); i++) {
-                ustring strong = parse.words[i];
-                if (strong.find ("strong:") == 0) {
-                  strong.erase (0, 8);
-                  // Store as integer, since in the Old Testament the Strong's numbers have a zero prefixed.
-                  unsigned int strong_n = convert_to_int (strong);
-                  strongs.push_back (strong_n);
-                }
-              }
+              raw_data = attribute;
               free(attribute);
             }
+          }
+          // Deal with a transChange element.
+          if (!xmlStrcmp(element_name, BAD_CAST "transChange")) {
+            within_relevant_element = true;
           }
           break;
         }
       case XML_READER_TYPE_TEXT:
         {
-          xmlChar *text = xmlTextReaderValue(reader);
-          if (text) {
-            if (within_verse_element) {
-              if (!g_ascii_ispunct (*text)) {
-                if (!rich_verse_text.empty()) 
-                  rich_verse_text.append (" ");
-              }
-              for (unsigned int i = 0; i < strongs.size(); i++) {
-                rich_verse_text.append ("(" + convert_to_string (strongs[i]) + ")");
-              }
-              strongs.clear();
-              rich_verse_text.append ((const char *)text);
+          if (within_relevant_element) {
+            xmlChar *text = xmlTextReaderValue(reader);
+            if (text) {
+              Parse parse ((const char *)text);
+              xmlFree(text);
+              current_items_count = parse.words.size();
+              total_items_count += current_items_count;
             }
-            xmlFree(text);
           }
           break;
         }
       case XML_READER_TYPE_END_ELEMENT:
         {
           xmlChar *element_name = xmlTextReaderName(reader);
-          if (!xmlStrcmp(element_name, BAD_CAST "verse")) {
-            within_verse_element = false;
-            // Store the verse texts in the database.
-            progresswindow.iterate();
-            replace_text (rich_verse_text, "  ", " ");
-            rich_verse_text = trim (rich_verse_text);
-            /*
-            char *sql;
-            sql = g_strdup_printf("insert into richtext values (%d, %d, %d, '%s');", reference.book, reference.chapter, convert_to_int (reference.verse), double_apostrophy (rich_verse_text).c_str());
-            sqlite3_exec(db, sql, NULL, NULL, NULL);
-            g_free(sql);
-            */
-            rich_verse_text.clear();
-          }
           if (!xmlStrcmp(element_name, BAD_CAST "w")) {
-            within_w_element = false;
+            within_relevant_element = false;
+            Parse parse (raw_data, false);
+            for (unsigned int i = 0; i < parse.words.size(); i++) {
+              Parse parse2 (parse.words[i], false, ":");
+              if (parse2.words.size() == 2) {
+                // The morphology is in the second parsed word.
+                for (int i = current_items_count; i > 0; i--) {
+                  char *sql;
+                  sql = g_strdup_printf("insert into morphology values (%d, %d, %d, %d, '%s');", reference.book, reference.chapter, convert_to_int (reference.verse), total_items_count - i, double_apostrophy (parse2.words[1]).c_str());
+                  sqlite3_exec(db, sql, NULL, NULL, NULL);
+                  g_free(sql);
+                }
+              }
+            }
+          }
+          // Deal with a transChange element.
+          if (!xmlStrcmp(element_name, BAD_CAST "transChange")) {
+            within_relevant_element = false;
           }
           break;
         }
@@ -249,7 +245,7 @@ void kjv_import_sword ()
 void kjv_import_zefania ()
 {
   // Show the progress. KJV has 31102 verses.
-  ProgressWindow progresswindow ("Importing Zefania tagged King James Bible", false);
+  ProgressWindow progresswindow ("Importing text and lemmata into the King James Bible", false);
   progresswindow.set_iterate (0, 1, 31102);
   gchar * contents;
   g_file_get_contents(kjv_get_zefania_xml_filename().c_str(), &contents, NULL, NULL);
@@ -532,6 +528,97 @@ ustring kjv_get_verse (const Reference& reference)
   }
   sqlite3_close(db);
   return text;
+}
+
+
+void kjv_get_lemmata_and_morphology (const Reference& reference, vector <ustring>& words,
+                                     vector <unsigned int>& lemmata_positions, vector <unsigned int>& lemmata_values, 
+																		 vector <unsigned int>& morphology_positions, vector <ustring>& morphology_values)
+// Based on a "reference", it provides lemmata and morphology for a verse.
+{
+  sqlite3 *db;
+  int rc;
+  char *error = NULL;
+  try {
+
+    // Open the database.
+    rc = sqlite3_open(kjv_get_sql_filename().c_str(), &db);
+    if (rc)
+      throw runtime_error(sqlite3_errmsg(db));
+    sqlite3_busy_timeout(db, 1000);
+
+    // Retrieve the text and sort it out.
+    {
+      SqliteReader reader(0);
+      char *sql;
+      sql = g_strdup_printf("select text from text where book = %d and chapter = %d and verse = %d;", reference.book, reference.chapter, convert_to_int (reference.verse));
+      rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
+      g_free(sql);
+      if (rc) {
+        throw runtime_error(sqlite3_errmsg(db));
+      }
+      if (!reader.ustring0.empty()) {
+        Parse parse (reader.ustring0[0], false);
+        words = parse.words;
+      }
+    }
+
+    // Retrieve the Strong's lemmata.
+    {
+      SqliteReader reader(0);
+      char *sql;
+      sql = g_strdup_printf("select start, end, number from strong where book = %d and chapter = %d and verse = %d order by start asc;", reference.book, reference.chapter, convert_to_int (reference.verse));
+      rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
+      g_free(sql);
+      if (rc) {
+        throw runtime_error(sqlite3_errmsg(db));
+      }
+      vector <size_t> start_positions;
+      vector <size_t> end_positions;
+      vector <unsigned int> numbers;
+      for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
+        start_positions.push_back (convert_to_int (reader.ustring0[i]));
+        end_positions.push_back (convert_to_int (reader.ustring1[i]));
+        numbers.push_back (convert_to_int (reader.ustring2[i]));
+      }
+      size_t word_start = 0;
+      for (unsigned int w = 0; w < words.size(); w++) {
+        size_t word_end = word_start + words[w].length();
+        for (unsigned int p = 0; p < start_positions.size(); p++) {
+          unsigned int start_position = start_positions[p];
+          unsigned int end_position = end_positions[p];
+          if (word_start >= start_position) {
+            if (word_end <= end_position + 1) {
+              lemmata_positions.push_back (w);
+              lemmata_values.push_back (numbers[p]);
+            }
+          }
+        }
+        word_start = word_end + 1; 
+      }
+    }
+
+    // Retrieve the morphology.
+    {
+      SqliteReader reader(0);
+      char *sql;
+      sql = g_strdup_printf("select item, value from morphology where book = %d and chapter = %d and verse = %d order by item asc;", reference.book, reference.chapter, convert_to_int (reference.verse));
+      rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
+      g_free(sql);
+      if (rc) {
+        throw runtime_error(sqlite3_errmsg(db));
+      }
+      for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
+        morphology_positions.push_back (convert_to_int (reader.ustring0[i]));
+        morphology_values.push_back (reader.ustring1[i]);
+      }
+    }
+
+  }
+  catch(exception & ex) {
+    gw_critical(ex.what());
+  }
+  sqlite3_close(db);
 }
 
 

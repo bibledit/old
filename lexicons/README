@@ -13,11 +13,17 @@ since it has better markup.
 There is a file called "heb_strongs.zip".
 It provides a Strong's Hebrew dictionary.
 It was downloaded from http://www.walljm.com/misc/heb_strongs.zip.
-(The site itself has useful information as well).
 
 
 It is important for Bibledit that the above names are kept. 
 This is because Bibledit looks for these on startup, and creates a combined lexicon database out of them.
+
+
+There is a file called "PARSINGS.TXT".
+It provides the parsing codes for the morphological tags as used in the New Testament.
+It was downloaded from http://www.byztxt.com.
+File sf_robinson_0_eng.zip from http://sourceforge.net/projects/zefania-sharp/files
+contains the same information but in a different form.
 
 
 Teus Benschop

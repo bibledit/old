@@ -7292,9 +7292,13 @@ Resources into Bibledit
 
 
 
-We need to put the verb forms in the original languages window.
-It has one fast entry box, and a web page with links for the aided actions.
-Below that is the text, with tags. Each tag is underlined, if clicked on it, it gives more information.
+We need to put the verb forms in the original languages window. 
+If a word is clicked, it gives the Strong's information, as it is now, and also the morphological information.
+This requires another system of tagging phrases, so that both types of information can be presented.
+
+
+It has a web page with links for the aided actions.
+
 Search results go to the references window.
 
 

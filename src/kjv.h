@@ -34,6 +34,9 @@ void kjv_import_zefania ();
 void kjv_get_strongs_data (const Reference& reference, vector <unsigned int>& strongs, vector <ustring>& phrases, bool include_unmarked);
 vector <Reference> kjv_get_strongs_verses (const Reference& reference, unsigned int strongs);
 ustring kjv_get_verse (const Reference& reference);
+void kjv_get_lemmata_and_morphology (const Reference& reference, vector <ustring>& words,
+                                     vector <unsigned int>& lemmata_positions, vector <unsigned int>& lemmata_values, 
+																		 vector <unsigned int>& morphology_positions, vector <ustring>& morphology_values);
 
 
 #endif

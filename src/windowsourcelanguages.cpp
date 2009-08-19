@@ -136,17 +136,29 @@ void WindowSourceLanguages::html_link_clicked (const gchar * url)
     html_write_action_page (htmlwriter);
   }
 
-  else if (active_url.find ("mainstrong ") == 0) {
+  else if (active_url.find ("tag ") == 0) {
     html_write_references (htmlwriter);
+    main_morphologies.clear();
+    main_strongs_numbers.clear();
     extra_strongs_numbers.clear();
-    main_strongs_number = convert_to_int (active_url.substr (11, 100));
-    html_write_strongs_definitions (htmlwriter);
+    Parse parse (active_url.substr (3, 1000));
+    for (unsigned int i = 0; i < parse.words.size(); i++) {
+      if (parse.words[i].find ("morphology") == 0) {
+        parse.words[i].erase (0, 10);
+        main_morphologies.push_back (parse.words[i]);
+      }
+      if (parse.words[i].find ("strong") == 0) {
+        parse.words[i].erase (0, 6);
+        main_strongs_numbers.push_back (convert_to_int (parse.words[i]));
+      }
+    }
+    html_write_morphology_and_strongs_definitions (htmlwriter);
   }
 
-  else if (active_url.find ("extrastrong ") == 0) {
+  else if (active_url.find ("strong ") == 0) {
     html_write_references (htmlwriter);
-    extra_strongs_numbers.push_back (active_url.substr (12, 100));
-    html_write_strongs_definitions (htmlwriter);
+    extra_strongs_numbers.push_back (active_url.substr (7, 100));
+    html_write_morphology_and_strongs_definitions (htmlwriter);
   }
 
   else if (active_url.find ("definition") == 0) {
@@ -155,13 +167,14 @@ void WindowSourceLanguages::html_link_clicked (const gchar * url)
                                            "for example \"G5547\" for number 5547 in the Greek lexicon,\n"
                                            "or \"H430\" for number 430 in the Hebrew lexicon", "");
     if (dialog.run() == GTK_RESPONSE_OK) {
-      main_strongs_number = 0;
+      main_morphologies.clear();
+      main_strongs_numbers.clear();
       extra_strongs_numbers.clear();
       extra_strongs_numbers.push_back (dialog.entered_value);
     } else {
       display_another_page = false;
     }
-    html_write_strongs_definitions (htmlwriter);
+    html_write_morphology_and_strongs_definitions (htmlwriter);
   }
 
   else {
@@ -190,18 +203,38 @@ void WindowSourceLanguages::html_write_references (HtmlWriter2& htmlwriter)
   // Write action bar.
   html_write_action_bar (htmlwriter, true);
 
-  // Get the verse with taggings.
-  vector <unsigned int> strongs;
-  vector <ustring> phrases;  
-  kjv_get_strongs_data (reference, strongs, phrases, true);
+  // Get the verse with the tags.
+  vector <ustring> words;
+  vector <unsigned int> lemmata_positions;
+  vector <unsigned int> lemmata_values;
+  vector <unsigned int> morphology_positions;
+  vector <ustring> morphology_values;
+  kjv_get_lemmata_and_morphology (reference, words, lemmata_positions, lemmata_values, morphology_positions, morphology_values);
 
   // Write the verse with hyperlinks for the tags.
   htmlwriter.paragraph_open ();
-  for (unsigned int i = 0; i < phrases.size(); i++) {
-    if (strongs[i]) 
-      htmlwriter.hyperlink_add ("mainstrong " + convert_to_string (strongs[i]), phrases[i]);
-    else
-      htmlwriter.text_add (phrases[i]);
+  for (unsigned int i = 0; i < words.size(); i++) {
+    if (i) {
+      htmlwriter.text_add (" ");
+    }
+    ustring link;
+    for (unsigned int i2 = 0; i2 < lemmata_positions.size(); i2++) {
+      if (lemmata_positions[i2] == i) {
+        link.append (" ");
+        link.append ("strong" + convert_to_string (lemmata_values[i2]));
+      }
+    }
+    for (unsigned int i2 = 0; i2 < morphology_positions.size(); i2++) {
+      if (morphology_positions[i2] == i) {
+        link.append (" ");
+        link.append ("morphology" + morphology_values[i2]);
+      }
+    }
+    if (!link.empty()) {
+      htmlwriter.hyperlink_add ("tag" + link, words[i]);
+    } else {
+      htmlwriter.text_add (words[i]);
+    }
   }  
   htmlwriter.paragraph_close ();
 }
@@ -229,18 +262,23 @@ void WindowSourceLanguages::html_write_action_page (HtmlWriter2& htmlwriter)
 }
 
 
-void WindowSourceLanguages::html_write_strongs_definitions (HtmlWriter2& htmlwriter)
+void WindowSourceLanguages::html_write_morphology_and_strongs_definitions (HtmlWriter2& htmlwriter)
 {
   // Store the definitions.
   vector <ustring> definitions;
   
-  // Main definition.
-  if (main_strongs_number) {
-    ustring main_definition = lexicons_get_definition (books_id_to_type (reference.book) == btNewTestament, main_strongs_number);
+  // Main morphologies.
+  for (unsigned int i = 0; i < main_morphologies.size(); i++) {
+    definitions.push_back (main_morphologies[i]);
+  }
+  
+  // Main Strong's definitions.
+  for (unsigned int i = 0; i < main_strongs_numbers.size(); i++) {
+    ustring main_definition = lexicons_get_definition (books_id_to_type (reference.book) == btNewTestament, main_strongs_numbers[i]);
     definitions.push_back (main_definition);
   }
 
-  // Extra definitions.
+  // Extra Strong's definitions.
   for (unsigned int i = 0; i < extra_strongs_numbers.size(); i++) {
     bool greek_lexicon = extra_strongs_numbers[i].substr (0, 1) == "G";
     ustring definition = lexicons_get_definition (greek_lexicon, convert_to_int (number_in_string (extra_strongs_numbers[i])));
@@ -265,7 +303,7 @@ void WindowSourceLanguages::html_write_strongs_definitions (HtmlWriter2& htmlwri
         if (pos != string::npos) {
           definition.erase (0, pos + strongs_number.length());
         }
-        htmlwriter.hyperlink_add ("extrastrong " + greek_or_hebrew + strongs_number, strongs_number);
+        htmlwriter.hyperlink_add ("strong " + greek_or_hebrew + strongs_number, strongs_number);
       } else {
         htmlwriter.text_add (definition.substr (0, strongs_link_position));
         definition.erase (0, strongs_link_position);
