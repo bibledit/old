@@ -7292,12 +7292,14 @@ Resources into Bibledit
 
 
 
-We need to put the verb forms in the original languages window. 
-If a word is clicked, it gives the Strong's information, as it is now, and also the morphological information.
-This requires another system of tagging phrases, so that both types of information can be presented.
+The THxxx parsings, in the OT, from the Online Bible, need to be parsed.
+It is not easy to export these from the Online Bible, as so far these could get copied to the clipboard one by one only.
+It might be quicker to look on the internet for this dictionary. It is the hebeng dictionary.
+I think that the lexicon is available from an online bible support site.
 
 
 It has a web page with links for the aided actions.
+
 
 Search results go to the references window.
 
@@ -7306,9 +7308,6 @@ Scrivener Greek New Testament
 
 
 Lexicons: downloading a site from the web.
-
-
-http://www.byztxt.com/downloads.html
 
 
 The resources need to be available in usfm code, so that it can be included with the parallel bible.
@@ -7333,7 +7332,7 @@ One would have to make the original languages access easy by providing standard 
 and "search for all verses that contain this ...", or "search for phrases", or "search on Strong's lemma", and so on.
 
 
-We may start the Scrivener Greek Greek text into Bibledit, and other original language texts as well, as follows.
+We may start the Scrivener Greek Greek text into Bibledit, and other original language texts as well.
 
 
 To create the capability to import tagged text from BibleWorks and Logos.
@@ -7351,15 +7350,9 @@ Some are accessible only when clicking e.g. thrice on the relevant links in the 
 
 
 An interlinear Bible is available on the internet, where one clicks on the Hebrew, and then the English is highlighted.
-The Strong's Real Hebrew and Greek modules in the .sword directory give some information as to the source used to create these.
 
 
 http://www.freebiblesoftware.com
-
-
-The Sword source would provide the morphology.
-We combine the two sources into one on import.
-We look whether the text can be combined into one if they are them same, and if not we use a slash, e.g. "heaven/heavens".
 
 
 King James Version: How to show the italics? Probably read these from the xml files, and then store these as brackets.
@@ -7393,7 +7386,9 @@ King James Version: How to show the italics? Probably read these from the xml fi
 
 The following import path is still to be implemented: Bible / OnlineBible
 The Online Bible was asked for the interface to connect to it.
-Also ZionWorx was asked on their forum.
+
+
+
 
 
 

@@ -22,8 +22,9 @@ This is because Bibledit looks for these on startup, and creates a combined lexi
 There is a file called "PARSINGS.TXT".
 It provides the parsing codes for the morphological tags as used in the New Testament.
 It was downloaded from http://www.byztxt.com.
+The file is not used by bibledit itself, but its key was used to write parsing routines.
 File sf_robinson_0_eng.zip from http://sourceforge.net/projects/zefania-sharp/files
-contains the same information but in a different form.
+contains the same information but in a different form, but may not completely cover all possible parsings.
 
 
 Teus Benschop
