@@ -7251,7 +7251,7 @@ void MainWindow::on_view_source_languages ()
     resize_text_area_if_tools_area_is_empty ();
     g_signal_connect((gpointer) window_source_languages->delete_signal_button, "clicked", G_CALLBACK(on_window_source_languages_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_source_languages->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
-    g_signal_connect((gpointer) window_source_languages->signal_button, "clicked", G_CALLBACK(on_window_references_signal_button_clicked), gpointer(this));
+    g_signal_connect((gpointer) window_source_languages->signal_button, "clicked", G_CALLBACK(on_view_source_languages_signal_button_clicked), gpointer(this));
     extern Settings *settings;
     window_source_languages->go_to(navigation.reference, settings->genconfig.project_get());
   }
@@ -7275,6 +7275,21 @@ void MainWindow::on_window_source_languages_delete_button()
 }
 
 
+void MainWindow::on_view_source_languages_signal_button_clicked(GtkButton *button, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_view_source_languages_signal_button();
+}
+
+
+void MainWindow::on_view_source_languages_signal_button()
+{
+  // Show the references in the references window.
+  show_references_window();
+  extern Settings * settings;
+  window_references->set (window_source_languages->references, settings->genconfig.project_get(), NULL);
+}
+
+
 
 /*
 
@@ -7291,17 +7306,17 @@ Todo various tasks.
 Resources into Bibledit
 
 
-
-The THxxx parsings, in the OT, from the Online Bible, need to be parsed.
-It is not easy to export these from the Online Bible, as so far these could get copied to the clipboard one by one only.
-It might be quicker to look on the internet for this dictionary. It is the hebeng dictionary.
-I think that the lexicon is available from an online bible support site.
-
-
-It has a web page with links for the aided actions.
-
-
+It has a web page with links for the aided actions:
+* Search text
 Search results go to the references window.
+* Search on Strong's number.
+
+
+
+The THxxxx parsings in the OT, from the Online Bible, need to be parsed.
+It is not easy to export these from the Online Bible, as so far these could get copied to the clipboard one by one only.
+A request for redistribution and access was sent to the Online Bible support.
+
 
 
 Scrivener Greek New Testament
@@ -7328,10 +7343,6 @@ Lots of harvesting from the internet so we can have lexicons, hebrew text, greek
 All these should be interlinked and searchable. 
 
 
-One would have to make the original languages access easy by providing standard tasks, such as "how many occurs this ... in the Bible", 
-and "search for all verses that contain this ...", or "search for phrases", or "search on Strong's lemma", and so on.
-
-
 We may start the Scrivener Greek Greek text into Bibledit, and other original language texts as well.
 
 
@@ -7339,6 +7350,9 @@ To create the capability to import tagged text from BibleWorks and Logos.
 
 
 A good source: http://plowsharemission.com/WebApps/PlowShare/.
+
+
+See Apostolic Bible Polyglot in Sword.
 
 
 Different routines needed that do the harvesting from the internet for us. Writing and having these routines is legal. 

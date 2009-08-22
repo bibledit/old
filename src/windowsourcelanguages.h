@@ -39,11 +39,12 @@ public:
   virtual ~WindowSourceLanguages();
   void go_to (const Reference& reference_in, const ustring& project_in);
   GtkWidget * signal_button;
-  Reference reference;
+  vector <Reference> references;
 protected:
   GtkWidget *scrolledwindow;
   GtkWidget *htmlview;
 private:
+  Reference reference;
   static gboolean on_html_link_clicked(GtkHTML *html, const gchar * url, gpointer user_data);
   void html_link_clicked(const gchar * url);
   ustring active_url;
@@ -58,6 +59,7 @@ private:
   vector <unsigned int> main_strongs_numbers;
   vector <ustring> extra_strongs_numbers;
   void html_write_morphology_and_strongs_definitions (HtmlWriter2& htmlwriter);
+  const gchar * enter_strongs_number ();
 };
 
 

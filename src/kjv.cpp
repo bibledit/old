@@ -622,3 +622,47 @@ void kjv_get_lemmata_and_morphology (const Reference& reference, vector <ustring
 }
 
 
+vector <Reference> kjv_search (ustring text)
+// Searches the KJV for "text" and returns the references.
+{
+  // Show the progress. KJV has 31102 verses.
+  ProgressWindow progresswindow ("Searching", false);
+  progresswindow.set_iterate (0, 1, 31102);
+  // Fold case of text to search for.
+  text = text.casefold();
+  vector <Reference> references;
+  sqlite3 *db;
+  int rc;
+  char *error = NULL;
+  try {
+    SqliteReader reader(0);
+    rc = sqlite3_open(kjv_get_sql_filename().c_str(), &db);
+    if (rc)
+      throw runtime_error(sqlite3_errmsg(db));
+    sqlite3_busy_timeout(db, 1000);
+    char *sql;
+    sql = g_strdup_printf("select book, chapter, verse, text from text;");
+    rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
+    g_free(sql);
+    if (rc) {
+      throw runtime_error(sqlite3_errmsg(db));
+    }
+    for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
+      progresswindow.iterate();
+      ustring verse = reader.ustring3[i].casefold();
+      if (verse.find (text) != string::npos) {
+        Reference reference (0);
+        reference.book = convert_to_int (reader.ustring0[i]);
+        reference.chapter = convert_to_int (reader.ustring1[i]);
+        reference.verse = reader.ustring2[i];
+        references.push_back (reference);
+      }
+    }
+  }
+  catch(exception & ex) {
+    gw_critical(ex.what());
+  }
+  sqlite3_close(db);
+  return references;
+}
+

@@ -841,6 +841,8 @@ protected:
   WindowSourceLanguages * window_source_languages;
   static void on_window_source_languages_delete_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_source_languages_delete_button();
+  static void on_view_source_languages_signal_button_clicked(GtkButton *button, gpointer user_data);
+  void on_view_source_languages_signal_button();
   
 
 };

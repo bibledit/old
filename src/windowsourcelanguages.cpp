@@ -164,9 +164,7 @@ void WindowSourceLanguages::html_link_clicked (const gchar * url)
 
   else if (active_url.find ("definition") == 0) {
     html_write_references (htmlwriter);
-    EntryDialog dialog ("Strong's number", "Please enter a Strong's number,\n"
-                                           "for example \"G5547\" for number 5547 in the Greek lexicon,\n"
-                                           "or \"H430\" for number 430 in the Hebrew lexicon", "");
+    EntryDialog dialog ("Strong's number", enter_strongs_number (), "");
     if (dialog.run() == GTK_RESPONSE_OK) {
       main_morphologies.clear();
       main_strongs_numbers.clear();
@@ -176,6 +174,23 @@ void WindowSourceLanguages::html_link_clicked (const gchar * url)
       display_another_page = false;
     }
     html_write_morphology_and_strongs_definitions (htmlwriter);
+  }
+
+  else if (active_url.find ("searchtext") == 0) {
+    display_another_page = false;
+    EntryDialog dialog ("Search", "Please enter the text to search for", "");
+    if (dialog.run() == GTK_RESPONSE_OK) {
+      references = kjv_search (dialog.entered_value);
+      gtk_button_clicked(GTK_BUTTON(signal_button));
+    }
+  }
+
+  else if (active_url.find ("searchstrong") == 0) { // Todo
+    display_another_page = false;
+    EntryDialog dialog ("Strong's number", enter_strongs_number (), "");
+    if (dialog.run() == GTK_RESPONSE_OK) {
+      // (dialog.entered_value);
+    }
   }
 
   else {
@@ -258,6 +273,12 @@ void WindowSourceLanguages::html_write_action_page (HtmlWriter2& htmlwriter)
   htmlwriter.hyperlink_add ("", "[home]");
   htmlwriter.paragraph_close ();
   htmlwriter.paragraph_open ();
+  htmlwriter.hyperlink_add ("searchtext", "Search for text");
+  htmlwriter.paragraph_close ();
+  htmlwriter.paragraph_open ();
+  htmlwriter.hyperlink_add ("searchstrong", "Search on a Strong's number");
+  htmlwriter.paragraph_close ();
+  htmlwriter.paragraph_open ();
   htmlwriter.hyperlink_add ("definition", "Enter a Strong's number and view its definition");
   htmlwriter.paragraph_close ();
 }
@@ -320,3 +341,9 @@ void WindowSourceLanguages::html_write_morphology_and_strongs_definitions (HtmlW
 }
 
 
+const gchar * WindowSourceLanguages::enter_strongs_number () // Todo consolidate text here.
+{
+  return "Please enter a Strong's number,\n"
+         "for example \"G5547\" for number 5547 in the Greek lexicon,\n"
+         "or \"H430\" for number 430 in the Hebrew lexicon";
+}
