@@ -622,7 +622,7 @@ void kjv_get_lemmata_and_morphology (const Reference& reference, vector <ustring
 }
 
 
-vector <Reference> kjv_search (ustring text)
+vector <Reference> kjv_search_text (ustring text)
 // Searches the KJV for "text" and returns the references.
 {
   // Show the progress. KJV has 31102 verses.
@@ -664,5 +664,20 @@ vector <Reference> kjv_search (ustring text)
   }
   sqlite3_close(db);
   return references;
+}
+
+
+vector <Reference> kjv_search_strong (ustring strong)
+// Searches the KJV for a Strong's number and returns the references.
+{
+  bool greek_lexicon = strong.substr (0, 1) == "G";
+  vector <unsigned int> books;
+  if (greek_lexicon)
+    books = books_type_to_ids (btNewTestament);
+  else
+    books = books_type_to_ids (btOldTestament);
+  Reference reference (books[0], 1, "1");
+  unsigned int strongs = convert_to_int (number_in_string (strong));
+  return kjv_get_strongs_verses (reference, strongs);
 }
 

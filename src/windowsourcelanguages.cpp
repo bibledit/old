@@ -180,16 +180,17 @@ void WindowSourceLanguages::html_link_clicked (const gchar * url)
     display_another_page = false;
     EntryDialog dialog ("Search", "Please enter the text to search for", "");
     if (dialog.run() == GTK_RESPONSE_OK) {
-      references = kjv_search (dialog.entered_value);
+      references = kjv_search_text (dialog.entered_value);
       gtk_button_clicked(GTK_BUTTON(signal_button));
     }
   }
 
-  else if (active_url.find ("searchstrong") == 0) { // Todo
+  else if (active_url.find ("searchstrong") == 0) {
     display_another_page = false;
     EntryDialog dialog ("Strong's number", enter_strongs_number (), "");
     if (dialog.run() == GTK_RESPONSE_OK) {
-      // (dialog.entered_value);
+      references = kjv_search_strong (dialog.entered_value);
+      gtk_button_clicked(GTK_BUTTON(signal_button));
     }
   }
 
@@ -341,7 +342,7 @@ void WindowSourceLanguages::html_write_morphology_and_strongs_definitions (HtmlW
 }
 
 
-const gchar * WindowSourceLanguages::enter_strongs_number () // Todo consolidate text here.
+const gchar * WindowSourceLanguages::enter_strongs_number ()
 {
   return "Please enter a Strong's number,\n"
          "for example \"G5547\" for number 5547 in the Greek lexicon,\n"

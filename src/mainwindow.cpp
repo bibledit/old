@@ -7306,13 +7306,6 @@ Todo various tasks.
 Resources into Bibledit
 
 
-It has a web page with links for the aided actions:
-* Search text
-Search results go to the references window.
-* Search on Strong's number.
-
-
-
 The THxxxx parsings in the OT, from the Online Bible, need to be parsed.
 It is not easy to export these from the Online Bible, as so far these could get copied to the clipboard one by one only.
 A request for redistribution and access was sent to the Online Bible support.
