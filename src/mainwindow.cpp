@@ -7303,19 +7303,19 @@ Todo various tasks.
 
 
 
+
+
 Resources into Bibledit
 
 
 The THxxxx parsings in the OT, from the Online Bible, need to be parsed.
 It is not easy to export these from the Online Bible, as so far these could get copied to the clipboard one by one only.
-A request for redistribution and access was sent to the Online Bible support.
+A request for redistribution and access was sent to Online Bible support.
 
 
 
 Scrivener Greek New Testament
 
-
-Lexicons: downloading a site from the web.
 
 
 The resources need to be available in usfm code, so that it can be included with the parallel bible.
@@ -7324,6 +7324,7 @@ When a dormant resource is opened, it converts it into usfm, if needed, and then
 
 
 The blueletterbible.org does have Thayer's lexicon online, and Bibledit should have access to that as a Lexicon. 
+A crawler is needed that does this.
 
 
 About importing Paratext's keyterms, this is not needed in full, only partial, such as realia, flora, fauna.
@@ -7332,7 +7333,7 @@ We really need to import the KJV with Strong's encodings, which can then be used
 where the user sees all lthe words in the verse, and can click on any of them to see how it was rendered in other verses.
 
 
-Lots of harvesting from the internet so we can have lexicons, hebrew text, greek text, king james with strong's.
+Lots of harvesting from the internet so we can have lexicons, hebrew text, greek text.
 All these should be interlinked and searchable. 
 
 
@@ -7364,6 +7365,8 @@ http://www.freebiblesoftware.com
 
 King James Version: How to show the italics? Probably read these from the xml files, and then store these as brackets.
 
+
+http://www.easyenglish.info
 
 
 
