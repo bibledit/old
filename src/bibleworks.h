@@ -27,9 +27,17 @@
 #include "types.h"
 
 
-ustring bibleworks_file_get_bookname (const ustring& filename);
+enum BibleWorksTextConversionType {btctNone, btctHebrew, btctGreek};
+
+
+ustring bibleworks_exported_file_get_bookname (const ustring& filename);
+bool bibleworks_clipboard_file_okay (const ustring& filename);
+unsigned int bibleworks_clipboard_file_line_get_extract_book_id (ustring& line);
 void import_check_bibleworks_file (vector <ustring>& filenames, vector <unsigned int>& bookids, const ustring& bible, vector <ustring>& messages);
-void import_bibleworks_file (const ustring& file, const ustring& bible, vector <ustring>& messages);
+void import_bibleworks_text_file (const ustring& file, const ustring& bible, vector <ustring>& messages);
+void check_bibleworks_source_language (vector <ustring>& filenames, vector <ustring>& messages);
+void import_bibleworks_source_language (vector <ustring>& files, const ustring& name, BibleWorksTextConversionType conversion, vector <ustring>& messages);
+ustring convert_bibleworks_greek (ustring line);
 
 
 #endif

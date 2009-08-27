@@ -7300,12 +7300,36 @@ Todo various tasks.
 
 
 
+To make more general source language databases available.
+All tags work on word offset, not on positions anymore.
+All databases start with source_language_
+Whether the underlining can go away using certain code in the html code.
 
 
 
 
 
-Resources into Bibledit
+Scrivener Greek New Testament
+Step 1: In BibleWorks 8 set the desired module, e.g. SCR, as the default module. 
+* Then search for "*". In the command line this is done by entering ".*" and then pressing Enter.
+* All the verses of that module will now show up in the verse list.
+* Right-click in the verse list, and choose "Copy Verse List + Text" / "Copy to Clipboard".
+* It will transfer all the verses, and this will take a while to complete.
+* Start WordPad, and paste the text from the clipboard into WordPad.
+* When for example the SCR module was used, the first line of text will look like this:
+﻿SCR Matthew 1:1  Βίβλος γενέσεως Ἰησοῦ Χριστοῦ, υἱοῦ Δαβὶδ, υἱοῦ Ἀβραάμ.
+* Save it from WordPad as a Unicode Text Document.
+* Do the same with the module that contains the morphology, for example module SCM.
+* The first line would look like this:
+SCM Matthew 1:1  βίβλος@nnfs γένεσις@ngfs Ἰησοῦς@ngms Χριστός@ngms υἱός@ngms Δαυίδ@tp υἱός@ngms Ἀβραάμ@tp
+* You will end up having two files, for example scr.txt and scm.txt.
+* Both of these files should now be opened in gedit once, and then saved in UTF-8 format. This is necessary so as to make it true Unicode.
+  Else Bibledit would complain about it.
+Steps: Choose the files, give a name to the new source language to be imported.
+Step: Import the two files.
+
+
+
 
 
 The THxxxx parsings in the OT, from the Online Bible, need to be parsed.
@@ -7314,13 +7338,11 @@ A request for redistribution and access was sent to Online Bible support.
 
 
 
-Scrivener Greek New Testament
-
-
-
 The resources need to be available in usfm code, so that it can be included with the parallel bible.
 Such available resources, not yet opened in a project, are visible when doing Ctrl-O, under the "Dormant" tab.
 When a dormant resource is opened, it converts it into usfm, if needed, and then opens it in a new project.
+This needs to be implemented for all source languages now available, e.g. KJV, and whatever is imported from BibleWorks.
+
 
 
 The blueletterbible.org does have Thayer's lexicon online, and Bibledit should have access to that as a Lexicon. 
@@ -7478,6 +7500,26 @@ But the problem may have been that when exporting the "Staten Bible", that there
 
 
 To create two packages: bibledit, bibledit-data
+Can these go in one project bibledit on nongnu, or does that need other projects to be started?
+
+
+
+
+
+
+To discuss with Larry Pierce whether the Online Bible automation server also can be modified to implement scrolling
+in the same way as the BibleWorks program has it?
+
+
+
+
+Once all the dictionaries are in, and more source languages are available, we need to link between Strong's number
+and Greek / Hebrew words, and then have a uniform morphology system, so that we can have one system of lemmata and
+morphology, and use all dictionaries for everything, and all source languages for everything as well.
+The above requires a lot of data to be present, also downloading the lexicons from the blueletterbible.org,
+as these link between greek/hebrew word and strong's numbers.
+
+
 
 
 */

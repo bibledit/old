@@ -29,6 +29,7 @@
 #include "directories.h"
 #include "unixwrappers.h"
 #include "sqlite_reader.h"
+#include "sourcelanguage.h"
 
 
 ustring kjv_get_sword_xml_filename()
@@ -48,7 +49,7 @@ ustring kjv_get_zefania_xml_filename()
 ustring kjv_get_sql_filename()
 // Gives the filename for the created KJV database.
 {
-  return gw_build_filename(directories_get_databases(), "kjv.sql");
+  return source_language_database_file_name ("King James Bible");
 }
 
 
@@ -106,7 +107,7 @@ void kjv_import (GKeyFile *keyfile)
   sqlite3 *db;
   sqlite3_open(kjv_get_sql_filename().c_str(), &db);
   sqlite3_exec(db, "create table text (book integer, chapter integer, verse integer, text text);", NULL, NULL, NULL);
-  sqlite3_exec(db, "create table strong (book integer, chapter integer, verse integer, start integer, end integer, number integer);", NULL, NULL, NULL);
+  sqlite3_exec(db, "create table strong (book integer, chapter integer, verse integer, item integer, number integer);", NULL, NULL, NULL);
   sqlite3_exec(db, "create table morphology (book integer, chapter integer, verse integer, item integer, value text);", NULL, NULL, NULL);
   sqlite3_close(db);
 
@@ -264,8 +265,9 @@ void kjv_import_zefania ()
   if (reader) {
     bool within_VERS_element = false;
     Reference reference (0, 0, "0");
+    unsigned int total_items_count = 0;
+    unsigned int current_items_count = 0;
     ustring verse_text;
-    size_t strongs_start_position = 0;
     unsigned int strongs_number = 0;
     while ((xmlTextReaderRead(reader) == 1)) {
       switch (xmlTextReaderNodeType(reader)) {
@@ -299,14 +301,13 @@ void kjv_import_zefania ()
               reference.verse = attribute;
               free(attribute);
             }
+            total_items_count = 0;
           }
           // Deal with the "gr" element. It has the Strong's number.
           if (!xmlStrcmp(element_name, BAD_CAST "gr")) {
             char *attribute;
             attribute = (char *)xmlTextReaderGetAttribute(reader, BAD_CAST "str");
             if (attribute) {
-              // Store the position within the verse where the Strong's number starts.
-              strongs_start_position = verse_text.length();
               // The Strong's number usually is a plain number, like so: "853". 
               // But at times it has an asterisk, like so: "*853".
               strongs_number = convert_to_int (number_in_string (attribute));
@@ -320,16 +321,21 @@ void kjv_import_zefania ()
           xmlChar *text = xmlTextReaderValue(reader);
           if (text) {
             if (within_VERS_element) {
-              ustring verse = (const gchar *) text;
-              // Correct the text in the xml file that starts with a space.
-              if (verse_text.empty()) {
-                if (verse.substr (0, 1) == " ") {
-                  verse.erase (0, 1);
+              ustring text2 = (const gchar *) text;
+              Parse parse (trim (text2), false);
+              current_items_count = parse.words.size();
+              for (unsigned int i = 0; i < parse.words.size(); i++) {
+                if (!verse_text.empty()) {
+                  gunichar unichar = g_utf8_get_char(parse.words[i].substr (0, 1).c_str());
+                  if (g_unichar_ispunct(unichar)) {
+                    current_items_count--;
+                  } else {
+                    verse_text.append (" ");
+                  }
                 }
+                verse_text.append (parse.words[i]);
               }
-              verse_text.append (verse);
-              // Remove double spaces.
-              replace_text (verse_text, "  ", " ");
+              total_items_count += current_items_count;
             }
             xmlFree(text);
           }
@@ -350,18 +356,14 @@ void kjv_import_zefania ()
             verse_text.clear();
           }
           if (!xmlStrcmp(element_name, BAD_CAST "gr")) {
-            // Store the position within the verse where the Strong's number ends.
-            size_t strongs_end_position = verse_text.length();
-            // Correct the space that at times is included within the text that the Strong's number refers to.
-            if (strongs_end_position > strongs_start_position) {
-              if (g_str_has_suffix (verse_text.c_str(), " ")) {
-                strongs_end_position--;
-              }
+            unsigned int start_position = total_items_count - current_items_count;
+            unsigned int end_position = start_position + current_items_count;
+            for (unsigned int i = start_position; i < end_position; i++) {
+              char *sql;
+              sql = g_strdup_printf("insert into strong values (%d, %d, %d, %d, %d);", reference.book, reference.chapter, convert_to_int (reference.verse), i, strongs_number);
+              sqlite3_exec(db, sql, NULL, NULL, NULL);
+              g_free(sql);
             }
-            char *sql;
-            sql = g_strdup_printf("insert into strong values (%d, %d, %d, %d, %d, %d);", reference.book, reference.chapter, convert_to_int (reference.verse), strongs_start_position, strongs_end_position, strongs_number);
-            sqlite3_exec(db, sql, NULL, NULL, NULL);
-            g_free(sql);
           }
           break;
         }

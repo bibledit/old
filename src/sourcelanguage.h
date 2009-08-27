@@ -18,34 +18,16 @@
 */
 
 
-#ifndef INCLUDED_IMPORT_H
-#define INCLUDED_IMPORT_H
+#ifndef INCLUDED_SOURCE_LANGUAGE_H
+#define INCLUDED_SOURCE_LANGUAGE_H
 
 
 #include "libraries.h"
-#include <gtk/gtk.h>
-#include "types.h"
+#include <glib.h>
+#include <sqlite3.h>
 
 
-enum ImportType {itBible, itReferences, itStylesheet, itNotes, itKeyterms, itSourceLanguage};
-enum ImportBibleType {ibtUsfm, ibtBibleWorks, ibtOnlineBible, ibtRawText};
-
-
-
-class ImportBookRead
-{
-public:
-  ImportBookRead (const ustring& filename, const ustring& encoding);
-  vector<ustring> lines;
-  ustring bookname;
-private:
-  vector<ustring> rawlines;
-};
-
-
-gchar * unicode_convert (gchar *data, const ustring& encoding);
-void import_check_usfm_files (vector <ustring>& filenames, vector <unsigned int>& bookids, const ustring& bible, vector <ustring>& messages);
-void import_usfm_file (const ustring& file, unsigned int book, const ustring& project, vector <ustring>& messages);
+ustring source_language_database_file_name (const ustring& name);
 
 
 #endif

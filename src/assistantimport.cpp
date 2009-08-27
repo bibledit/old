@@ -38,7 +38,6 @@
 #include "keyterms.h"
 #include "usfmtools.h"
 #include "books.h"
-#include "bibleworks.h"
 #include "onlinebible.h"
 
 
@@ -115,12 +114,19 @@ AssistantBase("Import", "import")
   // Importing keyterms only works when the check keyterms window shows.
   gtk_widget_set_sensitive (radiobutton_select_type_keyterms, my_check_keyterms_window != NULL);
   
+  radiobutton_select_type_source_language = gtk_radio_button_new_with_mnemonic (NULL, "Source language");
+  gtk_widget_show (radiobutton_select_type_source_language);
+  gtk_box_pack_start (GTK_BOX (vbox_select_type), radiobutton_select_type_source_language, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_source_language), radiobutton_select_type_group);
+  radiobutton_select_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_select_type_source_language));
+
   Shortcuts shortcuts_select_type (0);
   shortcuts_select_type.button (radiobutton_select_type_bible);
   shortcuts_select_type.button (radiobutton_select_type_references);
   shortcuts_select_type.button (radiobutton_select_type_stylesheet);
   shortcuts_select_type.button (radiobutton_select_type_notes);
   shortcuts_select_type.button (radiobutton_select_type_keyterms);
+  shortcuts_select_type.button (radiobutton_select_type_source_language);
   shortcuts_select_type.consider_assistant();
   shortcuts_select_type.process();
 
@@ -377,6 +383,29 @@ AssistantBase("Import", "import")
 
   sword_values_set ();
 
+  // Select what type of source language to import.
+  vbox_source_language_type = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (vbox_source_language_type);
+  page_number_source_language_type = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_source_language_type);
+  gtk_container_set_border_width (GTK_CONTAINER (vbox_source_language_type), 10);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_source_language_type, "What type of data would you like to import?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_source_language_type, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_source_language_type, true);
+
+  GSList *radiobutton_source_language_type_group = NULL;
+
+  radiobutton_source_language_bibleworks = gtk_radio_button_new_with_mnemonic (NULL, "From BibleWorks");
+  gtk_widget_show (radiobutton_source_language_bibleworks);
+  gtk_box_pack_start (GTK_BOX (vbox_source_language_type), radiobutton_source_language_bibleworks, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_source_language_bibleworks), radiobutton_source_language_type_group);
+  radiobutton_source_language_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_source_language_bibleworks));
+
+  Shortcuts shortcuts_select_source_language_type (0);
+  shortcuts_select_source_language_type.button (radiobutton_source_language_bibleworks);
+  shortcuts_select_source_language_type.consider_assistant();
+  shortcuts_select_source_language_type.process();
+
   // Include keyterms without a rendering?
   checkbutton_keyterms_without_rendering = gtk_check_button_new_with_mnemonic ("Include keyterms without a rendering");
   gtk_widget_show (checkbutton_keyterms_without_rendering);
@@ -520,6 +549,52 @@ AssistantBase("Import", "import")
   gtk_widget_show (label_unicode);
   gtk_box_pack_start (GTK_BOX (hbox2), label_unicode, FALSE, FALSE, 0);
 
+  // BibleWorks text conversion type.
+  vbox_bibleworks_text_conversion_type = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (vbox_bibleworks_text_conversion_type);
+  page_number_bibleworks_text_conversion_type = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_bibleworks_text_conversion_type);
+  gtk_container_set_border_width (GTK_CONTAINER (vbox_bibleworks_text_conversion_type), 10);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_bibleworks_text_conversion_type, "Should the text be converted?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_bibleworks_text_conversion_type, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_bibleworks_text_conversion_type, true);
+
+  GSList *radiobutton_bibledit_text_conversion_type_group = NULL;
+
+  radiobutton_bibleworks_text_conversion_none = gtk_radio_button_new_with_mnemonic (NULL, "No, leave it as it is");
+  gtk_widget_show (radiobutton_bibleworks_text_conversion_none);
+  gtk_box_pack_start (GTK_BOX (vbox_bibleworks_text_conversion_type), radiobutton_bibleworks_text_conversion_none, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bibleworks_text_conversion_none), radiobutton_bibledit_text_conversion_type_group);
+  radiobutton_bibledit_text_conversion_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bibleworks_text_conversion_none));
+
+  radiobutton_bibleworks_text_conversion_hebrew = gtk_radio_button_new_with_mnemonic (NULL, "Yes, convert it into Hebrew");
+  gtk_widget_show (radiobutton_bibleworks_text_conversion_hebrew);
+  gtk_box_pack_start (GTK_BOX (vbox_bibleworks_text_conversion_type), radiobutton_bibleworks_text_conversion_hebrew, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bibleworks_text_conversion_hebrew), radiobutton_bibledit_text_conversion_type_group);
+  radiobutton_bibledit_text_conversion_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bibleworks_text_conversion_hebrew));
+
+  radiobutton_bibleworks_text_conversion_greek = gtk_radio_button_new_with_mnemonic (NULL, "Yes, convert it into Greek");
+  gtk_widget_show (radiobutton_bibleworks_text_conversion_greek);
+  gtk_box_pack_start (GTK_BOX (vbox_bibleworks_text_conversion_type), radiobutton_bibleworks_text_conversion_greek, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bibleworks_text_conversion_greek), radiobutton_bibledit_text_conversion_type_group);
+  radiobutton_bibledit_text_conversion_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bibleworks_text_conversion_greek));
+
+  Shortcuts shortcuts_bibleworks_text_conversion_type (0);
+  shortcuts_bibleworks_text_conversion_type.button (radiobutton_bibleworks_text_conversion_none);
+  shortcuts_bibleworks_text_conversion_type.button (radiobutton_bibleworks_text_conversion_hebrew);
+  shortcuts_bibleworks_text_conversion_type.button (radiobutton_bibleworks_text_conversion_greek);
+  shortcuts_bibleworks_text_conversion_type.consider_assistant();
+  shortcuts_bibleworks_text_conversion_type.process();
+
+  // Source language name.
+  entry_source_language_name = gtk_entry_new ();
+  gtk_widget_show (entry_source_language_name);
+  page_number_source_language_name = gtk_assistant_append_page (GTK_ASSISTANT (assistant), entry_source_language_name);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), entry_source_language_name, "What will the name of the source language be?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), entry_source_language_name, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), entry_source_language_name, true);
+  
   // Build the confirmation stuff.
   label_confirm = gtk_label_new ("Import about to be done");
   gtk_widget_show (label_confirm);
@@ -641,7 +716,7 @@ void ImportAssistant::on_assistant_apply ()
 {
   // Take action depending on the type of import.
   switch (get_type()) {
-    case etBible:
+    case itBible:
     {
       switch (get_bible_type()) {
         case ibtUsfm:
@@ -653,7 +728,7 @@ void ImportAssistant::on_assistant_apply ()
         }
         case ibtBibleWorks:
         {
-          import_bibleworks_file (files_names[0], bible_name, summary_messages);
+          import_bibleworks_text_file (files_names[0], bible_name, summary_messages);
           break;
         }
         case ibtOnlineBible:
@@ -669,29 +744,34 @@ void ImportAssistant::on_assistant_apply ()
       }
       break;
     }
-    case etReferences:
+    case itReferences:
     {
       summary_messages.push_back ("Importing references is done in the references window.");
       summary_messages.push_back ("In that window, click on [actions], then click on \"Import a list of references\".");
       break;
     }
-    case etStylesheet:
+    case itStylesheet:
     {
       if (my_styles_window) {
         my_styles_window->on_stylesheet_import();
       }
       break;
     }
-    case etNotes:
+    case itNotes:
     {
       summary_messages.push_back ("After this window closes an opportunity will be offered to import notes.");
       import_notes = true;
       break;
     }
-    case etKeyterms:
+    case itKeyterms:
     {
       summary_messages.push_back ("After this window closes an opportunity will be offered to import keyterms.");
       import_keyterms = true;
+      break;
+    }
+    case itSourceLanguage:
+    {
+      import_bibleworks_source_language (files_names, source_language_name(), get_bibleworks_text_conversion_type (), summary_messages);
       break;
     }
   }
@@ -713,7 +793,7 @@ gint ImportAssistant::assistant_forward (gint current_page)
   forward_sequence.clear();
   forward_sequence.insert (page_number_select_type);
   switch (get_type()) {
-    case etBible:
+    case itBible:
     {
       switch (get_bible_type()) {
         case ibtUsfm:
@@ -745,20 +825,28 @@ gint ImportAssistant::assistant_forward (gint current_page)
       }
       break;
     }
-    case etReferences:
+    case itReferences:
     {
       break;
     }
-    case etStylesheet:
+    case itStylesheet:
     {
       break;
     }
-    case etNotes:
+    case itNotes:
     {
       break;
     }
-    case etKeyterms:
+    case itKeyterms:
     {
+      break;
+    }
+    case itSourceLanguage:
+    {
+      forward_sequence.insert (page_number_source_language_type);
+      forward_sequence.insert (page_number_files);
+      //forward_sequence.insert (page_number_bibleworks_text_conversion_type);
+      forward_sequence.insert (page_number_source_language_name);
       break;
     }
   }
@@ -892,47 +980,54 @@ void ImportAssistant::on_button_files ()
   }
 
   // Specific checks for each import type. 
-  switch (get_type ()) {
-  case itBible:
-    {
-      switch (get_bible_type()) {
-      case ibtUsfm:
-        {
-          import_check_usfm_files (files_names, files_book_ids, bible_name, files_messages);
-          break;
+  if (files_messages.empty()) {
+    switch (get_type ()) {
+    case itBible:
+      {
+        switch (get_bible_type()) {
+        case ibtUsfm:
+          {
+            import_check_usfm_files (files_names, files_book_ids, bible_name, files_messages);
+            break;
+          }
+        case ibtBibleWorks:
+          {
+            import_check_bibleworks_file (files_names, files_book_ids, bible_name, files_messages);
+            break;
+          }
+        case ibtOnlineBible:
+          {
+            //online_bible_check_file (files_names, files_book_ids, bible_name, files_messages);
+            break;
+          }
+        case ibtRawText:
+          {
+            break;
+          }
         }
-      case ibtBibleWorks:
-        {
-          import_check_bibleworks_file (files_names, files_book_ids, bible_name, files_messages);
-          break;
-        }
-      case ibtOnlineBible:
-        {
-          //online_bible_check_file (files_names, files_book_ids, bible_name, files_messages);
-          break;
-        }
-      case ibtRawText:
-        {
-          break;
-        }
+        break;
       }
-      break;
-    }
-  case itReferences:
-    {
-      break;
-    }
-  case itStylesheet:
-    {
-      break;
-    }
-  case itNotes:
-    {
-      break;
-    }
-  case itKeyterms:
-    {
-      break;
+    case itReferences:
+      {
+        break;
+      }
+    case itStylesheet:
+      {
+        break;
+      }
+    case itNotes:
+      {
+        break;
+      }
+    case itKeyterms:
+      {
+        break;
+      }
+    case itSourceLanguage:
+      {
+        check_bibleworks_source_language (files_names, files_messages);
+        break;
+      }
     }
   }
 
@@ -969,6 +1064,9 @@ ImportType ImportAssistant::get_type ()
   }
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_select_type_keyterms))) {
     return itKeyterms;
+  }
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_select_type_source_language))) {
+    return itSourceLanguage;
   }
   return itBible;
 }
@@ -1070,155 +1168,24 @@ bool ImportAssistant::get_include_keyterms_without_rendering ()
 }
 
 
-/*
-
-
-Code that describes how data from the Online Bible was imported.
-
-
-
-void set_gui()
+ustring ImportAssistant::source_language_name ()
 {
-
-
-
-  // When importing files from the Online Bible, we can use unusual book names.
-  // But we should know the book names that are used in e.g. the Dutch books, so these are known by Bibledit.
-
-
-
-  case ibtOnlineBible:
-    {
-      // Divide the files per book as we don't know how many books the user put in one file.
-      vector < ustring > olb_text_files(proper_text_files);
-      proper_text_files.clear();
-      for (unsigned int i = 0; i < olb_text_files.size(); i++) {
-        vector < ustring > filenames = online_bible_file_divide(olb_text_files[i], general_adapted_booknames_fill_up(unusual_book_names));
-        for (unsigned int i2 = 0; i2 < filenames.size(); i2++) {
-          proper_text_files.push_back(filenames[i2]);
-        }
-      }
-      break;
-    }
-  }
-
-  // Handle Book Assignment.
-
-  // Vector contains all English names of the proper text files.
-  vector < ustring > textfiles_names;
-  for (unsigned int i = 0; i < proper_text_files.size(); i++) {
-    ustring english_name;
-    switch (importtype) {
-    case ibtOnlineBible:
-      {
-        unsigned int book, chapter, verse;
-        ReadText rt (proper_text_files[i], true, false);
-        map <ustring, unsigned int> bookmap = general_adapted_booknames_fill_up(unusual_book_names);
-        online_bible_parse_reference (rt.lines[0], book, chapter, verse, bookmap);
-        english_name = books_id_to_english(book);
-        break;
-      }
-    case ibtRawText:
-      {
-        break;
-      }
-    }
-    textfiles_names.push_back(english_name);
-  }
-  // See if we have booknames for all our textfiles. If not try to get them.
-  unknown_filenames.clear();
-  for (unsigned int i = 0; i < textfiles_names.size(); i++) {
-    if (textfiles_names[i].empty()) {
-      textfiles_names[i] = filename_bookname_map[proper_text_files[i]];
-      if (textfiles_names[i].empty())
-        unknown_filenames.push_back(proper_text_files[i]);
-    }
-  }
-  // If the user has assigned names to unknwon books, even if some books were 
-  // left unassigned, it still will be regarded as done.
-  if (assigning_done)
-    unknown_filenames.clear();
-  // Set gui and button depending on whether booknames are fine.  
-  gui_okay(image_assign_ok, label_assign_ok, unknown_filenames.empty());
-  gtk_widget_set_sensitive(button_assign, !unknown_filenames.empty());
-  ustring assign_information;
-  if (unknown_filenames.empty()) {
-    assign_information = "The names of all books are known";
-  } else {
-    assign_information = "There are unknown books: " + convert_to_string(unknown_filenames.size());
-  }
-  gtk_label_set_text(GTK_LABEL(label_assign_info), assign_information.c_str());
-
-  // Clear initialization flag.
-  select_all_books = false;
-  // Set whether anything was selected.
-  gui_okay(image_books, label_books_gui, selected_books.size() > 0);
-  // Information for user.
-  info = "Books selected: " + convert_to_string((unsigned int)selected_books.size()) + " out of " + convert_to_string((unsigned int)selectable_booknames.size());
-  if (!books_already_in_project.empty()) {
-    info.append("\nBooks that could not be imported\nbecause they are already in the project: " + convert_to_string((unsigned int)books_already_in_project.size()));
-  }
-  gtk_label_set_text(GTK_LABEL(label_books), info.c_str());
-
-
-
-
+  return gtk_entry_get_text (GTK_ENTRY (entry_source_language_name));
 }
 
 
-void on_okbutton()
-// Does the actual import
+BibleWorksTextConversionType ImportAssistant::get_bibleworks_text_conversion_type ()
 {
-  extern Settings *settings;
-
-  // Progress.
-  ProgressWindow progress("Importing ...", false);
-  progress.set_iterate(0, 1, selectable_booknames.size());
-
-  // Go through all selectable books.
-  for (unsigned int i = 0; i < selectable_booknames.size(); i++) {
-    progress.iterate();
-    // Is book selected for import?
-    if (selected_books.find(selectable_booknames[i]) != selected_books.end()) {
-      // Get book's filename.
-      ustring source = selectable_filenames[i];
-
-      ImportBookRead ibr(source, encoding);
-      // Depending on type of import, convert the book.
-      switch (importtype) {
-      case ibtBibleWorks:
-        {
-          ibr.bibleworks();
-          break;
-        }
-      case ibtOnlineBible:
-        {
-          ibr.onlinebible(general_adapted_booknames_fill_up(unusual_book_names));
-          break;
-        }
-      case ibtRawText:
-        {
-          ibr.usfm();
-          break;
-        }
-      }
-      // Rewrite the \id line, mainly for unknown books, but also just to be sure.
-      for (unsigned int ln = 0; ln < ibr.lines.size(); ln++) {
-        if (ibr.lines[ln].find("\\id ") == 0) {
-          ustring id = books_id_to_paratext(selectable_booknames[i]);
-          if (!id.empty()) {
-            ibr.lines[ln].erase(4, 3);
-            ibr.lines[ln].insert(4, id);
-          }
-          break;
-        }
-      }
-      // Categorize the lines.
-      CategorizeChapterVerse ccv(ibr.lines);
-      // Store in project.
-      project_store_book(settings->genconfig.project_get(), selectable_booknames[i], ccv);
-    }
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_bibleworks_text_conversion_none))) {
+    return btctNone;
   }
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_bibleworks_text_conversion_hebrew))) {
+    return btctHebrew;
+  }
+  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_bibleworks_text_conversion_greek))) {
+    return btctGreek;
+  }
+  return btctNone;
 }
-*/
+
 

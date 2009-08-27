@@ -176,7 +176,7 @@ am_bibledit_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	assistantimport.$(OBJEXT) mechonmamre.$(OBJEXT) \
 	bibleworks.$(OBJEXT) onlinebible.$(OBJEXT) \
 	windowsourcelanguages.$(OBJEXT) lexicons.$(OBJEXT) \
-	robinson.$(OBJEXT)
+	robinson.$(OBJEXT) sourcelanguage.$(OBJEXT)
 bibledit_OBJECTS = $(am_bibledit_OBJECTS)
 bibledit_LDADD = $(LDADD)
 am_bibledit_bibletime_OBJECTS = bibledit-bibletime.$(OBJEXT) \
@@ -635,7 +635,8 @@ bibledit_SOURCES = \
 				onlinebible.cpp \
 				windowsourcelanguages.cpp \
 				lexicons.cpp \
-				robinson.cpp
+				robinson.cpp \
+				sourcelanguage.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -924,6 +925,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shell.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shortcuts.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/snapshots.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sourcelanguage.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/spelling.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sqlite_reader.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/statistics.Po@am__quote@

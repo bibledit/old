@@ -36,7 +36,7 @@ vector <Reference> kjv_get_strongs_verses (const Reference& reference, unsigned 
 ustring kjv_get_verse (const Reference& reference);
 void kjv_get_lemmata_and_morphology (const Reference& reference, vector <ustring>& words,
                                      vector <unsigned int>& lemmata_positions, vector <unsigned int>& lemmata_values, 
-																		 vector <unsigned int>& morphology_positions, vector <ustring>& morphology_values);
+                                     vector <unsigned int>& morphology_positions, vector <ustring>& morphology_values);
 vector <Reference> kjv_search_text (ustring text);
 vector <Reference> kjv_search_strong (ustring strong);
 

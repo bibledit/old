@@ -51,6 +51,7 @@ void quick_sort (vector<ustring>& one, vector<bool>& two, unsigned int beg, unsi
 void quick_sort (vector<ustring>& one, unsigned int beg, unsigned int end);
 void quick_sort (vector<long unsigned int>& one, vector<long unsigned int>& two, unsigned int beg, unsigned int end);
 gchar * de_windows_notepad (gchar * contents);
+void de_byte_order_mark (ustring& line);
 ustring spaces (unsigned int count);
 void bitpattern_add (ustring& pattern, bool setting);
 bool bitpattern_take (ustring& pattern);

@@ -474,6 +474,17 @@ gchar *de_windows_notepad(gchar * contents)
   return returnvalue;
 }
 
+
+void de_byte_order_mark (ustring& line)
+// Some textfiles start with a byte order mark.
+// This function remove it.
+{
+  if (line.find ("﻿") == 0) { // Note that there's text between the quotation marks.
+    line.erase (0, 1);
+  }
+}
+
+
 ustring spaces(unsigned int count)
 // Returns "count" spaces.
 {
