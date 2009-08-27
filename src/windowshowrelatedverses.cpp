@@ -166,13 +166,13 @@ void WindowShowRelatedVerses::html_link_clicked (const gchar * url)
 
     // Get the data.
     vector <unsigned int> strongs;
-    vector <ustring> phrases;
-    kjv_get_strongs_data (myreference, strongs, phrases, false);
+    vector <ustring> words;
+    kjv_get_strongs_data (myreference, strongs, words);
 
     // Display the data.
     for (unsigned int i = 0; i < strongs.size(); i++) {
       htmlwriter.paragraph_open ();
-      htmlwriter.text_add (phrases[i]);
+      htmlwriter.text_add (words[i]);
       htmlwriter.text_add (" ");
       ustring url = "strong " + convert_to_string (strongs[i]);
       htmlwriter.hyperlink_add (url, convert_to_string (strongs[i]));

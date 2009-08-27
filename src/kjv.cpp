@@ -383,9 +383,8 @@ void kjv_import_zefania ()
 }
 
 
-void kjv_get_strongs_data (const Reference& reference, vector <unsigned int>& strongs, vector <ustring>& phrases, bool include_unmarked)
-// This gets the phrases and the strong's numbers for a verse.
-// If to "include unmarked" data, this gets included too. Else it give the marked phrases only.
+void kjv_get_strongs_data (const Reference& reference, vector <unsigned int>& strongs, vector <ustring>& words)
+// This gets the words and their applicable Strong's numbers for a verse.
 {
   sqlite3 *db;
   int rc;
@@ -411,40 +410,24 @@ void kjv_get_strongs_data (const Reference& reference, vector <unsigned int>& st
         text = reader.ustring0[0];
       }
     }
+    // Parse the text.
+    Parse parse (text, false);
     // Retrieve the Strong's data.
     if (!text.empty ()) {
       SqliteReader reader(0);
       char *sql;
-      sql = g_strdup_printf("select start, end, number from strong where book = %d and chapter = %d and verse = %d order by start asc;", reference.book, reference.chapter, convert_to_int (reference.verse));
+      sql = g_strdup_printf("select item, number from strong where book = %d and chapter = %d and verse = %d order by item asc;", reference.book, reference.chapter, convert_to_int (reference.verse));
       rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
       g_free(sql);
       if (rc) {
         throw runtime_error(sqlite3_errmsg(db));
       }
-      vector <size_t> start_positions;
-      vector <size_t> end_positions;
-      vector <unsigned int> numbers;
       for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
-        start_positions.push_back (convert_to_int (reader.ustring0[i]));
-        end_positions.push_back (convert_to_int (reader.ustring1[i]));
-        numbers.push_back (convert_to_int (reader.ustring2[i]));
-      }
-      size_t last_end_position = 0;
-      for (unsigned int i = 0; i < numbers.size(); i++) {
-        if (include_unmarked) {
-          if (start_positions[i] > last_end_position) {
-            strongs.push_back (0);
-            phrases.push_back (text.substr (last_end_position, start_positions[i] - last_end_position));
-          }
-        }
-        strongs.push_back (numbers[i]);
-        phrases.push_back (text.substr (start_positions[i], end_positions[i] - start_positions[i]));
-        last_end_position = end_positions[i];
-      }      
-      if (include_unmarked) {
-        if (text.length() > last_end_position) {
-          strongs.push_back (0);
-          phrases.push_back (text.substr (last_end_position, 1000));
+        unsigned int item = convert_to_int (reader.ustring0[i]);
+        unsigned int number = convert_to_int (reader.ustring1[i]);
+        if (item < parse.words.size()) {
+          strongs.push_back (number);
+          words.push_back (parse.words[item]);
         }
       }
     }
