@@ -44,7 +44,7 @@ void source_language_database_create (const ustring& name)
   sqlite3 *db;
   sqlite3_open(filename.c_str(), &db);
   sqlite3_exec(db, "create table text (book integer, chapter integer, verse integer, text text);", NULL, NULL, NULL);
-  sqlite3_exec(db, "create table strong (book integer, chapter integer, verse integer, item integer, number integer);", NULL, NULL, NULL);
+  sqlite3_exec(db, "create table lemmata (book integer, chapter integer, verse integer, item integer, value text);", NULL, NULL, NULL);
   sqlite3_exec(db, "create table morphology (book integer, chapter integer, verse integer, item integer, value text);", NULL, NULL, NULL);
   sqlite3_close(db);
 }
@@ -150,16 +150,16 @@ void source_language_get_lemmata_and_morphology (const ustring& name, const Refe
 
     // Retrieve the Strong's lemmata.
     {
-       SqliteReader reader(0);
+      SqliteReader reader(0);
       char *sql;
-      sql = g_strdup_printf("select item, number from strong where book = %d and chapter = %d and verse = %d order by item asc;", reference.book, reference.chapter, convert_to_int (reference.verse));
+      sql = g_strdup_printf("select item, value from lemmata where book = %d and chapter = %d and verse = %d order by item asc;", reference.book, reference.chapter, convert_to_int (reference.verse)); // Todo try out.
       rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
       g_free(sql);
       if (rc) {
         throw runtime_error(sqlite3_errmsg(db));
       }
       for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
-        lemmata_positions.push_back (convert_to_int (reader.ustring0[i]));
+        lemmata_positions.push_back (convert_to_int (reader.ustring0[i])); // Todo this becomes a string.
         lemmata_values.push_back (convert_to_int (reader.ustring1[i]));
       }
     }

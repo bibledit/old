@@ -359,7 +359,7 @@ void kjv_import_zefania ()
             unsigned int end_position = start_position + current_items_count;
             for (unsigned int i = start_position; i < end_position; i++) {
               char *sql;
-              sql = g_strdup_printf("insert into strong values (%d, %d, %d, %d, %d);", reference.book, reference.chapter, convert_to_int (reference.verse), i, strongs_number);
+              sql = g_strdup_printf("insert into lemmata values (%d, %d, %d, %d, '%s');", reference.book, reference.chapter, convert_to_int (reference.verse), i, convert_to_string (strongs_number).c_str());
               sqlite3_exec(db, sql, NULL, NULL, NULL);
               g_free(sql);
             }
@@ -415,7 +415,7 @@ void kjv_get_strongs_data (const Reference& reference, vector <unsigned int>& st
     if (!text.empty ()) {
       SqliteReader reader(0);
       char *sql;
-      sql = g_strdup_printf("select item, number from strong where book = %d and chapter = %d and verse = %d order by item asc;", reference.book, reference.chapter, convert_to_int (reference.verse));
+      sql = g_strdup_printf("select item, value from lemmata where book = %d and chapter = %d and verse = %d order by item asc;", reference.book, reference.chapter, convert_to_int (reference.verse));
       rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
       g_free(sql);
       if (rc) {
@@ -459,7 +459,7 @@ vector <Reference> kjv_get_strongs_verses (const Reference& reference, unsigned 
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
     char *sql;
-    sql = g_strdup_printf("select distinct book, chapter, verse from strong where number = %d;", strongs);
+    sql = g_strdup_printf("select distinct book, chapter, verse from lemmata where value = '%s';", convert_to_string (strongs).c_str());
     rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
     g_free(sql);
     if (rc) {

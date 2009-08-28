@@ -7298,9 +7298,6 @@ Todo various tasks.
 
 
 
-
-
-
 Scrivener Greek New Testament
 Step 1: In BibleWorks 8 set the desired module, e.g. SCR, as the default module. 
 * Then search for "*". In the command line this is done by entering ".*" and then pressing Enter.
@@ -7320,13 +7317,18 @@ SCM Matthew 1:1  βίβλος@nnfs γένεσις@ngfs Ἰησοῦς@ngms Χ�
 Steps: Choose the files, give a name to the new source language to be imported.
 Step: Import the two files.
 
+Next step is to extract from the dictionaries we now have which greek word maps to which strong's number.
 
+The various parsings could be left as they are, so we can see from the prefix what parsing it is, e.g. when starting with a B, it comes from
+BibleWorks.
 
 
 
 The THxxxx parsings in the OT, from the Online Bible, need to be parsed.
 It is not easy to export these from the Online Bible, as so far these could get copied to the clipboard one by one only.
 A request for redistribution and access was sent to Online Bible support.
+
+
 
 
 
@@ -7337,14 +7339,19 @@ This needs to be implemented for all source languages now available, e.g. KJV, a
 
 
 
+
 The blueletterbible.org does have Thayer's lexicon online, and Bibledit should have access to that as a Lexicon. 
 A crawler is needed that does this.
+
 
 
 About importing Paratext's keyterms, this is not needed in full, only partial, such as realia, flora, fauna.
 We may integrate our own flora and fauna of the nt and ot into one and the same.
 We really need to import the KJV with Strong's encodings, which can then be used as a base for keyterm checking,
 where the user sees all lthe words in the verse, and can click on any of them to see how it was rendered in other verses.
+
+
+
 
 
 Lots of harvesting from the internet so we can have lexicons, hebrew text, greek text.
@@ -7510,6 +7517,16 @@ and Greek / Hebrew words, and then have a uniform morphology system, so that we 
 morphology, and use all dictionaries for everything, and all source languages for everything as well.
 The above requires a lot of data to be present, also downloading the lexicons from the blueletterbible.org,
 as these link between greek/hebrew word and strong's numbers.
+
+
+
+
+To delete a source language.
+It needs a delete assistant, and this assistant can delete other things as well.
+
+
+
+
 
 
 

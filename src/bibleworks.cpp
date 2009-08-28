@@ -34,6 +34,8 @@
 #include "categorize.h"
 #include "projectutils.h"
 #include "progresswindow.h"
+#include "sourcelanguage.h"
+#include "gtkwrappers.h"
 
 
 ustring bibleworks_exported_file_get_bookname(const ustring & filename)
@@ -276,7 +278,7 @@ void check_bibleworks_source_language (vector <ustring>& filenames, vector <ustr
 }
 
 
-void import_bibleworks_source_language (vector <ustring>& files, const ustring& name, BibleWorksTextConversionType conversion, vector <ustring>& messages)
+void import_bibleworks_source_language (vector <ustring>& files, const ustring& name, BibleWorksTextConversionType conversion, vector <ustring>& messages) // Todo
 {
   // Read the text file and the morphology file.
   // Check that the data looks right.
@@ -291,12 +293,32 @@ void import_bibleworks_source_language (vector <ustring>& files, const ustring& 
     return;
   }
 
-  // Go through the data.
+  // Check that this name is not in use.
+  {
+    vector <ustring> names = source_language_get_names ();
+    set <ustring> names_set (names.begin(), names.end());
+    if (names_set.find (name) != names_set.end()) {
+      ustring message = "The name \"" + name + "\" is already in use";
+      gtkw_dialog_error (NULL, message);
+      messages.push_back (message);
+      return;
+    }
+  }
+  
+  // Create the database.
+  source_language_database_create (name);
+  
+  // Open the database in fast mode.
+  sqlite3 *db;
+  sqlite3_open(source_language_database_file_name(name).c_str(), &db);
+  sqlite3_exec(db, "PRAGMA synchronous=OFF;", NULL, NULL, NULL);
+  
+  // Go through the input data.
   ProgressWindow progresswindow ("Importing", false);
   progresswindow.set_iterate (0, 1, rt_text.lines.size());
   for (unsigned int i = 0; i < rt_text.lines.size(); i++) {
     progresswindow.iterate();
-    if (i > 2)
+    if (i > 10)
       continue;
 
     // The data per line.
@@ -327,11 +349,34 @@ void import_bibleworks_source_language (vector <ustring>& files, const ustring& 
       morphology_line = trim (morphology_line);
     }
 
+    // Store the text.
+    char *sql;
+    sql = g_strdup_printf("insert into text values (%d, %d, %d, '%s');", reference.book, reference.chapter, convert_to_int (reference.verse), double_apostrophy (text_line).c_str());
+    sqlite3_exec(db, sql, NULL, NULL, NULL);
+    g_free(sql);
 
-
-    
-
+    // Store the lemmata and morphology.
+    Parse parse (morphology_line, false);
+    for (unsigned int i = 0; i < parse.words.size(); i++) {
+      size_t pos = parse.words[i].find ("@");
+      if (pos == string::npos) {
+        continue;
+      }
+      ustring lemma = parse.words[i].substr (0, pos);
+      char *sql;
+      sql = g_strdup_printf("insert into lemmata values (%d, %d, %d, %d, '%s');", reference.book, reference.chapter, convert_to_int (reference.verse), i, lemma.c_str());
+      sqlite3_exec(db, sql, NULL, NULL, NULL);
+      g_free(sql);
+      parse.words[i].erase (0, ++pos);
+      ustring morphology = parse.words[i];
+      sql = g_strdup_printf("insert into morphology values (%d, %d, %d, %d, '%s');", reference.book, reference.chapter, convert_to_int (reference.verse), i, morphology.c_str());
+      sqlite3_exec(db, sql, NULL, NULL, NULL);
+      g_free(sql);
+    }
   }
+
+  // Close database.
+  sqlite3_close(db);
 }
 
 
