@@ -48,7 +48,15 @@ HtmlWriter2::HtmlWriter2(const ustring & title)
   xmlTextWriterStartElement(writer, BAD_CAST "title");
   xmlTextWriterWriteFormatString(writer, title.c_str());
   xmlTextWriterEndElement(writer);
+  
+  /* The following does not work to remove the underline from the link
+  xmlTextWriterStartElement(writer, BAD_CAST "style");
+  xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "type", "text/css");
+  xmlTextWriterWriteFormatString(writer, "a { text-decoration:none }");
+  xmlTextWriterEndElement(writer);
+  */
 
+  // End head.
   xmlTextWriterEndElement(writer);
 
   xmlTextWriterStartElement(writer, BAD_CAST "body");
@@ -151,12 +159,14 @@ void HtmlWriter2::text_add(const ustring& text)
 
 void HtmlWriter2::hyperlink_add (const ustring& url, const ustring& text)
 // <a href="url">text</a>
+// Or for links without underline: <a href="url" style="text-decoration:none">text</a> 
 {
   if (!(heading_opened || paragraph_opened)) {
     paragraph_open ();
   }
   xmlTextWriterStartElement(writer, BAD_CAST "a");
   xmlTextWriterWriteAttribute(writer, BAD_CAST "href", BAD_CAST url.c_str());
+  // Does not work to remove the underline from the link xmlTextWriterWriteAttribute(writer, BAD_CAST "style", BAD_CAST "text-decoration:none");
   xmlTextWriterWriteFormatString(writer, text.c_str());
   xmlTextWriterEndElement(writer);
 }
