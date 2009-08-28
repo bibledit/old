@@ -7301,8 +7301,7 @@ Todo various tasks.
 
 
 To make more general source language databases available.
-All tags work on word offset, not on positions anymore.
-All databases start with source_language_
+The database is not created in kjv.cpp, but somewhere else where it is more general.
 Whether the underlining can go away using certain code in the html code.
 
 

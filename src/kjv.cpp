@@ -550,36 +550,17 @@ void kjv_get_lemmata_and_morphology (const Reference& reference, vector <ustring
 
     // Retrieve the Strong's lemmata.
     {
-      SqliteReader reader(0);
+       SqliteReader reader(0);
       char *sql;
-      sql = g_strdup_printf("select start, end, number from strong where book = %d and chapter = %d and verse = %d order by start asc;", reference.book, reference.chapter, convert_to_int (reference.verse));
+      sql = g_strdup_printf("select item, number from strong where book = %d and chapter = %d and verse = %d order by item asc;", reference.book, reference.chapter, convert_to_int (reference.verse));
       rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
       g_free(sql);
       if (rc) {
         throw runtime_error(sqlite3_errmsg(db));
       }
-      vector <size_t> start_positions;
-      vector <size_t> end_positions;
-      vector <unsigned int> numbers;
       for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
-        start_positions.push_back (convert_to_int (reader.ustring0[i]));
-        end_positions.push_back (convert_to_int (reader.ustring1[i]));
-        numbers.push_back (convert_to_int (reader.ustring2[i]));
-      }
-      size_t word_start = 0;
-      for (unsigned int w = 0; w < words.size(); w++) {
-        size_t word_end = word_start + words[w].length();
-        for (unsigned int p = 0; p < start_positions.size(); p++) {
-          unsigned int start_position = start_positions[p];
-          unsigned int end_position = end_positions[p];
-          if (word_start >= start_position) {
-            if (word_end <= end_position + 1) {
-              lemmata_positions.push_back (w);
-              lemmata_values.push_back (numbers[p]);
-            }
-          }
-        }
-        word_start = word_end + 1; 
+        lemmata_positions.push_back (convert_to_int (reader.ustring0[i]));
+        lemmata_values.push_back (convert_to_int (reader.ustring1[i]));
       }
     }
 
