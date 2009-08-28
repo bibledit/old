@@ -278,7 +278,7 @@ void check_bibleworks_source_language (vector <ustring>& filenames, vector <ustr
 }
 
 
-void import_bibleworks_source_language (vector <ustring>& files, const ustring& name, BibleWorksTextConversionType conversion, vector <ustring>& messages) // Todo
+void import_bibleworks_source_language (vector <ustring>& files, const ustring& name, BibleWorksTextConversionType conversion, vector <ustring>& messages)
 {
   // Read the text file and the morphology file.
   // Check that the data looks right.
@@ -318,8 +318,6 @@ void import_bibleworks_source_language (vector <ustring>& files, const ustring& 
   progresswindow.set_iterate (0, 1, rt_text.lines.size());
   for (unsigned int i = 0; i < rt_text.lines.size(); i++) {
     progresswindow.iterate();
-    if (i > 10)
-      continue;
 
     // The data per line.
     ustring text_line = trim(rt_text.lines[i]);

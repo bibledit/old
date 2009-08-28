@@ -7298,6 +7298,19 @@ Todo various tasks.
 
 
 
+
+Next step is to extract from the dictionaries we now have which greek word maps to which strong's number.
+
+The various parsings could be left as they are, so we can see from the prefix what parsing it is, e.g. when starting with a B, it comes from
+BibleWorks.
+
+
+
+
+
+
+
+To put this in the helpfile:
 Scrivener Greek New Testament
 Step 1: In BibleWorks 8 set the desired module, e.g. SCR, as the default module. 
 * Then search for "*". In the command line this is done by entering ".*" and then pressing Enter.
@@ -7317,10 +7330,7 @@ SCM Matthew 1:1  βίβλος@nnfs γένεσις@ngfs Ἰησοῦς@ngms Χ�
 Steps: Choose the files, give a name to the new source language to be imported.
 Step: Import the two files.
 
-Next step is to extract from the dictionaries we now have which greek word maps to which strong's number.
 
-The various parsings could be left as they are, so we can see from the prefix what parsing it is, e.g. when starting with a B, it comes from
-BibleWorks.
 
 
 

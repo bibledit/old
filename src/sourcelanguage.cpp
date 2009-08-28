@@ -121,13 +121,17 @@ void source_language_get_lemmata_and_morphology (const ustring& name, const Refe
                                                  vector <unsigned int>& morphology_positions, vector <ustring>& morphology_values)
 // Based on a "reference", it provides lemmata and morphology for a verse.
 {
+  ustring filename = source_language_database_file_name(name);
+  if (!g_file_test (filename.c_str(), G_FILE_TEST_IS_REGULAR)) {
+    return;
+  }
   sqlite3 *db;
   int rc;
   char *error = NULL;
   try {
 
     // Open the database.
-    rc = sqlite3_open(source_language_database_file_name(name).c_str(), &db);
+    rc = sqlite3_open(filename.c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
@@ -152,7 +156,7 @@ void source_language_get_lemmata_and_morphology (const ustring& name, const Refe
     {
       SqliteReader reader(0);
       char *sql;
-      sql = g_strdup_printf("select item, value from lemmata where book = %d and chapter = %d and verse = %d order by item asc;", reference.book, reference.chapter, convert_to_int (reference.verse)); // Todo try out.
+      sql = g_strdup_printf("select item, value from lemmata where book = %d and chapter = %d and verse = %d order by item asc;", reference.book, reference.chapter, convert_to_int (reference.verse));
       rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
       g_free(sql);
       if (rc) {
