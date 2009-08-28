@@ -43,6 +43,7 @@
 #include "lexicons.h"
 #include "dialogentry.h"
 #include "robinson.h"
+#include "sourcelanguage.h"
 
 
 WindowSourceLanguages::WindowSourceLanguages(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
@@ -194,6 +195,16 @@ void WindowSourceLanguages::html_link_clicked (const gchar * url)
     }
   }
 
+  else if (active_url.find ("addlanguage") == 0) {
+    source_language_add_to_display ();
+    html_write_references (htmlwriter);
+  }
+
+  else if (active_url.find ("removelanguage") == 0) {
+    source_language_remove_from_display ();
+    html_write_references (htmlwriter);
+  }
+
   else {
     // Load the text.
     html_write_references (htmlwriter);
@@ -220,40 +231,56 @@ void WindowSourceLanguages::html_write_references (HtmlWriter2& htmlwriter)
   // Write action bar.
   html_write_action_bar (htmlwriter, true);
 
-  // Get the verse with the tags.
-  vector <ustring> words;
-  vector <unsigned int> lemmata_positions;
-  vector <unsigned int> lemmata_values;
-  vector <unsigned int> morphology_positions;
-  vector <ustring> morphology_values;
-  kjv_get_lemmata_and_morphology (reference, words, lemmata_positions, lemmata_values, morphology_positions, morphology_values);
+  // Go through all the source languages.
+  extern Settings * settings;
+  vector <ustring> names = settings->genconfig.source_language_names_get ();
+  for (unsigned int i = 0; i < names.size(); i++) {
 
-  // Write the verse with hyperlinks for the tags.
-  htmlwriter.paragraph_open ();
-  for (unsigned int i = 0; i < words.size(); i++) {
-    if (i) {
-      htmlwriter.text_add (" ");
-    }
-    ustring link;
-    for (unsigned int i2 = 0; i2 < lemmata_positions.size(); i2++) {
-      if (lemmata_positions[i2] == i) {
-        link.append (" ");
-        link.append ("strong" + convert_to_string (lemmata_values[i2]));
-      }
-    }
-    for (unsigned int i2 = 0; i2 < morphology_positions.size(); i2++) {
-      if (morphology_positions[i2] == i) {
-        link.append (" ");
-        link.append ("morphology" + morphology_values[i2]);
-      }
-    }
-    if (!link.empty()) {
-      htmlwriter.hyperlink_add ("tag" + link, words[i]);
-    } else {
-      htmlwriter.text_add (words[i]);
+    // Get the verse with the tags.
+    vector <ustring> words;
+    vector <unsigned int> lemmata_positions;
+    vector <unsigned int> lemmata_values;
+    vector <unsigned int> morphology_positions;
+    vector <ustring> morphology_values;
+    source_language_get_lemmata_and_morphology (names[i], reference, words, lemmata_positions, lemmata_values, morphology_positions, morphology_values);
+
+    // Write the verse with hyperlinks for the tags.
+    if (!words.empty ()) {
+      htmlwriter.paragraph_open ();
+      for (unsigned int i = 0; i < words.size(); i++) {
+        if (i) {
+          htmlwriter.text_add (" ");
+        }
+        ustring link;
+        for (unsigned int i2 = 0; i2 < lemmata_positions.size(); i2++) {
+          if (lemmata_positions[i2] == i) {
+            link.append (" ");
+            link.append ("strong" + convert_to_string (lemmata_values[i2]));
+          }
+        }
+        for (unsigned int i2 = 0; i2 < morphology_positions.size(); i2++) {
+          if (morphology_positions[i2] == i) {
+            link.append (" ");
+            link.append ("morphology" + morphology_values[i2]);
+          }
+        }
+        if (!link.empty()) {
+          htmlwriter.hyperlink_add ("tag" + link, words[i]);
+        } else {
+          htmlwriter.text_add (words[i]);
+        }
+      }  
+      htmlwriter.paragraph_close ();
     }
   }  
-  htmlwriter.paragraph_close ();
+
+  // If there are no source languages currently displaying, give a link to add one.  
+  if (names.empty()) {
+    htmlwriter.paragraph_open ();
+    htmlwriter.text_add ("No source language being displayed, ");
+    htmlwriter.hyperlink_add ("addlanguage", "add one");
+    htmlwriter.paragraph_close ();
+  }
 }
 
 
@@ -281,6 +308,12 @@ void WindowSourceLanguages::html_write_action_page (HtmlWriter2& htmlwriter)
   htmlwriter.paragraph_close ();
   htmlwriter.paragraph_open ();
   htmlwriter.hyperlink_add ("definition", "Enter a Strong's number and view its definition");
+  htmlwriter.paragraph_close ();
+  htmlwriter.paragraph_open ();
+  htmlwriter.hyperlink_add ("addlanguage", "Add");
+  htmlwriter.text_add (" a source language to the ones being used or ");
+  htmlwriter.hyperlink_add ("removelanguage", "remove");
+  htmlwriter.text_add (" one");
   htmlwriter.paragraph_close ();
 }
 

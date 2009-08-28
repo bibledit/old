@@ -7300,13 +7300,6 @@ Todo various tasks.
 
 
 
-To make more general source language databases available.
-The database is not created in kjv.cpp, but somewhere else where it is more general.
-Whether the underlining can go away using certain code in the html code.
-
-
-
-
 
 Scrivener Greek New Testament
 Step 1: In BibleWorks 8 set the desired module, e.g. SCR, as the default module. 

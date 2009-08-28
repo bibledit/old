@@ -46,10 +46,17 @@ ustring kjv_get_zefania_xml_filename()
 }
 
 
+const gchar * kjv_name ()
+// Gives the name of the King James Bible.
+{
+  return "King James Bible";
+}
+
+
 ustring kjv_get_sql_filename()
 // Gives the filename for the created KJV database.
 {
-  return source_language_database_file_name ("King James Bible");
+  return source_language_database_file_name (kjv_name());
 }
 
 
@@ -100,16 +107,8 @@ void kjv_import (GKeyFile *keyfile)
     return;
   }
 
-  // Remove any previous database.
-  unlink (kjv_get_sql_filename().c_str());
-
-  // Create the user database.
-  sqlite3 *db;
-  sqlite3_open(kjv_get_sql_filename().c_str(), &db);
-  sqlite3_exec(db, "create table text (book integer, chapter integer, verse integer, text text);", NULL, NULL, NULL);
-  sqlite3_exec(db, "create table strong (book integer, chapter integer, verse integer, item integer, number integer);", NULL, NULL, NULL);
-  sqlite3_exec(db, "create table morphology (book integer, chapter integer, verse integer, item integer, value text);", NULL, NULL, NULL);
-  sqlite3_close(db);
+  // (Re)create the database.
+  source_language_database_create (kjv_name());
 
   // Import text into the database.
   kjv_import_zefania ();  
@@ -513,78 +512,6 @@ ustring kjv_get_verse (const Reference& reference)
   }
   sqlite3_close(db);
   return text;
-}
-
-
-void kjv_get_lemmata_and_morphology (const Reference& reference, vector <ustring>& words,
-                                     vector <unsigned int>& lemmata_positions, vector <unsigned int>& lemmata_values, 
-																		 vector <unsigned int>& morphology_positions, vector <ustring>& morphology_values)
-// Based on a "reference", it provides lemmata and morphology for a verse.
-{
-  sqlite3 *db;
-  int rc;
-  char *error = NULL;
-  try {
-
-    // Open the database.
-    rc = sqlite3_open(kjv_get_sql_filename().c_str(), &db);
-    if (rc)
-      throw runtime_error(sqlite3_errmsg(db));
-    sqlite3_busy_timeout(db, 1000);
-
-    // Retrieve the text and sort it out.
-    {
-      SqliteReader reader(0);
-      char *sql;
-      sql = g_strdup_printf("select text from text where book = %d and chapter = %d and verse = %d;", reference.book, reference.chapter, convert_to_int (reference.verse));
-      rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
-      g_free(sql);
-      if (rc) {
-        throw runtime_error(sqlite3_errmsg(db));
-      }
-      if (!reader.ustring0.empty()) {
-        Parse parse (reader.ustring0[0], false);
-        words = parse.words;
-      }
-    }
-
-    // Retrieve the Strong's lemmata.
-    {
-       SqliteReader reader(0);
-      char *sql;
-      sql = g_strdup_printf("select item, number from strong where book = %d and chapter = %d and verse = %d order by item asc;", reference.book, reference.chapter, convert_to_int (reference.verse));
-      rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
-      g_free(sql);
-      if (rc) {
-        throw runtime_error(sqlite3_errmsg(db));
-      }
-      for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
-        lemmata_positions.push_back (convert_to_int (reader.ustring0[i]));
-        lemmata_values.push_back (convert_to_int (reader.ustring1[i]));
-      }
-    }
-
-    // Retrieve the morphology.
-    {
-      SqliteReader reader(0);
-      char *sql;
-      sql = g_strdup_printf("select item, value from morphology where book = %d and chapter = %d and verse = %d order by item asc;", reference.book, reference.chapter, convert_to_int (reference.verse));
-      rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
-      g_free(sql);
-      if (rc) {
-        throw runtime_error(sqlite3_errmsg(db));
-      }
-      for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
-        morphology_positions.push_back (convert_to_int (reader.ustring0[i]));
-        morphology_values.push_back (reader.ustring1[i]);
-      }
-    }
-
-  }
-  catch(exception & ex) {
-    gw_critical(ex.what());
-  }
-  sqlite3_close(db);
 }
 
 

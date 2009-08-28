@@ -25,9 +25,17 @@
 #include "libraries.h"
 #include <glib.h>
 #include <sqlite3.h>
+#include "reference.h"
 
 
 ustring source_language_database_file_name (const ustring& name);
+void source_language_database_create (const ustring& name);
+vector <ustring> source_language_get_names ();
+void source_language_add_to_display ();
+void source_language_remove_from_display ();
+void source_language_get_lemmata_and_morphology (const ustring& name, const Reference& reference, vector <ustring>& words,
+                                                 vector <unsigned int>& lemmata_positions, vector <unsigned int>& lemmata_values, 
+                                                 vector <unsigned int>& morphology_positions, vector <ustring>& morphology_values);
 
 
 #endif

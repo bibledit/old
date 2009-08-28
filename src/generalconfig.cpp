@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "settings.h"
 #include "directories.h"
 #include "gwrappers.h"
@@ -224,6 +225,7 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE(git_health);
   INITIALIZE(projects_displaying_verses);
   INITIALIZE(compare_disregard_notes);
+  INITIALIZE(source_language_names);
 }
 
 GeneralConfiguration::~GeneralConfiguration()
@@ -395,6 +397,7 @@ void GeneralConfiguration::save()
   SAVE_VALUE(git_health);
   SAVE_VALUE(projects_displaying_verses);
   SAVE_VALUE(compare_disregard_notes);
+  SAVE_VALUE(source_language_names);
 
   config_xml_values_set_execute(general_configuration_filename(), values);
 }
@@ -643,3 +646,4 @@ IMPLEMENT(int, int_get, print_job, 0)
 IMPLEMENT(int, int_get, git_health, date_time_julian_day_get_current())
 IMPLEMENT(vector < ustring >, vector_string_get, projects_displaying_verses, NULL)
 IMPLEMENT(bool, bool_get, compare_disregard_notes, false)
+IMPLEMENT(vector <ustring>, vector_string_get, source_language_names, NULL)
