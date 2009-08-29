@@ -7299,40 +7299,23 @@ Todo various tasks.
 
 
 
-Next step is to extract from the lexicons we now have which greek word maps to which strong's number.
-Better to use the Greek word, or the Hebrew word, as separate entry, similar to the Strong's number.
+Importing from BibleWorks.
+We need to check which character causes the trouble, so bibledit can filter it out automatically, and gedit is no longer needed.
+
+
+
+
+
 
 
 The various parsings could be left as they are, so we can see from the prefix what parsing it is, e.g. when starting with a B, it comes from
 BibleWorks.
+The lexical parsing system should be made work right for the various types of them.
+The search options and the other actions should work on the various bibles as well.
 
 
 
 
-
-
-
-
-To put this in the helpfile:
-Scrivener Greek New Testament
-Step 1: In BibleWorks 8 set the desired module, e.g. SCR, as the default module. 
-* Then search for "*". In the command line this is done by entering ".*" and then pressing Enter.
-* All the verses of that module will now show up in the verse list.
-* Right-click in the verse list, and choose "Copy Verse List + Text" / "Copy to Clipboard".
-* It will transfer all the verses, and this will take a while to complete.
-* Start WordPad, and paste the text from the clipboard into WordPad.
-* When for example the SCR module was used, the first line of text will look like this:
-﻿SCR Matthew 1:1  Βίβλος γενέσεως Ἰησοῦ Χριστοῦ, υἱοῦ Δαβὶδ, υἱοῦ Ἀβραάμ.
-* Save it from WordPad as a Unicode Text Document.
-* Do the same with the module that contains the morphology, for example module SCM.
-* The first line would look like this:
-SCM Matthew 1:1  βίβλος@nnfs γένεσις@ngfs Ἰησοῦς@ngms Χριστός@ngms υἱός@ngms Δαυίδ@tp υἱός@ngms Ἀβραάμ@tp
-* You will end up having two files, for example scr.txt and scm.txt.
-* Both of these files should now be opened in gedit once, and then saved in UTF-8 format. This is necessary so as to make it true Unicode.
-  Else Bibledit would complain about it.
-Steps: Choose the files, give a name to the new source language to be imported.
-Step: Import the two files.
-Note: We need to check which character causes the trouble, so bibledit can filter it out automatically, and gedit is no longer needed.
 
 
 
