@@ -106,8 +106,8 @@ void lexicons_import (GKeyFile *keyfile)
   // Create the user database.
   sqlite3 *db;
   sqlite3_open(lexicons_get_sql_filename().c_str(), &db);
-  sqlite3_exec(db, "create table strongsgreek (strongs integer, entry text);", NULL, NULL, NULL);
-  sqlite3_exec(db, "create table strongshebrew (strongs integer, entry text);", NULL, NULL, NULL);
+  sqlite3_exec(db, "create table strongsgreek (strongs integer, word text, entry text);", NULL, NULL, NULL);
+  sqlite3_exec(db, "create table strongshebrew (strongs integer, word text, entry text);", NULL, NULL, NULL);
   sqlite3_close(db);
 
   // Import the lexicons into the database.
@@ -199,6 +199,7 @@ void lexicons_import_strongs_greek ()
   if (reader) {
     bool within_entry = false;
     unsigned int strongs_number = 0;
+    ustring greek_word;
     ustring strongs_definition;
     while ((xmlTextReaderRead(reader) == 1)) {
       switch (xmlTextReaderNodeType(reader)) {
@@ -222,6 +223,7 @@ void lexicons_import_strongs_greek ()
             lexicons_add_text_to_definition (strongs_definition, "Greek");
             char * unicode = (char *)xmlTextReaderGetAttribute(reader, BAD_CAST "unicode");
             if (unicode) {
+              greek_word = unicode;
               lexicons_add_text_to_definition (strongs_definition, unicode);
               free(unicode);
             }
@@ -271,9 +273,11 @@ void lexicons_import_strongs_greek ()
             char *sql;
             replace_text (strongs_definition, "\n", " ");
             replace_text (strongs_definition, "  ", " ");
-            sql = g_strdup_printf("insert into strongsgreek values (%d, '%s');", strongs_number, double_apostrophy (strongs_definition).c_str());
+            sql = g_strdup_printf("insert into strongsgreek values (%d, '%s', '%s');", strongs_number, greek_word.c_str(), double_apostrophy (strongs_definition).c_str());
             sqlite3_exec(db, sql, NULL, NULL, NULL);
             g_free(sql);
+            strongs_number = 0;
+            greek_word.clear();
             strongs_definition.clear();
           }
           if (!xmlStrcmp(element_name, BAD_CAST "strongs")) {
@@ -343,7 +347,9 @@ void lexicons_import_strongs_hebrew ()
       bool within_item = false;
       bool within_strong_id = false;
       bool within_link = false;
+      bool within_title = false;
       unsigned int strongs_number = 0;
+      ustring hebrew_word;
       ustring strongs_definition;
       while ((xmlTextReaderRead(reader) == 1)) {
         switch (xmlTextReaderNodeType(reader)) {
@@ -365,6 +371,7 @@ void lexicons_import_strongs_hebrew ()
               lexicons_add_text_to_definition (strongs_definition, "Strong's number");
             }
             if (!xmlStrcmp(element_name, BAD_CAST "title")) {
+              within_title = true;
               lexicons_add_text_to_definition (strongs_definition, "Hebrew");
             }
             if (!xmlStrcmp(element_name, BAD_CAST "transliteration")) {
@@ -396,6 +403,9 @@ void lexicons_import_strongs_hebrew ()
                   text2 = number_in_string (text2);
                 }
                 lexicons_add_text_to_definition (strongs_definition, text2);
+                if (within_title) {
+                  hebrew_word = (const gchar *) text;
+                }
                 xmlFree(text);
               }
             }
@@ -409,9 +419,11 @@ void lexicons_import_strongs_hebrew ()
               char *sql;
               replace_text (strongs_definition, "\n", " ");
               replace_text (strongs_definition, "  ", " ");
-              sql = g_strdup_printf("insert into strongshebrew values (%d, '%s');", strongs_number, double_apostrophy (strongs_definition).c_str());
+              sql = g_strdup_printf("insert into strongshebrew values (%d, '%s', '%s');", strongs_number, hebrew_word.c_str(), double_apostrophy (strongs_definition).c_str());
               sqlite3_exec(db, sql, NULL, NULL, NULL);
               g_free(sql);
+              strongs_number = 0;
+              hebrew_word.clear();
               strongs_definition.clear();
             }
             if (!xmlStrcmp(element_name, BAD_CAST "strong_id")) {
@@ -420,6 +432,7 @@ void lexicons_import_strongs_hebrew ()
             }
             if (!xmlStrcmp(element_name, BAD_CAST "title")) {
               lexicons_add_text_to_definition (strongs_definition, ";");
+              within_title = false;
             }
             if (!xmlStrcmp(element_name, BAD_CAST "transliteration")) {
               lexicons_add_text_to_definition (strongs_definition, ";");
@@ -452,7 +465,7 @@ void lexicons_import_strongs_hebrew ()
 }
 
 
-ustring lexicons_get_definition (bool greek_lexicon, unsigned int strongs_number)
+ustring lexicons_get_definition (bool greek_lexicon, const ustring& lemma)
 // Get the definition from the lexicons.
 // greek_lexicon: If true take the definition from the Greek lexicon, else from the Hebrew one.
 // strongs_number: Strong's number.
@@ -473,7 +486,7 @@ ustring lexicons_get_definition (bool greek_lexicon, unsigned int strongs_number
       table = "strongsgreek";
     else
       table = "strongshebrew";
-    sql = g_strdup_printf("select entry from '%s' where strongs = %d;", table, strongs_number);
+    sql = g_strdup_printf("select entry from '%s' where strongs = %d or word = '%s';", table, convert_to_int (lemma), lemma.c_str());
     rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
     g_free(sql);
     if (rc) {
@@ -481,6 +494,8 @@ ustring lexicons_get_definition (bool greek_lexicon, unsigned int strongs_number
     }
     if (!reader.ustring0.empty()) {
       definition = reader.ustring0[0];
+    } else {
+      definition = "Cannot find " + lemma + " in the lexicons";
     }
   }
   catch(exception & ex) {

@@ -141,7 +141,7 @@ void WindowSourceLanguages::html_link_clicked (const gchar * url)
   else if (active_url.find ("tag ") == 0) {
     html_write_references (htmlwriter);
     main_morphologies.clear();
-    main_strongs_numbers.clear();
+    main_lemmata.clear();
     extra_strongs_numbers.clear();
     Parse parse (active_url.substr (3, 1000));
     for (unsigned int i = 0; i < parse.words.size(); i++) {
@@ -149,15 +149,15 @@ void WindowSourceLanguages::html_link_clicked (const gchar * url)
         parse.words[i].erase (0, 10);
         main_morphologies.push_back (parse.words[i]);
       }
-      if (parse.words[i].find ("strong") == 0) {
-        parse.words[i].erase (0, 6);
-        main_strongs_numbers.push_back (convert_to_int (parse.words[i]));
+      if (parse.words[i].find ("lemma") == 0) {
+        parse.words[i].erase (0, 5);
+        main_lemmata.push_back (parse.words[i]);
       }
     }
     html_write_morphology_and_strongs_definitions (htmlwriter);
   }
 
-  else if (active_url.find ("strong ") == 0) {
+  else if (active_url.find ("lemma ") == 0) {
     html_write_references (htmlwriter);
     extra_strongs_numbers.push_back (active_url.substr (7, 100));
     html_write_morphology_and_strongs_definitions (htmlwriter);
@@ -168,7 +168,7 @@ void WindowSourceLanguages::html_link_clicked (const gchar * url)
     EntryDialog dialog ("Strong's number", enter_strongs_number (), "");
     if (dialog.run() == GTK_RESPONSE_OK) {
       main_morphologies.clear();
-      main_strongs_numbers.clear();
+      main_lemmata.clear();
       extra_strongs_numbers.clear();
       extra_strongs_numbers.push_back (dialog.entered_value);
     } else {
@@ -239,7 +239,7 @@ void WindowSourceLanguages::html_write_references (HtmlWriter2& htmlwriter)
     // Get the verse with the tags.
     vector <ustring> words;
     vector <unsigned int> lemmata_positions;
-    vector <unsigned int> lemmata_values;
+    vector <ustring> lemmata_values;
     vector <unsigned int> morphology_positions;
     vector <ustring> morphology_values;
     source_language_get_lemmata_and_morphology (names[i], reference, words, lemmata_positions, lemmata_values, morphology_positions, morphology_values);
@@ -255,7 +255,7 @@ void WindowSourceLanguages::html_write_references (HtmlWriter2& htmlwriter)
         for (unsigned int i2 = 0; i2 < lemmata_positions.size(); i2++) {
           if (lemmata_positions[i2] == i) {
             link.append (" ");
-            link.append ("strong" + convert_to_string (lemmata_values[i2]));
+            link.append ("lemma" + lemmata_values[i2]);
           }
         }
         for (unsigned int i2 = 0; i2 < morphology_positions.size(); i2++) {
@@ -334,15 +334,15 @@ void WindowSourceLanguages::html_write_morphology_and_strongs_definitions (HtmlW
   }
   
   // Main Strong's definitions.
-  for (unsigned int i = 0; i < main_strongs_numbers.size(); i++) {
-    ustring main_definition = lexicons_get_definition (books_id_to_type (reference.book) == btNewTestament, main_strongs_numbers[i]);
+  for (unsigned int i = 0; i < main_lemmata.size(); i++) {
+    ustring main_definition = lexicons_get_definition (books_id_to_type (reference.book) == btNewTestament, main_lemmata[i]);
     definitions.push_back (main_definition);
   }
 
   // Extra Strong's definitions.
   for (unsigned int i = 0; i < extra_strongs_numbers.size(); i++) {
     bool greek_lexicon = extra_strongs_numbers[i].substr (0, 1) == "G";
-    ustring definition = lexicons_get_definition (greek_lexicon, convert_to_int (number_in_string (extra_strongs_numbers[i])));
+    ustring definition = lexicons_get_definition (greek_lexicon, number_in_string (extra_strongs_numbers[i]));
     definitions.push_back (definition);
   }  
   
@@ -364,7 +364,7 @@ void WindowSourceLanguages::html_write_morphology_and_strongs_definitions (HtmlW
         if (pos != string::npos) {
           definition.erase (0, pos + strongs_number.length());
         }
-        htmlwriter.hyperlink_add ("strong " + greek_or_hebrew + strongs_number, strongs_number);
+        htmlwriter.hyperlink_add ("lemma " + greek_or_hebrew + strongs_number, strongs_number);
       } else {
         htmlwriter.text_add (definition.substr (0, strongs_link_position));
         definition.erase (0, strongs_link_position);

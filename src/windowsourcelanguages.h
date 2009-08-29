@@ -56,7 +56,7 @@ private:
   ustring project;
   ustring language;
   vector <ustring> main_morphologies;
-  vector <unsigned int> main_strongs_numbers;
+  vector <ustring> main_lemmata;
   vector <ustring> extra_strongs_numbers;
   void html_write_morphology_and_strongs_definitions (HtmlWriter2& htmlwriter);
   const gchar * enter_strongs_number ();

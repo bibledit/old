@@ -31,7 +31,7 @@
 void lexicons_import (GKeyFile *keyfile);
 void lexicons_import_strongs_greek ();
 void lexicons_import_strongs_hebrew ();
-ustring lexicons_get_definition (bool greek_lexicon, unsigned int strongs_number);
+ustring lexicons_get_definition (bool greek_lexicon, const ustring& lemma);
 
 
 #endif

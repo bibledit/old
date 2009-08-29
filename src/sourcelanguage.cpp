@@ -117,7 +117,7 @@ void source_language_remove_from_display ()
 
 
 void source_language_get_lemmata_and_morphology (const ustring& name, const Reference& reference, vector <ustring>& words,
-                                                 vector <unsigned int>& lemmata_positions, vector <unsigned int>& lemmata_values, 
+                                                 vector <unsigned int>& lemmata_positions, vector <ustring>& lemmata_values,
                                                  vector <unsigned int>& morphology_positions, vector <ustring>& morphology_values)
 // Based on a "reference", it provides lemmata and morphology for a verse.
 {
@@ -163,8 +163,8 @@ void source_language_get_lemmata_and_morphology (const ustring& name, const Refe
         throw runtime_error(sqlite3_errmsg(db));
       }
       for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
-        lemmata_positions.push_back (convert_to_int (reader.ustring0[i])); // Todo this becomes a string.
-        lemmata_values.push_back (convert_to_int (reader.ustring1[i]));
+        lemmata_positions.push_back (convert_to_int (reader.ustring0[i]));
+        lemmata_values.push_back (reader.ustring1[i]);
       }
     }
 

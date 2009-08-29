@@ -7299,10 +7299,13 @@ Todo various tasks.
 
 
 
-Next step is to extract from the dictionaries we now have which greek word maps to which strong's number.
+Next step is to extract from the lexicons we now have which greek word maps to which strong's number.
+Better to use the Greek word, or the Hebrew word, as separate entry, similar to the Strong's number.
+
 
 The various parsings could be left as they are, so we can see from the prefix what parsing it is, e.g. when starting with a B, it comes from
 BibleWorks.
+
 
 
 
@@ -7329,7 +7332,7 @@ SCM Matthew 1:1  βίβλος@nnfs γένεσις@ngfs Ἰησοῦς@ngms Χ�
   Else Bibledit would complain about it.
 Steps: Choose the files, give a name to the new source language to be imported.
 Step: Import the two files.
-
+Note: We need to check which character causes the trouble, so bibledit can filter it out automatically, and gedit is no longer needed.
 
 
 
