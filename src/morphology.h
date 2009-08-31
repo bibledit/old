@@ -18,16 +18,15 @@
 */
 
 
-#ifndef INCLUDED_ROBINSON_H
-#define INCLUDED_ROBINSON_H
+#ifndef INCLUDED_MORPHOLOGY_H
+#define INCLUDED_MORPHOLOGY_H
 
 
 #include "libraries.h"
 #include <glib.h>
 
 
-bool robinson_define_undeclined_parsing (const ustring& parsing, ustring& definition);
-bool robinson_define_character_hyphen_parsing (ustring parsing, ustring& definition);
+bool morphology_define_parsing (ustring parsing, ustring& definition);
 
 
 #endif

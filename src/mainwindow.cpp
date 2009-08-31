@@ -7299,19 +7299,19 @@ Todo various tasks.
 
 
 
-Importing from BibleWorks.
-We need to check which character causes the trouble, so bibledit can filter it out automatically, and gedit is no longer needed.
+
+We need a test routine that goes through a list of parsings provided, and defines them all.
+This is used so as to find undefined parsings.
+The test runs when clicking on a parsing. 
 
 
+The search options and the other actions should work on the Bibles that display, not just on the KJV.
 
+There are some Robinson parsings that have not been defined in the key. These should be added manually.
+Or look in the zefania file what they put in it.
 
-
-
-
-The various parsings could be left as they are, so we can see from the prefix what parsing it is, e.g. when starting with a B, it comes from
-BibleWorks.
-The lexical parsing system should be made work right for the various types of them.
-The search options and the other actions should work on the various bibles as well.
+We need test code that goes through all parsings and tests which ones we can retrieve from the lexicon. 
+Optionally we need to manually add a few parsings.
 
 
 

@@ -32,6 +32,7 @@ bool online_bible_file_looks_good (const ustring& filename);
 void onlinebible (map <ustring, unsigned int> bookmap);
 bool online_bible_parse_reference (ustring line, unsigned int& book, unsigned int& chapter, unsigned int& verse, map <ustring, unsigned int>& bookmap);
 vector <ustring> online_bible_file_divide (const ustring& inputfile, map <ustring, unsigned int> bookmap);
+bool online_bible_define_parsing (ustring parsing, ustring& definition);
 
 
 #endif

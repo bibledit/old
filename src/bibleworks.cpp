@@ -354,6 +354,7 @@ void import_bibleworks_source_language (vector <ustring>& files, const ustring& 
     g_free(sql);
 
     // Store the lemmata and morphology.
+    // The morphology is stored including the @ character. This aids in recognizing it as coming from BibleWorks.
     Parse parse (morphology_line, false);
     for (unsigned int i = 0; i < parse.words.size(); i++) {
       size_t pos = parse.words[i].find ("@");
@@ -365,7 +366,7 @@ void import_bibleworks_source_language (vector <ustring>& files, const ustring& 
       sql = g_strdup_printf("insert into lemmata values (%d, %d, %d, %d, '%s');", reference.book, reference.chapter, convert_to_int (reference.verse), i, lemma.c_str());
       sqlite3_exec(db, sql, NULL, NULL, NULL);
       g_free(sql);
-      parse.words[i].erase (0, ++pos);
+      parse.words[i].erase (0, pos);
       ustring morphology = parse.words[i];
       sql = g_strdup_printf("insert into morphology values (%d, %d, %d, %d, '%s');", reference.book, reference.chapter, convert_to_int (reference.verse), i, morphology.c_str());
       sqlite3_exec(db, sql, NULL, NULL, NULL);
@@ -480,3 +481,376 @@ ustring convert_bibleworks_greek (ustring line)
   }
   return outputline;  
 }
+
+
+void bibleworks_define_parsing_case (ustring& parsing, ustring& definition)
+// Parse the case.
+{
+  ustring case_code = parsing.substr (0, 1);
+  parsing.erase (0, 1);
+  if (case_code == "n") {
+    definition.append (" nominative");
+  } 
+  if (case_code == "g") {
+    definition.append (" genitive");
+  }
+  if (case_code == "d") {
+    definition.append (" dative");
+  }
+  if (case_code == "a") {
+    definition.append (" accusative");
+  }
+  if (case_code == "v") {
+    definition.append (" vocative");
+  }
+}
+
+
+void bibleworks_define_parsing_gender (ustring& parsing, ustring& definition)
+// Parse the gender.
+{
+  ustring gender_code = parsing.substr (0, 1);
+  parsing.erase (0, 1);
+  if (gender_code == "m") {
+    definition.append (" masculine");
+  } 
+  if (gender_code == "f") {
+    definition.append (" feminine");
+  }
+  if (gender_code == "n") {
+    definition.append (" neuter");
+  }
+}
+
+
+void bibleworks_define_parsing_pronoun (ustring& parsing, ustring& definition)
+// Parse the extra bits of the pronoun.
+{
+  ustring code = parsing.substr (0, 1);
+  parsing.erase (0, 1);
+  if (code == "r") {
+    definition.append (" relative");
+  }
+  if (code == "e") {
+    definition.append (" reciprocal");
+  }
+  if (code == "d") {
+    definition.append (" demonstrative");
+  }
+  if (code == "c") {
+    definition.append (" correlative");
+  } 
+  if (code == "q") {
+    definition.append (" interrogative");
+  }
+  if (code == "i") {
+    definition.append (" indefinite");
+  }
+  if (code == "o") {
+    definition.append (" correlative/interrogative");
+  }
+  if (code == "x") {
+    definition.append (" reflexive");
+  }
+  if (code == "s") {
+    definition.append (" possessive");
+  }
+  if (code == "p") {
+    definition.append (" personal");
+  }
+}
+
+
+void bibleworks_define_parsing_indeclinable_form_suffix (ustring& parsing, ustring& definition)
+// Parse the suffix of the indeclinable form.
+{
+  if (parsing == "a")
+    definition.append (" Aramaic word");
+  if (parsing == "h")
+    definition.append (" Hebrew word");
+  if (parsing == "p")
+    definition.append (" indeclinable noun");
+  if (parsing == "n")
+    definition.append (" indeclinable numeral");
+  if (parsing == "l")
+    definition.append (" indeclinable letter");
+  if (parsing == "o")
+    definition.append (" indeclinable other");
+}
+
+
+void bibleworks_define_parsing_conjunction_suffix (ustring& parsing, ustring& definition)
+// Parse the suffix of the conjunction.
+{
+  if (parsing == "c")
+    definition.append (" contracted");
+  if (parsing == "n")
+    definition.append (" not contracted");
+}
+
+
+void bibleworks_define_parsing_adjective_suffix (ustring& parsing, ustring& definition)
+// Parse the suffix of the adjective.
+{
+  if (parsing == "c")
+    definition.append (" comparative");
+  if (parsing == "s")
+    definition.append (" superlative");
+  if (parsing == "n")
+    definition.append (" no degree");
+}
+
+
+void bibleworks_define_parsing_particle_suffix (ustring& parsing, ustring& definition)
+// Parse the suffix of the particle.
+{
+  if (parsing == "i")
+    definition.append (" interrogative");
+  if (parsing == "n")
+    definition.append (" negative");
+  if (parsing == "o")
+    definition.append (" other");
+}
+
+
+void bibleworks_define_parsing_adverb_suffix (ustring& parsing, ustring& definition)
+// Parse the suffix of the adverb.
+{
+  if (parsing == "c")
+    definition.append (" comparative");
+  if (parsing == "s")
+    definition.append (" superlative");
+  if (parsing == "i")
+    definition.append (" interrogative");
+  if (parsing == "n")
+    definition.append (" normal");
+}
+
+
+void bibleworks_define_parsing_mood (ustring& parsing, ustring& definition)
+// Parse the mood of verbs.
+{
+  ustring mood = parsing.substr (0, 1);  
+  parsing.erase (0, 1);
+  if (mood == "i")
+    definition.append (" indicative");
+  if (mood == "s")
+    definition.append (" subjunctive");
+  if (mood == "o")
+    definition.append (" optative");
+  if (mood == "d")
+    definition.append (" imperative");
+  if (mood == "n")
+    definition.append (" infinitive");
+  if (mood == "p")
+    definition.append (" participle");
+}
+
+
+void bibleworks_define_parsing_tense (ustring& parsing, ustring& definition)
+// Parse the tense of verbs.
+{
+  ustring tense = parsing.substr (0, 1);  
+  parsing.erase (0, 1);
+  if (tense == "p")
+    definition.append (" present");
+  if (tense == "i")
+    definition.append (" imperfect");
+  if (tense == "f")
+    definition.append (" future");
+  if (tense == "a")
+    definition.append (" aorist");
+  if (tense == "x")
+    definition.append (" perfect");
+  if (tense == "y")
+    definition.append (" pluperfect");
+}
+
+
+void bibleworks_define_parsing_voice (ustring& parsing, ustring& definition)
+// Parse the voice of verbs.
+{
+  ustring voice = parsing.substr (0, 1);  
+  parsing.erase (0, 1);
+  if (voice == "a")
+    definition.append (" active");
+  if (voice == "m")
+    definition.append (" middle");
+  if (voice == "p")
+    definition.append (" passive");
+  if (voice == "e")
+    definition.append (" middle or passive");
+  if (voice == "d")
+    definition.append (" middle deponent");
+  if (voice == "o")
+    definition.append (" passive deponent");
+  if (voice == "n")
+    definition.append (" middle or passive deponent");
+  if (voice == "q")
+    definition.append (" impersonal active");
+  if (voice == "x")
+    definition.append (" no voice stated");
+}
+
+
+void bibleworks_define_parsing_person (ustring& parsing, ustring& definition)
+// This looks in the "parsing" whether the person is given. 
+// If so, it adds the description to the "definition" and removes the relevant code from the "parsing".
+{
+  ustring person = parsing.substr (0, 1);
+  bool person_found = true;
+  if (person == "1") {
+    definition.append (" first person");
+  } else if (person == "2") {
+    definition.append (" second person");
+  } else if (person == "3") {
+    definition.append (" third person");
+  } else {
+    person_found = false;
+  }
+  if (person_found) {
+    parsing.erase (0, 1);
+  }
+}
+
+
+void bibleworks_define_parsing_number (ustring& definition, ustring& parsing)
+// Parse the number.
+{
+  ustring number = parsing.substr (0, 1);
+  bool remove_code = true;
+  if (number == "s") {
+    definition.append (" singular");
+  } else if (number == "p") {
+    definition.append (" plural");
+  } else {
+    remove_code = false;
+  }
+  if (remove_code) {
+    parsing.erase (0, 1);
+  }
+}
+
+
+bool bibleworks_define_parsing (ustring parsing, ustring& definition)
+// Tries to define the parsing as coming from BibleWorks.
+// Returns true if it managed.
+// The definitions were assembled by trial and error, by searching for a parsing, then looking what BibleWorks gave for it.
+{
+  // A parsing as imported from BibleWorks should start with the @ character.
+  if (parsing.substr (0, 1) != "@") {
+    return false;
+  }
+  parsing.erase (0, 1);
+  ustring prefix = parsing.substr (0, 1);
+  parsing.erase (0, 1);
+
+  if (prefix == "n") {
+    definition = "noun";
+    bibleworks_define_parsing_case (parsing, definition);
+    bibleworks_define_parsing_gender (parsing, definition);
+    bibleworks_define_parsing_number (parsing, definition);
+    return true;
+  }
+
+  if (prefix == "v") {
+    definition = "verb";
+    // Parsing of the verb may follow different routes depending on the length of the parsing.
+    size_t length_after_v = parsing.length();
+    if (length_after_v == 3) {
+      bibleworks_define_parsing_mood (parsing, definition);
+      bibleworks_define_parsing_tense (parsing, definition);
+      bibleworks_define_parsing_voice (parsing, definition);
+    }
+    if (length_after_v == 4) {
+      bibleworks_define_parsing_mood (parsing, definition);
+      bibleworks_define_parsing_tense (parsing, definition);
+      bibleworks_define_parsing_voice (parsing, definition);
+    }
+    if (length_after_v == 5) {
+      bibleworks_define_parsing_mood (parsing, definition);
+      bibleworks_define_parsing_tense (parsing, definition);
+      bibleworks_define_parsing_voice (parsing, definition);
+      bibleworks_define_parsing_person (parsing, definition);
+      bibleworks_define_parsing_number (parsing, definition);
+    }
+    if (length_after_v == 6) {
+      // These are the participles.
+      bibleworks_define_parsing_mood (parsing, definition);
+      bibleworks_define_parsing_tense (parsing, definition);
+      bibleworks_define_parsing_voice (parsing, definition);
+      bibleworks_define_parsing_case (parsing, definition);
+      bibleworks_define_parsing_gender (parsing, definition);
+      bibleworks_define_parsing_number (parsing, definition);
+    }
+    return true;
+  }
+
+  if (prefix == "a") {
+    definition = "adjective";
+    bibleworks_define_parsing_case (parsing, definition);
+    bibleworks_define_parsing_gender (parsing, definition);
+    bibleworks_define_parsing_number (parsing, definition);
+    bibleworks_define_parsing_adjective_suffix (parsing, definition);
+    return true;
+  }
+
+  if (prefix == "d") {
+    definition = "definite article";
+    bibleworks_define_parsing_case (parsing, definition);
+    bibleworks_define_parsing_gender (parsing, definition);
+    bibleworks_define_parsing_number (parsing, definition);
+    return true;
+  }
+
+  if (prefix == "p") {
+    definition = "preposition";
+    return true;
+  }
+
+  if (prefix == "c") {
+    definition = "conjunction";
+    return true;
+  }
+
+  if (prefix == "x") {
+    definition = "particle or disjunctive particle";
+    bibleworks_define_parsing_particle_suffix (parsing, definition);
+    return true;
+  }
+
+  if (prefix == "i") {
+    definition = "interjection";
+    return true;
+  }
+
+  if (prefix == "b") {
+    definition = "adverb";
+    bibleworks_define_parsing_adverb_suffix (parsing, definition);
+    return true;
+  }
+
+  if (prefix == "r") {
+    definition = "pronoun";
+    bibleworks_define_parsing_pronoun (parsing, definition);
+    bibleworks_define_parsing_case (parsing, definition);
+    bibleworks_define_parsing_gender (parsing, definition);
+    bibleworks_define_parsing_number (parsing, definition);
+    return true;
+  }
+
+  if (prefix == "t") {
+    definition = "indeclinable form";
+    bibleworks_define_parsing_indeclinable_form_suffix (parsing, definition);
+    return true;
+  }
+
+  if (prefix == "q") {
+    definition = "conjunction or conjunctive part";
+    bibleworks_define_parsing_conjunction_suffix (parsing, definition);
+    return true;
+  }
+
+  return false;
+}
+

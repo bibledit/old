@@ -260,3 +260,16 @@ bool online_bible_parse_reference (ustring line, unsigned int& book, unsigned in
 }
 
 
+bool online_bible_define_parsing (ustring parsing, ustring& definition)
+// Tries to define the type of parsing defined by the Online Bible.
+{
+  // The parsings as used in the Online Bible look like "TH8674": TH, and then a number.
+  if (parsing.substr (0, 2) == "TH") {
+    parsing.erase (0, 2);
+    if (number_in_string (parsing) == parsing) {
+      definition = "Online Bible number " + parsing;
+      return true;
+    }    
+  }
+  return false;
+}

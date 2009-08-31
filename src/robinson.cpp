@@ -129,7 +129,7 @@ void robinson_define_parsing_suffix (ustring& definition, ustring& parsing)
   } else {
     // A fall-back for a suffix that has not been defined in the key.
     if (!parsing.empty()) {
-      definition.append (" suffix \"" + parsing + "\"");
+      definition.append (" unknown suffix \"" + parsing + "\"");
     }
   }
 }
@@ -220,166 +220,224 @@ void robinson_define_parsing_mood (ustring& definition, ustring& parsing)
 }
 
 
-ustring robinson_define_parsing (ustring parsing)
-// Gives a definition of the Robinson Greek parsings.
+bool robinson_define_undeclined_parsing (const ustring& parsing, ustring& definition)
+// Returns true if it manages to define the undeclined "parsing".
 {
-  ustring definition;
-  
   // UNDECLINED FORMS:
   if (parsing == "ADV") {
     definition = "adverb or adverb and particle combined"; 
-  } else if (parsing == "CONJ") {
+    return true;
+  } 
+  if (parsing == "CONJ") {
     definition = "conjunction or conjunctive particle";
-  } else if (parsing == "COND") {
+    return true;
+  } 
+  if (parsing == "COND") {
     definition = "conditional particle or conjunction";
-  } else if (parsing == "PRT") {
+    return true;
+  } 
+  if (parsing == "PRT") {
     definition = "particle, disjunctive particle";
-  } else if (parsing == "PREP") {
+    return true;
+  } 
+  if (parsing == "PREP") {
     definition = "preposition";
-  } else if (parsing == "INJ") {
+    return true;
+  } 
+  if (parsing == "INJ") {
     definition = "interjection";
-  } else if (parsing == "ARAM") {
+    return true;
+  } 
+  if (parsing == "ARAM") {
     definition = "Aramaic transliterated word (indeclinable)";
-  } else if (parsing == "HEB") {
+    return true;
+  } 
+  if (parsing == "HEB") {
     definition = "Hebrew transliterated word (indeclinable)";
-  } else if (parsing == "N-PRI") {
+    return true;
+  } 
+  if (parsing == "N-PRI") {
     definition = "indeclinable proper noun";
-  } else if (parsing == "A-NUI") {
+    return true;
+  } 
+  if (parsing == "A-NUI") {
     definition = "indeclinable numeral (adjective)";
-  } else if (parsing == "N-LI") {
-    definition = "indeclinable letter (noun)";
-  } else if (parsing == "N-OI") {
-    definition = "indeclinable noun of other type";
-  } else {
-    
-    // DECLINED FORMS:
-    ustring prefix = parsing.substr (0, 1);
-    parsing.erase (0, 2);
-    
-    if (prefix == "N") {
-      definition = "noun";
-      robinson_define_parsing_case (definition, parsing);
-      robinson_define_parsing_number (definition, parsing);
-      robinson_define_parsing_gender (definition, parsing);
-      robinson_define_parsing_suffix (definition, parsing);
-    } else if (prefix == "A") {
-      definition = "adjective";
-      robinson_define_parsing_case (definition, parsing);
-      robinson_define_parsing_number (definition, parsing);
-      robinson_define_parsing_gender (definition, parsing);
-      robinson_define_parsing_suffix (definition, parsing);
-    } else if (prefix == "R") {
-      definition = "relative pronoun";
-      robinson_define_parsing_case (definition, parsing);
-      robinson_define_parsing_number (definition, parsing);
-      robinson_define_parsing_gender (definition, parsing);
-      robinson_define_parsing_suffix (definition, parsing);
-    } else if (prefix == "C") {
-      definition = "reciprocal pronoun";
-      robinson_define_parsing_case (definition, parsing);
-      robinson_define_parsing_number (definition, parsing);
-      robinson_define_parsing_gender (definition, parsing);
-      robinson_define_parsing_suffix (definition, parsing);
-    } else if (prefix == "D") {
-      definition = "demonstrative pronoun";
-      robinson_define_parsing_case (definition, parsing);
-      robinson_define_parsing_number (definition, parsing);
-      robinson_define_parsing_gender (definition, parsing);
-      robinson_define_parsing_suffix (definition, parsing);
-    } else if (prefix == "T") {
-      definition = "definite article";
-      robinson_define_parsing_case (definition, parsing);
-      robinson_define_parsing_number (definition, parsing);
-      robinson_define_parsing_gender (definition, parsing);
-      robinson_define_parsing_suffix (definition, parsing);
-    } else if (prefix == "K") {
-      definition = "correlative pronoun";
-      robinson_define_parsing_case (definition, parsing);
-      robinson_define_parsing_number (definition, parsing);
-      robinson_define_parsing_gender (definition, parsing);
-      robinson_define_parsing_suffix (definition, parsing);
-    } else if (prefix == "I") {
-      definition = "interrogative pronoun";
-      robinson_define_parsing_case (definition, parsing);
-      robinson_define_parsing_number (definition, parsing);
-      robinson_define_parsing_gender (definition, parsing);
-      robinson_define_parsing_suffix (definition, parsing);
-    } else if (prefix == "X") {
-      definition = "indefinite pronoun";
-      robinson_define_parsing_case (definition, parsing);
-      robinson_define_parsing_number (definition, parsing);
-      robinson_define_parsing_gender (definition, parsing);
-      robinson_define_parsing_suffix (definition, parsing);
-    } else if (prefix == "Q") {
-      definition = "correlative or interrogative pronoun";
-      robinson_define_parsing_case (definition, parsing);
-      robinson_define_parsing_number (definition, parsing);
-      robinson_define_parsing_gender (definition, parsing);
-      robinson_define_parsing_suffix (definition, parsing);
-    } else if (prefix == "F") {
-      definition = "reflexive pronoun";
-      // It has person 1,2,3 added, e.g. F-3ASF. 
-      robinson_define_parsing_person (definition, parsing);
-      robinson_define_parsing_case (definition, parsing);
-      robinson_define_parsing_number (definition, parsing);
-      robinson_define_parsing_gender (definition, parsing);
-      robinson_define_parsing_suffix (definition, parsing);
-    } else if (prefix == "S") {
-      definition = "possessive pronoun";
-      // It has person 1,2,3 added, e.g. S-1DPM. 
-      robinson_define_parsing_person (definition, parsing);
-      robinson_define_parsing_case (definition, parsing);
-      robinson_define_parsing_number (definition, parsing);
-      robinson_define_parsing_gender (definition, parsing);
-      robinson_define_parsing_suffix (definition, parsing);
-    } else if (prefix == "P") {
-      definition = "personal pronoun";
-      // It may have person 1,2,3 added, e.g. P-GSM or P-1GS.
-      // Note: 1st and 2nd personal pronouns have no gender.
-      robinson_define_parsing_person (definition, parsing);
-      robinson_define_parsing_case (definition, parsing);
-      robinson_define_parsing_number (definition, parsing);
-      robinson_define_parsing_gender (definition, parsing);
-      robinson_define_parsing_suffix (definition, parsing);
-    }
-    
-    // VERBS:
-    
-    else if (prefix == "V") {
-      definition = "verb";
-      // After the "V", remove the hyphen.
-      if (parsing.substr (0, 1) == "-") {
-        parsing.erase (0, 1);
-      }
-      // The verb always has tense voice mood, such as in, e.g., "V-2ADN".
-      robinson_define_parsing_tense (definition, parsing);
-      robinson_define_parsing_voice (definition, parsing);
-      robinson_define_parsing_mood (definition, parsing);
-      // Next element is a hyphen, remove it.
-      if (parsing.substr (0, 1) == "-") {
-        parsing.erase (0, 1);
-      }
-      // Next we can have two options. 
-      // First we try person and number.
-      if (robinson_define_parsing_person (definition, parsing)) {
-        robinson_define_parsing_number (definition, parsing);
-      } else {
-        // Else it is case, number and gender.
-        robinson_define_parsing_case (definition, parsing);
-        robinson_define_parsing_number (definition, parsing);
-        robinson_define_parsing_gender (definition, parsing);
-      }
-      // Finally parse the few cases that have a suffix.
-      robinson_define_parsing_suffix (definition, parsing);
-    }
-    
-    // Can't describe the morphology.
-    else {
-      definition = "Prefix " + prefix + " not recognized";
-    }
-
+    return true;
   }
-  return definition;
+  if (parsing == "N-LI") {
+    definition = "indeclinable letter (noun)";
+    return true;
+  } 
+  if (parsing == "N-OI") {
+    definition = "indeclinable noun of other type";
+    return true;
+  }
+  return false;
+}
+
+
+bool robinson_define_character_hyphen_parsing (ustring parsing, ustring& definition)
+// Tries to define a parsing that starts with a character, then a hyphen.
+// Returns true if it managed.
+{
+  // The parsing should be long enough.
+  if (parsing.length() < 3)
+    return false;
+  // Second character is a hyphen.
+  if (parsing.substr (1, 1) != "-") 
+    return false;
+  parsing.erase (1, 1);
+  // Get the prefix, such as in, e.g., V-RPP-NPM, where the prefix is "V".
+  ustring prefix = parsing.substr (0, 1);
+  parsing.erase (0, 1);
+
+  // DECLINED FORMS:
+  
+  if (prefix == "N") {
+    definition = "noun";
+    robinson_define_parsing_case (definition, parsing);
+    robinson_define_parsing_number (definition, parsing);
+    robinson_define_parsing_gender (definition, parsing);
+    robinson_define_parsing_suffix (definition, parsing);
+    return true;
+  }
+  if (prefix == "A") {
+    definition = "adjective";
+    robinson_define_parsing_case (definition, parsing);
+    robinson_define_parsing_number (definition, parsing);
+    robinson_define_parsing_gender (definition, parsing);
+    robinson_define_parsing_suffix (definition, parsing);
+    return true;
+  }
+  if (prefix == "R") {
+    definition = "relative pronoun";
+    robinson_define_parsing_case (definition, parsing);
+    robinson_define_parsing_number (definition, parsing);
+    robinson_define_parsing_gender (definition, parsing);
+    robinson_define_parsing_suffix (definition, parsing);
+    return true;
+  }
+  if (prefix == "C") {
+    definition = "reciprocal pronoun";
+    robinson_define_parsing_case (definition, parsing);
+    robinson_define_parsing_number (definition, parsing);
+    robinson_define_parsing_gender (definition, parsing);
+    robinson_define_parsing_suffix (definition, parsing);
+    return true;
+  }
+  if (prefix == "D") {
+    definition = "demonstrative pronoun";
+    robinson_define_parsing_case (definition, parsing);
+    robinson_define_parsing_number (definition, parsing);
+    robinson_define_parsing_gender (definition, parsing);
+    robinson_define_parsing_suffix (definition, parsing);
+    return true;
+  }
+  if (prefix == "T") {
+    definition = "definite article";
+    robinson_define_parsing_case (definition, parsing);
+    robinson_define_parsing_number (definition, parsing);
+    robinson_define_parsing_gender (definition, parsing);
+    robinson_define_parsing_suffix (definition, parsing);
+    return true;
+  }
+  if (prefix == "K") {
+    definition = "correlative pronoun";
+    robinson_define_parsing_case (definition, parsing);
+    robinson_define_parsing_number (definition, parsing);
+    robinson_define_parsing_gender (definition, parsing);
+    robinson_define_parsing_suffix (definition, parsing);
+    return true;
+  }
+  if (prefix == "I") {
+    definition = "interrogative pronoun";
+    robinson_define_parsing_case (definition, parsing);
+    robinson_define_parsing_number (definition, parsing);
+    robinson_define_parsing_gender (definition, parsing);
+    robinson_define_parsing_suffix (definition, parsing);
+    return true;
+  }
+  if (prefix == "X") {
+    definition = "indefinite pronoun";
+    robinson_define_parsing_case (definition, parsing);
+    robinson_define_parsing_number (definition, parsing);
+    robinson_define_parsing_gender (definition, parsing);
+    robinson_define_parsing_suffix (definition, parsing);
+    return true;
+  }
+  if (prefix == "Q") {
+    definition = "correlative or interrogative pronoun";
+    robinson_define_parsing_case (definition, parsing);
+    robinson_define_parsing_number (definition, parsing);
+    robinson_define_parsing_gender (definition, parsing);
+    robinson_define_parsing_suffix (definition, parsing);
+    return true;
+  }
+  if (prefix == "F") {
+    definition = "reflexive pronoun";
+    // It has person 1,2,3 added, e.g. F-3ASF. 
+    robinson_define_parsing_person (definition, parsing);
+    robinson_define_parsing_case (definition, parsing);
+    robinson_define_parsing_number (definition, parsing);
+    robinson_define_parsing_gender (definition, parsing);
+    robinson_define_parsing_suffix (definition, parsing);
+    return true;
+  }
+  if (prefix == "S") {
+    definition = "possessive pronoun";
+    // It has person 1,2,3 added, e.g. S-1DPM. 
+    robinson_define_parsing_person (definition, parsing);
+    robinson_define_parsing_case (definition, parsing);
+    robinson_define_parsing_number (definition, parsing);
+    robinson_define_parsing_gender (definition, parsing);
+    robinson_define_parsing_suffix (definition, parsing);
+    return true;
+  }
+  if (prefix == "P") {
+    definition = "personal pronoun";
+    // It may have person 1,2,3 added, e.g. P-GSM or P-1GS.
+    // Note: 1st and 2nd personal pronouns have no gender.
+    robinson_define_parsing_person (definition, parsing);
+    robinson_define_parsing_case (definition, parsing);
+    robinson_define_parsing_number (definition, parsing);
+    robinson_define_parsing_gender (definition, parsing);
+    robinson_define_parsing_suffix (definition, parsing);
+    return true;
+  }
+  
+  // VERBS:
+  
+  if (prefix == "V") {
+    definition = "verb";
+    // After the "V", remove the hyphen.
+    if (parsing.substr (0, 1) == "-") {
+      parsing.erase (0, 1);
+    }
+    // The verb always has tense voice mood, such as in, e.g., "V-2ADN".
+    robinson_define_parsing_tense (definition, parsing);
+    robinson_define_parsing_voice (definition, parsing);
+    robinson_define_parsing_mood (definition, parsing);
+    // Next element is a hyphen, remove it.
+    if (parsing.substr (0, 1) == "-") {
+      parsing.erase (0, 1);
+    }
+    // Next we can have two options. 
+    // First we try person and number.
+    if (robinson_define_parsing_person (definition, parsing)) {
+      robinson_define_parsing_number (definition, parsing);
+    } else {
+      // Else it is case, number and gender.
+      robinson_define_parsing_case (definition, parsing);
+      robinson_define_parsing_number (definition, parsing);
+      robinson_define_parsing_gender (definition, parsing);
+    }
+    // Finally parse the few cases that have a suffix.
+    robinson_define_parsing_suffix (definition, parsing);
+    return true;
+  }
+  
+  // Can't describe the parsing.
+  return false;
 }
 
 
