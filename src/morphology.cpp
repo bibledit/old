@@ -28,12 +28,8 @@ bool morphology_define_parsing (ustring parsing, ustring& definition)
 // Gives a definition of the various morphological parsings Bibledit knows about.
 // Returns true if it managed.
 {
-  // Is it a simple and undeclined Robinson parsing?
-  if (robinson_define_undeclined_parsing (parsing, definition))
-    return true;
-  
-  // Is it the common type of Robinson parsing, the type that starts with a character, followed by a hyphen?
-  if (robinson_define_character_hyphen_parsing (parsing, definition))
+  // Is it a Robinson parsing?
+  if (robinson_define_parsing (parsing, definition))
     return true;
 
   // Is it the a parsing as used by the Online Bible, as an extension of the Strong's dictionary?

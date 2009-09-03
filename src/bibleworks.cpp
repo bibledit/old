@@ -714,7 +714,7 @@ void bibleworks_define_parsing_person (ustring& parsing, ustring& definition)
 }
 
 
-void bibleworks_define_parsing_number (ustring& definition, ustring& parsing)
+void bibleworks_define_parsing_number (ustring& parsing, ustring& definition)
 // Parse the number.
 {
   ustring number = parsing.substr (0, 1);

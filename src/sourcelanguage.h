@@ -36,6 +36,7 @@ void source_language_remove_from_display ();
 void source_language_get_lemmata_and_morphology (const ustring& name, const Reference& reference, vector <ustring>& words,
                                                  vector <unsigned int>& lemmata_positions, vector <ustring>& lemmata_values, 
                                                  vector <unsigned int>& morphology_positions, vector <ustring>& morphology_values);
+void source_language_test_lemmata_and_morphology ();
 
 
 #endif

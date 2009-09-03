@@ -7299,19 +7299,29 @@ Todo various tasks.
 
 
 
+Try to import Hebrew text from BibleWorks.
+This probably requires another morphology parser, and other ways of getting the definitions from the lexicon. To try this all.
 
-We need a test routine that goes through a list of parsings provided, and defines them all.
+
+
+We need a test routine that goes through a list of morphological parsings provided, and defines them all.
 This is used so as to find undefined parsings.
 The test runs when clicking on a parsing. 
 
 
+We need test code that goes through all lemmata and tests which ones we can retrieve from the lexicon. 
+Optionally we need to manually add a few parsings. Or look for words without the Greek / Hebrew accents.
+The test can run when clicking on a lemma.
+
+
+
+
 The search options and the other actions should work on the Bibles that display, not just on the KJV.
+
 
 There are some Robinson parsings that have not been defined in the key. These should be added manually.
 Or look in the zefania file what they put in it.
 
-We need test code that goes through all parsings and tests which ones we can retrieve from the lexicon. 
-Optionally we need to manually add a few parsings.
 
 
 
@@ -7323,7 +7333,9 @@ Optionally we need to manually add a few parsings.
 The THxxxx parsings in the OT, from the Online Bible, need to be parsed.
 It is not easy to export these from the Online Bible, as so far these could get copied to the clipboard one by one only.
 A request for redistribution and access was sent to Online Bible support.
-
+This was approved.
+The Sword library, in directory olb, has a bit of code to access the modules.
+Once back in ZW, try this code, and make something suitable to be included with bibledit's tarball. Probably needs Delphi.
 
 
 

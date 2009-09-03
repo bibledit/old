@@ -27,6 +27,8 @@
 #include "gtkwrappers.h"
 #include "sqlite_reader.h"
 #include "tiny_utilities.h"
+#include "progresswindow.h"
+#include "morphology.h"
 
 
 ustring source_language_database_file_name (const ustring& name)
@@ -190,3 +192,56 @@ void source_language_get_lemmata_and_morphology (const ustring& name, const Refe
   }
   sqlite3_close(db);
 }
+
+
+void source_language_test_lemmata_and_morphology () // Todo
+{
+  vector <ustring> names = source_language_get_names ();
+  for (unsigned int i = 0; i < names.size(); i++) {
+    ustring name = names[i];
+    sqlite3 *db;
+    sqlite3_open(source_language_database_file_name(name).c_str(), &db);
+    sqlite3_busy_timeout(db, 1000);
+    {
+      /* Todo
+      ustring title = name + " - lemmata";
+      ProgressWindow progresswindow (title, false);
+      SqliteReader reader(0);
+      sqlite3_exec(db, "select distinct value from lemmata;", reader.callback, &reader, NULL);
+      progresswindow.set_iterate (0, 1, reader.ustring0.size());
+      vector <ustring> output;
+      for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
+        progresswindow.iterate();
+        output.push_back ("Lemma: " + reader.ustring0[i]);
+      }
+      ustring outputfile = gw_build_filename (g_get_home_dir(), title);
+      write_lines (outputfile, output);
+      */
+    }
+    {
+      ustring title = name + " - morphology";
+      ProgressWindow progresswindow (title, false);
+      SqliteReader reader(0);
+      sqlite3_exec(db, "select distinct value from morphology;", reader.callback, &reader, NULL);
+      progresswindow.set_iterate (0, 1, reader.ustring0.size());
+      vector <ustring> output;
+      for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
+        progresswindow.iterate();
+        ustring parsing = reader.ustring0[i];
+        output.push_back ("Morphology: " + parsing);
+        ustring definition;
+        if (morphology_define_parsing (parsing, definition)) {
+          output.push_back ("Definition: " + definition);
+        } else {
+          output.push_back ("ERROR: No definition found");
+        }
+
+      }
+      ustring outputfile = gw_build_filename (g_get_home_dir(), title);
+      write_lines (outputfile, output);
+    }
+    sqlite3_close(db);
+  }
+}
+
+

@@ -26,8 +26,7 @@
 #include <glib.h>
 
 
-bool robinson_define_undeclined_parsing (const ustring& parsing, ustring& definition);
-bool robinson_define_character_hyphen_parsing (ustring parsing, ustring& definition);
+bool robinson_define_parsing (ustring parsing, ustring& definition);
 
 
 #endif
