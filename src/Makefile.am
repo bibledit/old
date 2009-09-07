@@ -280,7 +280,8 @@ bibledit_SOURCES = \
 				lexicons.cpp \
 				robinson.cpp \
 				sourcelanguage.cpp \
-				morphology.cpp
+				morphology.cpp \
+				greek.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp update-copyright
 

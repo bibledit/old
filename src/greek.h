@@ -18,21 +18,16 @@
 */
 
 
-#ifndef INCLUDED_LEXICONS_H
-#define INCLUDED_LEXICONS_H
+#ifndef INCLUDED_GREEK_H
+#define INCLUDED_GREEK_H
 
 
 #include "libraries.h"
-#include "reference.h"
 #include <glib.h>
 #include <sqlite3.h>
 
 
-void lexicons_import (GKeyFile *keyfile);
-void lexicons_import_strongs_greek ();
-void lexicons_import_strongs_hebrew ();
-ustring lexicons_get_definition (bool greek_lexicon, const ustring& lemma);
-ustring lexicons_get_defintion_deep (sqlite3 *db, bool greek_lexicon, const gchar* table, ustring lemma);
+ustring greek_case_and_accent_fold (const ustring& phrase);
 
 
 #endif

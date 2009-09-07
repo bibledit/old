@@ -29,6 +29,8 @@
 #include "tiny_utilities.h"
 #include "progresswindow.h"
 #include "morphology.h"
+#include "books.h"
+#include "lexicons.h"
 
 
 ustring source_language_database_file_name (const ustring& name)
@@ -194,7 +196,7 @@ void source_language_get_lemmata_and_morphology (const ustring& name, const Refe
 }
 
 
-void source_language_test_lemmata_and_morphology () // Todo
+void source_language_test_lemmata_and_morphology ()
 {
   vector <ustring> names = source_language_get_names ();
   for (unsigned int i = 0; i < names.size(); i++) {
@@ -203,20 +205,39 @@ void source_language_test_lemmata_and_morphology () // Todo
     sqlite3_open(source_language_database_file_name(name).c_str(), &db);
     sqlite3_busy_timeout(db, 1000);
     {
-      /* Todo
+      set <ustring> lemmata_done_ot;
+      set <ustring> lemmata_done_nt;
       ustring title = name + " - lemmata";
       ProgressWindow progresswindow (title, false);
       SqliteReader reader(0);
-      sqlite3_exec(db, "select distinct value from lemmata;", reader.callback, &reader, NULL);
+      sqlite3_exec(db, "select distinct value, book from lemmata;", reader.callback, &reader, NULL);
       progresswindow.set_iterate (0, 1, reader.ustring0.size());
       vector <ustring> output;
+      vector <unsigned int> nt_books = books_type_to_ids (btNewTestament);
       for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
         progresswindow.iterate();
-        output.push_back ("Lemma: " + reader.ustring0[i]);
+        ustring lemma = reader.ustring0[i];
+        unsigned int book = convert_to_int (reader.ustring1[i]);
+        bool greek_lexicon = book >= nt_books[0];
+        set <ustring> * lemmata_done = NULL;
+        if (greek_lexicon) {
+          lemmata_done = &lemmata_done_nt;
+        } else {
+          lemmata_done = &lemmata_done_ot;
+        }
+        if (lemmata_done->find (lemma) == lemmata_done->end()) {
+          lemmata_done->insert (lemma);
+          output.push_back ("Lemma: " + lemma);
+          ustring definition = lexicons_get_definition (greek_lexicon, lemma);
+          if (definition.empty()) {
+            output.push_back ("ERROR: No definition found");
+          } else {
+            output.push_back ("Definition: " + definition);
+          }
+        }
       }
       ustring outputfile = gw_build_filename (g_get_home_dir(), title);
       write_lines (outputfile, output);
-      */
     }
     {
       ustring title = name + " - morphology";

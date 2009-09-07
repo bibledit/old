@@ -139,7 +139,7 @@ void WindowSourceLanguages::html_link_clicked (const gchar * url)
   }
 
   else if (active_url.find ("tag ") == 0) {
-    //source_language_test_lemmata_and_morphology (); // Todo
+    //source_language_test_lemmata_and_morphology ();
     html_write_references (htmlwriter);
     main_morphologies.clear();
     main_lemmata.clear();

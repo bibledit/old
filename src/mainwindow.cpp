@@ -7298,15 +7298,9 @@ Todo various tasks.
 
 
 
-
 Try to import Hebrew text from BibleWorks.
 This probably requires another morphology parser, and other ways of getting the definitions from the lexicon. To try this all.
 
-
-
-We need a test routine that goes through a list of morphological parsings provided, and defines them all.
-This is used so as to find undefined parsings.
-The test runs when clicking on a parsing. 
 
 
 We need test code that goes through all lemmata and tests which ones we can retrieve from the lexicon. 

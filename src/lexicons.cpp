@@ -30,6 +30,7 @@
 #include "unixwrappers.h"
 #include "sqlite_reader.h"
 #include "compress.h"
+#include "greek.h"
 
 
 ustring lexicons_get_strongs_greek_xml_filename()
@@ -468,7 +469,6 @@ void lexicons_import_strongs_hebrew ()
 ustring lexicons_get_definition (bool greek_lexicon, const ustring& lemma)
 // Get the definition from the lexicons.
 // greek_lexicon: If true take the definition from the Greek lexicon, else from the Hebrew one.
-// strongs_number: Strong's number.
 {
   ustring definition;
   sqlite3 *db;
@@ -495,7 +495,8 @@ ustring lexicons_get_definition (bool greek_lexicon, const ustring& lemma)
     if (!reader.ustring0.empty()) {
       definition = reader.ustring0[0];
     } else {
-      definition = "Cannot find " + lemma + " in the lexicons";
+      // The lemma wasn't found, look deeper into the lexicons to find it.
+      definition = lexicons_get_defintion_deep (db, greek_lexicon, table, lemma);
     }
   }
   catch(exception & ex) {
@@ -506,3 +507,36 @@ ustring lexicons_get_definition (bool greek_lexicon, const ustring& lemma)
 }
 
 
+ustring lexicons_get_defintion_deep (sqlite3 *db, bool greek_lexicon, const gchar* table, ustring lemma)
+/*
+This function looks deeper into the lexicons so as to find the lemma.
+It does that by removing the Greek accents or the Hebrew pointing from the lemma, 
+and then going through the whole lexicon and removing accents and pointing from each keyword in the lexicon, 
+and then looking whether a definition can be found.
+*/
+{
+  // By default we take it that the lemma can't be found.
+  ustring definition = "Cannot find " + lemma + " in the lexicons";
+  // Only proceed when the lemma isn't a Strong's number.
+  if (convert_to_int (lemma) == 0) {
+    if (greek_lexicon) {
+      lemma = greek_case_and_accent_fold (lemma.normalize());
+    }
+
+    SqliteReader reader(0);
+    char *sql;
+    sql = g_strdup_printf("select word, entry from '%s';", table);
+    sqlite3_exec(db, sql, reader.callback, &reader, NULL);
+    g_free(sql);
+    for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
+      ustring key = reader.ustring0[i].normalize();
+      if (greek_lexicon) {
+        key = greek_case_and_accent_fold (key);
+      }
+      if (key == lemma) {
+        definition = reader.ustring1[i];
+      }
+    }
+  }
+  return definition;
+}
