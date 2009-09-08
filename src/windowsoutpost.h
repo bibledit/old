@@ -17,8 +17,10 @@
  **  
  */
 
+
 #ifndef INCLUDED_WINDOWSOUTPOST_H
 #define INCLUDED_WINDOWSOUTPOST_H
+
 
 #include "libraries.h"
 #ifndef WIN32
@@ -32,9 +34,11 @@
 #include <stdio.h>
 #include "reference.h"
 
+
 #define BIBLEDIT_WINDOWS_OUTPOST "bwoutpost"
 #define BIBLEDIT_WINDOWS_OUTPOST_EXE "bwoutpost.exe"
 #define BIBLEDIT_WINDOWS_OUTPOST_VERSION "1.6"
+
 
 class WindowsOutpost
 {
@@ -68,7 +72,9 @@ private:
   ustring santafefocus_word_set_value;
 };
 
+
 void windowsoutpost_open_url(const ustring& url);
 bool windowsoutpost_telnet(const ustring& hostname);
+
 
 #endif

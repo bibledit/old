@@ -7298,14 +7298,11 @@ Todo various tasks.
 
 
 
+
 Try to import Hebrew text from BibleWorks.
 This probably requires another morphology parser, and other ways of getting the definitions from the lexicon. To try this all.
-
-
-
-We need test code that goes through all lemmata and tests which ones we can retrieve from the lexicon. 
-Optionally we need to manually add a few parsings. Or look for words without the Greek / Hebrew accents.
-The test can run when clicking on a lemma.
+Importing Hebrew has a problem. We need to try through Delphi whether it can be done through the Automation Server.
+When going to a verse, BibleWorks copies this to the clipboard. Perhaps we can then import it through that clipboard.
 
 
 
@@ -7313,8 +7310,6 @@ The test can run when clicking on a lemma.
 The search options and the other actions should work on the Bibles that display, not just on the KJV.
 
 
-There are some Robinson parsings that have not been defined in the key. These should be added manually.
-Or look in the zefania file what they put in it.
 
 
 
@@ -7334,6 +7329,7 @@ Once back in ZW, try this code, and make something suitable to be included with 
 
 
 
+
 The resources need to be available in usfm code, so that it can be included with the parallel bible.
 Such available resources, not yet opened in a project, are visible when doing Ctrl-O, under the "Dormant" tab.
 When a dormant resource is opened, it converts it into usfm, if needed, and then opens it in a new project.
@@ -7342,8 +7338,10 @@ This needs to be implemented for all source languages now available, e.g. KJV, a
 
 
 
+
 The blueletterbible.org does have Thayer's lexicon online, and Bibledit should have access to that as a Lexicon. 
 A crawler is needed that does this.
+
 
 
 

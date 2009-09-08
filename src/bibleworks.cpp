@@ -94,13 +94,20 @@ unsigned int bibleworks_clipboard_file_line_get_extract_book_id (ustring& line)
 // or:
 // SCR 1 Corinthians 1:1  Παῦλος κλητὸς ἀπόστολος Ἰησοῦ Χριστοῦ διὰ θελήματος Θεοῦ, καὶ Σωσθένης ὁ ἀδελφός,
 {
+  //cout << line.substr (4, 7) << endl; /// Todo
+  // Remove whitespace from the start of the line.
+  while (line.substr (0, 1) == " ") 
+    line.erase (0, 1);
+  // Remove the module abbreviation.
   size_t pos = line.find (" ");
   if (pos == string::npos)
     return 0;
   line.erase (0, ++pos);
+  // Get the name of the book.
   vector <unsigned int> ids = books_type_to_ids (btUnknown);
   for (unsigned int i = 0; i < ids.size(); i++) {
     ustring english_name = books_id_to_english (ids[i]);
+    //cout << "Find the book at position " << line.find (english_name) << endl; // Todo
     if (line.find (english_name) == 0) {
       line.erase (0, english_name.length());
       return ids[i];
