@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "libraries.h"
 #include "utilities.h"
 #include "windowsoutpost.h"
@@ -37,6 +38,7 @@
 #define STAGE_WAIT_RETRY 1000
 #define STAGE_RETRY 1600
 
+
 WindowsOutpost::WindowsOutpost(bool dummy)
 /*
  This controls a Bibledit Windows Outpost program.
@@ -49,6 +51,7 @@ WindowsOutpost::WindowsOutpost(bool dummy)
   thread_running = false;
 }
 
+
 WindowsOutpost::~WindowsOutpost()
 {
   // Disconnect.
@@ -60,12 +63,14 @@ WindowsOutpost::~WindowsOutpost()
     g_usleep(10000);
 }
 
+
 void WindowsOutpost::Start()
 // This effectually starts the whole system.
 {
   thread_run = true;
   g_thread_create(GThreadFunc(thread_start), gpointer(this), false, NULL);
 }
+
 
 void WindowsOutpost::BibleWorksReferenceSet(const Reference & reference)
 // Schedules a reference to be sent to BibleWorks.
@@ -85,6 +90,7 @@ void WindowsOutpost::BibleWorksReferenceSet(const Reference & reference)
   bibleworks_reference_set_value = "BibleWorksReferenceSet " + bw_book + " " + convert_to_string(goto_ch) + ":" + goto_vs;
 }
 
+
 void WindowsOutpost::SantaFeFocusReferenceSet(const Reference & reference)
 // Schedules a reference to be sent to the santa fe focus system.
 {
@@ -96,11 +102,13 @@ void WindowsOutpost::SantaFeFocusReferenceSet(const Reference & reference)
   santafefocus_reference_set_value = "SantaFeFocusReferenceSet " + bk + " " + convert_to_string(reference.chapter) + ":" + reference.verse;
 }
 
+
 void WindowsOutpost::SantaFeFocusWordSet(const ustring & word)
 // Schedules a word to be sent to the santa fe focus system.
 {
   santafefocus_word_set_value = "SantaFeFocusWordSet " + word;
 }
+
 
 void WindowsOutpost::clear()
 {
@@ -109,10 +117,12 @@ void WindowsOutpost::clear()
   connected = false;
 }
 
+
 void WindowsOutpost::thread_start(gpointer data)
 {
   ((WindowsOutpost *) data)->thread_main();
 }
+
 
 void WindowsOutpost::thread_main()
 {
@@ -226,6 +236,7 @@ void WindowsOutpost::thread_main()
   thread_running = false;
 }
 
+
 void WindowsOutpost::disconnect()
 {
   if (sock) {
@@ -245,6 +256,7 @@ void WindowsOutpost::disconnect()
   }
   sock = 0;
 }
+
 
 void WindowsOutpost::telnet(const ustring & hostname)
 {
@@ -313,6 +325,7 @@ void WindowsOutpost::telnet(const ustring & hostname)
   }
 }
 
+
 void WindowsOutpost::log(const ustring & message)
 // Logs messages. 
 // It does not output the same message repeatedly.
@@ -322,6 +335,7 @@ void WindowsOutpost::log(const ustring & message)
     last_message = message;
   }
 }
+
 
 void WindowsOutpost::send_line(const ustring & command)
 // Sends "command" to the windows outpost.
@@ -351,6 +365,7 @@ void WindowsOutpost::send_line(const ustring & command)
     clear();
   }
 }
+
 
 ustring WindowsOutpost::Readln()
 /*
@@ -386,6 +401,7 @@ ustring WindowsOutpost::Readln()
   }
   return "";
 }
+
 
 void windowsoutpost_open_url(const ustring & url)
 // This function supposes that the Bibledit Windows Outpost already runs.
@@ -440,6 +456,7 @@ void windowsoutpost_open_url(const ustring & url)
   }
 }
 
+
 bool windowsoutpost_telnet(const ustring & hostname)
 // This makes a connection with the Outpost on "host" and then disconnects again.
 // It returns true if this worked out.
@@ -480,8 +497,9 @@ bool windowsoutpost_telnet(const ustring & hostname)
   return success;
 }
 
-// Below are some files that show how the SantaFeFocus system works. They were sent
-// to me by Nathan Miles, Paratext programmer.
+
+// Below are some files that show how the SantaFeFocus system works. 
+// They were kindly sent to me by Nathan Miles, Paratext programmer.
 
 // File SFFocus.ctl
 /*
