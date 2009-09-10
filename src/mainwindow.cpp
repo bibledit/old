@@ -7310,16 +7310,6 @@ Helpfile needs to tell that the .exe is dragged to the startbutton if needed.
 The "Bibledit is Running" message need to be more selective, so that it excludes the shutdown program, and the bwoutpost.exe one.
 
 
-When BibleWorks is sent to, but the outpost object finds that it is not running, 
-it give a message one time, and then is quiet each next time. This is a diagnostic message for users.
-The object that tries to determine whether BibleWorks runs should be more flexible. It searches for bw*.exe.
-A special routine does this.
-To update the information on BibleWorks since it runs on plain wine. Still to mention cxoffice...
-
-
-
-
-
 Try to import Hebrew text from BibleWorks.
 This probably requires another morphology parser, and other ways of getting the definitions from the lexicon. To try this all.
 Importing Hebrew has a problem. We need to try through Delphi whether it can be done through the Automation Server.

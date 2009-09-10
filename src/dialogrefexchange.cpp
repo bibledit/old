@@ -44,23 +44,6 @@ ReferenceExchangeDialog::ReferenceExchangeDialog(int dummy)
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), vbox1, TRUE, TRUE, 0);
   gtk_container_set_border_width(GTK_CONTAINER(vbox1), 4);
 
-  label6 = gtk_label_new("Name of the BibleWorks executable:");
-  gtk_widget_show(label6);
-  gtk_box_pack_start(GTK_BOX(vbox1), label6, FALSE, FALSE, 0);
-  gtk_misc_set_alignment(GTK_MISC(label6), 0, 0.5);
-
-  entry_bw_exe = gtk_entry_new();
-  gtk_widget_show(entry_bw_exe);
-  gtk_box_pack_start(GTK_BOX(vbox1), entry_bw_exe, FALSE, FALSE, 0);
-  gtk_entry_set_activates_default(GTK_ENTRY(entry_bw_exe), TRUE);
-
-  // Set value.
-  gtk_entry_set_text(GTK_ENTRY(entry_bw_exe), settings->genconfig.bibleworks_executable_get().c_str());
-
-  hseparator3 = gtk_hseparator_new();
-  gtk_widget_show(hseparator3);
-  gtk_box_pack_start(GTK_BOX(vbox1), hseparator3, TRUE, TRUE, 0);
-
   label2 = gtk_label_new("Send references to: ");
   gtk_widget_show(label2);
   gtk_box_pack_start(GTK_BOX(vbox1), label2, FALSE, FALSE, 0);
@@ -172,35 +155,35 @@ ReferenceExchangeDialog::ReferenceExchangeDialog(int dummy)
   GTK_WIDGET_SET_FLAGS(okbutton1, GTK_CAN_DEFAULT);
 
   g_signal_connect((gpointer) okbutton1, "clicked", G_CALLBACK(on_okbutton_clicked), gpointer(this));
-  g_signal_connect((gpointer) checkbutton_send_bw, "toggled", G_CALLBACK(on_checkbutton_send_bw_toggled), gpointer(this));
-  g_signal_connect((gpointer) radiobutton_receive_bw, "toggled", G_CALLBACK(on_radiobutton_receive_bw_toggled), gpointer(this));
   g_signal_connect((gpointer) checkbutton_send_paratext, "toggled", G_CALLBACK(on_checkbutton_send_paratext_toggled), gpointer(this));
   g_signal_connect_after((gpointer) radiobutton_receive_paratext, "toggled", G_CALLBACK(on_radiobutton_receive_paratext_toggled), gpointer(this));
 
   // Set gui.
-  on_bibleworks();
   on_outpost();
 }
+
 
 ReferenceExchangeDialog::~ReferenceExchangeDialog()
 {
   gtk_widget_destroy(dialogsynchronize);
 }
 
+
 int ReferenceExchangeDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(dialogsynchronize));
 }
+
 
 void ReferenceExchangeDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((ReferenceExchangeDialog *) user_data)->on_okbutton();
 }
 
+
 void ReferenceExchangeDialog::on_okbutton()
 {
   extern Settings *settings;
-  settings->genconfig.bibleworks_executable_set(gtk_entry_get_text(GTK_ENTRY(entry_bw_exe)));
   settings->genconfig.reference_exchange_send_to_bibleworks_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_send_bw)));
   settings->genconfig.reference_exchange_receive_from_bibleworks_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_receive_bw)));
   settings->genconfig.reference_exchange_send_to_bibletime_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_send_bt)));
@@ -209,36 +192,18 @@ void ReferenceExchangeDialog::on_okbutton()
   settings->genconfig.reference_exchange_receive_from_santafefocus_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_receive_paratext)));
 }
 
-void ReferenceExchangeDialog::on_checkbutton_send_bw_toggled(GtkToggleButton * togglebutton, gpointer user_data)
-{
-  ((ReferenceExchangeDialog *) user_data)->on_bibleworks();
-}
-
-void ReferenceExchangeDialog::on_radiobutton_receive_bw_toggled(GtkToggleButton * togglebutton, gpointer user_data)
-{
-  ((ReferenceExchangeDialog *) user_data)->on_bibleworks();
-}
-
-void ReferenceExchangeDialog::on_bibleworks()
-{
-  // Enable the entry for entering the BibleWorks executable if needed.
-  bool sensitive = false;
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_send_bw)))
-    sensitive = true;
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_receive_bw)))
-    sensitive = true;
-  gtk_widget_set_sensitive(entry_bw_exe, sensitive);
-}
 
 void ReferenceExchangeDialog::on_checkbutton_send_paratext_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((ReferenceExchangeDialog *) user_data)->on_outpost();
 }
 
+
 void ReferenceExchangeDialog::on_radiobutton_receive_paratext_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((ReferenceExchangeDialog *) user_data)->on_outpost();
 }
+
 
 void ReferenceExchangeDialog::on_outpost()
 // Show warning if Outpost is needed but not running.
@@ -259,3 +224,4 @@ void ReferenceExchangeDialog::on_outpost()
     gtk_widget_hide(label_warning_outpost);
   }
 }
+

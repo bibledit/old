@@ -36,6 +36,7 @@
 #include "progresswindow.h"
 #include "sourcelanguage.h"
 #include "gtkwrappers.h"
+#include "shell.h"
 
 
 ustring bibleworks_exported_file_get_bookname(const ustring & filename)
@@ -859,3 +860,21 @@ bool bibleworks_define_parsing (ustring parsing, ustring& definition)
   return false;
 }
 
+
+bool bibleworks_is_running ()
+// Returns whether BibleWorks runs.
+// The reason this was introduced is so that older and future versions of BibleWorks are likely to be recognized.
+{
+  bool running = false;
+  vector <ustring> processes = list_processes ();
+  for (unsigned int i = 0; i < processes.size(); i++) {
+    ustring process = lowerCase (processes[i]);
+    size_t pos = process.find ("0.exe");
+    if (pos != string::npos) {
+      process.erase (0, pos - 6);
+      pos = process.find ("bw");
+      running = (pos != string::npos);
+    }
+  }
+  return running;
+}

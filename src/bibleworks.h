@@ -39,6 +39,7 @@ void check_bibleworks_source_language (vector <ustring>& filenames, vector <ustr
 void import_bibleworks_source_language (vector <ustring>& files, const ustring& name, BibleWorksTextConversionType conversion, vector <ustring>& messages);
 ustring convert_bibleworks_greek (ustring line);
 bool bibleworks_define_parsing (ustring parsing, ustring& definition);
+bool bibleworks_is_running ();
 
 
 #endif

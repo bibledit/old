@@ -30,6 +30,8 @@
 #include "books.h"
 #include "settings.h"
 #include "tiny_utilities.h"
+#include "bibleworks.h"
+
 
 #define STAGE_ZERO 0
 #define STAGE_START 1
@@ -193,7 +195,7 @@ void WindowsOutpost::thread_main()
         // crashes in Wine and becomes unusable. Therefore always check whether
         // BibleWorks runs.
         if (!bibleworks_reference_set_value.empty()) {
-          if (program_is_running(settings->genconfig.bibleworks_executable_get()) || settings->genconfig.outpost_networked_get()) {
+          if (bibleworks_is_running () || settings->genconfig.outpost_networked_get()) {
             ustring line(bibleworks_reference_set_value);
             bibleworks_reference_set_value.clear();
             send_line(line);

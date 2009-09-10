@@ -27,16 +27,33 @@
 #include "unixwrappers.h"
 #include "tiny_utilities.h"
 
+
 bool program_is_running(const ustring & commandline)
 // Returns true if the program given on "commandline" is running.
 {
   return (programs_running_count(commandline) > 0);
 }
 
+
 int programs_running_count(const ustring & commandline)
 // Returns how many times the program given on "commandline" is running.
 {
-  // Run the process status program.
+  // Get the processes.
+  vector <ustring> processes = list_processes ();
+  // Usage count.
+  int count = 0;
+  for (unsigned int i = 0; i < processes.size(); i++)
+    if (processes[i].find(commandline) != string::npos)
+      count++;
+  // Return the count.
+  return count;
+}
+
+
+vector <ustring> list_processes ()
+// Lists the current processes from the process status program.
+{
+  vector <ustring> processes;
 #ifdef WIN32
   GwSpawn spawn("tasklist");
 #else
@@ -45,47 +62,10 @@ int programs_running_count(const ustring & commandline)
 #endif
   spawn.read();
   spawn.run();
-  // Usage count.
-  int count = 0;
-  for (unsigned int i = 0; i < spawn.standardout.size(); i++)
-    if (spawn.standardout[i].find(commandline) != string::npos)
-      count++;
-  // Return the count.
-  return count;
+  processes = spawn.standardout;
+  return processes;
 }
 
-bool program_is_running_basic(const ustring & program)
-// Returns true if the program given running.
-{
-  return (programs_running_count_basic(program) > 0);
-}
-
-int programs_running_count_basic(const ustring & program)
-// Returns how many times the program given is running.
-{
-  // Run the process status program.
-#ifdef WIN32
-  GwSpawn spawn("tasklist");
-#else
-  GwSpawn spawn("ps");
-  spawn.arg("-e");
-#endif
-  spawn.read();
-  spawn.run();
-  // Usage count.
-  int count = 0;
-  for (unsigned int i = 0; i < spawn.standardout.size(); i++) {
-    ustring line = spawn.standardout[i];
-    size_t position = line.rfind(" ");
-    line.erase(0, position);
-    line = trim(line);
-    if (line == program) {
-      count++;
-    }
-  }
-  // Return the count.
-  return count;
-}
 
 ustring shell_quote_space(const ustring & filename)
 // Puts quotes and spaces around a filename, making it fit for the shell.
@@ -112,6 +92,7 @@ ustring shell_quote_space(const ustring & filename)
   return quotedname;
 }
 
+
 ustring shell_clean_filename(const ustring & filename)
 // Replace characters like ' and / occur in the filename with _.
 {
@@ -120,6 +101,7 @@ ustring shell_clean_filename(const ustring & filename)
   replace_text(cleanfile, "/", "_");
   return cleanfile;
 }
+
 
 void shell_pipe_file_append(const ustring & inputfile, const ustring & outputfile)
 // cat inputfile >> outputfile.

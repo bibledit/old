@@ -29,8 +29,7 @@
 
 bool program_is_running (const ustring & commandline);
 int programs_running_count (const ustring & commandline);
-bool program_is_running_basic (const ustring & program);
-int programs_running_count_basic (const ustring & program);
+vector <ustring> list_processes ();
 ustring shell_quote_space (const ustring& filename);
 ustring shell_clean_filename (const ustring& filename);
 void shell_pipe_file_append (const ustring& inputfile, const ustring& outputfile);

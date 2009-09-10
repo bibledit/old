@@ -137,7 +137,6 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE(notes_display_created_by);
   INITIALIZE(notes_display_summary);
   INITIALIZE(notes_display_reference_text);
-  INITIALIZE(bibleworks_executable);
   INITIALIZE(reference_exchange_send_to_bibleworks);
   INITIALIZE(reference_exchange_receive_from_bibleworks);
   INITIALIZE(reference_exchange_send_to_bibletime);
@@ -309,7 +308,6 @@ void GeneralConfiguration::save()
   SAVE_VALUE(notes_display_created_by);
   SAVE_VALUE(notes_display_summary);
   SAVE_VALUE(notes_display_reference_text);
-  SAVE_VALUE(bibleworks_executable);
   SAVE_VALUE(reference_exchange_send_to_bibleworks);
   SAVE_VALUE(reference_exchange_receive_from_bibleworks);
   SAVE_VALUE(reference_exchange_send_to_bibletime);
@@ -558,7 +556,6 @@ IMPLEMENT(bool, bool_get, notes_display_date_created, false)
 IMPLEMENT(bool, bool_get, notes_display_created_by, false)
 IMPLEMENT(bool, bool_get, notes_display_summary, false)
 IMPLEMENT(bool, bool_get, notes_display_reference_text, false)
-IMPLEMENT(ustring, string_get, bibleworks_executable, "bw800.exe")
 IMPLEMENT(bool, bool_get, reference_exchange_send_to_bibleworks, false)
 IMPLEMENT(bool, bool_get, reference_exchange_receive_from_bibleworks, false)
 IMPLEMENT(bool, bool_get, reference_exchange_send_to_bibletime, false)

@@ -36,9 +36,6 @@ protected:
   GtkWidget *dialogsynchronize;
   GtkWidget *dialog_vbox1;
   GtkWidget *vbox1;
-  GtkWidget *label6;
-  GtkWidget *entry_bw_exe;
-  GtkWidget *hseparator3;
   GtkWidget *label2;
   GtkWidget *vbox2;
   GtkWidget *checkbutton_send_bw;
@@ -61,9 +58,6 @@ protected:
 private:
   static void on_okbutton_clicked (GtkButton *button, gpointer user_data);
   void on_okbutton ();
-  static void on_checkbutton_send_bw_toggled (GtkToggleButton *togglebutton, gpointer user_data);
-  static void on_radiobutton_receive_bw_toggled (GtkToggleButton *togglebutton, gpointer user_data);
-  void on_bibleworks ();
   static void on_checkbutton_send_paratext_toggled (GtkToggleButton *togglebutton, gpointer user_data);
   static void on_radiobutton_receive_paratext_toggled (GtkToggleButton *togglebutton, gpointer user_data);
   void on_outpost ();
