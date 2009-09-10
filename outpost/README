@@ -1,0 +1,37 @@
+Bibledit Windows Outpost
+
+The Bibledit Windows Outpost acts as an outpost for Bibledit. 
+It accesses things in Windows that Bibledit, as a native Linux application,
+cannot reach.
+Bibledit communicates with the Outpost through the network,
+and the Outpost acts on Windows as controlled by Bibledit.
+
+
+Delphi 6 Professional was used to write the Bibledit Windows Outpost.
+
+Here follow a few simple steps to take to get the programmer up and running:
+
+Create a new application, and save the project as "bwoutpost".
+
+According to page 35-3 of the Delphi Developer's Guide, import the Type Library from BibleWorks 8:
+menu Project / Import Type Library; select the BW800 ... library, then press Install, then a few times OK.
+From the ActiveX palette, drop the BibleWorks VCL wrapper onto the Form.
+Set the property AutoConnect to False, and set the Name to BibleWorksAutomation
+
+For the TCP/IP communication add a ServerSocket from the Internet palette.
+Set the following properties:
+Active: True
+Port: 51515
+
+Import the type library from the Online Bible: Online Bible Com Interface.
+Drop the wrapper onto the Form.
+Set the properties as follows:
+AutoConnect: False
+Name: OnlineBibleAutomation
+
+
+
+
+
+Teus Benschop
+September 2009

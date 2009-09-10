@@ -1022,3 +1022,4 @@ bool windowsoutpost_telnet(const ustring & hostname)
 // Make the dialog smaller: no outpost selection, no wine selection, in win32
 // Default is off, and on Windows don't use the outpost to start pdf and html, but use the "start" 
 // function from mingw.
+
