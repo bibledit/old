@@ -7549,6 +7549,7 @@ It needs a delete assistant, and this assistant can delete other things as well.
 
 
 
+The [italics] in the KJV should show up in the source language text using square brackets.
 
 
 

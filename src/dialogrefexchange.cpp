@@ -248,7 +248,7 @@ void ReferenceExchangeDialog::on_outpost()
     outpost_needed = true;
   if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_receive_paratext)))
     outpost_needed = true;
-  bool outpost_running = program_is_running(BIBLEDIT_WINDOWS_OUTPOST);
+  bool outpost_running = program_is_running(BIBLEDIT_WINDOWS_OUTPOST_EXE);
   if (outpost_needed && (!outpost_running)) {
     gtk_widget_show(hseparator_warning_outpost);
     gtk_widget_show(image_warning_outpost);

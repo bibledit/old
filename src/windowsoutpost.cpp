@@ -144,7 +144,7 @@ void WindowsOutpost::thread_main()
           break;
         }
         // Start Outpost if it does not already run.
-        if (!program_is_running(BIBLEDIT_WINDOWS_OUTPOST)) {
+        if (!program_is_running(BIBLEDIT_WINDOWS_OUTPOST_EXE)) {
           // Windows? Or Unix?
           if (uname_get() == untWindows) {
             // We run in Windows: start Outpost and wait a few seconds till started. 
@@ -166,10 +166,11 @@ void WindowsOutpost::thread_main()
           }
         }
         // Decide on next stage.
-        if (program_is_running(BIBLEDIT_WINDOWS_OUTPOST))
+        if (program_is_running(BIBLEDIT_WINDOWS_OUTPOST_EXE)) {
           stage = STAGE_CONNECT;
-        else
+        } else {
           stage = STAGE_WAIT_RETRY;
+        }
         break;
       }
     case STAGE_CONNECT:
