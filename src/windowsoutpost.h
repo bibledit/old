@@ -74,6 +74,7 @@ private:
 
 void windowsoutpost_open_url(const ustring& url);
 bool windowsoutpost_telnet(const ustring& hostname);
+ustring windowsoutpost_path ();
 
 
 #endif

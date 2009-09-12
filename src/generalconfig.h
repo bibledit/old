@@ -151,8 +151,8 @@ public:
   DEFINE_GENCONFIG_H (bool, use_outpost);
   DEFINE_GENCONFIG_H (bool, outpost_networked);
   DEFINE_GENCONFIG_H (ustring, outpost_host);
-  DEFINE_GENCONFIG_H (ustring, outpost_path);
   DEFINE_GENCONFIG_H (ustring, wine_path);
+  DEFINE_GENCONFIG_H (ustring, wine_bottle);
   DEFINE_GENCONFIG_H (ustring, outpost_command);
   DEFINE_GENCONFIG_H (ustring, mychecks);
   DEFINE_GENCONFIG_H (bool, tidy_translate);

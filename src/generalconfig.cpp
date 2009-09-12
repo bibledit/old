@@ -29,6 +29,8 @@
 #include <libxml/xmlreader.h>
 #include <libxml/xmlwriter.h>
 #include "config.xml.h"
+#include "windowsoutpost.h"
+
 
 ustring general_configuration_filename()
 {
@@ -171,8 +173,8 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE(use_outpost);
   INITIALIZE(outpost_networked);
   INITIALIZE(outpost_host);
-  INITIALIZE(outpost_path);
   INITIALIZE(wine_path);
+  INITIALIZE(wine_bottle);
   INITIALIZE(outpost_command);
   INITIALIZE(mychecks);
   INITIALIZE(tidy_translate);
@@ -342,8 +344,8 @@ void GeneralConfiguration::save()
   SAVE_VALUE(use_outpost);
   SAVE_VALUE(outpost_networked);
   SAVE_VALUE(outpost_host);
-  SAVE_VALUE(outpost_path);
   SAVE_VALUE(wine_path);
+  SAVE_VALUE(wine_bottle);
   SAVE_VALUE(outpost_command);
   SAVE_VALUE(mychecks);
   SAVE_VALUE(tidy_translate);
@@ -590,9 +592,9 @@ IMPLEMENT(vector < bool >, vector_bool_get, parallel_bible_enabled, NULL)
 IMPLEMENT(bool, bool_get, use_outpost, false)
 IMPLEMENT(bool, bool_get, outpost_networked, false)
 IMPLEMENT(ustring, string_get, outpost_host, "")
-IMPLEMENT(ustring, string_get, outpost_path, gw_build_filename(g_get_home_dir(), ".wine/drive_c/Program Files/Bibledit Windows Outpost/bwoutpost.exe"))
 IMPLEMENT(ustring, string_get, wine_path, "wine")
-IMPLEMENT(ustring, string_get, outpost_command, wine_path_get() + shell_quote_space(outpost_path_get()))
+IMPLEMENT(ustring, string_get, wine_bottle, "")
+IMPLEMENT(ustring, string_get, outpost_command, wine_path_get() + shell_quote_space(windowsoutpost_path ()))
 IMPLEMENT(ustring, string_get, mychecks, "")
 IMPLEMENT(bool, bool_get, tidy_translate, false)
 IMPLEMENT(vector < int >, vector_int_get, tidy_books, NULL)

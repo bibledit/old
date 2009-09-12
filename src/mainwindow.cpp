@@ -7298,16 +7298,17 @@ Todo various tasks.
 
 
 
-Delphi code goes into the main package, with a README explaining how to arrive there, and the license also.
+
 The .exe is distributed with bibledit package.
-The pascal files are GPL'ed.
 To update the helpfile and leave the download locations out, and inform that the .exe is included with the package now.
 The .exe can be removed from the download location.
 Helpfile needs to tell that the .exe is dragged to the startbutton if needed.
+Helpfile needs to tell what the bottle is for.
 
 
 
 The "Bibledit is Running" message need to be more selective, so that it excludes the shutdown program, and the bwoutpost.exe one.
+
 
 
 Try to import Hebrew text from BibleWorks.

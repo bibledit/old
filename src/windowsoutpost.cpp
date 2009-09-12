@@ -31,6 +31,7 @@
 #include "settings.h"
 #include "tiny_utilities.h"
 #include "bibleworks.h"
+#include "directories.h"
 
 
 #define STAGE_ZERO 0
@@ -150,7 +151,7 @@ void WindowsOutpost::thread_main()
           // Windows? Or Unix?
           if (uname_get() == untWindows) {
             // We run in Windows: start Outpost and wait a few seconds till started. 
-            GwSpawn spawn("bwoutpost.exe");
+            GwSpawn spawn(BIBLEDIT_WINDOWS_OUTPOST_EXE);
             spawn.async();
             spawn.run();
             g_usleep(3000000);
@@ -498,6 +499,15 @@ bool windowsoutpost_telnet(const ustring & hostname)
     }
   }
   return success;
+}
+
+
+ustring windowsoutpost_path ()
+// Gives the full path to the bwoutpost.exe
+{
+  ustring path;
+  path = gw_build_filename (directories_get_package_data (), BIBLEDIT_WINDOWS_OUTPOST_EXE);
+  return path;
 }
 
 
