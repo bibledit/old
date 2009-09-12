@@ -7299,11 +7299,9 @@ Todo various tasks.
 
 
 
-The .exe is distributed with bibledit package.
 To update the helpfile and leave the download locations out, and inform that the .exe is included with the package now.
-The .exe can be removed from the download location.
+The bwoutpost.exe can be removed from the download location.
 Helpfile needs to tell that the .exe is dragged to the startbutton if needed.
-Helpfile needs to tell what the bottle is for.
 
 
 

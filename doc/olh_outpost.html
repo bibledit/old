@@ -1,65 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-<title>Bibledit</title>
-<!-- 
-Copyright (©) 2003-2008 Teus Benschop.
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+  <title>Bibledit</title>
+  <!-- 
+  Copyright (©) 2003-2008 Teus Benschop.
 
-Permission is granted to copy, distribute and/or modify this document
-under the terms of the GNU Free Documentation License, Version 1.2
-or any later version published by the Free Software Foundation;
-with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-Texts.  A copy of the license is included in the section entitled "GNU
-Free Documentation License" in the file FDL.
--->
-<link href="bibledit.css" rel="stylesheet" type="text/css" />
+  Permission is granted to copy, distribute and/or modify this document
+  under the terms of the GNU Free Documentation License, Version 1.2
+  or any later version published by the Free Software Foundation;
+  with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+  Texts.  A copy of the license is included in the section entitled "GNU
+  Free Documentation License" in the file FDL.
+  -->
+  <link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
+
 <body>
 <h2><a name="windowsoutpostsettings"></a>Windows Outpost Settings</h2>
 <!-- Table of Contents Start -->
+
 <div id="toc">
 <ul>
-<li>
-<a href="#usingwindowsoutpost" class="level1">Using Windows Outpost</a></li>
-<li>
-<a href="#findingoutpostandwineorcrossoveroffice" class="level1">Finding Outpost and Wine or CrossOver Office</a></li>
-<li>
-<a href="#networkingwindowsoutpost" class="level1">Networking Windows Outpost</a></li>
+  <li><a href="#usingwindowsoutpost" class="level1">Using Windows
+  Outpost</a></li>
+  <li><a href="#findingoutpostandwineorcrossoveroffice" class="level1">Finding
+    Outpost and Wine or CrossOver Office</a></li>
+  <li><a href="#networkingwindowsoutpost" class="level1">Networking Windows
+    Outpost</a></li>
 </ul>
 </div>
 <!-- Table of Contents End -->
-<p>The Windows Outpost Setup dialog allows you to make various settings for
-the Outpost.</p>
+
+<p>The Windows Outpost Setup dialog allows you to make various settings for the
+Outpost.</p>
+
 <h3><a name="usingwindowsoutpost"></a>Using Windows Outpost</h3>
+
 <p>If "Use Windows Outpost" has been ticked, Bibledit will try to use the
 Outpost. If you don't use the Outpost, untick this option.</p>
+
 <p>If the Outpost is used, more settings follow below.</p>
-<h3><a name="findingoutpostandwineorcrossoveroffice"></a>Finding Outpost and Wine or CrossOver Office</h3>
-<p>A number of buttons are available that aid you in locating the right
-version of the Outpost, and in finding the version of Wine or CrossOver
-Office that Bibledit will use to run the Outpost.</p>
-<p>The "Select" button allows you to select which Outpost / Wine / CrossOver
-Office program to use, in case more than one was found.</p>
-<p>The "Open" button allows you to manually choose a binary for Outpost /
-Wine / CrossOver Office.</p>
-<p>The "Find" button will search through your whole system to find programs
-of Outpost / Wine / CrossOver Office. This may take a long time, depending on
-the amount of data on your hard disk.</p>
+
+<h3><a name="findingoutpostandwineorcrossoveroffice"></a>Finding Outpost and
+Wine or CrossOver Office</h3>
+
+<p>A number of buttons are available that aid you in locating the version of
+Wine or CrossOver Office that Bibledit will use to run the Outpost.</p>
+
+<p>The "Select" button allows you to select which Wine / CrossOver Office
+program to use, in case more than one was found.</p>
+
+<p>The "Open" button allows you to manually choose a binary for Wine /
+CrossOver Office.</p>
+
+<p>The "Find" button will search through your whole system to find programs of
+Wine / CrossOver Office. This may take a long time, depending on the amount of
+data on your hard disk.</p>
+
 <h3><a name="networkingwindowsoutpost"></a>Networking Windows Outpost</h3>
+
 <p>Normally the Outpost runs on the same computer where Bibledit runs. But
-there are cases that users wish to use resources that are installed on
-another computer or on a virtual machine. To use the Outpost this way, tick
-the option that the Outpost runs on another host, and enter the name of that
-host. If you know the name of that host, enter it, for example "win2k"
-(without the quotes). Or if you know the IP number of that host, enter
-that.</p>
+there are cases that users wish to use resources that are installed on another
+computer or on a virtual machine. To use the Outpost this way, tick the option
+that the Outpost runs on another host, and enter the name of that host. If you
+know the name of that host, enter it, for example "windows" (without the
+quotes). Or if you know the IP number of that host, enter that.</p>
+
 <p>Bibledit will now check whether that host is accessible.</p>
+
 <p>If the Outpost runs on another host, Bibledit will not be able to
-automatically start the Outpost. You need to start the Outpost manually on
-that other host, and then start Bibledit. Bibledit will try to establish a
+automatically start the Outpost. You need to start the Outpost manually on that
+other host, and then start Bibledit. Bibledit will try to establish a
 connection with it.</p>
+
+<h3>Bottle</h3>
+
+<p>You can enter a bottle to be used for the Outpost. This bottle is not used
+for plain wine, but it is used for CrossOver Office. If you install a certain
+Windows program in a certain bottle in CrossOver Office, enter this same bottle
+for the Outpost. The Outpost can only communicate with the other Windows
+program if the bottle is the same. It is important therefore to get the bottle
+right.</p>
 </body>
 </html>
