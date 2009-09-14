@@ -18,15 +18,16 @@
 */
 
 
-#ifndef INCLUDED_USER_H
-#define INCLUDED_USER_H
+#ifndef INCLUDED_STARTUP_H
+#define INCLUDED_STARTUP_H
 
 
 #include "libraries.h"
+#include <glib.h>
 #include <gtk/gtk.h>
 
 
-bool runs_as_root ();
+bool check_bibledit_startup_okay ();
 
 
 #endif

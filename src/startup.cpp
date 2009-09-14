@@ -1,0 +1,60 @@
+/*
+** Copyright (©) 2003-2009 Teus Benschop.
+**  
+** This program is free software; you can redistribute it and/or modify
+** it under the terms of the GNU General Public License as published by
+** the Free Software Foundation; either version 3 of the License, or
+** (at your option) any later version.
+**  
+** This program is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+** GNU General Public License for more details.
+**  
+** You should have received a copy of the GNU General Public License
+** along with this program; if not, write to the Free Software
+** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+**  
+*/
+
+
+#include "startup.h"
+#include "gtkwrappers.h"
+#include "shell.h"
+
+
+bool check_bibledit_startup_okay ()
+// Returns true if it is okay to start bibledit.
+{
+  // Do not run as root (does not apply to Windows).
+#ifndef WIN32
+  bool root = (getuid() == 0);
+  if (root) {
+    gtkw_dialog_error(NULL, "Bibledit has not been designed to run as user root.\n" "Please run it as a standard user.");
+    return false;
+  }
+#endif
+
+  // See whether Bibledit itself is running already.
+  vector <ustring> processes = list_processes ();
+  int count = 0;
+  for (unsigned int i = 0; i < processes.size(); i++) {
+    if (g_str_has_suffix (processes[i].c_str(), "bibledit")) {
+      count++;
+    }
+  }
+  if (count > 1) {
+    gtkw_dialog_error(NULL, "Bibledit is already running.");
+    return false;
+  }
+  
+  // See whether Bibledit is shutting down.
+  if (program_is_running ("bibledit-shutdown")) {
+    gtkw_dialog_error(NULL, "Bibledit is shutting down.\nPlease wait till that has been done, and try again.");
+    return false;
+  }
+
+  // It's ok to start.
+  return true;
+}
+

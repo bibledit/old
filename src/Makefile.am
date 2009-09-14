@@ -88,7 +88,6 @@ bibledit_SOURCES = \
         editor.cpp \
         uname.cpp \
         layout.cpp \
-        user.cpp \
         import.cpp \
         clean.cpp \
         categorize.cpp \
@@ -281,7 +280,8 @@ bibledit_SOURCES = \
 				robinson.cpp \
 				sourcelanguage.cpp \
 				morphology.cpp \
-				greek.cpp
+				greek.cpp \
+				startup.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp update-copyright
 

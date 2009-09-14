@@ -7302,6 +7302,8 @@ Todo various tasks.
 The "Bibledit is Running" message need to be more selective, so that it excludes the shutdown program, and the bwoutpost.exe one.
 Or give a message if the shutdown bit is on.
 
+    GwSpawn spawn ("bibledit-one"); // Todo this one can go out.
+
 
 
 Try to import Hebrew text from BibleWorks.

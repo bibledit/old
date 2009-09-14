@@ -27,7 +27,6 @@
 #include "directories.h"
 #include "dialogshowscript.h"
 #include "shell.h"
-#include "user.h"
 #include "maintenance.h"
 #include "gtkwrappers.h"
 #include "upgrade.h"
@@ -42,6 +41,7 @@
 #include <libxml/xmlreader.h>
 #include "vcs.h"
 #include "d_bus.h"
+#include "startup.h"
 
 
 // DBus * dbus;
@@ -60,18 +60,18 @@ int main(int argc, char *argv[])
   set_terminate(terminator);
   set_unexpected(my_unexpected);
 
-  // Do not allow to run as root.
-  if (runs_as_root())
-    return 1;
+  // Initialize g threads.
+  g_thread_init(NULL);
+  // Initialize g types.
+  g_type_init();
+  // Initialize GTK
+  gtk_init(&argc, &argv);
 
-  // Do not run more than one copy.
-  if (programs_running_count("bibledit") > 1) {
-    GwSpawn spawn ("bibledit-one");
-    spawn.async ();
-    spawn.run ();
+  // Check whether it is fine to start the program.
+  if (!check_bibledit_startup_okay()) {
     return 1;
   }
-  
+
   // Save logfile from previous session.
   if (g_file_test (log_file_name(false).c_str(), G_FILE_TEST_IS_REGULAR)) {
     GwSpawn spawn ("mv");
@@ -95,8 +95,6 @@ int main(int argc, char *argv[])
     if (dup(1));
   }    
 
-  // Initialize g threads.
-  g_thread_init(NULL);
   // Initialize the dbus.
   //DBus mydbus (dbntOrgBibleditMain);
   //dbus = &mydbus;
@@ -123,8 +121,6 @@ int main(int argc, char *argv[])
   // Styles object.
   Styles mystyles(0);
   styles = &mystyles;
-  // Initialize g types.
-  g_type_init();
   // Version control object.
   VCS myvcs (0);
   vcs = &myvcs;
@@ -153,8 +149,6 @@ int main(int argc, char *argv[])
       return 1;
     }
   }
-  // Initialize GTK
-  gtk_init(&argc, &argv);
   // Upgrade data.
   upgrade();
   // Window icon fallback.

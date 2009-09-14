@@ -17,9 +17,10 @@
 **  
 */
 
+
 #include "bibledit-bibletime.h"
 #include <glib.h>
-#include "user.h"
+
 
 #define STAGE_ZERO 0
 #define STAGE_COMMUNICATE 1
@@ -27,11 +28,13 @@
 #define STAGE_RETRY 1100
 #define BIBLETIME "bibletime"
 
+
 int stage = STAGE_ZERO;
 ustring previous_message;
 ustring bibledit_dcop_name;
 bool connected = false;
 ustring reply;
+
 
 void main_loop()
 {

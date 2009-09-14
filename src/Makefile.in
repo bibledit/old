@@ -85,9 +85,9 @@ am_bibledit_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	swordnote.$(OBJEXT) dialogselectchapters.$(OBJEXT) \
 	portion_utils.$(OBJEXT) scriptureportions.$(OBJEXT) \
 	editor.$(OBJEXT) uname.$(OBJEXT) layout.$(OBJEXT) \
-	user.$(OBJEXT) import.$(OBJEXT) clean.$(OBJEXT) \
-	categorize.$(OBJEXT) progresswindow.$(OBJEXT) books.$(OBJEXT) \
-	dialogbook.$(OBJEXT) generalconfig.$(OBJEXT) screen.$(OBJEXT) \
+	import.$(OBJEXT) clean.$(OBJEXT) categorize.$(OBJEXT) \
+	progresswindow.$(OBJEXT) books.$(OBJEXT) dialogbook.$(OBJEXT) \
+	generalconfig.$(OBJEXT) screen.$(OBJEXT) \
 	projectconfig.$(OBJEXT) gui.$(OBJEXT) \
 	check_validate_usfm.$(OBJEXT) checks.$(OBJEXT) \
 	dialoglinecutter.$(OBJEXT) check_count_words.$(OBJEXT) \
@@ -177,7 +177,7 @@ am_bibledit_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	bibleworks.$(OBJEXT) onlinebible.$(OBJEXT) \
 	windowsourcelanguages.$(OBJEXT) lexicons.$(OBJEXT) \
 	robinson.$(OBJEXT) sourcelanguage.$(OBJEXT) \
-	morphology.$(OBJEXT) greek.$(OBJEXT)
+	morphology.$(OBJEXT) greek.$(OBJEXT) startup.$(OBJEXT)
 bibledit_OBJECTS = $(am_bibledit_OBJECTS)
 bibledit_LDADD = $(LDADD)
 am_bibledit_bibletime_OBJECTS = bibledit-bibletime.$(OBJEXT) \
@@ -446,7 +446,6 @@ bibledit_SOURCES = \
         editor.cpp \
         uname.cpp \
         layout.cpp \
-        user.cpp \
         import.cpp \
         clean.cpp \
         categorize.cpp \
@@ -639,7 +638,8 @@ bibledit_SOURCES = \
 				robinson.cpp \
 				sourcelanguage.cpp \
 				morphology.cpp \
-				greek.cpp
+				greek.cpp \
+				startup.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -933,6 +933,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sourcelanguage.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/spelling.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sqlite_reader.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/startup.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/statistics.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/style.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/styles.Po@am__quote@
@@ -958,7 +959,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uname.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unixwrappers.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/upgrade.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/user.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/usfm-inline-markers.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/usfm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/usfm2osis.Po@am__quote@
