@@ -7299,13 +7299,8 @@ Todo various tasks.
 
 
 
-To update the helpfile and leave the download locations out, and inform that the .exe is included with the package now.
-The bwoutpost.exe can be removed from the download location.
-Helpfile needs to tell that the .exe is dragged to the startbutton if needed.
-
-
-
 The "Bibledit is Running" message need to be more selective, so that it excludes the shutdown program, and the bwoutpost.exe one.
+Or give a message if the shutdown bit is on.
 
 
 
