@@ -350,7 +350,6 @@ AC_CONFIG_FILES([Makefile
        tests/Makefile
        eeepc/Makefile
        browser/Makefile
-       one/Makefile
        shutdown/Makefile
        usfm/Makefile
        kjv/Makefile
