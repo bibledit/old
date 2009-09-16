@@ -813,6 +813,7 @@ void export_to_go_bible (const ustring& project, const ustring& foldername)
 {
   // Working area directory.
   ustring workingdirectory = gw_build_filename (directories_get_temp(), "gobible");
+  unix_rmdir (workingdirectory);
   gw_mkdir_with_parents (workingdirectory);
   
   // Check whether Java is installed. If not, bail out.
@@ -820,19 +821,34 @@ void export_to_go_bible (const ustring& project, const ustring& foldername)
     return;
   }
   
-  // Check whether the Go Bible Creator package is available.
+  // Check whether the GoBibleCreator package is available.
   ustring go_bible_creator_package_file_name;
   {
-    ReadFiles rf (g_get_home_dir(), "GoBibleCreator", ".zip");
-    if (!rf.files.empty()) {
-      go_bible_creator_package_file_name = gw_build_filename (g_get_home_dir(), rf.files[0]);
+    // It can be in the home directory, in which case it is considered a new package.
+    {
+      ReadFiles rf (g_get_home_dir(), "GoBibleCreator", ".zip");
+      if (!rf.files.empty()) {
+        go_bible_creator_package_file_name = gw_build_filename (g_get_home_dir(), rf.files[0]);
+        unix_cp (go_bible_creator_package_file_name, directories_get_temp());
+      }
+    }
+    // It can be in the temporal directory.
+    {
+      ReadFiles rf (directories_get_temp(), "GoBibleCreator", ".zip");
+      if (!rf.files.empty()) {
+        go_bible_creator_package_file_name = gw_build_filename (directories_get_temp(), rf.files[0]);
+      }
     }
   }
 
-  // If the package is there, install it.
-  if (!go_bible_creator_package_file_name.empty()) {
-    unix_rmdir (workingdirectory);
-    gw_mkdir_with_parents (workingdirectory);
+  // Bail out if the GoBibleCreator package is not available.
+  if (go_bible_creator_package_file_name.empty()) {
+    gtkw_dialog_error (NULL, "Bibledit could not find the GoBibleCreator package.\nPlease download it, put in in the home directory, and try again.\nSee the online help for more information.");
+    return;
+  }
+  
+  // Install the GoBibleCreator package.
+  {
     GwSpawn spawn ("unzip");
     spawn.workingdirectory (workingdirectory);
     spawn.arg (go_bible_creator_package_file_name);
@@ -847,7 +863,7 @@ void export_to_go_bible (const ustring& project, const ustring& foldername)
     if (!rd.directories.empty()) {
       go_bible_creator_jar_name = gw_build_filename (workingdirectory, rd.directories[0], "GoBibleCreator.jar");
       if (!g_file_test (go_bible_creator_jar_name.c_str(), G_FILE_TEST_IS_REGULAR)) {
-        gtkw_dialog_error (NULL, "Could not find a Go Bible Creator.\nPlease download one at your convenience,\nput it in your home folder, and try again.");
+        gtkw_dialog_error (NULL, "Bibledit failed to install the GoBibleCreator package.");
         return;
       }
     }

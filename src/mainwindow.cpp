@@ -7299,10 +7299,18 @@ Todo tasks.
 
 
 
-In the bulk spelling thing, I think there may be a bug when one tries to cancel the page. 
-I had OKed a word and just wanted to cancel. 
-It seemed to me that BE added the words even when I canceled the pop-up window.
 
+Better message should be produced if the GoBibleCreator isn't there. 
+Right now it gives a message that's not so clear to the user for him to know what needs to be corrected.
+
+
+
+
+Another bug: If the GoBibleCreator...zip is not found in the home directory, it fails, even if it was there next time.
+
+
+
+Another bug: If the name of the Bible has a space in it, e.g. "Staten Bible", it fails. 
 
 
 
