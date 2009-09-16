@@ -3871,8 +3871,9 @@ void MainWindow::on_check_spelling_bulk()
     return;
   }
   BulkSpellingDialog dialog (editor->spelling_get_misspelled());
-  dialog.run ();
-  editor->spelling_approve (dialog.approved);
+  if (dialog.run () == GTK_RESPONSE_OK) {
+    editor->spelling_approve (dialog.approved);
+  }
 }
 
 
@@ -7298,26 +7299,13 @@ Todo tasks.
 
 
 
-If the project is called "test", then you would connect to a dictionary called "Project test Shared Dictionary". 
-Then to select this dictionary, and to "Edit" it. 
-In the dialog for editing it, you can choose button "Import from" "File", then to import the file that you have.
-
-I notice a (minor) bug here, and this is that the "Edit" button is always active, even if no dictionary has been chosen.
-
-
- can use spelling now. Thanks for telling me about the bulk spelling check also.
-
-It seems to me that words are sometimes not entered into the dictionary if I use the one at a time method. I move to the next chapter and have to say some of the same words are correct.
-
-In the bulk spelling thing, I think there may be a bug when one tries to cancel the page. I had OKed a word and just wanted to cancel. It seemed to me that BE added the words even when I canceled the pop-up window.
+In the bulk spelling thing, I think there may be a bug when one tries to cancel the page. 
+I had OKed a word and just wanted to cancel. 
+It seemed to me that BE added the words even when I canceled the pop-up window.
 
 
 
 
-Steps:
-* Ensure the documentation is very clear.
-* Fix that minor bug mentioned above.
-* See about cancelling the bulk speller
 
 
 */
