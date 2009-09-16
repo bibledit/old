@@ -30,6 +30,9 @@ AutoConnect: False
 Name: OnlineBibleAutomation
 
 
+The support for the Online Bible was implemented after looking at the example at
+http://www.answersingenesis.org/OnlineBible/other/com.zip
+
 
 
 

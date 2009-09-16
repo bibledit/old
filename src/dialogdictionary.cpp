@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "dialogdictionary.h"
@@ -33,7 +34,9 @@
 #include "dialogeditdictionary.h"
 #include "git.h"
 
+
 enum { COLUMN_BOOK, NUM_COLUMNS };
+
 
 DictionaryDialog::DictionaryDialog(const ustring & project)
 {
@@ -119,22 +122,29 @@ DictionaryDialog::DictionaryDialog(const ustring & project)
     gtk_list_store_append(model, &iter);
     gtk_list_store_set(model, &iter, COLUMN_BOOK, dictionaries[i].c_str(), -1);
   }
+  
+  // Gui update.
+  on_treeview_dictionaries_cursor ();
 }
+
 
 DictionaryDialog::~DictionaryDialog()
 {
   gtk_widget_destroy(dictionarydialog);
 }
 
+
 int DictionaryDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(dictionarydialog));
 }
 
+
 void DictionaryDialog::on_okbutton1_clicked(GtkButton * button, gpointer user_data)
 {
   ((DictionaryDialog *) user_data)->on_okbutton();
 }
+
 
 void DictionaryDialog::on_okbutton()
 {
@@ -144,10 +154,12 @@ void DictionaryDialog::on_okbutton()
   projectconfig->spelling_dictionaries_set(dictionaries);
 }
 
+
 void DictionaryDialog::on_button_add_clicked(GtkButton * button, gpointer user_data)
 {
   ((DictionaryDialog *) user_data)->on_button_add();
 }
+
 
 void DictionaryDialog::on_button_add()
 {
@@ -195,20 +207,24 @@ void DictionaryDialog::on_button_add()
   }
 }
 
+
 void DictionaryDialog::on_button_delete_clicked(GtkButton * button, gpointer user_data)
 {
   ((DictionaryDialog *) user_data)->on_button_delete();
 }
+
 
 void DictionaryDialog::on_button_delete()
 {
   list_view_erase_selection(treeview_dictionaries);
 }
 
+
 void DictionaryDialog::on_treeview_dictionaries_cursor_changed(GtkTreeView * treeview, gpointer user_data)
 {
   ((DictionaryDialog *) user_data)->on_treeview_dictionaries_cursor();
 }
+
 
 void DictionaryDialog::on_treeview_dictionaries_cursor()
 {
@@ -218,10 +234,12 @@ void DictionaryDialog::on_treeview_dictionaries_cursor()
   gtk_widget_set_sensitive(button_edit, editable);
 }
 
+
 void DictionaryDialog::on_button_edit_clicked(GtkButton * button, gpointer user_data)
 {
   ((DictionaryDialog *) user_data)->on_button_edit();
 }
+
 
 void DictionaryDialog::on_button_edit()
 {
@@ -229,3 +247,4 @@ void DictionaryDialog::on_button_edit()
   EditDictionaryDialog dialog(listview_get_active_string(treeview_dictionaries));
   dialog.run();
 }
+
