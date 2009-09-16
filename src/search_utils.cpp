@@ -37,15 +37,13 @@
 #include "tiny_utilities.h"
 
 
-void search_string_basic(const ustring & project, bool use_book_selection, unsigned int currentchapter, vector < Reference > &results)
+void search_string_basic(const ustring & project, bool use_book_selection, unsigned int currentchapter, vector <Reference> &results)
 /*
 Basic search for a string in the text.
 project: project to search.
 use_book_selection: whether to limit searches to the selected books only.
 chapter: currently opened chapter in the editor.
 results: will contain the search results.
-It uses grep for searching the textfiles, e.g.:
-grep --recursive --line-number --include data '10' .
 */
 {
   // Settings.
@@ -60,9 +58,9 @@ grep --recursive --line-number --include data '10' .
     localsearchword = localsearchword.casefold();
   // Book and chapter selection.
   bool search_current_chapter = settings->session.search_current_chapter;
-  set < unsigned int >selectedbooks = settings->session.selected_books;
+  set <unsigned int> selectedbooks = settings->session.selected_books;
   // Get all books.
-  vector < unsigned int >books = project_get_books(project);
+  vector <unsigned int> books = project_get_books(project);
   // Progress.
   ProgressWindow progresswindow("Searching", false);
   progresswindow.set_iterate(0, 1, books.size());
@@ -77,7 +75,7 @@ grep --recursive --line-number --include data '10' .
       }
     }
     // Get all chapters and go through them.
-    vector < unsigned int >chapters = project_get_chapters(project, book);
+    vector <unsigned int> chapters = project_get_chapters(project, book);
     for (unsigned int ch = 0; ch < chapters.size(); ch++) {
       unsigned int chapter = chapters[ch];
       // Do we search this chapter?
@@ -606,7 +604,7 @@ void search_string(WindowReferences * references_window, BibleTime * bibletime)
       selected_books.insert(settings->genconfig.book_get());
       settings->session.selected_books = selected_books;
       unsigned int chapter = convert_to_int(settings->genconfig.chapter_get());
-      search_string_basic(settings->genconfig.project_get(), settings->session.search_current_book, chapter, searchresults);
+      search_string_basic(settings->genconfig.project_get(), settings->session.search_current_book, chapter, searchresults); // Todo this one is not correctly called.
       selected_books.clear();
       for (unsigned int i = 0; i < mybooks.size(); i++)
         selected_books.insert(mybooks[i]);

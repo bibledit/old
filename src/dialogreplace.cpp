@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "dialogreplace.h"
@@ -30,6 +31,7 @@
 #include "shortcuts.h"
 #include "settings.h"
 #include "tiny_utilities.h"
+
 
 ReplaceDialog::ReplaceDialog(int dummy)
 {
@@ -166,20 +168,24 @@ ReplaceDialog::ReplaceDialog(int dummy)
   set_gui();
 }
 
+
 ReplaceDialog::~ReplaceDialog()
 {
   gtk_widget_destroy(replacedialog);
 }
+
 
 int ReplaceDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(replacedialog));
 }
 
+
 void ReplaceDialog::on_checkbuttonbook_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((ReplaceDialog *) user_data)->on_checkbutton_book();
 }
+
 
 void ReplaceDialog::on_checkbutton_book()
 {
@@ -188,10 +194,12 @@ void ReplaceDialog::on_checkbutton_book()
   }
 }
 
+
 void ReplaceDialog::on_checkbuttonchapter_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((ReplaceDialog *) user_data)->on_checkbutton_chapter();
 }
+
 
 void ReplaceDialog::on_checkbutton_chapter()
 {
@@ -200,14 +208,17 @@ void ReplaceDialog::on_checkbutton_chapter()
   }
 }
 
+
 void ReplaceDialog::replacedialog_on_buttonfind_clicked(GtkButton * button, gpointer user_data)
 {
   ((ReplaceDialog *) user_data)->on_buttonfind_clicked();
 }
 
+
 void ReplaceDialog::on_buttonfind_clicked()
 {
   extern Settings *settings;
+
   // Get data from the user interface.
   ustring searchword = gtk_entry_get_text(GTK_ENTRY(entry2));
   settings->session.searchword = searchword;
@@ -216,34 +227,42 @@ void ReplaceDialog::on_buttonfind_clicked()
   settings->session.search_case_sensitive = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbuttoncase));
   settings->session.search_current_book = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbuttonbook));
   settings->session.search_current_chapter = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbuttonchapter));
+
+  // Save the current book selection in case we modify it.
+  set <unsigned int> saved_book_selection = settings->session.selected_books;
+  
+  // In case we search in the current book only, modify the book selection.
+  if (settings->session.search_current_book) {
+    settings->session.selected_books.clear();
+    settings->session.selected_books.insert(settings->genconfig.book_get());
+  }
+
   // Search.
-  vector < unsigned int >mybooks;
-  mybooks.assign(settings->session.selected_books.begin(), settings->session.selected_books.end());
-  set < unsigned int >selected_books;
-  selected_books.insert(settings->genconfig.book_get());
-  settings->session.selected_books = selected_books;
   unsigned int chapter = convert_to_int(settings->genconfig.chapter_get());
-  search_string_basic(settings->genconfig.project_get(), settings->session.search_current_book, chapter, results);
-  selected_books.clear();
-  for (unsigned int i = 0; i < mybooks.size(); i++)
-    selected_books.insert(mybooks[i]);
-  settings->session.selected_books = selected_books;
+  search_string_basic(settings->genconfig.project_get(), true, chapter, results);
   sort_references(results);
+  
+  // Restore current book selection.
+  settings->session.selected_books = saved_book_selection;
+  
   // Highlighting words in editor.
   settings->session.highlights.clear();
   SessionHighlights sessionhighlights1(searchword, settings->session.search_case_sensitive, false, false, false, atRaw, false, false, false, false, false, false, false, false);
   settings->session.highlights.push_back(sessionhighlights1);
   SessionHighlights sessionhighlights2(replaceword, settings->session.search_case_sensitive, false, false, false, atRaw, false, false, false, false, false, false, false, false);
   settings->session.highlights.push_back(sessionhighlights2);
+
   // Entry completion
   completion_finish(entry2, cpSearch);
   completion_finish(entry3, cpReplace);
 }
 
+
 void ReplaceDialog::on_selectbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((ReplaceDialog *) user_data)->on_selectbutton_clicked2();
 }
+
 
 void ReplaceDialog::on_selectbutton_clicked2()
 // The user can select which books to search and replace in.
@@ -257,10 +276,12 @@ void ReplaceDialog::on_selectbutton_clicked2()
   }
 }
 
+
 void ReplaceDialog::on_word_entry_changed(GtkEditable * editable, gpointer user_data)
 {
   ((ReplaceDialog *) user_data)->set_gui();
 }
+
 
 void ReplaceDialog::set_gui()
 {

@@ -7300,10 +7300,6 @@ Todo tasks.
 
 
 
-Another bug: If the name of the Bible has a space in it, e.g. "Staten Bible", it fails. 
-
-
-
 
 
 */
