@@ -870,8 +870,12 @@ void export_to_go_bible (const ustring& project, const ustring& foldername)
   }
   gw_message ("Using Go Bible Creator " + go_bible_creator_jar_name);
   
+  // For some reason spaces in the project name confuse the GoBibleCreator.
+  ustring no_space_project (project);
+  replace_text (no_space_project, " ", "_");
+  
   // Create a temporary OSIS file fit for the Go Bible Creator.
-  ustring xmlfile = gw_build_filename (workingdirectory, project + ".xml");
+  ustring xmlfile = gw_build_filename (workingdirectory, no_space_project + ".xml");
   export_to_osis_for_go_bible_creator (project, xmlfile);
 
   // Create a Collections.txt file.
@@ -886,7 +890,7 @@ void export_to_go_bible (const ustring& project, const ustring& foldername)
     spawn.run ();
     ReadText rt (collections_txt_file, true, false);
     vector <ustring> lines;
-    lines.push_back ("Source-Text: " + project + ".xml");
+    lines.push_back ("Source-Text: " + no_space_project + ".xml");
     for (unsigned int i = 0; i < rt.lines.size(); i++) {
       lines.push_back (rt.lines[i]);
     }
@@ -905,15 +909,15 @@ void export_to_go_bible (const ustring& project, const ustring& foldername)
   }
 
   // Check whether the Go Bible is there.
-  ustring jarfile = gw_build_filename (workingdirectory, project + ".jar");
-  ustring jadfile = gw_build_filename (workingdirectory, project + ".jad");
+  ustring jarfile = gw_build_filename (workingdirectory, no_space_project + ".jar");
+  ustring jadfile = gw_build_filename (workingdirectory, no_space_project + ".jad");
   bool jarpresent = g_file_test (jarfile.c_str(), G_FILE_TEST_IS_REGULAR);
   bool jadpresent = g_file_test (jarfile.c_str(), G_FILE_TEST_IS_REGULAR);
   if (jarpresent && jadpresent) {
     unix_mv (jarfile, foldername);
     unix_mv (jadfile, foldername);
   } else {
-    gtkw_dialog_error (NULL, "There was an error producing the Go Bible.\nPLease check the system log for more information.");
+    gtkw_dialog_error (NULL, "There was an error producing the Go Bible.\nPlease check the system log for more information.");
   }  
 }
 
