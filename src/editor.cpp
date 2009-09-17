@@ -614,6 +614,7 @@ bool Editor::show_quick_references_timeout(gpointer user_data)
   return false;
 }
 
+
 void Editor::show_quick_references_execute()
 // Takes the text of the references in the note that has the cursor,
 // and shows that text in the quick reference area.
@@ -640,10 +641,22 @@ void Editor::show_quick_references_execute()
   // Extract references.
   ReferencesScanner refscanner(language, book, note_text);
 
+  // If there are no references, bail out.
+  if (refscanner.references.empty()) {
+    return;
+  }
+
+  // Ask whether the references should be made available. If not, bail out. Todo
+  int result = gtkw_dialog_question(NULL, "This note has references.\nWould you like to load these in the references list?", GTK_RESPONSE_YES);
+  if (result != GTK_RESPONSE_YES) {
+    return;
+  }
+ 
   // Make the references available and fire a signal.
   quick_references = refscanner.references;
   gtk_button_clicked(GTK_BUTTON(quick_references_button));
 }
+
 
 void Editor::on_textview_move_cursor(GtkTextView * textview, GtkMovementStep step, gint count, gboolean extend_selection, gpointer user_data)
 {

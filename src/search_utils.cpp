@@ -607,7 +607,7 @@ void search_string(WindowReferences * references_window, BibleTime * bibletime)
 
       // Search.
       unsigned int chapter = convert_to_int(settings->genconfig.chapter_get());
-      search_string_basic(settings->genconfig.project_get(), true, chapter, searchresults); // Todo this one is not correctly called.
+      search_string_basic(settings->genconfig.project_get(), true, chapter, searchresults);
       sort_references(searchresults);
 
       // Restore current book selection.
