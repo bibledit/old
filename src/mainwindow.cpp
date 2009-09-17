@@ -7303,6 +7303,7 @@ If a note has any references and the cursor goes into, then to ask whether these
 The dialog also has an option that says that this selection will be applied from now on during this session.
 
 
+To send next announcement also to bibledit-announce@nongnu.org, and check whether the RSS feed updates.
 
 
 
