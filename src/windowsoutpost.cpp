@@ -297,28 +297,13 @@ void WindowsOutpost::telnet(const ustring & hostname)
       } else {
         // We've a connection. Set the socket to non-blocking mode.
 #ifdef WIN32
-	u_long socketmode = 1; // Set non-blocking
-	ioctlsocket(sock, FIONBIO, &socketmode);
+        u_long socketmode = 1; // Set non-blocking
+        ioctlsocket(sock, FIONBIO, &socketmode);
 #else
         fcntl(sock, F_SETFL, fcntl(sock, F_GETFL, 0) | O_NONBLOCK);
 #endif
         log("Connected");
         connected = true;
-        // Hide GUI.
-        send_line("hide");
-        // Check for the right version number.
-        send_line("version");
-        ustring s;
-        s = Readln();
-        if (connected) {
-          if (s.length() > 5) {
-            s = s.substr(3, 100);
-            if (s != BIBLEDIT_WINDOWS_OUTPOST_VERSION) {
-              log("Version is " + s + ", but " + BIBLEDIT_WINDOWS_OUTPOST_VERSION + " is needed");
-              log("Running with reduced fuctionality");
-            }
-          }
-        }
       }
     } else {
       log("No socket available");

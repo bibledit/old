@@ -595,20 +595,25 @@ void search_string(WindowReferences * references_window, BibleTime * bibletime)
   case 0:
     {
       // Basic search.
-      vector <unsigned int> mybooks;
-      {
-        set <unsigned int> selected_books = settings->session.selected_books;
-        mybooks.assign(selected_books.begin(), selected_books.end());
+
+      // Save the current book selection in case we modify it.
+      set <unsigned int> saved_book_selection = settings->session.selected_books;
+
+      // In case we search in the current book only, modify the book selection.
+      if (settings->session.search_current_book) {
+        settings->session.selected_books.clear();
+        settings->session.selected_books.insert(settings->genconfig.book_get());
       }
-      set < unsigned int >selected_books;
-      selected_books.insert(settings->genconfig.book_get());
-      settings->session.selected_books = selected_books;
+
+      // Search.
       unsigned int chapter = convert_to_int(settings->genconfig.chapter_get());
-      search_string_basic(settings->genconfig.project_get(), settings->session.search_current_book, chapter, searchresults); // Todo this one is not correctly called.
-      selected_books.clear();
-      for (unsigned int i = 0; i < mybooks.size(); i++)
-        selected_books.insert(mybooks[i]);
-      settings->session.selected_books = selected_books;
+      search_string_basic(settings->genconfig.project_get(), true, chapter, searchresults); // Todo this one is not correctly called.
+      sort_references(searchresults);
+
+      // Restore current book selection.
+      settings->session.selected_books = saved_book_selection;
+
+      // Done.
       break;
     }
   case 1:

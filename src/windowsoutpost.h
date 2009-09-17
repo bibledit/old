@@ -36,7 +36,6 @@
 
 
 #define BIBLEDIT_WINDOWS_OUTPOST_EXE "bwoutpost.exe"
-#define BIBLEDIT_WINDOWS_OUTPOST_VERSION "1.7"
 
 
 class WindowsOutpost
