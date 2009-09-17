@@ -57,7 +57,7 @@ const
 implementation
 
 uses
-  sendkey32, santafefocus, ShellApi;
+  santafefocus, ShellApi;
 
 var
   SocketReceivedTextBuffer : string;
