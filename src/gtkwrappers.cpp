@@ -17,10 +17,12 @@
 **  
 */
 
+
 #include "libraries.h"
 #include "gtkwrappers.h"
 #include "gwrappers.h"
 #include <glib.h>
+
 
 void gtkw_dialog_info(GtkWidget * parent, const ustring & info)
 {
@@ -36,6 +38,7 @@ void gtkw_dialog_info(GtkWidget * parent, const ustring & info)
   gtk_widget_destroy(dialog);
 }
 
+
 int gtkw_dialog_question(GtkWidget * parent, const ustring & question, int default_response)
 {
   int result;
@@ -47,6 +50,7 @@ int gtkw_dialog_question(GtkWidget * parent, const ustring & question, int defau
   return result;
 }
 
+
 void gtkw_dialog_error(GtkWidget * parent, const ustring & error)
 {
   GtkWidget *dialog = gtk_message_dialog_new(GTK_WINDOW(parent), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "%s", error.c_str());
@@ -54,12 +58,14 @@ void gtkw_dialog_error(GtkWidget * parent, const ustring & error)
   gtk_widget_destroy(dialog);
 }
 
+
 void gtkw_dialog_warning(GtkWidget * parent, const ustring & warning)
 {
   GtkWidget *dialog = gtk_message_dialog_new(GTK_WINDOW(parent), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_WARNING, GTK_BUTTONS_OK, "%s", warning.c_str());
   gtk_dialog_run(GTK_DIALOG(dialog));
   gtk_widget_destroy(dialog);
 }
+
 
 ustring gtkw_file_chooser_select_folder(GtkWidget * parent, const ustring & title, const ustring & directory)
 // Allows user to select a folder.
@@ -93,6 +99,7 @@ ustring gtkw_file_chooser_select_folder(GtkWidget * parent, const ustring & titl
   // Return selection.
   return selection;
 }
+
 
 ustring gtkw_file_chooser_open(GtkWidget * parent, const ustring & title, const ustring & file)
 // Allows the user to select a file.

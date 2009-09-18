@@ -96,6 +96,9 @@ public:
   ustring selected_style;
   // Merge.
   unsigned int merge_action;
+  // Question dialogs.
+  map <int, bool> yes_no_always_dialog_enabled;
+  map <int, int> yes_no_always_dialog_response;
 private:
 };
 

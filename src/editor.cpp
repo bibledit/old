@@ -41,6 +41,7 @@
 #include "tiny_utilities.h"
 #include "git.h"
 #include "progresswindow.h"
+#include "dialogyesnoalways.h"
 
 
 Editor::Editor(GtkWidget * vbox, const ustring & project_in):
@@ -646,15 +647,12 @@ void Editor::show_quick_references_execute()
     return;
   }
 
-  // Ask whether the references should be made available. If not, bail out. Todo
-  int result = gtkw_dialog_question(NULL, "This note has references.\nWould you like to load these in the references list?", GTK_RESPONSE_YES);
-  if (result != GTK_RESPONSE_YES) {
-    return;
+  // Ask whether the references should be made available.
+  if (yes_no_always_dialog ("This note has references.\nWould you like to load these in the references list?", ynadtLoadReferences, false)) {
+    // Make the references available and fire a signal.
+    quick_references = refscanner.references;
+    gtk_button_clicked(GTK_BUTTON(quick_references_button));
   }
- 
-  // Make the references available and fire a signal.
-  quick_references = refscanner.references;
-  gtk_button_clicked(GTK_BUTTON(quick_references_button));
 }
 
 

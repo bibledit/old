@@ -177,7 +177,8 @@ am_bibledit_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	bibleworks.$(OBJEXT) onlinebible.$(OBJEXT) \
 	windowsourcelanguages.$(OBJEXT) lexicons.$(OBJEXT) \
 	robinson.$(OBJEXT) sourcelanguage.$(OBJEXT) \
-	morphology.$(OBJEXT) greek.$(OBJEXT) startup.$(OBJEXT)
+	morphology.$(OBJEXT) greek.$(OBJEXT) startup.$(OBJEXT) \
+	dialogyesnoalways.$(OBJEXT)
 bibledit_OBJECTS = $(am_bibledit_OBJECTS)
 bibledit_LDADD = $(LDADD)
 am_bibledit_bibletime_OBJECTS = bibledit-bibletime.$(OBJEXT) \
@@ -639,7 +640,8 @@ bibledit_SOURCES = \
 				sourcelanguage.cpp \
 				morphology.cpp \
 				greek.cpp \
-				startup.cpp
+				startup.cpp \
+				dialogyesnoalways.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -835,6 +837,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogwait.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogwordlist.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogxfernotes2text.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogyesnoalways.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/directories.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/displayprojectnotes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/editor.Po@am__quote@

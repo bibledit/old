@@ -14,6 +14,7 @@
         <child>
           <object class="GtkHBox" id="hbox">
             <property name="visible">True</property>
+            <property name="spacing">10</property>
             <child>
               <object class="GtkImage" id="image">
                 <property name="visible">True</property>
@@ -35,12 +36,13 @@
             </child>
           </object>
           <packing>
+            <property name="padding">10</property>
             <property name="position">2</property>
           </packing>
         </child>
         <child>
           <object class="GtkCheckButton" id="checkbutton">
-            <property name="label" translatable="yes">_Remember my choice for next time</property>
+            <property name="label" translatable="yes">_Remember my choice throughout this session</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
@@ -49,6 +51,7 @@
           </object>
           <packing>
             <property name="expand">False</property>
+            <property name="padding">10</property>
             <property name="position">3</property>
           </packing>
         </child>
@@ -57,32 +60,10 @@
             <property name="visible">True</property>
             <property name="layout_style">end</property>
             <child>
-              <object class="GtkButton" id="button_no">
-                <property name="label" translatable="yes">gtk-no</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">0</property>
-              </packing>
+              <placeholder/>
             </child>
             <child>
-              <object class="GtkButton" id="button_yes">
-                <property name="label" translatable="yes">gtk-yes</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">1</property>
-              </packing>
+              <placeholder/>
             </child>
           </object>
           <packing>
@@ -93,9 +74,5 @@
         </child>
       </object>
     </child>
-    <action-widgets>
-      <action-widget response="0">button_no</action-widget>
-      <action-widget response="0">button_yes</action-widget>
-    </action-widgets>
   </object>
 </interface>
