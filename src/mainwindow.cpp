@@ -7299,11 +7299,6 @@ Todo tasks.
 
 
 
-If a note has any references and the cursor goes into, then to ask whether these references should be loaded in the references area.
-The dialog also has an option that says that this selection will be applied from now on during this session.
-This same dialog can also be used when deleting notes, but then modified such that only if "Yes" is chosen, this can be remembered.
-
-
 To send next announcement also to bibledit-announce@nongnu.org, and check whether the RSS feed updates.
 
 

@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "windownotes.h"
@@ -37,6 +38,8 @@
 #include "bible.h"
 #include "gtkwrappers.h"
 #include "dialogprojectnote.h"
+#include "dialogyesnoalways.h"
+
 
 WindowNotes::WindowNotes(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
 WindowBase(widNotes, "Project notes", startup, 0, parent_box)
@@ -1148,11 +1151,13 @@ void WindowNotes::get_references_from_id(gint id)
   gtk_button_clicked(GTK_BUTTON(references_available_signal_button));
 }
 
+
 gboolean WindowNotes::on_html_link_clicked(GtkHTML * html, const gchar * url, gpointer user_data)
 {
   ((WindowNotes *) user_data)->html_link_clicked(html, url);
   return true;
 }
+
 
 void WindowNotes::html_link_clicked(GtkHTML * html, const gchar * url)
 // Callback for clicking a link in the project notes.
@@ -1176,6 +1181,7 @@ void WindowNotes::html_link_clicked(GtkHTML * html, const gchar * url)
   }
 }
 
+
 void WindowNotes::delete_ids(const vector < gint > &ids)
 // Deletes notes whose id is given in "ids".
 {
@@ -1188,8 +1194,7 @@ void WindowNotes::delete_ids(const vector < gint > &ids)
   else
     message.append("these notes");
   message.append("?");
-
-  if (gtkw_dialog_question(GTK_IS_WINDOW (window_vbox) ? window_vbox : NULL, message) != GTK_RESPONSE_YES)
+  if (!yes_no_always_dialog (message, ynadtDeleteNote, true))
     return;
   for (unsigned int i = 0; i < ids.size(); i++) {
     notes_delete_one(ids[i]);
@@ -1197,6 +1202,7 @@ void WindowNotes::delete_ids(const vector < gint > &ids)
 
   redisplay();
 }
+
 
 void WindowNotes::cut()
 {

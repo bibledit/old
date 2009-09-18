@@ -38,7 +38,7 @@ bool yes_no_always_dialog (const ustring& message, YesNoAlwaysDialogType type, b
 }
 
 
-YesNoAlwaysDialog::YesNoAlwaysDialog(const ustring& message, bool default_yes) // Todo
+YesNoAlwaysDialog::YesNoAlwaysDialog(const ustring& message, bool default_yes)
 {
   gtkbuilder = gtk_builder_new ();
   gtk_builder_add_from_file (gtkbuilder, gw_build_filename (directories_get_package_data(), "gtkbuilder.yesnoalwaysdialog.xml").c_str(), NULL);
