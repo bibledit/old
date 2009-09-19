@@ -7299,7 +7299,55 @@ Todo tasks.
 
 
 
+
+
+
+The only outstanding issue now is the following:
+
+If the data that causes problems will be supplied, then the problem will be looked into, and fixed.
+
+
+
+
+
+
+Bug: pasting into BE in format view
+Pasting into BE in format view still causes the window to scroll to text somewhere near the top of the chapter.
+To close this bug, say we're aware of it, then to open a new task to make the editor better behaved then the current one:
+To use editors for every line, less timers, and so on.
+
+
+
+
+
+Bug: BE does not quit during git operations.
+When Bibledit is in the middle of a git operation for collaboration, and then the Quit function is chosen, it won't quit, but hangs instead. 
+Probably the thread that does the git operations needs to be made more clever so as to quit even under such circumstances.
+
+
+
+
+Bug: crash when cancelling search.
+
+
+
+
+
+Bug: View / Planning output fails.
+
+
+
+
+
+
 To send next announcement also to bibledit-announce@nongnu.org, and check whether the RSS feed updates.
+
+
+The file gtkbuilder.referenceexchangedialog.xml is in the making. So that scrolling with the online bible can be implemented.
+
+
+
+
 
 
 
