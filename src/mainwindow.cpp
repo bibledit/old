@@ -7328,6 +7328,13 @@ If you enter planning data and then view the planning output the document.html c
 
 
 
+Bug: Keyterms doesn't update after verse lookup
+If you open keyterms, choose a term and then double click a word, and ctrl+c to add the rendering. 
+The rendering will update and bold the matching words.
+
+If you then click a blue reference to look up that verse, and then add another rendering the matching words will not update. 
+
+
 
 To send next announcement also to bibledit-announce@nongnu.org, and check whether the RSS feed updates.
 

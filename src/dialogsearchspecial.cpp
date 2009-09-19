@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "libraries.h"
 #include "dialogsearchspecial.h"
 #include "dialogselectbooks.h"
@@ -31,10 +32,12 @@
 #include "settings.h"
 #include "gui.h"
 
+
 #define RESULTS_LOAD   "Load them in the References Area"
 #define RESULTS_ADD    "Add them to the ones already in the References Area"
 #define RESULTS_REMOVE "Remove them from the ones already in the References Area"
 #define RESULTS_SHARE  "Share them with the ones already in the References Area"
+
 
 SearchSpecialDialog::SearchSpecialDialog(BibleTime * bibletime)
 {
@@ -488,21 +491,25 @@ SearchSpecialDialog::SearchSpecialDialog(BibleTime * bibletime)
   dialogpresenter = new DialogPresenter(searchspecialdialog);
 }
 
+
 SearchSpecialDialog::~SearchSpecialDialog()
 {
   delete dialogpresenter;
   gtk_widget_destroy(searchspecialdialog);
 }
 
+
 int SearchSpecialDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(searchspecialdialog));
 }
 
+
 void SearchSpecialDialog::on_word_entry_changed(GtkEditable * editable, gpointer user_data)
 {
   ((SearchSpecialDialog *) user_data)->set_gui();
 }
+
 
 void SearchSpecialDialog::set_gui()
 {
@@ -524,10 +531,12 @@ void SearchSpecialDialog::set_gui()
   gtk_label_set_text(GTK_LABEL(label_area), area_information().c_str());
 }
 
+
 void SearchSpecialDialog::on_findbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((SearchSpecialDialog *) user_data)->on_find();
 }
+
 
 void SearchSpecialDialog::on_find()
 {
@@ -556,8 +565,7 @@ void SearchSpecialDialog::on_find()
   case sstSubtract:
   case sstShare:
     {
-      SessionHighlights
-          sessionhighlights(settings->session.searchword, settings->session.search_case_sensitive, settings->session.search_globbing, settings->session.search_start_word_match, settings->session.search_end_word_match, settings->session.area_type, settings->session.area_id, settings->session.area_intro, settings->session.area_heading, settings->session.area_chapter, settings->session.area_study, settings->session.area_notes, settings->session.area_xref, settings->session.area_verse);
+      SessionHighlights sessionhighlights(settings->session.searchword, settings->session.search_case_sensitive, settings->session.search_globbing, settings->session.search_start_word_match, settings->session.search_end_word_match, settings->session.area_type, settings->session.area_id, settings->session.area_intro, settings->session.area_heading, settings->session.area_chapter, settings->session.area_study, settings->session.area_notes, settings->session.area_xref, settings->session.area_verse);
       settings->session.highlights.push_back(sessionhighlights);
     }
   }
@@ -574,10 +582,12 @@ void SearchSpecialDialog::on_find()
   settings->session.search_bibletime_commentary = combobox_get_active_string(combobox_bt_commentaries);
 }
 
+
 void SearchSpecialDialog::on_button_books_clicked(GtkButton * button, gpointer user_data)
 {
   ((SearchSpecialDialog *) user_data)->on_books();
 }
+
 
 void SearchSpecialDialog::on_books()
 {
@@ -590,15 +600,18 @@ void SearchSpecialDialog::on_books()
   set_gui();
 }
 
+
 void SearchSpecialDialog::on_checkbutton_current_book_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((SearchSpecialDialog *) user_data)->set_gui();
 }
 
+
 void SearchSpecialDialog::on_button_area_clicked(GtkButton * button, gpointer user_data)
 {
   ((SearchSpecialDialog *) user_data)->on_button_area();
 }
+
 
 void SearchSpecialDialog::on_button_area()
 {
@@ -607,10 +620,12 @@ void SearchSpecialDialog::on_button_area()
   set_gui();
 }
 
+
 void SearchSpecialDialog::on_searchspecialdialog_activate_focus(GtkWindow * window, gpointer user_data)
 {
   ((SearchSpecialDialog *) user_data)->on_control_f();
 }
+
 
 void SearchSpecialDialog::on_control_f()
 {
@@ -624,10 +639,12 @@ void SearchSpecialDialog::on_control_f()
   gtk_widget_grab_focus(word_entry);
 }
 
+
 void SearchSpecialDialog::on_notebook_mode_switch_page(GtkNotebook * notebook, GtkNotebookPage * page, guint page_num, gpointer user_data)
 {
   ((SearchSpecialDialog *) user_data)->on_mode_change(page_num);
 }
+
 
 void SearchSpecialDialog::on_mode_change(guint page_num)
 // When the search mode changes (Simple / Advanced / BibleTime / ...), then
@@ -659,10 +676,12 @@ void SearchSpecialDialog::on_mode_change(guint page_num)
   set_gui();
 }
 
+
 void SearchSpecialDialog::on_radiobutton_bt_bible_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((SearchSpecialDialog *) user_data)->focus_bible();
 }
+
 
 void SearchSpecialDialog::focus_bible()
 {
@@ -671,10 +690,12 @@ void SearchSpecialDialog::focus_bible()
   // the widget shortly after the button switched on.
 }
 
+
 void SearchSpecialDialog::on_radiobutton_bt_commentary_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((SearchSpecialDialog *) user_data)->focus_commentary();
 }
+
 
 void SearchSpecialDialog::focus_commentary()
 {
@@ -682,10 +703,12 @@ void SearchSpecialDialog::focus_commentary()
   // This does not work, see above.
 }
 
+
 void SearchSpecialDialog::on_word_entry_activate(GtkEntry * entry, gpointer user_data)
 {
   ((SearchSpecialDialog *) user_data)->on_activate();
 }
+
 
 void SearchSpecialDialog::on_activate()
 {
@@ -698,11 +721,13 @@ void SearchSpecialDialog::on_activate()
   }
 }
 
+
 bool SearchSpecialDialog::on_timeout(gpointer data)
 {
   ((SearchSpecialDialog *) data)->timeout();
   return false;
 }
+
 
 void SearchSpecialDialog::timeout()
 {
