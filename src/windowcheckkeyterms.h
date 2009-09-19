@@ -98,6 +98,7 @@ private:
   
   // Html work.
   ustring active_url;
+  ustring last_keyword_url;
   map <ustring, unsigned int> scrolling_position;
   void html_write_keyterms (HtmlWriter2& htmlwriter, unsigned int keyword_id);
   

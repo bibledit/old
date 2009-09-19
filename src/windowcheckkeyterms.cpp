@@ -232,7 +232,7 @@ void WindowCheckKeyterms::save_renderings()
   ustring project = settings->genconfig.project_get();
   keyterms_store_renderings(project, keyterm, category, renderings, wholewords, casesensitives);
   load_renderings();
-  html_link_clicked (active_url.c_str());
+  html_link_clicked (last_keyword_url.c_str());
 }
 
 
@@ -418,6 +418,8 @@ void WindowCheckKeyterms::html_link_clicked (const gchar * url)
   bool display_another_page = false;
 
   if (active_url.find ("keyterm ") == 0) {
+    // Store url of this keyterm.
+    last_keyword_url = active_url;
     // Get the keyterm identifier.
     ustring url = active_url;
     url.erase (0, 8);

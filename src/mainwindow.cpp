@@ -7302,15 +7302,6 @@ Todo tasks.
 
 
 
-Bug: Keyterms doesn't update after verse lookup
-If you open keyterms, choose a term and then double click a word, and ctrl+c to add the rendering. 
-The rendering will update and bold the matching words.
-
-If you then click a blue reference to look up that verse, and then add another rendering the matching words will not update. 
-
-
-
-
 Bug: installation on eeepc
 
 Thanks for your response, with the tip of fetching files from an http
@@ -7382,12 +7373,25 @@ Thank you a lot for figuring out how to install bibledit on the newer and update
 
 
 
+Bug: BE crashes when aborting merges
+When I pick my new project as the base project, then pick an edited project as the one I want as the source for edits, 
+when I click merge, BE has a popup that displays four options.
+Sometimes BE tells me there is no base project. Or sometimes if I abort, BE crashes.
+
+
+
+
+Bug: kjv italics not visible
+King James Version source language: How to show the italics? This is not done presently, which is a bug.
+Probably to read these from the xml files, and then store these as brackets. 
+
+
+
+
 To send next announcement also to bibledit-announce@nongnu.org, and check whether the RSS feed updates.
 
 
 The file gtkbuilder.referenceexchangedialog.xml is in the making. So that scrolling with the online bible can be implemented.
-
-
 
 
 
