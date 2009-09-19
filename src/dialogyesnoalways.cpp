@@ -63,6 +63,7 @@ YesNoAlwaysDialog::YesNoAlwaysDialog(const ustring& message, bool default_yes)
 
 YesNoAlwaysDialog::~YesNoAlwaysDialog()
 {
+  g_object_unref (gtkbuilder);
   gtk_widget_destroy(dialog);
 }
 

@@ -81,6 +81,7 @@ PlanningSetupDialog::PlanningSetupDialog(int dummy)
 
 PlanningSetupDialog::~PlanningSetupDialog()
 {
+  g_object_unref (gtkbuilder);
   gtk_widget_destroy(dialog);
 }
 

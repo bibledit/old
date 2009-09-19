@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "dialogrefexchange.h"
@@ -24,139 +25,96 @@
 #include "shell.h"
 #include "windowsoutpost.h"
 #include "help.h"
+#include "directories.h"
+#include "gwrappers.h"
+
 
 ReferenceExchangeDialog::ReferenceExchangeDialog(int dummy)
 {
-  // Save variables.
   extern Settings *settings;
+  Shortcuts shortcuts (0);
+  
+  gtkbuilder = gtk_builder_new ();
+  gtk_builder_add_from_file (gtkbuilder, gw_build_filename (directories_get_package_data(), "gtkbuilder.referenceexchangedialog.xml").c_str(), NULL);
 
-  dialogsynchronize = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(dialogsynchronize), "Reference exchange");
-  gtk_window_set_position(GTK_WINDOW(dialogsynchronize), GTK_WIN_POS_CENTER_ON_PARENT);
-  gtk_window_set_modal(GTK_WINDOW(dialogsynchronize), TRUE);
-  gtk_window_set_type_hint(GTK_WINDOW(dialogsynchronize), GDK_WINDOW_TYPE_HINT_DIALOG);
+  dialog = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "dialog"));
 
-  dialog_vbox1 = GTK_DIALOG(dialogsynchronize)->vbox;
-  gtk_widget_show(dialog_vbox1);
+  checkbutton_bibleworks = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_bibleworks"));
+  shortcuts.button (checkbutton_bibleworks);
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_bibleworks), settings->genconfig.reference_exchange_send_to_bibleworks_get());
 
-  vbox1 = gtk_vbox_new(FALSE, 0);
-  gtk_widget_show(vbox1);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), vbox1, TRUE, TRUE, 0);
-  gtk_container_set_border_width(GTK_CONTAINER(vbox1), 4);
+  checkbutton_bibletime = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_bibletime"));
+  shortcuts.button (checkbutton_bibletime);
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_bibletime), settings->genconfig.reference_exchange_send_to_bibletime_get());
 
-  label2 = gtk_label_new("Send references to: ");
-  gtk_widget_show(label2);
-  gtk_box_pack_start(GTK_BOX(vbox1), label2, FALSE, FALSE, 0);
-  gtk_misc_set_alignment(GTK_MISC(label2), 0, 0.5);
+  checkbutton_santafe = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_santafe"));
+  shortcuts.button (checkbutton_santafe);
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_santafe), settings->genconfig.reference_exchange_send_to_santafefocus_get());
 
-  vbox2 = gtk_vbox_new(FALSE, 0);
-  gtk_widget_show(vbox2);
-  gtk_box_pack_start(GTK_BOX(vbox1), vbox2, TRUE, TRUE, 0);
+  checkbutton_xiphos = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_xiphos"));
+  shortcuts.button (checkbutton_xiphos);
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_xiphos), settings->genconfig.reference_exchange_send_to_xiphos_get());
 
-  checkbutton_send_bw = gtk_check_button_new_with_mnemonic("Bible_Works");
-  gtk_widget_show(checkbutton_send_bw);
-  gtk_box_pack_start(GTK_BOX(vbox2), checkbutton_send_bw, FALSE, FALSE, 0);
+  checkbutton_onlinebible = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_onlinebible"));
+  shortcuts.button (checkbutton_onlinebible);
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_onlinebible), settings->genconfig.reference_exchange_send_to_onlinebible_get());
 
-  // Set state.
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_send_bw), settings->genconfig.reference_exchange_send_to_bibleworks_get());
+  GSList *radiobutton_receive_group = NULL;
 
-  checkbutton_send_bt = gtk_check_button_new_with_mnemonic("Bible_Time");
-  gtk_widget_show(checkbutton_send_bt);
-  gtk_box_pack_start(GTK_BOX(vbox2), checkbutton_send_bt, FALSE, FALSE, 0);
+  radiobutton_off = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_off"));
+  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_off), radiobutton_receive_group);
+  radiobutton_receive_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_off));
+  shortcuts.button (radiobutton_off);
 
-  // Set state.
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_send_bt), settings->genconfig.reference_exchange_send_to_bibletime_get());
+  radiobutton_bibleworks = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_bibleworks"));
+  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_bibleworks), radiobutton_receive_group);
+  radiobutton_receive_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_bibleworks));
+  shortcuts.button (radiobutton_bibleworks);
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_bibleworks), settings->genconfig.reference_exchange_receive_from_bibleworks_get());
 
-  checkbutton_send_paratext = gtk_check_button_new_with_mnemonic("_Paratext, BART, Translator's Workplace");
-  gtk_widget_show(checkbutton_send_paratext);
-  gtk_box_pack_start(GTK_BOX(vbox2), checkbutton_send_paratext, FALSE, FALSE, 0);
+  radiobutton_bibletime = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_bibletime"));
+  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_bibletime), radiobutton_receive_group);
+  radiobutton_receive_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_bibletime));
+  shortcuts.button (radiobutton_bibletime);
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_bibletime), settings->genconfig.reference_exchange_receive_from_bibletime_get());
 
-  // Set state.
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_send_paratext), settings->genconfig.reference_exchange_send_to_santafefocus_get());
+  radiobutton_santafe = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_santafe"));
+  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_santafe), radiobutton_receive_group);
+  radiobutton_receive_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_santafe));
+  shortcuts.button (radiobutton_santafe);
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_santafe), settings->genconfig.reference_exchange_receive_from_santafefocus_get());
 
-  hseparator1 = gtk_hseparator_new();
-  gtk_widget_show(hseparator1);
-  gtk_box_pack_start(GTK_BOX(vbox1), hseparator1, TRUE, TRUE, 0);
+  radiobutton_xiphos = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_xiphos"));
+  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_xiphos), radiobutton_receive_group);
+  radiobutton_receive_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_xiphos));
+  shortcuts.button (radiobutton_xiphos);
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_xiphos), settings->genconfig.reference_exchange_receive_from_xiphos_get());
 
-  label4 = gtk_label_new("Receive references: ");
-  gtk_widget_show(label4);
-  gtk_box_pack_start(GTK_BOX(vbox1), label4, FALSE, FALSE, 0);
-  gtk_misc_set_alignment(GTK_MISC(label4), 0, 0.5);
+  radiobutton_onlinebible = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "radiobutton_onlinebible"));
+  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_onlinebible), radiobutton_receive_group);
+  radiobutton_receive_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_onlinebible));
+  shortcuts.button (radiobutton_onlinebible);
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_onlinebible), settings->genconfig.reference_exchange_receive_from_onlinebible_get());
 
-  vbox3 = gtk_vbox_new(FALSE, 0);
-  gtk_widget_show(vbox3);
-  gtk_box_pack_start(GTK_BOX(vbox1), vbox3, TRUE, TRUE, 0);
+  vbox_outpost = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "vbox_outpost"));
 
-  GSList *radiobutton_receive_none_group = NULL;
+  InDialogHelp * indialoghelp = new InDialogHelp(dialog, gtkbuilder, &shortcuts, NULL);
+  cancelbutton = indialoghelp->cancelbutton;
+  okbutton = indialoghelp->okbutton;
+  gtk_widget_grab_default(okbutton);
+  gtk_widget_grab_focus(okbutton);
+  shortcuts.stockbutton (cancelbutton);
+  shortcuts.stockbutton (okbutton);
+  
+  shortcuts.process ();
 
-  radiobutton_receive_none = gtk_radio_button_new_with_mnemonic(NULL, "Do not receive");
-  gtk_widget_show(radiobutton_receive_none);
-  gtk_box_pack_start(GTK_BOX(vbox3), radiobutton_receive_none, FALSE, FALSE, 0);
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_receive_none), radiobutton_receive_none_group);
-  radiobutton_receive_none_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_receive_none));
-
-  radiobutton_receive_bw = gtk_radio_button_new_with_mnemonic(NULL, "From _BibleWorks (not yet implemented)");
-  gtk_widget_show(radiobutton_receive_bw);
-  gtk_box_pack_start(GTK_BOX(vbox3), radiobutton_receive_bw, FALSE, FALSE, 0);
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_receive_bw), radiobutton_receive_none_group);
-  radiobutton_receive_none_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_receive_bw));
-
-  // Set state.
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_receive_bw), settings->genconfig.reference_exchange_receive_from_bibleworks_get());
-
-  radiobutton_receive_bt = gtk_radio_button_new_with_mnemonic(NULL, "From B_ibleTime");
-  gtk_widget_show(radiobutton_receive_bt);
-  gtk_box_pack_start(GTK_BOX(vbox3), radiobutton_receive_bt, FALSE, FALSE, 0);
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_receive_bt), radiobutton_receive_none_group);
-  radiobutton_receive_none_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_receive_bt));
-
-  // Set state.
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_receive_bt), settings->genconfig.reference_exchange_receive_from_bibletime_get());
-
-  radiobutton_receive_paratext = gtk_radio_button_new_with_mnemonic(NULL, "From P_aratext, BART, Translator's Workplace (not yet implemented)");
-  gtk_widget_show(radiobutton_receive_paratext);
-  gtk_box_pack_start(GTK_BOX(vbox3), radiobutton_receive_paratext, FALSE, FALSE, 0);
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_receive_paratext), radiobutton_receive_none_group);
-  radiobutton_receive_none_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_receive_paratext));
-
-  // Set state.
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_receive_paratext), settings->genconfig.reference_exchange_receive_from_santafefocus_get());
-
-  hseparator_warning_outpost = gtk_hseparator_new();
-  gtk_widget_show(hseparator_warning_outpost);
-  gtk_box_pack_start(GTK_BOX(vbox1), hseparator_warning_outpost, TRUE, TRUE, 0);
-
-  hbox1 = gtk_hbox_new(FALSE, 2);
-  gtk_widget_show(hbox1);
-  gtk_box_pack_start(GTK_BOX(vbox1), hbox1, TRUE, TRUE, 0);
-
-  image_warning_outpost = gtk_image_new_from_stock("gtk-dialog-warning", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show(image_warning_outpost);
-  gtk_box_pack_start(GTK_BOX(hbox1), image_warning_outpost, FALSE, FALSE, 0);
-
-  label_warning_outpost = gtk_label_new("Windows Outpost is needed but is not running.\nSet it under menu Preferences.");
-  gtk_widget_show(label_warning_outpost);
-  gtk_box_pack_start(GTK_BOX(hbox1), label_warning_outpost, FALSE, FALSE, 0);
-
-  dialog_action_area1 = GTK_DIALOG(dialogsynchronize)->action_area;
-  gtk_widget_show(dialog_action_area1);
-  gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
-
-  new InDialogHelp(dialogsynchronize, NULL, NULL, NULL);
-
-  cancelbutton1 = gtk_button_new_from_stock("gtk-cancel");
-  gtk_widget_show(cancelbutton1);
-  gtk_dialog_add_action_widget(GTK_DIALOG(dialogsynchronize), cancelbutton1, GTK_RESPONSE_CANCEL);
-  GTK_WIDGET_SET_FLAGS(cancelbutton1, GTK_CAN_DEFAULT);
-
-  okbutton1 = gtk_button_new_from_stock("gtk-ok");
-  gtk_widget_show(okbutton1);
-  gtk_dialog_add_action_widget(GTK_DIALOG(dialogsynchronize), okbutton1, GTK_RESPONSE_OK);
-  GTK_WIDGET_SET_FLAGS(okbutton1, GTK_CAN_DEFAULT);
-
-  g_signal_connect((gpointer) okbutton1, "clicked", G_CALLBACK(on_okbutton_clicked), gpointer(this));
-  g_signal_connect((gpointer) checkbutton_send_paratext, "toggled", G_CALLBACK(on_checkbutton_send_paratext_toggled), gpointer(this));
-  g_signal_connect_after((gpointer) radiobutton_receive_paratext, "toggled", G_CALLBACK(on_radiobutton_receive_paratext_toggled), gpointer(this));
+  g_signal_connect((gpointer) okbutton, "clicked", G_CALLBACK(on_okbutton_clicked), gpointer(this));
+  g_signal_connect((gpointer) checkbutton_bibleworks, "toggled", G_CALLBACK(on_button_outpost_requirement_toggled), gpointer(this));
+  g_signal_connect_after((gpointer) radiobutton_bibleworks, "toggled", G_CALLBACK(on_button_outpost_requirement_toggled), gpointer(this));
+  g_signal_connect((gpointer) checkbutton_santafe, "toggled", G_CALLBACK(on_button_outpost_requirement_toggled), gpointer(this));
+  g_signal_connect_after((gpointer) radiobutton_santafe, "toggled", G_CALLBACK(on_button_outpost_requirement_toggled), gpointer(this));
+  g_signal_connect((gpointer) checkbutton_onlinebible, "toggled", G_CALLBACK(on_button_outpost_requirement_toggled), gpointer(this));
+  g_signal_connect_after((gpointer) radiobutton_onlinebible, "toggled", G_CALLBACK(on_button_outpost_requirement_toggled), gpointer(this));
 
   // Set gui.
   on_outpost();
@@ -165,13 +123,14 @@ ReferenceExchangeDialog::ReferenceExchangeDialog(int dummy)
 
 ReferenceExchangeDialog::~ReferenceExchangeDialog()
 {
-  gtk_widget_destroy(dialogsynchronize);
+  g_object_unref (gtkbuilder);
+  gtk_widget_destroy(dialog);
 }
 
 
 int ReferenceExchangeDialog::run()
 {
-  return gtk_dialog_run(GTK_DIALOG(dialogsynchronize));
+  return gtk_dialog_run(GTK_DIALOG(dialog));
 }
 
 
@@ -184,44 +143,46 @@ void ReferenceExchangeDialog::on_okbutton_clicked(GtkButton * button, gpointer u
 void ReferenceExchangeDialog::on_okbutton()
 {
   extern Settings *settings;
-  settings->genconfig.reference_exchange_send_to_bibleworks_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_send_bw)));
-  settings->genconfig.reference_exchange_receive_from_bibleworks_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_receive_bw)));
-  settings->genconfig.reference_exchange_send_to_bibletime_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_send_bt)));
-  settings->genconfig.reference_exchange_receive_from_bibletime_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_receive_bt)));
-  settings->genconfig.reference_exchange_send_to_santafefocus_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_send_paratext)));
-  settings->genconfig.reference_exchange_receive_from_santafefocus_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_receive_paratext)));
+  settings->genconfig.reference_exchange_send_to_bibleworks_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_bibleworks)));
+  settings->genconfig.reference_exchange_receive_from_bibleworks_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_bibleworks)));
+  settings->genconfig.reference_exchange_send_to_bibletime_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_bibletime)));
+  settings->genconfig.reference_exchange_receive_from_bibletime_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_bibletime)));
+  settings->genconfig.reference_exchange_send_to_santafefocus_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_santafe)));
+  settings->genconfig.reference_exchange_receive_from_santafefocus_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_santafe)));
+  settings->genconfig.reference_exchange_send_to_xiphos_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_xiphos)));
+  settings->genconfig.reference_exchange_receive_from_xiphos_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_xiphos)));
+  settings->genconfig.reference_exchange_send_to_onlinebible_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_onlinebible)));
+  settings->genconfig.reference_exchange_receive_from_onlinebible_set(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_onlinebible)));
 }
 
 
-void ReferenceExchangeDialog::on_checkbutton_send_paratext_toggled(GtkToggleButton * togglebutton, gpointer user_data)
-{
-  ((ReferenceExchangeDialog *) user_data)->on_outpost();
-}
-
-
-void ReferenceExchangeDialog::on_radiobutton_receive_paratext_toggled(GtkToggleButton * togglebutton, gpointer user_data)
+void ReferenceExchangeDialog::on_button_outpost_requirement_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((ReferenceExchangeDialog *) user_data)->on_outpost();
 }
 
 
 void ReferenceExchangeDialog::on_outpost()
-// Show warning if Outpost is needed but not running.
+// Shows a warning if the Windows Outpost is needed but does not run presently.
 {
   bool outpost_needed = false;
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_send_paratext)))
+  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_bibleworks)))
     outpost_needed = true;
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_receive_paratext)))
+  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_bibleworks)))
+    outpost_needed = true;
+  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_santafe)))
+    outpost_needed = true;
+  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_santafe)))
+    outpost_needed = true;
+  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_onlinebible)))
+    outpost_needed = true;
+  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_onlinebible)))
     outpost_needed = true;
   bool outpost_running = program_is_running(BIBLEDIT_WINDOWS_OUTPOST_EXE);
   if (outpost_needed && (!outpost_running)) {
-    gtk_widget_show(hseparator_warning_outpost);
-    gtk_widget_show(image_warning_outpost);
-    gtk_widget_show(label_warning_outpost);
+    gtk_widget_show(vbox_outpost);
   } else {
-    gtk_widget_hide(hseparator_warning_outpost);
-    gtk_widget_hide(image_warning_outpost);
-    gtk_widget_hide(label_warning_outpost);
+    gtk_widget_hide(vbox_outpost);
   }
 }
 

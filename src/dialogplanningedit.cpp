@@ -77,6 +77,7 @@ PlanningEditDialog::PlanningEditDialog(unsigned int book, unsigned int chapter)
 
 PlanningEditDialog::~PlanningEditDialog()
 {
+  g_object_unref (gtkbuilder);
   gtk_widget_destroy(dialog);
 }
 

@@ -33,33 +33,30 @@ public:
   ~ReferenceExchangeDialog ();
   int run ();
 protected:
-  GtkWidget *dialogsynchronize;
-  GtkWidget *dialog_vbox1;
-  GtkWidget *vbox1;
-  GtkWidget *label2;
-  GtkWidget *vbox2;
-  GtkWidget *checkbutton_send_bw;
-  GtkWidget *checkbutton_send_bt;
-  GtkWidget *checkbutton_send_paratext;
-  GtkWidget *hseparator1;
-  GtkWidget *label4;
-  GtkWidget *vbox3;
-  GtkWidget *radiobutton_receive_none;
-  GtkWidget *radiobutton_receive_bw;
-  GtkWidget *radiobutton_receive_bt;
-  GtkWidget *radiobutton_receive_paratext;
-  GtkWidget *hseparator_warning_outpost;
-  GtkWidget *hbox1;
-  GtkWidget *image_warning_outpost;
-  GtkWidget *label_warning_outpost;
-  GtkWidget *dialog_action_area1;
-  GtkWidget *cancelbutton1;
-  GtkWidget *okbutton1;
+  GtkBuilder *gtkbuilder;
+  GtkWidget *dialog;
+
+  GtkWidget *checkbutton_bibleworks;
+  GtkWidget *checkbutton_bibletime;
+  GtkWidget *checkbutton_santafe;
+  GtkWidget *checkbutton_xiphos;
+  GtkWidget *checkbutton_onlinebible;
+
+  GtkWidget *radiobutton_off;
+  GtkWidget *radiobutton_bibleworks;
+  GtkWidget *radiobutton_bibletime;
+  GtkWidget *radiobutton_santafe;
+  GtkWidget *radiobutton_xiphos;
+  GtkWidget *radiobutton_onlinebible;
+
+  GtkWidget *vbox_outpost;
+  
+  GtkWidget *cancelbutton;
+  GtkWidget *okbutton;
 private:
   static void on_okbutton_clicked (GtkButton *button, gpointer user_data);
   void on_okbutton ();
-  static void on_checkbutton_send_paratext_toggled (GtkToggleButton *togglebutton, gpointer user_data);
-  static void on_radiobutton_receive_paratext_toggled (GtkToggleButton *togglebutton, gpointer user_data);
+  static void on_button_outpost_requirement_toggled (GtkToggleButton *togglebutton, gpointer user_data);
   void on_outpost ();
 };
 

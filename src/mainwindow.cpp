@@ -7300,20 +7300,24 @@ Todo tasks.
 
 
 
+To implement scrolling with the online bible.
 
-Bug: kjv italics not visible
-King James Version source language: How to show the italics? This is not done presently, which is a bug.
-Probably to read these from the xml files, and then store these as brackets. 
 
+
+To implement scrolling with with xiphos.
+
+
+
+To implement scrolling with with bibletime.
 
 
 
 To send next announcement also to bibledit-announce@nongnu.org, and check whether the RSS feed updates.
 
 
-The file gtkbuilder.referenceexchangedialog.xml is in the making so that scrolling with the online bible can be implemented.
 
-
+To remove the Source Languages, and to leave that entirely a matter of the external programs - saves a huge lot of time, 
+if we don't venture into that area.
 
 
 
