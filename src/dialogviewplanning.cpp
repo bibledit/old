@@ -110,20 +110,24 @@ ViewPlanningDialog::ViewPlanningDialog(int dummy)
   gtk_widget_grab_default(okbutton);
 }
 
+
 ViewPlanningDialog::~ViewPlanningDialog()
 {
   gtk_widget_destroy(viewstatusdialog);
 }
+
 
 int ViewPlanningDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(viewstatusdialog));
 }
 
+
 void ViewPlanningDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((ViewPlanningDialog *) user_data)->on_okbutton();
 }
+
 
 void ViewPlanningDialog::on_okbutton()
 {

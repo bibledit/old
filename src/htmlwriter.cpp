@@ -17,11 +17,13 @@
 **  
 */
 
+
 #include "htmlwriter.h"
 #include "tiny_utilities.h"
 #include "directories.h"
 #include "gwrappers.h"
 #include "htmlbrowser.h"
+
 
 HtmlWriter::HtmlWriter(const ustring & title, bool include_java_scripts, bool include_bibledit_css, bool include_bar_graph_css)
 {
@@ -110,18 +112,20 @@ HtmlWriter::HtmlWriter(const ustring & title, bool include_java_scripts, bool in
   xmlTextWriterStartElement(writer, BAD_CAST "body");
 }
 
+
 HtmlWriter::~HtmlWriter()
 {
   xmlTextWriterEndDocument(writer);
   xmlTextWriterFlush(writer);
+  ustring filename = gw_build_filename(directories_get_temp(), "document.html");
+  g_file_set_contents(filename.c_str(), (const gchar *)buffer->content, -1, NULL);
+  htmlbrowser(filename, false);
   if (writer)
     xmlFreeTextWriter(writer);
   if (buffer)
     xmlBufferFree(buffer);
-  ustring filename = gw_build_filename(directories_get_temp(), "document.html");
-  g_file_set_contents(filename.c_str(), (const gchar *)buffer->content, -1, NULL);
-  htmlbrowser(filename, false);
 }
+
 
 void HtmlWriter::heading(unsigned int level, const ustring & text)
 {
@@ -132,12 +136,14 @@ void HtmlWriter::heading(unsigned int level, const ustring & text)
   xmlTextWriterEndElement(writer);
 }
 
+
 void HtmlWriter::paragraph(const ustring & text)
 {
   xmlTextWriterStartElement(writer, BAD_CAST "p");
   xmlTextWriterWriteFormatString(writer, text.c_str());
   xmlTextWriterEndElement(writer);
 }
+
 
 void HtmlWriter::bargraph(const ustring & header, const vector < ustring > &texts, const vector < unsigned int >&percentages, const ustring & footer)
 {
@@ -175,6 +181,7 @@ void HtmlWriter::bargraph(const ustring & header, const vector < ustring > &text
 
   xmlTextWriterEndElement(writer);
 }
+
 
 void HtmlWriter::table(const ustring & main_header, const vector < ustring > &column_headers, const vector < VectorUstring > &cell_texts, const ustring & footer, vector < bool > *centers, int header_font_size)
 /*
@@ -238,6 +245,7 @@ header_font_size: 0: Normal, negative: smaller, positive: bigger.
   xmlTextWriterEndElement(writer);
 }
 
+
 void HtmlWriter::hyperlinkedparagraph(const ustring & text, const ustring & hyperlink)
 // <p><a href="filename.html">Text</a></p>
 {
@@ -248,3 +256,4 @@ void HtmlWriter::hyperlinkedparagraph(const ustring & text, const ustring & hype
   xmlTextWriterEndElement(writer);
   xmlTextWriterEndElement(writer);
 }
+

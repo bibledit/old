@@ -119,7 +119,7 @@ results: will contain the search results.
 }
 
 
-ustring search_in_bibledit_assemble_line(const ustring & input, AreaType areatype, bool area_id, bool area_intro, bool area_heading, bool area_chapter, bool area_study, bool area_notes, bool area_xref, bool area_verse) // Todo
+ustring search_in_bibledit_assemble_line(const ustring & input, AreaType areatype, bool area_id, bool area_intro, bool area_heading, bool area_chapter, bool area_study, bool area_notes, bool area_xref, bool area_verse)
 // Assembles the line of text we have to search through, depending on the area
 // selection.
 {
@@ -325,7 +325,7 @@ bool search_in_bibledit_word_boundaries_match(const ustring & text, const ustrin
 }
 
 
-vector < Reference > search_in_bibledit() // Todo
+vector < Reference > search_in_bibledit()
 // Advanced searching in Bibledit.
 {
   // Configuration / session
@@ -583,7 +583,7 @@ with the references that are already there.
 }
 
 
-void search_string(WindowReferences * references_window, BibleTime * bibletime) // Todo
+void search_string(WindowReferences * references_window, BibleTime * bibletime)
 {
   // Storage for results;
   vector <Reference> searchresults;
