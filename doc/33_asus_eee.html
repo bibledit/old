@@ -6,15 +6,15 @@
   <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
   <title>Bibledit</title>
   <!-- 
-        Copyright (©) 2003-2008 Teus Benschop.
+          Copyright (©) 2003-2008 Teus Benschop.
 
-        Permission is granted to copy, distribute and/or modify this document
-        under the terms of the GNU Free Documentation License, Version 1.2
-        or any later version published by the Free Software Foundation;
-        with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-        Texts.  A copy of the license is included in the section entitled "GNU
-        Free Documentation License" in the file FDL.
-        -->
+          Permission is granted to copy, distribute and/or modify this document
+          under the terms of the GNU Free Documentation License, Version 1.2
+          or any later version published by the Free Software Foundation;
+          with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+          Texts.  A copy of the license is included in the section entitled "GNU
+          Free Documentation License" in the file FDL.
+          -->
   <link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
 
@@ -43,9 +43,9 @@ sudo apt-get install gtkhtml3.8</pre>
 
 <p>Download binary package <a
 href="http://download.savannah.nongnu.org/releases/bibledit/binaries/">bibledit-x.x-asus-eeepc-bin.tar.gz</a>
-(x.x is to be replaced with the actual version number). (Note: if this
-package is out of date, <a href="create_tarball31_asus_eee_pc.html">create
-your own</a>.)</p>
+(x.x is to be replaced with the actual version number). (Note: if this package
+is out of date, <a href="create_tarball31_asus_eee_pc.html">create your
+own</a>.)</p>
 
 <p>Store the package in the home directory, that is directory /home/user.</p>
 
@@ -64,6 +64,17 @@ your own</a>.)</p>
 <pre>sudo ./eeepc-install-menu</pre>
 
 <p>After rebooting the machine, the Bibledit icon is in the Work tab.</p>
+
+<p>If the icon does not appear on the Work tab after a reboot, you probably
+have a newer Eee PC, so it is not looking at the file modified by the previous
+step. You will need to copy the file that was modified by eeepc-install-menu to
+a different location, like this:</p>
+
+<p>Start a terminal window, with Ctrl-Alt-t and type these commands:</p>
+<pre>f=AsusLauncher/simpleui.rc</pre>
+<pre>sudo cp -b .$f /var/lib/$f</pre>
+
+<p>Restart the computer.</p>
 
 <p><a href="run.html">Run bibledit</a>.</p>
 

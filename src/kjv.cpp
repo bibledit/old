@@ -268,6 +268,7 @@ void kjv_import_zefania ()
     unsigned int current_items_count = 0;
     ustring verse_text;
     unsigned int strongs_number = 0;
+    bool add_italics = false;
     while ((xmlTextReaderRead(reader) == 1)) {
       switch (xmlTextReaderNodeType(reader)) {
       case XML_READER_TYPE_ELEMENT:
@@ -313,6 +314,10 @@ void kjv_import_zefania ()
               free(attribute);
             }
           }
+          // Deal with the "STYLE" element. It (usually) indicates italics.
+          if (!xmlStrcmp(element_name, BAD_CAST "STYLE")) {
+            add_italics = true;
+          }
           break;
         }
       case XML_READER_TYPE_TEXT:
@@ -332,9 +337,16 @@ void kjv_import_zefania ()
                     verse_text.append (" ");
                   }
                 }
+                if (i == 0) 
+                  if (add_italics)
+                    verse_text.append ("[");
                 verse_text.append (parse.words[i]);
               }
               total_items_count += current_items_count;
+              if (add_italics) {
+                verse_text.append ("]");
+                add_italics = false;
+              }
             }
             xmlFree(text);
           }

@@ -7301,86 +7301,6 @@ Todo tasks.
 
 
 
-
-Bug: installation on eeepc
-
-Thanks for your response, with the tip of fetching files from an http
-server. I got some help from Bruce Schwager in the computer helpdesk here at
-Ukarumpa in getting through the proxy server, and was able to download all
-the dependencies for Bibledit on the EEE PC.
-
-I fetched the tar file and unpacked it and followed your instructions, and
-now Bibledit 3.2.35 is running!
-
-I had to do an extra step along the way, because the Eee system has been
-changed. On the page
-http://www.nongnu.org/bibledit/33_asus_eee.html
-I did
-cd /eeepc
-sudo ./eeepc-install-menu
-and restarted the machine, but there wasn't any Bibledit icon in the Work
-tab.
-I checked the file
-/home/user/.AsusLauncher/simpleui.rc and found a well-formed "basket"
-for Bibledit, so I wondered why it wasn't having the right effect. I asked
-google about simpleui.rc, and found
-http://wiki.eeeuser.com/howto:backupsimpleui
-and found there
-<<<<<
-The new versions of the EeePC (e.g. 900D and even models 700 after
-updating) do not take into account anymore the file
-/home/user/.AsusLauncher/simpleui.rc. Instead, the file
-/var/lib/AsusLauncher/simpleui.rc can be used. All the commands that follow
-have to be modified by consequence.
-
->>>>>
-
-If you don't have time to modify
-/eeepc/eeepc-install-menu
-I'd suggest you add something to your page, after
-After rebooting the machine, the Bibledit icon is in the Work tab
-such as:
-<<<<
-If the icon does not appear on the Work tab after a reboot, you probably
-have a newer Eee PC, so it is not looking at the file modified by the
-previous step. You will need to copy the file that was modified by
-eeepc-install-menu to a different location, like this:
-
-Start a terminal window, with Ctrl-Alt-t and type these commands:
-f=AsusLauncher/simpleui.rc
-sudo cp -b .$f /var/lib/$f
-Restart the computer.
-
->>>>
-
-
-I have also found that some of the popup dialogs in Bibledit are too tall
-for the Asus Eee PC screen, so the buttons at the bottom are off the screen.
-The top edges of these dialogs can't be dragged down, so there is no way
-short of guessing of choosing the button to accept the dialog and close it.
-
-Is there a control file setting that I could change so that these dialogs
-would become autoscaling, so that they fit within the screen? Otherwise
-they'll be pretty hard for mother-tongue translators to use.
-
-If not, could you accept that as a problem to work on when you get time? 
-
-Thank you a lot for figuring out how to install bibledit on the newer and updated eeepc's. 
-* Not having a eeepc myself does not help, but your instructions are very helpful! 
-* I've opened a bug with this, and when there's time I'll try to fix things. 
-* In the mean time please feel free to add your observations to the Wiki if you like.
-
-
-
-
-Bug: BE crashes when aborting merges
-When I pick my new project as the base project, then pick an edited project as the one I want as the source for edits, 
-when I click merge, BE has a popup that displays four options.
-Sometimes BE tells me there is no base project. Or sometimes if I abort, BE crashes.
-
-
-
-
 Bug: kjv italics not visible
 King James Version source language: How to show the italics? This is not done presently, which is a bug.
 Probably to read these from the xml files, and then store these as brackets. 
@@ -7391,7 +7311,7 @@ Probably to read these from the xml files, and then store these as brackets.
 To send next announcement also to bibledit-announce@nongnu.org, and check whether the RSS feed updates.
 
 
-The file gtkbuilder.referenceexchangedialog.xml is in the making. So that scrolling with the online bible can be implemented.
+The file gtkbuilder.referenceexchangedialog.xml is in the making so that scrolling with the online bible can be implemented.
 
 
 
