@@ -7311,30 +7311,19 @@ If the data that causes problems will be supplied, then the problem will be look
 
 
 
-Bug: pasting into BE in format view
-Pasting into BE in format view still causes the window to scroll to text somewhere near the top of the chapter.
-To close this bug, say we're aware of it, then to open a new task to make the editor better behaved then the current one:
-To use editors for every line, less timers, and so on.
-
-
-
-
-
-Bug: BE does not quit during git operations.
-When Bibledit is in the middle of a git operation for collaboration, and then the Quit function is chosen, it won't quit, but hangs instead. 
-Probably the thread that does the git operations needs to be made more clever so as to quit even under such circumstances.
-
-
-
 
 Bug: crash when cancelling search.
+Today I realized I realized that BE had defaulted back to searching the whole Bible. 
+So I hit the close/X button during a long search. BE promptly disappeared.
+It would be nice if BE would remember my chosen search range for the whole work session until I change it.
+
 
 
 
 
 
 Bug: View / Planning output fails.
-
+If you enter planning data and then view the planning output the document.html contains garbage data. 
 
 
 

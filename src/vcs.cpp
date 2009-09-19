@@ -50,9 +50,17 @@ VCS::~VCS()
 {
   // Indicate to the thread we want to stop.
   thread_run = false;
-  // Wait until thread has exited.
-  while (thread_running)
+  // Wait until thread has exited, but do not wait more than, say, 10 seconds.
+  // The reason that we don't want to wait too long is that at times when a git operations cannot complete in time,
+  // bibledit won't shut down till that operations has been done. This may take a long time, therefore a cap should be in place.
+  unsigned int waitcounter = 0;
+  while (thread_running) {
     g_usleep(10000);
+    waitcounter++;
+    if (waitcounter > 1000) {
+      break;
+    }
+  }
 }
 
 
