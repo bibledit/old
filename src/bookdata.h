@@ -31,6 +31,7 @@ typedef struct
   const char *osis; // Osis name.
   const char *paratext; // Paratext ID.
   const char *bibleworks; // BibleWorks name.
+  const char *onlinebible; // Online Bible name.
   unsigned int id; // Bibledit's internal id.
   BookType type; // The type of the book.
   bool onechapter; // The book has one chapter.

@@ -115,7 +115,7 @@ void WindowsOutpost::SantaFeFocusWordSet(const ustring & word)
 }
 
 
-void WindowsOutpost::OnlineBibleReferenceSet(const Reference & reference) // Todo
+void WindowsOutpost::OnlineBibleReferenceSet(const Reference & reference)
 // Schedules a reference to be sent to the Online Bible.
 // Sample: 
 // OLB ShowPassage AV "Mt 10:5"
@@ -123,19 +123,14 @@ void WindowsOutpost::OnlineBibleReferenceSet(const Reference & reference) // Tod
   // Ensure that the Online Bible server is connected.
   online_bible_server_connect (true);
 
-  
-  /*
+  // Send the references.
   if (!reference.book)
     return;
-  ustring bk = books_id_to_paratext(reference.book);
-  if (bk.empty())
+  if (!reference.chapter)
     return;
-     
-     
-    
-    onlinebible_reference_set_value
-  santafefocus_reference_set_value = "SantaFeFocusReferenceSet " + bk + " " + convert_to_string(reference.chapter) + ":" + reference.verse;
-  */
+  if (reference.verse.empty())
+    return;
+  onlinebible_reference_set_value = "OLB ShowPassage AV \"" + books_id_to_online_bible (reference.book) + " " + convert_to_string(reference.chapter) + ":" + reference.verse + "\"";
 }
 
 
@@ -425,7 +420,7 @@ ustring WindowsOutpost::Readln()
 }
 
 
-void WindowsOutpost::online_bible_server_connect (bool connect) // Todo
+void WindowsOutpost::online_bible_server_connect (bool connect)
 {
   if (connect == online_bible_server_connected)
     return;

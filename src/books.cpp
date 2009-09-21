@@ -282,6 +282,14 @@ unsigned int books_english_to_id(const ustring & english)
   return 0;
 }
 
+ustring books_id_to_online_bible(unsigned int id)
+{
+  for (unsigned int i = 0; i < bookdata_books_count(); i++)
+    if (id == books_table[i].id)
+      return books_table[i].onlinebible;
+  return "";
+}
+
 BookType books_id_to_type(unsigned int id)
 {
   for (unsigned int i = 0; i < bookdata_books_count(); i++)

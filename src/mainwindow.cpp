@@ -2541,7 +2541,7 @@ void MainWindow::on_navigation_new_reference()
   // Get last focused editor.
   WindowEditor *last_focused_editor = last_focused_editor_window();
 
-  // Send it to the external programs. // Todo
+  // Send it to the external programs.
   send_reference_to_bibleworks (navigation.reference);
   send_reference_to_santa_fe (navigation.reference);
   send_reference_to_onlinebible (navigation.reference);
@@ -3151,7 +3151,7 @@ void MainWindow::on_tool_send_reference_activate (GtkMenuItem *menuitem, gpointe
 }
 
 
-void MainWindow::on_tool_send_reference () // Todo
+void MainWindow::on_tool_send_reference ()
 {
   send_reference_to_bibleworks (navigation.reference);
   send_reference_to_bibletime (navigation.reference, true);
@@ -3194,7 +3194,7 @@ void MainWindow::send_reference_to_santa_fe (Reference reference)
 }
 
 
-void MainWindow::send_reference_to_onlinebible (Reference reference) // Todo
+void MainWindow::send_reference_to_onlinebible (Reference reference)
 {
   // Check whether the sending to the Online Bible has been enabled.
   extern Settings * settings;
@@ -7315,8 +7315,7 @@ Todo tasks.
 
 
 
-
-To implement scrolling with the online bible.
+Update help on Online Bible.
 
 
 
