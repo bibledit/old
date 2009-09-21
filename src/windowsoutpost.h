@@ -47,6 +47,7 @@ public:
   void BibleWorksReferenceSet(const Reference& reference);
   void SantaFeFocusReferenceSet(const Reference& reference);
   void SantaFeFocusWordSet(const ustring& word);
+  void OnlineBibleReferenceSet (const Reference& reference);
 private:
   struct sockaddr_in address;
   struct in_addr inaddr;
@@ -68,6 +69,10 @@ private:
   ustring bibleworks_reference_set_value;
   ustring santafefocus_reference_set_value;
   ustring santafefocus_word_set_value;
+  void online_bible_server_connect (bool connect);
+  bool online_bible_server_connected;
+  ustring onlinebible_server_value; // Todo
+  ustring onlinebible_reference_set_value; // Todo
 };
 
 

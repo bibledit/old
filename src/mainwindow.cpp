@@ -2541,13 +2541,10 @@ void MainWindow::on_navigation_new_reference()
   // Get last focused editor.
   WindowEditor *last_focused_editor = last_focused_editor_window();
 
-  // Send it to the external programs.
-  if (settings->genconfig.reference_exchange_send_to_bibleworks_get()) {
-    send_reference_to_bibleworks (navigation.reference);
-  }
-  if (settings->genconfig.reference_exchange_send_to_santafefocus_get()) {
-    send_reference_to_santa_fe (navigation.reference);
-  }
+  // Send it to the external programs. // Todo
+  send_reference_to_bibleworks (navigation.reference);
+  send_reference_to_santa_fe (navigation.reference);
+  send_reference_to_onlinebible (navigation.reference);
 
   // Send to resources.
   for (unsigned int i = 0; i < resource_windows.size(); i++) {
@@ -3154,11 +3151,12 @@ void MainWindow::on_tool_send_reference_activate (GtkMenuItem *menuitem, gpointe
 }
 
 
-void MainWindow::on_tool_send_reference ()
+void MainWindow::on_tool_send_reference () // Todo
 {
-  send_reference_to_bibletime (navigation.reference, true);
   send_reference_to_bibleworks (navigation.reference);
+  send_reference_to_bibletime (navigation.reference, true);
   send_reference_to_santa_fe (navigation.reference);
+  send_reference_to_onlinebible (navigation.reference);
 }
 
 
@@ -3172,21 +3170,39 @@ void MainWindow::send_reference_to_bibletime (const Reference& reference, bool f
 }
 
 
-void MainWindow::send_reference_to_bibleworks (const Reference& reference)
+void MainWindow::send_reference_to_bibleworks (Reference reference)
 {
-  // Create a reference for BibleWorks.
-  // It does not take verses like 10a or 10-12, but only numbers like 10 or 12.
-  Reference goto_reference(reference.book, reference.chapter, number_in_string(reference.verse));
-  windowsoutpost->BibleWorksReferenceSet(goto_reference);
+  // Check whether sending references to BibleWorks has been enabled by the user.
+  extern Settings * settings;
+  if (settings->genconfig.reference_exchange_send_to_bibleworks_get()) {
+    // BibleWorks does not take verses like 10a or 10-12, but only numbers like 10 or 12.
+    reference.verse = number_in_string(reference.verse);
+    windowsoutpost->BibleWorksReferenceSet(reference);
+  }
 }
 
 
-void MainWindow::send_reference_to_santa_fe (const Reference& reference)
+void MainWindow::send_reference_to_santa_fe (Reference reference)
 {
-  // Create a reference for SantaFe.
-  // It probably does not take verses like 10a or 10-12, but only numbers like 10 or 12.
-  Reference goto_reference(reference.book, reference.chapter, number_in_string(reference.verse));
-  windowsoutpost->SantaFeFocusReferenceSet(goto_reference);
+  // Check whether the user has enabled sending references to the SantaFe focus system.
+  extern Settings * settings;
+  if (settings->genconfig.reference_exchange_send_to_santafefocus_get()) {
+    // SantaFe probably does not take verses like 10a or 10-12, but only numbers like 10 or 12.
+    reference.verse = number_in_string(reference.verse);
+    windowsoutpost->SantaFeFocusReferenceSet(reference);
+  }
+}
+
+
+void MainWindow::send_reference_to_onlinebible (Reference reference) // Todo
+{
+  // Check whether the sending to the Online Bible has been enabled.
+  extern Settings * settings;
+  if (settings->genconfig.reference_exchange_send_to_onlinebible_get()) {
+    // Send the reference to the Online Bible. It takes plain verse numbers only.
+    reference.verse = number_in_string (reference.verse);
+    windowsoutpost->OnlineBibleReferenceSet (reference);
+  }
 }
 
 
@@ -7316,8 +7332,7 @@ To send next announcement also to bibledit-announce@nongnu.org, and check whethe
 
 
 
-To remove the Source Languages, and to leave that entirely a matter of the external programs - saves a huge lot of time, 
-if we don't venture into that area.
+
 
 
 

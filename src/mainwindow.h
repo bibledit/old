@@ -473,8 +473,9 @@ protected:
   static void on_tool_send_reference_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_tool_send_reference ();
   void send_reference_to_bibletime (const Reference& reference, bool force);
-  void send_reference_to_bibleworks (const Reference& reference);
-  void send_reference_to_santa_fe (const Reference& reference);
+  void send_reference_to_bibleworks (Reference reference);
+  void send_reference_to_santa_fe (Reference reference);
+  void send_reference_to_onlinebible (Reference reference);
 
   /* Title bar and status bar, GUI */
   static bool on_gui_timeout(gpointer data);

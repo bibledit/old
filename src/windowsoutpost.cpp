@@ -52,11 +52,13 @@ WindowsOutpost::WindowsOutpost(bool dummy)
   sock = 0;
   clear();
   thread_running = false;
+  online_bible_server_connected = false;
 }
 
 
 WindowsOutpost::~WindowsOutpost()
 {
+  online_bible_server_connect (false);
   // Disconnect.
   disconnect();
   // Indicate to the thread we want to stop.
@@ -110,6 +112,30 @@ void WindowsOutpost::SantaFeFocusWordSet(const ustring & word)
 // Schedules a word to be sent to the santa fe focus system.
 {
   santafefocus_word_set_value = "SantaFeFocusWordSet " + word;
+}
+
+
+void WindowsOutpost::OnlineBibleReferenceSet(const Reference & reference) // Todo
+// Schedules a reference to be sent to the Online Bible.
+// Sample: 
+// OLB ShowPassage AV "Mt 10:5"
+{
+  // Ensure that the Online Bible server is connected.
+  online_bible_server_connect (true);
+
+  
+  /*
+  if (!reference.book)
+    return;
+  ustring bk = books_id_to_paratext(reference.book);
+  if (bk.empty())
+    return;
+     
+     
+    
+    onlinebible_reference_set_value
+  santafefocus_reference_set_value = "SantaFeFocusReferenceSet " + bk + " " + convert_to_string(reference.chapter) + ":" + reference.verse;
+  */
 }
 
 
@@ -192,25 +218,32 @@ void WindowsOutpost::thread_main()
     case STAGE_COMMUNICATE:
       {
         // Carry out the scheduled tasks.
+        // Whether the Online Bible server should be connected to.
+        if (!onlinebible_server_value.empty()) {
+          send_line(onlinebible_server_value);
+          onlinebible_server_value.clear();
+          log (Readln ());
+        }
         // If BibleWorks does not run, and Outpost tries to contact it, it 
         // crashes in Wine and becomes unusable. Therefore always check whether
         // BibleWorks runs.
         if (!bibleworks_reference_set_value.empty()) {
           if (bibleworks_is_running () || settings->genconfig.outpost_networked_get()) {
-            ustring line(bibleworks_reference_set_value);
+            send_line(bibleworks_reference_set_value);
             bibleworks_reference_set_value.clear();
-            send_line(line);
           }
         }
         if (!santafefocus_reference_set_value.empty()) {
-          ustring line(santafefocus_reference_set_value);
+          send_line(santafefocus_reference_set_value);
           santafefocus_reference_set_value.clear();
-          send_line(line);
         }
         if (!santafefocus_word_set_value.empty()) {
-          ustring line(santafefocus_word_set_value);
+          send_line(santafefocus_word_set_value);
           santafefocus_word_set_value.clear();
-          send_line(line);
+        }
+        if (!onlinebible_reference_set_value.empty()) {
+          send_line (onlinebible_reference_set_value);
+          onlinebible_reference_set_value.clear();
         }
         /*
            Later: 
@@ -389,6 +422,19 @@ ustring WindowsOutpost::Readln()
     }
   }
   return "";
+}
+
+
+void WindowsOutpost::online_bible_server_connect (bool connect) // Todo
+{
+  if (connect == online_bible_server_connected)
+    return;
+  if (connect) {
+    onlinebible_server_value = "OLB Connect";
+  } else {
+    onlinebible_server_value = "OLB Disconnect";
+  }
+  online_bible_server_connected = connect;
 }
 
 
