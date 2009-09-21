@@ -7315,14 +7315,6 @@ Todo tasks.
 
 
 
-Update help on Online Bible.
-
-
-
-The Reference exchange dialog may disappear behind Bibledit.
-
-
-
 To implement scrolling with with xiphos.
 
 
