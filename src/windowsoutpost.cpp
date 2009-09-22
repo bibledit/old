@@ -111,6 +111,20 @@ void WindowsOutpost::BibleWorksReferenceSet(const Reference & reference)
 }
 
 
+ustring WindowsOutpost::SantaFeFocusReferenceGet()
+// Gets the reference from the SantaFe focus sharing system as used by Paratext and others.
+{
+  get_reference_value = "SantaFeFocusReferenceGet";
+  get_reference_active = true;
+  int timeout = 0;
+  while (get_reference_active && (timeout < 50)) {
+    g_usleep (100000);
+    timeout++;
+  }
+  return get_reference_value;
+}
+
+
 void WindowsOutpost::SantaFeFocusReferenceSet(const Reference & reference)
 // Schedules a reference to be sent to the santa fe focus system.
 {

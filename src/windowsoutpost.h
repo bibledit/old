@@ -46,6 +46,7 @@ public:
   void Start();
   ustring BibleWorksReferenceGet ();
   void BibleWorksReferenceSet(const Reference& reference);
+  ustring SantaFeFocusReferenceGet ();
   void SantaFeFocusReferenceSet(const Reference& reference);
   void SantaFeFocusWordSet(const ustring& word);
   void OnlineBibleReferenceSet (const Reference& reference);

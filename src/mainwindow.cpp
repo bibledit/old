@@ -3176,7 +3176,7 @@ bool MainWindow::on_tools_receive_reference_timeout(gpointer data)
 }
 
 
-void MainWindow::tools_receive_reference_timeout() // Todo
+void MainWindow::tools_receive_reference_timeout()
 {
   extern Settings * settings;
   if (settings->genconfig.reference_exchange_receive_from_bibleworks_get()) {
@@ -3192,6 +3192,17 @@ void MainWindow::tools_receive_reference_timeout() // Todo
     }
   }
   if (settings->genconfig.reference_exchange_receive_from_santafefocus_get()) {
+    ustring response = windowsoutpost->SantaFeFocusReferenceGet ();    
+    // The response could be, e.g.: "OK GEN 1:4" (without the quotes).
+    replace_text (response, ":", " ");
+    Parse parse (response);
+    if (parse.words.size() == 4) {
+      Reference reference (0);
+      reference.book = books_paratext_to_id (parse.words[1]);
+      reference.chapter = convert_to_int (parse.words[2]);
+      reference.verse = parse.words[3];
+      navigation.display (reference);
+    }
   }
   if (settings->genconfig.reference_exchange_receive_from_xiphos_get()) {
   }
@@ -7310,12 +7321,8 @@ Todo tasks.
 
 
 
-To implement a simpler system of receiving references: It goes through the Tools / Receive reference menu.
-The preferences show from which application one receives the references, but does not automatically receive them.
-Thus we can get rid of the timers that handle reference receipt, and we can get rid of the race conditions.
-
-
 To write help on the reference receipt.
+
 
 
 To ask Larry for an interface for receiving the reference that the Online Bible now displays. This was requested.
