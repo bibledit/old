@@ -7315,6 +7315,16 @@ Todo tasks.
 
 
 
+To implement a simpler system of receiving references: It goes through the Tools / Receive reference menu.
+The preferences show from which application one receives the references, but does not automatically receive them.
+Thus we can get rid of the timers that handle reference receipt, and we can get rid of the race conditions.
+
+
+
+To ask Larry for an interface for receiving the reference that the Online Bible now displays. This was requested.
+
+
+
 To implement scrolling with with xiphos.
 
 

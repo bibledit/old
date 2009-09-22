@@ -218,34 +218,38 @@ void WindowsOutpost::thread_main()
           send_line(onlinebible_server_value);
           onlinebible_server_value.clear();
           log (Readln ());
+          break;
         }
-        // If BibleWorks does not run, and Outpost tries to contact it, it 
-        // crashes in Wine and becomes unusable. Therefore always check whether
-        // BibleWorks runs.
         if (!bibleworks_reference_set_value.empty()) {
+          // Make a quick copy of the value, so that if the value is set again during the time
+          // it takes to send this to BibleWorks, the new value will be kept for next time.
+          ustring value (bibleworks_reference_set_value);
+          bibleworks_reference_set_value.clear();
+          // If BibleWorks does not run, and Outpost tries to contact it, it 
+          // crashes in Wine and becomes unusable. Therefore check whether BibleWorks runs.
           if (bibleworks_is_running () || settings->genconfig.outpost_networked_get()) {
-            send_line(bibleworks_reference_set_value);
-            bibleworks_reference_set_value.clear();
+            send_line(value);
           }
+          break;
         }
         if (!santafefocus_reference_set_value.empty()) {
-          send_line(santafefocus_reference_set_value);
+          ustring value (santafefocus_reference_set_value);
           santafefocus_reference_set_value.clear();
+          send_line(value);
+          break;
         }
         if (!santafefocus_word_set_value.empty()) {
-          send_line(santafefocus_word_set_value);
+          ustring value (santafefocus_word_set_value);
           santafefocus_word_set_value.clear();
+          send_line(value);
+          break;
         }
         if (!onlinebible_reference_set_value.empty()) {
-          send_line (onlinebible_reference_set_value);
+          ustring value (onlinebible_reference_set_value);
           onlinebible_reference_set_value.clear();
+          send_line (value);
+          break;
         }
-        /*
-           Later: 
-           The status of the other programs needs to be collected regularly, e.g. 
-           every second, so that the current reference is immediately available on 
-           request.
-         */
         break;
       }
     case STAGE_WAIT_RETRY:
