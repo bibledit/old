@@ -25,6 +25,7 @@
 #include "libraries.h"
 #include <gtk/gtk.h>
 #include "types.h"
+#include "reference.h"
 
 
 enum BibleWorksTextConversionType {btctNone, btctHebrew, btctGreek};
@@ -40,6 +41,7 @@ void import_bibleworks_source_language (vector <ustring>& files, const ustring& 
 ustring convert_bibleworks_greek (ustring line);
 bool bibleworks_define_parsing (ustring parsing, ustring& definition);
 bool bibleworks_is_running ();
+bool bibleworks_reference_get_decode (ustring response, Reference& reference);
 
 
 #endif

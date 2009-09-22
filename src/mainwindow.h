@@ -293,10 +293,10 @@ protected:
   GtkWidget *image36137;
   GtkWidget *tools_maintenance;
   GtkWidget *image36259;
-
   GtkWidget *tool_send_reference;
   GtkWidget *image37446;
-
+  GtkWidget *tools_receive_reference;
+  GtkWidget *image38150;
   GtkWidget *menuitem_preferences;
   GtkWidget *menuitem_preferences_menu;
   GtkWidget *notes_preferences;
@@ -457,25 +457,24 @@ protected:
 
   // Bibledit Windows Outpost
   // BibleTime
-  static bool mainwindow_on_external_programs_timeout(gpointer data);
-  bool on_external_programs_timeout();
   WindowsOutpost * windowsoutpost;
   static void on_reference_exchange1_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_reference_exchange();
   BibleTime bibletime;
-  int got_new_bt_reference;
-  ustring bibledit_bt_previous_reference;
-  ustring bibletime_previous_reference;
   static void on_send_word_to_toolbox_signalled(GtkButton *button, gpointer user_data);
   void send_word_to_toolbox();
   static void on_preferences_windows_outpost_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_preferences_windows_outpost();
   static void on_tool_send_reference_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_tool_send_reference ();
-  void send_reference_to_bibletime (const Reference& reference, bool force);
+  void send_reference_to_bibletime (const Reference& reference);
   void send_reference_to_bibleworks (Reference reference);
   void send_reference_to_santa_fe (Reference reference);
   void send_reference_to_onlinebible (Reference reference);
+  static void on_tools_receive_reference_activate (GtkMenuItem *menuitem, gpointer user_data);
+  void on_tools_receive_reference ();
+  static bool on_tools_receive_reference_timeout(gpointer data);
+  void tools_receive_reference_timeout();
 
   /* Title bar and status bar, GUI */
   static bool on_gui_timeout(gpointer data);

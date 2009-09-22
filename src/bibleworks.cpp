@@ -878,3 +878,20 @@ bool bibleworks_is_running ()
   }
   return running;
 }
+
+
+bool bibleworks_reference_get_decode (ustring response, Reference& reference)
+{
+  // If BibleWorks was not running it might get started at this point, but the value it returns is empty as a result of a timeout.
+  if (response.empty())
+    return false;
+  // The response could be, e.g.: "OK Jer 39:10" (without the quotes).
+  replace_text (response, ":", " ");
+  Parse parse (response);
+  if (parse.words.size() != 4)
+    return false;
+  reference.book = books_bibleworks_to_id (parse.words[1]);
+  reference.chapter = convert_to_int (parse.words[2]);
+  reference.verse = parse.words[3];  
+  return true;
+}

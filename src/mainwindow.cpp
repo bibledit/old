@@ -1408,6 +1408,14 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   gtk_widget_show (image37446);
   gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (tool_send_reference), image37446);
 
+  tools_receive_reference = gtk_image_menu_item_new_with_mnemonic ("R_eceive reference");
+  gtk_widget_show (tools_receive_reference);
+  gtk_container_add (GTK_CONTAINER (menutools_menu), tools_receive_reference);
+
+  image38150 = gtk_image_new_from_stock ("gtk-connect", GTK_ICON_SIZE_MENU);
+  gtk_widget_show (image38150);
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (tools_receive_reference), image38150);
+
   menuitem_preferences = gtk_menu_item_new_with_mnemonic("P_references");
   // At first the Alt-P was the accelerator. On the XO machine, this key is 
   // in use already: 
@@ -1823,6 +1831,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   g_signal_connect ((gpointer) tool_go_to_reference, "activate", G_CALLBACK (on_tool_go_to_reference_activate), gpointer (this));
   g_signal_connect ((gpointer) tools_maintenance, "activate", G_CALLBACK (on_tools_maintenance_activate), gpointer (this));
   g_signal_connect ((gpointer) tool_send_reference, "activate", G_CALLBACK (on_tool_send_reference_activate), gpointer (this));
+  g_signal_connect ((gpointer) tools_receive_reference, "activate", G_CALLBACK (on_tools_receive_reference_activate), gpointer (this));
   if (notes_preferences)
     g_signal_connect((gpointer) notes_preferences, "activate", G_CALLBACK(on_notes_preferences_activate), gpointer(this));
   if (printingprefs)
@@ -1887,10 +1896,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
 
   g_signal_connect((gpointer) delete_signal_button, "clicked", G_CALLBACK(on_window_menu_delete_button_clicked), gpointer(this));
   g_signal_connect((gpointer) focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
-
-  // Communication with BibleTime
-  got_new_bt_reference = 0;
-  g_timeout_add(100, GSourceFunc(mainwindow_on_external_programs_timeout), gpointer(this));
 
 #ifndef WIN32
   // Signal handling.
@@ -2545,6 +2550,7 @@ void MainWindow::on_navigation_new_reference()
   send_reference_to_bibleworks (navigation.reference);
   send_reference_to_santa_fe (navigation.reference);
   send_reference_to_onlinebible (navigation.reference);
+  send_reference_to_bibletime (navigation.reference);
 
   // Send to resources.
   for (unsigned int i = 0; i < resource_windows.size(); i++) {
@@ -3031,62 +3037,6 @@ void MainWindow::on_show_quick_references_signal_button(GtkButton * button)
  */
 
 
-bool MainWindow::mainwindow_on_external_programs_timeout(gpointer data)
-{
-  return ((MainWindow *) data)->on_external_programs_timeout();
-}
-
-
-bool MainWindow::on_external_programs_timeout()
-{
-  // Deal with exchanging references between Bibledit and BibleTime.
-  // The trick of the trade here is that we look which of the two made a change.
-  // If Bibledit made a change, then it sends its reference to BibleTime.
-  // And vice versa.
-  // This avoids race conditions, i.e. they keep sending
-  // references to each other, and the reference keeps changing between the 
-  // one Bibledit had and the one BibleTime had.
-
-  extern Settings *settings;
-  // A reference is taken from BibleTime only when it changed reference.
-  if (settings->genconfig.reference_exchange_receive_from_bibletime_get()) {
-    Reference btreference(0);
-    if (bibletime.getreference(btreference)) {
-      ustring new_reference = btreference.human_readable("");
-      if (new_reference != bibletime_previous_reference) {
-        bibletime_previous_reference = new_reference;
-        // As BibleTime does not support chapter 0 or verse 0, let Bibledit not 
-        // receive any reference from it if it is on such a chapter or verse.
-        bool receive = true;
-        if (navigation.reference.chapter == 0)
-          receive = false;
-        if (navigation.reference.verse == "0")
-          receive = false;
-        if (receive)
-          navigation.display(btreference);
-        got_new_bt_reference = 5;
-      }
-    }
-  }
-  // The reference is sent to BibleTime only after it changed.
-  // But when we received a new reference, nothing will be sent, 
-  // to avoid the race condition that both Bibledit and BibleTime keep 
-  // alternating between two references on their own.
-  if (got_new_bt_reference > 0)
-    got_new_bt_reference--;
-  if (got_new_bt_reference == 0) {
-    WindowEditor *editor_window = last_focused_editor_window();
-    if (editor_window) {
-      if (settings->genconfig.reference_exchange_send_to_bibletime_get()) {
-        send_reference_to_bibletime (editor_window->current_reference(), false);
-      }
-    }
-  }
-
-  return true;
-}
-
-
 void MainWindow::on_reference_exchange1_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_reference_exchange();
@@ -3154,17 +3104,17 @@ void MainWindow::on_tool_send_reference_activate (GtkMenuItem *menuitem, gpointe
 void MainWindow::on_tool_send_reference ()
 {
   send_reference_to_bibleworks (navigation.reference);
-  send_reference_to_bibletime (navigation.reference, true);
+  send_reference_to_bibletime (navigation.reference);
   send_reference_to_santa_fe (navigation.reference);
   send_reference_to_onlinebible (navigation.reference);
 }
 
 
-void MainWindow::send_reference_to_bibletime (const Reference& reference, bool force)
+void MainWindow::send_reference_to_bibletime (const Reference& reference)
 {
-  ustring bibledit_bt_new_reference = convert_to_string(reference.book) + convert_to_string(reference.chapter) + reference.verse;
-  if ((bibledit_bt_new_reference != bibledit_bt_previous_reference) || force) {
-    bibledit_bt_previous_reference = bibledit_bt_new_reference;
+  // Check whether sending references to BibleTime has been enabled by the user.
+  extern Settings * settings;
+  if (settings->genconfig.reference_exchange_send_to_bibletime_get()) {
     bibletime.sendreference(reference);
   }
 }
@@ -3204,6 +3154,51 @@ void MainWindow::send_reference_to_onlinebible (Reference reference)
     windowsoutpost->OnlineBibleReferenceSet (reference);
   }
 }
+
+
+void MainWindow::on_tools_receive_reference_activate (GtkMenuItem *menuitem, gpointer user_data)
+{
+  ((MainWindow *) user_data)->on_tools_receive_reference();
+}
+
+
+void MainWindow::on_tools_receive_reference ()
+{
+  new TimedNotifierWindow ("Receiving the reference");
+  g_timeout_add(100, GSourceFunc(on_tools_receive_reference_timeout), gpointer(this));
+}
+
+
+bool MainWindow::on_tools_receive_reference_timeout(gpointer data)
+{
+  ((MainWindow *) data)->tools_receive_reference_timeout();
+  return false;
+}
+
+
+void MainWindow::tools_receive_reference_timeout() // Todo
+{
+  extern Settings * settings;
+  if (settings->genconfig.reference_exchange_receive_from_bibleworks_get()) {
+    Reference reference (0);
+    if (bibleworks_reference_get_decode (windowsoutpost->BibleWorksReferenceGet (), reference)) {
+      navigation.display (reference);
+    }
+  }
+  if (settings->genconfig.reference_exchange_receive_from_bibletime_get()) {
+    Reference reference (0);
+    if (bibletime.getreference(reference)) {
+      navigation.display (reference);
+    }
+  }
+  if (settings->genconfig.reference_exchange_receive_from_santafefocus_get()) {
+  }
+  if (settings->genconfig.reference_exchange_receive_from_xiphos_get()) {
+  }
+  if (settings->genconfig.reference_exchange_receive_from_onlinebible_get()) {
+  }
+}
+
 
 
 /*
@@ -7319,6 +7314,8 @@ To implement a simpler system of receiving references: It goes through the Tools
 The preferences show from which application one receives the references, but does not automatically receive them.
 Thus we can get rid of the timers that handle reference receipt, and we can get rid of the race conditions.
 
+
+To write help on the reference receipt.
 
 
 To ask Larry for an interface for receiving the reference that the Online Bible now displays. This was requested.

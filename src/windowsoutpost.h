@@ -44,6 +44,7 @@ public:
   WindowsOutpost(bool dummy);
   ~WindowsOutpost();
   void Start();
+  ustring BibleWorksReferenceGet ();
   void BibleWorksReferenceSet(const Reference& reference);
   void SantaFeFocusReferenceSet(const Reference& reference);
   void SantaFeFocusWordSet(const ustring& word);
@@ -66,6 +67,8 @@ private:
   void telnet(const ustring& hostname);
   void send_line(const ustring & command);
   ustring Readln();
+  bool get_reference_active;
+  ustring get_reference_value;
   ustring bibleworks_reference_set_value;
   ustring santafefocus_reference_set_value;
   ustring santafefocus_word_set_value;

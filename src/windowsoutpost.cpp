@@ -53,6 +53,7 @@ WindowsOutpost::WindowsOutpost(bool dummy)
   clear();
   thread_running = false;
   online_bible_server_connected = false;
+  get_reference_active = false;
 }
 
 
@@ -74,6 +75,20 @@ void WindowsOutpost::Start()
 {
   thread_run = true;
   g_thread_create(GThreadFunc(thread_start), gpointer(this), false, NULL);
+}
+
+
+ustring WindowsOutpost::BibleWorksReferenceGet()
+// Gets the reference from BibleWorks.
+{
+  get_reference_value = "BibleWorksReferenceGet";
+  get_reference_active = true;
+  int timeout = 0;
+  while (get_reference_active && (timeout < 50)) {
+    g_usleep (100000);
+    timeout++;
+  }
+  return get_reference_value;
 }
 
 
@@ -249,6 +264,11 @@ void WindowsOutpost::thread_main()
           onlinebible_reference_set_value.clear();
           send_line (value);
           break;
+        }
+        if (get_reference_active) {
+          send_line (get_reference_value);
+          get_reference_value = Readln ();
+          get_reference_active = false;
         }
         break;
       }
