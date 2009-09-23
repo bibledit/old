@@ -25,6 +25,7 @@
 
 DBus::DBus(DBusNameType name)
 {
+  /*
   // Initialize variables.
   listener_running = false;
   method_called_signal = NULL;
@@ -57,11 +58,13 @@ DBus::DBus(DBusNameType name)
   // Start the thread with the listen and reply loop.
   listener_run = true;
   g_thread_create(GThreadFunc(listener_start), gpointer(this), false, NULL);
+  */
 }
 
 
 DBus::~DBus()
 {
+  /*
   // Indicate to the thread that we want to stop.
   listener_run = false;
 
@@ -76,6 +79,7 @@ DBus::~DBus()
   // Destroy the signal button.
   if (method_called_signal)
     gtk_widget_destroy(method_called_signal);
+    */
 }
 
 

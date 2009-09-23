@@ -7321,8 +7321,6 @@ Todo tasks.
 
 
 
-To write help on the reference receipt.
-
 
 
 To ask Larry for an interface for receiving the reference that the Online Bible now displays. This was requested.
@@ -7341,7 +7339,9 @@ To send next announcement also to bibledit-announce@nongnu.org, and check whethe
 
 
 
-
+All bibles should be exportable to any of our companion resources that scroll with Bibledit.
+And all should be importable too for any of these, and put into usfm format.
+Then we can remove the "Verses" window, depending on the other programs instead.
 
 
 

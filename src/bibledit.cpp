@@ -44,7 +44,7 @@
 #include "startup.h"
 
 
-// DBus * dbus;
+DBus * dbus;
 Settings *settings;
 BookLocalizations *booklocalizations;
 Versifications *versifications;
@@ -96,9 +96,8 @@ int main(int argc, char *argv[])
   }    
 
   // Initialize the dbus.
-  //DBus mydbus (dbntOrgBibleditMain);
-  //dbus = &mydbus;
-  // todo Check through the dbus whether bibledit is already running.
+  DBus mydbus (dbntOrgBibleditMain);
+  dbus = &mydbus;
   // Initialize the xml library.
   xmlInitParser();
   // Check on default data structure.
