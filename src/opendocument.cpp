@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "opendocument.h"
 #include "usfm.h"
 #include "bible.h"
@@ -48,6 +49,7 @@
  The chapter number is not put at verse one, but just where it occurs. This is
  because frames would be needed, and this makes copying text more difficult.
  */
+
 
 OpenDocument::OpenDocument(const ustring & project, const ustring & filename, bool gui, set < unsigned int >*selection)
 // Export a project to OpenDocument format. Allows books selection.
@@ -181,8 +183,6 @@ void OpenDocument::unpack_template()
 void OpenDocument::cover()
 // Generate cover page.
 {
-  extern Settings *settings;
-
   // Store the lines containing the cover.  
   vector < ustring > lines;
 
@@ -190,7 +190,7 @@ void OpenDocument::cover()
   for (unsigned int i = 0; i < books.size(); i++) {
     if (books_id_to_type(books[i]) == btOtherMaterial)
       continue;
-    vector < ustring > rawlines = project_retrieve_chapter(settings->genconfig.project_get(), books[i], 0);
+    vector < ustring > rawlines = project_retrieve_chapter(myproject, books[i], 0);
     bool within_cover_section = false;
     for (unsigned int i2 = 0; i2 < rawlines.size(); i2++) {
       ustring line = rawlines[i2];

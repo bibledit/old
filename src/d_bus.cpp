@@ -502,7 +502,6 @@ Todo Bibletime
 To checkout bibletime:
 svn co https://bibletime.svn.sourceforge.net/svnroot/bibletime/trunk/bibletime bibletime 
 
-
 BibleTime code:
 QDBusConnection::sessionBus().registerObject("/BibleTime", &bibleTime);
 Q_CLASSINFO("D-Bus Interface", "info.bibletime.BibleTime")
@@ -510,5 +509,6 @@ syncAllVerseBasedModules Gen.2.4
 
 dbus-send --print-reply --dest=org.bibledit.bin /org/bibledit/settings org.bibledit.settings.project
 
+dbus-send --print-reply --dest=/BibleTime info.bibletime.BibleTime info.bibletime.BibleTime.syncAllVerseBasedModules string:Gen.2.4
 
 */

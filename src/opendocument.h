@@ -17,8 +17,10 @@
  **  
  */
 
+
 #ifndef INCLUDED_OPENDOCUMENT_H
 #define INCLUDED_OPENDOCUMENT_H
+
 
 #include "libraries.h"
 #include "settings.h"
@@ -29,12 +31,14 @@
 #include "odtnotes.h"
 #include <libxml/xmlwriter.h>
 
+
 class OpenDocument
 {
 public:
   OpenDocument(const ustring& project, const ustring& filename, bool gui, set<unsigned int> * selection);
   ~OpenDocument();
 private:
+  ustring myproject;
   ProjectConfiguration * projectconfig;
   Usfm * usfm;
   UsfmInlineMarkers * usfm_inline_markers;
