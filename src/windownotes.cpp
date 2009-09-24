@@ -1194,7 +1194,7 @@ void WindowNotes::delete_ids(const vector < gint > &ids)
   else
     message.append("these notes");
   message.append("?");
-  if (!yes_no_always_dialog (message, ynadtDeleteNote, true))
+  if (!yes_no_always_dialog (message, ynadtDeleteNote, true, false))
     return;
   for (unsigned int i = 0; i < ids.size(); i++) {
     notes_delete_one(ids[i]);

@@ -29,7 +29,7 @@
 enum YesNoAlwaysDialogType {ynadtLoadReferences, ynadtDeleteNote};
 
 
-bool yes_no_always_dialog (const ustring& message, YesNoAlwaysDialogType type, bool default_yes);
+bool yes_no_always_dialog (const ustring& message, YesNoAlwaysDialogType type, bool default_yes, bool default_always);
 
 
 class YesNoAlwaysDialog

@@ -24,12 +24,21 @@
 #include "settings.h"
 
 
-bool yes_no_always_dialog (const ustring& message, YesNoAlwaysDialogType type, bool default_yes)
+bool yes_no_always_dialog (const ustring& message, YesNoAlwaysDialogType type, bool default_yes, bool default_always) // Todo
+/*
+This is a dialog that asks the user for either Yes or No, and optional the user can choose to always give this answer
+for the remainder of the session.
+message: message.
+type : dialog type.
+default_yes: Make the Yes button the default response for the dialog.
+default_always: Set the dialog so that the answer the user now chooses is remembered for the rest of the session.
+*/
 {
   extern Settings * settings;
   int response = settings->session.yes_no_always_dialog_response[type];
   if (!settings->session.yes_no_always_dialog_enabled[type]) {
     YesNoAlwaysDialog dialog (message, default_yes);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog.checkbutton), default_always);
     response = dialog.run ();
     settings->session.yes_no_always_dialog_enabled[type] = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog.checkbutton));
     settings->session.yes_no_always_dialog_response[type] = response;

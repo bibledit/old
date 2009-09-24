@@ -648,7 +648,7 @@ void Editor::show_quick_references_execute()
   }
 
   // Ask whether the references should be made available.
-  if (yes_no_always_dialog ("This note has references.\nWould you like to load these in the references list?", ynadtLoadReferences, false)) {
+  if (yes_no_always_dialog ("This note has references.\nWould you like to load these in the references list?", ynadtLoadReferences, false, true)) {
     // Make the references available and fire a signal.
     quick_references = refscanner.references;
     gtk_button_clicked(GTK_BUTTON(quick_references_button));
