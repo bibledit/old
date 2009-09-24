@@ -43,7 +43,7 @@ public:
 
 
 
-  // Todo Old.
+  // Old.
   void send (DBusNameType destination, DBusMethodType, const vector<ustring>& payload);
   vector<ustring> get_payload (DBusMethodType method);
   void erase_payload (DBusMethodType method);
@@ -69,7 +69,7 @@ private:
 
 
 
-  // Todo Old.
+  // Old.
   const gchar * dbusname (DBusNameType dbname);
   const gchar * dbuspath ();
   const gchar * dbusinterface ();

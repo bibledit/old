@@ -32,6 +32,7 @@
 #include "tiny_utilities.h"
 #include "bibleworks.h"
 #include "directories.h"
+#include "onlinebible.h"
 
 
 #define STAGE_ZERO 0
@@ -52,6 +53,7 @@ WindowsOutpost::WindowsOutpost(bool dummy)
   sock = 0;
   clear();
   thread_running = false;
+  online_bible_server_requested_action = 0;
   online_bible_server_connected = false;
   get_reference_active = false;
 }
@@ -243,10 +245,28 @@ void WindowsOutpost::thread_main()
       {
         // Carry out the scheduled tasks.
         // Whether the Online Bible server should be connected to.
-        if (!onlinebible_server_value.empty()) {
-          send_line(onlinebible_server_value);
-          onlinebible_server_value.clear();
-          log (Readln ());
+        if (online_bible_server_requested_action != 0) {
+          if (online_bible_server_requested_action) {
+            // There is a request to connect to the Online Bible server.
+            if (!online_bible_server_connected) {
+              if (online_bible_is_running () || settings->genconfig.outpost_networked_get()) {
+                send_line("OLB Connect");
+                log (Readln ());
+                online_bible_server_connected = true;
+              }
+            }
+          } else {
+            // There is a request to disconnect from the Online Bible server.
+            if (online_bible_server_connected) {
+              if (online_bible_is_running () || settings->genconfig.outpost_networked_get()) {
+                send_line("OLB Disconnect");
+              }
+            }
+            // Since the Online Bible may have been shutdown, it will always be disconnected.
+            online_bible_server_connected = false;
+          }
+          // Requested action handled.
+          online_bible_server_requested_action = 0;
           break;
         }
         if (!bibleworks_reference_set_value.empty()) {
@@ -276,7 +296,14 @@ void WindowsOutpost::thread_main()
         if (!onlinebible_reference_set_value.empty()) {
           ustring value (onlinebible_reference_set_value);
           onlinebible_reference_set_value.clear();
-          send_line (value);
+          bool online_bible_runs = online_bible_is_running () || settings->genconfig.outpost_networked_get();
+          if (online_bible_runs) {
+            if (online_bible_server_connected) {
+              send_line (value);
+            }
+          } else {
+            online_bible_server_connected = false;
+          }
           break;
         }
         if (get_reference_active) {
@@ -463,11 +490,10 @@ void WindowsOutpost::online_bible_server_connect (bool connect)
   if (connect == online_bible_server_connected)
     return;
   if (connect) {
-    onlinebible_server_value = "OLB Connect";
+    online_bible_server_requested_action = 1;
   } else {
-    onlinebible_server_value = "OLB Disconnect";
+    online_bible_server_requested_action = -1;
   }
-  online_bible_server_connected = connect;
 }
 
 

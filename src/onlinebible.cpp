@@ -34,6 +34,7 @@
 #include "categorize.h"
 #include "projectutils.h"
 #include "progresswindow.h"
+#include "shell.h"
 
 
 void online_bible_check_file (vector <ustring>& filenames, vector <unsigned int>& bookids, const ustring& bible, vector <ustring>& messages)
@@ -270,6 +271,19 @@ bool online_bible_define_parsing (ustring parsing, ustring& definition)
       definition = "Online Bible number " + parsing;
       return true;
     }    
+  }
+  return false;
+}
+
+
+bool online_bible_is_running ()
+// Returns true if the Online Bible runs on Wine.
+{
+  vector <ustring> processes = list_processes ();
+  for (unsigned int i = 0; i < processes.size(); i++) {
+    ustring process = lowerCase (processes[i]);
+    if (g_str_has_suffix (process.c_str(), "olb.exe"))
+      return true;
   }
   return false;
 }

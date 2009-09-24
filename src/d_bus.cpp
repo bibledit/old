@@ -115,7 +115,7 @@ dbus-send --print-reply --dest=org.freedesktop.DBus /org/freedesktop/DBus org.fr
     dbus_message_unref(reply);
     set <ustring> names(string_reply.begin(), string_reply.end());
     for (unsigned int i = 0; i < string_reply.size(); i++) {
-      //gw_message (string_reply[i]); // Todo
+      //gw_message (string_reply[i]);
     }
     //in_use = names.find(dbusname(dbname)) != names.end();
   }
@@ -494,3 +494,6 @@ void DBus::methodcall_remove_all_signals()
 
 // To checkut xiphos.
 // svn co https://gnomesword.svn.sourceforge.net/svnroot/gnomesword/trunk xiphos
+
+// To checkout bibletime
+// svn co https://bibletime.svn.sourceforge.net/svnroot/bibletime/trunk/bibletime bibletime 

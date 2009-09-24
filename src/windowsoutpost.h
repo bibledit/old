@@ -74,8 +74,8 @@ private:
   ustring santafefocus_reference_set_value;
   ustring santafefocus_word_set_value;
   void online_bible_server_connect (bool connect);
+  int online_bible_server_requested_action;
   bool online_bible_server_connected;
-  ustring onlinebible_server_value;
   ustring onlinebible_reference_set_value;
 };
 
