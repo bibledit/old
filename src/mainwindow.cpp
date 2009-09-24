@@ -7322,12 +7322,19 @@ Todo tasks.
 
 
 
+The dbus-glib system.
+
+
+We changed the communications protocol from DCOP to DBUS, but the interface
+is still the same and should be working. DCOP will not come back, external
+apps need to switch to DBUS (freedesktop.org standard) to talk to
+BibleTime.
+
 
 To ask Larry for an interface for receiving the reference that the Online Bible now displays. This was requested.
 
 
 
-To implement scrolling with with xiphos.
 
 
 

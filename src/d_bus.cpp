@@ -21,65 +21,57 @@
 #include "libraries.h"
 #include "d_bus.h"
 #include <glib.h>
+#include "gwrappers.h"
 
 
 DBus::DBus(DBusNameType name)
 {
-  /*
-  // Initialize variables.
-  listener_running = false;
-  method_called_signal = NULL;
-  
-  // Connect to the session bus.
-  DBusError error;
-  dbus_error_init(&error);
-  connection = dbus_bus_get(DBUS_BUS_SESSION, &error);
-  if (dbus_error_is_set(&error)) {
-    log(error.message, true);
-    dbus_error_free(&error);
+	// Obtain a connection to the Session Bus.
+	GError *error = NULL;
+	sigcon = dbus_g_bus_get(DBUS_BUS_SESSION, &error);
+	if(sigcon) {
+  	con = dbus_g_connection_get_connection(sigcon);
+	} else {
+    log (error->message, true);
+		g_error_free(error);
   }
-  // Bail out of we had no connection.
-  if (!connection) {
-    return;
-  }
-  // Request a name on the bus, if the name is not in use.
-  // Typically the name will be in use when bibledit is already running.
-  if (dbusname(name)) {
-    if (!name_in_use(name)) {
-      int ret = dbus_bus_request_name(connection, dbusname(name), 0, &error);
-      if (dbus_error_is_set(&error)) {
-        dbus_error_free(&error);
-      }
-      if (ret != DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER) {
-        log("Requested dbus name in use", true);
+
+	// Request the DBus daemon for our name.
+  if (con) {
+  	DBusError *dbuserror = NULL;
+    int retval = dbus_bus_request_name(con, dbusname (dbntOrgBibleditMain), 0, dbuserror);
+    if (retval != DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER) {
+      if (dbus_error_is_set(dbuserror)) {
+        log (dbuserror->message, true);
+        dbus_error_free(dbuserror);
       }
     }
   }
-  // Start the thread with the listen and reply loop.
-  listener_run = true;
-  g_thread_create(GThreadFunc(listener_start), gpointer(this), false, NULL);
-  */
+  
+  // Check names now on the bus.
+  check_names_on_bus ();
+  
+  // Signals to connect to:
+  // NameLost
+  // NameAcquired
+  // We connect to the NameList signal, and probably the NameAqcuired signal. This will track whether the relevant applications run.
+  // We can then send the signals only if the applications runs. (But we might send regardless, that would be fine, even if the application does not run).
+
 }
 
 
 DBus::~DBus()
 {
+  // The connection obtained through dbus_g_connection_get_connection does not have its reference count incremented.
+  // Therefore it should not be unreferenced.
+  // dbus_connection_unref(con);
+
+
   /*
-  // Indicate to the thread that we want to stop.
-  listener_run = false;
-
-  // Wait until the thread has exited.
-  while (listener_running)
-    g_usleep(10000);
-
-  // Unreference the connection.
-  if (connection)
-    dbus_connection_unref(connection);
-
   // Destroy the signal button.
   if (method_called_signal)
     gtk_widget_destroy(method_called_signal);
-    */
+  */
 }
 
 
@@ -95,17 +87,12 @@ const gchar *DBus::dbusname(DBusNameType dbname)
 }
 
 
-bool DBus::name_in_use(DBusNameType dbname)
+void DBus::check_names_on_bus()
 /*
-Returns true if the "name" is in use.
-  
 To query the names on the bus, do this in a terminal:
 dbus-send --print-reply --dest=org.freedesktop.DBus /org/freedesktop/DBus org.freedesktop.DBus.ListNames
 */
 {
-  // In-use variable.
-  bool in_use = false;
-
   // Assemble the "ListNames" method call.
   DBusMessage *message;
   message = dbus_message_new_method_call("org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus", "ListNames");
@@ -116,7 +103,7 @@ dbus-send --print-reply --dest=org.freedesktop.DBus /org/freedesktop/DBus org.fr
   dbus_error_init(&error);
   int timeout = -1; // Default timeout.
   DBusMessage *reply;
-  reply = dbus_connection_send_with_reply_and_block(connection, message, timeout, &error);
+  reply = dbus_connection_send_with_reply_and_block(con, message, timeout, &error);
   if (dbus_error_is_set(&error)) {
     ustring s(error.name);
     s.append(": ");
@@ -127,13 +114,15 @@ dbus-send --print-reply --dest=org.freedesktop.DBus /org/freedesktop/DBus org.fr
     retrieve_message(reply);
     dbus_message_unref(reply);
     set <ustring> names(string_reply.begin(), string_reply.end());
-    in_use = names.find(dbusname(dbname)) != names.end();
+    for (unsigned int i = 0; i < string_reply.size(); i++) {
+      //gw_message (string_reply[i]); // Todo
+    }
+    //in_use = names.find(dbusname(dbname)) != names.end();
   }
   // Clear memory.
   dbus_message_unref(message);
+  // This list of names can check whether the application we'd like to communicate with is running.
 
-  // Return whether the name is in use.
-  return in_use;
 }
 
 
@@ -351,8 +340,8 @@ dbus-send --print-reply --dest=org.bibledit.bin /org/bibledit/settings org.bible
 
   // Add a rule for which messages we want to see.
   dbus_error_init(&err);
-  dbus_bus_add_match(connection, "path='/org/bibledit',interface='org.bibledit'", &err);
-  dbus_connection_flush(connection);
+  dbus_bus_add_match(con, "path='/org/bibledit',interface='org.bibledit'", &err);
+  dbus_connection_flush(con);
   if (dbus_error_is_set(&err)) {
     dbus_error_free(&err);
   }
@@ -360,8 +349,8 @@ dbus-send --print-reply --dest=org.bibledit.bin /org/bibledit/settings org.bible
   while (listener_run) {
 
     // Non-blocking read of the next available message.
-    dbus_connection_read_write(connection, 0);
-    msg = dbus_connection_pop_message(connection);
+    dbus_connection_read_write(con, 0);
+    msg = dbus_connection_pop_message(con);
 
     // No message: loop again.
     if (!msg) {
@@ -400,10 +389,9 @@ void DBus::log(const ustring & message, bool critical)
 {
   ustring msg = "DBus: " + message;
   if (critical) {
-    g_critical("%s", message.c_str());
+    gw_critical(message);
   } else {
-    if (write(1, message.c_str(), strlen(message.c_str())));
-    if (write(1, "\n", 1));
+    gw_message (message);
   }
 }
 
@@ -435,8 +423,8 @@ void DBus::respond(DBusMessage * msg, const ustring & response)
 
   // Send the reply and flush the connection.
   dbus_uint32_t serial = 0;
-  dbus_connection_send(connection, reply, &serial);
-  dbus_connection_flush(connection);
+  dbus_connection_send(con, reply, &serial);
+  dbus_connection_flush(con);
 
   // Free the reply.
   dbus_message_unref(reply);
@@ -463,8 +451,8 @@ void DBus::send(DBusNameType destination, DBusMethodType method, const vector < 
   DBusError error;
   dbus_error_init(&error);
   dbus_uint32_t serial = 0;
-  dbus_connection_send(connection, message, &serial);
-  dbus_connection_flush(connection);
+  dbus_connection_send(con, message, &serial);
+  dbus_connection_flush(con);
 
   // Clear memory.
   dbus_message_unref(message);
@@ -504,3 +492,5 @@ void DBus::methodcall_remove_all_signals()
 }
 
 
+// To checkut xiphos.
+// svn co https://gnomesword.svn.sourceforge.net/svnroot/gnomesword/trunk xiphos

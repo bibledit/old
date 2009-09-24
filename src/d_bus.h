@@ -25,6 +25,8 @@
 #include "libraries.h"
 #include <dbus/dbus.h>
 #include <gtk/gtkbutton.h>
+#include <dbus/dbus-glib.h>
+#include <dbus/dbus-glib-lowlevel.h>
 
 
 enum DBusNameType {dbntNone, dbntOrgBibleditMain};
@@ -37,15 +39,37 @@ class DBus
 public:
   DBus (DBusNameType name);
   ~DBus ();
+
+
+
+
+  // Todo Old.
   void send (DBusNameType destination, DBusMethodType, const vector<ustring>& payload);
   vector<ustring> get_payload (DBusMethodType method);
   void erase_payload (DBusMethodType method);
   void methodcall_add_signal (DBusMethodType method);
   GtkWidget * method_called_signal;
   void methodcall_remove_all_signals ();
-  bool name_in_use (DBusNameType dbname);
+
+
+
 private:
-  DBusConnection * connection;
+  DBusConnection *con;
+	DBusGConnection *sigcon;
+  void check_names_on_bus ();
+
+
+
+
+
+
+
+
+
+
+
+
+  // Todo Old.
   const gchar * dbusname (DBusNameType dbname);
   const gchar * dbuspath ();
   const gchar * dbusinterface ();
