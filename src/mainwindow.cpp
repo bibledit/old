@@ -7322,23 +7322,8 @@ Todo tasks.
 
 
 
-The dbus-glib system.
-
-
-We changed the communications protocol from DCOP to DBUS, but the interface
-is still the same and should be working. DCOP will not come back, external
-apps need to switch to DBUS (freedesktop.org standard) to talk to
-BibleTime.
-
-
 To ask Larry for an interface for receiving the reference that the Online Bible now displays. This was requested.
 
-
-
-
-
-
-To implement scrolling with with bibletime.
 
 
 
@@ -7350,6 +7335,9 @@ All bibles should be exportable to any of our companion resources that scroll wi
 And all should be importable too for any of these, and put into usfm format.
 Then we can remove the "Verses" window, depending on the other programs instead.
 
+
+
+We need to make Bibledit leaner and cleaner, and do the few jobs it does well, rather than make it do a lot not so well.
 
 
 */
