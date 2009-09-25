@@ -24,7 +24,7 @@
 #include "settings.h"
 
 
-bool yes_no_always_dialog (const ustring& message, YesNoAlwaysDialogType type, bool default_yes, bool default_always) // Todo
+bool yes_no_always_dialog (const ustring& message, YesNoAlwaysDialogType type, bool default_yes, bool default_always)
 /*
 This is a dialog that asks the user for either Yes or No, and optional the user can choose to always give this answer
 for the remainder of the session.

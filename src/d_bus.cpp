@@ -494,9 +494,6 @@ void DBus::methodcall_remove_all_signals()
 
 /*
 
-To checkut xiphos:
-svn co https://gnomesword.svn.sourceforge.net/svnroot/gnomesword/trunk xiphos
-
 Todo Bibletime
 
 To checkout bibletime:

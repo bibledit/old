@@ -282,7 +282,8 @@ bibledit_SOURCES = \
 				morphology.cpp \
 				greek.cpp \
 				startup.cpp \
-				dialogyesnoalways.cpp
+				dialogyesnoalways.cpp \
+				xiphos.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp update-copyright
 
