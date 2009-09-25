@@ -7434,6 +7434,8 @@ Project AdministratorIn charge of this item.
 
 
 
+
+
 To ask Larry for an interface for receiving the reference that the Online Bible now displays. This was requested.
 
 
@@ -7450,9 +7452,11 @@ Then we can remove the "Verses" window, depending on the other programs instead.
 
 
 We need to make Bibledit leaner and cleaner, and do the few jobs it does well, rather than make it do a lot not so well.
+This means that the original language window probably goes out, and the "Verses" window as well.
+All these things can be done in e.g. Xiphos.
 
 
-Mention that the Online Bible needs to be version 3.95 as released on 24 September 2009, or a newer version.
+
 
 
 
