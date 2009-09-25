@@ -46,8 +46,14 @@ void git_upgrade ()
   vector <ustring> projects = projects_get_all ();
   for (unsigned int i = 0; i < projects.size(); i++) {
     ProjectConfiguration * projectconfig = settings->projectconfig (projects[i]);
-    if (!projectconfig->git_use_remote_repository_get()) {
-      ustring git_directory = gw_build_filename (project_data_directory_project (projects[i]), ".git");
+    ustring git_directory = gw_build_filename (project_data_directory_project (projects[i]), ".git");
+    if (projectconfig->git_use_remote_repository_get()) {
+      ustring index_lock = gw_build_filename (git_directory, "index.lock");
+      if (g_file_test (index_lock.c_str(), G_FILE_TEST_IS_REGULAR)) {
+        gw_message ("Cleaning out index lock " + index_lock);
+        unlink (index_lock.c_str());
+      }
+    } else {
       if (g_file_test (git_directory.c_str(), G_FILE_TEST_IS_DIR)) {
         gw_message ("Cleaning out folder " + git_directory);
         ProgressWindow progresswindow ("Tidying up project " + projects[i], false);
@@ -67,6 +73,7 @@ void git_revert_to_internal_repository(const ustring & project)
   ProjectConfiguration *projectconfig = settings->projectconfig(project);
   projectconfig->git_use_remote_repository_set(false);
 }
+
 
 void git_resolve_conflict_chapter(const ustring & project, unsigned int book, unsigned int chapter)
 // This solves a conflicting chapter.
@@ -144,6 +151,7 @@ void git_resolve_conflict_chapter(const ustring & project, unsigned int book, un
   git_exec_update_project(project);
 }
 
+
 ustring git_mine_conflict_marker()
 /*
  If there is a conflicting merge, we may have data like this:
@@ -158,6 +166,7 @@ ustring git_mine_conflict_marker()
 {
   return "<<<<<<< HEAD";
 }
+
 
 void git_resolve_conflicts(const ustring & project, const vector < ustring > &errors)
 /*
