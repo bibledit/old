@@ -51,11 +51,22 @@ DBus::DBus(int dummy)
   // Check the names currently available on the bus:
   // dbus-send --print-reply --dest=org.freedesktop.DBus /org/freedesktop/DBus org.freedesktop.DBus.ListNames
   vector <ustring> names_on_bus = method_call_wait_reply ("org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus", "ListNames", false);
+  // First check whether the name if visible among the names on the bus.
   for (unsigned int i = 0; i < names_on_bus.size(); i++) {
-    if (check_if_bibletime_bus_name (names_on_bus[i].c_str())) {
+    if (names_on_bus[i].find ("BibleTime") != string::npos) {
       bibletime_bus_name = names_on_bus[i];
-      gw_message ("BibleTime on DBus at name " + names_on_bus[i]);
+      gw_message ("BibleTime on DBus as service " + names_on_bus[i]);
       break;
+    }
+  }
+  // If the service was not found, inspect each name on the bus whether it represents BibleTime.
+  if (bibletime_bus_name.empty()) {
+    for (unsigned int i = 0; i < names_on_bus.size(); i++) {
+      if (check_if_bibletime_bus_name (names_on_bus[i].c_str())) {
+        bibletime_bus_name = names_on_bus[i];
+        gw_message ("BibleTime on DBus represented by name " + names_on_bus[i]);
+        break;
+      }
     }
   }
   
