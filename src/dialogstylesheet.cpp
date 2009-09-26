@@ -2676,3 +2676,6 @@ void StylesheetDialog::restarts_paragraph_create()
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_restarts_paragraph), userbool1);
 }
+
+// Todo too tall?
+

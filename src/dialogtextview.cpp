@@ -100,3 +100,6 @@ void TextViewDialog::on_okbutton()
   gtk_text_buffer_get_end_iter(buffer, &enditer);
   newcontents = gtk_text_buffer_get_text(buffer, &startiter, &enditer, true);
 }
+
+// Todo too tall?
+

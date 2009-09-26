@@ -239,3 +239,6 @@ void NotesUpdateDialog::on_ok()
   // Give message.
   gtkw_dialog_info(notesupdatedialog, message);
 }
+
+// Todo too tall?
+

@@ -183,3 +183,6 @@ void BooknamesDialog::on_cell_edited(GtkCellRendererText * cell, const gchar * p
   // Free path.
   gtk_tree_path_free(path);
 }
+
+// Todo too tall?
+

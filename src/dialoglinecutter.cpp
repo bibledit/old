@@ -206,3 +206,6 @@ void LineCutterDialog::assemble(unsigned int &newlinecount, ustring & marker, us
   cutlines.push_back(newline);
   newline.clear();
 }
+
+// Todo too tall?
+

@@ -145,3 +145,6 @@ void TaskDurationDialog::on_okbutton1()
     mydurations->push_back(gtk_spin_button_get_value(GTK_SPIN_BUTTON(spinbuttons[i])));
   }
 }
+
+// Todo too tall?
+

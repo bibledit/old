@@ -339,4 +339,5 @@ void WordlistDialog::gui()
   gtk_widget_set_sensitive(checkbutton_index_first_time, index_asterisk);
 }
 
+// Todo too tall?
 

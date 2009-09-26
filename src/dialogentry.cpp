@@ -122,3 +122,6 @@ void EntryDialog::always_ok()
   my_always_ok = true;
   on_entry();
 }
+
+// Todo too tall?
+

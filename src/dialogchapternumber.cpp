@@ -157,3 +157,6 @@ unsigned int ChapterNumberDialog::get_chapter()
 {
   return convert_to_int(gtk_entry_get_text(GTK_ENTRY(entry1)));
 }
+
+// Todo too tall?
+

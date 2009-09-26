@@ -336,3 +336,6 @@ void ReviewAnchorsDialog::on_okbutton_clicked()
     valid = gtk_tree_model_iter_next(model, &iter);
   }
 }
+
+// Todo too tall?
+

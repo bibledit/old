@@ -288,3 +288,6 @@ void OriginReferencesDialog::on_okbutton()
                                     gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_footnotes)),
                                     gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_endnotes)), gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_xrefs)), action, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_book)), gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_chapter)), gtk_entry_get_text(GTK_ENTRY(entry_dot)), gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_verse)), gtk_entry_get_text(GTK_ENTRY(entry2)), true);
 }
+
+// Todo too tall?
+

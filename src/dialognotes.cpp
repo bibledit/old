@@ -297,3 +297,6 @@ void NotesDialog::set_gui(const vector < ustring > &categories, const ustring & 
   else if (categories.size() > 0)
     listview_focus_string(treeview1, categories[0]);
 }
+
+// Todo too tall?
+

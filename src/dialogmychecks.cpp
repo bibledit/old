@@ -330,3 +330,6 @@ void MyChecksDialog::on_okbutton()
   if (keep_going)
     checks_display_references_comments(results.references, results.comments, my_references_window);
 }
+
+// Todo too tall?
+

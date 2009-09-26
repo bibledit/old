@@ -29,6 +29,9 @@
 #include "gwrappers.h"
 
 
+void bibletime_reference_send (Reference reference);
+
+
 class BibleTime
 {
 public:

@@ -83,3 +83,7 @@ void DateDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
 void DateDialog::on_okbutton()
 {
 }
+
+
+// Todo too tall?
+

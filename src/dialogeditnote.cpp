@@ -403,3 +403,6 @@ ustring EditNoteDialog::get_marker(const ustring & text)
   }
   return marker;
 }
+
+// Todo too tall?
+

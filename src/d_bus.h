@@ -29,64 +29,29 @@
 #include <dbus/dbus-glib-lowlevel.h>
 
 
-enum DBusNameType {dbntNone, dbntOrgBibleditMain};
-
 enum DBusMethodType {dbmtHello, dbmtEnd};
 
 
 class DBus
 {
 public:
-  DBus (DBusNameType name);
+  DBus (int dummy);
   ~DBus ();
-
-
-
-
-  // Old.
-  void send (DBusNameType destination, DBusMethodType, const vector<ustring>& payload);
-  vector<ustring> get_payload (DBusMethodType method);
-  void erase_payload (DBusMethodType method);
-  void methodcall_add_signal (DBusMethodType method);
-  GtkWidget * method_called_signal;
-  void methodcall_remove_all_signals ();
-
-
-
+  void send_to_bibletime (const gchar * object, const gchar * interface, const gchar * method, const ustring& value);
 private:
   DBusConnection *con;
 	DBusGConnection *sigcon;
-  void check_names_on_bus ();
-
-
-
-
-
-
-
-
-
-
-
-
-  // Old.
-  const gchar * dbusname (DBusNameType dbname);
-  const gchar * dbuspath ();
-  const gchar * dbusinterface ();
   const gchar * dbusmethod (DBusMethodType dbmethod);
   DBusMethodType dbusmethod (const char * dbmethod);
+  void send (const gchar * bus_name, const gchar * object, const gchar * interface, const gchar * method, const ustring& payload);
+  vector <ustring> method_call_wait_reply (const gchar * bus_name, const gchar * object, const gchar * interface, const gchar * method, bool silent);
   void retrieve_message (DBusMessage *message);
   void retrieve_iter (DBusMessageIter *iter);
   int message_type;
   vector<ustring> string_reply;
-  static void listener_start (gpointer data);
-  void listener_main ();
-  bool listener_run;
-  bool listener_running;
   void log (const ustring& message, bool critical);
-  void respond (DBusMessage* msg, const ustring& response);
-  map<DBusMethodType, vector<ustring> > methodcalls;
-  set<DBusMethodType> signalling_methods;
+  bool check_if_bibletime_bus_name (const gchar * bus_name);
+  ustring bibletime_bus_name;
 };
 
 

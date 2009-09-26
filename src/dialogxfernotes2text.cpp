@@ -169,3 +169,6 @@ void XferNotes2TextDialog::transfer_note(const ustring & project, unsigned int b
   // Store the modified verse text.
   project_store_verse(project, book, chapter, verse, text);
 }
+
+// Todo too tall?
+

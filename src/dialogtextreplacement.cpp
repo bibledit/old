@@ -264,3 +264,6 @@ ustring TextReplacementDialog::replacement_get(GtkTreeModel * model, GtkTreeIter
   g_free(str);
   return s;
 }
+
+// Todo too tall?
+

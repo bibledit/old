@@ -694,3 +694,6 @@ void ProjectDialog::on_checkbutton_spelling_toggled(GtkToggleButton * togglebutt
 {
   ((ProjectDialog *) user_data)->set_gui();
 }
+
+// Todo too tall?
+

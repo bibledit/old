@@ -2551,7 +2551,7 @@ void MainWindow::on_navigation_new_reference()
   send_reference_to_bibleworks (navigation.reference);
   send_reference_to_santa_fe (navigation.reference);
   send_reference_to_onlinebible (navigation.reference);
-  send_reference_to_bibletime (navigation.reference);
+  bibletime_reference_send (navigation.reference);
   xiphos_reference_send (navigation.reference);
 
   // Send to resources.
@@ -3106,20 +3106,10 @@ void MainWindow::on_tool_send_reference_activate (GtkMenuItem *menuitem, gpointe
 void MainWindow::on_tool_send_reference ()
 {
   send_reference_to_bibleworks (navigation.reference);
-  send_reference_to_bibletime (navigation.reference);
+  bibletime_reference_send (navigation.reference);
   send_reference_to_santa_fe (navigation.reference);
   send_reference_to_onlinebible (navigation.reference);
   xiphos_reference_send (navigation.reference);
-}
-
-
-void MainWindow::send_reference_to_bibletime (const Reference& reference)
-{
-  // Check whether sending references to BibleTime has been enabled by the user.
-  extern Settings * settings;
-  if (settings->genconfig.reference_exchange_send_to_bibletime_get()) {
-    bibletime.sendreference(reference);
-  }
 }
 
 
@@ -7325,14 +7315,11 @@ Todo tasks.
 
 
 
-
-
-
-
-
 Dialogs are too tall for a small screen.
 Need to make one general routine that uses the scrolled window to make a tall dialog lower.
 The dialogs should be scaling automatically.
+We probably need a dialogscaler, probably as an object that is created, and possible with a timer that runs a few milliseconds after the dialog was
+created. The object gets the dialog, and the relevant scrolled window. Before writing to these, it check whether these objects are still alive.
 
 
 

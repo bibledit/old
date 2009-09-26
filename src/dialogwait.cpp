@@ -69,3 +69,6 @@ bool WaitDialog::on_timeout()
   gtk_dialog_response(GTK_DIALOG(waitdialog), GTK_RESPONSE_OK);
   return false;
 }
+
+// Todo too tall?
+

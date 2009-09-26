@@ -164,3 +164,6 @@ void UnicodeDialog::on_button1()
     set_gui();
   }
 }
+
+// Todo too tall?
+

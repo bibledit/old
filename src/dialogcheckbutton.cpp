@@ -106,3 +106,6 @@ void CheckbuttonDialog::on_okbutton()
     bitpattern_add(bitpattern, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbuttons[i])));
   }
 }
+
+// Todo too tall?
+

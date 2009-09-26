@@ -239,3 +239,6 @@ void FontColorDialog::on_okbutton()
   gtk_color_button_get_color(GTK_COLOR_BUTTON(colorbutton_selection), &gdkcolor);
   new_selection_color = color_gdk_to_decimal(&gdkcolor);
 }
+
+// Todo too tall?
+

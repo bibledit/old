@@ -1003,3 +1003,6 @@ void InsertNoteDialog::set_dynamic_shortcuts()
     gtk_label_set_text_with_mnemonic(GTK_LABEL(buttons_remove_label[i]), label.c_str());
   }
 }
+
+// Todo too tall?
+

@@ -144,4 +144,5 @@ void ParallelBibleDialog::on_button_chapters()
   }
 }
 
+// Todo too tall?
 

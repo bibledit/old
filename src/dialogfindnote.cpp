@@ -192,3 +192,6 @@ void FindNoteDialog::set_gui()
   string searchword = gtk_entry_get_text(GTK_ENTRY(entry1));
   gtk_widget_set_sensitive(buttonfind, searchword.size() > 0);
 }
+
+// Todo too tall?
+

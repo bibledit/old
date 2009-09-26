@@ -299,3 +299,6 @@ void GuiDialog::check(GtkWidget * button, bool on)
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), on);
 }
 
+
+// Todo too tall?
+

@@ -288,3 +288,6 @@ void ReplaceDialog::set_gui()
   ustring searchword = gtk_entry_get_text(GTK_ENTRY(entry2));
   gtk_widget_set_sensitive(buttonfind, !searchword.empty());
 }
+
+// Todo too tall?
+

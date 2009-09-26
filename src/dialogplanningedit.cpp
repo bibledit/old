@@ -165,3 +165,6 @@ void PlanningEditDialog::gui()
 {
   //gtk_button_set_label(GTK_BUTTON(button_start), date_time_julian_human_readable(startdate, false).c_str());
 }
+
+// Todo too tall?
+

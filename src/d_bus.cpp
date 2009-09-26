@@ -24,7 +24,7 @@
 #include "gwrappers.h"
 
 
-DBus::DBus(DBusNameType name)
+DBus::DBus(int dummy)
 {
 	// Obtain a connection to the Session Bus.
 	GError *error = NULL;
@@ -39,7 +39,7 @@ DBus::DBus(DBusNameType name)
 	// Request the DBus daemon for our name.
   if (con) {
   	DBusError *dbuserror = NULL;
-    int retval = dbus_bus_request_name(con, dbusname (dbntOrgBibleditMain), 0, dbuserror);
+    int retval = dbus_bus_request_name(con, "org.bibledit", 0, dbuserror);
     if (retval != DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER) {
       if (dbus_error_is_set(dbuserror)) {
         log (dbuserror->message, true);
@@ -48,8 +48,16 @@ DBus::DBus(DBusNameType name)
     }
   }
   
-  // Check names now on the bus.
-  check_names_on_bus ();
+  // Check the names currently available on the bus:
+  // dbus-send --print-reply --dest=org.freedesktop.DBus /org/freedesktop/DBus org.freedesktop.DBus.ListNames
+  vector <ustring> names_on_bus = method_call_wait_reply ("org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus", "ListNames", false);
+  for (unsigned int i = 0; i < names_on_bus.size(); i++) {
+    if (check_if_bibletime_bus_name (names_on_bus[i].c_str())) {
+      bibletime_bus_name = names_on_bus[i];
+      gw_message ("BibleTime on DBus at name " + names_on_bus[i]);
+      break;
+    }
+  }
   
   // Signals to connect to:
   // NameLost
@@ -65,76 +73,42 @@ DBus::~DBus()
   // The connection obtained through dbus_g_connection_get_connection does not have its reference count incremented.
   // Therefore it should not be unreferenced.
   // dbus_connection_unref(con);
-
-
-  /*
-  // Destroy the signal button.
-  if (method_called_signal)
-    gtk_widget_destroy(method_called_signal);
-  */
 }
 
 
-const gchar *DBus::dbusname(DBusNameType dbname)
+vector <ustring> DBus::method_call_wait_reply (const gchar * bus_name, const gchar * object, const gchar * interface, const gchar * method, bool silent)
+// This equals: dbus-send --print-reply --dest=bus_name object interface.method
+// It calls the method, and returns the reply.
 {
-  switch (dbname) {
-  case dbntNone:
-    return NULL;
-  case dbntOrgBibleditMain:
-    return "org.bibledit.main";
-  }
-  return NULL;
-}
+  // Assemble the method call.
+  DBusMessage *dbus_message;
+  dbus_message = dbus_message_new_method_call(bus_name, object, interface, method);
+  dbus_message_set_auto_start(dbus_message, TRUE);
 
-
-void DBus::check_names_on_bus()
-/*
-To query the names on the bus, do this in a terminal:
-dbus-send --print-reply --dest=org.freedesktop.DBus /org/freedesktop/DBus org.freedesktop.DBus.ListNames
-*/
-{
-  // Assemble the "ListNames" method call.
-  DBusMessage *message;
-  message = dbus_message_new_method_call("org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus", "ListNames");
-  dbus_message_set_auto_start(message, TRUE);
-
-  // Send message, handle the reply.  
+  // Send dbus_message and handle the reply.  
   DBusError error;
   dbus_error_init(&error);
-  int timeout = -1; // Default timeout.
-  DBusMessage *reply;
-  reply = dbus_connection_send_with_reply_and_block(con, message, timeout, &error);
-  if (dbus_error_is_set(&error)) {
-    ustring s(error.name);
-    s.append(": ");
-    s.append(error.message);
-    log(s, true);
+  int timeout = 10; // Timeout in milliseconds.
+  DBusMessage *dbus_reply;
+  dbus_reply = dbus_connection_send_with_reply_and_block(con, dbus_message, timeout, &error);
+  if (dbus_error_is_set(&error) && !silent) {
+    ustring err(error.name);
+    err.append(": ");
+    err.append(error.message);
+    log(err, true);
   }
-  if (reply) {
-    retrieve_message(reply);
-    dbus_message_unref(reply);
-    set <ustring> names(string_reply.begin(), string_reply.end());
-    for (unsigned int i = 0; i < string_reply.size(); i++) {
-      //gw_message (string_reply[i]);
-    }
-    //in_use = names.find(dbusname(dbname)) != names.end();
+  if (dbus_reply) {
+    retrieve_message(dbus_reply);
+    dbus_message_unref(dbus_reply);
   }
-  // Clear memory.
-  dbus_message_unref(message);
-  // This list of names can check whether the application we'd like to communicate with is running.
 
-}
+  // Free the message.
+  dbus_message_unref(dbus_message);
 
-
-const gchar *DBus::dbuspath()
-{
-  return "/org/bibledit/dbus";
-}
-
-
-const gchar *DBus::dbusinterface()
-{
-  return "org.bibledit.dbus";
+  // Return reply.
+  vector <ustring> method_reply (string_reply);
+  string_reply.clear();
+  return method_reply;
 }
 
 
@@ -314,77 +288,6 @@ void DBus::retrieve_iter(DBusMessageIter * iter)
 }
 
 
-void DBus::listener_start(gpointer data)
-{
-  ((DBus *) data)->listener_main();
-}
-
-
-void DBus::listener_main()
-/*
-Listens for signals.
-To send a signal to bibledit, do this:
-dbus-send --dest=org.bibledit.bin /org/bibledit/settings org.bibledit.settings.project string:xxx
-
-Listens for method calls and responds to them.
-To call a method of bibledit, do this:
-dbus-send --print-reply --dest=org.bibledit.bin /org/bibledit/settings org.bibledit.settings.project
-*/
-{
-  // Indicate that the thread runs.
-  listener_running = true;
-
-  // Variables.
-  DBusError err;
-  DBusMessage *msg;
-
-  // Add a rule for which messages we want to see.
-  dbus_error_init(&err);
-  dbus_bus_add_match(con, "path='/org/bibledit',interface='org.bibledit'", &err);
-  dbus_connection_flush(con);
-  if (dbus_error_is_set(&err)) {
-    dbus_error_free(&err);
-  }
-  // While the flag is set loop listening for signals or calls being emmitted.
-  while (listener_run) {
-
-    // Non-blocking read of the next available message.
-    dbus_connection_read_write(con, 0);
-    msg = dbus_connection_pop_message(con);
-
-    // No message: loop again.
-    if (!msg) {
-      g_usleep(1000);
-      continue;
-    }
-    // Check if the message is a method call.
-    if (dbus_message_get_type(msg) == DBUS_MESSAGE_TYPE_METHOD_CALL) {
-
-      // Get the method (the member) that has been called.
-      const char *member = dbus_message_get_member(msg);
-      DBusMethodType method = dbusmethod(member);
-
-      // Get the optional payload and store it.
-      string_reply.clear();
-      retrieve_message(msg);
-      if (method != dbmtEnd) {
-        methodcalls[method] = string_reply;
-      }
-      // See whether to emit a signal on this method.
-      if (signalling_methods.find(method) != signalling_methods.end()) {
-        gtk_button_clicked(GTK_BUTTON(method_called_signal));
-      }
-      //respond (msg, "Bibledit's project"); // Use bool send_response, so we can act on that.
-    }
-    // Free the message.
-    dbus_message_unref(msg);
-  }
-
-  // Indicate that the thread quitted.
-  listener_running = false;
-}
-
-
 void DBus::log(const ustring & message, bool critical)
 {
   ustring msg = "DBus: " + message;
@@ -396,56 +299,18 @@ void DBus::log(const ustring & message, bool critical)
 }
 
 
-void DBus::respond(DBusMessage * msg, const ustring & response)
-// Responds to "message".
-{
-  // Read the parameters.
-  DBusMessageIter args;
-  if (dbus_message_iter_init(msg, &args)) {
-    if (dbus_message_iter_get_arg_type(&args) == DBUS_TYPE_STRING) {
-      char *parameter;
-      dbus_message_iter_get_basic(&args, &parameter);
-      // cout << "received method call, parameter: " << parameter << endl;
-    }
-  }
-  // Create a reply from the message.
-  DBusMessage *reply;
-  reply = dbus_message_new_method_return(msg);
-
-  // Add the arguments to the reply.
-  //bool stat = true;
-  //dbus_uint32_t level = 21614;
-  dbus_message_iter_init_append(reply, &args);
-//  dbus_message_iter_append_basic(&args, DBUS_TYPE_BOOLEAN, &stat);
-//  dbus_message_iter_append_basic(&args, DBUS_TYPE_UINT32, &level);
-  const char *resp = response.c_str();
-  dbus_message_iter_append_basic(&args, DBUS_TYPE_STRING, &resp);
-
-  // Send the reply and flush the connection.
-  dbus_uint32_t serial = 0;
-  dbus_connection_send(con, reply, &serial);
-  dbus_connection_flush(con);
-
-  // Free the reply.
-  dbus_message_unref(reply);
-
-}
-
-
-void DBus::send(DBusNameType destination, DBusMethodType method, const vector < ustring > &payload)
+void DBus::send(const gchar * bus_name, const gchar * object, const gchar * interface, const gchar * method, const ustring& payload)
 {
   // Assemble the method call.
   DBusMessage *message;
-  message = dbus_message_new_method_call(dbusname(destination), dbuspath(), dbusinterface(), dbusmethod(method));
+  message = dbus_message_new_method_call(bus_name, object, interface, method);
   dbus_message_set_auto_start(message, TRUE);
 
   // Add the payload to the message.
   DBusMessageIter args;
   dbus_message_iter_init_append(message, &args);
-  for (unsigned int i = 0; i < payload.size(); i++) {
-    const char *pl = payload[i].c_str();
-    dbus_message_iter_append_basic(&args, DBUS_TYPE_STRING, &pl);
-  }
+  const char *pl = payload.c_str();
+  dbus_message_iter_append_basic(&args, DBUS_TYPE_STRING, &pl);
 
   // Send the message and flush the connection.
   DBusError error;
@@ -459,53 +324,38 @@ void DBus::send(DBusNameType destination, DBusMethodType method, const vector < 
 }
 
 
-vector < ustring > DBus::get_payload(DBusMethodType method)
+bool DBus::check_if_bibletime_bus_name (const gchar * bus_name)
+// Checks whether the "bus_name" belongs to BibleTime:
+// dbus-send --print-reply --dest=:1.502 / org.freedesktop.DBus.Introspectable.Introspect
+// (The ":1.502" is the bus_name.
 {
-  vector < ustring > payload;
-  payload = methodcalls[method];
-  return payload;
-}
-
-
-void DBus::erase_payload(DBusMethodType method)
-{
-  methodcalls[method].clear();
-}
-
-
-void DBus::methodcall_add_signal(DBusMethodType method)
-// Add a signal to the method call "method".
-{
-  // Create the signalling button on adding the first method.
-  if (!method_called_signal) {
-    method_called_signal = gtk_button_new();
+  vector <ustring> reply = method_call_wait_reply (bus_name, "/", "org.freedesktop.DBus.Introspectable", "Introspect", true);
+  if (!reply.empty ()) {
+    if (reply[0].find ("BibleTime") != string::npos) {
+      return true;
+    }
   }
-  // Store this method.
-  signalling_methods.insert(method);
+  return false;
 }
 
 
-void DBus::methodcall_remove_all_signals()
-// Remove all signals from the methodcalls.
-{
-  signalling_methods.clear();
-}
-
-
+void DBus::send_to_bibletime (const gchar * object, const gchar * interface, const gchar * method, const ustring& value)
 /*
+Sends a message to BibleTime over the DBus
 
-Todo Bibletime
+dbus-send --print-reply --dest=:1.638 /BibleTime org.freedesktop.DBus.Introspectable.Introspect
+This gives BibleTime's methods.
 
-To checkout bibletime:
-svn co https://bibletime.svn.sourceforge.net/svnroot/bibletime/trunk/bibletime bibletime 
-
-BibleTime code:
-QDBusConnection::sessionBus().registerObject("/BibleTime", &bibleTime);
-Q_CLASSINFO("D-Bus Interface", "info.bibletime.BibleTime")
-syncAllVerseBasedModules Gen.2.4
-
-dbus-send --print-reply --dest=org.bibledit.bin /org/bibledit/settings org.bibledit.settings.project
-
-dbus-send --print-reply --dest=/BibleTime info.bibletime.BibleTime info.bibletime.BibleTime.syncAllVerseBasedModules string:Gen.2.4
+To synchronize all verse based modules, do this:
+dbus-send --print-reply --dest=:1.668 /BibleTime info.bibletime.BibleTime.syncAllVerseBasedModules "string:Gen 2.2"
 
 */
+{
+  // Bail out if BibleTime's name on the bus is not known.
+  if (bibletime_bus_name.empty()) 
+    return;
+  // Send the message.
+  send (bibletime_bus_name.c_str(), object, interface, method, value);
+}
+
+

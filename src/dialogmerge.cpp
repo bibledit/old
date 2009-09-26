@@ -302,3 +302,6 @@ This function handles this case so that it does not lead to confusion.
   replace_text(text, merge_conflict_markup(1) + " " + merge_conflict_markup(2), merge_conflict_markup(1) + "  " + merge_conflict_markup(2));
   replace_text(text, merge_conflict_markup(2) + " " + merge_conflict_markup(3), merge_conflict_markup(2) + "  " + merge_conflict_markup(3));
 }
+
+// Todo too tall?
+

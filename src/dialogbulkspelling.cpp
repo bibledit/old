@@ -106,3 +106,5 @@ void BulkSpellingDialog::on_spellbutton(GtkButton *button)
   gtk_widget_destroy (GTK_WIDGET (button));
 }
 
+// Todo too tall?
+

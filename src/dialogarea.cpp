@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "dialogarea.h"
@@ -29,6 +30,7 @@
 #include "settings.h"
 #include "help.h"
 #include "tiny_utilities.h"
+
 
 AreaDialog::AreaDialog(int dummy)
 {
@@ -150,25 +152,30 @@ AreaDialog::AreaDialog(int dummy)
   set_gui();
 }
 
+
 AreaDialog::~AreaDialog()
 {
   gtk_widget_destroy(areadialog);
 }
+
 
 int AreaDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(areadialog));
 }
 
+
 void AreaDialog::companiondialog_on_okbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((AreaDialog *) user_data)->on_ok();
 }
 
+
 void AreaDialog::on_radiobutton_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((AreaDialog *) user_data)->set_gui();
 }
+
 
 void AreaDialog::on_ok()
 {
@@ -184,6 +191,7 @@ void AreaDialog::on_ok()
   settings->session.area_verse = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_verse));
 }
 
+
 void AreaDialog::set_gui()
 {
   AreaType areatype = get_area_type();
@@ -198,6 +206,7 @@ void AreaDialog::set_gui()
   }
 }
 
+
 AreaType AreaDialog::get_area_type()
 {
   AreaType returnvalue = atRaw;
@@ -207,6 +216,7 @@ AreaType AreaDialog::get_area_type()
     returnvalue = atSelection;
   return returnvalue;
 }
+
 
 void AreaDialog::set_selectors_sensitive(bool sensitive)
 {
@@ -219,6 +229,7 @@ void AreaDialog::set_selectors_sensitive(bool sensitive)
   gtk_widget_set_sensitive(checkbutton_xref, sensitive);
   gtk_widget_set_sensitive(checkbutton_verse, sensitive);
 }
+
 
 ustring area_information()
 // Returns certain text that indicates the currently selected area to work on in the text.
@@ -265,3 +276,5 @@ ustring area_information()
     text = "No areas selected";
   return text;
 }
+
+

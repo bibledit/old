@@ -160,3 +160,6 @@ void PDFViewerDialog::gui()
   gtk_widget_set_sensitive(label_arguments, manual);
   gtk_widget_set_sensitive(entry_arguments, manual);
 }
+
+// Todo too tall?
+

@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
   }    
 
   // Initialize the dbus.
-  DBus mydbus (dbntOrgBibleditMain);
+  DBus mydbus (0);
   dbus = &mydbus;
   // Initialize the xml library.
   xmlInitParser();

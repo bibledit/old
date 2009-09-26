@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include "utilities.h"
 #include <glib.h>
@@ -28,13 +29,45 @@
 #include "sqlite_reader.h"
 #include <sqlite3.h>
 #include "tiny_utilities.h"
+#include "settings.h"
+#include "d_bus.h"
+
 
 #define STAGE_ZERO 0
 #define STAGE_COMMUNICATE 1
 #define STAGE_WAIT_RETRY 1000
 #define STAGE_RETRY 1200
 
+
 #define BIBLETIME "bibletime"
+
+
+void bibletime_reference_send (Reference reference)
+// Send a reference to BibleTime.
+{
+  // Check whether sending references to BibleTime has been enabled by the user.
+  extern Settings * settings;
+  if (settings->genconfig.reference_exchange_send_to_bibletime_get()) {
+    // BibleTime does not accept verses like "2-6a", etc.
+    // So we take the whole verse that can be extracted from the verse.
+    reference.verse = number_in_string (reference.verse);    
+    // BibleTime does not accept chapter 0 or verse 0.
+    // If this is sent to it, it goes to another reference instead.
+    // Solution is, if chapter is 0 make it 1, and the same for the verse.
+    if (reference.chapter == 0) {
+      reference.chapter = 1;
+    }
+    if (reference.verse == "0") {
+      reference.verse = "1";
+    }
+    // Create the payload.
+    ustring payload = books_id_to_osis(reference.book) + "." + convert_to_string(reference.chapter) + "." + reference.verse;
+    // Send it.
+    extern DBus * dbus;
+    dbus->send_to_bibletime ("/BibleTime", "info.bibletime.BibleTime", "syncAllVerseBasedModules", payload);
+  }
+}
+
 
 BibleTime::BibleTime(bool dummy)
 /*
@@ -190,3 +223,10 @@ void BibleTime::getmodules()
 {
   return;
 }
+
+/*
+
+To checkout bibletime:
+svn co https://bibletime.svn.sourceforge.net/svnroot/bibletime/trunk/bibletime bibletime 
+
+*/
