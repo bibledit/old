@@ -40,18 +40,21 @@ void xiphos_reference_send (Reference reference)
 {
   extern Settings * settings;
   if (settings->genconfig.reference_exchange_send_to_xiphos_get()) {
-    int read_socket;
-    struct sockaddr_un read_serv;
-    socklen_t addrlen;
-    memset(&read_serv, 0, sizeof(read_serv));
-    read_serv.sun_family = AF_LOCAL;
-    strcpy(&read_serv.sun_path[1], "/org/xiphos/write");
-    addrlen = offsetof(struct sockaddr_un, sun_path) + strlen(read_serv.sun_path + 1) + 1;
-    read_socket = socket(AF_LOCAL, SOCK_DGRAM, 0);
-    connect(read_socket, (struct sockaddr *) &read_serv, addrlen);
-    ustring parameter = "sword://" + reference.human_readable ("");
-    if (write(read_socket, parameter.c_str(), strlen(parameter.c_str()) + 1));
-    close(read_socket);
+    // Check whether the user does not receive referenes from Xiphos at this moment.
+    if (!settings->session.receiving_references || !settings->genconfig.reference_exchange_receive_from_xiphos_get()) {
+      int read_socket;
+      struct sockaddr_un read_serv;
+      socklen_t addrlen;
+      memset(&read_serv, 0, sizeof(read_serv));
+      read_serv.sun_family = AF_LOCAL;
+      strcpy(&read_serv.sun_path[1], "/org/xiphos/write");
+      addrlen = offsetof(struct sockaddr_un, sun_path) + strlen(read_serv.sun_path + 1) + 1;
+      read_socket = socket(AF_LOCAL, SOCK_DGRAM, 0);
+      connect(read_socket, (struct sockaddr *) &read_serv, addrlen);
+      ustring parameter = "sword://" + reference.human_readable ("");
+      if (write(read_socket, parameter.c_str(), strlen(parameter.c_str()) + 1));
+      close(read_socket);
+    }
   }
 }
 

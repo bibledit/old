@@ -295,7 +295,6 @@ protected:
   GtkWidget *tool_send_reference;
   GtkWidget *image37446;
   GtkWidget *tools_receive_reference; // Todo
-  GtkWidget *image38150;
   GtkWidget *menuitem_preferences;
   GtkWidget *menuitem_preferences_menu;
   GtkWidget *notes_preferences;
@@ -470,6 +469,7 @@ protected:
   void send_reference_to_onlinebible (Reference reference);
   static void on_tools_receive_reference_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_tools_receive_reference ();
+  guint event_id_receive_reference;
   static bool on_tools_receive_reference_timeout(gpointer data);
   void tools_receive_reference_timeout();
 

@@ -579,5 +579,3 @@ void SearchSpecialDialog::timeout()
 }
 
 
-// Todo work, remove searching in bibletime from online help.
-// Todo work, and whatever relevant reference is made to BibleTime (by grep).

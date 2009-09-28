@@ -185,6 +185,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
   windows_are_detached = settings->genconfig.windows_detached_get();
   check_spelling_at_start = false;
   check_spelling_at_end = false;
+  event_id_receive_reference = 0;
 
   // Application name.
   g_set_application_name("Bibledit");
@@ -1413,10 +1414,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
   gtk_widget_show (tools_receive_reference);
   gtk_container_add (GTK_CONTAINER (menutools_menu), tools_receive_reference);
 
-  image38150 = gtk_image_new_from_stock ("gtk-connect", GTK_ICON_SIZE_MENU);
-  gtk_widget_show (image38150);
-  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (tools_receive_reference), image38150);
-
   menuitem_preferences = gtk_menu_item_new_with_mnemonic("P_references");
   // At first the Alt-P was the accelerator. On the XO machine, this key is 
   // in use already: 
@@ -1924,6 +1921,9 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
 
 MainWindow::~MainWindow()
 {
+  // No receiving of references anymore.
+  gw_destroy_source (event_id_receive_reference);
+
   // Store main window dimensions if windows are attached.
   if (!windows_are_detached) {
     ScreenLayoutDimensions dimensions(window_vbox);
@@ -3118,9 +3118,12 @@ void MainWindow::send_reference_to_bibleworks (Reference reference)
   // Check whether sending references to BibleWorks has been enabled by the user.
   extern Settings * settings;
   if (settings->genconfig.reference_exchange_send_to_bibleworks_get()) {
-    // BibleWorks does not take verses like 10a or 10-12, but only numbers like 10 or 12.
-    reference.verse = number_in_string(reference.verse);
-    windowsoutpost->BibleWorksReferenceSet(reference);
+    // Check whether the user does not receive referenes from BibleWorks at this moment.
+    if (!settings->session.receiving_references || !settings->genconfig.reference_exchange_receive_from_bibleworks_get()) {
+      // BibleWorks does not take verses like 10a or 10-12, but only numbers like 10 or 12.
+      reference.verse = number_in_string(reference.verse);
+      windowsoutpost->BibleWorksReferenceSet(reference);
+    }
   }
 }
 
@@ -3130,9 +3133,12 @@ void MainWindow::send_reference_to_santa_fe (Reference reference)
   // Check whether the user has enabled sending references to the SantaFe focus system.
   extern Settings * settings;
   if (settings->genconfig.reference_exchange_send_to_santafefocus_get()) {
-    // SantaFe probably does not take verses like 10a or 10-12, but only numbers like 10 or 12.
-    reference.verse = number_in_string(reference.verse);
-    windowsoutpost->SantaFeFocusReferenceSet(reference);
+    // Check whether the user does not receive referenes from the SantaFe focus system at this moment.
+    if (!settings->session.receiving_references || !settings->genconfig.reference_exchange_receive_from_santafefocus_get()) {
+      // SantaFe probably does not take verses like 10a or 10-12, but only numbers like 10 or 12.
+      reference.verse = number_in_string(reference.verse);
+      windowsoutpost->SantaFeFocusReferenceSet(reference);
+    }
   }
 }
 
@@ -3142,9 +3148,12 @@ void MainWindow::send_reference_to_onlinebible (Reference reference)
   // Check whether the sending to the Online Bible has been enabled.
   extern Settings * settings;
   if (settings->genconfig.reference_exchange_send_to_onlinebible_get()) {
-    // Send the reference to the Online Bible. It takes plain verse numbers only.
-    reference.verse = number_in_string (reference.verse);
-    windowsoutpost->OnlineBibleReferenceSet (reference);
+    // Check whether the user does not receive referenes from the Online Bible at this moment.
+    if (!settings->session.receiving_references || !settings->genconfig.reference_exchange_receive_from_onlinebible_get()) {
+      // Send the reference to the Online Bible. It takes plain verse numbers only.
+      reference.verse = number_in_string (reference.verse);
+      windowsoutpost->OnlineBibleReferenceSet (reference);
+    }
   }
 }
 
@@ -3155,17 +3164,23 @@ void MainWindow::on_tools_receive_reference_activate (GtkMenuItem *menuitem, gpo
 }
 
 
-void MainWindow::on_tools_receive_reference () // Todo work here.
+void MainWindow::on_tools_receive_reference ()
 {
-  new TimedNotifierWindow ("Receiving the reference");
-  g_timeout_add(100, GSourceFunc(on_tools_receive_reference_timeout), gpointer(this));
+  extern Settings * settings;
+  settings->session.receiving_references = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (tools_receive_reference));
+  if (settings->session.receiving_references) {
+    tools_receive_reference_timeout ();
+    event_id_receive_reference = g_timeout_add_full(G_PRIORITY_DEFAULT, 1000, GSourceFunc(on_tools_receive_reference_timeout), gpointer(this), NULL);
+  } else {
+    gw_destroy_source (event_id_receive_reference);
+  }
 }
 
 
 bool MainWindow::on_tools_receive_reference_timeout(gpointer data)
 {
   ((MainWindow *) data)->tools_receive_reference_timeout();
-  return false;
+  return true;
 }
 
 
@@ -3178,7 +3193,7 @@ void MainWindow::tools_receive_reference_timeout()
       navigation.display (reference);
     }
   }
-  if (settings->genconfig.reference_exchange_receive_from_bibletime_get()) { // Todo working here.
+  if (settings->genconfig.reference_exchange_receive_from_bibletime_get()) {
     Reference reference (0);
     if (bibletime_reference_receive(reference)) {
       navigation.display (reference);
