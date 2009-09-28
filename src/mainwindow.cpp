@@ -3184,8 +3184,10 @@ bool MainWindow::on_tools_receive_reference_timeout(gpointer data)
 }
 
 
-void MainWindow::tools_receive_reference_timeout()
+void MainWindow::tools_receive_reference_timeout() // Todo work does it at times hang?
 {
+  cout << "tools_receive_reference_timeout" << endl; // Todo
+  return;
   extern Settings * settings;
   if (settings->genconfig.reference_exchange_receive_from_bibleworks_get()) {
     Reference reference (0);
