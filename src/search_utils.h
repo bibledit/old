@@ -29,7 +29,7 @@
 
 
 void search_string_basic (const ustring& project, bool use_book_selection, unsigned int currentchapter, vector<Reference>& results);
-void search_string (WindowReferences * references_window, BibleTime * bibletime);
+void search_string (WindowReferences * references_window);
 
 
 #endif

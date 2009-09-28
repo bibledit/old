@@ -33,7 +33,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-bin_PROGRAMS = bibledit$(EXEEXT) bibledit-bibletime$(EXEEXT)
+bin_PROGRAMS = bibledit$(EXEEXT)
 @WIN32_TRUE@am__append_1 = -mwindows -lws2_32
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -181,10 +181,6 @@ am_bibledit_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogyesnoalways.$(OBJEXT) xiphos.$(OBJEXT)
 bibledit_OBJECTS = $(am_bibledit_OBJECTS)
 bibledit_LDADD = $(LDADD)
-am_bibledit_bibletime_OBJECTS = bibledit-bibletime.$(OBJEXT) \
-	ustring.$(OBJEXT) bookdata.$(OBJEXT)
-bibledit_bibletime_OBJECTS = $(am_bibledit_bibletime_OBJECTS)
-bibledit_bibletime_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -197,8 +193,8 @@ CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 CXXLD = $(CXX)
 CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
-SOURCES = $(bibledit_SOURCES) $(bibledit_bibletime_SOURCES)
-DIST_SOURCES = $(bibledit_SOURCES) $(bibledit_bibletime_SOURCES)
+SOURCES = $(bibledit_SOURCES)
+DIST_SOURCES = $(bibledit_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -359,11 +355,6 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-bibledit_bibletime_SOURCES = \
-        bibledit-bibletime.cpp \
-        ustring.cpp \
-        bookdata.cpp
-
 bibledit_SOURCES = \
 		bibledit.cpp \
 		utilities.cpp \
@@ -710,9 +701,6 @@ clean-binPROGRAMS:
 bibledit$(EXEEXT): $(bibledit_OBJECTS) $(bibledit_DEPENDENCIES) 
 	@rm -f bibledit$(EXEEXT)
 	$(CXXLINK) $(bibledit_OBJECTS) $(bibledit_LDADD) $(LIBS)
-bibledit-bibletime$(EXEEXT): $(bibledit_bibletime_OBJECTS) $(bibledit_bibletime_DEPENDENCIES) 
-	@rm -f bibledit-bibletime$(EXEEXT)
-	$(CXXLINK) $(bibledit_bibletime_OBJECTS) $(bibledit_bibletime_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -732,7 +720,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/assistants.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/backup.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bible.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bibledit-bibletime.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bibledit.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/biblenotes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bibletime.Po@am__quote@

@@ -1,9 +1,4 @@
-bin_PROGRAMS = bibledit bibledit-bibletime
-
-bibledit_bibletime_SOURCES = \
-        bibledit-bibletime.cpp \
-        ustring.cpp \
-        bookdata.cpp
+bin_PROGRAMS = bibledit
 
 bibledit_SOURCES = \
 		bibledit.cpp \

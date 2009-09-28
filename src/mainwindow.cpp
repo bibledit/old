@@ -145,7 +145,7 @@
  */
 
 MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup * accelerator_group):
-WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(true), httpd(0)
+WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
 {
   // Pointer to the settings.
   extern Settings *settings;
@@ -1409,7 +1409,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   gtk_widget_show (image37446);
   gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (tool_send_reference), image37446);
 
-  tools_receive_reference = gtk_image_menu_item_new_with_mnemonic ("R_eceive reference");
+  tools_receive_reference = gtk_check_menu_item_new_with_mnemonic ("R_eceive reference");
   gtk_widget_show (tools_receive_reference);
   gtk_container_add (GTK_CONTAINER (menutools_menu), tools_receive_reference);
 
@@ -2315,12 +2315,12 @@ void MainWindow::menu_findspecial()
   show_references_window();
   // Start dialog.
   {
-    SearchSpecialDialog dialog(&bibletime);
+    SearchSpecialDialog dialog(0);
     if (dialog.run() != GTK_RESPONSE_OK)
       return;
   }
   // Carry out the search. 
-  search_string(window_references, &bibletime);
+  search_string(window_references);
 }
 
 
@@ -3155,7 +3155,7 @@ void MainWindow::on_tools_receive_reference_activate (GtkMenuItem *menuitem, gpo
 }
 
 
-void MainWindow::on_tools_receive_reference ()
+void MainWindow::on_tools_receive_reference () // Todo work here.
 {
   new TimedNotifierWindow ("Receiving the reference");
   g_timeout_add(100, GSourceFunc(on_tools_receive_reference_timeout), gpointer(this));
@@ -3692,7 +3692,7 @@ void MainWindow::on_check_httpd()
     SessionHighlights sessionhighlights(settings->session.searchword, settings->session.search_case_sensitive, settings->session.search_globbing, settings->session.search_start_word_match, settings->session.search_end_word_match, atRaw, false, false, false, false, false, false, false, false);
     settings->session.highlights.push_back(sessionhighlights);
     show_references_window();
-    search_string(window_references, &bibletime);
+    search_string(window_references);
   }
   // Did the browser request a url too difficult for it to handle?
   if (!httpd.difficult_url.empty()) {
@@ -7118,7 +7118,7 @@ void MainWindow::on_assistant_keyterms_ready ()
   // Export.
   if (export_assistant) {
     if (export_assistant->sword_module_created) {
-      bibletime.reloadmodules();
+      bibletime_reload_modules();
     }
     delete export_assistant;
     export_assistant = NULL;
@@ -7327,7 +7327,11 @@ Todo tasks.
 
 
 To implement receiving references from BibleTime.
-
+Check menu.
+If enabled, gives a message about what it will do (or not do, for reasons).
+If disabled, it gives a message again.
+Repeating timer, once a second.
+Set this in the session, so that the Bible we receive from is not sent to.
 
 
 The old functionality for BibleTime, such as reloading the modules, and searching, see what to remove and re-implement of it.
@@ -7372,6 +7376,8 @@ but not to this specific one it receives from.
 To remove all Source languages options from Bibledit again.
 To update the database creation from the Sword KJV, so that is is done only by the programmer, not by the user.
 To remove the lexicons.
+
+
 
 The verse list, we need an option to copy it to the clipboard, e.g. only verses, or verses with all text included.
 

@@ -33,15 +33,6 @@
 #include "d_bus.h"
 
 
-#define STAGE_ZERO 0
-#define STAGE_COMMUNICATE 1
-#define STAGE_WAIT_RETRY 1000
-#define STAGE_RETRY 1200
-
-
-#define BIBLETIME "bibletime"
-
-
 const gchar * bibletime_dbus_object ()
 {
   return "/BibleTime";
@@ -102,97 +93,12 @@ bool bibletime_reference_receive (Reference& reference)
 }
 
 
-BibleTime::BibleTime(bool dummy)
+void bibletime_reload_modules () // Todo work implement this.
 {
+  extern DBus * dbus;
+  dbus->send_to_bibletime (bibletime_dbus_object (), bibletime_dbus_interface (), "reloadModules", "");
 }
 
-
-BibleTime::~BibleTime()
-{
-}
-
-
-bool BibleTime::connected()
-// Whether BibleTime is connected.
-{
-  return false;
-}
-
-
-vector < ustring > BibleTime::getbibles()
-{
-  // Get the Bibles.
-  vector < ustring > bibles;
-
-  // Signal the helper to again get the modules.
-  getmodules();
-
-  // Return the Bibles.
-  return bibles;
-}
-
-vector < ustring > BibleTime::getcommentaries()
-{
-  // Get the commentaries.
-  vector <ustring> commentaries;
-
-  // Signal the helper to again get the modules.
-  getmodules();
-
-  // Return the commentaries.
-  return commentaries;
-}
-
-vector < ustring > BibleTime::search_in_default_bible(const ustring & searchtext)
-{
-  return search("", searchtext, 0);;
-}
-
-vector < ustring > BibleTime::search_in_open_modules(const ustring & searchtext)
-{
-  return search("", searchtext, 1);
-}
-
-vector < ustring > BibleTime::search_in_module(const ustring & modulename, const ustring & searchtext)
-{
-  return search(modulename, searchtext, 2);
-}
-
-vector < ustring > BibleTime::search(const ustring & modulename, const ustring & searchtext, int selector)
-{
-  // Write search commands.
-  vector < ustring > searchcommand;
-  searchcommand.push_back(modulename);
-  searchcommand.push_back(searchtext);
-  searchcommand.push_back(convert_to_string(selector));
-
-  // Wait till the bibledit-bibletime has done the search.
-  bool searching = true;
-  while (searching) {
-    searching = false;
-    g_usleep(100000);
-  }
-
-  // Obtain the search results.
-  vector < ustring > searchresults;
-  return searchresults;
-}
-
-void BibleTime::reloadmodules()
-{
-}
-
-ustring BibleTime::database()
-// Returns the filename of the database.
-{
-  return gw_build_filename(directories_get_temp(), "bibletime.sql");
-}
-
-void BibleTime::getmodules()
-// Sends that the available modules should be fetched.
-{
-  return;
-}
 
 /*
 

@@ -40,7 +40,6 @@ Session::Session(int dummy)
   search_end_word_match = false;
   searchresultstype = sstLoad;
   search_page = 0;
-  searchbibletimetype = sbttOpenModules;
   checksorttype = cstSort0;
   check_include_verse_text = false;
   check_output_in_ot_order = false;

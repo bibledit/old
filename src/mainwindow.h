@@ -25,7 +25,6 @@
 #include <gtk/gtk.h>
 #include "windowsoutpost.h"
 #include "ustring.h"
-#include "bibletime.h"
 #include "usfm.h"
 #include "note_editor.h"
 #include "editor.h"
@@ -295,7 +294,7 @@ protected:
   GtkWidget *image36259;
   GtkWidget *tool_send_reference;
   GtkWidget *image37446;
-  GtkWidget *tools_receive_reference;
+  GtkWidget *tools_receive_reference; // Todo
   GtkWidget *image38150;
   GtkWidget *menuitem_preferences;
   GtkWidget *menuitem_preferences_menu;
@@ -460,7 +459,6 @@ protected:
   WindowsOutpost * windowsoutpost;
   static void on_reference_exchange1_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_reference_exchange();
-  BibleTime bibletime;
   static void on_send_word_to_toolbox_signalled(GtkButton *button, gpointer user_data);
   void send_word_to_toolbox();
   static void on_preferences_windows_outpost_activate(GtkMenuItem *menuitem, gpointer user_data);
