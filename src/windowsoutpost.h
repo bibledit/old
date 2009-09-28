@@ -50,6 +50,7 @@ public:
   void SantaFeFocusReferenceSet(const Reference& reference);
   void SantaFeFocusWordSet(const ustring& word);
   void OnlineBibleReferenceSet (const Reference& reference);
+  ustring OnlineBibleReferenceGet ();
 private:
   struct sockaddr_in address;
   struct in_addr inaddr;

@@ -69,7 +69,21 @@ DBus::DBus(int dummy)
       }
     }
   }
+
+  // Connect to signals NameAcquired and NameLost.  
+  proxy = NULL;
+  if (sigcon)
+  	proxy = dbus_g_proxy_new_for_name(sigcon, "org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus");
+  if (proxy) {
+    dbus_g_proxy_add_signal(proxy, "NameAcquired", G_TYPE_STRING, G_TYPE_INVALID);
+    dbus_g_proxy_connect_signal(proxy, "NameAcquired", G_CALLBACK (on_name_acquired), gpointer (this), NULL);
+    dbus_g_proxy_add_signal(proxy, "NameOwnerChanged", G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INVALID);
+    dbus_g_proxy_connect_signal(proxy, "NameOwnerChanged", G_CALLBACK (on_name_owner_changed), gpointer (this), NULL);
+    dbus_g_proxy_add_signal(proxy, "NameLost", G_TYPE_STRING, G_TYPE_INVALID);
+    dbus_g_proxy_connect_signal(proxy, "NameLost", G_CALLBACK (on_name_lost), gpointer (this), NULL);
+  }
   
+
   // Signals to connect to:
   // NameLost
   // NameAcquired
@@ -84,6 +98,9 @@ DBus::~DBus()
   // The connection obtained through dbus_g_connection_get_connection does not have its reference count incremented.
   // Therefore it should not be unreferenced.
   // dbus_connection_unref(con);
+  if (proxy) {
+    g_object_unref(proxy);
+  }
 }
 
 
@@ -120,29 +137,6 @@ vector <ustring> DBus::method_call_wait_reply (const gchar * bus_name, const gch
   vector <ustring> method_reply (string_reply);
   string_reply.clear();
   return method_reply;
-}
-
-
-const gchar *DBus::dbusmethod(DBusMethodType dbmethod)
-{
-  switch (dbmethod) {
-  case dbmtHello:
-    return "Hello";
-  case dbmtEnd:
-    return NULL;
-  }
-  return NULL;
-}
-
-
-DBusMethodType DBus::dbusmethod(const char *dbmethod)
-{
-  for (int i = 0; i < dbmtEnd; i++) {
-    if (strcmp(dbmethod, dbusmethod(DBusMethodType(i))) == 0) {
-      return (DBusMethodType) i;
-    }
-  }
-  return dbmtEnd;
 }
 
 
@@ -367,6 +361,27 @@ dbus-send --print-reply --dest=:1.668 /BibleTime info.bibletime.BibleTime.syncAl
     return;
   // Send the message.
   send (bibletime_bus_name.c_str(), object, interface, method, value);
+}
+
+
+void DBus::on_name_acquired (DBusGProxy *proxy, const char *name, gpointer user_data)
+{
+}
+
+
+void DBus::on_name_owner_changed (DBusGProxy *proxy, const char *name, const char *prev, const char *nw, gpointer user_data)
+{
+  // If one of the three names equals the one for bibletime, do a new scan.
+  cout << "NameOwnerChanged" << endl; // Todo
+  cout << "name: " << name << endl; // Todo
+  cout << "prev: " << prev << endl; // Todo
+  cout << "nw: " << nw << endl; // Todo
+  cout << "user data: " << user_data << endl; // Todo
+}
+
+
+void DBus::on_name_lost (DBusGProxy *proxy, const char *name, gpointer user_data)
+{
 }
 
 

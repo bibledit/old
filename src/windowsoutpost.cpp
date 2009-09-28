@@ -165,6 +165,20 @@ void WindowsOutpost::OnlineBibleReferenceSet(const Reference & reference)
 }
 
 
+ustring WindowsOutpost::OnlineBibleReferenceGet()
+// Gets the reference from the Online Bible.
+{
+  get_reference_value = "OLB GetPassage";
+  get_reference_active = true;
+  int timeout = 0;
+  while (get_reference_active && (timeout < 50)) {
+    g_usleep (100000);
+    timeout++;
+  }
+  return get_reference_value;
+}
+
+
 void WindowsOutpost::clear()
 {
   disconnect();
