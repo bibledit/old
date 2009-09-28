@@ -38,6 +38,7 @@ public:
   DBus (int dummy);
   ~DBus ();
   void send_to_bibletime (const gchar * object, const gchar * interface, const gchar * method, const ustring& value);
+  vector <ustring> receive_from_bibletime (const gchar * object, const gchar * interface, const gchar * method);
 private:
   DBusConnection *con;
 	DBusGConnection *sigcon;

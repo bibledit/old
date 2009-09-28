@@ -3178,9 +3178,9 @@ void MainWindow::tools_receive_reference_timeout()
       navigation.display (reference);
     }
   }
-  if (settings->genconfig.reference_exchange_receive_from_bibletime_get()) {
+  if (settings->genconfig.reference_exchange_receive_from_bibletime_get()) { // Todo working here.
     Reference reference (0);
-    if (bibletime.getreference(reference)) {
+    if (bibletime_reference_receive(reference)) {
       navigation.display (reference);
     }
   }

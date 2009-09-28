@@ -42,6 +42,18 @@
 #define BIBLETIME "bibletime"
 
 
+const gchar * bibletime_dbus_object ()
+{
+  return "/BibleTime";
+}
+
+
+const gchar * bibletime_dbus_interface ()
+{
+  return "info.bibletime.BibleTime";
+}
+
+
 void bibletime_reference_send (Reference reference)
 // Send a reference to BibleTime.
 {
@@ -64,26 +76,41 @@ void bibletime_reference_send (Reference reference)
     ustring payload = books_id_to_osis(reference.book) + "." + convert_to_string(reference.chapter) + "." + reference.verse;
     // Send it.
     extern DBus * dbus;
-    dbus->send_to_bibletime ("/BibleTime", "info.bibletime.BibleTime", "syncAllVerseBasedModules", payload);
+    dbus->send_to_bibletime (bibletime_dbus_object (), bibletime_dbus_interface (), "syncAllVerseBasedModules", payload);
   }
 }
 
 
-BibleTime::BibleTime(bool dummy)
-/*
-This organizes the communication with BibleTime. It uses KDE's DCOP protocol.
-It centralizes all communication with BibleTime so that all happens synchronized,
-and two different commands, occurring at the same time, will not disturb each
-other.
-*/
+bool bibletime_reference_receive (Reference& reference)
 {
-  return;
-  getmodules();
+  extern DBus * dbus;
+  vector <ustring> reply = dbus->receive_from_bibletime (bibletime_dbus_object (), bibletime_dbus_interface (), "getCurrentReference");
+  if (reply.empty()) 
+    return false;
+  cout << reply[0] << endl; // Todo
+  // The response should something like: "[KJV] [BIBLE] Jer.48.13" (without the quotes).
+  replace_text (reply[0], ".", " ");
+  Parse parse (reply[0]);
+  if (parse.words.size() == 5) {
+    reference.book = books_osis_to_id (parse.words[2]);
+    reference.chapter = convert_to_int (parse.words[3]);
+    reference.verse = parse.words[4];
+    cout << "ok" << endl; // Todo
+    return true;
+  }
+  return false;
 }
+
+
+BibleTime::BibleTime(bool dummy)
+{
+}
+
 
 BibleTime::~BibleTime()
 {
 }
+
 
 bool BibleTime::connected()
 // Whether BibleTime is connected.
@@ -91,63 +118,6 @@ bool BibleTime::connected()
   return false;
 }
 
-void BibleTime::sendreference(const Reference & reference)
-// Sends the reference for BibleTime.
-// Bibledit-bibletime will pass it on shortly after.
-{
-  return;
-  // BibleTime does not accept verses like "2-6a", etc.
-  // So we take the whole verse that can be extracted from the verse.
-  // That would be "2" in this example. 
-  // If the verse is "6b-11", then it would be "7".
-  vector < int >encodedverses = verses_encode(reference.verse);
-  ustring verse;
-  for (unsigned int i = 0; i < encodedverses.size(); i++) {
-    if (verse.empty()) {
-      if ((encodedverses[i] % 2) == 0) {
-        verse = convert_to_string(encodedverses[i] / 2);
-      }
-    }
-  }
-  if (verse.empty())
-    verse = number_in_string(reference.verse);
-
-  // BibleTime does not accept chapter 0 or verse 0.
-  // If this is sent to it, it goes to another reference instead.
-  // Solution is, if chapter is 0 make it 1, and the same for the verse.
-  unsigned int chapter = reference.chapter;
-  if (chapter == 0) {
-    chapter = 1;
-  }
-  if (verse == "0") {
-    verse = "1";
-  }
-  // Send the reference.
-  vector < ustring > payload;
-  payload.push_back(books_id_to_osis(reference.book) + "." + convert_to_string(chapter) + "." + verse);
-  //ipc->send(ipcstBibleditBibletime, ipcctBibleTimeReference, payload);
-}
-
-bool BibleTime::getreference(Reference & reference)
-// Read the current reference.
-// This was sent by bibledit-bibletime.
-{
-  return false;
-  //extern InterprocessCommunication *ipc;
-  vector < ustring > payload;
-  //payload = ipc->get_payload(ipcctBibleTimeReference);
-  //ipc->erase_payload(ipcctBibleTimeReference);
-
-  // Return false if there was no valid reference received.
-  if (payload.empty())
-    return false;
-
-  // Assemble the reference.
-  bool gotreference = reference_discover(0, 0, "", payload[0], reference.book, reference.chapter, reference.verse);
-
-  // Got a reference?
-  return gotreference;
-}
 
 vector < ustring > BibleTime::getbibles()
 {

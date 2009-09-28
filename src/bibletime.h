@@ -30,6 +30,7 @@
 
 
 void bibletime_reference_send (Reference reference);
+bool bibletime_reference_receive (Reference& reference);
 
 
 class BibleTime
@@ -38,8 +39,6 @@ public:
   BibleTime (bool dummy);
   ~BibleTime ();
   bool connected ();
-  void sendreference (const Reference& reference);
-  bool getreference (Reference& reference);
   vector<ustring> getbibles ();
   vector<ustring> getcommentaries ();
   vector<ustring> search_in_default_bible (const ustring& searchtext);

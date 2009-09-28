@@ -342,6 +342,16 @@ dbus-send --print-reply --dest=:1.668 /BibleTime info.bibletime.BibleTime.syncAl
 }
 
 
+vector <ustring> DBus::receive_from_bibletime (const gchar * object, const gchar * interface, const gchar * method)
+// Calls a method in BibleTime and wait for the reply.
+{
+  vector <ustring> reply;
+  if (!bibletime_bus_name.empty()) 
+    reply = method_call_wait_reply (bibletime_bus_name.c_str(), object, interface, method, false);
+  return reply;
+}
+
+
 void DBus::on_name_acquired (DBusGProxy *proxy, const char *name, gpointer user_data)
 {
 }
