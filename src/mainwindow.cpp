@@ -7325,7 +7325,9 @@ void MainWindow::on_view_source_languages_signal_button()
 Todo tasks.
 
 
+
 To implement GetPassage in the OLB, to mention that this works as from 3.95.01 as posted on ...
+
 
 
 To implement receiving references from BibleTime.
