@@ -53,7 +53,11 @@ private:
   ustring bibletime_bus_name;
   static void on_name_acquired (DBusGProxy *proxy, const char *name, gpointer user_data);
   static void on_name_owner_changed (DBusGProxy *proxy, const char *name, const char *prev, const char *nw, gpointer user_data);
+  void name_owner_changed ();
   static void on_name_lost (DBusGProxy *proxy, const char *name, gpointer user_data);
+  guint event_id_rescan_bus;
+  static bool on_rescan_bus_timeout(gpointer user_data);
+  void on_rescan_bus();
 };
 
 
