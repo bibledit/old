@@ -7350,21 +7350,6 @@ Todo tasks.
 
 
 
-To implement receiving references from BibleTime.
-Check menu.
-If enabled, gives a message about what it will do (or not do, for reasons).
-If disabled, it gives a message again.
-Repeating timer, once a second.
-Set this in the session, so that the Bible we receive from is not sent to.
-
-
-The old functionality for BibleTime, such as reloading the modules, and searching, see what to remove and re-implement of it.
-To list the new names on the dbus, and names that disappear, so that BibleTime can be found.
-
-
-
-
-
 Dialogs are too tall for a small screen.
 Need to make one general routine that uses the scrolled window to make a tall dialog lower.
 The dialogs should be scaling automatically.
@@ -7378,9 +7363,11 @@ To send next announcement also to bibledit-announce@nongnu.org, and check whethe
 
 
 
+
 All bibles should be exportable to any of our companion resources that scroll with Bibledit.
 And all should be importable too for any of these, and put into usfm format.
 Then we can remove the "Verses" window, depending on the other programs instead.
+
 
 
 
@@ -7391,12 +7378,6 @@ All these things can be done in e.g. Xiphos.
 
 
 
-On the receiving of the references, we might put a tick before the menu item, so that when this tick is there,
-it only keeps receiving each second from that specific application it receives from, and does send to all other applications,
-but not to this specific one it receives from.
-
-
-
 To remove all Source languages options from Bibledit again.
 To update the database creation from the Sword KJV, so that is is done only by the programmer, not by the user.
 To remove the lexicons.
@@ -7404,6 +7385,11 @@ To remove the lexicons.
 
 
 The verse list, we need an option to copy it to the clipboard, e.g. only verses, or verses with all text included.
+
+
+
+By default the verse list shows references only. The user can add USFM texts to be displayed also, in addition.
+
 
 
 
