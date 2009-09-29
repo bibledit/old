@@ -69,8 +69,6 @@ private:
   void telnet(const ustring& hostname);
   void send_line(const ustring & command);
   ustring Readln();
-  bool get_reference_active;
-  ustring get_reference_value;
   ustring bibleworks_reference_set_value;
   ustring santafefocus_reference_set_value;
   ustring santafefocus_word_set_value;
@@ -78,6 +76,8 @@ private:
   int online_bible_server_requested_action;
   bool online_bible_server_connected;
   ustring onlinebible_reference_set_value;
+  ustring get_reference_command;
+  ustring get_reference_reply;
 };
 
 

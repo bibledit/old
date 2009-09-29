@@ -472,6 +472,7 @@ protected:
   guint event_id_receive_reference;
   static bool on_tools_receive_reference_timeout(gpointer data);
   void tools_receive_reference_timeout();
+  Reference * previously_received_reference;
 
   /* Title bar and status bar, GUI */
   static bool on_gui_timeout(gpointer data);

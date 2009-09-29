@@ -186,7 +186,8 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
   check_spelling_at_start = false;
   check_spelling_at_end = false;
   event_id_receive_reference = 0;
-
+  previously_received_reference = NULL;
+  
   // Application name.
   g_set_application_name("Bibledit");
 
@@ -1923,6 +1924,8 @@ MainWindow::~MainWindow()
 {
   // No receiving of references anymore.
   gw_destroy_source (event_id_receive_reference);
+  if (previously_received_reference)
+    delete previously_received_reference;
 
   // Store main window dimensions if windows are attached.
   if (!windows_are_detached) {
@@ -3169,10 +3172,12 @@ void MainWindow::on_tools_receive_reference ()
   extern Settings * settings;
   settings->session.receiving_references = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (tools_receive_reference));
   if (settings->session.receiving_references) {
+    previously_received_reference = new Reference (0);
     tools_receive_reference_timeout ();
     event_id_receive_reference = g_timeout_add_full(G_PRIORITY_DEFAULT, 1000, GSourceFunc(on_tools_receive_reference_timeout), gpointer(this), NULL);
   } else {
     gw_destroy_source (event_id_receive_reference);
+    delete previously_received_reference;
   }
 }
 
@@ -3184,21 +3189,19 @@ bool MainWindow::on_tools_receive_reference_timeout(gpointer data)
 }
 
 
-void MainWindow::tools_receive_reference_timeout() // Todo work does it at times hang?
+void MainWindow::tools_receive_reference_timeout()
 {
-  cout << "tools_receive_reference_timeout" << endl; // Todo
-  return;
   extern Settings * settings;
+  Reference received_reference (0);
+  bool new_reference_received = false;
   if (settings->genconfig.reference_exchange_receive_from_bibleworks_get()) {
-    Reference reference (0);
-    if (bibleworks_reference_get_decode (windowsoutpost->BibleWorksReferenceGet (), reference)) {
-      navigation.display (reference);
+    if (bibleworks_reference_get_decode (windowsoutpost->BibleWorksReferenceGet (), received_reference)) {
+      new_reference_received = true;
     }
   }
   if (settings->genconfig.reference_exchange_receive_from_bibletime_get()) {
-    Reference reference (0);
-    if (bibletime_reference_receive(reference)) {
-      navigation.display (reference);
+    if (bibletime_reference_receive(received_reference)) {
+      new_reference_received = true;
     }
   }
   if (settings->genconfig.reference_exchange_receive_from_santafefocus_get()) {
@@ -3207,11 +3210,10 @@ void MainWindow::tools_receive_reference_timeout() // Todo work does it at times
     replace_text (response, ":", " ");
     Parse parse (response);
     if (parse.words.size() == 4) {
-      Reference reference (0);
-      reference.book = books_paratext_to_id (parse.words[1]);
-      reference.chapter = convert_to_int (parse.words[2]);
-      reference.verse = parse.words[3];
-      navigation.display (reference);
+      received_reference.book = books_paratext_to_id (parse.words[1]);
+      received_reference.chapter = convert_to_int (parse.words[2]);
+      received_reference.verse = parse.words[3];
+      new_reference_received = true;
     }
   }
   if (settings->genconfig.reference_exchange_receive_from_xiphos_get()) {
@@ -3223,11 +3225,16 @@ void MainWindow::tools_receive_reference_timeout() // Todo work does it at times
     replace_text (response, "  ", " ");
     Parse parse (response);
     if (parse.words.size() == 5) {
-      Reference reference (0);
-      reference.book = books_online_bible_to_id (parse.words[2]);
-      reference.chapter = convert_to_int (parse.words[3]);
-      reference.verse = parse.words[4];
-      navigation.display (reference);
+      received_reference.book = books_online_bible_to_id (parse.words[2]);
+      received_reference.chapter = convert_to_int (parse.words[3]);
+      received_reference.verse = parse.words[4];
+      new_reference_received = true;
+    }
+  }
+  if (new_reference_received) {
+    if (!previously_received_reference->equals (received_reference)) {
+      navigation.display (received_reference);
+      previously_received_reference->assign (received_reference);
     }
   }
 }
