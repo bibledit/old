@@ -37,7 +37,6 @@ protected:
   GtkWidget *dialog_vbox1;
   GtkWidget *vbox1;
   GtkWidget *label1;
-  GtkWidget *hbox1;
   GtkWidget *scrolledwindow;
   GtkWidget *treeview;
   GtkWidget *dialog_action_area1;
