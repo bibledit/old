@@ -20,16 +20,19 @@
 
 #include "xiphos.h"
 #include "settings.h"
-#include <sys/socket.h>
 #include <sys/types.h>
+#ifdef WIN32
+#include <ws2tcpip.h>
+#else
+#include <sys/socket.h>
 #include <netinet/in.h>
 #include <net/if_arp.h>
 #include <sys/un.h>
-
+#endif
 
 /*
 
-To checkut xiphos:
+To checkout xiphos:
 svn co https://gnomesword.svn.sourceforge.net/svnroot/gnomesword/trunk xiphos
 
 */
@@ -38,6 +41,7 @@ svn co https://gnomesword.svn.sourceforge.net/svnroot/gnomesword/trunk xiphos
 void xiphos_reference_send (Reference reference)
 // Sends a reference to Xiphos: "sword://Genesis 1:1"
 {
+#ifndef WIN32
   extern Settings * settings;
   if (settings->genconfig.reference_exchange_send_to_xiphos_get()) {
     int read_socket;
@@ -53,6 +57,7 @@ void xiphos_reference_send (Reference reference)
     if (write(read_socket, parameter.c_str(), strlen(parameter.c_str()) + 1));
     close(read_socket);
   }
+#endif
 }
 
 
