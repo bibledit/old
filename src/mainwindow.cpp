@@ -76,7 +76,6 @@
 #include "dialogbook.h"
 #include "books.h"
 #include "screen.h"
-#include "dialoglinecutter.h"
 #include "dialogoutpost.h"
 #include "dialognotestransfer.h"
 #include "dialogchapternumber.h"
@@ -1320,7 +1319,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
   menutools_menu = gtk_menu_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(menutools), menutools_menu);
 
-  line_cutter_for_hebrew_text1 = NULL;
   notes_transfer = NULL;
   tool_origin_references_in_bible_notes = NULL;
   tool_project_notes_mass_update1 = NULL;
@@ -1328,14 +1326,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
   tool_simple_text_corrections = NULL;
   tool_transfer_project_notes_to_text = NULL;
   if (guifeatures.tools()) {
-
-    line_cutter_for_hebrew_text1 = gtk_image_menu_item_new_with_mnemonic("_Line cutter for Hebrew text");
-    gtk_widget_show(line_cutter_for_hebrew_text1);
-    gtk_container_add(GTK_CONTAINER(menutools_menu), line_cutter_for_hebrew_text1);
-
-    image13532 = gtk_image_new_from_stock("gtk-cut", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image13532);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(line_cutter_for_hebrew_text1), image13532);
 
     notes_transfer = gtk_image_menu_item_new_with_mnemonic("_Transfer text to project notes");
     gtk_widget_show(notes_transfer);
@@ -1813,8 +1803,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
     g_signal_connect ((gpointer) check_spelling_bulk, "activate", G_CALLBACK (on_check_spelling_bulk_activate), gpointer(this));
   if (menutools)
     g_signal_connect((gpointer) menutools, "activate", G_CALLBACK(on_menutools_activate), gpointer(this));
-  if (line_cutter_for_hebrew_text1)
-    g_signal_connect((gpointer) line_cutter_for_hebrew_text1, "activate", G_CALLBACK(on_line_cutter_for_hebrew_text1_activate), gpointer(this));
   if (notes_transfer)
     g_signal_connect((gpointer) notes_transfer, "activate", G_CALLBACK(on_notes_transfer_activate), gpointer(this));
   if (tool_origin_references_in_bible_notes)
@@ -4229,21 +4217,6 @@ void MainWindow::on_edit_bible_note()
 
 void MainWindow::on_menutools_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
-}
-
-
-void MainWindow::on_line_cutter_for_hebrew_text1_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_line_cutter_for_hebrew_text();
-}
-
-
-void MainWindow::on_line_cutter_for_hebrew_text()
-{
-  LineCutterDialog dialog(0);
-  if (dialog.run() == GTK_RESPONSE_OK) {
-    reload_all_editors(false);
-  }
 }
 
 

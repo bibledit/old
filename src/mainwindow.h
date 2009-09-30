@@ -274,8 +274,6 @@ protected:
   GtkWidget *image35887;
   GtkWidget *menutools;
   GtkWidget *menutools_menu;
-  GtkWidget *line_cutter_for_hebrew_text1;
-  GtkWidget *image13532;
   GtkWidget *notes_transfer;
   GtkWidget *image14659;
   GtkWidget *tool_origin_references_in_bible_notes;
@@ -294,7 +292,7 @@ protected:
   GtkWidget *image36259;
   GtkWidget *tool_send_reference;
   GtkWidget *image37446;
-  GtkWidget *tools_receive_reference; // Todo
+  GtkWidget *tools_receive_reference;
   GtkWidget *menuitem_preferences;
   GtkWidget *menuitem_preferences_menu;
   GtkWidget *notes_preferences;
@@ -588,8 +586,6 @@ protected:
 
   /* Tools */
   static void on_menutools_activate(GtkMenuItem *menuitem, gpointer user_data);
-  static void on_line_cutter_for_hebrew_text1_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_line_cutter_for_hebrew_text();
   static void on_notes_transfer_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_notes_transfer();
   static void on_tool_origin_references_in_bible_notes_activate(GtkMenuItem *menuitem, gpointer user_data);

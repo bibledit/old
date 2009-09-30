@@ -17,10 +17,12 @@
  **  
  */
 
+
 #include "dialogfontcolor.h"
 #include "help.h"
 #include "shortcuts.h"
 #include "color.h"
+
 
 FontColorDialog::FontColorDialog(bool initial_use_default_font, const ustring & initial_font, unsigned int initial_line_spacing, bool initial_use_default_color, unsigned int initial_normal_text_color, unsigned int initial_background_color, unsigned int initial_selected_text_color, unsigned int initial_selection_color)
 {
@@ -177,20 +179,24 @@ FontColorDialog::FontColorDialog(bool initial_use_default_font, const ustring & 
   fontselection_struct->face_list = NULL;
 }
 
+
 FontColorDialog::~FontColorDialog()
 {
   gtk_widget_destroy(fontcolordialog);
 }
+
 
 int FontColorDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(fontcolordialog));
 }
 
+
 void FontColorDialog::on_checkbutton_font_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((FontColorDialog *) user_data)->on_checkbutton_font();
 }
+
 
 void FontColorDialog::on_checkbutton_font()
 {
@@ -199,10 +205,12 @@ void FontColorDialog::on_checkbutton_font()
   gtk_widget_set_sensitive(hbox_line_spacing, sensitive);
 }
 
+
 void FontColorDialog::on_checkbutton_colors_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((FontColorDialog *) user_data)->on_checkbutton_colors();
 }
+
 
 void FontColorDialog::on_checkbutton_colors()
 {
@@ -217,10 +225,12 @@ void FontColorDialog::on_checkbutton_colors()
   gtk_widget_set_sensitive(colorbutton_selection, sensitive);
 }
 
+
 void FontColorDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((FontColorDialog *) user_data)->on_okbutton();
 }
+
 
 void FontColorDialog::on_okbutton()
 {
@@ -240,5 +250,4 @@ void FontColorDialog::on_okbutton()
   new_selection_color = color_gdk_to_decimal(&gdkcolor);
 }
 
-// Todo too tall?
 

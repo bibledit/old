@@ -95,7 +95,6 @@ bibledit_SOURCES = \
         gui.cpp \
         check_validate_usfm.cpp \
         checks.cpp \
-        dialoglinecutter.cpp \
         check_count_words.cpp \
         dialogoutpost.cpp \
         dialognotestransfer.cpp \

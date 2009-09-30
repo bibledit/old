@@ -90,13 +90,12 @@ am_bibledit_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	generalconfig.$(OBJEXT) screen.$(OBJEXT) \
 	projectconfig.$(OBJEXT) gui.$(OBJEXT) \
 	check_validate_usfm.$(OBJEXT) checks.$(OBJEXT) \
-	dialoglinecutter.$(OBJEXT) check_count_words.$(OBJEXT) \
-	dialogoutpost.$(OBJEXT) dialognotestransfer.$(OBJEXT) \
-	dialogtextview.$(OBJEXT) dialogchapternumber.$(OBJEXT) \
-	httpd.$(OBJEXT) opendocument.$(OBJEXT) odtutils.$(OBJEXT) \
-	odtnotes.$(OBJEXT) help.$(OBJEXT) color.$(OBJEXT) \
-	dialogmychecks.$(OBJEXT) check_count_usfms.$(OBJEXT) \
-	check_count_characters.$(OBJEXT) \
+	check_count_words.$(OBJEXT) dialogoutpost.$(OBJEXT) \
+	dialognotestransfer.$(OBJEXT) dialogtextview.$(OBJEXT) \
+	dialogchapternumber.$(OBJEXT) httpd.$(OBJEXT) \
+	opendocument.$(OBJEXT) odtutils.$(OBJEXT) odtnotes.$(OBJEXT) \
+	help.$(OBJEXT) color.$(OBJEXT) dialogmychecks.$(OBJEXT) \
+	check_count_usfms.$(OBJEXT) check_count_characters.$(OBJEXT) \
 	check_chapters_verses.$(OBJEXT) check_compare_usfm.$(OBJEXT) \
 	check_unwanted_patterns.$(OBJEXT) \
 	check_unwanted_words.$(OBJEXT) check_repetition.$(OBJEXT) \
@@ -450,7 +449,6 @@ bibledit_SOURCES = \
         gui.cpp \
         check_validate_usfm.cpp \
         checks.cpp \
-        dialoglinecutter.cpp \
         check_count_words.cpp \
         dialogoutpost.cpp \
         dialognotestransfer.cpp \
@@ -780,7 +778,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogimportnotes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoginsertnote.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoginserttable.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoglinecutter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoglistview.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoglistviewm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogmaintenance.Po@am__quote@

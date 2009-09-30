@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "dialogfindnote.h"
@@ -29,6 +30,7 @@
 #include "help.h"
 #include "settings.h"
 #include "tiny_utilities.h"
+
 
 FindNoteDialog::FindNoteDialog(int dummy)
 {
@@ -93,20 +95,24 @@ FindNoteDialog::FindNoteDialog(int dummy)
   set_gui();
 }
 
+
 FindNoteDialog::~FindNoteDialog()
 {
   gtk_widget_destroy(findnotedialog);
 }
+
 
 int FindNoteDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(findnotedialog));
 }
 
+
 void FindNoteDialog::findnotedialog_on_buttonfind_clicked(GtkButton * button, gpointer user_data)
 {
   ((FindNoteDialog *) user_data)->on_buttonfind_clicked();
 }
+
 
 void FindNoteDialog::on_buttonfind_clicked()
 {
@@ -182,10 +188,12 @@ void FindNoteDialog::on_buttonfind_clicked()
   completion_finish(entry1, cpSearch);
 }
 
+
 void FindNoteDialog::on_word_entry_changed(GtkEditable * editable, gpointer user_data)
 {
   ((FindNoteDialog *) user_data)->set_gui();
 }
+
 
 void FindNoteDialog::set_gui()
 {
@@ -193,5 +201,4 @@ void FindNoteDialog::set_gui()
   gtk_widget_set_sensitive(buttonfind, searchword.size() > 0);
 }
 
-// Todo too tall?
 
