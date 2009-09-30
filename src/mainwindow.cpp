@@ -7354,7 +7354,7 @@ Dialogs are too tall for a small screen.
 Need to make one general routine that uses the scrolled window to make a tall dialog lower.
 The dialogs should be scaling automatically.
 We probably need a dialogscaler, probably as an object that is created, and possible with a timer that runs a few milliseconds after the dialog was
-created. The object gets the dialog, and the relevant scrolled window. Before writing to these, it check whether these objects are still alive.
+created. The object gets a pointer to the dialog. Before writing to this, it check whether the object is still alive.
 
 
 
@@ -7390,6 +7390,11 @@ The verse list, we need an option to copy it to the clipboard, e.g. only verses,
 
 By default the verse list shows references only. The user can add USFM texts to be displayed also, in addition.
 
+
+
+To report the problem of the Online Bible when a client connects on Linux, it minimizes, fine, but closes the whole desktop.
+To try whether this occurs on Windows, using that olb's automation sample.
+Then on Wine, give instructions how to reproduce the problem.
 
 
 
