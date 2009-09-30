@@ -137,21 +137,25 @@ CompareDialog::CompareDialog(WindowReferences * references_window)
   gui_reorder_include();
 }
 
+
 CompareDialog::~CompareDialog()
 {
   delete selectprojectgui;
   gtk_widget_destroy(comparedialog);
 }
 
+
 int CompareDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(comparedialog));
 }
 
+
 bool CompareDialog::on_combobox1_key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer user_data)
 {
   return ((CompareDialog *) user_data)->on_combobox1_key_press(event);
 }
+
 
 bool CompareDialog::on_combobox1_key_press(GdkEventKey * event)
 {
@@ -163,10 +167,12 @@ bool CompareDialog::on_combobox1_key_press(GdkEventKey * event)
   return false;
 }
 
+
 void CompareDialog::static_on_okbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((CompareDialog *) user_data)->on_okbutton_clicked();
 }
+
 
 void CompareDialog::on_okbutton_clicked()
 // Ok handler: do the comparison.
@@ -179,10 +185,12 @@ void CompareDialog::on_okbutton_clicked()
   compare_with(my_references_window, settings->genconfig.project_to_compare_with_get(), settings->genconfig.project_get(), settings->genconfig.print_changes_only_get());
 }
 
+
 void CompareDialog::on_button_portion_clicked(GtkButton * button, gpointer user_data)
 {
   ((CompareDialog *) user_data)->on_button_portion();
 }
+
 
 void CompareDialog::on_button_portion()
 {
@@ -191,6 +199,7 @@ void CompareDialog::on_button_portion()
     gui_reorder_include();
   }
 }
+
 
 void CompareDialog::gui_reorder_include()
 // Set labels whether the order of the books is standard and everything is included.
@@ -203,5 +212,4 @@ void CompareDialog::gui_reorder_include()
     gtk_label_set_text(GTK_LABEL(label_portion), "part");
 }
 
-// Todo too tall?
 
