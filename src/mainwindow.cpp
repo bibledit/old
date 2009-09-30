@@ -4409,7 +4409,7 @@ void MainWindow::on_insert_special_character()
   descriptions.push_back("Left-pointing double angle quotation mark");
   characters.push_back("»");
   descriptions.push_back("Right-pointing double angle quotation mark");
-  RadiobuttonDialog dialog("Insert character", "Insert special character", descriptions, settings->session.special_character_selection);
+  RadiobuttonDialog dialog("Insert character", "Insert special character", descriptions, settings->session.special_character_selection, false);
   if (dialog.run() != GTK_RESPONSE_OK)
     return;
   settings->session.special_character_selection = dialog.selection;
@@ -5578,7 +5578,7 @@ void MainWindow::on_print()
     labels.push_back("References");
     //labels.push_back("Test usfm2pdf");
     extern Settings *settings;
-    RadiobuttonDialog dialog("Print", "Select what to print", labels, settings->genconfig.print_job_get());
+    RadiobuttonDialog dialog("Print", "Select what to print", labels, settings->genconfig.print_job_get(), false);
     if (dialog.run() != GTK_RESPONSE_OK)
       return;
     selection = dialog.selection;
@@ -7328,6 +7328,7 @@ Need to make one general routine that uses the scrolled window to make a tall di
 The dialogs should be scaling automatically.
 We probably need a dialogscaler, probably as an object that is created, and possible with a timer that runs a few milliseconds after the dialog was
 created. The object gets a pointer to the dialog. Before writing to this, it check whether the object is still alive.
+  new DialogAutoScaler (radiobuttondialog, G_MAXINT);
 
 
 

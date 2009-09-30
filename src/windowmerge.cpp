@@ -578,7 +578,7 @@ void WindowMerge::on_button_merge()
   labels.push_back("Merge " + book_chapter + " of project " + current_edited_project + " and " + current_master_project + ",\n" "and approve of each change as compared to project " + current_master_project);
   labels.push_back("Copy " + book_chapter + " of project " + current_master_project + " to project " + current_edited_project);
   labels.push_back("Copy everything of project " + current_master_project + " to project " + current_edited_project);
-  RadiobuttonDialog dialog("Select action", "Select the type of merge or copy to be done", labels, settings->session.merge_action);
+  RadiobuttonDialog dialog("Select action", "Select the type of merge or copy to be done", labels, settings->session.merge_action, false);
   if (dialog.run() != GTK_RESPONSE_OK)
     return;
   // Store action taken.

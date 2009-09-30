@@ -29,7 +29,7 @@
 class RadiobuttonDialog
 {
 public:
-  RadiobuttonDialog (const ustring& title, const ustring& info, const vector <ustring>& labels, unsigned int selection);
+  RadiobuttonDialog (const ustring& title, const ustring& info, const vector <ustring>& labels, unsigned int selection, bool autoscale);
   ~RadiobuttonDialog ();
   int run ();
   unsigned int selection;

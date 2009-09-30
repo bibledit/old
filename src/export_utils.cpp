@@ -683,7 +683,7 @@ void export_to_opendocument(const ustring& project, const ustring& filename)
     vector < ustring > labels;
     labels.push_back("Single file");
     labels.push_back("Multiple files");
-    RadiobuttonDialog dialog("Save method", "Multiple books have been selected.\nShould these be saved to a single file or to multiple files?", labels, 0);
+    RadiobuttonDialog dialog("Save method", "Multiple books have been selected.\nShould these be saved to a single file or to multiple files?", labels, 0, false);
     if (dialog.run() != GTK_RESPONSE_OK)
       return;
     singlefile = dialog.selection == 0;
