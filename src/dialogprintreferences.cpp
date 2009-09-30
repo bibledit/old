@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "dialogprintreferences.h"
@@ -30,6 +31,7 @@
 #include "help.h"
 #include "books.h"
 #include "tiny_utilities.h"
+
 
 PrintReferencesDialog::PrintReferencesDialog(int dummy)
 {
@@ -131,20 +133,24 @@ PrintReferencesDialog::PrintReferencesDialog(int dummy)
   }
 }
 
+
 PrintReferencesDialog::~PrintReferencesDialog()
 {
   gtk_widget_destroy(printreferencesdialog);
 }
+
 
 int PrintReferencesDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(printreferencesdialog));
 }
 
+
 void PrintReferencesDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((PrintReferencesDialog *) user_data)->on_okbutton();
 }
+
 
 void PrintReferencesDialog::on_okbutton()
 {
@@ -156,10 +162,12 @@ void PrintReferencesDialog::on_okbutton()
   settings->genconfig.print_references_projects_set(projects);
 }
 
+
 void PrintReferencesDialog::on_button_additional_project_clicked(GtkButton * button, gpointer user_data)
 {
   ((PrintReferencesDialog *) user_data)->on_button_additional_project(button);
 }
+
 
 void PrintReferencesDialog::on_button_additional_project(GtkButton * button)
 // Removes an "additional" project.
@@ -183,10 +191,12 @@ void PrintReferencesDialog::on_button_additional_project(GtkButton * button)
   rewrite_button_labels();
 }
 
+
 void PrintReferencesDialog::on_button_add_clicked(GtkButton * button, gpointer user_data)
 {
   ((PrintReferencesDialog *) user_data)->on_button_add("");
 }
+
 
 void PrintReferencesDialog::on_button_add(const ustring & project)
 // Adds a new project to the gui.
@@ -250,6 +260,7 @@ void PrintReferencesDialog::on_button_add(const ustring & project)
   rewrite_button_labels();
 }
 
+
 void PrintReferencesDialog::vector_remove_content(vector < GtkWidget * >&container, int offset)
 {
   vector < GtkWidget * >::iterator iter;
@@ -258,6 +269,7 @@ void PrintReferencesDialog::vector_remove_content(vector < GtkWidget * >&contain
     iter++;
   container.erase(iter);
 }
+
 
 void PrintReferencesDialog::vector_remove_content(vector < SelectProjectGui * >&container, int offset)
 {
@@ -269,6 +281,7 @@ void PrintReferencesDialog::vector_remove_content(vector < SelectProjectGui * >&
   container.erase(iter);
 }
 
+
 void PrintReferencesDialog::rewrite_button_labels()
 // Rewrites the accelerators on the buttons, , so that it goes from 1 till x.
 {
@@ -278,5 +291,4 @@ void PrintReferencesDialog::rewrite_button_labels()
   }
 }
 
-// Todo too tall?
-	
+

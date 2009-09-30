@@ -110,15 +110,18 @@ ResourceConverterDialog::ResourceConverterDialog(const ustring & working_directo
   }
 }
 
+
 ResourceConverterDialog::~ResourceConverterDialog()
 {
   gtk_widget_destroy(resourceconverterdialog);
 }
 
+
 int ResourceConverterDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(resourceconverterdialog));
 }
+
 
 void ResourceConverterDialog::build_table_and_type(Shortcuts & shortcuts)
 {
@@ -136,6 +139,7 @@ void ResourceConverterDialog::build_table_and_type(Shortcuts & shortcuts)
   // Type of the resource.
   build_button(image_type_ok, label_type_ok, label_type_short, button_type, "Type", shortcuts, G_CALLBACK(on_type_button_clicked), label_type_long);
 }
+
 
 void ResourceConverterDialog::build_entry(GtkWidget * &image_ok, GtkWidget * &label_ok, GtkWidget * &label, const gchar * label_text, GtkWidget * &entry, const ustring & entry_text, GCallback handler)
 {
@@ -169,6 +173,7 @@ void ResourceConverterDialog::build_entry(GtkWidget * &image_ok, GtkWidget * &la
 
   g_signal_connect((gpointer) entry, "changed", handler, gpointer(this));
 }
+
 
 void ResourceConverterDialog::build_button(GtkWidget * &image_ok, GtkWidget * &label_ok, GtkWidget * &label_short, GtkWidget * &button, const gchar * button_text, Shortcuts & shortcuts, GCallback handler, GtkWidget * &label_long)
 {
@@ -228,6 +233,7 @@ void ResourceConverterDialog::build_button(GtkWidget * &image_ok, GtkWidget * &l
   g_signal_connect((gpointer) button, "clicked", handler, gpointer(this));
 }
 
+
 void ResourceConverterDialog::build_checkbutton_button(GtkWidget * &image_ok, GtkWidget * &label_ok, GtkWidget * &checkbutton, const gchar * checkbutton_text, GCallback checkbutton_handler, GtkWidget * &button, const gchar * button_text, GCallback button_handler, Shortcuts & shortcuts, GtkWidget * &label)
 {
   GtkWidget *hseparator = gtk_hseparator_new();
@@ -283,6 +289,7 @@ void ResourceConverterDialog::build_checkbutton_button(GtkWidget * &image_ok, Gt
   g_signal_connect((gpointer) button, "clicked", button_handler, gpointer(this));
 }
 
+
 void ResourceConverterDialog::build_textview(GtkWidget * &image_ok, GtkWidget * &label_ok, GtkWidget * &label, GtkWidget * &textview, gchar * text, GCallback handler)
 {
   GtkWidget *hseparator;
@@ -325,6 +332,7 @@ void ResourceConverterDialog::build_textview(GtkWidget * &image_ok, GtkWidget * 
 
   g_signal_connect((gpointer) textview, "key_press_event", handler, gpointer(this));
 }
+
 
 // Entry, combo, entry.
 void ResourceConverterDialog::build_entry_combo_entry(GtkWidget * &image_ok, GtkWidget * &label_ok, GtkWidget * &label, GtkWidget * &label_entry_1, GtkWidget * &entry_1, GtkWidget * &label_combo, GtkWidget * &combo, GtkWidget * &label_entry_2, GtkWidget * &entry_2, GCallback entry_handler, Shortcuts & shortcuts)
@@ -396,12 +404,15 @@ void ResourceConverterDialog::build_entry_combo_entry(GtkWidget * &image_ok, Gtk
   g_signal_connect((gpointer) entry_2, "changed", entry_handler, gpointer(this));
 }
 
+
 // Resource conversion type.
+
 
 void ResourceConverterDialog::on_type_button_clicked(GtkButton * button, gpointer user_data)
 {
   ((ResourceConverterDialog *) user_data)->on_type_button(false);
 }
+
 
 void ResourceConverterDialog::on_type_button(bool no_ask)
 {
@@ -431,6 +442,7 @@ void ResourceConverterDialog::on_type_button(bool no_ask)
   }
 }
 
+
 bool ResourceConverterDialog::type_gui()
 {
   ustring type = resource_conversion_type_to_text(resource_conversion_type);
@@ -440,6 +452,7 @@ bool ResourceConverterDialog::type_gui()
   gui_okay(image_type_ok, label_type_ok, ok);
   return ok;
 }
+
 
 void ResourceConverterDialog::build_gui(Shortcuts & shortcuts)
 {
@@ -487,15 +500,18 @@ void ResourceConverterDialog::build_gui(Shortcuts & shortcuts)
   }
 }
 
+
 void ResourceConverterDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((ResourceConverterDialog *) user_data)->on_okbutton();
 }
 
+
 void ResourceConverterDialog::on_okbutton()
 {
   chapter_pattern_gui();
 }
+
 
 void ResourceConverterDialog::gui()
 {
@@ -525,12 +541,15 @@ void ResourceConverterDialog::gui()
   gtk_widget_set_sensitive(okbutton, ok);
 }
 
+
 // Open file.
+
 
 void ResourceConverterDialog::on_open_file_button_clicked(GtkButton * button, gpointer user_data)
 {
   ((ResourceConverterDialog *) user_data)->on_open_file_button();
 }
+
 
 void ResourceConverterDialog::on_open_file_button()
 {
@@ -550,6 +569,7 @@ void ResourceConverterDialog::on_open_file_button()
   }
 }
 
+
 bool ResourceConverterDialog::open_file_gui()
 {
   bool ok = !filename.empty();
@@ -565,12 +585,15 @@ bool ResourceConverterDialog::open_file_gui()
   return ok;
 }
 
+
 // View file.
+
 
 void ResourceConverterDialog::on_view_file_button_clicked(GtkButton * button, gpointer user_data)
 {
   ((ResourceConverterDialog *) user_data)->on_view_file_button();
 }
+
 
 void ResourceConverterDialog::on_view_file_button()
 {
@@ -578,6 +601,7 @@ void ResourceConverterDialog::on_view_file_button()
   write_lines(tempfile, lines);
   htmlbrowser(tempfile, false);
 }
+
 
 bool ResourceConverterDialog::view_file_gui()
 {
@@ -587,18 +611,22 @@ bool ResourceConverterDialog::view_file_gui()
   return ok;
 }
 
+
 // Chapter detection pattern.
+
 
 void ResourceConverterDialog::on_chapter_pattern_entry_changed(GtkEditable * editable, gpointer user_data)
 {
   ((ResourceConverterDialog *) user_data)->on_chapter_pattern_entry();
 }
 
+
 void ResourceConverterDialog::on_chapter_pattern_entry()
 {
   if (chapter_pattern_gui())
     gui();
 }
+
 
 bool ResourceConverterDialog::chapter_pattern_gui()
 {
@@ -612,18 +640,22 @@ bool ResourceConverterDialog::chapter_pattern_gui()
   return ok;
 }
 
+
 // Verse detection pattern.
+
 
 void ResourceConverterDialog::on_verse_pattern_entry_changed(GtkEditable * editable, gpointer user_data)
 {
   ((ResourceConverterDialog *) user_data)->on_verse_pattern_entry();
 }
 
+
 void ResourceConverterDialog::on_verse_pattern_entry()
 {
   if (verse_pattern_gui())
     gui();
 }
+
 
 bool ResourceConverterDialog::verse_pattern_gui()
 {
@@ -637,12 +669,15 @@ bool ResourceConverterDialog::verse_pattern_gui()
   return ok;
 }
 
+
 // Write anchors.
+
 
 void ResourceConverterDialog::on_write_anchors_button_clicked(GtkButton * button, gpointer user_data)
 {
   ((ResourceConverterDialog *) user_data)->on_write_anchors_button();
 }
+
 
 void ResourceConverterDialog::on_write_anchors_button()
 {
@@ -674,6 +709,7 @@ void ResourceConverterDialog::on_write_anchors_button()
   }
 }
 
+
 bool ResourceConverterDialog::write_anchors_gui()
 {
   bool ok = true;
@@ -701,6 +737,4 @@ bool ResourceConverterDialog::write_anchors_gui()
   return ok;
 }
 
-
-// Todo too tall?
 

@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "dialogprintproject.h"
@@ -31,6 +32,7 @@
 #include "help.h"
 #include "dialogselectbooks.h"
 #include "shortcuts.h"
+
 
 PrintProjectDialog::PrintProjectDialog(int dummy)
 {
@@ -143,20 +145,24 @@ PrintProjectDialog::PrintProjectDialog(int dummy)
   gui_reorder_include();
 }
 
+
 PrintProjectDialog::~PrintProjectDialog()
 {
   gtk_widget_destroy(printprojectdialog);
 }
+
 
 int PrintProjectDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(printprojectdialog));
 }
 
+
 void PrintProjectDialog::on_okbutton1_clicked(GtkButton * button, gpointer user_data)
 {
   ((PrintProjectDialog *) user_data)->on_okbutton();
 }
+
 
 void PrintProjectDialog::on_okbutton()
 {
@@ -164,10 +170,12 @@ void PrintProjectDialog::on_okbutton()
   settings->session.print_references_in_notes_in_full = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_full_references));
 }
 
+
 void PrintProjectDialog::on_button_portion_clicked(GtkButton * button, gpointer user_data)
 {
   ((PrintProjectDialog *) user_data)->on_button_portion();
 }
+
 
 void PrintProjectDialog::on_button_portion()
 {
@@ -176,6 +184,7 @@ void PrintProjectDialog::on_button_portion()
     gui_reorder_include();
   }
 }
+
 
 void PrintProjectDialog::gui_reorder_include()
 // Set labels whether the order of the books is standard and everything is included.
@@ -188,5 +197,4 @@ void PrintProjectDialog::gui_reorder_include()
     gtk_label_set_text(GTK_LABEL(label_portion), "part");
 }
 
-// Todo too tall?
 

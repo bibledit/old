@@ -37,6 +37,9 @@ protected:
   GtkWidget *radiobuttondialog;
   GtkWidget *dialog_vbox1;
   GtkWidget *label;
+  GtkWidget *scrolledwindow1;
+  GtkWidget *viewport1;
+  GtkWidget *vbox1;
   GtkWidget *dialog_action_area1;
   GtkWidget *cancelbutton;
   GtkWidget *okbutton;
