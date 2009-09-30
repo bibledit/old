@@ -579,5 +579,4 @@ ustring OutpostDialog::bottle ()
   return value;
 }
 
-// Todo too tall?
 

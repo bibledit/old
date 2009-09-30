@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "dialogmerge.h"
@@ -25,6 +26,7 @@
 #include "gwrappers.h"
 #include "screen.h"
 #include "utilities.h"
+
 
 MergeDialog::MergeDialog(const ustring & text)
 {
@@ -88,15 +90,18 @@ MergeDialog::MergeDialog(const ustring & text)
   load_text(text);
 }
 
+
 MergeDialog::~MergeDialog()
 {
   gtk_widget_destroy(mergedialog);
 }
 
+
 int MergeDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(mergedialog));
 }
+
 
 void MergeDialog::load_text(ustring text)
 {
@@ -182,10 +187,12 @@ void MergeDialog::load_text(ustring text)
   screen_scroll_to_iterator(GTK_TEXT_VIEW(textview), &iter);
 }
 
+
 void MergeDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((MergeDialog *) user_data)->on_okbutton();
 }
+
 
 void MergeDialog::on_okbutton()
 {
@@ -197,10 +204,12 @@ void MergeDialog::on_okbutton()
   replace_text(reconciled_text, "  ", " ");
 }
 
+
 void MergeDialog::on_textbuffer_changed(GtkTextBuffer * textbuffer, gpointer user_data)
 {
   ((MergeDialog *) user_data)->on_textbuffer();
 }
+
 
 void MergeDialog::on_textbuffer()
 {
@@ -208,11 +217,13 @@ void MergeDialog::on_textbuffer()
   event_textbuffer = g_timeout_add_full(G_PRIORITY_DEFAULT, 200, GSourceFunc(on_textbuffer_delayed), gpointer(this), NULL);
 }
 
+
 bool MergeDialog::on_textbuffer_delayed(gpointer user_data)
 {
   ((MergeDialog *) user_data)->on_text_buffer_execute();
   return false;
 }
+
 
 void MergeDialog::on_text_buffer_execute()
 {
@@ -228,10 +239,12 @@ void MergeDialog::on_text_buffer_execute()
   gtk_widget_set_sensitive(okbutton, !conflicts_present);
 }
 
+
 void MergeDialog::on_mergebutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((MergeDialog *) user_data)->on_mergebutton(button);
 }
+
 
 void MergeDialog::on_mergebutton(GtkButton * button)
 // If a merge button is clicked, it inserts the right text, and deletes
@@ -270,11 +283,13 @@ void MergeDialog::on_mergebutton(GtkButton * button)
   }
 }
 
+
 ustring MergeDialog::empty_text()
 // The empty text is for cases that there was no text.
 {
   return "<empty>";
 }
+
 
 void MergeDialog::preprocess_empty_replacements(ustring & text)
 /*
@@ -303,5 +318,4 @@ This function handles this case so that it does not lead to confusion.
   replace_text(text, merge_conflict_markup(2) + " " + merge_conflict_markup(3), merge_conflict_markup(2) + "  " + merge_conflict_markup(3));
 }
 
-// Todo too tall?
 

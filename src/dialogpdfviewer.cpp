@@ -17,12 +17,14 @@
 **  
 */
 
+
 #include "libraries.h"
 #include "dialogpdfviewer.h"
 #include "help.h"
 #include "shortcuts.h"
 #include "settings.h"
 #include "pdfviewer.h"
+
 
 PDFViewerDialog::PDFViewerDialog(int dummy)
 {
@@ -119,30 +121,36 @@ PDFViewerDialog::PDFViewerDialog(int dummy)
   gui();
 }
 
+
 PDFViewerDialog::~PDFViewerDialog()
 {
   gtk_widget_destroy(pdfviewerdialog);
 }
+
 
 int PDFViewerDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(pdfviewerdialog));
 }
 
+
 void PDFViewerDialog::on_radiobutton_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((PDFViewerDialog *) user_data)->on_radiobutton();
 }
+
 
 void PDFViewerDialog::on_radiobutton()
 {
   gui();
 }
 
+
 void PDFViewerDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((PDFViewerDialog *) user_data)->on_okbutton();
 }
+
 
 void PDFViewerDialog::on_okbutton()
 {
@@ -151,6 +159,7 @@ void PDFViewerDialog::on_okbutton()
   settings->genconfig.pdf_viewer_path_set(gtk_entry_get_text(GTK_ENTRY(entry_path)));
   settings->genconfig.pdf_viewer_arguments_set(gtk_entry_get_text(GTK_ENTRY(entry_arguments)));
 }
+
 
 void PDFViewerDialog::gui()
 {
@@ -161,5 +170,4 @@ void PDFViewerDialog::gui()
   gtk_widget_set_sensitive(entry_arguments, manual);
 }
 
-// Todo too tall?
 

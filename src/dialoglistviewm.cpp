@@ -95,7 +95,7 @@ ListviewMDialog::ListviewMDialog(const ustring & title, vector <ustring> &list, 
   gtk_widget_grab_focus(treeview);
   gtk_widget_grab_default(okbutton);
   
-  new DialogAutoScaler (dialog, G_MAXINT); // Todo work, use it.
+  new DialogAutoScaler (dialog, G_MAXINT);
 }
 
 

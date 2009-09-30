@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "dialogmychecks.h"
@@ -331,5 +332,5 @@ void MyChecksDialog::on_okbutton()
     checks_display_references_comments(results.references, results.comments, my_references_window);
 }
 
-// Todo too tall?
+
 

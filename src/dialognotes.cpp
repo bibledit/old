@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include "dialognotes.h"
 #include "notes_utils.h"
@@ -26,6 +27,7 @@
 #include "listview.h"
 #include "settings.h"
 #include "help.h"
+
 
 NotesDialog::NotesDialog(int dummy)
 {
@@ -213,20 +215,24 @@ NotesDialog::NotesDialog(int dummy)
   set_gui(categories, "");
 }
 
+
 NotesDialog::~NotesDialog()
 {
   gtk_widget_destroy(notesdialog);
 }
+
 
 int NotesDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(notesdialog));
 }
 
+
 void NotesDialog::on_okbutton1_clicked(GtkButton * button, gpointer user_data)
 {
   ((NotesDialog *) user_data)->on_okbutton();
 }
+
 
 void NotesDialog::on_okbutton()
 {
@@ -241,10 +247,12 @@ void NotesDialog::on_okbutton()
   write_lines(notes_categories_filename(), categories);
 }
 
+
 void NotesDialog::on_buttondelete_clicked(GtkButton * button, gpointer user_data)
 {
   ((NotesDialog *) user_data)->on_delete_category();
 }
+
 
 void NotesDialog::on_delete_category()
 {
@@ -273,10 +281,12 @@ void NotesDialog::on_delete_category()
   }
 }
 
+
 void NotesDialog::on_buttonadd_clicked(GtkButton * button, gpointer user_data)
 {
   ((NotesDialog *) user_data)->on_add_category();
 }
+
 
 void NotesDialog::on_add_category()
 {
@@ -288,6 +298,7 @@ void NotesDialog::on_add_category()
   }
 }
 
+
 void NotesDialog::set_gui(const vector < ustring > &categories, const ustring & display_value)
 {
   // Fill the listview with the categories we have.
@@ -298,5 +309,4 @@ void NotesDialog::set_gui(const vector < ustring > &categories, const ustring & 
     listview_focus_string(treeview1, categories[0]);
 }
 
-// Todo too tall?
 
