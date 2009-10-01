@@ -53,7 +53,6 @@
 #include "assistantrestore.h"
 #include "assistantexport.h"
 #include "assistantimport.h"
-#include "windowsourcelanguages.h"
 
 
 class MainWindow : public WindowBase
@@ -184,7 +183,6 @@ protected:
   GtkWidget *view_references;
   GtkWidget *view_related_verses;
   GtkWidget *view_outline;
-  GtkWidget *view_source_languages;
   GtkWidget *insert1;
   GtkWidget *insert1_menu;
   GtkWidget *standard_text_1;
@@ -818,17 +816,6 @@ protected:
   static void on_file_import_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_file_import ();
   ImportAssistant * import_assistant;
-
-  /* Source languages */
-  static void on_view_source_languages_activate (GtkMenuItem *menuitem, gpointer user_data);
-  void on_view_source_languages ();
-  WindowSourceLanguages * window_source_languages;
-  static void on_window_source_languages_delete_button_clicked(GtkButton *button, gpointer user_data);
-  void on_window_source_languages_delete_button();
-  static void on_view_source_languages_signal_button_clicked(GtkButton *button, gpointer user_data);
-  void on_view_source_languages_signal_button();
-  
-
 };
 
 

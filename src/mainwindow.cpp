@@ -169,7 +169,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
   restore_assistant = NULL;
   export_assistant = NULL;
   import_assistant = NULL;
-  window_source_languages = NULL;
   
   // Initialize some variables.
   git_reopen_project = false;
@@ -918,10 +917,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
   view_outline = gtk_check_menu_item_new_with_mnemonic("_Outline");
   gtk_widget_show(view_outline);
   gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_outline);
-
-  view_source_languages = gtk_check_menu_item_new_with_mnemonic ("_Source languages");
-  gtk_widget_show (view_source_languages);
-  gtk_container_add (GTK_CONTAINER (menuitem_view_menu), view_source_languages);
 
   insert1 = gtk_menu_item_new_with_mnemonic("_Insert");
   gtk_widget_show(insert1);
@@ -1731,7 +1726,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
   g_signal_connect ((gpointer) view_references, "activate", G_CALLBACK (on_view_references_activate), gpointer(this));
   if (view_outline)
     g_signal_connect((gpointer) view_outline, "activate", G_CALLBACK(on_view_outline_activate), gpointer(this));
-  g_signal_connect ((gpointer) view_source_languages, "activate", G_CALLBACK (on_view_source_languages_activate), gpointer(this));
   if (insert1)
     g_signal_connect((gpointer) insert1, "activate", G_CALLBACK(on_insert1_activate), gpointer(this));
   if (standard_text_1)
@@ -2562,11 +2556,7 @@ void MainWindow::on_navigation_new_reference()
     window_show_related_verses->go_to(settings->genconfig.project_get(), navigation.reference);
   }
   
-  // Optionally the source languages.
-  if (window_source_languages) {
-    window_source_languages->go_to(navigation.reference, settings->genconfig.project_get());
-  }
-  }
+}
 
 
 void MainWindow::goto_next_verse()
@@ -2701,11 +2691,6 @@ void MainWindow::on_tools_area_activate()
   if (window_check_usfm) {
     if (focused_tool_button == window_check_usfm->focus_in_signal_button) {
       window_check_usfm->present (true);
-    }
-  }
-  if (window_source_languages) {
-    if (focused_tool_button == window_source_languages->focus_in_signal_button) {
-      window_source_languages->present (true);
     }
   }
 }
@@ -6190,7 +6175,7 @@ bool MainWindow::on_windows_startup()
         }
       case widSourceLanguages:
         {
-          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_source_languages), true);
+          // The window was removed since the external applications provide source text and do it much better than Bibledit.
           break;
         }
       }
@@ -6282,12 +6267,6 @@ void MainWindow::shutdown_windows()
     window_check_usfm->shutdown();
     delete window_check_usfm;
     window_check_usfm = NULL;
-  }
-  // Source languages.
-  if (window_source_languages) {
-    window_source_languages->shutdown();
-    delete window_source_languages;
-    window_source_languages = NULL;
   }
 }
 
@@ -6414,13 +6393,6 @@ void MainWindow::on_window_focus_button(GtkButton * button)
         window_check_usfm->defocus();
       }
     }
-    if (window_source_languages) {
-      if (widget == window_source_languages->focus_in_signal_button) {
-        window_source_languages->present(false);
-      } else {
-        window_source_languages->defocus();
-      }
-    }
   }        
 }
 
@@ -6451,8 +6423,6 @@ void MainWindow::present_windows(GtkWidget * widget)
   }
   if (window_check_usfm)
     window_check_usfm->present(false);
-  if (window_source_languages)
-    window_source_languages->present(false);
   present(false);
 }
 
@@ -6490,8 +6460,6 @@ void MainWindow::window_set_focus (GtkWidget *widget)
   }
   if (window_check_usfm)
     window_check_usfm->focus_if_widget_mine(widget);
-  if (window_source_languages)
-    window_source_languages->focus_if_widget_mine(widget);
 }
 
 
@@ -6552,11 +6520,6 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
   // Skip editor windows.
   if (window_check_usfm) {
     if (widget == window_check_usfm->focus_in_signal_button) {
-      focused_tool_button = widget;
-    }
-  }
-  if (window_source_languages) {
-    if (widget == window_source_languages->focus_in_signal_button) {
       focused_tool_button = widget;
     }
   }
@@ -7147,84 +7110,9 @@ void MainWindow::on_file_import ()
 
 
 /*
- |
- |
- |
- |
- |
- Source languages
- |
- |
- |
- |
- |
- */
-
-
-void MainWindow::on_view_source_languages_activate (GtkMenuItem *menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_view_source_languages();
-}
-
-
-void MainWindow::on_view_source_languages ()
-{
-  on_window_source_languages_delete_button();
-  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_source_languages))) {
-    extern GtkAccelGroup *accelerator_group;
-    window_source_languages = new WindowSourceLanguages(accelerator_group, windows_startup_pointer != G_MAXINT, vbox_tools);
-    resize_text_area_if_tools_area_is_empty ();
-    g_signal_connect((gpointer) window_source_languages->delete_signal_button, "clicked", G_CALLBACK(on_window_source_languages_delete_button_clicked), gpointer(this));
-    g_signal_connect((gpointer) window_source_languages->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
-    g_signal_connect((gpointer) window_source_languages->signal_button, "clicked", G_CALLBACK(on_view_source_languages_signal_button_clicked), gpointer(this));
-    extern Settings *settings;
-    window_source_languages->go_to(navigation.reference, settings->genconfig.project_get());
-  }
-}
-
-
-void MainWindow::on_window_source_languages_delete_button_clicked(GtkButton *button, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_window_source_languages_delete_button();
-}
-
-
-void MainWindow::on_window_source_languages_delete_button()
-{
-  if (window_source_languages) {
-    delete window_source_languages;
-    window_source_languages = NULL;
-    resize_text_area_if_tools_area_is_empty ();
-    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_source_languages), false);
-  }
-}
-
-
-void MainWindow::on_view_source_languages_signal_button_clicked(GtkButton *button, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_view_source_languages_signal_button();
-}
-
-
-void MainWindow::on_view_source_languages_signal_button()
-{
-  // Show the references in the references window.
-  show_references_window();
-  extern Settings * settings;
-  window_references->set (window_source_languages->references, settings->genconfig.project_get(), NULL);
-}
-
-
-
-/*
 
 
 Todo tasks.
-
-
-
-We can remove the "Verses" window, depending on the other programs instead.
-Also remove it from the online help.
 
 
 
@@ -7233,30 +7121,16 @@ To send next announcement also to bibledit-announce@nongnu.org, and check whethe
 
 
 
-We need to make Bibledit leaner and cleaner, and do the few jobs it does well, rather than make it do a lot not so well.
-This means that the original language window probably goes out, and the "Verses" window as well.
-All these things can be done in e.g. Xiphos.
-
-
-
-
 To remove all Source languages options from Bibledit again.
 To update the database creation from the Sword KJV, so that is is done only by the programmer, not by the user.
 To remove the lexicons.
-
-
-
-The verse list, we need an option to copy it to the clipboard, e.g. only verses, or verses with all text included.
+To remove the BibleWorks import option.
 
 
 
 By default the verse list shows references only. The user can add USFM texts to be displayed also, in addition.
 
 
-
-To report the problem of the Online Bible when a client connects on Linux, it minimizes, fine, but closes the whole desktop.
-To try whether this occurs on Windows, using that olb's automation sample.
-Then on Wine, give instructions how to reproduce the problem.
 
 We may have to use three outposts altogether:
 One on cxoffice
@@ -7268,8 +7142,6 @@ And other applications may only run on Windows. So three outposts are needed.
 The port number may have to be passed on the commandline so that two numbers are possible on Linux.
 
 
-
-Xiphos to allow for more than 5 parallel verses. To submit the feature request.
 
 
 */
