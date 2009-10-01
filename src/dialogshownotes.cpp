@@ -507,5 +507,5 @@ void ShowNotesDialog::on_checkbutton_show_title()
   gtk_widget_set_sensitive(checkbutton_show_created_by, active);
 }
 
-// Todo too tall?
+
 

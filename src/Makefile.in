@@ -54,9 +54,9 @@ am_bibledit_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialoglistview.$(OBJEXT) dialogshowscript.$(OBJEXT) \
 	htmlbrowser.$(OBJEXT) track.$(OBJEXT) dialogreplace.$(OBJEXT) \
 	dialogreplacing.$(OBJEXT) windowsoutpost.$(OBJEXT) \
-	dialoggotoreference.$(OBJEXT) dialogunicode.$(OBJEXT) \
-	projectutils.$(OBJEXT) dialogproject.$(OBJEXT) usfm.$(OBJEXT) \
-	dialogwait.$(OBJEXT) directories.$(OBJEXT) ustring.$(OBJEXT) \
+	dialoggotoreference.$(OBJEXT) projectutils.$(OBJEXT) \
+	dialogproject.$(OBJEXT) usfm.$(OBJEXT) dialogwait.$(OBJEXT) \
+	directories.$(OBJEXT) ustring.$(OBJEXT) \
 	dialogsearchspecial.$(OBJEXT) referenceutils.$(OBJEXT) \
 	pdfviewer.$(OBJEXT) notes_utils.$(OBJEXT) \
 	date_time_utils.$(OBJEXT) dialogfindnote.$(OBJEXT) \
@@ -91,11 +91,11 @@ am_bibledit_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	projectconfig.$(OBJEXT) gui.$(OBJEXT) \
 	check_validate_usfm.$(OBJEXT) checks.$(OBJEXT) \
 	check_count_words.$(OBJEXT) dialogoutpost.$(OBJEXT) \
-	dialognotestransfer.$(OBJEXT) dialogtextview.$(OBJEXT) \
-	dialogchapternumber.$(OBJEXT) httpd.$(OBJEXT) \
-	opendocument.$(OBJEXT) odtutils.$(OBJEXT) odtnotes.$(OBJEXT) \
-	help.$(OBJEXT) color.$(OBJEXT) dialogmychecks.$(OBJEXT) \
-	check_count_usfms.$(OBJEXT) check_count_characters.$(OBJEXT) \
+	dialognotestransfer.$(OBJEXT) dialogchapternumber.$(OBJEXT) \
+	httpd.$(OBJEXT) opendocument.$(OBJEXT) odtutils.$(OBJEXT) \
+	odtnotes.$(OBJEXT) help.$(OBJEXT) color.$(OBJEXT) \
+	dialogmychecks.$(OBJEXT) check_count_usfms.$(OBJEXT) \
+	check_count_characters.$(OBJEXT) \
 	check_chapters_verses.$(OBJEXT) check_compare_usfm.$(OBJEXT) \
 	check_unwanted_patterns.$(OBJEXT) \
 	check_unwanted_words.$(OBJEXT) check_repetition.$(OBJEXT) \
@@ -370,7 +370,6 @@ bibledit_SOURCES = \
 		dialogreplacing.cpp \
 		windowsoutpost.cpp \
 		dialoggotoreference.cpp \
-		dialogunicode.cpp \
 	    projectutils.cpp \
 	    dialogproject.cpp \
 	    usfm.cpp \
@@ -452,7 +451,6 @@ bibledit_SOURCES = \
         check_count_words.cpp \
         dialogoutpost.cpp \
         dialognotestransfer.cpp \
-        dialogtextview.cpp \
         dialogchapternumber.cpp \
         httpd.cpp \
         opendocument.cpp \
@@ -815,9 +813,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogtaskduration.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogtext2pdf.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogtextreplacement.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogtextview.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogtidy.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogunicode.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogviewplanning.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogwait.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogwordlist.Po@am__quote@

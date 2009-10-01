@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "dialogimportnotes.h"
@@ -24,7 +25,6 @@
 #include "utilities.h"
 #include "dialogwait.h"
 #include "utilities.h"
-#include "dialogunicode.h"
 #include "notes_utils.h"
 #include "date_time_utils.h"
 #include <sqlite3.h>
@@ -36,7 +36,9 @@
 #include "unixwrappers.h"
 #include "tiny_utilities.h"
 
+
 #define TEMP_FILE "bibledit.import.notes"
+
 
 ImportNotesDialog::ImportNotesDialog(int dummy)
 {
@@ -189,6 +191,7 @@ ImportNotesDialog::ImportNotesDialog(int dummy)
   set_gui();
 }
 
+
 ImportNotesDialog::~ImportNotesDialog()
 {
   // Clean up temporary file.
@@ -196,15 +199,18 @@ ImportNotesDialog::~ImportNotesDialog()
   gtk_widget_destroy(importnotesdialog);
 }
 
+
 int ImportNotesDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(importnotesdialog));
 }
 
+
 void ImportNotesDialog::on_backbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((ImportNotesDialog *) user_data)->on_backbutton();
 }
+
 
 void ImportNotesDialog::on_backbutton()
 {
@@ -212,10 +218,12 @@ void ImportNotesDialog::on_backbutton()
   set_gui();
 }
 
+
 void ImportNotesDialog::on_forwardbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((ImportNotesDialog *) user_data)->on_forwardbutton();
 }
+
 
 void ImportNotesDialog::on_forwardbutton()
 {
@@ -223,10 +231,12 @@ void ImportNotesDialog::on_forwardbutton()
   set_gui();
 }
 
+
 void ImportNotesDialog::on_select_file_button_clicked(GtkButton * button, gpointer user_data)
 {
   ((ImportNotesDialog *) user_data)->on_select_file_button();
 }
+
 
 void ImportNotesDialog::on_select_file_button()
 {
@@ -236,6 +246,7 @@ void ImportNotesDialog::on_select_file_button()
   file_to_import = filename;
   select_file_page();
 }
+
 
 void ImportNotesDialog::set_gui()
 {
@@ -278,6 +289,7 @@ void ImportNotesDialog::set_gui()
     }
   }
 }
+
 
 void ImportNotesDialog::select_file_page()
 {
@@ -341,11 +353,9 @@ void ImportNotesDialog::select_file_page()
   }
 }
 
+
 void ImportNotesDialog::unicode_page()
 {
-  // Some visual candy, because the process might take time.
-  WaitDialog wd(500, 450, 300);
-  wd.run();
   // Filename of the file to import.
   ustring path = temporary_file(TEMP_FILE);
   // See whether the file contents is proper Unicode
@@ -358,22 +368,8 @@ void ImportNotesDialog::unicode_page()
     file_contents = s;
     g_free(s);
   }
-  ustring unicode_file_contents;
-  unicode_file_contents = file_contents;
-  if (!unicode_file_contents.validate())
-    unicode_valid = false;
-  if (!unicode_valid) {
-    // Unicode is not valid: Let the user convert it to proper Unicode, and then proceed.
-    int dialog_result = GTK_RESPONSE_NONE;
-    // Dialog should keep coming on until the OK response is given.
-    // This is a work-around for a bug in the delete-event in a dialog.
-    // See the UnicodeDialog for more information about it.
-    while (dialog_result != GTK_RESPONSE_OK) {
-      UnicodeDialog unicodedialog(path);
-      dialog_result = unicodedialog.run();
-    }
-  }
 }
+
 
 void ImportNotesDialog::make_known_corrections_to_xml_file()
 {
@@ -395,10 +391,12 @@ void ImportNotesDialog::make_known_corrections_to_xml_file()
   write_lines(filename, rt.lines);
 }
 
+
 void ImportNotesDialog::on_applybutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((ImportNotesDialog *) user_data)->on_apply();
 }
+
 
 void ImportNotesDialog::on_apply()
 /*
@@ -462,12 +460,14 @@ The various handlers will then store the data in the database.
   write_lines(notes_categories_filename(), rt.lines);
 }
 
+
 void ImportNotesDialog::start_element_handler(GMarkupParseContext * context, const gchar * element_name, const gchar ** attribute_names, const gchar ** attribute_values, gpointer user_data, GError ** error)
 {
   ustring element;
   element = element_name;
   ((ImportNotesDialog *) user_data)->start_element_handler(element);
 }
+
 
 void ImportNotesDialog::end_element_handler(GMarkupParseContext * context, const gchar * element_name, gpointer user_data, GError ** error)
 {
@@ -476,6 +476,7 @@ void ImportNotesDialog::end_element_handler(GMarkupParseContext * context, const
   ((ImportNotesDialog *) user_data)->end_element_handler(element);
 }
 
+
 void ImportNotesDialog::text_handler(GMarkupParseContext * context, const gchar * text, gsize text_len, gpointer user_data, GError ** error)
 {
   ustring utext;
@@ -483,14 +484,17 @@ void ImportNotesDialog::text_handler(GMarkupParseContext * context, const gchar 
   ((ImportNotesDialog *) user_data)->text_handler(utext);
 }
 
+
 void ImportNotesDialog::passthrough_handler(GMarkupParseContext * context, const gchar * passthrough_text, gsize text_len, gpointer user_data, GError ** error)
 {
 }
+
 
 void ImportNotesDialog::error_handler(GMarkupParseContext * context, GError * error, gpointer user_data)
 {
   cerr << error->message << endl;
 }
+
 
 void ImportNotesDialog::start_element_handler(const ustring & element_name)
 /*
@@ -517,6 +521,7 @@ When we encounter a new element that starts data, this handler deals with that.
   // Store element currently open.
   current_element = element_name;
 }
+
 
 void ImportNotesDialog::end_element_handler(const ustring & element_name)
 /*
@@ -634,6 +639,7 @@ When we encounter an element that ends data, this handler deals with that.
   // Deal with depth of the elements.
   depth--;
 }
+
 
 void ImportNotesDialog::text_handler(const ustring & text)
 /*

@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "dialogtextreplacement.h"
@@ -27,8 +28,11 @@
 #include "settings.h"
 #include "shortcuts.h"
 #include "textreplacement.h"
+#include "screen.h"
+
 
 enum { COLUMN_ORIGINALS, COLUMN_EDITABLE1, COLUMN_REPLACEMENTS, COLUMN_EDITABLE2, NUM_COLUMNS };
+
 
 TextReplacementDialog::TextReplacementDialog(int dummy)
 {
@@ -67,7 +71,6 @@ TextReplacementDialog::TextReplacementDialog(int dummy)
   treeview1 = gtk_tree_view_new();
   gtk_widget_show(treeview1);
   gtk_container_add(GTK_CONTAINER(scrolledwindow1), treeview1);
-  gtk_widget_set_size_request(treeview1, -1, 300);
   gtk_tree_view_set_reorderable(GTK_TREE_VIEW(treeview1), TRUE);
 
   dialog_action_area1 = GTK_DIALOG(textreplacementdialog)->action_area;
@@ -129,22 +132,28 @@ TextReplacementDialog::TextReplacementDialog(int dummy)
   }
 
   gui();
+
+  new DialogAutoScaler (textreplacementdialog, G_MAXINT);
 }
+
 
 TextReplacementDialog::~TextReplacementDialog()
 {
   gtk_widget_destroy(textreplacementdialog);
 }
 
+
 int TextReplacementDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(textreplacementdialog));
 }
 
+
 void TextReplacementDialog::on_okbutton1_clicked(GtkButton * button, gpointer user_data)
 {
   ((TextReplacementDialog *) user_data)->on_okbutton();
 }
+
 
 void TextReplacementDialog::on_okbutton()
 {
@@ -174,10 +183,12 @@ void TextReplacementDialog::on_okbutton()
   settings->genconfig.text_replacement_replacements_set(replacements);
 }
 
+
 void TextReplacementDialog::on_checkbutton1_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((TextReplacementDialog *) user_data)->on_checkbutton1();
 }
+
 
 void TextReplacementDialog::on_checkbutton1()
 {
@@ -186,15 +197,18 @@ void TextReplacementDialog::on_checkbutton1()
     gtk_widget_grab_focus(treeview1);
 }
 
+
 void TextReplacementDialog::cell_text_edited(GtkCellRendererText * cell, const gchar * path_string, const gchar * new_text, gpointer data)
 {
   ((TextReplacementDialog *) data)->on_cell_edited(cell, path_string, new_text, COLUMN_ORIGINALS);
 }
 
+
 void TextReplacementDialog::cell_replacement_edited(GtkCellRendererText * cell, const gchar * path_string, const gchar * new_text, gpointer data)
 {
   ((TextReplacementDialog *) data)->on_cell_edited(cell, path_string, new_text, COLUMN_REPLACEMENTS);
 }
+
 
 void TextReplacementDialog::on_cell_edited(GtkCellRendererText * cell, const gchar * path_string, const gchar * new_text, int column)
 {
@@ -214,6 +228,7 @@ void TextReplacementDialog::on_cell_edited(GtkCellRendererText * cell, const gch
   // Update gui.
   gui();
 }
+
 
 void TextReplacementDialog::gui()
 {
@@ -237,15 +252,18 @@ void TextReplacementDialog::gui()
   }
 }
 
+
 const char *TextReplacementDialog::enter_new_text_here()
 {
   return "<Enter new text here>";
 }
 
+
 const char *TextReplacementDialog::enter_new_replacement_here()
 {
   return "<Enter new replacement here>";
 }
+
 
 ustring TextReplacementDialog::original_get(GtkTreeModel * model, GtkTreeIter * iter)
 {
@@ -256,6 +274,7 @@ ustring TextReplacementDialog::original_get(GtkTreeModel * model, GtkTreeIter * 
   return s;
 }
 
+
 ustring TextReplacementDialog::replacement_get(GtkTreeModel * model, GtkTreeIter * iter)
 {
   gchar *str;
@@ -265,5 +284,4 @@ ustring TextReplacementDialog::replacement_get(GtkTreeModel * model, GtkTreeIter
   return s;
 }
 
-// Todo too tall?
 

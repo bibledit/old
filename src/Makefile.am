@@ -16,7 +16,6 @@ bibledit_SOURCES = \
 		dialogreplacing.cpp \
 		windowsoutpost.cpp \
 		dialoggotoreference.cpp \
-		dialogunicode.cpp \
 	    projectutils.cpp \
 	    dialogproject.cpp \
 	    usfm.cpp \
@@ -98,7 +97,6 @@ bibledit_SOURCES = \
         check_count_words.cpp \
         dialogoutpost.cpp \
         dialognotestransfer.cpp \
-        dialogtextview.cpp \
         dialogchapternumber.cpp \
         httpd.cpp \
         opendocument.cpp \

@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "dialogxfernotes2text.h"
@@ -33,6 +34,7 @@
 #include "books.h"
 #include "tiny_utilities.h"
 #include "gui.h"
+
 
 XferNotes2TextDialog::XferNotes2TextDialog(int dummy)
 {
@@ -82,20 +84,24 @@ XferNotes2TextDialog::XferNotes2TextDialog(int dummy)
   gtk_widget_grab_focus(okbutton);
 }
 
+
 XferNotes2TextDialog::~XferNotes2TextDialog()
 {
   gtk_widget_destroy(notestransferdialog);
 }
+
 
 int XferNotes2TextDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(notestransferdialog));
 }
 
+
 void XferNotes2TextDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((XferNotes2TextDialog *) user_data)->on_okbutton();
 }
+
 
 void XferNotes2TextDialog::on_okbutton()
 // Do the transfer.
@@ -135,6 +141,7 @@ void XferNotes2TextDialog::on_okbutton()
   }
 }
 
+
 void XferNotes2TextDialog::transfer_note(const ustring & project, unsigned int book, unsigned int chapter, const ustring & verse)
 // Transfer the note.
 {
@@ -170,5 +177,4 @@ void XferNotes2TextDialog::transfer_note(const ustring & project, unsigned int b
   project_store_verse(project, book, chapter, verse, text);
 }
 
-// Todo too tall?
 

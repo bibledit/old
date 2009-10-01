@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "dialogselectbooks.h"
@@ -32,6 +33,7 @@
 #include "listview.h"
 #include <gdk/gdkkeysyms.h>
 #include "gwrappers.h"
+#include "screen.h"
 
 
 SelectBooksDialog::SelectBooksDialog(bool showportions)
@@ -55,7 +57,6 @@ bookset: Indicator for the caller's relevant books.
   Shortcuts shortcuts(0);
 
   selectbooksdialog = gtk_dialog_new();
-  gtk_widget_set_size_request(selectbooksdialog, -1, 600);
   ustring title("Select books");
   if (showportions)
     title.append(" and portions");
@@ -337,7 +338,10 @@ bookset: Indicator for the caller's relevant books.
   if (myshowportions) {
     update_gui_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_update_gui_timeout), gpointer(this), NULL);
   }
+
+  new DialogAutoScaler (selectbooksdialog, G_MAXINT);
 }
+
 
 SelectBooksDialog::~SelectBooksDialog()
 {
@@ -345,10 +349,12 @@ SelectBooksDialog::~SelectBooksDialog()
   gtk_widget_destroy(selectbooksdialog);
 }
 
+
 int SelectBooksDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(selectbooksdialog));
 }
+
 
 void SelectBooksDialog::language(const ustring & language)
 /*
@@ -362,12 +368,14 @@ It will reload the books.
   loadbooks();
 }
 
+
 void SelectBooksDialog::selectables(vector < unsigned int >&selectablebooks)
 // Sets the selectables books, if this is different from the books in the project.
 {
   myselectables = selectablebooks;
   loadbooks();
 }
+
 
 void SelectBooksDialog::selection_set(const set < unsigned int >&selectedbooks)
 // Sets the selected books.
@@ -376,10 +384,12 @@ void SelectBooksDialog::selection_set(const set < unsigned int >&selectedbooks)
   loadbooks();
 }
 
+
 gboolean SelectBooksDialog::on_treeviewbooks_key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer user_data)
 {
   return ((SelectBooksDialog *) user_data)->on_treeviewbooks_key_press(event);
 }
+
 
 gboolean SelectBooksDialog::on_treeviewbooks_key_press(GdkEventKey * event)
 {
@@ -393,10 +403,12 @@ gboolean SelectBooksDialog::on_treeviewbooks_key_press(GdkEventKey * event)
   return false;
 }
 
+
 void SelectBooksDialog::on_treeviewportions_row_activated(GtkTreeView * treeview, GtkTreePath * path, GtkTreeViewColumn * column, gpointer user_data)
 {
   ((SelectBooksDialog *) user_data)->on_treeviewportions_row();
 }
+
 
 void SelectBooksDialog::on_treeviewportions_row()
 {
@@ -423,20 +435,24 @@ void SelectBooksDialog::on_treeviewportions_row()
   gtk_tree_selection_unselect_all(selectportions);
 }
 
+
 void SelectBooksDialog::on_nobutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((SelectBooksDialog *) user_data)->on_button_no();
 }
+
 
 void SelectBooksDialog::on_button_no()
 {
   gtk_tree_selection_unselect_all(selectbooks);
 }
 
+
 void SelectBooksDialog::on_otbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((SelectBooksDialog *) user_data)->on_button_ot();
 }
+
 
 void SelectBooksDialog::on_button_ot()
 {
@@ -448,10 +464,12 @@ void SelectBooksDialog::on_button_ot()
   loadbooks();
 }
 
+
 void SelectBooksDialog::on_ntbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((SelectBooksDialog *) user_data)->on_button_nt();
 }
+
 
 void SelectBooksDialog::on_button_nt()
 {
@@ -463,10 +481,12 @@ void SelectBooksDialog::on_button_nt()
   loadbooks();
 }
 
+
 void SelectBooksDialog::on_otherbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((SelectBooksDialog *) user_data)->on_button_other();
 }
+
 
 void SelectBooksDialog::on_button_other()
 {
@@ -482,20 +502,24 @@ void SelectBooksDialog::on_button_other()
   loadbooks();
 }
 
+
 void SelectBooksDialog::on_allbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((SelectBooksDialog *) user_data)->on_button_all();
 }
+
 
 void SelectBooksDialog::on_button_all()
 {
   gtk_tree_selection_select_all(selectbooks);
 }
 
+
 void SelectBooksDialog::on_currentbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((SelectBooksDialog *) user_data)->on_button_current();
 }
+
 
 void SelectBooksDialog::on_button_current()
 {
@@ -505,10 +529,12 @@ void SelectBooksDialog::on_button_current()
   loadbooks();
 }
 
+
 void SelectBooksDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((SelectBooksDialog *) user_data)->on_okbutton();
 }
+
 
 void SelectBooksDialog::on_okbutton()
 {
@@ -550,6 +576,7 @@ void SelectBooksDialog::on_okbutton()
     projectconfig->reordered_portions_set(reordered_portions);
   }
 }
+
 
 void SelectBooksDialog::selection_display(set < unsigned int >&books)
 {
@@ -593,6 +620,7 @@ void SelectBooksDialog::selection_display(set < unsigned int >&books)
   }
 }
 
+
 void SelectBooksDialog::loadbooks()
 {
   // Translate and load the selectable books.
@@ -605,6 +633,7 @@ void SelectBooksDialog::loadbooks()
   selection_display(myselection);
 }
 
+
 void SelectBooksDialog::selection_foreach_function(GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data)
 {
   gchar *book;
@@ -612,6 +641,7 @@ void SelectBooksDialog::selection_foreach_function(GtkTreeModel * model, GtkTree
   ((vector < ustring > *)data)->push_back(book);
   g_free(book);
 }
+
 
 void SelectBooksDialog::loadportions()
 {
@@ -632,11 +662,13 @@ void SelectBooksDialog::loadportions()
   listview_set_strings(treeviewportions, storeportions, portions);
 }
 
+
 bool SelectBooksDialog::on_update_gui_timeout(gpointer user_data)
 {
   ((SelectBooksDialog *) user_data)->update_gui();
   return true;
 }
+
 
 void SelectBooksDialog::update_gui()
 {
@@ -656,6 +688,4 @@ void SelectBooksDialog::update_gui()
   }
 }
 
-
-// Todo too tall?
 
