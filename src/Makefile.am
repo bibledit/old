@@ -229,7 +229,6 @@ bibledit_SOURCES = \
         windoweditor.cpp \
         compress.cpp \
         localizednumerals.cpp \
-        windowshowverses.cpp \
         assistantimportkeyterms.cpp \
         assistants.cpp \
         assistantdeletekeyterms.cpp \

@@ -155,12 +155,11 @@ am_bibledit_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	windownotes.$(OBJEXT) dialogprojectnote.$(OBJEXT) \
 	windowreferences.$(OBJEXT) windoweditor.$(OBJEXT) \
 	compress.$(OBJEXT) localizednumerals.$(OBJEXT) \
-	windowshowverses.$(OBJEXT) assistantimportkeyterms.$(OBJEXT) \
-	assistants.$(OBJEXT) assistantdeletekeyterms.$(OBJEXT) \
-	assistantchanges.$(OBJEXT) widgetdate.$(OBJEXT) \
-	usfmview.$(OBJEXT) dialogcompareprefs.$(OBJEXT) \
-	windowcheckusfm.$(OBJEXT) usfm2osis.$(OBJEXT) \
-	usfmstandard.$(OBJEXT) osis.$(OBJEXT) \
+	assistantimportkeyterms.$(OBJEXT) assistants.$(OBJEXT) \
+	assistantdeletekeyterms.$(OBJEXT) assistantchanges.$(OBJEXT) \
+	widgetdate.$(OBJEXT) usfmview.$(OBJEXT) \
+	dialogcompareprefs.$(OBJEXT) windowcheckusfm.$(OBJEXT) \
+	usfm2osis.$(OBJEXT) usfmstandard.$(OBJEXT) osis.$(OBJEXT) \
 	assistantremoterepository.$(OBJEXT) \
 	gui_display_changes.$(OBJEXT) stylesheet.$(OBJEXT) \
 	referencememory.$(OBJEXT) webkitbrowser.$(OBJEXT) \
@@ -583,7 +582,6 @@ bibledit_SOURCES = \
         windoweditor.cpp \
         compress.cpp \
         localizednumerals.cpp \
-        windowshowverses.cpp \
         assistantimportkeyterms.cpp \
         assistants.cpp \
         assistantdeletekeyterms.cpp \
@@ -969,7 +967,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowreferences.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowresource.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowshowrelatedverses.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowshowverses.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowsourcelanguages.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowsoutpost.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowstyles.Po@am__quote@

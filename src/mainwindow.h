@@ -43,7 +43,6 @@
 #include "windownotes.h"
 #include "windowreferences.h"
 #include "windoweditor.h"
-#include "windowshowverses.h"
 #include "assistantimportkeyterms.h"
 #include "assistantdeletekeyterms.h"
 #include "assistantchanges.h"
@@ -185,7 +184,6 @@ protected:
   GtkWidget *view_references;
   GtkWidget *view_related_verses;
   GtkWidget *view_outline;
-  GtkWidget *view_verses;
   GtkWidget *view_source_languages;
   GtkWidget *insert1;
   GtkWidget *insert1_menu;
@@ -803,14 +801,6 @@ protected:
   // Shutdown.
   bool shutting_down;
   void initiate_shutdown();
-  
-  // Verses
-  static void on_view_verses_activate (GtkMenuItem *menuitem, gpointer user_data);
-  void on_view_verses ();
-  WindowShowVerses * window_show_verses;
-  static void on_window_show_verses_delete_button_clicked(GtkButton *button, gpointer user_data);
-  void on_window_show_verses_delete_button();
-  void show_verses();
   
   // Assistants.
   static void on_assistant_ready_signal (GtkButton *button, gpointer user_data);

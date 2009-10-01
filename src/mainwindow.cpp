@@ -159,7 +159,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
   window_styles = NULL;
   window_notes = NULL;
   window_references = NULL;
-  window_show_verses = NULL;
   import_keyterms_assistant = NULL;
   delete_keyterms_assistant = NULL;
   changes_assistant = NULL;
@@ -919,10 +918,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
   view_outline = gtk_check_menu_item_new_with_mnemonic("_Outline");
   gtk_widget_show(view_outline);
   gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_outline);
-
-  view_verses = gtk_check_menu_item_new_with_mnemonic ("_Verses");
-  gtk_widget_show (view_verses);
-  gtk_container_add (GTK_CONTAINER (menuitem_view_menu), view_verses);
 
   view_source_languages = gtk_check_menu_item_new_with_mnemonic ("_Source languages");
   gtk_widget_show (view_source_languages);
@@ -1736,8 +1731,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
   g_signal_connect ((gpointer) view_references, "activate", G_CALLBACK (on_view_references_activate), gpointer(this));
   if (view_outline)
     g_signal_connect((gpointer) view_outline, "activate", G_CALLBACK(on_view_outline_activate), gpointer(this));
-  if (view_verses)
-    g_signal_connect((gpointer) view_verses, "activate", G_CALLBACK(on_view_verses_activate), gpointer(this));
   g_signal_connect ((gpointer) view_source_languages, "activate", G_CALLBACK (on_view_source_languages_activate), gpointer(this));
   if (insert1)
     g_signal_connect((gpointer) insert1, "activate", G_CALLBACK(on_insert1_activate), gpointer(this));
@@ -2564,9 +2557,6 @@ void MainWindow::on_navigation_new_reference()
     }
   }
 
-  // Send it to the verses window.
-  show_verses();
-
   // Optional displaying related verses.
   if (window_show_related_verses) {
     window_show_related_verses->go_to(settings->genconfig.project_get(), navigation.reference);
@@ -2708,11 +2698,6 @@ void MainWindow::on_tools_area_activate()
     }
   }
   // Skip editor windows.
-  if (window_show_verses) {
-    if (focused_tool_button == window_show_verses->focus_in_signal_button) {
-      window_show_verses->present (true);
-    }
-  }
   if (window_check_usfm) {
     if (focused_tool_button == window_check_usfm->focus_in_signal_button) {
       window_check_usfm->present (true);
@@ -6195,7 +6180,7 @@ bool MainWindow::on_windows_startup()
         }
       case widShowVerses:
         {
-          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_verses), true);
+          // The window was removed. Xiphos and similar programs provide this functionality much better
           break;
         }
       case widCheckUSFM:
@@ -6291,12 +6276,6 @@ void MainWindow::shutdown_windows()
     editor_window->shutdown();
     delete editor_window;
     editor_windows.erase(editor_windows.begin());
-  }
-  // View verses.
-  if (window_show_verses) {
-    window_show_verses->shutdown();
-    delete window_show_verses;
-    window_show_verses = NULL;
   }
   // Check USFM.
   if (window_check_usfm) {
@@ -6428,13 +6407,6 @@ void MainWindow::on_window_focus_button(GtkButton * button)
         editor_windows[i]->defocus();
       }
     }
-    if (window_show_verses) {
-      if (widget == window_show_verses->focus_in_signal_button) {
-        window_show_verses->present(false);
-      } else {
-        window_show_verses->defocus();
-      }
-    }
     if (window_check_usfm) {
       if (widget == window_check_usfm->focus_in_signal_button) {
         window_check_usfm->present(false);
@@ -6477,8 +6449,6 @@ void MainWindow::present_windows(GtkWidget * widget)
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
     editor_windows[i]->present(false);
   }
-  if (window_show_verses)
-    window_show_verses->present(false);
   if (window_check_usfm)
     window_check_usfm->present(false);
   if (window_source_languages)
@@ -6518,8 +6488,6 @@ void MainWindow::window_set_focus (GtkWidget *widget)
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
     editor_windows[i]->focus_if_widget_mine(widget);
   }
-  if (window_show_verses)
-    window_show_verses->focus_if_widget_mine(widget);
   if (window_check_usfm)
     window_check_usfm->focus_if_widget_mine(widget);
   if (window_source_languages)
@@ -6582,11 +6550,6 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
     }
   }
   // Skip editor windows.
-  if (window_show_verses) {
-    if (widget == window_show_verses->focus_in_signal_button) {
-      focused_tool_button = widget;
-    }
-  }
   if (window_check_usfm) {
     if (widget == window_check_usfm->focus_in_signal_button) {
       focused_tool_button = widget;
@@ -6804,13 +6767,6 @@ void MainWindow::accelerator_close_window()
     initiate_shutdown();
   }
 
-  // Show verses.
-  if (window_show_verses) {
-    if (now_focused_window_button == window_show_verses->focus_in_signal_button) {
-      on_window_show_verses_delete_button();
-    }
-  }
-
   // Check USFM.
   if (window_check_usfm) {
     if (now_focused_window_button == window_check_usfm->focus_in_signal_button) {
@@ -6968,62 +6924,6 @@ void MainWindow::initiate_shutdown()
 
   // Shut down after a delay.
   g_timeout_add(10, GSourceFunc(gtk_main_quit), NULL);
-}
-
-
-/*
- |
- |
- |
- |
- |
- Verses
- |
- |
- |
- |
- |
- */
-
-
-void MainWindow::on_view_verses_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_view_verses();
-}
-
-void MainWindow::on_view_verses()
-{
-  on_window_show_verses_delete_button();
-  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_verses))) {
-    extern GtkAccelGroup *accelerator_group;
-    window_show_verses = new WindowShowVerses(accelerator_group, windows_startup_pointer != G_MAXINT, vbox_tools);
-    resize_text_area_if_tools_area_is_empty ();
-    g_signal_connect((gpointer) window_show_verses->delete_signal_button, "clicked", G_CALLBACK(on_window_show_verses_delete_button_clicked), gpointer(this));
-    g_signal_connect((gpointer) window_show_verses->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
-    show_verses();
-  }
-}
-
-void MainWindow::on_window_show_verses_delete_button_clicked(GtkButton * button, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_window_show_verses_delete_button();
-}
-
-void MainWindow::on_window_show_verses_delete_button()
-{
-  if (window_show_verses) {
-    delete window_show_verses;
-    window_show_verses = NULL;
-    resize_text_area_if_tools_area_is_empty ();
-    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_verses), false);
-  }
-}
-
-void MainWindow::show_verses()
-{
-  if (window_show_verses) {
-    window_show_verses->go_to (navigation.reference);
-  }
 }
 
 
@@ -7323,9 +7223,8 @@ Todo tasks.
 
 
 
-Export resources to Xiphos, etc.
-Then we can remove the "Verses" window, depending on the other programs instead.
-
+We can remove the "Verses" window, depending on the other programs instead.
+Also remove it from the online help.
 
 
 
@@ -7367,6 +7266,10 @@ Then it needs to know which appliance runs on which Outpost.
 the reason is that BibleWorks runs well on cxoffice, but the Online Bible runs better on Wine.
 And other applications may only run on Windows. So three outposts are needed.
 The port number may have to be passed on the commandline so that two numbers are possible on Linux.
+
+
+
+Xiphos to allow for more than 5 parallel verses. To submit the feature request.
 
 
 */
