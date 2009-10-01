@@ -30,7 +30,6 @@
 #include "progresswindow.h"
 #include "morphology.h"
 #include "books.h"
-#include "lexicons.h"
 
 
 ustring source_language_database_file_name (const ustring& name)
@@ -228,7 +227,7 @@ void source_language_test_lemmata_and_morphology ()
         if (lemmata_done->find (lemma) == lemmata_done->end()) {
           lemmata_done->insert (lemma);
           output.push_back ("Lemma: " + lemma);
-          ustring definition = lexicons_get_definition (greek_lexicon, lemma);
+          ustring definition;
           if (definition.empty()) {
             output.push_back ("ERROR: No definition found");
           } else {

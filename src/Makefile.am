@@ -266,7 +266,6 @@ bibledit_SOURCES = \
 				mechonmamre.cpp \
 				bibleworks.cpp \
 				onlinebible.cpp \
-				lexicons.cpp \
 				robinson.cpp \
 				sourcelanguage.cpp \
 				morphology.cpp \

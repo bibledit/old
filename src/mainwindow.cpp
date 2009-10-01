@@ -7116,11 +7116,6 @@ Todo tasks.
 
 
 
-To send next announcement also to bibledit-announce@nongnu.org, and check whether the RSS feed updates.
-
-
-
-
 To remove all Source languages options from Bibledit again.
 To update the database creation from the Sword KJV, so that is is done only by the programmer, not by the user.
 To remove the lexicons.
@@ -7140,6 +7135,10 @@ Then it needs to know which appliance runs on which Outpost.
 the reason is that BibleWorks runs well on cxoffice, but the Online Bible runs better on Wine.
 And other applications may only run on Windows. So three outposts are needed.
 The port number may have to be passed on the commandline so that two numbers are possible on Linux.
+
+
+
+To send next announcement also to bibledit-announce@nongnu.org, and check whether the RSS feed updates.
 
 
 
