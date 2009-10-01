@@ -7323,14 +7323,13 @@ Todo tasks.
 
 
 
-To send next announcement also to bibledit-announce@nongnu.org, and check whether the RSS feed updates.
-
-
-
-
-All bibles should be exportable to any of our companion resources that scroll with Bibledit.
-And all should be importable too for any of these, and put into usfm format.
+Export resources to Xiphos, etc.
 Then we can remove the "Verses" window, depending on the other programs instead.
+
+
+
+
+To send next announcement also to bibledit-announce@nongnu.org, and check whether the RSS feed updates.
 
 
 
