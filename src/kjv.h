@@ -26,9 +26,19 @@
 #include "reference.h"
 #include <glib.h>
 #include <sqlite3.h>
+#include "htmlwriter2.h"
 
 
-void kjv_import (GKeyFile *keyfile);
+void kjv_home_entry (HtmlWriter2& htmlwriter);
+ustring kjv_html_entry_url ();
+void kjv_detailed_page (HtmlWriter2& htmlwriter);
+ustring kjv_create_database_url ();
+void kjv_action_page (HtmlWriter2& htmlwriter);
+ustring kjv_sql_filename ();
+void kjv_import_sword (const ustring& textfile, const ustring& database);
+
+
+
 void kjv_import_sword ();
 void kjv_import_zefania ();
 void kjv_get_strongs_data (const Reference& reference, vector <unsigned int>& strongs, vector <ustring>& words);

@@ -7141,6 +7141,9 @@ The port number may have to be passed on the commandline so that two numbers are
 To send next announcement also to bibledit-announce@nongnu.org, and check whether the RSS feed updates.
 
 
+If project notes are to be shared through a repository, then these notes go into a git repository with each note being one file,
+named by its id. We may decide to use subdirectories also. Since searching in the notes becomes slow now, we may use a database as index.
+
 
 
 */

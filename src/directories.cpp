@@ -42,7 +42,7 @@ void directories_check_structure()
   gw_mkdir_with_parents(directories_get_pictures());
   gw_mkdir_with_parents(directories_get_resources());
   gw_mkdir_with_parents(directories_get_scripts());
-  gw_mkdir_with_parents(directories_get_databases());
+  gw_mkdir_with_parents(directories_get_databases()); // Todo this should remove the directory instead of creating it.
   gw_mkdir_with_parents(directories_get_temp());
   gw_mkdir_with_parents(directories_get_templates());
   gw_mkdir_with_parents(directories_get_templates_user());

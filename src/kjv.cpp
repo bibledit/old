@@ -32,111 +32,139 @@
 #include "sourcelanguage.h"
 
 
-ustring kjv_get_sword_xml_filename()
-// Gives the filename for the Sword KJV xml file that comes with bibledit.
+void kjv_home_entry (HtmlWriter2& htmlwriter)
 {
-  return gw_build_filename(directories_get_package_data(), "swordkjv.xml");
+  htmlwriter.paragraph_open ();
+  htmlwriter.hyperlink_add (kjv_html_entry_url (), "Sword King James Bible with Strong's lemmata");
+  htmlwriter.paragraph_close ();
 }
 
 
-ustring kjv_get_zefania_xml_filename()
-// Gives the filename for the Zefania KJV xml file that comes with bibledit.
+ustring kjv_html_entry_url ()
 {
-  return gw_build_filename(directories_get_package_data(), "zefaniakjv.xml");
+  return "kjv_entry";
 }
 
 
-const gchar * kjv_name ()
-// Gives the name of the King James Bible.
+void kjv_detailed_page (HtmlWriter2& htmlwriter)
 {
-  return "King James Bible";
+  htmlwriter.heading_open (3);
+  htmlwriter.text_add ("Sword King James Bible with Strong's lemmata");
+  htmlwriter.heading_close ();
+  htmlwriter.paragraph_open();
+  htmlwriter.text_add ("The King James Bible from the Sword project is useful for its Strong's numbers tagged in the text. Bibledit uses this to find related verses, among other things. Importing consists of two steps: exporting it from Sword and creating a database out of it.");
+  htmlwriter.paragraph_close();
+  htmlwriter.heading_open (4);
+  htmlwriter.text_add ("1. Exporting the text from Sword");
+  htmlwriter.heading_close ();
+  htmlwriter.paragraph_open();
+  htmlwriter.text_add ("To export the text from the Sword library, it is supposed that the KJV Bible has been installed. Open a terminal, and type the following command:");
+  htmlwriter.paragraph_close();
+  htmlwriter.paragraph_open();
+  htmlwriter.text_add ("mod2osis KJV > kjv.txt");
+  htmlwriter.paragraph_close();
+  htmlwriter.paragraph_open();
+  htmlwriter.text_add ("This will take a while. It should give no errors. Once it finishes there will be a file called kjv.txt in the home directory.");
+  htmlwriter.paragraph_close();
+  htmlwriter.heading_open (4);
+  htmlwriter.text_add ("2. Creating the database");
+  htmlwriter.heading_close ();
+  htmlwriter.paragraph_open();
+  htmlwriter.hyperlink_add (kjv_create_database_url (), "Create database");
+  htmlwriter.paragraph_close();
+  htmlwriter.paragraph_open();
+  htmlwriter.text_add ("Creating the database should take a while. Once done there will be a file called kjv.sql in the home directory. This file should be added to the bibledit package, replacing the one it currently has.");
+  htmlwriter.paragraph_close();
 }
 
 
-ustring kjv_get_sql_filename()
-// Gives the filename for the created KJV database.
+ustring kjv_create_database_url ()
 {
-  return source_language_database_file_name (kjv_name());
+  return "kjv_create_db";
 }
 
 
-const gchar* kjv_database_group_name ()
+void kjv_action_page (HtmlWriter2& htmlwriter)
 {
-  return "kjv";
-}
+  htmlwriter.heading_open (3);
+  htmlwriter.text_add ("Database creation from King James Bible exported from the Sword library");
+  htmlwriter.heading_close ();
 
+  vector <ustring> messages;
+  bool keep_going = true;
 
-const gchar * sword_kjv_xml ()
-{
-  return "swordxml";
-}
-
-
-const gchar * zefania_kjv_xml ()
-{
-  return "zefaniaxml";
-}
-
-
-const gchar * sword_kjv_sql ()
-{
-  return "sql";
-}
-
-
-void kjv_import (GKeyFile *keyfile)
-{
-  // See whether to import the two .xml files into the database.
-  // Normally this happens once upon installation.
-  // If it has been done already, and everything seems fine, bail out.
-  bool import = false;
-  unsigned int value;
-  value = g_key_file_get_integer(keyfile, kjv_database_group_name (), sword_kjv_xml(), NULL);
-  if (value != file_get_size (kjv_get_sword_xml_filename())) {
-    import = true;
+  // Locate the kjv.txt file.
+  ustring kjv_txt_file = gw_build_filename (g_get_home_dir (), "kjv.txt");
+  messages.push_back ("Looking for file " + kjv_txt_file);
+  if (!g_file_test (kjv_txt_file.c_str(), G_FILE_TEST_IS_REGULAR)) {
+    kjv_txt_file.clear();
   }
-  value = g_key_file_get_integer(keyfile, kjv_database_group_name (), zefania_kjv_xml(), NULL);
-  if (value != file_get_size (kjv_get_zefania_xml_filename())) {
-    import = true;
+  if (kjv_txt_file.empty()) {
+    messages.push_back ("Can't find the input file");
+    keep_going = false;
   }
-  value = g_key_file_get_integer(keyfile, kjv_database_group_name (), sword_kjv_sql(), NULL);
-  if (value != file_get_modification_time (kjv_get_sql_filename())) {
-    import = true;
-  }
-  if (!import) {
-    return;
+  if (keep_going) {
+    messages.push_back ("Using file " + kjv_txt_file);
   }
 
-  // (Re)create the database.
-  source_language_database_create (kjv_name());
+  // The database.
+  ustring kjv_sql_file = gw_build_filename (g_get_home_dir (), "kjv.sql");
 
-  // Import text into the database.
-  kjv_import_zefania ();  
-  kjv_import_sword ();
+  // Importing data into the database.
+  if (keep_going) {
+    messages.push_back ("Importing data into the database at " + kjv_sql_file);
+    kjv_import_sword (kjv_txt_file, kjv_sql_file);
+  }
 
-  // Store the signatures.
-  // If these signatures match next time, it won't create the database again.
-  g_key_file_set_integer (keyfile, kjv_database_group_name (), sword_kjv_xml(), file_get_size (kjv_get_sword_xml_filename()));
-  g_key_file_set_integer (keyfile, kjv_database_group_name (), zefania_kjv_xml(), file_get_size (kjv_get_zefania_xml_filename()));
-  g_key_file_set_integer (keyfile, kjv_database_group_name (), sword_kjv_sql(), file_get_modification_time (kjv_get_sql_filename()));  
+  // Write accumulated messages.
+  htmlwriter.heading_open (3);
+  if (keep_going) {
+    htmlwriter.text_add ("Success! The database was created");
+  } else {
+    htmlwriter.text_add ("Error!");
+  }
+  htmlwriter.heading_close ();
+  if (keep_going) {
+    htmlwriter.paragraph_open ();
+    htmlwriter.text_add ("To use the database, copy the file kjv.sql into the Bibledit package and re-install.");
+    htmlwriter.paragraph_close ();
+  }
+  for (unsigned int i = 0; i < messages.size(); i++) {
+    htmlwriter.paragraph_open ();
+    htmlwriter.text_add (messages[i]);
+    htmlwriter.paragraph_close ();
+  }  
+
+  // Write OK.
+  htmlwriter.paragraph_open ();
+  htmlwriter.hyperlink_add ("", "Ok");
+  htmlwriter.paragraph_close ();
 }
 
 
-void kjv_import_sword ()
+ustring kjv_sql_filename ()
+{
+  return gw_build_filename(directories_get_package_data(), "kjv.sql");
+}
+
+
+void kjv_import_sword (const ustring& textfile, const ustring& database) // Todo
 {
   // Show the progress. KJV has 31102 verses.
-  ProgressWindow progresswindow ("Importing morphology into the King James Bible", false);
+  ProgressWindow progresswindow ("Importing King James Bible", false);
   progresswindow.set_iterate (0, 1, 31102);
   gchar * contents;
-  g_file_get_contents(kjv_get_sword_xml_filename().c_str(), &contents, NULL, NULL);
+  g_file_get_contents(textfile.c_str(), &contents, NULL, NULL);
   if (!contents)
     return;
 
-  // Open the database in fast mode.
+  // Create the database, put it in fast mode.
+  unlink (database.c_str());
   sqlite3 *db;
-  sqlite3_open(kjv_get_sql_filename().c_str(), &db);
+  sqlite3_open(database.c_str(), &db);
+  sqlite3_exec(db, "create table kjv (book integer, chapter integer, verse integer, item integer, fragment text, lemma text);", NULL, NULL, NULL);
   sqlite3_exec(db, "PRAGMA synchronous=OFF;", NULL, NULL, NULL);
-  
+
   // Parse input.
   xmlParserInputBufferPtr inputbuffer;
   inputbuffer = xmlParserInputBufferCreateMem(contents, strlen (contents), XML_CHAR_ENCODING_NONE);
@@ -144,9 +172,9 @@ void kjv_import_sword ()
   if (reader) {
     bool within_relevant_element = false;
     Reference reference (0, 0, "0");
-    unsigned int total_items_count = 0;
-    unsigned int current_items_count = 0;
-    ustring raw_data;
+    unsigned int item_number = 0;
+    ustring textfragment;
+    ustring lemmata;
     while ((xmlTextReaderRead(reader) == 1)) {
       switch (xmlTextReaderNodeType(reader)) {
       case XML_READER_TYPE_ELEMENT:
@@ -168,23 +196,20 @@ void kjv_import_sword ()
               }
               free(attribute);
             }
-            total_items_count = 0;
+            item_number = 0;
           }
           // Deal with a w element.
           if (!xmlStrcmp(element_name, BAD_CAST "w")) {
             within_relevant_element = true;
-            current_items_count = 0;
-            raw_data.clear();
+            item_number++;
+            textfragment.clear();
+            lemmata.clear();
             char *attribute;
-            attribute = (char *)xmlTextReaderGetAttribute(reader, BAD_CAST "morph");
+            attribute = (char *)xmlTextReaderGetAttribute(reader, BAD_CAST "lemma");
             if (attribute) {
-              raw_data = attribute;
+              lemmata = attribute;
               free(attribute);
             }
-          }
-          // Deal with a transChange element.
-          if (!xmlStrcmp(element_name, BAD_CAST "transChange")) {
-            within_relevant_element = true;
           }
           break;
         }
@@ -193,10 +218,9 @@ void kjv_import_sword ()
           if (within_relevant_element) {
             xmlChar *text = xmlTextReaderValue(reader);
             if (text) {
-              Parse parse ((const char *)text);
+              textfragment = (const char *)text;
               xmlFree(text);
-              current_items_count = parse.words.size();
-              total_items_count += current_items_count;
+              textfragment = textfragment.casefold();
             }
           }
           break;
@@ -205,23 +229,14 @@ void kjv_import_sword ()
         {
           xmlChar *element_name = xmlTextReaderName(reader);
           if (!xmlStrcmp(element_name, BAD_CAST "w")) {
-            within_relevant_element = false;
-            Parse parse (raw_data, false);
-            for (unsigned int i = 0; i < parse.words.size(); i++) {
-              Parse parse2 (parse.words[i], false, ":");
-              if (parse2.words.size() == 2) {
-                // The morphology is in the second parsed word.
-                for (int i = current_items_count; i > 0; i--) {
-                  char *sql;
-                  sql = g_strdup_printf("insert into morphology values (%d, %d, %d, %d, '%s');", reference.book, reference.chapter, convert_to_int (reference.verse), total_items_count - i, double_apostrophy (parse2.words[1]).c_str());
-                  sqlite3_exec(db, sql, NULL, NULL, NULL);
-                  g_free(sql);
-                }
-              }
-            }
-          }
-          // Deal with a transChange element.
-          if (!xmlStrcmp(element_name, BAD_CAST "transChange")) {
+            replace_text (lemmata, "strong:", "");
+            char *sql;
+            sql = g_strdup_printf("insert into kjv values (%d, %d, %d, %d, '%s', '%s');", 
+                                  reference.book, reference.chapter, convert_to_int (reference.verse), 
+                                  item_number, 
+                                  double_apostrophy (textfragment).c_str(), lemmata.c_str());
+            sqlite3_exec(db, sql, NULL, NULL, NULL);
+            g_free(sql);
             within_relevant_element = false;
           }
           break;
@@ -244,6 +259,7 @@ void kjv_import_sword ()
 
 void kjv_import_zefania ()
 {
+  /*
   // Show the progress. KJV has 31102 verses.
   ProgressWindow progresswindow ("Importing text and lemmata into the King James Bible", false);
   progresswindow.set_iterate (0, 1, 31102);
@@ -391,6 +407,7 @@ void kjv_import_zefania ()
   
   // Free xml data.    
   g_free(contents);
+  */
 }
 
 
@@ -402,7 +419,7 @@ void kjv_get_strongs_data (const Reference& reference, vector <unsigned int>& st
   char *error = NULL;
   try {
     // Open the database.
-    rc = sqlite3_open(kjv_get_sql_filename().c_str(), &db);
+    rc = sqlite3_open(kjv_sql_filename().c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
@@ -466,7 +483,7 @@ vector <Reference> kjv_get_strongs_verses (const Reference& reference, unsigned 
   char *error = NULL;
   try {
     SqliteReader reader(0);
-    rc = sqlite3_open(kjv_get_sql_filename().c_str(), &db);
+    rc = sqlite3_open(kjv_sql_filename().c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
@@ -504,7 +521,7 @@ ustring kjv_get_verse (const Reference& reference)
   char *error = NULL;
   try {
     SqliteReader reader(0);
-    rc = sqlite3_open(kjv_get_sql_filename().c_str(), &db);
+    rc = sqlite3_open(kjv_sql_filename().c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
@@ -541,7 +558,7 @@ vector <Reference> kjv_search_text (ustring text)
   char *error = NULL;
   try {
     SqliteReader reader(0);
-    rc = sqlite3_open(kjv_get_sql_filename().c_str(), &db);
+    rc = sqlite3_open(kjv_sql_filename().c_str(), &db);
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
