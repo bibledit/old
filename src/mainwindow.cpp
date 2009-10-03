@@ -7116,6 +7116,9 @@ Todo tasks.
 
 
 
+To release bibledit between 5 and 9 October.
+
+
 bug #27238: can't export to Openoffice
 
 I am glad that it now Works Well! 
