@@ -45,6 +45,8 @@ protected:
   GtkWidget *okbutton;
 private:
   vector <GtkWidget *> radiobuttons;
+  static gboolean on_radiobutton_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data);
+  void radiobutton_button_press_event (GdkEventButton *event);
   static void on_okbutton_clicked (GtkButton *button, gpointer user_data);
   void on_okbutton ();
 };

@@ -83,6 +83,8 @@ RadiobuttonDialog::RadiobuttonDialog(const ustring & title, const ustring & info
       gtk_widget_grab_focus(radiobutton);
     }
 
+    g_signal_connect ((gpointer) radiobutton, "button_press_event", G_CALLBACK (on_radiobutton_button_press_event), gpointer (this));
+
   }
 
   dialog_action_area1 = GTK_DIALOG(radiobuttondialog)->action_area;
@@ -124,6 +126,22 @@ RadiobuttonDialog::~RadiobuttonDialog()
 int RadiobuttonDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(radiobuttondialog));
+}
+
+
+gboolean RadiobuttonDialog::on_radiobutton_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
+{
+  ((RadiobuttonDialog *) user_data)->radiobutton_button_press_event(event);
+  return false;  
+}
+
+
+void RadiobuttonDialog::radiobutton_button_press_event (GdkEventButton *event)
+{
+  if (event->type == GDK_2BUTTON_PRESS) {
+    on_okbutton();
+    gtk_dialog_response(GTK_DIALOG(radiobuttondialog), GTK_RESPONSE_OK);
+  }
 }
 
 

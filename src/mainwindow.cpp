@@ -7115,34 +7115,10 @@ void MainWindow::on_file_import ()
 Todo tasks.
 
 
-
-To remove the BibleWorks import option.
-
-
-
-By default the verse list shows references only. The user can add USFM texts to be displayed also, in addition.
-
-
-
-We may have to use three outposts altogether:
-One on cxoffice
-One on wine
-One on a Windows virtual machine.
-Then it needs to know which appliance runs on which Outpost.
-the reason is that BibleWorks runs well on cxoffice, but the Online Bible runs better on Wine.
-And other applications may only run on Windows. So three outposts are needed.
-The port number may have to be passed on the commandline so that two numbers are possible on Linux.
-
-
-
 To send next announcement also to bibledit-announce@nongnu.org, and check whether the RSS feed updates.
 
 
-If project notes are to be shared through a repository, then these notes go into a git repository with each note being one file,
-named by its id. We may decide to use subdirectories also. Since searching in the notes becomes slow now, we may use a database as index.
-
-
-svn push access was given to the xiphos project. To create the patch for the more parallel bibles.
+svn push access was given to the xiphos project. To create the patch for the more parallel bibles. To send patch to dev list first.
 
 
 */
