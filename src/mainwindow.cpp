@@ -7115,6 +7115,57 @@ void MainWindow::on_file_import ()
 Todo tasks.
 
 
+
+bug #27238: can't export to Openoffice
+
+I am glad that it now Works Well! 
+What I'll do, to prevent further trouble in the future, is to give a big warning if any styles are in the document to be exported, 
+but are not in the stylesheet. The user then knows that the cause of malfunction can be the stylesheet. 
+PS. And the same warning probably should also be used when printing to PDF. The same problem of undefined styles occurs there also
+
+I thought that maybe the file would export OK if I unchecked the box for printing. 
+So I turned off printing for the two extra styles.
+The Openoffice export still has all of the regular footnotes printing in the verse with format markers. 
+Fix for this is to let the OpenOffice export honour the Print setting.
+
+But the book in question probably does not even have any of the odd two footnote styles. 
+I notice that when I printed to a PDF, printing a book that does have those styles, 
+the PDF is printing properly without those two types of footnotes appearing.
+
+
+
+
+
+bug #27529: crash when going to Next part of references
+This seems to be because of a faulty Notes database.
+Fix is to let is not crash even if the notes database is faulty.
+
+
+
+
+
+bug #27564: crash when starting to type in Project Note
+This seems to be because of a faulty Notes database.
+Fix is to let is not crash even if the notes database is faulty.
+
+
+
+bug #27566: BE no longer allows me to choose a project for a Project Note
+This seems to be because of a faulty Notes database.
+Fix is to let is not crash even if the notes database is faulty.
+Or give a message about the problem, that would be more helpful.
+
+
+
+bug #27571: crash when starting BE
+The problem with gdb right now is that bibledit won't run in it since it thinks that it is already running, and therefore bails out. 
+* It needs a switch to disable this, or something else to disable it.
+
+
+
+
+
+
 To send next announcement also to bibledit-announce@nongnu.org, and check whether the RSS feed updates.
 
 
