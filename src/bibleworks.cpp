@@ -34,9 +34,9 @@
 #include "categorize.h"
 #include "projectutils.h"
 #include "progresswindow.h"
-#include "sourcelanguage.h"
 #include "gtkwrappers.h"
 #include "shell.h"
+#include <sqlite3.h>
 
 
 ustring bibleworks_exported_file_get_bookname(const ustring & filename)
@@ -284,7 +284,7 @@ void check_bibleworks_source_language (vector <ustring>& filenames, vector <ustr
 }
 
 
-void import_bibleworks_source_language (vector <ustring>& files, const ustring& name, BibleWorksTextConversionType conversion, vector <ustring>& messages)
+void import_bibleworks_source_language (vector <ustring>& files, const ustring& name, BibleWorksTextConversionType conversion, vector <ustring>& messages) // Todo goes out.
 {
   // Read the text file and the morphology file.
   // Check that the data looks right.
@@ -301,7 +301,7 @@ void import_bibleworks_source_language (vector <ustring>& files, const ustring& 
 
   // Check that this name is not in use.
   {
-    vector <ustring> names = source_language_get_names ();
+    vector <ustring> names;
     set <ustring> names_set (names.begin(), names.end());
     if (names_set.find (name) != names_set.end()) {
       ustring message = "The name \"" + name + "\" is already in use";
@@ -311,12 +311,9 @@ void import_bibleworks_source_language (vector <ustring>& files, const ustring& 
     }
   }
   
-  // Create the database.
-  source_language_database_create (name);
-  
   // Open the database in fast mode.
   sqlite3 *db;
-  sqlite3_open(source_language_database_file_name(name).c_str(), &db);
+  sqlite3_open("/xxx", &db);
   sqlite3_exec(db, "PRAGMA synchronous=OFF;", NULL, NULL, NULL);
   
   // Go through the input data.

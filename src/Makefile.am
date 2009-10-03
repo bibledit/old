@@ -267,7 +267,6 @@ bibledit_SOURCES = \
 				bibleworks.cpp \
 				onlinebible.cpp \
 				robinson.cpp \
-				sourcelanguage.cpp \
 				morphology.cpp \
 				greek.cpp \
 				startup.cpp \

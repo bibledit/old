@@ -29,7 +29,6 @@
 #include "directories.h"
 #include "unixwrappers.h"
 #include "sqlite_reader.h"
-#include "sourcelanguage.h"
 
 
 void kjv_home_entry (HtmlWriter2& htmlwriter)

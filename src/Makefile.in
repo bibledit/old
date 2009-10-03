@@ -173,8 +173,8 @@ am_bibledit_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialogmaintenance.$(OBJEXT) kjv.$(OBJEXT) \
 	assistantimport.$(OBJEXT) mechonmamre.$(OBJEXT) \
 	bibleworks.$(OBJEXT) onlinebible.$(OBJEXT) robinson.$(OBJEXT) \
-	sourcelanguage.$(OBJEXT) morphology.$(OBJEXT) greek.$(OBJEXT) \
-	startup.$(OBJEXT) dialogyesnoalways.$(OBJEXT) xiphos.$(OBJEXT)
+	morphology.$(OBJEXT) greek.$(OBJEXT) startup.$(OBJEXT) \
+	dialogyesnoalways.$(OBJEXT) xiphos.$(OBJEXT)
 bibledit_OBJECTS = $(am_bibledit_OBJECTS)
 bibledit_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
@@ -618,7 +618,6 @@ bibledit_SOURCES = \
 				bibleworks.cpp \
 				onlinebible.cpp \
 				robinson.cpp \
-				sourcelanguage.cpp \
 				morphology.cpp \
 				greek.cpp \
 				startup.cpp \
@@ -907,7 +906,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shell.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shortcuts.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/snapshots.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sourcelanguage.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/spelling.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sqlite_reader.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/startup.Po@am__quote@
