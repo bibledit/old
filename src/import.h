@@ -27,7 +27,7 @@
 #include "types.h"
 
 
-enum ImportType {itBible, itReferences, itStylesheet, itNotes, itKeyterms, itSourceLanguage};
+enum ImportType {itBible, itReferences, itStylesheet, itNotes, itKeyterms};
 enum ImportBibleType {ibtUsfm, ibtBibleWorks, ibtOnlineBible, ibtRawText};
 
 

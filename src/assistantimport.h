@@ -59,7 +59,6 @@ private:
   GtkWidget *radiobutton_select_type_stylesheet;
   GtkWidget *radiobutton_select_type_notes;
   GtkWidget *radiobutton_select_type_keyterms;
-  GtkWidget *radiobutton_select_type_source_language;
   ImportType get_type ();
 
   // Confirm or change Bible.
@@ -125,12 +124,6 @@ private:
   void on_entry_sword (GtkEditable *editable);
   void sword_values_set ();
   
-  // Source language import type (there's only one now).
-  int page_number_source_language_type;
-  GtkWidget *vbox_source_language_type;
-  GtkWidget *radiobutton_source_language_bibleworks;
-  ImportBibleType get_source_language_type ();
-
   // Include keyterms without rendering?
   int page_number_keyterms_without_rendering;
   GtkWidget *checkbutton_keyterms_without_rendering;
@@ -174,19 +167,6 @@ private:
   void on_button_unicode ();
   bool unicode_okay;
   
-  // BibleWorks text conversion type. (Not used currently)
-  int page_number_bibleworks_text_conversion_type;
-  GtkWidget *vbox_bibleworks_text_conversion_type;
-  GtkWidget *radiobutton_bibleworks_text_conversion_none;
-  GtkWidget *radiobutton_bibleworks_text_conversion_hebrew;
-  GtkWidget *radiobutton_bibleworks_text_conversion_greek;
-  BibleWorksTextConversionType get_bibleworks_text_conversion_type ();
-
-  // Source language name.
-  int page_number_source_language_name;
-  GtkWidget * entry_source_language_name;
-  ustring source_language_name ();
-
   // Confirmation stuff.
   int page_number_confirm;
   GtkWidget *label_confirm;

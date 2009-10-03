@@ -114,19 +114,12 @@ AssistantBase("Import", "import")
   // Importing keyterms only works when the check keyterms window shows.
   gtk_widget_set_sensitive (radiobutton_select_type_keyterms, my_check_keyterms_window != NULL);
   
-  radiobutton_select_type_source_language = gtk_radio_button_new_with_mnemonic (NULL, "Source language");
-  gtk_widget_show (radiobutton_select_type_source_language);
-  gtk_box_pack_start (GTK_BOX (vbox_select_type), radiobutton_select_type_source_language, FALSE, FALSE, 0);
-  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_select_type_source_language), radiobutton_select_type_group);
-  radiobutton_select_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_select_type_source_language));
-
   Shortcuts shortcuts_select_type (0);
   shortcuts_select_type.button (radiobutton_select_type_bible);
   shortcuts_select_type.button (radiobutton_select_type_references);
   shortcuts_select_type.button (radiobutton_select_type_stylesheet);
   shortcuts_select_type.button (radiobutton_select_type_notes);
   shortcuts_select_type.button (radiobutton_select_type_keyterms);
-  shortcuts_select_type.button (radiobutton_select_type_source_language);
   shortcuts_select_type.consider_assistant();
   shortcuts_select_type.process();
 
@@ -383,29 +376,6 @@ AssistantBase("Import", "import")
 
   sword_values_set ();
 
-  // Select what type of source language to import.
-  vbox_source_language_type = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox_source_language_type);
-  page_number_source_language_type = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_source_language_type);
-  gtk_container_set_border_width (GTK_CONTAINER (vbox_source_language_type), 10);
-
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_source_language_type, "What type of data would you like to import?");
-  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_source_language_type, GTK_ASSISTANT_PAGE_CONTENT);
-  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_source_language_type, true);
-
-  GSList *radiobutton_source_language_type_group = NULL;
-
-  radiobutton_source_language_bibleworks = gtk_radio_button_new_with_mnemonic (NULL, "From BibleWorks");
-  gtk_widget_show (radiobutton_source_language_bibleworks);
-  gtk_box_pack_start (GTK_BOX (vbox_source_language_type), radiobutton_source_language_bibleworks, FALSE, FALSE, 0);
-  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_source_language_bibleworks), radiobutton_source_language_type_group);
-  radiobutton_source_language_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_source_language_bibleworks));
-
-  Shortcuts shortcuts_select_source_language_type (0);
-  shortcuts_select_source_language_type.button (radiobutton_source_language_bibleworks);
-  shortcuts_select_source_language_type.consider_assistant();
-  shortcuts_select_source_language_type.process();
-
   // Include keyterms without a rendering?
   checkbutton_keyterms_without_rendering = gtk_check_button_new_with_mnemonic ("Include keyterms without a rendering");
   gtk_widget_show (checkbutton_keyterms_without_rendering);
@@ -549,52 +519,6 @@ AssistantBase("Import", "import")
   gtk_widget_show (label_unicode);
   gtk_box_pack_start (GTK_BOX (hbox2), label_unicode, FALSE, FALSE, 0);
 
-  // BibleWorks text conversion type.
-  vbox_bibleworks_text_conversion_type = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox_bibleworks_text_conversion_type);
-  page_number_bibleworks_text_conversion_type = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_bibleworks_text_conversion_type);
-  gtk_container_set_border_width (GTK_CONTAINER (vbox_bibleworks_text_conversion_type), 10);
-
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_bibleworks_text_conversion_type, "Should the text be converted?");
-  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_bibleworks_text_conversion_type, GTK_ASSISTANT_PAGE_CONTENT);
-  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_bibleworks_text_conversion_type, true);
-
-  GSList *radiobutton_bibledit_text_conversion_type_group = NULL;
-
-  radiobutton_bibleworks_text_conversion_none = gtk_radio_button_new_with_mnemonic (NULL, "No, leave it as it is");
-  gtk_widget_show (radiobutton_bibleworks_text_conversion_none);
-  gtk_box_pack_start (GTK_BOX (vbox_bibleworks_text_conversion_type), radiobutton_bibleworks_text_conversion_none, FALSE, FALSE, 0);
-  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bibleworks_text_conversion_none), radiobutton_bibledit_text_conversion_type_group);
-  radiobutton_bibledit_text_conversion_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bibleworks_text_conversion_none));
-
-  radiobutton_bibleworks_text_conversion_hebrew = gtk_radio_button_new_with_mnemonic (NULL, "Yes, convert it into Hebrew");
-  gtk_widget_show (radiobutton_bibleworks_text_conversion_hebrew);
-  gtk_box_pack_start (GTK_BOX (vbox_bibleworks_text_conversion_type), radiobutton_bibleworks_text_conversion_hebrew, FALSE, FALSE, 0);
-  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bibleworks_text_conversion_hebrew), radiobutton_bibledit_text_conversion_type_group);
-  radiobutton_bibledit_text_conversion_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bibleworks_text_conversion_hebrew));
-
-  radiobutton_bibleworks_text_conversion_greek = gtk_radio_button_new_with_mnemonic (NULL, "Yes, convert it into Greek");
-  gtk_widget_show (radiobutton_bibleworks_text_conversion_greek);
-  gtk_box_pack_start (GTK_BOX (vbox_bibleworks_text_conversion_type), radiobutton_bibleworks_text_conversion_greek, FALSE, FALSE, 0);
-  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton_bibleworks_text_conversion_greek), radiobutton_bibledit_text_conversion_type_group);
-  radiobutton_bibledit_text_conversion_type_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton_bibleworks_text_conversion_greek));
-
-  Shortcuts shortcuts_bibleworks_text_conversion_type (0);
-  shortcuts_bibleworks_text_conversion_type.button (radiobutton_bibleworks_text_conversion_none);
-  shortcuts_bibleworks_text_conversion_type.button (radiobutton_bibleworks_text_conversion_hebrew);
-  shortcuts_bibleworks_text_conversion_type.button (radiobutton_bibleworks_text_conversion_greek);
-  shortcuts_bibleworks_text_conversion_type.consider_assistant();
-  shortcuts_bibleworks_text_conversion_type.process();
-
-  // Source language name.
-  entry_source_language_name = gtk_entry_new ();
-  gtk_widget_show (entry_source_language_name);
-  page_number_source_language_name = gtk_assistant_append_page (GTK_ASSISTANT (assistant), entry_source_language_name);
-
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), entry_source_language_name, "What will the name of the source language be?");
-  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), entry_source_language_name, GTK_ASSISTANT_PAGE_CONTENT);
-  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), entry_source_language_name, true);
-  
   // Build the confirmation stuff.
   label_confirm = gtk_label_new ("Import about to be done");
   gtk_widget_show (label_confirm);
@@ -769,11 +693,6 @@ void ImportAssistant::on_assistant_apply ()
       import_keyterms = true;
       break;
     }
-    case itSourceLanguage:
-    {
-      import_bibleworks_source_language (files_names, source_language_name(), get_bibleworks_text_conversion_type (), summary_messages);
-      break;
-    }
   }
   // Show summary.
   gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), summary_page_number);
@@ -839,14 +758,6 @@ gint ImportAssistant::assistant_forward (gint current_page)
     }
     case itKeyterms:
     {
-      break;
-    }
-    case itSourceLanguage:
-    {
-      forward_sequence.insert (page_number_source_language_type);
-      forward_sequence.insert (page_number_files);
-      //forward_sequence.insert (page_number_bibleworks_text_conversion_type);
-      forward_sequence.insert (page_number_source_language_name);
       break;
     }
   }
@@ -1023,11 +934,6 @@ void ImportAssistant::on_button_files ()
       {
         break;
       }
-    case itSourceLanguage:
-      {
-        check_bibleworks_source_language (files_names, files_messages);
-        break;
-      }
     }
   }
 
@@ -1064,9 +970,6 @@ ImportType ImportAssistant::get_type ()
   }
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_select_type_keyterms))) {
     return itKeyterms;
-  }
-  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_select_type_source_language))) {
-    return itSourceLanguage;
   }
   return itBible;
 }
@@ -1165,27 +1068,6 @@ void ImportAssistant::sword_values_set ()
 bool ImportAssistant::get_include_keyterms_without_rendering ()
 {
   return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_keyterms_without_rendering));
-}
-
-
-ustring ImportAssistant::source_language_name ()
-{
-  return gtk_entry_get_text (GTK_ENTRY (entry_source_language_name));
-}
-
-
-BibleWorksTextConversionType ImportAssistant::get_bibleworks_text_conversion_type ()
-{
-  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_bibleworks_text_conversion_none))) {
-    return btctNone;
-  }
-  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_bibleworks_text_conversion_hebrew))) {
-    return btctHebrew;
-  }
-  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton_bibleworks_text_conversion_greek))) {
-    return btctGreek;
-  }
-  return btctNone;
 }
 
 

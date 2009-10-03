@@ -7116,9 +7116,6 @@ Todo tasks.
 
 
 
-To remove all Source languages options from Bibledit again.
-To update the database creation from the Sword KJV, so that is is done only by the programmer, not by the user.
-To remove the lexicons.
 To remove the BibleWorks import option.
 
 
