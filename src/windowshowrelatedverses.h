@@ -43,7 +43,7 @@ public:
   void go_to(const ustring& project, const Reference& reference);
   GtkWidget *button_item;
   RelatedItemType item_type;
-  unsigned int item_id;
+  ustring item_id;
 protected:
   GtkWidget *scrolledwindow;
   GtkWidget *htmlview;

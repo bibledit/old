@@ -4525,12 +4525,12 @@ void MainWindow::on_window_show_related_verses_item_button()
     case ritKeytermId:
     {
       gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(check_key_terms), true);
-      window_check_keyterms->go_to_term (window_show_related_verses->item_id);
+      window_check_keyterms->go_to_term (convert_to_int (window_show_related_verses->item_id));
       break;
     }
     case ritStrongNumber:
     {
-      vector <Reference> references = kjv_get_strongs_verses (navigation.reference, window_show_related_verses->item_id);
+      vector <Reference> references = kjv_get_strongs_verses (window_show_related_verses->item_id);
       show_references_window();
       extern Settings * settings;
       window_references->set (references, settings->genconfig.project_get(), NULL);

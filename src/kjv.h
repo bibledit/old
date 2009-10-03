@@ -41,9 +41,8 @@ void kjv_import_sword (const ustring& textfile, const ustring& database);
 
 void kjv_import_sword ();
 void kjv_import_zefania ();
-void kjv_get_strongs_data (const Reference& reference, vector <unsigned int>& strongs, vector <ustring>& words);
-vector <Reference> kjv_get_strongs_verses (const Reference& reference, unsigned int strongs);
-vector <Reference> kjv_search_strong (ustring strong);
+void kjv_get_strongs_data (const Reference& reference, vector <ustring>& strongs, vector <ustring>& words);
+vector <Reference> kjv_get_strongs_verses (const ustring& strongs);
 
 
 #endif

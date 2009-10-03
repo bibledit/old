@@ -95,14 +95,14 @@ void WindowShowRelatedVerses::html_link_clicked (const gchar * url)
 
   if (active_url.find ("keyterm ") == 0) {
     item_type = ritKeytermId;
-    item_id = convert_to_int (active_url.substr (8, 100));
+    item_id = active_url.substr (8, 100);
     gtk_button_clicked (GTK_BUTTON (button_item));
     display_another_page = false;
   }
 
   else if (active_url.find ("strong ") == 0) {
     item_type = ritStrongNumber;
-    item_id = convert_to_int (active_url.substr (7, 100));
+    item_id = active_url.substr (7, 100);
     gtk_button_clicked (GTK_BUTTON (button_item));
     display_another_page = false;
   }
@@ -165,7 +165,7 @@ void WindowShowRelatedVerses::html_link_clicked (const gchar * url)
     htmlwriter.heading_close ();
 
     // Get the data.
-    vector <unsigned int> strongs;
+    vector <ustring> strongs;
     vector <ustring> words;
     kjv_get_strongs_data (myreference, strongs, words);
 
@@ -174,8 +174,8 @@ void WindowShowRelatedVerses::html_link_clicked (const gchar * url)
       htmlwriter.paragraph_open ();
       htmlwriter.text_add (words[i]);
       htmlwriter.text_add (" ");
-      ustring url = "strong " + convert_to_string (strongs[i]);
-      htmlwriter.hyperlink_add (url, convert_to_string (strongs[i]));
+      ustring url = "strong " + strongs[i];
+      htmlwriter.hyperlink_add (url, strongs[i]);
       htmlwriter.paragraph_close ();
     }
     

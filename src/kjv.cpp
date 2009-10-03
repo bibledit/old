@@ -257,7 +257,7 @@ void kjv_import_sword (const ustring& textfile, const ustring& database)
 }
 
 
-void kjv_get_strongs_data (const Reference& reference, vector <unsigned int>& strongs, vector <ustring>& words) // Todo update to use new database.
+void kjv_get_strongs_data (const Reference& reference, vector <ustring>& strongs, vector <ustring>& words)
 // This gets the words and their applicable Strong's numbers for a verse.
 {
   sqlite3 *db;
@@ -269,42 +269,17 @@ void kjv_get_strongs_data (const Reference& reference, vector <unsigned int>& st
     if (rc)
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
-    // Retrieve the full text.
-    ustring text;
-    {
-      SqliteReader reader(0);
-      char *sql;
-      sql = g_strdup_printf("select text from text where book = %d and chapter = %d and verse = %d;", reference.book, reference.chapter, convert_to_int (reference.verse));
-      rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
-      g_free(sql);
-      if (rc) {
-        throw runtime_error(sqlite3_errmsg(db));
-      }
-      if (!reader.ustring0.empty()) {
-        text = reader.ustring0[0];
-      }
+    // Retrieve the bits.
+    SqliteReader reader(0);
+    char *sql;
+    sql = g_strdup_printf("select fragment, lemma from kjv where book = %d and chapter = %d and verse = %d order by item asc;", reference.book, reference.chapter, convert_to_int (reference.verse));
+    rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
+    g_free(sql);
+    if (rc) {
+      throw runtime_error(sqlite3_errmsg(db));
     }
-    // Parse the text.
-    Parse parse (text, false);
-    // Retrieve the Strong's data.
-    if (!text.empty ()) {
-      SqliteReader reader(0);
-      char *sql;
-      sql = g_strdup_printf("select item, value from lemmata where book = %d and chapter = %d and verse = %d order by item asc;", reference.book, reference.chapter, convert_to_int (reference.verse));
-      rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
-      g_free(sql);
-      if (rc) {
-        throw runtime_error(sqlite3_errmsg(db));
-      }
-      for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
-        unsigned int item = convert_to_int (reader.ustring0[i]);
-        unsigned int number = convert_to_int (reader.ustring1[i]);
-        if (item < parse.words.size()) {
-          strongs.push_back (number);
-          words.push_back (parse.words[item]);
-        }
-      }
-    }
+    words = reader.ustring0;
+    strongs = reader.ustring1;
   }
   catch(exception & ex) {
     gw_critical(ex.what());
@@ -313,13 +288,9 @@ void kjv_get_strongs_data (const Reference& reference, vector <unsigned int>& st
 }
 
 
-vector <Reference> kjv_get_strongs_verses (const Reference& reference, unsigned int strongs) // Todo update to use the new db.
-// Passing a Strong's number, and a Reference, this returns all the verses that contain this Strong's number.
-// The Reference is used to find out whether to look for this Strong's number in the Old or New Testament.
+vector <Reference> kjv_get_strongs_verses (const ustring& strongs)
+// Passing a Strong's number, this returns all the verses that contain this Strong's number.
 {
-  // Get the type of the book, e.g. whether Old or New Testament.
-  BookType booktype = books_id_to_type (reference.book);
-
   // Store the references.
   vector <Reference> references;
   
@@ -334,7 +305,7 @@ vector <Reference> kjv_get_strongs_verses (const Reference& reference, unsigned 
       throw runtime_error(sqlite3_errmsg(db));
     sqlite3_busy_timeout(db, 1000);
     char *sql;
-    sql = g_strdup_printf("select distinct book, chapter, verse from lemmata where value = '%s';", convert_to_string (strongs).c_str());
+    sql = g_strdup_printf("select distinct book, chapter, verse from kjv where lemma glob ('*%s*');", strongs.c_str());
     rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
     g_free(sql);
     if (rc) {
@@ -343,9 +314,7 @@ vector <Reference> kjv_get_strongs_verses (const Reference& reference, unsigned 
     for (unsigned int i = 0; i < reader.ustring0.size(); i++) {
       // Get the references, and store it only if it comes from the same Testament we need.
       Reference ref (convert_to_int (reader.ustring0[i]), convert_to_int (reader.ustring1[i]), reader.ustring2[i]);
-      if (books_id_to_type (ref.book) == booktype) {
-        references.push_back (ref);
-      }
+      references.push_back (ref);
     }
   }
   catch(exception & ex) {
@@ -357,18 +326,4 @@ vector <Reference> kjv_get_strongs_verses (const Reference& reference, unsigned 
   return references;
 }
 
-
-vector <Reference> kjv_search_strong (ustring strong) // Todo update to use the new db.
-// Searches the KJV for a Strong's number and returns the references.
-{
-  bool greek_lexicon = strong.substr (0, 1) == "G";
-  vector <unsigned int> books;
-  if (greek_lexicon)
-    books = books_type_to_ids (btNewTestament);
-  else
-    books = books_type_to_ids (btOldTestament);
-  Reference reference (books[0], 1, "1");
-  unsigned int strongs = convert_to_int (number_in_string (strong));
-  return kjv_get_strongs_verses (reference, strongs);
-}
 
