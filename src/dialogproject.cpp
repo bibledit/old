@@ -46,7 +46,9 @@
 #include "scripts.h"
 #include "dialogdictionary.h"
 
+
 #define NEW_PROJECT "New Project"
+
 
 ProjectDialog::ProjectDialog(bool newproject)
 {
@@ -323,15 +325,18 @@ ProjectDialog::ProjectDialog(bool newproject)
   set_gui();
 }
 
+
 ProjectDialog::~ProjectDialog()
 {
   gtk_widget_destroy(projectdialog);
 }
 
+
 int ProjectDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(projectdialog));
 }
+
 
 void ProjectDialog::set_gui()
 {
@@ -387,6 +392,7 @@ void ProjectDialog::set_gui()
   sensitive = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_spelling));
   gtk_widget_set_sensitive(button_dictionaries, sensitive);
 }
+
 
 void ProjectDialog::on_ok()
 {
@@ -483,11 +489,13 @@ void ProjectDialog::on_ok()
 
 }
 
+
 void ProjectDialog::on_cancel()
 {
   // Remove the "New Project". It was created but not used.
   project_delete(NEW_PROJECT);
 }
+
 
 void ProjectDialog::on_book_add()
 {
@@ -556,6 +564,7 @@ void ProjectDialog::on_book_add()
   set_gui();
 }
 
+
 void ProjectDialog::on_book_delete()
 {
   vector < unsigned int >selectables;
@@ -598,40 +607,48 @@ void ProjectDialog::on_book_delete()
 }
 
 
+
 void ProjectDialog::projectdialog_on_nameentry_changed(GtkEditable * editable, gpointer user_data)
 {
   ((ProjectDialog *) user_data)->set_gui();
 }
+
 
 void ProjectDialog::projectdialog_on_okbutton1_clicked(GtkButton * button, gpointer user_data)
 {
   ((ProjectDialog *) user_data)->on_ok();
 }
 
+
 void ProjectDialog::projectdialog_on_addbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((ProjectDialog *) user_data)->on_book_add();
 }
+
 
 void ProjectDialog::projectdialog_on_deletebutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((ProjectDialog *) user_data)->on_book_delete();
 }
 
+
 void ProjectDialog::projectdialog_on_cancelbutton1_clicked(GtkButton * button, gpointer user_data)
 {
   ((ProjectDialog *) user_data)->on_cancel();
 }
+
 
 void ProjectDialog::on_checkbutton_editable_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((ProjectDialog *) user_data)->set_gui();
 }
 
+
 void ProjectDialog::on_checkbutton_dependent_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((ProjectDialog *) user_data)->on_checkbutton_dependent();
 }
+
 
 void ProjectDialog::on_checkbutton_dependent()
 {
@@ -644,10 +661,12 @@ void ProjectDialog::on_checkbutton_dependent()
   gtk_widget_set_sensitive(combobox_depend, on);
 }
 
+
 void ProjectDialog::on_button_depend_clicked(GtkButton * button, gpointer user_data)
 {
   ((ProjectDialog *) user_data)->on_button_depend();
 }
+
 
 void ProjectDialog::on_button_depend()
 {
@@ -657,6 +676,7 @@ void ProjectDialog::on_button_depend()
   }
 }
 
+
 ustring ProjectDialog::dependent_project(const ustring & project)
 {
   ustring label(project);
@@ -665,10 +685,12 @@ ustring ProjectDialog::dependent_project(const ustring & project)
   return label;
 }
 
+
 ustring ProjectDialog::none_project()
 {
   return "<none>";
 }
+
 
 ustring ProjectDialog::dependent_project()
 // Gets the project name from the button.
@@ -679,10 +701,12 @@ ustring ProjectDialog::dependent_project()
   return project;
 }
 
+
 void ProjectDialog::on_button_dictionaries_clicked(GtkButton * button, gpointer user_data)
 {
   ((ProjectDialog *) user_data)->on_button_dictionaries();
 }
+
 
 void ProjectDialog::on_button_dictionaries()
 {
@@ -690,10 +714,10 @@ void ProjectDialog::on_button_dictionaries()
   dialog.run();
 }
 
+
 void ProjectDialog::on_checkbutton_spelling_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((ProjectDialog *) user_data)->set_gui();
 }
 
-// Todo too tall?
 

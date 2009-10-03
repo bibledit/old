@@ -17,11 +17,13 @@
 **  
 */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "dialogdate.h"
 #include "date_time_utils.h"
 #include "help.h"
+
 
 DateDialog::DateDialog(guint32 * seconds_since_epoch, bool showtime) :
 datewidget (seconds_since_epoch, showtime)
@@ -65,25 +67,27 @@ If showtime is true it shows the time also.
   gtk_widget_grab_default(okbutton1);
 }
 
+
 DateDialog::~DateDialog()
 {
   gtk_widget_destroy(datedialog);
 }
+
 
 int DateDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(datedialog));
 }
 
+
 void DateDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((DateDialog *) user_data)->on_okbutton();
 }
 
+
 void DateDialog::on_okbutton()
 {
 }
 
-
-// Todo too tall?
 

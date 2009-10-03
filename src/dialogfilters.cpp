@@ -281,7 +281,7 @@ void FiltersDialog::on_button_new()
   vector < ustring > types;
   for (unsigned int i = 0; i < stEnd; i++)
     types.push_back(script_get_named_type((ScriptType) i));
-  RadiobuttonDialog typedialog("Script type", "Select the type of the script", types, 0);
+  RadiobuttonDialog typedialog("Script type", "Select the type of the script", types, 0, false);
   if (typedialog.run() != GTK_RESPONSE_OK)
     return;
 

@@ -1,3 +1,3 @@
-dist_pkgdata_DATA = *.xml *.zip *.TXT
-EXTRA_DIST = README
+# dist_pkgdata_DATA = *.xml *.zip *.TXT
+EXTRA_DIST = *
 CLEANFILES = *~

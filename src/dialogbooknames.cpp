@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "dialogbooknames.h"
@@ -26,8 +27,11 @@
 #include "help.h"
 #include "settings.h"
 #include "shortcuts.h"
+#include "screen.h"
+
 
 enum { COLUMN_BIBLEDIT, COLUMN_EDITABLE, COLUMN_URL, NUM_COLUMNS };
+
 
 BooknamesDialog::BooknamesDialog(const map <unsigned int, ustring>& books, const gchar * info, const gchar * heading2)
 {
@@ -66,7 +70,6 @@ BooknamesDialog::BooknamesDialog(const map <unsigned int, ustring>& books, const
   treeview1 = gtk_tree_view_new();
   gtk_widget_show(treeview1);
   gtk_container_add(GTK_CONTAINER(scrolledwindow1), treeview1);
-  gtk_widget_set_size_request(treeview1, -1, 300);
   gtk_tree_view_set_reorderable(GTK_TREE_VIEW(treeview1), TRUE);
 
   dialog_action_area1 = GTK_DIALOG(resourcebooksdialog)->action_area;
@@ -117,22 +120,28 @@ BooknamesDialog::BooknamesDialog(const map <unsigned int, ustring>& books, const
     ustring text = books_copy[id];
     gtk_list_store_set(model, &iter, COLUMN_BIBLEDIT, books_id_to_english(ids[i]).c_str(), COLUMN_EDITABLE, 1, COLUMN_URL, text.c_str(), -1);
   }
+  
+  new DialogAutoScaler (resourcebooksdialog, G_MAXINT);
 }
+
 
 BooknamesDialog::~BooknamesDialog()
 {
   gtk_widget_destroy(resourcebooksdialog);
 }
 
+
 int BooknamesDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(resourcebooksdialog));
 }
 
+
 void BooknamesDialog::on_okbutton1_clicked(GtkButton * button, gpointer user_data)
 {
   ((BooknamesDialog *) user_data)->on_okbutton();
 }
+
 
 void BooknamesDialog::on_okbutton()
 {
@@ -162,10 +171,12 @@ void BooknamesDialog::on_okbutton()
   }
 }
 
+
 void BooknamesDialog::cell_edited(GtkCellRendererText * cell, const gchar * path_string, const gchar * new_text, gpointer data)
 {
   ((BooknamesDialog *) data)->on_cell_edited(cell, path_string, new_text);
 }
+
 
 void BooknamesDialog::on_cell_edited(GtkCellRendererText * cell, const gchar * path_string, const gchar * new_text)
 {
@@ -184,5 +195,4 @@ void BooknamesDialog::on_cell_edited(GtkCellRendererText * cell, const gchar * p
   gtk_tree_path_free(path);
 }
 
-// Todo too tall?
 

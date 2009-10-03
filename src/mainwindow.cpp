@@ -76,7 +76,6 @@
 #include "dialogbook.h"
 #include "books.h"
 #include "screen.h"
-#include "dialoglinecutter.h"
 #include "dialogoutpost.h"
 #include "dialognotestransfer.h"
 #include "dialogchapternumber.h"
@@ -145,7 +144,7 @@
  */
 
 MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup * accelerator_group):
-WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(true), httpd(0)
+WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
 {
   // Pointer to the settings.
   extern Settings *settings;
@@ -160,7 +159,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   window_styles = NULL;
   window_notes = NULL;
   window_references = NULL;
-  window_show_verses = NULL;
   import_keyterms_assistant = NULL;
   delete_keyterms_assistant = NULL;
   changes_assistant = NULL;
@@ -171,7 +169,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   restore_assistant = NULL;
   export_assistant = NULL;
   import_assistant = NULL;
-  window_source_languages = NULL;
   
   // Initialize some variables.
   git_reopen_project = false;
@@ -185,7 +182,9 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   windows_are_detached = settings->genconfig.windows_detached_get();
   check_spelling_at_start = false;
   check_spelling_at_end = false;
-
+  event_id_receive_reference = 0;
+  previously_received_reference = NULL;
+  
   // Application name.
   g_set_application_name("Bibledit");
 
@@ -919,14 +918,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   gtk_widget_show(view_outline);
   gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_outline);
 
-  view_verses = gtk_check_menu_item_new_with_mnemonic ("_Verses");
-  gtk_widget_show (view_verses);
-  gtk_container_add (GTK_CONTAINER (menuitem_view_menu), view_verses);
-
-  view_source_languages = gtk_check_menu_item_new_with_mnemonic ("_Source languages");
-  gtk_widget_show (view_source_languages);
-  gtk_container_add (GTK_CONTAINER (menuitem_view_menu), view_source_languages);
-
   insert1 = gtk_menu_item_new_with_mnemonic("_Insert");
   gtk_widget_show(insert1);
   gtk_container_add(GTK_CONTAINER(menubar1), insert1);
@@ -1318,7 +1309,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   menutools_menu = gtk_menu_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(menutools), menutools_menu);
 
-  line_cutter_for_hebrew_text1 = NULL;
   notes_transfer = NULL;
   tool_origin_references_in_bible_notes = NULL;
   tool_project_notes_mass_update1 = NULL;
@@ -1326,14 +1316,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   tool_simple_text_corrections = NULL;
   tool_transfer_project_notes_to_text = NULL;
   if (guifeatures.tools()) {
-
-    line_cutter_for_hebrew_text1 = gtk_image_menu_item_new_with_mnemonic("_Line cutter for Hebrew text");
-    gtk_widget_show(line_cutter_for_hebrew_text1);
-    gtk_container_add(GTK_CONTAINER(menutools_menu), line_cutter_for_hebrew_text1);
-
-    image13532 = gtk_image_new_from_stock("gtk-cut", GTK_ICON_SIZE_MENU);
-    gtk_widget_show(image13532);
-    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(line_cutter_for_hebrew_text1), image13532);
 
     notes_transfer = gtk_image_menu_item_new_with_mnemonic("_Transfer text to project notes");
     gtk_widget_show(notes_transfer);
@@ -1409,13 +1391,9 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   gtk_widget_show (image37446);
   gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (tool_send_reference), image37446);
 
-  tools_receive_reference = gtk_image_menu_item_new_with_mnemonic ("R_eceive reference");
+  tools_receive_reference = gtk_check_menu_item_new_with_mnemonic ("R_eceive reference");
   gtk_widget_show (tools_receive_reference);
   gtk_container_add (GTK_CONTAINER (menutools_menu), tools_receive_reference);
-
-  image38150 = gtk_image_new_from_stock ("gtk-connect", GTK_ICON_SIZE_MENU);
-  gtk_widget_show (image38150);
-  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (tools_receive_reference), image38150);
 
   menuitem_preferences = gtk_menu_item_new_with_mnemonic("P_references");
   // At first the Alt-P was the accelerator. On the XO machine, this key is 
@@ -1748,9 +1726,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
   g_signal_connect ((gpointer) view_references, "activate", G_CALLBACK (on_view_references_activate), gpointer(this));
   if (view_outline)
     g_signal_connect((gpointer) view_outline, "activate", G_CALLBACK(on_view_outline_activate), gpointer(this));
-  if (view_verses)
-    g_signal_connect((gpointer) view_verses, "activate", G_CALLBACK(on_view_verses_activate), gpointer(this));
-  g_signal_connect ((gpointer) view_source_languages, "activate", G_CALLBACK (on_view_source_languages_activate), gpointer(this));
   if (insert1)
     g_signal_connect((gpointer) insert1, "activate", G_CALLBACK(on_insert1_activate), gpointer(this));
   if (standard_text_1)
@@ -1815,8 +1790,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
     g_signal_connect ((gpointer) check_spelling_bulk, "activate", G_CALLBACK (on_check_spelling_bulk_activate), gpointer(this));
   if (menutools)
     g_signal_connect((gpointer) menutools, "activate", G_CALLBACK(on_menutools_activate), gpointer(this));
-  if (line_cutter_for_hebrew_text1)
-    g_signal_connect((gpointer) line_cutter_for_hebrew_text1, "activate", G_CALLBACK(on_line_cutter_for_hebrew_text1_activate), gpointer(this));
   if (notes_transfer)
     g_signal_connect((gpointer) notes_transfer, "activate", G_CALLBACK(on_notes_transfer_activate), gpointer(this));
   if (tool_origin_references_in_bible_notes)
@@ -1924,6 +1897,11 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), bibletime(t
 
 MainWindow::~MainWindow()
 {
+  // No receiving of references anymore.
+  gw_destroy_source (event_id_receive_reference);
+  if (previously_received_reference)
+    delete previously_received_reference;
+
   // Store main window dimensions if windows are attached.
   if (!windows_are_detached) {
     ScreenLayoutDimensions dimensions(window_vbox);
@@ -2315,12 +2293,12 @@ void MainWindow::menu_findspecial()
   show_references_window();
   // Start dialog.
   {
-    SearchSpecialDialog dialog(&bibletime);
+    SearchSpecialDialog dialog(0);
     if (dialog.run() != GTK_RESPONSE_OK)
       return;
   }
   // Carry out the search. 
-  search_string(window_references, &bibletime);
+  search_string(window_references);
 }
 
 
@@ -2573,19 +2551,12 @@ void MainWindow::on_navigation_new_reference()
     }
   }
 
-  // Send it to the verses window.
-  show_verses();
-
   // Optional displaying related verses.
   if (window_show_related_verses) {
     window_show_related_verses->go_to(settings->genconfig.project_get(), navigation.reference);
   }
   
-  // Optionally the source languages.
-  if (window_source_languages) {
-    window_source_languages->go_to(navigation.reference, settings->genconfig.project_get());
-  }
-  }
+}
 
 
 void MainWindow::goto_next_verse()
@@ -2717,19 +2688,9 @@ void MainWindow::on_tools_area_activate()
     }
   }
   // Skip editor windows.
-  if (window_show_verses) {
-    if (focused_tool_button == window_show_verses->focus_in_signal_button) {
-      window_show_verses->present (true);
-    }
-  }
   if (window_check_usfm) {
     if (focused_tool_button == window_check_usfm->focus_in_signal_button) {
       window_check_usfm->present (true);
-    }
-  }
-  if (window_source_languages) {
-    if (focused_tool_button == window_source_languages->focus_in_signal_button) {
-      window_source_languages->present (true);
     }
   }
 }
@@ -3118,9 +3079,12 @@ void MainWindow::send_reference_to_bibleworks (Reference reference)
   // Check whether sending references to BibleWorks has been enabled by the user.
   extern Settings * settings;
   if (settings->genconfig.reference_exchange_send_to_bibleworks_get()) {
-    // BibleWorks does not take verses like 10a or 10-12, but only numbers like 10 or 12.
-    reference.verse = number_in_string(reference.verse);
-    windowsoutpost->BibleWorksReferenceSet(reference);
+    // Check whether the user does not receive referenes from BibleWorks at this moment.
+    if (!settings->session.receiving_references || !settings->genconfig.reference_exchange_receive_from_bibleworks_get()) {
+      // BibleWorks does not take verses like 10a or 10-12, but only numbers like 10 or 12.
+      reference.verse = number_in_string(reference.verse);
+      windowsoutpost->BibleWorksReferenceSet(reference);
+    }
   }
 }
 
@@ -3130,9 +3094,12 @@ void MainWindow::send_reference_to_santa_fe (Reference reference)
   // Check whether the user has enabled sending references to the SantaFe focus system.
   extern Settings * settings;
   if (settings->genconfig.reference_exchange_send_to_santafefocus_get()) {
-    // SantaFe probably does not take verses like 10a or 10-12, but only numbers like 10 or 12.
-    reference.verse = number_in_string(reference.verse);
-    windowsoutpost->SantaFeFocusReferenceSet(reference);
+    // Check whether the user does not receive referenes from the SantaFe focus system at this moment.
+    if (!settings->session.receiving_references || !settings->genconfig.reference_exchange_receive_from_santafefocus_get()) {
+      // SantaFe probably does not take verses like 10a or 10-12, but only numbers like 10 or 12.
+      reference.verse = number_in_string(reference.verse);
+      windowsoutpost->SantaFeFocusReferenceSet(reference);
+    }
   }
 }
 
@@ -3142,9 +3109,12 @@ void MainWindow::send_reference_to_onlinebible (Reference reference)
   // Check whether the sending to the Online Bible has been enabled.
   extern Settings * settings;
   if (settings->genconfig.reference_exchange_send_to_onlinebible_get()) {
-    // Send the reference to the Online Bible. It takes plain verse numbers only.
-    reference.verse = number_in_string (reference.verse);
-    windowsoutpost->OnlineBibleReferenceSet (reference);
+    // Check whether the user does not receive referenes from the Online Bible at this moment.
+    if (!settings->session.receiving_references || !settings->genconfig.reference_exchange_receive_from_onlinebible_get()) {
+      // Send the reference to the Online Bible. It takes plain verse numbers only.
+      reference.verse = number_in_string (reference.verse);
+      windowsoutpost->OnlineBibleReferenceSet (reference);
+    }
   }
 }
 
@@ -3157,31 +3127,39 @@ void MainWindow::on_tools_receive_reference_activate (GtkMenuItem *menuitem, gpo
 
 void MainWindow::on_tools_receive_reference ()
 {
-  new TimedNotifierWindow ("Receiving the reference");
-  g_timeout_add(100, GSourceFunc(on_tools_receive_reference_timeout), gpointer(this));
+  extern Settings * settings;
+  settings->session.receiving_references = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (tools_receive_reference));
+  if (settings->session.receiving_references) {
+    previously_received_reference = new Reference (0);
+    tools_receive_reference_timeout ();
+    event_id_receive_reference = g_timeout_add_full(G_PRIORITY_DEFAULT, 1000, GSourceFunc(on_tools_receive_reference_timeout), gpointer(this), NULL);
+  } else {
+    gw_destroy_source (event_id_receive_reference);
+    delete previously_received_reference;
+  }
 }
 
 
 bool MainWindow::on_tools_receive_reference_timeout(gpointer data)
 {
   ((MainWindow *) data)->tools_receive_reference_timeout();
-  return false;
+  return true;
 }
 
 
 void MainWindow::tools_receive_reference_timeout()
 {
   extern Settings * settings;
+  Reference received_reference (0);
+  bool new_reference_received = false;
   if (settings->genconfig.reference_exchange_receive_from_bibleworks_get()) {
-    Reference reference (0);
-    if (bibleworks_reference_get_decode (windowsoutpost->BibleWorksReferenceGet (), reference)) {
-      navigation.display (reference);
+    if (bibleworks_reference_get_decode (windowsoutpost->BibleWorksReferenceGet (), received_reference)) {
+      new_reference_received = true;
     }
   }
   if (settings->genconfig.reference_exchange_receive_from_bibletime_get()) {
-    Reference reference (0);
-    if (bibletime.getreference(reference)) {
-      navigation.display (reference);
+    if (bibletime_reference_receive(received_reference)) {
+      new_reference_received = true;
     }
   }
   if (settings->genconfig.reference_exchange_receive_from_santafefocus_get()) {
@@ -3190,16 +3168,32 @@ void MainWindow::tools_receive_reference_timeout()
     replace_text (response, ":", " ");
     Parse parse (response);
     if (parse.words.size() == 4) {
-      Reference reference (0);
-      reference.book = books_paratext_to_id (parse.words[1]);
-      reference.chapter = convert_to_int (parse.words[2]);
-      reference.verse = parse.words[3];
-      navigation.display (reference);
+      received_reference.book = books_paratext_to_id (parse.words[1]);
+      received_reference.chapter = convert_to_int (parse.words[2]);
+      received_reference.verse = parse.words[3];
+      new_reference_received = true;
     }
   }
   if (settings->genconfig.reference_exchange_receive_from_xiphos_get()) {
   }
   if (settings->genconfig.reference_exchange_receive_from_onlinebible_get()) {
+    ustring response = windowsoutpost->OnlineBibleReferenceGet ();
+    // The response could be, e.g.: "OK Reply: Jer 48:1" (without the quotes).
+    replace_text (response, ":", " ");
+    replace_text (response, "  ", " ");
+    Parse parse (response);
+    if (parse.words.size() == 5) {
+      received_reference.book = books_online_bible_to_id (parse.words[2]);
+      received_reference.chapter = convert_to_int (parse.words[3]);
+      received_reference.verse = parse.words[4];
+      new_reference_received = true;
+    }
+  }
+  if (new_reference_received) {
+    if (!previously_received_reference->equals (received_reference)) {
+      navigation.display (received_reference);
+      previously_received_reference->assign (received_reference);
+    }
   }
 }
 
@@ -3680,7 +3674,7 @@ void MainWindow::on_check_httpd()
     SessionHighlights sessionhighlights(settings->session.searchword, settings->session.search_case_sensitive, settings->session.search_globbing, settings->session.search_start_word_match, settings->session.search_end_word_match, atRaw, false, false, false, false, false, false, false, false);
     settings->session.highlights.push_back(sessionhighlights);
     show_references_window();
-    search_string(window_references, &bibletime);
+    search_string(window_references);
   }
   // Did the browser request a url too difficult for it to handle?
   if (!httpd.difficult_url.empty()) {
@@ -4196,21 +4190,6 @@ void MainWindow::on_menutools_activate(GtkMenuItem * menuitem, gpointer user_dat
 }
 
 
-void MainWindow::on_line_cutter_for_hebrew_text1_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_line_cutter_for_hebrew_text();
-}
-
-
-void MainWindow::on_line_cutter_for_hebrew_text()
-{
-  LineCutterDialog dialog(0);
-  if (dialog.run() == GTK_RESPONSE_OK) {
-    reload_all_editors(false);
-  }
-}
-
-
 void MainWindow::on_notes_transfer_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_notes_transfer();
@@ -4400,7 +4379,7 @@ void MainWindow::on_insert_special_character()
   descriptions.push_back("Left-pointing double angle quotation mark");
   characters.push_back("»");
   descriptions.push_back("Right-pointing double angle quotation mark");
-  RadiobuttonDialog dialog("Insert character", "Insert special character", descriptions, settings->session.special_character_selection);
+  RadiobuttonDialog dialog("Insert character", "Insert special character", descriptions, settings->session.special_character_selection, false);
   if (dialog.run() != GTK_RESPONSE_OK)
     return;
   settings->session.special_character_selection = dialog.selection;
@@ -5569,7 +5548,7 @@ void MainWindow::on_print()
     labels.push_back("References");
     //labels.push_back("Test usfm2pdf");
     extern Settings *settings;
-    RadiobuttonDialog dialog("Print", "Select what to print", labels, settings->genconfig.print_job_get());
+    RadiobuttonDialog dialog("Print", "Select what to print", labels, settings->genconfig.print_job_get(), false);
     if (dialog.run() != GTK_RESPONSE_OK)
       return;
     selection = dialog.selection;
@@ -6186,7 +6165,7 @@ bool MainWindow::on_windows_startup()
         }
       case widShowVerses:
         {
-          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_verses), true);
+          // The window was removed. Xiphos and similar programs provide this functionality much better
           break;
         }
       case widCheckUSFM:
@@ -6196,7 +6175,7 @@ bool MainWindow::on_windows_startup()
         }
       case widSourceLanguages:
         {
-          gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_source_languages), true);
+          // The window was removed since the external applications provide source text and do it much better than Bibledit.
           break;
         }
       }
@@ -6283,23 +6262,11 @@ void MainWindow::shutdown_windows()
     delete editor_window;
     editor_windows.erase(editor_windows.begin());
   }
-  // View verses.
-  if (window_show_verses) {
-    window_show_verses->shutdown();
-    delete window_show_verses;
-    window_show_verses = NULL;
-  }
   // Check USFM.
   if (window_check_usfm) {
     window_check_usfm->shutdown();
     delete window_check_usfm;
     window_check_usfm = NULL;
-  }
-  // Source languages.
-  if (window_source_languages) {
-    window_source_languages->shutdown();
-    delete window_source_languages;
-    window_source_languages = NULL;
   }
 }
 
@@ -6419,25 +6386,11 @@ void MainWindow::on_window_focus_button(GtkButton * button)
         editor_windows[i]->defocus();
       }
     }
-    if (window_show_verses) {
-      if (widget == window_show_verses->focus_in_signal_button) {
-        window_show_verses->present(false);
-      } else {
-        window_show_verses->defocus();
-      }
-    }
     if (window_check_usfm) {
       if (widget == window_check_usfm->focus_in_signal_button) {
         window_check_usfm->present(false);
       } else {
         window_check_usfm->defocus();
-      }
-    }
-    if (window_source_languages) {
-      if (widget == window_source_languages->focus_in_signal_button) {
-        window_source_languages->present(false);
-      } else {
-        window_source_languages->defocus();
       }
     }
   }        
@@ -6468,12 +6421,8 @@ void MainWindow::present_windows(GtkWidget * widget)
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
     editor_windows[i]->present(false);
   }
-  if (window_show_verses)
-    window_show_verses->present(false);
   if (window_check_usfm)
     window_check_usfm->present(false);
-  if (window_source_languages)
-    window_source_languages->present(false);
   present(false);
 }
 
@@ -6509,12 +6458,8 @@ void MainWindow::window_set_focus (GtkWidget *widget)
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
     editor_windows[i]->focus_if_widget_mine(widget);
   }
-  if (window_show_verses)
-    window_show_verses->focus_if_widget_mine(widget);
   if (window_check_usfm)
     window_check_usfm->focus_if_widget_mine(widget);
-  if (window_source_languages)
-    window_source_languages->focus_if_widget_mine(widget);
 }
 
 
@@ -6573,18 +6518,8 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
     }
   }
   // Skip editor windows.
-  if (window_show_verses) {
-    if (widget == window_show_verses->focus_in_signal_button) {
-      focused_tool_button = widget;
-    }
-  }
   if (window_check_usfm) {
     if (widget == window_check_usfm->focus_in_signal_button) {
-      focused_tool_button = widget;
-    }
-  }
-  if (window_source_languages) {
-    if (widget == window_source_languages->focus_in_signal_button) {
       focused_tool_button = widget;
     }
   }
@@ -6795,13 +6730,6 @@ void MainWindow::accelerator_close_window()
     initiate_shutdown();
   }
 
-  // Show verses.
-  if (window_show_verses) {
-    if (now_focused_window_button == window_show_verses->focus_in_signal_button) {
-      on_window_show_verses_delete_button();
-    }
-  }
-
   // Check USFM.
   if (window_check_usfm) {
     if (now_focused_window_button == window_check_usfm->focus_in_signal_button) {
@@ -6968,62 +6896,6 @@ void MainWindow::initiate_shutdown()
  |
  |
  |
- Verses
- |
- |
- |
- |
- |
- */
-
-
-void MainWindow::on_view_verses_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_view_verses();
-}
-
-void MainWindow::on_view_verses()
-{
-  on_window_show_verses_delete_button();
-  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_verses))) {
-    extern GtkAccelGroup *accelerator_group;
-    window_show_verses = new WindowShowVerses(accelerator_group, windows_startup_pointer != G_MAXINT, vbox_tools);
-    resize_text_area_if_tools_area_is_empty ();
-    g_signal_connect((gpointer) window_show_verses->delete_signal_button, "clicked", G_CALLBACK(on_window_show_verses_delete_button_clicked), gpointer(this));
-    g_signal_connect((gpointer) window_show_verses->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
-    show_verses();
-  }
-}
-
-void MainWindow::on_window_show_verses_delete_button_clicked(GtkButton * button, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_window_show_verses_delete_button();
-}
-
-void MainWindow::on_window_show_verses_delete_button()
-{
-  if (window_show_verses) {
-    delete window_show_verses;
-    window_show_verses = NULL;
-    resize_text_area_if_tools_area_is_empty ();
-    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_verses), false);
-  }
-}
-
-void MainWindow::show_verses()
-{
-  if (window_show_verses) {
-    window_show_verses->go_to (navigation.reference);
-  }
-}
-
-
-/*
- |
- |
- |
- |
- |
  Assistants
  |
  |
@@ -7106,7 +6978,7 @@ void MainWindow::on_assistant_keyterms_ready ()
   // Export.
   if (export_assistant) {
     if (export_assistant->sword_module_created) {
-      bibletime.reloadmodules();
+      bibletime_reload_modules();
     }
     delete export_assistant;
     export_assistant = NULL;
@@ -7238,118 +7110,42 @@ void MainWindow::on_file_import ()
 
 
 /*
- |
- |
- |
- |
- |
- Source languages
- |
- |
- |
- |
- |
- */
-
-
-void MainWindow::on_view_source_languages_activate (GtkMenuItem *menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_view_source_languages();
-}
-
-
-void MainWindow::on_view_source_languages ()
-{
-  on_window_source_languages_delete_button();
-  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_source_languages))) {
-    extern GtkAccelGroup *accelerator_group;
-    window_source_languages = new WindowSourceLanguages(accelerator_group, windows_startup_pointer != G_MAXINT, vbox_tools);
-    resize_text_area_if_tools_area_is_empty ();
-    g_signal_connect((gpointer) window_source_languages->delete_signal_button, "clicked", G_CALLBACK(on_window_source_languages_delete_button_clicked), gpointer(this));
-    g_signal_connect((gpointer) window_source_languages->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
-    g_signal_connect((gpointer) window_source_languages->signal_button, "clicked", G_CALLBACK(on_view_source_languages_signal_button_clicked), gpointer(this));
-    extern Settings *settings;
-    window_source_languages->go_to(navigation.reference, settings->genconfig.project_get());
-  }
-}
-
-
-void MainWindow::on_window_source_languages_delete_button_clicked(GtkButton *button, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_window_source_languages_delete_button();
-}
-
-
-void MainWindow::on_window_source_languages_delete_button()
-{
-  if (window_source_languages) {
-    delete window_source_languages;
-    window_source_languages = NULL;
-    resize_text_area_if_tools_area_is_empty ();
-    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_source_languages), false);
-  }
-}
-
-
-void MainWindow::on_view_source_languages_signal_button_clicked(GtkButton *button, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_view_source_languages_signal_button();
-}
-
-
-void MainWindow::on_view_source_languages_signal_button()
-{
-  // Show the references in the references window.
-  show_references_window();
-  extern Settings * settings;
-  window_references->set (window_source_languages->references, settings->genconfig.project_get(), NULL);
-}
-
-
-
-/*
 
 
 Todo tasks.
 
 
 
-
-Dialogs are too tall for a small screen.
-Need to make one general routine that uses the scrolled window to make a tall dialog lower.
-The dialogs should be scaling automatically.
-We probably need a dialogscaler, probably as an object that is created, and possible with a timer that runs a few milliseconds after the dialog was
-created. The object gets the dialog, and the relevant scrolled window. Before writing to these, it check whether these objects are still alive.
+To remove all Source languages options from Bibledit again.
+To update the database creation from the Sword KJV, so that is is done only by the programmer, not by the user.
+To remove the lexicons.
+To remove the BibleWorks import option.
 
 
 
+By default the verse list shows references only. The user can add USFM texts to be displayed also, in addition.
 
-To ask Larry for an interface for receiving the reference that the Online Bible now displays. This was requested.
 
+
+We may have to use three outposts altogether:
+One on cxoffice
+One on wine
+One on a Windows virtual machine.
+Then it needs to know which appliance runs on which Outpost.
+the reason is that BibleWorks runs well on cxoffice, but the Online Bible runs better on Wine.
+And other applications may only run on Windows. So three outposts are needed.
+The port number may have to be passed on the commandline so that two numbers are possible on Linux.
 
 
 
 To send next announcement also to bibledit-announce@nongnu.org, and check whether the RSS feed updates.
 
 
-
-All bibles should be exportable to any of our companion resources that scroll with Bibledit.
-And all should be importable too for any of these, and put into usfm format.
-Then we can remove the "Verses" window, depending on the other programs instead.
+If project notes are to be shared through a repository, then these notes go into a git repository with each note being one file,
+named by its id. We may decide to use subdirectories also. Since searching in the notes becomes slow now, we may use a database as index.
 
 
-
-We need to make Bibledit leaner and cleaner, and do the few jobs it does well, rather than make it do a lot not so well.
-This means that the original language window probably goes out, and the "Verses" window as well.
-All these things can be done in e.g. Xiphos.
-
-
-
-
-On the receiving of the references, we might put a tick before the menu item, so that when this tick is there,
-it only keeps receiving each second from that specific application it receives from, and does send to all other applications,
-but not to this specific one it receives from.
-
+svn push access was given to the xiphos project. To create the patch for the more parallel bibles.
 
 
 */

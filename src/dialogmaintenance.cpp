@@ -122,6 +122,16 @@ void MaintenanceDialog::html_link_clicked (const gchar * url)
     mechon_mamre_action_page (htmlwriter);
   }
 
+  else if (active_url == kjv_html_entry_url ()) {
+    html_add_home (htmlwriter);
+    kjv_detailed_page (htmlwriter);
+  }
+
+  else if (active_url == kjv_create_database_url ()) {
+    html_add_home (htmlwriter);
+    kjv_action_page (htmlwriter);
+  }
+  
   else {
     // The home page.
     htmlwriter.heading_open (3);
@@ -134,6 +144,9 @@ void MaintenanceDialog::html_link_clicked (const gchar * url)
     // Mechon Mamre Hebrew text link.
     mechon_mamre_home_entry (htmlwriter);
 
+    // Import Sword KJV text link.
+    kjv_home_entry (htmlwriter);    
+    
     /*    
     htmlwriter.paragraph_open();
     htmlwriter.form_open ("form", "page.html", "get");

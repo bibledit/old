@@ -23,14 +23,13 @@
 
 
 #include <gtk/gtk.h>
-#include "bibletime.h"
 #include "screen.h"
 
 
 class SearchSpecialDialog
 {
 public:
-  SearchSpecialDialog(BibleTime * bibletime);
+  SearchSpecialDialog(int dummy);
   ~ SearchSpecialDialog();
   int run();
 protected:
@@ -42,8 +41,6 @@ protected:
   GtkWidget *label19;
   GtkWidget *label22;
   GtkWidget *label20;
-  GtkWidget *label18;
-  GtkWidget *label21;
   GtkWidget *hbox1;
   GtkWidget *label_word_entry;
   GtkWidget *word_entry;
@@ -77,17 +74,6 @@ protected:
   GtkWidget *label_area;
   GtkWidget *label31;
   GtkWidget *label32;
-  GtkWidget *vbox8;
-  GtkWidget *label26;
-  GtkWidget *radiobutton_bt_default;
-  GtkWidget *radiobutton_bt_open;
-  GtkWidget *table1;
-  GtkWidget *radiobutton_bt_bible;
-  GtkWidget *radiobutton_bt_commentary;
-  GtkWidget *combobox_bt_bibles;
-  GtkWidget *combobox_bt_commentaries;
-  GtkWidget *label33;
-  GtkWidget *label34;
   GtkWidget *notebook_results;
   GtkWidget *vbox7;
   GtkWidget *label14;
@@ -101,7 +87,6 @@ protected:
   GtkWidget *findbutton;
   GtkAccelGroup *accel_group;
 private:
-  BibleTime * mybibletime;
   static void on_word_entry_activate(GtkEntry *entry, gpointer user_data);
   void on_activate();
   static bool on_timeout(gpointer data);
@@ -120,10 +105,6 @@ private:
   void on_control_f();
   static void on_notebook_mode_switch_page(GtkNotebook *notebook, GtkNotebookPage *page, guint page_num, gpointer user_data);
   void on_mode_change(guint page_num);
-  static void on_radiobutton_bt_bible_toggled(GtkToggleButton *togglebutton, gpointer user_data);
-  void focus_bible();
-  static void on_radiobutton_bt_commentary_toggled(GtkToggleButton *togglebutton, gpointer user_data);
-  void focus_commentary();
   DialogPresenter * dialogpresenter;
 };
 

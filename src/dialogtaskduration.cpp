@@ -24,6 +24,7 @@
 #include "help.h"
 #include "reporting.h"
 #include "shortcuts.h"
+#include "screen.h"
 
 
 TaskDurationDialog::TaskDurationDialog(vector < ustring > *tasks, vector < double >*durations)
@@ -39,7 +40,6 @@ TaskDurationDialog::TaskDurationDialog(vector < ustring > *tasks, vector < doubl
   gtk_window_set_title(GTK_WINDOW(taskdurationdialog), "Task Duration Setup");
   gtk_window_set_position(GTK_WINDOW(taskdurationdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_type_hint(GTK_WINDOW(taskdurationdialog), GDK_WINDOW_TYPE_HINT_DIALOG);
-  gtk_window_set_default_size (GTK_WINDOW (taskdurationdialog), -1, 400);
 
   dialog_vbox1 = GTK_DIALOG(taskdurationdialog)->vbox;
   gtk_widget_show(dialog_vbox1);
@@ -121,22 +121,28 @@ TaskDurationDialog::TaskDurationDialog(vector < ustring > *tasks, vector < doubl
 
   gtk_widget_grab_focus(okbutton1);
   gtk_widget_grab_default(okbutton1);
+
+  new DialogAutoScaler (taskdurationdialog, G_MAXINT);
 }
+
 
 TaskDurationDialog::~TaskDurationDialog()
 {
   gtk_widget_destroy(taskdurationdialog);
 }
 
+
 int TaskDurationDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(taskdurationdialog));
 }
 
+
 void TaskDurationDialog::on_okbutton1_clicked(GtkButton * button, gpointer user_data)
 {
   ((TaskDurationDialog *) user_data)->on_okbutton1();
 }
+
 
 void TaskDurationDialog::on_okbutton1()
 {
@@ -146,5 +152,4 @@ void TaskDurationDialog::on_okbutton1()
   }
 }
 
-// Todo too tall?
 

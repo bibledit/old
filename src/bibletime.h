@@ -30,28 +30,8 @@
 
 
 void bibletime_reference_send (Reference reference);
-
-
-class BibleTime
-{
-public:
-  BibleTime (bool dummy);
-  ~BibleTime ();
-  bool connected ();
-  void sendreference (const Reference& reference);
-  bool getreference (Reference& reference);
-  vector<ustring> getbibles ();
-  vector<ustring> getcommentaries ();
-  vector<ustring> search_in_default_bible (const ustring& searchtext);
-  vector<ustring> search_in_open_modules (const ustring& searchtext);
-  vector<ustring> search_in_module (const ustring& modulename, const ustring& searchtext);
-  void reloadmodules ();
-private:
-  vector<ustring> search (const ustring& modulename, const ustring& searchtext, int selector);
-  ustring database ();
-  void initialize_database ();
-  void getmodules ();
-};
+bool bibletime_reference_receive (Reference& reference);
+void bibletime_reload_modules ();
 
 
 #endif

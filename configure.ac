@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.63)
-AC_INIT([bibledit],[3.8.70],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit],[3.8.77],[http://www.nongnu.org/bibledit])
 AC_CANONICAL_TARGET
 ac_default_prefix=/usr
 AC_CONFIG_MACRO_DIR([m4])

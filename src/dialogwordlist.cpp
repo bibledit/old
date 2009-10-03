@@ -247,25 +247,30 @@ WordlistDialog::WordlistDialog(int dummy)
   gui();
 }
 
+
 WordlistDialog::~WordlistDialog()
 {
   gtk_widget_destroy(wordlistdialog);
 }
+
 
 int WordlistDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(wordlistdialog));
 }
 
+
 void WordlistDialog::on_checkbutton_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((WordlistDialog *) user_data)->gui();
 }
 
+
 void WordlistDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((WordlistDialog *) user_data)->on_okbutton();
 }
+
 
 void WordlistDialog::on_okbutton()
 {
@@ -311,6 +316,7 @@ void WordlistDialog::on_okbutton()
   }
 }
 
+
 void WordlistDialog::gui()
 {
   bool general = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_wordlist));
@@ -339,5 +345,4 @@ void WordlistDialog::gui()
   gtk_widget_set_sensitive(checkbutton_index_first_time, index_asterisk);
 }
 
-// Todo too tall?
 

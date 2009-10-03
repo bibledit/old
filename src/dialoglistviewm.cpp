@@ -25,6 +25,7 @@
 #include "listview.h"
 #include "keyboard.h"
 #include "help.h"
+#include "screen.h"
 
 
 ListviewMDialog::ListviewMDialog(const ustring & title, vector <ustring> &list, bool sortlist, gchar * help)
@@ -48,14 +49,9 @@ ListviewMDialog::ListviewMDialog(const ustring & title, vector <ustring> &list, 
   gtk_widget_show(label1);
   gtk_box_pack_start(GTK_BOX(vbox1), label1, FALSE, FALSE, 4);
 
-  hbox1 = gtk_hbox_new(FALSE, 4);
-  gtk_widget_show(hbox1);
-  gtk_box_pack_start(GTK_BOX(vbox1), hbox1, TRUE, TRUE, 0);
-
   scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow);
   gtk_box_pack_start(GTK_BOX(vbox1), scrolledwindow, TRUE, TRUE, 0);
-  gtk_widget_set_size_request(scrolledwindow, -1, 400);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
   treeview = gtk_tree_view_new();
@@ -98,6 +94,8 @@ ListviewMDialog::ListviewMDialog(const ustring & title, vector <ustring> &list, 
 
   gtk_widget_grab_focus(treeview);
   gtk_widget_grab_default(okbutton);
+  
+  new DialogAutoScaler (dialog, G_MAXINT);
 }
 
 
@@ -144,7 +142,4 @@ void ListviewMDialog::on_treeview()
   gtk_dialog_response(GTK_DIALOG(dialog), GTK_RESPONSE_OK);
 }
 
-
-
-// Todo too tall?
 

@@ -42,7 +42,6 @@ void directories_check_structure()
   gw_mkdir_with_parents(directories_get_pictures());
   gw_mkdir_with_parents(directories_get_resources());
   gw_mkdir_with_parents(directories_get_scripts());
-  gw_mkdir_with_parents(directories_get_databases());
   gw_mkdir_with_parents(directories_get_temp());
   gw_mkdir_with_parents(directories_get_templates());
   gw_mkdir_with_parents(directories_get_templates_user());
@@ -102,13 +101,6 @@ ustring directories_get_scripts()
 {
   // This returns the directory with the scripts.
   return gw_build_filename(directories_get_root(), "scripts");
-}
-
-
-ustring directories_get_databases()
-{
-  // This returns the directory with the databases.
-  return gw_build_filename(directories_get_root(), "databases");
 }
 
 

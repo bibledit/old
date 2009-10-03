@@ -25,6 +25,7 @@
 #include "tiny_utilities.h"
 #include "progresswindow.h"
 #include "listview.h"
+#include "screen.h"
 
 
 EditStatusDialog::EditStatusDialog(const ustring & project_in, unsigned int book, unsigned int chapter)
@@ -46,10 +47,6 @@ EditStatusDialog::EditStatusDialog(const ustring & project_in, unsigned int book
   gtk_window_set_title(GTK_WINDOW(editstatusdialog), "Edit Status");
   gtk_window_set_position(GTK_WINDOW(editstatusdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal(GTK_WINDOW(editstatusdialog), TRUE);
-
-  // Set the size of the dialog big.
-  gint height = (gint) (settings->genconfig.screen_height_get() * 0.80);
-  gtk_window_set_default_size(GTK_WINDOW(editstatusdialog), -1, height);
 
   dialog_vbox1 = GTK_DIALOG(editstatusdialog)->vbox;
   gtk_widget_show(dialog_vbox1);
@@ -109,9 +106,19 @@ EditStatusDialog::EditStatusDialog(const ustring & project_in, unsigned int book
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview_verses), -1, "Verses", renderer_verses, "text", 0, NULL);
   gtk_tree_selection_set_mode(gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview_verses)), GTK_SELECTION_MULTIPLE);
 
-  vbox_status = gtk_vbox_new(FALSE, 0);
-  gtk_widget_show(vbox_status);
-  gtk_box_pack_start(GTK_BOX(hbox), vbox_status, TRUE, TRUE, 0);
+  scrolledwindow_status = gtk_scrolled_window_new (NULL, NULL);
+  gtk_widget_show (scrolledwindow_status);
+  gtk_box_pack_start (GTK_BOX (hbox), scrolledwindow_status, TRUE, TRUE, 0);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow_status), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow_status), GTK_SHADOW_IN);
+
+  viewport_status = gtk_viewport_new (NULL, NULL);
+  gtk_widget_show (viewport_status);
+  gtk_container_add (GTK_CONTAINER (scrolledwindow_status), viewport_status);
+
+  vbox_status = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (vbox_status);
+  gtk_container_add (GTK_CONTAINER (viewport_status), vbox_status);
 
   // Build buttons for each state.
   for (unsigned int i = 0; i < alltasks.size(); i++) {
@@ -166,7 +173,10 @@ EditStatusDialog::EditStatusDialog(const ustring & project_in, unsigned int book
   // Focus the chapter that is in the editor.
   listview_focus_string(treeview_chapters, convert_to_string(chapter), false);
   on_treeview_chapters_cursor();
+  
+  new DialogAutoScaler (editstatusdialog, G_MAXINT);
 }
+
 
 EditStatusDialog::~EditStatusDialog()
 {
@@ -174,10 +184,12 @@ EditStatusDialog::~EditStatusDialog()
   gtk_widget_destroy(editstatusdialog);
 }
 
+
 int EditStatusDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(editstatusdialog));
 }
+
 
 gboolean EditStatusDialog::on_treeview_books_button_event(GtkWidget * widget, GdkEventButton * event, gpointer user_data)
 {
@@ -185,17 +197,20 @@ gboolean EditStatusDialog::on_treeview_books_button_event(GtkWidget * widget, Gd
   return FALSE;
 }
 
+
 gboolean EditStatusDialog::on_treeview_books_key_event(GtkWidget * widget, GdkEventKey * event, gpointer user_data)
 {
   ((EditStatusDialog *) user_data)->on_treeview_books_cursor();
   return FALSE;
 }
 
+
 void EditStatusDialog::on_treeview_books_cursor()
 {
   currentbooks = listview_get_active_offsets(treeview_books);
   load_chapters();
 }
+
 
 void EditStatusDialog::load_chapters()
 {
@@ -213,11 +228,13 @@ void EditStatusDialog::load_chapters()
   show_status();
 }
 
+
 gboolean EditStatusDialog::on_treeview_chapters_button_event(GtkWidget * widget, GdkEventButton * event, gpointer user_data)
 {
   ((EditStatusDialog *) user_data)->on_treeview_chapters_cursor();
   return FALSE;
 }
+
 
 gboolean EditStatusDialog::on_treeview_chapters_key_event(GtkWidget * widget, GdkEventKey * event, gpointer user_data)
 {
@@ -225,11 +242,13 @@ gboolean EditStatusDialog::on_treeview_chapters_key_event(GtkWidget * widget, Gd
   return FALSE;
 }
 
+
 void EditStatusDialog::on_treeview_chapters_cursor()
 {
   currentchapters = listview_get_active_offsets(treeview_chapters);
   load_verses();
 }
+
 
 void EditStatusDialog::load_verses()
 {
@@ -245,11 +264,13 @@ void EditStatusDialog::load_verses()
   show_status();
 }
 
+
 gboolean EditStatusDialog::on_treeview_verses_button_event(GtkWidget * widget, GdkEventButton * event, gpointer user_data)
 {
   ((EditStatusDialog *) user_data)->on_treeview_verses_cursor();
   return FALSE;
 }
+
 
 gboolean EditStatusDialog::on_treeview_verses_key_event(GtkWidget * widget, GdkEventKey * event, gpointer user_data)
 {
@@ -257,11 +278,13 @@ gboolean EditStatusDialog::on_treeview_verses_key_event(GtkWidget * widget, GdkE
   return FALSE;
 }
 
+
 void EditStatusDialog::on_treeview_verses_cursor()
 {
   currentverses = listview_get_active_offsets(treeview_verses);
   show_status();
 }
+
 
 EditStatusType EditStatusDialog::editstatustype()
 // Gets the type of status to be edited.
@@ -311,6 +334,7 @@ EditStatusType EditStatusDialog::editstatustype()
   // At the end of all: no type.
   return estNone;
 }
+
 
 void EditStatusDialog::show_status()
 // Sets the status.
@@ -396,6 +420,7 @@ void EditStatusDialog::show_status()
   }
 }
 
+
 void EditStatusDialog::set_status(ProjectStatusRecord * statusrecord)
 {
   setting_status = true;
@@ -410,10 +435,12 @@ void EditStatusDialog::set_status(ProjectStatusRecord * statusrecord)
   setting_status = false;
 }
 
+
 void EditStatusDialog::on_checkbutton_status_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((EditStatusDialog *) user_data)->on_checkbutton_status(togglebutton);
 }
+
 
 void EditStatusDialog::on_checkbutton_status(GtkToggleButton * togglebutton)
 {
@@ -533,10 +560,12 @@ void EditStatusDialog::on_checkbutton_status(GtkToggleButton * togglebutton)
   }
 }
 
+
 void EditStatusDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((EditStatusDialog *) user_data)->on_okbutton();
 }
+
 
 void EditStatusDialog::on_okbutton()
 // Called on OK.
@@ -545,6 +574,4 @@ void EditStatusDialog::on_okbutton()
   projectstatus->save();
 }
 
-
-// Todo too tall?
 

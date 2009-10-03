@@ -40,7 +40,6 @@ Session::Session(int dummy)
   search_end_word_match = false;
   searchresultstype = sstLoad;
   search_page = 0;
-  searchbibletimetype = sbttOpenModules;
   checksorttype = cstSort0;
   check_include_verse_text = false;
   check_output_in_ot_order = false;
@@ -65,6 +64,7 @@ Session::Session(int dummy)
   import_raw_text_chapter = -1;
   project_notes_show_title = true;
   merge_action = 0;
+  receiving_references = false;
 }
 
 

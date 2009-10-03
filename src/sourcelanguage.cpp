@@ -30,13 +30,12 @@
 #include "progresswindow.h"
 #include "morphology.h"
 #include "books.h"
-#include "lexicons.h"
 
 
-ustring source_language_database_file_name (const ustring& name)
+ustring source_language_database_file_name (const ustring& name) // Todo all of this file goes out.
 // Give a "name" for a source language, it gives the filename of its database.
 {
-  return gw_build_filename(directories_get_databases(), "source_language_" + name + ".sql");
+  return "";
 }
 
 
@@ -54,18 +53,10 @@ void source_language_database_create (const ustring& name)
 }
 
 
-vector <ustring> source_language_get_names ()
+vector <ustring> source_language_get_names () // Todo all of this goes out.
 // Gets a list of available source languages.
 {
-  ReadFiles rf(directories_get_databases(), "source_language_", ".sql");
-  vector <ustring> names = rf.files;
-  sort(names.begin(), names.end());
-  for (unsigned int i = 0; i < names.size(); i++) {
-    // Remove the prefix.
-    names[i].erase (0, 16);
-    // Remove the suffix.
-    names[i].erase (names[i].length() - 4, 4);
-  }
+  vector <ustring> names;
   return names;
 }
 
@@ -228,7 +219,7 @@ void source_language_test_lemmata_and_morphology ()
         if (lemmata_done->find (lemma) == lemmata_done->end()) {
           lemmata_done->insert (lemma);
           output.push_back ("Lemma: " + lemma);
-          ustring definition = lexicons_get_definition (greek_lexicon, lemma);
+          ustring definition;
           if (definition.empty()) {
             output.push_back ("ERROR: No definition found");
           } else {

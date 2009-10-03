@@ -22,6 +22,7 @@
 #include "screen.h"
 #include "settings.h"
 #include "gwrappers.h"
+#include "settings.h"
 
 
 void screen_scroll_to_iterator(GtkTextView * text_view, GtkTextIter * iter)
@@ -80,6 +81,7 @@ void screen_set_cursor_hand_or_regular(GtkTextView * text_view, gint x, gint y)
     g_slist_free(tags);
 }
 
+
 gboolean screen_visibility_notify_event(GtkWidget * text_view, GdkEventVisibility * event, gpointer user_data)
 // Update the cursor image if the window becomes visible
 // (e.g. when a window covering it got iconified).
@@ -90,6 +92,7 @@ gboolean screen_visibility_notify_event(GtkWidget * text_view, GdkEventVisibilit
   screen_set_cursor_hand_or_regular(GTK_TEXT_VIEW(text_view), bx, by);
   return false;
 }
+
 
 void dialog_position_save(DialogPositionType type, GtkWidget * dialog)
 {
@@ -119,6 +122,7 @@ void dialog_position_save(DialogPositionType type, GtkWidget * dialog)
   settings->genconfig.dialogpositions_x_set(pos_x);
   settings->genconfig.dialogpositions_y_set(pos_y);
 }
+
 
 void dialog_position_restore(DialogPositionType type, GtkWidget * dialog)
 {
@@ -162,6 +166,7 @@ void dialog_position_restore(DialogPositionType type, GtkWidget * dialog)
   gtk_window_move(GTK_WINDOW(dialog), pos_x[type], pos_y[type]);
 }
 
+
 void dialog_position_reset_all()
 {
   vector < int >dummy;
@@ -169,6 +174,7 @@ void dialog_position_reset_all()
   settings->genconfig.dialogpositions_x_set(dummy);
   settings->genconfig.dialogpositions_y_set(dummy);
 }
+
 
 void window_position_get_left_space(GtkWidget * widget, gint & width, gint & height, gint & x, gint & y)
 // Get the space on the screen left of the widget.
@@ -210,10 +216,12 @@ DialogPresenter::DialogPresenter(GtkWidget * widget)
   event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 500, GSourceFunc(on_timeout), gpointer(this), NULL);
 }
 
+
 DialogPresenter::~DialogPresenter()
 {
   gw_destroy_source(event_id);
 }
+
 
 bool DialogPresenter::on_timeout(gpointer data)
 {
@@ -221,8 +229,56 @@ bool DialogPresenter::on_timeout(gpointer data)
   return false;
 }
 
+
 void DialogPresenter::timeout()
 {
   gtk_window_present(GTK_WINDOW(mywidget));
-
 }
+
+
+DialogAutoScaler::DialogAutoScaler(GtkWidget * widget, int height)
+{
+  mywidget = widget;
+  desired_height = height;
+  event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_timeout), gpointer(this), NULL);
+}
+
+
+DialogAutoScaler::~DialogAutoScaler()
+{
+  gw_destroy_source(event_id);
+}
+
+
+bool DialogAutoScaler::on_timeout(gpointer data)
+{
+  ((DialogAutoScaler *) data)->timeout();
+  return false;
+}
+
+
+void DialogAutoScaler::timeout()
+{
+  event_id = 0;
+
+  while (gtk_events_pending()) gtk_main_iteration();
+
+  extern Settings * settings;
+  int screen_height = settings->genconfig.screen_height_get();  
+  int maximum_height = 0.8 * screen_height;
+  
+  if (desired_height > maximum_height) {
+    desired_height = maximum_height;
+  }
+
+  gint actual_height;
+  gtk_window_get_size (GTK_WINDOW (mywidget), NULL, &actual_height);
+  if (actual_height > maximum_height) {
+    desired_height = maximum_height;
+  }
+
+  if (desired_height > 0) {
+    gtk_widget_set_size_request (GTK_WIDGET (mywidget), -1, desired_height);
+  }
+}
+

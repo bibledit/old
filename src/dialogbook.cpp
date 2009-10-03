@@ -29,6 +29,7 @@
 #include "help.h"
 #include "settings.h"
 #include "listview.h"
+#include "screen.h"
 
 
 enum { COLUMN_BOOK, NUM_COLUMNS };
@@ -66,12 +67,11 @@ BookDialog::BookDialog(const ustring & project)
   treeview1 = gtk_tree_view_new();
   gtk_widget_show(treeview1);
   gtk_container_add(GTK_CONTAINER(scrolledwindow1), treeview1);
-  gtk_widget_set_size_request(treeview1, -1, 400);
   gtk_tree_view_set_reorderable(GTK_TREE_VIEW(treeview1), TRUE);
 
   hbox8 = gtk_hbox_new(FALSE, 0);
   gtk_widget_show(hbox8);
-  gtk_box_pack_start(GTK_BOX(vbox1), hbox8, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox1), hbox8, FALSE, FALSE, 0);
 
   button_standard_order = gtk_button_new();
   gtk_widget_show(button_standard_order);
@@ -133,6 +133,8 @@ BookDialog::BookDialog(const ustring & project)
     gtk_list_store_append(model, &iter);
     gtk_list_store_set(model, &iter, COLUMN_BOOK, books_id_to_name(projectconfig->language_get(), books[i]).c_str(), -1);
   }
+  
+  new DialogAutoScaler (bookdialog, G_MAXINT);
 }
 
 
@@ -197,6 +199,4 @@ void BookDialog::on_button_standard_order()
   listview_set_strings(treeview1, GTK_LIST_STORE(model), ubooks);
 }
 
-
-// Todo too tall? Yes, too tall.
 

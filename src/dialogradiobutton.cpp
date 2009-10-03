@@ -17,12 +17,15 @@
 **  
 */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "dialogradiobutton.h"
 #include "help.h"
+#include "screen.h"
 
-RadiobuttonDialog::RadiobuttonDialog(const ustring & title, const ustring & info, const vector < ustring > &labels, unsigned int selection)
+
+RadiobuttonDialog::RadiobuttonDialog(const ustring & title, const ustring & info, const vector < ustring > &labels, unsigned int selection, bool autoscale)
 {
   Shortcuts shortcuts(0);
 
@@ -39,6 +42,27 @@ RadiobuttonDialog::RadiobuttonDialog(const ustring & title, const ustring & info
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), label, FALSE, FALSE, 0);
   gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 
+  if (autoscale) {
+
+    scrolledwindow1 = gtk_scrolled_window_new (NULL, NULL);
+    gtk_widget_show (scrolledwindow1);
+    gtk_box_pack_start (GTK_BOX (dialog_vbox1), scrolledwindow1, TRUE, TRUE, 0);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow1), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow1), GTK_SHADOW_IN);
+
+    viewport1 = gtk_viewport_new (NULL, NULL);
+    gtk_widget_show (viewport1);
+    gtk_container_add (GTK_CONTAINER (scrolledwindow1), viewport1);
+
+  }
+
+  vbox1 = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (vbox1);
+  if (autoscale)
+    gtk_container_add (GTK_CONTAINER (viewport1), vbox1);
+  else
+    gtk_box_pack_start (GTK_BOX (dialog_vbox1), vbox1, TRUE, TRUE, 0);
+
   GSList *radiobutton_group = NULL;
   GtkWidget *radiobutton;
 
@@ -46,7 +70,7 @@ RadiobuttonDialog::RadiobuttonDialog(const ustring & title, const ustring & info
 
     radiobutton = gtk_radio_button_new_with_mnemonic(NULL, labels[i].c_str());
     gtk_widget_show(radiobutton);
-    gtk_box_pack_start(GTK_BOX(dialog_vbox1), radiobutton, FALSE, FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (vbox1), radiobutton, FALSE, FALSE, 0);
     gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton), radiobutton_group);
     radiobutton_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton));
 
@@ -84,22 +108,30 @@ RadiobuttonDialog::RadiobuttonDialog(const ustring & title, const ustring & info
   g_signal_connect((gpointer) okbutton, "clicked", G_CALLBACK(on_okbutton_clicked), gpointer(this));
 
   gtk_widget_grab_default(okbutton);
+  
+  if (autoscale) {
+    new DialogAutoScaler (radiobuttondialog, G_MAXINT);
+  }
 }
+
 
 RadiobuttonDialog::~RadiobuttonDialog()
 {
   gtk_widget_destroy(radiobuttondialog);
 }
 
+
 int RadiobuttonDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(radiobuttondialog));
 }
 
+
 void RadiobuttonDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((RadiobuttonDialog *) user_data)->on_okbutton();
 }
+
 
 void RadiobuttonDialog::on_okbutton()
 {
@@ -110,5 +142,4 @@ void RadiobuttonDialog::on_okbutton()
   }
 }
 
-// Todo too tall?
 

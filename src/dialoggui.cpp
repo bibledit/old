@@ -103,21 +103,25 @@ GuiDialog::GuiDialog(int dummy)
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_remember_verse_chapter), settings->genconfig.remember_verse_per_chapter_get());
 }
 
+
 GuiDialog::~GuiDialog()
 {
   g_object_unref (gtkbuilder);
   gtk_widget_destroy(featuresdialog);
 }
 
+
 int GuiDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(featuresdialog));
 }
 
+
 void GuiDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((GuiDialog *) user_data)->on_okbutton();
 }
+
 
 void GuiDialog::on_okbutton()
 // Store the new features.
@@ -145,10 +149,12 @@ void GuiDialog::on_okbutton()
   }
 }
 
+
 void GuiDialog::on_togglebutton_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((GuiDialog *) user_data)->on_togglebutton();
 }
+
 
 void GuiDialog::on_togglebutton()
 {
@@ -166,6 +172,7 @@ void GuiDialog::on_togglebutton()
   gtk_widget_set_sensitive(checkbutton_tools, usersettings);
   gtk_widget_set_sensitive(checkbutton_preferences, usersettings);
 }
+
 
 void GuiDialog::mode_set(unsigned int mode)
 // Sets the mode, e.g. basic, full or user-defined.
@@ -188,6 +195,7 @@ void GuiDialog::mode_set(unsigned int mode)
   }
 }
 
+
 unsigned int GuiDialog::mode_get()
 // Gets the mode, e.g. basic, full, or user-defined.
 {
@@ -199,6 +207,7 @@ unsigned int GuiDialog::mode_get()
   }
   return 2;
 }
+
 
 void GuiDialog::list_set(ustring pattern)
 // Set the list of features.
@@ -217,6 +226,7 @@ void GuiDialog::list_set(ustring pattern)
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_tools), bitpattern_take(pattern));
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_preferences), bitpattern_take(pattern));
 }
+
 
 ustring GuiDialog::list_get()
 // Get the list of features.
@@ -238,10 +248,12 @@ ustring GuiDialog::list_get()
   return pattern;
 }
 
+
 void GuiDialog::on_checkbutton_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((GuiDialog *) user_data)->on_checkbutton(togglebutton);
 }
+
 
 void GuiDialog::on_checkbutton(GtkToggleButton * togglebutton)
 // Sets interdependent checkboxes.
@@ -294,11 +306,10 @@ void GuiDialog::on_checkbutton(GtkToggleButton * togglebutton)
   }
 }
 
+
 void GuiDialog::check(GtkWidget * button, bool on)
 {
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), on);
 }
 
-
-// Todo too tall?
 

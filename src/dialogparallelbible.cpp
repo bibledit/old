@@ -33,6 +33,7 @@
 #include "shortcuts.h"
 #include "tiny_utilities.h"
 #include "gwrappers.h"
+#include "screen.h"
 
 
 ParallelBibleDialog::ParallelBibleDialog(int dummy)
@@ -92,6 +93,8 @@ ParallelBibleDialog::ParallelBibleDialog(int dummy)
 
   shortcuts.process();
   gtk_widget_show(dialog);
+  
+  new DialogAutoScaler (dialog, G_MAXINT);
 }
 
 
@@ -144,5 +147,4 @@ void ParallelBibleDialog::on_button_chapters()
   }
 }
 
-// Todo too tall?
 

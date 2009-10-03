@@ -34,7 +34,6 @@ ustring directories_get_configuration ();
 ustring directories_get_pictures ();
 ustring directories_get_resources ();
 ustring directories_get_scripts ();
-ustring directories_get_databases ();
 ustring directories_get_temp ();
 ustring directories_get_templates ();
 ustring directories_get_templates_user ();

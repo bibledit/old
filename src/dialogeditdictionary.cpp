@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "dialogeditdictionary.h"
@@ -28,6 +29,8 @@
 #include "projectutils.h"
 #include "dialoglistview.h"
 #include "gtkwrappers.h"
+#include "screen.h"
+
 
 EditDictionaryDialog::EditDictionaryDialog(const ustring & dictionary)
 {
@@ -35,7 +38,6 @@ EditDictionaryDialog::EditDictionaryDialog(const ustring & dictionary)
   Shortcuts shortcuts(0);
 
   textviewdialog = gtk_dialog_new();
-  gtk_widget_set_size_request(textviewdialog, 640, 480);
   gtk_window_set_title(GTK_WINDOW(textviewdialog), "Edit Dictionary");
   gtk_window_set_position(GTK_WINDOW(textviewdialog), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_type_hint(GTK_WINDOW(textviewdialog), GDK_WINDOW_TYPE_HINT_DIALOG);
@@ -46,7 +48,8 @@ EditDictionaryDialog::EditDictionaryDialog(const ustring & dictionary)
   scrolledwindow1 = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow1);
   gtk_box_pack_start(GTK_BOX(dialog_vbox1), scrolledwindow1, TRUE, TRUE, 0);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow1), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  // Never show horizontal scrollbar.
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow1), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwindow1), GTK_SHADOW_IN);
 
   textview1 = gtk_text_view_new();
@@ -241,22 +244,28 @@ EditDictionaryDialog::EditDictionaryDialog(const ustring & dictionary)
     gtk_text_buffer_set_text(textbuffer, contents, -1);
     g_free(contents);
   }
+
+  new DialogAutoScaler (textviewdialog, G_MAXINT);
 }
+
 
 EditDictionaryDialog::~EditDictionaryDialog()
 {
   gtk_widget_destroy(textviewdialog);
 }
 
+
 int EditDictionaryDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(textviewdialog));
 }
 
+
 void EditDictionaryDialog::on_button_sort_clicked(GtkButton * button, gpointer user_data)
 {
   ((EditDictionaryDialog *) user_data)->on_button_sort(NULL);
 }
+
 
 void EditDictionaryDialog::on_button_sort(vector < ustring > *lines_ptr)
 {
@@ -286,10 +295,12 @@ void EditDictionaryDialog::on_button_sort(vector < ustring > *lines_ptr)
   gtk_text_buffer_place_cursor(textbuffer, &iter);
 }
 
+
 void EditDictionaryDialog::on_button_import_dict_clicked(GtkButton * button, gpointer user_data)
 {
   ((EditDictionaryDialog *) user_data)->on_button_import_dict();
 }
+
 
 void EditDictionaryDialog::on_button_import_dict()
 {
@@ -307,10 +318,12 @@ void EditDictionaryDialog::on_button_import_dict()
   }
 }
 
+
 void EditDictionaryDialog::on_button_import_file_clicked(GtkButton * button, gpointer user_data)
 {
   ((EditDictionaryDialog *) user_data)->on_button_import_file();
 }
+
 
 void EditDictionaryDialog::on_button_import_file()
 {
@@ -326,10 +339,12 @@ void EditDictionaryDialog::on_button_import_file()
   on_button_sort(&lines);
 }
 
+
 void EditDictionaryDialog::on_button_export_dict_clicked(GtkButton * button, gpointer user_data)
 {
   ((EditDictionaryDialog *) user_data)->on_button_export_dict();
 }
+
 
 void EditDictionaryDialog::on_button_export_dict()
 {
@@ -343,10 +358,12 @@ void EditDictionaryDialog::on_button_export_dict()
   }
 }
 
+
 void EditDictionaryDialog::on_button_export_file_clicked(GtkButton * button, gpointer user_data)
 {
   ((EditDictionaryDialog *) user_data)->on_button_export_file();
 }
+
 
 void EditDictionaryDialog::on_button_export_file()
 {
@@ -358,10 +375,12 @@ void EditDictionaryDialog::on_button_export_file()
   write_lines(filename, lines);
 }
 
+
 void EditDictionaryDialog::on_button_count_clicked(GtkButton * button, gpointer user_data)
 {
   ((EditDictionaryDialog *) user_data)->on_button_count();
 }
+
 
 void EditDictionaryDialog::on_button_count()
 {
@@ -376,10 +395,12 @@ void EditDictionaryDialog::on_button_count()
   write_lines(filename, lines);
 }
 
+
 void EditDictionaryDialog::on_okbutton1_clicked(GtkButton * button, gpointer user_data)
 {
   ((EditDictionaryDialog *) user_data)->on_okbutton();
 }
+
 
 void EditDictionaryDialog::on_okbutton()
 {
@@ -388,6 +409,7 @@ void EditDictionaryDialog::on_okbutton()
   gtk_text_buffer_get_end_iter(textbuffer, &enditer);
   g_file_set_contents(filename.c_str(), gtk_text_buffer_get_text(textbuffer, &startiter, &enditer, true), -1, NULL);
 }
+
 
 vector < ustring > EditDictionaryDialog::get_other_editable_dictionaries()
 {
@@ -403,5 +425,4 @@ vector < ustring > EditDictionaryDialog::get_other_editable_dictionaries()
   return dictionaries;
 }
 
-// Todo too tall?
 

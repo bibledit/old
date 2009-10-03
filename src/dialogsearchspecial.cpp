@@ -39,10 +39,9 @@
 #define RESULTS_SHARE  "Share them with the ones already in the References Area"
 
 
-SearchSpecialDialog::SearchSpecialDialog(BibleTime * bibletime)
+SearchSpecialDialog::SearchSpecialDialog(int dummy)
 {
   extern Settings *settings;
-  mybibletime = bibletime;
 
   accel_group = gtk_accel_group_new();
 
@@ -75,21 +74,13 @@ SearchSpecialDialog::SearchSpecialDialog(BibleTime * bibletime)
   gtk_widget_show(label19);
   gtk_notebook_set_tab_label(GTK_NOTEBOOK(notebook_mode), gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook_mode), 0), label19);
 
-  label22 = gtk_label_new("Press Control-F for searching in BibleTime");
+  label22 = gtk_label_new("Press Control-F for Basic search");
   gtk_widget_show(label22);
   gtk_container_add(GTK_CONTAINER(notebook_mode), label22);
 
   label20 = gtk_label_new("Advanced");
   gtk_widget_show(label20);
   gtk_notebook_set_tab_label(GTK_NOTEBOOK(notebook_mode), gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook_mode), 1), label20);
-
-  label18 = gtk_label_new("Press Control-F for Basic search");
-  gtk_widget_show(label18);
-  gtk_container_add(GTK_CONTAINER(notebook_mode), label18);
-
-  label21 = gtk_label_new("BibleTime");
-  gtk_widget_show(label21);
-  gtk_notebook_set_tab_label(GTK_NOTEBOOK(notebook_mode), gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook_mode), 2), label21);
 
   hbox1 = gtk_hbox_new(FALSE, 4);
   gtk_widget_show(hbox1);
@@ -264,101 +255,6 @@ SearchSpecialDialog::SearchSpecialDialog(BibleTime * bibletime)
   gtk_widget_show(label32);
   gtk_notebook_set_tab_label(GTK_NOTEBOOK(notebook_advanced), gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook_advanced), 1), label32);
 
-  vbox8 = gtk_vbox_new(FALSE, 4);
-  gtk_widget_show(vbox8);
-  gtk_container_add(GTK_CONTAINER(notebook_advanced), vbox8);
-
-  label26 = gtk_label_new("Search in:");
-  gtk_widget_show(label26);
-  gtk_box_pack_start(GTK_BOX(vbox8), label26, FALSE, FALSE, 0);
-  gtk_misc_set_alignment(GTK_MISC(label26), 0, 0.5);
-
-  GSList *radiobutton_bt_default_group = NULL;  // Moved here
-
-  radiobutton_bt_default = gtk_radio_button_new_with_mnemonic(NULL, "_Standard Bible");
-  gtk_widget_show(radiobutton_bt_default);
-  gtk_box_pack_start(GTK_BOX(vbox8), radiobutton_bt_default, FALSE, FALSE, 0);
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_bt_default), radiobutton_bt_default_group);
-  radiobutton_bt_default_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_bt_default));
-
-  radiobutton_bt_open = gtk_radio_button_new_with_mnemonic(NULL, "_Open modules");
-  gtk_widget_show(radiobutton_bt_open);
-  gtk_box_pack_start(GTK_BOX(vbox8), radiobutton_bt_open, FALSE, FALSE, 0);
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_bt_open), radiobutton_bt_default_group);
-  radiobutton_bt_default_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_bt_open));
-
-  table1 = gtk_table_new(2, 2, FALSE);
-  gtk_widget_show(table1);
-  gtk_box_pack_start(GTK_BOX(vbox8), table1, FALSE, FALSE, 0);
-
-  radiobutton_bt_bible = gtk_radio_button_new_with_mnemonic(NULL, "_Bible");
-  gtk_widget_show(radiobutton_bt_bible);
-  gtk_table_attach(GTK_TABLE(table1), radiobutton_bt_bible, 0, 1, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_bt_bible), radiobutton_bt_default_group);
-  radiobutton_bt_default_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_bt_bible));
-
-  radiobutton_bt_commentary = gtk_radio_button_new_with_mnemonic(NULL, "Co_mmentary");
-  gtk_widget_show(radiobutton_bt_commentary);
-  gtk_table_attach(GTK_TABLE(table1), radiobutton_bt_commentary, 0, 1, 1, 2, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
-  gtk_radio_button_set_group(GTK_RADIO_BUTTON(radiobutton_bt_commentary), radiobutton_bt_default_group);
-  radiobutton_bt_default_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radiobutton_bt_commentary));
-
-  // Set which radio button will be active.
-  switch (settings->session.searchbibletimetype) {
-  case sbttDefaultBible:
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_bt_default), true);
-    break;
-  case sbttOpenModules:
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_bt_open), true);
-    break;
-  case sbttBible:
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_bt_bible), true);
-    break;
-  case sbttCommentary:
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radiobutton_bt_commentary), true);
-    break;
-  }
-
-  combobox_bt_bibles = gtk_combo_box_new_text();        // Modified.
-  gtk_widget_show(combobox_bt_bibles);
-  gtk_table_attach(GTK_TABLE(table1), combobox_bt_bibles, 1, 2, 0, 1, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (GTK_FILL), 0, 0);
-
-  combobox_bt_commentaries = gtk_combo_box_new_text();  // Modified
-  gtk_widget_show(combobox_bt_commentaries);
-  gtk_table_attach(GTK_TABLE(table1), combobox_bt_commentaries, 1, 2, 1, 2, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (GTK_FILL), 0, 0);
-
-  // Load modules in the combos.
-  vector < ustring > modules;
-  modules = bibletime->getbibles();
-  combobox_set_strings(combobox_bt_bibles, modules);
-  if (modules.size() > 0) {
-    if (settings->session.search_bibletime_bible.length() > 0)
-      combobox_set_string(combobox_bt_bibles, settings->session.search_bibletime_bible);
-    else
-      combobox_set_string(combobox_bt_bibles, modules[0]);
-  }
-  modules.clear();
-  modules = bibletime->getcommentaries();
-  combobox_set_strings(combobox_bt_commentaries, modules);
-  if (modules.size() > 0) {
-    if (settings->session.search_bibletime_commentary.length() > 0)
-      combobox_set_string(combobox_bt_commentaries, settings->session.search_bibletime_commentary);
-    else
-      combobox_set_string(combobox_bt_commentaries, modules[0]);
-  }
-
-  label33 = gtk_label_new("");
-  gtk_widget_show(label33);
-  gtk_notebook_set_tab_label(GTK_NOTEBOOK(notebook_advanced), gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook_advanced), 2), label33);
-
-  empty_notebook_page = gtk_vbox_new(FALSE, 0);
-  gtk_widget_show(empty_notebook_page);
-  gtk_container_add(GTK_CONTAINER(notebook_advanced), empty_notebook_page);
-
-  label34 = gtk_label_new("");
-  gtk_widget_show(label34);
-  gtk_notebook_set_tab_label(GTK_NOTEBOOK(notebook_advanced), gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook_advanced), 3), label34);
-
   notebook_results = gtk_notebook_new();
   gtk_widget_show(notebook_results);
   gtk_box_pack_start(GTK_BOX(vbox3), notebook_results, TRUE, TRUE, 0);
@@ -454,8 +350,6 @@ SearchSpecialDialog::SearchSpecialDialog(BibleTime * bibletime)
   g_signal_connect((gpointer) button_area, "clicked", G_CALLBACK(on_button_area_clicked), gpointer(this));
   g_signal_connect((gpointer) findbutton, "clicked", G_CALLBACK(on_findbutton_clicked), gpointer(this));
   g_signal_connect_after((gpointer) notebook_mode, "switch_page", G_CALLBACK(on_notebook_mode_switch_page), gpointer(this));
-  g_signal_connect_after((gpointer) radiobutton_bt_bible, "toggled", G_CALLBACK(on_radiobutton_bt_bible_toggled), gpointer(this));
-  g_signal_connect_after((gpointer) radiobutton_bt_commentary, "toggled", G_CALLBACK(on_radiobutton_bt_commentary_toggled), gpointer(this));
 
   gtk_label_set_mnemonic_widget(GTK_LABEL(label_word_entry), word_entry);
   gtk_label_set_mnemonic_widget(GTK_LABEL(label14), combobox_results);
@@ -477,16 +371,6 @@ SearchSpecialDialog::SearchSpecialDialog(BibleTime * bibletime)
       on_control_f();
   }
 
-  if (!bibletime->connected()) {
-    // BibleTime is not available: set a couple of widgets insensitive.
-    gtk_widget_set_sensitive(radiobutton_bt_default, false);
-    gtk_widget_set_sensitive(radiobutton_bt_open, false);
-    gtk_widget_set_sensitive(radiobutton_bt_bible, false);
-    gtk_widget_set_sensitive(radiobutton_bt_commentary, false);
-    gtk_widget_set_sensitive(combobox_bt_bibles, false);
-    gtk_widget_set_sensitive(combobox_bt_commentaries, false);
-    gtk_widget_set_sensitive(label26, false);
-  }
   // Present the window after a while because other windows created may take away the focus.
   dialogpresenter = new DialogPresenter(searchspecialdialog);
 }
@@ -517,9 +401,6 @@ void SearchSpecialDialog::set_gui()
   bool findbuttonsensitive;
   string searchword = gtk_entry_get_text(GTK_ENTRY(word_entry));
   findbuttonsensitive = (searchword.size() > 0);
-  if (gtk_notebook_get_current_page(GTK_NOTEBOOK(notebook_mode)) == 2)
-    if (!mybibletime->connected())
-      findbuttonsensitive = false;
   gtk_widget_set_sensitive(findbutton, findbuttonsensitive);
   bool searchcurrentbook = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_current_book));
   gtk_widget_set_sensitive(button_books, !searchcurrentbook);
@@ -570,16 +451,6 @@ void SearchSpecialDialog::on_find()
     }
   }
   completion_finish(word_entry, cpSearch);
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_bt_default)))
-    settings->session.searchbibletimetype = sbttDefaultBible;
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_bt_open)))
-    settings->session.searchbibletimetype = sbttOpenModules;
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_bt_bible)))
-    settings->session.searchbibletimetype = sbttBible;
-  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_bt_commentary)))
-    settings->session.searchbibletimetype = sbttCommentary;
-  settings->session.search_bibletime_bible = combobox_get_active_string(combobox_bt_bibles);
-  settings->session.search_bibletime_commentary = combobox_get_active_string(combobox_bt_commentaries);
 }
 
 
@@ -633,7 +504,7 @@ void SearchSpecialDialog::on_control_f()
   g_timeout_add(1, GSourceFunc(on_timeout), gpointer(this));
   int page = gtk_notebook_get_current_page(GTK_NOTEBOOK(notebook_mode));
   page++;
-  if (page > 2)
+  if (page > 1)
     page = 0;
   gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook_mode), page);
   gtk_widget_grab_focus(word_entry);
@@ -677,33 +548,6 @@ void SearchSpecialDialog::on_mode_change(guint page_num)
 }
 
 
-void SearchSpecialDialog::on_radiobutton_bt_bible_toggled(GtkToggleButton * togglebutton, gpointer user_data)
-{
-  ((SearchSpecialDialog *) user_data)->focus_bible();
-}
-
-
-void SearchSpecialDialog::focus_bible()
-{
-  gtk_widget_grab_focus(combobox_bt_bibles);
-  // This does not work at present. It would need a timer that focuses
-  // the widget shortly after the button switched on.
-}
-
-
-void SearchSpecialDialog::on_radiobutton_bt_commentary_toggled(GtkToggleButton * togglebutton, gpointer user_data)
-{
-  ((SearchSpecialDialog *) user_data)->focus_commentary();
-}
-
-
-void SearchSpecialDialog::focus_commentary()
-{
-  gtk_widget_grab_focus(combobox_bt_commentaries);
-  // This does not work, see above.
-}
-
-
 void SearchSpecialDialog::on_word_entry_activate(GtkEntry * entry, gpointer user_data)
 {
   ((SearchSpecialDialog *) user_data)->on_activate();
@@ -733,3 +577,5 @@ void SearchSpecialDialog::timeout()
 {
   allow_activate = true;
 }
+
+

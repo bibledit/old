@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "dialogeditnote.h"
@@ -31,6 +32,7 @@
 #include "settings.h"
 #include "styles.h"
 #include "combobox.h"
+
 
 EditNoteDialog::EditNoteDialog(Editor * editor)
 {
@@ -180,20 +182,24 @@ EditNoteDialog::EditNoteDialog(Editor * editor)
   }
 }
 
+
 EditNoteDialog::~EditNoteDialog()
 {
   gtk_widget_destroy(editnotedialog);
 }
+
 
 int EditNoteDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(editnotedialog));
 }
 
+
 void EditNoteDialog::on_radiobutton_numbering_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((EditNoteDialog *) user_data)->on_radiobutton_numbering(togglebutton);
 }
+
 
 void EditNoteDialog::on_radiobutton_numbering(GtkToggleButton * togglebutton)
 {
@@ -206,6 +212,7 @@ void EditNoteDialog::on_radiobutton_numbering(GtkToggleButton * togglebutton)
   }
 }
 
+
 int EditNoteDialog::numbering_get()
 {
   if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_numbering_none)))
@@ -214,6 +221,7 @@ int EditNoteDialog::numbering_get()
     return ntCharacter;
   return ntAutomatic;
 }
+
 
 void EditNoteDialog::numbering_set(int numbering)
 {
@@ -234,10 +242,12 @@ void EditNoteDialog::numbering_set(int numbering)
   }
 }
 
+
 void EditNoteDialog::on_okbutton1_clicked(GtkButton * button, gpointer user_data)
 {
   ((EditNoteDialog *) user_data)->on_okbutton();
 }
+
 
 void EditNoteDialog::on_okbutton()
 {
@@ -323,6 +333,7 @@ void EditNoteDialog::on_okbutton()
   myeditor->renumber_and_clean_notes_callers();
 }
 
+
 ustring EditNoteDialog::switch_marker(const ustring & marker, bool switch_to_xref)
 /*
 In case a footnote or endnote is changed to a crossreference, or vice versa, 
@@ -391,6 +402,7 @@ to a footnote or endnote.
   return newmarker;
 }
 
+
 ustring EditNoteDialog::get_marker(const ustring & text)
 // Given a string starting with a marker, then a space, then something else,
 // this returns the marker.
@@ -404,5 +416,4 @@ ustring EditNoteDialog::get_marker(const ustring & text)
   return marker;
 }
 
-// Todo too tall?
 

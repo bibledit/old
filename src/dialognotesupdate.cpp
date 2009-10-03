@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "dialognotesupdate.h"
 #include "progresswindow.h"
 #include "gtkwrappers.h"
@@ -27,6 +28,7 @@
 #include "combobox.h"
 #include "projectutils.h"
 #include "utilities.h"
+
 
 NotesUpdateDialog::NotesUpdateDialog(int dummy)
 {
@@ -188,20 +190,24 @@ NotesUpdateDialog::NotesUpdateDialog(int dummy)
     combobox_set_string(combobox_category_to, categories.lines[0]);
 }
 
+
 NotesUpdateDialog::~NotesUpdateDialog()
 {
   gtk_widget_destroy(notesupdatedialog);
 }
+
 
 int NotesUpdateDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(notesupdatedialog));
 }
 
+
 void NotesUpdateDialog::on_okbutton1_clicked(GtkButton * button, gpointer user_data)
 {
   ((NotesUpdateDialog *) user_data)->on_ok();
 }
+
 
 void NotesUpdateDialog::on_ok()
 {
@@ -240,5 +246,4 @@ void NotesUpdateDialog::on_ok()
   gtkw_dialog_info(notesupdatedialog, message);
 }
 
-// Todo too tall?
 

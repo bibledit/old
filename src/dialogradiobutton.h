@@ -29,7 +29,7 @@
 class RadiobuttonDialog
 {
 public:
-  RadiobuttonDialog (const ustring& title, const ustring& info, const vector <ustring>& labels, unsigned int selection);
+  RadiobuttonDialog (const ustring& title, const ustring& info, const vector <ustring>& labels, unsigned int selection, bool autoscale);
   ~RadiobuttonDialog ();
   int run ();
   unsigned int selection;
@@ -37,6 +37,9 @@ protected:
   GtkWidget *radiobuttondialog;
   GtkWidget *dialog_vbox1;
   GtkWidget *label;
+  GtkWidget *scrolledwindow1;
+  GtkWidget *viewport1;
+  GtkWidget *vbox1;
   GtkWidget *dialog_action_area1;
   GtkWidget *cancelbutton;
   GtkWidget *okbutton;

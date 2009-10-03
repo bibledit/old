@@ -26,6 +26,9 @@
 
 DBus::DBus(int dummy)
 {
+  // Initialize variables.
+  event_id_rescan_bus = 0;
+  
 	// Obtain a connection to the Session Bus.
 	GError *error = NULL;
 	sigcon = dbus_g_bus_get(DBUS_BUS_SESSION, &error);
@@ -48,42 +51,34 @@ DBus::DBus(int dummy)
     }
   }
   
-  // Check the names currently available on the bus:
-  // dbus-send --print-reply --dest=org.freedesktop.DBus /org/freedesktop/DBus org.freedesktop.DBus.ListNames
-  vector <ustring> names_on_bus = method_call_wait_reply ("org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus", "ListNames", false);
-  // First check whether the name if visible among the names on the bus.
-  for (unsigned int i = 0; i < names_on_bus.size(); i++) {
-    if (names_on_bus[i].find ("BibleTime") != string::npos) {
-      bibletime_bus_name = names_on_bus[i];
-      gw_message ("BibleTime on DBus as service " + names_on_bus[i]);
-      break;
-    }
+  // Connect to a couple of signals that indicate applications have started or have exited.
+  // Then a rescan of the bus can show whether BibleTime runs, or whether it have been exited.  
+  proxy = NULL;
+  if (sigcon)
+  	proxy = dbus_g_proxy_new_for_name(sigcon, "org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus");
+  if (proxy) {
+    dbus_g_proxy_add_signal(proxy, "NameAcquired", G_TYPE_STRING, G_TYPE_INVALID);
+    dbus_g_proxy_connect_signal(proxy, "NameAcquired", G_CALLBACK (on_name_acquired), gpointer (this), NULL);
+    dbus_g_proxy_add_signal(proxy, "NameOwnerChanged", G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INVALID);
+    dbus_g_proxy_connect_signal(proxy, "NameOwnerChanged", G_CALLBACK (on_name_owner_changed), gpointer (this), NULL);
+    dbus_g_proxy_add_signal(proxy, "NameLost", G_TYPE_STRING, G_TYPE_INVALID);
+    dbus_g_proxy_connect_signal(proxy, "NameLost", G_CALLBACK (on_name_lost), gpointer (this), NULL);
   }
-  // If the service was not found, inspect each name on the bus whether it represents BibleTime.
-  if (bibletime_bus_name.empty()) {
-    for (unsigned int i = 0; i < names_on_bus.size(); i++) {
-      if (check_if_bibletime_bus_name (names_on_bus[i].c_str())) {
-        bibletime_bus_name = names_on_bus[i];
-        gw_message ("BibleTime on DBus represented by name " + names_on_bus[i]);
-        break;
-      }
-    }
-  }
-  
-  // Signals to connect to:
-  // NameLost
-  // NameAcquired
-  // We connect to the NameList signal, and probably the NameAqcuired signal. This will track whether the relevant applications run.
-  // We can then send the signals only if the applications runs. (But we might send regardless, that would be fine, even if the application does not run).
-
 }
 
 
 DBus::~DBus()
 {
+  // Destroy any pending timeout.
+  gw_destroy_source(event_id_rescan_bus);
+  
   // The connection obtained through dbus_g_connection_get_connection does not have its reference count incremented.
   // Therefore it should not be unreferenced.
   // dbus_connection_unref(con);
+
+  if (proxy) {
+    g_object_unref(proxy);
+  }
 }
 
 
@@ -120,29 +115,6 @@ vector <ustring> DBus::method_call_wait_reply (const gchar * bus_name, const gch
   vector <ustring> method_reply (string_reply);
   string_reply.clear();
   return method_reply;
-}
-
-
-const gchar *DBus::dbusmethod(DBusMethodType dbmethod)
-{
-  switch (dbmethod) {
-  case dbmtHello:
-    return "Hello";
-  case dbmtEnd:
-    return NULL;
-  }
-  return NULL;
-}
-
-
-DBusMethodType DBus::dbusmethod(const char *dbmethod)
-{
-  for (int i = 0; i < dbmtEnd; i++) {
-    if (strcmp(dbmethod, dbusmethod(DBusMethodType(i))) == 0) {
-      return (DBusMethodType) i;
-    }
-  }
-  return dbmtEnd;
 }
 
 
@@ -367,6 +339,82 @@ dbus-send --print-reply --dest=:1.668 /BibleTime info.bibletime.BibleTime.syncAl
     return;
   // Send the message.
   send (bibletime_bus_name.c_str(), object, interface, method, value);
+}
+
+
+vector <ustring> DBus::receive_from_bibletime (const gchar * object, const gchar * interface, const gchar * method)
+// Calls a method in BibleTime and wait for the reply.
+{
+  vector <ustring> reply;
+  if (!bibletime_bus_name.empty()) 
+    reply = method_call_wait_reply (bibletime_bus_name.c_str(), object, interface, method, false);
+  return reply;
+}
+
+
+void DBus::on_name_acquired (DBusGProxy *proxy, const char *name, gpointer user_data)
+{
+}
+
+
+void DBus::on_name_owner_changed (DBusGProxy *proxy, const char *name, const char *prev, const char *nw, gpointer user_data)
+{
+  ((DBus *) user_data)->name_owner_changed();
+}
+
+
+void DBus::name_owner_changed ()
+{
+  gw_destroy_source (event_id_rescan_bus);
+  event_id_rescan_bus = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_rescan_bus_timeout), gpointer(this), NULL);
+}
+
+
+void DBus::on_name_lost (DBusGProxy *proxy, const char *name, gpointer user_data)
+{
+}
+
+
+bool DBus::on_rescan_bus_timeout(gpointer user_data)
+{
+  ((DBus *) user_data)->on_rescan_bus();
+  return false;
+}
+
+
+void DBus::on_rescan_bus()
+{
+  // Clear event id.
+  event_id_rescan_bus = 0;
+  
+  // Clear the BibleTime bus name.
+  bibletime_bus_name.clear();
+  
+  // Check the names currently available on the bus:
+  // dbus-send --print-reply --dest=org.freedesktop.DBus /org/freedesktop/DBus org.freedesktop.DBus.ListNames
+  vector <ustring> names_on_bus = method_call_wait_reply ("org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus", "ListNames", false);
+  // First check whether the name if visible among the names on the bus.
+  for (unsigned int i = 0; i < names_on_bus.size(); i++) {
+    if (names_on_bus[i].find ("BibleTime") != string::npos) {
+      bibletime_bus_name = names_on_bus[i];
+      gw_message ("BibleTime on DBus as service " + names_on_bus[i]);
+      break;
+    }
+  }
+  // If the service was not found, inspect each name on the bus whether it represents BibleTime.
+  if (bibletime_bus_name.empty()) {
+    for (unsigned int i = 0; i < names_on_bus.size(); i++) {
+      if (check_if_bibletime_bus_name (names_on_bus[i].c_str())) {
+        bibletime_bus_name = names_on_bus[i];
+        gw_message ("BibleTime on DBus represented by name " + names_on_bus[i]);
+        break;
+      }
+    }
+  }
+  // If BibleTime is still not found, give a message.
+  if (bibletime_bus_name.empty()) {
+    gw_message ("BibleTime not on DBus");
+  }
 }
 
 

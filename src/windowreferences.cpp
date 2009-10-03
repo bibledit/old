@@ -485,10 +485,6 @@ void WindowReferences::html_write_references (HtmlWriter2& htmlwriter)
     text = usfm_get_verse_text_only (text);
     htmlwriter.text_add (text);
     htmlwriter.paragraph_close();
-    htmlwriter.paragraph_open ();
-    text = kjv_get_verse (references[i]);
-    htmlwriter.text_add (text);
-    htmlwriter.paragraph_close();
   }
   
   // Write action bar.

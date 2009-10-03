@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "dialogoriginreferences.h"
@@ -25,6 +26,7 @@
 #include "originreferences.h"
 #include "settings.h"
 #include "shortcuts.h"
+
 
 OriginReferencesDialog::OriginReferencesDialog(int dummy)
 {
@@ -202,20 +204,24 @@ OriginReferencesDialog::OriginReferencesDialog(int dummy)
   on_reference();
 }
 
+
 OriginReferencesDialog::~OriginReferencesDialog()
 {
   gtk_widget_destroy(originreferencesdialog);
 }
+
 
 int OriginReferencesDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(originreferencesdialog));
 }
 
+
 void OriginReferencesDialog::on_radiobutton_action_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((OriginReferencesDialog *) user_data)->on_radiobutton_action();
 }
+
 
 void OriginReferencesDialog::on_radiobutton_action()
 {
@@ -236,15 +242,18 @@ void OriginReferencesDialog::on_radiobutton_action()
   gtk_widget_set_sensitive(label_example, sensitive);
 }
 
+
 void OriginReferencesDialog::on_checkbutton_reference_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((OriginReferencesDialog *) user_data)->on_reference();
 }
 
+
 void OriginReferencesDialog::on_entry_reference_changed(GtkEditable * editable, gpointer user_data)
 {
   ((OriginReferencesDialog *) user_data)->on_reference();
 }
+
 
 void OriginReferencesDialog::on_reference()
 {
@@ -261,10 +270,12 @@ void OriginReferencesDialog::on_reference()
   gtk_label_set_text(GTK_LABEL(label_example), exampletext.c_str());
 }
 
+
 void OriginReferencesDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((OriginReferencesDialog *) user_data)->on_okbutton();
 }
+
 
 void OriginReferencesDialog::on_okbutton()
 {
@@ -289,5 +300,5 @@ void OriginReferencesDialog::on_okbutton()
                                     gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_endnotes)), gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_xrefs)), action, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_book)), gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_chapter)), gtk_entry_get_text(GTK_ENTRY(entry_dot)), gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_verse)), gtk_entry_get_text(GTK_ENTRY(entry2)), true);
 }
 
-// Todo too tall?
+
 

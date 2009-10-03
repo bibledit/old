@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include <gtk/gtk.h>
 #include "dialogchapternumber.h"
@@ -27,6 +28,7 @@
 #include "help.h"
 #include "books.h"
 #include "tiny_utilities.h"
+
 
 ChapterNumberDialog::ChapterNumberDialog(int dummy)
 {
@@ -92,20 +94,24 @@ ChapterNumberDialog::ChapterNumberDialog(int dummy)
   set_gui();
 }
 
+
 ChapterNumberDialog::~ChapterNumberDialog()
 {
   gtk_widget_destroy(dialogchapternumber);
 }
+
 
 int ChapterNumberDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(dialogchapternumber));
 }
 
+
 void ChapterNumberDialog::on_okbutton1_clicked(GtkButton * button, gpointer user_data)
 {
   ((ChapterNumberDialog *) user_data)->on_ok();
 }
+
 
 void ChapterNumberDialog::on_ok()
 // Insert a chapter
@@ -119,6 +125,7 @@ void ChapterNumberDialog::on_ok()
   project_store_chapter(settings->genconfig.project_get(), settings->genconfig.book_get(), ccv);
   settings->genconfig.chapter_set(convert_to_string(newchapter));
 }
+
 
 void ChapterNumberDialog::set_gui()
 {
@@ -148,15 +155,16 @@ void ChapterNumberDialog::set_gui()
   gtk_label_set_text(GTK_LABEL(label_info), message.c_str());
 }
 
+
 void ChapterNumberDialog::on_entry1_changed(GtkEditable * editable, gpointer user_data)
 {
   ((ChapterNumberDialog *) user_data)->set_gui();
 }
+
 
 unsigned int ChapterNumberDialog::get_chapter()
 {
   return convert_to_int(gtk_entry_get_text(GTK_ENTRY(entry1)));
 }
 
-// Todo too tall?
 

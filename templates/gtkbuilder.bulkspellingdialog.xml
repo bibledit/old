@@ -7,7 +7,6 @@
     <property name="title" translatable="yes">Bulk Speller</property>
     <property name="modal">True</property>
     <property name="window_position">center-always</property>
-    <property name="default_height">600</property>
     <property name="type_hint">normal</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox1">

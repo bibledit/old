@@ -29,8 +29,6 @@ enum NumberingType {ntAutomatic, ntNone, ntCharacter};
 
 enum SearchResultsType {sstLoad, sstAdd, sstSubtract, sstShare};
 
-enum SearchBibleTimeType {sbttDefaultBible, sbttOpenModules, sbttBible, sbttCommentary};
-
 enum CheckSortType {cstSort0, cstSort1, cstSort2, cstSort3};
 
 enum AreaType {atRaw, atAll, atSelection};

@@ -33,6 +33,7 @@
 #include "shortcuts.h"
 #include "tiny_utilities.h"
 #include "gwrappers.h"
+#include "screen.h"
 
 
 BulkSpellingDialog::BulkSpellingDialog(const vector <ustring> words)
@@ -67,6 +68,8 @@ BulkSpellingDialog::BulkSpellingDialog(const vector <ustring> words)
 
   shortcuts.process();
   gtk_widget_show(dialog);
+  
+  new DialogAutoScaler (dialog, G_MAXINT);
 }
 
 
@@ -105,6 +108,4 @@ void BulkSpellingDialog::on_spellbutton(GtkButton *button)
   approved.push_back (gtk_button_get_label (button));
   gtk_widget_destroy (GTK_WIDGET (button));
 }
-
-// Todo too tall?
 

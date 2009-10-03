@@ -1,9 +1,4 @@
-bin_PROGRAMS = bibledit bibledit-bibletime
-
-bibledit_bibletime_SOURCES = \
-        bibledit-bibletime.cpp \
-        ustring.cpp \
-        bookdata.cpp
+bin_PROGRAMS = bibledit
 
 bibledit_SOURCES = \
 		bibledit.cpp \
@@ -21,7 +16,6 @@ bibledit_SOURCES = \
 		dialogreplacing.cpp \
 		windowsoutpost.cpp \
 		dialoggotoreference.cpp \
-		dialogunicode.cpp \
 	    projectutils.cpp \
 	    dialogproject.cpp \
 	    usfm.cpp \
@@ -100,11 +94,9 @@ bibledit_SOURCES = \
         gui.cpp \
         check_validate_usfm.cpp \
         checks.cpp \
-        dialoglinecutter.cpp \
         check_count_words.cpp \
         dialogoutpost.cpp \
         dialognotestransfer.cpp \
-        dialogtextview.cpp \
         dialogchapternumber.cpp \
         httpd.cpp \
         opendocument.cpp \
@@ -237,7 +229,6 @@ bibledit_SOURCES = \
         windoweditor.cpp \
         compress.cpp \
         localizednumerals.cpp \
-        windowshowverses.cpp \
         assistantimportkeyterms.cpp \
         assistants.cpp \
         assistantdeletekeyterms.cpp \
@@ -275,8 +266,6 @@ bibledit_SOURCES = \
 				mechonmamre.cpp \
 				bibleworks.cpp \
 				onlinebible.cpp \
-				windowsourcelanguages.cpp \
-				lexicons.cpp \
 				robinson.cpp \
 				sourcelanguage.cpp \
 				morphology.cpp \
@@ -299,7 +288,7 @@ AM_CXXFLAGS += $(GTKHTML38_CFLAGS)
 AM_CXXFLAGS += $(GTKHTML314_CFLAGS)
 AM_CXXFLAGS += $(GTKSOURCEVIEW_CFLAGS)
 AM_CXXFLAGS += $(WEBKIT_CFLAGS)
-AM_CXXFLAGS += $(DBUSGLIB_CFLAGS)
+AM_CXXFLAGS += $(DBUS_CFLAGS)
 
 LIBS = -Wall 
 LIBS += `xml2-config --libs`
@@ -313,7 +302,7 @@ LIBS += $(GTKHTML38_LIBS)
 LIBS += $(GTKHTML314_LIBS)
 LIBS += $(GTKSOURCEVIEW_LIBS)
 LIBS += $(WEBKIT_LIBS)
-LIBS += $(DBUSGLIB_LIBS)
+LIBS += $(DBUS_LIBS)
 
 if LINUX
 endif

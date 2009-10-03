@@ -31,7 +31,6 @@
 #include "directories.h"
 #include "gwrappers.h"
 #include "kjv.h"
-#include "lexicons.h"
 
 
 void upgrade()
@@ -49,19 +48,6 @@ void upgrade()
   references_memory_database_verify();
   snapshots_initialize_all ();
   git_upgrade ();
-  
-  // Databases to create.
-  ustring databases_ini = gw_build_filename (directories_get_databases(), "databases.ini");
-  GKeyFile *keyfile = g_key_file_new();
-  g_key_file_load_from_file(keyfile, databases_ini.c_str(), G_KEY_FILE_NONE, NULL);
-  kjv_import (keyfile);
-  lexicons_import (keyfile);
-  gchar *data = g_key_file_to_data(keyfile, NULL, NULL);
-  if (data) {
-    g_file_set_contents(databases_ini.c_str(), data, -1, NULL);
-    g_free(data);
-  }
-  g_key_file_free(keyfile);
 }
 
 

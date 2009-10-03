@@ -17,11 +17,13 @@
 **  
 */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "dialogcheckbutton.h"
 #include "help.h"
 #include "utilities.h"
+
 
 CheckbuttonDialog::CheckbuttonDialog(const ustring & title, const ustring & info, const vector < ustring > &labels, ustring bitpattern)
 {
@@ -84,20 +86,24 @@ CheckbuttonDialog::CheckbuttonDialog(const ustring & title, const ustring & info
   gtk_widget_grab_focus(okbutton);
 }
 
+
 CheckbuttonDialog::~CheckbuttonDialog()
 {
   gtk_widget_destroy(checkbuttondialog);
 }
+
 
 int CheckbuttonDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(checkbuttondialog));
 }
 
+
 void CheckbuttonDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((CheckbuttonDialog *) user_data)->on_okbutton();
 }
+
 
 void CheckbuttonDialog::on_okbutton()
 {
@@ -107,5 +113,4 @@ void CheckbuttonDialog::on_okbutton()
   }
 }
 
-// Todo too tall?
 

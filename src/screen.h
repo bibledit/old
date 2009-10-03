@@ -31,13 +31,16 @@ void textview_scroll_to_mark (GtkTextView * textview, GtkTextMark * mark, bool e
 void screen_set_cursor_hand_or_regular(GtkTextView *text_view, gint x, gint y);
 gboolean screen_visibility_notify_event(GtkWidget *text_view, GdkEventVisibility *event, gpointer user_data);
 
+
 enum DialogPositionType {dptInsertNote};
 void dialog_position_save(DialogPositionType type, GtkWidget * dialog);
 void dialog_position_restore(DialogPositionType type, GtkWidget * dialog);
 void dialog_position_reset_all();
 
+
 void window_position_get_left_space(GtkWidget * widget, gint& width, gint& height, gint& x, gint& y);
 void window_position_make_left_space(GtkWidget * widget, gint space);
+
 
 class DialogPresenter
 {
@@ -46,6 +49,20 @@ public:
   ~DialogPresenter();
 private:
   GtkWidget * mywidget;
+  guint event_id;
+  static bool on_timeout(gpointer data);
+  void timeout();
+};
+
+
+class DialogAutoScaler
+{
+public:
+  DialogAutoScaler (GtkWidget * widget, int height);
+  ~DialogAutoScaler();
+private:
+  GtkWidget * mywidget;
+  int desired_height;
   guint event_id;
   static bool on_timeout(gpointer data);
   void timeout();

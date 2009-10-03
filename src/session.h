@@ -45,9 +45,6 @@ public:
   bool search_end_word_match;
   SearchResultsType searchresultstype;
   int search_page;
-  SearchBibleTimeType searchbibletimetype;
-  ustring search_bibletime_bible;
-  ustring search_bibletime_commentary;
   // Book selection.
   set<unsigned int> selected_books;
   // References highlighting.
@@ -99,6 +96,8 @@ public:
   // Question dialogs.
   map <int, bool> yes_no_always_dialog_enabled;
   map <int, int> yes_no_always_dialog_response;
+  // Reference exchange.
+  bool receiving_references;
 private:
 };
 

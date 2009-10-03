@@ -17,9 +17,11 @@
 **  
 */
 
+
 #include "libraries.h"
 #include <gtk/gtk.h>
 #include "dialogwait.h"
+
 
 WaitDialog::WaitDialog(int milliseconds, int width, int height)
 {
@@ -48,20 +50,24 @@ WaitDialog::WaitDialog(int milliseconds, int width, int height)
   g_timeout_add(milliseconds, GSourceFunc(static_on_timeout), gpointer(this));
 }
 
+
 WaitDialog::~WaitDialog()
 {
   gtk_widget_destroy(waitdialog);
 }
+
 
 int WaitDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(waitdialog));
 }
 
+
 gboolean WaitDialog::static_on_timeout(gpointer data)
 {
   return ((WaitDialog *) data)->on_timeout();
 }
+
 
 bool WaitDialog::on_timeout()
 {
@@ -70,5 +76,4 @@ bool WaitDialog::on_timeout()
   return false;
 }
 
-// Todo too tall?
 

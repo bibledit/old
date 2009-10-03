@@ -439,60 +439,6 @@ vector < Reference > search_in_bibledit()
 }
 
 
-vector < Reference > search_in_bibletime(BibleTime * bibletime)
-/*
-This handles the bibletime search functions.
-*/
-{
-  extern Settings *settings;
-
-  ProgressWindow progresswindow("Searching in BibleTime", false);
-  progresswindow.set_fraction(0.5);
-
-  // Storage for search results.
-  vector < ustring > searchresults;
-
-  // We need to normalize the search expression, as prescribed, when comparing strings.
-  ustring localsearchword;
-  localsearchword = settings->session.searchword;
-  localsearchword = localsearchword.normalize();
-
-  // Do the actual search.
-  switch (settings->session.searchbibletimetype) {
-  case sbttDefaultBible:
-    searchresults = bibletime->search_in_default_bible(localsearchword);
-    break;
-  case sbttOpenModules:
-    searchresults = bibletime->search_in_open_modules(localsearchword);
-    break;
-  case sbttBible:
-    searchresults = bibletime->search_in_module(settings->session.search_bibletime_bible, localsearchword);
-    break;
-  case sbttCommentary:
-    searchresults = bibletime->search_in_module(settings->session.search_bibletime_commentary, localsearchword);
-    break;
-  }
-
-  // Change the results to our format.
-  vector < Reference > searchresults2;
-  for (unsigned int i = 0; i < searchresults.size(); i++) {
-    size_t position;
-    position = searchresults[i].find("] ");
-    if (position != string::npos) {
-      position++;
-      position++;
-      searchresults[i].erase(0, position);
-    }
-    Reference reference(0);
-    if (reference_discover(0, 0, "", searchresults[i], reference.book, reference.chapter, reference.verse)) {
-      searchresults2.push_back(reference);
-    }
-  }
-
-  return searchresults2;
-}
-
-
 void search_load_references(WindowReferences * references_window, vector <Reference>& searchresults)
 /*
 This function takes the searchresults from a search, and depending on information
@@ -583,7 +529,7 @@ with the references that are already there.
 }
 
 
-void search_string(WindowReferences * references_window, BibleTime * bibletime)
+void search_string(WindowReferences * references_window)
 {
   // Storage for results;
   vector <Reference> searchresults;
@@ -624,8 +570,6 @@ void search_string(WindowReferences * references_window, BibleTime * bibletime)
     }
   case 2:
     {
-      // Search in bibletime.
-      searchresults = search_in_bibletime(bibletime);
       break;
     }
   }

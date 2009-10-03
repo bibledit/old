@@ -25,7 +25,6 @@
 #include <gtk/gtk.h>
 #include "windowsoutpost.h"
 #include "ustring.h"
-#include "bibletime.h"
 #include "usfm.h"
 #include "note_editor.h"
 #include "editor.h"
@@ -44,7 +43,6 @@
 #include "windownotes.h"
 #include "windowreferences.h"
 #include "windoweditor.h"
-#include "windowshowverses.h"
 #include "assistantimportkeyterms.h"
 #include "assistantdeletekeyterms.h"
 #include "assistantchanges.h"
@@ -55,7 +53,6 @@
 #include "assistantrestore.h"
 #include "assistantexport.h"
 #include "assistantimport.h"
-#include "windowsourcelanguages.h"
 
 
 class MainWindow : public WindowBase
@@ -186,8 +183,6 @@ protected:
   GtkWidget *view_references;
   GtkWidget *view_related_verses;
   GtkWidget *view_outline;
-  GtkWidget *view_verses;
-  GtkWidget *view_source_languages;
   GtkWidget *insert1;
   GtkWidget *insert1_menu;
   GtkWidget *standard_text_1;
@@ -275,8 +270,6 @@ protected:
   GtkWidget *image35887;
   GtkWidget *menutools;
   GtkWidget *menutools_menu;
-  GtkWidget *line_cutter_for_hebrew_text1;
-  GtkWidget *image13532;
   GtkWidget *notes_transfer;
   GtkWidget *image14659;
   GtkWidget *tool_origin_references_in_bible_notes;
@@ -296,7 +289,6 @@ protected:
   GtkWidget *tool_send_reference;
   GtkWidget *image37446;
   GtkWidget *tools_receive_reference;
-  GtkWidget *image38150;
   GtkWidget *menuitem_preferences;
   GtkWidget *menuitem_preferences_menu;
   GtkWidget *notes_preferences;
@@ -460,7 +452,6 @@ protected:
   WindowsOutpost * windowsoutpost;
   static void on_reference_exchange1_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_reference_exchange();
-  BibleTime bibletime;
   static void on_send_word_to_toolbox_signalled(GtkButton *button, gpointer user_data);
   void send_word_to_toolbox();
   static void on_preferences_windows_outpost_activate(GtkMenuItem *menuitem, gpointer user_data);
@@ -472,8 +463,10 @@ protected:
   void send_reference_to_onlinebible (Reference reference);
   static void on_tools_receive_reference_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_tools_receive_reference ();
+  guint event_id_receive_reference;
   static bool on_tools_receive_reference_timeout(gpointer data);
   void tools_receive_reference_timeout();
+  Reference * previously_received_reference;
 
   /* Title bar and status bar, GUI */
   static bool on_gui_timeout(gpointer data);
@@ -589,8 +582,6 @@ protected:
 
   /* Tools */
   static void on_menutools_activate(GtkMenuItem *menuitem, gpointer user_data);
-  static void on_line_cutter_for_hebrew_text1_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_line_cutter_for_hebrew_text();
   static void on_notes_transfer_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_notes_transfer();
   static void on_tool_origin_references_in_bible_notes_activate(GtkMenuItem *menuitem, gpointer user_data);
@@ -809,14 +800,6 @@ protected:
   bool shutting_down;
   void initiate_shutdown();
   
-  // Verses
-  static void on_view_verses_activate (GtkMenuItem *menuitem, gpointer user_data);
-  void on_view_verses ();
-  WindowShowVerses * window_show_verses;
-  static void on_window_show_verses_delete_button_clicked(GtkButton *button, gpointer user_data);
-  void on_window_show_verses_delete_button();
-  void show_verses();
-  
   // Assistants.
   static void on_assistant_ready_signal (GtkButton *button, gpointer user_data);
   void on_assistant_keyterms_ready ();
@@ -833,17 +816,6 @@ protected:
   static void on_file_import_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_file_import ();
   ImportAssistant * import_assistant;
-
-  /* Source languages */
-  static void on_view_source_languages_activate (GtkMenuItem *menuitem, gpointer user_data);
-  void on_view_source_languages ();
-  WindowSourceLanguages * window_source_languages;
-  static void on_window_source_languages_delete_button_clicked(GtkButton *button, gpointer user_data);
-  void on_window_source_languages_delete_button();
-  static void on_view_source_languages_signal_button_clicked(GtkButton *button, gpointer user_data);
-  void on_view_source_languages_signal_button();
-  
-
 };
 
 

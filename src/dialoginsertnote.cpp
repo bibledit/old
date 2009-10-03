@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "dialoginsertnote.h"
@@ -35,6 +36,7 @@
 #include "tidy.h"
 #include "screen.h"
 #include "tiny_utilities.h"
+
 
 InsertNoteDialog::InsertNoteDialog(NoteType dialogtype)
 {
@@ -294,21 +296,25 @@ InsertNoteDialog::InsertNoteDialog(NoteType dialogtype)
   dialog_position_restore(dptInsertNote, insertnotedialog);
 }
 
+
 InsertNoteDialog::~InsertNoteDialog()
 {
   dialog_position_save(dptInsertNote, insertnotedialog);
   gtk_widget_destroy(insertnotedialog);
 }
 
+
 int InsertNoteDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(insertnotedialog));
 }
 
+
 void InsertNoteDialog::on_radiobutton_numbering_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((InsertNoteDialog *) user_data)->on_radiobutton_numbering(togglebutton);
 }
+
 
 void InsertNoteDialog::on_radiobutton_numbering(GtkToggleButton * togglebutton)
 {
@@ -320,6 +326,7 @@ void InsertNoteDialog::on_radiobutton_numbering(GtkToggleButton * togglebutton)
   }
 }
 
+
 int InsertNoteDialog::numbering_get()
 {
   if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_numbering_none)))
@@ -328,6 +335,7 @@ int InsertNoteDialog::numbering_get()
     return ntCharacter;
   return ntAutomatic;
 }
+
 
 void InsertNoteDialog::numbering_set(int numbering)
 {
@@ -349,15 +357,18 @@ void InsertNoteDialog::numbering_set(int numbering)
 
 }
 
+
 void InsertNoteDialog::on_entry_numbering_activate(GtkEntry * entry, gpointer user_data)
 {
   ((InsertNoteDialog *) user_data)->focus_next_widget(GTK_WIDGET(entry));
 }
 
+
 void InsertNoteDialog::on_checkbutton_automatic_reference_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((InsertNoteDialog *) user_data)->on_checkbutton_automatic_reference();
 }
+
 
 void InsertNoteDialog::on_checkbutton_automatic_reference()
 {
@@ -370,16 +381,19 @@ void InsertNoteDialog::on_checkbutton_automatic_reference()
   on_checkbutton_verse();
 }
 
+
 void InsertNoteDialog::on_checkbutton_chapter_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((InsertNoteDialog *) user_data)->on_checkbutton_chapter();
 }
+
 
 void InsertNoteDialog::on_checkbutton_chapter()
 {
   separator_sensitive_set();
   reference_get();
 }
+
 
 void InsertNoteDialog::separator_sensitive_set()
 {
@@ -391,25 +405,30 @@ void InsertNoteDialog::separator_sensitive_set()
   gtk_widget_set_sensitive(entry_reference_separator, sensitive);
 }
 
+
 void InsertNoteDialog::on_entry_reference_separator_changed(GtkEditable * editable, gpointer user_data)
 {
   ((InsertNoteDialog *) user_data)->on_entry_reference_separator_changed2();
 }
+
 
 void InsertNoteDialog::on_entry_reference_separator_changed2()
 {
   reference_get();
 }
 
+
 void InsertNoteDialog::on_entry_reference_separator_activate(GtkEntry * entry, gpointer user_data)
 {
   ((InsertNoteDialog *) user_data)->focus_next_widget(GTK_WIDGET(entry));
 }
 
+
 void InsertNoteDialog::on_checkbutton_verse_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((InsertNoteDialog *) user_data)->on_checkbutton_verse();
 }
+
 
 void InsertNoteDialog::on_checkbutton_verse()
 {
@@ -417,20 +436,24 @@ void InsertNoteDialog::on_checkbutton_verse()
   reference_get();
 }
 
+
 void InsertNoteDialog::on_entry_reference_suffix_changed(GtkEditable * editable, gpointer user_data)
 {
   ((InsertNoteDialog *) user_data)->on_entry_reference_suffix_changed2();
 }
+
 
 void InsertNoteDialog::on_entry_reference_suffix_changed2()
 {
   reference_get();
 }
 
+
 void InsertNoteDialog::on_entry_reference_suffix_activate(GtkEntry * entry, gpointer user_data)
 {
   ((InsertNoteDialog *) user_data)->focus_next_widget(GTK_WIDGET(entry));
 }
+
 
 ustring InsertNoteDialog::reference_get()
 // Returns the reference as is going to be inserted in the note.
@@ -464,10 +487,12 @@ ustring InsertNoteDialog::reference_get()
   return result;
 }
 
+
 void InsertNoteDialog::on_button_content_clicked(GtkButton * button, gpointer user_data)
 {
   ((InsertNoteDialog *) user_data)->on_button_content_remove(button);
 }
+
 
 void InsertNoteDialog::on_button_content_remove(GtkButton * button)
 {
@@ -496,6 +521,7 @@ void InsertNoteDialog::on_button_content_remove(GtkButton * button)
   set_dynamic_shortcuts();
 }
 
+
 void InsertNoteDialog::vector_remove_content(vector < GtkWidget * >&container, int offset)
 {
   vector < GtkWidget * >::iterator iter;
@@ -505,10 +531,12 @@ void InsertNoteDialog::vector_remove_content(vector < GtkWidget * >&container, i
   container.erase(iter);
 }
 
+
 void InsertNoteDialog::on_button_add_clicked(GtkButton * button, gpointer user_data)
 {
   ((InsertNoteDialog *) user_data)->on_button_add();
 }
+
 
 void InsertNoteDialog::on_button_add()
 // Adds a new content entry to the gui.
@@ -649,6 +677,7 @@ void InsertNoteDialog::on_button_add()
   set_dynamic_shortcuts();
 }
 
+
 ustring InsertNoteDialog::template_filename_get(const ustring & template_name)
 {
   ustring filename;
@@ -667,6 +696,7 @@ ustring InsertNoteDialog::template_filename_get(const ustring & template_name)
   return filename;
 }
 
+
 void InsertNoteDialog::templates_load(const ustring & template_name, bool update_gui)
 {
   updategui = update_gui;
@@ -684,10 +714,12 @@ void InsertNoteDialog::templates_load(const ustring & template_name, bool update
   updategui = true;
 }
 
+
 void InsertNoteDialog::on_combobox_templates_changed(GtkComboBox * combobox, gpointer user_data)
 {
   ((InsertNoteDialog *) user_data)->on_combobox_templates();
 }
+
 
 void InsertNoteDialog::on_combobox_templates()
 // On a change of template, reload the values in the gui.
@@ -729,10 +761,12 @@ void InsertNoteDialog::on_combobox_templates()
   focus_next_widget(entry_reference_suffix);
 }
 
+
 void InsertNoteDialog::on_button_template_new_clicked(GtkButton * button, gpointer user_data)
 {
   ((InsertNoteDialog *) user_data)->on_button_template_new();
 }
+
 
 void InsertNoteDialog::on_button_template_new()
 {
@@ -744,10 +778,12 @@ void InsertNoteDialog::on_button_template_new()
   templates_load(dialog.entered_value, false);
 }
 
+
 void InsertNoteDialog::on_button_template_delete_clicked(GtkButton * button, gpointer user_data)
 {
   ((InsertNoteDialog *) user_data)->on_button_template_delete();
 }
+
 
 void InsertNoteDialog::on_button_template_delete()
 {
@@ -755,6 +791,7 @@ void InsertNoteDialog::on_button_template_delete()
   unlink(filename.c_str());
   templates_load("", true);
 }
+
 
 void InsertNoteDialog::focus_next_widget(GtkWidget * widget)
 /*
@@ -834,21 +871,25 @@ At the end the Ok button should be focused.
   }
 }
 
+
 bool InsertNoteDialog::on_timeout(gpointer data)
 {
   ((InsertNoteDialog *) data)->timeout();
   return false;
 }
 
+
 void InsertNoteDialog::timeout()
 {
   allow_entry_activate = true;
 }
 
+
 void InsertNoteDialog::on_okbutton1_clicked(GtkButton * button, gpointer user_data)
 {
   ((InsertNoteDialog *) user_data)->on_okbutton();
 }
+
 
 void InsertNoteDialog::on_okbutton()
 {
@@ -962,10 +1003,12 @@ void InsertNoteDialog::on_okbutton()
   rawtext = trim(rawtext);
 }
 
+
 void InsertNoteDialog::on_spinbutton_size_value_changed(GtkSpinButton * spinbutton, gpointer user_data)
 {
   ((InsertNoteDialog *) user_data)->on_spinbutton_size(spinbutton);
 }
+
 
 void InsertNoteDialog::on_spinbutton_size(GtkSpinButton * spinbutton)
 {
@@ -981,6 +1024,7 @@ void InsertNoteDialog::on_spinbutton_size(GtkSpinButton * spinbutton)
   gtk_widget_set_size_request(scrolledwindow_contents[widget_offset], -1, gtk_spin_button_get_value_as_int(spinbutton));
 }
 
+
 gboolean InsertNoteDialog::on_textview_content_key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer user_data)
 // Handles pressing keys in the content textviews.
 {
@@ -995,6 +1039,7 @@ gboolean InsertNoteDialog::on_textview_content_key_press_event(GtkWidget * widge
   return false;
 }
 
+
 void InsertNoteDialog::set_dynamic_shortcuts()
 {
 
@@ -1004,5 +1049,4 @@ void InsertNoteDialog::set_dynamic_shortcuts()
   }
 }
 
-// Todo too tall?
 

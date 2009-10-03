@@ -38,11 +38,11 @@ public:
   DBus (int dummy);
   ~DBus ();
   void send_to_bibletime (const gchar * object, const gchar * interface, const gchar * method, const ustring& value);
+  vector <ustring> receive_from_bibletime (const gchar * object, const gchar * interface, const gchar * method);
 private:
   DBusConnection *con;
 	DBusGConnection *sigcon;
-  const gchar * dbusmethod (DBusMethodType dbmethod);
-  DBusMethodType dbusmethod (const char * dbmethod);
+	DBusGProxy *proxy;
   void send (const gchar * bus_name, const gchar * object, const gchar * interface, const gchar * method, const ustring& payload);
   vector <ustring> method_call_wait_reply (const gchar * bus_name, const gchar * object, const gchar * interface, const gchar * method, bool silent);
   void retrieve_message (DBusMessage *message);
@@ -52,6 +52,13 @@ private:
   void log (const ustring& message, bool critical);
   bool check_if_bibletime_bus_name (const gchar * bus_name);
   ustring bibletime_bus_name;
+  static void on_name_acquired (DBusGProxy *proxy, const char *name, gpointer user_data);
+  static void on_name_owner_changed (DBusGProxy *proxy, const char *name, const char *prev, const char *nw, gpointer user_data);
+  void name_owner_changed ();
+  static void on_name_lost (DBusGProxy *proxy, const char *name, gpointer user_data);
+  guint event_id_rescan_bus;
+  static bool on_rescan_bus_timeout(gpointer user_data);
+  void on_rescan_bus();
 };
 
 

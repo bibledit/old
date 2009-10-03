@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include "dialogreviewanchors.h"
 #include "listview.h"
@@ -25,6 +26,7 @@
 #include <gdk/gdkkeysyms.h>
 #include "shortcuts.h"
 #include "books.h"
+
 
 ReviewAnchorsDialog::ReviewAnchorsDialog(vector < unsigned int >*books, vector < unsigned int >*chapters, vector < unsigned int >*verses, vector < unsigned int >*linenumbers)
 // Reviews anchors that would be placed in a file for the Resource Viewer.
@@ -140,20 +142,24 @@ ReviewAnchorsDialog::ReviewAnchorsDialog(vector < unsigned int >*books, vector <
   gtk_widget_grab_default(okbutton);
 }
 
+
 ReviewAnchorsDialog::~ReviewAnchorsDialog()
 {
   gtk_widget_destroy(reviewanchorsdialog);
 }
+
 
 int ReviewAnchorsDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(reviewanchorsdialog));
 }
 
+
 gboolean ReviewAnchorsDialog::on_treeview_key_press_event(GtkWidget * widget, GdkEventKey * event, gpointer user_data)
 {
   return ((ReviewAnchorsDialog *) user_data)->treeview_key_press_handler(event);
 }
+
 
 bool ReviewAnchorsDialog::treeview_key_press_handler(GdkEventKey * event)
 // Handles pressing keys in the treeview.
@@ -172,15 +178,18 @@ bool ReviewAnchorsDialog::treeview_key_press_handler(GdkEventKey * event)
   return false;
 }
 
+
 void ReviewAnchorsDialog::on_collect_iters(GtkTreeModel * model, GtkTreePath * path, GtkTreeIter * iter, gpointer data)
 {
   ((vector < GtkTreeIter > *)data)->push_back(*iter);
 }
 
+
 void ReviewAnchorsDialog::on_button_spurious_anchors_clicked(GtkButton * button, gpointer user_data)
 {
   ((ReviewAnchorsDialog *) user_data)->on_button_spurious_anchors();
 }
+
 
 void ReviewAnchorsDialog::on_button_spurious_anchors()
 /*
@@ -302,10 +311,12 @@ looking at their book, chapter and verse. These will be selected too.
   }
 }
 
+
 void ReviewAnchorsDialog::static_on_okbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((ReviewAnchorsDialog *) user_data)->on_okbutton_clicked();
 }
+
 
 void ReviewAnchorsDialog::on_okbutton_clicked()
 {
@@ -337,5 +348,4 @@ void ReviewAnchorsDialog::on_okbutton_clicked()
   }
 }
 
-// Todo too tall?
 

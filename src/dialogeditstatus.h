@@ -17,15 +17,19 @@
  **  
  */
 
+
 #ifndef INCLUDED_DIALOGEDITSTATUS_H
 #define INCLUDED_DIALOGEDITSTATUS_H
+
 
 #include <gtk/gtk.h>
 #include "ustring.h"
 #include "libraries.h"
 #include "reporting.h"
 
+
 enum EditStatusType {estNone, estBook, estBooks, estChapter, estChapters, estVerse, estVerses};
+
 
 class EditStatusDialog
 {
@@ -43,6 +47,8 @@ protected:
   GtkWidget *treeview_chapters;
   GtkWidget *scrolledwindow_verses;
   GtkWidget *treeview_verses;
+  GtkWidget *scrolledwindow_status;
+  GtkWidget *viewport_status;
   GtkWidget *vbox_status;
   GtkWidget *dialog_action_area1;
   GtkWidget *cancelbutton;
@@ -83,6 +89,7 @@ private:
   static void on_okbutton_clicked(GtkButton *button, gpointer user_data);
   void on_okbutton();
 };
+
 
 #endif
 

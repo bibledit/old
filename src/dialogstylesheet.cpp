@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "dialogstylesheet.h"
@@ -32,6 +33,8 @@
 #include "color.h"
 #include "help.h"
 #include "tiny_utilities.h"
+#include "screen.h"
+
 
 /*
  Usage of user variables.
@@ -68,6 +71,7 @@
  - Endnotes: dump notes upon encountering this marker.
  */
 
+
 StylesheetDialog::StylesheetDialog(const ustring & stylesheet, const ustring & style)
 {
   // Save variables.
@@ -86,9 +90,19 @@ StylesheetDialog::StylesheetDialog(const ustring & stylesheet, const ustring & s
   dialog_vbox1 = GTK_DIALOG(stylesheetdialog)->vbox;
   gtk_widget_show(dialog_vbox1);
 
-  vbox1 = gtk_vbox_new(FALSE, 0);
-  gtk_widget_show(vbox1);
-  gtk_box_pack_start(GTK_BOX(dialog_vbox1), vbox1, TRUE, TRUE, 0);
+  scrolledwindow_main = gtk_scrolled_window_new (NULL, NULL);
+  gtk_widget_show (scrolledwindow_main);
+  gtk_box_pack_start (GTK_BOX (dialog_vbox1), scrolledwindow_main, TRUE, TRUE, 0);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow_main), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow_main), GTK_SHADOW_IN);
+
+  viewport_main = gtk_viewport_new (NULL, NULL);
+  gtk_widget_show (viewport_main);
+  gtk_container_add (GTK_CONTAINER (scrolledwindow_main), viewport_main);
+
+  vbox1 = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (vbox1);
+  gtk_container_add (GTK_CONTAINER (viewport_main), vbox1);
 
   vbox2 = gtk_vbox_new(FALSE, 6);
   gtk_widget_show(vbox2);
@@ -96,7 +110,7 @@ StylesheetDialog::StylesheetDialog(const ustring & stylesheet, const ustring & s
 
   hbox1 = gtk_hbox_new(FALSE, 4);
   gtk_widget_show(hbox1);
-  gtk_box_pack_start(GTK_BOX(vbox2), hbox1, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox2), hbox1, false, false, 0);
   gtk_container_set_border_width(GTK_CONTAINER(hbox1), 2);
 
   label6 = gtk_label_new_with_mnemonic("Style:");
@@ -126,7 +140,7 @@ StylesheetDialog::StylesheetDialog(const ustring & stylesheet, const ustring & s
   scrolledwindow1 = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow1);
   gtk_box_pack_start(GTK_BOX(vbox2), scrolledwindow1, TRUE, TRUE, 0);
-  gtk_widget_set_size_request(scrolledwindow1, -1, 100);
+  gtk_widget_set_size_request(scrolledwindow1, -1, 50);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow1), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
   textview1 = gtk_text_view_new();
@@ -702,22 +716,28 @@ StylesheetDialog::StylesheetDialog(const ustring & stylesheet, const ustring & s
 
   // Display the style.
   set_gui();
+
+  new DialogAutoScaler (stylesheetdialog, G_MAXINT);
 }
+
 
 StylesheetDialog::~StylesheetDialog()
 {
   gtk_widget_destroy(stylesheetdialog);
 }
 
+
 int StylesheetDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(stylesheetdialog));
 }
 
+
 void StylesheetDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((StylesheetDialog *) user_data)->on_ok();
 }
+
 
 void StylesheetDialog::on_ok()
 {
@@ -725,10 +745,12 @@ void StylesheetDialog::on_ok()
   name = gtk_entry_get_text(GTK_ENTRY(entryname));
 }
 
+
 void StylesheetDialog::on_style_type_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((StylesheetDialog *) user_data)->on_style_type(togglebutton);
 }
+
 
 void StylesheetDialog::on_style_type(GtkToggleButton * togglebutton)
 {
@@ -837,16 +859,19 @@ void StylesheetDialog::on_style_type(GtkToggleButton * togglebutton)
   }
 }
 
+
 void StylesheetDialog::on_alignment_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((StylesheetDialog *) user_data)->on_alignment(togglebutton);
 }
+
 
 void StylesheetDialog::on_alignment(GtkToggleButton * togglebutton)
 {
   // Set this togglebutton as the widget that gets activated on the shortcut.
   gtk_label_set_mnemonic_widget(GTK_LABEL(label10), GTK_WIDGET(togglebutton));
 }
+
 
 void StylesheetDialog::set_gui()
 {
@@ -960,6 +985,7 @@ void StylesheetDialog::set_gui()
   }
 }
 
+
 void StylesheetDialog::save_style()
 {
   // Destroy relevant widgets, so saving their value.
@@ -980,6 +1006,7 @@ void StylesheetDialog::save_style()
   stylesheet_save_style(mystylesheet, mystyle, gtk_entry_get_text(GTK_ENTRY(entryname)), info, type, get_subtype(), fontsize_points, italic, bold, underline, smallcaps, superscript, justification, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, spancolumns, color, print, userbool1, userbool2, userbool3, userint1, userint2, userint3, userstring1, userstring2, userstring3);
 }
 
+
 void StylesheetDialog::set_justification(const ustring & justification)
 // Sets the GUI.
 {
@@ -999,6 +1026,7 @@ void StylesheetDialog::set_justification(const ustring & justification)
   }
 }
 
+
 ustring StylesheetDialog::get_justification()
 // Get the string that indicates the justification, from the GUI.
 {
@@ -1015,6 +1043,7 @@ ustring StylesheetDialog::get_justification()
   }
   return result;
 }
+
 
 void StylesheetDialog::set_italic()
 {
@@ -1033,6 +1062,7 @@ void StylesheetDialog::set_italic()
   }
 }
 
+
 ustring StylesheetDialog::get_italic()
 {
   // Defaults to off.
@@ -1046,6 +1076,7 @@ ustring StylesheetDialog::get_italic()
   }
   return result;
 }
+
 
 void StylesheetDialog::set_bold()
 {
@@ -1064,6 +1095,7 @@ void StylesheetDialog::set_bold()
   }
 }
 
+
 ustring StylesheetDialog::get_bold()
 {
   // Defaults to off.
@@ -1077,6 +1109,7 @@ ustring StylesheetDialog::get_bold()
   }
   return result;
 }
+
 
 void StylesheetDialog::set_underline()
 {
@@ -1095,6 +1128,7 @@ void StylesheetDialog::set_underline()
   }
 }
 
+
 ustring StylesheetDialog::get_underline()
 {
   // Defaults to off.
@@ -1108,6 +1142,7 @@ ustring StylesheetDialog::get_underline()
   }
   return result;
 }
+
 
 void StylesheetDialog::set_small_caps()
 {
@@ -1126,6 +1161,7 @@ void StylesheetDialog::set_small_caps()
   }
 }
 
+
 ustring StylesheetDialog::get_small_caps()
 {
   // Defaults to off.
@@ -1139,6 +1175,7 @@ ustring StylesheetDialog::get_small_caps()
   }
   return result;
 }
+
 
 StyleType StylesheetDialog::get_styletype()
 {
@@ -1171,45 +1208,54 @@ StyleType StylesheetDialog::get_styletype()
   return type;
 }
 
+
 void StylesheetDialog::on_radiobutton_italic_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((StylesheetDialog *) user_data)->on_radiobutton_italic(GTK_WIDGET(togglebutton));
 }
+
 
 void StylesheetDialog::on_radiobutton_italic(GtkWidget * togglebutton)
 {
   gtk_label_set_mnemonic_widget(GTK_LABEL(label40), togglebutton);
 }
 
+
 void StylesheetDialog::on_radiobutton_bold_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((StylesheetDialog *) user_data)->on_radiobutton_bold(GTK_WIDGET(togglebutton));
 }
+
 
 void StylesheetDialog::on_radiobutton_bold(GtkWidget * togglebutton)
 {
   gtk_label_set_mnemonic_widget(GTK_LABEL(label41), togglebutton);
 }
 
+
 void StylesheetDialog::on_radiobutton_underline_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((StylesheetDialog *) user_data)->on_radiobutton_underline(GTK_WIDGET(togglebutton));
 }
+
 
 void StylesheetDialog::on_radiobutton_underline(GtkWidget * togglebutton)
 {
   gtk_label_set_mnemonic_widget(GTK_LABEL(label42), togglebutton);
 }
 
+
 void StylesheetDialog::on_radiobutton_small_caps_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((StylesheetDialog *) user_data)->on_radiobutton_small_caps(GTK_WIDGET(togglebutton));
 }
 
+
 void StylesheetDialog::on_radiobutton_small_caps(GtkWidget * togglebutton)
 {
   gtk_label_set_mnemonic_widget(GTK_LABEL(label_small_caps), togglebutton);
 }
+
 
 void StylesheetDialog::set_subtype(StyleType maintype, int subtype)
 {
@@ -1402,6 +1448,7 @@ void StylesheetDialog::set_subtype(StyleType maintype, int subtype)
   }
 }
 
+
 int StylesheetDialog::get_subtype()
 {
   int subtype = 0;
@@ -1516,10 +1563,12 @@ int StylesheetDialog::get_subtype()
   return subtype;
 }
 
+
 void StylesheetDialog::on_radiobutton_note_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((StylesheetDialog *) user_data)->on_radiobutton_note();
 }
+
 
 void StylesheetDialog::on_radiobutton_note()
 {
@@ -1583,10 +1632,12 @@ void StylesheetDialog::on_radiobutton_note()
   }
 }
 
+
 void StylesheetDialog::on_radiobutton_xref_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((StylesheetDialog *) user_data)->on_radiobutton_xref();
 }
+
 
 void StylesheetDialog::on_radiobutton_xref()
 {
@@ -1623,6 +1674,7 @@ void StylesheetDialog::on_radiobutton_xref()
     break;
   }
 }
+
 
 void StylesheetDialog::destroy_optional_widgets()
 /*
@@ -1809,6 +1861,7 @@ void StylesheetDialog::destroy_optional_widgets()
   }
 }
 
+
 void StylesheetDialog::fontsize_points_create()
 {
   hbox2 = gtk_hbox_new(FALSE, 0);
@@ -1836,6 +1889,7 @@ void StylesheetDialog::fontsize_points_create()
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(spinbuttonfontsize), fontsize_points);
 }
 
+
 void StylesheetDialog::italic_simple_create()
 {
   checkbutton_italic = gtk_check_button_new_with_mnemonic("_Italic");
@@ -1844,6 +1898,7 @@ void StylesheetDialog::italic_simple_create()
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_italic), italic == ON);
 }
+
 
 void StylesheetDialog::bold_simple_create()
 {
@@ -1854,6 +1909,7 @@ void StylesheetDialog::bold_simple_create()
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_bold), bold == ON);
 }
 
+
 void StylesheetDialog::underline_simple_create()
 {
   checkbutton_underline = gtk_check_button_new_with_mnemonic("_Underline");
@@ -1863,6 +1919,7 @@ void StylesheetDialog::underline_simple_create()
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_underline), underline == ON);
 }
 
+
 void StylesheetDialog::smallcaps_simple_create()
 {
   checkbutton_small_caps = gtk_check_button_new_with_mnemonic("S_mall caps");
@@ -1871,6 +1928,7 @@ void StylesheetDialog::smallcaps_simple_create()
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_small_caps), smallcaps == ON);
 }
+
 
 void StylesheetDialog::italic_bold_underline_smallcaps_extended_create()
 {
@@ -2024,6 +2082,7 @@ void StylesheetDialog::italic_bold_underline_smallcaps_extended_create()
   set_small_caps();
 }
 
+
 void StylesheetDialog::superscript_create()
 {
   checkbutton_superscript = gtk_check_button_new_with_mnemonic("Su_perscript");
@@ -2032,6 +2091,7 @@ void StylesheetDialog::superscript_create()
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_superscript), superscript);
 }
+
 
 void StylesheetDialog::paragraph_create(const gchar * label, bool grey_out_justify)
 /*
@@ -2190,6 +2250,7 @@ void StylesheetDialog::paragraph_create(const gchar * label, bool grey_out_justi
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(spinbutton_first), firstlineindent);
 }
 
+
 void StylesheetDialog::span_columns_create()
 {
   checkbutton_span = gtk_check_button_new_with_mnemonic("Spans the t_wo columns");
@@ -2199,6 +2260,7 @@ void StylesheetDialog::span_columns_create()
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_span), spancolumns);
 }
 
+
 void StylesheetDialog::apocrypha_create()
 {
   checkbutton_apocrypha = gtk_check_button_new_with_mnemonic("Refers to the Apocrypha");
@@ -2207,6 +2269,7 @@ void StylesheetDialog::apocrypha_create()
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_apocrypha), userbool1);
 }
+
 
 void StylesheetDialog::note_numbering_type_create()
 {
@@ -2278,6 +2341,7 @@ void StylesheetDialog::note_numbering_type_create()
   on_radiobutton_note_numbering();
 }
 
+
 void StylesheetDialog::note_numering_restart_create()
 {
   hbox10 = gtk_hbox_new(FALSE, 4);
@@ -2333,10 +2397,12 @@ void StylesheetDialog::note_numering_restart_create()
   }
 }
 
+
 void StylesheetDialog::on_radiobutton_note_numbering_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((StylesheetDialog *) user_data)->on_radiobutton_note_numbering();
 }
+
 
 void StylesheetDialog::on_radiobutton_note_numbering()
 {
@@ -2347,6 +2413,7 @@ void StylesheetDialog::on_radiobutton_note_numbering()
     gtk_widget_set_sensitive(entry_note_numbering, false);
   }
 }
+
 
 void StylesheetDialog::print_chapter_at_first_verse_create()
 {
@@ -2359,10 +2426,12 @@ void StylesheetDialog::print_chapter_at_first_verse_create()
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(print_chapter_at_first_verse), userbool1);
 }
 
+
 void StylesheetDialog::on_radiobutton_print_chapter_at_first_verse_create_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((StylesheetDialog *) user_data)->on_radiobutton_print_chapter_at_first_verse_create();
 }
+
 
 void StylesheetDialog::on_radiobutton_print_chapter_at_first_verse_create()
 {
@@ -2372,6 +2441,7 @@ void StylesheetDialog::on_radiobutton_print_chapter_at_first_verse_create()
   gtk_widget_set_sensitive(vbox4, sensitive);   // Paragraph.
   gtk_widget_set_sensitive(checkbutton_span, sensitive);
 }
+
 
 void StylesheetDialog::book_id_new_page_create()
 {
@@ -2395,10 +2465,12 @@ void StylesheetDialog::book_id_new_page_create()
   on_checkbutton_id_newpage();
 }
 
+
 void StylesheetDialog::on_radiobutton_identifier_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((StylesheetDialog *) user_data)->on_radiobutton_identifier();
 }
+
 
 void StylesheetDialog::on_radiobutton_identifier()
 {
@@ -2426,16 +2498,19 @@ void StylesheetDialog::on_radiobutton_identifier()
   }
 }
 
+
 void StylesheetDialog::on_checkbutton_id_newpage_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((StylesheetDialog *) user_data)->on_checkbutton_id_newpage();
 }
+
 
 void StylesheetDialog::on_checkbutton_id_newpage()
 {
   bool newpage = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_id_newpage));
   gtk_widget_set_sensitive(checkbutton_id_oddpage, newpage);
 }
+
 
 void StylesheetDialog::colour_create()
 {
@@ -2452,6 +2527,7 @@ void StylesheetDialog::colour_create()
   gtk_color_button_set_color(GTK_COLOR_BUTTON(button_colour), &colour);
 }
 
+
 void StylesheetDialog::print_create()
 {
   checkbutton_print = gtk_check_button_new_with_mnemonic("Print");
@@ -2460,6 +2536,7 @@ void StylesheetDialog::print_create()
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_print), print);
 }
+
 
 void StylesheetDialog::end_note_placement_create()
 {
@@ -2531,20 +2608,24 @@ void StylesheetDialog::end_note_placement_create()
   gtk_entry_set_text(GTK_ENTRY(entry_print_endnotes_marker), userstring2.c_str());
 }
 
+
 void StylesheetDialog::on_radiobutton_print_endnotes_at_marker_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((StylesheetDialog *) user_data)->on_radiobutton_print_endnotes_at_marker();
 }
+
 
 void StylesheetDialog::on_radiobutton_print_endnotes_at_marker()
 {
   gtk_widget_set_sensitive(entry_print_endnotes_marker, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radiobutton_print_endnotes_at_marker)));
 }
 
+
 void StylesheetDialog::on_checkbutton_table_element_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((StylesheetDialog *) user_data)->on_checkbutton_table_element();
 }
+
 
 void StylesheetDialog::on_checkbutton_table_element()
 {
@@ -2579,10 +2660,12 @@ void StylesheetDialog::on_checkbutton_table_element()
   }
 }
 
+
 void StylesheetDialog::on_radiobutton_subtype_wordlist_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((StylesheetDialog *) user_data)->on_radiobutton_subtype_wordlist();
 }
+
 
 void StylesheetDialog::on_radiobutton_subtype_wordlist()
 {
@@ -2610,6 +2693,7 @@ void StylesheetDialog::on_radiobutton_subtype_wordlist()
   }
 }
 
+
 void StylesheetDialog::column_number_create()
 {
   // Build the interface.
@@ -2631,6 +2715,7 @@ void StylesheetDialog::column_number_create()
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(spinbutton_column_number), userint1);
 }
 
+
 void StylesheetDialog::print_in_running_header_create()
 {
   checkbutton_print_in_running_header_left = gtk_check_button_new_with_mnemonic("Print this in running header of left page");
@@ -2645,6 +2730,7 @@ void StylesheetDialog::print_in_running_header_create()
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_print_in_running_header_right), userbool3);
 }
+
 
 void StylesheetDialog::wordlist_add_text_create()
 {
@@ -2668,6 +2754,7 @@ void StylesheetDialog::wordlist_add_text_create()
   gtk_entry_set_text(GTK_ENTRY(entry_wordlist_addition), userstring1.c_str());
 }
 
+
 void StylesheetDialog::restarts_paragraph_create()
 {
   checkbutton_restarts_paragraph = gtk_check_button_new_with_mnemonic("Restart paragraph");
@@ -2677,5 +2764,4 @@ void StylesheetDialog::restarts_paragraph_create()
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton_restarts_paragraph), userbool1);
 }
 
-// Todo too tall?
 

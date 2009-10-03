@@ -17,10 +17,12 @@
 **  
 */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "dialogentry.h"
 #include "help.h"
+
 
 EntryDialog::EntryDialog(const ustring & title, const ustring & info, const ustring & value)
 {
@@ -78,30 +80,36 @@ EntryDialog::EntryDialog(const ustring & title, const ustring & info, const ustr
   gtk_widget_grab_default(okbutton);
 }
 
+
 EntryDialog::~EntryDialog()
 {
   gtk_widget_destroy(entrydialog);
 }
+
 
 int EntryDialog::run()
 {
   return gtk_dialog_run(GTK_DIALOG(entrydialog));
 }
 
+
 void EntryDialog::on_okbutton_clicked(GtkButton * button, gpointer user_data)
 {
   ((EntryDialog *) user_data)->on_okbutton();
 }
+
 
 void EntryDialog::on_okbutton()
 {
   entered_value = gtk_entry_get_text(GTK_ENTRY(entry));
 }
 
+
 void EntryDialog::on_entry_changed(GtkEditable * editable, gpointer user_data)
 {
   ((EntryDialog *) user_data)->on_entry();
 }
+
 
 void EntryDialog::on_entry()
 // Activates the ok button only when we've a value in the entry or 
@@ -111,11 +119,13 @@ void EntryDialog::on_entry()
   gtk_widget_set_sensitive(okbutton, !value.empty() || my_always_ok);
 }
 
+
 void EntryDialog::text_invisible()
 // This function makes the text in the entry invisible.
 {
   gtk_entry_set_visibility(GTK_ENTRY(entry), false);
 }
+
 
 void EntryDialog::always_ok()
 {
@@ -123,5 +133,4 @@ void EntryDialog::always_ok()
   on_entry();
 }
 
-// Todo too tall?
 

@@ -33,7 +33,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-bin_PROGRAMS = bibledit$(EXEEXT) bibledit-bibletime$(EXEEXT)
+bin_PROGRAMS = bibledit$(EXEEXT)
 @WIN32_TRUE@am__append_1 = -mwindows -lws2_32
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -54,9 +54,9 @@ am_bibledit_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	dialoglistview.$(OBJEXT) dialogshowscript.$(OBJEXT) \
 	htmlbrowser.$(OBJEXT) track.$(OBJEXT) dialogreplace.$(OBJEXT) \
 	dialogreplacing.$(OBJEXT) windowsoutpost.$(OBJEXT) \
-	dialoggotoreference.$(OBJEXT) dialogunicode.$(OBJEXT) \
-	projectutils.$(OBJEXT) dialogproject.$(OBJEXT) usfm.$(OBJEXT) \
-	dialogwait.$(OBJEXT) directories.$(OBJEXT) ustring.$(OBJEXT) \
+	dialoggotoreference.$(OBJEXT) projectutils.$(OBJEXT) \
+	dialogproject.$(OBJEXT) usfm.$(OBJEXT) dialogwait.$(OBJEXT) \
+	directories.$(OBJEXT) ustring.$(OBJEXT) \
 	dialogsearchspecial.$(OBJEXT) referenceutils.$(OBJEXT) \
 	pdfviewer.$(OBJEXT) notes_utils.$(OBJEXT) \
 	date_time_utils.$(OBJEXT) dialogfindnote.$(OBJEXT) \
@@ -90,9 +90,8 @@ am_bibledit_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	generalconfig.$(OBJEXT) screen.$(OBJEXT) \
 	projectconfig.$(OBJEXT) gui.$(OBJEXT) \
 	check_validate_usfm.$(OBJEXT) checks.$(OBJEXT) \
-	dialoglinecutter.$(OBJEXT) check_count_words.$(OBJEXT) \
-	dialogoutpost.$(OBJEXT) dialognotestransfer.$(OBJEXT) \
-	dialogtextview.$(OBJEXT) dialogchapternumber.$(OBJEXT) \
+	check_count_words.$(OBJEXT) dialogoutpost.$(OBJEXT) \
+	dialognotestransfer.$(OBJEXT) dialogchapternumber.$(OBJEXT) \
 	httpd.$(OBJEXT) opendocument.$(OBJEXT) odtutils.$(OBJEXT) \
 	odtnotes.$(OBJEXT) help.$(OBJEXT) color.$(OBJEXT) \
 	dialogmychecks.$(OBJEXT) check_count_usfms.$(OBJEXT) \
@@ -156,12 +155,11 @@ am_bibledit_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	windownotes.$(OBJEXT) dialogprojectnote.$(OBJEXT) \
 	windowreferences.$(OBJEXT) windoweditor.$(OBJEXT) \
 	compress.$(OBJEXT) localizednumerals.$(OBJEXT) \
-	windowshowverses.$(OBJEXT) assistantimportkeyterms.$(OBJEXT) \
-	assistants.$(OBJEXT) assistantdeletekeyterms.$(OBJEXT) \
-	assistantchanges.$(OBJEXT) widgetdate.$(OBJEXT) \
-	usfmview.$(OBJEXT) dialogcompareprefs.$(OBJEXT) \
-	windowcheckusfm.$(OBJEXT) usfm2osis.$(OBJEXT) \
-	usfmstandard.$(OBJEXT) osis.$(OBJEXT) \
+	assistantimportkeyterms.$(OBJEXT) assistants.$(OBJEXT) \
+	assistantdeletekeyterms.$(OBJEXT) assistantchanges.$(OBJEXT) \
+	widgetdate.$(OBJEXT) usfmview.$(OBJEXT) \
+	dialogcompareprefs.$(OBJEXT) windowcheckusfm.$(OBJEXT) \
+	usfm2osis.$(OBJEXT) usfmstandard.$(OBJEXT) osis.$(OBJEXT) \
 	assistantremoterepository.$(OBJEXT) \
 	gui_display_changes.$(OBJEXT) stylesheet.$(OBJEXT) \
 	referencememory.$(OBJEXT) webkitbrowser.$(OBJEXT) \
@@ -174,17 +172,11 @@ am_bibledit_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	vcs.$(OBJEXT) d_bus.$(OBJEXT) htmlwriter2.$(OBJEXT) \
 	dialogmaintenance.$(OBJEXT) kjv.$(OBJEXT) \
 	assistantimport.$(OBJEXT) mechonmamre.$(OBJEXT) \
-	bibleworks.$(OBJEXT) onlinebible.$(OBJEXT) \
-	windowsourcelanguages.$(OBJEXT) lexicons.$(OBJEXT) \
-	robinson.$(OBJEXT) sourcelanguage.$(OBJEXT) \
-	morphology.$(OBJEXT) greek.$(OBJEXT) startup.$(OBJEXT) \
-	dialogyesnoalways.$(OBJEXT) xiphos.$(OBJEXT)
+	bibleworks.$(OBJEXT) onlinebible.$(OBJEXT) robinson.$(OBJEXT) \
+	sourcelanguage.$(OBJEXT) morphology.$(OBJEXT) greek.$(OBJEXT) \
+	startup.$(OBJEXT) dialogyesnoalways.$(OBJEXT) xiphos.$(OBJEXT)
 bibledit_OBJECTS = $(am_bibledit_OBJECTS)
 bibledit_LDADD = $(LDADD)
-am_bibledit_bibletime_OBJECTS = bibledit-bibletime.$(OBJEXT) \
-	ustring.$(OBJEXT) bookdata.$(OBJEXT)
-bibledit_bibletime_OBJECTS = $(am_bibledit_bibletime_OBJECTS)
-bibledit_bibletime_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -197,8 +189,8 @@ CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 CXXLD = $(CXX)
 CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
-SOURCES = $(bibledit_SOURCES) $(bibledit_bibletime_SOURCES)
-DIST_SOURCES = $(bibledit_SOURCES) $(bibledit_bibletime_SOURCES)
+SOURCES = $(bibledit_SOURCES)
+DIST_SOURCES = $(bibledit_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -270,7 +262,7 @@ LIBOBJS = @LIBOBJS@
 LIBS = -Wall `xml2-config --libs` $(GOBJECT_LIBS) $(GTHREAD_LIBS) \
 	$(GLIB_LIBS) $(GTK_LIBS) $(SQLITE_LIBS) $(ENCHANT_LIBS) \
 	$(GTKHTML38_LIBS) $(GTKHTML314_LIBS) $(GTKSOURCEVIEW_LIBS) \
-	$(WEBKIT_LIBS) $(DBUSGLIB_LIBS) $(am__append_1)
+	$(WEBKIT_LIBS) $(DBUS_LIBS) $(am__append_1)
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MAKE_PATH = @MAKE_PATH@
@@ -359,11 +351,6 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-bibledit_bibletime_SOURCES = \
-        bibledit-bibletime.cpp \
-        ustring.cpp \
-        bookdata.cpp
-
 bibledit_SOURCES = \
 		bibledit.cpp \
 		utilities.cpp \
@@ -380,7 +367,6 @@ bibledit_SOURCES = \
 		dialogreplacing.cpp \
 		windowsoutpost.cpp \
 		dialoggotoreference.cpp \
-		dialogunicode.cpp \
 	    projectutils.cpp \
 	    dialogproject.cpp \
 	    usfm.cpp \
@@ -459,11 +445,9 @@ bibledit_SOURCES = \
         gui.cpp \
         check_validate_usfm.cpp \
         checks.cpp \
-        dialoglinecutter.cpp \
         check_count_words.cpp \
         dialogoutpost.cpp \
         dialognotestransfer.cpp \
-        dialogtextview.cpp \
         dialogchapternumber.cpp \
         httpd.cpp \
         opendocument.cpp \
@@ -596,7 +580,6 @@ bibledit_SOURCES = \
         windoweditor.cpp \
         compress.cpp \
         localizednumerals.cpp \
-        windowshowverses.cpp \
         assistantimportkeyterms.cpp \
         assistants.cpp \
         assistantdeletekeyterms.cpp \
@@ -634,8 +617,6 @@ bibledit_SOURCES = \
 				mechonmamre.cpp \
 				bibleworks.cpp \
 				onlinebible.cpp \
-				windowsourcelanguages.cpp \
-				lexicons.cpp \
 				robinson.cpp \
 				sourcelanguage.cpp \
 				morphology.cpp \
@@ -649,7 +630,7 @@ AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
 	$(GTHREAD_CFLAGS) $(GLIB_CFLAGS) $(GTK_CFLAGS) \
 	$(SQLITE_CFLAGS) $(ENCHANT_CFLAGS) $(GTKHTML38_CFLAGS) \
 	$(GTKHTML314_CFLAGS) $(GTKSOURCEVIEW_CFLAGS) $(WEBKIT_CFLAGS) \
-	$(DBUSGLIB_CFLAGS)
+	$(DBUS_CFLAGS)
 CLEANFILES = *~
 all: all-am
 
@@ -710,9 +691,6 @@ clean-binPROGRAMS:
 bibledit$(EXEEXT): $(bibledit_OBJECTS) $(bibledit_DEPENDENCIES) 
 	@rm -f bibledit$(EXEEXT)
 	$(CXXLINK) $(bibledit_OBJECTS) $(bibledit_LDADD) $(LIBS)
-bibledit-bibletime$(EXEEXT): $(bibledit_bibletime_OBJECTS) $(bibledit_bibletime_DEPENDENCIES) 
-	@rm -f bibledit-bibletime$(EXEEXT)
-	$(CXXLINK) $(bibledit_bibletime_OBJECTS) $(bibledit_bibletime_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -732,7 +710,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/assistants.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/backup.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bible.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bibledit-bibletime.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bibledit.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/biblenotes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bibletime.Po@am__quote@
@@ -793,7 +770,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogimportnotes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoginsertnote.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoginserttable.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoglinecutter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoglistview.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialoglistviewm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogmaintenance.Po@am__quote@
@@ -831,9 +807,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogtaskduration.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogtext2pdf.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogtextreplacement.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogtextview.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogtidy.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogunicode.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogviewplanning.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogwait.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogwordlist.Po@am__quote@
@@ -874,7 +848,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/keyterms.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kjv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/layout.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lexicons.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/listview.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/localizedbooks.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/localizednumerals.Po@am__quote@
@@ -989,8 +962,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowreferences.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowresource.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowshowrelatedverses.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowshowverses.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowsourcelanguages.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowsoutpost.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowstyles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowtimednotifier.Po@am__quote@

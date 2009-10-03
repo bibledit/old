@@ -39,8 +39,6 @@ PlanningEditDialog::PlanningEditDialog(unsigned int book, unsigned int chapter)
   // Initialize variables
   mybook = book;
   mychapter = chapter;
-  //extern Settings *settings;
-  //startdate = settings->projectconfig(settings->genconfig.project_get())->planning_project_start_get();
 
   // Build gui.
   gtkbuilder = gtk_builder_new ();
@@ -98,15 +96,6 @@ void PlanningEditDialog::on_button_status()
   extern Settings *settings;
   EditStatusDialog dialog(settings->genconfig.project_get(), mybook, mychapter);
   dialog.run();
-  
-  /*
-  guint seconds = date_time_julian_to_seconds(startdate);
-  DateDialog dialog(&seconds);
-  if (dialog.run() == GTK_RESPONSE_OK) {
-    startdate = date_time_seconds_to_julian(seconds);
-    gui();
-  }
-  */
 }
 
 
@@ -120,27 +109,6 @@ void PlanningEditDialog::on_button_tasks()
 {
   extern Settings *settings;
   planning_edit(settings->genconfig.project_get());
-
-  /*
-  // Run the dialog for editing the tasks.
-  EditListDialog dialog(&tasks, "Tasks", "of tasks - add, remove, or re-order them", true, true, false, false, false, false, true, NULL);
-  if (dialog.run() == GTK_RESPONSE_OK) {
-    // Get the appropriate values for the durations, aligned to the tasks.
-    durations.clear();
-    for (unsigned int i = 0; i < tasks.size(); i++) {
-      double duration = 0.5;
-      for (unsigned int i2 = 0; i2 < tasks_ever.size(); i2++) {
-        if (tasks[i] == tasks_ever[i2]) {
-          duration = durations_ever[i2];
-        }
-      }
-      durations.push_back(duration);
-      // Store task and duration in the ones we've ever seen.
-      tasks_ever.push_back(tasks[i]);
-      durations_ever.push_back(duration);
-    }
-  }
-  */
 }
 
 
@@ -152,19 +120,11 @@ void PlanningEditDialog::on_okbutton_clicked(GtkButton * button, gpointer user_d
 
 void PlanningEditDialog::on_okbutton()
 {
-  /*
-  extern Settings *settings;
-  settings->projectconfig(settings->genconfig.project_get())->planning_project_start_set(startdate);
-  settings->genconfig.project_tasks_names_set(tasks);
-  settings->genconfig.project_tasks_durations_set(durations);
-  */
 }
 
 
 void PlanningEditDialog::gui()
 {
-  //gtk_button_set_label(GTK_BUTTON(button_start), date_time_julian_human_readable(startdate, false).c_str());
 }
 
-// Todo too tall?
 

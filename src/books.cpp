@@ -290,6 +290,19 @@ ustring books_id_to_online_bible(unsigned int id)
   return "";
 }
 
+unsigned int books_online_bible_to_id(const ustring & onlinebible)
+{
+  ustring s1(onlinebible.casefold());
+  for (unsigned int i = 0; i < bookdata_books_count(); i++) {
+    ustring s2(books_table[i].onlinebible);
+    s2 = s2.casefold();
+    if (s1 == s2) {
+      return books_table[i].id;
+    }
+  }
+  return 0;
+}
+
 BookType books_id_to_type(unsigned int id)
 {
   for (unsigned int i = 0; i < bookdata_books_count(); i++)

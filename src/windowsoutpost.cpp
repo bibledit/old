@@ -55,7 +55,6 @@ WindowsOutpost::WindowsOutpost(bool dummy)
   thread_running = false;
   online_bible_server_requested_action = 0;
   online_bible_server_connected = false;
-  get_reference_active = false;
 }
 
 
@@ -83,14 +82,10 @@ void WindowsOutpost::Start()
 ustring WindowsOutpost::BibleWorksReferenceGet()
 // Gets the reference from BibleWorks.
 {
-  get_reference_value = "BibleWorksReferenceGet";
-  get_reference_active = true;
-  int timeout = 0;
-  while (get_reference_active && (timeout < 50)) {
-    g_usleep (100000);
-    timeout++;
-  }
-  return get_reference_value;
+  // Store command for retrieving the reference.
+  get_reference_command = "BibleWorksReferenceGet";
+  // Return the reply that was given previously.
+  return get_reference_reply;
 }
 
 
@@ -116,14 +111,10 @@ void WindowsOutpost::BibleWorksReferenceSet(const Reference & reference)
 ustring WindowsOutpost::SantaFeFocusReferenceGet()
 // Gets the reference from the SantaFe focus sharing system as used by Paratext and others.
 {
-  get_reference_value = "SantaFeFocusReferenceGet";
-  get_reference_active = true;
-  int timeout = 0;
-  while (get_reference_active && (timeout < 50)) {
-    g_usleep (100000);
-    timeout++;
-  }
-  return get_reference_value;
+  // Store command for retrieving the reference.
+  get_reference_command = "SantaFeFocusReferenceGet";
+  // Return the reply that was given previously.
+  return get_reference_reply;
 }
 
 
@@ -162,6 +153,18 @@ void WindowsOutpost::OnlineBibleReferenceSet(const Reference & reference)
   if (reference.verse.empty())
     return;
   onlinebible_reference_set_value = "OLB ShowPassage AV \"" + books_id_to_online_bible (reference.book) + " " + convert_to_string(reference.chapter) + ":" + reference.verse + "\"";
+}
+
+
+ustring WindowsOutpost::OnlineBibleReferenceGet()
+// Gets the reference from the Online Bible.
+{
+  // Ensure that the Online Bible server is connected.
+  online_bible_server_connect (true);
+  // Store command for retrieving the reference.
+  get_reference_command = "OLB GetPassage";
+  // Return the reply that was given previously.
+  return get_reference_reply;
 }
 
 
@@ -306,10 +309,10 @@ void WindowsOutpost::thread_main()
           }
           break;
         }
-        if (get_reference_active) {
-          send_line (get_reference_value);
-          get_reference_value = Readln ();
-          get_reference_active = false;
+        if (!get_reference_command.empty()) {
+          send_line (get_reference_command);
+          get_reference_command.clear();
+          get_reference_reply = Readln ();
         }
         break;
       }

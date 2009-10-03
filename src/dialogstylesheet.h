@@ -39,6 +39,8 @@ protected:
 private:
   GtkWidget *stylesheetdialog;
   GtkWidget *dialog_vbox1;
+  GtkWidget *scrolledwindow_main;
+  GtkWidget *viewport_main;
   GtkWidget *vbox1;
   GtkWidget *vbox2;
   GtkWidget *hbox1;
