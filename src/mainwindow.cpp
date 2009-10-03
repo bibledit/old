@@ -7175,4 +7175,95 @@ To send next announcement also to bibledit-announce@nongnu.org, and check whethe
 svn push access was given to the xiphos project. To create the patch for the more parallel bibles. To send patch to dev list first.
 
 
+task #9438: Access to secured git repositories
+We've got several computers colaborating together quite happily, using a SSH based connection.
+Prerequisite is for certificate based logins (no password needed when you try to "ssh hostname"), and all users having write access to the direcory.
+Basicly I went through the GIT repository set up on the server as described somewhere, 
+but when it came to specifying the remote repo I entered hostname:/path/to/directory
+*  (since the "server" also runs BE I put the "remote dir" on that machine to be just /path/to/server).
+I've not tried it, but someone might like to try "user@hostname:/path/to/directory" as a repo address... 
+* I think it should work and it would obviously solve the permissions issue, if all connections to the repo were as the same userid. 
+
+
+
+
+task #9478: Export: Signal end of process
+When choosing: File/Project/Export/Sword or OSIS, then making choices in the Sword Module dialog box, OK, the export start, 
+* then comes compling and then nothing more.
+-> A message, that the export is accomplished successfully would be a help to know, that the job ix done.
+
+
+
+
+
+task #9495: Overhaul of the Help/Tools section
+After having looked at the 'new' export tool, I found that the Help/Tools section needs some 'overhaul'.
+I am comparing BE 3.7.42-1 (from the https://edge.launchpad.net/~pkgcrosswire/+archive/ppa) with its localhost help file:
+
+Here is a list of what I found would need changes:
+
+Quit -> File/Quit and put it after 'File/Restore'
+
+File/Projects: OK
+
+File/References: Take out: 'Save as'
+
+File/Styles: OK
+
+File/Styles/Stylesheet: Take out 'Export'
+
+File/Project notes: Take out 'Export'
+
+File/Resources: OK
+
+File/Keyterms: Take out 'Export'
+
+Add: File/Print (exists: printing.html)
+
+Export -> File/Export
+
+Add: File/Backup (exists: backup.html#backup)
+
+Add: File/Restore (exists: backup.html#restore)
+
+-------------------------------
+For the other Help/Tools items:
+Edit: OK
+View: OK
+Insert: OK
+Check: OK
+Tools: 'Transfer project notes to text' (twice) take first out.
+Preferences: Add 'Compare'
+Help: OK 
+
+
+
+
+
+task #9496: Remove independent windows and make it all normal, resizeable window
+At present Bibledit has a mode where it has the option to show independent windows. 
+* But this system is not so good when it comes to ease of operation.
+It is more desirable to follow more standard system provided to reach at the functionality that was tried to be obtained by the independent windows.
+What is needed is flexible windows placement within the program.
+This can be reached by using a GtkLayout. In a GtkLayout one can place childwidgets at flexible places, and these widgets can be moved around freely. What might also be possible is to use a GtkTable, where widgets can be placed inside cells.
+What is needed too is that windows can be resized.
+If a GtkTable were used, then we could make a table of, say, 50 cells wide and 50 high. 
+* Then the sizes of the moveable windows would be determined, not by pixels, but by the number of cells it occupies.
+When using GtkTable, if it were set to homogenous, it would become a stiffy grid where to move windows on.
+
+It sounds like there will be advantages to you in programming to have one program window with flexible windows inside that. 
+* I would make the Index window part of the top bar and immovable.
+Under the old separate window system, Window managers would not do what I wanted. 
+* The window manager showed only unreadable thumbnails. 
+* In the new unified window, I hope that you have something like TW (Ctrl-Tab) that will cycle through the sub-windows 
+* like Alt-Tab does now for separate windows. 
+* If it is like TW, the new approach will have the advantage of the real window appearing when cycling using the hot key, 
+* rather than an unreadable thumbnail. 
+
+To attend to a current bug:
+BE crashes if one closes a window while others are loading
+BE always wants to load up the References and Project Notes windows even when I didn't have them open the last time. 
+* If one closes windows before BE finishes all of its loading and initial display of text, the whole program crashes. 
+
+
 */
