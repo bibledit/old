@@ -7121,20 +7121,6 @@ To release bibledit between 5 and 9 October.
 
 
 
-Mention d-feet as yet another dbus debugger.
-
-
-
-
-To add to the helpfile:
-http://buildbot.biblesint.org/waterfall
-There is now an autobuilder for Windows debug releases. It builds every 6 hours if something has changed in the interim.
-So yeah, that means the Windows binaries are now available for the head of the master branch.
-To download:
-http://buildbot.biblesint.org/builds/bibledit-win32-a9cf8f1f537fba1ded1c90e3bb3219671b31703c.zip
-(This changes over time).
-
-
 
 bug #27238: can't export to Openoffice
 

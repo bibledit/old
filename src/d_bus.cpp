@@ -24,6 +24,16 @@
 #include "gwrappers.h"
 
 
+/*
+
+Aids for dbus:
+
+dbus-monitor
+d-feet
+
+*/
+
+
 DBus::DBus(int dummy)
 {
   // Initialize variables.
