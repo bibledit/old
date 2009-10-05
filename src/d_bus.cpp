@@ -354,24 +354,26 @@ vector <ustring> DBus::receive_from_bibletime (const gchar * object, const gchar
 
 void DBus::on_name_acquired (DBusGProxy *proxy, const char *name, gpointer user_data)
 {
+  ((DBus *) user_data)->names_on_dbus_changed();
 }
 
 
 void DBus::on_name_owner_changed (DBusGProxy *proxy, const char *name, const char *prev, const char *nw, gpointer user_data)
 {
-  ((DBus *) user_data)->name_owner_changed();
-}
-
-
-void DBus::name_owner_changed ()
-{
-  gw_destroy_source (event_id_rescan_bus);
-  event_id_rescan_bus = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_rescan_bus_timeout), gpointer(this), NULL);
+  ((DBus *) user_data)->names_on_dbus_changed();
 }
 
 
 void DBus::on_name_lost (DBusGProxy *proxy, const char *name, gpointer user_data)
 {
+  ((DBus *) user_data)->names_on_dbus_changed();
+}
+
+
+void DBus::names_on_dbus_changed ()
+{
+  gw_destroy_source (event_id_rescan_bus);
+  event_id_rescan_bus = g_timeout_add_full(G_PRIORITY_DEFAULT, 200, GSourceFunc(on_rescan_bus_timeout), gpointer(this), NULL);
 }
 
 
@@ -387,13 +389,14 @@ void DBus::on_rescan_bus()
   // Clear event id.
   event_id_rescan_bus = 0;
   
-  // Clear the BibleTime bus name.
+  // Clear the relevant bus names.
   bibletime_bus_name.clear();
+  xiphos_bus_name.clear();
   
   // Check the names currently available on the bus:
   // dbus-send --print-reply --dest=org.freedesktop.DBus /org/freedesktop/DBus org.freedesktop.DBus.ListNames
   vector <ustring> names_on_bus = method_call_wait_reply ("org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus", "ListNames", false);
-  // First check whether the name if visible among the names on the bus.
+  // Check whether the BibleTime name is visible on the bus.
   for (unsigned int i = 0; i < names_on_bus.size(); i++) {
     if (names_on_bus[i].find ("BibleTime") != string::npos) {
       bibletime_bus_name = names_on_bus[i];
@@ -401,7 +404,7 @@ void DBus::on_rescan_bus()
       break;
     }
   }
-  // If the service was not found, inspect each name on the bus whether it represents BibleTime.
+  // If the BibleTime service was not found, inspect each name on the bus whether it represents BibleTime.
   if (bibletime_bus_name.empty()) {
     for (unsigned int i = 0; i < names_on_bus.size(); i++) {
       if (check_if_bibletime_bus_name (names_on_bus[i].c_str())) {
@@ -415,6 +418,35 @@ void DBus::on_rescan_bus()
   if (bibletime_bus_name.empty()) {
     gw_message ("BibleTime not on DBus");
   }
+  // Look for the Xiphos name on the bus.
+  for (unsigned int i = 0; i < names_on_bus.size(); i++) {
+    if (names_on_bus[i].find ("xiphos") != string::npos) {
+      xiphos_bus_name = names_on_bus[i];
+      gw_message ("Xiphos on DBus as service " + names_on_bus[i]);
+      break;
+    }
+  }
+  // If Xiphos is not found, give a message.
+  if (xiphos_bus_name.empty()) {
+    gw_message ("Xiphos not on DBus");
+  }
+}
+
+
+void DBus::send_to_xiphos (const gchar * object, const gchar * interface, const gchar * method, const ustring& value)
+/*
+Sends a message to BibleTime over the DBus
+
+To let Xiphos scroll to a certain verse, do this:
+dbus-send --print-reply --dest=org.xiphos.remote /org/xiphos/remote/ipc org.xiphos.remote.navigate "string:sword://Genesis 2:3"
+
+*/
+{
+  // Bail out if Xiphos does not run.
+  if (xiphos_bus_name.empty()) 
+    return;
+  // Send the message.
+  send (xiphos_bus_name.c_str(), object, interface, method, value);
 }
 
 

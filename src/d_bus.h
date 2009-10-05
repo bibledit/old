@@ -39,6 +39,7 @@ public:
   ~DBus ();
   void send_to_bibletime (const gchar * object, const gchar * interface, const gchar * method, const ustring& value);
   vector <ustring> receive_from_bibletime (const gchar * object, const gchar * interface, const gchar * method);
+  void send_to_xiphos (const gchar * object, const gchar * interface, const gchar * method, const ustring& value);
 private:
   DBusConnection *con;
 	DBusGConnection *sigcon;
@@ -54,11 +55,12 @@ private:
   ustring bibletime_bus_name;
   static void on_name_acquired (DBusGProxy *proxy, const char *name, gpointer user_data);
   static void on_name_owner_changed (DBusGProxy *proxy, const char *name, const char *prev, const char *nw, gpointer user_data);
-  void name_owner_changed ();
   static void on_name_lost (DBusGProxy *proxy, const char *name, gpointer user_data);
+  void names_on_dbus_changed ();
   guint event_id_rescan_bus;
   static bool on_rescan_bus_timeout(gpointer user_data);
   void on_rescan_bus();
+  ustring xiphos_bus_name;
 };
 
 
