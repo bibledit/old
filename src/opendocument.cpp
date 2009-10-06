@@ -209,25 +209,25 @@ void OpenDocument::cover()
 }
 
 
-void OpenDocument::format_general(vector <ustring>& lines) // Todo
+void OpenDocument::format_general(vector <ustring>& lines)
 // General formatter for USFM lines given.
 {
-  // Go through all the lines. Todo to copy from the pdf formatter the system that lines are no longer taken in consideration, but created at the spot.
+  // Go through all the lines.
   odttextparagraph = NULL;
   for (unsigned int ln = 0; ln < lines.size(); ln++) {
     ustring line = lines[ln];
     // Take any elastics out, put the \b marker instead.
     replace_text(line, ELASTIC_MARKER, "b");
-    // Change certain characters to xml entities. Todo this probably is no longer needed, since we use the xml library. Try it out.
+    // Change certain characters to xml entities.
     xml_handle_entities(line, NULL);
-    // Deal with footnotes. Todo we need a vector of these, since some guys make their own footnote styles.
+    // Deal with footnotes.
     odtfootnote->transform(line);
     // Deal with endnotes.
     odtendnote->transform(line);
     // Deal with crossreferences.
     odtxref->transform(line);
     // Deal with inline text.
-    usfm_handle_inline_text(line, usfm_inline_markers, NULL, imOpenDocument, NULL); // Todo see what the use of this is.
+    usfm_handle_inline_text(line, usfm_inline_markers, NULL, imOpenDocument, NULL);
     // Signal new line.
     if (odttextparagraph)
       odttextparagraph->newline();

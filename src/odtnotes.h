@@ -42,14 +42,15 @@ public:
 private:
   bool show;
   NoteNumberingRestartType note_numbering_restart;
-  ustring opening_marker;
-  ustring closing_marker;
+  vector <ustring> opening_markers;
+  vector <ustring> closing_markers;
   bool anchor_apocrypha;
   vector<ustring> content_marker;
   vector <bool> content_apocrypha;
   set<ustring> note_markers;
   XslFoFootnoteParagraph * standardparagraph;
   XslFoFootnoteParagraph * extraparagraph;
+  void transform2 (ustring& line, const ustring& opening_marker, const ustring& closing_marker);
   ustring transform_main_parts (const ustring& line);
   unsigned int note_id;
 };

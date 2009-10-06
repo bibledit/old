@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include "utilities.h"
 #include <glib.h>
@@ -27,6 +28,7 @@
 #include "settings.h"
 #include "usfmtools.h"
 #include "tiny_utilities.h"
+
 
 OdtFootnote::OdtFootnote(const Usfm & usfm)
 // Stores the properties for all the footnote related styles.
@@ -49,8 +51,8 @@ OdtFootnote::OdtFootnote(const Usfm & usfm)
       case fentFootnote:
         {
           // Store data for the markers and the anchor.
-          opening_marker = usfm_get_full_opening_marker(usfm.styles[i].marker);
-          closing_marker = usfm_get_full_closing_marker(usfm.styles[i].marker);
+          opening_markers.push_back (usfm_get_full_opening_marker(usfm.styles[i].marker));
+          closing_markers.push_back (usfm_get_full_closing_marker(usfm.styles[i].marker));
           note_numbering_type = (NoteNumberingType) usfm.styles[i].userint1;
           note_numbering_restart = (NoteNumberingRestartType) usfm.styles[i].userint2;
           note_numbering_user_sequence = usfm.styles[i].userstring1;
@@ -98,12 +100,14 @@ OdtFootnote::OdtFootnote(const Usfm & usfm)
   notecaller = new NoteCaller(note_numbering_type, note_numbering_user_sequence);
 }
 
+
 OdtFootnote::~OdtFootnote()
 {
   delete notecaller;
   delete standardparagraph;
   delete extraparagraph;
 }
+
 
 void OdtFootnote::new_book()
 {
@@ -112,19 +116,27 @@ void OdtFootnote::new_book()
   new_chapter();
 }
 
+
 void OdtFootnote::new_chapter()
 {
   if (note_numbering_restart == nnrtChapter)
     notecaller->reset();
 }
 
+
 void OdtFootnote::transform(ustring & line)
 // Replace all footnote related content with corresponding OpenDocument code.
 {
-  // If no opening marker in stylesheet, bail out.
-  if (opening_marker.empty())
-    return;
+  // Transform all of the possible markers for the note.
+  for (unsigned int i = 0; i < opening_markers.size(); i++) {
+    transform2 (line, opening_markers[i], closing_markers[i]);
+  }
+}
 
+
+void OdtFootnote::transform2 (ustring& line, const ustring& opening_marker, const ustring& closing_marker)
+// Replace all footnote related content with corresponding OpenDocument code.
+{
   // Variables.
   size_t opening_position;
 
@@ -151,6 +163,7 @@ void OdtFootnote::transform(ustring & line)
     opening_position = line.find(opening_marker, opening_position);
   }
 }
+
 
 ustring OdtFootnote::transform_main_parts(const ustring & line)
 {
@@ -220,6 +233,7 @@ ustring OdtFootnote::transform_main_parts(const ustring & line)
   // Return the code.
   return odtcode;
 }
+
 
 OdtEndnote::OdtEndnote(const Usfm & usfm)
 // Stores the properties for all the endnote related styles.
@@ -291,12 +305,14 @@ OdtEndnote::OdtEndnote(const Usfm & usfm)
   notecaller = new NoteCaller(note_numbering_type, note_numbering_user_sequence);
 }
 
+
 OdtEndnote::~OdtEndnote()
 {
   delete notecaller;
   delete standardparagraph;
   delete extraparagraph;
 }
+
 
 void OdtEndnote::new_book()
 {
@@ -305,11 +321,13 @@ void OdtEndnote::new_book()
   new_chapter();
 }
 
+
 void OdtEndnote::new_chapter()
 {
   if (note_numbering_restart == nnrtChapter)
     notecaller->reset();
 }
+
 
 void OdtEndnote::transform(ustring & line)
 // Replace all endnote related content with corresponding OpenDocument code.
@@ -344,6 +362,7 @@ void OdtEndnote::transform(ustring & line)
     opening_position = line.find(opening_marker, opening_position);
   }
 }
+
 
 ustring OdtEndnote::transform_main_parts(const ustring & line)
 {
@@ -414,6 +433,7 @@ ustring OdtEndnote::transform_main_parts(const ustring & line)
   return odtcode;
 }
 
+
 OdtXref::OdtXref(const Usfm & usfm)
 // Stores the properties for all the xref related styles.
 {
@@ -467,11 +487,13 @@ OdtXref::OdtXref(const Usfm & usfm)
   notecaller = new NoteCaller(note_numbering_type, note_numbering_user_sequence);
 }
 
+
 OdtXref::~OdtXref()
 {
   delete notecaller;
   delete standardparagraph;
 }
+
 
 void OdtXref::new_book()
 {
@@ -480,11 +502,13 @@ void OdtXref::new_book()
   new_chapter();
 }
 
+
 void OdtXref::new_chapter()
 {
   if (note_numbering_restart == nnrtChapter)
     notecaller->reset();
 }
+
 
 void OdtXref::transform(ustring & line)
 // Replace all xref related content with corresponding OpenDocument code.
@@ -519,6 +543,7 @@ void OdtXref::transform(ustring & line)
     opening_position = line.find(opening_marker, opening_position);
   }
 }
+
 
 ustring OdtXref::transform_main_parts(const ustring & line)
 {

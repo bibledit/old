@@ -7118,32 +7118,11 @@ Todo tasks.
 
 The GoBibleCreator does not work. We probably better include one with Bibledit, so it will always be there.
 The format at times changes, so that is not too helpful. If a version is included, we're sure it has a known format.
+A request was sent to the developer.
 
 
 
-To allow more copies of bibeldit to run if a switch is passed on the commandline.
-
-
-
-bug #27238: can't export to Openoffice
-
-I am glad that it now Works Well! 
-What I'll do, to prevent further trouble in the future, is to give a big warning if any styles are in the document to be exported, 
-but are not in the stylesheet. The user then knows that the cause of malfunction can be the stylesheet. 
-PS. And the same warning probably should also be used when printing to PDF. The same problem of undefined styles occurs there also
-
-I thought that maybe the file would export OK if I unchecked the box for printing. 
-So I turned off printing for the two extra styles.
-The Openoffice export still has all of the regular footnotes printing in the verse with format markers. 
-Fix for this is to let the OpenOffice export honour the Print setting.
-
-But the book in question probably does not even have any of the odd two footnote styles. 
-I notice that when I printed to a PDF, printing a book that does have those styles, 
-the PDF is printing properly without those two types of footnotes appearing.
-
-Make the OpenDocument export to also take in account any new styles defined in the stylesheet, e.g. for notes and xrefs.
-
-
+To allow more copies of bibledit to run if a switch is passed on the commandline.
 
 
 
