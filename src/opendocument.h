@@ -35,8 +35,9 @@
 class OpenDocument
 {
 public:
-  OpenDocument(const ustring& project, const ustring& filename, bool gui, set<unsigned int> * selection);
+  OpenDocument(const ustring& project, const ustring& filename, set<unsigned int> * selection);
   ~OpenDocument();
+  void note_unformatted_markers (vector <ustring>& markers);
 private:
   ustring myproject;
   ProjectConfiguration * projectconfig;
@@ -58,10 +59,10 @@ private:
   unsigned int anchor_book, anchor_chapter;
   void generate_styles_xml(bool right_to_left);
   void generate_styles(xmlTextWriterPtr writer);
-  void
-      paragraph_style(xmlTextWriterPtr writer, const ustring& marker, const ustring& name, const ustring& fontname, double fontsize, int lineheight, const ustring& italic, const ustring& bold, const ustring& underline, const ustring& smallcaps, ustring justification, double spacebefore, double spaceafter, double leftmargin, double rightmargin, double firstlineindent, bool spancolumns, bool startpage);
-  void
-      span_style(xmlTextWriterPtr writer, const ustring& marker, const ustring& name, const ustring& fontname, double fontpercentage, ustring italic, ustring bold, ustring underline, ustring smallcaps, bool superscript, unsigned int color);
+  void paragraph_style(xmlTextWriterPtr writer, const ustring& marker, const ustring& name, const ustring& fontname, double fontsize, int lineheight, const ustring& italic, const ustring& bold, const ustring& underline, const ustring& smallcaps, ustring justification, double spacebefore, double spaceafter, double leftmargin, double rightmargin, double firstlineindent, bool spancolumns, bool startpage);
+  void span_style(xmlTextWriterPtr writer, const ustring& marker, const ustring& name, const ustring& fontname, double fontpercentage, ustring italic, ustring bold, ustring underline, ustring smallcaps, bool superscript, unsigned int color);
+  set <ustring> unformatted_markers;
 };
+
 
 #endif

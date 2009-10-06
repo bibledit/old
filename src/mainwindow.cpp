@@ -7116,9 +7116,12 @@ Todo tasks.
 
 
 
-To release bibledit between 5 and 9 October.
+The GoBibleCreator does not work. We probably better include one with Bibledit, so it will always be there.
+The format at times changes, so that is not too helpful. If a version is included, we're sure it has a known format.
 
 
+
+To allow more copies of bibeldit to run if a switch is passed on the commandline.
 
 
 
@@ -7137,6 +7140,9 @@ Fix for this is to let the OpenOffice export honour the Print setting.
 But the book in question probably does not even have any of the odd two footnote styles. 
 I notice that when I printed to a PDF, printing a book that does have those styles, 
 the PDF is printing properly without those two types of footnotes appearing.
+
+Make the OpenDocument export to also take in account any new styles defined in the stylesheet, e.g. for notes and xrefs.
+
 
 
 

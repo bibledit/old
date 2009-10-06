@@ -51,20 +51,18 @@
  */
 
 
-OpenDocument::OpenDocument(const ustring & project, const ustring & filename, bool gui, set < unsigned int >*selection)
+OpenDocument::OpenDocument(const ustring & project, const ustring & filename, set < unsigned int >*selection)
 // Export a project to OpenDocument format. Allows books selection.
 {
   projectconfig = new ProjectConfiguration(project, false);
   usfm = new Usfm(stylesheet_get_actual ());
 
   // Check on basic markers.
-  if (!usfm_basic_markers_present(*usfm, gui))
+  if (!usfm_basic_markers_present(*usfm, true))
     return;
 
   // Progress information.  
-  progresswindow = NULL;
-  if (gui)
-    progresswindow = new ProgressWindow("Exporting to OpenDocument", true);
+  progresswindow = new ProgressWindow("Exporting to OpenDocument", true);
 
   // Prepare for inline text markers, notes and xrefs.
   usfm_inline_markers = new UsfmInlineMarkers(*usfm);
@@ -103,13 +101,9 @@ OpenDocument::OpenDocument(const ustring & project, const ustring & filename, bo
   for (unsigned int i = 0; i < books.size(); i++) {
 
     // Progress.
-    if (progresswindow) {
-      progresswindow->iterate();
-      if (progresswindow->cancel) {
-        return;
-      }
-    } else {
-      gw_message(books_id_to_english(books[i]));
+    progresswindow->iterate();
+    if (progresswindow->cancel) {      
+      return;
     }
 
     // Skip "Other Material".
@@ -123,7 +117,7 @@ OpenDocument::OpenDocument(const ustring & project, const ustring & filename, bo
     anchor_book = books[i];
 
     // Open the book. Do any replacements.
-    vector < ustring > book_lines;
+    vector <ustring> book_lines;
     book_lines = project_retrieve_book(project, books[i]);
     text_replacement(book_lines);
 
@@ -146,10 +140,10 @@ OpenDocument::OpenDocument(const ustring & project, const ustring & filename, bo
   zip(filename_odt);
 }
 
+
 OpenDocument::~OpenDocument()
 {
-  if (progresswindow)
-    delete progresswindow;
+  delete progresswindow;
   delete projectconfig;
   delete usfm;
   delete usfm_inline_markers;
@@ -157,6 +151,7 @@ OpenDocument::~OpenDocument()
   delete odtendnote;
   delete odtxref;
 }
+
 
 void OpenDocument::unpack_template()
 {
@@ -179,6 +174,7 @@ void OpenDocument::unpack_template()
 #endif
   if (system(command.c_str())) ; // This one does not work with GwSpawn because of the wildcards used.
 }
+
 
 void OpenDocument::cover()
 // Generate cover page.
@@ -212,25 +208,26 @@ void OpenDocument::cover()
   format_general(lines);
 }
 
-void OpenDocument::format_general(vector < ustring > &lines)
+
+void OpenDocument::format_general(vector <ustring>& lines) // Todo
 // General formatter for USFM lines given.
 {
-  // Go through all the lines.
+  // Go through all the lines. Todo to copy from the pdf formatter the system that lines are no longer taken in consideration, but created at the spot.
   odttextparagraph = NULL;
   for (unsigned int ln = 0; ln < lines.size(); ln++) {
     ustring line = lines[ln];
     // Take any elastics out, put the \b marker instead.
     replace_text(line, ELASTIC_MARKER, "b");
-    // Change certain characters to xml entities.
+    // Change certain characters to xml entities. Todo this probably is no longer needed, since we use the xml library. Try it out.
     xml_handle_entities(line, NULL);
-    // Deal with footnotes.
+    // Deal with footnotes. Todo we need a vector of these, since some guys make their own footnote styles.
     odtfootnote->transform(line);
     // Deal with endnotes.
     odtendnote->transform(line);
     // Deal with crossreferences.
     odtxref->transform(line);
     // Deal with inline text.
-    usfm_handle_inline_text(line, usfm_inline_markers, NULL, imOpenDocument, NULL);
+    usfm_handle_inline_text(line, usfm_inline_markers, NULL, imOpenDocument, NULL); // Todo see what the use of this is.
     // Signal new line.
     if (odttextparagraph)
       odttextparagraph->newline();
@@ -303,12 +300,15 @@ void OpenDocument::format_general(vector < ustring > &lines)
       if (!odttextparagraph)
         odttextparagraph = new OdtTextParagraph(&odtlines, "");
       odttextparagraph->plaintext(line);
+      // Make a note of this marker, that it was not formatted.
+      unformatted_markers.insert (marker);
     }
   }
   // Close possible last paragraph.
   if (odttextparagraph)
     delete odttextparagraph;
 }
+
 
 void OpenDocument::generate_styles(xmlTextWriterPtr writer)
 {
@@ -410,6 +410,7 @@ void OpenDocument::generate_styles(xmlTextWriterPtr writer)
   }
 }
 
+
 void OpenDocument::zip(const ustring filename)
 {
   ustring command = "cd ";
@@ -430,6 +431,7 @@ void OpenDocument::zip(const ustring filename)
   command.append(" *");
   if (system(command.c_str())) ; // This one does not work with GwSpawn because of the wildcards used.
 }
+
 
 void OpenDocument::generate_styles_xml(bool right_to_left)
 // This generates the file "styles.xml" in the OpenDocument.
@@ -517,6 +519,7 @@ void OpenDocument::generate_styles_xml(bool right_to_left)
     xmlBufferFree(buffer);
 }
 
+
 void OpenDocument::paragraph_style(xmlTextWriterPtr writer, const ustring & marker, const ustring & name, const ustring & fontname, double fontsize, int lineheight, const ustring & italic, const ustring & bold, const ustring & underline, const ustring & smallcaps, ustring justification, double spacebefore, double spaceafter, double leftmargin, double rightmargin, double firstlineindent, bool spancolumns, bool startpage)
 {
   // Style properties.
@@ -602,6 +605,7 @@ void OpenDocument::paragraph_style(xmlTextWriterPtr writer, const ustring & mark
   xmlTextWriterEndElement(writer);
 }
 
+
 void OpenDocument::span_style(xmlTextWriterPtr writer, const ustring & marker, const ustring & name, const ustring & fontname, double fontpercentage, ustring italic, ustring bold, ustring underline, ustring smallcaps, bool superscript, unsigned int color)
 {
   // Open the style.
@@ -668,3 +672,18 @@ void OpenDocument::span_style(xmlTextWriterPtr writer, const ustring & marker, c
   // Close style.
   xmlTextWriterEndElement(writer);
 }
+
+
+void OpenDocument::note_unformatted_markers (vector <ustring>& markers)
+{
+  // Add the markers from the object to the container.
+  vector <ustring> temporal_markers (unformatted_markers.begin(), unformatted_markers.end());
+  for (unsigned int i = 0; i < temporal_markers.size(); i++) {
+    markers.push_back (temporal_markers[i]);
+  }
+  // Remove double ones.
+  set <ustring> temporal_set (markers.begin(), markers.end());
+  markers.clear();
+  markers.assign (temporal_set.begin(), temporal_set.end());
+}
+

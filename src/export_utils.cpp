@@ -688,17 +688,30 @@ void export_to_opendocument(const ustring& project, const ustring& filename)
       return;
     singlefile = dialog.selection == 0;
   }
+  // Keep note of unformatted markers.
+  vector <ustring> unformatted_markers;
   // Export.
   if (singlefile) {
-    OpenDocument odt(project, filename, true, &selectedbooks);
+    OpenDocument odt(project, filename, &selectedbooks);
+    odt.note_unformatted_markers (unformatted_markers);
   } else {
     vector < unsigned int >books(selectedbooks.begin(), selectedbooks.end());
     for (unsigned int i = 0; i < books.size(); i++) {
       set < unsigned int >selectedbook;
       selectedbook.insert(books[i]);
       ustring combinedfilename = filename + "-" + books_id_to_english(books[i]);
-      OpenDocument odt(project, combinedfilename, true, &selectedbook);
+      OpenDocument odt(project, combinedfilename, &selectedbook);
+      odt.note_unformatted_markers (unformatted_markers);
     }
+  }
+  if (!unformatted_markers.empty()) {
+    // Give warning in case of unformatted markers.
+    ustring message = "The export has completed,\n"
+                      "but the following markers could not be formatted properly:";
+    for (unsigned int i = 0; i < unformatted_markers.size(); i++) {
+      message.append ("\n" + unformatted_markers[i]);
+    }
+    gtkw_dialog_warning (NULL, message);
   }
 }
 
