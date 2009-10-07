@@ -7116,6 +7116,13 @@ Todo tasks.
 
 
 
+bug #27571: crash when starting BE
+The problem with gdb right now is that bibledit won't run in it since it thinks that it is already running, and therefore bails out. 
+* It needs a switch to disable this, or something else to disable it.
+
+
+
+
 The GoBibleCreator does not work. We probably better include one with Bibledit, so it will always be there.
 The format at times changes, so that is not too helpful. If a version is included, we're sure it has a known format.
 A request was sent to the developer.
@@ -7125,35 +7132,13 @@ A request was sent to the developer.
 
 
 
-bug #27529: crash when going to Next part of references
-This seems to be because of a faulty Notes database.
-Fix is to let is not crash even if the notes database is faulty.
-
-
-
-
-
-bug #27564: crash when starting to type in Project Note
-This seems to be because of a faulty Notes database.
-Fix is to let is not crash even if the notes database is faulty.
-
-
-
-bug #27566: BE no longer allows me to choose a project for a Project Note
-This seems to be because of a faulty Notes database.
-Fix is to let is not crash even if the notes database is faulty.
-Or give a message about the problem, that would be more helpful.
-
-
-
-bug #27571: crash when starting BE
-The problem with gdb right now is that bibledit won't run in it since it thinks that it is already running, and therefore bails out. 
-* It needs a switch to disable this, or something else to disable it.
-
-
 
 
 svn push access was given to the xiphos project. To create the patch for the more parallel bibles. To send patch to dev list first.
+
+
+
+
 
 
 task #9438: Access to secured git repositories
@@ -7164,15 +7149,6 @@ but when it came to specifying the remote repo I entered hostname:/path/to/direc
 *  (since the "server" also runs BE I put the "remote dir" on that machine to be just /path/to/server).
 I've not tried it, but someone might like to try "user@hostname:/path/to/directory" as a repo address... 
 * I think it should work and it would obviously solve the permissions issue, if all connections to the repo were as the same userid. 
-
-
-
-
-task #9478: Export: Signal end of process
-When choosing: File/Project/Export/Sword or OSIS, then making choices in the Sword Module dialog box, OK, the export start, 
-* then comes compling and then nothing more.
--> A message, that the export is accomplished successfully would be a help to know, that the job ix done.
-
 
 
 

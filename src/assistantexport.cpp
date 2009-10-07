@@ -533,9 +533,9 @@ AssistantBase("Export", "export")
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_confirm, GTK_ASSISTANT_PAGE_CONFIRM);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_confirm, true);
   
-  label_progress = gtk_label_new ("");
+  label_progress = gtk_label_new ("Export in progress");
   gtk_widget_show (label_progress);
-  gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_progress);
+  page_number_progress = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_progress);
 
   gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_progress, "");
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_progress, GTK_ASSISTANT_PAGE_PROGRESS);
@@ -649,6 +649,8 @@ void ExportAssistant::on_assistant_apply_signal (GtkAssistant *assistant, gpoint
 
 void ExportAssistant::on_assistant_apply ()
 {
+  // Show progress page.
+  gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), page_number_progress);
   // Take action depending on the type of export.
   switch (get_type()) {
     case etBible:

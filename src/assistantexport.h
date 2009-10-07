@@ -167,6 +167,7 @@ private:
   // Confirmation stuff.
   int page_number_confirm;
   GtkWidget *label_confirm;
+  int page_number_progress;
   GtkWidget *label_progress;
   GtkWidget *label_summary;
   int summary_page_number;
