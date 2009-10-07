@@ -7122,8 +7122,6 @@ A request was sent to the developer.
 
 
 
-To allow more copies of bibledit to run if a switch is passed on the commandline.
-
 
 
 
@@ -7153,11 +7151,6 @@ The problem with gdb right now is that bibledit won't run in it since it thinks 
 * It needs a switch to disable this, or something else to disable it.
 
 
-
-
-
-
-To send next announcement also to bibledit-announce@nongnu.org, and check whether the RSS feed updates.
 
 
 svn push access was given to the xiphos project. To create the patch for the more parallel bibles. To send patch to dev list first.
@@ -7252,6 +7245,14 @@ To attend to a current bug:
 BE crashes if one closes a window while others are loading
 BE always wants to load up the References and Project Notes windows even when I didn't have them open the last time. 
 * If one closes windows before BE finishes all of its loading and initial display of text, the whole program crashes. 
+
+
+
+
+
+
+On a clean ubuntu 9.04 system, when starting bibledit for the first time, it crashes. To setup such a system, then to run it in gdb.
+
 
 
 */

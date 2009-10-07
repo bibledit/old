@@ -27,7 +27,7 @@
 #include <gtk/gtk.h>
 
 
-bool check_bibledit_startup_okay ();
+bool check_bibledit_startup_okay (int argc, char *argv[]);
 
 
 #endif

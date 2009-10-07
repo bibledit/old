@@ -23,7 +23,7 @@
 #include "shell.h"
 
 
-bool check_bibledit_startup_okay ()
+bool check_bibledit_startup_okay (int argc, char *argv[])
 // Returns true if it is okay to start bibledit.
 {
   // Do not run as root (does not apply to Windows).
@@ -34,6 +34,11 @@ bool check_bibledit_startup_okay ()
     return false;
   }
 #endif
+
+  // Check arguments whether to bypass the check on another instance of bibledit.  
+  if (argc >= 2 && strcmp(argv[1], "--debug") == 0) {
+    return true;
+  }
 
   // See whether Bibledit itself is running already.
   vector <ustring> processes = list_processes ();

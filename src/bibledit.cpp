@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
   gtk_init(&argc, &argv);
 
   // Check whether it is fine to start the program.
-  if (!check_bibledit_startup_okay()) {
+  if (!check_bibledit_startup_okay(argc, argv)) {
     return 1;
   }
 
