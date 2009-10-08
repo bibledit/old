@@ -19,7 +19,6 @@
 
 
 #include "libraries.h"
-#include "exception.h"
 #include "mainwindow.h"
 #include "directories.h"
 #include "utilities.h"
@@ -56,10 +55,6 @@ VCS *vcs;
 
 int main(int argc, char *argv[])
 {
-  // Exception handlers.
-  set_terminate(terminator);
-  set_unexpected(my_unexpected);
-
   // Initialize g threads.
   g_thread_init(NULL);
   // Initialize g types.
@@ -69,7 +64,9 @@ int main(int argc, char *argv[])
 
   // Check whether it is fine to start the program.
   if (!check_bibledit_startup_okay(argc, argv)) {
-    return 1;
+    // Quit the program.
+    // The exit code should not be 1. If it were 1 then the wrapper script would bibledit it once.
+    return 2;
   }
 
   // Save logfile from previous session.
@@ -145,7 +142,7 @@ int main(int argc, char *argv[])
     xembed = strtoul(argv[2], &argv[2], 0);
     if (*argv[2] != 0) {
       fprintf(stderr, "Bad xembed value: %s\n", argv[2]);
-      return 1;
+      return 2;
     }
   }
   // Upgrade data.

@@ -7117,11 +7117,6 @@ Todo tasks.
 
 
 bug #27571: crash when starting BE
-The problem with gdb right now is that bibledit won't run in it since it thinks that it is already running, and therefore bails out. 
-* It needs a switch to disable this, or something else to disable it.
-
-
-
 
 The GoBibleCreator does not work. We probably better include one with Bibledit, so it will always be there.
 The format at times changes, so that is not too helpful. If a version is included, we're sure it has a known format.
@@ -7228,6 +7223,46 @@ BE always wants to load up the References and Project Notes windows even when I 
 
 
 On a clean ubuntu 9.04 system, when starting bibledit for the first time, it crashes. To setup such a system, then to run it in gdb.
+
+
+
+Xiphos before being committed to svn.
+bzr branch http://www.chaqar.com/bzr/xiphos-ipc xiphos-ipc
+
+>From there on, it's fairly straightforward. Just ./autogen as you
+normally would. There is one thing you'll have to do manually:
+
+cd src/gnome2
+dbus-binding-tool --prefix=ipc_object --mode=glib-server ipc-interface.xml > "ipc-server-stub.h"
+
+After that, make should 'just work'.
+
+To make the client, do this:
+cd src/gnome2
+make -f receive_make client
+
+and run with ./client. Due to how this is currently programmed, I
+think you'll have to start Xiphos before starting the client. I'll
+change the client at some point so that shouldn't be necessary.
+
+So, what does it do? Well, using d-feet or some other dbus explorer,
+you can call the function "navigate" with sword://Gen 1:1, and Xiphos
+will navigate to that. The client will listen on dbus for Xiphos to
+emit a "performSearch" signal. This is emitted every time you do a
+search in the sidebar (can be easily extended to advanced search).
+When this occurs, the client will print the search term to the
+terminal. I have a function in place that will allow the client to
+then ask for the search results, but it isn't hooked up yet in Xiphos.
+
+Also, if you happen
+
+
+
+
+
+
+To use desktop-file-install to get the icon right.
+
 
 
 

@@ -33,7 +33,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-bin_PROGRAMS = bibledit$(EXEEXT)
+bin_PROGRAMS = bibleditgui$(EXEEXT)
 @WIN32_TRUE@am__append_1 = -mwindows -lws2_32
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -48,11 +48,11 @@ CONFIG_CLEAN_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
-am_bibledit_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
+am_bibleditgui_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	tiny_utilities.$(OBJEXT) bible.$(OBJEXT) usfmtools.$(OBJEXT) \
-	exception.$(OBJEXT) mainwindow.$(OBJEXT) \
-	dialoglistview.$(OBJEXT) dialogshowscript.$(OBJEXT) \
-	htmlbrowser.$(OBJEXT) track.$(OBJEXT) dialogreplace.$(OBJEXT) \
+	mainwindow.$(OBJEXT) dialoglistview.$(OBJEXT) \
+	dialogshowscript.$(OBJEXT) htmlbrowser.$(OBJEXT) \
+	track.$(OBJEXT) dialogreplace.$(OBJEXT) \
 	dialogreplacing.$(OBJEXT) windowsoutpost.$(OBJEXT) \
 	dialoggotoreference.$(OBJEXT) projectutils.$(OBJEXT) \
 	dialogproject.$(OBJEXT) usfm.$(OBJEXT) dialogwait.$(OBJEXT) \
@@ -175,8 +175,8 @@ am_bibledit_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	bibleworks.$(OBJEXT) onlinebible.$(OBJEXT) robinson.$(OBJEXT) \
 	morphology.$(OBJEXT) greek.$(OBJEXT) startup.$(OBJEXT) \
 	dialogyesnoalways.$(OBJEXT) xiphos.$(OBJEXT)
-bibledit_OBJECTS = $(am_bibledit_OBJECTS)
-bibledit_LDADD = $(LDADD)
+bibleditgui_OBJECTS = $(am_bibleditgui_OBJECTS)
+bibleditgui_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -189,8 +189,8 @@ CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 CXXLD = $(CXX)
 CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
-SOURCES = $(bibledit_SOURCES)
-DIST_SOURCES = $(bibledit_SOURCES)
+SOURCES = $(bibleditgui_SOURCES)
+DIST_SOURCES = $(bibleditgui_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -351,13 +351,12 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-bibledit_SOURCES = \
+bibleditgui_SOURCES = \
 		bibledit.cpp \
 		utilities.cpp \
     	tiny_utilities.cpp \
 		bible.cpp \
 		usfmtools.cpp \
-		exception.cpp \
 		mainwindow.cpp \
 		dialoglistview.cpp \
 		dialogshowscript.cpp \
@@ -687,9 +686,9 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
-bibledit$(EXEEXT): $(bibledit_OBJECTS) $(bibledit_DEPENDENCIES) 
-	@rm -f bibledit$(EXEEXT)
-	$(CXXLINK) $(bibledit_OBJECTS) $(bibledit_LDADD) $(LIBS)
+bibleditgui$(EXEEXT): $(bibleditgui_OBJECTS) $(bibleditgui_DEPENDENCIES) 
+	@rm -f bibleditgui$(EXEEXT)
+	$(CXXLINK) $(bibleditgui_OBJECTS) $(bibleditgui_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -816,7 +815,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/displayprojectnotes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/editor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/editor_aids.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/exception.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/export_translation_notes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/export_utils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fixmarkers.Po@am__quote@

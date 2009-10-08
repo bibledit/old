@@ -38,6 +38,15 @@ DBus::DBus(int dummy)
 {
   // Initialize variables.
   event_id_rescan_bus = 0;
+
+  // It was noticed that on a clean Ubuntu 9.04 system Bibledit crashes the first time,
+  // and in gdb it was seen that this was related to the dbus.
+  // Todo made no difference 
+  //dbus_threads_init ();
+  dbus_threads_init_default ();
+  // 
+  // dbus_g_thread_init ();
+  
   
 	// Obtain a connection to the Session Bus.
 	GError *error = NULL;
@@ -49,7 +58,7 @@ DBus::DBus(int dummy)
 		g_error_free(error);
   }
 
-	// Request the DBus daemon for our name.
+	// Request our name on the DBus.
   if (con) {
   	DBusError *dbuserror = NULL;
     int retval = dbus_bus_request_name(con, "org.bibledit", 0, dbuserror);

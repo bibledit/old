@@ -1,12 +1,11 @@
-bin_PROGRAMS = bibledit
+bin_PROGRAMS = bibleditgui
 
-bibledit_SOURCES = \
+bibleditgui_SOURCES = \
 		bibledit.cpp \
 		utilities.cpp \
     	tiny_utilities.cpp \
 		bible.cpp \
 		usfmtools.cpp \
-		exception.cpp \
 		mainwindow.cpp \
 		dialoglistview.cpp \
 		dialogshowscript.cpp \
