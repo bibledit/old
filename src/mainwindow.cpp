@@ -7116,7 +7116,95 @@ Todo tasks.
 
 
 
-bug #27571: crash when starting BE
+task #9438: Access to secured git repositories
+We've got several computers colaborating together quite happily, using a SSH based connection.
+Prerequisite is for certificate based logins (no password needed when you try to "ssh hostname"), and all users having write access to the direcory.
+Basicly I went through the GIT repository set up on the server as described somewhere, 
+but when it came to specifying the remote repo I entered hostname:/path/to/directory
+*  (since the "server" also runs BE I put the "remote dir" on that machine to be just /path/to/server).
+I've not tried it, but someone might like to try "user@hostname:/path/to/directory" as a repo address... 
+* I think it should work and it would obviously solve the permissions issue, if all connections to the repo were as the same userid. 
+
+
+Administrators may also manually manipulate their repository via the site interactive shell service. 
+
+Shell access: ssh shell.sourceforge.net
+Then follow instructions.
+
+To access a Git repository, configure your Git client as follows (replace PROJECTNAME with the UNIX group name of the project, and REPONAME with the name of the git repository):
+
+    * git://PROJECTNAME.git.sourceforge.net/gitroot/PROJECTNAME/REPONAME (read-only)
+    * ssh://USERNAME@PROJECTNAME.git.sourceforge.net/gitroot/PROJECTNAME/REPONAME (read/write) 
+
+The default repository name is the same as the project's UNIX group name, e.g
+
+    * git://PROJECTNAME.git.sourceforge.net/gitroot/PROJECTNAME/PROJECTNAME 
+
+Your project's Git repository will be completely empty at the start, and older Git releases do not allow a repository with no content to be cloned. What you will do instead is to push a Git repository that you create (or have previously created) from your own system to our servers. Since Git is a distributed version control system, having a copy of the full repository on your local system is the normal way things work.
+
+Note that starting with git 1.6.2, you can now simply "git clone" your empty repository, and it will warn you about the emptiness and leave you with a repository that has the origin and branch settings (described below) already set for you.
+How to create a new repository ¶
+
+Note: - For all examples below, "PROJECTNAME" represents a SourceForge.net project UNIX name and "USERNAME" represents your SourceForge.net user account.
+
+Create an empty repository like this:
+
+mkdir PROJECTNAME
+cd PROJECTNAME
+git init
+
+Setting your git username ¶
+
+Users should commit to their project repository using their SourceForge.net username. If that is not already set globally, you can set it locally for the current Git repository like this:
+
+git config user.name "YOUR NAME"
+git config user.email "USERNAME@users.sourceforge.net"
+
+You can now use some combination of "git add" and "git commit" commands to create one or more commits in your local repository. 
+
+
+How to push a local repository ¶
+
+Before you push your files, you need a local Git repository. You can either create one from scratch, convert a repository (e.g. via git-cvsimport or similar), or start with a copy of an existing Git repository.
+
+For any local Git repository, you can configure it to push data back to our server by doing the following from inside your Git repository (this replicates what a "git clone" from our servers sets up for you automatically):
+
+git remote add origin ssh://USERNAME@PROJECTNAME.git.sourceforge.net/gitroot/PROJECTNAME/REPONAME
+git config branch.master.remote origin
+git config branch.master.merge refs/heads/master
+
+Now you're ready to push the committed files to our servers:
+
+git push origin master
+
+Note: The use of "origin master" prevents Git from complaining that the remote server has no branches in common with your local repository (which is true at the start when the remote repository is completely empty), and "master" is the default branch in Git.
+
+After the first push, you will be able to use the simpler "git push" to push the master branch to our "origin" server.
+
+Once that is done, you will be able to browse your newly-committed content via gitweb, clone the repository via either read-only or read/write access methods, push more check-ins, etc.
+
+
+Creating Multple Repositories ¶
+
+To create a new repository, you need to access the Shell service, then follow these steps:
+
+   1. Navigate to your repository
+         1. cd /home/scm_git/P/PR/PROJECTUNIXNAME
+                * PROJECTUNIXNAME is the UNIX name of your project
+                * P represents the first letter of that name, and PR the first two letters of the name. 
+   2. Create a new directory with the name you want for the repository, eg mkdir DIRNAME.
+   3. Run git --git-dir=DIRNAME init --shared=all --bare (where DIRNAME represents the name of the repository to be created)
+          * This will initialize a new repository at that directory 
+
+Notes: Developers should not nest directories / repositories. Directories should only be created the top level directory of repository. Be sure to make backups prior to editing your repository contents. 
+
+
+
+
+
+
+
+
 
 The GoBibleCreator does not work. We probably better include one with Bibledit, so it will always be there.
 The format at times changes, so that is not too helpful. If a version is included, we're sure it has a known format.
@@ -7132,18 +7220,6 @@ A request was sent to the developer.
 svn push access was given to the xiphos project. To create the patch for the more parallel bibles. To send patch to dev list first.
 
 
-
-
-
-
-task #9438: Access to secured git repositories
-We've got several computers colaborating together quite happily, using a SSH based connection.
-Prerequisite is for certificate based logins (no password needed when you try to "ssh hostname"), and all users having write access to the direcory.
-Basicly I went through the GIT repository set up on the server as described somewhere, 
-but when it came to specifying the remote repo I entered hostname:/path/to/directory
-*  (since the "server" also runs BE I put the "remote dir" on that machine to be just /path/to/server).
-I've not tried it, but someone might like to try "user@hostname:/path/to/directory" as a repo address... 
-* I think it should work and it would obviously solve the permissions issue, if all connections to the repo were as the same userid. 
 
 
 
