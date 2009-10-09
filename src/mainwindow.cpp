@@ -7144,7 +7144,8 @@ The default repository name is the same as the project's UNIX group name, e.g
 
 Your project's Git repository will be completely empty at the start, and older Git releases do not allow a repository with no content to be cloned. What you will do instead is to push a Git repository that you create (or have previously created) from your own system to our servers. Since Git is a distributed version control system, having a copy of the full repository on your local system is the normal way things work.
 
-Note that starting with git 1.6.2, you can now simply "git clone" your empty repository, and it will warn you about the emptiness and leave you with a repository that has the origin and branch settings (described below) already set for you.
+Note that starting with git 1.6.2, you can now simply "git clone" your empty repository, 
+and it will warn you about the emptiness and leave you with a repository that has the origin and branch settings (described below) already set for you.
 How to create a new repository ¶
 
 Note: - For all examples below, "PROJECTNAME" represents a SourceForge.net project UNIX name and "USERNAME" represents your SourceForge.net user account.
