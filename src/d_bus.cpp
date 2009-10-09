@@ -41,12 +41,9 @@ DBus::DBus(int dummy)
 
   // It was noticed that on a clean Ubuntu 9.04 system Bibledit crashes the first time,
   // and in gdb it was seen that this was related to the dbus.
-  // Todo made no difference 
-  //dbus_threads_init ();
-  dbus_threads_init_default ();
-  // 
+  // The following two lines were added to prevent crashes, but this made no difference. 
+  // dbus_threads_init_default ();
   // dbus_g_thread_init ();
-  
   
 	// Obtain a connection to the Session Bus.
 	GError *error = NULL;
