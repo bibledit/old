@@ -3,11 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-   <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-   <title>Bibledit</title>
-<!-- 
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<title>Bibledit</title>
+<!--
 Copyright (©) 2003-2008 Teus Benschop.
-
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.2
 or any later version published by the Free Software Foundation;
@@ -32,28 +31,25 @@ Free Documentation License" in the file FDL.
 </div>
 <!-- Table of Contents End -->
 <h3><a name="introduction"></a>Introduction</h3>
-<p>Toolbox is a linguistic application. Bibledit can send words to Toolbox.
-It does this through Bibledit Windows Outpost. When double-clicking a word,
-it will send this word to Toolbox. The System log will show this.</p>
+<p>Toolbox is a linguistic application. Bibledit can send words to Toolbox. It
+does this through Bibledit Windows Outpost. When double-clicking a word, it
+will send this word to Toolbox. The System log will show this.</p>
 <h3><a name="installation"></a>Installation</h3>
 <p>Ensure you've got <a href="install_wine.html">Wine installed.</a></p>
-<p>Ensure you've got <a href="install_outpost.html">Bibledit Windows Outpost
-installed</a> too.</p>
 <p>Download Toolbox from <a
 href="http://www.sil.org/computing/toolbox/index.htm">http://www.sil.org/computing/toolbox/index.htm</a>
 and put it in your home directory.</p>
 <p>Open a terminal, and type</p>
 <pre>ls</pre>
-<p>to see a file InstallToolboxnn.exe, where nn is the version number, such
-as 14 or higher.</p>
+<p>to see a file InstallToolboxnn.exe, where nn is the version number, such as
+14 or higher.</p>
 <p>To install it, type</p>
 <pre>wine InstallToolboxnn.exe</pre>
 <p>Follow the installation instructions on the screen and finish the
 installation.</p>
 <p>Next copy the Uniscript dll to the Toolbox directory. Normally this
 usp10.dll is in ~/.wine/drive_c/windows/system32/usp10.dll and the Toolbox
-directory will be ~/.wine/drive_c/Program Files/Toolbox. So to copy it,
-type</p>
+directory will be ~/.wine/drive_c/Program Files/Toolbox. So to copy it, type</p>
 <pre>cd</pre>
 <pre>cp ".wine/drive_c/windows/system32/usp10.dll" ".wine/drive_c/Program Files/Toolbox"</pre>
 <p>To have wine use this usp10.dll, start winecfg by typing</p>

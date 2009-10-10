@@ -7116,6 +7116,49 @@ Todo tasks.
 
 
 
+task #9495: Overhaul of the Help/Tools section
+After having looked at the 'new' export tool, I found that the Help/Tools section needs some 'overhaul'.
+I am comparing BE 3.7.42-1 (from the https://edge.launchpad.net/~pkgcrosswire/+archive/ppa) with its localhost help file:
+
+Here is a list of what I found would need changes:
+
+Quit -> File/Quit and put it after 'File/Restore'
+
+File/Projects: OK
+
+File/References: Take out: 'Save as'
+
+File/Styles: OK
+
+File/Styles/Stylesheet: Take out 'Export'
+
+File/Project notes: Take out 'Export'
+
+File/Resources: OK
+
+File/Keyterms: Take out 'Export'
+
+Add: File/Print (exists: printing.html)
+
+Export -> File/Export
+
+Add: File/Backup (exists: backup.html#backup)
+
+Add: File/Restore (exists: backup.html#restore)
+
+-------------------------------
+For the other Help/Tools items:
+Edit: OK
+View: OK
+Insert: OK
+Check: OK
+Tools: 'Transfer project notes to text' (twice) take first out.
+Preferences: Add 'Compare'
+Help: OK 
+
+
+
+
 
 
 
@@ -7222,50 +7265,6 @@ Notes: Developers should not nest directories / repositories. Directories should
 
 svn push access was given to the xiphos project. To create the patch for the more parallel bibles. To send patch to dev list first.
 
-
-
-
-
-
-task #9495: Overhaul of the Help/Tools section
-After having looked at the 'new' export tool, I found that the Help/Tools section needs some 'overhaul'.
-I am comparing BE 3.7.42-1 (from the https://edge.launchpad.net/~pkgcrosswire/+archive/ppa) with its localhost help file:
-
-Here is a list of what I found would need changes:
-
-Quit -> File/Quit and put it after 'File/Restore'
-
-File/Projects: OK
-
-File/References: Take out: 'Save as'
-
-File/Styles: OK
-
-File/Styles/Stylesheet: Take out 'Export'
-
-File/Project notes: Take out 'Export'
-
-File/Resources: OK
-
-File/Keyterms: Take out 'Export'
-
-Add: File/Print (exists: printing.html)
-
-Export -> File/Export
-
-Add: File/Backup (exists: backup.html#backup)
-
-Add: File/Restore (exists: backup.html#restore)
-
--------------------------------
-For the other Help/Tools items:
-Edit: OK
-View: OK
-Insert: OK
-Check: OK
-Tools: 'Transfer project notes to text' (twice) take first out.
-Preferences: Add 'Compare'
-Help: OK 
 
 
 
