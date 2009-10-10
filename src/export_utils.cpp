@@ -834,53 +834,14 @@ void export_to_go_bible (const ustring& project, const ustring& foldername)
     return;
   }
   
-  // Check whether the GoBibleCreator package is available.
-  ustring go_bible_creator_package_file_name;
-  {
-    // It can be in the home directory, in which case it is considered a new package.
-    {
-      ReadFiles rf (g_get_home_dir(), "GoBibleCreator", ".zip");
-      if (!rf.files.empty()) {
-        go_bible_creator_package_file_name = gw_build_filename (g_get_home_dir(), rf.files[0]);
-        unix_cp (go_bible_creator_package_file_name, directories_get_temp());
-      }
-    }
-    // It can be in the temporal directory.
-    {
-      ReadFiles rf (directories_get_temp(), "GoBibleCreator", ".zip");
-      if (!rf.files.empty()) {
-        go_bible_creator_package_file_name = gw_build_filename (directories_get_temp(), rf.files[0]);
-      }
-    }
-  }
-
-  // Bail out if the GoBibleCreator package is not available.
-  if (go_bible_creator_package_file_name.empty()) {
-    gtkw_dialog_error (NULL, "Bibledit could not find the GoBibleCreator package.\nPlease download it, put in in the home directory, and try again.\nSee the online help for more information.");
-    return;
-  }
-  
-  // Install the GoBibleCreator package.
-  {
-    GwSpawn spawn ("unzip");
-    spawn.workingdirectory (workingdirectory);
-    spawn.arg (go_bible_creator_package_file_name);
-    spawn.describe();
-    spawn.run ();
-  }
-
-  // Check whether the Go Bible Creator is there. Bail out if not.
-  ustring go_bible_creator_jar_name;
-  {
-    ReadDirectories rd (workingdirectory, "GoBibleCreator", "");
-    if (!rd.directories.empty()) {
-      go_bible_creator_jar_name = gw_build_filename (workingdirectory, rd.directories[0], "GoBibleCreator.jar");
-      if (!g_file_test (go_bible_creator_jar_name.c_str(), G_FILE_TEST_IS_REGULAR)) {
-        gtkw_dialog_error (NULL, "Bibledit failed to install the GoBibleCreator package.");
-        return;
-      }
-    }
-  }
+  // Create a working copy of the GoBibleCreator.
+  ustring go_bible_core_directory = gw_build_filename (workingdirectory, "GoBibleCore");
+  gw_mkdir_with_parents (go_bible_core_directory);
+  unix_cp (gw_build_filename (directories_get_package_data (), "GoBibleCore1.jar"), go_bible_core_directory);
+  unix_cp (gw_build_filename (directories_get_package_data (), "GoBibleCore2.jar"), go_bible_core_directory);
+  unix_cp (gw_build_filename (directories_get_package_data (), "ui.properties"), go_bible_core_directory);
+  unix_cp (gw_build_filename (directories_get_package_data (), "GoBibleCreator.jar"), workingdirectory);
+  ustring go_bible_creator_jar_name = gw_build_filename (workingdirectory, "GoBibleCreator.jar");
   gw_message ("Using Go Bible Creator " + go_bible_creator_jar_name);
   
   // For some reason spaces in the project name confuse the GoBibleCreator.

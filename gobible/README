@@ -1,0 +1,16 @@
+GoBibleCreator
+
+October 2009
+
+The GoBibleCreator is available from http://gobible.jolon.org/
+In October 2009 the developer was asked whether the GoBibleCreator could be distributed with Bibledit.
+No response has been received yet.
+The GoBibleCreator is in the public domain.
+On these grounds the program was included with Bibledit.
+
+The following files from the GoBibleCreator zipped package should be included:
+GoBibleCore1.jar
+GoBibleCore2.jar
+GoBibleCreator.jar
+ui.properties
+

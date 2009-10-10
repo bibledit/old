@@ -14135,7 +14135,7 @@ _ACEOF
 fi
 
 # Create all the Makefiles.
-ac_config_files="$ac_config_files Makefile man/Makefile pix/Makefile doc/Makefile src/Makefile scripts/Makefile templates/Makefile olpc/Makefile desktop/Makefile windows/Makefile tests/Makefile eeepc/Makefile browser/Makefile shutdown/Makefile usfm/Makefile kjv/Makefile lexicons/Makefile outpost/Makefile"
+ac_config_files="$ac_config_files Makefile man/Makefile pix/Makefile doc/Makefile src/Makefile scripts/Makefile templates/Makefile olpc/Makefile desktop/Makefile windows/Makefile tests/Makefile eeepc/Makefile browser/Makefile shutdown/Makefile usfm/Makefile kjv/Makefile lexicons/Makefile outpost/Makefile gobible/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -14818,6 +14818,7 @@ do
     "kjv/Makefile") CONFIG_FILES="$CONFIG_FILES kjv/Makefile" ;;
     "lexicons/Makefile") CONFIG_FILES="$CONFIG_FILES lexicons/Makefile" ;;
     "outpost/Makefile") CONFIG_FILES="$CONFIG_FILES outpost/Makefile" ;;
+    "gobible/Makefile") CONFIG_FILES="$CONFIG_FILES gobible/Makefile" ;;
 
   *) { { $as_echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
 $as_echo "$as_me: error: invalid argument: $ac_config_target" >&2;}

@@ -7118,6 +7118,17 @@ Todo tasks.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 task #9438: Access to secured git repositories
 We've got several computers colaborating together quite happily, using a SSH based connection.
 Prerequisite is for certificate based logins (no password needed when you try to "ssh hostname"), and all users having write access to the direcory.
@@ -7201,17 +7212,6 @@ To create a new repository, you need to access the Shell service, then follow th
 
 Notes: Developers should not nest directories / repositories. Directories should only be created the top level directory of repository. Be sure to make backups prior to editing your repository contents. 
 
-
-
-
-
-
-
-
-
-The GoBibleCreator does not work. We probably better include one with Bibledit, so it will always be there.
-The format at times changes, so that is not too helpful. If a version is included, we're sure it has a known format.
-A request was sent to the developer.
 
 
 

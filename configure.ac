@@ -355,6 +355,7 @@ AC_CONFIG_FILES([Makefile
        kjv/Makefile
        lexicons/Makefile
        outpost/Makefile
+       gobible/Makefile
 		   ])
 AC_OUTPUT
 
