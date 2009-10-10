@@ -1,47 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-  <title>Bibledit</title>
-  <!-- 
-    Copyright (©) 2003-2008 Teus Benschop.
-
-    Permission is granted to copy, distribute and/or modify this document
-    under the terms of the GNU Free Documentation License, Version 1.2
-    or any later version published by the Free Software Foundation;
-    with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-    Texts.  A copy of the license is included in the section entitled "GNU
-    Free Documentation License" in the file FDL.
-    -->
-  <link href="bibledit.css" rel="stylesheet" type="text/css" />
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<title>Bibledit</title>
+<!--
+Copyright (©) 2003-2008 Teus Benschop.
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+Texts.  A copy of the license is included in the section entitled "GNU
+Free Documentation License" in the file FDL.
+-->
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
-
 <body>
-<h2><a name="bibledit"></a>Secure network collaboration</h2>
-
-<h3>Introduction</h3>
-
+<h2><a name="securenetworkcollaboration"></a>Secure network collaboration</h2>
+<!-- Table of Contents Start -->
+<div id="toc">
+<ul>
+<li>
+<a href="#introduction" class="level1">Introduction</a></li>
+<li>
+<a href="#sourceforgeaccounts" class="level1">Sourceforge accounts</a></li>
+<li>
+<a href="#thekeys" class="level1">The keys</a></li>
+</ul>
+</div>
+<!-- Table of Contents End -->
+<h3><a name="introduction"></a>Introduction</h3>
 <p>Secure collaboration is necessary when your data travels through the public
 internet, or when your repository is on the internet. Only those who have the
 keys to a secure repository have access to it, nobody else. Data will be
 encrypted and transported securely. Nobody can see the data that is being
 transported.</p>
-
 <p>An example will be used to show how to set up this type of secure
 collaboration. The example uses a git repository on sourceforge.net.</p>
-
-<h3>Repository setup</h3>
-
-<p>Open an account on sourceforge.net. We use the username "joe" in this
+<h3><a name="sourceforgeaccounts"></a>Sourceforge accounts</h3>
+<p>Open an account on sourceforge.net. We will use the username "joe" in this
 example.</p>
-
 <p>Register a new project on sourceforge.net. Let's call this project
 "repo1".</p>
-
 <p>Enable project feature "Git" on this project.</p>
-
-<p>... Work in progress ...</p>
+<h3><a name="thekeys"></a>The keys</h3>
+<p>Bibledit needs to be able to access the repository securely and without any
+required user intervention such as requests for passwords. To make a secure
+connection to the repository without asking for a password, you need to
+generate a pair of keys without a passphrase. Let's go ahead and generate a key
+pair. On your Linux workstation, open a termial and enter the following:</p>
+<pre>ssh-keygen -t dsa -b 1024 -f ~/.ssh/ssh-key</pre>
+<p>It will respond as follows:</p>
+<pre>Generating public/private dsa key pair.</pre>
+<pre>Enter passphrase (empty for no passphrase):</pre>
+<p>At this stage press Enter. It will continue as follows:</p>
+<pre>Enter same passphrase again:</pre>
+<p>Press Enter again. It will continue as below:</p>
+<pre>Your identification has been saved in /home/joe/.ssh/ssh-key.</pre>
+<pre>Your public key has been saved in /home/joe/.ssh/ssh-key.pub.</pre>
+<p>It will print some more lines of text. This is not relevant for our
+purpose.</p>
+<p>This pair of keys is important. There is the private key, in a file called
+"ssh-key", and the public key, in another file called "ssh-key.pub". Store them
+safely.</p>
+<p>On your personal account page at sourceforge.net, choose Services, then
+choose "Edit SSH Keys for Shell/CVS". Open the file "ssh-key.pub" in gedit.
+Select all the text and copy it to the clipboard. In the screen titled "SSH
+Keys", there is a place where it says "Authorized keys:". Paste the text from
+gedit into the space on the web page. After checking that everything looks
+fine, press button "Update". Synchronizing the keys into the system has a 10
+minute delay.</p>
+<p>The next step is to tell the secure shell where to find the private key when
+we connect to sourceforge.net. To do that, open file ~/.ssh/config in gedit.
+Enter the entry for sourceforge.net, like so:</p>
+<pre>Host *sourceforge.net</pre>
+<pre>     IdentityFile ~/.ssh/ssh-key</pre>
+<p>Save the file.</p>
+<p>If the delay of 10 minutes has expired, we can now try whether the key pair
+works well. In the terminal, try to log into the shell at sourceforge:</p>
+<pre>ssh joe@web.sourceforge.net</pre>
+<p>If this asks for a password, then the key pair has not been setup properly.
+It should not ask for a password, but welcome you, then say that the shell
+account is restricted, then close the connection. If it does this, then the key
+pair works fine.</p>
+<p>--- work in progress ---</p>
 </body>
 </html>
