@@ -177,7 +177,7 @@
         </child>
         <child>
           <object class="GtkRadioButton" id="radiobutton_xiphos">
-            <property name="label" translatable="yes">From Xiphos (not supported by Xiphos)</property>
+            <property name="label" translatable="yes">From Xiphos (not yet implemented)</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
