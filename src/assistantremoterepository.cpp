@@ -32,6 +32,7 @@
 #include "projectutils.h"
 #include "snapshots.h"
 #include "vcs.h"
+#include "progresswindow.h"
 
 
 RemoteRepositoryAssistant::RemoteRepositoryAssistant(int dummy) :
@@ -455,10 +456,14 @@ gint RemoteRepositoryAssistant::assistant_forward (gint current_page)
 bool RemoteRepositoryAssistant::try_git ()
 // Tries git and returns true if everything's fine.
 {
+  // Progress.
+  ProgressWindow progresswindow ("Trying the contents tracker", false);
+  
   // Whether git is okay.
   bool okay = true;
   
   if (okay) {
+    progresswindow.set_fraction (0.05);
     gw_message ("Check git version number");
     okay = check_git_version ();
   }
@@ -471,81 +476,97 @@ bool RemoteRepositoryAssistant::try_git ()
   }
   
   if (okay) {
+    progresswindow.set_fraction (0.11);
     gw_message ("Create first local repository");
     okay = try_git_create_repository ("local1", false);
   }
 
   if (okay) {
+    progresswindow.set_fraction (0.17);
     gw_message ("Store data into first local repository");
     okay = try_git_store_data_in_repository ("local1", "--test--");
   }
 
   if (okay) {
+    progresswindow.set_fraction (0.23);
     gw_message ("Create remote repository");
     okay = try_git_create_repository ("remote", true);
   }
 
   if (okay) {
+    progresswindow.set_fraction (0.29);
     gw_message ("Fetch data from the first local repository into the remote one");
     okay = try_git_fetch_repository ("remote", "local1");
   }
 
   if (okay) {
+    progresswindow.set_fraction (0.35);
     gw_message ("Checkout the first local repository");
     okay = try_git_checkout_repository ("local1", "remote");
   }
 
   if (okay) {
+    progresswindow.set_fraction (0.41);
     gw_message ("Check data of first local repository");
     okay = try_git_check_data_in_repository ("local1", "--test--");
   }
 
   if (okay) {
+    progresswindow.set_fraction (0.47);
     gw_message ("Checkout the second local repository");
     okay = try_git_checkout_repository ("local2", "remote");
   }
 
   if (okay) {
+    progresswindow.set_fraction (0.52);
     gw_message ("Check data of second local repository");
     okay = try_git_check_data_in_repository ("local2", "--test--");
   }
 
   if (okay) {
+    progresswindow.set_fraction (0.58);
     gw_message ("Store different data into first repository");
     okay = try_git_store_data_in_repository ("local1", "---test---");
   }
 
   if (okay) {
+    progresswindow.set_fraction (0.64);
     gw_message ("Push first repository");
     okay = try_git_push_repository ("local1");
   }
 
   if (okay) {
+    progresswindow.set_fraction (0.70);
     gw_message ("Pull second repository");
     okay = try_git_pull_repository ("local2");
   }
 
   if (okay) {
+    progresswindow.set_fraction (0.76);
     gw_message ("Check data in second repository");
     okay = try_git_check_data_in_repository ("local2", "---test---");
   }
 
   if (okay) {
+    progresswindow.set_fraction (0.82);
     gw_message ("Store different data into second repository");
     okay = try_git_store_data_in_repository ("local2", "----test----");
   }
 
   if (okay) {
+    progresswindow.set_fraction (0.88);
     gw_message ("Push second repository");
     okay = try_git_push_repository ("local2");
   }
 
   if (okay) {
+    progresswindow.set_fraction (0.94);
     gw_message ("Pull first repository");
     okay = try_git_pull_repository ("local1");
   }
 
   if (okay) {
+    progresswindow.set_fraction (1);
     gw_message ("Check data in first repository");
     okay = try_git_check_data_in_repository ("local1", "----test----");
   }
@@ -845,7 +866,6 @@ ustring RemoteRepositoryAssistant::repository_url_get()
   ustring url;
   url = gtk_entry_get_text (GTK_ENTRY (entry_repository));
   url = trim(url);
-  replace_text(url, "ssh", "");
   replace_text(url, "http", "");
   return url;
 }
