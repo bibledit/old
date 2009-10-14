@@ -145,7 +145,7 @@ AssistantBase("Remote repository setup", "git_setup")
   
   g_signal_connect ((gpointer) entry_repository, "changed", G_CALLBACK (on_entry_repository_changed), gpointer (this));
 
-  // GUI for copying the repository.
+  // GUI for copying the repository. Todo this is going to clone only, not yet to push our data. The clone is temporal.
   vbox_copy = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vbox_copy);
   page_number_clone = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_copy);
@@ -180,34 +180,13 @@ AssistantBase("Remote repository setup", "git_setup")
   gtk_widget_show (label1);
   gtk_box_pack_start (GTK_BOX (hbox1), label1, FALSE, FALSE, 0);
 
-  button_push = gtk_button_new ();
-  gtk_widget_show (button_push);
-  gtk_box_pack_start (GTK_BOX (vbox_copy), button_push, FALSE, FALSE, 0);
-  
-  alignment1 = gtk_alignment_new (0.5, 0.5, 0, 0);
-  gtk_widget_show (alignment1);
-  gtk_container_add (GTK_CONTAINER (button_push), alignment1);
-
-  hbox1 = gtk_hbox_new (FALSE, 2);
-  gtk_widget_show (hbox1);
-  gtk_container_add (GTK_CONTAINER (alignment1), hbox1);
-
-  image1 = gtk_image_new_from_stock ("gtk-copy", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show (image1);
-  gtk_box_pack_start (GTK_BOX (hbox1), image1, FALSE, FALSE, 0);
-
-  label1 = gtk_label_new_with_mnemonic ("_Push my data to the remote repository");
-  gtk_widget_show (label1);
-  gtk_box_pack_start (GTK_BOX (hbox1), label1, FALSE, FALSE, 0);
-
   gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_copy, "Copying data");
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_copy, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_copy, false);
 
   g_signal_connect ((gpointer) button_clone, "clicked", G_CALLBACK (on_button_clone_clicked), gpointer (this));
-  g_signal_connect ((gpointer) button_push, "clicked", G_CALLBACK (on_button_push_clicked), gpointer (this));
 
-  // Write tester.
+  // Write tester. Todo test in the cloned repository only.
   label_write_test = gtk_label_new ("");
   gtk_widget_show (label_write_test);
   page_number_write_test = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_write_test);
@@ -215,6 +194,9 @@ AssistantBase("Remote repository setup", "git_setup")
   gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), label_write_test, "Remote repository write test");
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_write_test, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_write_test, false);
+
+  // Todo a question needs to be asked whether our data needs to be put into the repository.
+  // If not, then the data from the repository will be copied to us.
   
   // Synchronization interval.
   hbox_interval = gtk_hbox_new (FALSE, 5);
@@ -287,7 +269,7 @@ AssistantBase("Remote repository setup", "git_setup")
     }
   }
   
-  // Build the confirmation stuff.
+  // Build the confirmation stuff. Todo this will move the data into place if relevant.
   label_confirm = gtk_label_new ("Settings are ready to be applied");
   gtk_widget_show (label_confirm);
   page_number_confirm = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_confirm);
@@ -937,12 +919,7 @@ void RemoteRepositoryAssistant::repository_unclone ()
 }
 
 
-void RemoteRepositoryAssistant::on_button_push_clicked (GtkButton *button, gpointer user_data)
-{
-  ((RemoteRepositoryAssistant *) user_data)->on_button_push();
-}
-
-
+/*
 void RemoteRepositoryAssistant::on_button_push ()
 {
   // Clear out persistent clone directory.
@@ -997,6 +974,7 @@ void RemoteRepositoryAssistant::on_button_push ()
     gtk_label_set_text (GTK_LABEL (label_copy), "Copying the data failed, please try again");
   }
 }
+*/
 
 
 void RemoteRepositoryAssistant::test_write_access ()

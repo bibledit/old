@@ -97,9 +97,6 @@ private:
   ustring previously_cloned_url;
   bool repository_was_cloned();
   void repository_unclone ();
-  GtkWidget *button_push;
-  static void on_button_push_clicked (GtkButton *button, gpointer user_data);
-  void on_button_push ();
   
   // Write test.
   int page_number_write_test;

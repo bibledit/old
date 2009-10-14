@@ -315,3 +315,23 @@ void git_process_feedback (const ustring& project, const vector <ustring>& feedb
   }
 }
 
+
+/*
+
+Some information is available about the secure git repository at sourceforge.net.
+
+Shell access: ssh shell.sourceforge.net
+Then follow instructions.
+
+Creating Multple Repositories
+To create a new repository, you need to access the Shell service, then follow these steps:
+   1. Navigate to your repository
+         1. cd /home/scm_git/P/PR/PROJECTUNIXNAME
+                * PROJECTUNIXNAME is the UNIX name of your project
+                * P represents the first letter of that name, and PR the first two letters of the name. 
+   2. Create a new directory with the name you want for the repository, eg mkdir DIRNAME.
+   3. Run git --git-dir=DIRNAME init --shared=all --bare (where DIRNAME represents the name of the repository to be created)
+          * This will initialize a new repository at that directory 
+Notes: Developers should not nest directories / repositories. Directories should only be created the top level directory of repository. 
+
+*/

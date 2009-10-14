@@ -7114,110 +7114,26 @@ void MainWindow::on_file_import ()
 
 Todo tasks.
 
-
-
 task #9438: Access to secured git repositories
-We've got several computers colaborating together quite happily, using a SSH based connection.
-Prerequisite is for certificate based logins (no password needed when you try to "ssh hostname"), and all users having write access to the direcory.
-Basicly I went through the GIT repository set up on the server as described somewhere, 
-but when it came to specifying the remote repo I entered hostname:/path/to/directory
-*  (since the "server" also runs BE I put the "remote dir" on that machine to be just /path/to/server).
-I've not tried it, but someone might like to try "user@hostname:/path/to/directory" as a repo address... 
-* I think it should work and it would obviously solve the permissions issue, if all connections to the repo were as the same userid. 
 
 The best at this stage probably is to do the following in the repository setup dialog.
-* To have a page in the Assistant where it says that the user can open a terminal, and execute git commands there to set
-up the remote repository, that is, the server. With newer versions of git, 
-we may just clone an empty directory, and that's it.
 * Reading the repository, whether it is accessible.
 * Then after that to proceed with cloning that repository.
 * Then to test whether we can write to it.
 * Then to ask whether the data is to be taken from the server, the default situation, or whether our data should be pushed into the repository.
 If our data is to be pushed, all original data is to be removed, and our books and chapters are to be copied into it, then committed and pushed.
 
-Once a new version of git is available, we could clone an empty repository also.
-
-
-
 To redo the whole documentation for collaboration. All is written on one page, with specialized sub pages.
 
 
-Administrators may also manually manipulate their repository via the site interactive shell service. 
-
-Shell access: ssh shell.sourceforge.net
-Then follow instructions.
-
-
-How to create a new repository ¶
-
-Note: - For all examples below, "PROJECTNAME" represents a SourceForge.net project UNIX name and "USERNAME" represents your SourceForge.net user account.
-
-Create an empty repository like this:
-
-mkdir PROJECTNAME
-cd PROJECTNAME
-git init
-
-Setting your git username ¶
-
-Users should commit to their project repository using their SourceForge.net username. 
-If that is not already set globally, you can set it locally for the current Git repository like this:
-
-git config user.name "YOUR NAME"
-git config user.email "USERNAME@users.sourceforge.net"
-
-You can now use some combination of "git add" and "git commit" commands to create one or more commits in your local repository. 
-
-
-How to push a local repository ¶
-
-Before you push your files, you need a local Git repository. 
-You can either create one from scratch, convert a repository (e.g. via git-cvsimport or similar), or start with a copy of an existing Git repository.
-
-For any local Git repository, 
-you can configure it to push data back to our server by doing the following from inside your Git repository 
-(this replicates what a "git clone" from our servers sets up for you automatically):
-
-git remote add origin ssh://USERNAME@PROJECTNAME.git.sourceforge.net/gitroot/PROJECTNAME/REPONAME
-git remote add origin ssh://teus@repo1.git.sourceforge.net/gitroot/repo1/repo1
-
-git config branch.master.remote origin
-git config branch.master.merge refs/heads/master
-
-
-
-Now you're ready to push the committed files to our servers:
-
-git push origin master
-
-Note: The use of "origin master" prevents Git from complaining that the remote server has no branches in common with your local repository 
-(which is true at the start when the remote repository is completely empty), and "master" is the default branch in Git.
-
-After the first push, you will be able to use the simpler "git push" to push the master branch to our "origin" server.
-
-
-
-Creating Multple Repositories ¶
-
-To create a new repository, you need to access the Shell service, then follow these steps:
-
-   1. Navigate to your repository
-         1. cd /home/scm_git/P/PR/PROJECTUNIXNAME
-                * PROJECTUNIXNAME is the UNIX name of your project
-                * P represents the first letter of that name, and PR the first two letters of the name. 
-   2. Create a new directory with the name you want for the repository, eg mkdir DIRNAME.
-   3. Run git --git-dir=DIRNAME init --shared=all --bare (where DIRNAME represents the name of the repository to be created)
-          * This will initialize a new repository at that directory 
-
-Notes: Developers should not nest directories / repositories. Directories should only be created the top level directory of repository. 
-Be sure to make backups prior to editing your repository contents. 
 
 
 
 
 
-Give also git example using gitorious.org.
-user teus, password gitorious, email teusjannette@gmail.com.
+
+
+
 
 
 
