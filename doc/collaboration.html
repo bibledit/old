@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
 <title>Bibledit</title>
@@ -22,9 +22,7 @@ Free Documentation License" in the file FDL.
 <div id="toc">
 <ul>
 <li>
-<a href="#introduction" class="level1">Introduction</a></li>
-<li>
-<a href="#localrepository" class="level1">Local repository</a></li>
+<a href="#anchor" class="level1"></a></li>
 <li>
 <a href="#network" class="level1">Network</a></li>
 <li>
@@ -38,40 +36,14 @@ Free Documentation License" in the file FDL.
 </ul>
 </div>
 <!-- Table of Contents End -->
-<h3><a name="introduction"></a>Introduction</h3>
-<p>Bibledit allows several users to work on one Bible at the same time.</p>
-<p>Collaboration can happen through the network, or a USB stick.</p>
-<p>Under the hood, Bibledit uses Git for collaboration. Git is a content
-manager. The user does not notice that Git is used, neither does he operate it.
-Bibledit does it all for him. The person that sets up the collaboration,
-though, will have to use a few Git commands once. Once everything is set up, it
-all goes automatic.</p>
-<p>Bibledit stores all data locally, but when collaboration is enabled, it
-connects to a central repository. The repository will be on the network, or on
-the USB stick. The data is shared through that repository.</p>
-<h3><a name="localrepository"></a>Local repository</h3>
-<p>Whether collaboration is done through the network or the USB stick, in both
-cases the local repository needs to be created. If you'd like to create the
-local repository, you can follow these steps.</p>
-<p>- Start Bibledit and leave it running till you have set everything up.</p>
-<p>- Consider the project that you'd like to collaborate on. In this example we
-take a project Ndebele.</p>
-<p>- Open a terminal, and change to the data directory of the Ndebele
-project:</p>
-<pre>cd</pre>
-<pre>cd .bibledit/projects/Ndebele/data</pre>
-<p>- Initialize the local repository:</p>
-<pre>git init</pre>
-<p>It will respond saying that a Git repository was initialized.</p>
-<p>- Add all the files to the repository:</p>
-<pre>git add *</pre>
-<p>- Commit the data into the repository:</p>
-<pre>git commit -a -m init</pre>
-<p>This should finish the job. Just to check whether all went well, you can
-issue the status command:</p>
-<pre>git status</pre>
-<p>If it says that it is on branch master, and that there is nothing to commit,
-that means that all is well.</p>
+<p>It is recommended to read the <a
+href="collaboration_introduction.html">brief introduction</a> to the system.</p>
+<p>The central part to collaboration is the repository. The systems
+administrator will have <a href="collaboration_repository_setup.html">set the
+repository up</a>, will have <a
+href="collaboration_repository_initialization.html">initialized it</a>, and
+issued its URL and optionally the key to access it.</p>
+<h3><a name="anchor"></a></h3>
 <h3><a name="network"></a>Network</h3>
 <p>If several users work together on one project using the network, then if
 somebody makes a change in the text of the Bible, within a short time that

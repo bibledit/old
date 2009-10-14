@@ -7116,20 +7116,6 @@ Todo tasks.
 
 
 
-task #9495: Overhaul of the Help/Tools section
-
-In progress. Skeleton created till including the View menu.
-
-
-
-
-
-
-
-
-
-
-
 task #9438: Access to secured git repositories
 We've got several computers colaborating together quite happily, using a SSH based connection.
 Prerequisite is for certificate based logins (no password needed when you try to "ssh hostname"), and all users having write access to the direcory.
@@ -7232,6 +7218,25 @@ Be sure to make backups prior to editing your repository contents.
 
 Give also git example using gitorious.org.
 user teus, password gitorious, email teusjannette@gmail.com.
+
+
+
+
+
+
+
+task #9495: Overhaul of the Help/Tools section
+
+In progress. Skeleton created till including the View menu.
+
+
+
+
+
+
+
+
+
 
 
 
