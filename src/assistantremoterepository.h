@@ -33,6 +33,9 @@ public:
   RemoteRepositoryAssistant(int dummy);
   virtual ~RemoteRepositoryAssistant();
 private:
+  // Our data.
+  ustring bible;
+
   // Assistant page preparation.
   static void on_assistant_prepare_signal (GtkAssistant *assistant, GtkWidget *page, gpointer user_data);
   void on_assistant_prepare (GtkWidget *page);
@@ -86,10 +89,10 @@ private:
   void entry_changed_timeout();
   ustring repository_url_get();
 
-  // Repository copying.
+  // Repository cloning.
   int page_number_clone;
-  GtkWidget *vbox_copy;
-  GtkWidget *label_copy;
+  GtkWidget *vbox_clone;
+  GtkWidget *label_clone;
   GtkWidget *button_clone;
   static void on_button_clone_clicked (GtkButton *button, gpointer user_data);
   void on_button_clone ();
@@ -103,6 +106,14 @@ private:
   GtkWidget *label_write_test;
   bool write_access_granted;
   void test_write_access();
+
+  // Pushing our data into the remote repository.
+  int page_number_push;
+  GtkWidget *vbox_push;
+  GtkWidget *label_push;
+  GtkWidget *button_push;
+  static void on_button_push_clicked (GtkButton *button, gpointer user_data);
+  void on_button_push ();
 
   // Synchronization interval.
   int page_number_interval;

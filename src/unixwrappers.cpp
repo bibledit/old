@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include "unixwrappers.h"
 #include "myfnmatch.h"
@@ -48,7 +49,7 @@ void unix_cp(const ustring & from, const ustring & to)
 
 
 void unix_cp_r(const ustring & from, const ustring & to)
-// This is a wrapper for the cp function on Unix, as Windows uses another one.
+// This is a wrapper for the recursive cp function on Unix, as Windows uses another one.
 {
 #ifdef WIN32
   gw_mkdir_with_parents(to);
@@ -100,3 +101,4 @@ void unix_kill(GPid pid)
   spawn.arg(convert_to_string(pid));
   spawn.run();
 }
+

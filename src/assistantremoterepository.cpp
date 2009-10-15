@@ -39,17 +39,19 @@ RemoteRepositoryAssistant::RemoteRepositoryAssistant(int dummy) :
 AssistantBase("Remote repository setup", "git_setup")
 // Assistant for managing the remote repository.
 {
+  extern Settings *settings;
+  bible = settings->genconfig.project_get();
+  
   gtk_assistant_set_forward_page_func (GTK_ASSISTANT (assistant), GtkAssistantPageFunc (assistant_forward_function), gpointer(this), NULL);
   
   g_signal_connect (G_OBJECT (assistant), "apply", G_CALLBACK (on_assistant_apply_signal), gpointer(this));
   g_signal_connect (G_OBJECT (assistant), "prepare", G_CALLBACK (on_assistant_prepare_signal), gpointer(this));
 
-  introduction ("Remote repository management");
+  introduction ("Remote repository management for Bible " + bible);
 
   // Configuration and initialization.
   extern Settings *settings;
-  ustring project = settings->genconfig.project_get();
-  ProjectConfiguration *projectconfig = settings->projectconfig(project);
+  ProjectConfiguration *projectconfig = settings->projectconfig(bible);
   event_id_pending_tasks = 0;
   project_pending_tasks_count = -1;
   previous_project_pending_tasks_count = -1;
@@ -145,19 +147,19 @@ AssistantBase("Remote repository setup", "git_setup")
   
   g_signal_connect ((gpointer) entry_repository, "changed", G_CALLBACK (on_entry_repository_changed), gpointer (this));
 
-  // GUI for copying the repository. Todo this is going to clone only, not yet to push our data. The clone is temporal.
-  vbox_copy = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox_copy);
-  page_number_clone = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_copy);
+  // GUI for cloning the repository.
+  vbox_clone = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (vbox_clone);
+  page_number_clone = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_clone);
 
-  label_copy = gtk_label_new ("");
-  gtk_widget_show (label_copy);
-  gtk_box_pack_start (GTK_BOX (vbox_copy), label_copy, FALSE, FALSE, 0);
-  gtk_misc_set_alignment (GTK_MISC (label_copy), 0, 0.5);
+  label_clone = gtk_label_new ("");
+  gtk_widget_show (label_clone);
+  gtk_box_pack_start (GTK_BOX (vbox_clone), label_clone, FALSE, FALSE, 0);
+  gtk_misc_set_alignment (GTK_MISC (label_clone), 0, 0.5);
 
   button_clone = gtk_button_new ();
   gtk_widget_show (button_clone);
-  gtk_box_pack_start (GTK_BOX (vbox_copy), button_clone, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox_clone), button_clone, FALSE, FALSE, 0);
   
   GtkWidget *alignment1;
   GtkWidget *hbox1;
@@ -176,17 +178,17 @@ AssistantBase("Remote repository setup", "git_setup")
   gtk_widget_show (image1);
   gtk_box_pack_start (GTK_BOX (hbox1), image1, FALSE, FALSE, 0);
 
-  label1 = gtk_label_new_with_mnemonic ("C_opy the remote repository to me");
+  label1 = gtk_label_new_with_mnemonic ("C_lone the remote repository");
   gtk_widget_show (label1);
   gtk_box_pack_start (GTK_BOX (hbox1), label1, FALSE, FALSE, 0);
 
-  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_copy, "Copying data");
-  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_copy, GTK_ASSISTANT_PAGE_CONTENT);
-  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_copy, false);
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_clone, "Cloning data");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_clone, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_clone, false);
 
   g_signal_connect ((gpointer) button_clone, "clicked", G_CALLBACK (on_button_clone_clicked), gpointer (this));
 
-  // Write tester. Todo test in the cloned repository only.
+  // Write tester.
   label_write_test = gtk_label_new ("");
   gtk_widget_show (label_write_test);
   page_number_write_test = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_write_test);
@@ -195,9 +197,42 @@ AssistantBase("Remote repository setup", "git_setup")
   gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), label_write_test, GTK_ASSISTANT_PAGE_CONTENT);
   gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), label_write_test, false);
 
-  // Todo a question needs to be asked whether our data needs to be put into the repository.
-  // If not, then the data from the repository will be copied to us.
+  // GUI for pushing our data into the remote repository.
+  vbox_push = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (vbox_push);
+  page_number_push = gtk_assistant_append_page (GTK_ASSISTANT (assistant), vbox_push);
+
+  label_push = gtk_label_new ("");
+  gtk_widget_show (label_push);
+  gtk_box_pack_start (GTK_BOX (vbox_push), label_push, FALSE, FALSE, 0);
+  gtk_misc_set_alignment (GTK_MISC (label_push), 0, 0.5);
+
+  button_push = gtk_button_new ();
+  gtk_widget_show (button_push);
+  gtk_box_pack_start (GTK_BOX (vbox_push), button_push, FALSE, FALSE, 0);
   
+  alignment1 = gtk_alignment_new (0.5, 0.5, 0, 0);
+  gtk_widget_show (alignment1);
+  gtk_container_add (GTK_CONTAINER (button_push), alignment1);
+
+  hbox1 = gtk_hbox_new (FALSE, 2);
+  gtk_widget_show (hbox1);
+  gtk_container_add (GTK_CONTAINER (alignment1), hbox1);
+
+  image1 = gtk_image_new_from_stock ("gtk-copy", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_show (image1);
+  gtk_box_pack_start (GTK_BOX (hbox1), image1, FALSE, FALSE, 0);
+
+  label1 = gtk_label_new_with_mnemonic ("_Push my data to the remote repository");
+  gtk_widget_show (label1);
+  gtk_box_pack_start (GTK_BOX (hbox1), label1, FALSE, FALSE, 0);
+
+  gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), vbox_push, "Would you like to push your data to the repository?");
+  gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), vbox_push, GTK_ASSISTANT_PAGE_CONTENT);
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_push, true);
+
+  g_signal_connect ((gpointer) button_push, "clicked", G_CALLBACK (on_button_push_clicked), gpointer (this));
+
   // Synchronization interval.
   hbox_interval = gtk_hbox_new (FALSE, 5);
   gtk_widget_show (hbox_interval);
@@ -269,7 +304,7 @@ AssistantBase("Remote repository setup", "git_setup")
     }
   }
   
-  // Build the confirmation stuff. Todo this will move the data into place if relevant.
+  // Build the confirmation stuff.
   label_confirm = gtk_label_new ("Settings are ready to be applied");
   gtk_widget_show (label_confirm);
   page_number_confirm = gtk_assistant_append_page (GTK_ASSISTANT (assistant), label_confirm);
@@ -302,6 +337,7 @@ AssistantBase("Remote repository setup", "git_setup")
   event_id_pending_tasks = g_timeout_add_full(G_PRIORITY_DEFAULT, 600, GSourceFunc(on_pending_tasks_timeout), gpointer(this), NULL);
 }
 
+
 RemoteRepositoryAssistant::~RemoteRepositoryAssistant()
 {
   gw_destroy_source(event_id_pending_tasks);
@@ -332,14 +368,14 @@ void RemoteRepositoryAssistant::on_assistant_prepare (GtkWidget *page)
     on_entry_repository();
   }
 
-  if (page == vbox_copy) {
+  if (page == vbox_clone) {
     // Prepare for the page where the cloning is done.
     if (repository_url_get() != previously_cloned_url) {
       repository_unclone();
     }
-    gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_copy, repository_was_cloned());
+    gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_clone, repository_was_cloned());
     if (!repository_was_cloned()) {
-      gtk_label_set_text (GTK_LABEL (label_copy), "");
+      gtk_label_set_text (GTK_LABEL (label_clone), "");
     }
   }
   
@@ -349,8 +385,6 @@ void RemoteRepositoryAssistant::on_assistant_prepare (GtkWidget *page)
       test_write_access ();
     }
   }
-  
-  
 }
 
 
@@ -364,8 +398,7 @@ void RemoteRepositoryAssistant::on_assistant_apply ()
 {
   // Configurations.
   extern Settings *settings;
-  ustring project = settings->genconfig.project_get();
-  ProjectConfiguration *projectconfig = settings->projectconfig(project);
+  ProjectConfiguration *projectconfig = settings->projectconfig(bible);
 
   // Whether to use the remote repository.
   bool use_remote_repository = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_use_repository));
@@ -386,13 +419,13 @@ void RemoteRepositoryAssistant::on_assistant_apply ()
 
   // If the repository was cloned, move it into place.
   if (repository_was_cloned()) {
-    ustring project_data_directory = project_data_directory_project(project);
+    ustring project_data_directory = project_data_directory_project(bible);
     unix_rmdir(project_data_directory);
     unix_mv(persistent_clone_directory, project_data_directory);
   }
 
   // Take a snapshot of the whole project.
-  snapshots_shoot_project (project);
+  snapshots_shoot_project (bible);
 
   // Show summary.
   gtk_assistant_set_current_page (GTK_ASSISTANT (assistant), summary_page_number);
@@ -403,6 +436,7 @@ gint RemoteRepositoryAssistant::assistant_forward_function (gint current_page, g
 {
   return ((RemoteRepositoryAssistant *) user_data)->assistant_forward (current_page);
 }
+
 
 gint RemoteRepositoryAssistant::assistant_forward (gint current_page)
 {
@@ -771,12 +805,12 @@ bool RemoteRepositoryAssistant::on_pending_tasks_timeout(gpointer user_data)
   return ((RemoteRepositoryAssistant *) user_data)->on_pending_tasks();
 }
 
+
 bool RemoteRepositoryAssistant::on_pending_tasks()
 // Sets the interface depending on whether there are any git tasks pending for the project.
 {
-  extern Settings *settings;
   extern VCS * vcs;
-  project_pending_tasks_count = vcs->tasks_for_bible(settings->genconfig.project_get());
+  project_pending_tasks_count = vcs->tasks_for_bible(bible);
   if (project_pending_tasks_count == 0) {
     if (previous_project_pending_tasks_count != 0) {
       gtk_label_set_text (GTK_LABEL (label_pending_tasks), "No pending tasks, you can go forward");
@@ -807,6 +841,7 @@ void RemoteRepositoryAssistant::on_entry_repository ()
   gw_destroy_source(event_id_entry_repository);
   event_id_entry_repository = g_timeout_add_full(G_PRIORITY_DEFAULT, 600, GSourceFunc(on_entry_changed_timeout), gpointer(this), NULL);
 }
+
 
 bool RemoteRepositoryAssistant::on_entry_changed_timeout(gpointer user_data)
 {
@@ -878,7 +913,7 @@ void RemoteRepositoryAssistant::on_button_clone ()
   spawn.run();
 
   if (spawn.exitstatus == 0) {
-    // Move the cloned directory into place.
+    // Move the cloned repository into the persistent clone directory.
     ReadDirectories rd (temporal_clone_directory, "", "");
     if (!rd.directories.empty()) {
       ustring subdirectory = rd.directories[0];
@@ -892,12 +927,12 @@ void RemoteRepositoryAssistant::on_button_clone ()
   }  
   
   // Update structures.
-  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_copy, repository_was_cloned());
+  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_clone, repository_was_cloned());
   if (repository_was_cloned()) {
-    gtk_label_set_text (GTK_LABEL (label_copy), "The data has been copied, you can go forward");
+    gtk_label_set_text (GTK_LABEL (label_clone), "The data has been cloned, you can go forward");
     previously_cloned_url = repository_url_get();
   } else {
-    gtk_label_set_text (GTK_LABEL (label_copy), "Copying the data failed, please try again");
+    gtk_label_set_text (GTK_LABEL (label_clone), "Cloning the data failed, please try again");
     repository_unclone();
   }
 }
@@ -917,64 +952,6 @@ void RemoteRepositoryAssistant::repository_unclone ()
   previously_cloned_url.clear();
   write_access_granted = false;
 }
-
-
-/*
-void RemoteRepositoryAssistant::on_button_push ()
-{
-  // Clear out persistent clone directory.
-  repository_unclone();
-
-  // Project, directory.
-  extern Settings *settings;
-  ustring project = settings->genconfig.project_get();
-  ustring datadirectory = tiny_project_data_directory_project(project);
-
-  // Create local repository, and commit everthing.
-  {
-    GwSpawn spawn ("git");
-    spawn.arg ("init");
-    spawn.workingdirectory (datadirectory);
-    spawn.run ();
-  }
-  {
-    GwSpawn spawn ("git");
-    spawn.arg ("add");
-    spawn.arg (".");
-    spawn.workingdirectory (datadirectory);
-    spawn.run ();
-  }
-  {
-    GwSpawn spawn ("git");
-    spawn.arg ("commit");
-    spawn.arg ("-a");
-    spawn.arg ("-m");
-    spawn.arg ("init");
-    spawn.workingdirectory (datadirectory);
-    spawn.run ();
-  }
-
-  // Push our data to the remote repository.
-  GwSpawn spawn("git");
-  spawn.workingdirectory(datadirectory);
-  spawn.arg ("push");
-  spawn.arg ("--mirror");
-  spawn.arg(repository_url_get());
-  spawn.progress("Pushing data into repository", false);
-  spawn.run();
-
-  // Whether the pushing worked out.
-  bool pushed = (spawn.exitstatus == 0);
-  
-  // Update structures.
-  gtk_assistant_set_page_complete (GTK_ASSISTANT (assistant), vbox_copy, pushed);
-  if (pushed) {
-    gtk_label_set_text (GTK_LABEL (label_copy), "The data has been copied, you can go forward");
-  } else {
-    gtk_label_set_text (GTK_LABEL (label_copy), "Copying the data failed, please try again");
-  }
-}
-*/
 
 
 void RemoteRepositoryAssistant::test_write_access ()
@@ -1007,7 +984,7 @@ void RemoteRepositoryAssistant::test_write_access ()
     write_access_granted = (spawn.exitstatus == 0);
   }
 
-  // Pull changes. Push them to see if there is write access.
+  // Pull changes.
   if (write_access_granted) {
     GwSpawn spawn("git");
     spawn.workingdirectory(persistent_clone_directory);
@@ -1015,6 +992,7 @@ void RemoteRepositoryAssistant::test_write_access ()
     spawn.run();
     write_access_granted = (spawn.exitstatus == 0);
   }
+  // Push the changes to see if there is write access.
   if (write_access_granted) {
     GwSpawn spawn("git");
     spawn.workingdirectory(persistent_clone_directory);
@@ -1051,4 +1029,89 @@ void RemoteRepositoryAssistant::test_write_access ()
     gtk_label_set_text (GTK_LABEL (label_write_test), "No write access. Please check the system log for more information");
   }  
 }
+
+
+void RemoteRepositoryAssistant::on_button_push_clicked (GtkButton *button, gpointer user_data)
+{
+  ((RemoteRepositoryAssistant *) user_data)->on_button_push();
+}
+
+
+void RemoteRepositoryAssistant::on_button_push ()
+/*
+It copies the existing data, without the .git directory, into the persistent clone,
+replaces any data that was there, and then pushes this data to the remote repository.
+This makes the remote repository to have an exact copy of our data.
+*/
+{
+  // Copy our data into a temporal location.
+  ustring project_data_directory = project_data_directory_project(bible);
+  ustring temporal_data_directory = git_testing_directory ("mydata");
+  unix_cp_r (project_data_directory, temporal_data_directory);
+
+  // In rare cases there would be a .git directory in our data. Remove that.
+  unix_rmdir (gw_build_filename (temporal_data_directory, ".git"));
+
+  // Remove all directories and all files from the persistent clone directory, but leave the .git directory
+  {
+    ReadDirectories rd (persistent_clone_directory, "", "");
+    for (unsigned int i = 0; i < rd.directories.size(); i++) {
+      if (rd.directories[i] != ".git") {
+        unix_rmdir (gw_build_filename (persistent_clone_directory, rd.directories[i]));
+      }
+    }
+    ReadFiles rf (persistent_clone_directory, "", "");
+    for (unsigned int i = 0; i < rf.files.size(); i++) {
+      unlink (gw_build_filename (persistent_clone_directory, rf.files[i]).c_str());
+    }
+  }
+  
+  // Move our data, from its temporal location, into the persistent clone directory.
+  {
+    ReadDirectories rd (temporal_data_directory, "", "");
+    for (unsigned int i = 0; i < rd.directories.size(); i++) {
+      unix_mv (gw_build_filename (temporal_data_directory, rd.directories[i]), persistent_clone_directory);
+    }
+    ReadFiles rf (temporal_data_directory, "", "");
+    for (unsigned int i = 0; i < rf.files.size(); i++) {
+      unix_mv (gw_build_filename (temporal_data_directory, rf.files[i]), persistent_clone_directory);
+    }
+  }
+
+  // Commit the new data in the persistent clone directory.
+  {
+    GwSpawn spawn ("git");
+    spawn.workingdirectory (persistent_clone_directory);
+    spawn.arg ("add");
+    spawn.arg (".");
+    spawn.run ();
+  }
+  {
+    GwSpawn spawn ("git");
+    spawn.workingdirectory (persistent_clone_directory);
+    spawn.arg ("commit");
+    spawn.arg ("-a");
+    spawn.arg ("-m");
+    spawn.arg ("user data into repo");
+    spawn.run ();
+  }
+
+  // Push our data to the remote repository.
+  GwSpawn spawn("git");
+  spawn.workingdirectory(persistent_clone_directory);
+  spawn.arg ("push");
+  spawn.progress("Pushing data into repository", false);
+  spawn.run();
+
+  // Take action depending on the outcome of pushing to the remote repository.
+  if (spawn.exitstatus == 0) {
+    // Clone okay.
+    gtk_label_set_text (GTK_LABEL (label_push), "Your data has been pushed to the remote repository");
+  } else {
+    // Clone failed.
+    gtk_label_set_text (GTK_LABEL (label_push), "Your data could not be pushed to the remote repository,\nplease restart the assistant");
+    repository_unclone();
+  }  
+}
+
 
