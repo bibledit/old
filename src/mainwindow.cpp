@@ -7118,16 +7118,10 @@ Todo tasks.
 
 task #9438: Access to secured git repositories
 
-To redo the whole documentation for collaboration. All is written on one page, with specialized sub pages.
-
-To test the system with all three repositories.
+When it tests write access, there should be a progress window. Since this may take time.
 
 To connect the Ndebele repository to sourceforge, and Shona too, using ssh based git.
 
-To make a dialog for the keys. 
-If Bibledit gets installed on a new system it checks that the keys still are functional.
-Each user can maintain one set of keys.
-There are options for batchmode, and whatever else we now have.
 
 
 

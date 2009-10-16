@@ -146,6 +146,11 @@ if test x$FIND_CHMSEE = xno; then
   AC_MSG_ERROR(Program "chmsee" is needed. Install this first.)
 fi
 
+AC_PATH_PROG(FIND_SSH, ssh, no)
+if test x$FIND_SSH = xno; then
+  AC_MSG_ERROR(Program "ssh" is needed. Install this first.)
+fi
+
 # Checks for libraries.
 
 PKG_CHECK_MODULES(GLIB, glib-2.0 >= 2.16.0,,AC_MSG_ERROR(glib development version >= 2.16.0 is needed.))
