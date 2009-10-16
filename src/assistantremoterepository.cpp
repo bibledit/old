@@ -958,6 +958,7 @@ void RemoteRepositoryAssistant::test_write_access ()
 // Checks whether there is write access from the local clone to the remote repository.
 {
   // GUI update.
+  ProgressWindow progresswindow ("Testing write access", false);
   gtk_label_set_text (GTK_LABEL (label_write_test), "Testing write access to the remote repository");
 
   // Temporal file for trying write access.
@@ -965,6 +966,7 @@ void RemoteRepositoryAssistant::test_write_access ()
   g_file_set_contents(gw_build_filename(persistent_clone_directory, filename).c_str(), "", 0, NULL);
 
   // Add this file and commit it locally.
+  progresswindow.set_fraction (0.2);
   {
     GwSpawn spawn("git");
     spawn.workingdirectory(persistent_clone_directory);
@@ -985,6 +987,7 @@ void RemoteRepositoryAssistant::test_write_access ()
   }
 
   // Pull changes.
+  progresswindow.set_fraction (0.4);
   if (write_access_granted) {
     GwSpawn spawn("git");
     spawn.workingdirectory(persistent_clone_directory);
@@ -993,6 +996,7 @@ void RemoteRepositoryAssistant::test_write_access ()
     write_access_granted = (spawn.exitstatus == 0);
   }
   // Push the changes to see if there is write access.
+  progresswindow.set_fraction (0.6);
   if (write_access_granted) {
     GwSpawn spawn("git");
     spawn.workingdirectory(persistent_clone_directory);
@@ -1002,6 +1006,7 @@ void RemoteRepositoryAssistant::test_write_access ()
   }
 
   // Remove the temporal file again from the remote repository.
+  progresswindow.set_fraction (0.8);
   unlink(gw_build_filename(persistent_clone_directory, filename).c_str());
   if (write_access_granted) {
     GwSpawn spawn("git");
@@ -1013,6 +1018,7 @@ void RemoteRepositoryAssistant::test_write_access ()
     spawn.run();
     write_access_granted = (spawn.exitstatus == 0);
   }
+  progresswindow.set_fraction (1);
   if (write_access_granted) {
     GwSpawn spawn("git");
     spawn.workingdirectory(persistent_clone_directory);

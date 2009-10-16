@@ -7116,10 +7116,6 @@ Todo tasks.
 
 
 
-task #9438: Access to secured git repositories
-
-When it tests write access, there should be a progress window. Since this may take time.
-
 To connect the Ndebele repository to sourceforge, and Shona too, using ssh based git.
 
 
