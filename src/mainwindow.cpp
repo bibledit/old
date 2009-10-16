@@ -7114,21 +7114,20 @@ void MainWindow::on_file_import ()
 
 Todo tasks.
 
-task #9438: Access to secured git repositories
 
-The best at this stage probably is to do the following in the repository setup dialog.
-* Reading the repository, whether it is accessible.
-* Then after that to proceed with cloning that repository.
-* Then to test whether we can write to it.
-* Then to ask whether the data is to be taken from the server, the default situation, or whether our data should be pushed into the repository.
-If our data is to be pushed, all original data is to be removed, and our books and chapters are to be copied into it, then committed and pushed.
+
+task #9438: Access to secured git repositories
 
 To redo the whole documentation for collaboration. All is written on one page, with specialized sub pages.
 
+To test the system with all three repositories.
 
+To connect the Ndebele repository to sourceforge, and Shona too, using ssh based git.
 
-
-
+To make a dialog for the keys. 
+If Bibledit gets installed on a new system it checks that the keys still are functional.
+Each user can maintain one set of keys.
+There are options for batchmode, and whatever else we now have.
 
 
 
@@ -7167,6 +7166,17 @@ We may have to use git locally for that work, then create patches in git. This i
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 task #9496: Remove independent windows and make it all normal, resizeable window
 At present Bibledit has a mode where it has the option to show independent windows. 
 * But this system is not so good when it comes to ease of operation.
@@ -7191,6 +7201,9 @@ To attend to a current bug:
 BE crashes if one closes a window while others are loading
 BE always wants to load up the References and Project Notes windows even when I didn't have them open the last time. 
 * If one closes windows before BE finishes all of its loading and initial display of text, the whole program crashes. 
+
+
+
 
 
 

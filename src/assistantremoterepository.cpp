@@ -1044,6 +1044,10 @@ replaces any data that was there, and then pushes this data to the remote reposi
 This makes the remote repository to have an exact copy of our data.
 */
 {
+  // Progress.
+  ProgressWindow * progresswindow = new ProgressWindow ("Pushing your data", false);
+  progresswindow->set_fraction (0.2);
+  
   // Copy our data into a temporal location.
   ustring project_data_directory = project_data_directory_project(bible);
   ustring temporal_data_directory = git_testing_directory ("mydata");
@@ -1067,6 +1071,7 @@ This makes the remote repository to have an exact copy of our data.
   }
   
   // Move our data, from its temporal location, into the persistent clone directory.
+  progresswindow->set_fraction (0.4);
   {
     ReadDirectories rd (temporal_data_directory, "", "");
     for (unsigned int i = 0; i < rd.directories.size(); i++) {
@@ -1079,6 +1084,7 @@ This makes the remote repository to have an exact copy of our data.
   }
 
   // Commit the new data in the persistent clone directory.
+  progresswindow->set_fraction (0.6);
   {
     GwSpawn spawn ("git");
     spawn.workingdirectory (persistent_clone_directory);
@@ -1086,6 +1092,7 @@ This makes the remote repository to have an exact copy of our data.
     spawn.arg (".");
     spawn.run ();
   }
+  progresswindow->set_fraction (0.8);
   {
     GwSpawn spawn ("git");
     spawn.workingdirectory (persistent_clone_directory);
@@ -1095,6 +1102,9 @@ This makes the remote repository to have an exact copy of our data.
     spawn.arg ("user data into repo");
     spawn.run ();
   }
+
+  // Progress.
+  delete progresswindow;
 
   // Push our data to the remote repository.
   GwSpawn spawn("git");
