@@ -7116,28 +7116,6 @@ Todo tasks.
 
 
 
-task #9495: Overhaul of the Help/Tools section
-
-See the progress indicator in the tools file
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 svn push access was given to the xiphos project. To create the patch for the more parallel bibles. To send patch to dev list first.
 We may have to use git locally for that work, then create patches in git. This is because the network often is down.
 
@@ -7157,6 +7135,7 @@ We may have to use git locally for that work, then create patches in git. This i
 
 
 task #9496: Remove independent windows and make it all normal, resizeable window
+task #9530: Resizing areas in BE
 At present Bibledit has a mode where it has the option to show independent windows. 
 * But this system is not so good when it comes to ease of operation.
 It is more desirable to follow more standard system provided to reach at the functionality that was tried to be obtained by the independent windows.
@@ -7181,6 +7160,8 @@ BE crashes if one closes a window while others are loading
 BE always wants to load up the References and Project Notes windows even when I didn't have them open the last time. 
 * If one closes windows before BE finishes all of its loading and initial display of text, the whole program crashes. 
 
+In BE 3.7.42 areas (like the Project notes, Quick references, Keyterms) cannot be resized any more. They have a fixed window width and height.
+-> Allow to change the size of those windows (as it was in older version of BE
 
 
 
@@ -7192,6 +7173,11 @@ BE always wants to load up the References and Project Notes windows even when I 
 
 
 
+task #9505: Project notes keep project focus
+
+While I am writing project notes, I am happy that I can freely look at text in other BE windows, often scrolling around in those windows. 
+* It is disconcerting when I finish my note, click OK, and have the note vanish! Suddenly I think, "Wo... Did I click cancel and loose all my work?"
+It would be best that the project notes editor return the project focus to what was current when the note-creation or editing started.
 
 
 
@@ -7200,6 +7186,11 @@ BE always wants to load up the References and Project Notes windows even when I 
 
 
 
+
+task #9543: export keyterms
+To make an export function that exports everything into standard files.
+The original text files are no longer distributed with bibledit, but these are uploaded separately.
+A link to these from the help files would help 
 
 
 
