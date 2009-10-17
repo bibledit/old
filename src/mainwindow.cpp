@@ -7118,11 +7118,7 @@ Todo tasks.
 
 task #9495: Overhaul of the Help/Tools section
 
-
-
-
-
-
+See the progress indicator in the tools file
 
 
 
