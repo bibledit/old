@@ -1,53 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-  <title>Bibledit</title>
-  <!--
-  Copyright (©) 2003-2008 Teus Benschop.
-  Permission is granted to copy, distribute and/or modify this document
-  under the terms of the GNU Free Documentation License, Version 1.2
-  or any later version published by the Free Software Foundation;
-  with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-  Texts.  A copy of the license is included in the section entitled "GNU
-  Free Documentation License" in the file FDL.
-  -->
-  <link href="bibledit.css" rel="stylesheet" type="text/css" />
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<title>Bibledit</title>
+<!--
+Copyright (©) 2003-2008 Teus Benschop.
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+Texts.  A copy of the license is included in the section entitled "GNU
+Free Documentation License" in the file FDL.
+-->
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
-
 <body>
-<h2><a name="securenetworkrepositorysetup"></a>Secure network repository
-setup</h2>
-
+<h2><a name="securenetworkrepositorysetup"></a>Secure network repository setup</h2>
 <h3><a name="introduction"></a>Introduction</h3>
-
 <p>In this tutorial we are going to set up a secure network repository.</p>
-
 <p>It uses a git repository on sourceforge.net.</p>
-
 <p>Open an account on <a href="http://sourceforge.net">sourceforge.net</a>. We
 will use the username "joe" in this tutorial.</p>
-
 <p>Register a new project on your personal account page on sourceforge.net.
 Let's call this project "repo2".</p>
-
 <p>Enable project feature "Git" on this project. This provides the
 repository.</p>
-
 <p>The next thing is to try whether you can read the repository properly. To
 try that, open a terminal and issue the following command:</p>
 <pre>git ls-remote ssh://joe@repo2.git.sourceforge.net/gitroot/repo2/repo2</pre>
-
 <p>This command probably will ask for your password, and the first time it
 could ask you whether you want to continue connecting. But it should show no
 errors. If it completes without errors, then your secure repository works
 well.</p>
-
 <p>The repository that was created in this tutorial has the following URL:</p>
 <pre>ssh://user@repo2.git.sourceforge.net/gitroot/repo2/repo2</pre>
-
 <p>The users that are going to use this repository need this URL. Where it says
 "user", each user would need to fill in his own username.</p>
 </body>

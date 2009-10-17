@@ -1,66 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-  <title>Bibledit</title>
-  <!-- 
-  Copyright (©) 2003-2008 Teus Benschop.
-
-  Permission is granted to copy, distribute and/or modify this document
-  under the terms of the GNU Free Documentation License, Version 1.2
-  or any later version published by the Free Software Foundation;
-  with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-  Texts.  A copy of the license is included in the section entitled "GNU
-  Free Documentation License" in the file FDL.
-  -->
-  <link href="bibledit.css" rel="stylesheet" type="text/css" />
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<title>Bibledit</title>
+<!--
+Copyright (©) 2003-2008 Teus Benschop.
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+Texts.  A copy of the license is included in the section entitled "GNU
+Free Documentation License" in the file FDL.
+-->
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
-
 <body>
-<h2><a name="bibledit"></a>Secure shell keys setup</h2>
-
+<h2><a name="secureshellkeyssetup"></a>Secure shell keys setup</h2>
 <p>When your remote repository is a secure one, and you'd like Bibledit to use
 it, then is is necessary to set up secure shell keys. These keys allow easy
 access to the secure repository. Please follow the tutorial exactly.</p>
-
-<h3>Generate the keys</h3>
-
+<h3><a name="generatethekeys"></a>Generate the keys</h3>
 <p>The first thing to do is to generate the keys.</p>
-
 <p>On your Linux workstation, open a termial and enter the following:</p>
 <pre>cd</pre>
 <pre>cd .ssh</pre>
 <pre>ssh-keygen -t dsa -b 1024 -f bibledit-ssh-key</pre>
-
 <p>It will respond as follows:</p>
 <pre>Generating public/private dsa key pair.</pre>
 <pre>Enter passphrase (empty for no passphrase):</pre>
-
 <p>At this stage press Enter. It will continue as follows:</p>
 <pre>Enter same passphrase again:</pre>
-
 <p>Press Enter again. It will continue as below:</p>
 <pre>Your identification has been saved in bibledit-ssh-key.</pre>
 <pre>Your public key has been saved in bibledit-ssh-key.pub.</pre>
-
 <p>It will print some more lines of text. This is not relevant for our
 purpose.</p>
-
 <p>This pair of keys is important. The pair is in the ".ssh" directory of your
 home directory. There is the private key, in a file called "bibledit-ssh-key",
 and the public key, in another file called "bibledit-ssh-key.pub". Store them
 safely.</p>
-
-<h3>Enter the keys</h3>
-
+<h3><a name="enterthekeys"></a>Enter the keys</h3>
 <p>Open a personal account at <a
 href="http://www.sourceforge.net">sourceforge.net</a>. Let's choose user name
 "repouser". Ask the project administrator whether he can add user "repouser" to
 the "repo2" project as a developer. Joining this project as a developer will
 give you the capability to write to the repository.</p>
-
 <p>On your personal account page at sourceforge.net, choose Services, then
 choose "Edit SSH Keys for Shell/CVS". You have generated a file
 "bibledit-ssh-key.pub". Open it in gedit. Select all the text and copy it to
@@ -68,7 +54,6 @@ the clipboard. In the screen titled "SSH Keys", there is a place where it says
 "Authorized keys:". Paste the text from gedit into that space on the web page.
 After checking that everything looks fine, press button "Update". Synchronizing
 the keys into the system has a 10 minute delay.</p>
-
 <p>The next step is to tell the secure shell where to find the private key when
 we connect to sourceforge.net, and to set a few other important options. To do
 that, open file ~/.ssh/config in gedit. Enter the entry for sourceforge.net,
@@ -77,16 +62,12 @@ like so:</p>
 <pre>     IdentityFile ~/.ssh/bibledit-ssh-key</pre>
 <pre>     BatchMode yes</pre>
 <pre>     StrictHostKeyChecking no</pre>
-
 <p>Save the file.</p>
-
 <p>The above refers to a file called "bibledit-ssh-key". You have generated
 this key before.</p>
-
 <p>If the delay of 10 minutes has expired, we can now try whether the key pair
 works well. In the terminal, try to access the repository at sourceforge:</p>
 <pre>git ls-remote ssh://repouser@repo2.git.sourceforge.net/gitroot/repo2/repo2</pre>
-
 <p>If it works then it will give no errors, and list a few commits. If it does
 that, then the keys works well. If it asks for a password, or iIf there are
 errors, follow the tutorial again to get everything right.</p>

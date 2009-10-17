@@ -7116,23 +7116,17 @@ Todo tasks.
 
 
 
-To connect the Ndebele repository to sourceforge, and Shona too, using ssh based git.
-
-
-
-
-
-
-
-
-
-
-
-
-
 task #9495: Overhaul of the Help/Tools section
 
-In progress. Skeleton created till including the View menu.
+
+
+
+
+
+
+When testing read accesibility in the remote repo setup, where the url is entered, we need a progress window, and probably a bigger delay.
+But when the pages comes on, we should test straight away.
+
 
 
 
