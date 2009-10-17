@@ -839,7 +839,7 @@ void RemoteRepositoryAssistant::on_entry_repository_changed (GtkEditable *editab
 void RemoteRepositoryAssistant::on_entry_repository ()
 {
   gw_destroy_source(event_id_entry_repository);
-  event_id_entry_repository = g_timeout_add_full(G_PRIORITY_DEFAULT, 600, GSourceFunc(on_entry_changed_timeout), gpointer(this), NULL);
+  event_id_entry_repository = g_timeout_add_full(G_PRIORITY_DEFAULT, 1000, GSourceFunc(on_entry_changed_timeout), gpointer(this), NULL);
 }
 
 
@@ -860,6 +860,7 @@ void RemoteRepositoryAssistant::entry_changed_timeout()
   spawn.arg("ls-remote");
   spawn.arg(repository_url_get());
   spawn.read();
+  spawn.progress ("Testing read access", false);
   spawn.run();
   bool access = spawn.exitstatus == 0;
   ustring message;

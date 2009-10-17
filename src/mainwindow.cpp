@@ -7124,8 +7124,7 @@ task #9495: Overhaul of the Help/Tools section
 
 
 
-When testing read accesibility in the remote repo setup, where the url is entered, we need a progress window, and probably a bigger delay.
-But when the pages comes on, we should test straight away.
+
 
 
 
