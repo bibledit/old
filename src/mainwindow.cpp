@@ -7116,18 +7116,6 @@ Todo tasks.
 
 
 
-svn push access was given to the xiphos project. To create the patch for the more parallel bibles. To send patch to dev list first.
-We may have to use git locally for that work, then create patches in git. This is because the network often is down.
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -852,6 +852,10 @@ bool RemoteRepositoryAssistant::on_entry_changed_timeout(gpointer user_data)
 
 void RemoteRepositoryAssistant::entry_changed_timeout()
 {
+  // Progress.
+  ProgressWindow progresswindow ("Testing read access", false);
+  progresswindow.set_fraction (0.5);
+  
   // Event done.
   event_id_entry_repository = 0;
 
@@ -860,7 +864,6 @@ void RemoteRepositoryAssistant::entry_changed_timeout()
   spawn.arg("ls-remote");
   spawn.arg(repository_url_get());
   spawn.read();
-  spawn.progress ("Testing read access", false);
   spawn.run();
   bool access = spawn.exitstatus == 0;
   ustring message;
@@ -897,6 +900,10 @@ void RemoteRepositoryAssistant::on_button_clone_clicked (GtkButton *button, gpoi
 
 void RemoteRepositoryAssistant::on_button_clone ()
 {
+  // Progress.
+  ProgressWindow progresswindow ("Cloning repository", false);
+  progresswindow.set_fraction (0.5);
+  
   // Clear out persistent clone directory.
   repository_unclone();
   
@@ -910,7 +917,6 @@ void RemoteRepositoryAssistant::on_button_clone ()
   spawn.workingdirectory(temporal_clone_directory);
   spawn.arg ("clone");
   spawn.arg(repository_url_get());
-  spawn.progress("Cloning repository", false);
   spawn.run();
 
   if (spawn.exitstatus == 0) {
@@ -1052,8 +1058,8 @@ This makes the remote repository to have an exact copy of our data.
 */
 {
   // Progress.
-  ProgressWindow * progresswindow = new ProgressWindow ("Pushing your data", false);
-  progresswindow->set_fraction (0.2);
+  ProgressWindow progresswindow ("Pushing your data", false);
+  progresswindow.set_fraction (0.2);
   
   // Copy our data into a temporal location.
   ustring project_data_directory = project_data_directory_project(bible);
@@ -1078,7 +1084,7 @@ This makes the remote repository to have an exact copy of our data.
   }
   
   // Move our data, from its temporal location, into the persistent clone directory.
-  progresswindow->set_fraction (0.4);
+  progresswindow.set_fraction (0.4);
   {
     ReadDirectories rd (temporal_data_directory, "", "");
     for (unsigned int i = 0; i < rd.directories.size(); i++) {
@@ -1091,7 +1097,7 @@ This makes the remote repository to have an exact copy of our data.
   }
 
   // Commit the new data in the persistent clone directory.
-  progresswindow->set_fraction (0.6);
+  progresswindow.set_fraction (0.55);
   {
     GwSpawn spawn ("git");
     spawn.workingdirectory (persistent_clone_directory);
@@ -1099,7 +1105,7 @@ This makes the remote repository to have an exact copy of our data.
     spawn.arg (".");
     spawn.run ();
   }
-  progresswindow->set_fraction (0.8);
+  progresswindow.set_fraction (0.65);
   {
     GwSpawn spawn ("git");
     spawn.workingdirectory (persistent_clone_directory);
@@ -1110,14 +1116,11 @@ This makes the remote repository to have an exact copy of our data.
     spawn.run ();
   }
 
-  // Progress.
-  delete progresswindow;
-
   // Push our data to the remote repository.
+  progresswindow.set_fraction (0.8);
   GwSpawn spawn("git");
   spawn.workingdirectory(persistent_clone_directory);
   spawn.arg ("push");
-  spawn.progress("Pushing data into repository", false);
   spawn.run();
 
   // Take action depending on the outcome of pushing to the remote repository.

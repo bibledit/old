@@ -64,11 +64,3 @@ void xiphos_reference_send (Reference reference)
 }
 
 
-/*
-
-To checkout xiphos:
-svn co https://gnomesword.svn.sourceforge.net/svnroot/gnomesword/trunk xiphos
-
-*/
-
-
