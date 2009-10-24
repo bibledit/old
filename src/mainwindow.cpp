@@ -1596,6 +1596,21 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
     gtk_box_set_child_packing (GTK_BOX (vbox_main), hbox_notes, false, false, 0, GTK_PACK_START);
   }
 
+  scrolledwindow_layout = gtk_scrolled_window_new (NULL, NULL);
+  // Todo gtk_widget_show (scrolledwindow_layout);
+  gtk_box_pack_start (GTK_BOX (vbox_main), scrolledwindow_layout, TRUE, TRUE, 0);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow_layout), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow_layout), GTK_SHADOW_IN);
+
+  layout = gtk_layout_new (NULL, NULL);
+  gtk_widget_show (layout);
+  gtk_container_add (GTK_CONTAINER (scrolledwindow_layout), layout);
+  gtk_layout_set_size (GTK_LAYOUT (layout), 0, 0);
+  GTK_ADJUSTMENT (GTK_LAYOUT (layout)->hadjustment)->step_increment = 10;
+  GTK_ADJUSTMENT (GTK_LAYOUT (layout)->vadjustment)->step_increment = 10;
+
+  floatingwindow = new FloatingWindow (layout);
+
   hbox_status = gtk_hbox_new(FALSE, 0);
   gtk_widget_show(hbox_status);
   gtk_box_pack_start(GTK_BOX(vbox_main), hbox_status, FALSE, FALSE, 0);
@@ -1910,6 +1925,7 @@ MainWindow::~MainWindow()
   
   // Shut down the various windows.
   shutdown_windows();
+  delete floatingwindow;
 
   // Destroy the Outpost
   delete windowsoutpost;
@@ -2109,6 +2125,7 @@ void MainWindow::on_help_main_activate(GtkMenuItem * menuitem, gpointer user_dat
 {
   ((MainWindow *) user_data)->on_help_main();
 }
+
 
 void MainWindow::on_help_main()
 {
@@ -7110,9 +7127,35 @@ void MainWindow::on_file_import ()
 
 
 /*
+ |
+ |
+ |
+ |
+ |
+ Floating windows Todo
+ |
+ |
+ |
+ |
+ |
+ */
+
+
+/*
 
 
 Todo tasks.
+
+
+Clickable GtkLabel.
+
+
+
+
+    $eventbox->connect('button-press-event', 'on_click', $title, $url);
+    $eventbox->connect('enter-notify-event', 'on_enter', $title, $url);
+    $eventbox->connect('leave-notify-event', 'on_leave', $title, $url);
+
 
 
 
@@ -7128,7 +7171,8 @@ At present Bibledit has a mode where it has the option to show independent windo
 * But this system is not so good when it comes to ease of operation.
 It is more desirable to follow more standard system provided to reach at the functionality that was tried to be obtained by the independent windows.
 What is needed is flexible windows placement within the program.
-This can be reached by using a GtkLayout. In a GtkLayout one can place childwidgets at flexible places, and these widgets can be moved around freely. What might also be possible is to use a GtkTable, where widgets can be placed inside cells.
+This can be reached by using a GtkLayout. In a GtkLayout one can place childwidgets at flexible places, and these widgets can be moved around freely. 
+What might also be possible is to use a GtkTable, where widgets can be placed inside cells.
 What is needed too is that windows can be resized.
 If a GtkTable were used, then we could make a table of, say, 50 cells wide and 50 high. 
 * Then the sizes of the moveable windows would be determined, not by pixels, but by the number of cells it occupies.
@@ -7150,6 +7194,8 @@ BE always wants to load up the References and Project Notes windows even when I 
 
 In BE 3.7.42 areas (like the Project notes, Quick references, Keyterms) cannot be resized any more. They have a fixed window width and height.
 -> Allow to change the size of those windows (as it was in older version of BE
+
+
 
 
 

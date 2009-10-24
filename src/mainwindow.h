@@ -53,6 +53,7 @@
 #include "assistantrestore.h"
 #include "assistantexport.h"
 #include "assistantimport.h"
+#include "floatingwindow.h"
 
 
 class MainWindow : public WindowBase
@@ -331,6 +332,8 @@ protected:
   GtkWidget *toolbar;
   GtkWidget *hbox_editors;
   GtkWidget *hbox_notes;
+  GtkWidget *scrolledwindow_layout;
+  GtkWidget *layout;
   GtkWidget *hbox_status; 
   GtkWidget *hbox7;
   GtkWidget *statuslabel_style;
@@ -816,6 +819,13 @@ protected:
   static void on_file_import_activate (GtkMenuItem *menuitem, gpointer user_data);
   void on_file_import ();
   ImportAssistant * import_assistant;
+  
+  /* Floating windows */ // Todo
+  FloatingWindow * floatingwindow;
+    
+  
+  
+
 };
 
 
