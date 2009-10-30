@@ -148,18 +148,17 @@ am_bibleditgui_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	text2pdf_input.$(OBJEXT) text2pdf_layout.$(OBJEXT) \
 	text2pdf_big_block.$(OBJEXT) text2pdf_intermediate.$(OBJEXT) \
 	usfm2text.$(OBJEXT) dialogtext2pdf.$(OBJEXT) \
-	windowlayout.$(OBJEXT) windowshowrelatedverses.$(OBJEXT) \
-	windowmerge.$(OBJEXT) windowresource.$(OBJEXT) \
-	windowoutline.$(OBJEXT) windowcheckkeyterms.$(OBJEXT) \
-	windowstyles.$(OBJEXT) windownotes.$(OBJEXT) \
-	dialogprojectnote.$(OBJEXT) windowreferences.$(OBJEXT) \
-	windoweditor.$(OBJEXT) compress.$(OBJEXT) \
-	localizednumerals.$(OBJEXT) assistantimportkeyterms.$(OBJEXT) \
-	assistants.$(OBJEXT) assistantdeletekeyterms.$(OBJEXT) \
-	assistantchanges.$(OBJEXT) widgetdate.$(OBJEXT) \
-	usfmview.$(OBJEXT) dialogcompareprefs.$(OBJEXT) \
-	windowcheckusfm.$(OBJEXT) usfm2osis.$(OBJEXT) \
-	usfmstandard.$(OBJEXT) osis.$(OBJEXT) \
+	windowshowrelatedverses.$(OBJEXT) windowmerge.$(OBJEXT) \
+	windowresource.$(OBJEXT) windowoutline.$(OBJEXT) \
+	windowcheckkeyterms.$(OBJEXT) windowstyles.$(OBJEXT) \
+	windownotes.$(OBJEXT) dialogprojectnote.$(OBJEXT) \
+	windowreferences.$(OBJEXT) windoweditor.$(OBJEXT) \
+	compress.$(OBJEXT) localizednumerals.$(OBJEXT) \
+	assistantimportkeyterms.$(OBJEXT) assistants.$(OBJEXT) \
+	assistantdeletekeyterms.$(OBJEXT) assistantchanges.$(OBJEXT) \
+	widgetdate.$(OBJEXT) usfmview.$(OBJEXT) \
+	dialogcompareprefs.$(OBJEXT) windowcheckusfm.$(OBJEXT) \
+	usfm2osis.$(OBJEXT) usfmstandard.$(OBJEXT) osis.$(OBJEXT) \
 	assistantremoterepository.$(OBJEXT) \
 	gui_display_changes.$(OBJEXT) stylesheet.$(OBJEXT) \
 	referencememory.$(OBJEXT) webkitbrowser.$(OBJEXT) \
@@ -567,7 +566,6 @@ bibleditgui_SOURCES = \
         text2pdf_intermediate.cpp \
         usfm2text.cpp \
         dialogtext2pdf.cpp \
-        windowlayout.cpp \
         windowshowrelatedverses.cpp \
         windowmerge.cpp \
         windowresource.cpp \
@@ -955,7 +953,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowcheckusfm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowdata.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windoweditor.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowlayout.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowmerge.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windownotes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowoutline.Po@am__quote@

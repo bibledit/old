@@ -63,38 +63,6 @@ void ScreenLayoutDimensions::verify()
   if ((width == 0) || (height == 0) || (x < 0) || (y < 0) || (x + width > real_screen_width) || (y + height > real_screen_height))
     recalculate = true;
 
-  // Detached windows: Menu area.
-  width = settings->genconfig.menu_area_width_get();
-  height = settings->genconfig.menu_area_height_get();
-  x = settings->genconfig.menu_area_x_position_get();
-  y = settings->genconfig.menu_area_y_position_get();
-  if ((width == 0) || (height == 0) || (x < 0) || (y < 0) || (x + width > real_screen_width) || (y + height > real_screen_height))
-    recalculate = true;
-
-  // Detached windows: Text area.
-  width = settings->genconfig.text_area_width_get();
-  height = settings->genconfig.text_area_height_get();
-  x = settings->genconfig.text_area_x_position_get();
-  y = settings->genconfig.text_area_y_position_get();
-  if ((width == 0) || (height == 0) || (x < 0) || (y < 0) || (x + width > real_screen_width) || (y + height > real_screen_height))
-    recalculate = true;
-
-  // Detached windows: Notes area.
-  width = settings->genconfig.notes_area_width_get();
-  height = settings->genconfig.notes_area_height_get();
-  x = settings->genconfig.notes_area_x_position_get();
-  y = settings->genconfig.notes_area_y_position_get();
-  if ((width == 0) || (height == 0) || (x < 0) || (y < 0) || (x + width > real_screen_width) || (y + height > real_screen_height))
-    recalculate = true;
-
-  // Detached windows: Tools area.
-  width = settings->genconfig.tools_area_width_get();
-  height = settings->genconfig.tools_area_height_get();
-  x = settings->genconfig.tools_area_x_position_get();
-  y = settings->genconfig.tools_area_y_position_get();
-  if ((width == 0) || (height == 0) || (x < 0) || (y < 0) || (x + width > real_screen_width) || (y + height > real_screen_height))
-    recalculate = true;
-
   if (recalculate) {
     gw_message("Recalculating windows positions and sizes");
     // Store screen size.
@@ -113,46 +81,6 @@ void ScreenLayoutDimensions::verify()
     settings->genconfig.window_height_set(height);
     settings->genconfig.window_x_position_set(x);
     settings->genconfig.window_y_position_set(y);
-
-    // Detached windows: Menu area window sizes.
-    width = real_screen_width * 20 / 100;
-    height = real_screen_height * 5 / 100;
-    x = 0;
-    y = 0;
-    settings->genconfig.menu_area_width_set(width);
-    settings->genconfig.menu_area_height_set(height);
-    settings->genconfig.menu_area_x_position_set(x);
-    settings->genconfig.menu_area_y_position_set(y);
-
-    // Detached windows: Text area window sizes.
-    width = real_screen_width * 66 / 100;
-    height = real_screen_height * 50 / 100;
-    x = 0;
-    y = real_screen_height * 16 / 100;
-    settings->genconfig.text_area_width_set(width);
-    settings->genconfig.text_area_height_set(height);
-    settings->genconfig.text_area_x_position_set(x);
-    settings->genconfig.text_area_y_position_set(y);
-
-    // Detached windows: Notes area window dimensions.
-    width = real_screen_width * 66 / 100;
-    height = real_screen_height * 16 / 100;
-    x = 0;
-    y = real_screen_height * 82 / 100;
-    settings->genconfig.notes_area_width_set(width);
-    settings->genconfig.notes_area_height_set(height);
-    settings->genconfig.notes_area_x_position_set(x);
-    settings->genconfig.notes_area_y_position_set(y);
-
-    // Detached windows: Tools area window sizes.
-    width = real_screen_width * 30 / 100;
-    height = real_screen_height * 90 / 100;
-    x = real_screen_width - (real_screen_width * 30 / 100);
-    y = 0;
-    settings->genconfig.tools_area_width_set(width);
-    settings->genconfig.tools_area_height_set(height);
-    settings->genconfig.tools_area_x_position_set(x);
-    settings->genconfig.tools_area_y_position_set(y);
   }
 }
 

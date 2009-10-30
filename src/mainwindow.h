@@ -33,7 +33,6 @@
 #include "gui_navigation.h"
 #include "displayprojectnotes.h"
 #include "git.h"
-#include "windowlayout.h"
 #include "windowshowrelatedverses.h"
 #include "windowmerge.h"
 #include "windowresource.h"
@@ -180,7 +179,6 @@ protected:
   GtkWidget *view_usfm_code;
   GtkWidget *view_planning;
   GtkWidget *image26812;
-  GtkWidget *view_screen_layout;
   GtkWidget *view_references;
   GtkWidget *view_related_verses;
   GtkWidget *view_outline;
@@ -722,11 +720,6 @@ protected:
   void on_print();
 
   /* Windowing system */
-  static void on_view_screen_layout_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_view_screen_layout();
-  WindowLayout * window_screen_layout;
-  static void on_window_screen_layout_button_clicked(GtkButton *button, gpointer user_data);
-  void on_window_screen_layout_button();
   static bool on_windows_startup_timeout(gpointer data);
   bool on_windows_startup();
   unsigned int windows_startup_pointer;

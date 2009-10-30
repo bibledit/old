@@ -79,22 +79,6 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE (window_x_position);
   INITIALIZE (window_y_position);
   INITIALIZE (window_maximized);
-  INITIALIZE(menu_area_width);
-  INITIALIZE(menu_area_height);
-  INITIALIZE(menu_area_x_position);
-  INITIALIZE(menu_area_y_position);
-  INITIALIZE(text_area_width);
-  INITIALIZE(text_area_height);
-  INITIALIZE(text_area_x_position);
-  INITIALIZE(text_area_y_position);
-  INITIALIZE(notes_area_width);
-  INITIALIZE(notes_area_height);
-  INITIALIZE(notes_area_x_position);
-  INITIALIZE(notes_area_y_position);
-  INITIALIZE(tools_area_width);
-  INITIALIZE(tools_area_height);
-  INITIALIZE(tools_area_x_position);
-  INITIALIZE(tools_area_y_position);
   INITIALIZE(window_widths);
   INITIALIZE(window_heights);
   INITIALIZE(window_x_positions);
@@ -253,22 +237,6 @@ void GeneralConfiguration::save()
   SAVE_VALUE (window_x_position);
   SAVE_VALUE (window_y_position);
   SAVE_VALUE (window_maximized);
-  SAVE_VALUE(menu_area_width);
-  SAVE_VALUE(menu_area_height);
-  SAVE_VALUE(menu_area_x_position);
-  SAVE_VALUE(menu_area_y_position);
-  SAVE_VALUE(text_area_width);
-  SAVE_VALUE(text_area_height);
-  SAVE_VALUE(text_area_x_position);
-  SAVE_VALUE(text_area_y_position);
-  SAVE_VALUE(notes_area_width);
-  SAVE_VALUE(notes_area_height);
-  SAVE_VALUE(notes_area_x_position);
-  SAVE_VALUE(notes_area_y_position);
-  SAVE_VALUE(tools_area_width);
-  SAVE_VALUE(tools_area_height);
-  SAVE_VALUE(tools_area_x_position);
-  SAVE_VALUE(tools_area_y_position);
   SAVE_VALUE(window_widths);
   SAVE_VALUE(window_heights);
   SAVE_VALUE(window_x_positions);
@@ -504,22 +472,6 @@ IMPLEMENT (int, int_get, window_height, 0)
 IMPLEMENT (int, int_get, window_x_position, 0)
 IMPLEMENT (int, int_get, window_y_position, 0)
 IMPLEMENT (bool, bool_get, window_maximized, true)
-IMPLEMENT(int, int_get, menu_area_width, 0)
-IMPLEMENT(int, int_get, menu_area_height, 0)
-IMPLEMENT(int, int_get, menu_area_x_position, 0)
-IMPLEMENT(int, int_get, menu_area_y_position, 0)
-IMPLEMENT(int, int_get, text_area_width, 0)
-IMPLEMENT(int, int_get, text_area_height, 0)
-IMPLEMENT(int, int_get, text_area_x_position, 0)
-IMPLEMENT(int, int_get, text_area_y_position, 0)
-IMPLEMENT(int, int_get, notes_area_width, 0)
-IMPLEMENT(int, int_get, notes_area_height, 0)
-IMPLEMENT(int, int_get, notes_area_x_position, 0)
-IMPLEMENT(int, int_get, notes_area_y_position, 0)
-IMPLEMENT(int, int_get, tools_area_width, 0)
-IMPLEMENT(int, int_get, tools_area_height, 0)
-IMPLEMENT(int, int_get, tools_area_x_position, 0)
-IMPLEMENT(int, int_get, tools_area_y_position, 0)
 IMPLEMENT(vector < int >, vector_int_get, window_widths, NULL)
 IMPLEMENT(vector < int >, vector_int_get, window_heights, NULL)
 IMPLEMENT(vector < int >, vector_int_get, window_x_positions, NULL)

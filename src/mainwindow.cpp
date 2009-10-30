@@ -152,7 +152,6 @@ navigation(0), httpd(0)
 
   // Set some window pointers to NULL.
   // To save memory, we only create the object when actually needed.
-  window_screen_layout = NULL;
   window_show_related_verses = NULL;
   window_merge = NULL;
   window_outline = NULL;
@@ -902,9 +901,6 @@ navigation(0), httpd(0)
   image26812 = gtk_image_new_from_stock("gtk-info", GTK_ICON_SIZE_MENU);
   gtk_widget_show(image26812);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(view_planning), image26812);
-
-  // The menu entry is only created when the windows are detached.
-  view_screen_layout = NULL;
 
   view_references = gtk_check_menu_item_new_with_mnemonic ("R_eferences");
   gtk_widget_show (view_references);
@@ -1701,8 +1697,6 @@ navigation(0), httpd(0)
     g_signal_connect((gpointer) view_usfm_code, "activate", G_CALLBACK(on_view_usfm_code_activate), gpointer(this));
   if (view_planning)
     g_signal_connect((gpointer) view_planning, "activate", G_CALLBACK(on_view_planning_activate), gpointer(this));
-  if (view_screen_layout)
-    g_signal_connect((gpointer) view_screen_layout, "activate", G_CALLBACK(on_view_screen_layout_activate), gpointer(this));
   if (view_related_verses)
     g_signal_connect((gpointer) view_related_verses, "activate", G_CALLBACK(on_view_related_verses_activate), gpointer(this));
   g_signal_connect ((gpointer) view_references, "activate", G_CALLBACK (on_view_references_activate), gpointer(this));
@@ -3225,6 +3219,7 @@ void MainWindow::on_window_notes_delete_button_clicked(GtkButton * button, gpoin
   ((MainWindow *) user_data)->on_window_notes_delete_button();
 }
 
+
 void MainWindow::on_window_notes_delete_button()
 {
   if (window_notes) {
@@ -3233,10 +3228,12 @@ void MainWindow::on_window_notes_delete_button()
   }
 }
 
+
 void MainWindow::on_new_note_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_new_note();
 }
+
 
 void MainWindow::on_new_note()
 {
@@ -3246,6 +3243,7 @@ void MainWindow::on_new_note()
   if (window_notes)
     window_notes->new_note();
 }
+
 
 void MainWindow::on_delete_note_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
@@ -6020,38 +6018,12 @@ void MainWindow::on_print()
  |
  */
 
-void MainWindow::on_view_screen_layout_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_view_screen_layout();
-}
-
-void MainWindow::on_view_screen_layout()
-{
-  on_window_screen_layout_button();
-  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_screen_layout))) {
-    window_screen_layout = new WindowLayout(0);
-    g_signal_connect((gpointer) window_screen_layout->signal_button, "clicked", G_CALLBACK(on_window_screen_layout_button_clicked), gpointer(this));
-  }
-}
-
-void MainWindow::on_window_screen_layout_button_clicked(GtkButton * button, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_window_screen_layout_button();
-}
-
-void MainWindow::on_window_screen_layout_button()
-{
-  if (window_screen_layout) {
-    delete window_screen_layout;
-    window_screen_layout = NULL;
-    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_screen_layout), false);
-  }
-}
 
 bool MainWindow::on_windows_startup_timeout(gpointer data)
 {
   return ((MainWindow *) data)->on_windows_startup();
 }
+
 
 bool MainWindow::on_windows_startup()
 {
@@ -6151,6 +6123,7 @@ bool MainWindow::on_windows_startup()
   // We're through.
   return false;
 }
+
 
 void MainWindow::shutdown_windows()
 // Shut any open windows down.
@@ -7007,13 +6980,13 @@ void MainWindow::scrolledwindow_layout_size_allocate (GdkRectangle *allocation)
 Todo tasks.
 
 
-tools_area_x_position - this can go out, and the other areas too.
-
-
-
-
 
 A floating window should not become smaller than so much, else it becomes unmanageable.
+Try copying and pasting in each relevant window.
+Try setting the title bar blue or blank depending on the focus on the window.
+
+
+
 
 
 task #9496: Remove independent windows and make it all normal, resizeable window

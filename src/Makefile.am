@@ -214,7 +214,6 @@ bibleditgui_SOURCES = \
         text2pdf_intermediate.cpp \
         usfm2text.cpp \
         dialogtext2pdf.cpp \
-        windowlayout.cpp \
         windowshowrelatedverses.cpp \
         windowmerge.cpp \
         windowresource.cpp \
