@@ -776,10 +776,8 @@ protected:
   static void accelerator_find_callback(gpointer user_data);
   static void accelerator_replace_callback(gpointer user_data);
   static void accelerator_main_help_callback(gpointer user_data);
-  static void accelerator_menu_callback(gpointer user_data);
   static void accelerator_view_usfm_code(gpointer user_data);
   void accelerator_view_usfm_code_toggle();
-  void accelerator_menu();
   static void accelerator_left_square_bracket(gpointer user_data);
   void left_square_bracket ();
   static void accelerator_right_square_bracket(gpointer user_data);  
@@ -807,7 +805,7 @@ protected:
   void on_file_import ();
   ImportAssistant * import_assistant;
   
-  /* Floating windows */ // Todo
+  /* Floating windows */
   static void on_scrolledwindow_layout_size_allocate (GtkWidget *widget, GdkRectangle *allocation, gpointer user_data);
   void scrolledwindow_layout_size_allocate (GdkRectangle *allocation);
   

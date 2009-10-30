@@ -93,7 +93,7 @@ FloatingWindow::FloatingWindow(GtkWidget * layout_in, WindowID window_id_in, ust
   label_status2 = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "label_status2"));
   g_signal_connect ((gpointer) eventbox_status2, "button_press_event", G_CALLBACK (on_widget_button_press_event), gpointer (this));
 
-  hscrollbar_status = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "hscrollbar_status")); // Todo connect signal
+  hscrollbar_status = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "hscrollbar_status"));
   g_signal_connect ((gpointer) hscrollbar_status, "button_press_event", G_CALLBACK (on_widget_button_press_event), gpointer (this));
   g_signal_connect ((gpointer) hscrollbar_status, "button_press_event", G_CALLBACK (on_status_bar_button_press_event), gpointer (this));
   g_signal_connect ((gpointer) hscrollbar_status, "button_release_event", G_CALLBACK (on_status_bar_button_release_event), gpointer (this));
@@ -571,7 +571,7 @@ void FloatingWindow::rectangle_set (const GdkRectangle& rectangle)
 }
 
 
-void FloatingWindow::focus_if_widget_mine (GtkWidget *widget) // Todo implement or test.
+void FloatingWindow::focus_if_widget_mine (GtkWidget *widget)
 // It looks through all widgets it has, to find out whether "widget" belongs to the object.
 {
   focused_widget_to_look_for = widget;
@@ -587,7 +587,7 @@ void FloatingWindow::on_container_tree_callback (GtkWidget *widget, gpointer use
 }
 
 
-void FloatingWindow::container_tree_callback (GtkWidget *widget, gpointer user_data) // Todo implement or test.
+void FloatingWindow::container_tree_callback (GtkWidget *widget, gpointer user_data)
 // Recursive callback that fires the focus signal if the widget belongs to the object.
 {
   if (widget == focused_widget_to_look_for) {
@@ -619,18 +619,16 @@ gboolean FloatingWindow::on_widget_button_press_event (GtkWidget *widget, GdkEve
 }
 
 
-void FloatingWindow::on_widget_button_press (GtkWidget *widget, GdkEventButton *event) // Todo implement or test.
+void FloatingWindow::on_widget_button_press (GtkWidget *widget, GdkEventButton *event)
 {
-  cout << "on_widget_button_press" << endl; // Todo
   gtk_button_clicked(GTK_BUTTON(focus_in_signal_button));
 }
 
 
-void FloatingWindow::defocus() // Todo implement or test.
+void FloatingWindow::defocus()
 // Makes the window look like defocused.
 {
   gtk_adjustment_set_value (GTK_ADJUSTMENT (adjustment_title), 0);
 }
 
 
-// Todo if a window is focused and clicked, then it must show focus in the title bar and the window should show above anything else.

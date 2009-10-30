@@ -241,7 +241,6 @@ navigation(0), httpd(0)
     gtk_accel_group_connect(accelerator_group, GDK_R, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_replace_callback), gpointer(this), NULL));
   }
   gtk_accel_group_connect(accelerator_group, GDK_F1, GdkModifierType(0), GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_main_help_callback), gpointer(this), NULL));
-  gtk_accel_group_connect(accelerator_group, GDK_M, GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_menu_callback), gpointer(this), NULL));
   // For USFM view, we first had defined the Ctrl-U for that. The U is the first letter of USFM,
   // and also in for example Firefox, the Ctrl-U views the source code.
   // But since the Ctrl-U clashed with the Ctrl-U for underline in the note editor,
@@ -2838,7 +2837,7 @@ void MainWindow::on_view_references_activate (GtkMenuItem *menuitem, gpointer us
 }
 
 
-void MainWindow::on_view_references () // Todo
+void MainWindow::on_view_references ()
 {
   on_window_references_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_references))) {
@@ -4788,7 +4787,7 @@ void MainWindow::set_fonts()
  |
  |
  |
- Outline // Todo
+ Outline
  |
  |
  |
@@ -6200,10 +6199,9 @@ void MainWindow::on_window_focus_button_clicked(GtkButton * button, gpointer use
 }
 
 
-void MainWindow::on_window_focus_button(GtkButton * button) // Todo let it work.
+void MainWindow::on_window_focus_button(GtkButton * button)
 // Called when a window gets focused.
 {
-  cout << "void MainWindow::on_window_focus_button(GtkButton * button)" << endl; // Todo
   // Bail out if there's no change in the focus.
   GtkWidget *widget = GTK_WIDGET(button);
   if (widget == now_focused_window_button)
@@ -6603,44 +6601,42 @@ void MainWindow::accelerator_previous_project_callback(gpointer user_data)
   ((MainWindow *) user_data)->goto_next_previous_project(false);
 }
 
+
 void MainWindow::accelerator_open_project_callback(gpointer user_data)
 {
   ((MainWindow *) user_data)->open();
 }
+
 
 void MainWindow::accelerator_print_callback(gpointer user_data)
 {
   ((MainWindow *) user_data)->on_print();
 }
 
+
 void MainWindow::accelerator_find_callback(gpointer user_data)
 {
   ((MainWindow *) user_data)->menu_findspecial();
 }
+
 
 void MainWindow::accelerator_replace_callback(gpointer user_data)
 {
   ((MainWindow *) user_data)->menu_replace();
 }
 
+
 void MainWindow::accelerator_main_help_callback(gpointer user_data)
 {
   ((MainWindow *) user_data)->on_help_main();
 }
 
-void MainWindow::accelerator_menu_callback(gpointer user_data)
-{
-  ((MainWindow *) user_data)->accelerator_menu();
-}
-
-void MainWindow::accelerator_menu() // Todo goes out.
-{
-}
 
 void MainWindow::accelerator_view_usfm_code(gpointer user_data)
 {
   ((MainWindow *) user_data)->accelerator_view_usfm_code_toggle();
 }
+
 
 void MainWindow::accelerator_view_usfm_code_toggle()
 {
@@ -6943,7 +6939,7 @@ void MainWindow::on_file_import ()
  |
  |
  |
- Floating windows Todo
+ Floating windows
  |
  |
  |
@@ -6984,6 +6980,7 @@ Todo tasks.
 A floating window should not become smaller than so much, else it becomes unmanageable.
 Try copying and pasting in each relevant window.
 Try setting the title bar blue or blank depending on the focus on the window.
+If a window is focused and clicked, then it must show focus in the title bar and the window should show above anything else.
 
 
 
