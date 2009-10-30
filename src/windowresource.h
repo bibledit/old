@@ -17,19 +17,22 @@
  **  
  */
 
+
 #ifndef INCLUDED_WINDOW_RESOURCE_H
 #define INCLUDED_WINDOW_RESOURCE_H
+
 
 #include <gtk/gtk.h>
 #include "ustring.h"
 #include "reference.h"
-#include "window.h"
+#include "floatingwindow.h"
 #include "resource.h"
 
-class WindowResource : public WindowBase
+
+class WindowResource : public FloatingWindow
 {
 public:
-  WindowResource(const ustring& resource_name, GtkAccelGroup *accelerator_group, bool startup, GtkWidget * parent_box);
+  WindowResource(const ustring& resource_name, GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup);
   virtual ~WindowResource();
   void go_to(Reference& reference);
   Resource * resource;
@@ -38,5 +41,6 @@ protected:
   ustring resourcename_to_filename(const ustring& resourcename);
 private:
 };
+
 
 #endif

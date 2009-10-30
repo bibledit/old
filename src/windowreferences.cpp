@@ -22,7 +22,7 @@
 #include <glib.h>
 #include "windowreferences.h"
 #include "help.h"
-#include "window.h"
+#include "floatingwindow.h"
 #include "keyterms.h"
 #include "tiny_utilities.h"
 #include "projectutils.h"

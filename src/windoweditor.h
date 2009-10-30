@@ -24,15 +24,15 @@
 
 #include <gtk/gtk.h>
 #include "ustring.h"
-#include "window.h"
+#include "floatingwindow.h"
 #include "editor.h"
 #include "usfmview.h"
 
 
-class WindowEditor : public WindowBase
+class WindowEditor : public FloatingWindow
 {
 public:
-  WindowEditor(const ustring& project_name, GtkAccelGroup *accelerator_group, bool startup, GtkWidget * parent_box);
+  WindowEditor(const ustring& project_name, GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup);
   virtual ~WindowEditor();
   
   void go_to(const Reference& reference);

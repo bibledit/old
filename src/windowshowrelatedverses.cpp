@@ -22,7 +22,7 @@
 #include <glib.h>
 #include "windowshowrelatedverses.h"
 #include "help.h"
-#include "window.h"
+#include "floatingwindow.h"
 #include "keyterms.h"
 #include "tiny_utilities.h"
 #include "kjv.h"
@@ -30,15 +30,15 @@
 #include "settings.h"
 
 
-WindowShowRelatedVerses::WindowShowRelatedVerses(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
-WindowBase(widShowRelatedVerses, "Related verses", startup, 0, parent_box), myreference(0)
+WindowShowRelatedVerses::WindowShowRelatedVerses(GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup):
+FloatingWindow(parent_layout, widShowRelatedVerses, "Related verses", startup), myreference(0)
 // Window showing related verses.
 {
   item_type = ritNone;
 
   scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow);
-  gtk_container_add(GTK_CONTAINER(window_vbox), scrolledwindow);
+  gtk_container_add(GTK_CONTAINER(vbox_client), scrolledwindow);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_SHADOW_IN);
 

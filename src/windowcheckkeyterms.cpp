@@ -22,7 +22,7 @@
 #include <glib.h>
 #include "windowcheckkeyterms.h"
 #include "help.h"
-#include "window.h"
+#include "floatingwindow.h"
 #include "keyterms.h"
 #include "tiny_utilities.h"
 #include "utilities.h"
@@ -37,8 +37,8 @@
 #include "xmlutils.h"
 
 
-WindowCheckKeyterms::WindowCheckKeyterms(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
-WindowBase(widCheckKeyterms, "Check keyterms", startup, 0, parent_box), myreference(0)
+WindowCheckKeyterms::WindowCheckKeyterms(GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup):
+FloatingWindow(parent_layout, widCheckKeyterms, "Check keyterms", startup), myreference(0)
 // Window for checking keyterms.
 {
   // Save / initialize variables.
@@ -47,7 +47,7 @@ WindowBase(widCheckKeyterms, "Check keyterms", startup, 0, parent_box), myrefere
   // Build gui.
   vbox = gtk_vbox_new(FALSE, 0);
   gtk_widget_show(vbox);
-  gtk_container_add(GTK_CONTAINER(window_vbox), vbox);
+  gtk_container_add(GTK_CONTAINER(vbox_client), vbox);
 
   // Produce the signal to be given on a new reference.
   signal = gtk_button_new();
@@ -89,7 +89,7 @@ WindowBase(widCheckKeyterms, "Check keyterms", startup, 0, parent_box), myrefere
   gtk_widget_show(treeview_renderings);
   gtk_box_pack_start(GTK_BOX(vbox), treeview_renderings, false, false, 0);
 
-  g_signal_connect((gpointer) treeview_renderings, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
+  // Todo use for focus. g_signal_connect((gpointer) treeview_renderings, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
 
   // Renderer, column and selection.
   GtkCellRenderer *renderer_renderings = gtk_cell_renderer_toggle_new();

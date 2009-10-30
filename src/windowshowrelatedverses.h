@@ -25,7 +25,7 @@
 #include <gtk/gtk.h>
 #include "ustring.h"
 #include "reference.h"
-#include "window.h"
+#include "floatingwindow.h"
 extern "C" {
 #include <gtkhtml/gtkhtml.h>
 }
@@ -35,10 +35,10 @@ extern "C" {
 enum RelatedItemType {ritNone, ritKeytermId, ritStrongNumber, ritParallels};
 
 
-class WindowShowRelatedVerses : public WindowBase
+class WindowShowRelatedVerses : public FloatingWindow
 {
 public:
-  WindowShowRelatedVerses(GtkAccelGroup *accelerator_group, bool startup, GtkWidget * parent_box);
+  WindowShowRelatedVerses(GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup);
   virtual ~WindowShowRelatedVerses();
   void go_to(const ustring& project, const Reference& reference);
   GtkWidget *button_item;

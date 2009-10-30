@@ -17,24 +17,26 @@
  **  
  */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "windowresource.h"
 #include "help.h"
-#include "window.h"
+#include "floatingwindow.h"
 #include "keyterms.h"
 #include "tiny_utilities.h"
 #include "projectutils.h"
 #include "settings.h"
 #include "resource_utils.h"
 
-WindowResource::WindowResource(const ustring & resource_name, GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
-WindowBase(widResource, resource_name, startup, 0, parent_box)
+
+WindowResource::WindowResource(const ustring& resource_name, GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup):
+FloatingWindow(parent_layout, widResource, resource_name, startup)
 // Window for showing the quick references.  
 {
   name = resource_name;
-  resource = new Resource(window_vbox);
-  g_signal_connect((gpointer) resource->browser->webview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
+  resource = new Resource(vbox_client);
+  // Todo use for focus? g_signal_connect((gpointer) resource->browser->webview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
   resource->open(resourcename_to_filename(name));
 
   // Main focused widget.
@@ -42,16 +44,19 @@ WindowBase(widResource, resource_name, startup, 0, parent_box)
   gtk_widget_grab_focus (last_focused_widget);
 }
 
+
 WindowResource::~WindowResource()
 {
   delete resource;
 }
+
 
 void WindowResource::go_to(Reference & reference)
 // Go to the references.
 {
   resource->go_to(reference);
 }
+
 
 ustring WindowResource::resourcename_to_filename(const ustring & resourcename)
 {

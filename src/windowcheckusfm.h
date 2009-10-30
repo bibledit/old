@@ -17,18 +17,21 @@
  **  
  */
 
+
 #ifndef INCLUDED_WINDOW_CHECK_USFM_H
 #define INCLUDED_WINDOW_CHECK_USFM_H
+
 
 #include <gtk/gtk.h>
 #include "ustring.h"
 #include "reference.h"
-#include "window.h"
+#include "floatingwindow.h"
 
-class WindowCheckUSFM : public WindowBase
+
+class WindowCheckUSFM : public FloatingWindow
 {
 public:
-  WindowCheckUSFM(GtkAccelGroup *accelerator_group, bool startup, GtkWidget * parent_box);
+  WindowCheckUSFM(GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup);
   virtual ~WindowCheckUSFM();
   void set_parameters (GtkTextBuffer * buffer, const ustring& project_in, unsigned int book_in, unsigned int chapter_in);
 private:

@@ -56,7 +56,7 @@
 #include "floatingwindow.h"
 
 
-class MainWindow : public WindowBase
+class MainWindow
 {
 public:
   MainWindow(unsigned long xembed, GtkAccelGroup *accelerator_group);
@@ -65,7 +65,7 @@ public:
 protected:
   /* IMPORTANT If more menu items are added see whether they should be made 
    * in(sensitive) depending on the context whether something has been opened. */
-  GtkWidget *hbox_main;
+  GtkWidget *window_main;
   GtkWidget *vbox_main;
   GtkWidget *menubar1;
   GtkWidget *menuitem_file;
@@ -330,15 +330,12 @@ protected:
   GtkWidget *image4388;
   GtkWidget *about1;
   GtkWidget *toolbar;
-  GtkWidget *hbox_editors;
-  GtkWidget *hbox_notes;
   GtkWidget *scrolledwindow_layout;
   GtkWidget *layout;
   GtkWidget *hbox_status; 
   GtkWidget *hbox7;
   GtkWidget *statuslabel_style;
   GtkWidget *statusbar;
-  GtkWidget *vbox_tools;
 
   // Navigator object.
   GuiNavigation navigation;
@@ -347,8 +344,6 @@ protected:
   void enable_or_disable_widgets(bool enable);
 
   /* Menu window */
-  static void on_window_menu_delete_button_clicked(GtkButton *button, gpointer user_data);
-  void on_window_menu_delete_button();
   static void on_open1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void open();
   static void on_new1_activate(GtkMenuItem * menuitem, gpointer user_data);
@@ -652,7 +647,7 @@ protected:
   void on_text_font();
   void set_fonts();
 
-  /* Outline */ // Todo
+  /* Outline */
   static void on_view_outline_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_outline();
   WindowOutline * window_outline;
@@ -747,7 +742,6 @@ protected:
   GtkWidget * focused_tool_button;
   static void on_window_set_focus (GtkWindow *window, GtkWidget *widget, gpointer user_data);
   void window_set_focus (GtkWidget *widget);
-  void resize_text_area_if_tools_area_is_empty();
   void store_last_focused_tool_button (GtkButton * button);
 
   // Accelerators.
@@ -800,6 +794,7 @@ protected:
   
   // Shutdown.
   bool shutting_down;
+  static bool on_window_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);
   void initiate_shutdown();
   
   // Assistants.

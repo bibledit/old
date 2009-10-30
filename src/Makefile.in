@@ -149,17 +149,17 @@ am_bibleditgui_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	text2pdf_big_block.$(OBJEXT) text2pdf_intermediate.$(OBJEXT) \
 	usfm2text.$(OBJEXT) dialogtext2pdf.$(OBJEXT) \
 	windowlayout.$(OBJEXT) windowshowrelatedverses.$(OBJEXT) \
-	window.$(OBJEXT) windowmerge.$(OBJEXT) \
-	windowresource.$(OBJEXT) windowoutline.$(OBJEXT) \
-	windowcheckkeyterms.$(OBJEXT) windowstyles.$(OBJEXT) \
-	windownotes.$(OBJEXT) dialogprojectnote.$(OBJEXT) \
-	windowreferences.$(OBJEXT) windoweditor.$(OBJEXT) \
-	compress.$(OBJEXT) localizednumerals.$(OBJEXT) \
-	assistantimportkeyterms.$(OBJEXT) assistants.$(OBJEXT) \
-	assistantdeletekeyterms.$(OBJEXT) assistantchanges.$(OBJEXT) \
-	widgetdate.$(OBJEXT) usfmview.$(OBJEXT) \
-	dialogcompareprefs.$(OBJEXT) windowcheckusfm.$(OBJEXT) \
-	usfm2osis.$(OBJEXT) usfmstandard.$(OBJEXT) osis.$(OBJEXT) \
+	windowmerge.$(OBJEXT) windowresource.$(OBJEXT) \
+	windowoutline.$(OBJEXT) windowcheckkeyterms.$(OBJEXT) \
+	windowstyles.$(OBJEXT) windownotes.$(OBJEXT) \
+	dialogprojectnote.$(OBJEXT) windowreferences.$(OBJEXT) \
+	windoweditor.$(OBJEXT) compress.$(OBJEXT) \
+	localizednumerals.$(OBJEXT) assistantimportkeyterms.$(OBJEXT) \
+	assistants.$(OBJEXT) assistantdeletekeyterms.$(OBJEXT) \
+	assistantchanges.$(OBJEXT) widgetdate.$(OBJEXT) \
+	usfmview.$(OBJEXT) dialogcompareprefs.$(OBJEXT) \
+	windowcheckusfm.$(OBJEXT) usfm2osis.$(OBJEXT) \
+	usfmstandard.$(OBJEXT) osis.$(OBJEXT) \
 	assistantremoterepository.$(OBJEXT) \
 	gui_display_changes.$(OBJEXT) stylesheet.$(OBJEXT) \
 	referencememory.$(OBJEXT) webkitbrowser.$(OBJEXT) \
@@ -569,7 +569,6 @@ bibleditgui_SOURCES = \
         dialogtext2pdf.cpp \
         windowlayout.cpp \
         windowshowrelatedverses.cpp \
-        window.cpp \
         windowmerge.cpp \
         windowresource.cpp \
         windowoutline.cpp \
@@ -952,7 +951,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/versifications.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/webkitbrowser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/widgetdate.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/window.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowcheckkeyterms.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowcheckusfm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/windowdata.Po@am__quote@

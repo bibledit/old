@@ -21,7 +21,7 @@
 #include <glib.h>
 #include "windowstyles.h"
 #include "help.h"
-#include "window.h"
+#include "floatingwindow.h"
 #include "tiny_utilities.h"
 #include "utilities.h"
 #include "combobox.h"
@@ -39,8 +39,9 @@
 #include "gwrappers.h"
 #include "styles.h"
 
-WindowStyles::WindowStyles(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * stl, GtkWidget * stl_menu, GtkWidget * stl_expand_all, GtkWidget * stl_collapse_all, GtkWidget * stl_insert, GtkWidget * stl_edit_mode, GtkWidget * stl_new, GtkWidget * stl_properties, GtkWidget * stl_delete, GtkWidget * stlsheet_switch, GtkWidget * stlsheet_new, GtkWidget * stlsheet_delete, GtkWidget * stlsheet_rename, GtkWidget * parent_box):
-WindowBase(widStyles, "Stylesheet", startup, 0, parent_box)
+
+WindowStyles::WindowStyles(GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup, GtkWidget *stl, GtkWidget *stl_menu, GtkWidget *stl_expand_all, GtkWidget *stl_collapse_all, GtkWidget *stl_insert, GtkWidget *stl_edit_mode, GtkWidget *stl_new, GtkWidget *stl_properties, GtkWidget *stl_delete, GtkWidget *stlsheet_switch, GtkWidget *stlsheet_new, GtkWidget *stlsheet_delete, GtkWidget *stlsheet_rename):
+FloatingWindow(parent_layout, widStyles, "Stylesheet", startup)
 // Styles window.
 {
   // Variables.
@@ -66,7 +67,7 @@ WindowBase(widStyles, "Stylesheet", startup, 0, parent_box)
   // GUI proper.
   vbox = gtk_vbox_new(FALSE, 0);
   gtk_widget_show(vbox);
-  gtk_container_add(GTK_CONTAINER(window_vbox), vbox);
+  gtk_container_add(GTK_CONTAINER(vbox_client), vbox);
 
   scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow);
@@ -80,7 +81,7 @@ WindowBase(widStyles, "Stylesheet", startup, 0, parent_box)
   gtk_container_add(GTK_CONTAINER(scrolledwindow), treeview);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(treeview), false);
 
-  g_signal_connect((gpointer) treeview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
+  // Todo use for focus. g_signal_connect((gpointer) treeview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
 
   GtkCellRenderer *renderer = gtk_cell_renderer_text_new();
 
@@ -195,12 +196,8 @@ void WindowStyles::load(const ustring & stylesheet)
   // The actual loading is done with a delay, to make it easier for Gtk.
   g_timeout_add(500, GSourceFunc(on_load_timeout), gpointer(this));
   // Set the title.
-  ustring title = window_data + " " + stylesheet;
-  if (hbox_title) {
-    gtk_progress_bar_set_text(GTK_PROGRESS_BAR(progressbar_title), title.c_str());
-  } else {
-    gtk_window_set_title(GTK_WINDOW(window_vbox), title.c_str());
-  }
+  ustring s = title + " " + stylesheet;
+  gtk_label_set_text (GTK_LABEL (label_title), s.c_str());
 }
 
 bool WindowStyles::on_load_timeout(gpointer data)

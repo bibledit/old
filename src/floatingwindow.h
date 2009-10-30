@@ -37,7 +37,9 @@ private:
   GtkWidget * layout;
   GtkBuilder * gtkbuilder;
   GtkWidget *vbox_window;
+public:
   GtkWidget *label_title;
+private:
   GtkWidget *hscrollbar_title;
   GtkObject *adjustment_title;
   GtkWidget *label_close;
@@ -82,8 +84,10 @@ private:
   // Close link.
   static gboolean on_label_close_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data);
   gboolean on_label_close_button_press (GdkEventButton *event);
-  
+
+public:  
   ustring title;
+private:
   WindowID window_id;
 
   // Focus tools.

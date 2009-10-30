@@ -17,18 +17,21 @@
  **  
  */
 
+
 #ifndef INCLUDED_WINDOW_STYLES_H
 #define INCLUDED_WINDOW_STYLES_H
 
+
 #include <gtk/gtk.h>
 #include "ustring.h"
-#include "window.h"
+#include "floatingwindow.h"
 #include "style.h"
 
-class WindowStyles : public WindowBase
+
+class WindowStyles : public FloatingWindow
 {
 public:
-  WindowStyles(GtkAccelGroup *accelerator_group, bool startup, GtkWidget *stl, GtkWidget *stl_menu, GtkWidget *stl_expand_all, GtkWidget *stl_collapse_all, GtkWidget *stl_insert, GtkWidget *stl_edit_mode, GtkWidget *stl_new, GtkWidget *stl_properties, GtkWidget *stl_delete, GtkWidget *stlsheet_switch, GtkWidget *stlsheet_new, GtkWidget *stlsheet_delete, GtkWidget *stlsheet_rename, GtkWidget * parent_box);
+  WindowStyles(GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup, GtkWidget *stl, GtkWidget *stl_menu, GtkWidget *stl_expand_all, GtkWidget *stl_collapse_all, GtkWidget *stl_insert, GtkWidget *stl_edit_mode, GtkWidget *stl_new, GtkWidget *stl_properties, GtkWidget *stl_delete, GtkWidget *stlsheet_switch, GtkWidget *stlsheet_new, GtkWidget *stlsheet_delete, GtkWidget *stlsheet_rename);
   virtual ~WindowStyles();
   void load(const ustring& stylesheet);
   GtkWidget *apply_signal;
@@ -149,5 +152,6 @@ private:
   // Delayed load.
   static bool on_load_timeout(gpointer data);
 };
+
 
 #endif

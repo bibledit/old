@@ -24,7 +24,7 @@
 
 #include <gtk/gtk.h>
 #include "ustring.h"
-#include "window.h"
+#include "floatingwindow.h"
 #include "reference.h"
 extern "C" {
 #include <gtkhtml/gtkhtml.h>
@@ -33,10 +33,10 @@ extern "C" {
 #include "displayprojectnotes.h"
 
 
-class WindowNotes : public WindowBase
+class WindowNotes : public FloatingWindow
 {
 public:
-  WindowNotes(GtkAccelGroup *accelerator_group, bool startup, GtkWidget * parent_box);
+  WindowNotes(GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup);
   virtual ~WindowNotes();
   void go_to(Reference& reference);
   void new_note();

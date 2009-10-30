@@ -25,16 +25,16 @@
 #include <gtk/gtk.h>
 #include "ustring.h"
 #include "reference.h"
-#include "window.h"
+#include "floatingwindow.h"
 #include "editor.h"
 #include "merge_utils.h"
 #include "gui_display_changes.h"
 
 
-class WindowMerge : public WindowBase
+class WindowMerge : public FloatingWindow
 {
 public:
-  WindowMerge(GtkAccelGroup *accelerator_group, bool startup, GtkWidget * parent_box);
+  WindowMerge(GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup);
   virtual ~WindowMerge();
 protected:
   GtkWidget *notebook1;

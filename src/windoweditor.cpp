@@ -21,12 +21,13 @@
 #include <glib.h>
 #include "windoweditor.h"
 #include "help.h"
-#include "window.h"
+#include "floatingwindow.h"
 #include "keyterms.h"
 #include "tiny_utilities.h"
 
-WindowEditor::WindowEditor(const ustring & project_name, GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
-WindowBase(widEditor, project_name, startup, 0, parent_box)
+
+WindowEditor::WindowEditor(const ustring& project_name, GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup):
+FloatingWindow(parent_layout, widEditor, project_name, startup)
 // Text editor.
 {
   // Initialize variables.
@@ -45,7 +46,7 @@ WindowBase(widEditor, project_name, startup, 0, parent_box)
   // Gui.  
   vbox = gtk_vbox_new(FALSE, 0);
   gtk_widget_show(vbox);
-  gtk_container_add(GTK_CONTAINER(window_vbox), vbox);
+  gtk_container_add(GTK_CONTAINER(vbox_client), vbox);
 
   // Switch to default view.
   switch_to_view (false, project_name); 
@@ -605,7 +606,7 @@ void WindowEditor::switch_to_view (bool viewusfm, ustring project)
   // Create new view.
   if (viewusfm) {
     usfmview = new USFMView (vbox, project);
-    g_signal_connect((gpointer) usfmview->sourceview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
+    // Todo use for focus. g_signal_connect((gpointer) usfmview->sourceview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
     g_signal_connect((gpointer) usfmview->reload_signal, "clicked", G_CALLBACK(on_reload_signalled), gpointer(this));
     g_signal_connect((gpointer) usfmview->changed_signal, "clicked", G_CALLBACK(on_changed_signalled), gpointer(this));
     g_signal_connect((gpointer) usfmview->new_verse_signal, "clicked", G_CALLBACK(on_new_verse_signalled), gpointer(this));
@@ -613,7 +614,7 @@ void WindowEditor::switch_to_view (bool viewusfm, ustring project)
     last_focused_widget = usfmview->sourceview;
   } else {
     editor = new Editor (vbox, project);
-    g_signal_connect((gpointer) editor->textview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
+    // Todo use for focus. g_signal_connect((gpointer) editor->textview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
     g_signal_connect((gpointer) editor->new_verse_signal, "clicked", G_CALLBACK(on_new_verse_signalled), gpointer(this));
     g_signal_connect((gpointer) editor->new_styles_signal, "clicked", G_CALLBACK(on_new_styles_signalled), gpointer(this));
     g_signal_connect((gpointer) editor->quick_references_button, "clicked", G_CALLBACK(on_quick_references_signalled), gpointer(this));

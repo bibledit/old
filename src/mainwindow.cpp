@@ -117,7 +117,7 @@
 #include "dialogxfernotes2text.h"
 #include "htmlcolor.h"
 #include "text2pdf.h"
-#include "window.h"
+#include "floatingwindow.h"
 #include "unixwrappers.h"
 #include "dialogcompareprefs.h"
 #include "windowtimednotifier.h"
@@ -143,8 +143,9 @@
  |
  */
 
+
 MainWindow::MainWindow(unsigned long xembed, GtkAccelGroup * accelerator_group):
-WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
+navigation(0), httpd(0)
 {
   // Pointer to the settings.
   extern Settings *settings;
@@ -187,9 +188,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
   // Application name.
   g_set_application_name("Bibledit");
 
-  // Make the window as small as possible.
-  gtk_window_resize(GTK_WINDOW(window_vbox), 10, 10);
- 
   // Gui Features object.
   GuiFeatures guifeatures(0);
   project_notes_enabled = guifeatures.project_notes();
@@ -255,15 +253,23 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
   gtk_accel_group_connect(accelerator_group, '[', GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_left_square_bracket), gpointer(this), NULL));
   gtk_accel_group_connect(accelerator_group, ']', GDK_CONTROL_MASK, GtkAccelFlags(0), g_cclosure_new_swap(G_CALLBACK(accelerator_right_square_bracket), gpointer(this), NULL));
 
-
   // GUI build.
-  hbox_main = gtk_hbox_new (FALSE, 0);
-  gtk_widget_show (hbox_main);
-  gtk_container_add (GTK_CONTAINER (window_vbox), hbox_main);
+
+  // Main window, xembed is used on the XO machine.
+  if (xembed) {
+    window_main = gtk_plug_new(GdkNativeWindow(xembed));
+  } else {
+    window_main = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  }
+  gtk_widget_show (window_main);
+  g_signal_connect ((gpointer) window_main, "delete_event", G_CALLBACK(on_window_delete_event), gpointer(this));
+
+  // Use accelerators.
+  gtk_window_add_accel_group(GTK_WINDOW(window_main), accelerator_group);
 
   vbox_main = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vbox_main);
-  gtk_box_pack_start (GTK_BOX (hbox_main), vbox_main, TRUE, TRUE, 0);
+  gtk_container_add (GTK_CONTAINER (window_main), vbox_main);
 
   menubar1 = gtk_menu_bar_new();
   gtk_widget_show(menubar1);
@@ -1575,16 +1581,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
   gtk_box_pack_start(GTK_BOX(vbox_main), toolbar, FALSE, FALSE, 0);
   gtk_toolbar_set_style(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_BOTH_HORIZ);
 
-  hbox_editors = gtk_hbox_new (FALSE, 0);
-  gtk_widget_show (hbox_editors);
-  gtk_box_pack_start (GTK_BOX (vbox_main), hbox_editors, TRUE, TRUE, 0);
-
-  hbox_notes = gtk_hbox_new (FALSE, 0);
-  gtk_widget_show (hbox_notes);
-  gtk_box_pack_start (GTK_BOX (vbox_main), hbox_notes, TRUE, TRUE, 0);
-
-  gtk_box_set_child_packing (GTK_BOX (vbox_main), hbox_notes, false, false, 0, GTK_PACK_START);
-
   scrolledwindow_layout = gtk_scrolled_window_new (NULL, NULL);
   gtk_widget_show (scrolledwindow_layout);
   gtk_box_pack_start (GTK_BOX (vbox_main), scrolledwindow_layout, TRUE, TRUE, 0);
@@ -1621,16 +1617,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
   gtk_box_pack_start(GTK_BOX(hbox_status), statusbar, FALSE, TRUE, 0);
   gtk_widget_set_size_request(statusbar, 25, -1);
 
-  // This vbox will contain the tools.
-  vbox_tools = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox_tools);
-  gtk_box_pack_start (GTK_BOX (hbox_main), vbox_tools, true, true, 0);
-  
-  resize_text_area_if_tools_area_is_empty ();
-
-  // Window callbacks.
-  g_signal_connect ((gpointer) window_vbox, "set_focus", G_CALLBACK (on_window_set_focus), gpointer(this));
-  
   // Menu callbacks.
   if (new1)
     g_signal_connect((gpointer) new1, "activate", G_CALLBACK(on_new1_activate), gpointer(this));
@@ -1854,13 +1840,11 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
   set_fonts();
 
   // Size and position of window and screen layout.
-  ScreenLayoutDimensions * dimensions = new ScreenLayoutDimensions (window_vbox);
+  ScreenLayoutDimensions * dimensions = new ScreenLayoutDimensions (window_main);
   dimensions->verify();
   // If the windows are attached, apply the dimensions with a delay.
   // This delay will also take care of object destruction.
   dimensions->apply();
-
-  g_signal_connect((gpointer) delete_signal_button, "clicked", G_CALLBACK(on_window_menu_delete_button_clicked), gpointer(this));
 
 #ifndef WIN32
   // Signal handling.
@@ -1886,6 +1870,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
   g_timeout_add(300, GSourceFunc(on_windows_startup_timeout), gpointer(this));
 }
 
+
 MainWindow::~MainWindow()
 {
   // No receiving of references anymore.
@@ -1894,7 +1879,7 @@ MainWindow::~MainWindow()
     delete previously_received_reference;
 
   // Store main window dimensions if windows are attached.
-  ScreenLayoutDimensions dimensions(window_vbox);
+  ScreenLayoutDimensions dimensions(window_main);
   dimensions.save();
   
   // Shut down the various windows.
@@ -1908,10 +1893,6 @@ MainWindow::~MainWindow()
   // Destroying the window is done by Gtk itself.
 }
 
-int MainWindow::run()
-{
-  return gtk_dialog_run(GTK_DIALOG(window_vbox));
-}
 
 /*
  |
@@ -1974,18 +1955,6 @@ void MainWindow::enable_or_disable_widgets(bool enable)
  |
  |
  */
-
-
-void MainWindow::on_window_menu_delete_button_clicked(GtkButton * button, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_window_menu_delete_button();
-}
-
-
-void MainWindow::on_window_menu_delete_button()
-{
-  initiate_shutdown();
-}
 
 
 void MainWindow::on_open1_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -2072,9 +2041,9 @@ void MainWindow::deleteproject()
   ListviewDialog dialog("Delete project", projects, "", true, NULL);
   if (dialog.run() == GTK_RESPONSE_OK) {
     int result;
-    result = gtkw_dialog_question(window_vbox, "Are you sure you want to delete project " + dialog.focus + "?");
+    result = gtkw_dialog_question(window_main, "Are you sure you want to delete project " + dialog.focus + "?");
     if (result == GTK_RESPONSE_YES) {
-      result = gtkw_dialog_question(window_vbox, "Are you really sure to delete project " + dialog.focus + ", something worth perhaps years of work?");
+      result = gtkw_dialog_question(window_main, "Are you really sure to delete project " + dialog.focus + ", something worth perhaps years of work?");
     }
     if (result == GTK_RESPONSE_YES) {
       project_delete(dialog.focus);
@@ -2132,7 +2101,7 @@ void MainWindow::on_about1_activate(GtkMenuItem * menuitem, gpointer user_data)
 
 void MainWindow::showabout()
 {
-  gtk_show_about_dialog(GTK_WINDOW(window_vbox),
+  gtk_show_about_dialog(GTK_WINDOW(window_main),
                         "version", PACKAGE_VERSION,
                         "website", PACKAGE_BUGREPORT,
                         "copyright", "Copyright (©) 2003-2009 Teus Benschop",
@@ -2271,7 +2240,7 @@ void MainWindow::menu_replace()
     replacedialog.run();
     reload_all_editors(false);
   } else {
-    gtkw_dialog_info(window_vbox, "There was nothing to replace");
+    gtkw_dialog_info(window_main, "There was nothing to replace");
   }
 }
 
@@ -2411,7 +2380,7 @@ void MainWindow::on_copy_project_to()
       error.append("\ndelete project ");
       error.append(dialog.entered_value);
       error.append(" first.");
-      gtkw_dialog_error(window_vbox, error);
+      gtkw_dialog_error(window_main, error);
     } else {
       // Ok, go ahead with the copy.
       project_copy(settings->genconfig.project_get(), dialog.entered_value);
@@ -2421,7 +2390,7 @@ void MainWindow::on_copy_project_to()
       message.append("named ");
       message.append(dialog.entered_value);
       message.append(".");
-      gtkw_dialog_info(window_vbox, message);
+      gtkw_dialog_info(window_main, message);
     }
   }
 }
@@ -2881,7 +2850,6 @@ void MainWindow::on_view_references () // Todo
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_references))) {
     extern GtkAccelGroup *accelerator_group;
     window_references = new WindowReferences(layout, accelerator_group, windows_startup_pointer != G_MAXINT, references_management_enabled);
-    resize_text_area_if_tools_area_is_empty ();
     g_signal_connect((gpointer) window_references->delete_signal_button, "clicked", G_CALLBACK(on_window_references_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_references->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_references->signal_button, "clicked", G_CALLBACK(on_window_references_signal_button_clicked), gpointer(this));
@@ -2907,7 +2875,6 @@ void MainWindow::on_window_references_delete_button()
   if (window_references) {
     delete window_references;
     window_references = NULL;
-    resize_text_area_if_tools_area_is_empty ();
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_references), false);
   }
 }
@@ -3235,6 +3202,7 @@ void MainWindow::on_gui()
  |
  */
 
+
 void MainWindow::view_project_notes()
 {
   if (!project_notes_enabled)
@@ -3244,11 +3212,8 @@ void MainWindow::view_project_notes()
     window_notes->present(true);
   } else {
     extern GtkAccelGroup *accelerator_group;
-    // By default the text area take the whole height of the main window. Here we set it to evenly share with the notes window.
-    if (hbox_notes)
-      gtk_box_set_child_packing (GTK_BOX (vbox_main), hbox_notes, true, true, 0, GTK_PACK_START);
     // New notes window.
-    window_notes = new WindowNotes(accelerator_group, windows_startup_pointer != G_MAXINT, hbox_notes);
+    window_notes = new WindowNotes(layout, accelerator_group, windows_startup_pointer != G_MAXINT);
     g_signal_connect((gpointer) window_notes->delete_signal_button, "clicked", G_CALLBACK(on_window_notes_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_notes->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_notes->references_available_signal_button, "clicked", G_CALLBACK(on_window_notes_references_available_button_clicked), gpointer(this));
@@ -3265,9 +3230,6 @@ void MainWindow::on_window_notes_delete_button()
   if (window_notes) {
     delete window_notes;
     window_notes = NULL;
-    // Give the text area the whole height of the main window again.
-    if (hbox_notes)
-      gtk_box_set_child_packing (GTK_BOX (vbox_main), hbox_notes, false, false, 0, GTK_PACK_START);
   }
 }
 
@@ -3287,7 +3249,7 @@ void MainWindow::on_new_note()
 
 void MainWindow::on_delete_note_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
-  gtkw_dialog_info(((MainWindow *) user_data)->window_vbox, "A note can be deleted by clicking on the [delete] link in the notes view");
+  gtkw_dialog_info(((MainWindow *) user_data)->window_main, "A note can be deleted by clicking on the [delete] link in the notes view");
 }
 
 void MainWindow::on_viewnotes_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -3649,7 +3611,7 @@ void MainWindow::on_check_httpd()
   // Does the httpd have a request for us?
   if (!httpd.search_whole_word.empty()) {
     // Bibledit presents itself and any detached editors.
-    gtk_window_present(GTK_WINDOW(window_vbox));
+    gtk_window_present(GTK_WINDOW(window_main));
     for (unsigned int i = 0; i < editor_windows.size(); i++) {
       editor_windows[i]->present (false);
     }    
@@ -3807,7 +3769,7 @@ void MainWindow::on_check_spelling_error(bool next, bool extremity)
   extern Settings * settings;
   ProjectConfiguration * projectconfig = settings->projectconfig (project);
   if (!projectconfig->spelling_check_get()) {
-    gtkw_dialog_info (window_vbox, "To make this work, enable spelling checking in the project");
+    gtkw_dialog_info (window_main, "To make this work, enable spelling checking in the project");
     return;
   }
     
@@ -3931,8 +3893,7 @@ void MainWindow::display_window_styles()
     gtk_widget_show(menu_stylesheet);
     // Open the window.
     extern GtkAccelGroup *accelerator_group;
-    window_styles = new WindowStyles(accelerator_group, windows_startup_pointer != G_MAXINT, style, style_menu, stylesheets_expand_all, stylesheets_collapse_all, style_insert, stylesheet_edit_mode, style_new, style_properties, style_delete, stylesheet_switch, stylesheets_new, stylesheets_delete, stylesheets_rename, vbox_tools);
-    resize_text_area_if_tools_area_is_empty ();
+    window_styles = new WindowStyles(layout, accelerator_group, windows_startup_pointer != G_MAXINT, style, style_menu, stylesheets_expand_all, stylesheets_collapse_all, style_insert, stylesheet_edit_mode, style_new, style_properties, style_delete, stylesheet_switch, stylesheets_new, stylesheets_delete, stylesheets_rename);
     g_signal_connect((gpointer) window_styles->delete_signal_button, "clicked", G_CALLBACK(on_window_styles_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_styles->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_styles->apply_signal, "clicked", G_CALLBACK(on_style_button_apply_clicked), gpointer(this));
@@ -3952,7 +3913,6 @@ void MainWindow::on_window_styles_delete_button()
   if (window_styles) {
     delete window_styles;
     window_styles = NULL;
-    resize_text_area_if_tools_area_is_empty ();
   }
   gtk_widget_show(stylesheet_open);
   gtk_widget_hide(stylesheets_expand_all);
@@ -4027,7 +3987,7 @@ void MainWindow::on_style_apply()
   // Special treatment for the chapter style.
   if (style.type == stChapterNumber) {
     // Ask whether the user wishes to insert a new chapter.
-    if (gtkw_dialog_question(window_vbox, "Would you like to insert a new chapter?", GTK_RESPONSE_YES) == GTK_RESPONSE_YES) {
+    if (gtkw_dialog_question(window_main, "Would you like to insert a new chapter?", GTK_RESPONSE_YES) == GTK_RESPONSE_YES) {
       // Insert a new chapter.
       save_editors();
       ChapterNumberDialog dialog(true);
@@ -4284,7 +4244,7 @@ void MainWindow::on_preferences_gui_activate(GtkMenuItem * menuitem, gpointer us
 
 void MainWindow::on_preferences_gui()
 {
-  if (password_pass(window_vbox)) {
+  if (password_pass(window_main)) {
     GuiDialog dialog(0);
     dialog.run();
   }
@@ -4299,7 +4259,7 @@ void MainWindow::on_preferences_password_activate(GtkMenuItem * menuitem, gpoint
 
 void MainWindow::on_preferences_password()
 {
-  password_edit(window_vbox);
+  password_edit(window_main);
 }
 
 
@@ -4419,8 +4379,7 @@ void MainWindow::on_check_key_terms()
   on_window_check_keyterms_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(check_key_terms))) {
     extern GtkAccelGroup *accelerator_group;
-    window_check_keyterms = new WindowCheckKeyterms(accelerator_group, windows_startup_pointer != G_MAXINT, vbox_tools);
-    resize_text_area_if_tools_area_is_empty ();
+    window_check_keyterms = new WindowCheckKeyterms(layout, accelerator_group, windows_startup_pointer != G_MAXINT);
     g_signal_connect((gpointer) window_check_keyterms->delete_signal_button, "clicked", G_CALLBACK(on_window_check_keyterms_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_check_keyterms->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_check_keyterms->signal, "clicked", G_CALLBACK(on_keyterms_signal_button_clicked), gpointer(this));
@@ -4437,7 +4396,6 @@ void MainWindow::on_window_check_keyterms_delete_button()
   if (window_check_keyterms) {
     delete window_check_keyterms;
     window_check_keyterms = NULL;
-    resize_text_area_if_tools_area_is_empty ();
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(check_key_terms), false);
   }
 }
@@ -4476,8 +4434,7 @@ void MainWindow::on_view_related_verses()
   on_window_show_related_verses_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_related_verses))) {
     extern GtkAccelGroup *accelerator_group;
-    window_show_related_verses = new WindowShowRelatedVerses(accelerator_group, windows_startup_pointer != G_MAXINT, vbox_tools);
-    resize_text_area_if_tools_area_is_empty ();
+    window_show_related_verses = new WindowShowRelatedVerses(layout, accelerator_group, windows_startup_pointer != G_MAXINT);
     g_signal_connect((gpointer) window_show_related_verses->delete_signal_button, "clicked", G_CALLBACK(on_window_show_related_verses_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_show_related_verses->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_show_related_verses->button_item, "clicked", G_CALLBACK(on_window_show_related_verses_item_button_clicked), gpointer(this));
@@ -4498,7 +4455,6 @@ void MainWindow::on_window_show_related_verses_delete_button()
   if (window_show_related_verses) {
     delete window_show_related_verses;
     window_show_related_verses = NULL;
-    resize_text_area_if_tools_area_is_empty ();
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_related_verses), false);
   }
 }
@@ -4970,7 +4926,6 @@ void MainWindow::on_window_resource_delete_button(GtkButton * button)
     if (widget == resource_windows[i]->delete_signal_button) {
       delete resource_windows[i];
       resource_windows.erase(iterator);
-      resize_text_area_if_tools_area_is_empty ();
       break;
     }
     iterator++;
@@ -5038,8 +4993,7 @@ void MainWindow::on_file_resources_open(ustring resource, bool startup)
 
   // Display a new resource.
   extern GtkAccelGroup *accelerator_group;
-  WindowResource *resource_window = new WindowResource(resource, accelerator_group, startup, vbox_tools);
-  resize_text_area_if_tools_area_is_empty ();
+  WindowResource *resource_window = new WindowResource(resource, layout, accelerator_group, startup);
   g_signal_connect((gpointer) resource_window->delete_signal_button, "clicked", G_CALLBACK(on_window_resource_delete_button_clicked), gpointer(this));
   g_signal_connect((gpointer) resource_window->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
   resource_window->go_to(navigation.reference);
@@ -5057,7 +5011,6 @@ void MainWindow::on_file_resources_close()
   WindowResource *focused_window = last_focused_resource_window();
   if (focused_window) {
     on_window_resource_delete_button(GTK_BUTTON(focused_window->delete_signal_button));
-    resize_text_area_if_tools_area_is_empty ();
   }
 }
 
@@ -5179,7 +5132,7 @@ void MainWindow::on_file_project_open(const ustring & project, bool startup)
 {
   // If the editor already displays, present it and bail out.
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    if (project == editor_windows[i]->window_data) {
+    if (project == editor_windows[i]->title) {
       editor_windows[i]->present(false);
       return;
     }
@@ -5187,7 +5140,7 @@ void MainWindow::on_file_project_open(const ustring & project, bool startup)
 
   // Display a new editor.
   extern GtkAccelGroup *accelerator_group;
-  WindowEditor *editor_window = new WindowEditor(project, accelerator_group, startup, hbox_editors);
+  WindowEditor *editor_window = new WindowEditor(project, layout, accelerator_group, startup);
   g_signal_connect((gpointer) editor_window->delete_signal_button, "clicked", G_CALLBACK(on_window_editor_delete_button_clicked), gpointer(this));
   g_signal_connect((gpointer) editor_window->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
   g_signal_connect((gpointer) editor_window->new_verse_signal, "clicked", G_CALLBACK(on_new_verse_signalled), gpointer(this));
@@ -5255,7 +5208,7 @@ void MainWindow::handle_editor_focus()
     title.append (" - ");
     title.append (project);
   }
-  gtk_window_set_title(GTK_WINDOW(window_vbox), title.c_str());
+  gtk_window_set_title(GTK_WINDOW(window_main), title.c_str());
 
   // If we've no project bail out.
   if (project.empty())
@@ -5412,8 +5365,7 @@ void MainWindow::on_file_projects_merge()
   on_window_merge_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(file_projects_merge))) {
     extern GtkAccelGroup *accelerator_group;
-    window_merge = new WindowMerge(accelerator_group, windows_startup_pointer != G_MAXINT, vbox_tools);
-    resize_text_area_if_tools_area_is_empty ();
+    window_merge = new WindowMerge(layout, accelerator_group, windows_startup_pointer != G_MAXINT);
     g_signal_connect((gpointer) window_merge->delete_signal_button, "clicked", G_CALLBACK(on_window_merge_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_merge->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_merge->editors_get_text_button, "clicked", G_CALLBACK(on_merge_window_get_text_button_clicked), gpointer(this));
@@ -5438,7 +5390,6 @@ void MainWindow::on_window_merge_delete_button()
   if (window_merge) {
     delete window_merge;
     window_merge = NULL;
-    resize_text_area_if_tools_area_is_empty ();
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(file_projects_merge), false);
   }
 }
@@ -5452,10 +5403,10 @@ void MainWindow::on_merge_window_get_text_button()
 {
   if (window_merge) {
     for (unsigned int i = 0; i < editor_windows.size(); i++) {
-      if (editor_windows[i]->window_data == window_merge->current_master_project) {
+      if (editor_windows[i]->title == window_merge->current_master_project) {
         window_merge->main_project_data = editor_windows[i]->get_chapter();
       }
-      if (editor_windows[i]->window_data == window_merge->current_edited_project) {
+      if (editor_windows[i]->title == window_merge->current_edited_project) {
         window_merge->edited_project_data = editor_windows[i]->get_chapter();
       }
     }
@@ -5595,7 +5546,7 @@ void MainWindow::on_print()
       show_references_window();
       vector <Reference> refs = window_references->get();
       if (refs.empty()) {
-        gtkw_dialog_info(window_vbox, "There are no references to print");
+        gtkw_dialog_info(window_main, "There are no references to print");
       } else {
         // Run the function for printing the references.
         extern Settings *settings;
@@ -6191,7 +6142,7 @@ bool MainWindow::on_windows_startup()
   // At the end of all focus the right editor, the one that had focus last time on shutdown.
   if (focused_project_last_session.empty()) {
     for (unsigned int i = 0; i < editor_windows.size(); i++) {
-      if (focused_project_last_session == editor_windows[i]->window_data) {
+      if (focused_project_last_session == editor_windows[i]->title) {
         editor_windows[i]->present(true);
       }
     }
@@ -6285,12 +6236,6 @@ void MainWindow::on_window_focus_button(GtkButton * button) // Todo let it work.
   if (widget == now_focused_window_button)
     return;
 
-  // Bail out if windows are attached and the main window fired the focus signal.
-  // This is to prevent all attached windows from loosing their focus when a dialog is opened, and closed.
-  if (widget == focus_in_signal_button) {
-    return;
-  }
-
   // Save the new focused window and keep the previous one.
   last_focused_window_button = now_focused_window_button;
   now_focused_window_button = widget;
@@ -6349,7 +6294,6 @@ void MainWindow::present_windows(GtkWidget * widget)
   }
   if (window_check_usfm)
     window_check_usfm->present(false);
-  present(false);
 }
 
 
@@ -6383,21 +6327,6 @@ void MainWindow::window_set_focus (GtkWidget *widget)
   }
   if (window_check_usfm)
     window_check_usfm->focus_if_widget_mine(widget);
-}
-
-
-void MainWindow::resize_text_area_if_tools_area_is_empty()
-{
-  if (vbox_tools) {
-    GList * children = gtk_container_get_children (GTK_CONTAINER (vbox_tools));
-    guint tools_count = g_list_length (children);
-    g_list_free (children);
-    if (tools_count) {
-      gtk_box_set_child_packing (GTK_BOX (hbox_main), vbox_tools, true, true, 0, GTK_PACK_START);
-    } else {
-      gtk_box_set_child_packing (GTK_BOX (hbox_main), vbox_tools, false, false, 0, GTK_PACK_START);
-    }
-  }
 }
 
 
@@ -6648,11 +6577,6 @@ void MainWindow::accelerator_close_window()
   }
   handle_editor_focus();
 
-  // Menu / main window.
-  if (now_focused_window_button == focus_in_signal_button) {
-    initiate_shutdown();
-  }
-
   // Check USFM.
   if (window_check_usfm) {
     if (now_focused_window_button == window_check_usfm->focus_in_signal_button) {
@@ -6736,9 +6660,8 @@ void MainWindow::accelerator_menu_callback(gpointer user_data)
   ((MainWindow *) user_data)->accelerator_menu();
 }
 
-void MainWindow::accelerator_menu()
+void MainWindow::accelerator_menu() // Todo goes out.
 {
-  present(true);
 }
 
 void MainWindow::accelerator_view_usfm_code(gpointer user_data)
@@ -6800,6 +6723,17 @@ void MainWindow::right_square_bracket()
  |
  |
  */
+
+
+bool MainWindow::on_window_delete_event(GtkWidget * widget, GdkEvent * event, gpointer user_data)
+{
+  ((MainWindow *) user_data)->initiate_shutdown();
+  // Prevent the window from being deleted right now.
+  // This prevents crashes.
+  // The window will be deleted later on.
+  return true;
+}
+
 
 void MainWindow::initiate_shutdown()
 // Starts the shutdown sequence.
@@ -6953,8 +6887,7 @@ void MainWindow::on_check_usfm()
   on_window_check_usfm_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(check_usfm))) {
     extern GtkAccelGroup *accelerator_group;
-    window_check_usfm = new WindowCheckUSFM(accelerator_group, windows_startup_pointer != G_MAXINT, vbox_tools);
-    resize_text_area_if_tools_area_is_empty ();
+    window_check_usfm = new WindowCheckUSFM(layout, accelerator_group, windows_startup_pointer != G_MAXINT);
     g_signal_connect((gpointer) window_check_usfm->delete_signal_button, "clicked", G_CALLBACK(on_window_check_usfm_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_check_usfm->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     handle_editor_focus();
@@ -6972,7 +6905,6 @@ void MainWindow::on_window_check_usfm_delete_button()
   if (window_check_usfm) {
     delete window_check_usfm;
     window_check_usfm = NULL;
-    resize_text_area_if_tools_area_is_empty ();
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(check_usfm), false);
   }
 }
@@ -7081,7 +7013,7 @@ tools_area_x_position - this can go out, and the other areas too.
 
 
 
-
+A floating window should not become smaller than so much, else it becomes unmanageable.
 
 
 task #9496: Remove independent windows and make it all normal, resizeable window

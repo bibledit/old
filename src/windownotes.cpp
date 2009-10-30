@@ -22,7 +22,7 @@
 #include <glib.h>
 #include "windownotes.h"
 #include "help.h"
-#include "window.h"
+#include "floatingwindow.h"
 #include "gui_features.h"
 #include "notes_utils.h"
 #include "books.h"
@@ -41,8 +41,8 @@
 #include "dialogyesnoalways.h"
 
 
-WindowNotes::WindowNotes(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
-WindowBase(widNotes, "Project notes", startup, 0, parent_box)
+WindowNotes::WindowNotes(GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup):
+FloatingWindow(parent_layout, widNotes, "Project notes", startup)
 // Project notes window.
 {
   // Initialize variables.
@@ -55,7 +55,7 @@ WindowBase(widNotes, "Project notes", startup, 0, parent_box)
 
   notebook1 = gtk_notebook_new();
   gtk_widget_show(notebook1);
-  gtk_container_add(GTK_CONTAINER(window_vbox), notebook1);
+  gtk_container_add(GTK_CONTAINER(vbox_client), notebook1);
   gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook1), FALSE);
 
   scrolledwindow_notes = gtk_scrolled_window_new(NULL, NULL);
@@ -68,7 +68,7 @@ WindowBase(widNotes, "Project notes", startup, 0, parent_box)
   gtk_container_add(GTK_CONTAINER(scrolledwindow_notes), htmlview_notes);
   gtk_html_allow_selection(GTK_HTML(htmlview_notes), true);
 
-  g_signal_connect((gpointer) htmlview_notes, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
+  // Todo use for focus g_signal_connect((gpointer) htmlview_notes, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
 
   hbox14 = gtk_hbox_new(FALSE, 0);
   gtk_widget_show(hbox14);
@@ -241,7 +241,7 @@ WindowBase(widNotes, "Project notes", startup, 0, parent_box)
   gtk_container_add(GTK_CONTAINER(scrolledwindow_note_editor), htmlview_note_editor);
   gtk_html_allow_selection(GTK_HTML(htmlview_note_editor), true);
 
-  g_signal_connect((gpointer) htmlview_note_editor, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
+  // Todo use for focus. g_signal_connect((gpointer) htmlview_note_editor, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
 
   vbox_controls = gtk_vbox_new(FALSE, 0);
   gtk_widget_show(vbox_controls);
@@ -886,12 +886,12 @@ void WindowNotes::on_notes_button_ok()
           message.append(messages[i]);
           message.append("\n");
         }
-        gtkw_dialog_error(window_vbox, message);
+        gtkw_dialog_error(vbox_client, message);
       }
     }
     // See whether any references are left. If not give a message.
     if (encoded_references.empty()) {
-      gtkw_dialog_error(window_vbox, "No valid references. Note was not stored");
+      gtkw_dialog_error(vbox_client, "No valid references. Note was not stored");
       return;
     }
     // Connect to database and start transaction.
@@ -1102,11 +1102,13 @@ void WindowNotes::insert_standard_text(unsigned int selector)
   }
 }
 
+
 void WindowNotes::get_references_from_note(vector < Reference > &references, vector < ustring > &messages)
 {
   if (note_editor)
     notes_get_references_from_editor(note_editor->textbuffer_references, references, messages);
 }
+
 
 void WindowNotes::get_references_from_id(gint id)
 // Get the references from the note id
@@ -1208,7 +1210,7 @@ void WindowNotes::cut()
 {
   // Cut to clipboard if editing.
   if (note_being_edited()) {
-    GtkWidget *focused_widget = gtk_window_get_focus(GTK_WINDOW(window_vbox));
+    GtkWidget *focused_widget = gtk_window_get_focus(GTK_WINDOW(vbox_client));
     if (focused_widget == htmlview_note_editor)
       gtk_html_cut(GTK_HTML(htmlview_note_editor));
     if (focused_widget == textview_note_references) {
@@ -1218,12 +1220,13 @@ void WindowNotes::cut()
   }
 }
 
+
 void WindowNotes::copy()
 {
   // Copy to clipboard.
   if (note_being_edited()) {
 
-    GtkWidget *focused_widget = gtk_window_get_focus(GTK_WINDOW(window_vbox));
+    GtkWidget *focused_widget = gtk_window_get_focus(GTK_WINDOW(vbox_client));
     if (focused_widget == htmlview_note_editor)
       gtk_html_copy(GTK_HTML(htmlview_note_editor));
     if (focused_widget == textview_note_references) {
@@ -1235,11 +1238,12 @@ void WindowNotes::copy()
   }
 }
 
+
 void WindowNotes::paste()
 {
   // Paste from clipboard if editing.
   if (note_being_edited()) {
-    GtkWidget *focused_widget = gtk_window_get_focus(GTK_WINDOW(window_vbox));
+    GtkWidget *focused_widget = gtk_window_get_focus(GTK_WINDOW(vbox_client));
     if (focused_widget == htmlview_note_editor)
       gtk_html_paste(GTK_HTML(htmlview_note_editor), false);
     if (focused_widget == textview_note_references) {
@@ -1249,6 +1253,7 @@ void WindowNotes::paste()
   }
 }
 
+
 void WindowNotes::undo()
 {
   // Undo if editing.
@@ -1256,6 +1261,7 @@ void WindowNotes::undo()
     gtk_html_undo(GTK_HTML(htmlview_note_editor));
   }
 }
+
 
 void WindowNotes::redo()
 {
@@ -1277,9 +1283,10 @@ void WindowNotes::on_button_more_clicked(GtkButton * button, gpointer user_data)
   ((WindowNotes *) user_data)->on_button_more();
 }
 
+
 void WindowNotes::on_button_more()
 {
-  ProjectNoteDialog dialog(window_vbox, projects, project, created_on, created_by, edited_on, logbook);
+  ProjectNoteDialog dialog(vbox_client, projects, project, created_on, created_by, edited_on, logbook);
   if (dialog.run() == GTK_RESPONSE_OK) {
     project = dialog.project;
   }

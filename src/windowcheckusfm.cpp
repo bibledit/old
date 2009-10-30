@@ -20,7 +20,7 @@
 #include "libraries.h"
 #include <glib.h>
 #include "windowcheckusfm.h"
-#include "window.h"
+#include "floatingwindow.h"
 #include "settings.h"
 #include "shortcuts.h"
 #include "gwrappers.h"
@@ -32,8 +32,8 @@
 #include "scripts.h"
 
 
-WindowCheckUSFM::WindowCheckUSFM(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
-WindowBase(widCheckUSFM, "Check USFM", startup, 0, parent_box)
+WindowCheckUSFM::WindowCheckUSFM(GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup):
+FloatingWindow(parent_layout, widCheckUSFM, "Check USFM", startup)
 // Window for checking USFM.
 {
   // Initialize variables.
@@ -43,7 +43,7 @@ WindowBase(widCheckUSFM, "Check USFM", startup, 0, parent_box)
   
   vbox = gtk_vbox_new (FALSE, 6);
   gtk_widget_show (vbox);
-  gtk_container_add (GTK_CONTAINER (window_vbox), vbox);
+  gtk_container_add (GTK_CONTAINER (vbox_client), vbox);
 
   checkbutton_verses_at_start = gtk_check_button_new_with_mnemonic ("Verses in raw text are at line start");
   gtk_widget_show (checkbutton_verses_at_start);
@@ -130,9 +130,9 @@ WindowBase(widCheckUSFM, "Check USFM", startup, 0, parent_box)
 
   gtk_label_set_mnemonic_widget(GTK_LABEL(label_filter), combobox_filter);
 
-  g_signal_connect((gpointer) combobox_filter, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
-  g_signal_connect((gpointer) button_discover_markup, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
-  g_signal_connect((gpointer) label_information_text, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
+  // Todo use for focus. g_signal_connect((gpointer) combobox_filter, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
+  // Todo use for focus. g_signal_connect((gpointer) button_discover_markup, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
+  // Todo use for focus. g_signal_connect((gpointer) label_information_text, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
 
   g_signal_connect ((gpointer) button_filter, "clicked", G_CALLBACK (on_button_filter_clicked), gpointer(this));
   g_signal_connect ((gpointer) button_discover_markup, "clicked", G_CALLBACK (on_button_discover_markup_clicked), gpointer(this));

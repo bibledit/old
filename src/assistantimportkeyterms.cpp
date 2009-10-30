@@ -21,7 +21,7 @@
 #include <glib.h>
 #include "assistantimportkeyterms.h"
 #include "help.h"
-#include "window.h"
+#include "floatingwindow.h"
 #include "keyterms.h"
 #include "tiny_utilities.h"
 #include "projectutils.h"

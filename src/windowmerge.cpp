@@ -22,7 +22,7 @@
 #include <glib.h>
 #include "windowmerge.h"
 #include "help.h"
-#include "window.h"
+#include "floatingwindow.h"
 #include "keyterms.h"
 #include "tiny_utilities.h"
 #include "projectutils.h"
@@ -46,8 +46,8 @@
 #include "snapshots.h"
 
 
-WindowMerge::WindowMerge(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
-WindowBase(widMerge, "Merge", startup, 0, parent_box)
+WindowMerge::WindowMerge(GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup):
+FloatingWindow(parent_layout, widMerge, "Merge", startup)
 // Window for merging changes.  
 {
   // Save and initialize variables.
@@ -57,7 +57,7 @@ WindowBase(widMerge, "Merge", startup, 0, parent_box)
   // Build GUI.
   notebook1 = gtk_notebook_new();
   gtk_widget_show(notebook1);
-  gtk_container_add(GTK_CONTAINER(window_vbox), notebook1);
+  gtk_container_add(GTK_CONTAINER(vbox_client), notebook1);
   gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook1), FALSE);
 
   // Build merge GUI.
@@ -90,7 +90,7 @@ WindowBase(widMerge, "Merge", startup, 0, parent_box)
 
   display_changes_gui = new DisplayChangesGui (vbox1);
 
-  g_signal_connect((gpointer) display_changes_gui->textview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
+  // Todo use for focus g_signal_connect((gpointer) display_changes_gui->textview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
 
   hbox1 = gtk_hbox_new(FALSE, 0);
   gtk_widget_show(hbox1);

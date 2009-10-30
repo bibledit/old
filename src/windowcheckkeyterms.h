@@ -25,17 +25,17 @@
 #include <gtk/gtk.h>
 #include "ustring.h"
 #include "reference.h"
-#include "window.h"
+#include "floatingwindow.h"
 extern "C" {
 #include <gtkhtml/gtkhtml.h>
 }
 #include "htmlwriter2.h"
 
 
-class WindowCheckKeyterms : public WindowBase
+class WindowCheckKeyterms : public FloatingWindow
 {
 public:
-  WindowCheckKeyterms(GtkAccelGroup *accelerator_group, bool startup, GtkWidget * parent_box);
+  WindowCheckKeyterms(GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup);
   virtual ~WindowCheckKeyterms();
   void go_to_term(unsigned int id);
   void copy_clipboard();
