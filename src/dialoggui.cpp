@@ -65,8 +65,6 @@ GuiDialog::GuiDialog(int dummy)
   shortcuts.button(checkbutton_tools);
   checkbutton_preferences = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_preferences"));
   shortcuts.button(checkbutton_preferences);
-  checkbutton_independent_windows = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_independent_windows"));
-  shortcuts.button(checkbutton_independent_windows);
   checkbutton_remember_verse_chapter = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "checkbutton_remember_verse_chapter"));
   shortcuts.button(checkbutton_remember_verse_chapter);
   InDialogHelp * indialoghelp = new InDialogHelp(featuresdialog, gtkbuilder, &shortcuts, "preferences_gui");
@@ -99,7 +97,6 @@ GuiDialog::GuiDialog(int dummy)
   mode_set(settings->genconfig.features_mode_get());
   list_set(settings->genconfig.features_list_get());
   on_togglebutton();
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_independent_windows), settings->genconfig.windows_detached_get());
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_remember_verse_chapter), settings->genconfig.remember_verse_per_chapter_get());
 }
 
@@ -134,17 +131,14 @@ void GuiDialog::on_okbutton()
   unsigned int new_mode = mode_get();
   ustring old_list = settings->genconfig.features_list_get();
   ustring new_list = list_get();
-  bool old_windows = settings->genconfig.windows_detached_get();
-  bool new_windows = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_independent_windows));
 
   // Store the data.
   settings->genconfig.features_mode_set(new_mode);
   settings->genconfig.features_list_set(new_list);
-  settings->genconfig.windows_detached_set(new_windows);
   settings->genconfig.remember_verse_per_chapter_set(gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton_remember_verse_chapter))); 
 
   // Restart needed if there was a change in the features.
-  if ((old_mode != new_mode) || (old_list != new_list) || (old_windows != new_windows)) {
+  if ((old_mode != new_mode) || (old_list != new_list)) {
     gtkw_dialog_info(featuresdialog, "The changes will take effect after Bibledit has been restarted");
   }
 }

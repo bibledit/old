@@ -652,7 +652,7 @@ protected:
   void on_text_font();
   void set_fonts();
 
-  /* Outline */
+  /* Outline */ // Todo
   static void on_view_outline_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_view_outline();
   WindowOutline * window_outline;
@@ -745,7 +745,6 @@ protected:
   GtkWidget * focused_editor_button;
   GtkWidget * focused_resource_button;
   GtkWidget * focused_tool_button;
-  bool windows_are_detached;
   static void on_window_set_focus (GtkWindow *window, GtkWidget *widget, gpointer user_data);
   void window_set_focus (GtkWidget *widget);
   void resize_text_area_if_tools_area_is_empty();
@@ -821,8 +820,8 @@ protected:
   ImportAssistant * import_assistant;
   
   /* Floating windows */ // Todo
-  FloatingWindow * floatingwindow;
-    
+  static void on_scrolledwindow_layout_size_allocate (GtkWidget *widget, GdkRectangle *allocation, gpointer user_data);
+  void scrolledwindow_layout_size_allocate (GdkRectangle *allocation);
   
   
 

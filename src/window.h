@@ -17,32 +17,15 @@
  **  
  */
 
+
 #ifndef INCLUDED_WINDOW_H
 #define INCLUDED_WINDOW_H
 
+
 #include "libraries.h"
 #include <gtk/gtk.h>
+#include "windowdata.h"
 
-enum WindowID { widShowRelatedVerses, widMerge, widResource, 
-                widOutline, widCheckKeyterms, widStyles, widNotes, widReferences,
-                widEditor, widMenu, widShowVerses, widCheckUSFM, widSourceLanguages };
-
-class WindowData
-{
-public:
-  WindowData(bool save_on_destroy);
-  ~WindowData();
-  vector<int> widths;
-  vector<int> heights;
-  vector<int> x_positions;
-  vector<int> y_positions;
-  vector<int> ids;
-  vector<ustring> datas;
-  vector<bool> shows;
-  void debug();
-private:
-  bool my_save_on_destroy;
-};
 
 class WindowBase
 {

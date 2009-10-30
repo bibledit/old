@@ -50,7 +50,6 @@ protected:
   GtkWidget *checkbutton_checks;
   GtkWidget *checkbutton_tools;
   GtkWidget *checkbutton_preferences;
-  GtkWidget *checkbutton_independent_windows;
   GtkWidget *checkbutton_remember_verse_chapter;
   GtkWidget *cancelbutton;
   GtkWidget *okbutton;

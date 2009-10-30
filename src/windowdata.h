@@ -18,28 +18,34 @@
  */
 
 
-#ifndef INCLUDED_WINDOW_OUTLINE_H
-#define INCLUDED_WINDOW_OUTLINE_H
+#ifndef INCLUDED_WINDOWDATA_H
+#define INCLUDED_WINDOWDATA_H
 
 
+#include "libraries.h"
 #include <gtk/gtk.h>
-#include "ustring.h"
-#include "reference.h"
-#include "floatingwindow.h"
-#include "outline.h"
 
 
-class WindowOutline : public FloatingWindow
+enum WindowID { widShowRelatedVerses, widMerge, widResource, 
+                widOutline, widCheckKeyterms, widStyles, widNotes, widReferences,
+                widEditor, widMenu, widShowVerses, widCheckUSFM, widSourceLanguages };
+
+
+class WindowData
 {
 public:
-  WindowOutline(GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup);
-  virtual ~WindowOutline();
-  void go_to(const ustring& project, Reference& reference);
-  Outline * outline;
-protected:
-  GtkWidget *vbox;
+  WindowData(bool save_on_destroy);
+  ~WindowData();
+  vector<int> widths;
+  vector<int> heights;
+  vector<int> x_positions;
+  vector<int> y_positions;
+  vector<int> ids;
+  vector<ustring> titles;
+  vector<bool> shows;
+  void debug();
 private:
-  Reference myreference;
+  bool my_save_on_destroy;
 };
 
 

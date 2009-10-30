@@ -85,8 +85,8 @@ public:
   // Import raw text.
   int import_raw_text_book;
   int import_raw_text_chapter;
-  // Windows.
-  vector <GtkWindow *> open_windows;
+  // Floating windows.
+  vector <gpointer> open_floating_windows;
   // Project notes.
   bool project_notes_show_title;
   // Styles.

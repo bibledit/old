@@ -25,17 +25,17 @@
 #include <gtk/gtk.h>
 #include "ustring.h"
 #include "reference.h"
-#include "window.h"
+#include "floatingwindow.h"
 extern "C" {
 #include <gtkhtml/gtkhtml.h>
 }
 #include "htmlwriter2.h"
 
 
-class WindowReferences : public WindowBase
+class WindowReferences : public FloatingWindow
 {
 public:
-  WindowReferences(GtkAccelGroup *accelerator_group, bool startup, GtkWidget * parent_box, bool reference_management_enabled);
+  WindowReferences(GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup, bool reference_management_enabled);
   virtual ~WindowReferences();
   void set (vector <Reference>& refs, const ustring& project_in, vector <ustring> * comments_in);
   vector <Reference> get ();

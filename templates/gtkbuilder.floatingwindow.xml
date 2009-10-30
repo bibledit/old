@@ -37,14 +37,17 @@
               <object class="GtkHBox" id="hbox_titlebar">
                 <property name="visible">True</property>
                 <child>
-                  <object class="GtkLabel" id="label_title">
+                  <object class="GtkEventBox" id="eventbox_title">
                     <property name="visible">True</property>
-                    <property name="label" translatable="yes">Title</property>
+                    <child>
+                      <object class="GtkLabel" id="label_title">
+                        <property name="visible">True</property>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="padding">4</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
@@ -58,16 +61,12 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEventBox" id="eventbox_actions">
+                  <object class="GtkEventBox" id="eventbox_close">
                     <property name="visible">True</property>
                     <child>
-                      <object class="GtkLabel" id="label_actions">
+                      <object class="GtkLabel" id="label_close">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">[actions]</property>
-                        <attributes>
-                          <attribute name="underline" value="True"/>
-                          <attribute name="foreground" value="#00000000ffff"/>
-                        </attributes>
+                        <property name="label" translatable="yes">x</property>
                       </object>
                     </child>
                   </object>
@@ -86,17 +85,16 @@
               </packing>
             </child>
             <child>
-              <object class="GtkVBox" id="vbox_client">
+              <object class="GtkEventBox" id="eventbox_client">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <child>
-                  <object class="GtkTextView" id="textview1">
+                  <object class="GtkVBox" id="vbox_client">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <placeholder/>
+                    </child>
                   </object>
-                  <packing>
-                    <property name="position">0</property>
-                  </packing>
                 </child>
               </object>
               <packing>
@@ -108,9 +106,13 @@
                 <property name="visible">True</property>
                 <property name="spacing">5</property>
                 <child>
-                  <object class="GtkLabel" id="label_status1">
+                  <object class="GtkEventBox" id="eventbox_status1">
                     <property name="visible">True</property>
-                    <property name="label" translatable="yes">status1</property>
+                    <child>
+                      <object class="GtkLabel" id="label_status1">
+                        <property name="visible">True</property>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -119,9 +121,13 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="label_status2">
+                  <object class="GtkEventBox" id="eventbox_status2">
                     <property name="visible">True</property>
-                    <property name="label" translatable="yes">status2</property>
+                    <child>
+                      <object class="GtkLabel" id="label_status2">
+                        <property name="visible">True</property>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -130,11 +136,15 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="label_status_fill">
+                  <object class="GtkEventBox" id="eventbox_fill">
                     <property name="visible">True</property>
+                    <child>
+                      <object class="GtkLabel" id="label_status_fill">
+                        <property name="visible">True</property>
+                      </object>
+                    </child>
                   </object>
                   <packing>
-                    <property name="fill">False</property>
                     <property name="position">2</property>
                   </packing>
                 </child>

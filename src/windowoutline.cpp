@@ -22,32 +22,29 @@
 #include <glib.h>
 #include "windowoutline.h"
 #include "help.h"
-#include "window.h"
 #include "keyterms.h"
 #include "tiny_utilities.h"
 
 
-WindowOutline::WindowOutline(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box):
-WindowBase(widOutline, "Outline", startup, 0, parent_box), myreference(0)
+WindowOutline::WindowOutline(GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup):
+FloatingWindow (parent_layout, widOutline, "Outline", startup), myreference(0)
 // Window showing outline.
 {
-  vbox = gtk_vbox_new(FALSE, 0);
-  gtk_widget_show(vbox);
-  gtk_container_add(GTK_CONTAINER(window_vbox), vbox);
+  // Outline object.
+  outline = new Outline(vbox_client);
 
-  outline = new Outline(vbox);
-  g_signal_connect((gpointer) outline->treeview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
-
-  // Main focused widget.
+  // Focus control.
   last_focused_widget = outline->treeview;
   gtk_widget_grab_focus (last_focused_widget);
+  g_signal_connect ((gpointer) outline->treeview, "button_press_event", G_CALLBACK (on_widget_button_press_event), gpointer (this));
 }
+
 
 WindowOutline::~WindowOutline()
 {
-  if (outline)
-    delete outline;
+  delete outline;
 }
+
 
 void WindowOutline::go_to(const ustring & project, Reference & reference)
 {

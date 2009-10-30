@@ -238,21 +238,6 @@
           </packing>
         </child>
         <child>
-          <object class="GtkCheckButton" id="checkbutton_independent_windows">
-            <property name="label" translatable="yes">Independent windows</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">False</property>
-            <property name="use_underline">True</property>
-            <property name="draw_indicator">True</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">19</property>
-          </packing>
-        </child>
-        <child>
           <object class="GtkCheckButton" id="checkbutton_remember_verse_chapter">
             <property name="label" translatable="yes">Remember most recent verse per chapter</property>
             <property name="visible">True</property>
@@ -262,7 +247,7 @@
             <property name="draw_indicator">True</property>
           </object>
           <packing>
-            <property name="position">21</property>
+            <property name="position">20</property>
           </packing>
         </child>
         <child internal-child="action_area">

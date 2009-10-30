@@ -179,7 +179,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
   focused_resource_button = NULL;
   focused_tool_button = NULL;
   shutting_down = false;
-  windows_are_detached = settings->genconfig.windows_detached_get();
   check_spelling_at_start = false;
   check_spelling_at_end = false;
   event_id_receive_reference = 0;
@@ -900,11 +899,6 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
 
   // The menu entry is only created when the windows are detached.
   view_screen_layout = NULL;
-  if (windows_are_detached) {
-    view_screen_layout = gtk_check_menu_item_new_with_mnemonic("_Screen layout");
-    gtk_widget_show(view_screen_layout);
-    gtk_container_add(GTK_CONTAINER(menuitem_view_menu), view_screen_layout);
-  }
 
   view_references = gtk_check_menu_item_new_with_mnemonic ("R_eferences");
   gtk_widget_show (view_references);
@@ -1581,23 +1575,18 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
   gtk_box_pack_start(GTK_BOX(vbox_main), toolbar, FALSE, FALSE, 0);
   gtk_toolbar_set_style(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_BOTH_HORIZ);
 
-  // The following boxes are only created in attached view, else these are NULL.
-  hbox_editors = NULL;
-  hbox_notes = NULL;
-  if (!windows_are_detached) {
-    hbox_editors = gtk_hbox_new (FALSE, 0);
-    gtk_widget_show (hbox_editors);
-    gtk_box_pack_start (GTK_BOX (vbox_main), hbox_editors, TRUE, TRUE, 0);
+  hbox_editors = gtk_hbox_new (FALSE, 0);
+  gtk_widget_show (hbox_editors);
+  gtk_box_pack_start (GTK_BOX (vbox_main), hbox_editors, TRUE, TRUE, 0);
 
-    hbox_notes = gtk_hbox_new (FALSE, 0);
-    gtk_widget_show (hbox_notes);
-    gtk_box_pack_start (GTK_BOX (vbox_main), hbox_notes, TRUE, TRUE, 0);
+  hbox_notes = gtk_hbox_new (FALSE, 0);
+  gtk_widget_show (hbox_notes);
+  gtk_box_pack_start (GTK_BOX (vbox_main), hbox_notes, TRUE, TRUE, 0);
 
-    gtk_box_set_child_packing (GTK_BOX (vbox_main), hbox_notes, false, false, 0, GTK_PACK_START);
-  }
+  gtk_box_set_child_packing (GTK_BOX (vbox_main), hbox_notes, false, false, 0, GTK_PACK_START);
 
   scrolledwindow_layout = gtk_scrolled_window_new (NULL, NULL);
-  // Todo gtk_widget_show (scrolledwindow_layout);
+  gtk_widget_show (scrolledwindow_layout);
   gtk_box_pack_start (GTK_BOX (vbox_main), scrolledwindow_layout, TRUE, TRUE, 0);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow_layout), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow_layout), GTK_SHADOW_IN);
@@ -1605,11 +1594,10 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
   layout = gtk_layout_new (NULL, NULL);
   gtk_widget_show (layout);
   gtk_container_add (GTK_CONTAINER (scrolledwindow_layout), layout);
-  gtk_layout_set_size (GTK_LAYOUT (layout), 0, 0);
+  // The real size of the layout will be set once space has been allocated to the parent scrolled window
+  gtk_layout_set_size (GTK_LAYOUT (layout), 10, 10);
   GTK_ADJUSTMENT (GTK_LAYOUT (layout)->hadjustment)->step_increment = 10;
   GTK_ADJUSTMENT (GTK_LAYOUT (layout)->vadjustment)->step_increment = 10;
-
-  floatingwindow = new FloatingWindow (layout);
 
   hbox_status = gtk_hbox_new(FALSE, 0);
   gtk_widget_show(hbox_status);
@@ -1633,22 +1621,15 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
   gtk_box_pack_start(GTK_BOX(hbox_status), statusbar, FALSE, TRUE, 0);
   gtk_widget_set_size_request(statusbar, 25, -1);
 
-  // This vbox will contain the tools in attached view.
-  // Note that in detached view, this vbox is NULL.
-  vbox_tools = NULL;
-  if (!windows_are_detached) {
-
-    vbox_tools = gtk_vbox_new (FALSE, 0);
-    gtk_widget_show (vbox_tools);
-    gtk_box_pack_start (GTK_BOX (hbox_main), vbox_tools, true, true, 0);
-    
-    resize_text_area_if_tools_area_is_empty ();
-  }
+  // This vbox will contain the tools.
+  vbox_tools = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (vbox_tools);
+  gtk_box_pack_start (GTK_BOX (hbox_main), vbox_tools, true, true, 0);
+  
+  resize_text_area_if_tools_area_is_empty ();
 
   // Window callbacks.
-  if (!windows_are_detached) {
-    g_signal_connect ((gpointer) window_vbox, "set_focus", G_CALLBACK (on_window_set_focus), gpointer(this));
-  }  
+  g_signal_connect ((gpointer) window_vbox, "set_focus", G_CALLBACK (on_window_set_focus), gpointer(this));
   
   // Menu callbacks.
   if (new1)
@@ -1857,6 +1838,7 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
     g_signal_connect((gpointer) system_log1, "activate", G_CALLBACK(on_system_log1_activate), gpointer(this));
   if (about1)
     g_signal_connect((gpointer) about1, "activate", G_CALLBACK(on_about1_activate), gpointer(this));
+  g_signal_connect ((gpointer) scrolledwindow_layout, "size_allocate",  G_CALLBACK (on_scrolledwindow_layout_size_allocate), gpointer (this));
   navigation.build(toolbar);
   g_signal_connect((gpointer) navigation.new_reference_signal, "clicked", G_CALLBACK(on_navigation_new_reference_clicked), gpointer(this));
 
@@ -1874,17 +1856,11 @@ WindowBase(widMenu, "Bibledit", false, xembed, NULL), navigation(0), httpd(0)
   // Size and position of window and screen layout.
   ScreenLayoutDimensions * dimensions = new ScreenLayoutDimensions (window_vbox);
   dimensions->verify();
-  if (windows_are_detached) {
-    // If the windows are detached, just delete the object.
-    delete dimensions;
-  } else {
-    // If the windows are attached, apply the dimensions with a delay.
-    // This delay will also take care of object destruction.
-    dimensions->apply();
-  }
+  // If the windows are attached, apply the dimensions with a delay.
+  // This delay will also take care of object destruction.
+  dimensions->apply();
 
   g_signal_connect((gpointer) delete_signal_button, "clicked", G_CALLBACK(on_window_menu_delete_button_clicked), gpointer(this));
-  g_signal_connect((gpointer) focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
 
 #ifndef WIN32
   // Signal handling.
@@ -1918,14 +1894,11 @@ MainWindow::~MainWindow()
     delete previously_received_reference;
 
   // Store main window dimensions if windows are attached.
-  if (!windows_are_detached) {
-    ScreenLayoutDimensions dimensions(window_vbox);
-    dimensions.save();
-  }
+  ScreenLayoutDimensions dimensions(window_vbox);
+  dimensions.save();
   
   // Shut down the various windows.
   shutdown_windows();
-  delete floatingwindow;
 
   // Destroy the Outpost
   delete windowsoutpost;
@@ -2002,20 +1975,24 @@ void MainWindow::enable_or_disable_widgets(bool enable)
  |
  */
 
+
 void MainWindow::on_window_menu_delete_button_clicked(GtkButton * button, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_window_menu_delete_button();
 }
+
 
 void MainWindow::on_window_menu_delete_button()
 {
   initiate_shutdown();
 }
 
+
 void MainWindow::on_open1_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->open();
 }
+
 
 void MainWindow::open()
 // Do the logic for opening a project.
@@ -2027,6 +2004,7 @@ void MainWindow::open()
   // Open editor.
   on_file_project_open(newproject, false);
 }
+
 
 void MainWindow::on_new1_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
@@ -2897,12 +2875,12 @@ void MainWindow::on_view_references_activate (GtkMenuItem *menuitem, gpointer us
 }
 
 
-void MainWindow::on_view_references ()
+void MainWindow::on_view_references () // Todo
 {
   on_window_references_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_references))) {
     extern GtkAccelGroup *accelerator_group;
-    window_references = new WindowReferences(accelerator_group, windows_startup_pointer != G_MAXINT, vbox_tools, references_management_enabled);
+    window_references = new WindowReferences(layout, accelerator_group, windows_startup_pointer != G_MAXINT, references_management_enabled);
     resize_text_area_if_tools_area_is_empty ();
     g_signal_connect((gpointer) window_references->delete_signal_button, "clicked", G_CALLBACK(on_window_references_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_references->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
@@ -4849,13 +4827,14 @@ void MainWindow::set_fonts()
   }
 }
 
+
 /*
  |
  |
  |
  |
  |
- Outline
+ Outline // Todo
  |
  |
  |
@@ -4863,18 +4842,19 @@ void MainWindow::set_fonts()
  |
  */
 
+
 void MainWindow::on_view_outline_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_view_outline();
 }
+
 
 void MainWindow::on_view_outline()
 {
   on_window_outline_delete_button();
   if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(view_outline))) {
     extern GtkAccelGroup *accelerator_group;
-    window_outline = new WindowOutline(accelerator_group, windows_startup_pointer != G_MAXINT, vbox_tools);
-    resize_text_area_if_tools_area_is_empty ();
+    window_outline = new WindowOutline(layout, accelerator_group, windows_startup_pointer != G_MAXINT);
     g_signal_connect((gpointer) window_outline->delete_signal_button, "clicked", G_CALLBACK(on_window_outline_delete_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_outline->focus_in_signal_button, "clicked", G_CALLBACK(on_window_focus_button_clicked), gpointer(this));
     g_signal_connect((gpointer) window_outline->outline->reference_changed_signal, "clicked", G_CALLBACK(on_button_outline_clicked), gpointer(this));
@@ -4882,6 +4862,7 @@ void MainWindow::on_view_outline()
     window_outline->go_to(settings->genconfig.project_get(), navigation.reference);
   }
 }
+
 
 void MainWindow::on_window_outline_delete_button_clicked(GtkButton * button, gpointer user_data)
 {
@@ -4893,15 +4874,16 @@ void MainWindow::on_window_outline_delete_button()
   if (window_outline) {
     delete window_outline;
     window_outline = NULL;
-    resize_text_area_if_tools_area_is_empty ();
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_outline), false);
   }
 }
+
 
 void MainWindow::on_button_outline_clicked(GtkButton * button, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_button_outline();
 }
+
 
 void MainWindow::on_button_outline()
 {
@@ -6129,7 +6111,7 @@ bool MainWindow::on_windows_startup()
   while ((windows_startup_pointer < window_data.ids.size()) && !window_started) {
     if (window_data.shows[windows_startup_pointer]) {
       WindowID id = WindowID(window_data.ids[windows_startup_pointer]);
-      ustring data = window_data.datas[windows_startup_pointer];
+      ustring title = window_data.titles[windows_startup_pointer];
       switch (id) {
       case widShowRelatedVerses:
         {
@@ -6143,7 +6125,7 @@ bool MainWindow::on_windows_startup()
         }
       case widResource:
         {
-          on_file_resources_open(data, true);
+          on_file_resources_open(title, true);
           break;
         }
       case widOutline:
@@ -6173,7 +6155,7 @@ bool MainWindow::on_windows_startup()
         }
       case widEditor:
         {
-          on_file_project_open(data, true);
+          on_file_project_open(title, true);
           break;
         }
       case widMenu:
@@ -6287,14 +6269,17 @@ void MainWindow::shutdown_windows()
   }
 }
 
+
 void MainWindow::on_window_focus_button_clicked(GtkButton * button, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_window_focus_button(button);
 }
 
-void MainWindow::on_window_focus_button(GtkButton * button)
+
+void MainWindow::on_window_focus_button(GtkButton * button) // Todo let it work.
 // Called when a window gets focused.
 {
+  cout << "void MainWindow::on_window_focus_button(GtkButton * button)" << endl; // Todo
   // Bail out if there's no change in the focus.
   GtkWidget *widget = GTK_WIDGET(button);
   if (widget == now_focused_window_button)
@@ -6302,11 +6287,9 @@ void MainWindow::on_window_focus_button(GtkButton * button)
 
   // Bail out if windows are attached and the main window fired the focus signal.
   // This is to prevent all attached windows from loosing their focus when a dialog is opened, and closed.
-  if (!windows_are_detached) {
-    if (widget == focus_in_signal_button) {
-      return;
-    }
-  }  
+  if (widget == focus_in_signal_button) {
+    return;
+  }
 
   // Save the new focused window and keep the previous one.
   last_focused_window_button = now_focused_window_button;
@@ -6337,80 +6320,6 @@ void MainWindow::on_window_focus_button(GtkButton * button)
 
   // Save possible new focused tool.
   store_last_focused_tool_button (button);
-  
-  // In case of attached windows, focus the right one, and defocus the rest.
-  if (!windows_are_detached) {
-    if (window_show_related_verses) {
-      if (widget == window_show_related_verses->focus_in_signal_button) {
-        window_show_related_verses->present(false);
-      } else {
-        window_show_related_verses->defocus();
-      }
-    }
-    if (window_merge) {
-      if (widget == window_merge->focus_in_signal_button) {
-        window_merge->present(false);
-      } else {
-        window_merge->defocus();
-      }
-    }
-    for (unsigned int i = 0; i < resource_windows.size(); i++) {
-      if (widget == resource_windows[i]->focus_in_signal_button) {
-        resource_windows[i]->present(false);
-      } else {
-        resource_windows[i]->defocus();
-      }
-    } 
-    if (window_outline) {
-      if (widget == window_outline->focus_in_signal_button) {
-        window_outline->present(false);
-      } else {
-        window_outline->defocus();
-      }
-    }
-    if (window_check_keyterms) {
-      if (widget == window_check_keyterms->focus_in_signal_button) {
-        window_check_keyterms->present(false);
-      } else {
-        window_check_keyterms->defocus();
-      }
-    }
-    if (window_styles) {
-      if (widget == window_styles->focus_in_signal_button) {
-        window_styles->present(false);
-      } else {
-        window_styles->defocus();
-      }
-    }
-    if (window_notes) {
-      if (widget == window_notes->focus_in_signal_button) {
-        window_notes->present(false);
-      } else {
-        window_notes->defocus();
-      }
-    }
-    if (window_references) {
-      if (widget == window_references->focus_in_signal_button) {
-        window_references->present(false);
-      } else {
-        window_references->defocus();
-      }
-    }
-    for (unsigned int i = 0; i < editor_windows.size(); i++) {
-      if (widget == editor_windows[i]->focus_in_signal_button) {
-        editor_windows[i]->present(false);
-      } else {
-        editor_windows[i]->defocus();
-      }
-    }
-    if (window_check_usfm) {
-      if (widget == window_check_usfm->focus_in_signal_button) {
-        window_check_usfm->present(false);
-      } else {
-        window_check_usfm->defocus();
-      }
-    }
-  }        
 }
 
 
@@ -6451,9 +6360,6 @@ void MainWindow::on_window_set_focus (GtkWindow *window, GtkWidget *widget, gpoi
 
 void MainWindow::window_set_focus (GtkWidget *widget)
 {
-  // Bail out on detached windows.
-  if (windows_are_detached) 
-    return;
   // All widgets will check whether the focused widget is theirs, and act accordingly.
   if (window_show_related_verses)
     window_show_related_verses->focus_if_widget_mine(widget);
@@ -6678,6 +6584,7 @@ void MainWindow::accelerator_close_window_callback(gpointer user_data)
   ((MainWindow *) user_data)->accelerator_close_window();
 }
 
+
 void MainWindow::accelerator_close_window()
 // Closes the focused window.
 {
@@ -6701,7 +6608,6 @@ void MainWindow::accelerator_close_window()
       break;
     }
   }
-
   // Outline.
   if (window_outline) {
     if (now_focused_window_button == window_outline->focus_in_signal_button) {
@@ -7141,22 +7047,35 @@ void MainWindow::on_file_import ()
  */
 
 
+void MainWindow::on_scrolledwindow_layout_size_allocate (GtkWidget *widget, GdkRectangle *allocation, gpointer user_data)
+{
+  ((MainWindow *) user_data)->scrolledwindow_layout_size_allocate(allocation);
+}
+
+
+void MainWindow::scrolledwindow_layout_size_allocate (GdkRectangle *allocation)
+// The size of the parent scrolled window determines the size of the layout.
+{
+  // Get current layout size.
+  guint width, height;
+  gtk_layout_get_size (GTK_LAYOUT (layout), &width, &height);
+  // Only proceed if there's a change.
+  if ((allocation->width != (gint) (width + 3)) || (allocation->height != (gint) (height + 3))) {
+    // Set new size.
+    width = allocation->width - 3;
+    height = allocation->height - 3;
+    gtk_layout_set_size (GTK_LAYOUT (layout), width, height);
+  }
+}
+
+
 /*
 
 
 Todo tasks.
 
 
-Clickable GtkLabel.
-
-
-
-
-    $eventbox->connect('button-press-event', 'on_click', $title, $url);
-    $eventbox->connect('enter-notify-event', 'on_enter', $title, $url);
-    $eventbox->connect('leave-notify-event', 'on_leave', $title, $url);
-
-
+tools_area_x_position - this can go out, and the other areas too.
 
 
 
@@ -7199,6 +7118,9 @@ In BE 3.7.42 areas (like the Project notes, Quick references, Keyterms) cannot b
 
 
 
+Switch to disable chmsee in the ./configure script.
+Better to throw it out altogether, and mention in a README that this .chm file was used, .html files extracted, and copied to <a folder>,
+and then the USFM documentation will be available as part of the standard online help.
 
 
 
@@ -7225,6 +7147,14 @@ task #9543: export keyterms
 To make an export function that exports everything into standard files.
 The original text files are no longer distributed with bibledit, but these are uploaded separately.
 A link to these from the help files would help 
+
+
+
+
+
+All the local resources should move to Xiphos / Sword.
+All internet based resources can remain as these are now. No local storage anymore.
+This means that we can import the current resources into USFM, then export as a Sword module.
 
 
 

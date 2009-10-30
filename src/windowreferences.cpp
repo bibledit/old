@@ -41,8 +41,8 @@
 #include "kjv.h"
 
 
-WindowReferences::WindowReferences(GtkAccelGroup * accelerator_group, bool startup, GtkWidget * parent_box, bool reference_management_enabled):
-WindowBase(widReferences, "References", startup, 0, parent_box), reference(0, 0, "")
+WindowReferences::WindowReferences(GtkWidget * parent_layout, GtkAccelGroup *accelerator_group, bool startup, bool reference_management_enabled):
+FloatingWindow(parent_layout, widReferences, "References", startup), reference(0, 0, "")
 // Window for showing the quick references.  
 {
   lower_boundary = 0;
@@ -51,7 +51,7 @@ WindowBase(widReferences, "References", startup, 0, parent_box), reference(0, 0,
   
   scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow);
-  gtk_container_add(GTK_CONTAINER(window_vbox), scrolledwindow);
+  gtk_container_add(GTK_CONTAINER(vbox_client), scrolledwindow);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
   htmlview = gtk_html_new();
@@ -125,7 +125,7 @@ void WindowReferences::open()
   // Settings.
   extern Settings *settings;
   // Ask for a file.
-  ustring filename = gtkw_file_chooser_open(window_vbox, "Open File", settings->genconfig.references_file_get());
+  ustring filename = gtkw_file_chooser_open(vbox_client, "Open File", settings->genconfig.references_file_get());
   if (filename.empty())
     return;
   // Allow for up to three words to search for in these references.
