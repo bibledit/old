@@ -2706,35 +2706,28 @@ void MainWindow::on_cut()
 
 void MainWindow::on_copy1_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
-  ((MainWindow *) user_data)->on_copy(true);
+  ((MainWindow *) user_data)->on_copy();
 }
 
 
-void MainWindow::on_copy(bool called_by_menu) // Todo
+void MainWindow::on_copy()
 {
-  GtkWidget *focused_window_button = NULL;
-  if (called_by_menu) {
-    focused_window_button = last_focused_window_button;
-  } else {
-    focused_window_button = now_focused_window_button;
-  }
-
   GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    if (focused_window_button == editor_windows[i]->focus_in_signal_button) {
+    if (editor_windows[i]->focused) {
       // Copy plain text, not the USFM code. 
       gtk_text_buffer_copy_clipboard(editor_windows[i]->last_focused_textbuffer(), clipboard);
     }
   }
 
   if (window_check_keyterms) {
-    if (focused_window_button == window_check_keyterms->focus_in_signal_button) {
+    if (window_check_keyterms->focused) {
       window_check_keyterms->copy_clipboard();
     }
   }
 
   if (window_notes) {
-    if (focused_window_button == window_notes->focus_in_signal_button) {
+    if (window_notes->focused) {
       window_notes->copy();
     }
   }
@@ -2743,23 +2736,16 @@ void MainWindow::on_copy(bool called_by_menu) // Todo
 
 void MainWindow::on_copy_with_formatting_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
-  ((MainWindow *) user_data)->on_copy_with_formatting(true);
+  ((MainWindow *) user_data)->on_copy_with_formatting();
 }
 
 
-void MainWindow::on_copy_with_formatting(bool called_by_menu) // Todo
+void MainWindow::on_copy_with_formatting()
 {
-  GtkWidget *focused_window_button = NULL;
-  if (called_by_menu) {
-    focused_window_button = last_focused_window_button;
-  } else {
-    // Using the accelerator in the GtkTextView give weird results. The accelerator has been removed.
-    focused_window_button = now_focused_window_button;
-  }
-
+  // Using the accelerator in the GtkTextView give weird results. The accelerator has been removed.
   WindowEditor *editor_window = last_focused_editor_window();
   if (editor_window) {
-    if (focused_window_button == editor_window->focus_in_signal_button) {
+    if (editor_window->focused) {
       // In case of the text editor, the USFM code is copied, not the plain text. 
       GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
       gtk_clipboard_set_text(clipboard, editor_window->text_get_selection().c_str(), -1);
@@ -2770,19 +2756,12 @@ void MainWindow::on_copy_with_formatting(bool called_by_menu) // Todo
 
 void MainWindow::on_paste1_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
-  ((MainWindow *) user_data)->on_paste(true);
+  ((MainWindow *) user_data)->on_paste();
 }
 
 
-void MainWindow::on_paste(bool called_by_menu) // Todo
+void MainWindow::on_paste()
 {
-  GtkWidget *focused_window_button = NULL;
-  if (called_by_menu) {
-    focused_window_button = last_focused_window_button;
-  } else {
-    focused_window_button = now_focused_window_button;
-  }
-
   // Get the clipboard.
   GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
   // Bail out if no text is available.
@@ -2791,7 +2770,7 @@ void MainWindow::on_paste(bool called_by_menu) // Todo
 
   // Paste text in the focused textview.  
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    if (focused_window_button == editor_windows[i]->focus_in_signal_button) {
+    if (editor_windows[i]->focused) {
       gchar *text = gtk_clipboard_wait_for_text(clipboard);
       if (text) {
         editor_windows[i]->text_insert(text);
@@ -2801,7 +2780,7 @@ void MainWindow::on_paste(bool called_by_menu) // Todo
   }
 
   if (window_notes) {
-    if (now_focused_window_button == window_notes->focus_in_signal_button) {
+    if (window_notes->focused) {
       window_notes->paste();
     }
   }
@@ -6028,12 +6007,12 @@ void MainWindow::accelerator_cut_callback(gpointer user_data)
 
 void MainWindow::accelerator_copy_callback(gpointer user_data)
 {
-  ((MainWindow *) user_data)->on_copy(false);
+  ((MainWindow *) user_data)->on_copy();
 }
 
 void MainWindow::accelerator_paste_callback(gpointer user_data)
 {
-  ((MainWindow *) user_data)->on_paste(false);
+  ((MainWindow *) user_data)->on_paste();
 }
 
 void MainWindow::accelerator_standard_text_1_callback(gpointer user_data)

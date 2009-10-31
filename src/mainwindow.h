@@ -421,11 +421,11 @@ protected:
   static void on_cut1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_cut();
   static void on_copy1_activate(GtkMenuItem * menuitem, gpointer user_data);
-  void on_copy(bool called_by_menu);
+  void on_copy();
   static void on_copy_with_formatting_activate(GtkMenuItem *menuitem, gpointer user_data);
-  void on_copy_with_formatting(bool called_by_menu);
+  void on_copy_with_formatting();
   static void on_paste1_activate(GtkMenuItem * menuitem, gpointer user_data);
-  void on_paste(bool called_by_menu);
+  void on_paste();
 
   /* References */
   bool references_management_enabled;
