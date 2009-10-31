@@ -2178,8 +2178,7 @@ void MainWindow::menu_edit()
   gtk_widget_set_sensitive(redo1, redo);
 
   // Sensitivity of the clipboard operations.
-  // There is also the "owner-change" signal of the clipboard, but this is not
-  // a reliable indicator for pastable content.
+  // The "owner-change" signal of the clipboard is not a reliable indicator for pastable content.
   bool cut = true;
   bool copy = true;
   bool paste = true;
@@ -2683,29 +2682,22 @@ void MainWindow::on_tool_go_to_reference_activate(GtkMenuItem *menuitem, gpointe
 
 void MainWindow::on_cut1_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
-  ((MainWindow *) user_data)->on_cut(true);
+  ((MainWindow *) user_data)->on_cut();
 }
 
 
-void MainWindow::on_cut(bool called_by_menu)
+void MainWindow::on_cut()
 {
-  GtkWidget *focused_window_button = NULL;
-  if (called_by_menu) {
-    focused_window_button = last_focused_window_button;
-  } else {
-    focused_window_button = now_focused_window_button;
-  }
-
   GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    if (focused_window_button == editor_windows[i]->focus_in_signal_button) {
+    if (editor_windows[i]->focused) {
       gtk_clipboard_set_text(clipboard, editor_windows[i]->text_get_selection().c_str(), -1);
       editor_windows[i]->text_erase_selection();
     }
   }
 
   if (window_notes) {
-    if (focused_window_button == window_notes->focus_in_signal_button) {
+    if (window_notes->focused) {
       window_notes->cut();
     }
   }
@@ -2718,7 +2710,7 @@ void MainWindow::on_copy1_activate(GtkMenuItem * menuitem, gpointer user_data)
 }
 
 
-void MainWindow::on_copy(bool called_by_menu)
+void MainWindow::on_copy(bool called_by_menu) // Todo
 {
   GtkWidget *focused_window_button = NULL;
   if (called_by_menu) {
@@ -2755,7 +2747,7 @@ void MainWindow::on_copy_with_formatting_activate(GtkMenuItem * menuitem, gpoint
 }
 
 
-void MainWindow::on_copy_with_formatting(bool called_by_menu)
+void MainWindow::on_copy_with_formatting(bool called_by_menu) // Todo
 {
   GtkWidget *focused_window_button = NULL;
   if (called_by_menu) {
@@ -2782,7 +2774,7 @@ void MainWindow::on_paste1_activate(GtkMenuItem * menuitem, gpointer user_data)
 }
 
 
-void MainWindow::on_paste(bool called_by_menu)
+void MainWindow::on_paste(bool called_by_menu) // Todo
 {
   GtkWidget *focused_window_button = NULL;
   if (called_by_menu) {
@@ -6031,7 +6023,7 @@ void MainWindow::accelerator_redo_callback(gpointer user_data)
 
 void MainWindow::accelerator_cut_callback(gpointer user_data)
 {
-  ((MainWindow *) user_data)->on_cut(false);
+  ((MainWindow *) user_data)->on_cut();
 }
 
 void MainWindow::accelerator_copy_callback(gpointer user_data)
@@ -6957,11 +6949,8 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
-If a window is resized, then it becomes too small, and the new one too.
-A floating window should not become smaller than so much, else it becomes unmanageable.
 Try copying and pasting in each relevant window. We send the copy and paste command to each window, and the focused one does something with it.
-If a window is focused and clicked, then it must show above anything else.
-
+When clicking in a window, it should get the focus - not only on the title, but also when clicking in the normal text.
 
 
 

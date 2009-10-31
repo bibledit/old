@@ -95,6 +95,7 @@ public:
   void focus_set(bool active);
   GtkWidget * focus_in_signal_button;
   void focus_if_widget_mine (GtkWidget *widget);
+  bool focused;
 private:
   static void on_container_tree_callback (GtkWidget *widget, gpointer user_data);
   void container_tree_callback (GtkWidget *widget, gpointer user_data);
@@ -106,7 +107,6 @@ private:
   void on_window_focus_in(GtkWidget *widget);
   void on_widget_button_press (GtkWidget *widget, GdkEventButton *event);
   void title_set (bool focused);
-  bool focused;
 
   // Size and position.
   void display (bool startup);

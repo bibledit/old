@@ -419,7 +419,7 @@ protected:
 
   /* Clipboard */
   static void on_cut1_activate(GtkMenuItem * menuitem, gpointer user_data);
-  void on_cut(bool called_by_menu);
+  void on_cut();
   static void on_copy1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void on_copy(bool called_by_menu);
   static void on_copy_with_formatting_activate(GtkMenuItem *menuitem, gpointer user_data);
@@ -796,8 +796,8 @@ protected:
   unsigned int windows_startup_pointer;
   static void on_window_focus_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_focus_button(GtkButton *button);
-  GtkWidget * now_focused_window_button;
-  GtkWidget * last_focused_window_button;
+  GtkWidget * now_focused_window_button; // Todo out?
+  GtkWidget * last_focused_window_button; // Todo out?
   GtkWidget * focused_editor_button;
   GtkWidget * focused_resource_button;
   GtkWidget * focused_tool_button;
