@@ -33,6 +33,7 @@ public:
   FloatingWindow(GtkWidget * layout_in, WindowID window_id_in, ustring title_in, bool startup);
   // Virtual method since this object will be the base for other objects.
   virtual ~FloatingWindow();
+  void debug (const gchar * intro);
 private:
   GtkWidget * layout;
   GtkBuilder * gtkbuilder;
@@ -40,8 +41,6 @@ private:
 public:
   GtkWidget *label_title;
 private:
-  GtkWidget *hscrollbar_title;
-  GtkObject *adjustment_title;
   GtkWidget *label_close;
 public:
   GtkWidget *vbox_client;
@@ -93,7 +92,7 @@ private:
   // Focus tools.
 public:
   GtkWidget * last_focused_widget;
-  void present(bool force);
+  void focus_set(bool active);
   GtkWidget * focus_in_signal_button;
   void focus_if_widget_mine (GtkWidget *widget);
 private:
@@ -106,13 +105,12 @@ public:
 private:
   void on_window_focus_in(GtkWidget *widget);
   void on_widget_button_press (GtkWidget *widget, GdkEventButton *event);
-  void defocus(); 
+  void title_set (bool focused);
+  bool focused;
 
   // Size and position.
   void display (bool startup);
   GdkRectangle my_gdk_rectangle;
-  FloatingWindow * resize_window_pointer;
-  GdkRectangle resize_window_rectangle;
 public:
   GdkRectangle rectangle_get ();
   void rectangle_set (const GdkRectangle& rectangle);

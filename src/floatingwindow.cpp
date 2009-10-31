@@ -43,8 +43,8 @@ FloatingWindow::FloatingWindow(GtkWidget * layout_in, WindowID window_id_in, ust
   my_shutdown = false;
   clear_previous_root_coordinates ();
   last_focused_widget = NULL;
-  resize_window_pointer = NULL;
-
+  focused = false;
+  
   // Signalling buttons.
   focus_in_signal_button = gtk_button_new();
   delete_signal_button = gtk_button_new();
@@ -57,19 +57,14 @@ FloatingWindow::FloatingWindow(GtkWidget * layout_in, WindowID window_id_in, ust
   GtkWidget *eventbox_title;
   eventbox_title = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "eventbox_title"));
   label_title = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "label_title"));
-  gtk_label_set_text (GTK_LABEL (label_title), title.c_str());
+  title_set (focused);
   g_signal_connect ((gpointer) eventbox_title, "button_press_event", G_CALLBACK (on_widget_button_press_event), gpointer (this));
-
-  hscrollbar_title = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "hscrollbar_title"));
-  adjustment_title = gtk_adjustment_new (0, 0, 1, 0, 0, 1);
-  gtk_range_set_adjustment (GTK_RANGE (hscrollbar_title), GTK_ADJUSTMENT (adjustment_title));
-  g_signal_connect ((gpointer) hscrollbar_title, "button_press_event", G_CALLBACK (on_widget_button_press_event), gpointer (this));
-  g_signal_connect ((gpointer) hscrollbar_title, "button_press_event", G_CALLBACK (on_title_bar_button_press_event), gpointer (this));
-  g_signal_connect ((gpointer) hscrollbar_title, "button_release_event", G_CALLBACK (on_title_bar_button_release_event), gpointer (this));
-  g_signal_connect ((gpointer) hscrollbar_title, "motion_notify_event", G_CALLBACK (on_title_bar_motion_notify_event), gpointer (this));
-  g_signal_connect ((gpointer) hscrollbar_title, "enter_notify_event", G_CALLBACK (on_titlebar_enter_notify_event), gpointer (this));
-  g_signal_connect ((gpointer) hscrollbar_title, "leave_notify_event", G_CALLBACK (on_titlebar_leave_notify_event), gpointer (this));
-
+  g_signal_connect ((gpointer) eventbox_title, "button_press_event", G_CALLBACK (on_title_bar_button_press_event), gpointer (this));
+  g_signal_connect ((gpointer) eventbox_title, "button_release_event", G_CALLBACK (on_title_bar_button_release_event), gpointer (this));
+  g_signal_connect ((gpointer) eventbox_title, "motion_notify_event", G_CALLBACK (on_title_bar_motion_notify_event), gpointer (this));
+  g_signal_connect ((gpointer) eventbox_title, "enter_notify_event", G_CALLBACK (on_titlebar_enter_notify_event), gpointer (this));
+  g_signal_connect ((gpointer) eventbox_title, "leave_notify_event", G_CALLBACK (on_titlebar_leave_notify_event), gpointer (this));
+    
   GtkWidget *eventbox_close;
   eventbox_close = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "eventbox_close"));
   label_close = GTK_WIDGET (gtk_builder_get_object (gtkbuilder, "label_close"));
@@ -127,7 +122,6 @@ gboolean FloatingWindow::on_title_bar_button_press (GdkEventButton *event)
   clear_previous_root_coordinates ();
   dragging_window = true;
   resizing_window = false;
-  gtk_button_clicked(GTK_BUTTON(focus_in_signal_button));
   return false;
 }
 
@@ -250,7 +244,7 @@ gboolean FloatingWindow::on_titlebar_enter_notify_event (GtkWidget *widget, GdkE
 gboolean FloatingWindow::on_titlebar_enter_notify (GdkEventCrossing *event)
 {
   // Set the cursor to a shape that shows that the title bar can be moved around.
-  GtkWidget *toplevel_widget = gtk_widget_get_toplevel(hscrollbar_title);
+  GtkWidget *toplevel_widget = gtk_widget_get_toplevel(label_title);
   GdkWindow *gdk_window = toplevel_widget->window;
   GdkCursor *cursor = gdk_cursor_new(GDK_FLEUR);
   gdk_window_set_cursor(gdk_window, cursor);
@@ -268,7 +262,7 @@ gboolean FloatingWindow::on_titlebar_leave_notify_event (GtkWidget *widget, GdkE
 gboolean FloatingWindow::on_titlebar_leave_notify (GdkEventCrossing *event)
 {
   // Restore the original cursor.
-  GtkWidget * toplevel_widget = gtk_widget_get_toplevel(hscrollbar_title);
+  GtkWidget * toplevel_widget = gtk_widget_get_toplevel(label_title);
   GdkWindow *gdk_window = toplevel_widget->window;
   gdk_window_set_cursor(gdk_window, NULL);
   return false;
@@ -381,7 +375,7 @@ void FloatingWindow::display(bool startup)
 
   // At program startup extract the position and size of the window from the general configuration.
   // It does not matter whether the space for the window is already taken up by another window,
-  // because the user wishes to use the coordinates it has set for this window.
+  // because the user wishes to use the coordinates that he has set for this window.
   for (unsigned int i = 0; i < window_parameters.widths.size(); i++) {
     if ((window_parameters.ids[i] == window_id) && (window_parameters.titles[i] == title) && startup) {
       my_gdk_rectangle.x = window_parameters.x_positions[i];
@@ -391,7 +385,7 @@ void FloatingWindow::display(bool startup)
     }
   }
 
-  // Reject zero width and zero height values.
+  // Reject zero width and zero height values on startup.
   if ((my_gdk_rectangle.width == 0) || (my_gdk_rectangle.height == 0))
     startup = false;
 
@@ -411,15 +405,15 @@ void FloatingWindow::display(bool startup)
       area_rectangle.height = height;
     }
 
-    // Step 2: A GdkRegion is made of that area.
-    GdkRegion *area_region = gdk_region_rectangle(&area_rectangle);
+    // Step 2: An available region is made of that whole area.
+    GdkRegion *available_region = gdk_region_rectangle(&area_rectangle);
 
-    // Step 3: GdkRegions are made of each of the open windows, and each region is subtracted from the area region.
+    // Step 3: The regions of each of the open windows is substracted from the available region.
     for (unsigned int i = 0; i < settings->session.open_floating_windows.size(); i++) {
       FloatingWindow * floating_window = (FloatingWindow *) settings->session.open_floating_windows[i];
       GdkRectangle rectangle = floating_window->rectangle_get();
       GdkRegion *region = gdk_region_rectangle(&rectangle);
-      gdk_region_subtract(area_region, region);
+      gdk_region_subtract(available_region, region);
       gdk_region_destroy(region);
     }
 
@@ -428,7 +422,7 @@ void FloatingWindow::display(bool startup)
     // A rectangle is considered suitable if it has at least 10% of the width, and 10% of the height of the area rectangle.
     GdkRectangle *gdk_rectangles = NULL;
     gint rectangle_count = 0;
-    gdk_region_get_rectangles(area_region, &gdk_rectangles, &rectangle_count);
+    gdk_region_get_rectangles(available_region, &gdk_rectangles, &rectangle_count);
     for (int i = 0; i < rectangle_count; ++i) {
       GdkRectangle & rectangle = gdk_rectangles[i];
       if (rectangle.width >= (area_rectangle.width / 10)) {
@@ -441,29 +435,26 @@ void FloatingWindow::display(bool startup)
     }
     g_free(gdk_rectangles);
 
-    // Step 5: The area region is destroyed.
-    gdk_region_destroy(area_region);
+    // Step 5: The available region is destroyed.
+    gdk_region_destroy(available_region);
 
     // Step 6: If no area big enough is found, then the window that takes most space in the area is chosen, 
     // the longest side is halved, and the new window is put in that freed area.
     if ((my_gdk_rectangle.width == 0) || (my_gdk_rectangle.height == 0)) {
-      resize_window_pointer = NULL;
-      int largest_intersection = 0;
+      FloatingWindow * resize_window_pointer = NULL;
+      int largest_size = 0;
       for (unsigned int i = 0; i < settings->session.open_floating_windows.size(); i++) {
         FloatingWindow *floating_window = (FloatingWindow *) settings->session.open_floating_windows[i];
-        GdkRectangle window_rectangle = floating_window->rectangle_get ();
-        GdkRectangle intersection_rectangle;
-        if (gdk_rectangle_intersect(&area_rectangle, &window_rectangle, &intersection_rectangle)) {
-          int intersection = intersection_rectangle.width * intersection_rectangle.height;
-          if (intersection > largest_intersection) {
-            resize_window_pointer = floating_window;
-            largest_intersection = intersection;
-          }
+        GdkRectangle rectangle = floating_window->rectangle_get ();
+        int size = rectangle.width * rectangle.height;
+        if (size > largest_size) {
+          resize_window_pointer = floating_window;
+          largest_size = size;
         }
       }
       if (resize_window_pointer) {
-        resize_window_pointer->rectangle_set (resize_window_rectangle);
-        my_gdk_rectangle = resize_window_rectangle;
+        GdkRectangle resize_window_rectangle = resize_window_pointer->rectangle_get();
+        my_gdk_rectangle = resize_window_pointer->rectangle_get();
         if (resize_window_rectangle.width > resize_window_rectangle.height) {
           resize_window_rectangle.width /= 2;
           my_gdk_rectangle.width /= 2;
@@ -477,11 +468,9 @@ void FloatingWindow::display(bool startup)
       }
     }
   }
-  // Set the window's position if there's something to be set.
-  if (my_gdk_rectangle.width && my_gdk_rectangle.height) {
-    gtk_layout_put (GTK_LAYOUT (layout), vbox_window, my_gdk_rectangle.x, my_gdk_rectangle.y);
-    rectangle_set (my_gdk_rectangle);
-  }
+  // Add the window to the layout and set its position and size.
+  gtk_layout_put (GTK_LAYOUT (layout), vbox_window, my_gdk_rectangle.x, my_gdk_rectangle.y);
+  rectangle_set (my_gdk_rectangle);
   // Store a pointer to this window in the Session.
   settings->session.open_floating_windows.push_back(gpointer (this));
 }
@@ -545,15 +534,21 @@ void FloatingWindow::shutdown()
 }
 
 
-void FloatingWindow::present(bool force)
-// Presents the window.
+void FloatingWindow::focus_set(bool active)
+// Sets the focus of the window.
 {
-  gtk_adjustment_set_value (GTK_ADJUSTMENT (adjustment_title), 1);
+  // Bail out if there's no focus change.
+  if (active == focused) {
+    return;
+  }
   // Grab the widget of the object that was focused last.
   if (last_focused_widget) {
     gtk_widget_grab_focus (last_focused_widget);
   }
-  gtk_button_clicked(GTK_BUTTON(focus_in_signal_button));
+  // Store the focus.
+  focused = active;
+  // Update title bar.
+  title_set (focused);
 }
 
 
@@ -625,10 +620,26 @@ void FloatingWindow::on_widget_button_press (GtkWidget *widget, GdkEventButton *
 }
 
 
-void FloatingWindow::defocus()
-// Makes the window look like defocused.
+void FloatingWindow::title_set (bool focused)
+// Set the title.
 {
-  gtk_adjustment_set_value (GTK_ADJUSTMENT (adjustment_title), 0);
+  ustring spaces;
+  for (unsigned int i = 0; i < 500; i++) 
+    spaces.append (" ");
+  char *data;
+  data = g_strdup_printf("<span foreground=\"%s\" background=\"%s\" weight=\"%s\">     %s     %s</span>", 
+                         focused ? "white" : "black", 
+                         focused ? "blue" : "grey",
+                         focused ? "bold" : "normal",
+                         title.c_str(), 
+                         spaces.c_str());
+  gtk_label_set_markup (GTK_LABEL (label_title), data);
+  g_free(data);
 }
 
+
+void FloatingWindow::debug (const gchar * intro)
+{
+  cout << intro << " - window " << title << ", position x " << my_gdk_rectangle.x << ", y " << my_gdk_rectangle.y << ", width " << my_gdk_rectangle.width << ", height " << my_gdk_rectangle.height << endl;
+}
 

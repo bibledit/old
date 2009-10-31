@@ -719,24 +719,6 @@ protected:
   static void on_print_activate(GtkMenuItem *menuitem, gpointer user_data);
   void on_print();
 
-  /* Windowing system */
-  static bool on_windows_startup_timeout(gpointer data);
-  bool on_windows_startup();
-  unsigned int windows_startup_pointer;
-  ustring focused_project_last_session;
-  void shutdown_windows();
-  static void on_window_focus_button_clicked(GtkButton *button, gpointer user_data);
-  void on_window_focus_button(GtkButton *button);
-  void present_windows(GtkWidget * widget);
-  GtkWidget * now_focused_window_button;
-  GtkWidget * last_focused_window_button;
-  GtkWidget * focused_editor_button;
-  GtkWidget * focused_resource_button;
-  GtkWidget * focused_tool_button;
-  static void on_window_set_focus (GtkWindow *window, GtkWidget *widget, gpointer user_data);
-  void window_set_focus (GtkWidget *widget);
-  void store_last_focused_tool_button (GtkButton * button);
-
   // Accelerators.
   static void accelerator_undo_callback(gpointer user_data);
   static void accelerator_redo_callback(gpointer user_data);
@@ -808,9 +790,21 @@ protected:
   /* Floating windows */
   static void on_scrolledwindow_layout_size_allocate (GtkWidget *widget, GdkRectangle *allocation, gpointer user_data);
   void scrolledwindow_layout_size_allocate (GdkRectangle *allocation);
-  
-  
-
+  ustring focused_project_last_session;
+  static bool on_windows_startup_timeout(gpointer data);
+  bool on_windows_startup();
+  unsigned int windows_startup_pointer;
+  static void on_window_focus_button_clicked(GtkButton *button, gpointer user_data);
+  void on_window_focus_button(GtkButton *button);
+  GtkWidget * now_focused_window_button;
+  GtkWidget * last_focused_window_button;
+  GtkWidget * focused_editor_button;
+  GtkWidget * focused_resource_button;
+  GtkWidget * focused_tool_button;
+  static void on_window_set_focus (GtkWindow *window, GtkWidget *widget, gpointer user_data);
+  void window_set_focus (GtkWidget *widget);
+  void store_last_focused_tool_button (GtkButton * button);
+  void shutdown_windows();
 };
 
 
