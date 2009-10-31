@@ -360,9 +360,9 @@ protected:
   static void on_about1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void showabout();
   static void on_undo1_activate(GtkMenuItem * menuitem, gpointer user_data);
-  void menu_accelerator_undo(bool called_by_menu);
+  void menu_accelerator_undo();
   static void on_redo1_activate(GtkMenuItem * menuitem, gpointer user_data);
-  void menu_accelerator_redo(bool called_by_menu);
+  void menu_accelerator_redo();
   static void on_edit1_activate(GtkMenuItem * menuitem, gpointer user_data);
   void menu_edit();
   static void on_find_and_replace1_activate(GtkMenuItem * menuitem, gpointer user_data);
@@ -796,8 +796,7 @@ protected:
   unsigned int windows_startup_pointer;
   static void on_window_focus_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_focus_button(GtkButton *button);
-  GtkWidget * now_focused_window_button; // Todo out?
-  GtkWidget * last_focused_window_button; // Todo out?
+  GtkWidget * previously_focused_window_button;
   GtkWidget * focused_editor_button;
   GtkWidget * focused_resource_button;
   GtkWidget * focused_tool_button;

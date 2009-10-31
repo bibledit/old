@@ -173,8 +173,7 @@ navigation(0), httpd(0)
   // Initialize some variables.
   git_reopen_project = false;
   windows_startup_pointer = 0;
-  now_focused_window_button = NULL;
-  last_focused_window_button = NULL;
+  previously_focused_window_button = NULL;
   focused_editor_button = NULL;
   focused_resource_button = NULL;
   focused_tool_button = NULL;
@@ -2108,25 +2107,19 @@ void MainWindow::showabout()
 
 void MainWindow::on_undo1_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
-  ((MainWindow *) user_data)->menu_accelerator_undo(true);
+  ((MainWindow *) user_data)->menu_accelerator_undo();
 }
 
-void MainWindow::menu_accelerator_undo(bool called_by_menu)
+void MainWindow::menu_accelerator_undo()
 // Called for undo.
 {
-  GtkWidget *focused_window_button = NULL;
-  if (called_by_menu) {
-    focused_window_button = last_focused_window_button;
-  } else {
-    focused_window_button = now_focused_window_button;
-  }
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    if (focused_window_button == editor_windows[i]->focus_in_signal_button) {
+    if (editor_windows[i]->focused) {
       editor_windows[i]->undo();
     }
   }
   if (window_notes) {
-    if (focused_window_button == window_notes->focus_in_signal_button) {
+    if (window_notes->focused) {
       window_notes->undo();
     }
   }
@@ -2134,25 +2127,19 @@ void MainWindow::menu_accelerator_undo(bool called_by_menu)
 
 void MainWindow::on_redo1_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
-  ((MainWindow *) user_data)->menu_accelerator_redo(true);
+  ((MainWindow *) user_data)->menu_accelerator_redo();
 }
 
-void MainWindow::menu_accelerator_redo(bool called_by_menu)
+void MainWindow::menu_accelerator_redo()
 // Called for redo.
 {
-  GtkWidget *focused_window_button = NULL;
-  if (called_by_menu) {
-    focused_window_button = last_focused_window_button;
-  } else {
-    focused_window_button = now_focused_window_button;
-  }
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    if (focused_window_button == editor_windows[i]->focus_in_signal_button) {
+    if (editor_windows[i]->focused) {
       editor_windows[i]->redo();
     }
   }
   if (window_notes) {
-    if (focused_window_button == window_notes->focus_in_signal_button) {
+    if (window_notes->focused) {
       window_notes->redo();
     }
   }
@@ -2327,7 +2314,7 @@ void MainWindow::on_menu_insert()
     gtk_widget_set_sensitive(current_reference1, enable);
 
   // Inserting special character.
-  gtk_widget_set_sensitive(insert_special_character, (editor_window && (last_focused_window_button == editor_window->focus_in_signal_button)));
+  gtk_widget_set_sensitive(insert_special_character, (editor_window && (editor_window->focused)));
 }
 
 void MainWindow::on_menuitem_view_activate(GtkMenuItem * menuitem, gpointer user_data)
@@ -5990,14 +5977,15 @@ void MainWindow::on_print()
  |
  */
 
+
 void MainWindow::accelerator_undo_callback(gpointer user_data)
 {
-  ((MainWindow *) user_data)->menu_accelerator_undo(false);
+  ((MainWindow *) user_data)->menu_accelerator_undo();
 }
 
 void MainWindow::accelerator_redo_callback(gpointer user_data)
 {
-  ((MainWindow *) user_data)->menu_accelerator_redo(false);
+  ((MainWindow *) user_data)->menu_accelerator_redo();
 }
 
 void MainWindow::accelerator_cut_callback(gpointer user_data)
@@ -6039,7 +6027,7 @@ void MainWindow::accelerator_standard_text_n(unsigned int selector)
 {
   if (window_notes) {
     // Insert the text if the notes window has focus.
-    if (now_focused_window_button == window_notes->focus_in_signal_button) {
+    if (window_notes->focused) {
       window_notes->insert_standard_text(selector);
     }
   }
@@ -6117,58 +6105,58 @@ void MainWindow::accelerator_close_window()
 {
   // Keyterms in verse. 
   if (window_show_related_verses) {
-    if (now_focused_window_button == window_show_related_verses->focus_in_signal_button) {
+    if (window_show_related_verses->focused) {
       on_window_show_related_verses_delete_button();
     }
   }
   // Merge
   if (window_merge) {
-    if (now_focused_window_button == window_merge->focus_in_signal_button) {
+    if (window_merge->focused) {
       on_window_merge_delete_button();
     }
   }
   // Resources.
   for (unsigned int i = 0; i < resource_windows.size(); i++) {
     WindowResource *resource_window = resource_windows[i];
-    if (now_focused_window_button == resource_window->focus_in_signal_button) {
+    if (resource_window->focused) {
       on_window_resource_delete_button(GTK_BUTTON(resource_window->delete_signal_button));
       break;
     }
   }
   // Outline.
   if (window_outline) {
-    if (now_focused_window_button == window_outline->focus_in_signal_button) {
+    if (window_outline->focused) {
       on_window_outline_delete_button();
     }
   }
   // Check keyterms.
   if (window_check_keyterms) {
-    if (now_focused_window_button == window_check_keyterms->focus_in_signal_button) {
+    if (window_check_keyterms->focused) {
       on_window_check_keyterms_delete_button();
     }
   }
   // Styles.
   if (window_styles) {
-    if (now_focused_window_button == window_styles->focus_in_signal_button) {
+    if (window_styles->focused) {
       on_window_styles_delete_button();
     }
   }
   // Notes.
   if (window_notes) {
-    if (now_focused_window_button == window_notes->focus_in_signal_button) {
+    if (window_notes->focused) {
       on_window_notes_delete_button();
     }
   }
   // References.
   if (window_references) {
-    if (now_focused_window_button == window_references->focus_in_signal_button) {
+    if (window_references->focused) {
       on_window_references_delete_button();
     }
   }
   // Editors.
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
     WindowEditor *editor_window = editor_windows[i];
-    if (now_focused_window_button == editor_window->focus_in_signal_button) {
+    if (editor_window->focused) {
       on_window_editor_delete_button(GTK_BUTTON(editor_window->delete_signal_button));
       break;
     }
@@ -6177,7 +6165,7 @@ void MainWindow::accelerator_close_window()
 
   // Check USFM.
   if (window_check_usfm) {
-    if (now_focused_window_button == window_check_usfm->focus_in_signal_button) {
+    if (window_check_usfm->focused) {
       on_window_check_usfm_delete_button();
     }
   }
@@ -6280,9 +6268,8 @@ void MainWindow::accelerator_left_square_bracket(gpointer user_data)
 
 void MainWindow::left_square_bracket()
 {
-  GtkWidget *focused_window_button = now_focused_window_button;
   if (window_notes) {
-    if (focused_window_button == window_notes->focus_in_signal_button) {
+    if (window_notes->focused) {
       window_notes->increase_indent();
     }
   }
@@ -6297,9 +6284,8 @@ void MainWindow::accelerator_right_square_bracket(gpointer user_data)
 
 void MainWindow::right_square_bracket()
 {
-  GtkWidget *focused_window_button = now_focused_window_button;
   if (window_notes) {
-    if (focused_window_button == window_notes->focus_in_signal_button) {
+    if (window_notes->focused) {
       window_notes->decrease_indent();
     }
   }
@@ -6783,16 +6769,8 @@ void MainWindow::on_window_focus_button(GtkButton * button)
 {
   // Bail out if there's no change in the focus.
   GtkWidget *widget = GTK_WIDGET(button);
-  if (widget == now_focused_window_button)
+  if (widget == previously_focused_window_button)
     return;
-
-  // Save the new focused window and keep the previous one.
-  last_focused_window_button = now_focused_window_button;
-  now_focused_window_button = widget;
-  // Initialize the last focused identifier if needed.
-  // This resolves a bug where Redo only worked from the accelerators, not from the menu.
-  if (last_focused_window_button == NULL)
-    last_focused_window_button = widget;
 
   // Save possible new focused resource.
   for (unsigned int i = 0; i < resource_windows.size(); i++) {
@@ -6928,7 +6906,6 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
-Try copying and pasting in each relevant window. We send the copy and paste command to each window, and the focused one does something with it.
 When clicking in a window, it should get the focus - not only on the title, but also when clicking in the normal text.
 
 
