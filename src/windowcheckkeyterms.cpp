@@ -66,6 +66,8 @@ FloatingWindow(parent_layout, widCheckKeyterms, "Check keyterms", startup), myre
   gtk_widget_show (combobox_collection);
   gtk_box_pack_start (GTK_BOX (hbox_collection), combobox_collection, TRUE, TRUE, 0);
 
+  connect_focus_signals (combobox_collection);
+  
   label_list = gtk_label_new_with_mnemonic ("_List");
   gtk_widget_show (label_list);
   gtk_box_pack_start (GTK_BOX (vbox), label_list, FALSE, FALSE, 0);
@@ -82,6 +84,8 @@ FloatingWindow(parent_layout, widCheckKeyterms, "Check keyterms", startup), myre
   gtk_container_add(GTK_CONTAINER(scrolledwindow_terms), htmlview_terms);
   gtk_html_allow_selection(GTK_HTML(htmlview_terms), true);
 
+  connect_focus_signals (htmlview_terms);
+  
   // Store for the renderings.
   treestore_renderings = gtk_tree_store_new(4, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_BOOLEAN);
 
@@ -89,7 +93,7 @@ FloatingWindow(parent_layout, widCheckKeyterms, "Check keyterms", startup), myre
   gtk_widget_show(treeview_renderings);
   gtk_box_pack_start(GTK_BOX(vbox), treeview_renderings, false, false, 0);
 
-  g_signal_connect ((gpointer) treeview_renderings, "button_press_event", G_CALLBACK (on_widget_button_press_event), gpointer (this));
+  connect_focus_signals (treeview_renderings);
 
   // Renderer, column and selection.
   GtkCellRenderer *renderer_renderings = gtk_cell_renderer_toggle_new();

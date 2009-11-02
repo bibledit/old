@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "windowstyles.h"
@@ -81,7 +82,7 @@ FloatingWindow(parent_layout, widStyles, "Stylesheet", startup)
   gtk_container_add(GTK_CONTAINER(scrolledwindow), treeview);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(treeview), false);
 
-  g_signal_connect ((gpointer) treeview, "button_press_event", G_CALLBACK (on_widget_button_press_event), gpointer (this));
+  connect_focus_signals (treeview);
 
   GtkCellRenderer *renderer = gtk_cell_renderer_text_new();
 

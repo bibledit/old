@@ -74,6 +74,8 @@ FloatingWindow(parent_layout, widMerge, "Merge", startup)
   gtk_widget_show(combobox_master);
   gtk_box_pack_start(GTK_BOX(vbox1), combobox_master, FALSE, FALSE, 0);
 
+  connect_focus_signals (combobox_master);
+  
   label7 = gtk_label_new_with_mnemonic("E_dited project");
   gtk_widget_show(label7);
   gtk_box_pack_start(GTK_BOX(vbox1), label7, FALSE, FALSE, 0);
@@ -83,6 +85,8 @@ FloatingWindow(parent_layout, widMerge, "Merge", startup)
   gtk_widget_show(combobox_edited);
   gtk_box_pack_start(GTK_BOX(vbox1), combobox_edited, FALSE, FALSE, 0);
 
+  connect_focus_signals (combobox_edited);
+
   label_info = gtk_label_new("");
   gtk_widget_show(label_info);
   gtk_box_pack_start(GTK_BOX(vbox1), label_info, FALSE, FALSE, 0);
@@ -90,7 +94,7 @@ FloatingWindow(parent_layout, widMerge, "Merge", startup)
 
   display_changes_gui = new DisplayChangesGui (vbox1);
 
-  g_signal_connect ((gpointer) display_changes_gui->textview, "button_press_event", G_CALLBACK (on_widget_button_press_event), gpointer (this));
+  connect_focus_signals (display_changes_gui->textview);
 
   hbox1 = gtk_hbox_new(FALSE, 0);
   gtk_widget_show(hbox1);
@@ -100,6 +104,8 @@ FloatingWindow(parent_layout, widMerge, "Merge", startup)
   gtk_widget_show(button_previous);
   gtk_box_pack_start(GTK_BOX(hbox1), button_previous, FALSE, FALSE, 0);
 
+  connect_focus_signals (button_previous);
+  
   alignment2 = gtk_alignment_new(0.5, 0.5, 0, 0);
   gtk_widget_show(alignment2);
   gtk_container_add(GTK_CONTAINER(button_previous), alignment2);
@@ -120,6 +126,8 @@ FloatingWindow(parent_layout, widMerge, "Merge", startup)
   gtk_widget_show(button_merge);
   gtk_box_pack_start(GTK_BOX(hbox1), button_merge, TRUE, TRUE, 0);
 
+  connect_focus_signals (button_merge);
+  
   alignment1 = gtk_alignment_new(0.5, 0.5, 0, 0);
   gtk_widget_show(alignment1);
   gtk_container_add(GTK_CONTAINER(button_merge), alignment1);
@@ -140,6 +148,8 @@ FloatingWindow(parent_layout, widMerge, "Merge", startup)
   gtk_widget_show(button_next);
   gtk_box_pack_start(GTK_BOX(hbox1), button_next, FALSE, FALSE, 0);
 
+  connect_focus_signals (button_next);
+  
   alignment3 = gtk_alignment_new(0.5, 0.5, 0, 0);
   gtk_widget_show(alignment3);
   gtk_container_add(GTK_CONTAINER(button_next), alignment3);
@@ -180,12 +190,16 @@ FloatingWindow(parent_layout, widMerge, "Merge", startup)
   gtk_text_view_set_accepts_tab(GTK_TEXT_VIEW(textview_approval), FALSE);
   gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(textview_approval), FALSE);
 
+  connect_focus_signals (textview_approval);
+  
   approve_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview_approval));
 
   button_ready = gtk_button_new();
   gtk_widget_show(button_ready);
   gtk_box_pack_start(GTK_BOX(vbox2), button_ready, FALSE, FALSE, 0);
 
+  connect_focus_signals (button_ready);
+  
   alignment6 = gtk_alignment_new(0.5, 0.5, 0, 0);
   gtk_widget_show(alignment6);
   gtk_container_add(GTK_CONTAINER(button_ready), alignment6);

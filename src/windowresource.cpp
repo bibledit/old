@@ -36,7 +36,7 @@ FloatingWindow(parent_layout, widResource, resource_name, startup)
 {
   name = resource_name;
   resource = new Resource(vbox_client);
-  g_signal_connect ((gpointer) resource->browser->webview, "button_press_event", G_CALLBACK (on_widget_button_press_event), gpointer (this));
+  connect_focus_signals (resource->browser->webview);
   resource->open(resourcename_to_filename(name));
 
   // Main focused widget.

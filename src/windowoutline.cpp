@@ -36,7 +36,7 @@ FloatingWindow (parent_layout, widOutline, "Outline", startup), myreference(0)
   // Focus control.
   last_focused_widget = outline->treeview;
   gtk_widget_grab_focus (last_focused_widget);
-  g_signal_connect ((gpointer) outline->treeview, "button_press_event", G_CALLBACK (on_widget_button_press_event), gpointer (this));
+  connect_focus_signals (outline->treeview);
 }
 
 

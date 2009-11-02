@@ -52,6 +52,7 @@ FloatingWindow(parent_layout, widEditor, project_name, startup)
   switch_to_view (false, project_name); 
 }
 
+
 WindowEditor::~WindowEditor()
 {
   gtk_widget_destroy (new_verse_signal);
@@ -606,7 +607,7 @@ void WindowEditor::switch_to_view (bool viewusfm, ustring project)
   // Create new view.
   if (viewusfm) {
     usfmview = new USFMView (vbox, project);
-    g_signal_connect ((gpointer) usfmview->sourceview, "button_press_event", G_CALLBACK (on_widget_button_press_event), gpointer (this));
+    connect_focus_signals ( usfmview->sourceview);
     g_signal_connect ((gpointer) usfmview->reload_signal, "clicked", G_CALLBACK(on_reload_signalled), gpointer(this));
     g_signal_connect ((gpointer) usfmview->changed_signal, "clicked", G_CALLBACK(on_changed_signalled), gpointer(this));
     g_signal_connect ((gpointer) usfmview->new_verse_signal, "clicked", G_CALLBACK(on_new_verse_signalled), gpointer(this));
@@ -614,7 +615,7 @@ void WindowEditor::switch_to_view (bool viewusfm, ustring project)
     last_focused_widget = usfmview->sourceview;
   } else {
     editor = new Editor (vbox, project);
-    g_signal_connect ((gpointer) editor->textview, "button_press_event", G_CALLBACK (on_widget_button_press_event), gpointer (this));
+    connect_focus_signals (editor->textview);
     g_signal_connect ((gpointer) editor->new_verse_signal, "clicked", G_CALLBACK(on_new_verse_signalled), gpointer(this));
     g_signal_connect ((gpointer) editor->new_styles_signal, "clicked", G_CALLBACK(on_new_styles_signalled), gpointer(this));
     g_signal_connect ((gpointer) editor->quick_references_button, "clicked", G_CALLBACK(on_quick_references_signalled), gpointer(this));

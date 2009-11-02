@@ -6908,9 +6908,6 @@ Todo tasks.
 
 
 
-When a window gets focused, it should also focus the default or last focused widget.
-
-
 If working in e.g. the Editor, then going to the Styles to insert a style by Ctrl-S, the style window focused shortly, 
 * then after insertion the focus goes back to the Editor.
 
@@ -6937,7 +6934,9 @@ BE crashes if one closes a window while others are loading
 BE always wants to load up the References and Project Notes windows even when I didn't have them open the last time. 
 * If one closes windows before BE finishes all of its loading and initial display of text, the whole program crashes. 
 
-
+The stylesheet window does not indicate which stylesheet is open. Put it in the status, e.g.
+The styles from the editor, put these in their own status bar too,
+If the main status bar is no longer needed, it can go out. Or leave it for cosmetic values.
 
 
 
@@ -6981,6 +6980,9 @@ All the local resources should move to Xiphos / Sword.
 All internet based resources can remain as these are now. No local storage anymore.
 This means that we can import the current resources into USFM, then export as a Sword module.
 
+
+
+fix compiler warnings. Compile from clean and fix all new warning.
 
 
 */

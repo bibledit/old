@@ -50,6 +50,7 @@ FloatingWindow(parent_layout, widCheckUSFM, "Check USFM", startup)
   gtk_box_pack_start (GTK_BOX (vbox), checkbutton_verses_at_start, FALSE, FALSE, 0);
   
   shortcuts.button (checkbutton_verses_at_start);
+  connect_focus_signals (checkbutton_verses_at_start);
 
   vbox_filter = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vbox_filter);
@@ -66,10 +67,14 @@ FloatingWindow(parent_layout, widCheckUSFM, "Check USFM", startup)
   gtk_widget_show (combobox_filter);
   gtk_box_pack_start (GTK_BOX (vbox_filter), combobox_filter, FALSE, FALSE, 0);
 
+  connect_focus_signals (combobox_filter);
+  
   button_filter = gtk_button_new ();
   gtk_widget_show (button_filter);
   gtk_box_pack_start (GTK_BOX (vbox_filter), button_filter, FALSE, FALSE, 0);
 
+  connect_focus_signals (button_filter);
+  
   alignment4 = gtk_alignment_new (0.5, 0.5, 0, 0);
   gtk_widget_show (alignment4);
   gtk_container_add (GTK_CONTAINER (button_filter), alignment4);
@@ -92,6 +97,8 @@ FloatingWindow(parent_layout, widCheckUSFM, "Check USFM", startup)
   gtk_widget_show (button_discover_markup);
   gtk_box_pack_start (GTK_BOX (vbox), button_discover_markup, FALSE, FALSE, 0);
 
+  connect_focus_signals (button_discover_markup);
+  
   alignment3 = gtk_alignment_new (0.5, 0.5, 0, 0);
   gtk_widget_show (alignment3);
   gtk_container_add (GTK_CONTAINER (button_discover_markup), alignment3);
@@ -129,10 +136,6 @@ FloatingWindow(parent_layout, widCheckUSFM, "Check USFM", startup)
   gtk_misc_set_alignment (GTK_MISC (label_information_text), 0, 0.5);
 
   gtk_label_set_mnemonic_widget(GTK_LABEL(label_filter), combobox_filter);
-
-  g_signal_connect ((gpointer) combobox_filter, "button_press_event", G_CALLBACK (on_widget_button_press_event), gpointer (this));
-  g_signal_connect ((gpointer) button_discover_markup, "button_press_event", G_CALLBACK (on_widget_button_press_event), gpointer (this));
-  g_signal_connect ((gpointer) label_information_text, "button_press_event", G_CALLBACK (on_widget_button_press_event), gpointer (this));
 
   g_signal_connect ((gpointer) button_filter, "clicked", G_CALLBACK (on_button_filter_clicked), gpointer(this));
   g_signal_connect ((gpointer) button_discover_markup, "clicked", G_CALLBACK (on_button_discover_markup_clicked), gpointer(this));

@@ -546,7 +546,6 @@ void FloatingWindow::focus_set(bool active)
   // If we focus, then grab the widget that was focused last.
   if (active) {
     if (last_focused_widget) {
-      cout << "Window " << title << " grabs focus " << last_focused_widget << endl; // Todo
       gtk_widget_grab_focus (last_focused_widget);
     }
   }
@@ -650,3 +649,25 @@ void FloatingWindow::debug (const gchar * intro)
   cout << intro << " - window " << title << ", position x " << my_gdk_rectangle.x << ", y " << my_gdk_rectangle.y << ", width " << my_gdk_rectangle.width << ", height " << my_gdk_rectangle.height << endl;
 }
 
+
+void FloatingWindow::on_widget_grab_focus(GtkWidget * widget, gpointer user_data)
+{
+  ((FloatingWindow *) user_data)->widget_grab_focus(widget);
+}
+
+
+void FloatingWindow::widget_grab_focus(GtkWidget * widget)
+{
+  last_focused_widget = widget;
+}
+
+
+void FloatingWindow::connect_focus_signals (GtkWidget * widget)
+// Connects relevant focus signals of "widget".
+{
+  // When the user presses a mouse button in a widget, it should focus.
+  g_signal_connect ((gpointer) widget, "button_press_event", G_CALLBACK (on_widget_button_press_event), gpointer (this));
+  // When a widget has grabbed focus, it should store this state for later use.
+  g_signal_connect_after((gpointer) widget, "grab_focus", G_CALLBACK(on_widget_grab_focus), gpointer(this));
+  
+}

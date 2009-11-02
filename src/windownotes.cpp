@@ -68,7 +68,7 @@ FloatingWindow(parent_layout, widNotes, "Project notes", startup)
   gtk_container_add(GTK_CONTAINER(scrolledwindow_notes), htmlview_notes);
   gtk_html_allow_selection(GTK_HTML(htmlview_notes), true);
 
-  g_signal_connect ((gpointer) htmlview_notes, "button_press_event", G_CALLBACK (on_widget_button_press_event), gpointer (this));
+  connect_focus_signals (htmlview_notes);
 
   hbox14 = gtk_hbox_new(FALSE, 0);
   gtk_widget_show(hbox14);
@@ -241,7 +241,7 @@ FloatingWindow(parent_layout, widNotes, "Project notes", startup)
   gtk_container_add(GTK_CONTAINER(scrolledwindow_note_editor), htmlview_note_editor);
   gtk_html_allow_selection(GTK_HTML(htmlview_note_editor), true);
 
-  g_signal_connect ((gpointer) htmlview_note_editor, "button_press_event", G_CALLBACK (on_widget_button_press_event), gpointer (this));
+  connect_focus_signals (htmlview_note_editor);
 
   vbox_controls = gtk_vbox_new(FALSE, 0);
   gtk_widget_show(vbox_controls);

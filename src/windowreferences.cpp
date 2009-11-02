@@ -58,6 +58,8 @@ FloatingWindow(parent_layout, widReferences, "References", startup), reference(0
   gtk_widget_show(htmlview);
   gtk_container_add(GTK_CONTAINER(scrolledwindow), htmlview);
   gtk_html_allow_selection(GTK_HTML(htmlview), true);
+  
+  connect_focus_signals (htmlview);
 
   g_signal_connect((gpointer) htmlview, "link-clicked", G_CALLBACK(on_html_link_clicked), gpointer(this));
 

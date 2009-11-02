@@ -47,6 +47,8 @@ FloatingWindow(parent_layout, widShowRelatedVerses, "Related verses", startup), 
   gtk_container_add(GTK_CONTAINER(scrolledwindow), htmlview);
   gtk_html_allow_selection(GTK_HTML(htmlview), true);
 
+  connect_focus_signals (htmlview);
+  
   g_signal_connect((gpointer) htmlview, "link-clicked", G_CALLBACK(on_html_link_clicked), gpointer(this));
 
   last_focused_widget = htmlview;
