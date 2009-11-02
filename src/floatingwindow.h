@@ -92,7 +92,7 @@ private:
   // Focus tools.
 public:
   GtkWidget * last_focused_widget;
-  void focus_set(bool active);
+  void focus_set(bool active = true);
   GtkWidget * focus_in_signal_button;
   void focus_if_widget_mine (GtkWidget *widget);
   bool focused;

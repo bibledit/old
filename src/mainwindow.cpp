@@ -2586,7 +2586,7 @@ void MainWindow::on_text_area_activate()
     }
   }
   if (editor_window) {
-    editor_window->focus_set(true);
+    editor_window->focus_set();
   }
 }
 
@@ -2595,44 +2595,44 @@ void MainWindow::on_tools_area_activate()
 {
   if (window_show_related_verses) {
     if (focused_tool_button == window_show_related_verses->focus_in_signal_button) {
-      window_show_related_verses->focus_set (true);
+      window_show_related_verses->focus_set ();
     }
   }
   if (window_merge) {
     if (focused_tool_button == window_merge->focus_in_signal_button) {
-      window_merge->focus_set (true);
+      window_merge->focus_set ();
     }
   }
   for (unsigned int i = 0; i < resource_windows.size(); i++) {
     if (focused_tool_button == resource_windows[i]->focus_in_signal_button) {
-      resource_windows[i]->focus_set (true);
+      resource_windows[i]->focus_set ();
     }
   } 
   if (window_outline) {
     if (focused_tool_button == window_outline->focus_in_signal_button) {
-      window_outline->focus_set (true);
+      window_outline->focus_set ();
     }
   }
   if (window_check_keyterms) {
     if (focused_tool_button == window_check_keyterms->focus_in_signal_button) {
-      window_check_keyterms->focus_set (true);
+      window_check_keyterms->focus_set ();
     }
   }
   if (window_styles) {
     if (focused_tool_button == window_styles->focus_in_signal_button) {
-      window_styles->focus_set (true);
+      window_styles->focus_set ();
     }
   }
   // Skip project notes window.
   if (window_references) {
     if (focused_tool_button == window_references->focus_in_signal_button) {
-      window_references->focus_set (true);
+      window_references->focus_set ();
     }
   }
   // Skip editor windows.
   if (window_check_usfm) {
     if (focused_tool_button == window_check_usfm->focus_in_signal_button) {
-      window_check_usfm->focus_set (true);
+      window_check_usfm->focus_set ();
     }
   }
 }
@@ -2810,7 +2810,7 @@ void MainWindow::on_view_references ()
 void MainWindow::show_references_window()
 {
   gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(view_references), true);
-  window_references->focus_set (true);
+  window_references->focus_set ();
 }
 
 
@@ -3159,7 +3159,7 @@ void MainWindow::view_project_notes()
     return;
   if (window_notes) {
     // If the window is there, focus it for the user.
-    window_notes->focus_set(true);
+    window_notes->focus_set();
   } else {
     extern GtkAccelGroup *accelerator_group;
     // New notes window.
@@ -3824,7 +3824,7 @@ void MainWindow::on_goto_styles_area()
   display_window_styles();
   // Focus the window to enable the user to start inserting the style using the keyboard.
   if (window_styles) {
-    window_styles->focus_set(true);
+    window_styles->focus_set();
   }
 }
 
@@ -5063,7 +5063,7 @@ void MainWindow::on_window_editor_delete_button(GtkButton * button)
   // When one of two or more editor windows is closed,
   // a remaining one does not always focus. Focus one here.
   if (!editor_windows.empty()) {
-    editor_windows[0]->focus_set(true);
+    editor_windows[0]->focus_set();
   }
   handle_editor_focus();
 }
@@ -5088,7 +5088,7 @@ void MainWindow::on_file_project_open(const ustring & project, bool startup)
   // If the editor already displays, present it and bail out.
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
     if (project == editor_windows[i]->title) {
-      editor_windows[i]->focus_set(false);
+      editor_windows[i]->focus_set();
       return;
     }
   }
@@ -5231,7 +5231,7 @@ void MainWindow::goto_next_previous_project(bool next)
   }
 
   // Focus the new window.
-  editor_windows[offset]->focus_set(true);
+  editor_windows[offset]->focus_set();
 }
 
 void MainWindow::on_editorsgui_changed_clicked(GtkButton * button, gpointer user_data)
@@ -6551,7 +6551,7 @@ void MainWindow::on_file_import ()
  |
  |
  |
- Floating windows Todo
+ Floating windows
  |
  |
  |
@@ -6678,7 +6678,7 @@ bool MainWindow::on_windows_startup()
   if (focused_project_last_session.empty()) {
     for (unsigned int i = 0; i < editor_windows.size(); i++) {
       if (focused_project_last_session == editor_windows[i]->title) {
-        editor_windows[i]->focus_set(true);
+        editor_windows[i]->focus_set();
       }
     }
     focused_project_last_session.clear();
@@ -6907,14 +6907,7 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
-When clicking in a window, it should get the focus - not only on the title, but also when clicking in the normal text.
-A window should have a mininum width and height, which corrects if these are too small.
-A window cannot be moved to negative positions.
-If a window is moved to beyond the layout's size, it can't do that, but if it does on its own, the layout gets expanded.
-If the main window changes its size, the layout does too, but within the confines of its children.
-The setting "window_data" in the config is removed and replaced by "window_titles"
-There should be a "force_focus" to each window, which does click the focus button. 
-If the force_focus is called, and the window is focused already, nothing happens.
+
 If working in e.g. the Editor, then going to the Styles to insert a style by Ctrl-S, the style window focused shortly, then after insertion the focus
 * goes back to the Editor.
 The same works when working in the Editor, then pressing Ctrl-N to make a new note, then after the notes is saved, the focus reverts to the Editor.
@@ -6924,37 +6917,23 @@ The spelling no longer works, it empties the shared dictionary completely. Check
 Let the F5, Ctrl-F5 and Shift-F5 work again.
 When doing Ctrl-N or Ctrl-S there may be two focused windows, and this gives problems when pasting. Of after a search too.
 Why when the windows startup are a couple of them focused at the same time? This should never happen.
+A window should have a mininum width and height, which corrects if these are too small.
+A window cannot be moved to negative positions.
+If a window is moved to beyond the layout's size, it can't do that, but if it does on its own, the layout gets expanded.
+If the main window changes its size, the layout does too, but within the confines of its children.
+The setting "window_data" in the config is removed and replaced by "window_titles"
 
-
-task #9496: Remove independent windows and make it all normal, resizeable window
-task #9530: Resizing areas in BE
-At present Bibledit has a mode where it has the option to show independent windows. 
-* But this system is not so good when it comes to ease of operation.
-It is more desirable to follow more standard system provided to reach at the functionality that was tried to be obtained by the independent windows.
-What is needed is flexible windows placement within the program.
-This can be reached by using a GtkLayout. In a GtkLayout one can place childwidgets at flexible places, and these widgets can be moved around freely. 
-What might also be possible is to use a GtkTable, where widgets can be placed inside cells.
-What is needed too is that windows can be resized.
-If a GtkTable were used, then we could make a table of, say, 50 cells wide and 50 high. 
-* Then the sizes of the moveable windows would be determined, not by pixels, but by the number of cells it occupies.
-When using GtkTable, if it were set to homogenous, it would become a stiffy grid where to move windows on.
-
-It sounds like there will be advantages to you in programming to have one program window with flexible windows inside that. 
-* I would make the Index window part of the top bar and immovable.
-Under the old separate window system, Window managers would not do what I wanted. 
-* The window manager showed only unreadable thumbnails. 
-* In the new unified window, I hope that you have something like TW (Ctrl-Tab) that will cycle through the sub-windows 
-* like Alt-Tab does now for separate windows. 
-* If it is like TW, the new approach will have the advantage of the real window appearing when cycling using the hot key, 
-* rather than an unreadable thumbnail. 
+In the new unified window, I hope that you have something like TW (Ctrl-Tab) that will cycle through the sub-windows 
+like Alt-Tab does now for separate windows. 
+If it is like TW, the new approach will have the advantage of the real window appearing when cycling using the hot key, 
+rather than an unreadable thumbnail. 
 
 To attend to a current bug:
 BE crashes if one closes a window while others are loading
 BE always wants to load up the References and Project Notes windows even when I didn't have them open the last time. 
 * If one closes windows before BE finishes all of its loading and initial display of text, the whole program crashes. 
 
-In BE 3.7.42 areas (like the Project notes, Quick references, Keyterms) cannot be resized any more. They have a fixed window width and height.
--> Allow to change the size of those windows (as it was in older version of BE
+
 
 
 

@@ -541,14 +541,17 @@ void FloatingWindow::focus_set(bool active)
   if (active == focused) {
     return;
   }
+  focused = active;
   // Grab the widget of the object that was focused last.
   if (last_focused_widget) {
     gtk_widget_grab_focus (last_focused_widget);
   }
-  // Store the focus.
-  focused = active;
   // Update title bar.
   title_set (focused);
+  // Alert the other windows if we got focus.
+  if (active) {
+    gtk_button_clicked(GTK_BUTTON(focus_in_signal_button));
+  }
 }
 
 
@@ -587,7 +590,7 @@ void FloatingWindow::container_tree_callback (GtkWidget *widget, gpointer user_d
 {
   if (widget == focused_widget_to_look_for) {
     last_focused_widget = widget;
-    gtk_button_clicked(GTK_BUTTON(focus_in_signal_button));
+    focus_set ();
   }
   if (GTK_IS_CONTAINER(widget)) {
     gtk_container_foreach(GTK_CONTAINER(widget), on_container_tree_callback, user_data);
@@ -616,7 +619,7 @@ gboolean FloatingWindow::on_widget_button_press_event (GtkWidget *widget, GdkEve
 
 void FloatingWindow::on_widget_button_press (GtkWidget *widget, GdkEventButton *event)
 {
-  gtk_button_clicked(GTK_BUTTON(focus_in_signal_button));
+  focus_set ();
 }
 
 
