@@ -130,9 +130,9 @@ FloatingWindow(parent_layout, widCheckUSFM, "Check USFM", startup)
 
   gtk_label_set_mnemonic_widget(GTK_LABEL(label_filter), combobox_filter);
 
-  // Todo use for focus. g_signal_connect((gpointer) combobox_filter, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
-  // Todo use for focus. g_signal_connect((gpointer) button_discover_markup, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
-  // Todo use for focus. g_signal_connect((gpointer) label_information_text, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
+  g_signal_connect ((gpointer) combobox_filter, "button_press_event", G_CALLBACK (on_widget_button_press_event), gpointer (this));
+  g_signal_connect ((gpointer) button_discover_markup, "button_press_event", G_CALLBACK (on_widget_button_press_event), gpointer (this));
+  g_signal_connect ((gpointer) label_information_text, "button_press_event", G_CALLBACK (on_widget_button_press_event), gpointer (this));
 
   g_signal_connect ((gpointer) button_filter, "clicked", G_CALLBACK (on_button_filter_clicked), gpointer(this));
   g_signal_connect ((gpointer) button_discover_markup, "clicked", G_CALLBACK (on_button_discover_markup_clicked), gpointer(this));

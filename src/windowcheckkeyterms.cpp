@@ -89,7 +89,7 @@ FloatingWindow(parent_layout, widCheckKeyterms, "Check keyterms", startup), myre
   gtk_widget_show(treeview_renderings);
   gtk_box_pack_start(GTK_BOX(vbox), treeview_renderings, false, false, 0);
 
-  // Todo use for focus. g_signal_connect((gpointer) treeview_renderings, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
+  g_signal_connect ((gpointer) treeview_renderings, "button_press_event", G_CALLBACK (on_widget_button_press_event), gpointer (this));
 
   // Renderer, column and selection.
   GtkCellRenderer *renderer_renderings = gtk_cell_renderer_toggle_new();

@@ -90,7 +90,7 @@ FloatingWindow(parent_layout, widMerge, "Merge", startup)
 
   display_changes_gui = new DisplayChangesGui (vbox1);
 
-  // Todo use for focus g_signal_connect((gpointer) display_changes_gui->textview, "visibility-notify-event", G_CALLBACK(on_visibility_notify_event), gpointer(this));
+  g_signal_connect ((gpointer) display_changes_gui->textview, "button_press_event", G_CALLBACK (on_widget_button_press_event), gpointer (this));
 
   hbox1 = gtk_hbox_new(FALSE, 0);
   gtk_widget_show(hbox1);

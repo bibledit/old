@@ -173,7 +173,6 @@ navigation(0), httpd(0)
   // Initialize some variables.
   git_reopen_project = false;
   windows_startup_pointer = 0;
-  previously_focused_window_button = NULL;
   focused_editor_button = NULL;
   focused_resource_button = NULL;
   focused_tool_button = NULL;
@@ -6767,10 +6766,12 @@ void MainWindow::on_window_focus_button_clicked(GtkButton * button, gpointer use
 void MainWindow::on_window_focus_button(GtkButton * button)
 // Called when a window gets focused.
 {
+  static GtkWidget * previously_focused_window_button = NULL;
   // Bail out if there's no change in the focus.
   GtkWidget *widget = GTK_WIDGET(button);
   if (widget == previously_focused_window_button)
     return;
+  previously_focused_window_button = widget;
 
   // Save possible new focused resource.
   for (unsigned int i = 0; i < resource_windows.size(); i++) {
@@ -6907,8 +6908,22 @@ Todo tasks.
 
 
 When clicking in a window, it should get the focus - not only on the title, but also when clicking in the normal text.
-
-
+A window should have a mininum width and height, which corrects if these are too small.
+A window cannot be moved to negative positions.
+If a window is moved to beyond the layout's size, it can't do that, but if it does on its own, the layout gets expanded.
+If the main window changes its size, the layout does too, but within the confines of its children.
+The setting "window_data" in the config is removed and replaced by "window_titles"
+There should be a "force_focus" to each window, which does click the focus button. 
+If the force_focus is called, and the window is focused already, nothing happens.
+If working in e.g. the Editor, then going to the Styles to insert a style by Ctrl-S, the style window focused shortly, then after insertion the focus
+* goes back to the Editor.
+The same works when working in the Editor, then pressing Ctrl-N to make a new note, then after the notes is saved, the focus reverts to the Editor.
+When a window is focused, it should appear above any other window. This is accomplished if it is the last window that was added to the layout.
+* We could then reparent the window to somewhere, then add it again to the layout.
+The spelling no longer works, it empties the shared dictionary completely. Check from Ezekiel 10 and on.
+Let the F5, Ctrl-F5 and Shift-F5 work again.
+When doing Ctrl-N or Ctrl-S there may be two focused windows, and this gives problems when pasting. Of after a search too.
+Why when the windows startup are a couple of them focused at the same time? This should never happen.
 
 
 task #9496: Remove independent windows and make it all normal, resizeable window

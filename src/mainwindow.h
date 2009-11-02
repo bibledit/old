@@ -796,7 +796,6 @@ protected:
   unsigned int windows_startup_pointer;
   static void on_window_focus_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_focus_button(GtkButton *button);
-  GtkWidget * previously_focused_window_button;
   GtkWidget * focused_editor_button;
   GtkWidget * focused_resource_button;
   GtkWidget * focused_tool_button;
