@@ -3900,18 +3900,23 @@ void MainWindow::on_style_button_open()
   }
 }
 
+
 void MainWindow::on_style_button_apply_clicked(GtkButton * button, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_style_apply();
 }
 
+
 void MainWindow::on_style_apply()
 {
-  // Get the focused Editor. If none, bail out.
+  // Get the last focused Editor. If none, bail out.
   WindowEditor *editor_window = last_focused_editor_window();
   if (!editor_window)
     return;
 
+  // Focus the editor.
+  editor_window->focus_set ();
+  
   // Bail out if the editor is not editable.
   if (!editor_window->editable())
     return;
@@ -6908,35 +6913,41 @@ Todo tasks.
 
 
 
-If working in e.g. the Editor, then going to the Styles to insert a style by Ctrl-S, the style window focused shortly, 
-* then after insertion the focus goes back to the Editor.
+When doing a search, and clicking on a reference in the references window, the main editor needs to be focused.
 
-The same works when working in the Editor, then pressing Ctrl-N to make a new note, then after the notes is saved, the focus reverts to the Editor.
+
+The stylesheet window does not indicate which stylesheet is open. Put it in the status, e.g.
+The styles from the editor, put these in their own status bar too,
+If the main status bar is no longer needed, it can go out. Or leave it for cosmetic values.
+
+
 When a window is focused, it should appear above any other window. This is accomplished if it is the last window that was added to the layout.
 * We could then reparent the window to somewhere, then add it again to the layout.
+
+
 The spelling no longer works, it empties the shared dictionary completely. Check from Ezekiel 10 and on.
-Let the F5, Ctrl-F5 and Shift-F5 work again.
-When doing Ctrl-N or Ctrl-S there may be two focused windows, and this gives problems when pasting. Of after a search too.
-Why when the windows startup are a couple of them focused at the same time? This should never happen.
+http://bugzilla.abisource.com/show_bug.cgi?id=12419
+https://bugs.launchpad.net/ubuntu/+source/enchant/+bug/446230
+
+
 A window should have a mininum width and height, which corrects if these are too small.
 A window cannot be moved to negative positions.
 If a window is moved to beyond the layout's size, it can't do that, but if it does on its own, the layout gets expanded.
 If the main window changes its size, the layout does too, but within the confines of its children.
 The setting "window_data" in the config is removed and replaced by "window_titles"
 
+
 In the new unified window, I hope that you have something like TW (Ctrl-Tab) that will cycle through the sub-windows 
 like Alt-Tab does now for separate windows. 
 If it is like TW, the new approach will have the advantage of the real window appearing when cycling using the hot key, 
 rather than an unreadable thumbnail. 
+
 
 To attend to a current bug:
 BE crashes if one closes a window while others are loading
 BE always wants to load up the References and Project Notes windows even when I didn't have them open the last time. 
 * If one closes windows before BE finishes all of its loading and initial display of text, the whole program crashes. 
 
-The stylesheet window does not indicate which stylesheet is open. Put it in the status, e.g.
-The styles from the editor, put these in their own status bar too,
-If the main status bar is no longer needed, it can go out. Or leave it for cosmetic values.
 
 
 
