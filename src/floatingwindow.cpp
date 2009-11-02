@@ -541,14 +541,18 @@ void FloatingWindow::focus_set(bool active)
   if (active == focused) {
     return;
   }
+  // Store whether focused.
   focused = active;
-  // Grab the widget of the object that was focused last.
-  if (last_focused_widget) {
-    gtk_widget_grab_focus (last_focused_widget);
+  // If we focus, then grab the widget that was focused last.
+  if (active) {
+    if (last_focused_widget) {
+      cout << "Window " << title << " grabs focus " << last_focused_widget << endl; // Todo
+      gtk_widget_grab_focus (last_focused_widget);
+    }
   }
   // Update title bar.
   title_set (focused);
-  // Alert the other windows if we got focus.
+  // If we got focus, then alert the other windows.
   if (active) {
     gtk_button_clicked(GTK_BUTTON(focus_in_signal_button));
   }

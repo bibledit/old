@@ -6908,8 +6908,12 @@ Todo tasks.
 
 
 
-If working in e.g. the Editor, then going to the Styles to insert a style by Ctrl-S, the style window focused shortly, then after insertion the focus
-* goes back to the Editor.
+When a window gets focused, it should also focus the default or last focused widget.
+
+
+If working in e.g. the Editor, then going to the Styles to insert a style by Ctrl-S, the style window focused shortly, 
+* then after insertion the focus goes back to the Editor.
+
 The same works when working in the Editor, then pressing Ctrl-N to make a new note, then after the notes is saved, the focus reverts to the Editor.
 When a window is focused, it should appear above any other window. This is accomplished if it is the last window that was added to the layout.
 * We could then reparent the window to somewhere, then add it again to the layout.
