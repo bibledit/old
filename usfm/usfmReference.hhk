@@ -1,0 +1,2629 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+</HEAD><BODY>
+<OBJECT type="text/site properties">
+	<param name="FrameName" value="">
+</OBJECT>
+<UL>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="\toc3">
+    <param name="Name" value="Front Matter">
+    <param name="Local" value="peripherals_front_matter.htm">
+    </OBJECT></LI>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Back Matter">
+    <param name="Name" value="Back Matter">
+    <param name="Local" value="peripherals_back_matter.htm">
+    </OBJECT></LI>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="chronology">
+	    <param name="Name" value="Back Matter">
+	    <param name="Local" value="peripherals_back_matter.htm#bakchronology">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="concordance (\id CNC)">
+	    <param name="Name" value="Back Matter">
+	    <param name="Local" value="peripherals_back_matter.htm#cnc">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="glossary (\id GLO)">
+	    <param name="Name" value="Back Matter">
+	    <param name="Local" value="peripherals_back_matter.htm#glo">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="map index">
+	    <param name="Name" value="Back Matter">
+	    <param name="Local" value="peripherals_back_matter.htm#bakmapindex">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="names index (\id NDX)">
+	    <param name="Name" value="Back Matter">
+	    <param name="Local" value="peripherals_back_matter.htm#ndx">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="topical index (\id TDX)">
+	    <param name="Name" value="Back Matter">
+	    <param name="Local" value="peripherals_back_matter.htm#tdx">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="weights &amp; mesures">
+	    <param name="Name" value="Back Matter">
+	    <param name="Local" value="peripherals_back_matter.htm#bakweightsmeasures">
+	    </OBJECT></LI>
+</UL>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Blank line (\b)">
+    <param name="Name" value="Poetry">
+    <param name="Local" value="poetry.htm#b">
+    </OBJECT></LI>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Chapter">
+    <param name="Name" value="Chapters and Verses">
+    <param name="Local" value="chapters_and_verses.htm">
+    </OBJECT></LI>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="alternate chapter number (\ca...\ca*)">
+	    <param name="Name" value="Chapters and Verses">
+	    <param name="Local" value="chapters_and_verses.htm#ca">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="chapter description (\cd)">
+	    <param name="Name" value="Chapters and Verses">
+	    <param name="Local" value="chapters_and_verses.htm#cd">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="chapter label (\cl)">
+	    <param name="Name" value="Chapters and Verses">
+	    <param name="Local" value="chapters_and_verses.htm#cl">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="chapter number (\c)">
+	    <param name="Name" value="Chapters and Verses">
+	    <param name="Local" value="chapters_and_verses.htm#c">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="published chapter character (\cp)">
+	    <param name="Name" value="Chapters and Verses">
+	    <param name="Local" value="chapters_and_verses.htm#cp">
+	    </OBJECT></LI>
+</UL>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Chapters and Verses">
+    <param name="Name" value="Chapters and Verses">
+    <param name="Local" value="chapters_and_verses.htm">
+    </OBJECT></LI>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Character Styles">
+    <param name="Name" value="Special Text and Character Styles">
+    <param name="Local" value="special_text_character_styles.htm">
+    </OBJECT></LI>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Character Styling">
+    <param name="See Also" value="Character Styling">
+    </OBJECT></LI>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="bold text (\bd...\bd*)">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#bd">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="bold-italic&nbsp;text&nbsp;(\bdit...\bdit*)">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#bdit">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="emphasis text (\em...\em*)">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#em">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="italic text (\it...\it*)">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#it">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="normal text (\no...\no*)">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#no">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="small-cap&nbsp;text&nbsp;(\sc...\sc*)">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#sc">
+	    </OBJECT></LI>
+</UL>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="CJK">
+    <param name="See Also" value="CJK">
+    </OBJECT></LI>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="pronunciation information (\pro...\pro*)">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#pro">
+	    </OBJECT></LI>
+</UL>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Concordance">
+    <param name="Name" value="Back Matter">
+    <param name="Local" value="peripherals_back_matter.htm#cnc">
+    </OBJECT></LI>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Cross Reference">
+    <param name="Name" value="Cross References">
+    <param name="Local" value="cross_references.htm">
+    </OBJECT></LI>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="DC related material (\xdc...\xdc*)">
+	    <param name="Name" value="Cross References">
+	    <param name="Local" value="cross_references.htm#xdc">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="keyword/keyterm (\xk)">
+	    <param name="Name" value="Cross References">
+	    <param name="Local" value="cross_references.htm#xk">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="NT related material (\xnt...\xnt*)">
+	    <param name="Name" value="Cross References">
+	    <param name="Local" value="cross_references.htm#xnt">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="opening/closing (boundaries) (\x...\x*)">
+	    <param name="Name" value="Cross References">
+	    <param name="Local" value="cross_references.htm#xopen">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="origin reference (\xo)">
+	    <param name="Name" value="Cross References">
+	    <param name="Local" value="cross_references.htm#xo">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="OT related material (\xot...\xot*)">
+	    <param name="Name" value="Cross References">
+	    <param name="Local" value="cross_references.htm#xot">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="quotation (\xq)">
+	    <param name="Name" value="Cross References">
+	    <param name="Local" value="cross_references.htm#xq">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="target reference(s) (\xt)">
+	    <param name="Name" value="Cross References">
+	    <param name="Local" value="cross_references.htm#xt">
+	    </OBJECT></LI>
+</UL>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Embedded Text">
+    <param name="See Also" value="Embedded Text">
+    </OBJECT></LI>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="closing paragraph (\pmc)">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#pmc">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="opening paragraph (\pmo)">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#pmo">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="paragraph (\pm)">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#pm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="poetic line (\qm, \qm#)">
+	    <param name="Name" value="Poetry">
+	    <param name="Local" value="poetry.htm#qm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="refrain (\pmr)">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#pmr">
+	    </OBJECT></LI>
+</UL>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Endnote">
+    <param name="See Also" value="Endnote">
+    </OBJECT></LI>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="opening/closing (boundaries) (\fe...\fe*)">
+	    <param name="Name" value="Footnotes">
+	    <param name="Local" value="footnotes.htm#fe">
+	    </OBJECT></LI>
+</UL>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Figure">
+    <param name="Name" value="Special Text and Character Styles">
+    <param name="Local" value="special_text_character_styles.htm#fig">
+    </OBJECT></LI>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Footnote">
+    <param name="Name" value="Footnotes">
+    <param name="Local" value="footnotes.htm">
+    </OBJECT></LI>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="additional paragraph (\fp)">
+	    <param name="Name" value="Footnotes">
+	    <param name="Local" value="footnotes.htm#fp">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="alternative translation (\fqa)">
+	    <param name="Name" value="Footnotes">
+	    <param name="Local" value="footnotes.htm#fqa">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="DC related material (\fdc...\fdc*)">
+	    <param name="Name" value="Footnotes">
+	    <param name="Local" value="footnotes.htm#fdc">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="endnote opening/closing (boundaries) (\fe...\fe*)">
+	    <param name="Name" value="Footnotes">
+	    <param name="Local" value="footnotes.htm#fe">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="keyword/keyterm (\fk)">
+	    <param name="Name" value="Footnotes">
+	    <param name="Local" value="footnotes.htm#fk">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="label text (\fl)">
+	    <param name="Name" value="Footnotes">
+	    <param name="Local" value="footnotes.htm#fl">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="opening/closing (boundaries) (\f...\f*)">
+	    <param name="Name" value="Footnotes">
+	    <param name="Local" value="footnotes.htm#fopen">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="origin reference (\fr)">
+	    <param name="Name" value="Footnotes">
+	    <param name="Local" value="footnotes.htm#fr">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="quotation (\fq)">
+	    <param name="Name" value="Footnotes">
+	    <param name="Local" value="footnotes.htm#fq">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="reference mark (\fm...\fm*)">
+	    <param name="Name" value="Footnotes">
+	    <param name="Local" value="footnotes.htm#fm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="text (\ft)">
+	    <param name="Name" value="Footnotes">
+	    <param name="Local" value="footnotes.htm#ft">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="verse number (\fv)">
+	    <param name="Name" value="Footnotes">
+	    <param name="Local" value="footnotes.htm#fv">
+	    </OBJECT></LI>
+</UL>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Front Matter">
+    <param name="Name" value="Front Matter">
+    <param name="Local" value="peripherals_front_matter.htm">
+    </OBJECT></LI>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="alphabetical contents">
+	    <param name="Name" value="Front Matter">
+	    <param name="Local" value="peripherals_front_matter.htm#frtalphabeticalcontents">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="foreword">
+	    <param name="Name" value="Front Matter">
+	    <param name="Local" value="peripherals_front_matter.htm#frtforword">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="half title page">
+	    <param name="Name" value="Front Matter">
+	    <param name="Local" value="peripherals_front_matter.htm#frthalftitlepage">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="imprimatur">
+	    <param name="Name" value="Front Matter">
+	    <param name="Local" value="peripherals_front_matter.htm#frtimprimatur">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="preface">
+	    <param name="Name" value="Front Matter">
+	    <param name="Local" value="peripherals_front_matter.htm#frtpreface">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="promotional page">
+	    <param name="Name" value="Front Matter">
+	    <param name="Local" value="peripherals_front_matter.htm#frtpromotionalpage">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="publication data">
+	    <param name="Name" value="Front Matter">
+	    <param name="Local" value="peripherals_front_matter.htm#frtpublicationdata">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="table of abbreviations">
+	    <param name="Name" value="Front Matter">
+	    <param name="Local" value="peripherals_front_matter.htm#frttableofabbreviations">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="table of contents">
+	    <param name="Name" value="Front Matter">
+	    <param name="Local" value="peripherals_front_matter.htm#frttableofcontents">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="title page">
+	    <param name="Name" value="Front Matter">
+	    <param name="Local" value="peripherals_front_matter.htm#frttitlepage">
+	    </OBJECT></LI>
+</UL>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Glossary">
+    <param name="Name" value="Back Matter">
+    <param name="Local" value="peripherals_back_matter.htm#glo">
+    </OBJECT></LI>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Headings">
+    <param name="Name" value="Titles, Headings, and Labels">
+    <param name="Local" value="titles_headings_and_labels.htm">
+    </OBJECT></LI>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Identification">
+    <param name="Name" value="Identification">
+    <param name="Local" value="identification.htm">
+    </OBJECT></LI>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="file encoding (\ide)">
+	    <param name="Name" value="Identification">
+	    <param name="Local" value="identification.htm#ide">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="file identification (\id)">
+	    <param name="Name" value="Identification">
+	    <param name="Local" value="identification.htm#id">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="header text (\h, \h#)">
+	    <param name="Name" value="Identification">
+	    <param name="Local" value="identification.htm#h">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="remark/comment (\rem)">
+	    <param name="Name" value="Identification">
+	    <param name="Local" value="identification.htm#rem">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="table&nbsp;of&nbsp;contents&nbsp;-&nbsp;abbreviation&nbsp;(\toc3)">
+	    <param name="Name" value="Identification">
+	    <param name="Local" value="identification.htm#toc3">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="table&nbsp;of&nbsp;contents&nbsp;-&nbsp;long&nbsp;text&nbsp;(\toc1)">
+	    <param name="Name" value="Identification">
+	    <param name="Local" value="identification.htm#toc1">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="table&nbsp;of&nbsp;contents&nbsp;-&nbsp;short&nbsp;text&nbsp;(\toc2)">
+	    <param name="Name" value="Identification">
+	    <param name="Local" value="identification.htm#toc2">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="text status (\sts)">
+	    <param name="Name" value="Identification">
+	    <param name="Local" value="identification.htm#sts">
+	    </OBJECT></LI>
+</UL>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Illustration">
+    <param name="Name" value="Special Text and Character Styles">
+    <param name="Local" value="special_text_character_styles.htm#fig">
+    </OBJECT></LI>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Introduction">
+    <param name="See Also" value="Introduction">
+    </OBJECT></LI>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="explanatory or bridge text (\iex)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#iex">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="explicit blank line (\ib)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#ib">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="explicit&nbsp;introduction&nbsp;end&nbsp;-&nbsp;optional&nbsp;(\ie)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#ie">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="flush left (margin) paragraph (\im)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#im">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="flush left (margin) quote from text paragraph (\imq)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#imq">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="indented flush left (margin) paragraph (\imi)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#imi">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="indented paragraph (\ipi)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#ipi">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="major title (\imt, \imt#)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#imt">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="major title ending (\imte)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#imte">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="outline entry (\io, \io#)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#io">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="outline reference range (\ior...\ior*)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#ior">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="outline title (\iot)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#iot">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="paragraph (\ip)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#ip">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="poetic line (\iq)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#iq">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="quote from text paragraph (\ipq)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#ipq">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="quoted text (\iqt...\iqt*)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#iqt">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="right-aligned&nbsp;paragraph&nbsp;(\ipr)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#ipr">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="section heading (\is, \is#)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#is">
+	    </OBJECT></LI>
+</UL>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Introductions (at book group divisions)">
+    <param name="Name" value="Introductions">
+    <param name="Local" value="peripherals_introductions.htm">
+    </OBJECT></LI>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="to Acts (peripherals)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="peripherals_introductions.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="to Revelation (peripherals)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="peripherals_introductions.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="to the Bible (peripherals)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="peripherals_introductions.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="to the Deuterocanon (peripherals)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="peripherals_introductions.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="to the Epistles (peripherals)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="peripherals_introductions.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="to the Gospels (peripherals)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="peripherals_introductions.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="to the History books (peripherals)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="peripherals_introductions.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="to the New Testament (peripherals)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="peripherals_introductions.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="to the Old Testament (peripherals)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="peripherals_introductions.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="to the Pentateuch (peripherals)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="peripherals_introductions.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="to the Poetry books (peripherals)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="peripherals_introductions.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="to the Prophecy books (peripherals)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="peripherals_introductions.htm">
+	    </OBJECT></LI>
+</UL>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Introductions (within each book)">
+    <param name="Name" value="Introductions">
+    <param name="Local" value="introductions.htm">
+    </OBJECT></LI>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Labels">
+    <param name="Name" value="Titles, Headings, and Labels">
+    <param name="Local" value="titles_headings_and_labels.htm">
+    </OBJECT></LI>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Marker Index">
+    <param name="See Also" value="Marker Index">
+    </OBJECT></LI>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="//">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#discbreak">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\add...\add*">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#add">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\b">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#b">
+	    <param name="Name" value="Poetry">
+	    <param name="Local" value="poetry.htm#b">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\bd...\bd*">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#bd">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\bdit...\bdit*">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#bdit">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\bk...\bk*">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#bk">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\c">
+	    <param name="Name" value="Chapters and Verses">
+	    <param name="Local" value="chapters_and_verses.htm#c">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\ca...\ca*">
+	    <param name="Name" value="Chapters and Verses">
+	    <param name="Local" value="chapters_and_verses.htm#ca">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\cat">
+	    <param name="Name" value="Notes Project">
+	    <param name="Local" value="study_bible_notes.htm#notecategories">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\cd">
+	    <param name="Name" value="Chapters and Verses">
+	    <param name="Local" value="chapters_and_verses.htm#cd">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\cl">
+	    <param name="Name" value="Chapters and Verses">
+	    <param name="Local" value="chapters_and_verses.htm#cl">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\cls">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#cls">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\cp">
+	    <param name="Name" value="Chapters and Verses">
+	    <param name="Local" value="chapters_and_verses.htm#cp">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\d">
+	    <param name="Name" value="Titles, Headings, and Labels">
+	    <param name="Local" value="titles_headings_and_labels.htm#d">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\dc...\dc*">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#dc">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\ef">
+	    <param name="Name" value="Notes Project">
+	    <param name="Local" value="study_bible_notes.htm#studynotes">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\efm...\efm*">
+	    <param name="Name" value="Notes Project">
+	    <param name="Local" value="study_bible_notes.htm#connectstudybiblenotes">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\em...\em*">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#em">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\erq">
+	    <param name="Name" value="Notes Project">
+	    <param name="Local" value="study_bible_notes.htm#reflectivequestions">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\f...\f*">
+	    <param name="Name" value="Footnotes">
+	    <param name="Local" value="footnotes.htm#fopen">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\fdc...\fdc*">
+	    <param name="Name" value="Footnotes">
+	    <param name="Local" value="footnotes.htm#fdc">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\fe...\fe*">
+	    <param name="Name" value="Footnotes">
+	    <param name="Local" value="footnotes.htm#fe">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\fig...\fig*">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#fig">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\fk">
+	    <param name="Name" value="Footnotes">
+	    <param name="Local" value="footnotes.htm#fk">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\fl">
+	    <param name="Name" value="Footnotes">
+	    <param name="Local" value="footnotes.htm#fl">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\fm...\fm*">
+	    <param name="Name" value="Footnotes">
+	    <param name="Local" value="footnotes.htm#fm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\fp">
+	    <param name="Name" value="Footnotes">
+	    <param name="Local" value="footnotes.htm#fp">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\fq">
+	    <param name="Name" value="Footnotes">
+	    <param name="Local" value="footnotes.htm#fq">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\fqa">
+	    <param name="Name" value="Footnotes">
+	    <param name="Local" value="footnotes.htm#fqa">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\fr">
+	    <param name="Name" value="Footnotes">
+	    <param name="Local" value="footnotes.htm#fr">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\ft">
+	    <param name="Name" value="Footnotes">
+	    <param name="Local" value="footnotes.htm#ft">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\fv">
+	    <param name="Name" value="Footnotes">
+	    <param name="Local" value="footnotes.htm#fv">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\h, \h#">
+	    <param name="Name" value="Identification">
+	    <param name="Local" value="identification.htm#h">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\ib">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#ib">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\id">
+	    <param name="Name" value="Identification">
+	    <param name="Local" value="identification.htm#id">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\ide">
+	    <param name="Name" value="Identification">
+	    <param name="Local" value="identification.htm#ide">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\ie">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#ie">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\iex">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#iex">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\ili, \ili#">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#ili">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\im">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#im">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\imi">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#imi">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\imq">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#imq">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\imt, \imt#">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#imt">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\imte">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#imte">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\io, \io#">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#io">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\ior...\ior*">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#ior">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\iot">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#iot">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\ip">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#ip">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\ipi">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#ipi">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\ipq">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#ipq">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\ipr">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#ipr">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\iq">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#iq">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\iqt...\iqt*">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#iqt">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\is, \is#">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#is">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\it...\it*">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#it">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\k...\k*">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#k">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\li, \li#">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#li">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\lit">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#lit">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\m">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#m">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\mi">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#mi">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\mr">
+	    <param name="Name" value="Titles, Headings, and Labels">
+	    <param name="Local" value="titles_headings_and_labels.htm#mr">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\ms, \ms#">
+	    <param name="Name" value="Titles, Headings, and Labels">
+	    <param name="Local" value="titles_headings_and_labels.htm#ms">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\mt, \mt#">
+	    <param name="Name" value="Titles, Headings, and Labels">
+	    <param name="Local" value="titles_headings_and_labels.htm#mt">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\mte, \mte#">
+	    <param name="Name" value="Titles, Headings, and Labels">
+	    <param name="Local" value="titles_headings_and_labels.htm#mte">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\nb">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#nb">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\nd...\nd*">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#nd">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\ndx...\ndx*">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#ndx">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\no...\no*">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#no">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\ord...\ord*">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#ord">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\p">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#p">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\pb">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#pb">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\pc">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#pc">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\periph">
+	    <param name="Name" value="Peripherals">
+	    <param name="Local" value="peripherals.htm#grouptable">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\ph, \ph#">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#ph">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\pi, \pi#">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#pi">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\pm">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#pm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\pmc">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#pmc">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\pmo">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#pmo">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\pmr">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#pmr">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\pn...\pn*">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#pn">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\pr">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#pr">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\pro...\pro*">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#pro">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\q, \q#">
+	    <param name="Name" value="Poetry">
+	    <param name="Local" value="poetry.htm#q">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\qa">
+	    <param name="Name" value="Poetry">
+	    <param name="Local" value="poetry.htm#qa">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\qac...\qac*">
+	    <param name="Name" value="Poetry">
+	    <param name="Local" value="poetry.htm#qac">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\qc">
+	    <param name="Name" value="Poetry">
+	    <param name="Local" value="poetry.htm#qc">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\qm, \qm#">
+	    <param name="Name" value="Poetry">
+	    <param name="Local" value="poetry.htm#qm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\qr">
+	    <param name="Name" value="Poetry">
+	    <param name="Local" value="poetry.htm#qr">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\qs...\qs*">
+	    <param name="Name" value="Poetry">
+	    <param name="Local" value="poetry.htm#qs">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\qt...\qt*">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#qt">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\r">
+	    <param name="Name" value="Titles, Headings, and Labels">
+	    <param name="Local" value="titles_headings_and_labels.htm#r">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\rem">
+	    <param name="Name" value="Identification">
+	    <param name="Local" value="identification.htm#rem">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\rq...\rq*">
+	    <param name="Name" value="Titles, Headings, and Labels">
+	    <param name="Local" value="titles_headings_and_labels.htm#rq">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\s, \s#">
+	    <param name="Name" value="Titles, Headings, and Labels">
+	    <param name="Local" value="titles_headings_and_labels.htm#s">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\sc...\sc*">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#sc">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\sig...\sig*">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#sig">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\sls...\sls*">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#sls">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\sp">
+	    <param name="Name" value="Titles, Headings, and Labels">
+	    <param name="Local" value="titles_headings_and_labels.htm#sp">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\sr">
+	    <param name="Name" value="Titles, Headings, and Labels">
+	    <param name="Local" value="titles_headings_and_labels.htm#sr">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\sts">
+	    <param name="Name" value="Identification">
+	    <param name="Local" value="identification.htm#sts">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\tc#">
+	    <param name="Name" value="Tables">
+	    <param name="Local" value="tables.htm#tc">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\tcr#">
+	    <param name="Name" value="Tables">
+	    <param name="Local" value="tables.htm#tcr">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\th#">
+	    <param name="Name" value="Tables">
+	    <param name="Local" value="tables.htm#th">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\thr#">
+	    <param name="Name" value="Tables">
+	    <param name="Local" value="tables.htm#thr">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\tl...\tl*">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#tl">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\toc1">
+	    <param name="Name" value="Identification">
+	    <param name="Local" value="identification.htm#toc1">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\toc2">
+	    <param name="Name" value="Identification">
+	    <param name="Local" value="identification.htm#toc2">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\toc3">
+	    <param name="Name" value="Identification">
+	    <param name="Local" value="identification.htm#toc3">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\tr">
+	    <param name="Name" value="Tables">
+	    <param name="Local" value="tables.htm#tr">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\v">
+	    <param name="Name" value="Chapters and Verses">
+	    <param name="Local" value="chapters_and_verses.htm#v">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\va...\va*">
+	    <param name="Name" value="Chapters and Verses">
+	    <param name="Local" value="chapters_and_verses.htm#va">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\vp...\vp*">
+	    <param name="Name" value="Chapters and Verses">
+	    <param name="Local" value="chapters_and_verses.htm#vp">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\w...\w*">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#w">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\wg...\wg*">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#wg">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\wh...\wh*">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#wh">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\wj...\wj*">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#wj">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\x...\x*">
+	    <param name="Name" value="Cross References">
+	    <param name="Local" value="cross_references.htm#xopen">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\xdc...\xdc*">
+	    <param name="Name" value="Cross References">
+	    <param name="Local" value="cross_references.htm#xdc">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\xk">
+	    <param name="Name" value="Cross References">
+	    <param name="Local" value="cross_references.htm#xk">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\xnt...\xnt*">
+	    <param name="Name" value="Cross References">
+	    <param name="Local" value="cross_references.htm#xnt">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\xo">
+	    <param name="Name" value="Cross References">
+	    <param name="Local" value="cross_references.htm#xo">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\xot...\xot*">
+	    <param name="Name" value="Cross References">
+	    <param name="Local" value="cross_references.htm#xot">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\xq">
+	    <param name="Name" value="Cross References">
+	    <param name="Local" value="cross_references.htm#xq">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\xt">
+	    <param name="Name" value="Cross References">
+	    <param name="Local" value="cross_references.htm#xt">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="\z... (private use area)">
+	    <param name="Name" value="Introduction">
+	    <param name="Local" value="usfm_introduction.htm#extentions">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="~">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#nobreak">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="BAK \periph Chronology">
+	    <param name="Name" value="Back Matter">
+	    <param name="Local" value="peripherals_back_matter.htm#bakchronology">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="BAK \periph Map Index">
+	    <param name="Name" value="Back Matter">
+	    <param name="Local" value="peripherals_back_matter.htm#bakmapindex">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="BAK \periph Weights and Measures">
+	    <param name="Name" value="Back Matter">
+	    <param name="Local" value="peripherals_back_matter.htm#bakweightsmeasures">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="FRT \periph Alphabetical Contents">
+	    <param name="Name" value="Front Matter">
+	    <param name="Local" value="peripherals_front_matter.htm#frtalphabeticalcontents">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="FRT \periph Foreword">
+	    <param name="Name" value="Front Matter">
+	    <param name="Local" value="peripherals_front_matter.htm#frtforword">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="FRT \periph Half Title Page">
+	    <param name="Name" value="Front Matter">
+	    <param name="Local" value="peripherals_front_matter.htm#frthalftitlepage">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="FRT \periph Imprimatur">
+	    <param name="Name" value="Front Matter">
+	    <param name="Local" value="peripherals_front_matter.htm#frtimprimatur">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="FRT \periph Preface">
+	    <param name="Name" value="Front Matter">
+	    <param name="Local" value="peripherals_front_matter.htm#frtpreface">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="FRT \periph Promotional Page">
+	    <param name="Name" value="Front Matter">
+	    <param name="Local" value="peripherals_front_matter.htm#frtpromotionalpage">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="FRT \periph Publication Data">
+	    <param name="Name" value="Front Matter">
+	    <param name="Local" value="peripherals_front_matter.htm#frtpublicationdata">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="FRT \periph Table of Abbreviations">
+	    <param name="Name" value="Front Matter">
+	    <param name="Local" value="peripherals_front_matter.htm#frttableofabbreviations">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="FRT \periph Table of Contents">
+	    <param name="Name" value="Front Matter">
+	    <param name="Local" value="peripherals_front_matter.htm#frttableofcontents">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="FRT \periph Title Page">
+	    <param name="Name" value="Front Matter">
+	    <param name="Local" value="peripherals_front_matter.htm#frttitlepage">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="INT \periph Acts Introduction">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="peripherals_introductions.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="INT \periph Bible Introduction">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="peripherals_introductions.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="INT \periph Deuterocanon Introduction">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="peripherals_introductions.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="INT \periph Epistles Introduction">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="peripherals_introductions.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="INT \periph Gospels Introduction">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="peripherals_introductions.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="INT \periph History Introduction">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="peripherals_introductions.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="INT \periph New Testament Introduction">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="peripherals_introductions.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="INT \periph Old Testament Introduction">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="peripherals_introductions.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="INT \periph Pentateuch Introduction">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="peripherals_introductions.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="INT \periph Poetry Introduction">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="peripherals_introductions.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="INT \periph Prophecy Introduction">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="peripherals_introductions.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="INT \periph Revelation Introduction">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="peripherals_introductions.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="OTH \periph Cover">
+	    <param name="Name" value="Other">
+	    <param name="Local" value="peripherals_other.htm#othcover">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="OTH \periph Spine">
+	    <param name="Name" value="Other">
+	    <param name="Local" value="peripherals_other.htm#othspine">
+	    </OBJECT></LI>
+</UL>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Names Index">
+    <param name="Name" value="Back Matter">
+    <param name="Local" value="peripherals_back_matter.htm#ndx">
+    </OBJECT></LI>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Other Material">
+    <param name="Name" value="Other">
+    <param name="Local" value="peripherals_other.htm">
+    </OBJECT></LI>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="cover text">
+	    <param name="Name" value="Other">
+	    <param name="Local" value="peripherals_other.htm#othcover">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="spine text">
+	    <param name="Name" value="Other">
+	    <param name="Local" value="peripherals_other.htm#othspine">
+	    </OBJECT></LI>
+</UL>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Paragraph">
+    <param name="Name" value="Paragraphs">
+    <param name="Local" value="paragraphs.htm">
+    </OBJECT></LI>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="centered (\pc)">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#pc">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="closure of epistle/letter (\cls)">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#cls">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="embedded text (\pm)">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#pm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="embedded text closing (\pmc)">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#pmc">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="embedded text opening (\pmo)">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#pmo">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="embedded text refrain (\pmr)">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#pmr">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="explicit blank line (\b)">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#b">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="flush left (margin) (\m)">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#m">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="hanging indent (\ph, \ph#)">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#ph">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="indented (\pi, \pi#)">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#pi">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="indented flush left (\mi)">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#mi">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="list item (\ili, \ili#)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="introductions.htm#ili">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="list item (\li, \li#)">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#li">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="no break with previous (\nb)">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#nb">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="normal (\p)">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#p">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="right-aligned&nbsp;(\pr)">
+	    <param name="Name" value="Paragraphs">
+	    <param name="Local" value="paragraphs.htm#pr">
+	    </OBJECT></LI>
+</UL>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Paratext stylesheets (.sty files)">
+    <param name="Name" value="Introduction">
+    <param name="Local" value="usfm_introduction.htm#paratextstylesheets">
+    </OBJECT></LI>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Peripherals">
+    <param name="Name" value="Peripherals">
+    <param name="Local" value="peripherals.htm">
+    </OBJECT></LI>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="authoring in Paratext">
+	    <param name="Name" value="Peripherals">
+	    <param name="Local" value="peripherals.htm#paratextauthoring">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="Back Matter (\id BAK)">
+	    <param name="Name" value="Back Matter">
+	    <param name="Local" value="peripherals_back_matter.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="books and content divisions">
+	    <param name="Name" value="Peripherals">
+	    <param name="Local" value="peripherals.htm#grouptable">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="Front Matter (\id FRT)">
+	    <param name="Name" value="Front Matter">
+	    <param name="Local" value="peripherals_front_matter.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="Introductions (\id INT)">
+	    <param name="Name" value="Introductions">
+	    <param name="Local" value="peripherals_introductions.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="Other Material (\id OTH)">
+	    <param name="Name" value="Other">
+	    <param name="Local" value="peripherals_other.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="recommended USFM for content divisions">
+	    <param name="Name" value="Peripherals">
+	    <param name="Local" value="peripherals.htm#recommendedusfm">
+	    </OBJECT></LI>
+</UL>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Poetry">
+    <param name="Name" value="Poetry">
+    <param name="Local" value="poetry.htm">
+    </OBJECT></LI>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="acrostic heading (\qa)">
+	    <param name="Name" value="Poetry">
+	    <param name="Local" value="poetry.htm#qa">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="acrostic letter (\qac...\qac*)">
+	    <param name="Name" value="Poetry">
+	    <param name="Local" value="poetry.htm#qac">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="blank line, stanza break (\b)">
+	    <param name="Name" value="Poetry">
+	    <param name="Local" value="poetry.htm#b">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="centered poetic line (\qc)">
+	    <param name="Name" value="Poetry">
+	    <param name="Local" value="poetry.htm#qc">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="embedded text poetic line (\qm, \qm#)">
+	    <param name="Name" value="Poetry">
+	    <param name="Local" value="poetry.htm#qm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="poetic line (\q, \q#)">
+	    <param name="Name" value="Poetry">
+	    <param name="Local" value="poetry.htm#q">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="right aligned poetic line (\qr)">
+	    <param name="Name" value="Poetry">
+	    <param name="Local" value="poetry.htm#qr">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="selah text (\qs...\qs*)">
+	    <param name="Name" value="Poetry">
+	    <param name="Local" value="poetry.htm#qs">
+	    </OBJECT></LI>
+</UL>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="private use area (\z)">
+    <param name="Name" value="Introduction">
+    <param name="Local" value="usfm_introduction.htm#extentions">
+    </OBJECT></LI>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Release Notes">
+    <param name="Name" value="Release Notes">
+    <param name="Local" value="release_notes.htm">
+    </OBJECT></LI>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="2.0">
+	    <param name="Name" value="Release Notes">
+	    <param name="Local" value="release_notes.htm#2.0">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="2.03">
+	    <param name="Name" value="Release Notes">
+	    <param name="Local" value="release_notes.htm#2.03">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="2.04">
+	    <param name="Name" value="Release Notes">
+	    <param name="Local" value="release_notes.htm#2.05">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="2.05">
+	    <param name="Name" value="Release Notes">
+	    <param name="Local" value="release_notes.htm#2.05">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="2.1">
+	    <param name="Name" value="Release Notes">
+	    <param name="Local" value="release_notes.htm#2.1">
+	    </OBJECT></LI>
+</UL>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Spacing and Breaks">
+    <param name="See Also" value="Spacing and Breaks">
+    </OBJECT></LI>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="discretionary line break (//)">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#discbreak">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="explicit page break (\pb)">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#pb">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="no-break&nbsp;space&nbsp;(~)">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#nobreak">
+	    </OBJECT></LI>
+</UL>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Special Features">
+    <param name="See Also" value="Special Features">
+    </OBJECT></LI>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="CJK pronunciation information (\pro...\pro*)">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#pro">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="Greek word list entry (\wg...\wg*)">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#wg">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="Hebrew word list entry (\wh...\wh*)">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#wh">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="illustration (\fig...\fig*)">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#fig">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="subject index entry (\ndx...\ndx*)">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#ndx">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="wordlist/glossary/dictionary entry (\w...\w*)">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#w">
+	    </OBJECT></LI>
+</UL>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Special Text">
+    <param name="Name" value="Special Text and Character Styles">
+    <param name="Local" value="special_text_character_styles.htm">
+    </OBJECT></LI>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="DC/LXX additions in Protocanon (\dc...\dc*)">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#dc">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="keyword/keyterm (\k...\k*)">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#k">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="liturgical note/comment (\lit)">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#lit">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="name of God (deity) (\nd...\nd*)">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#nd">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="ordinal number ending (\ord...\ord*)">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#ord">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="proper name (\pn...\pn*)">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#pn">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="quoted book title (\bk...\bk*)">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#bk">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="quoted text (\qt...\qt*)">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#qt">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="signature of author (\sig...\sig*)">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#sig">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="supplementary language source (\sls...\sls*)">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#sls">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="translator's addition (\add...\add*)">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#add">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="transliterated word(s) (\tl...\tl*)">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#tl">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="words of Jesus (\wj...\wj*)">
+	    <param name="Name" value="Special Text and Character Styles">
+	    <param name="Local" value="special_text_character_styles.htm#wj">
+	    </OBJECT></LI>
+</UL>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Study Bible">
+    <param name="Name" value="Study Bible Content">
+    <param name="Local" value="study_bible_content.htm">
+    </OBJECT></LI>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="illustrations">
+	    <param name="Name" value="Sidebars Project">
+	    <param name="Local" value="study_bible_sidebars.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="note callers">
+	    <param name="Name" value="Notes Project">
+	    <param name="Local" value="study_bible_notes.htm#callers">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="note&nbsp;callers&nbsp;-&nbsp;explicit&nbsp;connection">
+	    <param name="Name" value="Notes Project">
+	    <param name="Local" value="study_bible_notes.htm#connectstudybiblenotes">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="note categories (\cat)">
+	    <param name="Name" value="Notes Project">
+	    <param name="Local" value="study_bible_notes.htm#notecategories">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="notes&nbsp;-&nbsp;division&nbsp;and&nbsp;section&nbsp;introductions">
+	    <param name="Name" value="Notes Project">
+	    <param name="Local" value="study_bible_notes.htm#divsecintros">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="notes&nbsp;-&nbsp;extended&nbsp;book&nbsp;introductions">
+	    <param name="Name" value="Notes Project">
+	    <param name="Local" value="study_bible_notes.htm#extendedbookintros">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="notes&nbsp;-&nbsp;reflective&nbsp;questions">
+	    <param name="Name" value="Notes Project">
+	    <param name="Local" value="study_bible_notes.htm#reflectivequestions">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="notes&nbsp;-&nbsp;study&nbsp;notes">
+	    <param name="Name" value="Notes Project">
+	    <param name="Local" value="study_bible_notes.htm#studynotes">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="notes project">
+	    <param name="Name" value="Notes Project">
+	    <param name="Local" value="study_bible_notes.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="project configuration">
+	    <param name="Name" value="Study Bible Content">
+	    <param name="Local" value="study_bible_content.htm#projectconfig">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="Sidebars project">
+	    <param name="Name" value="Sidebars Project">
+	    <param name="Local" value="study_bible_sidebars.htm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="stylesheets for Paratext">
+	    <param name="Name" value="Study Bible Content">
+	    <param name="Local" value="study_bible_content.htm">
+	    </OBJECT></LI>
+</UL>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Syntax Notes">
+    <param name="Name" value="Syntax Notes">
+    <param name="Local" value="syntax_notes.htm">
+    </OBJECT></LI>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="documentation notes">
+	    <param name="Name" value="Syntax Notes">
+	    <param name="Local" value="syntax_notes.htm#documentationsyntax">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="endmarkers within \f and \x">
+	    <param name="Name" value="Syntax Notes">
+	    <param name="Local" value="syntax_notes.htm#noteendmarkers">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="numbered markers">
+	    <param name="Name" value="Syntax Notes">
+	    <param name="Local" value="syntax_notes.htm#numberedmarkers">
+	    </OBJECT></LI>
+</UL>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Table">
+    <param name="Name" value="Tables">
+    <param name="Local" value="tables.htm">
+    </OBJECT></LI>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="cell (\tc#)">
+	    <param name="Name" value="Tables">
+	    <param name="Local" value="tables.htm#tc">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="column heading (\th#)">
+	    <param name="Name" value="Tables">
+	    <param name="Local" value="tables.htm#th">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="right aligned cell (\tcr#)">
+	    <param name="Name" value="Tables">
+	    <param name="Local" value="tables.htm#tcr">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="right aligned column heading (\thr#)">
+	    <param name="Name" value="Tables">
+	    <param name="Local" value="tables.htm#thr">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="row start (\tr)">
+	    <param name="Name" value="Tables">
+	    <param name="Local" value="tables.htm#tr">
+	    </OBJECT></LI>
+</UL>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Titles, Headings, and Labels">
+    <param name="Name" value="Titles, Headings, and Labels">
+    <param name="Local" value="titles_headings_and_labels.htm">
+    </OBJECT></LI>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="descriptive title (Hebrew subtitle) (\d)">
+	    <param name="Name" value="Titles, Headings, and Labels">
+	    <param name="Local" value="titles_headings_and_labels.htm#d">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="inline quotation reference(s) (\rq...\rq*)">
+	    <param name="Name" value="Titles, Headings, and Labels">
+	    <param name="Local" value="titles_headings_and_labels.htm#rq">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="major section heading (\ms, \ms#)">
+	    <param name="Name" value="Titles, Headings, and Labels">
+	    <param name="Local" value="titles_headings_and_labels.htm#ms">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="major section reference range (\mr)">
+	    <param name="Name" value="Titles, Headings, and Labels">
+	    <param name="Local" value="titles_headings_and_labels.htm#mr">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="major title (\mt, \mt#)">
+	    <param name="Name" value="Titles, Headings, and Labels">
+	    <param name="Local" value="titles_headings_and_labels.htm#mt">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="major title at ending (\mte, \mte#)">
+	    <param name="Name" value="Titles, Headings, and Labels">
+	    <param name="Local" value="titles_headings_and_labels.htm#mte">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="parallel passage reference(s) (\r)">
+	    <param name="Name" value="Titles, Headings, and Labels">
+	    <param name="Local" value="titles_headings_and_labels.htm#r">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="section heading (\s, \s#)">
+	    <param name="Name" value="Titles, Headings, and Labels">
+	    <param name="Local" value="titles_headings_and_labels.htm#s">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="section reference range (\r)">
+	    <param name="Name" value="Titles, Headings, and Labels">
+	    <param name="Local" value="titles_headings_and_labels.htm#sr">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="speaker identification (\sp)">
+	    <param name="Name" value="Titles, Headings, and Labels">
+	    <param name="Local" value="titles_headings_and_labels.htm#sp">
+	    </OBJECT></LI>
+</UL>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Topical Index">
+    <param name="Name" value="Back Matter">
+    <param name="Local" value="peripherals_back_matter.htm#tdx">
+    </OBJECT></LI>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="USFM">
+    <param name="Name" value="Introduction">
+    <param name="Local" value="usfm_introduction.htm">
+    </OBJECT></LI>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="additions/extentions">
+	    <param name="Name" value="Introduction">
+	    <param name="Local" value="usfm_introduction.htm#extentions">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="history of USFM">
+	    <param name="Name" value="Introduction">
+	    <param name="Local" value="usfm_introduction.htm#introusfm">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="Paratext stylesheets (.sty files)">
+	    <param name="Name" value="Introduction">
+	    <param name="Local" value="usfm_introduction.htm#paratextstylesheets">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="supporting software notes">
+	    <param name="Name" value="Introduction">
+	    <param name="Local" value="usfm_introduction.htm#softwarenotes">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="unification process notes">
+	    <param name="Name" value="Introduction">
+	    <param name="Local" value="usfm_introduction.htm#unificationnotes">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="what are standard format markers (SFMs)?">
+	    <param name="Name" value="Introduction">
+	    <param name="Local" value="usfm_introduction.htm#introsfm">
+	    </OBJECT></LI>
+</UL>
+<LI><OBJECT type="text/sitemap">
+    <param name="Name" value="Verse">
+    <param name="Name" value="Chapters and Verses">
+    <param name="Local" value="chapters_and_verses.htm">
+    </OBJECT></LI>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="alternate verse number (\va...\va*)">
+	    <param name="Name" value="Chapters and Verses">
+	    <param name="Local" value="chapters_and_verses.htm#va">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="published verse character (\vp...\vp*)">
+	    <param name="Name" value="Chapters and Verses">
+	    <param name="Local" value="chapters_and_verses.htm#vp">
+	    </OBJECT></LI>
+</UL>
+<UL>
+	<LI><OBJECT type="text/sitemap">
+	    <param name="Name" value="verse number (\v)">
+	    <param name="Name" value="Chapters and Verses">
+	    <param name="Local" value="chapters_and_verses.htm#v">
+	    </OBJECT></LI>
+</UL>
+</UL>
+</BODY></HTML>

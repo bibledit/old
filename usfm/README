@@ -18,3 +18,20 @@ in the public domain.
 
 Teus Benschop
 5 August 2009
+
+----------------------------
+
+To view this documentation in .chm format, a program called chmsee was used.
+People said that this program is not available for Mac OS X.
+For that reason the .chm file was extracted into its components.
+
+To extract, move the .chm file to the usfm subdirectory of this package,
+then unpack it:
+extract_chmLib usfmReference.chm .
+Then remove the folders that start with $ and the files starting with #.
+
+It produces .htm files and other files. Since the suffix of the files is .htm, 
+these files shouldn't interfere with Bibledit's online help, which uses .html.
+
+Teus Benschop
+3 November 2009

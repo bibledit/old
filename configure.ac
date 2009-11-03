@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.63)
-AC_INIT([bibledit],[3.9.33],[http://www.nongnu.org/bibledit])
+AC_INIT([bibledit],[3.9.34],[http://www.nongnu.org/bibledit])
 AC_CANONICAL_TARGET
 ac_default_prefix=/usr
 AC_CONFIG_MACRO_DIR([m4])
@@ -139,11 +139,6 @@ fi
 AC_PATH_PROG(FIND_TAR, tar, no)
 if test x$FIND_TAR = xno; then
   AC_MSG_ERROR(Program "tar" is needed. Install this first.)
-fi
-
-AC_PATH_PROG(FIND_CHMSEE, chmsee, no)
-if test x$FIND_CHMSEE = xno; then
-  AC_MSG_ERROR(Program "chmsee" is needed. Install this first.)
 fi
 
 AC_PATH_PROG(FIND_SSH, ssh, no)

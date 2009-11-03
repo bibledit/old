@@ -1,0 +1,189 @@
+/* Text Styles */
+hr { color: #000000}
+body, table /* Normal */
+{
+ font-size: 8pt;
+ font-family: 'Verdana';
+ font-style: normal;
+ font-weight: normal;
+ color: #000000;
+ text-decoration: none;
+}
+span.f_CodeExample /* Code Example */
+{
+ font-family: 'Courier New';
+ color: #000000;
+}
+span.f_Comment /* Comment */
+{
+}
+span.f_ExampleHeading /* Example Heading */
+{
+ font-weight: bold;
+}
+span.f_ExampleToggle /* Example Toggle */
+{
+ color: #000000;
+}
+span.f_Heading1 /* Heading1 */
+{
+ font-size: 14pt;
+ font-family: 'Arial';
+ font-weight: bold;
+ color: #ffffff;
+}
+span.f_Heading2 /* Heading2 */
+{
+ font-size: 11pt;
+ font-weight: bold;
+}
+span.f_Heading3 /* Heading3 */
+{
+ font-size: 10pt;
+ font-weight: bold;
+ color: #003366;
+}
+span.f_Heading4 /* Heading4 */
+{
+ font-weight: bold;
+}
+span.f_ImageCaption /* Image Caption */
+{
+ font-style: italic;
+}
+span.f_ImageIndent /* Image Indent */
+{
+}
+span.f_ListIndent /* List Indent */
+{
+}
+span.f_MainTitle /* Main Title */
+{
+ font-size: 18pt;
+ font-weight: bold;
+}
+span.f_MarkerHeadingLineAbove /* Marker Heading (Line Above) */
+{
+ font-size: 10pt;
+ font-weight: bold;
+ color: #003366;
+}
+span.f_MarkerHeadingnoLine /* Marker Heading (no Line) */
+{
+ font-size: 10pt;
+ font-weight: bold;
+ color: #003366;
+}
+span.f_MarkupExample /* Markup Example */
+{
+ color: #000000;
+}
+span.f_MarkupHighlight /* Markup Highlight */
+{
+ font-weight: bold;
+ color: #ff0000;
+}
+span.f_Notes /* Notes */
+{
+}
+span.f_RecommendedUse /* Recommended Use */
+{
+}
+span.f_SubTitle /* Sub Title */
+{
+ font-size: 16pt;
+ font-style: italic;
+}
+span.f_TableColumnHead /* Table Column Head */
+{
+ font-weight: bold;
+}
+span.f_TopicContentHead /* Topic Content Head */
+{
+ font-size: 9pt;
+ font-weight: bold;
+ color: #ffffff;
+}
+/* Paragraph styles */
+p /* Normal */
+{
+ text-align: left;
+ text-indent: 0px;
+ padding: 0px 0px 0px 0px;
+ margin: 0px 0px 0px 0px;
+}
+.p_CodeExample /* Code Example */
+{
+ white-space: nowrap;
+}
+.p_Comment /* Comment */
+{
+}
+.p_ExampleHeading /* Example Heading */
+{
+ margin: 8px 0px 6px 0px;
+}
+.p_Heading1 /* Heading1 */
+{
+}
+.p_Heading2 /* Heading2 */
+{
+ margin: 15px 0px 6px 0px;
+}
+.p_Heading3 /* Heading3 */
+{
+ margin: 12px 0px 6px 0px;
+}
+.p_Heading4 /* Heading4 */
+{
+ margin: 12px 0px 6px 0px;
+}
+.p_ImageCaption /* Image Caption */
+{
+ margin: 5px 0px 0px 24px;
+}
+.p_ImageIndent /* Image Indent */
+{
+ margin: 0px 0px 0px 31px;
+}
+.p_ListIndent /* List Indent */
+{
+ margin: 0px 0px 0px 19px;
+}
+.p_MainTitle /* Main Title */
+{
+ margin: 6px 0px 5px 0px;
+}
+.p_MarkerHeadingLineAbove /* Marker Heading (Line Above) */
+{
+ border-color: #999999;
+ border-style: solid;
+ border-width: 1px;
+ border-right: none;
+ border-bottom: none;
+ border-left: none;
+ background: #f0f0f0;
+ padding: 6px 6px 6px 6px;
+ margin: 13px -6px 0px -6px;
+}
+.p_MarkerHeadingnoLine /* Marker Heading (no Line) */
+{
+ margin: 12px 0px 6px 0px;
+}
+.p_Notes /* Notes */
+{
+}
+.p_RecommendedUse /* Recommended Use */
+{
+ margin: 6px 0px 0px 13px;
+}
+.p_SubTitle /* Sub Title */
+{
+ margin: 0px 0px 12px 0px;
+}
+.p_TableColumnHead /* Table Column Head */
+{
+}
+.p_TopicContentHead /* Topic Content Head */
+{
+}

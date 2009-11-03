@@ -1549,14 +1549,6 @@ navigation(0), httpd(0)
   gtk_widget_show(image17520);
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(help_main), image17520);
 
-  helpusfm = gtk_image_menu_item_new_with_mnemonic ("_USFM");
-  gtk_widget_show (helpusfm);
-  gtk_container_add (GTK_CONTAINER (menuitem_help_menu), helpusfm);
-
-  image37230 = gtk_image_new_from_stock ("gtk-help", GTK_ICON_SIZE_MENU);
-  gtk_widget_show (image37230);
-  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (helpusfm), image37230);
-
   system_log1 = gtk_image_menu_item_new_with_mnemonic("_System log");
   gtk_widget_show(system_log1);
   gtk_container_add(GTK_CONTAINER(menuitem_help_menu), system_log1);
@@ -1809,8 +1801,6 @@ navigation(0), httpd(0)
     g_signal_connect((gpointer) preferences_compare, "activate", G_CALLBACK(on_preferences_compare_activate), gpointer(this));
   if (help_main)
     g_signal_connect((gpointer) help_main, "activate", G_CALLBACK(on_help_main_activate), gpointer(this));
-  if (helpusfm)
-    g_signal_connect((gpointer) helpusfm, "activate", G_CALLBACK(on_helpusfm_activate), gpointer(this));
   if (system_log1)
     g_signal_connect((gpointer) system_log1, "activate", G_CALLBACK(on_system_log1_activate), gpointer(this));
   if (about1)
@@ -2068,20 +2058,6 @@ void MainWindow::on_help_main_activate(GtkMenuItem * menuitem, gpointer user_dat
 void MainWindow::on_help_main()
 {
   htmlbrowser("localhost:51516", true);
-}
-
-
-void MainWindow::on_helpusfm_activate(GtkMenuItem * menuitem, gpointer user_data)
-{
-  ((MainWindow *) user_data)->on_helpusfm();
-}
-
-void MainWindow::on_helpusfm()
-{
-  GwSpawn spawn ("chmsee");
-  spawn.arg (gw_build_filename (directories_get_package_data(), "usfmReference.chm"));
-  spawn.async ();
-  spawn.run ();
 }
 
 
@@ -6930,6 +6906,10 @@ http://bugzilla.abisource.com/show_bug.cgi?id=12419
 https://bugs.launchpad.net/ubuntu/+source/enchant/+bug/446230
 
 
+Adapt the documentation. Remove the areas. Mention the tricks involved  in placing windows, such as resizing other windows before placing a new
+one so as to control its placement.
+
+
 A window should have a mininum width and height, which corrects if these are too small.
 A window cannot be moved to negative positions.
 If a window is moved to beyond the layout's size, it can't do that, but if it does on its own, the layout gets expanded.
@@ -6950,12 +6930,16 @@ BE always wants to load up the References and Project Notes windows even when I 
 
 
 
+On karmic there is a crash when switching to a chapter that has footnotes.
+We better overhaul the editor, so that it only shows plain text.
+Perhaps pictures can then be shown in a htmlview.
+Notemarkers can be distinguished by their "f" or other markup.
+Scrolling won't work at first, but should be implemented later.
+Copying text beyond the paragraph won't work at first, but should be implemented later.
+It will just be a stack of GtkTextViews each view with their own paragraph style.
 
 
 
-Switch to disable chmsee in the ./configure script.
-Better to throw it out altogether, and mention in a README that this .chm file was used, .html files extracted, and copied to <a folder>,
-and then the USFM documentation will be available as part of the standard online help.
 
 
 
