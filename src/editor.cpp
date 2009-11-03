@@ -2625,15 +2625,18 @@ void Editor::text_append(GtkTextBuffer * textbuffer, const ustring & text, const
   textbuffer_insert_with_named_tags(textbuffer, &insertiter, text, paragraph_style, character_style);
 }
 
+
 void Editor::signal_if_styles_changed()
 {
   set < ustring > styles = get_styles_at_cursor();
   if (styles != styles_at_cursor) {
     styles_at_cursor = styles;
-    if (new_styles_signal)
+    if (new_styles_signal) {
       gtk_button_clicked(GTK_BUTTON(new_styles_signal));
+    }
   }
 }
+
 
 set < ustring > Editor::get_styles_at_cursor()
 // Gets all the styles that apply to the cursor, or to the selection.
@@ -2681,6 +2684,7 @@ set < ustring > Editor::get_styles_at_cursor()
   // Return the list.
   return styles;
 }
+
 
 set < ustring > Editor::styles_at_iterator(GtkTextIter iter)
 // Get all the styles that apply at the iterator.

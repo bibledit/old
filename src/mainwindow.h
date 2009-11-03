@@ -328,10 +328,6 @@ protected:
   GtkWidget *toolbar;
   GtkWidget *scrolledwindow_layout;
   GtkWidget *layout;
-  GtkWidget *hbox_status; 
-  GtkWidget *hbox7;
-  GtkWidget *statuslabel_style;
-  GtkWidget *statusbar;
 
   // Navigator object.
   GuiNavigation navigation;

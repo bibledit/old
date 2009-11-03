@@ -1580,28 +1580,6 @@ navigation(0), httpd(0)
   GTK_ADJUSTMENT (GTK_LAYOUT (layout)->hadjustment)->step_increment = 10;
   GTK_ADJUSTMENT (GTK_LAYOUT (layout)->vadjustment)->step_increment = 10;
 
-  hbox_status = gtk_hbox_new(FALSE, 0);
-  gtk_widget_show(hbox_status);
-  gtk_box_pack_start(GTK_BOX(vbox_main), hbox_status, FALSE, FALSE, 0);
-
-  hbox7 = gtk_hbox_new(FALSE, 8);
-  gtk_widget_show(hbox7);
-  gtk_box_pack_start(GTK_BOX(hbox_status), hbox7, TRUE, TRUE, 0);
-
-  statuslabel_style = gtk_label_new("");
-  gtk_widget_show(statuslabel_style);
-  gtk_box_pack_start(GTK_BOX(hbox7), statuslabel_style, FALSE, FALSE, 0);
-
-  // This label could display a lot of styles so running out of space, and 
-  // therefore needs to show an ellipsis if there is too much text.
-  gtk_label_set_ellipsize(GTK_LABEL(statuslabel_style), PANGO_ELLIPSIZE_MIDDLE);
-  gtk_label_set_max_width_chars(GTK_LABEL(statuslabel_style), 50);
-
-  statusbar = gtk_statusbar_new();
-  gtk_widget_show(statusbar);
-  gtk_box_pack_start(GTK_BOX(hbox_status), statusbar, FALSE, TRUE, 0);
-  gtk_widget_set_size_request(statusbar, 25, -1);
-
   // Menu callbacks.
   if (new1)
     g_signal_connect((gpointer) new1, "activate", G_CALLBACK(on_new1_activate), gpointer(this));
@@ -3989,26 +3967,17 @@ void MainWindow::on_style_apply()
   }
 }
 
+
 void MainWindow::on_editor_style_changed(GtkButton * button, gpointer user_data)
 {
   ((MainWindow *) user_data)->editor_style_changed();
 }
 
+
 void MainWindow::editor_style_changed()
 {
-  WindowEditor *editor_window = last_focused_editor_window();
-  if (!editor_window)
-    return;
-  set < ustring > styles = editor_window->get_styles_at_cursor();
-  vector < ustring > styles2(styles.begin(), styles.end());
-  ustring text = "Style ";
-  for (unsigned int i = 0; i < styles2.size(); i++) {
-    if (i)
-      text.append(", ");
-    text.append(styles2[i]);
-  }
-  gtk_label_set_text(GTK_LABEL(statuslabel_style), text.c_str());
 }
+
 
 void MainWindow::on_style_edited(GtkButton * button, gpointer user_data)
 // This function is called when the properties of a style have been edited.
@@ -4016,12 +3985,14 @@ void MainWindow::on_style_edited(GtkButton * button, gpointer user_data)
   ((MainWindow *) user_data)->reload_styles();
 }
 
+
 void MainWindow::reload_styles()
 {
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
     editor_windows[i]->create_or_update_formatting_data();
   }
 }
+
 
 /*
  |
@@ -6884,9 +6855,6 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 
 Todo tasks.
 
-
-
-The styles from the editor, put these in their own status bar too,
 
 
 If the main status bar is no longer needed, it can go out. Or leave it for cosmetic reasons.

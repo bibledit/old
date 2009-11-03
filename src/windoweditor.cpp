@@ -513,6 +513,17 @@ void WindowEditor::on_new_styles_signalled(GtkButton *button, gpointer user_data
 
 void WindowEditor::on_new_styles()
 {
+  // Set the styles in the status bar.
+  set <ustring> styles = get_styles_at_cursor();
+  vector <ustring> styles2 (styles.begin(), styles.end());
+  ustring text = "Style ";
+  for (unsigned int i = 0; i < styles2.size(); i++) {
+    if (i)
+      text.append(", ");
+    text.append(styles2[i]);
+  }
+  status1 (text);
+  // Give a signal that there are new styles.
   gtk_button_clicked (GTK_BUTTON (new_styles_signal));
 }
 
