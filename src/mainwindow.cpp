@@ -6857,13 +6857,8 @@ Todo tasks.
 
 
 
-The spelling no longer works, it empties the shared dictionary completely. Check from Ezekiel 10 and on.
-http://bugzilla.abisource.com/show_bug.cgi?id=12419
-https://bugs.launchpad.net/ubuntu/+source/enchant/+bug/446230
-
-
 Adapt the documentation. Remove the areas. Mention the tricks involved  in placing windows, such as resizing other windows before placing a new
-one so as to control its placement.
+one so as to control its placement. Also mention the techniques bibledit uses to find space for a new window that is about to be opened.
 
 
 A window should have a mininum width and height, which corrects if these are too small.
