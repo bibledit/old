@@ -6857,8 +6857,12 @@ Todo tasks.
 
 
 
-Adapt the documentation. Remove the areas. Mention the tricks involved  in placing windows, such as resizing other windows before placing a new
+Adapt the documentation. Mention the tricks involved  in placing windows, such as resizing other windows before placing a new
 one so as to control its placement. Also mention the techniques bibledit uses to find space for a new window that is about to be opened.
+
+
+
+
 
 
 A window should have a mininum width and height, which corrects if these are too small.
@@ -6874,6 +6878,12 @@ If it is like TW, the new approach will have the advantage of the real window ap
 rather than an unreadable thumbnail. 
 This can be accomplished by storing the center position of each window, then when the accelerator is pressed,
 it looks for the next center position that logically follows the current one. If there's none, it restarts.
+
+
+
+To make the repeated pressing of F5, Ctrl-F5 and Shift-F5 work as well. 
+It should cycle through the relevant windows.
+
 
 
 To attend to a current bug:

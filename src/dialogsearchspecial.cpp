@@ -33,10 +33,10 @@
 #include "gui.h"
 
 
-#define RESULTS_LOAD   "Load them in the References Area"
-#define RESULTS_ADD    "Add them to the ones already in the References Area"
-#define RESULTS_REMOVE "Remove them from the ones already in the References Area"
-#define RESULTS_SHARE  "Share them with the ones already in the References Area"
+#define RESULTS_LOAD   "Load them in the references window"
+#define RESULTS_ADD    "Add them to the ones already in the references window"
+#define RESULTS_REMOVE "Remove them from the ones already in the references window"
+#define RESULTS_SHARE  "Share them with the ones already in the references window"
 
 
 SearchSpecialDialog::SearchSpecialDialog(int dummy)
