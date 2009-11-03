@@ -2807,29 +2807,26 @@ void MainWindow::on_window_references_delete_button()
 
 
 void MainWindow::on_window_references_signal_button_clicked(GtkButton * button, gpointer user_data)
+// This routine is called when the reference window fires a signal that something has happened.
 {
   ((MainWindow *) user_data)->on_window_references_signal_button();
 }
 
 
 void MainWindow::on_window_references_signal_button()
-// This routine is called when the reference window fires a signal that something has happened.
-{
-  on_list_goto();
-}
-
-
-void MainWindow::on_list_goto()
-// Handler for when the user clicked a reference in the list so as to go to a reference.
+// Handler for when the user clicked a reference in the references window so as to go to that reference.
 {
   // Get the editor window. If none, bail out.
   WindowEditor *editor_window = last_focused_editor_window();
   if (!editor_window)
     return;
-
+  
   // Bail out if there's no references window.
   if (!window_references)
     return;
+
+  // Focus the editor.
+  editor_window->focus_set ();
 
   // Jump to the reference.
   navigation.display(window_references->reference);
@@ -6889,7 +6886,7 @@ Todo tasks.
 
 
 
-When doing a search, and clicking on a reference in the references window, the main editor needs to be focused.
+.
 
 
 The stylesheet window does not indicate which stylesheet is open. Put it in the status, e.g.

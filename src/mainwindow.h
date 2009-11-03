@@ -433,7 +433,6 @@ protected:
   void on_window_references_delete_button();
   static void on_window_references_signal_button_clicked(GtkButton *button, gpointer user_data);
   void on_window_references_signal_button();
-  void on_list_goto();
   void on_next_reference();
   void on_previous_reference();
   static void on_show_quick_references_signal_button_clicked(GtkButton * button, gpointer user_data);
