@@ -6857,10 +6857,6 @@ Todo tasks.
 
 
 
-When a window is focused, it should appear above any other window. This is accomplished if it is the last window that was added to the layout.
-We could then reparent the window to a NULL parent, or to another parent, then destroy that parent, then add it again to the layout.
-
-
 The spelling no longer works, it empties the shared dictionary completely. Check from Ezekiel 10 and on.
 http://bugzilla.abisource.com/show_bug.cgi?id=12419
 https://bugs.launchpad.net/ubuntu/+source/enchant/+bug/446230
@@ -6881,6 +6877,8 @@ In the new unified window, I hope that you have something like TW (Ctrl-Tab) tha
 like Alt-Tab does now for separate windows. 
 If it is like TW, the new approach will have the advantage of the real window appearing when cycling using the hot key, 
 rather than an unreadable thumbnail. 
+This can be accomplished by storing the center position of each window, then when the accelerator is pressed,
+it looks for the next center position that logically follows the current one. If there's none, it restarts.
 
 
 To attend to a current bug:
@@ -6891,6 +6889,7 @@ BE always wants to load up the References and Project Notes windows even when I 
 
 
 On karmic there is a crash when switching to a chapter that has footnotes.
+Before this bug is fixed, we set the default view to USFM view.
 We better overhaul the editor, so that it only shows plain text.
 Perhaps pictures can then be shown in a htmlview.
 Notemarkers can be distinguished by their "f" or other markup.

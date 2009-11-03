@@ -551,6 +551,13 @@ void FloatingWindow::focus_set(bool active)
   }
   // Update title bar.
   title_set (focused);
+  // Set the window on top of any others that share same intersection.
+  // It has been observed that widgets that are last added to the layout are shown on top of any others.
+  // Therefore remove the window from the layout, and add it again so that it becomes the last one added.
+  if (active) {
+    gtk_container_remove (GTK_CONTAINER (layout), vbox_window);
+    gtk_layout_put (GTK_LAYOUT (layout), vbox_window, my_gdk_rectangle.x, my_gdk_rectangle.y);
+  }
   // If we got focus, then alert the other windows.
   if (active) {
     gtk_button_clicked(GTK_BUTTON(focus_in_signal_button));
