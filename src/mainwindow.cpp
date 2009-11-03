@@ -6886,16 +6886,14 @@ Todo tasks.
 
 
 
-.
-
-
-The stylesheet window does not indicate which stylesheet is open. Put it in the status, e.g.
 The styles from the editor, put these in their own status bar too,
-If the main status bar is no longer needed, it can go out. Or leave it for cosmetic values.
+
+
+If the main status bar is no longer needed, it can go out. Or leave it for cosmetic reasons.
 
 
 When a window is focused, it should appear above any other window. This is accomplished if it is the last window that was added to the layout.
-* We could then reparent the window to somewhere, then add it again to the layout.
+We could then reparent the window to a NULL parent, or to another parent, then destroy that parent, then add it again to the layout.
 
 
 The spelling no longer works, it empties the shared dictionary completely. Check from Ezekiel 10 and on.

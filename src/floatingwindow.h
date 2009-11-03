@@ -130,6 +130,12 @@ public:
 private:
   void undisplay();
 
+  // Status bar.
+public:
+  void status1 (const ustring& text);
+  void status2 (const ustring& text);
+private:
+
 };
 
 

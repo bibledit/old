@@ -671,3 +671,16 @@ void FloatingWindow::connect_focus_signals (GtkWidget * widget)
   g_signal_connect_after((gpointer) widget, "grab_focus", G_CALLBACK(on_widget_grab_focus), gpointer(this));
   
 }
+
+
+void FloatingWindow::status1 (const ustring& text)
+{
+  gtk_label_set_text (GTK_LABEL (label_status1), text.c_str());
+}
+
+
+void FloatingWindow::status2 (const ustring& text)
+{
+  gtk_label_set_text (GTK_LABEL (label_status2), text.c_str());
+}
+
