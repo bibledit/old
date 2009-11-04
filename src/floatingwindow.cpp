@@ -555,8 +555,12 @@ void FloatingWindow::focus_set(bool active)
   // It has been observed that widgets that are last added to the layout are shown on top of any others.
   // Therefore remove the window from the layout, and add it again so that it becomes the last one added.
   if (active) {
-    gtk_container_remove (GTK_CONTAINER (layout), vbox_window);
-    gtk_layout_put (GTK_LAYOUT (layout), vbox_window, my_gdk_rectangle.x, my_gdk_rectangle.y);
+    // The following works to set the window above others, but the by-effects are undesirable,
+    // therefore it is better at this stage to not do that.
+    // One of the by-effects is that the selection in the editor gets lost.#
+    // Another one is that the comboboxes get greyed out.
+    // gtk_container_remove (GTK_CONTAINER (layout), vbox_window);
+    // gtk_layout_put (GTK_LAYOUT (layout), vbox_window, my_gdk_rectangle.x, my_gdk_rectangle.y);
   }
   // If we got focus, then alert the other windows.
   if (active) {

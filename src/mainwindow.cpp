@@ -6857,6 +6857,8 @@ Todo tasks.
 
 
 
+Applying a style \add through ctrl-S does not go well. Probably because the widget is removed from the parent.
+
 Adapt the documentation. Mention the tricks involved  in placing windows, such as resizing other windows before placing a new
 one so as to control its placement. Also mention the techniques bibledit uses to find space for a new window that is about to be opened.
 
@@ -6942,6 +6944,13 @@ This means that we can import the current resources into USFM, then export as a 
 
 
 fix compiler warnings. Compile from clean and fix all new warning.
+
+
+
+To improve things for the online help, we need to open up the documentation to be edited by others.
+We need to look into a simple wiki that can be made available offline easily, and can be edited by others.
+google pages?
+current wiki?
 
 
 */

@@ -1,89 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-  <title>Bibledit</title>
-  <!--
-  Copyright (©) 2003-2008 Teus Benschop.
-  Permission is granted to copy, distribute and/or modify this document
-  under the terms of the GNU Free Documentation License, Version 1.2
-  or any later version published by the Free Software Foundation;
-  with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-  Texts.  A copy of the license is included in the section entitled "GNU
-  Free Documentation License" in the file FDL.
-  -->
-  <link href="bibledit.css" rel="stylesheet" type="text/css" />
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<title>Bibledit</title>
+<!--
+Copyright (©) 2003-2008 Teus Benschop.
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+Texts.  A copy of the license is included in the section entitled "GNU
+Free Documentation License" in the file FDL.
+-->
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
-
 <body>
 <h2><a name="searching"></a>Searching</h2>
 <!-- Table of Contents Start -->
-
 <div id="toc">
 <ul>
-  <li><a href="#introduction" class="level1">Introduction</a></li>
-  <li><a href="#basicfind" class="level1">Basic Find</a></li>
-  <li><a href="#advancedfind" class="level1">Advanced Find</a></li>
-  <li><a href="#loadingresults" class="level1">Loading results</a></li>
-  <li><a href="#findandreplace" class="level1">Find and Replace</a></li>
-  <li><a href="#findingprojectnotes" class="level1">Finding Project
-  Notes</a></li>
+<li>
+<a href="#introduction" class="level1">Introduction</a></li>
+<li>
+<a href="#basicfind" class="level1">Basic Find</a></li>
+<li>
+<a href="#advancedfind" class="level1">Advanced Find</a></li>
+<li>
+<a href="#loadingresults" class="level1">Loading results</a></li>
+<li>
+<a href="#findandreplace" class="level1">Find and Replace</a></li>
+<li>
+<a href="#findingprojectnotes" class="level1">Finding Project Notes</a></li>
 </ul>
 </div>
 <!-- Table of Contents End -->
-
 <h3><a name="introduction"></a>Introduction</h3>
-
 <p>Through menu Edit the Find menu can be opened. The same can be done through
 the keyboard shortcut Ctrl+F.</p>
-
 <p>A list of hits will show in the references window.</p>
-
 <h3><a name="basicfind"></a>Basic Find</h3>
-
 <p>Menu / Edit / Find (Ctrl+F) searches exacty (except case sensitive) for the
 sequence of characters entered into the Search for box, punctuation marks and
 spaces included. Case sensitive can be switched on or off. Searching can be
 limited to the current book.</p>
-
 <p>Example: Searching for "ue. t" (without the quotation marks) shows all the
 references with the words: true. The.</p>
-
 <p>Note that for the text to actually display, you have to hit one of the
 search results.</p>
-
 <h3><a name="advancedfind"></a>Advanced Find</h3>
-
 <p>Menu / Edit / Find (Ctrl+F, Ctrl+F) allows more complex searches than the
 Basic Find:</p>
-
 <p>* Search box to enter text.</p>
-
 <p>* Case sensitive: on or off.</p>
-
 <p>* Search in curent book only: this limits searching to the current book.</p>
-
 <p>* Interprete * and ? as wildcards: on or off.</p>
-
 <p>* Match start of word: on or off.</p>
-
 <p>* Match end of word: on or off.</p>
-
 <p>* Select books: some books (all), for details see <a
 href="olh_selectbooks.html">Select books.</a></p>
-
 <p>* Which area of the text to search in.</p>
-
 <p>* What to do with the search results. This gives the choice how the results
 will show up in the references window, see Loading results below.</p>
-
 <p>There are two wildcards. The ? and the *. The ? means "any single
 character". If one were to search for "p?t", and ticks the option for
 wildcards, then the search will hit results like "pit" and "put". The * works
 similar, but means "zero or more characters".</p>
-
 <p>Searches can be done in certain areas of the text. When searching in the raw
 USFM text, then one searches in the text as it is stored, e.g. one can search
 for markers too, like \add. When searching in all the text except the USFM
@@ -92,60 +75,39 @@ This means that searching for markers is not possible, as these will be hidden
 on the paper. When searching in certain categories, one can limit searches to,
 let's say, only the introductions, or only the verse text, or only headings and
 identifiers, and so forth.</p>
-
 <h3><a name="loadingresults"></a>Loading results</h3>
-
 <p>Once an advanced or BibleTime search has been done, one can decide how they
 interact with what is already in the references window.</p>
-
 <p>* The search results can simply be loaded in the references window, and so
 replace anything that is already there.</p>
-
 <p>* Or the search results can be added to the references already there.</p>
-
 <p>* Or they can be removed from the references already loaded.</p>
-
 <p>* Sharing the search results with what is already in the references window
 means that only the references that are the same will be kept in the references
 window, and the other ones will be discarded.</p>
-
 <p>In the case that in a Special Find the option: 'Share them with the ones
 already in the references window' is chosen, and this special find with this
 option is repeated several times, several groups of characters can be
 highlighted in the text editor (as a result from the different searches) when a
 reference is activated in the references window.</p>
-
 <h3><a name="findandreplace"></a>Find and Replace</h3>
-
 <p>Menu / Edit / Find and Replace (Ctrl+R) searches for text and allows to
 replace this text.</p>
-
 <p>It consists of a:</p>
-
 <p>* Search box to enter text: searches exacty (except case sensitive) for the
 sequence of characters entered into the "Search for" box.</p>
-
 <p>* "Replace with" box: to enter text to replace the text searched for.</p>
-
 <p>* Case sensitive: on or off.</p>
-
 <p>* Search in current book and/or current chapter: on or off.</p>
-
 <p>* Select books: some books or all, for details see <a
 href="olh_selectbooks.html">Select books.</a></p>
-
 <p>After you have entered the text to find and replace and clicked on find, a
 second Replace dialog opens, which gives the options:</p>
-
 <p>* Do you with to replace this text: ... (text in unreplaced form).</p>
-
 <p>* ... with this text? It can be edited also (suggested text in replaced
 form).</p>
-
 <p>* There are four possible responses: Yes, No, All, Cancel</p>
-
 <h3><a name="findingprojectnotes"></a>Finding Project Notes</h3>
-
 <p>See <a href="projectnotes.html">Project Notes</a> for more information.</p>
 </body>
 </html>
