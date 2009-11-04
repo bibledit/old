@@ -419,11 +419,142 @@ void notes_select(vector < unsigned int >&ids, unsigned int &id_cursor, const us
 }
 
 
-void notes_display(ustring & note_buffer, vector < unsigned int >ids, unsigned int cursor_id, unsigned int &cursor_offset, bool & stop)
+void notes_display_internal(sqlite3 *db, const ustring& language, bool show_reference_text, bool show_summary, ustring& note_buffer, unsigned int id, const gchar * text, unsigned int cursor_id, unsigned int &cursor_offset)
+{
+  // Optionally display the extra text.
+  if (text) {
+    note_buffer.append(text);
+    note_buffer.append("<BR>\n");
+  }
+
+  // Get from the database.
+  int rc;
+  char *error = NULL;
+  SqliteReader reader(0);
+  char *sql;
+  sql = g_strdup_printf("select id, ref_osis, note, project, category, created, user from '%s' where id = %d;", TABLE_NOTES, id);
+  rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
+  g_free(sql);
+  if (rc != SQLITE_OK) {
+    throw runtime_error(error);
+  }
+  // Go through the results (there should be only one).
+  for (unsigned int r = 0; r < reader.ustring0.size(); r++) {
+  
+    // Get the reference(s).
+    ustring reference = reader.ustring1[r];
+  
+    // Parse the string into its possible several references.
+    Parse parse(reference, false);
+    reference.clear();
+  
+    // Keep list of references.
+    vector < Reference > references;
+  
+    // Go through each reference.
+    for (unsigned int i2 = 0; i2 < parse.words.size(); i2++) {
+      // Make it human readable.
+      Reference ref(0);
+      reference_discover(0, 0, "", parse.words[i2], ref.book, ref.chapter, ref.verse);
+      if (!reference.empty())
+        reference.append(", ");
+      reference.append(ref.human_readable(language));
+      references.push_back(ref);
+    }
+  
+    // Get project.
+    ustring project = reader.ustring3[r];
+  
+    // Start creating the heading with links.
+    ustring linkheading;
+    // If this note is to be focused, then insert a special anchor for that: <a name="cursoranchor"></a>
+    if (id == cursor_id) {
+      linkheading.append("<a name=\"");
+      linkheading.append(notes_cursor_anchor());
+      linkheading.append("\"></a>");
+    }
+    extern Settings * settings;
+    if (settings->session.project_notes_show_title) {
+      // Insert a link with this heading, e.g.: <a href="10">Genesis 1.1</a>
+      linkheading.append("<a href=\"" + convert_to_string(id) + "\">");
+      linkheading.append(reference);
+      if (settings->genconfig.notes_display_project_get())
+        linkheading.append(" " + project);
+      if (settings->genconfig.notes_display_category_get())
+        linkheading.append(" " + reader.ustring4[r]);
+      if (settings->genconfig.notes_display_date_created_get())
+        linkheading.append(" " + date_time_julian_human_readable(convert_to_int(reader.ustring5[r]), true));
+      if (settings->genconfig.notes_display_created_by_get())
+        linkheading.append(" " + reader.ustring6[r]);
+      linkheading.append("</a>");
+      // Append a [delete] link too, e.g.: <a href="d10">[delete]</a>
+      linkheading.append(" <a href=\"d" + convert_to_string(id) + "\">");
+      linkheading.append("[delete]");
+      linkheading.append("</a>");
+      // Append a [references] link too, e.g.: <a href="r10">[references]</a>
+      linkheading.append(" <a href=\"r" + convert_to_string(id) + "\">");
+      linkheading.append("[references]");
+      linkheading.append("</a>");
+    }
+    // Add the heading to the note data.
+    note_buffer.append(linkheading);
+  
+    // Handle summary. Show only the first few words.
+    if (show_summary) {
+      ustring summary = reader.ustring2[r];
+      replace_text(summary, "\n", " ");
+      replace_text(summary, "<BR>", " ");
+      Parse parse(summary, false);
+      unsigned int maximum = 5;
+      maximum = CLAMP(maximum, 0, parse.words.size());
+      summary.clear();
+      for (unsigned int w = 0; w < maximum; w++) {
+        summary.append(" ");
+        summary.append(parse.words[w]);
+      }
+      if (!summary.empty())
+        summary.append(" ...");
+      note_buffer.append(summary);
+    }
+    // Append a new line.
+    note_buffer.append("<BR>\n");
+  
+    // Insert text of the references, if requested.
+    if (show_reference_text) {
+      for (unsigned int r = 0; r < references.size(); r++) {
+        vector <unsigned int> simple_verses = verse_range_sequence(references[r].verse);
+        for (unsigned int sv = 0; sv < simple_verses.size(); sv++) {
+          Reference ref(references[r]);
+          ref.verse = convert_to_string(simple_verses[sv]);
+          note_buffer.append(ref.human_readable(language));
+          note_buffer.append(" ");
+          ustring text = project_retrieve_verse(project, ref.book, ref.chapter, ref.verse);
+          if (!text.empty()) {
+            text = usfm_get_verse_text_only (text);
+          }
+          note_buffer.append(text);
+          note_buffer.append("<BR>\n");
+        }
+      }
+    }
+    // Get the text of the note.
+    if (!show_summary) {
+      ustring note = reader.ustring2[r];
+      notes_update_old_one(note);
+      note_buffer.append(note);
+      note_buffer.append("<BR>\n");
+    }
+  
+  }
+}
+
+
+void notes_display(ustring& note_buffer, vector <unsigned int> ids, unsigned int cursor_id, unsigned int &cursor_offset, bool & stop, unsigned int edited_note_id)
 /*
  This collect html data for displaying the notes.
  It collects data for all the notes that have an id given in ids.
  It inserts a html anchor at the start of the note whose id is "cursor_id".
+ If an "edited_note_id" is given that is not in the list of "ids", then it will display that one too, together with a message.
  */
 {
   extern Settings *settings;
@@ -431,7 +562,6 @@ void notes_display(ustring & note_buffer, vector < unsigned int >ids, unsigned i
   ustring language = projectconfig->language_get();
   sqlite3 *db;
   int rc;
-  char *error = NULL;
   try {
     // Connect to database.
     rc = sqlite3_open(notes_database_filename().c_str(), &db);
@@ -445,129 +575,26 @@ void notes_display(ustring & note_buffer, vector < unsigned int >ids, unsigned i
     // Whether to show the summary only.
     bool show_summary = settings->genconfig.notes_display_summary_get();
 
+    // See whether to display an extra note, one just edited.
+    if (edited_note_id) {
+      set <unsigned int> id_set (ids.begin(), ids.end());
+      if (id_set.find (edited_note_id) == id_set.end()) {
+        notes_display_internal(db, language, show_reference_text, show_summary, note_buffer, edited_note_id, 
+                               "The following note is displayed because it was created or edited. Normally it would not have been displayed.", 
+                               cursor_id, cursor_offset);
+      }
+    }    
+
     // Go through all the notes.
     for (unsigned int c = 0; c < ids.size(); c++) {
 
       // Handle possible stop command.
       if (stop)
         continue;
+ 
+      // Display this note.
+      notes_display_internal(db, language, show_reference_text, show_summary, note_buffer, ids[c], NULL, cursor_id, cursor_offset);
 
-      // Get from the database.
-      SqliteReader reader(0);
-      char *sql;
-      sql = g_strdup_printf("select id, ref_osis, note, project, category, created, user from '%s' where id = %d;", TABLE_NOTES, ids[c]);
-      rc = sqlite3_exec(db, sql, reader.callback, &reader, &error);
-      g_free(sql);
-      if (rc != SQLITE_OK) {
-        throw runtime_error(error);
-      }
-      // Go through the results (there should be only one anyway).
-      for (unsigned int r = 0; r < reader.ustring0.size(); r++) {
-
-        // Get the reference(s).
-        ustring reference = reader.ustring1[r];
-
-        // Parse the string into its possible several references.
-        Parse parse(reference, false);
-        reference.clear();
-
-        // Keep list of references.
-        vector < Reference > references;
-
-        // Go through each reference.
-        for (unsigned int i2 = 0; i2 < parse.words.size(); i2++) {
-          // Make it human readable.
-          Reference ref(0);
-          reference_discover(0, 0, "", parse.words[i2], ref.book, ref.chapter, ref.verse);
-          if (!reference.empty())
-            reference.append(", ");
-          reference.append(ref.human_readable(language));
-          references.push_back(ref);
-        }
-
-        // Get project.
-        ustring project = reader.ustring3[r];
-
-        // Start creating the heading with links.
-        ustring linkheading;
-        // If this note is to be focused, then insert a special anchor for that: <a name="cursoranchor"></a>
-        if (ids[c] == cursor_id) {
-          linkheading.append("<a name=\"");
-          linkheading.append(notes_cursor_anchor());
-          linkheading.append("\"></a>");
-        }
-        if (settings->session.project_notes_show_title) {
-          // Insert a link with this heading, e.g.: <a href="10">Genesis 1.1</a>
-          linkheading.append("<a href=\"" + convert_to_string(ids[c]) + "\">");
-          linkheading.append(reference);
-          if (settings->genconfig.notes_display_project_get())
-            linkheading.append(" " + project);
-          if (settings->genconfig.notes_display_category_get())
-            linkheading.append(" " + reader.ustring4[r]);
-          if (settings->genconfig.notes_display_date_created_get())
-            linkheading.append(" " + date_time_julian_human_readable(convert_to_int(reader.ustring5[r]), true));
-          if (settings->genconfig.notes_display_created_by_get())
-            linkheading.append(" " + reader.ustring6[r]);
-          linkheading.append("</a>");
-          // Append a [delete] link too, e.g.: <a href="d10">[delete]</a>
-          linkheading.append(" <a href=\"d" + convert_to_string(ids[c]) + "\">");
-          linkheading.append("[delete]");
-          linkheading.append("</a>");
-          // Append a [references] link too, e.g.: <a href="r10">[references]</a>
-          linkheading.append(" <a href=\"r" + convert_to_string(ids[c]) + "\">");
-          linkheading.append("[references]");
-          linkheading.append("</a>");
-        }
-        // Add the heading to the note data.
-        note_buffer.append(linkheading);
-
-        // Handle summary. Show only the first few words.
-        if (show_summary) {
-          ustring summary = reader.ustring2[r];
-          replace_text(summary, "\n", " ");
-          replace_text(summary, "<BR>", " ");
-          Parse parse(summary, false);
-          unsigned int maximum = 5;
-          maximum = CLAMP(maximum, 0, parse.words.size());
-          summary.clear();
-          for (unsigned int w = 0; w < maximum; w++) {
-            summary.append(" ");
-            summary.append(parse.words[w]);
-          }
-          if (!summary.empty())
-            summary.append(" ...");
-          note_buffer.append(summary);
-        }
-        // Append a new line.
-        note_buffer.append("<BR>\n");
-
-        // Insert text of the references, if requested.
-        if (show_reference_text) {
-          for (unsigned int r = 0; r < references.size(); r++) {
-            vector <unsigned int> simple_verses = verse_range_sequence(references[r].verse);
-            for (unsigned int sv = 0; sv < simple_verses.size(); sv++) {
-              Reference ref(references[r]);
-              ref.verse = convert_to_string(simple_verses[sv]);
-              note_buffer.append(ref.human_readable(language));
-              note_buffer.append(" ");
-              ustring text = project_retrieve_verse(project, ref.book, ref.chapter, ref.verse);
-              if (!text.empty()) {
-                text = usfm_get_verse_text_only (text);
-              }
-              note_buffer.append(text);
-              note_buffer.append("<BR>\n");
-            }
-          }
-        }
-        // Get the text of the note.
-        if (!show_summary) {
-          ustring note = reader.ustring2[r];
-          notes_update_old_one(note);
-          note_buffer.append(note);
-          note_buffer.append("<BR>\n");
-        }
-
-      }
     }
   }
   catch(exception & ex) {

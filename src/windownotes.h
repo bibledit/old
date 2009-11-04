@@ -182,6 +182,8 @@ private:
   ustring created_by;
   ustring edited_on;
   ustring logbook;
+  
+  unsigned int edited_note_id;
 };
 
 #endif

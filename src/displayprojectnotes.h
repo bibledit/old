@@ -17,16 +17,19 @@
  **  
  */
 
+
 #ifndef INCLUDED_DISPLAYPROJECTNOTES_H
 #define INCLUDED_DISPLAYPROJECTNOTES_H
+
 
 #include "libraries.h"
 #include <gtk/gtk.h>
 
+
 class DisplayProjectNotes
 {
 public:
-  DisplayProjectNotes(const ustring& reference, GtkWidget * htmlview_in, vector <unsigned int> * ids);
+  DisplayProjectNotes(const ustring& reference, GtkWidget * htmlview_in, vector <unsigned int> * ids, unsigned int& edited_note_id);
   ~DisplayProjectNotes();
   void stop();
   bool ready;
@@ -43,6 +46,8 @@ private:
   GtkWidget * htmlview;
   unsigned int cursor_offset;
   ustring note_buffer;
+  unsigned int extra_note_id;
 };
+
 
 #endif

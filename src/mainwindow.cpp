@@ -6858,14 +6858,6 @@ Todo tasks.
 
 
 
-
-To attend to a current bug:
-BE crashes if one closes a window while others are loading
-BE always wants to load up the References and Project Notes windows even when I didn't have them open the last time. 
-* If one closes windows before BE finishes all of its loading and initial display of text, the whole program crashes. 
-
-
-
 On karmic there is a crash when switching to a chapter that has footnotes.
 Before this bug is fixed, we set the default view to USFM view.
 We better overhaul the editor, so that it only shows plain text.
@@ -6876,6 +6868,9 @@ Copying text beyond the paragraph won't work at first, but should be implemented
 It will just be a stack of GtkTextViews each view with their own paragraph style.
 
 
+(bibleditgui:11072): Gtk-WARNING **: /build/buildd/gtk+2.0-2.18.3/gtk/gtktextview.c:4567: somehow some text lines were modified or scrolling occurred since the last validation of lines on the screen - may be a text widget bug.
+**
+Gtk:ERROR:/build/buildd/gtk+2.0-2.18.3/gtk/gtktextview.c:4568:gtk_text_view_paint: code should not be reached
 
 
 
@@ -6883,13 +6878,6 @@ It will just be a stack of GtkTextViews each view with their own paragraph style
 
 
 
-
-
-task #9505: Project notes keep project focus
-
-While I am writing project notes, I am happy that I can freely look at text in other BE windows, often scrolling around in those windows. 
-* It is disconcerting when I finish my note, click OK, and have the note vanish! Suddenly I think, "Wo... Did I click cancel and loose all my work?"
-It would be best that the project notes editor return the project focus to what was current when the note-creation or editing started.
 
 
 

@@ -50,7 +50,8 @@ FloatingWindow(parent_layout, widNotes, "Project notes", startup)
   redisplay_source_id = 0;
   displayprojectnotes = NULL;
   gui_source_id = 0;
-
+  edited_note_id = 0;
+  
   GuiFeatures guifeatures(0);
 
   notebook1 = gtk_notebook_new();
@@ -336,6 +337,7 @@ FloatingWindow(parent_layout, widNotes, "Project notes", startup)
   gtk_widget_grab_focus (last_focused_widget);
 }
 
+
 WindowNotes::~WindowNotes()
 {
   // Stop possible thread that is displaying notes.
@@ -347,10 +349,12 @@ WindowNotes::~WindowNotes()
   gtk_widget_destroy(references_available_signal_button);
 }
 
+
 void WindowNotes::go_to(Reference & reference)
 {
 
 }
+
 
 void WindowNotes::new_note()
 // Create a new note.
@@ -364,6 +368,7 @@ void WindowNotes::new_note()
   // Create the new note.
   notes_fill_edit_screen(id, true);
 }
+
 
 void WindowNotes::notes_fill_edit_screen(int id, bool newnote)
 /*
@@ -538,10 +543,12 @@ void WindowNotes::notes_fill_edit_screen(int id, bool newnote)
   gtk_widget_grab_focus(htmlview_note_editor);
 }
 
+
 void WindowNotes::on_combobox_note_edit_font_size_changed(GtkComboBox * combobox, gpointer user_data)
 {
   ((WindowNotes *) user_data)->combobox_note_edit_font_size_changed();
 }
+
 
 void WindowNotes::combobox_note_edit_font_size_changed()
 {
@@ -549,10 +556,12 @@ void WindowNotes::combobox_note_edit_font_size_changed()
   gtk_html_set_font_style(GTK_HTML(htmlview_note_editor), GtkHTMLFontStyle(GTK_HTML_FONT_STYLE_SIZE_MASK & ~GTK_HTML_FONT_STYLE_SIZE_MASK), style);
 }
 
+
 void WindowNotes::on_note_editor_insertion_font_style_changed(GtkHTML * html, GtkHTMLFontStyle style, gpointer user_data)
 {
   ((WindowNotes *) user_data)->note_editor_insertion_font_style_changed(style);
 }
+
 
 void WindowNotes::note_editor_insertion_font_style_changed(GtkHTMLFontStyle style)
 {
@@ -563,10 +572,12 @@ void WindowNotes::note_editor_insertion_font_style_changed(GtkHTMLFontStyle styl
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(togglebutton_note_edit_strike_through), style & GTK_HTML_FONT_STYLE_STRIKEOUT);
 }
 
+
 void WindowNotes::on_combobox_note_edit_paragraph_style_changed(GtkComboBox * combobox, gpointer user_data)
 {
   ((WindowNotes *) user_data)->combobox_note_edit_paragraph_style_changed();
 }
+
 
 void WindowNotes::combobox_note_edit_paragraph_style_changed()
 {
@@ -574,20 +585,24 @@ void WindowNotes::combobox_note_edit_paragraph_style_changed()
   gtk_html_set_paragraph_style(GTK_HTML(htmlview_note_editor), style);
 }
 
+
 void WindowNotes::on_note_editor_current_paragraph_style_changed(GtkHTML * html, GtkHTMLParagraphStyle style, gpointer user_data)
 {
   ((WindowNotes *) user_data)->note_editor_current_paragraph_style_changed(style);
 }
+
 
 void WindowNotes::note_editor_current_paragraph_style_changed(GtkHTMLParagraphStyle style)
 {
   combobox_set_string(combobox_note_edit_paragraph_style, note_editor_paragraph_style_enum_to_name(style));
 }
 
+
 void WindowNotes::on_togglebutton_note_edit_bold_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((WindowNotes *) user_data)->togglebutton_note_edit_bold_toggled();
 }
+
 
 void WindowNotes::togglebutton_note_edit_bold_toggled()
 {
@@ -598,10 +613,12 @@ void WindowNotes::togglebutton_note_edit_bold_toggled()
   }
 }
 
+
 void WindowNotes::on_togglebutton_note_edit_italics_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((WindowNotes *) user_data)->togglebutton_note_edit_italics_toggled();
 }
+
 
 void WindowNotes::togglebutton_note_edit_italics_toggled()
 {
@@ -612,10 +629,12 @@ void WindowNotes::togglebutton_note_edit_italics_toggled()
   }
 }
 
+
 void WindowNotes::on_togglebutton_note_edit_underline_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((WindowNotes *) user_data)->togglebutton_note_edit_underline_toggled();
 }
+
 
 void WindowNotes::togglebutton_note_edit_underline_toggled()
 {
@@ -626,10 +645,12 @@ void WindowNotes::togglebutton_note_edit_underline_toggled()
   }
 }
 
+
 void WindowNotes::on_togglebutton_note_edit_strike_through_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((WindowNotes *) user_data)->togglebutton_note_edit_strike_through_toggled();
 }
+
 
 void WindowNotes::togglebutton_note_edit_strike_through_toggled()
 {
@@ -640,10 +661,12 @@ void WindowNotes::togglebutton_note_edit_strike_through_toggled()
   }
 }
 
+
 void WindowNotes::on_togglebutton_note_edit_left_justify_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((WindowNotes *) user_data)->togglebutton_note_edit_left_justify_toggled();
 }
+
 
 void WindowNotes::togglebutton_note_edit_left_justify_toggled()
 {
@@ -652,10 +675,12 @@ void WindowNotes::togglebutton_note_edit_left_justify_toggled()
   }
 }
 
+
 void WindowNotes::on_togglebutton_note_edit_center_justify_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((WindowNotes *) user_data)->togglebutton_note_edit_center_justify_toggled();
 }
+
 
 void WindowNotes::togglebutton_note_edit_center_justify_toggled()
 {
@@ -664,10 +689,12 @@ void WindowNotes::togglebutton_note_edit_center_justify_toggled()
   }
 }
 
+
 void WindowNotes::on_togglebutton_note_edit_right_justify_toggled(GtkToggleButton * togglebutton, gpointer user_data)
 {
   ((WindowNotes *) user_data)->togglebutton_note_edit_right_justify_toggled();
 }
+
 
 void WindowNotes::togglebutton_note_edit_right_justify_toggled()
 {
@@ -676,10 +703,12 @@ void WindowNotes::togglebutton_note_edit_right_justify_toggled()
   }
 }
 
+
 void WindowNotes::on_current_paragraph_alignment_changed(GtkHTML * html, GtkHTMLParagraphAlignment new_alignment, gpointer user_data)
 {
   ((WindowNotes *) user_data)->current_paragraph_alignment_changed(new_alignment);
 }
+
 
 void WindowNotes::current_paragraph_alignment_changed(GtkHTMLParagraphAlignment new_alignment)
 {
@@ -687,6 +716,7 @@ void WindowNotes::current_paragraph_alignment_changed(GtkHTMLParagraphAlignment 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(togglebutton_note_edit_center_justify), new_alignment == GTK_HTML_PARAGRAPH_ALIGNMENT_CENTER);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(togglebutton_note_edit_right_justify), new_alignment == GTK_HTML_PARAGRAPH_ALIGNMENT_RIGHT);
 }
+
 
 void WindowNotes::on_button_note_edit_decrease_indent_clicked(GtkButton * button, gpointer user_data)
 {
@@ -715,20 +745,24 @@ void WindowNotes::increase_indent()
   }
 }
 
+
 void WindowNotes::on_current_paragraph_indentation_changed(GtkHTML * html, guint new_indentation, gpointer user_data)
 {
   ((WindowNotes *) user_data)->current_paragraph_indentation_changed(new_indentation);
 }
+
 
 void WindowNotes::current_paragraph_indentation_changed(guint new_indentation)
 {
   gtk_widget_set_sensitive(toolitem_note_edit_decrease_indent, new_indentation > 0);
 }
 
+
 void WindowNotes::on_colorbutton_note_edit_color_set(GtkColorButton * colorbutton, gpointer user_data)
 {
   ((WindowNotes *) user_data)->colorbutton_note_edit_color_set(colorbutton);
 }
+
 
 void WindowNotes::colorbutton_note_edit_color_set(GtkColorButton * colorbutton)
 {
@@ -739,15 +773,18 @@ void WindowNotes::colorbutton_note_edit_color_set(GtkColorButton * colorbutton)
   html_color_unref(html_color);
 }
 
+
 void WindowNotes::on_insertion_color_changed(GtkHTML * html, GdkColor * color, gpointer user_data)
 {
   ((WindowNotes *) user_data)->insertion_color_changed(color);
 }
 
+
 void WindowNotes::insertion_color_changed(GdkColor * color)
 {
   gtk_color_button_set_color(GTK_COLOR_BUTTON(colorbutton_note_edit), color);
 }
+
 
 void WindowNotes::redisplay()
 {
@@ -761,11 +798,13 @@ void WindowNotes::redisplay()
   redisplay_source_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 500, GSourceFunc(on_redisplay_timeout), gpointer(this), NULL);
 }
 
+
 bool WindowNotes::on_redisplay_timeout(gpointer data)
 {
   ((WindowNotes *) data)->redisplay_timeout();
   return false;
 }
+
 
 void WindowNotes::redisplay_timeout()
 {
@@ -773,8 +812,9 @@ void WindowNotes::redisplay_timeout()
   extern Settings *settings;
   ustring reference = books_id_to_english(settings->genconfig.book_get()) + " " + settings->genconfig.chapter_get() + ":" + settings->genconfig.verse_get();
   // Create displaying object.
-  displayprojectnotes = new DisplayProjectNotes(reference, htmlview_notes, NULL);
+  displayprojectnotes = new DisplayProjectNotes(reference, htmlview_notes, NULL, edited_note_id);
 }
+
 
 void WindowNotes::stop_displaying_more_notes()
 // Stop the process of displaying notes.
@@ -792,11 +832,13 @@ void WindowNotes::stop_displaying_more_notes()
   }
 }
 
+
 bool WindowNotes::on_gui_timeout(gpointer data)
 {
   ((WindowNotes *) data)->on_gui();
   return true;
 }
+
 
 void WindowNotes::on_gui()
 // Tasks related to the GUI.
@@ -816,16 +858,19 @@ void WindowNotes::on_gui()
   }
 }
 
+
 void WindowNotes::display(vector < unsigned int >&ids)
 {
   stop_displaying_more_notes();
-  displayprojectnotes = new DisplayProjectNotes("", htmlview_notes, &ids);
+  displayprojectnotes = new DisplayProjectNotes("", htmlview_notes, &ids, edited_note_id);
 }
+
 
 void WindowNotes::on_button_cancel_clicked(GtkButton * button, gpointer user_data)
 {
   ((WindowNotes *) user_data)->on_notes_button_cancel();
 }
+
 
 void WindowNotes::on_notes_button_cancel()
 {
@@ -833,10 +878,12 @@ void WindowNotes::on_notes_button_cancel()
   on_notes_button_ok_cancel();
 }
 
+
 void WindowNotes::on_button_ok_clicked(GtkButton * button, gpointer user_data)
 {
   ((WindowNotes *) user_data)->on_notes_button_ok();
 }
+
 
 void WindowNotes::on_notes_button_ok()
 {
@@ -912,7 +959,7 @@ void WindowNotes::on_notes_button_ok()
       throw runtime_error(error);
     }
     // Put new data in the database.
-    // ID (integer), we take variable "myid"
+    // ID (integer),
     // References (text), we take variable "encoded_references"
     // Project (text) - done already.    
     // Status (integer) This field is not used, and could be reused.
@@ -989,6 +1036,11 @@ void WindowNotes::on_notes_button_ok()
     if (rc != SQLITE_OK) {
       throw runtime_error(error);
     }
+    // Store the note's id, so that this note can be displayed even if it normally would not have displayed.
+    // The reason is that if a user edits a note, then clicks OK to store it, then it would disappear,
+    // then the user would wonder where that note went, whether he cancelled it by mistake. 
+    // For that reason the id of this note is stored, so that when displaying notes, this id should display as well.
+    edited_note_id = note_editor->id;
   }
   catch(exception & ex) {
     gw_critical(ex.what());
@@ -998,6 +1050,7 @@ void WindowNotes::on_notes_button_ok()
   // Do standard functions for both ok and cancel.
   on_notes_button_ok_cancel();
 }
+
 
 void WindowNotes::on_notes_button_ok_cancel()
 // Functions common to both the ok and cancel buttons.
@@ -1020,8 +1073,8 @@ void WindowNotes::on_notes_button_ok_cancel()
 
   // Just to be sure, redisplay the notes.
   redisplay();
-
 }
+
 
 gboolean WindowNotes::note_save_receiver(const HTMLEngine * engine, const char *data, unsigned int len, void *user_data)
 // Called by the gtkhtml project note editor when saving its data
@@ -1029,6 +1082,7 @@ gboolean WindowNotes::note_save_receiver(const HTMLEngine * engine, const char *
   ((NoteEditor *) user_data)->receive_data_from_html_editor(data, len);
   return true;
 }
+
 
 void WindowNotes::insert_standard_text(unsigned int selector)
 // Sets the system to insert standard text into the note.
@@ -1291,3 +1345,4 @@ void WindowNotes::on_button_more()
     project = dialog.project;
   }
 }
+

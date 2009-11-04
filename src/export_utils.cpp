@@ -453,7 +453,7 @@ void export_to_osis_for_go_bible_creator (const ustring& project, const ustring&
     }
     xmlTextWriterStartElement(xmlwriter, BAD_CAST "div");
     xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "type", "book");
-    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "osisID", osis_book_id.c_str());
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "osisID", "%s", osis_book_id.c_str());
 
     // Go through the chapters.
     vector <unsigned int> chapters = project_get_chapters (project, book);
@@ -466,7 +466,7 @@ void export_to_osis_for_go_bible_creator (const ustring& project, const ustring&
       }
       ustring chapter_osis_id = osis_book_id + "." + convert_to_string (chapter);
       xmlTextWriterStartElement(xmlwriter, BAD_CAST "chapter");
-      xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "osisID", chapter_osis_id.c_str());
+      xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "osisID", "%s", chapter_osis_id.c_str());
 
       // Go through the verses.
       vector <ustring> verses = project_get_verses (project, book, chapter);
@@ -481,8 +481,8 @@ void export_to_osis_for_go_bible_creator (const ustring& project, const ustring&
         // Write the verse number.
         ustring verse_osis_id = chapter_osis_id + "." + verse;
         xmlTextWriterStartElement(xmlwriter, BAD_CAST "verse");
-        xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "sID", verse_osis_id.c_str());
-        xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "osisID", verse_osis_id.c_str());
+        xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "sID", "%s", verse_osis_id.c_str());
+        xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "osisID", "%s", verse_osis_id.c_str());
  
         // Get verse text, remove verse number, and write it.
         ustring line = project_retrieve_verse (project, book, chapter, verse);

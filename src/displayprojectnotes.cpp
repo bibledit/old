@@ -17,12 +17,14 @@
  **  
  */
 
+
 #include "displayprojectnotes.h"
 #include <glib.h>
 #include "notes_utils.h"
 #include "mainwindow.h"
 
-DisplayProjectNotes::DisplayProjectNotes(const ustring & reference, GtkWidget * htmlview_in, vector < unsigned int >*ids)
+
+DisplayProjectNotes::DisplayProjectNotes(const ustring & reference, GtkWidget * htmlview_in, vector < unsigned int >*ids, unsigned int& edited_note_id)
 {
   // Initialize and save variables.
   editor_reference = reference;
@@ -30,6 +32,8 @@ DisplayProjectNotes::DisplayProjectNotes(const ustring & reference, GtkWidget * 
   mystop = false;
   ready = false;
   cursor_offset = 0;
+  extra_note_id = edited_note_id;
+  edited_note_id = 0;
   // Handle any notes given for display.
   if (ids) {
     ids_passed = true;
@@ -41,14 +45,17 @@ DisplayProjectNotes::DisplayProjectNotes(const ustring & reference, GtkWidget * 
   g_thread_create(GThreadFunc(thread_start), gpointer(this), false, NULL);
 }
 
+
 DisplayProjectNotes::~DisplayProjectNotes()
 {
 }
+
 
 void DisplayProjectNotes::stop()
 {
   mystop = true;
 }
+
 
 void DisplayProjectNotes::show_buffer()
 {
@@ -58,16 +65,19 @@ void DisplayProjectNotes::show_buffer()
   gtk_html_end(GTK_HTML(htmlview), stream, GTK_HTML_STREAM_OK);
 }
 
+
 void DisplayProjectNotes::position_cursor()
 {
   // Position the cursor at the right anchor.
   gtk_html_jump_to_anchor(GTK_HTML(htmlview), notes_cursor_anchor());
 }
 
+
 void DisplayProjectNotes::thread_start(gpointer data)
 {
   ((DisplayProjectNotes *) data)->thread_main(data);
 }
+
 
 void DisplayProjectNotes::thread_main(gpointer data)
 {
@@ -77,8 +87,9 @@ void DisplayProjectNotes::thread_main(gpointer data)
   }
   // "Display" the notes, that is, load them in the buffer.  
   if (!mystop) {
-    notes_display(note_buffer, ids_to_display, id_to_scroll_to, cursor_offset, mystop);
+    notes_display(note_buffer, ids_to_display, id_to_scroll_to, cursor_offset, mystop, extra_note_id);
   }
   // Finish off.
   ready = true;
 }
+
