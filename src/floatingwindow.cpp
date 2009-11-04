@@ -557,10 +557,12 @@ void FloatingWindow::focus_set(bool active)
   if (active) {
     // The following works to set the window above others, but the by-effects are undesirable,
     // therefore it is better at this stage to not do that.
-    // One of the by-effects is that the selection in the editor gets lost.#
+    // One of the by-effects is that the selection in the editor gets lost.
     // Another one is that the comboboxes get greyed out.
+    // g_object_ref (G_OBJECT (vbox_window));
     // gtk_container_remove (GTK_CONTAINER (layout), vbox_window);
     // gtk_layout_put (GTK_LAYOUT (layout), vbox_window, my_gdk_rectangle.x, my_gdk_rectangle.y);
+    // g_object_unref (G_OBJECT (vbox_window));
   }
   // If we got focus, then alert the other windows.
   if (active) {

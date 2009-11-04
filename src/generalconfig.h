@@ -62,7 +62,7 @@ public:
   DEFINE_GENCONFIG_H (vector<int>, window_x_positions);
   DEFINE_GENCONFIG_H (vector<int>, window_y_positions);
   DEFINE_GENCONFIG_H (vector<int>, window_ids);
-  DEFINE_GENCONFIG_H (vector<ustring>, window_datas);
+  DEFINE_GENCONFIG_H (vector<ustring>, window_titles);
   DEFINE_GENCONFIG_H (vector<bool>, window_shows);
   DEFINE_GENCONFIG_H (ustring, edit_note_standard_text_one);
   DEFINE_GENCONFIG_H (ustring, edit_note_standard_text_two);

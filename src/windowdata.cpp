@@ -35,7 +35,7 @@ WindowData::WindowData(bool save_on_destroy)
   x_positions = settings->genconfig.window_x_positions_get();
   y_positions = settings->genconfig.window_y_positions_get();
   ids = settings->genconfig.window_ids_get();
-  titles = settings->genconfig.window_datas_get();
+  titles = settings->genconfig.window_titles_get();
   shows = settings->genconfig.window_shows_get();
 
   // If the configuration file has been fiddled with, then it may occur that the data is not consistent.
@@ -78,7 +78,7 @@ WindowData::~WindowData()
     settings->genconfig.window_x_positions_set(x_positions);
     settings->genconfig.window_y_positions_set(y_positions);
     settings->genconfig.window_ids_set(ids);
-    settings->genconfig.window_datas_set(titles);
+    settings->genconfig.window_titles_set(titles);
     settings->genconfig.window_shows_set(shows);
   }
 }

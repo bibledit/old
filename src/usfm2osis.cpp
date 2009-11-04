@@ -124,7 +124,7 @@ void Usfm2Osis::header (const ustring& name, const ustring& description)
   xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "xsi:schemaLocation", "http://www.bibletechnologies.net/2003/OSIS/namespace http://www.bibletechnolgologies.net/OSIS/osisCore.2.1.xsd");
 
     xmlTextWriterStartElement(xmlwriter, BAD_CAST "osisText");
-    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "osisIDWork", name.c_str());
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "osisIDWork", "%s", name.c_str());
     xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "osisRefWork", "Bible");
     xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "xml:lang", "en");
     xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "canonical", "true");
@@ -133,14 +133,14 @@ void Usfm2Osis::header (const ustring& name, const ustring& description)
       xmlTextWriterStartElement(xmlwriter, BAD_CAST "header");
 
         xmlTextWriterStartElement(xmlwriter, BAD_CAST "work");
-        xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "osisWork", name.c_str());
+        xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "osisWork", "%s", name.c_str());
 
           xmlTextWriterStartElement(xmlwriter, BAD_CAST "title");
           xmlTextWriterWriteFormatString(xmlwriter, "%s", description.c_str());
           xmlTextWriterEndElement(xmlwriter);
 
           xmlTextWriterStartElement(xmlwriter, BAD_CAST "type");
-          xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "type", "OSIS");
+          xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "type", "%s", "OSIS");
           xmlTextWriterWriteFormatString(xmlwriter, "%s", "Bible");
           xmlTextWriterEndElement(xmlwriter);
 
@@ -182,7 +182,7 @@ void Usfm2Osis::open_book(unsigned int id)
   // Open a book division
   xmlTextWriterStartElement(xmlwriter, BAD_CAST "div");
   xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "type", "book");
-  xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "osisID", book_osis_id.c_str());
+  xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "osisID", "%s", book_osis_id.c_str());
 }
 
 
@@ -1596,9 +1596,9 @@ void Usfm2Osis::transform_h_title (ustring& usfm_code, size_t marker_length, boo
     xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "type", "runningHead");
   }
   if (placement) {
-    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "placement", placement);
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "placement", "%s", placement);
   }
-  xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "short", title.c_str());
+  xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "short", "%s", title.c_str());
   xmlTextWriterEndElement(xmlwriter);
 }
 
@@ -1702,13 +1702,13 @@ void Usfm2Osis::transform_division (const gchar * type, bool canonical)
   // Open a division.
   ensure_division_opened ();
   if (type) {
-    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "type", type);
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "type", "%s", type);
   }
   ustring canonical_text = "false";
   if (canonical) {
     canonical_text = "true";
   }
-  xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "canonical", canonical_text.c_str());
+  xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "canonical", "%s", canonical_text.c_str());
 }
 
 
@@ -1719,7 +1719,7 @@ void Usfm2Osis::transform_general_title (ustring& usfm_code, size_t marker_lengt
   ensure_division_opened();
   xmlTextWriterStartElement(xmlwriter, BAD_CAST "title");
   if (type) {
-    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "type", type);
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "type", "%s", type);
   }
   if (level) {
     xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "level", "%d", level);
@@ -1805,7 +1805,7 @@ void Usfm2Osis::ensure_chapter_closed ()
   if (!chapter_osis_id.empty()) {
     // Close chapter milestone, e.g.: <chapter eID="Titus.2"/>
     xmlTextWriterStartElement(xmlwriter, BAD_CAST "chapter");
-    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "eID", chapter_osis_id.c_str());
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "eID", "%s", chapter_osis_id.c_str());
     xmlTextWriterEndElement(xmlwriter);
     chapter_osis_id.clear();
   }
@@ -1821,9 +1821,9 @@ void Usfm2Osis::transform_chapter_number (ustring& usfm_code, size_t marker_leng
   chapter_osis_id = book_osis_id + "." + chapter_number;
   // Write milestone, e.g.: <chapter sID="Titus.2" osisID="Titus.2" n="2"/> 
   xmlTextWriterStartElement(xmlwriter, BAD_CAST "chapter");
-  xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "sID", chapter_osis_id.c_str());
-  xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "osisID", chapter_osis_id.c_str());
-  xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "n", chapter_number.c_str());
+  xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "sID", "%s", chapter_osis_id.c_str());
+  xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "osisID", "%s", chapter_osis_id.c_str());
+  xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "n", "%s", chapter_number.c_str());
   xmlTextWriterEndElement(xmlwriter);
 }
 
@@ -1834,7 +1834,7 @@ void Usfm2Osis::ensure_verse_closed ()
   if (!verse_osis_id.empty()) {
     // Close verse milestone, e.g.: <verse eID="Titus.2.1" />
     xmlTextWriterStartElement(xmlwriter, BAD_CAST "verse");
-    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "eID", verse_osis_id.c_str());
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "eID", "%s", verse_osis_id.c_str());
     xmlTextWriterEndElement(xmlwriter);
     verse_osis_id.clear();
   }
@@ -1850,8 +1850,8 @@ void Usfm2Osis::transform_verse_number (ustring& usfm_code, size_t marker_length
   verse_osis_id = chapter_osis_id + "." + verse_number;
   // Write milestone, e.g.: <verse sID="Titus.2.1" osisID="Titus.2.1"/>
   xmlTextWriterStartElement(xmlwriter, BAD_CAST "verse");
-  xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "sID", verse_osis_id.c_str());
-  xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "osisID", verse_osis_id.c_str());
+  xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "sID", "%s", verse_osis_id.c_str());
+  xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "osisID", "%s", verse_osis_id.c_str());
   xmlTextWriterEndElement(xmlwriter);
 }
 
@@ -1895,7 +1895,7 @@ OSIS: <note osisRef="Gen.3.20" osisID="Gen.3.20!footnote.2" n="2"><catchWord>Ê-
   }
 
   // Write the osisRef.
-  xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "osisRef", verse_osis_id.c_str());
+  xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "osisRef", "%s", verse_osis_id.c_str());
 
   // Extract the caller from the input stream.
   ustring caller = "+";
@@ -1931,11 +1931,11 @@ OSIS: <note osisRef="Gen.3.20" osisID="Gen.3.20!footnote.2" n="2"><catchWord>Ê-
   if (!caller.empty()) {
     note_osis_id.append ("." + caller);
   }
-  xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "osisID", note_osis_id.c_str());
+  xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "osisID", "%s", note_osis_id.c_str());
 
   // Write the n attribute, if it's there.
   if (!caller.empty()) {
-    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "n", caller.c_str());
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "n", "%s", caller.c_str());
   }    
 
   // Set a flag that the note is open.
@@ -1990,12 +1990,12 @@ void Usfm2Osis::transform_character_style (ustring& usfm_code, size_t marker_len
 
   // Optionally write the first attribute.
   if (attribute1_name) {
-    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST attribute1_name, attribute1_value);
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST attribute1_name, "%s", attribute1_value);
   }
 
   // Optionally write the second attribute.
   if (attribute2_name) {
-    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST attribute2_name, attribute2_value);
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST attribute2_name, "%s", attribute2_value);
   }
 
   // Set flag that a character style is open.
@@ -2028,25 +2028,25 @@ void Usfm2Osis::transform_figure (ustring& usfm_code, const ustring& marker_text
   // Transform to osis.
   xmlTextWriterStartElement(xmlwriter, BAD_CAST "figure");
   if (!desc.empty()) {
-    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "desc", desc.c_str());
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "desc", "%s", desc.c_str());
   }
   if (!file.empty()) {
-    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "file", file.c_str());
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "file", "%s", file.c_str());
   }
   if (!size.empty()) {
-    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "size", size.c_str());
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "size", "%s", size.c_str());
   }
   if (!loc.empty()) {
-    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "loc", loc.c_str());
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "loc", "%s", loc.c_str());
   }
   if (!copy.empty()) {
-    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "copy", copy.c_str());
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "copy", "%s", copy.c_str());
   }
   if (!cap.empty()) {
-    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "cap", cap.c_str());
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "cap", "%s", cap.c_str());
   }
   if (!ref.empty()) {
-    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "ref", ref.c_str());
+    xmlTextWriterWriteFormatAttribute(xmlwriter, BAD_CAST "ref", "%s", ref.c_str());
   }
   xmlTextWriterEndElement(xmlwriter);
 }

@@ -6857,35 +6857,6 @@ Todo tasks.
 
 
 
-Applying a style \add through ctrl-S does not go well. Probably because the widget is removed from the parent.
-
-Adapt the documentation. Mention the tricks involved  in placing windows, such as resizing other windows before placing a new
-one so as to control its placement. Also mention the techniques bibledit uses to find space for a new window that is about to be opened.
-
-
-
-
-
-
-A window should have a mininum width and height, which corrects if these are too small.
-A window cannot be moved to negative positions.
-If a window is moved to beyond the layout's size, it can't do that, but if it does on its own, the layout gets expanded.
-If the main window changes its size, the layout does too, but within the confines of its children.
-The setting "window_data" in the config is removed and replaced by "window_titles"
-
-
-In the new unified window, I hope that you have something like TW (Ctrl-Tab) that will cycle through the sub-windows 
-like Alt-Tab does now for separate windows. 
-If it is like TW, the new approach will have the advantage of the real window appearing when cycling using the hot key, 
-rather than an unreadable thumbnail. 
-This can be accomplished by storing the center position of each window, then when the accelerator is pressed,
-it looks for the next center position that logically follows the current one. If there's none, it restarts.
-
-
-
-To make the repeated pressing of F5, Ctrl-F5 and Shift-F5 work as well. 
-It should cycle through the relevant windows.
-
 
 
 To attend to a current bug:
