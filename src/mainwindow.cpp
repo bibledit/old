@@ -6858,7 +6858,37 @@ Todo tasks.
 
 
 
+task #9578: versification system mapping
 
+The windows that check the keyterms, and that show related verses, 
+and the ones that show the references and load original texts, such as now from the KJV, 
+should remap their references following the versification system of the relevant project.
+
+When importing the KJV Bible from the Sword project the references need to be remapped to the Hebrew and Greek origins.
+And when consulting the now remapped KJV, it needs to map back again to the actual Bible's versification system. 
+
+
+
+
+
+task #9583: to easily delete all visible project notes
+When deleting project notes, it may be useful to have a link at the bottom of those notes that deletes them all, all the visible ones.
+
+
+
+
+
+task #9585: export text by email
+A useful export is to email the data of a project to an email address.
+It could do this at regular times, or let's say on shutdown a day after previous time it did that. Or so many days after a change.
+It requires mutt.
+It can send a test email, just with text, and the user can then decide whether the mailer works well. Not all mailers work well. 
+
+
+
+
+task #9598: import resources from the Online Bible
+Done through the interface through the Outpost.
 
 
 
