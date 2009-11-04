@@ -6857,6 +6857,17 @@ Todo tasks.
 
 
 
+task #9543: export keyterms
+To make an export function that exports everything into standard files.
+The original text files are no longer distributed with bibledit, but these are uploaded separately.
+A link to these from the help files would help 
+
+
+
+
+
+
+
 
 On karmic there is a crash when switching to a chapter that has footnotes.
 Before this bug is fixed, we set the default view to USFM view.
@@ -6866,6 +6877,12 @@ Notemarkers can be distinguished by their "f" or other markup.
 Scrolling won't work at first, but should be implemented later.
 Copying text beyond the paragraph won't work at first, but should be implemented later.
 It will just be a stack of GtkTextViews each view with their own paragraph style.
+When this new editor is built, we need to create undo/redo objects for each action to be taken.
+This is so that undo and redo work very well. No actions to be done apart from the ones recorded in that undo and redo stack.
+Whatever action we take, we first store that action in the stack, then execute it from there independently.
+We need to create a third Editor, called Editor2, which is activated by a switch on the bibleditgui binary.
+Later, when it works okay, then we can make it the default instead of the Editor object.
+Inserting text is an object, and applying a style is another one.
 
 
 (bibleditgui:11072): Gtk-WARNING **: /build/buildd/gtk+2.0-2.18.3/gtk/gtktextview.c:4567: somehow some text lines were modified or scrolling occurred since the last validation of lines on the screen - may be a text widget bug.
@@ -6887,29 +6904,18 @@ Gtk:ERROR:/build/buildd/gtk+2.0-2.18.3/gtk/gtktextview.c:4568:gtk_text_view_pain
 
 
 
-task #9543: export keyterms
-To make an export function that exports everything into standard files.
-The original text files are no longer distributed with bibledit, but these are uploaded separately.
-A link to these from the help files would help 
 
 
 
 
 
-All the local resources should move to Xiphos / Sword.
-All internet based resources can remain as these are now. No local storage anymore.
-This means that we can import the current resources into USFM, then export as a Sword module.
 
 
 
-fix compiler warnings. Compile from clean and fix all new warning.
+Use Google Pages for the new wiki. Others can then also contribute.
+Mention on the summary that access requests can be sent to a certain email address. This will be the general bibledit list.
 
 
-
-To improve things for the online help, we need to open up the documentation to be edited by others.
-We need to look into a simple wiki that can be made available offline easily, and can be edited by others.
-google pages?
-current wiki?
 
 
 */
