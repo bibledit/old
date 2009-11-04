@@ -6294,10 +6294,11 @@ void MainWindow::initiate_shutdown()
 
 void MainWindow::on_assistant_ready_signal (GtkButton *button, gpointer user_data)
 {
-  ((MainWindow *) user_data)->on_assistant_keyterms_ready();
+  ((MainWindow *) user_data)->on_assistant_ready();
 }
 
-void MainWindow::on_assistant_keyterms_ready ()
+
+void MainWindow::on_assistant_ready ()
 // This handles the situation that any assistant is ready.
 {
   // Importing keyterms.
@@ -6854,13 +6855,6 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 
 
 Todo tasks.
-
-
-
-task #9543: export keyterms
-To make an export function that exports everything into standard files.
-The original text files are no longer distributed with bibledit, but these are uploaded separately.
-A link to these from the help files would help 
 
 
 

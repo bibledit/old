@@ -941,10 +941,12 @@ gint ExportAssistant::assistant_forward (gint current_page)
   forward_sequence.insert (page_number_confirm);
   forward_sequence.insert (summary_page_number);
   
-  // Take the next page in the forward sequence.
-  do {
-    current_page++;
-  } while (forward_sequence.find (current_page) == forward_sequence.end());
+  // Take the next page in the forward sequence if there's one available.
+  if (current_page < summary_page_number) {
+    do {
+      current_page++;
+    } while (forward_sequence.find (current_page) == forward_sequence.end());
+  }
   return current_page;
 }
 

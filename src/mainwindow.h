@@ -763,7 +763,7 @@ protected:
   
   // Assistants.
   static void on_assistant_ready_signal (GtkButton *button, gpointer user_data);
-  void on_assistant_keyterms_ready ();
+  void on_assistant_ready ();
 
   // Check USFM
   static void on_check_usfm_activate (GtkMenuItem *menuitem, gpointer user_data);
