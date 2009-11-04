@@ -65,6 +65,7 @@ Session::Session(int dummy)
   project_notes_show_title = true;
   merge_action = 0;
   receiving_references = false;
+  second_editor = false;
 }
 
 

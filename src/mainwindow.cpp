@@ -6907,12 +6907,13 @@ Whatever action we take, we first store that action in the stack, then execute i
 We need to create a third Editor, called Editor2, which is activated by a switch on the bibleditgui binary.
 Later, when it works okay, then we can make it the default instead of the Editor object.
 Inserting text is an object, and applying a style is another one.
-
+We probably better make an object out of each GtkTextView, so that things become cleaner and more abstract.
 
 (bibleditgui:11072): Gtk-WARNING **: /build/buildd/gtk+2.0-2.18.3/gtk/gtktextview.c:4567: somehow some text lines were modified or scrolling occurred since the last validation of lines on the screen - may be a text widget bug.
 **
 Gtk:ERROR:/build/buildd/gtk+2.0-2.18.3/gtk/gtktextview.c:4568:gtk_text_view_paint: code should not be reached
 
+There is a setting second_editor in the Session object. This can go out once the Editor2 is ready.
 
 
 

@@ -65,8 +65,13 @@ int main(int argc, char *argv[])
   // Check whether it is fine to start the program.
   if (!check_bibledit_startup_okay(argc, argv)) {
     // Quit the program.
-    // The exit code should not be 1. If it were 1 then the wrapper script would bibledit it once.
+    // The exit code should not be 1. If it were 1 then the wrapper script would start bibledit once more.
     return 2;
+  }
+
+  // Check arguments for Editor2.  
+  if (argc >= 2 && strcmp(argv[1], "e") == 0) {
+    settings->session.second_editor = true;
   }
 
   // Save logfile from previous session.

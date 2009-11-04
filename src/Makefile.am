@@ -270,7 +270,8 @@ bibleditgui_SOURCES = \
 				dialogyesnoalways.cpp \
 				xiphos.cpp \
 				floatingwindow.cpp \
-				windowdata.cpp
+				windowdata.cpp \
+				editor2.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp update-copyright
 
