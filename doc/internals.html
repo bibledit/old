@@ -1,187 +1,145 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-  <title>Bibledit</title>
-  <!--
-  Copyright (©) 2003-2008 Teus Benschop.
-  Permission is granted to copy, distribute and/or modify this document
-  under the terms of the GNU Free Documentation License, Version 1.2
-  or any later version published by the Free Software Foundation;
-  with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-  Texts.  A copy of the license is included in the section entitled "GNU
-  Free Documentation License" in the file FDL.
-  -->
-  <link href="bibledit.css" rel="stylesheet" type="text/css" />
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<title>Bibledit</title>
+<!--
+Copyright (©) 2003-2008 Teus Benschop.
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+Texts.  A copy of the license is included in the section entitled "GNU
+Free Documentation License" in the file FDL.
+-->
+<link href="bibledit.css" rel="stylesheet" type="text/css" />
 </head>
-
 <body>
 <h2><a name="internals"></a>Internals</h2>
 <!-- Table of Contents Start -->
-
 <div id="toc">
 <ul>
-  <li><a href="#introduction" class="level1">Introduction</a></li>
-  <li><a href="#temporarydirectory" class="level1">Temporary directory</a></li>
-  <li><a href="#stylesheetsstorage" class="level1">Stylesheets storage</a></li>
-  <li><a href="#datastorage" class="level1">Data storage</a></li>
-  <li><a href="#gittasks" class="level1">Git tasks</a></li>
-  <li><a href="#bibleditwindowsoutpost" class="level1">Bibledit Windows
-    Outpost</a></li>
+<li>
+<a href="#introduction" class="level1">Introduction</a></li>
+<li>
+<a href="#temporarydirectory" class="level1">Temporary directory</a></li>
+<li>
+<a href="#stylesheetsstorage" class="level1">Stylesheets storage</a></li>
+<li>
+<a href="#datastorage" class="level1">Data storage</a></li>
+<li>
+<a href="#gittasks" class="level1">Git tasks</a></li>
+<li>
+<a href="#bibleditwindowsoutpost" class="level1">Bibledit Windows Outpost</a></li>
+<li>
+<a href="#floatingwindows" class="level1">Floating windows</a></li>
 </ul>
 </div>
 <!-- Table of Contents End -->
-
 <h3><a name="introduction"></a>Introduction</h3>
-
 <p>This page describes the internals of Bibledit. That is, it gives technical
 specifications and information about how Bibledit works internally.</p>
-
 <h3><a name="temporarydirectory"></a>Temporary directory</h3>
-
 <p>The directory where Bibledit stores all temporary working data is in
 directory</p>
 <pre>.bibledit_temp</pre>
-
 <p>in your home directory, e.g. in</p>
 <pre>/home/joe/.bibledit_temp</pre>
-
 <h3><a name="stylesheetsstorage"></a>Stylesheets storage</h3>
-
 <p>The stylesheets, as templates, are xml files. Same for imported and exported
 stylesheets, except that they are zipped.</p>
-
 <p>Internally stylesheets are stored in a database. This makes reading them
 faster. The databases are stored in <a href="data_directory.html">&lt;data
 directory&gt;</a>/stylesheets.</p>
-
 <h3><a name="datastorage"></a>Data storage</h3>
-
 <p>Data, that means, the USFM files, are internally stored as flat files, one
 file per chapter. This gives faster access to the data. The files are stored in
 <a href="data_directory.html">&lt;data directory&gt;</a>/projects/&lt;project
 name&gt;, along with other files related to this project.</p>
-
 <h3><a name="gittasks"></a>Git tasks</h3>
-
 <p>When Bibledit shuts down, it stores any undone git tasks in the temporal
 directory in file gitjobs.xml. Next time Bibledit starts, it will load these
 tasks, and execute them.</p>
-
 <h3><a name="bibleditwindowsoutpost"></a>Bibledit Windows Outpost</h3>
-
 <p>The Outpost allows Bibledit to interact with Windows related stuff.</p>
-
 <p>The Outpost does not have any visible functionality of its own.</p>
-
 <p>For communication to take place, Windows Outpost needs to use the same
 emulator as the other Windows programs you use on Linux. This means that if you
 install BibleWorks using Wine, then Windows Outpost must also be installed on
 Wine. And if you use CrossOver Office, then you need to use CrossOver Office
 for both, and both need to be installed in the same bottle.</p>
-
 <p>Bibledit connects to the interface on the Outpost, and communicates through
 that channel. This TCP/IP interface listens on port 51515.</p>
-
 <p>For diagnostics or control you can connect to it. In a terminal type</p>
 <pre>telnet localhost 51515</pre>
-
 <p>The following commands are recognized.</p>
 <pre>BibleWorksReferenceGet</pre>
-
 <p>This returns the reference that BibleWorks now displays.</p>
 <pre>BibleWorksReferenceSet Mat 1:1</pre>
-
 <p>This causes BibleWorks to scroll to Matthew 1:1.</p>
 <pre>SantaFeFocusReferenceGet</pre>
-
 <p>This returns the reference that is displayed by programs that work with the
 SantaFeFocus system, such as Paratext.</p>
 <pre>SantaFeFocusReferenceSet MAT 1:1</pre>
-
 <p>This lets programs, that work with the SantaFeFocus system, display Matthew
 1:1.</p>
 <pre>SantaFeFocusWordSet Saviour</pre>
-
 <p>This lets programs like Toolbox, that work with the SantaFeFocus system,
 jump to the word "Saviour".</p>
 <pre>Version</pre>
-
 <p>This gives the version number.</p>
 <pre>Hide</pre>
-
 <p>This hides Bibledit Windows Outpost.</p>
 <pre>Show</pre>
-
 <p>This shows Bibledit Windows Outpost.</p>
 <pre>Quit</pre>
-
 <p>This disconnects from Bibledit Windows Outpost.</p>
 <pre>Exit</pre>
-
 <p>This exist Bibledit Windows Outpost.</p>
 <pre>Open http://domain.org</pre>
-
 <p>This opens a html or pdf file. Works on Windows only.</p>
-
 <p>All this information is not really needed in normal cases. Bibledit takes
 care of it.</p>
-
 <p>Outpost version 1.7 and later have support for the Online Bible. See the
 examples below of what can be done with it.</p>
 <pre>OLB Connect</pre>
-
 <p>Connects to the Online Bible.</p>
 <pre>OLB GetVersionList</pre>
-
 <p>This gets the list of abbreviations of Bibles that the Online Bible
 provides, e.g. AV.</p>
 <pre>OLB GetVersionTitleList</pre>
-
 <p>This is like "GetVersionList", but it provides the full titles, e.g. AV -
 1769 Authorized Version.</p>
 <pre>OLB GetBookNamesForVersion</pre>
-
 <p>This gets the list of names of the books that is in a certain version. The
 version is to be provided, e.g.: OLB GetBookNamesForVersion AV.</p>
 <pre>OLB GetBookAbbreviationsForVersion</pre>
-
 <p>This is like GetBookNamesForVersion, but it provides the abbreviations.</p>
 <pre>OLB GetChapterCountForBook</pre>
-
 <p>This gets the number of chapters in a book. The version has to be provided,
 and the book abbreviation, e.g.: OLB GetChapterCountForBook AV Ge.</p>
 <pre>OLB GetVerseCountForChapter</pre>
-
 <p>This gets the number of verses in a chapter. The version has to be provided,
 then the book abbreviation, then the chapter number, e.g. "OLB
 GetVerseCountForChapter AV Ge 1".</p>
 <pre>OLB GetVerseText</pre>
-
 <p>This gets the text of a verse, e.g.: OLB GetVerseText AV "Ge 1:1". Notice
 the use of quotes.</p>
 <pre>OLB GetSearchList</pre>
-
 <p>This searches a version in for some text. Sample: </p>
 <pre>OLB GetSearchList AV "Noah"</pre>
-
 <p>You can add a "T" at the end to make it a phrase search, and a "F" to make
 it a word search. A space should be before the T or the F.</p>
 <pre>OLB ShowPassage</pre>
-
 <p>Scrolls the Online Bible to the passage, e.g.: OLB ShowPassage AV "Ge 2:4".
 Quotes are needed.</p>
 <pre>OLB GetPassage</pre>
-
 <p>This receives the focused passage from the Online Bible.</p>
 <pre>OLB Disconnect</pre>
-
 <p>Disconnects from the Online Bible.</p>
-
-<h3>Floating windows</h3>
-
+<h3><a name="floatingwindows"></a>Floating windows</h3>
 <p>All the windows of Bibledit are floating and can be resized. If a new window
 is opened, then Bibledit will look for the largest available open space, and
 place the window there. It will also size the window so that it fills that open
