@@ -6858,14 +6858,10 @@ Todo tasks.
 
 
 
-When there is the crash on reboot, it no longer exits with code 1. Therefore all standard exits should give code 0,
-so that the script can start the program once more if the code is non-zero.
-
-
 Switch to disable dbus, as asked by Dan.
 
 
-When pasting text into USFM view, it comes there twice. Alsl in normal view. By menu it goes fine, by accelerator it copies twice.
+When pasting text into USFM view, it comes there twice. Also in normal view. By menu it goes fine, by accelerator it copies twice.
 
 
 

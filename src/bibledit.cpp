@@ -64,9 +64,8 @@ int main(int argc, char *argv[])
 
   // Check whether it is fine to start the program.
   if (!check_bibledit_startup_okay(argc, argv)) {
-    // Quit the program.
-    // The exit code should not be 1. If it were 1 then the wrapper script would start bibledit once more.
-    return 2;
+    // Quit the program normally.
+    return 0;
   }
 
   // Check arguments for Editor2.  
@@ -147,7 +146,7 @@ int main(int argc, char *argv[])
     xembed = strtoul(argv[2], &argv[2], 0);
     if (*argv[2] != 0) {
       fprintf(stderr, "Bad xembed value: %s\n", argv[2]);
-      return 2;
+      return 0;
     }
   }
   // Upgrade data.
