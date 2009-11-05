@@ -27,6 +27,7 @@
 #include "floatingwindow.h"
 #include "editor.h"
 #include "usfmview.h"
+#include "editor2.h"
 
 
 class WindowEditor : public FloatingWindow
@@ -94,6 +95,7 @@ protected:
   void switch_to_view (bool viewusfm, ustring project);
   Editor * editor;
   USFMView * usfmview;
+  Editor2 * editor2;
 
   static void on_new_verse_signalled(GtkButton *button, gpointer user_data);
   void on_new_verse();

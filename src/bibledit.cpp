@@ -68,11 +68,6 @@ int main(int argc, char *argv[])
     return 0;
   }
 
-  // Check arguments for Editor2.  
-  if (argc >= 2 && strcmp(argv[1], "e") == 0) {
-    settings->session.second_editor = true;
-  }
-
   // Save logfile from previous session.
   if (g_file_test (log_file_name(false).c_str(), G_FILE_TEST_IS_REGULAR)) {
     GwSpawn spawn ("mv");
@@ -109,6 +104,12 @@ int main(int argc, char *argv[])
   // Only save the settings on exit if there is no scripting.
   Settings mysettings(argc == 1);
   settings = &mysettings;
+
+  // Temporally check arguments for Editor2.  
+  if (argc >= 2 && strcmp(argv[1], "e") == 0) {
+    settings->session.second_editor = true;
+  }
+
   // LocalizedBooks object.
   BookLocalizations mybooklocalizations(0);
   booklocalizations = &mybooklocalizations;

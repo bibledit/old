@@ -209,7 +209,6 @@ void Editor::book_set(unsigned int book_in)
 
 void Editor::chapter_load(unsigned int chapter_in)
 // Loads a chapter with the number "chapter_in".
-// If "lines_in" exists, it load these instead of getting the chapter.
 {
   // No recording of undoable actions while this object is alive.
   PreventEditorUndo preventundo(&record_undo_level);

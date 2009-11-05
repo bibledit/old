@@ -6858,10 +6858,6 @@ Todo tasks.
 
 
 
-Switch to disable dbus, as asked by Dan.
-
-
-When pasting text into USFM view, it comes there twice. Also in normal view. By menu it goes fine, by accelerator it copies twice.
 
 
 
@@ -6921,6 +6917,75 @@ We probably better make an object out of each GtkTextView, so that things become
 Gtk:ERROR:/build/buildd/gtk+2.0-2.18.3/gtk/gtktextview.c:4568:gtk_text_view_paint: code should not be reached
 
 There is a setting second_editor in the Session object. This can go out once the Editor2 is ready.
+Temporally it switches to USFM view because of the crash in the Editor.
+
+
+Undo/Redo stack.
+Document undoarticle.htm gives a few points for consideration:
+Supporting undoing is all about maintaining state. 
+* Before something changes it has to be saved somehow so that later we can restore its state. 
+* So I came to the idea of a stack of changes. 
+* Making a change involves pushing the old state onto a stack. 
+* To undo the last change we just pop the stack and set the object to that previous state.
+Consider this simple example of a person object’s name property being modified then restored.
+1) Initially the person’s name is “Andrew”
+2) The name is then changed to “Billy”, but the old value “Andrew” is pushed onto the undo stack
+3) To undo this change the stack is popped, yielding the Name = “Andrew” action. This sets the name property of the person back to “Andrew”.
+4) In addition, to provide a redo function, the current state (“Billy”) is pushed onto the redo stack; 
+* Allowing us to re-apply the original change if the undo was a mistake.
+Redoing an action happens by popping the redo stack and setting the object’s state. This must also push the current state back onto the undo stack.
+Of course this stack based approach supports many consecutive changes to an object’s state. The only real limit is that of computer memory.
+The previous example dealt with the simple notion of changing a property. 
+* The situation becomes difficult when a more involved change occurs in an object, for example, removing a person from a list. 
+* This change can only undone by first saving the person object before deletion, then adding it back to the list when the undo is requested.
+A couple of technical issues exist when operating undo/redo logic:
+    * Undoing an action must operate in such a way that the change caused by undoing is not itself pushed back onto the undo stack!
+    * An external change must erase the entire redo stack, since the redo operations will no longer be consistent with the current state!
+
+The first key notion for developing the undo provider is that of an action. 
+* An action is essentially any change to state that can be undone and redone. 
+* It has to contain all the information it needs to enact the undo/redo operations. 
+* The undo and redo stacks will consist of these action objects.
+In more detail the Action object saves a reference to the object it has state for, the state itself 
+* and two delegates that point to methods that actually handle changing an object’s state.
+
+
+
+The Text widget has a built-in mechanism that allows you to implement undo and redo operations that can cancel or reinstate changes to
+* the text within the widget.
+Here is how the undo/redo stack works:
+Every change to the content is recorded by pushing entries onto the stack that describe the change, whether an insertion or a deletion. 
+* These entries record the old state of the contents as well as the new state: if a deletion, the deleted text is recorded; 
+* if an insertion, the inserted text is recorded, along with a description of the location and whether it was an insertion or a deletion.
+Your program may also push a special record called a separator onto the stack.
+An undo operation changes the contents of the widget to what they were at some previous point. 
+* It does this by reversing all the changes pushed onto the undo/redo stack until it reaches a separator or until it runs out of stack.
+However, note that Tkinter also remembers how much of the stack was reversed in the undo operation, 
+* until some other editing operation changes the contents of the widget.
+A redo operation works only if no editing operation has occurred since the last undo operation. It re-applies all the undone operations. 
+
+
+
+The Basic Approach
+An effective approach to creating an undo/redo facility is to combine and enhance two of the design patterns described. 
+* We start with the Command pattern to encapsulate the basic undoable operations. 
+* Next we incorporate elements of the Memento pattern to allow the commands to store the state information needed to actually perform undo and redo. 
+* Finally, we add an extended last-in-first-out (LIFO) stack to maintain a command history. 
+
+Operation of the Undo/Redo Stack
+The effect on the history as commands are first pushed onto the stack are shown by step 1. 
+* When the user decides to undo an action, the command at the top is asked to undo its operation, 
+* then popped off the top of the stack, as step 2 illustrates.
+Since we want to be able to redo items which have been previously undone, we need to enhance this operation. 
+* As you can see in step 2 of figure 4, whenever a command is undone, a second pointer is set to point to that command. 
+* As more commands are undone, those commands remain above the top of the undo stack, thus forming a second stack in the opposite direction. 
+* Consequently, the undo/redo history actually consists of two opposing stacks. 
+
+Figure 5 - The Undo/Redo Design Pattern Structure
+As soon as a new command is placed on the top of the undo stack, however, all commands are removed from the redo portion of the history. 
+* This is essentially the same as how Microsoft Word handles redoing previously undone commands. 
+* If you have a copy of MS Word or another application which supports undo and redo, you may wish to experiment with it 
+* to get a feel for how this process is handled before continuing with this discussion.
 
 
 
@@ -6930,12 +6995,8 @@ There is a setting second_editor in the Session object. This can go out once the
 
 
 
-
-
-
-
-
-
+If ever a task is submitted to use the gbcpreprocessor, then the following info can be added:
+http://gbcpreprocessor.codeplex.com
 
 
 
