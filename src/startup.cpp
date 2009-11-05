@@ -55,7 +55,7 @@ bool check_bibledit_startup_okay (int argc, char *argv[])
   
   // See whether Bibledit is shutting down.
   if (program_is_running ("bibledit-shutdown")) {
-    gtkw_dialog_error(NULL, "The previous instance of Bibledit is still shutting down.\nPlease wait till that has been done, and try again.");
+    gtkw_dialog_error(NULL, "The previous instance of Bibledit is still optimizing its data while shutting down.\nPlease wait till that has been done, and try again.");
     return false;
   }
 

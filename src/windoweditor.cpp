@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "windoweditor.h"
@@ -49,7 +50,7 @@ FloatingWindow(parent_layout, widEditor, project_name, startup)
   gtk_container_add(GTK_CONTAINER(vbox_client), vbox);
 
   // Switch to default view.
-  switch_to_view (false, project_name); 
+  switch_to_view (true, project_name); // Todo temporally changed.
 }
 
 
