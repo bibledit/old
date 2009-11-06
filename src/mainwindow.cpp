@@ -6995,18 +6995,40 @@ As soon as a new command is placed on the top of the undo stack, however, all co
 
 
 
-If ever a task is submitted to use the gbcpreprocessor, then the following info can be added:
-http://gbcpreprocessor.codeplex.com
-
-
-
-
 
 
 
 
 Use Google Pages for the new wiki. Others can then also contribute.
 Mention on the summary that access requests can be sent to a certain email address. This will be the general bibledit list.
+
+
+
+
+In order to find the list of problems in the USFM as mentioned below, a few options are needed such as the ability
+to disable whole categories of checks, as is written in the task submitted:
+
+Both Shona & Ndebele had a number of instances where the verse number 
+was immediately followed by the first word, without a space following 
+the number.
+
+Shona:
+
+Ezra contains a "\P" instead of "\p".
+Amos 5:5 ends line with "\p" which should be on the following line.
+Psalm 42 has two lines beginning with "\d", the first is blank and 
+unnecessary.
+Psalm 140 contains a mid-line "\d" that should start its own new line.
+James 5:1 needs a space between the verse number and the beginning of 
+the verse text.
+
+Ndebele:
+
+iNkosi appears with irregular marking throughout: sometimes iN\sc 
+KOSI\sc*, sometimes i\sc NKOSI\sc*.
+In Deut 31:8, "IN\sc KOSI-ke\sc*" should probably read "IN\sc KOSI\sc*-ke".
+In Hos 10:3, inkosi-ke should probably read "iN\sc KOSI\sc*-ke".
+After Isa 41:20 there is an extra "\s" on its own line.
 
 
 

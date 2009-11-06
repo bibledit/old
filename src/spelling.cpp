@@ -202,6 +202,39 @@ void SpellingChecker::collect_words(GtkTextBuffer * textbuffer)
     GtkTextIter iter = startiter;
     check_word(textbuffer, &startiter, &enditer);
   }
+  
+  /*
+
+See the following bug:
+
+I'm working with a bunch of languages that use the hyphen within their
+words.  The hyphen is seen as a word break in BE.  Does anyone know if
+there a unicode character that looks like a hyphen, but will be viewed
+as a regular character?  I've tried a non-breaking hyphen and the
+spellchecker still sees it as a word break.
+
+As far as I can tell, Unicode does not specify any hyphen character that must not act as a word boundary
+(except for the soft hyphen, but that would not fulfill your needs because it is not visible except when it is followed by a line break); 
+pretty much any of the hyphen characters may be tailored not to act as a word boundary, though.  
+I would say that should be something that the localization of the spell checker should take care of, 
+so if none of the characters works (see the list below—in particular notice that the actual hyphen Unicode character is not what you get 
+when you type a hyphen on your keyboard; that is instead the hyphen-minus character), you may want to submit this as a 
+bug/feature request with the project for whatever spell checking library is used by Bibledit 
+(I'm assuming BE uses one of the many open-source spelling libraries and not a home-grown one).  
+In particular, I would say that a person who uses a "non-breaking hyphen" probably typically expects its "non-breaking" aspect to apply to words 
+as well as lines (although in reality the Unicode standard requires only that a non-breaking hyphen prevent line breaks).
+
+The complete list of hyphen characters in Unicode is as follows:
+
+Hyphen or minus sign (hyphen-minus or hyphus) - U+002D
+Soft (or discretionary) hyphen - U+00AD
+Hyphen - U+2010
+Non-breaking hyphen - U+2011
+Hyphen bullet - U+2043
+
+Since Pango routines are used for determining the word boundaries, the right thing to do is to fix Pango.
+
+  */
 }
 
 
