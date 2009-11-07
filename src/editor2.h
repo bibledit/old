@@ -47,6 +47,7 @@ private:
   deque <EditorAction *> actions_done;
   deque <EditorAction *> actions_redoable;
   void apply_editor_action (EditorAction * action);
+  GtkWidget * last_focused_textview_v2;
 
 
 
@@ -133,18 +134,16 @@ public:
   guint save_timeout_event_id;
 
   // The formatted view.
-  GtkWidget *scrolledwindow;
-  GtkWidget *textview;
+  //GtkWidget *scrolledwindow;
+  //GtkWidget *textview;
   GtkTextTagTable * texttagtable;
   void create_or_update_formatting_data();
-  GtkTextBuffer * textbuffer;
+  //GtkTextBuffer * textbuffer;
   void create_or_update_text_style(Style * style, bool paragraph, bool plaintext, double font_multiplier);
   bool verse_restarts_paragraph;
 
   vector <EditorNote> editornotes;
   vector <EditorTable> editortables;
-  bool load_text_not_starting_with_marker(GtkTextBuffer * textbuffer, ustring& line, ustring& paragraph_mark, ustring& character_mark, size_t marker_pos, size_t marker_length, bool marker_found);
-  bool load_text_starting_new_paragraph(GtkTextBuffer * textbuffer, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
   bool load_text_starting_character_style(GtkTextBuffer * textbuffer, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
   bool load_text_ending_character_style(GtkTextBuffer * textbuffer, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
   bool load_text_verse_number(ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
@@ -154,7 +153,6 @@ public:
   bool load_text_table_raw(ustring& line, const ustring& paragraph_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
   bool load_text_table_starting_row(ustring& line, EditorTable& editortable, GtkTextBuffer *& textbuffer, bool& row_zero_initialized, gint& row, gint& column, ustring& paragraph_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
   bool load_text_table_starting_cell(ustring& line, EditorTable& editortable, GtkTextBuffer *& textbuffer, bool& row_zero_initialized, gint& row, gint& column, ustring& paragraph_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
-  void load_text_with_unknown_markup(GtkTextBuffer * textbuffer, ustring& line, ustring& paragraph_mark, ustring& character_mark);
   void load_text_ensure_normal_paragraph(ustring& line, ustring& paragraph_mark, ustring& character_mark);
 
   void erase_related_note_bits();
@@ -197,7 +195,6 @@ public:
   void process_text_child_anchors_deleted();
   set <GtkTextChildAnchor *> text_child_anchors_being_deleted;
   void text_get_all(vector <ustring>& texts, vector <VectorUstring>& styles);
-  void text_append(GtkTextBuffer * textbuffer, const ustring& text, const ustring& paragraph_style, const ustring& character_style);
 
   bool editable;
 

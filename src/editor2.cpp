@@ -44,6 +44,25 @@
 #include "dialogyesnoalways.h"
 
 
+/*
+
+
+Text editor with a formatted view and undo and redo.
+
+
+The following elements of text have their own textview and textbuffer:
+- every paragraph
+- every cell of a table.
+- every note.
+
+While the user edits text, signal handlers are connected so it can be tracked what is being edited.
+The signal handlers call routines that make EditorActions out of this, and optionally correct the text being typed.
+The EditorActions, when played back, will have the same effect as if the user typed.
+If Undo is done, then the last EditorAction is undone. It can also be Redone.
+
+*/
+
+
 Editor2::Editor2(GtkWidget * vbox_in, const ustring & project_in):
 current_reference(0, 1000, "")
 {
@@ -94,14 +113,14 @@ current_reference(0, 1000, "")
   gtk_container_add (GTK_CONTAINER (viewport_v2), vbox_v2);
 
   last_focused_widget = vbox_v2;
+  last_focused_textview_v2 = NULL;
 
 
 
 
 
 
-
-
+  /*
   // The scrolled window that contains the main formatted view.
   scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow);
@@ -112,15 +131,15 @@ current_reference(0, 1000, "")
   textbuffer = gtk_text_buffer_new(texttagtable);
 
   // The buffer's signal handlers.
-  g_signal_connect(G_OBJECT(textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_before), gpointer(this));
-  g_signal_connect_after(G_OBJECT(textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_after), gpointer(this));
-  g_signal_connect(G_OBJECT(textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_before), gpointer(this));
-  g_signal_connect_after(G_OBJECT(textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_after), gpointer(this));
-  g_signal_connect(G_OBJECT(textbuffer), "apply-tag", G_CALLBACK(on_buffer_apply_tag), gpointer(this));
-  g_signal_connect(G_OBJECT(textbuffer), "remove-tag", G_CALLBACK(on_buffer_remove_tag), gpointer(this));
-  g_signal_connect(G_OBJECT(textbuffer), "insert-child-anchor", G_CALLBACK(on_buffer_insert_child_anchor), gpointer(this));
-  g_signal_connect(G_OBJECT(textbuffer), "insert-pixbuf", G_CALLBACK(on_buffer_insert_pixbuf), gpointer(this));
-  g_signal_connect(G_OBJECT(textbuffer), "changed", G_CALLBACK(on_textbuffer_changed), gpointer(this));
+  // g_signal_connect(G_OBJECT(textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_before), gpointer(this));
+  //g_signal_connect_after(G_OBJECT(textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_after), gpointer(this));
+  //g_signal_connect(G_OBJECT(textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_before), gpointer(this));
+  //g_signal_connect_after(G_OBJECT(textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_after), gpointer(this));
+  //g_signal_connect(G_OBJECT(textbuffer), "apply-tag", G_CALLBACK(on_buffer_apply_tag), gpointer(this));
+  //g_signal_connect(G_OBJECT(textbuffer), "remove-tag", G_CALLBACK(on_buffer_remove_tag), gpointer(this));
+  //g_signal_connect(G_OBJECT(textbuffer), "insert-child-anchor", G_CALLBACK(on_buffer_insert_child_anchor), gpointer(this));
+  //g_signal_connect(G_OBJECT(textbuffer), "insert-pixbuf", G_CALLBACK(on_buffer_insert_pixbuf), gpointer(this));
+  //g_signal_connect(G_OBJECT(textbuffer), "changed", G_CALLBACK(on_textbuffer_changed), gpointer(this));
 
   // A text view to display the buffer.
   textview = gtk_text_view_new_with_buffer(textbuffer);
@@ -134,7 +153,6 @@ current_reference(0, 1000, "")
   // The view's signal handlers.
   spellingchecker->attach(textview);
   g_signal_connect_after((gpointer) textview, "move_cursor", G_CALLBACK(on_textview_move_cursor), gpointer(this));
-  g_signal_connect_after((gpointer) textview, "grab_focus", G_CALLBACK(on_textview_grab_focus), gpointer(this));
   g_signal_connect((gpointer) textview, "motion-notify-event", G_CALLBACK(on_text_motion_notify_event), gpointer(this));
   g_signal_connect((gpointer) textview, "event-after", G_CALLBACK(on_text_event_after), gpointer(this));
   g_signal_connect((gpointer) textview, "key-press-event", G_CALLBACK(text_key_press_event_before), gpointer(this));
@@ -144,7 +162,8 @@ current_reference(0, 1000, "")
   g_signal_connect((gpointer) textview, "size-allocate", G_CALLBACK(on_related_widget_size_allocated), gpointer(this));
 
   // Initialize the last focused textview to the main textview.
-  last_focused_widget = textview;
+  //last_focused_widget = textview;
+  */
 
   // Buttons to give signals.
   new_verse_signal = gtk_button_new();
@@ -164,7 +183,7 @@ current_reference(0, 1000, "")
   // Note that for convenience the GtkTextBuffer function is called. 
   // But this adds the reference to the GtkTextTagTable, so making it available
   // to any other buffer that uses the same text tag table.
-  reference_tag = gtk_text_buffer_create_tag(textbuffer, NULL, "background", "khaki", NULL);
+  //reference_tag = gtk_text_buffer_create_tag(textbuffer, NULL, "background", "khaki", NULL);
 
   // Highlighting searchwords timeout.
   highlight_timeout_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 500, GSourceFunc(on_highlight_timeout), gpointer(this), NULL);
@@ -173,12 +192,13 @@ current_reference(0, 1000, "")
   save_timeout_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 60000, GSourceFunc(on_save_timeout), gpointer(this), NULL);
 
   // Fonts.
-  set_font();
+  //set_font();
 
   // Grab focus.
   focus_programmatically_being_grabbed = false;
-  gtk_widget_grab_focus(textview);
+  //gtk_widget_grab_focus(textview);
 }
+
 
 Editor2::~Editor2()
 {
@@ -219,7 +239,6 @@ Editor2::~Editor2()
   g_object_unref(texttagtable);
 
   // Destroy the text area.
-  gtk_widget_destroy(scrolledwindow);
   gtk_widget_destroy(scrolledwindow_v2);
 
   // Destroy possible highlight object.
@@ -243,7 +262,7 @@ void Editor2::chapter_load(unsigned int chapter_in)
 // Loads a chapter with the number "chapter_in".
 {
   // No recording of undoable actions while this object is alive.
-  PreventEditorUndo preventundo(&record_undo_level);
+  //PreventEditorUndo preventundo(&record_undo_level);
 
   // Restart the verse tracker.
   restart_verse_tracker();
@@ -264,7 +283,7 @@ void Editor2::chapter_load(unsigned int chapter_in)
     editable = false;
   if (!projectconfig->editable_get())
     editable = false;
-  gtk_text_view_set_editable(GTK_TEXT_VIEW(textview), editable);
+  //gtk_text_view_set_editable(GTK_TEXT_VIEW(textview), editable);
 
   // Make one long line containing the whole chapter.
   // This is done so as to exclude any possibility that the editor does not
@@ -281,29 +300,30 @@ void Editor2::chapter_load(unsigned int chapter_in)
   line.append(" ");
 
   // Load in editor.
-  text_load (line);
+  //text_load (line);
   text_load_v2 (line);
 
   // Clear undo buffer.
-  snapshots.clear();
+  //snapshots.clear();
   
   // Clear the stacks of actions done and redoable.
   clear_and_destroy_editor_actions (actions_done);
   clear_and_destroy_editor_actions (actions_redoable);
 
   // Set the buffer(s) non-modified.
-  textbuffers_set_unmodified(textbuffer, editornotes, editortables);
+  //textbuffers_set_unmodified(textbuffer, editornotes, editortables);
 
   // Place cursor at the start and scroll it onto the screen.
-  GtkTextIter iter;
-  gtk_text_buffer_get_start_iter(textbuffer, &iter);
-  gtk_text_buffer_place_cursor(textbuffer, &iter);
-  scroll_cursor_on_screen ();
+  //GtkTextIter iter;
+  //gtk_text_buffer_get_start_iter(textbuffer, &iter);
+  //gtk_text_buffer_place_cursor(textbuffer, &iter);
+  //scroll_cursor_on_screen ();
 }
 
 
 void Editor2::text_load (ustring text)
 {
+  /*
   // Get rid of possible previous text.
   gtk_text_buffer_set_text(textbuffer, "", -1);
 
@@ -343,12 +363,14 @@ void Editor2::text_load (ustring text)
 
   // Trigger a spelling check.
   spelling_trigger();
+  */
 }
 
 
 void Editor2::chapter_save()
 // Handles saving the chapters.
 {
+  /*
   // Set variables.
   reload_chapter_number = chapter;
 
@@ -383,6 +405,7 @@ void Editor2::chapter_save()
     }
   }
   // Temporal code to compare editor's input and output.
+  */
   /*
      {
      chaptertext.append ("\n");
@@ -401,13 +424,14 @@ void Editor2::chapter_save()
      }
      }
    */
-
+  /*
   // If the text has not yet been dealt with, save it.  
   if (!save_action_is_over) {
     // Clean it up a bit and divide it into lines.
     ParseLine parseline(trim(chaptertext));
     // Add verse information.
     CategorizeChapterVerse ccv(parseline.lines);
+    */
     /*
        We have noticed people editing Bibledit's data directly. 
        If this was done with OpenOffice, and then saving it as text again, 
@@ -417,6 +441,7 @@ void Editor2::chapter_save()
        In addition to this, the user could have edited the chapter number.
        If a change in the chapter number is detected, ask the user what to do.
      */
+    /*
     unsigned int chapter_in_text = chapter;
     for (unsigned int i = 0; i < ccv.chapter.size(); i++) {
       if (ccv.chapter[i] != chapter) {
@@ -465,7 +490,9 @@ void Editor2::chapter_save()
   if (reload) {
     gtk_button_clicked(GTK_BUTTON(reload_signal));
   }
+  */
 }
+
 
 ustring Editor2::text_get_selection()
 // Retrieves the selected text from the textview that has the focus, 
@@ -474,6 +501,7 @@ ustring Editor2::text_get_selection()
   // Variable to hold the USFM text that is going to be produced.
   ustring text;
 
+  /*
   // Get the iterators at the selection bounds of the main textview or note or 
   // table, whichever has the focus. Get the text too.
   GtkTextIter startiter, enditer;
@@ -500,14 +528,17 @@ ustring Editor2::text_get_selection()
       }
     }
   }
-
+  */
+  
   // Return the text.
   return text;
 }
 
+
 void Editor2::text_erase_selection()
 // Erases the selected text from the textview that has the focus.
 {
+  /*
   // Get the iterators at the selection bounds of the main textview or note or 
   // table, whichever has the focus. Erase that bit.
   GtkTextIter startiter, enditer;
@@ -534,6 +565,7 @@ void Editor2::text_erase_selection()
       }
     }
   }
+  */
 }
 
 
@@ -541,6 +573,7 @@ void Editor2::text_insert(ustring text)
 // This inserts plain or USFM text at the cursor location of the focused textview.
 // If text is selected, this is erased first.
 {
+  /*
   // If the text is not editable, bail out.
   if (!editable)
     return;
@@ -632,6 +665,7 @@ void Editor2::text_insert(ustring text)
     gtk_text_buffer_insert_at_cursor (buffer, text.c_str(), -1);
     
   }
+  */
 }
 
 void Editor2::show_quick_references()
@@ -727,6 +761,8 @@ void Editor2::on_textview_cursor_moved()
 ustring Editor2::verse_number_get()
 // Returns the verse number the cursor is in.
 {
+  return "0";
+  /*
   // Get an iterator at the cursor location of the main textview.
   GtkTextIter iter;
   gtk_text_buffer_get_iter_at_mark(textbuffer, &iter, gtk_text_buffer_get_insert(textbuffer));
@@ -755,15 +791,20 @@ ustring Editor2::verse_number_get()
   // Get and return the verse.
   ustring verse_marker = style_get_verse_marker(project);
   return get_verse_number_at_iterator(iter, verse_marker, project);
+  */
 }
+
 
 void Editor2::on_textview_grab_focus(GtkWidget * widget, gpointer user_data)
 {
   ((Editor2 *) user_data)->textview_grab_focus(widget);
 }
 
+
 void Editor2::textview_grab_focus(GtkWidget * widget)
 {
+  last_focused_textview_v2 = widget;
+  /*
   // Focus handling.
   last_focused_widget = widget;
   // Bail out if the focus is grabbed by the program itself.
@@ -774,6 +815,7 @@ void Editor2::textview_grab_focus(GtkWidget * widget)
   // Further processing of the focus grab is done with a delay.
   gw_destroy_source(grab_focus_event_id);
   grab_focus_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 10, GSourceFunc(on_grab_focus_delayer_timeout), gpointer(this), NULL);
+  */
 }
 
 bool Editor2::on_grab_focus_delayer_timeout(gpointer data)
@@ -781,6 +823,7 @@ bool Editor2::on_grab_focus_delayer_timeout(gpointer data)
   ((Editor2 *) data)->on_grab_focus_delayed_handler();
   return false;
 }
+
 
 void Editor2::on_grab_focus_delayed_handler()
 /*
@@ -790,6 +833,7 @@ void Editor2::on_grab_focus_delayed_handler()
  This delayed handler solves that.
  */
 {
+  /*
   grab_focus_event_id = 0;
   signal_if_styles_changed();
   if (recording_undo_actions()) {
@@ -820,6 +864,7 @@ void Editor2::on_grab_focus_delayed_handler()
     }
     child_anchor_clicked = NULL;
   }
+  */
 }
 
 
@@ -885,6 +930,7 @@ bool Editor2::can_redo()
 
 void Editor2::set_font()
 {
+  /*
   // Get a list of all textviews that make up the editor.
   vector < GtkWidget * >textviews;
   textviews.push_back(textview);
@@ -931,6 +977,7 @@ void Editor2::set_font()
       gtk_widget_set_direction(textviews[i], GTK_TEXT_DIR_LTR);
     }
   }
+  */
 }
 
 
@@ -1030,14 +1077,17 @@ void Editor2::text_edit_if_link(GtkWidget * textview, GtkTextIter * iter)
     g_slist_free(tags);
 }
 
+
 gboolean Editor2::text_key_press_event_before(GtkWidget * widget, GdkEventKey * event, gpointer user_data)
 {
   return ((Editor2 *) user_data)->on_text_key_press_event_before(widget, event);
 }
 
+
 gboolean Editor2::on_text_key_press_event_before(GtkWidget * widget, GdkEventKey * event)
 // Preprocessing of the keyboard events in the text editors.
 {
+  /*
   if (keyboard_enter_pressed(event)) {
     // No <Enter> in a crossreference.
     if (last_focused_type() == etvtNote) {
@@ -1082,7 +1132,7 @@ gboolean Editor2::on_text_key_press_event_before(GtkWidget * widget, GdkEventKey
       }
     }
   }
-
+  */
   return false;
 }
 
@@ -1109,14 +1159,17 @@ void Editor2::on_textbuffer_footnotes()
   }
 }
 
+
 gboolean Editor2::on_textview_button_press_event(GtkWidget * widget, GdkEventButton * event, gpointer user_data)
 {
   ((Editor2 *) user_data)->on_texteditor_click(widget, event);
   return false;
 }
 
+
 void Editor2::on_texteditor_click(GtkWidget * widget, GdkEventButton * event)
 {
+  /*
   // Double-clicking sends the word to Toolbox.
   if (event->type == GDK_2BUTTON_PRESS) {
 
@@ -1150,6 +1203,7 @@ void Editor2::on_texteditor_click(GtkWidget * widget, GdkEventButton * event)
       // Further processing of this child anchor is done in the focus grabbed handler.
     }
   }
+  */
 }
 
 void Editor2::create_or_update_formatting_data()
@@ -1411,66 +1465,6 @@ void Editor2::create_or_update_text_style(Style * style, bool paragraph, bool pl
   }
 }
 
-bool Editor2::load_text_not_starting_with_marker(GtkTextBuffer * textbuffer, ustring & line, ustring & paragraph_mark, ustring & character_mark, size_t marker_pos, size_t marker_length, bool marker_found)
-/*
- This function loads text that does not start with a marker.
- It then erases that bit of text from the input.
- In order to get things right, it loads the text with the prevailing
- paragraph and character markup.
- */
-{
-  // Proceed if a marker was found not at the start of a line.
-  if (marker_found) {
-    if (marker_pos != string::npos) {
-      if (marker_pos > 0) {
-        ustring text(line.substr(0, marker_pos));
-        line.erase(0, marker_pos);
-        text_append(textbuffer, text, paragraph_mark, character_mark);
-        return true;
-      }
-    }
-  }
-  return false;
-}
-
-bool Editor2::load_text_starting_new_paragraph(GtkTextBuffer * textbuffer, ustring & line, ustring & paragraph_mark, ustring & character_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
-/*
- This function deals with a marker that starts a paragraph.
- It does the administration that starting the paragraph requires.
- */
-{
-  if (marker_found) {
-    if (marker_pos == 0) {
-      if (is_opener) {
-        StyleType type;
-        int subtype;
-        marker_get_type_and_subtype(project, marker, type, subtype);
-        if (style_get_starts_new_line_in_editor(type, subtype)) {
-          // Because the ends of lines are changed to spaces, and these spaces
-          // get inserted in the editor, if a new line starts, we need to trim
-          // away the extra space at the end. This is done here.
-          textbuffer_erase_character_before_text_insertion_point_if_space(textbuffer);
-          // Insert a new line with the still prevailing markup, if the buffer is empty.
-          if (!textbuffer_empty(textbuffer))
-            text_append(textbuffer, "\n", paragraph_mark, character_mark);
-          // Set the new paragraph and character markup.
-          paragraph_mark = marker;
-          character_mark.clear();
-          // Some styles insert their marker: Do that here if appropriate.
-          if (style_get_displays_marker(type, subtype)) {
-            text_append(textbuffer, line.substr(0, marker_length), paragraph_mark, "");
-          }
-          // Remove the markup from the line.
-          line.erase(0, marker_length);
-          // The information was processed: return true.
-          return true;
-        }
-      }
-    }
-  }
-  return false;
-}
-
 bool Editor2::load_text_starting_character_style(GtkTextBuffer * textbuffer, ustring & line, ustring & paragraph_mark, ustring & character_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
 /*
  This function deals with a marker that starts a character style.
@@ -1488,7 +1482,7 @@ bool Editor2::load_text_starting_character_style(GtkTextBuffer * textbuffer, ust
           character_mark = marker;
           // Some styles insert their marker: Do that here if appropriate.
           if (style_get_displays_marker(type, subtype)) {
-            text_append(textbuffer, line.substr(0, marker_length), paragraph_mark, character_mark);
+            editor_text_append(textbuffer, line.substr(0, marker_length), paragraph_mark, character_mark);
           }
           // Remove the markup from the line.
           line.erase(0, marker_length);
@@ -1518,7 +1512,7 @@ bool Editor2::load_text_ending_character_style(GtkTextBuffer * textbuffer, ustri
           character_mark.clear();
           // Some styles insert their marker: Do that here if appropriate.
           if (style_get_displays_marker(type, subtype)) {
-            text_append(textbuffer, line.substr(0, marker_length), paragraph_mark, character_mark);
+            editor_text_append(textbuffer, line.substr(0, marker_length), paragraph_mark, character_mark);
           }
           // Remove the markup from the line.
           line.erase(0, marker_length);
@@ -1552,7 +1546,7 @@ bool Editor2::load_text_verse_number(ustring & line, ustring & paragraph_mark, u
           character_mark.clear();
           // Some styles insert their marker: Do that here if appropriate.
           if (style_get_displays_marker(type, subtype)) {
-            text_append(textbuffer, line.substr(0, marker_length), paragraph_mark, "");
+            //editor_text_append(textbuffer, line.substr(0, marker_length), paragraph_mark, "");
           }
           // Remove the markup from the line.
           line.erase(0, marker_length);
@@ -1562,7 +1556,7 @@ bool Editor2::load_text_verse_number(ustring & line, ustring & paragraph_mark, u
             position = line.length();
           ustring versenumber = line.substr(0, position);
           // Display the verse and erase it from the input buffer.
-          text_append(textbuffer, versenumber, paragraph_mark, marker);
+          //editor_text_append(textbuffer, versenumber, paragraph_mark, marker);
           line.erase(0, position);
           // The information was processed: return true.
           return true;
@@ -1605,6 +1599,7 @@ bool Editor2::load_text_note_raw(ustring & line, const ustring & marker, size_t 
   return false;
 }
 
+
 bool Editor2::load_text_table_raw(ustring & line, const ustring & paragraph_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
 // This function loads the raw text of a table.
 {
@@ -1641,10 +1636,12 @@ bool Editor2::load_text_table_raw(ustring & line, const ustring & paragraph_mark
             rawtable = line.substr(0, pos);
             line.erase(0, pos);
           }
+          /*
           // Display the table
           GtkTextIter iter;
           gtk_text_buffer_get_iter_at_mark(textbuffer, &iter, gtk_text_buffer_get_insert(textbuffer));
           display_table(rawtable, iter);
+          */
           // The information was processed: return true.
           return true;
         }
@@ -1653,6 +1650,7 @@ bool Editor2::load_text_table_raw(ustring & line, const ustring & paragraph_mark
   }
   return false;
 }
+
 
 bool Editor2::load_text_table_starting_row(ustring & line, EditorTable & editortable, GtkTextBuffer * &textbuffer, bool & row_zero_initialized, gint & row, gint & column, ustring & paragraph_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
 /*
@@ -1679,7 +1677,7 @@ bool Editor2::load_text_table_starting_row(ustring & line, EditorTable & editort
           // Initialize the paragraph mark.
           paragraph_mark = unknown_style();
           if (style_get_displays_marker(type, subtype)) {
-            text_append(textbuffer, line.substr(0, marker_length), paragraph_mark, "");
+            editor_text_append(textbuffer, line.substr(0, marker_length), paragraph_mark, "");
           }
           line.erase(0, marker_length);
           return true;
@@ -1715,7 +1713,7 @@ bool Editor2::load_text_table_starting_cell(ustring & line, EditorTable & editor
           textbuffer = table_cell_get_buffer(editortable, row, column);
           paragraph_mark = marker;
           if (style_get_displays_marker(type, subtype)) {
-            text_append(textbuffer, line.substr(0, marker_length), paragraph_mark, "");
+            editor_text_append(textbuffer, line.substr(0, marker_length), paragraph_mark, "");
           }
           line.erase(0, marker_length);
           return true;
@@ -1743,7 +1741,7 @@ bool Editor2::load_text_starting_footnote_content(GtkTextBuffer * textbuffer, us
           character_mark = marker;
           // Some styles insert their marker: Do that here if appropriate.
           if (style_get_displays_marker(type, subtype)) {
-            text_append(textbuffer, line.substr(0, marker_length), paragraph_mark, character_mark);
+            editor_text_append(textbuffer, line.substr(0, marker_length), paragraph_mark, character_mark);
           }
           // Remove the markup from the line.
           line.erase(0, marker_length);
@@ -1771,7 +1769,7 @@ bool Editor2::load_text_ending_footnote_content(GtkTextBuffer * textbuffer, ustr
         if (style_get_starts_note_content(type, subtype)) {
           // Some styles insert their marker: Do that here if appropriate.
           if (style_get_displays_marker(type, subtype)) {
-            text_append(textbuffer, line.substr(0, marker_length), paragraph_mark, character_mark);
+            editor_text_append(textbuffer, line.substr(0, marker_length), paragraph_mark, character_mark);
           }
           // Clear the existing character markup (the paragraph markup remains the same).
           character_mark.clear();
@@ -1786,20 +1784,6 @@ bool Editor2::load_text_ending_footnote_content(GtkTextBuffer * textbuffer, ustr
   return false;
 }
 
-void Editor2::load_text_with_unknown_markup(GtkTextBuffer * textbuffer, ustring & line, ustring & paragraph_mark, ustring & character_mark)
-/*
- This function loads text with unknown markup in the formatted view.
- It is a fallback function that gets called when everything else has failed.
- Basically it just takes one character from the available text, 
- and loads it into the formatted view with the prevailing markup.
- By taking only one character at a time it is hoped that one of the next times,
- the lines gives enough markup information again to be handled properly.
- */
-{
-  ustring one_character(line.substr(0, 1));
-  line.erase(0, 1);
-  text_append(textbuffer, one_character, paragraph_mark, character_mark);
-}
 
 void Editor2::load_text_ensure_normal_paragraph(ustring & line, ustring & paragraph_mark, ustring & character_mark)
 /*
@@ -1827,13 +1811,15 @@ void Editor2::load_text_ensure_normal_paragraph(ustring & line, ustring & paragr
 
   // Insert the marker in the line, and apply it.
   line.insert(0, usfm_get_full_opening_marker(marker));
-  load_text_starting_new_paragraph(textbuffer, line, paragraph_mark, character_mark, marker, 0, usfm_get_full_opening_marker(marker).length(), true, true);
+  //load_text_starting_new_paragraph(textbuffer, line, paragraph_mark, character_mark, marker, 0, usfm_get_full_opening_marker(marker).length(), true, true);
 }
+
 
 void Editor2::erase_related_note_bits()
 {
+  /*
   // Collect data for note bits and the editor objects to be removed.
-  vector < GtkTextChildAnchor * >related_anchors;
+   vector < GtkTextChildAnchor * >related_anchors;
   set < int >objects_to_remove;
   for (unsigned int i = 0; i < editornotes.size(); i++) {
     if (text_child_anchors_being_deleted.find(editornotes[i].childanchor_caller_text) != text_child_anchors_being_deleted.end()) {
@@ -1885,7 +1871,9 @@ void Editor2::erase_related_note_bits()
 
   // If notes were deleted, renumber possible remaining notes.
   renumber_and_clean_notes_callers();
+  */
 }
+
 
 void Editor2::display_notes_remainder(bool focus_rendered_textview)
 /*
@@ -1901,6 +1889,7 @@ void Editor2::display_notes_remainder(bool focus_rendered_textview)
  leaving the other ones untouched.
  */
 {
+  /*
   // Bail out if there are no notes to be displayed.
   if (editornotes.empty())
     return;
@@ -1910,7 +1899,7 @@ void Editor2::display_notes_remainder(bool focus_rendered_textview)
 
   // Clean unwanted space out.
   textbuffer_erase_white_space_at_end(textbuffer);
-
+  */
   /*
      Insert a little space between the body of the text and the first note. 
      This could be done using a tag that has the "editable" property set to false,
@@ -1921,6 +1910,7 @@ void Editor2::display_notes_remainder(bool focus_rendered_textview)
      This little space only needs to be inserted in the case that no notes have
      been rendered yet.
    */
+  /*
   bool no_notes_rendered_yet = true;
   for (unsigned int i = 0; i < editornotes.size(); i++) {
     if (editornotes[i].textview)
@@ -1971,14 +1961,14 @@ void Editor2::display_notes_remainder(bool focus_rendered_textview)
     editornotes[i].textbuffer = gtk_text_buffer_new(texttagtable);
 
     // Signal handlers for the textbuffer.
-    g_signal_connect(G_OBJECT(editornotes[i].textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_before), gpointer(this));
-    g_signal_connect_after(G_OBJECT(editornotes[i].textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_after), gpointer(this));
-    g_signal_connect(G_OBJECT(editornotes[i].textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_before), gpointer(this));
-    g_signal_connect_after(G_OBJECT(editornotes[i].textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_after), gpointer(this));
-    g_signal_connect(G_OBJECT(editornotes[i].textbuffer), "apply-tag", G_CALLBACK(on_buffer_apply_tag), gpointer(this));
-    g_signal_connect(G_OBJECT(editornotes[i].textbuffer), "remove-tag", G_CALLBACK(on_buffer_remove_tag), gpointer(this));
-    g_signal_connect(G_OBJECT(editornotes[i].textbuffer), "changed", G_CALLBACK(on_textbuffer_footnotes_changed), gpointer(this));
-    g_signal_connect(G_OBJECT(editornotes[i].textbuffer), "changed", G_CALLBACK(on_textbuffer_changed), gpointer(this));
+    //g_signal_connect(G_OBJECT(editornotes[i].textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_before), gpointer(this));
+    //g_signal_connect_after(G_OBJECT(editornotes[i].textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_after), gpointer(this));
+    //g_signal_connect(G_OBJECT(editornotes[i].textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_before), gpointer(this));
+    //g_signal_connect_after(G_OBJECT(editornotes[i].textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_after), gpointer(this));
+    //g_signal_connect(G_OBJECT(editornotes[i].textbuffer), "apply-tag", G_CALLBACK(on_buffer_apply_tag), gpointer(this));
+    //g_signal_connect(G_OBJECT(editornotes[i].textbuffer), "remove-tag", G_CALLBACK(on_buffer_remove_tag), gpointer(this));
+    //g_signal_connect(G_OBJECT(editornotes[i].textbuffer), "changed", G_CALLBACK(on_textbuffer_footnotes_changed), gpointer(this));
+    //g_signal_connect(G_OBJECT(editornotes[i].textbuffer), "changed", G_CALLBACK(on_textbuffer_changed), gpointer(this));
 
     // A text view to display the buffer.
     editornotes[i].textview = gtk_text_view_new_with_buffer(editornotes[i].textbuffer);
@@ -2043,12 +2033,14 @@ void Editor2::display_notes_remainder(bool focus_rendered_textview)
 
   // Set fonts.
   set_font();
+  */
 }
 
 void Editor2::renumber_and_clean_notes_callers()
 // Renumbers the note callers.
 // At the same time clear up unwanted stuff.
 {
+  /*
   // Get the different markers we have.
   vector < ustring > note_openers;
   {
@@ -2140,11 +2132,14 @@ void Editor2::renumber_and_clean_notes_callers()
   GtkTextIter iter2;
   gtk_text_buffer_get_end_iter(textbuffer, &iter2);
   gtk_text_buffer_remove_all_tags(textbuffer, &iter, &iter2);
+  */
 }
+
 
 void Editor2::display_table(ustring line, GtkTextIter iter)
 // Displays a table, inserting it at "iter". The raw USFM code is in "line".
 {
+  /*
   // Find out the number of columns and rows in this table.
   vector < ustring > markers = usfm_get_all_markers(line);
   int rowcount = 0;
@@ -2198,14 +2193,14 @@ void Editor2::display_table(ustring line, GtkTextIter iter)
       g_signal_connect((gpointer) textview, "key-press-event", G_CALLBACK(text_key_press_event_before), gpointer(this));
       g_signal_connect_after((gpointer) textview, "key-press-event", G_CALLBACK(text_key_press_event_after), gpointer(this));
       g_signal_connect((gpointer) textview, "button_press_event", G_CALLBACK(on_textview_button_press_event), gpointer(this));
-      GtkTextBuffer *textbuffer = table_cell_get_buffer(editortable, row, column);
-      g_signal_connect(G_OBJECT(textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_before), gpointer(this));
-      g_signal_connect_after(G_OBJECT(textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_after), gpointer(this));
-      g_signal_connect(G_OBJECT(textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_before), gpointer(this));
-      g_signal_connect_after(G_OBJECT(textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_after), gpointer(this));
-      g_signal_connect(G_OBJECT(textbuffer), "apply-tag", G_CALLBACK(on_buffer_apply_tag), gpointer(this));
-      g_signal_connect(G_OBJECT(textbuffer), "remove-tag", G_CALLBACK(on_buffer_remove_tag), gpointer(this));
-      g_signal_connect(G_OBJECT(textbuffer), "changed", G_CALLBACK(on_textbuffer_changed), gpointer(this));
+      //GtkTextBuffer *textbuffer = table_cell_get_buffer(editortable, row, column);
+      //g_signal_connect(G_OBJECT(textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_before), gpointer(this));
+      //g_signal_connect_after(G_OBJECT(textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_after), gpointer(this));
+      //g_signal_connect(G_OBJECT(textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_before), gpointer(this));
+      //g_signal_connect_after(G_OBJECT(textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_after), gpointer(this));
+      //g_signal_connect(G_OBJECT(textbuffer), "apply-tag", G_CALLBACK(on_buffer_apply_tag), gpointer(this));
+      //g_signal_connect(G_OBJECT(textbuffer), "remove-tag", G_CALLBACK(on_buffer_remove_tag), gpointer(this));
+      //g_signal_connect(G_OBJECT(textbuffer), "changed", G_CALLBACK(on_textbuffer_changed), gpointer(this));
     }
   }
 
@@ -2246,6 +2241,7 @@ void Editor2::display_table(ustring line, GtkTextIter iter)
 
   // Set the table's width.
   set_embedded_table_textviews_width(editortables.size() - 1);
+  */
 }
 
 void Editor2::erase_tables()
@@ -2293,6 +2289,7 @@ bool Editor2::on_related_widget_size_allocated_timeout(gpointer user_data)
 
 void Editor2::related_widget_size_allocated_timeout()
 {
+  /*
   related_widget_size_allocated_event_id = 0;
 
   bool set_notes_width = false;
@@ -2343,6 +2340,7 @@ void Editor2::related_widget_size_allocated_timeout()
       set_embedded_table_textviews_width(i);
     }
   }
+  */
 }
 
 
@@ -2403,17 +2401,25 @@ void Editor2::on_buffer_insert_text_before(GtkTextBuffer * textbuffer, GtkTextIt
   ((Editor2 *) user_data)->buffer_insert_text_before(textbuffer, pos_iter, text, length);
 }
 
+
 void Editor2::buffer_insert_text_before(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, gchar * text, gint length)
 {
+  
 }
+
 
 void Editor2::on_buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, gchar * text, gint length, gpointer user_data)
 {
   ((Editor2 *) user_data)->buffer_insert_text_after(textbuffer, pos_iter, text, length);
 }
 
+
 void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, gchar * text, gint length)
 {
+  
+  
+  return;
+  
   // Bail out if no undoes are to be recorded.
   if (!recording_undo_actions())
     return;
@@ -2545,88 +2551,110 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
   }
 }
 
+
 void Editor2::on_buffer_delete_range_before(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end, gpointer user_data)
 {
   ((Editor2 *) user_data)->buffer_delete_range_before(textbuffer, start, end);
 
 }
 
+
 void Editor2::buffer_delete_range_before(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end)
 {
   // Handle deleting footnotes.
-  collect_text_child_anchors_being_deleted(start, end);
+  //collect_text_child_anchors_being_deleted(start, end);
 }
+
 
 void Editor2::on_buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end, gpointer user_data)
 {
   ((Editor2 *) user_data)->buffer_delete_range_after(textbuffer, start, end);
 }
 
+
 void Editor2::buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end)
 {
-  signal_editor_changed();
-  process_text_child_anchors_deleted();
+  //signal_editor_changed();
+  //process_text_child_anchors_deleted();
 }
+
 
 void Editor2::on_buffer_apply_tag(GtkTextBuffer * textbuffer, GtkTextTag * tag, GtkTextIter * startiter, GtkTextIter * enditer, gpointer user_data)
 {
   ((Editor2 *) user_data)->buffer_apply_tag(textbuffer, tag, startiter, enditer);
 }
 
+
 void Editor2::buffer_apply_tag(GtkTextBuffer * textbuffer, GtkTextTag * tag, GtkTextIter * startiter, GtkTextIter * enditer)
 {
+  /*
   // Only proceed if undo-able actions are to be recorded.
   if (recording_undo_actions()) {
     signal_editor_changed();
     gtk_text_buffer_set_modified(textbuffer, true);
     trigger_undo_redo_recording ();
   }
+  */
 }
+
 
 void Editor2::on_buffer_remove_tag(GtkTextBuffer * textbuffer, GtkTextTag * tag, GtkTextIter * startiter, GtkTextIter * enditer, gpointer user_data)
 {
   ((Editor2 *) user_data)->buffer_remove_tag(textbuffer, tag, startiter, enditer);
 }
 
+
 void Editor2::buffer_remove_tag(GtkTextBuffer * textbuffer, GtkTextTag * tag, GtkTextIter * startiter, GtkTextIter * enditer)
 {
+  /*
   // Only proceed if undo-able actions are to be recorded.
   if (recording_undo_actions()) {
     signal_editor_changed();
     gtk_text_buffer_set_modified(textbuffer, true);
     trigger_undo_redo_recording ();
   }
+  */
 }
+
 
 void Editor2::on_buffer_insert_child_anchor(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, GtkTextChildAnchor * childanchor, gpointer user_data)
 {
   ((Editor2 *) user_data)->buffer_insert_child_anchor(textbuffer, pos_iter, childanchor);
 }
 
+
 void Editor2::buffer_insert_child_anchor(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, GtkTextChildAnchor * childanchor)
 {
+  /*
   // Only proceed if undo-able actions are to be recorded.
   if (recording_undo_actions()) {
     signal_editor_changed();
     trigger_undo_redo_recording ();
   }
+  */
 }
+
 
 void Editor2::on_buffer_insert_pixbuf(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, GdkPixbuf * pixbuf, gpointer user_data)
 {
   ((Editor2 *) user_data)->buffer_insert_pixbuf(textbuffer, pos_iter, pixbuf);
 }
 
+
 void Editor2::buffer_insert_pixbuf(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, GdkPixbuf * pixbuf)
 {
+  /*
   // Signal that the editor changed.
   signal_editor_changed();
   trigger_undo_redo_recording ();
+  */
 }
+
 
 void Editor2::collect_text_child_anchors_being_deleted(GtkTextIter * startiter, GtkTextIter * enditer)
 // This function stores the GtkTextChildAnchors that are being deleted.
 {
+  /*
   if (do_not_process_child_anchors_being_deleted)
     return;
   GtkTextIter iter = *startiter;
@@ -2636,11 +2664,14 @@ void Editor2::collect_text_child_anchors_being_deleted(GtkTextIter * startiter, 
       text_child_anchors_being_deleted.insert(anchor);
     gtk_text_iter_forward_char(&iter);
   } while (gtk_text_iter_in_range(&iter, startiter, enditer));
+  */
 }
+
 
 void Editor2::process_text_child_anchors_deleted()
 // This function processes the GtkTextChildAnchors that have been deleted.
 {
+  /*
   if (do_not_process_child_anchors_being_deleted)
     return;
   if (!text_child_anchors_being_deleted.empty()) {
@@ -2648,17 +2679,7 @@ void Editor2::process_text_child_anchors_deleted()
     erase_tables();
   }
   text_child_anchors_being_deleted.clear();
-}
-
-void Editor2::text_append(GtkTextBuffer * textbuffer, const ustring & text, const ustring & paragraph_style, const ustring & character_style)
-// This function appends text to the textbuffer.
-// It inserts the text at the cursor.
-{
-  // Get the iterator at the text insertion point.
-  GtkTextIter insertiter;
-  gtk_text_buffer_get_iter_at_mark(textbuffer, &insertiter, gtk_text_buffer_get_insert(textbuffer));
-  // Insert text together with the style(s).
-  textbuffer_insert_with_named_tags(textbuffer, &insertiter, text, paragraph_style, character_style);
+  */
 }
 
 
@@ -2680,6 +2701,7 @@ set < ustring > Editor2::get_styles_at_cursor()
   // Hold the styles.
   set < ustring > styles;
 
+  /*
   // Get the iterators at the selection bounds of the main textview or note or table.
   GtkTextIter startiter, enditer;
   gtk_text_buffer_get_selection_bounds(textbuffer, &startiter, &enditer);
@@ -2716,7 +2738,8 @@ set < ustring > Editor2::get_styles_at_cursor()
       styles.insert(characterstyle);
     gtk_text_iter_forward_char(&iter);
   } while (gtk_text_iter_in_range(&iter, &startiter, &enditer));
-
+  */
+  
   // Return the list.
   return styles;
 }
@@ -2747,10 +2770,12 @@ GtkWidget *Editor2::last_focused_textview()
   return last_focused_widget;
 }
 
+
 EditorTextViewType Editor2::last_focused_type()
 // Returns the type of the textview that was focused most recently.
 // This could be the main body of text, or a note, or a table.
-{
+{ 
+  /*
   if (last_focused_widget == textview) {
     return etvtBody;
   }
@@ -2768,8 +2793,10 @@ EditorTextViewType Editor2::last_focused_type()
       }
     }
   }
+  */
   return etvtBody;
 }
+
 
 unsigned int Editor2::last_focused_column()
 // In case the last focused widget is a table cell,
@@ -3006,6 +3033,7 @@ void Editor2::insert_note(const ustring & marker, const ustring & rawtext, bool 
  render:    Whether to render the notes straightaway.
  */
 {
+  /*
   // Create the object for holding the data related to this note.
   EditorNote editornote(0);
 
@@ -3067,6 +3095,7 @@ void Editor2::insert_note(const ustring & marker, const ustring & rawtext, bool 
     display_notes_remainder(true);
     renumber_and_clean_notes_callers();
   }
+  */
 }
 
 
@@ -3077,6 +3106,7 @@ void Editor2::insert_table(const ustring & rawtext, GtkTextIter * iter)
  iter:    Where to insert the note. If NULL, it inserts the note at the cursor.
  */
 {
+  /*
   // Get the location where to insert the note caller.
   GtkTextIter insertiter;
   if (iter)
@@ -3086,7 +3116,7 @@ void Editor2::insert_table(const ustring & rawtext, GtkTextIter * iter)
 
   // Insert the table at that location.  
   display_table(rawtext, insertiter);
-
+  */
 }
 
 
@@ -3094,6 +3124,7 @@ void Editor2::restore_snapshot(int pointer, bool undo)
 // Restores a snapshot into the text buffer.
 // undo: whether this is called from an undo routine.
 {
+  /*
   // No recording of undoable actions while this object is alive.
   PreventEditorUndo preventundo(&record_undo_level);
 
@@ -3117,6 +3148,7 @@ void Editor2::restore_snapshot(int pointer, bool undo)
   GtkAdjustment * adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolledwindow));
   gtk_adjustment_set_value (adjustment, snapshot.scroll);
   scroll_cursor_on_screen ();
+  */
 }
 
 
@@ -3161,6 +3193,7 @@ void Editor2::textbuffer_changed_timeout()
   // Clear the event id.
   textbuffer_changed_event_id = 0;
 
+  /*
   // Create a new Snapshot object.
   EditorSnapshot snapshot (0);
 
@@ -3191,7 +3224,7 @@ void Editor2::textbuffer_changed_timeout()
   if (snapshots.size() > 100) {
     snapshots.pop_front();
   }  
- 
+  */ 
   // Reset the redo counter.
   redo_counter = 0;
 }
@@ -3204,8 +3237,8 @@ void Editor2::highlight_searchwords()
   if (highlight)
     delete highlight;
   // Create a new object.
-  highlight = new Highlight(textbuffer, textview, project, editornotes, editortables, reference_tag, current_verse_number);
-  g_thread_create(GThreadFunc(highlight_thread_start), gpointer(this), false, NULL);
+  //highlight = new Highlight(textbuffer, textview, project, editornotes, editortables, reference_tag, current_verse_number);
+  //g_thread_create(GThreadFunc(highlight_thread_start), gpointer(this), false, NULL);
 }
 
 bool Editor2::on_highlight_timeout(gpointer data)
@@ -3254,12 +3287,16 @@ void Editor2::signal_editor_changed()
 
 ustring Editor2::get_chapter()
 {
+  /*
   GtkTextIter startiter, enditer;
   gtk_text_buffer_get_start_iter(textbuffer, &startiter);
   gtk_text_buffer_get_end_iter(textbuffer, &enditer);
+  */
   ustring chaptertext;
+  /*
   usfm_get_text(textbuffer, startiter, enditer, &editornotes, &editortables, project, chaptertext, verse_restarts_paragraph);
   replace_text(chaptertext, "  ", " ");
+  */
   return chaptertext;
 }
 
@@ -3288,9 +3325,11 @@ bool Editor2::on_spelling_timeout(gpointer data)
 
 void Editor2::spelling_timeout()
 {
+
   // Clear event id.
   spelling_timeout_event_id = 0;
-    
+
+  /*    
   // No recording of undoable actions while this object is alive.
   // It means that the textbuffer won't be modified if markers for spelling
   // mistakes are added or removed.
@@ -3311,6 +3350,7 @@ void Editor2::spelling_timeout()
   }
   // Signal spelling checked.
   gtk_button_clicked (GTK_BUTTON (spelling_checked_signal));
+  */
 }
 
 
@@ -3334,6 +3374,7 @@ vector <ustring> Editor2::spelling_get_misspelled ()
 {
   // Collect the misspelled words.
   vector <ustring> words;
+  /*
   words = spellingchecker->get_misspellings(textbuffer);
   for (unsigned int i = 0; i < editortables.size(); i++) {
     for (unsigned int row = 0; row < editortables[i].textbuffers.size(); row++) {
@@ -3351,6 +3392,7 @@ vector <ustring> Editor2::spelling_get_misspelled ()
       words.push_back (words2[i2]);
     }
   }
+  */
   // Remove double ones.
   set <ustring> wordset (words.begin (), words.end());
   words.clear();
@@ -3377,6 +3419,7 @@ void Editor2::spelling_approve (const vector <ustring>& words)
 
 void Editor2::check_move_textview_to_textview()
 {
+  /*
   // Bail out if there was no change of textview in which the cursor was moved.
   bool changed = texview_to_textview_new != texview_to_textview_old;
   texview_to_textview_old = texview_to_textview_new;
@@ -3438,13 +3481,14 @@ void Editor2::check_move_textview_to_textview()
     gtk_widget_grab_focus(nextview);
     return;
   }
-
+  */
 }
 
 void Editor2::position_cursor_at_verse(const ustring & cursorposition, bool focus)
 // This function starts the procedure to move the cursor of the editor to the 
 // verse given.
 {
+  /*
   // Save the current verse.
   current_verse_number = cursorposition;
 
@@ -3513,6 +3557,7 @@ void Editor2::position_cursor_at_verse(const ustring & cursorposition, bool focu
     // Highlight search words.
     highlight_searchwords();
   }
+  */
 }
 
 void Editor2::restart_verse_tracker()
@@ -3552,6 +3597,7 @@ bool Editor2::on_verse_tracker_timeout(gpointer data)
 bool Editor2::verse_tracker_timeout()
 // Regular verse tracker.
 {
+  /*
   if (!verse_tracker_on) {
     verse_tracker_on = true;
     position_cursor_at_verse(current_verse_number, true);
@@ -3574,7 +3620,7 @@ bool Editor2::verse_tracker_timeout()
       }
     }    
   }
-
+  */
   // Next iteration.
   return true;
 }
@@ -3584,11 +3630,14 @@ bool Editor2::move_cursor_to_spelling_error (bool next, bool extremity)
 // Move the cursor to the next (or previous) spelling error.
 // Returns true if it was found, else false.
 {
+  /*
   bool moved = spellingchecker->move_cursor_to_spelling_error (textbuffer, next, extremity);
   if (moved) {
     scroll_cursor_on_screen ();
   }
   return moved;
+  */
+  return false;
 }
 
 
@@ -3612,8 +3661,8 @@ bool Editor2::on_scroll_cursor_on_screen_timeout(gpointer data)
 
 void Editor2::scroll_cursor_on_screen_timeout()
 {
-  GtkTextMark * mark = gtk_text_buffer_get_insert(textbuffer);
-  textview_scroll_to_mark (GTK_TEXT_VIEW (textview), mark, true);
+  //GtkTextMark * mark = gtk_text_buffer_get_insert(textbuffer);
+  //textview_scroll_to_mark (GTK_TEXT_VIEW (textview), mark, true);
 }
 
 
@@ -3622,11 +3671,11 @@ void Editor2::text_load_v2 (ustring text) // Todo
   // Clean away possible new lines.
   replace_text (text, "\n", " ");
 
-  // Get rid of possible previous data in the Editor. This action cannot be undone: No EditorAction is created.
+  // Get rid of possible previous data in the Editor.
   gtk_container_foreach(GTK_CONTAINER(vbox_v2), on_container_tree_callback_destroy, gpointer(this));
+  last_focused_textview_v2 = NULL;
 
-  // Create EditorActions from the input text.
-
+  // Simulate the user typing the input text.
   ustring paragraph_mark(unknown_style());
   ustring character_mark;
   ustring marker;
@@ -3635,20 +3684,26 @@ void Editor2::text_load_v2 (ustring text) // Todo
   bool is_opener;
   bool marker_found;
   while (!text.empty()) {
+
+    if (last_focused_textview_v2 == NULL) {
+      EditorAction action (eatCreateParagraphWidget);
+      apply_editor_action (&action);
+    }
+
     deque <EditorAction *> editoractions;
     marker_found = usfm_search_marker(text, marker, marker_pos, marker_length, is_opener);
-    if (create_action_objects_for_text_not_starting_with_marker(textbuffer, text, paragraph_mark, character_mark, marker_pos, marker_length, marker_found)) ;
+    if (load_text_not_starting_with_marker(last_focused_textview_v2, text, paragraph_mark, character_mark, marker_pos, marker_length, marker_found)) ;
     /*
     else if (load_text_table_raw(text, paragraph_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
     */
-    else if (create_action_objects_for_text_starting_new_paragraph(project, editoractions, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
+    else if (load_text_starting_new_paragraph(project, last_focused_textview_v2, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ; // Todo
     /*
     else if (load_text_starting_character_style(textbuffer, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
     else if (load_text_ending_character_style(textbuffer, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
     else if (load_text_verse_number(text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
     else if (load_text_note_raw(text, marker, marker_pos, marker_length, is_opener, marker_found)) ;
     */
-    else create_action_objects_for_text_with_unknown_markup(textbuffer, text, paragraph_mark, character_mark);
+    else load_text_with_unknown_markup(last_focused_textview_v2, text, paragraph_mark, character_mark);
     for (unsigned int i = 0; i < editoractions.size(); i++) {
       EditorAction * editoraction = editoractions[i];
       apply_editor_action (editoraction);
@@ -3664,8 +3719,6 @@ void Editor2::text_load_v2 (ustring text) // Todo
 }
 
 
-// Todo We go back to just entering text into the widgets. This translates into editor actions, which are then applied.
-
 void Editor2::apply_editor_action (EditorAction * action)
 {
   cout << "applying editor action" << endl; // Todo
@@ -3673,13 +3726,50 @@ void Editor2::apply_editor_action (EditorAction * action)
   switch (action->type) {
     case eatCreateParagraphWidget: // Todo to implement.
     {
-      // Add a new textview to the GUI.
+      // A new textbuffer that uses the text tag table.
+      GtkTextBuffer * textbuffer;
+      textbuffer = gtk_text_buffer_new(texttagtable);
+
+      // The buffer's signal handlers.
+      g_signal_connect(G_OBJECT(textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_before), gpointer(this));
+      g_signal_connect_after(G_OBJECT(textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_after), gpointer(this));
+      g_signal_connect(G_OBJECT(textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_before), gpointer(this)); // Todo working here.
+      g_signal_connect_after(G_OBJECT(textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_after), gpointer(this));
+      g_signal_connect(G_OBJECT(textbuffer), "apply-tag", G_CALLBACK(on_buffer_apply_tag), gpointer(this));
+      g_signal_connect(G_OBJECT(textbuffer), "remove-tag", G_CALLBACK(on_buffer_remove_tag), gpointer(this));
+      g_signal_connect(G_OBJECT(textbuffer), "insert-child-anchor", G_CALLBACK(on_buffer_insert_child_anchor), gpointer(this));
+      g_signal_connect(G_OBJECT(textbuffer), "insert-pixbuf", G_CALLBACK(on_buffer_insert_pixbuf), gpointer(this));
+
+      // Add a new text view to the GUI to view the text buffer.
       GtkWidget *textview;
-      textview = gtk_text_view_new();
+      textview = gtk_text_view_new_with_buffer(textbuffer);
       gtk_widget_show(textview);
       gtk_box_pack_start(GTK_BOX(vbox_v2), textview, false, false, 0);
+
+      // Set some parameters of the view.
+      gtk_text_view_set_accepts_tab(GTK_TEXT_VIEW(textview), FALSE);
+      gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textview), GTK_WRAP_WORD);
+      gtk_text_view_set_editable(GTK_TEXT_VIEW(textview), editable);
+      gtk_text_view_set_left_margin(GTK_TEXT_VIEW(textview), 5);
+      gtk_text_view_set_right_margin(GTK_TEXT_VIEW(textview), 5);
+
+      // Connect to the signals.
+      spellingchecker->attach(textview);
+      g_signal_connect_after((gpointer) textview, "move_cursor", G_CALLBACK(on_textview_move_cursor), gpointer(this));
+      g_signal_connect((gpointer) textview, "motion-notify-event", G_CALLBACK(on_text_motion_notify_event), gpointer(this));
+      //g_signal_connect((gpointer) textview, "event-after", G_CALLBACK(on_text_event_after), gpointer(this));
+      //g_signal_connect((gpointer) textview, "key-press-event", G_CALLBACK(text_key_press_event_before), gpointer(this));
+      //g_signal_connect_after((gpointer) textview, "key-press-event", G_CALLBACK(text_key_press_event_after), gpointer(this));
+      //g_signal_connect((gpointer) textview, "visibility-notify-event", G_CALLBACK(screen_visibility_notify_event), gpointer(this));
+      //g_signal_connect((gpointer) textview, "button_press_event", G_CALLBACK(on_textview_button_press_event), gpointer(this));
+      //g_signal_connect((gpointer) textview, "size-allocate", G_CALLBACK(on_related_widget_size_allocated), gpointer(this));
+      g_signal_connect_after((gpointer) textview, "grab_focus", G_CALLBACK(on_textview_grab_focus), gpointer(this));
+
+      // Grab its focus so that it is the text view that the user will type in.
+      gtk_widget_grab_focus (textview);
       // Store a pointer to it.
       action->my_pointer = gpointer (textview);
+
       break;
     }
     case eatSetParagraphWidgetStyle: // Todo to implement.

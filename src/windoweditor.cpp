@@ -741,7 +741,7 @@ void WindowEditor::switch_to_view (bool viewusfm, ustring project)
   extern Settings * settings;
   if (settings->session.second_editor) {
     editor2 = new Editor2 (vbox, project);
-    connect_focus_signals (editor2->textview);
+    // Todo connect_focus_signals (editor2->textview);
     g_signal_connect ((gpointer) editor2->new_verse_signal, "clicked", G_CALLBACK(on_new_verse_signalled), gpointer(this));
     g_signal_connect ((gpointer) editor2->new_styles_signal, "clicked", G_CALLBACK(on_new_styles_signalled), gpointer(this));
     g_signal_connect ((gpointer) editor2->quick_references_button, "clicked", G_CALLBACK(on_quick_references_signalled), gpointer(this));

@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "editor_aids.h"
 #include "settings.h"
 #include "styles.h"
@@ -25,6 +26,7 @@
 #include "tiny_utilities.h"
 #include "spelling.h"
 #include "stylesheetutils.h"
+#include "gwrappers.h"
 
 
 EditorNote::EditorNote(int dummy)
@@ -1771,6 +1773,7 @@ void textbuffer_apply_named_tag(GtkTextBuffer * buffer, const ustring & name, co
     gtk_text_buffer_apply_tag_by_name(buffer, unknown_style(), start, end);
 }
 
+
 void textbuffer_insert_with_named_tags(GtkTextBuffer * buffer, GtkTextIter * iter, const ustring & text, ustring first_tag_name, ustring second_tag_name)
 // Inserts text into the buffer applying one or two named tags at the same time.
 // If a tag does not exist, it applies the "unknown" style instead.
@@ -1790,6 +1793,7 @@ void textbuffer_insert_with_named_tags(GtkTextBuffer * buffer, GtkTextIter * ite
     gtk_text_buffer_insert_with_tags_by_name(buffer, iter, text.c_str(), -1, first_tag_name.c_str(), second_tag_name.c_str(), NULL);
   }
 }
+
 
 GtkWidget *textview_note_get_another(GtkTextBuffer * mainbuffer, GtkWidget * currentview, vector < EditorNote > &editornotes, EditorMovementType movement)
 {
@@ -1857,7 +1861,7 @@ GtkWidget *textview_note_get_another(GtkTextBuffer * mainbuffer, GtkWidget * cur
 }
 
 
-bool create_action_objects_for_text_not_starting_with_marker(GtkTextBuffer * textbuffer, ustring & line, ustring & paragraph_mark, ustring & character_mark, size_t marker_pos, size_t marker_length, bool marker_found) // Todo
+bool load_text_not_starting_with_marker(GtkWidget * textview, ustring & line, ustring & paragraph_mark, ustring & character_mark, size_t marker_pos, size_t marker_length, bool marker_found) // Todo
 /*
  This function loads text that does not start with a marker.
  It then erases that bit of text from the input.
@@ -1865,22 +1869,27 @@ bool create_action_objects_for_text_not_starting_with_marker(GtkTextBuffer * tex
  paragraph and character markup.
  */
 {
-  // Proceed if a marker was found not at the start of a line.
-  if (marker_found) {
-    if (marker_pos != string::npos) {
-      if (marker_pos > 0) {
-        ustring text(line.substr(0, marker_pos));
-        line.erase(0, marker_pos);
-        //cout << "Discarding text " << text << endl; // Todo
-        return true;
+  if (textview) {
+    // Proceed if a marker was found not at the start of a line.
+    if (marker_found) {
+      if (marker_pos != string::npos) {
+        if (marker_pos > 0) {
+          ustring text(line.substr(0, marker_pos));
+          line.erase(0, marker_pos);
+          GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+          editor_text_append(textbuffer, text, paragraph_mark, character_mark);
+          return true;
+        }
       }
     }
+  } else {
+    gw_critical ("Didn't have a textview to load text into");
   }
   return false;
 }
 
 
-void create_action_objects_for_text_with_unknown_markup(GtkTextBuffer * textbuffer, ustring & line, ustring & paragraph_mark, ustring & character_mark) // Todo
+void load_text_with_unknown_markup(GtkWidget * textview, ustring & line, ustring & paragraph_mark, ustring & character_mark) // Todo
 /*
  This function loads text with unknown markup in the formatted view.
  It is a fallback function that gets called when everything else has failed.
@@ -1890,52 +1899,56 @@ void create_action_objects_for_text_with_unknown_markup(GtkTextBuffer * textbuff
  the lines gives enough markup information again to be handled properly.
  */
 {
-  ustring one_character(line.substr(0, 1));
-  //cout << "Discarding unknown text " << one_character << endl; // Todo
-  line.erase(0, 1);
+  if (textview) {
+    ustring one_character(line.substr(0, 1));
+    GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+    editor_text_append(textbuffer, one_character, paragraph_mark, character_mark);
+    line.erase(0, 1);
+  } else {
+    gw_critical ("Can't load text with unknown markup");
+  }
 }
 
 
-bool create_action_objects_for_text_starting_new_paragraph(const ustring& project, deque <EditorAction *>& editoractions, ustring & line, ustring & paragraph_mark, ustring & character_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found) // Todo
+bool load_text_starting_new_paragraph(const ustring& project, GtkWidget * textview, ustring & line, ustring & paragraph_mark, ustring & character_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found) // Todo
 /*
  This function deals with a marker that starts a paragraph.
- It creates the editor objects that would do this.
+ It enters the text in the textbuffer.
  */
 {
-  if (marker_found) {
-    if (marker_pos == 0) {
-      if (is_opener) {
-        StyleType type;
-        int subtype;
-        marker_get_type_and_subtype(project, marker, type, subtype);
-        if (style_get_starts_new_line_in_editor(type, subtype)) {
-          // Because the ends of lines are changed to spaces, and these spaces
-          // get inserted in the editor, if a new line starts, we need to trim
-          // away the extra space at the end. This is done here.
-          // Todo textbuffer_erase_character_before_text_insertion_point_if_space(textbuffer);
-          // Insert a new line with the still prevailing markup, if the buffer is empty.
-          EditorAction * create_paragraph_action = new EditorAction (eatCreateParagraphWidget);
-          editoractions.push_back (create_paragraph_action);
-          // Set the new paragraph and character markup.
-          paragraph_mark = marker;
-          character_mark.clear();
-          EditorAction * paragraph_style_action = new EditorAction (eatSetParagraphWidgetStyle);
-          paragraph_style_action->parent_identifier = create_paragraph_action->my_identifier;
-          editoractions.push_back (paragraph_style_action);
-          // Some styles insert their marker: Do that here if appropriate.
-          if (style_get_displays_marker(type, subtype)) {
-            EditorAction * action = new EditorAction (eatInsertText);
-            action->parent_identifier = create_paragraph_action->my_identifier;
-            action->my_string = line.substr(0, marker_length);
-            editoractions.push_back (action);
+  if (textview) {
+    if (marker_found) {
+      if (marker_pos == 0) {
+        if (is_opener) {
+          StyleType type;
+          int subtype;
+          marker_get_type_and_subtype(project, marker, type, subtype);
+          if (style_get_starts_new_line_in_editor(type, subtype)) {
+            GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+            // Because the ends of lines are changed to spaces, and these spaces
+            // get inserted in the editor, if a new line starts, we need to trim
+            // away the extra space at the end. This is done here.
+            textbuffer_erase_character_before_text_insertion_point_if_space(textbuffer);
+            // Insert a new line with the still prevailing markup, if the buffer is empty.
+            if (!textbuffer_empty(textbuffer))
+              editor_text_append(textbuffer, "\n", paragraph_mark, character_mark);
+            // Set the new paragraph and character markup.
+            paragraph_mark = marker;
+            character_mark.clear();
+            // Some styles insert their marker: Do that here if appropriate.
+            if (style_get_displays_marker(type, subtype)) {
+              editor_text_append(textbuffer, line.substr(0, marker_length), paragraph_mark, "");
+            }
+            // Remove the markup from the line.
+            line.erase(0, marker_length);
+            // The information was processed: return true.
+            return true;
           }
-          // Remove the markup from the line.
-          line.erase(0, marker_length);
-          // The information was processed: return true.
-          return true;
         }
       }
     }
+  } else {
+    gw_critical ("No text view was given to start a paragraph in");
   }
   return false;
 }
@@ -1954,6 +1967,18 @@ void clear_and_destroy_editor_actions (deque <EditorAction *>& actions) // Todo
 void on_container_tree_callback_destroy (GtkWidget *widget, gpointer user_data)
 {
   gtk_widget_destroy (widget);
+}
+
+
+void editor_text_append(GtkTextBuffer * textbuffer, const ustring & text, const ustring & paragraph_style, const ustring & character_style)
+// This function appends text to the textbuffer.
+// It inserts the text at the cursor.
+{
+  // Get the iterator at the text insertion point.
+  GtkTextIter insertiter;
+  gtk_text_buffer_get_iter_at_mark(textbuffer, &insertiter, gtk_text_buffer_get_insert(textbuffer));
+  // Insert text together with the style(s).
+  textbuffer_insert_with_named_tags(textbuffer, &insertiter, text, paragraph_style, character_style);
 }
 
 
