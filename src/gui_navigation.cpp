@@ -17,7 +17,7 @@
  **  
  */
 
-
+ 
 #include "utilities.h"
 #include <glib.h>
 #include "gui_navigation.h"
@@ -252,7 +252,7 @@ void GuiNavigation::set_project(const ustring & value, bool force)
 }
 
 
-void GuiNavigation::clamp(Reference & reference)
+void GuiNavigation::clampref(Reference & reference)
 // This clamps the reference, that is, it brings it within the limits of 
 // the project.
 {
@@ -266,7 +266,7 @@ void GuiNavigation::clamp(Reference & reference)
     if (books.empty()) {
       reference.book = 0;
     } else {
-      reference.book = CLAMP(reference.book, books[0], books[books.size() - 1]);
+      reference.book = clamp(reference.book, books[0], books[books.size() - 1]);
     }
   }
   // Clamp the chapter.
@@ -369,7 +369,7 @@ void GuiNavigation::nextbook()
     else
       reference.verse = "0";
   }
-  clamp(reference);
+  clampref(reference);
   set_book(reference.book);
   load_chapters(reference.book);
   set_chapter(reference.chapter);
@@ -406,7 +406,7 @@ void GuiNavigation::previousbook()
     else
       reference.verse = "0";
   }
-  clamp(reference);
+  clampref(reference);
   set_book(reference.book);
   load_chapters(reference.book);
   set_chapter(reference.chapter);
@@ -440,7 +440,7 @@ void GuiNavigation::nextchapter()
     else
       reference.verse = "0";
   }
-  clamp(reference);
+  clampref(reference);
   load_verses(reference.book, reference.chapter);
   set_verse(reference.verse);
   set_chapter(reference.chapter);
@@ -472,7 +472,7 @@ void GuiNavigation::previouschapter()
     else
       reference.verse = "0";
   }
-  clamp(reference);
+  clampref(reference);
   load_verses(reference.book, reference.chapter);
   set_verse(reference.verse);
   set_chapter(reference.chapter);
@@ -615,7 +615,7 @@ void GuiNavigation::on_combo_book()
     reference.chapter = 1;
     reference.verse = "1";
   }
-  clamp(reference);
+  clampref(reference);
   load_chapters(reference.book);
   set_chapter(reference.chapter);
   load_verses(reference.book, reference.chapter);
@@ -632,7 +632,7 @@ void GuiNavigation::on_combo_chapter()
   if (!references_memory_retrieve (reference, true)) {
     reference.verse = "1";
   }
-  clamp(reference);
+  clampref(reference);
   load_verses(reference.book, reference.chapter);
   set_verse(reference.verse);
   signal();
@@ -872,9 +872,9 @@ void GuiNavigation::crossboundariesverse(bool forward)
   }
   // Get the previous book, and the next book.
   int previousbookindex = bookindex - 1;
-  previousbookindex = CLAMP(previousbookindex, 0, bookindex);
+  previousbookindex = clamp(previousbookindex, 0, bookindex);
   unsigned int nextbookindex = bookindex + 1;
-  nextbookindex = CLAMP(nextbookindex, 0, allbooks.size() - 1);
+  nextbookindex = clamp(nextbookindex, 0, allbooks.size() - 1);
   // Get a list of all references in these on the most three books.
   vector < unsigned int >books;
   vector < unsigned int >chapters;
@@ -943,9 +943,9 @@ void GuiNavigation::crossboundarieschapter(bool forward)
   }
   // Get the previous book, and the next book.
   int previousbookindex = bookindex - 1;
-  previousbookindex = CLAMP(previousbookindex, 0, bookindex);
+  previousbookindex = clamp(previousbookindex, 0, bookindex);
   unsigned int nextbookindex = bookindex + 1;
-  nextbookindex = CLAMP(nextbookindex, 0, allbooks.size() - 1);
+  nextbookindex = clamp(nextbookindex, 0, allbooks.size() - 1);
   // Get a list of all references in these on the most three books.
   vector < unsigned int >books;
   vector < unsigned int >chapters;

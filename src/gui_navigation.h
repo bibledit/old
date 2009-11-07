@@ -37,7 +37,7 @@ public:
   void build (GtkWidget * toolbar);
   void sensitive (bool sensitive);
   void set_project (const ustring& value, bool force);
-  void clamp (Reference& reference);
+  void clampref (Reference& reference);
   void display (const Reference& ref);
   void nextbook ();
   void previousbook ();

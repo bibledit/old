@@ -60,6 +60,7 @@ ustring character_to_hexadecimal_entity (const ustring& character);
 void string_append_line (ustring& container, const ustring& line);
 ustring present_working_directory ();
 bool vector_strings_equal (const vector <ustring>& vector1, const vector <ustring>& vector2);
+int clamp (int in, int min, int max);
 
 
 class ReadDirectories

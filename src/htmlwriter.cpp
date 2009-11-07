@@ -42,7 +42,7 @@ HtmlWriter::HtmlWriter(const ustring & title, bool include_java_scripts, bool in
   xmlTextWriterEndElement(writer);
 
   xmlTextWriterStartElement(writer, BAD_CAST "title");
-  xmlTextWriterWriteFormatString(writer, title.c_str());
+  xmlTextWriterWriteFormatString(writer, "%s", title.c_str());
   xmlTextWriterEndElement(writer);
 
   if (include_bibledit_css) {
@@ -132,7 +132,7 @@ void HtmlWriter::heading(unsigned int level, const ustring & text)
   ustring element("h");
   element.append(convert_to_string(level));
   xmlTextWriterStartElement(writer, BAD_CAST element.c_str());
-  xmlTextWriterWriteFormatString(writer, text.c_str());
+  xmlTextWriterWriteFormatString(writer, "%s", text.c_str());
   xmlTextWriterEndElement(writer);
 }
 
@@ -140,7 +140,7 @@ void HtmlWriter::heading(unsigned int level, const ustring & text)
 void HtmlWriter::paragraph(const ustring & text)
 {
   xmlTextWriterStartElement(writer, BAD_CAST "p");
-  xmlTextWriterWriteFormatString(writer, text.c_str());
+  xmlTextWriterWriteFormatString(writer, "%s", text.c_str());
   xmlTextWriterEndElement(writer);
 }
 
@@ -154,7 +154,7 @@ void HtmlWriter::bargraph(const ustring & header, const vector < ustring > &text
   xmlTextWriterStartElement(writer, BAD_CAST "tr");
   xmlTextWriterStartElement(writer, BAD_CAST "th");
   xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "colspan", "3");
-  xmlTextWriterWriteFormatString(writer, header.c_str());
+  xmlTextWriterWriteFormatString(writer, "%s", header.c_str());
   xmlTextWriterEndElement(writer);
   xmlTextWriterEndElement(writer);
   xmlTextWriterEndElement(writer);
@@ -163,7 +163,7 @@ void HtmlWriter::bargraph(const ustring & header, const vector < ustring > &text
   for (unsigned int i = 0; i < texts.size(); i++) {
     xmlTextWriterStartElement(writer, BAD_CAST "tr");
     xmlTextWriterStartElement(writer, BAD_CAST "td");
-    xmlTextWriterWriteFormatString(writer, texts[i].c_str());
+    xmlTextWriterWriteFormatString(writer, "%s", texts[i].c_str());
     xmlTextWriterEndElement(writer);
     xmlTextWriterStartElement(writer, BAD_CAST "td");
     xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "width", "400px");
@@ -252,7 +252,7 @@ void HtmlWriter::hyperlinkedparagraph(const ustring & text, const ustring & hype
   xmlTextWriterStartElement(writer, BAD_CAST "p");
   xmlTextWriterStartElement(writer, BAD_CAST "a");
   xmlTextWriterWriteAttribute(writer, BAD_CAST "href", BAD_CAST hyperlink.c_str());
-  xmlTextWriterWriteFormatString(writer, text.c_str());
+  xmlTextWriterWriteFormatString(writer, "%s", text.c_str());
   xmlTextWriterEndElement(writer);
   xmlTextWriterEndElement(writer);
 }

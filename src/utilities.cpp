@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include "utilities.h"
 #include <glib.h>
@@ -27,7 +28,9 @@
 #include "shell.h"
 #include "tiny_utilities.h"
 
+
 #define MY_NUMBERS "0123456789"
+
 
 ustring number_in_string(const ustring & str)
 {
@@ -41,7 +44,9 @@ ustring number_in_string(const ustring & str)
   return output;
 }
 
+
 #undef MY_NUMBERS
+
 
 unsigned int digit_count_in_string(const ustring & str)
 {
@@ -54,6 +59,7 @@ unsigned int digit_count_in_string(const ustring & str)
   return digitcount;
 }
 
+
 ustring upperCase(const ustring & s)
 {
 // Make an uppercase copy of s
@@ -63,6 +69,7 @@ ustring upperCase(const ustring & s)
   return upper;
 }
 
+
 ustring lowerCase(const ustring & s)
 {
 // Make a lowercase copy of s
@@ -71,6 +78,7 @@ ustring lowerCase(const ustring & s)
     lower[i] = tolower(lower[i]);
   return lower;
 }
+
 
 ustring remove_spaces(const ustring & s)
 {
@@ -83,6 +91,7 @@ ustring remove_spaces(const ustring & s)
   return s2;
 }
 
+
 void write_lines(const ustring & file, vector < ustring > &lines)
 {
   WriteText wt(file);
@@ -92,10 +101,12 @@ void write_lines(const ustring & file, vector < ustring > &lines)
   }
 }
 
+
 ustring temporary_file(const ustring & filename)
 {
   return gw_build_filename(directories_get_temp(), filename);
 }
+
 
 ustring string_reverse(const ustring & s)
 {
@@ -104,6 +115,7 @@ ustring string_reverse(const ustring & s)
     returnvalue.append(s.substr(i, 1));
   return returnvalue;
 }
+
 
 ustring double_apostrophy(const ustring & line)
 {
@@ -123,6 +135,7 @@ ustring double_apostrophy(const ustring & line)
   return returnvalue;
 }
 
+
 unsigned int file_get_modification_time(const ustring & filename)
 {
   struct stat statbuf;
@@ -130,12 +143,14 @@ unsigned int file_get_modification_time(const ustring & filename)
   return statbuf.st_mtime;
 }
 
+
 unsigned int file_get_size(const ustring & filename)
 {
   struct stat statbuf;
   stat(filename.c_str(), &statbuf);
   return statbuf.st_size;
 }
+
 
 void textbuffer_get_lines(GtkTextBuffer * buffer, vector < ustring > &lines, bool trimline)
 // Reads all the lines in the textbuffer.
@@ -164,6 +179,7 @@ void textbuffer_get_lines(GtkTextBuffer * buffer, vector < ustring > &lines, boo
   }
 }
 
+
 bool replace_text(ustring & line, const ustring & look_for, const ustring & replace_with)
 // Replaces some text. Returns true if any replacement was done.
 {
@@ -176,6 +192,7 @@ bool replace_text(ustring & line, const ustring & look_for, const ustring & repl
   }
   return replacements_done;
 }
+
 
 bool replace_text_between(ustring & line, const ustring & start, const ustring & end, const ustring & replacement)
 // Replaces text that starts with "start" and ends with "end" with "replacement".
@@ -193,12 +210,14 @@ bool replace_text_between(ustring & line, const ustring & start, const ustring &
   return replacements_done;
 }
 
+
 void quick_swap(ustring & a, ustring & b)
 {
   ustring t = a;
   a = b;
   b = t;
 }
+
 
 void quick_swap(unsigned int &a, unsigned int &b)
 {
@@ -207,12 +226,14 @@ void quick_swap(unsigned int &a, unsigned int &b)
   b = t;
 }
 
+
 void quick_swap(long unsigned int &a, long unsigned int &b)
 {
   long unsigned int t = a;
   a = b;
   b = t;
 }
+
 
 void quick_swap(int &a, int &b)
 {
@@ -221,12 +242,14 @@ void quick_swap(int &a, int &b)
   b = t;
 }
 
+
 void quick_swap(bool & a, bool & b)
 {
   bool t = a;
   a = b;
   b = t;
 }
+
 
 void quick_sort(vector < unsigned int >&one, vector < ustring > &two, unsigned int beg, unsigned int end)
 /*
@@ -257,6 +280,7 @@ following the reordering done in the first container.
   }
 }
 
+
 void quick_sort(vector < ustring > &one, vector < unsigned int >&two, unsigned int beg, unsigned int end)
 {
   if (end > beg + 1) {
@@ -279,6 +303,7 @@ void quick_sort(vector < ustring > &one, vector < unsigned int >&two, unsigned i
     quick_sort(one, two, r, end);
   }
 }
+
 
 void quick_sort(vector < unsigned int >&one, vector < unsigned int >&two, unsigned int beg, unsigned int end)
 {
@@ -382,6 +407,7 @@ void quick_sort(vector < ustring > &one, vector < ustring > &two, unsigned int b
   }
 }
 
+
 void quick_sort(vector < ustring > &one, vector < bool > &two, unsigned int beg, unsigned int end)
 {
   if (end > beg + 1) {
@@ -412,6 +438,7 @@ void quick_sort(vector < ustring > &one, vector < bool > &two, unsigned int beg,
     quick_sort(one, two, r, end);
   }
 }
+
 
 void quick_sort(vector < ustring > &one, unsigned int beg, unsigned int end)
 {
@@ -494,11 +521,13 @@ ustring spaces(unsigned int count)
   return space;
 }
 
+
 void bitpattern_add(ustring & pattern, bool setting)
 // Adds one bit for "setting" to "pattern".
 {
   pattern.append(convert_to_string(setting));
 }
+
 
 bool bitpattern_take(ustring & pattern)
 // Return the next bit from "pattern" and removes it from that string.
@@ -513,6 +542,7 @@ bool bitpattern_take(ustring & pattern)
   return setting;
 }
 
+
 ustring character_to_decimal_entity(const ustring & character)
 {
   gunichar unichar;
@@ -525,6 +555,7 @@ ustring character_to_decimal_entity(const ustring & character)
   g_free(decimal);
   return udec;
 }
+
 
 ustring character_to_hexadecimal_entity(const ustring & character)
 {
@@ -539,6 +570,7 @@ ustring character_to_hexadecimal_entity(const ustring & character)
   return udec;
 }
 
+
 void string_append_line(ustring & container, const ustring & line)
 {
   if (!container.empty()) {
@@ -546,6 +578,7 @@ void string_append_line(ustring & container, const ustring & line)
   }
   container.append(line);
 }
+
 
 ustring present_working_directory()
 // Gives the present working directory.
@@ -567,6 +600,16 @@ bool vector_strings_equal (const vector <ustring>& vector1, const vector <ustrin
       return false;
   
   return true;
+}
+
+
+int clamp (int in, int min, int max)
+{
+  if (in < min)
+    in = min;
+  if (in > max)
+    in = max;
+  return in;
 }
 
 
@@ -592,9 +635,11 @@ ReadDirectories::ReadDirectories(const ustring & path, const ustring & prefix, c
   }
 }
 
+
 ReadDirectories::~ReadDirectories()
 {
 }
+
 
 ReadFiles::ReadFiles(const ustring & path, const ustring & prefix, const ustring & suffix)
 {
@@ -618,9 +663,11 @@ ReadFiles::ReadFiles(const ustring & path, const ustring & prefix, const ustring
   }
 }
 
+
 ReadFiles::~ReadFiles()
 {
 }
+
 
 ReadText::ReadText(const ustring & file, bool silent, bool trimming)
 {
@@ -643,9 +690,11 @@ ReadText::ReadText(const ustring & file, bool silent, bool trimming)
   }
 }
 
+
 ReadText::~ReadText()
 {
 }
+
 
 WriteText::WriteText(const ustring & file)
 {
@@ -662,10 +711,12 @@ WriteText::WriteText(const ustring & file)
   }
 }
 
+
 WriteText::~WriteText()
 {
   close(fd);
 }
+
 
 void WriteText::text(const ustring & text)
 // Write the text. For calculating the lenght, do not use text.length(),
@@ -674,6 +725,7 @@ void WriteText::text(const ustring & text)
 {
   if (write(fd, text.c_str(), strlen(text.c_str()))) ;
 }
+
 
 Parse::Parse(const ustring & line, bool remove_punctuation, const ustring & separator)
 // Parses a line of text in its separate words.
@@ -698,9 +750,11 @@ Parse::Parse(const ustring & line, bool remove_punctuation, const ustring & sepa
   }
 }
 
+
 Parse::~Parse()
 {
 }
+
 
 ParseWords::ParseWords(const ustring & text)
 // Parses a line of text in its separate words.
@@ -726,4 +780,5 @@ ParseWords::ParseWords(const ustring & text)
   // Free memory
   g_object_unref(textbuffer);
 }
+
 

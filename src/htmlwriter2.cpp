@@ -46,7 +46,7 @@ HtmlWriter2::HtmlWriter2(const ustring & title)
   xmlTextWriterEndElement(writer);
 
   xmlTextWriterStartElement(writer, BAD_CAST "title");
-  xmlTextWriterWriteFormatString(writer, title.c_str());
+  xmlTextWriterWriteFormatString(writer, "%s", title.c_str());
   xmlTextWriterEndElement(writer);
   
   /* The following does not work to remove the underline from the link
@@ -114,11 +114,11 @@ void HtmlWriter2::form_open (const gchar * name, const gchar * action, const gch
 {
   xmlTextWriterStartElement(writer, BAD_CAST "form");
   if (name)
-    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "name", name);
+    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "name", "%s", name);
   if (action)
-    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "action", action);
+    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "action", "%s", action);
   if (method)
-    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "method", method);
+    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "method", "%s", method);
 }
 
 
@@ -132,13 +132,13 @@ void HtmlWriter2::input_open (const gchar * name, const gchar * type, unsigned i
 {
   xmlTextWriterStartElement(writer, BAD_CAST "input");
   if (name)
-    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "name", name);
+    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "name", "%s", name);
   if (type)
-    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "type", type);
+    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "type", "%s", type);
   if (size)
     xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "size", "%d", size);
   if (value)
-    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "value", value);
+    xmlTextWriterWriteFormatAttribute(writer, BAD_CAST "value", "%s", value);
 }
 
 
@@ -153,7 +153,7 @@ void HtmlWriter2::text_add(const ustring& text)
   if (!(heading_opened || paragraph_opened)) {
     paragraph_open ();
   }
-  xmlTextWriterWriteFormatString(writer, text.c_str());
+  xmlTextWriterWriteFormatString(writer, "%s", text.c_str());
 }
 
 
@@ -167,7 +167,7 @@ void HtmlWriter2::hyperlink_add (const ustring& url, const ustring& text)
   xmlTextWriterStartElement(writer, BAD_CAST "a");
   xmlTextWriterWriteAttribute(writer, BAD_CAST "href", BAD_CAST url.c_str());
   // Does not work to remove the underline from the link xmlTextWriterWriteAttribute(writer, BAD_CAST "style", BAD_CAST "text-decoration:none");
-  xmlTextWriterWriteFormatString(writer, text.c_str());
+  xmlTextWriterWriteFormatString(writer, "%s", text.c_str());
   xmlTextWriterEndElement(writer);
 }
 

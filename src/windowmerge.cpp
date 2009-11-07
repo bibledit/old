@@ -526,7 +526,7 @@ bool WindowMerge::cross_book_boundaries(bool next, unsigned int &cross_book, uns
   }
   // Get the previous book, and the next book.
   int previousbookindex = bookindex - 1;
-  previousbookindex = CLAMP(previousbookindex, 0, bookindex);
+  previousbookindex = clamp(previousbookindex, 0, bookindex);
   unsigned int nextbookindex = bookindex + 1;
   nextbookindex = CLAMP(nextbookindex, 0, allbooks.size() - 1);
 
