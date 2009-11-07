@@ -6918,6 +6918,9 @@ Gtk:ERROR:/build/buildd/gtk+2.0-2.18.3/gtk/gtktextview.c:4568:gtk_text_view_pain
 
 There is a setting second_editor in the Session object. This can go out once the Editor2 is ready.
 Temporally it switches to USFM view because of the crash in the Editor.
+Editor * WindowEditor::editor_get() - Needs update to give Editor2.
+
+
 
 
 Undo/Redo stack.
@@ -6989,6 +6992,10 @@ As soon as a new command is placed on the top of the undo stack, however, all co
 
 
 
+Our own actions stack.
+All text is loaded into the widget as if it is typed in it.
+This is then captured, and translated into actions, which are stored on the stacks.
+If a new line is typed, this is translated into actions.
 
 
 

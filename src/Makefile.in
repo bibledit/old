@@ -177,7 +177,7 @@ am_bibleditgui_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	morphology.$(OBJEXT) greek.$(OBJEXT) startup.$(OBJEXT) \
 	dialogyesnoalways.$(OBJEXT) xiphos.$(OBJEXT) \
 	floatingwindow.$(OBJEXT) windowdata.$(OBJEXT) \
-	editor2.$(OBJEXT)
+	editor2.$(OBJEXT) editoractions.$(OBJEXT)
 bibleditgui_OBJECTS = $(am_bibleditgui_OBJECTS)
 bibleditgui_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
@@ -627,7 +627,8 @@ bibleditgui_SOURCES = \
 				xiphos.cpp \
 				floatingwindow.cpp \
 				windowdata.cpp \
-				editor2.cpp
+				editor2.cpp \
+				editoractions.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp update-copyright
 AM_CXXFLAGS = -Wall `xml2-config --cflags` $(GOBJECT_CFLAGS) \
@@ -837,6 +838,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/editor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/editor2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/editor_aids.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/editoractions.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/export_translation_notes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/export_utils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fixmarkers.Po@am__quote@

@@ -31,14 +31,27 @@
 #include "editor_aids.h"
 #include "highlight.h"
 #include "spelling.h"
+#include "editoractions.h"
 
 
 class Editor2
 {
 public:
-  Editor2(GtkWidget * vbox, const ustring& project_in);
+  Editor2(GtkWidget * vbox_in, const ustring& project_in);
   ~Editor2();
+private:
+  GtkWidget *scrolledwindow_v2;
+  GtkWidget *viewport_v2;
+  GtkWidget *vbox_v2;
+  void text_load_v2 (ustring text);
+  deque <EditorAction *> actions_done;
+  deque <EditorAction *> actions_redoable;
+  void apply_editor_action (EditorAction * action);
 
+
+
+
+// Old stuff.
   // Focus handling.
 public:
   static void on_textview_grab_focus(GtkWidget * widget, gpointer user_data);

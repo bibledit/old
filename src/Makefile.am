@@ -271,7 +271,8 @@ bibleditgui_SOURCES = \
 				xiphos.cpp \
 				floatingwindow.cpp \
 				windowdata.cpp \
-				editor2.cpp
+				editor2.cpp \
+				editoractions.cpp
 
 EXTRA_DIST = *.h .indent.pro d_bus.cpp update-copyright
 

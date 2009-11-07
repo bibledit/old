@@ -146,7 +146,12 @@ void WindowEditor::go_to(const Reference & reference)
         editor->highlight_searchwords();
         editor->go_to_new_reference_highlight = false;
       }
-      if (editor2) ;
+    }
+    if (editor2) {
+      if (editor2->go_to_new_reference_highlight) {
+        editor2->highlight_searchwords();
+        editor2->go_to_new_reference_highlight = false;
+      }
     }
   }
 }
@@ -160,6 +165,7 @@ void WindowEditor::load_dictionaries()
     editor->load_dictionaries();
   }
   if (editor2) {
+    editor2->load_dictionaries();
   }
 }
 
@@ -173,7 +179,7 @@ bool WindowEditor::move_cursor_to_spelling_error (bool next, bool extremity)
     return editor->move_cursor_to_spelling_error (next, extremity);
   }
   if (editor2) {
-    return true;
+    return editor2->move_cursor_to_spelling_error (next, extremity);
   }
   return true;
 }
@@ -188,6 +194,7 @@ void WindowEditor::undo()
     editor->undo(); 
   }
   if (editor2) {
+    editor2->undo(); 
   }
 }
 
@@ -201,6 +208,7 @@ void WindowEditor::redo()
     editor->redo(); 
   } 
   if (editor2) {
+    editor2->redo(); 
   }
 }
 
@@ -214,7 +222,7 @@ bool WindowEditor::can_undo()
     return editor->can_undo();
   }
   if (editor2) {
-    return false;
+    return editor2->can_undo();
   }
   return false;
 }
@@ -229,7 +237,7 @@ bool WindowEditor::can_redo()
     return editor->can_redo();
   }
   if (editor2) {
-    return false;
+    return editor2->can_redo();
   }
   return false;
 }
@@ -244,7 +252,7 @@ EditorTextViewType WindowEditor::last_focused_type()
     return editor->last_focused_type();
   }
   if (editor2) {
-    return etvtBody;
+    return editor2->last_focused_type();
   }
   return etvtBody;
 }
@@ -261,7 +269,7 @@ vector <Reference> WindowEditor::quick_references()
   }
   vector <Reference> dummy;
   if (editor2) {
-    return dummy;
+    return editor->quick_references;
   }
   return dummy;
 }
@@ -275,10 +283,10 @@ Reference WindowEditor::current_reference()
   if (editor) {
     return editor->current_reference;
   }
-  Reference reference (0);
   if (editor2) {
-    return reference;
+    return editor2->current_reference;
   }
+  Reference reference (0);
   return reference;
 }
 
@@ -292,7 +300,7 @@ ustring WindowEditor::current_verse_number()
     return editor->current_verse_number;
   }
   if (editor2) {
-    return "0";
+    return editor2->current_verse_number;
   }
   return "0";
 }
@@ -322,7 +330,7 @@ ustring WindowEditor::text_get_selection()
     return editor->text_get_selection();
   }
   if (editor2) {
-    return "";
+    return editor2->text_get_selection();
   }
   return "";
 }
@@ -337,6 +345,7 @@ void WindowEditor::text_erase_selection()
     editor->text_erase_selection();
   }
   if (editor2) {
+    editor2->text_erase_selection();
   }
 }
 
@@ -350,7 +359,7 @@ GtkTextBuffer * WindowEditor::last_focused_textbuffer()
     return editor->last_focused_textbuffer();
   }
   if (editor2) {
-    return NULL;
+    return editor2->last_focused_textbuffer();
   }
   return NULL;
 }
@@ -365,6 +374,7 @@ void WindowEditor::text_insert(ustring text)
     editor->text_insert(text);
   }
   if (editor2) {
+    editor2->text_insert(text);
   }
 }
 
@@ -377,6 +387,7 @@ void WindowEditor::go_to_new_reference_highlight_set()
     editor->go_to_new_reference_highlight = true;
   }
   if (editor2) {
+    editor2->go_to_new_reference_highlight = true;
   }
 }
 
@@ -390,7 +401,7 @@ ustring WindowEditor::word_double_clicked_text()
     return editor->word_double_clicked_text;
   }
   if (editor2) {
-    return "";
+    return editor2->word_double_clicked_text;
   }
   return "";
 }
@@ -405,7 +416,7 @@ bool WindowEditor::editable()
     return editor->editable;
   }
   if (editor2) {
-    return false;
+    return editor2->editable;
   }
   return false;
 }
@@ -420,6 +431,7 @@ void WindowEditor::insert_note(const ustring& marker, const ustring& rawtext, bo
     editor->insert_note (marker, rawtext, render);
   }
   if (editor2) {
+    editor2->insert_note (marker, rawtext, render);
   }
 }
 
@@ -433,7 +445,7 @@ ustring WindowEditor::get_chapter()
     return editor->get_chapter();
   }
   if (editor2) {
-    return "";
+    return editor2->get_chapter();
   }
   return "";
 }
@@ -448,6 +460,7 @@ void WindowEditor::insert_table(const ustring& rawtext, GtkTextIter * iter)
     editor->insert_table (rawtext, iter);
   }
   if (editor2) {
+    editor2->insert_table (rawtext, iter);
   }
 }
 
@@ -461,6 +474,7 @@ void WindowEditor::chapter_load(unsigned int chapter_in)
     editor->chapter_load (chapter_in);
   }
   if (editor2) {
+    editor2->chapter_load (chapter_in);
   }
 }
 
@@ -474,6 +488,7 @@ void WindowEditor::chapter_save()
     editor->chapter_save();
   }
   if (editor2) {
+    editor2->chapter_save();
   }
 }
 
@@ -487,7 +502,7 @@ unsigned int WindowEditor::reload_chapter_number()
     return editor->reload_chapter_number;
   }
   if (editor2) {
-    return 0;
+    return editor2->reload_chapter_number;
   }
   return 0;
 }
@@ -501,11 +516,12 @@ void WindowEditor::apply_style(const ustring& marker)
     editor->apply_style (marker);
   }
   if (editor2) {
+    editor2->apply_style (marker);
   }
 }
 
 
-set <ustring> WindowEditor::get_styles_at_cursor()
+set <ustring> WindowEditor::get_styles_at_cursor() 
 {
   if (usfmview) {
     set <ustring> dummy;
@@ -514,10 +530,10 @@ set <ustring> WindowEditor::get_styles_at_cursor()
   if (editor) {
     return editor->get_styles_at_cursor();
   }
-  set <ustring> dummy;
   if (editor2) {
-    return dummy;
+    return editor2->get_styles_at_cursor();
   }
+  set <ustring> dummy;
   return dummy;
 }
 
@@ -529,6 +545,7 @@ void WindowEditor::create_or_update_formatting_data()
     editor->create_or_update_formatting_data();
   }
   if (editor2) {
+    editor2->create_or_update_formatting_data();
   }
 }
 
@@ -542,6 +559,7 @@ void WindowEditor::set_font()
     editor->set_font();
   }
   if (editor2) {
+    editor2->set_font();
   }
 }
 
@@ -570,7 +588,7 @@ unsigned int WindowEditor::book()
     return editor->book;
   }
   if (editor2) {
-    return 1;
+    return editor2->book;
   }
   return 1;
 }
@@ -585,7 +603,7 @@ unsigned int WindowEditor::chapter()
     return editor->chapter;
   }
   if (editor2) {
-    return 1;
+    return editor2->chapter;
   }
   return 1;
 }
@@ -712,11 +730,25 @@ void WindowEditor::switch_to_view (bool viewusfm, ustring project)
     delete usfmview;
     usfmview = NULL;
   }
+  if (editor2) {
+    project = editor2->project;
+    reference = editor2->current_reference;
+    delete editor2;
+    editor2 = NULL;
+  }
 
   // Create new view.
   extern Settings * settings;
   if (settings->session.second_editor) {
     editor2 = new Editor2 (vbox, project);
+    connect_focus_signals (editor2->textview);
+    g_signal_connect ((gpointer) editor2->new_verse_signal, "clicked", G_CALLBACK(on_new_verse_signalled), gpointer(this));
+    g_signal_connect ((gpointer) editor2->new_styles_signal, "clicked", G_CALLBACK(on_new_styles_signalled), gpointer(this));
+    g_signal_connect ((gpointer) editor2->quick_references_button, "clicked", G_CALLBACK(on_quick_references_signalled), gpointer(this));
+    g_signal_connect ((gpointer) editor2->word_double_clicked_signal, "clicked", G_CALLBACK(on_word_double_click_signalled), gpointer(this));
+    g_signal_connect ((gpointer) editor2->reload_signal, "clicked", G_CALLBACK(on_reload_signalled), gpointer(this));
+    g_signal_connect ((gpointer) editor2->changed_signal, "clicked", G_CALLBACK(on_changed_signalled), gpointer(this));
+    g_signal_connect ((gpointer) editor2->spelling_checked_signal, "clicked", G_CALLBACK(on_spelling_checked_signalled), gpointer(this));
     last_focused_widget = editor2->last_focused_widget;
   }
   else if (viewusfm) {
@@ -777,6 +809,7 @@ void WindowEditor::spelling_trigger ()
     editor->spelling_trigger ();
   }
   if (editor2) {
+    editor2->spelling_trigger ();
   }
 }
 

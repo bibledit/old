@@ -44,7 +44,7 @@
 #include "dialogyesnoalways.h"
 
 
-Editor2::Editor2(GtkWidget * vbox, const ustring & project_in):
+Editor2::Editor2(GtkWidget * vbox_in, const ustring & project_in):
 current_reference(0, 1000, "")
 {
   // Save and initialize variables.
@@ -57,6 +57,7 @@ current_reference(0, 1000, "")
   highlight = NULL;
   editable = false;
   event_id_show_quick_references = 0;
+  book = 0;
   chapter = 0;
   texview_to_textview_old = NULL;
   texview_to_textview_new = NULL;
@@ -78,10 +79,33 @@ current_reference(0, 1000, "")
   g_signal_connect((gpointer) spellingchecker->check_signal, "clicked", G_CALLBACK(on_button_spelling_recheck_clicked), gpointer(this));
   load_dictionaries();
 
+  // The basic GUI, which actually is empty until text will be loaded in it.
+  scrolledwindow_v2 = gtk_scrolled_window_new(NULL, NULL);
+  gtk_widget_show(scrolledwindow_v2);
+  gtk_box_pack_start(GTK_BOX(vbox_in), scrolledwindow_v2, true, true, 0);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow_v2), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+
+  viewport_v2 = gtk_viewport_new (NULL, NULL);
+  gtk_widget_show (viewport_v2);
+  gtk_container_add (GTK_CONTAINER (scrolledwindow_v2), viewport_v2);
+  
+  vbox_v2 = gtk_vbox_new (false, 0);
+  gtk_widget_show(vbox_v2);
+  gtk_container_add (GTK_CONTAINER (viewport_v2), vbox_v2);
+
+  last_focused_widget = vbox_v2;
+
+
+
+
+
+
+
+
   // The scrolled window that contains the main formatted view.
   scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
   gtk_widget_show(scrolledwindow);
-  gtk_box_pack_start(GTK_BOX(vbox), scrolledwindow, true, true, 0);
+  gtk_box_pack_start(GTK_BOX(vbox_in), scrolledwindow, true, true, 0);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
   // A textbuffer to store all text.
@@ -194,18 +218,26 @@ Editor2::~Editor2()
   // Destroy the texttag tables.
   g_object_unref(texttagtable);
 
-  // Destroy the textview.
+  // Destroy the text area.
   gtk_widget_destroy(scrolledwindow);
+  gtk_widget_destroy(scrolledwindow_v2);
 
   // Destroy possible highlight object.
   if (highlight)
     delete highlight;
+    
+  // Destroy any editor actions.
+  clear_and_destroy_editor_actions (actions_done);
+  clear_and_destroy_editor_actions (actions_redoable);
+  
 }
+
 
 void Editor2::book_set(unsigned int book_in)
 {
   book = book_in;
 }
+
 
 void Editor2::chapter_load(unsigned int chapter_in)
 // Loads a chapter with the number "chapter_in".
@@ -250,9 +282,14 @@ void Editor2::chapter_load(unsigned int chapter_in)
 
   // Load in editor.
   text_load (line);
+  text_load_v2 (line);
 
   // Clear undo buffer.
   snapshots.clear();
+  
+  // Clear the stacks of actions done and redoable.
+  clear_and_destroy_editor_actions (actions_done);
+  clear_and_destroy_editor_actions (actions_redoable);
 
   // Set the buffer(s) non-modified.
   textbuffers_set_unmodified(textbuffer, editornotes, editortables);
@@ -3580,4 +3617,78 @@ void Editor2::scroll_cursor_on_screen_timeout()
 }
 
 
+void Editor2::text_load_v2 (ustring text) // Todo
+{
+  // Clean away possible new lines.
+  replace_text (text, "\n", " ");
 
+  // Get rid of possible previous data in the Editor. This action cannot be undone: No EditorAction is created.
+  gtk_container_foreach(GTK_CONTAINER(vbox_v2), on_container_tree_callback_destroy, gpointer(this));
+
+  // Create EditorActions from the input text.
+
+  ustring paragraph_mark(unknown_style());
+  ustring character_mark;
+  ustring marker;
+  size_t marker_pos;
+  size_t marker_length;
+  bool is_opener;
+  bool marker_found;
+  while (!text.empty()) {
+    deque <EditorAction *> editoractions;
+    marker_found = usfm_search_marker(text, marker, marker_pos, marker_length, is_opener);
+    if (create_action_objects_for_text_not_starting_with_marker(textbuffer, text, paragraph_mark, character_mark, marker_pos, marker_length, marker_found)) ;
+    /*
+    else if (load_text_table_raw(text, paragraph_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
+    */
+    else if (create_action_objects_for_text_starting_new_paragraph(project, editoractions, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
+    /*
+    else if (load_text_starting_character_style(textbuffer, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
+    else if (load_text_ending_character_style(textbuffer, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
+    else if (load_text_verse_number(text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
+    else if (load_text_note_raw(text, marker, marker_pos, marker_length, is_opener, marker_found)) ;
+    */
+    else create_action_objects_for_text_with_unknown_markup(textbuffer, text, paragraph_mark, character_mark);
+    for (unsigned int i = 0; i < editoractions.size(); i++) {
+      EditorAction * editoraction = editoractions[i];
+      apply_editor_action (editoraction);
+      actions_done.push_back (editoraction);
+    }
+  }
+
+  // Update gui for styles.
+  signal_if_styles_changed();
+
+  // Trigger a spelling check.
+  spelling_trigger();
+}
+
+
+// Todo We go back to just entering text into the widgets. This translates into editor actions, which are then applied.
+
+void Editor2::apply_editor_action (EditorAction * action)
+{
+  cout << "applying editor action" << endl; // Todo
+  action->describe(); // Todo
+  switch (action->type) {
+    case eatCreateParagraphWidget: // Todo to implement.
+    {
+      // Add a new textview to the GUI.
+      GtkWidget *textview;
+      textview = gtk_text_view_new();
+      gtk_widget_show(textview);
+      gtk_box_pack_start(GTK_BOX(vbox_v2), textview, false, false, 0);
+      // Store a pointer to it.
+      action->my_pointer = gpointer (textview);
+      break;
+    }
+    case eatSetParagraphWidgetStyle: // Todo to implement.
+    {
+      break;
+    }
+    case eatInsertText: // Todo to implement.
+    {
+      break;
+    }
+  }
+}

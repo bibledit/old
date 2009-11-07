@@ -25,6 +25,7 @@
 #include "libraries.h"
 #include <gtk/gtk.h>
 #include "style.h"
+#include "editoractions.h"
 
 
 enum EditorNoteType {entFootnote, entEndnote, entCrossreference};
@@ -142,5 +143,12 @@ void textbuffer_apply_named_tag(GtkTextBuffer *buffer, const ustring& name, cons
 void textbuffer_insert_with_named_tags(GtkTextBuffer *buffer, GtkTextIter *iter, const ustring& text, ustring first_tag_name, ustring second_tag_name);
 
 GtkWidget * textview_note_get_another(GtkTextBuffer * mainbuffer, GtkWidget * currentview, vector <EditorNote>& editornotes, EditorMovementType movement);
+
+bool create_action_objects_for_text_not_starting_with_marker(GtkTextBuffer * textbuffer, ustring& line, ustring& paragraph_mark, ustring& character_mark, size_t marker_pos, size_t marker_length, bool marker_found);
+void create_action_objects_for_text_with_unknown_markup(GtkTextBuffer * textbuffer, ustring& line, ustring& paragraph_mark, ustring& character_mark);
+bool create_action_objects_for_text_starting_new_paragraph(const ustring& project, deque <EditorAction *>& editoractions, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
+void clear_and_destroy_editor_actions (deque <EditorAction *>& actions);
+void on_container_tree_callback_destroy (GtkWidget *widget, gpointer user_data);
+
 
 #endif
