@@ -43,7 +43,7 @@ private:
   GtkWidget *scrolledwindow_v2;
   GtkWidget *viewport_v2;
   GtkWidget *vbox_v2;
-  void text_load_v2 (ustring text);
+  void text_load (ustring text);
   deque <EditorAction *> actions_done;
   deque <EditorAction *> actions_redoable;
   void apply_editor_action (EditorAction * action);
@@ -80,7 +80,6 @@ public:
 
   void book_set(unsigned int book_in);
   void chapter_load(unsigned int chapter_in);
-  void text_load (ustring text);
   void chapter_save();
   ustring text_get_selection();
   void text_erase_selection();
@@ -134,26 +133,18 @@ public:
   guint save_timeout_event_id;
 
   // The formatted view.
-  //GtkWidget *scrolledwindow;
-  //GtkWidget *textview;
   GtkTextTagTable * texttagtable;
   void create_or_update_formatting_data();
-  //GtkTextBuffer * textbuffer;
   void create_or_update_text_style(Style * style, bool paragraph, bool plaintext, double font_multiplier);
   bool verse_restarts_paragraph;
 
   vector <EditorNote> editornotes;
   vector <EditorTable> editortables;
-  bool load_text_starting_character_style(GtkTextBuffer * textbuffer, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
-  bool load_text_ending_character_style(GtkTextBuffer * textbuffer, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
-  bool load_text_verse_number(ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
-  bool load_text_note_raw(ustring& line, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
+
   bool load_text_starting_footnote_content(GtkTextBuffer * textbuffer, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
   bool load_text_ending_footnote_content(GtkTextBuffer * textbuffer, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
-  bool load_text_table_raw(ustring& line, const ustring& paragraph_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
   bool load_text_table_starting_row(ustring& line, EditorTable& editortable, GtkTextBuffer *& textbuffer, bool& row_zero_initialized, gint& row, gint& column, ustring& paragraph_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
   bool load_text_table_starting_cell(ustring& line, EditorTable& editortable, GtkTextBuffer *& textbuffer, bool& row_zero_initialized, gint& row, gint& column, ustring& paragraph_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
-  void load_text_ensure_normal_paragraph(ustring& line, ustring& paragraph_mark, ustring& character_mark);
 
   void erase_related_note_bits();
   void display_notes_remainder(bool focus_rendered_textview);
@@ -162,17 +153,6 @@ public:
 
   void display_table(ustring line, GtkTextIter iter);
   void erase_tables();
-
-  static void on_related_widget_size_allocated(GtkWidget *widget, GtkAllocation *allocation, gpointer user_data);
-  void related_widget_size_allocated(GtkWidget *widget, GtkAllocation *allocation);
-  bool related_widget_size_allocation_allow;
-  guint related_widget_size_allocated_event_id;
-  static bool on_related_widget_size_allocated_timeout(gpointer user_data);
-  void related_widget_size_allocated_timeout();
-  gint textview_allocated_width;
-  void set_embedded_note_textview_width(unsigned int notenumber);
-  void set_embedded_note_caller_height(unsigned int notenumber);
-  void set_embedded_table_textviews_width(unsigned int tablenumber);
 
   bool do_not_process_child_anchors_being_deleted;
   static void on_buffer_insert_text_before(GtkTextBuffer *textbuffer, GtkTextIter *pos_iter, gchar *text, gint length, gpointer user_data);
@@ -187,8 +167,6 @@ public:
   void buffer_apply_tag(GtkTextBuffer *textbuffer, GtkTextTag *tag, GtkTextIter *startiter, GtkTextIter *enditer);
   static void on_buffer_remove_tag(GtkTextBuffer *textbuffer, GtkTextTag *tag, GtkTextIter *startiter, GtkTextIter *enditer, gpointer user_data);
   void buffer_remove_tag(GtkTextBuffer *textbuffer, GtkTextTag *tag, GtkTextIter *startiter, GtkTextIter *enditer);
-  static void on_buffer_insert_child_anchor(GtkTextBuffer *textbuffer, GtkTextIter *pos_iter, GtkTextChildAnchor *childanchor, gpointer user_data);
-  void buffer_insert_child_anchor(GtkTextBuffer *textbuffer, GtkTextIter *pos_iter, GtkTextChildAnchor *childanchor);
   static void on_buffer_insert_pixbuf(GtkTextBuffer *textbuffer, GtkTextIter *pos_iter, GdkPixbuf *pixbuf, gpointer user_data);
   void buffer_insert_pixbuf(GtkTextBuffer *textbuffer, GtkTextIter *pos_iter, GdkPixbuf *pixbuf);
   void collect_text_child_anchors_being_deleted(GtkTextIter *startiter, GtkTextIter *enditer);

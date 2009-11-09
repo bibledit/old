@@ -144,12 +144,25 @@ void textbuffer_insert_with_named_tags(GtkTextBuffer *buffer, GtkTextIter *iter,
 
 GtkWidget * textview_note_get_another(GtkTextBuffer * mainbuffer, GtkWidget * currentview, vector <EditorNote>& editornotes, EditorMovementType movement);
 
-bool load_text_not_starting_with_marker(GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, size_t marker_pos, size_t marker_length, bool marker_found);
-void load_text_with_unknown_markup(GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark);
-bool load_text_starting_new_paragraph(const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
 void clear_and_destroy_editor_actions (deque <EditorAction *>& actions);
 void on_container_tree_callback_destroy (GtkWidget *widget, gpointer user_data);
 void editor_text_append(GtkTextBuffer * textbuffer, const ustring & text, const ustring & paragraph_style, const ustring & character_style);
+
+
+
+
+
+void load_text_ensure_normal_paragraph       (const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark);
+bool load_text_starting_new_paragraph        (const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
+bool load_text_verse_number                  (const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
+bool load_text_starting_character_style      (const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
+bool load_text_ending_character_style        (const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
+bool load_text_table_raw                     (const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
+bool load_text_note_raw                      (const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
+void load_text_fallback                      (const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
+
+
+
 
 
 #endif

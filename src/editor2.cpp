@@ -69,7 +69,6 @@ current_reference(0, 1000, "")
   // Save and initialize variables.
   project = project_in;
   do_not_process_child_anchors_being_deleted = false;
-  textview_allocated_width = 0;
   texttagtable = NULL;
   record_undo_level = 0;
   previous_hand_cursor = false;
@@ -87,8 +86,6 @@ current_reference(0, 1000, "")
   verse_restarts_paragraph = false;
   textbuffer_changed_event_id = 0;
   redo_counter = 0;
-  related_widget_size_allocated_event_id = 0;
-  related_widget_size_allocation_allow = true;
   
   // Create data that is needed for any of the possible formatted views.
   create_or_update_formatting_data();
@@ -215,11 +212,9 @@ Editor2::~Editor2()
   gw_destroy_source(start_verse_tracker_event_id);
   gw_destroy_source(verse_tracker_event_id);
   gw_destroy_source(textbuffer_changed_event_id);
-  gw_destroy_source(related_widget_size_allocated_event_id);
 
   // Clear a few flags.
   verse_tracker_on = false;
-  related_widget_size_allocation_allow = false;
 
   // Delete speller.
   delete spellingchecker;
@@ -300,8 +295,7 @@ void Editor2::chapter_load(unsigned int chapter_in)
   line.append(" ");
 
   // Load in editor.
-  //text_load (line);
-  text_load_v2 (line);
+  text_load (line);
 
   // Clear undo buffer.
   //snapshots.clear();
@@ -321,20 +315,22 @@ void Editor2::chapter_load(unsigned int chapter_in)
 }
 
 
-void Editor2::text_load (ustring text)
+void Editor2::text_load (ustring text) // Todo
 {
-  /*
-  // Get rid of possible previous text.
-  gtk_text_buffer_set_text(textbuffer, "", -1);
-
   // Clean away possible new lines.
   replace_text (text, "\n", " ");
 
-  // Load text in the view.
-  // Load it at the position of the text insertion point marker.
-  // Because the buffer has just been cleared, this marker will always be at the end.
-  editornotes.clear();
-  editortables.clear();
+  // Get rid of possible previous data in the Editor.
+  gtk_container_foreach(GTK_CONTAINER(vbox_v2), on_container_tree_callback_destroy, gpointer(this));
+  last_focused_textview_v2 = NULL;
+
+  // Create one new GtkTextView to start off with.
+  if (last_focused_textview_v2 == NULL) {
+    EditorAction action (eatCreateParagraphWidget);
+    apply_editor_action (&action);
+  }
+
+  // Simulate typing the text into the widget.
   ustring paragraph_mark(unknown_style());
   ustring character_mark;
   ustring marker;
@@ -344,26 +340,20 @@ void Editor2::text_load (ustring text)
   bool marker_found;
   while (!text.empty()) {
     marker_found = usfm_search_marker(text, marker, marker_pos, marker_length, is_opener);
-    if (load_text_not_starting_with_marker(textbuffer, text, paragraph_mark, character_mark, marker_pos, marker_length, marker_found)) ;
-    else if (load_text_table_raw(text, paragraph_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else if (load_text_starting_new_paragraph(textbuffer, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else if (load_text_starting_character_style(textbuffer, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else if (load_text_ending_character_style(textbuffer, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else if (load_text_verse_number(text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else if (load_text_note_raw(text, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else load_text_with_unknown_markup(textbuffer, text, paragraph_mark, character_mark);
+    if      (load_text_table_raw                (project, last_focused_textview_v2, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
+    else if (load_text_starting_new_paragraph   (project, last_focused_textview_v2, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
+    else if (load_text_starting_character_style (project, last_focused_textview_v2, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
+    else if (load_text_ending_character_style   (project, last_focused_textview_v2, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
+    else if (load_text_verse_number             (project, last_focused_textview_v2, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
+    else if (load_text_note_raw                 (project, last_focused_textview_v2, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
+    else     load_text_fallback                 (project, last_focused_textview_v2, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found);
   }
-
-  // Finalize displaying any notes.
-  display_notes_remainder(false);
-  renumber_and_clean_notes_callers();
 
   // Update gui for styles.
   signal_if_styles_changed();
 
   // Trigger a spelling check.
   spelling_trigger();
-  */
 }
 
 
@@ -1465,192 +1455,6 @@ void Editor2::create_or_update_text_style(Style * style, bool paragraph, bool pl
   }
 }
 
-bool Editor2::load_text_starting_character_style(GtkTextBuffer * textbuffer, ustring & line, ustring & paragraph_mark, ustring & character_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
-/*
- This function deals with a marker that starts a character style.
- It does the administration that starting this style requires.
- */
-{
-  if (marker_found) {
-    if (marker_pos == 0) {
-      if (is_opener) {
-        StyleType type;
-        int subtype;
-        marker_get_type_and_subtype(project, marker, type, subtype);
-        if (style_get_starts_character_style(type, subtype)) {
-          // Set the new character markup (the paragraph markup remains the same).
-          character_mark = marker;
-          // Some styles insert their marker: Do that here if appropriate.
-          if (style_get_displays_marker(type, subtype)) {
-            editor_text_append(textbuffer, line.substr(0, marker_length), paragraph_mark, character_mark);
-          }
-          // Remove the markup from the line.
-          line.erase(0, marker_length);
-          // The information was processed: return true.
-          return true;
-        }
-      }
-    }
-  }
-  return false;
-}
-
-bool Editor2::load_text_ending_character_style(GtkTextBuffer * textbuffer, ustring & line, ustring & paragraph_mark, ustring & character_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
-/*
- This function deals with a marker that ends a character style.
- It does the administration that ending this style requires.
- */
-{
-  if (marker_found) {
-    if (marker_pos == 0) {
-      if (!is_opener) {
-        StyleType type;
-        int subtype;
-        marker_get_type_and_subtype(project, marker, type, subtype);
-        if (style_get_starts_character_style(type, subtype)) {
-          // Clear the character markup (the paragraph markup remains as it is).
-          character_mark.clear();
-          // Some styles insert their marker: Do that here if appropriate.
-          if (style_get_displays_marker(type, subtype)) {
-            editor_text_append(textbuffer, line.substr(0, marker_length), paragraph_mark, character_mark);
-          }
-          // Remove the markup from the line.
-          line.erase(0, marker_length);
-          // The information was processed: return true.
-          return true;
-        }
-      }
-    }
-  }
-  return false;
-}
-
-bool Editor2::load_text_verse_number(ustring & line, ustring & paragraph_mark, ustring & character_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
-/*
- This function returns true if a verse number was loaded in the formatted view.
- Else it returns false.
- Verses are special in the sense that their style only applies to the verse
- number, and not to the verse text that follows.
- */
-{
-  if (marker_found) {
-    if (marker_pos == 0) {
-      if (is_opener) {
-        StyleType type;
-        int subtype;
-        marker_get_type_and_subtype(project, marker, type, subtype);
-        if (style_get_starts_verse_number(type, subtype)) {
-          // If a verse number starts, ensure that it happens in a normal paragraph.
-          load_text_ensure_normal_paragraph(line, paragraph_mark, character_mark);
-          // Clear the character markup (the paragraph markup remains as it is).
-          character_mark.clear();
-          // Some styles insert their marker: Do that here if appropriate.
-          if (style_get_displays_marker(type, subtype)) {
-            //editor_text_append(textbuffer, line.substr(0, marker_length), paragraph_mark, "");
-          }
-          // Remove the markup from the line.
-          line.erase(0, marker_length);
-          // Get verse number. Handle combined verses too, e.g. 10-12b, etc.
-          size_t position = line.find(" ");
-          if (position == string::npos)
-            position = line.length();
-          ustring versenumber = line.substr(0, position);
-          // Display the verse and erase it from the input buffer.
-          //editor_text_append(textbuffer, versenumber, paragraph_mark, marker);
-          line.erase(0, position);
-          // The information was processed: return true.
-          return true;
-        }
-      }
-    }
-  }
-  return false;
-}
-
-bool Editor2::load_text_note_raw(ustring & line, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
-/*
- This function loads the raw text of a footnote, an endnote, or a 
- crossreference.
- */
-{
-  if (marker_found) {
-    if (marker_pos == 0) {
-      if (is_opener) {
-        StyleType type;
-        int subtype;
-        marker_get_type_and_subtype(project, marker, type, subtype);
-        if (style_get_starts_footnote(type, subtype) || style_get_starts_endnote(type, subtype) || style_get_starts_crossreference(type, subtype)) {
-          // Proceed if the endmarker is in the text too.
-          ustring endmarker = usfm_get_full_closing_marker(marker);
-          size_t endmarkerpos = line.find(endmarker);
-          if (endmarkerpos != string::npos) {
-            // Get raw note text and erase it from the input buffer.
-            ustring rawnote(line.substr(marker_length, endmarkerpos - endmarker.length()));
-            line.erase(0, endmarkerpos + endmarker.length());
-            // Insert the note.
-            insert_note(marker, rawnote, false);
-            // The information was processed: return true.
-            return true;
-          }
-        }
-      }
-    }
-  }
-  return false;
-}
-
-
-bool Editor2::load_text_table_raw(ustring & line, const ustring & paragraph_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
-// This function loads the raw text of a table.
-{
-  if (marker_found) {
-    if (marker_pos == 0) {
-      if (is_opener) {
-        StyleType type;
-        int subtype;
-        marker_get_type_and_subtype(project, marker, type, subtype);
-        // Proceed if this bit starts with any table-related marker.
-        if (style_get_starts_table_row(type, subtype) || style_get_starts_table_cell(type, subtype)) {
-          // Get the marker that ends the table bits.
-          ustring endmarker;
-          vector < ustring > markers = usfm_get_all_markers(line);
-          for (unsigned int i = 0; i < markers.size(); i++) {
-            StyleType type2;
-            int subtype2;
-            marker_get_type_and_subtype(project, markers[i], type2, subtype2);
-            if (type2 != stTableElement) {
-              endmarker = markers[i];
-              break;
-            }
-          }
-          // Proceed with the text till the next non-table marker or the end of the line.
-          ustring rawtable;
-          if (endmarker.empty()) {
-            rawtable = line;
-            line.clear();
-          } else {
-            size_t pos1, pos2;
-            pos1 = line.find(usfm_get_full_opening_marker(endmarker));
-            pos2 = line.find(usfm_get_full_closing_marker(endmarker));
-            size_t pos = MIN(pos1, pos2);
-            rawtable = line.substr(0, pos);
-            line.erase(0, pos);
-          }
-          /*
-          // Display the table
-          GtkTextIter iter;
-          gtk_text_buffer_get_iter_at_mark(textbuffer, &iter, gtk_text_buffer_get_insert(textbuffer));
-          display_table(rawtable, iter);
-          */
-          // The information was processed: return true.
-          return true;
-        }
-      }
-    }
-  }
-  return false;
-}
-
 
 bool Editor2::load_text_table_starting_row(ustring & line, EditorTable & editortable, GtkTextBuffer * &textbuffer, bool & row_zero_initialized, gint & row, gint & column, ustring & paragraph_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
 /*
@@ -1782,36 +1586,6 @@ bool Editor2::load_text_ending_footnote_content(GtkTextBuffer * textbuffer, ustr
     }
   }
   return false;
-}
-
-
-void Editor2::load_text_ensure_normal_paragraph(ustring & line, ustring & paragraph_mark, ustring & character_mark)
-/*
- This function ensures that a normal paragraph starts.
- line: The raw USFM.
- paragraph_mark: The paragarph style to investigate whether it is a normal paragraph.
- character_mark: The character style.
- */
-{
-  // Bail out if the paragraph starts a normal one, i.e. not a title or heading.
-  StyleType type;
-  int subtype;
-  marker_get_type_and_subtype(project, paragraph_mark, type, subtype);
-  if (type == stStartsParagraph)
-    if (subtype == ptNormalParagraph)
-      return;
-
-  // Review marker \nb, bail out if it does not exist.
-  ustring marker = "nb";
-  marker_get_type_and_subtype(project, marker, type, subtype);
-  if (type != stStartsParagraph)
-    return;
-  if (subtype != ptNormalParagraph)
-    return;
-
-  // Insert the marker in the line, and apply it.
-  line.insert(0, usfm_get_full_opening_marker(marker));
-  //load_text_starting_new_paragraph(textbuffer, line, paragraph_mark, character_mark, marker, 0, usfm_get_full_opening_marker(marker).length(), true, true);
 }
 
 
@@ -2003,14 +1777,12 @@ void Editor2::display_notes_remainder(bool focus_rendered_textview)
     bool marker_found;
     while (!editornotes[i].rawtext.empty()) {
       marker_found = usfm_search_marker(editornotes[i].rawtext, marker, marker_pos, marker_length, is_opener);
-      if (load_text_not_starting_with_marker(editornotes[i].textbuffer, editornotes[i].rawtext, paragraph_mark, character_mark, marker_pos, marker_length, marker_found)) ;
       else if (load_text_starting_new_paragraph(editornotes[i].textbuffer, editornotes[i].rawtext, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
       else if (load_text_starting_character_style(editornotes[i].textbuffer, editornotes[i].rawtext, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
       else if (load_text_ending_character_style(editornotes[i].textbuffer, editornotes[i].rawtext, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
       else if (load_text_starting_footnote_content(editornotes[i].textbuffer, editornotes[i].rawtext, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
       else if (load_text_ending_footnote_content(editornotes[i].textbuffer, editornotes[i].rawtext, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-      else
-        load_text_with_unknown_markup(editornotes[i].textbuffer, editornotes[i].rawtext, paragraph_mark, character_mark);
+      else fallback;
     }
 
     // Remove any superfluous whitespace at the end of the note.
@@ -2221,11 +1993,9 @@ void Editor2::display_table(ustring line, GtkTextIter iter)
   GtkTextBuffer *textbuffer = table_cell_get_buffer(editortable, row, column);
   while (!line.empty()) {
     marker_found = usfm_search_marker(line, marker, marker_pos, marker_length, is_opener);
-    if (load_text_not_starting_with_marker(textbuffer, line, paragraph_mark, character_mark, marker_pos, marker_length, marker_found)) ;
-    else if (load_text_table_starting_row(line, editortable, textbuffer, row_zero_initialized, row, column, paragraph_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
+    if (load_text_table_starting_row(line, editortable, textbuffer, row_zero_initialized, row, column, paragraph_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
     else if (load_text_table_starting_cell(line, editortable, textbuffer, row_zero_initialized, row, column, paragraph_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else
-      load_text_with_unknown_markup(textbuffer, line, paragraph_mark, character_mark);
+    else fallback;
   }
 
   // Erase any superfluous whitespace at the end of the cells.
@@ -2262,140 +2032,6 @@ void Editor2::erase_tables()
 }
 
 
-void Editor2::on_related_widget_size_allocated(GtkWidget * widget, GtkAllocation * allocation, gpointer user_data)
-{
-  ((Editor2 *) user_data)->related_widget_size_allocated(widget, allocation);
-}
-
-
-void Editor2::related_widget_size_allocated(GtkWidget * widget, GtkAllocation * allocation)
-// There are a couple of widget whose size depends upon other widgets, and which
-// do not naturally take their right size. These need some intervention to get
-// them to display properly. This function deals with these various widgets.
-{
-  gw_destroy_source(related_widget_size_allocated_event_id);
-  if (related_widget_size_allocation_allow) {
-    related_widget_size_allocated_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_related_widget_size_allocated_timeout), gpointer(this), NULL);
-  }
-}
-
-
-bool Editor2::on_related_widget_size_allocated_timeout(gpointer user_data)
-{
-  ((Editor2 *) user_data)->related_widget_size_allocated_timeout();
-  return false;
-}
-
-
-void Editor2::related_widget_size_allocated_timeout()
-{
-  /*
-  related_widget_size_allocated_event_id = 0;
-
-  bool set_notes_width = false;
-  bool set_notes_height = false;
-  bool set_cells_width = false;
-
-  if (textview->allocation.width != textview_allocated_width) {
-    textview_allocated_width = textview->allocation.width;
-    if (textview_allocated_width > 1) {
-      set_notes_width = true;
-      set_cells_width = true;
-    }
-  }
-
-  for (unsigned int i = 0; i < editornotes.size(); i++) {
-    GtkWidget * widget = editornotes[i].label_caller_note;
-    if (widget->allocation.width != editornotes[i].label_caller_note_allocated_width) {
-      editornotes[i].label_caller_note_allocated_width = widget->allocation.width;
-      if (editornotes[i].label_caller_note_allocated_width > 1) {
-        set_notes_width = true;
-      }
-    }
-    widget = editornotes[i].textview;
-    if (widget->allocation.height != editornotes[i].textview_allocated_height) {
-      editornotes[i].textview_allocated_height = widget->allocation.height;
-      if (editornotes[i].textview_allocated_height) {
-        set_notes_height = true;
-      }
-    }
-  }
-
-  if (set_notes_width) {
-    for (unsigned int i = 0; i < editornotes.size(); i++) {
-      set_embedded_note_textview_width(i);
-    }
-  }
-  
-  if (set_notes_height) {
-    for (unsigned int i = 0; i < editornotes.size(); i++) {
-      if (editornotes[i].textview_allocated_height) {
-        set_embedded_note_caller_height(i);
-      }
-    }
-  }
-  
-  if (set_cells_width) {
-    for (unsigned int i = 0; i < editortables.size(); i++) {
-      set_embedded_table_textviews_width(i);
-    }
-  }
-  */
-}
-
-
-void Editor2::set_embedded_note_textview_width(unsigned int notenumber)
-// This sets the width of the textview that contains the text of a note.
-{
-  gint width = textview_allocated_width - editornotes[notenumber].label_caller_note_allocated_width - 100;
-  if (width < 1)
-    return;
-  extern Settings *settings;
-  if (width > settings->genconfig.screen_width_get()) {
-  }
-  gtk_widget_set_size_request(editornotes[notenumber].textview, width, -1);
-}
-
-
-void Editor2::set_embedded_note_caller_height(unsigned int notenumber)
-// Sets the height of the note caller.
-{
-  gint height = editornotes[notenumber].textview_allocated_height;
-  if (height < 1)
-    return;
-  gtk_widget_set_size_request(editornotes[notenumber].label_caller_note, -1, height);
-}
-
-
-void Editor2::set_embedded_table_textviews_width(unsigned int tablenumber)
-// This sets the width of the textview that contains the text of a note.
-{
-  // Bail out if the width is too small to be properly handled.  
-  gint width = textview_allocated_width - 50;
-  if (width < 1)
-    return;
-
-  // Get the maximum column count.
-  unsigned int max_column_count = 0;
-  for (unsigned int row = 0; row < editortables[tablenumber].textviews.size(); row++) {
-    if (editortables[tablenumber].textviews[row].size() > max_column_count) {
-      max_column_count = editortables[tablenumber].textviews[row].size();
-    }
-  }
-
-  // Calculate the width of the textview of one cell.
-  width /= max_column_count;
-
-  // Set the width of all the cells.
-  for (unsigned int row = 0; row < editortables[tablenumber].textviews.size(); row++) {
-    for (unsigned int column = 0; column < editortables[tablenumber].textviews[row].size(); column++) {
-      GtkWidget *textview = table_cell_get_view(editortables[tablenumber], row, column);
-      gtk_widget_set_size_request(textview, width, -1);
-    }
-  }
-}
-
-
 void Editor2::on_buffer_insert_text_before(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, gchar * text, gint length, gpointer user_data)
 {
   ((Editor2 *) user_data)->buffer_insert_text_before(textbuffer, pos_iter, text, length);
@@ -2404,7 +2040,7 @@ void Editor2::on_buffer_insert_text_before(GtkTextBuffer * textbuffer, GtkTextIt
 
 void Editor2::buffer_insert_text_before(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, gchar * text, gint length)
 {
-  
+  cout << "buffer_insert_text_before (GtkTextBuffer * textbuffer " << textbuffer << ", GtkTextIter * pos_iter offset " << gtk_text_iter_get_offset (pos_iter) << ", gchar * text " << text << ", gint length " << length << ")" << endl; // Todo
 }
 
 
@@ -2417,8 +2053,8 @@ void Editor2::on_buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIte
 void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, gchar * text, gint length)
 {
   
-  
   return;
+  cout << "buffer_insert_text_after (GtkTextBuffer * textbuffer " << textbuffer << ", GtkTextIter * pos_iter offset " << gtk_text_iter_get_offset (pos_iter) << ", gchar * text " << text << ", gint length " << length << ")" << endl; // Todo
   
   // Bail out if no undoes are to be recorded.
   if (!recording_undo_actions())
@@ -2561,6 +2197,8 @@ void Editor2::on_buffer_delete_range_before(GtkTextBuffer * textbuffer, GtkTextI
 
 void Editor2::buffer_delete_range_before(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end)
 {
+  cout << "buffer_delete_range_before (GtkTextBuffer * textbuffer " << textbuffer << ", GtkTextIter * start offset " << gtk_text_iter_get_offset (start) << ", GtkTextIter * end offset " << gtk_text_iter_get_offset (end) << ")" << endl; // Todo
+
   // Handle deleting footnotes.
   //collect_text_child_anchors_being_deleted(start, end);
 }
@@ -2574,6 +2212,7 @@ void Editor2::on_buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIt
 
 void Editor2::buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end)
 {
+  cout << "buffer_delete_range_after (GtkTextBuffer * textbuffer " << textbuffer << ", GtkTextIter * start offset " << gtk_text_iter_get_offset (start) << ", GtkTextIter * end offset " << gtk_text_iter_get_offset (end) << ")" << endl; // Todo
   //signal_editor_changed();
   //process_text_child_anchors_deleted();
 }
@@ -2587,6 +2226,8 @@ void Editor2::on_buffer_apply_tag(GtkTextBuffer * textbuffer, GtkTextTag * tag, 
 
 void Editor2::buffer_apply_tag(GtkTextBuffer * textbuffer, GtkTextTag * tag, GtkTextIter * startiter, GtkTextIter * enditer)
 {
+  cout << "buffer_apply_tag (GtkTextBuffer * textbuffer " << textbuffer << ", GtkTextIter * start offset " << gtk_text_iter_get_offset (startiter) << ", GtkTextIter * end offset " << gtk_text_iter_get_offset (enditer) << ")" << endl; // Todo
+
   /*
   // Only proceed if undo-able actions are to be recorded.
   if (recording_undo_actions()) {
@@ -2606,29 +2247,12 @@ void Editor2::on_buffer_remove_tag(GtkTextBuffer * textbuffer, GtkTextTag * tag,
 
 void Editor2::buffer_remove_tag(GtkTextBuffer * textbuffer, GtkTextTag * tag, GtkTextIter * startiter, GtkTextIter * enditer)
 {
+  cout << "buffer_remove_tag (GtkTextBuffer * textbuffer " << textbuffer << ", GtkTextIter * start offset " << gtk_text_iter_get_offset (startiter) << ", GtkTextIter * end offset " << gtk_text_iter_get_offset (enditer) << ")" << endl; // Todo
   /*
   // Only proceed if undo-able actions are to be recorded.
   if (recording_undo_actions()) {
     signal_editor_changed();
     gtk_text_buffer_set_modified(textbuffer, true);
-    trigger_undo_redo_recording ();
-  }
-  */
-}
-
-
-void Editor2::on_buffer_insert_child_anchor(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, GtkTextChildAnchor * childanchor, gpointer user_data)
-{
-  ((Editor2 *) user_data)->buffer_insert_child_anchor(textbuffer, pos_iter, childanchor);
-}
-
-
-void Editor2::buffer_insert_child_anchor(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, GtkTextChildAnchor * childanchor)
-{
-  /*
-  // Only proceed if undo-able actions are to be recorded.
-  if (recording_undo_actions()) {
-    signal_editor_changed();
     trigger_undo_redo_recording ();
   }
   */
@@ -3666,59 +3290,6 @@ void Editor2::scroll_cursor_on_screen_timeout()
 }
 
 
-void Editor2::text_load_v2 (ustring text) // Todo
-{
-  // Clean away possible new lines.
-  replace_text (text, "\n", " ");
-
-  // Get rid of possible previous data in the Editor.
-  gtk_container_foreach(GTK_CONTAINER(vbox_v2), on_container_tree_callback_destroy, gpointer(this));
-  last_focused_textview_v2 = NULL;
-
-  // Simulate the user typing the input text.
-  ustring paragraph_mark(unknown_style());
-  ustring character_mark;
-  ustring marker;
-  size_t marker_pos;
-  size_t marker_length;
-  bool is_opener;
-  bool marker_found;
-  while (!text.empty()) {
-
-    if (last_focused_textview_v2 == NULL) {
-      EditorAction action (eatCreateParagraphWidget);
-      apply_editor_action (&action);
-    }
-
-    deque <EditorAction *> editoractions;
-    marker_found = usfm_search_marker(text, marker, marker_pos, marker_length, is_opener);
-    if (load_text_not_starting_with_marker(last_focused_textview_v2, text, paragraph_mark, character_mark, marker_pos, marker_length, marker_found)) ;
-    /*
-    else if (load_text_table_raw(text, paragraph_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    */
-    else if (load_text_starting_new_paragraph(project, last_focused_textview_v2, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ; // Todo
-    /*
-    else if (load_text_starting_character_style(textbuffer, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else if (load_text_ending_character_style(textbuffer, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else if (load_text_verse_number(text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else if (load_text_note_raw(text, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    */
-    else load_text_with_unknown_markup(last_focused_textview_v2, text, paragraph_mark, character_mark);
-    for (unsigned int i = 0; i < editoractions.size(); i++) {
-      EditorAction * editoraction = editoractions[i];
-      apply_editor_action (editoraction);
-      actions_done.push_back (editoraction);
-    }
-  }
-
-  // Update gui for styles.
-  signal_if_styles_changed();
-
-  // Trigger a spelling check.
-  spelling_trigger();
-}
-
-
 void Editor2::apply_editor_action (EditorAction * action)
 {
   cout << "applying editor action" << endl; // Todo
@@ -3737,7 +3308,6 @@ void Editor2::apply_editor_action (EditorAction * action)
       g_signal_connect_after(G_OBJECT(textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_after), gpointer(this));
       g_signal_connect(G_OBJECT(textbuffer), "apply-tag", G_CALLBACK(on_buffer_apply_tag), gpointer(this));
       g_signal_connect(G_OBJECT(textbuffer), "remove-tag", G_CALLBACK(on_buffer_remove_tag), gpointer(this));
-      g_signal_connect(G_OBJECT(textbuffer), "insert-child-anchor", G_CALLBACK(on_buffer_insert_child_anchor), gpointer(this));
       g_signal_connect(G_OBJECT(textbuffer), "insert-pixbuf", G_CALLBACK(on_buffer_insert_pixbuf), gpointer(this));
 
       // Add a new text view to the GUI to view the text buffer.
@@ -3782,3 +3352,5 @@ void Editor2::apply_editor_action (EditorAction * action)
     }
   }
 }
+
+
