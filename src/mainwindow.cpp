@@ -6858,40 +6858,12 @@ Todo tasks.
 
 
 
-
-
-
-task #9578: versification system mapping
-
-The windows that check the keyterms, and that show related verses, 
-and the ones that show the references and load original texts, such as now from the KJV, 
-should remap their references following the versification system of the relevant project.
-
-When importing the KJV Bible from the Sword project the references need to be remapped to the Hebrew and Greek origins.
-And when consulting the now remapped KJV, it needs to map back again to the actual Bible's versification system. 
-
-
-
-
-
-task #9583: to easily delete all visible project notes
-When deleting project notes, it may be useful to have a link at the bottom of those notes that deletes them all, all the visible ones.
-
-
-
-
-
-task #9585: export text by email
-A useful export is to email the data of a project to an email address.
-It could do this at regular times, or let's say on shutdown a day after previous time it did that. Or so many days after a change.
-It requires mutt.
-It can send a test email, just with text, and the user can then decide whether the mailer works well. Not all mailers work well. 
-
-
-
-
-task #9598: import resources from the Online Bible
-Done through the interface through the Outpost.
+To use an actions stack.
+The current system of two styes, one for the paragraph and one for the character level, remains for formatting reasons.
+There's only one 'load-text' routine, that should do all the loading for all cases.
+It should create actions of the input text.
+These actions should be executed.
+If a new line is typed, this is translated into actions.
 
 
 
@@ -6992,11 +6964,6 @@ As soon as a new command is placed on the top of the undo stack, however, all co
 
 
 
-Our own actions stack.
-All text is loaded into the widget as if it is typed in it.
-This is then captured, and translated into actions, which are stored on the stacks.
-If a new line is typed, this is translated into actions.
-The current system of two styes, one for the paragraph and one for the character level, remains for formatting reasons.
 
 
 
@@ -7014,6 +6981,9 @@ Mention on the summary that access requests can be sent to a certain email addre
 
 
 
+
+
+
 In order to find the list of problems in the USFM as mentioned below, a few options are needed such as the ability
 to disable whole categories of checks, as is written in the task submitted:
 
@@ -7021,23 +6991,43 @@ Both Shona & Ndebele had a number of instances where the verse number
 was immediately followed by the first word, without a space following 
 the number.
 
-Shona:
 
-Ezra contains a "\P" instead of "\p".
-Amos 5:5 ends line with "\p" which should be on the following line.
-Psalm 42 has two lines beginning with "\d", the first is blank and 
-unnecessary.
-Psalm 140 contains a mid-line "\d" that should start its own new line.
-James 5:1 needs a space between the verse number and the beginning of 
-the verse text.
 
-Ndebele:
 
-iNkosi appears with irregular marking throughout: sometimes iN\sc 
-KOSI\sc*, sometimes i\sc NKOSI\sc*.
-In Deut 31:8, "IN\sc KOSI-ke\sc*" should probably read "IN\sc KOSI\sc*-ke".
-In Hos 10:3, inkosi-ke should probably read "iN\sc KOSI\sc*-ke".
-After Isa 41:20 there is an extra "\s" on its own line.
+
+task #9578: versification system mapping
+
+The windows that check the keyterms, and that show related verses, 
+and the ones that show the references and load original texts, such as now from the KJV, 
+should remap their references following the versification system of the relevant project.
+
+When importing the KJV Bible from the Sword project the references need to be remapped to the Hebrew and Greek origins.
+And when consulting the now remapped KJV, it needs to map back again to the actual Bible's versification system. 
+
+
+
+
+
+task #9583: to easily delete all visible project notes
+When deleting project notes, it may be useful to have a link at the bottom of those notes that deletes them all, all the visible ones.
+
+
+
+
+
+task #9585: export text by email
+A useful export is to email the data of a project to an email address.
+It could do this at regular times, or let's say on shutdown a day after previous time it did that. Or so many days after a change.
+It requires mutt.
+It can send a test email, just with text, and the user can then decide whether the mailer works well. Not all mailers work well. 
+
+
+
+
+task #9598: import resources from the Online Bible
+Done through the interface through the Outpost.
+
+
 
 
 

@@ -970,6 +970,7 @@ void textbuffer_erase_white_space_at_end(GtkTextBuffer * textbuffer)
   gtk_text_buffer_delete(textbuffer, &iter, &iter2);
 }
 
+
 void textbuffer_erase_child_anchor(GtkTextBuffer * textbuffer, GtkTextChildAnchor * anchor)
 {
   GtkTextIter iter;
@@ -979,6 +980,7 @@ void textbuffer_erase_child_anchor(GtkTextBuffer * textbuffer, GtkTextChildAncho
   gtk_text_buffer_delete(textbuffer, &iter, &iter2);
 }
 
+
 bool textbuffer_empty(GtkTextBuffer * textbuffer)
 {
   GtkTextIter startiter, enditer;
@@ -986,6 +988,7 @@ bool textbuffer_empty(GtkTextBuffer * textbuffer)
   gtk_text_buffer_get_end_iter(textbuffer, &enditer);
   return gtk_text_iter_equal(&startiter, &enditer);
 }
+
 
 void textbuffers_set_unmodified(GtkTextBuffer * mainbuffer, vector < EditorNote > &editornotes, vector < EditorTable > &editortables)
 // This clears the "modified" flag of the main textbuffer and all the 
@@ -1889,126 +1892,7 @@ void editor_text_append(GtkTextBuffer * textbuffer, const ustring & text, const 
 }
 
 
-void load_text_ensure_normal_paragraph(const ustring& project, GtkWidget * textview, ustring & line, ustring & paragraph_mark, ustring & character_mark)
-/*
- This function ensures that a normal paragraph starts.
- line: The raw USFM.
- paragraph_mark: The paragarph style to investigate whether it is a normal paragraph.
- character_mark: The character style.
- */
-{
-  // Bail out if the current paragraph mark points to a normal paragraph, not a title or heading.
-  StyleType type;
-  int subtype;
-  marker_get_type_and_subtype(project, paragraph_mark, type, subtype);
-  if (type == stStartsParagraph)
-    if (subtype == ptNormalParagraph)
-      return;
-
-  // Review marker \nb, bail out if it does not exist.
-  ustring marker = "nb";
-  marker_get_type_and_subtype(project, marker, type, subtype);
-  if (type != stStartsParagraph)
-    return;
-  if (subtype != ptNormalParagraph)
-    return;
-
-  // Insert the marker in the line, and apply it.
-  line.insert(0, usfm_get_full_opening_marker(marker));
-  load_text_starting_new_paragraph(project, textview, line, paragraph_mark, character_mark, marker, 0, usfm_get_full_opening_marker(marker).length(), true, true);
-}
-
-
-bool load_text_starting_new_paragraph(const ustring& project, GtkWidget * textview, ustring & line, ustring & paragraph_mark, ustring & character_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
-/*
- This function deals with a marker that starts a paragraph.
- It enters the text in the textbuffer.
- */
-{
-  if (textview) {
-    if (marker_found) {
-      if (marker_pos == 0) {
-        if (is_opener) {
-          StyleType type;
-          int subtype;
-          marker_get_type_and_subtype(project, marker, type, subtype);
-          if (style_get_starts_new_line_in_editor(type, subtype)) {
-            GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
-            // Because the ends of lines are changed to spaces, and these spaces
-            // get inserted in the editor, if a new line starts, we need to trim
-            // away the extra space at the end. This is done here.
-            textbuffer_erase_character_before_text_insertion_point_if_space(textbuffer);
-            // Insert a new line with the still prevailing markup, if the buffer is empty.
-            if (!textbuffer_empty(textbuffer))
-              editor_text_append(textbuffer, "\n", paragraph_mark, character_mark);
-            // Set the new paragraph and character markup.
-            paragraph_mark = marker;
-            character_mark.clear();
-            // Some styles insert their marker: Do that here if appropriate.
-            if (style_get_displays_marker(type, subtype)) {
-              editor_text_append(textbuffer, line.substr(0, marker_length), paragraph_mark, "");
-            }
-            // Remove the markup from the line.
-            line.erase(0, marker_length);
-            // The information was processed: return true.
-            return true;
-          }
-        }
-      }
-    }
-  } else {
-    gw_critical ("No text view was given to start a paragraph in");
-  }
-  return false;
-}
-
-
-bool load_text_verse_number(const ustring& project, GtkWidget * textview, ustring & line, ustring & paragraph_mark, ustring & character_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
-/*
- This function returns true if a verse number was loaded in the formatted view.
- Else it returns false.
- Verses are special in that their style only applies to the verse number,
- not to the text that follows.
- */
-{
-  if (marker_found) {
-    if (marker_pos == 0) {
-      if (is_opener) {
-        StyleType type;
-        int subtype;
-        marker_get_type_and_subtype(project, marker, type, subtype);
-        if (style_get_starts_verse_number(type, subtype)) {
-          // If a verse number starts, ensure that it happens in a normal paragraph.
-          load_text_ensure_normal_paragraph(project, textview, line, paragraph_mark, character_mark);
-          // Clear the character markup (the paragraph markup remains as it is).
-          character_mark.clear();
-          // Get the textbuffer.
-          GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
-          // Some styles insert their marker: Do that here if appropriate.
-          if (style_get_displays_marker(type, subtype)) {
-            editor_text_append(textbuffer, line.substr(0, marker_length), paragraph_mark, "");
-          }
-          // Remove the markup from the line.
-          line.erase(0, marker_length);
-          // Get verse number. Handle combined verses too, e.g. 10-12b, etc.
-          size_t position = line.find(" ");
-          if (position == string::npos)
-            position = line.length();
-          ustring versenumber = line.substr(0, position);
-          // Display the verse and erase it from the input buffer.
-          editor_text_append(textbuffer, versenumber, paragraph_mark, marker);
-          line.erase(0, position);
-          // The information was processed: return true.
-          return true;
-        }
-      }
-    }
-  }
-  return false;
-}
-
-
-bool load_text_starting_character_style(const ustring& project, GtkWidget * textview, ustring & line, ustring & paragraph_mark, ustring & character_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
+bool create_editor_objects_for_text_starting_character_style(const ustring& project, GtkWidget * textview, ustring & line, ustring & paragraph_mark, ustring & character_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
 /*
  This function deals with a marker that starts a character style.
  It does the administration that starting this style requires.
@@ -2040,7 +1924,7 @@ bool load_text_starting_character_style(const ustring& project, GtkWidget * text
 }
 
 
-bool load_text_ending_character_style(const ustring& project, GtkWidget * textview, ustring & line, ustring & paragraph_mark, ustring & character_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
+bool create_editor_objects_for_text_ending_character_style(const ustring& project, GtkWidget * textview, ustring & line, ustring & paragraph_mark, ustring & character_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
 /*
  This function deals with a marker that ends a character style.
  It does the administration that ending this style requires.
@@ -2072,7 +1956,7 @@ bool load_text_ending_character_style(const ustring& project, GtkWidget * textvi
 }
 
 
-bool load_text_table_raw(const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
+bool create_editor_objects_for_text_table_raw(const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
 // This function loads the raw text of a table.
 {
   if (marker_found) {
@@ -2124,7 +2008,7 @@ bool load_text_table_raw(const ustring& project, GtkWidget * textview, ustring& 
 }
 
 
-bool load_text_note_raw(const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
+bool create_editor_objects_for_text_note_raw(const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
 /*
  This function loads the raw text of a footnote, an endnote, or a 
  crossreference.
@@ -2157,38 +2041,29 @@ bool load_text_note_raw(const ustring& project, GtkWidget * textview, ustring& l
 }
 
 
-void load_text_fallback (const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
+void create_editor_objects_for_text_fallback (const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
 // This is a fallback function to load the text.
-/*
- This function loads text that does not start with a marker.
- It then erases that bit of text from the input.
- In order to get things right, it loads the text with the prevailing
- paragraph and character markup.
- */
-/*
- This function loads text with unknown markup in the formatted view.
- It is a fallback function that gets called when everything else has failed.
- Basically it just takes one character from the available text, 
- and loads it into the formatted view with the prevailing markup.
- By taking only one character at a time it is hoped that one of the next times,
- the lines gives enough markup information again to be handled properly.
- */
 {
-  if (textview) {
-    GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
-    if ((marker_found) && (marker_pos != string::npos) && (marker_pos > 0)) {
-      // Load text till the next marker.
-      ustring text(line.substr(0, marker_pos));
-      line.erase(0, marker_pos);
-      editor_text_append(textbuffer, text, paragraph_mark, character_mark);
-    } else {
-      // No markup found: The whole line is loaded at once.
-      editor_text_append(textbuffer, line, paragraph_mark, character_mark);
-      line.clear();
-    }
-  } else {
+  if (textview == NULL) {
     gw_critical ("Didn't have a textview to load text into");
   }
+  GtkTextBuffer * textbuffer = NULL;
+  if (textview)
+    textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+  if ((marker_found) && (marker_pos != string::npos) && (marker_pos > 0)) {
+    // Load text till the next marker.
+    ustring text(line.substr(0, marker_pos));
+    line.erase(0, marker_pos);
+    if (textbuffer)
+      editor_text_append(textbuffer, text, paragraph_mark, character_mark);
+  } else {
+    // No markup found: The whole line is loaded at once.
+    if (textbuffer)
+      editor_text_append(textbuffer, line, paragraph_mark, character_mark);
+    line.clear();
+  }
+
+
 }
 
 
