@@ -741,7 +741,6 @@ void WindowEditor::switch_to_view (bool viewusfm, ustring project)
   extern Settings * settings;
   if (settings->session.second_editor) {
     editor2 = new Editor2 (vbox, project);
-    // Todo this one probably needs a signal whenever a new widget is added, so it can connect that new widget. connect_focus_signals (editor2->textview);
     g_signal_connect ((gpointer) editor2->new_verse_signal, "clicked", G_CALLBACK(on_new_verse_signalled), gpointer(this));
     g_signal_connect ((gpointer) editor2->new_styles_signal, "clicked", G_CALLBACK(on_new_styles_signalled), gpointer(this));
     g_signal_connect ((gpointer) editor2->quick_references_button, "clicked", G_CALLBACK(on_quick_references_signalled), gpointer(this));
@@ -749,6 +748,7 @@ void WindowEditor::switch_to_view (bool viewusfm, ustring project)
     g_signal_connect ((gpointer) editor2->reload_signal, "clicked", G_CALLBACK(on_reload_signalled), gpointer(this));
     g_signal_connect ((gpointer) editor2->changed_signal, "clicked", G_CALLBACK(on_changed_signalled), gpointer(this));
     g_signal_connect ((gpointer) editor2->spelling_checked_signal, "clicked", G_CALLBACK(on_spelling_checked_signalled), gpointer(this));
+    g_signal_connect ((gpointer) editor2->new_widget_signal, "clicked", G_CALLBACK(on_new_widget_signal_clicked), gpointer(this));
     last_focused_widget = editor2->last_focused_widget;
   }
   else if (viewusfm) {
@@ -813,3 +813,16 @@ void WindowEditor::spelling_trigger ()
   }
 }
 
+
+void WindowEditor::on_new_widget_signal_clicked(GtkButton *button, gpointer user_data)
+{
+  ((WindowEditor *) user_data)->on_new_widget_signal();
+}
+
+
+void WindowEditor::on_new_widget_signal ()
+{
+  if (editor2) {
+    connect_focus_signals (editor2->new_widget_pointer);
+  }
+}

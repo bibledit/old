@@ -39,6 +39,8 @@ class Editor2
 public:
   Editor2(GtkWidget * vbox_in, const ustring& project_in);
   ~Editor2();
+  GtkWidget * new_widget_signal;
+  GtkWidget * new_widget_pointer;
 private:
   GtkWidget *scrolledwindow_v2;
   GtkWidget *viewport_v2;

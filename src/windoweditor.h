@@ -111,6 +111,9 @@ protected:
   void on_changed();
   static void on_spelling_checked_signalled(GtkButton *button, gpointer user_data);
   void on_spelling_checked();
+  static void on_new_widget_signal_clicked(GtkButton *button, gpointer user_data);
+  void on_new_widget_signal ();
+  
 private:
 };
 

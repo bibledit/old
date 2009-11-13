@@ -6871,6 +6871,11 @@ We need to insert two separators in in the editor actions.
 2. The OneAction separator. Since we may have a series of actions that are all to be best considered one unified action, 
 * this separator indicates that any action between two of these separators is to be executed at once.
 
+The last textbuffer needs to trim away the last space.
+
+
+
+
 
 On karmic there is a crash when switching to a chapter that has footnotes.
 Before this bug is fixed, we set the default view to USFM view.

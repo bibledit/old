@@ -170,6 +170,7 @@ current_reference(0, 1000, "")
   changed_signal = gtk_button_new();
   quick_references_button = gtk_button_new();
   spelling_checked_signal = gtk_button_new ();
+  new_widget_signal = gtk_button_new ();
 
   // Initialize a couple of event ids.
   textview_cursor_moved_delayer_event_id = 0;
@@ -229,6 +230,7 @@ Editor2::~Editor2()
   gtk_widget_destroy(changed_signal);
   gtk_widget_destroy(quick_references_button);
   gtk_widget_destroy (spelling_checked_signal);
+  gtk_widget_destroy (new_widget_signal);
 
   // Destroy the texttag tables.
   g_object_unref(texttagtable);
@@ -3366,6 +3368,10 @@ void Editor2::apply_editor_action (EditorAction * action)
       //g_signal_connect((gpointer) textview, "button_press_event", G_CALLBACK(on_textview_button_press_event), gpointer(this));
       //g_signal_connect((gpointer) textview, "size-allocate", G_CALLBACK(on_related_widget_size_allocated), gpointer(this));
 
+      // Send a signal so that the parent window also can connect to the signals of the GtkTextView.
+      new_widget_pointer = textview;
+      gtk_button_clicked (GTK_BUTTON (new_widget_signal));
+      
       // Store a pointer to the new textview.
       EditorActionCreateParagraph * paragraphaction = static_cast <EditorActionCreateParagraph *> (action);
       paragraphaction->widget = textview;
@@ -3495,7 +3501,9 @@ bool Editor2::create_editor_objects_starting_new_paragraph(vector <EditorAction 
 
           // Some styles insert their marker: Do that here if appropriate.
           if (style_get_displays_marker(type, subtype)) {
-            // Todo work here editor_text_append(textbuffer, line.substr(0, marker_length), paragraph_mark, "");
+            gint insertion_offset = editor_paragraph_insertion_point_get_offset (paragraph_action);
+            EditorActionInsertText * insert_action = new EditorActionInsertText (paragraph_action, insertion_offset, line.substr(0, marker_length));
+            editoractions.push_back (insert_action);
           }
 
           // Remove the markup from the line.
