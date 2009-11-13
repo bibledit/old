@@ -1758,11 +1758,13 @@ ustring get_verse_number_at_iterator(GtkTextIter iter, const ustring & verse_mar
   return verse;
 }
 
+
 const gchar *unknown_style()
 // Gives the name of the style that is for markers that are not in the stylesheet.
 {
   return "unknown";
 }
+
 
 void textbuffer_apply_named_tag(GtkTextBuffer * buffer, const ustring & name, const GtkTextIter * start, const GtkTextIter * end)
 // Applies the tag on the textbuffer, if the tag exists.
@@ -1774,6 +1776,18 @@ void textbuffer_apply_named_tag(GtkTextBuffer * buffer, const ustring & name, co
     gtk_text_buffer_apply_tag_by_name(buffer, name.c_str(), start, end);
   else
     gtk_text_buffer_apply_tag_by_name(buffer, unknown_style(), start, end);
+}
+
+
+void textview_apply_paragraph_style(GtkWidget *textview, const ustring& style)
+// Applies "style" to the whole "textview".
+{
+  GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+  GtkTextIter start;
+  gtk_text_buffer_get_start_iter (textbuffer, &start);
+  GtkTextIter end;
+  gtk_text_buffer_get_end_iter (textbuffer, &end);
+  gtk_text_buffer_apply_tag_by_name (textbuffer, style.c_str(), &start, &end);
 }
 
 
@@ -2038,32 +2052,6 @@ bool create_editor_objects_for_text_note_raw(const ustring& project, GtkWidget *
     }
   }
   return false;
-}
-
-
-void create_editor_objects_for_text_fallback (const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
-// This is a fallback function to load the text.
-{
-  if (textview == NULL) {
-    gw_critical ("Didn't have a textview to load text into");
-  }
-  GtkTextBuffer * textbuffer = NULL;
-  if (textview)
-    textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
-  if ((marker_found) && (marker_pos != string::npos) && (marker_pos > 0)) {
-    // Load text till the next marker.
-    ustring text(line.substr(0, marker_pos));
-    line.erase(0, marker_pos);
-    if (textbuffer)
-      editor_text_append(textbuffer, text, paragraph_mark, character_mark);
-  } else {
-    // No markup found: The whole line is loaded at once.
-    if (textbuffer)
-      editor_text_append(textbuffer, line, paragraph_mark, character_mark);
-    line.clear();
-  }
-
-
 }
 
 

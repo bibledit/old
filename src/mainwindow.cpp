@@ -6858,13 +6858,12 @@ Todo tasks.
 
 
 
-To use an actions stack.
-The current system of two styes, one for the paragraph and one for the character level, remains for formatting reasons.
-There's only one 'load-text' routine, that should do all the loading for all cases.
-It should create actions of the input text.
-These actions should be executed.
-If a new line is typed, this is translated into actions.
+There's only one 'load-text' routine, that makes editor actions for loading text in all cases.
+If a new line is typed in a textview, this is translated into actions.
+It text is put into the textview, by the clipboard or through typing, this text should be removed, then inserted again through EditorActions.
 
+Resizing the window is very hard. It is recommended to disconnect the textview from its textbuffer temporally when resizing.
+This probably speeds it up a lot.
 
 
 
@@ -7010,7 +7009,9 @@ And when consulting the now remapped KJV, it needs to map back again to the actu
 
 task #9583: to easily delete all visible project notes
 When deleting project notes, it may be useful to have a link at the bottom of those notes that deletes them all, all the visible ones.
-
+Or to allow the user to click them all - and this could be done by waiting to redisplay the notes,
+or else, when a notes was deleted, to immediately display the rest again, so that the link to be clicked to delete always
+remains at the top.
 
 
 

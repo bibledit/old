@@ -27,13 +27,13 @@
 
 
 enum EditorActionType {
-  eatCreateParagraphWidget,
-  eatSetParagraphWidgetStyle,
+  eatCreateParagraph,
+  eatSetParagraphStyle,
   eatInsertText
 };
 
 
-unsigned int new_action_object_identifier ();
+unsigned int next_action_object_identifier ();
 
 
 class EditorAction
@@ -42,12 +42,41 @@ public:
   EditorAction(EditorActionType type_in);
   virtual ~EditorAction();
   EditorActionType type;
-  unsigned int my_identifier;
+private:
+};
+
+
+class EditorActionCreateParagraph : public EditorAction
+{
+public:
+  EditorActionCreateParagraph(int dummy);
+  virtual ~EditorActionCreateParagraph();
+  GtkWidget * widget;
+  unsigned int identifier;
+  ustring style;
+private:
+};
+
+
+class EditorActionSetParagraphStyle : public EditorAction
+{
+public:
+  EditorActionSetParagraphStyle(const ustring& style, EditorActionCreateParagraph * parent_action);
+  virtual ~EditorActionSetParagraphStyle();
   unsigned int parent_identifier;
-  void describe ();
-  gpointer my_pointer;
-  int my_integer;
-  ustring my_string;
+  ustring previous_style;
+  ustring current_style;
+private:
+};
+
+
+class EditorActionInsertText : public EditorAction
+{
+public:
+  EditorActionInsertText(const ustring& text_in, EditorActionCreateParagraph * parent_action);
+  virtual ~EditorActionInsertText();
+  unsigned int parent_identifier;
+  ustring text;
 private:
 };
 

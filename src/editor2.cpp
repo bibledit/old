@@ -259,6 +259,10 @@ void Editor2::chapter_load(unsigned int chapter_in)
   // No recording of undoable actions while this object is alive.
   //PreventEditorUndo preventundo(&record_undo_level);
 
+  // Clear the stacks of actions done and redoable.
+  clear_and_destroy_editor_actions (actions_done);
+  clear_and_destroy_editor_actions (actions_redoable);
+
   // Restart the verse tracker.
   restart_verse_tracker();
 
@@ -303,10 +307,6 @@ void Editor2::chapter_load(unsigned int chapter_in)
   // Clear undo buffer.
   //snapshots.clear();
   
-  // Clear the stacks of actions done and redoable.
-  clear_and_destroy_editor_actions (actions_done);
-  clear_and_destroy_editor_actions (actions_redoable);
-
   // Set the buffer(s) non-modified.
   //textbuffers_set_unmodified(textbuffer, editornotes, editortables);
 
@@ -325,12 +325,11 @@ void Editor2::text_load (ustring text) // Todo
 
   // If there's no textview to start with create a new one.
   if (focused_textview_identifier == 0) {
-    EditorAction action (eatCreateParagraphWidget);
-    apply_editor_action (&action);
+    EditorActionCreateParagraph * action = new EditorActionCreateParagraph (0);
+    apply_editor_action (action);
   }
 
   // Create editor actions out of this text and apply these.
-  ustring paragraph_mark(unknown_style());
   ustring character_mark;
   ustring marker;
   size_t marker_pos;
@@ -340,17 +339,46 @@ void Editor2::text_load (ustring text) // Todo
   while (!text.empty()) {
     vector <EditorAction *> editoractions;
     marker_found = usfm_search_marker(text, marker, marker_pos, marker_length, is_opener);
-    GtkWidget * last_focused_textview_v2 = identifier2textview (focused_textview_identifier); // Todo temporal, since we won't work with raw GtkTextView anymore, but with an identifier instead.
-    if      (create_editor_objects_for_text_table_raw                (project, last_focused_textview_v2, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else if (create_editor_objects_for_text_starting_new_paragraph   (editoractions, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else if (create_editor_objects_for_text_starting_character_style (project, last_focused_textview_v2, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else if (create_editor_objects_for_text_ending_character_style   (project, last_focused_textview_v2, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else if (create_editor_objects_for_text_verse_number             (editoractions, project, last_focused_textview_v2, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else if (create_editor_objects_for_text_note_raw                 (project, last_focused_textview_v2, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else     create_editor_objects_for_text_fallback                 (project, last_focused_textview_v2, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found);
+    bool handled = false;
+    /*
+    if (!handled) {
+      if (create_editor_objects_for_text_table_raw                (project, last_focused_textview_v2, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) {
+        handled = true;
+      }
+    }
+    */
+    if (!handled) {
+      if (create_editor_objects_starting_new_paragraph (editoractions, text, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) {
+        handled = true;
+      }
+    }
+    /*
+    if (!handled) {
+      if (create_editor_objects_for_text_starting_character_style (project, last_focused_textview_v2, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) {
+        handled = true;
+      }
+    }
+    if (!handled) {
+      if (create_editor_objects_for_text_ending_character_style   (project, last_focused_textview_v2, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) {
+        handled = true;
+      }
+    }
+    if (!handled) {
+      if (create_editor_objects_for_text_verse_number             (editoractions, project, last_focused_textview_v2, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) {
+        handled = true;
+      }
+    }
+    if (!handled) {
+      if (create_editor_objects_for_text_note_raw                 (project, last_focused_textview_v2, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) {
+        handled = true;
+      }
+    }
+    */
+    if (!handled) {
+      create_editor_objects_fallback (editoractions, text, character_mark, marker_pos, marker_found);
+    }
     for (unsigned int i = 0; i < editoractions.size(); i++) {
       apply_editor_action (editoractions[i]);
-      actions_done.push_back (editoractions[i]);
     }
   }
 
@@ -2042,7 +2070,7 @@ void Editor2::on_buffer_insert_text_before(GtkTextBuffer * textbuffer, GtkTextIt
 
 void Editor2::buffer_insert_text_before(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, gchar * text, gint length)
 {
-  //cout << "buffer_insert_text_before (GtkTextBuffer * textbuffer " << textbuffer << ", GtkTextIter * pos_iter offset " << gtk_text_iter_get_offset (pos_iter) << ", gchar * text " << text << ", gint length " << length << ")" << endl; // Todo
+  //cout << "buffer_insert_text_before (GtkTextBuffer * textbuffer " << textbuffer << ", GtkTextIter * pos_iter offset " << gtk_text_iter_get_offset (pos_iter) << ", gchar * text " << text << ", gint length " << length << ")" << endl;
 }
 
 
@@ -2056,7 +2084,7 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
 {
   
   return;
-  //cout << "buffer_insert_text_after (GtkTextBuffer * textbuffer " << textbuffer << ", GtkTextIter * pos_iter offset " << gtk_text_iter_get_offset (pos_iter) << ", gchar * text " << text << ", gint length " << length << ")" << endl; // Todo
+  //cout << "buffer_insert_text_after (GtkTextBuffer * textbuffer " << textbuffer << ", GtkTextIter * pos_iter offset " << gtk_text_iter_get_offset (pos_iter) << ", gchar * text " << text << ", gint length " << length << ")" << endl;
   
   // Bail out if no undoes are to be recorded.
   if (!recording_undo_actions())
@@ -2199,7 +2227,7 @@ void Editor2::on_buffer_delete_range_before(GtkTextBuffer * textbuffer, GtkTextI
 
 void Editor2::buffer_delete_range_before(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end)
 {
-  //cout << "buffer_delete_range_before (GtkTextBuffer * textbuffer " << textbuffer << ", GtkTextIter * start offset " << gtk_text_iter_get_offset (start) << ", GtkTextIter * end offset " << gtk_text_iter_get_offset (end) << ")" << endl; // Todo
+  //cout << "buffer_delete_range_before (GtkTextBuffer * textbuffer " << textbuffer << ", GtkTextIter * start offset " << gtk_text_iter_get_offset (start) << ", GtkTextIter * end offset " << gtk_text_iter_get_offset (end) << ")" << endl;
 
   // Handle deleting footnotes.
   //collect_text_child_anchors_being_deleted(start, end);
@@ -2214,7 +2242,7 @@ void Editor2::on_buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIt
 
 void Editor2::buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end)
 {
-  //cout << "buffer_delete_range_after (GtkTextBuffer * textbuffer " << textbuffer << ", GtkTextIter * start offset " << gtk_text_iter_get_offset (start) << ", GtkTextIter * end offset " << gtk_text_iter_get_offset (end) << ")" << endl; // Todo
+  //cout << "buffer_delete_range_after (GtkTextBuffer * textbuffer " << textbuffer << ", GtkTextIter * start offset " << gtk_text_iter_get_offset (start) << ", GtkTextIter * end offset " << gtk_text_iter_get_offset (end) << ")" << endl;
   //signal_editor_changed();
   //process_text_child_anchors_deleted();
 }
@@ -2228,7 +2256,7 @@ void Editor2::on_buffer_apply_tag(GtkTextBuffer * textbuffer, GtkTextTag * tag, 
 
 void Editor2::buffer_apply_tag(GtkTextBuffer * textbuffer, GtkTextTag * tag, GtkTextIter * startiter, GtkTextIter * enditer)
 {
-  //cout << "buffer_apply_tag (GtkTextBuffer * textbuffer " << textbuffer << ", GtkTextIter * start offset " << gtk_text_iter_get_offset (startiter) << ", GtkTextIter * end offset " << gtk_text_iter_get_offset (enditer) << ")" << endl; // Todo
+  //cout << "buffer_apply_tag (GtkTextBuffer * textbuffer " << textbuffer << ", GtkTextIter * start offset " << gtk_text_iter_get_offset (startiter) << ", GtkTextIter * end offset " << gtk_text_iter_get_offset (enditer) << ")" << endl;
 
   /*
   // Only proceed if undo-able actions are to be recorded.
@@ -2249,7 +2277,7 @@ void Editor2::on_buffer_remove_tag(GtkTextBuffer * textbuffer, GtkTextTag * tag,
 
 void Editor2::buffer_remove_tag(GtkTextBuffer * textbuffer, GtkTextTag * tag, GtkTextIter * startiter, GtkTextIter * enditer)
 {
-  // cout << "buffer_remove_tag (GtkTextBuffer * textbuffer " << textbuffer << ", GtkTextIter * start offset " << gtk_text_iter_get_offset (startiter) << ", GtkTextIter * end offset " << gtk_text_iter_get_offset (enditer) << ")" << endl; // Todo
+  // cout << "buffer_remove_tag (GtkTextBuffer * textbuffer " << textbuffer << ", GtkTextIter * start offset " << gtk_text_iter_get_offset (startiter) << ", GtkTextIter * end offset " << gtk_text_iter_get_offset (enditer) << ")" << endl;
   /*
   // Only proceed if undo-able actions are to be recorded.
   if (recording_undo_actions()) {
@@ -2441,6 +2469,7 @@ unsigned int Editor2::last_focused_column()
   }
   return 0;
 }
+
 
 void Editor2::apply_style(const ustring & marker)
 /*
@@ -3294,10 +3323,10 @@ void Editor2::scroll_cursor_on_screen_timeout()
 
 void Editor2::apply_editor_action (EditorAction * action)
 {
-  cout << "applying editor action" << endl; // Todo
-  action->describe(); // Todo
+  GtkWidget * widget_that_should_grab_focus = NULL;
   switch (action->type) {
-    case eatCreateParagraphWidget:
+
+    case eatCreateParagraph:
     {
       // A new textbuffer that uses the text tag table.
       GtkTextBuffer * textbuffer;
@@ -3306,7 +3335,7 @@ void Editor2::apply_editor_action (EditorAction * action)
       // The buffer's signal handlers.
       g_signal_connect(G_OBJECT(textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_before), gpointer(this));
       g_signal_connect_after(G_OBJECT(textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_after), gpointer(this));
-      g_signal_connect(G_OBJECT(textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_before), gpointer(this)); // Todo working here.
+      g_signal_connect(G_OBJECT(textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_before), gpointer(this));
       g_signal_connect_after(G_OBJECT(textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_after), gpointer(this));
       g_signal_connect(G_OBJECT(textbuffer), "apply-tag", G_CALLBACK(on_buffer_apply_tag), gpointer(this));
       g_signal_connect(G_OBJECT(textbuffer), "remove-tag", G_CALLBACK(on_buffer_remove_tag), gpointer(this));
@@ -3329,38 +3358,76 @@ void Editor2::apply_editor_action (EditorAction * action)
       spellingchecker->attach(textview);
       g_signal_connect_after((gpointer) textview, "move_cursor", G_CALLBACK(on_textview_move_cursor), gpointer(this));
       g_signal_connect((gpointer) textview, "motion-notify-event", G_CALLBACK(on_text_motion_notify_event), gpointer(this));
+      g_signal_connect_after((gpointer) textview, "grab_focus", G_CALLBACK(on_textview_grab_focus), gpointer(this));
       //g_signal_connect((gpointer) textview, "event-after", G_CALLBACK(on_text_event_after), gpointer(this));
       //g_signal_connect((gpointer) textview, "key-press-event", G_CALLBACK(text_key_press_event_before), gpointer(this));
       //g_signal_connect_after((gpointer) textview, "key-press-event", G_CALLBACK(text_key_press_event_after), gpointer(this));
       //g_signal_connect((gpointer) textview, "visibility-notify-event", G_CALLBACK(screen_visibility_notify_event), gpointer(this));
       //g_signal_connect((gpointer) textview, "button_press_event", G_CALLBACK(on_textview_button_press_event), gpointer(this));
       //g_signal_connect((gpointer) textview, "size-allocate", G_CALLBACK(on_related_widget_size_allocated), gpointer(this));
-      g_signal_connect_after((gpointer) textview, "grab_focus", G_CALLBACK(on_textview_grab_focus), gpointer(this));
 
-      // Grab its focus so that it is the text view that the user will type in.
-      gtk_widget_grab_focus (textview);
-      // Store a pointer to it.
-      action->my_pointer = gpointer (textview);
+      // Store a pointer to the new textview.
+      EditorActionCreateParagraph * paragraphaction = static_cast <EditorActionCreateParagraph *> (action);
+      paragraphaction->widget = textview;
       
-      cout << GTK_OBJECT_TYPE_NAME (textview) << endl; // Todo
-      cout << GTK_OBJECT_TYPE (textview) << endl; // Todo
+      // Let the newly created textview be earmarked to grab focus
+      // so that the user can type in it,
+      // and the internal Editor logic knows about it.
+      widget_that_should_grab_focus = textview;
 
       break;
     }
-    case eatSetParagraphWidgetStyle: // Todo to implement.
+
+    case eatSetParagraphStyle:
     {
+      // Cast the action to the right object to work with.
+      EditorActionSetParagraphStyle * style_action = static_cast <EditorActionSetParagraphStyle *> (action);
+      // Look for the parent paragraph.
+      EditorActionCreateParagraph * parent_action = identifier2paragraphcreationaction (style_action->parent_identifier);
+      if (parent_action) {
+        // Store the old paragraph style, and set the new.
+        style_action->previous_style = parent_action->style;
+        parent_action->style = style_action->current_style;
+        // Apply it to the widget.
+        textview_apply_paragraph_style (parent_action->widget, parent_action->style);
+      } else {
+        gw_critical ("Could not apply style to paragraph with identifier " + convert_to_string (style_action->parent_identifier));
+      }
+
       break;
     }
-    case eatInsertText: // Todo to implement.
+
+    case eatInsertText:
     {
+      // Cast the action to the right object to work with.
+      EditorActionInsertText * insert_action = static_cast <EditorActionInsertText *> (action);
+      // Get the parent paragraph.
+      EditorActionCreateParagraph * parent_action = identifier2paragraphcreationaction (insert_action->parent_identifier);
+      GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (parent_action->widget));
+      if (textbuffer) {
+        gtk_text_buffer_insert_at_cursor (textbuffer, insert_action->text.c_str(), -1);
+        textview_apply_paragraph_style (parent_action->widget, parent_action->style);
+      } else {
+        gw_critical ("Could not find the paragraph where to insert text " + insert_action->text);
+      }
       break;
     }
+  }
+
+  // Store this action in the list of ones done.
+  actions_done.push_back (action);
+
+  // If there's any widget that was earmarked to be focused, grab its focus.
+  // This can only be done at the end when the whole object has been set up,
+  // because the callback for grabbing the focus uses this object.
+  if (widget_that_should_grab_focus) {
+    gtk_widget_grab_focus (widget_that_should_grab_focus);
   }
 }
 
 
-bool Editor2::create_editor_objects_for_text_starting_new_paragraph(vector <EditorAction *>& editoractions, ustring & line, ustring & paragraph_mark, ustring & character_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found) // Todo
-// This function deals with a marker that starts a paragraph. Todo working here.
+bool Editor2::create_editor_objects_starting_new_paragraph(vector <EditorAction *>& editoractions, ustring & line, ustring & character_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
+// This function deals with a marker that starts a paragraph.
 {
   if (marker_found) {
     if (marker_pos == 0) {
@@ -3369,38 +3436,42 @@ bool Editor2::create_editor_objects_for_text_starting_new_paragraph(vector <Edit
         int subtype;
         marker_get_type_and_subtype(project, marker, type, subtype);
         if (style_get_starts_new_line_in_editor(type, subtype)) {
-          //GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+
           // Because the ends of lines are changed to spaces, 
           // and these undesirable spaces get inserted in the editor, 
           // if a new line starts, we need to trim these away.
-          //textbuffer_erase_character_before_text_insertion_point_if_space(textbuffer); // Todo make this so that it acts on the right textview.
-          // Create a new textview if the current one has content. // Todo
+          //textbuffer_erase_character_before_text_insertion_point_if_space(textbuffer); // Todo working here make this so that it acts on the right textview.
+
+          // Normally a new paragraph should create a new textview.
+          // Thi is because each textview contains only one paragraph.
+          // But if the currently focused textview does not have any content, 
+          // that existing one will be used.
           bool textview_has_content = true;
-          GtkWidget * textview = identifier2textview (focused_textview_identifier);
-          if (textview) {
+          EditorActionCreateParagraph * paragraph_action = identifier2paragraphcreationaction (focused_textview_identifier);
+          if (paragraph_action) {
+            GtkWidget * textview = paragraph_action->widget;
             GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
-            if (textbuffer) {
-              textview_has_content = !textbuffer_empty(textbuffer);
-            }
+            textview_has_content = !textbuffer_empty(textbuffer);
           }
           if (textview_has_content) {
-            EditorAction * action = new EditorAction (eatCreateParagraphWidget);
-            editoractions.push_back (action);
-            focused_textview_identifier = action->my_identifier;
+            paragraph_action = new EditorActionCreateParagraph (0);
+            editoractions.push_back (paragraph_action);
+            focused_textview_identifier = paragraph_action->identifier;
           }
-          // Set the new paragraph and character markup.
-          paragraph_mark = marker;
+
+          // The new paragraph and character markup.
+          EditorActionSetParagraphStyle * style_action = new EditorActionSetParagraphStyle (marker, paragraph_action);
+          editoractions.push_back (style_action);
           character_mark.clear();
-          EditorAction * action = new EditorAction (eatSetParagraphWidgetStyle);
-          action->parent_identifier = focused_textview_identifier;
-          action->my_string = paragraph_mark;
-          editoractions.push_back (action);
+
           // Some styles insert their marker: Do that here if appropriate.
           if (style_get_displays_marker(type, subtype)) {
-            // Todo editor_text_append(textbuffer, line.substr(0, marker_length), paragraph_mark, "");
+            // Todo work here editor_text_append(textbuffer, line.substr(0, marker_length), paragraph_mark, "");
           }
+
           // Remove the markup from the line.
           line.erase(0, marker_length);
+
           // The information was processed: return true.
           return true;
         }
@@ -3437,7 +3508,7 @@ void Editor2::create_editor_objects_to_ensure_normal_paragraph(vector <EditorAct
 
   // Insert the marker in the line, and apply it.
   line.insert(0, usfm_get_full_opening_marker(marker));
-  create_editor_objects_for_text_starting_new_paragraph(editoractions, line, paragraph_mark, character_mark, marker, 0, usfm_get_full_opening_marker(marker).length(), true, true);
+  create_editor_objects_starting_new_paragraph(editoractions, line, character_mark, marker, 0, usfm_get_full_opening_marker(marker).length(), true, true);
 }
 
 
@@ -3486,16 +3557,17 @@ bool Editor2::create_editor_objects_for_text_verse_number(vector <EditorAction *
 }
 
 
-unsigned int Editor2::textview2identifier (GtkWidget * textview) // Todo
+unsigned int Editor2::textview2identifier (GtkWidget * textview)
 // Given a pointer to a GtkTextView, it returns its identifier.
 {
   unsigned int identifier = 0;
-  // Look through the actions that have been done to see if the GtkTextView has been created.
+  // Look through the actions done to see if the GtkTextView has been created.
   for (unsigned int i = 0; i < actions_done.size(); i++) {
     EditorAction * action = actions_done[i];
-    if (action->type == eatCreateParagraphWidget) {
-      if (action->my_pointer == textview) {
-        identifier = action->my_identifier;
+    if (action->type == eatCreateParagraph) {
+      EditorActionCreateParagraph * paragraphaction = static_cast <EditorActionCreateParagraph *> (action);
+      if (paragraphaction->widget == textview) {
+        identifier = paragraphaction->identifier;
       }
     }
   }
@@ -3504,20 +3576,53 @@ unsigned int Editor2::textview2identifier (GtkWidget * textview) // Todo
 }
 
 
-GtkWidget * Editor2::identifier2textview (unsigned int identifier) // Todo
-// Given an identifier it returns a pointer to its GtkTextView.
+EditorActionCreateParagraph * Editor2::identifier2paragraphcreationaction (unsigned int identifier)
+// Given an identifier it returns a pointer to its EditorAction.
 {
-  GtkWidget * textview = NULL;
-  // Look through the action done to see which GtkTextView this identifier created.
+  EditorActionCreateParagraph * action = NULL;
   for (unsigned int i = 0; i < actions_done.size(); i++) {
-    EditorAction * action = actions_done[i];
-    if (action->type == eatCreateParagraphWidget) {
-      if (action->my_identifier == identifier) {
-        textview = GTK_WIDGET (action->my_pointer);
+    if (actions_done[i]->type == eatCreateParagraph) {
+      EditorActionCreateParagraph * action2 = static_cast <EditorActionCreateParagraph *> (actions_done[i]);
+      if (action2->identifier == identifier) {
+        action = action2;
       }
     }
   }
-  // We also need to check whether this one was not destroyed. But this is still to be implemented.
-  return textview;
+  return action;
 }
+
+
+void Editor2::create_editor_objects_fallback (vector <EditorAction *>& editoractions, ustring& line, ustring& character_mark, size_t marker_pos, bool marker_found)
+// This is a fallback function to load the text.
+{
+  // Storage for the string to insert.
+  ustring insertion;  
+
+  if ((marker_found) && (marker_pos == 0)) {
+    // It should not occur that a marker is right at the start and was not handled.
+    // It gets handled here to prevent an infinite loop.
+    insertion = line.substr(0, 1);
+    line.erase(0, 1);
+  }
+  else if ((marker_found) && (marker_pos != string::npos) && (marker_pos > 0)) {
+    // Load text till the next marker.
+    insertion = line.substr(0, marker_pos);
+    line.erase(0, marker_pos);
+  } 
+  else {
+    // No markup found: The whole line is loaded at once.
+    insertion = line;
+    line.clear();
+  }
+  
+  // Create editor object for inserting the text.
+  EditorActionCreateParagraph * paragraph_action = identifier2paragraphcreationaction (focused_textview_identifier);
+  if (paragraph_action) {
+    EditorActionInsertText * insert_action = new EditorActionInsertText (insertion, paragraph_action);
+    editoractions.push_back (insert_action);
+  } else {
+    gw_critical ("Could not insert text since there is no paragraph with identifier " + convert_to_string (focused_textview_identifier));
+  }
+}
+
 

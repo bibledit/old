@@ -48,12 +48,12 @@ private:
   deque <EditorAction *> actions_redoable;
   void apply_editor_action (EditorAction * action);
   unsigned int focused_textview_identifier;
-  bool create_editor_objects_for_text_starting_new_paragraph   (vector <EditorAction *>& editoractions, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
+  bool create_editor_objects_starting_new_paragraph (vector <EditorAction *>& editoractions, ustring& line, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
   void create_editor_objects_to_ensure_normal_paragraph        (vector <EditorAction *>& editoractions, const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark);
   bool create_editor_objects_for_text_verse_number             (vector <EditorAction *>& editoractions, const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
+  void create_editor_objects_fallback (vector <EditorAction *>& editoractions, ustring& line, ustring& character_mark, size_t marker_pos, bool marker_found);
   unsigned int textview2identifier (GtkWidget * textview);
-  GtkWidget * identifier2textview (unsigned int identifier);
-
+  EditorActionCreateParagraph * identifier2paragraphcreationaction (unsigned int identifier);
 
 
 // Old stuff.
