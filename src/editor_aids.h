@@ -149,17 +149,14 @@ void clear_and_destroy_editor_actions (deque <EditorAction *>& actions);
 void on_container_tree_callback_destroy (GtkWidget *widget, gpointer user_data);
 void editor_text_append(GtkTextBuffer * textbuffer, const ustring & text, const ustring & paragraph_style, const ustring & character_style);
 
-
-
-
+gint editor_paragraph_insertion_point_get_offset (EditorActionCreateParagraph * paragraph_action);
 
 bool create_editor_objects_for_text_starting_character_style (const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
 bool create_editor_objects_for_text_ending_character_style   (const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
 bool create_editor_objects_for_text_table_raw                (const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
 bool create_editor_objects_for_text_note_raw                 (const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
 
-
-
+EditorActionDeleteText * paragraph_delete_character_before_text_insertion_point_if_space(EditorActionCreateParagraph * paragraph_action);
 
 
 #endif

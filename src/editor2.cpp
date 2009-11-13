@@ -3403,15 +3403,39 @@ void Editor2::apply_editor_action (EditorAction * action)
       EditorActionInsertText * insert_action = static_cast <EditorActionInsertText *> (action);
       // Get the parent paragraph.
       EditorActionCreateParagraph * parent_action = identifier2paragraphcreationaction (insert_action->parent_identifier);
+      // Insert text.
       GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (parent_action->widget));
       if (textbuffer) {
-        gtk_text_buffer_insert_at_cursor (textbuffer, insert_action->text.c_str(), -1);
+        GtkTextIter iter;
+        gtk_text_buffer_get_iter_at_offset (textbuffer, &iter, insert_action->offset);
+        gtk_text_buffer_insert (textbuffer, &iter, insert_action->text.c_str(), -1);
         textview_apply_paragraph_style (parent_action->widget, parent_action->style);
       } else {
         gw_critical ("Could not find the paragraph where to insert text " + insert_action->text);
       }
       break;
     }
+
+    case eatDeleteText:
+    {
+      // Cast the action to the right object to work with.
+      EditorActionDeleteText * delete_action = static_cast <EditorActionDeleteText *> (action);
+      // Get the parent paragraph.
+      EditorActionCreateParagraph * parent_action = identifier2paragraphcreationaction (delete_action->parent_identifier);
+      // Delete text.
+      GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (parent_action->widget));
+      if (textbuffer) {
+        GtkTextIter startiter;
+        gtk_text_buffer_get_iter_at_offset (textbuffer, &startiter, delete_action->offset);
+        GtkTextIter enditer;
+        gtk_text_buffer_get_iter_at_offset (textbuffer, &enditer, delete_action->offset + delete_action->length);
+        gtk_text_buffer_delete (textbuffer, &startiter, &enditer);
+      } else {
+        gw_critical ("Could not find the paragraph from where to delete text");
+      }
+      break;
+    }
+
   }
 
   // Store this action in the list of ones done.
@@ -3437,17 +3461,22 @@ bool Editor2::create_editor_objects_starting_new_paragraph(vector <EditorAction 
         marker_get_type_and_subtype(project, marker, type, subtype);
         if (style_get_starts_new_line_in_editor(type, subtype)) {
 
-          // Because the ends of lines are changed to spaces, 
-          // and these undesirable spaces get inserted in the editor, 
+          // Get the currently focused paragraph action.
+          EditorActionCreateParagraph * paragraph_action = identifier2paragraphcreationaction (focused_textview_identifier);
+          
+          // Because the ends of lines of USFM are changed to spaces, 
+          // and these spaces get inserted in the editor, 
           // if a new line starts, we need to trim these away.
-          //textbuffer_erase_character_before_text_insertion_point_if_space(textbuffer); // Todo working here make this so that it acts on the right textview.
+          EditorActionDeleteText * trim_action = paragraph_delete_character_before_text_insertion_point_if_space(paragraph_action);
+          if (trim_action) {
+            editoractions.push_back (trim_action);
+          }
 
           // Normally a new paragraph should create a new textview.
-          // Thi is because each textview contains only one paragraph.
+          // This is because each textview contains only one paragraph.
           // But if the currently focused textview does not have any content, 
           // that existing one will be used.
           bool textview_has_content = true;
-          EditorActionCreateParagraph * paragraph_action = identifier2paragraphcreationaction (focused_textview_identifier);
           if (paragraph_action) {
             GtkWidget * textview = paragraph_action->widget;
             GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
@@ -3618,10 +3647,11 @@ void Editor2::create_editor_objects_fallback (vector <EditorAction *>& editoract
   // Create editor object for inserting the text.
   EditorActionCreateParagraph * paragraph_action = identifier2paragraphcreationaction (focused_textview_identifier);
   if (paragraph_action) {
-    EditorActionInsertText * insert_action = new EditorActionInsertText (insertion, paragraph_action);
+    gint insertion_offset = editor_paragraph_insertion_point_get_offset (paragraph_action);
+    EditorActionInsertText * insert_action = new EditorActionInsertText (paragraph_action, insertion_offset, insertion);
     editoractions.push_back (insert_action);
   } else {
-    gw_critical ("Could not insert text since there is no paragraph with identifier " + convert_to_string (focused_textview_identifier));
+    gw_critical ("Could not insert text since no paragraph was found with identifier " + convert_to_string (focused_textview_identifier));
   }
 }
 

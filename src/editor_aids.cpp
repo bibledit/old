@@ -938,6 +938,7 @@ ustring style_get_table_cell_marker(const ustring & project, int column)
   return style;
 }
 
+
 void textbuffer_erase_character_before_text_insertion_point_if_space(GtkTextBuffer * textbuffer)
 // Erases the character before the text insertion point if that is a space.
 {
@@ -953,6 +954,7 @@ void textbuffer_erase_character_before_text_insertion_point_if_space(GtkTextBuff
   gtk_text_iter_forward_char(&iter2);
   gtk_text_buffer_delete(textbuffer, &iter, &iter2);
 }
+
 
 void textbuffer_erase_white_space_at_end(GtkTextBuffer * textbuffer)
 // Erases the character at the end of the textbuffer if that is white space.
@@ -2052,6 +2054,39 @@ bool create_editor_objects_for_text_note_raw(const ustring& project, GtkWidget *
     }
   }
   return false;
+}
+
+
+gint editor_paragraph_insertion_point_get_offset (EditorActionCreateParagraph * paragraph_action)
+{
+  gint offset = 0;
+  if (paragraph_action) {
+    GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph_action->widget));
+    GtkTextIter iter;
+    gtk_text_buffer_get_iter_at_mark(textbuffer, &iter, gtk_text_buffer_get_insert(textbuffer));
+    offset = gtk_text_iter_get_offset (&iter);
+  }
+  return offset;
+}
+
+
+EditorActionDeleteText * paragraph_delete_character_before_text_insertion_point_if_space(EditorActionCreateParagraph * paragraph_action)
+// Creates an action for deleting text for the character before the text insertion point if that is a space.
+{
+  if (paragraph_action) {
+    GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph_action->widget));
+    GtkTextIter iter;
+    gtk_text_buffer_get_iter_at_mark(textbuffer, &iter, gtk_text_buffer_get_insert(textbuffer));
+    bool text_available = gtk_text_iter_backward_char(&iter);
+    if (text_available) {
+      gunichar last_character = gtk_text_iter_get_char(&iter);
+      if (g_unichar_isspace(last_character)) {
+        gint offset = gtk_text_iter_get_offset (&iter);
+        return new EditorActionDeleteText (paragraph_action, offset, 1);
+      }
+    }
+  }
+  return NULL;
 }
 
 

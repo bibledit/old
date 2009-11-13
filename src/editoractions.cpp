@@ -34,6 +34,7 @@ unsigned int next_action_object_identifier ()
 
 EditorAction::EditorAction(EditorActionType type_in)
 {
+  // The type of this EditorAction.
   type = type_in;
 }
 
@@ -46,8 +47,14 @@ EditorAction::~EditorAction ()
 EditorActionCreateParagraph::EditorActionCreateParagraph(int dummy) :
 EditorAction (eatCreateParagraph)
 {
+  // Pointer to the GtkTextView. To be set when the GtkTextView has been created.
   widget = NULL;
+  // New unique identifier for this paragraph.
+  // It works with an identifier rather than with a pointer to the widget,
+  // since the identifier remains the same throughout Undo and Redo actions, 
+  // but the address of the widget changes each time when old ones are destroyed and new ones created.
   identifier = next_action_object_identifier ();
+  // The default style of the paragraph will be "unknown".
   style = unknown_style();
 }
 
@@ -60,8 +67,11 @@ EditorActionCreateParagraph::~EditorActionCreateParagraph ()
 EditorActionSetParagraphStyle::EditorActionSetParagraphStyle(const ustring& style, EditorActionCreateParagraph * parent_action) :
 EditorAction (eatSetParagraphStyle)
 {
+  // Identifier of the EditorAction object that created the paragraph whose style it going to be set.
   parent_identifier = parent_action->identifier;
+  // The style of the paragraph before the new style was applied.
   previous_style = parent_action->style;
+  // The new style for the paragraph.
   current_style = style;
 }
 
@@ -71,15 +81,37 @@ EditorActionSetParagraphStyle::~EditorActionSetParagraphStyle ()
 }
 
 
-EditorActionInsertText::EditorActionInsertText(const ustring& text_in, EditorActionCreateParagraph * parent_action) :
+EditorActionInsertText::EditorActionInsertText(EditorActionCreateParagraph * parent_action, gint offset_in, const ustring& text_in) :
 EditorAction (eatInsertText)
 {
+  // The identifier of the paragraph to operate on.
   parent_identifier = parent_action->identifier;
+  // Where to insert the text, that is, at which offset within the GtkTextBuffer.
+  offset = offset_in;
+  // The text to insert.
   text = text_in;
 }
 
 
 EditorActionInsertText::~EditorActionInsertText ()
+{
+}
+
+
+EditorActionDeleteText::EditorActionDeleteText(EditorActionCreateParagraph * parent_action, gint offset_in, gint length_in) :
+EditorAction (eatDeleteText)
+{
+  // The identifier of the paragraph to operate on.
+  parent_identifier = parent_action->identifier;
+  // Where to start deleting the text, that is, at which offset within the GtkTextBuffer.
+  offset = offset_in;
+  // The length of the text to be deleted.
+  length = length_in;
+  // The text which was deleted will be set when this action is executed.
+}
+
+
+EditorActionDeleteText::~EditorActionDeleteText ()
 {
 }
 

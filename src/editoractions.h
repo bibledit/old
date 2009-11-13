@@ -29,7 +29,8 @@
 enum EditorActionType {
   eatCreateParagraph,
   eatSetParagraphStyle,
-  eatInsertText
+  eatInsertText,
+  eatDeleteText
 };
 
 
@@ -73,10 +74,24 @@ private:
 class EditorActionInsertText : public EditorAction
 {
 public:
-  EditorActionInsertText(const ustring& text_in, EditorActionCreateParagraph * parent_action);
+  EditorActionInsertText(EditorActionCreateParagraph * parent_action, gint offset_in, const ustring& text_in);
   virtual ~EditorActionInsertText();
   unsigned int parent_identifier;
+  gint offset;
   ustring text;
+private:
+};
+
+
+class EditorActionDeleteText : public EditorAction
+{
+public:
+  EditorActionDeleteText(EditorActionCreateParagraph * parent_action, gint offset_in, gint length_in);
+  virtual ~EditorActionDeleteText();
+  unsigned int parent_identifier;
+  gint offset;
+  gint length;
+  ustring deleted_text;
 private:
 };
 
