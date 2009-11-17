@@ -53,6 +53,8 @@ private:
   bool usfm_starts_new_paragraph (ustring& line, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
   void editor_start_new_paragraph (const ustring& marker_text);
   void editor_start_verse (ustring& line, ustring& marker_text, ustring& character_style);
+  bool text_starts_character_style (ustring & line, ustring & character_style, const ustring & marker_text, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
+  bool text_ends_character_style   (ustring & line, ustring & character_style, const ustring & marker_text, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
   void load_text_fallback (ustring& line, ustring& character_style, size_t marker_pos, bool marker_found);
   EditorActionCreateParagraph * textview2paragraph_action (GtkWidget * textview);
 

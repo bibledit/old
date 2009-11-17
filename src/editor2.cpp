@@ -363,17 +363,17 @@ void Editor2::text_load (ustring text) // Todo
       }
     }
     */
+    if (!handled) {
+      if (text_starts_character_style (text, character_style, marker_text, marker_pos, marker_length, is_opener, marker_found)) { // Todo
+        handled = true;
+      }
+    }
+    if (!handled) {
+      if (text_ends_character_style (text, character_style, marker_text, marker_pos, marker_length, is_opener, marker_found)) { // Todo
+        handled = true;
+      }
+    }
     /*
-    if (!handled) {
-      if (create_editor_objects_for_text_starting_character_style (project, last_focused_textview_v2, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) {
-        handled = true;
-      }
-    }
-    if (!handled) {
-      if (create_editor_objects_for_text_ending_character_style   (project, last_focused_textview_v2, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) {
-        handled = true;
-      }
-    }
     */
     /*
     if (!handled) {
@@ -3630,6 +3630,46 @@ void Editor2::load_text_fallback (ustring& line, ustring& character_style, size_
     EditorActionApplyTextStyle * style_action = new EditorActionApplyTextStyle (paragraph, character_style, insertion_offset, insertion.length());
     apply_editor_action (style_action);
   }
+}
+
+
+bool Editor2::text_starts_character_style(ustring & line, ustring & character_style, const ustring & marker_text, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found) // Todo
+{
+  if (marker_found) {
+    if (marker_pos == 0) {
+      if (is_opener) {
+        StyleType type;
+        int subtype;
+        marker_get_type_and_subtype(project, marker_text, type, subtype);
+        if (style_get_starts_character_style(type, subtype)) {
+          character_style = marker_text;
+          line.erase(0, marker_length);
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}
+
+
+bool Editor2::text_ends_character_style(ustring & line, ustring & character_style, const ustring & marker_text, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found) // Todo
+{
+  if (marker_found) {
+    if (marker_pos == 0) {
+      if (!is_opener) {
+        StyleType type;
+        int subtype;
+        marker_get_type_and_subtype(project, marker_text, type, subtype);
+        if (style_get_starts_character_style(type, subtype)) {
+          character_style.clear();
+          line.erase(0, marker_length);
+          return true;
+        }
+      }
+    }
+  }
+  return false;
 }
 
 
