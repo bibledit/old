@@ -140,7 +140,7 @@ ustring get_verse_number_at_iterator(GtkTextIter iter, const ustring& verse_mark
 
 const gchar * unknown_style();
 void textbuffer_apply_named_tag(GtkTextBuffer *buffer, const ustring& name, const GtkTextIter *start, const GtkTextIter *end);
-void textview_apply_paragraph_style(GtkWidget *textview, const ustring& style);
+void textview_apply_paragraph_style(GtkWidget *textview, const ustring& oldstyle, const ustring& newstyle);
 void textbuffer_insert_with_named_tags(GtkTextBuffer *buffer, GtkTextIter *iter, const ustring& text, ustring first_tag_name, ustring second_tag_name);
 
 GtkWidget * textview_note_get_another(GtkTextBuffer * mainbuffer, GtkWidget * currentview, vector <EditorNote>& editornotes, EditorMovementType movement);
@@ -151,6 +151,9 @@ void editor_text_append(GtkTextBuffer * textbuffer, const ustring & text, const 
 
 gint editor_paragraph_insertion_point_get_offset (EditorActionCreateParagraph * paragraph_action);
 
+
+bool text_starts_paragraph (const ustring& project, ustring& line, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
+bool text_starts_verse (const ustring& project, ustring& line, const ustring& marker_text, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
 bool create_editor_objects_for_text_starting_character_style (const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
 bool create_editor_objects_for_text_ending_character_style   (const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
 bool create_editor_objects_for_text_table_raw                (const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);

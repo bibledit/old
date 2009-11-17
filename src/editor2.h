@@ -49,13 +49,12 @@ private:
   deque <EditorAction *> actions_done;
   deque <EditorAction *> actions_redoable;
   void apply_editor_action (EditorAction * action);
-  unsigned int focused_textview_identifier;
-  bool create_editor_objects_starting_new_paragraph (vector <EditorAction *>& editoractions, ustring& line, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
-  void create_editor_objects_to_ensure_normal_paragraph        (vector <EditorAction *>& editoractions, const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark);
-  bool create_editor_objects_for_text_verse_number             (vector <EditorAction *>& editoractions, const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
-  void create_editor_objects_fallback (vector <EditorAction *>& editoractions, ustring& line, ustring& character_mark, size_t marker_pos, bool marker_found);
-  unsigned int textview2identifier (GtkWidget * textview);
-  EditorActionCreateParagraph * identifier2paragraphcreationaction (unsigned int identifier);
+  EditorActionCreateParagraph * focused_paragraph_action;
+  bool usfm_starts_new_paragraph (ustring& line, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
+  void editor_start_new_paragraph (const ustring& marker_text);
+  void editor_start_verse (ustring& line, ustring& marker_text, ustring& character_style);
+  void load_text_fallback (ustring& line, ustring& character_style, size_t marker_pos, bool marker_found);
+  EditorActionCreateParagraph * textview2paragraph_action (GtkWidget * textview);
 
 
 // Old stuff.

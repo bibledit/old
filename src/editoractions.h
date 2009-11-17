@@ -30,11 +30,9 @@ enum EditorActionType {
   eatCreateParagraph,
   eatSetParagraphStyle,
   eatInsertText,
-  eatDeleteText
+  eatDeleteText,
+  eatApplyStyle
 };
-
-
-unsigned int next_action_object_identifier ();
 
 
 class EditorAction
@@ -53,7 +51,6 @@ public:
   EditorActionCreateParagraph(int dummy);
   virtual ~EditorActionCreateParagraph();
   GtkWidget * widget;
-  unsigned int identifier;
   ustring style;
 private:
 };
@@ -64,7 +61,7 @@ class EditorActionSetParagraphStyle : public EditorAction
 public:
   EditorActionSetParagraphStyle(const ustring& style, EditorActionCreateParagraph * parent_action);
   virtual ~EditorActionSetParagraphStyle();
-  unsigned int parent_identifier;
+  EditorActionCreateParagraph * paragraph;
   ustring previous_style;
   ustring current_style;
 private:
@@ -76,7 +73,7 @@ class EditorActionInsertText : public EditorAction
 public:
   EditorActionInsertText(EditorActionCreateParagraph * parent_action, gint offset_in, const ustring& text_in);
   virtual ~EditorActionInsertText();
-  unsigned int parent_identifier;
+  EditorActionCreateParagraph * paragraph;
   gint offset;
   ustring text;
 private:
@@ -88,10 +85,24 @@ class EditorActionDeleteText : public EditorAction
 public:
   EditorActionDeleteText(EditorActionCreateParagraph * parent_action, gint offset_in, gint length_in);
   virtual ~EditorActionDeleteText();
-  unsigned int parent_identifier;
+  EditorActionCreateParagraph * paragraph;
   gint offset;
   gint length;
   ustring deleted_text;
+private:
+};
+
+
+class EditorActionApplyTextStyle : public EditorAction
+{
+public:
+  EditorActionApplyTextStyle(EditorActionCreateParagraph * parent_action, const ustring& style_in, gint offset_in, gint length_in);
+  virtual ~EditorActionApplyTextStyle();
+  EditorActionCreateParagraph * paragraph;
+  ustring style;
+  gint offset;
+  gint length;
+  vector <ustring> previous_styles;
 private:
 };
 

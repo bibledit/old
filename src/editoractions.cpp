@@ -22,16 +22,6 @@
 #include "editor_aids.h"
 
 
-unsigned int next_action_object_identifier ()
-{
-  static unsigned int action_object_identifier = 0;
-  action_object_identifier++;
-  if (action_object_identifier == 0)
-    action_object_identifier++;
-  return action_object_identifier;
-}
-
-
 EditorAction::EditorAction(EditorActionType type_in)
 {
   // The type of this EditorAction.
@@ -49,11 +39,6 @@ EditorAction (eatCreateParagraph)
 {
   // Pointer to the GtkTextView. To be set when the GtkTextView has been created.
   widget = NULL;
-  // New unique identifier for this paragraph.
-  // It works with an identifier rather than with a pointer to the widget,
-  // since the identifier remains the same throughout Undo and Redo actions, 
-  // but the address of the widget changes each time when old ones are destroyed and new ones created.
-  identifier = next_action_object_identifier ();
   // The default style of the paragraph will be "unknown".
   style = unknown_style();
 }
@@ -67,8 +52,8 @@ EditorActionCreateParagraph::~EditorActionCreateParagraph ()
 EditorActionSetParagraphStyle::EditorActionSetParagraphStyle(const ustring& style, EditorActionCreateParagraph * parent_action) :
 EditorAction (eatSetParagraphStyle)
 {
-  // Identifier of the EditorAction object that created the paragraph whose style it going to be set.
-  parent_identifier = parent_action->identifier;
+  // The EditorAction object that created the paragraph whose style it going to be set.
+  paragraph = parent_action;
   // The style of the paragraph before the new style was applied.
   previous_style = parent_action->style;
   // The new style for the paragraph.
@@ -84,8 +69,8 @@ EditorActionSetParagraphStyle::~EditorActionSetParagraphStyle ()
 EditorActionInsertText::EditorActionInsertText(EditorActionCreateParagraph * parent_action, gint offset_in, const ustring& text_in) :
 EditorAction (eatInsertText)
 {
-  // The identifier of the paragraph to operate on.
-  parent_identifier = parent_action->identifier;
+  // The paragraph to operate on.
+  paragraph = parent_action;
   // Where to insert the text, that is, at which offset within the GtkTextBuffer.
   offset = offset_in;
   // The text to insert.
@@ -101,8 +86,8 @@ EditorActionInsertText::~EditorActionInsertText ()
 EditorActionDeleteText::EditorActionDeleteText(EditorActionCreateParagraph * parent_action, gint offset_in, gint length_in) :
 EditorAction (eatDeleteText)
 {
-  // The identifier of the paragraph to operate on.
-  parent_identifier = parent_action->identifier;
+  // The paragraph to operate on.
+  paragraph = parent_action;
   // Where to start deleting the text, that is, at which offset within the GtkTextBuffer.
   offset = offset_in;
   // The length of the text to be deleted.
@@ -112,6 +97,26 @@ EditorAction (eatDeleteText)
 
 
 EditorActionDeleteText::~EditorActionDeleteText ()
+{
+}
+
+
+EditorActionApplyTextStyle::EditorActionApplyTextStyle(EditorActionCreateParagraph * parent_action, const ustring& style_in, gint offset_in, gint length_in) :
+EditorAction (eatApplyStyle)
+{
+  // The identifier of the paragraph to operate on.
+  paragraph = parent_action;
+  // The name of the style.
+  style = style_in;
+  // Where to start applying the style, that is, at which offset within the GtkTextBuffer.
+  offset = offset_in;
+  // The length of the text where the style is to be applied.
+  length = length_in;
+  // The previous styles are stored per character when this action is executed.
+}
+
+
+EditorActionApplyTextStyle::~EditorActionApplyTextStyle ()
 {
 }
 

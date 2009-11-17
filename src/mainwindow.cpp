@@ -6859,17 +6859,19 @@ Todo tasks.
 
 
 There's only one 'load-text' routine, that produces editor actions for loading text in all cases.
-If a new line is typed in a textview, this is translated into actions.
 It text is put into the textview, by the clipboard or through typing, this text should be removed, then inserted again through EditorActions.
+
 
 Resizing the window is very hard. It is recommended to disconnect the textview from its textbuffer temporally when resizing.
 This probably speeds it up a lot.
 We may consider disconnecting it while loading text as well.
 
+
 We need to insert two separators in in the editor actions.
 1. The LoadChapter separator. This marks the place where the initial loading of the chapters stops.
 2. The OneAction separator. Since we may have a series of actions that are all to be best considered one unified action, 
 * this separator indicates that any action between two of these separators is to be executed at once.
+
 
 The last textbuffer needs to trim away the last space.
 

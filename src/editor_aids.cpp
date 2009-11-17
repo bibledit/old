@@ -1781,15 +1781,18 @@ void textbuffer_apply_named_tag(GtkTextBuffer * buffer, const ustring & name, co
 }
 
 
-void textview_apply_paragraph_style(GtkWidget *textview, const ustring& style)
-// Applies "style" to the whole "textview".
+void textview_apply_paragraph_style(GtkWidget *textview, const ustring& oldstyle, const ustring& newstyle)
+// Removes the old style and applies the new to the whole "textview".
 {
   GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
   GtkTextIter start;
   gtk_text_buffer_get_start_iter (textbuffer, &start);
   GtkTextIter end;
   gtk_text_buffer_get_end_iter (textbuffer, &end);
-  gtk_text_buffer_apply_tag_by_name (textbuffer, style.c_str(), &start, &end);
+  if (!oldstyle.empty()) {
+    gtk_text_buffer_remove_tag_by_name (textbuffer, oldstyle.c_str(), &start, &end);
+  }
+  gtk_text_buffer_apply_tag_by_name (textbuffer, newstyle.c_str(), &start, &end);
 }
 
 
@@ -2089,4 +2092,41 @@ EditorActionDeleteText * paragraph_delete_character_before_text_insertion_point_
   return NULL;
 }
 
+
+bool text_starts_paragraph (const ustring& project, ustring& line, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
+{
+  if (marker_found) {
+    if (marker_pos == 0) {
+      if (is_opener) {
+        StyleType type;
+        int subtype;
+        marker_get_type_and_subtype(project, marker, type, subtype);
+        if (style_get_starts_new_line_in_editor(type, subtype)) {
+          line.erase(0, marker_length);
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}
+
+
+bool text_starts_verse (const ustring& project, ustring& line, const ustring& marker_text, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
+{
+  if (marker_found) {
+    if (marker_pos == 0) {
+      if (is_opener) {
+        StyleType type;
+        int subtype;
+        marker_get_type_and_subtype(project, marker_text, type, subtype);
+        if (style_get_starts_verse_number(type, subtype)) {
+          line.erase (0, marker_length);
+          return true;
+        }
+      }
+    }
+  }
+  return false;  
+}
 

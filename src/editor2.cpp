@@ -60,6 +60,14 @@ The signal handlers call routines that make EditorActions out of this, and optio
 The EditorActions, when played back, will have the same effect as if the user typed.
 If Undo is done, then the last EditorAction is undone. It can also be Redone.
 
+
+The following things need to be tested after a change was made in the editor:
+* USFM \id GEN needs to be displayed with the full \id line.
+* USFM \p starts a new paragraph.
+* USFM \v works fine for verse markup.
+* USFM \add does the character style.
+
+
 */
 
 
@@ -86,7 +94,7 @@ current_reference(0, 1000, "")
   verse_restarts_paragraph = false;
   textbuffer_changed_event_id = 0;
   redo_counter = 0;
-  focused_textview_identifier = 0;
+  focused_paragraph_action = NULL;
     
   // Create data that is needed for any of the possible formatted views.
   create_or_update_formatting_data();
@@ -287,7 +295,7 @@ void Editor2::chapter_load(unsigned int chapter_in)
 
   // Get rid of possible previous widgets with their data.
   gtk_container_foreach(GTK_CONTAINER(vbox_v2), on_container_tree_callback_destroy, gpointer(this));
-  focused_textview_identifier = 0;
+  focused_paragraph_action = NULL;
 
   // Make one long line containing the whole chapter.
   // This is done so as to exclude any possibility that the editor does not
@@ -325,23 +333,29 @@ void Editor2::text_load (ustring text) // Todo
   // Clean away possible new lines.
   replace_text (text, "\n", " ");
 
-  // If there's no textview to start with create a new one.
-  if (focused_textview_identifier == 0) {
-    EditorActionCreateParagraph * action = new EditorActionCreateParagraph (0);
-    apply_editor_action (action);
-  }
-
-  // Create editor actions out of this text and apply these.
-  ustring character_mark;
-  ustring marker;
+  // Load the text into the editor by creating and applying editor actions.
+  ustring character_style;
+  ustring marker_text;
   size_t marker_pos;
   size_t marker_length;
   bool is_opener;
   bool marker_found;
   while (!text.empty()) {
-    vector <EditorAction *> editoractions;
-    marker_found = usfm_search_marker(text, marker, marker_pos, marker_length, is_opener);
+    marker_found = usfm_search_marker(text, marker_text, marker_pos, marker_length, is_opener);
     bool handled = false;
+    if (!handled) {
+      if (text_starts_paragraph (project, text, marker_text, marker_pos, marker_length, is_opener, marker_found)) {
+        character_style.clear();
+        editor_start_new_paragraph (marker_text);
+        handled = true;
+      }
+    }
+    if (!handled) {
+      if (text_starts_verse (project, text, marker_text, marker_pos, marker_length, is_opener, marker_found)) {
+        editor_start_verse (text, marker_text, character_style);
+        handled = true;
+      }
+    }
     /*
     if (!handled) {
       if (create_editor_objects_for_text_table_raw                (project, last_focused_textview_v2, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) {
@@ -349,11 +363,6 @@ void Editor2::text_load (ustring text) // Todo
       }
     }
     */
-    if (!handled) {
-      if (create_editor_objects_starting_new_paragraph (editoractions, text, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) {
-        handled = true;
-      }
-    }
     /*
     if (!handled) {
       if (create_editor_objects_for_text_starting_character_style (project, last_focused_textview_v2, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) {
@@ -365,11 +374,8 @@ void Editor2::text_load (ustring text) // Todo
         handled = true;
       }
     }
-    if (!handled) {
-      if (create_editor_objects_for_text_verse_number             (editoractions, project, last_focused_textview_v2, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) {
-        handled = true;
-      }
-    }
+    */
+    /*
     if (!handled) {
       if (create_editor_objects_for_text_note_raw                 (project, last_focused_textview_v2, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) {
         handled = true;
@@ -377,10 +383,7 @@ void Editor2::text_load (ustring text) // Todo
     }
     */
     if (!handled) {
-      create_editor_objects_fallback (editoractions, text, character_mark, marker_pos, marker_found);
-    }
-    for (unsigned int i = 0; i < editoractions.size(); i++) {
-      apply_editor_action (editoractions[i]);
+      load_text_fallback (text, character_style, marker_pos, marker_found);
     }
   }
 
@@ -828,8 +831,8 @@ void Editor2::on_textview_grab_focus(GtkWidget * widget, gpointer user_data)
 
 void Editor2::textview_grab_focus(GtkWidget * widget)
 {
-  // Retrieve the identifier that belongs to the widget, and store it.
-  focused_textview_identifier = textview2identifier (widget);
+  // Store the paragraph action that created the widget
+  focused_paragraph_action = textview2paragraph_action (widget);
   /*
   // Clear the character style that was going to be applied when the user starts typing.
   character_style_on_start_typing.clear();
@@ -3388,16 +3391,16 @@ void Editor2::apply_editor_action (EditorAction * action)
     {
       // Cast the action to the right object to work with.
       EditorActionSetParagraphStyle * style_action = static_cast <EditorActionSetParagraphStyle *> (action);
-      // Look for the parent paragraph.
-      EditorActionCreateParagraph * parent_action = identifier2paragraphcreationaction (style_action->parent_identifier);
-      if (parent_action) {
+      // Look for the paragraph.
+      EditorActionCreateParagraph * paragraph = style_action->paragraph;
+      if (paragraph) {
         // Store the old paragraph style, and set the new.
-        style_action->previous_style = parent_action->style;
-        parent_action->style = style_action->current_style;
+        style_action->previous_style = paragraph->style;
+        paragraph->style = style_action->current_style;
         // Apply it to the widget.
-        textview_apply_paragraph_style (parent_action->widget, parent_action->style);
+        textview_apply_paragraph_style (paragraph->widget, style_action->previous_style, style_action->current_style);
       } else {
-        gw_critical ("Could not apply style to paragraph with identifier " + convert_to_string (style_action->parent_identifier));
+        gw_critical ("No paragraph was found to apply the style to");
       }
 
       break;
@@ -3408,14 +3411,14 @@ void Editor2::apply_editor_action (EditorAction * action)
       // Cast the action to the right object to work with.
       EditorActionInsertText * insert_action = static_cast <EditorActionInsertText *> (action);
       // Get the parent paragraph.
-      EditorActionCreateParagraph * parent_action = identifier2paragraphcreationaction (insert_action->parent_identifier);
+      EditorActionCreateParagraph * paragraph = insert_action->paragraph;
       // Insert text.
-      GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (parent_action->widget));
+      GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph->widget));
       if (textbuffer) {
         GtkTextIter iter;
         gtk_text_buffer_get_iter_at_offset (textbuffer, &iter, insert_action->offset);
         gtk_text_buffer_insert (textbuffer, &iter, insert_action->text.c_str(), -1);
-        textview_apply_paragraph_style (parent_action->widget, parent_action->style);
+        textview_apply_paragraph_style (paragraph->widget, "", paragraph->style);
       } else {
         gw_critical ("Could not find the paragraph where to insert text " + insert_action->text);
       }
@@ -3427,10 +3430,10 @@ void Editor2::apply_editor_action (EditorAction * action)
       // Cast the action to the right object to work with.
       EditorActionDeleteText * delete_action = static_cast <EditorActionDeleteText *> (action);
       // Get the parent paragraph.
-      EditorActionCreateParagraph * parent_action = identifier2paragraphcreationaction (delete_action->parent_identifier);
+      EditorActionCreateParagraph * paragraph = delete_action->paragraph;
       // Delete text.
-      GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (parent_action->widget));
-      if (textbuffer) {
+      GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph->widget));
+      if (paragraph) {
         GtkTextIter startiter;
         gtk_text_buffer_get_iter_at_offset (textbuffer, &startiter, delete_action->offset);
         GtkTextIter enditer;
@@ -3438,6 +3441,27 @@ void Editor2::apply_editor_action (EditorAction * action)
         gtk_text_buffer_delete (textbuffer, &startiter, &enditer);
       } else {
         gw_critical ("Could not find the paragraph from where to delete text");
+      }
+      break;
+    }
+
+    case eatApplyStyle:
+    {
+      // Cast the action to the right object.
+      EditorActionApplyTextStyle * style_action = static_cast <EditorActionApplyTextStyle *> (action);
+      // Get the parent paragraph.
+      EditorActionCreateParagraph * paragraph = style_action->paragraph;
+      if (paragraph) {
+        // Get text buffer.
+        GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph->widget));
+        // Apply style at the right place.
+        GtkTextIter startiter;
+        GtkTextIter enditer;
+        gtk_text_buffer_get_iter_at_offset (textbuffer, &startiter, style_action->offset);
+        gtk_text_buffer_get_iter_at_offset (textbuffer, &enditer, style_action->offset + style_action->length);
+        gtk_text_buffer_apply_tag_by_name (textbuffer, style_action->style.c_str(), &startiter, &enditer);
+      } else {
+        gw_critical ("Could not find the paragraph where to apply a character style");
       }
       break;
     }
@@ -3456,180 +3480,119 @@ void Editor2::apply_editor_action (EditorAction * action)
 }
 
 
-bool Editor2::create_editor_objects_starting_new_paragraph(vector <EditorAction *>& editoractions, ustring & line, ustring & character_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
+void Editor2::editor_start_new_paragraph (const ustring& marker_text)
 // This function deals with a marker that starts a paragraph.
 {
-  if (marker_found) {
-    if (marker_pos == 0) {
-      if (is_opener) {
-        StyleType type;
-        int subtype;
-        marker_get_type_and_subtype(project, marker, type, subtype);
-        if (style_get_starts_new_line_in_editor(type, subtype)) {
-
-          // Get the currently focused paragraph action.
-          EditorActionCreateParagraph * paragraph_action = identifier2paragraphcreationaction (focused_textview_identifier);
-          
-          // Because the ends of lines of USFM are changed to spaces, 
-          // and these spaces get inserted in the editor, 
-          // if a new line starts, we need to trim these away.
-          EditorActionDeleteText * trim_action = paragraph_delete_character_before_text_insertion_point_if_space(paragraph_action);
-          if (trim_action) {
-            editoractions.push_back (trim_action);
-          }
-
-          // Normally a new paragraph should create a new textview.
-          // This is because each textview contains only one paragraph.
-          // But if the currently focused textview does not have any content, 
-          // that existing one will be used.
-          bool textview_has_content = true;
-          if (paragraph_action) {
-            GtkWidget * textview = paragraph_action->widget;
-            GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
-            textview_has_content = !textbuffer_empty(textbuffer);
-          }
-          if (textview_has_content) {
-            paragraph_action = new EditorActionCreateParagraph (0);
-            editoractions.push_back (paragraph_action);
-            focused_textview_identifier = paragraph_action->identifier;
-          }
-
-          // The new paragraph and character markup.
-          EditorActionSetParagraphStyle * style_action = new EditorActionSetParagraphStyle (marker, paragraph_action);
-          editoractions.push_back (style_action);
-          character_mark.clear();
-
-          // Some styles insert their marker: Do that here if appropriate.
-          if (style_get_displays_marker(type, subtype)) {
-            gint insertion_offset = editor_paragraph_insertion_point_get_offset (paragraph_action);
-            EditorActionInsertText * insert_action = new EditorActionInsertText (paragraph_action, insertion_offset, line.substr(0, marker_length));
-            editoractions.push_back (insert_action);
-          }
-
-          // Remove the markup from the line.
-          line.erase(0, marker_length);
-
-          // The information was processed: return true.
-          return true;
-        }
-      }
+  // Get the currently focused paragraph. There may be none.
+  EditorActionCreateParagraph * paragraph = focused_paragraph_action;
+  
+  // The ends of lines of USFM are changed to spaces, which get loaded in the GtkTextView.
+  // If the current paragraph has these, it needs to be trimmed away. 
+  if (paragraph) {
+    EditorActionDeleteText * trim_action = paragraph_delete_character_before_text_insertion_point_if_space (paragraph);
+    if (trim_action) {
+      apply_editor_action (trim_action);
     }
   }
-  return false;
-}
 
+  // Create a new paragraph.
+  paragraph = new EditorActionCreateParagraph (0);
+  apply_editor_action (paragraph); 
 
-void Editor2::create_editor_objects_to_ensure_normal_paragraph(vector <EditorAction *>& editoractions, const ustring& project, GtkWidget * textview, ustring & line, ustring & paragraph_mark, ustring & character_mark)
-/*
- This function ensures that a normal paragraph starts.
- line: The raw USFM.
- paragraph_mark: The paragarph style to investigate whether it is a normal paragraph.
- character_mark: The character style.
- */
-{
-  // Bail out if the current paragraph mark points to a normal paragraph, not a title or heading.
+  // The new paragraph markup.
+  EditorActionSetParagraphStyle * style_action = new EditorActionSetParagraphStyle (marker_text, paragraph);
+  apply_editor_action (style_action);
+  
+  // Some styles insert their marker: Do that here if appropriate.
   StyleType type;
   int subtype;
-  marker_get_type_and_subtype(project, paragraph_mark, type, subtype);
-  if (type == stStartsParagraph)
-    if (subtype == ptNormalParagraph)
-      return;
-
-  // Review marker \nb, bail out if it does not exist.
-  ustring marker = "nb";
-  marker_get_type_and_subtype(project, marker, type, subtype);
-  if (type != stStartsParagraph)
-    return;
-  if (subtype != ptNormalParagraph)
-    return;
-
-  // Insert the marker in the line, and apply it.
-  line.insert(0, usfm_get_full_opening_marker(marker));
-  create_editor_objects_starting_new_paragraph(editoractions, line, character_mark, marker, 0, usfm_get_full_opening_marker(marker).length(), true, true);
+  marker_get_type_and_subtype(project, marker_text, type, subtype);
+  if (style_get_displays_marker(type, subtype)) {
+    gint insertion_offset = editor_paragraph_insertion_point_get_offset (paragraph);
+    EditorActionInsertText * insert_action = new EditorActionInsertText (paragraph, insertion_offset, usfm_get_full_opening_marker (marker_text));
+    apply_editor_action (insert_action);
+  }
 }
 
 
-bool Editor2::create_editor_objects_for_text_verse_number(vector <EditorAction *>& editoractions, const ustring& project, GtkWidget * textview, ustring & line, ustring & paragraph_mark, ustring & character_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
-/*
- This function returns true if a verse number was loaded in the formatted view.
- Else it returns false.
- Verses are special in that their style only applies to the verse number,
- not to the text that follows.
- */
+void Editor2::editor_start_verse(ustring& line, ustring& marker_text, ustring& character_style)
 {
-  if (marker_found) {
-    if (marker_pos == 0) {
-      if (is_opener) {
-        StyleType type;
-        int subtype;
-        marker_get_type_and_subtype(project, marker, type, subtype);
-        if (style_get_starts_verse_number(type, subtype)) {
-          // If a verse number starts, ensure that it happens in a normal paragraph.
-          create_editor_objects_to_ensure_normal_paragraph(editoractions, project, textview, line, paragraph_mark, character_mark);
-          // Clear the character markup (the paragraph markup remains as it is).
-          character_mark.clear();
-          // Get the textbuffer.
-          GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
-          // Some styles insert their marker: Do that here if appropriate.
-          if (style_get_displays_marker(type, subtype)) {
-            editor_text_append(textbuffer, line.substr(0, marker_length), paragraph_mark, "");
-          }
-          // Remove the markup from the line.
-          line.erase(0, marker_length);
-          // Get verse number. Handle combined verses too, e.g. 10-12b, etc.
-          size_t position = line.find(" ");
-          if (position == string::npos)
-            position = line.length();
-          ustring versenumber = line.substr(0, position);
-          // Display the verse and erase it from the input buffer.
-          editor_text_append(textbuffer, versenumber, paragraph_mark, marker);
-          line.erase(0, position);
-          // The information was processed: return true.
-          return true;
-        }
+  // Clear any character style.
+  character_style.clear();
+
+  // Get the currently focused paragraph. In rare cases there may be none.
+  EditorActionCreateParagraph * paragraph = focused_paragraph_action;
+  
+  // A verse number should start in a normal paragraph, not a title or heading. Check for that.
+  bool in_normal_paragraph = false;
+  if (paragraph) {
+    StyleType type;
+    int subtype;
+    marker_get_type_and_subtype(project, paragraph->style, type, subtype);
+    if (type == stStartsParagraph) {
+      if (subtype == ptNormalParagraph) {
+        in_normal_paragraph = true;
       }
     }
   }
-  return false;
+  if (in_normal_paragraph) {
+    // Review marker \nb, proceed if it exists.
+    ustring marker_text = "nb";
+    StyleType type;
+    int subtype;
+    marker_get_type_and_subtype(project, marker_text, type, subtype);
+    if (type == stStartsParagraph) {
+      if (subtype != ptNormalParagraph) {
+        // Create new paragraph.
+        editor_start_new_paragraph(marker_text);
+      }
+    }
+  }  
+
+  // Get the currently focused paragraph. In rare cases there may be none. If there's none, create one.
+  paragraph = focused_paragraph_action;
+  if (paragraph == NULL) {
+    editor_start_new_paragraph (unknown_style());
+  }
+  // From here on we are sure there's an open paragraph.
+  
+  // Get verse number. Handle combined verses too, e.g. 10-12b, etc.
+  size_t position = line.find(" ");
+  if (position == string::npos)
+    position = line.length();
+  ustring versenumber = line.substr(0, position);
+  line.erase(0, position);
+  
+  // Insert the verse number.
+  paragraph = focused_paragraph_action;
+  gint insertion_offset = editor_paragraph_insertion_point_get_offset (paragraph);
+  EditorActionInsertText * insert_action = new EditorActionInsertText (paragraph, insertion_offset, versenumber);
+  apply_editor_action (insert_action);
+  EditorActionApplyTextStyle * style_action = new EditorActionApplyTextStyle (paragraph, marker_text, insertion_offset, versenumber.length());
+  apply_editor_action (style_action);
 }
 
 
-unsigned int Editor2::textview2identifier (GtkWidget * textview)
-// Given a pointer to a GtkTextView, it returns its identifier.
+EditorActionCreateParagraph * Editor2::textview2paragraph_action (GtkWidget * textview)
+// Given a pointer to a GtkTextView, it returns its paragraph create action.
 {
-  unsigned int identifier = 0;
+  EditorActionCreateParagraph * action_found = NULL;
   // Look through the actions done to see if the GtkTextView has been created.
   for (unsigned int i = 0; i < actions_done.size(); i++) {
     EditorAction * action = actions_done[i];
     if (action->type == eatCreateParagraph) {
-      EditorActionCreateParagraph * paragraphaction = static_cast <EditorActionCreateParagraph *> (action);
-      if (paragraphaction->widget == textview) {
-        identifier = paragraphaction->identifier;
+      EditorActionCreateParagraph * paragraph_action = static_cast <EditorActionCreateParagraph *> (action);
+      if (paragraph_action->widget == textview) {
+        action_found = paragraph_action;
       }
     }
   }
   // We also need to check whether this one was not destroyed. But this is still to be implemented.
-  return identifier;
+  return action_found;
 }
 
 
-EditorActionCreateParagraph * Editor2::identifier2paragraphcreationaction (unsigned int identifier)
-// Given an identifier it returns a pointer to its EditorAction.
-{
-  EditorActionCreateParagraph * action = NULL;
-  for (unsigned int i = 0; i < actions_done.size(); i++) {
-    if (actions_done[i]->type == eatCreateParagraph) {
-      EditorActionCreateParagraph * action2 = static_cast <EditorActionCreateParagraph *> (actions_done[i]);
-      if (action2->identifier == identifier) {
-        action = action2;
-      }
-    }
-  }
-  return action;
-}
-
-
-void Editor2::create_editor_objects_fallback (vector <EditorAction *>& editoractions, ustring& line, ustring& character_mark, size_t marker_pos, bool marker_found)
+void Editor2::load_text_fallback (ustring& line, ustring& character_style, size_t marker_pos, bool marker_found)
 // This is a fallback function to load the text.
 {
   // Storage for the string to insert.
@@ -3651,15 +3614,21 @@ void Editor2::create_editor_objects_fallback (vector <EditorAction *>& editoract
     insertion = line;
     line.clear();
   }
+
+  // Get the currently focused paragraph. If there's none, create one.
+  EditorActionCreateParagraph * paragraph = focused_paragraph_action;
+  if (paragraph == NULL) {
+    editor_start_new_paragraph (unknown_style());
+  }
   
-  // Create editor object for inserting the text.
-  EditorActionCreateParagraph * paragraph_action = identifier2paragraphcreationaction (focused_textview_identifier);
-  if (paragraph_action) {
-    gint insertion_offset = editor_paragraph_insertion_point_get_offset (paragraph_action);
-    EditorActionInsertText * insert_action = new EditorActionInsertText (paragraph_action, insertion_offset, insertion);
-    editoractions.push_back (insert_action);
-  } else {
-    gw_critical ("Could not insert text since no paragraph was found with identifier " + convert_to_string (focused_textview_identifier));
+  // Insert the text.
+  paragraph = focused_paragraph_action;
+  gint insertion_offset = editor_paragraph_insertion_point_get_offset (paragraph);
+  EditorActionInsertText * insert_action = new EditorActionInsertText (paragraph, insertion_offset, insertion);
+  apply_editor_action (insert_action);
+  if (!character_style.empty()) {
+    EditorActionApplyTextStyle * style_action = new EditorActionApplyTextStyle (paragraph, character_style, insertion_offset, insertion.length());
+    apply_editor_action (style_action);
   }
 }
 
