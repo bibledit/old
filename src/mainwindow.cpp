@@ -6858,8 +6858,7 @@ Todo tasks.
 
 
 Actions to take:
-1. The ChangeCharacterStyle action should store the previous styles which it has overwritten.
-2. To identify the routine that can extract styles from the textview from any iterator.
+2. The ChangeCharacterStyle action should store the previous styles which it has overwritten.
 3. To identify a routine that can apply paragraph and character styles in the textview in the right order.
 4. To establish a routine that puts the new textview at the right position relative to its parent.
    Inserting a new textview at the right position needs to be thought out.

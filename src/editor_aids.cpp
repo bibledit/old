@@ -1609,7 +1609,8 @@ void usfm_get_table_text(const EditorTable & editortable, const ustring & projec
   }
 }
 
-void get_styles_at_iterator(GtkTextIter iter, ustring & paragraph_style, ustring & character_style)
+
+void get_styles_at_iterator(GtkTextIter iter, ustring & paragraph_style, ustring & character_style) // Todo
 {
   // Get the applicable styles.
   // This is done by getting the names of the styles at the iterator.
@@ -1627,15 +1628,14 @@ void get_styles_at_iterator(GtkTextIter iter, ustring & paragraph_style, ustring
       if (strlen(strval)) {
         // Skip the tag for a misspelled word.
         if (strcmp(strval, spelling_tag_name()) != 0) {
-          // Store the paragraph style, or, if the paragraph has been found 
-          // already, the character style.
-          // This works because the editing code takes care when applying the
-          // tags, to first apply the paragraph style, and then the character
-          // style.
-          if (paragraph_style.empty())
+          // First store the paragraph style, then the character style.
+          // This works because the editing code takes care when applying the tags,
+          // to first apply the paragraph style, and then the character style.
+          if (paragraph_style.empty()) {
             paragraph_style = strval;
-          else
+          } else {
             character_style = strval;
+          }
         }
       }
       g_free(strval);
@@ -1645,6 +1645,7 @@ void get_styles_at_iterator(GtkTextIter iter, ustring & paragraph_style, ustring
     g_slist_free(tags);
   }
 }
+
 
 GtkTextIter editor_get_iter_for_note(GtkTextBuffer * textbuffer, const vector < EditorNote > &editornotes, unsigned int offset, unsigned int function)
 /*
