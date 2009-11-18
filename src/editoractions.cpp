@@ -49,8 +49,8 @@ EditorActionCreateParagraph::~EditorActionCreateParagraph ()
 }
 
 
-EditorActionSetParagraphStyle::EditorActionSetParagraphStyle(const ustring& style, EditorActionCreateParagraph * parent_action) :
-EditorAction (eatSetParagraphStyle)
+EditorActionChangeParagraphStyle::EditorActionChangeParagraphStyle(const ustring& style, EditorActionCreateParagraph * parent_action) :
+EditorAction (eatChangeParagraphStyle)
 {
   // The EditorAction object that created the paragraph whose style it going to be set.
   paragraph = parent_action;
@@ -61,7 +61,7 @@ EditorAction (eatSetParagraphStyle)
 }
 
 
-EditorActionSetParagraphStyle::~EditorActionSetParagraphStyle ()
+EditorActionChangeParagraphStyle::~EditorActionChangeParagraphStyle ()
 {
 }
 
@@ -101,8 +101,8 @@ EditorActionDeleteText::~EditorActionDeleteText ()
 }
 
 
-EditorActionApplyTextStyle::EditorActionApplyTextStyle(EditorActionCreateParagraph * parent_action, const ustring& style_in, gint offset_in, gint length_in) :
-EditorAction (eatApplyStyle)
+EditorActionChangeCharacterStyle::EditorActionChangeCharacterStyle(EditorActionCreateParagraph * parent_action, const ustring& style_in, gint offset_in, gint length_in) :
+EditorAction (eatChangeCharacterStyle)
 {
   // The identifier of the paragraph to operate on.
   paragraph = parent_action;
@@ -116,7 +116,7 @@ EditorAction (eatApplyStyle)
 }
 
 
-EditorActionApplyTextStyle::~EditorActionApplyTextStyle ()
+EditorActionChangeCharacterStyle::~EditorActionChangeCharacterStyle ()
 {
 }
 

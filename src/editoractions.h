@@ -28,10 +28,10 @@
 
 enum EditorActionType {
   eatCreateParagraph,
-  eatSetParagraphStyle,
+  eatChangeParagraphStyle,
   eatInsertText,
   eatDeleteText,
-  eatApplyStyle
+  eatChangeCharacterStyle
 };
 
 
@@ -56,11 +56,11 @@ private:
 };
 
 
-class EditorActionSetParagraphStyle : public EditorAction
+class EditorActionChangeParagraphStyle : public EditorAction
 {
 public:
-  EditorActionSetParagraphStyle(const ustring& style, EditorActionCreateParagraph * parent_action);
-  virtual ~EditorActionSetParagraphStyle();
+  EditorActionChangeParagraphStyle(const ustring& style, EditorActionCreateParagraph * parent_action);
+  virtual ~EditorActionChangeParagraphStyle();
   EditorActionCreateParagraph * paragraph;
   ustring previous_style;
   ustring current_style;
@@ -93,11 +93,11 @@ private:
 };
 
 
-class EditorActionApplyTextStyle : public EditorAction
+class EditorActionChangeCharacterStyle : public EditorAction
 {
 public:
-  EditorActionApplyTextStyle(EditorActionCreateParagraph * parent_action, const ustring& style_in, gint offset_in, gint length_in);
-  virtual ~EditorActionApplyTextStyle();
+  EditorActionChangeCharacterStyle(EditorActionCreateParagraph * parent_action, const ustring& style_in, gint offset_in, gint length_in);
+  virtual ~EditorActionChangeCharacterStyle();
   EditorActionCreateParagraph * paragraph;
   ustring style;
   gint offset;

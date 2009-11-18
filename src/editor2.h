@@ -49,15 +49,16 @@ private:
   deque <EditorAction *> actions_done;
   deque <EditorAction *> actions_redoable;
   void apply_editor_action (EditorAction * action);
-  EditorActionCreateParagraph * focused_paragraph_action;
+  EditorActionCreateParagraph * focused_paragraph;
   bool usfm_starts_new_paragraph (ustring& line, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
   void editor_start_new_paragraph (const ustring& marker_text);
   void editor_start_verse (ustring& line, ustring& marker_text, ustring& character_style);
-  bool text_starts_character_style (ustring & line, ustring & character_style, const ustring & marker_text, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
-  bool text_ends_character_style   (ustring & line, ustring & character_style, const ustring & marker_text, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
-  void load_text_fallback (ustring& line, ustring& character_style, size_t marker_pos, bool marker_found);
+  bool editor_starts_character_style (ustring & line, ustring & character_style, const ustring & marker_text, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
+  bool editor_ends_character_style   (ustring & line, ustring & character_style, const ustring & marker_text, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
+  void editor_text_fallback (ustring& line, ustring& character_style, size_t marker_pos, bool marker_found);
   EditorActionCreateParagraph * textview2paragraph_action (GtkWidget * textview);
-
+  set <EditorActionCreateParagraph *> changed_paragraphs_text_added;
+  void changed_paragraphs_delete_character_before_insertion_point_if_space ();
 
 // Old stuff.
   // Focus handling.

@@ -94,7 +94,7 @@ current_reference(0, 1000, "")
   verse_restarts_paragraph = false;
   textbuffer_changed_event_id = 0;
   redo_counter = 0;
-  focused_paragraph_action = NULL;
+  focused_paragraph = NULL;
     
   // Create data that is needed for any of the possible formatted views.
   create_or_update_formatting_data();
@@ -295,7 +295,7 @@ void Editor2::chapter_load(unsigned int chapter_in)
 
   // Get rid of possible previous widgets with their data.
   gtk_container_foreach(GTK_CONTAINER(vbox_v2), on_container_tree_callback_destroy, gpointer(this));
-  focused_paragraph_action = NULL;
+  focused_paragraph = NULL;
 
   // Make one long line containing the whole chapter.
   // This is done so as to exclude any possibility that the editor does not
@@ -364,17 +364,15 @@ void Editor2::text_load (ustring text) // Todo
     }
     */
     if (!handled) {
-      if (text_starts_character_style (text, character_style, marker_text, marker_pos, marker_length, is_opener, marker_found)) { // Todo
+      if (editor_starts_character_style (text, character_style, marker_text, marker_pos, marker_length, is_opener, marker_found)) {
         handled = true;
       }
     }
     if (!handled) {
-      if (text_ends_character_style (text, character_style, marker_text, marker_pos, marker_length, is_opener, marker_found)) { // Todo
+      if (editor_ends_character_style (text, character_style, marker_text, marker_pos, marker_length, is_opener, marker_found)) {
         handled = true;
       }
     }
-    /*
-    */
     /*
     if (!handled) {
       if (create_editor_objects_for_text_note_raw                 (project, last_focused_textview_v2, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) {
@@ -383,10 +381,13 @@ void Editor2::text_load (ustring text) // Todo
     }
     */
     if (!handled) {
-      load_text_fallback (text, character_style, marker_pos, marker_found);
+      editor_text_fallback (text, character_style, marker_pos, marker_found);
     }
   }
 
+  // Clean up extra spaces before the insertion points in the modified textbuffers.
+  changed_paragraphs_delete_character_before_insertion_point_if_space ();
+    
   // Update gui for styles.
   signal_if_styles_changed();
 
@@ -832,7 +833,7 @@ void Editor2::on_textview_grab_focus(GtkWidget * widget, gpointer user_data)
 void Editor2::textview_grab_focus(GtkWidget * widget)
 {
   // Store the paragraph action that created the widget
-  focused_paragraph_action = textview2paragraph_action (widget);
+  focused_paragraph = textview2paragraph_action (widget);
   /*
   // Clear the character style that was going to be applied when the user starts typing.
   character_style_on_start_typing.clear();
@@ -3326,7 +3327,7 @@ void Editor2::scroll_cursor_on_screen_timeout()
 }
 
 
-void Editor2::apply_editor_action (EditorAction * action)
+void Editor2::apply_editor_action (EditorAction * action) // Todo
 {
   GtkWidget * widget_that_should_grab_focus = NULL;
   switch (action->type) {
@@ -3387,10 +3388,10 @@ void Editor2::apply_editor_action (EditorAction * action)
       break;
     }
 
-    case eatSetParagraphStyle:
+    case eatChangeParagraphStyle:
     {
       // Cast the action to the right object to work with.
-      EditorActionSetParagraphStyle * style_action = static_cast <EditorActionSetParagraphStyle *> (action);
+      EditorActionChangeParagraphStyle * style_action = static_cast <EditorActionChangeParagraphStyle *> (action);
       // Look for the paragraph.
       EditorActionCreateParagraph * paragraph = style_action->paragraph;
       if (paragraph) {
@@ -3412,13 +3413,16 @@ void Editor2::apply_editor_action (EditorAction * action)
       EditorActionInsertText * insert_action = static_cast <EditorActionInsertText *> (action);
       // Get the parent paragraph.
       EditorActionCreateParagraph * paragraph = insert_action->paragraph;
-      // Insert text.
-      GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph->widget));
-      if (textbuffer) {
+      if (paragraph) {
+        // Insert text.
+        GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph->widget));
         GtkTextIter iter;
         gtk_text_buffer_get_iter_at_offset (textbuffer, &iter, insert_action->offset);
         gtk_text_buffer_insert (textbuffer, &iter, insert_action->text.c_str(), -1);
         textview_apply_paragraph_style (paragraph->widget, "", paragraph->style);
+        // Store this paragraph since it has text added to it.
+        // Such paragraphs will be processed at the end.
+        changed_paragraphs_text_added.insert (paragraph);
       } else {
         gw_critical ("Could not find the paragraph where to insert text " + insert_action->text);
       }
@@ -3445,10 +3449,10 @@ void Editor2::apply_editor_action (EditorAction * action)
       break;
     }
 
-    case eatApplyStyle:
+    case eatChangeCharacterStyle:
     {
       // Cast the action to the right object.
-      EditorActionApplyTextStyle * style_action = static_cast <EditorActionApplyTextStyle *> (action);
+      EditorActionChangeCharacterStyle * style_action = static_cast <EditorActionChangeCharacterStyle *> (action);
       // Get the parent paragraph.
       EditorActionCreateParagraph * paragraph = style_action->paragraph;
       if (paragraph) {
@@ -3484,23 +3488,14 @@ void Editor2::editor_start_new_paragraph (const ustring& marker_text)
 // This function deals with a marker that starts a paragraph.
 {
   // Get the currently focused paragraph. There may be none.
-  EditorActionCreateParagraph * paragraph = focused_paragraph_action;
+  EditorActionCreateParagraph * paragraph = focused_paragraph;
   
-  // The ends of lines of USFM are changed to spaces, which get loaded in the GtkTextView.
-  // If the current paragraph has these, it needs to be trimmed away. 
-  if (paragraph) {
-    EditorActionDeleteText * trim_action = paragraph_delete_character_before_text_insertion_point_if_space (paragraph);
-    if (trim_action) {
-      apply_editor_action (trim_action);
-    }
-  }
-
   // Create a new paragraph.
   paragraph = new EditorActionCreateParagraph (0);
   apply_editor_action (paragraph); 
 
   // The new paragraph markup.
-  EditorActionSetParagraphStyle * style_action = new EditorActionSetParagraphStyle (marker_text, paragraph);
+  EditorActionChangeParagraphStyle * style_action = new EditorActionChangeParagraphStyle (marker_text, paragraph);
   apply_editor_action (style_action);
   
   // Some styles insert their marker: Do that here if appropriate.
@@ -3521,7 +3516,7 @@ void Editor2::editor_start_verse(ustring& line, ustring& marker_text, ustring& c
   character_style.clear();
 
   // Get the currently focused paragraph. In rare cases there may be none.
-  EditorActionCreateParagraph * paragraph = focused_paragraph_action;
+  EditorActionCreateParagraph * paragraph = focused_paragraph;
   
   // A verse number should start in a normal paragraph, not a title or heading. Check for that.
   bool in_normal_paragraph = false;
@@ -3550,7 +3545,7 @@ void Editor2::editor_start_verse(ustring& line, ustring& marker_text, ustring& c
   }  
 
   // Get the currently focused paragraph. In rare cases there may be none. If there's none, create one.
-  paragraph = focused_paragraph_action;
+  paragraph = focused_paragraph;
   if (paragraph == NULL) {
     editor_start_new_paragraph (unknown_style());
   }
@@ -3564,11 +3559,11 @@ void Editor2::editor_start_verse(ustring& line, ustring& marker_text, ustring& c
   line.erase(0, position);
   
   // Insert the verse number.
-  paragraph = focused_paragraph_action;
+  paragraph = focused_paragraph;
   gint insertion_offset = editor_paragraph_insertion_point_get_offset (paragraph);
   EditorActionInsertText * insert_action = new EditorActionInsertText (paragraph, insertion_offset, versenumber);
   apply_editor_action (insert_action);
-  EditorActionApplyTextStyle * style_action = new EditorActionApplyTextStyle (paragraph, marker_text, insertion_offset, versenumber.length());
+  EditorActionChangeCharacterStyle * style_action = new EditorActionChangeCharacterStyle (paragraph, marker_text, insertion_offset, versenumber.length());
   apply_editor_action (style_action);
 }
 
@@ -3592,7 +3587,7 @@ EditorActionCreateParagraph * Editor2::textview2paragraph_action (GtkWidget * te
 }
 
 
-void Editor2::load_text_fallback (ustring& line, ustring& character_style, size_t marker_pos, bool marker_found)
+void Editor2::editor_text_fallback (ustring& line, ustring& character_style, size_t marker_pos, bool marker_found)
 // This is a fallback function to load the text.
 {
   // Storage for the string to insert.
@@ -3616,24 +3611,24 @@ void Editor2::load_text_fallback (ustring& line, ustring& character_style, size_
   }
 
   // Get the currently focused paragraph. If there's none, create one.
-  EditorActionCreateParagraph * paragraph = focused_paragraph_action;
+  EditorActionCreateParagraph * paragraph = focused_paragraph;
   if (paragraph == NULL) {
     editor_start_new_paragraph (unknown_style());
   }
   
   // Insert the text.
-  paragraph = focused_paragraph_action;
+  paragraph = focused_paragraph;
   gint insertion_offset = editor_paragraph_insertion_point_get_offset (paragraph);
   EditorActionInsertText * insert_action = new EditorActionInsertText (paragraph, insertion_offset, insertion);
   apply_editor_action (insert_action);
   if (!character_style.empty()) {
-    EditorActionApplyTextStyle * style_action = new EditorActionApplyTextStyle (paragraph, character_style, insertion_offset, insertion.length());
+    EditorActionChangeCharacterStyle * style_action = new EditorActionChangeCharacterStyle (paragraph, character_style, insertion_offset, insertion.length());
     apply_editor_action (style_action);
   }
 }
 
 
-bool Editor2::text_starts_character_style(ustring & line, ustring & character_style, const ustring & marker_text, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found) // Todo
+bool Editor2::editor_starts_character_style(ustring & line, ustring & character_style, const ustring & marker_text, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
 {
   if (marker_found) {
     if (marker_pos == 0) {
@@ -3653,7 +3648,7 @@ bool Editor2::text_starts_character_style(ustring & line, ustring & character_st
 }
 
 
-bool Editor2::text_ends_character_style(ustring & line, ustring & character_style, const ustring & marker_text, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found) // Todo
+bool Editor2::editor_ends_character_style(ustring & line, ustring & character_style, const ustring & marker_text, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
 {
   if (marker_found) {
     if (marker_pos == 0) {
@@ -3670,6 +3665,24 @@ bool Editor2::text_ends_character_style(ustring & line, ustring & character_styl
     }
   }
   return false;
+}
+
+
+void Editor2::changed_paragraphs_delete_character_before_insertion_point_if_space ()
+// The ends of lines of USFM are changed to spaces, which get loaded in the paragraphs.
+// This routine goes through the changed paragraphs, and deletes the character before the insertion point if it is a space.
+{
+  // Create a list of changed paragraph.
+  vector <EditorActionCreateParagraph *> changed_paragraphs (changed_paragraphs_text_added.begin(), changed_paragraphs_text_added.end());
+  // Handle them all.
+  for (unsigned int i = 0; i < changed_paragraphs.size(); i++) {
+    EditorActionDeleteText * trim_action = paragraph_delete_character_before_text_insertion_point_if_space (changed_paragraphs[i]);
+    if (trim_action) {
+      apply_editor_action (trim_action);
+    }
+  }  
+  // Clear the set of changed paragraphs.
+  changed_paragraphs_text_added.clear();
 }
 
 

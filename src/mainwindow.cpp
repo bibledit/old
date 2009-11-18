@@ -6857,9 +6857,22 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
+Actions to take:
+1. The ChangeCharacterStyle action should store the previous styles which it has overwritten.
+2. To identify the routine that can extract styles from the textview from any iterator.
+3. To identify a routine that can apply paragraph and character styles in the textview in the right order.
+4. To establish a routine that puts the new textview at the right position relative to its parent.
+   Inserting a new textview at the right position needs to be thought out.
+   If a new one is inserted, it looks at the currently focused one, and gets its offset.
+   Then the new one is going to have offset + 1.
+   The offsets are not stored in the paragraph, since these can change. The offsets are calculated each insertion of a new paragraph.
+   This is the basis for inserting text at an arbitrary point of any textview.
+5. To insert the LoadChapter separator as discussed below.
+6. To act on keyboard and clipboard insertions so that these are removed, converted into editor actions, and applied.
+7. To act on keyboard deletions, so these are inserted again, then converted into editor actions, then applied.
+8. To insert the OneAction separator.
+9. To make undo and redo work, using the separators.
 
-There's only one 'load-text' routine, that produces editor actions for loading text in all cases.
-It text is put into the textview, by the clipboard or through typing, this text should be removed, then inserted again through EditorActions.
 
 
 Resizing the window is very hard. It is recommended to disconnect the textview from its textbuffer temporally when resizing.
@@ -6867,37 +6880,13 @@ This probably speeds it up a lot.
 We may consider disconnecting it while loading text as well.
 
 
-We need to insert two separators in in the editor actions.
-1. The LoadChapter separator. This marks the place where the initial loading of the chapters stops.
-2. The OneAction separator. Since we may have a series of actions that are all to be best considered one unified action, 
-* this separator indicates that any action between two of these separators is to be executed at once.
 
 
-The last textbuffer needs to trim away the last space.
-
-
-
-
-
-On karmic there is a crash when switching to a chapter that has footnotes.
-Before this bug is fixed, we set the default view to USFM view.
-We better overhaul the editor, so that it only shows plain text.
-Perhaps pictures can then be shown in a htmlview.
-Notemarkers can be distinguished by their "f" or other markup.
+Perhaps pictures can then be shown in a htmlview or textbuffer.
+Notemarkers can be distinguished by their "f" or other character markup.
 Scrolling won't work at first, but should be implemented later.
 Copying text beyond the paragraph won't work at first, but should be implemented later.
-It will just be a stack of GtkTextViews each view with their own paragraph style.
-When this new editor is built, we need to create undo/redo objects for each action to be taken.
-This is so that undo and redo work very well. No actions to be done apart from the ones recorded in that undo and redo stack.
-Whatever action we take, we first store that action in the stack, then execute it from there independently.
-We need to create a third Editor, called Editor2, which is activated by a switch on the bibleditgui binary.
-Later, when it works okay, then we can make it the default instead of the Editor object.
-Inserting text is an object, and applying a style is another one.
-We probably better make an object out of each GtkTextView, so that things become cleaner and more abstract.
 
-(bibleditgui:11072): Gtk-WARNING **: /build/buildd/gtk+2.0-2.18.3/gtk/gtktextview.c:4567: somehow some text lines were modified or scrolling occurred since the last validation of lines on the screen - may be a text widget bug.
-**
-Gtk:ERROR:/build/buildd/gtk+2.0-2.18.3/gtk/gtktextview.c:4568:gtk_text_view_paint: code should not be reached
 
 There is a setting second_editor in the Session object. This can go out once the Editor2 is ready.
 Temporally it switches to USFM view because of the crash in the Editor.
