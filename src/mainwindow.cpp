@@ -6858,19 +6858,18 @@ Todo tasks.
 
 
 Actions to take:
-2. The ChangeCharacterStyle action should store the previous styles which it has overwritten.
-3. To identify a routine that can apply paragraph and character styles in the textview in the right order.
-4. To establish a routine that puts the new textview at the right position relative to its parent.
+*  To identify a routine that can apply paragraph and character styles in the textview in the right order.
+*  To establish a routine that puts the new textview at the right position relative to its parent.
    Inserting a new textview at the right position needs to be thought out.
    If a new one is inserted, it looks at the currently focused one, and gets its offset.
    Then the new one is going to have offset + 1.
    The offsets are not stored in the paragraph, since these can change. The offsets are calculated each insertion of a new paragraph.
    This is the basis for inserting text at an arbitrary point of any textview.
-5. To insert the LoadChapter separator as discussed below.
-6. To act on keyboard and clipboard insertions so that these are removed, converted into editor actions, and applied.
-7. To act on keyboard deletions, so these are inserted again, then converted into editor actions, then applied.
-8. To insert the OneAction separator.
-9. To make undo and redo work, using the separators.
+*  To insert the LoadChapter separator as discussed below.
+*  To act on keyboard and clipboard insertions so that these are removed, converted into editor actions, and applied.
+*  To act on keyboard deletions, so these are inserted again, then converted into editor actions, then applied.
+*  To insert the OneAction separator.
+*  To make undo and redo work, using the separators.
 
 
 

@@ -3395,10 +3395,8 @@ void Editor2::apply_editor_action (EditorAction * action) // Todo
       // Look for the paragraph.
       EditorActionCreateParagraph * paragraph = style_action->paragraph;
       if (paragraph) {
-        // Store the old paragraph style, and set the new.
-        style_action->previous_style = paragraph->style;
-        paragraph->style = style_action->current_style;
         // Apply it to the widget.
+        paragraph->style = style_action->current_style;
         textview_apply_paragraph_style (paragraph->widget, style_action->previous_style, style_action->current_style);
       } else {
         gw_critical ("No paragraph was found to apply the style to");
@@ -3458,14 +3456,22 @@ void Editor2::apply_editor_action (EditorAction * action) // Todo
       if (paragraph) {
         // Get text buffer.
         GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph->widget));
-        // Apply style at the right place.
+        // Mark off the affected area.
         GtkTextIter startiter;
         GtkTextIter enditer;
         gtk_text_buffer_get_iter_at_offset (textbuffer, &startiter, style_action->offset);
         gtk_text_buffer_get_iter_at_offset (textbuffer, &enditer, style_action->offset + style_action->length);
+        // Get the styles applied now, and store these so as to track the state of this bit of text.
+        style_action->previous_styles = get_character_styles_between_iterators (startiter, enditer);
+        // Remove the character styles that are there now, and apply the new ones.
+        for (unsigned int i = 0; i < style_action->previous_styles.size(); i++) {
+          if (!style_action->previous_styles[i].empty()) {
+            gtk_text_buffer_remove_tag_by_name (textbuffer, style_action->previous_styles[i].c_str(), &startiter, &enditer);
+          }
+        }
         gtk_text_buffer_apply_tag_by_name (textbuffer, style_action->style.c_str(), &startiter, &enditer);
       } else {
-        gw_critical ("Could not find the paragraph where to apply a character style");
+        gw_critical ("Could not find the paragraph where to change a character style");
       }
       break;
     }

@@ -1610,7 +1610,7 @@ void usfm_get_table_text(const EditorTable & editortable, const ustring & projec
 }
 
 
-void get_styles_at_iterator(GtkTextIter iter, ustring & paragraph_style, ustring & character_style) // Todo
+void get_styles_at_iterator(GtkTextIter iter, ustring & paragraph_style, ustring & character_style)
 {
   // Get the applicable styles.
   // This is done by getting the names of the styles at the iterator.
@@ -1644,6 +1644,23 @@ void get_styles_at_iterator(GtkTextIter iter, ustring & paragraph_style, ustring
   if (tags) {
     g_slist_free(tags);
   }
+}
+
+
+vector <ustring> get_character_styles_between_iterators (GtkTextIter startiter, GtkTextIter enditer)
+// Gets the character styles between two iterators given.
+// To do this properly, it is assumed that the first style encountered will always be the paragraph style,
+// and the second the character style.
+{
+  vector <ustring> styles;
+  GtkTextIter iter = startiter;
+  do {
+    ustring paragraphstyle, characterstyle;
+    get_styles_at_iterator(iter, paragraphstyle, characterstyle);
+    styles.push_back (characterstyle);
+    gtk_text_iter_forward_char(&iter);
+  } while (gtk_text_iter_in_range(&iter, &startiter, &enditer));
+  return styles;
 }
 
 
