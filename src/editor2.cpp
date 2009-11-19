@@ -3395,13 +3395,30 @@ void Editor2::apply_editor_action (EditorAction * action) // Todo
       // Look for the paragraph.
       EditorActionCreateParagraph * paragraph = style_action->paragraph;
       if (paragraph) {
-        // Apply it to the widget.
+        // Store the new style (the old one was stored when the action was created).
         paragraph->style = style_action->current_style;
-        textview_apply_paragraph_style (paragraph->widget, style_action->previous_style, style_action->current_style);
+        // Define the work area.
+        GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph->widget));
+        GtkTextIter startiter;
+        gtk_text_buffer_get_start_iter (textbuffer, &startiter);
+        GtkTextIter enditer;
+        gtk_text_buffer_get_end_iter (textbuffer, &enditer);
+        // Apply the style in such a way that the paragraph style is always applied first, 
+        // then after that the character styles.
+        vector <ustring> current_character_styles = get_character_styles_between_iterators (startiter, enditer);
+        gtk_text_buffer_remove_all_tags (textbuffer, &startiter, &enditer);
+        gtk_text_buffer_apply_tag_by_name (textbuffer, style_action->current_style.c_str(), &startiter, &enditer);
+        for (unsigned int i = 0; i < current_character_styles.size(); i++) {
+          if (!current_character_styles[i].empty()) {
+            gtk_text_buffer_get_iter_at_offset (textbuffer, &startiter, i);
+            enditer = startiter;
+            gtk_text_iter_forward_char (&enditer);
+            gtk_text_buffer_apply_tag_by_name (textbuffer, current_character_styles[i].c_str(), &startiter, &enditer);
+          }
+        }
       } else {
         gw_critical ("No paragraph was found to apply the style to");
       }
-
       break;
     }
 
@@ -3417,9 +3434,16 @@ void Editor2::apply_editor_action (EditorAction * action) // Todo
         GtkTextIter iter;
         gtk_text_buffer_get_iter_at_offset (textbuffer, &iter, insert_action->offset);
         gtk_text_buffer_insert (textbuffer, &iter, insert_action->text.c_str(), -1);
-        textview_apply_paragraph_style (paragraph->widget, "", paragraph->style);
-        // Store this paragraph since it has text added to it.
-        // Such paragraphs will be processed at the end.
+        // Apply the paragraph style to the new inserted text.
+        // It is important that paragraph styles are applied first, and character styles last.
+        // Since this is new inserted text, there's no character style yet, 
+        // so the paragraph style can be applied normally.
+        GtkTextIter startiter;
+        gtk_text_buffer_get_iter_at_offset (textbuffer, &startiter, insert_action->offset);
+        GtkTextIter enditer;
+        gtk_text_buffer_get_iter_at_offset (textbuffer, &enditer, insert_action->offset + insert_action->text.length());
+        gtk_text_buffer_apply_tag_by_name (textbuffer, paragraph->style.c_str(), &startiter, &enditer);
+        // Store this paragraph for later processing.
         changed_paragraphs_text_added.insert (paragraph);
       } else {
         gw_critical ("Could not find the paragraph where to insert text " + insert_action->text);

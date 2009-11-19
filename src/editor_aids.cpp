@@ -1653,13 +1653,15 @@ vector <ustring> get_character_styles_between_iterators (GtkTextIter startiter, 
 // and the second the character style.
 {
   vector <ustring> styles;
-  GtkTextIter iter = startiter;
-  do {
-    ustring paragraphstyle, characterstyle;
-    get_styles_at_iterator(iter, paragraphstyle, characterstyle);
-    styles.push_back (characterstyle);
-    gtk_text_iter_forward_char(&iter);
-  } while (gtk_text_iter_in_range(&iter, &startiter, &enditer));
+  if (!gtk_text_iter_equal (&startiter, &enditer)) {
+    GtkTextIter iter = startiter;
+    do {
+      ustring paragraphstyle, characterstyle;
+      get_styles_at_iterator(iter, paragraphstyle, characterstyle);
+      styles.push_back (characterstyle);
+      gtk_text_iter_forward_char(&iter);
+    } while (gtk_text_iter_in_range(&iter, &startiter, &enditer));
+  }
   return styles;
 }
 
@@ -1796,21 +1798,6 @@ void textbuffer_apply_named_tag(GtkTextBuffer * buffer, const ustring & name, co
     gtk_text_buffer_apply_tag_by_name(buffer, name.c_str(), start, end);
   else
     gtk_text_buffer_apply_tag_by_name(buffer, unknown_style(), start, end);
-}
-
-
-void textview_apply_paragraph_style(GtkWidget *textview, const ustring& oldstyle, const ustring& newstyle)
-// Removes the old style and applies the new to the whole "textview".
-{
-  GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
-  GtkTextIter start;
-  gtk_text_buffer_get_start_iter (textbuffer, &start);
-  GtkTextIter end;
-  gtk_text_buffer_get_end_iter (textbuffer, &end);
-  if (!oldstyle.empty()) {
-    gtk_text_buffer_remove_tag_by_name (textbuffer, oldstyle.c_str(), &start, &end);
-  }
-  gtk_text_buffer_apply_tag_by_name (textbuffer, newstyle.c_str(), &start, &end);
 }
 
 

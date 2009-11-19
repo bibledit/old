@@ -6856,9 +6856,7 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 
 Todo tasks.
 
-
 Actions to take:
-*  To identify a routine that can apply paragraph and character styles in the textview in the right order.
 *  To establish a routine that puts the new textview at the right position relative to its parent.
    Inserting a new textview at the right position needs to be thought out.
    If a new one is inserted, it looks at the currently focused one, and gets its offset.

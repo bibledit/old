@@ -141,7 +141,6 @@ vector <ustring> get_character_styles_between_iterators (GtkTextIter startiter, 
 
 const gchar * unknown_style();
 void textbuffer_apply_named_tag(GtkTextBuffer *buffer, const ustring& name, const GtkTextIter *start, const GtkTextIter *end);
-void textview_apply_paragraph_style(GtkWidget *textview, const ustring& oldstyle, const ustring& newstyle);
 void textbuffer_insert_with_named_tags(GtkTextBuffer *buffer, GtkTextIter *iter, const ustring& text, ustring first_tag_name, ustring second_tag_name);
 
 GtkWidget * textview_note_get_another(GtkTextBuffer * mainbuffer, GtkWidget * currentview, vector <EditorNote>& editornotes, EditorMovementType movement);
