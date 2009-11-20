@@ -159,5 +159,6 @@ bool create_editor_objects_for_text_note_raw                 (const ustring& pro
 
 EditorActionDeleteText * paragraph_delete_character_before_text_insertion_point_if_space(EditorActionCreateParagraph * paragraph_action);
 
+vector <GtkWidget *> editor_get_widgets (GtkWidget * vbox);
 
 #endif

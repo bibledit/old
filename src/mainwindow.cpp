@@ -6856,25 +6856,22 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 
 Todo tasks.
 
+
 Actions to take:
-*  To establish a routine that puts the new textview at the right position relative to its parent.
-   Inserting a new textview at the right position needs to be thought out.
-   If a new one is inserted, it looks at the currently focused one, and gets its offset.
-   Then the new one is going to have offset + 1.
-   The offsets are not stored in the paragraph, since these can change. The offsets are calculated each insertion of a new paragraph.
-   This is the basis for inserting text at an arbitrary point of any textview.
 *  To insert the LoadChapter separator as discussed below.
 *  To act on keyboard and clipboard insertions so that these are removed, converted into editor actions, and applied.
 *  To act on keyboard deletions, so these are inserted again, then converted into editor actions, then applied.
 *  To insert the OneAction separator.
 *  To make undo and redo work, using the separators.
 
+If there's an EditorAction that deletes a paragraph, it needs to store the current position of that paragraph within the vbox_v2.
+
+
 
 
 Resizing the window is very hard. It is recommended to disconnect the textview from its textbuffer temporally when resizing.
 This probably speeds it up a lot.
 We may consider disconnecting it while loading text as well.
-
 
 
 

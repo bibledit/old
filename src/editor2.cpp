@@ -3379,7 +3379,21 @@ void Editor2::apply_editor_action (EditorAction * action) // Todo
       // Store a pointer to the new textview.
       EditorActionCreateParagraph * paragraphaction = static_cast <EditorActionCreateParagraph *> (action);
       paragraphaction->widget = textview;
-      
+
+      // Move the widget to the right position, which is next to the currently focused paragraph.
+      // This move is important since a new paragraph can be created anywhere among the current ones.
+      vector <GtkWidget *> widgets = editor_get_widgets (vbox_v2);
+      gint new_paragraph_offset = 0;
+      if (focused_paragraph) {
+        for (unsigned int i = 0; i < widgets.size(); i++) {
+          if (focused_paragraph->widget == widgets[i]) {
+            new_paragraph_offset = i + 1;
+            break;
+          }
+        }
+      }
+      gtk_box_reorder_child (GTK_BOX(vbox_v2), textview, new_paragraph_offset);
+
       // Let the newly created textview be earmarked to grab focus
       // so that the user can type in it,
       // and the internal Editor logic knows about it.
@@ -3517,17 +3531,14 @@ void Editor2::apply_editor_action (EditorAction * action) // Todo
 void Editor2::editor_start_new_paragraph (const ustring& marker_text)
 // This function deals with a marker that starts a paragraph.
 {
-  // Get the currently focused paragraph. There may be none.
-  EditorActionCreateParagraph * paragraph = focused_paragraph;
-  
   // Create a new paragraph.
-  paragraph = new EditorActionCreateParagraph (0);
+  EditorActionCreateParagraph * paragraph = new EditorActionCreateParagraph (0);
   apply_editor_action (paragraph); 
 
   // The new paragraph markup.
   EditorActionChangeParagraphStyle * style_action = new EditorActionChangeParagraphStyle (marker_text, paragraph);
   apply_editor_action (style_action);
-  
+
   // Some styles insert their marker: Do that here if appropriate.
   StyleType type;
   int subtype;

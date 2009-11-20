@@ -2071,3 +2071,18 @@ bool text_starts_verse (const ustring& project, ustring& line, const ustring& ma
   return false;  
 }
 
+
+void on_editor_get_widgets_callback (GtkWidget *widget, gpointer user_data)
+{
+  vector <GtkWidget *> * widgets = static_cast < vector <GtkWidget *> * > (user_data);
+  widgets->push_back (widget);
+}
+
+
+vector <GtkWidget *> editor_get_widgets (GtkWidget * vbox)
+{
+  vector <GtkWidget *> widgets;
+  gtk_container_foreach(GTK_CONTAINER(vbox), on_editor_get_widgets_callback, gpointer(&widgets));
+  return widgets;  
+}
+
