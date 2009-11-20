@@ -387,7 +387,10 @@ void Editor2::text_load (ustring text) // Todo
 
   // Clean up extra spaces before the insertion points in the modified textbuffers.
   changed_paragraphs_delete_character_before_insertion_point_if_space ();
-    
+
+  // Insert the chapter load boundary.
+  apply_editor_action (new EditorAction (eatLoadChapterBoundary));
+      
   // Update gui for styles.
   signal_if_styles_changed();
 
@@ -3511,6 +3514,12 @@ void Editor2::apply_editor_action (EditorAction * action) // Todo
       } else {
         gw_critical ("Could not find the paragraph where to change a character style");
       }
+      break;
+    }
+    
+    case eatLoadChapterBoundary:
+    {
+      // There's nothing special to this boundary.
       break;
     }
 

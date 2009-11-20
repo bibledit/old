@@ -6858,7 +6858,6 @@ Todo tasks.
 
 
 Actions to take:
-*  To insert the LoadChapter separator as discussed below.
 *  To act on keyboard and clipboard insertions so that these are removed, converted into editor actions, and applied.
 *  To act on keyboard deletions, so these are inserted again, then converted into editor actions, then applied.
 *  To insert the OneAction separator.
