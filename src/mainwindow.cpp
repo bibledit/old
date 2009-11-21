@@ -2628,14 +2628,11 @@ void MainWindow::on_cut1_activate(GtkMenuItem * menuitem, gpointer user_data)
 
 void MainWindow::on_cut()
 {
-  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
     if (editor_windows[i]->focused) {
-      gtk_clipboard_set_text(clipboard, editor_windows[i]->text_get_selection().c_str(), -1);
-      editor_windows[i]->text_erase_selection();
+      editor_windows[i]->cut();
     }
   }
-
   if (window_notes) {
     if (window_notes->focused) {
       window_notes->cut();
@@ -2652,20 +2649,16 @@ void MainWindow::on_copy1_activate(GtkMenuItem * menuitem, gpointer user_data)
 
 void MainWindow::on_copy()
 {
-  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
     if (editor_windows[i]->focused) {
-      // Copy plain text, not the USFM code. 
-      gtk_text_buffer_copy_clipboard(editor_windows[i]->last_focused_textbuffer(), clipboard);
+      editor_windows[i]->copy();
     }
   }
-
   if (window_check_keyterms) {
     if (window_check_keyterms->focused) {
       window_check_keyterms->copy_clipboard();
     }
   }
-
   if (window_notes) {
     if (window_notes->focused) {
       window_notes->copy();
@@ -2702,28 +2695,16 @@ void MainWindow::on_paste1_activate(GtkMenuItem * menuitem, gpointer user_data)
 
 void MainWindow::on_paste()
 {
-  // Get the clipboard.
-  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
   // Bail out if no text is available.
+  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
   if (!gtk_clipboard_wait_is_text_available(clipboard))
     return;
-
-  // Paste text in the focused textview.  
+  // Do the paste operation.
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
-    cout << 1  << endl; // Todo
     if (editor_windows[i]->focused) {
-    cout << 1  << endl; // Todo
-      gchar *text = gtk_clipboard_wait_for_text(clipboard);
-      if (text) {
-    cout << 1  << endl; // Todo
-        editor_windows[i]->text_insert(text);
-    cout << 1  << endl; // Todo
-        g_free(text);
-    cout << 1  << endl; // Todo
-      }
+      editor_windows[i]->paste();
     }
   }
-
   if (window_notes) {
     if (window_notes->focused) {
       window_notes->paste();

@@ -41,6 +41,9 @@ public:
   ~Editor2();
   GtkWidget * new_widget_signal;
   GtkWidget * new_widget_pointer;
+  void cut ();
+  void copy ();
+  void paste ();
 private:
   GtkWidget *scrolledwindow_v2;
   GtkWidget *viewport_v2;

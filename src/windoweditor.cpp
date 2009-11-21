@@ -826,3 +826,61 @@ void WindowEditor::on_new_widget_signal ()
     connect_focus_signals (editor2->new_widget_pointer);
   }
 }
+
+
+void WindowEditor::cut ()
+{
+  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+  if (usfmview) {
+    gtk_clipboard_set_text(clipboard, text_get_selection().c_str(), -1);
+    text_erase_selection();
+  }
+  if (editor) {
+    gtk_clipboard_set_text(clipboard, text_get_selection().c_str(), -1);
+    text_erase_selection();
+  }
+  if (editor2) {
+    editor2->cut();
+  }
+}
+
+
+void WindowEditor::copy ()
+{
+  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+  if (usfmview) {
+    gtk_text_buffer_copy_clipboard(last_focused_textbuffer(), clipboard);
+  }
+  if (editor) {
+    // Copy plain text, not the USFM code. 
+    gtk_text_buffer_copy_clipboard(last_focused_textbuffer(), clipboard);
+  }
+  if (editor2) {
+    editor2->copy();
+  }
+}
+
+
+void WindowEditor::paste ()
+{
+  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+  if (usfmview) {
+    gchar *text = gtk_clipboard_wait_for_text(clipboard);
+    if (text) {
+      text_insert(text);
+      g_free(text);
+    }
+  }
+  if (editor) {
+    gchar *text = gtk_clipboard_wait_for_text(clipboard);
+    if (text) {
+      text_insert(text);
+      g_free(text);
+    }
+  }
+  if (editor2) {
+    editor2->paste();
+  }
+}
+
+

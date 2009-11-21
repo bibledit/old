@@ -90,6 +90,10 @@ public:
 
   void spelling_trigger ();
     
+  void cut ();
+  void copy ();
+  void paste ();
+
 protected:
   GtkWidget *vbox;
   void switch_to_view (bool viewusfm, ustring project);
@@ -116,5 +120,6 @@ protected:
   
 private:
 };
+
 
 #endif

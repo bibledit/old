@@ -602,7 +602,7 @@ void Editor2::text_erase_selection()
 }
 
 
-void Editor2::text_insert(ustring text) // Todo
+void Editor2::text_insert(ustring text)
 // This inserts plain or USFM text at the cursor location of the focused textview.
 // If text is selected, this is erased first.
 {
@@ -2110,7 +2110,6 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
   // Get offset of text insertion.
   gint text_insertion_offset = gtk_text_iter_get_offset (pos_iter) - length;
 
-cout << 0  << endl; // Todo  
   /*
   If the text is inserted right at the start in the textview,
   then the GtkTextBuffer does not apply any style to that text.
@@ -2123,11 +2122,9 @@ cout << 0  << endl; // Todo
   */
   if (character_style_to_be_applied.empty()) {
     if (text_insertion_offset == 0) {
-cout << 0  << endl; // Todo  
       ustring paragraph_style;
       GtkTextIter iter = *pos_iter;
       get_styles_at_iterator(iter, paragraph_style, character_style_to_be_applied);
-cout << 0  << endl; // Todo  
     }
   }
 
@@ -2138,24 +2135,16 @@ cout << 0  << endl; // Todo
   // so that the Undo and Redo system work properly.
   GtkTextIter startiter = *pos_iter;
   gtk_text_iter_backward_chars (&startiter, length);
-cout << 0  << endl; // Todo  
   gtk_text_buffer_delete (textbuffer, &startiter, pos_iter);
-cout << 0  << endl; // Todo  
 
   // Generate the EditorAction for inserting the text.
-cout << 0  << endl; // Todo  
   EditorActionInsertText * insert_action = new EditorActionInsertText (focused_paragraph, text_insertion_offset, text);
-cout << 0  << endl; // Todo  
   apply_editor_action (insert_action);
-cout << 0  << endl; // Todo  
 
   // If there is a character style to be applied, do that here.
   if (!character_style_to_be_applied.empty()) {
-cout << 0  << endl; // Todo  
     EditorActionChangeCharacterStyle * style_action = new EditorActionChangeCharacterStyle (focused_paragraph, character_style_to_be_applied, text_insertion_offset, length);
-cout << 0  << endl; // Todo  
     apply_editor_action (style_action);
-cout << 0  << endl; // Todo  
   }  
 
 
@@ -3826,4 +3815,37 @@ void Editor2::changed_paragraphs_delete_character_before_insertion_point_if_spac
   changed_paragraphs_text_added.clear();
 }
 
+
+void Editor2::cut ()
+{
+  if (editable) {
+    if (focused_paragraph) {
+      GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+      GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (focused_paragraph->widget));
+      gtk_text_buffer_cut_clipboard (textbuffer, clipboard, true);      
+    }
+  }
+}
+
+
+void Editor2::copy ()
+{
+  if (focused_paragraph) {
+    GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+    GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (focused_paragraph->widget));
+    gtk_text_buffer_copy_clipboard(textbuffer, clipboard);
+  }
+}
+
+
+void Editor2::paste ()
+{
+  if (editable) {
+    if (focused_paragraph) {
+      GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+      GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (focused_paragraph->widget));
+      gtk_text_buffer_paste_clipboard(textbuffer, clipboard, NULL, true);
+    }
+  }
+}
 
