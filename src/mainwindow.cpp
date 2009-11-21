@@ -6873,6 +6873,10 @@ This probably speeds it up a lot.
 We may consider disconnecting it while loading text as well.
 
 
+At times, but not always, text is pasted into the buffer twice. We probably need to remove the keyboard accelerator Ctrl-V,
+and let the gtktextbuffer use its own keybinding. Or to put the accelerator back into the main window.
+
+
 
 Perhaps pictures can then be shown in a htmlview or textbuffer.
 Notemarkers can be distinguished by their "f" or other character markup.

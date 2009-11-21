@@ -157,7 +157,7 @@ bool text_starts_verse (const ustring& project, ustring& line, const ustring& ma
 bool create_editor_objects_for_text_table_raw                (const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
 bool create_editor_objects_for_text_note_raw                 (const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
 
-EditorActionDeleteText * paragraph_delete_character_before_text_insertion_point_if_space(EditorActionCreateParagraph * paragraph_action);
+EditorActionDeleteText * paragraph_delete_last_character_if_space(EditorActionCreateParagraph * paragraph_action);
 
 vector <GtkWidget *> editor_get_widgets (GtkWidget * vbox);
 

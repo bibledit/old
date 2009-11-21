@@ -95,7 +95,7 @@ current_reference(0, 1000, "")
   textbuffer_changed_event_id = 0;
   redo_counter = 0;
   focused_paragraph = NULL;
-  editor_action_is_being_applied = false;
+  disregard_text_buffer_signals = false;
     
   // Create data that is needed for any of the possible formatted views.
   create_or_update_formatting_data();
@@ -313,14 +313,23 @@ void Editor2::chapter_load(unsigned int chapter_in)
   line.append(" ");
 
   // Load in editor.
-  text_load (line);
+  text_load (line, "");
 
-  // Clear undo buffer.
-  //snapshots.clear();
-  
-  // Set the buffer(s) non-modified.
-  //textbuffers_set_unmodified(textbuffer, editornotes, editortables);
+  // Clean up extra spaces before the insertion points in all the newly created textbuffers.
+  for (unsigned int i = 0; i < actions_done.size(); i++) {
+    EditorAction * action = actions_done[i];
+    if (action->type == eatCreateParagraph) {
+      EditorActionCreateParagraph * paragraph = static_cast <EditorActionCreateParagraph *> (action);
+      EditorActionDeleteText * trim_action = paragraph_delete_last_character_if_space (paragraph);
+      if (trim_action) {
+        apply_editor_action (trim_action);
+      }
+    }
+  }
 
+  // Insert the chapter load boundary.
+  apply_editor_action (new EditorAction (eatLoadChapterBoundary));
+      
   // Place cursor at the start and scroll it onto the screen.
   //GtkTextIter iter;
   //gtk_text_buffer_get_start_iter(textbuffer, &iter);
@@ -329,13 +338,24 @@ void Editor2::chapter_load(unsigned int chapter_in)
 }
 
 
-void Editor2::text_load (ustring text) // Todo
+void Editor2::text_load (ustring text, ustring character_style) // Todo
 {
   // Clean away possible new lines.
   replace_text (text, "\n", " ");
 
+  // The character style. Initialize it to the character style at the insert position.
+  /*
+  if (focused_paragraph) {
+    gint insertion_offset = editor_paragraph_insertion_point_get_offset (focused_paragraph);
+    GtkTextIter iter;
+    GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (focused_paragraph->widget));
+    gtk_text_buffer_get_iter_at_offset (textbuffer, &iter, insertion_offset);
+    ustring paragraph_style;
+    get_styles_at_iterator(iter, paragraph_style, character_style);
+  }
+  */
+
   // Load the text into the editor by creating and applying editor actions.
-  ustring character_style;
   ustring marker_text;
   size_t marker_pos;
   size_t marker_length;
@@ -386,12 +406,6 @@ void Editor2::text_load (ustring text) // Todo
     }
   }
 
-  // Clean up extra spaces before the insertion points in the modified textbuffers.
-  changed_paragraphs_delete_character_before_insertion_point_if_space ();
-
-  // Insert the chapter load boundary.
-  apply_editor_action (new EditorAction (eatLoadChapterBoundary));
-      
   // Update gui for styles.
   signal_if_styles_changed();
 
@@ -2080,7 +2094,7 @@ void Editor2::on_buffer_insert_text_before(GtkTextBuffer * textbuffer, GtkTextIt
 
 void Editor2::buffer_insert_text_before(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, gchar * text, gint length)
 {
-  if (editor_action_is_being_applied) {
+  if (disregard_text_buffer_signals) {
     return;
   }
 }
@@ -2096,10 +2110,10 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
 // This function is called after the default handler has inserted the text.
 // At this stage "pos_iter" points to the end of the inserted text.
 {
-  // If editor actions are being applied, 
+  // When editor actions are being applied 
   // we are not interested in signals from the textbuffer that indicate
-  // that text was inserted. Bail out in such cases.
-  if (editor_action_is_being_applied) {
+  // that text was inserted. Bail out.
+  if (disregard_text_buffer_signals) {
     return;
   }
   cout << "insert at " << gtk_text_iter_get_offset (pos_iter) << ", " << text << ", length " << length << endl;
@@ -2107,54 +2121,48 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
   // Variable for the character style that the routines below indicate should be applied to the inserted text.
   ustring character_style_to_be_applied;
 
-  // Get offset of text insertion.
+  // Get offset of text insertion point.
   gint text_insertion_offset = gtk_text_iter_get_offset (pos_iter) - length;
 
   /*
-  If the text is inserted right at the start in the textview,
-  then the GtkTextBuffer does not apply any style to that text.
+  If text is inserted right before where a character style was in effect,
+  the GtkTextBuffer does not apply any style to that text.
   This behaviour is corrected here.
-  What the user expects is that the paragraph and character styles 
-  that apply to the insertion point also will be applied to the new text.
-  In fact, we don't need to care about the paragraph style,
+  The user expects that the paragraph and character styles 
+  that apply to the insertion point will be applied to the new text as well.
+  We don't need to care about the paragraph style,
   because this style is automatically applied when the Editor Actions
   are applied. It is only the character style that concerns us.
   */
   if (character_style_to_be_applied.empty()) {
-    if (text_insertion_offset == 0) {
-      ustring paragraph_style;
-      GtkTextIter iter = *pos_iter;
-      get_styles_at_iterator(iter, paragraph_style, character_style_to_be_applied);
-    }
+    ustring paragraph_style;
+    GtkTextIter iter = *pos_iter;
+    get_styles_at_iterator(iter, paragraph_style, character_style_to_be_applied);
   }
-
-  
   
   // Remove the text that was inserted into the textbuffer.
   // It needs to be inserted through Editor Actions, 
   // so that the Undo and Redo system work properly.
+  disregard_text_buffer_signals = true;
   GtkTextIter startiter = *pos_iter;
   gtk_text_iter_backward_chars (&startiter, length);
   gtk_text_buffer_delete (textbuffer, &startiter, pos_iter);
+  disregard_text_buffer_signals = false;
 
-  // Generate the EditorAction for inserting the text.
-  EditorActionInsertText * insert_action = new EditorActionInsertText (focused_paragraph, text_insertion_offset, text);
-  apply_editor_action (insert_action);
+  // Insert the data through the standard text loader.
+  text_load (text, character_style_to_be_applied);
 
-  // If there is a character style to be applied, do that here.
-  if (!character_style_to_be_applied.empty()) {
-    EditorActionChangeCharacterStyle * style_action = new EditorActionChangeCharacterStyle (focused_paragraph, character_style_to_be_applied, text_insertion_offset, length);
-    apply_editor_action (style_action);
-  }  
-
-
+  // Todo If there are several lines inserted, each line should be handled separately.
+  // Or insert the current paragraph marker, which may be easier.
+  
+  // Todo spaces are not inserted - look at this.
+  
   // Todo whenever the above works, it needs to be added to the test routines.
   // Todo when inserting text longer than one character, there are lots of errors in the textbuffer, see the system log.
 
-
-  
-  
-
+  // The pos_iter variable that was passed to this function has been invalidated because text was removed and added.
+  // It is here validated again. Doing this prevents critical errors within Gtk.
+  gtk_text_buffer_get_iter_at_offset (textbuffer, pos_iter, text_insertion_offset);
 
   return;
 
@@ -2302,7 +2310,7 @@ void Editor2::on_buffer_delete_range_before(GtkTextBuffer * textbuffer, GtkTextI
 
 void Editor2::buffer_delete_range_before(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end) // Todo
 {
-  if (editor_action_is_being_applied) {
+  if (disregard_text_buffer_signals) {
     return;
   }
   //cout << "buffer_delete_range_before (GtkTextBuffer * textbuffer " << textbuffer << ", GtkTextIter * start offset " << gtk_text_iter_get_offset (start) << ", GtkTextIter * end offset " << gtk_text_iter_get_offset (end) << ")" << endl;
@@ -2319,7 +2327,7 @@ void Editor2::on_buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIt
 
 void Editor2::buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end) // Todo
 {
-  if (editor_action_is_being_applied) {
+  if (disregard_text_buffer_signals) {
     return;
   }
   //cout << "buffer_delete_range_after (GtkTextBuffer * textbuffer " << textbuffer << ", GtkTextIter * start offset " << gtk_text_iter_get_offset (start) << ", GtkTextIter * end offset " << gtk_text_iter_get_offset (end) << ")" << endl;
@@ -3404,7 +3412,7 @@ void Editor2::scroll_cursor_on_screen_timeout()
 void Editor2::apply_editor_action (EditorAction * action) // Todo
 {
   // An editor action is being applied.
-  editor_action_is_being_applied = true;
+  disregard_text_buffer_signals = true;
   
   // Pointer to any widget that should grab focus.
   GtkWidget * widget_that_should_grab_focus = NULL;
@@ -3537,8 +3545,6 @@ void Editor2::apply_editor_action (EditorAction * action) // Todo
         GtkTextIter enditer;
         gtk_text_buffer_get_iter_at_offset (textbuffer, &enditer, insert_action->offset + insert_action->text.length());
         gtk_text_buffer_apply_tag_by_name (textbuffer, paragraph->style.c_str(), &startiter, &enditer);
-        // Store this paragraph for later processing.
-        changed_paragraphs_text_added.insert (paragraph);
       } else {
         gw_critical ("Could not find the paragraph where to insert text " + insert_action->text);
       }
@@ -3613,7 +3619,7 @@ void Editor2::apply_editor_action (EditorAction * action) // Todo
   }
   
   // Applying the editor action is over.
-  editor_action_is_being_applied = false;
+  disregard_text_buffer_signals = false;
 }
 
 
@@ -3795,24 +3801,6 @@ bool Editor2::editor_ends_character_style(ustring & line, ustring & character_st
     }
   }
   return false;
-}
-
-
-void Editor2::changed_paragraphs_delete_character_before_insertion_point_if_space ()
-// The ends of lines of USFM are changed to spaces, which get loaded in the paragraphs.
-// This routine goes through the changed paragraphs, and deletes the character before the insertion point if it is a space.
-{
-  // Create a list of changed paragraph.
-  vector <EditorActionCreateParagraph *> changed_paragraphs (changed_paragraphs_text_added.begin(), changed_paragraphs_text_added.end());
-  // Handle them all.
-  for (unsigned int i = 0; i < changed_paragraphs.size(); i++) {
-    EditorActionDeleteText * trim_action = paragraph_delete_character_before_text_insertion_point_if_space (changed_paragraphs[i]);
-    if (trim_action) {
-      apply_editor_action (trim_action);
-    }
-  }  
-  // Clear the set of changed paragraphs.
-  changed_paragraphs_text_added.clear();
 }
 
 

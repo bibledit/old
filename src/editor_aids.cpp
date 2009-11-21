@@ -2014,13 +2014,13 @@ gint editor_paragraph_insertion_point_get_offset (EditorActionCreateParagraph * 
 }
 
 
-EditorActionDeleteText * paragraph_delete_character_before_text_insertion_point_if_space(EditorActionCreateParagraph * paragraph_action)
-// Creates an action for deleting text for the character before the text insertion point if that is a space.
+EditorActionDeleteText * paragraph_delete_last_character_if_space(EditorActionCreateParagraph * paragraph_action)
+// Creates an action for deleting text for the last character in the text buffer if it is a space.
 {
   if (paragraph_action) {
     GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph_action->widget));
     GtkTextIter iter;
-    gtk_text_buffer_get_iter_at_mark(textbuffer, &iter, gtk_text_buffer_get_insert(textbuffer));
+    gtk_text_buffer_get_end_iter (textbuffer, &iter);
     bool text_available = gtk_text_iter_backward_char(&iter);
     if (text_available) {
       gunichar last_character = gtk_text_iter_get_char(&iter);

@@ -48,7 +48,7 @@ private:
   GtkWidget *scrolledwindow_v2;
   GtkWidget *viewport_v2;
   GtkWidget *vbox_v2;
-  void text_load (ustring text);
+  void text_load (ustring text, ustring character_style);
   deque <EditorAction *> actions_done;
   deque <EditorAction *> actions_redoable;
   void apply_editor_action (EditorAction * action);
@@ -60,9 +60,7 @@ private:
   bool editor_ends_character_style   (ustring & line, ustring & character_style, const ustring & marker_text, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
   void editor_text_fallback (ustring& line, ustring& character_style, size_t marker_pos, bool marker_found);
   EditorActionCreateParagraph * textview2paragraph_action (GtkWidget * textview);
-  set <EditorActionCreateParagraph *> changed_paragraphs_text_added;
-  void changed_paragraphs_delete_character_before_insertion_point_if_space ();
-  bool editor_action_is_being_applied;
+  bool disregard_text_buffer_signals;
 
 // Old stuff.
   // Focus handling.
