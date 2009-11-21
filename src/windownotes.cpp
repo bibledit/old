@@ -299,6 +299,8 @@ FloatingWindow(parent_layout, widNotes, "Project notes", startup)
   gtk_box_pack_start(GTK_BOX(vbox_controls), textview_note_references, TRUE, TRUE, 0);
   gtk_text_view_set_accepts_tab(GTK_TEXT_VIEW(textview_note_references), FALSE);
 
+  connect_focus_signals (textview_note_references);
+  
   g_signal_connect((gpointer) htmlview_notes, "link-clicked", G_CALLBACK(on_html_link_clicked), gpointer(this));
   g_signal_connect((gpointer) button_note_ok, "clicked", G_CALLBACK(on_button_ok_clicked), gpointer(this));
   g_signal_connect((gpointer) button_note_cancel, "clicked", G_CALLBACK(on_button_cancel_clicked), gpointer(this));
@@ -1264,10 +1266,9 @@ void WindowNotes::cut()
 {
   // Cut to clipboard if editing.
   if (note_being_edited()) {
-    GtkWidget *focused_widget = gtk_window_get_focus(GTK_WINDOW(vbox_client));
-    if (focused_widget == htmlview_note_editor)
+    if (last_focused_widget == htmlview_note_editor)
       gtk_html_cut(GTK_HTML(htmlview_note_editor));
-    if (focused_widget == textview_note_references) {
+    if (last_focused_widget == textview_note_references) {
       GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
       gtk_text_buffer_cut_clipboard(note_editor->textbuffer_references, clipboard, true);
     }
@@ -1279,11 +1280,9 @@ void WindowNotes::copy()
 {
   // Copy to clipboard.
   if (note_being_edited()) {
-
-    GtkWidget *focused_widget = gtk_window_get_focus(GTK_WINDOW(vbox_client));
-    if (focused_widget == htmlview_note_editor)
+    if (last_focused_widget == htmlview_note_editor)
       gtk_html_copy(GTK_HTML(htmlview_note_editor));
-    if (focused_widget == textview_note_references) {
+    if (last_focused_widget == textview_note_references) {
       GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
       gtk_text_buffer_copy_clipboard(note_editor->textbuffer_references, clipboard);
     }
@@ -1297,10 +1296,9 @@ void WindowNotes::paste()
 {
   // Paste from clipboard if editing.
   if (note_being_edited()) {
-    GtkWidget *focused_widget = gtk_window_get_focus(GTK_WINDOW(vbox_client));
-    if (focused_widget == htmlview_note_editor)
+    if (last_focused_widget == htmlview_note_editor)
       gtk_html_paste(GTK_HTML(htmlview_note_editor), false);
-    if (focused_widget == textview_note_references) {
+    if (last_focused_widget == textview_note_references) {
       GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
       gtk_text_buffer_paste_clipboard(note_editor->textbuffer_references, clipboard, NULL, true);
     }

@@ -2710,11 +2710,16 @@ void MainWindow::on_paste()
 
   // Paste text in the focused textview.  
   for (unsigned int i = 0; i < editor_windows.size(); i++) {
+    cout << 1  << endl; // Todo
     if (editor_windows[i]->focused) {
+    cout << 1  << endl; // Todo
       gchar *text = gtk_clipboard_wait_for_text(clipboard);
       if (text) {
+    cout << 1  << endl; // Todo
         editor_windows[i]->text_insert(text);
+    cout << 1  << endl; // Todo
         g_free(text);
+    cout << 1  << endl; // Todo
       }
     }
   }
@@ -6857,15 +6862,29 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
+To act on keyboard and clipboard insertions so that these are removed, converted into editor actions, and applied.
+* The connect-after one is chosen, after it has been inserted, this new text.
+* Take a note of what was inserted, and where.
+* Remove it again.
+* Convert it into editor actions.
+* Let the paragraph style also be applied on inserted text.
+* To use the load_text routine, with possible initializers of paragraph data, and where to insert it.
+* If the data inserted contains one or more backslashes and is larger than, say, 3 characters, then it is treated as USFM code,
+* If there are no backslashes, it is treated as typed code.
+* The difference between typed and USFM code is that the USFM code has the \n's converted to spaces.
+
+
+
 Actions to take:
-*  To act on keyboard and clipboard insertions so that these are removed, converted into editor actions, and applied.
 *  To act on keyboard deletions, so these are inserted again, then converted into editor actions, then applied.
 *  To insert the OneAction separator.
 *  To make undo and redo work, using the separators.
 
+
 If there's an EditorAction that deletes a paragraph, it needs to store the current position of that paragraph within the vbox_v2.
-
-
+The tables are left for just now, unformatted in the editor.
+To pay attention to footnotes formatting.
+To pay attention to USFM retrieval.
 
 
 Resizing the window is very hard. It is recommended to disconnect the textview from its textbuffer temporally when resizing.

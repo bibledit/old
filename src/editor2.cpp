@@ -95,6 +95,7 @@ current_reference(0, 1000, "")
   textbuffer_changed_event_id = 0;
   redo_counter = 0;
   focused_paragraph = NULL;
+  editor_action_is_being_applied = false;
     
   // Create data that is needed for any of the possible formatted views.
   create_or_update_formatting_data();
@@ -601,7 +602,7 @@ void Editor2::text_erase_selection()
 }
 
 
-void Editor2::text_insert(ustring text)
+void Editor2::text_insert(ustring text) // Todo
 // This inserts plain or USFM text at the cursor location of the focused textview.
 // If text is selected, this is erased first.
 {
@@ -2079,7 +2080,9 @@ void Editor2::on_buffer_insert_text_before(GtkTextBuffer * textbuffer, GtkTextIt
 
 void Editor2::buffer_insert_text_before(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, gchar * text, gint length)
 {
-  //cout << "buffer_insert_text_before (GtkTextBuffer * textbuffer " << textbuffer << ", GtkTextIter * pos_iter offset " << gtk_text_iter_get_offset (pos_iter) << ", gchar * text " << text << ", gint length " << length << ")" << endl;
+  if (editor_action_is_being_applied) {
+    return;
+  }
 }
 
 
@@ -2089,11 +2092,107 @@ void Editor2::on_buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIte
 }
 
 
-void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, gchar * text, gint length)
+void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, gchar * text, gint length) // Todo
+// This function is called after the default handler has inserted the text.
+// At this stage "pos_iter" points to the end of the inserted text.
 {
+  // If editor actions are being applied, 
+  // we are not interested in signals from the textbuffer that indicate
+  // that text was inserted. Bail out in such cases.
+  if (editor_action_is_being_applied) {
+    return;
+  }
+  cout << "insert at " << gtk_text_iter_get_offset (pos_iter) << ", " << text << ", length " << length << endl;
+
+  // Variable for the character style that the routines below indicate should be applied to the inserted text.
+  ustring character_style_to_be_applied;
+
+  // Get offset of text insertion.
+  gint text_insertion_offset = gtk_text_iter_get_offset (pos_iter) - length;
+
+cout << 0  << endl; // Todo  
+  /*
+  If the text is inserted right at the start in the textview,
+  then the GtkTextBuffer does not apply any style to that text.
+  This behaviour is corrected here.
+  What the user expects is that the paragraph and character styles 
+  that apply to the insertion point also will be applied to the new text.
+  In fact, we don't need to care about the paragraph style,
+  because this style is automatically applied when the Editor Actions
+  are applied. It is only the character style that concerns us.
+  */
+  if (character_style_to_be_applied.empty()) {
+    if (text_insertion_offset == 0) {
+cout << 0  << endl; // Todo  
+      ustring paragraph_style;
+      GtkTextIter iter = *pos_iter;
+      get_styles_at_iterator(iter, paragraph_style, character_style_to_be_applied);
+cout << 0  << endl; // Todo  
+    }
+  }
+
   
+  
+  // Remove the text that was inserted into the textbuffer.
+  // It needs to be inserted through Editor Actions, 
+  // so that the Undo and Redo system work properly.
+  GtkTextIter startiter = *pos_iter;
+  gtk_text_iter_backward_chars (&startiter, length);
+cout << 0  << endl; // Todo  
+  gtk_text_buffer_delete (textbuffer, &startiter, pos_iter);
+cout << 0  << endl; // Todo  
+
+  // Generate the EditorAction for inserting the text.
+cout << 0  << endl; // Todo  
+  EditorActionInsertText * insert_action = new EditorActionInsertText (focused_paragraph, text_insertion_offset, text);
+cout << 0  << endl; // Todo  
+  apply_editor_action (insert_action);
+cout << 0  << endl; // Todo  
+
+  // If there is a character style to be applied, do that here.
+  if (!character_style_to_be_applied.empty()) {
+cout << 0  << endl; // Todo  
+    EditorActionChangeCharacterStyle * style_action = new EditorActionChangeCharacterStyle (focused_paragraph, character_style_to_be_applied, text_insertion_offset, length);
+cout << 0  << endl; // Todo  
+    apply_editor_action (style_action);
+cout << 0  << endl; // Todo  
+  }  
+
+
+  // Todo whenever the above works, it needs to be added to the test routines.
+  // Todo when inserting text longer than one character, there are lots of errors in the textbuffer, see the system log.
+
+
+  
+  
+
+
   return;
-  //cout << "buffer_insert_text_after (GtkTextBuffer * textbuffer " << textbuffer << ", GtkTextIter * pos_iter offset " << gtk_text_iter_get_offset (pos_iter) << ", gchar * text " << text << ", gint length " << length << ")" << endl;
+
+
+  /*
+     The routine below is going to solve a problem that occurs under certain 
+     circumstances.
+     When a certain paragraph style has been applied to a line, 
+     and the user starts typing text right at the start of that paragraph,
+     the editor does not apply the right paragraph style on the new text,
+     but instead applies no style at all.
+
+  if (!paragraph_style.empty()) {
+    GtkTextIter iter = *pos_iter;
+    gtk_text_iter_backward_char(&iter);
+    ustring paragraph, character;
+    get_styles_at_iterator(iter, paragraph, character);
+    if (paragraph.empty()) {
+      iter = *pos_iter;
+      GtkTextIter iter0 = *pos_iter;
+      gtk_text_iter_backward_chars(&iter0, length);
+      textbuffer_apply_named_tag(textbuffer, paragraph_style, &iter0, &iter);
+    }
+  }
+   */
+
+
   
   // Bail out if no undoes are to be recorded.
   if (!recording_undo_actions())
@@ -2111,7 +2210,7 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
      The text is inserted plain, without any tags applied.
      This signal handler solves that. It looks whether no style is applied on
      the inserted text. If no style is there, it iterates back in the buffer
-     till it finds styls(s). It then applies the same style(s) on the inserted
+     till it finds styles. It then applies the same styles on the inserted
      text.
    */
   ustring paragraph_style, character_style;
@@ -2149,27 +2248,6 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
       GtkTextIter iter2 = *pos_iter;
       gtk_text_iter_forward_chars(&iter2, length - 1);
       textbuffer_apply_named_tag(textbuffer, character_style_on_start_typing, &iter, &iter2);
-    }
-  }
-
-  /*
-     The routine below is going to solve a problem that occurs under certain 
-     circumstances.
-     When a certain paragraph style has been applied to a line, 
-     and the user starts typing text right at the start of that paragraph,
-     the editor does not apply the right paragraph style on the new text,
-     but instead applies no style at all.
-   */
-  if (!paragraph_style.empty()) {
-    GtkTextIter iter = *pos_iter;
-    gtk_text_iter_backward_char(&iter);
-    ustring paragraph, character;
-    get_styles_at_iterator(iter, paragraph, character);
-    if (paragraph.empty()) {
-      iter = *pos_iter;
-      GtkTextIter iter0 = *pos_iter;
-      gtk_text_iter_backward_chars(&iter0, length);
-      textbuffer_apply_named_tag(textbuffer, paragraph_style, &iter0, &iter);
     }
   }
 
@@ -2230,14 +2308,15 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
 void Editor2::on_buffer_delete_range_before(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end, gpointer user_data)
 {
   ((Editor2 *) user_data)->buffer_delete_range_before(textbuffer, start, end);
-
 }
 
 
-void Editor2::buffer_delete_range_before(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end)
+void Editor2::buffer_delete_range_before(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end) // Todo
 {
+  if (editor_action_is_being_applied) {
+    return;
+  }
   //cout << "buffer_delete_range_before (GtkTextBuffer * textbuffer " << textbuffer << ", GtkTextIter * start offset " << gtk_text_iter_get_offset (start) << ", GtkTextIter * end offset " << gtk_text_iter_get_offset (end) << ")" << endl;
-
   // Handle deleting footnotes.
   //collect_text_child_anchors_being_deleted(start, end);
 }
@@ -2249,8 +2328,11 @@ void Editor2::on_buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIt
 }
 
 
-void Editor2::buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end)
+void Editor2::buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end) // Todo
 {
+  if (editor_action_is_being_applied) {
+    return;
+  }
   //cout << "buffer_delete_range_after (GtkTextBuffer * textbuffer " << textbuffer << ", GtkTextIter * start offset " << gtk_text_iter_get_offset (start) << ", GtkTextIter * end offset " << gtk_text_iter_get_offset (end) << ")" << endl;
   //signal_editor_changed();
   //process_text_child_anchors_deleted();
@@ -3332,7 +3414,13 @@ void Editor2::scroll_cursor_on_screen_timeout()
 
 void Editor2::apply_editor_action (EditorAction * action) // Todo
 {
+  // An editor action is being applied.
+  editor_action_is_being_applied = true;
+  
+  // Pointer to any widget that should grab focus.
   GtkWidget * widget_that_should_grab_focus = NULL;
+  
+  // Deal with the action depending on its type.
   switch (action->type) {
 
     case eatCreateParagraph:
@@ -3534,6 +3622,9 @@ void Editor2::apply_editor_action (EditorAction * action) // Todo
   if (widget_that_should_grab_focus) {
     gtk_widget_grab_focus (widget_that_should_grab_focus);
   }
+  
+  // Applying the editor action is over.
+  editor_action_is_being_applied = false;
 }
 
 

@@ -59,6 +59,7 @@ private:
   EditorActionCreateParagraph * textview2paragraph_action (GtkWidget * textview);
   set <EditorActionCreateParagraph *> changed_paragraphs_text_added;
   void changed_paragraphs_delete_character_before_insertion_point_if_space ();
+  bool editor_action_is_being_applied;
 
 // Old stuff.
   // Focus handling.
