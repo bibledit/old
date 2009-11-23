@@ -7027,7 +7027,16 @@ Done through the interface through the Outpost.
 
 
 
-
-
+Since the git subsystem at times blocks the main interface, this should go separate again.
+Since the dbus causes crashes, this should go separate also.
+bibledit-executive
+bibledit-dbus
+Both are started by the main bibledit binary.
+The executive gets an identifier, and the path of the binary to execute.
+It has its own log file, viewable in the main program.
+It returns the identifier, and the standard out and the standard err of the program ran.
+The dbus binary gets commands to send somewhere, and returns signals it received.
+We may have to disable dbus since it does not work in the Mac.
+Or try a newer version of the XCode Tools.
 
 */

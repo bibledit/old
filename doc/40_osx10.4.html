@@ -24,14 +24,13 @@
 
 <div id="toc">
 <ul>
-  <li><a href="#x11" class="level1">X11</a></li>
-  <li><a href="#xcodetools" class="level1">Xcode Tools</a></li>
+  <li><a href="#installx11" class="level1">Install X11</a></li>
+  <li><a href="#installxcodetools" class="level1">Install Xcode Tools</a></li>
   <li><a href="#x11terminal" class="level1">X11 terminal</a></li>
   <li><a href="#macports" class="level1">MacPorts</a></li>
   <li><a href="#dependencies" class="level1">Dependencies</a></li>
   <li><a href="#bibledit" class="level1">Bibledit</a></li>
   <li><a href="#run" class="level1">Run</a></li>
-  <li><a href="#optionalcomponents" class="level1">Optional components</a></li>
   <li><a href="#notes" class="level1">Notes</a></li>
 </ul>
 </div>
@@ -40,7 +39,7 @@
 <p>These instructions assume Bibledit is being installed on a standard
 installation of OSX.</p>
 
-<h3><a name="x11"></a>Install X11</h3>
+<h3><a name="installx11"></a>Install X11</h3>
 
 <p><a href="glossary.html#x11">X11</a> is on the installation DVD that came
 with your OSX software. This DVD is marked "Mac OS X Install Disc 1". Insert
@@ -51,7 +50,7 @@ open, and follow the instructions on the screen to install it. In the same way,
 install Mac OS X Install Disc 1 / System / Installation / Packages /
 X11User.pkg.</p>
 
-<h3><a name="xcodetools"></a>Install Xcode Tools</h3>
+<h3><a name="installxcodetools"></a>Install Xcode Tools</h3>
 
 <p>Using the same DVD that was inserted above, double-click "Xcode Tools". A
 new window opens. Here double-click "XcodeTools.mpkg". Go through the whole
@@ -103,11 +102,20 @@ while.</p>
 
 <p>Do the same for other software:</p>
 <pre>sudo port install git-core
-sudo port install enchant
-sudo port install libgtkhtml3</pre>
+sudo port install libgtkhtml3
+sudo port install gtksourceview2
+sudo port install webkit-gtk</pre>
 
-<p>If a problem arises, help is at <a
+<p>If anything fails to compile, try again, it probably will succeed then. If a
+problem persists, help is at <a
 href="http://www.macports.org/">www.macports.org</a>.</p>
+
+<p>Then enable dbus to launch at startup:</p>
+<pre>sudo launchctl load -w /Library/LaunchDaemons/org.freedesktop.dbus-system.plist</pre>
+<pre>launchctl load -w /Library/LaunchAgents/org.freedesktop.dbus-session.plist</pre>
+
+<p>The last command gives an error, which appears to be fatal. It prevents
+bibledit from running.</p>
 
 <h3><a name="bibledit"></a>Bibledit</h3>
 
