@@ -150,6 +150,7 @@ void on_container_tree_callback_destroy (GtkWidget *widget, gpointer user_data);
 void editor_text_append(GtkTextBuffer * textbuffer, const ustring & text, const ustring & paragraph_style, const ustring & character_style);
 
 gint editor_paragraph_insertion_point_get_offset (EditorActionCreateParagraph * paragraph_action);
+void editor_paragraph_insertion_point_set_offset (EditorActionCreateParagraph * paragraph_action, gint offset);
 
 
 bool text_starts_paragraph (const ustring& project, ustring& line, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
@@ -158,6 +159,7 @@ bool create_editor_objects_for_text_table_raw                (const ustring& pro
 bool create_editor_objects_for_text_note_raw                 (const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
 
 EditorActionDeleteText * paragraph_delete_last_character_if_space(EditorActionCreateParagraph * paragraph_action);
+EditorActionDeleteText * paragraph_get_characters_and_styles_after_insertion_point(EditorActionCreateParagraph * paragraph, vector <ustring>& characters, vector <ustring>& styles);
 
 vector <GtkWidget *> editor_get_widgets (GtkWidget * vbox);
 

@@ -6877,6 +6877,13 @@ At times, but not always, text is pasted into the buffer twice. We probably need
 and let the gtktextbuffer use its own keybinding. Or to put the accelerator back into the main window.
 
 
+When notes are moved about, text inserted, removed, these notes need to remain.
+What about making lots of styles, e.g. f_1, and so on, so that we can track the "f" and its id.
+
+
+When text is being undone and redone, we need to restore cursor position as well.
+This is because the user expects it so, and further the system works with inserting at cursor position.
+
 
 Perhaps pictures can then be shown in a htmlview or textbuffer.
 Notemarkers can be distinguished by their "f" or other character markup.

@@ -2014,6 +2014,17 @@ gint editor_paragraph_insertion_point_get_offset (EditorActionCreateParagraph * 
 }
 
 
+void editor_paragraph_insertion_point_set_offset (EditorActionCreateParagraph * paragraph_action, gint offset)
+{
+  if (paragraph_action) {
+    GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph_action->widget));
+    GtkTextIter iter;
+    gtk_text_buffer_get_iter_at_offset (textbuffer, &iter, offset);
+    gtk_text_buffer_place_cursor (textbuffer, &iter);
+  }
+}
+
+
 EditorActionDeleteText * paragraph_delete_last_character_if_space(EditorActionCreateParagraph * paragraph_action)
 // Creates an action for deleting text for the last character in the text buffer if it is a space.
 {
@@ -2084,5 +2095,34 @@ vector <GtkWidget *> editor_get_widgets (GtkWidget * vbox)
   vector <GtkWidget *> widgets;
   gtk_container_foreach(GTK_CONTAINER(vbox), on_editor_get_widgets_callback, gpointer(&widgets));
   return widgets;  
+}
+
+
+EditorActionDeleteText * paragraph_get_characters_and_styles_after_insertion_point(EditorActionCreateParagraph * paragraph, vector <ustring>& characters, vector <ustring>& styles)
+// This function accepted paragraph, and gives a list of characters and character styles
+// from the insertion point to the end of the buffer.
+// It returns the EditorAction that would be required to erase those characters from the paragraph.
+// Note that this EditorAction needs to be applied for the effect to be obtained.
+{
+  GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph->widget));
+  gint start_offset = editor_paragraph_insertion_point_get_offset (paragraph);
+  GtkTextIter iter;
+  gtk_text_buffer_get_end_iter (textbuffer, &iter);
+  gint end_offset = gtk_text_iter_get_offset (&iter);
+  for (gint i = start_offset; i < end_offset; i++) {
+    gtk_text_buffer_get_iter_at_offset (textbuffer, &iter, i);
+    ustring paragraph_style, character_style;
+    get_styles_at_iterator(iter, paragraph_style, character_style);
+    GtkTextIter enditer = iter;
+    gtk_text_iter_forward_char (&enditer);
+    ustring character = gtk_text_buffer_get_text(textbuffer, &iter, &enditer, true);
+    characters.push_back (character);
+    styles.push_back (character_style);
+  }
+  EditorActionDeleteText * delete_action = NULL;
+  if (end_offset > start_offset) {
+    delete_action = new EditorActionDeleteText(paragraph, start_offset, end_offset - start_offset);
+  }
+  return delete_action;
 }
 

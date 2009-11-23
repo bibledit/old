@@ -61,12 +61,16 @@ The EditorActions, when played back, will have the same effect as if the user ty
 If Undo is done, then the last EditorAction is undone. It can also be Redone.
 
 
-The following things need to be tested after a change was made in the editor:
+The following things need to be tested after a change was made to the Editor object:
 * USFM \id GEN needs to be displayed with the full \id line.
 * USFM \p starts a new paragraph.
 * USFM \v works fine for verse markup.
 * USFM \add does the character style.
-
+* If USFM text is pasted through the clipboard, this should load properly.
+* If a new line is entered, even in the middle of existing text, the editor should display this.
+* If a new line is entered in a character style, the existing character style should go to the next paragraph.
+* If plain text with new lines is pasted through the clipboard, the editor should display the new lines
+* When typing text where a character style starts, it should take this character style.
 
 */
 
@@ -338,7 +342,7 @@ void Editor2::chapter_load(unsigned int chapter_in)
 }
 
 
-void Editor2::text_load (ustring text, ustring character_style) // Todo
+void Editor2::text_load (ustring text, ustring character_style)
 {
   // Clean away possible new lines.
   replace_text (text, "\n", " ");
@@ -2110,29 +2114,25 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
 // This function is called after the default handler has inserted the text.
 // At this stage "pos_iter" points to the end of the inserted text.
 {
-  // When editor actions are being applied 
-  // we are not interested in signals from the textbuffer that indicate
-  // that text was inserted. Bail out.
+  // When we are not interested in signals from the textbuffer
+  // that indicate that text was inserted. Bail out.
   if (disregard_text_buffer_signals) {
     return;
   }
-  cout << "insert at " << gtk_text_iter_get_offset (pos_iter) << ", " << text << ", length " << length << endl;
-
-  // Variable for the character style that the routines below indicate should be applied to the inserted text.
-  ustring character_style_to_be_applied;
 
   // Get offset of text insertion point.
   gint text_insertion_offset = gtk_text_iter_get_offset (pos_iter) - length;
 
+  // Variable for the character style that the routines below indicate should be applied to the inserted text.
+  ustring character_style_to_be_applied;
+
   /*
   If text is inserted right before where a character style was in effect,
   the GtkTextBuffer does not apply any style to that text.
-  This behaviour is corrected here.
   The user expects that the paragraph and character styles 
   that apply to the insertion point will be applied to the new text as well.
-  We don't need to care about the paragraph style,
-  because this style is automatically applied when the Editor Actions
-  are applied. It is only the character style that concerns us.
+  No need to care about the paragraph style, because this is automatically applied 
+  when text is added to the paragraph. Only the character style is important here.
   */
   if (character_style_to_be_applied.empty()) {
     ustring paragraph_style;
@@ -2149,22 +2149,59 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
   gtk_text_buffer_delete (textbuffer, &startiter, pos_iter);
   disregard_text_buffer_signals = false;
 
-  // Insert the data through the standard text loader.
-  text_load (text, character_style_to_be_applied);
-
-  // Todo If there are several lines inserted, each line should be handled separately.
-  // Or insert the current paragraph marker, which may be easier.
+  // If there are one or more backslashes in the text, then USFM code is being entered.
+  // Else treat it as if the user is typing text.
+  ustring utext (text);
+  if (utext.find ("\\") != string::npos) {
+    // Load USFM code.
+    text_load (text, character_style_to_be_applied);
+  } else {
+    // Load plain text. Handle new lines as well.
+    size_t newlineposition = utext.find("\n");
+    while (newlineposition != string::npos) {
+      ustring line = utext.substr(0, newlineposition);
+      if (!line.empty()) {
+        text_load (line, character_style_to_be_applied);
+        character_style_to_be_applied.clear();
+      }
+      // Get markup after insertion point. New paragraph.
+      ustring paragraph_style = unknown_style ();
+      vector <ustring> characters;
+      vector <ustring> styles;        
+      if (focused_paragraph) {
+        paragraph_style = focused_paragraph->style;
+        EditorActionDeleteText * delete_action = paragraph_get_characters_and_styles_after_insertion_point(focused_paragraph, characters, styles);
+        if (delete_action) {
+          apply_editor_action (delete_action);
+        }
+      }      
+      editor_start_new_paragraph (paragraph_style);
+      // Transfer anything from the previous paragraph to the new one.
+      for (unsigned int i = 0; i < characters.size(); i++) {
+        gint offset = editor_paragraph_insertion_point_get_offset (focused_paragraph);
+        EditorActionInsertText * insert_action = new EditorActionInsertText (focused_paragraph, offset + i, characters[i]);
+        apply_editor_action (insert_action);
+        if (!styles[i].empty()) {
+          EditorActionChangeCharacterStyle * style_action = new EditorActionChangeCharacterStyle(focused_paragraph, styles[i], offset + i, 1);
+          apply_editor_action (style_action);
+        }
+        // Move insertion points to the proper position.
+        editor_paragraph_insertion_point_set_offset (focused_paragraph, offset);
+      }
+      // Remove the part of the input text that has been handled.
+      utext.erase(0, newlineposition + 1);
+      newlineposition = utext.find("\n");
+    }
+    if (!utext.empty()) {
+      text_load (utext, character_style_to_be_applied);
+      character_style_to_be_applied.clear();
+    }
+  }
   
-  // Todo spaces are not inserted - look at this.
-  
-  // Todo whenever the above works, it needs to be added to the test routines.
-  // Todo when inserting text longer than one character, there are lots of errors in the textbuffer, see the system log.
-
-  // The pos_iter variable that was passed to this function has been invalidated because text was removed and added.
-  // It is here validated again. Doing this prevents critical errors within Gtk.
+  // The pos_iter variable that was passed to this function was invalidated because text was removed and added.
+  // Here it is validated again. This prevents critical errors within Gtk.
   gtk_text_buffer_get_iter_at_offset (textbuffer, pos_iter, text_insertion_offset);
 
-  return;
 
 
   /*
@@ -2187,10 +2224,9 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
       textbuffer_apply_named_tag(textbuffer, paragraph_style, &iter0, &iter);
     }
   }
-   */
 
 
-  
+
   // Bail out if no undoes are to be recorded.
   if (!recording_undo_actions())
     return;
@@ -2198,6 +2234,11 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
   // Signal that the editor changed.
   signal_editor_changed();
 
+
+   */
+
+
+  
   /*
      The code below is going to solve a problem that occurs when adding text to
      the end of a textbuffer or at a place where no style tags have been applied.
@@ -2210,6 +2251,7 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
      till it finds styles. It then applies the same styles on the inserted
      text.
    */
+  /*
   ustring paragraph_style, character_style;
   GtkTextIter iter = *pos_iter;
   get_styles_at_iterator(iter, paragraph_style, character_style);
@@ -2228,7 +2270,7 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
       }
     }
   }
-
+  */
   /*
      The routine below is going to solve another problem that occurs at times.
      When a character style has been applied, and then the user starts typing,
@@ -2238,6 +2280,7 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
      and is still valid. And if no character style is applied at the cursor,
      it then applies this style.
    */
+  /*
   if (character_style.empty()) {
     if (!character_style_on_start_typing.empty()) {
       iter = *pos_iter;
@@ -2247,6 +2290,7 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
       textbuffer_apply_named_tag(textbuffer, character_style_on_start_typing, &iter, &iter2);
     }
   }
+   */
 
   /*
      The routine below solves a problem that occurs when inserting a new table.
@@ -2255,6 +2299,7 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
      If the user starts typing in a cell, no style is applied. 
      This routine will apply the style appropriate for that cell.
    */
+  /*
   if (paragraph_style.empty()) {
     for (unsigned int i = 0; i < editortables.size(); i++) {
       EditorTextViewType editortype = last_focused_type();
@@ -2265,10 +2310,12 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
       }
     }
   }
+   */
 
   /*
      The code below implements intelligent verse handling.
    */
+  /*
   if (length == 1) {
     gunichar character = g_utf8_get_char(text);
     // When the cursor is after a verse, and the user types a space,
@@ -2299,6 +2346,7 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
       }
     }
   }
+   */
 }
 
 
@@ -3409,7 +3457,7 @@ void Editor2::scroll_cursor_on_screen_timeout()
 }
 
 
-void Editor2::apply_editor_action (EditorAction * action) // Todo
+void Editor2::apply_editor_action (EditorAction * action)
 {
   // An editor action is being applied.
   disregard_text_buffer_signals = true;
