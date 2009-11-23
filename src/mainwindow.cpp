@@ -7037,6 +7037,12 @@ It has its own log file, viewable in the main program.
 It returns the identifier, and the standard out and the standard err of the program ran.
 The dbus binary gets commands to send somewhere, and returns signals it received.
 We may have to disable dbus since it does not work in the Mac.
-Or try a newer version of the XCode Tools.
+
+
+
+The shutdown window hides too much, better make it a normal one.
+It would be helpful if the window could be cancelled, in particular if somebody is in a hurry to get on with the work.
+
+
 
 */
