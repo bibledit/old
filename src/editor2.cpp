@@ -71,7 +71,8 @@ The following things need to be tested after a change was made to the Editor obj
 * If a new line is entered in a character style, the existing character style should go to the next paragraph.
 * If plain text with new lines is pasted through the clipboard, the editor should display the new lines
 * When typing text where a character style starts, it should take this character style.
-
+* When typing text right after where a character style ends, it should take this character style.
+* 
 */
 
 
@@ -2129,20 +2130,92 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
   /*
   If text is inserted right before where a character style was in effect,
   the GtkTextBuffer does not apply any style to that text.
-  The user expects that the paragraph and character styles 
-  that apply to the insertion point will be applied to the new text as well.
-  No need to care about the paragraph style, because this is automatically applied 
-  when text is added to the paragraph. Only the character style is important here.
+  The user expects that the character style that apply to the insertion point
+  will be applied to the new text as well.
   */
   if (character_style_to_be_applied.empty()) {
     ustring paragraph_style;
     GtkTextIter iter = *pos_iter;
     get_styles_at_iterator(iter, paragraph_style, character_style_to_be_applied);
   }
+
+  /*
+  If text is inserted right after where a character style is in effect,
+  the user expects this character style to be used for the inserted text as well.
+  This does not happen automatically in the GtkTextBuffer.
+  The code below cares for it.
+  */
+  if (character_style_to_be_applied.empty()) {
+    GtkTextIter iter;
+    gtk_text_buffer_get_iter_at_offset (textbuffer, &iter, text_insertion_offset);
+    if (gtk_text_iter_backward_char (&iter)) {
+      ustring paragraph_style;
+      get_styles_at_iterator(iter, paragraph_style, character_style_to_be_applied);
+    }
+  }
+
+  /* // Todo
+     The routine below is going to solve another problem that occurs at times.
+     When a character style has been applied, and then the user starts typing,
+     he expects that this style is going to be applied to the text he types.
+     This does not happen though, except special code is there.
+     The code below looks whether a character style has been applied
+     and is still valid. And if no character style is applied at the cursor,
+     it then applies this style.
+   */
+  /*
+  if (character_style.empty()) {
+    if (!character_style_on_start_typing.empty()) {
+      iter = *pos_iter;
+      gtk_text_iter_backward_char(&iter);
+      GtkTextIter iter2 = *pos_iter;
+      gtk_text_iter_forward_chars(&iter2, length - 1);
+      textbuffer_apply_named_tag(textbuffer, character_style_on_start_typing, &iter, &iter2);
+    }
+  }
+   */
+
+  /*
+     The code below implements intelligent verse handling. Todo
+   */
+  /*
+  if (length == 1) {
+    gunichar character = g_utf8_get_char(text);
+    // When the cursor is after a verse, and the user types a space,
+    // he wishes to stop the verse and start normal text.
+    if (g_unichar_isspace(character)) {
+      // Handle spaces inserted: Switch verse style off if it was on.
+      ustring paragraph_style, character_style;
+      GtkTextIter iter = *pos_iter;
+      get_styles_at_iterator(iter, paragraph_style, character_style);
+      ustring versemarker = style_get_verse_marker(project);
+      if (character_style_on_start_typing == versemarker) {
+        character_style_on_start_typing.clear();
+      }
+    }
+    // When the cursor is after a verse, and the user types a numeral,
+    // a hyphen or a comma, it means he wishes to extend the verse style.
+    if (g_unichar_isdigit(character) || !strcmp(text, "-") || !strcmp(text, ",")) {
+      ustring paragraph_style, character_style;
+      GtkTextIter iter = *pos_iter;
+      gtk_text_iter_backward_chars(&iter, 2);
+      get_styles_at_iterator(iter, paragraph_style, character_style);
+      ustring versemarker = style_get_verse_marker(project);
+      if (character_style == versemarker) {
+        iter = *pos_iter;
+        GtkTextIter iter2 = iter;
+        gtk_text_iter_backward_char(&iter2);
+        gtk_text_buffer_apply_tag_by_name(textbuffer, character_style.c_str(), &iter2, &iter);
+      }
+    }
+  }
+   */
+
+
   
   // Remove the text that was inserted into the textbuffer.
-  // It needs to be inserted through Editor Actions, 
-  // so that the Undo and Redo system work properly.
+  // Then, it needs to be inserted through Editor Actions.
+  // This is for the Undo and Redo system.
   disregard_text_buffer_signals = true;
   GtkTextIter startiter = *pos_iter;
   gtk_text_iter_backward_chars (&startiter, length);
@@ -2198,155 +2271,16 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
     }
   }
   
+  // Insert the One Action boundary.
+  apply_editor_action (new EditorAction (eatOneActionBoundary));
+
   // The pos_iter variable that was passed to this function was invalidated because text was removed and added.
   // Here it is validated again. This prevents critical errors within Gtk.
   gtk_text_buffer_get_iter_at_offset (textbuffer, pos_iter, text_insertion_offset);
 
-
-
-  /*
-     The routine below is going to solve a problem that occurs under certain 
-     circumstances.
-     When a certain paragraph style has been applied to a line, 
-     and the user starts typing text right at the start of that paragraph,
-     the editor does not apply the right paragraph style on the new text,
-     but instead applies no style at all.
-
-  if (!paragraph_style.empty()) {
-    GtkTextIter iter = *pos_iter;
-    gtk_text_iter_backward_char(&iter);
-    ustring paragraph, character;
-    get_styles_at_iterator(iter, paragraph, character);
-    if (paragraph.empty()) {
-      iter = *pos_iter;
-      GtkTextIter iter0 = *pos_iter;
-      gtk_text_iter_backward_chars(&iter0, length);
-      textbuffer_apply_named_tag(textbuffer, paragraph_style, &iter0, &iter);
-    }
-  }
-
-
-
-  // Bail out if no undoes are to be recorded.
-  if (!recording_undo_actions())
-    return;
-
   // Signal that the editor changed.
   signal_editor_changed();
 
-
-   */
-
-
-  
-  /*
-     The code below is going to solve a problem that occurs when adding text to
-     the end of a textbuffer or at a place where no style tags have been applied.
-     When the user types text at the end of a textbuffer, he or she expects that
-     this text is going to have the same paragraph and/or character style as the
-     preceding text. However, without special measures this is not the case.
-     The text is inserted plain, without any tags applied.
-     This signal handler solves that. It looks whether no style is applied on
-     the inserted text. If no style is there, it iterates back in the buffer
-     till it finds styles. It then applies the same styles on the inserted
-     text.
-   */
-  /*
-  ustring paragraph_style, character_style;
-  GtkTextIter iter = *pos_iter;
-  get_styles_at_iterator(iter, paragraph_style, character_style);
-  if (paragraph_style.empty()) {
-    while ((paragraph_style.empty()) && gtk_text_iter_backward_char(&iter)) {
-      get_styles_at_iterator(iter, paragraph_style, character_style);
-    }
-    if (!paragraph_style.empty()) {
-      iter = *pos_iter;
-      gtk_text_iter_backward_char(&iter);
-      GtkTextIter iter2 = *pos_iter;
-      gtk_text_iter_forward_chars(&iter2, length);
-      textbuffer_apply_named_tag(textbuffer, paragraph_style, &iter, &iter2);
-      if (!character_style.empty()) {
-        textbuffer_apply_named_tag(textbuffer, character_style, &iter, &iter2);
-      }
-    }
-  }
-  */
-  /*
-     The routine below is going to solve another problem that occurs at times.
-     When a character style has been applied, and then the user starts typing,
-     he expects that this style is going to be applied to the text he types.
-     This does not happen though, except special code is there.
-     The code below looks whether a character style has been applied
-     and is still valid. And if no character style is applied at the cursor,
-     it then applies this style.
-   */
-  /*
-  if (character_style.empty()) {
-    if (!character_style_on_start_typing.empty()) {
-      iter = *pos_iter;
-      gtk_text_iter_backward_char(&iter);
-      GtkTextIter iter2 = *pos_iter;
-      gtk_text_iter_forward_chars(&iter2, length - 1);
-      textbuffer_apply_named_tag(textbuffer, character_style_on_start_typing, &iter, &iter2);
-    }
-  }
-   */
-
-  /*
-     The routine below solves a problem that occurs when inserting a new table.
-     After the table has been inserted, no style will be applied to any of the
-     table cells.
-     If the user starts typing in a cell, no style is applied. 
-     This routine will apply the style appropriate for that cell.
-   */
-  /*
-  if (paragraph_style.empty()) {
-    for (unsigned int i = 0; i < editortables.size(); i++) {
-      EditorTextViewType editortype = last_focused_type();
-      if (editortype == etvtTable) {
-        unsigned int column = last_focused_column();
-        ustring marker = style_get_table_cell_marker(project, column);
-        apply_style(marker);
-      }
-    }
-  }
-   */
-
-  /*
-     The code below implements intelligent verse handling.
-   */
-  /*
-  if (length == 1) {
-    gunichar character = g_utf8_get_char(text);
-    // When the cursor is after a verse, and the user types a space,
-    // he wishes to stop the verse and start normal text.
-    if (g_unichar_isspace(character)) {
-      // Handle spaces inserted: Switch verse style off if it was on.
-      ustring paragraph_style, character_style;
-      GtkTextIter iter = *pos_iter;
-      get_styles_at_iterator(iter, paragraph_style, character_style);
-      ustring versemarker = style_get_verse_marker(project);
-      if (character_style_on_start_typing == versemarker) {
-        character_style_on_start_typing.clear();
-      }
-    }
-    // When the cursor is after a verse, and the user types a numeral,
-    // a hyphen or a comma, it means he wishes to extend the verse style.
-    if (g_unichar_isdigit(character) || !strcmp(text, "-") || !strcmp(text, ",")) {
-      ustring paragraph_style, character_style;
-      GtkTextIter iter = *pos_iter;
-      gtk_text_iter_backward_chars(&iter, 2);
-      get_styles_at_iterator(iter, paragraph_style, character_style);
-      ustring versemarker = style_get_verse_marker(project);
-      if (character_style == versemarker) {
-        iter = *pos_iter;
-        GtkTextIter iter2 = iter;
-        gtk_text_iter_backward_char(&iter2);
-        gtk_text_buffer_apply_tag_by_name(textbuffer, character_style.c_str(), &iter2, &iter);
-      }
-    }
-  }
-   */
 }
 
 
@@ -3649,6 +3583,12 @@ void Editor2::apply_editor_action (EditorAction * action)
     }
     
     case eatLoadChapterBoundary:
+    {
+      // There's nothing special to this boundary.
+      break;
+    }
+
+    case eatOneActionBoundary:
     {
       // There's nothing special to this boundary.
       break;

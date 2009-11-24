@@ -32,7 +32,8 @@ enum EditorActionType {
   eatInsertText,
   eatDeleteText,
   eatChangeCharacterStyle,
-  eatLoadChapterBoundary
+  eatLoadChapterBoundary,
+  eatOneActionBoundary
 };
 
 
