@@ -100,7 +100,7 @@ current_reference(0, 1000, "")
   textbuffer_changed_event_id = 0;
   redo_counter = 0;
   focused_paragraph = NULL;
-  disregard_text_buffer_signals = false;
+  disregard_text_buffer_signals = 0;
     
   // Create data that is needed for any of the possible formatted views.
   create_or_update_formatting_data();
@@ -2114,6 +2114,7 @@ void Editor2::on_buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIte
 void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, gchar * text, gint length) // Todo
 // This function is called after the default handler has inserted the text.
 // At this stage "pos_iter" points to the end of the inserted text.
+// All comments made in this function need to be tested again when a change was made in the Editor object.
 {
   // When we are not interested in signals from the textbuffer
   // that indicate that text was inserted. Bail out.
@@ -2154,73 +2155,42 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
     }
   }
 
-  /* // Todo
-     The routine below is going to solve another problem that occurs at times.
-     When a character style has been applied, and then the user starts typing,
-     he expects that this style is going to be applied to the text he types.
-     This does not happen though, except special code is there.
-     The code below looks whether a character style has been applied
-     and is still valid. And if no character style is applied at the cursor,
-     it then applies this style.
-   */
   /*
-  if (character_style.empty()) {
-    if (!character_style_on_start_typing.empty()) {
-      iter = *pos_iter;
-      gtk_text_iter_backward_char(&iter);
-      GtkTextIter iter2 = *pos_iter;
-      gtk_text_iter_forward_chars(&iter2, length - 1);
-      textbuffer_apply_named_tag(textbuffer, character_style_on_start_typing, &iter, &iter2);
-    }
+  When a character style has been applied, and then the user starts typing,
+  he expects that this style is going to be applied to the text he types.
+  The code below cares for that.
+  */
+  if (character_style_to_be_applied.empty()) {
+    character_style_to_be_applied = character_style_on_start_typing;
+    character_style_on_start_typing.clear();
   }
-   */
 
-  /*
-     The code below implements intelligent verse handling. Todo
-   */
-  /*
-  if (length == 1) {
-    gunichar character = g_utf8_get_char(text);
-    // When the cursor is after a verse, and the user types a space,
-    // he wishes to stop the verse and start normal text.
-    if (g_unichar_isspace(character)) {
-      // Handle spaces inserted: Switch verse style off if it was on.
-      ustring paragraph_style, character_style;
-      GtkTextIter iter = *pos_iter;
-      get_styles_at_iterator(iter, paragraph_style, character_style);
-      ustring versemarker = style_get_verse_marker(project);
-      if (character_style_on_start_typing == versemarker) {
-        character_style_on_start_typing.clear();
+  // Intelligent verse handling.
+  if (!character_style_to_be_applied.empty()) {
+    ustring verse_style = style_get_verse_marker(project);
+    if (character_style_to_be_applied == verse_style) {
+      gunichar character = g_utf8_get_char(text);
+      // When the cursor is at a verse, and the user types a space,
+      // he wishes to stop the verse and start normal text.
+      if (g_unichar_isspace(character)) {
+        character_style_to_be_applied.clear();
       }
-    }
-    // When the cursor is after a verse, and the user types a numeral,
-    // a hyphen or a comma, it means he wishes to extend the verse style.
-    if (g_unichar_isdigit(character) || !strcmp(text, "-") || !strcmp(text, ",")) {
-      ustring paragraph_style, character_style;
-      GtkTextIter iter = *pos_iter;
-      gtk_text_iter_backward_chars(&iter, 2);
-      get_styles_at_iterator(iter, paragraph_style, character_style);
-      ustring versemarker = style_get_verse_marker(project);
-      if (character_style == versemarker) {
-        iter = *pos_iter;
-        GtkTextIter iter2 = iter;
-        gtk_text_iter_backward_char(&iter2);
-        gtk_text_buffer_apply_tag_by_name(textbuffer, character_style.c_str(), &iter2, &iter);
+      // When the cursor is after a verse, and the user types anything
+      // but a numeral, a hyphen, or a comma, it means he wishes to stop the verse.
+      if (!g_unichar_isdigit(character) && (character != '-') && (character != ',')) {
+        character_style_to_be_applied.clear();
       }
     }
   }
-   */
 
-
-  
   // Remove the text that was inserted into the textbuffer.
   // Then, it needs to be inserted through Editor Actions.
   // This is for the Undo and Redo system.
-  disregard_text_buffer_signals = true;
+  disregard_text_buffer_signals++;
   GtkTextIter startiter = *pos_iter;
   gtk_text_iter_backward_chars (&startiter, length);
   gtk_text_buffer_delete (textbuffer, &startiter, pos_iter);
-  disregard_text_buffer_signals = false;
+  disregard_text_buffer_signals--;
 
   // If there are one or more backslashes in the text, then USFM code is being entered.
   // Else treat it as if the user is typing text.
@@ -2295,9 +2265,18 @@ void Editor2::buffer_delete_range_before(GtkTextBuffer * textbuffer, GtkTextIter
   if (disregard_text_buffer_signals) {
     return;
   }
-  //cout << "buffer_delete_range_before (GtkTextBuffer * textbuffer " << textbuffer << ", GtkTextIter * start offset " << gtk_text_iter_get_offset (start) << ", GtkTextIter * end offset " << gtk_text_iter_get_offset (end) << ")" << endl;
-  // Handle deleting footnotes.
-  //collect_text_child_anchors_being_deleted(start, end);
+  disregard_text_buffer_signals++;
+  
+  // Record the content that would be deleted.
+  character_values_to_be_deleted.clear();
+  character_styles_to_be_deleted.clear();
+  get_characters_and_styles_between_iterators(start, end, character_values_to_be_deleted, character_styles_to_be_deleted);
+
+  // Make the end iterator the same as the start iterator, so that nothing gets deleted.
+  // It will get deleted through EditorActions, so that the undo and redo system work.
+  * end = * start;
+
+  disregard_text_buffer_signals--;
 }
 
 
@@ -2312,9 +2291,27 @@ void Editor2::buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIter 
   if (disregard_text_buffer_signals) {
     return;
   }
-  //cout << "buffer_delete_range_after (GtkTextBuffer * textbuffer " << textbuffer << ", GtkTextIter * start offset " << gtk_text_iter_get_offset (start) << ", GtkTextIter * end offset " << gtk_text_iter_get_offset (end) << ")" << endl;
-  //signal_editor_changed();
+  disregard_text_buffer_signals++;
+  
+  if (focused_paragraph) {
+    gint offset = gtk_text_iter_get_offset (start);
+    EditorActionDeleteText * delete_action = new EditorActionDeleteText(focused_paragraph, offset, character_values_to_be_deleted.size());
+    apply_editor_action (delete_action);
+  }
+  character_values_to_be_deleted.clear();
+  character_styles_to_be_deleted.clear();
+
+  //collect_text_child_anchors_being_deleted(start, end);
   //process_text_child_anchors_deleted();
+
+
+  // The editor got changed.
+  signal_editor_changed();
+  
+  // Insert the One Action boundary.
+  apply_editor_action (new EditorAction (eatOneActionBoundary));
+
+  disregard_text_buffer_signals--;
 }
 
 
@@ -3005,10 +3002,12 @@ void Editor2::highlight_thread_main()
   }
 }
 
+
 void Editor2::signal_editor_changed()
 {
   gtk_button_clicked(GTK_BUTTON(changed_signal));
 }
+
 
 ustring Editor2::get_chapter()
 {
@@ -3394,7 +3393,7 @@ void Editor2::scroll_cursor_on_screen_timeout()
 void Editor2::apply_editor_action (EditorAction * action)
 {
   // An editor action is being applied.
-  disregard_text_buffer_signals = true;
+  disregard_text_buffer_signals++;
   
   // Pointer to any widget that should grab focus.
   GtkWidget * widget_that_should_grab_focus = NULL;
@@ -3607,7 +3606,7 @@ void Editor2::apply_editor_action (EditorAction * action)
   }
   
   // Applying the editor action is over.
-  disregard_text_buffer_signals = false;
+  disregard_text_buffer_signals--;
 }
 
 

@@ -2099,7 +2099,7 @@ vector <GtkWidget *> editor_get_widgets (GtkWidget * vbox)
 
 
 EditorActionDeleteText * paragraph_get_characters_and_styles_after_insertion_point(EditorActionCreateParagraph * paragraph, vector <ustring>& characters, vector <ustring>& styles)
-// This function accepted paragraph, and gives a list of characters and character styles
+// This function accepts a paragraph, and gives a list of characters and character styles
 // from the insertion point to the end of the buffer.
 // It returns the EditorAction that would be required to erase those characters from the paragraph.
 // Note that this EditorAction needs to be applied for the effect to be obtained.
@@ -2125,4 +2125,22 @@ EditorActionDeleteText * paragraph_get_characters_and_styles_after_insertion_poi
   }
   return delete_action;
 }
+
+
+void get_characters_and_styles_between_iterators(GtkTextIter * startiter, GtkTextIter * enditer, vector <ustring>& characters, vector <ustring>& styles)
+// This function gives a list of characters and character styles between two iterators.
+{
+  GtkTextIter iter = *startiter;
+  do {
+    ustring paragraph_style, character_style;
+    get_styles_at_iterator(iter, paragraph_style, character_style);
+    GtkTextIter iter2 = iter;
+    gtk_text_iter_forward_char (&iter2);
+    ustring character = gtk_text_iter_get_text(&iter, &iter2);
+    characters.push_back (character);
+    styles.push_back (character_style);
+    gtk_text_iter_forward_char(&iter);
+  } while (gtk_text_iter_in_range(&iter, startiter, enditer));
+}
+
 

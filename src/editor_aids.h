@@ -160,6 +160,7 @@ bool create_editor_objects_for_text_note_raw                 (const ustring& pro
 
 EditorActionDeleteText * paragraph_delete_last_character_if_space(EditorActionCreateParagraph * paragraph_action);
 EditorActionDeleteText * paragraph_get_characters_and_styles_after_insertion_point(EditorActionCreateParagraph * paragraph, vector <ustring>& characters, vector <ustring>& styles);
+void get_characters_and_styles_between_iterators(GtkTextIter * startiter, GtkTextIter * enditer, vector <ustring>& characters, vector <ustring>& styles);
 
 vector <GtkWidget *> editor_get_widgets (GtkWidget * vbox);
 

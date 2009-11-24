@@ -60,7 +60,10 @@ private:
   bool editor_ends_character_style   (ustring & line, ustring & character_style, const ustring & marker_text, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
   void editor_text_fallback (ustring& line, ustring& character_style, size_t marker_pos, bool marker_found);
   EditorActionCreateParagraph * textview2paragraph_action (GtkWidget * textview);
-  bool disregard_text_buffer_signals;
+  int disregard_text_buffer_signals;
+  vector <ustring> character_values_to_be_deleted;
+  vector <ustring> character_styles_to_be_deleted;
+
 
 // Old stuff.
   // Focus handling.

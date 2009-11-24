@@ -6843,23 +6843,12 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
-To act on keyboard and clipboard insertions so that these are removed, converted into editor actions, and applied.
-* The connect-after one is chosen, after it has been inserted, this new text.
-* Take a note of what was inserted, and where.
-* Remove it again.
-* Convert it into editor actions.
-* Let the paragraph style also be applied on inserted text.
-* To use the load_text routine, with possible initializers of paragraph data, and where to insert it.
-* If the data inserted contains one or more backslashes and is larger than, say, 3 characters, then it is treated as USFM code,
-* If there are no backslashes, it is treated as typed code.
-* The difference between typed and USFM code is that the USFM code has the \n's converted to spaces.
-
+* If the Backspace or Delete are given, and no text deletes, we need to look at the surrounding text, if there's any, so we move or delete that.
+We probably can connect to the key release signal, since deletion occurs at press, so the release can then see if anything got deleted or not.
 
 
 Actions to take:
-*  To act on keyboard deletions, so these are inserted again, then converted into editor actions, then applied.
-*  To insert the OneAction separator.
-*  To make undo and redo work, using the separators.
+* To make undo and redo work.
 
 
 If there's an EditorAction that deletes a paragraph, it needs to store the current position of that paragraph within the vbox_v2.
@@ -6878,7 +6867,9 @@ and let the gtktextbuffer use its own keybinding. Or to put the accelerator back
 
 
 When notes are moved about, text inserted, removed, these notes need to remain.
-What about making lots of styles, e.g. f_1, and so on, so that we can track the "f" and its id.
+Make use of lots of styles, e.g. f_1, and so on, so that we can track the "f" and its id.
+Probably the next f_# style is applied to the buffer only on request, so that the style table does not get too full.
+On reload of the chapter, all these extra styles are removed from the style table. Saves space.
 
 
 When text is being undone and redone, we need to restore cursor position as well.
