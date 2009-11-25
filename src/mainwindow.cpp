@@ -6843,24 +6843,26 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
-* If the Backspace or Delete are given, and no text deletes, we need to look at the surrounding text, if there's any, so we move or delete that.
-We probably can connect to the key release signal, since deletion occurs at press, so the release can then see if anything got deleted or not.
+To make undo and redo work.
 
 
-Actions to take:
-* To make undo and redo work.
-* If a widget is removed, it remains alive in memory, but removed from the parent.
+The configuration is not saved on shutdown. Fix that.
 
 
 The widgets that are in the parking lot, care for these on shutdown. All paragraphs once created should be destroyed when
 their associated actions are destroyed. This will empty the parking lot as well.
 
+
 Pressing Enter in a long paragraph so as to move it to the next takes a huge amount of time.
 Could we not extract the USFM code, as this seems faster?
 
-If there's an EditorAction that deletes a paragraph, it needs to store the current position of that paragraph within the vbox_v2.
+
 The tables are left for just now, unformatted in the editor.
+
+
 To pay attention to footnotes formatting.
+
+
 To pay attention to USFM retrieval.
 
 

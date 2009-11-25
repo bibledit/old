@@ -2111,7 +2111,7 @@ void Editor2::on_buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIte
 }
 
 
-void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, gchar * text, gint length) // Todo
+void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, gchar * text, gint length)
 // This function is called after the default handler has inserted the text.
 // At this stage "pos_iter" points to the end of the inserted text.
 // All comments made in this function need to be tested again when a change was made in the Editor object.
@@ -2260,7 +2260,7 @@ void Editor2::on_buffer_delete_range_before(GtkTextBuffer * textbuffer, GtkTextI
 }
 
 
-void Editor2::buffer_delete_range_before(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end) // Todo
+void Editor2::buffer_delete_range_before(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end)
 {
   if (disregard_text_buffer_signals) {
     return;
@@ -2288,7 +2288,7 @@ void Editor2::on_buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIt
 }
 
 
-void Editor2::buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end) // Todo
+void Editor2::buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end)
 {
   if (disregard_text_buffer_signals) {
     return;
@@ -3810,7 +3810,7 @@ gboolean Editor2::on_textview_key_release_event(GtkWidget *widget, GdkEventKey *
 }
 
 
-void Editor2::textview_key_release_event(GtkWidget *widget, GdkEventKey *event) // Todo
+void Editor2::textview_key_release_event(GtkWidget *widget, GdkEventKey *event)
 {
   // Handle pressing the Backspace key.
   if (keyboard_backspace_pressed (event)) {
@@ -3864,7 +3864,7 @@ void Editor2::textview_key_release_event(GtkWidget *widget, GdkEventKey *event) 
 
   // Handle pressing the Delete keys.
   if (keyboard_delete_pressed (event)) {
-    // Handle the case that the delete keys didn't delete text. // Todo
+    // Handle the case that the delete keys didn't delete text.
     if (!textbuffer_delete_range_was_fired) {
       // Get the current and following paragraphs.
       // The following one may not be there.
