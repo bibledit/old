@@ -3862,12 +3862,52 @@ void Editor2::textview_key_release_event(GtkWidget *widget, GdkEventKey *event) 
     }
   }
 
-
   // Handle pressing the Delete keys.
   if (keyboard_delete_pressed (event)) {
+    // Handle the case that the delete keys didn't delete text. // Todo
     if (!textbuffer_delete_range_was_fired) {
-      // Handle the case that the delete keys didn't delete text. // Todo
-
+      // Get the current and following paragraphs.
+      // The following one may not be there.
+      EditorActionCreateParagraph * current_paragraph = textview2paragraph_action (widget);
+      EditorActionCreateParagraph * following_paragraph = NULL;
+      vector <GtkWidget *> widgets = editor_get_widgets (vbox_v2);
+      for (unsigned int i = 0; i < widgets.size(); i++) {
+        if (widget == widgets[i])
+          if (i < widgets.size() - 1)
+            following_paragraph = textview2paragraph_action (widgets[i+1]);
+      }
+      if (current_paragraph && following_paragraph) {
+        // Get the text and styles of the whole following paragraph.
+        editor_paragraph_insertion_point_set_offset (following_paragraph, 0);
+        vector <ustring> characters;
+        vector <ustring> styles;
+        EditorActionDeleteText * delete_action = paragraph_get_characters_and_styles_after_insertion_point(following_paragraph, characters, styles);
+        // Delete the text from the following paragraph.
+        if (delete_action) {
+          apply_editor_action (delete_action);
+        }
+        // Insert the text into the current paragraph.
+        GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (current_paragraph->widget));
+        GtkTextIter enditer;
+        gtk_text_buffer_get_end_iter (textbuffer, &enditer);
+        gint initial_offset = gtk_text_iter_get_offset (&enditer);
+        for (unsigned int i = 0; i < characters.size(); i++) {
+          gtk_text_buffer_get_end_iter (textbuffer, &enditer);
+          gint offset = gtk_text_iter_get_offset (&enditer);
+          EditorActionInsertText * insert_action = new EditorActionInsertText (current_paragraph, offset, characters[i]);
+          apply_editor_action (insert_action);
+          if (!styles[i].empty()) {
+            EditorActionChangeCharacterStyle * style_action = new EditorActionChangeCharacterStyle(current_paragraph, styles[i], offset, 1);
+            apply_editor_action (style_action);
+          }
+        }
+        // Move the insertion point to the position just before the joined text.
+        editor_paragraph_insertion_point_set_offset (current_paragraph, initial_offset);
+        // Remove the following paragraph.
+        apply_editor_action (new EditorActionDeleteParagraph(following_paragraph));
+        // Insert the One Action boundary.
+        apply_editor_action (new EditorAction (eatOneActionBoundary));
+      }      
     }
   }
 
