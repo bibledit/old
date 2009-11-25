@@ -121,3 +121,17 @@ EditorActionChangeCharacterStyle::~EditorActionChangeCharacterStyle ()
 }
 
 
+EditorActionDeleteParagraph::EditorActionDeleteParagraph(EditorActionCreateParagraph * paragraph_in) :
+EditorAction (eatDeleteParagraph)
+{
+  // The identifier of the paragraph to operate on.
+  paragraph = paragraph_in;
+  // Initialize the offset within the parent GtkBox.
+  offset = -1;
+}
+
+EditorActionDeleteParagraph::~EditorActionDeleteParagraph ()
+{
+}
+
+

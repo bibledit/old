@@ -17,6 +17,7 @@
 **  
 */
 
+
 #ifndef INCLUDED_KEYBOARD_H
 #define INCLUDED_KEYBOARD_H
 
@@ -34,6 +35,7 @@ bool keyboard_right_arrow_pressed (GdkEventKey *event);
 bool keyboard_down_arrow_pressed (GdkEventKey *event);
 bool keyboard_page_up_pressed (GdkEventKey *event);
 bool keyboard_control_state (GdkEventButton *event);
+bool keyboard_backspace_pressed (GdkEventKey *event);
 
 
 #endif

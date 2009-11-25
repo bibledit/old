@@ -101,7 +101,8 @@ current_reference(0, 1000, "")
   redo_counter = 0;
   focused_paragraph = NULL;
   disregard_text_buffer_signals = 0;
-    
+  textbuffer_delete_range_was_fired = false;
+      
   // Create data that is needed for any of the possible formatted views.
   create_or_update_formatting_data();
 
@@ -126,10 +127,9 @@ current_reference(0, 1000, "")
 
   last_focused_widget = vbox_v2;
 
-
-
-
-
+  // Create the invisible parking lot where GtkTextViews get parked while not in use.
+  vbox_parking_lot = gtk_vbox_new (false, 0);
+  gtk_box_pack_start(GTK_BOX(vbox_in), vbox_parking_lot, false, false, 0);
 
   /*
   // The scrolled window that contains the main formatted view.
@@ -2266,8 +2266,10 @@ void Editor2::buffer_delete_range_before(GtkTextBuffer * textbuffer, GtkTextIter
     return;
   }
   disregard_text_buffer_signals++;
-  
-  // Record the content that would be deleted.
+
+  textbuffer_delete_range_was_fired = true;
+
+  // Record the content that is about to be deleted.
   character_values_to_be_deleted.clear();
   character_styles_to_be_deleted.clear();
   get_characters_and_styles_between_iterators(start, end, character_values_to_be_deleted, character_styles_to_be_deleted);
@@ -2312,63 +2314,6 @@ void Editor2::buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIter 
   apply_editor_action (new EditorAction (eatOneActionBoundary));
 
   disregard_text_buffer_signals--;
-}
-
-
-void Editor2::on_buffer_apply_tag(GtkTextBuffer * textbuffer, GtkTextTag * tag, GtkTextIter * startiter, GtkTextIter * enditer, gpointer user_data)
-{
-  ((Editor2 *) user_data)->buffer_apply_tag(textbuffer, tag, startiter, enditer);
-}
-
-
-void Editor2::buffer_apply_tag(GtkTextBuffer * textbuffer, GtkTextTag * tag, GtkTextIter * startiter, GtkTextIter * enditer)
-{
-  //cout << "buffer_apply_tag (GtkTextBuffer * textbuffer " << textbuffer << ", GtkTextIter * start offset " << gtk_text_iter_get_offset (startiter) << ", GtkTextIter * end offset " << gtk_text_iter_get_offset (enditer) << ")" << endl;
-
-  /*
-  // Only proceed if undo-able actions are to be recorded.
-  if (recording_undo_actions()) {
-    signal_editor_changed();
-    gtk_text_buffer_set_modified(textbuffer, true);
-    trigger_undo_redo_recording ();
-  }
-  */
-}
-
-
-void Editor2::on_buffer_remove_tag(GtkTextBuffer * textbuffer, GtkTextTag * tag, GtkTextIter * startiter, GtkTextIter * enditer, gpointer user_data)
-{
-  ((Editor2 *) user_data)->buffer_remove_tag(textbuffer, tag, startiter, enditer);
-}
-
-
-void Editor2::buffer_remove_tag(GtkTextBuffer * textbuffer, GtkTextTag * tag, GtkTextIter * startiter, GtkTextIter * enditer)
-{
-  // cout << "buffer_remove_tag (GtkTextBuffer * textbuffer " << textbuffer << ", GtkTextIter * start offset " << gtk_text_iter_get_offset (startiter) << ", GtkTextIter * end offset " << gtk_text_iter_get_offset (enditer) << ")" << endl;
-  /*
-  // Only proceed if undo-able actions are to be recorded.
-  if (recording_undo_actions()) {
-    signal_editor_changed();
-    gtk_text_buffer_set_modified(textbuffer, true);
-    trigger_undo_redo_recording ();
-  }
-  */
-}
-
-
-void Editor2::on_buffer_insert_pixbuf(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, GdkPixbuf * pixbuf, gpointer user_data)
-{
-  ((Editor2 *) user_data)->buffer_insert_pixbuf(textbuffer, pos_iter, pixbuf);
-}
-
-
-void Editor2::buffer_insert_pixbuf(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, GdkPixbuf * pixbuf)
-{
-  /*
-  // Signal that the editor changed.
-  signal_editor_changed();
-  trigger_undo_redo_recording ();
-  */
 }
 
 
@@ -3412,9 +3357,6 @@ void Editor2::apply_editor_action (EditorAction * action)
       g_signal_connect_after(G_OBJECT(textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_after), gpointer(this));
       g_signal_connect(G_OBJECT(textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_before), gpointer(this));
       g_signal_connect_after(G_OBJECT(textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_after), gpointer(this));
-      g_signal_connect(G_OBJECT(textbuffer), "apply-tag", G_CALLBACK(on_buffer_apply_tag), gpointer(this));
-      g_signal_connect(G_OBJECT(textbuffer), "remove-tag", G_CALLBACK(on_buffer_remove_tag), gpointer(this));
-      g_signal_connect(G_OBJECT(textbuffer), "insert-pixbuf", G_CALLBACK(on_buffer_insert_pixbuf), gpointer(this));
 
       // Add a new text view to the GUI to view the text buffer.
       GtkWidget *textview;
@@ -3433,7 +3375,10 @@ void Editor2::apply_editor_action (EditorAction * action)
       spellingchecker->attach(textview);
       g_signal_connect_after((gpointer) textview, "move_cursor", G_CALLBACK(on_textview_move_cursor), gpointer(this));
       g_signal_connect((gpointer) textview, "motion-notify-event", G_CALLBACK(on_text_motion_notify_event), gpointer(this));
-      g_signal_connect_after((gpointer) textview, "grab_focus", G_CALLBACK(on_textview_grab_focus), gpointer(this));
+      g_signal_connect_after((gpointer) textview, "grab-focus", G_CALLBACK(on_textview_grab_focus), gpointer(this));
+      g_signal_connect((gpointer) textview, "key-press-event", G_CALLBACK(on_textview_key_press_event), gpointer(this));
+      g_signal_connect((gpointer) textview, "key-release-event", G_CALLBACK(on_textview_key_release_event), gpointer(this));
+
       //g_signal_connect((gpointer) textview, "event-after", G_CALLBACK(on_text_event_after), gpointer(this));
       //g_signal_connect((gpointer) textview, "key-press-event", G_CALLBACK(text_key_press_event_before), gpointer(this));
       //g_signal_connect_after((gpointer) textview, "key-press-event", G_CALLBACK(text_key_press_event_after), gpointer(this));
@@ -3441,7 +3386,7 @@ void Editor2::apply_editor_action (EditorAction * action)
       //g_signal_connect((gpointer) textview, "button_press_event", G_CALLBACK(on_textview_button_press_event), gpointer(this));
       //g_signal_connect((gpointer) textview, "size-allocate", G_CALLBACK(on_related_widget_size_allocated), gpointer(this));
 
-      // Send a signal so that the parent window also can connect to the signals of the GtkTextView.
+      // Send a signal so that also the parent window can connect to the signals of the GtkTextView.
       new_widget_pointer = textview;
       gtk_button_clicked (GTK_BUTTON (new_widget_signal));
       
@@ -3590,6 +3535,25 @@ void Editor2::apply_editor_action (EditorAction * action)
     case eatOneActionBoundary:
     {
       // There's nothing special to this boundary.
+      break;
+    }
+
+    case eatDeleteParagraph:
+    {
+      // Cast the action to the right object.
+      EditorActionDeleteParagraph * delete_action = static_cast <EditorActionDeleteParagraph *> (action);
+      // Store the offset of this paragraph in the parent GtkBox.
+      vector <GtkWidget *> widgets = editor_get_widgets (vbox_v2);
+      for (unsigned int i = 0; i < widgets.size(); i++) {
+        if (delete_action->paragraph->widget == widgets[i]) {
+          delete_action->offset = i;
+        }
+      }
+      // Transfer the widget to the parking lot. It is kept alive.
+      GtkWidget * parking_lot = gtk_vbox_new (false, 0);
+      gtk_box_pack_start(GTK_BOX(vbox_parking_lot), parking_lot, false, false, 0);
+      gtk_widget_reparent (delete_action->paragraph->widget, parking_lot);
+      // Done.
       break;
     }
 
@@ -3823,4 +3787,92 @@ void Editor2::paste ()
     }
   }
 }
+
+
+gboolean Editor2::on_textview_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
+{
+  ((Editor2 *) user_data)->textview_key_press_event(widget, event);
+  return FALSE;
+}
+
+
+void Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event)
+{
+  // Clear flag for monitoring deletions from textbuffers.
+  textbuffer_delete_range_was_fired = false;  
+}
+
+
+gboolean Editor2::on_textview_key_release_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
+{
+  ((Editor2 *) user_data)->textview_key_release_event(widget, event);
+  return FALSE;
+}
+
+
+void Editor2::textview_key_release_event(GtkWidget *widget, GdkEventKey *event) // Todo
+{
+  // Handle pressing the Backspace key.
+  if (keyboard_backspace_pressed (event)) {
+    // Handle the case that the backspace key didn't delete text.
+    if (!textbuffer_delete_range_was_fired) {
+      // Get the current and preceding paragraphs.
+      // The preceding one may not be there.
+      EditorActionCreateParagraph * current_paragraph = textview2paragraph_action (widget);
+      EditorActionCreateParagraph * preceding_paragraph = NULL;
+      vector <GtkWidget *> widgets = editor_get_widgets (vbox_v2);
+      for (unsigned int i = 0; i < widgets.size(); i++) {
+        if (widget == widgets[i])
+          if (i)
+            preceding_paragraph = textview2paragraph_action (widgets[i-1]);
+      }
+      if (current_paragraph && preceding_paragraph) {
+        // Get the text and styles of the current paragraph.
+        vector <ustring> characters;
+        vector <ustring> styles;
+        EditorActionDeleteText * delete_action = paragraph_get_characters_and_styles_after_insertion_point(current_paragraph, characters, styles);
+        // Delete the text from the current paragraph.
+        if (delete_action) {
+          apply_editor_action (delete_action);
+        }
+        // Insert the text into the preceding paragraph.
+        GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (preceding_paragraph->widget));
+        GtkTextIter enditer;
+        gtk_text_buffer_get_end_iter (textbuffer, &enditer);
+        gint initial_offset = gtk_text_iter_get_offset (&enditer);
+        for (unsigned int i = 0; i < characters.size(); i++) {
+          gtk_text_buffer_get_end_iter (textbuffer, &enditer);
+          gint offset = gtk_text_iter_get_offset (&enditer);
+          EditorActionInsertText * insert_action = new EditorActionInsertText (preceding_paragraph, offset, characters[i]);
+          apply_editor_action (insert_action);
+          if (!styles[i].empty()) {
+            EditorActionChangeCharacterStyle * style_action = new EditorActionChangeCharacterStyle(preceding_paragraph, styles[i], offset, 1);
+            apply_editor_action (style_action);
+          }
+        }
+        // Move the insertion point to the position just before the joined text.
+        editor_paragraph_insertion_point_set_offset (preceding_paragraph, initial_offset);
+        // Remove the current paragraph.
+        apply_editor_action (new EditorActionDeleteParagraph(current_paragraph));
+        // Focus the preceding paragraph.
+        gtk_widget_grab_focus (preceding_paragraph->widget);
+        // Insert the One Action boundary.
+        apply_editor_action (new EditorAction (eatOneActionBoundary));
+      }      
+    }
+  }
+
+
+  // Handle pressing the Delete keys.
+  if (keyboard_delete_pressed (event)) {
+    if (!textbuffer_delete_range_was_fired) {
+      // Handle the case that the delete keys didn't delete text. // Todo
+
+    }
+  }
+
+  // Clear flag for monitoring deletions from textbuffers.
+  textbuffer_delete_range_was_fired = false;  
+}
+
 

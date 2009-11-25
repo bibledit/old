@@ -48,6 +48,7 @@ private:
   GtkWidget *scrolledwindow_v2;
   GtkWidget *viewport_v2;
   GtkWidget *vbox_v2;
+  GtkWidget *vbox_parking_lot;
   void text_load (ustring text, ustring character_style);
   deque <EditorAction *> actions_done;
   deque <EditorAction *> actions_redoable;
@@ -63,6 +64,12 @@ private:
   int disregard_text_buffer_signals;
   vector <ustring> character_values_to_be_deleted;
   vector <ustring> character_styles_to_be_deleted;
+
+  static gboolean on_textview_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
+  void textview_key_press_event(GtkWidget *widget, GdkEventKey *event);
+  static gboolean on_textview_key_release_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
+  void textview_key_release_event(GtkWidget *widget, GdkEventKey *event);
+  bool textbuffer_delete_range_was_fired;
 
 
 // Old stuff.
@@ -176,12 +183,6 @@ public:
   void buffer_delete_range_before(GtkTextBuffer *textbuffer, GtkTextIter *start, GtkTextIter *end);
   static void on_buffer_delete_range_after(GtkTextBuffer *textbuffer, GtkTextIter *start, GtkTextIter *end, gpointer user_data);
   void buffer_delete_range_after(GtkTextBuffer *textbuffer, GtkTextIter *start, GtkTextIter *end);
-  static void on_buffer_apply_tag(GtkTextBuffer *textbuffer, GtkTextTag *tag, GtkTextIter *startiter, GtkTextIter *enditer, gpointer user_data);
-  void buffer_apply_tag(GtkTextBuffer *textbuffer, GtkTextTag *tag, GtkTextIter *startiter, GtkTextIter *enditer);
-  static void on_buffer_remove_tag(GtkTextBuffer *textbuffer, GtkTextTag *tag, GtkTextIter *startiter, GtkTextIter *enditer, gpointer user_data);
-  void buffer_remove_tag(GtkTextBuffer *textbuffer, GtkTextTag *tag, GtkTextIter *startiter, GtkTextIter *enditer);
-  static void on_buffer_insert_pixbuf(GtkTextBuffer *textbuffer, GtkTextIter *pos_iter, GdkPixbuf *pixbuf, gpointer user_data);
-  void buffer_insert_pixbuf(GtkTextBuffer *textbuffer, GtkTextIter *pos_iter, GdkPixbuf *pixbuf);
   void collect_text_child_anchors_being_deleted(GtkTextIter *startiter, GtkTextIter *enditer);
   void process_text_child_anchors_deleted();
   set <GtkTextChildAnchor *> text_child_anchors_being_deleted;

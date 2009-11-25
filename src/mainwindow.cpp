@@ -6849,7 +6849,14 @@ We probably can connect to the key release signal, since deletion occurs at pres
 
 Actions to take:
 * To make undo and redo work.
+* If a widget is removed, it remains alive in memory, but removed from the parent.
 
+
+The widgets that are in the parking lot, care for these on shutdown. All paragraphs once created should be destroyed when
+their associated actions are destroyed. This will empty the parking lot as well.
+
+Pressing Enter in a long paragraph so as to move it to the next takes a huge amount of time.
+Could we not extract the USFM code, as this seems faster?
 
 If there's an EditorAction that deletes a paragraph, it needs to store the current position of that paragraph within the vbox_v2.
 The tables are left for just now, unformatted in the editor.
@@ -7042,5 +7049,8 @@ The shutdown window hides too much, better make it a normal one.
 It would be helpful if the window could be cancelled, in particular if somebody is in a hurry to get on with the work.
 
 
+
+We may think of slowly moving bibledit onto the web.
+It remains one package, but more and more functionality is rewritten for the web, and taken away from the local binary.
 
 */

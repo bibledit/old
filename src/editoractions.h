@@ -33,7 +33,8 @@ enum EditorActionType {
   eatDeleteText,
   eatChangeCharacterStyle,
   eatLoadChapterBoundary,
-  eatOneActionBoundary
+  eatOneActionBoundary,
+  eatDeleteParagraph
 };
 
 
@@ -105,6 +106,17 @@ public:
   gint offset;
   gint length;
   vector <ustring> previous_styles;
+private:
+};
+
+
+class EditorActionDeleteParagraph : public EditorAction
+{
+public:
+  EditorActionDeleteParagraph(EditorActionCreateParagraph * paragraph_in);
+  virtual ~EditorActionDeleteParagraph();
+  EditorActionCreateParagraph * paragraph;
+  gint offset;
 private:
 };
 

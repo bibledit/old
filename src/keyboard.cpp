@@ -17,8 +17,10 @@
 **  
 */
 
+
 #include "keyboard.h"
 #include <gdk/gdkkeysyms.h>
+
 
 bool keyboard_enter_pressed(GdkEventKey * event)
 // Returns true if the event was "Enter", i.e. if Enter was pressed on the keyboard.
@@ -31,6 +33,7 @@ bool keyboard_enter_pressed(GdkEventKey * event)
   return false;
 }
 
+
 bool keyboard_delete_pressed(GdkEventKey * event)
 // Returns true if the event was "Delete", i.e. if Delete was pressed on the keyboard.
 {
@@ -41,6 +44,7 @@ bool keyboard_delete_pressed(GdkEventKey * event)
   }
   return false;
 }
+
 
 bool keyboard_insert_pressed(GdkEventKey * event)
 // Returns true if the event was "Insert", i.e. if Insert was pressed on the keyboard.
@@ -53,6 +57,7 @@ bool keyboard_insert_pressed(GdkEventKey * event)
   return false;
 }
 
+
 bool keyboard_up_arrow_pressed(GdkEventKey * event)
 // Returns true if the up arrow was pressed.
 {
@@ -63,6 +68,7 @@ bool keyboard_up_arrow_pressed(GdkEventKey * event)
   }
   return false;
 }
+
 
 bool keyboard_left_arrow_pressed(GdkEventKey * event)
 // Returns true if the left arrow was pressed.
@@ -75,6 +81,7 @@ bool keyboard_left_arrow_pressed(GdkEventKey * event)
   return false;
 }
 
+
 bool keyboard_right_arrow_pressed(GdkEventKey * event)
 // Returns true if the right arrow was pressed.
 {
@@ -85,6 +92,7 @@ bool keyboard_right_arrow_pressed(GdkEventKey * event)
   }
   return false;
 }
+
 
 bool keyboard_down_arrow_pressed(GdkEventKey * event)
 // Returns true if the down arrow was pressed.
@@ -97,6 +105,7 @@ bool keyboard_down_arrow_pressed(GdkEventKey * event)
   return false;
 }
 
+
 bool keyboard_page_up_pressed(GdkEventKey * event)
 // Returns true if the page up key was pressed.
 {
@@ -108,6 +117,7 @@ bool keyboard_page_up_pressed(GdkEventKey * event)
   return false;
 }
 
+
 bool keyboard_control_state(GdkEventButton * event)
 // Returns true if the Ctrl key was down at the mouse click.
 {
@@ -117,3 +127,15 @@ bool keyboard_control_state(GdkEventButton * event)
     return true;
   return false;
 }
+
+
+bool keyboard_backspace_pressed(GdkEventKey * event)
+// Returns true if the backspace key was pressed.
+{
+  switch (event->keyval) {
+  case GDK_BackSpace:
+    return true;
+  }
+  return false;
+}
+
