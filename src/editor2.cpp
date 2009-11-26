@@ -3422,11 +3422,13 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
           
           break;
         }
-        case eaaUndo: // Todo implement
+        case eaaUndo:
         {
+          // Remove the widget by parking it in an invisible location. It is kept alive.
+          editor_park_widget (vbox_v2, paragraph_action->widget, paragraph_action->offset_at_delete, vbox_parking_lot);
           break;
         }
-        case eaaRedo: // Todo implement
+        case eaaRedo:
         {
           break;
         }
@@ -3479,7 +3481,7 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
         {
           break;
         }
-        case eaaRedo: // Todo implement
+        case eaaRedo:
         {
           break;
         }
@@ -3597,7 +3599,7 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
           }
           break;
         }
-        case eaaRedo: // Todo implement
+        case eaaRedo:
         {
           break;
         }
@@ -3645,7 +3647,7 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
         {
           break;
         }
-        case eaaRedo: // Todo implement
+        case eaaRedo:
         {
           break;
         }
@@ -3680,21 +3682,8 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
       switch (application) {
         case eaaInitial:
         {
-          
-          // Do the initial deletion of a paragraph.
-          
-          // Store the offset of this paragraph in the parent GtkBox.
-          vector <GtkWidget *> widgets = editor_get_widgets (vbox_v2);
-          for (unsigned int i = 0; i < widgets.size(); i++) {
-            if (delete_action->paragraph->widget == widgets[i]) {
-              delete_action->offset = i;
-            }
-          }
-          // Transfer the widget to the parking lot. It is kept alive.
-          GtkWidget * parking_lot = gtk_vbox_new (false, 0);
-          gtk_box_pack_start(GTK_BOX(vbox_parking_lot), parking_lot, false, false, 0);
-          gtk_widget_reparent (delete_action->paragraph->widget, parking_lot);
-
+          // Park this widget, keeping it alive.
+          editor_park_widget (vbox_v2, delete_action->paragraph->widget, delete_action->offset, vbox_parking_lot);
           break;
         }
         case eaaUndo:

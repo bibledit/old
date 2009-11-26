@@ -2120,7 +2120,7 @@ EditorActionDeleteText * paragraph_get_text_and_styles_after_insertion_point(Edi
 }
 
 
-void get_text_and_styles_between_iterators(GtkTextIter * startiter, GtkTextIter * enditer, vector <ustring>& text, vector <ustring>& styles) // Todo consolidate characters and styles, and use this one for the above as well.
+void get_text_and_styles_between_iterators(GtkTextIter * startiter, GtkTextIter * enditer, vector <ustring>& text, vector <ustring>& styles)
 // This function gives a list of the text and character styles between two iterators.
 // The "text" variable contains a chunks of text with the same style.
 {
@@ -2152,4 +2152,20 @@ void get_text_and_styles_between_iterators(GtkTextIter * startiter, GtkTextIter 
   }
 }
 
+
+void editor_park_widget (GtkWidget * vbox, GtkWidget * widget, gint& offset, GtkWidget * parking)
+// Do the administration of parking a widget.
+{
+  // Look for the widget's offset within its parent.
+  vector <GtkWidget *> widgets = editor_get_widgets (vbox);
+  for (unsigned int i = 0; i < widgets.size(); i++) {
+    if (widget == widgets[i]) {
+      offset = i;
+    }
+  }
+  // Transfer the widget to the parking lot. It is kept alive.
+  GtkWidget * parking_lot = gtk_vbox_new (false, 0);
+  gtk_box_pack_start(GTK_BOX(parking), parking_lot, false, false, 0);
+  gtk_widget_reparent (widget, parking_lot);
+}
 

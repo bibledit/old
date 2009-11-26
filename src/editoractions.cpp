@@ -17,6 +17,7 @@
  **  
  */
 
+
 #include "editoractions.h"
 #include "gwrappers.h"
 #include "editor_aids.h"
@@ -41,6 +42,8 @@ EditorAction (eatCreateParagraph)
   widget = NULL;
   // The default style of the paragraph will be "unknown".
   style = unknown_style();
+  // Offset of this widget at time of deletion.
+  offset_at_delete = -1;
 }
 
 

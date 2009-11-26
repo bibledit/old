@@ -62,6 +62,7 @@ public:
   virtual ~EditorActionCreateParagraph();
   GtkWidget * widget;
   ustring style;
+  gint offset_at_delete;
 private:
 };
 

@@ -6843,7 +6843,10 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
-To make undo and redo work.
+To make undo work.
+
+
+To make redo work.
 
 
 The configuration is not saved on shutdown. Fix that.

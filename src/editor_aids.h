@@ -163,5 +163,6 @@ EditorActionDeleteText * paragraph_get_text_and_styles_after_insertion_point(Edi
 void get_text_and_styles_between_iterators(GtkTextIter * startiter, GtkTextIter * enditer, vector <ustring>& text, vector <ustring>& styles);
 
 vector <GtkWidget *> editor_get_widgets (GtkWidget * vbox);
+void editor_park_widget (GtkWidget * vbox, GtkWidget * widget, gint& offset, GtkWidget * parking);
 
 #endif
