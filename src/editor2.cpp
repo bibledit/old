@@ -3440,52 +3440,59 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
     {
       // Cast the action to the right object to work with.
       EditorActionChangeParagraphStyle * style_action = static_cast <EditorActionChangeParagraphStyle *> (action);
+      // Get the paragraph objects to operate on.
+      EditorActionCreateParagraph * paragraph = style_action->paragraph;
+      if (paragraph == NULL) {
+        gw_critical ("Could not find paragraph to change style");
+        break;
+      }
+      GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph->widget));
+      // Style to apply.
+      ustring paragraph_style_to_apply;
 
       switch (application) {
         case eaaInitial:
-        {
-
-          // Handle the initial changing of the style of a paragraph.
-
-          // Look for the paragraph.
-          EditorActionCreateParagraph * paragraph = style_action->paragraph;
-          if (paragraph) {
-            // Store the new style (the old one was stored when the action was created).
-            paragraph->style = style_action->current_style;
-            // Define the work area.
-            GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph->widget));
-            GtkTextIter startiter;
-            gtk_text_buffer_get_start_iter (textbuffer, &startiter);
-            GtkTextIter enditer;
-            gtk_text_buffer_get_end_iter (textbuffer, &enditer);
-            // Apply the style in such a way that the paragraph style is always applied first, 
-            // then after that the character styles.
-            vector <ustring> current_character_styles = get_character_styles_between_iterators (startiter, enditer);
-            gtk_text_buffer_remove_all_tags (textbuffer, &startiter, &enditer);
-            gtk_text_buffer_apply_tag_by_name (textbuffer, style_action->current_style.c_str(), &startiter, &enditer);
-            for (unsigned int i = 0; i < current_character_styles.size(); i++) {
-              if (!current_character_styles[i].empty()) {
-                gtk_text_buffer_get_iter_at_offset (textbuffer, &startiter, i);
-                enditer = startiter;
-                gtk_text_iter_forward_char (&enditer);
-                gtk_text_buffer_apply_tag_by_name (textbuffer, current_character_styles[i].c_str(), &startiter, &enditer);
-              }
-            }
-          } else {
-            gw_critical ("No paragraph was found to apply the style to");
-          }
-
-          break;
-        }
-        case eaaUndo: // Todo implement
-        {
-          break;
-        }
         case eaaRedo:
         {
+          // Apply and store the new style.
+          paragraph->style = style_action->current_style;
+          paragraph_style_to_apply = paragraph->style;
+          break;
+        }
+        case eaaUndo:
+        {
+          // Revert to and store the previous style.
+          paragraph->style = style_action->previous_style;
+          paragraph_style_to_apply = paragraph->style;
           break;
         }
       }
+
+      // Define the work area.
+      GtkTextIter startiter;
+      gtk_text_buffer_get_start_iter (textbuffer, &startiter);
+      GtkTextIter enditer;
+      gtk_text_buffer_get_end_iter (textbuffer, &enditer);
+      // Apply the style in such a way that the paragraph style is always applied first, 
+      // then after that the character styles.
+      vector <ustring> current_character_styles = get_character_styles_between_iterators (startiter, enditer);
+      gtk_text_buffer_remove_all_tags (textbuffer, &startiter, &enditer);
+      gtk_text_buffer_apply_tag_by_name (textbuffer, style_action->current_style.c_str(), &startiter, &enditer);
+      for (unsigned int i = 0; i < current_character_styles.size(); i++) {
+        if (!current_character_styles[i].empty()) {
+          gtk_text_buffer_get_iter_at_offset (textbuffer, &startiter, i);
+          enditer = startiter;
+          gtk_text_iter_forward_char (&enditer);
+          gtk_text_buffer_apply_tag_by_name (textbuffer, current_character_styles[i].c_str(), &startiter, &enditer);
+        }
+      }
+
+
+      // Mark the GtkTextView to grab focus.
+      widget_that_should_grab_focus = paragraph->widget;
+      
+      
+      
       break;
     }
 
