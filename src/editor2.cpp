@@ -3566,35 +3566,35 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
           gtk_text_buffer_delete (textbuffer, &startiter, &enditer);
           break;
         }
-        case eaaUndo: // Todo working here.
+        case eaaUndo:
         {
  
-          // Handle the undoing of deleting text, that means, insert this text again.
+          // Undo the text deletion action, that means, re-insert the text.
 
           // Get initial insert position.
-          GtkTextIter iter;
-          gtk_text_buffer_get_iter_at_offset (textbuffer, &iter, delete_action->offset);
-          // Go through the text to insert.
+          gint accumulated_offset = delete_action->offset;
+          // Go through the text to re-insert.
           for (unsigned int i = 0; i < delete_action->deleted_text.size(); i++) {
-
-            cout << "Re-insert " << delete_action->deleted_text[i] << endl; // Todo
+            // Get the position where to insert.
+            GtkTextIter startiter;
+            gtk_text_buffer_get_iter_at_offset (textbuffer, &startiter, accumulated_offset);
+            // Re-insert the text.
+            gtk_text_buffer_insert (textbuffer, &startiter, delete_action->deleted_text[i].c_str(), -1);
+            // Apply the paragraph style to the new inserted text.
+            // It is important that paragraph styles are applied first, and character styles last.
+            // Since this is new inserted text, there's no character style yet, 
+            // so the paragraph style can be applied normally.
+            gtk_text_buffer_get_iter_at_offset (textbuffer, &startiter, accumulated_offset);
+            GtkTextIter enditer;
+            gtk_text_buffer_get_iter_at_offset (textbuffer, &enditer, accumulated_offset + delete_action->deleted_text[i].length());
+            gtk_text_buffer_apply_tag_by_name (textbuffer, paragraph->style.c_str(), &startiter, &enditer);
+            // Apply the character style.
+            if (!delete_action->deleted_styles[i].empty()) {
+              gtk_text_buffer_apply_tag_by_name (textbuffer, delete_action->deleted_styles[i].c_str(), &startiter, &enditer);
+            }
+            // Modify the accumulated offset for the next iteration.
+            accumulated_offset += delete_action->deleted_text[i].length();
           }
-
- /*
- 
-          // Handle the initial insertion of text, and the redoing of it.
-          gtk_text_buffer_insert (textbuffer, &iter, insert_action->text.c_str(), -1);
-          // Apply the paragraph style to the new inserted text.
-          // It is important that paragraph styles are applied first, and character styles last.
-          // Since this is new inserted text, there's no character style yet, 
-          // so the paragraph style can be applied normally.
-          GtkTextIter startiter;
-          gtk_text_buffer_get_iter_at_offset (textbuffer, &startiter, insert_action->offset);
-          GtkTextIter enditer;
-          gtk_text_buffer_get_iter_at_offset (textbuffer, &enditer, insert_action->offset + insert_action->text.length());
-          gtk_text_buffer_apply_tag_by_name (textbuffer, paragraph->style.c_str(), &startiter, &enditer);
- 
-*/ 
           break;
         }
         case eaaRedo: // Todo implement
