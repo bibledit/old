@@ -6878,7 +6878,15 @@ At times, but not always, text is pasted into the buffer twice. We probably need
 and let the gtktextbuffer use its own keybinding. Or to put the accelerator back into the main window.
 
 
+
+It may be better if the EditorActions themselves have code to deal with initial insertion, undo, and redo, as far as this is possible.
+It may not be possible with all cases, but with many it will be possible.
+
+
 Entering the £ sign behaves unusual.
+
+
+Once the whole editor2 is ready, to check all its code and test all, and establish testing remarks in each routine.
 
 
 When notes are moved about, text inserted, removed, these notes need to remain.

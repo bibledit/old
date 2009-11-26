@@ -3413,7 +3413,7 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
               }
             }
           }
-          gtk_box_reorder_child (GTK_BOX(vbox_v2), textview, new_paragraph_offset);
+          gtk_box_reorder_child (GTK_BOX(vbox_v2), textview, new_paragraph_offset); // Todo
     
           // Let the newly created textview be earmarked to grab focus
           // so that the user can type in it,
@@ -3467,7 +3467,6 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
           break;
         }
       }
-
       // Define the work area.
       GtkTextIter startiter;
       gtk_text_buffer_get_start_iter (textbuffer, &startiter);
@@ -3486,13 +3485,9 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
           gtk_text_buffer_apply_tag_by_name (textbuffer, current_character_styles[i].c_str(), &startiter, &enditer);
         }
       }
-
-
       // Mark the GtkTextView to grab focus.
       widget_that_should_grab_focus = paragraph->widget;
-      
-      
-      
+      // Done.
       break;
     }
 
@@ -3562,9 +3557,6 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
       switch (application) {
         case eaaInitial:
         {
-  
-          // Handle the initial deletion of text.
-  
           // Limit the area.
           GtkTextIter startiter, enditer;
           gtk_text_buffer_get_iter_at_offset (textbuffer, &startiter, delete_action->offset);
@@ -3573,13 +3565,12 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
           get_text_and_styles_between_iterators(&startiter, &enditer, delete_action->deleted_text, delete_action->deleted_styles);
           // Delete text.
           gtk_text_buffer_delete (textbuffer, &startiter, &enditer);
+          // Done.
           break;
         }
         case eaaUndo:
         {
- 
           // Undo the text deletion action, that means, re-insert the text.
-
           // Get initial insert position.
           gint accumulated_offset = delete_action->offset;
           // Go through the text to re-insert.
@@ -3604,6 +3595,7 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
             // Modify the accumulated offset for the next iteration.
             accumulated_offset += delete_action->deleted_text[i].length();
           }
+          // Done.
           break;
         }
         case eaaRedo:
@@ -3618,40 +3610,39 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
     {
       // Cast the action to the right object.
       EditorActionChangeCharacterStyle * style_action = static_cast <EditorActionChangeCharacterStyle *> (action);
-
+      // Get paragraph objects to operate on.
+      EditorActionCreateParagraph * paragraph = style_action->paragraph;
+      if (paragraph == NULL) {
+        gw_critical ("Could not find the paragraph where to change a character style");
+      }
+      GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph->widget));
+      // The lists of styles to remove and the ones to apply.
+      vector <ustring> styles_to_remove;
+      vector <ustring> styles_to_apply;
       switch (application) {
         case eaaInitial:
         {
-          
-          // Handle the initial changing of a character style
-
-          // Get the parent paragraph.
-          EditorActionCreateParagraph * paragraph = style_action->paragraph;
-          if (paragraph) {
-            // Get text buffer.
-            GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph->widget));
-            // Mark off the affected area.
-            GtkTextIter startiter;
-            GtkTextIter enditer;
-            gtk_text_buffer_get_iter_at_offset (textbuffer, &startiter, style_action->offset);
-            gtk_text_buffer_get_iter_at_offset (textbuffer, &enditer, style_action->offset + style_action->length);
-            // Get the styles applied now, and store these so as to track the state of this bit of text.
-            style_action->previous_styles = get_character_styles_between_iterators (startiter, enditer);
-            // Remove the character styles that are there now, and apply the new ones.
-            for (unsigned int i = 0; i < style_action->previous_styles.size(); i++) {
-              if (!style_action->previous_styles[i].empty()) {
-                gtk_text_buffer_remove_tag_by_name (textbuffer, style_action->previous_styles[i].c_str(), &startiter, &enditer);
-              }
-            }
-            gtk_text_buffer_apply_tag_by_name (textbuffer, style_action->style.c_str(), &startiter, &enditer);
-          } else {
-            gw_critical ("Could not find the paragraph where to change a character style");
+          // Mark off the affected area.
+          GtkTextIter startiter;
+          GtkTextIter enditer;
+          gtk_text_buffer_get_iter_at_offset (textbuffer, &startiter, style_action->offset);
+          gtk_text_buffer_get_iter_at_offset (textbuffer, &enditer, style_action->offset + style_action->length);
+          // Get the styles applied now, and store these so as to track the state of this bit of text.
+          style_action->previous_styles = get_character_styles_between_iterators (startiter, enditer);
+          styles_to_remove = style_action->previous_styles;
+          // Mark styles to apply.
+          for (gint i = 0; i < style_action->length; i++) {
+            styles_to_apply.push_back (style_action->style);
           }
-
+          // Done.
           break;
         }
-        case eaaUndo: // Todo implement
+        case eaaUndo:
         {
+          for (gint i = 0; i < style_action->length; i++) {
+            styles_to_remove.push_back (style_action->style);
+          }
+          styles_to_apply = style_action->previous_styles;
           break;
         }
         case eaaRedo:
@@ -3659,6 +3650,20 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
           break;
         }
       }
+      // Remove old styles and apply new ones.
+      for (gint i = 0; i < style_action->length; i++) {
+        GtkTextIter startiter, enditer;
+        gtk_text_buffer_get_iter_at_offset (textbuffer, &startiter, style_action->offset + i);
+        enditer = startiter;
+        gtk_text_iter_forward_char (&enditer);
+        if (!styles_to_remove[i].empty()) {
+          gtk_text_buffer_remove_tag_by_name (textbuffer, styles_to_remove[i].c_str(), &startiter, &enditer);
+        }
+        if (!styles_to_apply[i].empty()) {
+          gtk_text_buffer_apply_tag_by_name (textbuffer, styles_to_apply[i].c_str(), &startiter, &enditer);
+        }
+      }
+      // Done.
       break;
     }
     
@@ -3695,6 +3700,13 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
         }
         case eaaUndo:
         {
+          // Restore the live widget to the editor.
+          GtkWidget * textview = delete_action->paragraph->widget;
+          gtk_widget_reparent (textview, vbox_v2);
+          gtk_box_reorder_child (GTK_BOX(vbox_v2), textview, delete_action->offset);
+          // Let the restored textview be earmarked to grab focus.
+          widget_that_should_grab_focus = delete_action->paragraph->widget;
+          // Done.
           break;
         }
         case eaaRedo:
