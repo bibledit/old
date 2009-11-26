@@ -38,6 +38,13 @@ enum EditorActionType {
 };
 
 
+enum EditorActionApplication {
+  eaaInitial,
+  eaaUndo,
+  eaaRedo
+};
+
+
 class EditorAction
 {
 public:

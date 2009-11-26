@@ -52,7 +52,7 @@ private:
   void text_load (ustring text, ustring character_style);
   deque <EditorAction *> actions_done;
   deque <EditorAction *> actions_redoable;
-  void apply_editor_action (EditorAction * action);
+  void apply_editor_action (EditorAction * action, EditorActionApplication application = eaaInitial);
   EditorActionCreateParagraph * focused_paragraph;
   bool usfm_starts_new_paragraph (ustring& line, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
   void editor_start_new_paragraph (const ustring& marker_text);

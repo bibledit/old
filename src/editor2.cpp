@@ -927,53 +927,49 @@ void Editor2::programmatically_grab_focus(GtkWidget * widget)
 
 void Editor2::undo()
 {
-  // Calculate snapshot to revert to.
-  // The last snapshot always has the current state.
-  // So it needs to revert to the last but one snapshot.
-  int snapshot_pointer = snapshots.size() - 2 -  redo_counter;
-
-  // Bail out if nothing to undo.
-  if (snapshot_pointer < 0)
-    return;
-
-  // Restore the snapshot.
-  restore_snapshot (snapshot_pointer, true);
-
-  // It undid one snapshot, so the user can redo it again if needed.
-  redo_counter++;  
+  // If edits were made, the last action on the stack is the OneActionBoundary.
+  // Undo the actions on the stack, and stop at the second OneActionBoundary.
+  unsigned int one_action_boundaries_encountered = 0;
+  while (can_undo() && (one_action_boundaries_encountered <= 1)) {
+    EditorAction * action = actions_done[actions_done.size() - 1];
+    if (action->type == eatOneActionBoundary) {
+      one_action_boundaries_encountered++;
+    }
+    if (one_action_boundaries_encountered <= 1) {
+      apply_editor_action (action, eaaUndo);
+    }
+  }
 }
 
 
 void Editor2::redo()
 {
-  // It's going to redo one snapshot.
-  if (redo_counter)
-    redo_counter--;
-  
-  // Calculate snapshot to re-apply.
-  int snapshot_pointer = snapshots.size() - 1 - redo_counter;
-  
-  // Bail out if nothing to redo.
-  if (snapshot_pointer < 0)
-    return;
-  if ((unsigned int) snapshot_pointer >= snapshots.size())
-    return;
-    
-  // Restore the snapshot.
-  restore_snapshot (snapshot_pointer, false);
+  // Redo the actions on the stack till we encounter the OneActionBoundary.
+  unsigned int one_action_boundaries_encountered = 0;
+  while (can_redo() && (one_action_boundaries_encountered == 0)) {
+    EditorAction * action = actions_redoable [actions_redoable.size() - 1];
+    if (action->type == eatOneActionBoundary) {
+      one_action_boundaries_encountered++;
+    }
+    apply_editor_action (action, eaaRedo);
+  }
 }
 
 
 bool Editor2::can_undo()
 {
-  int snapshot_pointer = snapshots.size() - 2 -  redo_counter;
-  return (snapshot_pointer >= 0);
+  bool undoable_actions_available = false;
+  if (!actions_done.empty()) {
+    EditorAction * last_action = actions_done[actions_done.size() - 1];
+    undoable_actions_available = (last_action->type != eatLoadChapterBoundary);
+  }
+  return undoable_actions_available;
 }
 
 
 bool Editor2::can_redo()
 {
-  return redo_counter;
+  return !actions_redoable.empty();
 }
 
 
@@ -3335,7 +3331,7 @@ void Editor2::scroll_cursor_on_screen_timeout()
 }
 
 
-void Editor2::apply_editor_action (EditorAction * action)
+void Editor2::apply_editor_action (EditorAction * action, EditorActionApplication application)
 {
   // An editor action is being applied.
   disregard_text_buffer_signals++;
@@ -3348,71 +3344,89 @@ void Editor2::apply_editor_action (EditorAction * action)
 
     case eatCreateParagraph:
     {
-      // A new textbuffer that uses the text tag table.
-      GtkTextBuffer * textbuffer;
-      textbuffer = gtk_text_buffer_new(texttagtable);
+      // Cast the action to the right object.
+      EditorActionCreateParagraph * paragraph_action = static_cast <EditorActionCreateParagraph *> (action);
 
-      // The buffer's signal handlers.
-      g_signal_connect(G_OBJECT(textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_before), gpointer(this));
-      g_signal_connect_after(G_OBJECT(textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_after), gpointer(this));
-      g_signal_connect(G_OBJECT(textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_before), gpointer(this));
-      g_signal_connect_after(G_OBJECT(textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_after), gpointer(this));
+      switch (application) {
+        case eaaInitial:
+        {
+          // Handle the initial creation of a paragraph.
 
-      // Add a new text view to the GUI to view the text buffer.
-      GtkWidget *textview;
-      textview = gtk_text_view_new_with_buffer(textbuffer);
-      gtk_widget_show(textview);
-      gtk_box_pack_start(GTK_BOX(vbox_v2), textview, false, false, 0);
-
-      // Set some parameters of the view.
-      gtk_text_view_set_accepts_tab(GTK_TEXT_VIEW(textview), FALSE);
-      gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textview), GTK_WRAP_WORD);
-      gtk_text_view_set_editable(GTK_TEXT_VIEW(textview), editable);
-      gtk_text_view_set_left_margin(GTK_TEXT_VIEW(textview), 5);
-      gtk_text_view_set_right_margin(GTK_TEXT_VIEW(textview), 5);
-
-      // Connect to the signals.
-      spellingchecker->attach(textview);
-      g_signal_connect_after((gpointer) textview, "move_cursor", G_CALLBACK(on_textview_move_cursor), gpointer(this));
-      g_signal_connect((gpointer) textview, "motion-notify-event", G_CALLBACK(on_text_motion_notify_event), gpointer(this));
-      g_signal_connect_after((gpointer) textview, "grab-focus", G_CALLBACK(on_textview_grab_focus), gpointer(this));
-      g_signal_connect((gpointer) textview, "key-press-event", G_CALLBACK(on_textview_key_press_event), gpointer(this));
-      g_signal_connect((gpointer) textview, "key-release-event", G_CALLBACK(on_textview_key_release_event), gpointer(this));
-
-      //g_signal_connect((gpointer) textview, "event-after", G_CALLBACK(on_text_event_after), gpointer(this));
-      //g_signal_connect((gpointer) textview, "key-press-event", G_CALLBACK(text_key_press_event_before), gpointer(this));
-      //g_signal_connect_after((gpointer) textview, "key-press-event", G_CALLBACK(text_key_press_event_after), gpointer(this));
-      //g_signal_connect((gpointer) textview, "visibility-notify-event", G_CALLBACK(screen_visibility_notify_event), gpointer(this));
-      //g_signal_connect((gpointer) textview, "button_press_event", G_CALLBACK(on_textview_button_press_event), gpointer(this));
-      //g_signal_connect((gpointer) textview, "size-allocate", G_CALLBACK(on_related_widget_size_allocated), gpointer(this));
-
-      // Send a signal so that also the parent window can connect to the signals of the GtkTextView.
-      new_widget_pointer = textview;
-      gtk_button_clicked (GTK_BUTTON (new_widget_signal));
-      
-      // Store a pointer to the new textview.
-      EditorActionCreateParagraph * paragraphaction = static_cast <EditorActionCreateParagraph *> (action);
-      paragraphaction->widget = textview;
-
-      // Move the widget to the right position, which is next to the currently focused paragraph.
-      // This move is important since a new paragraph can be created anywhere among the current ones.
-      vector <GtkWidget *> widgets = editor_get_widgets (vbox_v2);
-      gint new_paragraph_offset = 0;
-      if (focused_paragraph) {
-        for (unsigned int i = 0; i < widgets.size(); i++) {
-          if (focused_paragraph->widget == widgets[i]) {
-            new_paragraph_offset = i + 1;
-            break;
+          // A new textbuffer that uses the text tag table.
+          GtkTextBuffer * textbuffer;
+          textbuffer = gtk_text_buffer_new(texttagtable);
+    
+          // The buffer's signal handlers.
+          g_signal_connect(G_OBJECT(textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_before), gpointer(this));
+          g_signal_connect_after(G_OBJECT(textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_after), gpointer(this));
+          g_signal_connect(G_OBJECT(textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_before), gpointer(this));
+          g_signal_connect_after(G_OBJECT(textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_after), gpointer(this));
+    
+          // Add a new text view to the GUI to view the text buffer.
+          GtkWidget *textview;
+          textview = gtk_text_view_new_with_buffer(textbuffer);
+          gtk_widget_show(textview);
+          gtk_box_pack_start(GTK_BOX(vbox_v2), textview, false, false, 0);
+    
+          // Set some parameters of the view.
+          gtk_text_view_set_accepts_tab(GTK_TEXT_VIEW(textview), FALSE);
+          gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textview), GTK_WRAP_WORD);
+          gtk_text_view_set_editable(GTK_TEXT_VIEW(textview), editable);
+          gtk_text_view_set_left_margin(GTK_TEXT_VIEW(textview), 5);
+          gtk_text_view_set_right_margin(GTK_TEXT_VIEW(textview), 5);
+    
+          // Connect to the signals.
+          spellingchecker->attach(textview);
+          g_signal_connect_after((gpointer) textview, "move_cursor", G_CALLBACK(on_textview_move_cursor), gpointer(this));
+          g_signal_connect((gpointer) textview, "motion-notify-event", G_CALLBACK(on_text_motion_notify_event), gpointer(this));
+          g_signal_connect_after((gpointer) textview, "grab-focus", G_CALLBACK(on_textview_grab_focus), gpointer(this));
+          g_signal_connect((gpointer) textview, "key-press-event", G_CALLBACK(on_textview_key_press_event), gpointer(this));
+          g_signal_connect((gpointer) textview, "key-release-event", G_CALLBACK(on_textview_key_release_event), gpointer(this));
+    
+          //g_signal_connect((gpointer) textview, "event-after", G_CALLBACK(on_text_event_after), gpointer(this));
+          //g_signal_connect((gpointer) textview, "key-press-event", G_CALLBACK(text_key_press_event_before), gpointer(this));
+          //g_signal_connect_after((gpointer) textview, "key-press-event", G_CALLBACK(text_key_press_event_after), gpointer(this));
+          //g_signal_connect((gpointer) textview, "visibility-notify-event", G_CALLBACK(screen_visibility_notify_event), gpointer(this));
+          //g_signal_connect((gpointer) textview, "button_press_event", G_CALLBACK(on_textview_button_press_event), gpointer(this));
+          //g_signal_connect((gpointer) textview, "size-allocate", G_CALLBACK(on_related_widget_size_allocated), gpointer(this));
+    
+          // Send a signal so that also the parent window can connect to the signals of the GtkTextView.
+          new_widget_pointer = textview;
+          gtk_button_clicked (GTK_BUTTON (new_widget_signal));
+          
+          // Store a pointer to the new textview.
+          paragraph_action->widget = textview;
+    
+          // Move the widget to the right position, which is next to the currently focused paragraph.
+          // This move is important since a new paragraph can be created anywhere among the current ones.
+          vector <GtkWidget *> widgets = editor_get_widgets (vbox_v2);
+          gint new_paragraph_offset = 0;
+          if (focused_paragraph) {
+            for (unsigned int i = 0; i < widgets.size(); i++) {
+              if (focused_paragraph->widget == widgets[i]) {
+                new_paragraph_offset = i + 1;
+                break;
+              }
+            }
           }
+          gtk_box_reorder_child (GTK_BOX(vbox_v2), textview, new_paragraph_offset);
+    
+          // Let the newly created textview be earmarked to grab focus
+          // so that the user can type in it,
+          // and the internal Editor logic knows about it.
+          widget_that_should_grab_focus = textview;
+          
+          break;
+        }
+        case eaaUndo: // Todo implement
+        {
+          break;
+        }
+        case eaaRedo: // Todo implement
+        {
+          break;
         }
       }
-      gtk_box_reorder_child (GTK_BOX(vbox_v2), textview, new_paragraph_offset);
-
-      // Let the newly created textview be earmarked to grab focus
-      // so that the user can type in it,
-      // and the internal Editor logic knows about it.
-      widget_that_should_grab_focus = textview;
-
       break;
     }
 
@@ -3420,32 +3434,51 @@ void Editor2::apply_editor_action (EditorAction * action)
     {
       // Cast the action to the right object to work with.
       EditorActionChangeParagraphStyle * style_action = static_cast <EditorActionChangeParagraphStyle *> (action);
-      // Look for the paragraph.
-      EditorActionCreateParagraph * paragraph = style_action->paragraph;
-      if (paragraph) {
-        // Store the new style (the old one was stored when the action was created).
-        paragraph->style = style_action->current_style;
-        // Define the work area.
-        GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph->widget));
-        GtkTextIter startiter;
-        gtk_text_buffer_get_start_iter (textbuffer, &startiter);
-        GtkTextIter enditer;
-        gtk_text_buffer_get_end_iter (textbuffer, &enditer);
-        // Apply the style in such a way that the paragraph style is always applied first, 
-        // then after that the character styles.
-        vector <ustring> current_character_styles = get_character_styles_between_iterators (startiter, enditer);
-        gtk_text_buffer_remove_all_tags (textbuffer, &startiter, &enditer);
-        gtk_text_buffer_apply_tag_by_name (textbuffer, style_action->current_style.c_str(), &startiter, &enditer);
-        for (unsigned int i = 0; i < current_character_styles.size(); i++) {
-          if (!current_character_styles[i].empty()) {
-            gtk_text_buffer_get_iter_at_offset (textbuffer, &startiter, i);
-            enditer = startiter;
-            gtk_text_iter_forward_char (&enditer);
-            gtk_text_buffer_apply_tag_by_name (textbuffer, current_character_styles[i].c_str(), &startiter, &enditer);
+
+      switch (application) {
+        case eaaInitial:
+        {
+
+          // Handle the initial changing of the style of a paragraph.
+
+          // Look for the paragraph.
+          EditorActionCreateParagraph * paragraph = style_action->paragraph;
+          if (paragraph) {
+            // Store the new style (the old one was stored when the action was created).
+            paragraph->style = style_action->current_style;
+            // Define the work area.
+            GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph->widget));
+            GtkTextIter startiter;
+            gtk_text_buffer_get_start_iter (textbuffer, &startiter);
+            GtkTextIter enditer;
+            gtk_text_buffer_get_end_iter (textbuffer, &enditer);
+            // Apply the style in such a way that the paragraph style is always applied first, 
+            // then after that the character styles.
+            vector <ustring> current_character_styles = get_character_styles_between_iterators (startiter, enditer);
+            gtk_text_buffer_remove_all_tags (textbuffer, &startiter, &enditer);
+            gtk_text_buffer_apply_tag_by_name (textbuffer, style_action->current_style.c_str(), &startiter, &enditer);
+            for (unsigned int i = 0; i < current_character_styles.size(); i++) {
+              if (!current_character_styles[i].empty()) {
+                gtk_text_buffer_get_iter_at_offset (textbuffer, &startiter, i);
+                enditer = startiter;
+                gtk_text_iter_forward_char (&enditer);
+                gtk_text_buffer_apply_tag_by_name (textbuffer, current_character_styles[i].c_str(), &startiter, &enditer);
+              }
+            }
+          } else {
+            gw_critical ("No paragraph was found to apply the style to");
           }
+
+          break;
         }
-      } else {
-        gw_critical ("No paragraph was found to apply the style to");
+        case eaaUndo: // Todo implement
+        {
+          break;
+        }
+        case eaaRedo: // Todo implement
+        {
+          break;
+        }
       }
       break;
     }
@@ -3454,25 +3487,46 @@ void Editor2::apply_editor_action (EditorAction * action)
     {
       // Cast the action to the right object to work with.
       EditorActionInsertText * insert_action = static_cast <EditorActionInsertText *> (action);
-      // Get the parent paragraph.
+      // Get the parent paragraph, bail out if it isn't there.
       EditorActionCreateParagraph * paragraph = insert_action->paragraph;
-      if (paragraph) {
-        // Insert text.
-        GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph->widget));
-        GtkTextIter iter;
-        gtk_text_buffer_get_iter_at_offset (textbuffer, &iter, insert_action->offset);
-        gtk_text_buffer_insert (textbuffer, &iter, insert_action->text.c_str(), -1);
-        // Apply the paragraph style to the new inserted text.
-        // It is important that paragraph styles are applied first, and character styles last.
-        // Since this is new inserted text, there's no character style yet, 
-        // so the paragraph style can be applied normally.
-        GtkTextIter startiter;
-        gtk_text_buffer_get_iter_at_offset (textbuffer, &startiter, insert_action->offset);
-        GtkTextIter enditer;
-        gtk_text_buffer_get_iter_at_offset (textbuffer, &enditer, insert_action->offset + insert_action->text.length());
-        gtk_text_buffer_apply_tag_by_name (textbuffer, paragraph->style.c_str(), &startiter, &enditer);
-      } else {
-        gw_critical ("Could not find the paragraph where to insert text " + insert_action->text);
+      if (paragraph == NULL) {
+        gw_critical ("Could not find parent paragraph for text " + insert_action->text);
+        break;
+      }
+      // Get textbuffer to operate on.
+      GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph->widget));
+      // Mark the GtkTextView to grab focus.
+      widget_that_should_grab_focus = paragraph->widget;
+
+      switch (application) {
+        case eaaInitial:
+        case eaaRedo:
+        {
+          // Handle the initial insertion of text, and the redoing of it.
+          GtkTextIter iter;
+          gtk_text_buffer_get_iter_at_offset (textbuffer, &iter, insert_action->offset);
+          gtk_text_buffer_insert (textbuffer, &iter, insert_action->text.c_str(), -1);
+          // Apply the paragraph style to the new inserted text.
+          // It is important that paragraph styles are applied first, and character styles last.
+          // Since this is new inserted text, there's no character style yet, 
+          // so the paragraph style can be applied normally.
+          GtkTextIter startiter;
+          gtk_text_buffer_get_iter_at_offset (textbuffer, &startiter, insert_action->offset);
+          GtkTextIter enditer;
+          gtk_text_buffer_get_iter_at_offset (textbuffer, &enditer, insert_action->offset + insert_action->text.length());
+          gtk_text_buffer_apply_tag_by_name (textbuffer, paragraph->style.c_str(), &startiter, &enditer);
+          // Done.
+          break;
+        }
+        case eaaUndo:
+        {
+          // Undo the insertion of text, that is, remove it again.
+          GtkTextIter startiter, enditer;
+          gtk_text_buffer_get_iter_at_offset (textbuffer, &startiter, insert_action->offset);
+          gtk_text_buffer_get_iter_at_offset (textbuffer, &enditer, insert_action->offset + insert_action->text.length());
+          gtk_text_buffer_delete (textbuffer, &startiter, &enditer);
+          break;
+        }
       }
       break;
     }
@@ -3481,18 +3535,37 @@ void Editor2::apply_editor_action (EditorAction * action)
     {
       // Cast the action to the right object to work with.
       EditorActionDeleteText * delete_action = static_cast <EditorActionDeleteText *> (action);
-      // Get the parent paragraph.
-      EditorActionCreateParagraph * paragraph = delete_action->paragraph;
-      // Delete text.
-      GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph->widget));
-      if (paragraph) {
-        GtkTextIter startiter;
-        gtk_text_buffer_get_iter_at_offset (textbuffer, &startiter, delete_action->offset);
-        GtkTextIter enditer;
-        gtk_text_buffer_get_iter_at_offset (textbuffer, &enditer, delete_action->offset + delete_action->length);
-        gtk_text_buffer_delete (textbuffer, &startiter, &enditer);
-      } else {
-        gw_critical ("Could not find the paragraph from where to delete text");
+
+      switch (application) {
+        case eaaInitial: // Todo implement
+        {
+          
+          // Handle the initial deletion of text.
+
+        // Get the parent paragraph.
+        EditorActionCreateParagraph * paragraph = delete_action->paragraph;
+        // Delete text.
+        GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph->widget));
+        if (paragraph) {
+          GtkTextIter startiter;
+          gtk_text_buffer_get_iter_at_offset (textbuffer, &startiter, delete_action->offset);
+          GtkTextIter enditer;
+          gtk_text_buffer_get_iter_at_offset (textbuffer, &enditer, delete_action->offset + delete_action->length);
+          gtk_text_buffer_delete (textbuffer, &startiter, &enditer);
+        } else {
+          gw_critical ("Could not find the paragraph from where to delete text");
+        }
+          
+          break;
+        }
+        case eaaUndo: // Todo implement
+        {
+          break;
+        }
+        case eaaRedo: // Todo implement
+        {
+          break;
+        }
       }
       break;
     }
@@ -3501,40 +3574,66 @@ void Editor2::apply_editor_action (EditorAction * action)
     {
       // Cast the action to the right object.
       EditorActionChangeCharacterStyle * style_action = static_cast <EditorActionChangeCharacterStyle *> (action);
-      // Get the parent paragraph.
-      EditorActionCreateParagraph * paragraph = style_action->paragraph;
-      if (paragraph) {
-        // Get text buffer.
-        GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph->widget));
-        // Mark off the affected area.
-        GtkTextIter startiter;
-        GtkTextIter enditer;
-        gtk_text_buffer_get_iter_at_offset (textbuffer, &startiter, style_action->offset);
-        gtk_text_buffer_get_iter_at_offset (textbuffer, &enditer, style_action->offset + style_action->length);
-        // Get the styles applied now, and store these so as to track the state of this bit of text.
-        style_action->previous_styles = get_character_styles_between_iterators (startiter, enditer);
-        // Remove the character styles that are there now, and apply the new ones.
-        for (unsigned int i = 0; i < style_action->previous_styles.size(); i++) {
-          if (!style_action->previous_styles[i].empty()) {
-            gtk_text_buffer_remove_tag_by_name (textbuffer, style_action->previous_styles[i].c_str(), &startiter, &enditer);
+
+      switch (application) {
+        case eaaInitial:
+        {
+          
+          // Handle the initial changing of a character style
+
+          // Get the parent paragraph.
+          EditorActionCreateParagraph * paragraph = style_action->paragraph;
+          if (paragraph) {
+            // Get text buffer.
+            GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph->widget));
+            // Mark off the affected area.
+            GtkTextIter startiter;
+            GtkTextIter enditer;
+            gtk_text_buffer_get_iter_at_offset (textbuffer, &startiter, style_action->offset);
+            gtk_text_buffer_get_iter_at_offset (textbuffer, &enditer, style_action->offset + style_action->length);
+            // Get the styles applied now, and store these so as to track the state of this bit of text.
+            style_action->previous_styles = get_character_styles_between_iterators (startiter, enditer);
+            // Remove the character styles that are there now, and apply the new ones.
+            for (unsigned int i = 0; i < style_action->previous_styles.size(); i++) {
+              if (!style_action->previous_styles[i].empty()) {
+                gtk_text_buffer_remove_tag_by_name (textbuffer, style_action->previous_styles[i].c_str(), &startiter, &enditer);
+              }
+            }
+            gtk_text_buffer_apply_tag_by_name (textbuffer, style_action->style.c_str(), &startiter, &enditer);
+          } else {
+            gw_critical ("Could not find the paragraph where to change a character style");
           }
+
+          break;
         }
-        gtk_text_buffer_apply_tag_by_name (textbuffer, style_action->style.c_str(), &startiter, &enditer);
-      } else {
-        gw_critical ("Could not find the paragraph where to change a character style");
+        case eaaUndo: // Todo implement
+        {
+          break;
+        }
+        case eaaRedo: // Todo implement
+        {
+          break;
+        }
       }
       break;
     }
     
     case eatLoadChapterBoundary:
     {
-      // There's nothing special to this boundary.
+      switch (application) {
+        case eaaInitial: break;
+        case eaaUndo:
+        case eaaRedo:
+        {
+          gw_critical ("A bug caused a Load Chapter Boundary to be undone or redone");
+          break;
+        }
+      }
       break;
     }
 
     case eatOneActionBoundary:
     {
-      // There's nothing special to this boundary.
       break;
     }
 
@@ -3542,25 +3641,61 @@ void Editor2::apply_editor_action (EditorAction * action)
     {
       // Cast the action to the right object.
       EditorActionDeleteParagraph * delete_action = static_cast <EditorActionDeleteParagraph *> (action);
-      // Store the offset of this paragraph in the parent GtkBox.
-      vector <GtkWidget *> widgets = editor_get_widgets (vbox_v2);
-      for (unsigned int i = 0; i < widgets.size(); i++) {
-        if (delete_action->paragraph->widget == widgets[i]) {
-          delete_action->offset = i;
+
+      switch (application) {
+        case eaaInitial:
+        {
+          
+          // Do the initial deletion of a paragraph.
+          
+          // Store the offset of this paragraph in the parent GtkBox.
+          vector <GtkWidget *> widgets = editor_get_widgets (vbox_v2);
+          for (unsigned int i = 0; i < widgets.size(); i++) {
+            if (delete_action->paragraph->widget == widgets[i]) {
+              delete_action->offset = i;
+            }
+          }
+          // Transfer the widget to the parking lot. It is kept alive.
+          GtkWidget * parking_lot = gtk_vbox_new (false, 0);
+          gtk_box_pack_start(GTK_BOX(vbox_parking_lot), parking_lot, false, false, 0);
+          gtk_widget_reparent (delete_action->paragraph->widget, parking_lot);
+
+          break;
+        }
+        case eaaUndo:
+        {
+          break;
+        }
+        case eaaRedo:
+        {
+          break;
         }
       }
-      // Transfer the widget to the parking lot. It is kept alive.
-      GtkWidget * parking_lot = gtk_vbox_new (false, 0);
-      gtk_box_pack_start(GTK_BOX(vbox_parking_lot), parking_lot, false, false, 0);
-      gtk_widget_reparent (delete_action->paragraph->widget, parking_lot);
-      // Done.
       break;
     }
 
   }
 
-  // Store this action in the list of ones done.
-  actions_done.push_back (action);
+  // Store or move this action appropriately.
+  switch (application) {
+    case eaaInitial:
+    {
+      actions_done.push_back (action);
+      break;
+    }
+    case eaaUndo:
+    {
+      actions_done.pop_back();
+      actions_redoable.push_back (action);
+      break;
+    }
+    case eaaRedo:
+    {
+      actions_redoable.pop_back();
+      actions_done.push_back (action);
+      break;
+    }
+  }
 
   // If there's any widget that was earmarked to be focused, grab its focus.
   // This can only be done at the end when the whole object has been set up,
