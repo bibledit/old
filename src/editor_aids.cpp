@@ -2098,27 +2098,20 @@ vector <GtkWidget *> editor_get_widgets (GtkWidget * vbox)
 }
 
 
-EditorActionDeleteText * paragraph_get_characters_and_styles_after_insertion_point(EditorActionCreateParagraph * paragraph, vector <ustring>& characters, vector <ustring>& styles)
-// This function accepts a paragraph, and gives a list of characters and character styles
+EditorActionDeleteText * paragraph_get_text_and_styles_after_insertion_point(EditorActionCreateParagraph * paragraph, vector <ustring>& text, vector <ustring>& styles)
+// This function accepts a paragraph, and gives a list of text and their associated character styles
 // from the insertion point to the end of the buffer.
-// It returns the EditorAction that would be required to erase those characters from the paragraph.
+// It returns the EditorAction that would be required to erase that text from the paragraph.
 // Note that this EditorAction needs to be applied for the effect to be obtained.
+// If it is not applied, it should then be destroyed.
 {
   GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph->widget));
   gint start_offset = editor_paragraph_insertion_point_get_offset (paragraph);
-  GtkTextIter iter;
-  gtk_text_buffer_get_end_iter (textbuffer, &iter);
-  gint end_offset = gtk_text_iter_get_offset (&iter);
-  for (gint i = start_offset; i < end_offset; i++) {
-    gtk_text_buffer_get_iter_at_offset (textbuffer, &iter, i);
-    ustring paragraph_style, character_style;
-    get_styles_at_iterator(iter, paragraph_style, character_style);
-    GtkTextIter enditer = iter;
-    gtk_text_iter_forward_char (&enditer);
-    ustring character = gtk_text_buffer_get_text(textbuffer, &iter, &enditer, true);
-    characters.push_back (character);
-    styles.push_back (character_style);
-  }
+  GtkTextIter startiter, enditer;
+  gtk_text_buffer_get_iter_at_offset (textbuffer, &startiter, start_offset);
+  gtk_text_buffer_get_end_iter (textbuffer, &enditer);
+  gint end_offset = gtk_text_iter_get_offset (&enditer);
+  get_text_and_styles_between_iterators(&startiter, &enditer, text, styles);
   EditorActionDeleteText * delete_action = NULL;
   if (end_offset > start_offset) {
     delete_action = new EditorActionDeleteText(paragraph, start_offset, end_offset - start_offset);
@@ -2127,9 +2120,14 @@ EditorActionDeleteText * paragraph_get_characters_and_styles_after_insertion_poi
 }
 
 
-void get_characters_and_styles_between_iterators(GtkTextIter * startiter, GtkTextIter * enditer, vector <ustring>& characters, vector <ustring>& styles)
-// This function gives a list of characters and character styles between two iterators.
+void get_text_and_styles_between_iterators(GtkTextIter * startiter, GtkTextIter * enditer, vector <ustring>& text, vector <ustring>& styles) // Todo consolidate characters and styles, and use this one for the above as well.
+// This function gives a list of the text and character styles between two iterators.
+// The "text" variable contains a chunks of text with the same style.
 {
+  text.clear();
+  styles.clear();
+  ustring previous_style;
+  ustring accumulated_text;
   GtkTextIter iter = *startiter;
   do {
     ustring paragraph_style, character_style;
@@ -2137,10 +2135,21 @@ void get_characters_and_styles_between_iterators(GtkTextIter * startiter, GtkTex
     GtkTextIter iter2 = iter;
     gtk_text_iter_forward_char (&iter2);
     ustring character = gtk_text_iter_get_text(&iter, &iter2);
-    characters.push_back (character);
-    styles.push_back (character_style);
+    if (character_style != previous_style) {
+      if (!accumulated_text.empty()) {
+        text.push_back (accumulated_text);
+        styles.push_back (previous_style);
+        accumulated_text.clear();
+      }
+    }
+    previous_style = character_style;    
+    accumulated_text.append (character);
     gtk_text_iter_forward_char(&iter);
   } while (gtk_text_iter_in_range(&iter, startiter, enditer));
+  if (!accumulated_text.empty()) {
+    text.push_back (accumulated_text);
+    styles.push_back (previous_style);
+  }
 }
 
 

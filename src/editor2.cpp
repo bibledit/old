@@ -2205,28 +2205,30 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
       }
       // Get markup after insertion point. New paragraph.
       ustring paragraph_style = unknown_style ();
-      vector <ustring> characters;
+      vector <ustring> text;
       vector <ustring> styles;        
       if (focused_paragraph) {
         paragraph_style = focused_paragraph->style;
-        EditorActionDeleteText * delete_action = paragraph_get_characters_and_styles_after_insertion_point(focused_paragraph, characters, styles);
+        EditorActionDeleteText * delete_action = paragraph_get_text_and_styles_after_insertion_point(focused_paragraph, text, styles);
         if (delete_action) {
           apply_editor_action (delete_action);
         }
       }      
       editor_start_new_paragraph (paragraph_style);
       // Transfer anything from the previous paragraph to the new one.
-      for (unsigned int i = 0; i < characters.size(); i++) {
-        gint offset = editor_paragraph_insertion_point_get_offset (focused_paragraph);
-        EditorActionInsertText * insert_action = new EditorActionInsertText (focused_paragraph, offset + i, characters[i]);
+      gint initial_offset = editor_paragraph_insertion_point_get_offset (focused_paragraph);
+      gint accumulated_offset = initial_offset;
+      for (unsigned int i = 0; i < text.size(); i++) {
+        EditorActionInsertText * insert_action = new EditorActionInsertText (focused_paragraph, accumulated_offset, text[i]);
         apply_editor_action (insert_action);
         if (!styles[i].empty()) {
-          EditorActionChangeCharacterStyle * style_action = new EditorActionChangeCharacterStyle(focused_paragraph, styles[i], offset + i, 1);
+          EditorActionChangeCharacterStyle * style_action = new EditorActionChangeCharacterStyle(focused_paragraph, styles[i], accumulated_offset, text[i].length());
           apply_editor_action (style_action);
         }
-        // Move insertion points to the proper position.
-        editor_paragraph_insertion_point_set_offset (focused_paragraph, offset);
+        accumulated_offset += text[i].length();
       }
+      // Move insertion points to the proper position.
+      editor_paragraph_insertion_point_set_offset (focused_paragraph, initial_offset);
       // Remove the part of the input text that has been handled.
       utext.erase(0, newlineposition + 1);
       newlineposition = utext.find("\n");
@@ -2266,9 +2268,7 @@ void Editor2::buffer_delete_range_before(GtkTextBuffer * textbuffer, GtkTextIter
   textbuffer_delete_range_was_fired = true;
 
   // Record the content that is about to be deleted.
-  character_values_to_be_deleted.clear();
-  character_styles_to_be_deleted.clear();
-  get_characters_and_styles_between_iterators(start, end, character_values_to_be_deleted, character_styles_to_be_deleted);
+  get_text_and_styles_between_iterators(start, end, text_to_be_deleted, styles_to_be_deleted);
 
   // Make the end iterator the same as the start iterator, so that nothing gets deleted.
   // It will get deleted through EditorActions, so that the undo and redo system work.
@@ -2292,12 +2292,16 @@ void Editor2::buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIter 
   disregard_text_buffer_signals++;
   
   if (focused_paragraph) {
+    ustring text;
+    for (unsigned int i = 0; i < text_to_be_deleted.size(); i++) {
+      text.append (text_to_be_deleted[i]);
+    }
     gint offset = gtk_text_iter_get_offset (start);
-    EditorActionDeleteText * delete_action = new EditorActionDeleteText(focused_paragraph, offset, character_values_to_be_deleted.size());
+    EditorActionDeleteText * delete_action = new EditorActionDeleteText(focused_paragraph, offset, text.length());
     apply_editor_action (delete_action);
   }
-  character_values_to_be_deleted.clear();
-  character_styles_to_be_deleted.clear();
+  text_to_be_deleted.clear();
+  styles_to_be_deleted.clear();
 
   //collect_text_child_anchors_being_deleted(start, end);
   //process_text_child_anchors_deleted();
@@ -3535,31 +3539,62 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
     {
       // Cast the action to the right object to work with.
       EditorActionDeleteText * delete_action = static_cast <EditorActionDeleteText *> (action);
+      // Get the parent paragraph, bail out if it isn't there.
+      EditorActionCreateParagraph * paragraph = delete_action->paragraph;
+      if (paragraph == NULL) {
+        gw_critical ("Could not find parent paragraph");
+        break;
+      }
+      // Get textbuffer to operate on.
+      GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph->widget));
+      // Mark the GtkTextView to grab focus.
+      widget_that_should_grab_focus = paragraph->widget;
 
       switch (application) {
-        case eaaInitial: // Todo implement
+        case eaaInitial:
         {
-          
+  
           // Handle the initial deletion of text.
-
-        // Get the parent paragraph.
-        EditorActionCreateParagraph * paragraph = delete_action->paragraph;
-        // Delete text.
-        GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph->widget));
-        if (paragraph) {
-          GtkTextIter startiter;
+  
+          // Limit the area.
+          GtkTextIter startiter, enditer;
           gtk_text_buffer_get_iter_at_offset (textbuffer, &startiter, delete_action->offset);
-          GtkTextIter enditer;
           gtk_text_buffer_get_iter_at_offset (textbuffer, &enditer, delete_action->offset + delete_action->length);
+          // Save existing content.
+          get_text_and_styles_between_iterators(&startiter, &enditer, delete_action->deleted_text, delete_action->deleted_styles);
+          // Delete text.
           gtk_text_buffer_delete (textbuffer, &startiter, &enditer);
-        } else {
-          gw_critical ("Could not find the paragraph from where to delete text");
-        }
-          
           break;
         }
-        case eaaUndo: // Todo implement
+        case eaaUndo: // Todo working here.
         {
+ 
+          // Handle the undoing of deleting text, that means, insert this text again.
+
+          // Get initial insert position.
+          GtkTextIter iter;
+          gtk_text_buffer_get_iter_at_offset (textbuffer, &iter, delete_action->offset);
+          // Go through the text to insert.
+          for (unsigned int i = 0; i < delete_action->deleted_text.size(); i++) {
+
+            cout << "Re-insert " << delete_action->deleted_text[i] << endl; // Todo
+          }
+
+ /*
+ 
+          // Handle the initial insertion of text, and the redoing of it.
+          gtk_text_buffer_insert (textbuffer, &iter, insert_action->text.c_str(), -1);
+          // Apply the paragraph style to the new inserted text.
+          // It is important that paragraph styles are applied first, and character styles last.
+          // Since this is new inserted text, there's no character style yet, 
+          // so the paragraph style can be applied normally.
+          GtkTextIter startiter;
+          gtk_text_buffer_get_iter_at_offset (textbuffer, &startiter, insert_action->offset);
+          GtkTextIter enditer;
+          gtk_text_buffer_get_iter_at_offset (textbuffer, &enditer, insert_action->offset + insert_action->text.length());
+          gtk_text_buffer_apply_tag_by_name (textbuffer, paragraph->style.c_str(), &startiter, &enditer);
+ 
+*/ 
           break;
         }
         case eaaRedo: // Todo implement
@@ -3963,9 +3998,9 @@ void Editor2::textview_key_release_event(GtkWidget *widget, GdkEventKey *event)
       }
       if (current_paragraph && preceding_paragraph) {
         // Get the text and styles of the current paragraph.
-        vector <ustring> characters;
+        vector <ustring> text;
         vector <ustring> styles;
-        EditorActionDeleteText * delete_action = paragraph_get_characters_and_styles_after_insertion_point(current_paragraph, characters, styles);
+        EditorActionDeleteText * delete_action = paragraph_get_text_and_styles_after_insertion_point(current_paragraph, text, styles);
         // Delete the text from the current paragraph.
         if (delete_action) {
           apply_editor_action (delete_action);
@@ -3975,13 +4010,13 @@ void Editor2::textview_key_release_event(GtkWidget *widget, GdkEventKey *event)
         GtkTextIter enditer;
         gtk_text_buffer_get_end_iter (textbuffer, &enditer);
         gint initial_offset = gtk_text_iter_get_offset (&enditer);
-        for (unsigned int i = 0; i < characters.size(); i++) {
+        for (unsigned int i = 0; i < text.size(); i++) {
           gtk_text_buffer_get_end_iter (textbuffer, &enditer);
           gint offset = gtk_text_iter_get_offset (&enditer);
-          EditorActionInsertText * insert_action = new EditorActionInsertText (preceding_paragraph, offset, characters[i]);
+          EditorActionInsertText * insert_action = new EditorActionInsertText (preceding_paragraph, offset, text[i]);
           apply_editor_action (insert_action);
           if (!styles[i].empty()) {
-            EditorActionChangeCharacterStyle * style_action = new EditorActionChangeCharacterStyle(preceding_paragraph, styles[i], offset, 1);
+            EditorActionChangeCharacterStyle * style_action = new EditorActionChangeCharacterStyle(preceding_paragraph, styles[i], offset, text[i].length());
             apply_editor_action (style_action);
           }
         }
@@ -4014,9 +4049,9 @@ void Editor2::textview_key_release_event(GtkWidget *widget, GdkEventKey *event)
       if (current_paragraph && following_paragraph) {
         // Get the text and styles of the whole following paragraph.
         editor_paragraph_insertion_point_set_offset (following_paragraph, 0);
-        vector <ustring> characters;
+        vector <ustring> text;
         vector <ustring> styles;
-        EditorActionDeleteText * delete_action = paragraph_get_characters_and_styles_after_insertion_point(following_paragraph, characters, styles);
+        EditorActionDeleteText * delete_action = paragraph_get_text_and_styles_after_insertion_point(following_paragraph, text, styles);
         // Delete the text from the following paragraph.
         if (delete_action) {
           apply_editor_action (delete_action);
@@ -4026,13 +4061,13 @@ void Editor2::textview_key_release_event(GtkWidget *widget, GdkEventKey *event)
         GtkTextIter enditer;
         gtk_text_buffer_get_end_iter (textbuffer, &enditer);
         gint initial_offset = gtk_text_iter_get_offset (&enditer);
-        for (unsigned int i = 0; i < characters.size(); i++) {
+        for (unsigned int i = 0; i < text.size(); i++) {
           gtk_text_buffer_get_end_iter (textbuffer, &enditer);
           gint offset = gtk_text_iter_get_offset (&enditer);
-          EditorActionInsertText * insert_action = new EditorActionInsertText (current_paragraph, offset, characters[i]);
+          EditorActionInsertText * insert_action = new EditorActionInsertText (current_paragraph, offset, text[i]);
           apply_editor_action (insert_action);
           if (!styles[i].empty()) {
-            EditorActionChangeCharacterStyle * style_action = new EditorActionChangeCharacterStyle(current_paragraph, styles[i], offset, 1);
+            EditorActionChangeCharacterStyle * style_action = new EditorActionChangeCharacterStyle(current_paragraph, styles[i], offset, text[i].length());
             apply_editor_action (style_action);
           }
         }

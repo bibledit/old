@@ -159,8 +159,8 @@ bool create_editor_objects_for_text_table_raw                (const ustring& pro
 bool create_editor_objects_for_text_note_raw                 (const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
 
 EditorActionDeleteText * paragraph_delete_last_character_if_space(EditorActionCreateParagraph * paragraph_action);
-EditorActionDeleteText * paragraph_get_characters_and_styles_after_insertion_point(EditorActionCreateParagraph * paragraph, vector <ustring>& characters, vector <ustring>& styles);
-void get_characters_and_styles_between_iterators(GtkTextIter * startiter, GtkTextIter * enditer, vector <ustring>& characters, vector <ustring>& styles);
+EditorActionDeleteText * paragraph_get_text_and_styles_after_insertion_point(EditorActionCreateParagraph * paragraph, vector <ustring>& text, vector <ustring>& styles);
+void get_text_and_styles_between_iterators(GtkTextIter * startiter, GtkTextIter * enditer, vector <ustring>& text, vector <ustring>& styles);
 
 vector <GtkWidget *> editor_get_widgets (GtkWidget * vbox);
 

@@ -6875,6 +6875,9 @@ At times, but not always, text is pasted into the buffer twice. We probably need
 and let the gtktextbuffer use its own keybinding. Or to put the accelerator back into the main window.
 
 
+Entering the £ sign behaves unusual.
+
+
 When notes are moved about, text inserted, removed, these notes need to remain.
 Make use of lots of styles, e.g. f_1, and so on, so that we can track the "f" and its id.
 Probably the next f_# style is applied to the buffer only on request, so that the style table does not get too full.

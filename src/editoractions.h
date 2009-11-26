@@ -98,7 +98,8 @@ public:
   EditorActionCreateParagraph * paragraph;
   gint offset;
   gint length;
-  ustring deleted_text;
+  vector <ustring> deleted_text;
+  vector <ustring> deleted_styles;
 private:
 };
 

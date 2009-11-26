@@ -62,8 +62,8 @@ private:
   void editor_text_fallback (ustring& line, ustring& character_style, size_t marker_pos, bool marker_found);
   EditorActionCreateParagraph * textview2paragraph_action (GtkWidget * textview);
   int disregard_text_buffer_signals;
-  vector <ustring> character_values_to_be_deleted;
-  vector <ustring> character_styles_to_be_deleted;
+  vector <ustring> text_to_be_deleted;
+  vector <ustring> styles_to_be_deleted;
 
   static gboolean on_textview_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
   void textview_key_press_event(GtkWidget *widget, GdkEventKey *event);
