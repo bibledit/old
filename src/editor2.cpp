@@ -139,10 +139,10 @@ current_reference(0, 1000, "")
   new_widget_signal = gtk_button_new ();
 
   // Initialize a couple of event ids.
-  textview_cursor_moved_delayer_event_id = 0;
-  grab_focus_event_id = 0;
+  textview_move_cursor_id = 0;
+  textview_grab_focus_event_id = 0;
   spelling_timeout_event_id = 0;
-  button_press_event_id = 0;
+  textview_button_press_event_id = 0;
 
   // Tag for highlighting search words.
   // Note that for convenience the GtkTextBuffer function is called. 
@@ -171,15 +171,15 @@ Editor2::~Editor2()
   chapter_save();
 
   // Destroy a couple of timeout sources.
-  gw_destroy_source(textview_cursor_moved_delayer_event_id);
-  gw_destroy_source(grab_focus_event_id);
+  gw_destroy_source(textview_move_cursor_id);
+  gw_destroy_source(textview_grab_focus_event_id);
   gw_destroy_source(save_timeout_event_id);
   gw_destroy_source(highlight_timeout_event_id);
   gw_destroy_source(spelling_timeout_event_id);
   gw_destroy_source(event_id_show_quick_references);
   gw_destroy_source(start_verse_tracker_event_id);
   gw_destroy_source(verse_tracker_event_id);
-  gw_destroy_source(button_press_event_id);
+  gw_destroy_source(textview_button_press_event_id);
 
   // Clear a few flags.
   verse_tracker_on = false;
@@ -733,17 +733,17 @@ void Editor2::show_quick_references_execute()
 
 void Editor2::on_textview_move_cursor(GtkTextView * textview, GtkMovementStep step, gint count, gboolean extend_selection, gpointer user_data)
 {
-  ((Editor2 *) user_data)->on_textview_cursor_moved_delayer(textview, step, count);
+  ((Editor2 *) user_data)->textview_move_cursor(textview, step, count);
 }
 
 
-void Editor2::on_textview_cursor_moved_delayer(GtkTextView * textview, GtkMovementStep step, gint count)
+void Editor2::textview_move_cursor(GtkTextView * textview, GtkMovementStep step, gint count)
 {
   // Clear the character style that was going to be applied when the user starts typing.
   character_style_on_start_typing.clear();
   // Keep postponing the actual handler if a new cursor movement was detected before the previous one was processed.
-  gw_destroy_source(textview_cursor_moved_delayer_event_id);
-  textview_cursor_moved_delayer_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_textview_cursor_moved_delayer_handler), gpointer(this), NULL);
+  gw_destroy_source(textview_move_cursor_id);
+  textview_move_cursor_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_textview_move_cursor_delayed), gpointer(this), NULL);
   // Store data about the move for finding out whether to move to another textview.
   texview_to_textview_new = textview;
   textview_to_textview_steptype = step;
@@ -751,17 +751,17 @@ void Editor2::on_textview_cursor_moved_delayer(GtkTextView * textview, GtkMoveme
 }
 
 
-bool Editor2::on_textview_cursor_moved_delayer_handler(gpointer user_data)
+bool Editor2::on_textview_move_cursor_delayed(gpointer user_data)
 {
-  ((Editor2 *) user_data)->on_textview_cursor_moved();
+  ((Editor2 *) user_data)->textview_move_cursor_delayed();
   return false;
 }
 
 
-void Editor2::on_textview_cursor_moved()
+void Editor2::textview_move_cursor_delayed()
 // Handle cursor movement.
 {
-  textview_cursor_moved_delayer_event_id = 0;
+  textview_move_cursor_id = 0;
   signal_if_styles_changed();
   check_move_textview_to_textview();
 }
@@ -817,19 +817,19 @@ void Editor2::textview_grab_focus(GtkWidget * widget)
   // Clear the character style that was going to be applied when the user starts typing.
   character_style_on_start_typing.clear();
   // Further processing of the focus grab is done with a delay.
-  gw_destroy_source(grab_focus_event_id);
-  grab_focus_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 10, GSourceFunc(on_grab_focus_delayer_timeout), gpointer(this), NULL);
+  gw_destroy_source(textview_grab_focus_event_id);
+  textview_grab_focus_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 10, GSourceFunc(on_textview_grab_focus_delayed), gpointer(this), NULL);
 }
 
 
-bool Editor2::on_grab_focus_delayer_timeout(gpointer data)
+bool Editor2::on_textview_grab_focus_delayed(gpointer data)
 {
-  ((Editor2 *) data)->on_grab_focus_delayed_handler();
+  ((Editor2 *) data)->textview_grab_focus_delayed();
   return false;
 }
 
 
-void Editor2::on_grab_focus_delayed_handler()
+void Editor2::textview_grab_focus_delayed()
 /*
  If the user clicks in the editor window, 
  and straight after that the position of the cursor is requested, 
@@ -837,7 +837,7 @@ void Editor2::on_grab_focus_delayed_handler()
  This delayed handler solves that.
  */
 {
-  grab_focus_event_id = 0;
+  textview_grab_focus_event_id = 0;
   signal_if_styles_changed();
   /*
   if (recording_undo_actions()) {
@@ -1167,8 +1167,8 @@ gboolean Editor2::on_textview_button_press_event(GtkWidget * widget, GdkEventBut
 
 void Editor2::textview_button_press_event(GtkWidget * widget, GdkEventButton * event)
 {
-  gw_destroy_source(button_press_event_id);
-  button_press_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_textview_button_press_delayer), gpointer(this), NULL);
+  gw_destroy_source(textview_button_press_event_id);
+  textview_button_press_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_textview_button_press_delayed), gpointer(this), NULL);
 
   /*
   // Double-clicking sends the word to Toolbox.
@@ -3653,15 +3653,15 @@ void Editor2::textview_key_release_event(GtkWidget *widget, GdkEventKey *event)
 }
 
 
-bool Editor2::on_textview_button_press_delayer (gpointer user_data)
+bool Editor2::on_textview_button_press_delayed (gpointer user_data)
 {
-  ((Editor2 *) user_data)->on_textview_button_press_delayed();
+  ((Editor2 *) user_data)->textview_button_press_delayed();
   return false;
 }
 
 
-void Editor2::on_textview_button_press_delayed ()
+void Editor2::textview_button_press_delayed ()
 {
-  button_press_event_id = 0;
+  textview_button_press_event_id = 0;
   signal_if_styles_changed();
 }

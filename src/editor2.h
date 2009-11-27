@@ -65,6 +65,7 @@ private:
   vector <ustring> text_to_be_deleted;
   vector <ustring> styles_to_be_deleted;
 
+  // Textview keyboard key pressing.
   static gboolean on_textview_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
   void textview_key_press_event(GtkWidget *widget, GdkEventKey *event);
   static gboolean on_textview_key_release_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
@@ -73,36 +74,45 @@ private:
   static void on_textbuffer_changed(GtkTextBuffer * textbuffer, gpointer user_data);
   void textbuffer_changed(GtkTextBuffer * textbuffer);
 
+  // Textview mouse button pressing signal and delay.
   static gboolean on_textview_button_press_event(GtkWidget *widget, GdkEventButton *event, gpointer user_data);
   void textview_button_press_event(GtkWidget * widget, GdkEventButton *event);
-  guint button_press_event_id;
-  static bool on_textview_button_press_delayer (gpointer user_data);
-  void on_textview_button_press_delayed ();
+  guint textview_button_press_event_id;
+  static bool on_textview_button_press_delayed (gpointer user_data);
+  void textview_button_press_delayed ();
+
+  // Textview focus grabbing signal and delay.
+  static void on_textview_grab_focus(GtkWidget * widget, gpointer user_data);
+  void textview_grab_focus(GtkWidget * widget);
+  guint textview_grab_focus_event_id;
+  static bool on_textview_grab_focus_delayed(gpointer data);
+  void textview_grab_focus_delayed();
+
+  // Textview cursor movement signal and delay.
+  static void on_textview_move_cursor(GtkTextView * textview, GtkMovementStep step, gint count, gboolean extend_selection, gpointer user_data);
+  void textview_move_cursor(GtkTextView * textview, GtkMovementStep step, gint count);
+  guint textview_move_cursor_id;
+  static bool on_textview_move_cursor_delayed(gpointer user_data);
+  void textview_move_cursor_delayed();
+
+
+
+
+
+
 
 
 // Old stuff.
   // Focus handling.
 public:
-  static void on_textview_grab_focus(GtkWidget * widget, gpointer user_data);
-  void textview_grab_focus(GtkWidget * widget);
   GtkWidget * last_focused_widget;
-  guint grab_focus_event_id;
   void programmatically_grab_focus(GtkWidget * widget);
   bool focus_programmatically_being_grabbed;
-  static bool on_grab_focus_delayer_timeout(gpointer data);
-  void on_grab_focus_delayed_handler();
   GtkWidget * last_focused_textview();
   GtkTextBuffer * last_focused_textbuffer();
   EditorTextViewType last_focused_type();
   unsigned int last_focused_column();
   GtkTextChildAnchor * child_anchor_clicked;
-
-  // Cursor movement handling.
-  static void on_textview_move_cursor(GtkTextView * textview, GtkMovementStep step, gint count, gboolean extend_selection, gpointer user_data);
-  void on_textview_cursor_moved_delayer(GtkTextView * textview, GtkMovementStep step, gint count);
-  guint textview_cursor_moved_delayer_event_id;
-  static bool on_textview_cursor_moved_delayer_handler(gpointer user_data);
-  void on_textview_cursor_moved();
 
   ustring character_style_on_start_typing;
 

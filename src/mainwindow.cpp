@@ -6843,9 +6843,6 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
-Connect the style controls so that these display at the bottom of the EditorWindow.
-
-
 Let the current verse be requested and that it works.
 
 
