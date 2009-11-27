@@ -3379,7 +3379,7 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
           break;
         }
         case eaaUndo: paragraph_action->undo (vbox_v2, vbox_parking_lot, widget_that_should_grab_focus); break;
-        case eaaRedo: break;
+        case eaaRedo: paragraph_action->redo (vbox_v2, widget_that_should_grab_focus); break;
       }
       break;
     }
@@ -3440,16 +3440,16 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
       switch (application) {
         case eaaInitial: delete_action->apply(vbox_v2, vbox_parking_lot, widget_that_should_grab_focus); break;
         case eaaUndo:    delete_action->undo (vbox_v2, widget_that_should_grab_focus); break;
-        case eaaRedo:    break;
+        case eaaRedo:    delete_action->redo (vbox_v2, vbox_parking_lot, widget_that_should_grab_focus); break;
       }
       break;
     }
 
   }
 
-  // Put this action in the right list appropriately.
+  // Put this action in the right list.
   switch (application) {
-    case eaaInitial: action->apply(actions_done);                 break;
+    case eaaInitial: action->apply(actions_done                ); break;
     case eaaUndo:    action->undo (actions_done, actions_undone); break;
     case eaaRedo:    action->redo (actions_done, actions_undone); break;
   }

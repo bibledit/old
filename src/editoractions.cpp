@@ -125,8 +125,13 @@ void EditorActionCreateParagraph::undo (GtkWidget * parent_vbox, GtkWidget * par
 }
 
 
-void EditorActionCreateParagraph::redo ()
+void EditorActionCreateParagraph::redo (GtkWidget * parent_vbox, GtkWidget *& to_focus)
 {
+  // Restore the live widget to the editor.
+  gtk_widget_reparent (textview, parent_vbox);
+  gtk_box_reorder_child (GTK_BOX(parent_vbox), textview, offset_at_delete);
+  // Let the restored textview be earmarked to grab focus.
+  to_focus = textview;
 }
 
 
@@ -313,6 +318,12 @@ void EditorActionDeleteText::undo (GtkWidget *& to_focus)
 
 void EditorActionDeleteText::redo (GtkWidget *& to_focus)
 {
+  // Limit the area.
+  GtkTextIter startiter, enditer;
+  gtk_text_buffer_get_iter_at_offset (paragraph->textbuffer, &startiter, offset);
+  gtk_text_buffer_get_iter_at_offset (paragraph->textbuffer, &enditer, offset + length);
+  // Delete text.
+  gtk_text_buffer_delete (paragraph->textbuffer, &startiter, &enditer);
   // Focus widget.
   to_focus = paragraph->textview;
 }
@@ -375,6 +386,20 @@ void EditorActionChangeCharacterStyle::undo (GtkWidget *& to_focus)
 
 void EditorActionChangeCharacterStyle::redo (GtkWidget *& to_focus)
 {
+  // Mark off the affected area.
+  GtkTextIter startiter;
+  GtkTextIter enditer;
+  gtk_text_buffer_get_iter_at_offset (paragraph->textbuffer, &startiter, offset);
+  gtk_text_buffer_get_iter_at_offset (paragraph->textbuffer, &enditer, offset + length);
+  // Get the styles applied now, and store these so as to track the state of this bit of text.
+  vector <ustring> styles_to_delete = get_character_styles_between_iterators (startiter, enditer);
+  // The new styles to apply.
+  vector <ustring> new_styles;
+  for (gint i = 0; i < length; i++) {
+    new_styles.push_back (style);
+  }
+  // Change the styles.
+  change_styles (styles_to_delete, new_styles);
   // Focus widget.
   to_focus = paragraph->textview;
 }
@@ -429,8 +454,12 @@ void EditorActionDeleteParagraph::undo (GtkWidget * parent_vbox, GtkWidget *& to
 }
 
 
-void EditorActionDeleteParagraph::redo ()
+void EditorActionDeleteParagraph::redo (GtkWidget * parent_vbox, GtkWidget * parking_vbox, GtkWidget *& to_focus)
 {
+  // Park this widget, keeping it alive.
+  // Don't store the offset, since we already have that value.
+  gint dummy;
+  editor_park_widget (parent_vbox, paragraph->textview, dummy, parking_vbox);
 }
 
 

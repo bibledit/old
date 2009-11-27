@@ -65,7 +65,7 @@ public:
   virtual ~EditorActionCreateParagraph();
   void apply (GtkTextTagTable * texttagtable, GtkWidget * parent_vbox, bool editable, EditorActionCreateParagraph * focused_paragraph, GtkWidget *& to_focus);
   void undo (GtkWidget * parent_vbox, GtkWidget * parking_vbox, GtkWidget *& to_focus);
-  void redo ();
+  void redo (GtkWidget * parent_vbox, GtkWidget *& to_focus);
   GtkWidget * textview;
   GtkTextBuffer * textbuffer;
   ustring style;
@@ -145,9 +145,9 @@ class EditorActionDeleteParagraph : public EditorAction
 public:
   EditorActionDeleteParagraph(EditorActionCreateParagraph * paragraph_in);
   virtual ~EditorActionDeleteParagraph();
-  void apply (GtkWidget * parent_vbox, GtkWidget * parking_vbox, GtkWidget *& to_focus);
+  void apply(GtkWidget * parent_vbox, GtkWidget * parking_vbox, GtkWidget *& to_focus);
   void undo (GtkWidget * parent_vbox, GtkWidget *& to_focus);
-  void redo ();
+  void redo (GtkWidget * parent_vbox, GtkWidget * parking_vbox, GtkWidget *& to_focus);
 private:
   EditorActionCreateParagraph * paragraph;
   gint offset;
