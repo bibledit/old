@@ -70,6 +70,8 @@ private:
   static gboolean on_textview_key_release_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
   void textview_key_release_event(GtkWidget *widget, GdkEventKey *event);
   bool textbuffer_delete_range_was_fired;
+  static void on_textbuffer_changed(GtkTextBuffer * textbuffer, gpointer user_data);
+  void textbuffer_changed(GtkTextBuffer * textbuffer);
 
 
 // Old stuff.
@@ -202,21 +204,10 @@ public:
   void insert_table(const ustring& rawtext, GtkTextIter * iter);
 
   // Undo/redo
-  int record_undo_level;
-  bool recording_undo_actions();
-  deque <EditorSnapshot> snapshots;
-  unsigned int redo_counter;
   void undo();
   void redo();
   bool can_undo();
   bool can_redo();
-  void restore_snapshot(int pointer, bool undo);
-  static void on_textbuffer_changed(GtkTextBuffer * textbuffer, gpointer user_data);
-  void textbuffer_changed(GtkTextBuffer * textbuffer);
-  void trigger_undo_redo_recording();
-  guint textbuffer_changed_event_id;
-  static bool on_textbuffer_changed_timeout (gpointer user_data);
-  void textbuffer_changed_timeout();
 
   // Highlighting.
   void highlight_searchwords();

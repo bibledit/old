@@ -83,7 +83,6 @@ current_reference(0, 1000, "")
   project = project_in;
   do_not_process_child_anchors_being_deleted = false;
   texttagtable = NULL;
-  record_undo_level = 0;
   previous_hand_cursor = false;
   highlight = NULL;
   editable = false;
@@ -97,8 +96,6 @@ current_reference(0, 1000, "")
   verse_tracker_event_id = 0;
   verse_tracker_on = false;
   verse_restarts_paragraph = false;
-  textbuffer_changed_event_id = 0;
-  redo_counter = 0;
   focused_paragraph = NULL;
   disregard_text_buffer_signals = 0;
   textbuffer_delete_range_was_fired = false;
@@ -226,7 +223,6 @@ Editor2::~Editor2()
   gw_destroy_source(event_id_show_quick_references);
   gw_destroy_source(start_verse_tracker_event_id);
   gw_destroy_source(verse_tracker_event_id);
-  gw_destroy_source(textbuffer_changed_event_id);
 
   // Clear a few flags.
   verse_tracker_on = false;
@@ -1199,9 +1195,7 @@ void Editor2::on_textbuffer_footnotes_changed(GtkEditable * editable, gpointer u
 
 void Editor2::on_textbuffer_footnotes()
 {
-  if (recording_undo_actions()) {
-    show_quick_references();
-  }
+  show_quick_references();
 }
 
 
@@ -2787,45 +2781,6 @@ void Editor2::insert_table(const ustring & rawtext, GtkTextIter * iter)
 }
 
 
-void Editor2::restore_snapshot(int pointer, bool undo)
-// Restores a snapshot into the text buffer.
-// undo: whether this is called from an undo routine.
-{
-  /*
-  // No recording of undoable actions while this object is alive.
-  PreventEditorUndo preventundo(&record_undo_level);
-
-  // Restore the previous snapshot.
-  EditorSnapshot snapshot = snapshots[pointer];
-  text_load (snapshot.text);
-
-  // Restoring the position of the cursor and the scrolled window.
-  // This depends on whether the routine is called for undoing or redoing.
-  // For undoing we need to restore the position of the next snapshot after this.
-  // For redoing we take the snapshot as it is.
-  if (undo) {
-    pointer++;
-    if ((unsigned int) pointer < snapshots.size()) {
-      snapshot = snapshots[pointer];
-    }
-  }
-  GtkTextIter iter;
-  gtk_text_buffer_get_iter_at_offset (textbuffer, &iter, snapshot.insert);
-  gtk_text_buffer_place_cursor (textbuffer, &iter);
-  GtkAdjustment * adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolledwindow));
-  gtk_adjustment_set_value (adjustment, snapshot.scroll);
-  scroll_cursor_on_screen ();
-  */
-}
-
-
-bool Editor2::recording_undo_actions()
-// Returns whether to record undo-able actions.
-{
-  return (record_undo_level == 0);
-}
-
-
 void Editor2::on_textbuffer_changed(GtkTextBuffer * textbuffer, gpointer user_data)
 {
   ((Editor2 *) user_data)->textbuffer_changed(textbuffer);
@@ -2835,65 +2790,6 @@ void Editor2::on_textbuffer_changed(GtkTextBuffer * textbuffer, gpointer user_da
 void Editor2::textbuffer_changed(GtkTextBuffer * textbuffer)
 {
   spelling_trigger();
-  trigger_undo_redo_recording ();
-}
-
-
-void Editor2::trigger_undo_redo_recording()
-{
-  if (recording_undo_actions()) {
-    gw_destroy_source(textbuffer_changed_event_id);
-    textbuffer_changed_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_textbuffer_changed_timeout), gpointer(this), NULL);
-  }
-}
-
-
-bool Editor2::on_textbuffer_changed_timeout (gpointer user_data)
-{
-  ((Editor2 *) user_data)->textbuffer_changed_timeout();
-  return false;
-}
-
-
-void Editor2::textbuffer_changed_timeout()
-{
-  // Clear the event id.
-  textbuffer_changed_event_id = 0;
-
-  /*
-  // Create a new Snapshot object.
-  EditorSnapshot snapshot (0);
-
-  // Store chapter text.
-  snapshot.text = get_chapter();
-
-  // Store insert offset.
-  GtkTextIter iter;
-  gtk_text_buffer_get_iter_at_mark (textbuffer, &iter, gtk_text_buffer_get_insert (textbuffer));
-  snapshot.insert = gtk_text_iter_get_offset (&iter);
-
-  // Store scrollled window's position.
-  GtkAdjustment * adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolledwindow));
-  snapshot.scroll = gtk_adjustment_get_value (adjustment);
-
-  // Store the snapshot, but only when it differs from the most recent one.
-  bool store = true;
-  if (!snapshots.empty()) {
-    if (snapshot.text == snapshots[snapshots.size() -1].text) {
-      store = false;
-    }
-  }
-  if (store) {
-    snapshots.push_back (snapshot);
-  }
-
-  // If there are too many snapshots, throw away the oldest.
-  if (snapshots.size() > 100) {
-    snapshots.pop_front();
-  }  
-  */ 
-  // Reset the redo counter.
-  redo_counter = 0;
 }
 
 
@@ -2908,10 +2804,12 @@ void Editor2::highlight_searchwords()
   //g_thread_create(GThreadFunc(highlight_thread_start), gpointer(this), false, NULL);
 }
 
+
 bool Editor2::on_highlight_timeout(gpointer data)
 {
   return ((Editor2 *) data)->highlight_timeout();
 }
+
 
 bool Editor2::highlight_timeout()
 {
@@ -2919,10 +2817,6 @@ bool Editor2::highlight_timeout()
   if (highlight) {
     // Proceed if the locations for highlighting are ready.
     if (highlight->locations_ready) {
-      // Possible insertion of highlighting tags may trigger storage of an unwanted
-      // undo-able action. 
-      // Therefore: No recording of undoable actions while this object is alive.
-      PreventEditorUndo preventundo(&record_undo_level);
       highlight->highlight();
       // Delete and NULL the object making it ready for next use.
       delete highlight;
@@ -2932,10 +2826,12 @@ bool Editor2::highlight_timeout()
   return true;
 }
 
+
 void Editor2::highlight_thread_start(gpointer data)
 {
   ((Editor2 *) data)->highlight_thread_main();
 }
+
 
 void Editor2::highlight_thread_main()
 {
@@ -3359,7 +3255,8 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
           g_signal_connect_after(G_OBJECT(paragraph_action->textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_after), gpointer(this));
           g_signal_connect(G_OBJECT(paragraph_action->textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_before), gpointer(this));
           g_signal_connect_after(G_OBJECT(paragraph_action->textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_after), gpointer(this));
-          // Connect textview signals.
+          g_signal_connect(G_OBJECT(paragraph_action->textbuffer), "changed", G_CALLBACK(on_textbuffer_changed), gpointer(this));
+         // Connect textview signals.
           spellingchecker->attach(paragraph_action->textview);
           g_signal_connect_after((gpointer) paragraph_action->textview, "move_cursor", G_CALLBACK(on_textview_move_cursor), gpointer(this));
           g_signal_connect((gpointer) paragraph_action->textview, "motion-notify-event", G_CALLBACK(on_text_motion_notify_event), gpointer(this));
