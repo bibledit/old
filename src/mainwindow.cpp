@@ -6843,9 +6843,6 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
-The configuration is not saved on shutdown. Fix that.
-
-
 When it comes to the state of footnotes, we need to have separate handlers for that.
 If some text is deleted, we need to separate footnotes out of that, and divide it among the handlers.
 Deleting text may also expand the selection so as to include the full footnote caller if it is longer than one character.

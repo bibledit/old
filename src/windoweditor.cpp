@@ -537,6 +537,7 @@ set <ustring> WindowEditor::get_styles_at_cursor()
   return dummy;
 }
 
+
 void WindowEditor::create_or_update_formatting_data()
 {
   if (usfmview) { 

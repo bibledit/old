@@ -101,8 +101,7 @@ int main(int argc, char *argv[])
   // Maintenance system.
   maintenance_initialize ();
   // Settings object. 
-  // Only save the settings on exit if there is no scripting.
-  Settings mysettings(argc == 1);
+  Settings mysettings(true);
   settings = &mysettings;
 
   // Temporally check arguments for Editor2.  

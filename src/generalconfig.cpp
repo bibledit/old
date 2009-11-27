@@ -37,9 +37,11 @@ ustring general_configuration_filename()
   return gw_build_filename(directories_get_configuration(), "configuration.1.xml");
 }
 
+
 void upgrade_configuration()
 {
 }
+
 
 /*
  A test was done on to see if the cause of irregular crashes of Bibledit, 
@@ -51,6 +53,7 @@ void upgrade_configuration()
  Note: The above is still true in general, but the configuration no longer 
  uses the database, hence it is not relevant in this particular case.
  */
+
 
 GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
 /*
@@ -216,11 +219,14 @@ GeneralConfiguration::GeneralConfiguration(bool save_on_destroy)
   INITIALIZE(source_language_names);
 }
 
+
 GeneralConfiguration::~GeneralConfiguration()
 {
-  if (my_save_on_destroy)
+  if (my_save_on_destroy) {
     save();
+  }
 }
+
 
 void GeneralConfiguration::save()
 // Saves all settings to disk.
