@@ -2005,7 +2005,7 @@ gint editor_paragraph_insertion_point_get_offset (EditorActionCreateParagraph * 
 {
   gint offset = 0;
   if (paragraph_action) {
-    GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph_action->widget));
+    GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph_action->textview));
     GtkTextIter iter;
     gtk_text_buffer_get_iter_at_mark(textbuffer, &iter, gtk_text_buffer_get_insert(textbuffer));
     offset = gtk_text_iter_get_offset (&iter);
@@ -2017,7 +2017,7 @@ gint editor_paragraph_insertion_point_get_offset (EditorActionCreateParagraph * 
 void editor_paragraph_insertion_point_set_offset (EditorActionCreateParagraph * paragraph_action, gint offset)
 {
   if (paragraph_action) {
-    GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph_action->widget));
+    GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph_action->textview));
     GtkTextIter iter;
     gtk_text_buffer_get_iter_at_offset (textbuffer, &iter, offset);
     gtk_text_buffer_place_cursor (textbuffer, &iter);
@@ -2029,7 +2029,7 @@ EditorActionDeleteText * paragraph_delete_last_character_if_space(EditorActionCr
 // Creates an action for deleting text for the last character in the text buffer if it is a space.
 {
   if (paragraph_action) {
-    GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph_action->widget));
+    GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph_action->textview));
     GtkTextIter iter;
     gtk_text_buffer_get_end_iter (textbuffer, &iter);
     bool text_available = gtk_text_iter_backward_char(&iter);
@@ -2105,7 +2105,7 @@ EditorActionDeleteText * paragraph_get_text_and_styles_after_insertion_point(Edi
 // Note that this EditorAction needs to be applied for the effect to be obtained.
 // If it is not applied, it should then be destroyed.
 {
-  GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph->widget));
+  GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (paragraph->textview));
   gint start_offset = editor_paragraph_insertion_point_get_offset (paragraph);
   GtkTextIter startiter, enditer;
   gtk_text_buffer_get_iter_at_offset (textbuffer, &startiter, start_offset);
@@ -2164,8 +2164,6 @@ void editor_park_widget (GtkWidget * vbox, GtkWidget * widget, gint& offset, Gtk
     }
   }
   // Transfer the widget to the parking lot. It is kept alive.
-  GtkWidget * parking_lot = gtk_vbox_new (false, 0);
-  gtk_box_pack_start(GTK_BOX(parking), parking_lot, false, false, 0);
-  gtk_widget_reparent (widget, parking_lot);
+  gtk_widget_reparent (widget, parking);
 }
 

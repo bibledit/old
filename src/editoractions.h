@@ -50,6 +50,9 @@ class EditorAction
 public:
   EditorAction(EditorActionType type_in);
   virtual ~EditorAction();
+  void apply (deque <EditorAction *>& done);
+  void undo (deque <EditorAction *>& done, deque <EditorAction *>& undone);
+  void redo (deque <EditorAction *>& done, deque <EditorAction *>& undone);
   EditorActionType type;
 private:
 };
@@ -60,10 +63,14 @@ class EditorActionCreateParagraph : public EditorAction
 public:
   EditorActionCreateParagraph(int dummy);
   virtual ~EditorActionCreateParagraph();
-  GtkWidget * widget;
+  void apply (GtkTextTagTable * texttagtable, GtkWidget * parent_vbox, bool editable, EditorActionCreateParagraph * focused_paragraph, GtkWidget *& to_focus);
+  void undo (GtkWidget * parent_vbox, GtkWidget * parking_vbox, GtkWidget *& to_focus);
+  void redo ();
+  GtkWidget * textview;
+  GtkTextBuffer * textbuffer;
   ustring style;
-  gint offset_at_delete;
 private:
+  gint offset_at_delete;
 };
 
 
@@ -72,10 +79,14 @@ class EditorActionChangeParagraphStyle : public EditorAction
 public:
   EditorActionChangeParagraphStyle(const ustring& style, EditorActionCreateParagraph * parent_action);
   virtual ~EditorActionChangeParagraphStyle();
+  void apply (GtkWidget *& to_focus);
+  void undo (GtkWidget *& to_focus);
+  void redo (GtkWidget *& to_focus);
+private:
   EditorActionCreateParagraph * paragraph;
   ustring previous_style;
   ustring current_style;
-private:
+  void set_style (const ustring& style);
 };
 
 
@@ -84,10 +95,13 @@ class EditorActionInsertText : public EditorAction
 public:
   EditorActionInsertText(EditorActionCreateParagraph * parent_action, gint offset_in, const ustring& text_in);
   virtual ~EditorActionInsertText();
+  void apply (GtkWidget *& to_focus);
+  void undo (GtkWidget *& to_focus);
+  void redo (GtkWidget *& to_focus);
+private:
   EditorActionCreateParagraph * paragraph;
   gint offset;
   ustring text;
-private:
 };
 
 
@@ -97,11 +111,14 @@ public:
   EditorActionDeleteText(EditorActionCreateParagraph * parent_action, gint offset_in, gint length_in);
   virtual ~EditorActionDeleteText();
   EditorActionCreateParagraph * paragraph;
+  void apply (GtkWidget *& to_focus);
+  void undo (GtkWidget *& to_focus);
+  void redo (GtkWidget *& to_focus);
+private:
   gint offset;
   gint length;
   vector <ustring> deleted_text;
   vector <ustring> deleted_styles;
-private:
 };
 
 
@@ -110,12 +127,16 @@ class EditorActionChangeCharacterStyle : public EditorAction
 public:
   EditorActionChangeCharacterStyle(EditorActionCreateParagraph * parent_action, const ustring& style_in, gint offset_in, gint length_in);
   virtual ~EditorActionChangeCharacterStyle();
+  void apply (GtkWidget *& to_focus);
+  void undo (GtkWidget *& to_focus);
+  void redo (GtkWidget *& to_focus);
+private:
   EditorActionCreateParagraph * paragraph;
   ustring style;
   gint offset;
   gint length;
   vector <ustring> previous_styles;
-private:
+  void change_styles (const vector <ustring>& old_ones, const vector <ustring>& new_ones); 
 };
 
 
@@ -124,9 +145,12 @@ class EditorActionDeleteParagraph : public EditorAction
 public:
   EditorActionDeleteParagraph(EditorActionCreateParagraph * paragraph_in);
   virtual ~EditorActionDeleteParagraph();
+  void apply (GtkWidget * parent_vbox, GtkWidget * parking_vbox, GtkWidget *& to_focus);
+  void undo (GtkWidget * parent_vbox, GtkWidget *& to_focus);
+  void redo ();
+private:
   EditorActionCreateParagraph * paragraph;
   gint offset;
-private:
 };
 
 

@@ -6843,11 +6843,11 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
-To make undo work.
-
-
 To make redo work.
 
+
+When it comes to the state of footnotes, we need to have separate handlers for that.
+If some text is deleted, we need to separate footnotes out of that, and divide it among the handlers.
 
 The configuration is not saved on shutdown. Fix that.
 
@@ -7068,5 +7068,9 @@ It would be helpful if the window could be cancelled, in particular if somebody 
 
 We may think of slowly moving bibledit onto the web.
 It remains one package, but more and more functionality is rewritten for the web, and taken away from the local binary.
+
+
+It is worth looking at http://wiki.freaks-unidos.net/gwebd for a good http daemon.
+
 
 */
