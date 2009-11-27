@@ -129,15 +129,6 @@ current_reference(0, 1000, "")
   gtk_box_pack_start(GTK_BOX(vbox_in), vbox_parking_lot, false, false, 0);
 
   /*
-  // The scrolled window that contains the main formatted view.
-  scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
-  gtk_widget_show(scrolledwindow);
-  gtk_box_pack_start(GTK_BOX(vbox_in), scrolledwindow, true, true, 0);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-
-  // A textbuffer to store all text.
-  textbuffer = gtk_text_buffer_new(texttagtable);
-
   // The buffer's signal handlers.
   // g_signal_connect(G_OBJECT(textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_before), gpointer(this));
   //g_signal_connect_after(G_OBJECT(textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_after), gpointer(this));
@@ -148,15 +139,6 @@ current_reference(0, 1000, "")
   //g_signal_connect(G_OBJECT(textbuffer), "insert-child-anchor", G_CALLBACK(on_buffer_insert_child_anchor), gpointer(this));
   //g_signal_connect(G_OBJECT(textbuffer), "insert-pixbuf", G_CALLBACK(on_buffer_insert_pixbuf), gpointer(this));
   //g_signal_connect(G_OBJECT(textbuffer), "changed", G_CALLBACK(on_textbuffer_changed), gpointer(this));
-
-  // A text view to display the buffer.
-  textview = gtk_text_view_new_with_buffer(textbuffer);
-  gtk_widget_show(textview);
-  gtk_container_add(GTK_CONTAINER(scrolledwindow), textview);
-  gtk_text_view_set_accepts_tab(GTK_TEXT_VIEW(textview), FALSE);
-  gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textview), GTK_WRAP_WORD);
-  gtk_text_view_set_editable(GTK_TEXT_VIEW(textview), FALSE);
-  gtk_text_view_set_left_margin(GTK_TEXT_VIEW(textview), 5);
 
   // The view's signal handlers.
   spellingchecker->attach(textview);
@@ -169,8 +151,6 @@ current_reference(0, 1000, "")
   g_signal_connect((gpointer) textview, "button_press_event", G_CALLBACK(on_textview_button_press_event), gpointer(this));
   g_signal_connect((gpointer) textview, "size-allocate", G_CALLBACK(on_related_widget_size_allocated), gpointer(this));
 
-  // Initialize the last focused textview to the main textview.
-  //last_focused_widget = textview;
   */
 
   // Buttons to give signals.
@@ -245,17 +225,17 @@ Editor2::~Editor2()
   // Destroy the texttag tables.
   g_object_unref(texttagtable);
 
-  // Destroy the text area.
-  gtk_widget_destroy(scrolledwindow_v2);
-
   // Destroy possible highlight object.
   if (highlight)
     delete highlight;
     
   // Destroy any editor actions.
+  // This will also destroy any GtkTextViews these actions created.
   clear_and_destroy_editor_actions (actions_done);
   clear_and_destroy_editor_actions (actions_undone);
-  
+
+  // Destroy remains of text area.
+  gtk_widget_destroy(scrolledwindow_v2);
 }
 
 

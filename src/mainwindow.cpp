@@ -6843,20 +6843,12 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
-When it comes to the state of footnotes, we need to have separate handlers for that.
-If some text is deleted, we need to separate footnotes out of that, and divide it among the handlers.
-Deleting text may also expand the selection so as to include the full footnote caller if it is longer than one character.
-
-
 The configuration is not saved on shutdown. Fix that.
 
 
-The widgets that are in the parking lot, care for these on shutdown. All paragraphs once created should be destroyed when
-their associated actions are destroyed. This will empty the parking lot as well.
-
-
-Pressing Enter in a long paragraph so as to move it to the next takes a huge amount of time.
-Could we not extract the USFM code, as this seems faster?
+When it comes to the state of footnotes, we need to have separate handlers for that.
+If some text is deleted, we need to separate footnotes out of that, and divide it among the handlers.
+Deleting text may also expand the selection so as to include the full footnote caller if it is longer than one character.
 
 
 The tables are left for just now, unformatted in the editor.
