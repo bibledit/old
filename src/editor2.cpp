@@ -128,31 +128,6 @@ current_reference(0, 1000, "")
   vbox_parking_lot = gtk_vbox_new (false, 0);
   gtk_box_pack_start(GTK_BOX(vbox_in), vbox_parking_lot, false, false, 0);
 
-  /*
-  // The buffer's signal handlers.
-  // g_signal_connect(G_OBJECT(textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_before), gpointer(this));
-  //g_signal_connect_after(G_OBJECT(textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_after), gpointer(this));
-  //g_signal_connect(G_OBJECT(textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_before), gpointer(this));
-  //g_signal_connect_after(G_OBJECT(textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_after), gpointer(this));
-  //g_signal_connect(G_OBJECT(textbuffer), "apply-tag", G_CALLBACK(on_buffer_apply_tag), gpointer(this));
-  //g_signal_connect(G_OBJECT(textbuffer), "remove-tag", G_CALLBACK(on_buffer_remove_tag), gpointer(this));
-  //g_signal_connect(G_OBJECT(textbuffer), "insert-child-anchor", G_CALLBACK(on_buffer_insert_child_anchor), gpointer(this));
-  //g_signal_connect(G_OBJECT(textbuffer), "insert-pixbuf", G_CALLBACK(on_buffer_insert_pixbuf), gpointer(this));
-  //g_signal_connect(G_OBJECT(textbuffer), "changed", G_CALLBACK(on_textbuffer_changed), gpointer(this));
-
-  // The view's signal handlers.
-  spellingchecker->attach(textview);
-  g_signal_connect_after((gpointer) textview, "move_cursor", G_CALLBACK(on_textview_move_cursor), gpointer(this));
-  g_signal_connect((gpointer) textview, "motion-notify-event", G_CALLBACK(on_text_motion_notify_event), gpointer(this));
-  g_signal_connect((gpointer) textview, "event-after", G_CALLBACK(on_text_event_after), gpointer(this));
-  g_signal_connect((gpointer) textview, "key-press-event", G_CALLBACK(text_key_press_event_before), gpointer(this));
-  g_signal_connect_after((gpointer) textview, "key-press-event", G_CALLBACK(text_key_press_event_after), gpointer(this));
-  g_signal_connect((gpointer) textview, "visibility-notify-event", G_CALLBACK(screen_visibility_notify_event), gpointer(this));
-  g_signal_connect((gpointer) textview, "button_press_event", G_CALLBACK(on_textview_button_press_event), gpointer(this));
-  g_signal_connect((gpointer) textview, "size-allocate", G_CALLBACK(on_related_widget_size_allocated), gpointer(this));
-
-  */
-
   // Buttons to give signals.
   new_verse_signal = gtk_button_new();
   new_styles_signal = gtk_button_new();
@@ -167,6 +142,7 @@ current_reference(0, 1000, "")
   textview_cursor_moved_delayer_event_id = 0;
   grab_focus_event_id = 0;
   spelling_timeout_event_id = 0;
+  button_press_event_id = 0;
 
   // Tag for highlighting search words.
   // Note that for convenience the GtkTextBuffer function is called. 
@@ -203,6 +179,7 @@ Editor2::~Editor2()
   gw_destroy_source(event_id_show_quick_references);
   gw_destroy_source(start_verse_tracker_event_id);
   gw_destroy_source(verse_tracker_event_id);
+  gw_destroy_source(button_press_event_id);
 
   // Clear a few flags.
   verse_tracker_on = false;
@@ -759,6 +736,7 @@ void Editor2::on_textview_move_cursor(GtkTextView * textview, GtkMovementStep st
   ((Editor2 *) user_data)->on_textview_cursor_moved_delayer(textview, step, count);
 }
 
+
 void Editor2::on_textview_cursor_moved_delayer(GtkTextView * textview, GtkMovementStep step, gint count)
 {
   // Clear the character style that was going to be applied when the user starts typing.
@@ -772,19 +750,22 @@ void Editor2::on_textview_cursor_moved_delayer(GtkTextView * textview, GtkMoveme
   textview_to_textview_stepcount = count;
 }
 
+
 bool Editor2::on_textview_cursor_moved_delayer_handler(gpointer user_data)
 {
   ((Editor2 *) user_data)->on_textview_cursor_moved();
   return false;
 }
 
+
 void Editor2::on_textview_cursor_moved()
-// Handle the administration if the cursor moved.
+// Handle cursor movement.
 {
   textview_cursor_moved_delayer_event_id = 0;
   signal_if_styles_changed();
   check_move_textview_to_textview();
 }
+
 
 ustring Editor2::verse_number_get()
 // Returns the verse number the cursor is in.
@@ -833,13 +814,11 @@ void Editor2::textview_grab_focus(GtkWidget * widget)
 {
   // Store the paragraph action that created the widget
   focused_paragraph = textview2paragraph_action (widget);
-  /*
   // Clear the character style that was going to be applied when the user starts typing.
   character_style_on_start_typing.clear();
   // Further processing of the focus grab is done with a delay.
   gw_destroy_source(grab_focus_event_id);
   grab_focus_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 10, GSourceFunc(on_grab_focus_delayer_timeout), gpointer(this), NULL);
-  */
 }
 
 
@@ -858,9 +837,9 @@ void Editor2::on_grab_focus_delayed_handler()
  This delayed handler solves that.
  */
 {
-  /*
   grab_focus_event_id = 0;
   signal_if_styles_changed();
+  /*
   if (recording_undo_actions()) {
     show_quick_references();
   }
@@ -1181,13 +1160,16 @@ void Editor2::on_textbuffer_footnotes()
 
 gboolean Editor2::on_textview_button_press_event(GtkWidget * widget, GdkEventButton * event, gpointer user_data)
 {
-  ((Editor2 *) user_data)->on_texteditor_click(widget, event);
+  ((Editor2 *) user_data)->textview_button_press_event(widget, event);
   return false;
 }
 
 
-void Editor2::on_texteditor_click(GtkWidget * widget, GdkEventButton * event)
+void Editor2::textview_button_press_event(GtkWidget * widget, GdkEventButton * event)
 {
+  gw_destroy_source(button_press_event_id);
+  button_press_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_textview_button_press_delayer), gpointer(this), NULL);
+
   /*
   // Double-clicking sends the word to Toolbox.
   if (event->type == GDK_2BUTTON_PRESS) {
@@ -1224,6 +1206,7 @@ void Editor2::on_texteditor_click(GtkWidget * widget, GdkEventButton * event)
   }
   */
 }
+
 
 void Editor2::create_or_update_formatting_data()
 // Create and fill the text tag table for all the formatted views.
@@ -2338,48 +2321,33 @@ void Editor2::signal_if_styles_changed()
 set < ustring > Editor2::get_styles_at_cursor()
 // Gets all the styles that apply to the cursor, or to the selection.
 {
-  // Hold the styles.
-  set < ustring > styles;
+  // The styles.
+  set <ustring> styles;
 
-  /*
-  // Get the iterators at the selection bounds of the main textview or note or table.
-  GtkTextIter startiter, enditer;
-  gtk_text_buffer_get_selection_bounds(textbuffer, &startiter, &enditer);
-  if (gtk_widget_is_focus(textview)) {
+  // Carry on if there's a focused paragraph.
+  if (focused_paragraph) {
+    
+    GtkTextBuffer * textbuffer = focused_paragraph->textbuffer;
+
+    // Get the iterators at the selection bounds of the focused textview.
+    GtkTextIter startiter, enditer;
     gtk_text_buffer_get_selection_bounds(textbuffer, &startiter, &enditer);
-  } else {
-    for (unsigned int i = 0; i < editornotes.size(); i++) {
-      if (gtk_widget_is_focus(editornotes[i].textview)) {
-        GtkTextBuffer *buffer = editornotes[i].textbuffer;
-        gtk_text_buffer_get_selection_bounds(buffer, &startiter, &enditer);
-      }
-    }
-    for (unsigned int i = 0; i < editortables.size(); i++) {
-      for (unsigned int row = 0; row < editortables[i].textviews.size(); row++) {
-        for (unsigned int column = 0; column < editortables[i].textviews[row].size(); column++) {
-          if (gtk_widget_is_focus(table_cell_get_view(editortables[i], row, column))) {
-            GtkTextBuffer *buffer = table_cell_get_buffer(editortables[i], row, column);
-            gtk_text_buffer_get_selection_bounds(buffer, &startiter, &enditer);
-          }
-        }
-      }
-    }
+
+    // Get the applicable styles.
+    // This is done by getting the names of the styles between these iterators.
+    GtkTextIter iter = startiter;
+    do {
+      ustring paragraphstyle, characterstyle;
+      get_styles_at_iterator(iter, paragraphstyle, characterstyle);
+      if (!paragraphstyle.empty())
+        styles.insert(paragraphstyle);
+      if (!characterstyle.empty())
+        styles.insert(characterstyle);
+      gtk_text_iter_forward_char(&iter);
+    } while (gtk_text_iter_in_range(&iter, &startiter, &enditer));
+
   }
 
-  // Get the applicable styles.
-  // This is done by getting the names of the styles between these iterators.
-  GtkTextIter iter = startiter;
-  do {
-    ustring paragraphstyle, characterstyle;
-    get_styles_at_iterator(iter, paragraphstyle, characterstyle);
-    if (!paragraphstyle.empty())
-      styles.insert(paragraphstyle);
-    if (!characterstyle.empty())
-      styles.insert(characterstyle);
-    gtk_text_iter_forward_char(&iter);
-  } while (gtk_text_iter_in_range(&iter, &startiter, &enditer));
-  */
-  
   // Return the list.
   return styles;
 }
@@ -3243,11 +3211,11 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
           g_signal_connect_after((gpointer) paragraph_action->textview, "grab-focus", G_CALLBACK(on_textview_grab_focus), gpointer(this));
           g_signal_connect((gpointer) paragraph_action->textview, "key-press-event", G_CALLBACK(on_textview_key_press_event), gpointer(this));
           g_signal_connect((gpointer) paragraph_action->textview, "key-release-event", G_CALLBACK(on_textview_key_release_event), gpointer(this));
+          g_signal_connect((gpointer) paragraph_action->textview, "button_press_event", G_CALLBACK(on_textview_button_press_event), gpointer(this));
           //g_signal_connect((gpointer) textview, "event-after", G_CALLBACK(on_text_event_after), gpointer(this));
           //g_signal_connect((gpointer) textview, "key-press-event", G_CALLBACK(text_key_press_event_before), gpointer(this));
           //g_signal_connect_after((gpointer) textview, "key-press-event", G_CALLBACK(text_key_press_event_after), gpointer(this));
           //g_signal_connect((gpointer) textview, "visibility-notify-event", G_CALLBACK(screen_visibility_notify_event), gpointer(this));
-          //g_signal_connect((gpointer) textview, "button_press_event", G_CALLBACK(on_textview_button_press_event), gpointer(this));
           //g_signal_connect((gpointer) textview, "size-allocate", G_CALLBACK(on_related_widget_size_allocated), gpointer(this));
           // Signal the parent window to connect to the signals of the TextView.
           new_widget_pointer = paragraph_action->textview;
@@ -3685,3 +3653,15 @@ void Editor2::textview_key_release_event(GtkWidget *widget, GdkEventKey *event)
 }
 
 
+bool Editor2::on_textview_button_press_delayer (gpointer user_data)
+{
+  ((Editor2 *) user_data)->on_textview_button_press_delayed();
+  return false;
+}
+
+
+void Editor2::on_textview_button_press_delayed ()
+{
+  button_press_event_id = 0;
+  signal_if_styles_changed();
+}

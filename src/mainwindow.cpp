@@ -6843,6 +6843,19 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
+Connect the style controls so that these display at the bottom of the EditorWindow.
+
+
+Let the current verse be requested and that it works.
+
+
+Let saving text work.
+
+
+
+Fit out any remaining controls and behaviour of the editor.
+
+
 When it comes to the state of footnotes, we need to have separate handlers for that.
 If some text is deleted, we need to separate footnotes out of that, and divide it among the handlers.
 Deleting text may also expand the selection so as to include the full footnote caller if it is longer than one character.

@@ -73,6 +73,12 @@ private:
   static void on_textbuffer_changed(GtkTextBuffer * textbuffer, gpointer user_data);
   void textbuffer_changed(GtkTextBuffer * textbuffer);
 
+  static gboolean on_textview_button_press_event(GtkWidget *widget, GdkEventButton *event, gpointer user_data);
+  void textview_button_press_event(GtkWidget * widget, GdkEventButton *event);
+  guint button_press_event_id;
+  static bool on_textview_button_press_delayer (gpointer user_data);
+  void on_textview_button_press_delayed ();
+
 
 // Old stuff.
   // Focus handling.
@@ -148,8 +154,8 @@ public:
   gboolean on_text_key_press_event_after(GtkWidget *widget, GdkEventKey *event);
   static void on_textbuffer_footnotes_changed(GtkEditable * editable, gpointer user_data);
   void on_textbuffer_footnotes();
-  static gboolean on_textview_button_press_event(GtkWidget *widget, GdkEventButton *event, gpointer user_data);
-  void on_texteditor_click(GtkWidget * widget, GdkEventButton *event);
+
+
 
   // Some event ids.
   guint save_timeout_event_id;

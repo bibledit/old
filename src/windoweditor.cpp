@@ -521,7 +521,7 @@ void WindowEditor::apply_style(const ustring& marker)
 }
 
 
-set <ustring> WindowEditor::get_styles_at_cursor() 
+set <ustring> WindowEditor::get_styles_at_cursor()
 {
   if (usfmview) {
     set <ustring> dummy;
