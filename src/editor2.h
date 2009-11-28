@@ -130,7 +130,6 @@ public:
   vector <Reference> quick_references;
   GtkWidget * quick_references_button;
 
-  GtkWidget * new_verse_signal;
   GtkWidget * new_styles_signal;
   GtkWidget * reload_signal;
   unsigned int reload_chapter_number;
@@ -266,13 +265,19 @@ private:
   gint textview_to_textview_stepcount;
   void check_move_textview_to_textview();
 
-  // Verse tracking and positioning.
+  // Verse tracking and positioning. // Todo
   // The mechanism only starts shortly after loading a chapter.
   // Before it starts, all tracking and positioning is simulated in memory.
 public:
-  void position_cursor_at_verse(const ustring& cursorposition, bool focus);
+  void go_to_verse(const ustring& number, bool focus);
   ustring current_verse_number;
+  GtkWidget * new_verse_signal;
 private:
+  void position_cursor_at_verse(const ustring& cursorposition, bool focus);
+  void switch_verse_tracking_off ();
+  void switch_verse_tracking_on ();
+  bool verse_tracking_on;
+  void signal_if_verse_changed ();
   void restart_verse_tracker();
   guint start_verse_tracker_event_id;
   static bool on_restart_verse_tracker_timeout(gpointer data);
@@ -280,7 +285,6 @@ private:
   guint verse_tracker_event_id;
   static bool on_verse_tracker_timeout(gpointer user_data);
   bool verse_tracker_timeout();
-  bool verse_tracker_on;
   ustring verse_number_get();
   GtkTextIter previous_insert_iter;
   

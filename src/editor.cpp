@@ -717,7 +717,7 @@ ustring Editor::verse_number_get()
 
   // Get and return the verse.
   ustring verse_marker = style_get_verse_marker(project);
-  return get_verse_number_at_iterator(iter, verse_marker, project);
+  return get_verse_number_at_iterator(iter, verse_marker, project, NULL);
 }
 
 void Editor::on_textview_grab_focus(GtkWidget * widget, gpointer user_data)

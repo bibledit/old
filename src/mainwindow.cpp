@@ -5231,6 +5231,7 @@ void MainWindow::reload_all_editors(bool take_chapter_from_focused_editor)
   navigation.display(reference);
 }
 
+
 /*
  |
  |
@@ -5244,6 +5245,7 @@ void MainWindow::reload_all_editors(bool take_chapter_from_focused_editor)
  |
  |
  */
+
 
 void MainWindow::on_file_projects_merge_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
@@ -6843,11 +6845,20 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
-Let the current verse be requested and that it works.
+Verse tracking: Navigation to and from editor.
+Steps:
+* At switch on the cursor is there and then placed at the right verse.
+* When tracking is on textview events are processed that track the verse at the cursor.
+* When tracking is on signals are fired when the verse changes.
+* Scrolling is independent from verse tracking, that is, tracking works regardless of scrolling.
+
+
+
+
+Let navigation work.
 
 
 Let saving text work.
-
 
 
 Fit out any remaining controls and behaviour of the editor.
@@ -7069,6 +7080,10 @@ It remains one package, but more and more functionality is rewritten for the web
 
 
 It is worth looking at http://wiki.freaks-unidos.net/gwebd for a good http daemon.
+
+
+The window that shows the parallel verses slows us down too much. Let is fetch its data in a thread,
+then once all's there, to display it at once.
 
 
 */

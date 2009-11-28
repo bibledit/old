@@ -136,7 +136,7 @@ void usfm_get_table_text(const EditorTable& editortable, const ustring& project,
 GtkTextIter editor_get_iter_for_note(GtkTextBuffer * textbuffer, const vector <EditorNote>& editornotes, unsigned int offset, unsigned int function);
 
 void get_styles_at_iterator(GtkTextIter iter, ustring& paragraph_style, ustring& character_style);
-ustring get_verse_number_at_iterator(GtkTextIter iter, const ustring& verse_marker, const ustring& project);
+ustring get_verse_number_at_iterator(GtkTextIter iter, const ustring& verse_marker, const ustring& project, GtkWidget * parent_box);
 vector <ustring> get_character_styles_between_iterators (GtkTextIter startiter, GtkTextIter enditer);
 
 const gchar * unknown_style();
@@ -163,6 +163,8 @@ EditorActionDeleteText * paragraph_get_text_and_styles_after_insertion_point(Edi
 void get_text_and_styles_between_iterators(GtkTextIter * startiter, GtkTextIter * enditer, vector <ustring>& text, vector <ustring>& styles);
 
 vector <GtkWidget *> editor_get_widgets (GtkWidget * vbox);
+GtkWidget * editor_get_next_textview (GtkWidget * vbox, GtkWidget * textview);
+GtkWidget * editor_get_previous_textview (GtkWidget * vbox, GtkWidget * textview);
 void editor_park_widget (GtkWidget * vbox, GtkWidget * widget, gint& offset, GtkWidget * parking);
 
 #endif

@@ -1713,20 +1713,36 @@ GtkTextIter editor_get_iter_for_note(GtkTextBuffer * textbuffer, const vector < 
   return iter;
 }
 
-ustring get_verse_number_at_iterator(GtkTextIter iter, const ustring & verse_marker, const ustring & project)
-/* This function returns the verse number at the iterator.
- * It also takes into account a situation where the cursor is on a heading.
- * The user expects a heading to belong to the next verse. 
- */
+
+ustring get_verse_number_at_iterator(GtkTextIter iter, const ustring & verse_marker, const ustring & project, GtkWidget * parent_box) // Todo work here: needs to scroll back. Else it gives verse 0
+/* 
+This function returns the verse number at the iterator.
+It also takes into account a situation where the cursor is on a heading.
+The user expects a heading to belong to the next verse. 
+*/
 {
   // Variables.
   ustring verse = "0";
-  bool verse_marker_found = false;
+  bool verse_number_found = false;
+  bool previous_relevant_textbuffer_available = false;
   ustring paragraph_style_at_cursor;
-  GtkTextIter iter_at_cursor = iter;
+  
+
+  // While a previous relevant TextBuffer is there, keep checking it.
+  do {
+
+    vector <GtkWidget *> textviews = editor_get_widgets (parent_box); // Todo we may have to get a routine that look for a previous one or a next one.
+
+  } while (previous_relevant_textbuffer_available);
+  
+// Todo while no verse marker found, keep iterating back.
+// If verse number found, iterate back to where that v style starts.
+// Then extract verse number.
+
 
   // Keep iterating backward till we have found the v style applied.
   // The text, starting from this iterator and forward, is the verse number.
+/*
   do {
     ustring paragraph_style;
     ustring character_style;
@@ -1743,39 +1759,41 @@ ustring get_verse_number_at_iterator(GtkTextIter iter, const ustring & verse_mar
         GtkTextIter enditer = startiter;
         gtk_text_iter_forward_chars(&enditer, 10);
         verse = gtk_text_iter_get_slice(&startiter, &enditer);
+        cout << verse << endl; // Todo
         size_t position = verse.find(" ");
         position = CLAMP(position, 0, verse.length());
         verse = verse.substr(0, position);
+        cout << verse << endl; // Todo
         break;
       }
     }
   } while (gtk_text_iter_backward_char(&iter));
+*/
 
-  // Optionally do the optimization cycle so that if the cursor is on a title/heading, it takes the next verse.
+  // Optional: If the cursor is on a title/heading, increase verse number.
   if (!project.empty()) {
     StyleType type;
     int subtype;
     marker_get_type_and_subtype(project, paragraph_style_at_cursor, type, subtype);
     if (type == stStartsParagraph) {
       switch (subtype) {
-      case ptMainTitle:
-      case ptSubTitle:
-      case ptSectionHeading:
+        case ptMainTitle:
+        case ptSubTitle:
+        case ptSectionHeading:
         {
-          // At this stage the cursor is on a title / heading.
-          // We look one line ahead and take the verse number it gives.
-          if (gtk_text_iter_forward_line(&iter_at_cursor)) {
-            verse = get_verse_number_at_iterator(iter_at_cursor, verse_marker, project);
-          }
+          unsigned int vs = convert_to_int (verse);
+          vs++;
+          verse = convert_to_string (vs);
           break;
         }
-      case ptNormalParagraph:
+        case ptNormalParagraph:
         {
           break;
         }
       }
     }
   }
+
   // Return the verse number found.
   return verse;
 }
@@ -2095,6 +2113,31 @@ vector <GtkWidget *> editor_get_widgets (GtkWidget * vbox)
   vector <GtkWidget *> widgets;
   gtk_container_foreach(GTK_CONTAINER(vbox), on_editor_get_widgets_callback, gpointer(&widgets));
   return widgets;  
+}
+
+
+GtkWidget * editor_get_next_textview (GtkWidget * vbox, GtkWidget * textview)
+{
+  vector <GtkWidget *> widgets = editor_get_widgets (vbox);
+  for (unsigned int i = 0; i < widgets.size(); i++) {
+    if (textview == widgets[i])
+      if (i < widgets.size() - 1)
+        return widgets[i+1];
+  }
+  return NULL;
+}
+
+
+GtkWidget * editor_get_previous_textview (GtkWidget * vbox, GtkWidget * textview) // Todo working here use this throughout.
+// Gets the textview that precedes the "current" one in the Editor object.
+{
+  vector <GtkWidget *> widgets = editor_get_widgets (vbox);
+  for (unsigned int i = 0; i < widgets.size(); i++) {
+    if (textview == widgets[i])
+      if (i)
+        return widgets[i-1];
+  }
+  return NULL;
 }
 
 

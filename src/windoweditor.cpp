@@ -137,7 +137,7 @@ void WindowEditor::go_to(const Reference & reference)
     if (new_book || new_chapter || new_verse) {
       if (editor) editor->position_cursor_at_verse(reference.verse, false);
       if (usfmview) usfmview->position_cursor_at_verse(reference.verse);
-      if (editor2) editor2->position_cursor_at_verse(reference.verse, false);
+      if (editor2) editor2->go_to_verse(reference.verse, false);
     }
 
     // Highlighting of searchwords.
