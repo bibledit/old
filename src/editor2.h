@@ -273,7 +273,6 @@ public:
   ustring current_verse_number;
   GtkWidget * new_verse_signal;
 private:
-  void position_cursor_at_verse(const ustring& cursorposition, bool focus);
   void switch_verse_tracking_off ();
   void switch_verse_tracking_on ();
   bool verse_tracking_on;

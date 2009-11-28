@@ -137,6 +137,7 @@ GtkTextIter editor_get_iter_for_note(GtkTextBuffer * textbuffer, const vector <E
 
 void get_styles_at_iterator(GtkTextIter iter, ustring& paragraph_style, ustring& character_style);
 ustring get_verse_number_at_iterator(GtkTextIter iter, const ustring& verse_marker, const ustring& project, GtkWidget * parent_box);
+bool get_iterator_at_verse_number (const ustring& verse_number, const ustring& verse_marker, GtkWidget * parent_box, GtkTextIter & iter, GtkWidget *& textview);
 vector <ustring> get_character_styles_between_iterators (GtkTextIter startiter, GtkTextIter enditer);
 
 const gchar * unknown_style();

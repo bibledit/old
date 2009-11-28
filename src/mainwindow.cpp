@@ -6845,14 +6845,16 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
-Verse tracking: Navigation to and from editor.
+Verse tracking.
 Steps:
 * At switch on the cursor is there and then placed at the right verse.
 * When tracking is on textview events are processed that track the verse at the cursor.
 * When tracking is on signals are fired when the verse changes.
 * Scrolling is independent from verse tracking, that is, tracking works regardless of scrolling.
-
-
+* The verse is usually requested three times. Can't this be done just once? Reason is that the three timers call the verse routine each of them.
+* We may have to colour the verse lightly, as before. This makes finding the verse easier.
+  Probably to use anonymous tags for colouring, so these do not get mixed up. 
+  If named tags are used, then the system that gets the styles at the iterators should handle these as well.
 
 
 Let navigation work.

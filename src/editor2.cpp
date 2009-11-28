@@ -2979,83 +2979,6 @@ void Editor2::check_move_textview_to_textview()
 }
 
 
-void Editor2::position_cursor_at_verse(const ustring & cursorposition, bool focus) // Todo
-// This function starts the procedure to move the cursor of the editor to the 
-// verse given.
-{
-  /*
-  // Save the current verse.
-  current_verse_number = cursorposition;
-
-  // Find out whether we need to reposition the cursor. We will not move the 
-  // cursor or scroll to it when the cursor is already on the right verse.
-  bool reposition = current_verse_number != verse_number_get();
-
-  // If the verse tracker is still off, postpone the repositioning.
-  if (!verse_tracker_on)
-    reposition = false;
-
-  // Do the repositioning if needed.
-  if (reposition) {
-
-    // If requested, grab focus to get the scrolling done properly, and the user can type in the editor.
-    if (focus) {
-      programmatically_grab_focus(textview);
-    }
-    if ((current_verse_number == "0") || (current_verse_number.empty())) {
-      // Verse 0 or empty: beginning of file.
-      GtkTextIter iter;
-      gtk_text_buffer_get_start_iter(textbuffer, &iter);
-      gtk_text_buffer_place_cursor(textbuffer, &iter);
-      scroll_cursor_on_screen ();
-    } else {
-      // The verse marker.
-      ustring verse_marker = style_get_verse_marker(project);
-      // Go through the buffer and find out about the verse.
-      GtkTextIter iter;
-      gtk_text_buffer_get_start_iter(textbuffer, &iter);
-      do {
-        set < ustring > styles = styles_at_iterator(iter);
-        if (styles.find(verse_marker) != styles.end()) {
-          GtkTextIter enditer = iter;
-          gtk_text_iter_forward_chars(&enditer, 10);
-          ustring verse = gtk_text_iter_get_slice(&iter, &enditer);
-          size_t position = verse.find(" ");
-          position = CLAMP(position, 0, verse.length());
-          verse = verse.substr(0, position);
-          // Position the cursor at the requested verse, if the verse is there.
-          // Also look whether the verse is in a sequence or range of verses.
-          bool position_here = (verse == current_verse_number);
-          unsigned int verse_int = convert_to_int(current_verse_number);
-          vector < unsigned int >combined_verses = verse_range_sequence(verse);
-          for (unsigned int i2 = 0; i2 < combined_verses.size(); i2++) {
-            if (verse_int == combined_verses[i2]) {
-              position_here = true;
-              current_verse_number = verse;
-            }
-          }
-          if (position_here) {
-            // Move the cursor to it.
-            // Move it to the beginning of the text, if there is any.
-            gtk_text_iter_forward_chars(&iter, verse.length() + 1);
-            gtk_text_buffer_place_cursor(textbuffer, &iter);
-            // Scroll also to it. It will scroll to the beginning of the text after the verse marker.
-            // Exact scrolling is needed to put the line being edited near the top of the window.
-            scroll_cursor_on_screen ();
-            // Bail out.
-            break;
-          }
-        }
-      } while (gtk_text_iter_forward_char(&iter));
-    }
-
-    // Highlight search words.
-    highlight_searchwords();
-  }
-  */
-}
-
-
 void Editor2::restart_verse_tracker()
 // Restarts the verse tracker with a delay.
 {
@@ -3659,68 +3582,35 @@ void Editor2::switch_verse_tracking_on ()
 }
 
 
-void Editor2::go_to_verse(const ustring& number, bool focus)
+void Editor2::go_to_verse(const ustring& number, bool focus) // Todo This is called several times, is that ok?
 // Moves the insertion point of the editor to the verse number.
 {
-  cout << "go to verse " << number << endl; // Todo
-  // Switch verse tracking on.
+  // Ensure verse tracking is on.
   switch_verse_tracking_on ();
   
   // Save the current verse. This prevents a race-condition.
   current_verse_number = number;
 
-  // Find out whether we need to reposition the cursor. We will not move the 
-  // cursor or scroll to it when the cursor is already on the right verse.
-  //bool reposition = current_verse_number != verse_number_get();
+  // If the insertion point is already on the right verse, bail out.
+  if (number == verse_number_get()) {
+    return;
+  }
 
-  cout << "Current verse number " << verse_number_get() << endl; // Todo
+  // Get the iterator and textview that contain the verse number.
+  GtkTextIter iter;
+  GtkWidget * textview;
+  if (get_iterator_at_verse_number (number, style_get_verse_marker(project), vbox_v2, iter, textview)) {
+    cout << "Verse " << number << " in textview " << textview << " at offset " << gtk_text_iter_get_offset (&iter) << endl; // Todo
+    if (focus) { // Todo does this focus always?
+    }
+    gtk_widget_grab_focus (textview);
+    GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+    gtk_text_buffer_place_cursor(textbuffer, &iter);
+    //scroll_cursor_on_screen ();
+  }
+
 
   /*
-  // If the verse tracker is still off, postpone the repositioning.
-  if (!verse_tracker_on)
-    reposition = false;
-
-  // Do the repositioning if needed.
-  if (reposition) {
-
-    // If requested, grab focus to get the scrolling done properly, and the user can type in the editor.
-    if (focus) {
-      programmatically_grab_focus(textview);
-    }
-    if ((current_verse_number == "0") || (current_verse_number.empty())) {
-      // Verse 0 or empty: beginning of file.
-      GtkTextIter iter;
-      gtk_text_buffer_get_start_iter(textbuffer, &iter);
-      gtk_text_buffer_place_cursor(textbuffer, &iter);
-      scroll_cursor_on_screen ();
-    } else {
-      // The verse marker.
-      ustring verse_marker = style_get_verse_marker(project);
-      // Go through the buffer and find out about the verse.
-      GtkTextIter iter;
-      gtk_text_buffer_get_start_iter(textbuffer, &iter);
-      do {
-        set < ustring > styles = styles_at_iterator(iter);
-        if (styles.find(verse_marker) != styles.end()) {
-          GtkTextIter enditer = iter;
-          gtk_text_iter_forward_chars(&enditer, 10);
-          ustring verse = gtk_text_iter_get_slice(&iter, &enditer);
-          size_t position = verse.find(" ");
-          position = CLAMP(position, 0, verse.length());
-          verse = verse.substr(0, position);
-          // Position the cursor at the requested verse, if the verse is there.
-          // Also look whether the verse is in a sequence or range of verses.
-          bool position_here = (verse == current_verse_number);
-          unsigned int verse_int = convert_to_int(current_verse_number);
-          vector < unsigned int >combined_verses = verse_range_sequence(verse);
-          for (unsigned int i2 = 0; i2 < combined_verses.size(); i2++) {
-            if (verse_int == combined_verses[i2]) {
-              position_here = true;
-              current_verse_number = verse;
-            }
-          }
-          if (position_here) {
-            // Move the cursor to it.
             // Move it to the beginning of the text, if there is any.
             gtk_text_iter_forward_chars(&iter, verse.length() + 1);
             gtk_text_buffer_place_cursor(textbuffer, &iter);
@@ -3729,17 +3619,11 @@ void Editor2::go_to_verse(const ustring& number, bool focus)
             scroll_cursor_on_screen ();
             // Bail out.
             break;
-          }
-        }
-      } while (gtk_text_iter_forward_char(&iter));
-    }
+
 
     // Highlight search words.
     highlight_searchwords();
-  }
   */
-
-
 }
 
 

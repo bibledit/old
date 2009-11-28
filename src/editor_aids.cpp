@@ -1714,6 +1714,43 @@ GtkTextIter editor_get_iter_for_note(GtkTextBuffer * textbuffer, const vector < 
 }
 
 
+bool get_verse_number_at_iterator_internal (GtkTextIter iter, const ustring & verse_marker, ustring& verse_number) // Todo work here.
+// This function looks at the iterator for the verse number.
+// If a verse number is not found, it iterates back till one is found.
+// If the iterator can't go back any further, and no verse number was found, it returns false.
+// If a verse number is found, it returns true and stores it in parameter "verse_number".
+{
+  // Look for the v style while iterating backward.
+  bool verse_style_found = false;
+  do {
+    ustring paragraph_style, character_style;
+    get_styles_at_iterator(iter, paragraph_style, character_style);
+    if (character_style == verse_marker) {
+      verse_style_found = true;
+    }
+  } while (!verse_style_found && gtk_text_iter_backward_char(&iter));
+  // If the verse style is not in this textbuffer, bail out.
+  if (!verse_style_found) {
+    return false;
+  }
+  // The verse number may consist of more than one character.
+  // Therefore iterate back to the start of the verse style.
+  // For convenience, it iterates back to the start of any style.
+  while (!gtk_text_iter_begins_tag (&iter, NULL)) {
+    gtk_text_iter_backward_char (&iter);
+  }
+  // Extract the verse number.
+  GtkTextIter enditer = iter;
+  gtk_text_iter_forward_chars(&enditer, 10);
+  verse_number = gtk_text_iter_get_slice(&iter, &enditer);
+  size_t position = verse_number.find(" ");
+  position = CLAMP(position, 0, verse_number.length());
+  verse_number.erase (position, 10);
+  // Indicate that a verse number was found.
+  return true;
+}
+
+
 ustring get_verse_number_at_iterator(GtkTextIter iter, const ustring & verse_marker, const ustring & project, GtkWidget * parent_box) // Todo work here: needs to scroll back. Else it gives verse 0
 /* 
 This function returns the verse number at the iterator.
@@ -1721,54 +1758,43 @@ It also takes into account a situation where the cursor is on a heading.
 The user expects a heading to belong to the next verse. 
 */
 {
-  // Variables.
-  ustring verse = "0";
-  bool verse_number_found = false;
-  bool previous_relevant_textbuffer_available = false;
+  // Get the paragraph style at the iterator, in case it is in a heading.
   ustring paragraph_style_at_cursor;
+  {
+    ustring dummy;
+    get_styles_at_iterator(iter, paragraph_style_at_cursor, dummy);
+  }
   
+  // Verse-related variables.
+  ustring verse_number = "0";
+  bool verse_number_found = false;
+  GtkWidget * textview = NULL;
 
-  // While a previous relevant TextBuffer is there, keep checking it.
   do {
-
-    vector <GtkWidget *> textviews = editor_get_widgets (parent_box); // Todo we may have to get a routine that look for a previous one or a next one.
-
-  } while (previous_relevant_textbuffer_available);
-  
-// Todo while no verse marker found, keep iterating back.
-// If verse number found, iterate back to where that v style starts.
-// Then extract verse number.
-
-
-  // Keep iterating backward till we have found the v style applied.
-  // The text, starting from this iterator and forward, is the verse number.
-/*
-  do {
-    ustring paragraph_style;
-    ustring character_style;
-    get_styles_at_iterator(iter, paragraph_style, character_style);
-    if (paragraph_style_at_cursor.empty())
-      paragraph_style_at_cursor = paragraph_style;
-    if (character_style == verse_marker) {
-      verse_marker_found = true;
-    }
-    if (verse_marker_found) {
-      if (character_style != verse_marker) {
-        GtkTextIter startiter = iter;
-        gtk_text_iter_forward_char(&startiter);
-        GtkTextIter enditer = startiter;
-        gtk_text_iter_forward_chars(&enditer, 10);
-        verse = gtk_text_iter_get_slice(&startiter, &enditer);
-        cout << verse << endl; // Todo
-        size_t position = verse.find(" ");
-        position = CLAMP(position, 0, verse.length());
-        verse = verse.substr(0, position);
-        cout << verse << endl; // Todo
-        break;
+    // Try to find a verse number in the GtkTextBuffer the "iter" points to.
+    verse_number_found = get_verse_number_at_iterator_internal (iter, verse_marker, verse_number);
+    // If the verse number was not found, look through the previous GtkTextBuffer.
+    if (!verse_number_found) {
+      // If the "textview" is not yet set, look for the current one.
+      if (textview == NULL) {
+        GtkTextBuffer * textbuffer = gtk_text_iter_get_buffer (&iter);
+        vector <GtkWidget *> widgets = editor_get_widgets (parent_box);
+        for (unsigned int i = 0; i < widgets.size(); i++) {
+          if (textbuffer == gtk_text_view_get_buffer (GTK_TEXT_VIEW (widgets[i]))) {
+            textview = widgets[i];
+            break;
+          }
+        }
+      }
+      // Look for the previous GtkTextView.
+      textview = editor_get_previous_textview (parent_box, textview);
+      // Start looking at the end of that textview.
+      if (textview) {
+        GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+        gtk_text_buffer_get_end_iter (textbuffer, &iter);
       }
     }
-  } while (gtk_text_iter_backward_char(&iter));
-*/
+  } while (!verse_number_found && textview);
 
   // Optional: If the cursor is on a title/heading, increase verse number.
   if (!project.empty()) {
@@ -1781,9 +1807,9 @@ The user expects a heading to belong to the next verse.
         case ptSubTitle:
         case ptSectionHeading:
         {
-          unsigned int vs = convert_to_int (verse);
+          unsigned int vs = convert_to_int (verse_number);
           vs++;
-          verse = convert_to_string (vs);
+          verse_number = convert_to_string (vs);
           break;
         }
         case ptNormalParagraph:
@@ -1795,7 +1821,63 @@ The user expects a heading to belong to the next verse.
   }
 
   // Return the verse number found.
-  return verse;
+  return verse_number;
+}
+
+
+bool get_iterator_at_verse_number (const ustring& verse_number, const ustring& verse_marker, GtkWidget * parent_box, GtkTextIter & iter, GtkWidget *& textview) // Todo
+// This returns the iterator and textview where "verse_number" starts.
+// Returns true if the verse was found, else false.
+{
+  cout << "Look for iterator at verse " << verse_number << endl; // Todo
+
+  // Go through all textviews.
+  vector <GtkWidget *> textviews = editor_get_widgets (parent_box);
+  for (unsigned int i = 0; i < textviews.size(); i++) {
+    // Handle this textview.
+    textview = textviews[i];
+    // Search from start of buffer.
+    GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+    gtk_text_buffer_get_start_iter (textbuffer, &iter);
+    // Verse 0 or empty: beginning of chapter.
+    if ((verse_number == "0") || (verse_number.empty())) {
+      return true;
+    }
+    // Go through the buffer and find out about the verse.
+    do {
+      ustring paragraph_style, character_style;
+      get_styles_at_iterator(iter, paragraph_style, character_style);
+      if (character_style == verse_marker) {
+        ustring verse_at_iter = get_verse_number_at_iterator(iter, verse_marker, "", parent_box);
+        if (verse_number == verse_at_iter) {
+          return true;
+        }
+      }
+/*
+Todo do deep search also.
+        GtkTextIter enditer = iter;
+        gtk_text_iter_forward_chars(&enditer, 10);
+        ustring verse = gtk_text_iter_get_slice(&iter, &enditer);
+        size_t position = verse.find(" ");
+        position = CLAMP(position, 0, verse.length());
+        verse = verse.substr(0, position);
+        // Position the cursor at the requested verse, if the verse is there.
+        // Also look whether the verse is in a sequence or range of verses.
+        bool position_here = (verse == current_verse_number);
+        unsigned int verse_int = convert_to_int(current_verse_number);
+        vector < unsigned int >combined_verses = verse_range_sequence(verse);
+        for (unsigned int i2 = 0; i2 < combined_verses.size(); i2++) {
+          if (verse_int == combined_verses[i2]) {
+            position_here = true;
+            current_verse_number = verse;
+          }
+        }
+*/    
+    } while (gtk_text_iter_forward_char(&iter));
+  }
+  
+  // The verse number was not found.
+  return false;
 }
 
 
@@ -2128,7 +2210,7 @@ GtkWidget * editor_get_next_textview (GtkWidget * vbox, GtkWidget * textview)
 }
 
 
-GtkWidget * editor_get_previous_textview (GtkWidget * vbox, GtkWidget * textview) // Todo working here use this throughout.
+GtkWidget * editor_get_previous_textview (GtkWidget * vbox, GtkWidget * textview)
 // Gets the textview that precedes the "current" one in the Editor object.
 {
   vector <GtkWidget *> widgets = editor_get_widgets (vbox);
