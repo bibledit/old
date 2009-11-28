@@ -92,8 +92,7 @@ current_reference(0, 1000, "")
   texview_to_textview_old = NULL;
   texview_to_textview_new = NULL;
   textview_to_textview_offset = 0;
-  start_verse_tracker_event_id = 0;
-  verse_tracker_event_id = 0;
+  signal_if_verse_changed_event_id = 0;
   verse_restarts_paragraph = false;
   focused_paragraph = NULL;
   disregard_text_buffer_signals = 0;
@@ -180,8 +179,7 @@ Editor2::~Editor2()
   gw_destroy_source(highlight_timeout_event_id);
   gw_destroy_source(spelling_timeout_event_id);
   gw_destroy_source(event_id_show_quick_references);
-  gw_destroy_source(start_verse_tracker_event_id);
-  gw_destroy_source(verse_tracker_event_id);
+  gw_destroy_source(signal_if_verse_changed_event_id);
   gw_destroy_source(textview_button_press_event_id);
 
   // Delete speller.
@@ -767,7 +765,7 @@ void Editor2::textview_move_cursor_delayed()
 }
 
 
-ustring Editor2::verse_number_get() // Todo
+ustring Editor2::verse_number_get()
 // Returns the verse number of the insertion point.
 {
   // Default verse number.
@@ -2979,76 +2977,6 @@ void Editor2::check_move_textview_to_textview()
 }
 
 
-void Editor2::restart_verse_tracker()
-// Restarts the verse tracker with a delay.
-{
-  //verse_tracking_on = false;
-  gw_destroy_source(verse_tracker_event_id);
-  gw_destroy_source(start_verse_tracker_event_id);
-  start_verse_tracker_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_restart_verse_tracker_timeout), gpointer(this), NULL);
-}
-
-
-bool Editor2::on_restart_verse_tracker_timeout(gpointer data)
-// Timeout callback.
-{
-  return ((Editor2 *) data)->on_restart_verse_tracker();
-}
-
-
-bool Editor2::on_restart_verse_tracker()
-// Usually called once after a chapter was loaded.
-{
-  // If gtk events are pending, don't start the verse tracker right now, but try again later.
-  if (gtk_events_pending()) {
-    return true;
-  }
-  // Start the regular cursor tracker.
-  gw_destroy_source(verse_tracker_event_id);
-  verse_tracker_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 300, GSourceFunc(on_verse_tracker_timeout), gpointer(this), NULL);
-  return false;
-}
-
-
-bool Editor2::on_verse_tracker_timeout(gpointer data)
-// Timeout callback.
-{
-  return ((Editor2 *) data)->verse_tracker_timeout();
-}
-
-
-bool Editor2::verse_tracker_timeout()
-// Regular verse tracker.
-{
-  /*
-  if (!verse_tracker_on) {
-    verse_tracker_on = true;
-    position_cursor_at_verse(current_verse_number, true);
-  }
-
-  // Speed up: Only proceed if the cursor changed.
-  GtkTextIter iter;
-  gtk_text_buffer_get_iter_at_mark(textbuffer, &iter, gtk_text_buffer_get_insert(textbuffer));
-  if (!gtk_text_iter_equal  (&iter, &previous_insert_iter)) {
-    previous_insert_iter = iter;
-    // Only proceed if no text was selected.
-    if (!gtk_text_buffer_get_has_selection (textbuffer)) {
-      // Emit a signal if the verse number at the cursor changed.
-      ustring versenumber = verse_number_get();
-      if (versenumber != current_verse_number) {
-        current_verse_number = versenumber;
-        if (new_verse_signal) {
-          gtk_button_clicked(GTK_BUTTON(new_verse_signal));
-        }
-      }
-    }    
-  }
-  */
-  // Next iteration.
-  return true;
-}
-
-
 bool Editor2::move_cursor_to_spelling_error (bool next, bool extremity)
 // Move the cursor to the next (or previous) spelling error.
 // Returns true if it was found, else false.
@@ -3582,7 +3510,7 @@ void Editor2::switch_verse_tracking_on ()
 }
 
 
-void Editor2::go_to_verse(const ustring& number, bool focus) // Todo This is called several times, is that ok?
+void Editor2::go_to_verse(const ustring& number, bool focus)
 // Moves the insertion point of the editor to the verse number.
 {
   // Ensure verse tracking is on.
@@ -3600,8 +3528,7 @@ void Editor2::go_to_verse(const ustring& number, bool focus) // Todo This is cal
   GtkTextIter iter;
   GtkWidget * textview;
   if (get_iterator_at_verse_number (number, style_get_verse_marker(project), vbox_v2, iter, textview)) {
-    cout << "Verse " << number << " in textview " << textview << " at offset " << gtk_text_iter_get_offset (&iter) << endl; // Todo
-    if (focus) { // Todo does this focus always?
+    if (focus) {
     }
     gtk_widget_grab_focus (textview);
     GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
@@ -3629,6 +3556,20 @@ void Editor2::go_to_verse(const ustring& number, bool focus) // Todo This is cal
 
 void Editor2::signal_if_verse_changed ()
 {
+  gw_destroy_source(signal_if_verse_changed_event_id);
+  signal_if_verse_changed_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_signal_if_verse_changed_timeout), gpointer(this), NULL);
+}
+
+
+bool Editor2::on_signal_if_verse_changed_timeout(gpointer data)
+{
+  ((Editor2 *) data)->signal_if_verse_changed_timeout();
+  return false;
+}
+
+
+void Editor2::signal_if_verse_changed_timeout()
+{
   // Proceed if verse tracking is on.
   if (verse_tracking_on) {
     // Proceed if there's a focused paragraph.
@@ -3647,4 +3588,5 @@ void Editor2::signal_if_verse_changed ()
     }
   }
 }
+
 

@@ -27,6 +27,7 @@
 #include "spelling.h"
 #include "stylesheetutils.h"
 #include "gwrappers.h"
+#include "bible.h"
 
 
 EditorNote::EditorNote(int dummy)
@@ -1714,7 +1715,7 @@ GtkTextIter editor_get_iter_for_note(GtkTextBuffer * textbuffer, const vector < 
 }
 
 
-bool get_verse_number_at_iterator_internal (GtkTextIter iter, const ustring & verse_marker, ustring& verse_number) // Todo work here.
+bool get_verse_number_at_iterator_internal (GtkTextIter iter, const ustring & verse_marker, ustring& verse_number)
 // This function looks at the iterator for the verse number.
 // If a verse number is not found, it iterates back till one is found.
 // If the iterator can't go back any further, and no verse number was found, it returns false.
@@ -1751,7 +1752,7 @@ bool get_verse_number_at_iterator_internal (GtkTextIter iter, const ustring & ve
 }
 
 
-ustring get_verse_number_at_iterator(GtkTextIter iter, const ustring & verse_marker, const ustring & project, GtkWidget * parent_box) // Todo work here: needs to scroll back. Else it gives verse 0
+ustring get_verse_number_at_iterator(GtkTextIter iter, const ustring & verse_marker, const ustring & project, GtkWidget * parent_box)
 /* 
 This function returns the verse number at the iterator.
 It also takes into account a situation where the cursor is on a heading.
@@ -1825,12 +1826,10 @@ The user expects a heading to belong to the next verse.
 }
 
 
-bool get_iterator_at_verse_number (const ustring& verse_number, const ustring& verse_marker, GtkWidget * parent_box, GtkTextIter & iter, GtkWidget *& textview) // Todo
+bool get_iterator_at_verse_number (const ustring& verse_number, const ustring& verse_marker, GtkWidget * parent_box, GtkTextIter & iter, GtkWidget *& textview, bool deep_search)
 // This returns the iterator and textview where "verse_number" starts.
 // Returns true if the verse was found, else false.
 {
-  cout << "Look for iterator at verse " << verse_number << endl; // Todo
-
   // Go through all textviews.
   vector <GtkWidget *> textviews = editor_get_widgets (parent_box);
   for (unsigned int i = 0; i < textviews.size(); i++) {
@@ -1845,38 +1844,33 @@ bool get_iterator_at_verse_number (const ustring& verse_number, const ustring& v
     }
     // Go through the buffer and find out about the verse.
     do {
-      ustring paragraph_style, character_style;
+      ustring paragraph_style, character_style, verse_at_iter;
       get_styles_at_iterator(iter, paragraph_style, character_style);
       if (character_style == verse_marker) {
-        ustring verse_at_iter = get_verse_number_at_iterator(iter, verse_marker, "", parent_box);
+        verse_at_iter = get_verse_number_at_iterator(iter, verse_marker, "", parent_box);
         if (verse_number == verse_at_iter) {
           return true;
         }
       }
-/*
-Todo do deep search also.
-        GtkTextIter enditer = iter;
-        gtk_text_iter_forward_chars(&enditer, 10);
-        ustring verse = gtk_text_iter_get_slice(&iter, &enditer);
-        size_t position = verse.find(" ");
-        position = CLAMP(position, 0, verse.length());
-        verse = verse.substr(0, position);
-        // Position the cursor at the requested verse, if the verse is there.
-        // Also look whether the verse is in a sequence or range of verses.
-        bool position_here = (verse == current_verse_number);
-        unsigned int verse_int = convert_to_int(current_verse_number);
-        vector < unsigned int >combined_verses = verse_range_sequence(verse);
+      // Optionally do a deep search: whether the verse is in a sequence or range of verses.
+      if (deep_search && !verse_at_iter.empty()) {
+        unsigned int verse_int = convert_to_int(verse_at_iter);
+        vector <unsigned int> combined_verses = verse_range_sequence(verse_number);
         for (unsigned int i2 = 0; i2 < combined_verses.size(); i2++) {
           if (verse_int == combined_verses[i2]) {
-            position_here = true;
-            current_verse_number = verse;
+            return true;
           }
         }
-*/    
+      }
     } while (gtk_text_iter_forward_char(&iter));
   }
-  
-  // The verse number was not found.
+  // If we haven't done the deep search yet, do it now.
+  if (!deep_search) {
+    if (get_iterator_at_verse_number (verse_number, verse_marker, parent_box, iter, textview, true)) {
+      return true;
+    }
+  }
+  // Verse was not found.
   return false;
 }
 

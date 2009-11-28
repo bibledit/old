@@ -265,9 +265,7 @@ private:
   gint textview_to_textview_stepcount;
   void check_move_textview_to_textview();
 
-  // Verse tracking and positioning. // Todo
-  // The mechanism only starts shortly after loading a chapter.
-  // Before it starts, all tracking and positioning is simulated in memory.
+  // Verse positioning and tracking.
 public:
   void go_to_verse(const ustring& number, bool focus);
   ustring current_verse_number;
@@ -277,17 +275,12 @@ private:
   void switch_verse_tracking_on ();
   bool verse_tracking_on;
   void signal_if_verse_changed ();
-  void restart_verse_tracker();
-  guint start_verse_tracker_event_id;
-  static bool on_restart_verse_tracker_timeout(gpointer data);
-  bool on_restart_verse_tracker();
-  guint verse_tracker_event_id;
-  static bool on_verse_tracker_timeout(gpointer user_data);
-  bool verse_tracker_timeout();
+  guint signal_if_verse_changed_event_id;
+  static bool on_signal_if_verse_changed_timeout(gpointer data);
+  void signal_if_verse_changed_timeout();
   ustring verse_number_get();
-  GtkTextIter previous_insert_iter;
   
-  // Scrolling control.
+  // Scrolling control. // Todo
 public:
 private:
   void scroll_cursor_on_screen ();
