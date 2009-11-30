@@ -286,6 +286,13 @@ private:
   void scroll_cursor_on_screen ();
   static bool on_scroll_cursor_on_screen_timeout(gpointer data);
   void scroll_cursor_on_screen_timeout();
+
+public:
+private:
+  // Verse highlighting.
+  GtkTextTag * verse_highlight_tag;
+  void highlight_verse ();
+
   
 };
 

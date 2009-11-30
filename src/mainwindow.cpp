@@ -6845,12 +6845,8 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
-Implement scrolling of the editor.
-
-
-We may have to colour the verse lightly, as before. This makes finding the verse easier.
-Probably to use anonymous tags for colouring, so these do not get mixed up. 
-If named tags are used, then the system that gets the styles at the iterators should handle these as well.
+The scrolling may not happen often enough, because when moving back to the last verse
+of the chapter, it does not scroll there, but remains at the start.
 
 
 Let saving text work.
@@ -7072,6 +7068,9 @@ It would be helpful if the window could be cancelled, in particular if somebody 
 
 We may think of slowly moving bibledit onto the web.
 It remains one package, but more and more functionality is rewritten for the web, and taken away from the local binary.
+A better strategy is to make a package that runs solely on the web. Bibledit will be a client to that, e.g. it uses its repository of files.
+Then people can either work on the web, or if they need more functionality, they can install the local client, and keep working with the data on the web.
+A persecution mode sets the site to look like another one, e.g. a news site. Logging in is hidden.
 
 
 It is worth looking at http://wiki.freaks-unidos.net/gwebd for a good http daemon.

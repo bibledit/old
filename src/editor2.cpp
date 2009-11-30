@@ -143,11 +143,16 @@ current_reference(0, 1000, "")
   spelling_timeout_event_id = 0;
   textview_button_press_event_id = 0;
 
-  // Tag for highlighting search words.
-  // Note that for convenience the GtkTextBuffer function is called. 
-  // But this adds the reference to the GtkTextTagTable, so making it available
-  // to any other buffer that uses the same text tag table.
-  //reference_tag = gtk_text_buffer_create_tag(textbuffer, NULL, "background", "khaki", NULL);
+  // Tag for highlighting search words and current verse.
+  // For convenience the GtkTextBuffer function is called. 
+  // This adds the tag to the GtkTextTagTable, making it available
+  // to any other text buffer that uses the same text tag table.
+  {
+    GtkTextBuffer * textbuffer = gtk_text_buffer_new (texttagtable);
+    reference_tag = gtk_text_buffer_create_tag(textbuffer, NULL, "background", "khaki", NULL);
+    verse_highlight_tag = gtk_text_buffer_create_tag(textbuffer, NULL, "background", "yellow", NULL);
+    g_object_unref (textbuffer);
+  }
 
   // Highlighting searchwords timeout.
   highlight_timeout_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 500, GSourceFunc(on_highlight_timeout), gpointer(this), NULL);
@@ -284,11 +289,14 @@ void Editor2::chapter_load(unsigned int chapter_in)
   apply_editor_action (new EditorAction (eatLoadChapterBoundary));
       
   // Place cursor at the start and scroll it onto the screen.
-  //GtkTextIter iter;
-  //gtk_text_buffer_get_start_iter(textbuffer, &iter);
-  //gtk_text_buffer_place_cursor(textbuffer, &iter);
-  //scroll_cursor_on_screen ();
-
+  vector <GtkWidget *> textviews = editor_get_widgets (vbox_v2);
+  if (textviews.empty()) {
+    gtk_widget_grab_focus (textviews[0]);
+    GtkTextIter iter;
+    gtk_text_buffer_get_start_iter(focused_paragraph->textbuffer, &iter);
+    gtk_text_buffer_place_cursor(focused_paragraph->textbuffer, &iter);
+    scroll_cursor_on_screen ();
+  }
 }
 
 
@@ -2992,7 +3000,7 @@ bool Editor2::move_cursor_to_spelling_error (bool next, bool extremity)
 }
 
 
-void Editor2::scroll_cursor_on_screen ()
+void Editor2::scroll_cursor_on_screen () // Todo
 {
   scroll_cursor_on_screen_timeout ();
   // At times scrolling once does not suffice.
@@ -3010,10 +3018,55 @@ bool Editor2::on_scroll_cursor_on_screen_timeout(gpointer data)
 }
 
 
-void Editor2::scroll_cursor_on_screen_timeout()
+void Editor2::scroll_cursor_on_screen_timeout() // Todo
 {
-  //GtkTextMark * mark = gtk_text_buffer_get_insert(textbuffer);
-  //textview_scroll_to_mark (GTK_TEXT_VIEW (textview), mark, true);
+  if (focused_paragraph) {
+    // Adjustment.
+    GtkAdjustment * adjustment = gtk_viewport_get_vadjustment (GTK_VIEWPORT (viewport_v2));
+
+    // Visible window height.
+    gdouble visible_window_height = adjustment->page_size;
+
+    // Total window height.
+    gdouble total_window_height = adjustment->upper;
+
+    // Offset of insertion point starting from top.
+    gint insertion_point_offset = 0;
+    {
+      vector <GtkWidget *> textviews = editor_get_widgets (vbox_v2);
+      for (unsigned int i = 0; i < textviews.size(); i++) {
+        if (focused_paragraph->textview == textviews[i]) {
+          break;
+        }
+        insertion_point_offset += textviews[i]->allocation.height;
+      }
+      GtkTextIter iter;
+      gtk_text_buffer_get_iter_at_mark (focused_paragraph->textbuffer, &iter, gtk_text_buffer_get_insert (focused_paragraph->textbuffer));
+      GdkRectangle rectangle;
+      gtk_text_view_get_iter_location (GTK_TEXT_VIEW (focused_paragraph->textview), &iter, &rectangle);
+      gint window_x, window_y;
+      gtk_text_view_buffer_to_window_coords (GTK_TEXT_VIEW (focused_paragraph->textview), GTK_TEXT_WINDOW_WIDGET, rectangle.x, rectangle.y, &window_x, &window_y);
+      insertion_point_offset += rectangle.y;
+    }
+
+    // Set the adjustment to move the insertion point into the middle of the visible part of the window.
+    /*
+    If the insertion point is at 800, and the height of the visible window is 500,
+    and the total window height is 1000, then the calculation of the offset is as follows:
+    Half the height of the visible window is 250.
+    Insertion point is at 800, so the start of the visible window should be at 800 - 250 = 550.
+    Therefore the adjustment should move to 550.
+    The adjustment value should stay within its limits. If it exceeds these, the viewport draws double lines.
+    */
+    gdouble adjustment_value = insertion_point_offset - (visible_window_height / 2);
+    if (adjustment_value < 0) {
+      adjustment_value = 0;
+    }
+    if (adjustment_value > (total_window_height - visible_window_height)) {
+      adjustment_value = total_window_height - visible_window_height;
+    }
+    gtk_adjustment_set_value (adjustment, adjustment_value);
+  }
 }
 
 
@@ -3533,24 +3586,16 @@ void Editor2::go_to_verse(const ustring& number, bool focus)
     gtk_widget_grab_focus (textview);
     GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
     gtk_text_buffer_place_cursor(textbuffer, &iter);
-    //scroll_cursor_on_screen ();
+    scroll_cursor_on_screen ();
   }
 
 
   /*
-            // Move it to the beginning of the text, if there is any.
-            gtk_text_iter_forward_chars(&iter, verse.length() + 1);
-            gtk_text_buffer_place_cursor(textbuffer, &iter);
-            // Scroll also to it. It will scroll to the beginning of the text after the verse marker.
-            // Exact scrolling is needed to put the line being edited near the top of the window.
-            scroll_cursor_on_screen ();
-            // Bail out.
-            break;
-
-
     // Highlight search words.
     highlight_searchwords();
   */
+  // Highlight verse.
+  highlight_verse ();
 }
 
 
@@ -3585,6 +3630,29 @@ void Editor2::signal_if_verse_changed_timeout()
           }
         }
       }
+    }
+  }
+}
+
+
+void Editor2::highlight_verse () // Todo
+{
+  GtkTextIter startiter, enditer;
+  GtkWidget * textview;
+  vector <GtkWidget *> textviews = editor_get_widgets (vbox_v2);
+  for (unsigned int i = 0; i < textviews.size(); i++) {
+    textview = textviews[i];
+    GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+    gtk_text_buffer_get_start_iter (textbuffer, &startiter);
+    gtk_text_buffer_get_end_iter (textbuffer, &enditer);
+    gtk_text_buffer_remove_tag (textbuffer, verse_highlight_tag, &startiter, &enditer);
+  }
+  if (current_verse_number != "0") {
+    if (get_iterator_at_verse_number (current_verse_number, style_get_verse_marker(project), vbox_v2, startiter, textview)) {
+      GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+      enditer = startiter;
+      gtk_text_iter_forward_chars (&enditer, current_verse_number.length());
+      gtk_text_buffer_apply_tag (textbuffer, verse_highlight_tag, &startiter, &enditer);
     }
   }
 }
