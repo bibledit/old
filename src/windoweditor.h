@@ -25,7 +25,6 @@
 #include <gtk/gtk.h>
 #include "ustring.h"
 #include "floatingwindow.h"
-#include "editor.h"
 #include "usfmview.h"
 #include "editor2.h"
 
@@ -74,7 +73,7 @@ public:
   void create_or_update_formatting_data();
   void set_font();
 
-  Editor * editor_get();
+  Editor2 * editor_get(); // Todo
 
   GtkWidget * new_verse_signal;
   GtkWidget * new_styles_signal;
@@ -97,9 +96,8 @@ public:
 protected:
   GtkWidget *vbox;
   void switch_to_view (bool viewusfm, ustring project);
-  Editor * editor;
-  USFMView * usfmview;
   Editor2 * editor2;
+  USFMView * usfmview;
 
   static void on_new_verse_signalled(GtkButton *button, gpointer user_data);
   void on_new_verse();

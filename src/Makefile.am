@@ -78,7 +78,6 @@ bibleditgui_SOURCES = \
         dialogselectchapters.cpp \
         portion_utils.cpp \
         scriptureportions.cpp \
-        editor.cpp \
         uname.cpp \
         layout.cpp \
         import.cpp \

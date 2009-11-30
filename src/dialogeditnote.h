@@ -24,13 +24,13 @@
 
 #include <gtk/gtk.h>
 #include "types.h"
-#include "editor.h"
+#include "editor2.h"
 
 
 class EditNoteDialog
 {
 public:
-  EditNoteDialog (Editor * editor);
+  EditNoteDialog (Editor2 * editor);
   ~EditNoteDialog ();
   int run ();
 protected:
@@ -50,7 +50,7 @@ protected:
   GtkWidget *cancelbutton1;
   GtkWidget *okbutton1;
 private:
-  Editor * myeditor;
+  Editor2 * myeditor; // Todo
   EditorNote * editornote;
   GtkTextBuffer * textbuffer;
   static void on_radiobutton_numbering_toggled (GtkToggleButton *togglebutton, gpointer user_data);

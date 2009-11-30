@@ -86,11 +86,10 @@ am_bibleditgui_OBJECTS = bibledit.$(OBJEXT) utilities.$(OBJEXT) \
 	print_parallel_bible.$(OBJEXT) mapping.$(OBJEXT) \
 	swordnote.$(OBJEXT) dialogselectchapters.$(OBJEXT) \
 	portion_utils.$(OBJEXT) scriptureportions.$(OBJEXT) \
-	editor.$(OBJEXT) uname.$(OBJEXT) layout.$(OBJEXT) \
-	import.$(OBJEXT) clean.$(OBJEXT) categorize.$(OBJEXT) \
-	progresswindow.$(OBJEXT) books.$(OBJEXT) dialogbook.$(OBJEXT) \
-	generalconfig.$(OBJEXT) screen.$(OBJEXT) \
-	projectconfig.$(OBJEXT) gui.$(OBJEXT) \
+	uname.$(OBJEXT) layout.$(OBJEXT) import.$(OBJEXT) \
+	clean.$(OBJEXT) categorize.$(OBJEXT) progresswindow.$(OBJEXT) \
+	books.$(OBJEXT) dialogbook.$(OBJEXT) generalconfig.$(OBJEXT) \
+	screen.$(OBJEXT) projectconfig.$(OBJEXT) gui.$(OBJEXT) \
 	check_validate_usfm.$(OBJEXT) checks.$(OBJEXT) \
 	check_count_words.$(OBJEXT) dialogoutpost.$(OBJEXT) \
 	dialognotestransfer.$(OBJEXT) dialogchapternumber.$(OBJEXT) \
@@ -434,7 +433,6 @@ bibleditgui_SOURCES = \
         dialogselectchapters.cpp \
         portion_utils.cpp \
         scriptureportions.cpp \
-        editor.cpp \
         uname.cpp \
         layout.cpp \
         import.cpp \
@@ -835,7 +833,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dialogyesnoalways.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/directories.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/displayprojectnotes.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/editor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/editor2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/editor_aids.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/editoractions.Po@am__quote@

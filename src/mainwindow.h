@@ -27,7 +27,7 @@
 #include "ustring.h"
 #include "usfm.h"
 #include "note_editor.h"
-#include "editor.h"
+#include "editor2.h"
 #include "httpd.h"
 #include "reference.h"
 #include "gui_navigation.h"

@@ -71,7 +71,6 @@
 #include "dialoginsertnote.h"
 #include "dialogparallelbible.h"
 #include "print_parallel_bible.h"
-#include "editor.h"
 #include "layout.h"
 #include "dialogbook.h"
 #include "books.h"
@@ -3719,7 +3718,7 @@ void MainWindow::on_check_spelling_bulk()
     gtkw_dialog_info (NULL, "There is nothing to be checked");
     return;
   }
-  Editor * editor = editor_window->editor_get ();
+  Editor2 * editor = editor_window->editor_get (); // Todo
   if (!editor) {
     gtkw_dialog_info (NULL, "Please switch viewing USFM code off so as to enable spelling checking");
     return;
@@ -4003,7 +4002,7 @@ void MainWindow::on_edit_bible_note()
 {
   WindowEditor *editor_window = last_focused_editor_window();
   if (editor_window) {
-    Editor * editor = editor_window->editor_get();
+    Editor2 * editor = editor_window->editor_get(); // Todo
     if (editor) {
       EditNoteDialog dialog(editor);
       dialog.run();
@@ -6890,7 +6889,6 @@ Scrolling won't work at first, but should be implemented later.
 Copying text beyond the paragraph won't work at first, but should be implemented later.
 
 
-There is a setting second_editor in the Session object. This can go out once the Editor2 is ready.
 Temporally it switches to USFM view because of the crash in the Editor.
 Editor * WindowEditor::editor_get() - Needs update to give Editor2.
 The table is discarded in the editor.

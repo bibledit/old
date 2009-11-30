@@ -103,12 +103,6 @@ int main(int argc, char *argv[])
   // Settings object. 
   Settings mysettings(true);
   settings = &mysettings;
-
-  // Temporally check arguments for Editor2.  
-  if (argc >= 2 && strcmp(argv[1], "e") == 0) {
-    settings->session.second_editor = true;
-  }
-
   // LocalizedBooks object.
   BookLocalizations mybooklocalizations(0);
   booklocalizations = &mybooklocalizations;

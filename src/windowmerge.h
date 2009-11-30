@@ -26,7 +26,7 @@
 #include "ustring.h"
 #include "reference.h"
 #include "floatingwindow.h"
-#include "editor.h"
+#include "editor2.h"
 #include "merge_utils.h"
 #include "gui_display_changes.h"
 

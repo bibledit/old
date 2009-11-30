@@ -98,8 +98,6 @@ public:
   map <int, int> yes_no_always_dialog_response;
   // Reference exchange.
   bool receiving_references;
-  // Second editor.
-  bool second_editor;
 private:
 };
 
