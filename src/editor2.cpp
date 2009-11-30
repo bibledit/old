@@ -2827,7 +2827,7 @@ vector <ustring> Editor2::spelling_get_misspelled ()
 }
 
 
-void Editor2::spelling_approve (const vector <ustring>& words) // Todo
+void Editor2::spelling_approve (const vector <ustring>& words)
 {
   // Approve all the words in the list.
   // Since this may take time, a windows will show the progress.
@@ -2842,18 +2842,40 @@ void Editor2::spelling_approve (const vector <ustring>& words) // Todo
 }
 
 
-bool Editor2::move_cursor_to_spelling_error (bool next, bool extremity) // Todo
+bool Editor2::move_cursor_to_spelling_error (bool next, bool extremity)
 // Move the cursor to the next (or previous) spelling error.
 // Returns true if it was found, else false.
 {
-  /*
-  bool moved = spellingchecker->move_cursor_to_spelling_error (textbuffer, next, extremity);
+  bool moved = false;
+  if (focused_paragraph) {
+    GtkTextBuffer * textbuffer = focused_paragraph->textbuffer;
+    do {
+      moved = spellingchecker->move_cursor_to_spelling_error (textbuffer, next, extremity);
+      if (!moved) {
+        GtkWidget * textview = focused_paragraph->textview;
+        textbuffer = NULL;
+        if (next) {
+          textview = editor_get_next_textview (vbox, textview);
+        } else {
+          textview = editor_get_previous_textview (vbox, textview);
+        }
+        if (textview) {
+          gtk_widget_grab_focus (textview);
+          textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+          GtkTextIter iter;
+          if (next) 
+            gtk_text_buffer_get_start_iter (textbuffer, &iter);
+          else
+            gtk_text_buffer_get_end_iter (textbuffer, &iter);
+          gtk_text_buffer_place_cursor (textbuffer, &iter);
+        }
+      }
+    } while (!moved && textbuffer);
+  }
   if (moved) {
-    scroll_cursor_on_screen ();
+    scroll_insertion_point_on_screen ();
   }
   return moved;
-  */
-  return false;
 }
 
 

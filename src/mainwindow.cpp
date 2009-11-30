@@ -6845,12 +6845,6 @@ Todo tasks.
 
 
 
-Let the normal spelling work.
-Fix bulk spelling.
-Fix going to next or previous spelling error.
-
-
-
 Notes formatting.
 When notes are moved about, text inserted, removed, these notes need to remain.
 Make use of lots of styles, e.g. f_1, and so on, so that we can track the "f" and its id.
