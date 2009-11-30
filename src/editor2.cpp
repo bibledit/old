@@ -295,7 +295,7 @@ void Editor2::chapter_load(unsigned int chapter_in)
     GtkTextIter iter;
     gtk_text_buffer_get_start_iter(focused_paragraph->textbuffer, &iter);
     gtk_text_buffer_place_cursor(focused_paragraph->textbuffer, &iter);
-    scroll_cursor_on_screen ();
+    scroll_insertion_point_on_screen ();
   }
 }
 
@@ -3000,25 +3000,20 @@ bool Editor2::move_cursor_to_spelling_error (bool next, bool extremity)
 }
 
 
-void Editor2::scroll_cursor_on_screen () // Todo
+void Editor2::scroll_insertion_point_on_screen ()
 {
-  scroll_cursor_on_screen_timeout ();
-  // At times scrolling once does not suffice.
-  // It happens when the project notes window is open, and the user pressed F6 so as to go to a reference,
-  // and this references is down in a chapter. In such cases the first scrolling is not enough,
-  // and it needs a second one.
-  g_timeout_add(300, GSourceFunc(on_scroll_cursor_on_screen_timeout), gpointer(this));
+  g_timeout_add(100, GSourceFunc(on_scroll_insertion_point_on_screen_timeout), gpointer(this));
 }
 
 
-bool Editor2::on_scroll_cursor_on_screen_timeout(gpointer data)
+bool Editor2::on_scroll_insertion_point_on_screen_timeout(gpointer data)
 {
-  ((Editor2 *) data)->scroll_cursor_on_screen_timeout();
+  ((Editor2 *) data)->scroll_insertion_point_on_screen_timeout();
   return false;
 }
 
 
-void Editor2::scroll_cursor_on_screen_timeout() // Todo
+void Editor2::scroll_insertion_point_on_screen_timeout()
 {
   if (focused_paragraph) {
     // Adjustment.
@@ -3030,10 +3025,12 @@ void Editor2::scroll_cursor_on_screen_timeout() // Todo
     // Total window height.
     gdouble total_window_height = adjustment->upper;
 
+    // Get all the textviews.
+    vector <GtkWidget *> textviews = editor_get_widgets (vbox_v2);
+    
     // Offset of insertion point starting from top.
     gint insertion_point_offset = 0;
     {
-      vector <GtkWidget *> textviews = editor_get_widgets (vbox_v2);
       for (unsigned int i = 0; i < textviews.size(); i++) {
         if (focused_paragraph->textview == textviews[i]) {
           break;
@@ -3066,6 +3063,29 @@ void Editor2::scroll_cursor_on_screen_timeout() // Todo
       adjustment_value = total_window_height - visible_window_height;
     }
     gtk_adjustment_set_value (adjustment, adjustment_value);
+    
+    // Remove any previous verse number highlight.
+    {
+      GtkTextIter startiter, enditer;
+      for (unsigned int i = 0; i < textviews.size(); i++) {
+        GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textviews[i]));
+        gtk_text_buffer_get_start_iter (textbuffer, &startiter);
+        gtk_text_buffer_get_end_iter (textbuffer, &enditer);
+        gtk_text_buffer_remove_tag (textbuffer, verse_highlight_tag, &startiter, &enditer);
+      }
+    }
+    
+    // Highlight the verse if it is non-zero.
+    if (current_verse_number != "0") {
+      GtkWidget * textview;
+      GtkTextIter startiter, enditer;
+      if (get_iterator_at_verse_number (current_verse_number, style_get_verse_marker(project), vbox_v2, startiter, textview)) {
+        GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+        enditer = startiter;
+        gtk_text_iter_forward_chars (&enditer, current_verse_number.length());
+        gtk_text_buffer_apply_tag (textbuffer, verse_highlight_tag, &startiter, &enditer);
+      }
+    }
   }
 }
 
@@ -3572,30 +3592,30 @@ void Editor2::go_to_verse(const ustring& number, bool focus)
   // Save the current verse. This prevents a race-condition.
   current_verse_number = number;
 
-  // If the insertion point is already on the right verse, bail out.
-  if (number == verse_number_get()) {
-    return;
+  // Only move the insertion point if it goes to another verse.
+  if (number != verse_number_get()) {
+
+    // Get the iterator and textview that contain the verse number.
+    GtkTextIter iter;
+    GtkWidget * textview;
+    if (get_iterator_at_verse_number (number, style_get_verse_marker(project), vbox_v2, iter, textview)) {
+      if (focus) {
+      }
+      gtk_widget_grab_focus (textview);
+      GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+      gtk_text_buffer_place_cursor(textbuffer, &iter);
+    }
+  
   }
 
-  // Get the iterator and textview that contain the verse number.
-  GtkTextIter iter;
-  GtkWidget * textview;
-  if (get_iterator_at_verse_number (number, style_get_verse_marker(project), vbox_v2, iter, textview)) {
-    if (focus) {
-    }
-    gtk_widget_grab_focus (textview);
-    GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
-    gtk_text_buffer_place_cursor(textbuffer, &iter);
-    scroll_cursor_on_screen ();
-  }
+  // Scroll the insertion point onto the screen.
+  scroll_insertion_point_on_screen ();
 
 
   /*
     // Highlight search words.
     highlight_searchwords();
   */
-  // Highlight verse.
-  highlight_verse ();
 }
 
 
@@ -3630,29 +3650,6 @@ void Editor2::signal_if_verse_changed_timeout()
           }
         }
       }
-    }
-  }
-}
-
-
-void Editor2::highlight_verse () // Todo
-{
-  GtkTextIter startiter, enditer;
-  GtkWidget * textview;
-  vector <GtkWidget *> textviews = editor_get_widgets (vbox_v2);
-  for (unsigned int i = 0; i < textviews.size(); i++) {
-    textview = textviews[i];
-    GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
-    gtk_text_buffer_get_start_iter (textbuffer, &startiter);
-    gtk_text_buffer_get_end_iter (textbuffer, &enditer);
-    gtk_text_buffer_remove_tag (textbuffer, verse_highlight_tag, &startiter, &enditer);
-  }
-  if (current_verse_number != "0") {
-    if (get_iterator_at_verse_number (current_verse_number, style_get_verse_marker(project), vbox_v2, startiter, textview)) {
-      GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
-      enditer = startiter;
-      gtk_text_iter_forward_chars (&enditer, current_verse_number.length());
-      gtk_text_buffer_apply_tag (textbuffer, verse_highlight_tag, &startiter, &enditer);
     }
   }
 }

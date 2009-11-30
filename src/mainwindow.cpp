@@ -6845,10 +6845,6 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
-The scrolling may not happen often enough, because when moving back to the last verse
-of the chapter, it does not scroll there, but remains at the start.
-
-
 Let saving text work.
 
 

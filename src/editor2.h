@@ -280,18 +280,13 @@ private:
   void signal_if_verse_changed_timeout();
   ustring verse_number_get();
   
-  // Scrolling control. // Todo
+  // Scrolling control.
 public:
 private:
-  void scroll_cursor_on_screen ();
-  static bool on_scroll_cursor_on_screen_timeout(gpointer data);
-  void scroll_cursor_on_screen_timeout();
-
-public:
-private:
-  // Verse highlighting.
+  void scroll_insertion_point_on_screen ();
+  static bool on_scroll_insertion_point_on_screen_timeout(gpointer data);
+  void scroll_insertion_point_on_screen_timeout();
   GtkTextTag * verse_highlight_tag;
-  void highlight_verse ();
 
   
 };
