@@ -89,9 +89,6 @@ current_reference(0, 1000, "")
   event_id_show_quick_references = 0;
   book = 0;
   chapter = 0;
-  texview_to_textview_old = NULL;
-  texview_to_textview_new = NULL;
-  textview_to_textview_offset = 0;
   signal_if_verse_changed_event_id = 0;
   verse_restarts_paragraph = false;
   focused_paragraph = NULL;
@@ -165,7 +162,6 @@ current_reference(0, 1000, "")
 
   // Grab focus.
   focus_programmatically_being_grabbed = false;
-  //gtk_widget_grab_focus(textview);
 }
 
 
@@ -678,6 +674,7 @@ void Editor2::text_insert(ustring text)
   */
 }
 
+
 void Editor2::show_quick_references()
 // Starts the process to show the quick references.
 // A delaying routine is used to make the program more responsive.
@@ -688,6 +685,7 @@ void Editor2::show_quick_references()
   gw_destroy_source(event_id_show_quick_references);
   event_id_show_quick_references = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(show_quick_references_timeout), gpointer(this), NULL);
 }
+
 
 bool Editor2::show_quick_references_timeout(gpointer user_data)
 {
@@ -749,10 +747,8 @@ void Editor2::textview_move_cursor(GtkTextView * textview, GtkMovementStep step,
   // Keep postponing the actual handler if a new cursor movement was detected before the previous one was processed.
   gw_destroy_source(textview_move_cursor_id);
   textview_move_cursor_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_textview_move_cursor_delayed), gpointer(this), NULL);
-  // Store data about the move for finding out whether to move to another textview.
-  texview_to_textview_new = textview;
-  textview_to_textview_steptype = step;
-  textview_to_textview_stepcount = count;
+  // Act on paragraph crossing.
+  paragraph_crossing_act (step, count);
 }
 
 
@@ -769,7 +765,6 @@ void Editor2::textview_move_cursor_delayed()
   textview_move_cursor_id = 0;
   signal_if_styles_changed();
   signal_if_verse_changed();
-  check_move_textview_to_textview();
 }
 
 
@@ -1018,10 +1013,12 @@ gboolean Editor2::text_motion_notify_event(GtkWidget * textview, GdkEventMotion 
   return false;
 }
 
+
 void Editor2::on_text_event_after(GtkWidget * widget, GdkEvent * event, gpointer user_data)
 {
   ((Editor2 *) user_data)->text_event_after(widget, event);
 }
+
 
 void Editor2::text_event_after(GtkWidget * textview, GdkEvent * ev)
 /* Links can also be activated by clicking.
@@ -1045,6 +1042,7 @@ void Editor2::text_event_after(GtkWidget * textview, GdkEvent * ev)
   gtk_text_view_get_iter_at_location(GTK_TEXT_VIEW(textview), &iter, x, y);
   text_edit_if_link(textview, &iter);
 }
+
 
 void Editor2::text_edit_if_link(GtkWidget * textview, GtkTextIter * iter)
 /* Looks at all tags covering the position of iter in the text view, 
@@ -1123,10 +1121,12 @@ gboolean Editor2::on_text_key_press_event_before(GtkWidget * widget, GdkEventKey
   return false;
 }
 
+
 gboolean Editor2::text_key_press_event_after(GtkWidget * widget, GdkEventKey * event, gpointer user_data)
 {
   return ((Editor2 *) user_data)->on_text_key_press_event_after(widget, event);
 }
+
 
 gboolean Editor2::on_text_key_press_event_after(GtkWidget * widget, GdkEventKey * event)
 // Postprocessing of the keyboard events in the text editors.
@@ -1134,10 +1134,12 @@ gboolean Editor2::on_text_key_press_event_after(GtkWidget * widget, GdkEventKey 
   return false;
 }
 
+
 void Editor2::on_textbuffer_footnotes_changed(GtkEditable * editable, gpointer user_data)
 {
   ((Editor2 *) user_data)->on_textbuffer_footnotes();
 }
+
 
 void Editor2::on_textbuffer_footnotes()
 {
@@ -1256,6 +1258,7 @@ void Editor2::create_or_update_formatting_data()
     }
   }
 }
+
 
 void Editor2::create_or_update_text_style(Style * style, bool paragraph, bool plaintext, double font_multiplier)
 // This creates or updates a GtkTextTag with the data stored in "style".
@@ -1491,6 +1494,7 @@ bool Editor2::load_text_table_starting_row(ustring & line, EditorTable & editort
   return false;
 }
 
+
 bool Editor2::load_text_table_starting_cell(ustring & line, EditorTable & editortable, GtkTextBuffer * &textbuffer, bool & row_zero_initialized, gint & row, gint & column, ustring & paragraph_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
 // This function does the administration for the markers that start a cell.
 {
@@ -1527,6 +1531,7 @@ bool Editor2::load_text_table_starting_cell(ustring & line, EditorTable & editor
   return false;
 }
 
+
 bool Editor2::load_text_starting_footnote_content(GtkTextBuffer * textbuffer, ustring & line, ustring & paragraph_mark, ustring & character_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
 /*
  This function deals with a marker that starts footnote content.
@@ -1556,6 +1561,7 @@ bool Editor2::load_text_starting_footnote_content(GtkTextBuffer * textbuffer, us
   }
   return false;
 }
+
 
 bool Editor2::load_text_ending_footnote_content(GtkTextBuffer * textbuffer, ustring & line, ustring & paragraph_mark, ustring & character_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
 /*
@@ -1807,6 +1813,7 @@ void Editor2::display_notes_remainder(bool focus_rendered_textview)
   */
 }
 
+
 void Editor2::renumber_and_clean_notes_callers()
 // Renumbers the note callers.
 // At the same time clear up unwanted stuff.
@@ -2012,6 +2019,7 @@ void Editor2::display_table(ustring line, GtkTextIter iter)
   set_embedded_table_textviews_width(editortables.size() - 1);
   */
 }
+
 
 void Editor2::erase_tables()
 /*
@@ -2353,11 +2361,13 @@ set < ustring > Editor2::styles_at_iterator(GtkTextIter iter)
   return styles;
 }
 
+
 GtkTextBuffer *Editor2::last_focused_textbuffer()
 // Returns the focused textbuffer, or NULL if none.
 {
   return gtk_text_view_get_buffer(GTK_TEXT_VIEW(last_focused_widget));
 }
+
 
 GtkWidget *Editor2::last_focused_textview()
 // Returns the textview that was focused last.
@@ -2608,16 +2618,19 @@ void Editor2::apply_style(const ustring & marker)
 
 }
 
+
 bool Editor2::on_apply_style_at_cursor(gpointer user_data)
 {
   ((Editor2 *) user_data)->apply_style_at_cursor_handler();
   return false;
 }
 
+
 void Editor2::apply_style_at_cursor_handler()
 {
   apply_style(style_to_be_applied_at_cursor);
 }
+
 
 void Editor2::insert_note(const ustring & marker, const ustring & rawtext, bool render)
 /*
@@ -2914,74 +2927,6 @@ void Editor2::spelling_approve (const vector <ustring>& words)
   }
   // Trigger a new spelling check.
   spelling_trigger();
-}
-
-
-void Editor2::check_move_textview_to_textview()
-{
-  /*
-  // Bail out if there was no change of textview in which the cursor was moved.
-  bool changed = texview_to_textview_new != texview_to_textview_old;
-  texview_to_textview_old = texview_to_textview_new;
-  if (changed) {
-    textview_to_textview_offset = -1;
-    return;
-  }
-  // Find out whether the cursor moved in the textview. If so, bail out.
-  GtkTextBuffer *textbuffer = gtk_text_view_get_buffer(texview_to_textview_new);
-  GtkTextIter iter;
-  gtk_text_buffer_get_iter_at_mark(textbuffer, &iter, gtk_text_buffer_get_insert(textbuffer));
-  gint newoffset = gtk_text_iter_get_offset(&iter);
-  changed = newoffset != textview_to_textview_offset;
-  textview_to_textview_offset = newoffset;
-  if (changed)
-    return;
-
-  // At this stage the cursor didn't move.
-  // This means that the cursor is at some border of a textview.
-
-  // Bail out if the textview is the main one. No need to move to another one.
-  GtkWidget *currenttextview = GTK_WIDGET(texview_to_textview_new);
-  if (currenttextview == textview)
-    return;
-
-  // Find out what movement to make for going to another textview.
-
-  EditorMovementType movementtype = emtForward;
-  switch (textview_to_textview_steptype) {
-  case GTK_MOVEMENT_LOGICAL_POSITIONS: // move by forw/back graphemes
-  case GTK_MOVEMENT_VISUAL_POSITIONS:  // move by left/right graphemes
-  case GTK_MOVEMENT_WORDS:     // move by forward/back words
-  case GTK_MOVEMENT_HORIZONTAL_PAGES:  // move horizontally by pages
-    {
-      if (textview_to_textview_stepcount > 0)
-        movementtype = emtForward;
-      else
-        movementtype = emtBack;
-      break;
-    }
-  case GTK_MOVEMENT_DISPLAY_LINES:     // move up/down lines (wrapped lines)
-  case GTK_MOVEMENT_DISPLAY_LINE_ENDS: // move up/down lines (wrapped lines)
-  case GTK_MOVEMENT_PARAGRAPHS:        // move up/down paragraphs (newline-ended lines)
-  case GTK_MOVEMENT_PARAGRAPH_ENDS:    // move to either end of a paragraph
-  case GTK_MOVEMENT_PAGES:     // move by pages
-  case GTK_MOVEMENT_BUFFER_ENDS:       // move to ends of the buffer
-    {
-      if (textview_to_textview_stepcount > 0)
-        movementtype = emtDown;
-      else
-        movementtype = emtUp;
-      break;
-    }
-  }
-
-  // Try whether the next textview is a note.
-  GtkWidget *nextview = textview_note_get_another(textbuffer, currenttextview, editornotes, movementtype);
-  if (nextview) {
-    gtk_widget_grab_focus(nextview);
-    return;
-  }
-  */
 }
 
 
@@ -3447,7 +3392,11 @@ gboolean Editor2::on_textview_key_press_event(GtkWidget *widget, GdkEventKey *ev
 void Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event)
 {
   // Clear flag for monitoring deletions from textbuffers.
-  textbuffer_delete_range_was_fired = false;  
+  textbuffer_delete_range_was_fired = false;
+  // Store data for paragraph crossing control.
+  paragraph_crossing_textview_at_key_press = widget;
+  GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (widget));
+  gtk_text_buffer_get_iter_at_mark(textbuffer, &paragraph_crossing_insertion_point_iterator_at_key_press, gtk_text_buffer_get_insert(textbuffer));
 }
 
 
@@ -3651,6 +3600,42 @@ void Editor2::signal_if_verse_changed_timeout()
         }
       }
     }
+  }
+}
+
+
+void Editor2::paragraph_crossing_act(GtkMovementStep step, gint count)
+{
+  // Bail out if there's no paragrap.
+  if (focused_paragraph == NULL) {
+    return;
+  }
+  
+  // Get the iterator at the insert position of the currently focused paragraph.
+  GtkTextIter iter;
+  gtk_text_buffer_get_iter_at_mark (focused_paragraph->textbuffer, &iter, gtk_text_buffer_get_insert (focused_paragraph->textbuffer));
+
+  // Bail out if there was real movement.
+  if (!gtk_text_iter_equal (&paragraph_crossing_insertion_point_iterator_at_key_press, &iter)) {
+    return;
+  }
+
+  // Focus the crossed widget and place its cursor.  
+  GtkWidget * crossed_widget;
+  if (count > 0) {
+    crossed_widget = editor_get_next_textview (vbox_v2, focused_paragraph->textview);
+  } else {
+    crossed_widget = editor_get_previous_textview (vbox_v2, focused_paragraph->textview);
+  }  
+  if (crossed_widget) {
+    GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (crossed_widget));
+    if (count > 0) {
+      gtk_text_buffer_get_start_iter (textbuffer, &iter);
+    } else {
+      gtk_text_buffer_get_end_iter (textbuffer, &iter);
+    }
+    gtk_text_buffer_place_cursor (textbuffer, &iter);
+    gtk_widget_grab_focus (crossed_widget);
   }
 }
 

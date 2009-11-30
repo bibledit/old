@@ -6845,24 +6845,24 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
-Let saving text work.
 
-
-Fit out any remaining controls and behaviour of the editor.
-
-
+To pay attention to footnotes formatting.
+When notes are moved about, text inserted, removed, these notes need to remain.
+Make use of lots of styles, e.g. f_1, and so on, so that we can track the "f" and its id.
+Probably the next f_# style is applied to the buffer only on request, so that the style table does not get too full.
+On reload of the chapter, all these extra styles are removed from the style table. Saves space.
 When it comes to the state of footnotes, we need to have separate handlers for that.
 If some text is deleted, we need to separate footnotes out of that, and divide it among the handlers.
 Deleting text may also expand the selection so as to include the full footnote caller if it is longer than one character.
 
 
+Let saving text work. To pay attention to USFM retrieval.
+
+
+Fit out any remaining controls and behaviour of the editor.
+
+
 The tables are left for just now, unformatted in the editor.
-
-
-To pay attention to footnotes formatting.
-
-
-To pay attention to USFM retrieval.
 
 
 Resizing the window is very hard. It is recommended to disconnect the textview from its textbuffer temporally when resizing.
@@ -6871,24 +6871,15 @@ We may consider disconnecting it while loading text as well.
 
 
 At times, but not always, text is pasted into the buffer twice. We probably need to remove the keyboard accelerator Ctrl-V,
-and let the gtktextbuffer use its own keybinding. Or to put the accelerator back into the main window.
+and let the gtktextbuffer use its own keybinding. Or to put the accelerator back into the main window. Or remove the accelerator completely.
 
-
-
-It may be better if the EditorActions themselves have code to deal with initial insertion, undo, and redo, as far as this is possible.
-It may not be possible with all cases, but with many it will be possible.
 
 
 Entering the £ sign behaves unusual.
 
 
 Once the whole editor2 is ready, to check all its code and test all, and establish testing remarks in each routine.
-
-
-When notes are moved about, text inserted, removed, these notes need to remain.
-Make use of lots of styles, e.g. f_1, and so on, so that we can track the "f" and its id.
-Probably the next f_# style is applied to the buffer only on request, so that the style table does not get too full.
-On reload of the chapter, all these extra styles are removed from the style table. Saves space.
+Also test opening several Editor windows.
 
 
 When text is being undone and redone, we need to restore cursor position as well.
@@ -6908,72 +6899,7 @@ The table is discarded in the editor.
 
 
 
-Undo/Redo stack.
-Document undoarticle.htm gives a few points for consideration:
-Supporting undoing is all about maintaining state. 
-* Before something changes it has to be saved somehow so that later we can restore its state. 
-* So I came to the idea of a stack of changes. 
-* Making a change involves pushing the old state onto a stack. 
-* To undo the last change we just pop the stack and set the object to that previous state.
-Consider this simple example of a person object’s name property being modified then restored.
-1) Initially the person’s name is “Andrew”
-2) The name is then changed to “Billy”, but the old value “Andrew” is pushed onto the undo stack
-3) To undo this change the stack is popped, yielding the Name = “Andrew” action. This sets the name property of the person back to “Andrew”.
-4) In addition, to provide a redo function, the current state (“Billy”) is pushed onto the redo stack; 
-* Allowing us to re-apply the original change if the undo was a mistake.
-Redoing an action happens by popping the redo stack and setting the object’s state. This must also push the current state back onto the undo stack.
-Of course this stack based approach supports many consecutive changes to an object’s state. The only real limit is that of computer memory.
-The previous example dealt with the simple notion of changing a property. 
-* The situation becomes difficult when a more involved change occurs in an object, for example, removing a person from a list. 
-* This change can only undone by first saving the person object before deletion, then adding it back to the list when the undo is requested.
-A couple of technical issues exist when operating undo/redo logic:
-    * Undoing an action must operate in such a way that the change caused by undoing is not itself pushed back onto the undo stack!
-    * An external change must erase the entire redo stack, since the redo operations will no longer be consistent with the current state!
 
-The first key notion for developing the undo provider is that of an action. 
-* An action is essentially any change to state that can be undone and redone. 
-* It has to contain all the information it needs to enact the undo/redo operations. 
-* The undo and redo stacks will consist of these action objects.
-In more detail the Action object saves a reference to the object it has state for, the state itself 
-* and two delegates that point to methods that actually handle changing an object’s state.
-
-
-
-The Text widget has a built-in mechanism that allows you to implement undo and redo operations that can cancel or reinstate changes to
-* the text within the widget.
-Here is how the undo/redo stack works:
-Every change to the content is recorded by pushing entries onto the stack that describe the change, whether an insertion or a deletion. 
-* These entries record the old state of the contents as well as the new state: if a deletion, the deleted text is recorded; 
-* if an insertion, the inserted text is recorded, along with a description of the location and whether it was an insertion or a deletion.
-Your program may also push a special record called a separator onto the stack.
-An undo operation changes the contents of the widget to what they were at some previous point. 
-* It does this by reversing all the changes pushed onto the undo/redo stack until it reaches a separator or until it runs out of stack.
-However, note that Tkinter also remembers how much of the stack was reversed in the undo operation, 
-* until some other editing operation changes the contents of the widget.
-A redo operation works only if no editing operation has occurred since the last undo operation. It re-applies all the undone operations. 
-
-
-
-The Basic Approach
-An effective approach to creating an undo/redo facility is to combine and enhance two of the design patterns described. 
-* We start with the Command pattern to encapsulate the basic undoable operations. 
-* Next we incorporate elements of the Memento pattern to allow the commands to store the state information needed to actually perform undo and redo. 
-* Finally, we add an extended last-in-first-out (LIFO) stack to maintain a command history. 
-
-Operation of the Undo/Redo Stack
-The effect on the history as commands are first pushed onto the stack are shown by step 1. 
-* When the user decides to undo an action, the command at the top is asked to undo its operation, 
-* then popped off the top of the stack, as step 2 illustrates.
-Since we want to be able to redo items which have been previously undone, we need to enhance this operation. 
-* As you can see in step 2 of figure 4, whenever a command is undone, a second pointer is set to point to that command. 
-* As more commands are undone, those commands remain above the top of the undo stack, thus forming a second stack in the opposite direction. 
-* Consequently, the undo/redo history actually consists of two opposing stacks. 
-
-Figure 5 - The Undo/Redo Design Pattern Structure
-As soon as a new command is placed on the top of the undo stack, however, all commands are removed from the redo portion of the history. 
-* This is essentially the same as how Microsoft Word handles redoing previously undone commands. 
-* If you have a copy of MS Word or another application which supports undo and redo, you may wish to experiment with it 
-* to get a feel for how this process is handled before continuing with this discussion.
 
 
 
@@ -6990,7 +6916,7 @@ As soon as a new command is placed on the top of the undo stack, however, all co
 
 Use Google Pages for the new wiki. Others can then also contribute.
 Mention on the summary that access requests can be sent to a certain email address. This will be the general bibledit list.
-
+The documentation on Google Pages can probably be extracted to bibledit.org, then from there through rsync to our local site.
 
 
 

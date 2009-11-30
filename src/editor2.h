@@ -255,16 +255,6 @@ private:
   SpellingChecker * spellingchecker;
   static void on_button_spelling_recheck_clicked(GtkButton *button, gpointer user_data);
 
-  // Moving from one textview to the other.
-public:
-private:
-  GtkTextView * texview_to_textview_old;
-  GtkTextView * texview_to_textview_new;
-  gint textview_to_textview_offset;
-  GtkMovementStep textview_to_textview_steptype;
-  gint textview_to_textview_stepcount;
-  void check_move_textview_to_textview();
-
   // Verse positioning and tracking.
 public:
   void go_to_verse(const ustring& number, bool focus);
@@ -288,6 +278,12 @@ private:
   void scroll_insertion_point_on_screen_timeout();
   GtkTextTag * verse_highlight_tag;
 
+  // Moving from one textview to the other.
+public:
+private:
+  void paragraph_crossing_act(GtkMovementStep step, gint count);
+  GtkWidget * paragraph_crossing_textview_at_key_press;
+  GtkTextIter paragraph_crossing_insertion_point_iterator_at_key_press;
   
 };
 
