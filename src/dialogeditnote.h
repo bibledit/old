@@ -50,7 +50,7 @@ protected:
   GtkWidget *cancelbutton1;
   GtkWidget *okbutton1;
 private:
-  Editor2 * myeditor; // Todo
+  Editor2 * myeditor;
   EditorNote * editornote;
   GtkTextBuffer * textbuffer;
   static void on_radiobutton_numbering_toggled (GtkToggleButton *togglebutton, gpointer user_data);

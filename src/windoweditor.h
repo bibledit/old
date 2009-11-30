@@ -73,7 +73,7 @@ public:
   void create_or_update_formatting_data();
   void set_font();
 
-  Editor2 * editor_get(); // Todo
+  Editor2 * editor_get();
 
   GtkWidget * new_verse_signal;
   GtkWidget * new_styles_signal;

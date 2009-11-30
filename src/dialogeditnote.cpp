@@ -34,7 +34,7 @@
 #include "combobox.h"
 
 
-EditNoteDialog::EditNoteDialog(Editor2 * editor) // Todo
+EditNoteDialog::EditNoteDialog(Editor2 * editor)
 {
   // Save variables.
   myeditor = editor;

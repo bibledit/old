@@ -609,7 +609,6 @@ void Editor2::text_insert(ustring text)
     // Join the inserted text with the existing text.
     character_style_on_start_typing.clear ();
     style_to_be_applied_at_cursor.clear ();
-    PreventEditorUndo * preventundo = new PreventEditorUndo (&record_undo_level);
     #define ANCHOR "_ANCHOR_"
     gtk_text_buffer_insert_at_cursor (buffer, ANCHOR, -1);
     ustring text2 = get_chapter();
@@ -1653,9 +1652,6 @@ void Editor2::display_notes_remainder(bool focus_rendered_textview)
   // Bail out if there are no notes to be displayed.
   if (editornotes.empty())
     return;
-
-  // No recording of undoable actions while this object is alive.
-  PreventEditorUndo preventundo(&record_undo_level);
 
   // Clean unwanted space out.
   textbuffer_erase_white_space_at_end(textbuffer);
@@ -2779,32 +2775,18 @@ bool Editor2::on_spelling_timeout(gpointer data)
 
 void Editor2::spelling_timeout()
 {
-
   // Clear event id.
   spelling_timeout_event_id = 0;
 
-  /*    
-  // No recording of undoable actions while this object is alive.
-  // It means that the textbuffer won't be modified if markers for spelling
-  // mistakes are added or removed.
-  PreventEditorUndo preventundo(&record_undo_level);
-  // Check spelling of main textbuffer, ...
-  spellingchecker->check(textbuffer);
-  // ... embedded tables, ...
-  for (unsigned int i = 0; i < editortables.size(); i++) {
-    for (unsigned int row = 0; row < editortables[i].textbuffers.size(); row++) {
-      for (unsigned int column = 0; column < editortables[i].textviews[row].size(); column++) {
-        spellingchecker->check(table_cell_get_buffer(editortables[i], row, column));
-      }
-    }
+  // Check spelling of all active textviews.
+  vector <GtkWidget *> textviews = editor_get_widgets (vbox_v2); // Todo remove the _v2 throughout.
+  for (unsigned int i = 0; i < textviews.size(); i++) {
+    GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textviews[i]));
+    spellingchecker->check(textbuffer);
   }
-  // ... and notes.
-  for (unsigned int i = 0; i < editornotes.size(); i++) {
-    spellingchecker->check(editornotes[i].textbuffer);
-  }
+
   // Signal spelling checked.
   gtk_button_clicked (GTK_BUTTON (spelling_checked_signal));
-  */
 }
 
 
@@ -2824,7 +2806,7 @@ void Editor2::load_dictionaries()
 }
 
 
-vector <ustring> Editor2::spelling_get_misspelled ()
+vector <ustring> Editor2::spelling_get_misspelled () // Todo
 {
   // Collect the misspelled words.
   vector <ustring> words;
@@ -2856,7 +2838,7 @@ vector <ustring> Editor2::spelling_get_misspelled ()
 }
 
 
-void Editor2::spelling_approve (const vector <ustring>& words)
+void Editor2::spelling_approve (const vector <ustring>& words) // Todo
 {
   // Approve all the words in the list.
   // Since this may take time, a windows will show the progress.
@@ -2871,7 +2853,7 @@ void Editor2::spelling_approve (const vector <ustring>& words)
 }
 
 
-bool Editor2::move_cursor_to_spelling_error (bool next, bool extremity)
+bool Editor2::move_cursor_to_spelling_error (bool next, bool extremity) // Todo
 // Move the cursor to the next (or previous) spelling error.
 // Returns true if it was found, else false.
 {

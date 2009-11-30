@@ -3718,7 +3718,7 @@ void MainWindow::on_check_spelling_bulk()
     gtkw_dialog_info (NULL, "There is nothing to be checked");
     return;
   }
-  Editor2 * editor = editor_window->editor_get (); // Todo
+  Editor2 * editor = editor_window->editor_get ();
   if (!editor) {
     gtkw_dialog_info (NULL, "Please switch viewing USFM code off so as to enable spelling checking");
     return;
@@ -4002,7 +4002,7 @@ void MainWindow::on_edit_bible_note()
 {
   WindowEditor *editor_window = last_focused_editor_window();
   if (editor_window) {
-    Editor2 * editor = editor_window->editor_get(); // Todo
+    Editor2 * editor = editor_window->editor_get();
     if (editor) {
       EditNoteDialog dialog(editor);
       dialog.run();
@@ -6845,6 +6845,12 @@ Todo tasks.
 
 
 
+Let the normal spelling work.
+Fix bulk spelling.
+Fix going to next or previous spelling error.
+
+
+
 Notes formatting.
 When notes are moved about, text inserted, removed, these notes need to remain.
 Make use of lots of styles, e.g. f_1, and so on, so that we can track the "f" and its id.
@@ -6889,9 +6895,18 @@ Scrolling won't work at first, but should be implemented later.
 Copying text beyond the paragraph won't work at first, but should be implemented later.
 
 
-Temporally it switches to USFM view because of the crash in the Editor.
 Editor * WindowEditor::editor_get() - Needs update to give Editor2.
-The table is discarded in the editor.
+
+
+EditNoteDialog does no longer work.
+
+
+All the routines in editor_aids.h/cpp that are not needed to go out.
+
+
+
+
+
 
 
 

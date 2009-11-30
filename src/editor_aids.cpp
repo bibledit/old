@@ -58,40 +58,6 @@ EditorTable::~EditorTable()
 }
 
 
-EditorSnapshot::EditorSnapshot(int dummy)
-// This object stores a snapshot of the editor.
-{
-  insert = 0;
-  scroll = 0;
-}
-
-
-EditorSnapshot::~EditorSnapshot()
-{
-}
-
-
-PreventEditorUndo::PreventEditorUndo(int *flag)
-/*
- Preventing recording of undo-able actions.
- This approach has been chosen so that, if a function creates this object to
- prevent undo-able action from being recorded, there is no need to enable
- these actions again in the code. As soon as this object goes out of scope,
- it enables the recording again. 
- Embedded calls to this object are allowed.
- */
-{
-  flagpointer = flag;
-  (*flagpointer)--;
-}
-
-
-PreventEditorUndo::~PreventEditorUndo()
-{
-  (*flagpointer)++;
-}
-
-
 void marker_get_type_and_subtype(const ustring & project, const ustring & marker, StyleType & type, int &subtype)
 /*
  Given a "project", and a "marker", this function gives the "type" and the 

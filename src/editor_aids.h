@@ -67,28 +67,6 @@ private:
 };
 
 
-class EditorSnapshot
-{
-public:
-  EditorSnapshot(int dummy);
-  ~EditorSnapshot();
-  ustring text;
-  gint insert;
-  gdouble scroll;
-private:
-};
-
-
-class PreventEditorUndo
-{
-public:
-  PreventEditorUndo(int * flag);
-  ~PreventEditorUndo();
-private:
-  int * flagpointer;
-};
-
-
 void marker_get_type_and_subtype(const ustring& project, const ustring& marker, StyleType& type, int& subtype);
 
 bool style_get_plaintext(StyleType type, int subtype);
