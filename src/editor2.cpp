@@ -106,20 +106,20 @@ current_reference(0, 1000, "")
   load_dictionaries();
 
   // The basic GUI, which actually is empty until text will be loaded in it.
-  scrolledwindow_v2 = gtk_scrolled_window_new(NULL, NULL);
-  gtk_widget_show(scrolledwindow_v2);
-  gtk_box_pack_start(GTK_BOX(vbox_in), scrolledwindow_v2, true, true, 0);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow_v2), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
+  gtk_widget_show(scrolledwindow);
+  gtk_box_pack_start(GTK_BOX(vbox_in), scrolledwindow, true, true, 0);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-  viewport_v2 = gtk_viewport_new (NULL, NULL);
-  gtk_widget_show (viewport_v2);
-  gtk_container_add (GTK_CONTAINER (scrolledwindow_v2), viewport_v2);
+  viewport = gtk_viewport_new (NULL, NULL);
+  gtk_widget_show (viewport);
+  gtk_container_add (GTK_CONTAINER (scrolledwindow), viewport);
   
-  vbox_v2 = gtk_vbox_new (false, 0);
-  gtk_widget_show(vbox_v2);
-  gtk_container_add (GTK_CONTAINER (viewport_v2), vbox_v2);
+  vbox = gtk_vbox_new (false, 0);
+  gtk_widget_show(vbox);
+  gtk_container_add (GTK_CONTAINER (viewport), vbox);
 
-  last_focused_widget = vbox_v2;
+  last_focused_widget = vbox;
 
   // Create the invisible parking lot where GtkTextViews get parked while not in use.
   vbox_parking_lot = gtk_vbox_new (false, 0);
@@ -212,7 +212,7 @@ Editor2::~Editor2()
   clear_and_destroy_editor_actions (actions_undone);
 
   // Destroy remainder of text area.
-  gtk_widget_destroy(scrolledwindow_v2);
+  gtk_widget_destroy(scrolledwindow);
 }
 
 
@@ -250,7 +250,7 @@ void Editor2::chapter_load(unsigned int chapter_in)
     editable = false;
 
   // Get rid of possible previous widgets with their data.
-  gtk_container_foreach(GTK_CONTAINER(vbox_v2), on_container_tree_callback_destroy, gpointer(this));
+  gtk_container_foreach(GTK_CONTAINER(vbox), on_container_tree_callback_destroy, gpointer(this));
   focused_paragraph = NULL;
 
   // Make one long line containing the whole chapter.
@@ -286,7 +286,7 @@ void Editor2::chapter_load(unsigned int chapter_in)
   apply_editor_action (new EditorAction (eatLoadChapterBoundary));
       
   // Place cursor at the start and scroll it onto the screen.
-  vector <GtkWidget *> textviews = editor_get_widgets (vbox_v2);
+  vector <GtkWidget *> textviews = editor_get_widgets (vbox);
   if (textviews.empty()) {
     gtk_widget_grab_focus (textviews[0]);
     GtkTextIter iter;
@@ -341,7 +341,7 @@ void Editor2::text_load (ustring text, ustring character_style)
     }
     /*
     if (!handled) {
-      if (create_editor_objects_for_text_table_raw                (project, last_focused_textview_v2, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) {
+      if (create_editor_objects_for_text_table_raw                (project, last_focused_textview, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) {
         handled = true;
       }
     }
@@ -358,7 +358,7 @@ void Editor2::text_load (ustring text, ustring character_style)
     }
     /*
     if (!handled) {
-      if (create_editor_objects_for_text_note_raw                 (project, last_focused_textview_v2, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) {
+      if (create_editor_objects_for_text_note_raw                 (project, last_focused_textview, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) {
         handled = true;
       }
     }
@@ -759,7 +759,7 @@ ustring Editor2::verse_number_get()
     GtkTextIter iter;
     gtk_text_buffer_get_iter_at_mark(focused_paragraph->textbuffer, &iter, gtk_text_buffer_get_insert(focused_paragraph->textbuffer));
     // Get verse number.
-    number = get_verse_number_at_iterator(iter, style_get_verse_marker(project), project, vbox_v2);
+    number = get_verse_number_at_iterator(iter, style_get_verse_marker(project), project, vbox);
   }
   return number;
 }
@@ -2733,7 +2733,7 @@ void Editor2::signal_editor_changed()
 ustring Editor2::get_chapter()
 {
   ustring chaptertext;
-  vector <GtkWidget *> textviews = editor_get_widgets (vbox_v2);
+  vector <GtkWidget *> textviews = editor_get_widgets (vbox);
   for (unsigned int i = 0; i < textviews.size(); i++) {
     GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textviews[i]));
     GtkTextIter startiter, enditer;
@@ -2779,7 +2779,7 @@ void Editor2::spelling_timeout()
   spelling_timeout_event_id = 0;
 
   // Check spelling of all active textviews.
-  vector <GtkWidget *> textviews = editor_get_widgets (vbox_v2); // Todo remove the _v2 throughout.
+  vector <GtkWidget *> textviews = editor_get_widgets (vbox);
   for (unsigned int i = 0; i < textviews.size(); i++) {
     GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textviews[i]));
     spellingchecker->check(textbuffer);
@@ -2885,7 +2885,7 @@ void Editor2::scroll_insertion_point_on_screen_timeout()
 {
   if (focused_paragraph) {
     // Adjustment.
-    GtkAdjustment * adjustment = gtk_viewport_get_vadjustment (GTK_VIEWPORT (viewport_v2));
+    GtkAdjustment * adjustment = gtk_viewport_get_vadjustment (GTK_VIEWPORT (viewport));
 
     // Visible window height.
     gdouble visible_window_height = adjustment->page_size;
@@ -2894,7 +2894,7 @@ void Editor2::scroll_insertion_point_on_screen_timeout()
     gdouble total_window_height = adjustment->upper;
 
     // Get all the textviews.
-    vector <GtkWidget *> textviews = editor_get_widgets (vbox_v2);
+    vector <GtkWidget *> textviews = editor_get_widgets (vbox);
     
     // Offset of insertion point starting from top.
     gint insertion_point_offset = 0;
@@ -2947,7 +2947,7 @@ void Editor2::scroll_insertion_point_on_screen_timeout()
     if (current_verse_number != "0") {
       GtkWidget * textview;
       GtkTextIter startiter, enditer;
-      if (get_iterator_at_verse_number (current_verse_number, style_get_verse_marker(project), vbox_v2, startiter, textview)) {
+      if (get_iterator_at_verse_number (current_verse_number, style_get_verse_marker(project), vbox, startiter, textview)) {
         GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
         enditer = startiter;
         gtk_text_iter_forward_chars (&enditer, current_verse_number.length());
@@ -2976,7 +2976,7 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
         case eaaInitial:
         {
           // Apply this action.
-          paragraph_action->apply(texttagtable, vbox_v2, editable, focused_paragraph, widget_that_should_grab_focus);
+          paragraph_action->apply(texttagtable, vbox, editable, focused_paragraph, widget_that_should_grab_focus);
           // Connect buffer signals.
           g_signal_connect(G_OBJECT(paragraph_action->textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_before), gpointer(this));
           g_signal_connect_after(G_OBJECT(paragraph_action->textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_after), gpointer(this));
@@ -3002,8 +3002,8 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
           // Done.
           break;
         }
-        case eaaUndo: paragraph_action->undo (vbox_v2, vbox_parking_lot, widget_that_should_grab_focus); break;
-        case eaaRedo: paragraph_action->redo (vbox_v2, widget_that_should_grab_focus); break;
+        case eaaUndo: paragraph_action->undo (vbox, vbox_parking_lot, widget_that_should_grab_focus); break;
+        case eaaRedo: paragraph_action->redo (vbox, widget_that_should_grab_focus); break;
       }
       break;
     }
@@ -3062,9 +3062,9 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
     {
       EditorActionDeleteParagraph * delete_action = static_cast <EditorActionDeleteParagraph *> (action);
       switch (application) {
-        case eaaInitial: delete_action->apply(vbox_v2, vbox_parking_lot, widget_that_should_grab_focus); break;
-        case eaaUndo:    delete_action->undo (vbox_v2, widget_that_should_grab_focus); break;
-        case eaaRedo:    delete_action->redo (vbox_v2, vbox_parking_lot, widget_that_should_grab_focus); break;
+        case eaaInitial: delete_action->apply(vbox, vbox_parking_lot, widget_that_should_grab_focus); break;
+        case eaaUndo:    delete_action->undo (vbox, widget_that_should_grab_focus); break;
+        case eaaRedo:    delete_action->redo (vbox, vbox_parking_lot, widget_that_should_grab_focus); break;
       }
       break;
     }
@@ -3339,7 +3339,7 @@ void Editor2::textview_key_release_event(GtkWidget *widget, GdkEventKey *event)
       // Get the current and preceding paragraphs.
       // The preceding one may not be there.
       EditorActionCreateParagraph * current_paragraph = textview2paragraph_action (widget);
-      EditorActionCreateParagraph * preceding_paragraph = textview2paragraph_action (editor_get_previous_textview (vbox_v2, widget));
+      EditorActionCreateParagraph * preceding_paragraph = textview2paragraph_action (editor_get_previous_textview (vbox, widget));
       if (current_paragraph && preceding_paragraph) {
         // Get the text and styles of the current paragraph.
         vector <ustring> text;
@@ -3383,7 +3383,7 @@ void Editor2::textview_key_release_event(GtkWidget *widget, GdkEventKey *event)
       // Get the current and following paragraphs.
       // The following one may not be there.
       EditorActionCreateParagraph * current_paragraph = textview2paragraph_action (widget);
-      EditorActionCreateParagraph * following_paragraph = textview2paragraph_action (editor_get_next_textview (vbox_v2, widget));
+      EditorActionCreateParagraph * following_paragraph = textview2paragraph_action (editor_get_next_textview (vbox, widget));
       if (current_paragraph && following_paragraph) {
         // Get the text and styles of the whole following paragraph.
         editor_paragraph_insertion_point_set_offset (following_paragraph, 0);
@@ -3470,7 +3470,7 @@ void Editor2::go_to_verse(const ustring& number, bool focus)
     // Get the iterator and textview that contain the verse number.
     GtkTextIter iter;
     GtkWidget * textview;
-    if (get_iterator_at_verse_number (number, style_get_verse_marker(project), vbox_v2, iter, textview)) {
+    if (get_iterator_at_verse_number (number, style_get_verse_marker(project), vbox, iter, textview)) {
       if (focus) {
       }
       gtk_widget_grab_focus (textview);
@@ -3546,9 +3546,9 @@ void Editor2::paragraph_crossing_act(GtkMovementStep step, gint count)
   // Focus the crossed widget and place its cursor.  
   GtkWidget * crossed_widget;
   if (count > 0) {
-    crossed_widget = editor_get_next_textview (vbox_v2, focused_paragraph->textview);
+    crossed_widget = editor_get_next_textview (vbox, focused_paragraph->textview);
   } else {
-    crossed_widget = editor_get_previous_textview (vbox_v2, focused_paragraph->textview);
+    crossed_widget = editor_get_previous_textview (vbox, focused_paragraph->textview);
   }  
   if (crossed_widget) {
     GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (crossed_widget));

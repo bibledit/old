@@ -45,9 +45,9 @@ public:
   void copy ();
   void paste ();
 private:
-  GtkWidget *scrolledwindow_v2;
-  GtkWidget *viewport_v2;
-  GtkWidget *vbox_v2;
+  GtkWidget *scrolledwindow;
+  GtkWidget *viewport;
+  GtkWidget *vbox;
   GtkWidget *vbox_parking_lot;
   void text_load (ustring text, ustring character_style);
   deque <EditorAction *> actions_done;
