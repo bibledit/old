@@ -6846,17 +6846,15 @@ Todo tasks.
 
 
 
-To pay attention to footnotes formatting.
+Notes formatting.
 When notes are moved about, text inserted, removed, these notes need to remain.
 Make use of lots of styles, e.g. f_1, and so on, so that we can track the "f" and its id.
-Probably the next f_# style is applied to the buffer only on request, so that the style table does not get too full.
+The next f_# style is applied to the buffer only on request, if it is not yet there, so that the style table does not get too full.
 On reload of the chapter, all these extra styles are removed from the style table. Saves space.
 When it comes to the state of footnotes, we need to have separate handlers for that.
 If some text is deleted, we need to separate footnotes out of that, and divide it among the handlers.
 Deleting text may also expand the selection so as to include the full footnote caller if it is longer than one character.
 
-
-Let saving text work. To pay attention to USFM retrieval.
 
 
 Fit out any remaining controls and behaviour of the editor.

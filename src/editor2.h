@@ -150,6 +150,7 @@ public:
   // Automatic save.
   static bool on_save_timeout(gpointer data);
   bool save_timeout();
+  size_t editor_actions_size_at_no_save;
 
   static gboolean on_text_motion_notify_event(GtkWidget *textview, GdkEventMotion *event, gpointer user_data);
   gboolean text_motion_notify_event(GtkWidget *textview, GdkEventMotion *event);

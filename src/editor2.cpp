@@ -95,6 +95,7 @@ current_reference(0, 1000, "")
   disregard_text_buffer_signals = 0;
   textbuffer_delete_range_was_fired = false;
   verse_tracking_on = false;
+  editor_actions_size_at_no_save = false;
   
   // Create data that is needed for any of the possible formatted views.
   create_or_update_formatting_data();
@@ -293,6 +294,9 @@ void Editor2::chapter_load(unsigned int chapter_in)
     gtk_text_buffer_place_cursor(focused_paragraph->textbuffer, &iter);
     scroll_insertion_point_on_screen ();
   }
+  
+  // Store size of actions buffer so we know whether the chapter changed.
+  editor_actions_size_at_no_save = actions_done.size();
 }
 
 
@@ -374,20 +378,19 @@ void Editor2::text_load (ustring text, ustring character_style)
 
 
 void Editor2::chapter_save()
-// Handles saving the chapters.
+// Handles saving the chapter.
 {
-  /*
   // Set variables.
   reload_chapter_number = chapter;
 
   // If the text is not editable, bail out.
-  if (!gtk_text_view_get_editable(GTK_TEXT_VIEW(textview)))
+  if (!editable)
     return;
 
   // If the text was not changed, bail out.
-  if (!textbuffers_get_modified(textbuffer, editornotes, editortables))
+  if (editor_actions_size_at_no_save == actions_done.size())
     return;
-
+    
   // If the project is empty, bail out.
   if (project.empty())
     return;
@@ -410,34 +413,13 @@ void Editor2::chapter_save()
         reload_chapter_number = chapter - 1;
     }
   }
-  // Temporal code to compare editor's input and output.
-  */
-  /*
-     {
-     chaptertext.append ("\n");
-     ustring filename = directories_get_temp () + "/chapter-save.txt";
-     g_file_set_contents (filename.c_str (), chaptertext.c_str (), -1, NULL);
-     cout << "start compare" << endl;
-     GwSpawn spawn ("diff");
-     spawn.arg (project_data_filename_chapter (project, book, chapter, false));
-     spawn.arg (directories_get_temp () + "/chapter-save.txt");
-     spawn.run ();
-     cout << "end compare" << endl;
-     if (spawn.exitstatus != 0) {
-     cout << "start of text" << endl;
-     cout << chaptertext << endl;
-     cout << "end of text" << endl;
-     }
-     }
-   */
-  /*
+
   // If the text has not yet been dealt with, save it.  
   if (!save_action_is_over) {
     // Clean it up a bit and divide it into lines.
     ParseLine parseline(trim(chaptertext));
     // Add verse information.
     CategorizeChapterVerse ccv(parseline.lines);
-    */
     /*
        We have noticed people editing Bibledit's data directly. 
        If this was done with OpenOffice, and then saving it as text again, 
@@ -447,7 +429,6 @@ void Editor2::chapter_save()
        In addition to this, the user could have edited the chapter number.
        If a change in the chapter number is detected, ask the user what to do.
      */
-    /*
     unsigned int chapter_in_text = chapter;
     for (unsigned int i = 0; i < ccv.chapter.size(); i++) {
       if (ccv.chapter[i] != chapter) {
@@ -489,14 +470,14 @@ void Editor2::chapter_save()
       project_store_chapter(project, book, ccv);
     save_action_is_over = true;
   }
-  // Set the buffer(s) non-modified.
-  textbuffers_set_unmodified(textbuffer, editornotes, editortables);
+
+  // Store size of editor actions. Based on this it knows next time whether to save the chapter.
+  editor_actions_size_at_no_save = actions_done.size();
 
   // Possible reload signal.
   if (reload) {
     gtk_button_clicked(GTK_BUTTON(reload_signal));
   }
-  */
 }
 
 
@@ -2438,17 +2419,17 @@ void Editor2::apply_style(const ustring & marker)
   marker_get_type_and_subtype(project, marker, type, subtype);
 
   /*
-     Get the type of textview that was focused last, 
-     and find out whether the style that is now going to be inserted
-     is applicable in this particular textview.
-     For example to a table only the relevant table styles can be applied. 
-     Give a message if there is a mismatch.
+  Get the type of textview that was focused last, 
+  and find out whether the style that is now going to be inserted
+  is applicable in this particular textview.
+  For example to a table only the relevant table styles can be applied. 
+  Give a message if there is a mismatch.
    */
   EditorTextViewType textviewtype = last_focused_type();
   bool style_application_ok = true;
   ustring style_application_fault_reason;
   switch (textviewtype) {
-  case etvtBody:
+    case etvtBody:
     {
       if ((type == stFootEndNote) || (type == stCrossreference) || (type == stTableElement)) {
         style_application_ok = false;
@@ -2463,7 +2444,7 @@ void Editor2::apply_style(const ustring & marker)
       style_application_fault_reason.append(" style");
       break;
     }
-  case etvtNote:
+    case etvtNote:
     {
       if ((type != stFootEndNote) && (type != stCrossreference)) {
         style_application_ok = false;
@@ -2471,7 +2452,7 @@ void Editor2::apply_style(const ustring & marker)
       style_application_fault_reason = "Only note related styles apply";
       break;
     }
-  case etvtTable:
+    case etvtTable:
     {
       // Check that only a table element is going to be inserted.
       if (type != stTableElement) {
@@ -2496,6 +2477,12 @@ void Editor2::apply_style(const ustring & marker)
       break;
     }
   }
+  // Whether there's a paragraph to apply the style to.
+  if (!focused_paragraph) {
+    style_application_ok = false;
+    style_application_fault_reason = "Cannot find paragraph";
+  }
+  // If necessary give error message.
   if (!style_application_ok) {
     ustring message("This style cannot be applied here.");
     message.append("\n\n");
@@ -2504,62 +2491,16 @@ void Editor2::apply_style(const ustring & marker)
     gtkw_dialog_error(NULL, message.c_str());
     return;
   }
-  // Get the textbuffer that was focused last.
-  GtkTextBuffer *textbuffer = last_focused_textbuffer();
 
-  // Get the textview that was focused last.
-  GtkWidget *textview = last_focused_textview();
+  // Get the active textbuffer and textview.
+  GtkTextBuffer *textbuffer = focused_paragraph->textbuffer;
+  GtkWidget *textview = focused_paragraph->textview;
 
   if (style_get_starts_new_line_in_editor(type, subtype)) {
     // Handle a paragraph style.
-
-    // Find the iterator at the start and at the end of the line that has the insertion point.
-    GtkTextIter iter, startiter, enditer;
-    gtk_text_buffer_get_iter_at_mark(textbuffer, &iter, gtk_text_buffer_get_insert(textbuffer));
-    gint line_number = gtk_text_iter_get_line(&iter);
-    gtk_text_buffer_get_iter_at_line(textbuffer, &startiter, line_number);
-    line_number++;
-    if (line_number == gtk_text_buffer_get_line_count(textbuffer)) {
-      gtk_text_buffer_get_end_iter(textbuffer, &enditer);
-    } else {
-      gtk_text_buffer_get_iter_at_line(textbuffer, &enditer, line_number);
-    }
-
-    // Get the currently applied character styles.
-    vector < ustring > character_styles;
-    iter = startiter;
-    do {
-      ustring paragraph_style, character_style;
-      get_styles_at_iterator(iter, paragraph_style, character_style);
-      character_styles.push_back(character_style);
-      gtk_text_iter_forward_char(&iter);
-    } while (gtk_text_iter_in_range(&iter, &startiter, &enditer));
-
-    // Clear all styles from the range.
-    gtk_text_buffer_remove_all_tags(textbuffer, &startiter, &enditer);
-
-    // Apply the new paragraph style to the range.
-    textbuffer_apply_named_tag(textbuffer, marker, &startiter, &enditer);
-
-    // Apply the previously found character style(s).
-    // (The reason that the character styles are applied again, after having
-    //  been removed, is, that throughout the Editor2 object it is assumed
-    //  that the first named style is the paragraph style, and the second
-    //  named style is the character style. So the order in which the styles
-    //  are being applied is important.)
-    iter = startiter;
-    for (unsigned int i = 0; i < character_styles.size(); i++) {
-      GtkTextIter iter2 = iter;
-      gtk_text_iter_forward_char(&iter2);
-      if (!character_styles[i].empty()) {
-        textbuffer_apply_named_tag(textbuffer, character_styles[i], &iter, &iter2);
-      }
-      gtk_text_iter_forward_char(&iter);
-    }
-
+    apply_editor_action (new EditorActionChangeParagraphStyle (marker, focused_paragraph));
   } else {
     // Handle a character style.
-
     // Find the iterator at the start and at the end of the text to be put in this style.
     GtkTextIter iter, startiter, enditer;
     // If some text has been selected, take that.
@@ -2576,9 +2517,7 @@ void Editor2::apply_style(const ustring & marker)
         gtk_text_iter_forward_word_end(&enditer);
       }
     }
-
-    // Remove any currently applied character style(s).
-    // At the same time check whether the character style that we are going to 
+    // Check whether the character style that we are going to 
     // apply has been applied already throughout the range.
     iter = startiter;
     bool character_style_already_applied = true;
@@ -2589,33 +2528,30 @@ void Editor2::apply_style(const ustring & marker)
         character_style_already_applied = false;
       GtkTextIter iter2 = iter;
       gtk_text_iter_forward_char(&iter2);
-      if (!character_style.empty()) {
-        gtk_text_buffer_remove_tag_by_name(textbuffer, character_style.c_str(), &iter, &iter2);
-      }
       gtk_text_iter_forward_char(&iter);
     } while (gtk_text_iter_in_range(&iter, &startiter, &enditer));
-
-    // Apply the new character style. If the character style was applied already,
-    // it works like a toggle: it will be left removed.
-    if (!character_style_already_applied) {
-      textbuffer_apply_named_tag(textbuffer, marker, &startiter, &enditer);
+    // If the character style was applied already, toggle it.
+    ustring style (marker);
+    if (character_style_already_applied) {
+      style.clear();
     }
-    // Store this character style so it can be re-used when the user starts 
-    // typing text. But when the style was toggled off, clear it.
-    if (!character_style_already_applied) {
-      character_style_on_start_typing = marker;
-    } else {
-      character_style_on_start_typing.clear();
-    }
-
+    // Apply the new character style
+    gint startoffset = gtk_text_iter_get_offset (&startiter);
+    gint endoffset = gtk_text_iter_get_offset (&enditer);
+    EditorActionChangeCharacterStyle * style_action = new EditorActionChangeCharacterStyle(focused_paragraph, style, startoffset, endoffset - startoffset);
+    apply_editor_action (style_action);
+    // Store this character style so it can be re-used when the user starts typing text.
+    character_style_on_start_typing = style;
   }
+  
+  // One Action boundary.
+  apply_editor_action (new EditorAction (eatOneActionBoundary));
 
   // Update gui.
   signal_if_styles_changed();
 
   // Focus editor.
-  programmatically_grab_focus(textview);
-
+  gtk_widget_grab_focus(textview);
 }
 
 
@@ -2800,16 +2736,21 @@ void Editor2::signal_editor_changed()
 
 ustring Editor2::get_chapter()
 {
-  /*
-  GtkTextIter startiter, enditer;
-  gtk_text_buffer_get_start_iter(textbuffer, &startiter);
-  gtk_text_buffer_get_end_iter(textbuffer, &enditer);
-  */
   ustring chaptertext;
-  /*
-  usfm_get_text(textbuffer, startiter, enditer, &editornotes, &editortables, project, chaptertext, verse_restarts_paragraph);
-  replace_text(chaptertext, "  ", " ");
-  */
+  vector <GtkWidget *> textviews = editor_get_widgets (vbox_v2);
+  for (unsigned int i = 0; i < textviews.size(); i++) {
+    GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textviews[i]));
+    GtkTextIter startiter, enditer;
+    gtk_text_buffer_get_start_iter(textbuffer, &startiter);
+    gtk_text_buffer_get_end_iter(textbuffer, &enditer);
+    ustring paragraph_text;
+    usfm_get_text(textbuffer, startiter, enditer, project, paragraph_text, verse_restarts_paragraph);
+    replace_text(paragraph_text, "  ", " ");
+    if (i) {
+      chaptertext.append ("\n");
+    }
+    chaptertext.append (paragraph_text);
+  }
   return chaptertext;
 }
 
