@@ -2806,34 +2806,23 @@ void Editor2::load_dictionaries()
 }
 
 
-vector <ustring> Editor2::spelling_get_misspelled () // Todo
+vector <ustring> Editor2::spelling_get_misspelled ()
 {
   // Collect the misspelled words.
   vector <ustring> words;
-  /*
-  words = spellingchecker->get_misspellings(textbuffer);
-  for (unsigned int i = 0; i < editortables.size(); i++) {
-    for (unsigned int row = 0; row < editortables[i].textbuffers.size(); row++) {
-      for (unsigned int column = 0; column < editortables[i].textviews[row].size(); column++) {
-        vector <ustring> words2 = spellingchecker->get_misspellings(table_cell_get_buffer(editortables[i], row, column));
-        for (unsigned int i2 = 0; i2 < words2.size(); i2++) {
-          words.push_back (words2[i2]);
-        }
-      }
-    }
-  }
-  for (unsigned int i = 0; i < editornotes.size(); i++) {
-    vector <ustring> words2 = spellingchecker->get_misspellings(editornotes[i].textbuffer);
+  vector <GtkWidget *> textviews = editor_get_widgets (vbox);
+  for (unsigned int i = 0; i < textviews.size(); i++) {
+    GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textviews[i]));
+    vector <ustring> words2 = spellingchecker->get_misspellings(textbuffer);
     for (unsigned int i2 = 0; i2 < words2.size(); i2++) {
       words.push_back (words2[i2]);
     }
   }
-  */
   // Remove double ones.
   set <ustring> wordset (words.begin (), words.end());
   words.clear();
   words.assign (wordset.begin (), wordset.end());
-  // Give words.
+  // Give result.
   return words;  
 }
 
