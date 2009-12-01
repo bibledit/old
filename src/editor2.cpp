@@ -1716,32 +1716,6 @@ void Editor2::display_notes_remainder(bool focus_rendered_textview)
     // A textbuffer to store the note's text.
     editornotes[i].textbuffer = gtk_text_buffer_new(texttagtable);
 
-    // Signal handlers for the textbuffer.
-    //g_signal_connect(G_OBJECT(editornotes[i].textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_before), gpointer(this));
-    //g_signal_connect_after(G_OBJECT(editornotes[i].textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_after), gpointer(this));
-    //g_signal_connect(G_OBJECT(editornotes[i].textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_before), gpointer(this));
-    //g_signal_connect_after(G_OBJECT(editornotes[i].textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_after), gpointer(this));
-    //g_signal_connect(G_OBJECT(editornotes[i].textbuffer), "apply-tag", G_CALLBACK(on_buffer_apply_tag), gpointer(this));
-    //g_signal_connect(G_OBJECT(editornotes[i].textbuffer), "remove-tag", G_CALLBACK(on_buffer_remove_tag), gpointer(this));
-    //g_signal_connect(G_OBJECT(editornotes[i].textbuffer), "changed", G_CALLBACK(on_textbuffer_footnotes_changed), gpointer(this));
-    //g_signal_connect(G_OBJECT(editornotes[i].textbuffer), "changed", G_CALLBACK(on_textbuffer_changed), gpointer(this));
-
-    // A text view to display the buffer.
-    editornotes[i].textview = gtk_text_view_new_with_buffer(editornotes[i].textbuffer);
-    gtk_widget_show(editornotes[i].textview);
-    gtk_text_view_add_child_at_anchor(GTK_TEXT_VIEW(textview), editornotes[i].textview, editornotes[i].childanchor_textview);
-    gtk_widget_show_all(editornotes[i].textview);
-    gtk_text_view_set_accepts_tab(GTK_TEXT_VIEW(editornotes[i].textview), FALSE);
-    gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(editornotes[i].textview), GTK_WRAP_WORD);
-    gtk_text_view_set_editable(GTK_TEXT_VIEW(editornotes[i].textview), editable);
-
-    // Signal handlers for this textview.
-    spellingchecker->attach(editornotes[i].textview);
-    g_signal_connect_after((gpointer) editornotes[i].textview, "move_cursor", G_CALLBACK(on_textview_move_cursor), gpointer(this));
-    g_signal_connect_after((gpointer) editornotes[i].textview, "grab_focus", G_CALLBACK(on_textview_grab_focus), gpointer(this));
-    g_signal_connect((gpointer) editornotes[i].textview, "key-press-event", G_CALLBACK(text_key_press_event_before), gpointer(this));
-    g_signal_connect_after((gpointer) editornotes[i].textview, "key-press-event", G_CALLBACK(text_key_press_event_after), gpointer(this));
-    g_signal_connect((gpointer) editornotes[i].textview, "button_press_event", G_CALLBACK(on_textview_button_press_event), gpointer(this));
 
     // Extract the note caller.
     if (!editornotes[i].rawtext.empty()) {
@@ -1942,20 +1916,7 @@ void Editor2::display_table(ustring line, GtkTextIter iter)
   for (unsigned int row = 0; row < editortable.textviews.size(); row++) {
     for (unsigned int column = 0; column < editortable.textviews[row].size(); column++) {
       GtkWidget *textview = table_cell_get_view(editortable, row, column);
-      spellingchecker->attach(textview);
-      g_signal_connect_after((gpointer) textview, "move_cursor", G_CALLBACK(on_textview_move_cursor), gpointer(this));
-      g_signal_connect_after((gpointer) textview, "grab_focus", G_CALLBACK(on_textview_grab_focus), gpointer(this));
-      g_signal_connect((gpointer) textview, "key-press-event", G_CALLBACK(text_key_press_event_before), gpointer(this));
-      g_signal_connect_after((gpointer) textview, "key-press-event", G_CALLBACK(text_key_press_event_after), gpointer(this));
-      g_signal_connect((gpointer) textview, "button_press_event", G_CALLBACK(on_textview_button_press_event), gpointer(this));
       //GtkTextBuffer *textbuffer = table_cell_get_buffer(editortable, row, column);
-      //g_signal_connect(G_OBJECT(textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_before), gpointer(this));
-      //g_signal_connect_after(G_OBJECT(textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_after), gpointer(this));
-      //g_signal_connect(G_OBJECT(textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_before), gpointer(this));
-      //g_signal_connect_after(G_OBJECT(textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_after), gpointer(this));
-      //g_signal_connect(G_OBJECT(textbuffer), "apply-tag", G_CALLBACK(on_buffer_apply_tag), gpointer(this));
-      //g_signal_connect(G_OBJECT(textbuffer), "remove-tag", G_CALLBACK(on_buffer_remove_tag), gpointer(this));
-      //g_signal_connect(G_OBJECT(textbuffer), "changed", G_CALLBACK(on_textbuffer_changed), gpointer(this));
     }
   }
 

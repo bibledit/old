@@ -6856,6 +6856,10 @@ Deleting text may also expand the selection so as to include the full footnote c
 
 
 
+When merging, the changes do not automatically show up in the merge window. 
+They show up when clicking in one of the editors.
+
+
 Fit out any remaining controls and behaviour of the editor.
 
 

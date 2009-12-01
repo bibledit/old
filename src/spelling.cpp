@@ -302,7 +302,7 @@ vector <ustring> SpellingChecker::get_misspellings (GtkTextBuffer * textbuffer)
 
 gboolean SpellingChecker::on_button_press_event(GtkWidget * widget, GdkEventButton * event, gpointer user_data)
 // When the user right-clicks on a word, they want to check that word.
-// Here, we do NOT  move the cursor to the location of the clicked-upon word
+// Here, we do not move the cursor to the location of the clicked-upon word
 // since that prevents the use of edit functions on the context menu.
 {
   ((SpellingChecker *) user_data)->button_press_event(widget, event);
@@ -591,6 +591,7 @@ An algorithm is used that gives the replacement the same styles as the original.
 
   // Delete the old word, and insert the new one.
   gtk_text_buffer_delete(buffer, &start, &end);
+  gtk_text_buffer_get_iter_at_offset (buffer, &start, offset);
   gtk_text_buffer_insert(buffer, &start, newword, -1);
 
   // Store this replacement in enchant.
@@ -599,7 +600,8 @@ An algorithm is used that gives the replacement the same styles as the original.
   // Free the memory used.
   g_free(oldword);
 
-  // Apply the tags of the old word to the new. 
+/*
+  // Apply the tags of the old word to the new. This has been disabled for just now. It should use EditorActions.
   // If there are not enough tags, keep repeating the last one.
   ustring unewword(newword);
   for (unsigned int i = 0; i < unewword.length(); i++) {
@@ -622,6 +624,7 @@ An algorithm is used that gives the replacement the same styles as the original.
     if (!characterstyle.empty())
       gtk_text_buffer_apply_tag_by_name(buffer, characterstyle.c_str(), &start, &end);
   }
+  */
 }
 
 
