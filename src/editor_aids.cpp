@@ -115,45 +115,44 @@ bool style_get_plaintext(StyleType type, int subtype)
   // Set value depending on the type of the marker, and the subtype.
   // Only set value if it differs from the default.
   switch (type) {
-  case stIdentifier:
+    case stIdentifier:
     {
       if (subtype == itCommentWithEndmarker)
         plaintext = false;
       break;
     }
-  case stNotUsedComment:
-  case stNotUsedRunningHeader:
+    case stNotUsedComment:
+    case stNotUsedRunningHeader:
     {
       break;
     }
-  case stStartsParagraph:
-  case stInlineText:
-  case stChapterNumber:
-  case stVerseNumber:
-  case stFootEndNote:
-  case stCrossreference:
-    {
-      plaintext = false;
-      break;
-    }
-  case stPeripheral:
-    {
-      break;
-    }
-  case stPicture:
-    {
-      break;
-    }
-  case stPageBreak:
-    {
-      break;
-    }
-  case stTableElement:
+    case stStartsParagraph:
+    case stInlineText:
+    case stChapterNumber:
+    case stVerseNumber:
+    case stFootEndNote:
+    case stCrossreference:
     {
       plaintext = false;
       break;
     }
-  case stWordlistElement:
+    case stPeripheral:
+    {
+      break;
+    }
+    case stPicture:
+    {
+      break;
+    }
+    case stPageBreak:
+    {
+      break;
+    }
+    case stTableElement:
+    {
+      break;
+    }
+    case stWordlistElement:
     {
       plaintext = false;
       break;
@@ -406,65 +405,64 @@ bool style_get_displays_marker(StyleType type, int subtype)
   // Set value depending on the type of the marker, and the subtype.
   // Only set value if it differs from the default.
   switch (type) {
-  case stIdentifier:
+    case stIdentifier:
     {
       if (subtype == itCommentWithEndmarker)
         display_marker = false;
       break;
     }
-  case stNotUsedComment:
-  case stNotUsedRunningHeader:
+    case stNotUsedComment:
+    case stNotUsedRunningHeader:
     {
       break;
     }
-  case stStartsParagraph:
-    {
-      display_marker = false;
-      break;
-    }
-  case stInlineText:
+    case stStartsParagraph:
     {
       display_marker = false;
       break;
     }
-  case stChapterNumber:
+    case stInlineText:
     {
       display_marker = false;
       break;
     }
-  case stVerseNumber:
+    case stChapterNumber:
     {
       display_marker = false;
       break;
     }
-  case stFootEndNote:
+    case stVerseNumber:
     {
       display_marker = false;
       break;
     }
-  case stCrossreference:
+    case stFootEndNote:
     {
       display_marker = false;
       break;
     }
-  case stPeripheral:
-    {
-      break;
-    }
-  case stPicture:
-    {
-      break;
-    }
-  case stPageBreak:
-    {
-      break;
-    }
-  case stTableElement:
+    case stCrossreference:
     {
       display_marker = false;
       break;
     }
-  case stWordlistElement:
+    case stPeripheral:
+    {
+      break;
+    }
+    case stPicture:
+    {
+      break;
+    }
+    case stPageBreak:
+    {
+      break;
+    }
+    case stTableElement:
+    {
+      break;
+    }
+    case stWordlistElement:
     {
       display_marker = false;
       break;
@@ -474,6 +472,7 @@ bool style_get_displays_marker(StyleType type, int subtype)
   return display_marker;
 
 }
+
 
 bool style_get_starts_character_style(StyleType type, int subtype)
 // Returns true if the combination of the "type" and the"subtype" starts
@@ -2048,58 +2047,6 @@ void editor_text_append(GtkTextBuffer * textbuffer, const ustring & text, const 
   gtk_text_buffer_get_iter_at_mark(textbuffer, &insertiter, gtk_text_buffer_get_insert(textbuffer));
   // Insert text together with the style(s).
   textbuffer_insert_with_named_tags(textbuffer, &insertiter, text, paragraph_style, character_style);
-}
-
-
-bool create_editor_objects_for_text_table_raw(const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
-// This function loads the raw text of a table.
-{
-  if (marker_found) {
-    if (marker_pos == 0) {
-      if (is_opener) {
-        StyleType type;
-        int subtype;
-        marker_get_type_and_subtype(project, marker, type, subtype);
-        // Proceed if this bit starts with any table-related marker.
-        if (style_get_starts_table_row(type, subtype) || style_get_starts_table_cell(type, subtype)) {
-          // Get the marker that ends the table bits.
-          ustring endmarker;
-          vector < ustring > markers = usfm_get_all_markers(line);
-          for (unsigned int i = 0; i < markers.size(); i++) {
-            StyleType type2;
-            int subtype2;
-            marker_get_type_and_subtype(project, markers[i], type2, subtype2);
-            if (type2 != stTableElement) {
-              endmarker = markers[i];
-              break;
-            }
-          }
-          // Proceed with the text till the next non-table marker or the end of the line.
-          ustring rawtable;
-          if (endmarker.empty()) {
-            rawtable = line;
-            line.clear();
-          } else {
-            size_t pos1, pos2;
-            pos1 = line.find(usfm_get_full_opening_marker(endmarker));
-            pos2 = line.find(usfm_get_full_closing_marker(endmarker));
-            size_t pos = MIN(pos1, pos2);
-            rawtable = line.substr(0, pos);
-            line.erase(0, pos);
-          }
-          /*
-          // Display the table
-          GtkTextIter iter;
-          gtk_text_buffer_get_iter_at_mark(textbuffer, &iter, gtk_text_buffer_get_insert(textbuffer));
-          display_table(rawtable, iter);
-          */
-          // The information was processed: return true.
-          return true;
-        }
-      }
-    }
-  }
-  return false;
 }
 
 

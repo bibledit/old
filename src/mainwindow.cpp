@@ -6870,9 +6870,6 @@ They show up when clicking in one of the editors.
 Fit out any remaining controls and behaviour of the editor.
 
 
-The tables are left for just now, unformatted in the editor.
-
-
 Resizing the window is very hard. It is recommended to disconnect the textview from its textbuffer temporally when resizing.
 This probably speeds it up a lot.
 We may consider disconnecting it while loading text as well.

@@ -305,18 +305,6 @@ void Editor2::text_load (ustring text, ustring character_style)
   // Clean away possible new lines.
   replace_text (text, "\n", " ");
 
-  // The character style. Initialize it to the character style at the insert position.
-  /*
-  if (focused_paragraph) {
-    gint insertion_offset = editor_paragraph_insertion_point_get_offset (focused_paragraph);
-    GtkTextIter iter;
-    GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (focused_paragraph->widget));
-    gtk_text_buffer_get_iter_at_offset (textbuffer, &iter, insertion_offset);
-    ustring paragraph_style;
-    get_styles_at_iterator(iter, paragraph_style, character_style);
-  }
-  */
-
   // Load the text into the editor by creating and applying editor actions.
   ustring marker_text;
   size_t marker_pos;
@@ -339,13 +327,6 @@ void Editor2::text_load (ustring text, ustring character_style)
         handled = true;
       }
     }
-    /*
-    if (!handled) {
-      if (create_editor_objects_for_text_table_raw                (project, last_focused_textview, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) {
-        handled = true;
-      }
-    }
-    */
     if (!handled) {
       if (editor_starts_character_style (text, character_style, marker_text, marker_pos, marker_length, is_opener, marker_found)) {
         handled = true;
