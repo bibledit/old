@@ -560,98 +560,18 @@ void Editor2::text_insert(ustring text)
 // This inserts plain or USFM text at the cursor location of the focused textview.
 // If text is selected, this is erased first.
 {
-  /*
   // If the text is not editable, bail out.
   if (!editable)
     return;
-
-  // Store scrollled window's position.
-  GtkAdjustment * adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolledwindow));
-  unsigned int scroll_position = gtk_adjustment_get_value (adjustment);
-
-  // Get the textbuffer that is focused.
-  GtkTextBuffer *buffer = textbuffer;
-  if (gtk_widget_is_focus(textview)) {
-    buffer = textbuffer;
-  }
-  for (unsigned int i = 0; i < editornotes.size(); i++) {
-    if (gtk_widget_is_focus(editornotes[i].textview)) {
-      buffer = editornotes[i].textbuffer;
-    }
-  }
-  for (unsigned int i = 0; i < editortables.size(); i++) {
-    for (unsigned int row = 0; row < editortables[i].textviews.size(); row++) {
-      for (unsigned int column = 0; column < editortables[i].textviews[row].size(); column++) {
-        if (gtk_widget_is_focus(table_cell_get_view(editortables[i], row, column))) {
-          buffer = table_cell_get_buffer(editortables[i], row, column);
-        }
-      }
-    }
-  }
-
+  // If no paragraph is in focus, bail out.
+  if (!focused_paragraph)
+    return;
+  // Buffer.    
+  GtkTextBuffer * textbuffer = focused_paragraph->textbuffer;
   // Erase selected text.
-  gtk_text_buffer_delete_selection(buffer, true, editable);
-
-  // Move the cursor to the insert position.
-  GtkTextIter insert_iter;
-  gtk_text_buffer_get_iter_at_mark(buffer, &insert_iter, gtk_text_buffer_get_insert(buffer));
-  gtk_text_buffer_place_cursor(buffer, &insert_iter);
-
-  // If makes a difference if pasting into the main textbuffer, or into a table or note.
-  if (buffer == textbuffer) {
-    
-    // Inserting text into the main text buffer.
-    // Formatting can be complex. For that reason the raw USFM code is processed and reloaded.
-    
-    // Get the offset of the cursor in the editor.
-    gint cursor_offset = gtk_text_iter_get_offset (&insert_iter);  
-
-    // Join the inserted text with the existing text.
-    character_style_on_start_typing.clear ();
-    style_to_be_applied_at_cursor.clear ();
-    #define ANCHOR "_ANCHOR_"
-    gtk_text_buffer_insert_at_cursor (buffer, ANCHOR, -1);
-    ustring text2 = get_chapter();
-    size_t pos = text2.find (ANCHOR);
-    if (pos != string::npos) {
-      text2.erase (pos, strlen (ANCHOR));
-      text2.insert (pos, text);
-    }
-    #undef ANCHOR
-    text_load (text2);
-    delete preventundo;
-    trigger_undo_redo_recording ();
-   
-    // Restore cursor position.
-    GtkTextIter iter;
-    gtk_text_buffer_get_iter_at_offset (textbuffer, &iter, cursor_offset);
-    gtk_text_buffer_place_cursor (textbuffer, &iter);
-
-    // Restore scrolled window's position.
-    gtk_adjustment_set_value (adjustment, scroll_position);
-    
-  } else {
-    
-    // Inserting text into a table or note.
-    // This one simply inserts the plain text at the cursor. No formatting used.
-    // This prevents scrolling and cursor positioning problems that would otherwise occur.
-    
-    // Remove all markers to prevent trouble with markup.
-    if (buffer != textbuffer) {
-      ustring marker;
-      size_t marker_pos;
-      size_t marker_length;
-      bool is_opener;
-      while (usfm_search_marker(text, marker, marker_pos, marker_length, is_opener)) {
-        text.erase(marker_pos, marker_length);
-      }
-    }
-    
-    // Insert the text.
-    gtk_text_buffer_insert_at_cursor (buffer, text.c_str(), -1);
-    
-  }
-  */
+  gtk_text_buffer_delete_selection(textbuffer, true, editable);
+  // Insert the text at the cursor.
+  gtk_text_buffer_insert_at_cursor (textbuffer, text.c_str(), -1);
 }
 
 
@@ -1977,20 +1897,6 @@ void Editor2::erase_tables()
 }
 
 
-void Editor2::on_buffer_insert_text_before(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, gchar * text, gint length, gpointer user_data)
-{
-  ((Editor2 *) user_data)->buffer_insert_text_before(textbuffer, pos_iter, text, length);
-}
-
-
-void Editor2::buffer_insert_text_before(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, gchar * text, gint length)
-{
-  if (disregard_text_buffer_signals) {
-    return;
-  }
-}
-
-
 void Editor2::on_buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, gchar * text, gint length, gpointer user_data)
 {
   ((Editor2 *) user_data)->buffer_insert_text_after(textbuffer, pos_iter, text, length);
@@ -2000,16 +1906,20 @@ void Editor2::on_buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIte
 void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, gchar * text, gint length)
 // This function is called after the default handler has inserted the text.
 // At this stage "pos_iter" points to the end of the inserted text.
-// All comments made in this function need to be tested again when a change was made in the Editor object.
 {
   // When we are not interested in signals from the textbuffer
   // that indicate that text was inserted. Bail out.
   if (disregard_text_buffer_signals) {
     return;
   }
+  
+  // The "length" parameter does not give the length of the characters 
+  // but the byte length of the "text" parameter.
+  // Therefore get our own length.
+  ustring utext (text);
 
   // Get offset of text insertion point.
-  gint text_insertion_offset = gtk_text_iter_get_offset (pos_iter) - length;
+  gint text_insertion_offset = gtk_text_iter_get_offset (pos_iter) - utext.length();
 
   // Variable for the character style that the routines below indicate should be applied to the inserted text.
   ustring character_style_to_be_applied;
@@ -2074,13 +1984,12 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
   // This is for the Undo and Redo system.
   disregard_text_buffer_signals++;
   GtkTextIter startiter = *pos_iter;
-  gtk_text_iter_backward_chars (&startiter, length);
+  gtk_text_iter_backward_chars (&startiter, utext.length());
   gtk_text_buffer_delete (textbuffer, &startiter, pos_iter);
   disregard_text_buffer_signals--;
 
   // If there are one or more backslashes in the text, then USFM code is being entered.
   // Else treat it as if the user is typing text.
-  ustring utext (text);
   if (utext.find ("\\") != string::npos) {
     // Load USFM code.
     text_load (text, character_style_to_be_applied);
@@ -2950,7 +2859,6 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
           // Apply this action.
           paragraph_action->apply(texttagtable, vbox, editable, focused_paragraph, widget_that_should_grab_focus);
           // Connect buffer signals.
-          g_signal_connect(G_OBJECT(paragraph_action->textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_before), gpointer(this));
           g_signal_connect_after(G_OBJECT(paragraph_action->textbuffer), "insert-text", G_CALLBACK(on_buffer_insert_text_after), gpointer(this));
           g_signal_connect(G_OBJECT(paragraph_action->textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_before), gpointer(this));
           g_signal_connect_after(G_OBJECT(paragraph_action->textbuffer), "delete-range", G_CALLBACK(on_buffer_delete_range_after), gpointer(this));

@@ -6845,7 +6845,14 @@ Todo tasks.
 
 
 
-Notes formatting.
+Notes:
+* To extract notes using current systems.
+* Leave text in main view for the mean time, but add it in notes too.
+* To create a paragraph that is specifically for notes.
+* The notes go in a hbox, which has a label and a textview.
+* The routines that look for textviews stacked in the vbox should be able to differentiate between paragraph text and notes.
+* The type of textviews could be used to get these.
+* The routine gets passed a variable, and if true it gives them all, including notes, and if false, it gives main ones only.
 When notes are moved about, text inserted, removed, these notes need to remain.
 Make use of lots of styles, e.g. f_1, and so on, so that we can track the "f" and its id.
 The next f_# style is applied to the buffer only on request, if it is not yet there, so that the style table does not get too full.
@@ -6853,7 +6860,7 @@ On reload of the chapter, all these extra styles are removed from the style tabl
 When it comes to the state of footnotes, we need to have separate handlers for that.
 If some text is deleted, we need to separate footnotes out of that, and divide it among the handlers.
 Deleting text may also expand the selection so as to include the full footnote caller if it is longer than one character.
-
+We may make callers for footnotes the "f", and so on, so it uses the mark used, for easy viewing. So no renumbering.
 
 
 When merging, the changes do not automatically show up in the merge window. 
@@ -6876,9 +6883,6 @@ and let the gtktextbuffer use its own keybinding. Or to put the accelerator back
 
 
 
-Entering the £ sign behaves unusual.
-
-
 Once the whole editor2 is ready, to check all its code and test all, and establish testing remarks in each routine.
 Also test opening several Editor windows.
 
@@ -6899,8 +6903,9 @@ Editor * WindowEditor::editor_get() - Needs update to give Editor2.
 EditNoteDialog does no longer work.
 
 
-All the routines in editor_aids.h/cpp that are not needed to go out.
-
+Look at:
+EditorTextViewType Editor2::last_focused_type()
+void Editor2::show_quick_references()
 
 
 

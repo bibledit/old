@@ -88,13 +88,6 @@ ustring style_get_table_row_marker(const ustring& project);
 bool style_get_starts_table_cell(StyleType type, int subtype);
 ustring style_get_table_cell_marker(const ustring& project, int column);
 
-void textbuffer_erase_character_before_text_insertion_point_if_space(GtkTextBuffer * textbuffer);
-void textbuffer_erase_white_space_at_end(GtkTextBuffer * textbuffer);
-void textbuffer_erase_child_anchor(GtkTextBuffer * textbuffer, GtkTextChildAnchor * anchor);
-bool textbuffer_empty(GtkTextBuffer * textbuffer);
-void textbuffers_set_unmodified(GtkTextBuffer * mainbuffer, vector <EditorNote>& editornotes, vector <EditorTable>& editortables);
-bool textbuffers_get_modified(GtkTextBuffer * mainbuffer, vector <EditorNote>& editornotes, vector <EditorTable>& editortables);
-
 EditorNoteType note_type_get(const ustring& project, const ustring& marker);
 NoteNumberingType note_numbering_type_get(const ustring& project, const ustring& marker);
 ustring note_numbering_user_sequence_get(const ustring& project, const ustring& marker);

@@ -193,8 +193,6 @@ public:
   void erase_tables();
 
   bool do_not_process_child_anchors_being_deleted;
-  static void on_buffer_insert_text_before(GtkTextBuffer *textbuffer, GtkTextIter *pos_iter, gchar *text, gint length, gpointer user_data);
-  void buffer_insert_text_before(GtkTextBuffer *textbuffer, GtkTextIter *pos_iter, gchar *text, gint length);
   static void on_buffer_insert_text_after(GtkTextBuffer *textbuffer, GtkTextIter *pos_iter, gchar *text, gint length, gpointer user_data);
   void buffer_insert_text_after(GtkTextBuffer *textbuffer, GtkTextIter *pos_iter, gchar *text, gint length);
   static void on_buffer_delete_range_before(GtkTextBuffer *textbuffer, GtkTextIter *start, GtkTextIter *end, gpointer user_data);
