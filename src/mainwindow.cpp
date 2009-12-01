@@ -6848,11 +6848,6 @@ Todo tasks.
 
 
 
-Set the font.
-
-
-
-
 Notes:
 * To extract notes using current systems.
 * Leave text in main view for the mean time, but add it in notes too.

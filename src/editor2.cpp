@@ -788,7 +788,7 @@ bool Editor2::can_redo()
 }
 
 
-void Editor2::set_font() // Todo
+void Editor2::set_font()
 {
   vector <GtkWidget *> textviews = editor_get_widgets (vbox);
   for (unsigned int i = 0; i < textviews.size(); i++) {
@@ -797,7 +797,7 @@ void Editor2::set_font() // Todo
 }
 
 
-void Editor2::set_font_textview (GtkWidget * textview) // Todo
+void Editor2::set_font_textview (GtkWidget * textview)
 {
   // Set font.
   PangoFontDescription *font_desc = NULL;
