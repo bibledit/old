@@ -158,9 +158,6 @@ current_reference(0, 1000, "")
   // Automatic saving of the file, periodically.
   save_timeout_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 60000, GSourceFunc(on_save_timeout), gpointer(this), NULL);
 
-  // Fonts.
-  //set_font();
-
   // Grab focus.
   focus_programmatically_being_grabbed = false;
 }
@@ -791,25 +788,17 @@ bool Editor2::can_redo()
 }
 
 
-void Editor2::set_font()
+void Editor2::set_font() // Todo
 {
-  /*
-  // Get a list of all textviews that make up the editor.
-  vector < GtkWidget * >textviews;
-  textviews.push_back(textview);
-  for (unsigned int i = 0; i < editornotes.size(); i++) {
-    if (editornotes[i].textview) {
-      textviews.push_back(editornotes[i].textview);
-    }
+  vector <GtkWidget *> textviews = editor_get_widgets (vbox);
+  for (unsigned int i = 0; i < textviews.size(); i++) {
+    set_font_textview (textviews[i]);
   }
-  for (unsigned int i = 0; i < editortables.size(); i++) {
-    for (unsigned int row = 0; row < editortables[i].textviews.size(); row++) {
-      for (unsigned int column = 0; column < editortables[i].textviews[row].size(); column++) {
-        textviews.push_back(table_cell_get_view(editortables[i], row, column));
-      }
-    }
-  }
+}
 
+
+void Editor2::set_font_textview (GtkWidget * textview) // Todo
+{
   // Set font.
   PangoFontDescription *font_desc = NULL;
   extern Settings *settings;
@@ -817,30 +806,23 @@ void Editor2::set_font()
   if (!projectconfig->editor_font_default_get()) {
     font_desc = pango_font_description_from_string(projectconfig->editor_font_name_get().c_str());
   }
-  for (unsigned int i = 0; i < textviews.size(); i++) {
-    gtk_widget_modify_font(textviews[i], font_desc);
-  }
+  gtk_widget_modify_font(textview, font_desc);
   if (font_desc)
     pango_font_description_free(font_desc);
 
   // Set the colours.
-  for (unsigned int i = 0; i < textviews.size(); i++) {
-    if (projectconfig->editor_default_color_get()) {
-      color_widget_default(textviews[i]);
-    } else {
-      color_widget_set(textviews[i], projectconfig->editor_normal_text_color_get(), projectconfig->editor_background_color_get(), projectconfig->editor_selected_text_color_get(), projectconfig->editor_selection_color_get());
-    }
+  if (projectconfig->editor_default_color_get()) {
+    color_widget_default(textview);
+  } else {
+    color_widget_set(textview, projectconfig->editor_normal_text_color_get(), projectconfig->editor_background_color_get(), projectconfig->editor_selected_text_color_get(), projectconfig->editor_selection_color_get());
   }
 
   // Set predominant text direction.
-  for (unsigned int i = 0; i < textviews.size(); i++) {
-    if (projectconfig->right_to_left_get()) {
-      gtk_widget_set_direction(textviews[i], GTK_TEXT_DIR_RTL);
-    } else {
-      gtk_widget_set_direction(textviews[i], GTK_TEXT_DIR_LTR);
-    }
+  if (projectconfig->right_to_left_get()) {
+    gtk_widget_set_direction(textview, GTK_TEXT_DIR_RTL);
+  } else {
+    gtk_widget_set_direction(textview, GTK_TEXT_DIR_LTR);
   }
-  */
 }
 
 
@@ -1339,81 +1321,7 @@ void Editor2::create_or_update_text_style(Style * style, bool paragraph, bool pl
 }
 
 
-bool Editor2::load_text_table_starting_row(ustring & line, EditorTable & editortable, GtkTextBuffer * &textbuffer, bool & row_zero_initialized, gint & row, gint & column, ustring & paragraph_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
-/*
- This sets the parameters in case a marker is encountered that starts a new
- row in a table.
- */
-{
-  if (marker_found) {
-    if (marker_pos == 0) {
-      if (is_opener) {
-        StyleType type;
-        int subtype;
-        marker_get_type_and_subtype(project, marker, type, subtype);
-        if (style_get_starts_table_row(type, subtype)) {
-          // For robustness the first row is always opened. In order that no
-          // extra row is opened, the "..initiallized" flag is used.
-          if (row_zero_initialized) {
-            row++;
-            column = 0;
-            textbuffer = table_cell_get_buffer(editortable, row, column);
-          } else {
-            row_zero_initialized = true;
-          }
-          // Initialize the paragraph mark.
-          paragraph_mark = unknown_style();
-          if (style_get_displays_marker(type, subtype)) {
-            editor_text_append(textbuffer, line.substr(0, marker_length), paragraph_mark, "");
-          }
-          line.erase(0, marker_length);
-          return true;
-        }
-      }
-    }
-  }
-  return false;
-}
-
-
-bool Editor2::load_text_table_starting_cell(ustring & line, EditorTable & editortable, GtkTextBuffer * &textbuffer, bool & row_zero_initialized, gint & row, gint & column, ustring & paragraph_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
-// This function does the administration for the markers that start a cell.
-{
-  if (marker_found) {
-    if (marker_pos == 0) {
-      if (is_opener) {
-        StyleType type;
-        int subtype;
-        marker_get_type_and_subtype(project, marker, type, subtype);
-        if (style_get_starts_table_cell(type, subtype)) {
-          // Get the column number of this marker.
-          ustring stylesheet = stylesheet_get_actual ();
-          extern Styles *styles;
-          Usfm *usfm = styles->usfm(stylesheet);
-          for (unsigned int i = 0; i < usfm->styles.size(); i++) {
-            if (marker == usfm->styles[i].marker) {
-              column = usfm->styles[i].userint1;
-              // The column number is given such that column 1 is the first column,
-              // but internally we work with column 0 as the first.
-              column--;
-            }
-          }
-          textbuffer = table_cell_get_buffer(editortable, row, column);
-          paragraph_mark = marker;
-          if (style_get_displays_marker(type, subtype)) {
-            editor_text_append(textbuffer, line.substr(0, marker_length), paragraph_mark, "");
-          }
-          line.erase(0, marker_length);
-          return true;
-        }
-      }
-    }
-  }
-  return false;
-}
-
-
-bool Editor2::load_text_starting_footnote_content(GtkTextBuffer * textbuffer, ustring & line, ustring & paragraph_mark, ustring & character_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
+bool Editor2::load_text_starting_footnote_content(GtkTextBuffer * textbuffer, ustring & line, ustring & paragraph_mark, ustring & character_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found) // Todo
 /*
  This function deals with a marker that starts footnote content.
  It does the administration appropriate for that.
@@ -1444,7 +1352,7 @@ bool Editor2::load_text_starting_footnote_content(GtkTextBuffer * textbuffer, us
 }
 
 
-bool Editor2::load_text_ending_footnote_content(GtkTextBuffer * textbuffer, ustring & line, ustring & paragraph_mark, ustring & character_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
+bool Editor2::load_text_ending_footnote_content(GtkTextBuffer * textbuffer, ustring & line, ustring & paragraph_mark, ustring & character_mark, const ustring & marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found) // Todo
 /*
  This function deals with a marker that ends footnote content.
  It does the administration appropriate for that.
@@ -1646,8 +1554,6 @@ void Editor2::display_notes_remainder(bool focus_rendered_textview)
     textbuffer_erase_character_before_text_insertion_point_if_space(editornotes[i].textbuffer);
 
     // Signal related to the sizes, that is, the height and the width, of the widgets.
-    g_signal_connect(GTK_OBJECT(editornotes[i].label_caller_note), "size-allocate", G_CALLBACK(on_related_widget_size_allocated), gpointer(this));
-    g_signal_connect(GTK_OBJECT(editornotes[i].textview), "size-allocate", G_CALLBACK(on_related_widget_size_allocated), gpointer(this));
 
     // Optionally focus the rendered textview and scroll to it.
     if (focus_rendered_textview) {
@@ -1660,8 +1566,6 @@ void Editor2::display_notes_remainder(bool focus_rendered_textview)
     }
   }
 
-  // Set fonts.
-  set_font();
   */
 }
 
@@ -1763,118 +1667,6 @@ void Editor2::renumber_and_clean_notes_callers()
   gtk_text_buffer_get_end_iter(textbuffer, &iter2);
   gtk_text_buffer_remove_all_tags(textbuffer, &iter, &iter2);
   */
-}
-
-
-void Editor2::display_table(ustring line, GtkTextIter iter)
-// Displays a table, inserting it at "iter". The raw USFM code is in "line".
-{
-  /*
-  // Find out the number of columns and rows in this table.
-  vector < ustring > markers = usfm_get_all_markers(line);
-  int rowcount = 0;
-  int columncount = 0;
-  ustring stylesheet = stylesheet_get_actual ();
-  extern Styles *styles;
-  Usfm *usfm = styles->usfm(stylesheet);
-  for (unsigned int i = 0; i < markers.size(); i++) {
-    StyleType type;
-    int subtype;
-    marker_get_type_and_subtype(project, markers[i], type, subtype);
-    if (style_get_starts_table_cell(type, subtype)) {
-      if (rowcount == 0)
-        rowcount = 1;
-      for (unsigned int i2 = 0; i2 < usfm->styles.size(); i2++) {
-        if (usfm->styles[i2].marker == markers[i]) {
-          if (usfm->styles[i2].userint1 > columncount)
-            columncount = usfm->styles[i2].userint1;
-        }
-      }
-    }
-    if (style_get_starts_table_row(type, subtype)) {
-      rowcount++;
-    }
-  }
-
-  // Bail out if there aren't enough rows or columns.
-  if (rowcount == 0)
-    return;
-  if (columncount == 0)
-    return;
-
-  // Create the table object.  
-  EditorTable editortable(0);
-
-  // Insert the table and the textviews in the text.
-  editortable.childanchor = gtk_text_buffer_create_child_anchor(textbuffer, &iter);
-
-  editortable.table = gtk_table_new(0, 0, false);
-  gtk_widget_show(editortable.table);
-  gtk_text_view_add_child_at_anchor(GTK_TEXT_VIEW(textview), editortable.table, editortable.childanchor);
-  table_resize(editortable, texttagtable, rowcount, columncount, editable);
-
-  // Connect signal handlers and insert the insertion point mark.
-  for (unsigned int row = 0; row < editortable.textviews.size(); row++) {
-    for (unsigned int column = 0; column < editortable.textviews[row].size(); column++) {
-      GtkWidget *textview = table_cell_get_view(editortable, row, column);
-      //GtkTextBuffer *textbuffer = table_cell_get_buffer(editortable, row, column);
-    }
-  }
-
-  // Store the object.
-  editortables.push_back(editortable);
-
-  // Put the text in the table.
-  ustring paragraph_mark(unknown_style());
-  ustring character_mark;
-  ustring marker;
-  size_t marker_pos;
-  size_t marker_length;
-  bool is_opener;
-  bool marker_found;
-  gint row = 0;
-  bool row_zero_initialized = false;
-  gint column = 0;
-  GtkTextBuffer *textbuffer = table_cell_get_buffer(editortable, row, column);
-  while (!line.empty()) {
-    marker_found = usfm_search_marker(line, marker, marker_pos, marker_length, is_opener);
-    if (load_text_table_starting_row(line, editortable, textbuffer, row_zero_initialized, row, column, paragraph_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else if (load_text_table_starting_cell(line, editortable, textbuffer, row_zero_initialized, row, column, paragraph_mark, marker, marker_pos, marker_length, is_opener, marker_found)) ;
-    else fallback;
-  }
-
-  // Erase any superfluous whitespace at the end of the cells.
-  for (unsigned int row = 0; row < editortable.textbuffers.size(); row++) {
-    for (unsigned int column = 0; column < editortable.textbuffers[row].size(); column++) {
-      GtkTextBuffer *buffer = table_cell_get_buffer(editortable, row, column);
-      textbuffer_erase_character_before_text_insertion_point_if_space(buffer);
-    }
-  }
-
-  // Set the font.
-  set_font();
-
-  // Set the table's width.
-  set_embedded_table_textviews_width(editortables.size() - 1);
-  */
-}
-
-
-void Editor2::erase_tables()
-/*
- This function is called when a GtkTextChildAnchor is in the process of 
- being deleted. If this anchor or these anchors happens to contain
- a table, this function does the administration of getting rid of this table.
- */
-{
-  // Remove the objects.
-  vector < EditorTable >::iterator iter(editortables.end());
-  for (int i = editortables.size() - 1; i >= 0; i--) {
-    iter--;
-    if (text_child_anchors_being_deleted.find(editortables[i].childanchor) != text_child_anchors_being_deleted.end()) {
-      editortables.erase(iter);
-    }
-  }
 }
 
 
@@ -2122,7 +1914,6 @@ void Editor2::process_text_child_anchors_deleted()
     return;
   if (!text_child_anchors_being_deleted.empty()) {
     erase_related_note_bits();
-    erase_tables();
   }
   text_child_anchors_being_deleted.clear();
   */
@@ -2853,10 +2644,9 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
           g_signal_connect((gpointer) paragraph_action->textview, "key-release-event", G_CALLBACK(on_textview_key_release_event), gpointer(this));
           g_signal_connect((gpointer) paragraph_action->textview, "button_press_event", G_CALLBACK(on_textview_button_press_event), gpointer(this));
           //g_signal_connect((gpointer) textview, "event-after", G_CALLBACK(on_text_event_after), gpointer(this));
-          //g_signal_connect((gpointer) textview, "key-press-event", G_CALLBACK(text_key_press_event_before), gpointer(this));
-          //g_signal_connect_after((gpointer) textview, "key-press-event", G_CALLBACK(text_key_press_event_after), gpointer(this));
           //g_signal_connect((gpointer) textview, "visibility-notify-event", G_CALLBACK(screen_visibility_notify_event), gpointer(this));
-          //g_signal_connect((gpointer) textview, "size-allocate", G_CALLBACK(on_related_widget_size_allocated), gpointer(this));
+          // Set font
+          set_font_textview (paragraph_action->textview);
           // Signal the parent window to connect to the signals of the TextView.
           new_widget_pointer = paragraph_action->textview;
           gtk_button_clicked (GTK_BUTTON (new_widget_signal));

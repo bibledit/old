@@ -4602,10 +4602,12 @@ void MainWindow::on_projects_send_receive ()
  |
  */
 
+
 void MainWindow::on_view_text_font_activate(GtkMenuItem * menuitem, gpointer user_data)
 {
   ((MainWindow *) user_data)->on_text_font();
 }
+
 
 void MainWindow::on_text_font()
 {
@@ -4658,6 +4660,7 @@ void MainWindow::on_text_font()
   }
   set_fonts();
 }
+
 
 void MainWindow::set_fonts()
 {
@@ -6845,6 +6848,11 @@ Todo tasks.
 
 
 
+Set the font.
+
+
+
+
 Notes:
 * To extract notes using current systems.
 * Leave text in main view for the mean time, but add it in notes too.
@@ -6861,6 +6869,10 @@ When it comes to the state of footnotes, we need to have separate handlers for t
 If some text is deleted, we need to separate footnotes out of that, and divide it among the handlers.
 Deleting text may also expand the selection so as to include the full footnote caller if it is longer than one character.
 We may make callers for footnotes the "f", and so on, so it uses the mark used, for easy viewing. So no renumbering.
+Notemarkers can be distinguished by their "f" or other character markup.
+
+
+
 
 
 When merging, the changes do not automatically show up in the merge window. 
@@ -6884,14 +6896,7 @@ Once the whole editor2 is ready, to check all its code and test all, and establi
 Also test opening several Editor windows.
 
 
-When text is being undone and redone, we need to restore cursor position as well.
-This is because the user expects it so, and further the system works with inserting at cursor position.
-
-
 Perhaps pictures can then be shown in a htmlview or textbuffer.
-Notemarkers can be distinguished by their "f" or other character markup.
-Scrolling won't work at first, but should be implemented later.
-Copying text beyond the paragraph won't work at first, but should be implemented later.
 
 
 Editor * WindowEditor::editor_get() - Needs update to give Editor2.

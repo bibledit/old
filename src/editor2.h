@@ -140,6 +140,7 @@ public:
   GtkWidget * word_double_clicked_signal;
 
   void set_font();
+  void set_font_textview (GtkWidget * textview);
 
   ustring project;
   unsigned int book;
@@ -181,16 +182,11 @@ public:
 
   bool load_text_starting_footnote_content(GtkTextBuffer * textbuffer, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
   bool load_text_ending_footnote_content(GtkTextBuffer * textbuffer, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
-  bool load_text_table_starting_row(ustring& line, EditorTable& editortable, GtkTextBuffer *& textbuffer, bool& row_zero_initialized, gint& row, gint& column, ustring& paragraph_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
-  bool load_text_table_starting_cell(ustring& line, EditorTable& editortable, GtkTextBuffer *& textbuffer, bool& row_zero_initialized, gint& row, gint& column, ustring& paragraph_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
 
   void erase_related_note_bits();
   void display_notes_remainder(bool focus_rendered_textview);
   void renumber_and_clean_notes_callers();
   void insert_note(const ustring& marker, const ustring& rawtext, bool render);
-
-  void display_table(ustring line, GtkTextIter iter);
-  void erase_tables();
 
   bool do_not_process_child_anchors_being_deleted;
   static void on_buffer_insert_text_after(GtkTextBuffer *textbuffer, GtkTextIter *pos_iter, gchar *text, gint length, gpointer user_data);
