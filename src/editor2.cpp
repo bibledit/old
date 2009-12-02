@@ -334,13 +334,11 @@ void Editor2::text_load (ustring text, ustring character_style)
         handled = true;
       }
     }
-    /*
     if (!handled) {
-      if (create_editor_objects_for_text_note_raw                 (project, last_focused_textview, text, paragraph_mark, character_mark, marker, marker_pos, marker_length, is_opener, marker_found)) {
+      if (editor_starts_note_raw (text, character_style, marker_text, marker_pos, marker_length, is_opener, marker_found)) { // Todo
         handled = true;
       }
     }
-    */
     if (!handled) {
       editor_text_fallback (text, character_style, marker_pos, marker_found);
     }
@@ -2914,6 +2912,37 @@ bool Editor2::editor_ends_character_style(ustring & line, ustring & character_st
           character_style.clear();
           line.erase(0, marker_length);
           return true;
+        }
+      }
+    }
+  }
+  return false;
+}
+
+
+bool Editor2::editor_starts_note_raw(ustring & line, ustring & character_style, const ustring & marker_text, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found) // Todo
+// This function loads the raw text of a footnote, an endnote, or a crossreference.
+{
+  if (marker_found) {
+    if (marker_pos == 0) {
+      if (is_opener) {
+        StyleType type;
+        int subtype;
+        marker_get_type_and_subtype(project, marker_text, type, subtype);
+        if (style_get_starts_footnote(type, subtype) || style_get_starts_endnote(type, subtype) || style_get_starts_crossreference(type, subtype)) {
+          // Proceed if the endmarker is in the text too.
+          ustring endmarker = usfm_get_full_closing_marker(marker_text);
+          size_t endmarkerpos = line.find(endmarker);
+          if (endmarkerpos != string::npos) {
+            // Get raw note text and erase it from the input buffer.
+            ustring rawnote(line.substr(marker_length, endmarkerpos - endmarker.length()));
+            //line.erase(0, endmarkerpos + endmarker.length());
+            gw_message (rawnote); // Todo
+            // Insert the note.
+            //insert_note(marker, rawnote, false);
+            // The information was processed: return true.
+            //return true;
+          }
         }
       }
     }

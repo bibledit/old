@@ -59,6 +59,7 @@ private:
   void editor_start_verse (ustring& line, ustring& marker_text, ustring& character_style);
   bool editor_starts_character_style (ustring & line, ustring & character_style, const ustring & marker_text, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
   bool editor_ends_character_style   (ustring & line, ustring & character_style, const ustring & marker_text, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
+  bool editor_starts_note_raw        (ustring & line, ustring & character_style, const ustring & marker_text, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
   void editor_text_fallback (ustring& line, ustring& character_style, size_t marker_pos, bool marker_found);
   EditorActionCreateParagraph * textview2paragraph_action (GtkWidget * textview);
   int disregard_text_buffer_signals;

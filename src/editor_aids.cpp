@@ -603,67 +603,69 @@ ustring style_get_verse_marker(const ustring & project)
   return style;
 }
 
+
 bool style_get_starts_footnote(StyleType type, int subtype)
 // Returns true if the combination of the "type" and the"subtype" starts
 // a footnote.
 {
   switch (type) {
-  case stIdentifier:
-  case stNotUsedComment:
-  case stNotUsedRunningHeader:
-  case stStartsParagraph:
-  case stInlineText:
-  case stChapterNumber:
-  case stVerseNumber:
+    case stIdentifier:
+    case stNotUsedComment:
+    case stNotUsedRunningHeader:
+    case stStartsParagraph:
+    case stInlineText:
+    case stChapterNumber:
+    case stVerseNumber:
     {
       break;
     }
-  case stFootEndNote:
+    case stFootEndNote:
     {
       if (subtype == fentFootnote)
         return true;
       break;
     }
-  case stCrossreference:
-  case stPeripheral:
-  case stPicture:
-  case stPageBreak:
-  case stTableElement:
-  case stWordlistElement:
+    case stCrossreference:
+    case stPeripheral:
+    case stPicture:
+    case stPageBreak:
+    case stTableElement:
+    case stWordlistElement:
     {
       break;
     }
   }
   return false;
 }
+
 
 bool style_get_starts_endnote(StyleType type, int subtype)
 // Returns true if the combination of the "type" and the"subtype" starts
 // an endnote.
 {
   switch (type) {
-  case stIdentifier:
-  case stNotUsedComment:
-  case stNotUsedRunningHeader:
-  case stStartsParagraph:
-  case stInlineText:
-  case stChapterNumber:
-  case stVerseNumber:
+    case stIdentifier:
+    case stNotUsedComment:
+    case stNotUsedRunningHeader:
+    case stStartsParagraph:
+    case stInlineText:
+    case stChapterNumber:
+    case stVerseNumber:
     {
       break;
     }
-  case stFootEndNote:
+    case stFootEndNote:
     {
       if (subtype == fentEndnote)
         return true;
       break;
     }
-  case stCrossreference:
-  case stPeripheral:
-  case stPicture:
-  case stPageBreak:
-  case stTableElement:
-  case stWordlistElement:
+    case stCrossreference:
+    case stPeripheral:
+    case stPicture:
+    case stPageBreak:
+    case stTableElement:
+    case stWordlistElement:
     {
       break;
     }
@@ -671,39 +673,41 @@ bool style_get_starts_endnote(StyleType type, int subtype)
   return false;
 }
 
+
 bool style_get_starts_crossreference(StyleType type, int subtype)
 // Returns true if the combination of the "type" and the"subtype" starts
 // a crossreference.
 {
   switch (type) {
-  case stIdentifier:
-  case stNotUsedComment:
-  case stNotUsedRunningHeader:
-  case stStartsParagraph:
-  case stInlineText:
-  case stChapterNumber:
-  case stVerseNumber:
-  case stFootEndNote:
+    case stIdentifier:
+    case stNotUsedComment:
+    case stNotUsedRunningHeader:
+    case stStartsParagraph:
+    case stInlineText:
+    case stChapterNumber:
+    case stVerseNumber:
+    case stFootEndNote:
     {
       break;
     }
-  case stCrossreference:
+    case stCrossreference:
     {
       if (subtype == ctCrossreference)
         return true;
       break;
     }
-  case stPeripheral:
-  case stPicture:
-  case stPageBreak:
-  case stTableElement:
-  case stWordlistElement:
+    case stPeripheral:
+    case stPicture:
+    case stPageBreak:
+    case stTableElement:
+    case stWordlistElement:
     {
       break;
     }
   }
   return false;
 }
+
 
 bool style_get_starts_note_content(StyleType type, int subtype)
 // Returns true if the combination of the "type" and the"subtype" starts
@@ -711,39 +715,40 @@ bool style_get_starts_note_content(StyleType type, int subtype)
 {
   bool note_content = false;
   switch (type) {
-  case stIdentifier:
-  case stNotUsedComment:
-  case stNotUsedRunningHeader:
-  case stStartsParagraph:
-  case stInlineText:
-  case stChapterNumber:
-  case stVerseNumber:
+    case stIdentifier:
+    case stNotUsedComment:
+    case stNotUsedRunningHeader:
+    case stStartsParagraph:
+    case stInlineText:
+    case stChapterNumber:
+    case stVerseNumber:
     {
       break;
     }
-  case stFootEndNote:
+    case stFootEndNote:
     {
       if ((subtype == fentContent) || (subtype == fentStandardContent))
         note_content = true;
       break;
     }
-  case stCrossreference:
+    case stCrossreference:
     {
       if ((subtype == ctContent) || (subtype == ctStandardContent))
         note_content = true;
       break;
     }
-  case stPeripheral:
-  case stPicture:
-  case stPageBreak:
-  case stTableElement:
-  case stWordlistElement:
+    case stPeripheral:
+    case stPicture:
+    case stPageBreak:
+    case stTableElement:
+    case stWordlistElement:
     {
       break;
     }
   }
   return note_content;
 }
+
 
 ustring style_get_default_note_style(const ustring & project, EditorNoteType type)
 {
@@ -752,13 +757,13 @@ ustring style_get_default_note_style(const ustring & project, EditorNoteType typ
   Usfm *usfm = styles->usfm(stylesheet);
   ustring style;
   switch (type) {
-  case entFootnote:
-  case entEndnote:
+    case entFootnote:
+    case entEndnote:
     {
       style = "ft";
       break;
     }
-  case entCrossreference:
+    case entCrossreference:
     {
       style = "xt";
       break;
@@ -766,15 +771,15 @@ ustring style_get_default_note_style(const ustring & project, EditorNoteType typ
   }
   for (unsigned int i = 0; i < usfm->styles.size(); i++) {
     switch (type) {
-    case entFootnote:
-    case entEndnote:
+      case entFootnote:
+      case entEndnote:
       {
         if (usfm->styles[i].type == stFootEndNote)
           if (usfm->styles[i].subtype == fentStandardContent)
             style = usfm->styles[i].marker;
         break;
       }
-    case entCrossreference:
+      case entCrossreference:
       {
         if (usfm->styles[i].type == stCrossreference)
           if (usfm->styles[i].subtype == ctStandardContent)
@@ -785,6 +790,7 @@ ustring style_get_default_note_style(const ustring & project, EditorNoteType typ
   }
   return style;
 }
+
 
 ustring style_get_paragraph_note_style(const ustring & project)
 // Gets the style that starts a new paragraph in a footnote or endnote.
@@ -800,6 +806,7 @@ ustring style_get_paragraph_note_style(const ustring & project)
   }
   return style;
 }
+
 
 bool style_get_starts_table_row(StyleType type, int subtype)
 {
@@ -2047,39 +2054,6 @@ void editor_text_append(GtkTextBuffer * textbuffer, const ustring & text, const 
   gtk_text_buffer_get_iter_at_mark(textbuffer, &insertiter, gtk_text_buffer_get_insert(textbuffer));
   // Insert text together with the style(s).
   textbuffer_insert_with_named_tags(textbuffer, &insertiter, text, paragraph_style, character_style);
-}
-
-
-bool create_editor_objects_for_text_note_raw(const ustring& project, GtkWidget * textview, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found)
-/*
- This function loads the raw text of a footnote, an endnote, or a 
- crossreference.
- */
-{
-  if (marker_found) {
-    if (marker_pos == 0) {
-      if (is_opener) {
-        StyleType type;
-        int subtype;
-        marker_get_type_and_subtype(project, marker, type, subtype);
-        if (style_get_starts_footnote(type, subtype) || style_get_starts_endnote(type, subtype) || style_get_starts_crossreference(type, subtype)) {
-          // Proceed if the endmarker is in the text too.
-          ustring endmarker = usfm_get_full_closing_marker(marker);
-          size_t endmarkerpos = line.find(endmarker);
-          if (endmarkerpos != string::npos) {
-            // Get raw note text and erase it from the input buffer.
-            ustring rawnote(line.substr(marker_length, endmarkerpos - endmarker.length()));
-            line.erase(0, endmarkerpos + endmarker.length());
-            // Insert the note.
-            //insert_note(marker, rawnote, false);
-            // The information was processed: return true.
-            return true;
-          }
-        }
-      }
-    }
-  }
-  return false;
 }
 
 

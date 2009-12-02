@@ -6847,6 +6847,14 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
+Notes, first steps is to have the raw note at the bottom of the editor. Involved is the following:
+* To extract it but also leave it in the normal text.
+* To create special paragraph.
+* This special paragraph should not be included in the normal widgets, and should have a label for a note caller.|
+* To make the widgets collector differentiate between normal paragraphs and notes.
+* To make save work properly.
+* To no longer leave it in the normal text.
+* To make callers work.
 
 Notes:
 * To extract notes using current systems.
