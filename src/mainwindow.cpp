@@ -6847,17 +6847,26 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
-Notes:
-When notes are moved about, text inserted, removed, these notes need to remain.
+Text removal.
+When text is removed, and it contains a note, then remove this note also, using the DeleteParagraph action.
 When it comes to the editoractions for footnotes, we need to have separate handlers for that.
 If some text is deleted, we need to separate footnotes out of that, and divide it among more than one handler.
 Deleting text should consider footnotes as well. i.e. it should delete the note at the bottom as well.
+The undo and redo for the note paragraph to be implemented.
+
+
+Clipboard operations are intelligent.
+Text copied or cut to the clipboard is always plain, but an internal USFM code copy is created.
+When pasting text into the editor, and the text that would be pasted is the same as that which was copied,
+then instead of pasting from the clipboard, we paste from the internal USFM copy that we kept.
+
+Notes:
+When text is copied, and this text contains no footnotes, then plain text is copied. Note markers are removed.
+When text is copied, and it contains one or more notes, then the USFM code of these notes is inserted. This facilitates copying notes.
+When copying text to clipboard including formatting, it should contain USFM code plus any markers contained in the selection.
 Entering <Enter> in a notes paragraph does start a new line, but not a new paragraph. When USFM is retrieved, a new line translates to the "\fp " marker.
-The undo and redo for the note paragraph still need to be implemented.
 The user can click on the notes callers, which then switch the view.
 When a note marker is stuck to a word, the speller misspells it. Make the speller intelligent so it excludes styles that start with "note...".
-When copying text to clipboard as plain text, it should remove the note markers.
-When copying text to clipboard including formatting, it should contain USFM code plus any markers contained in the selection.
 When clicking on a note, it need to focus the corresponding textview.
 When pressing PgUp in a note, it goes back to the text where the note starts.
 Notes need to be ordered to the right position on placement, as it can be inserted anywhere among the existing ones.

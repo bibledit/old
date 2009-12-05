@@ -199,9 +199,6 @@ public:
   void buffer_delete_range_before(GtkTextBuffer *textbuffer, GtkTextIter *start, GtkTextIter *end);
   static void on_buffer_delete_range_after(GtkTextBuffer *textbuffer, GtkTextIter *start, GtkTextIter *end, gpointer user_data);
   void buffer_delete_range_after(GtkTextBuffer *textbuffer, GtkTextIter *start, GtkTextIter *end);
-  void collect_text_child_anchors_being_deleted(GtkTextIter *startiter, GtkTextIter *enditer);
-  void process_text_child_anchors_deleted();
-  set <GtkTextChildAnchor *> text_child_anchors_being_deleted;
   void text_get_all(vector <ustring>& texts, vector <VectorUstring>& styles);
   static bool on_double_paste_timeout(gpointer data);
   ustring double_paste_prevention;

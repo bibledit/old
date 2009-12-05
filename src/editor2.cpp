@@ -1571,7 +1571,7 @@ void Editor2::on_buffer_delete_range_before(GtkTextBuffer * textbuffer, GtkTextI
 }
 
 
-void Editor2::buffer_delete_range_before(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end)
+void Editor2::buffer_delete_range_before(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end) // Todo
 {
   if (disregard_text_buffer_signals) {
     return;
@@ -1597,7 +1597,7 @@ void Editor2::on_buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIt
 }
 
 
-void Editor2::buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end)
+void Editor2::buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end) // Todo
 {
   if (disregard_text_buffer_signals) {
     return;
@@ -1616,10 +1616,6 @@ void Editor2::buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIter 
   text_to_be_deleted.clear();
   styles_to_be_deleted.clear();
 
-  //collect_text_child_anchors_being_deleted(start, end);
-  //process_text_child_anchors_deleted();
-
-
   // The editor got changed.
   signal_editor_changed();
   
@@ -1627,37 +1623,6 @@ void Editor2::buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIter 
   apply_editor_action (new EditorAction (eatOneActionBoundary));
 
   disregard_text_buffer_signals--;
-}
-
-
-void Editor2::collect_text_child_anchors_being_deleted(GtkTextIter * startiter, GtkTextIter * enditer)
-// This function stores the GtkTextChildAnchors that are being deleted.
-{
-  /*
-  if (do_not_process_child_anchors_being_deleted)
-    return;
-  GtkTextIter iter = *startiter;
-  do {
-    GtkTextChildAnchor *anchor = gtk_text_iter_get_child_anchor(&iter);
-    if (anchor)
-      text_child_anchors_being_deleted.insert(anchor);
-    gtk_text_iter_forward_char(&iter);
-  } while (gtk_text_iter_in_range(&iter, startiter, enditer));
-  */
-}
-
-
-void Editor2::process_text_child_anchors_deleted()
-// This function processes the GtkTextChildAnchors that have been deleted.
-{
-  /*
-  if (do_not_process_child_anchors_being_deleted)
-    return;
-  if (!text_child_anchors_being_deleted.empty()) {
-    erase_related_note_bits();
-  }
-  text_child_anchors_being_deleted.clear();
-  */
 }
 
 
