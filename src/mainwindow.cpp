@@ -6847,6 +6847,7 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
+
 Notes:
 When notes are moved about, text inserted, removed, these notes need to remain.
 When it comes to the state of footnotes, we need to have separate handlers for that.
@@ -6856,7 +6857,6 @@ Entering <Enter> in a notes paragraph does start a new line, but not a new parag
 The undo and redo for the note paragraph still need to be implemented.
 The user can click on the notes callers, which then switch the view.
 When a note marker is stuck to a word, the speller misspells it. Could we insert a space or so? But this might give editing problems.
-When a note marker is stuck to a word, and the user inserts a character, this character gets the note style, so doubling the note. To be fixed.
 When copying text to clipboard as plain text, it should remove the note markers.
 When copying text to clipboard including formatting, it should contain USFM code plus any markers contained in the selection.
 When clicking on a note, it need to focus the corresponding textview.

@@ -1399,13 +1399,12 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
 // This function is called after the default handler has inserted the text.
 // At this stage "pos_iter" points to the end of the inserted text.
 {
-  // When we are not interested in signals from the textbuffer
-  // that indicate that text was inserted. Bail out.
+  // If text buffers signals are to be disregarded, bail out.
   if (disregard_text_buffer_signals) {
     return;
   }
   
-  // The "length" parameter does not give the length of the characters 
+  // The "length" parameter does not give the length as the number of characters 
   // but the byte length of the "text" parameter.
   // Therefore get our own length.
   ustring utext (text);
@@ -1419,13 +1418,17 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
   /*
   If text is inserted right before where a character style was in effect,
   the GtkTextBuffer does not apply any style to that text.
-  The user expects that the character style that apply to the insertion point
-  will be applied to the new text as well.
+  The user expects that the character style that applies to the insertion point
+  will be applied to the new text as well. 
+  Do not extend a note style.
   */
   if (character_style_to_be_applied.empty()) {
     ustring paragraph_style;
     GtkTextIter iter = *pos_iter;
     get_styles_at_iterator(iter, paragraph_style, character_style_to_be_applied);
+    if (character_style_to_be_applied.find (note_starting_style ()) == 0) {
+      character_style_to_be_applied.clear();
+    }
   }
 
   /*
@@ -1433,6 +1436,7 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
   the user expects this character style to be used for the inserted text as well.
   This does not happen automatically in the GtkTextBuffer.
   The code below cares for it.
+  Do not extend a note style.
   */
   if (character_style_to_be_applied.empty()) {
     GtkTextIter iter;
@@ -1440,6 +1444,9 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
     if (gtk_text_iter_backward_char (&iter)) {
       ustring paragraph_style;
       get_styles_at_iterator(iter, paragraph_style, character_style_to_be_applied);
+    }
+    if (character_style_to_be_applied.find (note_starting_style ()) == 0) {
+      character_style_to_be_applied.clear();
     }
   }
 
