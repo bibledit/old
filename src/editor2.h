@@ -188,7 +188,6 @@ public:
   double font_size_multiplier;
   
   vector <EditorNote> editornotes;
-  vector <EditorTable> editortables;
 
   void erase_related_note_bits();
   void insert_note(const ustring& marker, const ustring& rawtext, bool render);

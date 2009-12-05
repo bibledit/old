@@ -17,6 +17,7 @@
 **  
 */
 
+
 #include "libraries.h"
 #include <glib.h>
 #include "highlight.h"
@@ -28,7 +29,8 @@
 #include "settings.h"
 #include "date_time_utils.h"
 
-Highlight::Highlight(GtkTextBuffer * buffer, GtkWidget * textview, const ustring & project, const vector < EditorNote > &editornotes, const vector < EditorTable > &editortables, GtkTextTag * tag, const ustring & verse)
+
+Highlight::Highlight(GtkTextBuffer * buffer, GtkWidget * textview, const ustring & project, const vector < EditorNote > &editornotes, GtkTextTag * tag, const ustring & verse)
 {
   // Save and initialize variables.
   maintextbuffer = buffer;
@@ -41,13 +43,6 @@ Highlight::Highlight(GtkTextBuffer * buffer, GtkWidget * textview, const ustring
   remove_previous_highlights(maintextbuffer);
   for (unsigned int i = 0; i < editornotes.size(); i++) {
     remove_previous_highlights(editornotes[i].textbuffer);
-  }
-  for (unsigned int i = 0; i < editortables.size(); i++) {
-    for (unsigned int row = 0; row < editortables[i].textviews.size(); row++) {
-      for (unsigned int column = 0; column < editortables[i].textviews[row].size(); column++) {
-        remove_previous_highlights(table_cell_get_buffer(editortables[i], row, column));
-      }
-    }
   }
 
   // Determine the boundaries between which to highlight,
@@ -104,17 +99,8 @@ Highlight::Highlight(GtkTextBuffer * buffer, GtkWidget * textview, const ustring
       searchviews.push_back(GTK_TEXT_VIEW(editornotes[i].textview));
     }
   }
-  for (unsigned int i = 0; i < editortables.size(); i++) {
-    if (childanchors.find(editortables[i].childanchor) != childanchors.end()) {
-      for (unsigned int row = 0; row < editortables[i].textviews.size(); row++) {
-        for (unsigned int column = 0; column < editortables[i].textviews[row].size(); column++) {
-          searchbuffers.push_back(table_cell_get_buffer(editortables[i], row, column));
-          searchviews.push_back(GTK_TEXT_VIEW(table_cell_get_view(editortables[i], row, column)));
-        }
-      }
-    }
-  }
 }
+
 
 Highlight::~Highlight()
 {
@@ -126,6 +112,7 @@ Highlight::~Highlight()
   }
   // The object destroys itself.
 }
+
 
 void Highlight::searchwords(GtkTextBuffer * textbuffer, GtkTextView * textview, gint startoffset, gint endoffset)
 /*
@@ -165,6 +152,7 @@ be highlighted highlights based upon the word that was searched for.
     }
   }
 }
+
 
 void Highlight::searchwords_find_slow(GtkTextBuffer * textbuffer, GtkTextIter * beginbound, GtkTextIter * endbound, const ustring & searchword, bool casesensitive, bool globbing, bool matchbegin, bool matchend, vector < GtkTextIter > &wordstart, vector < GtkTextIter > &wordend)
 /*

@@ -1747,15 +1747,6 @@ unsigned int Editor2::last_focused_column()
 // The first column is number 1.
 // Outside of the table it just returns 0.
 {
-  for (unsigned int i = 0; i < editortables.size(); i++) {
-    for (unsigned int row = 0; row < editortables[i].textviews.size(); row++) {
-      for (unsigned int column = 0; column < editortables[i].textviews[row].size(); column++) {
-        if (last_focused_widget == table_cell_get_view(editortables[i], row, column)) {
-          return ++column;
-        }
-      }
-    }
-  }
   return 0;
 }
 

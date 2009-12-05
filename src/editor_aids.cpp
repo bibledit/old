@@ -46,18 +46,6 @@ EditorNote::~EditorNote()
 }
 
 
-EditorTable::EditorTable(int dummy)
-// This object is for storing data related to the different bits of a table.
-// The data is stored row by row.
-{
-}
-
-
-EditorTable::~EditorTable()
-{
-}
-
-
 void marker_get_type_and_subtype(const ustring & project, const ustring & marker, StyleType & type, int &subtype)
 /*
  Given a "project", and a "marker", this function gives the "type" and the 
@@ -978,112 +966,11 @@ gint table_get_n_rows(GtkTable * table)
   return n_rows;
 }
 
+
 gint table_get_n_columns(GtkTable * table)
 {
   gint n_columns = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(table), "n_columns"));
   return n_columns;
-}
-
-GtkTextBuffer *table_cell_get_buffer(const EditorTable & editortable, gint row, gint column)
-{
-  GtkTextBuffer *textbuffer = NULL;
-  if (row < (gint) editortable.textbuffers.size())
-    if (column < (gint) editortable.textbuffers[row].size())
-      textbuffer = editortable.textbuffers[row][column];
-  return textbuffer;
-}
-
-GtkWidget *table_cell_get_view(const EditorTable & editortable, gint row, gint column)
-{
-  GtkWidget *textview = NULL;
-  if (row < (gint) editortable.textviews.size())
-    if (column < (gint) editortable.textviews[row].size())
-      textview = editortable.textviews[row][column];
-  return textview;
-}
-
-void table_resize(EditorTable & editortable, GtkTextTagTable * texttagtable, gint n_rows, gint n_columns, bool editable)
-/*
- This function supposes that there is an already existing table. 
- It may have zero or more columns and/or rows.
- Information regarding this table is in variable "editortable".
- It resizes the table so as to include the required number of rows and columns.
- The "texttagtable" is an existing table with the tags that are needed.
- */
-{
-  // Get table pointer.
-  GtkTable *table = GTK_TABLE(editortable.table);
-
-  // Get current rows and columns.
-  gint current_n_rows = table_get_n_rows(table) / 3;
-  gint current_n_columns = table_get_n_columns(table) / 3;
-
-  // Resize the table.
-  gtk_table_resize(table, n_rows * 3, n_columns * 3);
-
-  // Add the required amount of rows and columns and store them in the EditorTable object.
-  for (gint row = current_n_rows; row < n_rows; row++) {
-    vector < GtkWidget * >widgets;
-    editortable.textviews.push_back(widgets);
-    vector < GtkTextBuffer * >buffers;
-    editortable.textbuffers.push_back(buffers);
-    for (gint column = current_n_columns; column < n_columns; column++) {
-      GtkWidget *textview;
-      GtkTextBuffer *textbuffer;
-      table_create_cell(table, texttagtable, textview, textbuffer, row, column, editable);
-      editortable.textviews[row].push_back(textview);
-      editortable.textbuffers[row].push_back(textbuffer);
-    }
-  }
-}
-
-void table_create_cell(GtkTable * table, GtkTextTagTable * texttagtable, GtkWidget * &textview, GtkTextBuffer * &textbuffer, gint row, gint column, bool editable)
-/*
- This prepares one cell in the table. It assumes that the table has enough space
- for this cell. It writes the borders, and writes the GtkTextView and the 
- GtkTextBuffer to the EditorTable object.
- Each data cell of the table if surrounded by lines on all four sides.
- Translated into Gtk, this means that each GtkTextView is being surrounded
- by one GtkHSeparator above it, and one below it, and one GtkVSeparator
- at the left and one at the right. With the proper spacing these separators
- give the impression of table borders.
- */
-{
-  // Get the zero-point, the point in the table from where to start building
-  // the widgets.
-  gint zero_row = 3 * row;
-  gint zero_column = 3 * column;
-
-  // Write the four borders around the cell. 
-  // These consist of two times a GtkHSeparator and two times a GtkVSeparator.
-  GtkWidget *hseparator1;
-  GtkWidget *vseparator1;
-  GtkWidget *hseparator2;
-  GtkWidget *vseparator2;
-
-  hseparator1 = gtk_hseparator_new();
-  gtk_widget_show(hseparator1);
-  gtk_table_attach(GTK_TABLE(table), hseparator1, zero_column + 1, zero_column + 2, zero_row + 0, zero_row + 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (GTK_FILL), 0, 0);
-
-  vseparator1 = gtk_vseparator_new();
-  gtk_widget_show(vseparator1);
-  gtk_table_attach(GTK_TABLE(table), vseparator1, zero_column + 0, zero_column + 1, zero_row + 1, zero_row + 2, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (GTK_FILL), 0, 0);
-
-  hseparator2 = gtk_hseparator_new();
-  gtk_widget_show(hseparator2);
-  gtk_table_attach(GTK_TABLE(table), hseparator2, zero_column + 1, zero_column + 2, zero_row + 2, zero_row + 3, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (GTK_FILL), 0, 0);
-
-  vseparator2 = gtk_vseparator_new();
-  gtk_widget_show(vseparator2);
-  gtk_table_attach(GTK_TABLE(table), vseparator2, zero_column + 2, zero_column + 3, zero_row + 1, zero_row + 2, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (GTK_FILL), 0, 0);
-
-  textbuffer = gtk_text_buffer_new(texttagtable);
-
-  textview = gtk_text_view_new_with_buffer(textbuffer);
-  gtk_widget_show(textview);
-  gtk_table_attach(GTK_TABLE(table), textview, zero_column + 1, zero_column + 2, zero_row + 1, zero_row + 2, (GtkAttachOptions) (0), (GtkAttachOptions) (0), 0, 0);
-  gtk_text_view_set_accepts_tab(GTK_TEXT_VIEW(textview), FALSE);
-  gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textview), GTK_WRAP_WORD);
 }
 
 

@@ -6851,9 +6851,7 @@ Notes:
 When notes are moved about, text inserted, removed, these notes need to remain.
 When it comes to the state of footnotes, we need to have separate handlers for that.
 If some text is deleted, we need to separate footnotes out of that, and divide it among the handlers.
-Deleting text may also expand the selection so as to include the full footnote caller if it is longer than one character.
-We may make callers for footnotes the "f", and so on, so it uses the mark used, for easy viewing. So no renumbering.
-Notemarkers can be distinguished by their "f" or other character markup.
+Deleting text should consider footnotes as well.
 Entering <Enter> in a notes paragraph does start a new line, but not a new paragraph. When USFM is retrieved, a new line translates to the "\fp " marker.
 The undo and redo for the note paragraph still need to be implemented.
 The user can click on the notes callers, which then switch the view.

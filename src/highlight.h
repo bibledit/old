@@ -35,7 +35,6 @@ public:
              GtkWidget * textview, 
              const ustring& project, 
              const vector <EditorNote>& editornotes, 
-             const vector <EditorTable>& editortables,
              GtkTextTag * tag,
              const ustring& verse);
   ~Highlight ();

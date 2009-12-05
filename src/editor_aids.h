@@ -54,19 +54,6 @@ private:
 };
 
 
-class EditorTable
-{
-public:
-  EditorTable(int dummy);
-  ~EditorTable();
-  GtkTextChildAnchor * childanchor;
-  GtkWidget * table;
-  vector < vector <GtkWidget *> > textviews;
-  vector < vector <GtkTextBuffer *> > textbuffers;
-private:
-};
-
-
 void marker_get_type_and_subtype(const ustring& project, const ustring& marker, StyleType& type, int& subtype);
 
 bool style_get_plaintext(StyleType type, int subtype);
@@ -94,10 +81,6 @@ ustring note_numbering_user_sequence_get(const ustring& project, const ustring& 
 
 gint table_get_n_rows(GtkTable * table);
 gint table_get_n_columns(GtkTable * table);
-GtkTextBuffer * table_cell_get_buffer(const EditorTable& editortable, gint row, gint column);
-GtkWidget * table_cell_get_view(const EditorTable& editortable, gint row, gint column);
-void table_resize(EditorTable& editortable, GtkTextTagTable * texttagtable, gint n_rows, gint n_columns, bool editable);
-void table_create_cell(GtkTable * table, GtkTextTagTable * texttagtable, GtkWidget * & textview, GtkTextBuffer * & textbuffer, gint row, gint column, bool editable);
 
 void usfm_internal_add_text(ustring& text, const ustring& addition);
 void usfm_internal_get_text_close_character_style(ustring& text, const ustring& project, const ustring& style);
