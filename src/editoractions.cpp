@@ -58,7 +58,7 @@ void EditorAction::redo (deque <EditorAction *>& done, deque <EditorAction *>& u
 }
 
 
-EditorActionCreateParagraph::EditorActionCreateParagraph(int dummy) :
+EditorActionCreateParagraph::EditorActionCreateParagraph(GtkWidget * vbox) :
 EditorAction (eatCreateParagraph)
 {
   // Pointer to the GtkTextView is created on apply.
@@ -69,6 +69,8 @@ EditorAction (eatCreateParagraph)
   style = unknown_style();
   // Offset of this widget at time of deletion.
   offset_at_delete = -1;
+  // Pointer to the parent vertical box.
+  parent_vbox = vbox;
 }
 
 
@@ -81,7 +83,7 @@ EditorActionCreateParagraph::~EditorActionCreateParagraph ()
 }
 
 
-void EditorActionCreateParagraph::apply (GtkTextTagTable * texttagtable, GtkWidget * parent_vbox, bool editable, EditorActionCreateParagraph * focused_paragraph, GtkWidget *& to_focus)
+void EditorActionCreateParagraph::apply (GtkTextTagTable * texttagtable, bool editable, EditorActionCreateParagraph * focused_paragraph, GtkWidget *& to_focus)
 {
   // The textbuffer uses the text tag table.
   textbuffer = gtk_text_buffer_new(texttagtable);
@@ -122,7 +124,7 @@ void EditorActionCreateParagraph::apply (GtkTextTagTable * texttagtable, GtkWidg
 }
 
 
-void EditorActionCreateParagraph::undo (GtkWidget * parent_vbox, GtkWidget * parking_vbox, GtkWidget *& to_focus)
+void EditorActionCreateParagraph::undo (GtkWidget * parking_vbox, GtkWidget *& to_focus)
 {
   // Remove the widget by parking it in an invisible location. It is kept alive.
   editor_park_widget (parent_vbox, textview, offset_at_delete, parking_vbox);
@@ -131,7 +133,7 @@ void EditorActionCreateParagraph::undo (GtkWidget * parent_vbox, GtkWidget * par
 }
 
 
-void EditorActionCreateParagraph::redo (GtkWidget * parent_vbox, GtkWidget *& to_focus)
+void EditorActionCreateParagraph::redo (GtkWidget *& to_focus)
 {
   // Restore the live widget to the editor.
   gtk_widget_reparent (textview, parent_vbox);
@@ -469,8 +471,8 @@ void EditorActionDeleteParagraph::redo (GtkWidget * parent_vbox, GtkWidget * par
 }
 
 
-EditorActionCreateNoteParagraph::EditorActionCreateNoteParagraph(const ustring& marker_in, const ustring& caller_usfm_in, const ustring& caller_text_in, const ustring& identifier_in) :
-EditorActionCreateParagraph (0)
+EditorActionCreateNoteParagraph::EditorActionCreateNoteParagraph(GtkWidget * vbox, const ustring& marker_in, const ustring& caller_usfm_in, const ustring& caller_text_in, const ustring& identifier_in) :
+EditorActionCreateParagraph (vbox)
 {
   // Change the type to a note paragraph.
   type = eatCreateNoteParagraph;
@@ -499,7 +501,7 @@ EditorActionCreateNoteParagraph::~EditorActionCreateNoteParagraph ()
 }
 
 
-void EditorActionCreateNoteParagraph::apply (GtkTextTagTable * texttagtable, GtkWidget * parent_vbox, bool editable, EditorActionCreateParagraph * focused_paragraph, GtkWidget *& to_focus)
+void EditorActionCreateNoteParagraph::apply (GtkTextTagTable * texttagtable, bool editable, EditorActionCreateParagraph * focused_paragraph, GtkWidget *& to_focus)
 {
   // Horizontal box to store the note.
   hbox = gtk_hbox_new (false, 0);
@@ -552,7 +554,7 @@ void EditorActionCreateNoteParagraph::apply (GtkTextTagTable * texttagtable, Gtk
 }
 
 
-void EditorActionCreateNoteParagraph::undo (GtkWidget * parent_vbox, GtkWidget * parking_vbox, GtkWidget *& to_focus)
+void EditorActionCreateNoteParagraph::undo (GtkWidget * parking_vbox, GtkWidget *& to_focus)
 {
   // Remove the widget by parking it in an invisible location. It is kept alive.
   editor_park_widget (parent_vbox, textview, offset_at_delete, parking_vbox);
@@ -561,7 +563,7 @@ void EditorActionCreateNoteParagraph::undo (GtkWidget * parent_vbox, GtkWidget *
 }
 
 
-void EditorActionCreateNoteParagraph::redo (GtkWidget * parent_vbox, GtkWidget *& to_focus)
+void EditorActionCreateNoteParagraph::redo (GtkWidget *& to_focus)
 {
   // Restore the live widget to the editor.
   gtk_widget_reparent (textview, parent_vbox);

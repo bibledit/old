@@ -62,17 +62,18 @@ private:
 class EditorActionCreateParagraph : public EditorAction
 {
 public:
-  EditorActionCreateParagraph(int dummy);
+  EditorActionCreateParagraph(GtkWidget * vbox);
   virtual ~EditorActionCreateParagraph();
   friend class EditorActionCreateNoteParagraph;
-  void apply (GtkTextTagTable * texttagtable, GtkWidget * parent_vbox, bool editable, EditorActionCreateParagraph * focused_paragraph, GtkWidget *& to_focus);
-  void undo (GtkWidget * parent_vbox, GtkWidget * parking_vbox, GtkWidget *& to_focus);
-  void redo (GtkWidget * parent_vbox, GtkWidget *& to_focus);
+  void apply (GtkTextTagTable * texttagtable, bool editable, EditorActionCreateParagraph * focused_paragraph, GtkWidget *& to_focus);
+  void undo (GtkWidget * parking_vbox, GtkWidget *& to_focus);
+  void redo (GtkWidget *& to_focus);
   GtkWidget * textview;
   GtkTextBuffer * textbuffer;
   ustring style;
 private:
   gint offset_at_delete;
+  GtkWidget * parent_vbox;
 };
 
 
@@ -159,11 +160,11 @@ private:
 class EditorActionCreateNoteParagraph : public EditorActionCreateParagraph
 {
 public:
-  EditorActionCreateNoteParagraph(const ustring& marker_in, const ustring& caller_usfm_in, const ustring& caller_text_in, const ustring& identifier_in);
+  EditorActionCreateNoteParagraph(GtkWidget * vbox, const ustring& marker_in, const ustring& caller_usfm_in, const ustring& caller_text_in, const ustring& identifier_in);
   virtual ~EditorActionCreateNoteParagraph();
-  void apply (GtkTextTagTable * texttagtable, GtkWidget * parent_vbox, bool editable, EditorActionCreateParagraph * focused_paragraph, GtkWidget *& to_focus);
-  void undo (GtkWidget * parent_vbox, GtkWidget * parking_vbox, GtkWidget *& to_focus);
-  void redo (GtkWidget * parent_vbox, GtkWidget *& to_focus);
+  void apply (GtkTextTagTable * texttagtable, bool editable, EditorActionCreateParagraph * focused_paragraph, GtkWidget *& to_focus);
+  void undo  (GtkWidget * parking_vbox, GtkWidget *& to_focus);
+  void redo  (GtkWidget *& to_focus);
   GtkWidget * hbox;
   ustring identifier;
   ustring opening_closing_marker;

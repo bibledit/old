@@ -6847,14 +6847,6 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
-
-At times, but not always, text is pasted into the buffer twice.
-To remember the previous text that the buffer signalled it got, and if straight after that the same lot comes, to ignore that lot.
-Use a timeout.
-
-
-
-
 Notes:
 When notes are moved about, text inserted, removed, these notes need to remain.
 When it comes to the editoractions for footnotes, we need to have separate handlers for that.
@@ -6868,7 +6860,7 @@ When copying text to clipboard as plain text, it should remove the note markers.
 When copying text to clipboard including formatting, it should contain USFM code plus any markers contained in the selection.
 When clicking on a note, it need to focus the corresponding textview.
 When pressing PgUp in a note, it goes back to the text where the note starts.
-
+Notes need to be ordered to the right position on placement, as it can be inserted anywhere among the existing ones.
 
 
 

@@ -2296,12 +2296,12 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
       switch (application) {
         case eaaInitial:
         {
-          paragraph_action->apply(texttagtable, vbox_paragraphs, editable, focused_paragraph, widget_that_should_grab_focus);
+          paragraph_action->apply(texttagtable, editable, focused_paragraph, widget_that_should_grab_focus);
           paragraph_create_actions (paragraph_action);
           break;
         }
-        case eaaUndo: paragraph_action->undo (vbox_paragraphs, vbox_parking_lot, widget_that_should_grab_focus); break;
-        case eaaRedo: paragraph_action->redo (vbox_paragraphs, widget_that_should_grab_focus); break;
+        case eaaUndo: paragraph_action->undo (vbox_parking_lot, widget_that_should_grab_focus); break;
+        case eaaRedo: paragraph_action->redo (widget_that_should_grab_focus); break;
       }
       break;
     }
@@ -2373,12 +2373,12 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
       switch (application) {
         case eaaInitial:
         {
-          paragraph_action->apply(texttagtable, vbox_notes, editable, focused_paragraph, widget_that_should_grab_focus);
+          paragraph_action->apply(texttagtable, editable, focused_paragraph, widget_that_should_grab_focus);
           paragraph_create_actions (paragraph_action);
           break;
         }
-        case eaaUndo: paragraph_action->undo (vbox_notes, vbox_parking_lot, widget_that_should_grab_focus); break;
-        case eaaRedo: paragraph_action->redo (vbox_notes, widget_that_should_grab_focus); break;
+        case eaaUndo: paragraph_action->undo (vbox_parking_lot, widget_that_should_grab_focus); break;
+        case eaaRedo: paragraph_action->redo (widget_that_should_grab_focus); break;
       }
       break;
     }
@@ -2434,7 +2434,7 @@ void Editor2::editor_start_new_standard_paragraph (const ustring& marker_text)
 // This function deals with a marker that starts a standard paragraph.
 {
   // Create a new paragraph.
-  EditorActionCreateParagraph * paragraph = new EditorActionCreateParagraph (0);
+  EditorActionCreateParagraph * paragraph = new EditorActionCreateParagraph (vbox_paragraphs);
   apply_editor_action (paragraph); 
 
   // The new paragraph markup.
@@ -2879,7 +2879,7 @@ void Editor2::editor_start_note_raw (ustring raw_note, const ustring & marker_te
   }
 
   // New note paragraph.
-  EditorActionCreateNoteParagraph * note_paragraph = new EditorActionCreateNoteParagraph (marker_text, caller_in_usfm, caller_in_text, caller_style);
+  EditorActionCreateNoteParagraph * note_paragraph = new EditorActionCreateNoteParagraph (vbox_notes, marker_text, caller_in_usfm, caller_in_text, caller_style);
   apply_editor_action (note_paragraph); 
 
   // Note paragraph style.
