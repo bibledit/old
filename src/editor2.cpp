@@ -1618,11 +1618,15 @@ void Editor2::buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIter 
     apply_editor_action (delete_action);
   }
   
-  // If there are any notes among the text to be deleted, delete these notes.
+  // If there are any notes among the deleted text, delete these notes as well.
   for (unsigned int i = 0; i < styles_to_be_deleted.size(); i++) {
     if (styles_to_be_deleted[i].find (note_starting_style ()) == 0) {
       EditorActionCreateNoteParagraph * paragraph_action = note2paragraph_action (styles_to_be_deleted[i]);
       if (paragraph_action) {
+        GtkTextIter iter;
+        gtk_text_buffer_get_end_iter (paragraph_action->textbuffer, &iter);
+        gint length = gtk_text_iter_get_offset (&iter);
+        apply_editor_action (new EditorActionDeleteText (paragraph_action, 0, length));
         apply_editor_action (new EditorActionDeleteParagraph(paragraph_action));
       }
     }

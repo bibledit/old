@@ -6847,10 +6847,6 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
-When a note paragraph has been deleted, and this is undone, then it appears strangely at the top of the Editor.
-We perhaps have to also remove the text it contains, and then undo that removal again. Perhaps then it won't appear strangely at the top of the Editor.
-
-
 Clipboard operations are intelligent.
 Text copied or cut to the clipboard is always plain, but an internal USFM code copy is created.
 When pasting text into the editor, and the text that would be pasted is the same as that which was copied,
