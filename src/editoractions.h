@@ -65,6 +65,7 @@ public:
   EditorActionCreateParagraph(GtkWidget * vbox);
   virtual ~EditorActionCreateParagraph();
   friend class EditorActionCreateNoteParagraph;
+  friend class EditorActionDeleteParagraph;
   void apply (GtkTextTagTable * texttagtable, bool editable, EditorActionCreateParagraph * focused_paragraph, GtkWidget *& to_focus);
   void undo (GtkWidget * parking_vbox, GtkWidget *& to_focus);
   void redo (GtkWidget *& to_focus);
@@ -148,9 +149,9 @@ class EditorActionDeleteParagraph : public EditorAction
 public:
   EditorActionDeleteParagraph(EditorActionCreateParagraph * paragraph_in);
   virtual ~EditorActionDeleteParagraph();
-  void apply(GtkWidget * parent_vbox, GtkWidget * parking_vbox, GtkWidget *& to_focus);
-  void undo (GtkWidget * parent_vbox, GtkWidget *& to_focus);
-  void redo (GtkWidget * parent_vbox, GtkWidget * parking_vbox, GtkWidget *& to_focus);
+  void apply(GtkWidget * parking_vbox, GtkWidget *& to_focus);
+  void undo (GtkWidget *& to_focus);
+  void redo (GtkWidget * parking_vbox, GtkWidget *& to_focus);
 private:
   EditorActionCreateParagraph * paragraph;
   gint offset;

@@ -440,34 +440,50 @@ EditorAction (eatDeleteParagraph)
   offset = -1;
 }
 
+
 EditorActionDeleteParagraph::~EditorActionDeleteParagraph ()
 {
 }
 
 
-void EditorActionDeleteParagraph::apply (GtkWidget * parent_vbox, GtkWidget * parking_vbox, GtkWidget *& to_focus)
+void EditorActionDeleteParagraph::apply (GtkWidget * parking_vbox, GtkWidget *& to_focus)
 {
   // Park this widget, keeping it alive.
-  editor_park_widget (parent_vbox, paragraph->textview, offset, parking_vbox);
+  GtkWidget * widget_to_park = paragraph->textview;
+  if (paragraph->type == eatCreateNoteParagraph) {
+    EditorActionCreateNoteParagraph * note_paragraph = static_cast <EditorActionCreateNoteParagraph *> (paragraph);
+    widget_to_park = note_paragraph->hbox;
+  }
+  editor_park_widget (paragraph->parent_vbox, widget_to_park, offset, parking_vbox);
 }
 
 
-void EditorActionDeleteParagraph::undo (GtkWidget * parent_vbox, GtkWidget *& to_focus)
+void EditorActionDeleteParagraph::undo (GtkWidget *& to_focus)
 {
   // Restore the live widget to the editor.
-  gtk_widget_reparent (paragraph->textview, parent_vbox);
-  gtk_box_reorder_child (GTK_BOX(parent_vbox), paragraph->textview, offset);
+  GtkWidget * widget_to_restore = paragraph->textview;
+  if (paragraph->type == eatCreateNoteParagraph) {
+    EditorActionCreateNoteParagraph * note_paragraph = static_cast <EditorActionCreateNoteParagraph *> (paragraph);
+    widget_to_restore = note_paragraph->hbox;
+  }
+  gtk_widget_reparent (widget_to_restore, paragraph->parent_vbox);
+  gtk_box_reorder_child (GTK_BOX(paragraph->parent_vbox), widget_to_restore, offset);
   // Let the restored textview be earmarked to grab focus.
   to_focus = paragraph->textview;
 }
 
 
-void EditorActionDeleteParagraph::redo (GtkWidget * parent_vbox, GtkWidget * parking_vbox, GtkWidget *& to_focus)
+void EditorActionDeleteParagraph::redo (GtkWidget * parking_vbox, GtkWidget *& to_focus)
 {
   // Park this widget, keeping it alive.
   // Don't store the offset, since we already have that value.
+  GtkWidget * widget_to_park = paragraph->textview;
+  if (paragraph->type == eatCreateNoteParagraph) {
+    EditorActionCreateNoteParagraph * note_paragraph = static_cast <EditorActionCreateNoteParagraph *> (paragraph);
+    widget_to_park = note_paragraph->hbox;
+  }
   gint dummy;
-  editor_park_widget (parent_vbox, paragraph->textview, dummy, parking_vbox);
+  editor_park_widget (paragraph->parent_vbox, widget_to_park, dummy, parking_vbox);
 }
 
 

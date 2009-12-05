@@ -1571,8 +1571,9 @@ void Editor2::on_buffer_delete_range_before(GtkTextBuffer * textbuffer, GtkTextI
 }
 
 
-void Editor2::buffer_delete_range_before(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end) // Todo
+void Editor2::buffer_delete_range_before(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end)
 {
+  // Bail out if we don't care about textbuffer signals.
   if (disregard_text_buffer_signals) {
     return;
   }
@@ -1584,9 +1585,10 @@ void Editor2::buffer_delete_range_before(GtkTextBuffer * textbuffer, GtkTextIter
   get_text_and_styles_between_iterators(start, end, text_to_be_deleted, styles_to_be_deleted);
 
   // Make the end iterator the same as the start iterator, so that nothing gets deleted.
-  // It will get deleted through EditorActions, so that the undo and redo system work.
+  // It will get deleted through EditorActions, so that Undo and Redo work.
   * end = * start;
 
+  // Care about textbuffer signals again.
   disregard_text_buffer_signals--;
 }
 
@@ -1599,11 +1601,13 @@ void Editor2::on_buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIt
 
 void Editor2::buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end) // Todo
 {
+  // Bail out if we don't care about textbuffer signals.
   if (disregard_text_buffer_signals) {
     return;
   }
   disregard_text_buffer_signals++;
-  
+
+  // Delete the text.  
   if (focused_paragraph) {
     ustring text;
     for (unsigned int i = 0; i < text_to_be_deleted.size(); i++) {
@@ -1613,15 +1617,28 @@ void Editor2::buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIter 
     EditorActionDeleteText * delete_action = new EditorActionDeleteText(focused_paragraph, offset, text.length());
     apply_editor_action (delete_action);
   }
+  
+  // If there are any notes among the text to be deleted, delete these notes.
+  for (unsigned int i = 0; i < styles_to_be_deleted.size(); i++) {
+    if (styles_to_be_deleted[i].find (note_starting_style ()) == 0) {
+      EditorActionCreateNoteParagraph * paragraph_action = note2paragraph_action (styles_to_be_deleted[i]);
+      if (paragraph_action) {
+        apply_editor_action (new EditorActionDeleteParagraph(paragraph_action));
+      }
+    }
+  }
+  
+  // Clear data that was used to find out what to delete.
   text_to_be_deleted.clear();
   styles_to_be_deleted.clear();
+
+  // Insert the One Action boundary.
+  apply_editor_action (new EditorAction (eatOneActionBoundary));
 
   // The editor got changed.
   signal_editor_changed();
   
-  // Insert the One Action boundary.
-  apply_editor_action (new EditorAction (eatOneActionBoundary));
-
+  // Care about textbuffer signals again.
   disregard_text_buffer_signals--;
 }
 
@@ -2325,9 +2342,9 @@ void Editor2::apply_editor_action (EditorAction * action, EditorActionApplicatio
     {
       EditorActionDeleteParagraph * delete_action = static_cast <EditorActionDeleteParagraph *> (action);
       switch (application) {
-        case eaaInitial: delete_action->apply(vbox_paragraphs, vbox_parking_lot, widget_that_should_grab_focus); break;
-        case eaaUndo:    delete_action->undo (vbox_paragraphs, widget_that_should_grab_focus); break;
-        case eaaRedo:    delete_action->redo (vbox_paragraphs, vbox_parking_lot, widget_that_should_grab_focus); break;
+        case eaaInitial: delete_action->apply(vbox_parking_lot, widget_that_should_grab_focus); break;
+        case eaaUndo:    delete_action->undo (widget_that_should_grab_focus); break;
+        case eaaRedo:    delete_action->redo (vbox_parking_lot, widget_that_should_grab_focus); break;
       }
       break;
     }

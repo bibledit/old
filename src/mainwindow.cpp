@@ -6847,12 +6847,8 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
-Text removal.
-When text is removed, and it contains a note, then remove this note also, using the DeleteParagraph action.
-When it comes to the editoractions for footnotes, we need to have separate handlers for that.
-If some text is deleted, we need to separate footnotes out of that, and divide it among more than one handler.
-Deleting text should consider footnotes as well. i.e. it should delete the note at the bottom as well.
-The undo and redo for the note paragraph to be implemented.
+When a note paragraph has been deleted, and this is undone, then it appears strangely at the top of the Editor.
+We perhaps have to also remove the text it contains, and then undo that removal again. Perhaps then it won't appear strangely at the top of the Editor.
 
 
 Clipboard operations are intelligent.
