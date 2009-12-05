@@ -99,12 +99,9 @@ GtkWidget * table_cell_get_view(const EditorTable& editortable, gint row, gint c
 void table_resize(EditorTable& editortable, GtkTextTagTable * texttagtable, gint n_rows, gint n_columns, bool editable);
 void table_create_cell(GtkTable * table, GtkTextTagTable * texttagtable, GtkWidget * & textview, GtkTextBuffer * & textbuffer, gint row, gint column, bool editable);
 
-void usfm_get_text(GtkTextBuffer * textbuffer, GtkTextIter startiter, GtkTextIter enditer, vector <EditorNote> * editornotes, vector <EditorTable> * editortables, const ustring& project, ustring& text, bool verse_restarts_paragraph);
-void usfm_get_text(GtkTextBuffer * textbuffer, GtkTextIter startiter, GtkTextIter enditer, const ustring& project, ustring& text, bool verse_restarts_paragraph);
 void usfm_internal_add_text(ustring& text, const ustring& addition);
 void usfm_internal_get_text_close_character_style(ustring& text, const ustring& project, const ustring& style);
-void usfm_get_note_text(const EditorNote& editornote, GtkTextIter startiter, GtkTextIter enditer, const ustring& project, ustring& text);
-void usfm_get_table_text(const EditorTable& editortable, const ustring& project, ustring& text);
+ustring usfm_get_note_text(GtkTextIter startiter, GtkTextIter enditer, const ustring& project);
 GtkTextIter editor_get_iter_for_note(GtkTextBuffer * textbuffer, const vector <EditorNote>& editornotes, unsigned int offset, unsigned int function);
 
 void get_styles_at_iterator(GtkTextIter iter, ustring& paragraph_style, ustring& character_style);
@@ -113,6 +110,8 @@ bool get_iterator_at_verse_number (const ustring& verse_number, const ustring& v
 vector <ustring> get_character_styles_between_iterators (GtkTextIter startiter, GtkTextIter enditer);
 
 const gchar * unknown_style();
+const gchar * note_starting_style ();
+void get_next_note_caller_and_style (EditorNoteType type, ustring& caller, ustring& style, bool restart);
 void textbuffer_apply_named_tag(GtkTextBuffer *buffer, const ustring& name, const GtkTextIter *start, const GtkTextIter *end);
 void textbuffer_insert_with_named_tags(GtkTextBuffer *buffer, GtkTextIter *iter, const ustring& text, ustring first_tag_name, ustring second_tag_name);
 
@@ -137,5 +136,6 @@ vector <GtkWidget *> editor_get_widgets (GtkWidget * vbox);
 GtkWidget * editor_get_next_textview (GtkWidget * vbox, GtkWidget * textview);
 GtkWidget * editor_get_previous_textview (GtkWidget * vbox, GtkWidget * textview);
 void editor_park_widget (GtkWidget * vbox, GtkWidget * widget, gint& offset, GtkWidget * parking);
+
 
 #endif

@@ -61,9 +61,9 @@ void EditorAction::redo (deque <EditorAction *>& done, deque <EditorAction *>& u
 EditorActionCreateParagraph::EditorActionCreateParagraph(int dummy) :
 EditorAction (eatCreateParagraph)
 {
-  // Pointer to the GtkTextView. Created on apply.
+  // Pointer to the GtkTextView is created on apply.
   textview = NULL;
-  // Pointer to the GtkTextBuffer. Created on apply.
+  // Pointer to the GtkTextBuffer is created on apply.
   textbuffer = NULL;
   // The default style of the paragraph will be "unknown".
   style = unknown_style();
@@ -74,7 +74,10 @@ EditorAction (eatCreateParagraph)
 
 EditorActionCreateParagraph::~EditorActionCreateParagraph ()
 {
-  gtk_widget_destroy (textview);
+  if (textview) {
+    gtk_widget_destroy (textview);
+    textview = NULL;
+  }
 }
 
 
@@ -83,9 +86,11 @@ void EditorActionCreateParagraph::apply (GtkTextTagTable * texttagtable, GtkWidg
   // The textbuffer uses the text tag table.
   textbuffer = gtk_text_buffer_new(texttagtable);
 
-  // Add a new text view to the GUI to view the text buffer.
+  // New text view to view the text buffer.
   textview = gtk_text_view_new_with_buffer(textbuffer);
   gtk_widget_show(textview);
+
+  // Add text view to the GUI.
   gtk_box_pack_start(GTK_BOX(parent_vbox), textview, false, false, 0);
 
   // Set some parameters of the view.
@@ -95,7 +100,8 @@ void EditorActionCreateParagraph::apply (GtkTextTagTable * texttagtable, GtkWidg
   gtk_text_view_set_left_margin(GTK_TEXT_VIEW(textview), 5);
   gtk_text_view_set_right_margin(GTK_TEXT_VIEW(textview), 5);
   
-  // Move the widget to the right position, which is next to the currently focused paragraph.
+  // Move the widget to the right position, 
+  // which is next to the currently focused paragraph.
   // This move is important since a new paragraph can be created anywhere among the current ones.
   vector <GtkWidget *> widgets = editor_get_widgets (parent_vbox);
   gint new_paragraph_offset = 0;
@@ -460,6 +466,108 @@ void EditorActionDeleteParagraph::redo (GtkWidget * parent_vbox, GtkWidget * par
   // Don't store the offset, since we already have that value.
   gint dummy;
   editor_park_widget (parent_vbox, paragraph->textview, dummy, parking_vbox);
+}
+
+
+EditorActionCreateNoteParagraph::EditorActionCreateNoteParagraph(const ustring& marker_in, const ustring& caller_usfm_in, const ustring& caller_text_in, const ustring& identifier_in) :
+EditorActionCreateParagraph (0)
+{
+  // Change the type to a note paragraph.
+  type = eatCreateNoteParagraph;
+  // Store opening and closing marker (e.g. "f" for a footnote).
+  opening_closing_marker = marker_in;
+  // Store USFM caller (e.g. "+" for automatic numbering).
+  caller_usfm = caller_usfm_in;
+  // Store caller in text (e.g. "f" for a footnote).
+  caller_text = caller_text_in;
+  // Store identifier. Is used as the style in the main text body.
+  identifier = identifier_in;
+  // Widgets will be set on initial application.
+  hbox = NULL;
+  label = NULL;
+}
+
+
+EditorActionCreateNoteParagraph::~EditorActionCreateNoteParagraph ()
+{
+  if (hbox) {
+    gtk_widget_destroy (hbox);
+    hbox = NULL;
+    label = NULL;
+    textview = NULL;
+  }
+}
+
+
+void EditorActionCreateNoteParagraph::apply (GtkTextTagTable * texttagtable, GtkWidget * parent_vbox, bool editable, EditorActionCreateParagraph * focused_paragraph, GtkWidget *& to_focus)
+{
+  // Horizontal box to store the note.
+  hbox = gtk_hbox_new (false, 0);
+  gtk_widget_show (hbox);
+  gtk_box_pack_start(GTK_BOX(parent_vbox), hbox, false, false, 0);
+
+  // The background of the caller is going to be grey.
+  // Courier font is chosen to make the spacing of the callers equal so they line up nicely.
+  label = gtk_label_new ("");
+  gtk_widget_show (label);
+  char *markup = g_markup_printf_escaped("<span background=\"grey\" size=\"x-small\"> </span><span background=\"grey\" face=\"Courier\">%s</span><span background=\"grey\" size=\"x-small\"> </span>", caller_text.c_str());
+  gtk_label_set_markup(GTK_LABEL(label), markup);
+  g_free(markup);
+  gtk_box_pack_start(GTK_BOX(hbox), label, false, false, 0);
+
+  // The textbuffer uses the text tag table.
+  textbuffer = gtk_text_buffer_new(texttagtable);
+
+  // Text view to view the text buffer.
+  textview = gtk_text_view_new_with_buffer(textbuffer);
+  gtk_widget_show(textview);
+  gtk_box_pack_start(GTK_BOX(hbox), textview, true, true, 0);
+
+  // Set some parameters of the view.
+  gtk_text_view_set_accepts_tab(GTK_TEXT_VIEW(textview), FALSE);
+  gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textview), GTK_WRAP_WORD);
+  gtk_text_view_set_editable(GTK_TEXT_VIEW(textview), editable);
+  gtk_text_view_set_left_margin(GTK_TEXT_VIEW(textview), 5);
+  gtk_text_view_set_right_margin(GTK_TEXT_VIEW(textview), 5);
+
+  // Move the widget to the right position. To be calculated.
+  /*
+    vector <GtkWidget *> widgets = editor_get_widgets (parent_vbox);
+    gint new_paragraph_offset = 0;
+    if (focused_paragraph) {
+      for (unsigned int i = 0; i < widgets.size(); i++) {
+        if (focused_paragraph->textview == widgets[i]) {
+          new_paragraph_offset = i + 1;
+          break;
+        }
+      }
+    }
+    gtk_box_reorder_child (GTK_BOX(parent_vbox), textview, new_paragraph_offset);
+  */
+  
+  // Let the newly created textview be earmarked to grab focus
+  // so that the user can type in it,
+  // and the internal Editor logic knows about it.
+  to_focus = textview;
+}
+
+
+void EditorActionCreateNoteParagraph::undo (GtkWidget * parent_vbox, GtkWidget * parking_vbox, GtkWidget *& to_focus)
+{
+  // Remove the widget by parking it in an invisible location. It is kept alive.
+  editor_park_widget (parent_vbox, textview, offset_at_delete, parking_vbox);
+  // Focus textview.
+  to_focus = textview;
+}
+
+
+void EditorActionCreateNoteParagraph::redo (GtkWidget * parent_vbox, GtkWidget *& to_focus)
+{
+  // Restore the live widget to the editor.
+  gtk_widget_reparent (textview, parent_vbox);
+  gtk_box_reorder_child (GTK_BOX(parent_vbox), textview, offset_at_delete);
+  // Let the restored textview be earmarked to grab focus.
+  to_focus = textview;
 }
 
 

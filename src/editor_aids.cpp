@@ -955,6 +955,7 @@ NoteNumberingType note_numbering_type_get(const ustring & project, const ustring
   return numbering;
 }
 
+
 ustring note_numbering_user_sequence_get(const ustring & project, const ustring & marker)
 // Gets the sequence of characters from which the note caller should be taken.
 {
@@ -969,6 +970,7 @@ ustring note_numbering_user_sequence_get(const ustring & project, const ustring 
   }
   return sequence;
 }
+
 
 gint table_get_n_rows(GtkTable * table)
 {
@@ -1085,377 +1087,6 @@ void table_create_cell(GtkTable * table, GtkTextTagTable * texttagtable, GtkWidg
 }
 
 
-void usfm_get_text(GtkTextBuffer * textbuffer, GtkTextIter startiter, GtkTextIter enditer, vector < EditorNote > *editornotes, vector < EditorTable > *editortables, const ustring & project, ustring & text, bool verse_restarts_paragraph)
-/*
- Gets the USFM text from the main textbuffer between the two offsets.
- Calls routines so as to include the text of notes and tables.
- */
-{
-  // Initialize the iterator.
-  GtkTextIter iter = startiter;
-
-  // Paragraph and character styles.
-  ustring previous_paragraph_style;
-  ustring previous_character_style;
-
-  // Store any note text.
-  ustring note_text;
-
-  // Iterate through the text.
-  unsigned int iterations = 0;
-  while (gtk_text_iter_compare(&iter, &enditer) < 0) {
-
-    // Get the new paragraph and character style.
-    // This is done by getting the names of the styles at this iterator.
-    // With the way the styles are applied currently, the first 
-    // style is a paragraph style, and the second style is optional 
-    // and would be a character style.
-    ustring new_paragraph_style;
-    ustring new_character_style;
-    get_styles_at_iterator(iter, new_paragraph_style, new_character_style);
-
-    // Omit the starting paragraph marker except when at the start of a line.
-    if (iterations == 0) {
-      if (!gtk_text_iter_starts_line(&iter)) {
-        previous_paragraph_style = new_paragraph_style;
-      }
-    }
-
-    // Get the text at the iterator, and whether this is a linebreak.
-    ustring new_character;
-    bool line_break;
-    {
-      gunichar unichar = gtk_text_iter_get_char(&iter);
-      gchar buf[7];
-      gint length = g_unichar_to_utf8(unichar, (gchar *) & buf);
-      buf[length] = '\0';
-      new_character = buf;
-      line_break = (new_character.find_first_of("\n\r") == 0);
-      if (line_break)
-        new_character.clear();
-    }
-
-    // Flags for whether styles are opening or closing.
-    bool character_style_closing = false;
-    bool paragraph_style_closing = false;
-    bool paragraph_style_opening = false;
-    bool character_style_opening = false;
-
-    // Look whether there is a child anchor here.
-    GtkTextChildAnchor *childanchor = gtk_text_iter_get_child_anchor(&iter);
-    if (childanchor) {
-
-      // See if this child anchor is a note.
-      if (editornotes) {
-        for (unsigned int i = 0; i < editornotes->size(); i++) {
-          EditorNote editornote = editornotes->at(i);
-          if (childanchor == editornote.childanchor_caller_text) {
-            // A note should not have a character style. 
-            // This fixes a few bugs related to character styles applied to a note.
-            new_character_style.clear();
-            // Extract note text.
-            GtkTextIter startiter, enditer;
-            gtk_text_buffer_get_start_iter(editornote.textbuffer, &startiter);
-            gtk_text_buffer_get_end_iter(editornote.textbuffer, &enditer);
-            usfm_get_note_text(editornote, startiter, enditer, project, note_text);
-          }
-        }
-      }
-      // See if this child anchor is a table.
-      if (editortables) {
-        for (unsigned int i = 0; i < editortables->size(); i++) {
-          EditorTable editortable = editortables->at(i);
-          if (childanchor == editortable.childanchor) {
-            usfm_get_table_text(editortable, project, text);
-          }
-        }
-      }
-      // The textbuffer would have the character for the unknown unicode character. 
-      // This must be discarded, so that no actual text is going to be stored.
-      new_character.clear();
-
-    } else {
-
-      // Proceed with the case that there is no child anchor.
-      // This means that we have normal text here.
-
-      // Paragraph style closing.
-      if (new_paragraph_style != previous_paragraph_style) {
-        if (!previous_paragraph_style.empty()) {
-          paragraph_style_closing = true;
-        }
-      }
-      // If a new line is encountered, then the paragraph closes.
-      if (line_break)
-        paragraph_style_closing = true;
-      // If the paragraph closes, then the character style, if open, should close too.
-      if (paragraph_style_closing) {
-        new_character_style.clear();
-      }
-      // Character style closing. 
-      if (new_character_style != previous_character_style)
-        if (!previous_character_style.empty())
-          character_style_closing = true;
-      // Paragraph style opening.
-      if (new_paragraph_style != previous_paragraph_style)
-        if (!new_paragraph_style.empty())
-          paragraph_style_opening = true;
-      // Character style opening.
-      if (new_character_style != previous_character_style)
-        if (!new_character_style.empty())
-          character_style_opening = true;
-
-      // Handle possible character style closing.
-      if (character_style_closing) {
-        usfm_internal_get_text_close_character_style(text, project, previous_character_style);
-      }
-      // USFM doesn't need anything if a paragraph style is closing.
-      if (paragraph_style_closing) {
-      }
-      // Handle possible paragraph style opening.
-      if (paragraph_style_opening) {
-        usfm_internal_add_text(text, "\n");
-        // We would need to add the USFM code to the text.
-        // But in some cases the code is already in the text,
-        // e.g. in the case of "\id JHN".
-        // In such cases the code is fine already, so it does not need to be added anymore.
-        // Accomodate cases such as \toc
-        // These don't have the full marker as "\toc ", but only without the last space.
-        ustring usfm_code = usfm_get_full_opening_marker(new_paragraph_style);
-        GtkTextIter iter2 = iter;
-        gtk_text_iter_forward_chars(&iter2, usfm_code.length());
-        ustring usfm_code_in_text = gtk_text_iter_get_slice(&iter, &iter2);
-        replace_text(usfm_code_in_text, "\n", " ");
-        if (usfm_code_in_text.length() < usfm_code.length())
-          usfm_code_in_text.append(" ");
-        if (usfm_code != usfm_code_in_text) {
-          // A space after an opening marker gets erased in USFM: move it forward.
-          if (new_character == " ") {
-            usfm_internal_add_text(text, new_character);
-            new_character.clear();
-          }
-          // Don't insert the unknown style
-          if (new_paragraph_style != unknown_style())
-            usfm_internal_add_text(text, usfm_code);
-        }
-      }
-      // Handle possible character style opening.
-      if (character_style_opening) {
-        // Get the type and the subtype.
-        StyleType type;
-        int subtype;
-        marker_get_type_and_subtype(project, new_character_style, type, subtype);
-        // Normally a character style does not start a new line, but a verse (\v) does.
-        if (style_get_starts_new_line_in_usfm(type, subtype)) {
-          usfm_internal_add_text(text, "\n");
-        }
-        // A space after an opening marker gets erased in USFM: move it forward.
-        if (new_character == " ") {
-          usfm_internal_add_text(text, new_character);
-          new_character.clear();
-        }
-        usfm_internal_add_text(text, usfm_get_full_opening_marker(new_character_style));
-      }
-      // Store all styles for next iteration.
-      previous_paragraph_style = new_paragraph_style;
-      previous_character_style = new_character_style;
-      if (paragraph_style_closing)
-        previous_paragraph_style.clear();
-      if (character_style_closing)
-        previous_character_style.clear();
-
-      // Store any note text that we may have collected.
-      text.append (note_text);
-      note_text.clear();
-
-      // Store this character.
-      usfm_internal_add_text(text, new_character);
-
-    }
-
-    // Next iteration.
-    gtk_text_iter_forward_char(&iter);
-    iterations++;
-  }
-
-  // If a character style has been applied to the last character or word 
-  // in the buffer, the above code would not add the closing marker.
-  // Thus we may be found to have text like \p New paragraph with \add italics
-  // The \add* marker is missing. This violates the USFM standard.
-  // The code below fixes that.
-  if (!previous_character_style.empty()) {
-    usfm_internal_get_text_close_character_style(text, project, previous_character_style);
-  }
-}
-
-
-void usfm_get_text(GtkTextBuffer * textbuffer, GtkTextIter startiter, GtkTextIter enditer, const ustring& project, ustring& text, bool verse_restarts_paragraph)
-{
-  // Initialize the iterator.
-  GtkTextIter iter = startiter;
-
-  // Paragraph and character styles.
-  ustring previous_paragraph_style;
-  ustring previous_character_style;
-
-  // Store any note text.
-  ustring note_text;
-
-  // Iterate through the text.
-  unsigned int iterations = 0;
-  while (gtk_text_iter_compare(&iter, &enditer) < 0) {
-
-    // Get the new paragraph and character style.
-    // This is done by getting the names of the styles at this iterator.
-    // With the way the styles are applied currently, the first 
-    // style is a paragraph style, and the second style is optional 
-    // and would be a character style.
-    ustring new_paragraph_style;
-    ustring new_character_style;
-    get_styles_at_iterator(iter, new_paragraph_style, new_character_style);
-
-    // Omit the starting paragraph marker except when at the start of a line.
-    if (iterations == 0) {
-      if (!gtk_text_iter_starts_line(&iter)) {
-        previous_paragraph_style = new_paragraph_style;
-      }
-    }
-
-    // Get the text at the iterator, and whether this is a linebreak.
-    ustring new_character;
-    bool line_break;
-    {
-      gunichar unichar = gtk_text_iter_get_char(&iter);
-      gchar buf[7];
-      gint length = g_unichar_to_utf8(unichar, (gchar *) & buf);
-      buf[length] = '\0';
-      new_character = buf;
-      line_break = (new_character.find_first_of("\n\r") == 0);
-      if (line_break)
-        new_character.clear();
-    }
-
-    // Flags for whether styles are opening or closing.
-    bool character_style_closing = false;
-    bool paragraph_style_closing = false;
-    bool paragraph_style_opening = false;
-    bool character_style_opening = false;
-
-    {
-
-      // Proceed with the case that there is no child anchor.
-      // This means that we have normal text here.
-
-      // Paragraph style closing.
-      if (new_paragraph_style != previous_paragraph_style) {
-        if (!previous_paragraph_style.empty()) {
-          paragraph_style_closing = true;
-        }
-      }
-      // If a new line is encountered, then the paragraph closes.
-      if (line_break)
-        paragraph_style_closing = true;
-      // If the paragraph closes, then the character style, if open, should close too.
-      if (paragraph_style_closing) {
-        new_character_style.clear();
-      }
-      // Character style closing. 
-      if (new_character_style != previous_character_style)
-        if (!previous_character_style.empty())
-          character_style_closing = true;
-      // Paragraph style opening.
-      if (new_paragraph_style != previous_paragraph_style)
-        if (!new_paragraph_style.empty())
-          paragraph_style_opening = true;
-      // Character style opening.
-      if (new_character_style != previous_character_style)
-        if (!new_character_style.empty())
-          character_style_opening = true;
-
-      // Handle possible character style closing.
-      if (character_style_closing) {
-        usfm_internal_get_text_close_character_style(text, project, previous_character_style);
-      }
-      // USFM doesn't need anything if a paragraph style is closing.
-      if (paragraph_style_closing) {
-      }
-      // Handle possible paragraph style opening.
-      if (paragraph_style_opening) {
-        usfm_internal_add_text(text, "\n");
-        // We would need to add the USFM code to the text.
-        // But in some cases the code is already in the text,
-        // e.g. in the case of "\id JHN".
-        // In such cases the code is fine already, so it does not need to be added anymore.
-        // Accomodate cases such as \toc
-        // These don't have the full marker as "\toc ", but only without the last space.
-        ustring usfm_code = usfm_get_full_opening_marker(new_paragraph_style);
-        GtkTextIter iter2 = iter;
-        gtk_text_iter_forward_chars(&iter2, usfm_code.length());
-        ustring usfm_code_in_text = gtk_text_iter_get_slice(&iter, &iter2);
-        replace_text(usfm_code_in_text, "\n", " ");
-        if (usfm_code_in_text.length() < usfm_code.length())
-          usfm_code_in_text.append(" ");
-        if (usfm_code != usfm_code_in_text) {
-          // A space after an opening marker gets erased in USFM: move it forward.
-          if (new_character == " ") {
-            usfm_internal_add_text(text, new_character);
-            new_character.clear();
-          }
-          // Don't insert the unknown style
-          if (new_paragraph_style != unknown_style())
-            usfm_internal_add_text(text, usfm_code);
-        }
-      }
-      // Handle possible character style opening.
-      if (character_style_opening) {
-        // Get the type and the subtype.
-        StyleType type;
-        int subtype;
-        marker_get_type_and_subtype(project, new_character_style, type, subtype);
-        // Normally a character style does not start a new line, but a verse (\v) does.
-        if (style_get_starts_new_line_in_usfm(type, subtype)) {
-          usfm_internal_add_text(text, "\n");
-        }
-        // A space after an opening marker gets erased in USFM: move it forward.
-        if (new_character == " ") {
-          usfm_internal_add_text(text, new_character);
-          new_character.clear();
-        }
-        usfm_internal_add_text(text, usfm_get_full_opening_marker(new_character_style));
-      }
-      // Store all styles for next iteration.
-      previous_paragraph_style = new_paragraph_style;
-      previous_character_style = new_character_style;
-      if (paragraph_style_closing)
-        previous_paragraph_style.clear();
-      if (character_style_closing)
-        previous_character_style.clear();
-
-      // Store any note text that we may have collected.
-      text.append (note_text);
-      note_text.clear();
-
-      // Store this character.
-      usfm_internal_add_text(text, new_character);
-
-    }
-
-    // Next iteration.
-    gtk_text_iter_forward_char(&iter);
-    iterations++;
-  }
-
-  // If a character style has been applied to the last character or word 
-  // in the buffer, the above code would not add the closing marker.
-  // Thus we may be found to have text like \p New paragraph with \add italics
-  // The \add* marker is missing. This violates the USFM standard.
-  // The code below fixes that.
-  if (!previous_character_style.empty()) {
-    usfm_internal_get_text_close_character_style(text, project, previous_character_style);
-  }
-}
-
-
 void usfm_internal_add_text(ustring & text, const ustring & addition)
 // This is an internal function that adds an addition to already existing
 // USFM text.
@@ -1472,6 +1103,7 @@ void usfm_internal_add_text(ustring & text, const ustring & addition)
   text.append(addition);
 }
 
+
 void usfm_internal_get_text_close_character_style(ustring & text, const ustring & project, const ustring & style)
 // Adds the USFM code for a character style that closes.
 {
@@ -1485,14 +1117,9 @@ void usfm_internal_get_text_close_character_style(ustring & text, const ustring 
   }
 }
 
-void usfm_get_note_text(const EditorNote & editornote, GtkTextIter startiter, GtkTextIter enditer, const ustring & project, ustring & text)
+
+ustring usfm_get_note_text(GtkTextIter startiter, GtkTextIter enditer, const ustring & project)
 {
-  // Add the note opener.
-  usfm_internal_add_text(text, usfm_get_full_opening_marker(editornote.marker));
-
-  // Add the caller.
-  usfm_internal_add_text(text, editornote.caller + " ");
-
   // Variable to hold the note text.
   ustring notetext;
 
@@ -1624,37 +1251,8 @@ void usfm_get_note_text(const EditorNote & editornote, GtkTextIter startiter, Gt
     gtk_text_iter_forward_char(&iter);
   }
 
-  // Add the note bit to the main text.
-  usfm_internal_add_text(text, notetext);
-
-  // Add the note closer.
-  usfm_internal_add_text(text, usfm_get_full_closing_marker(editornote.marker));
-}
-
-void usfm_get_table_text(const EditorTable & editortable, const ustring & project, ustring & text)
-{
-  // Go through all the rows of this table.
-  for (unsigned int row = 0; row < editortable.textbuffers.size(); row++) {
-
-    // New row: Add the appropriate USFM code.
-    usfm_internal_add_text(text, "\n");
-    usfm_internal_add_text(text, usfm_get_full_opening_marker(style_get_table_row_marker(project)));
-
-    // Go through all the columns of this row.
-    for (unsigned int column = 0; column < editortable.textbuffers[row].size(); column++) {
-
-      // Get the USFM code of this cell.
-      ustring celltext;
-      GtkTextBuffer *textbuffer = table_cell_get_buffer(editortable, row, column);
-      GtkTextIter startiter, enditer;
-      gtk_text_buffer_get_start_iter(textbuffer, &startiter);
-      gtk_text_buffer_get_end_iter(textbuffer, &enditer);
-      usfm_get_text(textbuffer, startiter, enditer, NULL, NULL, project, celltext, false);
-
-      // Add this USFM code to the main text.
-      usfm_internal_add_text(text, celltext);
-    }
-  }
+  // Return what it got.
+  return notetext;
 }
 
 
@@ -1926,6 +1524,33 @@ const gchar *unknown_style()
 // Gives the name of the style that is for markers that are not in the stylesheet.
 {
   return "unknown";
+}
+
+
+const gchar * note_starting_style ()
+// Gives the name of the style that a note caller in the text starts with.
+{
+  return "note";
+}
+
+
+void get_next_note_caller_and_style (EditorNoteType type, ustring& caller, ustring& style, bool restart)
+// Gets the next note caller style.
+// Since note callers have sequential numbers, it needs another one for each note.
+{
+  static unsigned int last_offset = 0;
+  if (restart) {
+    last_offset = 0;
+    return;
+  }
+  switch (type) {
+    case entFootnote:       caller = "f"; break;
+    case entEndnote:        caller = "e"; break;
+    case entCrossreference: caller = "x"; break;
+  }
+  last_offset++;
+  style = note_starting_style ();
+  style.append (convert_to_string (last_offset));
 }
 
 

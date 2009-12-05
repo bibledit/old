@@ -47,24 +47,32 @@ public:
 private:
   GtkWidget *scrolledwindow;
   GtkWidget *viewport;
-  GtkWidget *vbox;
+  GtkWidget *vbox_viewport;
+  GtkWidget *vbox_paragraphs;
+  GtkWidget *hseparator;
+  GtkWidget *vbox_notes;
   GtkWidget *vbox_parking_lot;
-  void text_load (ustring text, ustring character_style);
+  void text_load (ustring text, ustring character_style, bool note_mode);
   deque <EditorAction *> actions_done;
   deque <EditorAction *> actions_undone;
   void apply_editor_action (EditorAction * action, EditorActionApplication application = eaaInitial);
+  void paragraph_create_actions (EditorActionCreateParagraph * paragraph_action);
   EditorActionCreateParagraph * focused_paragraph;
   bool usfm_starts_new_paragraph (ustring& line, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
-  void editor_start_new_paragraph (const ustring& marker_text);
+  void editor_start_new_standard_paragraph (const ustring& marker_text);
   void editor_start_verse (ustring& line, ustring& marker_text, ustring& character_style);
   bool editor_starts_character_style (ustring & line, ustring & character_style, const ustring & marker_text, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
   bool editor_ends_character_style   (ustring & line, ustring & character_style, const ustring & marker_text, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
-  bool editor_starts_note_raw        (ustring & line, ustring & character_style, const ustring & marker_text, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
+  bool text_starts_note_raw          (ustring & line, ustring & character_style, const ustring & marker_text, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found, ustring& raw_note);
+  void editor_start_note_raw         (ustring raw_note, const ustring & marker_text);
   void editor_text_fallback (ustring& line, ustring& character_style, size_t marker_pos, bool marker_found);
-  EditorActionCreateParagraph * textview2paragraph_action (GtkWidget * textview);
+  EditorActionCreateParagraph * widget2paragraph_action (GtkWidget * widget);
+  EditorActionCreateNoteParagraph * note2paragraph_action (const ustring& note);
   int disregard_text_buffer_signals;
   vector <ustring> text_to_be_deleted;
   vector <ustring> styles_to_be_deleted;
+  ustring usfm_get_text(GtkTextBuffer * textbuffer, GtkTextIter startiter, GtkTextIter enditer);
+
 
   // Textview keyboard key pressing.
   static gboolean on_textview_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
@@ -177,16 +185,12 @@ public:
   void create_or_update_formatting_data();
   void create_or_update_text_style(Style * style, bool paragraph, bool plaintext, double font_multiplier);
   bool verse_restarts_paragraph;
-
+  double font_size_multiplier;
+  
   vector <EditorNote> editornotes;
   vector <EditorTable> editortables;
 
-  bool load_text_starting_footnote_content(GtkTextBuffer * textbuffer, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
-  bool load_text_ending_footnote_content(GtkTextBuffer * textbuffer, ustring& line, ustring& paragraph_mark, ustring& character_mark, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
-
   void erase_related_note_bits();
-  void display_notes_remainder(bool focus_rendered_textview);
-  void renumber_and_clean_notes_callers();
   void insert_note(const ustring& marker, const ustring& rawtext, bool render);
 
   bool do_not_process_child_anchors_being_deleted;

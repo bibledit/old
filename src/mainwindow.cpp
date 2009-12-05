@@ -6847,39 +6847,32 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
-Notes, first steps is to have the raw note at the bottom of the editor. Involved is the following:
-* To extract it but also leave it in the normal text.
-* To create special paragraph.
-* This special paragraph should not be included in the normal widgets, and should have a label for a note caller.|
-* To make the widgets collector differentiate between normal paragraphs and notes.
-* To make save work properly.
-* To no longer leave it in the normal text.
-* To make callers work.
-
 Notes:
-* To extract notes using current systems.
-* Leave text in main view for the mean time, but add it in notes too.
-* To create a paragraph that is specifically for notes.
-* The notes go in a hbox, which has a label and a textview.
-* The routines that look for textviews stacked in the vbox should be able to differentiate between paragraph text and notes.
-* The type of textviews could be used to get these.
-* The routine gets passed a variable, and if true it gives them all, including notes, and if false, it gives main ones only.
 When notes are moved about, text inserted, removed, these notes need to remain.
-Make use of lots of styles, e.g. f_1, and so on, so that we can track the "f" and its id.
-The next f_# style is applied to the buffer only on request, if it is not yet there, so that the style table does not get too full.
-On reload of the chapter, all these extra styles are removed from the style table. Saves space.
 When it comes to the state of footnotes, we need to have separate handlers for that.
 If some text is deleted, we need to separate footnotes out of that, and divide it among the handlers.
 Deleting text may also expand the selection so as to include the full footnote caller if it is longer than one character.
 We may make callers for footnotes the "f", and so on, so it uses the mark used, for easy viewing. So no renumbering.
 Notemarkers can be distinguished by their "f" or other character markup.
-
+Entering <Enter> in a notes paragraph does start a new line, but not a new paragraph. When USFM is retrieved, a new line translates to the "\fp " marker.
+The undo and redo for the note paragraph still need to be implemented.
+The user can click on the notes callers, which then switch the view.
+When a note marker is stuck to a word, the speller misspells it. Could we insert a space or so? But this might give editing problems.
+When a note marker is stuck to a word, and the user inserts a character, this character gets the note style, so doubling the note. To be fixed.
+When copying text to clipboard as plain text, it should remove the note markers.
+When copying text to clipboard including formatting, it should contain USFM code plus any markers contained in the selection.
+When clicking on a note, it need to focus the corresponding textview.
+When pressing PgUp in a note, it goes back to the text where the note starts.
 
 
 
 
 When merging, the changes do not automatically show up in the merge window. 
 They show up when clicking in one of the editors.
+
+
+The USFM view check does not work.
+
 
 
 Fit out any remaining controls and behaviour of the editor.
@@ -7015,6 +7008,7 @@ A persecution mode sets the site to look like another one, e.g. a news site. Log
 
 
 It is worth looking at http://wiki.freaks-unidos.net/gwebd for a good http daemon.
+svn checkout http://anonymous:@freaks-unidos.net/azul-home/src/gwebd
 
 
 The window that shows the parallel verses slows us down too much. Let is fetch its data in a thread,

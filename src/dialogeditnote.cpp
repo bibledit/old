@@ -329,8 +329,6 @@ void EditNoteDialog::on_okbutton()
     } while (gtk_text_iter_in_range(&iter, &startiter, &enditer));
 
   }
-  // Callers might have changed: renumber them.
-  myeditor->renumber_and_clean_notes_callers();
 }
 
 

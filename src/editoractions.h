@@ -34,7 +34,8 @@ enum EditorActionType {
   eatChangeCharacterStyle,
   eatLoadChapterBoundary,
   eatOneActionBoundary,
-  eatDeleteParagraph
+  eatDeleteParagraph,
+  eatCreateNoteParagraph
 };
 
 
@@ -63,6 +64,7 @@ class EditorActionCreateParagraph : public EditorAction
 public:
   EditorActionCreateParagraph(int dummy);
   virtual ~EditorActionCreateParagraph();
+  friend class EditorActionCreateNoteParagraph;
   void apply (GtkTextTagTable * texttagtable, GtkWidget * parent_vbox, bool editable, EditorActionCreateParagraph * focused_paragraph, GtkWidget *& to_focus);
   void undo (GtkWidget * parent_vbox, GtkWidget * parking_vbox, GtkWidget *& to_focus);
   void redo (GtkWidget * parent_vbox, GtkWidget *& to_focus);
@@ -151,6 +153,24 @@ public:
 private:
   EditorActionCreateParagraph * paragraph;
   gint offset;
+};
+
+
+class EditorActionCreateNoteParagraph : public EditorActionCreateParagraph
+{
+public:
+  EditorActionCreateNoteParagraph(const ustring& marker_in, const ustring& caller_usfm_in, const ustring& caller_text_in, const ustring& identifier_in);
+  virtual ~EditorActionCreateNoteParagraph();
+  void apply (GtkTextTagTable * texttagtable, GtkWidget * parent_vbox, bool editable, EditorActionCreateParagraph * focused_paragraph, GtkWidget *& to_focus);
+  void undo (GtkWidget * parent_vbox, GtkWidget * parking_vbox, GtkWidget *& to_focus);
+  void redo (GtkWidget * parent_vbox, GtkWidget *& to_focus);
+  GtkWidget * hbox;
+  ustring identifier;
+  ustring opening_closing_marker;
+  ustring caller_usfm;
+private:
+  ustring caller_text;
+  GtkWidget * label;
 };
 
 
