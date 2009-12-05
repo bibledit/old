@@ -203,6 +203,8 @@ public:
   void process_text_child_anchors_deleted();
   set <GtkTextChildAnchor *> text_child_anchors_being_deleted;
   void text_get_all(vector <ustring>& texts, vector <VectorUstring>& styles);
+  static bool on_double_paste_timeout(gpointer data);
+  ustring double_paste_prevention;
 
   bool editable;
 

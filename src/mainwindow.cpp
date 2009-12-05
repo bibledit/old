@@ -6848,15 +6848,22 @@ Todo tasks.
 
 
 
+At times, but not always, text is pasted into the buffer twice.
+To remember the previous text that the buffer signalled it got, and if straight after that the same lot comes, to ignore that lot.
+Use a timeout.
+
+
+
+
 Notes:
 When notes are moved about, text inserted, removed, these notes need to remain.
-When it comes to the state of footnotes, we need to have separate handlers for that.
-If some text is deleted, we need to separate footnotes out of that, and divide it among the handlers.
-Deleting text should consider footnotes as well.
+When it comes to the editoractions for footnotes, we need to have separate handlers for that.
+If some text is deleted, we need to separate footnotes out of that, and divide it among more than one handler.
+Deleting text should consider footnotes as well. i.e. it should delete the note at the bottom as well.
 Entering <Enter> in a notes paragraph does start a new line, but not a new paragraph. When USFM is retrieved, a new line translates to the "\fp " marker.
 The undo and redo for the note paragraph still need to be implemented.
 The user can click on the notes callers, which then switch the view.
-When a note marker is stuck to a word, the speller misspells it. Could we insert a space or so? But this might give editing problems.
+When a note marker is stuck to a word, the speller misspells it. Make the speller intelligent so it excludes styles that start with "note...".
 When copying text to clipboard as plain text, it should remove the note markers.
 When copying text to clipboard including formatting, it should contain USFM code plus any markers contained in the selection.
 When clicking on a note, it need to focus the corresponding textview.
@@ -6876,13 +6883,9 @@ The USFM view check does not work.
 Fit out any remaining controls and behaviour of the editor.
 
 
-Resizing the window is very hard. It is recommended to disconnect the textview from its textbuffer temporally when resizing.
-This probably speeds it up a lot.
-We may consider disconnecting it while loading text as well.
-
-
-At times, but not always, text is pasted into the buffer twice. We probably need to remove the keyboard accelerator Ctrl-V,
-and let the gtktextbuffer use its own keybinding. Or to put the accelerator back into the main window. Or remove the accelerator completely.
+Resizing the window is very hard. 
+To use larger steps, creating larger steps using a timeout, which only does the resizing
+after no new resize requests have come in for a few milliseconds.
 
 
 

@@ -1409,6 +1409,9 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
   // Therefore get our own length.
   ustring utext (text);
 
+  // Double-paste detection.
+  bool double_paste = utext == double_paste_prevention;
+  
   // Get offset of text insertion point.
   gint text_insertion_offset = gtk_text_iter_get_offset (pos_iter) - utext.length();
 
@@ -1487,58 +1490,67 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
   gtk_text_buffer_delete (textbuffer, &startiter, pos_iter);
   disregard_text_buffer_signals--;
 
-  // If there are one or more backslashes in the text, then USFM code is being entered.
-  // Else treat it as if the user is typing text.
-  if (utext.find ("\\") != string::npos) {
-    // Load USFM code.
-    text_load (text, character_style_to_be_applied, false);
+  // Text is only inserted if no double-paste was detected.
+  if (double_paste) {
+    
+    gw_critical ("Text was pasted twice: " + utext);
+    
   } else {
-    // Load plain text. Handle new lines as well.
-    size_t newlineposition = utext.find("\n");
-    while (newlineposition != string::npos) {
-      ustring line = utext.substr(0, newlineposition);
-      if (!line.empty()) {
-        text_load (line, character_style_to_be_applied, false);
+
+    // If there are one or more backslashes in the text, then USFM code is being entered.
+    // Else treat it as if the user is typing text.
+    if (utext.find ("\\") != string::npos) {
+      // Load USFM code.
+      text_load (text, character_style_to_be_applied, false);
+    } else {
+      // Load plain text. Handle new lines as well.
+      size_t newlineposition = utext.find("\n");
+      while (newlineposition != string::npos) {
+        ustring line = utext.substr(0, newlineposition);
+        if (!line.empty()) {
+          text_load (line, character_style_to_be_applied, false);
+          character_style_to_be_applied.clear();
+        }
+        // Get markup after insertion point. New paragraph.
+        ustring paragraph_style = unknown_style ();
+        vector <ustring> text;
+        vector <ustring> styles;        
+        if (focused_paragraph) {
+          paragraph_style = focused_paragraph->style;
+          EditorActionDeleteText * delete_action = paragraph_get_text_and_styles_after_insertion_point(focused_paragraph, text, styles);
+          if (delete_action) {
+            apply_editor_action (delete_action);
+          }
+        }      
+        editor_start_new_standard_paragraph (paragraph_style);
+        // Transfer anything from the previous paragraph to the new one.
+        gint initial_offset = editor_paragraph_insertion_point_get_offset (focused_paragraph);
+        gint accumulated_offset = initial_offset;
+        for (unsigned int i = 0; i < text.size(); i++) {
+          EditorActionInsertText * insert_action = new EditorActionInsertText (focused_paragraph, accumulated_offset, text[i]);
+          apply_editor_action (insert_action);
+          if (!styles[i].empty()) {
+            EditorActionChangeCharacterStyle * style_action = new EditorActionChangeCharacterStyle(focused_paragraph, styles[i], accumulated_offset, text[i].length());
+            apply_editor_action (style_action);
+          }
+          accumulated_offset += text[i].length();
+        }
+        // Move insertion points to the proper position.
+        editor_paragraph_insertion_point_set_offset (focused_paragraph, initial_offset);
+        // Remove the part of the input text that has been handled.
+        utext.erase(0, newlineposition + 1);
+        newlineposition = utext.find("\n");
+      }
+      if (!utext.empty()) {
+        text_load (utext, character_style_to_be_applied, false);
         character_style_to_be_applied.clear();
       }
-      // Get markup after insertion point. New paragraph.
-      ustring paragraph_style = unknown_style ();
-      vector <ustring> text;
-      vector <ustring> styles;        
-      if (focused_paragraph) {
-        paragraph_style = focused_paragraph->style;
-        EditorActionDeleteText * delete_action = paragraph_get_text_and_styles_after_insertion_point(focused_paragraph, text, styles);
-        if (delete_action) {
-          apply_editor_action (delete_action);
-        }
-      }      
-      editor_start_new_standard_paragraph (paragraph_style);
-      // Transfer anything from the previous paragraph to the new one.
-      gint initial_offset = editor_paragraph_insertion_point_get_offset (focused_paragraph);
-      gint accumulated_offset = initial_offset;
-      for (unsigned int i = 0; i < text.size(); i++) {
-        EditorActionInsertText * insert_action = new EditorActionInsertText (focused_paragraph, accumulated_offset, text[i]);
-        apply_editor_action (insert_action);
-        if (!styles[i].empty()) {
-          EditorActionChangeCharacterStyle * style_action = new EditorActionChangeCharacterStyle(focused_paragraph, styles[i], accumulated_offset, text[i].length());
-          apply_editor_action (style_action);
-        }
-        accumulated_offset += text[i].length();
-      }
-      // Move insertion points to the proper position.
-      editor_paragraph_insertion_point_set_offset (focused_paragraph, initial_offset);
-      // Remove the part of the input text that has been handled.
-      utext.erase(0, newlineposition + 1);
-      newlineposition = utext.find("\n");
     }
-    if (!utext.empty()) {
-      text_load (utext, character_style_to_be_applied, false);
-      character_style_to_be_applied.clear();
-    }
+    
+    // Insert the One Action boundary.
+    apply_editor_action (new EditorAction (eatOneActionBoundary));
+
   }
-  
-  // Insert the One Action boundary.
-  apply_editor_action (new EditorAction (eatOneActionBoundary));
 
   // The pos_iter variable that was passed to this function was invalidated because text was removed and added.
   // Here it is validated again. This prevents critical errors within Gtk.
@@ -1546,7 +1558,10 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
 
   // Signal that the editor changed.
   signal_editor_changed();
-
+  
+  // Work around a bug that at times pastes text twice.
+  double_paste_prevention = text;
+  g_timeout_add(1, GSourceFunc(on_double_paste_timeout), gpointer(&double_paste_prevention));
 }
 
 
@@ -3169,6 +3184,16 @@ void Editor2::paragraph_crossing_act(GtkMovementStep step, gint count)
     gtk_text_buffer_place_cursor (textbuffer, &iter);
     gtk_widget_grab_focus (crossed_widget);
   }
+}
+
+
+bool Editor2::on_double_paste_timeout(gpointer data)
+// At times, but not always, if the user pastes text into the textbuffer,
+// it is somehow pasted twice. This timeout works around that.
+{
+  ustring * contents = static_cast <ustring *> (data);
+  contents->clear();
+  return false;
 }
 
 
