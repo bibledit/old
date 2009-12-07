@@ -6847,10 +6847,8 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
-Clipboard operations are intelligent.
-Text copied or cut to the clipboard is always plain, but an internal USFM code copy is created.
-When pasting text into the editor, and the text that would be pasted is the same as that which was copied,
-then instead of pasting from the clipboard, we paste from the internal USFM copy that we kept.
+If "Copy with formatting" is chosen, there's no option but to copy USFM code to the clipboard.
+
 
 Notes:
 When text is copied, and this text contains no footnotes, then plain text is copied. Note markers are removed.
@@ -6870,6 +6868,11 @@ They show up when clicking in one of the editors.
 
 
 The USFM view check does not work.
+
+
+
+When a new window is opened, then the window gets focus, but the old textview, e.g. the one of the Editor, keeps grabbed.
+To resolve this by grabbing focus when a new window is opened.
 
 
 

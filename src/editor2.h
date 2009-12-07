@@ -41,9 +41,6 @@ public:
   ~Editor2();
   GtkWidget * new_widget_signal;
   GtkWidget * new_widget_pointer;
-  void cut ();
-  void copy ();
-  void paste ();
 private:
   GtkWidget *scrolledwindow;
   GtkWidget *viewport;
@@ -282,7 +279,18 @@ private:
   void paragraph_crossing_act(GtkMovementStep step, gint count);
   GtkWidget * paragraph_crossing_textview_at_key_press;
   GtkTextIter paragraph_crossing_insertion_point_iterator_at_key_press;
-  
+ 
+  // Clipboard.
+public:
+  void cut ();
+  void copy ();
+  void paste ();
+private:
+  void copy_clipboard_intelligently ();
+  ustring clipboard_text_plain;
+  ustring clipboard_text_usfm;
+
+
 };
 
 

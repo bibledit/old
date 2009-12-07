@@ -48,6 +48,8 @@
 
 
 Text editor with a formatted view and undo and redo.
+Care was taken not to embed child widgets in the GtkTextView,
+because this could give crashes in Gtk under certain circumstances.
 
 
 The following elements of text have their own textview and textbuffer:
@@ -1599,7 +1601,7 @@ void Editor2::on_buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIt
 }
 
 
-void Editor2::buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end) // Todo
+void Editor2::buffer_delete_range_after(GtkTextBuffer * textbuffer, GtkTextIter * start, GtkTextIter * end)
 {
   // Bail out if we don't care about textbuffer signals.
   if (disregard_text_buffer_signals) {
@@ -2881,35 +2883,76 @@ void Editor2::editor_start_note_raw (ustring raw_note, const ustring & marker_te
 }
 
 
+void Editor2::copy_clipboard_intelligently ()
+// Copies the plain text to the clipboard, and copies both plain and usfm text to internal storage.
+{
+  GtkTextIter startiter, enditer;
+  if (gtk_text_buffer_get_selection_bounds (focused_paragraph->textbuffer, &startiter, &enditer)) {
+    clipboard_text_usfm.clear();
+    vector <ustring> text;
+    vector <ustring> styles;
+    get_text_and_styles_between_iterators(&startiter, &enditer, text, styles);
+    for (unsigned int i = 0; i < text.size(); i++) {
+      if (styles[i].find (note_starting_style()) == string::npos) {
+        clipboard_text_plain.append (text[i]);
+      }
+    }
+    clipboard_text_usfm = usfm_get_text(focused_paragraph->textbuffer, startiter, enditer);
+    GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+    gtk_clipboard_set_text (clipboard, clipboard_text_usfm.c_str(), -1);
+  }
+}
+
+
 void Editor2::cut ()
+// Cut to clipboard.
 {
   if (editable) {
     if (focused_paragraph) {
-      GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
-      GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (focused_paragraph->textview));
-      gtk_text_buffer_cut_clipboard (textbuffer, clipboard, true);      
+      // Copy the text to the clipboard in an intelligent manner.
+      copy_clipboard_intelligently ();
+      // Remove the text from the text buffer.
+      gtk_text_buffer_delete_selection (focused_paragraph->textbuffer, true, editable);
     }
   }
 }
 
 
 void Editor2::copy ()
+// Copy to clipboard.
 {
   if (focused_paragraph) {
-    GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
-    GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (focused_paragraph->textview));
-    gtk_text_buffer_copy_clipboard(textbuffer, clipboard);
+    // Copy the text to the clipboard in an intelligent manner.
+    copy_clipboard_intelligently ();
   }
 }
 
 
 void Editor2::paste ()
+// Paste from clipboard.
 {
+  // Proceed if the Editor is editable and there's a focused paragraph where to put the text into.
   if (editable) {
     if (focused_paragraph) {
+      // Get the text that would be pasted.
       GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
-      GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (focused_paragraph->textview));
-      gtk_text_buffer_paste_clipboard(textbuffer, clipboard, NULL, true);
+      gchar * text = gtk_clipboard_wait_for_text (clipboard);
+      if (text) {
+        ustring utext (text);
+        if (utext == clipboard_text_plain) {
+          // Since the text that would be pasted is the same as the plain text 
+          // that results from the previous copy or cut operation, 
+          // it inserts the equivalent usfm text instead.
+          gtk_text_buffer_insert_at_cursor (focused_paragraph->textbuffer, clipboard_text_usfm.c_str(), -1);
+        } else {
+          // The text that would be pasted differs from the plain text
+          // that resulted from the previous copy or cut operation,
+          // so insert the text that would be pasted as it is.
+          gtk_text_buffer_paste_clipboard(focused_paragraph->textbuffer, clipboard, NULL, true);
+        }
+        // Free memory.
+        g_free (text);
+      }
     }
   }
 }
