@@ -505,14 +505,6 @@ ustring USFMView::text_get_selection()
 }
 
 
-void USFMView::text_erase_selection()
-// Erases the selected text from the sourceview.
-{
-  GtkTextIter startiter, enditer;
-  gtk_text_buffer_get_selection_bounds(GTK_TEXT_BUFFER (sourcebuffer), &startiter, &enditer);
-  gtk_text_buffer_delete(GTK_TEXT_BUFFER (sourcebuffer), &startiter, &enditer);
-}
-
 GtkTextBuffer * USFMView::last_focused_textbuffer()
 {
   GtkTextBuffer * textbuffer = GTK_TEXT_BUFFER (sourcebuffer);
@@ -561,6 +553,7 @@ void USFMView::on_texteditor_click(GtkWidget * widget, GdkEventButton * event)
   }
 }
 
+
 void USFMView::insert_note(const ustring & marker, const ustring & rawtext)
 /*
  Inserts a note in the editor.
@@ -573,4 +566,26 @@ void USFMView::insert_note(const ustring & marker, const ustring & rawtext)
   text.append (usfm_get_full_closing_marker (marker));
   gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (sourcebuffer), text.c_str(), -1);  
 }
+
+
+void USFMView::cut ()
+{
+  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+  gtk_text_buffer_cut_clipboard  (GTK_TEXT_BUFFER (sourcebuffer), clipboard, editable);
+}
+
+
+void USFMView::copy ()
+{
+  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+  gtk_text_buffer_copy_clipboard(GTK_TEXT_BUFFER (sourcebuffer), clipboard);
+ }
+
+
+void USFMView::paste ()
+{
+  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+  gtk_text_buffer_paste_clipboard (GTK_TEXT_BUFFER (sourcebuffer), clipboard, NULL, editable);
+}
+
 

@@ -126,7 +126,6 @@ public:
   void chapter_load(unsigned int chapter_in);
   void chapter_save();
   ustring text_get_selection();
-  void text_erase_selection();
   void text_insert(ustring text);
 
   void show_quick_references();

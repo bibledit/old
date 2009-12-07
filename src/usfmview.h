@@ -17,8 +17,10 @@
  **  
  */
 
+
 #ifndef INCLUDED_USFM_VIEW_H
 #define INCLUDED_USFM_VIEW_H
+
 
 #include "libraries.h"
 #include <glib.h>
@@ -28,6 +30,7 @@
 #include "types.h"
 #include "editor_aids.h"
 #include <gtksourceview/gtksourceview.h>
+
 
 class USFMView
 {
@@ -54,7 +57,6 @@ public:
   ustring current_verse_number;
   GtkWidget * new_verse_signal;
   ustring text_get_selection();
-  void text_erase_selection();
   GtkTextBuffer * last_focused_textbuffer();
   void text_insert(ustring text);
   GtkWidget * word_double_clicked_signal;
@@ -62,6 +64,9 @@ public:
   void insert_note(const ustring& marker, const ustring& rawtext);
   ustring get_chapter();
   unsigned int chapter;
+  void cut ();
+  void copy ();
+  void paste ();
 private:
   GtkWidget *scrolledwindow;
   GtkSourceBuffer * sourcebuffer;

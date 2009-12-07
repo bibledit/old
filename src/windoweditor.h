@@ -50,7 +50,6 @@ public:
   bool can_undo();
   bool can_redo();
   ustring text_get_selection();
-  void text_erase_selection();
   void text_insert(ustring text);
   ustring word_double_clicked_text();
   void insert_note(const ustring& marker, const ustring& rawtext, bool render);

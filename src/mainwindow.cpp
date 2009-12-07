@@ -2672,7 +2672,7 @@ void MainWindow::on_copy_with_formatting_activate(GtkMenuItem * menuitem, gpoint
 }
 
 
-void MainWindow::on_copy_with_formatting() // Todo
+void MainWindow::on_copy_with_formatting()
 {
   // Using the accelerator in the GtkTextView give weird results. The accelerator has been removed.
   WindowEditor *editor_window = last_focused_editor_window();
@@ -6845,9 +6845,6 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 
 
 Todo tasks.
-
-
-If "Copy with formatting" is chosen, there's no option but to copy USFM code to the clipboard.
 
 
 Notes:

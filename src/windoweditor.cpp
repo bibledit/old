@@ -276,17 +276,6 @@ ustring WindowEditor::text_get_selection()
 }
 
 
-void WindowEditor::text_erase_selection() // Todo out, probably, and all its children.
-{
-  if (usfmview) {
-    usfmview->text_erase_selection();
-  }
-  if (editor2) {
-    editor2->text_erase_selection();
-  }
-}
-
-
 GtkTextBuffer * WindowEditor::last_focused_textbuffer()
 {
   if (usfmview) { 
@@ -692,10 +681,8 @@ void WindowEditor::on_new_widget_signal ()
 
 void WindowEditor::cut ()
 {
-  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
   if (usfmview) {
-    gtk_clipboard_set_text(clipboard, text_get_selection().c_str(), -1);
-    text_erase_selection();
+    usfmview->cut ();
   }
   if (editor2) {
     editor2->cut();
@@ -705,9 +692,8 @@ void WindowEditor::cut ()
 
 void WindowEditor::copy ()
 {
-  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
   if (usfmview) {
-    gtk_text_buffer_copy_clipboard(last_focused_textbuffer(), clipboard);
+    usfmview->copy ();
   }
   if (editor2) {
     editor2->copy();
@@ -717,13 +703,8 @@ void WindowEditor::copy ()
 
 void WindowEditor::paste ()
 {
-  GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
   if (usfmview) {
-    gchar *text = gtk_clipboard_wait_for_text(clipboard);
-    if (text) {
-      text_insert(text);
-      g_free(text);
-    }
+    usfmview->paste();
   }
   if (editor2) {
     editor2->paste();

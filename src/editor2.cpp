@@ -491,7 +491,7 @@ void Editor2::chapter_save()
 }
 
 
-ustring Editor2::text_get_selection() // Todo
+ustring Editor2::text_get_selection()
 // Retrieves the selected text from the textview that has the focus, 
 // and returns it as USFM code.
 {
@@ -502,40 +502,6 @@ ustring Editor2::text_get_selection() // Todo
     text = usfm_get_text(focused_paragraph->textbuffer, startiter, enditer);
   }
   return text;
-}
-
-
-void Editor2::text_erase_selection()
-// Erases the selected text from the textview that has the focus.
-{
-  /*
-  // Get the iterators at the selection bounds of the main textview or note or 
-  // table, whichever has the focus. Erase that bit.
-  GtkTextIter startiter, enditer;
-  gtk_text_buffer_get_selection_bounds(textbuffer, &startiter, &enditer);
-  if (gtk_widget_is_focus(textview)) {
-    gtk_text_buffer_get_selection_bounds(textbuffer, &startiter, &enditer);
-    gtk_text_buffer_delete(textbuffer, &startiter, &enditer);
-  }
-  for (unsigned int i = 0; i < editornotes.size(); i++) {
-    if (gtk_widget_is_focus(editornotes[i].textview)) {
-      GtkTextBuffer *buffer = editornotes[i].textbuffer;
-      gtk_text_buffer_get_selection_bounds(buffer, &startiter, &enditer);
-      gtk_text_buffer_delete(buffer, &startiter, &enditer);
-    }
-  }
-  for (unsigned int i = 0; i < editortables.size(); i++) {
-    for (unsigned int row = 0; row < editortables[i].textviews.size(); row++) {
-      for (unsigned int column = 0; column < editortables[i].textviews[row].size(); column++) {
-        if (gtk_widget_is_focus(table_cell_get_view(editortables[i], row, column))) {
-          GtkTextBuffer *buffer = table_cell_get_buffer(editortables[i], row, column);
-          gtk_text_buffer_get_selection_bounds(buffer, &startiter, &enditer);
-          gtk_text_buffer_delete(buffer, &startiter, &enditer);
-        }
-      }
-    }
-  }
-  */
 }
 
 
@@ -2874,7 +2840,7 @@ void Editor2::editor_start_note_raw (ustring raw_note, const ustring & marker_te
 }
 
 
-void Editor2::copy_clipboard_intelligently () // Todo
+void Editor2::copy_clipboard_intelligently ()
 // Copies the plain text to the clipboard, and copies both plain and usfm text to internal storage.
 {
   GtkTextIter startiter, enditer;
@@ -2909,7 +2875,7 @@ void Editor2::cut ()
 }
 
 
-void Editor2::copy () // Todo
+void Editor2::copy ()
 // Copy to clipboard.
 {
   if (focused_paragraph) {
