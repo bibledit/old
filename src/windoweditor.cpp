@@ -276,7 +276,7 @@ ustring WindowEditor::text_get_selection()
 }
 
 
-void WindowEditor::text_erase_selection()
+void WindowEditor::text_erase_selection() // Todo out, probably, and all its children.
 {
   if (usfmview) {
     usfmview->text_erase_selection();

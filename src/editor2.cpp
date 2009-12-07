@@ -491,25 +491,16 @@ void Editor2::chapter_save()
 }
 
 
-ustring Editor2::text_get_selection()
+ustring Editor2::text_get_selection() // Todo
 // Retrieves the selected text from the textview that has the focus, 
 // and returns it as USFM code.
 {
-  // Variable to hold the USFM text that is going to be produced.
   ustring text;
-
-  /*
-  // Get the iterators at the selection bounds of the main textview or note or 
-  // table, whichever has the focus. Get the text too.
-  GtkTextIter startiter, enditer;
-  gtk_text_buffer_get_selection_bounds(textbuffer, &startiter, &enditer);
-  if (gtk_widget_is_focus(textview)) {
-    gtk_text_buffer_get_selection_bounds(textbuffer, &startiter, &enditer);
-    usfm_get_text(textbuffer, startiter, enditer, &editornotes, &editortables, project, text, verse_restarts_paragraph);
+  if (focused_paragraph) {
+    GtkTextIter startiter, enditer;
+    gtk_text_buffer_get_selection_bounds(focused_paragraph->textbuffer, &startiter, &enditer);
+    text = usfm_get_text(focused_paragraph->textbuffer, startiter, enditer);
   }
-  */
-  
-  // Return the text.
   return text;
 }
 
@@ -2883,7 +2874,7 @@ void Editor2::editor_start_note_raw (ustring raw_note, const ustring & marker_te
 }
 
 
-void Editor2::copy_clipboard_intelligently ()
+void Editor2::copy_clipboard_intelligently () // Todo
 // Copies the plain text to the clipboard, and copies both plain and usfm text to internal storage.
 {
   GtkTextIter startiter, enditer;
@@ -2897,7 +2888,7 @@ void Editor2::copy_clipboard_intelligently ()
         clipboard_text_plain.append (text[i]);
       }
     }
-    clipboard_text_usfm = usfm_get_text(focused_paragraph->textbuffer, startiter, enditer);
+    clipboard_text_usfm = text_get_selection ();
     GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
     gtk_clipboard_set_text (clipboard, clipboard_text_plain.c_str(), -1);
   }
@@ -2918,7 +2909,7 @@ void Editor2::cut ()
 }
 
 
-void Editor2::copy ()
+void Editor2::copy () // Todo
 // Copy to clipboard.
 {
   if (focused_paragraph) {

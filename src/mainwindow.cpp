@@ -2672,7 +2672,7 @@ void MainWindow::on_copy_with_formatting_activate(GtkMenuItem * menuitem, gpoint
 }
 
 
-void MainWindow::on_copy_with_formatting()
+void MainWindow::on_copy_with_formatting() // Todo
 {
   // Using the accelerator in the GtkTextView give weird results. The accelerator has been removed.
   WindowEditor *editor_window = last_focused_editor_window();
