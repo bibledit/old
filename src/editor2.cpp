@@ -2888,7 +2888,7 @@ void Editor2::copy_clipboard_intelligently ()
 {
   GtkTextIter startiter, enditer;
   if (gtk_text_buffer_get_selection_bounds (focused_paragraph->textbuffer, &startiter, &enditer)) {
-    clipboard_text_usfm.clear();
+    clipboard_text_plain.clear();
     vector <ustring> text;
     vector <ustring> styles;
     get_text_and_styles_between_iterators(&startiter, &enditer, text, styles);
@@ -2899,7 +2899,7 @@ void Editor2::copy_clipboard_intelligently ()
     }
     clipboard_text_usfm = usfm_get_text(focused_paragraph->textbuffer, startiter, enditer);
     GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
-    gtk_clipboard_set_text (clipboard, clipboard_text_usfm.c_str(), -1);
+    gtk_clipboard_set_text (clipboard, clipboard_text_plain.c_str(), -1);
   }
 }
 
