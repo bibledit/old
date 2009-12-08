@@ -810,29 +810,22 @@ bool Editor2::save_timeout()
 }
 
 
-gboolean Editor2::on_text_motion_notify_event(GtkWidget * textview, GdkEventMotion * event, gpointer user_data)
+gboolean Editor2::on_motion_notify_event(GtkWidget * textview, GdkEventMotion * event, gpointer user_data)
 {
-  return ((Editor2 *) user_data)->text_motion_notify_event(textview, event);
+  return ((Editor2 *) user_data)->motion_notify_event(textview, event);
 }
 
 
-gboolean Editor2::text_motion_notify_event(GtkWidget * textview, GdkEventMotion * event)
+gboolean Editor2::motion_notify_event(GtkWidget * textview, GdkEventMotion * event) // Todo
 // Update the cursor image if the pointer moved. 
 {
   gint x, y;
   gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW(textview), GTK_TEXT_WINDOW_WIDGET, gint(event->x), gint(event->y), &x, &y);
   GtkTextIter iter;
   gtk_text_view_get_iter_at_location(GTK_TEXT_VIEW(textview), &iter, x, y);
-  GtkTextChildAnchor *anchor = gtk_text_iter_get_child_anchor(&iter);
-  bool hand_cursor = false;
-  if (anchor) {
-    for (unsigned int i = 0; i < editornotes.size(); i++) {
-      if (anchor == editornotes[i].childanchor_caller_text)
-        hand_cursor = true;
-      if (anchor == editornotes[i].childanchor_caller_note)
-        hand_cursor = true;
-    }
-  }
+  ustring paragraph_style, character_style;
+  get_styles_at_iterator(iter, paragraph_style, character_style);
+  bool hand_cursor = character_style.find (note_starting_style ()) != string::npos;
   if (hand_cursor != previous_hand_cursor) {
     GdkCursor *cursor;
     if (hand_cursor) {
@@ -845,67 +838,6 @@ gboolean Editor2::text_motion_notify_event(GtkWidget * textview, GdkEventMotion 
   previous_hand_cursor = hand_cursor;
   gdk_window_get_pointer(textview->window, NULL, NULL, NULL);
   return false;
-}
-
-
-void Editor2::on_text_event_after(GtkWidget * widget, GdkEvent * event, gpointer user_data)
-{
-  ((Editor2 *) user_data)->text_event_after(widget, event);
-}
-
-
-void Editor2::text_event_after(GtkWidget * textview, GdkEvent * ev)
-/* Links can also be activated by clicking.
- */
-{
-  GtkTextIter start, end, iter;
-  GtkTextBuffer *buffer;
-  GdkEventButton *event;
-  gint x, y;
-  if (ev->type != GDK_BUTTON_RELEASE)
-    return;
-  event = (GdkEventButton *) ev;
-  if (event->button != 1)
-    return;
-  buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview));
-  // We shouldn't follow a link if the user has selected something.
-  gtk_text_buffer_get_selection_bounds(buffer, &start, &end);
-  if (gtk_text_iter_get_offset(&start) != gtk_text_iter_get_offset(&end))
-    return;
-  gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW(textview), GTK_TEXT_WINDOW_WIDGET, gint(event->x), gint(event->y), &x, &y);
-  gtk_text_view_get_iter_at_location(GTK_TEXT_VIEW(textview), &iter, x, y);
-  text_edit_if_link(textview, &iter);
-}
-
-
-void Editor2::text_edit_if_link(GtkWidget * textview, GtkTextIter * iter)
-/* Looks at all tags covering the position of iter in the text view, 
- * and if one of them is a link, follow it by showing the page identified
- * by the data attached to it.
- */
-{
-  GSList *tags = NULL, *tagp = NULL;
-  tags = gtk_text_iter_get_tags(iter);
-  for (tagp = tags; tagp != NULL; tagp = tagp->next) {
-    GtkTextTag *tag = (GtkTextTag *) tagp->data;
-    gint id = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(tag), "id"));
-    if (id != 0) {
-    }
-  }
-  if (tags)
-    g_slist_free(tags);
-}
-
-
-void Editor2::on_textbuffer_footnotes_changed(GtkEditable * editable, gpointer user_data)
-{
-  ((Editor2 *) user_data)->on_textbuffer_footnotes();
-}
-
-
-void Editor2::on_textbuffer_footnotes()
-{
-  show_quick_references();
 }
 
 
@@ -2272,13 +2204,11 @@ void Editor2::paragraph_create_actions (EditorActionCreateParagraph * paragraph_
   spellingchecker->attach(paragraph_action->textview);
   // Connect text view signals.
   g_signal_connect_after((gpointer) paragraph_action->textview, "move_cursor", G_CALLBACK(on_textview_move_cursor), gpointer(this));
-  g_signal_connect((gpointer) paragraph_action->textview, "motion-notify-event", G_CALLBACK(on_text_motion_notify_event), gpointer(this));
+  g_signal_connect((gpointer) paragraph_action->textview, "motion-notify-event", G_CALLBACK(on_motion_notify_event), gpointer(this));
   g_signal_connect_after((gpointer) paragraph_action->textview, "grab-focus", G_CALLBACK(on_textview_grab_focus), gpointer(this));
   g_signal_connect((gpointer) paragraph_action->textview, "key-press-event", G_CALLBACK(on_textview_key_press_event), gpointer(this));
   g_signal_connect((gpointer) paragraph_action->textview, "key-release-event", G_CALLBACK(on_textview_key_release_event), gpointer(this));
   g_signal_connect((gpointer) paragraph_action->textview, "button_press_event", G_CALLBACK(on_textview_button_press_event), gpointer(this));
-  //g_signal_connect((gpointer) textview, "event-after", G_CALLBACK(on_text_event_after), gpointer(this));
-  //g_signal_connect((gpointer) textview, "visibility-notify-event", G_CALLBACK(screen_visibility_notify_event), gpointer(this));
   // Set font
   set_font_textview (paragraph_action->textview);
   // Signal the parent window to connect to the signals of the text view.

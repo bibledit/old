@@ -158,21 +158,15 @@ public:
   bool save_timeout();
   size_t editor_actions_size_at_no_save;
 
-  static gboolean on_text_motion_notify_event(GtkWidget *textview, GdkEventMotion *event, gpointer user_data);
-  gboolean text_motion_notify_event(GtkWidget *textview, GdkEventMotion *event);
-  static void on_text_event_after(GtkWidget *widget, GdkEvent *event, gpointer user_data);
-  void text_event_after(GtkWidget *textview, GdkEvent *ev);
+  static gboolean on_motion_notify_event(GtkWidget *textview, GdkEventMotion *event, gpointer user_data);
+  gboolean motion_notify_event(GtkWidget *textview, GdkEventMotion *event);
   bool previous_hand_cursor;
-  void text_edit_if_link(GtkWidget *textview, GtkTextIter *iter);
-  static void on_textbuffer_footnotes_changed(GtkEditable * editable, gpointer user_data);
-  void on_textbuffer_footnotes();
-
 
 
   // Some event ids.
   guint save_timeout_event_id;
 
-  // The formatted view.
+
   GtkTextTagTable * texttagtable;
   void create_or_update_formatting_data();
   void create_or_update_text_style(Style * style, bool paragraph, bool plaintext, double font_multiplier);

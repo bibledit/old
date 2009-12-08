@@ -44,56 +44,6 @@ void textview_scroll_to_mark (GtkTextView * textview, GtkTextMark * mark, bool e
 }
 
 
-void screen_set_cursor_hand_or_regular(GtkTextView * text_view, gint x, gint y)
-// Looks at all tags covering the position (x, y) in the textview,
-// and if one of them is a link, change the cursor to the "hands" cursor
-// typically used by web browsers.
-{
-  // Static variables.
-  static gboolean hovering_over_link = false;
-  GdkCursor *hand_cursor = gdk_cursor_new(GDK_HAND2);
-  GdkCursor *regular_cursor = gdk_cursor_new(GDK_XTERM);
-
-  // Do the job. 
-  GSList *tags = NULL, *tagp = NULL;
-  GtkTextBuffer *buffer;
-  GtkTextIter iter;
-  gboolean hovering = FALSE;
-  buffer = gtk_text_view_get_buffer(text_view);
-  gtk_text_view_get_iter_at_location(text_view, &iter, x, y);
-  tags = gtk_text_iter_get_tags(&iter);
-  for (tagp = tags; tagp != NULL; tagp = tagp->next) {
-    GtkTextTag *tag = (GtkTextTag *) tagp->data;
-    gint id = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(tag), "id"));
-    if (id != 0) {
-      hovering = TRUE;
-      break;
-    }
-  }
-  if (hovering != hovering_over_link) {
-    hovering_over_link = hovering;
-    if (hovering_over_link)
-      gdk_window_set_cursor(gtk_text_view_get_window(text_view, GTK_TEXT_WINDOW_TEXT), hand_cursor);
-    else
-      gdk_window_set_cursor(gtk_text_view_get_window(text_view, GTK_TEXT_WINDOW_TEXT), regular_cursor);
-  }
-  if (tags)
-    g_slist_free(tags);
-}
-
-
-gboolean screen_visibility_notify_event(GtkWidget * text_view, GdkEventVisibility * event, gpointer user_data)
-// Update the cursor image if the window becomes visible
-// (e.g. when a window covering it got iconified).
-{
-  gint wx, wy, bx, by;
-  gdk_window_get_pointer(text_view->window, &wx, &wy, NULL);
-  gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW(text_view), GTK_TEXT_WINDOW_WIDGET, wx, wy, &bx, &by);
-  screen_set_cursor_hand_or_regular(GTK_TEXT_VIEW(text_view), bx, by);
-  return false;
-}
-
-
 void dialog_position_save(DialogPositionType type, GtkWidget * dialog)
 {
   // Get the window's position: x and y.

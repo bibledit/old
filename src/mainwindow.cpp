@@ -6847,52 +6847,50 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
-It does not copy footnotes.
-If only USFM is copied, then copy <usfm> to the clipboard.
-
-
-Notes:
-Entering <Enter> in a notes paragraph does start a new line, but not a new paragraph. When USFM is retrieved, a new line translates to the "\fp " marker.
+When the cursor is over the note caller at the note itself, it changes to a hand.
+When the cursor enters an area, or leaves an area, we need to set the cursor to NULL, as in the floatingwindow basis.
 The user can click on the notes callers, which then switch the view.
 When clicking on a note, it need to focus the corresponding textview.
 When pressing PgUp in a note, it goes back to the text where the note starts.
+Implement:  show_quick_references();
+
+
+Editor: Notes:
+Entering <Enter> in a notes paragraph does start a new line, but not a new paragraph. When USFM is retrieved, a new line translates to the "\fp " marker.
 Notes need to be ordered to the right position on placement, as it can be inserted anywhere among the existing ones.
 Notes should be formatted.
 
 
-When merging, the changes do not automatically show up in the merge window. 
+Editor: When merging, the changes do not automatically show up in the merge window. 
 They show up when clicking in one of the editors.
 
 
 
-When a new window is opened, then the window gets focus, but the old textview, e.g. the one of the Editor, keeps grabbed.
+Editor: When a new window is opened, then the window gets focus, but the old textview, e.g. the one of the Editor, keeps grabbed.
 To resolve this by grabbing focus when a new window is opened.
 
 
 
-Fit out any remaining controls and behaviour of the editor.
+Editor: Fit out any remaining controls and behaviour of the editor.
 
 
-Resizing the window is very hard. 
+Editor: Resizing the window is very hard. 
 To use larger steps, creating larger steps using a timeout, which only does the resizing
 after no new resize requests have come in for a few milliseconds.
 
 
 
-Once the whole editor2 is ready, to check all its code and test all, and establish testing remarks in each routine.
+Editor: Once the whole editor2 is ready, to check all its code and test all, and establish testing remarks in each routine.
 Also test opening several Editor windows.
 
 
-Perhaps pictures can then be shown in a htmlview or textbuffer.
+Editor:Editor * WindowEditor::editor_get() - Needs update to give Editor2.
 
 
-Editor * WindowEditor::editor_get() - Needs update to give Editor2.
+Editor:EditNoteDialog does no longer work.
 
 
-EditNoteDialog does no longer work.
-
-
-Look at:
+Editor:Look at:
 EditorTextViewType Editor2::last_focused_type()
 void Editor2::show_quick_references()
 
@@ -6998,8 +6996,15 @@ Then people can either work on the web, or if they need more functionality, they
 A persecution mode sets the site to look like another one, e.g. a news site. Logging in is hidden.
 
 
+
+
 It is worth looking at http://wiki.freaks-unidos.net/gwebd for a good http daemon.
 svn checkout http://anonymous:@freaks-unidos.net/azul-home/src/gwebd
+Or just use the Apache web server, much simpler, less coding to be done by us.
+Without it Bibledit still works, but some html stuff is offline, notably online help.
+The installer routine would need to find the /var/www stuff automatically, and add a bibledit routine there.
+If data is posted through http as it does now, then the apache stuff should put this file on disk.
+
 
 
 The window that shows the parallel verses slows us down too much. Let is fetch its data in a thread,
