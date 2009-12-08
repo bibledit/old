@@ -94,6 +94,7 @@ vector <ustring> get_character_styles_between_iterators (GtkTextIter startiter, 
 
 const gchar * unknown_style();
 const gchar * note_starting_style ();
+const gchar * usfm_clipboard_code ();
 void get_next_note_caller_and_style (EditorNoteType type, ustring& caller, ustring& style, bool restart);
 void textbuffer_apply_named_tag(GtkTextBuffer *buffer, const ustring& name, const GtkTextIter *start, const GtkTextIter *end);
 void textbuffer_insert_with_named_tags(GtkTextBuffer *buffer, GtkTextIter *iter, const ustring& text, ustring first_tag_name, ustring second_tag_name);

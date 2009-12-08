@@ -6848,9 +6848,7 @@ Todo tasks.
 
 
 It does not copy footnotes.
-This is caused by the double-copy. Could we prevent the second one, the one not made by the callback?
-Preventing in paste also allows us to remove the double-paste detection mechanism. Much cleaner code, then.
-
+If only USFM is copied, then copy <usfm> to the clipboard.
 
 
 Notes:

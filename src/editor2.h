@@ -164,10 +164,6 @@ public:
   void text_event_after(GtkWidget *textview, GdkEvent *ev);
   bool previous_hand_cursor;
   void text_edit_if_link(GtkWidget *textview, GtkTextIter *iter);
-  static gboolean text_key_press_event_before(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
-  gboolean on_text_key_press_event_before(GtkWidget *widget, GdkEventKey *event);
-  static gboolean text_key_press_event_after(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
-  gboolean on_text_key_press_event_after(GtkWidget *widget, GdkEventKey *event);
   static void on_textbuffer_footnotes_changed(GtkEditable * editable, gpointer user_data);
   void on_textbuffer_footnotes();
 

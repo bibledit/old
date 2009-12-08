@@ -1421,6 +1421,13 @@ const gchar * note_starting_style ()
 }
 
 
+const gchar * usfm_clipboard_code ()
+// Gives the clipboard text that signifies that no text was copied, but USFM code only.
+{
+  return "<USFM>";
+}
+
+
 void get_next_note_caller_and_style (EditorNoteType type, ustring& caller, ustring& style, bool restart)
 // Gets the next note caller style.
 // Since note callers have sequential numbers, it needs another one for each note.

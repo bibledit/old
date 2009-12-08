@@ -897,78 +897,6 @@ void Editor2::text_edit_if_link(GtkWidget * textview, GtkTextIter * iter)
 }
 
 
-gboolean Editor2::text_key_press_event_before(GtkWidget * widget, GdkEventKey * event, gpointer user_data)
-{
-  return ((Editor2 *) user_data)->on_text_key_press_event_before(widget, event);
-}
-
-
-gboolean Editor2::on_text_key_press_event_before(GtkWidget * widget, GdkEventKey * event) // Todo
-// Preprocessing of the keyboard events in the text editor.
-{
-  /*
-  if (keyboard_enter_pressed(event)) {
-    // No <Enter> in a crossreference.
-    if (last_focused_type() == etvtNote) {
-      GtkWidget *textview = last_focused_textview();
-      for (unsigned int i = 0; i < editornotes.size(); i++) {
-        if (textview == editornotes[i].textview) {
-          EditorNoteType notetype = note_type_get(project, editornotes[i].marker);
-          if (notetype == entCrossreference) {
-            return true;
-          } else {
-            // If <Enter> has been given in a foot/end note, 
-            // apply the paragraph continuation style.
-            // This is done with a delay to allow the keypress to be fully processed.
-            // It was thought at first to use the keypress handler after the
-            // event, but it appears that the event is handled and no after event
-            // is called anymore.
-            style_to_be_applied_at_cursor = style_get_paragraph_note_style(project);
-            g_timeout_add(1, GSourceFunc(on_apply_style_at_cursor), gpointer(this));
-          }
-        }
-      }
-    }
-    // No <Enter> in a table cell.
-    if (last_focused_type() == etvtTable) {
-      return true;
-    }
-  }
-  // Pressing Page Up while the cursor is in the footnote brings the user
-  // to the note caller in the text.
-  if (keyboard_page_up_pressed(event)) {
-    if (last_focused_type() == etvtNote) {
-      GtkTextBuffer *buffer = last_focused_textbuffer();
-      for (unsigned int i = 0; i < editornotes.size(); i++) {
-        if (buffer == editornotes[i].textbuffer) {
-          programmatically_grab_focus(textview);
-          GtkTextIter iter;
-          gtk_text_buffer_get_iter_at_child_anchor(textbuffer, &iter, editornotes[i].childanchor_caller_text);
-          gtk_text_buffer_place_cursor(textbuffer, &iter);
-          scroll_cursor_on_screen ();
-          break;
-        }
-      }
-    }
-  }
-  */
-  return false;
-}
-
-
-gboolean Editor2::text_key_press_event_after(GtkWidget * widget, GdkEventKey * event, gpointer user_data)
-{
-  return ((Editor2 *) user_data)->on_text_key_press_event_after(widget, event);
-}
-
-
-gboolean Editor2::on_text_key_press_event_after(GtkWidget * widget, GdkEventKey * event)
-// Postprocessing of the keyboard events in the text editors.
-{
-  return false;
-}
-
-
 void Editor2::on_textbuffer_footnotes_changed(GtkEditable * editable, gpointer user_data)
 {
   ((Editor2 *) user_data)->on_textbuffer_footnotes();
@@ -1354,7 +1282,7 @@ void Editor2::on_buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIte
 }
 
 
-void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, gchar * text, gint length) // Todo
+void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, gchar * text, gint length)
 // This function is called after the default handler has inserted the text.
 // At this stage "pos_iter" points to the end of the inserted text.
 {
@@ -1367,7 +1295,6 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
   // but the byte length of the "text" parameter.
   // Therefore get our own length.
   ustring utext (text);
-  cout << "buffer_insert_text_after " << utext << endl; // Todo
 
   // Get offset of text insertion point.
   gint text_insertion_offset = gtk_text_iter_get_offset (pos_iter) - utext.length();
@@ -2825,7 +2752,7 @@ void Editor2::editor_start_note_raw (ustring raw_note, const ustring & marker_te
 }
 
 
-void Editor2::copy_clipboard_intelligently () // Todo
+void Editor2::copy_clipboard_intelligently ()
 // Copies the plain text to the clipboard, and copies both plain and usfm text to internal storage.
 {
   GtkTextIter startiter, enditer;
@@ -2840,12 +2767,17 @@ void Editor2::copy_clipboard_intelligently () // Todo
       }
     }
     clipboard_text_usfm = text_get_selection ();
+    // If no plain text is put on the clipboard, but usfm text, then put something on the clipboard.
+    // This facilitates copying of notes.
+    if (clipboard_text_plain.empty()) {
+      if (!clipboard_text_usfm.empty()) {
+        clipboard_text_plain = usfm_clipboard_code ();
+      }
+    }
+    // Put the plain text on the clipboard.
     GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
     gtk_clipboard_set_text (clipboard, clipboard_text_plain.c_str(), -1);
   }
-  cout << "copy_clipboard_intelligently" << endl; // Todo
-  cout << "plain text " << clipboard_text_plain << endl; // Todo
-  cout << "usfm " << clipboard_text_usfm << endl; // Todo
 }
 
 
@@ -2873,7 +2805,7 @@ void Editor2::copy ()
 }
 
 
-void Editor2::paste () // Todo
+void Editor2::paste ()
 // Paste from clipboard.
 {
   // Proceed if the Editor is editable and there's a focused paragraph where to put the text into.
@@ -2884,11 +2816,11 @@ void Editor2::paste () // Todo
       gchar * text = gtk_clipboard_wait_for_text (clipboard);
       if (text) {
         ustring utext (text);
-        cout << "paste text " << utext << ", and clipboard_text_plain " << clipboard_text_plain << ", and clipboard_text_usfm " << clipboard_text_usfm << endl; // Todo
-        if (utext == clipboard_text_plain) {
+        if ((utext == clipboard_text_plain) || (utext == usfm_clipboard_code ())) {
           // Since the text that would be pasted is the same as the plain text 
           // that results from the previous copy or cut operation, 
           // it inserts the equivalent usfm text instead.
+          // Or if USFM code only was copied, nothing else, then take that too.
           gtk_text_buffer_insert_at_cursor (focused_paragraph->textbuffer, clipboard_text_usfm.c_str(), -1);
         } else {
           // The text that would be pasted differs from the plain text
@@ -2921,9 +2853,9 @@ gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event
   gtk_text_buffer_get_iter_at_mark(textbuffer, &paragraph_crossing_insertion_point_iterator_at_key_press, gtk_text_buffer_get_insert(textbuffer));
 
   // A GtkTextView has standard keybindings for clipboard operations.
-  // It has been found that if the user pressed, e.g. Ctrl-c, that
+  // It has been found that if the user presses, e.g. Ctrl-c, that
   // text is copied to the clipboard twice, or e.g. Ctrl-v, that it is
-  // pasted twice. This is confusing, and probably a bug in Gtk2.
+  // pasted twice. This is probably a bug in Gtk2.
   // The relevant clipboard keys are blocked here.
   // The default bindings for copying to clipboard are Ctrl-c and Ctrl-Insert.
   // The default bindings for cutting to clipboard are Ctrl-x and Shift-Delete.
@@ -2939,6 +2871,53 @@ gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event
     if (keyboard_insert_pressed(event)) return true;
   }
   
+  /*
+  if (keyboard_enter_pressed(event)) {
+    // No <Enter> in a crossreference.
+    if (last_focused_type() == etvtNote) {
+      GtkWidget *textview = last_focused_textview();
+      for (unsigned int i = 0; i < editornotes.size(); i++) {
+        if (textview == editornotes[i].textview) {
+          EditorNoteType notetype = note_type_get(project, editornotes[i].marker);
+          if (notetype == entCrossreference) {
+            return true;
+          } else {
+            // If <Enter> has been given in a foot/end note, 
+            // apply the paragraph continuation style.
+            // This is done with a delay to allow the keypress to be fully processed.
+            // It was thought at first to use the keypress handler after the
+            // event, but it appears that the event is handled and no after event
+            // is called anymore.
+            style_to_be_applied_at_cursor = style_get_paragraph_note_style(project);
+            g_timeout_add(1, GSourceFunc(on_apply_style_at_cursor), gpointer(this));
+          }
+        }
+      }
+    }
+    // No <Enter> in a table cell.
+    if (last_focused_type() == etvtTable) {
+      return true;
+    }
+  }
+  // Pressing Page Up while the cursor is in the footnote brings the user
+  // to the note caller in the text.
+  if (keyboard_page_up_pressed(event)) {
+    if (last_focused_type() == etvtNote) {
+      GtkTextBuffer *buffer = last_focused_textbuffer();
+      for (unsigned int i = 0; i < editornotes.size(); i++) {
+        if (buffer == editornotes[i].textbuffer) {
+          programmatically_grab_focus(textview);
+          GtkTextIter iter;
+          gtk_text_buffer_get_iter_at_child_anchor(textbuffer, &iter, editornotes[i].childanchor_caller_text);
+          gtk_text_buffer_place_cursor(textbuffer, &iter);
+          scroll_cursor_on_screen ();
+          break;
+        }
+      }
+    }
+  }
+  */
+
   // Propagate event further.
   return FALSE;
 }
