@@ -6847,8 +6847,13 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
-Notes:
 It does not copy footnotes.
+This is caused by the double-copy. Could we prevent the second one, the one not made by the callback?
+Preventing in paste also allows us to remove the double-paste detection mechanism. Much cleaner code, then.
+
+
+
+Notes:
 Entering <Enter> in a notes paragraph does start a new line, but not a new paragraph. When USFM is retrieved, a new line translates to the "\fp " marker.
 The user can click on the notes callers, which then switch the view.
 When clicking on a note, it need to focus the corresponding textview.

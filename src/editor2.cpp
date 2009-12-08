@@ -903,8 +903,8 @@ gboolean Editor2::text_key_press_event_before(GtkWidget * widget, GdkEventKey * 
 }
 
 
-gboolean Editor2::on_text_key_press_event_before(GtkWidget * widget, GdkEventKey * event)
-// Preprocessing of the keyboard events in the text editors.
+gboolean Editor2::on_text_key_press_event_before(GtkWidget * widget, GdkEventKey * event) // Todo
+// Preprocessing of the keyboard events in the text editor.
 {
   /*
   if (keyboard_enter_pressed(event)) {
@@ -1354,7 +1354,7 @@ void Editor2::on_buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIte
 }
 
 
-void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, gchar * text, gint length)
+void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter * pos_iter, gchar * text, gint length) // Todo
 // This function is called after the default handler has inserted the text.
 // At this stage "pos_iter" points to the end of the inserted text.
 {
@@ -1367,19 +1367,8 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
   // but the byte length of the "text" parameter.
   // Therefore get our own length.
   ustring utext (text);
+  cout << "buffer_insert_text_after " << utext << endl; // Todo
 
-  // Double-paste detection.
-  ustring double_paste_source (utext);
-  {
-    // Remove all markers.
-    vector < ustring > allmarkers = usfm_get_all_markers(double_paste_source);
-    for (unsigned int i = 0; i < allmarkers.size(); i++) {
-      replace_text(double_paste_source, usfm_get_full_opening_marker(allmarkers[i]), "");
-      replace_text(double_paste_source, usfm_get_full_closing_marker(allmarkers[i]), "");
-    }
-  }
-  bool double_paste = double_paste_source == double_paste_prevention;
-  
   // Get offset of text insertion point.
   gint text_insertion_offset = gtk_text_iter_get_offset (pos_iter) - utext.length();
 
@@ -1458,67 +1447,58 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
   gtk_text_buffer_delete (textbuffer, &startiter, pos_iter);
   disregard_text_buffer_signals--;
 
-  // Text is only inserted if no double-paste was detected.
-  if (double_paste) {
-    
-    gw_critical ("Text was attempted to be pasted twice: " + utext);
-    
+  // If there are one or more backslashes in the text, then USFM code is being entered.
+  // Else treat it as if the user is typing text.
+  if (utext.find ("\\") != string::npos) {
+    // Load USFM code.
+    text_load (text, character_style_to_be_applied, false);
   } else {
-
-    // If there are one or more backslashes in the text, then USFM code is being entered.
-    // Else treat it as if the user is typing text.
-    if (utext.find ("\\") != string::npos) {
-      // Load USFM code.
-      text_load (text, character_style_to_be_applied, false);
-    } else {
-      // Load plain text. Handle new lines as well.
-      size_t newlineposition = utext.find("\n");
-      while (newlineposition != string::npos) {
-        ustring line = utext.substr(0, newlineposition);
-        if (!line.empty()) {
-          text_load (line, character_style_to_be_applied, false);
-          character_style_to_be_applied.clear();
-        }
-        // Get markup after insertion point. New paragraph.
-        ustring paragraph_style = unknown_style ();
-        vector <ustring> text;
-        vector <ustring> styles;        
-        if (focused_paragraph) {
-          paragraph_style = focused_paragraph->style;
-          EditorActionDeleteText * delete_action = paragraph_get_text_and_styles_after_insertion_point(focused_paragraph, text, styles);
-          if (delete_action) {
-            apply_editor_action (delete_action);
-          }
-        }      
-        editor_start_new_standard_paragraph (paragraph_style);
-        // Transfer anything from the previous paragraph to the new one.
-        gint initial_offset = editor_paragraph_insertion_point_get_offset (focused_paragraph);
-        gint accumulated_offset = initial_offset;
-        for (unsigned int i = 0; i < text.size(); i++) {
-          EditorActionInsertText * insert_action = new EditorActionInsertText (focused_paragraph, accumulated_offset, text[i]);
-          apply_editor_action (insert_action);
-          if (!styles[i].empty()) {
-            EditorActionChangeCharacterStyle * style_action = new EditorActionChangeCharacterStyle(focused_paragraph, styles[i], accumulated_offset, text[i].length());
-            apply_editor_action (style_action);
-          }
-          accumulated_offset += text[i].length();
-        }
-        // Move insertion points to the proper position.
-        editor_paragraph_insertion_point_set_offset (focused_paragraph, initial_offset);
-        // Remove the part of the input text that has been handled.
-        utext.erase(0, newlineposition + 1);
-        newlineposition = utext.find("\n");
-      }
-      if (!utext.empty()) {
-        text_load (utext, character_style_to_be_applied, false);
+    // Load plain text. Handle new lines as well.
+    size_t newlineposition = utext.find("\n");
+    while (newlineposition != string::npos) {
+      ustring line = utext.substr(0, newlineposition);
+      if (!line.empty()) {
+        text_load (line, character_style_to_be_applied, false);
         character_style_to_be_applied.clear();
       }
+      // Get markup after insertion point. New paragraph.
+      ustring paragraph_style = unknown_style ();
+      vector <ustring> text;
+      vector <ustring> styles;        
+      if (focused_paragraph) {
+        paragraph_style = focused_paragraph->style;
+        EditorActionDeleteText * delete_action = paragraph_get_text_and_styles_after_insertion_point(focused_paragraph, text, styles);
+        if (delete_action) {
+          apply_editor_action (delete_action);
+        }
+      }      
+      editor_start_new_standard_paragraph (paragraph_style);
+      // Transfer anything from the previous paragraph to the new one.
+      gint initial_offset = editor_paragraph_insertion_point_get_offset (focused_paragraph);
+      gint accumulated_offset = initial_offset;
+      for (unsigned int i = 0; i < text.size(); i++) {
+        EditorActionInsertText * insert_action = new EditorActionInsertText (focused_paragraph, accumulated_offset, text[i]);
+        apply_editor_action (insert_action);
+        if (!styles[i].empty()) {
+          EditorActionChangeCharacterStyle * style_action = new EditorActionChangeCharacterStyle(focused_paragraph, styles[i], accumulated_offset, text[i].length());
+          apply_editor_action (style_action);
+        }
+        accumulated_offset += text[i].length();
+      }
+      // Move insertion points to the proper position.
+      editor_paragraph_insertion_point_set_offset (focused_paragraph, initial_offset);
+      // Remove the part of the input text that has been handled.
+      utext.erase(0, newlineposition + 1);
+      newlineposition = utext.find("\n");
     }
-    
-    // Insert the One Action boundary.
-    apply_editor_action (new EditorAction (eatOneActionBoundary));
-
+    if (!utext.empty()) {
+      text_load (utext, character_style_to_be_applied, false);
+      character_style_to_be_applied.clear();
+    }
   }
+  
+  // Insert the One Action boundary.
+  apply_editor_action (new EditorAction (eatOneActionBoundary));
 
   // The pos_iter variable that was passed to this function was invalidated because text was removed and added.
   // Here it is validated again. This prevents critical errors within Gtk.
@@ -1526,10 +1506,6 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
 
   // Signal that the editor changed.
   signal_editor_changed();
-  
-  // Work around a bug that at times pastes text twice.
-  double_paste_prevention = double_paste_source;
-  g_timeout_add(1, GSourceFunc(on_double_paste_timeout), gpointer(&double_paste_prevention));
 }
 
 
@@ -2849,7 +2825,7 @@ void Editor2::editor_start_note_raw (ustring raw_note, const ustring & marker_te
 }
 
 
-void Editor2::copy_clipboard_intelligently ()
+void Editor2::copy_clipboard_intelligently () // Todo
 // Copies the plain text to the clipboard, and copies both plain and usfm text to internal storage.
 {
   GtkTextIter startiter, enditer;
@@ -2867,6 +2843,9 @@ void Editor2::copy_clipboard_intelligently ()
     GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
     gtk_clipboard_set_text (clipboard, clipboard_text_plain.c_str(), -1);
   }
+  cout << "copy_clipboard_intelligently" << endl; // Todo
+  cout << "plain text " << clipboard_text_plain << endl; // Todo
+  cout << "usfm " << clipboard_text_usfm << endl; // Todo
 }
 
 
@@ -2894,7 +2873,7 @@ void Editor2::copy ()
 }
 
 
-void Editor2::paste ()
+void Editor2::paste () // Todo
 // Paste from clipboard.
 {
   // Proceed if the Editor is editable and there's a focused paragraph where to put the text into.
@@ -2905,6 +2884,7 @@ void Editor2::paste ()
       gchar * text = gtk_clipboard_wait_for_text (clipboard);
       if (text) {
         ustring utext (text);
+        cout << "paste text " << utext << ", and clipboard_text_plain " << clipboard_text_plain << ", and clipboard_text_usfm " << clipboard_text_usfm << endl; // Todo
         if (utext == clipboard_text_plain) {
           // Since the text that would be pasted is the same as the plain text 
           // that results from the previous copy or cut operation, 
@@ -2926,19 +2906,41 @@ void Editor2::paste ()
 
 gboolean Editor2::on_textview_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 {
-  ((Editor2 *) user_data)->textview_key_press_event(widget, event);
-  return FALSE;
+  return ((Editor2 *) user_data)->textview_key_press_event(widget, event);
 }
 
 
-void Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event)
+gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event) // Todo
 {
   // Clear flag for monitoring deletions from textbuffers.
   textbuffer_delete_range_was_fired = false;
+
   // Store data for paragraph crossing control.
   paragraph_crossing_textview_at_key_press = widget;
   GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (widget));
   gtk_text_buffer_get_iter_at_mark(textbuffer, &paragraph_crossing_insertion_point_iterator_at_key_press, gtk_text_buffer_get_insert(textbuffer));
+
+  // A GtkTextView has standard keybindings for clipboard operations.
+  // It has been found that if the user pressed, e.g. Ctrl-c, that
+  // text is copied to the clipboard twice, or e.g. Ctrl-v, that it is
+  // pasted twice. This is confusing, and probably a bug in Gtk2.
+  // The relevant clipboard keys are blocked here.
+  // The default bindings for copying to clipboard are Ctrl-c and Ctrl-Insert.
+  // The default bindings for cutting to clipboard are Ctrl-x and Shift-Delete.
+  // The default bindings for pasting from clipboard are Ctrl-v and Shift-Insert.
+  if (keyboard_control_state(event)) {
+    if (event->keyval == GDK_c) return true;
+    if (event->keyval == GDK_x) return true;
+    if (event->keyval == GDK_v) return true;
+    if (keyboard_insert_pressed(event)) return true;
+  }
+  if (keyboard_shift_state(event)) {
+    if (keyboard_delete_pressed(event)) return true;
+    if (keyboard_insert_pressed(event)) return true;
+  }
+  
+  // Propagate event further.
+  return FALSE;
 }
 
 
@@ -3179,16 +3181,6 @@ void Editor2::paragraph_crossing_act(GtkMovementStep step, gint count)
     gtk_text_buffer_place_cursor (textbuffer, &iter);
     gtk_widget_grab_focus (crossed_widget);
   }
-}
-
-
-bool Editor2::on_double_paste_timeout(gpointer data)
-// At times, but not always, if the user pastes text into the textbuffer,
-// it is somehow pasted twice. This timeout works around that.
-{
-  ustring * contents = static_cast <ustring *> (data);
-  contents->clear();
-  return false;
 }
 
 

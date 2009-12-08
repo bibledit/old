@@ -73,7 +73,7 @@ private:
 
   // Textview keyboard key pressing.
   static gboolean on_textview_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
-  void textview_key_press_event(GtkWidget *widget, GdkEventKey *event);
+  gboolean textview_key_press_event(GtkWidget *widget, GdkEventKey *event);
   static gboolean on_textview_key_release_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
   void textview_key_release_event(GtkWidget *widget, GdkEventKey *event);
   bool textbuffer_delete_range_was_fired;
@@ -196,8 +196,6 @@ public:
   static void on_buffer_delete_range_after(GtkTextBuffer *textbuffer, GtkTextIter *start, GtkTextIter *end, gpointer user_data);
   void buffer_delete_range_after(GtkTextBuffer *textbuffer, GtkTextIter *start, GtkTextIter *end);
   void text_get_all(vector <ustring>& texts, vector <VectorUstring>& styles);
-  static bool on_double_paste_timeout(gpointer data);
-  ustring double_paste_prevention;
 
   bool editable;
 

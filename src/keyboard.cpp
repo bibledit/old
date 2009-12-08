@@ -129,6 +129,28 @@ bool keyboard_control_state(GdkEventButton * event)
 }
 
 
+bool keyboard_control_state(GdkEventKey * event)
+// Returns true if the Ctrl key was down at the key press.
+{
+  guint modifiers;
+  modifiers = gtk_accelerator_get_default_mod_mask();
+  if ((event->state & modifiers) == GDK_CONTROL_MASK)
+    return true;
+  return false;
+}
+
+
+bool keyboard_shift_state(GdkEventKey * event)
+// Returns true if the Shift key was down at the key press.
+{
+  guint modifiers;
+  modifiers = gtk_accelerator_get_default_mod_mask();
+  if ((event->state & modifiers) == GDK_SHIFT_MASK)
+    return true;
+  return false;
+}
+
+
 bool keyboard_backspace_pressed(GdkEventKey * event)
 // Returns true if the backspace key was pressed.
 {
