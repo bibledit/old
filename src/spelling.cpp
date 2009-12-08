@@ -199,8 +199,17 @@ void SpellingChecker::collect_words(GtkTextBuffer * textbuffer)
   while (gtk_text_iter_forward_word_end(&enditer)) {
     startiter = enditer;
     gtk_text_iter_backward_word_start(&startiter);
-    GtkTextIter iter = startiter;
-    check_word(textbuffer, &startiter, &enditer);
+    // Use temporal end iterator.
+    GtkTextIter enditer2 = enditer;
+    // Leave out note callers.
+    unsigned int finite_loop = 0;
+    while (exclude_note_caller (enditer2) && finite_loop < 10) {
+      finite_loop++;
+    }
+    // Check the word if the end iterator is bigger than the start iterator.
+    if (gtk_text_iter_compare (&startiter, &enditer) > 0) {
+      check_word(textbuffer, &startiter, &enditer2);
+    }
   }
   
   /*
@@ -235,6 +244,22 @@ Hyphen bullet - U+2043
 Since Pango routines are used for determining the word boundaries, the right thing to do is to fix Pango.
 
   */
+}
+
+
+bool SpellingChecker::exclude_note_caller (GtkTextIter & iter)
+// Check whether the iter points right after a note caller.
+// If this is the case, move it back one position.
+{
+  GtkTextIter enditer = iter;
+  if (!gtk_text_iter_backward_char (&enditer))
+    return false;
+  ustring paragraph_style, character_style;
+  get_styles_at_iterator(enditer, paragraph_style, character_style);
+  if (character_style.find (note_starting_style ()) == string::npos)
+    return false;
+  gtk_text_iter_backward_char (&iter);
+  return true;
 }
 
 

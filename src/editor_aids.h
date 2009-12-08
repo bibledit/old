@@ -107,7 +107,6 @@ void editor_text_append(GtkTextBuffer * textbuffer, const ustring & text, const 
 gint editor_paragraph_insertion_point_get_offset (EditorActionCreateParagraph * paragraph_action);
 void editor_paragraph_insertion_point_set_offset (EditorActionCreateParagraph * paragraph_action, gint offset);
 
-
 bool text_starts_paragraph (const ustring& project, ustring& line, const ustring& marker, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
 bool text_starts_verse (const ustring& project, ustring& line, const ustring& marker_text, size_t marker_pos, size_t marker_length, bool is_opener, bool marker_found);
 

@@ -6848,23 +6848,17 @@ Todo tasks.
 
 
 Notes:
-When text is copied, and this text contains no footnotes, then plain text is copied. Note markers are removed.
-When text is copied, and it contains one or more notes, then the USFM code of these notes is inserted. This facilitates copying notes.
-When copying text to clipboard including formatting, it should contain USFM code plus any markers contained in the selection.
+It does not copy footnotes.&
 Entering <Enter> in a notes paragraph does start a new line, but not a new paragraph. When USFM is retrieved, a new line translates to the "\fp " marker.
 The user can click on the notes callers, which then switch the view.
-When a note marker is stuck to a word, the speller misspells it. Make the speller intelligent so it excludes styles that start with "note...".
 When clicking on a note, it need to focus the corresponding textview.
 When pressing PgUp in a note, it goes back to the text where the note starts.
 Notes need to be ordered to the right position on placement, as it can be inserted anywhere among the existing ones.
-
+Notes should be formatted.
 
 
 When merging, the changes do not automatically show up in the merge window. 
 They show up when clicking in one of the editors.
-
-
-The USFM view check does not work.
 
 
 
