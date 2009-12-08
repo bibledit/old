@@ -207,8 +207,8 @@ void SpellingChecker::collect_words(GtkTextBuffer * textbuffer)
       finite_loop++;
     }
     // Check the word if the end iterator is bigger than the start iterator.
-    if (gtk_text_iter_compare (&startiter, &enditer) > 0) {
-      check_word(textbuffer, &startiter, &enditer2);
+    if (gtk_text_iter_compare (&startiter, &enditer) < 0) {
+      check_word(textbuffer, &startiter, &enditer);
     }
   }
   

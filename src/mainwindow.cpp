@@ -6848,7 +6848,7 @@ Todo tasks.
 
 
 Notes:
-It does not copy footnotes.&
+It does not copy footnotes.
 Entering <Enter> in a notes paragraph does start a new line, but not a new paragraph. When USFM is retrieved, a new line translates to the "\fp " marker.
 The user can click on the notes callers, which then switch the view.
 When clicking on a note, it need to focus the corresponding textview.
