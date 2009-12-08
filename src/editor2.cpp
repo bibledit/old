@@ -1369,7 +1369,16 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
   ustring utext (text);
 
   // Double-paste detection.
-  bool double_paste = utext == double_paste_prevention;
+  ustring double_paste_source (utext);
+  {
+    // Remove all markers.
+    vector < ustring > allmarkers = usfm_get_all_markers(double_paste_source);
+    for (unsigned int i = 0; i < allmarkers.size(); i++) {
+      replace_text(double_paste_source, usfm_get_full_opening_marker(allmarkers[i]), "");
+      replace_text(double_paste_source, usfm_get_full_closing_marker(allmarkers[i]), "");
+    }
+  }
+  bool double_paste = double_paste_source == double_paste_prevention;
   
   // Get offset of text insertion point.
   gint text_insertion_offset = gtk_text_iter_get_offset (pos_iter) - utext.length();
@@ -1452,7 +1461,7 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
   // Text is only inserted if no double-paste was detected.
   if (double_paste) {
     
-    gw_critical ("Text was pasted twice: " + utext);
+    gw_critical ("Text was attempted to be pasted twice: " + utext);
     
   } else {
 
@@ -1519,7 +1528,7 @@ void Editor2::buffer_insert_text_after(GtkTextBuffer * textbuffer, GtkTextIter *
   signal_editor_changed();
   
   // Work around a bug that at times pastes text twice.
-  double_paste_prevention = text;
+  double_paste_prevention = double_paste_source;
   g_timeout_add(1, GSourceFunc(on_double_paste_timeout), gpointer(&double_paste_prevention));
 }
 
