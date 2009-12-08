@@ -54,7 +54,7 @@ public:
   void add_to_dictionary (const gchar * word);
 private:
   void collect_words (GtkTextBuffer* textbuffer);
-  bool exclude_note_caller (GtkTextIter & iter);
+  bool includes_note_caller (GtkTextIter & iter);
   void check_word (GtkTextBuffer* textbuffer, GtkTextIter *start, GtkTextIter *end);
   set <ustring> correct_words;
   set <ustring> incorrect_words;

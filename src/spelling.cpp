@@ -199,16 +199,16 @@ void SpellingChecker::collect_words(GtkTextBuffer * textbuffer)
   while (gtk_text_iter_forward_word_end(&enditer)) {
     startiter = enditer;
     gtk_text_iter_backward_word_start(&startiter);
-    // Use temporal end iterator.
+    // Use temporal end iterator in case it should leave out one or more note callers.
     GtkTextIter enditer2 = enditer;
-    // Leave out note callers.
     unsigned int finite_loop = 0;
-    while (exclude_note_caller (enditer2) && finite_loop < 10) {
+    while (includes_note_caller (enditer2) && finite_loop < 10) {
+      gtk_text_iter_backward_char (&enditer2);
       finite_loop++;
     }
     // Check the word if the end iterator is bigger than the start iterator.
-    if (gtk_text_iter_compare (&startiter, &enditer) < 0) {
-      check_word(textbuffer, &startiter, &enditer);
+    if (gtk_text_iter_compare (&enditer2, &startiter) > 0) {
+      check_word(textbuffer, &startiter, &enditer2);
     }
   }
   
@@ -247,9 +247,8 @@ Since Pango routines are used for determining the word boundaries, the right thi
 }
 
 
-bool SpellingChecker::exclude_note_caller (GtkTextIter & iter)
+bool SpellingChecker::includes_note_caller (GtkTextIter & iter)
 // Check whether the iter points right after a note caller.
-// If this is the case, move it back one position.
 {
   GtkTextIter enditer = iter;
   if (!gtk_text_iter_backward_char (&enditer))
@@ -258,7 +257,6 @@ bool SpellingChecker::exclude_note_caller (GtkTextIter & iter)
   get_styles_at_iterator(enditer, paragraph_style, character_style);
   if (character_style.find (note_starting_style ()) == string::npos)
     return false;
-  gtk_text_iter_backward_char (&iter);
   return true;
 }
 
