@@ -6847,10 +6847,6 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
-When clicking on a note caller, it focuses the corresponding textview and sets the cursor to the right position, that is where the caller is.
-
-
-
 When pressing PgUp in a note, it goes back to the text where the note starts.
 
 

@@ -1887,7 +1887,7 @@ bool Editor2::move_cursor_to_spelling_error (bool next, bool extremity)
 }
 
 
-void Editor2::scroll_insertion_point_on_screen () // Todo
+void Editor2::scroll_insertion_point_on_screen ()
 {
   g_timeout_add(100, GSourceFunc(on_scroll_insertion_point_on_screen_timeout), gpointer(this));
 }
@@ -2227,6 +2227,9 @@ EditorActionCreateParagraph * Editor2::widget2paragraph_action (GtkWidget * widg
       if ((action->type == eatCreateNoteParagraph)) {
         EditorActionCreateNoteParagraph * note_paragraph_action = static_cast <EditorActionCreateNoteParagraph *> (action);
         if (note_paragraph_action->hbox == widget) {
+          return paragraph_action;
+        }
+        if (note_paragraph_action->eventbox == widget) {
           return paragraph_action;
         }
       }
@@ -3011,12 +3014,37 @@ void Editor2::paragraph_crossing_act(GtkMovementStep step, gint count)
 
 gboolean Editor2::on_caller_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
 {
-  return ((Editor2 *) user_data)->on_caller_button_press(event);
+  return ((Editor2 *) user_data)->on_caller_button_press(widget, event);
 }
 
 
-gboolean Editor2::on_caller_button_press (GdkEventButton *event) // Todo
+gboolean Editor2::on_caller_button_press (GtkWidget *widget, GdkEventButton *event)
+// Called when the user clicks on a note caller at the bottom of the screen.
+// It will focus the note caller in the text.
 {
+  // Look for the note paragraph.
+  EditorActionCreateParagraph * paragraph = widget2paragraph_action (widget);
+  if (paragraph) {
+    EditorActionCreateNoteParagraph * note_paragraph = static_cast <EditorActionCreateNoteParagraph *> (paragraph);
+    // Get the note style.
+    ustring note_style = note_paragraph->identifier;
+    // Get the iterator and the textview of the note caller in the text.
+    vector <GtkWidget *> textviews = editor_get_widgets (vbox_paragraphs);
+    for (unsigned int i = 0; i < textviews.size(); i++) {
+      GtkTextBuffer * textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textviews[i]));
+      GtkTextIter iter;
+      gtk_text_buffer_get_start_iter (textbuffer, &iter);
+      do {
+        ustring paragraph_style, character_style, verse_at_iter;
+        get_styles_at_iterator(iter, paragraph_style, character_style);
+        if (character_style == note_style) {
+          gtk_text_buffer_place_cursor (textbuffer, &iter);
+          gtk_widget_grab_focus (textviews[i]);
+        }
+      } while (gtk_text_iter_forward_char(&iter));
+    }
+  }
+  // Propagate the button press event.
   return false;
 }
 
