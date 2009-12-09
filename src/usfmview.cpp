@@ -16,6 +16,7 @@
  **  
  */
 
+
 #include "utilities.h"
 #include <glib.h>
 #include "usfmview.h"
@@ -42,6 +43,7 @@
 #include <gtksourceview/gtksourcelanguage.h>
 #include <gtksourceview/gtksourcelanguagemanager.h>
 #include <gtksourceview/gtksourcestyleschememanager.h>
+
 
 USFMView::USFMView(GtkWidget * vbox, const ustring & project_in):
 current_reference(0, 1000, "")
@@ -82,6 +84,7 @@ current_reference(0, 1000, "")
   g_signal_connect_after((gpointer) sourceview, "move_cursor", G_CALLBACK(on_textview_move_cursor), gpointer(this));
   g_signal_connect_after((gpointer) sourceview, "grab_focus", G_CALLBACK(on_textview_grab_focus), gpointer(this));
   g_signal_connect((gpointer) sourceview, "button_press_event", G_CALLBACK(on_textview_button_press_event), gpointer(this));
+  g_signal_connect((gpointer) sourceview, "key-press-event", G_CALLBACK(on_textview_key_press_event), gpointer(this));
 
   // Buttons to give signals.
   reload_signal = gtk_button_new();
@@ -570,7 +573,6 @@ void USFMView::insert_note(const ustring & marker, const ustring & rawtext)
 
 void USFMView::cut ()
 {
-  return;
   GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
   gtk_text_buffer_cut_clipboard  (GTK_TEXT_BUFFER (sourcebuffer), clipboard, editable);
 }
@@ -578,7 +580,6 @@ void USFMView::cut ()
 
 void USFMView::copy ()
 {
-  return;
   GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
   gtk_text_buffer_copy_clipboard(GTK_TEXT_BUFFER (sourcebuffer), clipboard);
  }
@@ -586,9 +587,39 @@ void USFMView::copy ()
 
 void USFMView::paste ()
 {
-  return;
   GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
   gtk_text_buffer_paste_clipboard (GTK_TEXT_BUFFER (sourcebuffer), clipboard, NULL, editable);
+}
+
+
+gboolean USFMView::on_textview_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
+{
+  return ((USFMView *) user_data)->textview_key_press_event(widget, event);
+}
+
+
+gboolean USFMView::textview_key_press_event(GtkWidget *widget, GdkEventKey *event)
+{
+  // A GtkTextView has standard keybindings for clipboard operations.
+  // It has been found that if the user presses, e.g. Ctrl-c, that
+  // text is copied to the clipboard twice, or e.g. Ctrl-v, that it is
+  // pasted twice. This is probably a bug in Gtk2.
+  // The relevant clipboard keys are blocked here.
+  // The default bindings for copying to clipboard are Ctrl-c and Ctrl-Insert.
+  // The default bindings for cutting to clipboard are Ctrl-x and Shift-Delete.
+  // The default bindings for pasting from clipboard are Ctrl-v and Shift-Insert.
+  if (keyboard_control_state(event)) {
+    if (event->keyval == GDK_c) return true;
+    if (event->keyval == GDK_x) return true;
+    if (event->keyval == GDK_v) return true;
+    if (keyboard_insert_pressed(event)) return true;
+  }
+  if (keyboard_shift_state(event)) {
+    if (keyboard_delete_pressed(event)) return true;
+    if (keyboard_insert_pressed(event)) return true;
+  }
+  // Propagate event further.
+  return FALSE;
 }
 
 

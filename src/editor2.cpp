@@ -2772,7 +2772,7 @@ gboolean Editor2::on_textview_key_press_event(GtkWidget *widget, GdkEventKey *ev
 }
 
 
-gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event) // Todo
+gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event)
 {
   // Clear flag for monitoring deletions from textbuffers.
   textbuffer_delete_range_was_fired = false;

@@ -86,6 +86,8 @@ private:
   static gboolean on_textview_button_press_event(GtkWidget *widget, GdkEventButton *event, gpointer user_data);
   void on_texteditor_click(GtkWidget * widget, GdkEventButton *event);
   GtkTextTag * markup_tag;
+  static gboolean on_textview_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
+  gboolean textview_key_press_event(GtkWidget *widget, GdkEventKey *event);
 
 };
 

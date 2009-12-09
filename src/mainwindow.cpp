@@ -6852,6 +6852,9 @@ When the cursor enters an area, or leaves an area, we need to set the cursor to 
 The user can click on the notes callers, which then switch the view.
 When clicking on a note, it need to focus the corresponding textview.
 When pressing PgUp in a note, it goes back to the text where the note starts.
+
+
+
 Implement:  show_quick_references();
 
 
@@ -6861,11 +6864,17 @@ Notes need to be ordered to the right position on placement, as it can be insert
 Notes should be formatted.
 
 
+Editor: What happens if we detach the GtkTExtView from the buffer while loading? Would it speed things up?
+
+
 Editor: When merging, the changes do not automatically show up in the merge window. 
 They show up when clicking in one of the editors.
 
 
 USFM Editor: The clipboard shortcuts were removed, see how it goes.
+
+
+Editor: When checking USFM, and switching Editors, it should inform the user if an editor is not available.
 
 
 
@@ -7020,6 +7029,8 @@ See http://www.apacheweek.com/features/put
 
 We think of a public review system, where the review area is on a public site, with comments on each verse.
 The editor is still offline, as bibledit, but the website syncs with the bibledit git repository to get the data.
+Notes marked Public also go to the website, and, actually, go in sync with bibledit and the site.
+
 
 
 The window that shows the parallel verses slows us down too much. Let is fetch its data in a thread,
