@@ -6865,6 +6865,9 @@ Editor: When merging, the changes do not automatically show up in the merge wind
 They show up when clicking in one of the editors.
 
 
+USFM Editor: The clipboard shortcuts were removed, see how it goes.
+
+
 
 Editor: When a new window is opened, then the window gets focus, but the old textview, e.g. the one of the Editor, keeps grabbed.
 To resolve this by grabbing focus when a new window is opened.
@@ -7000,11 +7003,23 @@ A persecution mode sets the site to look like another one, e.g. a news site. Log
 
 It is worth looking at http://wiki.freaks-unidos.net/gwebd for a good http daemon.
 svn checkout http://anonymous:@freaks-unidos.net/azul-home/src/gwebd
-Or just use the Apache web server, much simpler, less coding to be done by us.
+Better to use the Apache web server, much simpler, less coding to be done by us.
+Also test a few other web servers, some light daemons, and ensure Bibledit works with them.
 Without it Bibledit still works, but some html stuff is offline, notably online help.
 The installer routine would need to find the /var/www stuff automatically, and add a bibledit routine there.
 If data is posted through http as it does now, then the apache stuff should put this file on disk.
+Can we use "http://en.wikipedia.org/wiki/Comet_%28programming%29"?
+Or "http://en.wikipedia.org/wiki/Push_technology"?
+Or Google for Comet server push
 
+
+When creating checks, we use the Apache server for that.
+It uploads the page to the server, so it remains there always.
+See http://www.apacheweek.com/features/put
+
+
+We think of a public review system, where the review area is on a public site, with comments on each verse.
+The editor is still offline, as bibledit, but the website syncs with the bibledit git repository to get the data.
 
 
 The window that shows the parallel verses slows us down too much. Let is fetch its data in a thread,

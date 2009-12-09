@@ -570,6 +570,7 @@ void USFMView::insert_note(const ustring & marker, const ustring & rawtext)
 
 void USFMView::cut ()
 {
+  return;
   GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
   gtk_text_buffer_cut_clipboard  (GTK_TEXT_BUFFER (sourcebuffer), clipboard, editable);
 }
@@ -577,6 +578,7 @@ void USFMView::cut ()
 
 void USFMView::copy ()
 {
+  return;
   GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
   gtk_text_buffer_copy_clipboard(GTK_TEXT_BUFFER (sourcebuffer), clipboard);
  }
@@ -584,6 +586,7 @@ void USFMView::copy ()
 
 void USFMView::paste ()
 {
+  return;
   GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
   gtk_text_buffer_paste_clipboard (GTK_TEXT_BUFFER (sourcebuffer), clipboard, NULL, editable);
 }
