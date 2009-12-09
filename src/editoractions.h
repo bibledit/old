@@ -167,12 +167,17 @@ public:
   void undo  (GtkWidget * parking_vbox, GtkWidget *& to_focus);
   void redo  (GtkWidget *& to_focus);
   GtkWidget * hbox;
+  GtkWidget * eventbox;
   ustring identifier;
   ustring opening_closing_marker;
   ustring caller_usfm;
 private:
   ustring caller_text;
   GtkWidget * label;
+  static gboolean on_caller_enter_notify_event (GtkWidget *widget, GdkEventCrossing *event, gpointer user_data);
+  gboolean on_caller_enter_notify (GdkEventCrossing *event);
+  static gboolean on_caller_leave_notify_event (GtkWidget *widget, GdkEventCrossing *event, gpointer user_data);
+  gboolean on_caller_leave_notify (GdkEventCrossing *event);
 };
 
 

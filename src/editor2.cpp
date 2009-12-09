@@ -834,6 +834,7 @@ gboolean Editor2::motion_notify_event(GtkWidget * textview, GdkEventMotion * eve
       cursor = gdk_cursor_new(GDK_XTERM);
     }
     gdk_window_set_cursor(gtk_text_view_get_window(GTK_TEXT_VIEW(textview), GTK_TEXT_WINDOW_TEXT), cursor);
+    gdk_cursor_unref (cursor);
   }
   previous_hand_cursor = hand_cursor;
   gdk_window_get_pointer(textview->window, NULL, NULL, NULL);
@@ -2214,6 +2215,11 @@ void Editor2::paragraph_create_actions (EditorActionCreateParagraph * paragraph_
   // Signal the parent window to connect to the signals of the text view.
   new_widget_pointer = paragraph_action->textview;
   gtk_button_clicked (GTK_BUTTON (new_widget_signal));
+  // Extra bits to be done for a note.
+  if (paragraph_action->type == eatCreateNoteParagraph) {
+    // Cast the object to the right type.
+    //EditorActionCreateNoteParagraph * note_action = static_cast <EditorActionCreateNoteParagraph *> (paragraph_action);
+  }
 }
 
 

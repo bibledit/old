@@ -158,11 +158,6 @@ public:
   bool save_timeout();
   size_t editor_actions_size_at_no_save;
 
-  static gboolean on_motion_notify_event(GtkWidget *textview, GdkEventMotion *event, gpointer user_data);
-  gboolean motion_notify_event(GtkWidget *textview, GdkEventMotion *event);
-  bool previous_hand_cursor;
-
-
   // Some event ids.
   guint save_timeout_event_id;
 
@@ -276,6 +271,13 @@ private:
   void copy_clipboard_intelligently ();
   ustring clipboard_text_plain;
   ustring clipboard_text_usfm;
+
+  // Cursor control.
+public:
+private:
+  static gboolean on_motion_notify_event(GtkWidget *textview, GdkEventMotion *event, gpointer user_data);
+  gboolean motion_notify_event(GtkWidget *textview, GdkEventMotion *event);
+  bool previous_hand_cursor;
 
 
 };

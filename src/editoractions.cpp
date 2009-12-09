@@ -502,6 +502,7 @@ EditorActionCreateParagraph (vbox)
   identifier = identifier_in;
   // Widgets will be set on initial application.
   hbox = NULL;
+  eventbox = NULL;
   label = NULL;
 }
 
@@ -511,6 +512,7 @@ EditorActionCreateNoteParagraph::~EditorActionCreateNoteParagraph ()
   if (hbox) {
     gtk_widget_destroy (hbox);
     hbox = NULL;
+    eventbox = NULL;
     label = NULL;
     textview = NULL;
   }
@@ -524,6 +526,13 @@ void EditorActionCreateNoteParagraph::apply (GtkTextTagTable * texttagtable, boo
   gtk_widget_show (hbox);
   gtk_box_pack_start(GTK_BOX(parent_vbox), hbox, false, false, 0);
 
+  // Eventbox to catch a few events on the caller of the note.
+  eventbox = gtk_event_box_new ();
+  gtk_widget_show (eventbox);
+  gtk_box_pack_start(GTK_BOX(hbox), eventbox, false, false, 0);
+  g_signal_connect ((gpointer) eventbox, "enter_notify_event", G_CALLBACK (on_caller_enter_notify_event), gpointer (this));
+  g_signal_connect ((gpointer) eventbox, "leave_notify_event", G_CALLBACK (on_caller_leave_notify_event), gpointer (this));
+
   // The background of the caller is going to be grey.
   // Courier font is chosen to make the spacing of the callers equal so they line up nicely.
   label = gtk_label_new ("");
@@ -531,7 +540,7 @@ void EditorActionCreateNoteParagraph::apply (GtkTextTagTable * texttagtable, boo
   char *markup = g_markup_printf_escaped("<span background=\"grey\" size=\"x-small\"> </span><span background=\"grey\" face=\"Courier\">%s</span><span background=\"grey\" size=\"x-small\"> </span>", caller_text.c_str());
   gtk_label_set_markup(GTK_LABEL(label), markup);
   g_free(markup);
-  gtk_box_pack_start(GTK_BOX(hbox), label, false, false, 0);
+  gtk_container_add (GTK_CONTAINER (eventbox), label);
 
   // The textbuffer uses the text tag table.
   textbuffer = gtk_text_buffer_new(texttagtable);
@@ -586,6 +595,40 @@ void EditorActionCreateNoteParagraph::redo (GtkWidget *& to_focus)
   gtk_box_reorder_child (GTK_BOX(parent_vbox), textview, offset_at_delete);
   // Let the restored textview be earmarked to grab focus.
   to_focus = textview;
+}
+
+
+gboolean EditorActionCreateNoteParagraph::on_caller_enter_notify_event (GtkWidget *widget, GdkEventCrossing *event, gpointer user_data)
+{
+  return ((EditorActionCreateNoteParagraph *) user_data)->on_caller_enter_notify(event);
+}
+
+
+gboolean EditorActionCreateNoteParagraph::on_caller_enter_notify (GdkEventCrossing *event)
+{
+  // Set the cursor to a shape that shows that the caller can be clicked.
+  GtkWidget *toplevel_widget = gtk_widget_get_toplevel(label);
+  GdkWindow *gdk_window = toplevel_widget->window;
+  GdkCursor *cursor = gdk_cursor_new(GDK_HAND2);
+  gdk_window_set_cursor(gdk_window, cursor);
+  gdk_cursor_unref (cursor);
+  return false;
+}
+
+
+gboolean EditorActionCreateNoteParagraph::on_caller_leave_notify_event (GtkWidget *widget, GdkEventCrossing *event, gpointer user_data)
+{
+  return ((EditorActionCreateNoteParagraph *) user_data)->on_caller_leave_notify(event);
+}
+
+
+gboolean EditorActionCreateNoteParagraph::on_caller_leave_notify (GdkEventCrossing *event)
+{
+  // Restore the original cursor.
+  GtkWidget * toplevel_widget = gtk_widget_get_toplevel(label);
+  GdkWindow *gdk_window = toplevel_widget->window;
+  gdk_window_set_cursor(gdk_window, NULL);
+  return false;
 }
 
 
