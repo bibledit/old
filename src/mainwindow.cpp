@@ -6847,16 +6847,35 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
-When the cursor is over the note caller at the note itself, it changes to a hand.
-When the cursor enters an area, or leaves an area, we need to set the cursor to NULL, as in the floatingwindow basis.
-The user can click on the notes callers, which then switch the view.
-When clicking on a note, it need to focus the corresponding textview.
+When clicking on a note caller, it focuses the corresponding textview and sets the cursor to the right position, that is where the caller is.
+
+
+
 When pressing PgUp in a note, it goes back to the text where the note starts.
 
 
 
-Implement:  show_quick_references();
+Editor: Do highlighting of search words.
 
+
+
+Editor: Implement:  show_quick_references();
+
+
+
+Editor: Implement: Double-clicking sends the word to Toolbox
+
+
+
+Editor: Try inserting tables, and applying table styles.
+
+
+
+Editor: Try inserting notes, and editing notes.
+
+
+
+Editor: Implement: last_focused_type
 
 Editor: Notes:
 Entering <Enter> in a notes paragraph does start a new line, but not a new paragraph. When USFM is retrieved, a new line translates to the "\fp " marker.

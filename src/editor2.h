@@ -82,7 +82,7 @@ private:
 
   // Textview mouse button pressing signal and delay.
   static gboolean on_textview_button_press_event(GtkWidget *widget, GdkEventButton *event, gpointer user_data);
-  void textview_button_press_event(GtkWidget * widget, GdkEventButton *event);
+  gboolean textview_button_press_event(GtkWidget * widget, GdkEventButton *event);
   guint textview_button_press_event_id;
   static bool on_textview_button_press_delayed (gpointer user_data);
   void textview_button_press_delayed ();
@@ -112,13 +112,9 @@ private:
   // Focus handling.
 public:
   GtkWidget * last_focused_widget;
-  void programmatically_grab_focus(GtkWidget * widget);
-  bool focus_programmatically_being_grabbed;
   GtkWidget * last_focused_textview();
   GtkTextBuffer * last_focused_textbuffer();
   EditorTextViewType last_focused_type();
-  unsigned int last_focused_column();
-  GtkTextChildAnchor * child_anchor_clicked;
 
   ustring character_style_on_start_typing;
 
@@ -170,7 +166,6 @@ public:
   
   vector <EditorNote> editornotes;
 
-  void erase_related_note_bits();
   void insert_note(const ustring& marker, const ustring& rawtext, bool render);
 
   bool do_not_process_child_anchors_being_deleted;
@@ -278,6 +273,10 @@ private:
   static gboolean on_motion_notify_event(GtkWidget *textview, GdkEventMotion *event, gpointer user_data);
   gboolean motion_notify_event(GtkWidget *textview, GdkEventMotion *event);
   bool previous_hand_cursor;
+
+
+  static gboolean on_caller_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data);
+  gboolean on_caller_button_press (GdkEventButton *event);
 
 
 };

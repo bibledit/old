@@ -175,9 +175,6 @@ current_reference(0, 1000, "")
 
   // Automatic saving of the file, periodically.
   save_timeout_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 60000, GSourceFunc(on_save_timeout), gpointer(this), NULL);
-
-  // Grab focus.
-  focus_programmatically_being_grabbed = false;
 }
 
 
@@ -674,40 +671,7 @@ void Editor2::textview_grab_focus_delayed()
   if (recording_undo_actions()) {
     show_quick_references();
   }
-  // If the user clicks on a note caller, then the focus will move to or from 
-  // that note. This functionality is processed below.
-  if (child_anchor_clicked) {
-    // Go through the available notes and if the anchor agrees, 
-    // focus the appropriate textview and scroll to it.
-    for (unsigned int i = 0; i < editornotes.size(); i++) {
-      if (child_anchor_clicked == editornotes[i].childanchor_caller_text) {
-        gtk_widget_grab_focus(editornotes[i].textview);
-        GtkTextIter iter;
-        gtk_text_buffer_get_start_iter(editornotes[i].textbuffer, &iter);
-        gtk_text_buffer_place_cursor(editornotes[i].textbuffer, &iter);
-        gtk_text_buffer_get_iter_at_child_anchor(textbuffer, &iter, editornotes[i].childanchor_caller_note);
-        gtk_text_buffer_place_cursor(textbuffer, &iter);
-        scroll_cursor_on_screen ();
-      }
-      if (child_anchor_clicked == editornotes[i].childanchor_caller_note) {
-        gtk_widget_grab_focus(textview);
-        GtkTextIter iter;
-        gtk_text_buffer_get_iter_at_child_anchor(textbuffer, &iter, editornotes[i].childanchor_caller_text);
-        gtk_text_buffer_place_cursor(textbuffer, &iter);
-        scroll_cursor_on_screen ();
-      }
-    }
-    child_anchor_clicked = NULL;
-  }
   */
-}
-
-
-void Editor2::programmatically_grab_focus(GtkWidget * widget)
-{
-  focus_programmatically_being_grabbed = true;
-  gtk_widget_grab_focus(widget);
-  focus_programmatically_being_grabbed = false;
 }
 
 
@@ -816,7 +780,7 @@ gboolean Editor2::on_motion_notify_event(GtkWidget * textview, GdkEventMotion * 
 }
 
 
-gboolean Editor2::motion_notify_event(GtkWidget * textview, GdkEventMotion * event) // Todo
+gboolean Editor2::motion_notify_event(GtkWidget * textview, GdkEventMotion * event)
 // Update the cursor image if the pointer moved. 
 {
   gint x, y;
@@ -844,13 +808,34 @@ gboolean Editor2::motion_notify_event(GtkWidget * textview, GdkEventMotion * eve
 
 gboolean Editor2::on_textview_button_press_event(GtkWidget * widget, GdkEventButton * event, gpointer user_data)
 {
-  ((Editor2 *) user_data)->textview_button_press_event(widget, event);
-  return false;
+  return ((Editor2 *) user_data)->textview_button_press_event(widget, event);
 }
 
 
-void Editor2::textview_button_press_event(GtkWidget * widget, GdkEventButton * event)
+gboolean Editor2::textview_button_press_event(GtkWidget * widget, GdkEventButton * event) // Todo
 {
+  // See whether the user clicked on a note caller.
+  if (event->type == GDK_BUTTON_PRESS) {
+    // Get iterator at clicking location.
+    GtkTextIter iter;
+    gint x, y;
+    gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW(widget), GTK_TEXT_WINDOW_WIDGET, gint(event->x), gint(event->y), &x, &y);
+    gtk_text_view_get_iter_at_location(GTK_TEXT_VIEW(widget), &iter, x, y);
+    // Check whether this is a note caller.
+    ustring paragraph_style, character_style;
+    get_styles_at_iterator(iter, paragraph_style, character_style);
+    if (character_style.find (note_starting_style ()) != string::npos) {
+      // Focus the note paragraph that has this identifier.
+      EditorActionCreateNoteParagraph * note_paragraph = note2paragraph_action (character_style);
+      if (note_paragraph) {
+        gtk_widget_grab_focus (note_paragraph->textview);
+      }
+      // Do not propagate the button press event.
+      return true;
+    }
+  }
+
+  // Process this event with a delay.
   gw_destroy_source(textview_button_press_event_id);
   textview_button_press_event_id = g_timeout_add_full(G_PRIORITY_DEFAULT, 100, GSourceFunc(on_textview_button_press_delayed), gpointer(this), NULL);
 
@@ -874,21 +859,9 @@ void Editor2::textview_button_press_event(GtkWidget * widget, GdkEventButton * e
     // Signal to have it sent to Toolbox.
     gtk_button_clicked(GTK_BUTTON(word_double_clicked_signal));
   }
-  // See whether the user clicked on a note caller.
-  child_anchor_clicked = NULL;
-  if (widget == textview) {
-    if (event->type == GDK_BUTTON_PRESS) {
-      // Get iterator at clicking location.
-      GtkTextIter iter;
-      gint x, y;
-      gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW(widget), GTK_TEXT_WINDOW_WIDGET, gint(event->x), gint(event->y), &x, &y);
-      gtk_text_view_get_iter_at_location(GTK_TEXT_VIEW(widget), &iter, x, y);
-      // Get the child anchor at the iterator, if there is one.
-      child_anchor_clicked = gtk_text_iter_get_child_anchor(&iter);
-      // Further processing of this child anchor is done in the focus grabbed handler.
-    }
-  }
   */
+  // Propagate the event.
+  return false;
 }
 
 
@@ -1149,63 +1122,6 @@ void Editor2::create_or_update_text_style(Style * style, bool paragraph, bool pl
     g_object_set_property(G_OBJECT(tag), "foreground-gdk", &gvalue);
     g_value_unset(&gvalue);
   }
-}
-
-
-void Editor2::erase_related_note_bits()
-{
-  /*
-  // Collect data for note bits and the editor objects to be removed.
-   vector < GtkTextChildAnchor * >related_anchors;
-  set < int >objects_to_remove;
-  for (unsigned int i = 0; i < editornotes.size(); i++) {
-    if (text_child_anchors_being_deleted.find(editornotes[i].childanchor_caller_text) != text_child_anchors_being_deleted.end()) {
-      related_anchors.push_back(editornotes[i].childanchor_caller_note);
-      related_anchors.push_back(editornotes[i].childanchor_textview);
-      objects_to_remove.insert(i);
-    }
-    if (text_child_anchors_being_deleted.find(editornotes[i].childanchor_caller_note) != text_child_anchors_being_deleted.end()) {
-      related_anchors.push_back(editornotes[i].childanchor_caller_text);
-      related_anchors.push_back(editornotes[i].childanchor_textview);
-      objects_to_remove.insert(i);
-    }
-    if (text_child_anchors_being_deleted.find(editornotes[i].childanchor_textview) != text_child_anchors_being_deleted.end()) {
-      related_anchors.push_back(editornotes[i].childanchor_caller_text);
-      related_anchors.push_back(editornotes[i].childanchor_caller_note);
-      objects_to_remove.insert(i);
-    }
-  }
-  {
-    // Remove double anchors and anchors already deleted.
-    set < GtkTextChildAnchor * >anchors;
-    for (unsigned int i = 0; i < related_anchors.size(); i++) {
-      if (text_child_anchors_being_deleted.find(related_anchors[i]) == text_child_anchors_being_deleted.end())
-        anchors.insert(related_anchors[i]);
-    }
-    related_anchors.clear();
-    related_anchors.assign(anchors.begin(), anchors.end());
-  }
-
-  // Remove the widgets.
-  for (unsigned int i = 0; i < related_anchors.size(); i++) {
-    do_not_process_child_anchors_being_deleted = true;
-    textbuffer_erase_child_anchor(textbuffer, related_anchors[i]);
-    do_not_process_child_anchors_being_deleted = false;
-  }
-
-  // If nothing was deleted, bail out.
-  if (objects_to_remove.empty())
-    return;
-
-  // Remove the objects.
-  vector < EditorNote >::iterator iter(editornotes.end());
-  for (int i = editornotes.size() - 1; i >= 0; i--) {
-    iter--;
-    if (objects_to_remove.find(i) != objects_to_remove.end()) {
-      editornotes.erase(iter);
-    }
-  }
-  */
 }
 
 
@@ -1553,16 +1469,6 @@ EditorTextViewType Editor2::last_focused_type()
 }
 
 
-unsigned int Editor2::last_focused_column()
-// In case the last focused widget is a table cell,
-// it returns the column number of that cell.
-// The first column is number 1.
-// Outside of the table it just returns 0.
-{
-  return 0;
-}
-
-
 void Editor2::apply_style(const ustring & marker)
 /*
  It applies the style of "marker" to the text.
@@ -1626,12 +1532,14 @@ void Editor2::apply_style(const ustring & marker)
       Usfm *usfm = styles->usfm(stylesheet);
       for (unsigned int i = 0; i < usfm->styles.size(); i++) {
         if (marker == usfm->styles[i].marker) {
+          /*
           unsigned int column = usfm->styles[i].userint1;
-          if (column != last_focused_column()) {
+          if (column > 5) {
             style_application_ok = false;
             style_application_fault_reason = "Table column number mismatch";
             break;
           }
+          */
         }
       }
       break;
@@ -1979,7 +1887,7 @@ bool Editor2::move_cursor_to_spelling_error (bool next, bool extremity)
 }
 
 
-void Editor2::scroll_insertion_point_on_screen ()
+void Editor2::scroll_insertion_point_on_screen () // Todo
 {
   g_timeout_add(100, GSourceFunc(on_scroll_insertion_point_on_screen_timeout), gpointer(this));
 }
@@ -2218,7 +2126,9 @@ void Editor2::paragraph_create_actions (EditorActionCreateParagraph * paragraph_
   // Extra bits to be done for a note.
   if (paragraph_action->type == eatCreateNoteParagraph) {
     // Cast the object to the right type.
-    //EditorActionCreateNoteParagraph * note_action = static_cast <EditorActionCreateNoteParagraph *> (paragraph_action);
+    EditorActionCreateNoteParagraph * note_action = static_cast <EditorActionCreateNoteParagraph *> (paragraph_action);
+    // Connect signal for note caller in note.
+    g_signal_connect ((gpointer) note_action->eventbox, "button_press_event", G_CALLBACK (on_caller_button_press_event), gpointer (this));
   }
 }
 
@@ -2778,7 +2688,7 @@ gboolean Editor2::on_textview_key_press_event(GtkWidget *widget, GdkEventKey *ev
 }
 
 
-gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event)
+gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event) // Todo
 {
   // Clear flag for monitoring deletions from textbuffers.
   textbuffer_delete_range_was_fired = false;
@@ -3096,6 +3006,18 @@ void Editor2::paragraph_crossing_act(GtkMovementStep step, gint count)
     gtk_text_buffer_place_cursor (textbuffer, &iter);
     gtk_widget_grab_focus (crossed_widget);
   }
+}
+
+
+gboolean Editor2::on_caller_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
+{
+  return ((Editor2 *) user_data)->on_caller_button_press(event);
+}
+
+
+gboolean Editor2::on_caller_button_press (GdkEventButton *event) // Todo
+{
+  return false;
 }
 
 
