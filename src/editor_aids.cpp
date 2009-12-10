@@ -1767,3 +1767,35 @@ void editor_park_widget (GtkWidget * vbox, GtkWidget * widget, gint& offset, Gtk
   gtk_widget_reparent (widget, parking);
 }
 
+
+bool iterator_includes_note_caller (GtkTextIter iter)
+// Check whether the iter points right after a note caller.
+{
+  if (!gtk_text_iter_backward_char (&iter))
+    return false;
+  ustring paragraph_style, character_style;
+  get_styles_at_iterator(iter, paragraph_style, character_style);
+  if (character_style.find (note_starting_style ()) == string::npos)
+    return false;
+  return true;
+}
+
+
+bool move_end_iterator_before_note_caller_and_validate (GtkTextIter startiter, GtkTextIter enditer, GtkTextIter & moved_enditer)
+// If the iterator is after a note caller, it moves the iterator till it is before the note caller.
+// Return true if the two iterators contain some text.
+{
+  // Initialize the iterator that migth be moved.
+  moved_enditer = enditer;
+  // Finite loop prevention.
+  unsigned int finite_loop = 0;
+  // Keep moving the iterator for as long as it contains a note caller.
+  while (iterator_includes_note_caller (moved_enditer) && finite_loop < 10) {
+    gtk_text_iter_backward_char (&moved_enditer);
+    finite_loop++;
+  }
+  // Check whether the end iterator is bigger than the start iterator.
+  return (gtk_text_iter_compare (&moved_enditer, &startiter) > 0);
+}
+
+

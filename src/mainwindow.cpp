@@ -6847,6 +6847,9 @@ void MainWindow::store_last_focused_tool_button (GtkButton * button)
 Todo tasks.
 
 
+
+Speller fails replacing a word with a note caller following
+
 When pressing PgUp in a note, it goes back to the text where the note starts.
 
 
@@ -6855,7 +6858,7 @@ Editor: Do highlighting of search words.
 
 
 
-Editor: Implement:  show_quick_references();
+Editor: Implement:  show_quick_references(); This should also call up the references window if it wasn't showing yet.
 
 
 
@@ -6873,6 +6876,8 @@ Editor: Try inserting notes, and editing notes.
 
 Editor: Implement: last_focused_type
 
+
+
 Editor: Notes:
 Entering <Enter> in a notes paragraph does start a new line, but not a new paragraph. When USFM is retrieved, a new line translates to the "\fp " marker.
 Notes need to be ordered to the right position on placement, as it can be inserted anywhere among the existing ones.
@@ -6886,16 +6891,22 @@ Editor: When merging, the changes do not automatically show up in the merge wind
 They show up when clicking in one of the editors.
 
 
-USFM Editor: The clipboard shortcuts were removed, see how it goes.
+Editor: If text is pasted from clipboard over selected text, this selection does not get replaced.
+
+
+Editor: When focusing a project note, so project notes window has focus, then when pressing Ctrl-Left, the Editor gets focus,
+but not its window. This confuses.
 
 
 Editor: When checking USFM, and switching Editors, it should inform the user if an editor is not available.
 
 
+Editor: When a chapter loads, and the verse to focus is more towards the end, it does not focus that verse.
+It may need a timeout after load that does the trick, or an idle handler.
+
 
 Editor: When a new window is opened, then the window gets focus, but the old textview, e.g. the one of the Editor, keeps grabbed.
 To resolve this by grabbing focus when a new window is opened.
-
 
 
 Editor: Fit out any remaining controls and behaviour of the editor.
@@ -7035,6 +7046,9 @@ If data is posted through http as it does now, then the apache stuff should put 
 Can we use "http://en.wikipedia.org/wiki/Comet_%28programming%29"?
 Or "http://en.wikipedia.org/wiki/Push_technology"?
 Or Google for Comet server push
+
+
+When using Apache, we should make a search PHP script that even highlights the words found.
 
 
 When creating checks, we use the Apache server for that.

@@ -199,16 +199,9 @@ void SpellingChecker::collect_words(GtkTextBuffer * textbuffer)
   while (gtk_text_iter_forward_word_end(&enditer)) {
     startiter = enditer;
     gtk_text_iter_backward_word_start(&startiter);
-    // Use temporal end iterator in case it should leave out one or more note callers.
-    GtkTextIter enditer2 = enditer;
-    unsigned int finite_loop = 0;
-    while (includes_note_caller (enditer2) && finite_loop < 10) {
-      gtk_text_iter_backward_char (&enditer2);
-      finite_loop++;
-    }
-    // Check the word if the end iterator is bigger than the start iterator.
-    if (gtk_text_iter_compare (&enditer2, &startiter) > 0) {
-      check_word(textbuffer, &startiter, &enditer2);
+    GtkTextIter moved_enditer;
+    if (move_end_iterator_before_note_caller_and_validate (startiter, enditer, moved_enditer)) {
+      check_word(textbuffer, &startiter, &moved_enditer);
     }
   }
   
@@ -244,20 +237,6 @@ Hyphen bullet - U+2043
 Since Pango routines are used for determining the word boundaries, the right thing to do is to fix Pango.
 
   */
-}
-
-
-bool SpellingChecker::includes_note_caller (GtkTextIter & iter)
-// Check whether the iter points right after a note caller.
-{
-  GtkTextIter enditer = iter;
-  if (!gtk_text_iter_backward_char (&enditer))
-    return false;
-  ustring paragraph_style, character_style;
-  get_styles_at_iterator(enditer, paragraph_style, character_style);
-  if (character_style.find (note_starting_style ()) == string::npos)
-    return false;
-  return true;
 }
 
 
@@ -354,6 +333,10 @@ void SpellingChecker::populate_popup(GtkTextView * textview, GtkMenu * menu)
   // Find out whether a misspelled word was picked.
   GtkTextIter start, end;
   right_clicked_word_get_extends(&start, &end);
+  
+  // Exclude any note callers, and bail out of nothing is left.
+  if (!move_end_iterator_before_note_caller_and_validate (start, end, end))
+    return;
 
   // Bail out if there was no misspelled word.
   if (!gtk_text_iter_has_tag(&start, misspelling_tag))

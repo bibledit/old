@@ -120,5 +120,7 @@ GtkWidget * editor_get_next_textview (GtkWidget * vbox, GtkWidget * textview);
 GtkWidget * editor_get_previous_textview (GtkWidget * vbox, GtkWidget * textview);
 void editor_park_widget (GtkWidget * vbox, GtkWidget * widget, gint& offset, GtkWidget * parking);
 
+bool move_end_iterator_before_note_caller_and_validate (GtkTextIter startiter, GtkTextIter enditer, GtkTextIter & moved_enditer);
+
 
 #endif
