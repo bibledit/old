@@ -276,7 +276,7 @@ private:
 
 
   static gboolean on_caller_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data);
-  gboolean on_caller_button_press (GtkWidget *widget, GdkEventButton *event);
+  gboolean on_caller_button_press (GtkWidget *widget);
 
 
 };

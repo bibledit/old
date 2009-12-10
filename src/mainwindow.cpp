@@ -6848,10 +6848,6 @@ Todo tasks.
 
 
 
-When pressing PgUp in a note, it goes back to the text where the note starts.
-
-
-
 Editor: Do highlighting of search words.
 
 

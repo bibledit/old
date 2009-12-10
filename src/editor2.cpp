@@ -2708,7 +2708,7 @@ gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event
   // It has been found that if the user presses, e.g. Ctrl-c, that
   // text is copied to the clipboard twice, or e.g. Ctrl-v, that it is
   // pasted twice. This is probably a bug in Gtk2.
-  // The relevant clipboard keys are blocked here.
+  // The relevant key bindings for clipboard operations are blocked here.
   // The default bindings for copying to clipboard are Ctrl-c and Ctrl-Insert.
   // The default bindings for cutting to clipboard are Ctrl-x and Shift-Delete.
   // The default bindings for pasting from clipboard are Ctrl-v and Shift-Insert.
@@ -2751,24 +2751,17 @@ gboolean Editor2::textview_key_press_event(GtkWidget *widget, GdkEventKey *event
       return true;
     }
   }
-  // Pressing Page Up while the cursor is in the footnote brings the user
+  */
+
+  // Pressing Page Up while the cursor is in the note brings the user
   // to the note caller in the text.
   if (keyboard_page_up_pressed(event)) {
-    if (last_focused_type() == etvtNote) {
-      GtkTextBuffer *buffer = last_focused_textbuffer();
-      for (unsigned int i = 0; i < editornotes.size(); i++) {
-        if (buffer == editornotes[i].textbuffer) {
-          programmatically_grab_focus(textview);
-          GtkTextIter iter;
-          gtk_text_buffer_get_iter_at_child_anchor(textbuffer, &iter, editornotes[i].childanchor_caller_text);
-          gtk_text_buffer_place_cursor(textbuffer, &iter);
-          scroll_cursor_on_screen ();
-          break;
-        }
+    if (focused_paragraph) {
+      if (focused_paragraph->type == eatCreateNoteParagraph) {
+        on_caller_button_press (focused_paragraph->textview);
       }
     }
   }
-  */
 
   // Propagate event further.
   return FALSE;
@@ -3017,11 +3010,11 @@ void Editor2::paragraph_crossing_act(GtkMovementStep step, gint count)
 
 gboolean Editor2::on_caller_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
 {
-  return ((Editor2 *) user_data)->on_caller_button_press(widget, event);
+  return ((Editor2 *) user_data)->on_caller_button_press(widget);
 }
 
 
-gboolean Editor2::on_caller_button_press (GtkWidget *widget, GdkEventButton *event)
+gboolean Editor2::on_caller_button_press (GtkWidget *widget)
 // Called when the user clicks on a note caller at the bottom of the screen.
 // It will focus the note caller in the text.
 {
