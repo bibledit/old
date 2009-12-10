@@ -6848,8 +6848,6 @@ Todo tasks.
 
 
 
-Speller fails replacing a word with a note caller following
-
 When pressing PgUp in a note, it goes back to the text where the note starts.
 
 

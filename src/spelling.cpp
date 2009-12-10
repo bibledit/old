@@ -334,10 +334,6 @@ void SpellingChecker::populate_popup(GtkTextView * textview, GtkMenu * menu)
   GtkTextIter start, end;
   right_clicked_word_get_extends(&start, &end);
   
-  // Exclude any note callers, and bail out of nothing is left.
-  if (!move_end_iterator_before_note_caller_and_validate (start, end, end))
-    return;
-
   // Bail out if there was no misspelled word.
   if (!gtk_text_iter_has_tag(&start, misspelling_tag))
     return;
@@ -393,6 +389,7 @@ GtkWidget *SpellingChecker::build_suggestion_menu(GtkTextBuffer * buffer, const 
   if (dicts.empty()) {
     return topmenu;
   }
+
   // There can be more than one dictionary. Go through them all to find suggestions.
   // The use of more than one dictionary will inevitably give double suggestions.
   // These are weeded out.
@@ -477,12 +474,16 @@ GtkWidget *SpellingChecker::build_suggestion_menu(GtkTextBuffer * buffer, const 
 void SpellingChecker::right_clicked_word_get_extends(GtkTextIter * start, GtkTextIter * end)
 // Get the word boundaries for the word the user right-clicked.
 {
+  // Get the boundaries.
   *start = right_clicked_iter;
   if (!gtk_text_iter_starts_word(start))
     gtk_text_iter_backward_word_start(start);
   *end = *start;
   if (gtk_text_iter_inside_word(end))
     gtk_text_iter_forward_word_end(end);
+    
+  // Exclude note callers that follow.
+  move_end_iterator_before_note_caller_and_validate (* start, * end, * end);
 }
 
 
@@ -560,10 +561,8 @@ void SpellingChecker::on_replace_word(GtkWidget * menuitem, gpointer user_data)
 
 
 void SpellingChecker::replace_word(GtkWidget * menuitem)
-/*
-Replaces the misspelled word in the text with the word that is chosen in the menu.
-An algorithm is used that gives the replacement the same styles as the original.
-*/
+// Replaces the misspelled word in the text with the word that is chosen in the menu.
+// An algorithm is used that gives the replacement the same styles as the original.
 {
   // Bail out if there is no dictionary.
   if (dicts.empty())
